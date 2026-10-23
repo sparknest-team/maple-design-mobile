@@ -18,6 +18,8 @@ CSS Grid 布局：列数、跨列、间距、折叠与后缀。24 栏 Flex 布�
 
 ### 折叠行数与后缀插槽
 
+示例由父级保存 `collapsed` 和行数；More/Less 与开关修改同一状态。4列折叠1行时展示3项及后缀，2行时展示7项及后缀；展开后展示全部9项及后缀。后缀占一个网格位置，不是浮在内容之上的额外按钮。
+
 ```demo
 ../example/demos/collapse.vue
 ```
@@ -30,14 +32,25 @@ CSS Grid 布局：列数、跨列、间距、折叠与后缀。24 栏 Flex 布�
 
 ### 动态插入、删除与排序
 
+按钮只修改本例的数据数组；删除至空时禁用 Remove first，后缀显示 End。重新插入后恢复布局与删除能力。Grid 本身不提供新增/删除业务事件。
 
 
 ```demo
 ../example/demos/dynamic.vue
 ```
 
-<!-- same-source-api:start -->
+<!-- api-review:start -->
+### 功能调试
 
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
+
+## API
+
+<!-- same-source-api:start -->
 ### Props
 
 | 属性 | 说明 | Type | Default |

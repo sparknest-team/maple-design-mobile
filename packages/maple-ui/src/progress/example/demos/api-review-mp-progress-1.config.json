@@ -1,0 +1,137 @@
+{
+  "fields": [
+    {
+      "name": "mode",
+      "description": "线形或环形",
+      "type": "'line' | 'circle'",
+      "defaultValue": "'line'",
+      "kind": "enum",
+      "options": [
+        "line",
+        "circle"
+      ],
+      "initial": "line"
+    },
+    {
+      "name": "percent",
+      "description": "0–100 百分比，保留小数；支持十进制数字字符串，非法值归零，越界裁剪",
+      "type": "number | string",
+      "defaultValue": "0",
+      "kind": "scalar"
+    },
+    {
+      "name": "size",
+      "description": "五档预设或自定义长度；线形厚度、环形直径",
+      "type": "ComponentSize | number | string",
+      "defaultValue": "undefined",
+      "kind": "scalar",
+      "initial": "md"
+    },
+    {
+      "name": "stroke-width",
+      "description": "覆盖轨道厚度，数字按 px，字符串支持 CSS 长度",
+      "type": "number | string",
+      "defaultValue": "undefined",
+      "kind": "scalar"
+    },
+    {
+      "name": "steps",
+      "description": "仅线形的分段数，向下取整并限制为 0–1000；不确定模式忽略",
+      "type": "number",
+      "defaultValue": "0",
+      "kind": "number"
+    },
+    {
+      "name": "status",
+      "description": "default/primary/secondary/tertiary/info/success/warning/danger；default 确定进度达到 100 时推导 success",
+      "type": "\"default\" | \"primary\" | \"secondary\" | \"tertiary\" | \"info\" | \"success\" | \"warning\" | \"danger\"",
+      "defaultValue": "'default'",
+      "kind": "enum",
+      "options": [
+        "default",
+        "primary",
+        "secondary",
+        "tertiary",
+        "info",
+        "success",
+        "warning",
+        "danger"
+      ],
+      "initial": "default"
+    },
+    {
+      "name": "color",
+      "description": "进度颜色或渐变 stop 映射，优先于 status",
+      "type": "string | Record<string, string>",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "track-color",
+      "description": "背景轨道颜色",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "buffer-color",
+      "description": "线形剩余轨道装饰色/渐变，不代表独立缓冲百分比",
+      "type": "ProgressColor",
+      "defaultValue": "undefined",
+      "kind": "scenario"
+    },
+    {
+      "name": "track",
+      "description": "显示背景轨道；false 同时隐藏缓冲装饰层",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "show-text",
+      "description": "显示文本；xs 环形隐藏文本避免溢出",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "text-class",
+      "description": "文本容器类名",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "rotate",
+      "description": "环形起点从十二点顺时针旋转的角度",
+      "type": "number",
+      "defaultValue": "0",
+      "kind": "number"
+    },
+    {
+      "name": "animation",
+      "description": "确定线形进度扫光动画，不应用于 steps",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "indeterminate",
+      "description": "不确定进度；省略 aria-valuenow，不自动推导成功",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    }
+  ],
+  "methodNames": [],
+  "events": [],
+  "slotNames": [
+    "text"
+  ],
+  "slotDefaults": {
+    "text": true
+  },
+  "scenarios": []
+}

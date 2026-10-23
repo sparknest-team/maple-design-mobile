@@ -1,9 +1,20 @@
 import assert from 'node:assert/strict'
 import { existsSync, readFileSync } from 'node:fs'
-import test from 'vitest'
+import test from 'node:test'
 import { MapleResolver } from '../lib/index.js'
 
 const [components, directives] = MapleResolver()
+
+test('resolves Menu and MenuOption through the menu style entry', () => {
+  for (const name of ['Menu', 'MenuOption']) {
+    assert.deepEqual(components.resolve(`Mp${name}`), {
+      from: '@maplejs/maple-ui',
+      name: `_${name}Component`,
+      sideEffects: ['@maplejs/maple-ui/menu/style'],
+    })
+  }
+  assert.equal(components.resolve('MpDropdownMenu'), undefined)
+})
 
 test('resolves the input family through the input style module', () => {
   for (const name of ['Input', 'InputGroup', 'InputGroupLabel', 'InputPassword']) {
@@ -62,7 +73,7 @@ test('resolves UI components with their styles', () => {
   assert.deepEqual(components.resolve('MpMenuOption'), {
     from: '@maplejs/maple-ui',
     name: '_MenuOptionComponent',
-    sideEffects: ['@maplejs/maple-ui/dropdown-menu/style'],
+    sideEffects: ['@maplejs/maple-ui/menu/style'],
   })
 
   assert.deepEqual(components.resolve('MpInfiniteScroll'), {

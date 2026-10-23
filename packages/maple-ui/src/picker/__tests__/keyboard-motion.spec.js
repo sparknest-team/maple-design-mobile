@@ -42,6 +42,21 @@ describe('Picker keyboard and reduced-motion', () => {
     }
     wrapper.unmount()
   })
+  it('blocks clicks and keyboard selection while disabled, then restores interaction', async () => {
+    const wrapper = mount(Picker, { props: { columns, modelValue: ['A'], disabled: true } })
+    const column = wrapper.get('[role="listbox"]')
+    expect(column.attributes('tabindex')).toBe('-1')
+    expect(column.attributes('aria-disabled')).toBe('true')
+    await wrapper.findAll('[role="option"]')[2].trigger('click')
+    await column.trigger('keydown', { key: 'ArrowDown' })
+    expect(wrapper.findAll('[role="option"]')[0].attributes('aria-selected')).toBe('true')
+    expect(wrapper.emitted('change')).toBeUndefined()
+    await wrapper.setProps({ disabled: false })
+    expect(column.attributes('tabindex')).toBe('0')
+    await column.trigger('keydown', { key: 'ArrowDown' })
+    expect(wrapper.emitted('change')).toHaveLength(1)
+    wrapper.unmount()
+  })
   it('commits without transitionend in reduce mode and releases its preference listener', async () => {
     const media = { matches: true, addEventListener: vi.fn(), removeEventListener: vi.fn() }
     vi.stubGlobal(

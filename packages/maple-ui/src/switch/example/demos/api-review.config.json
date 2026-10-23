@@ -1,0 +1,282 @@
+{
+  "fields": [
+    {
+      "name": "model-value",
+      "description": "",
+      "type": "string / number / boolean",
+      "defaultValue": "undefined",
+      "kind": "scenario"
+    },
+    {
+      "name": "default-checked",
+      "description": "",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "checked-value",
+      "description": "",
+      "type": "string / number / boolean",
+      "defaultValue": "true",
+      "kind": "scenario"
+    },
+    {
+      "name": "unchecked-value",
+      "description": "",
+      "type": "string / number / boolean",
+      "defaultValue": "false",
+      "kind": "scenario"
+    },
+    {
+      "name": "variant",
+      "description": "",
+      "type": "\"circle\" | \"round\" | \"line\" | \"tonal\"",
+      "defaultValue": "'circle'",
+      "kind": "enum",
+      "options": [
+        "circle",
+        "round",
+        "line",
+        "tonal"
+      ],
+      "initial": "circle"
+    },
+    {
+      "name": "size",
+      "description": "",
+      "type": "sm / md / lg",
+      "defaultValue": "undefined",
+      "kind": "enum",
+      "options": [
+        "sm",
+        "md",
+        "lg"
+      ],
+      "initial": "sm"
+    },
+    {
+      "name": "disabled",
+      "description": "",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "readonly",
+      "description": "",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "loading",
+      "description": "",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "before-change",
+      "description": "",
+      "type": "(nextValue: SwitchValue) => boolean / void / Promise<boolean / void>",
+      "defaultValue": "undefined",
+      "kind": "callback"
+    },
+    {
+      "name": "checked-text",
+      "description": "",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "unchecked-text",
+      "description": "",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "checked-color",
+      "description": "",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "unchecked-color",
+      "description": "",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "loading-color",
+      "description": "",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "ripple",
+      "description": "",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "handle-elevation",
+      "description": "",
+      "type": "boolean / number",
+      "defaultValue": "true",
+      "kind": "json",
+      "initial": "true"
+    },
+    {
+      "name": "presentation",
+      "type": "'inline' | 'popup'",
+      "defaultValue": "undefined",
+      "description": "字段编辑方式，字段 > FormItem > Form 继承；默认 inline。",
+      "kind": "enum",
+      "options": [
+        "inline",
+        "popup"
+      ],
+      "initial": "inline"
+    },
+    {
+      "name": "read-pretty",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "description": "纯阅读展示；字段 > FormItem > Form 继承，显式 false 覆盖父级。",
+      "kind": "boolean"
+    },
+    {
+      "name": "before-commit",
+      "type": "BeforeFieldCommit",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "callback"
+    },
+    {
+      "name": "open",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "boolean"
+    },
+    {
+      "name": "default-open",
+      "type": "boolean",
+      "defaultValue": "false",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "boolean"
+    },
+    {
+      "name": "popup-container",
+      "type": "string | HTMLElement | false",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "json",
+      "initial": "\"body\""
+    }
+  ],
+  "events": [
+    "click",
+    "update:modelValue",
+    "change",
+    "focus",
+    "blur",
+    "update:open"
+  ],
+  "scenarios": [
+    {
+      "name": "model-value",
+      "kind": "prop",
+      "demos": [
+        "events.vue"
+      ]
+    },
+    {
+      "name": "checked-value",
+      "kind": "prop",
+      "demos": [
+        "custom-value.vue"
+      ]
+    },
+    {
+      "name": "unchecked-value",
+      "kind": "prop",
+      "demos": [
+        "custom-value.vue"
+      ]
+    },
+    {
+      "name": "before-change",
+      "kind": "prop",
+      "demos": [
+        "switch-interception.vue"
+      ]
+    },
+    {
+      "name": "before-commit",
+      "kind": "prop",
+      "demos": []
+    },
+    {
+      "name": "checked",
+      "kind": "slot",
+      "demos": [
+        "basic.vue",
+        "custom-color.vue",
+        "custom-icon.vue",
+        "custom-text.vue",
+        "custom-value.vue",
+        "disabled.vue",
+        "loading.vue",
+        "readonly.vue"
+      ]
+    },
+    {
+      "name": "unchecked",
+      "kind": "slot",
+      "demos": [
+        "custom-color.vue",
+        "custom-icon.vue",
+        "custom-text.vue",
+        "custom-value.vue"
+      ]
+    },
+    {
+      "name": "checked-icon",
+      "kind": "slot",
+      "demos": [
+        "custom-icon.vue"
+      ]
+    },
+    {
+      "name": "unchecked-icon",
+      "kind": "slot",
+      "demos": [
+        "custom-icon.vue"
+      ]
+    }
+  ],
+  "slotNames": [
+    "checked",
+    "unchecked",
+    "checked-icon",
+    "unchecked-icon"
+  ],
+  "slotDefaults": {
+    "checked": false,
+    "unchecked": false,
+    "checked-icon": false,
+    "unchecked-icon": false
+  },
+  "methodNames": []
+}

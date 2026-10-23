@@ -28,8 +28,8 @@ const updateOpen = (next) => {
     <p>非受控初始值，无需绑定 v-model</p>
     <mp-time-range :default-value="['09:00', '10:00']" format="HH:mm" clearable />
     <p>受控值与展开状态</p>
-    <label><input v-model="acceptValue" type="checkbox" /> 接受值更新</label>
-    <label><input v-model="acceptOpen" type="checkbox" /> 接受展开更新</label>
+    <mp-checkbox v-model="acceptValue">接受值更新</mp-checkbox>
+    <mp-checkbox v-model="acceptOpen">接受展开更新</mp-checkbox>
     <mp-time-range
       :model-value="value"
       :open="open"
@@ -40,7 +40,7 @@ const updateOpen = (next) => {
       @change="commits++"
     />
     <span>{{ value }} / {{ open }}</span>
-    <label><input v-model="acceptClose" type="checkbox" /> 接受关闭请求</label>
+    <mp-checkbox v-model="acceptClose">接受关闭请求</mp-checkbox>
     <output aria-label="Commit count">{{ commits }}</output>
     <output aria-label="Controlled proposals">{{ JSON.stringify({ value: proposal, open: openProposal }) }}</output>
   </div>

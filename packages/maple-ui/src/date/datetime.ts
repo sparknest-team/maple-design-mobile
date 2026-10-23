@@ -166,9 +166,9 @@ export function buildTimeOnlyColumns(useSeconds: boolean, disabledTime?: Disable
   return buildTimeColumns(useSeconds, disabledTime)
 }
 
-export type DateTimePresentation = 'calendar' | 'picker' | 'calendarClock' | 'calendarPicker'
+export type DateTimePresentation = 'calendar' | 'picker' | 'calendarPicker'
 
-/** showTime 时：calendar → calendarClock；非 showTime：calendarClock/calendarPicker → calendar */
+/** Calendar time editing uses detailed wheel columns. */
 export function resolveDateTimePresentation(
   presentation: DateTimePresentation | string,
   showTime: boolean,
@@ -179,14 +179,11 @@ export function resolveDateTimePresentation(
   if (presentation === 'picker') {
     return 'picker'
   }
-  if (presentation === 'calendarPicker') {
-    return 'calendarPicker'
-  }
-  return 'calendarClock'
+  return 'calendarPicker'
 }
 
 export function isCalendarTimePresentation(presentation: DateTimePresentation) {
-  return presentation === 'calendarClock' || presentation === 'calendarPicker'
+  return presentation === 'calendarPicker'
 }
 
 export function parseTimeParts(time: string, useSeconds: boolean) {

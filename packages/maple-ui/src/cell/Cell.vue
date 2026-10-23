@@ -5,11 +5,11 @@
     :style="borderOffsetStyles"
     @click="handleClick"
   >
-    <slot name="icon">
-      <div v-if="icon" :class="classes(n('icon'), iconClass)">
+    <div v-if="icon || $slots.icon" :class="classes(n('icon'), iconClass)">
+      <slot name="icon">
         <mp-registered-icon :name="icon" />
-      </div>
-    </slot>
+      </slot>
+    </div>
 
     <div :class="n('content')">
       <slot>
@@ -33,7 +33,6 @@
 
 <script lang="ts">
 import { computed, CSSProperties, defineComponent } from 'vue'
-import { call } from '@maplejs/maple-shared'
 import MpRegisteredIcon from '../icon/RegisteredIcon.vue'
 import Ripple from '../ripple'
 import { createNamespace } from '../utils/components'

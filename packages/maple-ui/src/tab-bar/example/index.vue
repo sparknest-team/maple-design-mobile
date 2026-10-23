@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
+import DemoApiReview from './demos/api-review.vue'
 import AsyncChangeDemo from './demos/async-change.vue'
 import BasicUsageDemo from './demos/basic-usage.vue'
 import ChangeEventDemo from './demos/change-event.vue'
@@ -27,6 +28,11 @@ onThemeChange()
   <section data-demo="basic-usage">
     <app-type>{{ english ? 'Basic Usage' : '基本使用' }}</app-type>
     <BasicUsageDemo />
+  </section>
+
+  <section data-demo="variant">
+    <app-type>{{ english ? 'Variant' : '变体' }}</app-type>
+    <VariantDemo />
   </section>
 
   <section data-demo="match-by-name">
@@ -59,11 +65,6 @@ onThemeChange()
     <FabDemo />
   </section>
 
-  <section data-demo="variant">
-    <app-type>{{ english ? 'Variant' : '变体' }}</app-type>
-    <VariantDemo />
-  </section>
-
   <section data-demo="uncontrolled">
     <app-type>{{ english ? 'Uncontrolled selection' : '非受控初始选中' }}</app-type>
     <UncontrolledDemo />
@@ -83,4 +84,5 @@ onThemeChange()
     <app-type>{{ english ? 'Async selection guards' : '异步切换与拦截' }}</app-type>
     <AsyncChangeDemo />
   </section>
+  <section data-demo="api-review"><DemoApiReview /></section>
 </template>

@@ -1,6 +1,6 @@
 import { computed, provide, reactive, ref, toRefs, watch, type ExtractPropTypes, type SetupContext } from 'vue'
+import { useFieldSearch } from '../_components/field-presentation/use-field-search'
 import { useSelectionSession } from '../_components/selection-field/use-selection-session'
-import { debounce } from '../_utils/debounce'
 import { isArray, isFunction, isNull, isUndefined } from '../_utils/is'
 import { getKeyDownHandler, KEYBOARD_KEY } from '../_utils/keyboard'
 import type { BaseType, UnionType } from '../_utils/types'
@@ -47,7 +47,7 @@ export function useCascaderController(
   const mergedHint = computed(() => !hasOuterLabel.value && props.hint)
   const computedOpen = computed(() => props.open ?? _open.value)
   const committedValue = computed(() => props.modelValue ?? _value.value)
-  const deferred = computed(() => presentations[props.presentation].deferred(props.multiple))
+  const deferred = computed(() => presentations.inline.deferred(props.multiple))
   const publish = (value: CascaderBaseValue | undefined) => {
     _value.value = value
     emit('update:modelValue', value)
@@ -311,9 +311,11 @@ export function useCascaderController(
     }
   }
 
-  const handleSearch = debounce((value: string) => {
-    emit('search', value)
-  }, props.searchDelay)
+  const handleSearch = useFieldSearch(
+    () => props.searchDelay,
+    () => Boolean(computedOpen.value) && !mergedDisabled.value && !mergedReadonly.value,
+    (value) => emit('search', value),
+  )
 
   const handleInputValueChange = (value: string, reason = 'manual'): void => {
     if (value !== computedInputValue.value) {
@@ -353,8 +355,8 @@ export function useCascaderController(
     }
   })
 
-  const handleClear = (e: Event) => {
-    if (mergedDisabled.value || mergedReadonly.value || !props.clearable) {
+  const clearSelection = (e: Event) => {
+    if (mergedDisabled.value || mergedReadonly.value) {
       return
     }
     e.stopPropagation()
@@ -374,6 +376,12 @@ export function useCascaderController(
     handleInputValueChange('', 'clear')
     eventHandlers.value?.onClear?.()
     emit('clear', e)
+  }
+
+  const handleClear = (e: Event) => {
+    if (props.clearable) {
+      clearSelection(e)
+    }
   }
 
   const showSearchPanel = computed(() => props.filterable && computedInputValue.value.length > 0)
@@ -411,11 +419,12 @@ export function useCascaderController(
     }),
   )
 
-  const handleKeyDown = getKeyDownHandler(
+  const dispatchKeyDown = getKeyDownHandler(
     new Map([
       [
         KEYBOARD_KEY.ENTER,
         (ev: Event) => {
+          ev.preventDefault()
           if (computedOpen.value) {
             if (activeOption.value) {
               let checked: boolean
@@ -480,6 +489,13 @@ export function useCascaderController(
       ],
     ]),
   )
+
+  const handleKeyDown = (event: KeyboardEvent) => {
+    if (mergedDisabled.value || mergedReadonly.value || props.loading || session.pending.value || event.isComposing) {
+      return
+    }
+    dispatchKeyDown(event)
+  }
 
   const canConfirm = computed<boolean>(() => {
     const committed = getValidValues(committedValue.value, { multiple: props.multiple, pathMode: props.pathMode })
@@ -551,6 +567,7 @@ export function useCascaderController(
     computedInputValue,
     computedOpen,
     handleClear,
+    clearSelection,
     fieldItems,
     handleInputValueChange,
     showSearchPanel,

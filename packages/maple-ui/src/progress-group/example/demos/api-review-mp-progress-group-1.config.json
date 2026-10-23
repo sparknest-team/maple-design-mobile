@@ -1,0 +1,120 @@
+{
+  "fields": [
+    {
+      "name": "aria-label",
+      "description": "分组的无障碍名称",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "items",
+      "description": "分段数据",
+      "type": "ProgressGroupItem[]",
+      "defaultValue": "() => []",
+      "kind": "json",
+      "initial": "[]"
+    },
+    {
+      "name": "mode",
+      "description": "展示模式",
+      "type": "'line' | 'circle'",
+      "defaultValue": "'line'",
+      "kind": "enum",
+      "options": [
+        "line",
+        "circle"
+      ],
+      "initial": "line"
+    },
+    {
+      "name": "max",
+      "description": "计算占比时的总值",
+      "type": "number",
+      "defaultValue": "100",
+      "kind": "number"
+    },
+    {
+      "name": "show-text",
+      "description": "是否展示累计百分比",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "size",
+      "description": "进度轨尺寸",
+      "type": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\"",
+      "defaultValue": "'md'",
+      "kind": "enum",
+      "options": [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl"
+      ],
+      "initial": "md"
+    },
+    {
+      "name": "color",
+      "description": "默认分段颜色",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "circle-size",
+      "description": "环形模式的直径",
+      "type": "number | string",
+      "defaultValue": "120",
+      "kind": "scalar"
+    },
+    {
+      "name": "stroke-width",
+      "description": "环形模式的轨道宽度",
+      "type": "number",
+      "defaultValue": "8",
+      "kind": "number"
+    },
+    {
+      "name": "tooltip",
+      "description": "是否显示分段悬浮/聚焦提示",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "orientation",
+      "description": "排列方向",
+      "type": "'horizontal' | 'vertical'",
+      "defaultValue": "'horizontal'",
+      "kind": "enum",
+      "options": [
+        "horizontal",
+        "vertical"
+      ],
+      "initial": "horizontal"
+    }
+  ],
+  "methodNames": [],
+  "events": [],
+  "slotNames": [
+    "text",
+    "item-trailing",
+    "tooltip",
+    "item",
+    "item-leading",
+    "item-label"
+  ],
+  "slotDefaults": {
+    "text": true,
+    "item-trailing": true,
+    "tooltip": true,
+    "item": false,
+    "item-leading": false,
+    "item-label": false
+  },
+  "scenarios": []
+}

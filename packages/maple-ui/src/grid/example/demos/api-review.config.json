@@ -1,0 +1,82 @@
+{
+  "fields": [
+    {
+      "name": "cols",
+      "description": "每行列数，最少为 1",
+      "type": "number / ResponsiveValue",
+      "defaultValue": "24",
+      "kind": "scenario"
+    },
+    {
+      "name": "row-gap",
+      "description": "行间距（px）",
+      "type": "number / ResponsiveValue",
+      "defaultValue": "0",
+      "kind": "scenario"
+    },
+    {
+      "name": "col-gap",
+      "description": "列间距（px）",
+      "type": "number / ResponsiveValue",
+      "defaultValue": "0",
+      "kind": "scenario"
+    },
+    {
+      "name": "collapsed",
+      "description": "折叠超出的行",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "collapsed-rows",
+      "description": "折叠时保留行数，最少为 1",
+      "type": "number",
+      "defaultValue": "1",
+      "kind": "number"
+    }
+  ],
+  "events": [
+    "update:collapsed"
+  ],
+  "scenarios": [
+    {
+      "name": "cols",
+      "kind": "prop",
+      "demos": [
+        "basic.vue",
+        "collapse.vue",
+        "dynamic.vue",
+        "responsive.vue"
+      ]
+    },
+    {
+      "name": "row-gap",
+      "kind": "prop",
+      "demos": [
+        "basic.vue",
+        "collapse.vue",
+        "dynamic.vue",
+        "responsive.vue"
+      ]
+    },
+    {
+      "name": "col-gap",
+      "kind": "prop",
+      "demos": [
+        "basic.vue",
+        "collapse.vue",
+        "dynamic.vue",
+        "responsive.vue"
+      ]
+    },
+    {
+      "name": "default",
+      "kind": "slot",
+      "demos": []
+    }
+  ],
+  "slotNames": [],
+  "slotDefaults": {},
+  "methodNames": []
+}

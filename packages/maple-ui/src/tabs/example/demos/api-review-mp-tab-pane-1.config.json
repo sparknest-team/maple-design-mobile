@@ -1,0 +1,55 @@
+{
+  "fields": [
+    {
+      "name": "title",
+      "description": "导航标题",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "disabled",
+      "description": "禁止选择和关闭",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "closable",
+      "description": "editable 模式显示关闭按钮",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "item-vertical",
+      "description": "图标文字垂直布局",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "lazy-load",
+      "description": "继承 Tabs，显式 false 可覆盖",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
+      "name": "destroy-on-hide",
+      "description": "继承 Tabs，显式 false 可覆盖",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    }
+  ],
+  "methodNames": [],
+  "events": [],
+  "slotNames": [
+    "title"
+  ],
+  "slotDefaults": {
+    "title": false
+  },
+  "scenarios": []
+}

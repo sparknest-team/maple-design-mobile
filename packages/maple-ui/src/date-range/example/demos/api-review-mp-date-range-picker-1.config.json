@@ -1,0 +1,163 @@
+{
+  "fields": [
+    {
+      "name": "model-value",
+      "description": "受控值",
+      "type": "DateValue[]",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "\"2026-10-21\""
+    },
+    {
+      "name": "default-value",
+      "description": "非受控初始值，仅初始化读取",
+      "type": "DateValue[]",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "\"2026-10-21\""
+    },
+    {
+      "name": "format",
+      "description": "展示格式或格式化函数",
+      "type": "string / (date: Date) => string",
+      "defaultValue": "—",
+      "kind": "string",
+      "initial": "YYYY-MM-DD"
+    },
+    {
+      "name": "value-format",
+      "description": "模型格式、Date 或 timestamp",
+      "type": "string",
+      "defaultValue": "—",
+      "kind": "string"
+    },
+    {
+      "name": "disable-confirm",
+      "description": "选择后立即提交",
+      "type": "boolean",
+      "defaultValue": "字段 false；面板 true",
+      "kind": "boolean"
+    },
+    {
+      "name": "presentation",
+      "description": "面板模式：calendar picker calendarPicker",
+      "type": "string",
+      "defaultValue": "calendarPicker",
+      "kind": "string"
+    },
+    {
+      "name": "type",
+      "description": "选择类型，可选值 date month year",
+      "type": "string",
+      "defaultValue": "date",
+      "kind": "string"
+    },
+    {
+      "name": "day-start-of-week",
+      "description": "每周第一天；仅日历展示，整数 0～6",
+      "type": "0 | 1 | 2 | 3 | 4 | 5 | 6",
+      "defaultValue": "0",
+      "kind": "enum",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6"
+      ],
+      "initial": "1"
+    },
+    {
+      "name": "show-time",
+      "description": "是否选择时间",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "use-seconds",
+      "description": "默认时间精度，显式 format 优先",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "min",
+      "description": "可选最小日期",
+      "type": "DateValue",
+      "defaultValue": "-",
+      "kind": "json",
+      "initial": "\"2026-10-21\""
+    },
+    {
+      "name": "max",
+      "description": "可选最大日期",
+      "type": "DateValue",
+      "defaultValue": "-",
+      "kind": "json",
+      "initial": "\"2026-10-21\""
+    },
+    {
+      "name": "disabled-date",
+      "description": "true 为禁用；side 为 start 或 end",
+      "type": "(date: Date, side: DateSide) => boolean",
+      "defaultValue": "—",
+      "kind": "callback"
+    },
+    {
+      "name": "disabled-time",
+      "description": "当前日期和端点的禁用时分秒列表",
+      "type": "(date: Date, side: DateSide) => DateDisabledTime",
+      "defaultValue": "—",
+      "kind": "callback"
+    },
+    {
+      "name": "date-picker-props",
+      "description": "范围内部日历外观（白名单）",
+      "type": "DateRangeCalendarOptions",
+      "defaultValue": "{}",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "picker-props",
+      "description": "透传给 mp-picker（picker 模式）",
+      "type": "DateWheelOptions",
+      "defaultValue": "{}",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "readonly",
+      "description": "是否只读",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "elevation",
+      "description": "海拔高度",
+      "type": "number | boolean",
+      "defaultValue": "false",
+      "kind": "json",
+      "initial": "false"
+    }
+  ],
+  "methodNames": [],
+  "events": [
+    "change",
+    "select",
+    "update:pickerValue",
+    "picker-value-change",
+    "select-shortcut"
+  ],
+  "slotNames": [
+    "actions"
+  ],
+  "slotDefaults": {
+    "actions": true
+  },
+  "scenarios": []
+}

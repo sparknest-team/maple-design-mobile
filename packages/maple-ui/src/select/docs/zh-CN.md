@@ -1,17 +1,76 @@
 # 选择框
 
-活动选项nextTick滚动只等渲染，不等CSS动画完成。关闭／重开、新导航、停用、卸载使旧任务失效；回调只消费一次，空列表也不重放。保留选择／键盘／滚动入口在停用／卸载后无效，激活允许新命令；晚登记下拉仍支持。虚拟回调后再核对状态才写DOM。两端专项各14、共享消费者Cedar93／Maple96回归通过，受控队列不算浏览器／OS或完整下游认证；API与CSS变量不变。
+## 案例
 
-### 异步设备与 ID 回显
+### 基础用法
+
+点击展开选项，选中后回填并收起；清除后可重新选择。本例只演示单选。
 
 ```demo
-../example/demos/async-devices.vue
+../example/demos/standard.vue
 ```
 
-### 介绍
+### 禁用与只读
 
-通过下拉菜单展示并选择内容。
+```demo
+../example/demos/state.vue
+```
 
+### 小尺寸
+
+```demo
+../example/demos/size.vue
+```
+
+### 表单控件尺寸对照
+
+切换五档 size 和三种字段变体，比较 Input、Button、Select、日期时间及其他单行表单控件的高度。Button 在这里固定使用 outline。DatePicker/TimePicker 是面板，此处使用带输入框的 Date/Time 字段。示例同时展示有值、可清空、标签删除与长标签多选；Select/Cascader 设置 tag-nowrap 时保持同档高度，长标签文字省略、删除图标保留；标签行可横向滚动，清空按钮和箭头固定在外侧。被省略的标签正文支持悬停、键盘聚焦或点按查看完整文字，点外部或按 Esc 关闭，不改变选中值。可清空后恢复选中值重复比较。多行文本和允许换行的多选内容按内容撑高。
+
+```demo
+../../field-decorator/example/demos/control-sizes.vue
+```
+
+### 边框外观
+
+```demo
+../example/demos/outline.vue
+```
+
+### 标签与绑定值
+
+```demo
+../example/demos/value-mapping.vue
+```
+
+### 清除选择
+
+```demo
+../example/demos/clearable.vue
+```
+
+### 多选
+
+```demo
+../example/demos/multiple.vue
+```
+
+### 选项数据
+
+```demo
+../example/demos/options.vue
+```
+
+### 字段映射
+
+```demo
+../example/demos/field-names.vue
+```
+
+### 自定义图标
+
+```demo
+../example/demos/custom-icons.vue
+```
 
 ### 同名选项
 
@@ -21,83 +80,104 @@
 ../example/demos/same-label.vue
 ```
 
-### 标准外观
+### 弹层与阅读展示
 
 ```demo
-../example/demos/standard.vue
+../example/demos/dialog.vue
 ```
-
-### 外边框外观
 
 ```demo
-../example/demos/outline.vue
+../example/demos/popup.vue
 ```
 
-### Picker 模式
-
-将 `presentation` 设置为 `picker` 即可使用底部弹窗的滚轮选择器。
-
-
-
-
-
-```demo
-../example/demos/picker.vue
-```
-
-### Picker 多选
-
-与 Cascader 一致：弹层内用「添加」把当前项放入草稿，点「完成」才写回 `v-model`；「取消」丢弃草稿。
-
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const pickerMultiple = ref([])
-  const pickerOptions = ref([
-    { label: '吃饭', value: 1 },
-    { label: '睡觉', value: 2 },
-    { label: '打游戏', value: 3 },
-    { label: '写文档', value: 4 },
-  ])
-</script>
-
-<template>
-  <mp-select
-    presentation="picker"
-    multiple show-tags
-    clearable
-    placeholder="请选择多个选项"
-    v-model="pickerMultiple"
-    :options="pickerOptions"
-  />
-</template>
-```
-
-### List 模式
-
-将 `presentation` 设置为 `list`，底部弹窗以列表展示选项，选中项右侧显示对号。
-
-单选：点击即选中并关闭。多选：点击切换勾选（草稿），点「完成」提交，「取消」丢弃。
-
-
-
-
-
-```demo
-../example/demos/list.vue
-```
-
+统一对比见 Form 文档中的“字段展示与确认提交”。inline 使用普通字段；popup 使用底部列表；dialog 使用对话框；read 只展示名称。
 
 ### 展示与提交规则
 
-Menu 即选即提交。List 单选即选即提交，多选编辑草稿；Picker 单选、多选都编辑草稿。确认只提交一次；取消、遮罩关闭、Escape、切换展示方式都丢弃草稿。外部更新 modelValue 优先于草稿。Cedar 仅支持 Menu；Maple 在独立复制的控制器与 Menu 上增加 List、Picker 扩展，不共享运行时或实例。
+inline 默认即选即提交；popup/dialog 确认后提交。确认只提交一次；取消、遮罩关闭、Escape、切换展示方式都丢弃草稿。外部更新 modelValue 优先于草稿。两端控制器独立同源，容器分别适配 popover/popup/dialog。
+
+### 分组间距
+
+```demo
+../example/demos/group-spacing.vue
+```
+
+### 外观组合
+
+适用于选项数据明确的单选输入。调整变体、尺寸，用相同数据观察变化。内容保持一致，便于比较不同设置的实际效果。
+
+```demo
+../example/demos/appearance-lab.vue
+```
+
+### 交互状态切换
+
+适用于选项数据明确的单选输入。调整禁用、只读、错误反馈，用相同数据观察变化。控制区始终可用，可以随时恢复编辑；错误外观本身不会触发表单校验。
+
+```demo
+../example/demos/state-lab.vue
+```
+
+### 异步设备与 ID 回显
+
+```demo
+../example/demos/async-devices.vue
+```
+
+### Thumb drag lifecycle / 滑块拖动生命周期
+
+方向、max、thumbSize、ratio的有效值变化取消当前手势；仅替换等值data对象不取消连续拖动。最终偏移仍由父级新测量／setOffset结算。几何读取与响应式写入后重新核对会话，防止同步卸载后绑定或通知。停用／卸载保留按下／轨道点击／setOffset入口无效且不preventDefault；非左键不启动／跳转。当前setOffset夹取、拖动期间忽略外部setOffset和轨道一thumb-size步进保持。没有Pointer／touch拖动协议迁移或原生滚动回滚承诺。
+
+```demo
+../example/demos/thumb-lifecycle.vue
+```
+
+### Scrollbar consumer lifecycle / 滚动条消费者生命周期
+
+scrollTo(0,0)／单轴0是合法坐标，不用真值判断；恢复零位置也同步thumb，不保留上次偏移。水平测量使用水平比例（旧代码误用了垂直比例）。零／无效视口用有限、非负thumb数据，不显示该零尺寸轴；正常最小thumb20px与track15px布局策略不变。禁用／隐藏轴的旧thumb命令无效，但禁用条不等于禁止内容或公开原生滚动。对象选项直接透传、不模拟JS动画；公开方法签名／样式变量不变。
+
+```demo
+../example/demos/scrollbar-lifecycle.vue
+```
+
+### 复杂插槽组合
+
+```demo
+../example/demos/slots-review.vue
+```
+
+### 介绍
+
+通过下拉菜单展示并选择内容。
 
 ### 交互调度生命周期
 
 ```demo
 ../example/demos/scheduler-lifecycle.vue
 ```
+
+选项分组与 Menu 使用一致的间距逻辑：标题行高 20px，上下各 4px 留白（总高 28px）；后续分组前额外留 8px，首组不添加组间距。标题与选项文字左对齐；AutoComplete 的标题缩进跟随其选项水平 padding 配置。
+
+### 子组件选项与分组
+
+使用 Option、Optgroup 子组件配置候选，演示分组标题插槽、选项内容与前后缀，以及禁用和多选状态。
+
+```demo
+../example/demos/options-review.vue
+```
+
+### 管理已选项
+
+多选面板顶部提供已选数量与清空。Cedar 在列表上方显示可删除标签；Maple 点击数量查看已选明细，支持逐项移除并返回可选项。popup/popover 与 dialog 共用该内容。移除和清空先修改草稿，关闭取消会恢复原值，确认后才提交；禁用项保留，异步确认期间禁用操作。面板的清空入口独立于字段清空图标。
+
+<!-- api-review:start -->
+### 功能调试
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 
@@ -122,10 +202,10 @@ Menu 即选即提交。List 单选即选即提交，多选编辑草稿；Picker 
 | `separator` | show-tags=false 时的多选分隔符 | `string` | `,` |
 | `text-align` | left、center、right | `string` | `left` |
 | `max-tag-count` | 标签数量上限，0 不限制 | `number` | `0` |
-| `tag-nowrap` | 标签内容不换行 | `boolean` | `false` |
+| `tag-nowrap` | 标签单行显示；长文字省略、删除图标保留，标签行可横向滚动；悬停、聚焦或点按省略正文查看全文 | `boolean` | `false` |
 | `popup-container` | 选择器、元素、返回元素的函数或 false（原地渲染） | `PopupContainer` | `—` |
 | `trigger-props` | Menu 的 Trigger 属性；展开状态由字段控制 | `TriggerProps` | `—` |
-| `virtual-list-props` | Menu / List 的虚拟列表参数 | `VirtualListProps` | `—` |
+| `virtual-list-props` | 选项面板 的虚拟列表参数 | `VirtualListProps` | `—` |
 | `search-delay` | search 事件防抖时长（毫秒） | `number` | `500` |
 | `format-label` | 格式化已选标签；VNode 使用 label 插槽 | `function` | `—` |
 | `clearable` | 允许清除，保留禁用的已选项 | `boolean` | `true` |
@@ -140,11 +220,10 @@ Menu 即选即提交。List 单选即选即提交，多选编辑草稿；Picker 
 | `auto-fit-popup-width` | Menu 与字段等宽 | `boolean` | `true` |
 | `default-active-first-option` | 默认激活首个可用选项（不会自动提交） | `boolean` | `true` |
 | `unmount-on-close` | 关闭 Menu 后销毁内容 | `boolean` | `false` |
-| `scrollbar` | Menu / List 滚动条配置 | `boolean 或 ScrollbarProps` | `true` |
+| `scrollbar` | 选项面板 滚动条配置 | `boolean 或 ScrollbarProps` | `true` |
 | `show-header-on-empty / show-footer-on-empty` | 空状态仍展示 header / footer | `boolean` | `false` |
-| `presentation` | 展示方式 | `menu / list / picker` | `menu` |
-| `picker-props` | 滚轮外观与工具条文案；值、列、字段映射和工具条由扩展接管 | `PickerProps` | `{}` |
-| `popup-props` | 弹层外观；展开状态、底部位置和挂载时机由扩展接管 | `PopupProps` | `{}` |
+| `presentation` | 字段展示；未指定时继承 FormItem/Form | `inline / popup` | `inline` |
+| `before-commit` | 确认校验后可等待的保存拦截钩子 | `(value, context) => void / false / Promise` | — |
 
 ### 事件与方法
 
@@ -162,7 +241,7 @@ Select 还提供 `remove(value)`、`exceed-limit(value, event)`、`dropdown-scro
 
 选项 `label` 是用于搜索的纯文本；自定义选项内容使用 `render` 或 `option` 插槽，自定义反显使用 `format-label` 或 `label` 插槽。以 value 而非 label 识别选项。选项的 `disabled` 禁止选择和删除，`tagProps` 可定制已选标签。
 
-Select 还支持 `header`、`footer`、`trigger` 和默认插槽中的 `Option / Optgroup`。Option 属性为 `value`、`label`、`disabled`、`tagProps`、`index`；默认插槽提供 `selected`。分组数据为 `{ isGroup: true, label, options }`。Maple 的 List、Picker 同样支持插槽选项；Picker 展示选项的纯文本标签。
+Select 还支持 `header`、`footer`、`trigger` 和默认插槽中的 `Option / Optgroup`。Option 属性为 `value`、`label`、`disabled`、`tagProps`、`index`；默认插槽提供 `selected`。分组数据为 `{ isGroup: true, label, options }`。所有编辑展示共用相同选项模型；read 插槽可自定义阅读内容。
 
 ### CSS 变量
 
@@ -187,7 +266,7 @@ Select 还支持 `header`、`footer`、`trigger` 和默认插槽中的 `Option /
 | `--mp-select-popup-option-text-color-selected` | `var(--mp-sys-color-content-primary)` |
 | `--mp-select-popup-option-text-color-disabled` | `var(--mp-sys-color-content-disabled)` |
 | `--mp-select-popup-group-title-height` | `20px` |
-| `--mp-select-popup-group-title-padding-horizontal` | `var(--mp-sys-space-5)` |
+| `--mp-select-popup-group-title-padding-horizontal` | `var(--mp-select-popup-option-padding-horizontal)` |
 | `--mp-select-popup-group-title-padding-top` | `var(--mp-sys-space-4)` |
 | `--mp-select-popup-group-title-font-size` | `var(--mp-sys-font-size-xs)` |
 | `--mp-select-popup-group-title-text-color` | `var(--mp-sys-color-content-secondary)` |
@@ -199,4 +278,85 @@ Select 还支持 `header`、`footer`、`trigger` 和默认插槽中的 `Option /
 
 ### 字段与移动展示的样式边界
 
-同源字段外壳的 Token 声明与 Cedar 保持一致。移动展示专属变量放在独立的 `src/_components/selection-field/presentation/style/token.less`，随本地 presentation 样式加载，不混入公共字段声明。名称与默认值不变：`--mp-selection-presentation-max-height` 为 `65vh`、`--mp-selection-presentation-bg` 为 `var(--mp-sys-color-surface-overlay)`、`--mp-selection-presentation-padding` 为 `var(--mp-sys-space-5)`；不向 Cedar 添加移动展示能力。
+展示容器使用内部 `src/_components/field-presentation/token.less`，复用系统表面色、间距与尺寸变量。选项列表继续使用 Select 的现有 Token。
+
+`read-pretty` 为独立布尔属性，与 `readonly`、`disabled` 同级；字段 > FormItem > Form 继承，显式 `false` 覆盖父级。默认 `false`。纯阅读不显示编辑器。
+
+### Option Props
+
+| 属性 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| value | 选项值，未传时取 label 或默认插槽文本 | string \| number \| boolean \| Record<string, unknown> | undefined |
+| label | 搜索与已选标签使用的文本 | string | undefined |
+| disabled | 禁止选择与移除 | boolean | false |
+| tag-props | 已选标签属性 | TagProps | undefined |
+| index | 手动指定选项顺序 | number | undefined |
+
+### Option Slots
+
+| 插槽 | 说明 | 参数 |
+| --- | --- | --- |
+| default | 自定义选项内容 | { selected: boolean } |
+| icon | 选项图标 | - |
+| suffix | 选项后缀 | - |
+
+### Optgroup Props
+
+| 属性 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| label | 分组标题 | string | undefined |
+
+### Optgroup Slots
+
+| 插槽 | 说明 | 参数 |
+| --- | --- | --- |
+| label | 自定义分组标题 | - |
+| default | 分组下的 Option 子组件 | - |
+
+### Select Slots
+
+| 插槽 | 说明 | 参数 |
+| --- | --- | --- |
+| default | Option / Optgroup 子组件 | - |
+| option | 自定义选项内容 | { data } |
+| label | 自定义已选标签 | { data } |
+| selected | 替换整个已选区域 | - |
+| header | 菜单页头 | - |
+| footer | 菜单页脚 | - |
+| trigger | 自定义选择器触发器 | - |
+| prefix | 字段前缀 | - |
+| suffix | 字段后缀 | - |
+| clear-icon | 自定义清空操作 | { clear } |
+| arrow-icon | 下拉箭头 | - |
+| search-icon | 搜索图标 | - |
+| loading-icon | 加载图标 | - |
+| empty | 无选项内容 | - |
+| read | 阅读展示 | { value, text } |
+
+### Select Events
+
+| 事件 | 说明 | 参数 |
+| --- | --- | --- |
+| update:model-value | 更新绑定值 | value |
+| change | 提交选择 | value |
+| update:open | 请求展开状态 | open |
+| open-change | 展开状态改变 | open |
+| update:input-value | 更新搜索文本 | text |
+| input-value-change | 搜索文本改变 | text |
+| search | 搜索通知 | text |
+| focus | 字段获得焦点 | event |
+| blur | 字段失去焦点 | event |
+| clear | 清空选择 | event |
+| remove | 移除已选项 | value |
+| exceed-limit | 超过多选上限 | value, event |
+| dropdown-scroll | 菜单滚动 | event |
+| dropdown-reach-bottom | 菜单滚到底部 | event |
+
+### Select Methods
+
+| 方法 | 说明 | 参数 |
+| --- | --- | --- |
+| focus | 聚焦实际字段 | - |
+| blur | 移出实际字段焦点 | - |
+
+异步搜索时应在新请求开始时清除旧候选，并只采纳当前搜索词的最后一次响应。远程结果可配合 `loading`、`filter-option="false"`、`show-extra-options="false"` 使用，避免将 ID 回显项当作搜索候选。popup 内方向键与 Enter 只操作当前候选，保存由底部确认按钮完成。校验失败保留草稿；确认期间锁定编辑和关闭，表单重置会关闭 popup 并中止提交。请求归属应在关闭和重置时失效，完整示例见 Form 的“各类字段统一展示”。

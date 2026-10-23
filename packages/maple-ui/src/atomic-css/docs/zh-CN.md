@@ -36,9 +36,9 @@ UnoCSS 和 Tailwind **二选一配置**，但组件里的类名完全相同。�
       <span class="mp-text-success">Success</span>
     </div>
 
-    <button class="mp-rounded-md mp-border-0 mp-bg-primary mp-px-16 mp-py-8 mp-text-white hover:mp-opacity-80">
+    <mp-button class="mp-rounded-md mp-border-0 mp-bg-primary mp-px-16 mp-py-8 mp-text-white hover:mp-opacity-80">
       保存
-    </button>
+    </mp-button>
   </div>
 </template>
 ```

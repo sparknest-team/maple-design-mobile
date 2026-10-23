@@ -1,16 +1,14 @@
 import { type PropType } from 'vue'
 import { props as datePickerPropsSource } from '../date/presentation-props'
 import type { DisabledTime } from '../date/time-constraints'
-import type { DateTimePickerOptions } from '../date/time-picker-options'
 import type { DateWheelOptions } from '../date/wheel-options'
 import type { DateRangeCalendarOptions } from './calendar-options'
 
 export type DateRangePickerType = 'year' | 'month' | 'date'
-export type DateRangePickerPresentation = 'calendar' | 'picker' | 'calendarClock' | 'calendarPicker'
+export type DateRangePickerPresentation = 'calendar' | 'picker' | 'calendarPicker'
 
 export const props = {
   abbreviation: datePickerPropsSource.abbreviation,
-  exchangeTime: { type: Boolean, default: true },
   pickerValue: [String, Array] as PropType<string | string[]>,
   modelValue: {
     type: Array as PropType<string[]>,
@@ -37,10 +35,6 @@ export const props = {
   },
   pickerProps: {
     type: Object as PropType<DateWheelOptions>,
-    default: () => ({}),
-  },
-  timePickerProps: {
-    type: Object as PropType<DateTimePickerOptions>,
     default: () => ({}),
   },
   readonly: Boolean,

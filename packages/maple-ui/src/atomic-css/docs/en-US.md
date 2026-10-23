@@ -35,9 +35,9 @@ Choose either UnoCSS or Tailwind. The utility names inside components are identi
       <span class="mp-text-success">Success</span>
     </div>
 
-    <button class="mp-rounded-md mp-border-0 mp-bg-primary mp-px-16 mp-py-8 mp-text-white hover:mp-opacity-80">
+    <mp-button class="mp-rounded-md mp-border-0 mp-bg-primary mp-px-16 mp-py-8 mp-text-white hover:mp-opacity-80">
       Save
-    </button>
+    </mp-button>
   </div>
 </template>
 ```

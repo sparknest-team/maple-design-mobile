@@ -2,6 +2,8 @@
 
 用于补充说明按钮、图标或被截断的文字。默认同时响应鼠标悬停和键盘聚焦；需要承载可操作内容时使用 Popover。
 
+## 案例
+
 ### 基本使用
 
 ```demo
@@ -53,6 +55,23 @@
 ```demo
 ../example/demos/disabled.vue
 ```
+
+### 外观组合
+
+适用于悬浮时的补充说明。调整状态、尺寸，用相同数据观察变化。内容保持一致，便于比较不同设置的实际效果。
+
+```demo
+../example/demos/appearance-lab.vue
+```
+
+<!-- api-review:start -->
+### 功能调试
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

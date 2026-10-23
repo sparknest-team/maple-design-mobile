@@ -1,8 +1,16 @@
 # Loading
 
+## 案例
+
 ### Intro
 
 Loading component for performing animations when data is loaded.
+
+### Size
+
+```demo
+../example/demos/size.vue
+```
 
 ### Type
 
@@ -16,12 +24,6 @@ Loading component for performing animations when data is loaded.
 ../example/demos/color.vue
 ```
 
-### Size
-
-```demo
-../example/demos/size.vue
-```
-
 ### Wrap
 
 ```demo
@@ -30,6 +32,7 @@ Loading component for performing animations when data is loaded.
 
 ### Loading Directive
 
+The two directive examples keep independent loading states. Their controls and host cards are stacked using Space's `direction="column"`; turning one off leaves the other overlay unchanged.
 
 
 `v-mp-loading` accepts a boolean shorthand or a `{ loading, tip, type, size, radius, color, hideIcon, fullscreen, background }` options object. In object form, `loading` controls the loading state and the remaining component options match `Loading` props.
@@ -39,11 +42,6 @@ Loading component for performing animations when data is loaded.
 `v-mp-loading` renders its indicator with Maple's built-in `Loading` component. The `mp-` prefix avoids collisions with directives from other component libraries. Register it using any one of these approaches.
 
 
-
-
-
-
-
 With `MapleResolver()`, `unplugin-vue-components` resolves `v-mp-loading` automatically. Set `directives: false` to disable directive resolution.
 
 > Wrapper mode applies `opacity: 0.38` to its default-slot content. Because the directive preserves the host DOM, it inserts the built-in Loading VNode and uses an equivalent translucent background overlay instead.
@@ -51,6 +49,15 @@ With `MapleResolver()`, `unplugin-vue-components` resolves `v-mp-loading` automa
 ```demo
 ../example/demos/directive.vue
 ```
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

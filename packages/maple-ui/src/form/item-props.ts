@@ -1,4 +1,5 @@
 import { type PropType } from 'vue'
+import { fieldPresentationProp, readPrettyProp } from '../_components/field-presentation/context'
 import type { RowProps } from '../row/props'
 import { componentSizes, type ComponentSize } from '../utils/constants'
 import { formItemDecorationProps, type FormItemValidateStatus } from './item-decoration'
@@ -13,6 +14,9 @@ export type { FormItemAsteriskPosition } from './item-decoration'
 export type FormItemLayout = FormLayout
 
 export const props = {
+  /** 字段展示方式，未设置时继承上层。 */
+  presentation: fieldPresentationProp,
+  readPretty: readPrettyProp,
   ...formItemLayoutProps,
   ...formItemDecorationProps,
   /** 表单项 Row 配置。 */

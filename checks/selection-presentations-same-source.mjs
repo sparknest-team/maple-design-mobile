@@ -9,6 +9,16 @@ const workspace = fileURLToPath(new URL('../../', import.meta.url))
 const cedar = resolve(workspace, 'cedar-design-web/packages/cedar-ui/src')
 const maple = resolve(workspace, 'maple-design-mobile/packages/maple-ui/src')
 const files = [
+  '_components/selected-options/context.ts',
+  '_components/selected-options/style/index.less',
+  '_components/selected-options/style/token.less',
+  'cascader/CascaderEditor.vue',
+  'cascader/CascaderEditorPanel.vue',
+  '_components/field-presentation/with-field-presentation.ts',
+  '_components/field-presentation/use-field-search.ts',
+  '_components/field-presentation/option-labels.ts',
+  'auto-complete/auto-complete.tsx',
+  'auto-complete/presentation.ts',
   'select/Option.vue',
   'select/types.ts',
   'select/utils.ts',
@@ -50,6 +60,7 @@ const toMaple = (source) =>
     .replaceAll('@cedarjs/icons-vue', '@maplejs/icons-vue')
     .replaceAll('_utils/global-config', 'utils/components')
     .replaceAll('_utils/option-data', 'utils/option-data')
+    .replaceAll('_utils/text-input-value', 'utils/text-input-value')
     .replaceAll('../scrollbar', '../_components/selection-scrollbar')
     .replaceAll('--c-', '--mp-')
     .replaceAll('.c-', '.mp-')
@@ -68,10 +79,14 @@ for (const [root, compiler] of [
   [maple, '../../maple-cli/node_modules/less/package.json'],
 ]) {
   const less = createRequire(resolve(root, compiler))('./')
-  for (const component of ['select', 'cascader']) {
+  for (const component of ['select', 'cascader', '_components/selected-options']) {
     const filename = resolve(root, component, 'style/index.less')
     const { css } = await less.render(readFileSync(filename, 'utf8'), { filename })
-    assert.ok(css.includes(component))
+    assert.ok(css.includes(component.split('/').pop()))
   }
 }
-console.log('Selection presentations: ' + files.length + ' independent source pairs and four Less outputs verified.')
+console.log(
+  'Selection presentations: ' +
+    files.length +
+    ' independent source pairs and six Less outputs verified. Selected-options platform views are covered by component tests.',
+)

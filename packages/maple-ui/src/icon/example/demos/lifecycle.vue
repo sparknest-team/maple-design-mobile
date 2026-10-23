@@ -1,7 +1,7 @@
 <script setup>
 import { computed, getCurrentInstance, KeepAlive, ref } from 'vue'
 import { IconArrowLeft, IconArrowRight } from '@maplejs/icons-vue'
-import { AppType, watchLang } from '@maplejs/maple-cli/client'
+import { watchLang } from '@maplejs/maple-cli/client'
 
 const language = ref('zh-CN')
 const english = computed(() => language.value === 'en-US')
@@ -26,8 +26,7 @@ function toggleName() {
 }
 </script>
 <template>
-  <app-type>{{ english ? 'Transition lifecycle' : '切换生命周期' }}</app-type>
-  <mp-space>
+  <mp-space wrap>
     <mp-button @click="toggleName">{{ english ? 'Switch name' : '切换名称' }}</mp-button>
     <mp-button @click="active = !active">{{ english ? 'Toggle active' : '切换激活' }}</mp-button>
     <mp-button @click="duration = duration ? 0 : 300"

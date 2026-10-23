@@ -7,8 +7,8 @@ import type { RadioModel } from '../checkbox/choice-value-props'
 import { createNamespace } from '../utils/components'
 import { radioGroupKey } from './context'
 import { useRadioForm } from './form-adapter'
+import Radio from './presentation'
 import { radioGroupProps } from './props'
-import Radio from './Radio.vue'
 import { useRadioNavigation } from './use-radio-navigation'
 
 defineOptions({ name: createNamespace('radio-group').name })

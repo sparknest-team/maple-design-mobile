@@ -30,6 +30,8 @@
 
 ### 操作按钮
 
+Reload 只更新本地刷新次数和描述，不请求服务；真实业务请自行接入请求与结果状态。
+
 通过 `extra` 插槽添加操作按钮。
 
 ```demo
@@ -38,11 +40,22 @@
 
 ### 显示与隐藏
 
+通过两个按钮分别隐藏和恢复图标、描述。两者同时隐藏不代表隐藏整个组件，也不影响 extra 插槽。
+
 通过 `show-icon`、`show-description` 控制图标和描述是否显示。
 
 ```demo
 ../example/demos/show.vue
 ```
+
+<!-- api-review:start -->
+### 功能调试
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

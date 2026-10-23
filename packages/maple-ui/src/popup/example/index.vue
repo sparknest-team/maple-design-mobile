@@ -1,6 +1,7 @@
 <script setup>
 import { computed, reactive, ref, toRefs } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
+import DemoApiReview from './demos/api-review.vue'
 import EventDemo from './demos/event.vue'
 import MotionTokenDemo from './demos/motion-token.vue'
 import OverlayStyleDemo from './demos/overlay-style.vue'
@@ -28,21 +29,22 @@ onThemeChange()
 
 <template>
   <section data-demo="popup-position">
-    <app-type>{{ english ? 'Popup Position' : '弹出位置' }}</app-type>
+    <app-type>{{ english ? 'Placement' : '弹出位置' }}</app-type>
     <PopupPositionDemo />
   </section>
 
   <section data-demo="overlay-style">
-    <app-type>{{ english ? 'Overlay Style' : '背景层样式' }}</app-type>
+    <app-type>{{ english ? 'Overlay style' : '遮罩样式' }}</app-type>
     <OverlayStyleDemo />
   </section>
 
   <section data-demo="event">
-    <app-type>{{ english ? 'Event' : '注册事件' }}</app-type>
+    <app-type>{{ english ? 'Events' : '事件' }}</app-type>
     <EventDemo />
   </section>
   <section data-demo="motion-token">
-    <app-type>{{ english ? 'Motion Tokens' : '动效 Token' }}</app-type>
+    <app-type>{{ english ? 'Feature playground' : '功能调试' }}</app-type>
     <MotionTokenDemo :english="english" />
   </section>
+  <section data-demo="api-review"><DemoApiReview /></section>
 </template>

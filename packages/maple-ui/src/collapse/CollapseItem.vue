@@ -54,7 +54,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, defineComponent, inject, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { computed, defineComponent, inject, onBeforeUnmount, onMounted, ref, useId, watch } from 'vue'
 import { createNamespace } from '../utils/components'
 import { collapseKey } from './context'
 import { DefaultExpandIcon } from './platform'
@@ -72,7 +72,8 @@ const mergedDestroyOnHide = computed(() => Boolean(collapseCtx?.destroyOnHide ||
 const mergedShowExpandIcon = computed(() => collapseCtx?.showExpandIcon ?? props.showExpandIcon)
 const expandIconPosition = computed(() => collapseCtx?.expandIconPosition ?? 'left')
 const contentMounted = ref(mergedDestroyOnHide.value ? isActive.value : true)
-const idBase = computed(() => `${n()}-${String(itemName.value).replace(/[^\w-]/g, '-')}`)
+const instanceId = useId()
+const idBase = computed(() => `${n()}-${instanceId}-${String(itemName.value).replace(/[^\w-]/g, '-')}`)
 const expandIconSlotProps = computed(() => ({
   active: isActive.value,
   disabled: props.disabled,
@@ -109,14 +110,8 @@ watch(itemName, (nextName, prevName) => {
   })
 })
 
-watch(isActive, (active) => {
-  if (active) {
-    contentMounted.value = true
-    return
-  }
-  if (mergedDestroyOnHide.value) {
-    contentMounted.value = false
-  }
+watch([isActive, mergedDestroyOnHide], ([active, destroy]) => {
+  contentMounted.value = active || !destroy
 })
 
 function handleClick(e: Event) {
@@ -126,6 +121,9 @@ function handleClick(e: Event) {
 }
 
 function handleKeydown(event: KeyboardEvent) {
+  if (event.target !== event.currentTarget) {
+    return
+  }
   if (event.key === 'Enter' || event.key === ' ') {
     event.preventDefault()
     handleClick(event)

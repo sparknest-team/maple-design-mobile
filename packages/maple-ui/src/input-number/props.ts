@@ -1,4 +1,5 @@
 import type { ExtractPublicPropTypes, PropType } from 'vue'
+import { fieldPresentationProps } from '../_components/field-presentation/props'
 import { inputProps, type InputVariant } from '../input/props'
 import type { ComponentSize } from '../utils/constants'
 
@@ -12,6 +13,7 @@ export type InputNumberFormatter = (value: string) => string
 export type InputNumberParser = (value: string) => string
 
 export const inputNumberProps = {
+  ...fieldPresentationProps,
   /** 受控业务数值；空值为 undefined。 */
   modelValue: Number,
   /** 非受控初始值。 */

@@ -1,0 +1,300 @@
+{
+  "fields": [
+    {
+      "name": "model-value",
+      "description": "受控文本值",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "default-value",
+      "description": "非受控初始文本",
+      "type": "string",
+      "defaultValue": "''",
+      "kind": "string"
+    },
+    {
+      "name": "options",
+      "description": "候选；支持分组，value 唯一，选择后转为字符串",
+      "type": "(AutoCompleteOption | SelectOptionGroup)[]",
+      "defaultValue": "() => []",
+      "kind": "json",
+      "initial": "[]"
+    },
+    {
+      "name": "field-names",
+      "description": "映射 value、label、disabled 等字段",
+      "type": "AutoCompleteFieldNames",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "should-open",
+      "description": "允许展开的条件，不负责过滤候选",
+      "type": "(value: string) => boolean",
+      "defaultValue": "(inputValue: string) => inputValue.length > 0",
+      "kind": "scenario"
+    },
+    {
+      "name": "filter-option",
+      "description": "按标签过滤；false 用于远程筛选",
+      "type": "AutoCompleteFilterOption",
+      "defaultValue": "true",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "strict",
+      "description": "内置过滤是否区分大小写",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "popup-container",
+      "description": "弹层挂载容器，与 Trigger 一致",
+      "type": "PopupContainer",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "\"body\""
+    },
+    {
+      "name": "trigger-props",
+      "description": "弹层配置；不能覆盖内部 open / disabled / 容器优先级",
+      "type": "TriggerProps",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "virtual-list-props",
+      "description": "传入后启用虚拟列表",
+      "type": "VirtualListProps",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "size",
+      "description": "五档尺寸；未设置时继承 Group / Form / 全局配置",
+      "type": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\"",
+      "defaultValue": "undefined",
+      "kind": "enum",
+      "options": [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl"
+      ],
+      "initial": "xs"
+    },
+    {
+      "name": "variant",
+      "description": "输入外观；未设置时继承 Group",
+      "type": "\"filled\" | \"outline\" | \"standard\"",
+      "defaultValue": "undefined",
+      "kind": "enum",
+      "options": [
+        "filled",
+        "outline",
+        "standard"
+      ],
+      "initial": "filled"
+    },
+    {
+      "name": "disabled",
+      "description": "禁用；未设置时继承，显式 false 覆盖",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
+      "name": "readonly",
+      "description": "只读，可聚焦复制，不展开候选",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
+      "name": "error",
+      "description": "错误状态；未设置时继承 FormItem",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
+      "name": "clearable",
+      "description": "允许清除可编辑的非空值",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "placeholder",
+      "description": "占位文字或浮动提示内容",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "hint",
+      "description": "启用 Input 的浮动提示",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
+      "name": "line",
+      "description": "显示边框或底线",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "text-color",
+      "description": "实例文字颜色",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "focus-color",
+      "description": "实例聚焦颜色",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "blur-color",
+      "description": "实例失焦提示颜色",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "enterkeyhint",
+      "description": "移动虚拟键盘回车提示",
+      "type": "InputHTMLAttributes['enterKeyHint']",
+      "defaultValue": "undefined",
+      "kind": "scenario"
+    },
+    {
+      "name": "aria-label",
+      "description": "输入框可访问名称",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "max-length",
+      "description": "输入与候选选择使用相同的截断规则",
+      "type": "number | { length: number; errorOnly?: boolean }",
+      "defaultValue": "0",
+      "kind": "json",
+      "initial": "{\"length\":20,\"errorOnly\":false}"
+    },
+    {
+      "name": "show-word-limit",
+      "description": "显示字数统计",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "word-length",
+      "description": "自定义长度计算",
+      "type": "(value: string) => number",
+      "defaultValue": "undefined",
+      "kind": "callback"
+    },
+    {
+      "name": "word-slice",
+      "description": "自定义截断",
+      "type": "(value: string, maxLength: number) => string",
+      "defaultValue": "undefined",
+      "kind": "callback"
+    },
+    {
+      "name": "input-attrs",
+      "description": "原生 input 属性，combobox 状态由组件维护",
+      "type": "Record<string, unknown>",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "presentation",
+      "type": "'inline' | 'popup'",
+      "defaultValue": "undefined",
+      "description": "字段编辑方式，字段 > FormItem > Form 继承；默认 inline。",
+      "kind": "enum",
+      "options": [
+        "inline",
+        "popup"
+      ],
+      "initial": "inline"
+    },
+    {
+      "name": "read-pretty",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "description": "纯阅读展示；字段 > FormItem > Form 继承，显式 false 覆盖父级。",
+      "kind": "boolean"
+    },
+    {
+      "name": "before-commit",
+      "type": "BeforeFieldCommit",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "callback"
+    },
+    {
+      "name": "open",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "boolean"
+    },
+    {
+      "name": "default-open",
+      "type": "boolean",
+      "defaultValue": "false",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "boolean"
+    }
+  ],
+  "methodNames": [],
+  "events": [
+    "update:modelValue",
+    "input",
+    "search",
+    "change",
+    "select",
+    "clear",
+    "focus",
+    "blur",
+    "dropdown-scroll",
+    "dropdown-reach-bottom"
+  ],
+  "slotNames": [
+    "option",
+    "footer",
+    "prefix",
+    "suffix",
+    "clear-icon"
+  ],
+  "slotDefaults": {
+    "option": true,
+    "footer": true,
+    "prefix": false,
+    "suffix": false,
+    "clear-icon": false
+  },
+  "scenarios": []
+}

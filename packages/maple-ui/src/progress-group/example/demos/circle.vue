@@ -9,7 +9,7 @@ const items = [
 <template>
   <div class="progress-group-example__circles">
     <mp-progress-group mode="circle" :items="items" show-text />
-    <mp-progress-group mode="circle" :items="items" circle-size="42vw" :stroke-width="12" show-text>
+    <mp-progress-group mode="circle" :items="items" circle-size="min(42vw, 240px)" :stroke-width="12" show-text>
       <template #text="{ value, max }">
         <div class="progress-group-example__circle-status">
           <strong>{{ value }}</strong
@@ -41,6 +41,7 @@ const items = [
 
 .progress-group-example__circles {
   display: flex;
+  flex-wrap: wrap;
   align-items: flex-start;
   justify-content: space-around;
   gap: 16px;

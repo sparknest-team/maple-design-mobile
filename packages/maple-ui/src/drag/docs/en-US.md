@@ -1,5 +1,7 @@
 # Drag
 
+## Examples
+
 ### Intro
 
 Make the element draggable freely.
@@ -8,6 +10,12 @@ Make the element draggable freely.
 
 ```demo
 ../example/demos/basic-use.vue
+```
+
+### Disabled
+
+```demo
+../example/demos/disabled.vue
 ```
 
 ### Direction
@@ -22,12 +30,6 @@ Make the element draggable freely.
 ../example/demos/attraction.vue
 ```
 
-### Disabled
-
-```demo
-../example/demos/disabled.vue
-```
-
 ### Boundary
 
 ```demo
@@ -39,6 +41,15 @@ Make the element draggable freely.
 ```demo
 ../example/demos/reset.vue
 ```
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

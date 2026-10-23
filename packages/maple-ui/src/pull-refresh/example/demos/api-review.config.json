@@ -1,0 +1,91 @@
+{
+  "fields": [
+    {
+      "name": "model-value",
+      "description": "是否处于加载中",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "disabled",
+      "description": "是否禁用下拉刷新",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "target",
+      "description": "滚动容器，未传入时监听最近的可滚动祖先",
+      "type": "string | HTMLElement",
+      "defaultValue": "undefined",
+      "kind": "string",
+      "initial": "body"
+    },
+    {
+      "name": "animation-duration",
+      "description": "回弹动画时长（ms）",
+      "type": "number | string",
+      "defaultValue": "300",
+      "kind": "scalar"
+    },
+    {
+      "name": "success-duration",
+      "description": "成功状态展示时长（ms）",
+      "type": "number | string",
+      "defaultValue": "2000",
+      "kind": "scalar"
+    },
+    {
+      "name": "bg-color",
+      "description": "指示器背景色",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "color",
+      "description": "指示器颜色",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "success-bg-color",
+      "description": "成功状态指示器背景色",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "success-color",
+      "description": "成功状态指示器颜色",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string",
+      "initial": "#5268cc"
+    }
+  ],
+  "events": [
+    "refresh",
+    "update:modelValue"
+  ],
+  "scenarios": [
+    {
+      "name": "target",
+      "kind": "prop",
+      "demos": []
+    },
+    {
+      "name": "default",
+      "kind": "slot",
+      "demos": []
+    }
+  ],
+  "slotNames": [],
+  "slotDefaults": {},
+  "methodNames": []
+}

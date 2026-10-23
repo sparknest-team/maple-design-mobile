@@ -7,7 +7,7 @@ const configuredDirectiveLoading = ref(false)
 </script>
 
 <template>
-  <mp-space direction="vertical">
+  <mp-space direction="column">
     <h4 class="loading-demo__title">简单用法</h4>
     <mp-switch v-model="simpleDirectiveLoading" />
     <mp-card

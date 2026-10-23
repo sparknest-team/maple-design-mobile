@@ -1,11 +1,40 @@
-<script setup></script>
+<script setup>
+import { ref } from 'vue'
+
+const current = ref(0)
+const proposal = ref(0)
+const changes = ref(0)
+const accept = ref(true)
+const loop = ref(true)
+function update(value) {
+  proposal.value = value
+  if (accept.value) {
+    current.value = value
+  }
+}
+</script>
 
 <template>
-  <mp-carousel class="carousel" :slides-per-view="2.5" :space-between="10">
-    <mp-carousel-item v-for="i in 6" :key="i">
-      <div class="carousel-custom-slide">{{ i }}</div>
-    </mp-carousel-item>
-  </mp-carousel>
+  <section class="multi-slides-demo">
+    <mp-checkbox v-model="accept">Accept changes / 接受切换</mp-checkbox>
+    <mp-checkbox v-model="loop">Loop / 循环</mp-checkbox>
+    <p role="status">Current: {{ current }} · Proposal: {{ proposal }} · Changes: {{ changes }}</p>
+    <mp-carousel
+      class="carousel"
+      :slides-per-view="2.5"
+      :space-between="10"
+      :current="current"
+      :loop="loop"
+      draggable
+      keyboard
+      @update:current="update"
+      @change="changes++"
+    >
+      <mp-carousel-item v-for="i in 6" :key="i">
+        <div class="carousel-custom-slide">{{ i }}</div>
+      </mp-carousel-item>
+    </mp-carousel>
+  </section>
 </template>
 
 <style lang="less" scoped>

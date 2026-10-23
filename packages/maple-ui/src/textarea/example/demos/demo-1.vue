@@ -1,23 +1,15 @@
-<script setup>
-import { reactive, ref } from 'vue'
+<script setup lang="ts">
+import { ref } from 'vue'
 
-const basicValue = ref('')
+const value = ref('')
+const trimmed = ref('')
 </script>
-
 <template>
-  <mp-textarea v-model="basicValue" :rows="4" placeholder="请输入多行文本" />
+  <mp-space direction="column">
+    <mp-textarea v-model="value" clearable placeholder="请输入多行文本" aria-label="受控文本" />
+    <p role="status">当前值：{{ value || '（空）' }}</p>
+    <mp-textarea default-value="这是一段非受控初始文本" aria-label="非受控文本" />
+    <mp-textarea v-model.trim="trimmed" placeholder="输入首尾空白，失焦后去除" aria-label="去除首尾空白" />
+    <p role="status">去除空白后的值：{{ JSON.stringify(trimmed) }}</p>
+  </mp-space>
 </template>
-
-<style lang="less" scoped>
-.textarea-example {
-  &__caption {
-    margin: 16px 0 8px;
-    color: var(--mp-field-blur-color);
-    font-size: 12px;
-  }
-
-  &__bottom-space {
-    height: 40px;
-  }
-}
-</style>

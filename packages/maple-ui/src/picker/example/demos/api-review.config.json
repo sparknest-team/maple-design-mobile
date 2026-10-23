@@ -1,0 +1,287 @@
+{
+  "fields": [
+    {
+      "name": "model-value",
+      "description": "绑定的值",
+      "type": "(string | number)[]",
+      "defaultValue": "() => []",
+      "kind": "json",
+      "initial": "[]"
+    },
+    {
+      "name": "columns",
+      "description": "列内容",
+      "type": "PickerColumnOption[] | PickerColumnOption[][]",
+      "defaultValue": "() => []",
+      "kind": "json",
+      "initial": "[]"
+    },
+    {
+      "name": "title",
+      "description": "标题",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "field-names",
+      "description": "自定义列字段映射（label 对应文本，默认 text）",
+      "type": "{ label?, value?, children? }",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "toolbar",
+      "description": "是否显示上方工具栏",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "disabled",
+      "description": "禁用选项点击、触摸、键盘选择及确认",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "selected-values",
+      "description": "已选中的选项值，选项右侧显示对号",
+      "type": "(string | number)[]",
+      "defaultValue": "() => []",
+      "kind": "json",
+      "initial": "[]"
+    },
+    {
+      "name": "cascade",
+      "description": "是否开启级联模式",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "option-height",
+      "description": "选项的高度(px rem)",
+      "type": "string | number",
+      "defaultValue": "44",
+      "kind": "scalar"
+    },
+    {
+      "name": "option-count",
+      "description": "可见的选项个数",
+      "type": "string | number",
+      "defaultValue": "6",
+      "kind": "scalar"
+    },
+    {
+      "name": "confirm-button-text",
+      "description": "确认按钮文字",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "cancel-button-text",
+      "description": "取消按钮文字",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "confirm-button-text-color",
+      "description": "确认按钮文字颜色",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "cancel-button-text-color",
+      "description": "取消按钮文字颜色",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "esc-to-close",
+      "description": "是否支持键盘 ESC 关闭选择器",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "columns-count",
+      "type": "string | number",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "scalar"
+    },
+    {
+      "name": "dynamic",
+      "type": "boolean",
+      "defaultValue": "false",
+      "description": "// dynamic internal",
+      "kind": "boolean"
+    },
+    {
+      "name": "safe-area",
+      "type": "boolean",
+      "defaultValue": "false",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "boolean"
+    },
+    {
+      "name": "PickerColumnOption.text",
+      "description": "columns.0 · 文本",
+      "type": "string | number",
+      "defaultValue": "-",
+      "kind": "scalar",
+      "path": [
+        "columns",
+        0,
+        "text"
+      ]
+    },
+    {
+      "name": "PickerColumnOption.value",
+      "description": "columns.0 · 值",
+      "type": "string | number",
+      "defaultValue": "-",
+      "kind": "scalar",
+      "path": [
+        "columns",
+        0,
+        "value"
+      ]
+    },
+    {
+      "name": "PickerColumnOption.disabled",
+      "description": "columns.0 · 是否禁用",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean",
+      "path": [
+        "columns",
+        0,
+        "disabled"
+      ]
+    },
+    {
+      "name": "PickerColumnOption.children",
+      "description": "columns.0 · 子列表",
+      "type": "PickerColumnOption[]",
+      "defaultValue": "-",
+      "kind": "json",
+      "initial": "[]",
+      "path": [
+        "columns",
+        0,
+        "children"
+      ]
+    },
+    {
+      "name": "PickerColumnOption.class-name",
+      "description": "columns.0 · 附加的类名",
+      "type": "string",
+      "defaultValue": "-",
+      "kind": "string",
+      "path": [
+        "columns",
+        0,
+        "className"
+      ]
+    },
+    {
+      "name": "PickerColumnOption.text-class-name",
+      "description": "columns.0 · 文本附加的类名",
+      "type": "string",
+      "defaultValue": "-",
+      "kind": "string",
+      "path": [
+        "columns",
+        0,
+        "textClassName"
+      ]
+    }
+  ],
+  "events": [
+    "change",
+    "cancel",
+    "confirm",
+    "key-escape",
+    "update:modelValue"
+  ],
+  "scenarios": [
+    {
+      "name": "model-value",
+      "kind": "prop",
+      "demos": []
+    },
+    {
+      "name": "columns",
+      "kind": "prop",
+      "demos": [
+        "area-picker.vue",
+        "cascade-picker.vue",
+        "columns-count.vue",
+        "disabled.vue",
+        "function-call.vue",
+        "multiple-picker.vue",
+        "single-picker.vue",
+        "two-way-binding.vue",
+        "value-mapping.vue"
+      ]
+    },
+    {
+      "name": "field-names",
+      "kind": "prop",
+      "demos": []
+    },
+    {
+      "name": "selected-values",
+      "kind": "prop",
+      "demos": []
+    },
+    {
+      "name": "title",
+      "kind": "slot",
+      "demos": []
+    },
+    {
+      "name": "cancel",
+      "kind": "slot",
+      "demos": []
+    },
+    {
+      "name": "confirm",
+      "kind": "slot",
+      "demos": []
+    },
+    {
+      "name": "confirm",
+      "kind": "method",
+      "demos": []
+    },
+    {
+      "name": "cancel",
+      "kind": "method",
+      "demos": []
+    }
+  ],
+  "slotNames": [
+    "title",
+    "cancel",
+    "confirm"
+  ],
+  "slotDefaults": {
+    "title": false,
+    "cancel": false,
+    "confirm": false
+  },
+  "methodNames": [
+    "confirm",
+    "cancel"
+  ]
+}

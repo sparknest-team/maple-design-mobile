@@ -1,0 +1,16 @@
+.mp-form-item[data-presentation] {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  column-gap: var(--mp-sys-space-4);
+  > :first-child {
+    flex: 0 0 auto;
+    width: auto;
+    max-width: 40%;
+  }
+  > :last-child {
+    flex: 1;
+    min-width: 0;
+    width: auto;
+  }
+}

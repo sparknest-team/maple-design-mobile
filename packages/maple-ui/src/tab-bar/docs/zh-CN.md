@@ -1,5 +1,7 @@
 # 底部标签栏
 
+## 案例
+
 ### 介绍
 
 在页面底部显示导航和关键操作。
@@ -8,6 +10,12 @@
 
 ```demo
 ../example/demos/basic-usage.vue
+```
+
+### 变体
+
+```demo
+../example/demos/variant.vue
 ```
 
 ### 通过名称匹配
@@ -52,12 +60,6 @@ TabBar 徽标默认使用 xs 尺寸并向图标右上方外侧展开；通过 ba
 ../example/demos/fab.vue
 ```
 
-### 变体
-
-```demo
-../example/demos/variant.vue
-```
-
 ### 非受控初始选中
 
 ```demo
@@ -81,6 +83,15 @@ TabBar 徽标默认使用 xs 尺寸并向图标右上方外侧展开；通过 ba
 ```demo
 ../example/demos/async-change.vue
 ```
+
+<!-- api-review:start -->
+### 功能调试
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

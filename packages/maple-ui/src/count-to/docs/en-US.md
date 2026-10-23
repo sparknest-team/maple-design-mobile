@@ -1,5 +1,7 @@
 # CountTo
 
+## Examples
+
 ### Introduction
 
 Display a number animation transitioning from a start value to a target value.
@@ -49,6 +51,15 @@ You can call the `start`, `pause`, and `reset` methods to manually control the s
 ```demo
 ../example/demos/manual-control.vue
 ```
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

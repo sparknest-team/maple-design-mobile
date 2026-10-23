@@ -1,8 +1,12 @@
 # LoadingBar
 
+Timer callbacks and both width/opacity render continuations consume once under their original generation. Restart invalidates old work; duplicate progress cannot advance twice. If computed-style lookup restarts loading, old hide/unmount scheduling cannot adopt the new generation. The200ms cadence, finishDelay, default250ms transition and300/250ms cleanup floors stay unchanged. nextTick is logically invalidated, not physically removed. The2026-10-15 targeted10/full22 tests are controlled service-DOM/clock evidence, not new native browser/OS acceptance.
+
 The service uses --mp-loading-bar-transition-duration (250ms) and --mp-loading-bar-transition-timing-function (ease) for width/opacity/background-color. Apply tokens to its real html/body ancestor, not a business card. Reduce disables transitions, not progress/cleanup. After DOM flush, hiding waits max(300ms, resolved width duration+delay); unmounting waits max(250ms, resolved opacity duration+delay). The 200ms show/tick and cleanup floors are scheduling policies, not CSS tokens; later arbitrary CSS changes/custom animation are not promised.
 
 Repeated finish is deduplicated; start/error cancel obsolete tasks. Completion unmounts the service and the next load remounts. setDefaultOptions replaces the full configuration and resetDefaultOptions clears owned settings. SSR calls create no DOM/timers.
+
+## Examples
 
 ### Intro
 
@@ -13,6 +17,15 @@ Display loading progress at the top of the page.
 ```demo
 ../example/demos/basic.vue
 ```
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

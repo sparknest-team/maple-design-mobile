@@ -1,41 +1,10 @@
 # Icon
 
-## Transition lifecycle
+Icons are independent SVG Vue components. Use the Resolver for on-demand imports and the Icon wrapper to control size, color, and rotation.
 
-transition is a public visual replacement duration, default0, not a new CSS token. CSS/JS share one normalized value (negative/nonfinite becomes0). Duration changes cancel old phases and commit the current name. Replacement/preference/deactivation/disposal invalidate stale and consumed callbacks. KeepAlive suspends animations and detaches observation; activation shows the latest name without replay. Preference uses the actual span owner window and stale listener bindings are rejected. Registry/slot precedence/spin remain. Nine simulated tests per copy had6 failures/3 controls; full Icon Cedar20/Maple21 pass, not native browser/OS proof.
+The wrapper uses lightweight namespace, size, and installation helpers. Importing it on demand does not include the general utility library; graphics come from the individual SVG components you use.
 
-```demo
-../example/demos/lifecycle.vue
-```
-
-## Introduction
-
-SVG Vue component icon library.
-## Recommended Usage
-
-After configuring `MapleResolver()`, use template tags for automatic on-demand imports. `m-icon-*` is the Resolver's icon namespace; only the corresponding individual icon is loaded from `@maplejs/icons-vue`:
-
-```html
-<mp-icon size="40" color="red">
-  <m-icon-checkbox-marked-circle-fill />
-</mp-icon>
-```
-
-You can also import a standalone icon component manually:
-
-```ts
-import { IconCheckboxMarkedCircleFill } from '@maplejs/icons-vue'
-```
-
-For manual imports, the `<mp-icon>` wrapper is still recommended when size, color, animation, or the interaction area should be controlled consistently:
-
-```html
-<mp-icon size="40" color="red">
-  <IconCheckboxMarkedCircleFill />
-</mp-icon>
-```
-
-Both approaches render the same result and support Tree Shaking. The Resolver generates the first import, while application code explicitly owns the second. Use `<img>` or an image component for web images.
+## Examples
 
 ### Basic Usage
 
@@ -57,6 +26,8 @@ Both approaches render the same result and support Tree Shaking. The Resolver ge
 
 ### Rotate and Spin
 
+Use `rotate` for a static angle and `spin` for continuous rotation; they can be combined.
+
 ```demo
 ../example/demos/rotate-and-spin.vue
 ```
@@ -67,17 +38,46 @@ Both approaches render the same result and support Tree Shaking. The Resolver ge
 ../example/demos/click-event.vue
 ```
 
-### Dynamic Name (Special Case)
+### Custom Icon
+
+Place a custom SVG in the default slot. The Icon wrapper controls its size and color.
+
+```demo
+../example/demos/custom.vue
+```
+
+### Dynamic Name
+
+`name` is a kebab-case name such as `arrow-left`. It only resolves icons registered in the current Vue app and does not load the entire library. Click the button to switch the name and icon together. When a default slot is provided, its content takes priority over `name`.
 
 ```demo
 ../example/demos/icon-animation.vue
 ```
 
-### Icon List (click copy)
+### All Icons
+
+Both libraries use the same canonical names. Search ignores surrounding whitespace and case; clearing restores all icons. Larger cards wrap the complete name. Click or press Enter / Space to copy a tag. Copying uses the Clipboard API and requires a secure context and clipboard permission; failures display an error.
 
 ```demo
 ../example/demos/icon-list.vue
 ```
+
+### Name Changes and Lifecycle
+
+```demo
+../example/demos/lifecycle.vue
+```
+
+<!-- api-review:start -->
+### Feature playground
+
+Enable `name` and choose a registered icon to update the preview.
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

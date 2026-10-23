@@ -1,0 +1,189 @@
+{
+  "fields": [
+    {
+      "name": "title",
+      "description": "数值展示的标题",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "value",
+      "description": "数值展示的值",
+      "type": "number | string | Date",
+      "defaultValue": "undefined",
+      "kind": "scenario"
+    },
+    {
+      "name": "prefix",
+      "description": "数值前缀",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "suffix",
+      "description": "数值后缀",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "format",
+      "description": "数值展示的格式（日期模式使用）",
+      "type": "string",
+      "defaultValue": "'HH:mm:ss'",
+      "kind": "string"
+    },
+    {
+      "name": "extra",
+      "description": "额外的显示内容",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "start",
+      "description": "是否开始动画",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "precision",
+      "description": "小数保留位数（数字模式使用）",
+      "type": "number",
+      "defaultValue": "0",
+      "kind": "number"
+    },
+    {
+      "name": "separator",
+      "description": "进位分隔符（数字模式使用）",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "show-group-separator",
+      "description": "是否展示进位分隔符（数字模式使用）",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "tabular-nums",
+      "description": "是否使用等宽数字",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "animation",
+      "description": "是否开启动画",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "animation-duration",
+      "description": "动画的过渡时间",
+      "type": "number",
+      "defaultValue": "2000",
+      "kind": "number"
+    },
+    {
+      "name": "value-from",
+      "description": "动画的起始值",
+      "type": "number",
+      "defaultValue": "undefined",
+      "kind": "number"
+    },
+    {
+      "name": "placeholder",
+      "description": "提示文字（当 value 为 undefined 且未使用默认插槽时显示）",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "value-style",
+      "description": "自定义显示值的样式",
+      "type": "CSSProperties",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    }
+  ],
+  "events": [],
+  "scenarios": [
+    {
+      "name": "value",
+      "kind": "prop",
+      "demos": [
+        "basic-usage.vue",
+        "animation.vue",
+        "extra.vue",
+        "prefix-suffix.vue",
+        "tabular-nums.vue"
+      ]
+    },
+    {
+      "name": "default",
+      "kind": "slot",
+      "demos": []
+    },
+    {
+      "name": "title",
+      "kind": "slot",
+      "demos": [
+        "basic-usage.vue",
+        "animation.vue",
+        "countdown.vue",
+        "custom-value.vue",
+        "extra.vue",
+        "prefix-suffix.vue",
+        "tabular-nums.vue"
+      ]
+    },
+    {
+      "name": "prefix",
+      "kind": "slot",
+      "demos": [
+        "animation.vue",
+        "extra.vue",
+        "prefix-suffix.vue"
+      ]
+    },
+    {
+      "name": "suffix",
+      "kind": "slot",
+      "demos": [
+        "animation.vue",
+        "custom-value.vue",
+        "prefix-suffix.vue",
+        "tabular-nums.vue"
+      ]
+    },
+    {
+      "name": "extra",
+      "kind": "slot",
+      "demos": [
+        "basic-usage.vue",
+        "extra.vue"
+      ]
+    }
+  ],
+  "slotNames": [
+    "title",
+    "prefix",
+    "suffix",
+    "extra"
+  ],
+  "slotDefaults": {
+    "title": false,
+    "prefix": false,
+    "suffix": false,
+    "extra": false
+  },
+  "methodNames": []
+}

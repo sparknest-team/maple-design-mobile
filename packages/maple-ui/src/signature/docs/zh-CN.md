@@ -1,5 +1,7 @@
 # 签名
 
+## 案例
+
 ### 介绍
 
 基于 `Canvas` 的签名组件。
@@ -19,6 +21,15 @@
 ```demo
 ../example/demos/custom-style.vue
 ```
+
+<!-- api-review:start -->
+### 功能调试
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

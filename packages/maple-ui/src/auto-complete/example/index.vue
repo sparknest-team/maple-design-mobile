@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { AppType, watchLang } from '@maplejs/maple-cli/client'
+import OrganizedAppearanceLab from './demos/appearance-lab.vue'
 import EnglishDemo9 from './demos/en-US/accessibility.vue'
 import EnglishDemo0 from './demos/en-US/basic.vue'
 import EnglishDemo8 from './demos/en-US/decorator.vue'
@@ -11,10 +12,13 @@ import EnglishDemo6 from './demos/en-US/size.vue'
 import EnglishDemo7 from './demos/en-US/state.vue'
 import EnglishDemo2 from './demos/en-US/strict.vue'
 import EnglishDemo5 from './demos/en-US/virtual-list.vue'
+import OrganizedStateLab from './demos/state-lab.vue'
 import Demo9 from './demos/zh-CN/accessibility.vue'
+import DemoApiReview from './demos/zh-CN/api-review.vue'
 import Demo0 from './demos/zh-CN/basic.vue'
 import Demo8 from './demos/zh-CN/decorator.vue'
 import Demo4 from './demos/zh-CN/footer.vue'
+import GroupSpacingDemo from './demos/zh-CN/group-spacing.vue'
 import Demo1 from './demos/zh-CN/opening-policy.vue'
 import Demo3 from './demos/zh-CN/remote.vue'
 import Demo6 from './demos/zh-CN/size.vue'
@@ -32,6 +36,14 @@ watchLang((value) => {
   <section data-demo="basic">
     <app-type>{{ english ? 'Input and selection' : '基础输入与选择' }}</app-type>
     <EnglishDemo0 v-if="english" /><Demo0 v-else />
+  </section>
+  <section data-demo="size">
+    <app-type>{{ english ? 'Sizes' : '五档尺寸' }}</app-type>
+    <EnglishDemo6 v-if="english" /><Demo6 v-else />
+  </section>
+  <section data-demo="state">
+    <app-type>{{ english ? 'Disabled and readonly' : '禁用与只读' }}</app-type>
+    <EnglishDemo7 v-if="english" /><Demo7 v-else />
   </section>
   <section data-demo="opening-policy">
     <app-type>{{ english ? 'Opening and filtering' : '展开条件与过滤' }}</app-type>
@@ -53,14 +65,6 @@ watchLang((value) => {
     <app-type>{{ english ? 'Virtual list' : '虚拟列表' }}</app-type>
     <EnglishDemo5 v-if="english" /><Demo5 v-else />
   </section>
-  <section data-demo="size">
-    <app-type>{{ english ? 'Sizes' : '五档尺寸' }}</app-type>
-    <EnglishDemo6 v-if="english" /><Demo6 v-else />
-  </section>
-  <section data-demo="state">
-    <app-type>{{ english ? 'Disabled and readonly' : '禁用与只读' }}</app-type>
-    <EnglishDemo7 v-if="english" /><Demo7 v-else />
-  </section>
   <section data-demo="decorator">
     <app-type>{{ english ? 'Variants and hints' : '外观与浮动提示' }}</app-type>
     <EnglishDemo8 v-if="english" /><Demo8 v-else />
@@ -69,4 +73,17 @@ watchLang((value) => {
     <app-type>{{ english ? 'Keyboard and accessibility' : '键盘与无障碍' }}</app-type>
     <EnglishDemo9 v-if="english" /><Demo9 v-else />
   </section>
+  <section data-demo="group-spacing">
+    <app-type>{{ english ? 'Group spacing' : '分组间距' }}</app-type>
+    <GroupSpacingDemo />
+  </section>
+  <section data-demo="appearance-lab">
+    <app-type>{{ english ? 'Appearance combinations' : '外观组合' }}</app-type>
+    <OrganizedAppearanceLab />
+  </section>
+  <section data-demo="state-lab">
+    <app-type>{{ english ? 'Interaction states' : '交互状态切换' }}</app-type>
+    <OrganizedStateLab />
+  </section>
+  <section data-demo="api-review"><DemoApiReview /></section>
 </template>

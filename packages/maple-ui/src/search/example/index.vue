@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
 import ActionDemo from './demos/action.vue'
+import DemoApiReview from './demos/api-review.vue'
 import BasicDemo from './demos/basic.vue'
 import EnActionDemo from './demos/en-US/action.vue'
 import EnBasicDemo from './demos/en-US/basic.vue'
@@ -16,6 +17,7 @@ import HistoryDemo from './demos/history.vue'
 import PresentationDemo from './demos/presentation.vue'
 import SearchButtonDemo from './demos/search-button.vue'
 import ShapeDemo from './demos/shape.vue'
+import OrganizedStateLab from './demos/state-lab.vue'
 import StateDemo from './demos/state.vue'
 
 const language = ref('zh-CN')
@@ -32,6 +34,12 @@ onThemeChange()
     <app-type>{{ english ? 'Basic Usage' : '基础用法' }}</app-type>
     <EnBasicDemo v-if="english" />
     <BasicDemo v-else />
+  </section>
+
+  <section data-demo="state">
+    <app-type>{{ english ? 'States' : '状态' }}</app-type>
+    <EnStateDemo v-if="english" />
+    <StateDemo v-else />
   </section>
 
   <section data-demo="action">
@@ -63,15 +71,14 @@ onThemeChange()
     <EnShapeDemo v-if="english" />
     <ShapeDemo v-else />
   </section>
-
-  <section data-demo="state">
-    <app-type>{{ english ? 'States' : '状态' }}</app-type>
-    <EnStateDemo v-if="english" />
-    <StateDemo v-else />
+  <section data-demo="state-lab">
+    <app-type>{{ english ? 'Interaction states' : '交互状态切换' }}</app-type>
+    <OrganizedStateLab />
   </section>
   <section data-demo="presentation">
     <app-type>{{ english ? 'History presentation and slots' : '历史展示与插槽' }}</app-type>
     <EnPresentationDemo v-if="english" />
     <PresentationDemo v-else />
   </section>
+  <section data-demo="api-review"><DemoApiReview /></section>
 </template>

@@ -2,18 +2,22 @@ import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, expect, test, vi } from 'vitest'
 import SplitButton from '..'
+import { useDemoControls } from '../../../test-utils/demo-controls'
 import Button from '../../button'
-import { MenuOption } from '../../dropdown-menu'
+import { MenuOption } from '../../menu'
 import Radio, { RadioGroup } from '../../radio'
 import Space from '../../space'
 import AsyncAction from '../example/async-action.vue'
 import Basic from '../example/basic.vue'
 import Controlled from '../example/controlled.vue'
 import CustomIcon from '../example/custom-icon.vue'
+import Appearance from '../example/demos/appearance-lab.vue'
 import Disabled from '../example/disabled.vue'
 import Popup from '../example/popup.vue'
 import Sizes from '../example/sizes.vue'
 import Variants from '../example/variants.vue'
+
+useDemoControls()
 
 const { listeners, info } = vi.hoisted(() => ({ listeners: [], info: vi.fn() }))
 vi.mock('@maplejs/maple-cli/client', () => ({
@@ -34,11 +38,11 @@ afterEach(() => {
   info.mockClear()
 })
 
-test.each([Basic, Controlled, AsyncAction, Popup, Disabled, CustomIcon, Sizes, Variants])(
+test.each([Basic, Controlled, AsyncAction, Popup, Disabled, CustomIcon, Sizes, Variants, Appearance])(
   'actual demo labels follow the site language without an uninitialized local locale: %s',
   async (demo) => {
     const wrapper = mount(demo, {
-      global: { components, stubs: { MIconMenuDown: true } },
+      global: { components, stubs: { MIconMenuDown: true, MpSelect: true } },
     })
     wrappers.push(wrapper)
     const menu = wrapper.findComponent(SplitButton)

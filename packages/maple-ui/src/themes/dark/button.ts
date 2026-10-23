@@ -1,16 +1,1 @@
-export default {
-  '--mp-button-border-radius': '4px',
-  '--mp-button-mini-padding': '0 8px',
-  '--mp-button-small-padding': '0 12px',
-  '--mp-button-normal-padding': '0 16px',
-  '--mp-button-large-padding': '0 22px',
-  '--mp-button-round-padding': '6px',
-  '--mp-button-mini-height': '20px',
-  '--mp-button-small-height': '28px',
-  '--mp-button-normal-height': '36px',
-  '--mp-button-large-height': '44px',
-  '--mp-button-mini-font-size': 'var(--mp-font-size-xs)',
-  '--mp-button-small-font-size': 'var(--mp-font-size-sm)',
-  '--mp-button-normal-font-size': 'var(--mp-font-size-md)',
-  '--mp-button-large-font-size': 'var(--mp-font-size-lg)',
-}
+export default {}

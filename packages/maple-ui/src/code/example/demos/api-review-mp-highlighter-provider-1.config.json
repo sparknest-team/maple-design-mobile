@@ -1,0 +1,48 @@
+{
+  "fields": [
+    {
+      "name": "highlighter",
+      "description": "着色器",
+      "type": "Highlighter",
+      "defaultValue": "-",
+      "kind": "scenario"
+    },
+    {
+      "name": "theme",
+      "description": "主题",
+      "type": "string",
+      "defaultValue": "-",
+      "kind": "enum",
+      "options": [
+        "github-light",
+        "github-dark",
+        "vitesse-light",
+        "vitesse-dark"
+      ],
+      "initial": "github-light"
+    },
+    {
+      "name": "tag",
+      "description": "自定义标签名",
+      "type": "string",
+      "defaultValue": "div",
+      "kind": "string"
+    },
+    {
+      "name": "Highlighter.code-to-html",
+      "description": "highlighter · 着色函数，组件的着色器必须实现该函数",
+      "type": "(code: string, options: CodeToHtmlOptions) => Promise<string>",
+      "defaultValue": "-",
+      "kind": "scenario",
+      "path": [
+        "highlighter",
+        "codeToHtml"
+      ]
+    }
+  ],
+  "methodNames": [],
+  "events": [],
+  "slotNames": [],
+  "slotDefaults": {},
+  "scenarios": []
+}

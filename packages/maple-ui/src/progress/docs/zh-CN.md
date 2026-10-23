@@ -2,6 +2,8 @@
 
 两端主体、API 与样式独立同源。
 
+## 案例
+
 ### 基础用法
 
 ```demo
@@ -53,6 +55,17 @@
 ```demo
 ../example/demos/indeterminate-progress.vue
 ```
+
+<!-- api-review:start -->
+### 功能调试
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
+
+## API
 
 ### Props
 

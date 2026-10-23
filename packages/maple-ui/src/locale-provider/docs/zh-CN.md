@@ -1,3 +1,20 @@
+
+
+# LocaleProvider
+
+在局部子树中设置语言及语言包，不改变其他区域的语言。
+
+## 案例
+
+<!-- api-review:start -->
+### 功能调试
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
+
 ## API
 
 ### 属性

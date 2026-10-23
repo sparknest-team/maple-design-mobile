@@ -20,23 +20,21 @@
   "type": "module",
   "exports": {
     ".": {
+      "types": "./lib/index.d.ts",
       "import": "./lib/index.js",
-      "require": "./lib/index.cjs",
-      "types": "./lib/index.d.ts"
+      "require": "./lib/index.cjs"
     }
   },
   "main": "lib/index.cjs",
   "module": "lib/index.js",
   "types": "lib/index.d.ts",
   "files": [
-    "lib"
+    "lib",
+    "THIRD_PARTY_NOTICES"
   ],
   "scripts": {
     "build": "tsup src/index.ts --format esm,cjs --out-dir=lib --dts --clean",
     "dev": "tsup src/index.ts --format esm --out-dir=lib --watch --dts"
-  },
-  "dependencies": {
-    "rattail": "1.0.17"
   },
   "devDependencies": {
     "@types/node": "catalog:",

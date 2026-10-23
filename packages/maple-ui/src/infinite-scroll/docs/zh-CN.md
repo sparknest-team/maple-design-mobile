@@ -1,18 +1,10 @@
 # 无限滚动 InfiniteScroll
 
-触底检测的 RAF（零延迟定时器 fallback）只合并测量，不是 CSS 动效时长。替换绑定、停用和卸载使旧任务及观察器失效，已消费回调不重放、不清掉新句柄；保留 check／retry 在停用／卸载后无效，激活使用新绑定与新检查。业务请求由调用方负责取消。两端各10项受控专项通过，不等于原生浏览器／OS／跨文档验收。
-
 示例滚动容器使用当前主题背景，暗色模式下同样保持列表文字可读。
 
 行为型无限加载器。它只负责触底检测与分页状态，列表展示可组合 `List`、`Cell` 或业务内容。
 
-
-
-### 测量绑定生命周期
-
-```demo
-../example/demos/scheduler-lifecycle.vue
-```
+## 案例
 
 ### 基础用法
 
@@ -30,6 +22,12 @@
 
 ```demo
 ../example/demos/custom-status.vue
+```
+
+### 测量绑定生命周期
+
+```demo
+../example/demos/scheduler-lifecycle.vue
 ```
 
 ## 使用说明
@@ -76,7 +74,7 @@
 
 ```html
 <template #error="{ retry }">
-  <button type="button" @click="retry">重新加载</button>
+  <mp-button html-type="button" @click="retry">重新加载</mp-button>
 </template>
 ```
 
@@ -101,6 +99,15 @@ async function refresh() {
 ```
 
 隐藏的 Tab 不会触发加载，重新激活后会自动检查；也可在业务激活回调中调用 `check()`。
+
+<!-- api-review:start -->
+### 功能调试
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

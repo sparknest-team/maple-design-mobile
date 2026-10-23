@@ -1,0 +1,60 @@
+{
+  "fields": [
+    {
+      "name": "description",
+      "description": "描述内容，缺省时使用国际化文案",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "image-url",
+      "description": "自定义图片地址",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "alt",
+      "description": "图片替代文本",
+      "type": "string",
+      "defaultValue": "''",
+      "kind": "string"
+    },
+    {
+      "name": "image-size",
+      "description": "图片/图标尺寸",
+      "type": "ComponentSize | number | string",
+      "defaultValue": "'md'",
+      "kind": "scalar",
+      "initial": "md"
+    },
+    {
+      "name": "show-icon",
+      "description": "是否显示图标",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "show-description",
+      "description": "是否显示描述",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    }
+  ],
+  "methodNames": [],
+  "events": [
+    "click"
+  ],
+  "slotNames": [
+    "extra",
+    "image"
+  ],
+  "slotDefaults": {
+    "extra": true,
+    "image": false
+  },
+  "scenarios": []
+}

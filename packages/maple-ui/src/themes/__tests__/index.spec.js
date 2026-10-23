@@ -43,6 +43,21 @@ test('default light theme', () => {
   expect(Themes.default.light).toMatchSnapshot()
 })
 
+test('dark themes inherit current surfaces and omit removed clock tokens', () => {
+  for (const theme of [Themes.default.dark, Themes.maple.dark]) {
+    for (const key of [
+      'menu-background-color',
+      'menu-option-text-color',
+      'menu-option-selected-background',
+      'menu-option-selected-text-color',
+      'floating-panel-background',
+    ]) {
+      expect(theme).not.toHaveProperty('--mp-' + key)
+    }
+    expect(Object.keys(theme).some((key) => key.startsWith('--mp-time-picker-clock-'))).toBe(false)
+  }
+})
+
 test('default dark theme', () => {
   expect(Themes.default.dark).toMatchSnapshot()
 })
@@ -308,5 +323,12 @@ test('current themes and tab colors use the shared contract', () => {
     ]) {
       expect(theme).not.toHaveProperty('--mp-tabs-' + suffix)
     }
+  }
+})
+
+test('dark breadcrumb themes keep the documented semantic text and brand roles', () => {
+  for (const theme of [Themes.default.dark, Themes.maple.dark]) {
+    expect(theme['--mp-breadcrumb-item-active-color']).toBe('rgb(var(--mp-primary-8))')
+    expect(theme['--mp-breadcrumb-item-inactive-color']).toBe('var(--mp-color-text-2)')
   }
 })

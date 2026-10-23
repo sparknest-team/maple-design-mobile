@@ -35,7 +35,7 @@
     background: transparent;
     color: inherit;
     font: inherit;
-    caret-color: var(--mp-field-focus-color);
+    caret-color: currentColor;
     cursor: inherit;
     appearance: none;
     &::placeholder {
@@ -108,6 +108,7 @@
     }
   }
   &__step {
+    height: var(--mp-internal-field-height);
     display: flex;
     flex-direction: column;
     align-self: stretch;

@@ -7,6 +7,6 @@ const rangeCalendar = ref(['2024-01-01', '2024-12-31'])
 
 <template>
   <mp-space direction="column" size="lg">
-    <mp-date-range v-model="rangeCalendar" presentation="calendar" placeholder="日历日期范围" clearable />
+    <mp-date-range v-model="rangeCalendar" panel-type="calendar" placeholder="日历日期范围" clearable />
   </mp-space>
 </template>

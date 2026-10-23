@@ -1,0 +1,157 @@
+{
+  "fields": [
+    {
+      "name": "open",
+      "description": "是否显示",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
+      "name": "default-open",
+      "description": "非受控模式下是否默认显示",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "placement",
+      "description": "出现位置",
+      "type": "'top' | 'bottom' | 'right' | 'left' | 'center'",
+      "defaultValue": "'center'",
+      "kind": "enum",
+      "options": [
+        "top",
+        "bottom",
+        "right",
+        "left",
+        "center"
+      ],
+      "initial": "center"
+    },
+    {
+      "name": "overlay",
+      "description": "是否显示遮罩",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "overlay-closable",
+      "description": "点击遮罩是否关闭",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "transition",
+      "description": "内容转场名称",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "overlay-animation-name",
+      "description": "遮罩转场名称",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "unstyled",
+      "description": "移除默认背景、文字颜色与 elevation",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "lock-scroll",
+      "description": "是否锁定挂载容器滚动",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "esc-to-close",
+      "description": "ESC 是否关闭",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "close-on-route-change",
+      "description": "路由变化时是否关闭",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "unmount-on-close",
+      "description": "为 false 时内容从初始关闭状态即挂载并保留；为 true 时关闭动画后卸载",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "popup-container",
+      "description": "挂载容器",
+      "type": "string | HTMLElement | false",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "\"body\""
+    },
+    {
+      "name": "safe-area-inset-bottom",
+      "description": "是否适配底部安全区",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "safe-area-inset-top",
+      "description": "是否适配顶部安全区",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "z-index",
+      "description": "自定义层级",
+      "type": "number",
+      "defaultValue": "undefined",
+      "kind": "number"
+    },
+    {
+      "name": "overlay-class",
+      "type": "string",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "string"
+    },
+    {
+      "name": "overlay-style",
+      "type": "object",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "json",
+      "initial": "{}"
+    }
+  ],
+  "events": [
+    "update:open"
+  ],
+  "scenarios": [
+    {
+      "name": "overlay-style",
+      "kind": "prop",
+      "demos": [
+        "event.vue",
+        "overlay-style.vue",
+        "popup-position.vue"
+      ]
+    }
+  ],
+  "slotNames": [],
+  "slotDefaults": {},
+  "methodNames": []
+}

@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
-const presentation = ref<'menu' | 'list' | 'picker'>('menu')
+const presentation = ref<'inline' | 'popup'>('inline')
 const value = ref([2])
 const options = ref<{ id: number; name: string; disabled?: boolean }[]>([])
 const loading = ref(false)
+const notice = ref('')
 async function load() {
   loading.value = true
   try {
@@ -22,14 +23,10 @@ async function load() {
 </script>
 <template>
   <mp-space direction="column" :size="16">
-    <label
-      >Presentation
-      <select v-model="presentation">
-        <option>menu</option>
-        <option>list</option>
-        <option>picker</option>
-      </select>
-    </label>
+    <mp-radio-group v-model="presentation" aria-label="Presentation">
+      <mp-radio value="inline">inline</mp-radio>
+      <mp-radio value="popup">popup</mp-radio>
+    </mp-radio-group>
     <mp-button @click="load">Load devices</mp-button>
     <mp-select
       v-model="value"
@@ -43,7 +40,17 @@ async function load() {
       filterable
       clearable
       placeholder="Choose up to three devices"
+      @exceed-limit="notice = 'Choose at most three devices. Remove one before adding another.'"
+      @change="notice = ''"
     />
+    <p role="note">
+      {{
+        presentation === 'popup'
+          ? 'Check devices, then Confirm to save. Cancel discards the draft.'
+          : 'Menu selections save immediately. Device 4 is disabled.'
+      }}
+    </p>
+    <p role="status" aria-live="polite">{{ notice || `Selected: ${value.length} / 3` }}</p>
     <p>Committed IDs: {{ value }}. IDs display before loading; labels resolve automatically afterwards.</p>
   </mp-space>
 </template>

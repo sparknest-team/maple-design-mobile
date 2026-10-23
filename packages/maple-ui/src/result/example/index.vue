@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
+import DemoApiReview from './demos/api-review.vue'
 import BasicUsageDemo from './demos/basic-usage.vue'
 import TypeDemo from './demos/type.vue'
 
@@ -20,7 +21,8 @@ onThemeChange()
   </section>
 
   <section data-demo="type">
-    <app-type>{{ english ? 'Type' : '类型' }}</app-type>
+    <app-type>{{ english ? 'Status' : '状态' }}</app-type>
     <TypeDemo />
   </section>
+  <section data-demo="api-review"><DemoApiReview /></section>
 </template>

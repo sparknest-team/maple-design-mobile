@@ -1,0 +1,101 @@
+{
+  "fields": [
+    {
+      "name": "model-value",
+      "description": "受控值",
+      "type": "RadioModel",
+      "defaultValue": "undefined",
+      "kind": "scenario"
+    },
+    {
+      "name": "default-value",
+      "description": "非受控初始值",
+      "type": "RadioModel",
+      "defaultValue": "null",
+      "kind": "scenario"
+    },
+    {
+      "name": "disabled",
+      "description": "禁用，未设置时继承表单",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
+      "name": "readonly",
+      "description": "只读，未设置时继承表单",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
+      "name": "error",
+      "description": "错误态，未设置时继承表单",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
+      "name": "variant",
+      "description": "分组外观",
+      "type": "radio | button",
+      "defaultValue": "radio",
+      "kind": "enum",
+      "options": [
+        "radio",
+        "button"
+      ],
+      "initial": "radio"
+    },
+    {
+      "name": "size",
+      "description": "仅调整按钮高度",
+      "type": "ComponentSize",
+      "defaultValue": "undefined",
+      "kind": "enum",
+      "options": [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl"
+      ],
+      "initial": "xs"
+    },
+    {
+      "name": "direction",
+      "description": "布局方向，可选值为 horizontal vertical",
+      "type": "string",
+      "defaultValue": "horizontal",
+      "kind": "string"
+    },
+    {
+      "name": "options",
+      "description": "选项；传入时替代默认插槽",
+      "type": "Array<ChoiceValue | RadioOption | Record<string, unknown>>",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "field-names",
+      "description": "选项字段映射",
+      "type": "ChoiceFieldNames",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    }
+  ],
+  "methodNames": [],
+  "events": [
+    "update:modelValue",
+    "change"
+  ],
+  "slotNames": [
+    "label"
+  ],
+  "slotDefaults": {
+    "label": false
+  },
+  "scenarios": []
+}

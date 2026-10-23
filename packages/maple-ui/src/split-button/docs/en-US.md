@@ -4,7 +4,9 @@ Demo text follows the site language selector. Middle cards and the right-hand mo
 
 Disabled segments reuse Button disabled colors and suppress interaction feedback. Disabling the entire group also removes its elevation; disabling only the menu button blocks menu opening and closes an uncontrolled open menu.
 
-Both segments inherit the same variant, status and custom colors. The arrow uses the icon slot without enabling the separate icon-container palette.
+Both segments inherit the same variant, status and custom colors. The arrow uses the icon slot; its layout does not change the shared palette.
+
+## Examples
 
 ### Introduction
 
@@ -17,7 +19,7 @@ Examples use `Message.info(...)`, supported on both platforms. Selection closes 
 The main button publishes; the arrow opens related actions. Options have stable values and include a disabled action.
 
 ```demo
-../example/demos/basic-usage.vue
+../example/basic.vue
 ```
 
 ### Variants
@@ -25,15 +27,7 @@ The main button publishes; the arrow opens related actions. Options have stable 
 Compare default, outline, tonal and text variants.
 
 ```demo
-../example/demos/variants.vue
-```
-
-### Five sizes
-
-All five sizes are supported: xs, sm, md (default), lg and xl. Examples wrap on narrow screens.
-
-```demo
-../example/demos/sizes.vue
+../example/variants.vue
 ```
 
 ### Disabled states
@@ -41,15 +35,15 @@ All five sizes are supported: xs, sm, md (default), lg and xl. Examples wrap on 
 Compare disabling the whole group, only the main button and only the menu button. Overall disabled cannot be overridden by disabled: false on either child.
 
 ```demo
-../example/demos/disabled.vue
+../example/disabled.vue
 ```
 
-### Async action
+### Five sizes
 
-Return a Promise directly from @click. Auto-loading waits and prevents repeated clicks; the counter shows completed operations.
+All five sizes are supported: xs, sm, md (default), lg and xl. Examples wrap on narrow screens.
 
 ```demo
-../example/demos/async-action.vue
+../example/sizes.vue
 ```
 
 ### Custom icon
@@ -57,7 +51,7 @@ Return a Promise directly from @click. Auto-loading waits and prevents repeated 
 Rotate the same arrow icon on both platforms using the open slot parameter.
 
 ```demo
-../example/demos/custom-icon.vue
+../example/custom-icon.vue
 ```
 
 ### Controlled menu
@@ -67,7 +61,7 @@ Use `@click.stop` on external controls so the opening click is not also treated 
 Use v-model:open to synchronize external controls, the trigger and selection-driven closing.
 
 ```demo
-../example/demos/controlled.vue
+../example/controlled.vue
 ```
 
 ### Popup and repeated selection
@@ -75,8 +69,33 @@ Use v-model:open to synchronize external controls, the trigger and selection-dri
 Use bottom-start, an 8px vertical offset and a 160px maximum height. With hide-on-select=false, repeated selections keep the menu open and display the latest value.
 
 ```demo
-../example/demos/popup.vue
+../example/popup.vue
 ```
+
+### Appearance combinations
+
+Use this example for a primary action and secondary menu. Adjust status, size and compare the component with the same data. Keep the content unchanged while comparing the available settings.
+
+```demo
+../example/demos/appearance-lab.vue
+```
+
+### Async action
+
+Return a Promise directly from @click. Auto-loading waits and prevents repeated clicks; the counter shows completed operations.
+
+```demo
+../example/async-action.vue
+```
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

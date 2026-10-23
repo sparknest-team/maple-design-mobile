@@ -28,9 +28,7 @@ function search(next: SearchResult) {
 </script>
 <template>
   <div class="search-demo">
-    <label
-      ><input v-model="accepted" type="checkbox" />Accept updates (uncheck to demonstrate controlled rejection)</label
-    >
+    <mp-checkbox v-model="accepted">Accept updates (uncheck to demonstrate controlled rejection)</mp-checkbox>
     <mp-search
       :model="model"
       :model-field="field"

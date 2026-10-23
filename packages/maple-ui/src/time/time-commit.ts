@@ -22,10 +22,10 @@ export function getTimeCommitValue(
     if (!value.every((part) => isFormattedTimeAllowed(part, rules))) {
       return undefined
     }
-    const ordered = rules.showNextDay
-      ? value
-      : [...value].sort((a, b) => toClockValue(a, rules)!.localeCompare(toClockValue(b, rules)!))
-    return ordered.map((part) => formatTimeValue(part, rules)!)
+    if (!rules.showNextDay && toClockValue(value[0], rules)! > toClockValue(value[1], rules)!) {
+      return undefined
+    }
+    return value.map((part) => formatTimeValue(part, rules)!)
   }
   return !Array.isArray(value) && isFormattedTimeAllowed(value, rules) ? formatTimeValue(value, rules) : undefined
 }

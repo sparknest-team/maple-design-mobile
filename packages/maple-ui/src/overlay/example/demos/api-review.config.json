@@ -1,0 +1,80 @@
+{
+  "fields": [
+    {
+      "name": "open",
+      "description": "是否显示背景层",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
+      "name": "default-open",
+      "description": "非受控模式下是否默认显示",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "overlay-closable",
+      "description": "点击背景区域是否关闭",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "lock-scroll",
+      "description": "是否禁止滚动穿透，禁止时滚动背景层不会引发 body 的滚动",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "unmount-on-close",
+      "description": "关闭后是否卸载插槽内容",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "popup-container",
+      "description": "Teleport 挂载位置；false 表示原地渲染",
+      "type": "string | HTMLElement | false",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "\"body\""
+    },
+    {
+      "name": "esc-to-close",
+      "description": "是否支持键盘 ESC 关闭背景层",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "z-index",
+      "description": "自定义层级",
+      "type": "number",
+      "defaultValue": "undefined",
+      "kind": "number"
+    }
+  ],
+  "events": [
+    "update:open",
+    "click",
+    "key-escape",
+    "open",
+    "opened",
+    "close",
+    "closed"
+  ],
+  "scenarios": [
+    {
+      "name": "default",
+      "kind": "slot",
+      "demos": []
+    }
+  ],
+  "slotNames": [],
+  "slotDefaults": {},
+  "methodNames": []
+}

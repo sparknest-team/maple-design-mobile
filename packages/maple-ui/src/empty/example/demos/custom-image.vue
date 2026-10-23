@@ -8,6 +8,6 @@
       </template>
       No data, please reload!!
     </mp-empty>
-    <mp-empty image-url="cat.jpg" alt="空状态图片" description="自定义图片和文案" />
+    <mp-empty image-url="/cat.jpg" alt="空状态图片" description="自定义图片和文案" />
   </mp-space>
 </template>

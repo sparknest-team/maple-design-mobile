@@ -17,7 +17,7 @@ const files = ref([
   <div>
     <mp-upload v-model="files"
       ><template #item="{ file, remove }"
-        ><span>{{ file.name }}</span> <button type="button" @click="remove">Remove</button></template
+        ><span>{{ file.name }}</span> <mp-button html-type="button" @click="remove">Remove</mp-button></template
       ></mp-upload
     >
   </div>

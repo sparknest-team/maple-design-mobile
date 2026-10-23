@@ -2,8 +2,10 @@
 import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
 import Demo2 from './demos/alignment.vue'
+import DemoApiReview from './demos/api-review.vue'
 import Demo0 from './demos/basic.vue'
 import Demo1 from './demos/gutter.vue'
+import OrganizedLayoutLab from './demos/layout-lab.vue'
 import Demo4 from './demos/nested.vue'
 import Demo3 from './demos/wrap.vue'
 
@@ -46,4 +48,9 @@ onThemeChange()
     <app-type>{{ english ? 'Nested rows and isolated gutters' : '嵌套与间距隔离' }}</app-type
     ><Demo4 />
   </section>
+  <section data-demo="layout-lab">
+    <app-type>{{ english ? 'Layout and alignment' : '布局与对齐' }}</app-type>
+    <OrganizedLayoutLab />
+  </section>
+  <section data-demo="api-review"><DemoApiReview /></section>
 </template>

@@ -38,7 +38,7 @@ const options = computed(() => [
       v-model="listMultipleValue"
       path-mode
       placeholder="List 多选"
-      presentation="list"
+      presentation="popup"
       :options="options"
       multiple
       show-tags

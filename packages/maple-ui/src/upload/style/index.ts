@@ -1,3 +1,4 @@
+import '../../_components/field-presentation/style'
 import '../../style/index.less'
 import '../../image/style'
 import '../../ripple/style'

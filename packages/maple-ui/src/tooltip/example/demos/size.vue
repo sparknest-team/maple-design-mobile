@@ -1,5 +1,5 @@
 <template>
-  <mp-space>
+  <mp-space wrap>
     <mp-tooltip content="Compact tooltip" size="xs">
       <mp-button size="sm">xs</mp-button>
     </mp-tooltip>

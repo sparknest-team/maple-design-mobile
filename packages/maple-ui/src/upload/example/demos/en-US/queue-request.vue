@@ -8,10 +8,13 @@ const failOnce = ref(false)
 const activeRequests = ref(0)
 const timers = new Set<ReturnType<typeof setInterval>>()
 const attempts = new Map<string, number>()
+const exampleUrls = new Set<string>()
 let sequence = 0
 
 function addExample() {
   const file = new File(['Local upload demo; no network.'], `example-${++sequence}.txt`, { type: 'text/plain' })
+  const url = URL.createObjectURL(file)
+  exampleUrls.add(url)
   files.value = [
     ...files.value,
     {
@@ -20,6 +23,7 @@ function addExample() {
       size: file.size,
       type: file.type,
       file,
+      url,
       status: 'ready',
       percent: 0,
     },
@@ -59,7 +63,11 @@ function cleanup() {
   timers.clear()
   activeRequests.value = 0
 }
-onBeforeUnmount(cleanup)
+onBeforeUnmount(() => {
+  cleanup()
+  exampleUrls.forEach((url) => URL.revokeObjectURL(url))
+  exampleUrls.clear()
+})
 onDeactivated(cleanup)
 </script>
 
@@ -67,7 +75,7 @@ onDeactivated(cleanup)
   <div>
     <p>Local request simulation with cancel, retry and manual submit; no network.</p>
     <mp-checkbox v-model="failOnce">Fail first attempt (retry succeeds)</mp-checkbox>
-    <mp-space>
+    <mp-space wrap>
       <mp-button @click="addExample">Add example file</mp-button>
       <mp-button @click="uploader?.submit()">Submit queue</mp-button>
     </mp-space>

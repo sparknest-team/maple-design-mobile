@@ -8,7 +8,7 @@ const narrow = ref(false)
 <template>
   <mp-space direction="column" :size="12" style="width: 100%">
     <p>包含边界：10:30:38–10:31:02。收紧边界不会改写已有模型，但越界值无法确认。</p>
-    <label><input v-model="narrow" type="checkbox" /> 将下限调整为 10:30:40</label>
+    <mp-checkbox v-model="narrow">将下限调整为 10:30:40</mp-checkbox>
     <mp-time-range
       v-model="value"
       input-editable

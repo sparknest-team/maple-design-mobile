@@ -1,21 +1,11 @@
-<script setup></script>
-
 <template>
-  <mp-divider type="dashed">
-    <m-icon-heart style="margin: 0 16px; color: var(--mp-color-danger)" />
+  <mp-divider type="dashed" description="默认插槽优先 / Slot takes priority">
+    <span class="divider-label">★ 自定义内容 / Custom content</span>
   </mp-divider>
 </template>
 
-<style lang="less" scoped>
-.divider-example-vertical-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #333;
-
-  span {
-    font-size: 14px;
-    color: #888;
-  }
+<style scoped>
+.divider-label {
+  padding-inline: 8px;
 }
 </style>

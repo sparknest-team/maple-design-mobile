@@ -1,6 +1,6 @@
 # Button
 
-Disabled styles follow Arco: colored solid fills use a lighter status background; text and outline remain transparent with muted status text; tonal keeps its light background. Neutral buttons use disabled neutral colors. Custom color/text-color is suspended while disabled; hover/active feedback and elevation are suppressed.
+Disabled colors depend on the variant: colored solid fills use a lighter status background; text and outline remain transparent with muted status text; tonal keeps its light background. Neutral buttons use disabled neutral colors. Custom color/text-color is suspended while disabled; hover/active feedback and elevation are suppressed.
 
 Both libraries use the same implementation and examples; package prefixes, themes and registration stay local.
 
@@ -12,15 +12,17 @@ Both libraries use the same implementation and examples; package prefixes, theme
 ../example/demos/basic.vue
 ```
 
-### Four variants
+### Variants, statuses and sizes
 
-The `default` variant uses white text for primary, info, success, warning, danger and secondary solid fills.
+Choose a variant and size to compare eight semantic colors. Filled buttons suit primary actions; text and outline suit secondary actions. This example has three appearance dimensions.
 
 ```demo
 ../example/demos/variants.vue
 ```
 
 ### Five sizes
+
+Horizontal buttons and inputs of the same size share the default height and font size within each platform. Cedar heights are 24/28/32/36/44px; Maple heights are 32/40/48/56/64px. Horizontal button padding is 8/12/16/20/24px per side, with a 6px icon-label gap. Stacked buttons keep their separate content-based height. Component-level overrides remain independent.
 
 ```demo
 ../example/demos/size.vue
@@ -32,10 +34,18 @@ The `default` variant uses white text for primary, info, success, warning, dange
 ../example/demos/disabled.vue
 ```
 
-### Loading layouts and animations
+### Loading animations, layouts and sizes
+
+Choose a loading layout and indicator size to compare five animations. Click a select arrow to open its menu, then choose an option to close it. Loading buttons keep their label and prevent repeated actions.
 
 ```demo
 ../example/demos/loading.vue
+```
+
+### Loading indicator appearance
+
+```demo
+../example/demos/loading-appearance.vue
 ```
 
 ### Sync, async and rejection recovery
@@ -50,28 +60,34 @@ The `default` variant uses white text for primary, info, success, warning, dange
 ../example/demos/block.vue
 ```
 
-### Colors, ripple and elevation
+### Custom colors
 
 ```demo
 ../example/demos/custom-color.vue
 ```
 
-### Icon slots and round buttons
-
-```demo
-../example/demos/round.vue
-```
-
-### Stacked icon and text
-
-```demo
-../example/demos/stacked.vue
-```
-
 ### Group inheritance and overrides
+
+Change the group size and disabled state. Children inherit group settings and can explicitly override color or disabled state.
 
 ```demo
 ../example/demos/button-group.vue
+```
+
+### Group layouts
+
+Compare variants and sizes in horizontal and vertical groups: three related appearance dimensions.
+
+```demo
+../example/demos/button-group-layout.vue
+```
+
+### Group icons and loading
+
+Compare stacked labels and group direction, then load the first button while the other action remains available. Vertical groups align horizontal icon/text content at the start so different label lengths keep icons aligned.
+
+```demo
+../example/demos/button-group-content.vue
 ```
 
 ### Native form, focus and touch events
@@ -79,6 +95,39 @@ The `default` variant uses white text for primary, info, success, warning, dange
 ```demo
 ../example/demos/native-events.vue
 ```
+
+### Ripple and elevation feedback
+
+Click to observe ripple feedback and adjust elevation to compare depth. Disabling the ripple does not disable clicks.
+
+```demo
+../example/demos/feedback.vue
+```
+
+### Icons and label layouts
+
+Use built-in icons to compare icon-only, inline and stacked labels across four variants and five sizes. Stacked buttons grow with content and keep at least 8px of top and bottom padding. Omit the default slot for icon-only buttons; round controls shape and stacked controls label layout.
+
+```demo
+../example/demos/icons.vue
+```
+
+### Form control size comparison
+
+Compare Input, Button, Select, date/time fields and other single-line controls at the same size. Field variants share the height scale; Button uses outline here. DatePicker/TimePicker are panels; this example uses Date/Time fields. The example includes selected and clearable values, removable tags and long multiple selections. Select/Cascader keep the same size height with tag-nowrap. Long tag text uses ellipsis while removal icons remain available; tags scroll horizontally while clear and arrow controls stay outside the scrolling area. Hover, focus or tap truncated tag text to read its full content; dismiss with an outside click or Escape without changing the selected value. Restore values after clearing to repeat the comparison. Multiline text and wrapping multiple selections can grow with content.
+
+```demo
+../../field-decorator/example/demos/control-sizes.vue
+```
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 
@@ -95,13 +144,11 @@ The `default` variant uses white text for primary, info, success, warning, dange
 | round | Round button | `boolean` | `false` |
 | block | Full available width | `boolean` | `false` |
 | loading | Loading; blocks activation and navigation | `boolean` | `false` |
-| loading-type | Spinner animation; same as Loading.type | `circle / wave / cube / rect / disappear` | `circle` |
-| loading-mode | Inline, covering, or bottom progress line | `default / fill / line` | `default` |
-| loading-size | Spinner size; inherits button size, or xs when replacing an inline icon | `ComponentSize / number` | `undefined` |
+| loading-type | Spinner animation; same as Loading.type; not used in line mode | `circle / wave / cube / rect / disappear` | `circle` |
+| loading-mode | Inline, covering, or bottom progress line; line only uses loading-color | `default / fill / line` | `default` |
+| loading-size | Indicator size; xs/sm/md/lg/xl map to 12/14/16/18/20px; numbers are px; follows button size when omitted; not used in line mode | `ComponentSize / number` | `undefined` |
 | loading-color | Loading indicator color | `string` | `currentColor` |
-| loading-radius | Circle spinner radius | `string / number` | `undefined` |
 | auto-loading | Wait for click/touchstart Promise results; sync callbacks do not flash loading | `boolean` | `false` |
-| icon-container | Icon container appearance | `boolean` | `false` |
 | disabled | Disabled; inherits group, explicit false overrides | `boolean` | `undefined` |
 | ripple | Click ripple | `boolean` | `true` |
 | focusable | Allow sequential Tab focus; does not prevent programmatic focus | `boolean` | `true` |
@@ -136,113 +183,74 @@ No custom public methods.
 
 Props: size=md, status=default, variant=default, color/text-color=undefined, disabled/stacked/vertical=false, elevation=true. Uses the default slot and exposes buttonGroupProvider (reactive group configuration). No custom events.
 
-## Migration
-
-Cedar loading-type=default/fill/line becomes loading-mode=default/fill/line; loading-type now selects spinner animation. Maple uses loading-mode=fill to retain the previous covering layout. Both default ripple and focusable to true. CSS tokens now use the shared Button token names (with --c-/--mp- prefixes); see style/token.less.
-
 ## Types
 
 ButtonProps、ButtonVariant、ButtonLoadingMode、ButtonHandler、ButtonInstance、ButtonGroupProps、ButtonGroupInstance。
 
-## CSS variable responsibilities and full defaults
+## CSS variable roles and defaults
 
-status-color is the solid background; status-text-color is its contrasting foreground. Historical status-icon-color supplies readable text/icon colors for text/outline/tonal and default icon-container; status-icon-container-color supplies soft surfaces. Override these pairs together. Disabled colors win over color/text-color Props; loading inherits currentColor unless loading-color is explicit. Focus uses an independent content-brand ring.
+Button exposes 58 appearance tokens. `{status}-color` controls the solid background, `{status}-foreground-color` controls text/outline/tonal foreground, and `{status}-tonal-color` controls soft backgrounds. `solid-text-color` and `solid-state-layer-color` are shared by semantic statuses; default/tertiary foregrounds and primary/tertiary state layers retain theme-specific roles.
 
-state-opacity-hover/active (0.08/0.12) apply to solid/tonal/icon-container; plain-state-opacity-hover/active (0.5/1) apply to text/outline soft surfaces. status-state-layer-color controls solid feedback; state-layer-color controls tonal/icon-container feedback. Active wins hover, blocked states suppress both, and layers stay behind content. internal-button-state-* variables are private and unsupported for customization. Custom backgrounds, ripple animation and disabled contrast are not covered by default contrast checks.
+Size names use xs/sm/md/lg/xl. Typography, transition duration, focus width/offset and stacked height increments inherit system tokens; group and stacked corners reuse border-radius. The four state opacity tokens keep hover/active distinct. Loading duration applies to the bottom progress line; spinner animation is owned by Loading. Internal variables and fixed animation geometry are implementation details.
 
-The table lists root defaults, not theme overrides. Dark tertiary changes text to on-bright and its state layer to on-dark; Maple light primary changes text to on-dark and its state layer to on-bright. Sizes and loading motion retain their existing component-specific values.
 
-| Variable | Root default |
+| Variable | Default |
 | --- | --- |
-| `--mp-button-default-text-color` | `var(--mp-sys-color-content-primary)` |
-| `--mp-button-primary-text-color` | `var(--mp-sys-color-content-on-dark)` |
-| `--mp-button-danger-text-color` | `var(--mp-sys-color-content-on-bright)` |
-| `--mp-button-success-text-color` | `var(--mp-sys-color-content-on-bright)` |
-| `--mp-button-warning-text-color` | `var(--mp-sys-color-content-on-bright)` |
-| `--mp-button-info-text-color` | `var(--mp-sys-color-content-on-bright)` |
-| `--mp-button-default-color` | `var(--mp-sys-color-surface-default)` |
-| `--mp-button-primary-color` | `var(--mp-sys-color-action-primary)` |
-| `--mp-button-danger-color` | `var(--mp-sys-color-status-danger)` |
-| `--mp-button-success-color` | `var(--mp-sys-color-status-success)` |
-| `--mp-button-warning-color` | `var(--mp-sys-color-status-warning)` |
-| `--mp-button-info-color` | `var(--mp-sys-color-status-info)` |
-| `--mp-button-secondary-color` | `rgb(var(--mp-gray-6))` |
-| `--mp-button-secondary-text-color` | `var(--mp-sys-color-content-on-bright)` |
-| `--mp-button-tertiary-color` | `rgb(var(--mp-gray-7))` |
-| `--mp-button-tertiary-text-color` | `var(--mp-sys-color-content-on-dark)` |
-| `--mp-button-default-icon-color` | `var(--mp-sys-color-content-primary)` |
-| `--mp-button-primary-icon-color` | `var(--mp-sys-color-content-brand)` |
-| `--mp-button-danger-icon-color` | `var(--mp-sys-color-content-danger)` |
-| `--mp-button-success-icon-color` | `var(--mp-sys-color-content-success)` |
-| `--mp-button-warning-icon-color` | `var(--mp-sys-color-content-warning)` |
-| `--mp-button-info-icon-color` | `var(--mp-sys-color-content-info)` |
-| `--mp-button-default-icon-container-color` | `var(--mp-sys-color-surface-muted)` |
-| `--mp-button-primary-icon-container-color` | `rgb(var(--mp-primary-1))` |
-| `--mp-button-danger-icon-container-color` | `rgb(var(--mp-danger-1))` |
-| `--mp-button-success-icon-container-color` | `rgb(var(--mp-success-1))` |
-| `--mp-button-warning-icon-container-color` | `rgb(var(--mp-warning-1))` |
-| `--mp-button-info-icon-container-color` | `rgb(var(--mp-blue-1))` |
-| `--mp-button-disabled-color` | `var(--mp-color-disabled)` |
-| `--mp-button-disabled-text-color` | `var(--mp-sys-color-content-disabled)` |
 | `--mp-button-border-radius` | `var(--mp-sys-radius-md)` |
-| `--mp-button-mini-padding` | `0 var(--mp-sys-space-4)` |
-| `--mp-button-small-padding` | `0 var(--mp-sys-space-5)` |
-| `--mp-button-normal-padding` | `0 var(--mp-sys-space-6)` |
-| `--mp-button-large-padding` | `0 22px` |
-| `--mp-button-xl-padding` | `0 28px` |
-| `--mp-button-round-padding` | `var(--mp-sys-space-3)` |
-| `--mp-button-mini-height` | `20px` |
-| `--mp-button-small-height` | `28px` |
-| `--mp-button-normal-height` | `36px` |
-| `--mp-button-large-height` | `44px` |
-| `--mp-button-xl-height` | `52px` |
-| `--mp-button-mini-font-size` | `var(--mp-font-size-xs)` |
-| `--mp-button-small-font-size` | `var(--mp-sys-font-size-xs)` |
-| `--mp-button-normal-font-size` | `var(--mp-sys-font-size-md)` |
-| `--mp-button-large-font-size` | `var(--mp-sys-font-size-lg)` |
-| `--mp-button-xl-font-size` | `var(--mp-sys-font-size-xl)` |
 | `--mp-button-content-gap` | `var(--mp-sys-space-3)` |
-| `--mp-button-line-height` | `1.2` |
-| `--mp-button-stacked-height` | `48px` |
-| `--mp-button-focus-width` | `2px` |
+| `--mp-button-danger-color` | `var(--mp-sys-color-status-danger)` |
+| `--mp-button-danger-disabled-color` | `rgb(var(--mp-danger-3))` |
+| `--mp-button-danger-foreground-color` | `var(--mp-sys-color-content-danger)` |
+| `--mp-button-danger-tonal-color` | `rgb(var(--mp-danger-1))` |
+| `--mp-button-default-color` | `var(--mp-sys-color-surface-default)` |
+| `--mp-button-default-foreground-color` | `var(--mp-sys-color-content-primary)` |
+| `--mp-button-default-tonal-color` | `var(--mp-sys-color-surface-muted)` |
+| `--mp-button-disabled-color` | `var(--mp-color-fill-2)` |
+| `--mp-button-disabled-solid-text-color` | `var(--mp-sys-color-content-on-dark)` |
+| `--mp-button-disabled-text-color` | `var(--mp-sys-color-content-disabled)` |
 | `--mp-button-focus-color` | `var(--mp-sys-color-content-brand)` |
-| `--mp-button-focus-offset` | `2px` |
-| `--mp-button-icon-container-padding` | `var(--mp-sys-space-3)` |
-| `--mp-button-loading-line-height` | `3px` |
-| `--mp-button-loading-line-width` | `40%` |
+| `--mp-button-info-color` | `var(--mp-sys-color-status-info)` |
+| `--mp-button-info-disabled-color` | `rgb(var(--mp-blue-3))` |
+| `--mp-button-info-foreground-color` | `var(--mp-sys-color-content-info)` |
+| `--mp-button-info-tonal-color` | `rgb(var(--mp-blue-1))` |
+| `--mp-button-lg-height` | `56px` |
+| `--mp-button-lg-padding` | `0 var(--mp-sys-space-7)` |
 | `--mp-button-loading-duration` | `1s` |
-| `--mp-button-loading-static-opacity` | `0.5` |
-| `--mp-button-secondary-icon-color` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-button-secondary-icon-container-color` | `rgb(var(--mp-gray-2))` |
-| `--mp-button-tertiary-icon-color` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-button-tertiary-icon-container-color` | `rgb(var(--mp-gray-1))` |
-| `--mp-button-mini-stacked-height` | `36px` |
-| `--mp-button-small-stacked-height` | `44px` |
-| `--mp-button-normal-stacked-height` | `var(--mp-button-stacked-height)` |
-| `--mp-button-large-stacked-height` | `56px` |
-| `--mp-button-xl-stacked-height` | `64px` |
-| `--mp-button-stacked-gap` | `var(--mp-sys-space-2)` |
-| `--mp-button-stacked-padding` | `var(--mp-sys-space-2)` |
-| `--mp-button-stacked-border-radius` | `var(--mp-sys-radius-md)` |
-| `--mp-button-group-border-radius` | `var(--mp-sys-radius-md)` |
-| `--mp-button-default-state-layer-color` | `var(--mp-sys-color-content-primary)` |
-| `--mp-button-primary-state-layer-color` | `var(--mp-sys-color-content-on-dark)` |
-| `--mp-button-info-state-layer-color` | `var(--mp-sys-color-content-on-dark)` |
-| `--mp-button-success-state-layer-color` | `var(--mp-sys-color-content-on-dark)` |
-| `--mp-button-warning-state-layer-color` | `var(--mp-sys-color-content-on-dark)` |
-| `--mp-button-danger-state-layer-color` | `var(--mp-sys-color-content-on-dark)` |
-| `--mp-button-secondary-state-layer-color` | `var(--mp-sys-color-content-on-dark)` |
-| `--mp-button-tertiary-state-layer-color` | `var(--mp-sys-color-content-on-bright)` |
-| `--mp-button-state-layer-color` | `var(--mp-sys-color-surface-page)` |
-| `--mp-button-state-opacity-hover` | `0.08` |
-| `--mp-button-state-opacity-active` | `0.12` |
-| `--mp-button-plain-state-opacity-hover` | `0.5` |
+| `--mp-button-loading-line-height` | `3px` |
+| `--mp-button-md-height` | `48px` |
+| `--mp-button-md-padding` | `0 var(--mp-sys-space-6)` |
 | `--mp-button-plain-state-opacity-active` | `1` |
-
-### Motion variables
-
-Built-in effects respect `prefers-reduced-motion: reduce`; loading and closing still update state immediately.
-
-| Token | Default |
-| --- | --- |
-| `--mp-button-transition-duration` | `var(--mp-sys-motion-duration-standard)` |
+| `--mp-button-plain-state-opacity-hover` | `0.5` |
+| `--mp-button-primary-color` | `var(--mp-sys-color-action-primary)` |
+| `--mp-button-primary-disabled-color` | `rgb(var(--mp-primary-3))` |
+| `--mp-button-primary-foreground-color` | `var(--mp-sys-color-content-brand)` |
+| `--mp-button-primary-state-layer-color` | `var(--mp-button-solid-state-layer-color)` |
+| `--mp-button-primary-tonal-color` | `rgb(var(--mp-primary-1))` |
+| `--mp-button-secondary-color` | `rgb(var(--mp-gray-6))` |
+| `--mp-button-secondary-foreground-color` | `var(--mp-sys-color-content-secondary)` |
+| `--mp-button-secondary-tonal-color` | `rgb(var(--mp-gray-2))` |
+| `--mp-button-sm-height` | `40px` |
+| `--mp-button-sm-padding` | `0 var(--mp-sys-space-5)` |
+| `--mp-button-solid-state-layer-color` | `var(--mp-sys-color-content-on-dark)` |
+| `--mp-button-solid-text-color` | `var(--mp-sys-color-content-on-dark)` |
+| `--mp-button-stacked-gap` | `var(--mp-sys-space-2)` |
+| `--mp-button-state-layer-color` | `var(--mp-sys-color-surface-page)` |
+| `--mp-button-state-opacity-active` | `0.12` |
+| `--mp-button-state-opacity-hover` | `0.08` |
+| `--mp-button-success-color` | `var(--mp-sys-color-status-success)` |
+| `--mp-button-success-disabled-color` | `rgb(var(--mp-success-3))` |
+| `--mp-button-success-foreground-color` | `var(--mp-sys-color-content-success)` |
+| `--mp-button-success-tonal-color` | `rgb(var(--mp-success-1))` |
+| `--mp-button-tertiary-color` | `rgb(var(--mp-gray-7))` |
+| `--mp-button-tertiary-foreground-color` | `var(--mp-sys-color-content-secondary)` |
+| `--mp-button-tertiary-state-layer-color` | `var(--mp-sys-color-content-on-bright)` |
+| `--mp-button-tertiary-text-color` | `var(--mp-sys-color-content-on-dark)` |
+| `--mp-button-tertiary-tonal-color` | `rgb(var(--mp-gray-1))` |
+| `--mp-button-warning-color` | `var(--mp-sys-color-status-warning)` |
+| `--mp-button-warning-disabled-color` | `rgb(var(--mp-warning-3))` |
+| `--mp-button-warning-foreground-color` | `var(--mp-sys-color-content-warning)` |
+| `--mp-button-warning-tonal-color` | `rgb(var(--mp-warning-1))` |
+| `--mp-button-xl-height` | `64px` |
+| `--mp-button-xl-padding` | `0 var(--mp-sys-space-8)` |
+| `--mp-button-xs-height` | `32px` |
+| `--mp-button-xs-padding` | `0 var(--mp-sys-space-4)` |

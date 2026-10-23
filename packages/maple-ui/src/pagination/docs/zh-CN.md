@@ -10,6 +10,18 @@
 ../example/demos/basic.vue
 ```
 
+### 五档尺寸与阴影
+
+```demo
+../example/demos/size.vue
+```
+
+### 禁用与单页隐藏
+
+```demo
+../example/demos/disabled.vue
+```
+
 ### 更多页码与省略跳转
 
 ```demo
@@ -26,12 +38,6 @@
 
 ```demo
 ../example/demos/show-jumper.vue
-```
-
-### 五档尺寸与阴影
-
-```demo
-../example/demos/size.vue
 ```
 
 ### 简洁模式
@@ -58,12 +64,6 @@
 ../example/demos/custom-page-button.vue
 ```
 
-### 禁用与单页隐藏
-
-```demo
-../example/demos/disabled.vue
-```
-
 ### 数据变化与自动调整
 
 ```demo
@@ -75,6 +75,15 @@
 ```demo
 ../example/demos/responsive.vue
 ```
+
+<!-- api-review:start -->
+### 功能调试
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 
@@ -144,9 +153,11 @@
 
 `auto-adjust` 在条数改变时尽量保留原页面首条数据的位置，总数减少时限制到最后一页，零条数据时页码回到 1。受控模式只发出更新请求，显示由父组件决定；父组件同一批更新明确设置 current 时优先遵循该值。
 
+完整模式和简洁模式的“前往”输入框均显示当前页码。点击翻页、外部更新 current 或切换每页条数触发页码调整时同步回显；非法输入恢复为当前页码。
+
 ### PaginationPageSizeProps
 
-每页条数的弹出菜单按选项内容自适应宽度，与紧凑的 Select 触发框宽度独立。
+每页条数选择器按已选文字与下拉箭头自适应宽度，两者之间仅保留条目间距，切换选项或语言时自动更新。可通过 `--mp-pagination-select-width` 自定义宽度。弹出菜单仍按选项内容独立计算宽度。
 
 两端支持相同配置：`disabled?: boolean`、`placement?: 'top' | 'top-start' | 'top-end' | 'bottom' | 'bottom-start' | 'bottom-end'`、`popupContainer?: string | HTMLElement | false`、`class?: string`、`style?: CSSProperties`。外层 disabled 优先。默认 placement 为 bottom-start。
 

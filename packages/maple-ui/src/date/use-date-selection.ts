@@ -1,12 +1,13 @@
 import { computed, shallowRef, watch } from 'vue'
 import { cloneFieldValue } from '../_components/picker-field/use-field-value'
-import { isDateSelectionValid, type DateRules } from './date-rules'
+import { isDateDisabled, isDateSelectionValid, type DateRules } from './date-rules'
 import { sameDateSelection, type DateSelection } from './date-value'
 
 interface DateSelectionOptions {
   value: () => DateSelection
   rules: () => DateRules
   range: () => boolean
+  allowReversedDraft?: () => boolean
   multiple?: () => boolean
   blocked: () => boolean
   disabledParts?: () => boolean[]
@@ -32,10 +33,7 @@ export function useDateSelection(options: DateSelectionOptions) {
     },
     { deep: true, flush: 'sync' },
   )
-  function valid(value: DateSelection) {
-    if (!isDateSelectionValid(value, options.rules(), options.range(), options.multiple?.())) {
-      return false
-    }
+  function unlocked(value: DateSelection) {
     const previous = options.value()
     return (
       !options.range() ||
@@ -48,6 +46,27 @@ export function useDateSelection(options: DateSelectionOptions) {
               !Array.isArray(previous) ||
               !sameDateSelection(value[index], previous[index], options.rules())),
         )
+    )
+  }
+  function valid(value: DateSelection) {
+    return isDateSelectionValid(value, options.rules(), options.range(), options.multiple?.()) && unlocked(value)
+  }
+  function editable(value: DateSelection) {
+    if (valid(value)) {
+      return true
+    }
+    if (!options.range() || !Array.isArray(value) || !value.length || value.length > 2 || !unlocked(value)) {
+      return false
+    }
+    const present = value.filter((part) => part !== undefined && part !== '')
+    // Incomplete or reversed ranges are editing drafts; endpoint restrictions still apply.
+    return (
+      present.length > 0 &&
+      (present.length === 2 ? options.allowReversedDraft?.() === true : !options.disabledParts?.().some(Boolean)) &&
+      value.every(
+        (part, index) =>
+          part === undefined || part === '' || !isDateDisabled(part, options.rules(), index === 0 ? 'start' : 'end'),
+      )
     )
   }
   const canConfirm = computed(() => !options.blocked() && valid(draft.value))
@@ -64,13 +83,16 @@ export function useDateSelection(options: DateSelectionOptions) {
     return true
   }
   function select(value: DateSelection, immediate = false) {
-    if (options.blocked() || !valid(value)) {
+    if (options.blocked()) {
+      return false
+    }
+    if (!editable(value)) {
       return false
     }
     draft.value = cloneFieldValue(value)
     settled = false
     options.onSelect(cloneFieldValue(value))
-    return !immediate || commit(value)
+    return !immediate || !valid(value) || commit(value)
   }
   function clear() {
     if (options.blocked() || options.disabledParts?.().some(Boolean)) {
@@ -85,5 +107,5 @@ export function useDateSelection(options: DateSelectionOptions) {
     options.onConfirm?.()
     return true
   }
-  return { draft, canConfirm, valid, select, commit, clear, reset }
+  return { draft, canConfirm, valid, editable, select, commit, clear, reset }
 }

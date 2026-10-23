@@ -7,11 +7,10 @@ const drag = ref(false)
 <template>
   <mp-switch v-model="drag" />
   <span class="fab-demo-label">拖拽: {{ drag }}</span>
-  <p class="fab-demo-hint">拖拽模式：按钮位于屏幕角落，可用触摸拖动；关闭拖拽回到预览区。</p>
-  <div v-if="!drag" class="fab-demo-stage">
-    <mp-fab :fixed="false" :popup-container="false" />
+  <p class="fab-demo-hint">开启后可用触摸在预览区内拖动按钮；关闭后停止拖动。</p>
+  <div class="fab-demo-stage">
+    <mp-fab :drag="drag" :popup-container="false" />
   </div>
-  <mp-fab v-else drag position="right-bottom" />
 </template>
 
 <style scoped>
@@ -25,7 +24,7 @@ const drag = ref(false)
 }
 .fab-demo-stage {
   position: relative;
-  min-height: 120px;
+  min-height: 240px;
   overflow: hidden;
   border: 1px dashed var(--mp-color-border-2);
   border-radius: 8px;

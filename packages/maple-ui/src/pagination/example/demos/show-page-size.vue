@@ -11,7 +11,7 @@ const current = ref(5)
       v-model:page-size="pageSize"
       :total="200"
       show-page-size
-      :page-size-options="[10, 20, 50]"
+      :page-size-options="[10, 20, 50, 100]"
       :page-size-props="{ placement: 'bottom-start' }"
     />
     <span>Current: {{ current }} · Page size: {{ pageSize }}</span>

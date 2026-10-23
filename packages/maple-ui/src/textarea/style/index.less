@@ -27,7 +27,7 @@
     outline: none;
     background: transparent;
     color: inherit;
-    caret-color: var(--mp-field-custom-focus, var(--mp-field-focus-color));
+    caret-color: currentColor;
     font: inherit;
     font-size: var(--mp-textarea-font-size);
     line-height: var(--mp-textarea-line-height);
@@ -43,9 +43,6 @@
         color: var(--mp-field-control-text-color-disabled);
       }
     }
-  }
-  .mp-field-decorator--error &__inner {
-    caret-color: var(--mp-field-error-color);
   }
   &__mirror {
     position: absolute;

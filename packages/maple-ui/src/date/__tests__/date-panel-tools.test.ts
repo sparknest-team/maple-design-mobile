@@ -25,6 +25,24 @@ function setup(extra: DatePanelOptions = {}, range = false) {
 }
 
 describe('date panel tools', () => {
+  it('derives consecutive viewports from the start date, independently of selected endpoints', () => {
+    const onNavigate = vi.fn()
+    const tools = useDatePanelTools({
+      options: () => ({ valueFormat: 'YYYY-MM-DD' }),
+      range: () => true,
+      value: () => ['2026-12-19', '2026-12-22'],
+      blocked: () => false,
+      valid: () => true,
+      select: () => true,
+      onShortcut: vi.fn(),
+      onNavigate,
+    })
+    expect(tools.pickerValue.value).toEqual(['2026-12-19', '2027-01-19'])
+    tools.preview({ label: 'same month', value: ['2027-02-02', '2027-02-05'] })
+    expect(tools.displayValue.value).toEqual(['2027-02-02', '2027-02-05'])
+    expect(tools.pickerValue.value).toEqual(['2027-02-02', '2027-03-02'])
+    expect(onNavigate).not.toHaveBeenCalled()
+  })
   it('previews lazily without selecting and restores the draft', async () => {
     const { tools, select, onShortcut } = setup()
     const value = vi.fn(() => '2025-02-01')

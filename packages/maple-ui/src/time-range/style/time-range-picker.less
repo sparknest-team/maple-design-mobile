@@ -1,66 +1,54 @@
+@import '../../_components/picker-field/style/temporal-mixins.less';
 .mp-time-range-picker {
+  --mp-picker-background: var(--mp-time-range-picker-background);
   width: 100%;
   overflow: hidden;
   border-radius: var(--mp-time-range-picker-border-radius);
   background: var(--mp-time-range-picker-background);
 
-  // 保留时/分/秒切换按钮，仅隐藏提示文案（否则 clock 选秒后无法切回分钟）
-  .mp-time-picker__title-hint {
-    display: none;
+  &__wheel {
+    .temporal-paired-wheel();
+    .temporal-inset();
   }
+  &__column-labels {
+    .temporal-column-labels();
+    height: var(--mp-time-range-picker-column-label-height);
+    margin-inline: var(--mp-temporal-panel-inset);
 
-  .mp-time-picker__title {
-    min-height: auto;
-    padding: 8px 16px 12px;
+    &[data-temporal-split='1'] > :nth-child(1),
+    &[data-temporal-split='2'] > :nth-child(2),
+    &[data-temporal-split='3'] > :nth-child(3),
+    &[data-temporal-split='4'] > :nth-child(4) {
+      margin-inline-end: var(--mp-temporal-panel-group-gap);
+    }
   }
-
-  &__values {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    height: var(--mp-time-range-picker-values-height);
-    padding: 0 16px;
-    border-bottom: 1px solid var(--mp-color-border-2);
+  &__column-label {
+    .temporal-column-label();
   }
-
-  &__value {
-    border: 0;
-    padding: 0;
-    background: transparent;
-    font-family: inherit;
-    text-align: inherit;
-    display: inline-flex;
-    align-items: baseline;
-    gap: 6px;
-    font-size: var(--mp-time-range-picker-values-font-size);
-    font-weight: var(--mp-time-range-picker-values-font-weight);
-    color: var(--mp-time-range-picker-value-color);
-    cursor: pointer;
-    user-select: none;
-    transition: color 0.2s;
-  }
-
-  &__value--active {
-    color: var(--mp-time-range-picker-value-active-color);
-  }
-
   &__next-day {
+    margin: var(--mp-sys-space-2) var(--mp-temporal-panel-inset);
+    text-align: end;
     font-size: 12px;
     font-weight: 400;
     line-height: 1;
     color: var(--mp-time-range-picker-next-day-color);
   }
 
-  &__value-arrow[mp-time-range-picker-cover] {
-    flex-shrink: 0;
-    font-size: var(--mp-time-range-picker-value-arrow-size);
-    color: var(--mp-time-range-picker-value-arrow-color);
-  }
-
   &__actions {
     display: flex;
+    align-items: center;
+    gap: var(--mp-sys-space-2);
+    > .mp-button--variant-text {
+      margin-right: auto;
+    }
     justify-content: flex-end;
     padding: var(--mp-time-picker-actions-padding, 0 8px 12px);
+  }
+  &__order-error {
+    margin: 0;
+    padding: var(--mp-sys-space-2) var(--mp-temporal-panel-inset);
+    color: var(--mp-color-danger);
+    font-size: var(--mp-font-size-sm);
+    line-height: 1.5;
   }
 }

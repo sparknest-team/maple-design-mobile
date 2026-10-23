@@ -16,7 +16,7 @@ function recordAction(result: SearchResult) {
 </script>
 <template>
   <div class="search-demo">
-    <label><input v-model="popup" type="checkbox" />全屏搜索历史（关闭后使用菜单）</label>
+    <mp-checkbox v-model="popup">全屏搜索历史（关闭后使用菜单）</mp-checkbox>
     <mp-search
       v-model="keyword"
       :history-popup="popup"

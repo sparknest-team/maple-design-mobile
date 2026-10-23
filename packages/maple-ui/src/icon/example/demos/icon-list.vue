@@ -1,10 +1,9 @@
 <script setup>
-import { computed, onBeforeUnmount, onMounted, reactive, ref } from 'vue'
+import { computed, ref } from 'vue'
 import { iconNames as icons } from '@maplejs/icons-vue'
 import * as MapleIcons from '@maplejs/icons-vue'
 import { pascalCase } from '@maplejs/maple-shared'
 import { Message } from '@maplejs/maple-ui'
-import Clipboard from 'clipboard'
 
 const demoText = {
   basic: '基础用法',
@@ -29,11 +28,9 @@ const demoText = {
   groupGeneral: '通用',
 }
 
-const iconNames = reactive(icons)
-const iconListRef = ref(null)
 const searchText = ref('')
 const searchIcons = computed(() =>
-  searchText.value ? iconNames.filter((name) => name.includes(searchText.value)) : iconNames,
+  searchText.value ? icons.filter((name) => name.includes(searchText.value.trim().toLowerCase())) : icons,
 )
 const groupRules = [
   [
@@ -70,32 +67,25 @@ function resolveIcon(name) {
   return MapleIcons[`Icon${pascalCase(name)}`]
 }
 
-let clipboard
-onMounted(() => {
-  const triggers = iconListRef.value?.querySelectorAll('.icon-example__icon') ?? []
-  clipboard = new Clipboard(triggers, {
-    text: (trigger) => {
-      const iconName = trigger.getAttribute('data-clipboard-text') ?? ''
-      return `<m-icon-${iconName} />`
-    },
-  })
-
-  clipboard.on('success', (e) => {
-    Message.success(`${'复制成功：'} ${e.text}!`)
-  })
-})
-
-onBeforeUnmount(() => clipboard?.destroy())
+async function copyIcon(name) {
+  const markup = `<m-icon-${name} />`
+  try {
+    await navigator.clipboard.writeText(markup)
+    Message.success(`已复制 ${markup}`)
+  } catch {
+    Message.error('复制失败，请检查浏览器剪贴板权限')
+  }
+}
 </script>
 
 <template>
-  <div ref="iconListRef">
+  <div>
     <mp-input
       v-model.trim="searchText"
       class="icon-example__search"
       size="sm"
       variant="outline"
-      placeholder="搜索图标"
+      placeholder="搜索图标名称"
       clearable
     >
       <template #suffix>
@@ -108,17 +98,10 @@ onBeforeUnmount(() => clipboard?.destroy())
         {{ group }} <small>{{ names.length }}</small>
       </h3>
       <div class="icon-example__icons">
-        <div
-          v-for="name in names"
-          :key="name"
-          v-ripple
-          class="icon-example__icon mp-elevation--2"
-          :style="{ background: 'var(--mp-paper-background)' }"
-          :data-clipboard-text="name"
-        >
-          <component :is="resolveIcon(name)" />
-          <div class="icon-example__icon-name">{{ name }}</div>
-        </div>
+        <button v-for="name in names" :key="name" class="icon-example__icon" type="button" @click="copyIcon(name)">
+          <component :is="resolveIcon(name)" :size="40" />
+          <span class="icon-example__icon-name">{{ name }}</span>
+        </button>
       </div>
     </section>
   </div>
@@ -128,32 +111,11 @@ onBeforeUnmount(() => clipboard?.destroy())
 @import '../../../style/elevation';
 
 .icon-example {
-  &__animation {
-    display: flex;
-    align-items: center;
-    padding-left: 8px;
-  }
-
-  &__animation-icon {
-    margin-left: 5px;
-  }
-
-  &__transform-demo {
-    display: flex;
-    gap: 24px;
-
-    > div {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
-  }
-
   &__icons {
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(112px, 1fr));
-    gap: 12px;
+    grid-template-columns: ~'repeat(auto-fill, minmax(min(100%, 168px), 1fr))';
+    gap: 16px;
   }
 
   &__group {
@@ -165,18 +127,25 @@ onBeforeUnmount(() => clipboard?.destroy())
     }
     small {
       margin-left: 6px;
-      color: var(--mp-text-color-secondary);
+      color: var(--mp-color-text-3);
       font-weight: normal;
     }
   }
 
   &__icon {
+    min-height: 132px;
+    height: auto;
+    justify-content: center;
+    font: inherit;
+    line-height: 1.5;
+    color: var(--mp-color-text-1);
+    background: var(--mp-paper-background);
     display: flex;
     flex-direction: column;
     align-items: center;
     min-width: 0;
-    padding: 18px 10px;
-    border: 1px solid var(--mp-border-color);
+    padding: 20px 14px;
+    border: 1px solid var(--mp-color-border-2);
     border-radius: 8px;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
@@ -185,26 +154,23 @@ onBeforeUnmount(() => clipboard?.destroy())
   }
 
   &__search {
+    width: auto;
     margin: 6px 8px 22px;
   }
 
   &__icon-name {
     width: 100%;
-    font-size: 12px;
+    font-size: 13px;
     text-align: center;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    margin-top: 8px;
+
+    overflow-wrap: anywhere;
+    white-space: normal;
+    margin-top: 12px;
+    line-height: 1.5;
   }
 }
 
 .search-icon {
   margin-left: 6px;
-}
-
-.fade {
-  opacity: 0;
-  transition-property: opacity;
 }
 </style>

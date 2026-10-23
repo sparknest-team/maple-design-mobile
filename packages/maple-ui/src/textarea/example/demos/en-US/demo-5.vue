@@ -5,6 +5,7 @@ const limitedValue = ref('')
 </script>
 
 <template>
+  <p>Length counts UTF-16 code units. An emoji that does not fit is omitted without splitting its surrogate pair.</p>
   <mp-textarea
     v-model="limitedValue"
     clearable

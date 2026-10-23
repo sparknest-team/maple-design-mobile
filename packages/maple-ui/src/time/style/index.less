@@ -1,5 +1,49 @@
 @import './token.less';
-@import './token.less';
 // Auto-migrated from SFC <style> / sibling less. Do not hand-edit path layout without care.
 @import './time';
 @import './time-picker';
+
+.mp-field-presentation__body .mp-time-picker {
+  --mp-time-picker-min-width: 0px;
+}
+
+.mp-time-field-popover {
+  .mp-time__panel,
+  .mp-time-range__panel {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    width: var(--mp-time-popover-width);
+    max-width: calc(100vw - var(--mp-time-popover-gap));
+    max-height: var(--mp-time-popover-max-height);
+    background: var(--mp-time-panel-background);
+    border: 1px solid var(--mp-time-panel-border);
+    border-radius: var(--mp-time-panel-radius);
+    overflow: hidden;
+    --mp-time-picker-min-width: 0px;
+  }
+  .mp-time-field-panel__body {
+    min-height: 0;
+    overflow: auto;
+  }
+  .mp-time-field-panel__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--mp-sys-space-2);
+    > .mp-button--variant-text {
+      margin-right: auto;
+    }
+    justify-content: flex-end;
+    flex-shrink: 0;
+    padding: var(--mp-time-panel-actions-padding);
+    border-top: 1px solid var(--mp-time-panel-border);
+  }
+  .mp-time-picker,
+  .mp-time-range-picker {
+    box-shadow: none;
+  }
+  .mp-picker__option {
+    box-sizing: border-box;
+    padding-inline: 0;
+  }
+}

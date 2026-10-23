@@ -1,10 +1,16 @@
 # Ripple Directive
 
+Current-source revalidation,2026-10-16:36 Ripple tests pass,including11 dispatch/12 motion/three mouse cases;pre/post hashes match. Mouse press,document release,blur and touch-compatibility suppression are controlled evidence,not a new product repair or trusted-input acceptance. The800ms Date.now gate adds no timer/CSS duration. Classification hash is manually reviewed;adoption/OS boundaries remain separate.
+
+## Examples
+
 ### Intro
 
 When the element is clicked, a water wave spreading effect is generated.
 
 ### Basic Usage
+
+Supports touch, the primary mouse button, and Enter/Space on the host. Mouse waves start at the press position and release on mouseup in the owning document or window blur. Non-primary and touch-generated compatibility mouse events are ignored; an 800ms window after touch is the fallback when sourceCapabilities is unavailable. Keyboard waves start at the center; use native buttons. Simulator clicks do not certify real touch behavior.
 
 ```demo
 ../example/demos/basic-usage.vue
@@ -31,6 +37,15 @@ When the element is clicked, a water wave spreading effect is generated.
 ### Styles
 
 MapleResolver directive resolution automatically imports `@maplejs/maple-ui/ripple/style`. When registering Ripple without the resolver, explicitly import that style in the application entry. Runtime code does not import CSS, so the package can be imported on the server. Unmounting or disabling cancels pending animations; keyboard state belongs to each instance.
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

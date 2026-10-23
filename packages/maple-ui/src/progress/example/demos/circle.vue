@@ -21,7 +21,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <mp-space :size="['8vmin', '8vmin']">
+  <mp-space wrap :size="['8vmin', '8vmin']">
     <mp-progress
       mode="circle"
       size="18vmin"

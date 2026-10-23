@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
+import DemoApiReview from './demos/api-review.vue'
 import CustomGapDemo from './demos/custom-gap.vue'
 import CustomOffsetDemo from './demos/custom-offset.vue'
 import CustomRotateDemo from './demos/custom-rotate.vue'
@@ -24,14 +25,14 @@ onThemeChange()
     <TextWatermarkDemo />
   </section>
 
-  <section data-demo="custom-gap">
-    <app-type>{{ english ? 'Custom Gap' : '自定义间距' }}</app-type>
-    <CustomGapDemo />
-  </section>
-
   <section data-demo="multiline">
     <app-type>{{ english ? 'Multiline Text' : '多行文本' }}</app-type>
     <MultilineDemo />
+  </section>
+
+  <section data-demo="custom-gap">
+    <app-type>{{ english ? 'Custom Gap' : '自定义间距' }}</app-type>
+    <CustomGapDemo />
   </section>
 
   <section data-demo="custom-offset">
@@ -53,4 +54,5 @@ onThemeChange()
     <app-type>{{ english ? 'Fullscreen' : '全屏' }}</app-type>
     <FullscreenDemo />
   </section>
+  <section data-demo="api-review"><DemoApiReview /></section>
 </template>

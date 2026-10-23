@@ -1,10 +1,14 @@
 # 结果
 
+## 案例
+
 ### 介绍
 
 用于向用户展示结果。
 
 ### 基本使用
+
+Next status 循环六种本地结果状态并更新标题/图形，Reset status 恢复 info；按钮不发请求或导航。Result 只展示传入的 status，不根据标题文字推断成功/失败。
 
 ```demo
 ../example/demos/basic-usage.vue
@@ -17,6 +21,15 @@
 ```demo
 ../example/demos/type.vue
 ```
+
+<!-- api-review:start -->
+### 功能调试
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

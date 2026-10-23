@@ -1,6 +1,6 @@
 import { withInstall, withPropsDefaultsSetter } from '../utils/components'
+import Slider from './presentation'
 import { sliderProps } from './props'
-import Slider from './Slider.vue'
 
 withInstall(Slider)
 withPropsDefaultsSetter(Slider, sliderProps)

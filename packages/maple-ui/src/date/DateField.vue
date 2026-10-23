@@ -87,6 +87,7 @@ const selection = useDateSelection({
   value: () => model.value.value,
   rules: () => fieldProps.value,
   range: () => props.range,
+  allowReversedDraft: () => props.range,
   multiple: () => 'multiple' in fieldProps.value && Boolean(fieldProps.value.multiple),
   disabledParts: () => (props.range ? disabledParts.value : []),
   blocked: () => blocked.value,

@@ -1,22 +1,12 @@
-<script setup></script>
-
 <template>
-  <mp-divider />
-  <mp-divider type="dashed" />
-  <mp-divider type="dotted" />
-  <mp-divider type="double" :thickness="3" />
+  <div>
+    <p>实线 / solid</p>
+    <mp-divider />
+    <p>虚线 / dashed</p>
+    <mp-divider type="dashed" />
+    <p>点线 / dotted</p>
+    <mp-divider type="dotted" />
+    <p>双线 / double · 3px</p>
+    <mp-divider type="double" :thickness="3" />
+  </div>
 </template>
-
-<style lang="less" scoped>
-.divider-example-vertical-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #333;
-
-  span {
-    font-size: 14px;
-    color: #888;
-  }
-}
-</style>

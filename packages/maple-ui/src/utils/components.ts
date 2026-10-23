@@ -17,18 +17,15 @@ import {
   type Ref,
   type VNode,
 } from 'vue'
-import {
-  createNamespaceFn,
-  hasOwn,
-  isArray,
-  isFunction,
-  isPlainObject,
-  isString,
-  normalizeToArray,
-} from '@maplejs/maple-shared'
+import { hasOwn, isArray, isFunction, isPlainObject, isString, normalizeToArray } from '@maplejs/maple-shared'
 import { useEventListener } from '@maplejs/maple-use'
 import type { SafeParseReturnType, ZodType } from 'zod'
 import { createRequestGuard } from './async-request'
+import { withPropsDefaultsSetter } from './props-defaults'
+
+export { withPropsDefaultsSetter } from './props-defaults'
+export { createNamespace } from './namespace'
+export type { NamespaceClass, ComponentNamespace } from './namespace'
 
 export type ListenerProp<F> = F | F[]
 
@@ -97,48 +94,6 @@ export function withInstall<T = Component, InstallOptions = unknown>(
   }
 
   return componentWithInstall as ComponentWithInstall<T>
-}
-
-export function withPropsDefaultsSetter<T>(
-  target: T,
-  props: Record<string, any>,
-): T & {
-  setPropsDefaults: (defaults: Record<string, any>) => void
-} {
-  ;(target as any).setPropsDefaults = function (defaults: Record<string, any>) {
-    Object.entries(defaults).forEach(([key, value]) => {
-      const prop = props[key]
-
-      if (prop == null) {
-        return
-      }
-
-      const type = isPlainObject(prop) ? prop.type : prop
-      const types = isArray(type) ? type : [type]
-      const defaultValue =
-        types.includes(Object) && (value === null || isPlainObject(value))
-          ? () => (value === null ? null : { ...value })
-          : types.includes(Array) && (value === null || isArray(value))
-            ? () => (value === null ? null : [...value])
-            : value
-
-      if (isPlainObject(prop)) {
-        // e.g. { type: String }
-        props[key] = {
-          ...prop,
-          default: defaultValue,
-        }
-        return
-      }
-
-      props[key] = {
-        type: prop,
-        default: defaultValue,
-      }
-    })
-  }
-
-  return target as T & { setPropsDefaults: (defaults: Record<string, any>) => void }
 }
 
 export function mount(component: Component): MountInstance {
@@ -280,15 +235,6 @@ export function useTeleport() {
   }
 }
 
-export type NamespaceClass = string | null | undefined
-export interface ComponentNamespace {
-  name: string
-  n(suffix?: string): string
-  classes(...names: (NamespaceClass | [unknown, NamespaceClass, NamespaceClass?])[]): NamespaceClass[]
-}
-// Keep published SFC declarations independent of rattail's private installation path.
-export const createNamespace: (name: string) => ComponentNamespace = createNamespaceFn('mp')
-
 export const getPrefixCls = (componentName?: string) => (componentName ? `mp-${componentName}` : 'mp')
 
 export function defineListenerProp<F>(fallback?: any) {
@@ -308,7 +254,7 @@ export function formatElevation(elevation: number | boolean | string | undefined
   return `mp-elevation--${normalized}`
 }
 
-export const MaybeVNode = defineComponent({
+export const MaybeVNode = /* #__PURE__ */ defineComponent({
   props: {
     is: {
       type: [String, Object] as PropType<string | VNode>,

@@ -1,12 +1,5 @@
 <template>
-  <div
-    ref="root"
-    :class="classes(n(), n('$--box'))"
-    @click="handleClick('cell', $event)"
-    @touchstart="handleTouchstart"
-    @touchend="handleTouchend"
-    @touchcancel="handleTouchend"
-  >
+  <div ref="root" :class="classes(n(), n('$--box'))" @click="handleClick('cell', $event)">
     <div ref="wrapper" :class="n('wrapper')" :style="wrapperStyle">
       <div v-if="$slots.left" ref="leftRef" :class="n('left')" @click.stop="handleClick('left', $event)">
         <slot name="left" />
@@ -22,9 +15,19 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import {
+  computed,
+  defineComponent,
+  nextTick,
+  onActivated,
+  onBeforeUnmount,
+  onDeactivated,
+  onMounted,
+  ref,
+  watch,
+} from 'vue'
 import { call, getRect, preventDefault, toNumber } from '@maplejs/maple-shared'
-import { useEventListener, useTouch } from '@maplejs/maple-use'
+import { useTouch } from '@maplejs/maple-use'
 import { createNamespace } from '../utils/components'
 import { props, type SwipeCellPosition, type SwipeCellSide } from './props'
 
@@ -44,10 +47,28 @@ export default defineComponent({
     const opened = ref(false)
     const openedSide = ref<SwipeCellSide | null>(null)
     const measureTick = ref(0)
-    const { deltaX, offsetX, offsetY, direction, startTouch, moveTouch, endTouch } = useTouch()
+    const { deltaX, offsetX, offsetY, direction, startTouch, moveTouch, endTouch, resetTouch } = useTouch()
 
     let startOffset = 0
-    let isDragging = false
+    const isDragging = ref(false)
+    let hasTouch = false
+    let gestureGeneration = 0
+    let unlockGeneration = 0
+    let unlockTimer: number | undefined
+    let bindingGeneration = 0
+    let unbind: (() => void) | undefined
+    let active = true
+    let disposed = false
+    let commandGeneration = 0
+    const available = () => active && !disposed
+
+    watch(
+      () => [props.beforeClose, props.name],
+      () => {
+        commandGeneration += 1
+      },
+      { flush: 'sync' },
+    )
 
     const leftWidth = computed(() => {
       void measureTick.value
@@ -60,28 +81,118 @@ export default defineComponent({
 
     const wrapperStyle = computed(() => ({
       transform: `translate3d(${offset.value}px, 0, 0)`,
-      transitionDuration: isDragging ? '0s' : undefined,
+      transitionDuration: isDragging.value ? '0s' : undefined,
     }))
 
-    useEventListener(() => document, 'touchstart', handleDocumentTouchstart, { passive: true })
-    useEventListener(root, 'touchmove', handleTouchmove, { passive: false })
+    function clearBindings() {
+      bindingGeneration += 1
+      unbind?.()
+      unbind = undefined
+    }
+
+    function bindListeners() {
+      clearBindings()
+      const element = root.value
+      if (!available() || !element) {
+        return
+      }
+      const generation = bindingGeneration
+      const current = () => available() && generation === bindingGeneration && root.value === element
+      const start = (event: TouchEvent) => {
+        if (current()) {
+          handleTouchstart(event)
+        }
+      }
+      const move = (event: TouchEvent) => {
+        if (current()) {
+          handleTouchmove(event)
+        }
+      }
+      const end = () => {
+        if (current()) {
+          handleTouchend()
+        }
+      }
+      const cancel = () => {
+        if (current()) {
+          cancelGesture()
+        }
+      }
+      const outside = (event: TouchEvent) => {
+        if (current()) {
+          handleDocumentTouchstart(event)
+        }
+      }
+      const owner = element.ownerDocument
+      element.addEventListener('touchstart', start, { passive: true })
+      element.addEventListener('touchmove', move, { passive: false })
+      element.addEventListener('touchend', end)
+      element.addEventListener('touchcancel', cancel)
+      owner.addEventListener('touchstart', outside, { passive: true })
+      unbind = () => {
+        element.removeEventListener('touchstart', start)
+        element.removeEventListener('touchmove', move)
+        element.removeEventListener('touchend', end)
+        element.removeEventListener('touchcancel', cancel)
+        owner.removeEventListener('touchstart', outside)
+      }
+    }
+
+    watch(root, bindListeners, { flush: 'post' })
 
     watch(
       () => props.disabled,
       (disabled) => {
+        commandGeneration += 1
         if (disabled) {
+          cancelGesture()
           close('outside')
         }
       },
+      { flush: 'sync' },
     )
 
     onMounted(() => {
+      bindListeners()
       nextTick(measureSides)
     })
 
-    onBeforeUnmount(() => {
-      // noop — listeners cleaned by useEventListener
+    onActivated(() => {
+      active = true
+      bindListeners()
     })
+    onDeactivated(() => {
+      active = false
+      commandGeneration += 1
+      cancelGesture()
+      clearBindings()
+    })
+    onBeforeUnmount(() => {
+      disposed = true
+      commandGeneration += 1
+      cancelGesture()
+      clearBindings()
+    })
+
+    function cancelUnlock() {
+      unlockGeneration += 1
+      if (unlockTimer !== undefined) {
+        window.clearTimeout(unlockTimer)
+        unlockTimer = undefined
+      }
+    }
+
+    function cancelGesture() {
+      gestureGeneration += 1
+      cancelUnlock()
+      if (hasTouch) {
+        offset.value = startOffset
+      }
+      hasTouch = false
+      isDragging.value = false
+      lockClick.value = false
+      resetTouch()
+    }
 
     function getSideWidth(side: SwipeCellSide) {
       const configured = side === 'left' ? props.leftWidth : props.rightWidth
@@ -93,6 +204,9 @@ export default defineComponent({
     }
 
     function measureSides() {
+      if (!available()) {
+        return
+      }
       // invalidate cached side widths so DOM sizes are re-read
       measureTick.value += 1
     }
@@ -102,11 +216,15 @@ export default defineComponent({
     }
 
     function open(side: SwipeCellSide) {
-      if (props.disabled) {
+      if (!available() || props.disabled) {
         return
       }
+      if (hasTouch) {
+        cancelGesture()
+      }
+      const generation = ++commandGeneration
       const next = side === 'left' ? leftWidth.value : -rightWidth.value
-      if (!next) {
+      if (!available() || props.disabled || generation !== commandGeneration || !next) {
         return
       }
       offset.value = next
@@ -118,9 +236,14 @@ export default defineComponent({
     }
 
     async function close(position: SwipeCellPosition = 'outside', event?: Event) {
-      if (!opened.value && offset.value === 0) {
+      if (!available() || (!opened.value && offset.value === 0)) {
         return
       }
+      if (hasTouch) {
+        cancelGesture()
+      }
+
+      const generation = ++commandGeneration
 
       if (props.beforeClose) {
         const result = await props.beforeClose({
@@ -131,6 +254,10 @@ export default defineComponent({
         if (result === false) {
           return
         }
+      }
+
+      if (!available() || generation !== commandGeneration) {
+        return
       }
 
       const prevSide = openedSide.value
@@ -146,18 +273,21 @@ export default defineComponent({
     }
 
     function handleTouchstart(event: TouchEvent) {
-      if (props.disabled) {
+      if (!available() || props.disabled) {
         return
       }
+      commandGeneration += 1
+      cancelGesture()
       startTouch(event)
+      hasTouch = event.touches.length > 0
       startOffset = offset.value
-      isDragging = false
+      isDragging.value = false
       lockClick.value = false
       measureSides()
     }
 
     function handleTouchmove(event: TouchEvent) {
-      if (props.disabled) {
+      if (!available() || props.disabled || !hasTouch) {
         return
       }
       moveTouch(event)
@@ -172,43 +302,64 @@ export default defineComponent({
         return
       }
 
-      isDragging = true
+      const generation = gestureGeneration
+      isDragging.value = true
       lockClick.value = true
       if (props.stopPropagation) {
         event.stopPropagation()
       }
       preventDefault(event)
 
-      offset.value = clampOffset(startOffset + deltaX.value)
+      const next = clampOffset(startOffset + deltaX.value)
+      if (available() && !props.disabled && hasTouch && generation === gestureGeneration) {
+        offset.value = next
+      }
     }
 
     function handleTouchend() {
-      if (props.disabled) {
+      if (!available() || props.disabled || !hasTouch) {
         return
       }
+      const generation = gestureGeneration
+      hasTouch = false
       endTouch()
 
-      if (!isDragging) {
+      if (!isDragging.value) {
         return
       }
-      isDragging = false
+      isDragging.value = false
 
       const threshold = 0.3
-      if (offset.value > leftWidth.value * threshold) {
+      const left = leftWidth.value
+      const right = rightWidth.value
+      if (!available() || props.disabled || generation !== gestureGeneration) {
+        return
+      }
+      if (offset.value > left * threshold) {
         open('left')
-      } else if (offset.value < -rightWidth.value * threshold) {
+      } else if (offset.value < -right * threshold) {
         open('right')
       } else {
         close('cell')
       }
 
-      setTimeout(() => {
+      if (!available() || props.disabled || generation !== gestureGeneration) {
+        return
+      }
+      cancelUnlock()
+      const unlock = unlockGeneration
+      unlockTimer = window.setTimeout(() => {
+        if (!available() || props.disabled || unlock !== unlockGeneration) {
+          return
+        }
+        unlockGeneration += 1
+        unlockTimer = undefined
         lockClick.value = false
       }, 0)
     }
 
     function handleDocumentTouchstart(event: TouchEvent) {
-      if (!opened.value || !root.value) {
+      if (!available() || props.disabled || !opened.value || !root.value) {
         return
       }
       const target = event.target as Node | null
@@ -219,10 +370,14 @@ export default defineComponent({
     }
 
     function handleClick(position: SwipeCellPosition, event: Event) {
-      if (lockClick.value) {
+      if (!available() || lockClick.value) {
         return
       }
+      const generation = commandGeneration
       emit('click', position)
+      if (!available() || generation !== commandGeneration) {
+        return
+      }
       if (opened.value && position !== 'left' && position !== 'right') {
         close(position, event)
       } else if (opened.value && (position === 'left' || position === 'right')) {

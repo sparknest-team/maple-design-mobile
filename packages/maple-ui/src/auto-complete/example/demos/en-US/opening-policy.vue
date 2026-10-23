@@ -9,8 +9,8 @@ const options = ['Cedar', 'Maple', 'Vue']
 </script>
 <template>
   <mp-space direction="column" size="md">
-    <label><input v-model="allowEmpty" type="checkbox" /> Allow opening with empty input</label>
-    <label><input v-model="filter" type="checkbox" /> Filter suggestions by input</label>
+    <mp-checkbox v-model="allowEmpty">Allow opening with empty input</mp-checkbox>
+    <mp-checkbox v-model="filter">Filter suggestions by input</mp-checkbox>
     <mp-auto-complete
       v-model="value"
       :options="options"

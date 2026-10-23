@@ -417,7 +417,7 @@
           "attributes": [
             {
               "name": "title",
-              "description": "单元格标题",
+              "description": "单元格标题，默认插槽优先",
               "default": "-",
               "value": {
                 "type": "string",
@@ -426,7 +426,7 @@
             },
             {
               "name": "icon",
-              "description": "左侧图标名称",
+              "description": "已注册的左侧图标名称",
               "default": "-",
               "value": {
                 "type": "string",
@@ -462,7 +462,7 @@
             },
             {
               "name": "icon-class",
-              "description": "图标额外类名",
+              "description": "左侧图标容器额外类名，对 icon 属性和插槽均生效",
               "default": "-",
               "value": {
                 "type": "string",
@@ -515,7 +515,7 @@
           "slots": [
             {
               "name": "default",
-              "description": "cell 的内容"
+              "description": "主内容，覆盖 title"
             },
             {
               "name": "icon",
@@ -1133,9 +1133,9 @@
               }
             },
             {
-              "name": "presentation",
-              "description": "面板模式，可选值 `picker` `calendar` `calendarClock` `calendarPicker`",
-              "default": "picker",
+              "name": "panel-type",
+              "description": "面板模式，可选值 `picker` `calendar` `calendarPicker`",
+              "default": "calendar",
               "value": {
                 "type": "string",
                 "kind": "expression"
@@ -1433,9 +1433,9 @@
               }
             },
             {
-              "name": "presentation",
+              "name": "panel-type",
               "description": "面板模式，可选值 `calendar` `picker`",
-              "default": "picker",
+              "default": "calendar",
               "value": {
                 "type": "string",
                 "kind": "expression"
@@ -1652,91 +1652,91 @@
           "attributes": [
             {
               "name": "orientation",
-              "description": "方向，可选 `horizontal` `vertical`",
+              "description": "分割线方向",
               "default": "horizontal",
               "value": {
-                "type": "string",
+                "type": "`horizontal` | `vertical`",
                 "kind": "expression"
               }
             },
             {
               "name": "type",
-              "description": "线型，可选 `solid` `dashed` `dotted` `double`",
+              "description": "线型",
               "default": "solid",
               "value": {
-                "type": "string",
+                "type": "`solid` | `dashed` | `dotted` | `double`",
                 "kind": "expression"
               }
             },
             {
               "name": "text-align",
-              "description": "文字位置，可选 `start` `center` `end`",
+              "description": "文字沿分割线的位置；start/end 为逻辑起止位置",
               "default": "center",
               "value": {
-                "type": "string",
+                "type": "`start` | `center` | `end`",
                 "kind": "expression"
               }
             },
             {
               "name": "description",
-              "description": "文字描述",
-              "default": "-",
+              "description": "文字描述；默认插槽优先",
+              "default": "—",
               "value": {
-                "type": "string",
+                "type": "`string`",
                 "kind": "expression"
               }
             },
             {
-              "name": "size-x",
-              "description": "水平缩进 / 垂直时上下间距",
-              "default": "-",
+              "name": "inset",
+              "description": "沿线两端缩进：水平时左右，竖直时上下",
+              "default": "—",
               "value": {
-                "type": "number | string | array",
+                "type": "`DividerSize`",
                 "kind": "expression"
               }
             },
             {
-              "name": "size-y",
-              "description": "水平上下间距 / 垂直时左右间距",
+              "name": "spacing",
+              "description": "线条两侧外间距：水平时上下，竖直时左右",
               "default": "md",
               "value": {
-                "type": "number | string | array",
+                "type": "`DividerSize`",
                 "kind": "expression"
               }
             },
             {
               "name": "thickness",
-              "description": "线宽（与 `hairline` 互斥）",
-              "default": "-",
+              "description": "线宽，单位 px；未设置时使用主题默认 1px；hairline 优先",
+              "default": "—",
               "value": {
-                "type": "number",
+                "type": "`number`",
                 "kind": "expression"
               }
             },
             {
               "name": "hairline",
-              "description": "是否为 0.5px 线",
+              "description": "将主题线宽缩放为一半；默认主题下为 0.5px",
               "default": "false",
               "value": {
-                "type": "boolean",
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
             {
               "name": "color",
-              "description": "分割线颜色",
-              "default": "-",
+              "description": "线条颜色；未设置时使用主题边框色",
+              "default": "—",
               "value": {
-                "type": "string",
+                "type": "`string`",
                 "kind": "expression"
               }
             },
             {
               "name": "opacity",
-              "description": "不透明度",
-              "default": "-",
+              "description": "整个分割线（含文字）的不透明度，范围 0–1；0 保留布局",
+              "default": "—",
               "value": {
-                "type": "number",
+                "type": "`number`",
                 "kind": "expression"
               }
             }
@@ -1745,7 +1745,7 @@
           "slots": [
             {
               "name": "default",
-              "description": "自定义分割线中间内容"
+              "description": "自定义分割线内容，优先于 description"
             }
           ]
         },
@@ -1817,301 +1817,6 @@
             {
               "name": "default",
               "description": "拖拽元素的内容"
-            }
-          ]
-        },
-        {
-          "name": "mp-dropdown-menu",
-          "attributes": [
-            {
-              "name": "options",
-              "description": "命令树",
-              "default": "[]",
-              "value": {
-                "type": "DropdownMenuOption[]",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "field-names",
-              "description": "`label/value/children/disabled` 字段映射",
-              "default": "-",
-              "value": {
-                "type": "DropdownMenuFieldNames",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "v-model",
-              "description": "当前激活值",
-              "default": "-",
-              "value": {
-                "type": "MenuValue",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "v-model:open",
-              "description": "浮层是否可见",
-              "default": "-",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "default-open",
-              "description": "非受控默认可见状态",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "size",
-              "description": "选项尺寸",
-              "default": "'md'",
-              "value": {
-                "type": "'xs' | 'sm' | 'md' | 'lg' | 'xl'",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "trigger",
-              "description": "根菜单触发方式",
-              "default": "'click'",
-              "value": {
-                "type": "'click' | 'hover' | 'focus' | 'contextMenu'",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "submenu-trigger",
-              "description": "各级子菜单的展开方式，对所有层级统一生效",
-              "default": "'click'",
-              "value": {
-                "type": "'click' | 'hover'",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "placement",
-              "description": "弹出位置",
-              "default": "'bottom'",
-              "value": {
-                "type": "DropdownMenuPosition",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "strategy",
-              "description": "根菜单及全部子菜单的定位策略",
-              "default": "'absolute'",
-              "value": {
-                "type": "'absolute' | 'fixed'",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "reference",
-              "description": "外部触发元素",
-              "default": "-",
-              "value": {
-                "type": "string | HTMLElement",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "popup-container",
-              "description": "浮层挂载容器",
-              "default": "-",
-              "value": {
-                "type": "string | HTMLElement | false",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "popup-class",
-              "description": "浮层类名",
-              "default": "-",
-              "value": {
-                "type": "string | array | object",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "popup-max-height",
-              "description": "默认限制、自定义像素高度或不限高",
-              "default": "true",
-              "value": {
-                "type": "boolean | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "offset-x",
-              "description": "水平偏移",
-              "default": "0",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "offset-y",
-              "description": "垂直偏移",
-              "default": "0",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "mouse-enter-delay",
-              "description": "悬停打开延迟（毫秒）",
-              "default": "100",
-              "value": {
-                "type": "number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "mouse-leave-delay",
-              "description": "悬停关闭延迟（毫秒）",
-              "default": "100",
-              "value": {
-                "type": "number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "close-on-click-reference",
-              "description": "再次点击触发元素时关闭",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "unmount-on-close",
-              "description": "关闭时卸载浮层内容",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "hide-on-select",
-              "description": "激活命令后关闭浮层",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "auto-fit-popup-width",
-              "description": "浮层宽度跟随触发元素",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "cover",
-              "description": "浮层覆盖触发元素",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "align-point",
-              "description": "浮层跟随鼠标位置",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "disabled",
-              "description": "禁用菜单",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "elevation",
-              "description": "浮层阴影层级",
-              "default": "true",
-              "value": {
-                "type": "boolean | number",
-                "kind": "expression"
-              }
-            }
-          ],
-          "events": [
-            {
-              "name": "update:model-value",
-              "description": "当前激活值更新请求"
-            },
-            {
-              "name": "select",
-              "description": "用户激活菜单项"
-            },
-            {
-              "name": "open-change",
-              "description": "浮层显示状态更新请求"
-            },
-            {
-              "name": "open / opened",
-              "description": "浮层开始打开 / 打开完成"
-            },
-            {
-              "name": "close / closed",
-              "description": "浮层开始关闭 / 关闭完成"
-            },
-            {
-              "name": "click-outside",
-              "description": "点击浮层外部"
-            },
-            {
-              "name": "key-escape",
-              "description": "按下 Escape"
-            }
-          ],
-          "slots": [
-            {
-              "name": "default",
-              "description": "触发元素"
-            },
-            {
-              "name": "content",
-              "description": "追加手写内容，适合与 `MenuOption` 组合"
-            },
-            {
-              "name": "footer",
-              "description": "页脚"
-            },
-            {
-              "name": "option-label",
-              "description": "统一渲染选项主内容"
-            },
-            {
-              "name": "option-icon",
-              "description": "统一渲染选项图标"
-            },
-            {
-              "name": "option-extra",
-              "description": "统一渲染选项右侧内容"
             }
           ]
         },
@@ -2601,10 +2306,10 @@
             },
             {
               "name": "scroll-to-error",
-              "description": "是否在校验不通过时滚动到不通过的表单项，可选值为 `start` `end`",
+              "description": "校验失败后滚动到页面顺序的第一个（`start`）或最后一个（`end`）错误字段；不是视口对齐方式",
               "default": "-",
               "value": {
-                "type": "string",
+                "type": "'start' | 'end'",
                 "kind": "expression"
               }
             },
@@ -2729,7 +2434,7 @@
           "attributes": [
             {
               "name": "name",
-              "description": "图标名称",
+              "description": "已注册图标名称；默认插槽优先",
               "default": "-",
               "value": {
                 "type": "string",
@@ -3243,29 +2948,218 @@
           "name": "mp-input",
           "attributes": [
             {
-              "name": "focus",
-              "description": "聚焦",
+              "name": "v-model",
+              "description": "受控绑定值",
               "default": "-",
               "value": {
-                "type": "`-`",
+                "type": "`string`",
                 "kind": "expression"
               }
             },
             {
-              "name": "blur",
-              "description": "失焦",
-              "default": "-",
+              "name": "model-modifiers",
+              "description": "`v-model` 修饰符，支持 `trim`",
+              "default": "{}",
               "value": {
-                "type": "`-`",
+                "type": "`object`",
                 "kind": "expression"
               }
             },
             {
-              "name": "select",
-              "description": "选中输入内容",
+              "name": "default-value",
+              "description": "非受控模式下的初始值",
+              "default": "''",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "type",
+              "description": "`text`、`password`、`number`、`tel` 或 `email`",
+              "default": "text",
+              "value": {
+                "type": "`InputType`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "placeholder",
+              "description": "占位符，也可作为浮动提示文字",
               "default": "-",
               "value": {
-                "type": "`-`",
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "size",
+              "description": "`xs`、`sm`、`md`、`lg` 或 `xl`",
+              "default": "md",
+              "value": {
+                "type": "`ComponentSize`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "variant",
+              "description": "`filled`、`outline` 或 `standard`",
+              "default": "outline",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "hint",
+              "description": "是否将 placeholder 用作浮动提示文字",
+              "default": "true",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "line",
+              "description": "是否显示边框或底线",
+              "default": "true",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "max-length",
+              "description": "最大输入长度；默认截断，`errorOnly` 时允许超出并显示错误",
+              "default": "0",
+              "value": {
+                "type": "`number | object`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show-word-limit",
+              "description": "是否显示字数统计",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "word-length",
+              "description": "自定义字数计算方法",
+              "default": "-",
+              "value": {
+                "type": "`function`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "word-slice",
+              "description": "自定义超长截取方法",
+              "default": "-",
+              "value": {
+                "type": "`function`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "readonly",
+              "description": "是否只读",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "disabled",
+              "description": "是否禁用",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "error",
+              "description": "是否显示错误状态",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "clearable",
+              "description": "是否可清除；有值且可编辑时清除图标常驻显示",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "autofocus",
+              "description": "是否自动聚焦",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "enterkeyhint",
+              "description": "移动端回车键提示",
+              "default": "-",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "aria-label",
+              "description": "输入框无障碍标签",
+              "default": "-",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "input-attrs",
+              "description": "透传原生属性，例如 `autocomplete`",
+              "default": "-",
+              "value": {
+                "type": "`object`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "text-color",
+              "description": "文字颜色",
+              "default": "-",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "focus-color",
+              "description": "聚焦颜色",
+              "default": "-",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "blur-color",
+              "description": "失焦颜色",
+              "default": "-",
+              "value": {
+                "type": "`string`",
                 "kind": "expression"
               }
             }
@@ -3603,476 +3497,305 @@
           ]
         },
         {
-          "name": "mp-message",
-          "attributes": [],
+          "name": "mp-menu",
+          "attributes": [
+            {
+              "name": "options",
+              "description": "命令树",
+              "default": "[]",
+              "value": {
+                "type": "MenuOption[]",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "field-names",
+              "description": "`label/value/children/disabled` 字段映射",
+              "default": "-",
+              "value": {
+                "type": "MenuFieldNames",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "v-model",
+              "description": "当前激活值",
+              "default": "-",
+              "value": {
+                "type": "MenuValue",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "v-model:open",
+              "description": "浮层是否可见",
+              "default": "-",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-open",
+              "description": "非受控默认可见状态",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "size",
+              "description": "选项尺寸",
+              "default": "'md'",
+              "value": {
+                "type": "'xs' | 'sm' | 'md' | 'lg' | 'xl'",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "trigger",
+              "description": "根菜单触发方式",
+              "default": "'click'",
+              "value": {
+                "type": "'click' | 'hover' | 'focus' | 'contextMenu'",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "submenu-trigger",
+              "description": "各级子菜单的展开方式，对所有层级统一生效",
+              "default": "'click'",
+              "value": {
+                "type": "'click' | 'hover'",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "placement",
+              "description": "弹出位置",
+              "default": "'bottom'",
+              "value": {
+                "type": "MenuPosition",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "strategy",
+              "description": "根菜单及全部子菜单的定位策略",
+              "default": "'absolute'",
+              "value": {
+                "type": "'absolute' | 'fixed'",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "reference",
+              "description": "外部触发元素",
+              "default": "-",
+              "value": {
+                "type": "string | HTMLElement",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "popup-container",
+              "description": "浮层挂载容器",
+              "default": "-",
+              "value": {
+                "type": "string | HTMLElement | false",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "popup-class",
+              "description": "浮层类名",
+              "default": "-",
+              "value": {
+                "type": "string | array | object",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "popup-max-height",
+              "description": "默认限制、自定义像素高度或不限高",
+              "default": "true",
+              "value": {
+                "type": "boolean | number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "offset-x",
+              "description": "水平偏移",
+              "default": "0",
+              "value": {
+                "type": "string | number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "offset-y",
+              "description": "垂直偏移",
+              "default": "0",
+              "value": {
+                "type": "string | number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "mouse-enter-delay",
+              "description": "悬停打开延迟（毫秒）",
+              "default": "100",
+              "value": {
+                "type": "number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "mouse-leave-delay",
+              "description": "悬停关闭延迟（毫秒）",
+              "default": "100",
+              "value": {
+                "type": "number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "close-on-click-reference",
+              "description": "再次点击触发元素时关闭",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "unmount-on-close",
+              "description": "关闭时卸载浮层内容",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "hide-on-select",
+              "description": "激活命令后关闭浮层",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "auto-fit-popup-width",
+              "description": "浮层宽度跟随触发元素",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "cover",
+              "description": "浮层覆盖触发元素",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "align-point",
+              "description": "按触发时的鼠标坐标定位；打开后保持该位置，再次右键时更新",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "disabled",
+              "description": "禁用菜单",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "elevation",
+              "description": "浮层阴影层级",
+              "default": "true",
+              "value": {
+                "type": "boolean | number",
+                "kind": "expression"
+              }
+            }
+          ],
           "events": [
             {
-              "name": "Message(options | string)",
-              "description": "打开默认提示"
+              "name": "update:model-value",
+              "description": "当前激活值更新请求"
             },
             {
-              "name": "Message.info/success/warning/error/loading(...)",
-              "description": "打开对应状态提示"
+              "name": "select",
+              "description": "用户激活菜单项"
             },
             {
-              "name": "Message.clear(position?)",
-              "description": "清空全部或指定位置的提示"
+              "name": "open-change",
+              "description": "浮层显示状态更新请求"
             },
             {
-              "name": "Message.setDefaultOptions(options)",
-              "description": "设置后续调用默认值"
+              "name": "open / opened",
+              "description": "浮层开始打开 / 打开完成"
             },
             {
-              "name": "Message.resetDefaultOptions()",
-              "description": "恢复默认值"
+              "name": "close / closed",
+              "description": "浮层开始关闭 / 关闭完成"
+            },
+            {
+              "name": "click-outside",
+              "description": "点击浮层外部"
+            },
+            {
+              "name": "key-escape",
+              "description": "按下 Escape"
             }
           ],
           "slots": [
             {
-              "name": "--mp-message-viewport-padding",
-              "description": "`24px`"
+              "name": "default",
+              "description": "触发元素"
             },
             {
-              "name": "--mp-message-wrapper-margin-top",
-              "description": "`5%`"
+              "name": "content",
+              "description": "追加手写内容，适合与 `MenuOption` 组合"
             },
             {
-              "name": "--mp-message-wrapper-margin-bottom",
-              "description": "`5%`"
+              "name": "footer",
+              "description": "页脚"
             },
             {
-              "name": "--mp-message-z-index",
-              "description": "`2000`"
+              "name": "option-label",
+              "description": "统一渲染选项主内容"
             },
             {
-              "name": "--mp-message-box-shadow",
-              "description": "`0 4px 12px rgba(0, 0, 0, 0.2)`"
+              "name": "option-icon",
+              "description": "统一渲染选项图标"
             },
             {
-              "name": "--mp-message-icon-font-size",
-              "description": "`20px`"
-            },
-            {
-              "name": "--mp-message-close-size",
-              "description": "`32px`"
-            },
-            {
-              "name": "--mp-message-close-margin-right",
-              "description": "`4px`"
-            },
-            {
-              "name": "--mp-message-close-border-radius",
-              "description": "`50%`"
-            },
-            {
-              "name": "--mp-message-focus-outline-width",
-              "description": "`2px`"
-            },
-            {
-              "name": "--mp-message-focus-outline-offset",
-              "description": "`-4px`"
-            },
-            {
-              "name": "--mp-message-transition-distance",
-              "description": "`-12px`"
-            },
-            {
-              "name": "--mp-message-transition-duration",
-              "description": "`150ms`"
-            },
-            {
-              "name": "--mp-message-transition-timing-function",
-              "description": "`var(--mp-cubic-bezier)`"
-            },
-            {
-              "name": "--mp-message-neutral-default-bg",
-              "description": "`var(--mp-sys-color-surface-overlay)`"
-            },
-            {
-              "name": "--mp-message-neutral-default-content-color",
-              "description": "`var(--mp-sys-color-content-primary)`"
-            },
-            {
-              "name": "--mp-message-neutral-default-icon-color",
-              "description": "`var(--mp-sys-color-content-primary)`"
-            },
-            {
-              "name": "--mp-message-neutral-default-border-color",
-              "description": "`var(--mp-sys-color-border-default)`"
-            },
-            {
-              "name": "--mp-message-neutral-default-close-color",
-              "description": "`var(--mp-sys-color-content-secondary)`"
-            },
-            {
-              "name": "--mp-message-neutral-info-bg",
-              "description": "`var(--mp-sys-color-surface-overlay)`"
-            },
-            {
-              "name": "--mp-message-neutral-info-content-color",
-              "description": "`var(--mp-sys-color-content-primary)`"
-            },
-            {
-              "name": "--mp-message-neutral-info-icon-color",
-              "description": "`var(--mp-sys-color-content-info)`"
-            },
-            {
-              "name": "--mp-message-neutral-info-border-color",
-              "description": "`var(--mp-sys-color-border-default)`"
-            },
-            {
-              "name": "--mp-message-neutral-info-close-color",
-              "description": "`var(--mp-sys-color-content-secondary)`"
-            },
-            {
-              "name": "--mp-message-neutral-success-bg",
-              "description": "`var(--mp-sys-color-surface-overlay)`"
-            },
-            {
-              "name": "--mp-message-neutral-success-content-color",
-              "description": "`var(--mp-sys-color-content-primary)`"
-            },
-            {
-              "name": "--mp-message-neutral-success-icon-color",
-              "description": "`var(--mp-sys-color-content-success)`"
-            },
-            {
-              "name": "--mp-message-neutral-success-border-color",
-              "description": "`var(--mp-sys-color-border-default)`"
-            },
-            {
-              "name": "--mp-message-neutral-success-close-color",
-              "description": "`var(--mp-sys-color-content-secondary)`"
-            },
-            {
-              "name": "--mp-message-neutral-warning-bg",
-              "description": "`var(--mp-sys-color-surface-overlay)`"
-            },
-            {
-              "name": "--mp-message-neutral-warning-content-color",
-              "description": "`var(--mp-sys-color-content-primary)`"
-            },
-            {
-              "name": "--mp-message-neutral-warning-icon-color",
-              "description": "`var(--mp-sys-color-content-warning)`"
-            },
-            {
-              "name": "--mp-message-neutral-warning-border-color",
-              "description": "`var(--mp-sys-color-border-default)`"
-            },
-            {
-              "name": "--mp-message-neutral-warning-close-color",
-              "description": "`var(--mp-sys-color-content-secondary)`"
-            },
-            {
-              "name": "--mp-message-neutral-danger-bg",
-              "description": "`var(--mp-sys-color-surface-overlay)`"
-            },
-            {
-              "name": "--mp-message-neutral-danger-content-color",
-              "description": "`var(--mp-sys-color-content-primary)`"
-            },
-            {
-              "name": "--mp-message-neutral-danger-icon-color",
-              "description": "`var(--mp-sys-color-content-danger)`"
-            },
-            {
-              "name": "--mp-message-neutral-danger-border-color",
-              "description": "`var(--mp-sys-color-border-default)`"
-            },
-            {
-              "name": "--mp-message-neutral-danger-close-color",
-              "description": "`var(--mp-sys-color-content-secondary)`"
-            },
-            {
-              "name": "--mp-message-neutral-loading-bg",
-              "description": "`var(--mp-sys-color-surface-overlay)`"
-            },
-            {
-              "name": "--mp-message-neutral-loading-content-color",
-              "description": "`var(--mp-sys-color-content-primary)`"
-            },
-            {
-              "name": "--mp-message-neutral-loading-icon-color",
-              "description": "`var(--mp-sys-color-content-brand)`"
-            },
-            {
-              "name": "--mp-message-neutral-loading-border-color",
-              "description": "`var(--mp-sys-color-border-default)`"
-            },
-            {
-              "name": "--mp-message-neutral-loading-close-color",
-              "description": "`var(--mp-sys-color-content-secondary)`"
-            },
-            {
-              "name": "--mp-message-tonal-default-bg",
-              "description": "`var(--mp-sys-color-surface-muted)`"
-            },
-            {
-              "name": "--mp-message-tonal-default-content-color",
-              "description": "`var(--mp-sys-color-content-primary)`"
-            },
-            {
-              "name": "--mp-message-tonal-default-icon-color",
-              "description": "`var(--mp-sys-color-content-primary)`"
-            },
-            {
-              "name": "--mp-message-tonal-default-border-color",
-              "description": "`transparent`"
-            },
-            {
-              "name": "--mp-message-tonal-default-close-color",
-              "description": "`var(--mp-sys-color-content-primary)`"
-            },
-            {
-              "name": "--mp-message-tonal-info-bg",
-              "description": "`rgba(var(--mp-blue-6), 0.12)`"
-            },
-            {
-              "name": "--mp-message-tonal-info-content-color",
-              "description": "`var(--mp-sys-color-content-primary)`"
-            },
-            {
-              "name": "--mp-message-tonal-info-icon-color",
-              "description": "`var(--mp-sys-color-content-info)`"
-            },
-            {
-              "name": "--mp-message-tonal-info-border-color",
-              "description": "`transparent`"
-            },
-            {
-              "name": "--mp-message-tonal-info-close-color",
-              "description": "`var(--mp-sys-color-content-primary)`"
-            },
-            {
-              "name": "--mp-message-tonal-success-bg",
-              "description": "`var(--mp-color-success-light-1)`"
-            },
-            {
-              "name": "--mp-message-tonal-success-content-color",
-              "description": "`var(--mp-sys-color-content-primary)`"
-            },
-            {
-              "name": "--mp-message-tonal-success-icon-color",
-              "description": "`var(--mp-sys-color-content-success)`"
-            },
-            {
-              "name": "--mp-message-tonal-success-border-color",
-              "description": "`transparent`"
-            },
-            {
-              "name": "--mp-message-tonal-success-close-color",
-              "description": "`var(--mp-sys-color-content-primary)`"
-            },
-            {
-              "name": "--mp-message-tonal-warning-bg",
-              "description": "`var(--mp-color-warning-light-1)`"
-            },
-            {
-              "name": "--mp-message-tonal-warning-content-color",
-              "description": "`var(--mp-sys-color-content-primary)`"
-            },
-            {
-              "name": "--mp-message-tonal-warning-icon-color",
-              "description": "`var(--mp-sys-color-content-warning)`"
-            },
-            {
-              "name": "--mp-message-tonal-warning-border-color",
-              "description": "`transparent`"
-            },
-            {
-              "name": "--mp-message-tonal-warning-close-color",
-              "description": "`var(--mp-sys-color-content-primary)`"
-            },
-            {
-              "name": "--mp-message-tonal-danger-bg",
-              "description": "`var(--mp-color-danger-light-1)`"
-            },
-            {
-              "name": "--mp-message-tonal-danger-content-color",
-              "description": "`var(--mp-sys-color-content-primary)`"
-            },
-            {
-              "name": "--mp-message-tonal-danger-icon-color",
-              "description": "`var(--mp-sys-color-content-danger)`"
-            },
-            {
-              "name": "--mp-message-tonal-danger-border-color",
-              "description": "`transparent`"
-            },
-            {
-              "name": "--mp-message-tonal-danger-close-color",
-              "description": "`var(--mp-sys-color-content-primary)`"
-            },
-            {
-              "name": "--mp-message-tonal-loading-bg",
-              "description": "`var(--mp-color-primary-light-1)`"
-            },
-            {
-              "name": "--mp-message-tonal-loading-content-color",
-              "description": "`var(--mp-sys-color-content-primary)`"
-            },
-            {
-              "name": "--mp-message-tonal-loading-icon-color",
-              "description": "`var(--mp-sys-color-content-brand)`"
-            },
-            {
-              "name": "--mp-message-tonal-loading-border-color",
-              "description": "`transparent`"
-            },
-            {
-              "name": "--mp-message-tonal-loading-close-color",
-              "description": "`var(--mp-sys-color-content-primary)`"
-            },
-            {
-              "name": "--mp-message-solid-default-bg",
-              "description": "`#333`"
-            },
-            {
-              "name": "--mp-message-solid-default-content-color",
-              "description": "`var(--mp-sys-color-content-on-dark)`"
-            },
-            {
-              "name": "--mp-message-solid-default-icon-color",
-              "description": "`var(--mp-sys-color-content-on-dark)`"
-            },
-            {
-              "name": "--mp-message-solid-default-border-color",
-              "description": "`transparent`"
-            },
-            {
-              "name": "--mp-message-solid-default-close-color",
-              "description": "`var(--mp-sys-color-content-on-dark)`"
-            },
-            {
-              "name": "--mp-message-solid-info-bg",
-              "description": "`var(--mp-sys-color-status-info)`"
-            },
-            {
-              "name": "--mp-message-solid-info-content-color",
-              "description": "`var(--mp-sys-color-content-on-bright)`"
-            },
-            {
-              "name": "--mp-message-solid-info-icon-color",
-              "description": "`var(--mp-sys-color-content-on-bright)`"
-            },
-            {
-              "name": "--mp-message-solid-info-border-color",
-              "description": "`transparent`"
-            },
-            {
-              "name": "--mp-message-solid-info-close-color",
-              "description": "`var(--mp-sys-color-content-on-bright)`"
-            },
-            {
-              "name": "--mp-message-solid-success-bg",
-              "description": "`var(--mp-sys-color-status-success)`"
-            },
-            {
-              "name": "--mp-message-solid-success-content-color",
-              "description": "`var(--mp-sys-color-content-on-bright)`"
-            },
-            {
-              "name": "--mp-message-solid-success-icon-color",
-              "description": "`var(--mp-sys-color-content-on-bright)`"
-            },
-            {
-              "name": "--mp-message-solid-success-border-color",
-              "description": "`transparent`"
-            },
-            {
-              "name": "--mp-message-solid-success-close-color",
-              "description": "`var(--mp-sys-color-content-on-bright)`"
-            },
-            {
-              "name": "--mp-message-solid-warning-bg",
-              "description": "`var(--mp-sys-color-status-warning)`"
-            },
-            {
-              "name": "--mp-message-solid-warning-content-color",
-              "description": "`var(--mp-sys-color-content-on-bright)`"
-            },
-            {
-              "name": "--mp-message-solid-warning-icon-color",
-              "description": "`var(--mp-sys-color-content-on-bright)`"
-            },
-            {
-              "name": "--mp-message-solid-warning-border-color",
-              "description": "`transparent`"
-            },
-            {
-              "name": "--mp-message-solid-warning-close-color",
-              "description": "`var(--mp-sys-color-content-on-bright)`"
-            },
-            {
-              "name": "--mp-message-solid-danger-bg",
-              "description": "`var(--mp-sys-color-status-danger)`"
-            },
-            {
-              "name": "--mp-message-solid-danger-content-color",
-              "description": "`var(--mp-sys-color-content-on-bright)`"
-            },
-            {
-              "name": "--mp-message-solid-danger-icon-color",
-              "description": "`var(--mp-sys-color-content-on-bright)`"
-            },
-            {
-              "name": "--mp-message-solid-danger-border-color",
-              "description": "`transparent`"
-            },
-            {
-              "name": "--mp-message-solid-danger-close-color",
-              "description": "`var(--mp-sys-color-content-on-bright)`"
-            },
-            {
-              "name": "--mp-message-solid-loading-bg",
-              "description": "`#333`"
-            },
-            {
-              "name": "--mp-message-solid-loading-content-color",
-              "description": "`var(--mp-sys-color-content-on-dark)`"
-            },
-            {
-              "name": "--mp-message-solid-loading-icon-color",
-              "description": "`var(--mp-sys-color-content-on-dark)`"
-            },
-            {
-              "name": "--mp-message-solid-loading-border-color",
-              "description": "`transparent`"
-            },
-            {
-              "name": "--mp-message-solid-loading-close-color",
-              "description": "`var(--mp-sys-color-content-on-dark)`"
-            },
-            {
-              "name": "--mp-message-width",
-              "description": "`256px`"
-            },
-            {
-              "name": "--mp-message-border-radius",
-              "description": "`4px`"
-            },
-            {
-              "name": "--mp-message-font-size",
-              "description": "`var(--mp-font-size-md)`"
-            },
-            {
-              "name": "--mp-message-margin",
-              "description": "`6px 24px`"
-            },
-            {
-              "name": "--mp-message-content-padding",
-              "description": "`14px 16px`"
-            },
-            {
-              "name": "--mp-message-action-margin",
-              "description": "`0 8px`"
-            },
-            {
-              "name": "--mp-message-icon-margin",
-              "description": "`0 8px`"
+              "name": "option-extra",
+              "description": "统一渲染选项右侧内容"
             }
           ]
+        },
+        {
+          "name": "mp-message",
+          "attributes": [],
+          "events": [],
+          "slots": []
         },
         {
           "name": "mp-notice-bar",
@@ -4641,6 +4364,15 @@
               "name": "toolbar",
               "description": "是否显示上方工具栏",
               "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "disabled",
+              "description": "禁用选项点击、触摸、键盘选择及确认",
+              "default": "false",
               "value": {
                 "type": "boolean",
                 "kind": "expression"
@@ -6396,7 +6128,7 @@
           "attributes": [
             {
               "name": "name",
-              "description": "标识符",
+              "description": "业务标识，通过 open、close 和 before-close 返回，不显示为内容",
               "default": "''",
               "value": {
                 "type": "`string | number`",
@@ -7172,11 +6904,11 @@
               }
             },
             {
-              "name": "presentation",
-              "description": "面板模式，可选值 `clock` `picker`",
-              "default": "picker",
+              "name": "show-now-button",
+              "description": "显示此刻按钮；只更新草稿，仍需确认",
+              "default": "true",
               "value": {
-                "type": "string",
+                "type": "boolean",
                 "kind": "expression"
               }
             },
@@ -7275,7 +7007,7 @@
               "description": "透传给弹窗的属性",
               "default": "{}",
               "value": {
-                "type": "Partial\\<PopupProps\\>",
+                "type": "Partial\\<TriggerProps\\>",
                 "kind": "expression"
               }
             },
@@ -7376,7 +7108,7 @@
           "slots": [
             {
               "name": "actions",
-              "description": "替换面板确认操作"
+              "description": "替换面板操作栏"
             }
           ]
         },
@@ -7438,8 +7170,8 @@
               }
             },
             {
-              "name": "presentation",
-              "description": "面板模式，可选值 `clock` `picker`",
+              "name": "panel-type",
+              "description": "面板模式，可选值 `picker`",
               "default": "picker",
               "value": {
                 "type": "string",
@@ -7529,19 +7261,10 @@
             },
             {
               "name": "show-next-day",
-              "description": "结束早于开始时，在字段与面板结束侧显示「次日」；开启后确认时不交换起止。未开启时在确认时按时间先后交换",
+              "description": "允许结束早于开始并按次日处理；关闭时逆序草稿显示红字提示并禁用确认，起止始终不交换",
               "default": "false",
               "value": {
                 "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "time-picker-props",
-              "description": "透传给 `mp-time-picker`（clock 模式）",
-              "default": "{}",
-              "value": {
-                "type": "Partial\\<TimePickerProps\\>",
                 "kind": "expression"
               }
             },
@@ -7568,7 +7291,7 @@
               "description": "透传给弹窗的属性",
               "default": "{}",
               "value": {
-                "type": "Partial\\<PopupProps\\>",
+                "type": "Partial\\<TriggerProps\\>",
                 "kind": "expression"
               }
             },
@@ -8136,28 +7859,7 @@
               }
             }
           ],
-          "events": [
-            {
-              "name": "--mp-trigger-arrow-background",
-              "description": "`var(--mp-sys-color-surface-overlay)`"
-            },
-            {
-              "name": "--mp-trigger-arrow-size",
-              "description": "`var(--mp-sys-space-4)`"
-            },
-            {
-              "name": "--mp-trigger-arrow-radius",
-              "description": "`var(--mp-sys-radius-sm)`"
-            },
-            {
-              "name": "--mp-trigger-transition-duration",
-              "description": "`var(--mp-sys-motion-duration-fast)`"
-            },
-            {
-              "name": "--mp-trigger-transition-easing",
-              "description": "`var(--mp-sys-motion-easing-standard)`"
-            }
-          ],
+          "events": [],
           "slots": []
         },
         {

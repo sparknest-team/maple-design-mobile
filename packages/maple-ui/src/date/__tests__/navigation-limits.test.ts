@@ -4,7 +4,7 @@ import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from 'vitest
 import DateRange, { DateRangePicker } from '../../date-range'
 import DateInput, { DatePicker } from '../index'
 
-const Surface = defineComponent({ template: '<div><slot /></div>' })
+const Surface = defineComponent({ template: '<div><slot /><slot name="content" /></div>' })
 const wrappers: ReturnType<typeof mount>[] = []
 const scrollDescriptor = Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'scrollIntoView')
 beforeAll(() => Object.defineProperty(HTMLElement.prototype, 'scrollIntoView', { configurable: true, value: vi.fn() }))
@@ -21,7 +21,7 @@ describe('calendar dynamic navigation limits', () => {
     for (const field of [false, true]) {
       for (const range of [false, true]) {
         it(`restores only the released side (type=${type}, field=${field}, range=${range})`, async () => {
-          const global = { stubs: { DatePopup: Surface } }
+          const global = { stubs: { Trigger: Surface, MpTrigger: Surface, teleport: true } }
           const common = {
             type,
             presentation: 'calendar' as const,
@@ -31,8 +31,26 @@ describe('calendar dynamic navigation limits', () => {
           }
           const wrapper = field
             ? range
-              ? mount(DateRange, { props: { ...common, modelValue: ['2025-02-12', '2025-02-15'] }, global })
-              : mount(DateInput, { props: { ...common, modelValue: '2025-02-12' }, global })
+              ? mount(DateRange, {
+                  props: {
+                    defaultOpen: true,
+                    ...common,
+                    panelType: 'calendar',
+                    presentation: undefined,
+                    modelValue: ['2025-02-12', '2025-02-15'],
+                  },
+                  global,
+                })
+              : mount(DateInput, {
+                  props: {
+                    defaultOpen: true,
+                    ...common,
+                    panelType: 'calendar',
+                    presentation: undefined,
+                    modelValue: '2025-02-12',
+                  },
+                  global,
+                })
             : range
               ? mount(DateRangePicker, { props: { ...common, modelValue: ['2025-02-12', '2025-02-15'] }, global })
               : mount(DatePicker, { props: { ...common, modelValue: '2025-02-12' }, global })

@@ -1,0 +1,288 @@
+{
+  "fields": [
+    {
+      "name": "model-value",
+      "description": "受控整码",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "default-value",
+      "description": "非受控初值",
+      "type": "string",
+      "defaultValue": "''",
+      "kind": "string"
+    },
+    {
+      "name": "length",
+      "description": "正整数格数（按 Unicode 码点）",
+      "type": "number",
+      "defaultValue": "6",
+      "kind": "number"
+    },
+    {
+      "name": "type",
+      "description": "字符集合",
+      "type": "'digit' | 'text' | 'alphanumeric'",
+      "defaultValue": "'digit'",
+      "kind": "enum",
+      "options": [
+        "digit",
+        "text",
+        "alphanumeric"
+      ],
+      "initial": "digit"
+    },
+    {
+      "name": "size",
+      "description": "五档外壳尺寸",
+      "type": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\"",
+      "defaultValue": "undefined",
+      "kind": "enum",
+      "options": [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl"
+      ],
+      "initial": "xs"
+    },
+    {
+      "name": "variant",
+      "description": "输入外观",
+      "type": "\"filled\" | \"outline\" | \"standard\"",
+      "defaultValue": "undefined",
+      "kind": "enum",
+      "options": [
+        "filled",
+        "outline",
+        "standard"
+      ],
+      "initial": "filled"
+    },
+    {
+      "name": "masked",
+      "description": "仅视觉隐藏字符，不是加密",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "mask-symbol",
+      "description": "取首个 Unicode 码点",
+      "type": "string",
+      "defaultValue": "'•'",
+      "kind": "string"
+    },
+    {
+      "name": "autofocus",
+      "description": "挂载后聚焦首个空格",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "gutter",
+      "description": "格间距，number 为 px",
+      "type": "number / string",
+      "defaultValue": "undefined",
+      "kind": "scalar"
+    },
+    {
+      "name": "align",
+      "description": "水平对齐",
+      "type": "'start' | 'center' | 'end'",
+      "defaultValue": "'center'",
+      "kind": "enum",
+      "options": [
+        "start",
+        "center",
+        "end"
+      ],
+      "initial": "center"
+    },
+    {
+      "name": "allow-paste",
+      "description": "是否允许粘贴，false 阻止原生粘贴",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "paste-transform",
+      "description": "粘贴预处理，先于 type 与 formatter",
+      "type": "(text: string) => string",
+      "defaultValue": "undefined",
+      "kind": "scenario"
+    },
+    {
+      "name": "formatter",
+      "description": "逐字符格式化，false 拒绝，true/undefined 保持；返回字符串取首个合法码点",
+      "type": "(character, index, value) => string / boolean",
+      "defaultValue": "undefined",
+      "kind": "callback"
+    },
+    {
+      "name": "separator",
+      "description": "非最后格后面的分隔内容",
+      "type": "(index, character) => VNodeChild",
+      "defaultValue": "undefined",
+      "kind": "callback"
+    },
+    {
+      "name": "aria-label",
+      "description": "组名和每格的序号名称",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "presentation",
+      "type": "'inline' | 'popup'",
+      "defaultValue": "undefined",
+      "description": "字段编辑方式，字段 > FormItem > Form 继承；默认 inline。",
+      "kind": "enum",
+      "options": [
+        "inline",
+        "popup"
+      ],
+      "initial": "inline"
+    },
+    {
+      "name": "read-pretty",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "description": "纯阅读展示；字段 > FormItem > Form 继承，显式 false 覆盖父级。",
+      "kind": "boolean"
+    },
+    {
+      "name": "before-commit",
+      "type": "BeforeFieldCommit",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "callback"
+    },
+    {
+      "name": "open",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "boolean"
+    },
+    {
+      "name": "default-open",
+      "type": "boolean",
+      "defaultValue": "false",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "boolean"
+    },
+    {
+      "name": "popup-container",
+      "type": "string | HTMLElement | false",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "json",
+      "initial": "\"body\""
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "description": "禁用，继承表单",
+      "kind": "boolean"
+    },
+    {
+      "name": "readonly",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "description": "只读，继承表单",
+      "kind": "boolean"
+    },
+    {
+      "name": "error",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "description": "错误，继承表单",
+      "kind": "boolean"
+    },
+    {
+      "name": "text-color",
+      "type": "string",
+      "defaultValue": "undefined",
+      "description": "实例文字颜色",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "focus-color",
+      "type": "string",
+      "defaultValue": "undefined",
+      "description": "实例聚焦颜色",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "blur-color",
+      "type": "string",
+      "defaultValue": "undefined",
+      "description": "实例失焦颜色",
+      "kind": "string",
+      "initial": "#5268cc"
+    }
+  ],
+  "events": [
+    "input",
+    "update:modelValue",
+    "change",
+    "finish",
+    "paste",
+    "focus",
+    "blur",
+    "click",
+    "update:open"
+  ],
+  "scenarios": [
+    {
+      "name": "paste-transform",
+      "kind": "prop",
+      "demos": [
+        "formatting.vue"
+      ]
+    },
+    {
+      "name": "formatter",
+      "kind": "prop",
+      "demos": [
+        "formatting.vue"
+      ]
+    },
+    {
+      "name": "separator",
+      "kind": "prop",
+      "demos": [
+        "formatting.vue"
+      ]
+    },
+    {
+      "name": "before-commit",
+      "kind": "prop",
+      "demos": []
+    },
+    {
+      "name": "separator",
+      "kind": "slot",
+      "demos": [
+        "formatting.vue"
+      ]
+    }
+  ],
+  "slotNames": [
+    "separator"
+  ],
+  "slotDefaults": {
+    "separator": false
+  },
+  "methodNames": []
+}

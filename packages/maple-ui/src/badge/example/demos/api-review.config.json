@@ -1,0 +1,197 @@
+{
+  "fields": [
+    {
+      "name": "description",
+      "description": "徽标的描述文本",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "content",
+      "description": "徽标显示的内容",
+      "type": "number | string",
+      "defaultValue": "undefined",
+      "kind": "scalar"
+    },
+    {
+      "name": "max",
+      "description": "徽标最大显示数值，如果content超过这个数值会显示为${max}+，content 为数字时有效。",
+      "type": "number",
+      "defaultValue": "99",
+      "kind": "number"
+    },
+    {
+      "name": "dot",
+      "description": "显示为小红点",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "offset-x",
+      "description": "设置徽标位置的偏移X，mode为inline时无效。",
+      "type": "number",
+      "defaultValue": "0",
+      "kind": "number"
+    },
+    {
+      "name": "offset-y",
+      "description": "设置徽标位置的偏移Y。",
+      "type": "number",
+      "defaultValue": "0",
+      "kind": "number"
+    },
+    {
+      "name": "color",
+      "description": "徽标的背景色，也可以设置自定义色值",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "text-color",
+      "description": "徽标显示的内容颜色",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "mode",
+      "description": "徽标的类型",
+      "type": "\"floating\" | \"inline\"",
+      "defaultValue": "'floating'",
+      "kind": "enum",
+      "options": [
+        "floating",
+        "inline"
+      ],
+      "initial": "floating"
+    },
+    {
+      "name": "position",
+      "description": "徽标物理位置（RTL 下不翻转），mode 为 floating 时有效",
+      "type": "\"top-right\" | \"top-left\" | \"bottom-right\" | \"bottom-left\" | \"left\" | \"right\"",
+      "defaultValue": "'top-right'",
+      "kind": "enum",
+      "options": [
+        "top-right",
+        "top-left",
+        "bottom-right",
+        "bottom-left",
+        "left",
+        "right"
+      ],
+      "initial": "top-right"
+    },
+    {
+      "name": "inline-position",
+      "description": "徽标的位置，mode 为 inline 时有效",
+      "type": "\"start\" | \"end\"",
+      "defaultValue": "'end'",
+      "kind": "enum",
+      "options": [
+        "start",
+        "end"
+      ],
+      "initial": "end"
+    },
+    {
+      "name": "size",
+      "description": "徽标的尺寸",
+      "type": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\"",
+      "defaultValue": "'md'",
+      "kind": "enum",
+      "options": [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl"
+      ],
+      "initial": "md"
+    },
+    {
+      "name": "status",
+      "description": "徽标的状态",
+      "type": "\"default\" | \"primary\" | \"secondary\" | \"tertiary\" | \"info\" | \"success\" | \"warning\" | \"danger\"",
+      "defaultValue": "'danger'",
+      "kind": "enum",
+      "options": [
+        "default",
+        "primary",
+        "secondary",
+        "tertiary",
+        "info",
+        "success",
+        "warning",
+        "danger"
+      ],
+      "initial": "danger"
+    },
+    {
+      "name": "show",
+      "description": "是否显示徽标",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "show-zero",
+      "description": "徽标为0时是否显示",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "variant",
+      "description": "徽标的变体",
+      "type": "\"default\" | \"outline\"",
+      "defaultValue": "'default'",
+      "kind": "enum",
+      "options": [
+        "default",
+        "outline"
+      ],
+      "initial": "default"
+    }
+  ],
+  "events": [
+    "update:show"
+  ],
+  "scenarios": [
+    {
+      "name": "default",
+      "kind": "slot",
+      "demos": [
+        "color.vue",
+        "variant.vue"
+      ]
+    },
+    {
+      "name": "content",
+      "kind": "slot",
+      "demos": [
+        "basic.vue",
+        "color.vue",
+        "content.vue",
+        "dot.vue",
+        "inline.vue",
+        "max.vue",
+        "position.vue",
+        "show.vue",
+        "size.vue",
+        "variant.vue"
+      ]
+    }
+  ],
+  "slotNames": [
+    "content"
+  ],
+  "slotDefaults": {
+    "content": true
+  },
+  "methodNames": []
+}

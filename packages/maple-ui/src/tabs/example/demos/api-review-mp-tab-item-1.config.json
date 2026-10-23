@@ -1,0 +1,23 @@
+{
+  "fields": [
+    {
+      "name": "lazy-load",
+      "description": "继承 Tabs，显式 false 可覆盖",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
+      "name": "destroy-on-hide",
+      "description": "继承 Tabs，显式 false 可覆盖",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    }
+  ],
+  "methodNames": [],
+  "events": [],
+  "slotNames": [],
+  "slotDefaults": {},
+  "scenarios": []
+}

@@ -1,5 +1,7 @@
 # Space 间隔
 
+## 案例
+
 ### 介绍
 
 组件库提供了 `<mp-space>` 布局的组件，使您更有效率的进行 flex 布局。
@@ -8,6 +10,14 @@
 
 ```demo
 ../example/demos/base-use.vue
+```
+
+### 动态布局
+
+切换方向、列间距和换行，添加/删除子项；行间距固定8px，列间距在8px/24px间切换。方向不会交换两个gap的几何轴含义。窄容器内未换行时可横向滚动。
+
+```demo
+../example/demos/interactive-layout.vue
 ```
 
 ### 垂直
@@ -51,6 +61,23 @@
 ```demo
 ../example/demos/demo-8.vue
 ```
+
+### 布局与对齐
+
+适用于space。调整排列方向、交叉轴对齐、主轴分配，用相同数据观察变化。内容保持一致，便于比较不同设置的实际效果。
+
+```demo
+../example/demos/layout-lab.vue
+```
+
+<!-- api-review:start -->
+### 功能调试
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

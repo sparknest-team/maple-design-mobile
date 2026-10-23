@@ -1,102 +1,77 @@
 import { nextTick } from 'vue'
-import { enableAutoUnmount, mount } from '@vue/test-utils'
-import { afterEach, describe, expect, test } from 'vitest'
-import PopupPresentation from '../../_components/selection-field/PopupPresentation.vue'
-import { _PickerComponent as Picker } from '../../picker'
-import Select from '../../select/select'
-import { getKeyFromValue } from '../../select/utils'
-import Cascader from '../Cascader.vue'
+import { flushPromises, mount } from '@vue/test-utils'
+import { describe, expect, test } from 'vitest'
+import EditorPanel from '../../_components/field-presentation/EditorPanel.vue'
+import CascaderMenu from '../CascaderMenu.vue'
+import Cascader from '../index'
 
-enableAutoUnmount(afterEach)
-const settle = async () => {
-  await nextTick()
+const options = [
+  {
+    value: 'a',
+    label: 'Group',
+    children: [
+      { value: 1, label: 'One' },
+      { value: 2, label: 'Two' },
+    ],
+  },
+]
+const controller = (wrapper) => wrapper.getComponent(EditorPanel).getComponent(CascaderMenu).props('controller')
+const action = (wrapper, name) =>
+  wrapper
+    .getComponent(EditorPanel)
+    .findAll('button')
+    .find((button) => button.text() === name)
+const choose = async (wrapper) => {
+  const state = controller(wrapper)
+  state.handleClickOption(
+    [...state.optionMap.values()].find((option) => option.value === 1),
+    true,
+  )
   await nextTick()
 }
-const click = async (selector) => {
-  const element = document.querySelector(selector)
-  expect(element).toBeTruthy()
-  element.click()
-  await settle()
-}
-const controller = (wrapper) => wrapper.findComponent(PopupPresentation).props('controller')
-describe('Mobile presentations', () => {
-  for (const Component of [Select, Cascader]) {
-    const options =
-      Component === Select
-        ? [
-            { value: 1, label: 'One' },
-            { value: 2, label: 'Two' },
-          ]
-        : [
-            {
-              value: 'a',
-              label: 'Group',
-              children: [
-                { value: 1, label: 'One' },
-                { value: 2, label: 'Two' },
-              ],
-            },
-          ]
-    for (const presentation of ['list', 'picker']) {
-      test(Component.name + presentation + ' opens from the field and confirms a multi-select draft once', async () => {
-        const wrapper = mount(Component, { props: { presentation, multiple: true, options }, attachTo: document.body })
-        await wrapper.get('input').trigger('click')
-        await settle()
-        const c = controller(wrapper)
-        expect(c.computedOpen).toBe(true)
-        if (presentation === 'picker') {
-          await click('.mp-selection-presentation__add')
-        } else if (Component === Select) {
-          await click('.mp-select-option')
-        } else {
-          const node = [...c.optionMap.values()].find((option) => option.value === 1)
-          c.handleClickOption(node, true)
-        }
-        await settle()
+describe('Cascader shared field overlays', () => {
+  for (const presentation of ['popup']) {
+    test(presentation + ' confirms a multi-select draft once', async () => {
+      const wrapper = mount(Cascader, { props: { presentation, multiple: true, options } })
+      try {
+        await wrapper.get('[aria-haspopup=dialog]').trigger('click')
+        await flushPromises()
+        await choose(wrapper)
         expect(wrapper.emitted('change')).toBeUndefined()
-        await click('.mp-selection-presentation__confirm')
+        await action(wrapper, '确认').trigger('click')
+        await flushPromises()
         expect(wrapper.emitted('change')).toEqual([[[1]]])
-        expect(c.computedOpen).toBe(false)
-      })
-      test(Component.name + presentation + ' cancellation discards edits', async () => {
-        const wrapper = mount(Component, {
-          props: { presentation, multiple: true, options, defaultOpen: true, defaultValue: [] },
-          attachTo: document.body,
-        })
-        await settle()
-        if (Component === Select) {
-          controller(wrapper).handleSelect(getKeyFromValue(1), new Event('click'))
-        } else {
-          const c = controller(wrapper)
-          c.handleClickOption(
-            [...c.optionMap.values()].find((option) => option.value === 1),
-            true,
-          )
-        }
-        await click('.mp-selection-presentation__cancel')
-        expect(wrapper.emitted('change')).toBeUndefined()
-      })
-    }
-    test(Component.name + ' controlled picker does not emit twice while a parent keeps it open', async () => {
-      const wrapper = mount(Component, {
-        props: { presentation: 'picker', options, open: true },
-        attachTo: document.body,
-      })
-      await settle()
-      await click('.mp-selection-presentation__confirm')
-      await click('.mp-selection-presentation__confirm')
-      expect(wrapper.emitted('change')).toEqual([[1]])
-      expect(wrapper.emitted('update:open')).toEqual([[false]])
+      } finally {
+        wrapper.unmount()
+      }
     })
-    test(Component.name + ' empty picker cannot confirm an invalid default', async () => {
-      const wrapper = mount(Component, {
-        props: { presentation: 'picker', options: [], defaultOpen: true },
-        attachTo: document.body,
-      })
-      await settle()
-      expect(document.querySelector('.mp-selection-presentation__confirm').disabled).toBe(true)
-      controller(wrapper).session.commit()
-      expect(wrapper.emitted('change')).toBeUndefined()
+    test(presentation + ' cancels and starts a fresh draft', async () => {
+      const wrapper = mount(Cascader, { props: { presentation, multiple: true, options, defaultValue: [] } })
+      try {
+        await wrapper.get('[aria-haspopup=dialog]').trigger('click')
+        await flushPromises()
+        await choose(wrapper)
+        await wrapper.getComponent(EditorPanel).get('button[aria-label="关闭"]').trigger('click')
+        await flushPromises()
+        expect(wrapper.emitted('change')).toBeUndefined()
+        await wrapper.get('[aria-haspopup=dialog]').trigger('click')
+        await flushPromises()
+        expect(controller(wrapper).computedValueMap.size).toBe(0)
+      } finally {
+        wrapper.unmount()
+      }
+    })
+    test(presentation + ' respects a controlled rejection of opening', async () => {
+      const wrapper = mount(Cascader, { props: { presentation, options, open: false } })
+      try {
+        await wrapper.get('[aria-haspopup=dialog]').trigger('click')
+        await flushPromises()
+        expect(wrapper.emitted('update:open')).toEqual([[true]])
+        expect(wrapper.findComponent(CascaderMenu).exists()).toBe(false)
+        expect(wrapper.emitted('change')).toBeUndefined()
+      } finally {
+        wrapper.unmount()
+      }
     })
   }
 })

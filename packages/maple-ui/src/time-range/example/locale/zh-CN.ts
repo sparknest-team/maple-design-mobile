@@ -1,6 +1,5 @@
 export default {
   basicUsage: '基本使用',
-  clockMode: '时钟模式',
   pickerSeconds: '列滚轮含秒',
   hour24: '24 小时制与秒',
   separator: '自定义分隔符',
@@ -8,7 +7,6 @@ export default {
   disabled: '禁用',
   withFormItem: '搭配 FormItem',
   placeholder: '请选择时间范围',
-  clockPlaceholder: '时钟时间范围',
   pickerSecondsPlaceholder: '列滚轮含秒',
   secondsPlaceholder: '含秒的时间范围',
   separatorPlaceholder: '自定义分隔符',

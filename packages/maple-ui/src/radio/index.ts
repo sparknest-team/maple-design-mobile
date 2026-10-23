@@ -1,7 +1,7 @@
 import { withInstall, withPropsDefaultsSetter } from '../utils/components'
+import RadioGroup from './group-presentation'
+import _Radio from './presentation'
 import { radioGroupProps, radioProps } from './props'
-import _Radio from './Radio.vue'
-import RadioGroup from './RadioGroup.vue'
 
 const Radio: typeof _Radio & { Group: typeof RadioGroup; install?: (app: import('vue').App) => void } = withInstall(
   _Radio,

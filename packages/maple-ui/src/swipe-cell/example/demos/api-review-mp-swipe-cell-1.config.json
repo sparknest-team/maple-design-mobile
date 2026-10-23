@@ -1,0 +1,64 @@
+{
+  "fields": [
+    {
+      "name": "name",
+      "description": "业务标识，通过事件和关闭回调返回，不显示为内容",
+      "type": "string | number",
+      "defaultValue": "''",
+      "kind": "scalar"
+    },
+    {
+      "name": "left-width",
+      "description": "左侧操作区宽度，auto 时按内容测量",
+      "type": "number | string",
+      "defaultValue": "'auto'",
+      "kind": "scalar"
+    },
+    {
+      "name": "right-width",
+      "description": "右侧操作区宽度",
+      "type": "number | string",
+      "defaultValue": "'auto'",
+      "kind": "scalar"
+    },
+    {
+      "name": "before-close",
+      "description": "关闭前钩子，返回 false 阻止关闭",
+      "type": "(args) => boolean | Promise<boolean>",
+      "defaultValue": "undefined",
+      "kind": "callback"
+    },
+    {
+      "name": "disabled",
+      "description": "禁用滑动",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "stop-propagation",
+      "description": "阻止 touchmove 冒泡",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    }
+  ],
+  "methodNames": [
+    "open",
+    "close"
+  ],
+  "events": [
+    "click",
+    "open",
+    "close"
+  ],
+  "slotNames": [
+    "right",
+    "left"
+  ],
+  "slotDefaults": {
+    "right": true,
+    "left": false
+  },
+  "scenarios": []
+}

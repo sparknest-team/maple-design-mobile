@@ -26,13 +26,18 @@ test('date confirm writes modelValue', async () => {
   await wrapper.find('.mp-field-decorator').trigger('click')
   await delay(300)
 
-  expect(document.querySelector('.mp-date__panel')).toBeTruthy()
-  expect(document.querySelector('.mp-picker')).toBeTruthy()
-  expect(document.querySelector('.mp-date-picker__body')).toBeFalsy()
+  expect(document.querySelector('.mp-date-field-popover')).toBeTruthy()
+  expect(document.querySelector('.mp-picker')).toBeFalsy()
+  expect(document.querySelector('.mp-date-picker__body')).toBeTruthy()
 
   wrapper.getComponent(DatePanel).vm.$emit('select', '2025-01-15')
   await delay(0)
-  await trigger(document.querySelector('.mp-date__confirm-button'), 'click')
+  await trigger(
+    [...document.querySelectorAll('.mp-date-field-popover button')].find(
+      (button) => button.textContent.trim() === '确认',
+    ),
+    'click',
+  )
   await delay(300)
 
   expect(onUpdateModelValue).toHaveBeenCalled()
@@ -54,7 +59,7 @@ test('date cancel does not write modelValue', async () => {
 
   await wrapper.find('.mp-field-decorator').trigger('click')
   await delay(300)
-  await trigger(document.querySelector('.mp-date__cancel-button'), 'click')
+  await wrapper.find('input').trigger('keydown', { key: 'Escape' })
   await delay(300)
 
   expect(onUpdateModelValue).not.toHaveBeenCalled()

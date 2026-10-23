@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
+import DemoApiReview from './demos/api-review.vue'
 import Demo0 from './demos/basic.vue'
 import Demo1 from './demos/collapse.vue'
 import Demo3 from './demos/dynamic.vue'
@@ -41,4 +42,5 @@ onThemeChange()
     <app-type>{{ english ? 'Insert, remove and reorder' : '动态插入、删除与排序' }}</app-type
     ><Demo3 />
   </section>
+  <section data-demo="api-review"><DemoApiReview /></section>
 </template>

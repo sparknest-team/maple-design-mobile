@@ -1,12 +1,10 @@
 import { nextTick, ref } from 'vue'
 import { mount, shallowMount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
-import { dateTimeConstraints } from '../../date/time-constraints'
 import { props as rangePickerProps } from '../../time-range/picker-props'
 import { props as rangeProps } from '../../time-range/props'
 import TimeRange from '../../time-range/TimeRange.vue'
 import TimeRangePicker from '../../time-range/TimeRangePicker.vue'
-import Clock from '../Clock.vue'
 import { props as pickerProps } from '../picker-props'
 import { props as fieldProps } from '../props'
 import Time from '../Time.vue'
@@ -25,48 +23,6 @@ describe('mobile time constraints integration', () => {
     expect(wrapper.emitted('update:modelValue')).toEqual([['12:30']])
     wrapper.unmount()
   })
-  it('shows noon as PM and switches a clock between noon and midnight', async () => {
-    const wrapper = shallowMount(TimePicker, {
-      props: {
-        disableConfirm: true,
-        hideDisabledOptions: true,
-        modelValue: '12:30',
-        format: 'HH:mm',
-        use12Hours: true,
-        presentation: 'clock',
-      },
-    })
-    expect(panelState(wrapper).ampm).toBe('pm')
-    panelState(wrapper).checkAmpm('am')
-    expect(wrapper.emitted('update:modelValue')).toEqual([['00:30']])
-    await wrapper.setProps({ modelValue: '00:30' })
-    expect(panelState(wrapper).ampm).toBe('am')
-    panelState(wrapper).checkAmpm('pm')
-    expect(wrapper.emitted('update:modelValue')[1]).toEqual(['12:30'])
-    wrapper.unmount()
-  })
-  it('keeps midnight distinct from noon and reacts to callback dependencies', async () => {
-    const locked = ref(true)
-    const wrapper = shallowMount(Clock, {
-      props: {
-        isInner: false,
-        type: 'hour',
-        format: 'ampm',
-        ampm: 'am',
-        time: { hour: '12', minute: '00', second: '00' },
-        disabledHours: () => (locked.value ? [0] : []),
-      },
-    })
-    expect(wrapper.vm.isDisable('12')).toBe(true)
-    await wrapper.setProps({ ampm: 'pm' })
-    expect(wrapper.vm.isDisable('12')).toBe(false)
-    await wrapper.setProps({ ampm: 'am' })
-    locked.value = false
-    await nextTick()
-    expect(wrapper.vm.isDisable('12')).toBe(false)
-    wrapper.unmount()
-  })
-
   it('removes old time props rather than retaining aliases', () => {
     for (const props of [fieldProps, pickerProps, rangeProps, rangePickerProps]) {
       expect(props).not.toHaveProperty('disabledTime')
@@ -129,7 +85,7 @@ describe('mobile time constraints integration', () => {
     expect(wrapper.emitted('update:modelValue')).toBeUndefined()
     wrapper.unmount()
   })
-  it('keeps range sides independent and recalculates active columns', async () => {
+  it('keeps range sides independent and recalculates both column groups', async () => {
     const wrapper = shallowMount(TimeRangePicker, {
       props: {
         disableConfirm: true,
@@ -141,17 +97,10 @@ describe('mobile time constraints integration', () => {
         disabledMinutes: (hour) => (hour === 11 ? [30] : []),
       },
     })
-    panelState(wrapper).activeTab = 'end'
     await nextTick()
-    expect(panelState(wrapper).pickerValue).toEqual(['11', '29'])
-    panelState(wrapper).handlePickerChange(['11', '30'])
+    expect(panelState(wrapper).pickerValue).toEqual(['10', '20', '11', '29'])
+    panelState(wrapper).handlePickerChange(['10', '20', '11', '30'])
     expect(wrapper.emitted('update:modelValue')).toEqual([[['10:20', '11:29']]])
     wrapper.unmount()
-  })
-  it('converts the separate Date predicate API for internal TimePicker use', () => {
-    const rules = dateTimeConstraints({ hours: (hour) => hour === 13, minutes: (minute) => minute === 30 })
-    expect(rules.disabledHours()).toEqual([13])
-    expect(rules.disabledMinutes(13)).toEqual([30])
-    expect(rules.disabledSeconds(13, 30)).toEqual([])
   })
 })

@@ -13,15 +13,17 @@
     </mp-carousel-item>
     <template #indicator="{ index, length, to }">
       <div class="carousel-custom-indicators">
-        <div
+        <mp-button
           v-for="(l, idx) in length"
           :key="l"
-          class="carousel-custom-indicator"
-          :class="{ 'carousel-custom--active': idx === index }"
+          size="xs"
+          round
+          :variant="idx === index ? 'default' : 'tonal'"
+          :status="idx === index ? 'primary' : 'default'"
+          :aria-label="`跳转至第 ${idx + 1} 页`"
           @click="to(idx)"
+          >{{ idx + 1 }}</mp-button
         >
-          {{ idx + 1 }}
-        </div>
       </div>
     </template>
   </mp-carousel>
@@ -62,22 +64,6 @@
   transform: translateX(-50%);
   display: flex;
   gap: 4px;
-}
-
-.carousel-custom-indicator {
-  width: 20px;
-  height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0, 0, 0, 0.3);
-  color: #fff;
-  font-size: 12px;
-  border-radius: 50%;
-}
-
-.carousel-custom--active {
-  background: #4a90d9;
 }
 
 .space {

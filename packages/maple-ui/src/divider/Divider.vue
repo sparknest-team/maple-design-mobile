@@ -7,8 +7,8 @@
         n(`--text-align-${textAlign}`),
         n(`--type-${type}`),
         [withText(), n('--with-text')],
-        [withPresetSizeX, n(`--size-x-${sizeX}`)],
-        [withPresetSizeY, n(`--size-y-${sizeY}`)],
+        [withPresetInset, n(`--inset-${inset}`)],
+        [withPresetSpacing, n(`--spacing-${spacing}`)],
         [hairline, n('--hairline')],
       )
     "
@@ -32,15 +32,15 @@ defineOptions({ name: createNamespace('divider').name })
 const { n, classes } = createNamespace('divider')
 const props = defineProps(dividerProps)
 const slots = useSlots()
-const SIZE_PRESETS = ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'] as const
+const SIZE_PRESETS = ['xs', 'sm', 'md', 'lg', 'xl'] as const
 
 const withText = () => Boolean(slots.default || props.description)
 
-const withPresetSizeX = computed(() => SIZE_PRESETS.includes(props.sizeX as (typeof SIZE_PRESETS)[number]))
-const withPresetSizeY = computed(() => SIZE_PRESETS.includes(props.sizeY as (typeof SIZE_PRESETS)[number]))
+const withPresetInset = computed(() => SIZE_PRESETS.includes(props.inset as (typeof SIZE_PRESETS)[number]))
+const withPresetSpacing = computed(() => SIZE_PRESETS.includes(props.spacing as (typeof SIZE_PRESETS)[number]))
 
 const rootStyle = computed(() => {
-  const { sizeX, sizeY, orientation, hairline } = props
+  const { inset, spacing, orientation, hairline } = props
   const styles: CSSProperties & Record<string, string | number | undefined> = {}
 
   if (props.thickness && !hairline) {
@@ -54,25 +54,25 @@ const rootStyle = computed(() => {
     styles.opacity = props.opacity
   }
 
-  if (!withPresetSizeX.value && sizeX != null) {
-    const [start, end] = resolveSizePair(sizeX)
+  if (!withPresetInset.value && inset != null) {
+    const [start, end] = resolveSpacingPair(inset)
     if (orientation === 'horizontal') {
       styles.maxWidth = `calc(100% - ${start} - ${end})`
       styles.marginInlineStart = start
       styles.marginInlineEnd = end
     } else {
+      styles.maxHeight = `calc(100% - ${start} - ${end})`
       styles.marginBlockStart = start
       styles.marginBlockEnd = end
     }
   }
 
-  if (!withPresetSizeY.value && sizeY != null) {
-    const [start, end] = resolveSizePair(sizeY)
+  if (!withPresetSpacing.value && spacing != null) {
+    const [start, end] = resolveSpacingPair(spacing)
     if (orientation === 'horizontal') {
       styles.marginBlockStart = start
       styles.marginBlockEnd = end
     } else {
-      styles.maxHeight = `calc(100% - ${start} - ${end})`
       styles.marginInlineStart = start
       styles.marginInlineEnd = end
     }
@@ -81,7 +81,7 @@ const rootStyle = computed(() => {
   return styles
 })
 
-function resolveSizePair(size: number | string | Array<number | string>) {
+function resolveSpacingPair(size: number | string | Array<number | string>) {
   if (Array.isArray(size)) {
     const start = toSizeUnit(size[0]) as string
     const end = toSizeUnit(size.length > 1 ? size[1] : size[0]) as string

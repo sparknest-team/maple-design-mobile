@@ -1,0 +1,167 @@
+{
+  "fields": [
+    {
+      "name": "model-value",
+      "description": "当前输入值",
+      "type": "string",
+      "defaultValue": "''",
+      "kind": "string"
+    },
+    {
+      "name": "open",
+      "description": "是否显示键盘",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "title",
+      "description": "键盘标题",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "theme",
+      "description": "键盘主题",
+      "type": "'default' | 'custom'",
+      "defaultValue": "'default'",
+      "kind": "enum",
+      "options": [
+        "default",
+        "custom"
+      ],
+      "initial": "default"
+    },
+    {
+      "name": "max-length",
+      "description": "最大输入长度",
+      "type": "number | string",
+      "defaultValue": "Infinity",
+      "kind": "scalar"
+    },
+    {
+      "name": "extra-key",
+      "description": "左下角额外按键",
+      "type": "string | string[]",
+      "defaultValue": "''",
+      "kind": "json",
+      "initial": "[]"
+    },
+    {
+      "name": "close-button-text",
+      "description": "自定义主题完成按钮文案",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "delete-button-text",
+      "description": "删除键文案，为空时显示图标",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "show-delete-key",
+      "description": "是否显示删除键",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "random-key-order",
+      "description": "是否随机 1-9 顺序",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "hide-on-click-outside",
+      "description": "点击背景层是否关闭",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "overlay",
+      "description": "是否显示背景层",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "overlay-class",
+      "description": "背景层类名",
+      "type": "string",
+      "defaultValue": "-",
+      "kind": "string"
+    },
+    {
+      "name": "overlay-style",
+      "description": "背景层样式",
+      "type": "object",
+      "defaultValue": "-",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "lock-scroll",
+      "description": "是否锁定背景滚动",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "esc-to-close",
+      "description": "按 Esc 是否关闭",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "popup-container",
+      "description": "挂载节点",
+      "type": "string | HTMLElement | false",
+      "defaultValue": "body",
+      "kind": "json",
+      "initial": "\"body\""
+    },
+    {
+      "name": "safe-area",
+      "description": "是否开启底部安全区",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    }
+  ],
+  "events": [
+    "input",
+    "delete",
+    "close",
+    "blur",
+    "open",
+    "opened",
+    "closed",
+    "key-escape",
+    "update:modelValue",
+    "update:open"
+  ],
+  "scenarios": [
+    {
+      "name": "extra-key",
+      "kind": "prop",
+      "demos": [
+        "basic.vue"
+      ]
+    },
+    {
+      "name": "overlay-style",
+      "kind": "prop",
+      "demos": []
+    }
+  ],
+  "slotNames": [],
+  "slotDefaults": {},
+  "methodNames": []
+}

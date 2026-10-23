@@ -16,7 +16,7 @@ function recordAction(result: SearchResult) {
 </script>
 <template>
   <div class="search-demo">
-    <label><input v-model="popup" type="checkbox" />Fullscreen history (uncheck for a menu)</label>
+    <mp-checkbox v-model="popup">Fullscreen history (uncheck for a menu)</mp-checkbox>
     <mp-search
       v-model="keyword"
       :history-popup="popup"

@@ -1,6 +1,6 @@
 <template>
   <div :class="classes(n(), n('$--box'), n(`--${shape}`), [mergedDisabled, n('--disabled')])" :style="{ background }">
-    <mp-dropdown-menu
+    <mp-menu
       v-if="!historyPopup && recentSearches.length"
       ref="historyMenu"
       :open="historyMenuVisible"
@@ -141,10 +141,10 @@
 import { nextTick, reactive, ref, shallowRef, watch } from 'vue'
 import { IconSearch } from '@maplejs/icons-vue'
 import MpButton from '../button'
-import MpDropdownMenu from '../dropdown-menu'
 import MpRegisteredIcon from '../icon/RegisteredIcon.vue'
 import MpInput from '../input'
 import MpLoading from '../loading'
+import MpMenu from '../menu'
 import { createNamespace } from '../utils/components'
 import MpSelect from './FieldSelect.vue'
 import HistoryPresentation from './history-presentation.vue'

@@ -15,7 +15,7 @@ const sources = ['cat.jpg', 'cat2.jpg', 'cat3.jpg']
 
 <template>
   <section class="carousel-autoplay-demo">
-    <label><input v-model="playing" type="checkbox" /> {{ english ? 'Autoplay' : '自动播放' }}</label>
+    <mp-checkbox v-model="playing">{{ english ? 'Autoplay' : '自动播放' }}</mp-checkbox>
     <p role="status">
       {{ english ? 'Current slide' : '当前页' }}：{{ current + 1 }}；{{ english ? 'Changes' : '切换次数' }}：{{
         changes

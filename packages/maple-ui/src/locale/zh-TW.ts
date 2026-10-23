@@ -1,6 +1,22 @@
 import { Message } from './index'
 
 export default {
+  'fieldPresentation.selectionCount': '已選 {count} 個',
+  'fieldPresentation.selectionRemove': '移除',
+  'fieldPresentation.selectionBack': '返回可選項',
+  'fieldPresentation.selectionEmpty': '暫無已選項',
+  'fieldPresentation.edit': '编辑',
+  'fieldPresentation.close': '关闭',
+  'fieldPresentation.search': '搜索选项',
+  'fieldPresentation.selected': '已选择',
+  'fieldPresentation.limit': '最多选择',
+
+  datePickerPreviousMonth: '上一月',
+  datePickerNextMonth: '下一月',
+  datePickerPreviousYear: '上一年',
+  datePickerNextYear: '下一年',
+  datePickerPreviousPeriod: '上一組年份',
+  datePickerNextPeriod: '下一組年份',
   'carousel.label': '輪播',
   'carousel.previous': '上一頁',
   'carousel.next': '下一頁',
@@ -123,6 +139,9 @@ export default {
     },
   },
   datePickerSelected: '個被選擇',
+  dateRangeOrderError: '結束日期不能早於開始日期，請調整起止日期',
+  dateTimeRangeOrderError: '結束時間不能早於開始時間，請調整起止時間',
+  timeRangeOrderError: '結束時間不能早於開始時間，請調整起止時間',
   datePickerNowButtonText: '此刻',
   datePickerHint: '選擇日期',
   datePickerColumnYear: '年',
@@ -143,6 +162,8 @@ export default {
   timePickerHint: '選擇時間',
   // time-range
   timeRangeStart: '開始時間',
+  dateRangeStart: '開始日期',
+  dateRangeEnd: '結束日期',
   timeRangeEnd: '結束時間',
   timeRangeNextDay: '次日',
 } satisfies Message

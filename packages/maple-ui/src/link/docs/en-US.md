@@ -1,5 +1,7 @@
 # Link
 
+## Examples
+
 ### Intro
 
 Link component for hyperlink to web pages.
@@ -55,6 +57,15 @@ The implementation, Props, styles and tests are independently maintained copies.
 ```demo
 ../example/demos/en-US/hoverable.vue
 ```
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

@@ -1,10 +1,10 @@
 # 对话框
 
+## 案例
+
 ### 介绍
 
 弹出对话框承载确认、提示和自定义交互。组件式 `<mp-dialog>` 与函数式 `Dialog.*` 共享同一套配置；函数式调用统一使用显式方法，不支持 `Dialog(...)`。
-
-
 
 ### 基本使用
 
@@ -12,72 +12,12 @@
 ../example/demos/basic-usage.vue
 ```
 
-### async close
-
-```demo
-../example/demos/async-close.vue
-```
-
-### function call
-
-```demo
-../example/demos/function-call.vue
-```
-
-### alert dialog
-
-```demo
-../example/demos/alert-dialog.vue
-```
-
-### confirm box
-
-```demo
-../example/demos/confirm-box.vue
-```
-
-### type icon
-
-```demo
-../example/demos/type-icon.vue
-```
-
-### form dialog
-
-```demo
-../example/demos/form-dialog.vue
-```
-
-### custom footer
-
-```demo
-../example/demos/custom-footer.vue
-```
-
-### custom button text
-
-```demo
-../example/demos/custom-button-text.vue
-```
-
-### layout
-
-```demo
-../example/demos/layout.vue
-```
-
-### 高级用法
-
-```demo
-../example/demos/advanced-props.vue
-```
-
 ### long content
 
 ```demo
 ../example/demos/long-content.vue
 ```
-## 示例
+
 
 左侧示例章节与右侧手机预览按相同顺序排列。
 
@@ -221,6 +161,75 @@ Dialog.error({ title: '错误提示', message: '操作失败' })
   <p v-for="item in 12" :key="item">{{ item }}. 可滚动的长内容</p>
 </mp-dialog>
 ```
+
+### function call
+
+```demo
+../example/demos/function-call.vue
+```
+
+### alert dialog
+
+```demo
+../example/demos/alert-dialog.vue
+```
+
+### confirm box
+
+```demo
+../example/demos/confirm-box.vue
+```
+
+### type icon
+
+```demo
+../example/demos/type-icon.vue
+```
+
+### form dialog
+
+```demo
+../example/demos/form-dialog.vue
+```
+
+### custom footer
+
+```demo
+../example/demos/custom-footer.vue
+```
+
+### custom button text
+
+```demo
+../example/demos/custom-button-text.vue
+```
+
+### layout
+
+```demo
+../example/demos/layout.vue
+```
+
+### 高级用法
+
+```demo
+../example/demos/advanced-props.vue
+```
+
+### async close
+
+```demo
+../example/demos/async-close.vue
+```
+
+<!-- api-review:start -->
+### 功能调试
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

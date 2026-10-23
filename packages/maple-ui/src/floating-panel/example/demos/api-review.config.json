@@ -1,0 +1,71 @@
+{
+  "fields": [
+    {
+      "name": "anchor",
+      "description": "面板初始显示锚点，如果不传则为 anchors 属性的第一个值",
+      "type": "number",
+      "defaultValue": "undefined",
+      "kind": "number"
+    },
+    {
+      "name": "anchors",
+      "description": "自定义锚点，单位为 px",
+      "type": "number[]",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "[]"
+    },
+    {
+      "name": "content-draggable",
+      "description": "是否允许拖拽面板内容",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "duration",
+      "description": "动画时长，单位为 ms",
+      "type": "number | string",
+      "defaultValue": "300",
+      "kind": "scalar"
+    },
+    {
+      "name": "elevation",
+      "description": "海拔高度，可选值为 true、false 和 0-24 的等级",
+      "type": "number | boolean",
+      "defaultValue": "true",
+      "kind": "json",
+      "initial": "true"
+    },
+    {
+      "name": "popup-container",
+      "description": "弹出层挂载的位置",
+      "type": "TeleportProps['to'] | false",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "\"body\""
+    },
+    {
+      "name": "safe-area",
+      "description": "是否开启底部安全区适配",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    }
+  ],
+  "events": [
+    "anchor-change"
+  ],
+  "scenarios": [
+    {
+      "name": "default",
+      "kind": "slot",
+      "demos": [
+        "basic.vue"
+      ]
+    }
+  ],
+  "slotNames": [],
+  "slotDefaults": {},
+  "methodNames": []
+}

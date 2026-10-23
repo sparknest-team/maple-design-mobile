@@ -19,6 +19,62 @@ function setup(initial: TimePanelOptions<TimePanelValue> = {}, range = false) {
 }
 
 describe('copied time panel controller', () => {
+  it.each(['readonly', 'disabled'] as const)(
+    'does not commit a pending single draft when toggling %s and immediate mode',
+    async (flag) => {
+      const { panel, options, events, wrapper } = setup({ defaultValue: '09:30', format: 'HH:mm' })
+      try {
+        panel.select('10:30')
+        options[flag] = true
+        options.disableConfirm = true
+        await nextTick()
+        expect(panel.draft.value).toBe('10:30')
+        expect(panel.confirm()).toBe(false)
+        expect(panel.select('12:30')).toBe(false)
+        expect(events.change).not.toHaveBeenCalled()
+        expect(events.confirm).not.toHaveBeenCalled()
+        options[flag] = false
+        await nextTick()
+        expect(panel.draft.value).toBe('10:30')
+        expect(events.change).not.toHaveBeenCalled()
+        panel.select('11:30')
+        expect(events.change).toHaveBeenCalledTimes(1)
+        expect(events.confirm).toHaveBeenCalledTimes(1)
+        expect(events.change.mock.calls[0][0]).toBe('11:30')
+      } finally {
+        wrapper.unmount()
+      }
+    },
+  )
+
+  it.each(['readonly', 'disabled'] as const)(
+    'does not commit a pending range draft when toggling %s and immediate mode',
+    async (flag) => {
+      const { panel, options, events, wrapper } = setup({ defaultValue: ['09:30', '18:00'], format: 'HH:mm' }, true)
+      try {
+        panel.select(['10:30', '18:00'])
+        options[flag] = true
+        options.disableConfirm = true
+        await nextTick()
+        expect(panel.draft.value).toEqual(['10:30', '18:00'])
+        expect(panel.confirm()).toBe(false)
+        expect(panel.select(['12:30', '18:00'])).toBe(false)
+        expect(events.change).not.toHaveBeenCalled()
+        expect(events.confirm).not.toHaveBeenCalled()
+        options[flag] = false
+        await nextTick()
+        expect(panel.draft.value).toEqual(['10:30', '18:00'])
+        expect(events.change).not.toHaveBeenCalled()
+        panel.select(['11:30', '18:00'])
+        expect(events.change).toHaveBeenCalledTimes(1)
+        expect(events.confirm).toHaveBeenCalledTimes(1)
+        expect(events.change.mock.calls[0][0]).toEqual(['11:30', '18:00'])
+      } finally {
+        wrapper.unmount()
+      }
+    },
+  )
+
   it('keeps drafts separate and reports successful unchanged confirmations', () => {
     const { panel, events, wrapper } = setup({ defaultValue: '09:00', format: 'HH:mm' })
     panel.select('10:30')
@@ -67,15 +123,20 @@ describe('copied time panel controller', () => {
     wrapper.unmount()
   })
 
-  it.each([false, true])('allows partial drafts and sorts only at commit, next day=%s', (showNextDay) => {
+  it.each([false, true])('allows editing drafts and validates overnight ranges, next day=%s', (showNextDay) => {
     const { panel, events, wrapper } = setup({ format: 'HH:mm', showNextDay }, true)
     panel.select(['18:00', undefined])
     expect(panel.canConfirm.value).toBe(false)
     expect(panel.confirm()).toBe(false)
     panel.select(['18:00', '09:00'])
     expect(events.select.mock.calls[1][0]).toEqual(['18:00', '09:00'])
-    expect(panel.confirm()).toBe(true)
-    expect(events.change.mock.calls[0][0]).toEqual(showNextDay ? ['18:00', '09:00'] : ['09:00', '18:00'])
+    expect(panel.canConfirm.value).toBe(showNextDay)
+    expect(panel.confirm()).toBe(showNextDay)
+    if (showNextDay) {
+      expect(events.change.mock.calls[0][0]).toEqual(['18:00', '09:00'])
+    } else {
+      expect(events.change).not.toHaveBeenCalled()
+    }
     wrapper.unmount()
   })
 

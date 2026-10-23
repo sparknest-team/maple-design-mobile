@@ -14,7 +14,7 @@ const parser = (text: string) => text.replace(/,/g, '')
     <template #plus>＋</template>
     <template #minus>－</template>
     <template #clear-icon="{ clear }"
-      ><button type="button" aria-label="Clear amount" @click="clear">×</button></template
+      ><mp-button html-type="button" aria-label="Clear amount" @click="clear">×</mp-button></template
     >
   </mp-input-number>
 </template>

@@ -1,6 +1,6 @@
 # Button
 
-Button 禁用配色按 Arco 的变体逻辑区分：彩色实心使用淡化状态背景；text/outline 保持透明背景并淡化状态文字；tonal 保留浅色背景。中性按钮使用中性禁用色。禁用时暂停 color/text-color 覆盖，关闭 hover/active 反馈和阴影。
+Button 的禁用配色按变体区分：彩色实心使用淡化状态背景；text/outline 保持透明背景并淡化状态文字；tonal 保留浅色背景。中性按钮使用中性禁用色。禁用时暂停 color/text-color 覆盖，关闭 hover/active 反馈和阴影。
 
 两端使用同一份实现和示例，组件前缀、主题基础变量与注册入口各自保留。
 
@@ -12,15 +12,17 @@ Button 禁用配色按 Arco 的变体逻辑区分：彩色实心使用淡化状�
 ../example/demos/basic.vue
 ```
 
-### 四种变体
+### 变体、状态与尺寸
 
-`default` 变体的 primary、info、success、warning、danger 和 secondary 填充按钮使用白色文案。
+选择变体和尺寸，同时对比八种状态色。实心适合主要操作，text 和 outline 适合次要操作；这里只组合三个外观维度。
 
 ```demo
 ../example/demos/variants.vue
 ```
 
 ### 五档尺寸
+
+同一平台的水平 Button 与 Input 默认按相同 size 对齐高度和字号。Cedar 高度为 24/28/32/36/44px，Maple 为 32/40/48/56/64px；按钮单侧内边距为 8/12/16/20/24px，图标与文字间距为 6px。堆叠按钮使用独立的内容高度规则。组件局部样式覆盖仍各自生效。
 
 ```demo
 ../example/demos/size.vue
@@ -32,10 +34,18 @@ Button 禁用配色按 Arco 的变体逻辑区分：彩色实心使用淡化状�
 ../example/demos/disabled.vue
 ```
 
-### 加载布局与动画
+### 加载动画、布局与尺寸
+
+选择加载布局和指示器尺寸，对比五种动画。点击选择框箭头展开菜单，选择选项后收起。加载时按钮保留文案并阻止重复操作。
 
 ```demo
 ../example/demos/loading.vue
+```
+
+### 加载指示器样式
+
+```demo
+../example/demos/loading-appearance.vue
 ```
 
 ### 同步、异步与失败恢复
@@ -50,28 +60,34 @@ Button 禁用配色按 Arco 的变体逻辑区分：彩色实心使用淡化状�
 ../example/demos/block.vue
 ```
 
-### 颜色、水波与阴影
+### 自定义颜色
 
 ```demo
 ../example/demos/custom-color.vue
 ```
 
-### 图标插槽与圆形按钮
-
-```demo
-../example/demos/round.vue
-```
-
-### 图标文字堆叠
-
-```demo
-../example/demos/stacked.vue
-```
-
 ### 按钮组继承与覆盖
+
+切换组尺寸和禁用状态，观察子按钮继承配置。子按钮可独立覆盖状态色，显式 disabled=false 可覆盖组禁用。
 
 ```demo
 ../example/demos/button-group.vue
+```
+
+### 按钮组布局
+
+在水平和垂直排列中比较变体和尺寸。尺寸、变体与排列方向共同组成三个外观维度。
+
+```demo
+../example/demos/button-group-layout.vue
+```
+
+### 按钮组图文与加载
+
+切换图文堆叠和排列方向，再启用第一个按钮的加载状态；其他操作仍可独立使用。竖向按钮组的横排图文按起始边对齐，避免文字长度不同导致图标错位。
+
+```demo
+../example/demos/button-group-content.vue
 ```
 
 ### 原生表单、焦点与触摸事件
@@ -79,6 +95,39 @@ Button 禁用配色按 Arco 的变体逻辑区分：彩色实心使用淡化状�
 ```demo
 ../example/demos/native-events.vue
 ```
+
+### 水波与阴影反馈
+
+点击按钮观察水波，调整阴影等级比较层次感。关闭水波不会影响点击事件。
+
+```demo
+../example/demos/feedback.vue
+```
+
+### 图标与图文布局
+
+使用内置图标，切换四种变体和五档尺寸，对比纯图标、横排图文、上下堆叠。堆叠按钮按内容撑高，上下至少保留 8px 内边距。纯图标只传 icon 插槽；round 控制圆形，stacked 控制上下排列。
+
+```demo
+../example/demos/icons.vue
+```
+
+### 表单控件尺寸对照
+
+切换五档 size 和三种字段变体，比较 Input、Button、Select、日期时间及其他单行表单控件的高度。Button 在这里固定使用 outline。DatePicker/TimePicker 是面板，此处使用带输入框的 Date/Time 字段。示例同时展示有值、可清空、标签删除与长标签多选；Select/Cascader 设置 tag-nowrap 时保持同档高度，长标签文字省略、删除图标保留；标签行可横向滚动，清空按钮和箭头固定在外侧。被省略的标签正文支持悬停、键盘聚焦或点按查看完整文字，点外部或按 Esc 关闭，不改变选中值。可清空后恢复选中值重复比较。多行文本和允许换行的多选内容按内容撑高。
+
+```demo
+../../field-decorator/example/demos/control-sizes.vue
+```
+
+<!-- api-review:start -->
+### 功能调试
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 
@@ -95,13 +144,11 @@ Button 禁用配色按 Arco 的变体逻辑区分：彩色实心使用淡化状�
 | round | 圆形按钮 | `boolean` | `false` |
 | block | 占满可用宽度 | `boolean` | `false` |
 | loading | 加载状态，禁止点击和链接跳转 | `boolean` | `false` |
-| loading-type | 加载动画；与 Loading 的 type 相同 | `circle / wave / cube / rect / disappear` | `circle` |
-| loading-mode | 行内、覆盖或底部进度线 | `default / fill / line` | `default` |
-| loading-size | 加载动画尺寸；省略时使用按钮尺寸，行内图标替换使用 xs | `ComponentSize / number` | `undefined` |
+| loading-type | 加载动画；与 Loading 的 type 相同，line 模式不适用 | `circle / wave / cube / rect / disappear` | `circle` |
+| loading-mode | 行内、覆盖或底部进度线；line 只使用 loading-color | `default / fill / line` | `default` |
+| loading-size | 指示器尺寸；xs/sm/md/lg/xl 对应 12/14/16/18/20px，数字为 px；省略时跟随按钮尺寸，line 模式不适用 | `ComponentSize / number` | `undefined` |
 | loading-color | 加载指示器颜色 | `string` | `currentColor` |
-| loading-radius | circle 动画半径 | `string / number` | `undefined` |
 | auto-loading | 等待 click/touchstart 返回的 Promise；同步回调不闪 loading | `boolean` | `false` |
-| icon-container | 图标容器外观 | `boolean` | `false` |
 | disabled | 禁用；省略时继承按钮组，显式 false 可覆盖 | `boolean` | `undefined` |
 | ripple | 点击水波 | `boolean` | `true` |
 | focusable | 允许 Tab 顺序聚焦；不影响通过代码聚焦 | `boolean` | `true` |
@@ -136,113 +183,74 @@ Button 禁用配色按 Arco 的变体逻辑区分：彩色实心使用淡化状�
 
 属性：size=md、status=default、variant=default、color/text-color=undefined、disabled/stacked/vertical=false、elevation=true。使用 default 插槽，公开 buttonGroupProvider（响应式组配置），没有自定义事件。子按钮按字段覆盖组配置；阴影由组整体控制。
 
-## 迁移
-
-Cedar 原 loading-type=default/fill/line 改为 loading-mode=default/fill/line；loading-type 现在选择加载动画。Maple 如需原覆盖式布局，设置 loading-mode=fill。两端 ripple、focusable 默认均为 true。样式变量采用统一 Button token 名称（--c-/--mp- 前缀），完整变量见 style/token.less。
-
 ## 类型
 
 ButtonProps、ButtonVariant、ButtonLoadingMode、ButtonHandler、ButtonInstance、ButtonGroupProps、ButtonGroupInstance。
 
 ## CSS 变量职责与完整默认值
 
-status-color 只负责实心背景，status-text-color 负责其对比前景；历史命名 status-icon-color 实际控制 text/outline/tonal 及 default icon-container 的可读文字和图标，status-icon-container-color 控制对应浅色表面。定制时应成对覆盖。disabled 优先于 color/text-color 属性；loading 默认继承 currentColor，显式 loading-color 优先。焦点环独立使用 content-brand。
+Button 保留 58 个外观变量。`{status}-color` 控制实心背景，`{status}-foreground-color` 控制 text/outline/tonal 的文字和图标，`{status}-tonal-color` 控制浅色背景。语义状态共用 `solid-text-color` 和 `solid-state-layer-color`；default/tertiary 前景与 primary/tertiary 状态层保留必要的主题差异。
 
-state-opacity-hover/active（0.08/0.12）用于实心、tonal 和图标容器；plain-state-opacity-hover/active（0.5/1）用于 text/outline 的浅色反馈。status-state-layer-color 控制实心反馈色；state-layer-color 控制 tonal/图标容器反馈色。active 高于 hover，disabled/loading 禁止反馈，覆盖层不遮挡前景。internal-button-state-* 是私有变量，不支持业务定制。自定义配色、瞬时 ripple、禁用对比度不在默认对比度保证内。
+尺寸统一使用 xs/sm/md/lg/xl。字号、过渡时长、焦点宽度与偏移、堆叠高度增量直接复用系统变量；按钮组与堆叠圆角共用 border-radius。四个状态透明度变量保留 hover/active 的差异。loading-duration 仅控制底部进度线；其他加载动画由 Loading 负责。内部变量与固定动画几何细节不再作为公共定制项。
 
-下表是 :root 默认值而非主题覆盖。暗色 tertiary 的文字改为 on-bright、覆盖层改为 on-dark；Maple 品牌浅色 primary 的文字改为 on-dark、覆盖层改为 on-bright。尺寸与 loading 动效保留现有组件值，不属于本阶段统一范围。
 
-| 变量 | :root 默认值 |
+| 变量名 | 默认值 |
 | --- | --- |
-| `--mp-button-default-text-color` | `var(--mp-sys-color-content-primary)` |
-| `--mp-button-primary-text-color` | `var(--mp-sys-color-content-on-dark)` |
-| `--mp-button-danger-text-color` | `var(--mp-sys-color-content-on-bright)` |
-| `--mp-button-success-text-color` | `var(--mp-sys-color-content-on-bright)` |
-| `--mp-button-warning-text-color` | `var(--mp-sys-color-content-on-bright)` |
-| `--mp-button-info-text-color` | `var(--mp-sys-color-content-on-bright)` |
-| `--mp-button-default-color` | `var(--mp-sys-color-surface-default)` |
-| `--mp-button-primary-color` | `var(--mp-sys-color-action-primary)` |
-| `--mp-button-danger-color` | `var(--mp-sys-color-status-danger)` |
-| `--mp-button-success-color` | `var(--mp-sys-color-status-success)` |
-| `--mp-button-warning-color` | `var(--mp-sys-color-status-warning)` |
-| `--mp-button-info-color` | `var(--mp-sys-color-status-info)` |
-| `--mp-button-secondary-color` | `rgb(var(--mp-gray-6))` |
-| `--mp-button-secondary-text-color` | `var(--mp-sys-color-content-on-bright)` |
-| `--mp-button-tertiary-color` | `rgb(var(--mp-gray-7))` |
-| `--mp-button-tertiary-text-color` | `var(--mp-sys-color-content-on-dark)` |
-| `--mp-button-default-icon-color` | `var(--mp-sys-color-content-primary)` |
-| `--mp-button-primary-icon-color` | `var(--mp-sys-color-content-brand)` |
-| `--mp-button-danger-icon-color` | `var(--mp-sys-color-content-danger)` |
-| `--mp-button-success-icon-color` | `var(--mp-sys-color-content-success)` |
-| `--mp-button-warning-icon-color` | `var(--mp-sys-color-content-warning)` |
-| `--mp-button-info-icon-color` | `var(--mp-sys-color-content-info)` |
-| `--mp-button-default-icon-container-color` | `var(--mp-sys-color-surface-muted)` |
-| `--mp-button-primary-icon-container-color` | `rgb(var(--mp-primary-1))` |
-| `--mp-button-danger-icon-container-color` | `rgb(var(--mp-danger-1))` |
-| `--mp-button-success-icon-container-color` | `rgb(var(--mp-success-1))` |
-| `--mp-button-warning-icon-container-color` | `rgb(var(--mp-warning-1))` |
-| `--mp-button-info-icon-container-color` | `rgb(var(--mp-blue-1))` |
-| `--mp-button-disabled-color` | `var(--mp-color-disabled)` |
-| `--mp-button-disabled-text-color` | `var(--mp-sys-color-content-disabled)` |
 | `--mp-button-border-radius` | `var(--mp-sys-radius-md)` |
-| `--mp-button-mini-padding` | `0 var(--mp-sys-space-4)` |
-| `--mp-button-small-padding` | `0 var(--mp-sys-space-5)` |
-| `--mp-button-normal-padding` | `0 var(--mp-sys-space-6)` |
-| `--mp-button-large-padding` | `0 22px` |
-| `--mp-button-xl-padding` | `0 28px` |
-| `--mp-button-round-padding` | `var(--mp-sys-space-3)` |
-| `--mp-button-mini-height` | `20px` |
-| `--mp-button-small-height` | `28px` |
-| `--mp-button-normal-height` | `36px` |
-| `--mp-button-large-height` | `44px` |
-| `--mp-button-xl-height` | `52px` |
-| `--mp-button-mini-font-size` | `var(--mp-font-size-xs)` |
-| `--mp-button-small-font-size` | `var(--mp-sys-font-size-xs)` |
-| `--mp-button-normal-font-size` | `var(--mp-sys-font-size-md)` |
-| `--mp-button-large-font-size` | `var(--mp-sys-font-size-lg)` |
-| `--mp-button-xl-font-size` | `var(--mp-sys-font-size-xl)` |
 | `--mp-button-content-gap` | `var(--mp-sys-space-3)` |
-| `--mp-button-line-height` | `1.2` |
-| `--mp-button-stacked-height` | `48px` |
-| `--mp-button-focus-width` | `2px` |
+| `--mp-button-danger-color` | `var(--mp-sys-color-status-danger)` |
+| `--mp-button-danger-disabled-color` | `rgb(var(--mp-danger-3))` |
+| `--mp-button-danger-foreground-color` | `var(--mp-sys-color-content-danger)` |
+| `--mp-button-danger-tonal-color` | `rgb(var(--mp-danger-1))` |
+| `--mp-button-default-color` | `var(--mp-sys-color-surface-default)` |
+| `--mp-button-default-foreground-color` | `var(--mp-sys-color-content-primary)` |
+| `--mp-button-default-tonal-color` | `var(--mp-sys-color-surface-muted)` |
+| `--mp-button-disabled-color` | `var(--mp-color-fill-2)` |
+| `--mp-button-disabled-solid-text-color` | `var(--mp-sys-color-content-on-dark)` |
+| `--mp-button-disabled-text-color` | `var(--mp-sys-color-content-disabled)` |
 | `--mp-button-focus-color` | `var(--mp-sys-color-content-brand)` |
-| `--mp-button-focus-offset` | `2px` |
-| `--mp-button-icon-container-padding` | `var(--mp-sys-space-3)` |
-| `--mp-button-loading-line-height` | `3px` |
-| `--mp-button-loading-line-width` | `40%` |
+| `--mp-button-info-color` | `var(--mp-sys-color-status-info)` |
+| `--mp-button-info-disabled-color` | `rgb(var(--mp-blue-3))` |
+| `--mp-button-info-foreground-color` | `var(--mp-sys-color-content-info)` |
+| `--mp-button-info-tonal-color` | `rgb(var(--mp-blue-1))` |
+| `--mp-button-lg-height` | `56px` |
+| `--mp-button-lg-padding` | `0 var(--mp-sys-space-7)` |
 | `--mp-button-loading-duration` | `1s` |
-| `--mp-button-loading-static-opacity` | `0.5` |
-| `--mp-button-secondary-icon-color` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-button-secondary-icon-container-color` | `rgb(var(--mp-gray-2))` |
-| `--mp-button-tertiary-icon-color` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-button-tertiary-icon-container-color` | `rgb(var(--mp-gray-1))` |
-| `--mp-button-mini-stacked-height` | `36px` |
-| `--mp-button-small-stacked-height` | `44px` |
-| `--mp-button-normal-stacked-height` | `var(--mp-button-stacked-height)` |
-| `--mp-button-large-stacked-height` | `56px` |
-| `--mp-button-xl-stacked-height` | `64px` |
-| `--mp-button-stacked-gap` | `var(--mp-sys-space-2)` |
-| `--mp-button-stacked-padding` | `var(--mp-sys-space-2)` |
-| `--mp-button-stacked-border-radius` | `var(--mp-sys-radius-md)` |
-| `--mp-button-group-border-radius` | `var(--mp-sys-radius-md)` |
-| `--mp-button-default-state-layer-color` | `var(--mp-sys-color-content-primary)` |
-| `--mp-button-primary-state-layer-color` | `var(--mp-sys-color-content-on-dark)` |
-| `--mp-button-info-state-layer-color` | `var(--mp-sys-color-content-on-dark)` |
-| `--mp-button-success-state-layer-color` | `var(--mp-sys-color-content-on-dark)` |
-| `--mp-button-warning-state-layer-color` | `var(--mp-sys-color-content-on-dark)` |
-| `--mp-button-danger-state-layer-color` | `var(--mp-sys-color-content-on-dark)` |
-| `--mp-button-secondary-state-layer-color` | `var(--mp-sys-color-content-on-dark)` |
-| `--mp-button-tertiary-state-layer-color` | `var(--mp-sys-color-content-on-bright)` |
-| `--mp-button-state-layer-color` | `var(--mp-sys-color-surface-page)` |
-| `--mp-button-state-opacity-hover` | `0.08` |
-| `--mp-button-state-opacity-active` | `0.12` |
-| `--mp-button-plain-state-opacity-hover` | `0.5` |
+| `--mp-button-loading-line-height` | `3px` |
+| `--mp-button-md-height` | `48px` |
+| `--mp-button-md-padding` | `0 var(--mp-sys-space-6)` |
 | `--mp-button-plain-state-opacity-active` | `1` |
-
-### 动效变量
-
-内置动效遵循 `prefers-reduced-motion: reduce`；减少动效不会阻止加载状态或关闭事件更新。
-
-| Token | Default |
-| --- | --- |
-| `--mp-button-transition-duration` | `var(--mp-sys-motion-duration-standard)` |
+| `--mp-button-plain-state-opacity-hover` | `0.5` |
+| `--mp-button-primary-color` | `var(--mp-sys-color-action-primary)` |
+| `--mp-button-primary-disabled-color` | `rgb(var(--mp-primary-3))` |
+| `--mp-button-primary-foreground-color` | `var(--mp-sys-color-content-brand)` |
+| `--mp-button-primary-state-layer-color` | `var(--mp-button-solid-state-layer-color)` |
+| `--mp-button-primary-tonal-color` | `rgb(var(--mp-primary-1))` |
+| `--mp-button-secondary-color` | `rgb(var(--mp-gray-6))` |
+| `--mp-button-secondary-foreground-color` | `var(--mp-sys-color-content-secondary)` |
+| `--mp-button-secondary-tonal-color` | `rgb(var(--mp-gray-2))` |
+| `--mp-button-sm-height` | `40px` |
+| `--mp-button-sm-padding` | `0 var(--mp-sys-space-5)` |
+| `--mp-button-solid-state-layer-color` | `var(--mp-sys-color-content-on-dark)` |
+| `--mp-button-solid-text-color` | `var(--mp-sys-color-content-on-dark)` |
+| `--mp-button-stacked-gap` | `var(--mp-sys-space-2)` |
+| `--mp-button-state-layer-color` | `var(--mp-sys-color-surface-page)` |
+| `--mp-button-state-opacity-active` | `0.12` |
+| `--mp-button-state-opacity-hover` | `0.08` |
+| `--mp-button-success-color` | `var(--mp-sys-color-status-success)` |
+| `--mp-button-success-disabled-color` | `rgb(var(--mp-success-3))` |
+| `--mp-button-success-foreground-color` | `var(--mp-sys-color-content-success)` |
+| `--mp-button-success-tonal-color` | `rgb(var(--mp-success-1))` |
+| `--mp-button-tertiary-color` | `rgb(var(--mp-gray-7))` |
+| `--mp-button-tertiary-foreground-color` | `var(--mp-sys-color-content-secondary)` |
+| `--mp-button-tertiary-state-layer-color` | `var(--mp-sys-color-content-on-bright)` |
+| `--mp-button-tertiary-text-color` | `var(--mp-sys-color-content-on-dark)` |
+| `--mp-button-tertiary-tonal-color` | `rgb(var(--mp-gray-1))` |
+| `--mp-button-warning-color` | `var(--mp-sys-color-status-warning)` |
+| `--mp-button-warning-disabled-color` | `rgb(var(--mp-warning-3))` |
+| `--mp-button-warning-foreground-color` | `var(--mp-sys-color-content-warning)` |
+| `--mp-button-warning-tonal-color` | `rgb(var(--mp-warning-1))` |
+| `--mp-button-xl-height` | `64px` |
+| `--mp-button-xl-padding` | `0 var(--mp-sys-space-8)` |
+| `--mp-button-xs-height` | `32px` |
+| `--mp-button-xs-padding` | `0 var(--mp-sys-space-4)` |

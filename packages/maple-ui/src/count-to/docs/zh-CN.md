@@ -1,5 +1,7 @@
 # 数字动画
 
+## 案例
+
 ### 介绍
 
 展示起始数值到目标数值的数字动画。
@@ -49,6 +51,15 @@
 ```demo
 ../example/demos/manual-control.vue
 ```
+
+<!-- api-review:start -->
+### 功能调试
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

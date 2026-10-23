@@ -6,22 +6,14 @@ const immediate = ref(false)
 const confirmations = ref(0)
 const hideDisabled = ref(false)
 const readonly = ref(false)
-const presentation = ref('picker')
 const disabledHours = () => [0, 1, 2, 3, 4, 5, 6, 7]
 </script>
 
 <template>
   <div style="display: flex; flex-direction: column; gap: 12px; width: 100%">
-    <label><input v-model="immediate" type="checkbox" /> 跳过确认，选择即提交</label>
-    <label><input v-model="hideDisabled" type="checkbox" /> 隐藏禁用小时（00–07）</label>
-    <label
-      >展示方式
-      <select v-model="presentation">
-        <option value="picker">滚轮</option>
-        <option value="clock">时钟</option>
-      </select></label
-    >
-    <label><input v-model="readonly" type="checkbox" /> 只读（包括确认）</label>
+    <mp-checkbox v-model="immediate">跳过确认，选择即提交</mp-checkbox>
+    <mp-checkbox v-model="hideDisabled">隐藏禁用小时（00–07）</mp-checkbox>
+    <mp-checkbox v-model="readonly">只读（包括确认）</mp-checkbox>
     <mp-button variant="outline" @click="value = '13:45'">外部更新为 13:45，覆盖未提交草稿</mp-button>
     <mp-time-picker
       v-model="value"
@@ -30,10 +22,9 @@ const disabledHours = () => [0, 1, 2, 3, 4, 5, 6, 7]
       :hide-disabled-options="hideDisabled"
       :readonly="readonly"
       :disabled-hours="disabledHours"
-      :presentation="presentation"
       @confirm="confirmations++"
     >
-      <template #extra><p>切换展示方式保留草稿；附加说明使用同一个 extra 插槽。</p></template>
+      <template #extra><p>附加说明使用同一个 extra 插槽。</p></template>
     </mp-time-picker>
     <span>有效确认次数: {{ confirmations }}</span>
     <span>已提交值: {{ value }}</span>

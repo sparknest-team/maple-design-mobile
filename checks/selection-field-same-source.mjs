@@ -10,12 +10,14 @@ const maple = resolve(workspace, 'maple-design-mobile/packages/maple-ui')
 const groups = {
   'selection-field': [
     'SelectionField.vue',
+    'SelectionTagLabel.vue',
     'props.ts',
     'selection-key.ts',
     'style/index.ts',
     'style/index.less',
     'style/token.less',
     '__tests__/selection-field.spec.ts',
+    '__tests__/selection-tag-label.spec.ts',
     '__tests__/selection-key.spec.ts',
   ],
   'picker-field': [
@@ -43,6 +45,7 @@ const normalize = (source) =>
     .replaceAll('_utils/global-config', 'utils/components')
     .replaceAll('--c-', '--mp-')
     .replaceAll('.c-', '.mp-')
+    .replace(/(['"])c-/g, '$1mp-')
     .replaceAll('c-selection-field-spin', 'mp-selection-field-spin')
     .replace(/\s+/g, ' ')
     .trim()
@@ -75,5 +78,5 @@ for (const component of ['date/picker/Picker.vue', 'date/picker/DateRangePicker.
   assert.doesNotMatch(source, /useFormItem|<Trigger|<DateInput|<DateRangeInput/)
 }
 console.log(
-  'Field layers: 23 independent source pairs, four Less outputs and Cedar ownership boundaries verified. Select/Cascader also have a separate presentation source check.',
+  'Field layers: 25 independent source pairs, four Less outputs and Cedar ownership boundaries verified. Select/Cascader also have a separate presentation source check.',
 )

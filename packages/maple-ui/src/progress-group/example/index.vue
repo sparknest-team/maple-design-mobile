@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
+import DemoApiReview from './demos/api-review.vue'
 import BasicDemo from './demos/basic.vue'
 import CircleDemo from './demos/circle.vue'
 import ColorDemo from './demos/color.vue'
@@ -49,7 +50,8 @@ onThemeChange()
     <CustomDemo />
   </section>
   <section data-demo="overflow-keyboard">
-    <app-type>{{ english ? 'Overflow and Keyboard' : '超额与键盘提示' }}</app-type
+    <app-type>{{ english ? 'Overflow and keyboard' : '超额数据与键盘提示' }}</app-type
     ><OverflowKeyboardDemo />
   </section>
+  <section data-demo="api-review"><DemoApiReview /></section>
 </template>

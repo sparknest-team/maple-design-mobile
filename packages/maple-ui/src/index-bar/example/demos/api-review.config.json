@@ -1,0 +1,84 @@
+{
+  "fields": [
+    {
+      "name": "sticky",
+      "description": "是否开启锚点吸顶",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "sticky-offset-top",
+      "description": "锚点吸顶时与顶部的距离",
+      "type": "number | string",
+      "defaultValue": "0",
+      "kind": "scalar"
+    },
+    {
+      "name": "hide-list",
+      "description": "是否隐藏锚点列表",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "sticky-css-mode",
+      "description": "开启原生 css sticky 模式",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "z-index",
+      "description": "z-index 层级",
+      "type": "number | string",
+      "defaultValue": "1",
+      "kind": "scalar"
+    },
+    {
+      "name": "highlight-color",
+      "description": "索引字符高亮颜色",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "duration",
+      "description": "动画持续时间",
+      "type": "string | number",
+      "defaultValue": "0",
+      "kind": "scalar"
+    },
+    {
+      "name": "index",
+      "description": "索引字符",
+      "type": "number | string",
+      "defaultValue": "-",
+      "kind": "scalar"
+    }
+  ],
+  "events": [
+    "click",
+    "change"
+  ],
+  "scenarios": [
+    {
+      "name": "default",
+      "kind": "slot",
+      "demos": []
+    },
+    {
+      "name": "scroll-to",
+      "kind": "method",
+      "demos": [
+        "lifecycle.vue"
+      ]
+    }
+  ],
+  "slotNames": [],
+  "slotDefaults": {},
+  "methodNames": [
+    "scroll-to"
+  ]
+}

@@ -1,5 +1,7 @@
 # 计数器
 
+## 案例
+
 ### 介绍
 
 用于在一定范围内输入或者调整数字。
@@ -8,24 +10,6 @@
 
 ```demo
 ../example/demos/basic-usage.vue
-```
-
-### 设置取值范围
-
-```demo
-../example/demos/range.vue
-```
-
-### 设置步长
-
-```demo
-../example/demos/step.vue
-```
-
-### 保留小数
-
-```demo
-../example/demos/to-fixed.vue
 ```
 
 ### 设置尺寸
@@ -46,19 +30,44 @@
 ../example/demos/readonly.vue
 ```
 
+### 设置取值范围
+
+```demo
+../example/demos/range.vue
+```
+
+### 设置步长
+
+```demo
+../example/demos/step.vue
+```
+
+### 保留小数
+
+```demo
+../example/demos/to-fixed.vue
+```
+
 ### 异步变更
 
 在某些场景下需要等待服务器返回成功之后再执行变更。
 设置 `lazy-change` 后会阻止组件本身的绑定值更新操作，
 并注册 `before-change` 事件进行手动更新。
 
-
-
 > 计数器的表单校验请使用 [FormItem 组件](#/zh-CN/form-item)。
 
 ```demo
 ../example/demos/lazy-change.vue
 ```
+
+<!-- api-review:start -->
+### 功能调试
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 
@@ -95,7 +104,6 @@
 | `change` | 变更时触发 | `value: number` |
 | `increment` | 增加时触发 | `value: number` |
 | `decrement` | 减少时触发 | `value: number` |
-
 
 ### 样式变量
 以下为组件使用的 css 变量，可以使用 [StyleProvider 组件](#/zh-CN/style-provider) 进行样式定制。

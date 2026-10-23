@@ -1,12 +1,12 @@
 # ActionSheet
 
+## Examples
+
 ### Intro
 
 An action sheet pops up to give the user the ability to select options.
 `ActionSheet` Functional and component use methods are provided, and there is no essential difference between the two effects and parameters.
 The function returns a `Promise`, on selection return `action`. Click modal close to return `close`.
-
-
 
 ### Function Call
 
@@ -19,6 +19,7 @@ The function returns a `Promise`, on selection return `action`. Click modal clos
 ```demo
 ../example/demos/component-call.vue
 ```
+
 ## Function Call
 
 ### Basic Usage
@@ -372,6 +373,15 @@ Options provide parameters to configure the style. See the `Action` data structu
   <mp-action-sheet :actions="actions" v-model:open="open" @select="handleSelect" />
 </template>
 ```
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

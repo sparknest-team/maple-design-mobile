@@ -1,0 +1,39 @@
+{
+  "fields": [
+    {
+      "name": "label",
+      "description": "主内容",
+      "type": "any",
+      "defaultValue": "-",
+      "kind": "json",
+      "initial": "null"
+    },
+    {
+      "name": "value",
+      "description": "激活时传给事件的值",
+      "type": "any",
+      "defaultValue": "-",
+      "kind": "json",
+      "initial": "null"
+    },
+    {
+      "name": "disabled",
+      "description": "禁用",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "ripple",
+      "description": "是否显示点击波纹",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    }
+  ],
+  "methodNames": [],
+  "events": [],
+  "slotNames": [],
+  "slotDefaults": {},
+  "scenarios": []
+}

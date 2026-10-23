@@ -1,6 +1,6 @@
 import type { PropType } from 'vue'
 import { dateRangeValueProps, dateRuleProps } from '../date/core-props'
-import { dateRangeInteractionProps } from '../date/date-current'
+import { dateNowProps } from '../date/date-current'
 import { datePanelProps } from '../date/panel-props'
 import type { DateRangeCalendarOptions } from './calendar-options'
 import { props as presentationProps } from './presentation-props'
@@ -11,8 +11,9 @@ export type { DateRangePickerPresentation } from './presentation-props'
 
 export const props = {
   ...presentationProps,
+  presentation: { ...presentationProps.presentation, default: 'calendarPicker' as const },
   ...datePanelProps,
-  ...dateRangeInteractionProps,
+  ...dateNowProps,
   ...dateRangeValueProps,
 
   datePickerProps: {

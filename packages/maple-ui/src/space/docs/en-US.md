@@ -1,5 +1,7 @@
 # Space
 
+## Examples
+
 ### Intro
 
 The component library provides a layout component,
@@ -10,6 +12,14 @@ so that you can do flex layout more efficiently.
 
 ```demo
 ../example/demos/en-US/base-use.vue
+```
+
+### Interactive layout
+
+Toggle direction, column gap and wrapping, or add/remove items. Row gap stays 8px; column gap switches between 8px and 24px. Direction does not swap these geometric axes. The narrow preview scrolls horizontally without wrapping.
+
+```demo
+../example/demos/interactive-layout.vue
 ```
 
 ### Vertical
@@ -59,6 +69,23 @@ so that you can do flex layout more efficiently.
 ```demo
 ../example/demos/en-US/wrap.vue
 ```
+
+### Layout and alignment
+
+Use this example for space. Adjust direction, cross-axis alignment, main-axis distribution and compare the component with the same data. Keep the content unchanged while comparing the available settings.
+
+```demo
+../example/demos/layout-lab.vue
+```
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

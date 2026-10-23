@@ -1,16 +1,22 @@
-import { defineComponent, reactive, ref, type StyleValue } from 'vue'
+import { defineComponent, h, inject, reactive, ref, type StyleValue } from 'vue'
+import FieldPresentation from '../_components/field-presentation/FieldPresentation.vue'
+import { useFieldTexts } from '../_components/field-presentation/texts'
+import { selectionEditorSurface } from '../_components/selected-options/context'
+import SelectedOptions from '../_components/selected-options/SelectedOptions.vue'
+import SelectionEditor from '../_components/selected-options/SelectionEditor.vue'
+import MenuPresentation from '../_components/selection-field/MenuPresentation.vue'
 import type { SelectionFieldItem } from '../_components/selection-field/props'
 import SelectionField from '../_components/selection-field/SelectionField.vue'
 import { isFunction } from '../_utils/is'
+import Input from '../input'
 import InputFeedback from '../input/InputFeedback.vue'
 import { createNamespace } from '../utils/components'
 import { selectEmits } from './emits'
-import { presentations } from './presentations'
 import { selectProps } from './props'
 import SelectMenu from './SelectMenu'
 import { useSelectController } from './use-select-controller'
 
-export default defineComponent({
+const Select = defineComponent({
   name: createNamespace('select').name,
   inheritAttrs: false,
   props: selectProps,
@@ -19,8 +25,21 @@ export default defineComponent({
     const { slots, attrs, emit, expose } = context
     const { n, classes } = createNamespace('select')
     const controller = reactive(useSelectController(props, context))
+    const texts = reactive(useFieldTexts())
     const fieldRef = ref<InstanceType<typeof SelectionField>>()
-    expose({ focus: () => fieldRef.value?.focus(), blur: () => fieldRef.value?.blur() })
+    const presentationRef = ref<InstanceType<typeof FieldPresentation>>()
+    controller.registerPresentation({
+      active: () => controller.computedOpen && controller.deferred,
+      cancel: () => {
+        controller.handleOpenChange(false)
+        controller.session.reset()
+      },
+      focus: () => (controller.presentation === 'inline' ? fieldRef.value?.focus() : presentationRef.value?.focus()),
+    })
+    expose({
+      focus: () => (controller.presentation === 'inline' ? fieldRef.value?.focus() : presentationRef.value?.focus()),
+      blur: () => fieldRef.value?.blur(),
+    })
     const renderLabel = ({ data }: { data: SelectionFieldItem }) => {
       if ((slots.label || isFunction(props.formatLabel)) && data) {
         const optionInfo = controller.optionInfoMap.get(String(data.key))
@@ -31,15 +50,128 @@ export default defineComponent({
       return data?.label ?? ''
     }
 
+    const editor = inject(selectionEditorSurface, undefined)
+    const renderEditor = () => (
+      <SelectedOptions
+        open={controller.computedOpen}
+        multiple={props.multiple}
+        items={controller.selectedItems.map((item) => ({
+          ...item,
+          text: String(item.label),
+          label: renderLabel({ data: item }),
+        }))}
+        disabled={controller.mergedDisabled || controller.mergedReadonly || controller.session.pending}
+        limit={props.limit}
+        onRemove={(key) => controller.handleRemove(String(key))}
+        onClear={controller.clearSelection}
+      >
+        {(props.filterable || props.creatable) && (
+          <Input
+            modelValue={controller.computedInputValue}
+            presentation="inline"
+            hint={false}
+            variant="outline"
+            disabled={controller.mergedDisabled || controller.session.pending}
+            readonly={controller.mergedReadonly}
+            ariaLabel={texts.search}
+            placeholder={texts.search}
+            clearable
+            onUpdate:modelValue={controller.handleInputValueChange}
+            onKeydown={controller.handleKeyDown}
+          />
+        )}
+        <SelectMenu controller={controller} v-slots={slots} />
+      </SelectedOptions>
+    )
+
     return () => {
+      if (editor) {
+        return renderEditor()
+      }
       const { class: className, style, ...restAttrs } = attrs
 
-      const Presentation = presentations[props.presentation].component
+      const Presentation = MenuPresentation
+      const text = controller.fieldItems
+        .map((item) => {
+          const raw = controller.optionInfoMap.get(String(item.key))?.raw
+          const formatted = raw && isFunction(props.formatLabel) ? props.formatLabel(raw) : item.label
+          return String(typeof formatted === 'string' || typeof formatted === 'number' ? formatted : (item.label ?? ''))
+        })
+        .join(props.separator)
+      if (controller.presentation !== 'inline' || controller.readPretty) {
+        return (
+          <FieldPresentation
+            ref={presentationRef}
+            presentation={controller.presentation}
+            readPretty={controller.readPretty}
+            popupContainer={props.popupContainer}
+            confirmDisabled={props.loading}
+            label={controller.presentationLabel}
+            text={text}
+            placeholder={props.placeholder}
+            open={controller.computedOpen}
+            disabled={controller.mergedDisabled}
+            readonly={controller.mergedReadonly}
+            limit={props.limit}
+            needConfirm={controller.deferred}
+            pending={controller.session.pending}
+            error={controller.session.error || controller.presentationError}
+            onOpen={controller.handleOpenChange}
+            onCancel={controller.cancelSession}
+            commit={() => controller.session.commit()}
+            onConfirm={() => controller.session.commit()}
+            v-slots={{
+              read: slots.read ? () => slots.read?.({ value: controller.committedValue, text }) : undefined,
+              default: () =>
+                controller.nativeEditor ? (
+                  controller.computedOpen &&
+                  h(
+                    Select,
+                    {
+                      ...props,
+                      ...attrs,
+                      presentation: 'inline',
+                      readPretty: false,
+                      beforeCommit: undefined,
+                      open: undefined,
+                      defaultOpen: true,
+                      modelValue: controller.session.value,
+                      disabled: controller.mergedDisabled || controller.session.pending,
+                      readonly: controller.mergedReadonly,
+                      'onUpdate:modelValue': controller.session.update,
+                      onSearch: (...args: any[]) => (emit as any)('search', ...args),
+                      onChange: () => {},
+                    },
+                    slots,
+                  )
+                ) : (
+                  <SelectionEditor kind="select">{renderEditor()}</SelectionEditor>
+                ),
+            }}
+          />
+        )
+      }
       return (
         <Presentation
           controller={controller}
           v-slots={{
-            default: () => <SelectMenu controller={controller} v-slots={slots} />,
+            default: () => (
+              <SelectedOptions
+                open={controller.computedOpen}
+                multiple={props.multiple}
+                items={controller.selectedItems.map((item) => ({
+                  ...item,
+                  text: String(item.label),
+                  label: renderLabel({ data: item }),
+                }))}
+                disabled={controller.mergedDisabled || controller.mergedReadonly || controller.session.pending}
+                limit={props.limit}
+                onRemove={(key) => controller.handleRemove(String(key))}
+                onClear={controller.clearSelection}
+              >
+                <SelectMenu controller={controller} v-slots={slots} />
+              </SelectedOptions>
+            ),
             reference: () =>
               slots.trigger?.() ?? (
                 <div class={[classes(n()), className]} style={style as StyleValue}>
@@ -91,7 +223,7 @@ export default defineComponent({
                     }}
                     onBlur={(event) => {
                       emit('blur', event)
-                      controller.eventHandlers?.onBlur?.(event)
+                      !controller.deferred && controller.eventHandlers?.onBlur?.(event)
                     }}
                   />
                 </div>
@@ -102,3 +234,5 @@ export default defineComponent({
     }
   },
 })
+
+export default Select

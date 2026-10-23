@@ -19,6 +19,10 @@ const fieldOnly = new Set([
   'open',
   'defaultOpen',
   'inputEditable',
+  'presentation',
+  'panelType',
+  'readPretty',
+  'beforeCommit',
 ])
 export function dateFieldPanelOptions(
   options: DateFieldProps,
@@ -32,7 +36,7 @@ export function dateFieldPanelOptions(
         : undefined
   const presentation = datePresentationOptions(nested)
   const nestedOptions = Object.fromEntries(
-    ['datePickerProps', 'pickerProps', 'timePickerProps'].map((key) => {
+    ['datePickerProps', 'pickerProps'].map((key) => {
       const outer = options[key as keyof DateFieldProps] as Record<string, unknown> | undefined
       return [key, { ...(presentation[key] as Record<string, unknown> | undefined), ...datePresentationOptions(outer) }]
     }),
@@ -41,5 +45,6 @@ export function dateFieldPanelOptions(
     ...presentation,
     ...Object.fromEntries(Object.entries(options).filter(([key]) => !fieldOnly.has(key))),
     ...nestedOptions,
+    ...((options as Record<string, any>).panelType ? { presentation: (options as Record<string, any>).panelType } : {}),
   }
 }

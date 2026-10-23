@@ -14,8 +14,6 @@ describe('time format and model integration', () => {
       props: { disableConfirm: true, hideDisabledOptions: true, format: 'mm:ss', modelValue: '05:09' },
     })
     expect(panelState(panel).pickerValue).toEqual(['05', '09'])
-    expect(panelState(panel).type).toBe('minute')
-    expect(panelState(panel).showHours).toBe(false)
     panelState(panel).handlePickerChange(['10', '15'])
     expect(panel.emitted('update:modelValue')).toEqual([['10:15']])
     panel.unmount()
@@ -26,7 +24,6 @@ describe('time format and model integration', () => {
     })
     expect(panelState(wrapper).pickerValue).toEqual(['13', '05', '09'])
     expect(panelState(wrapper).pickerColumns).toHaveLength(3)
-    expect(panelState(wrapper).clockFormat).toBe('24hr')
     wrapper.unmount()
   })
   it('accepts Date and timestamp values in fields and pure panels', () => {
@@ -50,7 +47,7 @@ describe('time format and model integration', () => {
         },
       })
       expect(fieldState(range).controlProps.value.texts).toEqual(['13:05', '13:05'])
-      expect(panelState(rangePanel).pickerValue).toEqual(['13', '05'])
+      expect(panelState(rangePanel).pickerValue).toEqual(['13', '05', '13', '05'])
       range.unmount()
       rangePanel.unmount()
     }
@@ -82,26 +79,24 @@ describe('time format and model integration', () => {
     expect(wrapper.emitted('update:modelValue')).toEqual([['Time 14:10']])
     wrapper.unmount()
   })
-  it('converts clock output and range ordering at the renderer boundary', async () => {
+  it('converts formatted output and validates overnight permission at the renderer boundary', async () => {
     const clock = shallowMount(TimePicker, {
       props: {
         disableConfirm: true,
         hideDisabledOptions: true,
         modelValue: '12:30 PM',
         format: 'hh:mm A',
-        presentation: 'clock',
       },
     })
-    panelState(clock).checkAmpm('am')
+    panelState(clock).handlePickerChange(['12', '30', 'am'])
     expect(clock.emitted('update:modelValue')).toEqual([['12:30 AM']])
     clock.unmount()
     for (const showNextDay of [false, true]) {
       const modelValue = ['11:30 PM', '12:30 AM']
       const range = mountField(TimeRange, { props: { open: true, modelValue, format: 'hh:mm A', showNextDay } })
-      fieldState(range).confirm()
-      expect(range.emitted('update:modelValue')?.[0]?.[0] ?? modelValue).toEqual(
-        showNextDay ? modelValue : ['12:30 AM', '11:30 PM'],
-      )
+      expect(fieldState(range).canConfirm.value).toBe(showNextDay)
+      expect(fieldState(range).confirm()).toBe(showNextDay)
+      expect(range.emitted('update:modelValue')).toEqual(showNextDay ? [[modelValue]] : undefined)
       range.unmount()
     }
     const panel = shallowMount(TimeRangePicker, {
@@ -114,9 +109,8 @@ describe('time format and model integration', () => {
       },
     })
     expect(panelState(panel).showNextDayLabel).toBe(true)
-    panelState(panel).activeTab = 'end'
     await nextTick()
-    panelState(panel).handlePickerChange(['01', '00', 'am'])
+    panelState(panel).handlePickerChange(['11', '30', 'pm', '01', '00', 'am'])
     expect(panel.emitted('update:modelValue')).toEqual([[['11:30 PM', '01:00 AM']]])
     panel.unmount()
   })

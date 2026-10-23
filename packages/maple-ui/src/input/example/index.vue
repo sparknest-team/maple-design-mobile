@@ -1,6 +1,9 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
+import ControlSizes from '../../field-decorator/example/demos/control-sizes.vue'
+import DemoApiReview from './demos/api-review.vue'
+import OrganizedAppearanceLab from './demos/appearance-lab.vue'
 import BasicDemo from './demos/basic.vue'
 import CustomClearIconDemo from './demos/custom-clear-icon.vue'
 import EnBasicDemo from './demos/en-US/basic.vue'
@@ -30,6 +33,7 @@ import NativeAttrsDemo from './demos/native-attrs.vue'
 import PasswordDemo from './demos/password.vue'
 import PrefixSuffixDemo from './demos/prefix-suffix.vue'
 import SizeDemo from './demos/size.vue'
+import OrganizedStateLab from './demos/state-lab.vue'
 import StateDemo from './demos/state.vue'
 import TypeDemo from './demos/type.vue'
 import VariantDemo from './demos/variant.vue'
@@ -49,23 +53,10 @@ onThemeChange()
     <EnBasicDemo v-if="english" />
     <BasicDemo v-else />
   </section>
-
   <section data-demo="variant">
     <app-type>{{ english ? 'Variants' : '外观变体' }}</app-type>
     <EnVariantDemo v-if="english" />
     <VariantDemo v-else />
-  </section>
-
-  <section data-demo="hint">
-    <app-type>{{ english ? 'Hint' : '提示文字' }}</app-type>
-    <EnHintDemo v-if="english" />
-    <HintDemo v-else />
-  </section>
-
-  <section data-demo="type">
-    <app-type>{{ english ? 'Input Types' : '输入类型' }}</app-type>
-    <EnTypeDemo v-if="english" />
-    <TypeDemo v-else />
   </section>
 
   <section data-demo="size">
@@ -80,6 +71,23 @@ onThemeChange()
     <StateDemo v-else />
   </section>
 
+  <section data-demo="control-sizes">
+    <h3>Form controls / 表单控件尺寸对照</h3>
+    <ControlSizes />
+  </section>
+
+  <section data-demo="hint">
+    <app-type>{{ english ? 'Hint' : '提示文字' }}</app-type>
+    <EnHintDemo v-if="english" />
+    <HintDemo v-else />
+  </section>
+
+  <section data-demo="type">
+    <app-type>{{ english ? 'Input Types' : '输入类型' }}</app-type>
+    <EnTypeDemo v-if="english" />
+    <TypeDemo v-else />
+  </section>
+
   <section data-demo="prefix-suffix">
     <app-type>{{ english ? 'Prefix and Suffix' : '前缀和后缀' }}</app-type>
     <EnPrefixSuffixDemo v-if="english" />
@@ -92,14 +100,8 @@ onThemeChange()
     <GroupDemo v-else />
   </section>
 
-  <section data-demo="password">
-    <app-type>{{ english ? 'Password Input' : '密码输入框' }}</app-type>
-    <EnPasswordDemo v-if="english" />
-    <PasswordDemo v-else />
-  </section>
-
   <section data-demo="group-state">
-    <app-type>{{ english ? 'Inherited Group State' : '组合状态继承' }}</app-type>
+    <app-type>{{ english ? 'Group State Inheritance' : '组合状态继承' }}</app-type>
     <EnGroupStateDemo v-if="english" />
     <GroupStateDemo v-else />
   </section>
@@ -108,6 +110,12 @@ onThemeChange()
     <app-type>{{ english ? 'Form Feedback' : '表单反馈' }}</app-type>
     <EnFormFeedbackDemo v-if="english" />
     <FormFeedbackDemo v-else />
+  </section>
+
+  <section data-demo="password">
+    <app-type>{{ english ? 'Password Input' : '密码输入框' }}</app-type>
+    <EnPasswordDemo v-if="english" />
+    <PasswordDemo v-else />
   </section>
 
   <section data-demo="max-length">
@@ -134,7 +142,16 @@ onThemeChange()
     <NativeAttrsDemo v-else />
   </section>
   <section data-demo="event-pipeline">
-    <app-type>{{ english ? 'Event pipeline' : '事件顺序' }}</app-type
+    <app-type>{{ english ? 'Body and event contract' : '主体与事件契约' }}</app-type
     ><EnPipelineDemo v-if="english" /><PipelineDemo v-else />
   </section>
+  <section data-demo="appearance-lab">
+    <app-type>{{ english ? 'Appearance combinations' : '外观组合' }}</app-type>
+    <OrganizedAppearanceLab />
+  </section>
+  <section data-demo="state-lab">
+    <app-type>{{ english ? 'Interaction states' : '交互状态切换' }}</app-type>
+    <OrganizedStateLab />
+  </section>
+  <section data-demo="api-review"><DemoApiReview /></section>
 </template>

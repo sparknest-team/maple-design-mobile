@@ -1,0 +1,124 @@
+{
+  "fields": [
+    {
+      "name": "orientation",
+      "description": "分割线方向",
+      "type": "'horizontal' | 'vertical'",
+      "defaultValue": "'horizontal'",
+      "kind": "enum",
+      "options": [
+        "horizontal",
+        "vertical"
+      ],
+      "initial": "horizontal"
+    },
+    {
+      "name": "type",
+      "description": "线型",
+      "type": "'dashed' | 'dotted' | 'solid' | 'double'",
+      "defaultValue": "'solid'",
+      "kind": "enum",
+      "options": [
+        "dashed",
+        "dotted",
+        "solid",
+        "double"
+      ],
+      "initial": "solid"
+    },
+    {
+      "name": "text-align",
+      "description": "文字沿分割线的位置；start/end 为逻辑起止位置",
+      "type": "'start' | 'center' | 'end'",
+      "defaultValue": "'center'",
+      "kind": "enum",
+      "options": [
+        "start",
+        "center",
+        "end"
+      ],
+      "initial": "center"
+    },
+    {
+      "name": "description",
+      "description": "文字描述；默认插槽优先",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "inset",
+      "description": "沿线两端缩进：水平时左右，竖直时上下",
+      "type": "number | string | Array<number | string>",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "0"
+    },
+    {
+      "name": "spacing",
+      "description": "线条两侧外间距：水平时上下，竖直时左右",
+      "type": "number | string | Array<number | string>",
+      "defaultValue": "'md'",
+      "kind": "json",
+      "initial": "\"md\""
+    },
+    {
+      "name": "thickness",
+      "description": "线宽，单位 px；未设置时使用主题默认 1px；hairline 优先",
+      "type": "number",
+      "defaultValue": "undefined",
+      "kind": "number"
+    },
+    {
+      "name": "hairline",
+      "description": "将主题线宽缩放为一半；默认主题下为 0.5px",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "color",
+      "description": "线条颜色；未设置时使用主题边框色",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "opacity",
+      "description": "整个分割线（含文字）的不透明度，范围 0–1；0 保留布局",
+      "type": "number",
+      "defaultValue": "undefined",
+      "kind": "number"
+    }
+  ],
+  "events": [],
+  "scenarios": [
+    {
+      "name": "inset",
+      "kind": "prop",
+      "demos": [
+        "live-properties.vue",
+        "size.vue"
+      ]
+    },
+    {
+      "name": "spacing",
+      "kind": "prop",
+      "demos": [
+        "live-properties.vue",
+        "size.vue"
+      ]
+    },
+    {
+      "name": "default",
+      "kind": "slot",
+      "demos": [
+        "live-properties.vue"
+      ]
+    }
+  ],
+  "slotNames": [],
+  "slotDefaults": {},
+  "methodNames": []
+}

@@ -12,20 +12,20 @@ Group and hide complex content. Multiple panels can stay open.
 ../example/demos/basic.vue
 ```
 
-### Accordion
-
-Use `accordion` so only one panel is open. `activeNames` remains an array with at most one item.
-
-```demo
-../example/demos/accordion.vue
-```
-
 ### Disabled
 
 Disable a panel with `disabled`.
 
 ```demo
 ../example/demos/disabled.vue
+```
+
+### Accordion
+
+Use `accordion` so only one panel is open. `activeNames` remains an array with at most one item.
+
+```demo
+../example/demos/accordion.vue
 ```
 
 ### Nested panels
@@ -107,6 +107,15 @@ Use `toggleAll` to expand or collapse all panels. It is a no-op in accordion mod
 ```demo
 ../example/demos/toggle-all.vue
 ```
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

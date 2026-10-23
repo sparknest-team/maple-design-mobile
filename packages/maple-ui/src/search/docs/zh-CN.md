@@ -1,5 +1,7 @@
 # 搜索
 
+## 案例
+
 ### 介绍
 
 搜索组件用于在列表、结果页或顶部工具栏中输入关键词并触发查询，内置搜索图标、清除按钮和可选取消按钮。
@@ -8,6 +10,12 @@
 
 ```demo
 ../example/demos/basic.vue
+```
+
+### 状态
+
+```demo
+../example/demos/state.vue
 ```
 
 ### 取消按钮
@@ -42,10 +50,12 @@
 ../example/demos/shape.vue
 ```
 
-### 状态
+### 交互状态切换
+
+适用于关键词输入与搜索提交。调整禁用、只读，用相同数据观察变化。控制区始终可用，可以随时恢复编辑；错误外观本身不会触发表单校验。
 
 ```demo
-../example/demos/state.vue
+../example/demos/state-lab.vue
 ```
 
 ### 历史展示与插槽
@@ -53,6 +63,15 @@
 ```demo
 ../example/demos/presentation.vue
 ```
+
+<!-- api-review:start -->
+### 功能调试
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

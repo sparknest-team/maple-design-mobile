@@ -37,9 +37,9 @@ describe('test divider components props', () => {
     wrapper.unmount()
   })
 
-  test('divider sizeX custom', () => {
+  test('divider inset custom', () => {
     const wrapper = mount(VarDivider, {
-      props: { sizeX: 36 },
+      props: { inset: 36 },
     })
     const style = wrapper.find('.mp-divider').attributes('style') || ''
     expect(style).toContain('margin-inline-start')
@@ -47,11 +47,11 @@ describe('test divider components props', () => {
     wrapper.unmount()
   })
 
-  test('divider sizeY preset', () => {
+  test('divider spacing preset', () => {
     const wrapper = mount(VarDivider, {
-      props: { sizeY: 'lg' },
+      props: { spacing: 'lg' },
     })
-    expect(wrapper.find('.mp-divider--size-y-lg').exists()).toBe(true)
+    expect(wrapper.find('.mp-divider--spacing-lg').exists()).toBe(true)
     wrapper.unmount()
   })
 

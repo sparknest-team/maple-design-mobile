@@ -1,14 +1,13 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
+import DemoApiReview from './demos/api-review.vue'
 import BasicUsageDemo from './demos/basic-usage.vue'
-import ChildSeparatorDemo from './demos/child-separator.vue'
 import ClickEventDemo from './demos/click-event.vue'
 import CustomIconDemo from './demos/custom-icon.vue'
 import DropdownDemo from './demos/dropdown.vue'
 import MaxCountDemo from './demos/max-count.vue'
 import RoutesModeDemo from './demos/routes-mode.vue'
-import SeparatorSlotDemo from './demos/separator-slot.vue'
 import SeparatorDemo from './demos/separator.vue'
 
 const language = ref('zh-CN')
@@ -26,24 +25,14 @@ onThemeChange()
     <BasicUsageDemo />
   </section>
 
-  <section data-demo="custom-icon">
-    <app-type>{{ english ? 'Custom Icon' : '自定义图标' }}</app-type>
-    <CustomIconDemo />
-  </section>
-
   <section data-demo="separator">
-    <app-type>{{ english ? 'Parent Separator' : '父级分隔符' }}</app-type>
+    <app-type>{{ english ? 'Custom Separator' : '自定义分隔符' }}</app-type>
     <SeparatorDemo />
   </section>
 
-  <section data-demo="child-separator">
-    <app-type>{{ english ? 'Child Separator' : '子项分隔符' }}</app-type>
-    <ChildSeparatorDemo />
-  </section>
-
-  <section data-demo="separator-slot">
-    <app-type>{{ english ? 'Separator Slot' : '分隔符插槽' }}</app-type>
-    <SeparatorSlotDemo />
+  <section data-demo="custom-icon">
+    <app-type>{{ english ? 'Custom Icon' : '自定义图标' }}</app-type>
+    <CustomIconDemo />
   </section>
 
   <section data-demo="routes-mode">
@@ -65,4 +54,5 @@ onThemeChange()
     <app-type>{{ english ? 'Link & Click' : '链接与点击' }}</app-type>
     <ClickEventDemo />
   </section>
+  <section data-demo="api-review"><DemoApiReview /></section>
 </template>

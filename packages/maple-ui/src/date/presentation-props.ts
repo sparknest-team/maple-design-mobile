@@ -1,13 +1,12 @@
 import { type PropType } from 'vue'
 import type { DisabledTime } from './time-constraints'
-import type { DateTimePickerOptions } from './time-picker-options'
 import type { DateWheelOptions } from './wheel-options'
 
 type DisabledDate = (val: string) => boolean
 
 type DatePickerType = 'year' | 'date' | 'month'
 
-export type DatePickerPresentation = 'calendar' | 'picker' | 'calendarClock' | 'calendarPicker'
+export type DatePickerPresentation = 'calendar' | 'picker' | 'calendarPicker'
 
 export type TouchDirection = 'x' | 'y'
 
@@ -72,12 +71,8 @@ export const props = {
   useSeconds: Boolean,
   hint: String,
   disabledDate: Function as PropType<DisabledDate>,
-  // Maple DisabledTime is `(n)=>boolean` object shape (mobile clock); Cedar DatePicker DisabledTime is Date-based — intentional signature difference, shared name/polarity.
+  // Maple DisabledTime is `(n)=>boolean` object shape (mobile wheels); Cedar DatePicker DisabledTime is Date-based — intentional signature difference, shared name/polarity.
   disabledTime: Object as PropType<DisabledTime>,
-  timePickerProps: {
-    type: Object as PropType<DateTimePickerOptions>,
-    default: () => ({}),
-  },
   color: String,
   titleColor: String,
   elevation: {

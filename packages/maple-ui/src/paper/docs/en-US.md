@@ -1,5 +1,7 @@
 # Paper
 
+## Examples
+
 ### Intro
 
 An easier container using elevation and water effects.
@@ -10,32 +12,31 @@ An easier container using elevation and water effects.
 ../example/demos/basic-usage.vue
 ```
 
-### Ripple Effect
+### Border / Border with shadow
 
 ```demo
 ../example/demos/bordered.vue
 ```
 
-### Rounded Paper
+### Ripple Effect
 
 ```demo
 ../example/demos/ripple.vue
 ```
 
-### Custom Border Radius
+### Rounded Paper
 
 ```demo
 ../example/demos/round.vue
 ```
 
-### Use Slot
+### Custom Border Radius
 
 ```demo
 ../example/demos/radius.vue
 ```
 
-### Border
-
+### Use Slot
 
 
 Paper is a low-level surface, not a structured Card. It has no variant/status and no default padding. Borders and elevation are independent. Use it for custom panels, form sections or the surface inside a popup; positioning, focus and button semantics remain outside Paper.
@@ -43,6 +44,23 @@ Paper is a low-level surface, not a structured Card. It has no variant/status an
 ```demo
 ../example/demos/slot.vue
 ```
+
+## Live properties
+
+Border and shadow are independent. An explicit radius overrides round. The inner native button provides keyboard semantics; its click bubbles to Paper and updates parent-owned feedback.
+
+```demo
+../example/demos/live-properties.vue
+```
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 
@@ -77,11 +95,11 @@ Here are the CSS variables used by the component. Styles can be customized using
 
 | Variable | Default |
 | ------ | -------------|
-| `--paper-background`    | `var(--color-bg-2)` |
-| `--paper-border-radius` | `4px` |
-| `--paper-border-width` | `1px` |
-| `--paper-border-color` | `var(--color-border)` |
-| `--paper-transition-duration` | `0.25s` |
+| `--mp-paper-background`    | `var(--mp-sys-color-surface-default)` |
+| `--mp-paper-border-radius` | `4px` |
+| `--mp-paper-border-width` | `1px` |
+| `--mp-paper-border-color` | `var(--mp-sys-color-border-default)` |
+| `--mp-paper-transition-duration` | `var(--mp-sys-motion-duration-slow)` |
 
 Numeric dimensions/radius (including numeric strings) use px; CSS lengths are preserved. Explicit radius overrides round. Themes may override background/radius.
 

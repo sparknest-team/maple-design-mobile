@@ -13,8 +13,13 @@
     </mp-affix>
 
     <transition :name="`${nDate()}${reverse ? '-reverse' : ''}-translatex`">
-      <ul ref="panel" :key="panelKey" :class="n()">
-        <li v-for="year in yearList" :key="year">
+      <ul ref="panel" :key="panelKey" :class="n()" @pointerleave="clearPreview">
+        <li
+          v-for="year in yearList"
+          :key="year"
+          :class="[rangeClasses(dateOf(`${year}`)), { [n('range--disabled')]: buttonProps(`${year}`).disabled }]"
+          @pointerenter="previewCell(`${year}`, $event)"
+        >
           <mp-button
             mp-year-picker-cover
             :ripple="false"
@@ -36,6 +41,9 @@
 import {
   computed,
   defineComponent,
+  nextTick,
+  onBeforeUnmount,
+  onDeactivated,
   ref,
   watch,
   type ComputedRef,
@@ -50,6 +58,8 @@ import MpAffix from '../../affix'
 import MpButton, { type ButtonVariant, type SemanticStatus } from '../../button'
 import { createNamespace } from '../../utils/components'
 import { type Choose, type ComponentProps, type PanelBtnDisabled } from '../picker-props'
+import { isRangeHighlighted } from '../range-highlight'
+import { useCalendarRangeStyle } from '../use-calendar-range-style'
 import PanelHeader from './PanelHeader.vue'
 
 const { n, classes } = createNamespace('year-picker')
@@ -63,6 +73,8 @@ export default defineComponent({
     PanelHeader,
   },
   props: {
+    rangePending: Boolean,
+    readonly: Boolean,
     choose: {
       type: Object as PropType<Choose>,
       required: true,
@@ -82,6 +94,17 @@ export default defineComponent({
   emits: ['choose-year'],
 
   setup(props, { emit }) {
+    const dateOf = (year: string) => year
+    const { rangeState, rangeClasses, preview, clearPreview } = useCalendarRangeStyle({
+      endpoints: () => props.choose.chooseRangeYear,
+      pending: () => props.rangePending,
+      enabled: () => props.componentProps.range && props.componentProps.type === 'year',
+      readonly: () => props.readonly,
+      version: () => [props.preview, props.componentProps],
+      unit: 'year',
+      name: n,
+    })
+    const previewCell = (year: string, event: PointerEvent) => preview(dateOf(year), event, buttonProps(year).disabled)
     const [currentYear] = props.current.split('-')
     const panel = ref<null | HTMLElement>()
     const headerEl: Ref<RendererNode | null> = ref(null)
@@ -105,14 +128,7 @@ export default defineComponent({
       }: { choose: Choose; componentProps: ComponentProps } = props
 
       if (range) {
-        if (!chooseRangeYear.length) {
-          return false
-        }
-
-        const isBeforeMax = dayjs(val).isSameOrBefore(dayjs(chooseRangeYear[1]), 'year')
-        const isAfterMin = dayjs(val).isSameOrAfter(dayjs(chooseRangeYear[0]), 'year')
-
-        return isBeforeMax && isAfterMin
+        return isRangeHighlighted(val, chooseRangeYear, 'year')
       }
 
       if (type === 'year') {
@@ -163,6 +179,10 @@ export default defineComponent({
       const disabled = computeDisabled()
 
       const computeText = (): boolean => {
+        if (range && props.componentProps.type === 'year') {
+          const state = rangeState(dateOf(year))
+          return disabled || state.previewing || !(state.start || state.end)
+        }
         if (disabled) {
           return true
         }
@@ -205,7 +225,16 @@ export default defineComponent({
       }
 
       const isCover = textColorOrCover().startsWith(nDate())
-      const variant: ButtonVariant = computeOutline() ? 'outline' : computeText() ? 'text' : 'default'
+      const variant: ButtonVariant =
+        range && rangeState(dateOf(year)).inside
+          ? computeText()
+            ? 'text'
+            : 'default'
+          : computeOutline()
+            ? 'outline'
+            : computeText()
+              ? 'text'
+              : 'default'
       const status: SemanticStatus = !computeText() ? 'primary' : 'default'
 
       return {
@@ -233,12 +262,34 @@ export default defineComponent({
         panel.value!.querySelector('.mp-button--status-primary') ??
         panel.value!.querySelector('.mp-button--variant-outline')
 
-      activeEl?.scrollIntoView({
-        block: 'center',
-      })
+      if (!activeEl) {
+        return
+      }
+      // Align only inside the panel's nearest scroll surface. Native scrollIntoView
+      // also scrolls the document while a dialog is being mounted or transitioned.
+      let container = panel.value?.parentElement
+      while (container && container !== document.body && container !== document.documentElement) {
+        if (/(auto|scroll)/.test(getComputedStyle(container).overflowY)) {
+          if (container.clientHeight > 0 && container.scrollHeight > container.clientHeight) {
+            const target = activeEl.getBoundingClientRect()
+            const viewport = container.getBoundingClientRect()
+            // Dialog entry can scale the DOM; scrollTop uses unscaled layout pixels.
+            const scale = container.offsetHeight > 0 ? viewport.height / container.offsetHeight || 1 : 1
+            const top =
+              container.scrollTop +
+              (target.top - viewport.top) / scale -
+              container.clientTop -
+              (container.clientHeight - target.height / scale) / 2
+            container.scrollTop = Math.max(0, Math.min(top, container.scrollHeight - container.clientHeight))
+          }
+          return
+        }
+        container = container.parentElement
+      }
     }
 
     const checkDate = (checkType: string) => {
+      clearPreview()
       const isPrevType = checkType === 'prev'
 
       reverse.value = isPrevType
@@ -251,7 +302,35 @@ export default defineComponent({
       headerEl.value!.checkDate(checkType)
     }
 
-    onSmartMounted(scrollToView)
+    let alignmentGeneration = 0
+    let alignmentActive = false
+    const requestAlignment = () => {
+      if (!alignmentActive) {
+        return
+      }
+      const generation = ++alignmentGeneration
+      nextTick(() => {
+        if (generation === alignmentGeneration) {
+          scrollToView()
+        }
+      })
+    }
+    onSmartMounted(() => {
+      alignmentActive = true
+      requestAlignment()
+    })
+    watch(() => props.choose, requestAlignment, { deep: true, flush: 'post' })
+    const retireAlignment = () => {
+      alignmentActive = false
+      alignmentGeneration++
+    }
+    onBeforeUnmount(retireAlignment)
+    onDeactivated(retireAlignment)
+
+    function resetPage() {
+      page.value = 0
+      requestAlignment()
+    }
 
     watch(
       () => props.preview,
@@ -273,6 +352,10 @@ export default defineComponent({
       n,
       classes,
       buttonProps,
+      dateOf,
+      rangeClasses,
+      previewCell,
+      clearPreview,
       panel,
       headerEl,
       yearList,
@@ -283,6 +366,7 @@ export default defineComponent({
       checkDate,
       chooseYear,
       forwardRef,
+      resetPage,
       toNumber,
     }
   },

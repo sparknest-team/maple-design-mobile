@@ -2,7 +2,7 @@ import { h, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test } from 'vitest'
 import Cascader from '../../cascader'
-import DropdownMenu from '../../dropdown-menu'
+import Menu from '../../menu'
 import Popover from '../../popover'
 import Select from '../../select'
 import Tooltip from '../../tooltip'
@@ -10,7 +10,7 @@ import Trigger from '../../trigger'
 
 describe('Trigger wrapper migration', () => {
   test.each([
-    ['DropdownMenu', DropdownMenu],
+    ['Menu', Menu],
     ['Select', Select],
     ['Cascader', Cascader],
     ['Popover', Popover],

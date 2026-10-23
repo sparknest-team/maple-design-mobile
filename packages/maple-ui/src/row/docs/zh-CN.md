@@ -37,13 +37,30 @@
 ### 嵌套与间距隔离
 
 
-
 ```demo
 ../example/demos/nested.vue
 ```
 
-<!-- same-source-api:start -->
+### 布局与对齐
 
+适用于row。调整交叉轴对齐、主轴分配，用相同数据观察变化。内容保持一致，便于比较不同设置的实际效果。
+
+```demo
+../example/demos/layout-lab.vue
+```
+
+<!-- api-review:start -->
+### 功能调试
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
+
+## API
+
+<!-- same-source-api:start -->
 ### Props
 
 | 属性 | 说明 | Type | Default |
@@ -71,6 +88,8 @@
 | Method | Description |
 | --- | --- |
 <!-- same-source-api:end -->
+
+换行示例分别切换换行与普通 `div` 模式。普通模式移除 Row 布局样式及子 Col 间距；间距示例区分水平与垂直间距。Row 使用 Flex，不依赖 CSS Grid。
 
 ## 响应式与可访问性
 

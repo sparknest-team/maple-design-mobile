@@ -1,5 +1,5 @@
 import { withInstall, withPropsDefaultsSetter } from '../utils/components'
-import InputNumber from './InputNumber.vue'
+import InputNumber from './presentation'
 import { inputNumberProps } from './props'
 
 withInstall(InputNumber)

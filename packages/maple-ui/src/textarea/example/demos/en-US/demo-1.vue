@@ -1,23 +1,19 @@
-<script setup>
-import { reactive, ref } from 'vue'
+<script setup lang="ts">
+import { ref } from 'vue'
 
-const basicValue = ref('')
+const value = ref('')
+const trimmed = ref('')
 </script>
-
 <template>
-  <mp-textarea v-model="basicValue" :rows="4" placeholder="Enter multiple lines" />
+  <mp-space direction="column">
+    <mp-textarea v-model="value" clearable placeholder="Enter multiple lines" aria-label="Controlled text" />
+    <p role="status">Current value: {{ value || '(empty)' }}</p>
+    <mp-textarea default-value="An uncontrolled initial value" aria-label="非Controlled text" />
+    <mp-textarea
+      v-model.trim="trimmed"
+      placeholder="Enter surrounding whitespace, then blur"
+      aria-label="Trimmed text"
+    />
+    <p role="status">Trimmed value: {{ JSON.stringify(trimmed) }}</p>
+  </mp-space>
 </template>
-
-<style lang="less" scoped>
-.textarea-example {
-  &__caption {
-    margin: 16px 0 8px;
-    color: var(--mp-field-blur-color);
-    font-size: 12px;
-  }
-
-  &__bottom-space {
-    height: 40px;
-  }
-}
-</style>

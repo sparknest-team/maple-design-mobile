@@ -1,4 +1,5 @@
 import type { ExtractPublicPropTypes, InputHTMLAttributes, PropType } from 'vue'
+import { fieldPresentationProps } from '../_components/field-presentation/props'
 import { choiceOptionsProps, radioGroupValueProps } from '../checkbox/choice-group-props'
 import { radioValueProps } from '../checkbox/choice-value-props'
 import { componentSizes } from '../utils/constants'
@@ -7,6 +8,7 @@ import { radioVariantProp } from './variant'
 
 export type RadioValue = import('../checkbox/choice-value-props').ChoiceValue
 export const radioProps = {
+  ...fieldPresentationProps,
   ...radioValueProps,
   /** 外观，分组设置优先。 */
   variant: radioVariantProp,
@@ -30,6 +32,7 @@ export const radioProps = {
   uninjectGroupContext: { type: Boolean, default: false },
 }
 export const radioGroupProps = {
+  ...fieldPresentationProps,
   ...radioGroupValueProps,
   ...choiceOptionsProps,
   ariaLabel: { type: String, default: '' },

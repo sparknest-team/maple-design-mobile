@@ -4,5 +4,6 @@
     "target": "esnext",
     "outDir": "./lib"
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*"],
+  "exclude": ["src/**/__tests__/**"]
 }

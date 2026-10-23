@@ -1,13 +1,13 @@
 import type { ExtractPublicPropTypes, PropType } from 'vue'
 import { buttonGroupProps, buttonProps, type ButtonProps } from '../button'
-import { dropdownMenuProps } from '../dropdown-menu'
+import { menuProps } from '../menu'
 import { popupContainerProp } from '../utils/popup-container'
 
 export const splitButtonProps = {
   /** 菜单是否打开 */
-  open: dropdownMenuProps.open,
+  open: menuProps.open,
   /** 菜单默认是否打开 */
-  defaultOpen: dropdownMenuProps.defaultOpen,
+  defaultOpen: menuProps.defaultOpen,
   /** 是否禁用整个分裂按钮 */
   disabled: buttonGroupProps.disabled,
   /** 主按钮属性 */
@@ -31,21 +31,21 @@ export const splitButtonProps = {
   /** 主按钮点击回调，Promise 返回值用于 autoLoading */
   onClick: buttonProps.onClick,
   /** 菜单触发方式 */
-  trigger: dropdownMenuProps.trigger,
+  trigger: menuProps.trigger,
   /** 菜单弹出位置 */
-  placement: dropdownMenuProps.placement,
+  placement: menuProps.placement,
   /** 菜单挂载容器 */
   popupContainer: popupContainerProp,
   /** 菜单最大高度 */
-  popupMaxHeight: dropdownMenuProps.popupMaxHeight,
+  popupMaxHeight: menuProps.popupMaxHeight,
   /** 菜单浮层类名 */
-  popupClass: dropdownMenuProps.popupClass,
+  popupClass: menuProps.popupClass,
   /** 屏幕水平方向偏移 */
-  offsetX: dropdownMenuProps.offsetX,
+  offsetX: menuProps.offsetX,
   /** 屏幕垂直方向偏移 */
-  offsetY: dropdownMenuProps.offsetY,
+  offsetY: menuProps.offsetY,
   /** 选择菜单项后是否关闭菜单 */
-  hideOnSelect: dropdownMenuProps.hideOnSelect,
+  hideOnSelect: menuProps.hideOnSelect,
 }
 
 export type SplitButtonProps = ExtractPublicPropTypes<typeof splitButtonProps>

@@ -1,5 +1,10 @@
 import type { ExtractPropTypes, PropType } from 'vue'
-import { presentationProps } from '../_components/selection-field/presentation-props'
+import {
+  beforeFieldCommitProp,
+  fieldPresentationProp,
+  readPrettyProp,
+  type FieldPresentation,
+} from '../_components/field-presentation/context'
 import type { ScrollbarProps } from '../_components/selection-scrollbar'
 import type { VirtualListProps } from '../_components/virtual-list-v2/interface'
 import { componentSizes } from '../_utils/constant'
@@ -10,17 +15,14 @@ import type { TriggerProps } from '../trigger'
 import { popupContainerProp } from '../utils/popup-container'
 import type { SelectFieldNames, SelectOptionData, SelectOptionGroup } from './types'
 
-export type SelectPresentation = 'menu' | 'list' | 'picker'
+export type SelectPresentation = FieldPresentation
 export const selectProps = {
   showTags: { type: Boolean, default: true },
   separator: { type: String, default: ',' },
   textAlign: { type: String as PropType<'left' | 'right' | 'center'>, default: 'left' },
-  ...presentationProps,
-  presentation: {
-    type: String as PropType<SelectPresentation>,
-    default: 'menu',
-    validator: (value: string) => ['menu', 'list', 'picker'].includes(value),
-  },
+  presentation: fieldPresentationProp,
+  readPretty: readPrettyProp,
+  beforeCommit: beforeFieldCommitProp,
   readonly: { type: Boolean, default: undefined },
   hint: fieldDecoratorProps.hint,
   line: fieldDecoratorProps.line,

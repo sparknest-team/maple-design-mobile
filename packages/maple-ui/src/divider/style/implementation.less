@@ -53,6 +53,8 @@
   }
 
   &--with-text&--orientation-vertical {
+    width: fit-content;
+    max-width: 100%;
     height: inherit;
     flex-direction: column;
 
@@ -156,33 +158,33 @@
     }
   }
 
-  .generate-size-styles(@size) {
-    &--size-x-@{size}&--orientation-horizontal {
-      max-width: calc(100% - var(~'--mp-divider-orientation-horizontal-size-x-@{size}') * 2);
-      margin-inline-start: var(~'--mp-divider-orientation-horizontal-size-x-@{size}');
-      margin-inline-end: var(~'--mp-divider-orientation-horizontal-size-x-@{size}');
+  .generate-spacing-styles(@size) {
+    &--inset-@{size}&--orientation-horizontal {
+      max-width: calc(100% - var(~'--mp-divider-orientation-horizontal-inset-@{size}') * 2);
+      margin-inline-start: var(~'--mp-divider-orientation-horizontal-inset-@{size}');
+      margin-inline-end: var(~'--mp-divider-orientation-horizontal-inset-@{size}');
     }
 
-    &--size-x-@{size}&--orientation-vertical {
-      max-height: calc(100% - var(~'--mp-divider-orientation-vertical-size-x-@{size}') * 2);
-      margin-block-start: var(~'--mp-divider-orientation-vertical-size-x-@{size}');
-      margin-block-end: var(~'--mp-divider-orientation-vertical-size-x-@{size}');
+    &--inset-@{size}&--orientation-vertical {
+      max-height: calc(100% - var(~'--mp-divider-orientation-vertical-inset-@{size}') * 2);
+      margin-block-start: var(~'--mp-divider-orientation-vertical-inset-@{size}');
+      margin-block-end: var(~'--mp-divider-orientation-vertical-inset-@{size}');
     }
 
-    &--size-y-@{size}&--orientation-horizontal {
-      margin-block-start: var(~'--mp-divider-orientation-horizontal-size-y-@{size}');
-      margin-block-end: var(~'--mp-divider-orientation-horizontal-size-y-@{size}');
+    &--spacing-@{size}&--orientation-horizontal {
+      margin-block-start: var(~'--mp-divider-orientation-horizontal-spacing-@{size}');
+      margin-block-end: var(~'--mp-divider-orientation-horizontal-spacing-@{size}');
     }
 
-    &--size-y-@{size}&--orientation-vertical {
-      margin-inline-start: var(~'--mp-divider-orientation-vertical-size-y-@{size}');
-      margin-inline-end: var(~'--mp-divider-orientation-vertical-size-y-@{size}');
+    &--spacing-@{size}&--orientation-vertical {
+      margin-inline-start: var(~'--mp-divider-orientation-vertical-spacing-@{size}');
+      margin-inline-end: var(~'--mp-divider-orientation-vertical-spacing-@{size}');
     }
   }
 
-  .generate-size-styles(xs);
-  .generate-size-styles(sm);
-  .generate-size-styles(md);
-  .generate-size-styles(lg);
-  .generate-size-styles(xl);
+  .generate-spacing-styles(xs);
+  .generate-spacing-styles(sm);
+  .generate-spacing-styles(md);
+  .generate-spacing-styles(lg);
+  .generate-spacing-styles(xl);
 }

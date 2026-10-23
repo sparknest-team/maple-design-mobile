@@ -47,7 +47,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, nextTick, onMounted, ref, useSlots, watch, type CSSProperties } from 'vue'
+import { computed, inject, nextTick, onMounted, onUpdated, ref, useSlots, watch, type CSSProperties } from 'vue'
 import { createNamespace } from '../utils/components'
 import { avatarGroupInjectionKey } from './context'
 import { ImageErrorIcon, ImageLoadingIcon, toSizeUnit, useElementResize } from './platform'
@@ -155,6 +155,7 @@ watch(
   },
 )
 watch([mergedSize, mergedAutoFixFontSize], updateScale)
+onUpdated(updateScale)
 useElementResize(
   () => [itemRef.value],
   () => mergedAutoFixFontSize.value && !showImage.value,

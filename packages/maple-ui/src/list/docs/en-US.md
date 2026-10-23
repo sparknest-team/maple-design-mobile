@@ -1,5 +1,7 @@
 # List
 
+Current-source revalidation,2026-10-16:15 lifecycle/two measurement cases pass with measured-row/self-scroll alignment and reactive padding;related List total38. Pre/post hashes match;only classification is updated,not parallel product code. These controls do not certify arbitrary destructive geometry reentry,native smooth scrolling,trusted input or OS. Earlier counts remain historical.
+
 VirtualList lifecycle audit: superseded requests, changed data, deactivation and disposal invalidate old nextTick corrections; retained inactive/disposed commands are inert and activation does not replay old work. Corrections are not RAF interpolation and introduce no CSS token/API. All15 scoped cases per copy pass; full List Cedar41/Maple34. New real browser cases:0. Existing key/index/align and measurement contracts remain. The classification note below is historical.
 
 ```demo
@@ -11,6 +13,7 @@ VirtualList lifecycle audit: superseded requests, changed data, deactivation and
 A presentational list. Compose it with `InfiniteScroll` for pagination.
 
 
+## 案例
 
 ### basic usage
 
@@ -29,6 +32,7 @@ A presentational list. Compose it with `InfiniteScroll` for pagination.
 ```demo
 ../example/demos/states.vue
 ```
+
 ## Basic Usage
 
 ```html
@@ -65,9 +69,22 @@ You can also provide list content directly. When both the default slot and `data
 
 ### Virtual navigation
 
+The demo uses `Space direction="column"` to place controls above a full-width list. `estimatedSize` estimates unmeasured rows; application rows do not need a fixed height.
+
+Navigation uses rendered row bounds when available and updates virtual padding after measurement. Programmatic scroll events preserve the current alignment while rendering rows; a different native scroll position, a new command, data replacement, deactivation or disposal cancels its deferred correction. `auto` leaves a fully visible row and the rendered window unchanged. This does not promise continuous tracking of arbitrary asynchronous row resizing.
+
 ```demo
 ../example/demos/en-US/virtual-navigation.vue
 ```
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

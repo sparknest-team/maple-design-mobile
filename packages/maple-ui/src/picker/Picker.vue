@@ -59,11 +59,11 @@
           :key="columnIndex"
           :class="n('column')"
           role="listbox"
-          :tabindex="c.column.some((option) => !isOptionDisabled(option)) ? 0 : -1"
+          :tabindex="!disabled && c.column.some((option) => !isOptionDisabled(option)) ? 0 : -1"
           :aria-label="`${title ?? (pt ? pt : t)('pickerTitle')} ${columnIndex + 1}`"
-          :aria-disabled="c.column.every(isOptionDisabled) || undefined"
+          :aria-disabled="disabled || c.column.every(isOptionDisabled) || undefined"
           :aria-activedescendant="
-            c.column[c.index] && !isOptionDisabled(c.column[c.index])
+            !disabled && c.column[c.index] && !isOptionDisabled(c.column[c.index])
               ? `${controlId}-${columnIndex}-${c.index}`
               : undefined
           "
@@ -80,7 +80,7 @@
               transitionDuration: `${c.duration}ms`,
               transitionProperty: c.duration ? 'transform' : 'none',
             }"
-            @transitionend="handleTransitionend(c)"
+            @transitionend="handleTransitionend(c, $event)"
           >
             <div
               v-for="(option, index) in c.column"
@@ -127,6 +127,8 @@
 import {
   computed,
   defineComponent,
+  onActivated,
+  onDeactivated,
   onMounted,
   onScopeDispose,
   ref,
@@ -197,11 +199,20 @@ export default defineComponent({
     const controlId = useId()
     const reducedMotion = ref(false)
     let motionQuery: MediaQueryList | undefined
+    let motionListener: (() => void) | undefined
+    let motionMounted = false
+    let motionActive = true
+    let motionDisposed = false
+    let motionEpoch = 0
+    const completions = new WeakMap<ScrollColumn, HTMLElement | null>()
+    const canUseMotion = () => motionMounted && motionActive && !motionDisposed && (!props.dynamic || props.open)
+    const isCurrentColumn = (column: ScrollColumn) => canUseMotion() && scrollColumns.value.includes(column)
     function syncMotion() {
       reducedMotion.value = Boolean(motionQuery?.matches)
       if (reducedMotion.value) {
         for (const column of scrollColumns.value) {
           if (column.duration) {
+            completions.delete(column)
             column.duration = 0
             column.scrolling = false
             handleScrollColumnChange(column)
@@ -209,14 +220,65 @@ export default defineComponent({
         }
       }
     }
-    onMounted(() => {
-      if (typeof window.matchMedia === 'function') {
-        motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
-        syncMotion()
-        motionQuery.addEventListener?.('change', syncMotion)
+    function releaseMotion() {
+      const query = motionQuery
+      const listener = motionListener
+      motionQuery = undefined
+      motionListener = undefined
+      if (listener) {
+        query?.removeEventListener?.('change', listener)
       }
+    }
+    function bindMotion() {
+      if (!canUseMotion() || motionListener) {
+        return
+      }
+      if (typeof window.matchMedia === 'function') {
+        const query = window.matchMedia('(prefers-reduced-motion: reduce)')
+        const listener = () => {
+          if (canUseMotion() && motionQuery === query && motionListener === listener) {
+            syncMotion()
+          }
+        }
+        motionQuery = query
+        motionListener = listener
+        syncMotion()
+        if (motionListener === listener) {
+          query.addEventListener?.('change', listener)
+        }
+      }
+    }
+    function retireMotion() {
+      motionEpoch++
+      endTouch()
+      for (const column of scrollColumns.value) {
+        completions.delete(column)
+        column.duration = 0
+        column.scrolling = false
+        column.touching = false
+      }
+      releaseMotion()
+    }
+    onMounted(() => {
+      motionMounted = true
+      bindMotion()
     })
-    onScopeDispose(() => motionQuery?.removeEventListener?.('change', syncMotion))
+    onActivated(() => {
+      const wasActive = motionActive
+      motionActive = true
+      if (!wasActive) {
+        initScrollColumns()
+      }
+      bindMotion()
+    })
+    onDeactivated(() => {
+      motionActive = false
+      retireMotion()
+    })
+    onScopeDispose(() => {
+      motionDisposed = true
+      retireMotion()
+    })
     const modelValue = useVModel(props, 'modelValue', { emit, eventName: 'update:modelValue' })
     const scrollColumns = ref<ScrollColumn[]>([])
     const visibleColumnsCount = computed(() => toNumber(props.columnsCount))
@@ -235,6 +297,27 @@ export default defineComponent({
     watch(() => props.columns, initScrollColumns, { deep: true })
 
     watch(() => modelValue.value, initScrollColumns)
+    watch(
+      () => [props.dynamic, props.open],
+      () => {
+        if (canUseMotion()) {
+          bindMotion()
+        } else {
+          retireMotion()
+        }
+      },
+      { flush: 'sync' },
+    )
+
+    watch(
+      () => props.disabled,
+      (disabled) => {
+        if (disabled) {
+          endTouch()
+          initScrollColumns()
+        }
+      },
+    )
 
     function getOptionKey(key: 'text' | 'value' | 'children') {
       const keyMap = {
@@ -261,6 +344,7 @@ export default defineComponent({
 
     const confirmButtonDisabled = computed(
       () =>
+        props.disabled ||
         scrollColumns.value.length === 0 ||
         scrollColumns.value.some(({ column, index }) => !column[index] || isOptionDisabled(column[index])),
     )
@@ -351,6 +435,7 @@ export default defineComponent({
     }
 
     function initScrollColumns() {
+      motionEpoch++
       scrollColumns.value = props.cascade
         ? normalizeCascadeMode(props.columns as PickerColumnOption[])
         : normalizeNormalMode(props.columns as PickerColumnOption[][])
@@ -417,6 +502,11 @@ export default defineComponent({
     function scrollTo(scrollColumn: ScrollColumn, duration = 0) {
       updateTranslate(scrollColumn)
       scrollColumn.duration = reducedMotion.value ? 0 : duration
+      if (scrollColumn.duration) {
+        completions.set(scrollColumn, scrollColumn.scrollEl)
+      } else {
+        completions.delete(scrollColumn)
+      }
     }
 
     function momentum(scrollColumn: ScrollColumn, distance: number, duration: number) {
@@ -424,10 +514,17 @@ export default defineComponent({
     }
 
     function handleClick(scrollColumn: ScrollColumn, index: number) {
-      if (dragging.value || isOptionDisabled(scrollColumn.column[index])) {
+      if (
+        !isCurrentColumn(scrollColumn) ||
+        props.disabled ||
+        dragging.value ||
+        !scrollColumn.column[index] ||
+        isOptionDisabled(scrollColumn.column[index])
+      ) {
         return
       }
 
+      motionEpoch++
       scrollColumn.index = index
       scrollTo(scrollColumn, TRANSITION_DURATION)
       if (!scrollColumn.duration) {
@@ -436,6 +533,9 @@ export default defineComponent({
     }
 
     function handleColumnKeydown(event: KeyboardEvent, column: ScrollColumn) {
+      if (!isCurrentColumn(column) || props.disabled) {
+        return
+      }
       if (event.altKey || event.ctrlKey || event.metaKey || event.isComposing) {
         return
       }
@@ -456,6 +556,7 @@ export default defineComponent({
       if (target === undefined || target === column.index) {
         return
       }
+      motionEpoch++
       column.index = target
       column.scrolling = false
       scrollTo(column)
@@ -463,16 +564,24 @@ export default defineComponent({
     }
 
     function handleTouchstart(event: TouchEvent, scrollColumn: ScrollColumn) {
+      if (!isCurrentColumn(scrollColumn) || !scrollColumn.scrollEl || props.disabled) {
+        return
+      }
+      motionEpoch++
       scrollColumn.touching = true
       scrollColumn.translate = getTranslateY(scrollColumn.scrollEl as HTMLElement)
       startTouch(event)
     }
 
     function handleTouchmove(event: TouchEvent, scrollColumn: ScrollColumn) {
+      if (!isCurrentColumn(scrollColumn) || props.disabled) {
+        return
+      }
       if (!scrollColumn.touching) {
         return
       }
 
+      motionEpoch++
       moveTouch(event)
       scrollColumn.scrolling = false
       scrollColumn.duration = 0
@@ -489,6 +598,14 @@ export default defineComponent({
     }
 
     function handleTouchend(scrollColumn: ScrollColumn) {
+      if (!isCurrentColumn(scrollColumn) || !scrollColumn.touching) {
+        return
+      }
+      if (props.disabled) {
+        endTouch()
+        scrollColumn.touching = false
+        return
+      }
       endTouch()
 
       scrollColumn.touching = false
@@ -514,7 +631,18 @@ export default defineComponent({
       }
     }
 
-    function handleTransitionend(scrollColumn: ScrollColumn) {
+    function handleTransitionend(scrollColumn: ScrollColumn, event?: TransitionEvent) {
+      if (
+        !isCurrentColumn(scrollColumn) ||
+        !completions.has(scrollColumn) ||
+        completions.get(scrollColumn) !== scrollColumn.scrollEl ||
+        (event &&
+          (event.target !== scrollColumn.scrollEl || (event.propertyName && event.propertyName !== 'transform')))
+      ) {
+        return
+      }
+      completions.delete(scrollColumn)
+      scrollColumn.duration = 0
       scrollColumn.scrolling = false
       handleScrollColumnChange(scrollColumn)
     }
@@ -525,6 +653,10 @@ export default defineComponent({
     }
 
     function handleScrollColumnChange(scrollColumn: ScrollColumn) {
+      if (!isCurrentColumn(scrollColumn) || props.disabled) {
+        return
+      }
+      const epoch = motionEpoch
       const { cascade } = props
 
       if (isSamePicked()) {
@@ -545,7 +677,9 @@ export default defineComponent({
       const { values, indexes, options } = getPicked()
       setPrevIndexes(indexes)
       emit('change', values, indexes, options)
-      modelValue.value = values
+      if (epoch === motionEpoch && isCurrentColumn(scrollColumn) && !props.disabled) {
+        modelValue.value = values
+      }
     }
 
     function stopScroll() {
@@ -568,6 +702,9 @@ export default defineComponent({
 
     // expose
     function confirm() {
+      if (!canUseMotion()) {
+        return
+      }
       stopScroll()
 
       if (confirmButtonDisabled.value) {
@@ -581,6 +718,9 @@ export default defineComponent({
 
     // expose
     function cancel() {
+      if (!canUseMotion()) {
+        return
+      }
       stopScroll()
 
       const { values, indexes, options } = getPicked()

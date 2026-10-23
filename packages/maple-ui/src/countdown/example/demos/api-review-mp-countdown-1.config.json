@@ -1,0 +1,41 @@
+{
+  "fields": [
+    {
+      "name": "time",
+      "description": "倒计时时长（ms）",
+      "type": "string | number",
+      "defaultValue": "0",
+      "kind": "scalar"
+    },
+    {
+      "name": "format",
+      "description": "时间格式",
+      "type": "string",
+      "defaultValue": "'HH:mm:ss'",
+      "kind": "string"
+    },
+    {
+      "name": "auto-start",
+      "description": "是否自动开始倒计时",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    }
+  ],
+  "methodNames": [
+    "start",
+    "pause",
+    "reset"
+  ],
+  "events": [
+    "end",
+    "change"
+  ],
+  "slotNames": [
+    "default"
+  ],
+  "slotDefaults": {
+    "default": true
+  },
+  "scenarios": []
+}

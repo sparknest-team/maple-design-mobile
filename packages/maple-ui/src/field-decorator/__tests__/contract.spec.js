@@ -2,6 +2,12 @@ import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import { test } from 'vitest'
 
+test('browser autofill floats the hint and opens its outline notch before a model update', () => {
+  const styles = readFileSync('src/field-decorator/style/field-decorator.less', 'utf8')
+  assert.match(styles, /&:has\(input:autofill\) &__placeholder\s*\{\s*top: 0;/)
+  assert.match(styles, /&:has\(input:autofill\) &__legend\s*\{\s*max-width:/)
+})
+
 test('field decorator keeps the shared field shell contract', () => {
   const source = readFileSync('src/field-decorator/FieldDecorator.vue', 'utf8')
   assert.match(source, /createNamespace\('field-decorator'\)/)

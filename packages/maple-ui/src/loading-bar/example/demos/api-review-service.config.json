@@ -1,0 +1,72 @@
+{
+  "fields": [
+    {
+      "name": "color",
+      "description": "加载条颜色",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "error-color",
+      "description": "加载失败时的颜色",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "height",
+      "description": "加载条的高度",
+      "type": "string | number",
+      "defaultValue": "undefined",
+      "kind": "scalar"
+    },
+    {
+      "name": "top",
+      "description": "加载条距离页面顶部的距离",
+      "type": "string | number",
+      "defaultValue": "undefined",
+      "kind": "scalar"
+    },
+    {
+      "name": "value",
+      "type": "number",
+      "defaultValue": "0",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "number"
+    },
+    {
+      "name": "opacity",
+      "type": "number",
+      "defaultValue": "0",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "number"
+    },
+    {
+      "name": "error",
+      "type": "boolean",
+      "defaultValue": "false",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "boolean"
+    },
+    {
+      "name": "transition-duration",
+      "type": "number",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "number"
+    }
+  ],
+  "methodNames": [
+    "loading-bar.start",
+    "loading-bar.finish",
+    "loading-bar.error",
+    "loading-bar.set-default-options",
+    "loading-bar.reset-default-options"
+  ],
+  "events": [],
+  "slotNames": [],
+  "scenarios": []
+}

@@ -1,14 +1,42 @@
-import { readFileSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { MapleResolver, type MapleResolverOptions } from '@maplejs/resolver'
 import ts from 'typescript'
 import type { Plugin } from 'vite'
 
+/** Browser dev must not depend on directories removed by a parallel package build. */
+export function getWorkspaceSourceAliases(sourceDir: string) {
+  return [
+    ['@maplejs/maple-shared', 'maple-shared/src/index.ts'],
+    ['@maplejs/maple-use', 'maple-use/src/index.ts'],
+    ['@maplejs/maple-cli/client', 'maple-cli/src/client/index.ts'],
+  ].flatMap(([name, relative]) => {
+    const replacement = resolve(sourceDir, '../..', relative)
+    return existsSync(replacement) ? [{ find: new RegExp(`^${name}$`), replacement }] : []
+  })
+}
+
 /** Resolve documentation templates without re-entering the library barrel. */
 function readPublicModules(sourceDir: string) {
   const entry = resolve(sourceDir, 'index.ts')
   const source = ts.createSourceFile(entry, readFileSync(entry, 'utf8'), ts.ScriptTarget.Latest, true)
-  const modules = new Map<string, string>()
+  const modules = new Map<string, { from: string; name: string }>()
+  const aggregate = ts.createSourceFile(
+    'maple-vue.ts',
+    readFileSync(resolve(sourceDir, 'maple-vue.ts'), 'utf8'),
+    ts.ScriptTarget.Latest,
+    true,
+  )
+  const defaults = new Map<string, string>()
+  for (const statement of aggregate.statements) {
+    if (
+      ts.isImportDeclaration(statement) &&
+      ts.isStringLiteral(statement.moduleSpecifier) &&
+      statement.importClause?.name
+    ) {
+      defaults.set(statement.importClause.name.text, resolve(sourceDir, statement.moduleSpecifier.text))
+    }
+  }
 
   for (const statement of source.statements) {
     if (
@@ -22,8 +50,17 @@ function readPublicModules(sourceDir: string) {
       continue
     }
     for (const item of statement.exportClause.elements) {
-      if (!item.isTypeOnly && statement.moduleSpecifier.text !== './maple-vue') {
-        modules.set(item.name.text, resolve(sourceDir, statement.moduleSpecifier.text))
+      if (item.isTypeOnly) {
+        continue
+      }
+      const original = (item.propertyName ?? item.name).text
+      if (statement.moduleSpecifier.text === './maple-vue') {
+        const from = defaults.get(original)
+        if (from) {
+          modules.set(item.name.text, { from, name: 'default' })
+        }
+      } else {
+        modules.set(item.name.text, { from: resolve(sourceDir, statement.moduleSpecifier.text), name: original })
       }
     }
   }
@@ -37,14 +74,17 @@ export function createSiteResolver(sourceDir: string, options: MapleResolverOpti
     ...resolver,
     resolve(name: string) {
       const result = resolver.resolve(name)
-      if (result?.from !== '@maplejs/maple-ui' || (!result.name.startsWith('_') && result.name !== 'vLoading')) {
+      if (result?.from !== '@maplejs/maple-ui') {
         return result
       }
-      const from = modules.get(result.name)
-      if (!from) {
+      const target = modules.get(result.name)
+      if (!target) {
+        if (!result.name.startsWith('_') && result.name !== 'vLoading') {
+          return result
+        }
         throw new Error(`[Maple docs] Missing public component export: ${result.name}`)
       }
-      return { ...result, from }
+      return { ...result, from: target.from, name: target.name }
     },
   }))
 }
@@ -74,16 +114,25 @@ export function createSiteImportPlugin(sourceDir: string): Plugin {
         ) {
           continue
         }
-        const targets = statement.importClause.namedBindings.elements.map((item) =>
-          modules.get((item.propertyName ?? item.name).text),
-        )
-        if (!targets.length || !targets[0] || !targets.every((target) => target === targets[0])) {
+        const items = statement.importClause.namedBindings.elements
+        if (items.some((item) => item.isTypeOnly)) {
+          continue
+        }
+        const targets = items.map((item) => modules.get((item.propertyName ?? item.name).text))
+        if (!targets.length || targets.some((target) => !target)) {
           continue
         }
         replacements.push({
-          start: statement.moduleSpecifier.getStart(source),
-          end: statement.moduleSpecifier.end,
-          value: JSON.stringify(targets[0].replaceAll('\\', '/')),
+          start: statement.getStart(source),
+          end: statement.end,
+          value: items
+            .map((item, index) => {
+              const target = targets[index]!
+              const local = item.name.text
+              const specifier = target.name === local ? local : `${target.name} as ${local}`
+              return `import { ${specifier} } from ${JSON.stringify(target.from.replaceAll('\\', '/'))};`
+            })
+            .join('\n'),
         })
       }
       if (!replacements.length) {

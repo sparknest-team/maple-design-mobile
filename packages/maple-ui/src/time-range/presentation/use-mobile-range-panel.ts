@@ -1,30 +1,49 @@
-import { computed, type ExtractPropTypes, type ShallowRef } from 'vue'
+import { computed, inject, ref, type ExtractPropTypes, type ShallowRef } from 'vue'
 import { useRangeFieldIndex } from '../../_components/picker-field/range-field-context'
 import { formatTimeLabel, getTimePickerChange, getTimePickerState } from '../../time/picker-columns'
-import { getTimePanelPresentationProps, getTimeWheelPresentationProps } from '../../time/presentation-props'
+import { getTimeWheelPresentationProps } from '../../time/presentation-props'
+import { timeExplicitConfirmation } from '../../time/presentation/confirmation-context'
 import {
+  formatTimeValue,
   fromClockValue,
-  getFormattedTimeChoices as getTimeChoices,
+  isFormattedTimeAllowed,
   toClockValue,
   type TimeValue,
 } from '../../time/time-value'
 import { props as pickerProps } from '../picker-props'
 import { isTimeRangeNextDay } from '../picker-utils'
 
-/** Mobile-only range view: active endpoint and wheel/clock inputs. */
+/** Mobile range view: paired wheels share the owner's draft and confirmation. */
 export function useMobileRangePanel(
   props: Readonly<ExtractPropTypes<typeof pickerProps>>,
   draft: ShallowRef<TimeValue[] | undefined>,
-  select: (value: TimeValue[]) => boolean,
+  select: (value: TimeValue[], immediate?: boolean) => boolean,
 ) {
+  const confirmationRequired = inject(timeExplicitConfirmation, undefined) ?? ref(false)
   const activeIndex = useRangeFieldIndex()
-  const activeTab = computed({
-    get: () => (activeIndex.value === 1 ? 'end' : 'start'),
-    set: (side: 'start' | 'end') => {
-      activeIndex.value = side === 'end' ? 1 : 0
-    },
-  })
-
+  const nowValue = () => formatTimeValue(new Date(), props)!
+  const nowDisabled = computed(() => props.disabled || props.readonly || !isFormattedTimeAllowed(nowValue(), props))
+  function selectNow() {
+    if (!props.showNowButton || props.disabled || props.readonly) {
+      return false
+    }
+    const value = nowValue()
+    if (!isFormattedTimeAllowed(value, props)) {
+      return false
+    }
+    const next = Array.isArray(draft.value) ? [...draft.value] : []
+    next[activeIndex.value] = value
+    confirmationRequired.value = true
+    return select(next, false)
+  }
+  function activateWheel(event: Event) {
+    const root = event.currentTarget as HTMLElement
+    const column = (event.target as HTMLElement).closest('[role="listbox"]')
+    const index = Array.from(root.querySelectorAll('[role="listbox"]')).indexOf(column as HTMLElement)
+    if (index >= 0) {
+      activeIndex.value = index >= pickerSplit.value ? 1 : 0
+    }
+  }
   function defaultTime() {
     return fromClockValue('00:00:00', props)!
   }
@@ -39,62 +58,58 @@ export function useMobileRangePanel(
     return Array.isArray(value) && value[1] != null ? formatTimeLabel(value[1], props) : defaultTime()
   })
 
-  const showNextDayLabel = computed(
-    () =>
-      props.showNextDay &&
-      isTimeRangeNextDay(toClockValue(startValue.value, props), toClockValue(endValue.value, props)),
-  )
+  const reversed = computed(() => {
+    const value = draft.value
+    return Boolean(
+      Array.isArray(value) &&
+      value.length === 2 &&
+      isTimeRangeNextDay(toClockValue(value[0], props), toClockValue(value[1], props)),
+    )
+  })
+  const showNextDayLabel = computed(() => props.showNextDay && reversed.value)
+  const orderInvalid = computed(() => !props.showNextDay && reversed.value)
 
-  const timePickerBindingProps = computed(() => getTimePanelPresentationProps(props.timePickerProps))
   const pickerBindingProps = computed(() => getTimeWheelPresentationProps(props.pickerProps))
 
-  const pickerState = computed(() =>
-    getTimePickerState(activeTab.value === 'start' ? startValue.value : endValue.value, props),
-  )
-  const pickerColumns = computed(() => pickerState.value.columns)
-  const pickerValue = computed(() => pickerState.value.value)
-
-  function emitValue(next: string[]) {
-    select(next)
-  }
-
-  function updateSide(side: 'start' | 'end', time: string) {
-    if (props.disabled || props.readonly) {
-      return
-    }
-    if (!toClockValue(time, props)) {
-      return
-    }
-    const selected = getTimeChoices(time, props).value
-    if (!selected) {
-      return
-    }
-    const next = [startValue.value, endValue.value]
-    next[side === 'start' ? 0 : 1] = selected
-    emitValue(next)
-  }
+  const pickerStates = computed(() => [
+    getTimePickerState(startValue.value, props),
+    getTimePickerState(endValue.value, props),
+  ])
+  const pickerColumns = computed(() => pickerStates.value.flatMap((state) => state.columns))
+  const pickerValue = computed(() => pickerStates.value.flatMap((state) => state.value))
+  const pickerSplit = computed(() => pickerStates.value[0].columns.length)
 
   function handlePickerChange(values: (string | number)[]) {
     if (props.disabled || props.readonly) {
       return
     }
-    const value = getTimePickerChange(values, props)
-    if (value !== undefined) {
-      updateSide(activeTab.value, value)
+    const split = pickerSplit.value
+    if (values.slice(split).some((value, index) => value !== pickerValue.value[split + index])) {
+      activeIndex.value = 1
+    } else if (values.slice(0, split).some((value, index) => value !== pickerValue.value[index])) {
+      activeIndex.value = 0
+    }
+    const start = getTimePickerChange(values.slice(0, pickerSplit.value), props)
+    const end = getTimePickerChange(values.slice(pickerSplit.value), props)
+    if (start !== undefined && end !== undefined) {
+      select([start, end], props.disableConfirm && !confirmationRequired.value)
     }
   }
 
   return {
-    activeTab,
+    confirmationRequired,
+    activeIndex,
+    nowDisabled,
+    selectNow,
+    activateWheel,
     startValue,
     endValue,
     showNextDayLabel,
-    formatLabel: (value: string) => formatTimeLabel(value, props),
-    timePickerBindingProps,
+    orderInvalid,
     pickerBindingProps,
     pickerColumns,
+    pickerSplit,
     pickerValue,
-    updateSide,
     handlePickerChange,
   }
 }

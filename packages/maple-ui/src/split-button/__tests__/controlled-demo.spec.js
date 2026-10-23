@@ -3,7 +3,7 @@ import { mount } from '@vue/test-utils'
 import { expect, test, vi } from 'vitest'
 import SplitButton from '..'
 import Button from '../../button'
-import { MenuOption } from '../../dropdown-menu'
+import { MenuOption } from '../../menu'
 import Space from '../../space'
 import Controlled from '../example/controlled.vue'
 
@@ -27,7 +27,7 @@ test('controlled demo stays open after the external click, then closes on select
     await settle()
     expect(wrapper.text()).toContain('已展开')
     expect(wrapper.find('[aria-haspopup="menu"]').attributes('aria-expanded')).toBe('true')
-    document.querySelector('[data-dropdown-menu-item]').click()
+    document.querySelector('[data-menu-item]').click()
     await settle()
     expect(wrapper.find('[aria-haspopup="menu"]').attributes('aria-expanded')).toBe('false')
     button('展开菜单').element.click()

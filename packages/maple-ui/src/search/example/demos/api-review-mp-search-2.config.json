@@ -1,0 +1,380 @@
+{
+  "fields": [
+    {
+      "name": "model-value",
+      "description": "搜索关键词",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "default-value",
+      "description": "非受控默认关键词",
+      "type": "string",
+      "defaultValue": "''",
+      "kind": "string"
+    },
+    {
+      "name": "model-field",
+      "description": "当前搜索字段",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "default-field",
+      "description": "非受控默认字段",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "model",
+      "description": "字段搜索模式下按字段写入的对象",
+      "type": "Record<string, unknown>",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "fields",
+      "description": "搜索字段可选项",
+      "type": "SearchField[]",
+      "defaultValue": "() => []",
+      "kind": "json",
+      "initial": "[]"
+    },
+    {
+      "name": "select-style",
+      "description": "字段选择器样式",
+      "type": "StyleValue",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "recent-searches",
+      "description": "受控搜索历史",
+      "type": "string[]",
+      "defaultValue": "() => []",
+      "kind": "json",
+      "initial": "[]"
+    },
+    {
+      "name": "max-search-history-count",
+      "description": "生成下一份历史时保留的最大数量",
+      "type": "number",
+      "defaultValue": "5",
+      "kind": "number"
+    },
+    {
+      "name": "history-popup",
+      "description": "是否使用全屏 Popup 展示历史",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "search-button",
+      "description": "是否显示公共搜索按钮",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "button-text",
+      "description": "公共搜索按钮文字",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "button-props",
+      "description": "公共搜索按钮属性",
+      "type": "ButtonProps",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "loading",
+      "description": "是否处于加载状态；加载时禁止提交",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "clearable",
+      "description": "是否可清除",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "variant",
+      "description": "输入框风格，可选 filled outline standard",
+      "type": "string",
+      "defaultValue": "'outline'",
+      "kind": "string"
+    },
+    {
+      "name": "size",
+      "description": "输入尺寸，继承 Form / ConfigProvider",
+      "type": "xs / sm / md / lg / xl",
+      "defaultValue": "undefined",
+      "kind": "enum",
+      "options": [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl"
+      ],
+      "initial": "xs"
+    },
+    {
+      "name": "placeholder",
+      "description": "占位符",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "disabled",
+      "description": "是否禁用",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
+      "name": "readonly",
+      "description": "是否只读",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
+      "name": "label",
+      "description": "搜索框左侧文本",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "shape",
+      "description": "内层搜索框形状，可选 round square",
+      "type": "'square' | 'round'",
+      "defaultValue": "'round'",
+      "kind": "enum",
+      "options": [
+        "square",
+        "round"
+      ],
+      "initial": "round"
+    },
+    {
+      "name": "background",
+      "description": "外层背景色",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "input-background",
+      "description": "内层搜索框背景色",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "show-action",
+      "description": "是否显示操作按钮",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "action-text",
+      "description": "操作按钮文字",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "action-type",
+      "description": "操作类型，可选 cancel search",
+      "type": "'cancel' | 'search'",
+      "defaultValue": "'cancel'",
+      "kind": "enum",
+      "options": [
+        "cancel",
+        "search"
+      ],
+      "initial": "cancel"
+    },
+    {
+      "name": "search-icon",
+      "description": "搜索图标名称",
+      "type": "string",
+      "defaultValue": "'search'",
+      "kind": "string"
+    },
+    {
+      "name": "max-length",
+      "description": "最大长度",
+      "type": "string | number",
+      "defaultValue": "undefined",
+      "kind": "scalar"
+    },
+    {
+      "name": "enterkeyhint",
+      "description": "虚拟键盘回车键提示",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "model-modifiers",
+      "type": "inputProps.modelModifiers",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "type",
+      "type": "inputProps.type",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "aria-label",
+      "type": "inputProps.ariaLabel",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "autofocus",
+      "type": "inputProps.autofocus",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "text-color",
+      "type": "inputProps.textColor",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "focus-color",
+      "type": "inputProps.focusColor",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "blur-color",
+      "type": "inputProps.blurColor",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "input-attrs",
+      "type": "inputProps.inputAttrs",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "error",
+      "type": "inputProps.error",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "SearchField.label",
+      "description": "fields.0 · 字段文案",
+      "type": "string",
+      "defaultValue": "",
+      "kind": "string",
+      "path": [
+        "fields",
+        0,
+        "label"
+      ]
+    },
+    {
+      "name": "SearchField.value",
+      "description": "fields.0 · 字段值",
+      "type": "string",
+      "defaultValue": "",
+      "kind": "string",
+      "path": [
+        "fields",
+        0,
+        "value"
+      ]
+    },
+    {
+      "name": "SearchField.placeholder",
+      "description": "fields.0 · 字段占位符，优先于 Search 的 placeholder",
+      "type": "string",
+      "defaultValue": "",
+      "kind": "string",
+      "path": [
+        "fields",
+        0,
+        "placeholder"
+      ]
+    }
+  ],
+  "methodNames": [
+    "focus",
+    "blur"
+  ],
+  "events": [
+    "update:modelValue",
+    "update:modelField",
+    "update:model",
+    "input",
+    "change",
+    "clear",
+    "search",
+    "focus",
+    "blur",
+    "cancel"
+  ],
+  "slotNames": [
+    "prefix",
+    "suffix",
+    "clear-icon",
+    "button-default",
+    "button-icon",
+    "label",
+    "action"
+  ],
+  "slotDefaults": {
+    "prefix": false,
+    "suffix": false,
+    "clear-icon": false,
+    "button-default": false,
+    "button-icon": false,
+    "label": false,
+    "action": false
+  },
+  "scenarios": []
+}

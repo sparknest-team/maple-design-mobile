@@ -1,5 +1,7 @@
 # 单选框
 
+## 案例
+
 ### 介绍
 
 基础示例随站点语言切换显示文案，业务值和选中状态不会随语言变化。分组示例覆盖父级接受/拒绝更新、只读和异步选项回显；移除选项不会清空业务值。外层 Space 纵向布局使用 `direction="column"`，选择组自身纵向使用 `direction="vertical"`。
@@ -12,18 +14,6 @@
 ../example/demos/basic-usage.vue
 ```
 
-### 设置状态值
-
-```demo
-../example/demos/set-state.vue
-```
-
-### 修改图标和颜色
-
-```demo
-../example/demos/set-style.vue
-```
-
 ### 禁用
 
 ```demo
@@ -34,6 +24,18 @@
 
 ```demo
 ../example/demos/readonly.vue
+```
+
+### 设置状态值
+
+```demo
+../example/demos/set-state.vue
+```
+
+### 修改图标和颜色
+
+```demo
+../example/demos/set-style.vue
 ```
 
 ### 单选框组
@@ -77,14 +79,6 @@ Group 的 `disabled`、`readonly`、`error` 未设置时继承表单，显式 `f
 
 ```demo
 ../example/demos/group-state.vue
-```
-
-### 异步选项
-
-选项载入、移除和外部值更新均不会反向触发值变化；未载入的已选值不会自动清理。重复选择当前值不再触发 change，false、0、空字符串按实际值比较。
-
-```demo
-../example/demos/async-options.vue
 ```
 
 ### 独立值模型与方法
@@ -131,6 +125,37 @@ Tab 进入已选项（没有已选项时进入第一个可用项）；方向键�
 ```demo
 ../example/demos/native-control.vue
 ```
+
+### 交互状态切换
+
+适用于互斥选项。调整禁用、只读、错误反馈，用相同数据观察变化。控制区始终可用，可以随时恢复编辑；错误外观本身不会触发表单校验。
+
+```demo
+../example/demos/state-lab.vue
+```
+
+### 异步选项
+
+开启“手动返回”后使用真实本地Promise，不走默认定时器。连续加载两次，分别按新旧或旧新顺序返回：只有当前请求版本可替换选项、结束加载。移除选项使在途版本失效但保留业务选值；旧任务仍可手动返回。Applied/Ignored/Pending显示应用、忽略及等待数，加载/返回不增加用户变更次数。版本保护和等待清理由示例业务加载器负责，不代表Radio自动解决网络竞争，也不访问外部服务。
+
+选项载入、移除和外部值更新均不会反向触发值变化；未载入的已选值不会自动清理。重复选择当前值不再触发 change，false、0、空字符串按实际值比较。
+
+示例以 800ms 本地延迟模拟加载。等待期间可设为设备 A 或清空选择，选项到达后按最新模型反显；这些外部操作不会增加用户变更次数。加载中移除选项会取消待完成任务，避免旧选项重新显示。
+
+等待期间仍可用方向键选择已加载的选项；同值选项重新加载后保留当前焦点。加载提示保持稳定节点，避免提示显隐导致分组重新挂载；重复激活当前值不会增加 change 次数。
+
+```demo
+../example/demos/async-options.vue
+```
+
+<!-- api-review:start -->
+### 功能调试
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 
@@ -256,3 +281,13 @@ Tab 进入已选项（没有已选项时进入第一个可用项）；方向键�
 | Radio / RadioGroup | name | 原生字段名，子项覆盖分组 | string | undefined |
 | Radio | aria-label | 原生控件的无障碍名称 | string | undefined |
 | Radio | input-attrs | 原生 input 属性 | InputHTMLAttributes | undefined |
+
+### Form 字段展示与确认
+
+本组件支持 `presentation`，字段 > FormItem > Form 逐层继承；未指定时为 `inline`，保留原有交互。支持值：`inline / popup`。其他编辑展示使用 Cell 入口和一份草稿，确认后才更新 v-model；取消、重置或启用 readPretty 丢弃草稿。
+
+Maple 使用 presentation="popup" 点击值区域打开编辑面板；inline 直接编辑。 readPretty 为纯阅读属性，与 readonly、disabled 独立。
+
+`before-commit(value, { previousValue, signal })` 可拦截弹层保存；FormItem 先校验候选值，失败保持编辑。`open / default-open / update:open` 控制编辑层。`#read="{ value, text }"` 可自定义阅读内容。集中示例见 Form 的“各类字段统一展示”。
+
+`read-pretty` 为独立布尔属性，与 `readonly`、`disabled` 同级；字段 > FormItem > Form 继承，显式 `false` 覆盖父级。默认 `false`。纯阅读不显示编辑器。

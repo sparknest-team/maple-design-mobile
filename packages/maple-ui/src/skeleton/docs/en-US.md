@@ -1,5 +1,7 @@
 # Skeleton
 
+## Examples
+
 ### Intro
 
 Display some space occupying elements with transition effect to optimize the loading process.
@@ -36,9 +38,20 @@ Display some space occupying elements with transition effect to optimize the loa
 
 ### Fullscreen Mode
 
+The demo restores content after two seconds using its own timer. Skeleton neither fetches data nor finishes loading automatically; control `loading` from the result of your application request.
+
 ```demo
 ../example/demos/fullscreen-mode.vue
 ```
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

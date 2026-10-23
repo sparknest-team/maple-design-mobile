@@ -1,5 +1,7 @@
 # 加载条
 
+## 案例
+
 ### 介绍
 
 页面顶部显示加载进度。
@@ -9,6 +11,15 @@
 ```demo
 ../example/demos/basic.vue
 ```
+
+<!-- api-review:start -->
+### 功能调试
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

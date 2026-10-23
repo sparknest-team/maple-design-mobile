@@ -1,6 +1,6 @@
 import { withInstall, withPropsDefaultsSetter } from '../utils/components'
+import Textarea from './presentation'
 import { textareaProps } from './props'
-import Textarea from './Textarea.vue'
 
 withInstall(Textarea)
 withPropsDefaultsSetter(Textarea, textareaProps)

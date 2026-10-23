@@ -1,7 +1,10 @@
 import { flushPromises, mount } from '@vue/test-utils'
 import { expect, test, vi } from 'vitest'
 import Carousel, { CarouselItem } from '..'
+import { useDemoControls } from '../../../test-utils/demo-controls'
 import Demo from '../example/demos/autoplay.vue'
+
+useDemoControls()
 
 vi.mock('@maplejs/maple-cli/client', () => ({ watchLang: (callback) => callback('en-US') }))
 

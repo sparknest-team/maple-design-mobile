@@ -10,12 +10,6 @@ The same scenarios, parameters and interactions as Cedar. Only component prefixe
 ../example/demos/basic.vue
 ```
 
-### Four variants
-
-```demo
-../example/demos/type.vue
-```
-
 ### Three sizes
 
 ```demo
@@ -32,6 +26,12 @@ The same scenarios, parameters and interactions as Cedar. Only component prefixe
 
 ```demo
 ../example/demos/readonly.vue
+```
+
+### Four variants
+
+```demo
+../example/demos/type.vue
 ```
 
 ### Loading
@@ -82,6 +82,31 @@ The same scenarios, parameters and interactions as Cedar. Only component prefixe
 ../example/demos/events.vue
 ```
 
+### Appearance combinations
+
+Use this example for settings that take effect immediately. Adjust variant, size and compare the component with the same data. Keep the content unchanged while comparing the available settings.
+
+```demo
+../example/demos/appearance-lab.vue
+```
+
+### Interaction states
+
+Use this example for settings that take effect immediately. Adjust disabled, read-only and compare the component with the same data. The controls remain available to restore editing; error appearance alone does not run validation.
+
+```demo
+../example/demos/state-lab.vue
+```
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
+
 ## API
 
 <!-- same-source-api:start -->
@@ -91,6 +116,12 @@ The same scenarios, parameters and interactions as Cedar. Only component prefixe
 | --- | --- | --- | --- |
 | model-value | Controlled value; omit for internal state | string / number / boolean | undefined |
 | default-checked | Initial uncontrolled checked state; initialization only | boolean | false |
+| presentation | Field presentation inherited from FormItem / Form | FieldPresentation | undefined |
+| read-pretty | Read-only presentation independent of readonly | boolean | undefined |
+| before-commit | Cancellable interceptor before saving the editor | BeforeFieldCommit | undefined |
+| open | Controlled editor visibility | boolean | undefined |
+| default-open | Initial uncontrolled editor visibility | boolean | false |
+| popup-container | Editor mount container | PopupContainer | undefined |
 | checked-value | Checked value | string / number / boolean | true |
 | unchecked-value | Unchecked value | string / number / boolean | false |
 | variant | Appearance | circle / round / line / tonal | circle |
@@ -180,3 +211,13 @@ Built-in effects respect `prefers-reduced-motion: reduce`; loading and closing s
 | Token | Default |
 | --- | --- |
 | `--mp-switch-loading-duration` | `1s` |
+
+### Form field presentation and confirmation
+
+`presentation` inherits from field > FormItem > Form and defaults to `inline`. Supported values are `inline / popup`. Inline keeps the existing control behavior. Overlay editing uses a Cell reference and an isolated draft; only confirmation updates v-model. Cancel, reset and enabling readPretty discard the draft.
+
+Maple 使用 presentation="popup" 点击值区域打开编辑面板；inline 直接编辑。 readPretty 为纯阅读属性，与 readonly、disabled 独立。
+
+`before-commit(value, { previousValue, signal })` can reject an overlay save. FormItem validates the candidate first and keeps the editor open on failure. `open / default-open / update:open` control the editor. Use `#read="{ value, text }"` to customize display. See the full field comparison in Form.
+
+`read-pretty` 为独立布尔属性，与 `readonly`、`disabled` 同级；字段 > FormItem > Form 继承，显式 `false` 覆盖父级。默认 `false`。纯阅读不显示编辑器。

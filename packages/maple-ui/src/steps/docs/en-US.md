@@ -1,5 +1,7 @@
 # Steps
 
+## Examples
+
 ### Intro
 
 Steps is a navigation bar that guides users through the steps of a task. Progress is controlled by `current`, counted from **1** (aligned with Pagination / PC).
@@ -27,6 +29,23 @@ Steps is a navigation bar that guides users through the steps of a task. Progres
 ```demo
 ../example/demos/vertical.vue
 ```
+
+### Appearance combinations
+
+Use this example for the current state of a multi-step flow. Adjust status, size and compare the component with the same data. Keep the content unchanged while comparing the available settings.
+
+```demo
+../example/demos/appearance-lab.vue
+```
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

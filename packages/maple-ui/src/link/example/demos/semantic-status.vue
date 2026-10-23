@@ -1,5 +1,5 @@
 <template>
-  <mp-space wrap :size="['2.666vmin', '2.666vmin']">
+  <mp-space wrap size="sm">
     <mp-link>默认链接</mp-link>
     <mp-link status="primary">主要链接</mp-link>
     <mp-link status="secondary">次要链接</mp-link>

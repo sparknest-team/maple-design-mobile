@@ -1,5 +1,5 @@
-import { computed, defineComponent, ref } from 'vue'
-import DropdownMenu, { MenuOption } from '../dropdown-menu'
+import { computed, defineComponent, getCurrentInstance, ref } from 'vue'
+import Menu, { MenuOption } from '../menu'
 import { createNamespace } from '../utils/components'
 import { IconDown, IconMore } from './platform'
 import { breadcrumbItemProps } from './props'
@@ -27,6 +27,8 @@ export default defineComponent({
   setup(props, { slots, attrs, emit }) {
     const { index, breadcrumb, bindBreadcrumb } = useBreadcrumb()
     const dropdownVisible = ref(false)
+    const pressed = ref(false)
+    const instance = getCurrentInstance()!
 
     bindBreadcrumb?.(null)
 
@@ -78,11 +80,31 @@ export default defineComponent({
     }
 
     const renderItem = () => {
-      const Tag = props.href && !displayMore.value ? 'a' : 'div'
+      const hasClick = Boolean(instance.vnode.props?.onClick || instance.vnode.props?.onClickOnce)
+      const interactive = !displayMore.value && Boolean(props.href || hasDropdown.value || hasClick)
+      const Tag = props.href && !displayMore.value ? 'a' : interactive ? 'button' : 'div'
       return (
         <div class={classes(n(), [hasDropdown.value, n('--with-dropdown')])}>
           <Tag
-            class={n('content')}
+            class={classes(n('content'), [pressed.value, n('--pressed')])}
+            onPointerdown={(event: PointerEvent) => {
+              if (interactive && event.pointerType !== 'mouse' && event.button === 0) {
+                pressed.value = true
+                ;(event.currentTarget as HTMLElement).setPointerCapture?.(event.pointerId)
+              }
+            }}
+            onPointerup={() => {
+              pressed.value = false
+            }}
+            onPointercancel={() => {
+              pressed.value = false
+            }}
+            {...{
+              onLostpointercapture: () => {
+                pressed.value = false
+              },
+            }}
+            type={Tag === 'button' ? 'button' : undefined}
             href={Tag === 'a' ? props.href : undefined}
             aria-current={isLast.value ? 'page' : undefined}
             onClick={handleClick}
@@ -107,7 +129,7 @@ export default defineComponent({
       slots.droplist?.() ?? props.droplist?.map((item) => <MenuOption value={item.path}>{item.label}</MenuOption>)
 
     const renderDropdown = () => (
-      <DropdownMenu
+      <Menu
         {...props.dropdownProps}
         v-slots={{ content: renderDropdownContent }}
         open={dropdownVisible.value}
@@ -120,7 +142,7 @@ export default defineComponent({
         }}
       >
         {renderItem()}
-      </DropdownMenu>
+      </Menu>
     )
 
     return () => {

@@ -1,5 +1,7 @@
 # Tag
 
+## 案例
+
 ### Intro
 
 Tag is used for marking, categorizing, and filtering. The API aligns with Cedar Design Web (PC) Tag, with mobile-friendly extras such as round shape and custom text color.
@@ -38,6 +40,8 @@ Set size with `size`: `xs` `sm` `md` `lg` `xl`.
 
 ### Closable
 
+The close button supports Space and Enter without bubbling into selection. Checkable tags support both keys; controlled checked values still require parent acceptance, while omitted checked uses local state. Loading blocks selection, rather than acting as a disabled API. Each library maintains independent state. These basic interactions do not certify held-key, asynchronous or physical-touch combinations.
+
 Show a close button with `closable`. Use `v-model:show` or manage a list yourself.
 
 ```demo
@@ -75,6 +79,23 @@ Override status colors with `color` and `text-color`. With `variant="outline"`, 
 ```demo
 ../example/demos/custom-color-tag.vue
 ```
+
+### Appearance combinations
+
+Use this example for short labels and category markers. Adjust variant, status, size and compare the component with the same data. Keep the content unchanged while comparing the available settings.
+
+```demo
+../example/demos/appearance-lab.vue
+```
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

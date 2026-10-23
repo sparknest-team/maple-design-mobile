@@ -9,8 +9,8 @@ const label = ref('联系方式')
 <template>
   <mp-space direction="column" :size="12" style="width: 100%">
     <p>自动对齐最长的可见标签。试着修改标签或移除额外字段。</p>
-    <label><input v-model="showExtra" type="checkbox" /> 显示额外字段</label>
-    <label>修改最长标签 <input v-model="label" /></label>
+    <mp-checkbox v-model="showExtra">显示额外字段</mp-checkbox>
+    <label>修改最长标签 <mp-input v-model="label" /></label>
     <mp-form :model="model" layout="horizontal" auto-label-width label-align="left">
       <mp-form-item field="name" label="姓名"><mp-input v-model="model.name" /></mp-form-item>
       <mp-form-item field="department" label="部门"><mp-input v-model="model.department" /></mp-form-item>

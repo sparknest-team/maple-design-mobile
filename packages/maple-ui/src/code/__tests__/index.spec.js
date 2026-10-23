@@ -1,11 +1,21 @@
 import { createApp, h } from 'vue'
-import { mount } from '@vue/test-utils'
+import { flushPromises, mount } from '@vue/test-utils'
 import { codeToHtml } from 'shiki'
-import { describe, expect, test } from 'vitest'
+import { beforeEach, describe, expect, test, vi } from 'vitest'
 import Code from '..'
 import VarHighlighterProvider from '../../highlighter-provider'
-import { delay } from '../../utils/test'
 import VarCode from '../Code'
+
+// Await the real highlighter promise, including cold grammar/WASM loading.
+// A fixed delay can snapshot the empty container on a loaded CI worker.
+const highlight = vi.fn(codeToHtml)
+beforeEach(() => {
+  highlight.mockClear()
+})
+async function rendered() {
+  await highlight.mock.results.at(-1).value
+  await flushPromises()
+}
 
 test('code use', () => {
   const app = createApp({}).use(Code)
@@ -17,7 +27,7 @@ describe('test code component props', () => {
     const wrapper = mount(VarHighlighterProvider, {
       props: {
         highlighter: {
-          codeToHtml,
+          codeToHtml: highlight,
         },
         theme: 'vitesse-light',
       },
@@ -30,7 +40,7 @@ describe('test code component props', () => {
       },
     })
 
-    await delay(300)
+    await rendered()
     expect(wrapper.html()).toMatchSnapshot()
     wrapper.unmount()
   })
@@ -39,7 +49,7 @@ describe('test code component props', () => {
     const wrapper = mount(VarHighlighterProvider, {
       props: {
         highlighter: {
-          codeToHtml,
+          codeToHtml: highlight,
         },
         theme: 'vitesse-light',
       },
@@ -52,7 +62,7 @@ describe('test code component props', () => {
       },
     })
 
-    await delay(300)
+    await rendered()
     expect(wrapper.html()).toMatchSnapshot()
     wrapper.unmount()
   })
@@ -61,7 +71,7 @@ describe('test code component props', () => {
     const wrapper = mount(VarHighlighterProvider, {
       props: {
         highlighter: {
-          codeToHtml,
+          codeToHtml: highlight,
         },
       },
       slots: {
@@ -74,7 +84,7 @@ describe('test code component props', () => {
       },
     })
 
-    await delay(300)
+    await rendered()
     expect(wrapper.html()).toMatchSnapshot()
     wrapper.unmount()
   })
@@ -83,7 +93,7 @@ describe('test code component props', () => {
     const wrapper = mount(VarHighlighterProvider, {
       props: {
         highlighter: {
-          codeToHtml,
+          codeToHtml: highlight,
         },
         theme: 'vitesse-light',
       },
@@ -97,7 +107,7 @@ describe('test code component props', () => {
       },
     })
 
-    await delay(300)
+    await rendered()
     expect(wrapper.find('.mp-code--word-wrap').exists()).toBe(true)
 
     wrapper.unmount()
@@ -107,7 +117,7 @@ describe('test code component props', () => {
     const wrapper = mount(VarHighlighterProvider, {
       props: {
         highlighter: {
-          codeToHtml,
+          codeToHtml: highlight,
         },
         theme: 'vitesse-light',
       },
@@ -120,7 +130,7 @@ describe('test code component props', () => {
       },
     })
 
-    await delay(300)
+    await rendered()
     expect(wrapper.html()).toMatchSnapshot()
     wrapper.unmount()
   })
@@ -129,7 +139,7 @@ describe('test code component props', () => {
     const wrapper = mount(VarHighlighterProvider, {
       props: {
         highlighter: {
-          codeToHtml,
+          codeToHtml: highlight,
         },
         theme: 'vitesse-light',
       },
@@ -143,7 +153,7 @@ describe('test code component props', () => {
       },
     })
 
-    await delay(300)
+    await rendered()
     expect(wrapper.html()).toMatchSnapshot()
     wrapper.unmount()
   })

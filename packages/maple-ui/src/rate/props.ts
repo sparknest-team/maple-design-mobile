@@ -1,9 +1,11 @@
 import type { Component, PropType } from 'vue'
+import { fieldPresentationProps } from '../_components/field-presentation/props'
 
 export type RateColor = string | Record<string, string>
 export type RateIcon = string | Component
 
 export const rateProps = {
+  ...fieldPresentationProps,
   /** 评分控件的无障碍名称。 */
   ariaLabel: String,
   /** 受控评分，零值有效。 */

@@ -1,0 +1,135 @@
+{
+  "fields": [
+    {
+      "name": "active",
+      "description": "当前选中名称或索引；传入时为受控模式",
+      "type": "number | string",
+      "defaultValue": "undefined",
+      "kind": "scalar"
+    },
+    {
+      "name": "default-active",
+      "description": "非受控初始选中值，仅初始化时读取",
+      "type": "number | string",
+      "defaultValue": "0",
+      "kind": "scalar"
+    },
+    {
+      "name": "before-change",
+      "description": "切换前校验；返回真值允许，假值、抛错或 Promise 拒绝取消；仅最后一次请求可生效",
+      "type": "(active: number | string) => boolean | Promise&lt;boolean&gt;",
+      "defaultValue": "undefined",
+      "kind": "callback"
+    },
+    {
+      "name": "fixed",
+      "description": "是否固定在底部",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "border",
+      "description": "是否显示外边框",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "safe-area",
+      "description": "是否开启底部安全区适配",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "z-index",
+      "description": "元素 z-index；显式传入时优先于 CSS 变量",
+      "type": "number | string",
+      "defaultValue": "undefined",
+      "kind": "scalar"
+    },
+    {
+      "name": "active-color",
+      "description": "选中标签的颜色",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "inactive-color",
+      "description": "未选中标签的颜色",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "fab-props",
+      "description": "悬浮按钮属性",
+      "type": "ButtonProps",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "variant",
+      "type": "boolean",
+      "defaultValue": "false",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "boolean"
+    },
+    {
+      "name": "placeholder",
+      "type": "boolean",
+      "defaultValue": "false",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "boolean"
+    }
+  ],
+  "events": [
+    "change",
+    "fab-click"
+  ],
+  "scenarios": [
+    {
+      "name": "before-change",
+      "kind": "prop",
+      "demos": [
+        "async-change.vue"
+      ]
+    },
+    {
+      "name": "fab-props",
+      "kind": "prop",
+      "demos": [
+        "fab.vue"
+      ]
+    },
+    {
+      "name": "default",
+      "kind": "slot",
+      "demos": [
+        "custom-label.vue",
+        "fab.vue",
+        "uncontrolled.vue"
+      ]
+    },
+    {
+      "name": "fab",
+      "kind": "slot",
+      "demos": [
+        "custom-label.vue",
+        "fab.vue"
+      ]
+    }
+  ],
+  "slotNames": [
+    "fab"
+  ],
+  "slotDefaults": {
+    "fab": false
+  },
+  "methodNames": []
+}

@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
+import DemoApiReview from './demos/api-review.vue'
 import BasicUsageDemo from './demos/basic-usage.vue'
 import ClearableDemo from './demos/clearable.vue'
 import CustomRatingIconSizeAndGapDemo from './demos/custom-rating-icon-size-and-gap.vue'
@@ -13,6 +14,7 @@ import KeyboardDemo from './demos/keyboard.vue'
 import ListenEventDemo from './demos/listen-event.vue'
 import SymbolsEnDemo from './demos/sizes-and-symbols.en-US.vue'
 import SymbolsDemo from './demos/sizes-and-symbols.vue'
+import OrganizedStateLab from './demos/state-lab.vue'
 
 onThemeChange()
 const language = ref('zh-CN')
@@ -64,11 +66,16 @@ watchLang((value) => {
     <ListenEventDemo />
   </section>
   <section data-demo="keyboard">
-    <app-type>{{ english ? 'Keyboard and State' : '键盘与状态' }}</app-type>
+    <app-type>{{ english ? 'keyboard' : '键盘与状态' }}</app-type>
     <KeyboardEnDemo v-if="english" /><KeyboardDemo v-else />
   </section>
   <section data-demo="sizes-and-symbols">
-    <app-type>{{ english ? 'Sizes and Symbols' : '尺寸与符号' }}</app-type>
+    <app-type>{{ english ? 'sizes-and-symbols' : '尺寸与符号' }}</app-type>
     <SymbolsEnDemo v-if="english" /><SymbolsDemo v-else />
   </section>
+  <section data-demo="state-lab">
+    <app-type>{{ english ? 'Interaction states' : '交互状态切换' }}</app-type>
+    <OrganizedStateLab />
+  </section>
+  <section data-demo="api-review"><DemoApiReview /></section>
 </template>

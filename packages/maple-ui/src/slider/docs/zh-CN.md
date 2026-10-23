@@ -2,10 +2,18 @@
 
 在有限数值范围内选择单值或区间。
 
+## 案例
+
 ### 基础用法
 
 ```demo
 ../example/demos/basic-usage.vue
+```
+
+### 只读
+
+```demo
+../example/demos/readonly.vue
 ```
 
 ### 步长
@@ -30,12 +38,6 @@
 
 ```demo
 ../example/demos/disable.vue
-```
-
-### 只读
-
-```demo
-../example/demos/readonly.vue
 ```
 
 ### 几何尺寸
@@ -91,6 +93,23 @@
 ```demo
 ../example/demos/controlled-range.vue
 ```
+
+### 交互状态切换
+
+适用于连续区间内的数值调整。调整禁用、只读、错误反馈，用相同数据观察变化。控制区始终可用，可以随时恢复编辑；错误外观本身不会触发表单校验。
+
+```demo
+../example/demos/state-lab.vue
+```
+
+<!-- api-review:start -->
+### 功能调试
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 
@@ -159,3 +178,13 @@ button插槽收到`{ currentValue:number,index:number }`；自定义内容不移
 | `--mp-slider-radius` | `var(--mp-sys-radius-md)` |
 | `--mp-slider-transition-duration` | `var(--mp-sys-motion-duration-fast)` |
 | `--mp-slider-input-width` | `80px` |
+
+### Form 字段展示与确认
+
+本组件支持 `presentation`，字段 > FormItem > Form 逐层继承；未指定时为 `inline`，保留原有交互。支持值：`inline / popup`。其他编辑展示使用 Cell 入口和一份草稿，确认后才更新 v-model；取消、重置或启用 readPretty 丢弃草稿。
+
+Maple 使用 presentation="popup" 点击值区域打开编辑面板；inline 直接编辑。 readPretty 为纯阅读属性，与 readonly、disabled 独立。
+
+`before-commit(value, { previousValue, signal })` 可拦截弹层保存；FormItem 先校验候选值，失败保持编辑。`open / default-open / update:open` 控制编辑层。`#read="{ value, text }"` 可自定义阅读内容。集中示例见 Form 的“各类字段统一展示”。
+
+`read-pretty` 为独立布尔属性，与 `readonly`、`disabled` 同级；字段 > FormItem > Form 继承，显式 `false` 覆盖父级。默认 `false`。纯阅读不显示编辑器。

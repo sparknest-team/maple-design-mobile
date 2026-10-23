@@ -40,6 +40,15 @@
 ../example/demos/controls.vue
 ```
 
+<!-- api-review:start -->
+### 功能调试
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
+
 ## API
 
 <!-- same-source-api:start -->
@@ -77,4 +86,3 @@
 
 属性、事件参数、插槽与公开方法一致。CSS 模式遵循浏览器 sticky 规则；示例统一使用独立滚动容器。
 <!-- same-source-api:end -->
-

@@ -1,8 +1,18 @@
 # 警告信息
 
+## 案例
+
 ### 介绍
 
 警告信息组件会向用户显示简短的消息，但不会中断他们的使用。
+
+### 变体
+
+`variant` 可选值：`standard` / `tonal` / `outline`。
+
+```demo
+../example/demos/variant.vue
+```
 
 ### 标题
 
@@ -22,14 +32,6 @@
 
 ```demo
 ../example/demos/type.vue
-```
-
-### 变体
-
-`variant` 可选值：`standard` / `tonal` / `outline`。
-
-```demo
-../example/demos/variant.vue
 ```
 
 ### 居中
@@ -64,6 +66,8 @@
 
 ### 允许关闭
 
+关闭按钮可点击、Space 或 Enter 激活。close 是关闭请求，closed 在退出动画结束后触发；若在 close 中直接卸载组件，就不能观察该组件的动画结束。示例保留实例到关闭结束，显示两种事件次数；重新打开使用新 key，只重建该示例的 Alert，不影响其他实例。
+
 ```demo
 ../example/demos/allow-to-close.vue
 ```
@@ -73,6 +77,23 @@
 ```demo
 ../example/demos/custom-close-icon.vue
 ```
+
+### 外观组合
+
+适用于提示信息的强调程度。调整变体、状态，用相同数据观察变化。内容保持一致，便于比较不同设置的实际效果。
+
+```demo
+../example/demos/appearance-lab.vue
+```
+
+<!-- api-review:start -->
+### 功能调试
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

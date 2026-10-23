@@ -1,5 +1,9 @@
 # Counter
 
+Hold keeps its600ms wait plus100ms repeat(first step700ms), not CSS motion timing. Directions independently cancel/consume tasks; a new same-direction press replaces old work. Release, suspension, disposal or unavailable configuration invalidate stale delivery; activation does not resume old gestures. Release inside a step cannot restart repetition, and retained inactive press/direct steps are inert. The2026-10-15 targeted32/full55 tests are controlled Counter/KeepAlive evidence, not native touch or deferred beforeChange request-identity acceptance. Public value/format/callback contracts stay unchanged.
+
+## Examples
+
 ### Intro
 
 Used to enter or adjust numbers within a certain range.
@@ -8,24 +12,6 @@ Used to enter or adjust numbers within a certain range.
 
 ```demo
 ../example/demos/basic-usage.vue
-```
-
-### Set Value Range
-
-```demo
-../example/demos/range.vue
-```
-
-### Set Step
-
-```demo
-../example/demos/step.vue
-```
-
-### Decimal Length
-
-```demo
-../example/demos/to-fixed.vue
 ```
 
 ### Set Size
@@ -46,6 +32,24 @@ Used to enter or adjust numbers within a certain range.
 ../example/demos/readonly.vue
 ```
 
+### Set Value Range
+
+```demo
+../example/demos/range.vue
+```
+
+### Set Step
+
+```demo
+../example/demos/step.vue
+```
+
+### Decimal Length
+
+```demo
+../example/demos/to-fixed.vue
+```
+
 ### Asynchronous Change
 
 In some scenarios, you may need to wait for the server to return successfully before making changes.
@@ -53,12 +57,20 @@ In some scenarios, you may need to wait for the server to return successfully be
 Register `before-change` events for manual updates.
 
 
-
 > For form validation of the counter, please use the [FormItem component](#/en-US/form-item).
 
 ```demo
 ../example/demos/lazy-change.vue
 ```
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

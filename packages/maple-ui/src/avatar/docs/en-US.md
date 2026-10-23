@@ -30,7 +30,7 @@ Avatars default to a circle at the default size. Use the default slot for text o
 
 ### Auto-fit text
 
-Long text scales to the avatar width by default. Edit the input to see it; set `autoFixFontSize` to `false` to keep the original size.
+Long text scales to the avatar width by default. Updated slot text is measured after rendering; shortening it restores the original scale when it fits. Set `auto-fix-font-size` to `false` to keep the original size.
 
 ```demo
 ../example/demos/auto-fix.vue
@@ -99,6 +99,15 @@ The `trigger-icon` slot adds an action. `triggerType` is `button` or `overlay`; 
 ```demo
 ../example/demos/trigger.vue
 ```
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
+import DemoApiReview from './demos/api-review.vue'
 import BasicUsageDemo from './demos/basic-usage.vue'
 import WordWrapDemo from './demos/word-wrap.vue'
 
@@ -23,4 +24,5 @@ onThemeChange()
     <app-type>{{ english ? 'Word Wrap' : '自动换行' }}</app-type>
     <WordWrapDemo />
   </section>
+  <section data-demo="api-review"><DemoApiReview /></section>
 </template>

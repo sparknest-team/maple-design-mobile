@@ -30,10 +30,10 @@ function choose(shortcut: DateShortcut) {
 </script>
 
 <template>
-  <label><input v-model="acceptNavigation" type="checkbox" /> 接受视口请求</label>
+  <mp-checkbox v-model="acceptNavigation">接受视口请求</mp-checkbox>
   <mp-date-range
     v-model="selected"
-    presentation="calendar"
+    panel-type="calendar"
     :input-editable="false"
     format="DD/MM/YYYY"
     :date-range-picker-props="{ pickerValue: viewport, shortcuts }"

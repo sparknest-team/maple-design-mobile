@@ -106,3 +106,13 @@ Exports ProgressProps, ProgressInstance, ProgressSize, ProgressMode, ProgressSta
 | `--mp-progress-animation-duration` | `1.5s` |
 
 Determinate circle success/danger states show completion/failure icons, including xs. The text slot overrides them; numeric ARIA is retained.
+
+
+<!-- api-review:start -->
+### 组合审查 / API review
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->

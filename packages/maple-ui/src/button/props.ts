@@ -36,7 +36,7 @@ export const buttonProps = {
   block: Boolean,
   /** 外部加载状态，阻止点击 */
   loading: Boolean,
-  /** 加载动画，与 Loading.type 一致 */
+  /** 加载动画，与 Loading.type 一致；line 模式不适用 */
   loadingType: { type: String as PropType<LoadingType>, default: 'circle' },
   /** 加载布局：行内、覆盖或底部进度线 */
   loadingMode: {
@@ -44,16 +44,12 @@ export const buttonProps = {
     default: 'default',
     validator: (v: ButtonLoadingMode) => buttonLoadingModes.includes(v),
   },
-  /** 加载指示器尺寸，省略时使用按钮尺寸 */
+  /** 加载指示器尺寸：xs/sm/md/lg/xl 对应 12/14/16/18/20px，数字为 px；省略时跟随按钮尺寸，line 模式不适用 */
   loadingSize: [String, Number] as PropType<LoadingSize>,
   /** 加载颜色 */
   loadingColor: { type: String, default: 'currentColor' },
-  /** circle 加载指示器半径 */
-  loadingRadius: [String, Number],
   /** 等待事件处理函数返回的 Promise，并阻止重复操作 */
   autoLoading: Boolean,
-  /** 图标容器外观 */
-  iconContainer: Boolean,
   /** 禁用，省略时继承按钮组 */
   disabled: { type: Boolean, default: undefined },
   /** 点击水波 */

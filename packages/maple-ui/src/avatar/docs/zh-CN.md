@@ -30,7 +30,7 @@
 
 ### 文字自适应
 
-默认会按头像宽度缩放过长文字。修改输入框内容可以实时看到缩放效果；将 `autoFixFontSize` 设为 `false` 后保持原始字号。
+默认会按头像宽度缩放过长文字。插槽文本更新后会重新测量；改回可容纳的短文本时恢复原始比例。将 `auto-fix-font-size` 设为 `false` 后保持原始字号。
 
 ```demo
 ../example/demos/auto-fix.vue
@@ -99,6 +99,15 @@
 ```demo
 ../example/demos/trigger.vue
 ```
+
+<!-- api-review:start -->
+### 功能调试
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

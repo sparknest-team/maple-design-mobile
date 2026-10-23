@@ -9,7 +9,7 @@ const disabled = ref(false)
   <span class="fab-demo-label">禁用: {{ disabled }}</span>
   <div class="fab-demo-stage">
     <mp-fab :fixed="false" :popup-container="false" :disabled="disabled" status="primary">
-      <mp-button status="info" icon-container
+      <mp-button status="info" variant="tonal" :elevation="false"
         ><template #icon><m-icon-user-circle-fill /></template
       ></mp-button>
     </mp-fab>

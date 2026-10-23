@@ -1,9 +1,11 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
+import DemoApiReview from './demos/api-review.vue'
 import BasicDemo from './demos/basic.vue'
 import CustomStatusDemo from './demos/custom-status.vue'
 import ErrorDemo from './demos/error.vue'
+import OrganizedSchedulerLifecycle from './demos/scheduler-lifecycle.vue'
 
 const language = ref('zh-CN')
 const english = computed(() => language.value === 'en-US')
@@ -27,4 +29,9 @@ onThemeChange()
     <app-type>{{ english ? 'Custom Status' : '自定义状态' }}</app-type>
     <CustomStatusDemo />
   </section>
+  <section data-demo="scheduler-lifecycle">
+    <app-type>{{ english ? 'Measurement Binding Lifecycle' : '测量绑定生命周期' }}</app-type>
+    <OrganizedSchedulerLifecycle />
+  </section>
+  <section data-demo="api-review"><DemoApiReview /></section>
 </template>

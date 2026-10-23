@@ -1,0 +1,57 @@
+{
+  "fields": [
+    {
+      "name": "from",
+      "description": "起始值",
+      "type": "number | string",
+      "defaultValue": "0",
+      "kind": "scalar"
+    },
+    {
+      "name": "to",
+      "description": "目标值",
+      "type": "number | string",
+      "defaultValue": "0",
+      "kind": "scalar"
+    },
+    {
+      "name": "duration",
+      "description": "动画持续时间（单位：毫秒）",
+      "type": "number | string",
+      "defaultValue": "2000",
+      "kind": "scalar"
+    },
+    {
+      "name": "precision",
+      "description": "精度",
+      "type": "number | string",
+      "defaultValue": "0",
+      "kind": "scalar"
+    },
+    {
+      "name": "auto-start",
+      "description": "是否自动开始播放动画",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "timing-function",
+      "description": "动画曲线函数",
+      "type": "(v: number) => number",
+      "defaultValue": "undefined",
+      "kind": "scenario"
+    }
+  ],
+  "methodNames": [
+    "start",
+    "pause",
+    "reset"
+  ],
+  "events": [
+    "end"
+  ],
+  "slotNames": [],
+  "slotDefaults": {},
+  "scenarios": []
+}

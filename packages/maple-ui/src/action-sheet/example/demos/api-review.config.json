@@ -1,0 +1,253 @@
+{
+  "fields": [
+    {
+      "name": "open",
+      "description": "是否显示动作面板",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "actions",
+      "description": "选项列表",
+      "type": "Actions",
+      "defaultValue": "() => []",
+      "kind": "json",
+      "initial": "[{\"name\":\"Review action\",\"icon\":\"check\",\"disabled\":false}]"
+    },
+    {
+      "name": "title",
+      "description": "动作面板标题",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "overlay",
+      "description": "是否显示背景层",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "overlay-class",
+      "description": "自定义背景层的 class",
+      "type": "string",
+      "defaultValue": "-",
+      "kind": "string"
+    },
+    {
+      "name": "overlay-style",
+      "description": "自定义背景层的 style",
+      "type": "object",
+      "defaultValue": "-",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "lock-scroll",
+      "description": "是否禁止滚动穿透，禁止时滚动弹出层不会引发 body 的滚动",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "close-on-click-action",
+      "description": "是否点击选项时关闭动作面板",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "overlay-closable",
+      "description": "是否点击背景层关闭动作面板",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "esc-to-close",
+      "description": "是否支持键盘 ESC 关闭动作面板",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "safe-area",
+      "description": "是否开启底部安全区适配",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "popup-container",
+      "description": "动作面板挂载的位置",
+      "type": "TeleportProps['to'] | false",
+      "defaultValue": "body",
+      "kind": "json",
+      "initial": "\"body\""
+    },
+    {
+      "name": "ActionSheetAction.name",
+      "description": "actions.0 · 选项名称",
+      "type": "string",
+      "defaultValue": "-",
+      "kind": "string",
+      "path": [
+        "actions",
+        0,
+        "name"
+      ]
+    },
+    {
+      "name": "ActionSheetAction.color",
+      "description": "actions.0 · 选项文字颜色",
+      "type": "string",
+      "defaultValue": "-",
+      "kind": "string",
+      "initial": "#5268cc",
+      "path": [
+        "actions",
+        0,
+        "color"
+      ]
+    },
+    {
+      "name": "ActionSheetAction.icon",
+      "description": "actions.0 · icon 图标，支持网络图片地址",
+      "type": "string",
+      "defaultValue": "-",
+      "kind": "string",
+      "path": [
+        "actions",
+        0,
+        "icon"
+      ]
+    },
+    {
+      "name": "ActionSheetAction.icon-size",
+      "description": "actions.0 · 图标尺寸",
+      "type": "string",
+      "defaultValue": "-",
+      "kind": "string",
+      "path": [
+        "actions",
+        0,
+        "iconSize"
+      ]
+    },
+    {
+      "name": "ActionSheetAction.namespace",
+      "description": "actions.0 · 图标命名空间",
+      "type": "string",
+      "defaultValue": "-",
+      "kind": "string",
+      "path": [
+        "actions",
+        0,
+        "namespace"
+      ]
+    },
+    {
+      "name": "ActionSheetAction.class-name",
+      "description": "actions.0 · 选项附加类名",
+      "type": "string",
+      "defaultValue": "-",
+      "kind": "string",
+      "path": [
+        "actions",
+        0,
+        "className"
+      ]
+    },
+    {
+      "name": "ActionSheetAction.disabled",
+      "description": "actions.0 · 是否禁用选项",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean",
+      "path": [
+        "actions",
+        0,
+        "disabled"
+      ]
+    }
+  ],
+  "events": [
+    "select",
+    "open",
+    "opened",
+    "close",
+    "closed",
+    "click-overlay",
+    "key-escape",
+    "update:open"
+  ],
+  "scenarios": [
+    {
+      "name": "actions",
+      "kind": "prop",
+      "demos": [
+        "component-call.vue",
+        "function-call.vue"
+      ]
+    },
+    {
+      "name": "overlay-style",
+      "kind": "prop",
+      "demos": []
+    },
+    {
+      "name": "actions",
+      "kind": "slot",
+      "demos": [
+        "component-call.vue",
+        "function-call.vue"
+      ]
+    },
+    {
+      "name": "title",
+      "kind": "slot",
+      "demos": [
+        "component-call.vue",
+        "function-call.vue"
+      ]
+    },
+    {
+      "name": "action-sheet",
+      "kind": "method",
+      "demos": [
+        "component-call.vue"
+      ]
+    },
+    {
+      "name": "action-sheet.close",
+      "kind": "method",
+      "demos": []
+    },
+    {
+      "name": "action-sheet.set-default-options",
+      "kind": "method",
+      "demos": []
+    },
+    {
+      "name": "action-sheet.reset-default-options",
+      "kind": "method",
+      "demos": []
+    }
+  ],
+  "slotNames": [
+    "actions",
+    "title"
+  ],
+  "slotDefaults": {
+    "actions": false,
+    "title": false
+  },
+  "methodNames": [
+    "action-sheet",
+    "action-sheet.close",
+    "action-sheet.set-default-options",
+    "action-sheet.reset-default-options"
+  ]
+}

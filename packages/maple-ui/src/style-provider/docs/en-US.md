@@ -3,13 +3,17 @@
 Independent source copies in Cedar and Maple use identical behavior, installation and defaults.
 
 
+## 案例
 
 ### basic
 
 ```demo
 ../example/demos/basic.vue
 ```
+
 ## Local variables
+
+The demo button toggles only the outer section's local variables. Disabling restores inherited text color while the nested coral override and outside text remain unchanged; toggling again restores teal. The demo does not call global setStyleVars, so it does not verify global theme injection, replacement or cleanup.
 
 Use `<mp-style-provider :style-vars="vars" tag="section">`. Variables follow DOM inheritance; nested providers override ancestors. Passing null clears only the local override. Content moved outside the provider by popupContainer does not inherit its variables. Local providers never change the document theme.
 
@@ -39,6 +43,15 @@ StyleProvider.setPropsDefaults({
 
 Configure defaults through this single component entry before mounting; existing instances are not updated. Explicit props win. Variable objects are copied per instance; factories and null are also supported. Each library owns its defaults.
 Installation registers MpStyleProvider without changing application configuration. Use app.component for custom aliases.
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

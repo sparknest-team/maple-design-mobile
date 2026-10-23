@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
+import DemoApiReview from './demos/api-review.vue'
 import DemoBasic from './demos/basic.vue'
 import DemoBottom from './demos/bottom.vue'
 import DemoContainer from './demos/container.vue'
@@ -42,4 +43,5 @@ onThemeChange()
     <app-type>{{ english ? 'Disabled, CSS mode and manual update' : '禁用、CSS 模式与手动更新' }}</app-type>
     <DemoControls />
   </section>
+  <section data-demo="api-review"><DemoApiReview /></section>
 </template>

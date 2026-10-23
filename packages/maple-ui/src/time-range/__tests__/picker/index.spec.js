@@ -2,7 +2,8 @@ import { createApp } from 'vue'
 import { mount } from '@vue/test-utils'
 import { expect, test, vi } from 'vitest'
 import TimeRange from '../..'
-import { delay, trigger } from '../../../utils/test'
+import Picker from '../../../picker/Picker.vue'
+import { delay } from '../../../utils/test'
 import VarTimeRangePicker from '../../TimeRangePicker.vue'
 
 test('time-range-picker plugin', () => {
@@ -10,14 +11,14 @@ test('time-range-picker plugin', () => {
   expect(app.component(VarTimeRangePicker.name)).toBeTruthy()
 })
 
-test('time-range-picker clock presentation', async () => {
+test('time-range-picker paired wheels without summaries', async () => {
   const onUpdateModelValue = vi.fn()
   const onChange = vi.fn()
   const wrapper = mount(VarTimeRangePicker, {
     props: {
       format: 'HH:mm',
       modelValue: ['09:00', '18:00'],
-      presentation: 'clock',
+      presentation: 'picker',
       'onUpdate:modelValue': onUpdateModelValue,
       onChange,
     },
@@ -25,12 +26,11 @@ test('time-range-picker clock presentation', async () => {
 
   await delay(0)
 
-  expect(wrapper.find('.mp-time-range-picker__values').exists()).toBeTruthy()
-  expect(wrapper.findAll('.mp-time-picker').length).toBe(2)
+  expect(wrapper.find('.mp-time-range-picker__values').exists()).toBe(false)
+  expect(wrapper.findAll('.mp-time-picker').length).toBe(0)
+  expect(wrapper.getComponent(Picker).props('columns')).toHaveLength(4)
 
-  const endValue = wrapper.findAll('.mp-time-range-picker__value')[1]
-  await endValue.trigger('click')
-  expect(endValue.classes()).toContain('mp-time-range-picker__value--active')
+  expect(onUpdateModelValue).not.toHaveBeenCalled()
 
   wrapper.unmount()
 })
@@ -45,7 +45,7 @@ test('time-range-picker picker presentation', async () => {
 
   await delay(0)
 
-  expect(wrapper.find('.mp-time-range-picker__values').exists()).toBeTruthy()
+  expect(wrapper.find('.mp-time-range-picker__values').exists()).toBe(false)
   expect(wrapper.find('.mp-picker').exists()).toBeTruthy()
   expect(wrapper.findAll('.mp-time-picker').length).toBe(0)
 
@@ -58,7 +58,7 @@ test('time-range-picker readonly', async () => {
     props: {
       format: 'HH:mm',
       modelValue: ['09:00', '18:00'],
-      presentation: 'clock',
+      presentation: 'picker',
       readonly: true,
       'onUpdate:modelValue': onUpdateModelValue,
     },
@@ -66,10 +66,7 @@ test('time-range-picker readonly', async () => {
 
   await delay(0)
 
-  const el = wrapper.find('.mp-time-picker__clock-container')
-  await trigger(el, 'touchstart', 40, 30)
-  await trigger(el, 'touchmove', 20, 25)
-  await trigger(el, 'touchend', 30, 25)
+  wrapper.getComponent(Picker).vm.$emit('change', ['10', '30', '19', '45'])
   await delay(200)
 
   expect(onUpdateModelValue).not.toHaveBeenCalled()

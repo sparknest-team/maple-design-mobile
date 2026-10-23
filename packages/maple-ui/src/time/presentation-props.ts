@@ -18,6 +18,7 @@ const panelOwnedKeys = [
   'hideDisabledOptions',
   'disableConfirm',
   'showNextDay',
+  'showNowButton',
   'presentation',
   'type',
   'popupContainer',

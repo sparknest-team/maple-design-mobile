@@ -279,10 +279,10 @@
     "en": "Logic copies (verified)",
     "reason": "2026-09-30：纯时间面板的值、草稿、校验和选择/确认事务已独立复制；两端范围入口均直接持有范围状态，Cedar 不再经单值面板转调。类型化事件声明和范围事件编排同源，脚本入口收口为 script setup。列表与滚轮/时钟内容及手势留在独立 presentation 文件，两库各有源码及实例，无共享运行时。33 对源码/测试与 4 个面板展示边界门禁覆盖；端侧外观保持差异，浏览器视觉验收另行进行。"
   },
-  "dropdown-menu": {
+  "menu": {
     "label": "逻辑已同源",
     "en": "Logic copies (verified)",
-    "reason": "2026-10-09 复核：Props、selection/level/keyboard/options 与公共定位选项独立复制；strategy 响应式传递到所有子菜单，公开定位/子菜单类型补齐。两端保留 Scrollbar/原生列表、hover/click、动画、触控涟漪等视图差异，因此纠正旧“已同源”为“逻辑已同源”，不宣称整个主体一致。移除 platform 聚合层，差异留在 appearance.ts；无共享运行时或旧 API 别名。DropdownMenu 与 SplitButton 配对交互回归通过。"
+    "reason": "2026-10-09 复核：Props、selection/level/keyboard/options 与公共定位选项独立复制；strategy 响应式传递到所有子菜单，公开定位/子菜单类型补齐。两端保留 Scrollbar/原生列表、hover/click、动画、触控涟漪等视图差异，因此纠正旧“已同源”为“逻辑已同源”，不宣称整个主体一致。移除 platform 聚合层，差异留在 appearance.ts；无共享运行时或旧 API 别名。Menu 与 SplitButton 配对交互回归通过。"
   },
   "popover": {
     "label": "已同源",

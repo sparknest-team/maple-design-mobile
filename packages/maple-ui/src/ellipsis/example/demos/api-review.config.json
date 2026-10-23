@@ -1,0 +1,59 @@
+{
+  "fields": [
+    {
+      "name": "expand",
+      "description": "受控展开状态，配合 v-model:expand",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
+      "name": "default-expand",
+      "description": "非受控初始展开状态",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "expand-trigger",
+      "description": "启用点击与 Enter / Space 展开",
+      "type": "'click'",
+      "defaultValue": "undefined",
+      "kind": "enum",
+      "options": [
+        "click"
+      ],
+      "initial": "click"
+    },
+    {
+      "name": "line-clamp",
+      "description": "正数行数，向下取整；未传或无效为单行",
+      "type": "number | string",
+      "defaultValue": "undefined",
+      "kind": "scalar"
+    },
+    {
+      "name": "tooltip",
+      "description": "Tooltip 配置，false 禁用",
+      "type": "boolean | TooltipProps",
+      "defaultValue": "true",
+      "kind": "json",
+      "initial": "{}"
+    }
+  ],
+  "events": [],
+  "scenarios": [
+    {
+      "name": "tooltip",
+      "kind": "prop",
+      "demos": [
+        "expand.vue",
+        "tooltip.vue",
+        "two-way-binding.vue"
+      ]
+    }
+  ],
+  "slotNames": [],
+  "slotDefaults": {},
+  "methodNames": []
+}

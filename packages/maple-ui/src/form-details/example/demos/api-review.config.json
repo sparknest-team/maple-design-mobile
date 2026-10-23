@@ -1,0 +1,27 @@
+{
+  "fields": [
+    {
+      "name": "error-message",
+      "description": "错误信息",
+      "type": "string",
+      "defaultValue": "-",
+      "kind": "string"
+    },
+    {
+      "name": "extra-message",
+      "description": "附加信息",
+      "type": "string",
+      "defaultValue": "-",
+      "kind": "string"
+    }
+  ],
+  "events": [],
+  "scenarios": [],
+  "slotNames": [
+    "extra-message"
+  ],
+  "slotDefaults": {
+    "extra-message": false
+  },
+  "methodNames": []
+}

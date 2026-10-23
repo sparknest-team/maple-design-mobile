@@ -100,7 +100,16 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, watch, type ComputedRef } from 'vue'
+import {
+  computed,
+  defineComponent,
+  onActivated,
+  onBeforeUnmount,
+  onDeactivated,
+  ref,
+  watch,
+  type ComputedRef,
+} from 'vue'
 import { IconMinus as MIconMinus, IconPlus as MIconPlus } from '@maplejs/icons-vue'
 import { call, toNumber } from '@maplejs/maple-shared'
 import { Decimal } from 'decimal.js'
@@ -148,10 +157,60 @@ export default defineComponent({
       return min != null && toNumber(modelValue) <= toNumber(min)
     })
 
-    let incrementTimer: number
-    let decrementTimer: number
-    let incrementDelayTimer: number
-    let decrementDelayTimer: number
+    let incrementTimer: number | undefined
+    let decrementTimer: number | undefined
+    let incrementDelayTimer: number | undefined
+    let decrementDelayTimer: number | undefined
+    let incrementGeneration = 0
+    let decrementGeneration = 0
+    let active = true
+    let disposed = false
+    const available = () => active && !disposed
+    const pressAllowed = () =>
+      props.press &&
+      !props.lazyChange &&
+      !props.disabled &&
+      !props.readonly &&
+      !formDisabled?.value &&
+      !formReadonly?.value
+    const incrementAllowed = () =>
+      pressAllowed() && showIncrementButton.value && !props.disableIncrement && !isMax.value
+    const decrementAllowed = () =>
+      pressAllowed() && showDecrementButton.value && !props.disableDecrement && !isMin.value
+    watch(
+      incrementAllowed,
+      (enabled) => {
+        if (!enabled) {
+          releaseIncrement()
+        }
+      },
+      { flush: 'sync' },
+    )
+    watch(
+      decrementAllowed,
+      (enabled) => {
+        if (!enabled) {
+          releaseDecrement()
+        }
+      },
+      { flush: 'sync' },
+    )
+    onDeactivated(() => {
+      active = false
+      releaseIncrement()
+      releaseDecrement()
+    })
+    onActivated(() => {
+      if (!disposed) {
+        active = true
+      }
+    })
+    onBeforeUnmount(() => {
+      disposed = true
+      active = false
+      releaseIncrement()
+      releaseDecrement()
+    })
 
     watch(
       () => props.modelValue,
@@ -229,6 +288,9 @@ export default defineComponent({
     }
 
     function decrement() {
+      if (!available()) {
+        return
+      }
       const { disabled, readonly, disableDecrement, lazyChange, step, modelValue, beforeChange } = props
 
       if (
@@ -251,6 +313,9 @@ export default defineComponent({
       const normalizedValueNum = toNumber(normalizedValue)
 
       emit('decrement', normalizedValueNum)
+      if (!available()) {
+        return
+      }
 
       if (lazyChange) {
         call(beforeChange, normalizedValueNum, change)
@@ -261,6 +326,9 @@ export default defineComponent({
     }
 
     function increment() {
+      if (!available()) {
+        return
+      }
       const { disabled, readonly, disableIncrement, lazyChange, step, modelValue, beforeChange } = props
 
       if (
@@ -283,6 +351,9 @@ export default defineComponent({
       const normalizedValueNum = toNumber(normalizedValue)
 
       emit('increment', normalizedValueNum)
+      if (!available()) {
+        return
+      }
 
       if (lazyChange) {
         call(beforeChange, normalizedValueNum, change)
@@ -293,50 +364,94 @@ export default defineComponent({
     }
 
     function pressDecrement() {
-      const { press, lazyChange } = props
-
-      if (!press || lazyChange) {
+      releaseDecrement()
+      if (!available() || !decrementAllowed()) {
         return
       }
-
+      const generation = decrementGeneration
+      let consumed = false
       decrementDelayTimer = window.setTimeout(() => {
-        continuedDecrement()
+        if (consumed || generation !== decrementGeneration || !available() || !decrementAllowed()) {
+          return
+        }
+        consumed = true
+        decrementDelayTimer = undefined
+        continuedDecrement(generation)
       }, DELAY)
     }
 
     function pressIncrement() {
-      const { press, lazyChange } = props
-
-      if (!press || lazyChange) {
+      releaseIncrement()
+      if (!available() || !incrementAllowed()) {
         return
       }
-
+      const generation = incrementGeneration
+      let consumed = false
       incrementDelayTimer = window.setTimeout(() => {
-        continuedIncrement()
+        if (consumed || generation !== incrementGeneration || !available() || !incrementAllowed()) {
+          return
+        }
+        consumed = true
+        incrementDelayTimer = undefined
+        continuedIncrement(generation)
       }, DELAY)
     }
 
     function releaseDecrement() {
-      decrementTimer && clearTimeout(decrementTimer)
-      decrementDelayTimer && clearTimeout(decrementDelayTimer)
+      decrementGeneration++
+      if (decrementTimer !== undefined) {
+        window.clearTimeout(decrementTimer)
+      }
+      if (decrementDelayTimer !== undefined) {
+        window.clearTimeout(decrementDelayTimer)
+      }
+      decrementTimer = decrementDelayTimer = undefined
     }
 
     function releaseIncrement() {
-      incrementTimer && clearTimeout(incrementTimer)
-      incrementDelayTimer && clearTimeout(incrementDelayTimer)
+      incrementGeneration++
+      if (incrementTimer !== undefined) {
+        window.clearTimeout(incrementTimer)
+      }
+      if (incrementDelayTimer !== undefined) {
+        window.clearTimeout(incrementDelayTimer)
+      }
+      incrementTimer = incrementDelayTimer = undefined
     }
 
-    function continuedIncrement() {
+    function continuedIncrement(generation: number) {
+      if (generation !== incrementGeneration || !available() || !incrementAllowed()) {
+        return
+      }
+      let consumed = false
       incrementTimer = window.setTimeout(() => {
+        if (consumed || generation !== incrementGeneration || !available() || !incrementAllowed()) {
+          return
+        }
+        consumed = true
+        incrementTimer = undefined
         increment()
-        continuedIncrement()
+        if (generation === incrementGeneration && available() && incrementAllowed()) {
+          continuedIncrement(generation)
+        }
       }, SPEED)
     }
 
-    function continuedDecrement() {
+    function continuedDecrement(generation: number) {
+      if (generation !== decrementGeneration || !available() || !decrementAllowed()) {
+        return
+      }
+      let consumed = false
       decrementTimer = window.setTimeout(() => {
+        if (consumed || generation !== decrementGeneration || !available() || !decrementAllowed()) {
+          return
+        }
+        consumed = true
+        decrementTimer = undefined
         decrement()
-        continuedDecrement()
+        if (generation === decrementGeneration && available() && decrementAllowed()) {
+          continuedDecrement(generation)
+        }
       }, SPEED)
     }
 
@@ -349,6 +464,9 @@ export default defineComponent({
     }
 
     function change(value: number) {
+      if (!available()) {
+        return
+      }
       setNormalizedValue(normalizeValue(String(value)))
       eventHandlers.value.onChange?.()
     }

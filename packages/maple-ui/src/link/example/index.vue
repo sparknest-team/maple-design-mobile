@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
+import DemoApiReview from './demos/api-review.vue'
 import BasicDemo from './demos/basic.vue'
 import DisabledStatusDemo from './demos/disabled-status.vue'
 import EnBasicDemo from './demos/en-US/basic.vue'
@@ -28,19 +29,19 @@ onThemeChange()
 
 <template>
   <section data-demo="basic">
-    <app-type>{{ english ? 'Basic usage' : '基础用法' }}</app-type>
+    <app-type>{{ english ? 'Basic Usage' : '基础用法' }}</app-type>
     <EnBasicDemo v-if="english" />
     <BasicDemo v-else />
   </section>
 
   <section data-demo="semantic-status">
-    <app-type>{{ english ? 'Semantic status' : '语义状态' }}</app-type>
+    <app-type>{{ english ? 'Semantic Status' : '语义状态' }}</app-type>
     <EnSemanticStatusDemo v-if="english" />
     <SemanticStatusDemo v-else />
   </section>
 
   <section data-demo="mode">
-    <app-type>{{ english ? 'Link mode' : '链接模式' }}</app-type>
+    <app-type>{{ english ? 'Link Mode' : '链接模式' }}</app-type>
     <EnModeDemo v-if="english" />
     <ModeDemo v-else />
   </section>
@@ -51,14 +52,8 @@ onThemeChange()
     <UnderlineDemo v-else />
   </section>
 
-  <section data-demo="hoverable">
-    <app-type>{{ english ? 'Hover background' : '悬浮态底色' }}</app-type>
-    <EnHoverableDemo v-if="english" />
-    <HoverableDemo v-else />
-  </section>
-
   <section data-demo="disabled-status">
-    <app-type>{{ english ? 'Disabled' : '禁用状态' }}</app-type>
+    <app-type>{{ english ? 'Disabled Status' : '禁用状态' }}</app-type>
     <EnDisabledStatusDemo v-if="english" />
     <DisabledStatusDemo v-else />
   </section>
@@ -74,4 +69,11 @@ onThemeChange()
     <EnLoadingDemo v-if="english" />
     <LoadingDemo v-else />
   </section>
+
+  <section data-demo="hoverable">
+    <app-type>{{ english ? 'Hover Background' : '悬浮态底色' }}</app-type>
+    <EnHoverableDemo v-if="english" />
+    <HoverableDemo v-else />
+  </section>
+  <section data-demo="api-review"><DemoApiReview /></section>
 </template>

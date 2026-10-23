@@ -1,5 +1,7 @@
 # 骨架屏
 
+## 案例
+
 ### 介绍
 
 显示一些带过渡效果的占位元素，优化加载过程。
@@ -36,9 +38,20 @@
 
 ### 全屏模式
 
+点击后展示两秒再恢复，这是示例中的定时逻辑；组件本身不请求数据，也不会自动结束加载。实际业务应由请求结果控制 `loading`。
+
 ```demo
 ../example/demos/fullscreen-mode.vue
 ```
+
+<!-- api-review:start -->
+### 功能调试
+
+```demo
+../example/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

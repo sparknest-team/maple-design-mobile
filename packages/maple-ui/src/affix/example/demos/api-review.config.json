@@ -1,0 +1,88 @@
+{
+  "fields": [
+    {
+      "name": "offset-top",
+      "description": "相对滚动容器顶部的吸附距离，支持 CSS 长度",
+      "type": "number / string",
+      "defaultValue": "0",
+      "kind": "scalar"
+    },
+    {
+      "name": "offset-bottom",
+      "description": "相对滚动容器底部的吸附距离；设置后优先于 offset-top，0 也有效",
+      "type": "number / string",
+      "defaultValue": "undefined",
+      "kind": "scalar"
+    },
+    {
+      "name": "target",
+      "description": "滚动容器或选择器；省略时寻找最近滚动父元素，找不到则使用 window",
+      "type": "string / HTMLElement / Window",
+      "defaultValue": "undefined",
+      "kind": "scenario"
+    },
+    {
+      "name": "target-container",
+      "description": "额外监听的外层滚动容器或选择器；不传则不额外监听，也不作为裁剪边界",
+      "type": "string / HTMLElement / Window",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "\"body\""
+    },
+    {
+      "name": "z-index",
+      "description": "固钉层级",
+      "type": "number / string",
+      "defaultValue": "10",
+      "kind": "scalar"
+    },
+    {
+      "name": "disabled",
+      "description": "禁用吸附",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "css-mode",
+      "description": "使用原生 position: sticky，受祖先 overflow 和容器边界影响",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    }
+  ],
+  "events": [
+    "change"
+  ],
+  "scenarios": [
+    {
+      "name": "target",
+      "kind": "prop",
+      "demos": [
+        "basic.vue",
+        "bottom.vue",
+        "container.vue",
+        "controls.vue",
+        "fix-change.vue",
+        "top.vue"
+      ]
+    },
+    {
+      "name": "default",
+      "kind": "slot",
+      "demos": []
+    },
+    {
+      "name": "update-position",
+      "kind": "method",
+      "demos": [
+        "controls.vue"
+      ]
+    }
+  ],
+  "slotNames": [],
+  "slotDefaults": {},
+  "methodNames": [
+    "update-position"
+  ]
+}

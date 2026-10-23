@@ -1,7 +1,9 @@
 import type { StyleValue, VNode } from 'vue'
-import { computed, defineComponent, nextTick, ref, toRefs, useId, watch } from 'vue'
+import { computed, defineComponent, inject, nextTick, ref, toRefs, useId, watch } from 'vue'
+import { selectionEditorSurface } from '../_components/selected-options/context'
 import VirtualList from '../_components/virtual-list-v2'
 import { isFunction, isNull, isUndefined } from '../_utils/is'
+import Empty from '../empty'
 import Input from '../input'
 import { useInputForm } from '../input/use-input-form'
 import { useSelect } from '../select/hooks/use-select'
@@ -16,10 +18,10 @@ import { normalizeTextInputValue } from '../utils/text-input-value'
 import { autoCompleteProps } from './props'
 import type { AutoCompleteOptionData, AutoCompleteOptionInfo } from './props'
 
-const { name, n, classes } = createNamespace('auto-complete')
+const { n, classes } = createNamespace('auto-complete')
 
 export default defineComponent({
-  name,
+  name: createNamespace('auto-complete').name,
   inheritAttrs: false,
   props: autoCompleteProps,
   emits: {
@@ -36,6 +38,7 @@ export default defineComponent({
   },
   setup(props, { emit, attrs, slots, expose }) {
     const prefixCls = getPrefixCls('auto-complete')
+    const editor = inject(selectionEditorSurface, undefined)
     const { modelValue, options, fieldNames } = toRefs(props)
     const { mergedSize, mergedDisabled, mergedReadonly, mergedError, eventHandlers, group } = useInputForm(props)
     const mergedVariant = computed(() => props.variant ?? group?.variant.value ?? 'outline')
@@ -95,8 +98,14 @@ export default defineComponent({
     })
 
     const editable = computed(() => !mergedDisabled.value && !mergedReadonly.value)
+    const optionsReady = ref(false)
     const computedOpen = computed(
-      () => editable.value && open.value && validOptionInfos.value.length > 0 && props.shouldOpen(computedValue.value),
+      () =>
+        optionsReady.value &&
+        editable.value &&
+        (editor || open.value) &&
+        validOptionInfos.value.length > 0 &&
+        props.shouldOpen(computedValue.value),
     )
     const listboxId = `${prefixCls}-listbox-${useId()}`
     const getOptionId = (key: string) => `${listboxId}-option-${encodeURIComponent(key)}`
@@ -241,6 +250,8 @@ export default defineComponent({
       enterToOpen: false,
     })
 
+    optionsReady.value = true
+
     const handleInputKeydown = (ev: KeyboardEvent) => {
       if (ev.key === 'Tab') {
         closeDropdown()
@@ -279,7 +290,7 @@ export default defineComponent({
           {...({
             id: getOptionId(item.key),
             role: 'option',
-            'aria-selected': activeKey.value === item.key,
+            'aria-selected': editor ? computedValueKeys.value.includes(item.key) : activeKey.value === item.key,
             'aria-disabled': Boolean(item.disabled),
             onMousedown: (ev: MouseEvent) => ev.preventDefault(),
           } as any)}
@@ -326,8 +337,56 @@ export default defineComponent({
       autocomplete: 'off',
     }))
 
+    const renderInput = (restAttrs: Record<string, unknown>) => (
+      <Input
+        {...restAttrs}
+        ref={inputRef}
+        modelValue={computedValue.value}
+        defaultValue={props.defaultValue}
+        size={mergedSize.value}
+        variant={editor ? 'outline' : mergedVariant.value}
+        disabled={mergedDisabled.value}
+        readonly={mergedReadonly.value}
+        error={mergedError.value}
+        hint={editor ? false : props.hint}
+        line={props.line}
+        textColor={props.textColor}
+        focusColor={props.focusColor}
+        blurColor={props.blurColor}
+        enterkeyhint={props.enterkeyhint}
+        ariaLabel={props.ariaLabel}
+        clearable={props.clearable}
+        placeholder={props.placeholder}
+        maxLength={props.maxLength}
+        showWordLimit={props.showWordLimit}
+        wordLength={props.wordLength}
+        wordSlice={props.wordSlice}
+        inputAttrs={mergedInputAttrs.value}
+        v-slots={{
+          prefix: slots.prefix,
+          suffix: slots.suffix,
+          'clear-icon': slots['clear-icon'],
+        }}
+        onUpdate:modelValue={handleInputUpdate}
+        onInput={handleInput}
+        onChange={handleChange}
+        onClear={handleClear}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        onKeydown={handleInputKeydown}
+      />
+    )
+
     const render = () => {
       const { class: className, style, ...restAttrs } = attrs
+      if (editor) {
+        return (
+          <div class={[classes(n()), className]} style={style as StyleValue}>
+            {renderInput(restAttrs)}
+            {computedOpen.value ? renderDropdown() : (slots.empty?.() ?? <Empty />)}
+          </div>
+        )
+      }
       return (
         <Trigger
           trigger="focus"
@@ -349,43 +408,7 @@ export default defineComponent({
           v-slots={{ content: renderDropdown }}
         >
           <div class={[classes(n()), className]} style={style as StyleValue}>
-            <Input
-              {...restAttrs}
-              ref={inputRef}
-              modelValue={computedValue.value}
-              defaultValue={props.defaultValue}
-              size={mergedSize.value}
-              variant={mergedVariant.value}
-              disabled={mergedDisabled.value}
-              readonly={mergedReadonly.value}
-              error={mergedError.value}
-              hint={props.hint}
-              line={props.line}
-              textColor={props.textColor}
-              focusColor={props.focusColor}
-              blurColor={props.blurColor}
-              enterkeyhint={props.enterkeyhint}
-              ariaLabel={props.ariaLabel}
-              clearable={props.clearable}
-              placeholder={props.placeholder}
-              maxLength={props.maxLength}
-              showWordLimit={props.showWordLimit}
-              wordLength={props.wordLength}
-              wordSlice={props.wordSlice}
-              inputAttrs={mergedInputAttrs.value}
-              v-slots={{
-                prefix: slots.prefix,
-                suffix: slots.suffix,
-                'clear-icon': slots['clear-icon'],
-              }}
-              onUpdate:modelValue={handleInputUpdate}
-              onInput={handleInput}
-              onChange={handleChange}
-              onClear={handleClear}
-              onFocus={handleFocus}
-              onBlur={handleBlur}
-              onKeydown={handleInputKeydown}
-            />
+            {renderInput(restAttrs)}
           </div>
         </Trigger>
       )

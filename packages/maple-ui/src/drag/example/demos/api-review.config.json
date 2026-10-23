@@ -1,0 +1,100 @@
+{
+  "fields": [
+    {
+      "name": "direction",
+      "description": "拖拽方向，可选值 x, y, xy",
+      "type": "'x' | 'y' | 'xy'",
+      "defaultValue": "'xy'",
+      "kind": "enum",
+      "options": [
+        "x",
+        "y",
+        "xy"
+      ],
+      "initial": "xy"
+    },
+    {
+      "name": "attraction",
+      "description": "吸附方向，可选值 x, y, xy",
+      "type": "'x' | 'y' | 'xy'",
+      "defaultValue": "undefined",
+      "kind": "enum",
+      "options": [
+        "x",
+        "y",
+        "xy"
+      ],
+      "initial": "x"
+    },
+    {
+      "name": "disabled",
+      "description": "是否禁用",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "boundary",
+      "description": "拖拽范围",
+      "type": "{ top?: number | string, bottom?: number | string, left?: number | string, right?: number | string }",
+      "defaultValue": "() => ({\n      top: 0,\n      bottom: 0,\n      left: 0,\n      right: 0,\n    })",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "z-index",
+      "description": "拖拽元素的层级",
+      "type": "string | number",
+      "defaultValue": "90",
+      "kind": "scalar"
+    },
+    {
+      "name": "popup-container",
+      "description": "拖拽元素挂载的位置",
+      "type": "TeleportProps['to'] | false",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "\"body\""
+    }
+  ],
+  "events": [
+    "click"
+  ],
+  "scenarios": [
+    {
+      "name": "boundary",
+      "kind": "prop",
+      "demos": [
+        "attraction.vue",
+        "basic-use.vue",
+        "boundary.vue",
+        "direction.vue",
+        "disabled.vue",
+        "reset.vue"
+      ]
+    },
+    {
+      "name": "default",
+      "kind": "slot",
+      "demos": []
+    },
+    {
+      "name": "resize",
+      "kind": "method",
+      "demos": []
+    },
+    {
+      "name": "reset",
+      "kind": "method",
+      "demos": [
+        "reset.vue"
+      ]
+    }
+  ],
+  "slotNames": [],
+  "slotDefaults": {},
+  "methodNames": [
+    "resize",
+    "reset"
+  ]
+}

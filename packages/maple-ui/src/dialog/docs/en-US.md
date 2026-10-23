@@ -1,10 +1,11 @@
 # Dialog
 
+## Examples
+
 ### Description
 
 Use `<mp-dialog>` for component usage and explicit `Dialog.*` methods for functional usage. Both forms share one configuration model. Callable `Dialog(...)` is not supported.
 
-## Examples
 
 The sections below follow the same order as the controls in the mobile preview.
 
@@ -14,18 +15,6 @@ Component dialogs show the top-right close button by default.
 
 ```demo
 ../example/demos/basic-usage.vue
-```
-
-### Async Close
-
-`beforeClose` closes only after `done()` is called. Functional calls default to `simple: true` and `closable: false`.
-
-
-
-Component dialogs support the same interception and loading refs through `before-close`.
-
-```demo
-../example/demos/async-close.vue
 ```
 
 ### Function Calls
@@ -41,7 +30,6 @@ Component dialogs support the same interception and loading refs through `before
 ```
 
 ### Confirm Box
-
 
 
 The component version uses the same `type="warning"`.
@@ -99,6 +87,26 @@ The preview demonstrates hidden footer, hidden title, custom body, and unmount-o
 ```demo
 ../example/demos/long-content.vue
 ```
+
+### Async Close
+
+`beforeClose` closes only after `done()` is called. Functional calls default to `simple: true` and `closable: false`.
+
+
+Component dialogs support the same interception and loading refs through `before-close`.
+
+```demo
+../example/demos/async-close.vue
+```
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

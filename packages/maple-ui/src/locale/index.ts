@@ -9,6 +9,17 @@ import zhHK from './zh-HK'
 import zhTW from './zh-TW'
 
 export type Message = {
+  'fieldPresentation.selectionCount': string
+  'fieldPresentation.selectionRemove': string
+  'fieldPresentation.selectionBack': string
+  'fieldPresentation.selectionEmpty': string
+
+  'fieldPresentation.edit': string
+  'fieldPresentation.close': string
+  'fieldPresentation.search': string
+  'fieldPresentation.selected': string
+  'fieldPresentation.limit': string
+
   'carousel.label': string
   'carousel.previous': string
   'carousel.next': string
@@ -45,9 +56,18 @@ export type Message = {
   cascaderPickerAddButtonText: string
   cascaderPickerDoneButtonText: string
   // date-picker
+  datePickerPreviousMonth: string
+  datePickerNextMonth: string
+  datePickerPreviousYear: string
+  datePickerNextYear: string
+  datePickerPreviousPeriod: string
+  datePickerNextPeriod: string
   datePickerMonthDict: Record<Month, { name: string; abbr: string }>
   datePickerWeekDict: Record<Week, { name: string; abbr: string }>
   datePickerSelected: string
+  dateRangeOrderError: string
+  dateTimeRangeOrderError: string
+  timeRangeOrderError: string
   datePickerNowButtonText: string
   datePickerHint: string
   datePickerColumnYear: string
@@ -66,6 +86,8 @@ export type Message = {
   paginationTotal: string
   // time-picker
   timePickerHint: string
+  dateRangeStart: string
+  dateRangeEnd: string
   // time-range
   timeRangeStart: string
   timeRangeEnd: string

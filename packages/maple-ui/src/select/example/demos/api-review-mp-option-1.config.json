@@ -1,0 +1,54 @@
+{
+  "fields": [
+    {
+      "name": "value",
+      "description": "选项值，未传时取 label 或默认插槽文本",
+      "type": "string | number | boolean | Record<string, unknown>",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "label",
+      "description": "搜索与已选标签使用的文本",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "disabled",
+      "description": "禁止选择与移除",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "tag-props",
+      "description": "已选标签属性",
+      "type": "TagProps",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "index",
+      "description": "手动指定选项顺序",
+      "type": "number",
+      "defaultValue": "undefined",
+      "kind": "number"
+    }
+  ],
+  "methodNames": [],
+  "events": [],
+  "slotNames": [
+    "default",
+    "icon",
+    "suffix"
+  ],
+  "slotDefaults": {
+    "default": true,
+    "icon": true,
+    "suffix": true
+  },
+  "scenarios": []
+}

@@ -62,7 +62,7 @@ export function useTimePanel<T extends TimePanelValue>(
     return true
   }
 
-  function select(value: T) {
+  function select(value: T, immediate = options.disableConfirm) {
     if (blocked.value || Array.isArray(value) !== range()) {
       return false
     }
@@ -74,7 +74,7 @@ export function useTimePanel<T extends TimePanelValue>(
     draft.value = cloneFieldValue(value)
     const output = format(value)
     events.select(output, getTimeEventDates(output, options))
-    if (options.disableConfirm) {
+    if (immediate) {
       confirm()
     }
     return true

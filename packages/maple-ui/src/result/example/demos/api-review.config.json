@@ -1,0 +1,103 @@
+{
+  "fields": [
+    {
+      "name": "status",
+      "description": "info / success / warning / danger / question / empty / 403 / 404 / 500",
+      "type": "\"info\" | \"success\" | \"warning\" | \"danger\" | \"question\" | \"empty\" | \"403\" | \"404\" | \"500\"",
+      "defaultValue": "'info'",
+      "kind": "enum",
+      "options": [
+        "info",
+        "success",
+        "warning",
+        "danger",
+        "question",
+        "empty",
+        "403",
+        "404",
+        "500"
+      ],
+      "initial": "info"
+    },
+    {
+      "name": "title",
+      "description": "标题",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "subtitle",
+      "description": "描述",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "image-size",
+      "description": "图片尺寸",
+      "type": "string | number",
+      "defaultValue": "undefined",
+      "kind": "scalar"
+    },
+    {
+      "name": "animation",
+      "description": "是否开启状态图形动画",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    }
+  ],
+  "events": [],
+  "scenarios": [
+    {
+      "name": "icon",
+      "kind": "slot",
+      "demos": []
+    },
+    {
+      "name": "title",
+      "kind": "slot",
+      "demos": [
+        "basic-usage.vue",
+        "type.vue"
+      ]
+    },
+    {
+      "name": "subtitle",
+      "kind": "slot",
+      "demos": [
+        "basic-usage.vue",
+        "type.vue"
+      ]
+    },
+    {
+      "name": "extra",
+      "kind": "slot",
+      "demos": [
+        "basic-usage.vue",
+        "type.vue"
+      ]
+    },
+    {
+      "name": "default",
+      "kind": "slot",
+      "demos": []
+    }
+  ],
+  "slotNames": [
+    "extra",
+    "icon",
+    "title",
+    "subtitle",
+    "default"
+  ],
+  "slotDefaults": {
+    "extra": true,
+    "icon": false,
+    "title": false,
+    "subtitle": false,
+    "default": false
+  },
+  "methodNames": []
+}

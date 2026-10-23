@@ -6,7 +6,6 @@ import { t, use } from './locale'
 const ranges = reactive({
   basic: ['2024-01-01', '2024-01-15'],
   calendar: ['2024-01-01', '2024-12-31'],
-  dateTimeClock: ['2025-01-15 10:29', '2025-01-16 11:29'],
   dateTimeCalendarPicker: ['2025-01-15 10:29', '2025-01-16 11:29'],
   dateTimePicker: ['2025-01-15 10:29', '2025-01-16 11:29'],
   year: ['2020', '2024'],
@@ -24,9 +23,6 @@ onThemeChange()
 
   <app-type>{{ t('calendarMode') }}</app-type>
   <mp-date-range-picker v-model="ranges.calendar" presentation="calendar" />
-
-  <app-type>{{ t('dateTimeClock') }}</app-type>
-  <mp-date-range-picker v-model="ranges.dateTimeClock" show-time :use-seconds="false" presentation="calendarClock" />
 
   <app-type>{{ t('dateTimeCalendarPicker') }}</app-type>
   <mp-date-range-picker

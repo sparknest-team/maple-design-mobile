@@ -1,3 +1,20 @@
+
+
+# HighlighterProvider
+
+Provide a shared syntax highlighter configuration to code displays.
+
+## Examples
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
+
 ## API
 
 ### Props

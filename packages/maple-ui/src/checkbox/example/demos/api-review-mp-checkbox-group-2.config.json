@@ -1,0 +1,100 @@
+{
+  "fields": [
+    {
+      "name": "model-value",
+      "description": "受控值",
+      "type": "ChoiceValue[]",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "[]"
+    },
+    {
+      "name": "default-value",
+      "description": "非受控初始值",
+      "type": "ChoiceValue[]",
+      "defaultValue": "[]",
+      "kind": "json",
+      "initial": "[]"
+    },
+    {
+      "name": "disabled",
+      "description": "禁用，未设置时继承表单",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
+      "name": "readonly",
+      "description": "只读，未设置时继承表单",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
+      "name": "error",
+      "description": "错误态，未设置时继承表单",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
+      "name": "max",
+      "description": "最多可选数量",
+      "type": "number",
+      "defaultValue": "undefined",
+      "kind": "number"
+    },
+    {
+      "name": "direction",
+      "description": "布局方向，可选值为 horizontal vertical",
+      "type": "string",
+      "defaultValue": "horizontal",
+      "kind": "string"
+    },
+    {
+      "name": "options",
+      "description": "选项；传入时替代默认插槽",
+      "type": "Array<ChoiceValue | CheckboxOption | Record<string, unknown>>",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "field-names",
+      "description": "选项字段映射",
+      "type": "ChoiceFieldNames",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "name",
+      "description": "组内原生输入字段名",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "aria-label",
+      "description": "分组无障碍名称",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    }
+  ],
+  "methodNames": [
+    "check-all",
+    "inverse-all"
+  ],
+  "events": [
+    "update:modelValue",
+    "change"
+  ],
+  "slotNames": [
+    "label"
+  ],
+  "slotDefaults": {
+    "label": true
+  },
+  "scenarios": []
+}

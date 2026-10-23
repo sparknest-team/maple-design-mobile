@@ -18,7 +18,7 @@ function navigate(value: unknown) {
 <template>
   <div>
     <p>Selected: {{ selected }}; viewport: {{ viewport }}</p>
-    <label><input v-model="acceptNavigation" type="checkbox" /> Accept viewport navigation</label>
+    <mp-checkbox v-model="acceptNavigation">Accept viewport navigation</mp-checkbox>
     <mp-date-picker
       v-model="selected"
       :picker-value="viewport"

@@ -1,6 +1,7 @@
 <script setup>
 import { computed, reactive, ref, toRefs } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
+import DemoApiReview from './demos/api-review.vue'
 import AsyncOptionsDemo from './demos/async-options.vue'
 import BasicUsageDemo from './demos/basic-usage.vue'
 import CheckboxGroupOptionsDemo from './demos/checkbox-group-options.vue'
@@ -25,6 +26,7 @@ import OptionDataDemo from './demos/option-data.vue'
 import ReadonlyDemo from './demos/readonly.vue'
 import SetStateDemo from './demos/set-state.vue'
 import SetStyleDemo from './demos/set-style.vue'
+import OrganizedStateLab from './demos/state-lab.vue'
 import VerticalDemo from './demos/vertical.vue'
 
 const values = reactive({
@@ -72,16 +74,6 @@ onThemeChange()
     <BasicUsageDemo />
   </section>
 
-  <section data-demo="set-state">
-    <app-type>{{ english ? 'Set State Value' : '设置状态值' }}</app-type>
-    <SetStateDemo />
-  </section>
-
-  <section data-demo="set-style">
-    <app-type>{{ english ? 'Modify The Icon And Color' : '修改图标和颜色' }}</app-type>
-    <SetStyleDemo />
-  </section>
-
   <section data-demo="disabled">
     <app-type>{{ english ? 'Disabled' : '禁用' }}</app-type>
     <DisabledDemo />
@@ -90,6 +82,16 @@ onThemeChange()
   <section data-demo="readonly">
     <app-type>{{ english ? 'Readonly' : '只读' }}</app-type>
     <ReadonlyDemo />
+  </section>
+
+  <section data-demo="set-state">
+    <app-type>{{ english ? 'Set State Value' : '设置状态值' }}</app-type>
+    <SetStateDemo />
+  </section>
+
+  <section data-demo="set-style">
+    <app-type>{{ english ? 'Modify The Icon And Color' : '修改图标和颜色' }}</app-type>
+    <SetStyleDemo />
   </section>
 
   <section data-demo="indeterminate">
@@ -125,10 +127,6 @@ onThemeChange()
     <app-type>{{ english ? 'Group state and readonly' : '分组状态与只读' }}</app-type>
     <EnglishGroupStateDemo v-if="english" /><GroupStateDemo v-else />
   </section>
-  <section data-demo="async-options">
-    <app-type>{{ english ? 'Asynchronous options' : '异步选项' }}</app-type>
-    <EnglishAsyncOptionsDemo v-if="english" /><AsyncOptionsDemo v-else />
-  </section>
   <section data-demo="control-value">
     <app-type>{{ english ? 'Standalone values and methods' : '独立值模型与方法' }}</app-type>
     <EnglishControlValueDemo v-if="english" /><ControlValueDemo v-else />
@@ -138,15 +136,24 @@ onThemeChange()
     <EnglishOptionDataDemo v-if="english" /><OptionDataDemo v-else />
   </section>
   <section data-demo="group-methods">
-    <app-type>{{ english ? 'Group methods' : '分组批量方法' }}</app-type>
+    <app-type>{{ english ? 'Group bulk methods' : '分组批量方法' }}</app-type>
     <EnglishGroupMethodsDemo v-if="english" /><GroupMethodsDemo v-else />
   </section>
   <section data-demo="native-control">
-    <app-type>{{ english ? 'Native controls and keyboard' : '原生控件与键盘' }}</app-type>
+    <app-type>{{ english ? 'Native controls and appearance' : '原生控件与外观' }}</app-type>
     <EnglishNativeControlDemo v-if="english" /><NativeControlDemo v-else />
   </section>
   <section data-demo="custom-control">
-    <app-type>{{ english ? 'Custom control appearance' : '自定义控件外观' }}</app-type>
+    <app-type>{{ english ? 'Custom control slot' : '自定义控件插槽' }}</app-type>
     <EnglishCustomControlDemo v-if="english" /><CustomControlDemo v-else />
   </section>
+  <section data-demo="state-lab">
+    <app-type>{{ english ? 'Interaction states' : '交互状态切换' }}</app-type>
+    <OrganizedStateLab />
+  </section>
+  <section data-demo="async-options">
+    <app-type>{{ english ? 'Asynchronous options' : '异步选项' }}</app-type>
+    <EnglishAsyncOptionsDemo v-if="english" /><AsyncOptionsDemo v-else />
+  </section>
+  <section data-demo="api-review"><DemoApiReview /></section>
 </template>

@@ -25,6 +25,12 @@ export default defineConfig({
   pc: {
     header: {
       playground: process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://maplejs.org/playground',
+      themes: [
+        { 'zh-CN': '默认亮色', 'en-US': 'Default Light', value: 'lightTheme' },
+        { 'zh-CN': '默认暗色', 'en-US': 'Default Dark', value: 'darkTheme' },
+        { 'zh-CN': '枫叶亮色', 'en-US': 'Maple Light', value: 'mapleLightTheme' },
+        { 'zh-CN': '枫叶暗色', 'en-US': 'Maple Dark', value: 'mapleDarkTheme' },
+      ],
     },
     menu: [
       {
@@ -271,18 +277,18 @@ export default defineConfig({
       },
       {
         text: {
-          'zh-CN': 'Link 链接',
-          'en-US': 'Link',
-        },
-        doc: 'link',
-        type: 2,
-      },
-      {
-        text: {
           'zh-CN': 'Icon 图标',
           'en-US': 'Icon',
         },
         doc: 'icon',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'Link 链接',
+          'en-US': 'Link',
+        },
+        doc: 'link',
         type: 2,
       },
       {
@@ -308,6 +314,16 @@ export default defineConfig({
         },
         type: 1,
       },
+      { text: { 'zh-CN': 'Row 行', 'en-US': 'Row' }, doc: 'row', type: 2 },
+      { text: { 'zh-CN': 'Col 列', 'en-US': 'Col' }, doc: 'col', type: 2 },
+      {
+        text: {
+          'zh-CN': 'Grid 栅格',
+          'en-US': 'Grid',
+        },
+        doc: 'grid',
+        type: 2,
+      },
       {
         text: {
           'zh-CN': 'Space 间距',
@@ -318,36 +334,10 @@ export default defineConfig({
       },
       {
         text: {
-          'zh-CN': 'Grid 栅格',
-          'en-US': 'Grid',
-        },
-        doc: 'grid',
-        type: 2,
-      },
-      { text: { 'zh-CN': 'Row 行', 'en-US': 'Row' }, doc: 'row', type: 2 },
-      { text: { 'zh-CN': 'Col 列', 'en-US': 'Col' }, doc: 'col', type: 2 },
-      {
-        text: {
-          'zh-CN': 'Affix 粘性布局',
-          'en-US': 'Affix',
-        },
-        doc: 'affix',
-        type: 2,
-      },
-      {
-        text: {
           'zh-CN': 'Divider 分割线',
           'en-US': 'Divider',
         },
         doc: 'divider',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': 'Paper 纸张',
-          'en-US': 'Paper',
-        },
-        doc: 'paper',
         type: 2,
       },
       {
@@ -367,10 +357,10 @@ export default defineConfig({
       },
       {
         text: {
-          'zh-CN': 'DropdownMenu 下拉命令菜单',
-          'en-US': 'DropdownMenu',
+          'zh-CN': 'Menu 菜单',
+          'en-US': 'Menu',
         },
-        doc: 'dropdown-menu',
+        doc: 'menu',
         type: 2,
       },
       {
@@ -379,6 +369,14 @@ export default defineConfig({
           'en-US': 'SplitButton',
         },
         doc: 'split-button',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'PageHeader 导航栏',
+          'en-US': 'PageHeader',
+        },
+        doc: 'page-header',
         type: 2,
       },
       {
@@ -395,14 +393,6 @@ export default defineConfig({
           'en-US': 'Steps',
         },
         doc: 'steps',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': 'PageHeader 导航栏',
-          'en-US': 'PageHeader',
-        },
-        doc: 'page-header',
         type: 2,
       },
       {
@@ -454,10 +444,26 @@ export default defineConfig({
       },
       {
         text: {
-          'zh-CN': 'Search 搜索',
-          'en-US': 'Search',
+          'zh-CN': 'InputNumber 数字输入框',
+          'en-US': 'InputNumber',
         },
-        doc: 'search',
+        doc: 'input-number',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'NumberKeyboard 数字键盘',
+          'en-US': 'NumberKeyboard',
+        },
+        doc: 'number-keyboard',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'VerificationCode 验证码输入',
+          'en-US': 'VerificationCode',
+        },
+        doc: 'verification-code',
         type: 2,
       },
       {
@@ -466,6 +472,14 @@ export default defineConfig({
           'en-US': 'AutoComplete',
         },
         doc: 'auto-complete',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'Search 搜索',
+          'en-US': 'Search',
+        },
+        doc: 'search',
         type: 2,
       },
       {
@@ -494,48 +508,6 @@ export default defineConfig({
       },
       {
         text: {
-          'zh-CN': 'Date 日期字段',
-          'en-US': 'Date',
-        },
-        doc: 'date',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': 'DateRange 日期范围字段',
-          'en-US': 'DateRange',
-        },
-        doc: 'date-range',
-        type: 2,
-      },
-
-      {
-        text: {
-          'zh-CN': 'Time 时间字段',
-          'en-US': 'Time',
-        },
-        doc: 'time',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': 'TimeRange 时间范围字段',
-          'en-US': 'TimeRange',
-        },
-        doc: 'time-range',
-        type: 2,
-      },
-
-      {
-        text: {
-          'zh-CN': 'Radio 单选框',
-          'en-US': 'Radio',
-        },
-        doc: 'radio',
-        type: 2,
-      },
-      {
-        text: {
           'zh-CN': 'Checkbox 复选框',
           'en-US': 'Checkbox',
         },
@@ -544,26 +516,10 @@ export default defineConfig({
       },
       {
         text: {
-          'zh-CN': 'InputNumber 数字输入框',
-          'en-US': 'InputNumber',
+          'zh-CN': 'Radio 单选框',
+          'en-US': 'Radio',
         },
-        doc: 'input-number',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': 'NumberKeyboard 数字键盘',
-          'en-US': 'NumberKeyboard',
-        },
-        doc: 'number-keyboard',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': 'VerificationCode 验证码输入',
-          'en-US': 'VerificationCode',
-        },
-        doc: 'verification-code',
+        doc: 'radio',
         type: 2,
       },
       {
@@ -588,6 +544,38 @@ export default defineConfig({
           'en-US': 'Rate',
         },
         doc: 'rate',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'Date 日期字段',
+          'en-US': 'Date',
+        },
+        doc: 'date',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'DateRange 日期范围字段',
+          'en-US': 'DateRange',
+        },
+        doc: 'date-range',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'Time 时间字段',
+          'en-US': 'Time',
+        },
+        doc: 'time',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'TimeRange 时间范围字段',
+          'en-US': 'TimeRange',
+        },
+        doc: 'time-range',
         type: 2,
       },
       {
@@ -703,6 +691,14 @@ export default defineConfig({
       },
       {
         text: {
+          'zh-CN': 'Paper 纸张',
+          'en-US': 'Paper',
+        },
+        doc: 'paper',
+        type: 2,
+      },
+      {
+        text: {
           'zh-CN': 'Card 卡片',
           'en-US': 'Card',
         },
@@ -751,6 +747,14 @@ export default defineConfig({
       },
       {
         text: {
+          'zh-CN': 'Popover 气泡卡片',
+          'en-US': 'Popover',
+        },
+        doc: 'popover',
+        type: 2,
+      },
+      {
+        text: {
           'zh-CN': 'Tooltip 文字提示',
           'en-US': 'Tooltip',
         },
@@ -759,10 +763,10 @@ export default defineConfig({
       },
       {
         text: {
-          'zh-CN': 'Popover 气泡卡片',
-          'en-US': 'Popover',
+          'zh-CN': 'Trigger 浮层定位',
+          'en-US': 'Trigger',
         },
-        doc: 'popover',
+        doc: 'trigger',
         type: 2,
       },
       {
@@ -798,6 +802,14 @@ export default defineConfig({
       },
       {
         text: {
+          'zh-CN': 'Overlay 遮罩层',
+          'en-US': 'Overlay',
+        },
+        doc: 'overlay',
+        type: 2,
+      },
+      {
+        text: {
           'zh-CN': 'Dialog 对话框',
           'en-US': 'Dialog',
         },
@@ -826,14 +838,6 @@ export default defineConfig({
           'en-US': 'Popup',
         },
         doc: 'popup',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': 'Overlay 遮罩层',
-          'en-US': 'Overlay',
-        },
-        doc: 'overlay',
         type: 2,
       },
       {
@@ -894,18 +898,18 @@ export default defineConfig({
       },
       {
         text: {
-          'zh-CN': 'Drag 拖拽',
-          'en-US': 'Drag',
+          'zh-CN': '其他',
+          'en-US': 'Others',
         },
-        doc: 'drag',
-        type: 2,
+        type: 1,
       },
       {
         text: {
-          'zh-CN': '指令与其它',
-          'en-US': 'Directives & Others',
+          'zh-CN': 'Affix 固钉',
+          'en-US': 'Affix',
         },
-        type: 1,
+        doc: 'affix',
+        type: 2,
       },
       {
         text: {
@@ -929,6 +933,14 @@ export default defineConfig({
           'en-US': 'Ripple',
         },
         doc: 'ripple',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'Drag 拖拽',
+          'en-US': 'Drag',
+        },
+        doc: 'drag',
         type: 2,
       },
       {

@@ -1,4 +1,5 @@
 import type { ExtractPublicPropTypes, PropType } from 'vue'
+import { fieldPresentationProps } from '../_components/field-presentation/props'
 import type { ComponentSize } from '../utils/constants'
 
 export const switchVariants = ['circle', 'round', 'line', 'tonal'] as const
@@ -9,6 +10,7 @@ export type SwitchValue = string | number | boolean
 export type SwitchBeforeChange = (nextValue: SwitchValue) => boolean | void | Promise<boolean | void>
 
 export const switchProps = {
+  ...fieldPresentationProps,
   /** 受控值；省略时使用内部状态 */
   modelValue: { type: [String, Number, Boolean] as PropType<SwitchValue>, default: undefined },
   /** 非受控初始选中状态 */

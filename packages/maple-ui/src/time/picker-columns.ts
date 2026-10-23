@@ -14,6 +14,17 @@ export function formatTimeLabel(value: TimeValue | undefined, rules: FormattedTi
   return formatTimeValue(value, rules) ?? ''
 }
 
+export function getTimePickerColumnLabels(rules: FormattedTimeRules, translate: (key: string) => string) {
+  const format = resolveTimeFormat(rules)
+  const hours = format.columns.includes('H') || format.columns.includes('h')
+  return [
+    ...(hours ? [translate('datePickerColumnHour')] : []),
+    ...(format.columns.includes('m') ? [translate('datePickerColumnMinute')] : []),
+    ...(format.columns.includes('s') ? [translate('datePickerColumnSecond')] : []),
+    ...(hours && format.use12Hours ? ['AM/PM'] : []),
+  ]
+}
+
 /** Mobile wheel rendering stays local; candidate rules are independently copied across libraries. */
 export function getTimePickerState(
   value: TimeValue | undefined,

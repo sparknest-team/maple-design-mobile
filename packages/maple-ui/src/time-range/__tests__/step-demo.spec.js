@@ -1,8 +1,11 @@
 import { mount } from '@vue/test-utils'
 import { expect, it } from 'vitest'
+import { useDemoControls } from '../../../test-utils/demo-controls'
 import Space from '../../space'
 import Demo from '../example/demos/step.vue'
 import TimeRange from '../index'
+
+useDemoControls()
 
 it('12-hour step demo changes presentation without rewriting the formatted model or intervals', async () => {
   const wrapper = mount(Demo, { global: { components: { MpTimeRange: TimeRange, MpSpace: Space } } })

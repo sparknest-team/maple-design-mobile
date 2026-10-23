@@ -1,5 +1,5 @@
 <template>
-  <component :is="presentations[presentation].component" :controller="controller">
+  <component :is="presentations.inline.component" :controller="controller">
     <template #reference>
       <SelectionField
         ref="fieldRef"

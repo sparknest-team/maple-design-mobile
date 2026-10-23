@@ -1,8 +1,11 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { expect, it } from 'vitest'
+import { useDemoControls } from '../../../test-utils/demo-controls'
 import Demo from '../example/demos/default-state.vue'
 import TimeRange from '../index'
+
+useDemoControls()
 
 it('controlled demo rejects proposals without mutating parent state, then accepts new requests', async () => {
   const wrapper = mount(Demo, { global: { components: { MpTimeRange: TimeRange } } })

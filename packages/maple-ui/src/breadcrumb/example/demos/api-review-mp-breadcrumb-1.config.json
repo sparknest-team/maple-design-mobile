@@ -1,0 +1,39 @@
+{
+  "fields": [
+    {
+      "name": "separator",
+      "description": "分隔符",
+      "type": "string | number",
+      "defaultValue": "'/'",
+      "kind": "scalar"
+    },
+    {
+      "name": "max-count",
+      "description": "最多展示的正常面包屑项数量，不包含 more；0 表示不限制",
+      "type": "number",
+      "defaultValue": "0",
+      "kind": "number"
+    },
+    {
+      "name": "routes",
+      "description": "路径数据（非空时优先；为空时使用默认插槽）",
+      "type": "BreadcrumbRoute[]",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "[]"
+    }
+  ],
+  "methodNames": [],
+  "events": [],
+  "slotNames": [
+    "separator",
+    "item-render",
+    "more-icon"
+  ],
+  "slotDefaults": {
+    "separator": false,
+    "item-render": false,
+    "more-icon": true
+  },
+  "scenarios": []
+}

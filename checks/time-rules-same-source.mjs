@@ -2,11 +2,12 @@ import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import ts from 'typescript'
 
 const workspace = fileURLToPath(new URL('../../', import.meta.url))
 const cedar = resolve(workspace, 'cedar-design-web/packages/cedar-ui/src')
 const maple = resolve(workspace, 'maple-design-mobile/packages/maple-ui/src')
-for (const [left, right] of [
+const sourcePairs = [
   ['_utils/picker-data.ts', 'utils/picker-data.ts'],
   ['time/time-rules.ts', 'time/time-rules.ts'],
   ['time/__tests__/text-entry.test.ts', 'time/__tests__/text-entry.test.ts'],
@@ -39,9 +40,11 @@ for (const [left, right] of [
   ['time/__tests__/time-step.test.ts', 'time/__tests__/time-step.test.ts'],
   ['trigger/interaction.ts', 'trigger/interaction.ts'],
   ['trigger/__tests__/interaction.spec.js', 'trigger/__tests__/interaction.spec.js'],
+  ['trigger/__tests__/interaction-scope.spec.js', 'trigger/__tests__/interaction-scope.spec.js'],
   ['time/__tests__/time-constraints.test.ts', 'time/__tests__/time-constraints.test.ts'],
   ['time/__tests__/time-rules.test.ts', 'time/__tests__/time-rules.test.ts'],
-]) {
+]
+for (const [left, right] of sourcePairs) {
   const normalize = (source) =>
     source
       .replaceAll('_utils/picker-data', 'utils/picker-data')
@@ -79,12 +82,30 @@ for (const template of templates) {
 }
 const rangeOwnerBody = (root, path) => {
   const source = readFileSync(resolve(root, path), 'utf8')
-  return source.slice(source.indexOf('const panel ='), source.indexOf('const content =')).replace(/\s+/g, ' ').trim()
+  const script = source.match(/<script\b[^>]*>([\s\S]*?)<\/script>/)?.[1]
+  assert.ok(script, `${path}: missing script`)
+  const file = ts.createSourceFile(path, script, ts.ScriptTarget.Latest, true, ts.ScriptKind.TS)
+  const declaration = file.statements
+    .filter(ts.isVariableStatement)
+    .flatMap((statement) => [...statement.declarationList.declarations])
+    .find((item) => ts.isIdentifier(item.name) && item.name.text === 'panel')
+  const call = declaration?.initializer
+  assert.ok(
+    call && ts.isCallExpression(call) && ts.isIdentifier(call.expression) && call.expression.text === 'useTimePanel',
+    `${path}: panel must initialize the shared time owner`,
+  )
+  // Compare the owner call and its events, excluding device-specific presentation setup.
+  return call.getText(file).replace(/\s+/g, ' ').trim()
 }
 assert.equal(
   rangeOwnerBody(cedar, 'time/picker/TimeRangePicker.vue'),
   rangeOwnerBody(maple, 'time-range/TimeRangePicker.vue'),
   'range owner event wiring',
+)
+assert.match(
+  readFileSync(resolve(maple, 'time-range/TimeRangePicker.vue'), 'utf8'),
+  /provideRangePanel\(\)/,
+  'mobile range wheels must provide the active endpoint context',
 )
 for (const [root, path] of [
   [cedar, 'time/TimeField.vue'],
@@ -131,5 +152,5 @@ for (const root of [cedar, maple]) {
   assert.match(view, /@commit="state.commitText"/)
 }
 console.log(
-  'Time foundation: 34 independent source/test pairs, 4 panel and 2 field presentation boundaries verified; field owners copied, local views remain independent.',
+  `Time foundation: ${sourcePairs.length} independent source/test pairs, 4 panel and 2 field presentation boundaries verified; field owners copied, local views remain independent.`,
 )

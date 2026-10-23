@@ -1,0 +1,192 @@
+{
+  "fields": [
+    {
+      "name": "variant",
+      "description": "卡片外观",
+      "type": "\"default\" | \"outline\" | \"tonal\"",
+      "defaultValue": "'default'",
+      "kind": "enum",
+      "options": [
+        "default",
+        "outline",
+        "tonal"
+      ],
+      "initial": "default"
+    },
+    {
+      "name": "size",
+      "description": "内容密度；省略时按平台规则回退，见下方说明",
+      "type": "sm / md",
+      "defaultValue": "undefined",
+      "kind": "enum",
+      "options": [
+        "sm",
+        "md"
+      ],
+      "initial": "sm"
+    },
+    {
+      "name": "direction",
+      "description": "封面与正文排列",
+      "type": "\"row\" | \"column\" | \"row-reverse\"",
+      "defaultValue": "'column'",
+      "kind": "enum",
+      "options": [
+        "row",
+        "column",
+        "row-reverse"
+      ],
+      "initial": "column"
+    },
+    {
+      "name": "hoverable",
+      "description": "悬浮样式",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "title-style",
+      "description": "标题行样式",
+      "type": "CSSProperties",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "title",
+      "description": "标题",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "subtitle",
+      "description": "副标题",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "description",
+      "description": "描述",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "top-divider",
+      "description": "上分割线",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "bottom-divider",
+      "description": "下分割线",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "src",
+      "description": "封面图片地址；cover 插槽优先",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "fit",
+      "description": "封面图片填充方式",
+      "type": "'fill' | 'contain' | 'cover' | 'none' | 'scale-down'",
+      "defaultValue": "'cover'",
+      "kind": "enum",
+      "options": [
+        "fill",
+        "contain",
+        "cover",
+        "none",
+        "scale-down"
+      ],
+      "initial": "cover"
+    },
+    {
+      "name": "image-height",
+      "description": "封面图片高度，数字单位为 px",
+      "type": "string / number",
+      "defaultValue": "undefined",
+      "kind": "scalar"
+    },
+    {
+      "name": "image-width",
+      "description": "封面图片宽度，数字单位为 px",
+      "type": "string / number",
+      "defaultValue": "undefined",
+      "kind": "scalar"
+    },
+    {
+      "name": "alt",
+      "description": "封面图片替代文本",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "elevation",
+      "description": "default 变体阴影；true 为等级 1，false 为无阴影，数字范围 0～24",
+      "type": "boolean / number",
+      "defaultValue": "true",
+      "kind": "json",
+      "initial": "true"
+    },
+    {
+      "name": "ripple",
+      "description": "点击水波",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "floating",
+      "description": "全屏展开状态，支持 v-model:floating",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "floating-duration",
+      "description": "全屏展开与关闭动画时长，单位 ms",
+      "type": "number",
+      "defaultValue": "250",
+      "kind": "number"
+    }
+  ],
+  "methodNames": [],
+  "events": [
+    "click",
+    "update:floating"
+  ],
+  "slotNames": [
+    "cover",
+    "title",
+    "title-action",
+    "subtitle",
+    "description",
+    "footer",
+    "header",
+    "floating-content",
+    "close-button"
+  ],
+  "slotDefaults": {
+    "cover": true,
+    "title": true,
+    "title-action": true,
+    "subtitle": true,
+    "description": true,
+    "footer": true,
+    "header": false,
+    "floating-content": false,
+    "close-button": false
+  },
+  "scenarios": []
+}

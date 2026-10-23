@@ -30,7 +30,7 @@ describe('mobile time text presentation', () => {
       const input = wrapper.get('input')
       input.element.focus()
       await nextTick()
-      await input.setValue('11:00')
+      await input.setValue(Component === Time ? '11:00' : '08:00')
       expect(document.activeElement).toBe(input.element)
       await input.trigger('keydown', { key: 'ArrowDown' })
       await nextTick()

@@ -9,7 +9,7 @@ const use12Hours = ref(false)
 <template>
   <mp-space direction="column" :size="12" style="width: 100%">
     <p>小时步长 1，分钟步长 15，秒步长 10。</p>
-    <label><input v-model="use12Hours" type="checkbox" /> 12 小时面板，模型仍为 HH:mm:ss</label>
+    <mp-checkbox v-model="use12Hours">12 小时面板，模型仍为 HH:mm:ss</mp-checkbox>
     <mp-time-range
       v-model="value"
       format="HH:mm:ss"

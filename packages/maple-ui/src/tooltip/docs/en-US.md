@@ -2,6 +2,8 @@
 
 Provides a short description for a control, icon, or truncated text. It responds to hover and keyboard focus by default. Use Popover for interactive content.
 
+## Examples
+
 ### Basic usage
 
 ```demo
@@ -53,6 +55,23 @@ Tooltip implements only `md` and `xs`; the default is `md`.
 ```demo
 ../example/demos/disabled.vue
 ```
+
+### Appearance combinations
+
+Use this example for supplementary descriptions on hover. Adjust status, size and compare the component with the same data. Keep the content unchanged while comparing the available settings.
+
+```demo
+../example/demos/appearance-lab.vue
+```
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

@@ -451,14 +451,17 @@ describe('Upload controller concurrency and ownership', () => {
     await flushPromises()
     shown.value = false
     await nextTick()
-    gate.resolve(true)
-    await adding
     expect(read).not.toHaveBeenCalled()
     expect(request).not.toHaveBeenCalled()
     shown.value = true
     await nextTick()
-    await api.addFiles([item('b').file!])
+    const fresh = api.addFiles([item('b').file!])
     await flushPromises()
+    expect(read).toHaveBeenCalledTimes(1)
+    expect(request).toHaveBeenCalledTimes(1)
+    gate.resolve(true)
+    await adding
+    await fresh
     expect(read).toHaveBeenCalledTimes(1)
     expect(request).toHaveBeenCalledTimes(1)
   })

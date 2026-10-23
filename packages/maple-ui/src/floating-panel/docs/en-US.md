@@ -1,5 +1,7 @@
 # FloatingPanel
 
+## Examples
+
 ### Intro
 A panel floating at the bottom of the page, is often used to provide additional functionality or information, allowing users to freely drag up and down through content.
 
@@ -10,6 +12,15 @@ The demo is confined to a 400px container using `popup-container=false` and a lo
 ```demo
 ../example/demos/basic.vue
 ```
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 
@@ -47,7 +58,7 @@ Here are the CSS variables used by the component. Styles can be customized using
 | `--floating-panel-z-index` | `999` |
 | `--floating-panel-border-top` | `none` |
 | `--floating-panel-border-radius` | `0` |
-| `--floating-panel-background` | `var(--color-fill-2)` |
+| `--mp-floating-panel-background` | `var(--mp-sys-color-surface-overlay)` |
 | `--floating-panel-header-height` | `40px` |
 | `--floating-panel-toolbar-width` | `20px` |
 | `--floating-panel-toolbar-height` | `3px` |

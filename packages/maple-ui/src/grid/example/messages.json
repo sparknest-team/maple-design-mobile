@@ -3,12 +3,14 @@
     "basic": "列数、跨列与偏移",
     "collapse": "折叠行数与后缀插槽",
     "responsive": "响应式列数、间距与跨列",
-    "dynamic": "动态插入、删除与排序"
+    "dynamic": "动态插入、删除与排序",
+    "api-review": "功能调试"
   },
   "en-US": {
     "basic": "Columns, spans and offsets",
     "collapse": "Collapsed rows and suffix slot",
     "responsive": "Responsive columns, gaps and spans",
-    "dynamic": "Insert, remove and reorder"
+    "dynamic": "Insert, remove and reorder",
+    "api-review": "Feature playground"
   }
 }

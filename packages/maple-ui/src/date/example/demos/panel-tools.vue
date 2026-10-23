@@ -18,7 +18,7 @@ function navigate(value: unknown) {
 <template>
   <div>
     <p>选择值：{{ selected }}；视口：{{ viewport }}</p>
-    <label><input v-model="acceptNavigation" type="checkbox" /> 接受视口导航</label>
+    <mp-checkbox v-model="acceptNavigation">接受视口导航</mp-checkbox>
     <mp-date-picker
       v-model="selected"
       :picker-value="viewport"

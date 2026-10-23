@@ -1,6 +1,22 @@
 import { Message } from './index'
 
 export default {
+  'fieldPresentation.selectionCount': '{count} selected',
+  'fieldPresentation.selectionRemove': 'Remove',
+  'fieldPresentation.selectionBack': 'Back to options',
+  'fieldPresentation.selectionEmpty': 'No selected options',
+  'fieldPresentation.edit': 'Edit',
+  'fieldPresentation.close': 'Close',
+  'fieldPresentation.search': 'Search options',
+  'fieldPresentation.selected': 'Selected',
+  'fieldPresentation.limit': 'Select at most',
+
+  datePickerPreviousMonth: '前の月',
+  datePickerNextMonth: '次の月',
+  datePickerPreviousYear: '前の年',
+  datePickerNextYear: '次の年',
+  datePickerPreviousPeriod: '前の年の範囲',
+  datePickerNextPeriod: '次の年の範囲',
   'carousel.label': 'カルーセル',
   'carousel.previous': '前のスライド',
   'carousel.next': '次のスライド',
@@ -123,6 +139,9 @@ export default {
     },
   },
   datePickerSelected: '件選択済み',
+  dateRangeOrderError: '終了日は開始日以降にしてください。',
+  dateTimeRangeOrderError: '終了時刻は開始時刻以降にしてください。',
+  timeRangeOrderError: '終了時刻は開始時刻以降にしてください。',
   datePickerNowButtonText: '現在',
   datePickerHint: '日付を選択',
   datePickerColumnYear: '年',
@@ -143,6 +162,8 @@ export default {
   timePickerHint: '時間を選択',
   // time-range
   timeRangeStart: '開始時刻',
+  dateRangeStart: '開始日',
+  dateRangeEnd: '終了日',
   timeRangeEnd: '終了時刻',
   timeRangeNextDay: '翌日',
 } satisfies Message

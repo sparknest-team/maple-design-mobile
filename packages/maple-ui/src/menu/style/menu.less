@@ -1,0 +1,33 @@
+.mp-menu {
+  &__panel {
+    min-width: max-content;
+    border-radius: var(--mp-menu-border-radius);
+    background-color: var(--mp-menu-background-color);
+    border: 1px solid var(--mp-menu-border-color);
+  }
+
+  &--submenu {
+    margin-top: calc(0px - var(--mp-menu-padding-vertical));
+  }
+
+  &__list {
+    margin: 0;
+    padding: var(--mp-menu-padding);
+    list-style: none;
+  }
+
+  &--max-height {
+    overflow-y: auto;
+    max-height: var(--mp-menu-max-height);
+  }
+
+  &__divider {
+    height: 1px;
+    margin: var(--mp-menu-padding);
+    background-color: var(--mp-menu-border-color);
+  }
+
+  &__footer {
+    border-top: 1px solid var(--mp-menu-border-color);
+  }
+}

@@ -5,6 +5,7 @@ Paper 是承载内容的底层表面：背景、圆角、可选边框与阴影�
 适用于自定义面板、表单分区、侧栏底板以及弹层内部表面。Paper 不负责弹层定位、焦点管理，也不会自动赋予按钮语义。交互内容请使用 Button 等语义组件。
 
 
+## 案例
 
 ### basic usage
 
@@ -41,13 +42,30 @@ Paper 是承载内容的底层表面：背景、圆角、可选边框与阴影�
 ```demo
 ../example/demos/slot.vue
 ```
-## 示例
+
 
 ```html
 <mp-paper bordered>基础边框</mp-paper>
 <mp-paper bordered :elevation="2" style="padding: 16px">边框与阴影独立</mp-paper>
 <mp-paper :width="120" height="4rem" :radius="8" />
 ```
+
+## 动态属性
+
+边框与阴影独立；显式 radius 优先于 round。内部按钮提供键盘语义，父级统计 Paper click，不将表面容器伪装成按钮。
+
+```demo
+../example/demos/live-properties.vue
+```
+
+<!-- api-review:start -->
+### 功能调试
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

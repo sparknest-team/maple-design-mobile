@@ -1,7 +1,7 @@
 import { withInstall, withPropsDefaultsSetter } from '../utils/components'
-import _DateRange from './DateRange.vue'
 import _DateRangePicker from './DateRangePicker.vue'
 import { props as dateRangePickerProps } from './picker-props'
+import _DateRange from './presentation'
 import { props as dateRangeProps } from './props'
 
 const DateRangePicker = withInstall(_DateRangePicker)
@@ -36,7 +36,5 @@ export type { DateRangePickerType, DateRangePickerOptions } from './picker-props
 export type { DateRangeEmits, DateRangePickerEmits } from '../date/events'
 
 export type { DateRangeCalendarOptions } from './calendar-options'
-
-export type { DateTimePickerOptions } from '../date/time-picker-options'
 
 export type { DateWheelOptions } from '../date/wheel-options'

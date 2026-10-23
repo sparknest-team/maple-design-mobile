@@ -17,4 +17,13 @@ describe('text input value', () => {
   it('applies numeric normalization before the length limit', () => {
     expect(normalizeTextInputValue('1a2b3', { numeric: true, maxLength: 2 })).toBe('12')
   })
+
+  it('never splits a surrogate pair at the default UTF-16 boundary', () => {
+    expect(normalizeTextInputValue('123456789😀Z', { maxLength: 10 })).toBe('123456789')
+    expect(normalizeTextInputValue('12345678😀Z', { maxLength: 10 })).toBe('12345678😀')
+    expect(normalizeTextInputValue('😀Z', { maxLength: 1 })).toBe('')
+    expect(normalizeTextInputValue('😀Z', { maxLength: 2 })).toBe('😀')
+    expect(normalizeTextInputValue('😀Z', { maxLength: 1, errorOnly: true })).toBe('😀Z')
+    expect(normalizeTextInputValue('😀Z', { maxLength: 1, wordSlice: () => 'custom' })).toBe('custom')
+  })
 })

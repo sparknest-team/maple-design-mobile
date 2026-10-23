@@ -1,5 +1,7 @@
 # Statistic
 
+## Examples
+
 ### Introduction
 
 Highlight a number or a group of numbers with an optional description.
@@ -42,6 +44,8 @@ Show extra information below the value with `extra` or the `extra` slot.
 
 Turn on `animation` to tween the number. Control playback with `start`.
 
+The demo's Start button changes the parent's `start` from `false` to `true`, playing from `value-from` to the target. Repeated clicks do not replay it. Setting `start=false` pauses; switching back to `true` restarts from `value-from`, not the paused position. A replay button should set it to `false`, wait for one Vue update, then set it to `true`.
+
 ```demo
 ../example/demos/animation.vue
 ```
@@ -61,6 +65,15 @@ When `value` is omitted, the default slot can embed [Countdown](#/en-US/countdow
 ```demo
 ../example/demos/countdown.vue
 ```
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

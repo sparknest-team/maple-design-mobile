@@ -46,7 +46,7 @@ export function useTriggerKeyboard(options: {
       if (options.open.value) {
         options.cancel()
       }
-      // Native focus navigation (and the Popup's own focus trap) retains ownership.
+      // Native focus navigation retains ownership.
       return
     }
     if (options.blocked() || options.open.value || event.repeat) {

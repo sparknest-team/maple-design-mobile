@@ -1,0 +1,142 @@
+{
+  "fields": [
+    {
+      "name": "active-names",
+      "description": "当前展开面板的 name，支持 v-model:active-names",
+      "type": "(string | number)[]",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "[]"
+    },
+    {
+      "name": "default-active-names",
+      "description": "非受控初始展开面板",
+      "type": "(string | number)[]",
+      "defaultValue": "() => []",
+      "kind": "json",
+      "initial": "[]"
+    },
+    {
+      "name": "accordion",
+      "description": "手风琴模式，同时最多展开一项",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "show-expand-icon",
+      "description": "是否显示展开图标；未设置时由子项决定",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
+      "name": "expand-icon-position",
+      "description": "展开图标位置",
+      "type": "\"left\" | \"right\"",
+      "defaultValue": "'left'",
+      "kind": "enum",
+      "options": [
+        "left",
+        "right"
+      ],
+      "initial": "left"
+    },
+    {
+      "name": "bordered",
+      "description": "是否显示边框",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "divider",
+      "description": "是否显示面板分割线",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "offset",
+      "description": "展开面板是否显示间距",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "destroy-on-hide",
+      "description": "是否在隐藏时销毁内容",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    }
+  ],
+  "events": [
+    "update:activeNames",
+    "change"
+  ],
+  "scenarios": [
+    {
+      "name": "active-names",
+      "kind": "prop",
+      "demos": [
+        "basic.vue",
+        "accordion.vue",
+        "border-less.vue",
+        "custom.vue",
+        "destroy.vue",
+        "disabled.vue",
+        "divider.vue",
+        "expand-icon.vue",
+        "icon-position.vue",
+        "nested.vue",
+        "offset.vue",
+        "toggle-all.vue"
+      ]
+    },
+    {
+      "name": "default-active-names",
+      "kind": "prop",
+      "demos": [
+        "basic.vue",
+        "accordion.vue",
+        "border-less.vue",
+        "custom.vue",
+        "destroy.vue",
+        "disabled.vue",
+        "divider.vue",
+        "expand-icon.vue",
+        "icon-position.vue",
+        "nested.vue"
+      ]
+    },
+    {
+      "name": "default",
+      "kind": "slot",
+      "demos": [
+        "basic.vue",
+        "accordion.vue",
+        "border-less.vue",
+        "custom.vue",
+        "destroy.vue",
+        "disabled.vue",
+        "divider.vue",
+        "expand-icon.vue",
+        "icon-position.vue",
+        "nested.vue"
+      ]
+    },
+    {
+      "name": "toggle-all",
+      "kind": "method",
+      "demos": [
+        "toggle-all.vue"
+      ]
+    }
+  ],
+  "slotNames": [],
+  "slotDefaults": {},
+  "methodNames": [
+    "toggle-all"
+  ]
+}

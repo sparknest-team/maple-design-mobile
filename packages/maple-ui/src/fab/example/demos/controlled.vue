@@ -9,10 +9,10 @@ const active = ref(false)
   <span class="fab-demo-label">active: {{ active }}</span>
   <div class="fab-demo-stage">
     <mp-fab v-model:active="active" :fixed="false" :popup-container="false" status="primary">
-      <mp-button status="info" icon-container @click="active = false"
+      <mp-button status="info" variant="tonal" :elevation="false" @click="active = false"
         ><template #icon><m-icon-user-circle-fill /></template
       ></mp-button>
-      <mp-button status="success" icon-container @click="active = false"
+      <mp-button status="success" variant="tonal" :elevation="false" @click="active = false"
         ><template #icon><m-icon-checkbox-marked-circle-fill /></template
       ></mp-button>
     </mp-fab>

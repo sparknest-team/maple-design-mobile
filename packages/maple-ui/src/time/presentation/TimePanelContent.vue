@@ -1,91 +1,35 @@
 <template>
-  <div ref="picker" :class="classes(n(), formatElevation(elevation, 2), [useSeconds, n('--with-seconds')])">
+  <div :class="classes(n(), formatElevation(elevation, 2), [useSeconds, n('--with-seconds')])">
+    <div :class="n('column-labels')">
+      <span v-for="(label, index) in columnLabels" :key="index" :class="n('column-label')">{{ label }}</span>
+    </div>
     <mp-picker
-      v-if="presentation === 'picker'"
+      :class="n('wheel')"
       v-bind="pickerBindingProps"
       :toolbar="false"
+      :disabled="disabled || readonly"
       :columns="pickerColumns"
       :model-value="pickerValue"
       @change="handlePickerChange"
     />
-    <template v-else>
-      <div :class="n('title')" :style="{ background: titleColor || color }">
-        <div :class="n('title-hint')">{{ hint ?? (pt ? pt : t)('timePickerHint') }}</div>
-        <div :class="n('title-time-container')">
-          <div :class="n('title-time')">
-            <div
-              v-if="showHours"
-              :class="classes(n('title-btn'), [type === 'hour', n('title-btn--active')])"
-              role="button"
-              @click="checkPanel('hour')"
-            >
-              {{ time.hour }}
-            </div>
-            <span v-if="showHours && showMinutes" :class="n('title-splitter')">:</span>
-            <div
-              v-if="showMinutes"
-              :class="classes(n('title-btn'), [type === 'minute', n('title-btn--active')])"
-              role="button"
-              @click="checkPanel('minute')"
-            >
-              {{ time.minute }}
-            </div>
-            <span v-if="useSeconds && (showHours || showMinutes)" :class="n('title-splitter')">:</span>
-            <div
-              v-if="useSeconds"
-              :class="classes(n('title-btn'), [type === 'second', n('title-btn--active')])"
-              role="button"
-              @click="checkPanel('second')"
-            >
-              {{ time.second }}
-            </div>
-          </div>
-          <div v-if="showHours && clockFormat === 'ampm'" :class="n('title-ampm')">
-            <div :class="classes(n('title-btn'), [ampm === 'am', n('title-btn--active')])" @click="checkAmpm('am')">
-              AM
-            </div>
-            <div :class="classes(n('title-btn'), [ampm === 'pm', n('title-btn--active')])" @click="checkAmpm('pm')">
-              PM
-            </div>
-          </div>
-        </div>
-      </div>
-      <div :class="n('body')">
-        <div ref="container" :class="n('clock-container')" @touchstart="moveHand" @touchmove="moveHand" @touchend="end">
-          <transition :name="`${n()}-panel-fade`">
-            <clock
-              :key="type"
-              ref="inner"
-              :type="type"
-              :ampm="ampm"
-              :color="color"
-              :is-inner="isInner"
-              :format="clockFormat"
-              :disabled-hours="disabledHours"
-              :disabled-minutes="disabledMinutes"
-              :disabled-seconds="disabledSeconds"
-              :hide-disabled-options="hideDisabledOptions"
-              :rad="getRad"
-              :time="time"
-              :prevent-next-update="isPreventNextUpdate || syncingClock"
-              :use-seconds="useSeconds"
-              :step="step"
-              :max="max"
-              :min="min"
-              @update="update"
-              @change-prevent-update="changePreventUpdate"
-            />
-          </transition>
-        </div>
-      </div>
-    </template>
     <slot name="extra" />
-    <div v-if="!disableConfirm || $slots.actions" :class="n('actions')">
-      <slot name="actions" :confirm="confirm" :can-confirm="canConfirm" :value="draft">
+    <div
+      v-if="$slots.actions || (!hostActions && (showNowButton || !disableConfirm || confirmationRequired))"
+      :class="n('actions')"
+    >
+      <slot
+        name="actions"
+        :confirm="confirm"
+        :can-confirm="canConfirm"
+        :value="draft"
+        :select-now="selectNow"
+        :now-disabled="nowDisabled"
+      >
+        <component :is="nowAction" />
         <mp-button
-          v-if="!disableConfirm"
+          v-if="!disableConfirm || confirmationRequired"
           :class="n('confirm')"
-          variant="text"
+          status="primary"
           :disabled="!canConfirm"
           @click="
             () => {
@@ -101,13 +45,23 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, toRefs, type ExtractPropTypes, type PropType } from 'vue'
+import {
+  computed,
+  defineComponent,
+  h,
+  inject,
+  onBeforeUnmount,
+  toRefs,
+  type ExtractPropTypes,
+  type PropType,
+} from 'vue'
+import { editorAuxiliaryActions } from '../../_components/field-presentation/editor-actions'
 import MpButton from '../../button'
 import { t } from '../../locale'
 import { injectLocaleProvider } from '../../locale-provider/provide'
 import { _PickerComponent as MpPicker } from '../../picker'
 import { createNamespace, formatElevation } from '../../utils/components'
-import Clock from '../Clock.vue'
+import { getTimePickerColumnLabels } from '../picker-columns'
 import { props as panelProps } from '../picker-props'
 import type { TimeValue } from '../time-value'
 import type { useTimePanel } from '../use-time-panel'
@@ -118,16 +72,50 @@ const { n, classes } = createNamespace('time-picker')
 
 export default defineComponent({
   name: createNamespace('time-panel-content').name,
-  components: { MpButton, MpPicker, Clock },
+  components: { MpButton, MpPicker },
   props: {
     options: { type: Object as PropType<Readonly<ExtractPropTypes<typeof panelProps>>>, required: true },
     state: { type: Object as PropType<ContentState>, required: true },
   },
   setup(props) {
     const { t: pt } = injectLocaleProvider()
+    const hostActions = inject(editorAuxiliaryActions, undefined)
+    const nowAction = () =>
+      props.options.showNowButton
+        ? h(
+            MpButton,
+            {
+              variant: 'text',
+              disabled: props.state.nowDisabled.value,
+              onClick: () => {
+                props.state.selectNow()
+              },
+            },
+            () => (pt ?? t)('datePickerNowButtonText'),
+          )
+        : undefined
+    if (hostActions) {
+      hostActions.value = nowAction
+    }
+    onBeforeUnmount(() => {
+      if (hostActions?.value === nowAction) {
+        hostActions.value = undefined
+      }
+    })
 
-    // Reuse the owner's refs, including clock DOM refs; no duplicate model or draft.
-    return { ...toRefs(props.options), ...props.state, n, classes, formatElevation, t, pt }
+    // The owner supplies the only draft and confirmation transaction.
+    return {
+      hostActions,
+      nowAction,
+      ...toRefs(props.options),
+      ...props.state,
+      columnLabels: computed(() => getTimePickerColumnLabels(props.options, (key) => (pt ?? t)(key as any))),
+      n,
+      classes,
+      formatElevation,
+      t,
+      pt,
+    }
   },
 })
 </script>

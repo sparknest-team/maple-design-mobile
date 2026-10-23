@@ -1,5 +1,7 @@
 # TabBar
 
+## Examples
+
 ### Intro
 
 Display navigation and key actions at the bottom of the page.
@@ -8,6 +10,12 @@ Display navigation and key actions at the bottom of the page.
 
 ```demo
 ../example/demos/basic-usage.vue
+```
+
+### Variant
+
+```demo
+../example/demos/variant.vue
 ```
 
 ### Match By Name
@@ -52,12 +60,6 @@ The button is centered for an even number of tabs and right aligned for an odd n
 ../example/demos/fab.vue
 ```
 
-### Variant
-
-```demo
-../example/demos/variant.vue
-```
-
 ### Uncontrolled selection
 
 ```demo
@@ -81,6 +83,15 @@ The button is centered for an even number of tabs and right aligned for an odd n
 ```demo
 ../example/demos/async-change.vue
 ```
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 
@@ -201,4 +212,3 @@ When `z-index` is omitted, the component consumes `--mp-tab-bar-z-index`. An exp
 | ---- | ---- | ----|
 | `default` | Custom label text content that overwrites the content of `label`  | `active: boolean` |
 | `icon` | Custom Icon | `active: boolean` |
-

@@ -18,9 +18,9 @@ const props = defineProps({
 const emit = defineEmits<{ (event: 'change', page: number): void }>()
 const { n, classes } = createNamespace('pagination')
 const text = usePaginationLocale()
-const value = ref(props.simple ? String(props.current) : '')
+const value = ref(String(props.current))
 const reset = () => {
-  value.value = props.simple ? String(props.current) : ''
+  value.value = String(props.current)
 }
 let committing = false
 async function commit() {

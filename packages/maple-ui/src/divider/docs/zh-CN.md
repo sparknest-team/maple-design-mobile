@@ -1,42 +1,36 @@
-# 分割线
+# Divider 分割线
 
-## 介绍
-
-用于分隔列表或布局的各个部分。API 与 Cedar Design Web 的 Divider 对齐。
+用于分隔列表或布局中的内容区域。
 
 ## 案例
 
-### 基本使用
+### 基础用法
+
+用于分隔相邻的内容区域。
 
 ```demo
 ../example/demos/basic-usage.vue
 ```
 
-### 线型
-
-通过 `type` 设置线型，可选 `solid` `dashed` `dotted` `double`。
-
-```demo
-../example/demos/type.vue
-```
-
 ### 间距与缩进
 
-通过 `size-x` / `size-y` 控制缩进与间距，支持预设 `xs` `sm` `md` `lg` `xl`，或数值 / 带单位字符串 / `[start, end]`。
+对比五档预设、数值、CSS 长度和非对称数组；竖直示例展示切换方向后的作用。
 
 ```demo
 ../example/demos/size.vue
 ```
 
-### 垂直分割线
+### 线型
+
+通过 `type` 对比实线、虚线、点线和双线；双线建议设置至少 3px 的 `thickness`。
 
 ```demo
-../example/demos/vertical.vue
+../example/demos/type.vue
 ```
 
 ### 带文字
 
-通过 `description` 或默认插槽添加文字；`text-align` 控制位置。
+通过 `description` 添加文字，`text-align` 控制起点、居中和终点位置。切换 RTL 可观察逻辑起止方向。
 
 ```demo
 ../example/demos/with-desc.vue
@@ -44,37 +38,86 @@
 
 ### 自定义内容
 
+默认插槽优先于 `description`，自定义内容的留白由调用方设置。
+
 ```demo
 ../example/demos/custom.vue
 ```
 
 ### 颜色、线宽与透明度
 
+通过 `color`、`thickness`、`opacity` 定制线条。`opacity=0` 保留布局；`hairline` 优先于 `thickness`。
+
 ```demo
 ../example/demos/color.vue
 ```
+
+### 垂直分割线
+
+设置 `orientation="vertical"`；父容器使用 flex 并提供可用高度。文字沿竖直方向排列。
+
+```demo
+../example/demos/vertical.vue
+```
+
+### 动态属性
+
+切换方向、默认插槽文字、透明度和细线，观察属性更新及恢复。
+
+```demo
+../example/demos/live-properties.vue
+```
+
+<!-- api-review:start -->
+### 功能调试
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
+
 ## API
 
 ### 属性
 
-| 参数 | 说明 | 类型 | 默认值 |
+| 属性 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
-| `orientation` | 方向，可选 `horizontal` `vertical` | _string_ | `horizontal` |
-| `type` | 线型，可选 `solid` `dashed` `dotted` `double` | _string_ | `solid` |
-| `text-align` | 文字位置，可选 `start` `center` `end` | _string_ | `center` |
-| `description` | 文字描述 | _string_ | `-` |
-| `size-x` | 水平缩进 / 垂直时上下间距 | _number \| string \| array_ | `-` |
-| `size-y` | 水平上下间距 / 垂直时左右间距 | _number \| string \| array_ | `md` |
-| `thickness` | 线宽（与 `hairline` 互斥） | _number_ | `-` |
-| `hairline` | 是否为 0.5px 线 | _boolean_ | `false` |
-| `color` | 分割线颜色 | _string_ | `-` |
-| `opacity` | 不透明度 | _number_ | `-` |
+| `orientation` | 分割线方向 | `horizontal` \| `vertical` | `horizontal` |
+| `type` | 线型 | `solid` \| `dashed` \| `dotted` \| `double` | `solid` |
+| `text-align` | 文字沿分割线的位置；start/end 为逻辑起止位置 | `start` \| `center` \| `end` | `center` |
+| `description` | 文字描述；默认插槽优先 | `string` | — |
+| `inset` | 沿线两端缩进：水平时左右，竖直时上下 | `DividerSize` | — |
+| `spacing` | 线条两侧外间距：水平时上下，竖直时左右 | `DividerSize` | `md` |
+| `thickness` | 线宽，单位 px；未设置时使用主题默认 1px；hairline 优先 | `number` | — |
+| `hairline` | 将主题线宽缩放为一半；默认主题下为 0.5px | `boolean` | `false` |
+| `color` | 线条颜色；未设置时使用主题边框色 | `string` | — |
+| `opacity` | 整个分割线（含文字）的不透明度，范围 0–1；0 保留布局 | `number` | — |
+
+### 间距取值
+
+`DividerSize = number | string | Array<number | string>`
+
+`inset` 设置沿分割线方向的两端缩进，`spacing` 设置分割线与相邻内容的外间距。两者均支持预设 `xs`、`sm`、`md`、`lg`、`xl`、数值（单位 px）、CSS 长度或数组。单值或单元素数组对称应用；`[start, end]` 分别设置两端。数组元素为长度值，不使用预设名称。
+
+| 方向 | inset 数组顺序 | spacing 数组顺序 |
+| --- | --- | --- |
+| horizontal | 行内起点/终点缩进（RTL 时为右/左） | 上/下外间距 |
+| vertical | 上/下缩进 | 行内起点/终点外间距（RTL 时为右/左） |
+
+`inset` 默认不缩进；`spacing` 默认使用当前平台的 `md` 间距。预设读取平台主题 token，具体像素值可不同。
 
 ### 插槽
 
 | 插槽名 | 说明 |
 | --- | --- |
-| `default` | 自定义分割线中间内容 |
+| `default` | 自定义分割线内容，优先于 description |
+
+## 类型定义
+
+```ts
+import type { DividerProps, DividerInstance, DividerSize } from '@maplejs/maple-ui'
+```
 
 ### 样式变量
 
@@ -85,12 +128,25 @@
 | `--mp-divider-border-width` | `1px` |
 | `--mp-divider-text-padding` | `8px` |
 | `--mp-divider-text-align-inset` | `24px` |
-| `--mp-divider-orientation-*-size-*-{xs\|sm\|md\|lg\|xl}` | 预设尺寸 token |
+| `--mp-divider-orientation-vertical-inset-xs` | `2px` |
+| `--mp-divider-orientation-horizontal-inset-xs` | `12px` |
+| `--mp-divider-orientation-vertical-spacing-xs` | `4px` |
+| `--mp-divider-orientation-horizontal-spacing-xs` | `8px` |
+| `--mp-divider-orientation-vertical-inset-sm` | `4px` |
+| `--mp-divider-orientation-horizontal-inset-sm` | `16px` |
+| `--mp-divider-orientation-vertical-spacing-sm` | `8px` |
+| `--mp-divider-orientation-horizontal-spacing-sm` | `12px` |
+| `--mp-divider-orientation-vertical-inset-md` | `6px` |
+| `--mp-divider-orientation-horizontal-inset-md` | `24px` |
+| `--mp-divider-orientation-vertical-spacing-md` | `12px` |
+| `--mp-divider-orientation-horizontal-spacing-md` | `16px` |
+| `--mp-divider-orientation-vertical-inset-lg` | `8px` |
+| `--mp-divider-orientation-horizontal-inset-lg` | `32px` |
+| `--mp-divider-orientation-vertical-spacing-lg` | `16px` |
+| `--mp-divider-orientation-horizontal-spacing-lg` | `24px` |
+| `--mp-divider-orientation-vertical-inset-xl` | `12px` |
+| `--mp-divider-orientation-horizontal-inset-xl` | `40px` |
+| `--mp-divider-orientation-vertical-spacing-xl` | `24px` |
+| `--mp-divider-orientation-horizontal-spacing-xl` | `32px` |
 
-线条使用常规边框语义，分隔线文字使用辅助内容语义；文字留白 `8px` 与 Cedar 的 `16px` 是移动／桌面密度差异。`opacity` 属性按实例写入透明度，不是主题默认色。
-
-## 同源实现与平台边界
-
-两端各自保存完整源码，不引用公共核心，不共享组件实例或响应式状态；修改时同步维护两份实现。主体、Props、关键样式及配对测试纳入只读源码一致性检查，主题 token 和安装入口各自维护。
-
-动态增删默认插槽会同步更新带文字样式；opacity=0 生效；hairline 优先于 thickness，并输出 aria-orientation。
+预设值读取当前平台主题；文字留白在桌面端为 16px，移动端为 8px。

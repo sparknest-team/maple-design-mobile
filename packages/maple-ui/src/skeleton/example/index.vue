@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
+import DemoApiReview from './api-review.vue'
 import AnimationDemo from './demos/animation.vue'
 import BasicUsageDemo from './demos/basic-usage.vue'
 import CustomRowsWidthDemo from './demos/custom-rows-width.vue'
@@ -47,4 +48,5 @@ onThemeChange()
     <app-type>{{ english ? 'Fullscreen Mode' : '全屏模式' }}</app-type>
     <FullscreenModeDemo />
   </section>
+  <section data-demo="api-review"><DemoApiReview /></section>
 </template>

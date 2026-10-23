@@ -32,12 +32,17 @@ describe('date public entry contract', () => {
         expect(Object.keys(panel)).not.toContain(key)
       }
       for (const key of Object.keys(datePanelProps)) {
-        expect(Object.keys(panel)).toContain(key)
+        if (panel === dateRangePickerProps && key === 'timePickerProps') {
+          expect(Object.keys(panel)).not.toContain(key)
+        } else {
+          expect(Object.keys(panel)).toContain(key)
+        }
       }
     }
     expect(Object.keys(datePickerProps)).toContain('showNowButton')
-    expect(Object.keys(dateRangePickerProps)).toContain('exchangeTime')
-    expect(Object.keys(dateRangePickerProps)).not.toContain('showNowButton')
+    expect(Object.keys(dateRangePickerProps)).not.toContain('exchangeTime')
+    expect(Object.keys(dateRangePickerProps)).not.toContain('rangeOrder')
+    expect(Object.keys(dateRangePickerProps)).toContain('showNowButton')
     for (const key of ['open', 'popupContainer', 'placeholder', 'variant', 'clearable']) {
       expect(Object.keys(dateProps)).toContain(key)
     }

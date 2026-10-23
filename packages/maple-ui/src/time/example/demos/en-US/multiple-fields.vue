@@ -9,8 +9,8 @@ const range = ref(['09:00:00', '18:00:00'])
 </script>
 <template>
   <mp-space direction="column" :size="12" style="width: 100%">
-    <label><input v-model="readonly" type="checkbox" /> Readonly fields remain focusable</label>
-    <input placeholder="Press Enter here: time popups should not open" />
+    <mp-checkbox v-model="readonly">Readonly fields remain focusable</mp-checkbox>
+    <mp-input placeholder="Press Enter here: time popups should not open" />
     <small aria-live="polite">{{ lastEvent }}</small>
     <div aria-live="polite">
       <div>Start model: {{ start ?? 'undefined' }}</div>

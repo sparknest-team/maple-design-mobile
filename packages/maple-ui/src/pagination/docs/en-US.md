@@ -10,6 +10,18 @@ Pagination with a shared API and container-responsive layout.
 ../example/demos/basic.vue
 ```
 
+### Five sizes and elevation
+
+```demo
+../example/demos/size.vue
+```
+
+### Disabled and hide on single page
+
+```demo
+../example/demos/disabled.vue
+```
+
 ### Page window and ellipsis
 
 ```demo
@@ -26,12 +38,6 @@ Pagination with a shared API and container-responsive layout.
 
 ```demo
 ../example/demos/show-jumper.vue
-```
-
-### Five sizes and elevation
-
-```demo
-../example/demos/size.vue
 ```
 
 ### Simple mode
@@ -58,12 +64,6 @@ Pagination with a shared API and container-responsive layout.
 ../example/demos/custom-page-button.vue
 ```
 
-### Disabled and hide on single page
-
-```demo
-../example/demos/disabled.vue
-```
-
 ### Data changes and auto adjustment
 
 ```demo
@@ -75,6 +75,15 @@ Pagination with a shared API and container-responsive layout.
 ```demo
 ../example/demos/responsive.vue
 ```
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 
@@ -144,9 +153,11 @@ Buttons support Tab, Enter and Space; the active page exposes aria-current=page.
 
 Auto adjustment preserves the first visible record when page size changes and clamps pages when total shrinks. An empty dataset resets to page 1. Controlled state waits for parent updates; an explicit current update in the same batch takes priority.
 
+The jump input displays the current page in both full and simple modes. Page navigation, external current updates and automatic page-size adjustment keep it in sync; invalid input restores the current page.
+
 ### PaginationPageSizeProps
 
-The page-size menu fits its option content independently of the compact trigger width.
+The page-size selector fits the selected label and dropdown arrow, with only the item gap between them. Its width updates with the selection or locale. Customize it with `--mp-pagination-select-width`. The menu fits its option content independently of the trigger width.
 
 Shared fields: disabled?: boolean; placement?: top / top-start / top-end / bottom / bottom-start / bottom-end; popupContainer?: string | HTMLElement | false; class?: string; style?: CSSProperties. Parent disabled takes priority. Placement defaults to bottom-start.
 

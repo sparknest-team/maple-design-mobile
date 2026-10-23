@@ -9,7 +9,7 @@ const selected = ref([0])
   <mp-space direction="column">
     <p>Boolean models emit booleans; array models use value as the option ID. Current value:{{ value }}</p>
     <mp-checkbox ref="control" v-model="value">Enable notifications</mp-checkbox>
-    <mp-space>
+    <mp-space wrap>
       <mp-button size="sm" @click="control?.toggle()">Toggle selection</mp-button>
       <mp-button size="sm" @click="control?.focus()">Focus</mp-button>
       <mp-button size="sm" @click="value = false">Reset</mp-button>

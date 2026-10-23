@@ -72,15 +72,28 @@ const mount = () => {
   }
 }
 
-const schedule = (task: () => void, delay: number) => {
-  const version = generation
+const schedule = (task: () => void, delay: number, version = generation) => {
+  if (version !== generation) {
+    return
+  }
   const timer = window.setTimeout(() => {
-    timers.delete(timer)
-    if (version === generation) {
-      task()
+    if (version !== generation || !timers.delete(timer)) {
+      return
     }
+    task()
   }, delay)
   timers.add(timer)
+}
+
+const afterRender = (task: () => void, version: number) => {
+  let consumed = false
+  void nextTick(() => {
+    if (consumed || version !== generation) {
+      return
+    }
+    consumed = true
+    task()
+  })
 }
 
 // Read resolved transitions on the service node, not unresolved CSS variables.
@@ -130,17 +143,11 @@ const finishTask = () => {
   ctx.value = 100
 
   const version = generation
-  void nextTick(() => {
-    if (version !== generation) {
-      return
-    }
+  afterRender(() => {
     schedule(
       () => {
         ctx.opacity = 0
-        void nextTick(() => {
-          if (version !== generation) {
-            return
-          }
+        afterRender(() => {
           schedule(
             () => {
               ctx.error = false
@@ -150,12 +157,14 @@ const finishTask = () => {
               finishPending = false
             },
             Math.max(250, transitionTime('opacity')),
+            version,
           )
-        })
+        }, version)
       },
       Math.max(OPACITY_DELAY + 100, transitionTime('width')),
+      version,
     )
-  })
+  }, version)
 }
 
 const start = () => {

@@ -22,6 +22,14 @@ InputNumber edits and commits JavaScript numbers. The libraries own independent 
 ../example/demos/en-US/field-basic.vue
 ```
 
+### Form control size comparison
+
+Compare Input, Button, Select, date/time fields and other single-line controls at the same size. Field variants share the height scale; Button uses outline here. DatePicker/TimePicker are panels; this example uses Date/Time fields. The example includes selected and clearable values, removable tags and long multiple selections. Select/Cascader keep the same size height with tag-nowrap. Long tag text uses ellipsis while removal icons remain available; tags scroll horizontally while clear and arrow controls stay outside the scrolling area. Hover, focus or tap truncated tag text to read its full content; dismiss with an outside click or Escape without changing the selected value. Restore values after clearing to repeat the comparison. Multiline text and wrapping multiple selections can grow with content.
+
+```demo
+../../field-decorator/example/demos/control-sizes.vue
+```
+
 ### Control layouts
 
 ```demo
@@ -46,17 +54,42 @@ InputNumber edits and commits JavaScript numbers. The libraries own independent 
 ../example/demos/en-US/form-inheritance.vue
 ```
 
+### Small steps and boundaries
+
+```demo
+../example/demos/en-US/number-boundaries.vue
+```
+
+### Appearance combinations
+
+Use this example for quantities and numeric limits. Adjust variant, size and compare the component with the same data. Keep the content unchanged while comparing the available settings.
+
+```demo
+../example/demos/appearance-lab.vue
+```
+
+### Interaction states
+
+Use this example for quantities and numeric limits. Adjust disabled, read-only, error feedback and compare the component with the same data. The controls remain available to restore editing; error appearance alone does not run validation.
+
+```demo
+../example/demos/state-lab.vue
+```
+
 ### Formatting and slots
 
 ```demo
 ../example/demos/en-US/format-slots.vue
 ```
 
-### Small steps and boundaries
+<!-- api-review:start -->
+### Feature playground
 
 ```demo
-../example/demos/en-US/number-boundaries.vue
+../example/demos/api-review.vue
 ```
+
+<!-- api-review:end -->
 
 ## API
 
@@ -145,3 +178,13 @@ import type { InputNumberProps, InputNumberInstance, InputNumberMode, InputNumbe
 | `--mp-input-number-size-xl-step-button-width` | `var(--mp-sys-control-height-xl)` |
 
 Shared field visuals use FieldDecorator tokens. The former step-layer-border-radius token is removed without an alias.
+
+### Form field presentation and confirmation
+
+`presentation` inherits from field > FormItem > Form and defaults to `inline`. Supported values are `inline / popup`. Inline keeps the existing control behavior. Overlay editing uses a Cell reference and an isolated draft; only confirmation updates v-model. Cancel, reset and enabling readPretty discard the draft.
+
+Maple 使用 presentation="popup" 点击值区域打开编辑面板；inline 直接编辑。 readPretty 为纯阅读属性，与 readonly、disabled 独立。
+
+`before-commit(value, { previousValue, signal })` can reject an overlay save. FormItem validates the candidate first and keeps the editor open on failure. `open / default-open / update:open` control the editor. Use `#read="{ value, text }"` to customize display. See the full field comparison in Form.
+
+`read-pretty` 为独立布尔属性，与 `readonly`、`disabled` 同级；字段 > FormItem > Form 继承，显式 `false` 覆盖父级。默认 `false`。纯阅读不显示编辑器。

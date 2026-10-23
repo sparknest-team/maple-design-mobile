@@ -1,12 +1,12 @@
 import { h, nextTick, reactive } from 'vue'
-import { mount } from '@vue/test-utils'
+import { flushPromises, mount } from '@vue/test-utils'
 import { describe, expect, test } from 'vitest'
 import Select from '../select'
 import SelectMenu from '../SelectMenu'
 import { getKeyFromValue } from '../utils'
 
 describe('Select presentation contract', () => {
-  for (const presentation of ['menu', 'list', 'picker'] as const) {
+  for (const presentation of ['inline', 'popup', 'popup'] as const) {
     test(presentation + ' has one field and independently controlled values', async () => {
       const wrapper = mount(Select, {
         props: {
@@ -20,19 +20,21 @@ describe('Select presentation contract', () => {
         },
       })
       await nextTick()
-      expect(wrapper.findAll('input')).toHaveLength(1)
+      if (presentation === 'inline') {
+        expect(wrapper.findAll('input')).toHaveLength(1)
+      }
       const controller = wrapper.findComponent(SelectMenu).props('controller')
       controller.handleOpenChange(true)
       await nextTick()
       controller.handleSelect(getKeyFromValue(2), new Event('click'))
       await nextTick()
-      if (presentation === 'menu') {
+      if (presentation === 'inline') {
         expect(wrapper.emitted('change')).toEqual([[[1, 2]]])
       } else {
         expect(wrapper.emitted('change')).toBeUndefined()
-        expect(wrapper.find('input').element.value).toBe('')
-        controller.session.commit()
-        controller.session.commit()
+        expect(controller.computedInputValue).toBe('')
+        await controller.session.commit()
+        await controller.session.commit()
         expect(wrapper.emitted('change')).toEqual([[[1, 2]]])
       }
       wrapper.unmount()
@@ -40,7 +42,7 @@ describe('Select presentation contract', () => {
   }
   test('popup cancellation discards draft, external updates win, and instances are isolated', async () => {
     const props = {
-      presentation: 'list' as const,
+      presentation: 'popup' as const,
       multiple: true,
       modelValue: [1],
       options: [
@@ -62,7 +64,7 @@ describe('Select presentation contract', () => {
     await nextTick()
     await a.setProps({ modelValue: [2] })
     controller.session.commit()
-    expect(a.emitted('change')).toEqual([[[2]]])
+    expect(a.emitted('change')).toBeUndefined()
     a.unmount()
     b.unmount()
   })

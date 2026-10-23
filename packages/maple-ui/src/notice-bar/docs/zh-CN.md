@@ -1,5 +1,7 @@
 # 通知栏
 
+## 案例
+
 ### 介绍
 
 用于展示临时性的系统通知或运营消息。
@@ -9,6 +11,15 @@
 ```demo
 ../example/demos/basic.vue
 ```
+
+<!-- api-review:start -->
+### 功能调试
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

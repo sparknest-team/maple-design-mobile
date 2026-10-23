@@ -1,0 +1,229 @@
+{
+  "fields": [
+    {
+      "name": "active",
+      "description": "是否激活动作菜单",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "open",
+      "description": "是否显示触发器",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "drag",
+      "description": "Drag 组件配置，用于深度定制（支持 direction attraction boundary）",
+      "type": "boolean | DragProps",
+      "defaultValue": "false",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "status",
+      "description": "状态，可选值为 default primary info success warning danger",
+      "type": "\"default\" | \"primary\" | \"secondary\" | \"tertiary\" | \"info\" | \"success\" | \"warning\" | \"danger\"",
+      "defaultValue": "'primary'",
+      "kind": "enum",
+      "options": [
+        "default",
+        "primary",
+        "secondary",
+        "tertiary",
+        "info",
+        "success",
+        "warning",
+        "danger"
+      ],
+      "initial": "primary"
+    },
+    {
+      "name": "position",
+      "description": "触发器位置，可选值为 left-top right-top left-bottom right-bottom",
+      "type": "'left-top' | 'right-top' | 'left-bottom' | 'right-bottom'",
+      "defaultValue": "'right-bottom'",
+      "kind": "enum",
+      "options": [
+        "left-top",
+        "right-top",
+        "left-bottom",
+        "right-bottom"
+      ],
+      "initial": "right-bottom"
+    },
+    {
+      "name": "direction",
+      "description": "动作菜单弹出方向，可选值为 top bottom left right",
+      "type": "'top' | 'right' | 'bottom' | 'left'",
+      "defaultValue": "'top'",
+      "kind": "enum",
+      "options": [
+        "top",
+        "right",
+        "bottom",
+        "left"
+      ],
+      "initial": "top"
+    },
+    {
+      "name": "trigger",
+      "description": "触发方式 click hover",
+      "type": "'click' | 'hover'",
+      "defaultValue": "'click'",
+      "kind": "enum",
+      "options": [
+        "click",
+        "hover"
+      ],
+      "initial": "click"
+    },
+    {
+      "name": "disabled",
+      "description": "是否禁用",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "color",
+      "description": "触发器颜色",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "inactive-icon",
+      "description": "未激活时触发器图标",
+      "type": "string",
+      "defaultValue": "'plus'",
+      "kind": "string"
+    },
+    {
+      "name": "active-icon",
+      "description": "激活时触发器图标",
+      "type": "string",
+      "defaultValue": "'close'",
+      "kind": "string"
+    },
+    {
+      "name": "inactive-icon-size",
+      "description": "未激活时触发器图标尺寸",
+      "type": "pickProps(iconProps, 'size')",
+      "defaultValue": "undefined",
+      "kind": "enum",
+      "options": [
+        "size"
+      ],
+      "initial": "size"
+    },
+    {
+      "name": "active-icon-size",
+      "description": "激活时触发器图标尺寸",
+      "type": "pickProps(iconProps, 'size')",
+      "defaultValue": "undefined",
+      "kind": "enum",
+      "options": [
+        "size"
+      ],
+      "initial": "size"
+    },
+    {
+      "name": "inactive-icon-namespace",
+      "description": "未激活时触发器图标的命名空间",
+      "type": "string",
+      "defaultValue": "mp-icon",
+      "kind": "string"
+    },
+    {
+      "name": "active-icon-namespace",
+      "description": "激活时触发器图标的命名空间",
+      "type": "string",
+      "defaultValue": "mp-icon",
+      "kind": "string"
+    },
+    {
+      "name": "fixed",
+      "description": "是否使用固定定位，设置为 false 可开启绝对定位（绝对定位无法使用拖拽）",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "z-index",
+      "description": "同 css z-index，用于自定义触发器层级",
+      "type": "string | number",
+      "defaultValue": "90",
+      "kind": "scalar"
+    },
+    {
+      "name": "top",
+      "description": "同 css top，用于自定义触发器位置",
+      "type": "string | number",
+      "defaultValue": "undefined",
+      "kind": "scalar"
+    },
+    {
+      "name": "bottom",
+      "description": "同 css bottom，用于自定义触发器位置",
+      "type": "string | number",
+      "defaultValue": "undefined",
+      "kind": "scalar"
+    },
+    {
+      "name": "left",
+      "description": "同 css left，用于自定义触发器位置",
+      "type": "string | number",
+      "defaultValue": "undefined",
+      "kind": "scalar"
+    },
+    {
+      "name": "right",
+      "description": "同 css right，用于自定义触发器位置",
+      "type": "string | number",
+      "defaultValue": "undefined",
+      "kind": "scalar"
+    },
+    {
+      "name": "safe-area",
+      "description": "是否开启底部安全区适配",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "popup-container",
+      "description": "组件挂载的元素",
+      "type": "TeleportProps['to'] | false",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "\"body\""
+    },
+    {
+      "name": "elevation",
+      "description": "海拔高度，可选值为 true、false 和 0-24 的等级",
+      "type": "number | boolean",
+      "defaultValue": "true",
+      "kind": "json",
+      "initial": "true"
+    }
+  ],
+  "methodNames": [],
+  "events": [
+    "click",
+    "open",
+    "opened",
+    "close",
+    "closed"
+  ],
+  "slotNames": [
+    "trigger"
+  ],
+  "slotDefaults": {
+    "trigger": false
+  },
+  "scenarios": []
+}

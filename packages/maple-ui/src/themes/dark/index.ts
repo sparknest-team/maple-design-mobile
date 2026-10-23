@@ -19,8 +19,6 @@ import counter from './counter'
 import datePicker from './datePicker'
 import dialog from './dialog'
 import divider from './divider'
-import dropdownMenu from './dropdownMenu'
-import dropdownMenuOption from './dropdownMenuOption'
 import fab from './fab'
 import field from './field'
 import floatingPanel from './floatingPanel'
@@ -35,6 +33,8 @@ import link from './link'
 import list from './list'
 import loading from './loading'
 import loadingBar from './loadingBar'
+import menu from './menu'
+import menuOption from './menuOption'
 import message from './message'
 import option from './option'
 import overlay from './overlay'
@@ -138,8 +138,8 @@ export default {
   ...radio,
   ...checkbox,
   ...divider,
-  ...dropdownMenu,
-  ...dropdownMenuOption,
+  ...menu,
+  ...menuOption,
   ...picker,
   ...tabBarItem,
   ...popover,

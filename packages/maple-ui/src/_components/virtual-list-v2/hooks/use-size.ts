@@ -1,4 +1,4 @@
-import { computed, onMounted, Ref, ref } from 'vue'
+import { computed, onMounted, Ref, ref, shallowReactive } from 'vue'
 
 export const useSize = ({
   dataKeys,
@@ -14,7 +14,8 @@ export const useSize = ({
   buffer: Ref<number>
 }) => {
   const firstRangeAverageSize = ref(0)
-  const sizeMap = new Map<string | number, number>()
+  // Measurements must invalidate padding as well as imperative offsets.
+  const sizeMap = shallowReactive(new Map<string | number, number>())
 
   const total = computed(() => dataKeys.value.length)
   const start = ref(0)

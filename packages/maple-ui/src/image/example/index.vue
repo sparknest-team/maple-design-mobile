@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
+import DemoApiReview from './demos/api-review.vue'
 import DemoBasic from './demos/basic.vue'
 import DemoCaption from './demos/caption.vue'
 import DemoComponentPreviewGroup from './demos/component-preview-group.vue'
 import DemoComponentPreview from './demos/component-preview.vue'
+import OrganizedControllerLifecycle from './demos/controller-lifecycle.vue'
 import DemoDisablePreview from './demos/disable-preview.vue'
 import DemoError from './demos/error.vue'
 import DemoExtra from './demos/extra.vue'
@@ -20,6 +22,7 @@ import DemoPreviewFeatures from './demos/preview-features.vue'
 import DemoPreviewGroup from './demos/preview-group.vue'
 import DemoPreviewPopupContainer from './demos/preview-popup-container.vue'
 import DemoRipple from './demos/ripple.vue'
+import OrganizedTrackLifecycle from './demos/track-lifecycle.vue'
 
 const language = ref('zh-CN')
 const english = computed(() => language.value === 'en-US')
@@ -38,10 +41,6 @@ onThemeChange()
   <section data-demo="fit-mode">
     <app-type>{{ english ? 'Fit mode' : '填充模式' }}</app-type>
     <DemoFitMode />
-  </section>
-  <section data-demo="presentation">
-    <app-type>{{ english ? 'Size, radius and position' : '尺寸、圆角与位置' }}</app-type>
-    <DemoPresentation />
   </section>
   <section data-demo="caption">
     <app-type>{{ english ? 'Caption' : '标题与描述' }}</app-type>
@@ -71,6 +70,22 @@ onThemeChange()
     <app-type>{{ english ? 'Ripple and inline' : '水波与行内' }}</app-type>
     <DemoRipple />
   </section>
+  <section data-demo="overlay-closable">
+    <app-type>{{ english ? 'Close on overlay' : '点击背景层关闭' }}</app-type>
+    <DemoOverlayClosable />
+  </section>
+  <section data-demo="presentation">
+    <app-type>{{ english ? 'Size, radius and position' : '尺寸、圆角与位置' }}</app-type>
+    <DemoPresentation />
+  </section>
+  <section data-demo="track-lifecycle">
+    <app-type>{{ english ? 'track-lifecycle' : 'PreviewGroup track lifecycle / 轨道生命周期' }}</app-type>
+    <OrganizedTrackLifecycle />
+  </section>
+  <section data-demo="controller-lifecycle">
+    <app-type>{{ english ? 'Preview Interaction Lifecycle' : '预览交互生命周期' }}</app-type>
+    <OrganizedControllerLifecycle />
+  </section>
   <section data-demo="disable-preview">
     <app-type>{{ english ? 'Disable preview' : '禁用预览' }}</app-type>
     <DemoDisablePreview />
@@ -78,10 +93,6 @@ onThemeChange()
   <section data-demo="preview-entry">
     <app-type>{{ english ? 'Preview entry' : '预览入口与受控' }}</app-type>
     <DemoPreviewEntry />
-  </section>
-  <section data-demo="overlay-closable">
-    <app-type>{{ english ? 'Close on overlay' : '点击背景层关闭' }}</app-type>
-    <DemoOverlayClosable />
   </section>
   <section data-demo="preview-popup-container">
     <app-type>{{ english ? 'Popup container' : '指定挂载容器' }}</app-type>
@@ -107,4 +118,5 @@ onThemeChange()
     <app-type>{{ english ? 'Imperative preview' : '命令式预览' }}</app-type>
     <DemoImperativePreview />
   </section>
+  <section data-demo="api-review"><DemoApiReview /></section>
 </template>

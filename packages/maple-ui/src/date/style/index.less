@@ -6,6 +6,7 @@
 
 .mp-date-panel__layout {
   display: flex;
+  flex-wrap: wrap;
   width: 100%;
   gap: var(--mp-sys-space-2);
   align-items: flex-start;
@@ -21,16 +22,35 @@
 }
 .mp-date-panel__main {
   min-width: 0;
-  flex: 1;
+  width: 100%;
+  flex: 1 1 var(--mp-date-picker-min-width);
+}
+.mp-date-panel__layout--bottom > .mp-date-panel__main {
+  flex-basis: auto;
 }
 .mp-date-shortcuts {
+  max-width: 100%;
   display: flex;
   flex-wrap: wrap;
   gap: var(--mp-sys-space-2);
+  .mp-button {
+    max-width: 100%;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    height: auto;
+  }
   &--left,
   &--right {
     flex-direction: column;
   }
+}
+
+.mp-date-panel__order-error {
+  margin: 0;
+  padding: var(--mp-sys-space-2) var(--mp-sys-space-4);
+  color: var(--mp-color-danger);
+  font-size: var(--mp-font-size-sm);
+  line-height: 1.5;
 }
 
 .mp-date-panel-actions {
@@ -38,4 +58,151 @@
   justify-content: flex-end;
   align-items: center;
   gap: var(--mp-sys-space-2);
+}
+
+// Date/time wheels can contain six columns; generic Picker option padding is too wide here.
+.mp-date-panel__main .mp-picker__columns {
+  container-type: inline-size;
+  --mp-picker-option-font-size: ~'clamp(var(--mp-font-size-sm), var(--mp-date-picker-wheel-font-size), var(--mp-font-size-lg))';
+}
+// Time-only editors use the same number size as standalone time panels.
+.mp-date-panel__main .mp-date-picker__datetime-picker .mp-picker__columns,
+.mp-date-panel__main .mp-date-range-picker__time-wheel .mp-picker__columns {
+  --mp-picker-option-font-size: var(--mp-font-size-lg);
+}
+.mp-date-panel__main .mp-picker__option {
+  box-sizing: border-box;
+  padding-inline: 0;
+}
+
+// Embedded field editors must fit the host dialog rather than the standalone panel minimum.
+.mp-field-presentation__body .mp-date-panel__layout {
+  flex-wrap: wrap;
+  --mp-date-picker-min-width: 0px;
+}
+
+.mp-date-panel__layout {
+  box-sizing: border-box;
+  background: var(--mp-date-picker-panel-background);
+  border: 1px solid var(--mp-date-picker-panel-border);
+  border-radius: var(--mp-date-picker-panel-radius);
+}
+.mp-date-panel__layout--embedded {
+  border: 0;
+  border-radius: 0;
+  background: inherit;
+}
+
+.mp-date-panel-actions {
+  padding: var(--mp-date-picker-actions-padding);
+}
+.mp-field-presentation__body .mp-date-picker__title-hint,
+.mp-field-presentation__body .mp-date-picker__datetime-hint {
+  display: none;
+}
+.mp-date-panel__main > .mp-date-picker {
+  box-shadow: none;
+}
+
+.mp-date-field-popover .mp-date-panel__layout {
+  max-width: calc(100vw - var(--mp-date-picker-popover-gap));
+}
+.mp-date-field-popover .mp-date-panel__main {
+  display: flex;
+  flex-direction: column;
+  max-height: var(--mp-date-picker-popover-max-height);
+  > :first-child {
+    min-height: 0;
+    overflow: auto;
+  }
+  > .mp-date-panel-actions {
+    flex-shrink: 0;
+  }
+}
+
+.mp-date-panel-actions > .mp-button--variant-text {
+  margin-right: auto;
+}
+
+// Inline calendars share one preferred column width, independent of trigger width.
+.mp-date-field-popover .mp-date-field-panel {
+  width: var(--mp-date-picker-popover-width);
+  max-width: calc(100vw - var(--mp-date-picker-popover-gap));
+  --mp-date-picker-min-width: var(--mp-date-picker-panel-date-width);
+}
+// Shared preferred dimensions for independent and floating calendar panels.
+.mp-date-panel__layout--standalone {
+  width: var(--mp-date-picker-panel-preferred-width);
+  max-width: 100%;
+  > .mp-date-panel__main {
+    flex-basis: auto;
+  }
+}
+.mp-date-panel__layout--standalone.mp-date-panel__layout--time:not(.mp-date-panel__layout--range) {
+  --mp-date-picker-panel-preferred-width: var(--mp-date-picker-popover-width);
+}
+.mp-date-panel__layout--standalone {
+  --mp-date-picker-min-width: var(--mp-date-picker-panel-date-width);
+}
+
+.mp-date-panel__layout--standalone.mp-date-panel__layout--side-shortcuts {
+  width: calc(
+    var(--mp-date-picker-panel-preferred-width) + var(--mp-date-picker-shortcuts-column-width) + var(--mp-sys-space-2)
+  );
+  > .mp-date-panel__main {
+    flex: 1 1 calc(var(--mp-date-picker-panel-preferred-width) - 2px);
+    width: auto;
+  }
+  > .mp-date-shortcuts {
+    flex: 1 1 var(--mp-date-picker-shortcuts-column-width);
+    min-width: 0;
+  }
+}
+
+.mp-date-panel__layout--standalone.mp-date-panel__layout--time:not(.mp-date-panel__layout--range) {
+  --mp-date-picker-panel-preferred-width: calc(
+    var(--mp-date-picker-panel-date-width) + var(--mp-temporal-panel-quick-time-width) +
+      var(--mp-temporal-panel-inset) + var(--mp-sys-space-2)
+  );
+}
+.mp-date-field-popover .mp-date-field-panel:has(.mp-date-picker--with-time) {
+  width: calc(
+    var(--mp-date-picker-panel-date-width) + var(--mp-temporal-panel-quick-time-width) +
+      var(--mp-temporal-panel-inset) + var(--mp-sys-space-2)
+  );
+}
+
+.mp-date-panel-actions:has(> .mp-date-panel-actions__quick) {
+  justify-content: flex-start;
+  > .mp-button--status-primary:not(.mp-date-panel-actions__quick) {
+    margin-inline-start: auto;
+  }
+}
+.mp-date-panel-actions > .mp-date-panel-actions__quick {
+  flex: 0 0 var(--mp-sys-control-touch-target);
+  min-width: var(--mp-sys-control-touch-target);
+  margin-right: 0;
+  padding-inline: var(--mp-sys-space-2);
+  &[aria-pressed='true'] {
+    color: var(--mp-color-primary);
+    background: var(--mp-color-primary-light-1);
+  }
+  svg {
+    width: var(--mp-sys-font-size-xl);
+    height: var(--mp-sys-font-size-xl);
+  }
+}
+.mp-date-range-quick-panel {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--mp-sys-space-2);
+  padding: var(--mp-temporal-panel-inset);
+  min-height: 280px;
+  align-content: center;
+  &__item {
+    min-width: 0;
+    min-height: var(--mp-sys-control-touch-target);
+    justify-content: flex-start;
+    padding-inline: var(--mp-sys-space-3);
+  }
 }

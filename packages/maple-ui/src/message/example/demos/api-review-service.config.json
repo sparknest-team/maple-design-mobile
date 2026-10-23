@@ -1,0 +1,145 @@
+{
+  "fields": [
+    {
+      "name": "id",
+      "description": "队列内唯一标识",
+      "type": "string | number",
+      "defaultValue": "自动生成",
+      "kind": "scalar"
+    },
+    {
+      "name": "status",
+      "description": "语义状态",
+      "type": "\"default\" | \"info\" | \"success\" | \"warning\" | \"danger\" | \"loading\"",
+      "defaultValue": "'default'",
+      "kind": "enum",
+      "options": [
+        "default",
+        "info",
+        "success",
+        "warning",
+        "danger",
+        "loading"
+      ],
+      "initial": "default"
+    },
+    {
+      "name": "variant",
+      "description": "视觉强调层级",
+      "type": "\"neutral\" | \"tonal\" | \"solid\"",
+      "defaultValue": "'neutral'",
+      "kind": "enum",
+      "options": [
+        "neutral",
+        "tonal",
+        "solid"
+      ],
+      "initial": "neutral"
+    },
+    {
+      "name": "position",
+      "description": "显示位置",
+      "type": "\"top\" | \"center\" | \"bottom\"",
+      "defaultValue": "'top'",
+      "kind": "enum",
+      "options": [
+        "top",
+        "center",
+        "bottom"
+      ],
+      "initial": "top"
+    },
+    {
+      "name": "content",
+      "description": "内容",
+      "type": "MessageContent",
+      "defaultValue": "undefined",
+      "kind": "node",
+      "initial": "审查内容 / Review content"
+    },
+    {
+      "name": "icon",
+      "description": "自定义图标",
+      "type": "MessageContent",
+      "defaultValue": "undefined",
+      "kind": "node",
+      "initial": "审查内容 / Review content"
+    },
+    {
+      "name": "action",
+      "description": "操作区",
+      "type": "MessageContent",
+      "defaultValue": "undefined",
+      "kind": "node",
+      "initial": "审查内容 / Review content"
+    },
+    {
+      "name": "duration",
+      "description": "自动关闭时长（ms），0 不自动关闭",
+      "type": "number",
+      "defaultValue": "3000",
+      "kind": "number"
+    },
+    {
+      "name": "show-icon",
+      "description": "是否显示状态图标",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "closable",
+      "description": "是否显示关闭按钮",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "pause-on-hover",
+      "description": "悬停时暂停并保存剩余时间",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "reset-on-update",
+      "description": "更新时是否重置完整时长",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "close-button-aria-label",
+      "description": "关闭按钮无障碍名称",
+      "type": "string",
+      "defaultValue": "'Close message'",
+      "kind": "string"
+    },
+    {
+      "name": "popup-container",
+      "description": "挂载容器",
+      "type": "string | HTMLElement | false",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "\"body\""
+    },
+    {
+      "name": "open",
+      "type": "boolean",
+      "defaultValue": "false",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "boolean"
+    }
+  ],
+  "methodNames": [
+    "message",
+    "message.clear",
+    "message.set-default-options",
+    "message.reset-default-options"
+  ],
+  "events": [
+    "update:open"
+  ],
+  "slotNames": [],
+  "scenarios": []
+}

@@ -1,0 +1,114 @@
+{
+  "fields": [
+    {
+      "name": "open",
+      "description": "是否显示",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "default-open",
+      "description": "非受控模式的默认打开状态",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "src",
+      "description": "单图预览地址",
+      "type": "string",
+      "defaultValue": "-",
+      "kind": "string"
+    },
+    {
+      "name": "scale-step",
+      "description": "每次缩放增量",
+      "type": "number",
+      "defaultValue": "0.5",
+      "kind": "number"
+    },
+    {
+      "name": "closable",
+      "description": "是否显示关闭按钮",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "overlay-closable",
+      "description": "点击图片外的背景层是否关闭预览，点击图片不会关闭",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "lock-scroll",
+      "description": "锁定滚动",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "esc-to-close",
+      "description": "是否支持键盘 ESC 关闭",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "popup-container",
+      "description": "弹出层挂载的位置",
+      "type": "string | HTMLElement | false",
+      "defaultValue": "body",
+      "kind": "json",
+      "initial": "\"body\""
+    },
+    {
+      "name": "image-prevent-default",
+      "description": "是否禁止图片默认行为",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    }
+  ],
+  "methodNames": [
+    "image-preview",
+    "image-preview.close",
+    "image-preview.set-default-options",
+    "image-preview.reset-default-options",
+    "prev",
+    "next",
+    "to",
+    "zoom-to",
+    "zoom-in",
+    "zoom-out",
+    "rotate-left",
+    "rotate-right",
+    "reset",
+    "toggle-fullscreen"
+  ],
+  "events": [
+    "change",
+    "open",
+    "opened",
+    "open-change",
+    "close",
+    "closed",
+    "long-press",
+    "key-escape"
+  ],
+  "slotNames": [
+    "actions",
+    "indicator",
+    "close-icon",
+    "extra"
+  ],
+  "slotDefaults": {
+    "actions": true,
+    "indicator": false,
+    "close-icon": false,
+    "extra": false
+  },
+  "scenarios": []
+}

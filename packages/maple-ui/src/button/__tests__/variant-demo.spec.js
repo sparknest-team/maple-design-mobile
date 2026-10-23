@@ -2,12 +2,15 @@ import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { expect, test, vi } from 'vitest'
 import Button from '..'
-import { MenuOption } from '../../dropdown-menu'
-import Radio, { RadioGroup } from '../../radio'
+import { useDemoControls } from '../../../test-utils/demo-controls'
+import { MenuOption } from '../../menu'
+import Select from '../../select'
+import Space from '../../space'
 import SplitButton from '../../split-button'
 import SplitDemo from '../../split-button/example/variants.vue'
-import Switch from '../../switch'
 import ButtonDemo from '../example/demos/variants.vue'
+
+useDemoControls()
 
 vi.mock('@maplejs/maple-ui', () => ({ Message: { info: vi.fn() } }))
 // Documentation bootstrap needs @config in the site; component tests isolate that shell.
@@ -17,36 +20,53 @@ vi.mock('../../split-button/example/locale', () => ({ t: (key) => key }))
 const components = {
   MpButton: Button,
   MpSplitButton: SplitButton,
-  MpRadio: Radio,
-  MpRadioGroup: RadioGroup,
-  MpSwitch: Switch,
   MpMenuOption: MenuOption,
+  MpSpace: Space,
 }
 
-test.each([
-  [ButtonDemo, 1, 3],
-  [SplitDemo, 0, 1],
-])(
-  'variant demo starts neutral and radio controls update both appearance roles',
-  async (demo, variantIndex, statusIndex) => {
-    const wrapper = mount(demo, { global: { components } })
-    try {
-      const buttons = () => wrapper.findAllComponents(Button)
-      for (const button of buttons()) {
-        expect(button.props('status')).toBe(demo === SplitDemo ? undefined : 'default')
-        expect(button.classes()).toContain('mp-button--status-default')
-        expect(button.classes()).toContain('mp-button--variant-default')
-      }
-      const groups = wrapper.findAllComponents(RadioGroup)
-      groups[variantIndex].vm.$emit('update:modelValue', 'outline')
-      groups[statusIndex].vm.$emit('update:modelValue', 'danger')
-      await nextTick()
-      for (const button of buttons()) {
-        expect(button.classes()).toContain('mp-button--variant-outline')
-        expect(button.classes()).toContain('mp-button--status-danger')
-      }
-    } finally {
-      wrapper.unmount()
+test('button catalog controls update variant and size while preserving every semantic status', async () => {
+  const wrapper = mount(ButtonDemo, { global: { components } })
+  try {
+    const statuses = ['default', 'primary', 'secondary', 'tertiary', 'info', 'success', 'warning', 'danger']
+    const buttons = () => wrapper.findAllComponents(Button)
+    expect(buttons()).toHaveLength(statuses.length)
+    expect(buttons().map((button) => button.props('status'))).toEqual(statuses)
+    for (const button of buttons()) {
+      expect(button.classes()).toContain('mp-button--variant-default')
+      expect(button.props('size')).toBe('md')
     }
-  },
-)
+    const controls = wrapper.findAllComponents(Select)
+    expect(controls).toHaveLength(2)
+    controls[0].vm.$emit('update:modelValue', 'outline')
+    controls[1].vm.$emit('update:modelValue', 'lg')
+    await nextTick()
+    for (const [index, button] of buttons().entries()) {
+      expect(button.classes()).toContain('mp-button--variant-outline')
+      expect(button.classes()).toContain(`mp-button--status-${statuses[index]}`)
+      expect(button.props('size')).toBe('lg')
+    }
+  } finally {
+    wrapper.unmount()
+  }
+})
+
+test('split button variant demo keeps both neutral segments matched across all four appearances', () => {
+  const wrapper = mount(SplitDemo, { global: { components } })
+  try {
+    const variants = ['default', 'outline', 'tonal', 'text']
+    const examples = wrapper.findAllComponents(SplitButton)
+    expect(examples).toHaveLength(variants.length)
+    for (const [index, example] of examples.entries()) {
+      expect(example.props('variant')).toBe(variants[index])
+      const segments = example.findAllComponents(Button)
+      expect(segments).toHaveLength(2)
+      for (const button of segments) {
+        expect(button.props('status')).toBeUndefined()
+        expect(button.classes()).toContain('mp-button--status-default')
+        expect(button.classes()).toContain(`mp-button--variant-${variants[index]}`)
+      }
+    }
+  } finally {
+    wrapper.unmount()
+  }
+})

@@ -4,10 +4,24 @@ Free-text input with suggestions. Both libraries independently maintain the same
 
 Opening and filtering are independent: shouldOpen controls opening, filterOption filters candidates. Empty results, disabled and readonly keep the menu closed. No list/picker presentation is provided.
 
+## 案例
+
 ### Input and selection
 
 ```demo
 ../example/demos/en-US/basic.vue
+```
+
+### Sizes
+
+```demo
+../example/demos/en-US/size.vue
+```
+
+### Disabled and readonly
+
+```demo
+../example/demos/en-US/state.vue
 ```
 
 ### Opening and filtering
@@ -40,18 +54,6 @@ Opening and filtering are independent: shouldOpen controls opening, filterOption
 ../example/demos/en-US/virtual-list.vue
 ```
 
-### Sizes
-
-```demo
-../example/demos/en-US/size.vue
-```
-
-### Disabled and readonly
-
-```demo
-../example/demos/en-US/state.vue
-```
-
 ### Variants and hints
 
 ```demo
@@ -63,6 +65,39 @@ Opening and filtering are independent: shouldOpen controls opening, filterOption
 ```demo
 ../example/demos/en-US/accessibility.vue
 ```
+
+Grouped option lists share Menu spacing: a 20px title line with 4px vertical padding (28px total), an extra 8px before subsequent groups, and no extra group gap before the first title. Labels align with option text; AutoComplete labels follow its option horizontal padding.
+
+### Group spacing
+
+```demo
+../example/demos/en-US/group-spacing.vue
+```
+
+### Appearance combinations
+
+Use this example for suggestions while allowing free text. Adjust variant, size and compare the component with the same data. Keep the content unchanged while comparing the available settings.
+
+```demo
+../example/demos/appearance-lab.vue
+```
+
+### Interaction states
+
+Use this example for suggestions while allowing free text. Adjust disabled, read-only, error feedback and compare the component with the same data. The controls remain available to restore editing; error appearance alone does not run validation.
+
+```demo
+../example/demos/state-lab.vue
+```
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/zh-CN/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 
@@ -159,3 +194,13 @@ import type { AutoCompleteProps, AutoCompleteInstance, AutoCompleteOption, AutoC
 | `--mp-auto-complete-option-text-color-disabled` | `var(--mp-sys-color-content-disabled)` |
 
 Clear does not emit search or reopen suggestions, including when keyboard focus returns from the clear button. Controlled values remain authoritative: repeated rejected clear/selection proposals still emit their own change events. Accepted selections notify Form only once.
+
+### Form field presentation and confirmation
+
+`presentation` inherits from field > FormItem > Form and defaults to `inline`. Supported values are `inline / popup`. Inline keeps the existing control behavior. Overlay editing uses a Cell reference and an isolated draft; only confirmation updates v-model. Cancel, reset and enabling readPretty discard the draft.
+
+Maple 使用 presentation="popup" 点击值区域打开编辑面板；inline 直接编辑。 readPretty 为纯阅读属性，与 readonly、disabled 独立。
+
+`before-commit(value, { previousValue, signal })` can reject an overlay save. FormItem validates the candidate first and keeps the editor open on failure. `open / default-open / update:open` control the editor. Use `#read="{ value, text }"` to customize display. See the full field comparison in Form.
+
+`read-pretty` 为独立布尔属性，与 `readonly`、`disabled` 同级；字段 > FormItem > Form 继承，显式 `false` 覆盖父级。默认 `false`。纯阅读不显示编辑器。

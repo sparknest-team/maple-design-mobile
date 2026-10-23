@@ -1,0 +1,74 @@
+{
+  "fields": [
+    {
+      "name": "bordered",
+      "description": "显示边框，与 elevation 独立",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "elevation",
+      "description": "false 关闭；true 使用 2 级；数字为 0–24",
+      "type": "boolean / number",
+      "defaultValue": "false",
+      "kind": "json",
+      "initial": "false"
+    },
+    {
+      "name": "ripple",
+      "description": "启用水波效果，不自动赋予按钮语义",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "radius",
+      "description": "圆角，显式值优先于 round",
+      "type": "number / string",
+      "defaultValue": "undefined",
+      "kind": "scalar"
+    },
+    {
+      "name": "width",
+      "description": "宽度",
+      "type": "number / string",
+      "defaultValue": "undefined",
+      "kind": "scalar"
+    },
+    {
+      "name": "height",
+      "description": "高度",
+      "type": "number / string",
+      "defaultValue": "undefined",
+      "kind": "scalar"
+    },
+    {
+      "name": "round",
+      "description": "50% 圆角；宽高相等时为圆形",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "inline",
+      "description": "使用 inline-flex",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    }
+  ],
+  "events": [
+    "click"
+  ],
+  "scenarios": [
+    {
+      "name": "default",
+      "kind": "slot",
+      "demos": []
+    }
+  ],
+  "slotNames": [],
+  "slotDefaults": {},
+  "methodNames": []
+}

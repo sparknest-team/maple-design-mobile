@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
+import DemoApiReview from './demos/api-review.vue'
 import ColorDemo from './demos/color.vue'
 import DirectiveDemo from './demos/directive.vue'
 import SizeDemo from './demos/size.vue'
@@ -17,6 +18,11 @@ onThemeChange()
 </script>
 
 <template>
+  <section data-demo="size">
+    <app-type>{{ english ? 'Size' : '大小' }}</app-type>
+    <SizeDemo />
+  </section>
+
   <section data-demo="type">
     <app-type>{{ english ? 'Type' : '类型' }}</app-type>
     <TypeDemo />
@@ -25,11 +31,6 @@ onThemeChange()
   <section data-demo="color">
     <app-type>{{ english ? 'Color' : '颜色' }}</app-type>
     <ColorDemo />
-  </section>
-
-  <section data-demo="size">
-    <app-type>{{ english ? 'Size' : '大小' }}</app-type>
-    <SizeDemo />
   </section>
 
   <section data-demo="wrap">
@@ -41,4 +42,5 @@ onThemeChange()
     <app-type>{{ english ? 'Loading Directive' : '加载指令' }}</app-type>
     <DirectiveDemo />
   </section>
+  <section data-demo="api-review"><DemoApiReview /></section>
 </template>

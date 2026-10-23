@@ -17,9 +17,9 @@ function record(name, value, dates) {
 
 <template>
   <div style="display: flex; flex-direction: column; gap: 12px; width: 100%">
-    <label><input v-model="readonly" type="checkbox" /> Read-only: focus allowed, edits blocked</label>
-    <label><input v-model="disabled" type="checkbox" /> Disabled: focus released, edits blocked</label>
-    <label><input v-model="immediate" type="checkbox" /> Commit immediately on selection</label>
+    <mp-checkbox v-model="readonly">Read-only: focus allowed, edits blocked</mp-checkbox>
+    <mp-checkbox v-model="disabled">Disabled: focus released, edits blocked</mp-checkbox>
+    <mp-checkbox v-model="immediate">Commit immediately on selection</mp-checkbox>
     <p>Select records drafts. Change records commits. Cancel leaves the model unchanged. Clear returns undefined.</p>
     <mp-time
       v-model="value"

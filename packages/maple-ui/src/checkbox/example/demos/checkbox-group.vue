@@ -46,8 +46,8 @@ const {
     <mp-checkbox :value="1">{{ english ? 'Sleep' : '睡觉' }}</mp-checkbox>
   </mp-checkbox-group>
   <div class="relation">{{ english ? 'Current value' : '当前的值' }}: {{ value6 }}</div>
-  <mp-divider size-y="14px" />
-  <mp-space :size="[0, 10]">
+  <mp-divider spacing="14px" />
+  <mp-space wrap :size="[0, 10]">
     <mp-button status="primary" @click="$refs.group.checkAll()">{{ english ? 'Check all' : '全选' }}</mp-button>
     <mp-button status="primary" @click="$refs.group.inverseAll()">{{ english ? 'Invert' : '反选' }}</mp-button>
   </mp-space>

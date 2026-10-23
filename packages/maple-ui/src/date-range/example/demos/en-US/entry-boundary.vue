@@ -3,6 +3,8 @@ import { ref } from 'vue'
 import type { DateValue } from '@maplejs/maple-ui'
 
 const limited = ref(true)
+const blockEnd20 = ref(false)
+const disabledEnd = (date: Date, side: 'start' | 'end') => side === 'end' && blockEnd20.value && date.getDate() === 20
 const fieldValue = ref<DateValue[]>(['2025-02-12', '2025-02-14'])
 const panelValue = ref<DateValue[]>(['2025-02-12', '2025-02-14'])
 const week = ref<0 | 1 | 6>(1)
@@ -24,12 +26,13 @@ const week = ref<0 | 1 | 6>(1)
         v-model="fieldValue"
         :min="limited ? '2025-02-01' : undefined"
         :max="limited ? '2025-02-28' : undefined"
-        presentation="calendar"
+        panel-type="calendar"
         :date-range-picker-props="{ dayStartOfWeek: week }"
       />
     </div>
     <div>
       <p>Range panel: the selected first weekday; confirm to commit.</p>
+      <mp-checkbox v-model="blockEnd20">Disable day 20 as the end (keep the committed value)</mp-checkbox>
       <mp-date-range-picker
         v-model="panelValue"
         :min="limited ? '2025-02-01' : undefined"
@@ -37,6 +40,7 @@ const week = ref<0 | 1 | 6>(1)
         presentation="calendar"
         :day-start-of-week="week"
         :disable-confirm="false"
+        :disabled-date="disabledEnd"
       >
         <template #actions="{ confirm, disabled }">
           <mp-button :disabled="disabled" @click="confirm">Commit range</mp-button>

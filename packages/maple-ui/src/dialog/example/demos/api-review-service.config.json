@@ -1,0 +1,367 @@
+{
+  "fields": [
+    {
+      "name": "open",
+      "description": "是否显示",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
+      "name": "default-open",
+      "description": "非受控默认显示",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "title",
+      "description": "标题",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "message",
+      "description": "内容（也可用 default 插槽）",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "type",
+      "description": "类型图标",
+      "type": "'info' | 'success' | 'warning' | 'error'",
+      "defaultValue": "undefined",
+      "kind": "enum",
+      "options": [
+        "info",
+        "success",
+        "warning",
+        "error"
+      ],
+      "initial": "info"
+    },
+    {
+      "name": "simple",
+      "description": "简洁布局",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "width",
+      "description": "宽度",
+      "type": "number | string",
+      "defaultValue": "undefined",
+      "kind": "scalar"
+    },
+    {
+      "name": "top",
+      "description": "顶部距离，align-center 时无效",
+      "type": "number | string",
+      "defaultValue": "undefined",
+      "kind": "scalar"
+    },
+    {
+      "name": "title-align",
+      "description": "标题对齐",
+      "type": "'start' | 'center'",
+      "defaultValue": "'center'",
+      "kind": "enum",
+      "options": [
+        "start",
+        "center"
+      ],
+      "initial": "center"
+    },
+    {
+      "name": "message-align",
+      "description": "内容对齐",
+      "type": "'left' | 'center' | 'right'",
+      "defaultValue": "'left'",
+      "kind": "enum",
+      "options": [
+        "left",
+        "center",
+        "right"
+      ],
+      "initial": "left"
+    },
+    {
+      "name": "align-center",
+      "description": "垂直水平居中",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "footer",
+      "description": "是否展示底部操作区",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "closable",
+      "description": "显示右上角关闭按钮",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "overlay",
+      "description": "是否显示背景层",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "overlay-closable",
+      "description": "点击背景层关闭",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "esc-to-close",
+      "description": "ESC 关闭",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "lock-scroll",
+      "description": "打开时锁定背景滚动",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "close-on-route-change",
+      "description": "浏览器历史或 hash 变化时关闭",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "popup-container",
+      "description": "挂载位置，false 禁用 teleport",
+      "type": "string | HTMLElement | false",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "\"body\""
+    },
+    {
+      "name": "hide-title",
+      "description": "隐藏标题区",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "unmount-on-close",
+      "description": "关闭动画后卸载",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "draggable",
+      "description": "允许拖动，fullscreen 时无效",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "fullscreen",
+      "description": "全屏显示",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "overlay-animation-name",
+      "description": "背景层动画名",
+      "type": "string",
+      "defaultValue": "'mp-fade'",
+      "kind": "string"
+    },
+    {
+      "name": "dialog-animation-name",
+      "description": "对话框动画名",
+      "type": "string",
+      "defaultValue": "'mp-pop-center'",
+      "kind": "string"
+    },
+    {
+      "name": "aria-label",
+      "description": "无可见标题时的无障碍名称",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "close-button-aria-label",
+      "description": "关闭按钮无障碍名称",
+      "type": "string",
+      "defaultValue": "'Close dialog'",
+      "kind": "string"
+    },
+    {
+      "name": "z-index",
+      "description": "层级",
+      "type": "number",
+      "defaultValue": "undefined",
+      "kind": "number"
+    },
+    {
+      "name": "before-close",
+      "description": "关闭前拦截",
+      "type": "(action, done, refs) => void",
+      "defaultValue": "undefined",
+      "kind": "callback"
+    },
+    {
+      "name": "confirm-button",
+      "type": "boolean",
+      "defaultValue": "true",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "boolean"
+    },
+    {
+      "name": "cancel-button",
+      "type": "boolean",
+      "defaultValue": "true",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "boolean"
+    },
+    {
+      "name": "confirm-button-text",
+      "type": "string",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "string"
+    },
+    {
+      "name": "cancel-button-text",
+      "type": "string",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "string"
+    },
+    {
+      "name": "confirm-button-props",
+      "type": "ExtractPublicPropTypes<typeof buttonProps>",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "cancel-button-props",
+      "type": "ExtractPublicPropTypes<typeof buttonProps>",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "confirm-button-loading",
+      "type": "boolean",
+      "defaultValue": "false",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "boolean"
+    },
+    {
+      "name": "cancel-button-loading",
+      "type": "boolean",
+      "defaultValue": "false",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "boolean"
+    },
+    {
+      "name": "confirm-button-disabled",
+      "type": "boolean",
+      "defaultValue": "false",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "boolean"
+    },
+    {
+      "name": "cancel-button-disabled",
+      "type": "boolean",
+      "defaultValue": "false",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "boolean"
+    },
+    {
+      "name": "overlay-class",
+      "type": "string",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "string"
+    },
+    {
+      "name": "overlay-style",
+      "type": "CSSProperties",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "dialog-class",
+      "type": "string | any[]",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "json",
+      "initial": "[]"
+    },
+    {
+      "name": "dialog-style",
+      "type": "CSSProperties",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "body-class",
+      "type": "string | any[]",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "json",
+      "initial": "[]"
+    },
+    {
+      "name": "body-style",
+      "type": "StyleValue",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "json",
+      "initial": "{}"
+    }
+  ],
+  "methodNames": [
+    "dialog.open",
+    "dialog.confirm",
+    "dialog.alert",
+    "dialog.close",
+    "dialog.set-default-options",
+    "dialog.reset-default-options",
+    "close"
+  ],
+  "events": [
+    "update:open",
+    "open",
+    "opened",
+    "close",
+    "closed",
+    "confirm",
+    "cancel",
+    "click-overlay",
+    "key-escape"
+  ],
+  "slotNames": [],
+  "scenarios": []
+}

@@ -12,7 +12,8 @@
     "custom": "自定义样式",
     "icon-position": "展开图标位置",
     "destroy": "隐藏时销毁",
-    "toggle-all": "切换全部"
+    "toggle-all": "切换全部",
+    "api-review": "功能调试"
   },
   "en-US": {
     "basic": "Basic usage",
@@ -27,6 +28,7 @@
     "custom": "Custom style",
     "icon-position": "Icon position",
     "destroy": "Destroy on hide",
-    "toggle-all": "Toggle all"
+    "toggle-all": "Toggle all",
+    "api-review": "Feature playground"
   }
 }

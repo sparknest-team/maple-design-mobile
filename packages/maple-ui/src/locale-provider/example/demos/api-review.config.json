@@ -1,0 +1,49 @@
+{
+  "fields": [
+    {
+      "name": "locale",
+      "description": "当前语言",
+      "type": "string",
+      "defaultValue": "'zh-CN'",
+      "kind": "enum",
+      "options": [
+        "zh-CN",
+        "en-US"
+      ],
+      "initial": "zh-CN"
+    },
+    {
+      "name": "messages",
+      "description": "语言包",
+      "type": "Record<string, Record<string, string>>",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "tag",
+      "description": "自定义标签名",
+      "type": "string",
+      "defaultValue": "'div'",
+      "kind": "string"
+    }
+  ],
+  "events": [],
+  "scenarios": [
+    {
+      "name": "messages",
+      "kind": "prop",
+      "demos": [
+        "../review-fixture.vue"
+      ]
+    },
+    {
+      "name": "default",
+      "kind": "slot",
+      "demos": []
+    }
+  ],
+  "slotNames": [],
+  "slotDefaults": {},
+  "methodNames": []
+}

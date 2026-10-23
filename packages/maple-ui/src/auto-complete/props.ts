@@ -1,4 +1,5 @@
 import type { PropType, RenderFunction } from 'vue'
+import { fieldPresentationProps } from '../_components/field-presentation/props'
 import type { VirtualListProps } from '../_components/virtual-list-v2/interface'
 import { inputProps } from '../input/props'
 import type { SelectFieldNames, SelectOptionGroup } from '../select/types'
@@ -28,6 +29,7 @@ export type AutoCompleteFieldNames = SelectFieldNames
 export type AutoCompleteFilterOption = boolean | ((inputValue: string, option: AutoCompleteOptionData) => boolean)
 
 export const autoCompleteProps = {
+  ...fieldPresentationProps,
   /** 受控文本值。 */
   modelValue: String,
   /** 非受控初始文本。 */

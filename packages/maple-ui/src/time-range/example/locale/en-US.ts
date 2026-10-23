@@ -1,6 +1,5 @@
 export default {
   basicUsage: 'Basic Usage',
-  clockMode: 'Clock Mode',
   pickerSeconds: 'Picker With Seconds',
   hour24: '24hr And Seconds',
   separator: 'Custom Separator',
@@ -8,7 +7,6 @@ export default {
   disabled: 'Disabled',
   withFormItem: 'With FormItem',
   placeholder: 'Please select a time range',
-  clockPlaceholder: 'Clock time range',
   pickerSecondsPlaceholder: 'Picker with seconds',
   secondsPlaceholder: 'With seconds',
   separatorPlaceholder: 'Custom separator',

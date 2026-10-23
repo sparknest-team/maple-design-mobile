@@ -69,7 +69,7 @@ export default defineComponent({
 | `n('item')` | `'mp-button__item'`（自动 `__` 前缀，BEM Element） |
 | `n('--ghost')` | `'mp-button--ghost'`（BEM Modifier，需显式带 `--`） |
 | `n('$--box')` | `'mp--box'`（`$` 替换为前缀，全局共享类） |
-| `classes(...)` | 来自 rattail，组合类名；**注意 `[cond, truthy, falsy]` 不会自动 unwrap Vue Ref** |
+| `classes(...)` | 由命名空间工具提供，组合类名；**注意 `[cond, truthy, falsy]` 不会自动 unwrap Vue Ref** |
 
 ### 3.2 命名空间与样式
 
@@ -283,6 +283,8 @@ export default {
 ---
 
 ## 9. 文档（docs/zh-CN.md）
+
+示例分组遵守 `design-ui/standards/demo-design.md`：同类功能放在一起，每张案例最多组合三个相关维度，基础案例在前，功能调试在后；两端同步案例名称、说明和源码引用。
 
 每个组件至少提供 `docs/zh-CN.md`，按 `案例 → API → 类型定义 → 样式变量` 顺序组织。
 样式变量表必须列出所有 `--mp-<component>-*` token 的默认值。

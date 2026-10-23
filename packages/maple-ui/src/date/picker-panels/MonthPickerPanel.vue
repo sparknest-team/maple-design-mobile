@@ -10,8 +10,13 @@
         @check-date="checkDate"
       />
       <transition :name="`${nDate()}${reverse ? '-reverse' : ''}-translatex`">
-        <ul :key="panelKey">
-          <li v-for="month in MONTH_LIST" :key="month">
+        <ul :key="panelKey" @pointerleave="clearPreview">
+          <li
+            v-for="month in MONTH_LIST"
+            :key="month"
+            :class="[rangeClasses(dateOf(month)), { [n('range--disabled')]: buttonProps(month).disabled }]"
+            @pointerenter="previewCell(month, $event)"
+          >
             <mp-button
               mp-month-picker-cover
               :ripple="false"
@@ -44,6 +49,8 @@ import { createNamespace } from '../../utils/components'
 import { dateMonthLabel } from '../date-labels'
 import { MONTH_LIST } from '../picker-props'
 import type { Choose, ComponentProps, Month, PanelBtnDisabled, Preview } from '../picker-props'
+import { isRangeHighlighted } from '../range-highlight'
+import { useCalendarRangeStyle } from '../use-calendar-range-style'
 import PanelHeader from './PanelHeader.vue'
 
 dayjs.extend(isSameOrBefore)
@@ -58,6 +65,8 @@ export default defineComponent({
     PanelHeader,
   },
   props: {
+    rangePending: Boolean,
+    readonly: Boolean,
     choose: {
       type: Object as PropType<Choose>,
       required: true,
@@ -82,6 +91,17 @@ export default defineComponent({
   emits: ['check-preview', 'choose-month'],
 
   setup(props, { emit }) {
+    const dateOf = (key: string) => `${props.preview.previewYear}-${key}`
+    const { rangeState, rangeClasses, preview, clearPreview } = useCalendarRangeStyle({
+      endpoints: () => props.choose.chooseRangeMonth,
+      pending: () => props.rangePending,
+      enabled: () => props.componentProps.range && props.componentProps.type === 'month',
+      readonly: () => props.readonly,
+      version: () => [props.preview, props.componentProps],
+      unit: 'month',
+      name: n,
+    })
+    const previewCell = (key: string, event: PointerEvent) => preview(dateOf(key), event, buttonProps(key).disabled)
     const [currentYear, currentMonth] = props.current.split('-')
     const reverse: Ref<boolean> = ref(false)
     const panelKey: Ref<number> = ref(0)
@@ -122,14 +142,7 @@ export default defineComponent({
       }: { choose: Choose; componentProps: ComponentProps } = props
 
       if (range) {
-        if (!chooseRangeMonth.length) {
-          return false
-        }
-
-        const isBeforeMax = dayjs(val).isSameOrBefore(dayjs(chooseRangeMonth[1]), 'month')
-        const isAfterMin = dayjs(val).isSameOrAfter(dayjs(chooseRangeMonth[0]), 'month')
-
-        return isBeforeMax && isAfterMin
+        return isRangeHighlighted(val, chooseRangeMonth, 'month')
       }
 
       if (type === 'month') {
@@ -167,6 +180,10 @@ export default defineComponent({
       const disabled = computeDisabled()
 
       const computeText = (): boolean => {
+        if (range && props.componentProps.type === 'month') {
+          const state = rangeState(dateOf(key))
+          return disabled || state.previewing || !(state.start || state.end)
+        }
         if (disabled) {
           return true
         }
@@ -215,7 +232,16 @@ export default defineComponent({
       }
 
       const isCover = textColorOrCover().startsWith(nDate())
-      const variant: ButtonVariant = computeOutline() ? 'outline' : computeText() ? 'text' : 'default'
+      const variant: ButtonVariant =
+        range && rangeState(dateOf(key)).inside
+          ? computeText()
+            ? 'text'
+            : 'default'
+          : computeOutline()
+            ? 'outline'
+            : computeText()
+              ? 'text'
+              : 'default'
       const status: SemanticStatus = !computeText() ? 'primary' : 'default'
 
       return {
@@ -239,6 +265,7 @@ export default defineComponent({
     }
 
     const checkDate = (checkType: string) => {
+      clearPreview()
       reverse.value = checkType === 'prev'
       panelKey.value += checkType === 'prev' ? -1 : 1
       emit('check-preview', 'year', checkType)
@@ -269,6 +296,10 @@ export default defineComponent({
       panelBtnDisabled,
       forwardRef,
       buttonProps,
+      dateOf,
+      rangeClasses,
+      previewCell,
+      clearPreview,
       getMonthAbbr,
       chooseMonth,
       checkDate,

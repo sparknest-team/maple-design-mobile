@@ -1,5 +1,7 @@
 # 浮动面板
 
+## 案例
+
 ### 介绍
 浮动在页面底部的面板，常用于提供额外的功能或信息，用户可灵活上下滑动浏览内容。
 
@@ -10,6 +12,15 @@
 ```demo
 ../example/demos/basic.vue
 ```
+
+<!-- api-review:start -->
+### 功能调试
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 
@@ -47,7 +58,7 @@
 | `--floating-panel-z-index` | `999` |
 | `--floating-panel-border-top` | `none` |
 | `--floating-panel-border-radius` | `0` |
-| `--floating-panel-background` | `var(--color-fill-2)` |
+| `--mp-floating-panel-background` | `var(--mp-sys-color-surface-overlay)` |
 | `--floating-panel-header-height` | `40px` |
 | `--floating-panel-toolbar-width` | `20px` |
 | `--floating-panel-toolbar-height` | `3px` |

@@ -6,12 +6,6 @@ A native button that scrolls the page or an explicit container to the top.
 
 ## Examples
 
-### Scheduling Lifecycle
-
-```demo
-../example/demos/en-US/scheduler-lifecycle.vue
-```
-
 ### Basic usage
 
 ```demo
@@ -37,6 +31,21 @@ A native button that scrolls the page or an explicit container to the top.
 ```
 
 The examples use isolated local containers. Omit `target-container` to listen to the page, not the nearest scrollable ancestor. A selector that is invalid or missing hides the button; use a reactive getter for a container mounted asynchronously. `popup-container` controls where the button renders, not what scrolls.
+
+### Scheduling Lifecycle
+
+```demo
+../example/demos/en-US/scheduler-lifecycle.vue
+```
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

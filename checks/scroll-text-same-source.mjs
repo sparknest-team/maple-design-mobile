@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { normalizeBoundImports } from './normalize-bound-imports.mjs'
+import { normalizeTypeScript } from './normalize-source.mjs'
 
 const workspace = fileURLToPath(new URL('../../', import.meta.url))
 const cedar = resolve(workspace, 'cedar-design-web/packages/cedar-ui/src')
@@ -29,10 +30,12 @@ const normalize = (text) =>
     .replaceAll('@cedarjs/icons-vue', '@maplejs/icons-vue')
     .replaceAll('--c-', '--mp-')
     .replaceAll('.c-', '.mp-')
+const canonical = (source, file) =>
+  file.endsWith('.ts') ? normalizeTypeScript(normalize(source)) : normalizeBoundImports(normalize(source))
 for (const file of files) {
   assert.equal(
-    normalizeBoundImports(normalize(readFileSync(resolve(cedar, file), 'utf8'))),
-    normalizeBoundImports(normalize(readFileSync(resolve(maple, file), 'utf8'))),
+    await canonical(readFileSync(resolve(cedar, file), 'utf8'), file),
+    await canonical(readFileSync(resolve(maple, file), 'utf8'), file),
     file,
   )
 }

@@ -6,6 +6,24 @@ Put navigation and panels inside the same `Tabs`. Use `tab-click(key, event)` fo
 
 ## Examples
 
+
+### Appearance combinations
+
+Use this example for switching between peer content panels. Adjust variant, size and compare the component with the same data. Keep the content unchanged while comparing the available settings.
+
+```demo
+../example/demos/appearance-lab.vue
+```
+
+<!-- api-review:start -->
+### 组合审查 / API review
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
+
 ### Simplest usage
 
 For the simplest usage, place `TabPane` components with `title` directly inside `Tabs`; navigation and content are generated automatically.
@@ -20,6 +38,12 @@ When only tab navigation is needed, declare `TabNav` entries inside `TabsNavs` w
 
 ```demo
 ../example/demos/nav-content.vue
+```
+
+Navigation props and state combinations:
+
+```demo
+../example/demos/navs-review.vue
 ```
 
 ### Visual variants

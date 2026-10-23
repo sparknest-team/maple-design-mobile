@@ -1,0 +1,238 @@
+{
+  "fields": [
+    {
+      "name": "status",
+      "description": "主题色；省略时继承按钮组，否则 default",
+      "type": "\"default\" | \"primary\" | \"secondary\" | \"tertiary\" | \"info\" | \"success\" | \"warning\" | \"danger\"",
+      "defaultValue": "undefined",
+      "kind": "enum",
+      "options": [
+        "default",
+        "primary",
+        "secondary",
+        "tertiary",
+        "info",
+        "success",
+        "warning",
+        "danger"
+      ],
+      "initial": "default"
+    },
+    {
+      "name": "variant",
+      "description": "外观；省略时继承按钮组，否则 default",
+      "type": "\"default\" | \"text\" | \"outline\" | \"tonal\"",
+      "defaultValue": "undefined",
+      "kind": "enum",
+      "options": [
+        "default",
+        "text",
+        "outline",
+        "tonal"
+      ],
+      "initial": "default"
+    },
+    {
+      "name": "size",
+      "description": "尺寸；省略时继承按钮组，否则 md",
+      "type": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\"",
+      "defaultValue": "undefined",
+      "kind": "enum",
+      "options": [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl"
+      ],
+      "initial": "xs"
+    },
+    {
+      "name": "html-type",
+      "description": "原生按钮类型",
+      "type": "button / submit / reset",
+      "defaultValue": "'button'",
+      "kind": "enum",
+      "options": [
+        "button",
+        "submit",
+        "reset"
+      ],
+      "initial": "button"
+    },
+    {
+      "name": "component",
+      "description": "根标签，链接属性通过 attrs 传入",
+      "type": "button / a",
+      "defaultValue": "'button'",
+      "kind": "enum",
+      "options": [
+        "button",
+        "a"
+      ],
+      "initial": "button"
+    },
+    {
+      "name": "round",
+      "description": "圆形按钮",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "block",
+      "description": "占满可用宽度",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "loading",
+      "description": "加载状态，禁止点击和链接跳转",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "loading-type",
+      "description": "加载动画；与 Loading 的 type 相同，line 模式不适用",
+      "type": "'circle' | 'wave' | 'cube' | 'rect' | 'disappear'",
+      "defaultValue": "'circle'",
+      "kind": "enum",
+      "options": [
+        "circle",
+        "wave",
+        "cube",
+        "rect",
+        "disappear"
+      ],
+      "initial": "circle"
+    },
+    {
+      "name": "loading-mode",
+      "description": "行内、覆盖或底部进度线",
+      "type": "\"default\" | \"fill\" | \"line\"",
+      "defaultValue": "'default'",
+      "kind": "enum",
+      "options": [
+        "default",
+        "fill",
+        "line"
+      ],
+      "initial": "default"
+    },
+    {
+      "name": "loading-size",
+      "description": "指示器尺寸：xs/sm/md/lg/xl 为 12/14/16/18/20px，数字为 px；省略时跟随按钮尺寸，line 模式不适用",
+      "type": "ComponentSize / number",
+      "defaultValue": "undefined",
+      "kind": "scalar"
+    },
+    {
+      "name": "loading-color",
+      "description": "加载指示器颜色",
+      "type": "string",
+      "defaultValue": "'currentColor'",
+      "kind": "string"
+    },
+    {
+      "name": "auto-loading",
+      "description": "等待 click/touchstart 返回的 Promise；同步回调不闪 loading",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "disabled",
+      "description": "禁用；省略时继承按钮组，显式 false 可覆盖",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
+      "name": "ripple",
+      "description": "点击水波",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "focusable",
+      "description": "允许 Tab 顺序聚焦；不影响通过代码聚焦",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "autofocus",
+      "description": "原生自动聚焦",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "text-color",
+      "description": "自定义文字色",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "color",
+      "description": "自定义背景／变体基色",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "elevation",
+      "description": "default 变体阴影；true 为 2，false 关闭，数字四舍五入并限制 0～24；组内由组控制",
+      "type": "boolean / number",
+      "defaultValue": "true",
+      "kind": "json",
+      "initial": "true"
+    },
+    {
+      "name": "stacked",
+      "description": "图标文字纵向排列；省略时继承按钮组",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    }
+  ],
+  "events": [
+    "click",
+    "touchstart"
+  ],
+  "scenarios": [
+    {
+      "name": "default",
+      "kind": "slot",
+      "demos": [
+        "basic.vue",
+        "button-group.vue",
+        "loading.vue",
+        "icons.vue",
+        "variants.vue"
+      ]
+    },
+    {
+      "name": "icon",
+      "kind": "slot",
+      "demos": [
+        "button-group.vue",
+        "icons.vue",
+        "variants.vue"
+      ]
+    }
+  ],
+  "slotNames": [
+    "icon"
+  ],
+  "slotDefaults": {
+    "icon": false
+  },
+  "methodNames": []
+}

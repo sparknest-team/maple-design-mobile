@@ -1,5 +1,7 @@
 # 图片懒加载
 
+## 案例
+
 ### 介绍
 
 在图片可见时进行加载。
@@ -73,7 +75,14 @@ createApp().use(Lazy, {
 })
 ```
 
+<!-- api-review:start -->
+### 功能调试
 
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

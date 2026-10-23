@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
+import DemoApiReview from './demos/api-review.vue'
 import BasicUsageDemo from './demos/basic-usage.vue'
 import CustomStyleDemo from './demos/custom-style.vue'
 
@@ -23,4 +24,5 @@ onThemeChange()
     <app-type>{{ english ? 'Custom Style' : '自定义样式' }}</app-type>
     <CustomStyleDemo />
   </section>
+  <section data-demo="api-review"><DemoApiReview /></section>
 </template>

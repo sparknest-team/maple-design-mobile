@@ -1,9 +1,9 @@
 import { nextTick } from 'vue'
 import { mount, shallowMount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
+import Picker from '../../picker/Picker.vue'
 import TimeRange from '../../time-range/TimeRange.vue'
 import TimeRangePicker from '../../time-range/TimeRangePicker.vue'
-import Clock from '../Clock.vue'
 import { getTimePickerState } from '../picker-columns'
 import Time from '../Time.vue'
 import TimePicker from '../TimePicker.vue'
@@ -19,12 +19,12 @@ describe('standalone time panel confirmation', () => {
       props: { defaultValue: initial, format: 'HH:mm' },
     })
     expect(wrapper.find('[class$="__confirm"]').exists()).toBe(true)
-    panelState(wrapper).handlePickerChange(['10', '30'])
+    panelState(wrapper).handlePickerChange(Array.isArray(initial) ? ['10', '30', '18', '00'] : ['10', '30'])
     await nextTick()
     expect(wrapper.emitted('select')).toHaveLength(1)
     expect(wrapper.emitted('change')).toBeUndefined()
     expect(wrapper.emitted('update:modelValue')).toBeUndefined()
-    expect(panelState(wrapper).pickerValue).toEqual(['10', '30'])
+    expect(panelState(wrapper).pickerValue).toEqual(Array.isArray(initial) ? ['10', '30', '18', '00'] : ['10', '30'])
     panelState(wrapper).confirm()
     await nextTick()
     const expected = Array.isArray(initial) ? ['10:30', '18:00'] : '10:30'
@@ -51,8 +51,24 @@ describe('standalone time panel confirmation', () => {
     wrapper.unmount()
   })
 
+  it.each([
+    ['single', TimePicker, '09:00'],
+    ['range', TimeRangePicker, ['09:00', '18:00']],
+  ])('%s blocks wheel selection while readonly or disabled', async (_name, Component, initial) => {
+    const wrapper = mount(Component, { props: { modelValue: initial, format: 'HH:mm', readonly: true } })
+    const picker = wrapper.getComponent(Picker)
+    expect(picker.props('disabled')).toBe(true)
+    await wrapper.findAll('[role="option"]')[10].trigger('click')
+    expect(wrapper.emitted('select')).toBeUndefined()
+    await wrapper.setProps({ readonly: false, disabled: true })
+    expect(picker.props('disabled')).toBe(true)
+    await wrapper.setProps({ disabled: false })
+    expect(picker.props('disabled')).toBe(false)
+    wrapper.unmount()
+  })
+
   it('does not emit selection when an external clock value changes', async () => {
-    const wrapper = mount(TimePicker, { props: { modelValue: '09:00:00', presentation: 'clock' } })
+    const wrapper = mount(TimePicker, { props: { modelValue: '09:00:00' } })
     await wrapper.setProps({ modelValue: '13:30:15' })
     await nextTick()
     expect(wrapper.emitted('select')).toBeUndefined()
@@ -60,14 +76,14 @@ describe('standalone time panel confirmation', () => {
     wrapper.unmount()
   })
 
-  it.each([false, true])('sorts only the committed range, showNextDay=%s', async (showNextDay) => {
+  it.each([false, true])('confirms a reversed range only with showNextDay=%s', async (showNextDay) => {
     const wrapper = shallowMount(TimeRangePicker, {
       props: { defaultValue: ['18:00', '09:00'], format: 'HH:mm', showNextDay },
     })
-    panelState(wrapper).handlePickerChange(['19', '00'])
+    panelState(wrapper).handlePickerChange(['19', '00', '09', '00'])
     expect(wrapper.emitted('select')[0][0]).toEqual(['19:00', '09:00'])
-    panelState(wrapper).confirm()
-    expect(wrapper.emitted('update:modelValue')[0][0]).toEqual(showNextDay ? ['19:00', '09:00'] : ['09:00', '19:00'])
+    expect(panelState(wrapper).confirm()).toBe(showNextDay)
+    expect(wrapper.emitted('update:modelValue')).toEqual(showNextDay ? [[['19:00', '09:00']]] : undefined)
     wrapper.unmount()
   })
 
@@ -97,10 +113,14 @@ describe('standalone time panel confirmation', () => {
       [TimeRange, TimeRangePicker],
     ]) {
       const wrapper = mountField(Field, {
-        props: { defaultOpen: true, presentation: 'clock' },
-        global: { stubs: { MpTimeFieldPopup: false, MpPopup: { template: '<div><slot /></div>' } } },
+        props: { defaultOpen: true },
+        global: { stubs: { MpTrigger: { template: '<div><slot /><slot name="content" /></div>' } } },
       })
-      expect(wrapper.findComponent(Panel).props('disableConfirm')).toBe(true)
+      if (Field === TimeRange) {
+        expect(wrapper.findComponent(Panel).props('disableConfirm')).toBe(true)
+      } else {
+        expect(wrapper.find('[class$="__confirm"]').exists()).toBe(false)
+      }
       wrapper.unmount()
     }
   })
@@ -125,20 +145,6 @@ describe('disabled time visibility', () => {
     expect(panelState(wrapper).canConfirm).toBe(false)
     panelState(wrapper).confirm()
     expect(wrapper.emitted('change')).toBeUndefined()
-    wrapper.unmount()
-  })
-  it('hides a clock scale without changing the coordinates of other scales', async () => {
-    const wrapper = mount(Clock, {
-      props: { isInner: false, time: { hour: '03', minute: '00', second: '00' }, disabledHours: () => [3] },
-    })
-    const before = wrapper
-      .findAll('.mp-time-picker__clock-item')
-      .find((item) => item.text() === '4')
-      .attributes('style')
-    await wrapper.setProps({ hideDisabledOptions: true })
-    const items = wrapper.findAll('.mp-time-picker__clock-item')
-    expect(items.find((item) => item.text() === '3').attributes('style')).toContain('display: none')
-    expect(items.find((item) => item.text() === '4').attributes('style')).toBe(before)
     wrapper.unmount()
   })
 })

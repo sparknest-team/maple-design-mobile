@@ -3,14 +3,37 @@ import { computed, ref } from 'vue'
 
 const value = ref('09:30:00')
 const coarse = ref(false)
-const step = computed(() => ({ hour: 1, minute: coarse.value ? 30 : 15, second: 10 }))
+const fiveHours = ref(false)
+const blockAfternoon = ref(false)
+const accept = ref(true)
+const proposals = ref(0)
+const disabledHours = () => (blockAfternoon.value ? [15] : [])
+function update(next) {
+  proposals.value++
+  if (accept.value) {
+    value.value = next
+  }
+}
+const step = computed(() => ({ hour: fiveHours.value ? 5 : 1, minute: coarse.value ? 30 : 15, second: 10 }))
 </script>
 
 <template>
-  <mp-space direction="column" :size="12" style="width: 100%">
-    <label><input v-model="coarse" type="checkbox" /> 切换为 30 分钟步长</label>
+  <mp-space class="time-step-demo" direction="column" :size="12" style="width: 100%">
+    <mp-checkbox v-model="fiveHours">十二小时显示 + 5 小时步长</mp-checkbox>
+    <mp-checkbox v-model="coarse">切换为 30 分钟步长</mp-checkbox>
+    <mp-checkbox v-model="blockAfternoon">禁用 15 点（03 PM）</mp-checkbox>
+    <mp-checkbox v-model="accept">父级接受更新</mp-checkbox>
     <p>确认时按当前步长重新校验；切换规则不会自动修改已提交值。</p>
-    <mp-time v-model="value" format="HH:mm:ss" :step="step" style="width: 100%; max-width: 360px" />
+    <mp-time
+      :model-value="value"
+      format="HH:mm:ss"
+      :use12-hours="fiveHours"
+      :step="step"
+      :disabled-hours="disabledHours"
+      style="width: 100%; max-width: 360px"
+      @update:model-value="update"
+    />
     <span>{{ value }}</span>
+    <span role="status">提议次数：{{ proposals }}</span>
   </mp-space>
 </template>

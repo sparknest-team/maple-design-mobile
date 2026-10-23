@@ -17,9 +17,9 @@ function record(name, value, dates) {
 
 <template>
   <div style="display: flex; flex-direction: column; gap: 12px; width: 100%">
-    <label><input v-model="readonly" type="checkbox" /> 只读：可聚焦，不可修改</label>
-    <label><input v-model="disabled" type="checkbox" /> 禁用：释放焦点，不可修改</label>
-    <label><input v-model="immediate" type="checkbox" /> 选择后立即提交</label>
+    <mp-checkbox v-model="readonly">只读：可聚焦，不可修改</mp-checkbox>
+    <mp-checkbox v-model="disabled">禁用：释放焦点，不可修改</mp-checkbox>
+    <mp-checkbox v-model="immediate">选择后立即提交</mp-checkbox>
     <p>select 记录草稿，change 记录提交；取消不改模型，清除返回 undefined。</p>
     <mp-time-range
       v-model="value"

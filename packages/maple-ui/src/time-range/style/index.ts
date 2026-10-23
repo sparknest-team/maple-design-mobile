@@ -1,3 +1,4 @@
+import '../../_components/field-presentation/style'
 import '../../style/index.less'
 import '../../button/style'
 import '../../_components/picker-field/style'

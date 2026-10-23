@@ -1,0 +1,192 @@
+{
+  "fields": [
+    {
+      "name": "open",
+      "description": "菜单是否打开，支持 v-model:open",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
+      "name": "default-open",
+      "description": "菜单默认是否打开",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
+      "name": "disabled",
+      "description": "是否禁用整个分裂按钮",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
+      "name": "status",
+      "description": "按钮组主题色",
+      "type": "SemanticStatus",
+      "defaultValue": "undefined",
+      "kind": "enum",
+      "options": [
+        "default",
+        "primary",
+        "secondary",
+        "tertiary",
+        "info",
+        "success",
+        "warning",
+        "danger"
+      ],
+      "initial": "default"
+    },
+    {
+      "name": "variant",
+      "description": "按钮组变体",
+      "type": "ButtonVariant",
+      "defaultValue": "undefined",
+      "kind": "scenario"
+    },
+    {
+      "name": "size",
+      "description": "按钮组尺寸",
+      "type": "ComponentSize",
+      "defaultValue": "undefined",
+      "kind": "enum",
+      "options": [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl"
+      ],
+      "initial": "xs"
+    },
+    {
+      "name": "color",
+      "description": "自定义背景色",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "text-color",
+      "description": "自定义文字色",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "elevation",
+      "description": "按钮组海拔阴影",
+      "type": "boolean | number",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "0"
+    },
+    {
+      "name": "button-props",
+      "description": "主按钮属性",
+      "type": "Partial<ButtonProps>",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "trigger-button-props",
+      "description": "菜单触发按钮属性",
+      "type": "Partial<ButtonProps>",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "auto-loading",
+      "description": "主按钮异步点击时是否自动进入加载状态",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
+      "name": "trigger",
+      "description": "菜单触发方式",
+      "type": "TriggerEvent | TriggerEvent[]",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "[]"
+    },
+    {
+      "name": "placement",
+      "description": "菜单弹出位置",
+      "type": "PopoverPlacement",
+      "defaultValue": "undefined",
+      "kind": "scenario"
+    },
+    {
+      "name": "popup-container",
+      "description": "菜单挂载容器",
+      "type": "PopupContainer",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "\"body\""
+    },
+    {
+      "name": "popup-max-height",
+      "description": "菜单最大高度",
+      "type": "boolean | number",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "0"
+    },
+    {
+      "name": "popup-class",
+      "description": "菜单浮层类名",
+      "type": "string | array | object",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "offset-x",
+      "description": "菜单横向偏移",
+      "type": "string | number",
+      "defaultValue": "undefined",
+      "kind": "scalar"
+    },
+    {
+      "name": "offset-y",
+      "description": "菜单纵向偏移",
+      "type": "string | number",
+      "defaultValue": "undefined",
+      "kind": "scalar"
+    },
+    {
+      "name": "hide-on-select",
+      "description": "选择菜单项后是否关闭菜单",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    }
+  ],
+  "methodNames": [
+    "open",
+    "close",
+    "resize"
+  ],
+  "events": [
+    "update:open",
+    "open-change",
+    "click",
+    "select"
+  ],
+  "slotNames": [
+    "icon",
+    "content"
+  ],
+  "slotDefaults": {
+    "icon": true,
+    "content": true
+  },
+  "scenarios": []
+}

@@ -1,6 +1,8 @@
 import type { ExtractPublicPropTypes, InputHTMLAttributes, PropType } from 'vue'
+import { beforeFieldCommitProp, fieldPresentationProp, readPrettyProp } from '../_components/field-presentation/context'
 import { fieldVariants, type FieldDecoratorVariant } from '../field-decorator/props'
 import { componentSizes, type ComponentSize } from '../utils/constants'
+import { popupContainerProp } from '../utils/popup-container'
 
 export const inputTypes = ['text', 'password', 'number', 'tel', 'email'] as const
 export const inputVariants = fieldVariants
@@ -11,6 +13,13 @@ export type WordLength = (value: string) => number
 export type WordSlice = (value: string, maxLength: number) => string
 
 export const inputProps = {
+  /** 字段展示方式，未设置时继承上层。 */
+  presentation: fieldPresentationProp,
+  readPretty: readPrettyProp,
+  beforeCommit: beforeFieldCommitProp,
+  popupContainer: popupContainerProp,
+  open: { type: Boolean, default: undefined },
+  defaultOpen: Boolean,
   /** 受控输入值。 */
   modelValue: String,
   /** v-model 修饰符，trim 在提交时生效。 */

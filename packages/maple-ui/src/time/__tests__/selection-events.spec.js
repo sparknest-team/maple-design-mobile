@@ -18,7 +18,7 @@ describe('time field selection contract', () => {
     const picked = range ? ['10:30', '18:00'] : '10:30'
     const wrapper = mountField(Component, {
       props: { defaultValue: value, defaultOpen: true, format: 'HH:mm' },
-      global: { stubs: { MpTimeFieldPopup: false, MpPopup: { template: '<div><slot /></div>' } } },
+      global: { stubs: { MpTrigger: { template: '<div><slot /><slot name="content" /></div>' } } },
     })
     expect(wrapper.find('[class$="__confirm-button"]').exists()).toBe(true)
     selectField(wrapper, picked)
@@ -50,7 +50,7 @@ describe('time field selection contract', () => {
         'onUpdate:modelValue': () => order.push('model'),
         onChange: () => order.push('change'),
       },
-      global: { stubs: { MpTimeFieldPopup: false, MpPopup: { template: '<div><slot /></div>' } } },
+      global: { stubs: { MpTrigger: { template: '<div><slot /><slot name="content" /></div>' } } },
     })
     expect(wrapper.find('[class$="__confirm-button"]').exists()).toBe(false)
     selectField(wrapper, picked)
@@ -84,16 +84,20 @@ describe('time field selection contract', () => {
     wrapper.unmount()
   })
 
-  it('routes clock and range panel selections through the field transaction', async () => {
+  it('routes wheel and range panel selections through the field transaction', async () => {
     for (const [Field, Panel, value] of [
       [Time, TimePicker, '13:30'],
       [TimeRange, TimeRangePicker, ['13:30', '18:00']],
     ]) {
       const wrapper = mountField(Field, {
-        props: { defaultOpen: true, format: 'HH:mm', presentation: 'clock', disableConfirm: true },
-        global: { stubs: { MpTimeFieldPopup: false, MpPopup: { template: '<div><slot /></div>' } } },
+        props: { defaultOpen: true, format: 'HH:mm', disableConfirm: true },
+        global: { stubs: { MpTrigger: { template: '<div><slot /><slot name="content" /></div>' } } },
       })
-      wrapper.findComponent(Panel).vm.$emit('select', value)
+      if (Field === Time) {
+        changeWheel(wrapper, ['13', '30'])
+      } else {
+        wrapper.findComponent(Panel).vm.$emit('select', value)
+      }
       await nextTick()
       expect(wrapper.emitted('update:modelValue')).toEqual([[value]])
       expect(wrapper.emitted('select')).toHaveLength(1)
@@ -107,7 +111,7 @@ describe('time field selection contract', () => {
     ['range', TimeRangePicker],
   ])('exposes matching select/change date parameters on panels: %s', (_name, Component) => {
     const wrapper = shallowMount(Component, { props: { format: 'HH:mm', disableConfirm: true, showNextDay: true } })
-    panelState(wrapper).handlePickerChange(['13', '30'])
+    panelState(wrapper).handlePickerChange(Component === TimeRangePicker ? ['13', '30', '18', '00'] : ['13', '30'])
     expect(wrapper.emitted('select')[0]).toEqual(wrapper.emitted('change')[0])
     const dates = wrapper.emitted('change')[0][1]
     expect((Array.isArray(dates) ? dates[0] : dates).getHours()).toBe(13)

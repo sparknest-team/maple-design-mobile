@@ -1,0 +1,186 @@
+{
+  "fields": [
+    {
+      "name": "tag",
+      "description": "",
+      "type": "'div' | 'span'",
+      "defaultValue": "'div'",
+      "kind": "enum",
+      "options": [
+        "div",
+        "span"
+      ],
+      "initial": "div"
+    },
+    {
+      "name": "value",
+      "description": "",
+      "type": "unknown",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "null"
+    },
+    {
+      "name": "id",
+      "description": "",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "title",
+      "description": "",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "size",
+      "description": "",
+      "type": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\"",
+      "defaultValue": "'md'",
+      "kind": "enum",
+      "options": [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl"
+      ],
+      "initial": "md"
+    },
+    {
+      "name": "variant",
+      "description": "",
+      "type": "\"filled\" | \"outline\" | \"standard\"",
+      "defaultValue": "'outline'",
+      "kind": "enum",
+      "options": [
+        "filled",
+        "outline",
+        "standard"
+      ],
+      "initial": "outline"
+    },
+    {
+      "name": "placeholder",
+      "description": "",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "hint",
+      "description": "",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "hint-center",
+      "description": "",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "line",
+      "description": "",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "focused",
+      "description": "",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "composing",
+      "description": "",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "clearable",
+      "description": "",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "cursor",
+      "description": "",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "error",
+      "type": "boolean",
+      "defaultValue": "false",
+      "description": "错误状态，由消费者管理。",
+      "kind": "boolean"
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "defaultValue": "false",
+      "description": "禁用状态，由消费者合并 Form/Group 后传入。",
+      "kind": "boolean"
+    },
+    {
+      "name": "readonly",
+      "type": "boolean",
+      "defaultValue": "false",
+      "description": "只读状态，禁止清除但保留展示。",
+      "kind": "boolean"
+    },
+    {
+      "name": "text-color",
+      "type": "string",
+      "defaultValue": "undefined",
+      "description": "自定义文字颜色。",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "focus-color",
+      "type": "string",
+      "defaultValue": "undefined",
+      "description": "自定义聚焦颜色。",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "blur-color",
+      "type": "string",
+      "defaultValue": "undefined",
+      "description": "自定义未聚焦颜色。",
+      "kind": "string",
+      "initial": "#5268cc"
+    }
+  ],
+  "events": [],
+  "scenarios": [
+    {
+      "name": "value",
+      "kind": "prop",
+      "demos": [
+        "../review-fixture.vue"
+      ]
+    }
+  ],
+  "slotNames": [
+    "prefix",
+    "suffix"
+  ],
+  "slotDefaults": {
+    "prefix": true,
+    "suffix": true
+  },
+  "methodNames": []
+}

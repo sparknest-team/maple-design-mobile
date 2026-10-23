@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
-const presentation = ref<'menu' | 'list' | 'picker'>('menu')
+const presentation = ref<'inline' | 'popup'>('inline')
 const value = ref(['factory', 'device-2'])
 const options = ref<Record<string, unknown>[]>([])
 const loading = ref(false)
@@ -26,14 +26,17 @@ async function load() {
 </script>
 <template>
   <mp-space direction="column" :size="16">
-    <label
-      >展示方式
-      <select v-model="presentation">
-        <option>menu</option>
-        <option>list</option>
-        <option>picker</option>
-      </select>
-    </label>
+    <mp-select
+      v-model="presentation"
+      placeholder="展示方式"
+      :clearable="false"
+      hint
+      :options="[
+        { label: 'inline', value: 'inline' },
+        { label: 'popup', value: 'popup' },
+      ]"
+      :style="{ width: '200px' }"
+    />
     <mp-button @click="load">加载设备树</mp-button>
     <mp-cascader
       v-model="value"

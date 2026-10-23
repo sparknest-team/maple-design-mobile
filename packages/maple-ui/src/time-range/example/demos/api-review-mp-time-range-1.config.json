@@ -1,0 +1,266 @@
+{
+  "fields": [
+    {
+      "name": "model-value",
+      "description": "绑定值",
+      "type": "TimeValue[]",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "[]"
+    },
+    {
+      "name": "default-value",
+      "description": "非受控初始值",
+      "type": "TimeValue[]",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "[]"
+    },
+    {
+      "name": "hide-disabled-options",
+      "description": "Hide disabled time options",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "open",
+      "description": "弹层显隐受控",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
+      "name": "default-open",
+      "description": "初始显隐",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "disable-confirm",
+      "description": "有效选择后立即提交并请求关闭",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "panel-type",
+      "description": "Paired column wheels",
+      "type": "'picker'",
+      "defaultValue": "'picker'",
+      "kind": "enum",
+      "options": [
+        "picker"
+      ],
+      "initial": "picker"
+    },
+    {
+      "name": "format",
+      "description": "字符串解析、显示及输出格式",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "use12-hours",
+      "description": "十二小时面板；未传 format 时默认 hh:mm:ss a",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "step",
+      "description": "候选步长以 0 点为起点；无效值回退为 1",
+      "type": "{ hour?: number; minute?: number; second?: number }",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "min",
+      "description": "可选最小时间",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "max",
+      "description": "可选最大时间",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "disabled-hours",
+      "description": "返回禁用小时（0–23）",
+      "type": "() => number[]",
+      "defaultValue": "undefined",
+      "kind": "callback"
+    },
+    {
+      "name": "disabled-minutes",
+      "description": "根据小时返回禁用分钟",
+      "type": "(hour?: number) => number[]",
+      "defaultValue": "undefined",
+      "kind": "callback"
+    },
+    {
+      "name": "disabled-seconds",
+      "description": "根据小时、分钟返回禁用秒",
+      "type": "(hour?: number, minute?: number) => number[]",
+      "defaultValue": "undefined",
+      "kind": "callback"
+    },
+    {
+      "name": "separator",
+      "description": "展示分隔符",
+      "type": "string",
+      "defaultValue": "' ~ '",
+      "kind": "string"
+    },
+    {
+      "name": "show-next-day",
+      "description": "结束早于开始时，在字段与面板结束侧显示「次日」；开启后确认时不交换起止。未开启时在确认时按时间先后交换",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "picker-props",
+      "description": "透传给 mp-picker（picker 模式）",
+      "type": "Partial\\<PickerProps\\>",
+      "defaultValue": "() => ({})",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "time-range-picker-props",
+      "description": "透传给 mp-time-range-picker",
+      "type": "Partial\\<TimeRangePickerProps\\>",
+      "defaultValue": "() => ({})",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "popup-props",
+      "description": "透传给弹窗的属性",
+      "type": "Partial\\<TriggerProps\\>",
+      "defaultValue": "() => ({})",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "input-editable",
+      "description": "是否允许手输；关闭后仍可面板选择",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "placeholder",
+      "description": "起止占位符；字符串用于两端，数组分别设置",
+      "type": "string | string[]",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "[]"
+    },
+    {
+      "name": "clearable",
+      "description": "是否可清除",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "disabled",
+      "description": "是否禁用",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
+      "name": "readonly",
+      "description": "是否只读",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
+      "name": "size",
+      "description": "尺寸，可选值 xs sm md lg xl",
+      "type": "ComponentSize",
+      "defaultValue": "md",
+      "kind": "enum",
+      "options": [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl"
+      ],
+      "initial": "md"
+    },
+    {
+      "name": "variant",
+      "description": "风格，可选值 filled standard outline",
+      "type": "string",
+      "defaultValue": "'standard'",
+      "kind": "string"
+    },
+    {
+      "name": "presentation",
+      "type": "'inline' | 'popup'",
+      "defaultValue": "undefined",
+      "description": "字段编辑方式，字段 > FormItem > Form 继承；默认 inline。",
+      "kind": "enum",
+      "options": [
+        "inline",
+        "popup"
+      ],
+      "initial": "inline"
+    },
+    {
+      "name": "read-pretty",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "description": "纯阅读展示；字段 > FormItem > Form 继承，显式 false 覆盖父级。",
+      "kind": "boolean"
+    },
+    {
+      "name": "before-commit",
+      "type": "BeforeFieldCommit",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "callback"
+    },
+    {
+      "name": "popup-container",
+      "type": "string | HTMLElement | false",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "json",
+      "initial": "\"body\""
+    },
+    {
+      "name": "error",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "description": "错误状态；undefined 继承 Form，显式 false 覆盖。",
+      "kind": "boolean"
+    }
+  ],
+  "methodNames": [],
+  "events": [
+    "focus",
+    "blur",
+    "change",
+    "select",
+    "clear",
+    "open-change",
+    "click"
+  ],
+  "slotNames": [],
+  "slotDefaults": {},
+  "scenarios": []
+}

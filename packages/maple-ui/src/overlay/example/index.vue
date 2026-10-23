@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
+import DemoApiReview from './demos/api-review.vue'
 import ClickEventDemo from './demos/click-event.vue'
 import OverlayBaseDemo from './demos/overlay-base.vue'
 import OverlayContentDemo from './demos/overlay-content.vue'
@@ -29,4 +30,5 @@ onThemeChange()
     <app-type>{{ english ? 'Click Event' : '点击事件' }}</app-type>
     <ClickEventDemo />
   </section>
+  <section data-demo="api-review"><DemoApiReview /></section>
 </template>

@@ -31,13 +31,22 @@
 ### Responsive objects and visibility
 
 
-
 ```demo
 ../example/demos/responsive.vue
 ```
 
-<!-- same-source-api:start -->
+<!-- api-review:start -->
+### Feature playground
 
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
+
+## API
+
+<!-- same-source-api:start -->
 ### Props
 
 | Prop | Description | Type | Default |
@@ -70,6 +79,8 @@
 | Method | Description |
 | --- | --- |
 <!-- same-source-api:end -->
+
+The order example restores every column to `order: 0` when reverse is turned off. Responsive breakpoints use the browser viewport rather than the demo card width; widening the card alone does not activate a breakpoint. `span: 0` hides a column, and a matching larger breakpoint can restore it.
 
 ## Responsive behavior and accessibility
 

@@ -1,13 +1,23 @@
 # Card
 
-与 Cedar 使用相同场景、参数和交互顺序；示例源码仅替换组件前缀，主题与站点外壳各自保留。
-
 ## 案例
 
 ### 基础用法与副标题
 
 ```demo
 ../example/demos/basic.vue
+```
+
+### 变体与阴影
+
+```demo
+../example/demos/variant.vue
+```
+
+### 尺寸
+
+```demo
+../example/demos/size.vue
 ```
 
 ### 自定义标题区域
@@ -22,34 +32,16 @@
 ../example/demos/hoverable.vue
 ```
 
-### 变体与阴影
-
-```demo
-../example/demos/variant.vue
-```
-
 ### 图片与三种布局
 
 ```demo
 ../example/demos/image.vue
 ```
 
-### 尺寸
-
-```demo
-../example/demos/size.vue
-```
-
 ### 长标题与提示
 
 ```demo
 ../example/demos/tooltip.vue
-```
-
-### 内容插槽
-
-```demo
-../example/demos/slots.vue
 ```
 
 ### 水波与点击事件
@@ -63,6 +55,37 @@
 ```demo
 ../example/demos/floating.vue
 ```
+
+### 外观组合
+
+适用于信息分组和内容层次。调整变体、尺寸，用相同数据观察变化。内容保持一致，便于比较不同设置的实际效果。
+
+```demo
+../example/demos/appearance-lab.vue
+```
+
+### 内容插槽
+
+```demo
+../example/demos/slots.vue
+```
+
+### Floating scheduler lifecycle / 浮起调度生命周期
+
+```demo
+../example/demos/scheduler-lifecycle.vue
+```
+
+与 Cedar 使用相同场景、参数和交互顺序；示例源码仅替换组件前缀，主题与站点外壳各自保留。
+
+<!-- api-review:start -->
+### 功能调试
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

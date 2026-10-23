@@ -8,6 +8,6 @@ test('dark Button inherits its shared color roles', () => {
 })
 
 test('Maple light solid primary has a paired light foreground and dark state layer', () => {
-  expect(Themes.maple.light['--mp-button-primary-text-color']).toBe('var(--mp-sys-color-content-on-dark)')
+  expect(Themes.maple.light['--mp-button-solid-text-color']).toBe('var(--mp-sys-color-content-on-dark)')
   expect(Themes.maple.light['--mp-button-primary-state-layer-color']).toBe('var(--mp-sys-color-content-on-bright)')
 })

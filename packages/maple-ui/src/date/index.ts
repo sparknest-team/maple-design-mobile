@@ -1,7 +1,7 @@
 import { withInstall, withPropsDefaultsSetter } from '../utils/components'
-import _Date from './Date.vue'
 import _DatePicker from './DatePicker.vue'
 import { props as datePickerProps } from './picker-props'
+import _Date from './presentation'
 import { props as dateProps } from './props'
 
 const DatePicker = withInstall(_DatePicker)
@@ -39,7 +39,5 @@ export type { DateWeekStart } from './panel-props'
 export type { DateEventPayload, DateChangeArgs, DateEmits, DatePickerEmits } from './events'
 
 export type { DateShortcut, DateShortcutsPosition } from './panel-tools-props'
-
-export type { DateTimePickerOptions } from './time-picker-options'
 
 export type { DateWheelOptions } from './wheel-options'

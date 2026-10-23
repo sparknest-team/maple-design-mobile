@@ -1,0 +1,93 @@
+.mp-menu-option {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: var(--mp-menu-option-padding);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  color: var(--mp-menu-option-text-color);
+  outline: none;
+  white-space: nowrap;
+
+  &:hover:not(&--disabled):not(&--selected-color),
+  &--active:not(&--disabled):not(&--selected-color) {
+    color: var(--mp-menu-option-selected-text-color);
+    background-color: var(--mp-menu-option-bg-hover);
+  }
+
+  &__icon {
+    display: inline-flex;
+    margin-right: var(--mp-menu-option-icon-margin-right);
+  }
+
+  &__text {
+    flex: 1;
+    min-width: min-content;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__suffix {
+    margin-left: var(--mp-menu-option-suffix-margin-left);
+  }
+
+  &__arrow {
+    padding: var(--mp-menu-option-arrow-padding);
+  }
+
+  &__arrow-icon[mp-menu-option-cover] {
+    font-size: var(--mp-menu-option-arrow-icon-size);
+  }
+
+  &--has-suffix {
+    justify-content: space-between;
+  }
+
+  &--children-trigger {
+    width: 100%;
+    padding-right: 0;
+  }
+
+  &--md {
+    height: var(--mp-menu-option-md-height);
+    font-size: var(--mp-menu-option-md-font-size);
+  }
+
+  &--lg {
+    height: var(--mp-menu-option-lg-height);
+    font-size: var(--mp-menu-option-lg-font-size);
+  }
+
+  &--xl {
+    height: var(--mp-menu-option-xl-height);
+    font-size: var(--mp-menu-option-xl-font-size);
+  }
+
+  &--sm {
+    height: var(--mp-menu-option-sm-height);
+    font-size: var(--mp-menu-option-sm-font-size);
+  }
+
+  &--xs {
+    height: var(--mp-menu-option-xs-height);
+    font-size: var(--mp-menu-option-xs-font-size);
+  }
+
+  &--selected-color {
+    color: var(--mp-menu-option-selected-text-color);
+    font-weight: var(--mp-sys-font-weight-medium);
+    background-color: var(--mp-menu-option-selected-background);
+  }
+
+  &--selected-color:not(&--disabled):hover,
+  &--selected-color&--active:not(&--disabled) {
+    background-color: var(--mp-menu-option-bg-selected-hover);
+  }
+
+  &--disabled {
+    color: var(--mp-menu-option-disabled-color);
+    background: var(--mp-menu-option-bg-disabled);
+    cursor: not-allowed;
+  }
+}

@@ -1,0 +1,245 @@
+{
+  "fields": [
+    {
+      "name": "model-value",
+      "description": "受控值；undefined 表示空值/非受控",
+      "type": "number",
+      "defaultValue": "undefined",
+      "kind": "number"
+    },
+    {
+      "name": "default-value",
+      "description": "非受控初始值",
+      "type": "number",
+      "defaultValue": "undefined",
+      "kind": "number"
+    },
+    {
+      "name": "mode",
+      "description": "步进按钮布局",
+      "type": "\"embed\" | \"button\" | \"input\"",
+      "defaultValue": "'embed'",
+      "kind": "enum",
+      "options": [
+        "embed",
+        "button",
+        "input"
+      ],
+      "initial": "embed"
+    },
+    {
+      "name": "precision",
+      "description": "小数位数 0–100，不小于 step 的小数位",
+      "type": "number",
+      "defaultValue": "undefined",
+      "kind": "number"
+    },
+    {
+      "name": "step",
+      "description": "正的有限步长，支持科学计数法",
+      "type": "number",
+      "defaultValue": "1",
+      "kind": "number"
+    },
+    {
+      "name": "disabled",
+      "description": "禁用；未设置时继承",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
+      "name": "error",
+      "description": "错误态；未设置时继承 FormItem",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
+      "name": "max",
+      "description": "最大值",
+      "type": "number",
+      "defaultValue": "Infinity",
+      "kind": "number"
+    },
+    {
+      "name": "min",
+      "description": "最小值",
+      "type": "number",
+      "defaultValue": "-Infinity",
+      "kind": "number"
+    },
+    {
+      "name": "formatter",
+      "description": "只格式化展示，不改变业务数字",
+      "type": "(text: string) => string",
+      "defaultValue": "undefined",
+      "kind": "callback"
+    },
+    {
+      "name": "parser",
+      "description": "每次编辑解析一次原始输入",
+      "type": "(text: string) => string",
+      "defaultValue": "undefined",
+      "kind": "callback"
+    },
+    {
+      "name": "placeholder",
+      "description": "输入提示",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "size",
+      "description": "五档均完整实现，可继承",
+      "type": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\"",
+      "defaultValue": "undefined",
+      "kind": "enum",
+      "options": [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl"
+      ],
+      "initial": "xs"
+    },
+    {
+      "name": "variant",
+      "description": "字段外观，可继承 InputGroup",
+      "type": "\"filled\" | \"outline\" | \"standard\"",
+      "defaultValue": "undefined",
+      "kind": "enum",
+      "options": [
+        "filled",
+        "outline",
+        "standard"
+      ],
+      "initial": "filled"
+    },
+    {
+      "name": "hint",
+      "description": "浮动提示，可继承 InputGroup / FieldDecorator",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
+      "name": "clearable",
+      "description": "允许清空可编辑字段",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "model-event",
+      "description": "model 更新时机；change 仍只在提交时触发",
+      "type": "\"change\" | \"input\"",
+      "defaultValue": "'change'",
+      "kind": "enum",
+      "options": [
+        "change",
+        "input"
+      ],
+      "initial": "change"
+    },
+    {
+      "name": "readonly",
+      "description": "只读；允许聚焦复制，禁止改值",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
+      "name": "input-attrs",
+      "description": "原生 input 补充属性",
+      "type": "Record<string, unknown>",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "presentation",
+      "type": "'inline' | 'popup'",
+      "defaultValue": "undefined",
+      "description": "字段编辑方式，字段 > FormItem > Form 继承；默认 inline。",
+      "kind": "enum",
+      "options": [
+        "inline",
+        "popup"
+      ],
+      "initial": "inline"
+    },
+    {
+      "name": "read-pretty",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "description": "纯阅读展示；字段 > FormItem > Form 继承，显式 false 覆盖父级。",
+      "kind": "boolean"
+    },
+    {
+      "name": "before-commit",
+      "type": "BeforeFieldCommit",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "callback"
+    },
+    {
+      "name": "open",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "boolean"
+    },
+    {
+      "name": "default-open",
+      "type": "boolean",
+      "defaultValue": "false",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "boolean"
+    },
+    {
+      "name": "popup-container",
+      "type": "string | HTMLElement | false",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "json",
+      "initial": "\"body\""
+    }
+  ],
+  "methodNames": [
+    "focus",
+    "blur",
+    "select",
+    "input-ref"
+  ],
+  "events": [
+    "input",
+    "update:modelValue",
+    "change",
+    "clear",
+    "focus",
+    "blur",
+    "keydown"
+  ],
+  "slotNames": [
+    "prepend",
+    "prefix",
+    "suffix",
+    "append",
+    "plus",
+    "minus",
+    "clear-icon"
+  ],
+  "slotDefaults": {
+    "prepend": true,
+    "prefix": true,
+    "suffix": true,
+    "append": true,
+    "plus": true,
+    "minus": true,
+    "clear-icon": true
+  },
+  "scenarios": []
+}

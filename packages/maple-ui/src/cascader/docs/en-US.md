@@ -1,15 +1,6 @@
 # Cascader
 
-### Async device labels
-
-```demo
-../example/demos/en-US/async-devices.vue
-```
-
-
-### Intro
-
-Cascading selection via dropdown menu or bottom popup picker.
+## 案例
 
 ### Please select a region
 
@@ -27,6 +18,14 @@ Cascading selection via dropdown menu or bottom popup picker.
 
 ```demo
 ../example/demos/placeholder-multiple.vue
+```
+
+### Form control size comparison
+
+Compare selected, clearable and nowrap multiple values with Input and Button. Long labels use ellipsis; removal icons stay available and the tag row scrolls horizontally without moving clear or arrow controls.
+
+```demo
+../../field-decorator/example/demos/control-sizes.vue
 ```
 
 ### Picker mode
@@ -53,10 +52,48 @@ Cascading selection via dropdown menu or bottom popup picker.
 ../example/demos/placeholder-list-multiple.vue
 ```
 
-
 ### Presentation and commit rules
 
-Menu commits immediately. List commits single values immediately; multiple values use a draft. Picker always uses a draft. Confirm publishes once; cancel, overlay dismissal, Escape and presentation changes discard edits. External model replacements win over drafts. Cedar only supports Menu; Maple adds independently implemented List and Picker extensions to copied controllers and Menu code. No shared runtime or state.
+Inline commits immediately. Popup and dialog edit a draft for both single and multiple values. Confirm publishes once; cancel, overlay dismissal, Escape and presentation changes discard edits. External model replacements win over drafts. Search is inside the editor and keeps the existing filtering, search event and lazy loading API.
+
+### Manage selected items
+
+Multi-select panels include a selection summary and Clear. Cedar shows removable tags above list options. Maple opens selected-item details from the count row, with per-item removal and a way back to options. Popup/popover and dialog use the same behavior. Removal and Clear edit the draft; Cancel restores the value and Confirm publishes it. Disabled items remain selected, and confirmation locks selection actions. The panel Clear action is independent of the field clear icon.
+
+### Appearance combinations
+
+Use this example for hierarchical choices such as regions. Adjust variant, size and compare the component with the same data. Keep the content unchanged while comparing the available settings.
+
+```demo
+../example/demos/appearance-lab.vue
+```
+
+### Interaction states
+
+Use this example for hierarchical choices such as regions. Adjust disabled, read-only, error feedback and compare the component with the same data. The controls remain available to restore editing; error appearance alone does not run validation.
+
+```demo
+../example/demos/state-lab.vue
+```
+
+### Async device labels
+
+```demo
+../example/demos/en-US/async-devices.vue
+```
+
+### Intro
+
+Cascading selection via dropdown menu or bottom popup picker.
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 
@@ -81,7 +118,7 @@ Use `v-model`, `v-model:open` and `v-model:input-value` for controlled state. Cl
 | `separator` | Separator when show-tags=false | `string` | `,` |
 | `text-align` | left, center, right | `string` | `left` |
 | `max-tag-count` | Maximum visible tags; 0 means unlimited | `number` | `0` |
-| `tag-nowrap` | Prevent tag text wrapping | `boolean` | `false` |
+| `tag-nowrap` | Keep tags on one line with ellipsis and preserved removal icons; overflow scrolls horizontally; hover, focus or tap truncated text to preview it | `boolean` | `false` |
 | `popup-container` | Selector, element, element resolver, or false for inline rendering | `PopupContainer` | `—` |
 | `trigger-props` | Menu Trigger props; field owns open state | `TriggerProps` | `—` |
 | `virtual-list-props` | Virtual list settings for Menu / List | `VirtualListProps` | `—` |
@@ -100,8 +137,7 @@ Use `v-model`, `v-model:open` and `v-model:input-value` for controlled state. Cl
 | `fallback` | Display unresolved values | `boolean 或 (value) => string` | `true` |
 | `search-option-only-label` | Show node label only in search results | `boolean` | `false` |
 | `auto-fit-popup-width` | Match Menu width to field | `boolean` | `false` |
-| `presentation` | Presentation mode | `menu / list / picker` | `menu` |
-| `picker-props` | Wheel appearance and toolbar texts; selected values, columns, field mapping and toolbar are owned by the extension | `PickerProps` | `{}` |
+| `presentation` | 字段展示；未指定时继承 FormItem / Form | `inline / popup` | `inline` |
 | `popup-props` | Popup appearance; open state, bottom placement and mounting are owned by the extension | `PopupProps` | `{}` |
 
 ### Events and methods
@@ -158,3 +194,15 @@ Use CascaderPanel (mp-cascader-panel), also exposed as Cascader.CascaderPanel, f
 ### Field and mobile presentation styles
 
 The copied field shell keeps the same token declarations as Cedar. Mobile presentation-only variables are declared separately in `src/_components/selection-field/presentation/style/token.less` and loaded with the local presentation stylesheet. Their names and defaults remain unchanged: `--mp-selection-presentation-max-height` (`65vh`), `--mp-selection-presentation-bg` (`var(--mp-sys-color-surface-overlay)`) and `--mp-selection-presentation-padding` (`var(--mp-sys-space-5)`). They do not add mobile presentation behavior to Cedar.
+
+### Form field presentation and confirmation
+
+`presentation` inherits from field > FormItem > Form and defaults to `inline`. Supported values are `inline / popup`. Inline keeps the existing control behavior. Overlay editing uses a Cell reference and an isolated draft; only confirmation updates v-model. Cancel, reset and enabling readPretty discard the draft.
+
+Maple 使用 presentation="popup" 点击值区域打开编辑面板；inline 直接编辑。 readPretty 为纯阅读属性，与 readonly、disabled 独立。
+
+`before-commit(value, { previousValue, signal })` can reject an overlay save. FormItem validates the candidate first and keeps the editor open on failure. `open / default-open / update:open` control the editor. Use `#read="{ value, text }"` to customize display. See the full field comparison in Form.
+
+The former menu/list/picker presentation values are replaced by inline/popup. Overlay editors retain the existing option index, search, lazy loading and virtual scrolling.
+
+`read-pretty` 为独立布尔属性，与 `readonly`、`disabled` 同级；字段 > FormItem > Form 继承，显式 `false` 覆盖父级。默认 `false`。纯阅读不显示编辑器。

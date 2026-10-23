@@ -2,6 +2,8 @@
 
 点击触发元素后展示结构化内容。Popover 可以包含按钮、表单和其他交互元素；纯文字说明使用 Tooltip。
 
+## 案例
+
 ### 基本使用
 
 ```demo
@@ -45,6 +47,15 @@
 ```demo
 ../example/demos/disabled.vue
 ```
+
+<!-- api-review:start -->
+### 功能调试
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

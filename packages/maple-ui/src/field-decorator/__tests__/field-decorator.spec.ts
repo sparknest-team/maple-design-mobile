@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs'
 import { h, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test, vi } from 'vitest'
@@ -16,6 +17,11 @@ afterEach(() => {
 })
 
 describe('field decorator', () => {
+  test('browser autofill floats the hint and opens its outline notch before a model update', () => {
+    const styles = readFileSync('src/field-decorator/style/field-decorator.less', 'utf8')
+    expect(styles).toMatch(/&:has\(input:autofill\) &__placeholder\s*\{\s*top: 0;/)
+    expect(styles).toMatch(/&:has\(input:autofill\) &__legend\s*\{\s*max-width:/)
+  })
   test('recognizes zero as content and empty arrays as empty', async () => {
     const wrapper = mount(FieldDecorator, {
       props: { value: [], hint: true, placeholder: 'Resource', clearable: true },

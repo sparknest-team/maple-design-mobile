@@ -1,3 +1,20 @@
+
+
+# FormDetails
+
+Form helper messages for errors and additional guidance.
+
+## Examples
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
+
 ## API
 
 ### Props

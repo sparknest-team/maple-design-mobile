@@ -7,7 +7,7 @@ import Time from '../Time.vue'
 describe('time text entry', () => {
   for (const [Component, initial, edited, expected] of [
     [Time, '09:00', '11:00', '11:00'],
-    [TimeRange, ['09:00', '10:00'], '11:00', ['10:00', '11:00']],
+    [TimeRange, ['09:00', '10:00'], '08:00', ['08:00', '10:00']],
   ] as const) {
     it('commits once and reconciles a rejected controlled update', async () => {
       const wrapper = mount(Component as typeof Time, {

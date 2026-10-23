@@ -1,5 +1,9 @@
 # 全局提示
 
+展示duration是业务期限，不是CSS进出场时长；0常驻，只有有限正值排自动关闭。hover保留剩余期限，KeepAlive重新激活重新开始完整配置期限；停用／卸载使旧计时失效。2026-10-15计时源码与既有审计hash一致，本次仅补录business-clock分类；当前39项回归不增加原生浏览器验收，也不自动认证服务nextTick更新身份或跨文档迁移。
+
+## 案例
+
 ### 介绍
 
 用于展示轻量级、非模态的全局反馈。Maple 与 Cedar 共享同一套公开契约、队列、计时和命令式服务；两端分别维护源码和端侧外观。Message 不锁滚动，也不阻断页面操作。
@@ -47,6 +51,23 @@
 ```demo
 ../example/demos/variant.vue
 ```
+
+### 外观组合
+
+适用于操作结果的即时反馈。调整变体、状态，用相同数据观察变化。内容保持一致，便于比较不同设置的实际效果。
+
+```demo
+../example/demos/appearance-lab.vue
+```
+
+<!-- api-review:start -->
+### 功能调试
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

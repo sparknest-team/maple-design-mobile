@@ -23,7 +23,8 @@ test('time confirm writes modelValue', async () => {
 
   expect(document.querySelector('.mp-time__panel')).toBeTruthy()
   expect(document.querySelector('.mp-picker')).toBeTruthy()
-  expect(document.querySelector('.mp-time-picker')).toBeFalsy()
+  expect(document.querySelector('.mp-time-picker__confirm')).toBeFalsy()
+  expect(document.querySelectorAll('.mp-time__confirm-button')).toHaveLength(1)
 
   await trigger(document.querySelector('.mp-time__confirm-button'), 'click')
   await delay(300)
@@ -44,7 +45,7 @@ test('time cancel does not write modelValue', async () => {
 
   await wrapper.find('.mp-field-decorator').trigger('click')
   await delay(300)
-  await trigger(document.querySelector('.mp-time__cancel-button'), 'click')
+  await wrapper.find('.mp-time').trigger('keydown', { key: 'Escape' })
   await delay(300)
 
   expect(onUpdateModelValue).not.toHaveBeenCalled()
@@ -53,11 +54,10 @@ test('time cancel does not write modelValue', async () => {
   document.body.innerHTML = ''
 })
 
-test('time clock presentation', async () => {
+test('time opens the wheel presentation', async () => {
   const wrapper = mount(VarTime, {
     props: {
       modelValue: '12:30',
-      presentation: 'clock',
       format: 'HH:mm',
     },
     attachTo: document.body,
@@ -66,8 +66,8 @@ test('time clock presentation', async () => {
   await wrapper.find('.mp-field-decorator').trigger('click')
   await delay(300)
 
-  expect(document.querySelector('.mp-time-picker')).toBeTruthy()
-  expect(document.querySelector('.mp-picker')).toBeFalsy()
+  expect(document.querySelector('.mp-time-picker__wheel')).toBeTruthy()
+  expect(document.querySelector('.mp-picker')).toBeTruthy()
 
   wrapper.unmount()
   document.body.innerHTML = ''

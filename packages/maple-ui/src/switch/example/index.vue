@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
+import DemoApiReview from './demos/api-review.vue'
+import OrganizedAppearanceLab from './demos/appearance-lab.vue'
 import DemoBasic from './demos/basic.vue'
 import DemoCustomColor from './demos/custom-color.vue'
 import DemoCustomIcon from './demos/custom-icon.vue'
@@ -12,6 +14,7 @@ import DemoEvents from './demos/events.vue'
 import DemoLoading from './demos/loading.vue'
 import DemoReadonly from './demos/readonly.vue'
 import DemoSize from './demos/size.vue'
+import OrganizedStateLab from './demos/state-lab.vue'
 import DemoSwitchInterception from './demos/switch-interception.vue'
 import DemoType from './demos/type.vue'
 
@@ -29,10 +32,6 @@ onThemeChange()
     <app-type>{{ english ? 'Controlled and default value' : '双向绑定与默认值' }}</app-type
     ><DemoBasic />
   </section>
-  <section data-demo="type">
-    <app-type>{{ english ? 'Four variants' : '四种变体' }}</app-type
-    ><DemoType />
-  </section>
   <section data-demo="size">
     <app-type>{{ english ? 'Three sizes' : '三种尺寸' }}</app-type
     ><DemoSize />
@@ -44,6 +43,10 @@ onThemeChange()
   <section data-demo="readonly">
     <app-type>{{ english ? 'Read only' : '只读' }}</app-type
     ><DemoReadonly />
+  </section>
+  <section data-demo="type">
+    <app-type>{{ english ? 'Four variants' : '四种变体' }}</app-type
+    ><DemoType />
   </section>
   <section data-demo="loading">
     <app-type>{{ english ? 'Loading' : '加载中' }}</app-type
@@ -77,4 +80,13 @@ onThemeChange()
     <app-type>{{ english ? 'Focus and event order' : '焦点与事件顺序' }}</app-type>
     <DemoEvents />
   </section>
+  <section data-demo="appearance-lab">
+    <app-type>{{ english ? 'Appearance combinations' : '外观组合' }}</app-type>
+    <OrganizedAppearanceLab />
+  </section>
+  <section data-demo="state-lab">
+    <app-type>{{ english ? 'Interaction states' : '交互状态切换' }}</app-type>
+    <OrganizedStateLab />
+  </section>
+  <section data-demo="api-review"><DemoApiReview /></section>
 </template>

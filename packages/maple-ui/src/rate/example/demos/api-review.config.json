@@ -1,0 +1,263 @@
+{
+  "fields": [
+    {
+      "name": "model-value",
+      "description": "受控评分，配合 v-model；外部更新不发事件",
+      "type": "number",
+      "defaultValue": "undefined",
+      "kind": "number"
+    },
+    {
+      "name": "default-value",
+      "description": "非受控初值，只初始化一次",
+      "type": "number",
+      "defaultValue": "0",
+      "kind": "number"
+    },
+    {
+      "name": "count",
+      "description": "正有限数向下取整；非法值回退 5",
+      "type": "number | string",
+      "defaultValue": "5",
+      "kind": "scalar"
+    },
+    {
+      "name": "allow-half",
+      "description": "半分步长",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "clearable",
+      "description": "重复点击当前分数清空；键盘边界不会清空",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "grading",
+      "description": "固定五级表情评分，优先于插槽和图标",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "disabled",
+      "description": "禁用；缺省继承表单，显式 false 覆盖",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
+      "name": "readonly",
+      "description": "只读且可聚焦；缺省继承表单",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
+      "name": "aria-label",
+      "description": "评分的业务无障碍名称",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "size",
+      "description": "图标尺寸；数字/数字字符串为 px，带单位为 CSS 长度",
+      "type": "number | string",
+      "defaultValue": "undefined",
+      "kind": "scalar"
+    },
+    {
+      "name": "gap",
+      "description": "图标间距；数字/数字字符串为 px，带单位为 CSS 长度",
+      "type": "number | string",
+      "defaultValue": "undefined",
+      "kind": "scalar"
+    },
+    {
+      "name": "color",
+      "description": "选中颜色，或按每个图标分值的递增阈值映射",
+      "type": "string | Record<string, string>",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "empty-color",
+      "description": "未选中颜色",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "disabled-color",
+      "description": "禁用时覆盖选中/未选中颜色",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "icon",
+      "description": "选中图标",
+      "type": "string | Component",
+      "defaultValue": "undefined",
+      "kind": "component",
+      "options": [
+        "Button",
+        "Input",
+        "Tag",
+        "Checkbox"
+      ],
+      "initial": "Input"
+    },
+    {
+      "name": "half-icon",
+      "description": "半选图标",
+      "type": "string | Component",
+      "defaultValue": "undefined",
+      "kind": "component",
+      "options": [
+        "Button",
+        "Input",
+        "Tag",
+        "Checkbox"
+      ],
+      "initial": "Input"
+    },
+    {
+      "name": "empty-icon",
+      "description": "未选中图标",
+      "type": "string | Component",
+      "defaultValue": "undefined",
+      "kind": "component",
+      "options": [
+        "Button",
+        "Input",
+        "Tag",
+        "Checkbox"
+      ],
+      "initial": "Input"
+    },
+    {
+      "name": "ripple",
+      "description": "点击水波纹",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "presentation",
+      "type": "'inline' | 'popup'",
+      "defaultValue": "undefined",
+      "description": "字段编辑方式，字段 > FormItem > Form 继承；默认 inline。",
+      "kind": "enum",
+      "options": [
+        "inline",
+        "popup"
+      ],
+      "initial": "inline"
+    },
+    {
+      "name": "read-pretty",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "description": "纯阅读展示；字段 > FormItem > Form 继承，显式 false 覆盖父级。",
+      "kind": "boolean"
+    },
+    {
+      "name": "before-commit",
+      "type": "BeforeFieldCommit",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "callback"
+    },
+    {
+      "name": "open",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "boolean"
+    },
+    {
+      "name": "default-open",
+      "type": "boolean",
+      "defaultValue": "false",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "boolean"
+    },
+    {
+      "name": "popup-container",
+      "type": "string | HTMLElement | false",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "json",
+      "initial": "\"body\""
+    }
+  ],
+  "events": [
+    "update:modelValue",
+    "change",
+    "hover-change",
+    "update:open"
+  ],
+  "scenarios": [
+    {
+      "name": "color",
+      "kind": "prop",
+      "demos": [
+        "custom-rating-icon-style.vue",
+        "half-star.vue"
+      ]
+    },
+    {
+      "name": "icon",
+      "kind": "prop",
+      "demos": [
+        "basic-usage.vue",
+        "custom-rating-icon-style.vue",
+        "half-star.vue"
+      ]
+    },
+    {
+      "name": "half-icon",
+      "kind": "prop",
+      "demos": [
+        "half-star.vue"
+      ]
+    },
+    {
+      "name": "empty-icon",
+      "kind": "prop",
+      "demos": [
+        "basic-usage.vue",
+        "custom-rating-icon-style.vue",
+        "half-star.vue"
+      ]
+    },
+    {
+      "name": "before-commit",
+      "kind": "prop",
+      "demos": []
+    },
+    {
+      "name": "character",
+      "kind": "slot",
+      "demos": [
+        "sizes-and-symbols.en-US.vue",
+        "sizes-and-symbols.vue"
+      ]
+    }
+  ],
+  "slotNames": [
+    "character"
+  ],
+  "slotDefaults": {
+    "character": false
+  },
+  "methodNames": []
+}

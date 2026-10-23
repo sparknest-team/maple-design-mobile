@@ -1,12 +1,10 @@
 # 倒计时
 
-真实IAB default/light业务生命周期各端1组通过：实际递减、公开pause／start、KeepAlive停用回调稳定、停用时time重置到900ms不后台计时、激活恢复及卸载后回调稳定，最终节点0。稳定缓存容器保证inactive更新真实传入组件，不把父级延迟传值误记产品缺陷。非已出队竞态／跨窗口／OS证明。
+## 案例
 
 ### Countdown 业务时钟与停用边界
 
 Countdown 的 RAF 刷新业务剩余时间，不是视觉插值；CSS duration／减少动效不能改变业务计时。暂停与 KeepAlive 停用冻结剩余时间，重新激活按冻结值续跑，不把停用期间计入消耗。停用时更新 time／reset 可更新剩余数据及 change 通知，但不申请 RAF；auto-start 的启动延后到激活，手动 pause 取消待恢复。停用期间直接 start 被忽略，卸载后的 start／reset 不再通知或调度。
-
-每帧在清空句柄、计算和通知前验证代次，并在 change 回调后再次核对；回调内 reset／pause／start 的新任务不能被旧帧覆盖，已消费帧不能再次更新或抢占后继帧。结束只通知一次，reset 允许新一轮结束。两端受控时钟／RAF各8项通过，其中6项基线失败；完整Countdown Cedar18／Maple20项通过。没有新增CSS变量／公开API，模拟RAF不等于真实浏览器／OS验收。
 
 ### 介绍
 
@@ -59,6 +57,15 @@ Countdown 的 RAF 刷新业务剩余时间，不是视觉插值；CSS duration�
 ```demo
 ../example/demos/embed-statistic.vue
 ```
+
+<!-- api-review:start -->
+### 功能调试
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

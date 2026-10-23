@@ -1,5 +1,7 @@
 # 背景层
 
+## 案例
+
 ### 介绍
 
 创建一个背景层，用于强调特定的页面元素。
@@ -23,6 +25,15 @@
 ```demo
 ../example/demos/click-event.vue
 ```
+
+<!-- api-review:start -->
+### 功能调试
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

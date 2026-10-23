@@ -8,6 +8,7 @@
       classes(n(), n('$--box'), n(`--${mergedLayout}`), [noStyle, n('--no-style')], [showLabel, n('--with-label')]),
     ]"
     v-bind="rowProps"
+    :data-presentation="presentationState.resolved.value === 'inline' ? undefined : presentationState.resolved.value"
   >
     <mp-col
       v-if="showLabel"
@@ -25,11 +26,11 @@
       <FormItemLabel
         :measure-width="measureLabel"
         :registry="labelRegistry"
-        :required="showAsterisk"
+        :required="!presentationState.readPretty.value && showAsterisk"
         :show-colon="showColon"
         :asterisk-position="asteriskPosition"
         :component="labelComponent"
-        :attrs="labelAttrs"
+        :attrs="presentationState.readPretty.value ? { ...labelAttrs, for: undefined } : labelAttrs"
         :tooltip="tooltip"
       >
         <slot name="label">{{ label }}</slot>
@@ -41,7 +42,11 @@
         <slot />
       </div>
 
-      <mp-form-details v-if="!noStyle" :error-message="displayErrorMessage" :extra-message="extra">
+      <mp-form-details
+        v-if="!noStyle"
+        :error-message="presentationState.readPretty.value ? '' : displayErrorMessage"
+        :extra-message="extra"
+      >
         <template v-if="$slots.extra" #extra-message>
           <slot name="extra" />
         </template>
@@ -58,6 +63,7 @@
 import { computed, defineComponent, nextTick, onBeforeUnmount, onMounted, ref, useSlots } from 'vue'
 import type { ComponentPublicInstance } from 'vue'
 import { cloneDeep, normalizeToArray } from '@maplejs/maple-shared'
+import { provideItemPresentation } from '../_components/field-presentation/context'
 import Col from '../col'
 import MpFormDetails from '../form-details'
 import Row from '../row'
@@ -96,6 +102,16 @@ export default defineComponent({
     const formItemRef = ref<HTMLElement>()
 
     const fieldValue = computed(() => getValueByPath(form?.model.value, props.field))
+    const presentationState = provideItemPresentation({
+      presentation: () => props.presentation,
+      readPretty: () => props.readPretty,
+      label: computed(() => props.label),
+      field: computed(() => props.field),
+      message: computed(() => errorMessage.value),
+      validate: async (candidate) => (await runValidation({ value: candidate })).valid,
+      resetValidation: () => clearValidate(),
+    })
+
     const { hasOuterLabel: parentHasOuterLabel } = useFormItem()
     const showLabel = computed(() => !props.noStyle && !props.hideLabel && (!!props.label || !!slots.label))
     const hasOuterLabel = computed(() => (props.noStyle ? parentHasOuterLabel.value : showLabel.value))
@@ -195,10 +211,17 @@ export default defineComponent({
       })
     }
 
-    async function runValidation() {
+    async function runValidation(candidate?: { value: unknown }) {
       const isCurrent = validationTask.begin()
       validationStatus.value = mergedRules.value.length ? 'validating' : undefined
-      const valid = await v(mergedRules.value, fieldValue.value)
+      const candidateModel = candidate ? cloneDeep(form?.model.value ?? {}) : form?.model.value
+      if (candidate && props.field) {
+        setValueByPath(candidateModel, props.field, candidate.value)
+      }
+      const valid = await v(mergedRules.value, candidate ? candidate.value : fieldValue.value, {
+        model: candidateModel,
+        field: props.field,
+      })
       if (isCurrent()) {
         validationStatus.value = mergedRules.value.length ? (valid ? 'success' : 'error') : undefined
       }
@@ -229,6 +252,7 @@ export default defineComponent({
     }
 
     function resetField() {
+      presentationState.cancel()
       if (props.field && form?.model.value) {
         setValueByPath(form.model.value, props.field, cloneDeep(initialValue.value))
       }
@@ -246,6 +270,8 @@ export default defineComponent({
       }
       if ('status' in fieldData || 'message' in fieldData) {
         validationTask.invalidate()
+        // Invalidate the rule runner too, before applying the explicit message.
+        resetValidation()
         validationStatus.value =
           fieldData.status === '' ? undefined : (fieldData.status ?? (fieldData.message ? 'error' : undefined))
         errorMessage.value = fieldData.message || ''
@@ -269,6 +295,7 @@ export default defineComponent({
     })
 
     return {
+      presentationState,
       n,
       classes,
       formItemRef,

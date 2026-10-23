@@ -67,12 +67,14 @@ describe('Button shared contract', () => {
     const w = render({}, { default: 'Save', icon: '<b data-icon>+</b>' })
     expect(w.find('[data-icon]').exists()).toBe(true)
   })
-  it('makes icon-container effective', () => {
-    expect(
-      render({ iconContainer: true })
-        .classes()
-        .some((c) => c.endsWith('--icon-container')),
-    ).toBe(true)
+  it('detects icon-only content and keeps icon/text labels visible', async () => {
+    const iconOnly = render({}, { icon: () => h('svg') })
+    expect(iconOnly.classes().some((c) => c.endsWith('--icon-only'))).toBe(true)
+    const labeled = render({}, { icon: () => h('svg'), default: 'Save' })
+    expect(labeled.classes().some((c) => c.endsWith('--icon-only'))).toBe(false)
+    expect(labeled.text()).toBe('Save')
+    await labeled.setProps({ stacked: true })
+    expect(labeled.text()).toBe('Save')
   })
   it('applies elevation and can turn it off', () => {
     expect(
@@ -209,13 +211,13 @@ describe('Button shared contract', () => {
     expect(w.classes().some((c) => c.endsWith(`--loading-${mode}`))).toBe(true)
     expect(w.text()).toContain('Action')
   })
-  it('supports spinner type, size, color and radius', () => {
-    const w = render({ loading: true, loadingType: 'wave', loadingSize: 28, loadingColor: 'red', loadingRadius: 5 })
+  it('supports spinner type, size and color', () => {
+    const w = render({ loading: true, loadingType: 'wave', loadingSize: 28, loadingColor: 'red' })
     const loading = w.findComponent({ name: 'CLoading' }).exists()
       ? w.findComponent({ name: 'CLoading' })
       : w.findComponent({ name: 'MpLoading' })
     expect(loading.exists()).toBe(true)
-    expect(loading.props()).toMatchObject({ type: 'wave', size: 28, color: 'red', radius: 5 })
+    expect(loading.props()).toMatchObject({ type: 'wave', size: 28, color: 'red' })
   })
 })
 

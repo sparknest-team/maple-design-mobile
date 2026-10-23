@@ -1,5 +1,7 @@
 # ProgressGroup
 
+## Examples
+
 ### Introduction
 
 Display multiple values as segments of a single progress track with a matching legend.
@@ -42,6 +44,8 @@ Display multiple values as segments of a single progress track with a matching l
 
 ### Overflow and keyboard
 
+The demo's parent updates `max`, `items` and `tooltip` for both shapes; these controls are not built-in editing events. Toggle capacity between 100/200, clear/restore data or disable/enable tooltips. Disabling tooltips removes segments from the Tab order, and clearing data removes their tips. Pointer hover takes precedence over keyboard focus; leaving the hovered segment restores the focused segment's tip.
+
 ```demo
 ../example/demos/overflow-keyboard.vue
 ```
@@ -49,6 +53,17 @@ Display multiple values as segments of a single progress track with a matching l
 Segments are clipped cumulatively at max in both line and circle modes. Legend and tooltip values retain the logical per-item percentages. Non-finite/negative values become zero; invalid max falls back to 100. Focus a visible segment with Tab to show its tooltip; Escape dismisses it. Moving the pointer away does not dismiss a focused segment's tooltip. Use aria-label to name the group.
 
 All five size presets affect line thickness (2/4/8/12/16px), not circle diameter; circle-size and stroke-width control circles. CSS-length circle-size values are supported.
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
+
+## API
 
 ### Props
 

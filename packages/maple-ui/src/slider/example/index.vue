@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
+import DemoApiReview from './demos/api-review.vue'
 import BasicUsageDemo from './demos/basic-usage.vue'
 import ControlledRangeDemo from './demos/controlled-range.vue'
 import CustomBtnDemo from './demos/custom-btn.vue'
@@ -12,6 +13,7 @@ import RangeDemo from './demos/range.vue'
 import ReadonlyDemo from './demos/readonly.vue'
 import ShowLabelDemo from './demos/show-label.vue'
 import SliderSizeDemo from './demos/slider-size.vue'
+import OrganizedStateLab from './demos/state-lab.vue'
 import StepSizeDemo from './demos/step-size.vue'
 import TouchAndLabelsDemo from './demos/touch-and-labels.vue'
 import VerticalDemo from './demos/vertical.vue'
@@ -27,57 +29,57 @@ onThemeChange()
 
 <template>
   <section data-demo="basic-usage">
-    <app-type>{{ english ? 'Basic Usage' : '基本使用' }}</app-type>
+    <app-type>{{ english ? 'basic-usage' : '基础用法' }}</app-type>
     <BasicUsageDemo />
   </section>
 
+  <section data-demo="readonly">
+    <app-type>{{ english ? 'readonly' : '只读' }}</app-type>
+    <ReadonlyDemo />
+  </section>
+
   <section data-demo="step-size">
-    <app-type>{{ english ? 'Step Size' : '指定步长' }}</app-type>
+    <app-type>{{ english ? 'step-size' : '步长' }}</app-type>
     <StepSizeDemo />
   </section>
 
   <section data-demo="dual-thumb">
-    <app-type>{{ english ? 'Dual Thumbs' : '双滑块' }}</app-type>
+    <app-type>{{ english ? 'dual-thumb' : '范围' }}</app-type>
     <DualThumbDemo />
   </section>
 
   <section data-demo="range">
-    <app-type>{{ english ? 'Range' : '选择范围' }}</app-type>
+    <app-type>{{ english ? 'range' : '自定义边界' }}</app-type>
     <RangeDemo />
   </section>
 
   <section data-demo="disable">
-    <app-type>{{ english ? 'Disable' : '禁用' }}</app-type>
+    <app-type>{{ english ? 'disable' : '禁用' }}</app-type>
     <DisableDemo />
   </section>
 
-  <section data-demo="readonly">
-    <app-type>{{ english ? 'Readonly' : '只读' }}</app-type>
-    <ReadonlyDemo />
-  </section>
-
   <section data-demo="slider-size">
-    <app-type>{{ english ? 'Slider Size' : '不同大小' }}</app-type>
+    <app-type>{{ english ? 'slider-size' : '几何尺寸' }}</app-type>
     <SliderSizeDemo />
   </section>
 
   <section data-demo="custom-style">
-    <app-type>{{ english ? 'Custom Style' : '自定义样式' }}</app-type>
+    <app-type>{{ english ? 'custom-style' : '颜色' }}</app-type>
     <CustomStyleDemo />
   </section>
 
   <section data-demo="custom-btn">
-    <app-type>{{ english ? 'Custom Button' : '自定义按钮' }}</app-type>
+    <app-type>{{ english ? 'custom-btn' : '自定义拇指' }}</app-type>
     <CustomBtnDemo />
   </section>
 
   <section data-demo="show-label">
-    <app-type>{{ english ? 'Show Label' : '显示标签' }}</app-type>
+    <app-type>{{ english ? 'show-label' : '提示' }}</app-type>
     <ShowLabelDemo />
   </section>
 
   <section data-demo="vertical">
-    <app-type>{{ english ? 'Vertical' : '垂直方向' }}</app-type>
+    <app-type>{{ english ? 'Vertical' : '垂直' }}</app-type>
     <VerticalDemo />
   </section>
   <section data-demo="keyboard-input">
@@ -92,4 +94,9 @@ onThemeChange()
     <app-type>{{ english ? 'Controlled and Non-crossing Range' : '受控与非交叉范围' }}</app-type>
     <ControlledRangeDemo />
   </section>
+  <section data-demo="state-lab">
+    <app-type>{{ english ? 'Interaction states' : '交互状态切换' }}</app-type>
+    <OrganizedStateLab />
+  </section>
+  <section data-demo="api-review"><DemoApiReview /></section>
 </template>

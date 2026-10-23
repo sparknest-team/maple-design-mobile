@@ -94,9 +94,12 @@ describe('Trigger shared interaction contract', () => {
       await tick()
       wrapper.get('[data-panel]').element.focus()
       await tick()
+      const focus = vi.spyOn(button, 'focus')
       escape()
       await tick()
       expect(document.activeElement).toBe(button)
+      expect(focus).toHaveBeenCalledWith({ preventScroll: true })
+      focus.mockRestore()
       expect(wrapper.emitted('update:open')).toEqual([[true], [false]])
       expect(wrapper.emitted('close')).toHaveLength(1)
     } finally {
@@ -148,6 +151,77 @@ describe('Trigger shared interaction contract', () => {
       await tick()
       expect(first.defaultPrevented).toBe(true)
       expect(wrapper.emitted('update:open')).toEqual([[true]])
+    } finally {
+      wrapper.unmount()
+    }
+  })
+  test.each([['contextMenu'], [['contextMenu', 'hover']]])(
+    'point-aligned %j stays at the opening point until another contextmenu event',
+    async (trigger) => {
+      const wrapper = mount(Trigger, {
+        props: {
+          trigger,
+          alignPoint: true,
+          placement: 'bottom-start',
+          strategy: 'fixed',
+          autoFitPosition: false,
+          popupContainer: false,
+          mouseEnterDelay: 0,
+        },
+        slots,
+        attachTo: document.body,
+      })
+      try {
+        const reference = wrapper.get('[data-reference]').element
+        const dispatch = (type, x, y) =>
+          reference.dispatchEvent(new MouseEvent(type, { clientX: x, clientY: y, cancelable: true }))
+        const position = () => {
+          const panel = wrapper.get('[data-panel]').element.closest('[style*="position: fixed"]')
+          return [panel.style.left, panel.style.top]
+        }
+        dispatch('contextmenu', 140, 160)
+        await tick()
+        expect(position()).toEqual(['140px', '160px'])
+        dispatch('mousemove', 240, 260)
+        dispatch('mouseleave', 240, 260)
+        dispatch('mouseenter', 340, 360)
+        await tick()
+        expect(position()).toEqual(['140px', '160px'])
+        dispatch('contextmenu', 440, 460)
+        await tick()
+        expect(position()).toEqual(['440px', '460px'])
+        expect(wrapper.emitted('update:open')).toEqual([[true]])
+      } finally {
+        wrapper.unmount()
+      }
+    },
+  )
+  test('context menu without alignPoint continues to align to the reference element', async () => {
+    const wrapper = mount(Trigger, {
+      props: {
+        trigger: 'contextMenu',
+        placement: 'bottom-start',
+        strategy: 'fixed',
+        autoFitPosition: false,
+        popupContainer: false,
+      },
+      slots,
+      attachTo: document.body,
+    })
+    try {
+      const reference = wrapper.get('[data-reference]').element
+      vi.spyOn(reference, 'getBoundingClientRect').mockReturnValue({
+        left: 20,
+        top: 30,
+        right: 100,
+        bottom: 60,
+        width: 80,
+        height: 30,
+      })
+      reference.dispatchEvent(new MouseEvent('contextmenu', { clientX: 440, clientY: 460, cancelable: true }))
+      await tick()
+      const panel = wrapper.get('[data-panel]').element.closest('[style*="position: fixed"]')
+      expect([panel.style.left, panel.style.top]).toEqual(['20px', '60px'])
     } finally {
       wrapper.unmount()
     }

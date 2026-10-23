@@ -4,7 +4,7 @@ import { afterEach, describe, expect, it } from 'vitest'
 import DateRange from '../../date-range/DateRange.vue'
 import DateInput from '../Date.vue'
 
-const Surface = defineComponent({ template: '<div><slot /></div>' })
+const Surface = defineComponent({ template: '<div><slot /><slot name="content" /></div>' })
 const wrappers: ReturnType<typeof mount>[] = []
 afterEach(() => wrappers.splice(0).forEach((wrapper) => wrapper.unmount()))
 describe('mobile field real calendar viewport', () => {
@@ -12,19 +12,19 @@ describe('mobile field real calendar viewport', () => {
     it(`routes real calendar navigation through the field (range=${range})`, async () => {
       const initial = range ? ['2025-01-01', '2025-02-01'] : '2025-01-01'
       const nested = { pickerValue: initial }
-      const global = { stubs: { DatePopup: Surface } }
+      const global = { stubs: { Trigger: Surface, MpTrigger: Surface, teleport: true } }
       const wrapper = range
         ? mount(DateRange, {
             props: {
               defaultOpen: true,
-              presentation: 'calendar',
+              panelType: 'calendar',
               modelValue: ['2025-01-15', '2025-01-20'],
               dateRangePickerProps: nested,
             },
             global,
           })
         : mount(DateInput, {
-            props: { defaultOpen: true, presentation: 'calendar', modelValue: '2025-01-15', datePickerProps: nested },
+            props: { defaultOpen: true, panelType: 'calendar', modelValue: '2025-01-15', datePickerProps: nested },
             global,
           })
       wrappers.push(wrapper)

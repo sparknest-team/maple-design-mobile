@@ -1,0 +1,234 @@
+{
+  "fields": [
+    {
+      "name": "src",
+      "description": "图片地址",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "object-fit",
+      "description": "填充模式, 可选值为 fill contain cover none scale-down",
+      "type": "'fill' | 'contain' | 'cover' | 'none' | 'scale-down'",
+      "defaultValue": "'fill'",
+      "kind": "enum",
+      "options": [
+        "fill",
+        "contain",
+        "cover",
+        "none",
+        "scale-down"
+      ],
+      "initial": "fill"
+    },
+    {
+      "name": "object-position",
+      "description": "图片内容位置，等同 CSS object-position",
+      "type": "string",
+      "defaultValue": "'50% 50%'",
+      "kind": "string"
+    },
+    {
+      "name": "alt",
+      "description": "替代文本",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "title",
+      "description": "图片描述，透传给 img 的 title 属性",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "description",
+      "description": "图片描述，alt 未设置时作为替代文本，也用于默认错误状态",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "hide-footer",
+      "description": "是否隐藏底部内容；设为 never 时错误状态仍显示",
+      "type": "boolean | 'never'",
+      "defaultValue": "false",
+      "kind": "scenario"
+    },
+    {
+      "name": "footer-position",
+      "description": "底部内容位置，可选 inner outer",
+      "type": "'inner' | 'outer'",
+      "defaultValue": "'inner'",
+      "kind": "enum",
+      "options": [
+        "inner",
+        "outer"
+      ],
+      "initial": "inner"
+    },
+    {
+      "name": "footer-class",
+      "description": "底部内容类名",
+      "type": "string | array | object",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "referrer-policy",
+      "description": "指示在获取资源时使用的来源地址。该属性需注意浏览器兼容性，参见 [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img)",
+      "type": "string",
+      "defaultValue": "-",
+      "kind": "string"
+    },
+    {
+      "name": "width",
+      "description": "图片宽度",
+      "type": "string | number",
+      "defaultValue": "undefined",
+      "kind": "scalar"
+    },
+    {
+      "name": "height",
+      "description": "图片高度",
+      "type": "string | number",
+      "defaultValue": "undefined",
+      "kind": "scalar"
+    },
+    {
+      "name": "radius",
+      "description": "图片圆角",
+      "type": "string | number",
+      "defaultValue": "0",
+      "kind": "scalar"
+    },
+    {
+      "name": "lazy",
+      "description": "是否开启懒加载",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "show-loader",
+      "description": "当开启懒加载时，加载中显示的图片",
+      "type": "string",
+      "defaultValue": "false",
+      "kind": "string"
+    },
+    {
+      "name": "fallback-src",
+      "description": "当开启懒加载时，加载失败显示的图片",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "ripple",
+      "description": "是否开启水波",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "block",
+      "description": "是否是块级元素",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "preview-disabled",
+      "description": "是否禁用点击预览",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "preview-src",
+      "description": "预览大图地址，默认与 src 相同",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "preview-open",
+      "description": "受控预览状态",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
+      "name": "default-preview-open",
+      "description": "默认预览打开状态",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "preview-props",
+      "description": "透传给 ImagePreview 的配置",
+      "type": "object",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "popup-container",
+      "description": "预览挂载位置，设为 false 时禁用 Teleport",
+      "type": "string | HTMLElement | false",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "\"body\""
+    },
+    {
+      "name": "load-description",
+      "type": "string",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "string"
+    },
+    {
+      "name": "img-props",
+      "type": "ImgHTMLAttributes",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "json",
+      "initial": "{\"alt\":\"审查图片 / Review image\",\"draggable\":false}"
+    },
+    {
+      "name": "previewed-img-props",
+      "type": "ImgHTMLAttributes",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "json",
+      "initial": "{\"alt\":\"审查图片 / Review image\",\"draggable\":false}"
+    }
+  ],
+  "methodNames": [],
+  "events": [
+    "click",
+    "load",
+    "error",
+    "preview-open-change",
+    "update:previewOpen"
+  ],
+  "slotNames": [
+    "error",
+    "error-icon",
+    "loader",
+    "extra",
+    "preview-actions"
+  ],
+  "slotDefaults": {
+    "error": false,
+    "error-icon": false,
+    "loader": false,
+    "extra": false,
+    "preview-actions": false
+  },
+  "scenarios": []
+}

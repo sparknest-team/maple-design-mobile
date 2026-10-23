@@ -1,0 +1,90 @@
+{
+  "fields": [
+    {
+      "name": "loading",
+      "description": "加载中的图片，尽可能选择加载速度很快的图片",
+      "type": "string",
+      "defaultValue": "1像素透明图片",
+      "kind": "string"
+    },
+    {
+      "name": "error",
+      "description": "加载失败显示的图片",
+      "type": "string",
+      "defaultValue": "1像素透明图片",
+      "kind": "string"
+    },
+    {
+      "name": "attempt",
+      "description": "加载失败时尝试重新加载的次数",
+      "type": "number",
+      "defaultValue": "3",
+      "kind": "number"
+    },
+    {
+      "name": "throttle-wait",
+      "description": "节流时间，数值越大事件触发频率越低",
+      "type": "number",
+      "defaultValue": "300",
+      "kind": "number"
+    },
+    {
+      "name": "events",
+      "description": "触发可见性检测注册的事件列表",
+      "type": "string[]",
+      "defaultValue": "['scroll'...]",
+      "kind": "json",
+      "initial": "[]"
+    },
+    {
+      "name": "filter",
+      "description": "属性拦截函数",
+      "type": "(lazy: Lazy) => void",
+      "defaultValue": "() => void",
+      "kind": "callback"
+    },
+    {
+      "name": "src",
+      "type": "string",
+      "initial": "/cat.jpg",
+      "description": "v-lazy 图片地址；可输入无效地址验证失败 / Image URL",
+      "defaultValue": "/cat.jpg",
+      "kind": "string"
+    },
+    {
+      "name": "lazy-loading",
+      "type": "string",
+      "initial": "",
+      "description": "加载占位图片 / Loading placeholder",
+      "defaultValue": "",
+      "kind": "string"
+    },
+    {
+      "name": "lazy-error",
+      "type": "string",
+      "initial": "",
+      "description": "失败占位图片 / Error placeholder",
+      "defaultValue": "",
+      "kind": "string"
+    },
+    {
+      "name": "lazy-attempt",
+      "type": "number",
+      "initial": 3,
+      "description": "失败重试次数 / Retry attempts",
+      "defaultValue": "3",
+      "kind": "number"
+    }
+  ],
+  "events": [],
+  "scenarios": [
+    {
+      "name": "filter",
+      "kind": "prop",
+      "demos": []
+    }
+  ],
+  "slotNames": [],
+  "slotDefaults": {},
+  "methodNames": []
+}

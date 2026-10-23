@@ -74,6 +74,15 @@ function switchLocale() {
 | `波斯语` | fa-IR | _Locale.faIR_ | `v2.22.0` |
 | `日语` | ja-JP | _Locale.jaJP_ | `v3.9.0` |
 
+<!-- shared-locale-provider-review:start -->
+### LocaleProvider 组合审查 / API review
+
+```demo
+../../locale-provider/example/demos/api-review.vue
+```
+
+<!-- shared-locale-provider-review:end -->
+
 ## API
 
 ### 属性

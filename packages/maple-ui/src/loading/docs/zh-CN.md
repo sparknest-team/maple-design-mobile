@@ -1,8 +1,16 @@
 # 加载
 
+## 案例
+
 ### 介绍
 
 加载组件，用于数据加载时执行动画。
+
+### 大小
+
+```demo
+../example/demos/size.vue
+```
 
 ### 类型
 
@@ -16,12 +24,6 @@
 ../example/demos/color.vue
 ```
 
-### 大小
-
-```demo
-../example/demos/size.vue
-```
-
 ### 包裹内容
 
 ```demo
@@ -30,6 +32,7 @@
 
 ### 加载指令
 
+两种指令示例分别维护加载状态，控件与宿主卡片通过 `Space direction="column"` 纵向排列；关闭一个不会影响另一个遮罩。
 
 
 `v-mp-loading` 支持布尔值简写，也支持 `{ loading, tip, type, size, radius, color, hideIcon, fullscreen, background }` 配置对象。对象形式中的 `loading` 控制加载状态，其余组件选项与 `Loading` Props 保持一致。
@@ -39,11 +42,6 @@
 `v-mp-loading` 使用 Maple 内置的 `Loading` 组件渲染指示器。`mp-` 前缀可以避免与其他组件库的同名指令冲突，使用前可通过以下任一方式注册。
 
 
-
-
-
-
-
 使用 `MapleResolver()` 时，`unplugin-vue-components` 会自动解析模板中的 `v-mp-loading`；`directives: false` 会关闭指令自动解析。
 
 > 包裹模式通过将默认插槽内容设为 `opacity: 0.38` 展示加载状态。指令不改变宿主 DOM 结构，因此在宿主内插入内置 Loading VNode，并使用等效的半透明背景遮罩。
@@ -51,6 +49,15 @@
 ```demo
 ../example/demos/directive.vue
 ```
+
+<!-- api-review:start -->
+### 功能调试
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

@@ -1,9 +1,8 @@
 import { type ExtractPropTypes, type PropType } from 'vue'
+import { fieldPresentationProps } from '../_components/field-presentation/props'
 import { fieldDecoratorProps } from '../field-decorator'
 import { pickerProps as pickerPropsSource } from '../picker'
-import { popupProps } from '../popup'
 import { timeDisabledProps } from '../time/disabled-props'
-import { props as timePickerPropsSource } from '../time/picker-props'
 import type {
   TimePanelPresentationProps,
   TimePopupPresentationProps,
@@ -11,16 +10,19 @@ import type {
 } from '../time/presentation-props'
 import { timeStepProp } from '../time/step-prop'
 import type { TimeValue } from '../time/time-value'
+import { triggerProps } from '../trigger'
 import { pickProps } from '../utils/components'
 import { popupContainerProp } from '../utils/popup-container'
 import { props as timeRangePickerPropsSource } from './picker-props'
 
-export type TimeRangePresentation = 'clock' | 'picker'
+export type TimeRangePanelType = 'picker'
+export type TimeRangePresentation = import('../_components/field-presentation/context').FieldPresentation
 
 export const props = {
+  ...fieldPresentationProps,
   /** 是否允许手输时间；移动端默认关闭，面板选择不受影响。 */
   inputEditable: { type: Boolean, default: false },
-  /** 隐藏禁用的时间选项；时钟保留刻度角度。 */
+  /** 隐藏禁用的时间选项。 */
   hideDisabledOptions: Boolean,
   /** 有效选择后立即提交并关闭，不显示确认按钮。 */
   disableConfirm: Boolean,
@@ -37,8 +39,8 @@ export const props = {
     type: Boolean,
     default: undefined,
   },
-  presentation: {
-    type: String as PropType<TimeRangePresentation>,
+  panelType: {
+    type: String as PropType<TimeRangePanelType>,
     default: 'picker',
   },
   /** 字符串解析、显示及输出格式；默认 HH:mm:ss。 */
@@ -53,17 +55,14 @@ export const props = {
     type: String,
     default: ' ~ ',
   },
+  showNowButton: { type: Boolean, default: true },
   showNextDay: Boolean,
-  timePickerProps: {
-    type: Object as PropType<TimePanelPresentationProps<Partial<ExtractPropTypes<typeof timePickerPropsSource>>>>,
-    default: () => ({}),
-  },
   pickerProps: {
     type: Object as PropType<TimeWheelPresentationProps<Partial<ExtractPropTypes<typeof pickerPropsSource>>>>,
     default: () => ({}),
   },
   popupProps: {
-    type: Object as PropType<TimePopupPresentationProps<Partial<ExtractPropTypes<typeof popupProps>>>>,
+    type: Object as PropType<TimePopupPresentationProps<Partial<ExtractPropTypes<typeof triggerProps>>>>,
     default: () => ({}),
   },
   timeRangePickerProps: {
@@ -72,7 +71,7 @@ export const props = {
   },
   /** 错误状态；undefined 继承 Form，显式 false 覆盖。 */
   error: { type: Boolean, default: undefined },
-  readonly: Boolean,
+  readonly: { type: Boolean, default: undefined },
   ...pickProps(fieldDecoratorProps, [
     'size',
     'variant',
@@ -84,6 +83,7 @@ export const props = {
     'disabled',
     'clearable',
   ]),
+  disabled: { type: Boolean, default: undefined },
   variant: { ...fieldDecoratorProps.variant, default: 'standard' },
   /** 字符串用于两端；数组分别指定起止占位符，缺项为空。 */
   placeholder: [String, Array] as PropType<string | string[]>,

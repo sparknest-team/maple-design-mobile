@@ -1,3 +1,20 @@
+
+
+# FormDetails
+
+表单辅助信息，用于展示错误反馈与补充说明。
+
+## 案例
+
+<!-- api-review:start -->
+### 功能调试
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
+
 ## API
 
 ### 属性

@@ -1,14 +1,16 @@
 # Fab
 
+## Examples
+
 ### Intro
 
 The floating action button component, press to display a group of action buttons.
 
 The live preview starts expanded. Actions show a Message and collapse the menu. Changing direction moves the button to a compatible edge. Use click on touch devices; hover is intended for a mouse.
 
-The local preview uses `fixed=false` and `popup-container=false`. Drag mode restores the default body target and viewport positioning; retaining `popup-container=false` would interpret viewport coordinates in a local container. Dragging uses touch gestures. Switching it off returns to the preview container.
+The local preview uses `fixed=false` and `popup-container=false`. The drag example keeps the default `fixed=true` to enable dragging and uses `popup-container=false` to keep the button inside the preview container. Drag boundaries use the container dimensions. Dragging uses touch gestures.
 
-The preview scrolls with the page instead of covering the controls or floating button. Drag mode moves the button to the selected viewport corner; switching it off returns the button to the preview.
+The preview and button remain visible when toggling dragging. Switching it off stops dragging. The preview scrolls with the page.
 
 ### Basic Usage
 
@@ -22,6 +24,11 @@ The preview scrolls with the page instead of covering the controls or floating b
 ../example/demos/status.vue
 ```
 
+### Disabled
+
+```demo
+../example/demos/disabled.vue
+```
 
 ### Trigger Position
 
@@ -29,13 +36,11 @@ The preview scrolls with the page instead of covering the controls or floating b
 ../example/demos/position.vue
 ```
 
-
 ### Trigger Method
 
 ```demo
 ../example/demos/trigger.vue
 ```
-
 
 ### Action Menu Popup Direction
 
@@ -43,20 +48,11 @@ The preview scrolls with the page instead of covering the controls or floating b
 ../example/demos/direction.vue
 ```
 
-
 ### Drag
 
 ```demo
 ../example/demos/drag.vue
 ```
-
-
-### Disabled
-
-```demo
-../example/demos/disabled.vue
-```
-
 
 ### Trigger Show/Hide
 
@@ -64,19 +60,26 @@ The preview scrolls with the page instead of covering the controls or floating b
 ../example/demos/visibility.vue
 ```
 
-
 ### Action Menu Expand/Collapse
 
 ```demo
 ../example/demos/controlled.vue
 ```
 
-
 ### Custom Trigger
 
 ```demo
 ../example/demos/custom-trigger.vue
 ```
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

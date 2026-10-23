@@ -1,0 +1,46 @@
+{
+  "fields": [
+    {
+      "name": "name",
+      "description": "标签名称，作为匹配的标识符",
+      "type": "number | string",
+      "defaultValue": "-",
+      "kind": "scalar"
+    },
+    {
+      "name": "icon",
+      "description": "图标名称，等同于 Icon 组件的 [name](#/zh-CN/icon)",
+      "type": "string",
+      "defaultValue": "-",
+      "kind": "string"
+    },
+    {
+      "name": "label",
+      "description": "标签文字内容",
+      "type": "string",
+      "defaultValue": "-",
+      "kind": "string"
+    },
+    {
+      "name": "badge",
+      "description": "图标右上角徽标",
+      "type": "boolean | BadgeProps",
+      "defaultValue": "false",
+      "kind": "json",
+      "initial": "{}"
+    }
+  ],
+  "methodNames": [],
+  "events": [
+    "click"
+  ],
+  "slotNames": [
+    "default",
+    "icon"
+  ],
+  "slotDefaults": {
+    "default": true,
+    "icon": false
+  },
+  "scenarios": []
+}

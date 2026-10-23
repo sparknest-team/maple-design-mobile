@@ -1,0 +1,79 @@
+{
+  "fields": [
+    {
+      "name": "shape",
+      "description": "子头像形状",
+      "type": "circle / square",
+      "defaultValue": "circle",
+      "kind": "enum",
+      "options": [
+        "circle",
+        "square"
+      ],
+      "initial": "circle"
+    },
+    {
+      "name": "size",
+      "description": "子头像宽高；数字为 px，字符串为 CSS 长度",
+      "type": "number / string",
+      "defaultValue": "-",
+      "kind": "scalar"
+    },
+    {
+      "name": "auto-fix-font-size",
+      "description": "是否自动缩放子头像中的文字",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "max-count",
+      "description": "最多直接展示的头像数，0 表示不限",
+      "type": "number",
+      "defaultValue": "0",
+      "kind": "number"
+    },
+    {
+      "name": "z-index-ascend",
+      "description": "头像层级是否按顺序递增",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "max-style",
+      "description": "数量汇总头像的自定义样式",
+      "type": "CSSProperties",
+      "defaultValue": "-",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "max-popover-props",
+      "description": "汇总 Popover 的属性",
+      "type": "PopoverProps",
+      "defaultValue": "-",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "offset",
+      "description": "组内头像的重叠偏移量",
+      "type": "number / string",
+      "defaultValue": "-",
+      "kind": "scalar"
+    },
+    {
+      "name": "vertical",
+      "description": "是否纵向堆叠",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    }
+  ],
+  "methodNames": [],
+  "events": [],
+  "slotNames": [],
+  "slotDefaults": {},
+  "scenarios": []
+}

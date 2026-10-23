@@ -17,7 +17,7 @@ const options = Array.from({ length: 200 }, (_, index) => 'Item ' + (index + 1))
         v-model="value"
         v-model:open="open"
         :options="options"
-        presentation="list"
+        presentation="popup"
         style="width: 240px"
       />
     </KeepAlive>

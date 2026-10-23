@@ -31,6 +31,10 @@ test('action-sheet styles', () => {
       safeArea: true,
     },
   })
+  const dialog = wrapper.get('[role="dialog"]')
+  expect(dialog.attributes('data-modal-focus-root')).toBeDefined()
+  expect(dialog.attributes('aria-modal')).toBe('true')
+  expect(dialog.classes()).toContain('mp-popup--safe-area-inset-bottom')
   expect(wrapper.html()).toMatchSnapshot()
   wrapper.unmount()
 })

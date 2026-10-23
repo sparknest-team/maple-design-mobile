@@ -1,6 +1,0 @@
-import '../../style/index.less'
-import '../../trigger/style'
-import '../../icon/style'
-import '../../ripple/style'
-import '../../hover/style'
-import './index.less'

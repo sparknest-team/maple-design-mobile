@@ -1,0 +1,23 @@
+{
+  "fields": [
+    {
+      "name": "color",
+      "description": "currentColor",
+      "type": "string",
+      "defaultValue": "currentColor",
+      "kind": "string"
+    },
+    {
+      "name": "disabled",
+      "description": "禁用状态",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    }
+  ],
+  "events": [],
+  "scenarios": [],
+  "slotNames": [],
+  "slotDefaults": {},
+  "methodNames": []
+}

@@ -1,59 +1,9 @@
 :root {
+  --mp-time-picker-column-label-height: var(--mp-temporal-panel-column-label-height);
   --mp-time-picker-border-radius: 4px;
   --mp-time-picker-font-size: var(--mp-font-size-md);
   --mp-time-picker-min-width: 290px;
-  --mp-time-picker-title-height: 105px;
-  --mp-time-picker-title-padding: 16px;
-  --mp-time-picker-title-margin-bottom: 8px;
-  --mp-time-picker-title-color: #fff;
-  --mp-time-picker-title-background: var(--mp-color-primary);
-  --mp-time-picker-title-hint-color: '#fff';
-  --mp-time-picker-title-hint-font-size: 14px;
-  --mp-time-picker-title-hint-min-height: 21px;
-  --mp-time-picker-title-inactive-opacity: 0.6;
-  --mp-time-picker-title-time-font-size: 50px;
-  --mp-time-picker-title-time-margin: 0 5px;
-  --mp-time-picker-title-time-border-radius: 4px;
-  --mp-time-picker-title-time-padding: 4px 6px;
-  --mp-time-picker-title-time-background: rgba(255, 255, 255, 0.12);
-  --mp-time-picker-title-time-active-background: rgba(255, 255, 255, 0.28);
-  --mp-time-picker-title-time-container-justify-content: flex-end;
-  --mp-time-picker-title-ampm-button-active-background: transparent;
-  --mp-time-picker-title-ampm-margin-left: 10px;
-  --mp-time-picker-title-ampm-border-radius: 0;
-  --mp-time-picker-title-ampm-border: none;
-  --mp-time-picker-title-ampm-button-padding: 2px;
-  --mp-time-picker-clock-left: 27px;
-  --mp-time-picker-clock-right: 27px;
-  --mp-time-picker-clock-top: 27px;
-  --mp-time-picker-clock-bottom: 27px;
-  --mp-time-picker-clock-container-width: 256px;
-  --mp-time-picker-clock-container-height: 256px;
-  --mp-time-picker-clock-container-background: #e0e0e0;
-  --mp-time-picker-clock-hand-height: calc(50% - 4px);
-  --mp-time-picker-clock-hand-width: 2px;
-  --mp-time-picker-clock-hand-bottom: 50%;
-  --mp-time-picker-clock-hand-left: calc(50% - 1px);
-  --mp-time-picker-clock-hand-background: var(--mp-color-primary);
-  --mp-time-picker-clock-hand-border-color: var(--mp-sys-color-content-brand);
-  --mp-time-picker-clock-hand-before-width: 10px;
-  --mp-time-picker-clock-hand-before-height: 10px;
-  --mp-time-picker-clock-hand-before-border-width: 2px;
-  --mp-time-picker-clock-hand-after-width: 4px;
-  --mp-time-picker-clock-hand-after-height: 4px;
-  --mp-time-picker-clock-item-height: 32px;
-  --mp-time-picker-clock-item-width: 32px;
-  --mp-time-picker-clock-item-active-background: var(--mp-color-primary);
-  --mp-time-picker-clock-item-active-color: var(--mp-color-white);
-  --mp-time-picker-clock-item-disable-color: rgba(0, 0, 0, 0.26);
-  --mp-time-picker-clock-item-disable-background: #bdbdbd;
-  --mp-time-picker-clock-item-text-color: #555;
-  --mp-time-picker-inner-left: 36px;
-  --mp-time-picker-inner-right: 36px;
-  --mp-time-picker-inner-top: 36px;
-  --mp-time-picker-inner-bottom: 36px;
   --mp-time-picker-body-background: #fff;
-  --mp-time-picker-body-height: 288px;
   --mp-time-picker-actions-padding: 0 8px 12px 8px;
 }
 
@@ -62,4 +12,14 @@
   --mp-time-toolbar-padding: var(--mp-picker-toolbar-padding, 0 4px);
   --mp-time-title-text-color: var(--mp-picker-title-text-color, #555);
   --mp-time-title-font-size: var(--mp-picker-title-font-size, 16px);
+}
+
+:root {
+  --mp-time-popover-width: 320px;
+  --mp-time-popover-gap: 32px;
+  --mp-time-popover-max-height: calc(50dvh - var(--mp-time-popover-gap));
+  --mp-time-panel-background: var(--mp-sys-color-surface-overlay);
+  --mp-time-panel-border: var(--mp-color-border-2);
+  --mp-time-panel-radius: 8px;
+  --mp-time-panel-actions-padding: 8px;
 }

@@ -1,20 +1,51 @@
 # PageHeader 页头
 
+返回按钮只派发 `back` 事件，不自动调用路由或浏览器历史。示例通过 Message 显示通知；真实返回目的地由调用方处理。原生按钮支持点击、Enter 和空格。
+
 展示当前页面的标题、上下文和相关操作。API 参照 Naive UI，组件不负责固定定位、安全区或背景皮肤，这些能力可通过业务层的 `class` / `style` 实现。
 
-### 基本使用
+## 案例
 
-通过 `show-back` 属性显示返回按钮。
+### 基础用法
+
+使用 Card 和 Space 组合返回、主标题、副标题及操作区。点击返回、关注或创建任务，查看消息反馈；通过 `show-back` 在标题左侧显示返回箭头，并将主要操作放在底部。
 
 ```demo
 ../example/demos/basic-usage.vue
 ```
 
+### 页头上方内容
+
+通过 `header` 插槽展示面包屑；使用 Card 承载内容，Space 将标题和副标题纵向排列。
+
+```demo
+../example/demos/breadcrumb.vue
+```
+
 ### 完整结构
+
+使用 Card、Space、Cell、Grid、Statistic 和 Divider 组合完整页头，无需自定义样式。与 PC 示例展示相同的项目资料、统计和操作；返回箭头与标题处于同一行，面包屑独立放在 `header` 插槽，标题和资料纵向排列，将“创建任务”放在底部。
 
 ```demo
 ../example/demos/complete.vue
 ```
+
+### 透明底色
+
+页头默认透明。使用 Card 的 `tonal` 变体提供底色，展示页头自然融入外层表面，无需自定义背景样式。
+
+```demo
+../example/demos/transparent.vue
+```
+
+<!-- api-review:start -->
+### 功能调试
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

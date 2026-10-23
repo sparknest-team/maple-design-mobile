@@ -9,7 +9,9 @@
     "size": "五种尺寸",
     "position": "位置与偏移",
     "show": "显示与隐藏",
-    "variant": "实心与描边"
+    "variant": "实心与描边",
+    "api-review": "功能调试",
+    "appearance-lab": "外观组合"
   },
   "en-US": {
     "basic": "Basic usage",
@@ -21,6 +23,8 @@
     "size": "Five sizes",
     "position": "Positions and offsets",
     "show": "Show and hide",
-    "variant": "Solid and outline"
+    "variant": "Solid and outline",
+    "api-review": "Feature playground",
+    "appearance-lab": "appearance-lab"
   }
 }

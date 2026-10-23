@@ -6,19 +6,52 @@ Independent cross-platform source copies built on Input.
 
 ### basic
 
-<demo src="../example/demos/en-US/basic.vue"></demo>
+```demo
+../example/demos/en-US/basic.vue
+```
 
 ### formatting
 
-<demo src="../example/demos/en-US/formatting.vue"></demo>
+```demo
+../example/demos/en-US/formatting.vue
+```
 
 ### appearance
 
-<demo src="../example/demos/en-US/appearance.vue"></demo>
+```demo
+../example/demos/en-US/appearance.vue
+```
 
 ### states
 
-<demo src="../example/demos/en-US/states.vue"></demo>
+```demo
+../example/demos/en-US/states.vue
+```
+
+### Appearance combinations
+
+Use this example for segmented verification-code input. Adjust variant, size and compare the component with the same data. Keep the content unchanged while comparing the available settings.
+
+```demo
+../example/demos/appearance-lab.vue
+```
+
+### Interaction states
+
+Use this example for segmented verification-code input. Adjust disabled, read-only, error feedback and compare the component with the same data. The controls remain available to restore editing; error appearance alone does not run validation.
+
+```demo
+../example/demos/state-lab.vue
+```
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 
@@ -71,3 +104,13 @@ VerificationCodeProps, VerificationCodeType, VerificationCodeAlign, Verification
 | --mp-verification-code-input-font-size | initial: size-derived field font fallback |
 
 Public overrides are optional; fallback variables resolve on the component element. All five sizes and all three variants are implemented.
+
+### Form field presentation and confirmation
+
+`presentation` inherits from field > FormItem > Form and defaults to `inline`. Supported values are `inline / popup`. Inline keeps the existing control behavior. Overlay editing uses a Cell reference and an isolated draft; only confirmation updates v-model. Cancel, reset and enabling readPretty discard the draft.
+
+Maple 使用 presentation="popup" 点击值区域打开编辑面板；inline 直接编辑。 readPretty 为纯阅读属性，与 readonly、disabled 独立。
+
+`before-commit(value, { previousValue, signal })` can reject an overlay save. FormItem validates the candidate first and keeps the editor open on failure. `open / default-open / update:open` control the editor. Use `#read="{ value, text }"` to customize display. See the full field comparison in Form.
+
+`read-pretty` 为独立布尔属性，与 `readonly`、`disabled` 同级；字段 > FormItem > Form 继承，显式 `false` 覆盖父级。默认 `false`。纯阅读不显示编辑器。

@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
+import DemoApiReview from './demos/api-review.vue'
 import AttractionDemo from './demos/attraction.vue'
 import BasicUseDemo from './demos/basic-use.vue'
 import BoundaryDemo from './demos/boundary.vue'
@@ -23,6 +24,11 @@ onThemeChange()
     <BasicUseDemo />
   </section>
 
+  <section data-demo="disabled">
+    <app-type>{{ english ? 'Disabled' : '禁用' }}</app-type>
+    <DisabledDemo />
+  </section>
+
   <section data-demo="direction">
     <app-type>{{ english ? 'Direction' : '拖拽方向' }}</app-type>
     <DirectionDemo />
@@ -31,11 +37,6 @@ onThemeChange()
   <section data-demo="attraction">
     <app-type>{{ english ? 'Attraction Direction' : '吸附方向' }}</app-type>
     <AttractionDemo />
-  </section>
-
-  <section data-demo="disabled">
-    <app-type>{{ english ? 'Disabled' : '禁用' }}</app-type>
-    <DisabledDemo />
   </section>
 
   <section data-demo="boundary">
@@ -47,4 +48,5 @@ onThemeChange()
     <app-type>{{ english ? 'Reset Position' : '重置位置' }}</app-type>
     <ResetDemo />
   </section>
+  <section data-demo="api-review"><DemoApiReview /></section>
 </template>

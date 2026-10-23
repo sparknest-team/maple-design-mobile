@@ -26,13 +26,18 @@ test('date-range confirm writes modelValue', async () => {
   await wrapper.find('.mp-field-decorator').trigger('click')
   await delay(300)
 
-  expect(document.querySelector('.mp-date-range__panel')).toBeTruthy()
-  expect(document.querySelector('.mp-picker')).toBeTruthy()
-  expect(document.querySelector('.mp-date-picker')).toBeFalsy()
+  expect(document.querySelector('.mp-date-field-popover')).toBeTruthy()
+  expect(document.querySelector('.mp-picker')).toBeFalsy()
+  expect(document.querySelector('.mp-date-picker')).toBeTruthy()
 
   wrapper.getComponent(DatePanel).vm.$emit('select', ['2025-01-15', '2025-01-16'])
   await delay(0)
-  await trigger(document.querySelector('.mp-date-range__confirm-button'), 'click')
+  await trigger(
+    [...document.querySelectorAll('.mp-date-field-popover button')].find(
+      (button) => button.textContent.trim() === '确认',
+    ),
+    'click',
+  )
   await delay(300)
 
   expect(onUpdateModelValue).toHaveBeenCalled()
@@ -47,7 +52,7 @@ test('date-range calendar presentation', async () => {
   const wrapper = mount(VarDateRange, {
     props: {
       modelValue: ['2024-01-01', '2024-12-31'],
-      presentation: 'calendar',
+      panelType: 'calendar',
     },
     attachTo: document.body,
   })
@@ -74,7 +79,7 @@ test('date-range cancel does not write modelValue', async () => {
 
   await wrapper.find('.mp-field-decorator').trigger('click')
   await delay(300)
-  await trigger(document.querySelector('.mp-date-range__cancel-button'), 'click')
+  await wrapper.find('input').trigger('keydown', { key: 'Escape' })
   await delay(300)
 
   expect(onUpdateModelValue).not.toHaveBeenCalled()

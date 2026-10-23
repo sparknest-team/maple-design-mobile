@@ -95,7 +95,7 @@ async function harness() {
     '../shared/constant.js':
       "export const COMPONENT_REUSE_JSON = '/fixture/component-reuse.json', ES_DIR = '/fixture/es', MAPLE_CONFIG = '/fixture/maple.config.mjs', SITE = '/cli/site', SITE_DIR = '/fixture/.maple/site', SRC = 'src', SRC_DIR = '/fixture/src';",
     '../shared/fsUtils.js': 'export const getPublicDirs = async () => [];',
-    '../shared/logger.js': 'export default { info() {}, success() {}, title() {} };',
+    '../shared/logger.js': 'export default { info() {}, success() {}, title() {}, error() {} };',
   }
   const result = await build({
     entryPoints: [source],
@@ -113,6 +113,9 @@ async function harness() {
             }
             if (args.path === 'path') {
               return { path: 'node:path', external: true }
+            }
+            if (args.path === '../shared/serial-task.js') {
+              return { path: resolve(root, 'packages/maple-cli/src/node/shared/serial-task.ts') }
             }
             assert.ok(args.path in mocks, `Unexpected dev dependency: ${args.path}`)
             return { path: args.path, namespace: 'fixture' }

@@ -1,0 +1,6 @@
+- [x] Read/preserve parallel core/props/keyboard/disabled changes;record original64f0ef40 source.
+- [x] Correct nested-wrapper probe;effective7cases5fail/2controls.
+- [x] Own media binding lifetime/current-column completion;initial27tests/4files pass.
+- [x] Supplement fresh binding/bubbling;reproduce candidate post-change reentry before epoch repair.
+- [x] Final affected532tests/95files pass includingPicker30/4;root read-only lint/types/shared29 and CLI182/0 pass. Four reviewed source rows registered;33/33runtime candidate families classified. Component/shared docs,changesets and evidence synchronized;intermediate reentry fixture expectation failure retained.
+- [ ] Native touch/OS/arbitrary same-element old event acceptance remains independent.

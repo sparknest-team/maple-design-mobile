@@ -31,6 +31,7 @@ export const props = {
     type: Boolean,
     default: true,
   },
+  disabled: Boolean,
   selectedValues: {
     type: Array as PropType<(string | number)[]>,
     default: () => [],

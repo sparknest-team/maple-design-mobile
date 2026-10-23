@@ -1,10 +1,12 @@
 import type { ExtractPublicPropTypes, PropType } from 'vue'
+import { fieldPresentationProps } from '../_components/field-presentation/props'
 import type { Orientation } from '../utils/constants'
 import { checkboxGroupValueProps, choiceOptionsProps } from './choice-group-props'
 import { checkboxValueProps } from './choice-value-props'
 
 export type CheckboxValue = import('./choice-value-props').ChoiceValue
 export const checkboxProps = {
+  ...fieldPresentationProps,
   ...checkboxValueProps,
   /** 是否禁用；未设置时继承分组或表单 */
   disabled: { type: Boolean, default: undefined },
@@ -30,6 +32,7 @@ export const checkboxProps = {
   ariaLabel: String,
 }
 export const checkboxGroupProps = {
+  ...fieldPresentationProps,
   ...checkboxGroupValueProps,
   ...choiceOptionsProps,
   /** 组内排列方向 */

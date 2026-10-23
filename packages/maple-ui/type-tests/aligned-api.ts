@@ -2,9 +2,9 @@ import type {
   AffixProps,
   BadgeProps,
   CardProps,
-  DropdownMenuProps,
-  DropdownMenuStrategy,
-  DropdownMenuSubmenuTrigger,
+  MenuProps,
+  MenuStrategy,
+  MenuSubmenuTrigger,
   MessageProps,
   PaginationProps,
   PopupContainer,
@@ -59,10 +59,10 @@ const oldInterceptor: SwitchProps = { beforeChange: (value, done) => done(value)
 const oldElevation: SwitchProps = { handleElevation: '4' }
 void [fractionalProgress, tonalSwitch, oldVariant, oldInterceptor, oldElevation]
 
-const menuStrategy: DropdownMenuStrategy = 'fixed'
-const submenuTrigger: DropdownMenuSubmenuTrigger = 'click'
-const positionedMenu: DropdownMenuProps = { strategy: menuStrategy, submenuTrigger }
-const defaultMenu: DropdownMenuProps = {}
+const menuStrategy: MenuStrategy = 'fixed'
+const submenuTrigger: MenuSubmenuTrigger = 'click'
+const positionedMenu: MenuProps = { strategy: menuStrategy, submenuTrigger }
+const defaultMenu: MenuProps = {}
 // @ts-expect-error strategy is not a CSS position free-form string
-const invalidMenuStrategy: DropdownMenuStrategy = 'sticky'
+const invalidMenuStrategy: MenuStrategy = 'sticky'
 void [positionedMenu, defaultMenu, invalidMenuStrategy]

@@ -33,8 +33,8 @@ function handleClick(event) {
       'mp-custom-form-component--error': mergedError,
     }"
   >
-    <button
-      type="button"
+    <mp-button
+      html-type="button"
       role="checkbox"
       class="mp-custom-form-component__container"
       :aria-checked="modelValue"
@@ -47,7 +47,7 @@ function handleClick(event) {
       <m-icon-checkbox-marked-circle-fill v-if="modelValue" class="mp-custom-form-component__icon" />
       <m-icon-close-circle-fill v-else class="mp-custom-form-component__icon" />
       <slot />
-    </button>
+    </mp-button>
   </div>
 </template>
 

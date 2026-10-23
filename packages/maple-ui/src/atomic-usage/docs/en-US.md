@@ -96,7 +96,7 @@ Semantic levels (`mp-text-1`, `mp-fill-2`, `mp-color-border-2`, `mp-bg-1`) live 
 ```html
 <!-- playground-ignore -->
 <div class="mp-border mp-border-primary">primary border</div>
-<button class="mp-bg-primary mp-text-white hover:mp-opacity-80">Save</button>
+<mp-button class="mp-bg-primary mp-text-white hover:mp-opacity-80">Save</mp-button>
 ```
 
 ### Border

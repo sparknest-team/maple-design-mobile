@@ -22,7 +22,7 @@ const empty = ref(false)
   </mp-space>
 
   <mp-popup v-model:open="success" unstyled>
-    <mp-result class="result" title="成功" subtitle="嗨~ 我是结果页的一段描述~">
+    <mp-result class="result" status="success" title="成功" subtitle="嗨~ 我是结果页的一段描述~">
       <template #extra>
         <mp-button status="success" @click="success = false">知道了</mp-button>
       </template>

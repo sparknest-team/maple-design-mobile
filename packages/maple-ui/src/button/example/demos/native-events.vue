@@ -6,11 +6,7 @@ const submissions = ref(0)
 const event = ref('Use Tab, Enter or touch')
 </script>
 <template>
-  <form
-    style="display: flex; flex-wrap: wrap; gap: 12px"
-    @submit.prevent="submissions++"
-    @reset.prevent="value = 'Editable'"
-  >
+  <mp-form style="display: flex; flex-wrap: wrap; gap: 12px" @submit="submissions++" @reset="value = 'Editable'">
     <mp-input
       v-model="value"
       aria-label="Example field"
@@ -27,6 +23,6 @@ const event = ref('Use Tab, Enter or touch')
       @click="event = 'click'"
       >Event target</mp-button
     >
-  </form>
+  </mp-form>
   <p aria-live="polite">Submissions: {{ submissions }}; {{ event }}</p>
 </template>

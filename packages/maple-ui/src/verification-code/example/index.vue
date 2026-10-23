@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { watchLang } from '@maplejs/maple-cli/client'
+import DemoApiReview from './demos/api-review.vue'
 import appearance from './demos/appearance.vue'
 import basic from './demos/basic.vue'
 import appearanceEn from './demos/en-US/appearance.vue'
@@ -21,4 +22,5 @@ const english = computed(() => language.value === 'en-US')
   <section data-demo="formatting"><component :is="english ? formattingEn : formatting" /></section>
   <section data-demo="appearance"><component :is="english ? appearanceEn : appearance" /></section>
   <section data-demo="states"><component :is="english ? statesEn : states" /></section>
+  <section data-demo="api-review"><DemoApiReview /></section>
 </template>

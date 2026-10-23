@@ -1,12 +1,10 @@
 # SwipeCell
 
-## Intro
-
-Swipe a cell to reveal action buttons on either side.
-
 ## Examples
 
 ### Basic Usage
+
+`name` identifies the item in `open`, `close`, and `before-close` payloads; it does not render text. Put visible content in the default slot, such as `<mp-cell title="Order title" />`. The example shows the emitted name and position.
 
 Swipe left to reveal the right-side action.
 
@@ -28,13 +26,34 @@ Swipe left to reveal the right-side action.
 
 `Dialog.confirm(...)` resolves with an action. Only `confirm` allows closing; `cancel` and `close` preserve the revealed actions. The basic Delete button demonstrates closing only; implement data deletion in your application.
 
+## Drag cancellation and click suppression
+
+
+
+## Confirmation lifetime
+
+
+
+## Intro
+
+Swipe a cell to reveal action buttons on either side.
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
+
 ## API
 
 ### Props
 
 | Prop | Description | Type | Default |
 | --- | --- | --- | --- |
-| `name` | Identifier | `string \| number` | `''` |
+| `name` | Item identity returned by open, close, and before-close; does not render text | `string \| number` | `''` |
 | `left-width` | Left action width | `number \| string` | `auto` |
 | `right-width` | Right action width | `number \| string` | `auto` |
 | `before-close` | Hook before close | `(args) => boolean \| Promise<boolean>` | `-` |

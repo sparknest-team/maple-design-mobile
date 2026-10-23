@@ -22,6 +22,8 @@ interface InteractionContext {
   enter: () => void
   leave: () => void
   children: Set<InteractionContext>
+  escape?: (event: KeyboardEvent) => boolean
+  dismiss?: () => void
 }
 const interactionKey: InjectionKey<InteractionContext> = Symbol('trigger-interaction')
 
@@ -33,6 +35,49 @@ function includes(element: Element | undefined, event: Event | Node): boolean {
     return event.composedPath().includes(element) || Boolean(event.target && element.contains(event.target as Node))
   }
   return element.contains(event)
+}
+
+/** An editor owns its nested triggers, including popups teleported outside its DOM. */
+export function provideTriggerInteractionScope(
+  visible: Readonly<Ref<boolean>>,
+  rootContains: (event: Event | Node) => boolean,
+) {
+  const parent = inject(interactionKey, undefined)
+  const children = new Set<InteractionContext>()
+  const contains = (event: Event | Node): boolean =>
+    rootContains(event) || [...children].some((child) => child.contains(event))
+  const context: InteractionContext = {
+    visible,
+    contains,
+    children,
+    enter: () => parent?.enter(),
+    leave: () => parent?.leave(),
+  }
+  provide(interactionKey, context)
+  parent?.children.add(context)
+  onBeforeUnmount(() => parent?.children.delete(context))
+  const hasOpenPopup = (contexts: Set<InteractionContext>): boolean =>
+    [...contexts].some((child) => child.visible.value || hasOpenPopup(child.children))
+  const escapePopup = (event: KeyboardEvent, contexts = children): boolean => {
+    for (const child of [...contexts].reverse()) {
+      if (escapePopup(event, child.children) || child.escape?.(event)) {
+        return true
+      }
+    }
+    return false
+  }
+  const dismissPopups = (contexts: Set<InteractionContext>) => {
+    for (const child of contexts) {
+      child.dismiss?.()
+      dismissPopups(child.children)
+    }
+  }
+  return {
+    contains,
+    escapePopup,
+    hasOpenPopup: () => hasOpenPopup(children),
+    dismissPopups: () => dismissPopups(children),
+  }
 }
 
 /** Shared behavior; positioning, theme names and rendering stay at the local boundary. */
@@ -78,7 +123,15 @@ export function useTriggerInteraction(
     }
     parent?.leave()
   }
-  const context: InteractionContext = { visible: api.visible, contains, enter, leave, children }
+  const context: InteractionContext = {
+    visible: api.visible,
+    dismiss: () => api.request(false),
+    escape: (event) => onKeydown(event),
+    contains,
+    enter,
+    leave,
+    children,
+  }
   provide(interactionKey, context)
   parent?.children.add(context)
   if (parent) {
@@ -95,12 +148,12 @@ export function useTriggerInteraction(
       return
     }
     if (has('click')) {
-      api.onPoint?.(event as MouseEvent)
       if (api.visible.value) {
         if (options.closeOnClickReference !== false) {
           close()
         }
       } else {
+        api.onPoint?.(event as MouseEvent)
         api.request(true)
       }
     } else if (has('contextMenu') && api.visible.value) {
@@ -110,7 +163,10 @@ export function useTriggerInteraction(
   const onEnter = (event: Event) => {
     api.onReferenceEvent?.('onMouseenter', event)
     insideReference = true
-    api.onPoint?.(event as MouseEvent)
+    // Capture an opening point, never overwrite an open context menu on re-entry.
+    if (!options.disabled && has('hover') && !api.visible.value) {
+      api.onPoint?.(event as MouseEvent)
+    }
     enter()
   }
   const onLeave = (event: Event) => {
@@ -190,14 +246,14 @@ export function useTriggerInteraction(
     }
     restoringFocus = true
     try {
-      api.reference.value.focus()
+      api.reference.value.focus({ preventScroll: true })
     } finally {
       restoringFocus = false
     }
   }
   const onKeydown = (event: KeyboardEvent) => {
     if (event.key !== 'Escape' || !api.visible.value || options.escToClose === false || !api.isTopLayer(event)) {
-      return
+      return false
     }
     event.preventDefault()
     close()
@@ -207,6 +263,7 @@ export function useTriggerInteraction(
       }
       focusReference()
     })
+    return true
   }
   let owner: Document | undefined
   let view: Window | null | undefined

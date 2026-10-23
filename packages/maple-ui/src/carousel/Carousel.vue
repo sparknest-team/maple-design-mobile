@@ -90,6 +90,13 @@ const focused = ref(false)
 const dragging = ref(false)
 const dragOffset = ref(0)
 let active = false
+let disposed = false
+let autoGeneration = 0
+let bindingGeneration = 0
+let renderGeneration = 0
+let frameOwner: Window | undefined
+let bindingResize: (() => void) | undefined
+let bindingWheel: ((event: WheelEvent) => void) | undefined
 let hidden = false
 let timer: ReturnType<typeof setTimeout> | undefined
 let motionGeneration = 0
@@ -110,6 +117,7 @@ const autoConfig = computed(() => {
   }
 })
 function stop() {
+  autoGeneration++
   if (timer !== undefined) {
     clearTimeout(timer)
   }
@@ -130,12 +138,21 @@ function schedule() {
   ) {
     return
   }
+  const token = autoGeneration
   timer = setTimeout(() => {
+    if (token !== autoGeneration || !active || disposed) {
+      return
+    }
+    // Consume before to(): synchronous model listeners may suspend this instance.
+    autoGeneration++
+    timer = undefined
     to(current.value + 1, { isManual: false })
-    schedule()
   }, autoConfig.value.interval)
 }
 function to(index: number, options: CarouselToOptions = {}) {
+  if (!active || disposed) {
+    return
+  }
   if (!keys.value.length || !Number.isFinite(index)) {
     return
   }
@@ -315,6 +332,9 @@ function pointerUp(event: PointerEvent) {
   }
 }
 function keydown(event: KeyboardEvent) {
+  if (!active || disposed) {
+    return
+  }
   if (!props.keyboard || editable(event.target) || event.altKey || event.ctrlKey || event.metaKey) {
     return
   }
@@ -334,6 +354,9 @@ function keydown(event: KeyboardEvent) {
 }
 let wheelTime = 0
 function wheel(event: WheelEvent) {
+  if (!active || disposed) {
+    return
+  }
   if (!props.mousewheel || editable(event.target) || keys.value.length < 2 || Math.abs(event.deltaY) < 10) {
     return
   }
@@ -347,23 +370,41 @@ function wheel(event: WheelEvent) {
   to(current.value + (event.deltaY > 0 ? 1 : -1))
 }
 function focusin() {
+  if (!active || disposed) {
+    return
+  }
   focused.value = true
   schedule()
 }
 function focusout(event: FocusEvent) {
+  if (!active || disposed) {
+    return
+  }
   if (!root.value?.contains(event.relatedTarget as Node)) {
     focused.value = false
     schedule()
   }
 }
 function attach() {
-  if (active) {
+  if (disposed || active) {
     return
   }
   active = true
   owner = root.value?.ownerDocument
+  const binding = ++bindingGeneration
+  const measure = () => {
+    if (active && binding === bindingGeneration) {
+      resize()
+    }
+  }
+  bindingResize = measure
+  bindingWheel = (event) => {
+    if (active && binding === bindingGeneration) {
+      wheel(event)
+    }
+  }
   if (typeof ResizeObserver !== 'undefined') {
-    observer = new ResizeObserver(resize)
+    observer = new ResizeObserver(measure)
     if (viewportEl.value) {
       observer.observe(viewportEl.value)
     }
@@ -372,21 +413,29 @@ function attach() {
     }
   }
   if (typeof MutationObserver !== 'undefined') {
-    visibilityObserver = new MutationObserver(resize)
+    visibilityObserver = new MutationObserver(measure)
     for (let el: HTMLElement | null | undefined = root.value; el; el = el.parentElement) {
       visibilityObserver.observe(el, { attributes: true, attributeFilter: ['class', 'style', 'hidden', 'aria-hidden'] })
     }
   }
-  owner?.addEventListener('visibilitychange', resize)
-  owner?.defaultView?.addEventListener('resize', resize)
-  viewportEl.value?.addEventListener('wheel', wheel, { passive: false })
+  owner?.addEventListener('visibilitychange', measure)
+  owner?.defaultView?.addEventListener('resize', measure)
+  viewportEl.value?.addEventListener('wheel', bindingWheel, { passive: false })
   resize()
+}
+function cancelMotion() {
+  motionGeneration++
+  clearTimeout(settleTimer)
+  settleTimer = undefined
+  frameOwner?.cancelAnimationFrame(animationFrame)
+  animationFrame = 0
+  frameOwner = undefined
 }
 function detach() {
   active = false
-  motionGeneration++
-  clearTimeout(settleTimer)
-  owner?.defaultView?.cancelAnimationFrame(animationFrame)
+  bindingGeneration++
+  renderGeneration++
+  cancelMotion()
   motionOffset.value = undefined
   noMotion.value = false
   cancelPointer()
@@ -395,9 +444,15 @@ function detach() {
   observer = undefined
   visibilityObserver?.disconnect()
   visibilityObserver = undefined
-  owner?.removeEventListener('visibilitychange', resize)
-  owner?.defaultView?.removeEventListener('resize', resize)
-  viewportEl.value?.removeEventListener('wheel', wheel)
+  if (bindingResize) {
+    owner?.removeEventListener('visibilitychange', bindingResize)
+    owner?.defaultView?.removeEventListener('resize', bindingResize)
+  }
+  if (bindingWheel) {
+    viewportEl.value?.removeEventListener('wheel', bindingWheel)
+  }
+  bindingResize = undefined
+  bindingWheel = undefined
   focused.value = false
   hovering.value = false
   transitionStart.value = undefined
@@ -405,14 +460,24 @@ function detach() {
 onMounted(attach)
 onActivated(attach)
 onDeactivated(detach)
-onBeforeUnmount(detach)
+onBeforeUnmount(() => {
+  disposed = true
+  detach()
+})
 watch(
   current,
   (index, previous) => {
-    const generation = ++motionGeneration
+    cancelMotion()
+    const generation = motionGeneration
+    const element = track.value
+    const view = owner?.defaultView
+    const valid = () =>
+      active &&
+      !disposed &&
+      generation === motionGeneration &&
+      track.value === element &&
+      element?.ownerDocument.defaultView === view
     schedule()
-    clearTimeout(settleTimer)
-    owner?.defaultView?.cancelAnimationFrame(animationFrame)
     let from =
       motionOffset.value ??
       (props.loop
@@ -443,21 +508,45 @@ watch(
     } else {
       transitionStart.value = from
     }
+    let scheduled = false
     nextTick(() => {
-      if (!active || generation !== motionGeneration) {
+      if (!valid() || scheduled) {
         return
       }
-      const raw = track.value && owner?.defaultView?.getComputedStyle(track.value).transitionDuration
+      scheduled = true
+      const raw = element && view?.getComputedStyle(element).transitionDuration
       const duration = props.moveSpeed ?? (raw ? parseFloat(raw) * (raw.includes('ms') ? 1 : 1000) : 180)
+      if (!valid()) {
+        return
+      }
+      let settled = false
       settleTimer = setTimeout(
         () => {
+          if (!valid() || settled) {
+            return
+          }
+          settled = true
+          settleTimer = undefined
           noMotion.value = true
           motionOffset.value = undefined
           transitionStart.value = undefined
-          const view = owner?.defaultView
           if (view) {
+            frameOwner = view
+            let first = false
             animationFrame = view.requestAnimationFrame(() => {
+              if (!valid() || first) {
+                return
+              }
+              first = true
+              animationFrame = 0
+              let second = false
               animationFrame = view.requestAnimationFrame(() => {
+                if (!valid() || second) {
+                  return
+                }
+                second = true
+                animationFrame = 0
+                frameOwner = undefined
                 noMotion.value = false
               })
             })
@@ -482,12 +571,17 @@ watch(
     props.draggable,
   ],
   () => {
-    motionGeneration++
-    clearTimeout(settleTimer)
+    cancelMotion()
+    noMotion.value = false
     motionOffset.value = undefined
     transitionStart.value = undefined
     cancelPointer()
-    nextTick(resize)
+    const binding = bindingGeneration
+    nextTick(() => {
+      if (active && binding === bindingGeneration) {
+        resize()
+      }
+    })
   },
   { deep: true },
 )
@@ -506,8 +600,14 @@ const Render = () => {
   const nextKeys = items.map((node) => node.key!)
   if (nextKeys.length !== keys.value.length || nextKeys.some((key, index) => key !== keys.value[index])) {
     keys.value = nextKeys
+    const render = ++renderGeneration
+    const binding = bindingGeneration
     nextTick(() => {
-      if (active) {
+      if (
+        active &&
+        render === renderGeneration &&
+        (binding === bindingGeneration || (binding === 0 && bindingGeneration === 1))
+      ) {
         observer?.disconnect()
         if (viewportEl.value) {
           observer?.observe(viewportEl.value)

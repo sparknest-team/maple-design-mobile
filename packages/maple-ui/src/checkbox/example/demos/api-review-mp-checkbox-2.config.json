@@ -1,0 +1,208 @@
+{
+  "fields": [
+    {
+      "name": "model-value",
+      "description": "受控值",
+      "type": "ChoiceValue[]",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "[]"
+    },
+    {
+      "name": "default-value",
+      "description": "非受控初始值",
+      "type": "ChoiceValue[]",
+      "defaultValue": "false",
+      "kind": "json",
+      "initial": "[]"
+    },
+    {
+      "name": "disabled",
+      "description": "禁用，未设置时继承表单",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
+      "name": "readonly",
+      "description": "只读，未设置时继承表单",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
+      "name": "error",
+      "description": "错误态，未设置时继承表单",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
+      "name": "max",
+      "description": "最多可选数量",
+      "type": "number",
+      "defaultValue": "undefined",
+      "kind": "number"
+    },
+    {
+      "name": "direction",
+      "description": "布局方向，可选值为 horizontal vertical",
+      "type": "string",
+      "defaultValue": "horizontal",
+      "kind": "string"
+    },
+    {
+      "name": "options",
+      "description": "选项；传入时替代默认插槽",
+      "type": "Array<ChoiceValue | CheckboxOption | Record<string, unknown>>",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "field-names",
+      "description": "选项字段映射",
+      "type": "ChoiceFieldNames",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "name",
+      "description": "组内原生输入字段名",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "aria-label",
+      "description": "分组无障碍名称",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "presentation",
+      "type": "'inline' | 'popup'",
+      "defaultValue": "undefined",
+      "description": "字段编辑方式，字段 > FormItem > Form 继承；默认 inline。",
+      "kind": "enum",
+      "options": [
+        "inline",
+        "popup"
+      ],
+      "initial": "inline"
+    },
+    {
+      "name": "read-pretty",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "description": "纯阅读展示；字段 > FormItem > Form 继承，显式 false 覆盖父级。",
+      "kind": "boolean"
+    },
+    {
+      "name": "before-commit",
+      "type": "BeforeFieldCommit",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "callback"
+    },
+    {
+      "name": "open",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "boolean"
+    },
+    {
+      "name": "default-open",
+      "type": "boolean",
+      "defaultValue": "false",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "boolean"
+    },
+    {
+      "name": "popup-container",
+      "type": "string | HTMLElement | false",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "json",
+      "initial": "\"body\""
+    },
+    {
+      "name": "value",
+      "type": "string | number | boolean",
+      "defaultValue": "true",
+      "description": "数组/分组模式的选项标识；布尔模式不改变值类型",
+      "kind": "json",
+      "initial": "false"
+    },
+    {
+      "name": "indeterminate",
+      "type": "boolean",
+      "defaultValue": "false",
+      "description": "是否半选",
+      "kind": "boolean"
+    },
+    {
+      "name": "uninject-group-context",
+      "type": "boolean",
+      "defaultValue": "false",
+      "description": "是否脱离外层 CheckboxGroup",
+      "kind": "boolean"
+    },
+    {
+      "name": "checked-color",
+      "type": "string",
+      "defaultValue": "undefined",
+      "description": "实例选中颜色，错误和禁用状态优先",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "unchecked-color",
+      "type": "string",
+      "defaultValue": "undefined",
+      "description": "实例未选中颜色，错误和禁用状态优先",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "icon-size",
+      "type": "string | number",
+      "defaultValue": "undefined",
+      "description": "图标尺寸；数字为 px，字符串为 CSS 长度",
+      "kind": "scalar"
+    },
+    {
+      "name": "ripple",
+      "type": "boolean",
+      "defaultValue": "true",
+      "description": "是否启用点击波纹",
+      "kind": "boolean"
+    }
+  ],
+  "methodNames": [
+    "toggle",
+    "focus",
+    "blur"
+  ],
+  "events": [
+    "click",
+    "update:modelValue",
+    "change",
+    "focus",
+    "blur"
+  ],
+  "slotNames": [
+    "checked-icon",
+    "unchecked-icon",
+    "indeterminate-icon"
+  ],
+  "slotDefaults": {
+    "checked-icon": false,
+    "unchecked-icon": false,
+    "indeterminate-icon": false
+  },
+  "scenarios": []
+}

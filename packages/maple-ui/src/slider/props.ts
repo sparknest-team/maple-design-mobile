@@ -1,4 +1,5 @@
 import type { ExtractPublicPropTypes, PropType, VNodeChild } from 'vue'
+import { fieldPresentationProps } from '../_components/field-presentation/props'
 import type { Orientation } from '../utils/constants'
 
 export type SliderValue = number | [number, number]
@@ -6,6 +7,7 @@ export type SliderOrientation = Orientation
 export type SliderTooltipFormatter = (value: number) => string | number
 export type SliderTooltipVisibility = boolean | 'always'
 export const sliderProps = {
+  ...fieldPresentationProps,
   /** 受控值；range 时为升序二元组 */
   modelValue: [Number, Array] as PropType<SliderValue>,
   /** 非受控初始值 */

@@ -1,0 +1,235 @@
+{
+  "fields": [
+    {
+      "name": "active",
+      "description": "当前选中 key；提供时受控",
+      "type": "string / number",
+      "defaultValue": "undefined",
+      "kind": "scalar"
+    },
+    {
+      "name": "default-active",
+      "description": "非受控初值，省略选首个可用项",
+      "type": "string / number",
+      "defaultValue": "undefined",
+      "kind": "scalar"
+    },
+    {
+      "name": "variant",
+      "description": "视觉变体",
+      "type": "'line' | 'card' | 'outline' | 'plain' | 'capsule' | 'enclosed'",
+      "defaultValue": "'line'",
+      "kind": "enum",
+      "options": [
+        "line",
+        "card",
+        "outline",
+        "plain",
+        "capsule",
+        "enclosed"
+      ],
+      "initial": "line"
+    },
+    {
+      "name": "size",
+      "description": "尺寸",
+      "type": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\"",
+      "defaultValue": "undefined",
+      "kind": "enum",
+      "options": [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl"
+      ],
+      "initial": "xs"
+    },
+    {
+      "name": "orientation",
+      "description": "导航方向",
+      "type": "\"horizontal\" | \"vertical\"",
+      "defaultValue": "'horizontal'",
+      "kind": "enum",
+      "options": [
+        "horizontal",
+        "vertical"
+      ],
+      "initial": "horizontal"
+    },
+    {
+      "name": "indicator-position",
+      "description": "指示器在内容侧或相反侧",
+      "type": "'normal' | 'reverse'",
+      "defaultValue": "'normal'",
+      "kind": "enum",
+      "options": [
+        "normal",
+        "reverse"
+      ],
+      "initial": "normal"
+    },
+    {
+      "name": "editable",
+      "description": "允许关闭标签",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "show-add-button",
+      "description": "编辑模式显示新增按钮",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "auto-switch",
+      "description": "新增后切换最后一个可用标签",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "lazy-load",
+      "description": "首次激活挂载",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "destroy-on-hide",
+      "description": "隐藏即卸载内容",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "justify",
+      "description": "水平方向撑满容器高度",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "animation",
+      "description": "内容淡入动画",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "item-class",
+      "description": "每页内容内层类名，合并内置类名",
+      "type": "string / object / array",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "item-style",
+      "description": "每页内容内层样式，支持字符串、对象和数组",
+      "type": "StyleValue",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "item-wrapper-class",
+      "description": "每页内容外层容器类名，合并内置类名",
+      "type": "string / object / array",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "item-wrapper-style",
+      "description": "每页内容外层容器样式，支持字符串、对象和数组",
+      "type": "StyleValue",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "tab-class",
+      "description": "导航标签外层（含标题与关闭按钮）类名，合并内置类名",
+      "type": "string / object / array",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "tab-style",
+      "description": "导航标签外层（含标题与关闭按钮）样式，支持字符串、对象和数组",
+      "type": "StyleValue",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "hide-content",
+      "description": "隐藏内容区域",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "trigger",
+      "description": "鼠标触发方式，触摸始终点击",
+      "type": "'click' | 'hover'",
+      "defaultValue": "'click'",
+      "kind": "enum",
+      "options": [
+        "click",
+        "hover"
+      ],
+      "initial": "click"
+    },
+    {
+      "name": "scroll-position",
+      "description": "选中标签滚动位置，数字为起点偏移",
+      "type": "start / end / center / auto / number",
+      "defaultValue": "'auto'",
+      "kind": "scalar",
+      "initial": "center"
+    },
+    {
+      "name": "scroll-buttons",
+      "description": "溢出时显示箭头，auto 在触摸设备隐藏",
+      "type": "boolean / auto",
+      "defaultValue": "'auto'",
+      "kind": "json",
+      "initial": "\"auto\""
+    },
+    {
+      "name": "activation-mode",
+      "description": "方向键是否立即选中",
+      "type": "'automatic' | 'manual'",
+      "defaultValue": "'automatic'",
+      "kind": "enum",
+      "options": [
+        "automatic",
+        "manual"
+      ],
+      "initial": "automatic"
+    },
+    {
+      "name": "swipeable",
+      "description": "内容横向触摸切换；不循环",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    }
+  ],
+  "methodNames": [],
+  "events": [
+    "update:active",
+    "change",
+    "tab-click",
+    "add",
+    "delete"
+  ],
+  "slotNames": [],
+  "slotDefaults": {},
+  "scenarios": []
+}

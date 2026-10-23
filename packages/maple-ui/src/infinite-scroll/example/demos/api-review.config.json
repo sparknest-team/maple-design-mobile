@@ -1,0 +1,123 @@
+{
+  "fields": [
+    {
+      "name": "status",
+      "description": "分页状态",
+      "type": "'idle' | 'loading' | 'error' | 'finished'",
+      "defaultValue": "'idle'",
+      "kind": "enum",
+      "options": [
+        "idle",
+        "loading",
+        "error",
+        "finished"
+      ],
+      "initial": "idle"
+    },
+    {
+      "name": "bottom-offset",
+      "description": "触底阈值",
+      "type": "string | number",
+      "defaultValue": "0",
+      "kind": "scalar"
+    },
+    {
+      "name": "immediate",
+      "description": "挂载后是否立即检查",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "disabled",
+      "description": "是否暂停加载和重试",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "target",
+      "description": "滚动容器或 CSS 选择器",
+      "type": "string | HTMLElement",
+      "defaultValue": "undefined",
+      "kind": "string",
+      "initial": "body"
+    }
+  ],
+  "events": [
+    "update:status",
+    "load",
+    "retry"
+  ],
+  "scenarios": [
+    {
+      "name": "target",
+      "kind": "prop",
+      "demos": [
+        "basic.vue",
+        "custom-status.vue",
+        "error.vue",
+        "scheduler-lifecycle.vue"
+      ]
+    },
+    {
+      "name": "default",
+      "kind": "slot",
+      "demos": []
+    },
+    {
+      "name": "loading",
+      "kind": "slot",
+      "demos": [
+        "basic.vue",
+        "custom-status.vue",
+        "error.vue"
+      ]
+    },
+    {
+      "name": "error",
+      "kind": "slot",
+      "demos": [
+        "error.vue"
+      ]
+    },
+    {
+      "name": "finished",
+      "kind": "slot",
+      "demos": [
+        "basic.vue",
+        "custom-status.vue",
+        "error.vue",
+        "scheduler-lifecycle.vue"
+      ]
+    },
+    {
+      "name": "check",
+      "kind": "method",
+      "demos": [
+        "scheduler-lifecycle.vue"
+      ]
+    },
+    {
+      "name": "retry",
+      "kind": "method",
+      "demos": [
+        "error.vue"
+      ]
+    }
+  ],
+  "slotNames": [
+    "loading",
+    "error",
+    "finished"
+  ],
+  "slotDefaults": {
+    "loading": false,
+    "error": false,
+    "finished": false
+  },
+  "methodNames": [
+    "check",
+    "retry"
+  ]
+}

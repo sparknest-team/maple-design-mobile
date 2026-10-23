@@ -5,61 +5,88 @@
     @mousedown="handleMousedown"
     @click="handleClick"
   >
-    <FieldDecorator
+    <FieldPresentation
       :id="inputId"
-      :value="value"
-      :variant="mergedVariant"
-      :size="mergedSize"
+      ref="presentationRef"
+      intent="input"
+      :presentation="presentation"
+      :read-pretty="readPretty"
+      :popup-container="popupContainer"
+      :text="type === 'password' && committedValue ? '••••••' : committedValue"
+      :placeholder="placeholder"
+      :label="presentationLabel"
+      :open="editorOpen"
       :disabled="mergedDisabled"
       :readonly="mergedReadonly"
-      :error="mergedError"
-      :focused="focused"
-      :placeholder="placeholder"
-      :hint="mergedHint"
-      :line="line"
-      :clearable="clearable"
-      :composing="composition.isComposing.value"
-      :text-color="textColor"
-      :focus-color="focusColor"
-      :blur-color="blurColor"
-      @clear="handleClear"
+      :need-confirm="true"
+      :pending="inputSession.pending.value"
+      :error="inputSession.error.value || presentationItem?.message?.value"
+      :commit="confirmEditor"
+      @open="setEditorOpen"
+      @cancel="cancelEditor"
+      @confirm="confirmEditor"
     >
-      <template v-if="$slots.prefix" #prefix><slot name="prefix" /></template>
-      <input
-        v-bind="nativeAttrs"
+      <template v-if="$slots.read" #read><slot name="read" :value="committedValue" /></template>
+
+      <FieldDecorator
         :id="inputId"
-        ref="inputRef"
-        :class="n('inner')"
         :value="value"
-        :type="type === 'number' ? 'text' : type"
-        :disabled="mergedDisabled"
+        :variant="mergedVariant"
+        :size="mergedSize"
+        :disabled="mergedDisabled || inputSession.pending.value"
         :readonly="mergedReadonly"
-        :maxlength="undefined"
-        :placeholder="mergedHint ? undefined : placeholder"
-        :aria-label="ariaLabel ?? nativeAttrs['aria-label']"
-        :aria-invalid="mergedError || nativeAttrs['aria-invalid'] || undefined"
-        :autofocus="autofocus"
-        :enterkeyhint="enterkeyhint"
-        :inputmode="type === 'number' ? 'decimal' : nativeAttrs.inputmode"
-        @input="handleInput"
-        @keydown="handleKeydown"
-        @focus="handleFocus"
-        @blur="handleBlur"
-        @compositionstart="composition.start"
-        @compositionend="handleCompositionEnd"
-      />
-      <template v-if="$slots['clear-icon']" #clear-icon="scope"><slot name="clear-icon" v-bind="scope" /></template>
-      <template v-if="$slots.suffix || (maxLength && showWordLimit) || feedback" #suffix>
-        <span v-if="maxLength && showWordLimit" :class="n('word-limit')">{{ valueLength }}/{{ maxLength }}</span>
-        <slot name="suffix" />
-        <InputFeedback :status="feedback" />
-      </template>
-    </FieldDecorator>
+        :error="mergedError"
+        :focused="focused"
+        :placeholder="placeholder"
+        :hint="mergedHint"
+        :line="line"
+        :clearable="clearable"
+        :composing="composition.isComposing.value"
+        :text-color="textColor"
+        :focus-color="focusColor"
+        :blur-color="blurColor"
+        @clear="handleClear"
+      >
+        <template v-if="$slots.prefix" #prefix><slot name="prefix" /></template>
+        <input
+          v-bind="nativeAttrs"
+          :id="inputId"
+          ref="inputRef"
+          :class="n('inner')"
+          :value="value"
+          :type="type === 'number' ? 'text' : type"
+          :disabled="mergedDisabled || inputSession.pending.value"
+          :readonly="mergedReadonly"
+          :maxlength="undefined"
+          :placeholder="mergedHint ? undefined : placeholder"
+          :aria-label="ariaLabel ?? nativeAttrs['aria-label']"
+          :aria-invalid="mergedError || nativeAttrs['aria-invalid'] || undefined"
+          :autofocus="autofocus"
+          :enterkeyhint="enterkeyhint"
+          :inputmode="type === 'number' ? 'decimal' : nativeAttrs.inputmode"
+          @input="handleInput"
+          @keydown="handleKeydown"
+          @focus="handleFocus"
+          @blur="handleBlur"
+          @compositionstart="composition.start"
+          @compositionend="handleCompositionEnd"
+        />
+        <template v-if="$slots['clear-icon']" #clear-icon="scope"><slot name="clear-icon" v-bind="scope" /></template>
+        <template v-if="$slots.suffix || (maxLength && showWordLimit) || feedback" #suffix>
+          <span v-if="maxLength && showWordLimit" :class="n('word-limit')">{{ valueLength }}/{{ maxLength }}</span>
+          <slot name="suffix" />
+          <InputFeedback :status="feedback" />
+        </template>
+      </FieldDecorator>
+    </FieldPresentation>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick, onMounted, ref, useAttrs, useId, type InputHTMLAttributes } from 'vue'
+import { computed, nextTick, onMounted, ref, useAttrs, useId, watch, type InputHTMLAttributes } from 'vue'
+import { useFieldPresentation } from '../_components/field-presentation/context'
+import FieldPresentation from '../_components/field-presentation/FieldPresentation.vue'
+import { useSelectionSession } from '../_components/selection-field/use-selection-session'
 import FieldDecorator, { fieldDecoratorProps } from '../field-decorator'
 import { createNamespace } from '../utils/components'
 import { useInputComposition } from '../utils/input-composition'
@@ -97,11 +124,126 @@ const mergedVariant = computed(() => props.variant ?? group?.variant.value ?? 'o
 const mergedHint = computed(
   () => !hasOuterLabel.value && (props.hint ?? group?.hint.value ?? fieldDecoratorProps.hint.default),
 )
+const {
+  presentation,
+  readPretty,
+  item: presentationItem,
+  label: presentationLabel,
+  register: registerPresentation,
+} = useFieldPresentation(
+  () => props.presentation,
+  () => props.readPretty,
+)
+const presentationRef = ref<InstanceType<typeof FieldPresentation>>()
+const localCommittedValue = ref(props.defaultValue)
+const committedValue = computed(() => (props.modelValue !== undefined ? props.modelValue : localCommittedValue.value))
+const localEditorOpen = ref(props.defaultOpen)
+const editorOpen = computed(
+  () =>
+    presentation.value !== 'inline' &&
+    !readPretty.value &&
+    !mergedDisabled.value &&
+    !mergedReadonly.value &&
+    (props.open ?? localEditorOpen.value),
+)
+function setEditorOpen(open: boolean) {
+  if (open && (mergedDisabled.value || mergedReadonly.value || readPretty.value)) {
+    return
+  }
+  localEditorOpen.value = open
+  emit('update:open', open)
+}
+const inputSession = useSelectionSession({
+  value: () => committedValue.value,
+  open: editorOpen,
+  deferred: () => presentation.value !== 'inline',
+  blocked: () => mergedDisabled.value || mergedReadonly.value || readPretty.value,
+  clone: (value) => value,
+  publish: (next) => {
+    localCommittedValue.value = next
+    emit('update:modelValue', next)
+    emit('change', next, new Event('change'))
+    if (!presentationItem?.validate) {
+      eventHandlers.value?.onChange?.()
+    }
+  },
+  close: () => setEditorOpen(false),
+  cancelOnExternalChange: true,
+  beforeCommit: async (next, signal) => {
+    if (presentationItem?.validate && !(await presentationItem.validate(next))) {
+      return false
+    }
+    if (signal.aborted) {
+      return false
+    }
+    if (next !== committedValue.value) {
+      return props.beforeCommit?.(next, { previousValue: committedValue.value, signal })
+    }
+  },
+})
+function cancelEditor() {
+  inputSession.cancel()
+  presentationItem?.resetValidation?.()
+}
+function confirmEditor() {
+  if (composition.isComposing.value) {
+    return
+  }
+  commitValue(new Event('change'))
+  return inputSession.commit()
+}
+watch(
+  [presentation, readPretty],
+  ([next, pretty], previous) => {
+    presentationItem?.resolved?.(next, readPretty.value)
+    if (previous && (next !== previous[0] || pretty !== previous[1])) {
+      setEditorOpen(false)
+      inputSession.reset()
+      presentationItem?.resetValidation?.()
+    }
+  },
+  { immediate: true, flush: 'sync' },
+)
+watch(
+  [mergedDisabled, mergedReadonly, readPretty],
+  () => {
+    if (readPretty.value || (presentation.value !== 'inline' && (mergedDisabled.value || mergedReadonly.value))) {
+      setEditorOpen(false)
+      inputSession.reset()
+      presentationItem?.resetValidation?.()
+    }
+  },
+  { flush: 'sync' },
+)
+registerPresentation({
+  active: () => editorOpen.value,
+  cancel: () => {
+    setEditorOpen(false)
+    inputSession.reset()
+  },
+  focus: () => presentationRef.value?.focus(),
+})
+const valueProps = new Proxy(props, {
+  get(target, key) {
+    return key === 'modelValue' ? inputSession.value.value : Reflect.get(target, key)
+  },
+})
+
 const composition = useInputComposition()
 const { value, focused, maxLength, errorOnly, valueLength, updateValue, commitValue, clearValue } = useInputValue(
-  props,
-  (nextValue) => emit('update:modelValue', nextValue),
+  valueProps,
+  (nextValue) => {
+    if (editorOpen.value) {
+      inputSession.update(nextValue)
+    } else {
+      localCommittedValue.value = nextValue
+      emit('update:modelValue', nextValue)
+    }
+  },
   (nextValue, event) => {
+    if (editorOpen.value) {
+      return
+    }
     emit('change', nextValue, event)
     eventHandlers.value?.onChange?.(event)
   },
@@ -118,7 +260,7 @@ function processInput(event: Event) {
   const restore = captureInputSelection(input)
   updateValue(input.value, (nextValue) => {
     emit('input', nextValue, event)
-    eventHandlers.value?.onInput?.(event)
+    !editorOpen.value && eventHandlers.value?.onInput?.(event)
   })
   nextTick(() => restore(value.value))
 }
@@ -135,7 +277,7 @@ function handleCompositionEnd(event: CompositionEvent) {
 function handleFocus(event: FocusEvent) {
   focused.value = true
   emit('focus', event)
-  eventHandlers.value?.onFocus?.(event)
+  !editorOpen.value && eventHandlers.value?.onFocus?.(event)
 }
 function handleBlur(event: FocusEvent) {
   focused.value = false
@@ -143,7 +285,7 @@ function handleBlur(event: FocusEvent) {
     commitValue(event)
   }
   emit('blur', event)
-  eventHandlers.value?.onBlur?.(event)
+  !editorOpen.value && eventHandlers.value?.onBlur?.(event)
 }
 function handleKeydown(event: KeyboardEvent) {
   emit('keydown', event)
@@ -172,10 +314,10 @@ function handleClear(event: Event) {
     return
   }
   emit('clear', event)
-  eventHandlers.value?.onClear?.(event)
+  !editorOpen.value && eventHandlers.value?.onClear?.(event)
   clearValue(event, (nextValue) => {
     emit('input', nextValue, event)
-    eventHandlers.value?.onInput?.(event)
+    !editorOpen.value && eventHandlers.value?.onInput?.(event)
   })
   focus()
 }
@@ -185,6 +327,9 @@ function handleClick(event: MouseEvent) {
   }
 }
 function handleMousedown(event: MouseEvent) {
+  if (presentation.value !== 'inline') {
+    return
+  }
   if (mergedDisabled.value || event.target === inputRef.value) {
     return
   }

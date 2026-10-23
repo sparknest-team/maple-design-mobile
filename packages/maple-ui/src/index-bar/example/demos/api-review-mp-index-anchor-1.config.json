@@ -1,0 +1,20 @@
+{
+  "fields": [
+    {
+      "name": "index",
+      "description": "索引字符",
+      "type": "number | string",
+      "defaultValue": "-",
+      "kind": "scalar"
+    }
+  ],
+  "methodNames": [],
+  "events": [],
+  "slotNames": [
+    "anchor-name"
+  ],
+  "slotDefaults": {
+    "anchor-name": false
+  },
+  "scenarios": []
+}

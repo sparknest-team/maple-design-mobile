@@ -209,3 +209,79 @@ describe('Collapse same source', () => {
     wrapper.unmount()
   })
 })
+
+test('normalizes expanded panels immediately when accordion changes', async () => {
+  const wrapper = mountCollapse({ defaultActiveNames: ['1', 2] }, [
+    { name: '1', title: 'One', content: 'A' },
+    { name: 2, title: 'Two', content: 'B' },
+  ])
+  const expanded = () => wrapper.findAll('[aria-expanded="true"]')
+  expect(expanded()).toHaveLength(2)
+  await wrapper.setProps({ accordion: true })
+  expect(expanded()).toHaveLength(1)
+  expect(expanded()[0].text()).toBe('One')
+  await wrapper.findAll('[role="button"]')[1].trigger('click')
+  expect(expanded()).toHaveLength(1)
+  expect(expanded()[0].text()).toBe('Two')
+  expect(wrapper.emitted('update:activeNames').at(-1)[0]).toEqual([2])
+  wrapper.unmount()
+})
+
+test('limits controlled initial active names in accordion mode without rewriting the input', () => {
+  const activeNames = ['1', 2]
+  const wrapper = mountCollapse({ activeNames, accordion: true }, [
+    { name: '1', title: 'One', content: 'A' },
+    { name: 2, title: 'Two', content: 'B' },
+  ])
+  expect(wrapper.findAll('[aria-expanded="true"]')).toHaveLength(1)
+  expect(activeNames).toEqual(['1', 2])
+  expect(wrapper.emitted('update:activeNames')).toBeUndefined()
+  wrapper.unmount()
+})
+
+test('updates hidden content immediately when destroyOnHide changes', async () => {
+  const wrapper = mountCollapse({ defaultActiveNames: ['1'] }, [
+    { name: '1', title: 'One', content: 'Visible' },
+    { name: 2, title: 'Two', content: 'Hidden' },
+  ])
+  const content = () => wrapper.findAll(`.${item.n('content-box')}`)
+  expect(content()).toHaveLength(2)
+  await wrapper.setProps({ destroyOnHide: true })
+  expect(content()).toHaveLength(1)
+  expect(content()[0].text()).toBe('Visible')
+  await wrapper.setProps({ destroyOnHide: false })
+  expect(content()).toHaveLength(2)
+  wrapper.unmount()
+})
+
+test('keeps keyboard activation inside extra controls from toggling the header', async () => {
+  const action = vi.fn()
+  const wrapper = mountCollapse({}, [
+    { name: '1', title: 'One', content: 'A', extra: () => h('button', { onClick: action }, 'Action') },
+  ])
+  const button = wrapper.get('button')
+  await button.trigger('keydown', { key: 'Enter' })
+  await button.trigger('keydown', { key: ' ' })
+  await button.trigger('click')
+  expect(action).toHaveBeenCalledTimes(1)
+  expect(wrapper.get('[aria-expanded]').attributes('aria-expanded')).toBe('false')
+  expect(wrapper.emitted('change')).toBeUndefined()
+  wrapper.unmount()
+})
+
+test('gives repeated names in separate collapse instances unique linked regions', () => {
+  const wrapper = mount({
+    render: () =>
+      h('div', [
+        h(Collapse, {}, () => h(CollapseItem, { name: '1', title: 'First' }, () => 'A')),
+        h(Collapse, {}, () => h(CollapseItem, { name: '1', title: 'Second' }, () => 'B')),
+      ]),
+  })
+  const headers = wrapper.findAll('[aria-controls]')
+  expect(headers[0].attributes('id')).not.toBe(headers[1].attributes('id'))
+  for (const header of headers) {
+    const region = wrapper.get(`[id="${header.attributes('aria-controls')}"]`)
+    expect(region.attributes('aria-labelledby')).toBe(header.attributes('id'))
+  }
+  wrapper.unmount()
+})

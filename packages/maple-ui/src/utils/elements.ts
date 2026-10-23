@@ -14,6 +14,9 @@ import {
   toNumber,
 } from '@maplejs/maple-shared'
 import { type StyleVarName, type StyleVars } from '../style-provider/props'
+import { toSizeUnit } from './size-unit'
+
+export { toSizeUnit } from './size-unit'
 
 export function getLeft(element: HTMLElement): number {
   const { left } = getRect(element)
@@ -171,19 +174,6 @@ export const toPxNum = (value: unknown): number => {
 
   // % and other
   return 0
-}
-
-// e.g. return 1px 1% 1vw 1vh 1rem null var(--mp-color-primary) calc(1px + 1px)
-export const toSizeUnit = (value: unknown) => {
-  if (value == null) {
-    return undefined
-  }
-
-  if (isNumeric(value)) {
-    return `${value}px`
-  }
-
-  return String(value)
 }
 
 export const multiplySizeUnit = (value: unknown, quantity = 1) => {

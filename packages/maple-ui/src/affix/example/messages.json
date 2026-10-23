@@ -5,7 +5,8 @@
     "bottom": "底部偏移",
     "container": "指定滚动容器",
     "fix-change": "吸附状态变化",
-    "controls": "禁用、CSS 模式与手动更新"
+    "controls": "禁用、CSS 模式与手动更新",
+    "api-review": "功能调试"
   },
   "en-US": {
     "basic": "Basic usage",
@@ -13,6 +14,7 @@
     "bottom": "Bottom offset",
     "container": "Scroll container",
     "fix-change": "Change event",
-    "controls": "Disabled, CSS mode and manual update"
+    "controls": "Disabled, CSS mode and manual update",
+    "api-review": "Feature playground"
   }
 }

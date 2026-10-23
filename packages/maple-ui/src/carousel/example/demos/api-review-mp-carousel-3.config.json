@@ -1,0 +1,252 @@
+{
+  "fields": [
+    {
+      "name": "current",
+      "description": "受控索引，零基",
+      "type": "number",
+      "defaultValue": "undefined",
+      "kind": "number"
+    },
+    {
+      "name": "default-current",
+      "description": "非受控初始索引",
+      "type": "number",
+      "defaultValue": "0",
+      "kind": "number"
+    },
+    {
+      "name": "loop",
+      "description": "循环，跨边界不复制实例",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "auto-play",
+      "description": "自动播放及间隔",
+      "type": "boolean | number | CarouselAutoPlayConfig",
+      "defaultValue": "false",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "move-speed",
+      "description": "显式切换时长（毫秒）",
+      "type": "number",
+      "defaultValue": "undefined",
+      "kind": "number"
+    },
+    {
+      "name": "trigger",
+      "description": "指示器触发方式",
+      "type": "'click' | 'hover'",
+      "defaultValue": "'click'",
+      "kind": "enum",
+      "options": [
+        "click",
+        "hover"
+      ],
+      "initial": "click"
+    },
+    {
+      "name": "direction",
+      "description": "内部滑动方向",
+      "type": "horizontal | vertical",
+      "defaultValue": "'horizontal'",
+      "kind": "enum",
+      "options": [
+        "horizontal",
+        "vertical"
+      ],
+      "initial": "horizontal"
+    },
+    {
+      "name": "show-arrow",
+      "description": "箭头显示策略",
+      "type": "'always' | 'hover' | 'never'",
+      "defaultValue": "'always'",
+      "kind": "enum",
+      "options": [
+        "always",
+        "hover",
+        "never"
+      ],
+      "initial": "always"
+    },
+    {
+      "name": "arrow-class",
+      "description": "箭头附加类",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "indicator",
+      "description": "显示指示器",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "indicator-type",
+      "description": "指示器样式",
+      "type": "'dot' | 'line' | 'slider'",
+      "defaultValue": "'dot'",
+      "kind": "enum",
+      "options": [
+        "dot",
+        "line",
+        "slider"
+      ],
+      "initial": "dot"
+    },
+    {
+      "name": "indicator-position",
+      "description": "指示器位置",
+      "type": "'bottom' | 'top' | 'left' | 'right' | 'outer'",
+      "defaultValue": "'bottom'",
+      "kind": "enum",
+      "options": [
+        "bottom",
+        "top",
+        "left",
+        "right",
+        "outer"
+      ],
+      "initial": "bottom"
+    },
+    {
+      "name": "indicator-class",
+      "description": "指示器附加类",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "indicator-color",
+      "description": "自定义指示器背景",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "height",
+      "description": "容器高度，数字为px",
+      "type": "number | string",
+      "defaultValue": "undefined",
+      "kind": "scalar"
+    },
+    {
+      "name": "transition-timing-function",
+      "description": "显式缓动曲线",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "touchable",
+      "description": "触摸拖动",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "draggable",
+      "description": "鼠标拖动，可与触摸并存",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "mousewheel",
+      "description": "滚轮切换",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "keyboard",
+      "description": "组件内方向键/Home/End",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "slides-per-view",
+      "description": "同时显示页数；auto使用子项宽高",
+      "type": "number | auto",
+      "defaultValue": "1",
+      "kind": "scenario"
+    },
+    {
+      "name": "space-between",
+      "description": "项间距；数字/数字字符串为px",
+      "type": "number | string",
+      "defaultValue": "0",
+      "kind": "scalar"
+    },
+    {
+      "name": "effect",
+      "description": "视觉效果，两端全部支持",
+      "type": "'slide' | 'fade' | 'card'",
+      "defaultValue": "'slide'",
+      "kind": "enum",
+      "options": [
+        "slide",
+        "fade",
+        "card"
+      ],
+      "initial": "slide"
+    },
+    {
+      "name": "centered-slides",
+      "description": "当前页居中",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "aria-label",
+      "description": "轮播可访问名称",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "previous-button-aria-label",
+      "description": "上一页按钮名称",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "next-button-aria-label",
+      "description": "下一页按钮名称",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    }
+  ],
+  "methodNames": [
+    "prev",
+    "next",
+    "to",
+    "resize"
+  ],
+  "events": [
+    "update:current",
+    "change"
+  ],
+  "slotNames": [
+    "indicator",
+    "prev",
+    "next"
+  ],
+  "slotDefaults": {
+    "indicator": true,
+    "prev": false,
+    "next": false
+  },
+  "scenarios": []
+}

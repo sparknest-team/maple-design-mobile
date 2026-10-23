@@ -2,7 +2,7 @@ import { createSSRApp, Fragment, h, nextTick, ref } from 'vue'
 import { renderToString } from '@vue/server-renderer'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
-import DropdownMenu from '../../dropdown-menu'
+import Menu from '../../menu'
 import { Breadcrumb, BreadcrumbItem } from '../index'
 
 const routes = ['Home', 'A', 'B', 'C', 'End'].map((label, index) => ({ label, path: `/${index}` }))
@@ -86,7 +86,7 @@ describe('Breadcrumb same source', () => {
 
   test('dropdown emits the selected route and original event', () => {
     const wrapper = mount(BreadcrumbItem, { props: { droplist: routes } })
-    const menu = wrapper.findComponent(DropdownMenu)
+    const menu = wrapper.findComponent(Menu)
     const event = new MouseEvent('click')
     menu.vm.$emit('select', '/1', {}, event)
     expect(wrapper.emitted('select')).toEqual([[routes[1], event]])
@@ -124,6 +124,51 @@ describe('Breadcrumb same source', () => {
     expect(groups[0].findAll('.mp-breadcrumb-item')).toHaveLength(3)
     expect(groups[1].findAll('.mp-breadcrumb-item')).toHaveLength(5)
     expect(groups[1].find('.mp-breadcrumb-item__separator').text()).toBe(':')
+    wrapper.unmount()
+  })
+})
+
+describe('Breadcrumb interaction semantics', () => {
+  test('distinguishes text, links, actions and current page', async () => {
+    const onClick = vi.fn()
+    const wrapper = mount(Breadcrumb, {
+      slots: {
+        default: () => [item('Text'), item('Link', { href: '#home' }), item('Action', { onClick }), item('Current')],
+      },
+    })
+    const contents = wrapper.findAll('.mp-breadcrumb-item__content')
+    expect(contents.map((node) => node.element.tagName)).toEqual(['DIV', 'A', 'BUTTON', 'DIV'])
+    expect(contents[2].attributes('type')).toBe('button')
+    await contents[2].trigger('click')
+    expect(onClick).toHaveBeenCalledTimes(1)
+    expect(contents[3].attributes('aria-current')).toBe('page')
+    wrapper.unmount()
+  })
+
+  test('dropdown uses a native button and ellipsis remains passive', () => {
+    const wrapper = mount(Breadcrumb, {
+      slots: { default: () => [item('Menu', { droplist: routes }), item('Current')] },
+    })
+    expect(wrapper.find('.mp-breadcrumb-item__content').element.tagName).toBe('BUTTON')
+    wrapper.unmount()
+    const collapsed = mount(Breadcrumb, { props: { routes, maxCount: 2 } })
+    expect(collapsed.find('[aria-label="ellipses of breadcrumb items"]').element.tagName).toBe('DIV')
+    collapsed.unmount()
+  })
+})
+
+describe('Breadcrumb touch feedback', () => {
+  test('clears press feedback on release and cancellation', async () => {
+    const wrapper = mount(BreadcrumbItem, { props: { href: '#home' }, slots: { default: () => 'Home' } })
+    const link = wrapper.find('a')
+    for (const end of ['pointerup', 'pointercancel', 'lostpointercapture']) {
+      await link.trigger('pointerdown', { pointerType: 'touch', button: 0 })
+      expect(link.classes()).toContain('mp-breadcrumb-item--pressed')
+      await link.trigger(end)
+      expect(link.classes()).not.toContain('mp-breadcrumb-item--pressed')
+    }
+    await link.trigger('pointerdown', { pointerType: 'mouse', button: 0 })
+    expect(link.classes()).not.toContain('mp-breadcrumb-item--pressed')
     wrapper.unmount()
   })
 })

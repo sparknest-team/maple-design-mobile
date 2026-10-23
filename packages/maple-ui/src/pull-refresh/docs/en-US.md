@@ -1,7 +1,5 @@
 # PullRefresh
 
-Provides pull-to-refresh at the top of a list.
-
 ## Examples
 
 ### Basic Usage
@@ -9,6 +7,19 @@ Provides pull-to-refresh at the top of a list.
 ```demo
 ../example/demos/basic.vue
 ```
+
+## Timing and lifecycle
+
+Provides pull-to-refresh at the top of a list.
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

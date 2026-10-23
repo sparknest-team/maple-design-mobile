@@ -76,7 +76,6 @@
     "test:watch": "maple-cli test -w -cov"
   },
   "dependencies": {
-    "rattail": "1.0.17",
     "@maplejs/maple-shared": "workspace:*",
     "@maplejs/maple-use": "workspace:*",
     "@maplejs/icons-vue": "workspace:*",

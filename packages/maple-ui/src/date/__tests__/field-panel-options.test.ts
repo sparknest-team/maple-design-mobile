@@ -13,7 +13,7 @@ describe('date field nested presentation', () => {
       expect(result.presentation).toBeUndefined()
       expect(result.dayStartOfWeek).toBe(1)
       expect(
-        dateFieldPanelOptions({ ...options, presentation: 'picker' } as unknown as DateFieldProps, range).presentation,
+        dateFieldPanelOptions({ ...options, panelType: 'picker' } as unknown as DateFieldProps, range).presentation,
       ).toBe('picker')
     }
   })

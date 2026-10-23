@@ -2,6 +2,8 @@
 
 Mobile modal surface entering from the top, bottom, left, right, or center. Popup shares its modal controller with Cedar Drawer while retaining mobile safe-area and transition presentation.
 
+## 案例
+
 ### Placement
 
 ```demo
@@ -19,6 +21,15 @@ Mobile modal surface entering from the top, bottom, left, right, or center. Popu
 ```demo
 ../example/demos/event.vue
 ```
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

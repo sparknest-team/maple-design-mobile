@@ -11,7 +11,7 @@ const handleClick = () => {
 </script>
 
 <template>
-  <mp-space :size="['2.666vmin', '2.666vmin']">
+  <mp-space size="sm">
     <mp-link loading>加载中</mp-link>
     <mp-link :loading="loading" @click="handleClick">点击加载</mp-link>
   </mp-space>

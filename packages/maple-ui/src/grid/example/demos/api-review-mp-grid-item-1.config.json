@@ -1,0 +1,30 @@
+{
+  "fields": [
+    {
+      "name": "span",
+      "description": "跨越格数",
+      "type": "number / ResponsiveValue",
+      "defaultValue": "1",
+      "kind": "scenario"
+    },
+    {
+      "name": "offset",
+      "description": "左侧留空格数",
+      "type": "number / ResponsiveValue",
+      "defaultValue": "0",
+      "kind": "scenario"
+    },
+    {
+      "name": "suffix",
+      "description": "行末后缀",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    }
+  ],
+  "methodNames": [],
+  "events": [],
+  "slotNames": [],
+  "slotDefaults": {},
+  "scenarios": []
+}

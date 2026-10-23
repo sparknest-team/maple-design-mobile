@@ -1,4 +1,5 @@
 import type { ExtractPublicPropTypes, PropType, VNodeChild } from 'vue'
+import { fieldPresentationProps } from '../_components/field-presentation/props'
 import { inputProps } from '../input/props'
 
 export type VerificationCodeType = 'digit' | 'text' | 'alphanumeric'
@@ -7,6 +8,7 @@ export type VerificationCodeSeparator = (index: number, character: string) => VN
 export type VerificationCodeFormatter = (inputValue: string, index: number, value: string) => string | boolean
 export type VerificationCodeVariant = import('../input/props').InputVariant
 export const verificationCodeProps = {
+  ...fieldPresentationProps,
   /** 受控整码 */ modelValue: String,
   /** 非受控初值 */ defaultValue: { type: String, default: '' },
   /** 字符数量 */ length: { type: Number, default: 6, validator: (v: number) => Number.isInteger(v) && v > 0 },

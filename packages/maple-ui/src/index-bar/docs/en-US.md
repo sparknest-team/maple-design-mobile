@@ -1,5 +1,7 @@
 # IndexBar
 
+## Examples
+
 ### Lifecycle-owned scrolling
 
 New commands replace older scrolling. Deactivation/disposal cancels entry/interpolation/two-frame settlement; retained methods cannot write or notify. Activation waits for child registration before restoring active/event:false. Cancellation stops without jumping to an old target. Public scrollTo still returns void; default0/cubic easing and events remain. Private tasks replace the generic-helper call, with no new public cancellation API/CSS variable. Reduced motion skips interpolation, not necessary list/clickedName settlement frames.
@@ -27,6 +29,15 @@ When you click the index bar, it will automatically jump to the corresponding `I
 ```demo
 ../example/demos/lifecycle.vue
 ```
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

@@ -1,0 +1,55 @@
+{
+  "fields": [
+    {
+      "name": "show-back",
+      "description": "是否显示返回按钮",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "title",
+      "description": "主标题",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "subtitle",
+      "description": "次标题",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "extra",
+      "description": "右侧附加内容",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    }
+  ],
+  "methodNames": [],
+  "events": [
+    "back"
+  ],
+  "slotNames": [
+    "header",
+    "avatar",
+    "title",
+    "extra",
+    "footer",
+    "back",
+    "subtitle"
+  ],
+  "slotDefaults": {
+    "header": true,
+    "avatar": true,
+    "title": true,
+    "extra": true,
+    "footer": true,
+    "back": false,
+    "subtitle": false
+  },
+  "scenarios": []
+}

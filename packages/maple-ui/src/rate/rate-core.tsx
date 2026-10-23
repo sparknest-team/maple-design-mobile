@@ -14,7 +14,7 @@ import { positiveLength } from '../utils/size-length'
 import { rateProps, type RateColor, type RateIcon as RateIconValue } from './props'
 import { useRateForm } from './use-rate-form'
 
-const { name, n, classes } = createNamespace('rate')
+const { n, classes } = createNamespace('rate')
 const defaultIcons = {
   full: IconStarFill,
   empty: IconStar,
@@ -25,7 +25,7 @@ const defaultIcons = {
 }
 
 export default defineComponent({
-  name,
+  name: createNamespace('rate').name,
   props: rateProps,
   emits: ['change', 'hover-change', 'update:modelValue'],
   setup(props, { emit, slots, expose }) {

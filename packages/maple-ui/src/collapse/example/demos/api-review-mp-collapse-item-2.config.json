@@ -1,0 +1,52 @@
+{
+  "fields": [
+    {
+      "name": "name",
+      "description": "面板唯一标识，对应 activeNames 中的值",
+      "type": "string | number",
+      "defaultValue": "—",
+      "kind": "scalar"
+    },
+    {
+      "name": "title",
+      "description": "面板的标题",
+      "type": "string",
+      "defaultValue": "—",
+      "kind": "string"
+    },
+    {
+      "name": "disabled",
+      "description": "是否禁用",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "show-expand-icon",
+      "description": "是否显示展开图标",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "destroy-on-hide",
+      "description": "是否在隐藏时销毁内容",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    }
+  ],
+  "methodNames": [],
+  "events": [],
+  "slotNames": [
+    "extra",
+    "title",
+    "expand-icon"
+  ],
+  "slotDefaults": {
+    "extra": true,
+    "title": false,
+    "expand-icon": false
+  },
+  "scenarios": []
+}

@@ -1,0 +1,273 @@
+{
+  "fields": [
+    {
+      "name": "model-value",
+      "description": "受控绑定值",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "model-modifiers",
+      "description": "v-model 修饰符，支持 trim",
+      "type": "object",
+      "defaultValue": "() => ({})",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "default-value",
+      "description": "非受控模式下的初始值",
+      "type": "string",
+      "defaultValue": "''",
+      "kind": "string"
+    },
+    {
+      "name": "type",
+      "description": "text、password、number、tel 或 email",
+      "type": "\"text\" | \"password\" | \"number\" | \"tel\" | \"email\"",
+      "defaultValue": "'text'",
+      "kind": "enum",
+      "options": [
+        "text",
+        "password",
+        "number",
+        "tel",
+        "email"
+      ],
+      "initial": "text"
+    },
+    {
+      "name": "placeholder",
+      "description": "占位符，也可作为浮动提示文字",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "size",
+      "description": "xs、sm、md、lg 或 xl",
+      "type": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\"",
+      "defaultValue": "undefined",
+      "kind": "enum",
+      "options": [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl"
+      ],
+      "initial": "xs"
+    },
+    {
+      "name": "variant",
+      "description": "filled、outline 或 standard",
+      "type": "\"filled\" | \"outline\" | \"standard\"",
+      "defaultValue": "undefined",
+      "kind": "enum",
+      "options": [
+        "filled",
+        "outline",
+        "standard"
+      ],
+      "initial": "filled"
+    },
+    {
+      "name": "hint",
+      "description": "是否将 placeholder 用作浮动提示文字",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
+      "name": "line",
+      "description": "是否显示边框或底线",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "max-length",
+      "description": "最大输入长度；默认截断，errorOnly 时允许超出并显示错误",
+      "type": "number | object",
+      "defaultValue": "0",
+      "kind": "json",
+      "initial": "{\"length\":20,\"errorOnly\":false}"
+    },
+    {
+      "name": "show-word-limit",
+      "description": "是否显示字数统计",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "word-length",
+      "description": "自定义字数计算方法",
+      "type": "function",
+      "defaultValue": "undefined",
+      "kind": "callback"
+    },
+    {
+      "name": "word-slice",
+      "description": "自定义超长截取方法",
+      "type": "function",
+      "defaultValue": "undefined",
+      "kind": "callback"
+    },
+    {
+      "name": "readonly",
+      "description": "是否只读",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
+      "name": "disabled",
+      "description": "是否禁用",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
+      "name": "error",
+      "description": "是否显示错误状态",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
+      "name": "clearable",
+      "description": "是否可清除；有值且可编辑时清除图标常驻显示",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "autofocus",
+      "description": "是否自动聚焦",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "enterkeyhint",
+      "description": "移动端回车键提示",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "aria-label",
+      "description": "输入框无障碍标签",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "input-attrs",
+      "description": "透传原生属性，例如 autocomplete",
+      "type": "object",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "text-color",
+      "description": "文字颜色",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "focus-color",
+      "description": "聚焦颜色",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "blur-color",
+      "description": "失焦颜色",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "presentation",
+      "type": "'inline' | 'popup'",
+      "defaultValue": "undefined",
+      "description": "字段编辑方式，字段 > FormItem > Form 继承；默认 inline。",
+      "kind": "enum",
+      "options": [
+        "inline",
+        "popup"
+      ],
+      "initial": "inline"
+    },
+    {
+      "name": "read-pretty",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "description": "纯阅读展示；字段 > FormItem > Form 继承，显式 false 覆盖父级。",
+      "kind": "boolean"
+    },
+    {
+      "name": "before-commit",
+      "type": "BeforeFieldCommit",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "callback"
+    },
+    {
+      "name": "popup-container",
+      "type": "string | HTMLElement | false",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "json",
+      "initial": "\"body\""
+    },
+    {
+      "name": "open",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "boolean"
+    },
+    {
+      "name": "default-open",
+      "type": "boolean",
+      "defaultValue": "false",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "boolean"
+    }
+  ],
+  "methodNames": [
+    "focus",
+    "blur",
+    "select"
+  ],
+  "events": [
+    "focus",
+    "blur",
+    "clear",
+    "input",
+    "change",
+    "press-enter",
+    "keydown"
+  ],
+  "slotNames": [
+    "prefix",
+    "suffix",
+    "clear-icon"
+  ],
+  "slotDefaults": {
+    "prefix": false,
+    "suffix": false,
+    "clear-icon": false
+  },
+  "scenarios": []
+}

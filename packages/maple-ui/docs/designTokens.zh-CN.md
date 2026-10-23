@@ -1,5 +1,516 @@
 # Design Token 与 CSS 变量分层
 
+### 全量收尾复核（2026-10-20 14:34 起；无新增漂移）
+
+本轮只读重查通过：当前库存 198 文件／418 CSS／184 runtime，文件键差异 0；80 份分类 hash 全部匹配，184/184 提示已分类（100%），待审 0；33/33 既有组件族已分类（100%），剩余 0（0%），分母未变。三页生成目录全量匹配，未发现新的并行重叠。两端受查生产树汇总与上轮收口快照一致；已有未提交业务改造保留，不把 dirty 状态误报为新漂移。
+
+共享 motion 106 项及完整后续编译链、目录 47 项／三页匹配、严格消费扫描 172 文件／4565 声明／70 已分类候选／0 待审／0 错误通过。pnpm 入口因尝试在工作区外准备自身版本而被 EPERM 拦截；改用现有 Node v23.2.0 执行 package.json 中相同的 Node 检查链通过，不声称 pnpm 入口通过，未安装软件或修改权限。
+
+本轮只更新审计文档与证据，未改生产源码、Token 默认值、库存／hash 登记或三页生成表格；未重跑全组件业务测试／类型／根 lint，不把上轮结果改写为本轮新验证。分类／Less 编译检查不是全库业务或原生验收率。Map SDK、144 组原生环境及 Button 白字 on-dark 2.305:1 非 AA 例外保留，新增原生验收 0，自动化核实仍 PAUSED。详见 design-ui/audits/token-closure-recheck-2026-10-20-1434.md 与 audits/evidence/full-closure-recheck-2026-10-20-1434/results.json；环境恢复条件仍见 token-closure-recheck-2026-10-20.md。
+
+### 日期库存／hash／目录授权收口（2026-10-20）
+
+本批只同步获授权的 3 处库存、2 份分类 hash 和三页共 11 个逻辑行（2 默认值变化＋9 新行，5 个新增唯一声明）。生产源码、样式／Token 默认值、范围确认／提交和并行业务未改；未复现新的产品故障，不为登记漂移制造实现修复。新增审计基线 10 项中 8 个登记／目录匹配失败、2 个真实 Less 消费通过；库存比较夹具另纠正 file 字段包装，实际 3 处位置差异已独立确认。Cedar 新夹具首轮 attrs 透传覆盖 disabledDate 的误设也已纠正，不算产品故障。
+
+真实入口核对：Cedar date/picker/style/index.ts → index.less → token.less，预览边界 outline、悬停范围／边界 fill-2 选择器与真实 Body 类名匹配；Maple date/style/index.ts → index.less → date-picker.less，日／月／年范围底色、禁用底色、预览底色和边界 outline 消费四个新声明。目录属性仅证明编译可达性，不代表所有 DOM／局部覆盖／对比度或原生验收。
+
+Cedar 保留原 100ms 快捷预览任务、原句柄取消和生命周期／代次／一次消费／header continuation 守卫；真实禁用 Body 清除后旧回调重复交付不覆盖新草稿。Maple onSmartMounted 挂载／新激活同步滚动，nextTick 仅做记账；鼠标／触摸范围预览不追加滚动。新 Vue 回归两端各 2 项，按技能恢复方法描述符、卸载组件、恢复模拟计时器；没有新的资源需修复。
+
+共享 motion 106 项及后续完整编译链、目录 47 项与三页全量匹配通过；严格消费报告 172 文件／4565 声明／70 已分类候选／0 待审／0 错误。库存仍 198 文件／418 CSS／184 runtime，80 登记 hash 匹配、184/184 提示已分类（100%），待审 0；33/33 既有组件族分类收口（100%），剩余 0（0%），分母未变。这是分类口径，不是全库业务或原生验收率。
+
+受影响回归／类型／lint 的最终结果与首轮广测、串行隔离诊断分开保留，见 design-ui/audits/evidence/date-drift-closure-2026-10-20/results.json。Map SDK／144 原生组恢复条件沿用 token-closure-recheck-2026-10-20.md；新增原生验收 0，Button 白字 on-dark 2.305:1 非 AA 例外及其他文本阈值不变，自动化仍 PAUSED。下文“3 处／2 hash／三页待交接”是授权前历史快照。
+
+### 全量收尾复核（2026-10-20；发现新的并行漂移）
+
+本轮不能确认“无新增漂移”：库存总量仍为 198 文件／418 CSS／184 runtime，但有 3 处文件键差异（Cedar DateRangePicker、Maple YearPickerPanel 与 date-picker.less）；80 份分类源码中 78 份 hash 匹配，两个日期文件待重验。182/184 提示仍有匹配身份（98.9%），2 条待重验（1.1%），不是新增 2 个缺陷。既有 33 族历史分类不撤销；按当前源码身份，32/33 族匹配（97.0%），Date 1/33 族待重验（3.0%），不是全库业务／原生验收率。
+
+三页均有日期目录漂移：Cedar 2 行默认值变化＋1 行新增，Maple 中英各 4 行新增，共 11 个逻辑行、5 个新增唯一声明；不是 11 个缺陷。当前完整编译报告为 172 文件／4565 声明／70 已分类候选／0 待人工／0 错误（首轮并行快照曾为 4564，不能混成冻结结果）。日期源码／Token 在检查期间继续变化，未覆盖并行业务，未自动刷新库存／hash 或应用生成表格。
+
+motion 首段 92/96 通过、4 失败，未执行后续串行全量编译链；目录专项 37/37 通过，但全量三页匹配失败。已存浏览器证据 202 项与完整性链通过，只验证旧记录，新增原生验收 0。Map SDK 与 144 组原生环境分别需要的输入、明确交接范围和逐项差异见 design-ui/audits/token-closure-recheck-2026-10-20.md；证据见 audits/evidence/full-closure-recheck-2026-10-20/results.json。自动化已核实仍 PAUSED。下方 10-19 通过结论保留为历史快照。
+
+### Maple 展示编辑器 lint 收尾复验（2026-10-19）
+
+此前 3 文件的 8 项 lint 诊断已在本轮开始时消失：EditorPanel.vue 属性换行、presentation-state.vue 的 const 定时器容器及条件块、Form 示例入口导入顺序均已整理。本轮仅核对与验证，未再改这三个源码文件，保留 pending／inert、1200ms、AbortSignal、一次结算和并行业务语义；历史失败记录不改写为通过。
+
+当前 Maple 只读根 lint、三文件专项 lint、配置声明类型均通过；相关 Form／Select／FieldPresentation 回归 300 项／34 文件及三个 SFC 脚本／模板编译通过。配置类型排除示例，示例另以 SFC 编译／lint 核对，不冒称示例完整类型验收。共享 motion 96 项及完整后续编译链、目录 37 项／三页匹配、严格消费扫描 172 文件／4560 声明／70 已分类候选／0 待审／0 错误通过。
+
+库存仍为 198 文件／418 CSS／184 runtime；80 份分类 hash 匹配，184/184 提示已分类，待审 0，分母无新增变化。33/33 组件族已分类（100%），剩余 0（0%）；这是分类进度，不是原生浏览器验收率。无新库存／hash／目录漂移，未刷新登记或重生成相同目录。Map SDK 与 144 原生组阻塞保持，新增原生验收 0，自动化核实仍 PAUSED。详见 design-ui/audits/evidence/field-presentation-lint-closure-2026-10-19/results.json；恢复条件沿用 token-closure-recheck-2026-10-19.md。
+
+### FieldPresentation／Form 授权收口（2026-10-19）
+
+末次身份核对另捕获 Cedar 搜索助手的格式变化：当前完整字节与已登记、已验的 Maple 助手相同（6731260e…），调用行／片段未变，独立重验后只刷新该 hash。全部 80 份登记 hash 当前匹配，未将晚期变化说成源码全程未变。
+
+末轮状态：Maple 根 lint 因新并行 EditorPanel.vue、form/example/demos/presentation-state.vue、form/example/index.vue 共 8 项格式／规则诊断退出 1；首轮通过只代表当时快照，不作为当前全库 lint 结论。本批未格式化这三个文件，需要并行负责人处理或交接这三个具体文件的格式整理边界；不影响已通过的专项、类型、当前库存／分类和目录证据。以下“根 lint 通过”仅为首轮历史。
+
+严格门禁：motion 96 项及后续完整编译检查、目录 37 项／三页匹配、消费扫描 172 文件／4560 声明／70 已分类候选／0 错误通过。移除原始文本导入兜底后另验 AST 正反 8 项、全量三页和严格消费扫描通过。随后观察到 EditorPanel／Select 渲染与控制器等并行修改，均未覆盖；当前相关补验 Cedar 80 项／10 文件、Maple 89 项／13 文件及两端类型通过。完整 186／240 和补验不混成新增用例或全库业务认证。
+
+新授权范围已完成：先复现两端搜索各 9 项（7 失败／2 对照）、焦点各 6 项（4 失败／2 对照），再限域修任务归属。搜索只接受当前激活实例／请求票据，替换、关闭／read／禁用、停用／卸载使旧任务失效；通知前一次消费，delay 读取和取消后旧回调不遗留任务、不覆盖新句柄。关闭后的 nextTick 焦点归还检查当前 reference、开合／形态、生命周期和代次，回调只消费一次；不在重开或跨停用后夺回焦点。失败断言相互交叠，不当成独立缺陷数。
+
+两端真实 Form→Select 新增各 3 项回归，确认匹配字段 reset 退休搜索、无关 reset 保留当前搜索、活动编辑器阻止提交的原语义保持；两端 Form.vue／控制器／提交和并行业务源码未改，只重验并刷新登记 hash。Cedar 完整受影响 186 项／25 文件、Maple 240 项／33 文件通过（各新增 18 项），两端配置类型与受影响 lint、Maple 根只读 lint 通过。Maple Option 的外部变化保留，不以本批覆盖并行业务。
+
+审计器从真实 style/index.ts 静态导入链发现私有 style.ts → style.less → token.less，保留真实声明路径与内部可见性；注释／type-only／孤立文件／越界路径不能伪造消费，旧入口与错误门禁保留。Maple Less 原将 min(var(--mp-field-presentation-min-width), 90vw) 折叠成 90vw，已通过保持原 CSS 表达式的转义修复真实丢失的变量消费；默认值、其他设计和公开 API 不变。
+
+仅同步 6 处已审库存、两端 Form hash 与两个搜索登记；当前库存 198 文件／418 CSS／184 runtime，80 分类源码、184/184 提示（100%），待审 0。33/33 既有组件族已分类（100%），剩余 0（0%）；私有跨组件任务归入已有 Select／Form 消费链，不新建公开组件族。分母 182→184 来自两条新增实现提示，不是额外旧缺陷；两端搜索仍各 1 条提示。三页仅新增 _components/field-presentation 私有节共 12 Token 行（两端共 8 个声明），内部实现名不因列入目录变成公开 API。
+
+最终严格门禁结果及快照见 design-ui/audits/evidence/field-presentation-form-closure-2026-10-19/results.json。Less／受控计时器／JSDOM 与真实浏览器／OS 分层，新增原生验收 0；Map SDK 及 144 组原生环境恢复条件见 token-closure-recheck-2026-10-19.md，Button 白字 on-dark 2.305:1 非 AA 例外保留，自动化仍 PAUSED。下文“6 处／2 hash／目录入口待交接”为授权前历史。
+
+
+### 全量收尾复核（2026-10-19；当前状态）
+
+本轮发现新变化，不能沿用 10-16 的全量通过结论：当前实际库存 198 文件／418 CSS／184 runtime，6 处文件键漂移；两端 Form 共 2 份登记 hash 过期。原 33 族中 32 族的登记源身份匹配（97.0%），Form 1 族需重验（3.0%）；新私有 FieldPresentation 搜索任务归属待登记，不先扩大族分母。当前 176/184 提示有匹配身份的既有登记（95.7%），8 条需审／重验（4.3%，Form 6＋新增搜索 2）；182→184 是新增实现提示，不是新增缺陷数。
+
+两端新私有 token.less 使用 style.ts → style.less 路径，现审计器按旧 style/index.less 结构产生 2 项入口错误；真实 Less 各自编译通过，但目录完整检查中断，三页当前是否有新增行漂移尚未确认，未自动生成／发布部分目录。motion 首段 76/79、目录 8/11 后失败；后续全量编译链未执行，不声称全局 motion／目录通过。保存的浏览器证据 202 项及完整性链通过，仅校验旧记录，新增原生验收 0。
+
+Map SDK 需正式适配器／版本、监听与销毁／异步取消契约、业务交接及受控可运行网络环境；144 原生组需可用 Chrome 原生 200%（48）、Safari 100%（48）、Firefox 100%（48）的受支持真实入口与逐组证据。历史连接观察未重新包装成本轮探测。具体差异、恢复输入和验收清单见 design-ui/audits/token-closure-recheck-2026-10-19.md；JSON 见 audits/evidence/full-closure-recheck-2026-10-19/results.json。
+
+本轮仅更新审计文档／证据，保留并行业务、库存／hash 登记、三页生成目录和 Token 默认值。新增 FieldPresentation／Form 与审计器需交接边界后再收口；Map／原生阻塞、Button 白字 on-dark 2.305:1 非 AA 例外保留，自动化已核实仍 PAUSED。以下 10-16 全量通过是历史快照。
+
+### Select／菜单表面目录授权收口（2026-10-16）
+
+最终：Cedar 41 项／3 文件、Maple 49 项／6 文件通过（本批仅新增 1＋3 项 DOM 消费回归）；两端作用域／Maple 根只读 lint、三仓 diff 通过，91 个相关生产文件 hash 全部未变，验证进程均结束。保留首轮 Select 祖先选择器和 FloatingPanel 属性转发的夹具误设记录，不计产品缺陷；Vue 技能落实 finally 卸载／宿主移除。自动化仍 PAUSED，原生新增 0。
+
+本批仅同步已核实的 Select 3 处库存／hash 和 Select、Maple Menu／FloatingPanel 三页共 21 行目录（11 个唯一 Token）。Cedar Select 当前钩子与已登记 Maple 源文件逐字同 hash；6 条调用职责不变，仅格式／行号更新。保留平铺分组标题的首项零上边距、纵向 popup padding、选项水平 padding 别名，以及菜单现有行级选中／悬停背景与 overlay 表面，未修改生产源码、样式、Token 默认值或并行业务。
+
+实际 Less 入口、SelectMenu 平铺 DOM、Menu 分组／选中／焦点／禁用类及 FloatingPanel Teleport 宿主已核对。FloatingPanel 应在真实 popup 祖先覆写 --mp-floating-panel-background；不要假定传给 Teleport 组件的 style 自动转发到面板。目录属性列表表示编译符号可达性，不是每个 DOM 状态或局部派生别名重新求值的保证。
+
+全量 motion 门禁当前通过（88 项共享测试、196 文件库存、182/182 分类及后续编译检查）；目录 29 项及三页全量匹配、消费检查 170 文件／4552 声明／70 已分类候选／0 错误通过。33/33 运行时组件族已分类（100%），剩余 0/33（0%）；78 源码、182/182 提示（100%），待审 0，分母未变。不是全库业务或原生验收率。
+
+Map SDK 正式清理／异步身份契约、144 组原生环境阻塞和 Button 白字 on-dark 2.305:1 非 AA 设计例外继续保留；自动化保持 PAUSED。回归与最终快照见 design-ui/audits/evidence/select-catalog-closure-2026-10-16/results.json。以下 Select 3 处／目录 21 行未授权阻塞为历史。
+
+### 原 6 处库存／DateRangePicker hash 授权收口（2026-10-16）
+
+最终收尾：Maple 根只读 lint、Cedar 新夹具 lint、三仓 diff 与证据 JSON 均通过。保留首轮新夹具 curly 错误及第二轮并行 DatePanelContent 导入格式失败；本任务只修新夹具，观察到并行导入格式已变化后有界重跑通过。17 个相关生产快照中 16 个未变；RangeContent 并行改为移动端上下文导入，当前 8 项消费回归再次通过，未覆盖该业务文件或声称全族并行稳定。所有验证进程结束，自动化仍 PAUSED。
+
+本批获授权的 6/6 处库存重叠已核实并刷新（100%，剩余 0）；连同上批，原 31 处已审记录全部同步。Cedar DateRangePicker 的时间选择业务分支保留；仅在内存还原该分支即可恢复上次登记的完整 hash 0e223655…，证明 100ms 预览任务只是 639→644 的行号移动。当前 hash 2a47d80d…、调用片段和 interaction-delay 职责已独立重验后登记，不改变 100ms 策略、提交／确认语义或头部任务所有权。
+
+6 处库存基线均失败，新增 5 组真实 Less 消费检查已通过；DateRange／TimeRange 生成目录另有 4 项旧节基线失败。最终局部门禁 51 项通过；Cedar 25 项／3 文件通过（含新增 2 项时间选择与旧回调重复交付），Maple 32 项／5 文件通过（含新增 8 项 Carousel 三种 effect 与范围面板 DOM 消费）。Cedar 首次新增夹具仅错误要求所有计时器为零，已改为核对原预览句柄物理取消；不是已复现产品故障。生产 SFC、样式、Token 默认值和并行业务均未修改。
+
+Carousel 的实际 track／fade／card 消费及 reduce 规则、Less 原样输出 grid-area 均核对；范围背景已有局部 picker／date／time body 别名，支持相应后代背景路径。目录 background-image 仅表示符号依赖可达；Picker 的根级派生 mask 别名不保证随局部背景覆写重新求值，需直接覆写 --mp-picker-mask-background-image 定制遮罩，本批不改其默认策略。Date／Time 还含历史转换选择器，不能以编译存在推断每种模式命中或完整 reduced-motion／原生验收。
+
+授权的 Maple 中英 DateRange／TimeRange 共 4 行生成目录已同步。新增范围外变更独立保留：两端 Select 样式行号、Cedar select/hooks/use-select.ts 运行时行号及 hash；全量库存当前因此仍有 3 行漂移，分类 CLI 因 Select 失败，不再是 DateRangePicker。目录还保留 Select／Maple Menu／FloatingPanel 共 21 行、3 页的并行漂移，未整页应用。历史运行时登记仍 33/33 族、78 文件、182/182 提示、待分类 0，分母未变；当前 Select hash 待重验与未分类提示是不同统计，不声称全局门禁通过。
+
+Map SDK 清理／异步身份契约、144 组原生环境阻塞、Button 白字 on-dark 2.305:1 非 AA 例外和自动化 PAUSED 保留。本次 Vue 技能用于原资源／回调交付复核及 finally 卸载／计时器恢复；Less、JSDOM 与真实浏览器分层，本批原生新增 0。证据：design-ui/audits/evidence/remaining-six-inventory-closure-2026-10-16/results.json。以下 6 处待授权／DateRangePicker hash 阻塞均为历史。
+
+### 库存漂移分批收口（2026-10-16；自动化保持暂停）
+
+最终收尾：Maple 根级只读 lint 退出 0；25 个已审生产文件 hash、三仓 diff 和证据 JSON 核验通过，验证进程均已结束。全量库存和分类 CLI 的已说明失败仍保留，不以局部通过掩盖。
+
+重新扫描以文件键计为 31 处差异（Cedar 4／Maple 27），历史“26 处”不是当前固定分母；本轮最初“32”计数口误已更正。已核对并仅刷新 25/31 处库存记录（80.6%），保留 6/31 处（19.4%）重叠。25 处包含：5 处前批已审 FieldDecorator／Input／FilterForm 的行号更新、14 处无未提交样式变化的候选行号漂移、6 处已提交的 Checkbox／Radio／Progress／ProgressGroup／Rate／Slider 样式候选扩展。后六项虽部分文档／示例并行，未发现相应样式源码冲突，不能整族视为阻塞。没有把 25 处旧快照当作 25 个产品缺陷。
+
+新增 31 项回归的有效基线为 25 个库存匹配失败／6 个真实编译消费通过；局部刷新后与既有 4 项扫描器回归合计 35 项通过。25 个实际 Less 入口均编译，6 组扩展核对正常 duration／animation 路径与 reduced-motion 对应规则；Maple 受影响真实控件回归 85 项／7 文件通过（不是 85 项新增）。保留 Rate 非法 count 测试的预期 Vue warning。仅建立候选位置／编译可达性证据，不外推 14 个旧样式完整 reduced-motion 覆盖、CSS 动画帧或原生验收；未修改生产源码、Token 默认值或业务。
+
+6 处重叠保留：Cedar date/picker/DateRangePicker.vue；Maple carousel/style/index.less、date-range/style/date-range-picker.less、date/style/date-picker.less、time-range/style/time-range-picker.less、time/style/time-picker.less。日期／时间关联模板和 Token 仍有并行变化，日期范围／时间范围 Less 在审查期间也继续变化；Carousel 有并行 fade 样式及主体改造。本批未接管这些源码或刷新其库存。继续前需要相应源码／关联 Token 可交接的具体边界，或明确限域接管授权。
+
+当前库存快照仅纳入已审变更：196 文件、414 条 CSS 提示；实际源码为 196 文件、416 条 CSS 提示，差额及行号差异仍由 6 处保留造成。实际 CSS 提示由旧 392→416，含已有实现／none 覆盖及两个新增库存文件，不是新增 24 个缺陷。运行时提示仍 182，历史登记 33/33 族、78 源码、182/182 提示、待分类 0，分母不变；但当前分类 CLI 退出 1，Cedar DateRangePicker 为 78 份中唯一 hash 过期，需重验，不能沿用历史 100% 当当前 hash 验收。全量库存 CLI 也退出 1；未称全局 motion-themes 通过。
+
+Map SDK 正式清理／异步身份契约、144 组原生环境阻塞及 Button 白字 on-dark 2.305:1 非 AA 例外保留。本聊天自动化仍 PAUSED，不恢复调度。仅库存／门禁测试／审计文档变更，无新组件 API／发布语义，不为旧快照新建产品修复 Changeset 或 Demo。逐项边界和验证：design-ui/audits/evidence/inventory-drift-review-2026-10-16/results.json。以下“26 处保留”描述为历史。
+
+### FieldDecorator 焦点／caret 目录收口与自动化暂停（2026-10-16）
+
+最终收尾：Maple 根只读 lint 与 Cedar 新测试作用域 lint 通过；Maple 首轮仅新夹具的 28 项格式／导入排序诊断已限文件格式化修正，修正后 9 项专项再次通过。12 个生产文件 hash 不变、三仓 diff 与证据 JSON 核验通过，所有验证进程结束；自动化保持 PAUSED。
+
+用户限域授权后，核对两端实际 FieldDecorator／Input／Textarea／InputNumber、静态样式导入链及 Less 编译：外壳外环移除与原生 caret 改为 currentColor 已由并行实现和当前规范确定，保留变体焦点反馈、按钮 focus-visible、错误／禁用优先级与现有 Token。未复现需修改生产源码的缺陷；本批不回退设计，不改业务、SFC、样式或 Token 默认值。目录中 outline-offset／caret-color 的旧消费行已过期，仅应用三页共 9 行生成差异。focus-color 不承诺控制 caret；错误态焦点可辨识性仍需原生验收。
+
+有效 9 项共享基线 6 通过／3 页目录失败；首轮另有 2 项探针错误要求所有样式直接导入 FieldDecorator，按真实“Textarea／InputNumber → Input → FieldDecorator”链修正，不能计作产品缺陷。最终共享目录 17 项通过，三页全量目录匹配；既有 field-focus 编译检查与 384 项错误／禁用颜色和覆盖检查通过。Cedar 106 项／13 文件、Maple 129 项／15 文件通过，各新增 9 项真实控件 DOM 回归。Vue 技能落实 finally 卸载；Less／JSDOM 与真实浏览器分层，本批原生新增 0，未复跑无变化原生入口。
+
+运行时候选仍 33/33 族（100%），剩余 0 族（0%）；78 登记源码、182/182 提示（100%），待审 0，分母不变。这不是全库业务或原生验收率；26 处其他库存漂移、Map 正式 SDK 清理／异步身份契约、144 组原生 Chrome 200%／Safari／Firefox 环境阻塞及 Button 白字 on-dark 2.305:1 非 AA 例外保留。用户要求停止的本聊天自动化 cedar-maple-14-00-2 已暂停（PAUSED），不再周期启动工作；本次明确授权的手动收尾已执行。
+
+共享规范、两端指南／相关组件说明、Changesets、既定 OpenSpec 和证据同步：design-ui/audits/evidence/field-focus-caret-catalog-2026-10-16/results.json。以下 FieldDecorator 未授权／目录阻塞描述为历史。
+
+### Cedar FilterForm／Form 目录消费收口（2026-10-16）
+
+用户已授权限域审查相关样式／Token。历史“5 处目录差异”不是 5 个缺陷；按当前生成器合并为 2 个上下文差异块，现已只同步 Cedar 的 FilterForm／Form 两节。真实 Less 编译、Form 样式入口和实际 DOM 共同确认 13 个 FilterForm Token 的消费者；Form 的行高／标签下间距通过 action-offset 别名传递至 padding-top。单列 stacked 状态覆盖为 0；Grid colGap 是数字属性，不冒充 CSS Token。组件局部覆盖建议直接设置 --c-filter-form-action-offset，不假定根级派生别名会随局部依赖重新计算。未修改生产样式、Token 默认值、SFC 或并行业务代码。
+
+新增目录回归基线 5 项中 3 通过／2 失败，失败仅为旧目录两节；同步后共享 8 项通过，Cedar FilterForm／Form 合计 75 项／17 文件通过（只新增 2 项 DOM 回归），作用域 lint 与全量消费检查通过。Vue 技能落实夹具卸载／媒体描述符恢复。Less／JSDOM 不等于原生布局或焦点验收，本批原生新增 0。
+
+全量目录门禁仍受新出现的范围外 FieldDecorator 消费漂移阻塞：Cedar 与 Maple 中英共 3 页、9 行涉及 outline-offset／caret-color。未自动应用这部分生成补丁，也未据此认定业务／可访问性缺陷；需要另行审查授权或负责人交接。Map SDK 清理／异步身份契约、144 组原生环境阻塞与 26 处其他库存漂移保留。运行时候选分类仍为 33/33 族（100%），剩余 0 族（0%）；78 源码、182/182 提示（100%），待审 0，分母不变；不是全库验收率。Button 白字 on-dark 2.305:1 非 AA 例外不变。
+
+证据：design-ui/audits/evidence/filter-form-token-catalog-2026-10-16/results.json。以下旧“5 处待交接”描述为历史，不再作为当前授权阻塞。
+
+### Form／Picker运行时候选分类收口（2026-10-16）
+
+最终受影响验证：Cedar Form64项／14文件、Maple合并532项／95文件全部通过（含Form115／19、Picker30／4）；两端相应lint／配置类型、共享29项及分类CLI182／0通过，最终hash／三仓diff／JSON核验通过。Maple中间531／532仅新增夹具错误禁止合法A通知，修正后205.86s最终全通过；NodeList类型适配改为局部Array.from，未改配置。原生新增0，所有验证进程已结束。
+
+用户新授权仅接管 Cedar Form／Maple Picker 的运行时调度和资源清理，保留并行业务改造。Cedar 原11项基线7失败／4对照，Maple Picker有效7项5失败／2对照，Maple Form完成等待5项4失败／1对照；交叠断言不是独立缺陷数量，候选上的重复offset／重复注册／通知重入另行取证后修复。Cedar当前实例／验证／字段与一次消费守卫、原注销身份；Picker原媒体绑定／列／scroller完成票据与通知代次；Maple Form渲染后按当前CSS duration＋delay等待，零／无过渡不固定等300ms。正时长有可取消准备帧，300ms仅不可读样式保底，插值仍保留原300ms。控制器、FormItem、并行submitEpoch／提交、disabled／ARIA／级联及CSS Token不替换。
+
+分类为33/33族100%，剩余0族0%；78登记源码、182/182调用提示100%，待审0条0%。本批只刷新四处已审候选（含新增私有完成助手）；分母181→182净增1条实现提示（新增助手2、移出Form旧timer1），不是额外旧缺陷，亦不把历史178→181重算。**这是本轮运行时候选职责分类，不是整库／所有业务协议／原生验收100%。** 受影响回归、类型、lint和共享门禁最终结果以逐组证据为准，不沿用旧18/33或旧NavMenu快照。
+
+Vue技能落实原资源、停用／卸载、一次消费、重入和finally恢复。JSDOM受控Promise／timer／RAF／媒体／CSS与真实Less编译分层，原生浏览器／OS新增0。FormDetails当前Less编译仍为0.2s；未改CSS／公开Token／API。既有基础、异步、键盘和禁用示例保留并行修改，必要行为说明已同步组件文档；历史RPC、夹具失败、类型／lint诊断均保留，不降测试阈值。
+
+原两族运行时接管授权阻塞已解除；不再要求重复授权。仍保留上次Cedar FilterForm／Form目录5差异块（需样式／Token稳定交接后人工整合，未覆盖生成）、Map正式SDK清理／异步身份契约、144组Chrome原生200%／Safari／Firefox环境条件及26其他库存漂移；不声称全局motion-themes通过。Button白字on-dark2.305:1非AA例外保持。Date／Time并行展示业务未接管，分类及受影响回归不等于整族稳定。新证据：design-ui/audits/evidence/form-picker-runtime-closure-2026-10-16/results.json。
+
+### Maple Form自动滚动资格获授权修复（2026-10-16，阶段三）
+
+用户明确允许仅补Form.vue内验证开始／清除／重置到自动滚动资格接线。基线10项6失败／4对照（exit1，11.80s）后，加入独立滚动资格版本、验证请求／策略快照及原字段成员／名称／目标复核；清除、重置、设置字段和新验证退休自动等待／插值，保留显式手动命令。校验回调重入后旧自动滚动不再覆盖新命令；停用前验证结果不能跨激活排滚动。校验Promise／回调、并行submitEpoch和提交语义保持，form-controller.ts／FormItem.vue、CedarForm／MaplePicker未改。
+
+首修31项通过；补9项命令／物理取消／回调替换／字段身份对照后，最终Form106项18文件通过（exit0，60.18s），含本阶段19项＋前批87项，不记106个新增用例或六个独立缺陷。根只读lint、配置类型、共享29项和分类CLI165/16通过。首轮新增声明排版lint失败已手工修正，不以当时类型通过掩盖lint失败。Vue技能落实原资源、KeepAlive及finally恢复；均为JSDOM受控Promise／timer／RAF／几何层，真实浏览器／OS新增0，无Less／构建或无变化环境复跑。
+
+分类仍31/33族93.9%，剩Form／Picker2族6.1%；74登记源码、165/181提示91.2%，16待审8.8%（Form7／Picker9），本批分母不变。只手动刷新Maple Form五行提示100／103／114／131／165，不刷新26其他漂移。固定300ms完成等待与FormDetails0.2s／reduce关系仍待审，Form不提前归档。CedarForm／MaplePicker仍需具体source＋test交接／冻结或限域授权；Date／Time候选已分类不等于并行面板全族稳定。目录5差异块、Map正式SDK契约、144原生环境组及Button白字2.305:1非AA例外保留。证据：design-ui/audits/evidence/form-scroll-validation-baseline-2026-10-16/results.json。
+
+### 历史：Maple Form异步滚动资格授权前基线（2026-10-16，阶段三）
+
+本批仅新增独立scroll-validation-eligibility探针，产品Form仍为324148a9…，阶段一／二滚动实现及并行submitEpoch均未改。有效10项基线6失败／4对照（exit1，11.80s）：验证旧结果跨停用／激活排自动滚动、原字段注销但节点仍连接仍排、清除错误／关闭自动滚动未取消等待、字段目标替换后旧等待仍排RAF、校验回调清除错误后仍排。组合／交叠不计六个独立缺陷。当前错误结果及Promise返回、成功无滚动、显式手动滚动不受自动策略变化影响、新激活后新验证四类对照通过。
+
+按Vue技能核对了异步归属／KeepAlive和原timer／descriptor finally清理。真实Form/provider注册字段、受控Promise／300ms队列与RAF探针是JSDOM层，不是原生输入／布局／OS／adopt验收，真实新增0。新测试保持失败基线，不跳过／不称当前整套Form通过；前批87/17通过是前批测试集历史。作用域lint通过；最终只读根lint及hash/diff记录见证据。
+
+需要明确扩展到Form.vue内“验证开始、清除、重置到自动滚动资格”的局部接线；只抑制失效自动滚动，不改校验返回、回调、submitEpoch、提交语义或form-controller.ts／FormItem.vue。已请求用户决定，未先行修改该接线。成员／目标检查可与该请求归属一起审查，固定300ms等待策略保持待审；FormDetails源样式0.2s只作源级依据，不当Less／原生测量。
+
+分类不变：31/33族93.9%，剩Form／Picker2族6.1%；74登记源码、165/181提示91.2%，16待审8.8%（Form7／Picker9），分母无变化，无库存／分类刷新。保留26其他漂移、目录5差异块、Map正式SDK、144原生环境组、Button白字2.305:1非AA例外及CedarForm／MaplePicker并行边界。证据：design-ui/audits/evidence/form-scroll-validation-baseline-2026-10-16/results.json。
+
+### Maple Form已启动插值的生命周期（2026-10-16，阶段二）
+
+最终本批：Form87项17文件全部通过、exit0、275.40s，含本阶段11新插值专项＋前批10等待项＋既有／并行66项，不把21项都算本批新写。共享29项、分类CLI165/16、类型及根／最终作用域lint通过，三仓diff及最终hash／JSON检查通过；验证进程已结束。中间偏移夹具失败与前批默认RPC历史保留，无原生新增验收。
+
+延续用户仅接管Maple Form.vue滚动段的授权。原5c3bf495…与真实共享scrollTo组合，6项有效基线4失败／2对照（3.05s）：新等待替换、停用、跨激活与卸载后旧帧仍写入。正常300ms线性／重复帧拒绝原本通过，不算新缺陷。仅Form内部私有插值接管原scroller窗口的RAF及取消器，逐帧一次消费、原请求／生命周期资格、读媒体／初始位置与写入后复核；取消物理释放原帧且逻辑拒绝晚交付，保留已发生偏移，不回滚或污染新请求。共享utils/elements.ts与HEAD同hash cdb1c340…，API未改，其他消费者不外推认证；并行submitEpoch保持。
+
+原6插值项首修全通过；再补5项初始／动态reduce、原生写入卸载、激活新请求及位置读取卸载。前批10等待探针改为观察真实RAF／窗口写入，保留原职责；中间15/16及86/87仅偏移对照NaN，未明确初始窗口坐标的夹具补零并finally恢复后21专项通过（5.67s），不计产品缺陷。最终受影响Form／共享／类型及lint见逐组证据。Vue技能用于原窗口资源、KeepAlive、重入与descriptor恢复。保留原等待300ms＋插值300ms线性、初始reduce不排帧／动态reduce下一帧到位；固定等待与FormDetails0.2s／reduce关系、异步校验资格及字段成员仍未认证，本族不提前归档。
+
+分类31/33族93.9%，剩Form／Picker2族6.1%；74登记源码、165/181提示91.2%，16待审8.8%（Form7／Picker9）。分母178→181只因本次私有实现新增3条提示，非新增3个旧缺陷、也非已分类倒退。只手动更新Maple Form为89／92／103／120／146及本端81→84、local query=true；26其他漂移不刷新，不称全局motion-themes通过。JSDOM真实组件／原helper基线及受控RAF／媒体／几何不是原生布局／OS／adopt验收，真实新增0。目录5差异块、Map SDK、144原生环境组、Button白字2.305:1非AA例外、CedarForm／MaplePicker并行边界与前批默认RPC失败历史保持。证据：design-ui/audits/evidence/form-scroll-animation-lifecycle-2026-10-16/results.json。
+
+### Maple Form等待任务获授权修复（2026-10-16）
+
+最终验证：单worker受影响Form76项16文件通过（含本批10专项），类型通过、只读根lint未报错。原默认模式60项通过但2文件RPC加载失败／1未处理错误、exit1保留；一次有界补验通过不证明原失败仅由负载造成。无原生新增验收。
+
+用户明确允许仅接管Maple Form.vue滚动任务段；保留原submitEpoch及所有并行提交改造，CedarForm／MaplePicker未接管。有效原6项基线3失败／3对照；补几何读取卸载后原源码7项4失败／3对照（4.60s），不记四个独立缺陷。授权后等待任务加入代次、一次消费、mounted／active／disposed资格；停用／卸载取消，激活只接受新请求，几何读取后复核，不退休重入创建的新请求。
+
+首修7项通过（14.99s），补inactive／fresh activation、几何重入替换与offset／linear正对照后10项专项通过；受影响Form整套、类型和lint最终结果见逐组证据。Vue技能用于原timer／KeepAlive／finally descriptor清理。仅控制委托前的等待，不宣称下游已启动RAF可取消；共享scrollTo仍只返回Promise，无取消器。本次保留原300ms等待／global timer、默认线性helper、API及Token。FormDetails样式当前0.2s，固定300ms等待的完成策略／reduce与共享插值接线仍待单独取证，不偷改为business-delay或宣称全motion通过。
+
+分类仍31/33族93.9%，剩Form／Picker2族6.1%；74登记文件、165/178提示92.7%，13待审7.3%，分母不变。Maple Form两条未提前登记，仅手动刷新已改库存42／52→70／84，26其他漂移保持；JSDOM受控timer／几何、mock下游不是原生插值／OS／跨document验收，真实新增0。待审仍包括共享helper取消、验证完成后的滚动资格、字段成员和当前配置等，不能用本批10项冒充Form整族收口。证据：design-ui/audits/evidence/form-scroll-wait-task-2026-10-16/results.json。
+
+### Form滚动任务只读基线／待授权修复（2026-10-16，16:39上海起）
+
+未接管两端Form或MaplePicker并行源码。Maple Form仍为94c525ac…快照，仅新增独立scroll-task-ownership探针：6项基线3通过／3失败（exit1，6.98s）。正常300ms调度、普通卸载取消及未知字段通过；手工交付已取消旧回调／重复当前回调／跨KeepAlive激活旧回调仍调用scroll助手。属于受控队列归属缺口，不计三个独立缺陷，不宣称原生timer实际重复或已修复。原300ms是否为视觉完成等待及滚动helper取消接线仍需进一步审查，不提前分类。
+
+Vue技能用于原timer清理／KeepAlive核对和finally恢复全局descriptor；实际Form＋注册字段，mock下游scrollTo仅观察派发，非真实插值／布局／原生／OS验收。源码未改、未归档新文件／提示；仍31/33族93.9%，剩Form／Picker2族6.1%，165/178提示92.7%，13待审7.3%（Form4／Picker9），分母不变。基线测试故意保留失败，不能称整套Form通过。新增夹具import顺序lint已修正，最终只读lint结果见证据。
+
+需要用户／负责人明确允许仅接管Maple Form.vue滚动任务段，保留现有submitEpoch等并行提交改造；未把“继续”扩大为覆盖并行源码。CedarForm／MaplePicker仍各自保留；26漂移、目录5差异块、Map SDK、144环境组及Button白字2.305:1非AA例外不变。证据：design-ui/audits/evidence/form-scroll-ownership-baseline-2026-10-16/results.json。
+
+### Maple 年面板原生对齐／Date候选分类收口（2026-10-16）
+
+YearPickerPanel源码保持9a51ffd…不变：挂载及后续激活同步查询当前选中Button，优先primary、其次outline，无标记不滚动。实际onSmartMounted源码与解析构建一致，首次KeepAlive激活不重复；nextTick只更新挂载标记，没有延迟滚动、私有RAF／timer／监听需取消。7项实际YearPanel／Button＋KeepAlive受控对照通过（含空列表、立即卸载、停用后当前节点重激活），未复现产品缺陷，不制造修复；Vue技能用于核对资源归属及夹具descriptor恢复。
+
+**31/33族分类收口93.9%，剩Form／Picker两族6.1%；74文件、165/178提示92.7%，13待审7.3%，分母不变。** Form4／Picker9；Date／Time候选归档不等于并行展示层稳定或整组件验收。仅登记原有年面板236行native-scroll，无库存行变化／API／Token／默认值修改，保留block:center及浏览器滚动策略。JSDOM方法探针不是原生布局／smooth／reduce／OS／adopt验收，真实新增0。受影响回归与门禁实际结果见design-ui/audits/evidence/date-year-native-scroll-2026-10-16/results.json。
+
+Form两端及MaplePicker源码hash与上批相同，但仍有并行source／test修改且无明确交接，不能用mtime安静认定稳定；需具体文件可审／冻结边界或明确接管授权。保留26其他漂移、Cedar FilterForm／Form目录5差异块、Map正式SDK契约、144原生环境组及Button白字2.305:1非AA例外，不自动生成覆盖或重试无变化入口。Cedar上批175项断言通过但close-timeout告警仍保留，本批不机械复跑。
+
+### Cedar Date 范围预览与表头续体（2026-10-16，阶段二）
+
+原clean的DateRangePicker与私有range-header helper独立审查，stub并行范围面板。有效13项旧基线10失败／3对照，正常100ms不提交模型、普通卸载及宽限内表头结算原本通过；首修候选另复现新单元格选择未使旧清理失效，单列而不加入原基线。当前21范围专项通过，其余分层验证见逐组证据。
+
+100ms仍是interaction-delay，不是CSS完成时长或应被reduce跳过的动画。timer代次和preview代次分开，离开不取消仍有效的预览表头；所有preview写入退休旧timer／表头归属，失效配置／模型、停用卸载取消，新激活只接受新hover。preview／input setter后复核；私有resetHeaderValue可接原归属检查，nextTick一次消费，取消不删除Vue队列。默认其他调用方／所有select-confirm-input协议不据此认证。保留100ms／global timer、公开API／CSS Token；Vue技能用于原资源／停用卸载和测试descriptor恢复。
+
+分类仍30/33族90.9%，剩Date／Form／Picker三族9.1%；73文件、164/178提示92.1%，14待审7.9%，分母不变。仅范围Picker库存605→639；helper无扫描hint，独立记hash，不虚增登记。Date仅剩Maple年面板1提示，不等于并行日期整族稳定。JSDOM／KeepAlive、stub面板、受控timer／nextTick非原生hover／OS／adopt，真实新增0。保留26其他漂移、Cedar FilterForm/Form目录5差异块、Map正式SDK／144环境组和Button白字2.305:1非AA例外，不机械复跑无变化入口／生成覆盖。证据：design-ui/audits/evidence/date-range-shortcut-preview-2026-10-16/results.json。
+
+### Cedar Date 单值快捷预览任务（2026-10-16，阶段一）
+
+原clean的单值Picker只审100ms离开悬停预览宽限，归interaction-delay，不是CSS完成时长，reduce不应跳过业务宽限。有效11项旧基线9失败／2对照；正常100ms清理且不提交模型、普通卸载取消原本通过。代次＋一次消费拒绝取消／已消费旧回调；可见性、禁用、只读、previewShortcut和模型变更同步失效，停用／卸载取消并清预览，激活只接受新hover。保留hover命令检查当前资格，预览写入重入后不清新输入草稿；正值100ms、global timer归属、API／CSS Token保持。
+
+16专项及Cedar配置类型／受影响lint通过，其他日期回归单列逐组证据。使用实际Picker／KeepAlive＋stub PickerPanel和受控100ms队列，Vue技能用于原资源／停用卸载／descriptor恢复；不接管并行展示面板，不认证原生hover／OS、范围预览或所有select／confirm／input保留命令。真实浏览器／OS新增0。
+
+分类仍30/33族90.9%，剩Date／Form／Picker三族9.1%；72文件、163/178提示91.6%，15待审8.4%，分母不变。仅单值Picker库存427→453，Date仍余范围预览与Maple年面板2提示；26其他漂移、Cedar FilterForm/Form目录5差异块、Map正式SDK及144环境组保持，不自动刷新／覆盖。Button白字2.305:1保留非AA例外。证据：design-ui/audits/evidence/date-shortcut-preview-2026-10-16/results.json。
+
+### Cedar TimeColumn 消费者与候选分类收口（2026-10-16）
+
+TimeColumn起点clean；有效11项旧基线9失败／2对照，正常100ms线性选择和Vue卸载后拒绝通知原本通过。组件现拥有私有滚动取消器：隐藏、停用、卸载及当前value／visible／list变化同步失效；visibility的渲染等待一次消费，几何读取后复核原root／value／元素，旧续体不能覆盖新请求。保留点击核对当前可见／可用及原item仍在列表且未禁用；注销核对原item，不删同值替换。激活只对齐当前值，不重放旧插值；Vue技能用于停用／卸载和引用／测试descriptor清理。正值100ms线性、公开API／CSS Token保持，必要渲染结算不是CSS完成时长。
+
+最终16组件＋14工具专项，受影响Cedar Time149项30文件通过（含并行2项step示例，不算本批新写）；配置类型和受影响lint通过。当前**30/33族90.9%，剩Date／Form／Picker三族9.1%；71文件、162/178提示91.0%，剩16条9.0%，分母不变**。Time运行时候选归档不是并行Time面板／Maple滚轮稳定或整族所有行为认证；JSDOM受控nextTick／RAF／KeepAlive／几何不是原生输入、OS或adopt证据，新增真实验收0。任意同item引用回调乱序仍未认证。
+
+只更新TimeColumn已审库存76→89；26其他漂移、上批Cedar FilterForm/Form生成目录5差异块、正式Map SDK和144原生环境组保持，不机械复跑无变化入口、不自动覆盖并行源码或生成页。Button白字2.305:1仍为非AA设计例外。证据：design-ui/audits/evidence/time-column-lifecycle-2026-10-16/results.json。
+
+### Cedar Time 私有滚动任务／并行边界（2026-10-16）
+
+未接管并行 Date／Form／Time 面板／Maple Picker；只修复原工作树 clean 的 Cedar `time/picker/utils/index.ts`。零／负／非有限时长及初始 reduce 直接到位且不排帧；正时长保留调用方100ms线性策略，动态 owner reduce 下一帧到位。WeakMap请求、逐帧一次消费与私有取消器隔离替换／旧回调／重入，不引入CSS Token或公开API。取消保持当前偏移，不替用户完成选择。
+
+有效旧实现基线10项9失败／1正常100ms对照；修复后14专项（补取消／getter与setter重入）和Cedar Time共131项28文件通过，配置类型及受影响lint通过。Vue技能用于私有资源与测试descriptor恢复；此批尚未把取消器接入TimeColumn的停用／卸载，watch／nextTick与保留命令继续待审，不能把工具通过说成整族生命周期通过。JSDOM iframe／受控RAF／媒体模拟不是原生浏览器或OS证据，新增真实验收0。
+
+当前29/33族87.9%，剩Date／Form／Time／Picker四族12.1%；70文件、161/178提示90.4%，17未分类9.6%，分母不变。仅本工具2提示登记，Time尚余1。26处库存漂移、Map正式SDK及144环境组保持；Button白字2.305:1仍为非AA设计例外。最新生成目录检查定位Cedar FilterForm声明与Form消费路径漂移（5个差异块）；Maple两页匹配，不自动覆盖并行样式／目录，不称全局motion-themes通过。证据：design-ui/audits/evidence/time-scroll-task-2026-10-16/results.json。
+
+### 分类快照重验与并行实现边界（2026-10-16）
+
+两端Ripple／VirtualList四源码逐份重读，测试前后hash相同；Cedar83项11文件／Maple74项9文件通过后手动更新职责登记，不接管或修复并行实现。800ms触摸兼容去重是Date.now门槛，不新增timer／CSS duration；Ripple仍task-dispatch，VirtualList实测行高／自身scroll校正仍nextTick state-settlement。各15生命周期＋2测量、各3鼠标与Cedar7 Tree组合为受控证据，不认证任意破坏性几何重入、可信输入／adopt／OS。
+
+分类仍29/33族87.9%，剩4族12.1%；69文件、159/178提示89.3%，剩19条10.7%，分母不变。只更新四份已审行／hash；26处其他漂移、Date／Form／Time／Picker、Map SDK及144环境组保持，不称全局motion-themes通过；真实浏览器／OS新增0。证据：design-ui/audits/evidence/classification-revalidation-2026-10-16/results.json。
+
+### 测试时钟清理不等于产品计时修复（2026-10-16）
+
+最终Cedar整套复验：串行与默认线程各401项／63文件通过且exit0，不累加为802用例；旧超时／串行异常保留为历史，不再列当前复验失败，不推断旧超时全由此夹具或纯负载造成。
+
+Cedar已安装Vitest0.22.1的timer spy／假时钟卸载组合可删除全局setTimeout，隔离回归先失败。其四组Scheduler计时夹具现捕获fake clock前的原始timer描述符，在卸载／mock清理后以finally恢复；不改产品时钟、交互节奏、CSS Token或Maple运行时。新增3项恢复专项及受影响63项通过，包含拖动之后执行的workbench。旧整套失败以实际复验分别判断，四处并行hash／26漂移、SDK及144环境阻塞不据此解除。分类仍29/33族87.9%，剩4族12.1%；159/178提示89.3%，剩19条10.7%，分母不变。真实浏览器／OS新增0。证据：design-ui/audits/evidence/scheduler-timer-fixture-2026-10-16/results.json。
+
+2026-10-16证据补充：两端Ripple／VirtualList四处并行hash包含鼠标去重／实测行高校正等行为变化，不能自动刷新为已验。Scheduler有界串行23项通过，但实际workbench先于event-drag，不排除清理顺序污染，旧整套失败保留。分类仍29/33族、159/178提示；无新API／Token或原生验收。证据：design-ui/audits/evidence/classification-drift-review-2026-10-16/results.json。
+
+### Cedar Scheduler：TimeGrid范围会话与分类收口（2026-10-16）
+
+350ms触摸武装归interaction-delay，0ms范围点击解锁归state-settlement，不是CSS duration。会话live／代次、原root／columns及步长／snap／小时／资格复核隔离旧move／up／cancel／hold／unlock；取消只释放原绑定，不清新请求。pointercancel匹配pointerId；hit-test和几何读取后检查，配置同步失效。停用／卸载取消，激活只接受新手势。保留350ms／8px／5px／snap／结束小时和global document/window，API／Token不变。
+
+本次登记TimeGrid两条后，候选分类29/33族87.9%，剩4族12.1%（Date／Form／Time／Picker）；69文件、159/178提示89.3%，19未分类10.7%，分母不变。Scheduler运行时候选分类收口不等于整组件／完整测试／原生验收；all-day／overlap／focus与非range保留命令独立待验。Vue技能用于原监听／timer、停用卸载和探针恢复；JSDOM不认证可信Pointer／原生click／跨document／OS。旧全套超时／串行异常、4hash／26漂移、SDK／144环境组保留。证据：design-ui/audits/evidence/scheduler-time-grid-range-2026-10-16/results.json。
+
+### Cedar Scheduler：Event入口归属与职责登记（2026-10-16，阶段三）
+
+原生drag协议的开始／结束属于当前内部请求：停用不写dataTransfer、不发start；结束先消费归属，再通知；配置／停用／卸载取消并使旧end回调失效，传输回调返回后复核资格。resize入口与可见性共用当前resizable／非milestone条件；移除的保留句柄不能重新启动。实际Button已经拒绝inactive普通click，本批不重复添加父级修复。无新API／Token／默认策略变化。
+
+Event四提示归interaction-delay2（350ms）与state-settlement2（0ms）。三阶段受控源码证据后登记该文件，Scheduler仍待TimeGrid两条；28/33族84.8%，剩5族15.2%；68文件、157/178提示88.2%，21未分类11.8%，分母不变。登记不是干净完整测试或原生验收：旧整套超时／串行timer、四旧hash与环境／SDK阻塞仍保留。合成drag/dataTransfer不是可信系统拖放、Pointer／OS／跨文档证明；Vue技能用于失效与清理。证据：design-ui/audits/evidence/scheduler-event-native-2026-10-16/results.json。
+
+### Cedar Scheduler：独立拖动会话隔离（2026-10-16，Event阶段二）
+
+独立卡片拖动按请求代次、原event／root、活动资格和本地live位隔离。旧move／up／cancel／hold／0ms解锁不能跨取消、事件替换或重新激活；pointercancel只消费对应pointerId。清理先解除原处理器并摘除自己的闭包，再结算dragging／ghost和通知，回调重入的新手势不被旧外层清理覆盖。几何／样式及通知、响应式写入后复核；350ms／8px触摸、5px启动、拖影宽度160–240px和位置策略不变，无新Token／API。
+
+父级prop异步传递与当前对象同步改变应分开建探针；父级disabled ref尚未渲染到子组件不算同步取消失败。Vue技能用于停用／卸载、原监听／计时器和夹具清理；JSDOM合成事件／几何／模拟时钟不认证原生Pointer、native drag或跨document。原global窗口归属保持，native drag／保留click仍待下一阶段，不提前归档Event整文件。登记保持28/33族84.8%，剩5族15.2%；67文件、153/178提示86.0%，25未分类14.0%，分母不变；既有4hash／26漂移／SDK／144环境阻塞保留。证据：design-ui/audits/evidence/scheduler-event-drag-2026-10-16/results.json。
+
+### Cedar Scheduler：受管指针长按与点击结算（2026-10-16，Event阶段一）
+
+受管卡片350ms触摸等待是interaction-delay，0ms释放点击抑制是state-settlement，不是CSS动效时长。等待取消同时撤销旧回调资格，回调及父级finished各消费一次；新按下、配置／事件替换、停用／卸载使旧finished／解锁失效。Escape／blur释放待长按监听，激活只接受新手势。mounted／active和代次保护不等于原生手势验收；保留global document/window、350ms／8px策略及公开协议，不新增Token／Maple组件。
+
+本批仅受管分支专项；独立拖动、原生drag与跨文档仍需独立审查，不提前登记整个Event文件或Scheduler族。进度保持28/33族84.8%，剩5族15.2%；67文件、153/178提示86.0%，25未分类14.0%，分母不变。4个旧hash、26处库存漂移、地图SDK与144环境组继续保留。Vue技能指导停用／卸载及夹具恢复；JSDOM／模拟时钟不替代原生浏览器或OS。证据：design-ui/audits/evidence/scheduler-event-managed-2026-10-16/results.json。
+
+### Cedar Scheduler：时间线指针帧归属（2026-10-16）
+
+边缘自动滚动是会话拥有的visual-scroll，不是CSS duration。保留40px边缘／12px每帧与5px启动策略；统一RAF先消费帧身份，拒绝旧／重复帧写入、分叉或取消替换手势。停用／卸载释放帧与监听，旧move／blur／nextTick失效，激活只接受新手势。几何与start／drop／finished及拖影写入后复核；先摘旧清理闭包再通知，保护回调重入的新会话。
+
+Vue技能用于生命周期／探针清理；JSDOM受控RAF／几何不是原生手势／OS。本批保留原global document/window/RAF归属，跨document与原生减少动效策略独立待验。无API／Token／默认值变化，不造Maple组件。登记28/33族84.8%，剩5族15.2%；67文件、153/178提示86.0%，25未分类14.0%，Scheduler剩6条。两RAF入口合一令分母179→178，不是额外缺陷或验收；4个旧hash、26处漂移、SDK与144环境阻塞保留。证据：design-ui/audits/evidence/scheduler-pointer-lifecycle-2026-10-16/results.json。
+
+### Cedar Scheduler：虚拟行双阶段恢复（2026-10-16）
+
+两次nextTick用于尺寸缓存／锚点／偏移结算，归state-settlement，不是CSS duration或原生smooth。按请求、数据／布局／options和当前list／viewport身份隔离旧续体；停用／卸载逻辑取消，dirty激活按当前数据重建，scroll绑定代次／来源校验保护heading。原API／Token／key回退和几何保持；Maple无对应运行时，不造组件。
+
+带前缀受控列表仅证明父级消费者，不认证并行VirtualList；首阶段同步渲染中强制卸载的Vue内部错误探针不当产品缺陷，第二阶段探针才计有效基线。inactive props由父级延迟到激活，直接缓存子组件收取inactive props仍独立待验。登记28/33族84.8%，剩5族15.2%；66文件，152/179提示84.9%，27未分类15.1%，分母不变，Scheduler剩8条。4个旧hash／原生环境／地图SDK及其他并行阻塞保留，不称全局门禁通过。证据：design-ui/audits/evidence/scheduler-timeline-restore-2026-10-16/results.json。
+
+### Cedar Scheduler：依赖连线测量调度（2026-10-16）
+
+连线RAF是measurement-scheduling而非CSS duration，不因reduce跳过必要几何。按原host窗口申请／取消，按原绑定清scroll／ResizeObserver；binding／frame／render代次隔离旧监听、已消费帧和nextTick，几何读取后复核。换host／数据、停用／卸载失效旧任务，缺host清空路径，激活重新测量；公开API／Token／默认坐标不变。Maple无对应运行时，不造组件，其他并行工作保留。
+
+登记28/33族84.8%，剩5族15.2%；65文件，151/179提示84.4%，28未分类15.6%，分母不变，Scheduler剩9条。4个既有Ripple／VirtualList hash失效仍待重验，不宣称全局门禁通过。JSDOM iframe／几何／KeepAlive不是原生浏览器／OS或同节点跨document证明。证据：design-ui/audits/evidence/scheduler-dependency-lifecycle-2026-10-16/results.json。
+
+### Cedar Scheduler：业务时钟与文件级并行边界（2026-10-16）
+
+收尾门禁：两端Ripple及两份VirtualList共4个已登记文件因并行修改hash失效，需要重验、不自动刷新。下列28/33及150/179是登记进度，不是当前全局门禁通过率；4文件不与剩5族混加，Scheduler新行独立校验通过。
+
+Cedar useSchedulerNow的30000ms刷新是business-clock，不是CSS duration，不因视觉reduce改变墙钟。停用／卸载取消原interval和原document的visibility监听；计时代次及监听身份拒绝旧交付，激活刷新当前时间、不补播遗漏tick。合法interval仍可周期交付，不能套用timeout的一次消费规则。Vue清理规范同时约束重入和夹具资源恢复，无新增公开API／Token／默认节奏变化。
+
+并行保护按实际文件／依赖边界，资源core有修改不代表整个Scheduler不可审；本批只修独立use-now，核心并行修改及Date／Form／Time／Picker保持。Maple无Scheduler运行时，不造组件。族分类仍28/33（84.8%），剩5族15.2%；64文件，150/179提示83.8%，29待审16.2%，分母不变，Scheduler剩10提示。模拟时钟不是原生浏览器／OS验收，144环境组、SDK与库存漂移阻塞仍保留。证据：design-ui/audits/evidence/scheduler-now-lifecycle-2026-10-16/results.json。
+
+### Cedar Map：SDK 抑制窗口与分类边界（2026-10-15）
+
+Cedar Map的300ms中心更新／500ms地点选择窗口释放isUpdating、抑制程序化moveend反向解析，归interaction-delay，不是CSS完成信号或新的duration Token，不随视觉减少动效缩短。map-core运行时导入因迁移被注释，declare类型不提供SDK；缺任一依赖时initMap先返回，不注册model watcher／moveend或两个timer。
+
+本批只验证缺SDK降级，未修改产品源码、恢复／替换SDK或调用地图服务。实际SDK下的计时取消、停用／卸载、旧回调／异步结果、SDK监听及MapSelect异步回填／定位仍待独立验收，不以虚构off／destroy契约替代。Maple无对应运行时，不为对齐造组件。
+
+新增1文件／2提示：28/33族职责分类84.8%，剩5族15.2%；63文件，149/179提示83.2%，30待审16.8%，分母不变；这不是生命周期／真实浏览器完成率。保留Date／Form／Scheduler／Time／Picker并行区域、26处漂移、144环境阻塞与Button白字例外。证据：design-ui/audits/evidence/map-sdk-boundary-2026-10-15/results.json。
+
+### Cedar Tree：滚动命令转发分类（2026-10-15）
+
+Tree.scrollIntoView(options)只向当前VirtualList转发原options；701行为函数声明，702行为delegated-scroll，不是两次原生滚动、RAF或CSS完成等待。Tree没有因此新增本地时钟／duration Token。保持已有公开方法、key/index/align语义及非虚拟模式无操作；停用／卸载和旧校正队列由实际下游已有availability／request守卫处理，不为分类制造父级重复调度器。
+
+本批没有产品修复：Tree及VirtualList源码hash保持。真实Tree＋真实VirtualList、stub TreeNode、fixedSize30／模拟90px viewport验证7项：index/top600、key/bottom390、替换命令90、inactive保持37、激活新命令120、卸载后旧校正与保留命令保持37、非虚拟无操作。Tree原契约1＋TreeSelect既有1一并过滤运行，总9项通过；不把TreeSelect一项当其生命周期认证。Vue技能用于核对既有停用／卸载清理和夹具卸载。
+
+新增1候选文件／2提示（declaration-only16、delegated-scroll5）：27/33族81.8%，剩6族18.2%；62分类文件，147/179提示82.1%，32待审17.9%，分母／库存不变。JSDOM属性滚动与模拟视口不是原生布局／smooth／CSS减少动效／OS，浏览器新增0；Tree其他保留方法、loadMore异步及任意行高仍独立待验。Maple无对应Tree运行时，只同步指南，不造组件。其他并行／26处漂移、144环境阻塞和Button白字例外保持。证据：design-ui/audits/evidence/tree-scroll-consumer-2026-10-15/results.json。
+
+
+### Maple PullRefresh：手势、监听与滚动锁（2026-10-15，阶段二）
+
+touchcancel是取消，不走刷新释放路径；新手势、target／根节点切换、禁用、停用／卸载终止当前手势，释放原锁和旧监听。touching／手势代次及原root／control／scroller身份在几何／滚动读取后复核；geometry getter中卸载不继续读旧事件目标。每次绑定保存原节点和独立代次，旧move／end不能跨激活；根ref同步绑定，不让初始post任务取消用户第一段同步手势。保留既有下拉比例、阈值和第一阶段计时／受控ack规则。
+
+滚动锁是私有资源租约，不是CSS Token或公开API。按原HTMLElement和类名计数，同实例重复加锁不重复持有；释放幂等，最后一个租约才移除库新增class，预先存在的外部class保持。Window目标使用其document.body，不再误用全局body。这里只协调同一Maple模块的PullRefresh持有者，外部代码在租约中途改同名class、重复运行时副本、默认iframe scroller发现／adopt仍独立待验，不把它变成全库锁协调器。
+
+有效10项基线6失败／4对照；修复中post-watch曾使两个原有立即操作用例回归，改同步根绑定后未修改原断言即恢复。最终15手势专项＋17计时专项，完整37项通过。Vue技能用于停用／卸载、原监听全组释放与锁租约／夹具清理。实际组件／KeepAlive、stub图标、模拟touch／几何及timer为JSDOM，非可信输入／真实CSS或OS；浏览器新增0。初始modelValue=true显示、动态时长／真实reduce、共享useTouch RAF及跨文档默认查找仍独立待验。
+
+新增1文件／1条task-dispatch（4），26/33族78.8%，剩7族21.2%；61分类文件，145/179提示81.0%，34待审19.0%，分母未变。无扫描命中的私有scroll-lock helper单列hash，不虚增分类文件。仅更新本源码库存81→96及hash，193文件／392CSS／179runtime保持；其他26处漂移与并行改造、144环境阻塞和Button白字例外保留，不称全局motion-themes通过。证据：design-ui/audits/evidence/pull-refresh-gesture-lifecycle-2026-10-15/results.json。
+
+
+### Maple PullRefresh：计时与刷新续体（2026-10-15，阶段一）
+
+成功展示success-duration默认2000ms是业务期限；animation-duration默认300ms同时驱动内联回弹与复位等待；ICON_TRANSITION=150ms同时传给图标过渡并用于名称等待。三者不是同一system duration，不新增CSS Token、不把成功展示缩为视觉减少动效。统一timer入口只归task-dispatch，具体时序仍由调用方拥有。
+
+待执行集合和原generation约束一次消费；新modelValue／手势、disabled、停用／卸载取消当前timer和图标Promise等待，取消会resolve(false)，不留下永久挂起。图标等待返回与nextTick刷新通知都核对当前请求／活动状态；nextTick只逻辑失效。当前本地update:modelValue=true的受控回填不是新请求，仍恰好发一次refresh；外部新loading取消旧成功／复位，激活按当前modelValue结算，不重放成功时钟。无公开签名／默认值变化。
+
+有效10项基线8失败／2对照，追加取消Promise结算、受控回填、回调卸载、inactive命令、disabled完成、0时长与闲置实例保留外部锁后，17专项／完整22项通过。收尾探针在本批中间实现复现清理误移外部锁，修正为只移除本实例新增的原节点锁；该失败不并入原始基线，多实例引用计数仍待阶段二。Vue技能用于停用／卸载、timer／Promise清理及夹具恢复。实际组件／KeepAlive、stub图标、模拟touch／几何与timer为JSDOM，不认证原生输入、CSS覆盖／真实减少动效、共享useTouch RAF或OS；浏览器新增0。完整手势／touchcancel、滚动锁和旧监听／测量留阶段二，不提前归档PullRefresh。
+
+分类仍25/33族75.8%，剩8族24.2%；60分类文件／144提示不变。四处timer合为一处，库存runtime182→179（Maple84→81），当前144/179提示80.4%，35待审19.6%；分母减3不是额外三项验收或缺陷删除。仅刷新本文件四行→81，193文件／392CSS不变，其余26处漂移及并行／144环境阻塞／Button白字例外保留，不称全局motion-themes通过。证据：design-ui/audits/evidence/pull-refresh-timer-lifecycle-2026-10-15/results.json。
+
+
+### Maple SwipeCell：拖动会话与点击解锁（2026-10-15，阶段二）
+
+拖动结束的0ms解锁是state-settlement事件顺序，不是CSS动效时长，不能跟随reduced-motion删除点击抑制。unlock独立代次且消费一次，新手势／disabled／停用／卸载物理取消计时；旧回调不能解锁新拖动或清新句柄。手势代次在回调和几何读取后复核；touchcancel及停用恢复手势前偏移、不触发打开，激活只接受新触摸。拖动标记为响应式，夹到同一偏移后释放也恢复既有CSS过渡。
+
+每次绑定保存原root／document和独立回调，停用／卸载／节点变化解绑全组touch监听，旧move／outside跨激活无效。click通知若重入open或卸载，旧后续关闭不再执行；open通知发起新拖动时不排旧解锁。保持30%阈值、公开API、CSS变量／视觉默认值及阶段一业务确认规则；Cedar无对应运行时，不造组件。
+
+有效14项基线12失败／2对照，最终21拖动专项＋18关闭专项、完整48项通过。补充监听探针初轮误取VTU通用eventListener，已排除包装并验证实际move／outside注册与移除；timer类型初轮编译错误已改明确DOM number，未放宽配置。Vue技能用于停用／卸载取消与测试清理。实际组件／KeepAlive、模拟touch和受控timer不等于可信触摸／原生click顺序／OS；真实浏览器新增0。共享useTouch RAF、完整测量续体、同节点跨文档adopt和事件触发的hook拒绝策略仍独立待验。
+
+分类新增1文件／1条state-settlement：25/33族75.8%，剩8族24.2%；60文件，144/182提示79.1%，38待审20.9%，分母不变。仅更新已审SwipeCell库存248→351及hash，不刷新其他26处漂移，不称全局motion-themes通过。保留Form／日期／关联Time、Picker／Scheduler／并行样式、144环境阻塞与Button白字例外。证据：design-ui/audits/evidence/swipe-cell-drag-lifecycle-2026-10-15/results.json。
+
+
+### Maple SwipeCell：关闭确认请求（2026-10-15，阶段一）
+
+beforeClose 是业务确认 Promise，不是 CSS 动效完成或可参数化时长。每个 close 保存原命令代次；新 open（含同侧重开）、新 close、新手势、name／beforeClose／disabled 变化、停用和卸载使旧确认失效。停用／卸载后保留的 open／close 不改状态、不调用业务钩子，激活只允许新请求。禁用触发的当前关闭仍尊重 beforeClose 的 false；显式 close 的 Promise 拒绝仍向调用方传递，不新增 API／Token或改变滑动阈值／默认视觉时长。
+
+有效12项基线10失败／2正常对照；首次夹具取错 exposed 入口的12错误不算产品失败。最终18专项／完整27项通过；Vue清理规范用于停用／卸载失效，实际组件／KeepAlive与受控Promise为JSDOM证据，不是原生手势／OS，真实浏览器新增0。0ms点击解锁、旧监听交付和完整拖动资源留待阶段二，不提前归档整族。
+
+分类保持24/33族72.7%，剩9族27.3%；59文件，143/182提示78.6%，39待审21.4%，分母不变。只更新SwipeCell库存205→248，其他26处并行漂移、Form／日期／关联Time／Picker／Scheduler、144环境阻塞和Button白字例外保留。证据：design-ui/audits/evidence/swipe-cell-close-lifecycle-2026-10-15/results.json。
+
+### Maple Counter：长按重复与生命周期（2026-10-15）
+
+Counter的600ms等待＋100ms重复是interaction-repeat交互节奏：第一次长按步进在700ms，正常点击仍即时。它不是CSS动效时长，不新增Token，也不强行改为InputNumber的800／150ms。两个方向独立拥有代次与消费位；同方向新按替代旧按，释放／touchcancel／停用／卸载取消当前两计时，旧交付不清新句柄、不跨激活复活。
+
+禁用／只读（含Form继承）、press／lazyChange、controls／方向按钮、方向禁用与数值边界使长按不可用时同步失效；激活不恢复旧手势，允许新请求。重复步进返回后再核对归属，回调内release或卸载不续排。停用的保留press／直接步进无效；未改变数值格式、步长、精度或beforeChange公开协议，异步beforeChange的请求替代身份仍独立待验，不接管Form。
+
+有效24项基线20失败／4对照（两方向重复覆盖，不算20独立缺陷）；32专项、完整55项通过。Vue技能用于停用／卸载均取消及清理假时钟／探针。实际Counter／KeepAlive、stub按钮和受控timer不等于原生触摸／点击去重／跨文档／OS；真实浏览器／OS新增0。
+
+分类新增1文件／4条interaction-repeat（8），24/33族72.7%，剩9族27.3%；59文件，143/182提示78.6%，39待审21.4%，分母不变。仅刷新Counter四行库存／hash，26处并行漂移、Form／日期／关联Time／Picker／Scheduler、144环境阻塞和Button白字例外保留。证据：design-ui/audits/evidence/counter-press-lifecycle-2026-10-15/results.json。
+
+### Maple LoadingBar：任务与渲染续体归属（2026-10-15）
+
+LoadingBar统一timer归task-dispatch：200ms显示／进度节奏、公开finishDelay、error的300ms策略，以及按computed width／opacity完成等待的300／250ms清理下限，各自保留语义，不全转为CSS duration。公开动效Token、默认值及原timer窗口归属不变；Cedar无LoadingBar运行时，不新增对应变量或组件。
+
+每个timer在原generation且仍为待执行成员时消费一次；旧任务不能删除新句柄，重复progress不再多推进／分叉。两段渲染等待均为state-settlement，按原generation及消费位逻辑失效，不声称删除Vue队列。计算样式读取可能重入start／error，后续schedule必须显式携带旧generation，不能用读取结束时的新代次给旧hide／cleanup授权。
+
+有效7项基线5失败／2对照；原正常完成和重启拒绝旧show回调本已通过。补旧progress／两渲染续体重启对照后10专项、完整22项通过。Vue清理规范用于取消／复用及测试时钟／mock／服务节点清理。证据为实际服务DOM＋受控nextTick／fake timers，非原生时序／OS；新真实浏览器／OS0，旧IAB6组不重复计，清理hook中重入start及任意中途样式变化另待验。
+
+分类新增1文件／1条task-dispatch，23/33族69.7%，剩10族30.3%；58文件，139/182提示76.4%，43待审23.6%，分母不变。只更新本源码库存77→79，其他26处漂移、Form／日期／关联Time／Picker及并行样式、144环境阻塞和Button白字例外保持。证据：design-ui/audits/evidence/loading-bar-scheduler-delivery-2026-10-15/results.json。
+
+### Ripple：统一任务派发与取消后交付（2026-10-15）
+
+新增内部审计分类task-dispatch：统一setTimeout入口只负责任务归属／一次性消费，调用方才决定业务含义；不能把同一helper里的所有delay当成CSS duration。Ripple的30ms创建等待、20ms激活结算、最小250ms展示及删除策略、computed transform／opacity完成等待分别保留，不新增CSS Token／公共API或改变默认节奏。
+
+schedule先核对原指令状态，再从待执行集合原子删除任务；已取消／消费回调不执行，也不能清新请求的tasker。禁用清空集合，即使同一state重新启用，旧创建／淡出仍无资格。几何／样式读取后重检当前实例与wave身份；波纹在读取其样式前登记，使读取中卸载也能移除刚插入的节点，激活读取中卸载不补写opacity。普通卸载拒绝旧创建原本通过，不重复记缺陷。
+
+两端各8项有效基线6失败／2对照，最终各11专项（追加淡出取消／重复和激活读取卸载）、完整Ripple Cedar28／Maple33通过；类型、受影响lint／Maple根lint、两端独立源码与基础Less配对检查同步验证。首次新增Maple测试的格式lint失败已格式化并复跑，不算产品失败。Vue技能指导取消／卸载、探针清理；这是受控timer交付、模拟performance与JSDOM，不是实际OS／触摸／KeepAlive停用或跨文档adopt；本批真实浏览器／OS新增0，旧IAB6组不重复计。
+
+分类新增两文件／两条task-dispatch，22/33族66.7%，剩11族33.3%；57文件，138/182提示75.8%，44待审24.2%，分母与库存不变。LoadingBar待下一批，其他并行改造／26处库存漂移及144环境阻塞保持，不称全局motion-themes或全库原生验收通过。证据：design-ui/audits/evidence/ripple-scheduler-delivery-2026-10-15/results.json。
+
+### 反馈展示计时的分类补录（2026-10-15）
+
+Message两端与Cedar Notification的duration属于business-clock：有限正值决定展示期限，0常驻；它不消费CSS进出场时长，也不因减少视觉动效缩短业务展示。hover保留Message剩余时间，KeepAlive重新激活按完整当前期限重新开始；取消／停用／卸载与旧回调归属沿用已审代次／active／open或closed规则。服务清理和CSS完成另走真实Transition完成链，不重新引入固定离场timer。
+
+当前三份计时源码hash与2026-10-13证据完全一致，本批无产品修复／API／Token变更。复跑Cedar Message＋Notification48项、Maple Message39项通过；补录3文件／3条business-clock职责，非新增三处缺陷或新的原生验收。历史Message IAB8组、Notification6组保持独立，不再累计；本批真实浏览器／OS新增0。跨文档adopt、Message服务nextTick更新身份等属于独立消费者边界，不被计时文件分类自动认证。Vue技能用于复核停用／卸载清理职责。
+
+分类21/33族63.6%，剩12族36.4%；55文件，136/182提示74.7%，46待审25.3%，分母不变。Ripple／LoadingBar仍需补统一调度入口取消后旧回调及重复交付，不在本批提前归档；只是源级候选，尚未复现，不制造修复。Form／日期／关联Time、其他并行样式／Picker、26处库存漂移、144环境阻塞及Button白字例外保留。证据：design-ui/audits/evidence/feedback-clock-classification-2026-10-15/results.json。
+
+### NavMenu：根级命令与注册收口（2026-10-15，阶段六）
+
+停用／卸载后保留的showOption、setCollapsed、setActiveItem、select、expand、activateItem及根键盘入口不通知、不改状态或消费事件。内部停用关闭仍由原cleanup更新，不把公开入口守卫套到清理路径。激活允许新命令、不恢复旧工作；卸载清空元素／所属节点与独立Item注册表，拒绝新注册。
+
+独立Item互斥关闭按快照与activation代次遍历，新注册不被旧轮次消费，重入新activation替代旧轮次；关闭回调卸载后停止剩余回调与selection／expand写入。selection在通知之间复核生命周期／焦点请求，新的selection替代旧select后续通知。元素注销核对原NavMenuNode身份，旧同key节点不能误删替换注册。无公开API／Token／视觉默认值变化，nextTick仍只是逻辑失效。
+
+有效12项基线10失败／2对照；最初六项停用探针误在移出后findComponent，改为预存wrapper才取有效基线，不计产品失败。最终17专项、完整NavMenu103项7文件通过，既有前五阶段一并回归。Vue清理规范用于停用、卸载和注册释放。JSDOM真实根组件／KeepAlive、stub子节点／observer及受控续体不替代原生键盘／布局／跨文档／OS；本批真实浏览器／OS新增0。Maple无NavMenu运行时，仅同步说明。
+
+新增menu的1条declaration-only分类（扫描命中scrollTo函数声明，底层optional native调用另有行为证据），只更新其库存147行／源码hash；NavMenu两候选文件现均归档。分类19/33族57.6%，剩14族42.4%；52文件、133/182提示73.1%，49待审26.9%，分母不变。其他26处并行漂移、Form／日期／关联Time、144环境阻塞和Button白字设计例外保持，不声称全局motion-themes或全库／浏览器完成。证据：design-ui/audits/evidence/nav-menu-root-commands-2026-10-15/results.json。
+
+### NavMenu：根级外部焦点接管（2026-10-15，阶段五）
+
+selection返回与响应式折叠归位在排队时保存原root、所属document和原焦点，执行前核对当前焦点归属；当前外部连接控件已接管时放弃，不抢回。原焦点仍持有或移除后落到body时保留正常归位，显式context.focus仍是主动命令。折叠查询目标后再次核对代次／可用性及焦点。nextTick为渲染结算，不新增CSS时长Token／API，不撤销已执行focus。
+
+新增3项基线2失败／1正常折叠归位对照，最终根级16专项、完整NavMenu86项通过；实际NavMenu根组件与KeepAlive、stub NavNode／observer、受控nextTick和JSDOM焦点，不是原生布局／键盘或跨文档验收，真实浏览器／OS新增0。Vue清理规范沿用已有停用／卸载失效边界。Maple无NavMenu运行时，不制造对应组件。
+
+分类仍18/33族54.5%，剩15族45.5%；51文件，132/182提示72.5%，50待审27.5%，分母不变。仅更新menu库存129→133，其他26处并行漂移不刷新。根级保留命令及注册身份仍待审，不提前归档NavMenu。Form／日期／关联Time、并行样式、144环境阻塞和Button白字例外保留。证据：design-ui/audits/evidence/nav-menu-root-focus-2026-10-15/results.json。
+
+### NavMenu.Item：监听、测量与焦点任务（2026-10-15，阶段四）
+
+Item 的窗口 resize／捕获 scroll 监听归原 reference.ownerDocument.defaultView 所有；每次绑定使用独立代次和回调，正常关闭／目标变化通过 post-watch 解绑，停用／卸载直接释放。受控 open 即使拒绝关闭，也不能保留后台监听；停用仍发既有关闭请求，但保留 close／select／setOpen 与键盘／点击入口无效。激活对仍打开的当前面板重新绑定，不恢复旧回调。共享 ResizeObserver 不改，消费者启用条件跟随可用状态。
+
+同步几何测量按 operation／原reference／可用状态核对；rect及属性读取后复核，避免 getter 中卸载后写状态或新注册窗口监听。面板／返回焦点任务按 open/close 方向、代次及原reference消费一次；配置变化取消旧任务，当前文档外部连接控件已接管焦点时放弃归位。保持受控接受／拒绝语义、公开签名及布局公式，不引入 CSS duration Token，也不回滚已执行的focus。
+
+有效9项基线7失败／2对照；正常测量与普通卸载解绑原本通过。中间关闭焦点对照因夹具每次渲染重建options触发真实配置取消，改稳定options后补正向／重复交付／外部焦点回归。最终13专项、完整NavMenu83项通过；这是受控nextTick、stub Trigger／ResizeObserver和JSDOM几何／实际owner EventTarget证据，非原生布局／键盘／跨文档adopt。真实浏览器／OS新增0。根级其他保留命令、注册身份与根级外部焦点仍待审。
+
+仍18/33族收口54.5%、剩15族45.5%，51分类文件、132/182提示72.5%、50待审27.5%，分母不变。Item无扫描命中，仅记录hash，不提前归档NavMenu或刷新其他26处漂移。Form／日期／关联Time、并行样式、144环境阻塞及Button白字例外保留。Maple无对应NavMenu组件，不新造副本。证据：design-ui/audits/evidence/nav-menu-item-lifecycle-2026-10-15/results.json。
+
+### NavMenu：节点 enter／Escape 焦点归属（2026-10-15，阶段三）
+
+节点级 nextTick 是渲染后焦点结算，不是视觉完成时长。enter／Escape 请求各由当前节点的焦点代次拥有；新请求、关闭、禁用／节点／模式／折叠配置变化、KeepAlive停用和卸载使旧续体失效。enter在展开回调返回、等待渲染后及查询目标后复核，Escape核对原reference／Trigger并消费一次。激活只允许新命令；停用保留键盘／点击／浮层回调无效，不preventDefault来吞掉旧键盘事件。Trigger原有hover延迟不改，不新增duration Token／公共API。
+
+执行前检查reference所属文档当前焦点；若已被其他连接中的外部控件接管，不再把焦点抢回。body或原焦点仍可按正常路径结算；不能撤销已执行focus，不认证跨文档adopt、原生键盘时序或所有瞬时焦点迁移。原8项基线5失败／3对照（正常enter、禁用和卸载原本通过）；另两项外部焦点候选在无归属检查的中间实现均失败，单列而不混成原始10项基线。最终12项专项。
+
+仍须独立审查Item的测量／监听／焦点、根级其他保留命令／注册身份及根级外部焦点接管。Maple无NavMenu运行时，不制造副本。真实浏览器／OS新增0；本批是实际NavNode与KeepAlive、stub Trigger持久面板、受控nextTick与JSDOM焦点探针，不是完整浮层或浏览器验收。候选仍18/33族收口54.5%、剩15族45.5%，51分类文件、132/182提示72.5%、50待审27.5%；node无扫描命中，仅单列hash，不新增分类文件／提示或刷新库存。Form／日期／关联Time、26处并行漂移、144环境阻塞及Button白字例外保持。证据：design-ui/audits/evidence/nav-menu-node-focus-2026-10-15/results.json。
+
+### NavMenu：根级焦点与测量续体（2026-10-15，阶段二）
+
+根级响应式测量与焦点归位均是渲染结算，不是 CSS 动效完成，不新增 duration Token。afterRender 按配置／生命周期代次校验并消费一次；停用／卸载失效，激活重新排当前测量与 roving tabindex，不重放旧任务。测量保留 resize 公共签名，停用时不读取几何；每次同步测量拥有独立 operation 和原 root／measure 身份，在 clientWidth／子节点 rect 读取后复核，防止 getter 中卸载后继续访问或提交。共用 ResizeObserver 工具不改，不能据此认证所有消费者。
+
+根级 context.focus 不操作停用／卸载节点；最新 selection 或显式 context.focus 替代旧 selection 返回焦点。布局变化后的焦点归位受同一代次保护，nextTick 只是逻辑失效，不能撤销已经执行的焦点。原8项有效基线6失败／2对照，新增探针最初用了错误 BEM 类名，修正后重新取基线，不算产品缺陷。最终13专项；节点级 enter／Escape、独立 Item 的测量／监听／焦点以及其他保留命令仍待审，未称 NavMenu 全部收口。真实浏览器／OS新增0；受控 nextTick、stub NavNode／ResizeObserver 和JSDOM几何只证明根级消费者，不能代替真实布局／焦点时序。
+
+候选进度保持18/33族（54.5%），剩15（45.5%）；51分类文件、132/182提示（72.5%），50待审（27.5%），分母未变。仅刷新menu库存行104→129，未提前归档分类。Form／日期／关联Time、26处并行CSS／日期漂移、144环境阻塞和Button白字例外保持。证据：design-ui/audits/evidence/nav-menu-root-scheduling-2026-10-15/results.json。
+
+### NavMenu：原生滚动续体（2026-10-15，阶段一）
+
+`scrollTo(key)` 是渲染后原生定位，不是 CSS 动效完成计时，不新增 duration Token 或公共取消 API。新命令替代旧命令；禁用、options／fieldNames／mode／responsive／折叠配置变化、KeepAlive 停用和卸载使旧 nextTick 续体失效。激活不恢复旧请求，只接受新命令；`Promise<void>` 签名、showOption 的正常展开及 nearest 对齐保持。nextTick 只逻辑失效，不物理撤销已排续体，也不回滚已发生的原生滚动。
+
+有效基线6项中4失败／2对照；修复后8专项及全部 NavMenu45项通过。JSDOM 使用真实组件／KeepAlive和原生方法探针，不证明浏览器布局、paint或原生滚动动画；真实浏览器／OS新增0。Vue清理规范用于停用／卸载及激活边界。Maple无NavMenu运行时，不制造对应移动组件。焦点恢复、节点 enter／Escape 续体、响应式测量和保留的其他命令尚待下一阶段，不能由本批scroll测试推断通过。
+
+候选分类进度不变：18/33族已收口（54.5%），剩15族（45.5%）；51文件、132/182提示已分类（72.5%），50待审（27.5%），分母未变。NavMenu仍部分已分类；只更新其库存行号96→104，不提前归档整个消费者。Form／日期与关联Time、其他26处并行CSS／日期库存漂移和144环境阻塞保留，不称全局motion-themes通过。证据：design-ui/audits/evidence/nav-menu-scroll-2026-10-15/results.json。
+
+### Anchor：滚动、测量帧和注册归属（2026-10-15）
+
+Anchor滚动消费者同时拥有视觉滚动、容器scroll监听、测量RAF和render后change通知，职责不能混成CSS完成计时。私有slide从无取消句柄的b-tween包装改为目标owner window拥有的可取消RAF，保留300ms／quartOut；每帧读取当前减少动效偏好，已开启直接定位，运行中开启下一帧完成。取消停在当前位置、不跳到目标也不发finish。保留现有滚动节奏，不新增公共API／duration Token／CSS变量／颜色；共用throttleByRaf及b-tween依赖的其他消费者（含日期）不修改。
+
+消费者按operation、binding／frame序列和change代次隔离；新点击、停用、卸载、scroll-container／boundary变化取消私有滚动与原owner测量帧、解除原容器监听。旧finish不能解锁新滚动；旧帧、几何读取重入和重复交付不能提交旧测量。change在nextTick后交付且消费一次，同hash重复点击不吞掉仍有效的待发通知。nextTick只能逻辑失效，不声称物理取消续体或回滚已执行滚动。停用保留点击无通知且不preventDefault；激活重新绑定／测量，不恢复旧动画。
+
+AnchorLink按href与原节点注册／注销，自动watch清理覆盖href替换和卸载；父级用节点identity避免旧清理删除同hash新注册。移除当前链接会取消旧工作并重新测量。原来无cleanup的两项注册基线均失败，已修复。Maple无Anchor运行时，不新造移动端副本。
+
+有效原基线24项：消费者15（13失败／2对照）、slide7（6失败／1对照）、Link注册2（均失败），合计21失败／3对照；对照保留正常点击、卸载几何重入边界和300ms／quartOut。新owner RAF路径需spy实际document.defaultView，不再只spy测试global window；更正探针后重跑。修复中同hash取消过度导致一次中间回归，补保留有效通知并验证。最终Anchor31（消费者18／slide9／注册2／实际组件接线1／契约1）、含Affix／BackTop64通过；配置类型、受影响lint、Maple根lint、demo编译1、分类／扫描／Message／目录28测试及3生成页通过。Vue技能落实KeepAlive停用／卸载、原owner取消与原型／descriptor恢复。实际组件测试仍在JSDOM控制几何和RAF，不证明native布局／paint、OS偏好、跨文档或同节点adopt；真实浏览器／OS新增0。
+
+进度：33组件族中18已分类收口（54.5%），15剩余（45.5%）；51已分类源码文件。只收口原Anchor2条待审，同时新实现显式增加3条提示（测量RAF1、私有slide的RAF／偏好2），所以分母179→182，已分类127→132（72.5%），待审52→50（27.5%），不是把新增实现当成额外旧缺陷。保存候选193文件／392 CSS／182 runtime；live C103/202/98、M92/214/84，其他26处并行CSS／日期行漂移保留，不能称全局motion-themes通过。Form／Date／关联Time、其他并行样式及144环境阻塞不动。证据：design-ui/audits/evidence/anchor-scroll-2026-10-15/results.json。
+
+### Mention：镜像重定位与观察器交付（2026-10-15）
+
+Cedar textarea镜像滚动是render后的state-settlement，不是CSS动效完成，不添加duration Token。原来只在open变化时排nextTick，现于当前文本／候选项等变化后同步偏移，包含scrollTop回到0。sync失效代次与post-render捕获的input实例／textarea／mirror共同约束任务，交付前消费一次，几何读取后再核对；关闭、禁用、模式切换、停用和卸载令旧任务无权写入。nextTick无法物理取消，只取消旧续体提交权限；已执行native scroll不回滚，也不声称取消原生smooth动画。
+
+镜像样式每次从当前textarea.ownerDocument.defaultView读取，不再缓存全局window样式；style读取和属性枚举后重检，拒绝重入卸载提交。观察器绑定携带lifecycleEpoch，旧resize不能跨激活读取，新绑定仍能刷新。停用／卸载保留input、clear、选择／浮层事件和focus／blur无效；禁用时不接受输入／focus，active blur仍允许。focus／blur搬入setup闭包但保持公开签名，无新API／CSS变量／颜色改变。Maple无Mention运行时，不为对齐新造移动端副本。
+
+有效13项基线10失败／3对照；正常40px定位、卸载refs清空和scrollTop getter卸载原本通过。初轮exposed方法读取和全局window样式探针不准确，修正为真实exposed spy／实际owner view后取证，不算产品缺陷。最终21项专项＋1项实际Mention/Textarea/useSelect/Trigger组合（仅拦截native scroll记录），含既有2项Mention契约；完整消费者组合Cedar129通过。配置类型、受影响lint与Maple根lint通过，1份demo脚本／模板编译；分类／扫描／Message／目录28测试和3生成页通过。Vue技能落实KeepAlive停用／卸载、代次和测试原型／descriptor恢复。受控JSDOM／回调队列不证明真实字体、换行／IME、paint或跨文档浏览器行为，真实浏览器／OS新增0。
+
+每批固定附候选进度：目前33组件族，17已分类收口（51.5%），16未收口（48.5%）；49已分类源码文件、127/179提示（70.9%），52待审（29.1%，不是缺陷数）。这是运行时候选分类，不是全库验收率；有已验但未归档分类的反馈组件，NavMenu仍部分分类。只刷新Mention一行库存／hash，其他26处并行CSS／日期行漂移不动。Form、Date及关联Time、其他并行样式与144环境阻塞保留。证据：design-ui/audits/evidence/mention-mirror-2026-10-15/results.json。
+
+### Typography：复制反馈与省略测量（2026-10-15）
+
+Cedar Typography 的 copy-delay（默认3000ms）是交互反馈等待，不是CSS动效时长；省略 RAF／CSS高度检查是测量调度，不新设duration Token。重复复制替换计时，关闭copyable、disabled或copy-delay变化清除反馈；停用／卸载取消timer和RAF，旧完成、重放、重入和旧观察器绑定不能覆盖新阶段。激活只做当前测量，不恢复旧任务；展开、关闭省略或进入编辑取消旧测量。禁用态仍测量文字布局，复制／编辑／展开交互无效。保持既有公共API、默认值和全局raf/caf归属，不宣称跨文档owner或字体／剪贴板权限认证。Maple只有Typography工具指南，无对应运行时组件，不新增移动端实现。
+
+有效14项基线11失败／3对照；首轮stub命名和监听器读取错误不计产品缺陷。修复中发现局部ellipsis变量遮蔽导致TDZ，已纠正并重跑。最终22项专项＋3项既有测试通过，含激活新绑定、CSS测量、重入替换、copy-delay／copyable变化。Vue技能用于KeepAlive停用／卸载清理及模拟资源恢复。真实浏览器／OS新增0；Form、日期库存、其他并行样式及144环境阻塞保留。
+
+候选覆盖率按源文件归并组件族（排除下划线内部目录及utils，同名跨端合并），不是全库验收率。当前33族：16已分类收口（48.5%）、17未收口（51.5%）；其中nav-menu部分已分类，未收口不等于从未验收或存在缺陷。运行时提示126/179已分类（70.4%），53待审（29.6%），48个已分类文件。aliased raf/caf没有被现有扫描命中，单列本批证明，不额外虚增提示。仅刷新Typography源码hash与该行库存，不覆盖其他并行漂移。证据：design-ui/audits/evidence/typography-scheduler-2026-10-15/results.json。
+
+### Scrollbar Thumb：拖动会话与监听资源（2026-10-15）
+
+承接前一批消费者边界，独立审查 Cedar 公共／旧目录及 Maple selection-scrollbar 三份 Thumb。本批直接使用真实 Thumb 与实际 EventTarget，并补实际 Parent＋Thumb 组合；只stub父级ResizeObserver并控制几何／鼠标事件，不是原生浏览器、可信鼠标／OS或跨iframe拖出认证。无RAF、计时器、CSS Token、颜色／布局或公开API新增；鼠标拖动依然是同步几何与scroll通知，不应套动效duration。
+
+每次左键按下建立独立session：代次、track／thumb节点、不可变轴／起点及实际 thumb.ownerDocument.defaultView 共同拥有move/end。监听 mousemove、mouseup、contextmenu和blur只注册于原owner window；正常抬起、右键菜单取消、窗口失焦、几何／方向变化、停用和卸载都解除整组监听并清dragging／mouseOffset。修复原contextmenu未解绑、卸载／停用无清理及iframe误绑全局window。旧move不能推动新手势，旧end不能释放新手势；激活只允许新按下，不恢复旧drag。
+
+方向、max、thumbSize、ratio的有效值变化取消当前手势；仅替换等值data对象不取消连续拖动。最终偏移仍由父级新测量／setOffset结算。几何读取与响应式写入后重新核对会话，防止同步卸载后绑定或通知。停用／卸载保留按下／轨道点击／setOffset入口无效且不preventDefault；非左键不启动／跳转。当前setOffset夹取、拖动期间忽略外部setOffset和轨道一thumb-size步进保持。没有Pointer／touch拖动协议迁移或原生滚动回滚承诺。
+
+各18有效基线15失败／3对照，最终各21（补等值data／几何变化、轨道重入、实际Parent组合），Cedar42专项、Maple21；含下游Cedar168／Maple133通过。初轮iframe方法描述符／Window对象断言导致探针失败与Cedar旧报告器报错，改为自有方法包装＋布尔identity断言后重取有效基线，不算产品缺陷。Vue技能落实停用／卸载与原owner解绑、测试descriptor／iframe／监听恢复。
+
+三Thumb在既有计时／scrollTo源码扫描无runtime提示，纳入本批hash证据但不虚增候选分类：仍47候选文件／125已分类提示、54待审（非缺陷数）。其他并行CSS／日期库存不刷新，Form与144环境阻塞保留；旧“Thumb未验”章节为历史边界，本批只新增受控证明，真实浏览器／OS新增0。证据：design-ui/audits/evidence/thumb-drag-2026-10-15/results.json。
+
+### Scrollbar：同步测量、绑定事件与原生滚动（2026-10-15）
+
+审查 Cedar 公共 Scrollbar、旧目录独立副本和 Maple Select 内部 selection-scrollbar 三份消费者。它们没有 RAF／计时器：读几何、更新 thumb 与 DOM scrollTo 都是同步操作，不应增加 CSS duration Token 或伪造“取消动画”API。每份扫描7提示中6处为 native-scroll，1处 function scrollTo 定义为 declaration-only；测量意义单独描述，不虚增扫描数量。
+
+生命周期 availability 控制保留 scrollTo／scrollTop／scrollLeft、thumb命令、scroll通知与resize测量。停用／卸载使操作和绑定代次失效；激活重读当前几何，只接受当前绑定事件。旧resize／scroll／thumb入口即使在重新激活后交付仍无效。几何读取、响应式提交和子thumb回调之后核对操作／原容器／生命周期，防止同步卸载或新测量重入后由外层旧任务覆盖结果。同步滚动一旦交给浏览器已经发生，逻辑失效不能撤销它；原生 smooth 插值及其取消不在本批证明范围。
+
+scrollTo(0,0)／单轴0是合法坐标，不用真值判断；恢复零位置也同步thumb，不保留上次偏移。水平测量使用水平比例（旧代码误用了垂直比例）。零／无效视口用有限、非负thumb数据，不显示该零尺寸轴；正常最小thumb20px与track15px布局策略不变。禁用／隐藏轴的旧thumb命令无效，但禁用条不等于禁止内容或公开原生滚动。对象选项直接透传、不模拟JS动画；公开方法签名／样式变量不变。
+
+每副本13有效基线11失败／2对照；最终各16（补重新激活新命令、原生选项透传和水平比例），Cedar两副本32专项、Maple16；含下游 Select／AutoComplete／Cedar Mention 回归 Cedar126／Maple112。测试stub ResizeObserver／Thumb并控制几何，不等于实际观察器、Thumb拖动监听、原生smooth／paint或OS验收；真实新增0。Vue清理规范落实停用／卸载、绑定与重入归属，底层Thumb拖动可留下一批独立验收。
+
+累计47文件／125分类提示、54未分类（非缺陷数），只刷新三Scrollbar源码行／hash；并行CSS／日期库存不刷新，Form与144环境阻塞保留。旧数字为历史。证据：design-ui/audits/evidence/scrollbar-consumer-2026-10-15/results.json。
+
+### Carousel：播放节奏、循环结算与绑定归属（2026-10-15）
+
+自动播放的间隔是业务播放节奏（business-clock），不是 CSS 动效时长；默认关闭，启用 true 时默认3000ms，数字／配置间隔、hover/focus/隐藏暂停规则保持。取消或重排使旧播放任务失效；当前回调消费一次后才调用导航。停用／卸载保留 next／prev／to、键盘和滚轮入口无效，不能翻页或拦截输入。激活建立新观察器／事件绑定，解绑前迟交付不得借新 active 状态重新排任务。
+
+循环切换的 nextTick 负责等渲染，结算计时属于 visual-completion，随后双帧属于 state-settlement。请求／轨道节点／窗口核对及每阶段消费位，避免旧计时清新偏移、重复首帧分叉、旧次帧释放新的 noMotion。取消物理计时与原窗口所持 RAF；即使已出队的回调再交付，也必须先核对权限。内容重排与配置后的渲染测量任务同样绑定代次，停用后不重放。自动播放和动效阶段分别管理，不把播放间隔套进系统 duration Token。
+
+move-speed、现有 CSS 变量和减少动效样式不变；当前 JS 结算仍按显式 move-speed 或既有 computed transitionDuration 读取（样式不可读保留180ms fallback），本批不新增 CSS Token，也不声称多属性 duration/delay、运行中时长变化或 OS 偏好已完整认证。计时仍使用原全局机制，帧使用原 owner window；同节点跨文档迁移、原生绘制另待验。
+
+两端各14有效基线：12失败／2正常对照；最终各18专项，完整 Carousel Cedar44／Maple45。受控 nextTick／timer／observer／RAF spies 不是原生浏览器／OS 验收，真实新增0。Vue 生命周期规范用于停用／卸载、绑定清理和请求消费。累计44文件／104已分类提示、75待审（非缺陷数）；只刷新两Carousel运行时行／hash，其他并行 CSS 库存漂移不刷新。Form、日期及144环境阻塞保持，旧章节数字为历史。证据：design-ui/audits/evidence/carousel-scheduler-2026-10-15/results.json。
+
+### Card：浮起测量与回落结算（2026-10-14）
+
+Card 的 500ms 是 `ripple=true` 时的交互等待策略，不是 Ripple CSS 动效时长；`ripple=false` 保留零延迟。等待后读取 Card 几何并交给现有 doubleRaf 做布局稳定，再展开。doubleRaf 是 state-settlement，不是 CSS 时长，也不能通过这个既有 Promise helper 物理撤销底层 RAF；本批只撤销旧续体写布局的权限，不宣称帧被取消。文档／窗口归属仍使用既有全局计时与 helper，实际跨文档和原生绘制另待验。
+
+渲染任务在源变化时同步递增请求代次；关闭、方向切为横向、新任务、停用或卸载后，旧 nextTick／计时器／双帧续体无权改变新阶段。渲染和计时交付消费一次，几何读取返回后再次核对节点／请求／生命周期，避免测量钩子同步卸载后继续排双帧。停用／卸载清理两计时并禁止保留 close／click 输入；激活依当前 floating／direction 发起新阶段，不重放旧任务，初始 KeepAlive 激活不重复等待。
+
+公开 `floating-duration` 当前默认 250ms，仍同时供布局 transition 和回落恢复等待；浮起内容／按钮 opacity 仍用其两倍。它是组件公开参数，不被强行改为 system Token，本批不改公共 API／CSS 变量／默认时长／色彩语义。回落恢复归 visual-completion，500ms 等待归 interaction-delay，doubleRaf 布局意义单独解释（本扫描未命中该调用，不虚增候选数量）。
+
+两端各 12 基线：9 失败／3 对照；最终各 15 专项（补初始激活、几何重入卸载和停用双帧），完整 Card Cedar21／Maple44 通过。受控 nextTick／doubleRaf Promise／fake timers／几何 spies，不是原生浏览器／OS 或底层 RAF 取消证明，真实新增0。累计42候选文件／96已分类提示、83未分类（非缺陷数），保存库存仍为192文件／392 CSS／179运行时提示；live扫描发现其他并行CSS变更，未刷新这些未审快照。Vue 生命周期规范用于停用／卸载、请求消费与测试资源清理。Form、日期库存漂移、144环境阻塞保持；旧章节数字为历史。证据：design-ui/audits/evidence/card-scheduler-2026-10-14/results.json。
+
 ### PreviewGroup：轨道重定位与双帧释放（2026-10-14）
 
 循环轨道保留三份图片与中间段规范坐标；双帧 RAF 是跳转后恢复 transition 的 state-settlement，不是动效时长，零时长／减少动效仍需此稳定过程。轨道节点的 ownerDocument.defaultView 申请和取消帧／计时器；关闭、替换图片（含等长替换和原位编辑）、改变 loop、停用、卸载及新导航使旧任务失效。帧／渲染回调只消费一次，旧交付不能释放新 instant 阶段；停用／卸载保留命令无效，激活只规范化当前坐标，不恢复旧任务。图片内容监听在 post 阶段结算，避免子图片 watchEffect 注册被同步轨道读取污染。
@@ -906,11 +1417,11 @@ InputTag 的内容密度、默认标签底色和禁用文字由 input-tag-* 控�
 InputTag 保留 27 项内容变量，已加入无消费检查；两端 Badge / Tag 加 Cedar InputTag 共检查 441 项声明，内容 size / focus / disabled 级联覆盖 80 组。共享默认值契约仍为 553 项；Cedar-only InputTag 不冒充跨端共享组件。默认文字、禁用文字、标签底色与焦点底色分别引用 content-primary、content-disabled、surface-default、state-hover。禁用状态只重绘中性标签，不覆盖显式 color / status；业务自定义颜色的可读性由业务负责。父级 disabled / readonly 优先于 tagProps.closable / checkable，loading 或显式不可关闭的标签也不能用 Backspace 删除。已完成 Cedar 浏览器五档布局、xl 输入与键盘删除、明暗模式以及禁用自定义色的抽验，不代表全组件视觉验收。
 ## 字段键盘焦点与错误状态
 
-FieldDecorator 的键盘焦点环与背景、错误边框分别表达不同状态。内部原生输入或按钮命中 `:focus-visible` 时，外壳绘制独立焦点环；错误态保留 danger 背景/边框，同时显示焦点位置。只读仍可聚焦，禁用不绘制焦点环。
+当前 FieldDecorator 不额外绘制外圈 outline；outline 通过 border-state 边框、filled 通过背景、standard 通过底线响应 `--focus` 或 `:focus-within`。内部清除、密码切换和数字步进按钮保留自身键盘焦点指示。只读保留聚焦，禁用和错误的颜色优先级不变；不据此宣称错误态焦点可辨识性或原生可访问性已验收。
 
-焦点环颜色复用 `--{prefix}-field-focus-color`（system action-primary）；实例 `focus-color` 的已有自定义通道优先。线宽与外偏移复用 `--{prefix}-field-border-width`，没有新增变量或修改默认值。filled 的 fill1 → fill2 → fill3 规则保持原语义；错误背景不承担焦点指示职责。
+Input、Textarea、InputNumber 的实际原生控件使用 `caret-color: currentColor`，不再由 field-focus-color／field-error-color 染色。field-focus-color、field-error-color 和 field-border-width 仍有提示、边框或按钮 outline 消费，不能因移除 caret／外偏移路径而删除 Token。实例 focus-color 控制现有支持的变体／提示通道，不承诺改变 caret；没有新变量、默认值或业务 API 变更。
 
-样式通过 `:has(:focus-visible)` 关联外壳与内部控件，按现代浏览器支持基线验收；编译检查 `node bin/field-focus-check.mjs` 验证两端 Less 产物及禁用排除，不能替代真实键盘和视觉验收。
+检查 `node bin/field-focus-check.mjs` 与 `node --test bin/field-focus-caret.test.mjs` 核对实际 Less 产物、静态导入链、保留消费和三页生成目录；DOM 回归连接真实 Input／Textarea／InputNumber。Less／JSDOM 不替代原生键盘、焦点对比、绘制或浏览器验收。
 
 ## 声明归档与真实消费路径（2026-10-12）
 

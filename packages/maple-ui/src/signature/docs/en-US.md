@@ -1,5 +1,7 @@
 # Signature
 
+## Examples
+
 ### Intro
 
 Signature component based on `Canvas`.
@@ -19,6 +21,15 @@ You can customize the signature style through `stroke-style` and `line-width`. T
 ```demo
 ../example/demos/custom-style.vue
 ```
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

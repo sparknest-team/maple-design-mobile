@@ -12,20 +12,20 @@
 ../example/demos/basic.vue
 ```
 
-### 手风琴模式
-
-通过 `accordion` 开启手风琴模式，同时只能打开一个面板。手风琴模式下 `activeNames` 仍为数组，最多包含一项。
-
-```demo
-../example/demos/accordion.vue
-```
-
 ### 禁用
 
 通过 `disabled` 禁用面板。
 
 ```demo
 ../example/demos/disabled.vue
+```
+
+### 手风琴模式
+
+通过 `accordion` 开启手风琴模式，同时只能打开一个面板。手风琴模式下 `activeNames` 仍为数组，最多包含一项。
+
+```demo
+../example/demos/accordion.vue
 ```
 
 ### 嵌套面板
@@ -107,6 +107,15 @@
 ```demo
 ../example/demos/toggle-all.vue
 ```
+
+<!-- api-review:start -->
+### 功能调试
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

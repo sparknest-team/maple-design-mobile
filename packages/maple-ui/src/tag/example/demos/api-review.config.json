@@ -1,0 +1,164 @@
+{
+  "fields": [
+    {
+      "name": "status",
+      "description": "主题色，可选值 default primary secondary tertiary info success warning danger",
+      "type": "\"default\" | \"primary\" | \"secondary\" | \"tertiary\" | \"info\" | \"success\" | \"warning\" | \"danger\"",
+      "defaultValue": "'default'",
+      "kind": "enum",
+      "options": [
+        "default",
+        "primary",
+        "secondary",
+        "tertiary",
+        "info",
+        "success",
+        "warning",
+        "danger"
+      ],
+      "initial": "default"
+    },
+    {
+      "name": "variant",
+      "description": "变体，可选 default（实心） / outline（描边）",
+      "type": "'default' | 'outline'",
+      "defaultValue": "'default'",
+      "kind": "enum",
+      "options": [
+        "default",
+        "outline"
+      ],
+      "initial": "default"
+    },
+    {
+      "name": "size",
+      "description": "尺寸，可选值 xs sm md lg xl",
+      "type": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\"",
+      "defaultValue": "'md'",
+      "kind": "enum",
+      "options": [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl"
+      ],
+      "initial": "md"
+    },
+    {
+      "name": "round",
+      "description": "是否为圆角胶囊形",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "show",
+      "description": "是否可见（v-model）",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
+      "name": "default-show",
+      "description": "默认是否可见",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "loading",
+      "description": "是否为加载中状态",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "closable",
+      "description": "是否可关闭",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "checkable",
+      "description": "是否可点击选中",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "checked",
+      "description": "选中状态（checkable 时有效，v-model）",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
+      "name": "default-checked",
+      "description": "默认选中状态（checkable 时有效）",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "nowrap",
+      "description": "内容是否不换行（超出省略）",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "color",
+      "description": "自定义背景色（outline 时为边框色）",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "text-color",
+      "description": "自定义文字色",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string",
+      "initial": "#5268cc"
+    }
+  ],
+  "events": [
+    "update:show",
+    "update:checked",
+    "close",
+    "check"
+  ],
+  "scenarios": [
+    {
+      "name": "default",
+      "kind": "slot",
+      "demos": [
+        "checkable-tag.vue"
+      ]
+    },
+    {
+      "name": "icon",
+      "kind": "slot",
+      "demos": [
+        "icon-tag.vue"
+      ]
+    },
+    {
+      "name": "close-icon",
+      "kind": "slot",
+      "demos": []
+    }
+  ],
+  "slotNames": [
+    "icon",
+    "close-icon"
+  ],
+  "slotDefaults": {
+    "icon": false,
+    "close-icon": false
+  },
+  "methodNames": []
+}

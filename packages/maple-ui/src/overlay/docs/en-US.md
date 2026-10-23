@@ -1,5 +1,7 @@
 # Overlay
 
+## Examples
+
 ### Intro
 
 Create an overlay layer to emphasize specific page elements.
@@ -21,6 +23,15 @@ Create an overlay layer to emphasize specific page elements.
 ```demo
 ../example/demos/click-event.vue
 ```
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

@@ -1,12 +1,15 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
+import DemoApiReview from './demos/api-review.vue'
 import BasicDemo from './demos/basic.vue'
 import ClickEventDemo from './demos/click-event.vue'
+import CustomDemo from './demos/custom.vue'
 import IconAnimationDemo from './demos/icon-animation.vue'
 import IconColorDemo from './demos/icon-color.vue'
 import IconListDemo from './demos/icon-list.vue'
 import IconSizeDemo from './demos/icon-size.vue'
+import OrganizedLifecycle from './demos/lifecycle.vue'
 import RotateAndSpinDemo from './demos/rotate-and-spin.vue'
 
 const language = ref('zh-CN')
@@ -44,13 +47,23 @@ onThemeChange()
     <ClickEventDemo />
   </section>
 
+  <section data-demo="custom">
+    <app-type>{{ english ? 'Custom Icon' : '自定义图标' }}</app-type>
+    <CustomDemo />
+  </section>
+
   <section data-demo="icon-animation">
-    <app-type>{{ english ? 'Dynamic Name (Special Case)' : '动态名称（特殊场景，点击切换）' }}</app-type>
+    <app-type>{{ english ? 'Dynamic Name' : '动态名称' }}</app-type>
     <IconAnimationDemo />
   </section>
 
   <section data-demo="icon-list">
-    <app-type>{{ english ? 'Icon List (click copy)' : '图标列表 (点击复制)' }}</app-type>
+    <app-type>{{ english ? 'All Icons' : '全部图标' }}</app-type>
     <IconListDemo />
   </section>
+  <section data-demo="lifecycle">
+    <app-type>{{ english ? 'Name Changes and Lifecycle' : '名称切换与生命周期' }}</app-type>
+    <OrganizedLifecycle />
+  </section>
+  <section data-demo="api-review"><DemoApiReview /></section>
 </template>

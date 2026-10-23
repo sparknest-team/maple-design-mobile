@@ -37,13 +37,30 @@
 ### Nested rows and isolated gutters
 
 
-
 ```demo
 ../example/demos/nested.vue
 ```
 
-<!-- same-source-api:start -->
+### Layout and alignment
 
+Use this example for row. Adjust cross-axis alignment, main-axis distribution and compare the component with the same data. Keep the content unchanged while comparing the available settings.
+
+```demo
+../example/demos/layout-lab.vue
+```
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
+
+## API
+
+<!-- same-source-api:start -->
 ### Props
 
 | Prop | Description | Type | Default |
@@ -71,6 +88,8 @@
 | Method | Description |
 | --- | --- |
 <!-- same-source-api:end -->
+
+The wrap example toggles wrapping and plain `div` mode independently. Plain mode removes Row layout styles and child Col spacing; gutter controls distinguish horizontal spacing from vertical spacing. Row uses Flex, not CSS Grid.
 
 ## Responsive behavior and accessibility
 

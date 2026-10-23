@@ -4,7 +4,7 @@ import { flushPromises, mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test, vi } from 'vitest'
 import SplitButton from '..'
 import Button from '../../button'
-import DropdownMenu, { MenuOption } from '../../dropdown-menu'
+import Menu, { MenuOption } from '../../menu'
 
 const wrappers = []
 function render(props = {}, slots = {}) {
@@ -33,7 +33,7 @@ describe('SplitButton copied contract', () => {
         status,
       ]),
     ),
-  )('both segments inherit %s / %s without a separate icon-container palette', (variant, status) => {
+  )('both segments inherit %s / %s with a shared palette', (variant, status) => {
     const wrapper = render({ variant, status })
     const buttons = wrapper.findAll('button')
     expect(buttons).toHaveLength(2)
@@ -62,12 +62,12 @@ describe('SplitButton copied contract', () => {
   test('explicit trigger appearance remains configurable', () => {
     const wrapper = render({
       status: 'primary',
-      triggerButtonProps: { variant: 'outline', status: 'danger', iconContainer: true },
+      triggerButtonProps: { variant: 'outline', status: 'danger', round: true },
     })
     const arrow = wrapper.findAll('button')[1]
     expect(arrow.classes().some((name) => name.endsWith('--variant-outline'))).toBe(true)
     expect(arrow.classes().some((name) => name.endsWith('--status-danger'))).toBe(true)
-    expect(arrow.classes().some((name) => name.endsWith('--icon-container'))).toBe(true)
+    expect(arrow.classes().some((name) => name.endsWith('--round'))).toBe(true)
   })
 
   test('keep-open selection still emits feedback', async () => {
@@ -80,7 +80,7 @@ describe('SplitButton copied contract', () => {
     )
     await wrapper.findAll('button')[1].trigger('click')
     await new Promise((resolve) => setTimeout(resolve, 40))
-    document.querySelector('[data-dropdown-menu-item]').click()
+    document.querySelector('[data-menu-item]').click()
     await nextTick()
     expect(onSelect).toHaveBeenCalledTimes(1)
     expect(wrapper.findAll('button')[1].attributes('aria-expanded')).toBe('true')
@@ -142,7 +142,7 @@ describe('SplitButton copied contract', () => {
     expect(wrapper.text()).toContain('open:true')
     await new Promise((resolve) => setTimeout(resolve, 40))
     await nextTick()
-    const option = document.querySelector('[data-dropdown-menu-item]')
+    const option = document.querySelector('[data-menu-item]')
     expect(option).toBeTruthy()
     option.click()
     await nextTick()
@@ -163,7 +163,7 @@ describe('SplitButton copied contract', () => {
     expect(first.findAll('button')[1].attributes('aria-expanded')).toBe('true')
     expect(second.findAll('button')[1].attributes('aria-expanded')).toBe('false')
     first.vm.close()
-    const resize = vi.spyOn(first.findComponent(DropdownMenu).vm.$.exposed, 'resize')
+    const resize = vi.spyOn(first.findComponent(Menu).vm.$.exposed, 'resize')
     first.vm.resize()
     expect(resize).toHaveBeenCalledTimes(1)
     await nextTick()
@@ -198,7 +198,7 @@ describe('SplitButton copied contract', () => {
         expect(button.classes().some((name) => name.endsWith('--focus'))).toBe(false)
       }
       expect(wrapper.classes().some((name) => name.includes('elevation--'))).toBe(false)
-      expect(wrapper.findComponent(DropdownMenu).props('disabled')).toBe(true)
+      expect(wrapper.findComponent(Menu).props('disabled')).toBe(true)
       await wrapper.setProps({ disabled: false })
       for (const button of wrapper.findAll('button')) {
         expect(button.attributes('disabled')).toBeUndefined()
@@ -217,11 +217,11 @@ describe('SplitButton copied contract', () => {
     const buttons = wrapper.findAll('button')
     expect(buttons[0].attributes('disabled')).toBeUndefined()
     expect(buttons[1].attributes('disabled')).toBeDefined()
-    expect(wrapper.findComponent(DropdownMenu).props('disabled')).toBe(true)
+    expect(wrapper.findComponent(Menu).props('disabled')).toBe(true)
     await buttons[0].trigger('click')
     expect(onClick).toHaveBeenCalledTimes(1)
     wrapper.vm.open()
-    wrapper.findComponent(DropdownMenu).vm.open()
+    wrapper.findComponent(Menu).vm.open()
     await buttons[1].trigger('keydown', { key: 'ArrowDown' })
     await nextTick()
     expect(wrapper.emitted('update:open')).toBeUndefined()
@@ -237,7 +237,7 @@ describe('SplitButton copied contract', () => {
   test('disabled main action leaves menu available', async () => {
     const onClick = vi.fn()
     const wrapper = render({ buttonProps: { disabled: true }, onClick })
-    expect(wrapper.findComponent(DropdownMenu).props('disabled')).toBe(false)
+    expect(wrapper.findComponent(Menu).props('disabled')).toBe(false)
     await wrapper.findAll('button')[0].trigger('click')
     expect(onClick).not.toHaveBeenCalled()
     wrapper.vm.open()
@@ -253,7 +253,7 @@ describe('SplitButton copied contract', () => {
 
   test('forwards floating props and puts the default arrow in the icon slot', () => {
     const wrapper = render({ popupClass: 'custom-menu', offsetX: '12px', offsetY: -4, hideOnSelect: false })
-    expect(wrapper.findComponent(DropdownMenu).props()).toMatchObject({
+    expect(wrapper.findComponent(Menu).props()).toMatchObject({
       popupClass: 'custom-menu',
       offsetX: '12px',
       offsetY: -4,

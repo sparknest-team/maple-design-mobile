@@ -1,5 +1,7 @@
 # Table
 
+## Examples
+
 ### Intro
 
 A minimal table, when you need to display some data in the form of a table, you may use it.
@@ -12,6 +14,8 @@ A minimal table, when you need to display some data in the form of a table, you 
 
 ### Footer Slots
 
+The local synthetic-data examples bind current and pageSize separately with v-model:current and v-model:page-size. The change event supplies only the page number, not the old pair of page and size; do not hardcode current to 1. Page-size updates follow Pagination's item-position rule, and the two Table instances keep independent models.
+
 You can insert something in the tail slot, the most common is to insert a `Pagination`.
 
 ```demo
@@ -20,9 +24,20 @@ You can insert something in the tail slot, the most common is to insert a `Pagin
 
 ### Fixed Table Headers
 
+Scroll the Table's own body container to keep the header at its local top; footer pagination stays outside that scrolling body. Maple Table is a lightweight slot container, not Cedar Table's sorting, row-selection or remote-data API. Local pagination does not imply those features are implemented.
+
 ```demo
 ../example/demos/fixed-header.vue
 ```
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

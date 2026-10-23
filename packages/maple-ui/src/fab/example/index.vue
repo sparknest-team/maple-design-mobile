@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
+import DemoApiReview from './demos/api-review.vue'
 import BasicDemo from './demos/basic.vue'
 import ControlledDemo from './demos/controlled.vue'
 import CustomTriggerDemo from './demos/custom-trigger.vue'
@@ -23,13 +24,18 @@ onThemeChange()
 
 <template>
   <section data-demo="basic">
-    <app-type>{{ english ? 'Basic usage' : '基础用法' }}</app-type>
+    <app-type>{{ english ? 'Basic Usage' : '基础用法' }}</app-type>
     <BasicDemo />
   </section>
 
   <section data-demo="status">
     <app-type>{{ english ? 'Theme Color Button' : '主题色按钮' }}</app-type>
     <StatusDemo />
+  </section>
+
+  <section data-demo="disabled">
+    <app-type>{{ english ? 'Disabled' : '禁用' }}</app-type>
+    <DisabledDemo />
   </section>
 
   <section data-demo="position">
@@ -52,11 +58,6 @@ onThemeChange()
     <DragDemo />
   </section>
 
-  <section data-demo="disabled">
-    <app-type>{{ english ? 'Disabled' : '禁用' }}</app-type>
-    <DisabledDemo />
-  </section>
-
   <section data-demo="visibility">
     <app-type>{{ english ? 'Trigger Show/Hide' : '触发器显示/隐藏' }}</app-type>
     <VisibilityDemo />
@@ -68,7 +69,8 @@ onThemeChange()
   </section>
 
   <section data-demo="custom-trigger">
-    <app-type>{{ english ? 'Custom trigger' : '自定义触发器' }}</app-type>
+    <app-type>{{ english ? 'Custom Trigger' : '自定义触发器' }}</app-type>
     <CustomTriggerDemo />
   </section>
+  <section data-demo="api-review"><DemoApiReview /></section>
 </template>

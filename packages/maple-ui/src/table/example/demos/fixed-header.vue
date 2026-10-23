@@ -1,7 +1,9 @@
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 
-const list2 = ref(gen(1, 10))
+const current = ref(1)
+const pageSize = ref(10)
+const list2 = computed(() => gen(current.value, pageSize.value))
 function gen(current, size) {
   return Array.from({ length: size }).map((_, index) => {
     const id = (current - 1) * size + index + 1
@@ -12,9 +14,6 @@ function gen(current, size) {
       english: id,
     }
   })
-}
-function get2(current, size) {
-  list2.value = gen(current, size)
 }
 </script>
 
@@ -37,7 +36,13 @@ function get2(current, size) {
 
     <template #footer>
       <div class="footer">
-        <mp-pagination :current="1" :total="100" :page-size-options="[5, 10]" show-page-size @change="get2" />
+        <mp-pagination
+          v-model:current="current"
+          v-model:page-size="pageSize"
+          :total="100"
+          :page-size-options="[5, 10]"
+          show-page-size
+        />
       </div>
     </template>
   </mp-table>

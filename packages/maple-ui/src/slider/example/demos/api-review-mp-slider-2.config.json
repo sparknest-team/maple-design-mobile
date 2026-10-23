@@ -1,0 +1,234 @@
+{
+  "fields": [
+    {
+      "name": "model-value",
+      "description": "受控值；range 使用二元组",
+      "type": "SliderValue",
+      "defaultValue": "undefined",
+      "kind": "scenario"
+    },
+    {
+      "name": "default-value",
+      "description": "非受控初始值",
+      "type": "SliderValue",
+      "defaultValue": "0",
+      "kind": "scenario"
+    },
+    {
+      "name": "step",
+      "description": "正有限步长，非法值回退1，按min对齐；max端点可达",
+      "type": "number | string",
+      "defaultValue": "1",
+      "kind": "scalar"
+    },
+    {
+      "name": "range",
+      "description": "两个固定低/高端，不可交叉；初始倒序自动排序",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "orientation",
+      "description": "整体朝向，垂直需要父容器提供高度",
+      "type": "\"horizontal\" | \"vertical\"",
+      "defaultValue": "'horizontal'",
+      "kind": "enum",
+      "options": [
+        "horizontal",
+        "vertical"
+      ],
+      "initial": "horizontal"
+    },
+    {
+      "name": "show-ticks",
+      "description": "按step显示刻度，过密时省略，最多1000个",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "marks",
+      "description": "有限范围内位置到文本的映射",
+      "type": "Record<number,string>",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "show-input",
+      "description": "显示InputNumber；Enter或失焦提交，使用同一归一化规则",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "show-tooltip",
+      "description": "true悬浮/聚焦/拖动显示；false隐藏；always常驻",
+      "type": "boolean | 'always'",
+      "defaultValue": "true",
+      "kind": "scenario"
+    },
+    {
+      "name": "format-tooltip",
+      "description": "提示与aria-valuetext格式化",
+      "type": "(value:number)=>string|number",
+      "defaultValue": "undefined",
+      "kind": "scenario"
+    },
+    {
+      "name": "aria-label",
+      "description": "可访问名称；范围可分别传入两个名称",
+      "type": "string | [string,string]",
+      "defaultValue": "undefined",
+      "kind": "scenario"
+    },
+    {
+      "name": "presentation",
+      "type": "'inline' | 'popup'",
+      "defaultValue": "undefined",
+      "description": "字段编辑方式，字段 > FormItem > Form 继承；默认 inline。",
+      "kind": "enum",
+      "options": [
+        "inline",
+        "popup"
+      ],
+      "initial": "inline"
+    },
+    {
+      "name": "read-pretty",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "description": "纯阅读展示；字段 > FormItem > Form 继承，显式 false 覆盖父级。",
+      "kind": "boolean"
+    },
+    {
+      "name": "before-commit",
+      "type": "BeforeFieldCommit",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "callback"
+    },
+    {
+      "name": "open",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "boolean"
+    },
+    {
+      "name": "default-open",
+      "type": "boolean",
+      "defaultValue": "false",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "boolean"
+    },
+    {
+      "name": "popup-container",
+      "type": "string | HTMLElement | false",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "json",
+      "initial": "\"body\""
+    },
+    {
+      "name": "min",
+      "type": "string | number",
+      "defaultValue": "0",
+      "description": "最小值",
+      "kind": "scalar"
+    },
+    {
+      "name": "max",
+      "type": "string | number",
+      "defaultValue": "100",
+      "description": "最大值，max <= min 时不可交互",
+      "kind": "scalar"
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "description": "未传时继承表单禁用状态",
+      "kind": "boolean"
+    },
+    {
+      "name": "readonly",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "description": "未传时继承表单只读状态",
+      "kind": "boolean"
+    },
+    {
+      "name": "error",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "description": "未传时继承表单错误状态",
+      "kind": "boolean"
+    },
+    {
+      "name": "active-color",
+      "type": "string",
+      "defaultValue": "undefined",
+      "description": "已选轨道颜色",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "track-color",
+      "type": "string",
+      "defaultValue": "undefined",
+      "description": "背景轨道颜色",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "thumb-color",
+      "type": "string",
+      "defaultValue": "undefined",
+      "description": "拇指颜色",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "label-color",
+      "type": "string",
+      "defaultValue": "undefined",
+      "description": "提示背景颜色",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "label-text-color",
+      "type": "string",
+      "defaultValue": "undefined",
+      "description": "提示文字颜色",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "track-height",
+      "type": "string | number",
+      "defaultValue": "undefined",
+      "description": "轨道厚度，数字为 px",
+      "kind": "scalar"
+    },
+    {
+      "name": "thumb-size",
+      "type": "string | number",
+      "defaultValue": "undefined",
+      "description": "拇指直径，数字为 px",
+      "kind": "scalar"
+    }
+  ],
+  "methodNames": [],
+  "events": [
+    "update:modelValue",
+    "change",
+    "start",
+    "end"
+  ],
+  "slotNames": [],
+  "slotDefaults": {},
+  "scenarios": []
+}

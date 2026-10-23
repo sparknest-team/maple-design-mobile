@@ -30,17 +30,22 @@ test('localeProvider locale', async () => {
     },
     slots: {
       default: () =>
-        h('div', [h(Dialog, { open: true, popupContainer: container }), h(DatePicker, { modelValue: '2021-04-08' })]),
+        h('div', [
+          h(Dialog, { open: true, popupContainer: container }),
+          h(DatePicker, { modelValue: '2021-04-08', disableConfirm: false }),
+        ]),
     },
   })
   await nextTick()
   expect(container.innerHTML).toMatchSnapshot()
-  expect(wrapper.html()).toMatchSnapshot()
+  expect(wrapper.findAll('button').some((button) => button.text() === '确认')).toBe(true)
+  expect(wrapper.findAll('button').some((button) => button.text() === '此刻')).toBe(true)
   expect(container.innerHTML).contains('确认')
   expect(container.innerHTML).contains('取消')
   await wrapper.setProps({ locale: 'en-US' })
   expect(container.innerHTML).toMatchSnapshot()
-  expect(wrapper.html()).toMatchSnapshot()
+  expect(wrapper.findAll('button').some((button) => button.text() === 'Confirm')).toBe(true)
+  expect(wrapper.findAll('button').some((button) => button.text() === 'Now')).toBe(true)
   expect(container.innerHTML).contains('Confirm')
   expect(container.innerHTML).contains('Cancel')
 

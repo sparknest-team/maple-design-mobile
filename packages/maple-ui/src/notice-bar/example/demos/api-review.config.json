@@ -1,0 +1,111 @@
+{
+  "fields": [
+    {
+      "name": "text",
+      "description": "通知文本",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "type",
+      "description": "类型",
+      "type": "'info' | 'success' | 'warning' | 'danger'",
+      "defaultValue": "'warning'",
+      "kind": "enum",
+      "options": [
+        "info",
+        "success",
+        "warning",
+        "danger"
+      ],
+      "initial": "warning"
+    },
+    {
+      "name": "mode",
+      "description": "closeable 时显示关闭按钮",
+      "type": "'closeable' | undefined",
+      "defaultValue": "undefined",
+      "kind": "enum",
+      "options": [
+        "closeable"
+      ],
+      "initial": "closeable"
+    },
+    {
+      "name": "icon",
+      "description": "左侧图标名，空字符串隐藏",
+      "type": "string",
+      "defaultValue": "'info-circle'",
+      "kind": "string"
+    },
+    {
+      "name": "color",
+      "description": "文字颜色",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "background",
+      "description": "背景色",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "scrollable",
+      "description": "是否滚动",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "speed",
+      "description": "滚动速度（px/s）",
+      "type": "number | string",
+      "defaultValue": "50",
+      "kind": "scalar"
+    },
+    {
+      "name": "delay",
+      "description": "滚动开始前延迟（秒）",
+      "type": "number | string",
+      "defaultValue": "1",
+      "kind": "scalar"
+    }
+  ],
+  "events": [
+    "close",
+    "replay"
+  ],
+  "scenarios": [
+    {
+      "name": "default",
+      "kind": "slot",
+      "demos": []
+    },
+    {
+      "name": "icon",
+      "kind": "slot",
+      "demos": []
+    },
+    {
+      "name": "action",
+      "kind": "slot",
+      "demos": []
+    }
+  ],
+  "slotNames": [
+    "default",
+    "icon",
+    "action"
+  ],
+  "slotDefaults": {
+    "default": false,
+    "icon": false,
+    "action": false
+  },
+  "methodNames": []
+}

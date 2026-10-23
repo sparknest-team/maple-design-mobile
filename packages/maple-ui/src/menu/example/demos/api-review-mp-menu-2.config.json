@@ -1,0 +1,250 @@
+{
+  "fields": [
+    {
+      "name": "options",
+      "description": "命令树",
+      "type": "MenuOptionData[]",
+      "defaultValue": "() => []",
+      "kind": "json",
+      "initial": "[]"
+    },
+    {
+      "name": "field-names",
+      "description": "label/value/children/disabled 字段映射",
+      "type": "MenuFieldNames",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "model-value",
+      "description": "当前激活值",
+      "type": "MenuValue",
+      "defaultValue": "undefined",
+      "kind": "scenario"
+    },
+    {
+      "name": "open",
+      "description": "浮层是否可见",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
+      "name": "default-open",
+      "description": "非受控默认可见状态",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "size",
+      "description": "选项尺寸",
+      "type": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\"",
+      "defaultValue": "'md'",
+      "kind": "enum",
+      "options": [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl"
+      ],
+      "initial": "md"
+    },
+    {
+      "name": "trigger",
+      "description": "根菜单触发方式",
+      "type": "'click' | 'hover' | 'focus' | 'contextMenu'",
+      "defaultValue": "'click'",
+      "kind": "enum",
+      "options": [
+        "click",
+        "hover",
+        "focus",
+        "contextMenu"
+      ],
+      "initial": "click"
+    },
+    {
+      "name": "submenu-trigger",
+      "description": "各级子菜单的展开方式，对所有层级统一生效",
+      "type": "'click' | 'hover'",
+      "defaultValue": "'click' as MenuSubmenuTrigger",
+      "kind": "enum",
+      "options": [
+        "click",
+        "hover"
+      ],
+      "initial": "click"
+    },
+    {
+      "name": "placement",
+      "description": "弹出位置",
+      "type": "MenuPosition",
+      "defaultValue": "'bottom'",
+      "kind": "scenario"
+    },
+    {
+      "name": "strategy",
+      "description": "根菜单及全部子菜单的定位策略",
+      "type": "'absolute' | 'fixed'",
+      "defaultValue": "undefined",
+      "kind": "enum",
+      "options": [
+        "absolute",
+        "fixed"
+      ],
+      "initial": "absolute"
+    },
+    {
+      "name": "reference",
+      "description": "外部触发元素",
+      "type": "string | HTMLElement",
+      "defaultValue": "undefined",
+      "kind": "string",
+      "initial": "body"
+    },
+    {
+      "name": "popup-container",
+      "description": "浮层挂载容器",
+      "type": "string | HTMLElement | false",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "\"body\""
+    },
+    {
+      "name": "popup-class",
+      "description": "浮层类名",
+      "type": "string | array | object",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "popup-max-height",
+      "description": "默认限制、自定义像素高度或不限高",
+      "type": "boolean | number",
+      "defaultValue": "true",
+      "kind": "json",
+      "initial": "true"
+    },
+    {
+      "name": "offset-x",
+      "description": "水平偏移",
+      "type": "string | number",
+      "defaultValue": "0",
+      "kind": "scalar"
+    },
+    {
+      "name": "offset-y",
+      "description": "垂直偏移",
+      "type": "string | number",
+      "defaultValue": "0",
+      "kind": "scalar"
+    },
+    {
+      "name": "mouse-enter-delay",
+      "description": "悬停打开延迟（毫秒）",
+      "type": "number",
+      "defaultValue": "100",
+      "kind": "number"
+    },
+    {
+      "name": "mouse-leave-delay",
+      "description": "悬停关闭延迟（毫秒）",
+      "type": "number",
+      "defaultValue": "100",
+      "kind": "number"
+    },
+    {
+      "name": "close-on-click-reference",
+      "description": "再次点击触发元素时关闭",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "unmount-on-close",
+      "description": "关闭时卸载浮层内容",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "hide-on-select",
+      "description": "激活命令后关闭浮层",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "auto-fit-popup-width",
+      "description": "浮层宽度跟随触发元素",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "cover",
+      "description": "浮层覆盖触发元素",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "align-point",
+      "description": "浮层跟随鼠标位置",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "disabled",
+      "description": "禁用菜单",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "elevation",
+      "description": "浮层阴影层级",
+      "type": "boolean | number",
+      "defaultValue": "true",
+      "kind": "json",
+      "initial": "true"
+    }
+  ],
+  "methodNames": [
+    "open",
+    "close",
+    "resize",
+    "set-reference"
+  ],
+  "events": [
+    "update:modelValue",
+    "select",
+    "open-change",
+    "open",
+    "opened",
+    "close",
+    "closed",
+    "click-outside",
+    "key-escape"
+  ],
+  "slotNames": [
+    "content",
+    "footer",
+    "option-label",
+    "option-icon",
+    "option-extra"
+  ],
+  "slotDefaults": {
+    "content": true,
+    "footer": false,
+    "option-label": false,
+    "option-icon": false,
+    "option-extra": false
+  },
+  "scenarios": []
+}

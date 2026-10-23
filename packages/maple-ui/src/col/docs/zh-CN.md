@@ -31,13 +31,22 @@
 ### 响应式对象与隐藏恢复
 
 
-
 ```demo
 ../example/demos/responsive.vue
 ```
 
-<!-- same-source-api:start -->
+<!-- api-review:start -->
+### 功能调试
 
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
+
+## API
+
+<!-- same-source-api:start -->
 ### Props
 
 | 属性 | 说明 | Type | Default |
@@ -70,6 +79,8 @@
 | Method | Description |
 | --- | --- |
 <!-- same-source-api:end -->
+
+排序示例关闭倒序后，各列恢复 `order: 0`。响应式断点依据浏览器视口，而非 Demo 卡片宽度；仅加宽卡片不会触发断点。`span: 0` 隐藏列，匹配更大断点后可恢复。
 
 ## 响应式与可访问性
 

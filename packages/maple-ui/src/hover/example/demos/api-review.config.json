@@ -1,0 +1,46 @@
+{
+  "fields": [
+    {
+      "name": "device",
+      "type": "string",
+      "initial": "all",
+      "description": "指令参数：全部、桌面或移动 / Directive device argument",
+      "defaultValue": "all",
+      "kind": "enum",
+      "options": [
+        "all",
+        "desktop",
+        "mobile"
+      ]
+    },
+    {
+      "name": "enabled",
+      "type": "boolean",
+      "initial": true,
+      "description": "启用悬停样式 / Enable hover styles",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "color",
+      "type": "string",
+      "initial": "#ffffff",
+      "description": "悬停文字色 / Hover text color",
+      "defaultValue": "#ffffff",
+      "kind": "string"
+    },
+    {
+      "name": "background",
+      "type": "string",
+      "initial": "#5268cc",
+      "description": "悬停背景色 / Hover background",
+      "defaultValue": "#5268cc",
+      "kind": "string"
+    }
+  ],
+  "events": [],
+  "scenarios": [],
+  "slotNames": [],
+  "slotDefaults": {},
+  "methodNames": []
+}

@@ -1,7 +1,8 @@
-<script setup></script>
-
 <template>
-  <mp-cell icon="fire" title="这是单元格" description="描述">
+  <mp-cell title="这是单元格" description="描述">
+    <template #icon>
+      <m-icon-fire />
+    </template>
     <template #extra>
       <m-icon-info-circle-fill />
     </template>

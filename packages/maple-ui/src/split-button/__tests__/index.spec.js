@@ -2,7 +2,7 @@ import { createApp, h, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { expect, test, vi } from 'vitest'
 import SplitButton from '..'
-import MenuOption from '../../dropdown-menu/MenuOption.vue'
+import MenuOption from '../../menu/MenuOption.vue'
 
 test('split-button plugin', () => {
   const app = createApp({}).use(SplitButton)
@@ -32,7 +32,7 @@ test('trigger opens menu and forwards select', async () => {
   await nextTick()
   expect(wrapper.emitted('update:open')?.[0]).toEqual([true])
 
-  await wrapper.find('.mp-dropdown-menu-option').trigger('click')
+  await wrapper.find('.mp-menu-option').trigger('click')
   expect(onSelect).toHaveBeenCalled()
 })
 

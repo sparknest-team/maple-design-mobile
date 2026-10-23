@@ -1,4 +1,5 @@
 <script setup>
+import DemoApiReview from './demos/api-review.vue'
 import BasicDemo from './demos/basic.vue'
 import BeforeCloseDemo from './demos/before-close.vue'
 import BothSidesDemo from './demos/both-sides.vue'
@@ -16,4 +17,5 @@ import BothSidesDemo from './demos/both-sides.vue'
   <section data-demo="before-close">
     <BeforeCloseDemo />
   </section>
+  <section data-demo="api-review"><DemoApiReview /></section>
 </template>

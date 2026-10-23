@@ -1,0 +1,20 @@
+.mp-menu-group {
+  & + & {
+    margin-top: calc(2 * var(--mp-menu-padding-vertical));
+  }
+
+  &__title {
+    box-sizing: border-box;
+    padding: var(--mp-menu-group-title-padding);
+    color: var(--mp-menu-group-title-text-color);
+    font-size: var(--mp-menu-group-title-font-size);
+    line-height: var(--mp-menu-group-title-height);
+    cursor: default;
+  }
+
+  &__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+}

@@ -7,8 +7,8 @@ const readonly = ref(false)
 </script>
 <template>
   <div class="number-demo">
-    <label><input v-model="disabled" type="checkbox" />表单禁用</label>
-    <label><input v-model="readonly" type="checkbox" />表单只读</label>
+    <mp-checkbox v-model="disabled">表单禁用</mp-checkbox>
+    <mp-checkbox v-model="readonly">表单只读</mp-checkbox>
     <mp-form :model="model" :disabled="disabled" :readonly="readonly" size="lg">
       <mp-form-item field="quantity" label="继承状态">
         <mp-input-number v-model="model.quantity" clearable />

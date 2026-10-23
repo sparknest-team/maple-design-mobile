@@ -44,13 +44,19 @@ function runAction(action) {
   <div class="fab-demo-stage">
     <p>点击悬浮按钮展开或收起，点击动作按钮查看提示。下方参数实时生效。</p>
     <mp-fab v-model:active="active" :fixed="false" :popup-container="false" status="primary">
-      <mp-button status="info" icon-container aria-label="查看用户" @click="runAction('profile')">
+      <mp-button status="info" variant="tonal" :elevation="false" aria-label="查看用户" @click="runAction('profile')">
         <template #icon><m-icon-user-circle-fill /></template>
       </mp-button>
-      <mp-button status="success" icon-container aria-label="标记完成" @click="runAction('complete')">
+      <mp-button
+        status="success"
+        variant="tonal"
+        :elevation="false"
+        aria-label="标记完成"
+        @click="runAction('complete')"
+      >
         <template #icon><m-icon-checkbox-marked-circle-fill /></template>
       </mp-button>
-      <mp-button status="warning" icon-container aria-label="发送提醒" @click="runAction('notify')">
+      <mp-button status="warning" variant="tonal" :elevation="false" aria-label="发送提醒" @click="runAction('notify')">
         <template #icon><m-icon-bell-fill /></template>
       </mp-button>
     </mp-fab>

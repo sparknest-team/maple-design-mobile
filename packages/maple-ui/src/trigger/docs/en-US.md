@@ -12,9 +12,11 @@ mouse-enter-delay / mouse-leave-delay are interaction delays, separate from CSS 
 
 Clicking another independent reference closes the previous top layer before opening the new one. Nested popups remain inside their parent. Controlled open state only receives a close request; the owner may reject it.
 
+## Examples
+
 ### Introduction
 
-A style-agnostic floating-layer primitive for interaction, positioning, teleporting, stacking and open state. Prefer Tooltip, Popover or DropdownMenu for end-user features; use Trigger directly when building another floating component.
+A style-agnostic floating-layer primitive for interaction, positioning, teleporting, stacking and open state. Prefer Tooltip, Popover or Menu for end-user features; use Trigger directly when building another floating component.
 
 ### Basic usage
 
@@ -32,9 +34,20 @@ A style-agnostic floating-layer primitive for interaction, positioning, teleport
 
 `popup-offset` moves outward on the placement main axis. `popup-translate` adds a screen-axis x/y translation.
 
+The demo accepts requests through `v-model:open` and displays the parent's value. External controls update that value; Enter/Space activates the native trigger button, while Escape and outside clicks request closing. It does not demonstrate rejected controlled requests. Trigger is listed in the component menu so its right-side preview shows these demos instead of the home page.
+
 ```demo
 ../example/demos/controlled.vue
 ```
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

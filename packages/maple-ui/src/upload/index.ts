@@ -1,6 +1,6 @@
 import { withInstall, withPropsDefaultsSetter } from '../utils/components'
+import Upload from './presentation'
 import { uploadProps } from './props'
-import Upload from './Upload.vue'
 
 withInstall(Upload)
 withPropsDefaultsSetter(Upload, uploadProps)

@@ -1,0 +1,215 @@
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const sizes = ['xs', 'sm', 'md', 'lg', 'xl'] as const
+const variants = ['outline', 'filled', 'standard'] as const
+const size = ref<(typeof sizes)[number]>('md')
+const variant = ref<(typeof variants)[number]>('outline')
+const options = [
+  { value: 'beijing', label: 'Beijing' },
+  { value: 'shanghai', label: 'Shanghai' },
+]
+const cascaderOptions = [{ value: 'china', label: 'China', children: options }]
+
+const inputValue = ref('Beijing')
+const selectValue = ref('beijing')
+const cascaderValue = ref('beijing')
+const selectMultiple = ref(['beijing', 'shanghai'])
+const cascaderMultiple = ref(['beijing', 'shanghai'])
+const selectOverflow = ref(['long', 'beijing', 'shanghai'])
+const cascaderOverflow = ref(['long', 'beijing', 'shanghai'])
+const selectedOptions = [
+  ...options,
+  {
+    value: 'long',
+    label:
+      'A very long selected option label for overflow comparison — full text preview keeps the selected value unchanged.',
+  },
+]
+const selectedCascaderOptions = [{ value: 'china', label: 'China', children: selectedOptions }]
+function resetSelections() {
+  inputValue.value = 'Beijing'
+  selectValue.value = 'beijing'
+  cascaderValue.value = 'beijing'
+  selectMultiple.value = ['beijing', 'shanghai']
+  cascaderMultiple.value = ['beijing', 'shanghai']
+  selectOverflow.value = ['long', 'beijing', 'shanghai']
+  cascaderOverflow.value = ['long', 'beijing', 'shanghai']
+}
+</script>
+<template>
+  <section aria-label="Form control size comparison" class="control-size-comparison">
+    <mp-space wrap :size="12">
+      <mp-radio-group v-model="size" aria-label="Comparison size">
+        <mp-radio v-for="item in sizes" :key="item" :value="item">{{ item }}</mp-radio>
+      </mp-radio-group>
+      <mp-radio-group v-model="variant" aria-label="Comparison variant">
+        <mp-radio v-for="item in variants" :key="item" :value="item">{{ item }}</mp-radio>
+      </mp-radio-group>
+    </mp-space>
+    <div class="control-size-comparison__grid">
+      <div data-control="Input">
+        <p>Input</p>
+        <mp-input :size="size" :variant="variant" placeholder="Input" />
+      </div>
+      <div data-control="Button">
+        <p>Button</p>
+        <mp-button :size="size" variant="outline">Button</mp-button>
+      </div>
+      <div data-control="Select">
+        <p>Select</p>
+        <mp-select :size="size" :variant="variant" :options="options" placeholder="Select" />
+      </div>
+      <div data-control="Date">
+        <p>Date</p>
+        <mp-date :size="size" :variant="variant" placeholder="Date" />
+      </div>
+      <div data-control="Time">
+        <p>Time</p>
+        <mp-time :size="size" :variant="variant" placeholder="Time" />
+      </div>
+      <div data-control="InputNumber">
+        <p>InputNumber</p>
+        <mp-input-number :size="size" :variant="variant" placeholder="Number" />
+      </div>
+      <div data-control="AutoComplete">
+        <p>AutoComplete</p>
+        <mp-auto-complete :size="size" :variant="variant" :options="options" placeholder="AutoComplete" />
+      </div>
+      <div data-control="Cascader">
+        <p>Cascader</p>
+        <mp-cascader :size="size" :variant="variant" :options="cascaderOptions" placeholder="Cascader" />
+      </div>
+      <div data-control="DateRange">
+        <p>DateRange</p>
+        <mp-date-range :size="size" :variant="variant" :placeholder="['Start', 'End']" />
+      </div>
+      <div data-control="TimeRange">
+        <p>TimeRange</p>
+        <mp-time-range :size="size" :variant="variant" :placeholder="['Start', 'End']" />
+      </div>
+    </div>
+
+    <section aria-label="Selected control size comparison" class="control-size-comparison__states">
+      <mp-space wrap align="center" :size="12">
+        <span>Selected / Clearable / Multiple — 有值、可清空与多选不换行</span>
+        <span
+          >Hover or focus truncated text; tap on touch screens /
+          悬停或聚焦省略正文查看全文；触屏点按查看，点外部关闭</span
+        >
+        <mp-button size="sm" variant="outline" @click="resetSelections">Reset / 恢复选中值</mp-button>
+      </mp-space>
+      <div class="control-size-comparison__grid">
+        <div data-control="InputValue">
+          <p>Input · clearable</p>
+          <mp-input v-model="inputValue" :size="size" :variant="variant" clearable placeholder="Input value" />
+        </div>
+        <div data-control="ButtonReference">
+          <p>Button · reference</p>
+          <mp-button :size="size" variant="outline">Button</mp-button>
+        </div>
+        <div data-control="SelectValue">
+          <p>Select · clearable</p>
+          <mp-select
+            v-model="selectValue"
+            :size="size"
+            :variant="variant"
+            :options="selectedOptions"
+            clearable
+            placeholder="Select value"
+          />
+        </div>
+        <div data-control="CascaderValue">
+          <p>Cascader · clearable</p>
+          <mp-cascader
+            v-model="cascaderValue"
+            :size="size"
+            :variant="variant"
+            :options="selectedCascaderOptions"
+            clearable
+            placeholder="Cascader value"
+          />
+        </div>
+        <div data-control="SelectMultiple">
+          <p>Select · multiple / nowrap</p>
+          <mp-select
+            v-model="selectMultiple"
+            :size="size"
+            :variant="variant"
+            :options="selectedOptions"
+            multiple
+            tag-nowrap
+            clearable
+            placeholder="Select multiple"
+          />
+        </div>
+        <div data-control="CascaderMultiple">
+          <p>Cascader · multiple / nowrap</p>
+          <mp-cascader
+            v-model="cascaderMultiple"
+            :size="size"
+            :variant="variant"
+            :options="selectedCascaderOptions"
+            multiple
+            tag-nowrap
+            clearable
+            placeholder="Cascader multiple"
+          />
+        </div>
+        <div data-control="SelectOverflow">
+          <p>Select · long values / nowrap</p>
+          <mp-select
+            v-model="selectOverflow"
+            presentation="inline"
+            :size="size"
+            :variant="variant"
+            :options="selectedOptions"
+            multiple
+            tag-nowrap
+            clearable
+            placeholder="Select long values"
+          />
+        </div>
+        <div data-control="CascaderOverflow">
+          <p>Cascader · long values / nowrap</p>
+          <mp-cascader
+            v-model="cascaderOverflow"
+            presentation="inline"
+            :size="size"
+            :variant="variant"
+            :options="selectedCascaderOptions"
+            multiple
+            tag-nowrap
+            clearable
+            placeholder="Cascader long values"
+          />
+        </div>
+      </div>
+    </section>
+  </section>
+</template>
+<style scoped>
+.control-size-comparison,
+.control-size-comparison__states {
+  display: grid;
+  gap: 24px;
+}
+.control-size-comparison__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  align-items: start;
+  gap: 24px 16px;
+}
+.control-size-comparison__grid > div {
+  min-width: 0;
+}
+.control-size-comparison__grid p {
+  margin: 0 0 12px;
+  font-size: 14px;
+  line-height: 20px;
+}
+.control-size-comparison__grid :deep(.mp-input-number),
+.control-size-comparison__grid :deep(.mp-auto-complete) {
+  width: 100%;
+}
+</style>

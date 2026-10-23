@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
+import DemoApiReview from './demos/api-review.vue'
 import BasicUsageDemo from './demos/basic-usage.vue'
 import FixedHeaderDemo from './demos/fixed-header.vue'
 import SlotDemo from './demos/slot.vue'
@@ -26,7 +27,8 @@ onThemeChange()
   </section>
 
   <section data-demo="fixed-header">
-    <app-type>{{ english ? 'Fixed Table Header' : '固定表头' }}</app-type>
+    <app-type>{{ english ? 'Fixed Table Headers' : '固定表头' }}</app-type>
     <FixedHeaderDemo />
   </section>
+  <section data-demo="api-review"><DemoApiReview /></section>
 </template>

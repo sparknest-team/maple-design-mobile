@@ -1,387 +1,129 @@
 .mp-button {
   position: relative;
+  display: inline-flex;
+  box-sizing: border-box;
   justify-content: center;
   align-items: center;
+  gap: var(--mp-button-content-gap);
   outline: none;
   border: none;
   border-radius: var(--mp-button-border-radius);
   user-select: none;
   cursor: pointer;
   font-family: inherit;
-  transition:
-    box-shadow var(--mp-button-transition-duration),
-    background-color var(--mp-button-transition-duration),
-    border-radius var(--mp-button-transition-duration);
-  will-change: box-shadow;
-  -webkit-tap-highlight-color: transparent;
+  line-height: 1.2;
+  text-decoration: none;
   white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    box-shadow var(--mp-sys-motion-duration-standard),
+    background-color var(--mp-sys-motion-duration-standard),
+    border-radius var(--mp-sys-motion-duration-standard);
 
   &__content {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-  }
-
-  // === variant=default × status: filled ===
-  &--variant-default {
-    &.mp-button--status-default {
-      color: var(--mp-button-default-text-color);
-      background-color: var(--mp-button-default-color);
-    }
-
-    &.mp-button--status-primary {
-      color: var(--mp-button-primary-text-color);
-      background-color: var(--mp-button-primary-color);
-    }
-
-    &.mp-button--status-info {
-      color: var(--mp-button-info-text-color);
-      background-color: var(--mp-button-info-color);
-    }
-
-    &.mp-button--status-success {
-      color: var(--mp-button-success-text-color);
-      background-color: var(--mp-button-success-color);
-    }
-
-    &.mp-button--status-warning {
-      color: var(--mp-button-warning-text-color);
-      background-color: var(--mp-button-warning-color);
-    }
-
-    &.mp-button--status-danger {
-      color: var(--mp-button-danger-text-color);
-      background-color: var(--mp-button-danger-color);
-    }
-
-    &.mp-button--status-secondary {
-      color: var(--mp-button-secondary-text-color);
-      background-color: var(--mp-button-secondary-color);
-    }
-
-    &.mp-button--status-tertiary {
-      color: var(--mp-button-tertiary-text-color);
-      background-color: var(--mp-button-tertiary-color);
-    }
-  }
-
-  // === variant=text: 透明背景 + status 取色 ===
-  &--variant-text {
-    background-color: transparent;
-
-    &:active {
-      box-shadow: none;
-    }
-
-    &.mp-button--status-default {
-      color: var(--mp-button-default-icon-color);
-    }
-    &.mp-button--status-primary {
-      color: var(--mp-button-primary-icon-color);
-    }
-    &.mp-button--status-info {
-      color: var(--mp-button-info-icon-color);
-    }
-    &.mp-button--status-success {
-      color: var(--mp-button-success-icon-color);
-    }
-    &.mp-button--status-warning {
-      color: var(--mp-button-warning-icon-color);
-    }
-    &.mp-button--status-danger {
-      color: var(--mp-button-danger-icon-color);
-    }
-    &.mp-button--status-secondary {
-      color: var(--mp-button-secondary-icon-color);
-    }
-    &.mp-button--status-tertiary {
-      color: var(--mp-button-tertiary-icon-color);
-    }
-  }
-
-  // === variant=outline: 描边 + status 取色 ===
-  &--variant-outline {
-    background-color: transparent;
-    border: thin solid currentColor;
-
-    &.mp-button--status-default {
-      color: var(--mp-button-default-icon-color);
-    }
-    &.mp-button--status-primary {
-      color: var(--mp-button-primary-icon-color);
-    }
-    &.mp-button--status-info {
-      color: var(--mp-button-info-icon-color);
-    }
-    &.mp-button--status-success {
-      color: var(--mp-button-success-icon-color);
-    }
-    &.mp-button--status-warning {
-      color: var(--mp-button-warning-icon-color);
-    }
-    &.mp-button--status-danger {
-      color: var(--mp-button-danger-icon-color);
-    }
-    &.mp-button--status-secondary {
-      color: var(--mp-button-secondary-icon-color);
-    }
-    &.mp-button--status-tertiary {
-      color: var(--mp-button-tertiary-icon-color);
-    }
-  }
-
-  // === variant=tonal: 浅色填充 ===
-  &--variant-tonal {
-    &.mp-button--status-default {
-      color: var(--mp-button-default-icon-color);
-      background-color: var(--mp-button-default-icon-container-color);
-    }
-    &.mp-button--status-primary {
-      color: var(--mp-button-primary-icon-color);
-      background-color: var(--mp-button-primary-icon-container-color);
-    }
-    &.mp-button--status-info {
-      color: var(--mp-button-info-icon-color);
-      background-color: var(--mp-button-info-icon-container-color);
-    }
-    &.mp-button--status-success {
-      color: var(--mp-button-success-icon-color);
-      background-color: var(--mp-button-success-icon-container-color);
-    }
-    &.mp-button--status-warning {
-      color: var(--mp-button-warning-icon-color);
-      background-color: var(--mp-button-warning-icon-container-color);
-    }
-    &.mp-button--status-danger {
-      color: var(--mp-button-danger-icon-color);
-      background-color: var(--mp-button-danger-icon-container-color);
-    }
-    &.mp-button--status-secondary {
-      color: var(--mp-button-secondary-icon-color);
-      background-color: var(--mp-button-secondary-icon-container-color);
-    }
-    &.mp-button--status-tertiary {
-      color: var(--mp-button-tertiary-icon-color);
-      background-color: var(--mp-button-tertiary-icon-container-color);
-    }
-  }
-
-  // === icon-container 单色块按钮 ===
-  &&--icon-container-default {
-    color: var(--mp-button-default-icon-color);
-    background-color: var(--mp-button-default-icon-container-color);
-  }
-  &&--icon-container-primary {
-    color: var(--mp-button-primary-icon-color);
-    background-color: var(--mp-button-primary-icon-container-color);
-  }
-  &&--icon-container-info {
-    color: var(--mp-button-info-icon-color);
-    background-color: var(--mp-button-info-icon-container-color);
-  }
-  &&--icon-container-success {
-    color: var(--mp-button-success-icon-color);
-    background-color: var(--mp-button-success-icon-container-color);
-  }
-  &&--icon-container-warning {
-    color: var(--mp-button-warning-icon-color);
-    background-color: var(--mp-button-warning-icon-container-color);
-  }
-  &&--icon-container-danger {
-    color: var(--mp-button-danger-icon-color);
-    background-color: var(--mp-button-danger-icon-container-color);
-  }
-
-  // === sizes ===
-  &--size-md {
-    height: var(--mp-button-normal-height);
-    padding: var(--mp-button-normal-padding);
-    font-size: var(--mp-button-normal-font-size);
-  }
-  &--size-lg {
-    height: var(--mp-button-large-height);
-    padding: var(--mp-button-large-padding);
-    font-size: var(--mp-button-large-font-size);
-  }
-  &--size-sm {
-    height: var(--mp-button-small-height);
-    padding: var(--mp-button-small-padding);
-    font-size: var(--mp-button-small-font-size);
-  }
-  &--size-xs {
-    height: var(--mp-button-mini-height);
-    padding: var(--mp-button-mini-padding);
-    font-size: var(--mp-button-mini-font-size);
-  }
-  &--size-xl {
-    height: var(--mp-button-xl-height);
-    padding: var(--mp-button-xl-padding);
-    font-size: var(--mp-button-xl-font-size);
-  }
-
-  &--round {
-    padding: var(--mp-button-round-padding);
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-
-  &--block {
-    width: 100%;
-  }
-
-  &--loading {
-    cursor: default;
-  }
-
-  &--hidden {
-    opacity: 0;
-  }
-
-  &--disabled {
-    cursor: not-allowed;
-    box-shadow: none !important;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .mp-button {
-    transition: none;
-  }
-}
-
-// Interaction, layout and loading contract shared by both libraries.
-.mp-button {
-  display: inline-flex;
-  box-sizing: border-box;
-  text-decoration: none;
-  gap: var(--mp-button-content-gap);
-  line-height: var(--mp-button-line-height);
-  &--stacked {
-    flex-direction: column;
-    gap: var(--mp-button-stacked-gap);
-    border-radius: var(--mp-button-stacked-border-radius);
-    padding-block: var(--mp-button-stacked-padding);
-  }
-  &--focus:not(.mp-button--disabled):not(.mp-button--loading):focus-visible {
-    outline: var(--mp-button-focus-width) solid var(--mp-button-focus-color);
-    outline-offset: var(--mp-button-focus-offset);
+    line-height: 1;
   }
   &--icon {
     position: relative;
     flex-shrink: 0;
     display: inline-flex;
     align-items: center;
-  }
-  &--icon-container {
-    padding: var(--mp-button-icon-container-padding);
-  }
-  &&--icon-container-secondary {
-    color: var(--mp-button-secondary-icon-color);
-    background-color: var(--mp-button-secondary-icon-container-color);
-  }
-  &&--icon-container-tertiary {
-    color: var(--mp-button-tertiary-icon-color);
-    background-color: var(--mp-button-tertiary-icon-container-color);
-  }
-  &__loading {
-    display: inline-flex;
-    align-items: center;
     justify-content: center;
-    pointer-events: none;
-  }
-  &--loading-fill > &__loading {
-    position: absolute;
-    inset: 0;
-  }
-  &--loading-line > &__loading {
-    position: absolute;
-    inset: auto 0 0;
-    height: var(--mp-button-loading-line-height);
-    overflow: hidden;
-    border-radius: inherit;
-  }
-  &__loading-line {
-    width: var(--mp-button-loading-line-width);
-    height: 100%;
-    background: currentColor;
-    animation: mp-button-loading-line var(--mp-button-loading-duration) linear infinite;
-  }
-  @media (prefers-reduced-motion: reduce) {
-    &__loading-line {
-      animation: none;
-      width: 100%;
-      opacity: var(--mp-button-loading-static-opacity);
-    }
-  }
-}
-@keyframes mp-button-loading-line {
-  from {
-    transform: translateX(-100%);
-  }
-  to {
-    transform: translateX(300%);
-  }
-}
-
-// Shape dimensions follow the selected size; empty text must not stretch icons.
-.mp-button {
-  .shape-size(@size, @name) {
-    &--size-@{size}&--round {
-      width: var(~'--mp-button-@{name}-height');
-      height: var(~'--mp-button-@{name}-height');
-      min-width: var(~'--mp-button-@{name}-height');
-      padding: 0;
-    }
-    &--size-@{size}&--stacked:not(&--round) {
-      height: var(~'--mp-button-@{name}-stacked-height');
-      min-width: var(~'--mp-button-@{name}-stacked-height');
-    }
-  }
-  .shape-size(xs, mini);
-  .shape-size(sm, small);
-  .shape-size(md, normal);
-  .shape-size(lg, large);
-  .shape-size(xl, xl);
-  &--icon > &__loading {
-    position: absolute;
-    inset: 0;
-  }
-  &--loading-default > &--icon > :not(&__loading) {
-    visibility: hidden;
-  }
-  &__content {
     line-height: 1;
   }
-}
+  &--block {
+    width: 100%;
+  }
+  &--round {
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  &--stacked {
+    flex-direction: column;
+    gap: var(--mp-button-stacked-gap);
+  }
+  &--loading {
+    cursor: default;
+  }
+  &--hidden {
+    opacity: 0;
+  }
 
-// State layer is behind content; active wins hover, blocked states suppress both.
-.mp-button {
+  .size(@size, @font, @stack-min-height) {
+    &--size-@{size} {
+      height: var(~'--mp-button-@{size}-height');
+      padding: var(~'--mp-button-@{size}-padding');
+      font-size: var(~'--mp-@{font}');
+    }
+    // Minimum padding stays intact when icons or labels need more height.
+    &--size-@{size}&--stacked:not(&--round):not(&--icon-only) {
+      height: auto;
+      padding-block: var(--mp-sys-space-4);
+      min-height: ~'max(@{stack-min-height}, calc(2em + var(--mp-button-stacked-gap) + 2 * var(--mp-sys-space-4)))';
+      min-width: ~'max(@{stack-min-height}, calc(2em + var(--mp-button-stacked-gap) + 2 * var(--mp-sys-space-4)))';
+    }
+    &--size-@{size}&--round,
+    &--size-@{size}&--icon-only {
+      width: var(~'--mp-button-@{size}-height');
+      min-width: var(~'--mp-button-@{size}-height');
+      padding: 0;
+    }
+  }
+  .size(xs, @button-font-size-xs, 44px);
+  .size(sm, @button-font-size-sm, 48px);
+  .size(md, @button-font-size-md, 56px);
+  .size(lg, @button-font-size-lg, 64px);
+  .size(xl, @button-font-size-xl, 72px);
+
+  &--variant-text,
+  &--variant-outline {
+    background-color: transparent;
+  }
+  &--variant-outline {
+    border: thin solid currentColor;
+  }
+  .palette(@status, @solid-text, @solid-layer) {
+    &--status-@{status} {
+      &.mp-button--variant-default {
+        color: var(~'--mp-button-@{solid-text}');
+        background-color: var(~'--mp-button-@{status}-color');
+        --mp-internal-button-state-layer-color: var(~'--mp-button-@{solid-layer}');
+      }
+      &.mp-button--variant-text,
+      &.mp-button--variant-outline,
+      &.mp-button--variant-tonal {
+        color: var(~'--mp-button-@{status}-foreground-color');
+      }
+      &.mp-button--variant-tonal {
+        background-color: var(~'--mp-button-@{status}-tonal-color');
+      }
+      &.mp-button--variant-text,
+      &.mp-button--variant-outline {
+        --mp-internal-button-state-layer-color: var(~'--mp-button-@{status}-tonal-color');
+      }
+    }
+  }
+  .palette(default, default-foreground-color, default-foreground-color);
+  .palette(primary, solid-text-color, primary-state-layer-color);
+  .palette(info, solid-text-color, solid-state-layer-color);
+  .palette(success, solid-text-color, solid-state-layer-color);
+  .palette(warning, solid-text-color, solid-state-layer-color);
+  .palette(danger, solid-text-color, solid-state-layer-color);
+  .palette(secondary, solid-text-color, solid-state-layer-color);
+  .palette(tertiary, tertiary-text-color, tertiary-state-layer-color);
+
   --mp-internal-button-state-layer-color: var(--mp-button-state-layer-color);
-  isolation: isolate;
   --mp-internal-button-state-opacity-hover: var(--mp-button-state-opacity-hover);
   --mp-internal-button-state-opacity-active: var(--mp-button-state-opacity-active);
+  isolation: isolate;
   &--variant-text,
   &--variant-outline {
     --mp-internal-button-state-opacity-hover: var(--mp-button-plain-state-opacity-hover);
     --mp-internal-button-state-opacity-active: var(--mp-button-plain-state-opacity-active);
   }
-  .solid-state(@status) {
-    &--variant-text&--status-@{status},
-    &--variant-outline&--status-@{status} {
-      --mp-internal-button-state-layer-color: var(~'--mp-button-@{status}-icon-container-color');
-    }
-    &--variant-default&--status-@{status}:not(&--icon-container) {
-      --mp-internal-button-state-layer-color: var(~'--mp-button-@{status}-state-layer-color');
-    }
-  }
-  .solid-state(default);
-  .solid-state(primary);
-  .solid-state(info);
-  .solid-state(success);
-  .solid-state(warning);
-  .solid-state(danger);
-  .solid-state(secondary);
-  .solid-state(tertiary);
   > .mp-hover-overlay {
     z-index: -1;
     background-color: var(--mp-internal-button-state-layer-color);
@@ -393,39 +135,97 @@
   &:not(&--disabled):not(&--loading):active > .mp-hover-overlay {
     opacity: var(--mp-internal-button-state-opacity-active);
   }
+  &--focus:not(&--disabled):not(&--loading):focus-visible {
+    outline: var(--mp-sys-space-1) solid var(--mp-button-focus-color);
+    outline-offset: var(--mp-sys-space-1);
+  }
   &&--disabled {
     color: var(--mp-button-disabled-text-color);
     background-color: var(--mp-button-disabled-color);
+    cursor: not-allowed;
+    box-shadow: none !important;
     &.mp-button--variant-text,
     &.mp-button--variant-outline {
       background-color: transparent;
     }
+    .disabled-tonal(@status) {
+      &.mp-button--status-@{status}.mp-button--variant-tonal {
+        background-color: var(~'--mp-button-@{status}-tonal-color');
+      }
+    }
+    .disabled-tonal(default);
+    .disabled-tonal(primary);
+    .disabled-tonal(info);
+    .disabled-tonal(success);
+    .disabled-tonal(warning);
+    .disabled-tonal(danger);
+    .disabled-tonal(secondary);
+    .disabled-tonal(tertiary);
     .semantic-disabled(@status) {
       &.mp-button--status-@{status} {
         color: var(~'--mp-button-@{status}-disabled-color');
-        &.mp-button--variant-default:not(.mp-button--icon-container) {
+        &.mp-button--variant-default {
           color: var(--mp-button-disabled-solid-text-color);
           background-color: var(~'--mp-button-@{status}-disabled-color');
         }
-        &.mp-button--variant-tonal,
-        &.mp-button--variant-default.mp-button--icon-container {
-          background-color: var(~'--mp-button-@{status}-icon-container-color');
-        }
       }
     }
-    .neutral-disabled(@status) {
-      &.mp-button--status-@{status}.mp-button--variant-tonal,
-      &.mp-button--status-@{status}.mp-button--variant-default.mp-button--icon-container {
-        background-color: var(~'--mp-button-@{status}-icon-container-color');
-      }
-    }
-    .neutral-disabled(default);
-    .neutral-disabled(secondary);
-    .neutral-disabled(tertiary);
     .semantic-disabled(primary);
     .semantic-disabled(info);
     .semantic-disabled(success);
     .semantic-disabled(warning);
     .semantic-disabled(danger);
+  }
+
+  &__loading {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
+  &__loading > .mp-loading {
+    display: flex;
+  }
+  &--loading-fill > &__loading {
+    position: absolute;
+    inset: 0;
+  }
+  &--icon > &__loading {
+    position: absolute;
+    inset: 0;
+  }
+  &--loading-default > &--icon > :not(&__loading) {
+    visibility: hidden;
+  }
+  &--loading-line > &__loading {
+    position: absolute;
+    inset: auto 0 0;
+    height: var(--mp-button-loading-line-height);
+    overflow: hidden;
+    border-radius: inherit;
+  }
+  &__loading-line {
+    width: 40%;
+    height: 100%;
+    background: currentColor;
+    animation: mp-button-loading-line var(--mp-button-loading-duration) linear infinite;
+  }
+}
+@keyframes mp-button-loading-line {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(300%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mp-button {
+    transition: none;
+    &__loading-line {
+      animation: none;
+      width: 100%;
+      opacity: 0.5;
+    }
   }
 }

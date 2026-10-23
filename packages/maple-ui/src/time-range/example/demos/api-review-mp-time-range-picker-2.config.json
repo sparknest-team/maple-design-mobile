@@ -1,0 +1,153 @@
+{
+  "fields": [
+    {
+      "name": "model-value",
+      "description": "绑定值",
+      "type": "TimeValue[]",
+      "defaultValue": "-",
+      "kind": "json",
+      "initial": "\"10:30:00\""
+    },
+    {
+      "name": "default-value",
+      "description": "非受控初始值",
+      "type": "TimeValue[]",
+      "defaultValue": "-",
+      "kind": "json",
+      "initial": "\"10:30:00\""
+    },
+    {
+      "name": "hide-disabled-options",
+      "description": "Hide disabled time options",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "disabled",
+      "description": "禁用面板编辑",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "disable-confirm",
+      "description": "不显示确认按钮，有效选择立即提交",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "presentation",
+      "description": "Paired column wheels",
+      "type": "'picker'",
+      "defaultValue": "picker",
+      "kind": "enum",
+      "options": [
+        "picker"
+      ],
+      "initial": "picker"
+    },
+    {
+      "name": "format",
+      "description": "字符串解析、显示及输出格式",
+      "type": "string",
+      "defaultValue": "HH:mm:ss",
+      "kind": "string"
+    },
+    {
+      "name": "use12-hours",
+      "description": "十二小时面板；未传 format 时默认 hh:mm:ss a",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "step",
+      "description": "候选步长以 0 点为起点；无效值回退为 1",
+      "type": "{ hour?: number; minute?: number; second?: number }",
+      "defaultValue": "{ hour: 1, minute: 1, second: 1 }",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "min",
+      "description": "可选最小时间",
+      "type": "string",
+      "defaultValue": "-",
+      "kind": "string"
+    },
+    {
+      "name": "max",
+      "description": "可选最大时间",
+      "type": "string",
+      "defaultValue": "-",
+      "kind": "string"
+    },
+    {
+      "name": "disabled-hours",
+      "description": "返回禁用小时（0–23）",
+      "type": "() => number[]",
+      "defaultValue": "-",
+      "kind": "callback"
+    },
+    {
+      "name": "disabled-minutes",
+      "description": "根据小时返回禁用分钟",
+      "type": "(hour?: number) => number[]",
+      "defaultValue": "-",
+      "kind": "callback"
+    },
+    {
+      "name": "disabled-seconds",
+      "description": "根据小时、分钟返回禁用秒",
+      "type": "(hour?: number, minute?: number) => number[]",
+      "defaultValue": "-",
+      "kind": "callback"
+    },
+    {
+      "name": "show-next-day",
+      "description": "结束早于开始时在结束侧显示「次日」。面板选择过程中不交换；交换仅发生在字段或纯面板提交时（且未开启本属性）",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "picker-props",
+      "description": "透传给 mp-picker（picker 模式）",
+      "type": "Partial\\<PickerProps\\>",
+      "defaultValue": "{}",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "readonly",
+      "description": "是否只读",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "elevation",
+      "description": "海拔高度，可选值为 true false 和 0-24 的等级",
+      "type": "number | boolean",
+      "defaultValue": "false",
+      "kind": "json",
+      "initial": "false"
+    }
+  ],
+  "methodNames": [],
+  "events": [
+    "change",
+    "select"
+  ],
+  "slotNames": [
+    "extra",
+    "actions"
+  ],
+  "slotDefaults": {
+    "extra": true,
+    "actions": false
+  },
+  "scenarios": []
+}

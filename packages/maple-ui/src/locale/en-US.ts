@@ -1,6 +1,23 @@
 import { Message } from './index'
 
 export default {
+  'fieldPresentation.input': 'Please enter',
+  'fieldPresentation.selectionCount': '{count} selected',
+  'fieldPresentation.selectionRemove': 'Remove',
+  'fieldPresentation.selectionBack': 'Back to options',
+  'fieldPresentation.selectionEmpty': 'No selected options',
+  'fieldPresentation.edit': 'Edit',
+  'fieldPresentation.close': 'Close',
+  'fieldPresentation.search': 'Search options',
+  'fieldPresentation.selected': 'Selected',
+  'fieldPresentation.limit': 'Select at most',
+
+  datePickerPreviousMonth: 'Previous month',
+  datePickerNextMonth: 'Next month',
+  datePickerPreviousYear: 'Previous year',
+  datePickerNextYear: 'Next year',
+  datePickerPreviousPeriod: 'Previous years',
+  datePickerNextPeriod: 'Next years',
   'carousel.label': 'Carousel',
   'carousel.previous': 'Previous slide',
   'carousel.next': 'Next slide',
@@ -123,6 +140,9 @@ export default {
     },
   },
   datePickerSelected: ' selected',
+  dateRangeOrderError: 'The end date cannot be earlier than the start date. Adjust the range.',
+  dateTimeRangeOrderError: 'The end time cannot be earlier than the start time. Adjust the range.',
+  timeRangeOrderError: 'The end time cannot be earlier than the start time. Adjust the range.',
   datePickerNowButtonText: 'Now',
   datePickerHint: 'SELECT DATE',
   datePickerColumnYear: 'Y',
@@ -143,6 +163,8 @@ export default {
   timePickerHint: 'SELECT TIME',
   // time-range
   timeRangeStart: 'Start',
+  dateRangeStart: 'Start date',
+  dateRangeEnd: 'End date',
   timeRangeEnd: 'End',
   timeRangeNextDay: 'Next day',
 } satisfies Message

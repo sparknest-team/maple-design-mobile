@@ -7,12 +7,14 @@ import { getMapleConfig } from '../config/maple.config.js'
 import { getDevConfig } from '../config/vite.config.js'
 import { COMPONENT_REUSE_JSON, MAPLE_CONFIG, SITE, SITE_DIR, SRC_DIR } from '../shared/constant.js'
 import logger from '../shared/logger.js'
+import { createSerialTask } from '../shared/serial-task.js'
 
 const { ensureDirSync, pathExistsSync } = fse
 
 let server: ViteDevServer
 let watcher: FSWatcher
 let siteWatcher: FSWatcher
+const scheduleRestart = createSerialTask()
 
 async function startServer(options: DevCommandOptions) {
   const mapleConfig = await getMapleConfig()
@@ -43,7 +45,9 @@ async function startServer(options: DevCommandOptions) {
   const watchFiles = [MAPLE_CONFIG, COMPONENT_REUSE_JSON].filter((file) => pathExistsSync(file))
   if (watchFiles.length) {
     watcher = chokidar.watch(watchFiles)
-    watcher.on('change', () => startServer(options))
+    watcher.on('change', () =>
+      scheduleRestart(() => startServer(options)).catch((error) => logger.error(String(error))),
+    )
   }
 
   // Vite serves the generated .maple/site copy, so edits to the CLI's site
@@ -72,5 +76,5 @@ export async function dev(options: DevCommandOptions) {
   process.env.NODE_ENV = 'development'
 
   ensureDirSync(SRC_DIR)
-  await startServer(options)
+  await scheduleRestart(() => startServer(options))
 }

@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
 import DemoAccordion from './demos/accordion.vue'
+import DemoApiReview from './demos/api-review.vue'
 import DemoBasic from './demos/basic.vue'
 import DemoBorderLess from './demos/border-less.vue'
 import DemoCustom from './demos/custom.vue'
@@ -28,13 +29,13 @@ onThemeChange()
     <app-type>{{ english ? 'Basic usage' : '基础用法' }}</app-type>
     <DemoBasic />
   </section>
-  <section data-demo="accordion">
-    <app-type>{{ english ? 'Accordion' : '手风琴模式' }}</app-type>
-    <DemoAccordion />
-  </section>
   <section data-demo="disabled">
     <app-type>{{ english ? 'Disabled' : '禁用' }}</app-type>
     <DemoDisabled />
+  </section>
+  <section data-demo="accordion">
+    <app-type>{{ english ? 'Accordion' : '手风琴模式' }}</app-type>
+    <DemoAccordion />
   </section>
   <section data-demo="nested">
     <app-type>{{ english ? 'Nested panels' : '嵌套面板' }}</app-type>
@@ -76,4 +77,5 @@ onThemeChange()
     <app-type>{{ english ? 'Toggle all' : '切换全部' }}</app-type>
     <DemoToggleAll />
   </section>
+  <section data-demo="api-review"><DemoApiReview /></section>
 </template>

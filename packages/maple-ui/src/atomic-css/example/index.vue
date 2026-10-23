@@ -57,7 +57,7 @@ const fonts = [
         <code>mp-flex mp-items-center mp-gap-8</code>
         <span class="starter-status">Success</span>
       </div>
-      <button class="starter-button">mp-bg-primary · hover:mp-opacity-80</button>
+      <mp-button :ripple="false" class="starter-button">mp-bg-primary · hover:mp-opacity-80</mp-button>
     </div>
 
     <div class="mp-text-3 mp-mb-4">Preset 颜色（等价预览）</div>

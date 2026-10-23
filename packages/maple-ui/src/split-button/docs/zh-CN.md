@@ -4,7 +4,9 @@
 
 禁用的分段复用 Button 禁用配色并关闭交互反馈；整体禁用同时移除组阴影，仅禁用菜单按钮会阻止菜单打开并关闭非受控的已打开菜单。
 
-箭头通过 icon 插槽显示，两段默认继承相同的 variant、status 和自定义颜色；不自动启用 icon-container 的独立配色。
+箭头通过 icon 插槽显示，两段默认继承相同的 variant、status 和自定义颜色，图标布局不改变配色。
+
+## 案例
 
 ### 介绍
 
@@ -17,7 +19,7 @@
 主按钮执行发布，右侧按钮展开菜单；菜单项提供稳定的 value，并展示无权限的禁用项。
 
 ```demo
-../example/demos/basic-usage.vue
+../example/basic.vue
 ```
 
 ### 视觉变体
@@ -25,15 +27,7 @@
 统一展示 default、outline、tonal、text 四种变体。
 
 ```demo
-../example/demos/variants.vue
-```
-
-### 五档尺寸
-
-支持 xs、sm、md、lg、xl 五档尺寸，默认 md；窄屏自动换行。
-
-```demo
-../example/demos/sizes.vue
+../example/variants.vue
 ```
 
 ### 禁用状态
@@ -41,15 +35,15 @@
 对比整体禁用、仅主按钮禁用、仅菜单按钮禁用。整体 disabled 优先，子按钮的 disabled: false 不能解除整体禁用。
 
 ```demo
-../example/demos/disabled.vue
+../example/disabled.vue
 ```
 
-### 异步操作
+### 五档尺寸
 
-@click 直接返回 Promise，auto-loading 等待完成并阻止重复点击；完成次数用于观察是否重复执行。
+支持 xs、sm、md、lg、xl 五档尺寸，默认 md；窄屏自动换行。
 
 ```demo
-../example/demos/async-action.vue
+../example/sizes.vue
 ```
 
 ### 自定义图标
@@ -57,7 +51,7 @@
 使用 icon 插槽中的 open 状态旋转箭头，两端使用相同图标。
 
 ```demo
-../example/demos/custom-icon.vue
+../example/custom-icon.vue
 ```
 
 ### 受控展开
@@ -67,7 +61,7 @@
 使用 v-model:open 双向控制菜单；外部按钮、菜单触发器和选中关闭会同步更新状态。
 
 ```demo
-../example/demos/controlled.vue
+../example/controlled.vue
 ```
 
 ### 浮层与连续选择
@@ -75,8 +69,33 @@
 演示 bottom-start、8px 纵向偏移和 160px 最大高度。hide-on-select=false 支持连续选择，页面显示最近选中的 value。
 
 ```demo
-../example/demos/popup.vue
+../example/popup.vue
 ```
+
+### 外观组合
+
+适用于主操作和附加菜单。调整状态、尺寸，用相同数据观察变化。内容保持一致，便于比较不同设置的实际效果。
+
+```demo
+../example/demos/appearance-lab.vue
+```
+
+### 异步操作
+
+@click 直接返回 Promise，auto-loading 等待完成并阻止重复点击；完成次数用于观察是否重复执行。
+
+```demo
+../example/async-action.vue
+```
+
+<!-- api-review:start -->
+### 功能调试
+
+```demo
+../example/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

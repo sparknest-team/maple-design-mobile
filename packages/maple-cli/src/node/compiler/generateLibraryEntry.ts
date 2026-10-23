@@ -114,7 +114,9 @@ export interface MapleLibrary {
 const library: MapleLibrary = {
   version,
   install,
-  ${publicComponents.join(',\n  ')}
+  // Preserve ESM live bindings: a component entry may be evaluated before the
+  // aggregate entry through the development resolver's dependency graph.
+  ${publicComponents.map((name) => `get ${name}() { return ${name} }`).join(',\n  ')}
 }
 export default library
 `

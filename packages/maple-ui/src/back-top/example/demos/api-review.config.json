@@ -1,0 +1,94 @@
+{
+  "fields": [
+    {
+      "name": "target-container",
+      "description": "滚动容器；省略时为页面",
+      "type": "string | HTMLElement | (() => HTMLElement | null | undefined)",
+      "defaultValue": "undefined",
+      "kind": "string",
+      "initial": "body"
+    },
+    {
+      "name": "popup-container",
+      "description": "挂载容器；false 原地渲染",
+      "type": "string | HTMLElement | false",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "\"body\""
+    },
+    {
+      "name": "visible-height",
+      "description": "显示阈值（含边界）；数字字符串按 px，不支持 CSS 单位",
+      "type": "number | string",
+      "defaultValue": "200",
+      "kind": "scalar"
+    },
+    {
+      "name": "duration",
+      "description": "回顶动画毫秒数，0 立即回顶",
+      "type": "number",
+      "defaultValue": "200",
+      "kind": "number"
+    },
+    {
+      "name": "easing",
+      "description": "内置曲线或输入/输出 0–1 的自定义缓动函数",
+      "type": "'linear' | 'quartOut' | 'easeInOutCubic' | ((progress: number) => number)",
+      "defaultValue": "'quartOut'",
+      "kind": "scenario"
+    },
+    {
+      "name": "right",
+      "description": "右侧偏移；数字按 px，字符串支持 CSS 长度",
+      "type": "number | string",
+      "defaultValue": "undefined",
+      "kind": "scalar"
+    },
+    {
+      "name": "bottom",
+      "description": "底部偏移；数字按 px，字符串支持 CSS 长度",
+      "type": "number | string",
+      "defaultValue": "undefined",
+      "kind": "scalar"
+    },
+    {
+      "name": "elevation",
+      "description": "阴影等级；true 为 2，false 关闭",
+      "type": "boolean | number",
+      "defaultValue": "true",
+      "kind": "json",
+      "initial": "true"
+    },
+    {
+      "name": "aria-label",
+      "description": "无障碍名称",
+      "type": "string",
+      "defaultValue": "'Back to top'",
+      "kind": "string"
+    }
+  ],
+  "events": [],
+  "scenarios": [
+    {
+      "name": "target-container",
+      "kind": "prop",
+      "demos": [
+        "basic-usage.vue",
+        "custom-content.vue",
+        "custom-position.vue",
+        "scheduler-lifecycle.vue",
+        "target-container.vue"
+      ]
+    },
+    {
+      "name": "easing",
+      "kind": "prop",
+      "demos": [
+        "scheduler-lifecycle.vue"
+      ]
+    }
+  ],
+  "slotNames": [],
+  "slotDefaults": {},
+  "methodNames": []
+}

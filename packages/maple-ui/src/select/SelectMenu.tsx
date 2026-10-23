@@ -68,7 +68,7 @@ const SelectMenu: DefineComponent<SelectMenuProps> = defineComponent({
           key={optionInfo.key}
           value={optionInfo.value}
           label={optionInfo.label}
-          disabled={optionInfo.disabled}
+          disabled={optionInfo.disabled || controller.session.pending}
           internal
         />
       )

@@ -1,0 +1,447 @@
+{
+  "fields": [
+    {
+      "name": "multiple",
+      "description": "多选；默认启用搜索",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "size",
+      "description": "完整支持 xs、sm、md、lg、xl，未设置时继承分组与表单",
+      "type": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\"",
+      "defaultValue": "undefined",
+      "kind": "enum",
+      "options": [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl"
+      ],
+      "initial": "xs"
+    },
+    {
+      "name": "variant",
+      "description": "filled、outline、standard；未设置时继承 InputGroup",
+      "type": "\"filled\" | \"outline\" | \"standard\"",
+      "defaultValue": "undefined",
+      "kind": "enum",
+      "options": [
+        "filled",
+        "outline",
+        "standard"
+      ],
+      "initial": "filled"
+    },
+    {
+      "name": "placeholder",
+      "description": "占位文本",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "loading",
+      "description": "加载状态；禁止选择和确认",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "show-tags",
+      "description": "多选值以标签展示；false 改用分隔文本",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "separator",
+      "description": "show-tags=false 时的多选分隔符",
+      "type": "string",
+      "defaultValue": "','",
+      "kind": "string"
+    },
+    {
+      "name": "text-align",
+      "description": "left、center、right",
+      "type": "'left' | 'right' | 'center'",
+      "defaultValue": "'left'",
+      "kind": "enum",
+      "options": [
+        "left",
+        "right",
+        "center"
+      ],
+      "initial": "left"
+    },
+    {
+      "name": "max-tag-count",
+      "description": "标签数量上限，0 不限制",
+      "type": "number",
+      "defaultValue": "0",
+      "kind": "number"
+    },
+    {
+      "name": "tag-nowrap",
+      "description": "标签内容不换行",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "popup-container",
+      "description": "选择器、元素、返回元素的函数或 false（原地渲染）",
+      "type": "PopupContainer",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "\"body\""
+    },
+    {
+      "name": "trigger-props",
+      "description": "Menu 的 Trigger 属性；展开状态由字段控制",
+      "type": "TriggerProps",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "virtual-list-props",
+      "description": "Menu / List 的虚拟列表参数",
+      "type": "VirtualListProps",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "search-delay",
+      "description": "search 事件防抖时长（毫秒）",
+      "type": "number",
+      "defaultValue": "500",
+      "kind": "number"
+    },
+    {
+      "name": "format-label",
+      "description": "格式化已选标签；VNode 使用 label 插槽",
+      "type": "function",
+      "defaultValue": "undefined",
+      "kind": "callback"
+    },
+    {
+      "name": "clearable",
+      "description": "允许清除，保留禁用的已选项",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "options",
+      "description": "树形选项；叶值模式要求叶值唯一，路径模式可区分不同分支",
+      "type": "CascaderOption[]",
+      "defaultValue": "() => []",
+      "kind": "json",
+      "initial": "[]"
+    },
+    {
+      "name": "field-names",
+      "description": "value、label、disabled、children、isLeaf、tagProps、render 的字段映射",
+      "type": "CascaderFieldNames",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "path-mode",
+      "description": "true 返回完整路径；false 返回选中节点的值",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "check-strictly",
+      "description": "允许选中父节点；多选不关联父子节点",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "filterable",
+      "description": "开启搜索",
+      "type": "boolean",
+      "defaultValue": "(props: Data) => Boolean(props.multiple)",
+      "kind": "boolean"
+    },
+    {
+      "name": "filter-option",
+      "description": "接收搜索词和原始节点",
+      "type": "(input, option) => boolean",
+      "defaultValue": "undefined",
+      "kind": "callback"
+    },
+    {
+      "name": "expand-trigger",
+      "description": "Menu / List 的展开交互：click 或 hover",
+      "type": "'click' | 'hover'",
+      "defaultValue": "'click'",
+      "kind": "enum",
+      "options": [
+        "click",
+        "hover"
+      ],
+      "initial": "click"
+    },
+    {
+      "name": "expand-child",
+      "description": "展开到首个子节点",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "load-more",
+      "description": "异步加载子节点；完成后调用 done(children)，失败调用 done() 以允许重试",
+      "type": "(option, done) => void",
+      "defaultValue": "undefined",
+      "kind": "callback"
+    },
+    {
+      "name": "fallback",
+      "description": "尚未加载的值如何反显",
+      "type": "boolean 或 (value) => string",
+      "defaultValue": "true",
+      "kind": "callback"
+    },
+    {
+      "name": "search-option-only-label",
+      "description": "搜索结果仅显示节点标签，不显示路径",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "auto-fit-popup-width",
+      "description": "Menu 是否与字段等宽",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "presentation",
+      "description": "字段编辑方式，字段 > FormItem > Form 继承；默认 inline。",
+      "type": "'inline' | 'popup'",
+      "defaultValue": "undefined",
+      "kind": "enum",
+      "options": [
+        "inline",
+        "popup"
+      ],
+      "initial": "inline"
+    },
+    {
+      "name": "popup-props",
+      "description": "弹层外观；展开状态、底部位置和挂载时机由扩展接管",
+      "type": "PopupProps",
+      "defaultValue": "{}",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "read-pretty",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "description": "纯阅读展示；字段 > FormItem > Form 继承，显式 false 覆盖父级。",
+      "kind": "boolean"
+    },
+    {
+      "name": "before-commit",
+      "type": "BeforeFieldCommit",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "callback"
+    },
+    {
+      "name": "open",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "description": "@zh 是否显示下拉框\n@en Whether to show the dropdown\n@v-model\n/",
+      "kind": "boolean"
+    },
+    {
+      "name": "default-open",
+      "type": "boolean",
+      "defaultValue": "false",
+      "description": "@zh 是否默认显示下拉框（非受控状态）\n@en Whether to display the dropdown by default (uncontrolled state)\n/",
+      "kind": "boolean"
+    },
+    {
+      "name": "hint",
+      "type": "boolean",
+      "defaultValue": "true",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "boolean"
+    },
+    {
+      "name": "line",
+      "type": "boolean",
+      "defaultValue": "true",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "boolean"
+    },
+    {
+      "name": "text-color",
+      "type": "string",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "focus-color",
+      "type": "string",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "blur-color",
+      "type": "string",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "readonly",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "boolean"
+    },
+    {
+      "name": "model-value",
+      "type": "| string\n      | number\n      | Record<string, any>\n      | (string | number | Record<string, any> | (string | number | Record<string, any>)[])[]\n      | undefined",
+      "defaultValue": "undefined",
+      "description": "@zh 绑定值\n@en Value\n/",
+      "kind": "json",
+      "initial": "[]"
+    },
+    {
+      "name": "default-value",
+      "type": "| string\n      | number\n      | Record<string, any>\n      | (string | number | Record<string, any> | (string | number | Record<string, any>)[])[]\n      | undefined",
+      "defaultValue": "(props: Data) => (props.multiple ? [] : props.pathMode ? undefined : '')",
+      "description": "@zh 默认值（非受控状态）\n@en Default value (uncontrolled state)\n@default-value '' \\| undefined \\| []\n/",
+      "kind": "json",
+      "initial": "[]"
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "description": "@zh 是否禁用\n@en Whether to disable\n/",
+      "kind": "boolean"
+    },
+    {
+      "name": "error",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "description": "@zh 是否为错误状态\n@en Whether it is an error state\n/",
+      "kind": "boolean"
+    },
+    {
+      "name": "input-value",
+      "type": "string",
+      "defaultValue": "undefined",
+      "description": "@zh 输入框的值\n@en The value of the input\n@v-model\n/",
+      "kind": "string"
+    },
+    {
+      "name": "default-input-value",
+      "type": "string",
+      "defaultValue": "''",
+      "description": "@zh 输入框的默认值（非受控状态）\n@en The default value of the input (uncontrolled state)\n/",
+      "kind": "string"
+    }
+  ],
+  "events": [
+    "update:open",
+    "update:modelValue"
+  ],
+  "scenarios": [
+    {
+      "name": "trigger-props",
+      "kind": "prop",
+      "demos": []
+    },
+    {
+      "name": "virtual-list-props",
+      "kind": "prop",
+      "demos": []
+    },
+    {
+      "name": "format-label",
+      "kind": "prop",
+      "demos": []
+    },
+    {
+      "name": "options",
+      "kind": "prop",
+      "demos": [
+        "async-devices.vue",
+        "placeholder-list-multiple.vue",
+        "placeholder-list.vue",
+        "placeholder-multiple.vue",
+        "placeholder-path-mode.vue",
+        "placeholder-picker-multiple.vue",
+        "placeholder-picker.vue",
+        "placeholder.vue"
+      ]
+    },
+    {
+      "name": "field-names",
+      "kind": "prop",
+      "demos": [
+        "async-devices.vue"
+      ]
+    },
+    {
+      "name": "filter-option",
+      "kind": "prop",
+      "demos": []
+    },
+    {
+      "name": "load-more",
+      "kind": "prop",
+      "demos": []
+    },
+    {
+      "name": "fallback",
+      "kind": "prop",
+      "demos": []
+    },
+    {
+      "name": "popup-props",
+      "kind": "prop",
+      "demos": []
+    },
+    {
+      "name": "before-commit",
+      "kind": "prop",
+      "demos": []
+    },
+    {
+      "name": "model-value",
+      "kind": "prop",
+      "demos": []
+    },
+    {
+      "name": "default-value",
+      "kind": "prop",
+      "demos": []
+    }
+  ],
+  "slotNames": [],
+  "slotDefaults": {},
+  "methodNames": []
+}

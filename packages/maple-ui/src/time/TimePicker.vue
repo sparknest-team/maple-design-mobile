@@ -30,5 +30,16 @@ const panel = useTimePanel<TimeValue>(
   },
   () => false,
 )
-const content = { ...panel, ...useMobileTimePanel(options, panel.draft, panel.select) }
+const mobile = useMobileTimePanel(options, panel.draft, panel.select)
+const content = {
+  ...panel,
+  ...mobile,
+  confirm: () => {
+    const committed = panel.confirm()
+    if (committed) {
+      mobile.confirmationRequired.value = false
+    }
+    return committed
+  },
+}
 </script>

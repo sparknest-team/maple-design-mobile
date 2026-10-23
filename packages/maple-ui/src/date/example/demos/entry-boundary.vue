@@ -30,7 +30,7 @@ const presentation = ref<'picker' | 'calendar'>('calendar')
         v-model="fieldValue"
         :min="limited ? '2025-02-01' : undefined"
         :max="limited ? '2025-02-28' : undefined"
-        :presentation="presentation"
+        :panel-type="presentation"
         :date-picker-props="{ dayStartOfWeek: week }"
         placeholder="选择日期"
       />

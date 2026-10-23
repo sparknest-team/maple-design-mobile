@@ -1,0 +1,47 @@
+{
+  "fields": [
+    {
+      "name": "separator",
+      "description": "分隔符（覆盖父级）",
+      "type": "string | number",
+      "defaultValue": "-",
+      "kind": "scalar"
+    },
+    {
+      "name": "href",
+      "description": "跳转链接",
+      "type": "string",
+      "defaultValue": "-",
+      "kind": "string"
+    },
+    {
+      "name": "droplist",
+      "description": "下拉菜单内容",
+      "type": "BreadcrumbRoute['children']",
+      "defaultValue": "-",
+      "kind": "scenario"
+    },
+    {
+      "name": "dropdown-props",
+      "description": "下拉菜单属性",
+      "type": "MenuProps",
+      "defaultValue": "-",
+      "kind": "json",
+      "initial": "{}"
+    }
+  ],
+  "methodNames": [],
+  "events": [
+    "click",
+    "select"
+  ],
+  "slotNames": [
+    "separator",
+    "droplist"
+  ],
+  "slotDefaults": {
+    "separator": false,
+    "droplist": true
+  },
+  "scenarios": []
+}

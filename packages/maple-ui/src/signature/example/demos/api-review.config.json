@@ -1,0 +1,59 @@
+{
+  "fields": [
+    {
+      "name": "stroke-style",
+      "description": "画笔颜色",
+      "type": "string",
+      "defaultValue": "'currentColor'",
+      "kind": "string"
+    },
+    {
+      "name": "line-width",
+      "description": "画笔粗细",
+      "type": "string | number",
+      "defaultValue": "2",
+      "kind": "scalar"
+    },
+    {
+      "name": "data-url-type",
+      "description": "生成图片的格式",
+      "type": "'png' | 'jpg'",
+      "defaultValue": "'png'",
+      "kind": "enum",
+      "options": [
+        "png",
+        "jpg"
+      ],
+      "initial": "png"
+    }
+  ],
+  "events": [
+    "start",
+    "signing",
+    "end"
+  ],
+  "scenarios": [
+    {
+      "name": "reset",
+      "kind": "method",
+      "demos": [
+        "basic-usage.vue",
+        "custom-style.vue"
+      ]
+    },
+    {
+      "name": "confirm",
+      "kind": "method",
+      "demos": [
+        "basic-usage.vue",
+        "custom-style.vue"
+      ]
+    }
+  ],
+  "slotNames": [],
+  "slotDefaults": {},
+  "methodNames": [
+    "reset",
+    "confirm"
+  ]
+}

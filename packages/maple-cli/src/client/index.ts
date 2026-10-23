@@ -3,6 +3,7 @@ import config from '@config'
 import { StyleProvider, Themes } from '@maplejs/maple-ui'
 import AppType from './appType'
 import { resolveDemoLanguage } from './language'
+import { currentTheme, observeTheme } from './theme-state'
 
 interface PCLocationInfo {
   language: string
@@ -134,12 +135,15 @@ export function setTheme(theme: Theme) {
   const styleVars = { ...siteStyleVars, ...(themeMap[theme] ?? {}) }
   StyleProvider.setStyleVars(styleVars)
   setColorScheme(theme)
+  currentTheme.value = theme
 }
 
 export function onThemeChange(cb?: (theme: Theme) => void, scope: ThemeScope = 'site') {
-  const theme = getBrowserTheme(scope)
+  const theme = currentTheme.value ?? getBrowserTheme(scope)
   setTheme(theme)
-  cb?.(theme)
+  if (cb) {
+    observeTheme(cb)
+  }
 }
 
 export function getSiteStyleVars(theme: Theme) {

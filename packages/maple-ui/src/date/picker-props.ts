@@ -18,6 +18,7 @@ export type {
 export { MONTH_LIST, WEEK_HEADER } from './presentation-props'
 export const props = {
   ...presentationProps,
+  presentation: { ...presentationProps.presentation, default: 'calendarPicker' as const },
   ...datePanelProps,
   ...dateNowProps,
   ...dateSingleValueProps,

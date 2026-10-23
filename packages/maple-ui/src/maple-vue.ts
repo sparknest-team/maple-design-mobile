@@ -25,7 +25,6 @@ import DateRange from './date-range'
 import Dialog from './dialog'
 import Divider from './divider'
 import Drag from './drag'
-import DropdownMenu from './dropdown-menu'
 import Ellipsis from './ellipsis'
 import Empty from './empty'
 import Fab from './fab'
@@ -49,6 +48,7 @@ import Loading from './loading'
 import LoadingBar from './loading-bar'
 import Locale from './locale'
 import LocaleProvider from './locale-provider'
+import Menu from './menu'
 import Message from './message'
 import NoticeBar from './notice-bar'
 import NumberKeyboard from './number-keyboard'
@@ -123,7 +123,6 @@ function install(app: App) {
     Dialog,
     Divider,
     Drag,
-    DropdownMenu,
     Ellipsis,
     Empty,
     Fab,
@@ -147,6 +146,7 @@ function install(app: App) {
     LoadingBar,
     Locale,
     LocaleProvider,
+    Menu,
     Message,
     NoticeBar,
     NumberKeyboard,
@@ -226,7 +226,6 @@ export {
   Dialog,
   Divider,
   Drag,
-  DropdownMenu,
   Ellipsis,
   Empty,
   Fab,
@@ -250,6 +249,7 @@ export {
   LoadingBar,
   Locale,
   LocaleProvider,
+  Menu,
   Message,
   NoticeBar,
   NumberKeyboard,
@@ -324,7 +324,6 @@ export interface MapleLibrary {
   Dialog: typeof Dialog
   Divider: typeof Divider
   Drag: typeof Drag
-  DropdownMenu: typeof DropdownMenu
   Ellipsis: typeof Ellipsis
   Empty: typeof Empty
   Fab: typeof Fab
@@ -348,6 +347,7 @@ export interface MapleLibrary {
   LoadingBar: typeof LoadingBar
   Locale: typeof Locale
   LocaleProvider: typeof LocaleProvider
+  Menu: typeof Menu
   Message: typeof Message
   NoticeBar: typeof NoticeBar
   NumberKeyboard: typeof NumberKeyboard
@@ -395,98 +395,286 @@ export interface MapleLibrary {
 const library: MapleLibrary = {
   version,
   install,
-  ActionSheet,
-  Affix,
-  Alert,
-  AutoComplete,
-  Avatar,
-  BackTop,
-  Badge,
-  Breadcrumb,
-  Button,
-  Card,
-  Carousel,
-  Cascader,
-  Cell,
-  Checkbox,
-  Code,
-  Col,
-  Collapse,
-  Context,
-  CountTo,
-  Countdown,
-  Counter,
-  Date,
-  DateRange,
-  Dialog,
-  Divider,
-  Drag,
-  DropdownMenu,
-  Ellipsis,
-  Empty,
-  Fab,
-  FieldDecorator,
-  FloatingPanel,
-  Form,
-  FormDetails,
-  Grid,
-  HighlighterProvider,
-  Hover,
-  Icon,
-  Image,
-  IndexBar,
-  InfiniteScroll,
-  Input,
-  InputNumber,
-  Lazy,
-  Link,
-  List,
-  Loading,
-  LoadingBar,
-  Locale,
-  LocaleProvider,
-  Message,
-  NoticeBar,
-  NumberKeyboard,
-  Overlay,
-  PageHeader,
-  Pagination,
-  Paper,
-  Picker,
-  Popover,
-  Popup,
-  Progress,
-  ProgressGroup,
-  PullRefresh,
-  Radio,
-  Rate,
-  Result,
-  Ripple,
-  Row,
-  Search,
-  Select,
-  Signature,
-  Skeleton,
-  Slider,
-  Space,
-  SplitButton,
-  Statistic,
-  Steps,
-  StyleProvider,
-  SwipeCell,
-  Switch,
-  TabBar,
-  Table,
-  Tabs,
-  Tag,
-  Textarea,
-  Themes,
-  Time,
-  TimeRange,
-  Tooltip,
-  Trigger,
-  Upload,
-  VerificationCode,
-  Watermark,
+  // Preserve ESM live bindings: a component entry may be evaluated before the
+  // aggregate entry through the development resolver's dependency graph.
+  get ActionSheet() {
+    return ActionSheet
+  },
+  get Affix() {
+    return Affix
+  },
+  get Alert() {
+    return Alert
+  },
+  get AutoComplete() {
+    return AutoComplete
+  },
+  get Avatar() {
+    return Avatar
+  },
+  get BackTop() {
+    return BackTop
+  },
+  get Badge() {
+    return Badge
+  },
+  get Breadcrumb() {
+    return Breadcrumb
+  },
+  get Button() {
+    return Button
+  },
+  get Card() {
+    return Card
+  },
+  get Carousel() {
+    return Carousel
+  },
+  get Cascader() {
+    return Cascader
+  },
+  get Cell() {
+    return Cell
+  },
+  get Checkbox() {
+    return Checkbox
+  },
+  get Code() {
+    return Code
+  },
+  get Col() {
+    return Col
+  },
+  get Collapse() {
+    return Collapse
+  },
+  get Context() {
+    return Context
+  },
+  get CountTo() {
+    return CountTo
+  },
+  get Countdown() {
+    return Countdown
+  },
+  get Counter() {
+    return Counter
+  },
+  get Date() {
+    return Date
+  },
+  get DateRange() {
+    return DateRange
+  },
+  get Dialog() {
+    return Dialog
+  },
+  get Divider() {
+    return Divider
+  },
+  get Drag() {
+    return Drag
+  },
+  get Ellipsis() {
+    return Ellipsis
+  },
+  get Empty() {
+    return Empty
+  },
+  get Fab() {
+    return Fab
+  },
+  get FieldDecorator() {
+    return FieldDecorator
+  },
+  get FloatingPanel() {
+    return FloatingPanel
+  },
+  get Form() {
+    return Form
+  },
+  get FormDetails() {
+    return FormDetails
+  },
+  get Grid() {
+    return Grid
+  },
+  get HighlighterProvider() {
+    return HighlighterProvider
+  },
+  get Hover() {
+    return Hover
+  },
+  get Icon() {
+    return Icon
+  },
+  get Image() {
+    return Image
+  },
+  get IndexBar() {
+    return IndexBar
+  },
+  get InfiniteScroll() {
+    return InfiniteScroll
+  },
+  get Input() {
+    return Input
+  },
+  get InputNumber() {
+    return InputNumber
+  },
+  get Lazy() {
+    return Lazy
+  },
+  get Link() {
+    return Link
+  },
+  get List() {
+    return List
+  },
+  get Loading() {
+    return Loading
+  },
+  get LoadingBar() {
+    return LoadingBar
+  },
+  get Locale() {
+    return Locale
+  },
+  get LocaleProvider() {
+    return LocaleProvider
+  },
+  get Menu() {
+    return Menu
+  },
+  get Message() {
+    return Message
+  },
+  get NoticeBar() {
+    return NoticeBar
+  },
+  get NumberKeyboard() {
+    return NumberKeyboard
+  },
+  get Overlay() {
+    return Overlay
+  },
+  get PageHeader() {
+    return PageHeader
+  },
+  get Pagination() {
+    return Pagination
+  },
+  get Paper() {
+    return Paper
+  },
+  get Picker() {
+    return Picker
+  },
+  get Popover() {
+    return Popover
+  },
+  get Popup() {
+    return Popup
+  },
+  get Progress() {
+    return Progress
+  },
+  get ProgressGroup() {
+    return ProgressGroup
+  },
+  get PullRefresh() {
+    return PullRefresh
+  },
+  get Radio() {
+    return Radio
+  },
+  get Rate() {
+    return Rate
+  },
+  get Result() {
+    return Result
+  },
+  get Ripple() {
+    return Ripple
+  },
+  get Row() {
+    return Row
+  },
+  get Search() {
+    return Search
+  },
+  get Select() {
+    return Select
+  },
+  get Signature() {
+    return Signature
+  },
+  get Skeleton() {
+    return Skeleton
+  },
+  get Slider() {
+    return Slider
+  },
+  get Space() {
+    return Space
+  },
+  get SplitButton() {
+    return SplitButton
+  },
+  get Statistic() {
+    return Statistic
+  },
+  get Steps() {
+    return Steps
+  },
+  get StyleProvider() {
+    return StyleProvider
+  },
+  get SwipeCell() {
+    return SwipeCell
+  },
+  get Switch() {
+    return Switch
+  },
+  get TabBar() {
+    return TabBar
+  },
+  get Table() {
+    return Table
+  },
+  get Tabs() {
+    return Tabs
+  },
+  get Tag() {
+    return Tag
+  },
+  get Textarea() {
+    return Textarea
+  },
+  get Themes() {
+    return Themes
+  },
+  get Time() {
+    return Time
+  },
+  get TimeRange() {
+    return TimeRange
+  },
+  get Tooltip() {
+    return Tooltip
+  },
+  get Trigger() {
+    return Trigger
+  },
+  get Upload() {
+    return Upload
+  },
+  get VerificationCode() {
+    return VerificationCode
+  },
+  get Watermark() {
+    return Watermark
+  },
 }
 export default library

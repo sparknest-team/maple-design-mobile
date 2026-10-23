@@ -29,7 +29,6 @@ export function useButton(props: Readonly<ButtonProps>) {
     textColor: props.textColor ?? group?.textColor.value,
     disabled: props.disabled ?? group?.disabled.value ?? false,
     stacked: props.stacked ?? group?.stacked.value ?? false,
-    iconContainer: props.iconContainer,
     block: props.block,
     // Use one normalization instead of different platform elevation helpers.
     elevation:

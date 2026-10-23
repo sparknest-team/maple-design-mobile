@@ -30,12 +30,12 @@
 <script setup lang="ts">
 import { computed, provide, reactive, useSlots } from 'vue'
 import { createNamespace } from '../utils/components'
-import Checkbox from './Checkbox.vue'
 import { ChoiceLabel } from './choice-label'
 import { normalizeChoiceOptions } from './choice-options'
 import { choiceLimit, useChoiceState } from './choice-state'
 import type { ChoiceValue } from './choice-value-props'
 import { checkboxGroupKey } from './context'
+import Checkbox from './presentation'
 import { checkboxGroupProps } from './props'
 import { useCheckboxGroupMethods } from './use-checkbox-group-methods'
 import { useChoiceForm } from './use-choice-form'

@@ -1,3 +1,5 @@
+import '../../_components/selected-options/style'
+import '../../_components/field-presentation/style'
 import '../../style/index.less'
 import '../../_components/selection-field/style'
 import '../../_components/selection-field/presentation/style/index.less'

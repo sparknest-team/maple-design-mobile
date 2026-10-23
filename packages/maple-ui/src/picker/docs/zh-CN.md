@@ -1,10 +1,18 @@
 # 多列选择器
 
+## 案例
+
 ### 介绍
 
 提供了函数和组件两种调用方式。同时支持级联模式，可以处理多级联动。
 
+### 禁用选择器
 
+勾选时无法通过点击、触摸或键盘改变选择；解除禁用后继续使用原模型值。
+
+```demo
+../example/demos/disabled.vue
+```
 
 ### function call
 
@@ -53,6 +61,7 @@
 ```demo
 ../example/demos/two-way-binding.vue
 ```
+
 ## 函数调用
 
 ### 单列选择
@@ -456,6 +465,15 @@
 </template>
 ```
 
+<!-- api-review:start -->
+### 功能调试
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
+
 ## API
 
 ### 属性
@@ -467,6 +485,7 @@
 | `title`                      | 标题                                              | _string_                                         | `请选择` |
 | `field-names`                | 自定义列字段映射（`label` 对应文本，默认 `text`） | _{ label?, value?, children? }_                  | `-`      |
 | `toolbar`                    | 是否显示上方工具栏                                | _boolean_                                        | `true`   |
+| `disabled`                   | 禁用选项点击、触摸、键盘选择及确认                | _boolean_                                        | `false`  |
 | `selected-values`            | 已选中的选项值，选项右侧显示对号                  | _(string \| number)[]_                           | `[]`     |
 | `cascade`                    | 是否开启级联模式                                  | _boolean_                                        | `true`   |
 | `option-height`              | 选项的高度(px rem)                                | _string \| number_                               | `44`     |
@@ -486,6 +505,7 @@
 | `title`                     | 标题                                              | _string_                                                                                   | `请选择`     |
 | `fieldNames`                | 自定义列字段映射（`label` 对应文本，默认 `text`） | _{ label?, value?, children? }_                                                            | `-`          |
 | `toolbar`                   | 是否显示上方工具栏                                | _boolean_                                                                                  | `true`       |
+| `disabled`                  | 禁用选项点击、触摸、键盘选择及确认                | _boolean_                                                                                  | `false`      |
 | `selectedValues`            | 已选中的选项值，选项右侧显示对号                  | _(string \| number)[]_                                                                     | `[]`         |
 | `cascade`                   | 是否开启级联模式                                  | _boolean_                                                                                  | `true`       |
 | `optionHeight`              | 选项的高度                                        | _string \| number_                                                                         | `44`         |

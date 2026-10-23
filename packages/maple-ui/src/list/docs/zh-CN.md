@@ -1,18 +1,10 @@
 # 列表 List
 
-VirtualList 消费者生命周期已专项验证：新请求、数据变化、停用及卸载使旧 nextTick 补偿失效，保留命令在停用／卸载后无效，激活不重放旧补偿。补偿不是 RAF 插值，不新增 CSS Token／API；各端15项专项通过，完整 List Cedar41／Maple34通过，真实浏览器新增0。既有 key／index／align 及测量契约保持。下文分类说明保留先前时点。
-
 `scrollIntoView` 仅在虚拟模式向内部 VirtualList 的 `scrollTo` 转发 options，不是直接 DOM `scrollIntoView`，没有本地动效计时器。原生滚动、减少动效和保留命令生命周期须独立审查 VirtualList；方法名／调用线索不等于视觉验收。本轮分类不改 List API／实现。
 
 纯展示型列表。分页加载请组合使用 `InfiniteScroll`。
 
-### 保留命令与 KeepAlive 生命周期
-
-```demo
-../example/demos/virtual-lifecycle.vue
-```
-
-
+## 案例
 
 ### basic usage
 
@@ -31,6 +23,13 @@ VirtualList 消费者生命周期已专项验证：新请求、数据变化、�
 ```demo
 ../example/demos/states.vue
 ```
+
+### 保留命令与 KeepAlive 生命周期
+
+```demo
+../example/demos/virtual-lifecycle.vue
+```
+
 ## 基础用法
 
 ```html
@@ -59,7 +58,6 @@ VirtualList 消费者生命周期已专项验证：新请求、数据变化、�
 
 `loading` 表示整张列表首次加载或刷新，不表示下一页正在加载。空列表加载时不会同时显示空态。
 
-
 ### 容器滚动
 
 ```demo
@@ -68,9 +66,22 @@ VirtualList 消费者生命周期已专项验证：新请求、数据变化、�
 
 ### 虚拟定位
 
+示例使用 `Space direction="column"` 将操作区放在列表上方，列表独占可用宽度；`estimatedSize` 是未测量行的估计高度，不要求业务行采用固定高度。
+
+定位优先使用已渲染行的真实边界，行高测量会同步更新虚拟留白。程序滚动触发的渲染保留当前对齐；不同位置的原生滚动、新命令、数据替换、停用或卸载会取消旧补偿。`auto` 对已完整可见行不改变滚动位置和渲染窗口；这不代表持续追踪任意异步行高变化。
+
 ```demo
 ../example/demos/virtual-navigation.vue
 ```
+
+<!-- api-review:start -->
+### 功能调试
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

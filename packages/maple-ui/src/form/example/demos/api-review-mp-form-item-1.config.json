@@ -1,0 +1,281 @@
+{
+  "fields": [
+    {
+      "name": "field",
+      "description": "对应 Form.model 中的字段路径，支持 a.b",
+      "type": "string",
+      "defaultValue": "''",
+      "kind": "string"
+    },
+    {
+      "name": "label",
+      "description": "标签文本；有值时渲染外置标签，并自动关闭控件浮动 hint",
+      "type": "string",
+      "defaultValue": "-",
+      "kind": "string"
+    },
+    {
+      "name": "tooltip",
+      "description": "标签提示；支持悬停、键盘聚焦和触摸点击",
+      "type": "string",
+      "defaultValue": "-",
+      "kind": "string"
+    },
+    {
+      "name": "show-colon",
+      "description": "标签后显示冒号",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "label-component",
+      "description": "标签原生元素名",
+      "type": "string",
+      "defaultValue": "'label'",
+      "kind": "string"
+    },
+    {
+      "name": "label-attrs",
+      "description": "标签原生属性；for 应指向控件的真实 id",
+      "type": "HTMLAttributes & Record<string, unknown>",
+      "defaultValue": "-",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "content-class",
+      "description": "内容容器 class",
+      "type": "string | array | object",
+      "defaultValue": "-",
+      "kind": "string",
+      "initial": "review-class"
+    },
+    {
+      "name": "content-flex",
+      "description": "内容层启用 flex；业务 Grid 布局可关闭",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "layout",
+      "description": "布局方式，可选值为 vertical horizontal inline；未传时继承 Form.layout",
+      "type": "'vertical' | 'horizontal' | 'inline'",
+      "defaultValue": "-",
+      "kind": "enum",
+      "options": [
+        "vertical",
+        "horizontal",
+        "inline"
+      ],
+      "initial": "vertical"
+    },
+    {
+      "name": "label-align",
+      "description": "标签对齐",
+      "type": "'left' | 'right'",
+      "defaultValue": "-",
+      "kind": "enum",
+      "options": [
+        "left",
+        "right"
+      ],
+      "initial": "left"
+    },
+    {
+      "name": "label-col-props",
+      "description": "横向标签 Col 参数，支持响应式断点",
+      "type": "FormColProps",
+      "defaultValue": "-",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "wrapper-col-props",
+      "description": "横向内容 Col 参数",
+      "type": "FormColProps",
+      "defaultValue": "-",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "label-col-style",
+      "description": "标签列逐实例样式",
+      "type": "CSSProperties",
+      "defaultValue": "-",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "wrapper-col-style",
+      "description": "内容列逐实例样式",
+      "type": "CSSProperties",
+      "defaultValue": "-",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "label-col-flex",
+      "description": "标签 flex；单位字符串为宽度，数字为伸缩比例",
+      "type": "number | string",
+      "defaultValue": "-",
+      "kind": "scalar"
+    },
+    {
+      "name": "row-props",
+      "description": "表单项 Row 参数；支持 gutter、align、justify、wrap",
+      "type": "RowProps",
+      "defaultValue": "-",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "row-class",
+      "description": "布局容器 class",
+      "type": "string | array | object",
+      "defaultValue": "-",
+      "kind": "string",
+      "initial": "review-class"
+    },
+    {
+      "name": "required",
+      "description": "是否必填（显示星号，并自动追加必填规则）",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "hide-label",
+      "description": "是否隐藏标签",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "feedback",
+      "description": "在输入框显示校验反馈图标，异步校验期间显示加载状态",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "validate-status",
+      "description": "手动指定反馈状态；省略时由校验结果决定",
+      "type": "'success' | 'warning' | 'error' | 'validating'",
+      "defaultValue": "-",
+      "kind": "enum",
+      "options": [
+        "success",
+        "warning",
+        "error",
+        "validating"
+      ],
+      "initial": "success"
+    },
+    {
+      "name": "hide-asterisk",
+      "description": "是否隐藏必填星号",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "asterisk-position",
+      "description": "星号位置",
+      "type": "'start' | 'end'",
+      "defaultValue": "'start'",
+      "kind": "enum",
+      "options": [
+        "start",
+        "end"
+      ],
+      "initial": "start"
+    },
+    {
+      "name": "help",
+      "description": "帮助文案（无错误时展示）",
+      "type": "string",
+      "defaultValue": "-",
+      "kind": "string"
+    },
+    {
+      "name": "extra",
+      "description": "额外文案",
+      "type": "string",
+      "defaultValue": "-",
+      "kind": "string"
+    },
+    {
+      "name": "disabled",
+      "description": "是否禁用；未传时继承 Form",
+      "type": "boolean",
+      "defaultValue": "-",
+      "kind": "boolean"
+    },
+    {
+      "name": "readonly",
+      "description": "是否只读；未传时继承 Form",
+      "type": "boolean",
+      "defaultValue": "-",
+      "kind": "boolean"
+    },
+    {
+      "name": "size",
+      "description": "控件尺寸；未传时继承 Form",
+      "type": "'xs' | 'sm' | 'md' | 'lg' | 'xl'",
+      "defaultValue": "-",
+      "kind": "enum",
+      "options": [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl"
+      ],
+      "initial": "xs"
+    },
+    {
+      "name": "no-style",
+      "description": "去除标签与错误信息样式，仅保留校验能力",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "rules",
+      "description": "校验规则（函数 / Zod / 数组）",
+      "type": "any",
+      "defaultValue": "-",
+      "kind": "json",
+      "initial": "null"
+    },
+    {
+      "name": "validate-trigger",
+      "description": "触发校验的时机；clear 仅由控件清空动作触发，不等同于 change",
+      "type": "FormItemValidateTrigger | FormItemValidateTrigger[]",
+      "defaultValue": "'change'",
+      "kind": "json",
+      "initial": "[]"
+    }
+  ],
+  "methodNames": [
+    "validate",
+    "clear-validate",
+    "reset-field"
+  ],
+  "events": [
+    "validate"
+  ],
+  "slotNames": [
+    "label",
+    "help",
+    "extra"
+  ],
+  "slotDefaults": {
+    "label": false,
+    "help": false,
+    "extra": false
+  },
+  "scenarios": []
+}

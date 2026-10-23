@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
+import DemoApiReview from './demos/api-review.vue'
 import BasicUsageDemo from './demos/basic-usage.vue'
 import CustomColorDemo from './demos/custom-color.vue'
 import DisabledStatusDemo from './demos/disabled-status.vue'
@@ -31,7 +32,8 @@ onThemeChange()
     <DisabledStatusDemo />
   </section>
   <section data-demo="motion-token">
-    <app-type>{{ english ? 'Motion Token Timing' : '动效 Token 时序' }}</app-type>
+    <app-type>{{ english ? 'Longer motion tokens' : '长时长动效 Token' }}</app-type>
     <MotionTokenDemo :english="english" />
   </section>
+  <section data-demo="api-review"><DemoApiReview /></section>
 </template>

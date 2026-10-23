@@ -2,6 +2,8 @@
 
 One real IAB default/light clock lifecycle case passes per platform: decrement, public pause/start, stable inactive callbacks, inactive time reset-to900ms without background ticking, reactivation and stable callbacks after unmount, final nodes0. Stable cached containers deliver inactive props; deferred parent delivery is not mislabeled a product defect. Not dequeued-race/cross-window/OS certification.
 
+## Examples
+
 ### Countdown business clock and deactivation
 
 Countdown RAF refreshes business time, not visual interpolation; CSS duration/reduced motion must not alter the clock. Pause and KeepAlive deactivation freeze remaining duration; activation resumes that value without charging inactive time. Inactive time updates/reset may update data and emit change but schedule no RAF; auto-start is deferred to activation, and explicit pause cancels pending resume. Direct inactive start is ignored; disposed start/reset emit and schedule nothing.
@@ -59,6 +61,15 @@ When `value` is omitted, Statistic can embed Countdown in the default slot.
 ```demo
 ../example/demos/embed-statistic.vue
 ```
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

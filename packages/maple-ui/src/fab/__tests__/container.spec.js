@@ -1,8 +1,9 @@
 import { h, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { expect, test } from 'vitest'
+import { expect, test, vi } from 'vitest'
 import Fab from '..'
 import Switch from '../../switch'
+import { triggerDrag } from '../../utils/test'
 import DragDemo from '../example/demos/drag.vue'
 
 test('default container renders a visible trigger and allows expanding actions', async () => {
@@ -49,23 +50,42 @@ test('switching preview to viewport drag and back preserves the trigger', async 
   }
 })
 
-test('the real drag demo teleports viewport mode out of the scrolling preview', async () => {
+test('the drag demo keeps its preview and trigger visible while toggling touch dragging', async () => {
   const wrapper = mount(DragDemo, { global: { components: { MpFab: Fab, MpSwitch: Switch } } })
   try {
     await nextTick()
-    expect(wrapper.find('.mp-drag--local').exists()).toBe(true)
+    const stage = wrapper.get('.fab-demo-stage').element
+    const drag = wrapper.get('.mp-drag').element
+    const trigger = wrapper.get('.mp-fab__trigger').element
+    Object.defineProperties(drag, { offsetParent: { configurable: true, value: stage } })
+    Object.defineProperties(stage, {
+      clientWidth: { configurable: true, value: 320 },
+      clientHeight: { configurable: true, value: 240 },
+    })
+    vi.spyOn(stage, 'getBoundingClientRect').mockReturnValue({ top: 100, left: 20, width: 320, height: 240 })
+    vi.spyOn(drag, 'getBoundingClientRect').mockReturnValue({ top: 120, left: 40, width: 56, height: 56 })
+    await triggerDrag(drag, 40, 30)
+    expect(drag.style.transform).toBe('')
+
     await wrapper.get('[role="switch"]').trigger('click')
-    await nextTick()
-    const trigger = document.body.querySelector('.mp-fab__trigger')
-    expect(trigger).toBeTruthy()
-    expect(wrapper.find('.mp-fab__trigger').exists()).toBe(false)
-    expect(trigger.closest('.mp-drag').classList.contains('mp-drag--local')).toBe(false)
-    expect(trigger.closest('.mp-drag').parentElement).toBe(document.body)
+    expect(wrapper.get('.fab-demo-stage').element).toBe(stage)
+    expect(wrapper.get('.mp-fab__trigger').element).toBe(trigger)
+    expect(drag.parentElement).toBe(stage)
+    expect(drag.classList.contains('mp-drag--local')).toBe(true)
+    expect(trigger.style.display).not.toBe('none')
+    expect(document.body.querySelector('.mp-fab__trigger')).toBeNull()
+    await triggerDrag(drag, 40, 30)
+    expect(drag.style.transform).toBe('translate(60px, 50px)')
+    await triggerDrag(drag, 1000, 1000)
+    expect(drag.style.transform).toBe('translate(264px, 184px)')
+
     await wrapper.get('[role="switch"]').trigger('click')
-    await nextTick()
-    expect(wrapper.find('.mp-fab__trigger').exists()).toBe(true)
-    expect(wrapper.find('.mp-drag--local').exists()).toBe(true)
+    expect(wrapper.get('.fab-demo-stage').element).toBe(stage)
+    expect(wrapper.get('.mp-fab__trigger').element).toBe(trigger)
+    await triggerDrag(drag, 40, 30)
+    expect(drag.style.transform).toBe('translate(264px, 184px)')
   } finally {
     wrapper.unmount()
+    vi.restoreAllMocks()
   }
 })

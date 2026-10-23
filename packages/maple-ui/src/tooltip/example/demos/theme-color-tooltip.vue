@@ -1,7 +1,7 @@
 <script setup></script>
 
 <template>
-  <mp-space :size="['14vmin', '2.666vmin']">
+  <mp-space wrap :size="['14vmin', '2.666vmin']">
     <mp-tooltip content="Tooltip">
       <mp-button>默认</mp-button>
     </mp-tooltip>

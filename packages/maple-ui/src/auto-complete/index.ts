@@ -1,5 +1,5 @@
 import { withInstall } from '../utils/components'
-import _AutoComplete from './auto-complete'
+import _AutoComplete from './presentation'
 import { autoCompleteProps } from './props'
 
 const AutoComplete = withInstall(_AutoComplete, Object.assign(_AutoComplete, {}), {

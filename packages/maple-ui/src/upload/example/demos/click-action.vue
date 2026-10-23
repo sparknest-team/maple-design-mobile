@@ -12,7 +12,7 @@ const requestChoose = (chooseFile) => {
 
 <template>
   <div>
-    <label><input v-model="allow" type="checkbox" /> 允许此操作</label>
+    <mp-checkbox v-model="allow">允许此操作</mp-checkbox>
     <mp-upload v-model="files" :request-choose="requestChoose"></mp-upload>
   </div>
 </template>

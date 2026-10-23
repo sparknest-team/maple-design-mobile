@@ -1,9 +1,5 @@
 # InputNumber
 
-真实IAB default/light长按生命周期各端1组通过：首次／后续重复、取消后稳定、重新按下并在800ms前卸载、超过期限仍无更新，最终节点0。入口原生点击但内部pointerdown／pointercancel由夹具脚本发出，不等于原生触控／长按、已出队竞态或跨窗口／OS验收。
-
-长按每个计时回调在步进前校验并消费自身代次，取消、替换、释放、停用和卸载后的旧回调不修改值；步进内部重新开始长按，也不能被旧回调的返回值停止。停用期间不接受新的长按任务，重新激活后需要新的用户长按，不自动恢复旧手势。首次800ms、重复150ms是交互节奏，不是CSS动效时长，不新增动效Token。两端各8项受控计时／旧回调测试通过（其中7项先失败），完整InputNumber Cedar45／Maple48项通过；不等于真实浏览器或OS验收。
-
 InputNumber 用于编辑和提交业务数字。两端主体、数值控制器、样式及公开 API 按独立源码复制维护，不共享运行时实例。
 
 - `model-value !== undefined` 表示受控；`default-value` 仅初始化非受控值。编辑草稿允许暂时不同于业务值；提交后若父组件拒绝更新，恢复到父组件值。外部回填不触发用户事件或校验。
@@ -20,6 +16,14 @@ InputNumber 用于编辑和提交业务数字。两端主体、数值控制器�
 
 ```demo
 ../example/demos/field-basic.vue
+```
+
+### 表单控件尺寸对照
+
+切换五档 size 和三种字段变体，比较 Input、Button、Select、日期时间及其他单行表单控件的高度。Button 在这里固定使用 outline。DatePicker/TimePicker 是面板，此处使用带输入框的 Date/Time 字段。示例同时展示有值、可清空、标签删除与长标签多选；Select/Cascader 设置 tag-nowrap 时保持同档高度，长标签文字省略、删除图标保留；标签行可横向滚动，清空按钮和箭头固定在外侧。被省略的标签正文支持悬停、键盘聚焦或点按查看完整文字，点外部或按 Esc 关闭，不改变选中值。可清空后恢复选中值重复比较。多行文本和允许换行的多选内容按内容撑高。
+
+```demo
+../../field-decorator/example/demos/control-sizes.vue
 ```
 
 ### 三种布局
@@ -46,17 +50,42 @@ InputNumber 用于编辑和提交业务数字。两端主体、数值控制器�
 ../example/demos/form-inheritance.vue
 ```
 
+### 小步长与范围边界
+
+```demo
+../example/demos/number-boundaries.vue
+```
+
+### 外观组合
+
+适用于数量、配额等数值输入。调整变体、尺寸，用相同数据观察变化。内容保持一致，便于比较不同设置的实际效果。
+
+```demo
+../example/demos/appearance-lab.vue
+```
+
+### 交互状态切换
+
+适用于数量、配额等数值输入。调整禁用、只读、错误反馈，用相同数据观察变化。控制区始终可用，可以随时恢复编辑；错误外观本身不会触发表单校验。
+
+```demo
+../example/demos/state-lab.vue
+```
+
 ### 格式化与插槽
 
 ```demo
 ../example/demos/format-slots.vue
 ```
 
-### 小步长与范围边界
+<!-- api-review:start -->
+### 功能调试
 
 ```demo
-../example/demos/number-boundaries.vue
+../example/demos/api-review.vue
 ```
+
+<!-- api-review:end -->
 
 ## API
 
@@ -145,3 +174,13 @@ import type { InputNumberProps, InputNumberInstance, InputNumberMode, InputNumbe
 | `--mp-input-number-size-xl-step-button-width` | `var(--mp-sys-control-height-xl)` |
 
 字段通用外观继续使用 FieldDecorator 的 `--mp-field-*` Token。旧 step-layer-border-radius 已移除，不保留别名。
+
+### Form 字段展示与确认
+
+本组件支持 `presentation`，字段 > FormItem > Form 逐层继承；未指定时为 `inline`，保留原有交互。支持值：`inline / popup`。其他编辑展示使用 Cell 入口和一份草稿，确认后才更新 v-model；取消、重置或启用 readPretty 丢弃草稿。
+
+Maple 使用 presentation="popup" 点击值区域打开编辑面板；inline 直接编辑。 readPretty 为纯阅读属性，与 readonly、disabled 独立。
+
+`before-commit(value, { previousValue, signal })` 可拦截弹层保存；FormItem 先校验候选值，失败保持编辑。`open / default-open / update:open` 控制编辑层。`#read="{ value, text }"` 可自定义阅读内容。集中示例见 Form 的“各类字段统一展示”。
+
+`read-pretty` 为独立布尔属性，与 `readonly`、`disabled` 同级；字段 > FormItem > Form 继承，显式 `false` 覆盖父级。默认 `false`。纯阅读不显示编辑器。

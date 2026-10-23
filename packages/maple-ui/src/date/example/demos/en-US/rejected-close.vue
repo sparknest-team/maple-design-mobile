@@ -21,7 +21,7 @@ function requestOpen(next) {
       The parent rejects close requests. A new date starts a new confirmation; repeated confirmation does not submit
       twice.
     </p>
-    <mp-date v-model="value" :open="open" presentation="calendar" @update:open="requestOpen" @change="commits++" />
+    <mp-date v-model="value" :open="open" panel-type="calendar" @update:open="requestOpen" @change="commits++" />
     <span data-test="date-transaction-state"
       >Value: {{ value }}; commits: {{ commits }}; rejected closes: {{ closeRequests }}</span
     >

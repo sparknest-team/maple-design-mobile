@@ -1,8 +1,16 @@
 # Alert
 
+## 案例
+
 ### Intro
 
 Alerts display brief messages for the user without interrupting their use.
+
+### Variant
+
+```demo
+../example/demos/variant.vue
+```
 
 ### Title
 
@@ -24,12 +32,6 @@ Alerts display brief messages for the user without interrupting their use.
 ../example/demos/type.vue
 ```
 
-### Variant
-
-```demo
-../example/demos/variant.vue
-```
-
 ### Custom Icon
 
 ```demo
@@ -37,6 +39,8 @@ Alerts display brief messages for the user without interrupting their use.
 ```
 
 ### Allow To Close
+
+Activate Close with a click, Space or Enter. The close event starts closing; closed follows the leave transition. Unmounting the component in close prevents observing its completed transition. This Demo retains the instance, counts both events, and reopens with a fresh key without changing other Alert instances.
 
 ```demo
 ../example/demos/allow-to-close.vue
@@ -72,6 +76,23 @@ Alerts display brief messages for the user without interrupting their use.
 ../example/demos/show-icon.vue
 ```
 
+### Appearance combinations
+
+Use this example for the emphasis of informational messages. Adjust variant, status and compare the component with the same data. Keep the content unchanged while comparing the available settings.
+
+```demo
+../example/demos/appearance-lab.vue
+```
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
+
 ## API
 
 ### Props
@@ -100,6 +121,7 @@ Alerts display brief messages for the user without interrupting their use.
 | Event   | Description                                                                                        | Arguments      |
 | ------- | -------------------------------------------------------------------------------------------------- | -------------- |
 | `close` | Triggered when the Close button is clicked and can only be used when the Close button is displayed | `event: Event` |
+| `closed` | Triggered after the leave transition completes | `-` |
 
 ### Style Variables
 

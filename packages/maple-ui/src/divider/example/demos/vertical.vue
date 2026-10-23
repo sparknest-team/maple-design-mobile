@@ -1,25 +1,28 @@
-<script setup></script>
-
 <template>
-  <div class="divider-example-vertical-container">
-    <span>文字</span>
-    <mp-divider orientation="vertical" />
-    <span>文字</span>
-    <mp-divider orientation="vertical" type="dashed" />
-    <span>文字</span>
+  <div>
+    <div class="vertical-row">
+      <span>Before</span>
+      <mp-divider orientation="vertical" />
+      <span>Middle</span>
+      <mp-divider orientation="vertical" type="dashed" />
+      <span>After</span>
+    </div>
+    <div class="vertical-labels">
+      <mp-divider orientation="vertical" text-align="start" description="Start" />
+      <mp-divider orientation="vertical" description="Center" />
+      <mp-divider orientation="vertical" text-align="end" description="End" />
+    </div>
   </div>
 </template>
 
-<style lang="less" scoped>
-.divider-example-vertical-container {
+<style scoped>
+.vertical-row {
   display: flex;
-  justify-content: center;
   align-items: center;
-  color: #333;
-
-  span {
-    font-size: 14px;
-    color: #888;
-  }
+  min-height: 40px;
+}
+.vertical-labels {
+  display: flex;
+  height: 160px;
 }
 </style>

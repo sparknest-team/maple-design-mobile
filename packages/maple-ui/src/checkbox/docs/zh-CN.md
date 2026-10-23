@@ -1,5 +1,7 @@
 # 复选框
 
+## 案例
+
 ### 介绍
 
 基础示例随站点语言切换显示文案，业务值和选中状态不会随语言变化。分组示例覆盖父级接受/拒绝更新、只读和异步选项回显；移除选项不会清空业务值。外层 Space 纵向布局使用 `direction="column"`，选择组自身纵向使用 `direction="vertical"`。
@@ -12,18 +14,6 @@
 ../example/demos/basic-usage.vue
 ```
 
-### 设置状态值
-
-```demo
-../example/demos/set-state.vue
-```
-
-### 修改图标和颜色
-
-```demo
-../example/demos/set-style.vue
-```
-
 ### 禁用
 
 ```demo
@@ -34,6 +24,18 @@
 
 ```demo
 ../example/demos/readonly.vue
+```
+
+### 设置状态值
+
+```demo
+../example/demos/set-state.vue
+```
+
+### 修改图标和颜色
+
+```demo
+../example/demos/set-style.vue
 ```
 
 ### 不确定状态
@@ -92,14 +94,6 @@ Group 的 `disabled`、`readonly`、`error` 未设置时继承表单，显式 `f
 ../example/demos/group-state.vue
 ```
 
-### 异步选项
-
-选项载入、移除和外部值更新均不会反向触发值变化；未载入的已选值不会自动清理。达到 max 仍可取消已选项；外部超限值不会自动裁剪。
-
-```demo
-../example/demos/async-options.vue
-```
-
 ### 独立值模型与方法
 
 Checkbox 的布尔模型始终返回 boolean；数组模型按 value 增删选项，不修改传入数组。indeterminate 只用于展示，由业务方计算，不会自动回写。
@@ -142,9 +136,42 @@ icon-size 接受像素数字或 CSS 长度字符串，不是 ComponentSize 档�
 ../example/demos/native-control.vue
 ```
 
+### 自定义控件插槽
+
+通过控件插槽替换外观，仍使用相同的值模型和键盘操作。
+
 ```demo
 ../example/demos/custom-control.vue
 ```
+
+### 交互状态切换
+
+适用于协议确认和独立勾选。调整禁用、只读、错误反馈，用相同数据观察变化。控制区始终可用，可以随时恢复编辑；错误外观本身不会触发表单校验。
+
+```demo
+../example/demos/state-lab.vue
+```
+
+### 异步选项
+
+开启手动返回后，每次加载创建本地 Promise，可分别返回最早或最新任务验证两种乱序。示例业务加载器用版本保护忽略旧响应：旧结果不结束新加载、不清空选择、不释放 `max=2` 名额，也不增加用户变更次数。移除使在途结果失效，新加载仍按保留模型反显；停用或卸载会结清等待并取消定时器。此保护属于示例业务逻辑，不代表组件自动处理网络竞争；不访问外部接口。
+
+选项载入、移除和外部值更新均不会反向触发值变化；未载入的已选值不会自动清理。示例使用 800ms 本地延迟模拟请求；加载中移除选项会取消待完成的加载，避免旧结果重新显示。已选 remote 占一个名额，再选设备 A 后达到 `max=2`，设备 B 将不可选；取消任一已选项会释放名额。外部超限值不会自动裁剪。
+
+等待期间可用空格或 Enter 操作已有选项；同值选项重载后保留键盘焦点和最新选择。加载提示保持稳定节点，避免显隐导致分组重新挂载，取消已选项后仍可继续选择并释放名额。
+
+```demo
+../example/demos/async-options.vue
+```
+
+<!-- api-review:start -->
+### 功能调试
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 
@@ -284,3 +311,13 @@ icon-size 接受像素数字或 CSS 长度字符串，不是 ComponentSize 档�
 ### 减少动态效果
 
 内置 CSS 过渡遵循 `prefers-reduced-motion: reduce`。关闭过渡不改变最终显隐、选中／展开状态及事件语义；插槽内自定义动画由应用自行控制。
+
+### Form 字段展示与确认
+
+本组件支持 `presentation`，字段 > FormItem > Form 逐层继承；未指定时为 `inline`，保留原有交互。支持值：`inline / popup`。其他编辑展示使用 Cell 入口和一份草稿，确认后才更新 v-model；取消、重置或启用 readPretty 丢弃草稿。
+
+Maple 使用 presentation="popup" 点击值区域打开编辑面板；inline 直接编辑。 readPretty 为纯阅读属性，与 readonly、disabled 独立。
+
+`before-commit(value, { previousValue, signal })` 可拦截弹层保存；FormItem 先校验候选值，失败保持编辑。`open / default-open / update:open` 控制编辑层。`#read="{ value, text }"` 可自定义阅读内容。集中示例见 Form 的“各类字段统一展示”。
+
+`read-pretty` 为独立布尔属性，与 `readonly`、`disabled` 同级；字段 > FormItem > Form 继承，显式 `false` 覆盖父级。默认 `false`。纯阅读不显示编辑器。

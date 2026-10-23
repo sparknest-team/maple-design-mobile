@@ -1,13 +1,13 @@
 .mp-button-group {
   display: inline-flex;
-  border-radius: var(--mp-button-group-border-radius);
+  border-radius: var(--mp-button-border-radius);
   max-width: 100%;
   box-sizing: border-box;
   align-items: stretch;
   overflow: visible;
 
   > .mp-button {
-    border-radius: var(--mp-button-group-border-radius);
+    border-radius: var(--mp-button-border-radius);
     flex-shrink: 0;
     &:active {
       box-shadow: none;
@@ -52,6 +52,11 @@
 
   &--vertical {
     flex-direction: column;
+
+    // Align icon/text columns even when action labels have different lengths.
+    > .mp-button:not(.mp-button--stacked):not(.mp-button--round):not(.mp-button--icon-only) {
+      justify-content: flex-start;
+    }
 
     > .mp-button {
       &:first-child {

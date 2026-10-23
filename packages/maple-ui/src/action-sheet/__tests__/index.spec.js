@@ -104,5 +104,10 @@ test('safe area', async () => {
     safeArea: true,
   })
   await delay(16)
+  expect(
+    document
+      .querySelector('[role="dialog"][data-modal-focus-root]')
+      ?.classList.contains('mp-popup--safe-area-inset-bottom'),
+  ).toBe(true)
   expect(document.body.innerHTML).toMatchSnapshot()
 })

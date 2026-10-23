@@ -15,7 +15,7 @@ const disabledSeconds = (hour, minute) => (hour === 10 && minute === 30 ? [41, 4
     <mp-time-range
       v-model="value"
       format="HH:mm:ss"
-      presentation="picker"
+      panel-type="picker"
       min="10:30:38"
       max="11:30:02"
       :disabled-hours="disabledHours"

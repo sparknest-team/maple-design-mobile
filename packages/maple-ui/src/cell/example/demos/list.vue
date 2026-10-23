@@ -29,12 +29,17 @@ const handleClick = (item) => {
       v-for="(item, index) in items"
       :key="item.name"
       ripple
-      :icon="item.icon"
       :border="index !== items.length - 1"
       :border-offset="0"
       @click="handleClick(item)"
     >
       {{ item.name }}
+
+      <template #icon>
+        <m-icon-star-fill v-if="item.icon === 'star-fill'" />
+        <m-icon-heart-fill v-else-if="item.icon === 'heart-fill'" />
+        <m-icon-close-circle-fill v-else />
+      </template>
 
       <template #extra>
         <mp-switch v-model="item.enabled" @click.stop />

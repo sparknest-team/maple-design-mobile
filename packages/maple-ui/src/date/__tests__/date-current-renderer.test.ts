@@ -21,26 +21,39 @@ describe('date current renderer', () => {
     expect(wrapper.emitted('update:modelValue')).toBeUndefined()
     await wrapper.setProps({ showNowButton: true })
     await wrapper.find('.mp-date-panel-actions button').trigger('click')
+    expect(wrapper.emitted('select')?.[0]?.[0]).toBe('2025-01-15')
+    expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+    await wrapper
+      .findAll('button')
+      .find((button) => button.text() === '确认')!
+      .trigger('click')
     expect(wrapper.emitted('update:modelValue')?.[0]).toEqual(['2025-01-15'])
     wrapper.unmount()
   })
-  it.each([true, false])('applies exchangeTime=%s to real reversed calendar selections', async (exchangeTime) => {
+  it('keeps reversed calendar selections as a draft without moving the other endpoint', async () => {
     const wrapper = mount(DateRangePicker, {
       props: {
         modelValue: ['2025-01-05 09:00', '2025-01-10 18:00'],
         showTime: true,
         useSeconds: false,
-        exchangeTime,
-        presentation: 'calendarClock',
+        presentation: 'calendarPicker',
       },
     })
     await nextTick()
     const cell = (day: string) => wrapper.findAll('.mp-day-picker__button--usable').find((item) => item.text() === day)!
     await cell('20').trigger('click')
-    await cell('10').trigger('click')
-    expect(wrapper.emitted('update:modelValue')?.[0]).toEqual([
-      exchangeTime ? ['2025-01-10 18:00', '2025-01-20 09:00'] : ['2025-01-10 09:00', '2025-01-20 18:00'],
-    ])
+    expect(wrapper.emitted('select')?.at(-1)?.[0]).toEqual(['2025-01-20 09:00', '2025-01-10 18:00'])
+    expect(wrapper.get('[role=alert]').text()).toContain('结束时间不能早于开始时间')
+    expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+    await wrapper.findAll('.mp-date-range-picker__summary')[1].trigger('click')
+    await cell('25').trigger('click')
+    expect(wrapper.find('[role=alert]').exists()).toBe(false)
+    expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+    await wrapper
+      .findAll('button')
+      .find((button) => button.text() === '确认')!
+      .trigger('click')
+    expect(wrapper.emitted('update:modelValue')?.[0]).toEqual([['2025-01-20 09:00', '2025-01-25 18:00']])
     wrapper.unmount()
   })
 })

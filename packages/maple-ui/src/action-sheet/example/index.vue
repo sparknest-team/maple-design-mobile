@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
+import DemoApiReview from './demos/api-review.vue'
 import ComponentCallDemo from './demos/component-call.vue'
 import FunctionCallDemo from './demos/function-call.vue'
 
@@ -23,4 +24,5 @@ onThemeChange()
     <app-type>{{ english ? 'Component Call' : '组件调用' }}</app-type>
     <ComponentCallDemo />
   </section>
+  <section data-demo="api-review"><DemoApiReview /></section>
 </template>

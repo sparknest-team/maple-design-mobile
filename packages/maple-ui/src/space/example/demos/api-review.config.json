@@ -1,0 +1,103 @@
+{
+  "fields": [
+    {
+      "name": "direction",
+      "description": "布局方向 可选值为 row column",
+      "type": "'row' | 'column'",
+      "defaultValue": "'row'",
+      "kind": "enum",
+      "options": [
+        "row",
+        "column"
+      ],
+      "initial": "row"
+    },
+    {
+      "name": "justify",
+      "description": "主轴排列方式 可选值为 flex-start flex-end center space-around space-between space-evenly",
+      "type": "'flex-start' | 'flex-end' | 'center' | 'space-around' | 'space-between' | 'space-evenly'",
+      "defaultValue": "'flex-start'",
+      "kind": "enum",
+      "options": [
+        "flex-start",
+        "flex-end",
+        "center",
+        "space-around",
+        "space-between",
+        "space-evenly"
+      ],
+      "initial": "flex-start"
+    },
+    {
+      "name": "align",
+      "description": "交叉轴排列方式 可选值为 stretch center flex-start flex-end baseline，未传时根据 direction 推断（row → center，column → stretch）",
+      "type": "'flex-start' | 'flex-end' | 'center' | 'baseline' | 'stretch'",
+      "defaultValue": "undefined",
+      "kind": "enum",
+      "options": [
+        "flex-start",
+        "flex-end",
+        "center",
+        "baseline",
+        "stretch"
+      ],
+      "initial": "flex-start"
+    },
+    {
+      "name": "size",
+      "description": "间距，可选值为 xs sm md lg xl 或 [行间距, 列间距] (支持长度单位)",
+      "type": "string | number | [string | number, string | number]",
+      "defaultValue": "'md'",
+      "kind": "scenario"
+    },
+    {
+      "name": "wrap",
+      "description": "是否超出换行",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "block",
+      "description": "是否撑满父容器宽度",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    }
+  ],
+  "events": [],
+  "scenarios": [
+    {
+      "name": "size",
+      "kind": "prop",
+      "demos": [
+        "around.vue",
+        "between.vue",
+        "center.vue",
+        "demo-8.vue",
+        "interactive-layout.vue",
+        "right-align.vue",
+        "space.vue",
+        "vertical.vue",
+        "wrap.vue"
+      ]
+    },
+    {
+      "name": "default",
+      "kind": "slot",
+      "demos": []
+    },
+    {
+      "name": "split",
+      "kind": "slot",
+      "demos": []
+    }
+  ],
+  "slotNames": [
+    "split"
+  ],
+  "slotDefaults": {
+    "split": false
+  },
+  "methodNames": []
+}

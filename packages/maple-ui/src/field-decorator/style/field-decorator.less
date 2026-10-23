@@ -19,12 +19,6 @@
   cursor: text;
   transition: background-color var(--mp-field-hint-duration);
 
-  // Error and filled backgrounds must not hide keyboard focus.
-  &:has(:focus-visible):not(&--disabled) {
-    outline: var(--mp-field-border-width) solid var(--mp-field-custom-focus, var(--mp-field-focus-color));
-    outline-offset: var(--mp-field-border-width);
-  }
-
   .size(@size) {
     &--size-@{size} {
       --mp-internal-field-height: var(~'--mp-field-size-@{size}-height');
@@ -113,7 +107,9 @@
   &--multiline &__placeholder {
     top: calc(var(--mp-field-content-padding-vertical) + 0.5em * var(--mp-field-line-height));
   }
-  &--floating &__placeholder {
+  // Browser autofill can paint a value before Vue receives an input event.
+  &--floating &__placeholder,
+  &:has(input:autofill) &__placeholder {
     top: 0;
     transform: translateY(-50%) scale(var(--mp-field-hint-scale));
   }
@@ -159,6 +155,9 @@
     &--open {
       max-width: var(--mp-internal-field-content-width, 100%);
     }
+  }
+  &:has(input:autofill) &__legend {
+    max-width: var(--mp-internal-field-content-width, 100%);
   }
 
   &--variant-outline &__border {

@@ -190,8 +190,8 @@ export const componentsMap: Record<string, ComponentDescriptor> = {
     closeSelf: true,
     characterDelta: -3,
   },
-  'dropdown-menu': {
-    path: '/dropdown-menu',
+  menu: {
+    path: '/menu',
   },
   'action-sheet': {
     path: '/action-sheet',
@@ -338,7 +338,7 @@ export const componentsMap: Record<string, ComponentDescriptor> = {
     path: '/watermark',
   },
   'menu-option': {
-    path: '/dropdown-menu',
+    path: '/menu',
     attrs: ['label=""'],
     closeSelf: true,
     characterDelta: -3,

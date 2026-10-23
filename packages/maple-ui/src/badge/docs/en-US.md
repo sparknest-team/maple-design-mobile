@@ -10,6 +10,18 @@ The same scenarios, parameters and interactions as Cedar. Only component prefixe
 ../example/demos/basic.vue
 ```
 
+### Five sizes
+
+```demo
+../example/demos/size.vue
+```
+
+### Solid and outline
+
+```demo
+../example/demos/variant.vue
+```
+
 ### Inline and standalone
 
 ```demo
@@ -40,12 +52,6 @@ The same scenarios, parameters and interactions as Cedar. Only component prefixe
 ../example/demos/color.vue
 ```
 
-### Five sizes
-
-```demo
-../example/demos/size.vue
-```
-
 ### Positions and offsets
 
 ```demo
@@ -58,11 +64,22 @@ The same scenarios, parameters and interactions as Cedar. Only component prefixe
 ../example/demos/show.vue
 ```
 
-### Solid and outline
+### Appearance combinations
+
+Use this example for notification counts and markers. Adjust variant, status, size and compare the component with the same data. Keep the content unchanged while comparing the available settings.
 
 ```demo
-../example/demos/variant.vue
+../example/demos/appearance-lab.vue
 ```
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

@@ -1,6 +1,23 @@
 import { Message } from './index'
 
 export default {
+  'fieldPresentation.input': '请输入',
+  'fieldPresentation.selectionCount': '已选 {count} 个',
+  'fieldPresentation.selectionRemove': '移除',
+  'fieldPresentation.selectionBack': '返回可选项',
+  'fieldPresentation.selectionEmpty': '暂无已选项',
+  'fieldPresentation.edit': '编辑',
+  'fieldPresentation.close': '关闭',
+  'fieldPresentation.search': '搜索选项',
+  'fieldPresentation.selected': '已选择',
+  'fieldPresentation.limit': '最多选择',
+
+  datePickerPreviousMonth: '上一月',
+  datePickerNextMonth: '下一月',
+  datePickerPreviousYear: '上一年',
+  datePickerNextYear: '下一年',
+  datePickerPreviousPeriod: '上一组年份',
+  datePickerNextPeriod: '下一组年份',
   'carousel.label': '轮播',
   'carousel.previous': '上一页',
   'carousel.next': '下一页',
@@ -123,6 +140,9 @@ export default {
     },
   },
   datePickerSelected: '个被选择',
+  dateRangeOrderError: '结束日期不能早于开始日期，请调整起止日期',
+  dateTimeRangeOrderError: '结束时间不能早于开始时间，请调整起止时间',
+  timeRangeOrderError: '结束时间不能早于开始时间，请调整起止时间',
   datePickerNowButtonText: '此刻',
   datePickerHint: '选择日期',
   datePickerColumnYear: '年',
@@ -143,6 +163,8 @@ export default {
   timePickerHint: '选择时间',
   // time-range
   timeRangeStart: '开始时间',
+  dateRangeStart: '开始日期',
+  dateRangeEnd: '结束日期',
   timeRangeEnd: '结束时间',
   timeRangeNextDay: '次日',
 } satisfies Message

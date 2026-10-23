@@ -1,5 +1,7 @@
 # Checkbox
 
+## Examples
+
 ### Intro
 
 Basic demos follow the site language without changing business values or selection. Group demos cover accepted/rejected updates, readonly state and asynchronous option labels; removing options does not clear the model. Use `direction="column"` on the outer Space and `direction="vertical"` on the choice group itself.
@@ -12,18 +14,6 @@ A group of options for multiple choices.
 ../example/demos/basic-usage.vue
 ```
 
-### Set State Value
-
-```demo
-../example/demos/set-state.vue
-```
-
-### Modify The Icon And Color
-
-```demo
-../example/demos/set-style.vue
-```
-
 ### Disabled
 
 ```demo
@@ -34,6 +24,18 @@ A group of options for multiple choices.
 
 ```demo
 ../example/demos/readonly.vue
+```
+
+### Set State Value
+
+```demo
+../example/demos/set-state.vue
+```
+
+### Modify The Icon And Color
+
+```demo
+../example/demos/set-style.vue
 ```
 
 ### Indeterminate
@@ -92,14 +94,6 @@ Group inherits `disabled`, `readonly` and `error` from the form when omitted. An
 ../example/demos/en-US/group-state.vue
 ```
 
-### Asynchronous options
-
-Loading/removing options or updating the external value never emits reverse updates. Selected values absent from the current options are retained. max blocks additions, not deselection; external over-limit values are not truncated.
-
-```demo
-../example/demos/en-US/async-options.vue
-```
-
 ### Standalone values and methods
 
 Checkbox boolean models emit booleans. Array models add/remove the option value without mutating the input array. indeterminate is presentation-only and must be derived by the application.
@@ -142,9 +136,42 @@ The icon-size prop is a pixel number or CSS length string, not a ComponentSize p
 ../example/demos/en-US/native-control.vue
 ```
 
+### Custom control slot
+
+Replace the appearance while retaining the same value model and keyboard interaction.
+
 ```demo
 ../example/demos/en-US/custom-control.vue
 ```
+
+### Interaction states
+
+Use this example for agreement and independent checks. Adjust disabled, read-only, error feedback and compare the component with the same data. The controls remain available to restore editing; error appearance alone does not run validation.
+
+```demo
+../example/demos/state-lab.vue
+```
+
+### Asynchronous options
+
+Enable manual responses to create local Promises and resolve the oldest or newest load in either order. The demo loader uses a version guard: obsolete responses cannot finish a newer load, clear selections, release a `max=2` slot, or increment user changes. Removing options invalidates in-flight results; a fresh load reflects the retained model. Deactivation or unmount settles waiting jobs and cancels timers. This is demo business logic, not automatic network-race handling by the component; no external service is used.
+
+Loading/removing options or updating the external value never emits reverse updates. Selected values absent from the current options are retained. This demo simulates a request with an 800ms local delay; removing options while loading cancels the pending result so stale options do not reappear. The selected remote value occupies one slot; selecting Device A reaches `max=2` and disables Device B. Deselecting either item frees a slot. External over-limit values are not truncated.
+
+Use Space or Enter on existing options while waiting. Reloading the same values preserves keyboard focus and the latest selection. Keep the loading-status node stable to avoid remounting the group; deselecting an item still frees a slot for another choice.
+
+```demo
+../example/demos/en-US/async-options.vue
+```
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 
@@ -284,3 +311,13 @@ Public method type：`CheckboxGroupMethods`；`CheckboxGroupInstance` includes t
 ### Reduced motion
 
 Built-in CSS transitions respect `prefers-reduced-motion: reduce`. Final visibility, checked/expanded state and event semantics remain unchanged; custom slot animations are controlled by the application.
+
+### Form field presentation and confirmation
+
+`presentation` inherits from field > FormItem > Form and defaults to `inline`. Supported values are `inline / popup`. Inline keeps the existing control behavior. Overlay editing uses a Cell reference and an isolated draft; only confirmation updates v-model. Cancel, reset and enabling readPretty discard the draft.
+
+Maple 使用 presentation="popup" 点击值区域打开编辑面板；inline 直接编辑。 readPretty 为纯阅读属性，与 readonly、disabled 独立。
+
+`before-commit(value, { previousValue, signal })` can reject an overlay save. FormItem validates the candidate first and keeps the editor open on failure. `open / default-open / update:open` control the editor. Use `#read="{ value, text }"` to customize display. See the full field comparison in Form.
+
+`read-pretty` 为独立布尔属性，与 `readonly`、`disabled` 同级；字段 > FormItem > Form 继承，显式 `false` 覆盖父级。默认 `false`。纯阅读不显示编辑器。

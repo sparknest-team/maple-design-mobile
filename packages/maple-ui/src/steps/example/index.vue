@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
+import DemoApiReview from './demos/api-review.vue'
+import OrganizedAppearanceLab from './demos/appearance-lab.vue'
 import BasicUsageDemo from './demos/basic-usage.vue'
 import ChangeableDemo from './demos/changeable.vue'
 import ErrorStatusDemo from './demos/error-status.vue'
@@ -38,4 +40,9 @@ onThemeChange()
     <app-type>{{ english ? 'Vertical Mode' : '垂直模式' }}</app-type>
     <VerticalDemo />
   </section>
+  <section data-demo="appearance-lab">
+    <app-type>{{ english ? 'Appearance combinations' : '外观组合' }}</app-type>
+    <OrganizedAppearanceLab />
+  </section>
+  <section data-demo="api-review"><DemoApiReview /></section>
 </template>

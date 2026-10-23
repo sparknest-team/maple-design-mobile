@@ -1,6 +1,7 @@
 <script setup>
 import { reactive, ref } from 'vue'
 import { Message } from '@maplejs/maple-ui'
+import ModelOutput from '../components/ModelOutput.vue'
 
 const formData = reactive({ username: '', password: '' })
 const result = ref('尚未提交')
@@ -32,5 +33,5 @@ function handleReset() {
     </mp-space>
   </mp-form>
   <p role="status">提交结果：{{ result }}</p>
-  <pre>{{ formData }}</pre>
+  <ModelOutput>{{ formData }}</ModelOutput>
 </template>

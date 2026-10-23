@@ -28,7 +28,7 @@ function search(next: SearchResult) {
 </script>
 <template>
   <div class="search-demo">
-    <label><input v-model="accepted" type="checkbox" />接受模型更新（取消后演示受控拒绝）</label>
+    <mp-checkbox v-model="accepted">接受模型更新（取消后演示受控拒绝）</mp-checkbox>
     <mp-search
       :model="model"
       :model-field="field"

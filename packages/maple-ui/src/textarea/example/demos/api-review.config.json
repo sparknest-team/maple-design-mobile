@@ -1,0 +1,355 @@
+{
+  "fields": [
+    {
+      "name": "model-value",
+      "description": "受控绑定值",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "default-value",
+      "description": "非受控模式初始值",
+      "type": "string",
+      "defaultValue": "''",
+      "kind": "string"
+    },
+    {
+      "name": "model-modifiers",
+      "description": "v-model 修饰符；支持 trim",
+      "type": "object",
+      "defaultValue": "() => ({})",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "placeholder",
+      "description": "占位提示文字",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "variant",
+      "description": "filled | outline | standard",
+      "type": "\"filled\" | \"outline\" | \"standard\"",
+      "defaultValue": "undefined",
+      "kind": "enum",
+      "options": [
+        "filled",
+        "outline",
+        "standard"
+      ],
+      "initial": "filled"
+    },
+    {
+      "name": "size",
+      "description": "xs | sm | md | lg | xl",
+      "type": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\"",
+      "defaultValue": "undefined",
+      "kind": "enum",
+      "options": [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl"
+      ],
+      "initial": "xs"
+    },
+    {
+      "name": "clearable",
+      "description": "是否允许清空",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "disabled",
+      "description": "是否禁用",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
+      "name": "readonly",
+      "description": "是否只读",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
+      "name": "error",
+      "description": "是否显示错误状态",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
+      "name": "rows",
+      "description": "原生可见行数，仍受 min-height Token 约束",
+      "type": "string | number",
+      "defaultValue": "undefined",
+      "kind": "scalar"
+    },
+    {
+      "name": "resize",
+      "description": "是否允许纵向拖动调整尺寸",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "auto-size",
+      "description": "自动高度，可设置最小/最大行数",
+      "type": "boolean | { minRows?: number; maxRows?: number }",
+      "defaultValue": "false",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "max-length",
+      "description": "最大长度；对象形式可启用仅错误模式",
+      "type": "number | { length: number; errorOnly?: boolean }",
+      "defaultValue": "0",
+      "kind": "json",
+      "initial": "{\"length\":20,\"errorOnly\":false}"
+    },
+    {
+      "name": "show-word-limit",
+      "description": "是否显示字数统计",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "word-length",
+      "description": "自定义长度计算方法",
+      "type": "(value: string) => number",
+      "defaultValue": "undefined",
+      "kind": "callback"
+    },
+    {
+      "name": "word-slice",
+      "description": "自定义截取方法",
+      "type": "(value: string, maxLength: number) => string",
+      "defaultValue": "undefined",
+      "kind": "callback"
+    },
+    {
+      "name": "aria-label",
+      "description": "无可见标签时提供的可访问名称",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "autofocus",
+      "description": "是否自动聚焦",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "enterkeyhint",
+      "description": "虚拟键盘回车键提示",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "textarea-attrs",
+      "description": "内部 textarea 元素的补充原生属性",
+      "type": "object",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "hint",
+      "description": "浮动提示；未设置时继承分组/库默认",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
+      "name": "line",
+      "description": "是否显示装饰线",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "text-color",
+      "description": "自定义文字颜色",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "focus-color",
+      "description": "自定义聚焦颜色",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "blur-color",
+      "description": "自定义失焦颜色",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "presentation",
+      "type": "'inline' | 'popup'",
+      "defaultValue": "undefined",
+      "description": "字段编辑方式，字段 > FormItem > Form 继承；默认 inline。",
+      "kind": "enum",
+      "options": [
+        "inline",
+        "popup"
+      ],
+      "initial": "inline"
+    },
+    {
+      "name": "read-pretty",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "description": "纯阅读展示；字段 > FormItem > Form 继承，显式 false 覆盖父级。",
+      "kind": "boolean"
+    },
+    {
+      "name": "before-commit",
+      "type": "BeforeFieldCommit",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "callback"
+    },
+    {
+      "name": "open",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "boolean"
+    },
+    {
+      "name": "default-open",
+      "type": "boolean",
+      "defaultValue": "false",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "boolean"
+    },
+    {
+      "name": "popup-container",
+      "type": "string | HTMLElement | false",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "json",
+      "initial": "\"body\""
+    }
+  ],
+  "events": [
+    "input",
+    "change",
+    "keydown",
+    "clear",
+    "focus",
+    "blur",
+    "update:modelValue",
+    "update:open"
+  ],
+  "scenarios": [
+    {
+      "name": "model-modifiers",
+      "kind": "prop",
+      "demos": []
+    },
+    {
+      "name": "auto-size",
+      "kind": "prop",
+      "demos": [
+        "body-contract.vue"
+      ]
+    },
+    {
+      "name": "max-length",
+      "kind": "prop",
+      "demos": [
+        "body-contract.vue",
+        "demo-5.vue"
+      ]
+    },
+    {
+      "name": "word-length",
+      "kind": "prop",
+      "demos": []
+    },
+    {
+      "name": "word-slice",
+      "kind": "prop",
+      "demos": []
+    },
+    {
+      "name": "textarea-attrs",
+      "kind": "prop",
+      "demos": []
+    },
+    {
+      "name": "before-commit",
+      "kind": "prop",
+      "demos": []
+    },
+    {
+      "name": "prefix",
+      "kind": "slot",
+      "demos": []
+    },
+    {
+      "name": "suffix",
+      "kind": "slot",
+      "demos": []
+    },
+    {
+      "name": "clear-icon",
+      "kind": "slot",
+      "demos": []
+    },
+    {
+      "name": "focus",
+      "kind": "method",
+      "demos": [
+        "body-contract.vue"
+      ]
+    },
+    {
+      "name": "blur",
+      "kind": "method",
+      "demos": [
+        "demo-1.vue",
+        "demo-2.vue",
+        "demo-3.vue",
+        "demo-4.vue",
+        "demo-5.vue",
+        "demo-6.vue"
+      ]
+    }
+  ],
+  "slotNames": [
+    "prefix",
+    "suffix",
+    "clear-icon"
+  ],
+  "slotDefaults": {
+    "prefix": false,
+    "suffix": false,
+    "clear-icon": false
+  },
+  "methodNames": [
+    "focus",
+    "blur"
+  ]
+}

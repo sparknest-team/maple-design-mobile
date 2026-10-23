@@ -1,14 +1,10 @@
 # 图标
 
-### 名称切换与生命周期
+图标以独立 SVG Vue 组件提供。推荐通过 Resolver 自动按需导入；需要统一尺寸、颜色或旋转时，使用 Icon 容器包裹图标。
 
-transition默认0，是JS视觉替换时长，不新增CSS Token。CSS与计时共享归一化值，负值／非有限值按0；时长改变取消旧阶段并提交当前名称。名称替换／减少动效／停用／卸载使旧任务失效，已消费回调不能清掉新动画。KeepAlive停用不排动画、解绑偏好监听；激活直接显示最新名称，不重放旧动画。偏好由实际span所属窗口读取，绑定代次隔离已解绑监听。具名注册／slot优先／spin不变。两端新模拟测试各9项（基线6失败／3对照），完整Icon Cedar20／Maple21通过；真实浏览器／OS仍独立待验。
+图标容器的命名、尺寸转换和安装辅助采用轻量依赖模块，按需引入不会额外打入通用工具库。图形仍由实际使用的独立 SVG 组件提供。
 
-```demo
-../example/demos/lifecycle.vue
-```
-
-
+## 案例
 
 ### 基础用法
 
@@ -30,6 +26,8 @@ transition默认0，是JS视觉替换时长，不新增CSS Token。CSS与计时�
 
 ### 旋转与持续旋转
 
+`rotate` 设置静态角度，`spin` 开启持续旋转动画，两者可以组合使用。
+
 ```demo
 ../example/demos/rotate-and-spin.vue
 ```
@@ -40,17 +38,46 @@ transition默认0，是JS视觉替换时长，不新增CSS Token。CSS与计时�
 ../example/demos/click-event.vue
 ```
 
-### 动态名称（特殊场景，点击切换）
+### 自定义图标
+
+在默认插槽内放入自定义 SVG，尺寸和颜色由 Icon 容器统一控制。
+
+```demo
+../example/demos/custom.vue
+```
+
+### 动态名称
+
+`name` 使用短横线名称（例如 `arrow-left`），只查找当前 Vue 应用已注册的图标，不会自动加载图标全集。点击“切换图标”查看名称与图形同步变化。设置默认插槽时，优先显示插槽内容，`name` 不再决定图形。
 
 ```demo
 ../example/demos/icon-animation.vue
 ```
 
-### 图标列表 (点击复制)
+### 全部图标
+
+两端使用同一套规范名称。搜索忽略首尾空格和大小写，清空后恢复全部图标。卡片放大展示图标，完整名称可换行；点击或按 Enter / Space 复制对应标签。复制使用浏览器 Clipboard API，需要安全上下文及剪贴板权限；失败时显示错误反馈。
 
 ```demo
 ../example/demos/icon-list.vue
 ```
+
+### 名称切换与生命周期
+
+```demo
+../example/demos/lifecycle.vue
+```
+
+<!-- api-review:start -->
+### 功能调试
+
+启用 `name` 控件后，从已注册名称中选择图标，预览会随之切换。
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 
@@ -58,7 +85,7 @@ transition默认0，是JS视觉替换时长，不新增CSS Token。CSS与计时�
 
 | 参数              | 说明               | 类型               | 默认值 |
 | ----------------- | ------------------ | ------------------ | ------ |
-| `name`            | 图标名称           | _string_           | `-`    |
+| `name`            | 已注册图标名称；默认插槽优先           | _string_           | `-`    |
 | `size`            | `inherit` | _string \| number_ | `-`    |
 | `color`           | 图标颜色           | _string_           | `-`    |
 | `rotate`          | 旋转角度           | _number_           | `-`    |

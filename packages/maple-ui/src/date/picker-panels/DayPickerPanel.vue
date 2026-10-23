@@ -14,8 +14,13 @@
           <ul :class="n('head')">
             <li v-for="week in sortWeekList" :key="week">{{ getDayAbbr(week) }}</li>
           </ul>
-          <ul :class="n('body')">
-            <li v-for="(day, index) in days" :key="index">
+          <ul :class="n('body')" @pointerleave="clearPreview">
+            <li
+              v-for="(day, index) in days"
+              :key="index"
+              :class="[rangeClasses(day), { [n('range--disabled')]: buttonProps(day).disabled }]"
+              @pointerenter="previewDay(day, $event)"
+            >
               <mp-button
                 mp-day-picker-cover
                 round
@@ -37,7 +42,16 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, type ComputedRef, type PropType, type Ref, type RendererNode } from 'vue'
+import {
+  computed,
+  defineComponent,
+  ref,
+  watch,
+  type ComputedRef,
+  type PropType,
+  type Ref,
+  type RendererNode,
+} from 'vue'
 import { toNumber } from '@maplejs/maple-shared'
 import dayjs from 'dayjs/esm/index.js'
 import isSameOrAfter from 'dayjs/esm/plugin/isSameOrAfter/index.js'
@@ -55,6 +69,8 @@ import {
   type Preview,
   type Week,
 } from '../picker-props'
+import { isRangeHighlighted } from '../range-highlight'
+import { useCalendarRangeStyle } from '../use-calendar-range-style'
 import PanelHeader from './PanelHeader.vue'
 
 dayjs.extend(isSameOrBefore)
@@ -70,6 +86,8 @@ export default defineComponent({
     PanelHeader,
   },
   props: {
+    rangePending: Boolean,
+    readonly: Boolean,
     choose: {
       type: Object as PropType<Choose>,
       required: true,
@@ -94,6 +112,21 @@ export default defineComponent({
   emits: ['check-preview', 'choose-day'],
 
   setup(props, { emit }) {
+    const dateOf = (day: number) => `${props.preview.previewYear}-${props.preview.previewMonth}-${day}`
+    const styling = useCalendarRangeStyle({
+      endpoints: () => props.choose.chooseRangeDay,
+      pending: () => props.rangePending,
+      enabled: () => props.componentProps.range,
+      readonly: () => props.readonly,
+      version: () => [props.preview, props.componentProps],
+      unit: 'day',
+      name: n,
+    })
+    const rangeState = (day: number) => styling.rangeState(day > 0 ? dateOf(day) : '')
+    const rangeClasses = (day: number) => styling.rangeClasses(day > 0 ? dateOf(day) : '')
+    const clearPreview = styling.clearPreview
+    const previewDay = (day: number, event: PointerEvent) =>
+      styling.preview(dateOf(day), event, buttonProps(day).disabled)
     const [currentYear, currentMonth, currentDay] = props.current.split('-')
     const reverse: Ref<boolean> = ref(false)
     const panelKey: Ref<number> = ref(0)
@@ -172,13 +205,7 @@ export default defineComponent({
       }: { choose: Choose; componentProps: ComponentProps } = props
 
       if (range) {
-        if (!chooseRangeDay.length) {
-          return false
-        }
-
-        const isBeforeMax = dayjs(val).isSameOrBefore(dayjs(chooseRangeDay[1]), 'day')
-        const isAfterMin = dayjs(val).isSameOrAfter(dayjs(chooseRangeDay[0]), 'day')
-        return isBeforeMax && isAfterMin
+        return isRangeHighlighted(val, chooseRangeDay, 'day')
       }
 
       return chooseDays.includes(val)
@@ -224,6 +251,10 @@ export default defineComponent({
       const disabled = computeDisabled()
 
       const computeText = (): boolean => {
+        if (range) {
+          const state = rangeState(day)
+          return disabled || state.previewing || !(state.start || state.end)
+        }
         if (disabled) {
           return true
         }
@@ -272,7 +303,16 @@ export default defineComponent({
       }
 
       const isCover = textColorOrCover().startsWith(nDate())
-      const variant: ButtonVariant = computeOutline() ? 'outline' : computeText() ? 'text' : 'default'
+      const variant: ButtonVariant =
+        range && rangeState(day).inside
+          ? computeText()
+            ? 'text'
+            : 'default'
+          : computeOutline()
+            ? 'outline'
+            : computeText()
+              ? 'text'
+              : 'default'
       const status: SemanticStatus = !computeText() ? 'primary' : 'default'
 
       return {
@@ -286,6 +326,7 @@ export default defineComponent({
     }
 
     const checkDate = (checkType: string) => {
+      clearPreview()
       reverse.value = checkType === 'prev'
       panelKey.value += checkType === 'prev' ? -1 : 1
       emit('check-preview', 'month', checkType)
@@ -308,6 +349,9 @@ export default defineComponent({
     return {
       n,
       nDate,
+      clearPreview,
+      rangeClasses,
+      previewDay,
       days,
       reverse,
       headerEl,

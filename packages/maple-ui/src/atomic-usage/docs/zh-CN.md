@@ -96,7 +96,7 @@ UnoCSS 与 Tailwind **类名相同**，项目里二选一配置即可。
 ```html
 <!-- playground-ignore -->
 <div class="mp-border mp-border-primary">primary border</div>
-<button class="mp-bg-primary mp-text-white hover:mp-opacity-80">保存</button>
+<mp-button class="mp-bg-primary mp-text-white hover:mp-opacity-80">保存</mp-button>
 ```
 
 ### 边框 Border

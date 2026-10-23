@@ -1,14 +1,16 @@
 # 悬浮动作按钮
 
+## 案例
+
 ### 介绍
 
 悬浮动作按钮组件，按下可显示一组动作按钮。
 
 右侧示例提供实时预览区，初始展开动作，点击动作后弹出 Message 并收起。调整方向时会将按钮移到可容纳菜单的一侧，避免菜单跑出屏幕。hover 适合鼠标操作，触摸设备建议使用 click。
 
-普通预览使用 `fixed=false`、`popup-container=false`，定位在预览容器内。开启拖拽后恢复默认 body 挂载和屏幕固定定位，不能继续指定 `popup-container=false`，否则会按局部定位解释屏幕坐标。拖拽使用触摸手势；关闭后返回预览容器。
+普通预览使用 `fixed=false`、`popup-container=false`，定位在预览容器内。拖拽示例保留默认的 `fixed=true` 以启用拖拽能力，使用 `popup-container=false` 将按钮留在预览容器内，拖动边界按容器尺寸计算。拖拽使用触摸手势。
 
-预览区随页面正常滚动，不吸顶覆盖控制项或屏幕上的 Fab。开启拖拽后按钮离开预览区，显示在屏幕所选角落；关闭拖拽则返回预览区。
+开启或关闭拖拽时，预览区和按钮持续显示；关闭后停止拖动。预览区随页面正常滚动。
 
 ### 基础用法
 
@@ -22,6 +24,11 @@
 ../example/demos/status.vue
 ```
 
+### 禁用
+
+```demo
+../example/demos/disabled.vue
+```
 
 ### 触发器位置
 
@@ -29,13 +36,11 @@
 ../example/demos/position.vue
 ```
 
-
 ### 触发方式
 
 ```demo
 ../example/demos/trigger.vue
 ```
-
 
 ### 动作菜单弹出方向
 
@@ -43,20 +48,11 @@
 ../example/demos/direction.vue
 ```
 
-
 ### 开启拖拽
 
 ```demo
 ../example/demos/drag.vue
 ```
-
-
-### 禁用
-
-```demo
-../example/demos/disabled.vue
-```
-
 
 ### 触发器显示/隐藏
 
@@ -64,19 +60,26 @@
 ../example/demos/visibility.vue
 ```
 
-
 ### 动作菜单展开/收起
 
 ```demo
 ../example/demos/controlled.vue
 ```
 
-
 ### 自定义触发器
 
 ```demo
 ../example/demos/custom-trigger.vue
 ```
+
+<!-- api-review:start -->
+### 功能调试
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

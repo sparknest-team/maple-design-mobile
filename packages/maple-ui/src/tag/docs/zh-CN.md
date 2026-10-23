@@ -1,5 +1,7 @@
 # 标签
 
+## 案例
+
 ### 介绍
 
 标签用于标记、分类与筛选。API 与 Cedar Design Web (PC) 的 Tag 对齐，并吸收移动端常见能力（圆角、自定义文字色）。
@@ -38,6 +40,8 @@
 
 ### 可关闭标签
 
+关闭按钮支持 Space / Enter，关闭不应冒泡为选中。可选中标签支持 Space / Enter；受控 checked 仍由父级决定是否接受，未传时由组件自持状态。loading 阻止选中动作，不是 disabled API。两端各自维护状态，不共享实例；这些基本操作不等于长按/异步或触屏组合均已验收。
+
 通过 `closable` 显示关闭按钮，配合 `v-model:show` 或自行维护列表。
 
 ```demo
@@ -75,6 +79,23 @@
 ```demo
 ../example/demos/custom-color-tag.vue
 ```
+
+### 外观组合
+
+适用于短标签与分类标记。调整变体、状态、尺寸，用相同数据观察变化。内容保持一致，便于比较不同设置的实际效果。
+
+```demo
+../example/demos/appearance-lab.vue
+```
+
+<!-- api-review:start -->
+### 功能调试
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

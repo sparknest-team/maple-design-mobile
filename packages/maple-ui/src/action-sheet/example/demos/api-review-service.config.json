@@ -1,0 +1,158 @@
+{
+  "fields": [
+    {
+      "name": "open",
+      "description": "是否显示动作面板",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "actions",
+      "description": "选项列表",
+      "type": "Actions",
+      "defaultValue": "() => []",
+      "kind": "json",
+      "initial": "[{\"name\":\"Review action\",\"icon\":\"check\",\"disabled\":false}]"
+    },
+    {
+      "name": "title",
+      "description": "动作面板标题",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "overlay",
+      "description": "是否显示背景层",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "overlay-class",
+      "description": "自定义背景层的 class",
+      "type": "string",
+      "defaultValue": "-",
+      "kind": "string"
+    },
+    {
+      "name": "overlay-style",
+      "description": "自定义背景层的 style",
+      "type": "object",
+      "defaultValue": "-",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "lock-scroll",
+      "description": "是否禁止滚动穿透，禁止时滚动弹出层不会引发 body 的滚动",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "close-on-click-action",
+      "description": "是否点击选项时关闭动作面板",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "overlay-closable",
+      "description": "是否点击背景层关闭动作面板",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "esc-to-close",
+      "description": "是否支持键盘 ESC 关闭动作面板",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "safe-area",
+      "description": "是否开启底部安全区适配",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "popup-container",
+      "description": "动作面板挂载的位置",
+      "type": "TeleportProps['to'] | false",
+      "defaultValue": "body",
+      "kind": "json",
+      "initial": "\"body\""
+    },
+    {
+      "name": "on-open",
+      "description": "动作面板开启回调",
+      "type": "() => void",
+      "defaultValue": "-",
+      "kind": "callback"
+    },
+    {
+      "name": "on-opened",
+      "description": "动作面板开启动画结束回调",
+      "type": "() => void",
+      "defaultValue": "-",
+      "kind": "callback"
+    },
+    {
+      "name": "on-close",
+      "description": "动作面板关闭回调",
+      "type": "() => void",
+      "defaultValue": "-",
+      "kind": "callback"
+    },
+    {
+      "name": "on-closed",
+      "description": "动作面板关闭动画结束回调",
+      "type": "() => void",
+      "defaultValue": "-",
+      "kind": "callback"
+    },
+    {
+      "name": "on-select",
+      "description": "选项选择时回调",
+      "type": "(action: Action) => void",
+      "defaultValue": "-",
+      "kind": "callback"
+    },
+    {
+      "name": "on-click-overlay",
+      "description": "背景层点击回调",
+      "type": "(event: MouseEvent) => void",
+      "defaultValue": "-",
+      "kind": "callback"
+    },
+    {
+      "name": "on-key-escape",
+      "description": "点击键盘 ESC 时触发",
+      "type": "() => void",
+      "defaultValue": "-",
+      "kind": "callback"
+    }
+  ],
+  "methodNames": [
+    "action-sheet",
+    "action-sheet.close",
+    "action-sheet.set-default-options",
+    "action-sheet.reset-default-options"
+  ],
+  "events": [
+    "select",
+    "open",
+    "opened",
+    "close",
+    "closed",
+    "click-overlay",
+    "key-escape",
+    "update:open"
+  ],
+  "slotNames": [],
+  "scenarios": []
+}

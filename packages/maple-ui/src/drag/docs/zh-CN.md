@@ -1,5 +1,7 @@
 # 拖拽
 
+## 案例
+
 ### 介绍
 
 使元素可以自由拖拽。
@@ -8,6 +10,12 @@
 
 ```demo
 ../example/demos/basic-use.vue
+```
+
+### 禁用
+
+```demo
+../example/demos/disabled.vue
 ```
 
 ### 拖拽方向
@@ -22,12 +30,6 @@
 ../example/demos/attraction.vue
 ```
 
-### 禁用
-
-```demo
-../example/demos/disabled.vue
-```
-
 ### 拖拽区域
 
 ```demo
@@ -39,6 +41,15 @@
 ```demo
 ../example/demos/reset.vue
 ```
+
+<!-- api-review:start -->
+### 功能调试
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

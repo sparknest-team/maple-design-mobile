@@ -8,7 +8,7 @@ export function mountField(Component, options = {}) {
     global: {
       ...options.global,
       stubs: {
-        MpPopup: { template: '<div><slot /></div>' },
+        MpTrigger: { template: '<div><slot /><slot name="content" /></div>' },
         MpPicker: true,
         MpTimePicker: true,
         MpTimeRangePicker: true,

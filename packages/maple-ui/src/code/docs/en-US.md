@@ -1,5 +1,7 @@
 # Code
 
+## Examples
+
 ### Intro
 
 Code Block component, used for code highlighted
@@ -28,6 +30,15 @@ Set `word-wrap` to support automatic line wrapping when code overflows.
 ```demo
 ../example/demos/word-wrap.vue
 ```
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

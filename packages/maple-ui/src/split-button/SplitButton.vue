@@ -13,7 +13,7 @@
       <slot />
     </Button>
 
-    <DropdownMenu
+    <Menu
       ref="menuRef"
       v-model:open="computedOpen"
       :disabled="triggerDisabled"
@@ -43,7 +43,7 @@
       <template #content>
         <slot name="content" />
       </template>
-    </DropdownMenu>
+    </Menu>
   </ButtonGroup>
 </template>
 
@@ -51,7 +51,7 @@
 import { computed, ref } from 'vue'
 import { IconMenuDown } from '@maplejs/icons-vue'
 import Button, { ButtonGroup, type ButtonHandler } from '../button'
-import DropdownMenu, { type DropdownMenuInstance } from '../dropdown-menu'
+import Menu, { type MenuInstance } from '../menu'
 import { createNamespace } from '../utils/components'
 import { splitButtonProps } from './props'
 
@@ -63,7 +63,7 @@ const props = defineProps(splitButtonProps)
 const emit = defineEmits(['update:open', 'open-change', 'select'])
 
 const { n } = createNamespace('split-button')
-const menuRef = ref<DropdownMenuInstance>()
+const menuRef = ref<MenuInstance>()
 const actionDisabled = computed(() => !!(props.disabled || props.buttonProps?.disabled))
 const triggerDisabled = computed(() => !!(props.disabled || props.triggerButtonProps?.disabled))
 const clickHandlers = computed(() =>

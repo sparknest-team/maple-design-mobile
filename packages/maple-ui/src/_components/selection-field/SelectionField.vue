@@ -17,18 +17,22 @@
               v-bind="item.tagProps"
               :class="n('tag')"
               :show="true"
-              size="sm"
+              :size="item.tagProps?.size ?? 'sm'"
+              :nowrap="tagNowrap || item.tagProps?.nowrap"
               :closable="editable && item.closable !== false"
               @mousedown.prevent.stop
               @click.stop
               @close="remove(item)"
             >
-              <slot name="label" :data="item"><RenderContent :content="item.label" /></slot>
+              <SelectionTagLabel v-if="tagNowrap || item.tagProps?.nowrap" :disabled="disabled">
+                <slot name="label" :data="item"><RenderContent :content="item.label" /></slot>
+              </SelectionTagLabel>
+              <slot v-else name="label" :data="item"><RenderContent :content="item.label" /></slot>
             </Tag>
-            <Tag v-if="hiddenCount" :show="true" size="sm">+{{ hiddenCount }}</Tag>
+            <Tag v-if="hiddenCount" :class="n('summary')" :show="true" size="sm">+{{ hiddenCount }}</Tag>
           </template>
           <template v-else>
-            <span v-for="(item, index) in displayedItems" :key="item.key">
+            <span v-for="(item, index) in displayedItems" :key="item.key" :class="n('label')">
               <slot name="label" :data="item"><RenderContent :content="item.label" /></slot
               >{{ multiple && index < displayedItems.length - 1 ? separator : '' }}
             </span>
@@ -81,6 +85,7 @@ import { fieldDecoratorProps } from '../../field-decorator/props'
 import Tag from '../../tag'
 import { createNamespace } from '../../utils/components'
 import { selectionFieldProps, type SelectionFieldItem } from './props'
+import SelectionTagLabel from './SelectionTagLabel.vue'
 
 defineOptions({ name: createNamespace('selection-field').name, inheritAttrs: false })
 const props = defineProps(selectionFieldProps)

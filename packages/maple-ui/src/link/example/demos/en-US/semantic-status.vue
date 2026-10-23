@@ -1,5 +1,5 @@
 <template>
-  <mp-space wrap :size="['2.666vmin', '2.666vmin']">
+  <mp-space wrap size="sm">
     <mp-link>Default link</mp-link>
     <mp-link status="primary">Primary link</mp-link>
     <mp-link status="secondary">Secondary link</mp-link>

@@ -21,7 +21,7 @@ import {
   VITE_RESOLVE_EXTENSIONS,
 } from '../shared/constant.js'
 import { MapleConfig, type MapleConfigHtmlInject, type MapleConfigHtmlInjectPoint } from './maple.config.js'
-import { createSiteImportPlugin, createSiteResolver } from './site-resolver.js'
+import { createSiteImportPlugin, createSiteResolver, getWorkspaceSourceAliases } from './site-resolver.js'
 
 const uiDocPreviewEntry = createRequire(import.meta.url).resolve('@ui-foundation/ui-doc-preview')
 
@@ -113,11 +113,13 @@ export function getDevConfig(mapleConfig: Required<MapleConfig>): InlineConfig {
     root: SITE_DIR,
 
     resolve: {
+      dedupe: ['vue'],
       extensions: VITE_RESOLVE_EXTENSIONS,
 
       alias: [
         { find: '@ui-foundation/ui-doc-preview', replacement: uiDocPreviewEntry },
         ...Object.entries(resolveAlias).map(([find, replacement]) => ({ find, replacement })),
+        ...getWorkspaceSourceAliases(SRC_DIR),
         { find: '@config', replacement: SITE_CONFIG },
         { find: '@maple-theme', replacement: resolve(SRC_DIR, 'style/theme/css-variables.less') },
         { find: '@maple-foundation', replacement: resolve(SRC_DIR, 'style/index.less') },
@@ -148,6 +150,8 @@ export function getDevConfig(mapleConfig: Required<MapleConfig>): InlineConfig {
 
     server: {
       port: mapleConfig?.port,
+      // Never silently create a second docs writer against the same .maple tree.
+      strictPort: true,
       host: host === 'localhost' ? '0.0.0.0' : host,
       proxy: mapleConfig?.proxy || {},
     },

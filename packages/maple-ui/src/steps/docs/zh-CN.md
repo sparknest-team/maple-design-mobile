@@ -1,5 +1,7 @@
 # 步骤条
 
+## 案例
+
 ### 介绍
 
 引导用户按照流程完成任务的导航条。进度由 `current` 控制，**从 1 起计**（与 Pagination / PC 端一致）。
@@ -27,6 +29,23 @@
 ```demo
 ../example/demos/vertical.vue
 ```
+
+### 外观组合
+
+适用于多步骤流程的当前状态。调整状态、尺寸，用相同数据观察变化。内容保持一致，便于比较不同设置的实际效果。
+
+```demo
+../example/demos/appearance-lab.vue
+```
+
+<!-- api-review:start -->
+### 功能调试
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
 import AnimationDemo from './demos/animation.vue'
+import DemoApiReview from './demos/api-review.vue'
 import BasicUsageDemo from './demos/basic-usage.vue'
 import CountdownDemo from './demos/countdown.vue'
 import CustomValueDemo from './demos/custom-value.vue'
@@ -53,4 +54,5 @@ onThemeChange()
     <app-type>{{ english ? 'Countdown' : '倒计时' }}</app-type>
     <CountdownDemo />
   </section>
+  <section data-demo="api-review"><DemoApiReview /></section>
 </template>

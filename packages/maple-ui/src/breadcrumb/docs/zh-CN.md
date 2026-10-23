@@ -1,5 +1,11 @@
 # 面包屑
 
+当前位置（最后一级）默认使用主文字色，不额外加粗，并标记 `aria-current="page"`。纯文本无点击反馈；配置 `href` 的链接、绑定 `@click` 的操作和下拉入口显示品牌色、手型及悬停 / 按下反馈，键盘聚焦时显示焦点轮廓。`@click` 操作支持 Enter 和空格。最后一级通常保持纯文本；显式提供链接或操作时仍可交互。
+
+触屏设备上，可点击项的触摸区域至少为 44 × 44px；按下显示底色和下划线，松手后恢复，不保留鼠标悬停效果。省略图标支持点击查看隐藏路径。
+
+## 案例
+
 ### 介绍
 
 用于识别页面在层次结构中的位置，并按需向上返回。API 对齐 Cedar Design Web 的核心能力（`routes` / `max-count` / 分隔符插槽），不包含 PC 向的 sticky。
@@ -10,35 +16,23 @@
 ../example/demos/basic-usage.vue
 ```
 
+### 自定义分隔符
+
+通过 `separator` 属性或插槽自定义分隔符；子项配置优先于父级。同一示例对比分隔符插槽、父级属性和子项覆盖。
+
+```demo
+../example/demos/separator.vue
+```
+
 ### 自定义图标
 
 ```demo
 ../example/demos/custom-icon.vue
 ```
 
-### 父级分隔符
-
-通过父级 `separator` 或子项 `separator` 自定义分隔符；也可使用父级 / 子项的 `#separator` 插槽。子项优先级更高。
-
-```demo
-../example/demos/separator.vue
-```
-
-### 子项分隔符
-
-```demo
-../example/demos/child-separator.vue
-```
-
-### 分隔符插槽
-
-```demo
-../example/demos/separator-slot.vue
-```
-
 ### 参数化配置
 
-通过 `routes` 传递面包屑数据。默认将每一项的 `path` 作为 `a` 标签的 `href`；可用 `#item-render` 自定义渲染。
+通过 `routes` 传递面包屑数据。默认仅为前面的层级渲染链接，最后一级保持文本；可用 `#item-render` 自定义渲染。
 
 ```demo
 ../example/demos/routes-mode.vue
@@ -62,11 +56,20 @@ Tooltip 支持 SVG 图标直接作为触发节点；触屏点击显示可设置 
 
 ### 链接与点击
 
-子项可通过 `href` 渲染为链接；`@click` 不会在省略项触发。
+对比纯文本、`href` 链接和 `@click` 操作。点击后下方显示选择结果；最后一级默认保持纯文本。省略项不会触发 `click`。
 
 ```demo
 ../example/demos/click-event.vue
 ```
+
+<!-- api-review:start -->
+### 功能调试
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 
@@ -87,7 +90,7 @@ Tooltip 支持 SVG 图标直接作为触发节点；触屏点击显示可设置 
 | `separator` | 分隔符（覆盖父级） | _string \| number_ | `-` |
 | `href` | 跳转链接 | _string_ | `-` |
 | `droplist` | 下拉菜单内容 | _BreadcrumbRoute['children']_ | `-` |
-| `dropdown-props` | 下拉菜单属性 | _DropdownMenuProps_ | `-` |
+| `dropdown-props` | 下拉菜单属性 | _MenuProps_ | `-` |
 
 ### 事件
 
@@ -135,10 +138,11 @@ interface BreadcrumbRoute {
 
 | 变量名 | 默认值 |
 | --- | --- |
-| `--mp-breadcrumb-item-active-color` | `var(--mp-color-primary)` |
-| `--mp-breadcrumb-item-inactive-color` | `#888` |
+| `--mp-breadcrumb-item-active-color` | `rgb(var(--mp-primary-8))` |
+| `--mp-breadcrumb-item-inactive-color` | `var(--mp-color-text-2)` |
 | `--mp-breadcrumb-item-separator-margin` | `0 10px` |
 | `--mp-breadcrumb-item-separator-font-size` | `14px` |
+| `--mp-breadcrumb-touch-target-size` | `44px` |
 
 ## BreadcrumbItem
 
@@ -153,7 +157,7 @@ interface BreadcrumbRoute {
 | `separator` | 分隔符（覆盖父级） | _string \| number_ | `-` |
 | `href` | 跳转链接 | _string_ | `-` |
 | `droplist` | 下拉菜单内容 | _BreadcrumbRoute[]_ | `-` |
-| `dropdown-props` | 下拉菜单属性 | _DropdownMenuProps_ | `-` |
+| `dropdown-props` | 下拉菜单属性 | _MenuProps_ | `-` |
 
 ### 事件
 

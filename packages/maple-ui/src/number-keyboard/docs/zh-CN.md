@@ -1,5 +1,7 @@
 # 数字键盘
 
+## 案例
+
 ### 介绍
 
 用于输入数字、密码等场景，从底部弹出的虚拟键盘。
@@ -9,6 +11,15 @@
 ```demo
 ../example/demos/basic.vue
 ```
+
+<!-- api-review:start -->
+### 功能调试
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

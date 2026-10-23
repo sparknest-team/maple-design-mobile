@@ -140,7 +140,7 @@ test('datePicker dayStartOfWeek', async () => {
   wrapper.unmount()
 })
 
-test('datePicker hint', async () => {
+test('datePicker omits the single summary even with hint text', async () => {
   const wrapper = mount(VarDatePicker, {
     props: {
       hint: '选择日期',
@@ -149,13 +149,13 @@ test('datePicker hint', async () => {
   })
 
   await delay(100)
-  expect(wrapper.find('.mp-date-picker__title-hint').text()).toBe('选择日期')
+  expect(wrapper.find('.mp-date-picker__summary').exists()).toBe(false)
 
   await wrapper.setProps({
     hint: '选择打卡日期',
   })
   await delay(100)
-  expect(wrapper.find('.mp-date-picker__title-hint').text()).toBe('选择打卡日期')
+  expect(wrapper.find('.mp-date-picker__summary').exists()).toBe(false)
 
   wrapper.unmount()
 })
@@ -210,7 +210,7 @@ test('datePicker v-model', async () => {
 
   await wrapper.find('.mp-date-picker-header__value').trigger('click')
   await delay(200)
-  await wrapper.find('button').trigger('click')
+  await wrapper.get('.mp-date-picker-header__arrow').trigger('click')
   await wrapper.find('.mp-year-picker').find('li').find('button').trigger('click')
   await delay(200)
   await wrapper.find('.mp-month-picker__content').find('ul').find('button').trigger('click')
@@ -403,7 +403,7 @@ test('datePicker value legal', async () => {
   wrapper.unmount()
 })
 
-test('datePicker titleColor', async () => {
+test('datePicker does not restore a single summary when titleColor changes', async () => {
   const wrapper = mount(VarDatePicker, {
     props: {
       titleColor: 'red',
@@ -412,13 +412,13 @@ test('datePicker titleColor', async () => {
   })
 
   await delay(100)
-  expect(wrapper.find('.mp-date-picker__title').attributes('style')).toContain('background: red')
+  expect(wrapper.find('.mp-date-picker__summary').exists()).toBe(false)
 
   await wrapper.setProps({
     titleColor: 'green',
   })
   await delay(100)
-  expect(wrapper.find('.mp-date-picker__title').attributes('style')).toContain('background: green')
+  expect(wrapper.find('.mp-date-picker__summary').exists()).toBe(false)
 
   wrapper.unmount()
 })
@@ -451,32 +451,6 @@ test('datePicker rerender date panel when max or min changes', async () => {
   wrapper.unmount()
 })
 
-test('datePicker show-time calendarClock', async () => {
-  const wrapper = mount(VarDatePicker, {
-    props: {
-      modelValue: '2025-01-15 10:29',
-      showTime: true,
-      useSeconds: false,
-      presentation: 'calendarClock',
-    },
-  })
-
-  await delay(0)
-
-  expect(wrapper.find('.mp-date-picker__datetime-title').exists()).toBeTruthy()
-  expect(wrapper.find('.mp-date-picker__datetime-date').text()).toBe('2025-01-15')
-  expect(wrapper.find('.mp-date-picker__view-tabs').exists()).toBeTruthy()
-  expect(wrapper.find('.mp-date-picker__view-tab-text').text()).toBe('10:29')
-  expect(wrapper.find('.mp-date-picker__body').exists()).toBeTruthy()
-  expect(wrapper.find('.mp-picker').exists()).toBeFalsy()
-  expect(wrapper.find('.mp-time-picker').exists()).toBeFalsy()
-
-  await wrapper.find('.mp-date-picker__view-tab').trigger('click')
-  expect(wrapper.find('.mp-time-picker').exists()).toBeTruthy()
-
-  wrapper.unmount()
-})
-
 test('datePicker show-time calendarPicker', async () => {
   const wrapper = mount(VarDatePicker, {
     props: {
@@ -489,7 +463,8 @@ test('datePicker show-time calendarPicker', async () => {
 
   await delay(0)
 
-  await wrapper.find('.mp-date-picker__view-tab').trigger('click')
+  expect(wrapper.find('.mp-date-picker__body').isVisible()).toBe(true)
+  await wrapper.get('.mp-date-picker__view-toggle').trigger('click')
   expect(wrapper.find('.mp-picker').exists()).toBeTruthy()
   expect(wrapper.findAll('.mp-date-picker__column-label').length).toBe(2)
   expect(wrapper.find('.mp-time-picker').exists()).toBeFalsy()
@@ -509,11 +484,13 @@ test('datePicker show-time picker', async () => {
 
   await delay(0)
 
-  expect(wrapper.find('.mp-date-picker__datetime-title').exists()).toBeTruthy()
-  expect(wrapper.find('.mp-date-picker__datetime-date').text()).toBe('2025-01-15')
-  expect(wrapper.find('.mp-date-picker__datetime-time').text()).toBe('10:29')
+  expect(wrapper.find('.mp-date-picker__summary').exists()).toBe(false)
+  expect(wrapper.get('.mp-date-picker__current-date').text()).toContain('2025-01-15')
+  expect(wrapper.get('.mp-date-picker__current-time-value').text()).toBe('10:29')
   expect(wrapper.find('.mp-picker').exists()).toBeTruthy()
-  expect(wrapper.findAll('.mp-date-picker__column-label').length).toBe(5)
+  expect(wrapper.findAll('.mp-date-picker__column-label').length).toBe(3)
+  await wrapper.get('.mp-date-picker__view-toggle').trigger('click')
+  expect(wrapper.findAll('.mp-date-picker__column-label').length).toBe(2)
   expect(wrapper.find('.mp-date-picker__view-tabs').exists()).toBeFalsy()
 
   wrapper.unmount()

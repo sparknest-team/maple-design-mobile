@@ -1,0 +1,145 @@
+{
+  "fields": [
+    {
+      "name": "shape",
+      "description": "头像形状",
+      "type": "\"circle\" | \"square\"",
+      "defaultValue": "'circle'",
+      "kind": "enum",
+      "options": [
+        "circle",
+        "square"
+      ],
+      "initial": "circle"
+    },
+    {
+      "name": "image-url",
+      "description": "图片地址",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "alt",
+      "description": "图片替代文本",
+      "type": "string",
+      "defaultValue": "''",
+      "kind": "string"
+    },
+    {
+      "name": "size",
+      "description": "头像宽高；数字为 px，字符串为 CSS 长度",
+      "type": "number / string",
+      "defaultValue": "undefined",
+      "kind": "scalar"
+    },
+    {
+      "name": "auto-fix-font-size",
+      "description": "是否自动缩放过长的文字内容",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "trigger-type",
+      "description": "交互图标展示方式",
+      "type": "\"button\" | \"overlay\"",
+      "defaultValue": "'button'",
+      "kind": "enum",
+      "options": [
+        "button",
+        "overlay"
+      ],
+      "initial": "button"
+    },
+    {
+      "name": "trigger-icon-style",
+      "description": "交互图标的自定义样式",
+      "type": "CSSProperties",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "object-fit",
+      "description": "图片填充方式",
+      "type": "\"fill\" | \"contain\" | \"cover\" | \"none\" | \"scale-down\"",
+      "defaultValue": "'cover'",
+      "kind": "enum",
+      "options": [
+        "fill",
+        "contain",
+        "cover",
+        "none",
+        "scale-down"
+      ],
+      "initial": "cover"
+    },
+    {
+      "name": "color",
+      "description": "头像背景色",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "bordered",
+      "description": "是否显示描边",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "border-color",
+      "description": "描边颜色",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "loading",
+      "description": "图片加载中的占位图地址",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "error",
+      "description": "图片加载失败的占位图地址",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "lazy",
+      "description": "是否懒加载图片",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "hoverable",
+      "description": "是否开启悬停放大效果",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    }
+  ],
+  "methodNames": [],
+  "events": [
+    "click",
+    "load",
+    "error"
+  ],
+  "slotNames": [
+    "trigger-icon",
+    "error"
+  ],
+  "slotDefaults": {
+    "trigger-icon": true,
+    "error": false
+  },
+  "scenarios": []
+}

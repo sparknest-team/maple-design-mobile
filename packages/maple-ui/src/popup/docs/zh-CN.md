@@ -2,6 +2,8 @@
 
 创建从上、下、左、右或中心出现的移动端模态容器。Popup 与 Cedar Drawer 共用模态表面控制逻辑，但保留移动端安全区和转场布局。
 
+## 案例
+
 ### 弹出位置
 
 ```demo
@@ -19,6 +21,15 @@
 ```demo
 ../example/demos/event.vue
 ```
+
+<!-- api-review:start -->
+### 功能调试
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

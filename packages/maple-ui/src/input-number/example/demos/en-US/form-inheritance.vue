@@ -7,8 +7,8 @@ const readonly = ref(false)
 </script>
 <template>
   <div class="number-demo">
-    <label><input v-model="disabled" type="checkbox" />Disable form</label>
-    <label><input v-model="readonly" type="checkbox" />Read-only form</label>
+    <mp-checkbox v-model="disabled">Disable form</mp-checkbox>
+    <mp-checkbox v-model="readonly">Read-only form</mp-checkbox>
     <mp-form :model="model" :disabled="disabled" :readonly="readonly" size="lg">
       <mp-form-item field="quantity" label="Inherited state">
         <mp-input-number v-model="model.quantity" clearable />

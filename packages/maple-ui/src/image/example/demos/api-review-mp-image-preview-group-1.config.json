@@ -1,0 +1,81 @@
+{
+  "fields": [
+    {
+      "name": "images",
+      "description": "图片 URL 列表（设置后不再收集子 Image）",
+      "type": "string[]",
+      "defaultValue": "[]",
+      "kind": "json",
+      "initial": "[]"
+    },
+    {
+      "name": "open",
+      "description": "是否打开预览",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "default-open",
+      "description": "非受控默认打开状态",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "current",
+      "description": "当前图片索引",
+      "type": "number",
+      "defaultValue": "-",
+      "kind": "number"
+    },
+    {
+      "name": "default-current",
+      "description": "非受控模式的默认图片索引",
+      "type": "number",
+      "defaultValue": "0",
+      "kind": "number"
+    },
+    {
+      "name": "loop",
+      "description": "是否循环切换",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "closable",
+      "description": "是否显示关闭按钮",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "overlay-closable",
+      "description": "点击图片外的背景层是否关闭，点击图片不会关闭",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "esc-to-close",
+      "description": "是否支持键盘 ESC 关闭",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "popup-container",
+      "description": "弹出层挂载位置",
+      "type": "string | HTMLElement | false",
+      "defaultValue": "body",
+      "kind": "json",
+      "initial": "\"body\""
+    }
+  ],
+  "methodNames": [],
+  "events": [],
+  "slotNames": [],
+  "slotDefaults": {},
+  "scenarios": []
+}

@@ -17,8 +17,8 @@ async function updateLayout() {
 
 <template>
   <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 12px">
-    <label><input v-model="disabled" type="checkbox" /> Disabled</label>
-    <label><input v-model="cssMode" type="checkbox" /> CSS sticky</label>
+    <mp-checkbox v-model="disabled">Disabled</mp-checkbox>
+    <mp-checkbox v-model="cssMode">CSS sticky</mp-checkbox>
     <mp-button @click="updateLayout">Change layout and update position</mp-button>
   </div>
   <p aria-live="polite">Position updates: {{ updates }}</p>

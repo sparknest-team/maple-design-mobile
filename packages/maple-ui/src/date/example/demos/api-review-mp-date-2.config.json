@@ -1,0 +1,296 @@
+{
+  "fields": [
+    {
+      "name": "model-value",
+      "description": "受控值",
+      "type": "DateValue / DateValue[] (multiple/range)",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "[]"
+    },
+    {
+      "name": "default-value",
+      "description": "非受控初始值，仅初始化读取",
+      "type": "DateValue / DateValue[] (multiple/range)",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "[]"
+    },
+    {
+      "name": "input-editable",
+      "description": "是否允许手输；默认 true，函数 format/multiple 保持只读",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "format",
+      "description": "展示格式或格式化函数",
+      "type": "string / (date: Date) => string",
+      "defaultValue": "undefined",
+      "kind": "string",
+      "initial": "YYYY-MM-DD"
+    },
+    {
+      "name": "value-format",
+      "description": "模型格式、Date 或 timestamp",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "disable-confirm",
+      "description": "选择后立即提交",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "open",
+      "description": "弹层显隐受控",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
+      "name": "default-open",
+      "description": "非受控初始展开",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "popup-container",
+      "description": "浮层挂载目标，顶层优先且支持 false",
+      "type": "string | HTMLElement | false",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "\"body\""
+    },
+    {
+      "name": "panel-type",
+      "description": "面板模式，可选值 picker calendar calendarPicker",
+      "type": "'calendar' | 'picker' | 'calendarPicker'",
+      "defaultValue": "'calendar' as const",
+      "kind": "enum",
+      "options": ["calendar", "picker", "calendarPicker"],
+      "initial": "calendar"
+    },
+    {
+      "name": "type",
+      "description": "选择类型，可选值 year month date",
+      "type": "'year' | 'date' | 'month'",
+      "defaultValue": "'date'",
+      "kind": "enum",
+      "options": ["year", "date", "month"],
+      "initial": "date"
+    },
+    {
+      "name": "show-time",
+      "description": "是否选择时间",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "use-seconds",
+      "description": "默认时间精度，显式 format 优先",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "multiple",
+      "description": "是否多选",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "min",
+      "description": "可选最小日期",
+      "type": "DateValue",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "\"2026-10-21\""
+    },
+    {
+      "name": "max",
+      "description": "可选最大日期",
+      "type": "DateValue",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "\"2026-10-21\""
+    },
+    {
+      "name": "disabled-date",
+      "description": "true 为禁用；side 为 start 或 end",
+      "type": "(date: Date, side: DateSide) => boolean",
+      "defaultValue": "undefined",
+      "kind": "callback"
+    },
+    {
+      "name": "disabled-time",
+      "description": "当前日期和端点的禁用时分秒列表",
+      "type": "(date: Date, side: DateSide) => DateDisabledTime",
+      "defaultValue": "undefined",
+      "kind": "callback"
+    },
+    {
+      "name": "separator",
+      "description": "多选展示分隔符",
+      "type": "string",
+      "defaultValue": "', '",
+      "kind": "string"
+    },
+    {
+      "name": "date-picker-props",
+      "description": "透传给 mp-date-picker 的属性",
+      "type": "DatePickerOptions",
+      "defaultValue": "() => ({})",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "popup-props",
+      "description": "透传给弹窗的属性",
+      "type": "Partial\\<PopupProps\\>",
+      "defaultValue": "() => ({})",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "placeholder",
+      "description": "占位符",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "clearable",
+      "description": "是否可清除",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "disabled",
+      "description": "是否禁用",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
+      "name": "readonly",
+      "description": "是否只读",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
+      "name": "size",
+      "description": "尺寸，可选值 xs sm md lg xl",
+      "type": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\"",
+      "defaultValue": "'md'",
+      "kind": "enum",
+      "options": ["xs", "sm", "md", "lg", "xl"],
+      "initial": "md"
+    },
+    {
+      "name": "variant",
+      "description": "风格，可选值 filled standard outline",
+      "type": "\"filled\" | \"outline\" | \"standard\"",
+      "defaultValue": "'standard'",
+      "kind": "enum",
+      "options": ["filled", "outline", "standard"],
+      "initial": "standard"
+    },
+    {
+      "name": "presentation",
+      "type": "'inline' | 'popup'",
+      "defaultValue": "undefined",
+      "description": "字段编辑方式，字段 > FormItem > Form 继承；默认 inline。",
+      "kind": "enum",
+      "options": ["inline", "popup"],
+      "initial": "inline"
+    },
+    {
+      "name": "read-pretty",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "description": "纯阅读展示；字段 > FormItem > Form 继承，显式 false 覆盖父级。",
+      "kind": "boolean"
+    },
+    {
+      "name": "before-commit",
+      "type": "BeforeFieldCommit",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "callback"
+    },
+    {
+      "name": "picker-props",
+      "type": "DateWheelOptions",
+      "defaultValue": "() => ({})",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "error",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "boolean"
+    },
+    {
+      "name": "hint",
+      "type": "boolean",
+      "defaultValue": "true",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "boolean"
+    },
+    {
+      "name": "line",
+      "type": "boolean",
+      "defaultValue": "true",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "boolean"
+    },
+    {
+      "name": "text-color",
+      "type": "string",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "focus-color",
+      "type": "string",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "blur-color",
+      "type": "string",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "string",
+      "initial": "#5268cc"
+    }
+  ],
+  "methodNames": ["focus", "blur"],
+  "events": ["focus", "blur", "click", "clear", "open-change", "change", "select"],
+  "slotNames": ["selected", "prefix", "clear-icon", "suffix", "suffix-icon"],
+  "slotDefaults": {
+    "selected": false,
+    "prefix": false,
+    "clear-icon": false,
+    "suffix": false,
+    "suffix-icon": false
+  },
+  "scenarios": []
+}

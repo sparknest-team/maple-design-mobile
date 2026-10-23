@@ -1,0 +1,212 @@
+{
+  "fields": [
+    {
+      "name": "content",
+      "description": "单行或多行文字；图片加载失败时作为回退内容",
+      "type": "string | string[]",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "[]"
+    },
+    {
+      "name": "image",
+      "description": "图片地址，优先于文字",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "width",
+      "description": "单块水印宽度，默认按内容测量",
+      "type": "number",
+      "defaultValue": "undefined",
+      "kind": "number"
+    },
+    {
+      "name": "height",
+      "description": "单块水印高度，默认按内容测量",
+      "type": "number",
+      "defaultValue": "undefined",
+      "kind": "number"
+    },
+    {
+      "name": "gap",
+      "description": "水印间距 [x, y]",
+      "type": "[number, number]",
+      "defaultValue": "(): [number, number] => [90, 90]",
+      "kind": "json",
+      "initial": "[16,16]"
+    },
+    {
+      "name": "offset",
+      "description": "第一块水印相对容器的偏移，默认是间距的一半",
+      "type": "[number, number]",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "[16,16]"
+    },
+    {
+      "name": "rotate",
+      "description": "旋转角度",
+      "type": "number",
+      "defaultValue": "-22",
+      "kind": "number"
+    },
+    {
+      "name": "font",
+      "description": "文字样式",
+      "type": "WatermarkFont",
+      "defaultValue": "undefined",
+      "kind": "scenario"
+    },
+    {
+      "name": "z-index",
+      "description": "水印层级",
+      "type": "number",
+      "defaultValue": "6",
+      "kind": "number"
+    },
+    {
+      "name": "alpha",
+      "description": "整体透明度，范围为 0..1",
+      "type": "number",
+      "defaultValue": "1",
+      "kind": "number"
+    },
+    {
+      "name": "anti-tamper",
+      "description": "水印节点被移除或修改后是否恢复",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "grayscale",
+      "description": "是否灰阶渲染",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "repeat",
+      "description": "是否重复水印",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "staggered",
+      "description": "重复时是否错列",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "fullscreen",
+      "description": "是否固定覆盖整个视口",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "WatermarkFont.color",
+      "description": "font · ",
+      "type": "string",
+      "defaultValue": "var(--mp-watermark-content-color)",
+      "kind": "string",
+      "path": [
+        "font",
+        "color"
+      ]
+    },
+    {
+      "name": "WatermarkFont.font-size",
+      "description": "font · ",
+      "type": "number",
+      "defaultValue": "16",
+      "kind": "number",
+      "path": [
+        "font",
+        "fontSize"
+      ]
+    },
+    {
+      "name": "WatermarkFont.font-family",
+      "description": "font · ",
+      "type": "string",
+      "defaultValue": "sans-serif",
+      "kind": "string",
+      "path": [
+        "font",
+        "fontFamily"
+      ]
+    },
+    {
+      "name": "WatermarkFont.font-style",
+      "description": "font · ",
+      "type": "'normal' | 'italic' | 'oblique'",
+      "defaultValue": "normal",
+      "kind": "enum",
+      "options": [
+        "normal",
+        "italic",
+        "oblique"
+      ],
+      "initial": "normal",
+      "path": [
+        "font",
+        "fontStyle"
+      ]
+    },
+    {
+      "name": "WatermarkFont.font-weight",
+      "description": "font · ",
+      "type": "string | number",
+      "defaultValue": "normal",
+      "kind": "scalar",
+      "path": [
+        "font",
+        "fontWeight"
+      ]
+    },
+    {
+      "name": "WatermarkFont.text-align",
+      "description": "font · ",
+      "type": "CanvasTextAlign",
+      "defaultValue": "center",
+      "kind": "enum",
+      "options": [
+        "left",
+        "right",
+        "center",
+        "start",
+        "end"
+      ],
+      "initial": "center",
+      "path": [
+        "font",
+        "textAlign"
+      ]
+    },
+    {
+      "name": "WatermarkFont.line-height",
+      "description": "font · ",
+      "type": "number",
+      "defaultValue": "fontSize × 1.4",
+      "kind": "number",
+      "path": [
+        "font",
+        "lineHeight"
+      ]
+    }
+  ],
+  "methodNames": [
+    "redraw"
+  ],
+  "events": [
+    "error"
+  ],
+  "slotNames": [],
+  "slotDefaults": {},
+  "scenarios": []
+}

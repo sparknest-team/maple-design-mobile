@@ -19,7 +19,7 @@
     font: inherit;
     font-size: var(--mp-input-control-font-size);
     line-height: var(--mp-input-control-line-height);
-    caret-color: var(--mp-field-custom-focus, var(--mp-field-focus-color));
+    caret-color: currentColor;
     cursor: inherit;
     -webkit-appearance: none;
     &::placeholder {
@@ -29,9 +29,6 @@
       color: var(--mp-field-control-text-color-disabled);
       -webkit-text-fill-color: var(--mp-field-control-text-color-disabled);
     }
-  }
-  .mp-field-decorator--error &__inner {
-    caret-color: var(--mp-field-error-color);
   }
   &__word-limit {
     color: var(--mp-input-counter-color);

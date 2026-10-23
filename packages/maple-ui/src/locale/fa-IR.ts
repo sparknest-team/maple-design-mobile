@@ -1,6 +1,22 @@
 import { Message } from './index'
 
 export default {
+  'fieldPresentation.selectionCount': '{count} selected',
+  'fieldPresentation.selectionRemove': 'Remove',
+  'fieldPresentation.selectionBack': 'Back to options',
+  'fieldPresentation.selectionEmpty': 'No selected options',
+  'fieldPresentation.edit': 'Edit',
+  'fieldPresentation.close': 'Close',
+  'fieldPresentation.search': 'Search options',
+  'fieldPresentation.selected': 'Selected',
+  'fieldPresentation.limit': 'Select at most',
+
+  datePickerPreviousMonth: 'ماه قبل',
+  datePickerNextMonth: 'ماه بعد',
+  datePickerPreviousYear: 'سال قبل',
+  datePickerNextYear: 'سال بعد',
+  datePickerPreviousPeriod: 'سال‌های قبل',
+  datePickerNextPeriod: 'سال‌های بعد',
   'carousel.label': 'اسلایدشو',
   'carousel.previous': 'اسلاید قبلی',
   'carousel.next': 'اسلاید بعدی',
@@ -123,6 +139,9 @@ export default {
     },
   },
   datePickerSelected: ' انتخاب شده',
+  dateRangeOrderError: 'تاریخ پایان نباید قبل از تاریخ شروع باشد. بازه را تنظیم کنید.',
+  dateTimeRangeOrderError: 'زمان پایان نباید قبل از زمان شروع باشد. بازه را تنظیم کنید.',
+  timeRangeOrderError: 'زمان پایان نباید قبل از زمان شروع باشد. بازه را تنظیم کنید.',
   datePickerNowButtonText: 'اکنون',
   datePickerHint: 'انتخاب تاریخ',
   datePickerColumnYear: 'سال',
@@ -143,6 +162,8 @@ export default {
   timePickerHint: 'انتخاب زمان',
   // time-range
   timeRangeStart: 'شروع',
+  dateRangeStart: 'تاریخ شروع',
+  dateRangeEnd: 'تاریخ پایان',
   timeRangeEnd: 'پایان',
   timeRangeNextDay: 'روز بعد',
 } satisfies Message

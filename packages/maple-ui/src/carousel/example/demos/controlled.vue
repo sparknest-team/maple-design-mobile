@@ -12,7 +12,7 @@ function update(value) {
 }
 </script>
 <template>
-  <label><input v-model="accept" type="checkbox" /> Accept changes / 接受切换</label>
+  <mp-checkbox v-model="accept">Accept changes / 接受切换</mp-checkbox>
   <p>Current: {{ current }} · Proposal: {{ proposal }}</p>
   <mp-carousel :current="current" height="180px" keyboard draggable @update:current="update">
     <mp-carousel-item v-for="item in 4" :key="item"

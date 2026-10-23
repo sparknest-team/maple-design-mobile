@@ -6,6 +6,28 @@ Use this alongside Design Tokens and CSS Variable Layers: this reference lists e
 
 Public variables may be overridden on the rendered component root or the real popup ancestor. Internal variables are implementation details and must not be used by applications. Size/variant/status/loading/disabled govern when a token is used; declaration does not imply every state consumes it. CSS property lists describe transitive compiled reachability, not selector visibility or precedence.
 
+## _components/field-presentation
+
+Source: `src/_components/field-presentation/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Layer | Declaration / condition | Consumer / CSS properties |
+| --- | --- | --- | --- |
+| `--mp-field-presentation-border` | Internal | `var(--mp-color-border-2)` | Local CSS<br>`border`, `border-bottom`, `border-top` |
+| `--mp-field-presentation-close-font-size` | Internal | `24px` | Local CSS<br>`font-size` |
+| `--mp-field-presentation-close-size` | Internal | `32px` | Local CSS<br>`height`, `width` |
+| `--mp-field-presentation-gap` | Internal | `var(--mp-sys-space-3)` | Local CSS<br>`gap`, `margin-bottom`, `margin-top`, `padding-bottom`, `padding-top` |
+| `--mp-field-presentation-max-height` | Internal | `60vh` | Local CSS<br>`max-height` |
+| `--mp-field-presentation-min-width` | Internal | `280px` | Local CSS<br>`min-width` |
+| `--mp-field-presentation-padding` | Internal | `var(--mp-sys-space-4)` | Local CSS<br>`max-width`, `padding`, `padding-block`, `padding-bottom` |
+| `--mp-field-presentation-radius` | Internal | `8px` | Local CSS<br>`border-radius` |
+| `--mp-field-presentation-shadow` | Internal | `0 8px 28px rgb(0 0 0%)` | Local CSS<br>`box-shadow` |
+| `--mp-field-presentation-title-font-size` | Internal | `16px` | Local CSS<br>`font-size` |
+| `--mp-field-presentation-title-font-weight` | Internal | `500` | Local CSS<br>`font-weight` |
+
+</div>
+
 ## _components/picker-field
 
 Source: `src/_components/picker-field/style/token.less`
@@ -16,6 +38,46 @@ Source: `src/_components/picker-field/style/token.less`
 | --- | --- | --- | --- |
 | `--mp-picker-field-gap` | Public | `8px` | Local CSS<br>`gap` |
 | `--mp-picker-field-input-min-width` | Public | `3em` | Local CSS<br>`min-width` |
+
+</div>
+
+## _components/selected-options
+
+Source: `src/_components/selected-options/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Layer | Declaration / condition | Consumer / CSS properties |
+| --- | --- | --- | --- |
+| `--mp-selected-options-background` | Public | `var(--mp-sys-color-surface-overlay)` | Local CSS<br>`background` |
+| `--mp-selected-options-border` | Public | `var(--mp-color-border-2)` | Local CSS<br>`border-bottom` |
+| `--mp-selected-options-details-max-height` | Public | `50dvh` | Local CSS<br>`max-height` |
+| `--mp-selected-options-disabled-opacity` | Public | `0.5` | Local CSS<br>`opacity` |
+| `--mp-selected-options-gap` | Public | `8px` | Local CSS<br>`gap` |
+| `--mp-selected-options-padding` | Public | `8px 12px` | Local CSS<br>`padding` |
+| `--mp-selected-options-radius` | Public | `4px` | Local CSS<br>`border-radius` |
+| `--mp-selected-options-remove-size` | Public | `24px` | Local CSS<br>`height`, `width` |
+| `--mp-selected-options-tag-padding` | Public | `2px 6px` | Local CSS<br>`padding` |
+| `--mp-selected-options-tags-max-height` | Public | `112px` | Local CSS<br>`max-height` |
+| `--mp-selection-editor-accent` | Public | `var(--mp-color-primary)` | Local CSS<br>`color` |
+| `--mp-selection-editor-background` | Public | `var(--mp-sys-color-surface-overlay)` | Local CSS<br>`background` |
+| `--mp-selection-editor-border` | Public | `var(--mp-color-border-2)` | Local CSS<br>`border-bottom`, `border-right` |
+| `--mp-selection-editor-check-size` | Public | `20px` | Local CSS<br>`height`, `width` |
+| `--mp-selection-editor-color` | Public | `var(--mp-color-text-1)` | Local CSS<br>`color` |
+| `--mp-selection-editor-dialog-height` | Public | `min(30dvh, 260px)` | Local CSS<br>`height`, `min-height` |
+| `--mp-selection-editor-font-size` | Public | `14px` | Local CSS<br>`font-size` |
+| `--mp-selection-editor-gap` | Public | `8px` | Local CSS<br>`gap`, `margin-inline-start`, `padding` |
+| `--mp-selection-editor-height` | Public | `min(40dvh, 320px)` | Local CSS<br>`height`, `min-height` |
+| `--mp-selection-editor-muted-background` | Public | `var(--mp-color-fill-1)` | Local CSS<br>`background` |
+| `--mp-selection-editor-muted-color` | Public | `var(--mp-color-text-3)` | Local CSS<br>`color` |
+| `--mp-selection-editor-padding` | Public | `12px` | Local CSS<br>`margin-block`, `padding` |
+| `--mp-selection-editor-path-height` | Public | `44px` | Local CSS<br>`min-height` |
+| `--mp-selection-editor-radius` | Public | `8px` | Local CSS<br>`border-radius` |
+| `--mp-selection-editor-row-height` | Public | `42px` | Local CSS<br>`min-height` |
+| `--mp-selection-editor-selected-background` | Public | `var(--mp-color-primary-light-1)` | Local CSS<br>`background` |
+| `--mp-selection-editor-touch-font-size` | Public | `16px` | Local CSS<br>`font-size` |
+| `--mp-selection-editor-touch-height` | Public | `52px` | Local CSS<br>`min-height` |
+| `--mp-selection-editor-width` | Public | `640px` | Local CSS<br>`width` |
 
 </div>
 
@@ -43,9 +105,9 @@ Source: `src/_components/selection-field/style/token.less`
 | --- | --- | --- | --- |
 | `--mp-selection-field-gap` | Public | `4px` | Local CSS<br>`gap` |
 | `--mp-selection-field-icon-transition-duration` | Public | `0.2s` | Local CSS<br>`transition` |
-| `--mp-selection-field-input-min-width` | Public | `2px` | Local CSS<br>`min-width` |
+| `--mp-selection-field-input-min-width` | Public | `2px` | Local CSS<br>`flex-basis`, `min-width` |
 | `--mp-selection-field-loading-duration` | Public | `1s` | Local CSS<br>`animation` |
-| `--mp-selection-field-search-min-width` | Public | `3em` | Local CSS<br>`min-width` |
+| `--mp-selection-field-search-min-width` | Public | `3em` | Local CSS<br>`flex`, `min-width` |
 
 </div>
 
@@ -378,16 +440,16 @@ Source: `src/breadcrumb/style/token.less`
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
 | `--mp-breadcrumb-bg` | Public | `transparent` | Local CSS<br>`background-color` |
-| `--mp-breadcrumb-bg-hover` | Public | `transparent` | Local CSS<br>`background-color` |
+| `--mp-breadcrumb-bg-hover` | Public | `var(--mp-color-fill-2)` | Local CSS<br>`background-color` |
 | `--mp-breadcrumb-dropdown-icon` | Public | `var(--mp-breadcrumb-item-inactive-color)` | Local CSS<br>`color` |
 | `--mp-breadcrumb-font-weight-active` | Public | `400` | Local CSS<br>`font-weight` |
 | `--mp-breadcrumb-icon-color` | Public | `var(--mp-breadcrumb-item-inactive-color)` | Local CSS<br>`color` |
-| `--mp-breadcrumb-item-active-color` | Public | `var(--mp-sys-color-content-brand)` | Local CSS<br>`color` |
-| `--mp-breadcrumb-item-inactive-color` | Public | `#888` | Local CSS<br>`color` |
+| `--mp-breadcrumb-item-active-color` | Public | `rgb(var(--mp-primary-8))` | Local CSS<br>`color` |
+| `--mp-breadcrumb-item-inactive-color` | Public | `var(--mp-color-text-2)` | Local CSS<br>`color` |
 | `--mp-breadcrumb-item-separator-font-size` | Public | `14px` | Local CSS<br>`font-size` |
 | `--mp-breadcrumb-item-separator-margin` | Public | `0 var(--mp-breadcrumb-margin-separator-horizontal)` | Local CSS<br>`margin` |
 | `--mp-breadcrumb-link-text-color` | Public | `var(--mp-breadcrumb-item-active-color)` | Local CSS<br>`color` |
-| `--mp-breadcrumb-link-text-color-hover` | Public | `var(--mp-breadcrumb-item-active-color)` | Local CSS<br>`color` |
+| `--mp-breadcrumb-link-text-color-hover` | Public | `rgb(var(--mp-primary-9))` | Local CSS<br>`color` |
 | `--mp-breadcrumb-margin-dropdown-icon-left` | Public | `4px` | Local CSS<br>`margin-left` |
 | `--mp-breadcrumb-margin-separator-horizontal` | Public | `10px` | Local CSS<br>`margin` |
 | `--mp-breadcrumb-padding-text-horizontal` | Public | `0px` | Local CSS<br>`margin`, `padding` |
@@ -397,9 +459,10 @@ Source: `src/breadcrumb/style/token.less`
 | `--mp-breadcrumb-size-dropdown-icon` | Public | `12px` | Local CSS<br>`font-size` |
 | `--mp-breadcrumb-size-font-size` | Public | `14px` | Local CSS<br>`font-size` |
 | `--mp-breadcrumb-size-text-height` | Public | `24px` | Local CSS<br>`line-height` |
-| `--mp-breadcrumb-text-border-radius-hover` | Public | `0px` | Local CSS<br>`border-radius` |
+| `--mp-breadcrumb-text-border-radius-hover` | Public | `var(--mp-sys-radius-sm)` | Local CSS<br>`border-radius` |
 | `--mp-breadcrumb-text-color` | Public | `var(--mp-breadcrumb-item-inactive-color)` | Local CSS<br>`color` |
-| `--mp-breadcrumb-text-color-active` | Public | `var(--mp-breadcrumb-item-inactive-color)` | Local CSS<br>`color` |
+| `--mp-breadcrumb-text-color-active` | Public | `var(--mp-color-text-1)` | Local CSS<br>`color` |
+| `--mp-breadcrumb-touch-target-size` | Public | `44px` | Local CSS<br>`min-height`, `min-width` |
 
 </div>
 
@@ -415,93 +478,60 @@ Source: `src/button/style/token.less`
 | `--mp-button-content-gap` | Public | `var(--mp-sys-space-3)` | Local CSS<br>`gap` |
 | `--mp-button-danger-color` | Public | `var(--mp-sys-color-status-danger)` | Local CSS<br>`background-color` |
 | `--mp-button-danger-disabled-color` | Public | `rgb(var(--mp-danger-3))`<br>`rgba(var(--mp-danger-6), 0.5)` (`:root[maple-theme='dark']`) | Local CSS<br>`background-color`, `color` |
-| `--mp-button-danger-icon-color` | Public | `var(--mp-sys-color-content-danger)` | Local CSS<br>`color` |
-| `--mp-button-danger-icon-container-color` | Public | `rgb(var(--mp-danger-1))` | Local CSS<br>`background-color` |
-| `--mp-button-danger-state-layer-color` | Public | `var(--mp-sys-color-content-on-dark)` | Local CSS<br>`background-color` |
-| `--mp-button-danger-text-color` | Public | `var(--mp-sys-color-content-on-dark)` | Local CSS<br>`color` |
+| `--mp-button-danger-foreground-color` | Public | `var(--mp-sys-color-content-danger)` | Local CSS<br>`color` |
+| `--mp-button-danger-tonal-color` | Public | `rgb(var(--mp-danger-1))` | Local CSS<br>`background-color` |
 | `--mp-button-default-color` | Public | `var(--mp-sys-color-surface-default)` | Local CSS<br>`background-color` |
-| `--mp-button-default-icon-color` | Public | `var(--mp-sys-color-content-primary)` | Local CSS<br>`color` |
-| `--mp-button-default-icon-container-color` | Public | `var(--mp-sys-color-surface-muted)` | Local CSS<br>`background-color` |
-| `--mp-button-default-state-layer-color` | Public | `var(--mp-sys-color-content-primary)` | Local CSS<br>`background-color` |
-| `--mp-button-default-text-color` | Public | `var(--mp-sys-color-content-primary)` | Local CSS<br>`color` |
+| `--mp-button-default-foreground-color` | Public | `var(--mp-sys-color-content-primary)` | Local CSS<br>`background-color`, `color` |
+| `--mp-button-default-tonal-color` | Public | `var(--mp-sys-color-surface-muted)` | Local CSS<br>`background-color` |
 | `--mp-button-disabled-color` | Public | `var(--mp-color-fill-2)` | Local CSS<br>`background-color` |
 | `--mp-button-disabled-solid-text-color` | Public | `var(--mp-sys-color-content-on-dark)`<br>`rgba(255, 255, 255, 0.3)` (`:root[maple-theme='dark']`) | Local CSS<br>`color` |
 | `--mp-button-disabled-text-color` | Public | `var(--mp-sys-color-content-disabled)` | Local CSS<br>`color` |
 | `--mp-button-focus-color` | Public | `var(--mp-sys-color-content-brand)` | Local CSS<br>`outline` |
-| `--mp-button-focus-offset` | Public | `2px` | Local CSS<br>`outline-offset` |
-| `--mp-button-focus-width` | Public | `2px` | Local CSS<br>`outline` |
-| `--mp-button-group-border-radius` | Public | `var(--mp-sys-radius-md)` | Local CSS<br>`border-radius` |
-| `--mp-button-icon-container-padding` | Public | `var(--mp-sys-space-3)` | Local CSS<br>`padding` |
 | `--mp-button-info-color` | Public | `var(--mp-sys-color-status-info)` | Local CSS<br>`background-color` |
 | `--mp-button-info-disabled-color` | Public | `rgb(var(--mp-blue-3))`<br>`rgba(var(--mp-blue-6), 0.5)` (`:root[maple-theme='dark']`) | Local CSS<br>`background-color`, `color` |
-| `--mp-button-info-icon-color` | Public | `var(--mp-sys-color-content-info)` | Local CSS<br>`color` |
-| `--mp-button-info-icon-container-color` | Public | `rgb(var(--mp-blue-1))` | Local CSS<br>`background-color` |
-| `--mp-button-info-state-layer-color` | Public | `var(--mp-sys-color-content-on-dark)` | Local CSS<br>`background-color` |
-| `--mp-button-info-text-color` | Public | `var(--mp-sys-color-content-on-dark)` | Local CSS<br>`color` |
-| `--mp-button-large-font-size` | Public | `var(--mp-sys-font-size-lg)` | Local CSS<br>`font-size` |
-| `--mp-button-large-height` | Public | `44px` | Local CSS<br>`height`, `min-width`, `width` |
-| `--mp-button-large-padding` | Public | `0 22px` | Local CSS<br>`padding` |
-| `--mp-button-large-stacked-height` | Public | `56px` | Local CSS<br>`height`, `min-width` |
-| `--mp-button-line-height` | Public | `1.2` | Local CSS<br>`line-height` |
+| `--mp-button-info-foreground-color` | Public | `var(--mp-sys-color-content-info)` | Local CSS<br>`color` |
+| `--mp-button-info-tonal-color` | Public | `rgb(var(--mp-blue-1))` | Local CSS<br>`background-color` |
+| `--mp-button-lg-height` | Public | `56px` | Local CSS<br>`height`, `min-width`, `width` |
+| `--mp-button-lg-padding` | Public | `0 var(--mp-sys-space-7)` | Local CSS<br>`padding` |
 | `--mp-button-loading-duration` | Public | `1s` | Local CSS<br>`animation` |
 | `--mp-button-loading-line-height` | Public | `3px` | Local CSS<br>`height` |
-| `--mp-button-loading-line-width` | Public | `40%` | Local CSS<br>`width` |
-| `--mp-button-loading-static-opacity` | Public | `0.5` | Local CSS<br>`opacity` |
-| `--mp-button-mini-font-size` | Public | `var(--mp-font-size-xs)` | Local CSS<br>`font-size` |
-| `--mp-button-mini-height` | Public | `20px` | Local CSS<br>`height`, `min-width`, `width` |
-| `--mp-button-mini-padding` | Public | `0 var(--mp-sys-space-4)` | Local CSS<br>`padding` |
-| `--mp-button-mini-stacked-height` | Public | `36px` | Local CSS<br>`height`, `min-width` |
-| `--mp-button-normal-font-size` | Public | `var(--mp-sys-font-size-md)` | Local CSS<br>`font-size` |
-| `--mp-button-normal-height` | Public | `36px` | Local CSS<br>`height`, `min-width`, `width` |
-| `--mp-button-normal-padding` | Public | `0 var(--mp-sys-space-6)` | Local CSS<br>`padding` |
-| `--mp-button-normal-stacked-height` | Public | `var(--mp-button-stacked-height)` | Local CSS<br>`height`, `min-width` |
+| `--mp-button-md-height` | Public | `48px` | Local CSS<br>`height`, `min-width`, `width` |
+| `--mp-button-md-padding` | Public | `0 var(--mp-sys-space-6)` | Local CSS<br>`padding` |
 | `--mp-button-plain-state-opacity-active` | Public | `1` | Local CSS<br>`opacity` |
 | `--mp-button-plain-state-opacity-hover` | Public | `0.5` | Local CSS<br>`opacity` |
 | `--mp-button-primary-color` | Public | `var(--mp-sys-color-action-primary)` | Local CSS<br>`background-color` |
 | `--mp-button-primary-disabled-color` | Public | `rgb(var(--mp-primary-3))`<br>`rgba(var(--mp-primary-6), 0.5)` (`:root[maple-theme='dark']`) | Local CSS<br>`background-color`, `color` |
-| `--mp-button-primary-icon-color` | Public | `var(--mp-sys-color-content-brand)` | Local CSS<br>`color` |
-| `--mp-button-primary-icon-container-color` | Public | `rgb(var(--mp-primary-1))` | Local CSS<br>`background-color` |
-| `--mp-button-primary-state-layer-color` | Public | `var(--mp-sys-color-content-on-dark)` | Local CSS<br>`background-color` |
-| `--mp-button-primary-text-color` | Public | `var(--mp-sys-color-content-on-dark)` | Local CSS<br>`color` |
-| `--mp-button-round-padding` | Public | `var(--mp-sys-space-3)` | Local CSS<br>`padding` |
+| `--mp-button-primary-foreground-color` | Public | `var(--mp-sys-color-content-brand)` | Local CSS<br>`color` |
+| `--mp-button-primary-state-layer-color` | Public | `var(--mp-button-solid-state-layer-color)` | Local CSS<br>`background-color` |
+| `--mp-button-primary-tonal-color` | Public | `rgb(var(--mp-primary-1))` | Local CSS<br>`background-color` |
 | `--mp-button-secondary-color` | Public | `rgb(var(--mp-gray-6))` | Local CSS<br>`background-color` |
-| `--mp-button-secondary-icon-color` | Public | `var(--mp-sys-color-content-secondary)` | Local CSS<br>`color` |
-| `--mp-button-secondary-icon-container-color` | Public | `rgb(var(--mp-gray-2))` | Local CSS<br>`background-color` |
-| `--mp-button-secondary-state-layer-color` | Public | `var(--mp-sys-color-content-on-dark)` | Local CSS<br>`background-color` |
-| `--mp-button-secondary-text-color` | Public | `var(--mp-sys-color-content-on-dark)` | Local CSS<br>`color` |
-| `--mp-button-small-font-size` | Public | `var(--mp-sys-font-size-xs)` | Local CSS<br>`font-size` |
-| `--mp-button-small-height` | Public | `28px` | Local CSS<br>`height`, `min-width`, `width` |
-| `--mp-button-small-padding` | Public | `0 var(--mp-sys-space-5)` | Local CSS<br>`padding` |
-| `--mp-button-small-stacked-height` | Public | `44px` | Local CSS<br>`height`, `min-width` |
-| `--mp-button-stacked-border-radius` | Public | `var(--mp-sys-radius-md)` | Local CSS<br>`border-radius` |
-| `--mp-button-stacked-gap` | Public | `var(--mp-sys-space-2)` | Local CSS<br>`gap` |
-| `--mp-button-stacked-height` | Public | `48px` | Local CSS<br>`height`, `min-width` |
-| `--mp-button-stacked-padding` | Public | `var(--mp-sys-space-2)` | Local CSS<br>`padding-block` |
+| `--mp-button-secondary-foreground-color` | Public | `var(--mp-sys-color-content-secondary)` | Local CSS<br>`color` |
+| `--mp-button-secondary-tonal-color` | Public | `rgb(var(--mp-gray-2))` | Local CSS<br>`background-color` |
+| `--mp-button-sm-height` | Public | `40px` | Local CSS<br>`height`, `min-width`, `width` |
+| `--mp-button-sm-padding` | Public | `0 var(--mp-sys-space-5)` | Local CSS<br>`padding` |
+| `--mp-button-solid-state-layer-color` | Public | `var(--mp-sys-color-content-on-dark)` | Local CSS<br>`background-color` |
+| `--mp-button-solid-text-color` | Public | `var(--mp-sys-color-content-on-dark)` | Local CSS<br>`color` |
+| `--mp-button-stacked-gap` | Public | `var(--mp-sys-space-2)` | Local CSS<br>`gap`, `min-height`, `min-width` |
 | `--mp-button-state-layer-color` | Public | `var(--mp-sys-color-surface-page)` | Local CSS<br>`background-color` |
 | `--mp-button-state-opacity-active` | Public | `0.12` | Local CSS<br>`opacity` |
 | `--mp-button-state-opacity-hover` | Public | `0.08` | Local CSS<br>`opacity` |
 | `--mp-button-success-color` | Public | `var(--mp-sys-color-status-success)` | Local CSS<br>`background-color` |
 | `--mp-button-success-disabled-color` | Public | `rgb(var(--mp-success-3))`<br>`rgba(var(--mp-success-6), 0.5)` (`:root[maple-theme='dark']`) | Local CSS<br>`background-color`, `color` |
-| `--mp-button-success-icon-color` | Public | `var(--mp-sys-color-content-success)` | Local CSS<br>`color` |
-| `--mp-button-success-icon-container-color` | Public | `rgb(var(--mp-success-1))` | Local CSS<br>`background-color` |
-| `--mp-button-success-state-layer-color` | Public | `var(--mp-sys-color-content-on-dark)` | Local CSS<br>`background-color` |
-| `--mp-button-success-text-color` | Public | `var(--mp-sys-color-content-on-dark)` | Local CSS<br>`color` |
+| `--mp-button-success-foreground-color` | Public | `var(--mp-sys-color-content-success)` | Local CSS<br>`color` |
+| `--mp-button-success-tonal-color` | Public | `rgb(var(--mp-success-1))` | Local CSS<br>`background-color` |
 | `--mp-button-tertiary-color` | Public | `rgb(var(--mp-gray-7))` | Local CSS<br>`background-color` |
-| `--mp-button-tertiary-icon-color` | Public | `var(--mp-sys-color-content-secondary)` | Local CSS<br>`color` |
-| `--mp-button-tertiary-icon-container-color` | Public | `rgb(var(--mp-gray-1))` | Local CSS<br>`background-color` |
+| `--mp-button-tertiary-foreground-color` | Public | `var(--mp-sys-color-content-secondary)` | Local CSS<br>`color` |
 | `--mp-button-tertiary-state-layer-color` | Public | `var(--mp-sys-color-content-on-bright)`<br>`var(--mp-sys-color-content-on-dark)` (`:root[maple-theme='dark']`) | Local CSS<br>`background-color` |
 | `--mp-button-tertiary-text-color` | Public | `var(--mp-sys-color-content-on-dark)`<br>`var(--mp-sys-color-content-on-bright)` (`:root[maple-theme='dark']`) | Local CSS<br>`color` |
-| `--mp-button-transition-duration` | Public | `var(--mp-sys-motion-duration-standard)` | Local CSS<br>`transition` |
+| `--mp-button-tertiary-tonal-color` | Public | `rgb(var(--mp-gray-1))` | Local CSS<br>`background-color` |
 | `--mp-button-warning-color` | Public | `var(--mp-sys-color-status-warning)` | Local CSS<br>`background-color` |
 | `--mp-button-warning-disabled-color` | Public | `rgb(var(--mp-warning-3))`<br>`rgba(var(--mp-warning-6), 0.5)` (`:root[maple-theme='dark']`) | Local CSS<br>`background-color`, `color` |
-| `--mp-button-warning-icon-color` | Public | `var(--mp-sys-color-content-warning)` | Local CSS<br>`color` |
-| `--mp-button-warning-icon-container-color` | Public | `rgb(var(--mp-warning-1))` | Local CSS<br>`background-color` |
-| `--mp-button-warning-state-layer-color` | Public | `var(--mp-sys-color-content-on-dark)` | Local CSS<br>`background-color` |
-| `--mp-button-warning-text-color` | Public | `var(--mp-sys-color-content-on-dark)` | Local CSS<br>`color` |
-| `--mp-button-xl-font-size` | Public | `var(--mp-sys-font-size-xl)` | Local CSS<br>`font-size` |
-| `--mp-button-xl-height` | Public | `52px` | Local CSS<br>`height`, `min-width`, `width` |
-| `--mp-button-xl-padding` | Public | `0 28px` | Local CSS<br>`padding` |
-| `--mp-button-xl-stacked-height` | Public | `64px` | Local CSS<br>`height`, `min-width` |
+| `--mp-button-warning-foreground-color` | Public | `var(--mp-sys-color-content-warning)` | Local CSS<br>`color` |
+| `--mp-button-warning-tonal-color` | Public | `rgb(var(--mp-warning-1))` | Local CSS<br>`background-color` |
+| `--mp-button-xl-height` | Public | `64px` | Local CSS<br>`height`, `min-width`, `width` |
+| `--mp-button-xl-padding` | Public | `0 var(--mp-sys-space-8)` | Local CSS<br>`padding` |
+| `--mp-button-xs-height` | Public | `32px` | Local CSS<br>`height`, `min-width`, `width` |
+| `--mp-button-xs-padding` | Public | `0 var(--mp-sys-space-4)` | Local CSS<br>`padding` |
 
 </div>
 
@@ -817,27 +847,43 @@ Source: `src/date/style/token.less`
 | `--mp-date-picker-body-height` | Public | `280px` | Local CSS<br>`height` |
 | `--mp-date-picker-body-padding` | Public | `0` | Local CSS<br>`padding` |
 | `--mp-date-picker-border-radius` | Public | `4px` | Local CSS<br>`border-radius` |
+| `--mp-date-picker-datetime-popover-width` | Public | `calc(var(--mp-date-picker-panel-date-width) + var(--mp-date-picker-time-panel-min-width) + 2px)` | Needs review; do not depend on it |
 | `--mp-date-picker-font-size` | Public | `var(--mp-font-size-md)` | Local CSS<br>`font-size` |
 | `--mp-date-picker-header-arrow-filter` | Public | `opacity(0.54)` | Local CSS<br>`filter` |
 | `--mp-date-picker-header-color` | Public | `#555` | Local CSS<br>`color` |
 | `--mp-date-picker-header-padding` | Public | `4px 16px` | Local CSS<br>`padding` |
 | `--mp-date-picker-main-color` | Public | `rgba(0, 0, 0, 0.87)` | Local CSS<br>`color` |
-| `--mp-date-picker-min-width` | Public | `290px` | Local CSS<br>`min-width` |
-| `--mp-date-picker-title-background` | Public | `var(--mp-color-primary)` | Local CSS<br>`background` |
-| `--mp-date-picker-title-color` | Public | `#fff` | Local CSS<br>`color` |
+| `--mp-date-picker-min-width` | Public | `290px` | Local CSS<br>`flex`, `min-width` |
+| `--mp-date-picker-panel-background` | Public | `var(--mp-sys-color-surface-overlay)` | Local CSS<br>`background` |
+| `--mp-date-picker-panel-border` | Public | `var(--mp-color-border-2)` | Local CSS<br>`border` |
+| `--mp-date-picker-panel-date-width` | Public | `265px` | Local CSS<br>`flex`, `min-width`, `width` |
+| `--mp-date-picker-panel-preferred-width` | Public | `var(--mp-date-picker-popover-width)` | Local CSS<br>`flex`, `width` |
+| `--mp-date-picker-panel-radius` | Public | `8px` | Local CSS<br>`border-radius` |
+| `--mp-date-picker-popover-gap` | Public | `32px` | Local CSS<br>`max-height`, `max-width` |
+| `--mp-date-picker-popover-max-height` | Public | `calc(50dvh - var(--mp-date-picker-popover-gap))` | Local CSS<br>`max-height` |
+| `--mp-date-picker-popover-width` | Public | `calc(var(--mp-date-picker-panel-date-width) + 2px)` | Local CSS<br>`flex`, `width` |
+| `--mp-date-picker-range-background` | Public | `var(--mp-color-primary-light-1)` | Local CSS<br>`background` |
+| `--mp-date-picker-range-disabled-background` | Public | `var(--mp-color-fill-1)` | Local CSS<br>`background` |
+| `--mp-date-picker-range-preview-background` | Public | `var(--mp-color-fill-2)` | Local CSS<br>`background` |
+| `--mp-date-picker-range-preview-outline` | Public | `1px dashed var(--mp-color-primary)` | Local CSS<br>`outline` |
+| `--mp-date-picker-shortcuts-column-width` | Public | `128px` | Local CSS<br>`flex`, `width` |
+| `--mp-date-picker-time-panel-min-width` | Public | `160px` | Needs review; do not depend on it |
+| `--mp-date-picker-title-background` | Public | `var(--mp-date-picker-body-background-color)` | Local CSS<br>`background` |
+| `--mp-date-picker-title-color` | Public | `var(--mp-color-text-1)` | Local CSS<br>`color` |
 | `--mp-date-picker-title-date-font-size` | Public | `34px` | Local CSS<br>`font-size` |
 | `--mp-date-picker-title-date-font-weight` | Public | `500` | Local CSS<br>`font-weight` |
-| `--mp-date-picker-title-date-height` | Public | `48px` | Local CSS<br>`height` |
+| `--mp-date-picker-title-date-height` | Public | `48px` | Local CSS<br>`min-height` |
 | `--mp-date-picker-title-date-justify-content` | Public | `normal` | Local CSS<br>`justify-content` |
 | `--mp-date-picker-title-date-range-font-size` | Public | `20px` | Local CSS<br>`font-size` |
 | `--mp-date-picker-title-height` | Public | `105px` | Local CSS<br>`min-height` |
-| `--mp-date-picker-title-hint-color` | Public | `#fff` | Local CSS<br>`color` |
+| `--mp-date-picker-title-hint-color` | Public | `var(--mp-color-text-3)` | Local CSS<br>`color` |
 | `--mp-date-picker-title-hint-font-size` | Public | `var(--mp-font-size-md)` | Local CSS<br>`font-size` |
 | `--mp-date-picker-title-padding` | Public | `16px` | Local CSS<br>`padding` |
 | `--mp-date-picker-title-year-font-size` | Public | `var(--mp-font-size-md)` | Local CSS<br>`font-size` |
 | `--mp-date-picker-title-year-font-weight` | Public | `500` | Local CSS<br>`font-weight` |
 | `--mp-date-picker-title-year-margin-bottom` | Public | `8px` | Local CSS<br>`margin-bottom` |
 | `--mp-date-picker-title-year-min-height` | Public | `21px` | Local CSS<br>`min-height` |
+| `--mp-date-picker-wheel-font-size` | Public | `5cqi` | Cross-component CSS<br>`font-size` |
 | `--mp-date-title-font-size` | Public | `var(--mp-picker-title-font-size, 16px)` | Local CSS<br>`font-size` |
 | `--mp-date-title-text-color` | Public | `var(--mp-picker-title-text-color, #555)` | Local CSS<br>`color` |
 | `--mp-date-toolbar-height` | Public | `var(--mp-picker-toolbar-height, 44px)` | Local CSS<br>`height` |
@@ -871,20 +917,27 @@ Source: `src/date-range/style/token.less`
 
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
-| `--mp-date-range-picker-background` | Public | `var(--mp-color-fill-2)` | Local CSS<br>`background` |
+| `--mp-date-range-picker-background` | Public | `var(--mp-sys-color-surface-overlay)` | Local CSS<br>`background`, `background-color`, `background-image` |
 | `--mp-date-range-picker-border-radius` | Public | `var(--mp-date-picker-border-radius, 4px)` | Local CSS<br>`border-radius` |
 | `--mp-date-range-picker-column-label-color` | Public | `var(--mp-color-text-3)` | Local CSS<br>`color` |
-| `--mp-date-range-picker-column-label-font-size` | Public | `13px` | Local CSS<br>`font-size` |
-| `--mp-date-range-picker-column-label-height` | Public | `36px` | Local CSS<br>`height` |
-| `--mp-date-range-picker-value-active-color` | Public | `var(--mp-color-primary)` | Local CSS<br>`background`, `color` |
-| `--mp-date-range-picker-value-arrow-color` | Public | `var(--mp-color-border-2)` | Local CSS<br>`color` |
-| `--mp-date-range-picker-value-arrow-size` | Public | `18px` | Local CSS<br>`font-size` |
-| `--mp-date-range-picker-value-color` | Public | `var(--mp-color-text-3)` | Local CSS<br>`color` |
-| `--mp-date-range-picker-value-date-font-size` | Public | `13px` | Local CSS<br>`font-size` |
-| `--mp-date-range-picker-value-time-font-size` | Public | `22px` | Local CSS<br>`font-size` |
-| `--mp-date-range-picker-values-font-size` | Public | `18px` | Local CSS<br>`font-size` |
+| `--mp-date-range-picker-column-label-font-size` | Public | `var(--mp-temporal-panel-column-label-font-size)` | Local CSS<br>`font-size` |
+| `--mp-date-range-picker-column-label-height` | Public | `var(--mp-temporal-panel-column-label-height)` | Local CSS<br>`height` |
+| `--mp-date-range-picker-quick-time-width` | Public | `var(--mp-temporal-panel-quick-time-width)` | Local CSS<br>`flex`, `width` |
+| `--mp-date-range-picker-summary-active-background` | Public | `var(--mp-temporal-panel-summary-active-background)` | Local CSS<br>`background` |
+| `--mp-date-range-picker-summary-background` | Public | `var(--mp-temporal-panel-summary-background)` | Local CSS<br>`background` |
+| `--mp-date-range-picker-summary-touch-height` | Public | `var(--mp-temporal-panel-touch-height)` | Local CSS<br>`min-height` |
+| `--mp-date-range-picker-time-group-gap` | Public | `var(--mp-temporal-panel-group-gap)` | Needs review; do not depend on it |
+| `--mp-date-range-picker-time-group-radius` | Public | `var(--mp-temporal-panel-radius)` | Needs review; do not depend on it |
+| `--mp-date-range-picker-time-selection-background` | Public | `var(--mp-temporal-panel-selection-background)` | Needs review; do not depend on it |
+| `--mp-date-range-picker-value-active-color` | Public | `var(--mp-temporal-panel-summary-active-color)` | Local CSS<br>`color` |
+| `--mp-date-range-picker-value-arrow-color` | Public | `var(--mp-color-border-2)` | Needs review; do not depend on it |
+| `--mp-date-range-picker-value-arrow-size` | Public | `18px` | Needs review; do not depend on it |
+| `--mp-date-range-picker-value-color` | Public | `var(--mp-color-text-3)` | Needs review; do not depend on it |
+| `--mp-date-range-picker-value-date-font-size` | Public | `var(--mp-sys-font-size-md)` | Local CSS<br>`font-size` |
+| `--mp-date-range-picker-value-time-font-size` | Public | `22px` | Needs review; do not depend on it |
+| `--mp-date-range-picker-values-font-size` | Public | `18px` | Needs review; do not depend on it |
 | `--mp-date-range-picker-values-font-weight` | Public | `500` | Local CSS<br>`font-weight` |
-| `--mp-date-range-picker-values-height` | Public | `56px` | Local CSS<br>`min-height` |
+| `--mp-date-range-picker-values-height` | Public | `56px` | Needs review; do not depend on it |
 | `--mp-date-range-title-font-size` | Public | `var(--mp-picker-title-font-size, 16px)` | Local CSS<br>`font-size` |
 | `--mp-date-range-title-text-color` | Public | `var(--mp-picker-title-text-color, #555)` | Local CSS<br>`color` |
 | `--mp-date-range-toolbar-height` | Public | `var(--mp-picker-toolbar-height, 44px)` | Local CSS<br>`height` |
@@ -951,72 +1004,72 @@ Source: `src/divider/style/token.less`
 | --- | --- | --- | --- |
 | `--mp-divider-border-width` | Public | `1px` | Local CSS<br>`border-left-width`, `border-top-width` |
 | `--mp-divider-color` | Public | `var(--mp-sys-color-border-default)` | Local CSS<br>`border-left-color`, `border-top-color` |
-| `--mp-divider-orientation-horizontal-size-x-lg` | Public | `32px` | Local CSS<br>`margin-inline-end`, `margin-inline-start`, `max-width` |
-| `--mp-divider-orientation-horizontal-size-x-md` | Public | `24px` | Local CSS<br>`margin-inline-end`, `margin-inline-start`, `max-width` |
-| `--mp-divider-orientation-horizontal-size-x-sm` | Public | `16px` | Local CSS<br>`margin-inline-end`, `margin-inline-start`, `max-width` |
-| `--mp-divider-orientation-horizontal-size-x-xl` | Public | `40px` | Local CSS<br>`margin-inline-end`, `margin-inline-start`, `max-width` |
-| `--mp-divider-orientation-horizontal-size-x-xs` | Public | `12px` | Local CSS<br>`margin-inline-end`, `margin-inline-start`, `max-width` |
-| `--mp-divider-orientation-horizontal-size-y-lg` | Public | `24px` | Local CSS<br>`margin-block-end`, `margin-block-start` |
-| `--mp-divider-orientation-horizontal-size-y-md` | Public | `16px` | Local CSS<br>`margin-block-end`, `margin-block-start` |
-| `--mp-divider-orientation-horizontal-size-y-sm` | Public | `12px` | Local CSS<br>`margin-block-end`, `margin-block-start` |
-| `--mp-divider-orientation-horizontal-size-y-xl` | Public | `32px` | Local CSS<br>`margin-block-end`, `margin-block-start` |
-| `--mp-divider-orientation-horizontal-size-y-xs` | Public | `8px` | Local CSS<br>`margin-block-end`, `margin-block-start` |
-| `--mp-divider-orientation-vertical-size-x-lg` | Public | `8px` | Local CSS<br>`margin-block-end`, `margin-block-start`, `max-height` |
-| `--mp-divider-orientation-vertical-size-x-md` | Public | `6px` | Local CSS<br>`margin-block-end`, `margin-block-start`, `max-height` |
-| `--mp-divider-orientation-vertical-size-x-sm` | Public | `4px` | Local CSS<br>`margin-block-end`, `margin-block-start`, `max-height` |
-| `--mp-divider-orientation-vertical-size-x-xl` | Public | `12px` | Local CSS<br>`margin-block-end`, `margin-block-start`, `max-height` |
-| `--mp-divider-orientation-vertical-size-x-xs` | Public | `2px` | Local CSS<br>`margin-block-end`, `margin-block-start`, `max-height` |
-| `--mp-divider-orientation-vertical-size-y-lg` | Public | `16px` | Local CSS<br>`margin-inline-end`, `margin-inline-start` |
-| `--mp-divider-orientation-vertical-size-y-md` | Public | `12px` | Local CSS<br>`margin-inline-end`, `margin-inline-start` |
-| `--mp-divider-orientation-vertical-size-y-sm` | Public | `8px` | Local CSS<br>`margin-inline-end`, `margin-inline-start` |
-| `--mp-divider-orientation-vertical-size-y-xl` | Public | `24px` | Local CSS<br>`margin-inline-end`, `margin-inline-start` |
-| `--mp-divider-orientation-vertical-size-y-xs` | Public | `4px` | Local CSS<br>`margin-inline-end`, `margin-inline-start` |
+| `--mp-divider-orientation-horizontal-inset-lg` | Public | `32px` | Local CSS<br>`margin-inline-end`, `margin-inline-start`, `max-width` |
+| `--mp-divider-orientation-horizontal-inset-md` | Public | `24px` | Local CSS<br>`margin-inline-end`, `margin-inline-start`, `max-width` |
+| `--mp-divider-orientation-horizontal-inset-sm` | Public | `16px` | Local CSS<br>`margin-inline-end`, `margin-inline-start`, `max-width` |
+| `--mp-divider-orientation-horizontal-inset-xl` | Public | `40px` | Local CSS<br>`margin-inline-end`, `margin-inline-start`, `max-width` |
+| `--mp-divider-orientation-horizontal-inset-xs` | Public | `12px` | Local CSS<br>`margin-inline-end`, `margin-inline-start`, `max-width` |
+| `--mp-divider-orientation-horizontal-spacing-lg` | Public | `24px` | Local CSS<br>`margin-block-end`, `margin-block-start` |
+| `--mp-divider-orientation-horizontal-spacing-md` | Public | `16px` | Local CSS<br>`margin-block-end`, `margin-block-start` |
+| `--mp-divider-orientation-horizontal-spacing-sm` | Public | `12px` | Local CSS<br>`margin-block-end`, `margin-block-start` |
+| `--mp-divider-orientation-horizontal-spacing-xl` | Public | `32px` | Local CSS<br>`margin-block-end`, `margin-block-start` |
+| `--mp-divider-orientation-horizontal-spacing-xs` | Public | `8px` | Local CSS<br>`margin-block-end`, `margin-block-start` |
+| `--mp-divider-orientation-vertical-inset-lg` | Public | `8px` | Local CSS<br>`margin-block-end`, `margin-block-start`, `max-height` |
+| `--mp-divider-orientation-vertical-inset-md` | Public | `6px` | Local CSS<br>`margin-block-end`, `margin-block-start`, `max-height` |
+| `--mp-divider-orientation-vertical-inset-sm` | Public | `4px` | Local CSS<br>`margin-block-end`, `margin-block-start`, `max-height` |
+| `--mp-divider-orientation-vertical-inset-xl` | Public | `12px` | Local CSS<br>`margin-block-end`, `margin-block-start`, `max-height` |
+| `--mp-divider-orientation-vertical-inset-xs` | Public | `2px` | Local CSS<br>`margin-block-end`, `margin-block-start`, `max-height` |
+| `--mp-divider-orientation-vertical-spacing-lg` | Public | `16px` | Local CSS<br>`margin-inline-end`, `margin-inline-start` |
+| `--mp-divider-orientation-vertical-spacing-md` | Public | `12px` | Local CSS<br>`margin-inline-end`, `margin-inline-start` |
+| `--mp-divider-orientation-vertical-spacing-sm` | Public | `8px` | Local CSS<br>`margin-inline-end`, `margin-inline-start` |
+| `--mp-divider-orientation-vertical-spacing-xl` | Public | `24px` | Local CSS<br>`margin-inline-end`, `margin-inline-start` |
+| `--mp-divider-orientation-vertical-spacing-xs` | Public | `4px` | Local CSS<br>`margin-inline-end`, `margin-inline-start` |
 | `--mp-divider-text-align-inset` | Public | `24px` | Local CSS<br>`height`, `width` |
 | `--mp-divider-text-color` | Public | `var(--mp-sys-color-content-secondary)` | Local CSS<br>`color` |
 | `--mp-divider-text-padding` | Public | `8px` | Local CSS<br>`padding` |
 
 </div>
 
-## dropdown-menu
+## menu
 
-Source: `src/dropdown-menu/style/token.less`
+Source: `src/menu/style/token.less`
 
 <div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
 
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
-| `--mp-dropdown-menu-background-color` | Public | `var(--mp-color-fill-2)` | Local CSS<br>`background-color` |
-| `--mp-dropdown-menu-border-color` | Public | `var(--mp-color-fill-3)` | Local CSS<br>`background-color`, `border`, `border-top` |
-| `--mp-dropdown-menu-border-radius` | Public | `2px` | Local CSS<br>`border-radius` |
-| `--mp-dropdown-menu-group-title-font-size` | Public | `var(--mp-font-size-sm)` | Local CSS<br>`font-size` |
-| `--mp-dropdown-menu-group-title-height` | Public | `24px` | Local CSS<br>`height`, `line-height` |
-| `--mp-dropdown-menu-group-title-padding` | Public | `8px 12px 4px` | Local CSS<br>`padding` |
-| `--mp-dropdown-menu-group-title-text-color` | Public | `var(--mp-color-text-3)` | Local CSS<br>`color` |
-| `--mp-dropdown-menu-max-height` | Public | `278px` | Local CSS<br>`max-height` |
-| `--mp-dropdown-menu-option-arrow-icon-size` | Public | `18px` | Local CSS<br>`font-size` |
-| `--mp-dropdown-menu-option-arrow-padding` | Public | `0 6px 0 8px` | Local CSS<br>`padding` |
-| `--mp-dropdown-menu-option-bg-disabled` | Public | `transparent` | Local CSS<br>`background` |
-| `--mp-dropdown-menu-option-bg-hover` | Public | `var(--mp-color-fill-3)` | Local CSS<br>`background-color` |
-| `--mp-dropdown-menu-option-bg-selected-hover` | Public | `var(--mp-dropdown-menu-option-selected-background)` | Local CSS<br>`background` |
-| `--mp-dropdown-menu-option-disabled-color` | Public | `var(--mp-color-text-disabled)` | Local CSS<br>`color` |
-| `--mp-dropdown-menu-option-icon-margin-right` | Public | `8px` | Local CSS<br>`margin-right` |
-| `--mp-dropdown-menu-option-lg-font-size` | Public | `var(--mp-font-size-lg)` | Local CSS<br>`font-size` |
-| `--mp-dropdown-menu-option-lg-height` | Public | `46px` | Local CSS<br>`height` |
-| `--mp-dropdown-menu-option-md-font-size` | Public | `var(--mp-font-size-md)` | Local CSS<br>`font-size` |
-| `--mp-dropdown-menu-option-md-height` | Public | `38px` | Local CSS<br>`height` |
-| `--mp-dropdown-menu-option-padding` | Public | `0 12px` | Local CSS<br>`padding` |
-| `--mp-dropdown-menu-option-selected-background` | Public | `var(--mp-color-primary)` | Local CSS<br>`background` |
-| `--mp-dropdown-menu-option-selected-text-color` | Public | `var(--mp-sys-color-content-brand)` | Local CSS<br>`color` |
-| `--mp-dropdown-menu-option-sm-font-size` | Public | `var(--mp-font-size-sm)` | Local CSS<br>`font-size` |
-| `--mp-dropdown-menu-option-sm-height` | Public | `30px` | Local CSS<br>`height` |
-| `--mp-dropdown-menu-option-suffix-margin-left` | Public | `16px` | Local CSS<br>`margin-left` |
-| `--mp-dropdown-menu-option-text-color` | Public | `var(--mp-color-text-1)` | Local CSS<br>`color` |
-| `--mp-dropdown-menu-option-xl-font-size` | Public | `var(--mp-font-size-lg)` | Local CSS<br>`font-size` |
-| `--mp-dropdown-menu-option-xl-height` | Public | `54px` | Local CSS<br>`height` |
-| `--mp-dropdown-menu-option-xs-font-size` | Public | `var(--mp-font-size-xs)` | Local CSS<br>`font-size` |
-| `--mp-dropdown-menu-option-xs-height` | Public | `24px` | Local CSS<br>`height` |
-| `--mp-dropdown-menu-padding` | Public | `4px 0` | Local CSS<br>`margin`, `padding` |
-| `--mp-dropdown-menu-padding-vertical` | Public | `4px` | Local CSS<br>`margin-top` |
+| `--mp-menu-background-color` | Public | `var(--mp-sys-color-surface-overlay)` | Local CSS<br>`background-color` |
+| `--mp-menu-border-color` | Public | `var(--mp-color-fill-3)` | Local CSS<br>`background-color`, `border`, `border-top` |
+| `--mp-menu-border-radius` | Public | `2px` | Local CSS<br>`border-radius` |
+| `--mp-menu-group-title-font-size` | Public | `var(--mp-font-size-sm)` | Local CSS<br>`font-size` |
+| `--mp-menu-group-title-height` | Public | `20px` | Local CSS<br>`line-height` |
+| `--mp-menu-group-title-padding` | Public | `4px 12px` | Local CSS<br>`padding` |
+| `--mp-menu-group-title-text-color` | Public | `var(--mp-color-text-3)` | Local CSS<br>`color` |
+| `--mp-menu-max-height` | Public | `278px` | Local CSS<br>`max-height` |
+| `--mp-menu-option-arrow-icon-size` | Public | `18px` | Local CSS<br>`font-size` |
+| `--mp-menu-option-arrow-padding` | Public | `0 6px 0 8px` | Local CSS<br>`padding` |
+| `--mp-menu-option-bg-disabled` | Public | `transparent` | Local CSS<br>`background` |
+| `--mp-menu-option-bg-hover` | Public | `var(--mp-sys-color-state-hover)` | Local CSS<br>`background-color` |
+| `--mp-menu-option-bg-selected-hover` | Public | `var(--mp-menu-option-selected-background)` | Local CSS<br>`background-color` |
+| `--mp-menu-option-disabled-color` | Public | `var(--mp-color-text-disabled)` | Local CSS<br>`color` |
+| `--mp-menu-option-icon-margin-right` | Public | `8px` | Local CSS<br>`margin-right` |
+| `--mp-menu-option-lg-font-size` | Public | `var(--mp-font-size-lg)` | Local CSS<br>`font-size` |
+| `--mp-menu-option-lg-height` | Public | `46px` | Local CSS<br>`height` |
+| `--mp-menu-option-md-font-size` | Public | `var(--mp-font-size-md)` | Local CSS<br>`font-size` |
+| `--mp-menu-option-md-height` | Public | `38px` | Local CSS<br>`height` |
+| `--mp-menu-option-padding` | Public | `0 12px` | Local CSS<br>`padding` |
+| `--mp-menu-option-selected-background` | Public | `var(--mp-sys-color-state-hover)` | Local CSS<br>`background-color` |
+| `--mp-menu-option-selected-text-color` | Public | `var(--mp-sys-color-content-primary)` | Local CSS<br>`color` |
+| `--mp-menu-option-sm-font-size` | Public | `var(--mp-font-size-sm)` | Local CSS<br>`font-size` |
+| `--mp-menu-option-sm-height` | Public | `30px` | Local CSS<br>`height` |
+| `--mp-menu-option-suffix-margin-left` | Public | `16px` | Local CSS<br>`margin-left` |
+| `--mp-menu-option-text-color` | Public | `var(--mp-sys-color-content-secondary)` | Local CSS<br>`color` |
+| `--mp-menu-option-xl-font-size` | Public | `var(--mp-font-size-lg)` | Local CSS<br>`font-size` |
+| `--mp-menu-option-xl-height` | Public | `54px` | Local CSS<br>`height` |
+| `--mp-menu-option-xs-font-size` | Public | `var(--mp-font-size-xs)` | Local CSS<br>`font-size` |
+| `--mp-menu-option-xs-height` | Public | `24px` | Local CSS<br>`height` |
+| `--mp-menu-padding` | Public | `4px 0` | Local CSS<br>`margin`, `padding` |
+| `--mp-menu-padding-vertical` | Public | `4px` | Local CSS<br>`margin-top` |
 
 </div>
 
@@ -1067,7 +1120,7 @@ Source: `src/fab/style/token.less`
 | --- | --- | --- | --- |
 | `--mp-fab-action-border-radius` | Public | `50%` | Local CSS<br>`border-radius` |
 | `--mp-fab-action-margin` | Public | `6px` | Local CSS<br>`margin` |
-| `--mp-fab-action-size` | Public | `40px` | Local CSS<br>`height`, `width` |
+| `--mp-fab-action-size` | Public | `40px` | Local CSS<br>`height`, `min-width`, `width` |
 | `--mp-fab-actions-padding` | Public | `10px 0` | Local CSS<br>`padding` |
 | `--mp-fab-bottom` | Public | `16px` | Local CSS<br>`bottom` |
 | `--mp-fab-left` | Public | `16px` | Local CSS<br>`left` |
@@ -1077,7 +1130,7 @@ Source: `src/fab/style/token.less`
 | `--mp-fab-trigger-active-icon-size` | Public | `22px` | Local CSS<br>`font-size` |
 | `--mp-fab-trigger-border-radius` | Public | `50%` | Local CSS<br>`border-radius` |
 | `--mp-fab-trigger-inactive-icon-size` | Public | `26px` | Local CSS<br>`font-size` |
-| `--mp-fab-trigger-size` | Public | `56px` | Local CSS<br>`height`, `width` |
+| `--mp-fab-trigger-size` | Public | `56px` | Local CSS<br>`height`, `min-width`, `width` |
 
 </div>
 
@@ -1101,8 +1154,8 @@ Source: `src/field-decorator/style/token.less`
 | `--mp-field-content-padding-vertical` | Public | `8px` | Local CSS<br>`top` |
 | `--mp-field-control-text-color` | Public | `var(--mp-sys-color-content-primary)` | Local CSS<br>`color` |
 | `--mp-field-control-text-color-disabled` | Public | `var(--mp-sys-color-content-disabled)` | Local CSS<br>`-webkit-text-fill-color`, `color` |
-| `--mp-field-error-color` | Public | `var(--mp-sys-color-status-danger)` | Local CSS<br>`border-bottom-color`, `border-color`, `caret-color`, `color` |
-| `--mp-field-focus-color` | Public | `var(--mp-sys-color-action-primary)` | Local CSS<br>`border-bottom-color`, `caret-color`, `color`, `outline` |
+| `--mp-field-error-color` | Public | `var(--mp-sys-color-status-danger)` | Local CSS<br>`border-bottom-color`, `border-color`, `color` |
+| `--mp-field-focus-color` | Public | `var(--mp-sys-color-action-primary)` | Local CSS<br>`border-bottom-color`, `color`, `outline` |
 | `--mp-field-hint-duration` | Public | `0.2s` | Local CSS<br>`transition` |
 | `--mp-field-hint-scale` | Public | `0.75` | Local CSS<br>`font-size`, `top`, `transform` |
 | `--mp-field-hint-space` | Public | `4px` | Local CSS<br>`padding`, `padding-inline-start` |
@@ -1149,7 +1202,7 @@ Source: `src/floating-panel/style/token.less`
 
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
-| `--mp-floating-panel-background` | Public | `var(--mp-color-fill-2)` | Local CSS<br>`background-color`, `box-shadow` |
+| `--mp-floating-panel-background` | Public | `var(--mp-sys-color-surface-overlay)` | Local CSS<br>`background-color`, `box-shadow` |
 | `--mp-floating-panel-border-radius` | Public | `0` | Local CSS<br>`border-top-left-radius`, `border-top-right-radius` |
 | `--mp-floating-panel-border-top` | Public | `none` | Local CSS<br>`border-top` |
 | `--mp-floating-panel-header-height` | Public | `30px` | Local CSS<br>`height` |
@@ -2048,7 +2101,7 @@ Source: `src/select/style/token.less`
 | `--mp-select-popup-font-size` | Public | `var(--mp-sys-font-size-md)` | Local CSS<br>`font-size` |
 | `--mp-select-popup-group-title-font-size` | Public | `var(--mp-sys-font-size-xs)` | Local CSS<br>`font-size` |
 | `--mp-select-popup-group-title-height` | Public | `20px` | Local CSS<br>`line-height` |
-| `--mp-select-popup-group-title-padding-horizontal` | Public | `var(--mp-sys-space-5)` | Local CSS<br>`padding` |
+| `--mp-select-popup-group-title-padding-horizontal` | Public | `var(--mp-select-popup-option-padding-horizontal)` | Local CSS<br>`padding` |
 | `--mp-select-popup-group-title-padding-top` | Public | `var(--mp-sys-space-4)` | Local CSS<br>`margin-top` |
 | `--mp-select-popup-group-title-text-color` | Public | `var(--mp-sys-color-content-secondary)` | Local CSS<br>`color` |
 | `--mp-select-popup-loading-min-height` | Public | `50px` | Local CSS<br>`min-height` |
@@ -2657,62 +2710,19 @@ Source: `src/time/style/token.less`
 
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
+| `--mp-time-panel-actions-padding` | Public | `8px` | Local CSS<br>`padding` |
+| `--mp-time-panel-background` | Public | `var(--mp-sys-color-surface-overlay)` | Local CSS<br>`background` |
+| `--mp-time-panel-border` | Public | `var(--mp-color-border-2)` | Local CSS<br>`border`, `border-top` |
+| `--mp-time-panel-radius` | Public | `8px` | Local CSS<br>`border-radius` |
 | `--mp-time-picker-actions-padding` | Public | `0 8px 12px 8px` | Local CSS<br>`padding` |
-| `--mp-time-picker-body-background` | Public | `#fff` | Local CSS<br>`background-color` |
-| `--mp-time-picker-body-height` | Public | `288px` | Local CSS<br>`height` |
+| `--mp-time-picker-body-background` | Public | `#fff` | Local CSS<br>`background` |
 | `--mp-time-picker-border-radius` | Public | `4px` | Local CSS<br>`border-radius` |
-| `--mp-time-picker-clock-bottom` | Public | `27px` | Local CSS<br>`bottom` |
-| `--mp-time-picker-clock-container-background` | Public | `#e0e0e0` | Local CSS<br>`background` |
-| `--mp-time-picker-clock-container-height` | Public | `256px` | Local CSS<br>`height` |
-| `--mp-time-picker-clock-container-width` | Public | `256px` | Local CSS<br>`width` |
-| `--mp-time-picker-clock-hand-after-height` | Public | `4px` | Local CSS<br>`height` |
-| `--mp-time-picker-clock-hand-after-width` | Public | `4px` | Local CSS<br>`width` |
-| `--mp-time-picker-clock-hand-background` | Public | `var(--mp-color-primary)` | Local CSS<br>`background-color` |
-| `--mp-time-picker-clock-hand-before-border-width` | Public | `2px` | Local CSS<br>`border` |
-| `--mp-time-picker-clock-hand-before-height` | Public | `10px` | Local CSS<br>`height` |
-| `--mp-time-picker-clock-hand-before-width` | Public | `10px` | Local CSS<br>`width` |
-| `--mp-time-picker-clock-hand-border-color` | Public | `var(--mp-sys-color-content-brand)` | Local CSS<br>`border-color` |
-| `--mp-time-picker-clock-hand-bottom` | Public | `50%` | Local CSS<br>`bottom` |
-| `--mp-time-picker-clock-hand-height` | Public | `calc(50% - 4px)` | Local CSS<br>`height` |
-| `--mp-time-picker-clock-hand-left` | Public | `calc(50% - 1px)` | Local CSS<br>`left` |
-| `--mp-time-picker-clock-hand-width` | Public | `2px` | Local CSS<br>`width` |
-| `--mp-time-picker-clock-item-active-background` | Public | `var(--mp-color-primary)` | Local CSS<br>`background` |
-| `--mp-time-picker-clock-item-active-color` | Public | `var(--mp-color-white)` | Local CSS<br>`color` |
-| `--mp-time-picker-clock-item-disable-background` | Public | `#bdbdbd` | Runtime reference (not visibility proof)<br>`time/Clock.vue` |
-| `--mp-time-picker-clock-item-disable-color` | Public | `rgba(0, 0, 0, 0.26)` | Local CSS<br>`color` |
-| `--mp-time-picker-clock-item-height` | Public | `32px` | Local CSS<br>`height` |
-| `--mp-time-picker-clock-item-text-color` | Public | `#555` | Local CSS<br>`color` |
-| `--mp-time-picker-clock-item-width` | Public | `32px` | Local CSS<br>`width` |
-| `--mp-time-picker-clock-left` | Public | `27px` | Local CSS<br>`left` |
-| `--mp-time-picker-clock-right` | Public | `27px` | Local CSS<br>`right` |
-| `--mp-time-picker-clock-top` | Public | `27px` | Local CSS<br>`top` |
+| `--mp-time-picker-column-label-height` | Public | `var(--mp-temporal-panel-column-label-height)` | Local CSS<br>`height` |
 | `--mp-time-picker-font-size` | Public | `var(--mp-font-size-md)` | Local CSS<br>`font-size` |
-| `--mp-time-picker-inner-bottom` | Public | `36px` | Local CSS<br>`bottom` |
-| `--mp-time-picker-inner-left` | Public | `36px` | Local CSS<br>`left` |
-| `--mp-time-picker-inner-right` | Public | `36px` | Local CSS<br>`right` |
-| `--mp-time-picker-inner-top` | Public | `36px` | Local CSS<br>`top` |
-| `--mp-time-picker-min-width` | Public | `290px` | Local CSS<br>`min-width` |
-| `--mp-time-picker-title-ampm-border` | Public | `none` | Local CSS<br>`border`, `border-bottom` |
-| `--mp-time-picker-title-ampm-border-radius` | Public | `0` | Local CSS<br>`border-radius` |
-| `--mp-time-picker-title-ampm-button-active-background` | Public | `transparent` | Local CSS<br>`background` |
-| `--mp-time-picker-title-ampm-button-padding` | Public | `2px` | Local CSS<br>`padding` |
-| `--mp-time-picker-title-ampm-margin-left` | Public | `10px` | Local CSS<br>`margin-left` |
-| `--mp-time-picker-title-background` | Public | `var(--mp-color-primary)` | Local CSS<br>`background` |
-| `--mp-time-picker-title-color` | Public | `#fff` | Local CSS<br>`color` |
-| `--mp-time-picker-title-height` | Public | `105px` | Local CSS<br>`min-height` |
-| `--mp-time-picker-title-hint-color` | Public | `'#fff'` | Local CSS<br>`color` |
-| `--mp-time-picker-title-hint-font-size` | Public | `14px` | Local CSS<br>`font-size` |
-| `--mp-time-picker-title-hint-min-height` | Public | `21px` | Local CSS<br>`min-height` |
-| `--mp-time-picker-title-inactive-opacity` | Public | `0.6` | Local CSS<br>`opacity` |
-| `--mp-time-picker-title-margin-bottom` | Public | `8px` | Local CSS<br>`margin-bottom` |
-| `--mp-time-picker-title-padding` | Public | `16px` | Local CSS<br>`padding` |
-| `--mp-time-picker-title-time-active-background` | Public | `rgba(255, 255, 255, 0.28)` | Local CSS<br>`background` |
-| `--mp-time-picker-title-time-background` | Public | `rgba(255, 255, 255, 0.12)` | Local CSS<br>`background` |
-| `--mp-time-picker-title-time-border-radius` | Public | `4px` | Local CSS<br>`border-radius` |
-| `--mp-time-picker-title-time-container-justify-content` | Public | `flex-end` | Local CSS<br>`justify-content` |
-| `--mp-time-picker-title-time-font-size` | Public | `50px` | Local CSS<br>`font-size` |
-| `--mp-time-picker-title-time-margin` | Public | `0 5px` | Local CSS<br>`margin` |
-| `--mp-time-picker-title-time-padding` | Public | `4px 6px` | Local CSS<br>`padding` |
+| `--mp-time-picker-min-width` | Public | `290px` | Needs review; do not depend on it |
+| `--mp-time-popover-gap` | Public | `32px` | Local CSS<br>`max-height`, `max-width` |
+| `--mp-time-popover-max-height` | Public | `calc(50dvh - var(--mp-time-popover-gap))` | Local CSS<br>`max-height` |
+| `--mp-time-popover-width` | Public | `320px` | Local CSS<br>`width` |
 | `--mp-time-title-font-size` | Public | `var(--mp-picker-title-font-size, 16px)` | Local CSS<br>`font-size` |
 | `--mp-time-title-text-color` | Public | `var(--mp-picker-title-text-color, #555)` | Local CSS<br>`color` |
 | `--mp-time-toolbar-height` | Public | `var(--mp-picker-toolbar-height, 44px)` | Local CSS<br>`height` |
@@ -2728,16 +2738,17 @@ Source: `src/time-range/style/token.less`
 
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
-| `--mp-time-range-picker-background` | Public | `var(--mp-color-fill-2)` | Local CSS<br>`background` |
+| `--mp-time-range-picker-background` | Public | `var(--mp-sys-color-surface-overlay)` | Local CSS<br>`background`, `background-image` |
 | `--mp-time-range-picker-border-radius` | Public | `var(--mp-time-picker-border-radius, 4px)` | Local CSS<br>`border-radius` |
+| `--mp-time-range-picker-column-label-height` | Public | `var(--mp-temporal-panel-column-label-height)` | Local CSS<br>`height` |
 | `--mp-time-range-picker-next-day-color` | Public | `var(--mp-sys-color-content-secondary)` | Local CSS<br>`color` |
-| `--mp-time-range-picker-value-active-color` | Public | `var(--mp-sys-color-content-brand)` | Local CSS<br>`color` |
-| `--mp-time-range-picker-value-arrow-color` | Public | `var(--mp-color-border-2)` | Local CSS<br>`color` |
-| `--mp-time-range-picker-value-arrow-size` | Public | `18px` | Local CSS<br>`font-size` |
-| `--mp-time-range-picker-value-color` | Public | `var(--mp-color-text-3)` | Local CSS<br>`color` |
-| `--mp-time-range-picker-values-font-size` | Public | `20px` | Local CSS<br>`font-size` |
-| `--mp-time-range-picker-values-font-weight` | Public | `500` | Local CSS<br>`font-weight` |
-| `--mp-time-range-picker-values-height` | Public | `56px` | Local CSS<br>`height` |
+| `--mp-time-range-picker-value-active-color` | Public | `var(--mp-sys-color-content-brand)` | Needs review; do not depend on it |
+| `--mp-time-range-picker-value-arrow-color` | Public | `var(--mp-color-border-2)` | Needs review; do not depend on it |
+| `--mp-time-range-picker-value-arrow-size` | Public | `18px` | Needs review; do not depend on it |
+| `--mp-time-range-picker-value-color` | Public | `var(--mp-color-text-3)` | Needs review; do not depend on it |
+| `--mp-time-range-picker-values-font-size` | Public | `20px` | Needs review; do not depend on it |
+| `--mp-time-range-picker-values-font-weight` | Public | `500` | Needs review; do not depend on it |
+| `--mp-time-range-picker-values-height` | Public | `56px` | Needs review; do not depend on it |
 | `--mp-time-range-title-font-size` | Public | `var(--mp-picker-title-font-size, 16px)` | Local CSS<br>`font-size` |
 | `--mp-time-range-title-text-color` | Public | `var(--mp-picker-title-text-color, #555)` | Local CSS<br>`color` |
 | `--mp-time-range-toolbar-height` | Public | `var(--mp-picker-toolbar-height, 44px)` | Local CSS<br>`height` |

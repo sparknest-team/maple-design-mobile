@@ -13,6 +13,8 @@ const parser = (text: string) => text.replace(/,/g, '')
     <template #append>含税</template>
     <template #plus>＋</template>
     <template #minus>－</template>
-    <template #clear-icon="{ clear }"><button type="button" aria-label="清空金额" @click="clear">×</button></template>
+    <template #clear-icon="{ clear }"
+      ><mp-button html-type="button" aria-label="清空金额" @click="clear">×</mp-button></template
+    >
   </mp-input-number>
 </template>

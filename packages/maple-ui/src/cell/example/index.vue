@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
+import DemoApiReview from './demos/api-review.vue'
 import BasicUsageDemo from './demos/basic-usage.vue'
 import ListDemo from './demos/list.vue'
 import ShowBorderDemo from './demos/show-border.vue'
@@ -41,4 +42,5 @@ onThemeChange()
     <app-type>{{ english ? 'Use As List Item' : '用作列表项' }}</app-type>
     <ListDemo />
   </section>
+  <section data-demo="api-review"><DemoApiReview /></section>
 </template>

@@ -1,8 +1,10 @@
 # Cell
 
+## Examples
+
 ### Intro
 
-The cell is a single display item in the list.
+The cell is a single display item in the list. `title` renders the main text; the default slot overrides it when provided.
 
 ### Basic Usage
 
@@ -12,11 +14,15 @@ The cell is a single display item in the list.
 
 ### Show Icon
 
+The examples render `<m-icon-fire />` in the `#icon` slot. The Resolver imports it on demand without manual imports or registration. The string API `icon="fire"` only resolves icons already registered in the app; string values do not trigger the Resolver.
+
 ```demo
 ../example/demos/show-icon.vue
 ```
 
 ### Show Description
+
+The leading icon, title/description text block, and trailing content are vertically centered. Cell manages spacing and alignment for the icon slot; place the icon directly in the slot without internal CSS classes.
 
 ```demo
 ../example/demos/show-desc.vue
@@ -34,18 +40,27 @@ The cell is a single display item in the list.
 ../example/demos/list.vue
 ```
 
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
+
 ## API
 
 ### Props
 
 | Prop | Description | Type | Default |
 | ----- | -------------- | -------- | ---------- |
-| `title` | Title | _string_ | `-` |
-| `icon` | Icon name | _string_ | `-` |
+| `title` | Main title; overridden by the default slot | _string_ | `-` |
+| `icon` | Registered icon name | _string_ | `-` |
 | `description` | Description | _string_ | `-` |
 | `border` | Whether to show border | _boolean_ | `false` |
 | `border-offset` | Border offset | _string \| number_ | `-` |
-| `icon-class` | Icon className | _string_ | `-` |
+| `icon-class` | Extra class for the leading icon container, for both the icon prop and slot | _string_ | `-` |
 | `title-class` | Title className | _string_ | `-` |
 | `description-class` | Description className | _string_ | `-` |
 | `extra-class` | Extra className | _string_ | `-` |
@@ -61,7 +76,7 @@ The cell is a single display item in the list.
 
 | Name | Description | SlotProps |
 | ----- | -------------- | -------- |
-| `default` | Content of cell | `-` |
+| `default` | Main content; overrides title | `-` |
 | `icon` | Icon of cell | `-` |
 | `description` | Description of cell | `-` |
 | `extra` | Extra of cell | `-` |

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import vHover, { HoverOverlay as BaseHoverOverlay, useHoverOverlay } from '../hover'
 import BaseLoading from '../loading'
 import vRipple from '../ripple'
@@ -13,6 +13,11 @@ const { n, classes } = createNamespace('button')
 const { states, busy, blocked, computedStyle, handleClick, handleTouchstart } = useButton(props)
 const { hovering, handleHovering } = useHoverOverlay()
 const focusing = ref(false)
+// Button indicators use a compact square for every animation and icon layout.
+const indicatorSize = computed(() => {
+  const size = props.loadingSize ?? states.value.size
+  return typeof size === 'number' ? size : { xs: 12, sm: 14, md: 16, lg: 18, xl: 20 }[size]
+})
 </script>
 
 <template>
@@ -29,9 +34,8 @@ const focusing = ref(false)
         [block, n('--block')],
         [round, n('--round')],
         [states.stacked, n('--stacked')],
-        [states.iconContainer, n('--icon-container')],
-        [states.iconContainer && states.variant === 'default', n(`--icon-container-${states.status}`)],
-        [states.variant === 'default' && !states.iconContainer, states.elevation],
+        [$slots.icon && !$slots.default, n('--icon-only')],
+        [states.variant === 'default', states.elevation],
         [busy, n('--loading')],
         [busy, n(`--loading-${loadingMode}`)],
         [states.disabled, n('--disabled')],
@@ -58,13 +62,7 @@ const focusing = ref(false)
       :style="{ color: loadingColor }"
     >
       <span v-if="loadingMode === 'line'" :class="n('loading-line')" />
-      <BaseLoading
-        v-else
-        :type="loadingType"
-        :size="loadingSize ?? states.size"
-        :color="loadingColor ?? 'currentColor'"
-        :radius="loadingRadius"
-      />
+      <BaseLoading v-else :type="loadingType" :size="indicatorSize" :color="loadingColor ?? 'currentColor'" />
     </span>
     <span v-if="$slots.icon" :class="classes(n('--icon'), [busy && loadingMode === 'fill', n('--hidden')])">
       <slot name="icon" />
@@ -74,12 +72,7 @@ const focusing = ref(false)
         aria-hidden="true"
         :style="{ color: loadingColor }"
       >
-        <BaseLoading
-          :type="loadingType"
-          :size="loadingSize ?? 'xs'"
-          :color="loadingColor ?? 'currentColor'"
-          :radius="loadingRadius"
-        />
+        <BaseLoading :type="loadingType" :size="indicatorSize" :color="loadingColor ?? 'currentColor'" />
       </span>
     </span>
     <span v-if="$slots.default" :class="classes(n('content'), [busy && loadingMode === 'fill', n('--hidden')])"

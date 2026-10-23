@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
+import DemoApiReview from './demos/api-review.vue'
 import AutoSizedDemo from './demos/auto-sized.vue'
 import AutoplayHoverPauseDemo from './demos/autoplay-hover-pause.vue'
 import AutoplayDemo from './demos/autoplay.vue'
@@ -20,6 +21,7 @@ import KeyboardDemo from './demos/keyboard.vue'
 import MousewheelDemo from './demos/mousewheel.vue'
 import MultiSlidesDemo from './demos/multi-slides.vue'
 import NavigationDemo from './demos/navigation.vue'
+import OrganizedSchedulerLifecycle from './demos/scheduler-lifecycle.vue'
 import TriggerHoverDemo from './demos/trigger-hover.vue'
 import VerticalDemo from './demos/vertical.vue'
 
@@ -64,7 +66,7 @@ onThemeChange()
   </section>
 
   <section data-demo="effect-slide">
-    <app-type>{{ english ? 'Slide Effect' : '滑动效果' }}</app-type>
+    <app-type>{{ english ? 'Slide Effect (Default)' : '滑动效果（默认）' }}</app-type>
     <EffectSlideDemo />
   </section>
 
@@ -123,15 +125,20 @@ onThemeChange()
     <HandleChangeDemo />
   </section>
   <section data-demo="controlled">
-    <app-type>{{ english ? 'Controlled selection' : '受控切换' }}</app-type
+    <app-type>{{ english ? 'controlled' : 'controlled' }}</app-type
     ><ControlledDemo />
   </section>
   <section data-demo="auto-sized">
-    <app-type>{{ english ? 'Auto-sized slides' : '自动尺寸' }}</app-type
+    <app-type>{{ english ? 'auto-sized' : 'auto-sized' }}</app-type
     ><AutoSizedDemo />
   </section>
   <section data-demo="interactive-content">
-    <app-type>{{ english ? 'Interactive contents' : '交互内容' }}</app-type
+    <app-type>{{ english ? 'interactive-content' : 'interactive-content' }}</app-type
     ><InteractiveContentDemo />
   </section>
+  <section data-demo="scheduler-lifecycle">
+    <app-type>{{ english ? 'scheduler-lifecycle' : 'Scheduler lifecycle / 调度生命周期' }}</app-type>
+    <OrganizedSchedulerLifecycle />
+  </section>
+  <section data-demo="api-review"><DemoApiReview /></section>
 </template>

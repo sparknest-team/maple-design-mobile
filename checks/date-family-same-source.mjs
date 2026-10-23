@@ -6,6 +6,9 @@ import { fileURLToPath } from 'node:url'
 const workspace = fileURLToPath(new URL('../../', import.meta.url))
 const cedar = resolve(workspace, 'cedar-design-web/packages/cedar-ui/src')
 const maple = resolve(workspace, 'maple-design-mobile/packages/maple-ui/src')
+// Public presentation props and endpoint gestures differ across mobile and desktop.
+// Mobile DatePanel footer/quick-view composition also differs; selection and value owners remain paired.
+// Their entry/session suites run independently; keep shared selection transactions and value rules identical.
 const files = [
   'date/date-format.ts',
   'date/date-value.ts',
@@ -16,30 +19,23 @@ const files = [
   'date/__tests__/field-panel-events.test.ts',
   'date/date-current.ts',
   'date/date-labels.ts',
-  'date/time-picker-options.ts',
-  'date/__tests__/time-picker-options.test.ts',
   'date/normalize-date-range.ts',
-  'date/DatePanelActions.vue',
-  'date/__tests__/date-current-range.test.ts',
   'date/calendar-value.ts',
   'date/date-rules.ts',
   'date/date-time-rules.ts',
   'date/core-props.ts',
-  'date/panel-props.ts',
   'date/panel-tools-props.ts',
   'date/use-date-panel-tools.ts',
   'date/DateShortcuts.vue',
   'date/__tests__/date-panel-tools.test.ts',
   'date/__tests__/date-panel-tools-owner.test.ts',
   'date/events.ts',
-  'date/__tests__/entry-contract.test.ts',
   'date/use-date-selection.ts',
   'date/panel-state.ts',
   'date/field-state.ts',
   'date/presentation-options.ts',
-  'date/field-panel-options.ts',
   'date/__tests__/field-panel-options.test.ts',
-  'date/DatePanel.vue',
+  'date/presentation/calendar-layout.ts',
   'date/DateField.vue',
   'date/Date.vue',
   'date/DatePicker.vue',
@@ -52,9 +48,11 @@ const files = [
 ]
 const normalize = (text) =>
   text
+    .replace(/^.*\['presentation' in options && options.presentation === 'calendarClock'.*\n/gm, '')
     .replaceAll('../_utils/global-config', '../utils/components')
     .replaceAll('{ dateProps as fieldProps }', '{ props as fieldProps }')
     .replaceAll('{ dateRangeProps as fieldProps }', '{ props as fieldProps }')
+
 assert.equal(new Set(files).size, files.length, 'Source pair entries must be unique')
 for (const file of files) {
   assert.equal(

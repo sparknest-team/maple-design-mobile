@@ -1,7 +1,7 @@
 import { withInstall, withPropsDefaultsSetter } from '../utils/components'
 import { props as timeRangePickerProps } from './picker-props'
+import _TimeRange from './presentation'
 import { props as timeRangeProps } from './props'
-import _TimeRange from './TimeRange.vue'
 import TimeRangePicker from './TimeRangePicker.vue'
 
 const TimeRange = withInstall(

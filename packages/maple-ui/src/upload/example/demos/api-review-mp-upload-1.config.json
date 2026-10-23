@@ -1,0 +1,371 @@
+{
+  "fields": [
+    {
+      "name": "name",
+      "description": "file",
+      "type": "string / (file) => string",
+      "defaultValue": "'file'",
+      "kind": "callback"
+    },
+    {
+      "name": "with-credentials",
+      "description": "false",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "custom-request",
+      "description": "自定义transport，可返回abort",
+      "type": "(UploadRequestOptions) => UploadRequest / Promise / void",
+      "defaultValue": "undefined",
+      "kind": "callback"
+    },
+    {
+      "name": "auto-upload",
+      "description": "true；必须同时有action或custom-request才启动",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "resolve-type",
+      "description": "object-url；所有文件生成url，图片生成thumbnailUrl",
+      "type": "'file' | 'data-url' | 'object-url'",
+      "defaultValue": "'object-url'",
+      "kind": "enum",
+      "options": [
+        "file",
+        "data-url",
+        "object-url"
+      ],
+      "initial": "object-url"
+    },
+    {
+      "name": "create-thumbnail-url",
+      "description": "自定义URL归调用方所有，不自动回收",
+      "type": "(options) => string / Promise",
+      "defaultValue": "undefined",
+      "kind": "callback"
+    },
+    {
+      "name": "before-add",
+      "description": "批次筛选/替换",
+      "type": "async(files) => File[]",
+      "defaultValue": "undefined",
+      "kind": "callback"
+    },
+    {
+      "name": "before-read",
+      "description": "false/reject拒绝；替换后重新校验",
+      "type": "async(file) => boolean / File",
+      "defaultValue": "undefined",
+      "kind": "callback"
+    },
+    {
+      "name": "before-upload",
+      "description": "false/reject取消准备；替换后重新校验",
+      "type": "async(item) => boolean / File / Blob",
+      "defaultValue": "undefined",
+      "kind": "callback"
+    },
+    {
+      "name": "before-remove",
+      "description": "false/reject不删除",
+      "type": "async(item,list) => boolean",
+      "defaultValue": "undefined",
+      "kind": "callback"
+    },
+    {
+      "name": "is-success-response",
+      "description": "默认HTTP2xx",
+      "type": "(xhr,item) => boolean",
+      "defaultValue": "undefined",
+      "kind": "callback"
+    },
+    {
+      "name": "request-choose",
+      "description": "接管选择入口，异常不会自动打开文件框",
+      "type": "import('./interfaces').UploadRequestChoose",
+      "defaultValue": "undefined",
+      "kind": "callback",
+      "options": [
+        "./interfaces"
+      ],
+      "initial": "./interfaces"
+    },
+    {
+      "name": "list-type",
+      "description": "text，两端均支持",
+      "type": "'text' | 'picture' | 'picture-card'",
+      "defaultValue": "'text'",
+      "kind": "enum",
+      "options": [
+        "text",
+        "picture",
+        "picture-card"
+      ],
+      "initial": "text"
+    },
+    {
+      "name": "image-fit",
+      "description": "cover；item.fit优先",
+      "type": "'fill' | 'contain' | 'cover' | 'none' | 'scale-down'",
+      "defaultValue": "'cover'",
+      "kind": "enum",
+      "options": [
+        "fill",
+        "contain",
+        "cover",
+        "none",
+        "scale-down"
+      ],
+      "initial": "cover"
+    },
+    {
+      "name": "preview",
+      "description": "true",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "show-download-button",
+      "description": "false；禁用时不可操作",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "presentation",
+      "type": "'inline' | 'popup'",
+      "defaultValue": "undefined",
+      "description": "字段编辑方式，字段 > FormItem > Form 继承；默认 inline。",
+      "kind": "enum",
+      "options": [
+        "inline",
+        "popup"
+      ],
+      "initial": "inline"
+    },
+    {
+      "name": "read-pretty",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "description": "纯阅读展示；字段 > FormItem > Form 继承，显式 false 覆盖父级。",
+      "kind": "boolean"
+    },
+    {
+      "name": "before-commit",
+      "type": "BeforeFieldCommit",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "callback"
+    },
+    {
+      "name": "open",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "boolean"
+    },
+    {
+      "name": "default-open",
+      "type": "boolean",
+      "defaultValue": "false",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "boolean"
+    },
+    {
+      "name": "popup-container",
+      "type": "string | HTMLElement | false",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "json",
+      "initial": "\"body\""
+    },
+    {
+      "name": "model-value",
+      "type": "UploadFileItem[]",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "json",
+      "initial": "[]"
+    },
+    {
+      "name": "default-value",
+      "type": "UploadFileItem[]",
+      "defaultValue": "() => []",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "json",
+      "initial": "[]"
+    },
+    {
+      "name": "accept",
+      "type": "string",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "string"
+    },
+    {
+      "name": "capture",
+      "type": "UploadCapture",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "enum",
+      "options": [
+        "user",
+        "environment",
+        ""
+      ],
+      "initial": "user"
+    },
+    {
+      "name": "multiple",
+      "type": "boolean",
+      "defaultValue": "false",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "boolean"
+    },
+    {
+      "name": "directory",
+      "type": "boolean",
+      "defaultValue": "false",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "boolean"
+    },
+    {
+      "name": "draggable",
+      "type": "boolean",
+      "defaultValue": "false",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "boolean"
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "boolean"
+    },
+    {
+      "name": "readonly",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "boolean"
+    },
+    {
+      "name": "elevation",
+      "type": "[Boolean, Number]",
+      "defaultValue": "false",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "json",
+      "initial": "2"
+    },
+    {
+      "name": "ripple",
+      "type": "boolean",
+      "defaultValue": "true",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "boolean"
+    },
+    {
+      "name": "action",
+      "type": "string",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "string"
+    },
+    {
+      "name": "method",
+      "type": "string",
+      "defaultValue": "'post'",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "string"
+    },
+    {
+      "name": "headers",
+      "type": "UploadHeaders",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "callback"
+    },
+    {
+      "name": "data",
+      "type": "UploadData",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "max-files",
+      "type": "number",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "number"
+    },
+    {
+      "name": "max-file-size",
+      "type": "number",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "number"
+    },
+    {
+      "name": "max-total-size",
+      "type": "number",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "number"
+    },
+    {
+      "name": "show-file-list",
+      "type": "boolean",
+      "defaultValue": "true",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "boolean"
+    },
+    {
+      "name": "show-upload-button",
+      "type": "boolean",
+      "defaultValue": "true",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "boolean"
+    },
+    {
+      "name": "show-remove-button",
+      "type": "boolean",
+      "defaultValue": "true",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "boolean"
+    },
+    {
+      "name": "show-retry-button",
+      "type": "boolean",
+      "defaultValue": "true",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "boolean"
+    },
+    {
+      "name": "show-cancel-button",
+      "type": "boolean",
+      "defaultValue": "true",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "boolean"
+    },
+    {
+      "name": "show-preview-button",
+      "type": "boolean",
+      "defaultValue": "true",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "boolean"
+    }
+  ],
+  "methodNames": [],
+  "events": [],
+  "slotNames": [],
+  "slotDefaults": {},
+  "scenarios": []
+}

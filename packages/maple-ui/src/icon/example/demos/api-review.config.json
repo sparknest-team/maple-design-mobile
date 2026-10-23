@@ -1,0 +1,61 @@
+{
+  "fields": [
+    {
+      "name": "name",
+      "description": "已注册图标名称（本例提供六个可切换图标）",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "enum",
+      "options": ["arrow-left", "arrow-right", "check-circle", "info-circle", "refresh", "search"],
+      "initial": "arrow-left"
+    },
+    {
+      "name": "size",
+      "description": "图标尺寸（默认继承字号）",
+      "type": "string | number",
+      "defaultValue": "undefined",
+      "kind": "scalar"
+    },
+    {
+      "name": "color",
+      "description": "图标颜色",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "rotate",
+      "description": "旋转角度",
+      "type": "number",
+      "defaultValue": "undefined",
+      "kind": "number"
+    },
+    {
+      "name": "spin",
+      "description": "是否持续旋转",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "animation-class",
+      "description": "过渡动画类名",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "transition",
+      "description": "过渡动画时间（ms）",
+      "type": "string | number",
+      "defaultValue": "0",
+      "kind": "scalar"
+    }
+  ],
+  "events": ["click"],
+  "scenarios": [],
+  "slotNames": [],
+  "slotDefaults": {},
+  "methodNames": []
+}

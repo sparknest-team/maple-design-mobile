@@ -1,5 +1,7 @@
 # 代码块
 
+## 案例
+
 ### 介绍
 
 代码块组件，用于代码着色
@@ -28,6 +30,15 @@
 ```demo
 ../example/demos/word-wrap.vue
 ```
+
+<!-- api-review:start -->
+### 功能调试
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

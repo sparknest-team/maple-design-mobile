@@ -6,14 +6,13 @@ yesterday.setDate(yesterday.getDate() - 1)
 const selected = ref(yesterday)
 const showCurrent = ref(true)
 const showNowButton = ref(true)
-const exchangeTime = ref(true)
 const range = ref(['2025-01-05 09:00', '2025-01-10 18:00'])
 </script>
 <template>
   <div>
     <p>Current highlighting and selecting now are independent.</p>
-    <label><input v-model="showCurrent" type="checkbox" /> Highlight current</label>
-    <label><input v-model="showNowButton" type="checkbox" /> Select now button</label>
+    <mp-checkbox v-model="showCurrent">Highlight current</mp-checkbox>
+    <mp-checkbox v-model="showNowButton">Select now button</mp-checkbox>
     <mp-date-picker
       v-model="selected"
       value-format="Date"
@@ -24,15 +23,13 @@ const range = ref(['2025-01-05 09:00', '2025-01-10 18:00'])
       presentation="calendar"
     />
     <p>Confirmed selection: {{ selected }}</p>
-    <label><input v-model="exchangeTime" type="checkbox" /> Exchange time with reversed dates</label>
-    <p>Choose a later date, then an earlier date, and compare endpoint times.</p>
+    <p>Switch summary tabs to edit either endpoint. Reversed ranges show an error and disable confirmation.</p>
     <mp-date-range-picker
       v-model="range"
       show-time
       :use-seconds="false"
-      :exchange-time="exchangeTime"
       :disable-confirm="false"
-      presentation="calendarClock"
+      presentation="calendarPicker"
     />
     <p>Confirmed range: {{ range }}</p>
   </div>

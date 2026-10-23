@@ -158,6 +158,7 @@ const { zIndex } = useZIndex(() => props.floating && !isRow.value, 1)
 
 let generation = 0
 let active = true
+let disposed = false
 let dropdownFloaterTop = 'auto'
 let dropdownFloaterLeft = 'auto'
 let dropper: ReturnType<typeof setTimeout> | undefined
@@ -168,36 +169,53 @@ useLock(
   () => !isRow.value,
 )
 
+const wantsFloating = () => props.floating && !isRow.value
+const available = () => active && !disposed
+function current(token: number, element: HTMLElement | null) {
+  return available() && token === generation && card.value === element
+}
+
 watch(
-  () => props.floating && !isRow.value,
+  wantsFloating,
   (value) => {
+    const token = ++generation
+    let consumed = false
     nextTick(() => {
-      if (!active) {
+      if (!available() || token !== generation || consumed || value !== wantsFloating()) {
         return
       }
+      consumed = true
       if (value) {
         floating()
-      } else if (floater.value !== null || floated.value) {
+      } else if (floater.value !== null || floated.value || floaterPosition.value !== undefined) {
         dropdown()
       }
     })
   },
-  { immediate: true },
+  { immediate: true, flush: 'sync' },
 )
 
 function floating() {
-  const currentGeneration = ++generation
+  if (!available() || !wantsFloating()) {
+    return
+  }
+  const token = ++generation
+  const element = card.value
+  let consumed = false
   clearTimeout(floater.value ?? undefined)
   clearTimeout(dropper)
-
-  floater.value = null
-
+  dropper = undefined
   floater.value = setTimeout(
     async () => {
-      if (!card.value || currentGeneration !== generation) {
+      if (!element || !current(token, element) || !wantsFloating() || consumed) {
         return
       }
-      const { width, height, left, top } = getRect(card.value)
+      consumed = true
+      const { width, height, left, top } = getRect(element)
+      // Measurement can invoke application-provided geometry hooks.
+      if (!current(token, element) || !wantsFloating()) {
+        return
+      }
       holderWidth.value = toSizeUnit(width)!
       holderHeight.value = toSizeUnit(height)!
       floaterWidth.value = holderWidth.value
@@ -209,11 +227,12 @@ function floating() {
       dropdownFloaterLeft = floaterLeft.value
       showFloatingButtons.value = true
 
+      // The existing non-abortable helper still settles; only this continuation
+      // owns permission to expand. It is not a CSS animation-duration timer.
       await doubleRaf()
-      if (!card.value || currentGeneration !== generation) {
+      if (!current(token, element) || !wantsFloating()) {
         return
       }
-
       floaterTop.value = '0'
       floaterLeft.value = '0'
       floaterWidth.value = '100vw'
@@ -228,11 +247,15 @@ function floating() {
 }
 
 function dropdown() {
-  generation++
+  if (!available() || wantsFloating()) {
+    return
+  }
+  const token = ++generation
+  const element = card.value
+  let consumed = false
   clearTimeout(dropper)
   clearTimeout(floater.value ?? undefined)
   floater.value = null
-
   floaterWidth.value = holderWidth.value
   floaterHeight.value = holderHeight.value
   floaterTop.value = dropdownFloaterTop
@@ -240,8 +263,12 @@ function dropdown() {
   contentHeight.value = '0px'
   opacity.value = '0'
   showFloatingButtons.value = false
-
   dropper = setTimeout(() => {
+    if (!current(token, element) || wantsFloating() || consumed) {
+      return
+    }
+    consumed = true
+    dropper = undefined
     holderWidth.value = 'auto'
     holderHeight.value = 'auto'
     floaterWidth.value = '100%'
@@ -255,27 +282,38 @@ function dropdown() {
     floated.value = false
   }, props.floatingDuration)
 }
-
 function close() {
-  emit('update:floating', false)
+  if (available()) {
+    emit('update:floating', false)
+  }
 }
-
 function handleClick(e: Event) {
-  emit('click', e)
+  if (available()) {
+    emit('click', e)
+  }
 }
-
-onBeforeUnmount(cleanup)
+onBeforeUnmount(() => {
+  disposed = true
+  cleanup()
+})
 onDeactivated(cleanup)
 onActivated(() => {
+  if (disposed || active) {
+    return
+  }
   active = true
-  if (props.floating && !isRow.value) {
+  if (wantsFloating()) {
     floating()
+  } else if (floaterPosition.value !== undefined || floated.value) {
+    dropdown()
   }
 })
 function cleanup() {
   active = false
+  generation++
   clearTimeout(floater.value ?? undefined)
   clearTimeout(dropper)
-  generation++
+  floater.value = null
+  dropper = undefined
 }
 </script>

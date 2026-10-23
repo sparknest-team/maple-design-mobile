@@ -27,8 +27,19 @@
 </template>
 
 <script lang="ts">
-import { computed, CSSProperties, defineComponent, onMounted, PropType, ref, StyleValue } from 'vue'
-import { isNumber, isObject } from '../../_utils/is'
+import {
+  computed,
+  CSSProperties,
+  defineComponent,
+  onActivated,
+  onBeforeUnmount,
+  onDeactivated,
+  onMounted,
+  PropType,
+  ref,
+  StyleValue,
+} from 'vue'
+import { isObject } from '../../_utils/is'
 import { createNamespace, getPrefixCls } from '../../utils/components'
 import ResizeObserver from '../resize-observer-v2'
 import { scrollbarProps } from './props'
@@ -67,93 +78,172 @@ export default defineComponent({
     const hasVerticalScrollbar = computed(() => _hasVerticalScrollbar.value && !props.disableVertical)
     const isBoth = ref(false)
 
+    let active = true
+    let disposed = false
+    let operation = 0
+    const binding = ref(0)
+    const available = () => active && !disposed
+    const current = (token: number, element: HTMLElement) =>
+      available() && token === operation && containerRef.value === element
+    function axisData(client: number, track: number, content: number): ThumbData {
+      if (![client, track, content].every(Number.isFinite) || client <= 0 || track <= 0 || content <= client) {
+        return { ratio: 1, thumbSize: Number.isFinite(track) ? Math.max(0, track) : 0, max: 0 }
+      }
+      const thumbSize = Math.min(track, Math.round(track / Math.min(content / client, track / THUMB_MIN_SIZE)))
+      const max = Math.max(0, track - thumbSize)
+      return { ratio: max > 0 ? (content - client) / max : 1, thumbSize, max }
+    }
+    const thumbOffset = (value: number, data: ThumbData) =>
+      Math.max(0, Math.min(data.max, Math.round((Number.isFinite(value) ? value : 0) / data.ratio)))
     const getContainerSize = () => {
-      if (containerRef.value) {
-        const {
-          clientWidth,
-          clientHeight,
-          offsetWidth,
-          offsetHeight,
-          scrollWidth,
-          scrollHeight,
-          scrollTop,
-          scrollLeft,
-        } = containerRef.value
-        _hasHorizontalScrollbar.value = scrollWidth > clientWidth
-        _hasVerticalScrollbar.value = scrollHeight > clientHeight
-        isBoth.value = hasHorizontalScrollbar.value && hasVerticalScrollbar.value
-        const horizontalTrackWidth = props.type === 'embed' && isBoth.value ? offsetWidth - TRACK_SIZE : offsetWidth
-        const verticalTrackHeight = props.type === 'embed' && isBoth.value ? offsetHeight - TRACK_SIZE : offsetHeight
-
-        const horizontalThumbWidth = Math.round(
-          horizontalTrackWidth / Math.min(scrollWidth / clientWidth, horizontalTrackWidth / THUMB_MIN_SIZE),
-        )
-        const maxHorizontalOffset = horizontalTrackWidth - horizontalThumbWidth
-        const horizontalRatio = (scrollWidth - clientWidth) / maxHorizontalOffset
-        const verticalThumbHeight = Math.round(
-          verticalTrackHeight / Math.min(scrollHeight / clientHeight, verticalTrackHeight / THUMB_MIN_SIZE),
-        )
-        const maxVerticalOffset = verticalTrackHeight - verticalThumbHeight
-        const verticalRatio = (scrollHeight - clientHeight) / maxVerticalOffset
-
-        horizontalData.value = {
-          ratio: horizontalRatio,
-          thumbSize: horizontalThumbWidth,
-          max: maxHorizontalOffset,
-        }
-        verticalData.value = {
-          ratio: verticalRatio,
-          thumbSize: verticalThumbHeight,
-          max: maxVerticalOffset,
-        }
-        if (scrollTop > 0) {
-          const verticalOffset = Math.round(scrollTop / (verticalData.value?.ratio ?? 1))
-          verticalThumbRef.value?.setOffset(verticalOffset)
-        }
-        if (scrollLeft > 0) {
-          const horizontalOffset = Math.round(scrollLeft / (verticalData.value?.ratio ?? 1))
-          horizontalThumbRef.value?.setOffset(horizontalOffset)
+      const element = containerRef.value
+      if (!available() || !element) {
+        return
+      }
+      const token = ++operation
+      const { clientWidth, clientHeight, offsetWidth, offsetHeight, scrollWidth, scrollHeight, scrollTop, scrollLeft } =
+        element
+      if (!current(token, element)) {
+        return
+      }
+      const horizontal = clientWidth > 0 && offsetWidth > 0 && scrollWidth > clientWidth
+      const vertical = clientHeight > 0 && offsetHeight > 0 && scrollHeight > clientHeight
+      const both = horizontal && !props.disableHorizontal && vertical && !props.disableVertical
+      const hData = axisData(
+        clientWidth,
+        props.type === 'embed' && both ? offsetWidth - TRACK_SIZE : offsetWidth,
+        scrollWidth,
+      )
+      const vData = axisData(
+        clientHeight,
+        props.type === 'embed' && both ? offsetHeight - TRACK_SIZE : offsetHeight,
+        scrollHeight,
+      )
+      _hasHorizontalScrollbar.value = horizontal
+      if (!current(token, element)) {
+        return
+      }
+      _hasVerticalScrollbar.value = vertical
+      if (!current(token, element)) {
+        return
+      }
+      isBoth.value = both
+      if (!current(token, element)) {
+        return
+      }
+      horizontalData.value = hData
+      if (!current(token, element)) {
+        return
+      }
+      verticalData.value = vData
+      if (!current(token, element)) {
+        return
+      }
+      // Zero is a real position; do not leave a stale thumb at the previous offset.
+      verticalThumbRef.value?.setOffset(thumbOffset(scrollTop, vData))
+      if (!current(token, element)) {
+        return
+      }
+      horizontalThumbRef.value?.setOffset(thumbOffset(scrollLeft, hData))
+    }
+    const handleResize = computed(() => {
+      const epoch = binding.value
+      return () => {
+        if (available() && epoch === binding.value) {
+          getContainerSize()
         }
       }
-    }
-
-    onMounted(() => {
-      getContainerSize()
     })
-
-    const handleResize = () => {
-      getContainerSize()
-    }
-
-    const handleScroll = (ev: Event) => {
-      if (containerRef.value) {
-        if (hasHorizontalScrollbar.value && !props.disableHorizontal) {
-          const horizontalOffset = Math.round(containerRef.value.scrollLeft / (horizontalData.value?.ratio ?? 1))
-          horizontalThumbRef.value?.setOffset(horizontalOffset)
+    const handleScroll = computed(() => {
+      const epoch = binding.value
+      return (event: Event) => {
+        const element = containerRef.value
+        if (!available() || epoch !== binding.value || !element) {
+          return
         }
-        if (hasVerticalScrollbar.value && !props.disableVertical) {
-          const verticalOffset = Math.round(containerRef.value.scrollTop / (verticalData.value?.ratio ?? 1))
-          verticalThumbRef.value?.setOffset(verticalOffset)
+        const token = ++operation
+        if (hasHorizontalScrollbar.value && horizontalData.value) {
+          const offset = thumbOffset(element.scrollLeft, horizontalData.value)
+          if (!current(token, element)) {
+            return
+          }
+          horizontalThumbRef.value?.setOffset(offset)
+        }
+        if (!current(token, element)) {
+          return
+        }
+        if (hasVerticalScrollbar.value && verticalData.value) {
+          const offset = thumbOffset(element.scrollTop, verticalData.value)
+          if (!current(token, element)) {
+            return
+          }
+          verticalThumbRef.value?.setOffset(offset)
+        }
+        if (current(token, element)) {
+          emit('scroll', event)
         }
       }
-      emit('scroll', ev)
-    }
-
-    const handleHorizontalScroll = (offset: number) => {
-      if (containerRef.value) {
-        containerRef.value.scrollTo({
-          left: offset * (horizontalData.value?.ratio ?? 1),
-        })
+    })
+    const handleHorizontalScroll = computed(() => {
+      const epoch = binding.value
+      return (offset: number) => {
+        if (available() && epoch === binding.value && !props.hide && hasHorizontalScrollbar.value) {
+          operation++
+          containerRef.value?.scrollTo({ left: offset * (horizontalData.value?.ratio ?? 1) })
+        }
+      }
+    })
+    const handleVerticalScroll = computed(() => {
+      const epoch = binding.value
+      return (offset: number) => {
+        if (available() && epoch === binding.value && !props.hide && hasVerticalScrollbar.value) {
+          operation++
+          containerRef.value?.scrollTo({ top: offset * (verticalData.value?.ratio ?? 1) })
+        }
+      }
+    })
+    function scrollTo(options?: number | { left?: number; top?: number }, y?: number) {
+      if (!available()) {
+        return
+      }
+      operation++
+      if (isObject(options)) {
+        containerRef.value?.scrollTo(options)
+      } else if (typeof options === 'number' || typeof y === 'number') {
+        containerRef.value?.scrollTo(options ?? 0, y ?? 0)
       }
     }
-
-    const handleVerticalScroll = (offset: number) => {
-      if (containerRef.value) {
-        containerRef.value.scrollTo({
-          top: offset * (verticalData.value?.ratio ?? 1),
-        })
+    function scrollTop(top: number) {
+      if (available()) {
+        operation++
+        containerRef.value?.scrollTo({ top })
       }
     }
+    function scrollLeft(left: number) {
+      if (available()) {
+        operation++
+        containerRef.value?.scrollTo({ left })
+      }
+    }
+    function suspend() {
+      active = false
+      operation++
+      binding.value++
+    }
+    onMounted(getContainerSize)
+    onDeactivated(suspend)
+    onBeforeUnmount(() => {
+      disposed = true
+      suspend()
+    })
+    onActivated(() => {
+      if (!disposed && !active) {
+        active = true
+        operation++
+        binding.value++
+        getContainerSize()
+      }
+    })
 
     const style = computed(() => {
       const style: CSSProperties = {}
@@ -193,55 +283,10 @@ export default defineComponent({
       handleScroll,
       handleHorizontalScroll,
       handleVerticalScroll,
+      scrollTo,
+      scrollTop,
+      scrollLeft,
     }
-  },
-  methods: {
-    /**
-     * @zh 滚动
-     * @en scrollTo
-     * @public
-     * @param {number | {left?: number;top?: number}} options
-     * @param {number} y
-     */
-    scrollTo(
-      options?:
-        | number
-        | {
-            left?: number
-            top?: number
-          },
-      y?: number,
-    ) {
-      if (isObject(options)) {
-        ;(this.$refs.containerRef as HTMLElement)?.scrollTo(options)
-      } else if (options || y) {
-        ;(this.$refs.containerRef as HTMLElement)?.scrollTo(options as number, y as number)
-      }
-    },
-    /**
-     * @zh 纵向滚动
-     * @en scroll vertically
-     * @public
-     * @param {number} top
-     * @version 2.40.0
-     */
-    scrollTop(top: number) {
-      ;(this.$refs.containerRef as HTMLElement)?.scrollTo({
-        top,
-      })
-    },
-    /**
-     * @zh 横向滚动
-     * @en scroll horizontal
-     * @public
-     * @param {number} left
-     * @version 2.40.0
-     */
-    scrollLeft(left: number) {
-      ;(this.$refs.containerRef as HTMLElement)?.scrollTo({
-        left,
-      })
-    },
   },
 })
 </script>

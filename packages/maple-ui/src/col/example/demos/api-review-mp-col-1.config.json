@@ -1,0 +1,87 @@
+{
+  "fields": [
+    {
+      "name": "span",
+      "description": "占用栏数；0 隐藏",
+      "type": "number",
+      "defaultValue": "24",
+      "kind": "number"
+    },
+    {
+      "name": "offset",
+      "description": "左侧偏移，0 可恢复",
+      "type": "number",
+      "defaultValue": "undefined",
+      "kind": "number"
+    },
+    {
+      "name": "order",
+      "description": "排序，0 可恢复",
+      "type": "number",
+      "defaultValue": "undefined",
+      "kind": "number"
+    },
+    {
+      "name": "xs",
+      "description": "响应式栏数或包含 span、offset、order 的对象",
+      "type": "number / ColSizeDescriptor",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "sm",
+      "description": "响应式栏数或包含 span、offset、order 的对象",
+      "type": "number / ColSizeDescriptor",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "md",
+      "description": "响应式栏数或包含 span、offset、order 的对象",
+      "type": "number / ColSizeDescriptor",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "lg",
+      "description": "响应式栏数或包含 span、offset、order 的对象",
+      "type": "number / ColSizeDescriptor",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "xl",
+      "description": "响应式栏数或包含 span、offset、order 的对象",
+      "type": "number / ColSizeDescriptor",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "xxl",
+      "description": "响应式栏数或包含 span、offset、order 的对象",
+      "type": "number / ColSizeDescriptor",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "flex",
+      "description": "弹性比例、固定长度或 CSS flex 值",
+      "type": "number / string",
+      "defaultValue": "undefined",
+      "kind": "scalar"
+    }
+  ],
+  "methodNames": [],
+  "events": [
+    "click"
+  ],
+  "slotNames": [],
+  "slotDefaults": {},
+  "scenarios": []
+}

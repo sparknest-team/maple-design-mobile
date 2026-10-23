@@ -5,6 +5,7 @@ const limitedValue = ref('')
 </script>
 
 <template>
+  <p>长度按 UTF-16 码元计算；边界不足时舍去整个 emoji，不拆开代理对。</p>
   <mp-textarea
     v-model="limitedValue"
     clearable

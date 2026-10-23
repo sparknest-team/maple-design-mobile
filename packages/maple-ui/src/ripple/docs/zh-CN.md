@@ -1,10 +1,14 @@
 # 水波指令
 
+## 案例
+
 ### 介绍
 
 元素点击时生成一个水波扩散的效果。
 
 ### 基本使用
+
+支持触摸、鼠标主键和宿主 Enter/Space；鼠标从实际按下位置扩散，在所属 document 松开或窗口失焦时释放。忽略非主键与触摸产生的兼容鼠标事件；缺少 sourceCapabilities 时采用触摸后 800ms 去重窗口。键盘从中心扩散，请使用原生按钮。移动模拟站的点击不等同真实触屏验收。
 
 ```demo
 ../example/demos/basic-usage.vue
@@ -31,6 +35,15 @@
 ### 样式引入
 
 配置 MapleResolver 的指令解析时会自动引入 `@maplejs/maple-ui/ripple/style`。未使用 resolver、直接注册 Ripple 时，请在应用入口显式引入该样式。指令运行时代码不导入 CSS，以支持服务端包导入。卸载和禁用会取消待执行动画；每个实例独立维护键盘状态。
+
+<!-- api-review:start -->
+### 功能调试
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

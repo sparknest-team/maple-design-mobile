@@ -31,5 +31,13 @@ export function normalizeTextInputValue(value: string, options: TextInputValueOp
     return normalized
   }
   const unit = Math.max(1, length('a'))
-  return options.wordSlice?.(normalized, limit) ?? normalized.slice(0, Math.floor(limit / unit))
+  const custom = options.wordSlice?.(normalized, limit)
+  if (custom != null) {
+    return custom
+  }
+  const sliced = normalized.slice(0, Math.floor(limit / unit))
+  const last = sliced.charCodeAt(sliced.length - 1)
+  const next = normalized.charCodeAt(sliced.length)
+  // Keep the UTF-16 length budget without splitting a valid surrogate pair.
+  return last >= 0xd800 && last <= 0xdbff && next >= 0xdc00 && next <= 0xdfff ? sliced.slice(0, -1) : sliced
 }

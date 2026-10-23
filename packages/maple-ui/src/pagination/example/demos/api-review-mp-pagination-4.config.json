@@ -1,0 +1,202 @@
+{
+  "fields": [
+    {
+      "name": "total",
+      "description": "数据总数（必填）",
+      "type": "number",
+      "defaultValue": "undefined",
+      "kind": "number"
+    },
+    {
+      "name": "current",
+      "description": "当前页码，支持 v-model:current",
+      "type": "number",
+      "defaultValue": "undefined",
+      "kind": "number"
+    },
+    {
+      "name": "default-current",
+      "description": "非受控初始页码",
+      "type": "number",
+      "defaultValue": "1",
+      "kind": "number"
+    },
+    {
+      "name": "page-size",
+      "description": "每页条数，支持 v-model:page-size",
+      "type": "number",
+      "defaultValue": "undefined",
+      "kind": "number"
+    },
+    {
+      "name": "default-page-size",
+      "description": "非受控初始条数",
+      "type": "number",
+      "defaultValue": "10",
+      "kind": "number"
+    },
+    {
+      "name": "disabled",
+      "description": "禁用所有交互",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "hide-on-single-page",
+      "description": "不足两页时隐藏",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "simple",
+      "description": "显式启用简洁模式",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "show-total",
+      "description": "显示总数",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "show-more",
+      "description": "完整模式追加向后跳页按钮",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "show-jumper",
+      "description": "完整模式显示独立跳转框；简洁模式已有页码输入",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "show-page-size",
+      "description": "显示条数选择器",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "page-size-options",
+      "description": "正整数条数选项",
+      "type": "number[]",
+      "defaultValue": "() => [10, 20, 30, 40, 50]",
+      "kind": "json",
+      "initial": "[]"
+    },
+    {
+      "name": "page-size-props",
+      "description": "公共选择器配置，不能覆盖分页值、选项和尺寸",
+      "type": "PaginationPageSizeProps",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "size",
+      "description": "所有内部控件尺寸",
+      "type": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\"",
+      "defaultValue": "'md' as const",
+      "kind": "enum",
+      "options": [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl"
+      ],
+      "initial": "xs"
+    },
+    {
+      "name": "page-item-style",
+      "description": "数字页码基础样式",
+      "type": "CSSProperties",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "active-page-item-style",
+      "description": "叠加到当前数字页码的样式",
+      "type": "CSSProperties",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "base-size",
+      "description": "完整模式省略阈值的基础数",
+      "type": "number",
+      "defaultValue": "6",
+      "kind": "number"
+    },
+    {
+      "name": "buffer-size",
+      "description": "当前页两侧的页码数",
+      "type": "number",
+      "defaultValue": "2",
+      "kind": "number"
+    },
+    {
+      "name": "elevation",
+      "description": "页码按钮阴影；true 使用 2 级",
+      "type": "boolean / number",
+      "defaultValue": "false",
+      "kind": "json",
+      "initial": "false"
+    },
+    {
+      "name": "responsive",
+      "description": "按容器宽度自动切换简洁模式",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "compact-breakpoint",
+      "description": "简洁模式的最大容器宽度，单位 px",
+      "type": "number",
+      "defaultValue": "480",
+      "kind": "number"
+    },
+    {
+      "name": "auto-adjust",
+      "description": "条数变化时保留首条位置；总数减少时修正越界页码",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    }
+  ],
+  "methodNames": [],
+  "events": [
+    "update:current",
+    "change",
+    "update:pageSize",
+    "page-size-change"
+  ],
+  "slotNames": [
+    "total",
+    "page-item",
+    "page-item-step",
+    "page-item-ellipsis",
+    "jumper-prepend",
+    "jumper-append"
+  ],
+  "slotDefaults": {
+    "total": true,
+    "page-item": false,
+    "page-item-step": false,
+    "page-item-ellipsis": false,
+    "jumper-prepend": false,
+    "jumper-append": false
+  },
+  "scenarios": []
+}

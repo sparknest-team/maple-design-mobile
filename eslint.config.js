@@ -9,8 +9,8 @@ export default defineConfig({
   },
   overrides: [
     {
-      // Repository utility tests use Node's built-in runner, not component Vitest.
-      files: ['scripts/quality/*.test.mjs'],
+      // Utility and resolver package scripts run these tests with node --test.
+      files: ['scripts/quality/*.test.mjs', 'packages/maple-resolver/test/*.test.mjs'],
       rules: {
         'vitest/no-import-node-test': 'off',
       },

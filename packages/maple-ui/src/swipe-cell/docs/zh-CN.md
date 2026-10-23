@@ -1,14 +1,10 @@
 # 滑动单元格
 
-## 介绍
-
-单元格左右滑动以显示操作按钮，常用于列表删除、收藏等场景。
-
 ## 案例
 
 ### 基本使用
 
-向左滑动单元格，显示右侧操作。
+向左滑动单元格，显示右侧操作。`name` 是业务标识，不会渲染为文字；它会通过 `open`、`close` 事件和 `before-close` 回调返回。显示内容请放在默认插槽中，例如 `<mp-cell title="订单标题" />`。下方示例展示事件返回的 `name` 和 `position`。
 
 ```demo
 ../example/demos/basic.vue
@@ -32,13 +28,35 @@
 
 - 操作区按钮应自带可读文本或 `aria-label`。
 - 禁用时设置 `disabled`，组件不再响应滑动。
+
+## 拖动取消与点击抑制
+
+
+
+## 关闭确认与生命周期
+
+
+
+## 介绍
+
+单元格左右滑动以显示操作按钮，常用于列表删除、收藏等场景。
+
+<!-- api-review:start -->
+### 功能调试
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
+
 ## API
 
 ### 属性
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
-| `name` | 标识符 | `string \| number` | `''` |
+| `name` | 业务标识，通过 open、close 和 before-close 返回，不显示为内容 | `string \| number` | `''` |
 | `left-width` | 左侧操作区宽度，`auto` 时按内容测量 | `number \| string` | `auto` |
 | `right-width` | 右侧操作区宽度 | `number \| string` | `auto` |
 | `before-close` | 关闭前钩子，返回 `false` 阻止关闭 | `(args) => boolean \| Promise<boolean>` | `-` |

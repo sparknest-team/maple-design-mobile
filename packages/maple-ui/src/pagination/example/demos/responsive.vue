@@ -6,7 +6,7 @@ const responsive = ref(true)
 </script>
 <template>
   <div class="pagination-demo">
-    <mp-radio-group v-model="width"
+    <mp-radio-group v-model="width" wrap
       ><mp-radio v-for="value in [280, 360, 480, 640]" :key="value" :value="value"
         >{{ value }}px</mp-radio
       ></mp-radio-group
@@ -20,6 +20,7 @@ const responsive = ref(true)
 <style scoped>
 .pagination-demo {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 16px;
   min-width: 0;
 }

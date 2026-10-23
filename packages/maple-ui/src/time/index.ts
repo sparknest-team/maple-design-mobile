@@ -1,7 +1,7 @@
 import { withInstall, withPropsDefaultsSetter } from '../utils/components'
 import { props as timePickerProps } from './picker-props'
+import _Time from './presentation'
 import { props as timeProps } from './props'
-import _Time from './Time.vue'
 import TimePicker from './TimePicker.vue'
 
 const Time = withInstall(
@@ -20,7 +20,6 @@ export { timeProps, timePickerProps, TimePicker }
 export type TimeInstance = InstanceType<typeof _Time>
 export type TimePickerInstance = InstanceType<typeof TimePicker>
 export type { TimeProps } from './props'
-export type { TimePickerPresentation } from './picker-props'
 export type { TimeValue } from './time-value'
 export type {
   TimePanelPresentationProps,

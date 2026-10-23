@@ -1,0 +1,121 @@
+{
+  "fields": [
+    {
+      "name": "title",
+      "description": "单元格标题，默认插槽优先",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string",
+      "initial": "这是单元格"
+    },
+    {
+      "name": "icon",
+      "description": "已注册的左侧图标名称",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "description",
+      "description": "单元格描述",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "border",
+      "description": "是否显示边框",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "border-offset",
+      "description": "边框偏移量",
+      "type": "string | number",
+      "defaultValue": "undefined",
+      "kind": "scalar"
+    },
+    {
+      "name": "icon-class",
+      "description": "图标额外类名",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "title-class",
+      "description": "标题额外类名",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "description-class",
+      "description": "描述额外类名",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "extra-class",
+      "description": "右侧内容额外类名",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "ripple",
+      "description": "是否启用水波效果",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    }
+  ],
+  "events": [
+    "click"
+  ],
+  "scenarios": [
+    {
+      "name": "default",
+      "kind": "slot",
+      "demos": []
+    },
+    {
+      "name": "icon",
+      "kind": "slot",
+      "demos": [
+        "list.vue",
+        "show-desc.vue",
+        "show-icon.vue"
+      ]
+    },
+    {
+      "name": "description",
+      "kind": "slot",
+      "demos": [
+        "show-desc.vue"
+      ]
+    },
+    {
+      "name": "extra",
+      "kind": "slot",
+      "demos": [
+        "list.vue",
+        "show-desc.vue",
+        "show-icon.vue"
+      ]
+    }
+  ],
+  "slotNames": [
+    "icon",
+    "description",
+    "extra"
+  ],
+  "slotDefaults": {
+    "icon": false,
+    "description": false,
+    "extra": false
+  },
+  "methodNames": []
+}

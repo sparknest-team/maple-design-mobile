@@ -1,247 +1,199 @@
 <template>
   <div
     :class="
-      classes(n(), formatElevation(elevation, 2), [showTime, n('--with-time')], [isCalendarTime, n('--calendar-time')])
+      classes(
+        n(),
+        formatElevation(elevation, 2),
+        [showTime, n('--with-time')],
+        [resolvedPresentation !== 'picker', n('--calendar')],
+      )
     "
   >
-    <template v-if="resolvedPresentation === 'picker'">
-      <div :class="n('values')">
-        <button
-          type="button"
-          :aria-pressed="activeTab === 'start'"
-          :class="classes(n('value'), [activeTab === 'start', n('value--active')])"
-          @click="activeTab = 'start'"
-        >
-          <template v-if="showTime">
-            <span :class="n('value-date')">{{ startDisplay.date }}</span>
-            <span :class="n('value-time')">{{ startDisplay.time }}</span>
-          </template>
-          <template v-else>
-            {{ startValue }}
-          </template>
-        </button>
-        <mp-icon :class="n('value-arrow')" mp-date-range-picker-cover><MIconChevronRight /></mp-icon>
-        <button
-          type="button"
-          :aria-pressed="activeTab === 'end'"
-          :class="classes(n('value'), [activeTab === 'end', n('value--active')])"
-          @click="activeTab = 'end'"
-        >
-          <template v-if="showTime">
-            <span :class="n('value-date')">{{ endDisplay.date }}</span>
-            <span :class="n('value-time')">{{ endDisplay.time }}</span>
-          </template>
-          <template v-else>
-            {{ endValue }}
-          </template>
-        </button>
-      </div>
-
-      <div v-if="columnLabels.length" :class="n('column-labels')">
-        <div v-for="label in columnLabels" :key="label" :class="n('column-label')">
-          {{ label }}
-        </div>
-      </div>
-
-      <mp-picker
-        :key="`${activeTab}-${type}-${showTime}-${useSeconds}`"
-        v-bind="pickerBindingProps"
-        :toolbar="false"
-        :columns="pickerColumns"
-        :model-value="pickerValue"
-        @change="handlePickerChange"
-      />
-    </template>
-
-    <template v-else-if="isCalendarTime">
+    <div :class="n('summaries')">
       <button
+        v-for="(display, index) in summaryDisplays"
+        :key="index"
         type="button"
-        :aria-pressed="focusKind === 'date'"
-        :class="classes(n('values'), [focusKind === 'date', n('values--active')])"
-        @click="focusKind = 'date'"
+        :aria-describedby="`${summaryId}-${index}`"
+        :aria-pressed="activeIndex === index"
+        :class="classes(n('summary'), [activeIndex === index, n('summary--active')])"
+        @click="selectEndpoint(index)"
       >
-        <span :class="n('value')">{{ startDisplay.date }}</span>
-        <mp-icon :class="n('value-arrow')" mp-date-range-picker-cover><MIconChevronRight /></mp-icon>
-        <span :class="n('value')">{{ endDisplay.date }}</span>
+        <span :id="`${summaryId}-${index}`" :class="n('summary-label')" hidden>{{ summaryLabels[index] }}</span>
+        <span :class="n('summary-date')">{{ display.date }}</span>
+        <span v-if="showTime" :class="n('summary-time')">{{ display.time }}</span>
       </button>
+    </div>
 
-      <mp-date-picker
-        v-show="focusKind === 'date'"
-        :model-value="calendarModelValue"
-        :picker-value="pickerValueForCalendar"
-        v-bind="datePickerBindingProps"
-        range
-        :type="type"
-        :min="min"
-        :max="max"
-        :disabled-date="disabledDate"
-        :readonly="readonly"
-        :elevation="false"
-        @range-candidate="handleCalendarDateUpdate"
-        @update:picker-value="emitPickerViewport"
-      />
-
-      <div v-if="focusKind === 'time' && resolvedPresentation === 'calendarClock'" :class="n('datetime-clock')">
-        <mp-time-picker
-          :key="`clock-${activeTab}`"
-          presentation="clock"
-          :model-value="activeDisplay.time"
-          v-bind="{ ...timePickerBindingProps, ...dateTimeConstraints(disabledTime) }"
-          disable-confirm
-          :format="useSeconds ? 'HH:mm:ss' : 'HH:mm'"
-          :readonly="readonly"
+    <DateRangeQuickPanel v-if="quick?.open.value" />
+    <div
+      v-if="!quick?.open.value && focusKind === 'date'"
+      :class="classes(n('date-content'), [showTime, n('date-content--with-time')])"
+    >
+      <div :class="n('date-main')">
+        <template v-if="resolvedPresentation === 'picker'">
+          <div :class="n('column-labels')">
+            <span v-for="label in dateColumnLabels" :key="label" :class="n('column-label')">{{ label }}</span>
+          </div>
+          <mp-picker
+            :key="`date-${activeIndex}-${type}`"
+            :class="n('date-wheel')"
+            v-bind="pickerBindingProps"
+            :toolbar="false"
+            :disabled="readonly || currentLocked"
+            :columns="dateColumns"
+            :model-value="datePickerValue"
+            @change="handleDatePickerChange"
+          />
+        </template>
+        <CalendarContent
+          v-else
+          ref="calendar"
+          v-bind="datePickerBindingProps"
+          range
+          :range-endpoint="activeIndex === 1 ? 1 : 0"
+          :model-value="calendarValues"
+          :picker-value="pickerValue"
+          :type="type"
+          :min="min"
+          :max="max"
+          :disabled-date="currentDisabledDate"
+          :readonly="readonly || currentLocked"
           :elevation="false"
-          @update:model-value="handleActiveTimeUpdate"
+          @endpoint-candidate="handleCalendarEndpoint"
+          @update:picker-value="emitPickerViewport"
         />
       </div>
-
-      <template v-if="focusKind === 'time' && resolvedPresentation === 'calendarPicker'">
-        <div :class="n('column-labels')">
-          <div v-for="label in timeOnlyColumnLabels" :key="label" :class="n('column-label')">
-            {{ label }}
-          </div>
-        </div>
+      <div v-if="showTime" :class="n('quick-time')">
         <mp-picker
-          :key="`time-${activeTab}-${useSeconds}`"
+          :key="`quick-${activeIndex}`"
+          :class="n('quick-time-wheel')"
           v-bind="pickerBindingProps"
           :toolbar="false"
-          :columns="timeOnlyColumns"
-          :model-value="timeOnlyPickerValue"
-          @change="handleTimeOnlyPickerChange"
+          :title="translate('timePickerHint')"
+          :option-count="pickerBindingProps.optionCount ?? 7"
+          :disabled="readonly || currentLocked || !quickTimeOptions.length"
+          :columns="[quickTimeColumns]"
+          :model-value="quickTimeValue"
+          @change="handleQuickTimeChange"
         />
-      </template>
-
-      <div :class="n('view-tabs')">
-        <button
-          type="button"
-          :aria-pressed="focusKind === 'time' && activeTab === 'start'"
-          :class="classes(n('view-tab'), [focusKind === 'time' && activeTab === 'start', n('view-tab--active')])"
-          @click="selectTimeSide('start')"
-        >
-          <span :class="n('view-tab-text')">{{ startDisplay.time }}</span>
-        </button>
-        <button
-          type="button"
-          :aria-pressed="focusKind === 'time' && activeTab === 'end'"
-          :class="classes(n('view-tab'), [focusKind === 'time' && activeTab === 'end', n('view-tab--active')])"
-          @click="selectTimeSide('end')"
-        >
-          <span :class="n('view-tab-text')">{{ endDisplay.time }}</span>
-        </button>
       </div>
-    </template>
-
-    <mp-date-picker
-      v-else
-      :model-value="modelValue"
-      :picker-value="pickerValueForCalendar"
-      v-bind="datePickerBindingProps"
-      range
-      :type="type"
-      :min="min"
-      :max="max"
-      :disabled-date="disabledDate"
-      :readonly="readonly"
-      :elevation="false"
-      @update:model-value="handleCalendarUpdate"
-      @update:picker-value="emitPickerViewport"
-    />
-
-    <div v-if="$slots.actions" :class="n('actions')">
-      <slot name="actions" />
     </div>
+
+    <div v-if="!quick?.open.value && showTime && focusKind === 'time'" :class="n('datetime-picker')">
+      <div :class="n('column-labels')">
+        <span v-for="label in timeColumnLabels" :key="label" :class="n('column-label')">{{ label }}</span>
+      </div>
+      <mp-picker
+        :key="`detail-${activeIndex}-${useSeconds}`"
+        :class="n('time-wheel')"
+        v-bind="pickerBindingProps"
+        :toolbar="false"
+        :disabled="readonly || currentLocked"
+        :columns="timeColumns"
+        :model-value="timePickerValue"
+        @change="handleTimePickerChange"
+      />
+    </div>
+
+    <TemporalCurrent
+      v-if="!quick?.open.value"
+      prefix="date-range-picker"
+      :label="summaryLabels[activeIndex]"
+      :date="summaryDisplays[activeIndex].date"
+      :time="summaryDisplays[activeIndex].time"
+      :show-time="showTime"
+      :view="focusKind"
+      @update:view="selectView"
+    />
+    <div v-if="$slots.actions" :class="n('actions')"><slot name="actions" /></div>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue'
-import { IconChevronRight as MIconChevronRight } from '@maplejs/icons-vue'
-import { call, isArray } from '@maplejs/maple-shared'
-import { useRangeFieldIndex } from '../../_components/picker-field/range-field-context'
+import { computed, defineComponent, ref, useId, watch, type PropType } from 'vue'
+import dayjs from 'dayjs/esm/index.js'
+import { useRangeDisabledParts, useRangeFieldIndex } from '../../_components/picker-field/mobile-range-field-context'
+import TemporalCurrent from '../../_components/picker-field/TemporalCurrent.vue'
+import DateRangeQuickPanel from '../../date/DateRangeQuickPanel.vue'
 import {
   buildDateOrDateTimeColumns,
   buildTimeOnlyColumns,
   combineDateAndTime,
   defaultDate,
   defaultDateTime,
-  isCalendarTimePresentation,
   joinDateParts,
-  joinDateTimeParts,
   joinTimeParts,
   parseDateParts,
-  parseDateTimeParts,
   parseTimeParts,
-  resolveDateTimePresentation,
   splitDateTimeDisplay,
 } from '../../date/datetime'
-import { normalizeDateRange } from '../../date/normalize-date-range'
-import MpDatePicker from '../../date/presentation/CalendarContent.vue'
-import { dateTimeConstraints } from '../../date/time-constraints'
-import { dateTimePickerOptions } from '../../date/time-picker-options'
+import CalendarContent from '../../date/presentation/CalendarContent.vue'
+import { useQuickTime } from '../../date/quick-time'
+import { useRangeQuickPanel } from '../../date/range-quick-selection'
+import type { DisabledTime } from '../../date/time-constraints'
 import { dateWheelOptions } from '../../date/wheel-options'
-import MpIcon from '../../icon'
 import { t } from '../../locale'
 import { injectLocaleProvider } from '../../locale-provider/provide'
 import { _PickerComponent as MpPicker } from '../../picker'
-import MpTimePicker from '../../time/TimePicker.vue'
 import { createNamespace, formatElevation } from '../../utils/components'
 import { dateRangeCalendarOptions } from '../calendar-options'
 import { props } from '../presentation-props'
 
 const { name, n, classes } = createNamespace('date-range-picker')
-
 export default defineComponent({
   name,
-  components: {
-    MIconChevronRight,
-    MpIcon,
-    MpPicker,
-    MpDatePicker,
-    MpTimePicker,
+  components: { MpPicker, CalendarContent, TemporalCurrent, DateRangeQuickPanel },
+  props: {
+    ...props,
+    rangeDisabledTime: Array as PropType<DisabledTime[]>,
+    rangeDisabledDate: Array as PropType<((value: string) => boolean)[]>,
   },
-  props,
   emits: ['change', 'update:modelValue', 'update:pickerValue'],
   setup(props, { emit }) {
-    const pickerValueForCalendar = computed(() => props.pickerValue)
-    function emitPickerViewport(value: string | string[]) {
-      emit('update:pickerValue', value)
-    }
     const { t: pt } = injectLocaleProvider()
-    const translate = (key: string) => (pt ? pt : t)(key as any)
+    const translate = (key: string) => (pt ?? t)(key as any)
+    const quick = useRangeQuickPanel()
+    const disabledParts = useRangeDisabledParts()
     const activeIndex = useRangeFieldIndex()
-    const activeTab = computed({
-      get: () => (activeIndex.value === 1 ? 'end' : 'start'),
-      set: (side: 'start' | 'end') => {
-        activeIndex.value = side === 'end' ? 1 : 0
-      },
-    })
+    const currentLocked = computed(() => Boolean(disabledParts()[activeIndex.value]))
     const focusKind = ref<'date' | 'time'>('date')
-
-    const resolvedPresentation = computed(() => resolveDateTimePresentation(props.presentation, props.showTime))
-    const isCalendarTime = computed(() => isCalendarTimePresentation(resolvedPresentation.value))
-
-    function fallbackValue() {
-      if (props.showTime) {
-        return defaultDateTime(props.useSeconds)
-      }
-      return defaultDate(props.type)
-    }
-
-    const startValue = computed(() => {
-      const value = props.modelValue
-      return isArray(value) && value[0] ? value[0] : fallbackValue()
-    })
-
-    const endValue = computed(() => {
-      const value = props.modelValue
-      return isArray(value) && value[1] ? value[1] : fallbackValue()
-    })
-
-    const startDisplay = computed(() => splitDateTimeDisplay(startValue.value, props.useSeconds))
-    const endDisplay = computed(() => splitDateTimeDisplay(endValue.value, props.useSeconds))
-    const activeDisplay = computed(() => (activeTab.value === 'start' ? startDisplay.value : endDisplay.value))
-    const calendarModelValue = computed(() => [startDisplay.value.date, endDisplay.value.date])
-
+    watch(
+      () => props.showTime,
+      (showTime) => {
+        if (!showTime) {
+          focusKind.value = 'date'
+        }
+      },
+    )
+    const calendar = ref<InstanceType<typeof CalendarContent>>()
+    const summaryId = useId()
+    const resolvedPresentation = computed(() => (props.presentation === 'picker' ? 'picker' : 'calendar'))
+    const fallbackValue = () => (props.showTime ? defaultDateTime(props.useSeconds) : defaultDate(props.type))
+    const endpointValues = computed(() => [0, 1].map((index) => props.modelValue[index] || ''))
+    const currentValue = computed(() => endpointValues.value[activeIndex.value] || fallbackValue())
+    const currentDisplay = computed(() => splitDateTimeDisplay(currentValue.value, props.useSeconds))
+    const summaryDisplays = computed(() =>
+      endpointValues.value.map((value) =>
+        !value
+          ? { date: '—', time: '—' }
+          : props.showTime
+            ? splitDateTimeDisplay(value, props.useSeconds)
+            : { date: value, time: '' },
+      ),
+    )
+    const summaryLabels = computed(() =>
+      props.showTime
+        ? [translate('timeRangeStart'), translate('timeRangeEnd')]
+        : [translate('dateRangeStart'), translate('dateRangeEnd')],
+    )
+    const calendarValues = computed(() =>
+      endpointValues.value.map((value) =>
+        props.showTime && value ? splitDateTimeDisplay(value, props.useSeconds).date : value,
+      ),
+    )
+    const currentDisabledDate = computed(() => props.rangeDisabledDate?.[activeIndex.value] ?? props.disabledDate)
+    const currentTimeRules = computed(() => props.rangeDisabledTime?.[activeIndex.value] ?? props.disabledTime)
     const datePickerBindingProps = computed(() => ({
       ...dateRangeCalendarOptions(props.datePickerProps),
       presentation: 'calendar' as const,
@@ -249,165 +201,157 @@ export default defineComponent({
       abbreviation: props.abbreviation,
     }))
     const pickerBindingProps = computed(() => dateWheelOptions(props.pickerProps))
-    const timePickerBindingProps = computed(() => dateTimePickerOptions(props.timePickerProps))
-
-    const columnLabels = computed(() => {
-      if (resolvedPresentation.value !== 'picker') {
-        return []
-      }
-      if (props.showTime) {
-        const labels = [
-          translate('datePickerColumnYear'),
-          translate('datePickerColumnMonth'),
-          translate('datePickerColumnDay'),
-          translate('datePickerColumnHour'),
-          translate('datePickerColumnMinute'),
-        ]
-        if (props.useSeconds) {
-          labels.push(translate('datePickerColumnSecond'))
-        }
-        return labels
-      }
-      if (props.type === 'year') {
-        return [translate('datePickerColumnYear')]
-      }
-      if (props.type === 'month') {
-        return [translate('datePickerColumnYear'), translate('datePickerColumnMonth')]
-      }
-      return [translate('datePickerColumnYear'), translate('datePickerColumnMonth'), translate('datePickerColumnDay')]
-    })
-
-    const timeOnlyColumnLabels = computed(() => {
-      const labels = [translate('datePickerColumnHour'), translate('datePickerColumnMinute')]
-      if (props.useSeconds) {
-        labels.push(translate('datePickerColumnSecond'))
-      }
-      return labels
-    })
-
-    const pickerColumns = computed(() => {
-      const current = activeTab.value === 'start' ? startValue.value : endValue.value
-      return buildDateOrDateTimeColumns({
-        type: props.type,
-        showTime: props.showTime,
-        useSeconds: props.useSeconds,
+    const dateType = computed(() => (props.showTime ? 'date' : props.type))
+    const dateColumnLabels = computed(() =>
+      [translate('datePickerColumnYear'), translate('datePickerColumnMonth'), translate('datePickerColumnDay')].slice(
+        0,
+        dateType.value === 'year' ? 1 : dateType.value === 'month' ? 2 : 3,
+      ),
+    )
+    const datePickerValue = computed(() => parseDateParts(currentValue.value, dateType.value))
+    const dateColumns = computed(() =>
+      buildDateOrDateTimeColumns({
+        type: dateType.value,
+        showTime: false,
+        current: currentValue.value,
         min: props.min,
         max: props.max,
-        disabledDate: props.disabledDate,
-        disabledTime: props.disabledTime,
-        current,
+        disabledDate: currentDisabledDate.value,
+      }),
+    )
+    const timeColumnLabels = computed(() => [
+      translate('datePickerColumnHour'),
+      translate('datePickerColumnMinute'),
+      ...(props.useSeconds ? [translate('datePickerColumnSecond')] : []),
+    ])
+    const timePickerValue = computed(() => parseTimeParts(currentDisplay.value.time, props.useSeconds))
+    const timeColumns = computed(() => {
+      const rules = currentTimeRules.value
+      const values = timePickerValue.value
+      return buildTimeOnlyColumns(props.useSeconds, {
+        hours: rules?.hours,
+        minutes: (minute) => Boolean(rules?.minutes?.(minute, Number(values[0]))),
+        seconds: (second) => Boolean(rules?.seconds?.(second, Number(values[0]), Number(values[1]))),
       })
     })
-
-    const timeOnlyColumns = computed(() => buildTimeOnlyColumns(props.useSeconds, props.disabledTime))
-
-    const pickerValue = computed(() => {
-      const current = activeTab.value === 'start' ? startValue.value : endValue.value
-      if (props.showTime) {
-        return parseDateTimeParts(current, props.useSeconds)
-      }
-      return parseDateParts(current, props.type)
-    })
-
-    const timeOnlyPickerValue = computed(() => parseTimeParts(activeDisplay.value.time, props.useSeconds))
-
-    function emitValue(next: string[]) {
-      const normalized = normalizeDateRange(next, {
-        type: props.type,
-        showTime: props.showTime,
-        useSeconds: props.useSeconds,
-        exchangeTime: props.exchangeTime,
-      })
-      emit('update:modelValue', normalized)
-      emit('change', normalized)
+    const {
+      options: quickTimeOptions,
+      columns: quickTimeColumns,
+      value: quickTimeValue,
+    } = useQuickTime(
+      computed(() => currentDisplay.value.time),
+      currentTimeRules,
+    )
+    function emitPickerViewport(value: string | string[]) {
+      // The inner calendar emits dates; the range owner validates datetime viewports.
+      // Adapt navigation only, leaving the selected endpoints and their times untouched.
+      const viewport = (date: string) =>
+        props.showTime && /^\d{4}-\d{2}-\d{2}$/.test(date)
+          ? combineDateAndTime(date, '00:00:00', props.useSeconds)
+          : date
+      emit('update:pickerValue', Array.isArray(value) ? value.map(viewport) : viewport(value))
     }
-
-    function updateSide(side: 'start' | 'end', date: string) {
-      if (props.readonly) {
+    function navigateToEndpoint() {
+      if (resolvedPresentation.value === 'picker' || !endpointValues.value[activeIndex.value]) {
         return
       }
-      const next = [startValue.value, endValue.value]
-      next[side === 'start' ? 0 : 1] = date
-      emitValue(next)
+      calendar.value?.showDateSummary()
+      const unit = props.type === 'date' || props.showTime ? 'month' : 'year'
+      const date = dayjs(currentDisplay.value.date).startOf(unit)
+      const format = props.showTime
+        ? props.useSeconds
+          ? 'YYYY-MM-DD HH:mm:ss'
+          : 'YYYY-MM-DD HH:mm'
+        : props.type === 'year'
+          ? 'YYYY'
+          : props.type === 'month'
+            ? 'YYYY-MM'
+            : 'YYYY-MM-DD'
+      emitPickerViewport([date.format(format), date.add(1, unit).format(format)])
     }
-
-    function selectTimeSide(side: 'start' | 'end') {
-      activeTab.value = side
-      focusKind.value = 'time'
+    function selectEndpoint(index: number) {
+      if (quick) {
+        quick.open.value = false
+      }
+      activeIndex.value = index === 1 ? 1 : 0
+      if (focusKind.value === 'date') {
+        navigateToEndpoint()
+      }
     }
-
-    function handlePickerChange(values: (string | number)[]) {
-      if (props.readonly) {
+    function selectView(kind: 'date' | 'time') {
+      focusKind.value = kind
+      if (kind === 'date') {
+        navigateToEndpoint()
+      }
+    }
+    function updateEndpoint(value: string) {
+      if (props.readonly || currentLocked.value) {
         return
       }
-      const next = props.showTime ? joinDateTimeParts(values, props.useSeconds) : joinDateParts(values, props.type)
-      updateSide(activeTab.value, next)
-    }
+      const next = [...endpointValues.value]
+      next[activeIndex.value] = value
 
-    function handleTimeOnlyPickerChange(values: (string | number)[]) {
-      if (props.readonly) {
+      if (disabledParts().some((locked, index) => locked && next[index] !== endpointValues.value[index])) {
         return
       }
-      const time = joinTimeParts(values, props.useSeconds)
-      updateSide(activeTab.value, combineDateAndTime(activeDisplay.value.date, time, props.useSeconds))
+      emit('update:modelValue', next)
+      emit('change', next)
     }
-
-    function handleCalendarUpdate(value: string | string[]) {
-      if (props.readonly) {
+    function handleCalendarEndpoint(date: string) {
+      if (currentDisabledDate.value?.(date)) {
         return
       }
-      emitValue(isArray(value) ? [...value] : [])
+      updateEndpoint(props.showTime ? combineDateAndTime(date, currentDisplay.value.time, props.useSeconds) : date)
     }
-
-    function handleCalendarDateUpdate(value: string | string[]) {
-      if (props.readonly || !isArray(value)) {
+    function handleDatePickerChange(values: (string | number)[]) {
+      handleCalendarEndpoint(joinDateParts(values, dateType.value))
+    }
+    function handleTimePickerChange(values: (string | number)[]) {
+      updateEndpoint(
+        combineDateAndTime(currentDisplay.value.date, joinTimeParts(values, props.useSeconds), props.useSeconds),
+      )
+    }
+    function handleQuickTimeChange(values: (string | number)[]) {
+      const time = String(values[0])
+      if (!quickTimeOptions.value.some((option) => option.value === time)) {
         return
       }
-      emitValue([
-        combineDateAndTime(value[0] || startDisplay.value.date, startDisplay.value.time, props.useSeconds),
-        combineDateAndTime(value[1] || endDisplay.value.date, endDisplay.value.time, props.useSeconds),
-      ])
+      handleTimePickerChange([...time.split(':'), ...(props.useSeconds ? ['00'] : [])])
     }
-
-    function handleActiveTimeUpdate(time: string) {
-      if (props.readonly) {
-        return
-      }
-      updateSide(activeTab.value, combineDateAndTime(activeDisplay.value.date, time, props.useSeconds))
-    }
-
     return {
-      dateTimeConstraints,
-      pickerValueForCalendar,
-      emitPickerViewport,
       n,
+      quick,
       classes,
       formatElevation,
-      activeTab,
+      translate,
+      activeIndex,
+      currentLocked,
       focusKind,
+      calendar,
+      summaryId,
+      summaryDisplays,
+      summaryLabels,
       resolvedPresentation,
-      isCalendarTime,
-      startValue,
-      endValue,
-      startDisplay,
-      endDisplay,
-      activeDisplay,
-      calendarModelValue,
-      columnLabels,
-      timeOnlyColumnLabels,
+      calendarValues,
+      currentDisabledDate,
       datePickerBindingProps,
       pickerBindingProps,
-      timePickerBindingProps,
-      pickerColumns,
-      timeOnlyColumns,
-      pickerValue,
-      timeOnlyPickerValue,
-      selectTimeSide,
-      handlePickerChange,
-      handleTimeOnlyPickerChange,
-      handleCalendarUpdate,
-      handleCalendarDateUpdate,
-      handleActiveTimeUpdate,
+      dateColumnLabels,
+      dateColumns,
+      datePickerValue,
+      timeColumnLabels,
+      timeColumns,
+      timePickerValue,
+      quickTimeOptions,
+      quickTimeColumns,
+      quickTimeValue,
+      emitPickerViewport,
+      selectEndpoint,
+      selectView,
+      handleCalendarEndpoint,
+      handleDatePickerChange,
+      handleTimePickerChange,
+      handleQuickTimeChange,
     }
   },
 })

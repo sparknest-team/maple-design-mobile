@@ -1,12 +1,12 @@
 # 动作面板
 
+## 案例
+
 ### 介绍
 
 弹出一个动作面板提供用户选择选项的能力。
 `ActionSheet` 提供了函数式和组件式两种使用方式，两种使用效果和参数并没有本质区别。
 函数返回一个 `Promise`，选择时返回 `当前选择的 action`，点击背景层关闭返回 `close`。
-
-
 
 ### 函数调用
 
@@ -19,6 +19,7 @@
 ```demo
 ../example/demos/component-call.vue
 ```
+
 ## 函数调用
 
 ### 基本使用
@@ -373,6 +374,15 @@
   <mp-action-sheet :actions="actions" v-model:open="open" @select="handleSelect" />
 </template>
 ```
+
+<!-- api-review:start -->
+### 功能调试
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

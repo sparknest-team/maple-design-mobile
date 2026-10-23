@@ -146,6 +146,16 @@ describe('date selection transaction', () => {
     expect(x.onCommit).toHaveBeenCalledTimes(1)
     x.scope.stop()
   })
+  it('a new first endpoint retires the old complete range until the second endpoint is chosen', () => {
+    const x = setup(true)
+    expect(x.state.select(['2025-01-10'], true)).toBe(true)
+    expect(x.state.canConfirm.value).toBe(false)
+    expect(x.state.commit()).toBe(false)
+    expect(x.onCommit).not.toHaveBeenCalled()
+    expect(x.state.select(['2025-01-10', '2025-02-05'], true)).toBe(true)
+    expect(x.onCommit).toHaveBeenCalledWith(['2025-01-10', '2025-02-05'])
+    x.scope.stop()
+  })
   it('rechecks asynchronously changed constraints at commit', () => {
     const x = setup()
     x.state.select('2025-01-02')

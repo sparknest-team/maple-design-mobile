@@ -24,7 +24,7 @@ const enabled = ref(true)
 
 <template>
   <div>
-    <label><input v-model="enabled" type="checkbox" /> 启用内置预览</label>
+    <mp-checkbox v-model="enabled">启用内置预览</mp-checkbox>
     <mp-upload v-model="files" list-type="picture" :preview="enabled"></mp-upload>
   </div>
 </template>

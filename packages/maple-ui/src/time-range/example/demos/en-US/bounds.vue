@@ -11,7 +11,7 @@ const narrow = ref(false)
       Inclusive bounds: 10:30:38–10:31:02. Narrowing the bounds preserves the current model but prevents invalid
       confirmation.
     </p>
-    <label><input v-model="narrow" type="checkbox" /> Move minimum to 10:30:40</label>
+    <mp-checkbox v-model="narrow">Move minimum to 10:30:40</mp-checkbox>
     <mp-time-range
       v-model="value"
       input-editable

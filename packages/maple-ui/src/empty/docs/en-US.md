@@ -30,6 +30,8 @@ Customize the illustration with the `image` slot or default slot copy. Use `imag
 
 ### Extra Action
 
+Reload updates a local attempt counter and description only; it does not call a service. Provide your own request and result state for real reload behavior.
+
 Add actions with the `extra` slot.
 
 ```demo
@@ -38,11 +40,22 @@ Add actions with the `extra` slot.
 
 ### Show and Hide
 
+Use the two buttons to toggle the image and description independently, then restore them. Hiding both regions does not hide the entire component or its extra slot.
+
 `show-icon` and `show-description` toggle the illustration and copy.
 
 ```demo
 ../example/demos/show.vue
 ```
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
+import DemoApiReview from './demos/api-review.vue'
 import AroundDemo from './demos/around.vue'
 import BaseUseDemo from './demos/base-use.vue'
 import BetweenDemo from './demos/between.vue'
@@ -15,6 +16,8 @@ import EnRightAlignDemo from './demos/en-US/right-align.vue'
 import EnSpaceDemo from './demos/en-US/space.vue'
 import EnVerticalDemo from './demos/en-US/vertical.vue'
 import EnWrapDemo from './demos/en-US/wrap.vue'
+import InteractiveLayoutDemo from './demos/interactive-layout.vue'
+import OrganizedLayoutLab from './demos/layout-lab.vue'
 import RightAlignDemo from './demos/right-align.vue'
 import SpaceDemo from './demos/space.vue'
 import VerticalDemo from './demos/vertical.vue'
@@ -34,6 +37,10 @@ onThemeChange()
     <app-type>{{ english ? 'Basic Use' : '基本使用' }}</app-type>
     <EnBaseUseDemo v-if="english" />
     <BaseUseDemo v-else />
+  </section>
+  <section data-demo="interactive-layout">
+    <app-type>{{ english ? 'Interactive layout' : '动态布局' }}</app-type>
+    <InteractiveLayoutDemo />
   </section>
 
   <section data-demo="vertical">
@@ -73,14 +80,19 @@ onThemeChange()
   </section>
 
   <section data-demo="demo-8">
-    <app-type>{{ english ? 'xs / sm / md / lg / xl' : 'xs / sm / md / lg / xl' }}</app-type>
+    <app-type>{{ english ? 'demo-8' : 'xs / sm / md / lg / xl' }}</app-type>
     <EnDemo8Demo v-if="english" />
     <Demo8Demo v-else />
   </section>
 
+  <section data-demo="layout-lab">
+    <app-type>{{ english ? 'Layout and alignment' : '布局与对齐' }}</app-type>
+    <OrganizedLayoutLab />
+  </section>
   <section data-demo="wrap">
     <app-type>{{ english ? 'Explicit Wrapping' : '显式换行' }}</app-type>
     <EnWrapDemo v-if="english" />
     <WrapDemo v-else />
   </section>
+  <section data-demo="api-review"><DemoApiReview /></section>
 </template>

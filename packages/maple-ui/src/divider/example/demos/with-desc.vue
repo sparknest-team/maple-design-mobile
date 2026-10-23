@@ -1,21 +1,16 @@
-<script setup></script>
+<script setup>
+import { ref } from 'vue'
+
+const rtl = ref(false)
+</script>
 
 <template>
-  <mp-divider description="文字描述" />
-  <mp-divider description="靠左" text-align="start" />
-  <mp-divider description="靠右" text-align="end" />
+  <div>
+    <mp-checkbox v-model="rtl">RTL</mp-checkbox>
+    <div :dir="rtl ? 'rtl' : 'ltr'">
+      <mp-divider text-align="start" description="起点 / Start" />
+      <mp-divider description="居中 / Center" />
+      <mp-divider text-align="end" description="终点 / End" />
+    </div>
+  </div>
 </template>
-
-<style lang="less" scoped>
-.divider-example-vertical-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #333;
-
-  span {
-    font-size: 14px;
-    color: #888;
-  }
-}
-</style>

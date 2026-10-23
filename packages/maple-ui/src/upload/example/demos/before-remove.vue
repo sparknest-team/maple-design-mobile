@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { onBeforeUnmount, onDeactivated, ref, shallowRef } from 'vue'
 
 const files = ref([
   {
@@ -12,12 +12,75 @@ const files = ref([
   },
 ])
 const allow = ref(false)
-const beforeRemove = () => allow.value
+const manual = ref(false)
+const blocked = ref(false)
+const attempts = ref(0)
+const removed = ref(0)
+const uploadRef = ref()
+const mounted = ref(true)
+const pending = shallowRef([])
+const beforeRemove = () => {
+  attempts.value++
+  if (!manual.value) {
+    return allow.value
+  }
+  return new Promise((resolve, reject) => {
+    pending.value = [...pending.value, { resolve, reject }]
+  })
+}
+function settle(accepted) {
+  const jobs = pending.value
+  pending.value = []
+  jobs.forEach((job) =>
+    accepted === 'reject' ? job.reject(new Error('Local removal rejection')) : job.resolve(accepted),
+  )
+}
+function replace() {
+  files.value = files.value.map((item) => ({
+    ...item,
+    name: 'replacement.txt',
+    type: 'text/plain',
+    file: new File(['local replacement'], 'replacement.txt', { type: 'text/plain' }),
+  }))
+}
+function restore() {
+  files.value = [
+    {
+      uid: 'image',
+      name: 'restored.txt',
+      type: 'text/plain',
+      status: 'success',
+      percent: 100,
+      file: new File(['local sample'], 'restored.txt', { type: 'text/plain' }),
+    },
+  ]
+}
+onBeforeUnmount(() => settle(false))
+onDeactivated(() => settle(false))
 </script>
 
 <template>
-  <div>
-    <label><input v-model="allow" type="checkbox" /> 允许此操作</label>
-    <mp-upload v-model="files" :before-remove="beforeRemove"></mp-upload>
-  </div>
+  <section class="remove-confirm-demo">
+    <mp-checkbox v-model="allow">允许此操作</mp-checkbox>
+    <mp-checkbox v-model="manual">手动异步确认</mp-checkbox>
+    <mp-checkbox v-model="blocked">禁用上传组件</mp-checkbox>
+    <mp-button html-type="button" :disabled="!pending.length" @click="settle(true)">确认删除</mp-button>
+    <mp-button html-type="button" :disabled="!pending.length" @click="settle(false)">取消删除</mp-button>
+    <mp-button html-type="button" :disabled="!pending.length" @click="settle('reject')">异常拒绝删除</mp-button>
+    <mp-button html-type="button" :disabled="!files.length" @click="replace">替换同 UID 文件</mp-button>
+    <mp-button html-type="button" @click="uploadRef?.reset()">重置上传队列</mp-button>
+    <mp-button html-type="button" @click="restore">恢复示例文件</mp-button>
+    <mp-checkbox v-model="mounted">激活上传组件</mp-checkbox>
+    <KeepAlive>
+      <mp-upload
+        v-if="mounted"
+        ref="uploadRef"
+        v-model="files"
+        :before-remove="beforeRemove"
+        :disabled="blocked"
+        @remove="removed++"
+      />
+    </KeepAlive>
+    <p role="status">文件：{{ files.length }}；等待：{{ pending.length }}；钩子：{{ attempts }}；删除：{{ removed }}</p>
+  </section>
 </template>

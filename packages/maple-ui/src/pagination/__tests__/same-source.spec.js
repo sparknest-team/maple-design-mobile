@@ -109,8 +109,8 @@ describe('Pagination shared contract', () => {
     await w.setProps({ total: 25, pageSize: 20 })
     expect(w.emitted('change')).toBeUndefined()
   })
-  test('blank and invalid jumper values never navigate', async () => {
-    const w = render({ simple: true, defaultCurrent: 4 })
+  test.each([false, true])('blank and invalid jumper values never navigate (simple=%s)', async (simple) => {
+    const w = render({ simple, showJumper: true, defaultCurrent: 4 })
     const input = w.find('input')
     for (const value of ['', 'abc', '2.5', '-1']) {
       await input.setValue(value)
@@ -119,8 +119,8 @@ describe('Pagination shared contract', () => {
     }
     expect(w.emitted('change')).toBeUndefined()
   })
-  test('jumper clamps and Enter plus blur emits once', async () => {
-    const w = render({ simple: true, defaultCurrent: 4, total: 50 })
+  test.each([false, true])('jumper clamps and Enter plus blur emits once (simple=%s)', async (simple) => {
+    const w = render({ simple, showJumper: true, defaultCurrent: 4, total: 50 })
     const input = w.find('input')
     await input.setValue('999')
     await input.trigger('keydown', { key: 'Enter' })
@@ -128,21 +128,34 @@ describe('Pagination shared contract', () => {
     expect(w.emitted('change')).toEqual([[5]])
     expect(input.element.value).toBe('5')
   })
-  test('controlled jumper restores parent value', async () => {
-    const w = render({ simple: true, current: 4 })
+  test.each([false, true])('controlled jumper restores parent value (simple=%s)', async (simple) => {
+    const w = render({ simple, showJumper: true, current: 4 })
     const input = w.find('input')
     await input.setValue('2')
     await input.trigger('blur')
     expect(w.emitted('change')).toEqual([[2]])
     expect(input.element.value).toBe('4')
   })
-  test('full jumper clears after commit', async () => {
+  test('full jumper follows page clicks and keeps committed page', async () => {
     const w = render({ showJumper: true })
     const input = w.find('input')
+    expect(input.element.value).toBe('1')
+    await clickPage(w, 2)
+    expect(input.element.value).toBe('2')
     await input.setValue('3')
     await input.trigger('blur')
     expect(active(w)).toBe('3')
-    expect(input.element.value).toBe('')
+    expect(input.element.value).toBe('3')
+  })
+  test.each([false, true])('jumper follows external current and page-size adjustment (simple=%s)', async (simple) => {
+    const w = render({ simple, showJumper: true, current: 9 })
+    const input = w.find('input')
+    expect(input.element.value).toBe('9')
+    await w.setProps({ current: 7 })
+    expect(input.element.value).toBe('7')
+    const adjusted = render({ simple, showJumper: true, defaultCurrent: 9 })
+    await adjusted.setProps({ pageSize: 50 })
+    expect(adjusted.find('input').element.value).toBe('2')
   })
   test('styles merge and all six slots render', () => {
     const w = render(

@@ -1,0 +1,20 @@
+{
+  "fields": [
+    {
+      "name": "label",
+      "description": "分组标题",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    }
+  ],
+  "methodNames": [],
+  "events": [],
+  "slotNames": [
+    "label"
+  ],
+  "slotDefaults": {
+    "label": true
+  },
+  "scenarios": []
+}

@@ -1,7 +1,7 @@
 <script setup></script>
 
 <template>
-  <mp-space :size="['2.666vmin', '2.666vmin']">
+  <mp-space wrap :size="['2.666vmin', '2.666vmin']">
     <mp-tag>默认</mp-tag>
     <mp-tag status="primary">主要</mp-tag>
     <mp-tag status="info">信息</mp-tag>

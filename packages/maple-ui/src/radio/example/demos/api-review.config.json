@@ -1,0 +1,356 @@
+{
+  "fields": [
+    {
+      "name": "model-value",
+      "description": "受控值",
+      "type": "RadioModel",
+      "defaultValue": "undefined",
+      "kind": "scenario"
+    },
+    {
+      "name": "default-value",
+      "description": "非受控初始值",
+      "type": "RadioModel",
+      "defaultValue": "null",
+      "kind": "scenario"
+    },
+    {
+      "name": "disabled",
+      "description": "禁用，未设置时继承表单",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
+      "name": "readonly",
+      "description": "只读，未设置时继承表单",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
+      "name": "error",
+      "description": "错误态，未设置时继承表单",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
+      "name": "variant",
+      "description": "分组外观",
+      "type": "\"radio\" | \"button\"",
+      "defaultValue": "'radio' as RadioVariant",
+      "kind": "enum",
+      "options": [
+        "radio",
+        "button"
+      ],
+      "initial": "radio"
+    },
+    {
+      "name": "size",
+      "description": "仅调整按钮高度",
+      "type": "ComponentSize",
+      "defaultValue": "undefined",
+      "kind": "enum",
+      "options": [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl"
+      ],
+      "initial": "xs"
+    },
+    {
+      "name": "direction",
+      "description": "布局方向，可选值为 horizontal vertical",
+      "type": "string",
+      "defaultValue": "horizontal",
+      "kind": "string"
+    },
+    {
+      "name": "options",
+      "description": "选项；传入时替代默认插槽",
+      "type": "Array<ChoiceValue | RadioOption | Record<string, unknown>>",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "field-names",
+      "description": "选项字段映射",
+      "type": "ChoiceFieldNames",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "presentation",
+      "type": "'inline' | 'popup'",
+      "defaultValue": "undefined",
+      "description": "字段编辑方式，字段 > FormItem > Form 继承；默认 inline。",
+      "kind": "enum",
+      "options": [
+        "inline",
+        "popup"
+      ],
+      "initial": "inline"
+    },
+    {
+      "name": "read-pretty",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "description": "纯阅读展示；字段 > FormItem > Form 继承，显式 false 覆盖父级。",
+      "kind": "boolean"
+    },
+    {
+      "name": "before-commit",
+      "type": "BeforeFieldCommit",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "callback"
+    },
+    {
+      "name": "open",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "boolean"
+    },
+    {
+      "name": "default-open",
+      "type": "boolean",
+      "defaultValue": "false",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "boolean"
+    },
+    {
+      "name": "popup-container",
+      "type": "string | HTMLElement | false",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "json",
+      "initial": "\"body\""
+    },
+    {
+      "name": "value",
+      "type": "string | number | boolean",
+      "defaultValue": "true",
+      "description": "当前选项标识",
+      "kind": "json",
+      "initial": "false"
+    },
+    {
+      "name": "checked-color",
+      "type": "string",
+      "defaultValue": "undefined",
+      "description": "实例颜色及图标长度，number 为 px。",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "unchecked-color",
+      "type": "string",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "icon-size",
+      "type": "string | number",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "scalar"
+    },
+    {
+      "name": "ripple",
+      "type": "boolean",
+      "defaultValue": "true",
+      "description": "触控水波纹。",
+      "kind": "boolean"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "defaultValue": "undefined",
+      "description": "原生表单字段名；缺省继承分组。",
+      "kind": "string"
+    },
+    {
+      "name": "input-attrs",
+      "type": "InputHTMLAttributes",
+      "defaultValue": "undefined",
+      "description": "原生 input 属性，受控状态由组件管理。",
+      "kind": "scenario"
+    },
+    {
+      "name": "aria-label",
+      "type": "string",
+      "defaultValue": "undefined",
+      "description": "无障碍名称。",
+      "kind": "string"
+    },
+    {
+      "name": "uninject-group-context",
+      "type": "boolean",
+      "defaultValue": "false",
+      "description": "内部复合控件隔离分组上下文。",
+      "kind": "boolean"
+    },
+    {
+      "name": "radio",
+      "description": "原生字段名，子项覆盖分组",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "radio-group",
+      "description": "原生字段名，子项覆盖分组",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    }
+  ],
+  "events": [
+    "click",
+    "update:modelValue",
+    "change",
+    "focus",
+    "blur",
+    "update:open"
+  ],
+  "scenarios": [
+    {
+      "name": "model-value",
+      "kind": "prop",
+      "demos": [
+        "group-state.vue"
+      ]
+    },
+    {
+      "name": "default-value",
+      "kind": "prop",
+      "demos": [
+        "button-sizes.vue",
+        "control-value.vue",
+        "group-state.vue"
+      ]
+    },
+    {
+      "name": "options",
+      "kind": "prop",
+      "demos": [
+        "async-options.vue",
+        "button-sizes.vue",
+        "custom-fields.vue",
+        "group-state.vue",
+        "keyboard-navigation.vue",
+        "option-data.vue",
+        "radio-group-options.vue"
+      ]
+    },
+    {
+      "name": "field-names",
+      "kind": "prop",
+      "demos": [
+        "custom-fields.vue",
+        "option-data.vue"
+      ]
+    },
+    {
+      "name": "before-commit",
+      "kind": "prop",
+      "demos": []
+    },
+    {
+      "name": "value",
+      "kind": "prop",
+      "demos": [
+        "basic-usage.vue",
+        "async-options.vue",
+        "button-sizes.vue",
+        "control-value.vue",
+        "custom-fields.vue",
+        "disabled.vue",
+        "group-state.vue",
+        "keyboard-navigation.vue",
+        "native-control.vue",
+        "option-data.vue",
+        "radio-group-options.vue",
+        "radio-group.vue",
+        "readonly.vue",
+        "set-state.vue",
+        "set-style.vue",
+        "vertical.vue"
+      ]
+    },
+    {
+      "name": "input-attrs",
+      "kind": "prop",
+      "demos": [
+        "native-control.vue"
+      ]
+    },
+    {
+      "name": "default",
+      "kind": "slot",
+      "demos": [
+        "button-sizes.vue",
+        "control-value.vue",
+        "group-state.vue",
+        "set-style.vue"
+      ]
+    },
+    {
+      "name": "checked-icon",
+      "kind": "slot",
+      "demos": [
+        "native-control.vue",
+        "set-style.vue"
+      ]
+    },
+    {
+      "name": "unchecked-icon",
+      "kind": "slot",
+      "demos": [
+        "native-control.vue",
+        "set-style.vue"
+      ]
+    },
+    {
+      "name": "select",
+      "kind": "method",
+      "demos": [
+        "control-value.vue"
+      ]
+    },
+    {
+      "name": "focus",
+      "kind": "method",
+      "demos": [
+        "control-value.vue"
+      ]
+    },
+    {
+      "name": "blur",
+      "kind": "method",
+      "demos": []
+    }
+  ],
+  "slotNames": [
+    "checked-icon",
+    "unchecked-icon"
+  ],
+  "slotDefaults": {
+    "checked-icon": false,
+    "unchecked-icon": false
+  },
+  "methodNames": [
+    "select",
+    "focus",
+    "blur"
+  ]
+}

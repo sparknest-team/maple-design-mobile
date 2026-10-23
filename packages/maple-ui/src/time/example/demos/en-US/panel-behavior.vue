@@ -6,22 +6,14 @@ const immediate = ref(false)
 const confirmations = ref(0)
 const hideDisabled = ref(false)
 const readonly = ref(false)
-const presentation = ref('picker')
 const disabledHours = () => [0, 1, 2, 3, 4, 5, 6, 7]
 </script>
 
 <template>
   <div style="display: flex; flex-direction: column; gap: 12px; width: 100%">
-    <label><input v-model="immediate" type="checkbox" /> Commit without confirmation</label>
-    <label><input v-model="hideDisabled" type="checkbox" /> Hide disabled hours (00–07)</label>
-    <label
-      >Presentation
-      <select v-model="presentation">
-        <option value="picker">Wheel</option>
-        <option value="clock">Clock</option>
-      </select></label
-    >
-    <label><input v-model="readonly" type="checkbox" /> Read-only (including confirmation)</label>
+    <mp-checkbox v-model="immediate">Commit without confirmation</mp-checkbox>
+    <mp-checkbox v-model="hideDisabled">Hide disabled hours (00–07)</mp-checkbox>
+    <mp-checkbox v-model="readonly">Read-only (including confirmation)</mp-checkbox>
     <mp-button variant="outline" @click="value = '13:45'">Replace externally with 13:45</mp-button>
     <mp-time-picker
       v-model="value"
@@ -30,7 +22,6 @@ const disabledHours = () => [0, 1, 2, 3, 4, 5, 6, 7]
       :hide-disabled-options="hideDisabled"
       :readonly="readonly"
       :disabled-hours="disabledHours"
-      :presentation="presentation"
       @confirm="confirmations++"
     >
       <template #extra><p>Changing presentation keeps the draft; extra content uses the same slot.</p></template>

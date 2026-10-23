@@ -1,0 +1,51 @@
+{
+  "fields": [
+    {
+      "name": "code",
+      "description": "代码片段",
+      "type": "string",
+      "defaultValue": "''",
+      "kind": "string"
+    },
+    {
+      "name": "language",
+      "description": "语言",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "theme",
+      "description": "主题",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "enum",
+      "options": [
+        "github-light",
+        "github-dark",
+        "vitesse-light",
+        "vitesse-dark"
+      ],
+      "initial": "github-light"
+    },
+    {
+      "name": "word-wrap",
+      "description": "是否开启在代码溢出时自动换行",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "trim",
+      "description": "是否移除代码开头和结尾的空白字符",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    }
+  ],
+  "events": [],
+  "scenarios": [],
+  "slotNames": [],
+  "slotDefaults": {},
+  "methodNames": []
+}

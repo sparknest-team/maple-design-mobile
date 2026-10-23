@@ -1,19 +1,19 @@
-<script setup>
-import { ref } from 'vue'
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 
-const success = ref(false)
+const statuses = ['info', 'success', 'warning', 'danger', 'question', 'empty'] as const
+const index = ref(0)
+const status = computed(() => statuses[index.value])
 </script>
 
 <template>
-  <mp-result title="成功" subtitle="嗨~ 我是结果页的一段描述~">
+  <mp-result data-demo-result :status="status" :title="'Result: ' + status" subtitle="Local state preview">
     <template #extra>
-      <mp-button status="success" @click="success = false">知道了</mp-button>
+      <mp-space wrap>
+        <mp-button status="primary" @click="index = (index + 1) % statuses.length">Next status</mp-button>
+        <mp-button @click="index = 0">Reset status</mp-button>
+      </mp-space>
+      <p aria-live="polite">Current status: {{ status }}</p>
     </template>
   </mp-result>
 </template>
-
-<style scoped>
-.result {
-  width: 75vmin;
-}
-</style>

@@ -1,6 +1,6 @@
 import { withInstall } from '../utils/components'
-import _Cascader from './Cascader.vue'
 import _CascaderPanel from './CascaderPanel.vue'
+import _Cascader from './presentation'
 import { cascaderProps } from './props'
 
 const Cascader = withInstall(

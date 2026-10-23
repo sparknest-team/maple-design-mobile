@@ -1,10 +1,20 @@
 # Picker
 
+Final Picker30tests/4files pass,including10new targeted cases;combined Maple affected532tests/95files,root read-only lint,types and shared29tests pass. Runtime-candidate classification is not native touch/OS/whole-component acceptance.
+
+## 案例
+
 ### Intro
 
 Two calling methods, function and component, are provided. It also supports cascade mode and can handle multi-level linkage.
 
+### Disabled picker
 
+While disabled, clicks, touch and keyboard input cannot change the selection. Enabling it resumes from the current model value.
+
+```demo
+../example/demos/disabled.vue
+```
 
 ### function call
 
@@ -53,6 +63,7 @@ Two calling methods, function and component, are provided. It also supports casc
 ```demo
 ../example/demos/two-way-binding.vue
 ```
+
 ## Function call
 
 ### Single Column Picker
@@ -456,6 +467,15 @@ The maximum number of displayed columns can be set via `columnsCount`, which is 
 </template>
 ```
 
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
+
 ## API
 
 ### Props
@@ -467,6 +487,7 @@ The maximum number of displayed columns can be set via `columnsCount`, which is 
 | `title`                      | Title                                                              | _string_                                         | `Pick it` |
 | `field-names`                | Custom column field mapping (`label` maps to text, default `text`) | _{ label?, value?, children? }_                  | `-`       |
 | `toolbar`                    | Whether to display the upper toolbar                               | _boolean_                                        | `true`    |
+| `disabled`                   | Block option clicks, touch, keyboard selection, and confirmation    | _boolean_                                        | `false`   |
 | `selected-values`            | Selected option values; shows a check mark on the right            | _(string \| number)[]_                           | `[]`      |
 | `cascade`                    | Whether to enable cascade mode                                     | _boolean_                                        | `true`    |
 | `option-height`              | The height of the option                                           | _string \| number_                               | `44`      |
@@ -486,6 +507,7 @@ The maximum number of displayed columns can be set via `columnsCount`, which is 
 | `title`                     | Column content                                                     | _string_                                                                                   | `Pick it`    |
 | `fieldNames`                | Custom column field mapping (`label` maps to text, default `text`) | _{ label?, value?, children? }_                                                            | `-`          |
 | `toolbar`                   | Whether to display the upper toolbar                               | _boolean_                                                                                  | `true`       |
+| `disabled`                  | Block option clicks, touch, keyboard selection, and confirmation    | _boolean_                                                                                  | `false`      |
 | `selectedValues`            | Selected option values; shows a check mark on the right            | _(string \| number)[]_                                                                     | `[]`         |
 | `cascade`                   | Whether to enable cascade mode                                     | _boolean_                                                                                  | `true`       |
 | `optionHeight`              | The height of the option                                           | _string \| number_                                                                         | `44`         |

@@ -1,0 +1,114 @@
+{
+  "fields": [
+    {
+      "name": "show-back",
+      "description": "是否显示返回按钮",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "title",
+      "description": "主标题",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "subtitle",
+      "description": "次标题",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "extra",
+      "description": "右侧附加内容",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    }
+  ],
+  "events": [
+    "back"
+  ],
+  "scenarios": [
+    {
+      "name": "header",
+      "kind": "slot",
+      "demos": [
+        "basic-usage.vue",
+        "complete.vue"
+      ]
+    },
+    {
+      "name": "back",
+      "kind": "slot",
+      "demos": [
+        "basic-usage.vue",
+        "complete.vue"
+      ]
+    },
+    {
+      "name": "avatar",
+      "kind": "slot",
+      "demos": [
+        "complete.vue"
+      ]
+    },
+    {
+      "name": "title",
+      "kind": "slot",
+      "demos": [
+        "basic-usage.vue",
+        "complete.vue"
+      ]
+    },
+    {
+      "name": "subtitle",
+      "kind": "slot",
+      "demos": [
+        "basic-usage.vue",
+        "complete.vue"
+      ]
+    },
+    {
+      "name": "extra",
+      "kind": "slot",
+      "demos": [
+        "complete.vue"
+      ]
+    },
+    {
+      "name": "default",
+      "kind": "slot",
+      "demos": []
+    },
+    {
+      "name": "footer",
+      "kind": "slot",
+      "demos": [
+        "complete.vue"
+      ]
+    }
+  ],
+  "slotNames": [
+    "title",
+    "extra",
+    "footer",
+    "header",
+    "back",
+    "avatar",
+    "subtitle"
+  ],
+  "slotDefaults": {
+    "title": true,
+    "extra": true,
+    "footer": true,
+    "header": false,
+    "back": false,
+    "avatar": false,
+    "subtitle": false
+  },
+  "methodNames": []
+}

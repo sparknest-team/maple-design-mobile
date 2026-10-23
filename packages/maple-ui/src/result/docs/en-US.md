@@ -1,10 +1,14 @@
 # Result
 
+## Examples
+
 ### Intro
 
 It is used to show the results to users.
 
 ### Basic Usage
+
+Next status cycles six local result states and updates the title and graphic; Reset status returns to info. These buttons neither send requests nor navigate. Result displays the supplied status without inferring it from title text.
 
 ```demo
 ../example/demos/basic-usage.vue
@@ -21,6 +25,15 @@ Result status, optional values are `info`, `success`, `warning`, `danger`, `ques
 ### Note When Modifying The Background Color
 
 Please try not to modify the background color to be transparent or translucent, which may affect the animation effect of the success type.
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

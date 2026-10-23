@@ -5,7 +5,6 @@ import { t, use } from './locale'
 
 const dates = reactive({
   date: '11:20',
-  clock: '11:20',
   date1: '15:10',
   date2: '07:10',
   date3: '07:10:12',
@@ -25,24 +24,19 @@ onThemeChange()
 <template>
   <app-type>{{ t('basicUsage') }}</app-type>
   <mp-time-picker v-model="dates.date" format="HH:mm" />
-
-  <app-type>{{ t('clockMode') }}</app-type>
-  <mp-time-picker v-model="dates.clock" format="HH:mm" presentation="clock" />
-
   <app-type>{{ t('hour24') }}</app-type>
-  <mp-time-picker v-model="dates.date1" format="HH:mm" presentation="clock" />
+  <mp-time-picker v-model="dates.date1" format="HH:mm" />
 
   <app-type>{{ t('showSecond') }}</app-type>
-  <mp-time-picker v-model="dates.date5" format="HH:mm:ss" presentation="clock" />
+  <mp-time-picker v-model="dates.date5" format="HH:mm:ss" />
 
   <app-type>{{ t('readonly') }}</app-type>
-  <mp-time-picker v-model="dates.date2" format="HH:mm" presentation="clock" readonly />
+  <mp-time-picker v-model="dates.date2" format="HH:mm" readonly />
 
   <app-type>{{ t('timeLimit') }}</app-type>
   <mp-time-picker
     v-model="dates.date3"
     format="HH:mm:ss"
-    presentation="clock"
     min="2:28:38"
     max="19:40:22"
     :disabled-hours="disabledHours"
@@ -51,7 +45,7 @@ onThemeChange()
   />
 
   <app-type>{{ t('actions') }}</app-type>
-  <mp-time-picker v-model="dates.date6" format="HH:mm" presentation="clock">
+  <mp-time-picker v-model="dates.date6" format="HH:mm">
     <template #actions="{ confirm, canConfirm }">
       <mp-button status="primary" variant="text" :disabled="!canConfirm" @click="confirm">确认</mp-button>
     </template>

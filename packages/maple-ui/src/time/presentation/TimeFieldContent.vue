@@ -1,100 +1,102 @@
 <template>
-  <div
-    v-bind="splitInputAttrs($attrs).root"
-    :class="rootClass"
-    :tabindex="-1"
-    @focus="state.focus"
-    @blur="state.blur"
-    @keydown="handleKeydown"
-    @keyup="handleKeyup"
+  <Trigger
+    v-bind="popupProps"
+    :popup-class="[fieldProps.popupProps?.popupClass, 'mp-time-field-popover']"
+    :trigger="[]"
+    :unmount-on-close="true"
+    :open="state.open.value"
+    :disabled="state.disabled.value || state.readonly.value"
+    :close-on-click-reference="false"
+    :prevent-focus="true"
+    :popup-offset="4"
+    @update:open="state.setOpen"
   >
-    <PickerField
-      v-bind="{ ...splitInputAttrs($attrs).native, ...state.controlProps.value }"
-      ref="field"
-      :aria-controls="state.open.value ? popupId : undefined"
-      :editable="fieldProps.inputEditable"
-      :cursor="state.disabled.value || state.readonly.value || fieldProps.inputEditable ? '' : 'pointer'"
-      @commit="state.commitText"
-      @click="click"
-      @clear="state.clear"
+    <div
+      v-bind="splitInputAttrs($attrs).root"
+      :class="rootClass"
+      :tabindex="-1"
       @focus="state.focus"
       @blur="state.blur"
+      @keydown="handleKeydown"
+      @keyup="handleKeyup"
     >
-      <template v-for="name in fieldSlots" #[name]="scope"><slot :name="name" v-bind="scope || {}" /></template>
-      <template v-if="fieldProps.inputEditable || $slots['suffix-icon']" #arrow-icon="scope">
-        <button
-          v-if="fieldProps.inputEditable"
-          type="button"
-          :class="n('input-trigger')"
-          :aria-label="locale.title()"
-          aria-haspopup="dialog"
-          :aria-expanded="state.open.value"
-          :aria-controls="state.open.value ? popupId : undefined"
-          :disabled="state.disabled.value || state.readonly.value"
-          @click.stop="openPanel"
+      <PickerField
+        v-bind="{ ...splitInputAttrs($attrs).native, ...state.controlProps.value }"
+        ref="field"
+        :aria-controls="state.open.value ? popupId : undefined"
+        :editable="fieldProps.inputEditable"
+        :cursor="state.disabled.value || state.readonly.value || fieldProps.inputEditable ? '' : 'pointer'"
+        @commit="state.commitText"
+        @click="click"
+        @clear="state.clear"
+        @focus="state.focus"
+        @blur="state.blur"
+      >
+        <template v-for="name in fieldSlots" #[name]="scope"><slot :name="name" v-bind="scope || {}" /></template>
+        <template v-if="fieldProps.inputEditable || $slots['suffix-icon']" #arrow-icon="scope">
+          <button
+            v-if="fieldProps.inputEditable"
+            type="button"
+            :class="n('input-trigger')"
+            :aria-label="locale.title()"
+            aria-haspopup="dialog"
+            :aria-expanded="state.open.value"
+            :aria-controls="state.open.value ? popupId : undefined"
+            :disabled="state.disabled.value || state.readonly.value"
+            @click.stop="openPanel"
+          >
+            <slot name="suffix-icon" v-bind="scope"><IconClockCircle aria-hidden="true" /></slot>
+          </button>
+          <slot v-else name="suffix-icon" v-bind="scope" />
+        </template>
+        <template v-if="$slots.suffix" #suffix><slot name="suffix" /></template>
+      </PickerField>
+    </div>
+    <template #content>
+      <TimeFieldPanel
+        v-if="state.open.value"
+        :id="popupId"
+        role="dialog"
+        :aria-label="title"
+        :range="range"
+        :disable-confirm="fieldProps.disableConfirm && !confirmationRequired"
+        :can-confirm="state.canConfirm.value"
+        :confirm-text="locale.confirm()"
+        @confirm="state.confirm()"
+      >
+        <TimeRangePicker
+          v-if="range"
+          v-bind="{ ...rangePanelProps, ...rules }"
+          :model-value="rangeDraft"
+          disable-confirm
+          :show-next-day="'showNextDay' in fieldProps && fieldProps.showNextDay"
+          :picker-props="wheelProps"
+          :show-now-button="'showNowButton' in fieldProps ? fieldProps.showNowButton : true"
+          @select="select"
         >
-          <slot name="suffix-icon" v-bind="scope"><IconClockCircle aria-hidden="true" /></slot>
-        </button>
-        <slot v-else name="suffix-icon" v-bind="scope" />
-      </template>
-      <template v-if="$slots.suffix" #suffix><slot name="suffix" /></template>
-    </PickerField>
-    <TimePopup
-      :id="popupId"
-      :aria-label="title"
-      :open="state.open.value"
-      :range="range"
-      :popup-props="popupProps"
-      :title="title"
-      :cancel-text="locale.cancel()"
-      :confirm-text="locale.confirm()"
-      :disable-confirm="fieldProps.disableConfirm"
-      :can-confirm="state.canConfirm.value"
-      @cancel="state.cancel"
-      @update:open="state.setOpen"
-      @confirm="state.confirm()"
-    >
-      <TimeRangePicker
-        v-if="range"
-        v-bind="{ ...rangePanelProps, ...rules }"
-        :model-value="rangeDraft"
-        disable-confirm
-        :show-next-day="'showNextDay' in fieldProps && fieldProps.showNextDay"
-        :time-picker-props="timePanelProps"
-        :picker-props="wheelProps"
-        @select="select"
-      >
-      </TimeRangePicker>
-      <MpPicker
-        v-else-if="fieldProps.presentation === 'picker'"
-        v-bind="wheelProps"
-        :toolbar="false"
-        :columns="pickerState.columns"
-        :model-value="pickerState.value"
-        @change="pickerChange"
-      />
-      <TimePicker
-        v-else
-        v-bind="{ ...timePanelProps, ...rules }"
-        :model-value="singleDraft"
-        presentation="clock"
-        disable-confirm
-        @select="select"
-      >
-      </TimePicker>
-    </TimePopup>
-  </div>
+        </TimeRangePicker>
+        <TimePicker
+          v-else
+          v-bind="{ ...singlePanelProps, ...rules }"
+          :model-value="singleDraft"
+          disable-confirm
+          :show-now-button="fieldProps.showNowButton !== false"
+          :picker-props="wheelProps"
+          @select="select"
+        />
+      </TimeFieldPanel>
+    </template>
+  </Trigger>
 </template>
 <script setup lang="ts">
-import { computed, ref, useId, useSlots } from 'vue'
+import { computed, provide, ref, useId, useSlots, watch } from 'vue'
 import { IconClockCircle } from '@maplejs/icons-vue'
 import PickerField from '../../_components/picker-field/PickerField.vue'
 import { splitInputAttrs } from '../../input/native-attrs'
-import { _PickerComponent as MpPicker } from '../../picker'
 import TimeRangePicker from '../../time-range/TimeRangePicker.vue'
+import Trigger from '../../trigger'
 import { createNamespace } from '../../utils/components'
 import type { TimeFieldContentProps } from '../field-state'
-import { getTimePickerChange, getTimePickerState } from '../picker-columns'
 import {
   getTimePanelPresentationProps,
   getTimePopupPresentationProps,
@@ -103,7 +105,8 @@ import {
 import type { TimeCommitInput } from '../time-commit'
 import { formatTimeValue } from '../time-value'
 import TimePicker from '../TimePicker.vue'
-import TimePopup from './TimePopup.vue'
+import { timeExplicitConfirmation } from './confirmation-context'
+import TimeFieldPanel from './TimeFieldPanel.vue'
 import { useTimeFieldLocale } from './use-field-locale'
 import { useTriggerKeyboard } from './use-trigger-keyboard'
 
@@ -113,33 +116,37 @@ const popupId = useId()
 const { n } = createNamespace('time')
 const field = ref<InstanceType<typeof PickerField>>()
 const locale = useTimeFieldLocale()
+const confirmationRequired = ref(false)
+provide(timeExplicitConfirmation, confirmationRequired)
+watch(props.state.open, (open) => {
+  if (!open) {
+    confirmationRequired.value = false
+  }
+})
 const { handleKeydown, handleKeyup } = useTriggerKeyboard({
   open: props.state.open,
   blocked: () => props.state.disabled.value || props.state.readonly.value,
   cancel: () => props.state.cancel(),
   beforeOpen: (event) => field.value?.commit(event),
 })
-const timePanelProps = computed(() => getTimePanelPresentationProps(props.fieldProps.timePickerProps))
 const rangePanelProps = computed(() =>
   getTimePanelPresentationProps(
     'timeRangePickerProps' in props.fieldProps ? props.fieldProps.timeRangePickerProps : undefined,
   ),
 )
+const singlePanelProps = computed(() =>
+  getTimePanelPresentationProps('timePickerProps' in props.fieldProps ? props.fieldProps.timePickerProps : undefined),
+)
 const wheelProps = computed(() => getTimeWheelPresentationProps(props.fieldProps.pickerProps))
 const popupProps = computed(() => ({
-  placement: 'bottom' as const,
+  placement: 'bottom-start' as const,
   ...getTimePopupPresentationProps(props.fieldProps.popupProps),
   popupContainer:
     props.fieldProps.popupContainer !== undefined
       ? props.fieldProps.popupContainer
       : props.fieldProps.popupProps?.popupContainer,
 }))
-const title = computed(
-  () =>
-    props.fieldProps.timePickerProps?.hint ??
-    (props.range ? props.fieldProps.pickerProps?.title : undefined) ??
-    locale.title(),
-)
+const title = computed(() => locale.title())
 const singleDraft = computed(() => {
   const value = props.state.draft.value
   return Array.isArray(value) ? undefined : formatTimeValue(value, props.fieldProps)
@@ -148,11 +155,9 @@ const rangeDraft = computed(() => {
   const value = props.state.draft.value
   return Array.isArray(value) ? value.map((part) => formatTimeValue(part, props.fieldProps) ?? '') : undefined
 })
-const pickerState = computed(() => getTimePickerState(singleDraft.value, props.fieldProps))
 const rules = computed(() => {
   const options = props.fieldProps
   return {
-    presentation: options.presentation,
     hideDisabledOptions: options.hideDisabledOptions,
     format: options.format,
     use12Hours: options.use12Hours,
@@ -167,7 +172,7 @@ const rules = computed(() => {
   }
 })
 function select(value: TimeCommitInput) {
-  props.state.select(value, props.fieldProps.disableConfirm)
+  props.state.select(value, props.fieldProps.disableConfirm && !confirmationRequired.value)
 }
 function click(event: Event) {
   props.state.click(event)
@@ -185,15 +190,6 @@ function openPanel(event: MouseEvent) {
   if (!props.state.disabled.value && !props.state.readonly.value) {
     field.value?.blur()
     props.state.setOpen(true)
-  }
-}
-function pickerChange(values: (string | number)[]) {
-  if (props.state.disabled.value || props.state.readonly.value) {
-    return
-  }
-  const value = getTimePickerChange(values, props.fieldProps)
-  if (value !== undefined) {
-    select(value)
   }
 }
 const slots = useSlots()

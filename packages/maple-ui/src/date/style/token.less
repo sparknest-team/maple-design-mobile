@@ -1,14 +1,34 @@
 :root {
+  --mp-date-picker-panel-date-width: 265px;
+  --mp-date-picker-time-panel-min-width: 160px;
+  --mp-date-picker-popover-width: calc(var(--mp-date-picker-panel-date-width) + 2px);
+  --mp-date-picker-datetime-popover-width: calc(
+    var(--mp-date-picker-panel-date-width) + var(--mp-date-picker-time-panel-min-width) + 2px
+  );
+  --mp-date-picker-panel-preferred-width: var(--mp-date-picker-popover-width);
+  --mp-date-picker-shortcuts-column-width: 128px;
+  --mp-date-picker-popover-gap: 32px;
+  --mp-date-picker-popover-max-height: calc(50dvh - var(--mp-date-picker-popover-gap));
+  --mp-date-picker-panel-background: var(--mp-sys-color-surface-overlay);
+  --mp-date-picker-panel-border: var(--mp-color-border-2);
+  --mp-date-picker-panel-radius: 8px;
+
+  --mp-date-picker-wheel-font-size: 5cqi;
+  --mp-date-picker-range-disabled-background: var(--mp-color-fill-1);
+  --mp-date-picker-range-background: var(--mp-color-primary-light-1);
+  --mp-date-picker-range-preview-background: var(--mp-color-fill-2);
+  --mp-date-picker-range-preview-outline: 1px dashed var(--mp-color-primary);
+
   --mp-date-picker-border-radius: 4px;
   --mp-date-picker-font-size: var(--mp-font-size-md);
   --mp-date-picker-min-width: 290px;
   --mp-date-picker-main-color: rgba(0, 0, 0, 0.87);
-  --mp-date-picker-title-hint-color: #fff;
+  --mp-date-picker-title-hint-color: var(--mp-color-text-3);
   --mp-date-picker-title-hint-font-size: var(--mp-font-size-md);
   --mp-date-picker-title-height: 105px;
   --mp-date-picker-title-padding: 16px;
-  --mp-date-picker-title-background: var(--mp-color-primary);
-  --mp-date-picker-title-color: #fff;
+  --mp-date-picker-title-background: var(--mp-date-picker-body-background-color);
+  --mp-date-picker-title-color: var(--mp-color-text-1);
   --mp-date-picker-title-year-font-size: var(--mp-font-size-md);
   --mp-date-picker-title-year-font-weight: 500;
   --mp-date-picker-title-year-margin-bottom: 8px;

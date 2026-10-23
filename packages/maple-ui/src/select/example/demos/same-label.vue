@@ -2,7 +2,7 @@
 import { computed, reactive, ref } from 'vue'
 import { watchLang } from '@maplejs/maple-cli/client'
 
-const values = reactive({ menu: [1, 2], picker: [1, 2], list: [1, 2] })
+const values = reactive({ inline: [1, 2], dialog: [1, 2], popup: [1, 2] })
 const language = ref('zh-CN')
 watchLang((value) => {
   language.value = value
@@ -16,7 +16,7 @@ const options = computed(() => [
 
 <template>
   <mp-space direction="column" :size="16">
-    <section v-for="presentation in ['menu', 'picker', 'list']" :key="presentation">
+    <section v-for="presentation in ['inline', 'popup', 'popup']" :key="presentation" style="width: 100%">
       <mp-select
         v-model="values[presentation]"
         :presentation="presentation"

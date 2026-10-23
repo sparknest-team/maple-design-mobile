@@ -11,7 +11,8 @@
     "group": "头像组",
     "group-vertical": "纵向头像组",
     "hoverable": "头像可悬停",
-    "trigger": "交互图标"
+    "trigger": "交互图标",
+    "api-review": "功能调试"
   },
   "en-US": {
     "basic": "Basic usage",
@@ -25,6 +26,7 @@
     "group": "Avatar group",
     "group-vertical": "Vertical group",
     "hoverable": "Hoverable",
-    "trigger": "Trigger icon"
+    "trigger": "Trigger icon",
+    "api-review": "Feature playground"
   }
 }

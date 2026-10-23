@@ -310,6 +310,10 @@
             {
               "name": "close",
               "description": "Triggered when the Close button is clicked and can only be used when the Close button is displayed"
+            },
+            {
+              "name": "closed",
+              "description": "Triggered after the leave transition completes"
             }
           ],
           "slots": [
@@ -1057,16 +1061,7 @@
               }
             }
           ],
-          "events": [
-            {
-              "name": "default",
-              "description": "Wrapped content; overrides description"
-            },
-            {
-              "name": "content",
-              "description": "Custom badge content"
-            }
-          ],
+          "events": [],
           "slots": [
             {
               "name": "default",
@@ -1215,7 +1210,7 @@
             },
             {
               "name": "loading-type",
-              "description": "Spinner animation; same as Loading.type",
+              "description": "Spinner animation; same as Loading.type; not used in line mode",
               "default": "circle",
               "value": {
                 "type": "`circle / wave / cube / rect / disappear`",
@@ -1224,7 +1219,7 @@
             },
             {
               "name": "loading-mode",
-              "description": "Inline, covering, or bottom progress line",
+              "description": "Inline, covering, or bottom progress line; line only uses loading-color",
               "default": "default",
               "value": {
                 "type": "`default / fill / line`",
@@ -1233,7 +1228,7 @@
             },
             {
               "name": "loading-size",
-              "description": "Spinner size; inherits button size, or xs when replacing an inline icon",
+              "description": "Indicator size; xs/sm/md/lg/xl map to 12/14/16/18/20px; numbers are px; follows button size when omitted; not used in line mode",
               "default": "undefined",
               "value": {
                 "type": "`ComponentSize / number`",
@@ -1250,26 +1245,8 @@
               }
             },
             {
-              "name": "loading-radius",
-              "description": "Circle spinner radius",
-              "default": "undefined",
-              "value": {
-                "type": "`string / number`",
-                "kind": "expression"
-              }
-            },
-            {
               "name": "auto-loading",
               "description": "Wait for click/touchstart Promise results; sync callbacks do not flash loading",
-              "default": "false",
-              "value": {
-                "type": "`boolean`",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "icon-container",
-              "description": "Icon container appearance",
               "default": "false",
               "value": {
                 "type": "`boolean`",
@@ -1633,7 +1610,7 @@
           "attributes": [
             {
               "name": "title",
-              "description": "Title",
+              "description": "Main title; overridden by the default slot",
               "default": "-",
               "value": {
                 "type": "string",
@@ -1642,7 +1619,7 @@
             },
             {
               "name": "icon",
-              "description": "Icon name",
+              "description": "Registered icon name",
               "default": "-",
               "value": {
                 "type": "string",
@@ -1678,7 +1655,7 @@
             },
             {
               "name": "icon-class",
-              "description": "Icon className",
+              "description": "Extra class for the leading icon container, for both the icon prop and slot",
               "default": "-",
               "value": {
                 "type": "string",
@@ -1731,7 +1708,7 @@
           "slots": [
             {
               "name": "default",
-              "description": "Content of cell"
+              "description": "Main content; overrides title"
             },
             {
               "name": "icon",
@@ -1925,9 +1902,110 @@
         },
         {
           "name": "mp-col",
-          "attributes": [],
-          "events": [],
-          "slots": []
+          "attributes": [
+            {
+              "name": "span",
+              "description": "Column span; 0 hides",
+              "default": "24",
+              "value": {
+                "type": "`number`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "offset",
+              "description": "Offset; 0 resets",
+              "default": "undefined",
+              "value": {
+                "type": "`number`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "order",
+              "description": "Order; 0 resets",
+              "default": "undefined",
+              "value": {
+                "type": "`number`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "xs",
+              "description": "Responsive span or object containing span, offset and order",
+              "default": "undefined",
+              "value": {
+                "type": "`number / ColSizeDescriptor`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "sm",
+              "description": "Responsive span or object containing span, offset and order",
+              "default": "undefined",
+              "value": {
+                "type": "`number / ColSizeDescriptor`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "md",
+              "description": "Responsive span or object containing span, offset and order",
+              "default": "undefined",
+              "value": {
+                "type": "`number / ColSizeDescriptor`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "lg",
+              "description": "Responsive span or object containing span, offset and order",
+              "default": "undefined",
+              "value": {
+                "type": "`number / ColSizeDescriptor`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "xl",
+              "description": "Responsive span or object containing span, offset and order",
+              "default": "undefined",
+              "value": {
+                "type": "`number / ColSizeDescriptor`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "xxl",
+              "description": "Responsive span or object containing span, offset and order",
+              "default": "undefined",
+              "value": {
+                "type": "`number / ColSizeDescriptor`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "flex",
+              "description": "Ratio, fixed length or CSS flex value",
+              "default": "undefined",
+              "value": {
+                "type": "`number / string`",
+                "kind": "expression"
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "click",
+              "description": "Native MouseEvent, emitted once per click"
+            }
+          ],
+          "slots": [
+            {
+              "name": "default",
+              "description": "Layout content"
+            }
+          ]
         },
         {
           "name": "mp-collapse",
@@ -2445,9 +2523,9 @@
               }
             },
             {
-              "name": "presentation",
-              "description": "Panel mode: `picker` `calendar` `calendarClock` `calendarPicker`",
-              "default": "picker",
+              "name": "panel-type",
+              "description": "Panel mode: `picker` `calendar` `calendarPicker`",
+              "default": "calendar",
               "value": {
                 "type": "string",
                 "kind": "expression"
@@ -2745,9 +2823,9 @@
               }
             },
             {
-              "name": "presentation",
+              "name": "panel-type",
               "description": "Panel mode: `calendar` `picker`",
-              "default": "picker",
+              "default": "calendar",
               "value": {
                 "type": "string",
                 "kind": "expression"
@@ -3226,91 +3304,91 @@
           "attributes": [
             {
               "name": "orientation",
-              "description": "Direction: `horizontal` `vertical`",
+              "description": "Divider orientation",
               "default": "horizontal",
               "value": {
-                "type": "string",
+                "type": "`horizontal` | `vertical`",
                 "kind": "expression"
               }
             },
             {
               "name": "type",
-              "description": "Line style: `solid` `dashed` `dotted` `double`",
+              "description": "Line style",
               "default": "solid",
               "value": {
-                "type": "string",
+                "type": "`solid` | `dashed` | `dotted` | `double`",
                 "kind": "expression"
               }
             },
             {
               "name": "text-align",
-              "description": "Text align: `start` `center` `end`",
+              "description": "Text position along the line; start/end follow logical direction",
               "default": "center",
               "value": {
-                "type": "string",
+                "type": "`start` | `center` | `end`",
                 "kind": "expression"
               }
             },
             {
               "name": "description",
-              "description": "Description text",
-              "default": "-",
+              "description": "Description text; the default slot takes priority",
+              "default": "—",
               "value": {
-                "type": "string",
+                "type": "`string`",
                 "kind": "expression"
               }
             },
             {
-              "name": "size-x",
-              "description": "Horizontal inset / vertical block spacing",
-              "default": "-",
+              "name": "inset",
+              "description": "Inset along the line: left/right horizontally, top/bottom vertically",
+              "default": "—",
               "value": {
-                "type": "number | string | array",
+                "type": "`DividerSize`",
                 "kind": "expression"
               }
             },
             {
-              "name": "size-y",
-              "description": "Horizontal block spacing / vertical inline spacing",
+              "name": "spacing",
+              "description": "Outer spacing across the line: top/bottom horizontally, left/right vertically",
               "default": "md",
               "value": {
-                "type": "number | string | array",
+                "type": "`DividerSize`",
                 "kind": "expression"
               }
             },
             {
               "name": "thickness",
-              "description": "Line width (mutually exclusive with `hairline`)",
-              "default": "-",
+              "description": "Line width in px; theme defaults to 1px; hairline takes priority",
+              "default": "—",
               "value": {
-                "type": "number",
+                "type": "`number`",
                 "kind": "expression"
               }
             },
             {
               "name": "hairline",
-              "description": "Whether to use a 0.5px line",
+              "description": "Scale the theme line width by half; 0.5px with the default theme",
               "default": "false",
               "value": {
-                "type": "boolean",
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
             {
               "name": "color",
-              "description": "Divider color",
-              "default": "-",
+              "description": "Line color; defaults to the theme border color",
+              "default": "—",
               "value": {
-                "type": "string",
+                "type": "`string`",
                 "kind": "expression"
               }
             },
             {
               "name": "opacity",
-              "description": "Opacity",
-              "default": "-",
+              "description": "Opacity of the entire divider, including text, from 0 to 1; zero preserves layout",
+              "default": "—",
               "value": {
-                "type": "number",
+                "type": "`number`",
                 "kind": "expression"
               }
             }
@@ -3319,7 +3397,7 @@
           "slots": [
             {
               "name": "default",
-              "description": "Custom content in the middle"
+              "description": "Custom divider content; overrides description"
             }
           ]
         },
@@ -3391,301 +3469,6 @@
             {
               "name": "default",
               "description": "Drag element's content"
-            }
-          ]
-        },
-        {
-          "name": "mp-dropdown-menu",
-          "attributes": [
-            {
-              "name": "options",
-              "description": "Command tree",
-              "default": "[]",
-              "value": {
-                "type": "DropdownMenuOption[]",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "field-names",
-              "description": "`label/value/children/disabled` field mapping",
-              "default": "-",
-              "value": {
-                "type": "DropdownMenuFieldNames",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "v-model",
-              "description": "Active value",
-              "default": "-",
-              "value": {
-                "type": "MenuValue",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "v-model:open",
-              "description": "Whether the popup is visible",
-              "default": "-",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "default-open",
-              "description": "Uncontrolled default visibility",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "size",
-              "description": "Option size",
-              "default": "'md'",
-              "value": {
-                "type": "'xs' | 'sm' | 'md' | 'lg' | 'xl'",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "trigger",
-              "description": "Root menu trigger",
-              "default": "'click'",
-              "value": {
-                "type": "'click' | 'hover' | 'focus' | 'contextMenu'",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "submenu-trigger",
-              "description": "How every submenu level expands",
-              "default": "'click'",
-              "value": {
-                "type": "'click' | 'hover'",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "placement",
-              "description": "Popup placement",
-              "default": "'bottom'",
-              "value": {
-                "type": "DropdownMenuPosition",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "strategy",
-              "description": "Positioning strategy inherited by every submenu",
-              "default": "'absolute'",
-              "value": {
-                "type": "'absolute' | 'fixed'",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "reference",
-              "description": "External trigger element",
-              "default": "-",
-              "value": {
-                "type": "string | HTMLElement",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "popup-container",
-              "description": "Popup mount container",
-              "default": "-",
-              "value": {
-                "type": "string | HTMLElement | false",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "popup-class",
-              "description": "Popup class name",
-              "default": "-",
-              "value": {
-                "type": "string | array | object",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "popup-max-height",
-              "description": "Default limit, pixel height, or unlimited",
-              "default": "true",
-              "value": {
-                "type": "boolean | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "offset-x",
-              "description": "Horizontal offset",
-              "default": "0",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "offset-y",
-              "description": "Vertical offset",
-              "default": "0",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "mouse-enter-delay",
-              "description": "Hover open delay in ms",
-              "default": "100",
-              "value": {
-                "type": "number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "mouse-leave-delay",
-              "description": "Hover close delay in ms",
-              "default": "100",
-              "value": {
-                "type": "number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "close-on-click-reference",
-              "description": "Close when the trigger is clicked again",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "unmount-on-close",
-              "description": "Unmount popup content on close",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "hide-on-select",
-              "description": "Close the popup after activating a command",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "auto-fit-popup-width",
-              "description": "Match the trigger width",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "cover",
-              "description": "Popup covers the trigger",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "align-point",
-              "description": "Popup follows the pointer",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "disabled",
-              "description": "Disable the menu",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "elevation",
-              "description": "Popup shadow level",
-              "default": "true",
-              "value": {
-                "type": "boolean | number",
-                "kind": "expression"
-              }
-            }
-          ],
-          "events": [
-            {
-              "name": "update:model-value",
-              "description": "Active value update request"
-            },
-            {
-              "name": "select",
-              "description": "A menu item was activated"
-            },
-            {
-              "name": "open-change",
-              "description": "Visibility update request"
-            },
-            {
-              "name": "open / opened",
-              "description": "Popup starts opening / finished opening"
-            },
-            {
-              "name": "close / closed",
-              "description": "Popup starts closing / finished closing"
-            },
-            {
-              "name": "click-outside",
-              "description": "Clicked outside the popup"
-            },
-            {
-              "name": "key-escape",
-              "description": "Escape was pressed"
-            }
-          ],
-          "slots": [
-            {
-              "name": "default",
-              "description": "Trigger element"
-            },
-            {
-              "name": "content",
-              "description": "Hand-written content, pairs with `MenuOption`"
-            },
-            {
-              "name": "footer",
-              "description": "Footer"
-            },
-            {
-              "name": "option-label",
-              "description": "Render every option's main content"
-            },
-            {
-              "name": "option-icon",
-              "description": "Render every option's icon"
-            },
-            {
-              "name": "option-extra",
-              "description": "Render every option's trailing content"
             }
           ]
         },
@@ -4288,10 +4071,10 @@
             },
             {
               "name": "scroll-to-error",
-              "description": "Whether to scroll to the failed form item when the validation fails, the optional value is `start` `end`",
+              "description": "After failed validation, scroll to the first (`start`) or last (`end`) invalid field in document order; these values do not specify viewport alignment",
               "default": "-",
               "value": {
-                "type": "string",
+                "type": "'start' | 'end'",
                 "kind": "expression"
               }
             },
@@ -4362,9 +4145,60 @@
         },
         {
           "name": "mp-grid",
-          "attributes": [],
+          "attributes": [
+            {
+              "name": "cols",
+              "description": "Columns per row, minimum 1",
+              "default": "24",
+              "value": {
+                "type": "`number / ResponsiveValue`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "row-gap",
+              "description": "Row gap in px",
+              "default": "0",
+              "value": {
+                "type": "`number / ResponsiveValue`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "col-gap",
+              "description": "Column gap in px",
+              "default": "0",
+              "value": {
+                "type": "`number / ResponsiveValue`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "collapsed",
+              "description": "Collapse overflowing rows",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "collapsed-rows",
+              "description": "Visible rows while collapsed, minimum 1",
+              "default": "1",
+              "value": {
+                "type": "`number`",
+                "kind": "expression"
+              }
+            }
+          ],
           "events": [],
-          "slots": []
+          "slots": [
+            {
+              "name": "default",
+              "description": "Layout content"
+            }
+          ]
         },
         {
           "name": "mp-highlighter-provider",
@@ -4930,29 +4764,218 @@
           "name": "mp-input",
           "attributes": [
             {
-              "name": "focus",
-              "description": "Focus the input",
+              "name": "v-model",
+              "description": "Controlled value",
               "default": "-",
               "value": {
-                "type": "`-`",
+                "type": "`string`",
                 "kind": "expression"
               }
             },
             {
-              "name": "blur",
-              "description": "Blur the input",
-              "default": "-",
+              "name": "model-modifiers",
+              "description": "`v-model` modifiers; supports `trim`",
+              "default": "{}",
               "value": {
-                "type": "`-`",
+                "type": "`object`",
                 "kind": "expression"
               }
             },
             {
-              "name": "select",
-              "description": "Select all text",
+              "name": "default-value",
+              "description": "Initial value in uncontrolled mode",
+              "default": "''",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "type",
+              "description": "`text`, `password`, `number`, `tel`, or `email`",
+              "default": "text",
+              "value": {
+                "type": "`InputType`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "placeholder",
+              "description": "Placeholder or floating hint text",
               "default": "-",
               "value": {
-                "type": "`-`",
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "size",
+              "description": "`xs`, `sm`, `md`, `lg`, or `xl`",
+              "default": "md",
+              "value": {
+                "type": "`ComponentSize`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "variant",
+              "description": "`filled`, `outline`, or `standard`",
+              "default": "outline",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "hint",
+              "description": "Use the placeholder as a floating hint",
+              "default": "true",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "line",
+              "description": "Show the border or bottom separator",
+              "default": "true",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "max-length",
+              "description": "Maximum length; truncates by default, or reports an error with `errorOnly`",
+              "default": "0",
+              "value": {
+                "type": "`number | object`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show-word-limit",
+              "description": "Show the character counter",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "word-length",
+              "description": "Custom length calculator",
+              "default": "-",
+              "value": {
+                "type": "`function`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "word-slice",
+              "description": "Custom truncation function",
+              "default": "-",
+              "value": {
+                "type": "`function`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "readonly",
+              "description": "Read-only state",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "disabled",
+              "description": "Disabled state",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "error",
+              "description": "Show the error state",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "clearable",
+              "description": "Show a persistent clear icon while editable and nonempty",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "autofocus",
+              "description": "Focus automatically after mount",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "enterkeyhint",
+              "description": "Mobile enter-key hint",
+              "default": "-",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "aria-label",
+              "description": "Accessible label",
+              "default": "-",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "input-attrs",
+              "description": "Native attributes such as `autocomplete`",
+              "default": "-",
+              "value": {
+                "type": "`object`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "text-color",
+              "description": "Text color",
+              "default": "-",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "focus-color",
+              "description": "Focus color",
+              "default": "-",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "blur-color",
+              "description": "Blur color",
+              "default": "-",
+              "value": {
+                "type": "`string`",
                 "kind": "expression"
               }
             }
@@ -5508,454 +5531,304 @@
           ]
         },
         {
-          "name": "mp-message",
-          "attributes": [],
-          "events": [
+          "name": "mp-menu",
+          "attributes": [
+            {
+              "name": "options",
+              "description": "Command tree",
+              "default": "[]",
+              "value": {
+                "type": "MenuOption[]",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "field-names",
+              "description": "`label/value/children/disabled` field mapping",
+              "default": "-",
+              "value": {
+                "type": "MenuFieldNames",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "v-model",
+              "description": "Active value",
+              "default": "-",
+              "value": {
+                "type": "MenuValue",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "v-model:open",
+              "description": "Whether the popup is visible",
+              "default": "-",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-open",
+              "description": "Uncontrolled default visibility",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "size",
+              "description": "Option size",
+              "default": "'md'",
+              "value": {
+                "type": "'xs' | 'sm' | 'md' | 'lg' | 'xl'",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "trigger",
+              "description": "Root menu trigger",
+              "default": "'click'",
+              "value": {
+                "type": "'click' | 'hover' | 'focus' | 'contextMenu'",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "submenu-trigger",
+              "description": "How every submenu level expands",
+              "default": "'click'",
+              "value": {
+                "type": "'click' | 'hover'",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "placement",
+              "description": "Popup placement",
+              "default": "'bottom'",
+              "value": {
+                "type": "MenuPosition",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "strategy",
+              "description": "Positioning strategy inherited by every submenu",
+              "default": "'absolute'",
+              "value": {
+                "type": "'absolute' | 'fixed'",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "reference",
+              "description": "External trigger element",
+              "default": "-",
+              "value": {
+                "type": "string | HTMLElement",
+                "kind": "expression"
+              }
+            },
             {
-              "name": "--mp-message-viewport-padding",
-              "description": "`24px`"
-            },
-            {
-              "name": "--mp-message-wrapper-margin-top",
-              "description": "`5%`"
-            },
-            {
-              "name": "--mp-message-wrapper-margin-bottom",
-              "description": "`5%`"
-            },
-            {
-              "name": "--mp-message-z-index",
-              "description": "`2000`"
-            },
-            {
-              "name": "--mp-message-box-shadow",
-              "description": "`0 4px 12px rgba(0, 0, 0, 0.2)`"
-            },
-            {
-              "name": "--mp-message-icon-font-size",
-              "description": "`20px`"
-            },
-            {
-              "name": "--mp-message-close-size",
-              "description": "`32px`"
-            },
-            {
-              "name": "--mp-message-close-margin-right",
-              "description": "`4px`"
-            },
-            {
-              "name": "--mp-message-close-border-radius",
-              "description": "`50%`"
-            },
-            {
-              "name": "--mp-message-focus-outline-width",
-              "description": "`2px`"
-            },
-            {
-              "name": "--mp-message-focus-outline-offset",
-              "description": "`-4px`"
-            },
-            {
-              "name": "--mp-message-transition-distance",
-              "description": "`-12px`"
-            },
-            {
-              "name": "--mp-message-transition-duration",
-              "description": "`150ms`"
-            },
-            {
-              "name": "--mp-message-transition-timing-function",
-              "description": "`var(--mp-cubic-bezier)`"
-            },
-            {
-              "name": "--mp-message-neutral-default-bg",
-              "description": "`var(--mp-sys-color-surface-overlay)`"
-            },
-            {
-              "name": "--mp-message-neutral-default-content-color",
-              "description": "`var(--mp-sys-color-content-primary)`"
-            },
-            {
-              "name": "--mp-message-neutral-default-icon-color",
-              "description": "`var(--mp-sys-color-content-primary)`"
-            },
-            {
-              "name": "--mp-message-neutral-default-border-color",
-              "description": "`var(--mp-sys-color-border-default)`"
-            },
-            {
-              "name": "--mp-message-neutral-default-close-color",
-              "description": "`var(--mp-sys-color-content-secondary)`"
-            },
-            {
-              "name": "--mp-message-neutral-info-bg",
-              "description": "`var(--mp-sys-color-surface-overlay)`"
-            },
-            {
-              "name": "--mp-message-neutral-info-content-color",
-              "description": "`var(--mp-sys-color-content-primary)`"
-            },
-            {
-              "name": "--mp-message-neutral-info-icon-color",
-              "description": "`var(--mp-sys-color-content-info)`"
-            },
-            {
-              "name": "--mp-message-neutral-info-border-color",
-              "description": "`var(--mp-sys-color-border-default)`"
-            },
-            {
-              "name": "--mp-message-neutral-info-close-color",
-              "description": "`var(--mp-sys-color-content-secondary)`"
-            },
-            {
-              "name": "--mp-message-neutral-success-bg",
-              "description": "`var(--mp-sys-color-surface-overlay)`"
-            },
-            {
-              "name": "--mp-message-neutral-success-content-color",
-              "description": "`var(--mp-sys-color-content-primary)`"
-            },
-            {
-              "name": "--mp-message-neutral-success-icon-color",
-              "description": "`var(--mp-sys-color-content-success)`"
-            },
-            {
-              "name": "--mp-message-neutral-success-border-color",
-              "description": "`var(--mp-sys-color-border-default)`"
-            },
-            {
-              "name": "--mp-message-neutral-success-close-color",
-              "description": "`var(--mp-sys-color-content-secondary)`"
-            },
-            {
-              "name": "--mp-message-neutral-warning-bg",
-              "description": "`var(--mp-sys-color-surface-overlay)`"
-            },
-            {
-              "name": "--mp-message-neutral-warning-content-color",
-              "description": "`var(--mp-sys-color-content-primary)`"
-            },
-            {
-              "name": "--mp-message-neutral-warning-icon-color",
-              "description": "`var(--mp-sys-color-content-warning)`"
-            },
-            {
-              "name": "--mp-message-neutral-warning-border-color",
-              "description": "`var(--mp-sys-color-border-default)`"
-            },
-            {
-              "name": "--mp-message-neutral-warning-close-color",
-              "description": "`var(--mp-sys-color-content-secondary)`"
-            },
-            {
-              "name": "--mp-message-neutral-danger-bg",
-              "description": "`var(--mp-sys-color-surface-overlay)`"
-            },
-            {
-              "name": "--mp-message-neutral-danger-content-color",
-              "description": "`var(--mp-sys-color-content-primary)`"
-            },
-            {
-              "name": "--mp-message-neutral-danger-icon-color",
-              "description": "`var(--mp-sys-color-content-danger)`"
-            },
-            {
-              "name": "--mp-message-neutral-danger-border-color",
-              "description": "`var(--mp-sys-color-border-default)`"
-            },
-            {
-              "name": "--mp-message-neutral-danger-close-color",
-              "description": "`var(--mp-sys-color-content-secondary)`"
-            },
-            {
-              "name": "--mp-message-neutral-loading-bg",
-              "description": "`var(--mp-sys-color-surface-overlay)`"
-            },
-            {
-              "name": "--mp-message-neutral-loading-content-color",
-              "description": "`var(--mp-sys-color-content-primary)`"
-            },
-            {
-              "name": "--mp-message-neutral-loading-icon-color",
-              "description": "`var(--mp-sys-color-content-brand)`"
-            },
-            {
-              "name": "--mp-message-neutral-loading-border-color",
-              "description": "`var(--mp-sys-color-border-default)`"
-            },
-            {
-              "name": "--mp-message-neutral-loading-close-color",
-              "description": "`var(--mp-sys-color-content-secondary)`"
-            },
-            {
-              "name": "--mp-message-tonal-default-bg",
-              "description": "`var(--mp-sys-color-surface-muted)`"
-            },
-            {
-              "name": "--mp-message-tonal-default-content-color",
-              "description": "`var(--mp-sys-color-content-primary)`"
-            },
-            {
-              "name": "--mp-message-tonal-default-icon-color",
-              "description": "`var(--mp-sys-color-content-primary)`"
-            },
-            {
-              "name": "--mp-message-tonal-default-border-color",
-              "description": "`transparent`"
-            },
-            {
-              "name": "--mp-message-tonal-default-close-color",
-              "description": "`var(--mp-sys-color-content-primary)`"
-            },
-            {
-              "name": "--mp-message-tonal-info-bg",
-              "description": "`rgba(var(--mp-blue-6), 0.12)`"
-            },
-            {
-              "name": "--mp-message-tonal-info-content-color",
-              "description": "`var(--mp-sys-color-content-primary)`"
-            },
-            {
-              "name": "--mp-message-tonal-info-icon-color",
-              "description": "`var(--mp-sys-color-content-info)`"
-            },
-            {
-              "name": "--mp-message-tonal-info-border-color",
-              "description": "`transparent`"
-            },
-            {
-              "name": "--mp-message-tonal-info-close-color",
-              "description": "`var(--mp-sys-color-content-primary)`"
-            },
-            {
-              "name": "--mp-message-tonal-success-bg",
-              "description": "`var(--mp-color-success-light-1)`"
-            },
-            {
-              "name": "--mp-message-tonal-success-content-color",
-              "description": "`var(--mp-sys-color-content-primary)`"
-            },
-            {
-              "name": "--mp-message-tonal-success-icon-color",
-              "description": "`var(--mp-sys-color-content-success)`"
-            },
-            {
-              "name": "--mp-message-tonal-success-border-color",
-              "description": "`transparent`"
-            },
-            {
-              "name": "--mp-message-tonal-success-close-color",
-              "description": "`var(--mp-sys-color-content-primary)`"
-            },
-            {
-              "name": "--mp-message-tonal-warning-bg",
-              "description": "`var(--mp-color-warning-light-1)`"
-            },
-            {
-              "name": "--mp-message-tonal-warning-content-color",
-              "description": "`var(--mp-sys-color-content-primary)`"
-            },
-            {
-              "name": "--mp-message-tonal-warning-icon-color",
-              "description": "`var(--mp-sys-color-content-warning)`"
-            },
-            {
-              "name": "--mp-message-tonal-warning-border-color",
-              "description": "`transparent`"
-            },
-            {
-              "name": "--mp-message-tonal-warning-close-color",
-              "description": "`var(--mp-sys-color-content-primary)`"
-            },
-            {
-              "name": "--mp-message-tonal-danger-bg",
-              "description": "`var(--mp-color-danger-light-1)`"
-            },
-            {
-              "name": "--mp-message-tonal-danger-content-color",
-              "description": "`var(--mp-sys-color-content-primary)`"
-            },
-            {
-              "name": "--mp-message-tonal-danger-icon-color",
-              "description": "`var(--mp-sys-color-content-danger)`"
-            },
-            {
-              "name": "--mp-message-tonal-danger-border-color",
-              "description": "`transparent`"
-            },
-            {
-              "name": "--mp-message-tonal-danger-close-color",
-              "description": "`var(--mp-sys-color-content-primary)`"
-            },
-            {
-              "name": "--mp-message-tonal-loading-bg",
-              "description": "`var(--mp-color-primary-light-1)`"
-            },
-            {
-              "name": "--mp-message-tonal-loading-content-color",
-              "description": "`var(--mp-sys-color-content-primary)`"
-            },
-            {
-              "name": "--mp-message-tonal-loading-icon-color",
-              "description": "`var(--mp-sys-color-content-brand)`"
-            },
-            {
-              "name": "--mp-message-tonal-loading-border-color",
-              "description": "`transparent`"
-            },
-            {
-              "name": "--mp-message-tonal-loading-close-color",
-              "description": "`var(--mp-sys-color-content-primary)`"
-            },
-            {
-              "name": "--mp-message-solid-default-bg",
-              "description": "`#333`"
-            },
-            {
-              "name": "--mp-message-solid-default-content-color",
-              "description": "`var(--mp-sys-color-content-on-dark)`"
-            },
-            {
-              "name": "--mp-message-solid-default-icon-color",
-              "description": "`var(--mp-sys-color-content-on-dark)`"
-            },
-            {
-              "name": "--mp-message-solid-default-border-color",
-              "description": "`transparent`"
-            },
-            {
-              "name": "--mp-message-solid-default-close-color",
-              "description": "`var(--mp-sys-color-content-on-dark)`"
-            },
-            {
-              "name": "--mp-message-solid-info-bg",
-              "description": "`var(--mp-sys-color-status-info)`"
-            },
-            {
-              "name": "--mp-message-solid-info-content-color",
-              "description": "`var(--mp-sys-color-content-on-bright)`"
-            },
-            {
-              "name": "--mp-message-solid-info-icon-color",
-              "description": "`var(--mp-sys-color-content-on-bright)`"
-            },
-            {
-              "name": "--mp-message-solid-info-border-color",
-              "description": "`transparent`"
-            },
-            {
-              "name": "--mp-message-solid-info-close-color",
-              "description": "`var(--mp-sys-color-content-on-bright)`"
-            },
-            {
-              "name": "--mp-message-solid-success-bg",
-              "description": "`var(--mp-sys-color-status-success)`"
-            },
-            {
-              "name": "--mp-message-solid-success-content-color",
-              "description": "`var(--mp-sys-color-content-on-bright)`"
-            },
-            {
-              "name": "--mp-message-solid-success-icon-color",
-              "description": "`var(--mp-sys-color-content-on-bright)`"
-            },
-            {
-              "name": "--mp-message-solid-success-border-color",
-              "description": "`transparent`"
-            },
-            {
-              "name": "--mp-message-solid-success-close-color",
-              "description": "`var(--mp-sys-color-content-on-bright)`"
-            },
-            {
-              "name": "--mp-message-solid-warning-bg",
-              "description": "`var(--mp-sys-color-status-warning)`"
-            },
-            {
-              "name": "--mp-message-solid-warning-content-color",
-              "description": "`var(--mp-sys-color-content-on-bright)`"
-            },
-            {
-              "name": "--mp-message-solid-warning-icon-color",
-              "description": "`var(--mp-sys-color-content-on-bright)`"
-            },
-            {
-              "name": "--mp-message-solid-warning-border-color",
-              "description": "`transparent`"
-            },
-            {
-              "name": "--mp-message-solid-warning-close-color",
-              "description": "`var(--mp-sys-color-content-on-bright)`"
-            },
-            {
-              "name": "--mp-message-solid-danger-bg",
-              "description": "`var(--mp-sys-color-status-danger)`"
-            },
-            {
-              "name": "--mp-message-solid-danger-content-color",
-              "description": "`var(--mp-sys-color-content-on-bright)`"
-            },
-            {
-              "name": "--mp-message-solid-danger-icon-color",
-              "description": "`var(--mp-sys-color-content-on-bright)`"
-            },
-            {
-              "name": "--mp-message-solid-danger-border-color",
-              "description": "`transparent`"
-            },
-            {
-              "name": "--mp-message-solid-danger-close-color",
-              "description": "`var(--mp-sys-color-content-on-bright)`"
-            },
-            {
-              "name": "--mp-message-solid-loading-bg",
-              "description": "`#333`"
-            },
-            {
-              "name": "--mp-message-solid-loading-content-color",
-              "description": "`var(--mp-sys-color-content-on-dark)`"
-            },
-            {
-              "name": "--mp-message-solid-loading-icon-color",
-              "description": "`var(--mp-sys-color-content-on-dark)`"
-            },
-            {
-              "name": "--mp-message-solid-loading-border-color",
-              "description": "`transparent`"
-            },
-            {
-              "name": "--mp-message-solid-loading-close-color",
-              "description": "`var(--mp-sys-color-content-on-dark)`"
-            },
-            {
-              "name": "--mp-message-width",
-              "description": "`256px`"
-            },
-            {
-              "name": "--mp-message-border-radius",
-              "description": "`4px`"
-            },
-            {
-              "name": "--mp-message-font-size",
-              "description": "`var(--mp-font-size-md)`"
-            },
-            {
-              "name": "--mp-message-margin",
-              "description": "`6px 24px`"
-            },
-            {
-              "name": "--mp-message-content-padding",
-              "description": "`14px 16px`"
-            },
-            {
-              "name": "--mp-message-action-margin",
-              "description": "`0 8px`"
-            },
-            {
-              "name": "--mp-message-icon-margin",
-              "description": "`0 8px`"
+              "name": "popup-container",
+              "description": "Popup mount container",
+              "default": "-",
+              "value": {
+                "type": "string | HTMLElement | false",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "popup-class",
+              "description": "Popup class name",
+              "default": "-",
+              "value": {
+                "type": "string | array | object",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "popup-max-height",
+              "description": "Default limit, pixel height, or unlimited",
+              "default": "true",
+              "value": {
+                "type": "boolean | number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "offset-x",
+              "description": "Horizontal offset",
+              "default": "0",
+              "value": {
+                "type": "string | number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "offset-y",
+              "description": "Vertical offset",
+              "default": "0",
+              "value": {
+                "type": "string | number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "mouse-enter-delay",
+              "description": "Hover open delay in ms",
+              "default": "100",
+              "value": {
+                "type": "number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "mouse-leave-delay",
+              "description": "Hover close delay in ms",
+              "default": "100",
+              "value": {
+                "type": "number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "close-on-click-reference",
+              "description": "Close when the trigger is clicked again",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "unmount-on-close",
+              "description": "Unmount popup content on close",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "hide-on-select",
+              "description": "Close the popup after activating a command",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "auto-fit-popup-width",
+              "description": "Match the trigger width",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "cover",
+              "description": "Popup covers the trigger",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "align-point",
+              "description": "Align to the pointer position at activation; stays in place until the next context menu activation",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "disabled",
+              "description": "Disable the menu",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "elevation",
+              "description": "Popup shadow level",
+              "default": "true",
+              "value": {
+                "type": "boolean | number",
+                "kind": "expression"
+              }
             }
           ],
+          "events": [
+            {
+              "name": "update:model-value",
+              "description": "Active value update request"
+            },
+            {
+              "name": "select",
+              "description": "A menu item was activated"
+            },
+            {
+              "name": "open-change",
+              "description": "Visibility update request"
+            },
+            {
+              "name": "open / opened",
+              "description": "Popup starts opening / finished opening"
+            },
+            {
+              "name": "close / closed",
+              "description": "Popup starts closing / finished closing"
+            },
+            {
+              "name": "click-outside",
+              "description": "Clicked outside the popup"
+            },
+            {
+              "name": "key-escape",
+              "description": "Escape was pressed"
+            }
+          ],
+          "slots": [
+            {
+              "name": "default",
+              "description": "Trigger element"
+            },
+            {
+              "name": "content",
+              "description": "Hand-written content, pairs with `MenuOption`"
+            },
+            {
+              "name": "footer",
+              "description": "Footer"
+            },
+            {
+              "name": "option-label",
+              "description": "Render every option's main content"
+            },
+            {
+              "name": "option-icon",
+              "description": "Render every option's icon"
+            },
+            {
+              "name": "option-extra",
+              "description": "Render every option's trailing content"
+            }
+          ]
+        },
+        {
+          "name": "mp-message",
+          "attributes": [],
+          "events": [],
           "slots": []
         },
         {
@@ -6864,6 +6737,15 @@
               }
             },
             {
+              "name": "disabled",
+              "description": "Block option clicks, touch, keyboard selection, and confirmation",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
               "name": "selected-values",
               "description": "Selected option values; shows a check mark on the right",
               "default": "[]",
@@ -7176,9 +7058,122 @@
         },
         {
           "name": "mp-progress-group",
-          "attributes": [],
+          "attributes": [
+            {
+              "name": "aria-label",
+              "description": "Accessible group name",
+              "default": "—",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "items",
+              "description": "Segment data",
+              "default": "[]",
+              "value": {
+                "type": "`ProgressGroupItem[]`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "mode",
+              "description": "Display mode",
+              "default": "line",
+              "value": {
+                "type": "`line | circle`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "max",
+              "description": "Total used to calculate each share",
+              "default": "100",
+              "value": {
+                "type": "`number`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show-text",
+              "description": "Show the summed percentage",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "size",
+              "description": "Track size",
+              "default": "md",
+              "value": {
+                "type": "`xs | sm | md | lg | xl`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "color",
+              "description": "Default segment color",
+              "default": "theme primary",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "circle-size",
+              "description": "Diameter in circle mode",
+              "default": "120",
+              "value": {
+                "type": "`number | string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "stroke-width",
+              "description": "Track width in circle mode",
+              "default": "8",
+              "value": {
+                "type": "`number`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "tooltip",
+              "description": "Enable segment hover/focus tips",
+              "default": "true",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "orientation",
+              "description": "Track orientation",
+              "default": "horizontal",
+              "value": {
+                "type": "`horizontal | vertical`",
+                "kind": "expression"
+              }
+            }
+          ],
           "events": [],
-          "slots": []
+          "slots": [
+            {
+              "name": "text",
+              "description": "`{ percent, value, max }`"
+            },
+            {
+              "name": "tooltip",
+              "description": "`{ item, index, percent }`"
+            },
+            {
+              "name": "item / item-leading / item-label / item-trailing",
+              "description": "`{ item, index, percent }`"
+            }
+          ]
         },
         {
           "name": "mp-pull-refresh",
@@ -7506,9 +7501,65 @@
         },
         {
           "name": "mp-row",
-          "attributes": [],
-          "events": [],
-          "slots": []
+          "attributes": [
+            {
+              "name": "gutter",
+              "description": "Gutter: number, responsive object or [horizontal, vertical]",
+              "default": "0",
+              "value": {
+                "type": "`RowGutter`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "justify",
+              "description": "Horizontal alignment",
+              "default": "start",
+              "value": {
+                "type": "`start / center / end / space-around / space-between`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "align",
+              "description": "Vertical alignment",
+              "default": "start",
+              "value": {
+                "type": "`start / center / end / stretch`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "wrap",
+              "description": "Wrap columns",
+              "default": "true",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "div",
+              "description": "Use Row and Col as plain divs without layout styles",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "click",
+              "description": "Native MouseEvent, emitted once per click"
+            }
+          ],
+          "slots": [
+            {
+              "name": "default",
+              "description": "Layout content"
+            }
+          ]
         },
         {
           "name": "mp-search",
@@ -8103,10 +8154,6 @@
             {
               "name": "default",
               "description": "Content of space"
-            },
-            {
-              "name": "split",
-              "description": "Separator between effective children"
             }
           ]
         },
@@ -8626,7 +8673,7 @@
           "attributes": [
             {
               "name": "name",
-              "description": "Identifier",
+              "description": "Item identity returned by open, close, and before-close; does not render text",
               "default": "''",
               "value": {
                 "type": "`string | number`",
@@ -8726,6 +8773,60 @@
               "default": "false",
               "value": {
                 "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "presentation",
+              "description": "Field presentation inherited from FormItem / Form",
+              "default": "undefined",
+              "value": {
+                "type": "FieldPresentation",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "read-pretty",
+              "description": "Read-only presentation independent of readonly",
+              "default": "undefined",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "before-commit",
+              "description": "Cancellable interceptor before saving the editor",
+              "default": "undefined",
+              "value": {
+                "type": "BeforeFieldCommit",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "open",
+              "description": "Controlled editor visibility",
+              "default": "undefined",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-open",
+              "description": "Initial uncontrolled editor visibility",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "popup-container",
+              "description": "Editor mount container",
+              "default": "undefined",
+              "value": {
+                "type": "PopupContainer",
                 "kind": "expression"
               }
             },
@@ -9558,15 +9659,6 @@
               }
             },
             {
-              "name": "hide-disabled-options",
-              "description": "Hide forbidden time options; clock geometry is preserved",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
               "name": "open",
               "description": "Controlled popup visibility",
               "default": "-",
@@ -9594,11 +9686,11 @@
               }
             },
             {
-              "name": "presentation",
-              "description": "Panel mode: `clock` or `picker`",
-              "default": "picker",
+              "name": "show-now-button",
+              "description": "Show Now; stage the current time until confirmation",
+              "default": "true",
               "value": {
-                "type": "string",
+                "type": "boolean",
                 "kind": "expression"
               }
             },
@@ -9697,7 +9789,7 @@
               "description": "Props passed to popup",
               "default": "{}",
               "value": {
-                "type": "Partial\\<PopupProps\\>",
+                "type": "Partial\\<TriggerProps\\>",
                 "kind": "expression"
               }
             },
@@ -9844,15 +9936,6 @@
               }
             },
             {
-              "name": "hide-disabled-options",
-              "description": "Hide forbidden time options; clock geometry is preserved",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
               "name": "open",
               "description": "Controlled popup visibility",
               "default": "-",
@@ -9880,8 +9963,8 @@
               }
             },
             {
-              "name": "presentation",
-              "description": "Panel mode: `clock` | `picker`",
+              "name": "panel-type",
+              "description": "Panel mode: `picker`",
               "default": "picker",
               "value": {
                 "type": "string",
@@ -9971,19 +10054,10 @@
             },
             {
               "name": "show-next-day",
-              "description": "Show next-day marker when end is earlier than start; skips swap on confirm. Without it, times are ordered on confirm only",
+              "description": "Allow overnight ranges and show a next-day marker. Otherwise a reversed draft shows an error and disables confirmation",
               "default": "false",
               "value": {
                 "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "time-picker-props",
-              "description": "Props for `mp-time-picker` (clock)",
-              "default": "{}",
-              "value": {
-                "type": "Partial\\<TimePickerProps\\>",
                 "kind": "expression"
               }
             },
@@ -10010,7 +10084,7 @@
               "description": "Props for popup",
               "default": "{}",
               "value": {
-                "type": "Partial\\<PopupProps\\>",
+                "type": "Partial\\<TriggerProps\\>",
                 "kind": "expression"
               }
             },
@@ -10590,88 +10664,7 @@
         {
           "name": "mp-upload",
           "attributes": [],
-          "events": [
-            {
-              "name": "--mp-upload-gap",
-              "description": "var(--mp-sys-space-4)"
-            },
-            {
-              "name": "--mp-upload-trigger-min-height",
-              "description": "var(--mp-sys-control-height-md)"
-            },
-            {
-              "name": "--mp-upload-trigger-padding-horizontal",
-              "description": "var(--mp-sys-space-6)"
-            },
-            {
-              "name": "--mp-upload-trigger-draggable-min-height",
-              "description": "calc(var(--mp-sys-control-height-md) * 2)"
-            },
-            {
-              "name": "--mp-upload-card-size",
-              "description": "calc(var(--mp-sys-control-height-md) * 2)"
-            },
-            {
-              "name": "--mp-upload-item-min-height",
-              "description": "var(--mp-sys-control-height-md)"
-            },
-            {
-              "name": "--mp-upload-item-padding",
-              "description": "var(--mp-sys-space-4)"
-            },
-            {
-              "name": "--mp-upload-thumb-size",
-              "description": "var(--mp-sys-control-height-lg)"
-            },
-            {
-              "name": "--mp-upload-border-radius",
-              "description": "var(--mp-sys-radius-md)"
-            },
-            {
-              "name": "--mp-upload-border-color",
-              "description": "var(--mp-sys-color-border-default)"
-            },
-            {
-              "name": "--mp-upload-background",
-              "description": "var(--mp-sys-color-surface-default)"
-            },
-            {
-              "name": "--mp-upload-text-color",
-              "description": "var(--mp-sys-color-content-primary)"
-            },
-            {
-              "name": "--mp-upload-secondary-text-color",
-              "description": "var(--mp-sys-color-content-secondary)"
-            },
-            {
-              "name": "--mp-upload-hover-background",
-              "description": "var(--mp-sys-color-state-hover)"
-            },
-            {
-              "name": "--mp-upload-active-color",
-              "description": "var(--mp-sys-color-action-primary)"
-            },
-            {
-              "name": "--mp-upload-error-color",
-              "description": "var(--mp-sys-color-content-danger)"
-            },
-            {
-              "name": "--mp-upload-action-size",
-              "description": "var(--mp-sys-control-touch-target)"
-            },
-            {
-              "name": "--mp-upload-progress-height",
-              "description": "var(--mp-sys-space-2)"
-            },
-            {
-              "name": "--mp-upload-disabled-opacity",
-              "description": ".56"
-            },
-            {
-              "name": "--mp-upload-font-size",
-              "description": "var(--mp-sys-font-size-md)"
-            }
-          ],
+          "events": [],
           "slots": []
         },
         {
@@ -10825,18 +10818,8 @@
               }
             }
           ],
-          "events": [
-            {
-              "name": "--mp-watermark-content-color",
-              "description": "`rgba(0, 0, 0, 0.15)`"
-            }
-          ],
-          "slots": [
-            {
-              "name": "--mp-watermark-content-color",
-              "description": "`rgba(0, 0, 0, 0.15)`"
-            }
-          ]
+          "events": [],
+          "slots": []
         }
       ],
       "types-syntax": "typescript"

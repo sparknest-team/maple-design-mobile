@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
 import Demo7 from './demos/all.vue'
+import DemoApiReview from './demos/api-review.vue'
 import Demo10 from './demos/auto-adjust.vue'
 import Demo0 from './demos/basic.vue'
 import Demo8 from './demos/custom-page-button.vue'
@@ -27,6 +28,14 @@ onThemeChange()
     <app-type>{{ english ? 'Basic and two-way binding' : '基础与双向绑定' }}</app-type
     ><Demo0 />
   </section>
+  <section data-demo="size">
+    <app-type>{{ english ? 'Five sizes and elevation' : '五档尺寸与阴影' }}</app-type
+    ><Demo4 />
+  </section>
+  <section data-demo="disabled">
+    <app-type>{{ english ? 'Disabled and hide on single page' : '禁用与单页隐藏' }}</app-type
+    ><Demo9 />
+  </section>
   <section data-demo="more-page-size">
     <app-type>{{ english ? 'Page window and ellipsis' : '更多页码与省略跳转' }}</app-type
     ><Demo1 />
@@ -38,10 +47,6 @@ onThemeChange()
   <section data-demo="show-jumper">
     <app-type>{{ english ? 'Jumper and prefix/suffix slots' : '跳转与前后缀插槽' }}</app-type
     ><Demo3 />
-  </section>
-  <section data-demo="size">
-    <app-type>{{ english ? 'Five sizes and elevation' : '五档尺寸与阴影' }}</app-type
-    ><Demo4 />
   </section>
   <section data-demo="simple">
     <app-type>{{ english ? 'Simple mode' : '简洁模式' }}</app-type
@@ -59,10 +64,6 @@ onThemeChange()
     <app-type>{{ english ? 'Custom page slots and styles' : '自定义分页按钮与样式' }}</app-type
     ><Demo8 />
   </section>
-  <section data-demo="disabled">
-    <app-type>{{ english ? 'Disabled and hide on single page' : '禁用与单页隐藏' }}</app-type
-    ><Demo9 />
-  </section>
   <section data-demo="auto-adjust">
     <app-type>{{ english ? 'Data changes and auto adjustment' : '数据变化与自动调整' }}</app-type
     ><Demo10 />
@@ -71,4 +72,5 @@ onThemeChange()
     <app-type>{{ english ? 'Container width and compact layout' : '容器宽度与窄屏布局' }}</app-type
     ><Demo11 />
   </section>
+  <section data-demo="api-review"><DemoApiReview /></section>
 </template>

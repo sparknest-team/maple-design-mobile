@@ -28,7 +28,7 @@ const options = [
       :max="4"
       direction="vertical"
     />
-    <mp-space>
+    <mp-space wrap>
       <mp-button @click="proposal = group?.checkAll() ?? []">Check all</mp-button>
       <mp-button @click="proposal = group?.inverseAll() ?? []">Invert</mp-button>
       <mp-button @click="reverse = !reverse">Reverse option order</mp-button>

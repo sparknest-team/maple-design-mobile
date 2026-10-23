@@ -1,24 +1,10 @@
 # Image
 
+Single and grouped previews default to body-mounted viewport overlays. Only explicit `:popup-container="false"` renders inline and requires a positioned, sized parent. Only the active image's load/error settles its loading indicator; returning to a cached image does not leave the spinner visible.
+
 Track scheduling is now independently reviewed (earlier pending notes are historical): close/image/loop changes, deactivation and disposal invalidate work; callbacks consume once, activation only canonicalizes current coordinates, retained commands never replay. Double RAF is settlement even at zero duration; triplicated looping remains. Both tracks consume system slow/standard (currently240ms), replacing Maple's fixed280ms. Recenter reads actual transform duration+delay;400ms is only unresolved-style fallback. Scoped27 each/full Image Cedar62/Maple114 and32 Less cascade cases are controlled evidence, not native browser acceptance.
 
-### PreviewGroup track lifecycle / 轨道生命周期
-
-```demo
-../example/demos/en-US/track-lifecycle.vue
-```
-
-Preview long press500ms and double-tap recognition320ms are interaction policy, not CSS duration/close delay. Release/move/close/source replacement/deactivation/disposal invalidate stale timers; consumed callbacks cannot replay. Inactive/disposed input entries are inert. Deactivation detaches keyboard/mode observation, releases capture and clears moving; activation reads current mode and accepts fresh gestures. Scoped17 each/full Cedar35/Maple87 pass using controlled timers/MQL/events, not native touch/browser/OS proof. PreviewGroup track scheduling remains separately pending; no API/token change.
-
-Display images with captions, loading fallback and preview. Example groups match Cedar.
-
 ## Examples
-
-### Preview Interaction Lifecycle
-
-```demo
-../example/demos/en-US/controller-lifecycle.vue
-```
 
 ### Basic usage
 
@@ -34,14 +20,6 @@ Use `object-fit` to control how the image fills its box.
 
 ```demo
 ../example/demos/fit-mode.vue
-```
-
-### Size, radius and position
-
-`width` / `height`, `radius` and `object-position` control size, corners and crop position.
-
-```demo
-../example/demos/presentation.vue
 ```
 
 ### Caption
@@ -100,6 +78,38 @@ Use `showLoader` for the default loading UI, or the `loader` slot for a custom /
 ../example/demos/ripple.vue
 ```
 
+### Close on overlay
+
+Use `preview-props.overlayClosable` to close preview when clicking outside the image. Enabled on the left, disabled on the right. Clicking the image itself never closes it.
+
+```demo
+../example/demos/overlay-closable.vue
+```
+
+### Size, radius and position
+
+`width` / `height`, `radius` and `object-position` control size, corners and crop position.
+
+```demo
+../example/demos/presentation.vue
+```
+
+### PreviewGroup track lifecycle / 轨道生命周期
+
+```demo
+../example/demos/en-US/track-lifecycle.vue
+```
+
+Preview long press500ms and double-tap recognition320ms are interaction policy, not CSS duration/close delay. Release/move/close/source replacement/deactivation/disposal invalidate stale timers; consumed callbacks cannot replay. Inactive/disposed input entries are inert. Deactivation detaches keyboard/mode observation, releases capture and clears moving; activation reads current mode and accepts fresh gestures. Scoped17 each/full Cedar35/Maple87 pass using controlled timers/MQL/events, not native touch/browser/OS proof. PreviewGroup track scheduling remains separately pending; no API/token change.
+
+Display images with captions, loading fallback and preview. Example groups match Cedar.
+
+### Preview Interaction Lifecycle
+
+```demo
+../example/demos/en-US/controller-lifecycle.vue
+```
+
 ### Disable preview
 
 `preview-disabled` prevents opening preview on click.
@@ -114,14 +124,6 @@ Configure embedded preview with `preview-src`, `v-model:preview-open` and `previ
 
 ```demo
 ../example/demos/preview-entry.vue
-```
-
-### Close on overlay
-
-Use `preview-props.overlayClosable` to close preview when clicking outside the image. Enabled on the left, disabled on the right. Clicking the image itself never closes it.
-
-```demo
-../example/demos/overlay-closable.vue
 ```
 
 ### Popup container
@@ -227,6 +229,15 @@ Or import separately
   <mp-image :src="require('../../assets/logo.png')" />
 </template>
 ```
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

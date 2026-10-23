@@ -1,0 +1,224 @@
+{
+  "fields": [
+    {
+      "name": "model-value",
+      "description": "绑定的值",
+      "type": "(string | number)[]",
+      "defaultValue": "() => []",
+      "kind": "json",
+      "initial": "[]"
+    },
+    {
+      "name": "columns",
+      "description": "列内容",
+      "type": "PickerColumnOption[] | PickerColumnOption[][]",
+      "defaultValue": "() => []",
+      "kind": "json",
+      "initial": "[]"
+    },
+    {
+      "name": "title",
+      "description": "标题",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "field-names",
+      "description": "自定义列字段映射（label 对应文本，默认 text）",
+      "type": "{ label?, value?, children? }",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "toolbar",
+      "description": "是否显示上方工具栏",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "disabled",
+      "description": "禁用选项点击、触摸、键盘选择及确认",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "selected-values",
+      "description": "已选中的选项值，选项右侧显示对号",
+      "type": "(string | number)[]",
+      "defaultValue": "() => []",
+      "kind": "json",
+      "initial": "[]"
+    },
+    {
+      "name": "cascade",
+      "description": "是否开启级联模式",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "option-height",
+      "description": "选项的高度(px rem)",
+      "type": "string | number",
+      "defaultValue": "44",
+      "kind": "scalar"
+    },
+    {
+      "name": "option-count",
+      "description": "可见的选项个数",
+      "type": "string | number",
+      "defaultValue": "6",
+      "kind": "scalar"
+    },
+    {
+      "name": "confirm-button-text",
+      "description": "确认按钮文字",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "cancel-button-text",
+      "description": "取消按钮文字",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "confirm-button-text-color",
+      "description": "确认按钮文字颜色",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "cancel-button-text-color",
+      "description": "取消按钮文字颜色",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "esc-to-close",
+      "description": "是否支持键盘 ESC 关闭选择器",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "columns-count",
+      "type": "string | number",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "scalar"
+    },
+    {
+      "name": "dynamic",
+      "type": "boolean",
+      "defaultValue": "false",
+      "description": "// dynamic internal",
+      "kind": "boolean"
+    },
+    {
+      "name": "safe-area",
+      "type": "boolean",
+      "defaultValue": "false",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "boolean"
+    },
+    {
+      "name": "overlay-closable",
+      "description": "是否点击背景层关闭弹出层",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "on-click-overlay",
+      "description": "背景层点击回调",
+      "type": "(event: MouseEvent) => void",
+      "defaultValue": "-",
+      "kind": "callback"
+    },
+    {
+      "name": "on-open",
+      "description": "弹出层开启回调",
+      "type": "() => void",
+      "defaultValue": "-",
+      "kind": "callback"
+    },
+    {
+      "name": "on-opened",
+      "description": "弹出层开启动画结束回调",
+      "type": "() => void",
+      "defaultValue": "-",
+      "kind": "callback"
+    },
+    {
+      "name": "on-close",
+      "description": "弹出层关闭回调",
+      "type": "() => void",
+      "defaultValue": "-",
+      "kind": "callback"
+    },
+    {
+      "name": "on-closed",
+      "description": "关闭弹出层动画结束时回调",
+      "type": "() => void",
+      "defaultValue": "() => void",
+      "kind": "callback"
+    },
+    {
+      "name": "on-change",
+      "description": "选择内容变化时回调",
+      "type": "(values: (string | number)[], indexes: number[], options: PickerColumnOption[]) => void",
+      "defaultValue": "() => void",
+      "kind": "callback"
+    },
+    {
+      "name": "on-confirm",
+      "description": "点击确认按钮时触发",
+      "type": "(values: (string | number)[], indexes: number[], options: PickerColumnOption[]) => void",
+      "defaultValue": "() => void",
+      "kind": "callback"
+    },
+    {
+      "name": "on-cancel",
+      "description": "点击取消按钮时触发",
+      "type": "(values: (string | number)[], indexes: number[], options: PickerColumnOption[]) => void",
+      "defaultValue": "() => void",
+      "kind": "callback"
+    },
+    {
+      "name": "on-key-escape",
+      "description": "点击键盘 ESC 时触发",
+      "type": "() => void",
+      "defaultValue": "-",
+      "kind": "callback"
+    }
+  ],
+  "methodNames": [
+    "confirm",
+    "cancel"
+  ],
+  "events": [
+    "change",
+    "cancel",
+    "confirm",
+    "key-escape",
+    "update:modelValue",
+    "click-overlay",
+    "open",
+    "opened",
+    "close",
+    "closed"
+  ],
+  "slotNames": [],
+  "scenarios": []
+}

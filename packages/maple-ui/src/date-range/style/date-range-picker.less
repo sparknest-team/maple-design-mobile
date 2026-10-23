@@ -1,4 +1,7 @@
+@import '../../_components/picker-field/style/temporal-mixins.less';
 .mp-date-range-picker {
+  --mp-picker-background: var(--mp-date-range-picker-background);
+  --mp-date-picker-body-background-color: var(--mp-date-range-picker-background);
   width: 100%;
   overflow: hidden;
   border-radius: var(--mp-date-range-picker-border-radius);
@@ -8,144 +11,54 @@
     --mp-date-range-picker-values-height: 56px;
   }
 
+  &--calendar,
   &--calendar-time {
     .mp-date-picker__title {
       display: none;
     }
-
-    .mp-date-range-picker__value {
-      font-size: 16px;
-    }
   }
 
-  &__values {
-    width: 100%;
-    box-sizing: border-box;
-    border: 0;
+  &__datetime-picker {
+    padding-inline: var(--mp-temporal-panel-inset);
+  }
+
+  &__summaries {
+    .temporal-paired-summaries();
+    background: var(--mp-date-range-picker-summary-background);
+  }
+
+  &__summary {
+    .temporal-range-summary();
+    min-height: ~'max(var(--mp-date-range-picker-summary-touch-height), calc(var(--mp-temporal-panel-summary-height) - var(--mp-sys-space-2) * 2))';
     background: transparent;
-    font-family: inherit;
-    text-align: inherit;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    min-height: var(--mp-date-range-picker-values-height);
-    padding: 8px 16px;
-    border-bottom: 1px solid var(--mp-color-border-2);
-  }
-
-  &__values--active {
-    .mp-date-range-picker__value {
-      color: var(--mp-date-range-picker-value-active-color);
-    }
-  }
-
-  &__value {
     border: 0;
-    padding: 0;
-    background: transparent;
-    font-family: inherit;
-    text-align: inherit;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 2px;
-    min-width: 0;
-    font-size: var(--mp-date-range-picker-values-font-size);
-    font-weight: var(--mp-date-range-picker-values-font-weight);
-    color: var(--mp-date-range-picker-value-color);
-    cursor: pointer;
-    user-select: none;
-    transition: color 0.2s;
+    color: var(--mp-color-text-2);
+    font: inherit;
   }
 
-  &__value--active {
-    color: var(--mp-date-range-picker-value-active-color);
-  }
-
-  &__value-date {
+  &__summary-date,
+  &__summary-time {
+    .temporal-range-summary-value();
+    min-height: 0;
+    color: inherit;
     font-size: var(--mp-date-range-picker-value-date-font-size);
-    font-weight: 400;
-    line-height: 1.2;
-    color: inherit;
   }
 
-  &__value-time {
-    font-size: var(--mp-date-range-picker-value-time-font-size);
-    font-weight: var(--mp-date-range-picker-values-font-weight);
-    line-height: 1.2;
-    color: inherit;
-  }
-
-  &__value-part--active {
-    color: var(--mp-date-range-picker-value-active-color);
-  }
-
-  &__view-tabs {
-    display: flex;
-    border-top: 1px solid var(--mp-color-border-2);
-  }
-
-  &__view-tab {
-    border: 0;
+  &__summary-time {
     background: transparent;
-    font-family: inherit;
-    text-align: inherit;
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 48px;
-    padding: 8px 12px;
-    color: var(--mp-color-text-3);
-    cursor: pointer;
-    user-select: none;
-    transition:
-      color 0.2s,
-      background 0.2s;
-  }
-
-  &__view-tab--active {
-    color: var(--mp-date-range-picker-value-active-color);
-    background: color-mix(in srgb, var(--mp-date-range-picker-value-active-color) 8%, transparent);
-  }
-
-  &__view-tab-text {
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 1.2;
-  }
-
-  &__value-arrow[mp-date-range-picker-cover] {
-    flex-shrink: 0;
-    font-size: var(--mp-date-range-picker-value-arrow-size);
-    color: var(--mp-date-range-picker-value-arrow-color);
+    font-size: var(--mp-sys-font-size-xl);
+    font-weight: var(--mp-date-range-picker-values-font-weight);
   }
 
   &__column-labels {
-    display: flex;
-    align-items: center;
+    .temporal-column-labels();
     height: var(--mp-date-range-picker-column-label-height);
-    padding: 0 8px;
   }
 
   &__column-label {
-    flex: 1;
-    text-align: center;
+    .temporal-column-label();
     font-size: var(--mp-date-range-picker-column-label-font-size);
     color: var(--mp-date-range-picker-column-label-color);
-  }
-
-  &__datetime-clock {
-    .mp-time-picker__title-hint {
-      display: none;
-    }
-
-    .mp-time-picker__title {
-      min-height: auto;
-      padding: 8px 16px 12px;
-    }
   }
 
   &__actions {
@@ -153,4 +66,78 @@
     justify-content: flex-end;
     padding: var(--mp-date-picker-actions-padding, 0 8px 12px);
   }
+}
+
+.mp-date-range-picker {
+  &__summary {
+    cursor: pointer;
+    &--active {
+      color: var(--mp-date-range-picker-value-active-color);
+      background: var(--mp-date-range-picker-summary-active-background);
+    }
+    &:focus-visible {
+      outline: var(--mp-temporal-panel-summary-separator-stroke) solid var(--mp-color-primary);
+      outline-offset: var(--mp-sys-space-1);
+    }
+  }
+  &__date-content {
+    display: flex;
+    align-items: flex-start;
+    min-width: 0;
+    gap: var(--mp-sys-space-2);
+  }
+  &__date-main {
+    flex: 1;
+    min-width: 0;
+    > .mp-picker {
+      .temporal-wheel();
+      .temporal-inset();
+    }
+    > .mp-date-range-picker__column-labels {
+      margin-inline: var(--mp-temporal-panel-inset);
+    }
+  }
+  &__date-content--with-time .mp-date-picker-header {
+    padding-inline: var(--mp-sys-space-2);
+  }
+  &__date-content--with-time .mp-date-picker-header__value {
+    white-space: nowrap;
+    padding-inline: var(--mp-sys-space-1);
+  }
+  &__quick-time {
+    flex: 0 0 var(--mp-date-range-picker-quick-time-width);
+    min-width: 0;
+    margin-inline-end: var(--mp-temporal-panel-inset);
+    border-radius: var(--mp-temporal-panel-radius);
+    overflow: hidden;
+  }
+  &__quick-time-wheel {
+    --mp-picker-background: var(--mp-color-fill-1);
+    .temporal-wheel();
+  }
+  &__time-wheel {
+    .temporal-wheel();
+  }
+}
+
+// Keep the calendar's preferred width when adding the quick time column.
+.mp-date-panel__layout--standalone.mp-date-panel__layout--range.mp-date-panel__layout--time {
+  --mp-date-picker-panel-preferred-width: calc(
+    var(--mp-date-picker-panel-date-width) + var(--mp-date-range-picker-quick-time-width) +
+      var(--mp-temporal-panel-inset) + var(--mp-sys-space-2)
+  );
+}
+.mp-date-field-popover .mp-date-field-panel:has(.mp-date-range-picker--with-time) {
+  width: calc(
+    var(--mp-date-picker-panel-date-width) + var(--mp-date-range-picker-quick-time-width) +
+      var(--mp-temporal-panel-inset) + var(--mp-sys-space-2)
+  );
+}
+
+.mp-date-range-picker__summary-date {
+  font-size: var(--mp-sys-font-size-lg);
+}
+.mp-date-range-picker--with-time .mp-date-range-picker__summary-date {
+  color: inherit;
+  font-size: var(--mp-sys-font-size-md);
 }

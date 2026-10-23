@@ -1,0 +1,18 @@
+{
+  "fields": [],
+  "methodNames": [
+    "resize"
+  ],
+  "events": [],
+  "slotNames": [
+    "prefix",
+    "suffix",
+    "add-icon"
+  ],
+  "slotDefaults": {
+    "prefix": true,
+    "suffix": true,
+    "add-icon": true
+  },
+  "scenarios": []
+}

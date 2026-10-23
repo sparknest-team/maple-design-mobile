@@ -1,5 +1,7 @@
 # NumberKeyboard
 
+## Examples
+
 ### Intro
 
 A bottom popup virtual keyboard for numeric or password input flows.
@@ -9,6 +11,15 @@ A bottom popup virtual keyboard for numeric or password input flows.
 ```demo
 ../example/demos/basic.vue
 ```
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

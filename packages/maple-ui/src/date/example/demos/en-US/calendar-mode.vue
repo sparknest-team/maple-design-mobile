@@ -7,6 +7,6 @@ const calendarDate = ref()
 
 <template>
   <mp-space direction="column" size="lg">
-    <mp-date v-model="calendarDate" presentation="calendar" placeholder="Select a date from the calendar" clearable />
+    <mp-date v-model="calendarDate" panel-type="calendar" placeholder="Select a date from the calendar" clearable />
   </mp-space>
 </template>

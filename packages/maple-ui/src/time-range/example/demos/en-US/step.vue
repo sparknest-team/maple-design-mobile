@@ -9,7 +9,7 @@ const use12Hours = ref(false)
 <template>
   <mp-space direction="column" :size="12" style="width: 100%">
     <p>Hourly candidates, 15-minute and 10-second intervals.</p>
-    <label><input v-model="use12Hours" type="checkbox" /> 12-hour panel; model remains HH:mm:ss</label>
+    <mp-checkbox v-model="use12Hours">12-hour panel; model remains HH:mm:ss</mp-checkbox>
     <mp-time-range
       v-model="value"
       format="HH:mm:ss"

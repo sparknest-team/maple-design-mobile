@@ -2,6 +2,8 @@ import { createApp } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
 import SwipeCell from '..'
+import Cell from '../../cell'
+import BasicDemo from '../example/demos/basic.vue'
 import VarSwipeCell from '../SwipeCell'
 
 test('swipe-cell plugin', () => {
@@ -64,4 +66,23 @@ describe('swipe-cell', () => {
     expect(wrapper.emitted('open')).toBeFalsy()
     wrapper.unmount()
   })
+})
+
+test('basic demo displays the name returned by open and close events', async () => {
+  const wrapper = mount(BasicDemo, {
+    global: { components: { MpSwipeCell: SwipeCell, MpCell: Cell }, stubs: { MpButton: true } },
+  })
+  const cell = wrapper.findComponent(SwipeCell)
+  const measure = vi
+    .spyOn(cell.find('.mp-swipe-cell__right').element, 'getBoundingClientRect')
+    .mockReturnValue({ width: 80 })
+  await wrapper.vm.$nextTick()
+  cell.vm.$.exposed.open('right')
+  await wrapper.vm.$nextTick()
+  expect(wrapper.find('[role="status"]').text()).toBe('open: name=order-1001, position=right')
+  await cell.vm.$.exposed.close()
+  await wrapper.vm.$nextTick()
+  expect(wrapper.find('[role="status"]').text()).toBe('close: name=order-1001, position=outside')
+  measure.mockRestore()
+  wrapper.unmount()
 })

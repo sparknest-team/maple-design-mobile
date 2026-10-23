@@ -40,6 +40,15 @@ The same scenarios, parameters and interactions as Cedar. Only component prefixe
 ../example/demos/controls.vue
 ```
 
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
+
 ## API
 
 <!-- same-source-api:start -->
@@ -77,4 +86,3 @@ The same scenarios, parameters and interactions as Cedar. Only component prefixe
 
 Props, event arguments, slots and methods match. CSS mode follows browser sticky rules; paired demos use independent scroll containers.
 <!-- same-source-api:end -->
-

@@ -8,6 +8,47 @@ const items = [
 ]
 
 describe('SelectionField', () => {
+  test('truncates nowrap tag text separately from its removal action and keeps overflow values reachable', async () => {
+    const label = 'A very long selected option label for overflow comparison'
+    const wrapper = mount(SelectionField, {
+      props: {
+        multiple: true,
+        tagNowrap: true,
+        clearable: true,
+        searchable: true,
+        items: [{ key: 'long', value: 'long', label, tagProps: { nowrap: false } }, ...items],
+      },
+    })
+    try {
+      const tags = wrapper.findAll('.mp-selection-field__tag')
+      expect(tags).toHaveLength(3)
+      expect(tags[0].get('.mp-tag__text').text()).toBe(label)
+      expect(tags[0].get('.mp-tag__text').find('.mp-tag__close-btn').exists()).toBe(false)
+      await tags[0].get('.mp-tag__close-btn').trigger('click')
+      expect(wrapper.emitted('remove')).toEqual([['long']])
+      expect(wrapper.get('input').attributes('readonly')).toBeUndefined()
+      await wrapper.setProps({ maxTagCount: 1 })
+      expect(wrapper.get('.mp-selection-field__summary').text()).toBe('+2')
+      await wrapper.get('.mp-field-decorator__clear-btn').trigger('click')
+      expect(wrapper.emitted('clear')).toHaveLength(1)
+    } finally {
+      wrapper.unmount()
+    }
+  })
+
+  test('honors per-option tag size while keeping the default and selection identity', async () => {
+    const wrapper = mount(SelectionField, {
+      props: { multiple: true, items: [{ ...items[0], tagProps: { size: 'lg' } }, items[1]] },
+    })
+    expect(wrapper.findAll('.mp-tag')[0].classes()).toContain('mp-tag--size-lg')
+    expect(wrapper.findAll('.mp-tag')[1].classes()).toContain('mp-tag--size-sm')
+    await wrapper.setProps({ items: [{ ...items[0], tagProps: { size: 'xl' } }, items[1]] })
+    expect(wrapper.findAll('.mp-tag')[0].classes()).toContain('mp-tag--size-xl')
+    await wrapper.findAll('.mp-tag__close-btn')[0].trigger('click')
+    expect(wrapper.emitted('remove')).toEqual([['device-1']])
+    wrapper.unmount()
+  })
+
   test('removes by identity instead of label and keeps tags controlled', async () => {
     const wrapper = mount(SelectionField, { props: { items, multiple: true } })
     await wrapper.findAll('.mp-tag__close-btn')[1].trigger('click')

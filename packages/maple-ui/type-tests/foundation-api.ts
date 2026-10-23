@@ -1,11 +1,5 @@
-// DropdownMenu root and nested submenus expose the same public controls.
-import type {
-  DropdownMenuFieldNames,
-  DropdownMenuInstance,
-  DropdownMenuOption,
-  DropdownMenuProps,
-  MenuOptionProps,
-} from '@maplejs/maple-ui/dropdown-menu'
+// Menu root and nested submenus expose the same public controls.
+import type { MenuFieldNames, MenuInstance, MenuOptionData, MenuOptionProps, MenuProps } from '@maplejs/maple-ui/menu'
 import type { PopoverInstance, PopoverProps } from '@maplejs/maple-ui/popover'
 import type { TooltipInstance, TooltipProps } from '@maplejs/maple-ui/tooltip'
 import type { TriggerInstance, TriggerProps } from '@maplejs/maple-ui/trigger'
@@ -55,9 +49,9 @@ void renderProps
 const invalidDuration: TriggerProps = { duration: 'fast' }
 void invalidDuration
 
-const fields: DropdownMenuFieldNames = { label: 'text', value: 'id', children: 'items' }
-const menuOptions: DropdownMenuOption[] = [{ text: 'Branch', id: 'p', items: [{ text: 'Leaf', id: false }] }]
-const menuSelection: DropdownMenuProps = {
+const fields: MenuFieldNames = { label: 'text', value: 'id', children: 'items' }
+const menuOptions: MenuOptionData[] = [{ text: 'Branch', id: 'p', items: [{ text: 'Leaf', id: false }] }]
+const menuSelection: MenuProps = {
   modelValue: 'p',
   options: menuOptions,
   fieldNames: fields,
@@ -67,11 +61,11 @@ const menuSelection: DropdownMenuProps = {
 }
 void menuSelection
 // @ts-expect-error options must be an array
-const invalidMenuOptions: DropdownMenuProps = { options: { value: 1 } }
+const invalidMenuOptions: MenuProps = { options: { value: 1 } }
 // @ts-expect-error field mapping names must be strings
-const invalidMenuFields: DropdownMenuProps = { fieldNames: { value: 42 } }
+const invalidMenuFields: MenuProps = { fieldNames: { value: 42 } }
 // @ts-expect-error submenu expansion is either click or hover
-const invalidSubmenuTrigger: DropdownMenuProps = { submenuTrigger: 'focus' }
+const invalidSubmenuTrigger: MenuProps = { submenuTrigger: 'focus' }
 void invalidSubmenuTrigger
 void invalidMenuOptions
 void invalidMenuFields
@@ -120,7 +114,7 @@ void invalidTooltipDuration
 void invalidPopoverTrigger
 
 const optionProps: MenuOptionProps = { label: () => 'rendered', value: false }
-const menuMethods = (menu: DropdownMenuInstance) => {
+const menuMethods = (menu: MenuInstance) => {
   menu.open()
   menu.close()
   menu.resize()

@@ -34,6 +34,6 @@ const options = computed(() => [
 
 <template>
   <mp-space direction="column" size="lg">
-    <mp-cascader v-model="pickerValue" path-mode placeholder="Picker 模式" presentation="picker" :options="options" />
+    <mp-cascader v-model="pickerValue" path-mode placeholder="Picker 模式" presentation="popup" :options="options" />
   </mp-space>
 </template>

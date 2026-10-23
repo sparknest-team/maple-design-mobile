@@ -12,7 +12,10 @@
     "custom": "水波与滑块阴影",
     "custom-value": "自定义值与事件",
     "switch-interception": "异步允许、阻止与异常",
-    "events": "焦点与事件顺序"
+    "events": "焦点与事件顺序",
+    "api-review": "功能调试",
+    "appearance-lab": "外观组合",
+    "state-lab": "交互状态切换"
   },
   "en-US": {
     "basic": "Controlled and default value",
@@ -27,6 +30,9 @@
     "custom": "Ripple and handle elevation",
     "custom-value": "Custom values and events",
     "switch-interception": "Async allow, deny and rejection",
-    "events": "Focus and event order"
+    "events": "Focus and event order",
+    "api-review": "Feature playground",
+    "appearance-lab": "appearance-lab",
+    "state-lab": "state-lab"
   }
 }

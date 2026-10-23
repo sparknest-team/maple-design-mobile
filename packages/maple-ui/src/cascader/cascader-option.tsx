@@ -1,6 +1,7 @@
 import type { PropType } from 'vue'
 import { computed, defineComponent, inject, ref } from 'vue'
 import { IconLoading, IconRight } from '@maplejs/icons-vue'
+import { selectionEditorSurface } from '../_components/selected-options/context'
 import SelectionIndicator from '../_components/selection-field/SelectionIndicator.vue'
 import { isFunction } from '../_utils/is'
 import { createNamespace, getPrefixCls } from '../utils/components'
@@ -27,6 +28,7 @@ export default defineComponent({
     const prefixCls = getPrefixCls('cascader-option')
     const cascaderCtx = inject<Partial<CascaderContext>>(cascaderInjectionKey, {})
 
+    const editor = inject(selectionEditorSurface, undefined)
     const isLoading = ref(false)
     const events: Record<string, any> = {}
 
@@ -77,6 +79,7 @@ export default defineComponent({
       prefixCls,
       {
         [`${prefixCls}-active`]: props.active,
+        [`${prefixCls}-selected`]: Boolean(editor && checkedStatus.value.checked),
         [`${prefixCls}-disabled`]: props.option.disabled,
       },
     ])
@@ -147,6 +150,11 @@ export default defineComponent({
           {renderLabelContent()}
           {renderIcon()}
         </div>
+        {editor && !props.multiple && !props.checkStrictly && props.option.isLeaf && (
+          <span class={`${prefixCls}-editor-check`} aria-hidden="true">
+            {checkedStatus.value.checked ? '✓' : ''}
+          </span>
+        )}
       </li>
     )
   },

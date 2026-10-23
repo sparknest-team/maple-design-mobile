@@ -1,0 +1,126 @@
+{
+  "fields": [
+    {
+      "name": "current",
+      "description": "当前步骤（受控，从 1 起计）",
+      "type": "number",
+      "defaultValue": "undefined",
+      "kind": "number"
+    },
+    {
+      "name": "default-current",
+      "description": "默认当前步骤（非受控）",
+      "type": "number",
+      "defaultValue": "1",
+      "kind": "number"
+    },
+    {
+      "name": "type",
+      "description": "步骤条类型",
+      "type": "\"default\" | \"arrow\" | \"dot\" | \"navigation\"",
+      "defaultValue": "'default' as StepsType",
+      "kind": "enum",
+      "options": [
+        "default",
+        "arrow",
+        "dot",
+        "navigation"
+      ],
+      "initial": "default"
+    },
+    {
+      "name": "orientation",
+      "description": "显示方向",
+      "type": "Orientation",
+      "defaultValue": "'horizontal' as Orientation",
+      "kind": "enum",
+      "options": [
+        "horizontal",
+        "vertical"
+      ],
+      "initial": "horizontal"
+    },
+    {
+      "name": "content-placement",
+      "description": "内容相对节点的位置",
+      "type": "\"right\" | \"bottom\"",
+      "defaultValue": "'right' as StepsContentPlacement",
+      "kind": "enum",
+      "options": [
+        "right",
+        "bottom"
+      ],
+      "initial": "right"
+    },
+    {
+      "name": "status",
+      "description": "当前步骤状态",
+      "type": "\"wait\" | \"process\" | \"finish\" | \"error\"",
+      "defaultValue": "'process' as StepStatus",
+      "kind": "enum",
+      "options": [
+        "wait",
+        "process",
+        "finish",
+        "error"
+      ],
+      "initial": "wait"
+    },
+    {
+      "name": "size",
+      "description": "步骤条尺寸",
+      "type": "'sm' | 'md'",
+      "defaultValue": "'md' as StepsSize",
+      "kind": "enum",
+      "options": [
+        "sm",
+        "md"
+      ],
+      "initial": "sm"
+    },
+    {
+      "name": "show-line",
+      "description": "是否显示连接线",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "changeable",
+      "description": "是否可点击切换步骤",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    }
+  ],
+  "events": [
+    "change",
+    "update:current"
+  ],
+  "scenarios": [
+    {
+      "name": "default",
+      "kind": "slot",
+      "demos": []
+    },
+    {
+      "name": "finish-icon",
+      "kind": "slot",
+      "demos": []
+    },
+    {
+      "name": "error-icon",
+      "kind": "slot",
+      "demos": []
+    }
+  ],
+  "slotNames": [
+    "finish-icon",
+    "error-icon"
+  ],
+  "slotDefaults": {
+    "finish-icon": false,
+    "error-icon": false
+  },
+  "methodNames": []
+}

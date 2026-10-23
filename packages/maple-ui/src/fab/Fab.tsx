@@ -101,27 +101,30 @@ export default defineComponent({
           color={props.color}
           disabled={props.disabled}
           elevation={props.elevation}
-          iconContainer={true}
-        >
-          <Icon
-            mp-fab-cover
-            class={classes([isActive.value, n('trigger-active-icon'), n('trigger-inactive-icon')])}
-            name={isActive.value ? props.activeIcon : props.inactiveIcon}
-            size={isActive.value ? props.activeIconSize : props.inactiveIconSize}
-            transition={200}
-            animationClass={n('--trigger-icon-animation')}
-            v-slots={
-              builtinIcon
-                ? {
-                    default: () => {
-                      const BuiltinIcon = builtinIcon
-                      return <BuiltinIcon />
-                    },
-                  }
-                : undefined
-            }
-          />
-        </Button>
+          variant="tonal"
+          v-slots={{
+            icon: () => (
+              <Icon
+                mp-fab-cover
+                class={classes([isActive.value, n('trigger-active-icon'), n('trigger-inactive-icon')])}
+                name={isActive.value ? props.activeIcon : props.inactiveIcon}
+                size={isActive.value ? props.activeIconSize : props.inactiveIconSize}
+                transition={200}
+                animationClass={n('--trigger-icon-animation')}
+                v-slots={
+                  builtinIcon
+                    ? {
+                        default: () => {
+                          const BuiltinIcon = builtinIcon
+                          return <BuiltinIcon />
+                        },
+                      }
+                    : undefined
+                }
+              />
+            ),
+          }}
+        />
       )
     }
 

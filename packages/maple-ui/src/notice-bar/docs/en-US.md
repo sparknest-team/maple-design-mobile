@@ -1,5 +1,7 @@
 # NoticeBar
 
+## Examples
+
 ### Intro
 
 Display temporary system notices or campaign messages.
@@ -9,6 +11,15 @@ Display temporary system notices or campaign messages.
 ```demo
 ../example/demos/basic.vue
 ```
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

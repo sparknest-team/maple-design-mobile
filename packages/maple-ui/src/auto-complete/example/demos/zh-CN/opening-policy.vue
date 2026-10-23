@@ -9,8 +9,8 @@ const options = ['Cedar', 'Maple', 'Vue']
 </script>
 <template>
   <mp-space direction="column" size="md">
-    <label><input v-model="allowEmpty" type="checkbox" /> 允许空输入展开</label>
-    <label><input v-model="filter" type="checkbox" /> 按输入过滤候选</label>
+    <mp-checkbox v-model="allowEmpty">允许空输入展开</mp-checkbox>
+    <mp-checkbox v-model="filter">按输入过滤候选</mp-checkbox>
     <mp-auto-complete
       v-model="value"
       :options="options"

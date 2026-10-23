@@ -48,11 +48,9 @@ describe('time default and controlled state', () => {
     const panel = shallowMount(TimeRangePicker, {
       props: { disableConfirm: true, hideDisabledOptions: true, defaultValue: ['09:00', '18:00'], format: 'HH:mm' },
     })
-    panelState(panel).handlePickerChange(['10', '00'])
+    panelState(panel).handlePickerChange(['10', '00', '18', '00'])
     await nextTick()
-    panelState(panel).activeTab = 'end'
-    await nextTick()
-    panelState(panel).handlePickerChange(['19', '00'])
+    panelState(panel).handlePickerChange(['10', '00', '19', '00'])
     expect(panel.emitted('update:modelValue')).toEqual([[['10:00', '18:00']], [['10:00', '19:00']]])
     panel.unmount()
     const field = mountField(TimeRange, {
@@ -89,7 +87,7 @@ describe('time default and controlled state', () => {
         disabled: true,
       },
     })
-    panelState(range).handlePickerChange(['10', '00'])
+    panelState(range).handlePickerChange(['10', '00', '18', '00'])
     expect(range.emitted('update:modelValue')).toBeUndefined()
     range.unmount()
   })

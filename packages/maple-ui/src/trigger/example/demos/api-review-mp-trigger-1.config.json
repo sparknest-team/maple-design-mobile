@@ -1,0 +1,346 @@
+{
+  "fields": [
+    {
+      "name": "open",
+      "description": "受控打开状态",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
+      "name": "default-open",
+      "description": "非受控初始状态",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "trigger",
+      "description": "hover/click/focus/contextMenu/manual，可传数组",
+      "type": "TriggerEvent | TriggerEvent[]",
+      "defaultValue": "'hover'",
+      "kind": "json",
+      "initial": "[]"
+    },
+    {
+      "name": "disabled",
+      "description": "禁止打开",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "reference",
+      "description": "外部参考元素",
+      "type": "string | HTMLElement | SVGElement",
+      "defaultValue": "undefined",
+      "kind": "string",
+      "initial": "body"
+    },
+    {
+      "name": "placement",
+      "description": "十二方位",
+      "type": "\"top\" | \"top-start\" | \"top-end\" | \"bottom\" | \"bottom-start\" | \"bottom-end\" | \"left\" | \"left-start\" | \"left-end\" | \"right\" | \"right-start\" | \"right-end\"",
+      "defaultValue": "'bottom'",
+      "kind": "enum",
+      "options": [
+        "top",
+        "top-start",
+        "top-end",
+        "bottom",
+        "bottom-start",
+        "bottom-end",
+        "left",
+        "left-start",
+        "left-end",
+        "right",
+        "right-start",
+        "right-end"
+      ],
+      "initial": "bottom"
+    },
+    {
+      "name": "strategy",
+      "description": "定位策略",
+      "type": "'absolute' | 'fixed'",
+      "defaultValue": "'absolute'",
+      "kind": "enum",
+      "options": [
+        "absolute",
+        "fixed"
+      ],
+      "initial": "absolute"
+    },
+    {
+      "name": "cover",
+      "description": "沿主轴覆盖参考元素",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "popup-offset",
+      "description": "主轴向外距离",
+      "type": "number",
+      "defaultValue": "0",
+      "kind": "number"
+    },
+    {
+      "name": "popup-translate",
+      "description": "屏幕轴平移或按方位配置",
+      "type": "[number, number] | Record",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "align-point",
+      "description": "以鼠标坐标定位",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "popup-container",
+      "description": "挂载容器；false 原地渲染",
+      "type": "string | HTMLElement | false",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "\"body\""
+    },
+    {
+      "name": "auto-fit-position",
+      "description": "自动翻转并限制到可视区域",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "auto-fit-popup-width",
+      "description": "宽度跟随参考元素",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "auto-fit-popup-min-width",
+      "description": "最小宽度跟随参考元素",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "auto-fix-position",
+      "description": "尺寸变化时重新定位",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "update-at-scroll",
+      "description": "滚动时重新定位",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "scroll-to-close",
+      "description": "滚动超过阈值关闭",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "scroll-to-close-distance",
+      "description": "滚动关闭阈值",
+      "type": "number",
+      "defaultValue": "0",
+      "kind": "number"
+    },
+    {
+      "name": "show-arrow",
+      "description": "显示箭头",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "hide-empty",
+      "description": "内容为空时不渲染",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "prevent-focus",
+      "description": "阻止定位层抢占焦点",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "unmount-on-close",
+      "description": "离场后卸载内容",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "animation-name",
+      "description": "Vue Transition 名称",
+      "type": "string",
+      "defaultValue": "'trigger-fade'",
+      "kind": "string"
+    },
+    {
+      "name": "duration",
+      "description": "动画时长",
+      "type": "number | object",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "auto-fit-transform-origin",
+      "description": "根据最终方位设置动画原点",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "opened-class",
+      "description": "打开时的参考节点类名",
+      "type": "string | array | object",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "mouse-enter-delay",
+      "type": "number",
+      "defaultValue": "100",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "number"
+    },
+    {
+      "name": "mouse-leave-delay",
+      "type": "number",
+      "defaultValue": "100",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "number"
+    },
+    {
+      "name": "focus-delay",
+      "type": "number",
+      "defaultValue": "0",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "number"
+    },
+    {
+      "name": "popup-hover-stay",
+      "type": "boolean",
+      "defaultValue": "true",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "boolean"
+    },
+    {
+      "name": "blur-to-close",
+      "type": "boolean",
+      "defaultValue": "true",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "boolean"
+    },
+    {
+      "name": "close-on-click-reference",
+      "type": "boolean",
+      "defaultValue": "true",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "boolean"
+    },
+    {
+      "name": "click-outside-to-close",
+      "type": "boolean",
+      "defaultValue": "true",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "boolean"
+    },
+    {
+      "name": "esc-to-close",
+      "type": "boolean",
+      "defaultValue": "true",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "boolean"
+    },
+    {
+      "name": "restore-focus",
+      "type": "boolean",
+      "defaultValue": "true",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "boolean"
+    },
+    {
+      "name": "popup-class",
+      "type": "[String, Array, Object]",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "string",
+      "initial": "review-class"
+    },
+    {
+      "name": "popup-style",
+      "type": "CSSProperties",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "content-class",
+      "type": "[String, Array, Object]",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "string",
+      "initial": "review-class"
+    },
+    {
+      "name": "content-style",
+      "type": "CSSProperties",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "arrow-class",
+      "type": "[String, Array, Object]",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "string",
+      "initial": "review-class"
+    },
+    {
+      "name": "arrow-style",
+      "type": "CSSProperties",
+      "defaultValue": "undefined",
+      "description": "源码公开属性 / Public source prop",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "reference-attrs",
+      "type": "TriggerReferenceAttrs | ((open: boolean) => TriggerReferenceAttrs)",
+      "defaultValue": "undefined",
+      "description": "写入实际触发元素的属性；函数参数为当前打开状态。",
+      "kind": "callback"
+    }
+  ],
+  "methodNames": [],
+  "events": [],
+  "slotNames": [
+    "content"
+  ],
+  "slotDefaults": {
+    "content": true
+  },
+  "scenarios": []
+}

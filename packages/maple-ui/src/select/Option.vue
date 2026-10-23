@@ -14,7 +14,7 @@
     <span v-if="$slots.icon" :class="`${prefixCls}-icon`">
       <slot name="icon" />
     </span>
-    <span v-if="selectCtx && selectCtx.multiple" :class="`${prefixCls}-checkbox`">
+    <span v-if="selectCtx && selectCtx.multiple && !listStyle" :class="`${prefixCls}-checkbox`">
       <SelectionIndicator :checked="isSelected" />
       <slot :selected="isSelected">{{ label }}</slot>
     </span>
@@ -23,6 +23,7 @@
         ><slot :selected="isSelected">{{ label }}</slot></span
       >
     </template>
+    <span v-if="editor" :class="`${prefixCls}-editor-check`" aria-hidden="true">{{ isSelected ? '✓' : '' }}</span>
     <span v-if="$slots.suffix" :class="`${prefixCls}-suffix`">
       <slot name="suffix" />
     </span>
@@ -44,6 +45,7 @@ import {
   toRefs,
   watch,
 } from 'vue'
+import { selectionEditorSurface, selectionListStyle } from '../_components/selected-options/context'
 import SelectionIndicator from '../_components/selection-field/SelectionIndicator.vue'
 import { isEqual } from '../_utils/is-equal'
 import type { TagProps } from '../tag'
@@ -104,6 +106,8 @@ export default defineComponent({
     internal: Boolean,
   },
   setup(props) {
+    const editor = inject(selectionEditorSurface, undefined)
+    const listStyle = inject(selectionListStyle, false)
     const { disabled, tagProps: _tagProps, index } = toRefs(props)
     const prefixCls = getPrefixCls('select-option')
     const selectCtx = inject(selectInjectionKey, undefined)
@@ -206,6 +210,8 @@ export default defineComponent({
     ])
 
     return {
+      listStyle,
+      editor,
       prefixCls,
       cls,
       selectCtx,

@@ -10,6 +10,14 @@ const Content = defineComponent({ props: ['value'], emits: ['confirm'], template
 afterEach(() => vi.useRealTimers())
 
 describe('date current action and interaction range policy', () => {
+  it('renders a custom action when built-in actions are hidden', () => {
+    const wrapper = shallowMount(DatePanelActions, {
+      props: { showNow: false, showConfirm: false, nowDisabled: false, canConfirm: true },
+      slots: { default: '<button type="button">允许关闭</button>' },
+    })
+    expect(wrapper.get('button').text()).toBe('允许关闭')
+    wrapper.unmount()
+  })
   it('normalizes current Date/timestamp values to panel precision', () => {
     const now = new Date(2025, 4, 15, 9, 30, 12, 123)
     expect(currentDateValue({ valueFormat: 'Date' }, now)).toEqual(new Date(2025, 4, 15))
@@ -63,8 +71,11 @@ describe('date current action and interaction range policy', () => {
     const wrapper = mountPanel({ valueFormat: 'timestamp', showTime: true })
     expect(wrapper.emitted('update:modelValue')).toBeUndefined()
     wrapper.getComponent(DatePanelActions).vm.$emit('select-now')
-    expect(wrapper.emitted('update:modelValue')?.[0]).toEqual([new Date(2025, 0, 15, 9, 30, 12).getTime()])
+    expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+    expect(wrapper.emitted('change')).toBeUndefined()
     expect(wrapper.emitted('select')).toHaveLength(1)
+    wrapper.getComponent(DatePanelActions).vm.$emit('confirm')
+    expect(wrapper.emitted('update:modelValue')?.[0]).toEqual([new Date(2025, 0, 15, 9, 30, 12).getTime()])
     expect(wrapper.emitted('change')).toHaveLength(1)
     wrapper.unmount()
   })
@@ -102,10 +113,11 @@ describe('date current action and interaction range policy', () => {
       wrapper.unmount()
     },
   )
-  it('does not provide single-current selection for a range', () => {
+  it('provides a current-endpoint draft for an incomplete range', () => {
     const wrapper = mountPanel({}, true)
-    expect(wrapper.getComponent(DatePanelActions).props('showNow')).toBe(false)
+    expect(wrapper.getComponent(DatePanelActions).props('showNow')).toBe(true)
     wrapper.getComponent(DatePanelActions).vm.$emit('select-now')
+    expect(wrapper.emitted('select')?.[0][0]).toEqual(['2025-01-15'])
     expect(wrapper.emitted('change')).toBeUndefined()
     wrapper.unmount()
   })

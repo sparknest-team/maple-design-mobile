@@ -5,7 +5,7 @@
     <mp-progress indeterminate />
     <mp-progress indeterminate status="info" />
 
-    <mp-space justify="space-between">
+    <mp-space wrap justify="space-between">
       <mp-progress mode="circle" indeterminate size="18vmin" />
       <mp-progress mode="circle" status="info" indeterminate size="18vmin" />
     </mp-space>

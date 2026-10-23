@@ -12,6 +12,14 @@
 ../example/demos/basic.vue
 ```
 
+### 样式变体
+
+`variant` 控制导航外观；卡片和胶囊样式也使用相同的标签与内容结构。
+
+```demo
+../example/demos/variants.vue
+```
+
 ### 仅导航
 
 只需要标签导航时，无需编写内容组件；直接在 `TabsNavs` 中声明 `TabNav` 即可。
@@ -20,12 +28,10 @@
 ../example/demos/nav-content.vue
 ```
 
-### 样式变体
-
-`variant` 控制导航外观；卡片和胶囊样式也使用相同的标签与内容结构。
+导航属性与状态组合：
 
 ```demo
-../example/demos/variants.vue
+../example/demos/navs-review.vue
 ```
 
 ### 横向滚动与手势切换
@@ -42,14 +48,6 @@
 
 ```demo
 ../example/demos/position.vue
-```
-
-### 图标与导航插槽
-
-TabNav 支持图标与纵向排列；TabsNavs 支持前后附加内容。
-
-```demo
-../example/demos/icons-and-slots.vue
 ```
 
 ### 动态增删标签
@@ -75,6 +73,31 @@ TabNav 支持图标与纵向排列；TabsNavs 支持前后附加内容。
 ```demo
 ../example/demos/lazy-load.vue
 ```
+
+### 外观组合
+
+适用于同级内容之间的切换。调整变体、尺寸，用相同数据观察变化。内容保持一致，便于比较不同设置的实际效果。
+
+```demo
+../example/demos/appearance-lab.vue
+```
+
+### 图标与导航插槽
+
+TabNav 支持图标与纵向排列；TabsNavs 支持前后附加内容。
+
+```demo
+../example/demos/icons-and-slots.vue
+```
+
+<!-- api-review:start -->
+### 功能调试
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

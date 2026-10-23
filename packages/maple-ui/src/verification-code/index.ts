@@ -1,6 +1,6 @@
 import { withInstall, withPropsDefaultsSetter } from '../utils/components'
+import VerificationCode from './presentation'
 import { verificationCodeProps } from './props'
-import VerificationCode from './VerificationCode.vue'
 
 withInstall(VerificationCode)
 withPropsDefaultsSetter(VerificationCode, verificationCodeProps)

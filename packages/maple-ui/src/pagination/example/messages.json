@@ -11,7 +11,8 @@
     "custom-page-button": "自定义分页按钮与样式",
     "disabled": "禁用与单页隐藏",
     "auto-adjust": "数据变化与自动调整",
-    "responsive": "容器宽度与窄屏布局"
+    "responsive": "容器宽度与窄屏布局",
+    "api-review": "功能调试"
   },
   "en-US": {
     "basic": "Basic and two-way binding",
@@ -25,6 +26,7 @@
     "custom-page-button": "Custom page slots and styles",
     "disabled": "Disabled and hide on single page",
     "auto-adjust": "Data changes and auto adjustment",
-    "responsive": "Container width and compact layout"
+    "responsive": "Container width and compact layout",
+    "api-review": "Feature playground"
   }
 }

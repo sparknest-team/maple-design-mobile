@@ -27,7 +27,12 @@
       @dblclick="onDoubleClick"
     >
       <div :class="n('backdrop')" data-image-preview-backdrop />
-      <div :class="n('image-container')" data-image-preview-container>
+      <div
+        :class="n('image-container')"
+        data-image-preview-container
+        @load.capture="handlePreviewSettled"
+        @error.capture="handlePreviewSettled"
+      >
         <slot name="image" v-bind="{ src, scale, rotate, translateX, translateY, moving, previewedImgProps }">
           <div :class="n('image-frame')">
             <img
@@ -145,6 +150,12 @@ export default defineComponent({
     })
     const refWrapper = ref<HTMLElement>()
     const isPreviewLoading = ref(Boolean(props.src))
+    function handlePreviewSettled(event: Event) {
+      const image = event.target as HTMLImageElement
+      if (image.getAttribute('src') === props.src) {
+        isPreviewLoading.value = false
+      }
+    }
     const popupTarget = usePopupContainer(() => props.popupContainer)
     const wrapperStyles = computed<CSSProperties>(() => ({
       position:
@@ -192,7 +203,13 @@ export default defineComponent({
       () => props.src,
       () => {
         isPreviewLoading.value = Boolean(props.src)
+        // A group keeps its slides mounted; cached images do not emit load again.
+        const images = refWrapper.value?.querySelectorAll<HTMLImageElement>('[data-image-preview-image]')
+        if (images && Array.from(images).some((image) => image.getAttribute('src') === props.src && image.complete)) {
+          isPreviewLoading.value = false
+        }
       },
+      { flush: 'post' },
     )
 
     return {
@@ -201,6 +218,7 @@ export default defineComponent({
       refWrapper,
       wrapperStyles,
       isPreviewLoading,
+      handlePreviewSettled,
       mergedActions,
       actions,
       toggleFullscreen,

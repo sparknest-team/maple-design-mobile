@@ -1,6 +1,6 @@
 # Card
 
-The same scenarios, parameters and interactions as Cedar. Only component prefixes differ; themes and site shells remain independent.
+Source changes synchronously invalidate render generations. Close, row direction, newer work, deactivation or disposal prevent old nextTick/timer/double-frame continuations from changing newer phases. Render/timer deliveries consume once. Recheck lifecycle/request/node after geometry hooks to reject reentrant disposal. Suspension cancels both timers and retained close/click input is inert; activation starts a fresh phase from current props without replay, and initial KeepAlive activation does not duplicate the wait.
 
 ## Examples
 
@@ -8,6 +8,18 @@ The same scenarios, parameters and interactions as Cedar. Only component prefixe
 
 ```demo
 ../example/demos/basic.vue
+```
+
+### Variants and elevation
+
+```demo
+../example/demos/variant.vue
+```
+
+### Sizes
+
+```demo
+../example/demos/size.vue
 ```
 
 ### Custom header
@@ -22,34 +34,16 @@ The same scenarios, parameters and interactions as Cedar. Only component prefixe
 ../example/demos/hoverable.vue
 ```
 
-### Variants and elevation
-
-```demo
-../example/demos/variant.vue
-```
-
 ### Images and directions
 
 ```demo
 ../example/demos/image.vue
 ```
 
-### Sizes
-
-```demo
-../example/demos/size.vue
-```
-
 ### Long title and tooltip
 
 ```demo
 ../example/demos/tooltip.vue
-```
-
-### Content slots
-
-```demo
-../example/demos/slots.vue
 ```
 
 ### Ripple and click
@@ -63,6 +57,43 @@ The same scenarios, parameters and interactions as Cedar. Only component prefixe
 ```demo
 ../example/demos/floating.vue
 ```
+
+### Appearance combinations
+
+Use this example for content grouping and visual hierarchy. Adjust variant, size and compare the component with the same data. Keep the content unchanged while comparing the available settings.
+
+```demo
+../example/demos/appearance-lab.vue
+```
+
+### Content slots
+
+```demo
+../example/demos/slots.vue
+```
+
+### Floating scheduler lifecycle / 浮起调度生命周期
+
+```demo
+../example/demos/en-US/scheduler-lifecycle.vue
+```
+
+The same scenarios, parameters and interactions as Cedar. Only component prefixes differ; themes and site shells remain independent.
+
+### scheduler-lifecycle
+
+```demo
+../example/demos/scheduler-lifecycle.vue
+```
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

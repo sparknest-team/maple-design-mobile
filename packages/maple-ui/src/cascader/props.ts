@@ -1,5 +1,5 @@
 import type { PropType } from 'vue'
-import { presentationProps } from '../_components/selection-field/presentation-props'
+import { fieldPresentationProps } from '../_components/field-presentation/props'
 import type { VirtualListProps } from '../_components/virtual-list-v2/interface'
 import type { ComponentSize } from '../_utils/constant'
 import type { Data } from '../_utils/types'
@@ -8,17 +8,13 @@ import type { TriggerProps } from '../trigger'
 import { popupContainerProp } from '../utils/popup-container'
 import type { CascaderFieldNames, CascaderOption } from './types'
 
-export type CascaderPresentation = 'menu' | 'list' | 'picker'
+export type CascaderPresentation = import('../_components/field-presentation/context').FieldPresentation
 export const cascaderProps = {
+  ...fieldPresentationProps,
   showTags: { type: Boolean, default: true },
   separator: { type: String, default: ',' },
   textAlign: { type: String as PropType<'left' | 'right' | 'center'>, default: 'left' },
-  ...presentationProps,
-  presentation: {
-    type: String as PropType<CascaderPresentation>,
-    default: 'menu',
-    validator: (value: string) => ['menu', 'list', 'picker'].includes(value),
-  },
+
   autoFitPopupWidth: { type: Boolean, default: false },
   hint: fieldDecoratorProps.hint,
   line: fieldDecoratorProps.line,

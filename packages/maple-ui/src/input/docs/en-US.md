@@ -1,10 +1,10 @@
 # Input
 
-### Introduction
-
-Use Input for single-line text entry. It supports multiple variants, floating hints, input types, states, and prefix or suffix content.
+## Examples
 
 ### Basic Usage
+
+Default length counts UTF-16 code units (an emoji usually uses 2). Default truncation never splits a valid surrogate pair; a character that does not fit is omitted entirely. For grapheme-cluster counting and slicing, provide matching `word-length` and `word-slice` functions; custom slicing remains application-controlled.
 
 ```demo
 ../example/demos/en-US/basic.vue
@@ -15,6 +15,30 @@ Use Input for single-line text entry. It supports multiple variants, floating hi
 ```demo
 ../example/demos/en-US/variant.vue
 ```
+
+### Sizes
+
+```demo
+../example/demos/en-US/size.vue
+```
+
+### States
+
+```demo
+../example/demos/en-US/state.vue
+```
+
+### Form control size comparison
+
+Compare Input, Button, Select, date/time fields and other single-line controls at the same size. Field variants share the height scale; Button uses outline here. DatePicker/TimePicker are panels; this example uses Date/Time fields. The example includes selected and clearable values, removable tags and long multiple selections. Select/Cascader keep the same size height with tag-nowrap. Long tag text uses ellipsis while removal icons remain available; tags scroll horizontally while clear and arrow controls stay outside the scrolling area. Hover, focus or tap truncated tag text to read its full content; dismiss with an outside click or Escape without changing the selected value. Restore values after clearing to repeat the comparison. Multiline text and wrapping multiple selections can grow with content.
+
+```demo
+../../field-decorator/example/demos/control-sizes.vue
+```
+
+### Introduction
+
+Use Input for single-line text entry. It supports multiple variants, floating hints, input types, states, and prefix or suffix content.
 
 ### Hint
 
@@ -28,18 +52,6 @@ With `hint`, the placeholder floats on focus or when a value exists. Disable it 
 
 ```demo
 ../example/demos/en-US/type.vue
-```
-
-### Sizes
-
-```demo
-../example/demos/en-US/size.vue
-```
-
-### States
-
-```demo
-../example/demos/en-US/state.vue
 ```
 
 ### Prefix and Suffix
@@ -111,6 +123,31 @@ The two libraries maintain independent copies of the body. Input emits input bef
 ```demo
 ../example/demos/en-US/event-pipeline.vue
 ```
+
+### Appearance combinations
+
+Use this example for single-line form inputs. Adjust variant, size and compare the component with the same data. Keep the content unchanged while comparing the available settings.
+
+```demo
+../example/demos/appearance-lab.vue
+```
+
+### Interaction states
+
+Use this example for single-line form inputs. Adjust disabled, read-only, error feedback and compare the component with the same data. The controls remain available to restore editing; error appearance alone does not run validation.
+
+```demo
+../example/demos/state-lab.vue
+```
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 
@@ -205,3 +242,7 @@ Input provides the variables below. See [FieldDecorator](#/en-US/field-decorator
 | `--mp-input-feedback-duration` | `1s` |
 
 公开类型 / Public types: `InputEmits`, `InputSlots`, `InputExpose`, `InputGroupSlots`, `InputPasswordEmits`, `InputPasswordSlots`, `InputPasswordExpose`.
+
+### 表单展示继承
+
+支持 presentation：`inline / popup`，默认 inline。可继承 FormItem/Form；readPretty 以纯文本阅读，其他弹层默认确认后更新 v-model。可选 before-commit 在候选校验通过后拦截保存。使用方式与对比 Demo 统一见 Form 文档。

@@ -1,0 +1,43 @@
+{
+  "fields": [
+    {
+      "name": "highlighter",
+      "description": "着色器",
+      "type": "Highlighter",
+      "defaultValue": "undefined",
+      "kind": "scenario"
+    },
+    {
+      "name": "theme",
+      "description": "主题",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "tag",
+      "description": "自定义标签名",
+      "type": "string",
+      "defaultValue": "'div'",
+      "kind": "string"
+    }
+  ],
+  "events": [],
+  "scenarios": [
+    {
+      "name": "highlighter",
+      "kind": "prop",
+      "demos": [
+        "../review-fixture.vue"
+      ]
+    },
+    {
+      "name": "default",
+      "kind": "slot",
+      "demos": []
+    }
+  ],
+  "slotNames": [],
+  "slotDefaults": {},
+  "methodNames": []
+}

@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
+import DemoApiReview from './demos/api-review.vue'
 import BasicUsageDemo from './demos/basic-usage.vue'
 import CustomImageDemo from './demos/custom-image.vue'
 import ExtraSlotDemo from './demos/extra-slot.vue'
@@ -41,4 +42,5 @@ onThemeChange()
     <app-type>{{ english ? 'Show and Hide' : '显示与隐藏' }}</app-type>
     <ShowDemo />
   </section>
+  <section data-demo="api-review"><DemoApiReview /></section>
 </template>

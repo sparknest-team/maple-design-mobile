@@ -1,7 +1,8 @@
 import { type ExtractPropTypes, type PropType } from 'vue'
+import { fieldPresentationProps } from '../_components/field-presentation/props'
 import { fieldDecoratorProps } from '../field-decorator'
 import { pickerProps as pickerPropsSource } from '../picker'
-import { popupProps } from '../popup'
+import { triggerProps } from '../trigger'
 import { pickProps } from '../utils/components'
 import { popupContainerProp } from '../utils/popup-container'
 import { timeDisabledProps } from './disabled-props'
@@ -14,12 +15,15 @@ import type {
 import { timeStepProp } from './step-prop'
 import type { TimeValue } from './time-value'
 
-export type TimePresentation = 'clock' | 'picker'
+export type TimePresentation = import('../_components/field-presentation/context').FieldPresentation
 
 export const props = {
+  ...fieldPresentationProps,
+  /** 显示此刻按钮；此刻仅更新草稿，仍需确认。 */
+  showNowButton: timePickerPropsSource.showNowButton,
   /** 是否允许手输时间；移动端默认关闭，面板选择不受影响。 */
   inputEditable: { type: Boolean, default: false },
-  /** 隐藏禁用的时间选项；时钟保留刻度角度。 */
+  /** 隐藏禁用的时间选项。 */
   hideDisabledOptions: Boolean,
   /** 有效选择后立即提交并关闭，不显示确认按钮。 */
   disableConfirm: Boolean,
@@ -35,10 +39,6 @@ export const props = {
   open: {
     type: Boolean,
     default: undefined,
-  },
-  presentation: {
-    type: String as PropType<TimePresentation>,
-    default: 'picker',
   },
   /** 字符串解析、显示及输出格式；默认 HH:mm:ss。 */
   format: String,
@@ -57,12 +57,12 @@ export const props = {
     default: () => ({}),
   },
   popupProps: {
-    type: Object as PropType<TimePopupPresentationProps<Partial<ExtractPropTypes<typeof popupProps>>>>,
+    type: Object as PropType<TimePopupPresentationProps<Partial<ExtractPropTypes<typeof triggerProps>>>>,
     default: () => ({}),
   },
   /** 错误状态；undefined 继承 Form，显式 false 覆盖。 */
   error: { type: Boolean, default: undefined },
-  readonly: Boolean,
+  readonly: { type: Boolean, default: undefined },
   ...pickProps(fieldDecoratorProps, [
     'size',
     'variant',
@@ -75,6 +75,7 @@ export const props = {
     'disabled',
     'clearable',
   ]),
+  disabled: { type: Boolean, default: undefined },
   variant: { ...fieldDecoratorProps.variant, default: 'standard' },
 }
 

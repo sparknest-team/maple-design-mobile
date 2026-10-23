@@ -21,13 +21,7 @@ function requestOpen(next) {
       The parent rejects close requests. Changing the range starts a new confirmation; repeated confirmation does not
       submit twice.
     </p>
-    <mp-date-range
-      v-model="value"
-      :open="open"
-      presentation="calendar"
-      @update:open="requestOpen"
-      @change="commits++"
-    />
+    <mp-date-range v-model="value" :open="open" panel-type="calendar" @update:open="requestOpen" @change="commits++" />
     <span data-test="date-range-transaction-state"
       >Value: {{ value.join(' ~ ') }}; commits: {{ commits }}; rejected closes: {{ closeRequests }}</span
     >

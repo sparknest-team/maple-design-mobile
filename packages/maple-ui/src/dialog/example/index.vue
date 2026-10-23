@@ -3,6 +3,7 @@ import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
 import AdvancedPropsDemo from './demos/advanced-props.vue'
 import AlertDialogDemo from './demos/alert-dialog.vue'
+import DemoApiReview from './demos/api-review.vue'
 import AsyncCloseDemo from './demos/async-close.vue'
 import BasicUsageDemo from './demos/basic-usage.vue'
 import ConfirmBoxDemo from './demos/confirm-box.vue'
@@ -29,48 +30,48 @@ onThemeChange()
     <BasicUsageDemo />
   </section>
 
-  <section data-demo="async-close">
-    <app-type>{{ english ? 'Async Close' : '异步关闭' }}</app-type>
-    <AsyncCloseDemo />
+  <section data-demo="long-content">
+    <app-type>{{ english ? 'Long Content' : 'long content' }}</app-type>
+    <LongContentDemo />
   </section>
 
   <section data-demo="function-call">
-    <app-type>{{ english ? 'Function Calls' : '函数调用' }}</app-type>
+    <app-type>{{ english ? 'Function Calls' : 'function call' }}</app-type>
     <FunctionCallDemo />
   </section>
 
   <section data-demo="alert-dialog">
-    <app-type>{{ english ? 'Alert Dialog' : 'Alert 对话框' }}</app-type>
+    <app-type>{{ english ? 'Alert Dialog' : 'alert dialog' }}</app-type>
     <AlertDialogDemo />
   </section>
 
   <section data-demo="confirm-box">
-    <app-type>{{ english ? 'Confirm Box' : '确认框' }}</app-type>
+    <app-type>{{ english ? 'Confirm Box' : 'confirm box' }}</app-type>
     <ConfirmBoxDemo />
   </section>
 
   <section data-demo="type-icon">
-    <app-type>{{ english ? 'Semantic Messages' : '消息提示' }}</app-type>
+    <app-type>{{ english ? 'Semantic Messages' : 'type icon' }}</app-type>
     <TypeIconDemo />
   </section>
 
   <section data-demo="form-dialog">
-    <app-type>{{ english ? 'Dialog Form' : '对话框表单' }}</app-type>
+    <app-type>{{ english ? 'Dialog Form' : 'form dialog' }}</app-type>
     <FormDialogDemo />
   </section>
 
   <section data-demo="custom-footer">
-    <app-type>{{ english ? 'Custom Footer' : '自定义底部' }}</app-type>
+    <app-type>{{ english ? 'Custom Footer' : 'custom footer' }}</app-type>
     <CustomFooterDemo />
   </section>
 
   <section data-demo="custom-button-text">
-    <app-type>{{ english ? 'Custom Button Text' : '定制按钮文字' }}</app-type>
+    <app-type>{{ english ? 'Custom Button Text' : 'custom button text' }}</app-type>
     <CustomButtonTextDemo />
   </section>
 
   <section data-demo="layout">
-    <app-type>{{ english ? 'Layout' : '布局' }}</app-type>
+    <app-type>{{ english ? 'Layout' : 'layout' }}</app-type>
     <LayoutDemo />
   </section>
 
@@ -79,8 +80,9 @@ onThemeChange()
     <AdvancedPropsDemo />
   </section>
 
-  <section data-demo="long-content">
-    <app-type>{{ english ? 'Long Content' : '长内容' }}</app-type>
-    <LongContentDemo />
+  <section data-demo="async-close">
+    <app-type>{{ english ? 'Async Close' : 'async close' }}</app-type>
+    <AsyncCloseDemo />
   </section>
+  <section data-demo="api-review"><DemoApiReview /></section>
 </template>

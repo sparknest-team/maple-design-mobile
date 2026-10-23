@@ -16,29 +16,17 @@ const handleSelect = (_value: unknown, option: { label?: unknown }) => {
   Message.info(String(option.label))
 }
 const variants = ['default', 'outline', 'tonal', 'text'] as const
-const statuses = ['default', 'primary', 'info', 'success', 'warning', 'danger', 'secondary', 'tertiary'] as const
-const variant = ref<(typeof variants)[number]>('default')
-const status = ref<(typeof statuses)[number]>('default')
-const disabled = ref(false)
 </script>
 
 <template>
-  <div class="split-button-demo">
-    <div class="split-button-demo-control">
-      <span>Variant</span>
-      <mp-radio-group v-model="variant">
-        <mp-radio v-for="value in variants" :key="value" :value="value">{{ value }}</mp-radio>
-      </mp-radio-group>
-    </div>
-    <div class="split-button-demo-control">
-      <span>Status</span>
-      <mp-radio-group v-model="status">
-        <mp-radio v-for="value in statuses" :key="value" :value="value">{{ value }}</mp-radio>
-      </mp-radio-group>
-    </div>
-    <label><input v-model="disabled" type="checkbox" /> Disabled</label>
-
-    <mp-split-button :variant="variant" :status="status" :disabled="disabled" @click="publish" @select="handleSelect">
+  <mp-space wrap>
+    <mp-split-button
+      v-for="variant in variants"
+      :key="variant"
+      :variant="variant"
+      @click="publish"
+      @select="handleSelect"
+    >
       {{ variant }}
 
       <template #content>
@@ -47,17 +35,5 @@ const disabled = ref(false)
         <mp-menu-option :label="english ? 'Unavailable' : '暂无权限'" value="restricted" disabled />
       </template>
     </mp-split-button>
-  </div>
+  </mp-space>
 </template>
-
-<style scoped>
-.split-button-demo {
-  display: grid;
-  gap: 16px;
-  justify-items: start;
-}
-.split-button-demo-control {
-  display: grid;
-  gap: 8px;
-}
-</style>

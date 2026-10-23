@@ -5,9 +5,8 @@ import PickerField from '../../_components/picker-field/PickerField.vue'
 import { FORM_ITEM_BIND_CONTROL_KEY } from '../../form/item-provide'
 import { _PickerComponent as Picker } from '../../picker'
 import TimeRange from '../../time-range/TimeRange.vue'
-import TimePopup from '../presentation/TimePopup.vue'
+import Trigger from '../../trigger'
 import Time from '../Time.vue'
-import TimePicker from '../TimePicker.vue'
 
 describe('Maple temporal field presentation', () => {
   it('inherits Form error and allows an explicit false override', async () => {
@@ -36,23 +35,30 @@ describe('Maple temporal field presentation', () => {
   it('filters all nested state and preserves popupContainer precedence', async () => {
     const wrapper = mount(Time, {
       props: {
-        presentation: 'clock',
+        defaultOpen: true,
         popupContainer: false,
-        timePickerProps: { modelValue: '23:00', min: '22:00', color: 'red', presentation: 'picker' } as never,
+        timePickerProps: { modelValue: '23:00', min: '22:00', color: 'red' } as never,
         pickerProps: { open: true, columns: [], toolbar: true, optionHeight: 48 } as never,
         popupProps: { open: true, defaultOpen: true, popupContainer: 'body', placement: 'top' } as never,
       },
-      global: { stubs: { MpPopup: { template: '<div><slot /></div>' }, MpTimePicker: true, MpPicker: true } },
+      global: {
+        stubs: {
+          MpTrigger: {
+            props: ['open', 'placement', 'trigger', 'popupContainer'],
+            template: '<div><slot /><slot name="content" /></div>',
+          },
+          MpTimePicker: true,
+          MpPicker: true,
+        },
+      },
     })
-    expect(wrapper.findComponent(TimePicker).props()).toMatchObject({
-      color: 'red',
-      min: undefined,
-      presentation: 'clock',
-    })
-    await wrapper.setProps({ presentation: 'picker' })
     expect(wrapper.findComponent(Picker).props()).toMatchObject({ optionHeight: 48, toolbar: false })
-    expect(wrapper.findComponent(TimePopup).props('popupProps')).toEqual({ popupContainer: false, placement: 'top' })
-    expect(wrapper.findComponent(TimePopup).props('open')).toBe(false)
+    expect(wrapper.findComponent(Trigger).props()).toMatchObject({
+      popupContainer: false,
+      placement: 'top',
+      trigger: [],
+    })
+    expect(wrapper.findComponent(Trigger).props('open')).toBe(true)
     wrapper.unmount()
   })
 })

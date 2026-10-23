@@ -11,9 +11,8 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref, watch } from 'vue'
+import { computed, defineComponent, onActivated, onBeforeUnmount, onDeactivated, PropType, ref, watch } from 'vue'
 import { Direction } from '../../_utils/constant'
-import { off, on } from '../../_utils/dom'
 import { createNamespace, getPrefixCls } from '../../utils/components'
 import { ThumbData, ThumbMap } from './types'
 
@@ -73,72 +72,179 @@ export default defineComponent({
       }
     })
 
-    const handleThumbMouseDown = (ev: MouseEvent) => {
-      ev.preventDefault()
+    let active = true
+    let disposed = false
+    let generation = 0
+    interface DragSession {
+      token: number
+      view: Window
+      track: HTMLElement
+      thumb: HTMLElement
+      start: number
+      map: ThumbMap
+      move: (event: MouseEvent) => void
+      end: () => void
+    }
+    let drag: DragSession | undefined
+    const available = () => active && !disposed
+    const valid = (session: DragSession) =>
+      available() &&
+      drag === session &&
+      generation === session.token &&
+      trackRef.value === session.track &&
+      thumbRef.value === session.thumb &&
+      session.track.ownerDocument.defaultView === session.view &&
+      session.thumb.ownerDocument.defaultView === session.view
 
-      if (thumbRef.value) {
-        mouseOffset.value = ev[thumbMap.value.client] - thumbRef.value.getBoundingClientRect()[thumbMap.value.direction]
-        isDragging.value = true
-        on(window, 'mousemove', handleMouseMove)
-        on(window, 'mouseup', handleMouseUp)
-        on(window, 'contextmenu', handleMouseUp)
+    function cancelDrag() {
+      const previous = drag
+      drag = undefined
+      const token = ++generation
+      if (previous) {
+        previous.view.removeEventListener('mousemove', previous.move)
+        previous.view.removeEventListener('mouseup', previous.end)
+        previous.view.removeEventListener('contextmenu', previous.end)
+        previous.view.removeEventListener('blur', previous.end)
+      }
+      // Listener removal or reactive notification can synchronously start new work.
+      if (token === generation) {
+        mouseOffset.value = 0
+        isDragging.value = false
       }
     }
-
-    const handleTrackClick = (ev: MouseEvent) => {
-      ev.preventDefault()
-
-      if (thumbRef.value) {
-        const _offset = getLegalOffset(
-          ev[thumbMap.value.client] > thumbRef.value.getBoundingClientRect()[thumbMap.value.direction]
-            ? offset.value + (props.data?.thumbSize ?? 0)
-            : offset.value - (props.data?.thumbSize ?? 0),
-        )
-        if (_offset !== offset.value) {
-          offset.value = _offset
-          emit('scroll', _offset)
-        }
-      }
-    }
-
-    const getLegalOffset = (offset: number) => {
-      if (offset < 0) {
+    const getLegalOffset = (value: number) => {
+      if (value < 0) {
         return 0
       }
-      if (props.data && offset > props.data.max) {
+      if (props.data && value > props.data.max) {
         return props.data.max
       }
-      return offset
+      return value
     }
-
-    const handleMouseMove = (ev: MouseEvent) => {
-      if (trackRef.value && thumbRef.value) {
-        const _offset = getLegalOffset(
-          ev[thumbMap.value.client] -
-            trackRef.value.getBoundingClientRect()[thumbMap.value.direction] -
-            mouseOffset.value,
+    const handleThumbMouseDown = (event: MouseEvent) => {
+      if (!available() || event.button !== 0) {
+        return
+      }
+      cancelDrag()
+      if (!available() || drag) {
+        return
+      }
+      const thumb = thumbRef.value
+      const track = trackRef.value
+      const view = thumb?.ownerDocument.defaultView
+      if (!thumb || !track || !view || track.ownerDocument.defaultView !== view) {
+        return
+      }
+      const token = generation
+      const map = thumbMap.value
+      event.preventDefault()
+      const start = event[map.client] - thumb.getBoundingClientRect()[map.direction]
+      if (
+        !available() ||
+        token !== generation ||
+        thumbRef.value !== thumb ||
+        trackRef.value !== track ||
+        thumb.ownerDocument.defaultView !== view ||
+        track.ownerDocument.defaultView !== view
+      ) {
+        return
+      }
+      const session: DragSession = { token, view, track, thumb, start, map, move: () => {}, end: () => {} }
+      session.move = (event: MouseEvent) => {
+        if (!valid(session)) {
+          return
+        }
+        const next = getLegalOffset(
+          event[session.map.client] - session.track.getBoundingClientRect()[session.map.direction] - session.start,
         )
-        if (_offset !== offset.value) {
-          offset.value = _offset
-          emit('scroll', _offset)
+        if (!valid(session)) {
+          return
+        }
+        if (next !== offset.value) {
+          offset.value = next
+          if (valid(session)) {
+            emit('scroll', next)
+          }
+        }
+      }
+      session.end = () => {
+        if (valid(session)) {
+          cancelDrag()
+        }
+      }
+      drag = session
+      mouseOffset.value = start
+      isDragging.value = true
+      if (!valid(session)) {
+        return
+      }
+      view.addEventListener('mousemove', session.move)
+      view.addEventListener('mouseup', session.end)
+      view.addEventListener('contextmenu', session.end)
+      view.addEventListener('blur', session.end)
+    }
+    const handleTrackClick = (event: MouseEvent) => {
+      if (!available() || event.button !== 0) {
+        return
+      }
+      cancelDrag()
+      if (!available() || drag) {
+        return
+      }
+      const thumb = thumbRef.value
+      const track = trackRef.value
+      if (!thumb || !track) {
+        return
+      }
+      const token = generation
+      const map = thumbMap.value
+      event.preventDefault()
+      const leading = thumb.getBoundingClientRect()[map.direction]
+      const next = getLegalOffset(
+        event[map.client] > leading
+          ? offset.value + (props.data?.thumbSize ?? 0)
+          : offset.value - (props.data?.thumbSize ?? 0),
+      )
+      if (!available() || token !== generation || thumbRef.value !== thumb || trackRef.value !== track) {
+        return
+      }
+      if (next !== offset.value) {
+        offset.value = next
+        if (available() && token === generation) {
+          emit('scroll', next)
         }
       }
     }
-
-    const handleMouseUp = () => {
-      isDragging.value = false
-      off(window, 'mousemove', handleMouseMove)
-      off(window, 'mouseup', handleMouseUp)
-    }
-
-    const setOffset = (_offset: number) => {
-      if (!isDragging.value) {
-        _offset = getLegalOffset(_offset)
-        if (_offset !== offset.value) {
-          offset.value = _offset
-        }
+    const setOffset = (value: number) => {
+      if (!available() || drag) {
+        return
+      }
+      const token = generation
+      const next = getLegalOffset(value)
+      if (available() && token === generation && !drag && next !== offset.value) {
+        offset.value = next
       }
     }
+    watch(
+      [() => props.direction, () => props.data?.max, () => props.data?.thumbSize, () => props.data?.ratio],
+      cancelDrag,
+      { flush: 'sync' },
+    )
+    onDeactivated(() => {
+      active = false
+      cancelDrag()
+    })
+    onBeforeUnmount(() => {
+      disposed = true
+      active = false
+      cancelDrag()
+    })
+    onActivated(() => {
+      if (!disposed && !active) {
+        active = true
+        generation++
+      }
+    })
 
     const thumbCls = computed(() => [
       `${prefixCls}-thumb`,

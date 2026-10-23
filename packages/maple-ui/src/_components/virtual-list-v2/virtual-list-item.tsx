@@ -15,6 +15,7 @@ const { name } = createNamespace('virtual-list-item')
 export default defineComponent({
   name,
   props: {
+    index: Number,
     hasItemSize: {
       type: Function,
       required: true,
@@ -46,6 +47,7 @@ export default defineComponent({
           child,
           {
             ref: itemRef,
+            'data-virtual-list-index': props.index,
           },
           true,
         )

@@ -35,7 +35,8 @@
   ],
   "scripts": {
     "build": "rimraf ./lib && tsc",
-    "dev": "tsc --watch"
+    "dev": "tsc --watch",
+    "test": "vitest run --config vitest.config.ts"
   },
   "dependencies": {
     "@babel/core": "^7.28.0",
@@ -60,7 +61,7 @@
     "glob": "7.2.3",
     "hash-sum": "^2.0.0",
     "less": "^3.13.1",
-    "markdown-it": "^12.3.2",
+    "markdown-it": "^14.3.0",
     "nanospinner": "^1.2.2",
     "picocolors": "^1.1.1",
     "sass": "^1.89.2",

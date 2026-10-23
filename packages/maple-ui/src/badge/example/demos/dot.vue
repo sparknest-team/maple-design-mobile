@@ -5,7 +5,7 @@
         >Inbox</span
       ></mp-badge
     ><mp-badge dot :content="1" :offset-x="6" :offset-y="-2"
-      ><a href="#" @click.prevent>Messages</a></mp-badge
+      ><mp-link href="#" @click.prevent>Messages</mp-link></mp-badge
     ></mp-space
   >
 </template>

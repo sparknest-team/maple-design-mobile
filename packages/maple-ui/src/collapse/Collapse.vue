@@ -24,7 +24,8 @@ const items = shallowRef<CollapseItemContext[]>([])
 const innerActiveNames = ref<CollapseName[]>([...(props.defaultActiveNames ?? [])])
 const computedActiveNames = computed(() => {
   const activeNames = props.activeNames ?? innerActiveNames.value
-  return Array.isArray(activeNames) ? activeNames : [activeNames]
+  const names = Array.isArray(activeNames) ? activeNames : [activeNames]
+  return props.accordion ? names.slice(0, 1) : names
 })
 
 function updateActiveNames(newActiveNames: CollapseName[], e?: Event) {

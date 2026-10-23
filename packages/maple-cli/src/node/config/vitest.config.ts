@@ -3,7 +3,7 @@ import { dirname as pathDirname, resolve } from 'path'
 import { fileURLToPath } from 'url'
 import vue from '@vitejs/plugin-vue'
 import jsx from '@vitejs/plugin-vue-jsx'
-import { defineConfig } from 'vitest/config'
+import { configDefaults, defineConfig } from 'vitest/config'
 import { SRC_DIR, VITE_RESOLVE_EXTENSIONS } from '../shared/constant.js'
 
 const configDir = pathDirname(fileURLToPath(import.meta.url))
@@ -21,6 +21,12 @@ export default defineConfig({
   plugins: [vue(), jsx()],
 
   test: {
+    // Large component suites create a jsdom per file; bound their memory/IO
+    // pressure so ordinary test commands remain stable alongside type checks.
+    maxWorkers: Math.min(cpuNum, 4),
+    minWorkers: 1,
+    // Test authored component sources only; .maple contains copied CLI/site tests.
+    include: configDefaults.include.map((pattern) => `src/${pattern}`),
     environment: 'jsdom',
     setupFiles: [resolve(configDir, 'vitest.setup.js')],
     coverage: {

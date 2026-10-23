@@ -1,0 +1,24 @@
+{
+  "fields": [
+    {
+      "name": "style-vars",
+      "description": "局部变量，null 清空本层覆盖",
+      "type": "StyleVars | null",
+      "defaultValue": "(): StyleVars | null => ({})",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "tag",
+      "description": "包裹标签",
+      "type": "string",
+      "defaultValue": "'div'",
+      "kind": "string"
+    }
+  ],
+  "events": [],
+  "scenarios": [],
+  "slotNames": [],
+  "slotDefaults": {},
+  "methodNames": []
+}

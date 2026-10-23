@@ -1,14 +1,76 @@
 # Select
 
-Render-settled active-option scrolling is not CSS animation completion. Close/reopen, newer navigation, deactivation or disposal invalidate old work; consumed callbacks never replay, including empty options. Inactive/disposed retained selection/keyboard/scroll entries are inert; activation accepts fresh commands. Late dropdown registration remains supported. Virtual callbacks are rechecked before DOM scrolling. Scoped14 each/shared consumer regression Cedar93/Maple96 pass with controlled queues, not native browser/OS or full downstream proof. No API/CSS token change.
+## Examples
 
-### Async device labels
+### Basic usage
+
+Open the options, select a value to close the menu, or clear it to choose again. This example demonstrates single selection only.
 
 ```demo
-../example/demos/en-US/async-devices.vue
+../example/demos/standard.vue
 ```
 
-The field, controller, option algorithms, Menu and styles are independently copied from Cedar. Maple adds list/picker presentations in separate files; neither library imports the other at runtime.
+### Disabled and readonly
+
+```demo
+../example/demos/state.vue
+```
+
+### Small size
+
+```demo
+../example/demos/size.vue
+```
+
+### Form control size comparison
+
+Compare Input, Button, Select, date/time fields and other single-line controls at the same size. Field variants share the height scale; Button uses outline here. DatePicker/TimePicker are panels; this example uses Date/Time fields. The example includes selected and clearable values, removable tags and long multiple selections. Select/Cascader keep the same size height with tag-nowrap. Long tag text uses ellipsis while removal icons remain available; tags scroll horizontally while clear and arrow controls stay outside the scrolling area. Hover, focus or tap truncated tag text to read its full content; dismiss with an outside click or Escape without changing the selected value. Restore values after clearing to repeat the comparison. Multiline text and wrapping multiple selections can grow with content.
+
+```demo
+../../field-decorator/example/demos/control-sizes.vue
+```
+
+### Outlined variant
+
+```demo
+../example/demos/outline.vue
+```
+
+### Labels and values
+
+```demo
+../example/demos/value-mapping.vue
+```
+
+### Clearing
+
+```demo
+../example/demos/clearable.vue
+```
+
+### Multiple selection
+
+```demo
+../example/demos/multiple.vue
+```
+
+### Option data
+
+```demo
+../example/demos/options.vue
+```
+
+### Field mapping
+
+```demo
+../example/demos/field-names.vue
+```
+
+### Custom icons
+
+```demo
+../example/demos/custom-icons.vue
+```
 
 ### Identical labels, distinct values
 
@@ -18,88 +80,98 @@ Labels may repeat, but values must be unique. Removing the second selected tag r
 ../example/demos/same-label.vue
 ```
 
-
 ### Intro
 
 Display and select the content through the drop-down menu.
 
-### Standard Variant
+### Overlay presentations
+
+Use inline for the standard field, popup for a bottom list, dialog for a dialog, and read for value-only content. See the combined Form demonstration for inheritance and confirmation.
 
 ```demo
-../example/demos/standard.vue
+../example/demos/dialog.vue
 ```
-
-### Outlined Variant
 
 ```demo
-../example/demos/outline.vue
+../example/demos/popup.vue
 ```
-
-### Picker Mode
-
-Set `presentation` to `picker` to use a bottom-sheet wheel picker.
-
-
-
-
-
-```demo
-../example/demos/picker.vue
-```
-
-### Picker Multiple
-
-Same cart flow as Cascader: tap **Add** to push the current wheel value into a draft, **Done** commits to `v-model`, **Cancel** discards the draft.
-
-```html
-<script setup>
-  import { ref } from 'vue'
-
-  const pickerMultiple = ref([])
-  const pickerOptions = ref([
-    { label: 'Eat', value: 1 },
-    { label: 'Sleep', value: 2 },
-    { label: 'Play game', value: 3 },
-    { label: 'Write documentation', value: 4 },
-  ])
-</script>
-
-<template>
-  <mp-select
-    presentation="picker"
-    multiple show-tags
-    clearable
-    placeholder="Please select multiple options"
-    v-model="pickerMultiple"
-    :options="pickerOptions"
-  />
-</template>
-```
-
-### List Mode
-
-Set `presentation` to `list` to show options in a bottom-sheet list. Selected items show a checkmark on the right.
-
-Single: tap to select and close. Multiple: tap to toggle draft selection, **Done** commits, **Cancel** discards.
-
-
-
-
-
-```demo
-../example/demos/list.vue
-```
-
 
 ### Presentation and commit rules
 
-Menu commits immediately. List commits single values immediately; multiple values use a draft. Picker always uses a draft. Confirm publishes once; cancel, overlay dismissal, Escape and presentation changes discard edits. External model replacements win over drafts. Cedar only supports Menu; Maple adds independently implemented List and Picker extensions to copied controllers and Menu code. No shared runtime or state.
+Inline commits immediately by default. Popup and dialog confirm a draft. Confirm publishes once; cancel, overlay dismissal, Escape and presentation changes discard edits. External model replacements win over drafts. Cedar supports inline/click/dblclick; Maple supports inline/popup. No shared runtime or state.
+
+### Group spacing
+
+```demo
+../example/demos/group-spacing.vue
+```
+
+### Manage selected items
+
+Multi-select panels include a selection summary and Clear. Cedar shows removable tags above list options. Maple opens selected-item details from the count row, with per-item removal and a way back to options. Popup/popover and dialog use the same behavior. Removal and Clear edit the draft; Cancel restores the value and Confirm publishes it. Disabled items remain selected, and confirmation locks selection actions. The panel Clear action is independent of the field clear icon.
+
+### Appearance combinations
+
+Use this example for single selection from a known list. Adjust variant, size and compare the component with the same data. Keep the content unchanged while comparing the available settings.
+
+```demo
+../example/demos/appearance-lab.vue
+```
+
+### Interaction states
+
+Use this example for single selection from a known list. Adjust disabled, read-only, error feedback and compare the component with the same data. The controls remain available to restore editing; error appearance alone does not run validation.
+
+```demo
+../example/demos/state-lab.vue
+```
+
+### Async device labels
+
+```demo
+../example/demos/en-US/async-devices.vue
+```
+
+The field, controller, option algorithms, Menu and styles are independently copied from Cedar. Maple uses the shared internal field presentation host for popup; neither library imports the other at runtime.
+
+### Thumb drag lifecycle / 滑块拖动生命周期
+
+Each primary-button start owns a session: generation, track/thumb nodes, immutable axis/start and thumb.ownerDocument.defaultView. Register mousemove/mouseup/contextmenu/blur on that original window. Release the full set and dragging/mouseOffset on normal end, context cancellation, blur, effective geometry/direction change, deactivation or disposal. This repairs leaked contextmenu, missing suspension/disposal cleanup and global-window iframe binding. Old move cannot drive a new gesture; old end cannot release one. Activation allows only fresh starts.
+
+Changing direction/max/thumbSize/ratio cancels the gesture; replacing data with equal primitive geometry does not. Parent measurement/setOffset still settles final position. Recheck ownership after geometry/reactive writes to reject reentrant disposal. Inactive/disposed retained start/track/setOffset are inert without preventDefault; nonprimary clicks do not drag/page. Active setOffset clamping, drag-time suppression and one-thumb track paging remain. No Pointer/touch protocol migration or rollback of native scrolling.
+
+```demo
+../example/demos/en-US/thumb-lifecycle.vue
+```
+
+### Scrollbar consumer lifecycle / 滚动条消费者生命周期
+
+Lifecycle availability gates retained native methods, thumb commands, scroll notifications and measurement. Suspension/disposal invalidate operation and binding epochs; activation remeasures current geometry and accepts only fresh binding deliveries. After geometry getters/reactive commits/thumb callbacks, operation/node/lifecycle checks reject reentrant disposal or newer measurement ownership. Logical cancellation cannot undo native scrolling already handed to the browser; native smooth interpolation/cancellation is not certified.
+
+Zero is a valid coordinate, including scrollTo(0,0); measurement resets thumbs at zero. Horizontal measurement uses horizontal rather than vertical ratio. Zero/invalid viewport yields finite nonnegative metrics and no scrollbar on that zero-sized axis. Existing20px minimum thumb/15px track strategy remains. Hidden/disabled-axis thumb delivery is inert, but disabling the bar does not forbid content/public native scrolling. Options are forwarded without JS animation. Public signatures and CSS variables unchanged.
+
+```demo
+../example/demos/en-US/scrollbar-lifecycle.vue
+```
+
+Render-settled active-option scrolling is not CSS animation completion. Close/reopen, newer navigation, deactivation or disposal invalidate old work; consumed callbacks never replay, including empty options. Inactive/disposed retained selection/keyboard/scroll entries are inert; activation accepts fresh commands. Late dropdown registration remains supported. Virtual callbacks are rechecked before DOM scrolling. Scoped14 each/shared consumer regression Cedar93/Maple96 pass with controlled queues, not native browser/OS or full downstream proof. No API/CSS token change.
 
 ### Interaction Scheduling Lifecycle
 
 ```demo
 ../example/demos/en-US/scheduler-lifecycle.vue
 ```
+
+Grouped option lists share Menu spacing: a 20px title line with 4px vertical padding (28px total), an extra 8px before subsequent groups, and no extra group gap before the first title. Labels align with option text; AutoComplete labels follow its option horizontal padding.
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 
@@ -124,10 +196,10 @@ Use `v-model`, `v-model:open` and `v-model:input-value` for controlled state. Cl
 | `separator` | Separator when show-tags=false | `string` | `,` |
 | `text-align` | left, center, right | `string` | `left` |
 | `max-tag-count` | Maximum visible tags; 0 means unlimited | `number` | `0` |
-| `tag-nowrap` | Prevent tag text wrapping | `boolean` | `false` |
+| `tag-nowrap` | Keep tags on one line with ellipsis and preserved removal icons; overflow scrolls horizontally; hover, focus or tap truncated text to preview it | `boolean` | `false` |
 | `popup-container` | Selector, element, element resolver, or false for inline rendering | `PopupContainer` | `—` |
 | `trigger-props` | Menu Trigger props; field owns open state | `TriggerProps` | `—` |
-| `virtual-list-props` | Virtual list settings for Menu / List | `VirtualListProps` | `—` |
+| `virtual-list-props` | Virtual list settings for option panels | `VirtualListProps` | `—` |
 | `search-delay` | Search debounce delay in ms | `number` | `500` |
 | `format-label` | Format selected labels; use label slot for VNodes | `function` | `—` |
 | `clearable` | Allow clearing; preserve disabled selections | `boolean` | `true` |
@@ -142,11 +214,10 @@ Use `v-model`, `v-model:open` and `v-model:input-value` for controlled state. Cl
 | `auto-fit-popup-width` | Match Menu width to the field | `boolean` | `true` |
 | `default-active-first-option` | Highlight first enabled option without committing it | `boolean` | `true` |
 | `unmount-on-close` | Unmount Menu content when closed | `boolean` | `false` |
-| `scrollbar` | Menu / List scrollbar settings | `boolean 或 ScrollbarProps` | `true` |
+| `scrollbar` | option panels scrollbar settings | `boolean 或 ScrollbarProps` | `true` |
 | `show-header-on-empty / show-footer-on-empty` | Display header/footer in empty state | `boolean` | `false` |
-| `presentation` | Presentation mode | `menu / list / picker` | `menu` |
-| `picker-props` | Wheel appearance and toolbar texts; selected values, columns, field mapping and toolbar are owned by the extension | `PickerProps` | `{}` |
-| `popup-props` | Popup appearance; open state, bottom placement and mounting are owned by the extension | `PopupProps` | `{}` |
+| `presentation` | 字段展示；未指定时继承 FormItem/Form | `inline / popup` | `inline` |
+| `before-commit` | 确认校验后可等待的保存拦截钩子 | `(value, context) => void / false / Promise` | — |
 
 ### Events and methods
 
@@ -189,7 +260,7 @@ Select additionally supports `header`, `footer`, `trigger`, and default `Option 
 | `--mp-select-popup-option-text-color-selected` | `var(--mp-sys-color-content-primary)` |
 | `--mp-select-popup-option-text-color-disabled` | `var(--mp-sys-color-content-disabled)` |
 | `--mp-select-popup-group-title-height` | `20px` |
-| `--mp-select-popup-group-title-padding-horizontal` | `var(--mp-sys-space-5)` |
+| `--mp-select-popup-group-title-padding-horizontal` | `var(--mp-select-popup-option-padding-horizontal)` |
 | `--mp-select-popup-group-title-padding-top` | `var(--mp-sys-space-4)` |
 | `--mp-select-popup-group-title-font-size` | `var(--mp-sys-font-size-xs)` |
 | `--mp-select-popup-group-title-text-color` | `var(--mp-sys-color-content-secondary)` |
@@ -201,4 +272,6 @@ Single and multiple options share popup-option-padding-horizontal. There is no i
 
 ### Field and mobile presentation styles
 
-The copied field shell keeps the same token declarations as Cedar. Mobile presentation-only variables are declared separately in `src/_components/selection-field/presentation/style/token.less` and loaded with the local presentation stylesheet. Their names and defaults remain unchanged: `--mp-selection-presentation-max-height` (`65vh`), `--mp-selection-presentation-bg` (`var(--mp-sys-color-surface-overlay)`) and `--mp-selection-presentation-padding` (`var(--mp-sys-space-5)`). They do not add mobile presentation behavior to Cedar.
+Presentation containers use internal `src/_components/field-presentation/token.less`, with system surface, spacing and size tokens. Option lists retain the existing Select tokens.
+
+`read-pretty` 为独立布尔属性，与 `readonly`、`disabled` 同级；字段 > FormItem > Form 继承，显式 `false` 覆盖父级。默认 `false`。纯阅读不显示编辑器。

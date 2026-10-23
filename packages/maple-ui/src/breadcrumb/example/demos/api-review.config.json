@@ -1,0 +1,77 @@
+{
+  "fields": [
+    {
+      "name": "separator",
+      "description": "分隔符",
+      "type": "string | number",
+      "defaultValue": "'/'",
+      "kind": "scalar"
+    },
+    {
+      "name": "max-count",
+      "description": "最多展示的正常面包屑项数量，不包含 more；0 表示不限制",
+      "type": "number",
+      "defaultValue": "0",
+      "kind": "number"
+    },
+    {
+      "name": "routes",
+      "description": "路径数据（非空时优先；为空时使用默认插槽）",
+      "type": "BreadcrumbRoute[]",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "[]"
+    }
+  ],
+  "events": [],
+  "scenarios": [
+    {
+      "name": "routes",
+      "kind": "prop",
+      "demos": [
+        "dropdown.vue",
+        "max-count.vue",
+        "routes-mode.vue"
+      ]
+    },
+    {
+      "name": "default",
+      "kind": "slot",
+      "demos": []
+    },
+    {
+      "name": "separator",
+      "kind": "slot",
+      "demos": [
+        "child-separator.vue",
+        "separator-slot.vue",
+        "separator.vue"
+      ]
+    },
+    {
+      "name": "item-render",
+      "kind": "slot",
+      "demos": [
+        "routes-mode.vue"
+      ]
+    },
+    {
+      "name": "more-icon",
+      "kind": "slot",
+      "demos": [
+        "max-count.vue"
+      ]
+    }
+  ],
+  "slotNames": [
+    "separator",
+    "item-render",
+    "more-icon"
+  ],
+  "slotDefaults": {
+    "separator": false,
+    "item-render": false,
+    "more-icon": false
+  },
+  "methodNames": []
+}

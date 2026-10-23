@@ -21,9 +21,6 @@ import { getCliVersion, isDir, isMD } from '../shared/fsUtils.js'
 
 const { ensureDir, readdirSync, readFileSync, writeFileSync } = fse
 
-const TABLE_HEAD_RE = /\s*\|.*\|\s*\n\s*\|.*-+\s*\|\s*\n+/
-const TABLE_FOOT_RE = /(\|\s*$)|(\|\s*\n(?!\s*\|))/
-
 export interface TemplateHighlightCompilerOptions {
   md: string
   json: string
@@ -39,9 +36,12 @@ export const replaceVersion = (s: string) => s.replace(/\*\*\*.+\*\*\*/g, '').tr
 export const replaceUnderline = (s: string) => s.replace(/_/g, '')
 
 export function parseTable(table: string) {
-  const rows = table.split('\n').filter(Boolean)
+  const rows = table
+    .split(/\r?\n/)
+    .map((row) => row.trim())
+    .filter((row) => row.startsWith('|') && row.endsWith('|'))
   return rows.map((row) => {
-    const cols = row.split('|')
+    const cols = row.replace(/\\\|/g, '__maple_axis__').split('|')
     cols.shift()
     cols.pop()
     return cols.map((col) => col.replace(/__maple_axis__/g, '|').trim())
@@ -61,19 +61,24 @@ export function compileTable(md: string, titleRe: RegExp): string {
   }
   md = md.slice((titleMatched.index as number) + titleMatched[0].length)
 
-  const tableHeadMatched = md.match(TABLE_HEAD_RE)
-  if (!tableHeadMatched) {
+  // A header-only Events table is empty. Never scan into the following Slots
+  // section or treat its heading as a row (Grid's English docs exposed this).
+  const section = md.split(/^\s*#{1,3}\s+/m, 1)[0]
+  const lines = section.split(/\r?\n/).map((line) => line.trim())
+  const header = lines.findIndex(
+    (line, index) => line.startsWith('|') && /^\|(?:\s*:?-+:?\s*\|)+$/.test(lines[index + 1] ?? ''),
+  )
+  if (header < 0) {
     return ''
   }
-  md = md.slice((tableHeadMatched.index as number) + tableHeadMatched[0].length)
-
-  const tableFootMatched = md.match(TABLE_FOOT_RE)
-  if (!tableFootMatched) {
-    return ''
+  const rows: string[] = []
+  for (const line of lines.slice(header + 2)) {
+    if (!line.startsWith('|') || !line.endsWith('|')) {
+      break
+    }
+    rows.push(line)
   }
-  md = md.slice(0, (tableFootMatched.index as number) + tableFootMatched[0].length)
-
-  return md.replace(/\\\|/g, '__maple_axis__').trim()
+  return rows.join('\n')
 }
 
 export function compileWebTypes(
@@ -87,7 +92,7 @@ export function compileWebTypes(
   const attributes = attributesTable.map((row: any) => ({
     name: replaceVersion(replaceDot(row[0])),
     description: row[1],
-    default: replaceDot(row[3]),
+    default: replaceDot(row[3] ?? ''),
     value: {
       type: replaceUnderline(row[2]),
       kind: 'expression',

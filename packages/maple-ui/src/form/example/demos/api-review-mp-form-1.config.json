@@ -1,0 +1,182 @@
+{
+  "fields": [
+    {
+      "name": "id",
+      "description": "表单原生 id；显式设置时作为字段容器 id 前缀（嵌套路径归一化）",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "model",
+      "description": "表单数据对象，FormItem 通过 field 从中读取和写入数据",
+      "type": "Record<string, any>",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "layout",
+      "description": "表单项布局方式，可选值为 vertical horizontal inline；可被 FormItem.layout 覆盖",
+      "type": "'horizontal' | 'vertical' | 'inline'",
+      "defaultValue": "'vertical'",
+      "kind": "enum",
+      "options": [
+        "horizontal",
+        "vertical",
+        "inline"
+      ],
+      "initial": "vertical"
+    },
+    {
+      "name": "label-align",
+      "description": "标签对齐",
+      "type": "'left' | 'right'",
+      "defaultValue": "'right'",
+      "kind": "enum",
+      "options": [
+        "left",
+        "right"
+      ],
+      "initial": "right"
+    },
+    {
+      "name": "label-col-props",
+      "description": "横向标签 Col 参数，支持响应式断点",
+      "type": "FormColProps",
+      "defaultValue": "() => ({ span: 5, offset: 0 })",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "wrapper-col-props",
+      "description": "横向内容 Col 参数",
+      "type": "FormColProps",
+      "defaultValue": "() => ({ span: 19, offset: 0 })",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "label-col-style",
+      "description": "标签列逐实例样式",
+      "type": "CSSProperties",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "wrapper-col-style",
+      "description": "内容列逐实例样式",
+      "type": "CSSProperties",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "label-col-flex",
+      "description": "标签 flex；单位字符串为宽度，数字为伸缩比例",
+      "type": "number | string",
+      "defaultValue": "undefined",
+      "kind": "scalar"
+    },
+    {
+      "name": "auto-label-width",
+      "description": "对齐参与自动计算的横向标签最大自然宽度",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "size",
+      "description": "表单控件尺寸，由 FormItem 和控件继承",
+      "type": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\"",
+      "defaultValue": "undefined",
+      "kind": "enum",
+      "options": [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl"
+      ],
+      "initial": "xs"
+    },
+    {
+      "name": "rules",
+      "description": "按字段名配置的表单校验规则",
+      "type": "Record<string, rule | rule[]>",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "readonly",
+      "description": "是否只读",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
+      "name": "disabled",
+      "description": "是否禁用",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
+      "name": "scroll-to-error",
+      "description": "校验失败后滚动到页面顺序的第一个（start）或最后一个（end）错误字段；不是视口对齐方式",
+      "type": "'start' | 'end'",
+      "defaultValue": "undefined",
+      "kind": "enum",
+      "options": [
+        "start",
+        "end"
+      ],
+      "initial": "start"
+    },
+    {
+      "name": "scroll-to-error-offset-y",
+      "description": "滚动到校验不通过的表单项的位置偏移量",
+      "type": "number | string",
+      "defaultValue": "0",
+      "kind": "scalar"
+    },
+    {
+      "name": "presentation",
+      "type": "'inline' | 'popup'",
+      "defaultValue": "undefined",
+      "description": "字段编辑方式，字段 > FormItem > Form 继承；默认 inline。",
+      "kind": "enum",
+      "options": [
+        "inline",
+        "popup"
+      ],
+      "initial": "inline"
+    },
+    {
+      "name": "read-pretty",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "description": "纯阅读展示；字段 > FormItem > Form 继承，显式 false 覆盖父级。",
+      "kind": "boolean"
+    }
+  ],
+  "methodNames": [
+    "validate",
+    "validate-field",
+    "reset-fields",
+    "clear-validate",
+    "set-fields",
+    "scroll-to-field"
+  ],
+  "events": [
+    "submit",
+    "submit-success",
+    "submit-failed",
+    "reset"
+  ],
+  "slotNames": [],
+  "slotDefaults": {},
+  "scenarios": []
+}

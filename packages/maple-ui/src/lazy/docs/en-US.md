@@ -1,5 +1,7 @@
 # Lazy
 
+## Examples
+
 ### Intro
 
 Load when the image is visible.
@@ -71,6 +73,15 @@ createApp().use(Lazy, {
   }
 })
 ```
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

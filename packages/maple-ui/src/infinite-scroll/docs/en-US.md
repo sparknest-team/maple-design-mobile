@@ -7,12 +7,7 @@ Demo scroll containers use the current theme background to keep list text readab
 A behavioral infinite loader. It handles bottom detection and pagination status only; compose it with `List`, `Cell`, or custom content.
 
 
-
-### Measurement Binding Lifecycle
-
-```demo
-../example/demos/scheduler-lifecycle.vue
-```
+## Examples
 
 ### Basic Usage
 
@@ -30,6 +25,12 @@ A behavioral infinite loader. It handles bottom detection and pagination status 
 
 ```demo
 ../example/demos/custom-status.vue
+```
+
+### Measurement Binding Lifecycle
+
+```demo
+../example/demos/scheduler-lifecycle.vue
 ```
 
 ## Usage
@@ -76,7 +77,7 @@ The default error area is clickable. A custom error slot receives the same `retr
 
 ```html
 <template #error="{ retry }">
-  <button type="button" @click="retry">Try again</button>
+  <mp-button html-type="button" @click="retry">Try again</mp-button>
 </template>
 ```
 
@@ -101,6 +102,15 @@ async function refresh() {
 ```
 
 A hidden Tab does not load. It is checked after becoming active; custom tab implementations can call `check()` from their activation callback.
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

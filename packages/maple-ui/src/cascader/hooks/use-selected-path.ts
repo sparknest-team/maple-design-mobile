@@ -1,4 +1,4 @@
-import { computed, ComputedRef, Ref, ref } from 'vue'
+import { computed, ComputedRef, Ref, ref, watch } from 'vue'
 import { CascaderOptionInfo } from '../types'
 
 export const useSelectedPath = (
@@ -55,6 +55,19 @@ export const useSelectedPath = (
       return activeOption.value.parent.children?.filter((item) => !item.disabled)
     }
     return options.value.filter((item) => !item.disabled)
+  })
+
+  // Async candidates may replace the active node without a navigation key.
+  watch([options, filteredLeafOptions, () => showSearchPanel?.value], () => {
+    if (showSearchPanel?.value) {
+      const candidates = filteredLeafOptions.value.filter((item) => !item.disabled)
+      if (!candidates.some((item) => item.key === activeKey.value)) {
+        activeKey.value = candidates[0]?.key
+      }
+    } else if (activeKey.value && !optionMap.has(activeKey.value)) {
+      activeKey.value = undefined
+      selectedPath.value = selectedPath.value.filter((key) => optionMap.has(key))
+    }
   })
 
   const getTargetOption = (key?: string) => {

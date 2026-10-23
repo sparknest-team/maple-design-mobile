@@ -10,6 +10,18 @@
 ../example/demos/basic.vue
 ```
 
+### 五种尺寸
+
+```demo
+../example/demos/size.vue
+```
+
+### 实心与描边
+
+```demo
+../example/demos/variant.vue
+```
+
 ### 内联与独立展示
 
 ```demo
@@ -40,12 +52,6 @@
 ../example/demos/color.vue
 ```
 
-### 五种尺寸
-
-```demo
-../example/demos/size.vue
-```
-
 ### 位置与偏移
 
 ```demo
@@ -58,11 +64,22 @@
 ../example/demos/show.vue
 ```
 
-### 实心与描边
+### 外观组合
+
+适用于通知数量和标记。调整变体、状态、尺寸，用相同数据观察变化。内容保持一致，便于比较不同设置的实际效果。
 
 ```demo
-../example/demos/variant.vue
+../example/demos/appearance-lab.vue
 ```
+
+<!-- api-review:start -->
+### 功能调试
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

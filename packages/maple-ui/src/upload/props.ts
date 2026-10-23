@@ -1,4 +1,5 @@
 import type { PropType } from 'vue'
+import { fieldPresentationProps } from '../_components/field-presentation/props'
 import type {
   UploadBeforeRead,
   UploadBeforeRemove,
@@ -16,6 +17,7 @@ import type {
 } from './interfaces'
 
 export const uploadProps = {
+  ...fieldPresentationProps,
   modelValue: Array as PropType<UploadFileItem[]>,
   defaultValue: {
     type: Array as PropType<UploadFileItem[]>,

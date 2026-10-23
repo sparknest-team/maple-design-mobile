@@ -1,0 +1,109 @@
+{
+  "fields": [
+    {
+      "name": "data",
+      "description": "数据，与 item 插槽配合",
+      "type": "unknown[]",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "[]"
+    },
+    {
+      "name": "size",
+      "description": "仅实现 sm/md/lg，不支持 xs/xl",
+      "type": "'sm' | 'md' | 'lg'",
+      "defaultValue": "'md'",
+      "kind": "enum",
+      "options": [
+        "sm",
+        "md",
+        "lg"
+      ],
+      "initial": "md"
+    },
+    {
+      "name": "bordered",
+      "description": "外边框",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "split",
+      "description": "头尾及列表项分隔线，与边框独立",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "loading",
+      "description": "首次加载/刷新反馈，不管理分页",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "max-height",
+      "description": "普通列表最大高度；数字px/CSS长度，0不限",
+      "type": "number | string",
+      "defaultValue": "0",
+      "kind": "scalar"
+    },
+    {
+      "name": "virtual-list-props",
+      "description": "数据模式虚拟化；default插槽存在时忽略",
+      "type": "ListVirtualListProps",
+      "defaultValue": "undefined",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "scrollbar",
+      "description": "普通列表自定义滚动条；false使用原生滚动",
+      "type": "boolean | ListScrollbarProps",
+      "defaultValue": "true",
+      "kind": "json",
+      "initial": "{}"
+    }
+  ],
+  "events": [],
+  "scenarios": [
+    {
+      "name": "data",
+      "kind": "prop",
+      "demos": [
+        "basic-usage.vue",
+        "bounded-scroll.vue",
+        "states.vue",
+        "virtual-lifecycle.vue",
+        "virtual-navigation.vue"
+      ]
+    },
+    {
+      "name": "virtual-list-props",
+      "kind": "prop",
+      "demos": [
+        "virtual-lifecycle.vue",
+        "virtual-navigation.vue"
+      ]
+    },
+    {
+      "name": "scrollbar",
+      "kind": "prop",
+      "demos": [
+        "bounded-scroll.vue"
+      ]
+    }
+  ],
+  "slotNames": [
+    "header",
+    "item",
+    "footer"
+  ],
+  "slotDefaults": {
+    "header": true,
+    "item": true,
+    "footer": true
+  },
+  "methodNames": []
+}

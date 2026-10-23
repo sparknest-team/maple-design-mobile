@@ -1,5 +1,7 @@
 # Search
 
+## Examples
+
 ### Intro
 
 Search is used to enter keywords and trigger queries in lists, result pages, or top toolbars. It includes a search icon, clear button, and optional cancel action.
@@ -8,6 +10,12 @@ Search is used to enter keywords and trigger queries in lists, result pages, or 
 
 ```demo
 ../example/demos/en-US/basic.vue
+```
+
+### States
+
+```demo
+../example/demos/en-US/state.vue
 ```
 
 ### Cancel Button
@@ -42,10 +50,12 @@ Persistence is application-owned; save `result.recentSearches` from the `search`
 ../example/demos/en-US/shape.vue
 ```
 
-### States
+### Interaction states
+
+Use this example for keyword input and search submission. Adjust disabled, read-only and compare the component with the same data. The controls remain available to restore editing; error appearance alone does not run validation.
 
 ```demo
-../example/demos/en-US/state.vue
+../example/demos/state-lab.vue
 ```
 
 ### History presentation and slots
@@ -53,6 +63,15 @@ Persistence is application-owned; save `result.recentSearches` from the `search`
 ```demo
 ../example/demos/en-US/presentation.vue
 ```
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

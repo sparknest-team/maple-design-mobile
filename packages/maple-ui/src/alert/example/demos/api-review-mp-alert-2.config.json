@@ -1,0 +1,110 @@
+{
+  "fields": [
+    {
+      "name": "status",
+      "description": "类型，可选值为 info / success / warning / danger / default",
+      "type": "'info' | 'success' | 'warning' | 'danger' | 'default'",
+      "defaultValue": "'info'",
+      "kind": "enum",
+      "options": [
+        "info",
+        "success",
+        "warning",
+        "danger",
+        "default"
+      ],
+      "initial": "info"
+    },
+    {
+      "name": "variant",
+      "description": "变体，可选值为 standard / outline / tonal",
+      "type": "'tonal' | 'outline' | 'standard'",
+      "defaultValue": "'standard'",
+      "kind": "enum",
+      "options": [
+        "tonal",
+        "outline",
+        "standard"
+      ],
+      "initial": "standard"
+    },
+    {
+      "name": "color",
+      "description": "自定义背景色",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "title",
+      "description": "标题",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "message",
+      "description": "内容",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "show-icon",
+      "description": "是否显示左侧图标",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "closable",
+      "description": "是否显示关闭按钮（注意：不再使用 closeable）",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "banner",
+      "description": "通栏模式（去除圆角）",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "center",
+      "description": "内容是否居中",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "elevation",
+      "description": "海拔高度，可选值为 true / false 和 0-24",
+      "type": "number | boolean",
+      "defaultValue": "false",
+      "kind": "json",
+      "initial": "false"
+    }
+  ],
+  "methodNames": [],
+  "events": [
+    "close",
+    "closed"
+  ],
+  "slotNames": [
+    "close-icon",
+    "default",
+    "title",
+    "icon",
+    "action"
+  ],
+  "slotDefaults": {
+    "close-icon": true,
+    "default": false,
+    "title": false,
+    "icon": false,
+    "action": false
+  },
+  "scenarios": []
+}

@@ -19,7 +19,9 @@ function setup(range: boolean) {
   const value = range ? ['2025-02-15', '2025-02-20'] : '2025-02-15'
   const nested = { pickerValue: initial, shortcuts: [{ label: 'next', value }], showNowButton: false }
   const common = { defaultOpen: true, format: 'DD/MM/YYYY' }
-  const global = { stubs: { DatePanelContent: Content, TemporalTrigger: Surface, DatePopup: Surface } }
+  const global = {
+    stubs: { DatePanelContent: Content, TemporalTrigger: Surface, Trigger: Surface, MpTrigger: Surface },
+  }
   const wrapper = range
     ? mount(DateRange, { props: { ...common, modelValue: selected as string[], dateRangePickerProps: nested }, global })
     : mount(DateInput, { props: { ...common, modelValue: selected as string, datePickerProps: nested }, global })

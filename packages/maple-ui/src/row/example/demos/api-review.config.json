@@ -1,0 +1,78 @@
+{
+  "fields": [
+    {
+      "name": "gutter",
+      "description": "间距：数值、响应式对象或 [水平, 垂直]",
+      "type": "RowGutter",
+      "defaultValue": "0",
+      "kind": "scenario"
+    },
+    {
+      "name": "justify",
+      "description": "水平对齐",
+      "type": "'start' | 'center' | 'end' | 'space-around' | 'space-between'",
+      "defaultValue": "'start'",
+      "kind": "enum",
+      "options": [
+        "start",
+        "center",
+        "end",
+        "space-around",
+        "space-between"
+      ],
+      "initial": "start"
+    },
+    {
+      "name": "align",
+      "description": "垂直对齐",
+      "type": "'start' | 'center' | 'end' | 'stretch'",
+      "defaultValue": "'start'",
+      "kind": "enum",
+      "options": [
+        "start",
+        "center",
+        "end",
+        "stretch"
+      ],
+      "initial": "start"
+    },
+    {
+      "name": "wrap",
+      "description": "是否换行",
+      "type": "boolean",
+      "defaultValue": "true",
+      "kind": "boolean"
+    },
+    {
+      "name": "div",
+      "description": "Row 与 Col 均作为普通容器，移除全部布局样式",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    }
+  ],
+  "events": [
+    "click"
+  ],
+  "scenarios": [
+    {
+      "name": "gutter",
+      "kind": "prop",
+      "demos": [
+        "basic.vue",
+        "alignment.vue",
+        "gutter.vue",
+        "nested.vue",
+        "wrap.vue"
+      ]
+    },
+    {
+      "name": "default",
+      "kind": "slot",
+      "demos": []
+    }
+  ],
+  "slotNames": [],
+  "slotDefaults": {},
+  "methodNames": []
+}

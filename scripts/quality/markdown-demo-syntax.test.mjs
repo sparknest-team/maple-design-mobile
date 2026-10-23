@@ -10,6 +10,52 @@ const root = fileURLToPath(new URL('../../', import.meta.url))
 const source = resolve(root, 'packages/maple-ui/src')
 const require = createRequire(resolve(root, 'packages/maple-ui/package.json'))
 const { parse, compileTemplate } = require('vue/compiler-sfc')
+const pluginRequire = createRequire(resolve(root, 'packages/maple-vite-plugins/package.json'))
+const markdownIt = pluginRequire('markdown-it')
+
+function countAuthoredDemos(content) {
+  const counts = { tags: 0, fences: 0 }
+  for (const token of markdownIt({ html: true }).parse(content, {})) {
+    if (token.type === 'fence' && token.info.trim() === 'demo') {
+      counts.fences++
+    } else if (token.type === 'html_block' || token.type === 'inline') {
+      const html =
+        token.type === 'html_block'
+          ? token.content
+          : (token.children ?? [])
+              .filter((child) => child.type === 'html_inline')
+              .map((child) => child.content)
+              .join('')
+      counts.tags += (html.match(/<demo\b[^>]*\bsrc\s*=\s*(['"])[^'"]+\1[^>]*(?:\/>|>\s*<\/demo>)/g) ?? []).length
+    }
+  }
+  return { ...counts, total: counts.tags + counts.fences }
+}
+
+test('authored demo counts include both live syntaxes and exclude documentation code samples', () => {
+  const content = [
+    '```html',
+    '<demo src="./sample.vue"></demo>',
+    '```',
+    '',
+    '````markdown',
+    '```demo',
+    './sample.vue',
+    '```',
+    '````',
+    '',
+    '`<demo src="./inline-sample.vue"></demo>`',
+    '',
+    '<demo src="./basic.vue"></demo>',
+    '',
+    '<demo src="./states.vue" />',
+    '',
+    '```demo',
+    './live.vue',
+    '```',
+  ].join('\n')
+  assert.deepEqual(countAuthoredDemos(content), { tags: 2, fences: 1, total: 3 })
+})
 
 function render(content, id = resolve(source, 'verification-code/docs/zh-CN.md')) {
   const watched = []
@@ -66,7 +112,7 @@ test('actual bilingual VerificationCode and Upload docs expose every authored de
     for (const language of ['zh-CN', 'en-US']) {
       const id = resolve(source, component, 'docs', `${language}.md`)
       const content = readFileSync(id, 'utf8')
-      const expected = (content.match(/<demo\b/g) ?? []).length
+      const { total: expected } = countAuthoredDemos(content)
       const { result, watched } = render(content, id)
       assert.ok(expected >= 4)
       assert.equal((result.match(/<mp-site-demo-preview /g) ?? []).length, expected)
@@ -75,7 +121,7 @@ test('actual bilingual VerificationCode and Upload docs expose every authored de
   }
 })
 
-test('all component docs using standalone demo tags render each reference independently', () => {
+test('all component docs render each live demo reference independently', () => {
   let pages = 0
   for (const component of readdirSync(source, { withFileTypes: true }).filter((entry) => entry.isDirectory())) {
     for (const language of ['zh-CN', 'en-US']) {
@@ -86,17 +132,17 @@ test('all component docs using standalone demo tags render each reference indepe
       } catch {
         continue
       }
-      const tags = (content.match(/^<demo\b[^\n]+(?:<\/demo>|\/>)[ \t]*$/gm) ?? []).length
-      if (!tags) {
+      const { total } = countAuthoredDemos(content)
+      if (!total) {
         continue
       }
-      const fences = (content.match(/^```demo[ \t]*$/gm) ?? []).length
-      const { result } = render(content, id)
-      assert.equal((result.match(/<mp-site-demo-preview /g) ?? []).length, tags + fences, id)
+      const { result, watched } = render(content, id)
+      assert.equal((result.match(/<mp-site-demo-preview /g) ?? []).length, total, id)
+      assert.equal(watched.length, total, id)
       pages++
     }
   }
-  // Three current component families each author Chinese and English pages.
+  // Keep broad real-page coverage when authors move between HTML tags and demo fences.
   assert.ok(pages >= 6)
 })
 
@@ -142,6 +188,6 @@ test('Fab live cards have no second static source toolbar for the same examples'
       assert.ok(!/```(?:html|vue)\s*\n[\s\S]*?<(?:script|template)\b/.test(section))
     }
     const { result } = render(content, id)
-    assert.equal((result.match(/<mp-site-demo-preview /g) ?? []).length, 10)
+    assert.equal((result.match(/<mp-site-demo-preview /g) ?? []).length, countAuthoredDemos(content).total)
   }
 })

@@ -9,9 +9,9 @@ const line = ref(true)
 
 <template>
   <mp-space direction="column" :size="12" style="width: 100%">
-    <label><input v-model="hint" type="checkbox" /> 浮动提示</label>
-    <label><input v-model="error" type="checkbox" /> 显式错误状态</label>
-    <label><input v-model="line" type="checkbox" /> 边框 / 底线</label>
+    <mp-checkbox v-model="hint">浮动提示</mp-checkbox>
+    <mp-checkbox v-model="error">显式错误状态</mp-checkbox>
+    <mp-checkbox v-model="line">边框 / 底线</mp-checkbox>
     <mp-time-range
       v-model="value"
       format="HH:mm"

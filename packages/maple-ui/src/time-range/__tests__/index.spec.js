@@ -22,7 +22,7 @@ test('time-range confirm writes modelValue', async () => {
   await delay(300)
 
   expect(document.querySelector('.mp-time-range__panel')).toBeTruthy()
-  expect(document.querySelector('.mp-time-range-picker__values')).toBeTruthy()
+  expect(document.querySelector('.mp-time-range-picker__values')).toBeNull()
   expect(document.querySelector('.mp-picker')).toBeTruthy()
   expect(document.querySelectorAll('.mp-time-picker').length).toBe(0)
 
@@ -36,11 +36,11 @@ test('time-range confirm writes modelValue', async () => {
   document.body.innerHTML = ''
 })
 
-test('time-range clock presentation', async () => {
+test('time-range uses paired wheels', async () => {
   const wrapper = mount(VarTimeRange, {
     props: {
       modelValue: ['09:00', '18:00'],
-      presentation: 'clock',
+      panelType: 'picker',
       format: 'HH:mm',
     },
     attachTo: document.body,
@@ -49,9 +49,9 @@ test('time-range clock presentation', async () => {
   await wrapper.find('.mp-field-decorator').trigger('click')
   await delay(300)
 
-  expect(document.querySelector('.mp-time-range-picker__values')).toBeTruthy()
-  expect(document.querySelector('.mp-picker')).toBeFalsy()
-  expect(document.querySelectorAll('.mp-time-picker').length).toBe(2)
+  expect(document.querySelector('.mp-time-range-picker__values')).toBeNull()
+  expect(document.querySelector('.mp-picker')).toBeTruthy()
+  expect(document.querySelectorAll('.mp-time-picker').length).toBe(0)
 
   wrapper.unmount()
   document.body.innerHTML = ''
@@ -66,7 +66,7 @@ test('time-range cancel does not write modelValue', async () => {
 
   await wrapper.find('.mp-field-decorator').trigger('click')
   await delay(300)
-  await trigger(document.querySelector('.mp-time-range__cancel-button'), 'click')
+  await wrapper.find('.mp-time-range').trigger('keydown', { key: 'Escape' })
   await delay(300)
 
   expect(onUpdateModelValue).not.toHaveBeenCalled()

@@ -1,5 +1,9 @@
 # Message
 
+Display duration is a business deadline, not CSS enter/leave time. Zero is persistent; only finite positive values schedule auto-close. Hover preserves remaining time; KeepAlive activation restarts the full configured deadline, while suspension/disposal invalidate old timers. The2026-10-15 reconciliation confirms the existing audited source hash and adds business-clock classification only. Current39 tests do not add native-browser acceptance or certify service nextTick update identity/cross-document adoption.
+
+## 案例
+
 ### Description
 
 Message provides lightweight, non-modal global feedback. Maple and Cedar share the same public contract, queue, timer, and imperative service while keeping separate source copies and platform-specific styling. Message never locks scrolling or blocks background interaction.
@@ -45,6 +49,23 @@ Visual emphasis is independent of status: neutral uses an overlay surface and st
 ```demo
 ../example/demos/variant.vue
 ```
+
+### Appearance combinations
+
+Use this example for immediate feedback after an action. Adjust variant, status and compare the component with the same data. Keep the content unchanged while comparing the available settings.
+
+```demo
+../example/demos/appearance-lab.vue
+```
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

@@ -7,6 +7,7 @@
 </template>
 
 <script setup lang="ts">
+import { provideRangePanel } from '../_components/picker-field/range-field-context'
 import { timeRangePanelEmits as timePanelEmits } from '../time/panel-emits'
 import type { TimeValue } from '../time/time-value'
 import { useTimePanel } from '../time/use-time-panel'
@@ -30,5 +31,17 @@ const panel = useTimePanel<TimeValue[]>(
   },
   () => true,
 )
-const content = { ...panel, ...useMobileRangePanel(options, panel.draft, panel.select) }
+provideRangePanel()
+const mobile = useMobileRangePanel(options, panel.draft, panel.select)
+const content = {
+  ...panel,
+  ...mobile,
+  confirm: () => {
+    const committed = panel.confirm()
+    if (committed) {
+      mobile.confirmationRequired.value = false
+    }
+    return committed
+  },
+}
 </script>

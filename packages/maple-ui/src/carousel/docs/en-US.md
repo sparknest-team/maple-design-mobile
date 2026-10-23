@@ -1,8 +1,8 @@
 # Carousel
 
-### Intro
+Autoplay interval is business playback cadence (business-clock), not CSS duration. Autoplay remains off by default; true uses3000ms, with existing numeric/config intervals and hover/focus/hidden pause rules. Cancellation/replacement invalidates old playback work; delivery consumes once before navigation. Retained inactive/disposed next/prev/to, keyboard and wheel cannot navigate or intercept input. Activation creates fresh observer/event bindings; detached deliveries cannot use a newer active state to reschedule.
 
-Displays a collection of items that can be scrolled and swiped. Demos match Cedar Design Web; `effect` and `centered-slides` are shared.
+## Examples
 
 ### Basic Usage
 
@@ -54,17 +54,23 @@ Use `show-arrow` to control when arrows appear: `always`, `hover`, or `never`. B
 
 ### Fade Effect
 
+Use the indicator buttons to switch pages. Inactive slides become transparent and inert. All slides overlap in one grid cell, keeping the active slide at the viewport width rather than splitting the track into columns.
+
 ```demo
 ../example/demos/effect-fade.vue
 ```
 
 ### Card Effect
 
+The active slide uses full scale and opacity; neighboring slides are scaled down and dimmed. Previous/next buttons retain native keyboard activation.
+
 ```demo
 ../example/demos/effect-card.vue
 ```
 
 ### Multiple Slides Per View
+
+This 2.5-slide example exposes mouse dragging, controlled acceptance and looping. Current is the parent's accepted zero-based index; Proposal records the request and Changes counts change events. Rejection can still emit a proposal and change event without updating the accepted model. Accept changes to drag both ways or wrap backward from the first item to the last. With looping off, dragging beyond the last item does not navigate or duplicate notifications. This mouse combination does not certify physical touch, centered or auto-width combinations.
 
 ```demo
 ../example/demos/multi-slides.vue
@@ -98,6 +104,8 @@ Use `indicator-type` for `dot`, `line`, or `slider`. Hide indicators with `indic
 
 ### Mousewheel Control
 
+Wheeling over the carousel changes slides without scrolling the outer page. With loop enabled, moving backward from the first slide selects the last. This is separate from touch dragging.
+
 ```demo
 ../example/demos/mousewheel.vue
 ```
@@ -128,15 +136,52 @@ Use `indicator-type` for `dot`, `line`, or `slider`. Hide indicators with `indic
 
 ### auto-sized
 
+Reverse cards reorders the same uniquely keyed cards (their distinct widths are the Demo keys). Current is positional, not a business-card identity: index 1 changes from 220px to 180px without changing the index or event count. Drag left to index 2, restore order to show 180px there, then drag right to index 1. Reordering alone emits no change. Arbitrary insertion/sorting, identity-following selection, reordering during a held gesture and physical touch remain unverified.
+
+When the active fifth card is removed, parent Current stays 4 without another change; the view clamps it to the remaining fourth card and centers that card. A subsequent left drag wraps to 0 and updates the model once. Applications that need immediate parent-index correction must update current themselves. Arbitrary reordering and deletion during a held gesture remain unverified.
+
+Empty temporarily removes every card: navigation is disabled and dragging emits no change. Turning it off restores the configured cards without switching. Clearing and restoring from index 0 allows a subsequent right drag to wrap to the last item. This does not cover nonzero out-of-range controlled indices or clearing during a held gesture.
+
+Clearing from index 3 retains the parent Current and change count. Restoring centers the last card; the next left drag wraps to 0 and emits once. Empty content does not force the controlled parent value to 0. Active-card deletion, arbitrary invalid indices and clearing during a held gesture remain unverified.
+
+Extra card appends a 200px fifth item without changing a valid current index or incrementing Changes. Drag right from the first item to reach it, then right again to the original last item before removing the extra card. The index and count stay unchanged; dragging left then wraps across the restored four-item boundary. This covers removing an inactive final item, not deleting the active item, arbitrary reordering, or changes during a held gesture.
+
+Drag to the last item, then enable Wider cards (80px added per item) and the 300px viewport. Resizing does not change the model or increment Changes: the current 340px card recenters, and a left drag can wrap to the first item. Restoring both switches recenters again. This paragraph describes ResizeObserver updates after a completed gesture, not resizing while holding a drag.
+
+The centered auto-width example uses four independent items (140/220/180/260px), with a 12px gap. Dragging advances one item at a time and wraps at either boundary. Current displays the accepted zero-based model and Changes counts change events; the current item stays centered even when its width differs. This example does not certify physical touch, resizing during a gesture or dynamic item insertion.
+
 ```demo
 ../example/demos/auto-sized.vue
 ```
 
 ### interactive-content
 
+The current index and change count expose the controlled model. Arrow/Home/End keys and mouse text selection inside inputs remain native editing actions, not slide navigation. Drag the background or focus the carousel container and press an arrow key to change slides; returning to a slide retains its input text. This example does not demonstrate saving text externally or physical touch selection.
+
 ```demo
 ../example/demos/interactive-content.vue
 ```
+
+### Scheduler lifecycle / 调度生命周期
+
+Loop nextTick waits for rendering; the settlement timer is visual-completion and two RAFs are state-settlement. Request/track/window checks and per-phase consumption prevent old timers clearing newer offsets, duplicate first-frame forks and old second frames releasing newer noMotion. Cancel held timers and RAF through their original frame window; already-dequeued callbacks still require ownership checks. Content/config render measurements are binding-generation scoped. Playback cadence and motion settlement are distinct, never a forced shared CSS duration.
+
+```demo
+../example/demos/en-US/scheduler-lifecycle.vue
+```
+
+### Intro
+
+Displays a collection of items that can be scrolled and swiped. Demos match Cedar Design Web; `effect` and `centered-slides` are shared.
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 
@@ -233,7 +278,6 @@ CarouselProps, CarouselItemProps, CarouselInstance, CarouselItemInstance, Carous
 | `--mp-carousel-focus-width` | `2px` |
 | `--mp-carousel-focus-offset` | `2px` |
 | `--mp-carousel-focus-color` | `var(--mp-sys-color-content-brand)` |
-
 
 ### Loop transition boundary
 

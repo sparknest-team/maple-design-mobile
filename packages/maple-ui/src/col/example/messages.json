@@ -3,12 +3,14 @@
     "basic": "列宽与偏移",
     "order": "排序与零值恢复",
     "flex": "弹性比例与固定宽度",
-    "responsive": "响应式对象与隐藏恢复"
+    "responsive": "响应式对象与隐藏恢复",
+    "api-review": "功能调试"
   },
   "en-US": {
     "basic": "Span and offset",
     "order": "Ordering and resetting to zero",
     "flex": "Flexible ratios and fixed widths",
-    "responsive": "Responsive objects and visibility"
+    "responsive": "Responsive objects and visibility",
+    "api-review": "Feature playground"
   }
 }

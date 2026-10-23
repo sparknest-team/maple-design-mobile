@@ -490,6 +490,7 @@ export function useUploader(options: UseUploaderOptions) {
       return
     }
     generation++
+    adding = Promise.resolve()
     removals.clear()
     for (const uid of attempts.keys()) {
       cancelAttempt(uid)
@@ -508,6 +509,7 @@ export function useUploader(options: UseUploaderOptions) {
   onDeactivated(() => {
     inactive = true
     generation++
+    adding = Promise.resolve()
     removals.clear()
     for (const uid of attempts.keys()) {
       cancelAttempt(uid)

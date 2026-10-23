@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
+import DemoApiReview from './demos/api-review.vue'
 import Demo0 from './demos/basic.vue'
 import Demo2 from './demos/flex.vue'
 import Demo1 from './demos/order.vue'
@@ -41,4 +42,5 @@ onThemeChange()
     <app-type>{{ english ? 'Responsive objects and visibility' : '响应式对象与隐藏恢复' }}</app-type
     ><Demo3 />
   </section>
+  <section data-demo="api-review"><DemoApiReview /></section>
 </template>

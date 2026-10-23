@@ -1,6 +1,6 @@
 import { withInstall, withPropsDefaultsSetter } from '../utils/components'
+import Rate from './presentation'
 import { rateProps } from './props'
-import Rate from './rate-core'
 
 withInstall(Rate)
 withPropsDefaultsSetter(Rate, rateProps)

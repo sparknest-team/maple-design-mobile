@@ -1,5 +1,7 @@
 # Rate
 
+## Examples
+
 ### Intro
 
 Used to rate things.
@@ -66,7 +68,6 @@ The `clearable` property allows users to clear score.
 Other interaction logic is completed by calling the `change` event.
 
 
-
 > For form validation of the rate, please use the [FormItem component](#/en-US/form-item).
 
 ```demo
@@ -84,6 +85,23 @@ Other interaction logic is completed by calling the `change` event.
 ```demo
 ../example/demos/sizes-and-symbols.en-US.vue
 ```
+
+### Interaction states
+
+Use this example for rating feedback. Adjust disabled, read-only and compare the component with the same data. The controls remain available to restore editing; error appearance alone does not run validation.
+
+```demo
+../example/demos/state-lab.vue
+```
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 
@@ -151,3 +169,13 @@ RateProps, RateColor, RateIcon, RateInstance, RateExpose, RateEmits, RateCharact
 Both libraries expose the same token suffixes. Cedar retains gold stars and compact spacing; Maple retains primary-color stars and touch padding. Only token defaults and local Form integration differ. Tokens are independently maintained; no runtime is shared.
 
 `transition-duration` controls hover/color transitions, `scale-duration` controls selection animation, and `transition-timing-function` controls easing. Reduced motion disables these animations. `size` and `gap` props override the corresponding tokens for a single instance.
+
+### Form field presentation and confirmation
+
+`presentation` inherits from field > FormItem > Form and defaults to `inline`. Supported values are `inline / popup`. Inline keeps the existing control behavior. Overlay editing uses a Cell reference and an isolated draft; only confirmation updates v-model. Cancel, reset and enabling readPretty discard the draft.
+
+Maple 使用 presentation="popup" 点击值区域打开编辑面板；inline 直接编辑。 readPretty 为纯阅读属性，与 readonly、disabled 独立。
+
+`before-commit(value, { previousValue, signal })` can reject an overlay save. FormItem validates the candidate first and keeps the editor open on failure. `open / default-open / update:open` control the editor. Use `#read="{ value, text }"` to customize display. See the full field comparison in Form.
+
+`read-pretty` 为独立布尔属性，与 `readonly`、`disabled` 同级；字段 > FormItem > Form 继承，显式 `false` 覆盖父级。默认 `false`。纯阅读不显示编辑器。

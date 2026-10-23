@@ -18,6 +18,8 @@ CSS Grid columns, spans, gaps, collapse and suffix items. Use Row / Col for 24-c
 
 ### Collapsed rows and suffix slot
 
+The parent owns collapsed state and row count; More/Less and the switch update the same state. With four columns, one collapsed row shows three items plus the suffix; two rows show seven plus the suffix. Expanding shows all nine items plus the suffix. The suffix occupies a grid position rather than floating over content.
+
 ```demo
 ../example/demos/collapse.vue
 ```
@@ -30,14 +32,25 @@ CSS Grid columns, spans, gaps, collapse and suffix items. Use Row / Col for 24-c
 
 ### Insert, remove and reorder
 
+Buttons only update this demo's array. Removing all items disables Remove first and changes the suffix to End. Inserting again restores the layout and removal control; Grid does not emit business-level insert/remove events.
 
 
 ```demo
 ../example/demos/dynamic.vue
 ```
 
-<!-- same-source-api:start -->
+<!-- api-review:start -->
+### Feature playground
 
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
+
+## API
+
+<!-- same-source-api:start -->
 ### Props
 
 | Prop | Description | Type | Default |

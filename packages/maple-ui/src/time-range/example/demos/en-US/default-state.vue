@@ -28,8 +28,8 @@ const updateOpen = (next) => {
     <p>Uncontrolled initial value</p>
     <mp-time-range :default-value="['09:00', '10:00']" format="HH:mm" clearable />
     <p>Controlled value and visibility</p>
-    <label><input v-model="acceptValue" type="checkbox" /> Accept value updates</label>
-    <label><input v-model="acceptOpen" type="checkbox" /> Accept visibility updates</label>
+    <mp-checkbox v-model="acceptValue">Accept value updates</mp-checkbox>
+    <mp-checkbox v-model="acceptOpen">Accept visibility updates</mp-checkbox>
     <mp-time-range
       :model-value="value"
       :open="open"
@@ -40,7 +40,7 @@ const updateOpen = (next) => {
       @change="commits++"
     />
     <span>{{ value }} / {{ open }}</span>
-    <label><input v-model="acceptClose" type="checkbox" /> Accept close requests</label>
+    <mp-checkbox v-model="acceptClose">Accept close requests</mp-checkbox>
     <output aria-label="Commit count">{{ commits }}</output>
     <output aria-label="Controlled proposals">{{ JSON.stringify({ value: proposal, open: openProposal }) }}</output>
   </div>

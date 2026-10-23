@@ -1,0 +1,95 @@
+{
+  "fields": [
+    {
+      "name": "status",
+      "description": "语义状态，可选值为 default primary secondary tertiary info success warning danger",
+      "type": "\"default\" | \"primary\" | \"secondary\" | \"tertiary\" | \"info\" | \"success\" | \"warning\" | \"danger\"",
+      "defaultValue": "'default'",
+      "kind": "enum",
+      "options": [
+        "default",
+        "primary",
+        "secondary",
+        "tertiary",
+        "info",
+        "success",
+        "warning",
+        "danger"
+      ],
+      "initial": "default"
+    },
+    {
+      "name": "underline",
+      "description": "下划线状态，可选值为 always hover none",
+      "type": "\"always\" | \"hover\" | \"none\"",
+      "defaultValue": "'none'",
+      "kind": "enum",
+      "options": [
+        "always",
+        "hover",
+        "none"
+      ],
+      "initial": "none"
+    },
+    {
+      "name": "hoverable",
+      "description": "是否显示带内边距的悬浮/按下底色",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "disabled",
+      "description": "禁用状态",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "loading",
+      "description": "加载状态，加载时禁止导航和点击",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "icon",
+      "description": "是否显示默认链接图标",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "href",
+      "description": "原生 href 属性",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "rel",
+      "description": "原生 rel 属性",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
+      "name": "target",
+      "description": "原生 target 属性",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    }
+  ],
+  "methodNames": [],
+  "events": [
+    "click"
+  ],
+  "slotNames": [
+    "icon"
+  ],
+  "slotDefaults": {
+    "icon": true
+  },
+  "scenarios": []
+}

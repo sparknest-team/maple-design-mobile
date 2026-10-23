@@ -14,11 +14,9 @@ describe('time field commit boundary', () => {
     expect(getTimeCommitValue('25:00', { format: 'HH:mm' })).toBeUndefined()
   })
 
-  it.each([false, true])('orders complete ranges only, next day=%s', (showNextDay) => {
+  it.each([false, true])('accepts reversed ranges only with next day=%s', (showNextDay) => {
     const source = ['18:00', '09:00']
-    expect(getTimeCommitValue(source, { format: 'HH:mm', showNextDay }, true)).toEqual(
-      showNextDay ? source : ['09:00', '18:00'],
-    )
+    expect(getTimeCommitValue(source, { format: 'HH:mm', showNextDay }, true)).toEqual(showNextDay ? source : undefined)
     expect(source).toEqual(['18:00', '09:00'])
     expect(getTimeCommitValue(['18:00', undefined], { format: 'HH:mm' }, true)).toBeUndefined()
     expect(getTimeCommitValue([], { format: 'HH:mm' }, true)).toBeUndefined()

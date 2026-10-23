@@ -3,20 +3,20 @@ import { type ExtractPropTypes, type PropType } from 'vue'
 export type DividerOrientation = 'horizontal' | 'vertical'
 export type DividerTextAlign = 'start' | 'center' | 'end'
 export type DividerType = 'dashed' | 'dotted' | 'solid' | 'double'
-export type DividerSizePreset = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl'
+export type DividerSizePreset = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 export type DividerSize = number | string | Array<number | string>
 
 export const dividerProps = {
   /**
-   * 沿 x 轴方向的间距（水平分割线时为左右 inset；竖直分割线时为上下 margin）
+   * 沿分割线方向的两端缩进：水平时为左右，竖直时为上下；数值按 px，数组按 [start, end]。
    */
-  sizeX: {
+  inset: {
     type: [Number, String, Array] as PropType<DividerSize>,
   },
   /**
-   * 沿 y 轴方向的间距（水平分割线时为上下 margin；竖直分割线时为左右 inset）
+   * 垂直于分割线方向的外间距：水平时为上下，竖直时为左右；数值按 px，数组按 [start, end]。
    */
-  sizeY: {
+  spacing: {
     type: [Number, String, Array] as PropType<DividerSize>,
     default: 'md',
   },
@@ -46,11 +46,11 @@ export const dividerProps = {
     default: 'solid',
   },
   /**
-   * 是否为 0.5px 线
+   * 是否将主题线宽缩放为一半（默认主题下为 0.5px）
    */
   hairline: Boolean,
   /**
-   * 线宽（与 hairline 互斥，hairline 优先）
+   * 线宽（单位 px；同时设置时 hairline 优先）
    */
   thickness: Number,
   /**
@@ -58,7 +58,7 @@ export const dividerProps = {
    */
   color: String,
   /**
-   * 分割线不透明度
+   * 整个分割线（含文字）的不透明度，范围 0–1；0 保留布局
    */
   opacity: Number,
 }

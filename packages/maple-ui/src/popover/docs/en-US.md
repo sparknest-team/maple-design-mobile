@@ -2,6 +2,8 @@
 
 Shows structured, interactive content after the reference is clicked. Use Tooltip for a short, non-interactive description.
 
+## Examples
+
 ### Basic usage
 
 ```demo
@@ -45,6 +47,15 @@ Shows structured, interactive content after the reference is clicked. Use Toolti
 ```demo
 ../example/demos/disabled.vue
 ```
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 

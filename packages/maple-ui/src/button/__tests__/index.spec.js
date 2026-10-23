@@ -83,7 +83,8 @@ describe('test button component props', () => {
         const wrapper = mount(VarButton, { props: { loading: true, loadingSize: size, loadingType: type } })
         await trigger(wrapper, 'click')
         await trigger(wrapper, 'touchstart')
-        expect(wrapper.find(`.mp-loading__${type}--${size}`).exists()).toBe(type !== 'circle')
+        const pixels = { xs: 12, sm: 14, md: 16, lg: 18, xl: 20 }[size]
+        expect(wrapper.findComponent({ name: 'MpLoading' }).props('size')).toBe(pixels)
         wrapper.unmount()
       }
     }
@@ -158,19 +159,6 @@ describe('test button component props', () => {
     expect(wrapper.find('button').classes()).toContain('mp-button--variant-text')
     await wrapper.setProps({ variant: 'default' })
     expect(wrapper.find('button').classes()).not.toContain('mp-button--variant-text')
-    wrapper.unmount()
-  })
-
-  test('button icon container', async () => {
-    const wrapper = mount(VarButton, {
-      props: {
-        iconContainer: true,
-      },
-    })
-
-    expect(wrapper.find('button').classes()).toContain('mp-button--icon-container-default')
-    await wrapper.setProps({ iconContainer: false })
-    expect(wrapper.find('button').classes()).not.toContain('mp-button--icon-container-default')
     wrapper.unmount()
   })
 
@@ -363,7 +351,7 @@ describe('test button group component props', () => {
     wrapper.unmount()
   })
 
-  test('button group icon-container mode', () => {
+  test('button group tonal appearance', () => {
     const wrapper = mount(VarButtonGroup, {
       props: {
         variant: 'default',
@@ -371,9 +359,9 @@ describe('test button group component props', () => {
       slots: {
         default: () =>
           h(Fragment, [
-            h(VarButton, { iconContainer: true }),
-            h(VarButton, { iconContainer: true }),
-            h(VarButton, { iconContainer: true }),
+            h(VarButton, { variant: 'tonal' }),
+            h(VarButton, { variant: 'tonal' }),
+            h(VarButton, { variant: 'tonal' }),
           ]),
       },
     })

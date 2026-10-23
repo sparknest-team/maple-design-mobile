@@ -22,11 +22,21 @@ export function useDatePanelTools(config: PanelToolsOptions) {
   const values = Array.isArray(first) ? first : [first]
   const anchor = parseDateValue(values[0], options()) ?? parseDateValue(new Date(), options())!
   const initial = config.range()
-    ? values.length === 2 && values.every((value) => parseDateValue(value, options()))
+    ? options().defaultPickerValue !== undefined &&
+      values.length === 2 &&
+      values.every((value) => parseDateValue(value, options()))
       ? values
       : [
           outputDateValue(anchor.toDate(), options()),
-          outputDateValue(anchor.add(1, options().type === 'year' ? 'year' : 'month').toDate(), options()),
+          outputDateValue(
+            anchor
+              .add(
+                options().type === 'year' ? 120 : ['month', 'quarter'].includes(options().type ?? '') ? 12 : 1,
+                'month',
+              )
+              .toDate(),
+            options(),
+          ),
         ]
     : parseDateValue(values[0], options())
       ? values[0]
@@ -40,6 +50,14 @@ export function useDatePanelTools(config: PanelToolsOptions) {
     const preview = previewValue.value
     if (preview === undefined || config.blocked() || !config.valid(preview)) {
       return actualPickerValue.value
+    }
+    if (config.range() && Array.isArray(preview)) {
+      const start = parseDateValue(preview[0], options())
+      const end = parseDateValue(preview[1], options())
+      const span = options().type === 'year' ? 120 : ['month', 'quarter'].includes(options().type ?? '') ? 12 : 1
+      if (start && end && end.isBefore(start.add(span, 'month'), 'month')) {
+        return [preview[0], outputDateValue(start.add(span, 'month').toDate(), options())]
+      }
     }
     return cloneFieldValue(config.range() ? preview : Array.isArray(preview) ? preview[0] : preview)
   })

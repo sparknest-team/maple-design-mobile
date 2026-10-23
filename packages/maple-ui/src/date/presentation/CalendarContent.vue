@@ -4,175 +4,183 @@
       classes(n(), formatElevation(elevation, 2), [showTime, n('--with-time')], [isCalendarTime, n('--calendar-time')])
     "
   >
-    <template v-if="isPickerPresentation">
-      <div v-if="showTime" :class="n('datetime-title')">
-        <div :class="n('datetime-hint')">{{ hint ?? (pt ? pt : t)('datePickerHint') }}</div>
-        <div :class="n('datetime-display')">
-          <div :class="n('datetime-date')">{{ displayDateTimeParts.date }}</div>
-          <div :class="n('datetime-time')">{{ displayDateTimeParts.time }}</div>
-        </div>
-      </div>
-      <div :class="n('column-labels')">
-        <div v-for="label in dateTimeColumnLabels" :key="label" :class="n('column-label')">
-          {{ label }}
-        </div>
-      </div>
-      <mp-picker
-        v-bind="pickerBindingProps"
-        :toolbar="false"
-        :columns="dateTimeColumns"
-        :model-value="dateTimePickerValue"
-        @change="handleDateTimePickerChange"
-      />
-    </template>
-    <template v-else>
-      <div
-        v-if="isCalendarTime"
-        :class="classes(n('datetime-title'), [datetimeView === 'date', n('datetime-title--active')])"
-        @click="datetimeView = 'date'"
-      >
-        <div :class="n('datetime-hint')">{{ hint ?? (pt ? pt : t)('datePickerHint') }}</div>
-        <div :class="n('datetime-display')">
-          <div :class="n('datetime-date')">{{ displayDateTimeParts.date }}</div>
-        </div>
-      </div>
-      <div v-else :class="n('title')" :style="{ background: titleColor || color }">
-        <div :class="n('title-select')">
-          <div :class="n('title-hint')">{{ hint ?? (pt ? pt : t)('datePickerHint') }}</div>
+    <div
+      :class="
+        classes(n('editor'), [showTime && !range && !multiple && datetimeView === 'date', n('editor--with-time')])
+      "
+    >
+      <div :class="n('editor-main')">
+        <template v-if="isPickerPresentation">
+          <div :class="n('column-labels')">
+            <div v-for="label in dateTimeColumnLabels" :key="label" :class="n('column-label')">
+              {{ label }}
+            </div>
+          </div>
+          <mp-picker
+            v-bind="pickerBindingProps"
+            :toolbar="false"
+            :disabled="readonly"
+            :columns="dateTimeColumns"
+            :model-value="dateTimePickerValue"
+            @change="handleDateTimePickerChange"
+          />
+        </template>
+        <template v-else>
           <div
-            v-if="type !== 'year'"
-            :class="classes(n('title-year'), [isYearPanel, n('title-year--active')])"
-            @click="clickEl('year')"
+            v-if="!isCalendarTime && (range || multiple || $slots.date || $slots.month || $slots.year)"
+            :class="n('title')"
+            :style="{ background: titleColor || color }"
           >
-            <slot name="year" :year="chooseYear">
-              {{ chooseYear }}
-            </slot>
-          </div>
-        </div>
+            <div :class="n('title-select')">
+              <div :class="n('title-hint')">{{ hint ?? (pt ? pt : t)('datePickerHint') }}</div>
+              <div
+                v-if="type !== 'year'"
+                :class="classes(n('title-year'), [isYearPanel, n('title-year--active')])"
+                @click="clickEl('year')"
+              >
+                <slot name="year" :year="chooseYear">
+                  {{ chooseYear }}
+                </slot>
+              </div>
+            </div>
 
-        <div
-          :class="
-            classes(
-              n('title-date'),
-              [!isYearPanel || type === 'year', n('title-date--active')],
-              [range, n('title-date--range')],
-            )
-          "
-          @click="clickEl('date')"
-        >
-          <transition :name="multiple ? '' : `${n()}${reverse ? '-reverse' : ''}-translatey`">
-            <div v-if="type === 'year'" :key="`${chooseYear}`">
-              <slot v-if="range" name="range" :choose="getChoose.chooseRangeYear">
-                {{ getYearTitle }}
-              </slot>
-              <slot v-else-if="multiple" name="multiple" :choose="getChoose.chooseYears">
-                {{ getYearTitle }}
-              </slot>
-              <slot v-else name="year" :year="chooseYear">
-                {{ getYearTitle }}
-              </slot>
+            <div
+              v-if="range || multiple || $slots.date || $slots.month || $slots.year"
+              :class="
+                classes(
+                  n('title-date'),
+                  [!isYearPanel || type === 'year', n('title-date--active')],
+                  [range, n('title-date--range')],
+                )
+              "
+              @click="clickEl('date')"
+            >
+              <transition :name="multiple ? '' : `${n()}${reverse ? '-reverse' : ''}-translatey`">
+                <div v-if="type === 'year'" :key="`${chooseYear}`">
+                  <slot v-if="range" name="range" :choose="getChoose.chooseRangeYear">
+                    {{ getYearTitle }}
+                  </slot>
+                  <slot v-else-if="multiple" name="multiple" :choose="getChoose.chooseYears">
+                    {{ getYearTitle }}
+                  </slot>
+                  <slot v-else name="year" :year="chooseYear">
+                    {{ getYearTitle }}
+                  </slot>
+                </div>
+                <div v-else-if="type === 'month'" :key="`${chooseYear}${chooseMonth}`">
+                  <slot v-if="range" name="range" :choose="getChoose.chooseRangeMonth">
+                    {{ getMonthTitle }}
+                  </slot>
+                  <slot v-else-if="multiple" name="multiple" :choose="getChoose.chooseMonths">
+                    {{ getMonthTitle }}
+                  </slot>
+                  <slot v-else name="month" :month="chooseMonth" :year="chooseYear">
+                    {{ getMonthTitle }}
+                  </slot>
+                </div>
+                <div v-else :key="`${chooseYear}${chooseMonth}${chooseDay}`">
+                  <slot v-if="range" name="range" :choose="formatRange">
+                    {{ getDateTitle }}
+                  </slot>
+                  <slot v-else-if="multiple" name="multiple" :choose="getChoose.chooseDays">
+                    {{ getDateTitle }}
+                  </slot>
+                  <slot v-else name="date" v-bind="slotProps">
+                    {{ getDateTitle }}
+                  </slot>
+                </div>
+              </transition>
             </div>
-            <div v-else-if="type === 'month'" :key="`${chooseYear}${chooseMonth}`">
-              <slot v-if="range" name="range" :choose="getChoose.chooseRangeMonth">
-                {{ getMonthTitle }}
-              </slot>
-              <slot v-else-if="multiple" name="multiple" :choose="getChoose.chooseMonths">
-                {{ getMonthTitle }}
-              </slot>
-              <slot v-else name="month" :month="chooseMonth" :year="chooseYear">
-                {{ getMonthTitle }}
-              </slot>
-            </div>
-            <div v-else :key="`${chooseYear}${chooseMonth}${chooseDay}`">
-              <slot v-if="range" name="range" :choose="formatRange">
-                {{ getDateTitle }}
-              </slot>
-              <slot v-else-if="multiple" name="multiple" :choose="getChoose.chooseDays">
-                {{ getDateTitle }}
-              </slot>
-              <slot v-else name="date" v-bind="slotProps">
-                {{ getDateTitle }}
-              </slot>
-            </div>
-          </transition>
-        </div>
-      </div>
-      <div
-        v-show="!isCalendarTime || datetimeView === 'date'"
-        :class="n('body')"
-        @touchstart="handleTouchstart"
-        @touchmove="handleTouchmove"
-        @touchend="handleTouchend"
-      >
-        <transition :name="`${n()}-panel-fade`">
-          <year-picker-panel
-            v-if="getPanelType === 'year'"
-            ref="yearPanelEl"
-            :choose="getChoose"
-            :current="currentDate"
-            :component-props="componentProps"
-            :preview="previewYear"
-            @choose-year="getChooseYear"
-          />
-          <month-picker-panel
-            v-else-if="getPanelType === 'month'"
-            ref="monthPanelEl"
-            :current="currentDate"
-            :choose="getChoose"
-            :preview="getPreview"
-            :click-year="() => clickEl('year')"
-            :component-props="componentProps"
-            @choose-month="getChooseMonth"
-            @check-preview="checkPreview"
-          />
-          <day-picker-panel
-            v-else-if="getPanelType === 'date'"
-            ref="dayPanelEl"
-            :current="currentDate"
-            :choose="getChoose"
-            :preview="getPreview"
-            :component-props="componentProps"
-            :click-month="() => clickEl('month')"
-            @choose-day="getChooseDay"
-            @check-preview="checkPreview"
-          />
-        </transition>
-      </div>
-      <div v-if="resolvedPresentation === 'calendarClock' && datetimeView === 'time'" :class="n('datetime-clock')">
-        <mp-time-picker
-          presentation="clock"
-          :model-value="displayDateTimeParts.time"
-          v-bind="{ ...timePickerBindingProps, ...dateTimeConstraints(disabledTime) }"
-          disable-confirm
-          :format="useSeconds ? 'HH:mm:ss' : 'HH:mm'"
-          :readonly="readonly"
-          :elevation="false"
-          @update:model-value="handleDateTimeClockChange"
-        />
-      </div>
-      <template v-if="resolvedPresentation === 'calendarPicker' && datetimeView === 'time'">
-        <div :class="n('column-labels')">
-          <div v-for="label in timeOnlyColumnLabels" :key="label" :class="n('column-label')">
-            {{ label }}
           </div>
-        </div>
+          <div
+            v-show="!isCalendarTime || datetimeView === 'date'"
+            :class="n('body')"
+            @touchstart="handleTouchstart"
+            @touchmove="handleTouchmove"
+            @touchend="handleTouchend"
+          >
+            <transition :name="`${n()}-panel-fade`">
+              <year-picker-panel
+                v-if="getPanelType === 'year'"
+                ref="yearPanelEl"
+                :choose="getChoose"
+                :current="currentDate"
+                :component-props="componentProps"
+                :preview="previewYear"
+                :range-pending="range && rangeEndpoint === undefined && !rangeDone"
+                :readonly="readonly"
+                @choose-year="getChooseYear"
+              />
+              <month-picker-panel
+                v-else-if="getPanelType === 'month'"
+                ref="monthPanelEl"
+                :current="currentDate"
+                :choose="getChoose"
+                :preview="getPreview"
+                :click-year="() => clickEl('year')"
+                :component-props="componentProps"
+                :range-pending="range && rangeEndpoint === undefined && !rangeDone"
+                :readonly="readonly"
+                @choose-month="getChooseMonth"
+                @check-preview="checkPreview"
+              />
+              <day-picker-panel
+                v-else-if="getPanelType === 'date'"
+                ref="dayPanelEl"
+                :current="currentDate"
+                :choose="getChoose"
+                :preview="getPreview"
+                :component-props="componentProps"
+                :range-pending="range && rangeEndpoint === undefined && !rangeDone"
+                :readonly="readonly"
+                :click-month="() => clickEl('month')"
+                @choose-day="getChooseDay"
+                @check-preview="checkPreview"
+              />
+            </transition>
+          </div>
+          <div
+            v-if="resolvedPresentation === 'calendarPicker' && datetimeView === 'time'"
+            :class="n('datetime-picker')"
+          >
+            <div :class="n('column-labels')">
+              <div v-for="label in timeOnlyColumnLabels" :key="label" :class="n('column-label')">
+                {{ label }}
+              </div>
+            </div>
+            <mp-picker
+              v-bind="pickerBindingProps"
+              :toolbar="false"
+              :disabled="readonly"
+              :columns="timeOnlyColumns"
+              :model-value="timeOnlyPickerValue"
+              @change="handleTimeOnlyPickerChange"
+            />
+          </div>
+        </template>
+      </div>
+      <div v-if="showTime && !range && !multiple && datetimeView === 'date'" :class="n('quick-time')">
         <mp-picker
+          :class="n('quick-time-wheel')"
           v-bind="pickerBindingProps"
           :toolbar="false"
-          :columns="timeOnlyColumns"
-          :model-value="timeOnlyPickerValue"
-          @change="handleTimeOnlyPickerChange"
+          :title="(pt ?? t)('timePickerHint')"
+          :option-count="pickerBindingProps.optionCount ?? 7"
+          :disabled="readonly || !quickTimeOptions.length"
+          :columns="[quickTimeColumns]"
+          :model-value="quickTimeValue"
+          @change="handleQuickTimeChange"
         />
-      </template>
-      <div v-if="isCalendarTime" :class="n('view-tabs')">
-        <div
-          :class="classes(n('view-tab'), [datetimeView === 'time', n('view-tab--active')])"
-          @click="datetimeView = 'time'"
-        >
-          <span :class="n('view-tab-text')">{{ displayDateTimeParts.time }}</span>
-        </div>
       </div>
-    </template>
+    </div>
+    <TemporalCurrent
+      v-if="showTime && !range && !multiple"
+      :date="displayDateTimeParts.date"
+      :time="displayDateTimeParts.time"
+      show-time
+      :view="datetimeView"
+      @update:view="$event === 'date' ? showDateSummary() : (datetimeView = 'time')"
+    />
     <div v-if="$slots.actions" :class="n('actions')">
       <slot name="actions" />
     </div>
@@ -180,10 +188,11 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, nextTick, ref, watch, type RendererNode } from 'vue'
+import { computed, defineComponent, nextTick, ref, watch, type PropType, type RendererNode } from 'vue'
 import { call, doubleRaf, error, isArray, toNumber } from '@maplejs/maple-shared'
 import dayjs from 'dayjs/esm/index.js'
-import { useRangeFieldIndex } from '../../_components/picker-field/range-field-context'
+import { useRangeDisabledParts, useRangeFieldIndex } from '../../_components/picker-field/mobile-range-field-context'
+import TemporalCurrent from '../../_components/picker-field/TemporalCurrent.vue'
 import { t } from '../../locale'
 import { injectLocaleProvider } from '../../locale-provider/provide'
 import { _PickerComponent as MpPicker } from '../../picker'
@@ -207,7 +216,6 @@ import {
   resolveDateTimePresentation,
   splitDateTimeDisplay,
 } from '../datetime'
-import { normalizeDateRange } from '../normalize-date-range'
 import DayPickerPanel from '../picker-panels/DayPickerPanel.vue'
 import MonthPickerPanel from '../picker-panels/MonthPickerPanel.vue'
 import YearPickerPanel from '../picker-panels/YearPickerPanel.vue'
@@ -222,8 +230,7 @@ import {
   type TouchDirection,
   type Week,
 } from '../presentation-props'
-import { dateTimeConstraints } from '../time-constraints'
-import { dateTimePickerOptions } from '../time-picker-options'
+import { useQuickTime } from '../quick-time'
 import { dateWheelOptions } from '../wheel-options'
 
 const { name, n, classes } = createNamespace('date-picker')
@@ -235,12 +242,13 @@ export default defineComponent({
     YearPickerPanel,
     DayPickerPanel,
     MpPicker,
-    MpTimePicker,
+    TemporalCurrent,
   },
-  props,
-  emits: ['change', 'update:modelValue', 'preview', 'range-candidate', 'update:pickerValue'],
+  props: { ...props, rangeEndpoint: Number as PropType<0 | 1> },
+  emits: ['change', 'update:modelValue', 'preview', 'range-candidate', 'endpoint-candidate', 'update:pickerValue'],
   setup(props, { emit }) {
     const activeIndex = useRangeFieldIndex()
+    const disabledParts = useRangeDisabledParts()
     const { t: pt } = injectLocaleProvider()
     const datetimeView = ref<'date' | 'time'>('date')
     const currentDate = dayjs().format('YYYY-MM-D')
@@ -275,13 +283,17 @@ export default defineComponent({
       abbreviation: props.abbreviation,
       showCurrent: showCurrent.value,
       multiple: props.multiple,
-      range: props.range,
+      range: props.range && props.rangeEndpoint === undefined,
       buttonElevation: props.buttonElevation,
     }))
+    const emptyEndpoint = computed(
+      () =>
+        props.rangeEndpoint !== undefined && Array.isArray(props.modelValue) && !props.modelValue[props.rangeEndpoint],
+    )
     const getChoose = computed<Choose>(() => ({
-      chooseMonth: chooseMonth.value,
-      chooseYear: chooseYear.value,
-      chooseDay: chooseDay.value,
+      chooseMonth: emptyEndpoint.value ? undefined : chooseMonth.value,
+      chooseYear: emptyEndpoint.value ? undefined : chooseYear.value,
+      chooseDay: emptyEndpoint.value ? undefined : chooseDay.value,
       chooseYears: chooseYears.value,
       chooseMonths: chooseMonths.value,
       chooseDays: chooseDays.value,
@@ -298,7 +310,9 @@ export default defineComponent({
       const { multiple, range } = props
 
       if (range) {
-        return chooseRangeYear.value.length ? `${chooseRangeYear.value[0]} ~ ${chooseRangeYear.value[1]}` : ''
+        return chooseRangeYear.value.length
+          ? `${chooseRangeYear.value[0]} ~ ${rangeDone.value ? (chooseRangeYear.value[1] ?? '—') : '—'}`
+          : ''
       }
 
       return multiple ? `${chooseYears.value.length}${(pt || t)('datePickerSelected')}` : (chooseYear.value ?? '')
@@ -308,7 +322,9 @@ export default defineComponent({
       const { multiple, range } = props
 
       if (range) {
-        return chooseRangeMonth.value.length ? `${chooseRangeMonth.value[0]} ~ ${chooseRangeMonth.value[1]}` : ''
+        return chooseRangeMonth.value.length
+          ? `${chooseRangeMonth.value[0]} ~ ${rangeDone.value ? (chooseRangeMonth.value[1] ?? '—') : '—'}`
+          : ''
       }
 
       let monthName = ''
@@ -324,7 +340,9 @@ export default defineComponent({
       if (range) {
         const formatRangeDays = chooseRangeDay.value.map((date) => dayjs(date).format('YYYY-MM-DD'))
 
-        return formatRangeDays.length ? `${formatRangeDays[0]} ~ ${formatRangeDays[1]}` : ''
+        return formatRangeDays.length
+          ? `${formatRangeDays[0]} ~ ${rangeDone.value ? (formatRangeDays[1] ?? '—') : '—'}`
+          : ''
       }
 
       if (multiple) {
@@ -387,14 +405,22 @@ export default defineComponent({
     watch(
       // Range adapters create a fresh array on render. An equal model must not
       // erase the first click while the user is choosing the second endpoint.
-      () => (isArray(props.modelValue) ? JSON.stringify(props.modelValue) : props.modelValue),
+      [
+        () => (isArray(props.modelValue) ? JSON.stringify(props.modelValue) : props.modelValue),
+        () => props.rangeEndpoint,
+      ],
       () => {
         const value = props.modelValue
         if (!checkValue() || invalidFormatDate(value)) {
           return
         }
 
-        if (props.range) {
+        if (props.rangeEndpoint !== undefined && isArray(value)) {
+          const viewport = { year: previewYear.value, month: previewMonth.value }
+          dateInit(value[props.rangeEndpoint] || undefined)
+          previewYear.value = viewport.year
+          previewMonth.value = viewport.month
+        } else if (props.range) {
           if (!isArray(value)) {
             return
           }
@@ -468,6 +494,15 @@ export default defineComponent({
       }
     }
 
+    function showDateSummary() {
+      datetimeView.value = 'date'
+      clickEl('date')
+      // Equal endpoint years do not change preview, so reset the local century page explicitly.
+      if (props.type === 'year') {
+        yearPanelEl.value?.resetPage()
+      }
+    }
+
     function handleTouchstart(event: TouchEvent) {
       if (isUntouchable.value) {
         return
@@ -508,14 +543,37 @@ export default defineComponent({
     }
 
     function updateRange(date: string, type: string) {
+      const locked = disabledParts()
+      if (props.rangeEndpoint !== undefined) {
+        if (!locked[props.rangeEndpoint]) {
+          emit('endpoint-candidate', date)
+        }
+        return
+      }
+      if (locked[0] || locked[1]) {
+        if (locked[0] && locked[1]) {
+          return
+        }
+        const candidate = Array.isArray(props.modelValue) ? [...props.modelValue] : []
+        candidate[locked[0] ? 1 : 0] = date
+        emit('range-candidate', candidate)
+        emit('update:modelValue', candidate)
+        emit('change', candidate)
+        return
+      }
       const rangeDate = type === 'year' ? chooseRangeYear : type === 'month' ? chooseRangeMonth : chooseRangeDay
       rangeDate.value = rangeDone.value ? [date, date] : [rangeDate.value[0], date]
       rangeDone.value = !rangeDone.value
       activeIndex.value = rangeDone.value ? 0 : 1
 
+      if (!rangeDone.value) {
+        const partial = [date]
+        emit('range-candidate', partial)
+        emit('update:modelValue', partial)
+      }
       if (rangeDone.value) {
         emit('range-candidate', [...rangeDate.value])
-        const date = normalizeDateRange([...rangeDate.value], { type: props.type })
+        const date = [...rangeDate.value]
         emit('update:modelValue', date)
         emit('change', date)
       }
@@ -783,7 +841,7 @@ export default defineComponent({
       if (props.useSeconds) {
         labels.push(translate('datePickerColumnSecond'))
       }
-      return labels
+      return datetimeView.value === 'date' ? labels.slice(0, 3) : labels.slice(3)
     })
 
     const timeOnlyColumnLabels = computed(() => {
@@ -795,8 +853,8 @@ export default defineComponent({
       return labels
     })
 
-    const dateTimeColumns = computed(() =>
-      buildDateOrDateTimeColumns({
+    const dateTimeColumns = computed(() => {
+      const columns = buildDateOrDateTimeColumns({
         type: props.type,
         showTime: props.showTime,
         useSeconds: props.useSeconds,
@@ -805,14 +863,17 @@ export default defineComponent({
         disabledDate: props.disabledDate,
         disabledTime: props.disabledTime,
         current: displayDateTime.value,
-      }),
-    )
+      })
+      return !props.showTime ? columns : datetimeView.value === 'date' ? columns.slice(0, 3) : columns.slice(3)
+    })
 
     const timeOnlyColumns = computed(() => buildTimeOnlyColumns(props.useSeconds, props.disabledTime))
 
     const dateTimePickerValue = computed(() =>
       props.showTime
-        ? parseDateTimeParts(displayDateTime.value, props.useSeconds)
+        ? datetimeView.value === 'date'
+          ? parseDateTimeParts(displayDateTime.value, props.useSeconds).slice(0, 3)
+          : parseDateTimeParts(displayDateTime.value, props.useSeconds).slice(3)
         : parseDateParts(
             typeof props.modelValue === 'string' && props.modelValue ? props.modelValue : defaultDate(props.type),
             props.type,
@@ -820,14 +881,42 @@ export default defineComponent({
     )
     const timeOnlyPickerValue = computed(() => parseTimeParts(displayDateTimeParts.value.time, props.useSeconds))
 
+    const {
+      options: quickTimeOptions,
+      columns: quickTimeColumns,
+      value: quickTimeValue,
+    } = useQuickTime(
+      computed(() => displayDateTimeParts.value.time),
+      computed(() => props.disabledTime),
+    )
+    function handleQuickTimeChange(values: (string | number)[]) {
+      const time = String(values[0])
+      if (!quickTimeOptions.value.some((option) => option.value === time)) {
+        return
+      }
+      handleTimeOnlyPickerChange([...time.split(':'), ...(props.useSeconds ? ['00'] : [])])
+    }
+    watch(
+      () => props.showTime,
+      (showTime) => {
+        if (!showTime) {
+          datetimeView.value = 'date'
+        }
+      },
+    )
     const pickerBindingProps = computed(() => dateWheelOptions(props.pickerProps))
-    const timePickerBindingProps = computed(() => dateTimePickerOptions(props.timePickerProps))
 
     function handleDateTimePickerChange(values: (string | number)[]) {
       if (props.readonly) {
         return
       }
-      const next = props.showTime ? joinDateTimeParts(values, props.useSeconds) : joinDateParts(values, props.type)
+      const parts = parseDateTimeParts(displayDateTime.value, props.useSeconds)
+      const next = props.showTime
+        ? joinDateTimeParts(
+            datetimeView.value === 'date' ? [...values, ...parts.slice(3)] : [...parts.slice(0, 3), ...values],
+            props.useSeconds,
+          )
+        : joinDateParts(values, props.type)
       emit('update:modelValue', next)
       emit('change', next)
     }
@@ -842,17 +931,11 @@ export default defineComponent({
       emit('change', next)
     }
 
-    function handleDateTimeClockChange(time: string) {
-      if (props.readonly) {
-        return
-      }
-      const next = combineDateAndTime(displayDateTimeParts.value.date, time, props.useSeconds)
-      emit('update:modelValue', next)
-      emit('change', next)
-    }
-
     return {
-      dateTimeConstraints,
+      quickTimeOptions,
+      quickTimeColumns,
+      quickTimeValue,
+      handleQuickTimeChange,
       yearPanelEl,
       monthPanelEl,
       dayPanelEl,
@@ -871,6 +954,7 @@ export default defineComponent({
       getChoose,
       getPreview,
       componentProps,
+      rangeDone,
       slotProps,
       formatRange,
       datetimeView,
@@ -885,15 +969,14 @@ export default defineComponent({
       dateTimePickerValue,
       timeOnlyPickerValue,
       pickerBindingProps,
-      timePickerBindingProps,
       handleDateTimePickerChange,
       handleTimeOnlyPickerChange,
-      handleDateTimeClockChange,
       pt,
       t,
       n,
       classes,
       clickEl,
+      showDateSummary,
       handleTouchstart,
       handleTouchmove,
       handleTouchend,

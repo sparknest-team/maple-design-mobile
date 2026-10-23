@@ -52,3 +52,13 @@
 | `--mp-hover-transition-duration` | `var(--mp-sys-motion-duration-fast)` |
 
 内置动效遵循 prefers-reduced-motion: reduce：保留内容与状态反馈，关闭装饰性旋转、扫光和波纹。Icon 名称切换跳过等待，并取消尚未结束的切换。Ripple 时长变量只控制 CSS，250ms 生命周期计时未改变，每段视觉时长应不超过 250ms；自定义动画类由调用方负责适配。
+
+
+<!-- api-review:start -->
+### 组合审查 / API review
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->

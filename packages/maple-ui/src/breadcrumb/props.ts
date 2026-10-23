@@ -1,5 +1,5 @@
 import type { PropType } from 'vue'
-import type { DropdownMenuProps } from '../dropdown-menu'
+import type { MenuProps } from '../menu'
 import type { BreadcrumbRoute } from './types'
 
 export const breadcrumbProps = {
@@ -46,7 +46,7 @@ export const breadcrumbItemProps = {
    * 下拉菜单属性
    */
   dropdownProps: {
-    type: Object as PropType<DropdownMenuProps>,
+    type: Object as PropType<MenuProps>,
   },
   /**
    * 跳转链接

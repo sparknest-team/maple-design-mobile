@@ -1,5 +1,7 @@
 # Radio
 
+## Examples
+
 ### Intro
 
 Basic demos follow the site language without changing business values or selection. Group demos cover accepted/rejected updates, readonly state and asynchronous option labels; removing options does not clear the model. Use `direction="column"` on the outer Space and `direction="vertical"` on the choice group itself.
@@ -12,18 +14,6 @@ Single selection among multiple options.
 ../example/demos/basic-usage.vue
 ```
 
-### Set State Value
-
-```demo
-../example/demos/set-state.vue
-```
-
-### Modify Icon And Color
-
-```demo
-../example/demos/set-style.vue
-```
-
 ### Disabled
 
 ```demo
@@ -34,6 +24,18 @@ Single selection among multiple options.
 
 ```demo
 ../example/demos/readonly.vue
+```
+
+### Set State Value
+
+```demo
+../example/demos/set-state.vue
+```
+
+### Modify Icon And Color
+
+```demo
+../example/demos/set-style.vue
 ```
 
 ### RadioGroup
@@ -77,14 +79,6 @@ Group inherits `disabled`, `readonly` and `error` from the form when omitted. An
 
 ```demo
 ../example/demos/en-US/group-state.vue
-```
-
-### Asynchronous options
-
-Loading/removing options or updating the external value never emits reverse updates. Selected values absent from the current options are retained. Selecting the current value again does not emit change. false, zero and empty string retain their identity.
-
-```demo
-../example/demos/en-US/async-options.vue
 ```
 
 ### Standalone values and methods
@@ -131,6 +125,37 @@ Both libraries render a native radio input. Use name on the group for native for
 ```demo
 ../example/demos/en-US/native-control.vue
 ```
+
+### Interaction states
+
+Use this example for mutually exclusive choices. Adjust disabled, read-only, error feedback and compare the component with the same data. The controls remain available to restore editing; error appearance alone does not run validation.
+
+```demo
+../example/demos/state-lab.vue
+```
+
+### Asynchronous options
+
+Enable Manual responses to start real local promises instead of the default timer. Load twice and resolve newest/oldest in either order: only the current request version may replace options or end loading. Removing options invalidates the outstanding version but preserves the selected business value; old tasks remain available to resolve manually. Applied/Ignored/Pending expose this behavior. Loading and responses do not count as user changes. Versioning and pending cleanup belong to this Demo's business loader, not an automatic Radio network-race guarantee; no external service is called.
+
+Loading/removing options or updating the external value never emits reverse updates. Selected values absent from the current options are retained. Selecting the current value again does not emit change. false, zero and empty string retain their identity.
+
+This demo simulates loading with an 800ms local delay. Set Device A or clear the selection while waiting: arriving options reflect the latest model without increasing the user-change count. Removing options while loading cancels the pending task so stale options do not reappear.
+
+Arrow keys can still select existing options while loading. Reloading the same option values preserves focus. Keep the loading-status node stable to avoid remounting the group when the message changes; activating the current value again does not emit another change.
+
+```demo
+../example/demos/en-US/async-options.vue
+```
+
+<!-- api-review:start -->
+### Feature playground
+
+```demo
+../example/demos/api-review.vue
+```
+
+<!-- api-review:end -->
 
 ## API
 
@@ -256,3 +281,13 @@ Exported types：`RadioOption`、`ChoiceFieldNames`。
 | Radio / RadioGroup | name | Native field name; child overrides group | string | undefined |
 | Radio | aria-label | Native accessible name | string | undefined |
 | Radio | input-attrs | Native input attributes | InputHTMLAttributes | undefined |
+
+### Form field presentation and confirmation
+
+`presentation` inherits from field > FormItem > Form and defaults to `inline`. Supported values are `inline / popup`. Inline keeps the existing control behavior. Overlay editing uses a Cell reference and an isolated draft; only confirmation updates v-model. Cancel, reset and enabling readPretty discard the draft.
+
+Maple 使用 presentation="popup" 点击值区域打开编辑面板；inline 直接编辑。 readPretty 为纯阅读属性，与 readonly、disabled 独立。
+
+`before-commit(value, { previousValue, signal })` can reject an overlay save. FormItem validates the candidate first and keeps the editor open on failure. `open / default-open / update:open` control the editor. Use `#read="{ value, text }"` to customize display. See the full field comparison in Form.
+
+`read-pretty` 为独立布尔属性，与 `readonly`、`disabled` 同级；字段 > FormItem > Form 继承，显式 `false` 覆盖父级。默认 `false`。纯阅读不显示编辑器。

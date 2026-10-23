@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
+import DemoApiReview from './demos/api-review.vue'
 import BasicUsageDemo from './demos/basic-usage.vue'
 import CustomFormatDemo from './demos/custom-format.vue'
 import CustomStyleDemo from './demos/custom-style.vue'
@@ -47,4 +48,5 @@ onThemeChange()
     <app-type>{{ english ? 'Embed in Statistic' : '嵌入 Statistic' }}</app-type>
     <EmbedStatisticDemo />
   </section>
+  <section data-demo="api-review"><DemoApiReview /></section>
 </template>
