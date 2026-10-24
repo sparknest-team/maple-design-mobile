@@ -1,74 +1,42 @@
-# 基本介绍
+# Maple Design Mobile
 
-### 介绍
+Maple Design Mobile 是基于 Vue 3、TypeScript 和 Less 的移动端组件库，由孟帅、吴甲明维护。与 [Cedar Design Web](https://cedar.show) 同构，对齐组件 API、交互语义与设计 Token。
 
-Maple 是一个 `Vue3` 组件库，基于 统一语义 Token 与品牌主题体系，支持移动端、桌面端，由 Maple 团队维护。
+## 特性
 
-### 特性
+- 双端同构：与 Cedar 对齐组件 API、行为约定和主题语言
 
-- 🚀 &nbsp; 提供 60+ 个高质量通用组件
-- 🚀 &nbsp; 组件十分轻量
-- 💪 &nbsp; 由国人开发，完善的中英文文档和后勤保障
-- 🛠️ &nbsp; 支持按需引入
-- 🛠️ &nbsp; 支持主题定制
-- 🌍 &nbsp; 支持国际化
-- 💡 &nbsp; 支持 webstorm 组件属性高亮
-- 💪 &nbsp; 支持 SSR
-- 📦 &nbsp; 支持 [Nuxt Module](https://github.com/loca-spirit/maple-nuxt)
-- 💡 &nbsp; 支持 Typescript
-- 💪 &nbsp; 确保 90% 以上单元测试覆盖率，提供稳定性保证
-- 🎨 &nbsp; 同时支持 default 和 maple 品牌的明暗主题
-- 🛠️ &nbsp; 支持暗黑模式
-- 🔧 &nbsp; 提供官方的 VSCode 插件
-- ⌨️ &nbsp; 支持无障碍访问（持续改进中）
+- 面向移动端的组件与触控交互
+- 支持按需引入与 TypeScript 类型提示
+- 支持语义 Token、品牌主题和亮暗模式
+- 提供中英文文档和国际化支持
+- 配套 CLI、图标、组件解析器与样式预设
 
-### 官方生态
+## Cedar × Maple，同构的两端
 
-以下项目由官方团队长期维护。
+桌面端使用 [Cedar Design Web](https://cedar.show)，移动端使用 [Maple Design Mobile](https://maple.show)。统一的 API 约定与语义 Token，让组件使用经验和主题语言在两端延续；布局、键盘与触控交互按各端场景适配。
 
-| 名称                                                                                                   | 描述                       |
-|------------------------------------------------------------------------------------------------------|--------------------------|
-| [@maple-design/cli](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-cli)                       | `Vue3 组件库快速成型工具`         |
-| [@maple-design/touch-emulator](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-touch-emulator) | `桌面端适配器，让移动端组件库可以在桌面端运行` |
-| [@maple-design/ui-playground](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-ui-playground)  | `Maple 组件库在线编辑工具`       |
-| [@maple-design/resolver](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-resolver)  | [unplugin-vue-components](https://github.com/unplugin/unplugin-vue-components) `的一个解析器，用于实现 Maple 按需引入`   |
-| [@maple-design/preset-unocss](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-preset-unocss)  | `maple 的` [UnoCss](https://unocss.dev/) `预设` |
-| [@maple-design/preset-tailwindcss](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-preset-tailwindcss)  | `maple 的` [tailwindcss](https://tailwindcss.com/) `预设` |
-| [maple-theme-builder](https://github.com/loca-spirit/maple-theme-builder) | `主题生成器，用于生成 Maple 品牌主题变量` |
-| [maple-vscode-extension](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-vscode-extension)  | `Maple 组件库 VSCode 插件`   |
-| [maple-vscode-theme](https://github.com/loca-spirit/maple-vscode-theme)  | `Maple VSCode 主题`   |
-| [maple-app-example](https://github.com/loca-spirit/maple-app-template)  | `Maple 组件库移动端模板`   |
-| [maple-install-example](https://github.com/loca-spirit/maple-install-example)  | `Maple 组件库与各种生态集成的案例集合`   |
+## 安装
 
-### 社区生态
+```shell
+pnpm add @maple-design/ui
+```
 
-以下项目由社区人员维护，欢迎补充。
+## 项目配套
 
-| 名称                                                             | 描述                                        |
-|----------------------------------------------------------------|-------------------------------------------|
-| [vue-h5-template](https://github.com/sunniejs/vue-h5-template) | `基于 Vue 的移动端模板脚手架，提供了 Maple 组件库的移动端预设`   |
-| [create-vite-app](https://github.com/ErKeLost/create-vite-app) | `基于 Vue3 的桌面端模板脚手架，提供了 Maple 组件库的桌面端预设`  |
-| [vscode-common-intellisense](https://github.com/Simon-He95/vscode-common-intellisense) | `为 Maple 开发人员提供更好的智能感知的 VSCode 扩展` |
-| [vue3-maple-mobile](https://github.com/vue-zone/vue3-maple-mobile) | `基于 Vue 3 和 Maple 组件库的移动模板` |
+| 包 | 用途 |
+| --- | --- |
+| `@maple-design/cli` | 组件开发、文档与构建工具 |
+| `@maple-design/icons-vue` | SVG Vue 图标组件 |
+| `@maple-design/resolver` | 组件与图标的按需引入 |
+| `@maple-design/preset-unocss` | UnoCSS 预设 |
+| `@maple-design/preset-tailwindcss` | Tailwind CSS 预设 |
 
-### PR & Issue
-使用过程中出现的问题可以到 [github](https://github.com/loca-spirit/maple-design-mobile) 来给我们提 [issue](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/issues)，
-我们会在第一时间处理问题。也可以给我们提 [PR](https://github.com/loca-spirit/maple-design-mobile/pulls)，我们也十分欢迎小伙伴们来参与贡献。
+## 贡献者
 
-### 开源协议
-组件库基于 `MIT` 协议。
+- 孟帅
+- 吴甲明
 
-### 贡献指南
-详情见 [Maple 贡献指南](https://github.com/loca-spirit/maple-design-mobile/blob/main/.github/CONTRIBUTING.md)。
+## 开源协议
 
-### 感谢贡献者们做出的努力
-
-<a href="https://github.com/loca-spirit/maple-design-mobile/graphs/contributors" style="width: 100%; display: mp-block; margin-top: 16px">
-  <img src="https://contrib.rocks/image?repo=loca-spirit/maple-design-mobile" style="width: 100%; display: mp-block; border-radius: 4px;" />
-</a>
-
-### 感谢以下赞助者
-
-<a href="https://cdn.jsdelivr.net/gh/loca-spirit/maple-static/sponsorkit/sponsors.svg" style="width: 100%; display: mp-block; margin-top: 16px">
-  <img src="https://cdn.jsdelivr.net/gh/loca-spirit/maple-static/sponsorkit/sponsors.svg" style="width: 100%; display: mp-block; border-radius: 4px;">
-</a>
+MIT。

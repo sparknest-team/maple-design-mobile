@@ -5,7 +5,7 @@ export default defineConfig({
   namespace: 'mp',
   host: 'localhost',
   port: 8080,
-  title: 'Maple',
+  title: 'Maple Design Mobile',
   logo: 'maple_icon.png',
   defaultLanguage: 'zh-CN',
   themeKey: 'MAPLE_V3_THEME',
@@ -16,17 +16,30 @@ export default defineConfig({
   analysis: { baidu: '' },
   pc: {
     title: {
-      'zh-CN': 'Maple UI - Vue3 Maple Design 组件库',
-      'en-US': 'Maple UI - Vue3 Maple Design Component Library',
+      'zh-CN': 'Maple Design Mobile · 与 Cedar 同构的移动端组件库',
+      'en-US': 'Maple Design Mobile · Cedar’s Mobile Counterpart',
     },
     menu: [],
     redirect: '/index',
     indexPage: {
+      eyebrow: { 'zh-CN': 'CEDAR × MAPLE · 双端同构', 'en-US': 'CEDAR × MAPLE · ONE ARCHITECTURE' },
+      headline: { 'zh-CN': '同一套设计语言，\n从桌面到移动。', 'en-US': 'One design language.\nDesktop to mobile.' },
       description: {
         'zh-CN':
-          'Maple UI 是一个基于 Vue3 开发的 Maple Design 组件库，全面拥抱 Vue3 生态，支持移动端和桌面端，由 maplejs 组织维护。支持 Typescript、按需引入、暗黑模式、主题定制、国际化，并提供 VSCode 插件保障良好的开发体验。',
+          'Maple 是 Cedar 的移动端同构组件库。两端对齐组件 API、交互语义与设计 Token，让已有的组件使用经验延续到另一端，同时为触控场景提供合适的布局与交互。',
         'en-US':
-          'Maple UI is a Maple design component library developed based on Vue3, supporting mobile and desktop, developed and maintained by maplejs organization. Support Typescript, import on demand, dark mode, theme customization, internationalization, and provide VSCode plugin to ensure a good development experience.',
+          'Maple is the mobile counterpart to Cedar. The two libraries align component APIs, interaction semantics and design tokens, so familiar patterns carry across platforms with layouts and interactions suited to touch.',
+      },
+      companion: {
+        name: 'Cedar Design Web',
+        label: { 'zh-CN': '探索桌面端 Cedar ↗', 'en-US': 'Explore Cedar for desktop ↗' },
+        href: 'https://cedar.show',
+        title: { 'zh-CN': 'Cedar × Maple，同构的两端。', 'en-US': 'Cedar × Maple. Two platforms, one architecture.' },
+        description: {
+          'zh-CN': '桌面端用 Cedar，移动端用 Maple。共享 API 约定与主题语言，保留各自的交互体验。',
+          'en-US':
+            'Cedar for desktop. Maple for mobile. Shared API conventions and theme language, with interactions tailored to each platform.',
+        },
       },
       started: {
         'zh-CN': '快速开始',
@@ -38,364 +51,77 @@ export default defineConfig({
       },
       features: [
         {
-          name: {
-            'zh-CN': '组件丰富',
-            'en-US': 'Rich components',
-          },
+          name: { 'zh-CN': '双端同构', 'en-US': 'One architecture' },
           description: {
-            'zh-CN': '提供 60+ 个高质量通用组件',
-            'en-US': 'Provide 60+ high quality general purpose components',
-          },
-        },
-        {
-          name: {
-            'zh-CN': '按需引入',
-            'en-US': 'On-Demand',
-          },
-          description: {
-            'zh-CN': '每一个组件都可单独引入，并有着良好的 tree-shaking 优化',
-            'en-US': 'Each component can be imported separately and has good tree-shaking optimization',
-          },
-        },
-        {
-          name: {
-            'zh-CN': '主题定制',
-            'en-US': 'Theme customization',
-          },
-          description: {
-            'zh-CN': '内置亮色和暗色两种主题，支持组件的样式自定义',
-            'en-US': 'Built-in light and dark themes, support style customization of components',
-          },
-        },
-        {
-          name: {
-            'zh-CN': '国际化',
-            'en-US': 'Locale',
-          },
-          description: {
-            'zh-CN': '内置国际化 API，内置中文和英文的语言包',
-            'en-US': 'Built-in i18n API, which supports both Chinese and English languages by default',
-          },
-        },
-        {
-          name: {
-            'zh-CN': '支持 Typescript',
-            'en-US': 'Support typescript',
-          },
-          description: {
-            'zh-CN': '使用 Typescript 构建，提供良好的组件类型系统',
-            'en-US': 'Built with typescript, which provides a nice components type system',
-          },
-        },
-        {
-          name: {
-            'zh-CN': '服务端渲染',
-            'en-US': 'Server-side rendering',
-          },
-          description: {
-            'zh-CN': '对服务端渲染支持良好，并对 Nuxt 进行了适配',
-            'en-US': 'Good support for server-side rendering and adaptation to Nuxt',
-          },
-        },
-        {
-          name: {
-            'zh-CN': '国人开发',
-            'en-US': 'Developed by Chinese',
-          },
-          description: {
-            'zh-CN': '由国人开发，完善的中英文文档和后勤保障',
-            'en-US': 'Complete Chinese and English documentation and logistics support',
-          },
-        },
-        {
-          name: {
-            'zh-CN': 'IDE 支持',
-            'en-US': 'IDE Code Support',
-          },
-          description: {
-            'zh-CN': '支持在 webstorm，vscode 中的组件语法高亮, 并提供 vscode 插件为开发提升效率',
+            'zh-CN': '与 Cedar 对齐组件结构、公共 API 与行为约定，跨端开发沿用熟悉的组件模型。',
             'en-US':
-              'Supports to highlight the component syntax for webstorm and vscode, and provides a separate helper plugin for vscode',
+              'Aligned component structure, public APIs and behavior conventions make familiar patterns reusable across platforms.',
           },
         },
         {
-          name: {
-            'zh-CN': '组件库快速成型工具',
-            'en-US': 'Component library toolchain',
-          },
+          name: { 'zh-CN': '统一 API', 'en-US': 'Consistent APIs' },
           description: {
-            'zh-CN': '开源了搭建本组件库的所有工具链，提供快速开发组件库的能力',
+            'zh-CN': '相同能力保持一致的属性、事件与类型语义，减少桌面与移动之间的切换成本。',
+            'en-US': 'Shared capabilities follow consistent prop, event and type semantics across desktop and mobile.',
+          },
+        },
+        {
+          name: { 'zh-CN': '统一主题', 'en-US': 'Shared theme language' },
+          description: {
+            'zh-CN': '使用语义 Token 管理颜色、间距与状态，支持品牌定制和亮暗主题。',
             'en-US':
-              'Open-sourced the toolchain for building this component library, providing the ability to rapidly develop the component library',
+              'Semantic tokens define colors, spacing and states, with brand customization and light and dark themes.',
+          },
+        },
+        {
+          name: { 'zh-CN': '移动端体验', 'en-US': 'Made for touch' },
+          description: {
+            'zh-CN': '针对触控操作、移动布局与全屏浮层优化交互，让同构能力适配移动场景。',
+            'en-US':
+              'Touch interactions, mobile layouts and fullscreen overlays adapt shared capabilities to mobile use.',
+          },
+        },
+        {
+          name: { 'zh-CN': '按需组合', 'en-US': 'Import what you use' },
+          description: {
+            'zh-CN': '组件、图标与样式支持按需引入，配套解析器和 CSS 预设。',
+            'en-US': 'Import components, icons and styles on demand, with resolvers and CSS presets.',
+          },
+        },
+        {
+          name: { 'zh-CN': '类型与文档', 'en-US': 'Types and documentation' },
+          description: {
+            'zh-CN': '基于 Vue 3 与 TypeScript，提供类型提示、中英文文档与组件示例。',
+            'en-US':
+              'Built with Vue 3 and TypeScript, with type definitions, bilingual documentation and component examples.',
           },
         },
       ],
       teamMembers: {
         label: {
-          'zh-CN': '团队成员',
-          'en-US': 'Team Members',
-        },
-        members: [
-          {
-            name: {
-              'zh-CN': 'haoziqaq',
-              'en-US': 'haoziqaq',
-            },
-            title: {
-              'zh-CN': '开源开发者',
-              'en-US': 'Open Source Developer',
-            },
-            description: {
-              'zh-CN': 'maplejs 核心团队成员',
-              'en-US': 'Core team member of maplejs',
-            },
-            avatar: 'https://avatars.githubusercontent.com/u/24223652',
-            github: 'https://github.com/haoziqaq',
-            twitter: 'https://twitter.com/haozijunqaq',
-          },
-          {
-            name: {
-              'zh-CN': 'BeADre',
-              'en-US': 'BeADre',
-            },
-            title: {
-              'zh-CN': '开源开发者',
-              'en-US': 'Open Source Developer',
-            },
-            description: {
-              'zh-CN': 'maplejs 核心团队成员',
-              'en-US': 'Core team member of maplejs',
-            },
-            avatar: 'https://avatars.githubusercontent.com/u/34639100',
-            github: 'https://github.com/BeADre',
-          },
-          {
-            name: {
-              'zh-CN': 'zhangmo8',
-              'en-US': 'zhangmo8',
-            },
-            title: {
-              'zh-CN': '开源开发者',
-              'en-US': 'Open Source Developer',
-            },
-            description: {
-              'zh-CN': 'maplejs & ikun-ui 核心团队成员',
-              'en-US': 'Core team member of maplejs & ikun-ui',
-            },
-            avatar: 'https://avatars.githubusercontent.com/u/43628500',
-            github: 'https://github.com/zhangmo8',
-            twitter: 'https://twitter.com/wegi8666',
-          },
-          {
-            name: {
-              'zh-CN': 'chouchouji',
-              'en-US': 'chouchouji',
-            },
-            title: {
-              'zh-CN': '开源开发者',
-              'en-US': 'Open Source Developer',
-            },
-            description: {
-              'zh-CN': 'maplejs 核心团队成员',
-              'en-US': 'Core team member of maplejs',
-            },
-            avatar: 'https://avatars.githubusercontent.com/u/70570907',
-            github: 'https://github.com/chouchouji',
-          },
-          {
-            name: {
-              'zh-CN': 'tiny-dust',
-              'en-US': 'tiny-dust',
-            },
-            title: {
-              'zh-CN': '开源开发者',
-              'en-US': 'Open Source Developer',
-            },
-            description: {
-              'zh-CN': 'maplejs 核心团队成员',
-              'en-US': 'Core team member of maplejs',
-            },
-            avatar: 'https://avatars.githubusercontent.com/u/49502875',
-            github: 'https://github.com/tiny-dust',
-          },
-          {
-            name: {
-              'zh-CN': 'songjianet',
-              'en-US': 'songjianet',
-            },
-            title: {
-              'zh-CN': '开源开发者',
-              'en-US': 'Open Source Developer',
-            },
-            description: {
-              'zh-CN': 'maplejs & apache & w3c & naiveui & ikun-ui 团队成员',
-              'en-US': 'Core team member of maplejs & apache & w3c & naiveui & ikun-ui',
-            },
-            avatar: 'https://avatars.githubusercontent.com/u/19239641',
-            github: 'https://github.com/songjianet',
-            twitter: 'https://twitter.com/songjianet',
-          },
-          {
-            name: {
-              'zh-CN': 'running snail',
-              'en-US': 'running snail',
-            },
-            title: {
-              'zh-CN': '开源开发者',
-              'en-US': 'Open Source Developer',
-            },
-            description: {
-              'zh-CN': 'maplejs & dcloud 团队成员',
-              'en-US': 'Core team member of maplejs & dcloud',
-            },
-            avatar: 'https://avatars.githubusercontent.com/u/37523000',
-            github: 'https://github.com/zhenyuWang',
-          },
-          {
-            name: {
-              'zh-CN': 'qytayh',
-              'en-US': 'qytayh',
-            },
-            title: {
-              'zh-CN': '开源开发者',
-              'en-US': 'Open Source Developer',
-            },
-            description: {
-              'zh-CN': 'maplejs 团队成员',
-              'en-US': 'Core team member of maplejs',
-            },
-            avatar: 'https://avatars.githubusercontent.com/u/39668309',
-            github: 'https://github.com/qytayh',
-          },
-          {
-            name: {
-              'zh-CN': 'Erkelost',
-              'en-US': 'Erkelost',
-            },
-            title: {
-              'zh-CN': '开源开发者',
-              'en-US': 'Open Source Developer',
-            },
-            description: {
-              'zh-CN': 'maplejs & unplugin & farm & devui & wujie 团队成员',
-              'en-US': 'Core team member of maplejs & unplugin & farm & devui & wujie',
-            },
-            avatar: 'https://avatars.githubusercontent.com/u/66500121',
-            github: 'https://github.com/ErKeLost',
-          },
-          {
-            name: {
-              'zh-CN': 'EmberSpirit',
-              'en-US': 'EmberSpirit',
-            },
-            title: {
-              'zh-CN': '开源开发者',
-              'en-US': 'Open Source Developer',
-            },
-            description: {
-              'zh-CN': 'maplejs 团队成员',
-              'en-US': 'Core team member of maplejs',
-            },
-            avatar: 'https://avatars.githubusercontent.com/u/85718018',
-            github: 'https://github.com/wangKBweb',
-          },
-          {
-            name: {
-              'zh-CN': 'ayangweb',
-              'en-US': 'ayangweb',
-            },
-            title: {
-              'zh-CN': '开源开发者 & B 站 UP 主',
-              'en-US': 'Open Source Developer & Bilibili UP',
-            },
-            description: {
-              'zh-CN': 'maplejs 团队成员',
-              'en-US': 'Core team member of maplejs',
-            },
-            avatar: 'https://avatars.githubusercontent.com/u/75017711',
-            github: 'https://github.com/ayangweb',
-          },
-          {
-            name: {
-              'zh-CN': 'jiechen66',
-              'en-US': 'jiechen66',
-            },
-            title: {
-              'zh-CN': '开源开发者',
-              'en-US': 'Open Source Developer',
-            },
-            description: {
-              'zh-CN': 'maplejs 团队成员',
-              'en-US': 'Core team member of maplejs',
-            },
-            avatar: 'https://avatars.githubusercontent.com/u/42862411',
-            github: 'https://github.com/jiechen66',
-          },
-          {
-            name: {
-              'zh-CN': 'dyggod',
-              'en-US': 'dyggod',
-            },
-            title: {
-              'zh-CN': '开源开发者',
-              'en-US': 'Open Source Developer',
-            },
-            description: {
-              'zh-CN': 'maplejs 团队成员',
-              'en-US': 'Core team member of maplejs',
-            },
-            avatar: 'https://avatars.githubusercontent.com/u/49914353',
-            github: 'https://github.com/dyggod',
-          },
-          {
-            name: {
-              'zh-CN': 'clen cat',
-              'en-US': 'clen cat',
-            },
-            title: {
-              'zh-CN': '开源开发者',
-              'en-US': 'Open Source Developer',
-            },
-            description: {
-              'zh-CN': 'maplejs 团队成员',
-              'en-US': 'Core team member of maplejs',
-            },
-            avatar: 'https://avatars.githubusercontent.com/u/37403253',
-            github: 'https://github.com/a145789',
-          },
-          {
-            name: {
-              'zh-CN': 'gaoting',
-              'en-US': 'gaoting',
-            },
-            title: {
-              'zh-CN': '开源开发者',
-              'en-US': 'Open Source Developer',
-            },
-            description: {
-              'zh-CN': 'maplejs 团队成员',
-              'en-US': 'Core team member of maplejs',
-            },
-            avatar: 'https://avatars.githubusercontent.com/u/7401170',
-            github: 'https://github.com/gaoting',
-          },
-        ],
-      },
-      contributors: {
-        label: {
           'zh-CN': '贡献者',
           'en-US': 'Contributors',
         },
-        link: 'https://github.com/loca-spirit/maple-design-mobile/graphs/contributors',
-        image: 'https://contrib.rocks/image?repo=loca-spirit/maple-design-mobile',
+        members: [
+          {
+            name: { 'zh-CN': '孟帅', 'en-US': '孟帅' },
+            title: { 'zh-CN': '项目维护者', 'en-US': 'Maintainer' },
+            description: { 'zh-CN': 'Maple Design Mobile 贡献者', 'en-US': 'Maple Design Mobile contributor' },
+          },
+          {
+            name: { 'zh-CN': '吴甲明', 'en-US': '吴甲明' },
+            title: { 'zh-CN': '项目维护者', 'en-US': 'Maintainer' },
+            description: { 'zh-CN': 'Maple Design Mobile 贡献者', 'en-US': 'Maple Design Mobile contributor' },
+          },
+        ],
       },
       license: {
         'zh-CN': '组件库基于 MIT 协议，您可以自由的使用和分享',
         'en-US': 'Released under the MIT License, You can use and share freely.',
       },
       copyright: {
-        'zh-CN': 'Copyright © 2025 maplejs 组织成员以及 maple 的贡献者们',
-        'en-US': 'Copyright © 2025 maplejs member and maple contributors.',
+        'zh-CN': 'Copyright © 2026 孟帅、吴甲明',
+        'en-US': 'Copyright © 2026 孟帅、吴甲明',
       },
     },
     header: {
@@ -403,22 +129,8 @@ export default defineConfig({
         'zh-CN': '中文',
         'en-US': 'English',
       },
-      currentVersion: 'v3.x',
-      versions: [
-        {
-          name: 'maplejs.org',
-          items: [
-            {
-              label: 'v3.x',
-              link: 'https://maplejs.org',
-            },
-            {
-              label: 'v2.x',
-              link: 'https://maplejs.org/v2',
-            },
-          ],
-        },
-      ],
+      currentVersion: 'v1.x',
+      versions: [],
       github: 'https://github.com/loca-spirit/maple-design-mobile',
       changelog: 'https://github.com/loca-spirit/maple-design-mobile/blob/main/CHANGELOG.md',
       playground: 'https://maplejs.org/playground',
@@ -444,8 +156,8 @@ export default defineConfig({
   },
   mobile: {
     title: {
-      'zh-CN': 'Maple UI - Vue3 Maple Design 组件库',
-      'en-US': 'Maple UI - Vue3 Maple Design Component Library',
+      'zh-CN': 'Maple Design Mobile · 与 Cedar 同构的移动端组件库',
+      'en-US': 'Maple Design Mobile · Cedar’s Mobile Counterpart',
     },
     redirect: '/home',
     header: {
@@ -467,49 +179,17 @@ export default defineConfig({
     },
   },
   seo: {
-    title: 'Maple UI - Vue3 Maple Design Component Library',
+    title: 'Maple Design Mobile · Cedar’s Mobile Counterpart',
     description:
-      'Maple UI is a Maple design component library developed based on Vue3, supporting mobile and desktop, developed and maintained by maplejs organization. Support Typescript, import on demand, dark mode, theme customization, internationalization, and provide VSCode plugin to ensure a good development experience.',
+      'Maple Design Mobile is a mobile component library built with Vue 3 and TypeScript, maintained by 孟帅 and 吴甲明. It shares semantic tokens and component API conventions with Cedar Design Web and supports on-demand imports, theming and internationalization.',
     keywords: [
-      'Maple',
-      'Maple UI',
-      'maple',
-      'maple-ui',
-      'UI',
-      'Vue3 Mobile Components Library',
-      'Maple Design',
-      'Mobile',
-      'Desktop',
-      'Provide 60+ high quality general purpose components',
-      'Components are very lightweight',
-      'Developed by Chinese, complete Chinese and English documentation and logistics support',
-      'Support on-demand introduction',
-      'Support theme customization',
-      'Support internationalization',
-      'Support WebStorm syntax highlighting',
-      'Support the SSR',
-      'Support Nuxt Module',
-      'Support the Typescript',
-      'Make sure more than 90 percent unit test coverage, providing stability assurance',
-      'Supports Maple Design design systems',
-      'Support dark mode',
-      'Provide official VSCode extension',
-      'Support Accessibility (still improving)',
-      'Vue3 组件库',
-      '移动端',
-      '桌面端',
-      '提供 60+ 个高质量通用组件',
-      '组件十分轻量',
-      '由国人开发，完善的中英文文档和后勤保障',
-      '支持按需引入',
-      '支持主题定制',
-      '支持国际化',
-      '支持 webstorm 组件属性高亮',
-      '支持 SSR',
-      '支持 Nuxt Module',
-      '支持 Typescript',
-      '提供官方的 VSCode 插件',
-      '支持无障碍访问（持续改进中）',
+      'Maple Design Mobile',
+      'Cedar Design Web',
+      'Vue 3',
+      'TypeScript',
+      '移动端组件库',
+      '语义 Token',
+      '主题定制',
     ].join(','),
   },
   lightTheme: {

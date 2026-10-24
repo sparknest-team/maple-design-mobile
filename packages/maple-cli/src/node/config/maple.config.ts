@@ -75,6 +75,15 @@ export interface MapleConfigSeo {
 }
 
 export interface MapleConfigPcIndexPage {
+  eyebrow?: Record<string, string>
+  headline?: Record<string, string>
+  companion?: {
+    name: string
+    label: Record<string, string>
+    href: string
+    title: Record<string, string>
+    description: Record<string, string>
+  }
   description?: Record<string, string>
   started?: Record<string, string>
   viewOnGithub?: Record<string, string>

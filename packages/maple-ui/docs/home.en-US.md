@@ -1,75 +1,42 @@
-# Basic Introduce
+# Maple Design Mobile
 
-### Intro
+Maple Design Mobile is a mobile component library built with Vue 3, TypeScript and Less, maintained by 孟帅 and 吴甲明. It is the mobile counterpart to [Cedar Design Web](https://cedar.show), sharing component API conventions, interaction semantics and design tokens.
 
-Maple is a `Vue3` component library based on semantic tokens and brand themes, supporting mobile and desktop, developed and maintained by the Maple team.
+## Features
 
-### Features
+- One architecture with Cedar: consistent component APIs, behavior conventions and theme language
 
-- 🚀 &nbsp; Provide 60+ high quality general purpose components
-- 🚀 &nbsp; Components are very lightweight
-- 💪 &nbsp; Developed by Chinese, complete Chinese and English documentation and logistics support
-- 🛠️ &nbsp; Support on-demand introduction
-- 🛠️ &nbsp; Support theme customization
-- 🌍 &nbsp; Support internationalization
-- 💡 &nbsp; Support WebStorm syntax highlighting
-- 💪 &nbsp; Support the SSR
-- 📦 &nbsp; Support [Nuxt Module](https://github.com/loca-spirit/maple-nuxt)
-- 💡 &nbsp; Support the Typescript
-- 💪 &nbsp; Make sure more than 90 percent unit test coverage, providing stability assurance
-- 🎨 &nbsp; Supports both default and maple brand themes in light and dark modes
-- 🛠️ &nbsp; Support dark mode
-- 🔧 &nbsp; Provide official VSCode extension
-- ⌨️ &nbsp; Support Accessibility (still improving)
+- Components and touch interactions for mobile applications
+- On-demand imports and TypeScript definitions
+- Semantic tokens, brand themes, and light and dark modes
+- Chinese and English documentation and internationalization
+- CLI, icons, component resolver and styling presets
 
+## Cedar × Maple
 
-### Official Ecosystem
+Use [Cedar Design Web](https://cedar.show) for desktop applications and [Maple Design Mobile](https://maple.show) for mobile applications. Shared API conventions and semantic tokens carry familiar patterns across platforms, while each library adapts its layout and interactions to its platform.
 
-The following projects are maintained by the official team for a long time.
+## Installation
 
-| Name | Description |
-|------------------------------------------------------------------------------------------------------|--------------------------------------|
-| [@maple-design/cli](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-cli) | `Vue3 component library rapid prototyping tool` |
-| [@maple-design/touch-emulator](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-touch-emulator) | `Desktop adapter, so that the mobile component library can run on the desktop` |
-| [@maple-design/ui-playground](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-ui-playground) | `Maple component library online editing tool` |
-| [@maple-design/resolver](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-resolver)  | `A resolver for` [unplugin-vue-components](https://github.com/unplugin/unplugin-vue-components) ` used to implement Maple and import it on demand`   |
-| [@maple-design/preset-unocss](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-preset-unocss)  | [UnoCss](https://unocss.dev/) `presets for maple` |
-| [@maple-design/preset-tailwindcss](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-preset-tailwindcss)  | [tailwindcss](https://tailwindcss.com/) `presets for maple` |
-| [maple-theme-builder](https://github.com/loca-spirit/maple-theme-builder) | `Theme generator for generating theme variables for Maple brand themes` |
-| [maple-vscode-extension](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-vscode-extension) | `Maple Component Library VSCode Plugin` |
-| [maple-vscode-theme](https://github.com/loca-spirit/maple-vscode-theme)  | `Maple VSCode Theme`   |
-| [maple-app-example](https://github.com/loca-spirit/maple-app-template)  | `Maple component library app template`   |
-| [maple-install-example](https://github.com/loca-spirit/maple-install-example)  | `Case collection of Maple component library and various ecosystem integration` |
+```shell
+pnpm add @maple-design/ui
+```
 
-### Community Ecosystem
+## Project Packages
 
-The following projects are maintained by community personnel, welcome to add.
+| Package | Purpose |
+| --- | --- |
+| `@maple-design/cli` | Component development, documentation and build tools |
+| `@maple-design/icons-vue` | SVG Vue icon components |
+| `@maple-design/resolver` | On-demand component and icon imports |
+| `@maple-design/preset-unocss` | UnoCSS preset |
+| `@maple-design/preset-tailwindcss` | Tailwind CSS preset |
 
-| Name | Description |
-|----------------------------------------------------------------|-----------------------------------------|
-| [vue-h5-template](https://github.com/sunniejs/vue-h5-template) | `Vue-based mobile template scaffolding, providing mobile presets for Maple component library` |
-| [create-vite-app](https://github.com/ErKeLost/create-vite-app) | `A desktop template scaffolding based on Vue3, providing desktop presets for Maple component library` |
-| [vscode-common-intellisense](https://github.com/Simon-He95/vscode-common-intellisense) | `A VS Code extension that provides better intellisense to Maple developers` |
-| [vue3-maple-mobile](https://github.com/vue-zone/vue3-maple-mobile) | `A mobile template based on Vue 3 and Maple Component Library` |
+## Contributors
 
-### PR & Issue
-If you have any problems during use, you can [issue](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/issues) them to us on [github](https://github.com/loca-spirit/maple-design-mobile),
-we will deal with it as soon as possible. You can also give us [PR](https://github.com/loca-spirit/maple-design-mobile/pulls).
+- 孟帅
+- 吴甲明
 
-### Open source licenses
-Component library based on `MIT` licenses.
+## License
 
-### Contribution Guide
-See [Maple Contribution](https://github.com/loca-spirit/maple-design-mobile/blob/main/.github/CONTRIBUTING.md).
-
-### Thanks to contributors
-
-<a href="https://github.com/loca-spirit/maple-design-mobile/graphs/contributors" style="width: 100%; display: mp-block; margin-top: 16px">
-  <img src="https://contrib.rocks/image?repo=loca-spirit/maple-design-mobile" style="width: 100%; display: mp-block; border-radius: 4px;" />
-</a>
-
-### Thanks to the following sponsors
-
-<a href="https://cdn.jsdelivr.net/gh/loca-spirit/maple-static/sponsorkit/sponsors.svg" style="width: 100%; display: mp-block; margin-top: 16px">
-  <img src="https://cdn.jsdelivr.net/gh/loca-spirit/maple-static/sponsorkit/sponsors.svg" style="width: 100%; display: mp-block; border-radius: 4px;">
-</a>
+MIT.

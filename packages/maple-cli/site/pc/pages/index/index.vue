@@ -17,7 +17,7 @@ const language: Ref<string> = ref(config?.defaultLanguage)
 const indexPage: Ref<Record<string, any>> = ref(config?.pc?.indexPage)
 
 const getStar = () => {
-  router.push(`/${language.value}/home`)
+  router.push(`/${language.value}/quickstart`)
 }
 
 const toGithub = () => {
@@ -59,22 +59,38 @@ watch(
           <img class="maple-doc-index__logo" :src="siteLogo" alt="" />
         </div>
         <div class="maple-doc-index__info-container">
-          <div class="maple-doc-index__title">{{ title }}</div>
+          <p class="maple-doc-index__eyebrow" v-if="indexPage.eyebrow">{{ indexPage.eyebrow[language] }}</p>
+          <p class="maple-doc-index__product">{{ title }}</p>
+          <h1 class="maple-doc-index__title">{{ indexPage.headline?.[language] || title }}</h1>
           <div class="maple-doc-index__description">{{ indexPage.description[language] }}</div>
 
           <mp-space size="lg">
             <mp-button class="maple-doc-index__link-button" type="primary" style="line-height: 1.2" @click="getStar">
               {{ indexPage.started[language] }}
             </mp-button>
-            <mp-button class="maple-doc-index__github-button" style="line-height: 1.2" @click="toGithub">
+            <a v-if="indexPage.companion" class="maple-doc-index__companion-link" :href="indexPage.companion.href">
+              {{ indexPage.companion.label[language] }}
+            </a>
+            <mp-button v-else class="maple-doc-index__github-button" style="line-height: 1.2" @click="toGithub">
               {{ indexPage.viewOnGithub[language] }}
             </mp-button>
           </mp-space>
         </div>
       </div>
 
+      <section class="maple-doc-index__pair" v-if="indexPage.companion">
+        <div>
+          <h2>{{ indexPage.companion.title[language] }}</h2>
+          <p>{{ indexPage.companion.description[language] }}</p>
+        </div>
+        <div class="maple-doc-index__platforms">
+          <a :href="indexPage.companion.href"><span>01 / DESKTOP</span><strong>Cedar ↗</strong></a>
+          <div aria-current="page"><span>02 / MOBILE</span><strong>Maple</strong></div>
+        </div>
+      </section>
+
       <div class="maple-doc-index__features" v-if="indexPage.features">
-        <div class="maple-doc-index__feature" v-for="feature in indexPage.features">
+        <div class="maple-doc-index__feature" v-for="feature in indexPage.features" :key="feature.name[language]">
           <div class="maple-doc-index__feature-name">{{ feature.name[language] }}</div>
           <div class="maple-doc-index__feature-description">{{ feature.description[language] }}</div>
         </div>
@@ -84,12 +100,28 @@ watch(
         <div class="maple-doc-index__team-members-title">{{ indexPage.teamMembers.label[language] }}</div>
 
         <div class="maple-doc-index__team-members-container">
-          <div class="maple-doc-index__team-member" v-for="member in indexPage.teamMembers.members">
-            <img class="maple-doc-index__team-member-avatar" :src="member.avatar" />
+          <div
+            class="maple-doc-index__team-member"
+            v-for="member in indexPage.teamMembers.members"
+            :key="member.name[language]"
+          >
+            <img
+              v-if="member.avatar"
+              class="maple-doc-index__team-member-avatar"
+              :src="member.avatar"
+              :alt="member.name[language]"
+            />
+            <div
+              v-else
+              class="maple-doc-index__team-member-avatar maple-doc-index__team-member-avatar--placeholder"
+              aria-hidden="true"
+            >
+              {{ member.name[language].slice(0, 1) }}
+            </div>
             <div class="maple-doc-index__team-member-name">{{ member.name[language] }}</div>
             <div class="maple-doc-index__team-member-title">{{ member.title[language] }}</div>
             <div class="maple-doc-index__team-member-description">{{ member.description[language] }}</div>
-            <div class="maple-doc-index__team-member-social">
+            <div class="maple-doc-index__team-member-social" v-if="member.github || member.twitter">
               <mp-icon
                 class="maple-doc-index__team-member-social-icon"
                 :size="24"
@@ -134,277 +166,254 @@ watch(
 </template>
 
 <style lang="less">
-@keyframes logo-wave {
-  0% {
-    transform: translate(8%, 8%);
-  }
-
-  20% {
-    transform: translate(-8%, 8%);
-  }
-
-  40% {
-    transform: translate(-8%, -8%);
-  }
-
-  60% {
-    transform: translate(-2%, 8%);
-  }
-
-  80% {
-    transform: translate(8%, -8%);
-  }
-
-  100% {
-    transform: translate(8%, 8%);
-  }
-}
-
 .maple-doc-index {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   min-height: 100vh;
-  box-sizing: border-box;
   background: var(--site-config-color-index-page-background);
-  padding-bottom: 100px;
-  min-width: 1200px;
+  color: var(--site-config-color-text);
 
   &__layout {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 170px 0;
-    max-width: 1200px;
-    transition: all 0.2s;
+    width: 100%;
+    max-width: 1120px;
+    margin: auto;
+    padding: 80px 32px 0;
+    box-sizing: border-box;
   }
-
   &__main-container {
     display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    gap: 64px;
+    padding: 36px 0 80px;
   }
-
   &__info-container {
-    margin-left: 100px;
+    flex: 1;
+    min-width: 0;
   }
-
-  &__logo {
-    width: 100%;
-    height: 100%;
-    flex-shrink: 0;
-    z-index: 2;
+  &__eyebrow {
+    color: var(--site-config-color-primary);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin: 0 0 24px;
   }
-
-  &__logo-container {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    width: 174px;
-    height: 174px;
-    margin-top: 8px;
+  &__product {
+    font-size: 18px;
+    margin: 0 0 12px;
+    color: var(--site-config-color-index-page-second-text-color);
   }
-
-  &__logo-background-mask {
-    position: absolute;
-    left: -40px;
-    top: -40px;
-    bottom: -40px;
-    right: -40px;
-    background: var(--site-config-color-index-page-logo-mask-background);
-    transition: background-color 0.2s;
-    filter: blur(45px);
-    border-radius: 50%;
-    animation: logo-wave 6s infinite linear;
-  }
-
   &__title {
-    font-size: 60px;
+    font-size: clamp(34px, 4.4vw, 56px);
+    font-weight: 750;
+    line-height: 1.2;
+    letter-spacing: -1.5px;
+    white-space: pre-line;
+    margin: 0;
   }
-
   &__description {
-    max-width: 700px;
-    width: 90vw;
-    font-size: 20px;
-    line-height: 38px;
-    margin-top: 14px;
-    padding-left: 2px;
-    box-sizing: border-box;
+    max-width: 660px;
+    font-size: 17px;
+    line-height: 1.9;
+    margin: 24px 0 30px;
     color: var(--site-config-color-index-page-second-text-color);
   }
-
-  &__link-button {
-    width: 170px !important;
-    height: 48px !important;
-    font-size: 19px !important;
-    transition: all 0.2s !important;
-    margin-top: 38px !important;
+  &__logo-container {
+    width: 160px;
+    flex: 0 0 160px;
   }
-
+  &__logo {
+    display: block;
+    width: 100%;
+  }
+  &__logo-background-mask {
+    display: none;
+  }
+  &__link-button,
   &__github-button {
-    width: 170px !important;
-    height: 48px !important;
-    font-size: 19px !important;
-    transition: all 0.2s !important;
-    margin-top: 38px !important;
+    min-height: 44px;
+    padding: 0 24px;
   }
-
+  &__companion-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    color: var(--site-config-color-text);
+    text-decoration: none;
+    font-weight: 600;
+  }
+  a:focus-visible {
+    outline: 2px solid var(--site-config-color-primary);
+    outline-offset: 5px;
+    border-radius: 4px;
+  }
+  a:hover {
+    color: var(--site-config-color-primary);
+  }
+  &__pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 40px;
+    padding: 32px;
+    border: 1px solid var(--site-config-color-border);
+    border-radius: 16px;
+  }
+  &__pair h2 {
+    font-size: 24px;
+    line-height: 1.4;
+    margin: 0 0 12px;
+  }
+  &__pair p {
+    line-height: 1.8;
+    margin: 0;
+    color: var(--site-config-color-index-page-second-text-color);
+  }
+  &__platforms {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  &__platforms > * {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 24px;
+    border-radius: 10px;
+    background: var(--site-config-color-side-bar-active-background);
+    color: inherit;
+    text-decoration: none;
+  }
+  &__platforms span {
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: var(--site-config-color-index-page-second-text-color);
+  }
+  &__platforms strong {
+    font-size: 24px;
+  }
   &__features {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-top: 90px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+    margin: 32px 0 72px;
   }
-
   &__feature {
-    width: 300px;
-    margin: 12px;
-    padding: 20px;
+    padding: 28px;
+    border: 1px solid var(--site-config-color-border);
     border-radius: 12px;
     background: var(--site-config-color-index-page-feature-background);
-    box-shadow:
-      0 3px 1px -2px rgba(0, 0, 0, 0.2),
-      0 2px 2px 0 rgba(0, 0, 0, 0.14),
-      0 1px 5px 0 rgba(0, 0, 0, 0.12);
   }
-
+  &__feature-name {
+    font-size: 18px;
+    font-weight: 650;
+  }
   &__feature-description {
-    color: var(--site-config-color-index-page-second-text-color);
     font-size: 14px;
-    margin-top: 10px;
-    line-height: 1.7;
-  }
-
-  &__contributors,
-  &__team-members {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 90px;
-  }
-
-  &__contributors-title,
-  &__team-members-title {
-    padding-top: 24px;
-    line-height: 32px;
-    font-size: 24px;
-    border-top: 2px solid var(--site-config-color-index-page-divider-color);
+    line-height: 1.9;
+    margin-top: 12px;
     color: var(--site-config-color-index-page-second-text-color);
-    letter-spacing: 1px;
-    transition: all 0.2s;
   }
-
+  &__team-members,
+  &__contributors,
+  &__sponsors {
+    padding-top: 32px;
+    margin-bottom: 48px;
+    border-top: 1px solid var(--site-config-color-border);
+  }
+  &__team-members-title,
+  &__contributors-title,
+  &__sponsors-title {
+    font-size: 20px;
+    font-weight: 600;
+  }
   &__team-members-container {
-    width: 1098px;
     display: flex;
     flex-wrap: wrap;
-    margin-top: 70px;
+    gap: 32px;
+    margin-top: 24px;
   }
-
   &__team-member {
+    display: grid;
+    grid-template-columns: 48px auto;
+    column-gap: 16px;
+    align-content: start;
+  }
+  &__team-member-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    grid-row: span 3;
+  }
+  &__team-member-avatar--placeholder {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    width: 300px;
-    margin: 12px;
-    padding: 30px 20px;
-    border-radius: 12px;
-    background: var(--site-config-color-index-page-feature-background);
-    box-shadow:
-      0 3px 1px -2px rgba(0, 0, 0, 0.2),
-      0 2px 2px 0 rgba(0, 0, 0, 0.14),
-      0 1px 5px 0 rgba(0, 0, 0, 0.12);
-
-    &-avatar {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-    }
-
-    &-name {
-      font-weight: bold;
-      font-size: 20px;
-      margin-top: 20px;
-    }
-
-    &-title,
-    &-description {
-      color: var(--site-config-color-index-page-second-text-color);
-      font-size: 14px;
-      margin-top: 10px;
-      min-height: 40px;
-      text-align: center;
-    }
-
-    &-social {
-      margin-top: 10px;
-
-      &-icon {
-        margin: 10px 6px 0;
-        transition: all 0.25s !important;
-
-        &:hover {
-          opacity: 0.7;
-          transform: scale(1.25);
-          cursor: pointer;
-        }
-      }
-    }
-  }
-
-  &__contributors-link {
-    display: block;
-    margin-top: 80px;
-    width: 800px;
-  }
-
-  &__contributors-image {
-    display: block;
-    width: 100%;
-  }
-
-  &__sponsors {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 90px;
-  }
-
-  &__sponsors-title {
-    padding-top: 24px;
-    line-height: 32px;
-    font-size: 24px;
-    border-top: 2px solid var(--site-config-color-index-page-divider-color);
-    color: var(--site-config-color-index-page-second-text-color);
-    letter-spacing: 1px;
-    transition: all 0.2s;
-  }
-
-  &__sponsors-link {
-    display: block;
-    margin-top: 50px;
-    width: 1100px;
-  }
-
-  &__sponsors-image {
-    display: block;
-    width: 100%;
-  }
-
-  &__footer {
-    position: absolute;
-    bottom: 0;
-    display: flex;
-    flex-direction: column;
     justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100px;
-    border-top: thin solid var(--site-config-color-border);
+    color: var(--site-config-color-primary);
+    background: var(--site-config-color-side-bar-active-background);
+    font-size: 20px;
+  }
+  &__team-member-name {
+    font-weight: 600;
+    line-height: 24px;
+  }
+  &__team-member-title,
+  &__team-member-description {
+    font-size: 12px;
+    line-height: 22px;
     color: var(--site-config-color-index-page-second-text-color);
-    font-size: 14px;
-    line-height: 26px;
-    transition: all 0.2s;
+  }
+  &__team-member-social {
+    grid-column: 2;
+  }
+  &__team-member-social-icon {
+    margin-right: 12px;
+    cursor: pointer;
+  }
+  &__contributors-image,
+  &__sponsors-image {
+    max-width: 100%;
+  }
+  &__footer {
+    padding: 24px 0;
+    border-top: 1px solid var(--site-config-color-border);
+    font-size: 12px;
+    line-height: 1.8;
+    color: var(--site-config-color-index-page-second-text-color);
+  }
+
+  @media (max-width: 767px) {
+    &__layout {
+      padding: 48px 20px 0;
+    }
+    &__main-container {
+      gap: 20px;
+      padding: 0 0 40px;
+    }
+    &__logo-container {
+      display: none;
+    }
+    &__pair {
+      grid-template-columns: 1fr;
+      gap: 24px;
+      padding: 24px;
+    }
+    &__features {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+    &__feature {
+      padding: 20px;
+    }
+    &__team-members-container {
+      gap: 24px;
+    }
+  }
+  @media (max-width: 420px) {
+    &__features {
+      grid-template-columns: 1fr;
+    }
+    &__platforms > * {
+      padding: 18px;
+    }
   }
 }
 </style>
