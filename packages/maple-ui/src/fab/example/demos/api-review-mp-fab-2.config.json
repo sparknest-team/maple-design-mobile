@@ -1,14 +1,21 @@
 {
   "fields": [
     {
-      "name": "active",
-      "description": "是否激活动作菜单",
+      "name": "open",
+      "description": "动作菜单展开状态（受控）",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
+      "name": "default-open",
+      "description": "非受控初始展开状态，仅创建时读取",
       "type": "boolean",
       "defaultValue": "false",
       "kind": "boolean"
     },
     {
-      "name": "open",
+      "name": "visible",
       "description": "是否显示触发器",
       "type": "boolean",
       "defaultValue": "true",
@@ -28,16 +35,7 @@
       "type": "\"default\" | \"primary\" | \"secondary\" | \"tertiary\" | \"info\" | \"success\" | \"warning\" | \"danger\"",
       "defaultValue": "'primary'",
       "kind": "enum",
-      "options": [
-        "default",
-        "primary",
-        "secondary",
-        "tertiary",
-        "info",
-        "success",
-        "warning",
-        "danger"
-      ],
+      "options": ["default", "primary", "secondary", "tertiary", "info", "success", "warning", "danger"],
       "initial": "primary"
     },
     {
@@ -46,12 +44,7 @@
       "type": "'left-top' | 'right-top' | 'left-bottom' | 'right-bottom'",
       "defaultValue": "'right-bottom'",
       "kind": "enum",
-      "options": [
-        "left-top",
-        "right-top",
-        "left-bottom",
-        "right-bottom"
-      ],
+      "options": ["left-top", "right-top", "left-bottom", "right-bottom"],
       "initial": "right-bottom"
     },
     {
@@ -60,12 +53,7 @@
       "type": "'top' | 'right' | 'bottom' | 'left'",
       "defaultValue": "'top'",
       "kind": "enum",
-      "options": [
-        "top",
-        "right",
-        "bottom",
-        "left"
-      ],
+      "options": ["top", "right", "bottom", "left"],
       "initial": "top"
     },
     {
@@ -74,10 +62,7 @@
       "type": "'click' | 'hover'",
       "defaultValue": "'click'",
       "kind": "enum",
-      "options": [
-        "click",
-        "hover"
-      ],
+      "options": ["click", "hover"],
       "initial": "click"
     },
     {
@@ -96,54 +81,36 @@
       "initial": "#5268cc"
     },
     {
-      "name": "inactive-icon",
+      "name": "closed-icon",
       "description": "未激活时触发器图标",
       "type": "string",
       "defaultValue": "'plus'",
       "kind": "string"
     },
     {
-      "name": "active-icon",
+      "name": "open-icon",
       "description": "激活时触发器图标",
       "type": "string",
       "defaultValue": "'close'",
       "kind": "string"
     },
     {
-      "name": "inactive-icon-size",
+      "name": "closed-icon-size",
       "description": "未激活时触发器图标尺寸",
       "type": "pickProps(iconProps, 'size')",
       "defaultValue": "undefined",
       "kind": "enum",
-      "options": [
-        "size"
-      ],
+      "options": ["size"],
       "initial": "size"
     },
     {
-      "name": "active-icon-size",
+      "name": "open-icon-size",
       "description": "激活时触发器图标尺寸",
       "type": "pickProps(iconProps, 'size')",
       "defaultValue": "undefined",
       "kind": "enum",
-      "options": [
-        "size"
-      ],
+      "options": ["size"],
       "initial": "size"
-    },
-    {
-      "name": "inactive-icon-namespace",
-      "description": "未激活时触发器图标的命名空间",
-      "type": "string",
-      "defaultValue": "mp-icon",
-      "kind": "string"
-    },
-    {
-      "name": "active-icon-namespace",
-      "description": "激活时触发器图标的命名空间",
-      "type": "string",
-      "defaultValue": "mp-icon",
-      "kind": "string"
     },
     {
       "name": "fixed",
@@ -212,16 +179,8 @@
     }
   ],
   "methodNames": [],
-  "events": [
-    "click",
-    "open",
-    "opened",
-    "close",
-    "closed"
-  ],
-  "slotNames": [
-    "trigger"
-  ],
+  "events": ["click", "open", "opened", "close", "closed"],
+  "slotNames": ["trigger"],
   "slotDefaults": {
     "trigger": false
   },

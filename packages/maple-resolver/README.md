@@ -2,7 +2,7 @@
 
 English | [简体中文](./README.zh-CN.md)
 
-`@maplejs/resolver` is a resolver for [unplugin-vue-components](https://github.com/unplugin/unplugin-vue-components) that enables on-demand importing of Maple components.
+`@maple-design/resolver` is a resolver for [unplugin-vue-components](https://github.com/unplugin/unplugin-vue-components) that enables on-demand importing of Maple components.
 
 ## Features
 
@@ -21,13 +21,13 @@ Implement components to automatically import on demand, This is our most recomme
 
 ```shell
 # npm
-npm i @maplejs/resolver unplugin-vue-components unplugin-auto-import -D
+npm i @maple-design/resolver unplugin-vue-components unplugin-auto-import -D
 
 # yarn
-yarn add @maplejs/resolver unplugin-vue-components unplugin-auto-import -D
+yarn add @maple-design/resolver unplugin-vue-components unplugin-auto-import -D
 
 # pnpm
-pnpm add @maplejs/resolver unplugin-vue-components unplugin-auto-import -D
+pnpm add @maple-design/resolver unplugin-vue-components unplugin-auto-import -D
 ```
 
 ### Vite
@@ -37,7 +37,7 @@ pnpm add @maplejs/resolver unplugin-vue-components unplugin-auto-import -D
 import vue from '@vitejs/plugin-vue'
 import components from 'unplugin-vue-components/vite'
 import autoImport from 'unplugin-auto-import/vite'
-import { MapleResolver, MapleStyleImports } from '@maplejs/resolver'
+import { MapleResolver, MapleStyleImports } from '@maple-design/resolver'
 import { defineConfig } from 'vite'
 
 export default defineConfig({
@@ -60,7 +60,7 @@ export default defineConfig({
 // vue.config.js
 const Components = require('unplugin-vue-components/webpack')
 const AutoImport = require('unplugin-auto-import/webpack')
-const { MapleResolver } = require('@maplejs/resolver')
+const { MapleResolver } = require('@maple-design/resolver')
 
 module.exports = {
   configureWebpack: {
@@ -95,8 +95,8 @@ Each component is a `Vue plugin` and consists of `component logic` and `style fi
 ```js
 import App from './App.vue'
 import { createApp } from 'vue'
-import { Button } from '@maplejs/maple-ui'
-import '@maplejs/maple-ui/button/style'
+import { Button } from '@maple-design/ui'
+import '@maple-design/ui/button/style'
 
 createApp(App).use(Button)
 ```
@@ -105,8 +105,8 @@ OR
 
 ```html
 <script setup>
-import { Button as VarButton } from '@maplejs/maple-ui'
-import '@maplejs/maple-ui/button/style'
+import { Button as VarButton } from '@maple-design/ui'
+import '@maple-design/ui/button/style'
 </script>
 
 <template>
@@ -120,9 +120,9 @@ import '@maplejs/maple-ui/button/style'
 
 ```html
 <script setup>
-import { Button as VarButton, Message } from '@maplejs/maple-ui'
-import '@maplejs/maple-ui/button/style'
-import '@maplejs/maple-ui/message/style'
+import { Button as VarButton, Message } from '@maple-design/ui'
+import '@maple-design/ui/button/style'
+import '@maple-design/ui/message/style'
 
 function handleClick() {
   Message('Hello!')
@@ -150,4 +150,4 @@ function handleClick() {
 
 ## Explicit-import styles (Vite)
 
-MapleStyleImports() handles named value imports from @maplejs/maple-ui after Vue/TypeScript compilation, using the same style mapping as MapleResolver. It supports aliases, components, deduplication and importStyle:false. Type-only, namespace and default imports are excluded. Add it to Vite plugins, not the resolvers array. Maple CLI docs include it by default; restart the dev server after updating CLI plugins.
+MapleStyleImports() handles named value imports from @maple-design/ui after Vue/TypeScript compilation, using the same style mapping as MapleResolver. It supports aliases, components, deduplication and importStyle:false. Type-only, namespace and default imports are excluded. Add it to Vite plugins, not the resolvers array. Maple CLI docs include it by default; restart the dev server after updating CLI plugins.

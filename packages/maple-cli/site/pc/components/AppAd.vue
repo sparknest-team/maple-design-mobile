@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import config from '@config'
-import { IconChevronRight as MIconChevronRight, IconClose as MIconClose } from '@maplejs/icons-vue'
+import { IconChevronRight as MIconChevronRight, IconClose as MIconClose } from '@maple-design/icons-vue'
 
 defineProps({
   language: {

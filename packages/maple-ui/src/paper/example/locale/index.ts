@@ -1,4 +1,4 @@
-import { Locale } from '@maplejs/maple-ui'
+import { Locale } from '@maple-design/ui'
 import enUS from './en-US'
 import zhCN from './zh-CN'
 

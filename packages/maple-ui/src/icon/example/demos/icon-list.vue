@@ -1,9 +1,9 @@
 <script setup>
 import { computed, ref } from 'vue'
-import { iconNames as icons } from '@maplejs/icons-vue'
-import * as MapleIcons from '@maplejs/icons-vue'
-import { pascalCase } from '@maplejs/maple-shared'
-import { Message } from '@maplejs/maple-ui'
+import { iconNames as icons } from '@maple-design/icons-vue'
+import * as MapleIcons from '@maple-design/icons-vue'
+import { pascalCase } from '@maple-design/shared'
+import { Message } from '@maple-design/ui'
 
 const demoText = {
   basic: '基础用法',
@@ -98,10 +98,18 @@ async function copyIcon(name) {
         {{ group }} <small>{{ names.length }}</small>
       </h3>
       <div class="icon-example__icons">
-        <button v-for="name in names" :key="name" class="icon-example__icon" type="button" @click="copyIcon(name)">
-          <component :is="resolveIcon(name)" :size="40" />
-          <span class="icon-example__icon-name">{{ name }}</span>
-        </button>
+        <mp-button
+          v-for="name in names"
+          :key="name"
+          class="icon-example__icon"
+          variant="outline"
+          @click="copyIcon(name)"
+        >
+          <span class="icon-example__icon-content">
+            <component :is="resolveIcon(name)" :size="40" />
+            <span class="icon-example__icon-name">{{ name }}</span>
+          </span>
+        </mp-button>
       </div>
     </section>
   </div>
@@ -156,6 +164,12 @@ async function copyIcon(name) {
   &__search {
     width: auto;
     margin: 6px 8px 22px;
+  }
+
+  &__icon-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   &__icon-name {

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { nextTick, onMounted, ref, watch } from 'vue'
-import { Message, StyleProvider } from '@maplejs/maple-ui'
+import { Message, StyleProvider } from '@maple-design/ui'
 import { downloadProject } from './download/download'
 import Close from './icons/Close.vue'
 import Download from './icons/Download.vue'

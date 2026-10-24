@@ -116,7 +116,7 @@ Toggle orientation, default slot text, opacity and hairline to inspect updates a
 ## Types
 
 ```ts
-import type { DividerProps, DividerInstance, DividerSize } from '@maplejs/maple-ui'
+import type { DividerProps, DividerInstance, DividerSize } from '@maple-design/ui'
 ```
 
 ### Style Variables

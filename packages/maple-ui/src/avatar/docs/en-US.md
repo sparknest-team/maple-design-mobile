@@ -184,7 +184,7 @@ import type {
   AvatarObjectFit,
   AvatarShape,
   AvatarTriggerType,
-} from '@maplejs/maple-ui'
+} from '@maple-design/ui'
 ```
 
 ### Style Variables

@@ -24,7 +24,14 @@ const vueSfc = {
   },
 }
 
-for (const entry of ['index.ts', 'Icon.vue', 'RegisteredIcon.vue']) {
+// Measured before consolidating the Icon-only helpers into maple-shared.
+const budgets = {
+  'index.ts': { minified: 3731, gzip: 1915 },
+  'Icon.vue': { minified: 2999, gzip: 1561 },
+  'RegisteredIcon.vue': { minified: 3630, gzip: 1786 },
+}
+
+for (const [entry, budget] of Object.entries(budgets)) {
   test(`Icon on-demand bundle: ${entry}`, async () => {
     const result = await esbuild.build({
       absWorkingDir: root,
@@ -37,8 +44,8 @@ for (const entry of ['index.ts', 'Icon.vue', 'RegisteredIcon.vue']) {
       metafile: true,
       logLevel: 'silent',
       alias: {
-        '@maplejs/maple-shared': resolve(root, 'packages/maple-shared/src/index.ts'),
-        '@maplejs/maple-use': resolve(root, 'packages/maple-use/src/index.ts'),
+        '@maple-design/shared': resolve(root, 'packages/maple-shared/src/index.ts'),
+        '@maple-design/use': resolve(root, 'packages/maple-use/src/index.ts'),
       },
       plugins: [vueSfc],
     })
@@ -53,8 +60,24 @@ for (const entry of ['index.ts', 'Icon.vue', 'RegisteredIcon.vue']) {
       `Icon must not include unrelated shared utilities: ${included.join(', ')}`,
     )
     const gzipBytes = gzipSync(result.outputFiles[0].contents).length
-    // Leave headroom for features while rejecting the previous ~8 KB utility-heavy bundle.
-    assert.ok(gzipBytes < 4096, `${entry}: ${gzipBytes} gzip bytes exceeds the 4 KiB budget`)
+    assert.ok(
+      gzipBytes <= budget.gzip,
+      `${entry}: ${gzipBytes} gzip bytes exceeds the pre-consolidation ${budget.gzip} byte budget`,
+    )
+    assert.ok(
+      result.outputFiles[0].contents.length <= budget.minified,
+      `${entry}: minified bytes exceed the pre-consolidation ${budget.minified} byte budget`,
+    )
+    assert.doesNotMatch(
+      result.outputFiles[0].text,
+      /:not\(\[disabled\]\)/,
+      'Icon must not retain unrelated focus selectors',
+    )
+    assert.equal(
+      included.some((path) => /maple-shared\/src\/(?:object|motion|dom|function|number|array)\.ts$/.test(path)),
+      false,
+      'Icon must only retain the shared utilities it uses',
+    )
     console.info(
       `${entry}: ${result.outputFiles[0].contents.length} minified bytes, ${gzipBytes} gzip bytes (Vue external)`,
     )

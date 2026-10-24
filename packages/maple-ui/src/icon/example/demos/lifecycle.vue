@@ -1,7 +1,7 @@
 <script setup>
 import { computed, getCurrentInstance, KeepAlive, ref } from 'vue'
-import { IconArrowLeft, IconArrowRight } from '@maplejs/icons-vue'
-import { watchLang } from '@maplejs/maple-cli/client'
+import { watchLang } from '@maple-design/cli/client'
+import { IconArrowLeft, IconArrowRight } from '@maple-design/icons-vue'
 
 const language = ref('zh-CN')
 const english = computed(() => language.value === 'en-US')

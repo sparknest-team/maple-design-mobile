@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Message } from '@maplejs/maple-ui'
+import { Message } from '@maple-design/ui'
 
 const open = ref(false)
 </script>

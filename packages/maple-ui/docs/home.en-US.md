@@ -29,12 +29,12 @@ The following projects are maintained by the official team for a long time.
 
 | Name | Description |
 |------------------------------------------------------------------------------------------------------|--------------------------------------|
-| [@maplejs/maple-cli](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-cli) | `Vue3 component library rapid prototyping tool` |
-| [@maplejs/maple-touch-emulator](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-touch-emulator) | `Desktop adapter, so that the mobile component library can run on the desktop` |
-| [@maplejs/maple-ui-playground](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-ui-playground) | `Maple component library online editing tool` |
-| [@maplejs/resolver](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-resolver)  | `A resolver for` [unplugin-vue-components](https://github.com/unplugin/unplugin-vue-components) ` used to implement Maple and import it on demand`   |
-| [@maplejs/maple-preset-unocss](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-preset-unocss)  | [UnoCss](https://unocss.dev/) `presets for maple` |
-| [@maplejs/maple-preset-tailwindcss](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-preset-tailwindcss)  | [tailwindcss](https://tailwindcss.com/) `presets for maple` |
+| [@maple-design/cli](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-cli) | `Vue3 component library rapid prototyping tool` |
+| [@maple-design/touch-emulator](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-touch-emulator) | `Desktop adapter, so that the mobile component library can run on the desktop` |
+| [@maple-design/ui-playground](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-ui-playground) | `Maple component library online editing tool` |
+| [@maple-design/resolver](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-resolver)  | `A resolver for` [unplugin-vue-components](https://github.com/unplugin/unplugin-vue-components) ` used to implement Maple and import it on demand`   |
+| [@maple-design/preset-unocss](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-preset-unocss)  | [UnoCss](https://unocss.dev/) `presets for maple` |
+| [@maple-design/preset-tailwindcss](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-preset-tailwindcss)  | [tailwindcss](https://tailwindcss.com/) `presets for maple` |
 | [maple-theme-builder](https://github.com/loca-spirit/maple-theme-builder) | `Theme generator for generating theme variables for Maple brand themes` |
 | [maple-vscode-extension](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-vscode-extension) | `Maple Component Library VSCode Plugin` |
 | [maple-vscode-theme](https://github.com/loca-spirit/maple-vscode-theme)  | `Maple VSCode Theme`   |

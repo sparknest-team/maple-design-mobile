@@ -6,6 +6,8 @@ The same scenarios, parameters and interactions as Cedar. Only component prefixe
 
 ### Basic usage
 
+Badges use a red background and white text by default.
+
 ```demo
 ../example/demos/basic.vue
 ```
@@ -189,22 +191,22 @@ All public Badge variables and their default values:
 | `--mp-badge-size-md-border-radius` | `24px` |
 | `--mp-badge-size-lg-border-radius` | `28px` |
 | `--mp-badge-size-xl-border-radius` | `32px` |
-| `--mp-badge-bg-color` | `var(--mp-sys-color-status-danger)` |
-| `--mp-badge-text-color` | `var(--mp-sys-color-content-on-bright)` |
+| `--mp-badge-bg-color` | `rgb(var(--mp-danger-7))` |
+| `--mp-badge-text-color` | `var(--mp-sys-color-content-on-dark)` |
 | `--mp-badge-status-default-bg-color` | `#e0e0e0` |
 | `--mp-badge-status-default-text-color` | `var(--mp-sys-color-content-on-bright)` |
 | `--mp-badge-status-info-bg-color` | `var(--mp-sys-color-status-info)` |
-| `--mp-badge-status-info-text-color` | `var(--mp-sys-color-content-on-bright)` |
+| `--mp-badge-status-info-text-color` | `var(--mp-sys-color-content-on-dark)` |
 | `--mp-badge-status-success-bg-color` | `var(--mp-sys-color-status-success)` |
-| `--mp-badge-status-success-text-color` | `var(--mp-sys-color-content-on-bright)` |
+| `--mp-badge-status-success-text-color` | `var(--mp-sys-color-content-on-dark)` |
 | `--mp-badge-status-warning-bg-color` | `var(--mp-sys-color-status-warning)` |
-| `--mp-badge-status-warning-text-color` | `var(--mp-sys-color-content-on-bright)` |
-| `--mp-badge-status-danger-bg-color` | `var(--mp-sys-color-status-danger)` |
-| `--mp-badge-status-danger-text-color` | `var(--mp-sys-color-content-on-bright)` |
+| `--mp-badge-status-warning-text-color` | `var(--mp-sys-color-content-on-dark)` |
+| `--mp-badge-status-danger-bg-color` | `rgb(var(--mp-danger-7))` |
+| `--mp-badge-status-danger-text-color` | `var(--mp-sys-color-content-on-dark)` |
 | `--mp-badge-status-primary-bg-color` | `var(--mp-sys-color-action-primary)` |
-| `--mp-badge-status-primary-text-color` | `var(--mp-sys-color-content-on-bright)` |
+| `--mp-badge-status-primary-text-color` | `var(--mp-sys-color-content-on-dark)` |
 | `--mp-badge-status-secondary-bg-color` | `rgb(var(--mp-gray-6))` |
-| `--mp-badge-status-secondary-text-color` | `var(--mp-sys-color-content-on-bright)` |
+| `--mp-badge-status-secondary-text-color` | `var(--mp-sys-color-content-on-dark)` |
 | `--mp-badge-status-tertiary-bg-color` | `rgb(var(--mp-gray-7))` |
 | `--mp-badge-status-tertiary-text-color` | `var(--mp-sys-color-content-on-dark)` |
 | `--mp-badge-variant-outline-bg-color` | `transparent` |
@@ -221,10 +223,10 @@ All public Badge variables and their default values:
 | `--mp-badge-offset` | `2px` |
 | `--mp-badge-ring-width` | `2px` |
 
-Filled badges pair text with the background: bright statuses use `content-on-bright`; the dark tertiary gray in light mode uses `content-on-dark`, switching to dark text in dark mode. Both libraries use `content-on-dark` for primary in the Maple light brand. Default danger red `var(--mp-sys-color-status-danger)` and neutral background `#e0e0e0` remain component-specific.
+Filled badge text follows Button: primary, info, success, warning, danger and secondary use `content-on-dark`; tertiary uses `content-on-dark` in light mode and `content-on-bright` in dark mode. Default notification badges use red backgrounds and white text; the neutral background remains `#e0e0e0`.
 
-Outline text and borders use `content-brand/info/success/warning/danger` on ordinary neutral surfaces; secondary and tertiary outlines use `content-secondary` for readability. `variant-outline-bg-color` works for every status and defaults to transparent. The `color` prop overrides outline text and border; `text-color` overrides text further. Both preserve control through the background variable. Recheck contrast after customizing foreground or background.
+Colored outline text and borders follow Button, using the matching `content-brand`, `content-info`, `content-success`, `content-warning` and `content-danger` semantic roles; secondary and tertiary outlines use `content-secondary` for readability. `variant-outline-bg-color` works for every status and defaults to transparent. The `color` prop overrides outline text and border; `text-color` overrides text further. Both preserve control through the background variable. Recheck contrast after customizing foreground or background.
 
 ### Color override boundaries
 
-Fallback bg-color follows system status-danger. The fixed neutral default fill and gray secondary/tertiary fills are intentional; override border-color to match a different host surface. Custom color/text-color contrast is caller-owned.
+Fallback and danger fills use red backgrounds with white text: danger step 7 in light themes and step 4 in dark themes. The fixed neutral default fill and gray secondary/tertiary fills are intentional; override border-color to match a different host surface. Custom color/text-color contrast is caller-owned.

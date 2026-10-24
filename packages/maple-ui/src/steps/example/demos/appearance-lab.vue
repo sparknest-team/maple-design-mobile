@@ -34,7 +34,7 @@ const __demoAppearance = __demoReactive({ status: 'wait', size: 'md' })
         />
       </div>
     </mp-space>
-    <mp-steps :current="2" content-placement="bottom" v-bind="__demoAppearance">
+    <mp-steps :model-value="2" content-placement="bottom" v-bind="__demoAppearance">
       <mp-step>步骤1</mp-step>
       <mp-step>步骤2</mp-step>
       <mp-step>步骤3</mp-step>

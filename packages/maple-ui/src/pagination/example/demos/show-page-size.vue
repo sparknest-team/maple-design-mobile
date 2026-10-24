@@ -7,7 +7,7 @@ const current = ref(5)
 <template>
   <div class="pagination-demo">
     <mp-pagination
-      v-model:current="current"
+      v-model="current"
       v-model:page-size="pageSize"
       :total="200"
       show-page-size

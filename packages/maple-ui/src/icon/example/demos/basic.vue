@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { IconCheckCircleFill } from '@maplejs/icons-vue'
+import { IconCheckCircleFill } from '@maple-design/icons-vue'
 </script>
 <template>
   <div class="icon-demo-row">

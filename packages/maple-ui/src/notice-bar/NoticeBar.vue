@@ -42,8 +42,8 @@
 
 <script lang="ts">
 import { computed, defineComponent, nextTick, onMounted, ref, watch } from 'vue'
-import { IconClose as MIconClose } from '@maplejs/icons-vue'
-import { toNumber } from '@maplejs/maple-shared'
+import { IconClose as MIconClose } from '@maple-design/icons-vue'
+import { toNumber } from '@maple-design/shared'
 import MpIcon from '../icon'
 import MpRegisteredIcon from '../icon/RegisteredIcon.vue'
 import { createNamespace } from '../utils/components'

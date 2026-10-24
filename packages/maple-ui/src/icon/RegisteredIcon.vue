@@ -6,7 +6,8 @@
 
 <script setup lang="ts">
 import { computed, getCurrentInstance, type Component } from 'vue'
-import { createNamespace, pascalCase } from '../utils/namespace'
+import { pascalCase } from '@maple-design/shared'
+import { createNamespace } from '../utils/components'
 import MpIcon from './Icon.vue'
 import { registeredPrefix } from './platform'
 
@@ -25,8 +26,8 @@ const iconComponent = computed(() => {
   if (!props.name) {
     return undefined
   }
-  const componentName = `Icon${pascalCase(props.name)}`
+  const componentName = 'Icon' + pascalCase(props.name)
   const components = instance?.appContext.components
-  return components?.[componentName] ?? components?.[`${registeredPrefix}${componentName}`] ?? props.fallback
+  return components?.[componentName] ?? components?.[registeredPrefix + componentName] ?? props.fallback
 })
 </script>

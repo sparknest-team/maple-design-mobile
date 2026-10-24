@@ -1,5 +1,5 @@
 import { reactive, watchEffect } from 'vue'
-import { Dialog, Message } from '@maplejs/maple-ui'
+import { Dialog, Message } from '@maple-design/ui'
 import { compileFile, File } from '@vue/repl'
 import type { OutputModes, SFCOptions, Store, StoreOptions, StoreState } from '@vue/repl'
 import * as defaultCompiler from 'vue/compiler-sfc'
@@ -7,10 +7,10 @@ import { atou, utoa } from './utils/encode'
 import { usePreviewVersion } from './utils/env'
 
 const imports = {
-  '@maplejs/maple-ui': usePreviewVersion
+  '@maple-design/ui': usePreviewVersion
     ? './maple.esm.js'
-    : 'https://cdn.jsdelivr.net/npm/@maplejs/maple-ui/es/maple.esm.js',
-  '@maplejs/maple-ui/json/area.json': './maple-area.js',
+    : 'https://cdn.jsdelivr.net/npm/@maple-design/ui/es/maple.esm.js',
+  '@maple-design/ui/json/area.json': './maple-area.js',
   zod: 'https://cdn.jsdelivr.net/npm/zod/lib/index.mjs',
   shiki: 'https://esm.sh/shiki@1.0.0',
 }
@@ -64,18 +64,18 @@ function getMapleReplPluginCode(version: string | 'latest' | 'preview') {
   let mapleTouchEmulator
 
   if (version === 'latest') {
-    mapleCss = 'https://cdn.jsdelivr.net/npm/@maplejs/maple-ui/es/maple.css'
-    mapleTouchEmulator = 'https://cdn.jsdelivr.net/npm/@maplejs/maple-touch-emulator/iife.js'
+    mapleCss = 'https://cdn.jsdelivr.net/npm/@maple-design/ui/es/maple.css'
+    mapleTouchEmulator = 'https://cdn.jsdelivr.net/npm/@maple-design/touch-emulator/iife.js'
   } else if (version === 'preview') {
     mapleCss = './maple.css'
     mapleTouchEmulator = './maple-touch-emulator.js'
   } else {
-    mapleCss = `https://cdn.jsdelivr.net/npm/@maplejs/maple-ui@${version}/es/maple.css`
-    mapleTouchEmulator = `https://cdn.jsdelivr.net/npm/@maplejs/maple-touch-emulator@${version}/iife.js`
+    mapleCss = `https://cdn.jsdelivr.net/npm/@maple-design/ui@${version}/es/maple.css`
+    mapleTouchEmulator = `https://cdn.jsdelivr.net/npm/@maple-design/touch-emulator@${version}/iife.js`
   }
 
   return `\
-import MapleUI from '@maplejs/maple-ui'
+import MapleUI from '@maple-design/ui'
 import { getCurrentInstance } from 'vue'
 
 const mapleCss = '${mapleCss}'
@@ -407,10 +407,10 @@ export class ReplStore implements Store {
     this.mapleVersion = version
     const importMap = this.getImportMap()
     const imports = importMap.imports || (importMap.imports = {})
-    imports['@maplejs/maple-ui'] =
+    imports['@maple-design/ui'] =
       version === 'preview'
         ? `./maple.esm.js`
-        : `https://cdn.jsdelivr.net/npm/@maplejs/maple-ui@${version}/es/maple.esm.js`
+        : `https://cdn.jsdelivr.net/npm/@maple-design/ui@${version}/es/maple.esm.js`
     setFile(this.state.files, mapleReplPlugin, getMapleReplPluginCode(version), !import.meta.env.DEV)
     compileFile(this, this.state.files[mapleReplPlugin]).then((errs) => this.state.errors.push(...errs))
     this.setImportMap(importMap)

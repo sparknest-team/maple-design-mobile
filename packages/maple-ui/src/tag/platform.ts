@@ -1,7 +1,7 @@
 import { computed } from 'vue'
 import type { TagProps } from './props'
 
-export { IconClose, IconLoading } from '@maplejs/icons-vue'
+export { IconClose, IconLoading } from '@maple-design/icons-vue'
 export function useTagPlatform(props: Readonly<TagProps>) {
   return { mergedSize: computed(() => props.size ?? 'md'), rtl: computed(() => false) }
 }

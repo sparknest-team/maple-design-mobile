@@ -6,16 +6,7 @@
       "type": "\"default\" | \"primary\" | \"secondary\" | \"tertiary\" | \"info\" | \"success\" | \"warning\" | \"danger\"",
       "defaultValue": "'default'",
       "kind": "enum",
-      "options": [
-        "default",
-        "primary",
-        "secondary",
-        "tertiary",
-        "info",
-        "success",
-        "warning",
-        "danger"
-      ],
+      "options": ["default", "primary", "secondary", "tertiary", "info", "success", "warning", "danger"],
       "initial": "default"
     },
     {
@@ -24,10 +15,7 @@
       "type": "'default' | 'outline'",
       "defaultValue": "'default'",
       "kind": "enum",
-      "options": [
-        "default",
-        "outline"
-      ],
+      "options": ["default", "outline"],
       "initial": "default"
     },
     {
@@ -36,13 +24,7 @@
       "type": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\"",
       "defaultValue": "'md'",
       "kind": "enum",
-      "options": [
-        "xs",
-        "sm",
-        "md",
-        "lg",
-        "xl"
-      ],
+      "options": ["xs", "sm", "md", "lg", "xl"],
       "initial": "md"
     },
     {
@@ -88,14 +70,14 @@
       "kind": "boolean"
     },
     {
-      "name": "checked",
+      "name": "model-value",
       "description": "选中状态（checkable 时有效，v-model）",
       "type": "boolean",
       "defaultValue": "undefined",
       "kind": "boolean"
     },
     {
-      "name": "default-checked",
+      "name": "default-value",
       "description": "默认选中状态（checkable 时有效）",
       "type": "boolean",
       "defaultValue": "true",
@@ -125,26 +107,17 @@
       "initial": "#5268cc"
     }
   ],
-  "events": [
-    "update:show",
-    "update:checked",
-    "close",
-    "check"
-  ],
+  "events": ["update:show", "update:modelValue", "close", "check"],
   "scenarios": [
     {
       "name": "default",
       "kind": "slot",
-      "demos": [
-        "checkable-tag.vue"
-      ]
+      "demos": ["checkable-tag.vue"]
     },
     {
       "name": "icon",
       "kind": "slot",
-      "demos": [
-        "icon-tag.vue"
-      ]
+      "demos": ["icon-tag.vue"]
     },
     {
       "name": "close-icon",
@@ -152,10 +125,7 @@
       "demos": []
     }
   ],
-  "slotNames": [
-    "icon",
-    "close-icon"
-  ],
+  "slotNames": ["icon", "close-icon"],
   "slotDefaults": {
     "icon": false,
     "close-icon": false

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { SearchResult } from '@maplejs/maple-ui'
+import type { SearchResult } from '@maple-design/ui'
 
 const keyword = ref('')
 const popup = ref(false)

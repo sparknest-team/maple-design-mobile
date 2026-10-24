@@ -23,17 +23,17 @@
       "kind": "boolean"
     },
     {
-      "name": "current",
-      "description": "当前图片索引",
+      "name": "model-value",
+      "description": "当前图片序号，从 1 开始",
       "type": "number",
       "defaultValue": "-",
       "kind": "number"
     },
     {
-      "name": "default-current",
-      "description": "非受控模式的默认图片索引",
+      "name": "default-value",
+      "description": "非受控初始图片序号，从 1 开始",
       "type": "number",
-      "defaultValue": "0",
+      "defaultValue": "1",
       "kind": "number"
     },
     {

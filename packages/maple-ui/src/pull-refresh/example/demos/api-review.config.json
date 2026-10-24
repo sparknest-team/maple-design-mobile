@@ -8,6 +8,13 @@
       "kind": "boolean"
     },
     {
+      "name": "default-value",
+      "description": "非受控初始值，仅创建时读取",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
       "name": "disabled",
       "description": "是否禁用下拉刷新",
       "type": "boolean",
@@ -69,10 +76,7 @@
       "initial": "#5268cc"
     }
   ],
-  "events": [
-    "refresh",
-    "update:modelValue"
-  ],
+  "events": ["refresh", "update:modelValue"],
   "scenarios": [
     {
       "name": "target",

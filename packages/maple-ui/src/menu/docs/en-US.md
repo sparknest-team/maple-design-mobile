@@ -26,7 +26,7 @@ Right click inside the target area. Set both `trigger="contextMenu"` and `align-
 
 [SplitButton](#/en-US/split-button) already wraps a button together with a dropdown command menu and describes extra actions through `MenuOption`.
 
-### Active Value and Select Event
+### Selected Value and Select Event
 
 Use `v-model` to keep the active value. Activating a command emits `update:model-value` first and then `select(value, option, event)`; `select` means a menu item was activated, not that a form value changed.
 
@@ -54,8 +54,18 @@ A plain option with `children` becomes a submenu. Every level shares `submenu-tr
 
 Prefer passing `icon`, `extra` or a VNode directly on the option; all three also accept a render function receiving `{ option, active, level }`. To render a whole data set uniformly, use the `option-label`, `option-icon` and `option-extra` scoped slots.
 
+`active` means this exact option matches the active value. A active descendant does not select its parent. Descendant selection and submenu opening remain private styling state. MenuOption uses `highlight` for visual emphasis without changing selection.
+
 ```demo
 ../example/demos/option-content.vue
+```
+
+### Selection and visual emphasis
+
+`active` is false on a parent whose child is active. The three examples compare render functions, scoped slots and manual MenuOption content; `highlight` only emphasizes a row.
+
+```demo
+../example/demos/active-rendering.vue
 ```
 
 ### Trigger
@@ -114,6 +124,10 @@ Both root and nested menus use the same reactive `strategy` (`absolute` by defau
 <!-- api-review:end -->
 
 ## API
+
+### Model and default value
+
+Use ordinary `v-model`. `modelValue` is the active option value. `defaultValue` initializes uncontrolled state only at creation; changing it later does not reset the current state. A supplied model takes precedence. Initialization emits no `update:modelValue`.
 
 ### Props
 
@@ -201,14 +215,15 @@ Kept for SplitButton and hand-written `content`. Groups and submenus are describ
 
 | Prop | Description | Type | Default |
 | --- | --- | --- | --- |
-| `label` | Main content | _any_ | `-` |
+| `label` | Content or render function | _MenuContent_ | `-` |
 | `value` | Value passed to events on activation | _any_ | `-` |
 | `disabled` | Disabled | _boolean_ | `false` |
 | `ripple` | Whether to show the click ripple | _boolean_ | `true` |
+| `highlight` | Visual emphasis without changing selection | _boolean_ | `false` |
 
 ### MenuOption Events and Slots
 
-`click` fires when the option is not disabled; slots are `default`, `icon` and `suffix`.
+`click` fires when the option is not disabled. The `default`, `icon` and `suffix` slots and the `label` render function receive the same `{ option, active, level }` context.
 
 ### Keyboard
 
@@ -221,12 +236,15 @@ import type {
   MenuFieldNames,
   MenuInstance,
   MenuOptionData,
+  MenuRenderContext,
+  MenuSlots,
+  MenuOptionSlots,
   MenuPosition,
   MenuProps,
   MenuSubmenuTrigger,
   MenuOptionProps,
   MenuValue,
-} from '@maplejs/maple-ui'
+} from '@maple-design/ui'
 ```
 
 ## Style Variables
@@ -269,9 +287,11 @@ Group labels align with options. A 20px line height plus 4px padding on each sid
 
 ### State and timing variables
 
-Disabled wins over selected, pointer hover and keyboard active states. Selected hover uses its own role, defaulting to the selected background; override it for an additional hover treatment. The selected background is painted directly on the option, matching Cedar.
+Disabled wins over active, pointer hover and keyboard focus states. Selected hover uses its own role, defaulting to the active background; override it for an additional hover treatment. The active background is painted directly on the option, matching Cedar.
 
 | Token | Default |
 | --- | --- |
 | `--mp-menu-option-bg-selected-hover` | `var(--mp-menu-option-selected-background)` |
 | `--mp-menu-option-bg-disabled` | `transparent` |
+
+### Render context and stable identity

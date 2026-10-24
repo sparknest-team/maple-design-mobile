@@ -12,6 +12,14 @@ Link component for hyperlink to web pages.
 ../example/demos/en-US/basic.vue
 ```
 
+### Sizes
+
+Text, icons and loading indicators scale together. The default size is `md`.
+
+```demo
+../example/demos/en-US/size.vue
+```
+
 ### Semantic Status
 
 ```demo
@@ -102,15 +110,15 @@ Here are the CSS variables used by the component. Styles can be customized using
 
 | Variable                       | Default                      |
 | --- |------------------------------|
-| `--link-default-color` | `#555`                       |
-| `--link-primary-color` | `var(--color-primary)`       |
-| `--link-danger-color` | `var(--color-danger)`        |
-| `--link-success-color` | `var(--color-success)`       |
-| `--link-warning-color` | `var(--color-warning)`       |
-| `--link-info-color` | `var(--color-info)`          |
-| `--link-disabled-color` | `var(--color-text-disabled)` |
-| `--link-font-size` | `var(--font-size-md)` |
-| `--link-focus-opacity` | `0.8` |
+| `--mp-link-default-color` | `var(--mp-sys-color-content-primary)`                       |
+| `--mp-link-primary-color` | `var(--mp-sys-color-content-brand)`       |
+| `--mp-link-danger-color` | `var(--mp-sys-color-content-danger)`        |
+| `--mp-link-success-color` | `var(--mp-sys-color-content-success)`       |
+| `--mp-link-warning-color` | `var(--mp-sys-color-content-warning)`       |
+| `--mp-link-info-color` | `var(--mp-sys-color-content-info)`          |
+| `--mp-link-disabled-color` | `var(--mp-sys-color-content-disabled)` |
+| `--mp-link-font-size` | `var(--mp-sys-font-size-md)` |
+| `--mp-link-focus-opacity` | `0.8` |
 
 ### Copied style contract
 
@@ -118,15 +126,19 @@ Internal classes use `mp-link--status-*`, `mp-link--underline-*` and `mp-link__i
 
 | Variable | Default |
 | --- | --- |
-| `--link-bg-hover` | `var(--color-fill-2)` |
-| `--link-bg-active` | `var(--color-fill-3)` |
-| `--link-padding-horizontal` | `0.25em` |
-| `--link-padding-vertical` | `1px` |
-| `--link-focus-width` | `2px` |
-| `--link-focus-offset` | `2px` |
-| `--link-focus-color` | `currentColor` |
-| `--link-spin-duration` | `1s` |
+| `--mp-link-bg-hover` | `var(--mp-color-fill-2)` |
+| `--mp-link-bg-active` | `var(--mp-color-fill-3)` |
+| `--mp-link-padding-horizontal` | `0.25em` |
+| `--mp-link-padding-vertical` | `1px` |
+| `--mp-link-focus-width` | `2px` |
+| `--mp-link-focus-offset` | `2px` |
+| `--mp-link-focus-color` | `currentColor` |
+| `--mp-link-spin-duration` | `1s` |
 
 ```ts
-import type { LinkProps, LinkUnderline, LinkInstance } from '@maplejs/maple-ui'
+import type { LinkProps, LinkUnderline, LinkInstance } from '@maple-design/ui'
 ```
+
+Text colors follow Button text variants: default uses content-primary, secondary and tertiary use content-secondary, colored statuses use their content roles, and disabled/loading use content-disabled in both brands and modes.
+
+Size tokens：`--mp-link-size-xs-font-size`, `--mp-link-size-sm-font-size`, `--mp-link-size-md-font-size`, `--mp-link-size-lg-font-size`, `--mp-link-size-xl-font-size`。 Defaults: 12 / 13 / 14 / 16 / 18px. The md token follows the existing link-font-size; icons use 1em.

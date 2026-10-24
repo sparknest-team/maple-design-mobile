@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json",
   "framework": "vue",
-  "version": "1.0.3",
+  "version": "1.0.0",
   "name": "Maple",
   "contributions": {
     "html": {
@@ -1836,8 +1836,8 @@
           "name": "mp-fab",
           "attributes": [
             {
-              "name": "v-model:active",
-              "description": "是否激活动作菜单",
+              "name": "v-model:open",
+              "description": "动作菜单是否展开",
               "default": "false",
               "value": {
                 "type": "boolean",
@@ -1845,8 +1845,17 @@
               }
             },
             {
-              "name": "open",
-              "description": "是否显示触发器",
+              "name": "default-open",
+              "description": "非受控初始展开状态，仅创建时读取",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "visible",
+              "description": "是否显示整个组件",
               "default": "true",
               "value": {
                 "type": "boolean",
@@ -1917,8 +1926,8 @@
               }
             },
             {
-              "name": "inactive-icon",
-              "description": "未激活时触发器图标",
+              "name": "closed-icon",
+              "description": "未展开时触发器图标",
               "default": "plus",
               "value": {
                 "type": "string",
@@ -1926,17 +1935,17 @@
               }
             },
             {
-              "name": "active-icon",
-              "description": "激活时触发器图标",
-              "default": "window-close",
+              "name": "open-icon",
+              "description": "展开时触发器图标",
+              "default": "close",
               "value": {
                 "type": "string",
                 "kind": "expression"
               }
             },
             {
-              "name": "inactive-icon-size",
-              "description": "未激活时触发器图标尺寸",
+              "name": "closed-icon-size",
+              "description": "未展开时触发器图标尺寸",
               "default": "-",
               "value": {
                 "type": "string | number",
@@ -1944,29 +1953,11 @@
               }
             },
             {
-              "name": "active-icon-size",
-              "description": "激活时触发器图标尺寸",
+              "name": "open-icon-size",
+              "description": "展开时触发器图标尺寸",
               "default": "-",
               "value": {
                 "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "inactive-icon-namespace",
-              "description": "未激活时触发器图标的命名空间",
-              "default": "mp-icon",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "active-icon-namespace",
-              "description": "激活时触发器图标的命名空间",
-              "default": "mp-icon",
-              "value": {
-                "type": "string",
                 "kind": "expression"
               }
             },
@@ -2095,9 +2086,18 @@
           "name": "mp-floating-panel",
           "attributes": [
             {
-              "name": "v-model:anchor",
-              "description": "面板初始显示锚点，如果不传则为 `anchors` 属性的第一个值",
+              "name": "v-model",
+              "description": "当前停靠高度，单位 px；拖动结束并吸附后更新",
               "default": "-",
+              "value": {
+                "type": "number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-value",
+              "description": "非受控初始高度，仅创建时读取",
+              "default": "100",
               "value": {
                 "type": "number",
                 "kind": "expression"
@@ -2160,7 +2160,11 @@
           ],
           "events": [
             {
-              "name": "anchor-change",
+              "name": "update:model-value",
+              "description": "用户拖动结束并吸附后回传高度；初始化不触发"
+            },
+            {
+              "name": "height-change",
               "description": "移动到某个锚点后触发"
             }
           ],
@@ -2697,7 +2701,7 @@
               }
             },
             {
-              "name": "v-model:preview-open",
+              "name": "v-model:open",
               "description": "受控预览状态",
               "default": "-",
               "value": {
@@ -2706,7 +2710,7 @@
               }
             },
             {
-              "name": "default-preview-open",
+              "name": "default-open",
               "description": "默认预览打开状态",
               "default": "false",
               "value": {
@@ -2747,12 +2751,12 @@
               "description": "图片失败加载时触发(懒加载模式下失败时会多次尝试加载图片，只会在尝试次数结束时触发)"
             },
             {
-              "name": "preview-open-change",
+              "name": "open-change",
               "description": "预览打开/关闭时触发"
             },
             {
-              "name": "update:preview-open",
-              "description": "`preview-open` 模型更新"
+              "name": "update:open",
+              "description": "`open` 模型更新"
             }
           ],
           "slots": [
@@ -2967,7 +2971,7 @@
             },
             {
               "name": "default-value",
-              "description": "非受控模式下的初始值",
+              "description": "非受控初始值，仅创建时读取；后续修改不重置输入，不回写父级",
               "default": "''",
               "value": {
                 "type": "`string`",
@@ -3737,7 +3741,7 @@
           "events": [
             {
               "name": "update:model-value",
-              "description": "当前激活值更新请求"
+              "description": "当前选中值更新请求"
             },
             {
               "name": "select",
@@ -6005,7 +6009,7 @@
           "name": "mp-steps",
           "attributes": [
             {
-              "name": "current",
+              "name": "model-value",
               "description": "当前步骤（受控，从 1 起计）",
               "default": "-",
               "value": {
@@ -6014,7 +6018,7 @@
               }
             },
             {
-              "name": "default-current",
+              "name": "default-value",
               "description": "默认当前步骤（非受控）",
               "default": "1",
               "value": {
@@ -6092,8 +6096,8 @@
               "description": "步骤切换时触发（需开启 `changeable`）"
             },
             {
-              "name": "update:current",
-              "description": "`v-model:current` 同步"
+              "name": "update:modelValue",
+              "description": "`v-model` 同步"
             }
           ],
           "slots": [
@@ -6220,7 +6224,7 @@
           "name": "mp-tab-bar",
           "attributes": [
             {
-              "name": "v-model:active",
+              "name": "v-model",
               "description": "当前选中名称或索引；传入时为受控模式",
               "default": "undefined",
               "value": {
@@ -6229,7 +6233,7 @@
               }
             },
             {
-              "name": "default-active",
+              "name": "default-value",
               "description": "非受控初始选中值，仅初始化时读取",
               "default": "0",
               "value": {
@@ -6320,10 +6324,10 @@
             },
             {
               "name": "variant",
-              "description": "变体模式",
-              "default": "false",
+              "description": "外观样式",
+              "default": "standard",
               "value": {
-                "type": "boolean",
+                "type": "TabBarVariant：`standard` / `pill`",
                 "kind": "expression"
               }
             }
@@ -6483,7 +6487,7 @@
               }
             },
             {
-              "name": "checked",
+              "name": "model-value",
               "description": "选中状态（checkable 时有效，v-model）",
               "default": "true",
               "value": {
@@ -6492,7 +6496,7 @@
               }
             },
             {
-              "name": "default-checked",
+              "name": "default-value",
               "description": "默认选中状态（checkable 时有效）",
               "default": "true",
               "value": {
@@ -6534,7 +6538,7 @@
               "description": "可见状态变化"
             },
             {
-              "name": "update:checked",
+              "name": "update:model-value",
               "description": "选中状态变化（checkable 时）"
             },
             {

@@ -3,7 +3,7 @@ import { ref } from 'vue'
 
 const active = ref(true)
 const open = ref(false)
-const current = ref(0)
+const current = ref(1)
 const loop = ref(true)
 const images = ref(['/cat.jpg', '/cat2.jpg'])
 function replaceImages() {
@@ -21,7 +21,7 @@ function replaceImages() {
       not replay.
     </p>
     <KeepAlive>
-      <mp-image-preview-group v-if="active" v-model:open="open" v-model:current="current" :images="images" :loop="loop">
+      <mp-image-preview-group v-if="active" v-model:open="open" v-model="current" :images="images" :loop="loop">
         <template #actions>
           <mp-image-preview-action name="Replace images / 换图" @click="replaceImages">换图</mp-image-preview-action>
           <mp-image-preview-action name="Deactivate / 停用" @click="active = false">停用</mp-image-preview-action>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onDeactivated, ref } from 'vue'
-import { watchLang } from '@maplejs/maple-cli/client'
-import type { InfiniteScrollStatus } from '@maplejs/maple-ui'
+import { watchLang } from '@maple-design/cli/client'
+import type { InfiniteScrollStatus } from '@maple-design/ui'
 
 const scroller = ref<HTMLElement>()
 const status = ref<InfiniteScrollStatus>('idle')

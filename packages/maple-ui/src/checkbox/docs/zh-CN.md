@@ -1,5 +1,7 @@
 # 复选框
 
+独立 Checkbox 的 modelValue 在布尔模式下表示是否选中，在数组模式下表示选中选项的集合；value 是当前选项的标识。CheckboxGroup 的 modelValue 是选中值数组。defaultValue 只初始化非受控状态，不会回写父级绑定值。
+
 ## 案例
 
 ### 介绍

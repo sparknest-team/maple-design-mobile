@@ -5,7 +5,6 @@ export function useElementResize(
   targets: () => (Element | null | undefined)[],
   enabled: () => boolean,
   update: (entries: readonly ResizeObserverEntry[]) => void,
-  fallback?: typeof ResizeObserver,
   immediate = true,
 ) {
   let mounted = false
@@ -65,20 +64,11 @@ export function useElementResize(
     const elements = currentTargets()
     observed = elements
     view = elements[0]?.ownerDocument.defaultView
-    const Observer =
-      (view as (Window & { ResizeObserver?: typeof ResizeObserver }) | undefined)?.ResizeObserver ?? fallback
+    const Observer = (view as (Window & { ResizeObserver?: typeof ResizeObserver }) | undefined)?.ResizeObserver
     if (Observer) {
       const binding = bindingGeneration
       observer = new Observer((entries) => schedule(entries, binding))
       for (const element of elements) {
-        // The polyfill requires SVG measurement; partial DOM hosts may omit it.
-        if (
-          Observer === fallback &&
-          element.namespaceURI === 'http://www.w3.org/2000/svg' &&
-          typeof (element as SVGGraphicsElement).getBBox !== 'function'
-        ) {
-          continue
-        }
         observer.observe(element, { box: 'border-box' })
       }
     }

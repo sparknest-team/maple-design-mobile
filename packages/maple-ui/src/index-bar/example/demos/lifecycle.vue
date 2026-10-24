@@ -1,6 +1,6 @@
 <script setup>
 import { computed, KeepAlive, ref, watch } from 'vue'
-import { AppType, watchLang } from '@maplejs/maple-cli/client'
+import { AppType, watchLang } from '@maple-design/cli/client'
 
 const language = ref('zh-CN')
 const english = computed(() => language.value === 'en-US')

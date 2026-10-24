@@ -21,10 +21,10 @@ function remove(key: string | number) {
 <template>
   <mp-tabs variant="card" editable show-add-button auto-switch @add="add" @delete="remove">
     <mp-tabs-navs aria-label="可编辑标签">
-      <mp-tab-nav v-for="tab in tabs" :key="tab.key" :title="tab.title" :closable="tab.key !== '3'" />
+      <mp-tab-nav v-for="tab in tabs" :key="tab.key" :name="tab.key" :title="tab.title" :closable="tab.key !== '3'" />
     </mp-tabs-navs>
     <mp-tabs-items>
-      <mp-tab-item v-for="tab in tabs" :key="tab.key">{{ tab.content }}</mp-tab-item>
+      <mp-tab-item v-for="tab in tabs" :key="tab.key" :name="tab.key">{{ tab.content }}</mp-tab-item>
     </mp-tabs-items>
   </mp-tabs>
 </template>

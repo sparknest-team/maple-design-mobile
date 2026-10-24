@@ -139,7 +139,7 @@
 
 <script setup lang="ts">
 import { nextTick, reactive, ref, shallowRef, watch } from 'vue'
-import { IconSearch } from '@maplejs/icons-vue'
+import { IconSearch } from '@maple-design/icons-vue'
 import MpButton from '../button'
 import MpRegisteredIcon from '../icon/RegisteredIcon.vue'
 import MpInput from '../input'

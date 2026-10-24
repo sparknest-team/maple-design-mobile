@@ -54,7 +54,7 @@
 ../example/demos/drag.vue
 ```
 
-### 触发器显示/隐藏
+### 整体显示/隐藏
 
 ```demo
 ../example/demos/visibility.vue
@@ -81,14 +81,22 @@
 
 <!-- api-review:end -->
 
+
+### visible 与 v-if
+
+不需要保留实例时，直接使用 `<mp-fab v-if="showFab" />`，无需再传 visible。v-if=false 会销毁 FAB、拖拽状态与动作子组件；重新显示会重新读取 defaultOpen。`:visible="showFab"` 保留实例和内部状态，只隐藏触发器与动作内容。FAB 默认通过 Drag/Teleport 挂到弹层容器，visible 在实际内容内部控制显示；不要依赖对 Teleport 组件直接使用 v-show。动作菜单自身仍使用 open。
+
 ## API
+
+`open` / `update:open` 通过 `v-model:open` 控制动作菜单展开；未绑定时使用 `defaultOpen` 初始化，之后由组件维护。`visible` 控制整个组件显示，不改变动作菜单保存的展开状态。`trigger` 插槽参数为 `{ open }`。
 
 ### 属性
 
 | 参数              | 说明                                                             | 类型     | 默认值        |
 |------------------|----------------------------------------------------------------- |----------|----------------|
-| `v-model:active` | 是否激活动作菜单                                                    | _boolean_ | `false`       |
-| `open`           | 是否显示触发器 | _boolean_ | `true`    |
+| `v-model:open` | 动作菜单是否展开                                                    | _boolean_ | `false`       |
+| `default-open` | 非受控初始展开状态，仅创建时读取 | _boolean_ | `false` |
+| `visible`           | 是否显示整个组件 | _boolean_ | `true`    |
 | `drag`      | Drag 组件配置，用于深度定制（支持 `direction` `attraction` `boundary`） | _boolean \| DragProps_  | `false`    |
 | `status`         | 状态，可选值为 `default` `primary` `info` `success` `warning` `danger` | _string_ | `primary`    |
 | `position` | 触发器位置，可选值为 `left-top` `right-top` `left-bottom` `right-bottom` | _string_ | `right-bottom`    |
@@ -96,12 +104,10 @@
 | `trigger` | 触发方式 `click` `hover` | _string_ | `click`    |
 | `disabled` | 是否禁用 | _boolean_ | `false`    |
 | `color` | 触发器颜色 | _string_ | `-`    |
-| `inactive-icon` | 未激活时触发器图标 | _string_ | `plus`    |
-| `active-icon` | 激活时触发器图标 | _string_ | `window-close`    |
-| `inactive-icon-size` | 未激活时触发器图标尺寸 | _string \| number_ | `-` |
-| `active-icon-size` | 激活时触发器图标尺寸 | _string \| number_ | `-` |
-| `inactive-icon-namespace` | 未激活时触发器图标的命名空间 | _string_ | `mp-icon`    |
-| `active-icon-namespace` | 激活时触发器图标的命名空间 | _string_ | `mp-icon`  |
+| `closed-icon` | 未展开时触发器图标 | _string_ | `plus`    |
+| `open-icon` | 展开时触发器图标 | _string_ | `close`    |
+| `closed-icon-size` | 未展开时触发器图标尺寸 | _string \| number_ | `-` |
+| `open-icon-size` | 展开时触发器图标尺寸 | _string \| number_ | `-` |
 | `fixed` | 是否使用固定定位，设置为 `false` 可开启绝对定位（绝对定位无法使用拖拽） | _boolean_ | `true` |
 | `z-index` | 同 css z-index，用于自定义触发器层级 | _string \| number_ | `90` |
 | `top` | 同 css top，用于自定义触发器位置 | _string \| number_ | `-` |
@@ -116,7 +122,7 @@
 
 | 事件名 | 说明 | 参数 |
 | --- | --- | --- |
-| `click` | 点击触发器时触发，在 `disabled` 状态为 `true` 时不触发 | `active: boolean, event: Event` |
+| `click` | 点击触发器时触发，在 `disabled` 状态为 `true` 时不触发 | `open: boolean, event: Event` |
 | `open` | 在激活并打开动作菜单时触发 | `-` |
 | `opened` | 在激活并打开动作菜单的动画结束时触发 | `-` |
 | `close` | 在失活并关闭动作菜单时触发 | `-` |
@@ -127,7 +133,7 @@
 | 插槽名 | 说明 | 参数 |
 | --- | --- | --- |
 | `default` | 动作菜单 |  `-` |
-| `trigger` | 触发器 | `{ active: boolean }` |
+| `trigger` | 触发器 | `{ open: boolean }` |
 
 
 ### 样式变量
@@ -142,8 +148,8 @@
 | `--fab-right` | `16px` |
 | `--fab-trigger-size` | `56px` |
 | `--fab-trigger-border-radius` | `50%` |
-| `--fab-trigger-inactive-icon-size` | `26px` |
-| `--fab-trigger-active-icon-size` | `22px` |
+| `--mp-fab-trigger-inactive-icon-size` | `26px` |
+| `--mp-fab-trigger-active-icon-size` | `22px` |
 | `--fab-actions-padding` | `10px 0` |
 | `--fab-action-margin` | `6px` |
 | `--fab-action-size` | `40px` |

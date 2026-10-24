@@ -3,20 +3,20 @@
 ### Installation
 
 ```shell
-npm i @maplejs/maple-ui @maplejs/icons-vue
+npm i @maple-design/ui @maple-design/icons-vue
 ```
 
 ### Automatic On-Demand Imports (Recommended)
 
-Maple maintains `@maplejs/resolver`. With `unplugin-vue-components`, components, standalone SVG icons, and component styles are imported on demand at build time.
+Maple maintains `@maple-design/resolver`. With `unplugin-vue-components`, components, standalone SVG icons, and component styles are imported on demand at build time.
 
 ```shell
-npm i @maplejs/resolver unplugin-auto-import unplugin-vue-components -D
+npm i @maple-design/resolver unplugin-auto-import unplugin-vue-components -D
 ```
 
 ```ts
 // vite.config.ts
-import { MapleResolver } from '@maplejs/resolver'
+import { MapleResolver } from '@maple-design/resolver'
 import vue from '@vitejs/plugin-vue'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
@@ -49,21 +49,21 @@ Components can then be used without local imports:
 The resolver generates equivalent on-demand imports:
 
 ```ts
-import { IconInfoCircleFill } from '@maplejs/icons-vue/icon-info-circle-fill'
-import { _ButtonComponent, _IconComponent } from '@maplejs/maple-ui'
-import '@maplejs/maple-ui/button/style'
-import '@maplejs/maple-ui/icon/style'
+import { IconInfoCircleFill } from '@maple-design/icons-vue/icon-info-circle-fill'
+import { _ButtonComponent, _IconComponent } from '@maple-design/ui'
+import '@maple-design/ui/button/style'
+import '@maple-design/ui/icon/style'
 ```
 
-Standalone SVG icons inherit the wrapper color through `currentColor` and need no additional CSS. The `mp-icon` wrapper itself requires `@maplejs/maple-ui/icon/style`.
+Standalone SVG icons inherit the wrapper color through `currentColor` and need no additional CSS. The `mp-icon` wrapper itself requires `@maple-design/ui/icon/style`.
 
 #### Use SVG Icons Directly
 
-Every SVG icon from `@maplejs/icons-vue` is an independent Vue component and can be rendered without the `mp-icon` wrapper:
+Every SVG icon from `@maple-design/icons-vue` is an independent Vue component and can be rendered without the `mp-icon` wrapper:
 
 ```html
 <script setup lang="ts">
-  import { IconDelete, IconPlus, IconSearch, IconShareFill } from '@maplejs/icons-vue'
+  import { IconDelete, IconPlus, IconSearch, IconShareFill } from '@maple-design/icons-vue'
 </script>
 
 <template>
@@ -90,9 +90,9 @@ The same `MapleResolver()` also resolves `v-ripple`, `v-lazy`, `v-hover`, and `v
 
 ```html
 <script setup lang="ts">
-  import { IconInfoCircleFill } from '@maplejs/icons-vue/icon-info-circle-fill'
-  import { Button } from '@maplejs/maple-ui'
-  import '@maplejs/maple-ui/button/style'
+  import { IconInfoCircleFill } from '@maple-design/icons-vue/icon-info-circle-fill'
+  import { Button } from '@maple-design/ui'
+  import '@maple-design/ui/button/style'
 </script>
 
 <template>
@@ -105,8 +105,8 @@ The same `MapleResolver()` also resolves `v-ripple`, `v-lazy`, `v-hover`, and `v
 
 ```ts
 import { createApp } from 'vue'
-import Maple from '@maplejs/maple-ui'
-import '@maplejs/maple-ui/style'
+import Maple from '@maple-design/ui'
+import '@maple-design/ui/style'
 import App from './App.vue'
 
 createApp(App).use(Maple).mount('#app')
@@ -119,7 +119,7 @@ Standalone SVG icons are not globally registered by the UI package. Import them 
 Every component provides `setPropsDefaults` for changing the defaults of declarative instances created afterward. Call it before mounting the application:
 
 ```ts
-import { Button, StyleProvider } from '@maplejs/maple-ui'
+import { Button, StyleProvider } from '@maple-design/ui'
 
 Button.setPropsDefaults({
   status: 'primary',

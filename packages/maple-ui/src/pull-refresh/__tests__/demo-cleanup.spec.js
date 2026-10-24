@@ -4,7 +4,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import Demo from '../example/demos/basic.vue'
 import PullRefresh from '../index'
 
-vi.mock('@maplejs/maple-cli/client', () => ({ onThemeChange() {} }))
+vi.mock('@maple-design/cli/client', () => ({ onThemeChange() {} }))
 
 const Cell = defineComponent({
   setup:

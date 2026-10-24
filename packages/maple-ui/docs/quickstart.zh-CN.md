@@ -4,25 +4,25 @@
 
 ```shell
 # npm
-npm i @maplejs/maple-ui @maplejs/icons-vue
+npm i @maple-design/ui @maple-design/icons-vue
 
 # pnpm
-pnpm add @maplejs/maple-ui @maplejs/icons-vue
+pnpm add @maple-design/ui @maple-design/icons-vue
 ```
 
 ### 自动按需引入（推荐）
 
-Maple 提供内部维护的 `@maplejs/resolver`。配合 `unplugin-vue-components`，模板中使用到的组件、独立 SVG 图标及其样式会在编译时自动按需引入。
+Maple 提供内部维护的 `@maple-design/resolver`。配合 `unplugin-vue-components`，模板中使用到的组件、独立 SVG 图标及其样式会在编译时自动按需引入。
 
 ```shell
-npm i @maplejs/resolver unplugin-auto-import unplugin-vue-components -D
+npm i @maple-design/resolver unplugin-auto-import unplugin-vue-components -D
 ```
 
 #### Vite
 
 ```ts
 // vite.config.ts
-import { MapleResolver } from '@maplejs/resolver'
+import { MapleResolver } from '@maple-design/resolver'
 import vue from '@vitejs/plugin-vue'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
@@ -55,13 +55,13 @@ export default defineConfig({
 Resolver 会分别生成：
 
 ```ts
-import { IconInfoCircleFill } from '@maplejs/icons-vue/icon-info-circle-fill'
-import { _ButtonComponent, _IconComponent } from '@maplejs/maple-ui'
-import '@maplejs/maple-ui/button/style'
-import '@maplejs/maple-ui/icon/style'
+import { IconInfoCircleFill } from '@maple-design/icons-vue/icon-info-circle-fill'
+import { _ButtonComponent, _IconComponent } from '@maple-design/ui'
+import '@maple-design/ui/button/style'
+import '@maple-design/ui/icon/style'
 ```
 
-独立 SVG 图标通过 `currentColor` 继承容器颜色，因此图标子包不需要额外 CSS；`mp-icon` 容器自身需要加载 `@maplejs/maple-ui/icon/style`。
+独立 SVG 图标通过 `currentColor` 继承容器颜色，因此图标子包不需要额外 CSS；`mp-icon` 容器自身需要加载 `@maple-design/ui/icon/style`。
 
 #### 动态名称与显式注册
 
@@ -70,7 +70,7 @@ import '@maplejs/maple-ui/icon/style'
 ```ts
 // main.ts
 import { createApp } from 'vue'
-import { IconInfoCircleFill, IconWarning } from '@maplejs/icons-vue'
+import { IconInfoCircleFill, IconWarning } from '@maple-design/icons-vue'
 import App from './App.vue'
 
 const app = createApp(App)
@@ -82,7 +82,7 @@ app.mount('#app')
 如果业务确定需要通过任意名称使用全部图标，也可以主动批量注册；这种写法会加载完整图标集合：
 
 ```ts
-import * as MapleIconsVue from '@maplejs/icons-vue'
+import * as MapleIconsVue from '@maple-design/icons-vue'
 
 for (const [name, component] of Object.entries(MapleIconsVue)) {
   if (name.startsWith('Icon')) app.component(name, component)
@@ -91,11 +91,11 @@ for (const [name, component] of Object.entries(MapleIconsVue)) {
 
 #### 直接使用 SVG 图标
 
-`@maplejs/icons-vue` 中的每个 SVG 图标都是独立的 Vue 组件，也可以不使用 `mp-icon` 容器直接渲染：
+`@maple-design/icons-vue` 中的每个 SVG 图标都是独立的 Vue 组件，也可以不使用 `mp-icon` 容器直接渲染：
 
 ```html
 <script setup lang="ts">
-  import { IconDelete, IconPlus, IconSearch, IconShareFill } from '@maplejs/icons-vue'
+  import { IconDelete, IconPlus, IconSearch, IconShareFill } from '@maple-design/icons-vue'
 </script>
 
 <template>
@@ -130,9 +130,9 @@ Message.success('保存成功')
 
 ```html
 <script setup lang="ts">
-  import { IconInfoCircleFill } from '@maplejs/icons-vue/icon-info-circle-fill'
-  import { Button } from '@maplejs/maple-ui'
-  import '@maplejs/maple-ui/button/style'
+  import { IconInfoCircleFill } from '@maple-design/icons-vue/icon-info-circle-fill'
+  import { Button } from '@maple-design/ui'
+  import '@maple-design/ui/button/style'
 </script>
 
 <template>
@@ -147,8 +147,8 @@ Message.success('保存成功')
 
 ```ts
 import { createApp } from 'vue'
-import Maple from '@maplejs/maple-ui'
-import '@maplejs/maple-ui/style'
+import Maple from '@maple-design/ui'
+import '@maple-design/ui/style'
 import App from './App.vue'
 
 createApp(App).use(Maple).mount('#app')
@@ -161,7 +161,7 @@ createApp(App).use(Maple).mount('#app')
 每个组件都提供 `setPropsDefaults`，用于统一修改之后创建的声明式组件默认值。请在应用挂载前调用：
 
 ```ts
-import { Button, StyleProvider } from '@maplejs/maple-ui'
+import { Button, StyleProvider } from '@maple-design/ui'
 
 Button.setPropsDefaults({
   status: 'primary',

@@ -1,5 +1,5 @@
 import { readFileSync } from 'node:fs'
-import { defineConfig } from '@maplejs/maple-cli'
+import { defineConfig } from '@maple-design/cli'
 
 const componentReuse = JSON.parse(readFileSync(new URL('./component-reuse.json', import.meta.url), 'utf8'))
 const markReuse = (item) => {

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { type Component } from 'vue'
-import { ReviewSuite } from '@ui-foundation/ui-doc-preview'
+import { ReviewSuite } from '@sparknest/ui-doc-preview'
 import Select from '../../src/select'
 import '../../src/select/style'
 

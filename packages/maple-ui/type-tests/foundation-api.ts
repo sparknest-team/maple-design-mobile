@@ -1,9 +1,9 @@
 // Menu root and nested submenus expose the same public controls.
-import type { MenuFieldNames, MenuInstance, MenuOptionData, MenuOptionProps, MenuProps } from '@maplejs/maple-ui/menu'
-import type { PopoverInstance, PopoverProps } from '@maplejs/maple-ui/popover'
-import type { TooltipInstance, TooltipProps } from '@maplejs/maple-ui/tooltip'
-import type { TriggerInstance, TriggerProps } from '@maplejs/maple-ui/trigger'
-import { useVModel } from '@maplejs/maple-use'
+import type { MenuFieldNames, MenuInstance, MenuOptionData, MenuOptionProps, MenuProps } from '@maple-design/ui/menu'
+import type { PopoverInstance, PopoverProps } from '@maple-design/ui/popover'
+import type { TooltipInstance, TooltipProps } from '@maple-design/ui/tooltip'
+import type { TriggerInstance, TriggerProps } from '@maple-design/ui/trigger'
+import { useVModel } from '@maple-design/use'
 
 const props = { open: false, value: 1 }
 const emit = (event: 'update:open' | 'close', value: boolean) => {

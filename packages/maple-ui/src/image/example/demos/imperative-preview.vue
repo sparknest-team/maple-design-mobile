@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { imagePreview } from '@maplejs/maple-ui'
+import { imagePreview } from '@maple-design/ui'
 
 const images = ['/cat.jpg', '/cat2.jpg']
 let handle: { next: () => void; close: () => void } | undefined
@@ -9,7 +9,7 @@ function previewSingle() {
 }
 
 function previewMultiple() {
-  handle = imagePreview({ images, current: 0 })
+  handle = imagePreview({ images, modelValue: 1 })
 }
 
 function next() {

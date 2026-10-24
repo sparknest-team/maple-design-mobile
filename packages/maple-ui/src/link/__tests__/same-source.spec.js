@@ -2,12 +2,49 @@ import { createSSRApp, h, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it, vi } from 'vitest'
 import { renderToString } from 'vue/server-renderer'
-import Link from '..'
+import Link, { linkProps } from '..'
 import { createNamespace } from '../../utils/components'
 
 const { n } = createNamespace('link')
 
 describe('Link copied contract', () => {
+  it('retains all size, status and underline diagnostics in development', () => {
+    for (const size of ['xs', 'sm', 'md', 'lg', 'xl']) {
+      expect(linkProps.size.validator(size)).toBe(true)
+    }
+    expect(linkProps.size.validator('unknown')).toBe(false)
+    for (const status of ['default', 'primary', 'secondary', 'tertiary', 'info', 'success', 'warning', 'danger']) {
+      expect(linkProps.status.validator(status)).toBe(true)
+    }
+    expect(linkProps.status.validator('unknown')).toBe(false)
+    for (const underline of ['none', 'hover', 'always']) {
+      expect(linkProps.underline.validator(underline)).toBe(true)
+    }
+    expect(linkProps.underline.validator('unknown')).toBe(false)
+  })
+  it('keeps native link semantics while resizing text and icon states', async () => {
+    const w = mount(Link, { props: { href: '/path', icon: true }, slots: { default: 'Link' } })
+    expect(w.classes()).toContain(n('--size-md'))
+    for (const size of ['xs', 'sm', 'md', 'lg', 'xl']) {
+      await w.setProps({ size, loading: false })
+      expect(w.classes()).toContain(n('--size-' + size))
+      expect(w.attributes('size')).toBeUndefined()
+      expect(w.attributes('href')).toBe('/path')
+      expect(
+        w
+          .get('.' + n('icon'))
+          .find('svg')
+          .exists(),
+      ).toBe(true)
+      await w.setProps({ loading: true })
+      expect(w.classes()).toContain(n('--size-' + size))
+      expect(w.find('.' + n('spinner')).exists()).toBe(true)
+      expect(w.attributes('href')).toBeUndefined()
+      expect(w.text()).toBe('Link')
+    }
+    w.unmount()
+  })
+
   it('renders an SSR native anchor', async () => {
     const html = await renderToString(createSSRApp({ render: () => h(Link, { href: '/path' }, () => 'Link') }))
     expect(html).toContain('<a')

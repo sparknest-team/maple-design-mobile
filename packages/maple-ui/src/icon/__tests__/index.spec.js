@@ -1,5 +1,5 @@
 import { defineComponent, h } from 'vue'
-import { IconArrowLeft, IconCaretUp, IconCheckCircle, IconCheckCircleFill } from '@maplejs/icons-vue'
+import { IconArrowLeft, IconCaretUp, IconCheckCircle, IconCheckCircleFill } from '@maple-design/icons-vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test } from 'vitest'
 import Icon from '../Icon.vue'

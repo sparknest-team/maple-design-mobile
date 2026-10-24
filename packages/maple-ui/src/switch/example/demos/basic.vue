@@ -7,6 +7,6 @@ const enabled = ref(false)
 <template>
   <mp-space wrap
     ><mp-switch v-model="enabled" aria-label="Enable notifications" /><output>{{ enabled }}</output
-    ><mp-switch default-checked aria-label="Initially enabled"
+    ><mp-switch :default-value="true" aria-label="Initially enabled"
   /></mp-space>
 </template>

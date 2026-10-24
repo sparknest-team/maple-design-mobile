@@ -58,7 +58,7 @@ Show a loading state with `loading`.
 
 ### Checkable
 
-Make the tag toggleable with `checkable` and `v-model:checked`.
+Make the tag toggleable with `checkable` and `v-model`.
 
 ```demo
 ../example/demos/checkable-tag.vue
@@ -99,6 +99,10 @@ Use this example for short labels and category markers. Adjust variant, status, 
 
 ## API
 
+### Model and default value
+
+Use ordinary `v-model`. `modelValue` is whether a checkable tag is selected. `defaultValue` initializes uncontrolled state only at creation; changing it later does not reset the current state. A supplied model takes precedence. Initialization emits no `update:modelValue`.
+
 ### Props
 
 #### Tag Props
@@ -114,8 +118,8 @@ Use this example for short labels and category markers. Adjust variant, status, 
 | `loading` | Loading state | _boolean_ | `false` |
 | `closable` | Whether closable | _boolean_ | `false` |
 | `checkable` | Whether checkable | _boolean_ | `false` |
-| `checked` | Checked state when checkable (v-model) | _boolean_ | `true` |
-| `default-checked` | Default checked state when checkable | _boolean_ | `true` |
+| `model-value` | Checked state when checkable (v-model) | _boolean_ | `true` |
+| `default-value` | Default checked state when checkable | _boolean_ | `true` |
 | `nowrap` | Whether content is nowrap with ellipsis | _boolean_ | `false` |
 | `color` | Custom background (border color when outline) | _string_ | `-` |
 | `text-color` | Custom text color | _string_ | `-` |
@@ -127,7 +131,7 @@ Use this example for short labels and category markers. Adjust variant, status, 
 | Event | Description | Arguments |
 | --- | --- | --- |
 | `update:show` | Visibility changed | `(show: boolean)` |
-| `update:checked` | Checked state changed (checkable) | `(checked: boolean)` |
+| `update:model-value` | Checked state changed (checkable) | `(checked: boolean)` |
 | `close` | Close button clicked | `(event: MouseEvent)` |
 | `check` | Checked state toggled (checkable) | `(checked: boolean, event: MouseEvent)` |
 

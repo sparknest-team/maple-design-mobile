@@ -1,6 +1,6 @@
 <script setup>
 import { computed, ref } from 'vue'
-import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
+import { AppType, onThemeChange, watchLang } from '@maple-design/cli/client'
 import ControlSizes from '../../field-decorator/example/demos/control-sizes.vue'
 import AmPmFormatsDemo from './demos/ampm-formats.vue'
 import AmPmDemo from './demos/ampm.vue'

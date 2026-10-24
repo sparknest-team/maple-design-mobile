@@ -9,7 +9,7 @@ import Demo from '../example/demos/replacement-validation.vue'
 
 useDemoControls()
 
-vi.mock('@maplejs/maple-ui', () => import('..'))
+vi.mock('@maple-design/ui', () => import('..'))
 
 const wrappers = []
 afterEach(() => wrappers.splice(0).forEach((wrapper) => wrapper.unmount()))

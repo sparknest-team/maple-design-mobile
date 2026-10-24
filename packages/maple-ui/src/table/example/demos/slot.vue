@@ -37,7 +37,7 @@ function gen(current, size) {
     <template #footer>
       <div class="footer">
         <mp-pagination
-          v-model:current="current"
+          v-model="current"
           v-model:page-size="pageSize"
           :total="100"
           :page-size-options="[5, 10]"

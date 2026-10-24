@@ -26,7 +26,6 @@ export default defineComponent({
           emit('resize', entry)
         }
       },
-      undefined,
       false,
     )
 

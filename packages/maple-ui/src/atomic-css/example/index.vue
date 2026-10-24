@@ -1,6 +1,6 @@
 <script setup>
 import { computed, onMounted, onUnmounted, ref } from 'vue'
-import { onThemeChange } from '@maplejs/maple-cli/client'
+import { onThemeChange } from '@maple-design/cli/client'
 
 onThemeChange()
 

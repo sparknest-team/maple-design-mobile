@@ -11,7 +11,7 @@ const errorStatus = ref<StepStatus>('error')
   <mp-radio-group v-model="errorStatus" class="status-switch">
     <mp-radio v-for="status in statuses" :key="status" :value="status">{{ status }}</mp-radio>
   </mp-radio-group>
-  <mp-steps :current="2" :status="errorStatus" content-placement="bottom">
+  <mp-steps :model-value="2" :status="errorStatus" content-placement="bottom">
     <mp-step>步骤1</mp-step>
     <mp-step>步骤2</mp-step>
     <mp-step>步骤3</mp-step>

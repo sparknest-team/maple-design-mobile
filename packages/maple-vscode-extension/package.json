@@ -89,14 +89,14 @@
     "onLanguage:typescriptreact"
   ],
   "dependencies": {
-    "@maplejs/icons-vue": "workspace:*",
-    "@maplejs/maple-shared": "workspace:*",
-    "@maplejs/maple-ui": "workspace:*"
+    "@maple-design/icons-vue": "workspace:*",
+    "@maple-design/shared": "workspace:*",
+    "@maple-design/ui": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "catalog:",
     "@types/vscode": "^1.102.0",
-    "@maplejs/maple-cli": "workspace:*",
+    "@maple-design/cli": "workspace:*",
     "@vscode/vsce": "^3.6.0",
     "typescript": "catalog:"
   },

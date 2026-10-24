@@ -1,4 +1,15 @@
-import { inject, nextTick, onBeforeUnmount, onMounted, provide, watch, type InjectionKey, type Ref } from 'vue'
+import {
+  inject,
+  nextTick,
+  onActivated,
+  onBeforeUnmount,
+  onDeactivated,
+  onMounted,
+  provide,
+  watch,
+  type InjectionKey,
+  type Ref,
+} from 'vue'
 import type { TriggerEvent } from './contract'
 import { bindTriggerEvents, type TriggerElement } from './reference'
 
@@ -24,8 +35,16 @@ interface InteractionContext {
   children: Set<InteractionContext>
   escape?: (event: KeyboardEvent) => boolean
   dismiss?: () => void
+  isTopLayer?: (event?: Event) => boolean
 }
 const interactionKey: InjectionKey<InteractionContext> = Symbol('trigger-interaction')
+interface ReferenceInteraction {
+  parent: InteractionContext | undefined
+  visible: Readonly<Ref<boolean>>
+  reference: Readonly<Ref<TriggerElement | undefined>>
+  isTopLayer: (event?: Event) => boolean
+}
+const referenceInteractions = new WeakMap<Document, Set<ReferenceInteraction>>()
 
 function includes(element: Element | undefined, event: Event | Node): boolean {
   if (!element) {
@@ -125,6 +144,7 @@ export function useTriggerInteraction(
   }
   const context: InteractionContext = {
     visible: api.visible,
+    isTopLayer: api.isTopLayer,
     dismiss: () => api.request(false),
     escape: (event) => onKeydown(event),
     contains,
@@ -233,8 +253,33 @@ export function useTriggerInteraction(
     insidePopup = false
     leave()
   }
+  const peer: ReferenceInteraction = {
+    parent,
+    visible: api.visible,
+    reference: api.reference,
+    isTopLayer: api.isTopLayer,
+  }
+  let active = false
+  // A sibling reference can dismiss this whole branch while its child owns
+  // the top layer. An unrelated top layer still protects the branch below it.
+  const hasTopDescendant = (event: Event, branch = context): boolean =>
+    [...branch.children].some((child) => child.isTopLayer?.(event) || hasTopDescendant(event, child))
+  const isTopPeerReference = (event: Event) =>
+    [...(owner ? (referenceInteractions.get(owner) ?? []) : [])].some(
+      (other) =>
+        other !== peer &&
+        other.parent === parent &&
+        includes(other.reference.value, event) &&
+        ((other.visible.value && other.isTopLayer(event)) || hasTopDescendant(event)),
+    )
   const onOutside = (event: Event) => {
-    if (!api.visible.value || options.clickOutsideToClose === false || contains(event) || !api.isTopLayer(event)) {
+    if (
+      !active ||
+      !api.visible.value ||
+      options.clickOutsideToClose === false ||
+      contains(event) ||
+      (!api.isTopLayer(event) && !isTopPeerReference(event))
+    ) {
       return
     }
     api.onOutside(event)
@@ -267,14 +312,36 @@ export function useTriggerInteraction(
   }
   let owner: Document | undefined
   let view: Window | null | undefined
+  const registerReference = () => {
+    if (!owner) {
+      return
+    }
+    active = true
+    let peers = referenceInteractions.get(owner)
+    if (!peers) {
+      peers = new Set()
+      referenceInteractions.set(owner, peers)
+    }
+    peers.add(peer)
+  }
+  const unregisterReference = () => {
+    active = false
+    if (owner) {
+      referenceInteractions.get(owner)?.delete(peer)
+    }
+  }
+  onActivated(registerReference)
+  onDeactivated(unregisterReference)
   onMounted(() => {
     owner = api.reference.value?.ownerDocument ?? document
+    registerReference()
     view = owner.defaultView
     // Evaluate the current top layer before another reference opens a new one.
     owner.addEventListener('click', onOutside, true)
     view?.addEventListener('keydown', onKeydown)
   })
   onBeforeUnmount(() => {
+    unregisterReference()
     parent?.children.delete(context)
     owner?.removeEventListener('click', onOutside, true)
     view?.removeEventListener('keydown', onKeydown)

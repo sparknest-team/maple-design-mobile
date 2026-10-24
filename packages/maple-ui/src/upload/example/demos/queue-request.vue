@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onDeactivated, ref } from 'vue'
-import type { UploadFileItem, UploadInstance, UploadProgressEvent, UploadRequestOptions } from '@maplejs/maple-ui'
+import type { UploadFileItem, UploadInstance, UploadProgressEvent, UploadRequestOptions } from '@maple-design/ui'
 
 const files = ref<UploadFileItem[]>([])
 const uploader = ref<UploadInstance>()

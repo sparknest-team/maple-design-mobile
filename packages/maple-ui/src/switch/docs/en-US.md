@@ -109,13 +109,17 @@ Use this example for settings that take effect immediately. Adjust disabled, rea
 
 ## API
 
+### Model and default value
+
+Use ordinary `v-model`. `modelValue` is the actual switch value, matching checkedValue/uncheckedValue. `defaultValue` initializes uncontrolled state only at creation; changing it later does not reset the current state. A supplied model takes precedence. Initialization emits no `update:modelValue`.
+
 <!-- same-source-api:start -->
 ### Props
 
 | Prop | Description | Type | Default |
 | --- | --- | --- | --- |
 | model-value | Controlled value; omit for internal state | string / number / boolean | undefined |
-| default-checked | Initial uncontrolled checked state; initialization only | boolean | false |
+| default-value | Initial uncontrolled value; falls back to uncheckedValue | string / number / boolean | undefined |
 | presentation | Field presentation inherited from FormItem / Form | FieldPresentation | undefined |
 | read-pretty | Read-only presentation independent of readonly | boolean | undefined |
 | before-commit | Cancellable interceptor before saving the editor | BeforeFieldCommit | undefined |

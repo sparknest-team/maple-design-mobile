@@ -55,9 +55,9 @@ const files = [
 ]
 const toMaple = (source) =>
   source
-    .replaceAll('@cedarjs/icons-vue/icon-right', '@maplejs/icons-vue')
-    .replaceAll('@cedarjs/icons-vue/icon-loading', '@maplejs/icons-vue')
-    .replaceAll('@cedarjs/icons-vue', '@maplejs/icons-vue')
+    .replaceAll('@cedar-design/icons-vue/icon-right', '@maple-design/icons-vue')
+    .replaceAll('@cedar-design/icons-vue/icon-loading', '@maple-design/icons-vue')
+    .replaceAll('@cedar-design/icons-vue', '@maple-design/icons-vue')
     .replaceAll('_utils/global-config', 'utils/components')
     .replaceAll('_utils/option-data', 'utils/option-data')
     .replaceAll('_utils/text-input-value', 'utils/text-input-value')
@@ -72,7 +72,7 @@ for (const file of files) {
     normalizeBoundImports(m),
     file + ' differs: copy Cedar and adjust local imports/prefixes',
   )
-  assert.doesNotMatch(m, /from ['"][^'"]*(?:cedar-design|@cedarjs\/ui|platform)/)
+  assert.doesNotMatch(m, /from ['"][^'"]*(?:cedar-design|@cedar-design\/ui|platform)/)
 }
 for (const [root, compiler] of [
   [cedar, '../node_modules/less/package.json'],

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { CheckboxGroupInstance } from '@maplejs/maple-ui'
+import type { CheckboxGroupInstance } from '@maple-design/ui'
 
 const group = ref<CheckboxGroupInstance>()
 const value = ref<Array<string | number | boolean>>(['remote', 'locked', 'a'])

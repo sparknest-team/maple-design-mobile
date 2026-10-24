@@ -15,7 +15,7 @@ Maple / Cedar 语义与结构一致，**类名必须带库前缀**（`mp-` / `c-
 
 ```js
 // playground-ignore
-import '@maplejs/maple-ui/es/utilities/utilities.css'
+import '@maple-design/ui/es/utilities/utilities.css'
 ```
 
 需已加载主题变量（`style/theme/css-variables`）。

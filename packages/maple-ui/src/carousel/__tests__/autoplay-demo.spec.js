@@ -6,7 +6,7 @@ import Demo from '../example/demos/autoplay.vue'
 
 useDemoControls()
 
-vi.mock('@maplejs/maple-cli/client', () => ({ watchLang: (callback) => callback('en-US') }))
+vi.mock('@maple-design/cli/client', () => ({ watchLang: (callback) => callback('en-US') }))
 
 test('actual autoplay demo updates its model, stops on toggle and clears timers on unmount', async () => {
   vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] })
@@ -14,21 +14,21 @@ test('actual autoplay demo updates its model, stops on toggle and clears timers 
   try {
     await flushPromises()
     const carousel = wrapper.findComponent(Carousel)
-    expect(carousel.props('current')).toBe(0)
+    expect(carousel.props('modelValue')).toBe(1)
     vi.advanceTimersByTime(2100)
     await flushPromises()
-    expect(carousel.props('current')).toBe(1)
+    expect(carousel.props('modelValue')).toBe(2)
     await wrapper.find('input[type=checkbox]').setValue(false)
     const stopped = wrapper.get('p[role=status]').text()
     expect(carousel.props('autoPlay')).toBe(false)
     vi.advanceTimersByTime(5000)
     await flushPromises()
-    expect(carousel.props('current')).toBe(1)
+    expect(carousel.props('modelValue')).toBe(2)
     expect(wrapper.get('p[role=status]').text()).toBe(stopped)
     await wrapper.find('input[type=checkbox]').setValue(true)
     vi.advanceTimersByTime(2100)
     await flushPromises()
-    expect(carousel.props('current')).toBe(2)
+    expect(carousel.props('modelValue')).toBe(3)
     wrapper.unmount()
     expect(vi.getTimerCount()).toBe(0)
   } finally {

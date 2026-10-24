@@ -23,8 +23,8 @@
 <script lang="ts">
 import { reactive, ref } from 'vue'
 import config from '@config'
-import { IconChevronRight as MIconChevronRight } from '@maplejs/icons-vue'
-import { watchLang, watchPlatform } from '@maplejs/maple-cli/client'
+import { watchLang, watchPlatform } from '@maple-design/cli/client'
+import { IconChevronRight as MIconChevronRight } from '@maple-design/icons-vue'
 import { useRouter } from 'vue-router'
 import { inIframe, isPhone, resolveSiteAsset } from '../utils'
 

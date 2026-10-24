@@ -21,8 +21,8 @@
 
 <script lang="ts">
 import { computed, defineComponent, onActivated, onBeforeUnmount, onDeactivated, ref, watch } from 'vue'
-import { getRect, getScrollLeft, getScrollTop, isPlainObject, toNumber } from '@maplejs/maple-shared'
-import { onSmartMounted } from '@maplejs/maple-use'
+import { getRect, getScrollLeft, getScrollTop, isPlainObject, toNumber } from '@maple-design/shared'
+import { onSmartMounted } from '@maple-design/use'
 import { createNamespace } from '../utils/components'
 import { getParentScroller, toPxNum } from '../utils/elements'
 import { type IndexAnchorProvider } from './anchor-provide'

@@ -12,7 +12,9 @@ Display navigation and key actions at the bottom of the page.
 ../example/demos/basic-usage.vue
 ```
 
-### Variant
+### Pill indicator
+
+Set `variant="pill"` to show a pill behind the selected icon. The default `standard` style changes the selected color.
 
 ```demo
 ../example/demos/variant.vue
@@ -26,7 +28,7 @@ Display navigation and key actions at the bottom of the page.
 
 ### Show Badge
 
-TabBar badges default to size xs and extend outside the top-right edge of the icon. The badge object can override size, position, offsetX and offsetY. Dots, counts and max are supported in both standard and variant modes.
+TabBar badges default to size xs and extend outside the top-right edge of the icon. The badge object can override size, position, offsetX and offsetY. Dots, counts and max are supported in both standard and pill styles.
 
 ```demo
 ../example/demos/show-badge.vue
@@ -66,13 +68,17 @@ The button is centered for an even number of tabs and right aligned for an odd n
 ../example/demos/uncontrolled.vue
 ```
 
-### Numeric names and reordering
+### Stable keys and selection
+
+Use the same stable identifier for `key` (node identity) and `name` (selection). Avoid array indices as keys.
 
 ```demo
-../example/demos/numeric-name.vue
+../example/demos/stable-key.vue
 ```
 
 ### Custom selected label
+
+Use the default slot’s `modelValue` parameter to make the selected label bold.
 
 ```demo
 ../example/demos/custom-label.vue
@@ -95,14 +101,18 @@ The button is centered for an even number of tabs and right aligned for an odd n
 
 ## API
 
+### Model and default value
+
+Use ordinary `v-model`. `modelValue` is the selected item name, or a zero-based index for positional items without a name. `defaultValue` initializes uncontrolled state only at creation; changing it later does not reset the current state. A supplied model takes precedence. Initialization emits no `update:modelValue`.
+
 ### Props
 
 #### TabBar Props
 
 | Prop            | Description                                         | Type | Default |
 |-----------------|-----------------------------------------------------| ---- | ---- |
-| `v-model:active` | Selected name or index; controlled when provided | _number \| string_ | `undefined` |
-| `default-active` | Initial uncontrolled selection; read once | _number \| string_ | `0` |
+| `v-model` | Selected name or index; controlled when provided | _number \| string_ | `undefined` |
+| `default-value` | Initial uncontrolled selection; read once | _number \| string_ | `0` |
 | `before-change` | Guard selection; truthy permits, falsy/throw/rejection cancels. Only the latest request may commit | _(active: number \| string) => boolean \| Promise&lt;boolean&gt;_ | `-` |
 | `fixed`         |  Whether to fixed bottom                            | _boolean_ | `false` |
 | `border`        | Whether to show border                              | _boolean_ | `false` |
@@ -112,7 +122,7 @@ The button is centered for an even number of tabs and right aligned for an odd n
 | `inactive-color` | Color of inactive tab item                          | _string_ | `-` |
 | `placeholder` ***3.2.11***  | Whether to generate placeholder elements of the same height at the bottom (`fixed` required)  | _boolean_ | `false` |
 | `fab-props`     | Fab button props                                    | _ButtonProps_ | `{ status: 'primary' }` |
-| `variant` ***3.2.0***      | Variant mode | _boolean_ | `false` |
+| `variant` | Appearance | _TabBarVariant_：`standard` / `pill` | `standard` |
 
 Without active, selection is maintained internally. When active is provided, updates are emitted to the caller. Releasing control retains the last controlled value. Explicit numeric names take precedence over unnamed item indices; named items are never matched by index.
 
@@ -212,3 +222,5 @@ When `z-index` is omitted, the component consumes `--mp-tab-bar-z-index`. An exp
 | ---- | ---- | ----|
 | `default` | Custom label text content that overwrites the content of `label`  | `active: boolean` |
 | `icon` | Custom Icon | `active: boolean` |
+
+The default and icon slots expose active: whether this item's name matches modelValue. Opening a panel, focus and hover do not change it. activeColor/inactiveColor style the active/inactive items.

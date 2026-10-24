@@ -25,7 +25,7 @@
 
 <script setup lang="ts">
 import { computed, onActivated, onDeactivated, ref } from 'vue'
-import { useEventListener } from '@maplejs/maple-use'
+import { useEventListener } from '@maple-design/use'
 import { useZIndex } from '../context/zIndex'
 import { createNamespace } from '../utils/components'
 import { usePopupContainer } from '../utils/popup-container'

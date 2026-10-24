@@ -2,7 +2,7 @@
   "fields": [
     {
       "name": "name",
-      "description": "面板唯一标识，对应 activeNames 中的值",
+      "description": "面板唯一标识，对应 modelValue 中的值",
       "type": "string | number",
       "defaultValue": "—",
       "kind": "scalar"

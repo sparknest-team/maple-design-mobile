@@ -1,12 +1,13 @@
 import { type ComputedRef } from 'vue'
-import { useChildren } from '@maplejs/maple-use'
+import { useChildren } from '@maple-design/use'
 import { type TabBarItemProvider } from './item-provide'
+import type { TabBarVariant } from './props'
 
 export interface TabBarProvider {
   active: ComputedRef<number | string | undefined>
   activeColor: ComputedRef<string | undefined>
   inactiveColor: ComputedRef<string | undefined>
-  variant: ComputedRef<boolean | undefined>
+  variant: ComputedRef<TabBarVariant>
   isActive(index: number): boolean
   onToggle(value: number | string): void
 }

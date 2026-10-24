@@ -1,5 +1,5 @@
 import type { ComputedRef, Ref } from 'vue'
-import { useChildren } from '@maplejs/maple-use'
+import { useChildren } from '@maple-design/use'
 import { type IndexAnchorProvider } from './anchor-provide'
 
 export interface IndexBarProvider {

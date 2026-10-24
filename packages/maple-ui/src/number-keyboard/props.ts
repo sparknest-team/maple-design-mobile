@@ -5,11 +5,10 @@ import { pickProps } from '../utils/components'
 export type NumberKeyboardTheme = 'default' | 'custom'
 
 export const props = {
-  modelValue: {
-    type: String,
-    default: '',
-  },
-  open: Boolean,
+  modelValue: { type: String, default: undefined },
+  defaultValue: { type: String, default: '' },
+  open: { type: Boolean, default: undefined },
+  defaultOpen: Boolean,
   title: String,
   theme: {
     type: String as PropType<NumberKeyboardTheme>,

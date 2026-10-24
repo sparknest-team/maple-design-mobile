@@ -1,10 +1,17 @@
 {
   "fields": [
     {
-      "name": "anchor",
-      "description": "面板初始显示锚点，如果不传则为 anchors 属性的第一个值",
+      "name": "model-value",
+      "description": "当前停靠高度，单位 px；拖动结束并吸附后更新",
       "type": "number",
       "defaultValue": "undefined",
+      "kind": "number"
+    },
+    {
+      "name": "default-value",
+      "description": "非受控初始高度，仅创建时读取",
+      "type": "number",
+      "defaultValue": "100",
       "kind": "number"
     },
     {
@@ -54,7 +61,7 @@
     }
   ],
   "events": [
-    "anchor-change"
+    "height-change"
   ],
   "scenarios": [
     {

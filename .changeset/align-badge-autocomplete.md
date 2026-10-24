@@ -1,5 +1,5 @@
 ---
-'@maplejs/maple-ui': major
+'@maple-design/ui': major
 ---
 
 Align the first component-contract batch with Cedar:

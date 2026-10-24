@@ -1,9 +1,9 @@
 import type { PropType } from 'vue'
 import { computed, defineComponent, inject, ref } from 'vue'
-import { IconLoading, IconRight } from '@maplejs/icons-vue'
-import { selectionEditorSurface } from '../_components/selected-options/context'
-import SelectionIndicator from '../_components/selection-field/SelectionIndicator.vue'
+import { IconCheck, IconLoading, IconRight } from '@maple-design/icons-vue'
+import { isolateEditorForm } from '../_components/field-presentation/form-bridge'
 import { isFunction } from '../_utils/is'
+import Checkbox from '../checkbox'
 import { createNamespace, getPrefixCls } from '../utils/components'
 import { CascaderContext, cascaderInjectionKey } from './context'
 import type { CascaderOption, CascaderOptionInfo } from './types'
@@ -28,7 +28,7 @@ export default defineComponent({
     const prefixCls = getPrefixCls('cascader-option')
     const cascaderCtx = inject<Partial<CascaderContext>>(cascaderInjectionKey, {})
 
-    const editor = inject(selectionEditorSurface, undefined)
+    isolateEditorForm()
     const isLoading = ref(false)
     const events: Record<string, any> = {}
 
@@ -79,13 +79,14 @@ export default defineComponent({
       prefixCls,
       {
         [`${prefixCls}-active`]: props.active,
-        [`${prefixCls}-selected`]: Boolean(editor && checkedStatus.value.checked),
+        [`${prefixCls}-selected`]: Boolean(checkedStatus.value.checked),
+        [`${prefixCls}-indeterminate`]: checkedStatus.value.indeterminate,
         [`${prefixCls}-disabled`]: props.option.disabled,
       },
     ])
 
     const checkedStatus = computed(() => {
-      if (props.checkStrictly) {
+      if (!props.multiple || props.checkStrictly) {
         return {
           checked: cascaderCtx.valueMap?.has(props.option.key),
           indeterminate: false,
@@ -128,31 +129,32 @@ export default defineComponent({
         class={cls.value}
         {...events}
       >
-        {(props.multiple || props.checkStrictly) && (
-          <span
-            onClick={(event: MouseEvent) => {
-              event.stopPropagation()
-              if (props.option.disabled || props.option.selectionDisabled) {
-                return
-              }
-              handlePathChange(event)
-              cascaderCtx.onClickOption?.(props.option, !checkedStatus.value.checked)
-            }}
-          >
-            <SelectionIndicator
-              checked={checkedStatus.value.checked}
+        {props.multiple && (
+          <span class={`${prefixCls}-checkbox`} onClick={(event: MouseEvent) => event.stopPropagation()}>
+            <Checkbox
+              presentation="inline"
+              uninjectGroupContext
+              modelValue={Boolean(checkedStatus.value.checked)}
               indeterminate={checkedStatus.value.indeterminate}
-              radio={!props.multiple}
+              disabled={props.option.disabled || props.option.selectionDisabled}
+              ariaLabel={props.option.label}
+              onUpdate:modelValue={(checked: unknown) => {
+                if (props.option.disabled || props.option.selectionDisabled) {
+                  return
+                }
+                handlePathChange(new Event('change'))
+                cascaderCtx.onClickOption?.(props.option, Boolean(checked))
+              }}
             />
           </span>
         )}
         <div class={`${prefixCls}-label`}>
-          {renderLabelContent()}
+          <span class={`${prefixCls}-label-content`}>{renderLabelContent()}</span>
           {renderIcon()}
         </div>
-        {editor && !props.multiple && !props.checkStrictly && props.option.isLeaf && (
-          <span class={`${prefixCls}-editor-check`} aria-hidden="true">
-            {checkedStatus.value.checked ? '✓' : ''}
+        {!props.multiple && checkedStatus.value.checked && (
+          <span class={`${prefixCls}-check`} aria-hidden="true">
+            <IconCheck />
           </span>
         )}
       </li>

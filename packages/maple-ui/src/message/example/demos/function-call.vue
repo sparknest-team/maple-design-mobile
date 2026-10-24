@@ -1,6 +1,6 @@
 <script setup>
 import { h, onBeforeUnmount, resolveComponent } from 'vue'
-import { Message } from '@maplejs/maple-ui'
+import { Message } from '@maple-design/ui'
 
 function createMessage(type) {
   if (type === 'time') {

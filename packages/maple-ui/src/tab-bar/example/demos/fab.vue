@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import { Message } from '@maplejs/maple-ui'
+import { Message } from '@maple-design/ui'
 
 const fab = ref(0)
 const isEven = ref(true)
@@ -24,7 +24,7 @@ function handlePublish() {
     >
   </mp-space>
   <mp-tab-bar
-    v-model:active="fab"
+    v-model="fab"
     style="margin-top: 40px"
     :fab-props="{ 'aria-label': '发布动态' }"
     @fab-click="composerOpen = true"

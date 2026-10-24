@@ -10,6 +10,14 @@ Open the options, select a value to close the menu, or clear it to choose again.
 ../example/demos/standard.vue
 ```
 
+### Candidate highlighting and form data flow
+
+Both fields start with `undefined`. Opening or highlighting a candidate does not emit `update:modelValue` or `change`. Inline selection commits on click or Enter. Popup selection edits a draft; Confirm publishes it, while cancel discards it. Each example shows the committed value, update count and actual event log (newest first).
+
+```demo
+../example/demos/en-US/selection-data-flow.vue
+```
+
 ### Disabled and readonly
 
 ```demo
@@ -212,12 +220,14 @@ Use `v-model`, `v-model:open` and `v-model:input-value` for controlled state. Cl
 | `show-extra-options` | Display fallback/created options in the panel | `boolean` | `true` |
 | `limit` | Selection limit; 0 means unlimited | `number` | `0` |
 | `auto-fit-popup-width` | Match Menu width to the field | `boolean` | `true` |
-| `default-active-first-option` | Highlight first enabled option without committing it | `boolean` | `true` |
+| `default-active-first-option` | On opening, activate the first enabled candidate if no valid selected option exists. Highlighting does not update modelValue or emit change; an existing valid selection takes priority | `boolean` | `true` |
 | `unmount-on-close` | Unmount Menu content when closed | `boolean` | `false` |
 | `scrollbar` | option panels scrollbar settings | `boolean 或 ScrollbarProps` | `true` |
 | `show-header-on-empty / show-footer-on-empty` | Display header/footer in empty state | `boolean` | `false` |
 | `presentation` | 字段展示；未指定时继承 FormItem/Form | `inline / popup` | `inline` |
 | `before-commit` | 确认校验后可等待的保存拦截钩子 | `(value, context) => void / false / Promise` | — |
+
+Selected options show a primary-color check on the right in both single and multiple mode. Candidate highlighting alone shows no check. In popup/edit panels the check represents the draft selection until confirmation; disabled selections keep their disabled appearance.
 
 ### Events and methods
 
@@ -275,3 +285,11 @@ Single and multiple options share popup-option-padding-horizontal. There is no i
 Presentation containers use internal `src/_components/field-presentation/token.less`, with system surface, spacing and size tokens. Option lists retain the existing Select tokens.
 
 `read-pretty` 为独立布尔属性，与 `readonly`、`disabled` 同级；字段 > FormItem > Form 继承，显式 `false` 覆盖父级。默认 `false`。纯阅读不显示编辑器。
+
+### Selection check tokens
+
+| Token | Default |
+| --- | --- |
+| `--mp-select-popup-option-check-color` | `var(--mp-sys-color-action-primary)` |
+| `--mp-select-popup-option-check-size` | `var(--mp-sys-font-size-md)` |
+| `--mp-select-popup-option-check-gap` | `var(--mp-sys-space-4)` |

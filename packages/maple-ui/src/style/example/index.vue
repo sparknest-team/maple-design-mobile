@@ -1,5 +1,5 @@
 <script setup>
-import { onThemeChange } from '@maplejs/maple-cli/client'
+import { onThemeChange } from '@maple-design/cli/client'
 
 const elevations = Array.from({ length: 25 }).map((_, index) => index)
 

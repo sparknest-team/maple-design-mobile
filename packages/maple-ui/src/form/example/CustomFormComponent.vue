@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from 'vue'
-import { Form } from '@maplejs/maple-ui'
+import { Form } from '@maple-design/ui'
 
 const props = defineProps({
   modelValue: Boolean,

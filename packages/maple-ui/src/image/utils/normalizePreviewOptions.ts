@@ -1,4 +1,4 @@
-import { isArray, isString } from '@maplejs/maple-shared'
+import { isArray, isString } from '@maple-design/shared'
 import type { ImagePreviewOptions, UserImagePreviewOptions } from '../api'
 import {
   resolveActionsLayout,
@@ -37,7 +37,7 @@ export function normalizePreviewOptions(
   const images = resolvePreviewImages(merged)
   const loop = resolveLoop(merged, false)
   const popupContainer = resolvePopupContainer(merged)
-  const current = merged.current
+  const current = merged.modelValue
   const actionsLayout = resolveActionsLayout(merged)
   const escToClose = resolveEscToClose(merged)
 
@@ -48,7 +48,7 @@ export function normalizePreviewOptions(
     popupContainer,
     closable: merged.closable,
     open: merged.open,
-    current,
+    modelValue: current,
     actionsLayout,
     escToClose,
   }

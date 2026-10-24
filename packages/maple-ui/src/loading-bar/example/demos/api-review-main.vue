@@ -1,7 +1,7 @@
 <script setup>
 import { onUnmounted } from 'vue'
-import { LoadingBar } from '@maplejs/maple-ui'
-import { defineReviewConfig } from '@ui-foundation/ui-doc-preview'
+import { LoadingBar } from '@maple-design/ui'
+import { defineReviewConfig } from '@sparknest/ui-doc-preview'
 import DemoApiReviewPanel from '../../../../docs/components/ApiReviewPanel.vue'
 import __apiReviewRawConfig from './api-review.config.json'
 

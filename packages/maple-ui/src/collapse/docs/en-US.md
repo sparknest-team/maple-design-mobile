@@ -22,7 +22,7 @@ Disable a panel with `disabled`.
 
 ### Accordion
 
-Use `accordion` so only one panel is open. `activeNames` remains an array with at most one item.
+Use `accordion` so only one panel is open. `modelValue` remains an array with at most one item.
 
 ```demo
 ../example/demos/accordion.vue
@@ -119,13 +119,15 @@ Use `toggleAll` to expand or collapse all panels. It is a no-op in accordion mod
 
 ## API
 
+Use ordinary `v-model` for the primary value: `modelValue` is an array of expanded panel names, including accordion mode. `defaultValue` initializes uncontrolled state only at creation; later changes do not reset it. Initialization emits no `update:modelValue`. A supplied `modelValue` takes precedence and remains parent-controlled.
+
 <!-- same-source-api:start -->
 ### Props
 
 | Prop | Description | Type | Default |
 | --- | --- | --- | --- |
-| active-names | Expanded names; v-model:active-names | `(string \| number)[]` | `—` |
-| default-active-names | Uncontrolled initial expanded names | `(string \| number)[]` | `[]` |
+| model-value | Expanded names; v-model | `(string \| number)[]` | `—` |
+| default-value | Uncontrolled initial expanded names | `(string \| number)[]` | `[]` |
 | accordion | Accordion mode; at most one open panel | `boolean` | `false` |
 | show-expand-icon | Show expand icons; unset defers to the item | `boolean` | `—` |
 | expand-icon-position | Expand icon position | `'left' \| 'right'` | `'left'` |
@@ -138,7 +140,7 @@ Use `toggleAll` to expand or collapse all panels. It is a no-op in accordion mod
 
 | Event | Description | Arguments |
 | --- | --- | --- |
-| update:active-names | Request an expanded-name update | `(string \| number)[]` |
+| update:model-value | Request an expanded-name update | `(string \| number)[]` |
 | change | Emitted when expanded panels change | `(string \| number)[]`, `Event` |
 
 ### Slots
@@ -155,7 +157,7 @@ Use `toggleAll` to expand or collapse all panels. It is a no-op in accordion mod
 
 <!-- same-source-api:end -->
 
-The parent `expand-icon` slot is forwarded to items that do not provide their own icon. Scope: `active`, `disabled`, `position`. It is not rendered on the root node.
+The parent `expand-icon` slot is forwarded to items that do not provide their own icon. Scope: `expanded`, `disabled`, `position`. It is not rendered on the root node.
 
 #### CollapseToggleAllOptions
 
@@ -168,7 +170,7 @@ The parent `expand-icon` slot is forwarded to items that do not provide their ow
 
 | Prop | Description | Type | Default |
 | --- | --- | --- | --- |
-| name **(required)** | Unique name, corresponding to `activeNames` | `string \| number` | `—` |
+| name **(required)** | Unique name, corresponding to `modelValue` | `string \| number` | `—` |
 | title | Panel title | `string` | `—` |
 | disabled | Disable the panel | `boolean` | `false` |
 | show-expand-icon | Whether to show the expand icon | `boolean` | `true` |
@@ -180,7 +182,7 @@ The parent `expand-icon` slot is forwarded to items that do not provide their ow
 | --- | --- | --- |
 | title | Panel title | `—` |
 | extra | Extra content | `—` |
-| expand-icon | Expand icon | active: `boolean`<br>disabled: `boolean`<br>position: `'left' \| 'right'` |
+| expand-icon | Expand icon | expanded: `boolean`<br>disabled: `boolean`<br>position: `'left' \| 'right'` |
 | default | Panel content | `—` |
 
 ### Types
@@ -188,7 +190,7 @@ The parent `expand-icon` slot is forwarded to items that do not provide their ow
 `Collapse.Item` is the same component as `mp-collapse-item`; `app.use(Collapse)` registers both.
 
 ```ts
-import type { CollapseInstance, CollapseToggleAllOptions, ExpandIconPosition } from '@maplejs/maple-ui'
+import type { CollapseInstance, CollapseToggleAllOptions, ExpandIconPosition } from '@maple-design/ui'
 ```
 
 ## Color variables

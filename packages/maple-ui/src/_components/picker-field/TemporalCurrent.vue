@@ -22,7 +22,7 @@
 </template>
 <script setup lang="ts">
 import { computed, type PropType } from 'vue'
-import { IconCalendar, IconClockCircle } from '@maplejs/icons-vue'
+import { IconCalendar, IconClockCircle } from '@maple-design/icons-vue'
 import { t } from '../../locale'
 import { injectLocaleProvider } from '../../locale-provider/provide'
 import { createNamespace } from '../../utils/components'

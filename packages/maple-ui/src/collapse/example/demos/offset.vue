@@ -3,7 +3,7 @@
     <mp-button @click="offset = !offset">
       {{ offset ? 'Hide offset' : 'Show offset' }}
     </mp-button>
-    <mp-collapse v-model:active-names="activeNames" :offset="offset">
+    <mp-collapse v-model="activeNames" :offset="offset">
       <mp-collapse-item title="Beijing Toutiao Technology Co., Ltd." name="1">
         <div>Beijing Toutiao Technology Co., Ltd.</div>
       </mp-collapse-item>

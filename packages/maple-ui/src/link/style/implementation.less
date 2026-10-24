@@ -100,6 +100,17 @@
     cursor: default;
   }
 
+  .size(@size) {
+    &--size-@{size} {
+      font-size: var(~'--mp-link-size-@{size}-font-size');
+    }
+  }
+  .size(xs);
+  .size(sm);
+  .size(md);
+  .size(lg);
+  .size(xl);
+
   // 不同状态
   &--status-success {
     color: var(~'--mp-link-text-color-success');

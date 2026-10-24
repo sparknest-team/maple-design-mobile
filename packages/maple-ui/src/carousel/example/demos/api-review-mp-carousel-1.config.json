@@ -1,17 +1,17 @@
 {
   "fields": [
     {
-      "name": "current",
-      "description": "受控索引，零基",
+      "name": "model-value",
+      "description": "当前页序号，从 1 开始",
       "type": "number",
       "defaultValue": "undefined",
       "kind": "number"
     },
     {
-      "name": "default-current",
-      "description": "非受控初始索引",
+      "name": "default-value",
+      "description": "非受控初始页序号，从 1 开始",
       "type": "number",
-      "defaultValue": "0",
+      "defaultValue": "1",
       "kind": "number"
     },
     {
@@ -235,7 +235,7 @@
     "resize"
   ],
   "events": [
-    "update:current",
+    "update:modelValue",
     "change"
   ],
   "slotNames": [

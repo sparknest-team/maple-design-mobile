@@ -12,9 +12,9 @@ import ButtonDemo from '../example/demos/variants.vue'
 
 useDemoControls()
 
-vi.mock('@maplejs/maple-ui', () => ({ Message: { info: vi.fn() } }))
+vi.mock('@maple-design/ui', () => ({ Message: { info: vi.fn() } }))
 // Documentation bootstrap needs @config in the site; component tests isolate that shell.
-vi.mock('@maplejs/maple-cli/client', () => ({ watchLang: vi.fn(), onThemeChange: vi.fn() }))
+vi.mock('@maple-design/cli/client', () => ({ watchLang: vi.fn(), onThemeChange: vi.fn() }))
 vi.mock('../../split-button/example/locale', () => ({ t: (key) => key }))
 
 const components = {

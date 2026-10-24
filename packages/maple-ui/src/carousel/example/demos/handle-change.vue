@@ -1,9 +1,9 @@
 <script setup>
-import { Message } from '@maplejs/maple-ui'
+import { Message } from '@maple-design/ui'
 </script>
 
 <template>
-  <mp-carousel class="carousel" @change="(index) => Message(String(index))">
+  <mp-carousel class="carousel" @change="(slideNumber) => Message(String(slideNumber))">
     <mp-carousel-item>
       <img class="carousel-item" :src="'cat.jpg'" alt="" />
     </mp-carousel-item>

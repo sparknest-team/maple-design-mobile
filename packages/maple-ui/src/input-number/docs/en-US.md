@@ -150,7 +150,7 @@ Use this example for quantities and numeric limits. Adjust disabled, read-only, 
 ## Types
 
 ```ts
-import type { InputNumberProps, InputNumberInstance, InputNumberMode, InputNumberModelEvent, InputNumberSize, InputNumberVariant, InputNumberFormatter, InputNumberParser } from '@maplejs/maple-ui'
+import type { InputNumberProps, InputNumberInstance, InputNumberMode, InputNumberModelEvent, InputNumberSize, InputNumberVariant, InputNumberFormatter, InputNumberParser } from '@maple-design/ui'
 ```
 
 ## Style tokens

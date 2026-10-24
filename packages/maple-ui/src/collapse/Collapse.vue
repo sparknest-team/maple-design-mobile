@@ -5,51 +5,51 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, provide, reactive, ref, shallowRef, toRefs, useSlots } from 'vue'
+import { computed, provide, reactive, ref, shallowRef, toRefs } from 'vue'
 import { createNamespace } from '../utils/components'
 import { collapseKey, type CollapseItemContext } from './context'
-import { collapseProps, type CollapseName, type CollapseToggleAllOptions } from './props'
+import { collapseProps, type CollapseName, type CollapseSlots, type CollapseToggleAllOptions } from './props'
 
 defineOptions({ name: createNamespace('collapse').name })
 
 const props = defineProps(collapseProps)
 const emit = defineEmits<{
-  'update:activeNames': [activeNames: CollapseName[]]
-  change: [activeNames: CollapseName[], ev: Event]
+  'update:modelValue': [expandedNames: CollapseName[]]
+  change: [expandedNames: CollapseName[], ev: Event]
 }>()
-const slots = useSlots()
+const slots = defineSlots<CollapseSlots>()
 const { n, classes } = createNamespace('collapse')
 const { expandIconPosition, destroyOnHide, showExpandIcon, divider, offset } = toRefs(props)
 const items = shallowRef<CollapseItemContext[]>([])
-const innerActiveNames = ref<CollapseName[]>([...(props.defaultActiveNames ?? [])])
-const computedActiveNames = computed(() => {
-  const activeNames = props.activeNames ?? innerActiveNames.value
-  const names = Array.isArray(activeNames) ? activeNames : [activeNames]
+const innerExpandedNames = ref<CollapseName[]>([...(props.defaultValue ?? [])])
+const computedExpandedNames = computed(() => {
+  const expandedNames = props.modelValue ?? innerExpandedNames.value
+  const names = Array.isArray(expandedNames) ? expandedNames : [expandedNames]
   return props.accordion ? names.slice(0, 1) : names
 })
 
-function updateActiveNames(newActiveNames: CollapseName[], e?: Event) {
-  innerActiveNames.value = newActiveNames
-  emit('update:activeNames', newActiveNames)
-  emit('change', newActiveNames, e ?? new Event('change'))
+function updateExpandedNames(newExpandedNames: CollapseName[], e?: Event) {
+  innerExpandedNames.value = newExpandedNames
+  emit('update:modelValue', newExpandedNames)
+  emit('change', newExpandedNames, e ?? new Event('change'))
 }
 
 function handleClick(itemName: CollapseName, e: Event) {
-  let newActiveNames: CollapseName[] = []
+  let newExpandedNames: CollapseName[] = []
   if (props.accordion) {
-    if (!computedActiveNames.value.includes(itemName)) {
-      newActiveNames = [itemName]
+    if (!computedExpandedNames.value.includes(itemName)) {
+      newExpandedNames = [itemName]
     }
   } else {
-    newActiveNames = [...computedActiveNames.value]
-    const index = newActiveNames.indexOf(itemName)
+    newExpandedNames = [...computedExpandedNames.value]
+    const index = newExpandedNames.indexOf(itemName)
     if (index > -1) {
-      newActiveNames.splice(index, 1)
+      newExpandedNames.splice(index, 1)
     } else {
-      newActiveNames.push(itemName)
+      newExpandedNames.push(itemName)
     }
   }
-  updateActiveNames(newActiveNames, e)
+  updateExpandedNames(newExpandedNames, e)
 }
 
 function addItem(item: CollapseItemContext) {
@@ -69,7 +69,7 @@ function toggleAll(options: CollapseToggleAllOptions) {
 
   const nextNames = items.value
     .filter((item) => {
-      const expanded = computedActiveNames.value.includes(item.name)
+      const expanded = computedExpandedNames.value.includes(item.name)
       if (options.skipDisabled && item.disabled.value) {
         return expanded
       }
@@ -80,13 +80,13 @@ function toggleAll(options: CollapseToggleAllOptions) {
     })
     .map((item) => item.name)
 
-  updateActiveNames(nextNames)
+  updateExpandedNames(nextNames)
 }
 
 provide(
   collapseKey,
   reactive({
-    activeNames: computedActiveNames,
+    expandedNames: computedExpandedNames,
     slots,
     showExpandIcon,
     expandIconPosition,

@@ -20,7 +20,7 @@ test('selection dark themes use current component tokens and semantic roles', ()
   }
 })
 
-test('floating themes inherit semantic colors and keep the primary contrast exception', () => {
+test('floating themes inherit semantic colors without per-brand text exceptions', () => {
   for (const theme of [Themes.default.dark, Themes.maple.dark]) {
     for (const key of [
       'tooltip-background',
@@ -36,7 +36,7 @@ test('floating themes inherit semantic colors and keep the primary contrast exce
       expect(theme).not.toHaveProperty('--mp-tooltip-status-' + status + '-text-color')
     }
   }
-  expect(Themes.maple.light['--mp-tooltip-status-primary-text-color']).toBe('var(--mp-sys-color-content-on-dark)')
+  expect(Themes.maple.light).not.toHaveProperty('--mp-tooltip-status-primary-text-color')
 })
 
 test('default light theme', () => {
@@ -104,24 +104,22 @@ test('dark badge keeps governed status roles', () => {
     const theme = { ...defaults, ...overrides }
     expect(theme['--mp-badge-description-text-color']).toBe('var(--mp-sys-color-content-primary)')
     expect(theme['--mp-badge-status-default-text-color']).toBe('var(--mp-sys-color-content-on-bright)')
-    expect(theme['--mp-badge-text-color']).toBe('var(--mp-sys-color-content-on-bright)')
+    expect(theme['--mp-badge-text-color']).toBe('var(--mp-sys-color-content-on-dark)')
     expect(theme['--mp-badge-status-tertiary-text-color']).toBe('var(--mp-sys-color-content-on-bright)')
     for (const status of ['info', 'success', 'warning', 'danger']) {
-      expect(theme[`--mp-badge-status-${status}-bg-color`]).toBe(`var(--mp-sys-color-status-${status})`)
-      expect(theme[`--mp-badge-status-${status}-text-color`]).toBe('var(--mp-sys-color-content-on-bright)')
+      expect(theme[`--mp-badge-status-${status}-bg-color`]).toBe(
+        status === 'danger' ? 'rgb(var(--mp-danger-4))' : `var(--mp-sys-color-status-${status})`,
+      )
+      expect(theme[`--mp-badge-status-${status}-text-color`]).toBe('var(--mp-sys-color-content-on-dark)')
       expect(theme[`--mp-badge-variant-outline-status-${status}-text-color`]).toBe(
         `var(--mp-sys-color-content-${status})`,
       )
     }
     expect(theme['--mp-badge-status-primary-bg-color']).toBe('var(--mp-sys-color-action-primary)')
-    expect(theme['--mp-badge-status-primary-text-color']).toBe('var(--mp-sys-color-content-on-bright)')
+    expect(theme['--mp-badge-status-primary-text-color']).toBe('var(--mp-sys-color-content-on-dark)')
     expect(theme['--mp-badge-variant-outline-status-primary-text-color']).toBe('var(--mp-sys-color-content-brand)')
     expect(theme['--mp-badge-variant-outline-status-default-text-color']).toBe('var(--mp-sys-color-content-primary)')
   }
-})
-
-test('maple light badge uses light text on its dark primary brand', () => {
-  expect(Themes.maple.light['--mp-badge-status-primary-text-color']).toBe('var(--mp-sys-color-content-on-dark)')
 })
 
 test('default and maple themes use different brand colors', () => {

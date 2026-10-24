@@ -24,7 +24,7 @@ Cedar and Maple share the same utility semantics and structure. Class names and 
 | Item | Cedar | Maple |
 |---|---|---|
 | Typography utility pack | Yes (PC extensions) | No (tokens / atomic CSS) |
-| Atomic CSS presets | `@cedar/preset-unocss` / `@cedar/preset-tailwindcss` | `@maplejs/maple-preset-unocss` / `@maplejs/maple-preset-tailwindcss` |
+| Atomic CSS presets | `@cedar/preset-unocss` / `@cedar/preset-tailwindcss` | `@maple-design/preset-unocss` / `@maple-design/preset-tailwindcss` |
 
 ### Forbidden
 

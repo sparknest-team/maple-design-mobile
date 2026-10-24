@@ -184,7 +184,7 @@ import type {
   AvatarObjectFit,
   AvatarShape,
   AvatarTriggerType,
-} from '@maplejs/maple-ui';
+} from '@maple-design/ui';
 ```
 
 ### 样式变量

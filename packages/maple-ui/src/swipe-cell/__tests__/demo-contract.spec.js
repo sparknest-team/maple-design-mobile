@@ -6,7 +6,7 @@ import Cell from '../../cell'
 import BeforeCloseDemo from '../example/demos/before-close.vue'
 
 const { dialog } = vi.hoisted(() => ({ dialog: vi.fn() }))
-vi.mock('@maplejs/maple-ui', () => ({ Dialog: { confirm: dialog } }))
+vi.mock('@maple-design/ui', () => ({ Dialog: { confirm: dialog } }))
 const wrappers = []
 afterEach(() => {
   wrappers.splice(0).forEach((wrapper) => wrapper.unmount())

@@ -87,14 +87,16 @@ Pagination with a shared API and container-responsive layout.
 
 ## API
 
+Use ordinary `v-model` for the primary value: `modelValue` is the current page number, starting at 1; pageSize controls the page size separately. `defaultValue` initializes uncontrolled state only at creation; later changes do not reset it. Initialization emits no `update:modelValue`. A supplied `modelValue` takes precedence and remains parent-controlled.
+
 <!-- same-source-api:start -->
 ### Props
 
 | Prop | Description | Type | Default |
 | --- | --- | --- | --- |
 | total | Total records (required) | `number` | `—` |
-| current | Current page; v-model:current | `number` | `—` |
-| default-current | Initial uncontrolled page | `number` | `1` |
+| model-value | Current page; v-model | `number` | `—` |
+| default-value | Initial uncontrolled page | `number` | `1` |
 | page-size | Page size; v-model:page-size | `number` | `—` |
 | default-page-size | Initial uncontrolled page size | `number` | `10` |
 | disabled | Disable all interactions | `boolean` | `false` |
@@ -120,8 +122,8 @@ Pagination with a shared API and container-responsive layout.
 
 | Event | Description | Arguments |
 | --- | --- | --- |
-| update:current | Request current page update | `number` |
-| change | Committed page change; paired with update:current | `number` |
+| update:model-value | Request current page update | `number` |
+| change | Committed page change; paired with update:modelValue | `number` |
 | update:page-size | Request page size update | `number` |
 | page-size-change | Committed size change; paired with update:page-size | `number` |
 
@@ -166,7 +168,7 @@ Arbitrary SelectProps/MenuProps are no longer forwarded. Use page-size, page-siz
 ## Types
 
 ```ts
-import type { PaginationProps, PaginationInstance, PaginationPageSizeProps } from '@maplejs/maple-ui'
+import type { PaginationProps, PaginationInstance, PaginationPageSizeProps } from '@maple-design/ui'
 ```
 
 ## Style variables

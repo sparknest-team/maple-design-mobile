@@ -1,5 +1,5 @@
 <script setup>
-import { defineReviewConfig } from '@ui-foundation/ui-doc-preview'
+import { defineReviewConfig } from '@sparknest/ui-doc-preview'
 import DemoApiReviewPanel from '../../../../docs/components/ApiReviewPanel.vue'
 import __apiReviewRawConfig from './api-review.config.json'
 </script>

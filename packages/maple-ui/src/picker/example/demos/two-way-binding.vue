@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import { Message, Picker } from '@maplejs/maple-ui'
+import { Message, Picker } from '@maple-design/ui'
 
 const columns = ref([[{ text: 'A' }, { text: 'B' }, { text: 'C' }, { text: 'D' }, { text: 'E' }]])
 const columns2 = ref([

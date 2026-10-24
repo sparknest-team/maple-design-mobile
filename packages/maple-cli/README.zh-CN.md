@@ -22,12 +22,12 @@
 
 ### 快速开始
 
-`@maplejs/maple-cli` 内置了 `sfc` 和 `tsx` 两种风格的组件库项目模板，可以通过 `gen` 命令直接生成。
+`@maple-design/cli` 内置了 `sfc` 和 `tsx` 两种风格的组件库项目模板，可以通过 `gen` 命令直接生成。
 方便您直接进入组件库开发。
 
 ```shell
 # playground-ignore
-pnpm add @maplejs/maple-cli -g
+pnpm add @maple-design/cli -g
 maple-cli gen
 ```
 
@@ -37,7 +37,7 @@ maple-cli gen
 
 项目根目录下的 `maple.config.mjs` 用来管理整个组件库项目的具体细节。
 默认配置可查阅 [maple.default.config.ts](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/blob/master/packages/maple-cli/src/node/config/maple.default.config.ts?ref_type=heads)。
-也可以参考 `@maplejs/maple-ui` 的 [maple.config.mjs](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/blob/master/packages/maple-ui/maple.config.mjs?ref_type=heads)。
+也可以参考 `@maple-design/ui` 的 [maple.config.mjs](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/blob/master/packages/maple-ui/maple.config.mjs?ref_type=heads)。
 
 | 参数 | 说明 | 类型 | 默认值 |
 | -- | -------------- | -------- | ---------- |
@@ -134,7 +134,7 @@ Markdown 支持独立一行的 `<demo src="../example/demos/basic.vue"></demo>`�
 
 Demo 的 `watchLang(callback)` 默认从当前站点路由读取语言：中间卡片使用 `#/en-US/component`，手机集合使用 `#/component?language=en-US`。初次挂载及顶部语言切换均同步，无需局部 locale 激活；必要时仍可显式指定 `pc` 或 `mobile`。
 
-文档站自动组件引用依据公开导出表直达源码模块，避免组件内部再经过全库根入口导致循环分包；显式函数导入仍可写 `import { Message } from '@maplejs/maple-ui'`，自动样式注入保留。该解析只作用于站点，不改变 npm 包入口或共享两库运行时。
+文档站自动组件引用依据公开导出表直达源码模块，避免组件内部再经过全库根入口导致循环分包；显式函数导入仍可写 `import { Message } from '@maple-design/ui'`，自动样式注入保留。该解析只作用于站点，不改变 npm 包入口或共享两库运行时。
 
 独立 Playground 仍需要已构建的组件包：先在仓库根执行 `pnpm build:lib`，再执行 `pnpm dev:play`。它读取发布入口与 CSS 并将浏览器资源写入自己的 `public`，不是文档 dev 的占位入口。
 

@@ -1,5 +1,7 @@
 # Checkbox
 
+Standalone Checkbox modelValue is a boolean checked state, or an array of selected option values in array mode. The value prop identifies this option; it is not the checked state. CheckboxGroup modelValue is the selected values array. defaultValue initializes uncontrolled state only and does not write into the parent.
+
 ## Examples
 
 ### Intro

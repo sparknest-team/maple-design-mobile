@@ -8,7 +8,7 @@
       <mp-button @click="toggleAll({ expand: false })">Collapse all</mp-button>
       <mp-button @click="toggleAll({ expand: false, skipDisabled: true })">Collapse all (skip disabled)</mp-button>
     </mp-space>
-    <mp-collapse ref="collapseRef" v-model:active-names="activeNames">
+    <mp-collapse ref="collapseRef" v-model="activeNames">
       <mp-collapse-item title="Panel 1" name="1">
         <div>Content 1</div>
       </mp-collapse-item>

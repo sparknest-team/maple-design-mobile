@@ -79,7 +79,7 @@
 
 <script setup lang="ts">
 import { computed, ref, useId, watch, type VNodeChild } from 'vue'
-import { IconDown, IconLoading, IconSearch } from '@maplejs/icons-vue'
+import { IconDown, IconLoading, IconSearch } from '@maple-design/icons-vue'
 import FieldDecorator from '../../field-decorator/FieldDecorator.vue'
 import { fieldDecoratorProps } from '../../field-decorator/props'
 import Tag from '../../tag'

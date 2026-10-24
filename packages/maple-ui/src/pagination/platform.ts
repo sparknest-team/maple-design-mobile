@@ -2,7 +2,7 @@ import { computed } from 'vue'
 import { t } from '../locale'
 import { injectLocaleProvider } from '../locale-provider/provide'
 
-export { IconChevronLeft as IconPrevious, IconChevronRight as IconNext, IconMore } from '@maplejs/icons-vue'
+export { IconChevronLeft as IconPrevious, IconChevronRight as IconNext, IconMore } from '@maple-design/icons-vue'
 export function usePaginationLocale() {
   const { t: pt } = injectLocaleProvider()
   const translate = (key: string) => String((pt || t)(key))

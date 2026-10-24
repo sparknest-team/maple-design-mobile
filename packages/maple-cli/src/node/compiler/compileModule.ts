@@ -1,5 +1,5 @@
 import { resolve } from 'path'
-import { kebabCase } from '@maplejs/maple-shared'
+import { kebabCase } from '@maple-design/shared'
 import fse from 'fs-extra'
 import { build } from 'vite'
 import { getMapleConfig } from '../config/maple.config.js'

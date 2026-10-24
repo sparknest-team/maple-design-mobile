@@ -30,7 +30,7 @@ const pairs = [
 ]
 const normalizePlatform = (source) =>
   source
-    .replaceAll('@cedarjs/icons-vue', '@maplejs/icons-vue')
+    .replaceAll('@cedar-design/icons-vue', '@maple-design/icons-vue')
     .replaceAll('_utils/global-config', 'utils/components')
     .replaceAll('_utils/constant', 'utils/constants')
     .replaceAll('_utils/input-composition', 'utils/input-composition')

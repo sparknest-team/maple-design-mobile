@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import { Message } from '@maplejs/maple-ui'
+import { Message } from '@maple-design/ui'
 
 const countdownRef = ref()
 function handleEnd() {

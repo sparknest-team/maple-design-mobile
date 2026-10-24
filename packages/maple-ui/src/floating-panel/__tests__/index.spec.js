@@ -16,10 +16,10 @@ describe('test floating-panel components props', () => {
     const root = document.createElement('div')
     const wrapper = mount(VarFloatingPanel, {
       props: {
-        anchor: 100,
+        modelValue: 100,
         anchors: [100, 200],
         popupContainer: root,
-        'onUpdate:anchor': onUpdateAnchor,
+        'onUpdate:modelValue': onUpdateAnchor,
       },
     })
 
@@ -51,7 +51,7 @@ describe('test floating-panel components props', () => {
     const root = document.createElement('div')
     const wrapper = mount(VarFloatingPanel, {
       props: {
-        anchor: 100,
+        modelValue: 100,
         anchors: [100, 200],
         popupContainer: root,
       },
@@ -73,7 +73,7 @@ describe('test floating-panel components props', () => {
     const root = document.createElement('div')
     const wrapper = mount(VarFloatingPanel, {
       props: {
-        anchor: 100,
+        modelValue: 100,
         anchors: [100, 200],
         contentDraggable: true,
         popupContainer: root,
@@ -179,35 +179,58 @@ describe('test floating-panel component slots', () => {
 })
 
 describe('test floating-panel component events', () => {
-  test('floating-panel component onAnchorChange', async () => {
-    const onAnchorChange = vi.fn()
+  test('floating-panel component onHeightChange', async () => {
+    const onHeightChange = vi.fn()
     const root = document.createElement('div')
     const wrapper = mount(VarFloatingPanel, {
       props: {
-        anchor: 100,
+        modelValue: 100,
         anchors: [100, 200],
         popupContainer: root,
-        onAnchorChange,
+        onHeightChange,
       },
     })
 
     const panel = root.querySelector('.mp-floating-panel')
 
     await triggerDrag(panel, 0, 50)
-    expect(onAnchorChange).toHaveBeenCalledTimes(0)
+    expect(onHeightChange).toHaveBeenCalledTimes(0)
 
     await triggerDrag(panel, 0, -200)
-    expect(onAnchorChange).toHaveBeenCalledTimes(1)
-    expect(onAnchorChange).toHaveBeenCalledWith(200)
+    expect(onHeightChange).toHaveBeenCalledTimes(1)
+    expect(onHeightChange).toHaveBeenCalledWith(200)
 
     await triggerDrag(panel, 0, 100)
-    expect(onAnchorChange).toHaveBeenCalledTimes(2)
-    expect(onAnchorChange).toHaveBeenCalledWith(100)
+    expect(onHeightChange).toHaveBeenCalledTimes(2)
+    expect(onHeightChange).toHaveBeenCalledWith(100)
 
     await triggerDrag(panel, 0, -80)
-    expect(onAnchorChange).toHaveBeenCalledTimes(3)
-    expect(onAnchorChange).toHaveBeenCalledWith(200)
+    expect(onHeightChange).toHaveBeenCalledTimes(3)
+    expect(onHeightChange).toHaveBeenCalledWith(200)
 
     wrapper.unmount()
   })
+})
+
+test('defaultValue initializes once and height takes precedence without initialization updates', async () => {
+  const root = document.createElement('div')
+  const update = vi.fn()
+  const wrapper = mount(VarFloatingPanel, {
+    props: { defaultValue: 200, anchors: [100, 200, 300], popupContainer: root, 'onUpdate:modelValue': update },
+  })
+  try {
+    const panel = root.querySelector('.mp-floating-panel')
+    expect(panel.style.transform).toContain('200px')
+    expect(update).not.toHaveBeenCalled()
+    await wrapper.setProps({ defaultValue: 300 })
+    expect(panel.style.transform).toContain('200px')
+    await triggerDrag(panel, 0, 100)
+    expect(update).toHaveBeenLastCalledWith(100)
+    expect(wrapper.emitted('height-change')).toEqual([[100]])
+    await wrapper.setProps({ modelValue: 300 })
+    expect(panel.style.transform).toContain('300px')
+    expect(update).toHaveBeenCalledTimes(1)
+  } finally {
+    wrapper.unmount()
+  }
 })

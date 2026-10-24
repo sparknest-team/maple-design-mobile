@@ -1,13 +1,13 @@
 import { createApp } from 'vue'
 import config from '@config'
-import { getSavedLanguage, normalizeLanguage, saveLanguage } from '@maplejs/maple-cli/client'
-import { Locale } from '@maplejs/maple-ui'
+import { getSavedLanguage, normalizeLanguage, saveLanguage } from '@maple-design/cli/client'
+import { Locale } from '@maple-design/ui'
 import routes from '@mobile-routes'
 import { createRouter, createWebHashHistory } from 'vue-router'
 import { inIframe, isPhone } from '../utils'
 import App from './App.vue'
 import { shouldSyncMobileRoute } from './route-sync'
-import '@maplejs/maple-touch-emulator'
+import '@maple-design/touch-emulator'
 import '@maple-foundation'
 
 const redirect = config?.mobile?.redirect

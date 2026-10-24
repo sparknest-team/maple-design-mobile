@@ -1,5 +1,5 @@
 ---
-"@maplejs/maple-ui": patch
+"@maple-design/ui": patch
 ---
 
 Document Cedar private Time scroll-task evidence and the unchanged Maple wheel/clock boundary without granting whole-family or native acceptance.

@@ -10,40 +10,40 @@ const transform = (source, options, id = '/src/demo.js') =>
   MapleStyleImports(options).transform.call({ parse: parseAst }, source, id)
 
 test('explicit functions and aliases add the original export styles', () => {
-  const source = "import { Message as notify, Dialog } from '@maplejs/maple-ui'; notify('hello')"
+  const source = "import { Message as notify, Dialog } from '@maple-design/ui'; notify('hello')"
   const result = transform(source)
-  assert(result.code.includes('import "@maplejs/maple-ui/message/style";'))
-  assert(result.code.includes('import "@maplejs/maple-ui/dialog/style";'))
+  assert(result.code.includes('import "@maple-design/ui/message/style";'))
+  assert(result.code.includes('import "@maple-design/ui/dialog/style";'))
   assert(result.code.startsWith(source))
 })
 test('components and internal resolver imports share the same style mapping', () => {
-  const result = transform("import { Button, _ButtonComponent, Row, GridItem, imagePreview } from '@maplejs/maple-ui'")
-  assert.equal(result.code.match(/import "@maplejs\/maple-ui\/button\/style";/g).length, 1)
+  const result = transform("import { Button, _ButtonComponent, Row, GridItem, imagePreview } from '@maple-design/ui'")
+  assert.equal(result.code.match(/import "@maple-design\/ui\/button\/style";/g).length, 1)
   for (const name of ['row', 'grid', 'image']) {
-    assert(result.code.includes('@maplejs/maple-ui/' + name + '/style'))
+    assert(result.code.includes('@maple-design/ui/' + name + '/style'))
   }
 })
 test('is idempotent and does not duplicate existing side-effect imports', () => {
-  const result = transform("import { Message } from '@maplejs/maple-ui'")
+  const result = transform("import { Message } from '@maple-design/ui'")
   assert.equal(transform(result.code), undefined)
   assert.equal(
-    transform("import { Message } from '@maplejs/maple-ui'; import '@maplejs/maple-ui/message/style'"),
+    transform("import { Message } from '@maple-design/ui'; import '@maple-design/ui/message/style'"),
     undefined,
   )
 })
 test('ignores other packages, namespace imports, comments, strings and styleless exports', () => {
   for (const source of [
     "import { Message } from 'another-library'",
-    "import * as Maple from '@maplejs/maple-ui'",
-    "// import { Message } from '@maplejs/maple-ui'",
-    `const text = "import { Message } from '@maplejs/maple-ui'"`,
-    "import { Locale, Themes, messageProps } from '@maplejs/maple-ui'",
+    "import * as Maple from '@maple-design/ui'",
+    "// import { Message } from '@maple-design/ui'",
+    `const text = "import { Message } from '@maple-design/ui'"`,
+    "import { Locale, Themes, messageProps } from '@maple-design/ui'",
   ]) {
     assert.equal(transform(source), undefined)
   }
 })
 test('supports disabling styles and skips non-script requests', () => {
-  const source = "import { Message } from '@maplejs/maple-ui'"
+  const source = "import { Message } from '@maple-design/ui'"
   assert.equal(transform(source, { importStyle: false }), undefined)
   assert.equal(transform(source, {}, '/src/demo.vue?vue&type=style&index=0'), undefined)
   assert.equal(transform(source, {}, '/src/demo.css'), undefined)
@@ -52,12 +52,12 @@ test('runs after TypeScript erasure without generating styles for type-only impo
   const vite = await import(cliRequire.resolve('vite'))
   const { transformWithEsbuild } = vite.default ?? vite
   const { code } = await transformWithEsbuild(
-    "import type { MessageOptions } from '@maplejs/maple-ui'; import { Message as notify } from '@maplejs/maple-ui'; notify('hello')",
+    "import type { MessageOptions } from '@maple-design/ui'; import { Message as notify } from '@maple-design/ui'; notify('hello')",
     '/src/demo.ts',
     { loader: 'ts' },
   )
   const result = transform(code, {}, '/src/demo.ts')
-  assert(result.code.includes('@maplejs/maple-ui/message/style'))
+  assert(result.code.includes('@maple-design/ui/message/style'))
   assert(!result.code.includes('message-options/style'))
 })
 
@@ -71,8 +71,8 @@ test('covers Maple programmatic API style mappings', () => {
     ['ImagePreview', 'image'],
     ['imagePreview', 'image'],
   ]) {
-    const result = transform('import { ' + name + " as invoke } from '@maplejs/maple-ui'; invoke({})")
-    assert(result.code.includes('@maplejs/maple-ui/' + style + '/style'), name)
+    const result = transform('import { ' + name + " as invoke } from '@maple-design/ui'; invoke({})")
+    assert(result.code.includes('@maple-design/ui/' + style + '/style'), name)
   }
 })
 
@@ -82,7 +82,7 @@ test('TabBar and TabBarItem resolve to the renamed component and shared style en
   for (const name of ['TabBar', 'TabBarItem']) {
     const result = resolver.resolve('Mp' + name)
     assert.equal(result.name, '_' + name + 'Component')
-    assert.deepEqual(result.sideEffects, ['@maplejs/maple-ui/tab-bar/style'])
+    assert.deepEqual(result.sideEffects, ['@maple-design/ui/tab-bar/style'])
   }
   assert.equal(resolver.resolve('MpBottomNavigation'), undefined)
   assert.equal(resolver.resolve('MpBottomNavigationItem'), undefined)

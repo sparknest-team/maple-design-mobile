@@ -1,5 +1,5 @@
 <script setup>
-import { AppType, watchLang } from '@maplejs/maple-cli/client'
+import { AppType, watchLang } from '@maple-design/cli/client'
 import VaButton from '..'
 import { t, use } from './locale'
 

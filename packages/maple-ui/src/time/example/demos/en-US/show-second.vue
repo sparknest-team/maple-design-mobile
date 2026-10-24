@@ -1,6 +1,6 @@
 <script setup>
 import { reactive, ref } from 'vue'
-import { AppType, onThemeChange } from '@maplejs/maple-cli/client'
+import { AppType, onThemeChange } from '@maple-design/cli/client'
 
 const time = ref()
 const timeWithSeconds = ref()

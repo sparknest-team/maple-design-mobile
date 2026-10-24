@@ -1,4 +1,4 @@
-import { computed, toRaw, type InjectionKey } from 'vue'
+import { computed, ref, toRaw, type InjectionKey } from 'vue'
 import { resolveOptionFields } from '../utils/option-data'
 
 export interface MenuFieldNames {
@@ -52,8 +52,32 @@ export function createMenuTree(options: Record<string, any>[], fields: MenuField
   return { roots, flat, names }
 }
 
+const menuIdentityKeys = new WeakMap<object, symbol>()
+function identityKey(value: object): symbol {
+  const raw = toRaw(value)
+  let key = menuIdentityKeys.get(raw)
+  if (!key) {
+    key = Symbol('menu-option')
+    menuIdentityKeys.set(raw, key)
+  }
+  return key
+}
+
+/** Vue keys are private render identities; option.value remains the public business value. */
+export function getMenuNodeKey(node: MenuNode, valueField: string): string | symbol {
+  const value = node.raw[valueField]
+  if (value === undefined) {
+    return identityKey(node.raw)
+  }
+  if (value !== null && (typeof value === 'object' || typeof value === 'function')) {
+    return identityKey(value)
+  }
+  return `${typeof value}:${String(value)}`
+}
+
 export interface MenuSelectionOptions {
   modelValue?: any
+  defaultValue?: any
   options?: Record<string, any>[]
   fieldNames?: MenuFieldNames
   disabled?: boolean
@@ -64,18 +88,24 @@ export function useMenuSelection(
   options: MenuSelectionOptions,
   emit: (value: any, option: Record<string, any>, event: Event, selectedValue?: any) => void,
 ) {
+  const localValue = ref(options.defaultValue)
+  const modelValue = computed(() => (options.modelValue !== undefined ? options.modelValue : localValue.value))
   const tree = computed(() => createMenuTree(options.options ?? [], options.fieldNames))
   const find = (value: any) => tree.value.flat.find((node) => Object.is(keyOf(node.value), keyOf(value)))
-  const isSelected = (value: any) => value !== undefined && Object.is(keyOf(options.modelValue), keyOf(value))
+  const isSelected = (value: any) => value !== undefined && Object.is(keyOf(modelValue.value), keyOf(value))
   function select(value: any, fallback: Record<string, any>, event: Event) {
     const node = find(value)
     if (options.disabled || fallback.disabled || node?.disabled) {
       return
     }
+    if (options.modelValue === undefined) {
+      localValue.value = value
+    }
     emit(value, node?.raw ?? fallback, event, value)
   }
   return {
     tree,
+    modelValue,
     isSelected,
     select,
     disabled: computed(() => !!options.disabled),

@@ -30,7 +30,7 @@ document.documentElement.removeAttribute('maple-theme')
 ```html
 <!-- playground-ignore -->
 <script setup>
-  import { StyleProvider, Themes } from '@maplejs/maple-ui'
+  import { StyleProvider, Themes } from '@maple-design/ui'
 </script>
 
 <template>
@@ -62,7 +62,7 @@ body {
 ```html
 <!-- playground-ignore -->
 <script setup>
-  import { StyleProvider, Themes } from '@maplejs/maple-ui'
+  import { StyleProvider, Themes } from '@maple-design/ui'
 
   const customTheme = {
     ...Themes.maple.light,

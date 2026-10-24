@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { IconMore } from '@maplejs/icons-vue'
+import { IconMore } from '@maple-design/icons-vue'
 
 const actionOptions = computed(() => [
   { label: '编辑', value: 'edit' },

@@ -155,14 +155,14 @@
       "kind": "string"
     },
     {
-      "name": "preview-open",
+      "name": "open",
       "description": "受控预览状态",
       "type": "boolean",
       "defaultValue": "undefined",
       "kind": "boolean"
     },
     {
-      "name": "default-preview-open",
+      "name": "default-open",
       "description": "默认预览打开状态",
       "type": "boolean",
       "defaultValue": "false",
@@ -216,8 +216,8 @@
       "initial": "[]"
     },
     {
-      "name": "current",
-      "description": "图片预览起始的索引",
+      "name": "model-value",
+      "description": "当前图片序号，从 1 开始",
       "type": "number",
       "defaultValue": "0",
       "kind": "number"
@@ -267,7 +267,7 @@
     {
       "name": "on-change",
       "description": "切换图片时的回调函数，回调参数为当前索引",
-      "type": "(index: number) => void",
+      "type": "(imageNumber: number) => void",
       "defaultValue": "-",
       "kind": "callback"
     },
@@ -302,7 +302,7 @@
     {
       "name": "on-long-press",
       "description": "长按图片时的回调函数，回调参数为当前索引",
-      "type": "(index: number) => void",
+      "type": "(imageNumber: number) => void",
       "defaultValue": "-",
       "kind": "callback"
     },
@@ -334,8 +334,8 @@
     "click",
     "load",
     "error",
-    "preview-open-change",
-    "update:previewOpen",
+    "open-change",
+    "update:open",
     "change",
     "open",
     "opened",

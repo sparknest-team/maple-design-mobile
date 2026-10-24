@@ -2,7 +2,7 @@
 
 Icons are independent SVG Vue components. Use the Resolver for on-demand imports and the Icon wrapper to control size, color, and rotation.
 
-The wrapper uses lightweight namespace, size, and installation helpers. Importing it on demand does not include the general utility library; graphics come from the individual SVG components you use.
+The wrapper reuses static namespace and predicate helpers from maple-shared. CSS size conversion and prop defaults remain in the UI utilities. On-demand imports retain only the helpers and individual SVG components you use.
 
 ## Examples
 
@@ -69,6 +69,7 @@ Both libraries use the same canonical names. Search ignores surrounding whitespa
 ```
 
 <!-- api-review:start -->
+
 ### Feature playground
 
 Enable `name` and choose a registered icon to update the preview.
@@ -86,7 +87,7 @@ Enable `name` and choose a registered icon to update the preview.
 | Prop              | Description                            | Type               | Default |
 | ----------------- | -------------------------------------- | ------------------ | ------- |
 | `name`            | icon name                              | _string_           | `-`     |
-| `size`            | `inherit` | _string \| number_ | `-`     |
+| `size`            | `inherit`                              | _string \| number_ | `-`     |
 | `color`           | Icon color                             | _string_           | `-`     |
 | `rotate`          | Rotation angle                         | _number_           | `-`     |
 | `spin`            | Whether to spin continuously           | _boolean_          | `false` |
@@ -95,15 +96,15 @@ Enable `name` and choose a registered icon to update the preview.
 
 ### Standalone SVG Icon Props
 
-| Prop              | Description      | Type                                       | Default   |
-| ----------------- | ---------------- | ------------------------------------------ | --------- |
-| `size`            | `inherit` | _string \| number_                          | `-`       |
-| `color`           | Icon color       | _string_                                   | `-`       |
-| `rotate`          | Rotation angle   | _number_                                   | `-`       |
-| `spin`            | Whether to spin  | _boolean_                                  | `false`   |
-| `title`           | Accessible title | _string_                                   | `-`       |
-| `stroke-width`    | Stroke width     | _number_                                   | `4`       |
-| `stroke-linecap`  | Stroke line cap  | _'butt' \| 'round' \| 'square'_            | `'butt'`  |
+| Prop              | Description      | Type                                         | Default   |
+| ----------------- | ---------------- | -------------------------------------------- | --------- |
+| `size`            | `inherit`        | _string \| number_                           | `-`       |
+| `color`           | Icon color       | _string_                                     | `-`       |
+| `rotate`          | Rotation angle   | _number_                                     | `-`       |
+| `spin`            | Whether to spin  | _boolean_                                    | `false`   |
+| `title`           | Accessible title | _string_                                     | `-`       |
+| `stroke-width`    | Stroke width     | _number_                                     | `4`       |
+| `stroke-linecap`  | Stroke line cap  | _'butt' \| 'round' \| 'square'_              | `'butt'`  |
 | `stroke-linejoin` | Stroke line join | _'bevel' \| 'inherit' \| 'miter' \| 'round'_ | `'miter'` |
 
 ### Events
@@ -124,8 +125,8 @@ Default Icon size now inherits the host font size on both platforms. Set size="2
 
 ### Motion tokens
 
-| Token | Default |
-| --- | --- |
-| `--mp-icon-spin-duration` | `1s` |
+| Token                     | Default |
+| ------------------------- | ------- |
+| `--mp-icon-spin-duration` | `1s`    |
 
 Built-in motion honors prefers-reduced-motion: reduce. State/content remain visible; decorative spin, shimmer and ripple are suppressed. Icon name changes show the latest value and cancel pending phases, using the same normalized CSS/JS duration. Custom animation classes remain the caller's responsibility. See Ripple's own documentation for its duration/cleanup policy; its historical250ms policy is not an Icon duration limit.

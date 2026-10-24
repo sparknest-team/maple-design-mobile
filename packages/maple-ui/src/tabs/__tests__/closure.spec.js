@@ -4,18 +4,18 @@ import { expect, test, vi } from 'vitest'
 import { renderToString } from 'vue/server-renderer'
 import Tabs, { TabPane, TabsNavs } from '..'
 
-const panes = () => ['a', 'b'].map((key) => h(TabPane, { key, title: key }, () => key))
+const panes = () => ['a', 'b'].map((key) => h(TabPane, { name: key, key, title: key }, () => key))
 
 test('controlled rejected selection and removed key do not silently commit another tab', async () => {
   const keys = ref(['a', 'b'])
   const wrapper = mount(Tabs, {
-    props: { active: 'a' },
+    props: { modelValue: 'a' },
     slots: {
-      default: () => keys.value.map((key) => h(TabPane, { key, title: key }, () => key)),
+      default: () => keys.value.map((key) => h(TabPane, { name: key, key, title: key }, () => key)),
     },
   })
   await wrapper.findAll('[role="tab"]')[1].trigger('click')
-  expect(wrapper.emitted('update:active')).toEqual([['b']])
+  expect(wrapper.emitted('update:modelValue')).toEqual([['b']])
   expect(wrapper.find('[aria-selected="true"]').text()).toBe('a')
   keys.value = ['b']
   await nextTick()

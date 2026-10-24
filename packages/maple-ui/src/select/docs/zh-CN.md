@@ -10,6 +10,14 @@
 ../example/demos/standard.vue
 ```
 
+### 候选高亮与表单数据流
+
+初始 `form.city` 为 `undefined`。打开面板只激活候选行，不触发 `update:modelValue` 或 `change`，表单仍为空。inline 点击选项或按 Enter 后提交；popup 在面板内选择只是草稿，确认后才提交，取消不改变表单。两个示例分别显示已提交值、更新次数和真实事件日志；日志按最新在前排列。
+
+```demo
+../example/demos/selection-data-flow.vue
+```
+
 ### 禁用与只读
 
 ```demo
@@ -179,6 +187,8 @@ scrollTo(0,0)／单轴0是合法坐标，不用真值判断；恢复零位置也
 
 <!-- api-review:end -->
 
+单选和多选的已选行右侧均显示主色对勾；仅候选高亮时不显示对勾。popup/编辑面板内的对勾表示当前草稿选择，确认后才提交表单；禁用已选项保持禁用外观。
+
 ## API
 
 ### Select 属性
@@ -218,7 +228,7 @@ scrollTo(0,0)／单轴0是合法坐标，不用真值判断；恢复零位置也
 | `show-extra-options` | 菜单中展示回退/创建选项 | `boolean` | `true` |
 | `limit` | 多选数量上限，0 不限制 | `number` | `0` |
 | `auto-fit-popup-width` | Menu 与字段等宽 | `boolean` | `true` |
-| `default-active-first-option` | 默认激活首个可用选项（不会自动提交） | `boolean` | `true` |
+| `default-active-first-option` | 打开选项列表时，无有效选中项则默认激活首个可用候选；仅高亮，不更新 modelValue 或触发 change。已有有效选中项优先激活该项 | `boolean` | `true` |
 | `unmount-on-close` | 关闭 Menu 后销毁内容 | `boolean` | `false` |
 | `scrollbar` | 选项面板 滚动条配置 | `boolean 或 ScrollbarProps` | `true` |
 | `show-header-on-empty / show-footer-on-empty` | 空状态仍展示 header / footer | `boolean` | `false` |
@@ -360,3 +370,11 @@ Select 还支持 `header`、`footer`、`trigger` 和默认插槽中的 `Option /
 | blur | 移出实际字段焦点 | - |
 
 异步搜索时应在新请求开始时清除旧候选，并只采纳当前搜索词的最后一次响应。远程结果可配合 `loading`、`filter-option="false"`、`show-extra-options="false"` 使用，避免将 ID 回显项当作搜索候选。popup 内方向键与 Enter 只操作当前候选，保存由底部确认按钮完成。校验失败保留草稿；确认期间锁定编辑和关闭，表单重置会关闭 popup 并中止提交。请求归属应在关闭和重置时失效，完整示例见 Form 的“各类字段统一展示”。
+
+### 选中对勾样式变量
+
+| 变量 | 默认值 |
+| --- | --- |
+| `--mp-select-popup-option-check-color` | `var(--mp-sys-color-action-primary)` |
+| `--mp-select-popup-option-check-size` | `var(--mp-sys-font-size-md)` |
+| `--mp-select-popup-option-check-gap` | `var(--mp-sys-space-4)` |

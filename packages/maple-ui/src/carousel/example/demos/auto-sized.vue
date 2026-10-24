@@ -1,7 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue'
 
-const current = ref(0)
+const current = ref(1)
 const changes = ref(0)
 const wider = ref(false)
 const compact = ref(false)
@@ -23,7 +23,7 @@ const widths = computed(() => {
     <mp-checkbox v-model="reversed">Reverse cards / 反转顺序</mp-checkbox>
     <p role="status">Current: {{ current }} · Changes: {{ changes }}</p>
     <mp-carousel
-      v-model:current="current"
+      v-model="current"
       slides-per-view="auto"
       :space-between="12"
       height="180px"

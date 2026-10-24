@@ -104,7 +104,7 @@ import {
   IconError as MIconError,
   IconInfoCircleFill as MIconInfoCircleFill,
   IconWarning as MIconWarning,
-} from '@maplejs/icons-vue'
+} from '@maple-design/icons-vue'
 import MpButton from '../button'
 import MpIcon from '../icon'
 import { t } from '../locale'

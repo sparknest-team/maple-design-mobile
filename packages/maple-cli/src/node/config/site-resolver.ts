@@ -1,15 +1,15 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import { MapleResolver, type MapleResolverOptions } from '@maplejs/resolver'
+import { MapleResolver, type MapleResolverOptions } from '@maple-design/resolver'
 import ts from 'typescript'
 import type { Plugin } from 'vite'
 
 /** Browser dev must not depend on directories removed by a parallel package build. */
 export function getWorkspaceSourceAliases(sourceDir: string) {
   return [
-    ['@maplejs/maple-shared', 'maple-shared/src/index.ts'],
-    ['@maplejs/maple-use', 'maple-use/src/index.ts'],
-    ['@maplejs/maple-cli/client', 'maple-cli/src/client/index.ts'],
+    ['@maple-design/shared', 'maple-shared/src/index.ts'],
+    ['@maple-design/use', 'maple-use/src/index.ts'],
+    ['@maple-design/cli/client', 'maple-cli/src/client/index.ts'],
   ].flatMap(([name, relative]) => {
     const replacement = resolve(sourceDir, '../..', relative)
     return existsSync(replacement) ? [{ find: new RegExp(`^${name}$`), replacement }] : []
@@ -67,6 +67,16 @@ function readPublicModules(sourceDir: string) {
   return modules
 }
 
+export function getSiteComponentExcludes(sourceDir: string) {
+  const source = sourceDir.replace(/\\/g, '/').replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  return [
+    /node_modules/,
+    new RegExp(
+      `^(?:/@fs)?${source}/(?!(?:[^/]+/)*(?:example|examples|__demos__|docs)/).*\\.(?:vue|[cm]?[jt]sx?)(?:\\?|$)`,
+    ),
+  ]
+}
+
 export function createSiteResolver(sourceDir: string, options: MapleResolverOptions = {}) {
   const modules = readPublicModules(sourceDir)
 
@@ -74,7 +84,7 @@ export function createSiteResolver(sourceDir: string, options: MapleResolverOpti
     ...resolver,
     resolve(name: string) {
       const result = resolver.resolve(name)
-      if (result?.from !== '@maplejs/maple-ui') {
+      if (result?.from !== '@maple-design/ui') {
         return result
       }
       const target = modules.get(result.name)
@@ -96,7 +106,7 @@ export function createSiteImportPlugin(sourceDir: string): Plugin {
     name: 'maple:site-source-imports',
     enforce: 'post',
     transform(code, id) {
-      if (!/\.(?:[cm]?[jt]sx?|vue|md)(?:\?|$)/.test(id) || !code.includes('@maplejs/maple-ui')) {
+      if (!/\.(?:[cm]?[jt]sx?|vue|md)(?:\?|$)/.test(id) || !code.includes('@maple-design/ui')) {
         return
       }
       const source = ts.createSourceFile(id, code, ts.ScriptTarget.Latest, true)
@@ -105,7 +115,7 @@ export function createSiteImportPlugin(sourceDir: string): Plugin {
         if (
           !ts.isImportDeclaration(statement) ||
           !ts.isStringLiteral(statement.moduleSpecifier) ||
-          statement.moduleSpecifier.text !== '@maplejs/maple-ui' ||
+          statement.moduleSpecifier.text !== '@maple-design/ui' ||
           !statement.importClause ||
           statement.importClause.isTypeOnly ||
           statement.importClause.name ||

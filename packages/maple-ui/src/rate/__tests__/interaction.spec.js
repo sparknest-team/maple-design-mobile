@@ -97,7 +97,11 @@ describe('Rate interaction contract', () => {
     w.unmount()
   })
   test('invalid and out-of-range values never escape ARIA range', async () => {
-    const w = mount(Rate, { props: { count: Infinity, modelValue: NaN } })
+    const warnings = []
+    const w = mount(Rate, {
+      props: { count: Infinity, modelValue: NaN },
+      global: { config: { warnHandler: (message) => warnings.push(message) } },
+    })
     expect(w.findAll('.mp-rate__content')).toHaveLength(5)
     expect(w.attributes('aria-valuenow')).toBe('0')
     await w.setProps({ count: 3.9, modelValue: 20 })
@@ -105,6 +109,10 @@ describe('Rate interaction contract', () => {
     await w.setProps({ grading: true, count: 2 })
     expect(w.findAll('.mp-rate__content')).toHaveLength(5)
     expect(w.attributes('aria-valuemax')).toBe('5')
+    expect(warnings).toEqual([
+      expect.stringContaining('custom validator check failed for prop "count"'),
+      expect.stringContaining('custom validator check failed for prop "count"'),
+    ])
     w.unmount()
   })
   test('half step keyboard and modifier filtering', async () => {

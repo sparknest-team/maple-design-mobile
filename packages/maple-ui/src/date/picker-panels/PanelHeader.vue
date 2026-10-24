@@ -43,8 +43,8 @@ import {
   IconChevronDown as MIconChevronDown,
   IconChevronLeft as MIconChevronLeft,
   IconChevronRight as MIconChevronRight,
-} from '@maplejs/icons-vue'
-import { toNumber } from '@maplejs/maple-shared'
+} from '@maple-design/icons-vue'
+import { toNumber } from '@maple-design/shared'
 import MpButton from '../../button'
 import MpIcon from '../../icon'
 import { t } from '../../locale'

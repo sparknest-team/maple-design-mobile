@@ -22,16 +22,16 @@ const size = ref<(typeof sizes)[number]>('md')
       </mp-radio-group>
     </div>
   </div>
-  <mp-tabs :variant="variant" :size="size" default-active="news">
+  <mp-tabs :variant="variant" :size="size" default-value="news">
     <mp-tabs-navs aria-label="内容分类">
-      <mp-tab-nav key="news" title="资讯" />
-      <mp-tab-nav key="favorites" title="收藏" />
-      <mp-tab-nav key="history" title="历史" />
+      <mp-tab-nav name="news" title="资讯" />
+      <mp-tab-nav name="favorites" title="收藏" />
+      <mp-tab-nav name="history" title="历史" />
     </mp-tabs-navs>
     <mp-tabs-items>
-      <mp-tab-item key="news">最新资讯</mp-tab-item>
-      <mp-tab-item key="favorites">我的收藏</mp-tab-item>
-      <mp-tab-item key="history">浏览历史</mp-tab-item>
+      <mp-tab-item name="news">最新资讯</mp-tab-item>
+      <mp-tab-item name="favorites">我的收藏</mp-tab-item>
+      <mp-tab-item name="history">浏览历史</mp-tab-item>
     </mp-tabs-items>
   </mp-tabs>
 </template>

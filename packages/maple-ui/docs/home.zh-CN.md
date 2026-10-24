@@ -28,12 +28,12 @@ Maple 是一个 `Vue3` 组件库，基于 统一语义 Token 与品牌主题体�
 
 | 名称                                                                                                   | 描述                       |
 |------------------------------------------------------------------------------------------------------|--------------------------|
-| [@maplejs/maple-cli](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-cli)                       | `Vue3 组件库快速成型工具`         |
-| [@maplejs/maple-touch-emulator](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-touch-emulator) | `桌面端适配器，让移动端组件库可以在桌面端运行` |
-| [@maplejs/maple-ui-playground](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-ui-playground)  | `Maple 组件库在线编辑工具`       |
-| [@maplejs/resolver](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-resolver)  | [unplugin-vue-components](https://github.com/unplugin/unplugin-vue-components) `的一个解析器，用于实现 Maple 按需引入`   |
-| [@maplejs/maple-preset-unocss](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-preset-unocss)  | `maple 的` [UnoCss](https://unocss.dev/) `预设` |
-| [@maplejs/maple-preset-tailwindcss](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-preset-tailwindcss)  | `maple 的` [tailwindcss](https://tailwindcss.com/) `预设` |
+| [@maple-design/cli](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-cli)                       | `Vue3 组件库快速成型工具`         |
+| [@maple-design/touch-emulator](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-touch-emulator) | `桌面端适配器，让移动端组件库可以在桌面端运行` |
+| [@maple-design/ui-playground](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-ui-playground)  | `Maple 组件库在线编辑工具`       |
+| [@maple-design/resolver](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-resolver)  | [unplugin-vue-components](https://github.com/unplugin/unplugin-vue-components) `的一个解析器，用于实现 Maple 按需引入`   |
+| [@maple-design/preset-unocss](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-preset-unocss)  | `maple 的` [UnoCss](https://unocss.dev/) `预设` |
+| [@maple-design/preset-tailwindcss](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-preset-tailwindcss)  | `maple 的` [tailwindcss](https://tailwindcss.com/) `预设` |
 | [maple-theme-builder](https://github.com/loca-spirit/maple-theme-builder) | `主题生成器，用于生成 Maple 品牌主题变量` |
 | [maple-vscode-extension](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/tree/master/packages/maple-vscode-extension)  | `Maple 组件库 VSCode 插件`   |
 | [maple-vscode-theme](https://github.com/loca-spirit/maple-vscode-theme)  | `Maple VSCode 主题`   |

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { FormItemValidateStatus } from '@maplejs/maple-ui'
+import type { FormItemValidateStatus } from '@maple-design/ui'
 
 const status = ref<FormItemValidateStatus>('warning')
 const statuses: FormItemValidateStatus[] = ['success', 'warning', 'error', 'validating']

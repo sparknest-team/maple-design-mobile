@@ -1,5 +1,5 @@
 import { getCurrentInstance, onMounted, ref } from 'vue'
-import { kebabCase } from '@maplejs/maple-shared'
+import { kebabCase } from '@maple-design/shared'
 
 export function useClientId() {
   const instance = getCurrentInstance()!

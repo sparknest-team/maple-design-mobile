@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
+import { AppType, onThemeChange, watchLang } from '@maple-design/cli/client'
 import DemoApiReview from './api-review.vue'
 import AsyncActionDemo from './async-action.vue'
 import BasicUsageDemo from './basic.vue'

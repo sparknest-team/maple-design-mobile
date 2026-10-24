@@ -1,14 +1,14 @@
 {
   "fields": [
     {
-      "name": "active",
+      "name": "model-value",
       "description": "当前选中名称或索引；传入时为受控模式",
       "type": "number | string",
       "defaultValue": "undefined",
       "kind": "scalar"
     },
     {
-      "name": "default-active",
+      "name": "default-value",
       "description": "非受控初始选中值，仅初始化时读取",
       "type": "number | string",
       "defaultValue": "0",
@@ -75,10 +75,12 @@
     },
     {
       "name": "variant",
-      "type": "boolean",
-      "defaultValue": "false",
-      "description": "源码公开属性 / Public source prop",
-      "kind": "boolean"
+      "type": "\"standard\" | \"pill\"",
+      "defaultValue": "standard",
+      "description": "外观样式 / Appearance",
+      "kind": "enum",
+      "options": ["standard", "pill"],
+      "initial": "standard"
     },
     {
       "name": "placeholder",
@@ -88,46 +90,30 @@
       "kind": "boolean"
     }
   ],
-  "events": [
-    "change",
-    "fab-click"
-  ],
+  "events": ["change", "fab-click"],
   "scenarios": [
     {
       "name": "before-change",
       "kind": "prop",
-      "demos": [
-        "async-change.vue"
-      ]
+      "demos": ["async-change.vue"]
     },
     {
       "name": "fab-props",
       "kind": "prop",
-      "demos": [
-        "fab.vue"
-      ]
+      "demos": ["fab.vue"]
     },
     {
       "name": "default",
       "kind": "slot",
-      "demos": [
-        "custom-label.vue",
-        "fab.vue",
-        "uncontrolled.vue"
-      ]
+      "demos": ["custom-label.vue", "fab.vue", "uncontrolled.vue"]
     },
     {
       "name": "fab",
       "kind": "slot",
-      "demos": [
-        "custom-label.vue",
-        "fab.vue"
-      ]
+      "demos": ["custom-label.vue", "fab.vue"]
     }
   ],
-  "slotNames": [
-    "fab"
-  ],
+  "slotNames": ["fab"],
   "slotDefaults": {
     "fab": false
   },

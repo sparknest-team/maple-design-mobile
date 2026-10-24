@@ -1,13 +1,13 @@
 <script setup>
 import { ref } from 'vue'
 
-const open = ref(true)
+const visible = ref(true)
 </script>
 
 <template>
-  <mp-button status="primary" @click.stop="open = !open">切换</mp-button>
+  <mp-button status="primary" @click.stop="visible = !visible">切换</mp-button>
   <div class="fab-demo-stage">
-    <mp-fab :fixed="false" :popup-container="false" :open="open" status="primary" />
+    <mp-fab :fixed="false" :popup-container="false" :visible="visible" status="primary" />
   </div>
 </template>
 

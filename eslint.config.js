@@ -10,7 +10,7 @@ export default defineConfig({
   overrides: [
     {
       // Utility and resolver package scripts run these tests with node --test.
-      files: ['scripts/quality/*.test.mjs', 'packages/maple-resolver/test/*.test.mjs'],
+      files: ['scripts/quality/*.test.mjs', 'scripts/browser/*.test.mjs', 'packages/maple-resolver/test/*.test.mjs'],
       rules: {
         'vitest/no-import-node-test': 'off',
       },

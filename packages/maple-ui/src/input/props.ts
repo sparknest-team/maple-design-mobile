@@ -20,11 +20,11 @@ export const inputProps = {
   popupContainer: popupContainerProp,
   open: { type: Boolean, default: undefined },
   defaultOpen: Boolean,
-  /** 受控输入值。 */
+  /** 受控输入值，通过 v-model 绑定；包括空字符串在内均优先于 defaultValue。 */
   modelValue: String,
   /** v-model 修饰符，trim 在提交时生效。 */
   modelModifiers: { type: Object as PropType<{ trim?: boolean }>, default: () => ({}) },
-  /** 非受控初始值。 */
+  /** 非受控初始值，仅创建时读取；后续修改不重置输入，也不回写父级。 */
   defaultValue: { type: String, default: '' },
   /** 输入类型，number 使用文本输入与归一化。 */
   type: {

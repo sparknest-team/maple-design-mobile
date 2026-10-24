@@ -29,7 +29,7 @@ for (const file of files) {
   const c = readFileSync(resolve(cedar, 'src/auto-complete', file), 'utf8')
   const m = readFileSync(resolve(maple, 'src/auto-complete', file), 'utf8')
   assert.equal(normalizeBoundImports(normalize(c)), normalizeBoundImports(m), file + ' differs')
-  assert.doesNotMatch(m, /from ['"][^'"]*(?:@cedarjs|cedar-design|platform)/)
+  assert.doesNotMatch(m, /from ['"][^'"]*(?:@cedar-design|cedar-design|platform)/)
 }
 for (const [root, compiler] of [
   [cedar, 'node_modules/less/package.json'],

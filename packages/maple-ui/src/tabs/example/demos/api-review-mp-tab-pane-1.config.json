@@ -1,6 +1,13 @@
 {
   "fields": [
     {
+      "name": "name",
+      "description": "业务唯一标识（必填），与 modelValue 对应",
+      "type": "string / number",
+      "defaultValue": "undefined",
+      "kind": "scalar"
+    },
+    {
       "name": "title",
       "description": "导航标题",
       "type": "string",

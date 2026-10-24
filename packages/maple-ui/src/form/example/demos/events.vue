@@ -1,6 +1,6 @@
 <script setup>
 import { reactive, ref } from 'vue'
-import { Message } from '@maplejs/maple-ui'
+import { Message } from '@maple-design/ui'
 import ModelOutput from '../components/ModelOutput.vue'
 
 const formData = reactive({ username: '', password: '' })

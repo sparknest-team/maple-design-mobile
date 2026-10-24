@@ -1,6 +1,6 @@
 {
-  "name": "@maplejs/resolver",
-  "version": "1.0.3",
+  "name": "@maple-design/resolver",
+  "version": "1.0.1",
   "description": "Maple resolver for unplugin-vue-components and unplugin-auto-import",
   "keywords": [
     "maple",
@@ -39,12 +39,16 @@
     "test": "pnpm build && node --test test/*.test.mjs"
   },
   "dependencies": {
-    "@maplejs/icons-vue": "workspace:*",
-    "@maplejs/maple-shared": "workspace:*"
+    "@maple-design/icons-vue": "workspace:*",
+    "@maple-design/shared": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "catalog:",
     "tsup": "catalog:",
     "typescript": "catalog:"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   }
 }

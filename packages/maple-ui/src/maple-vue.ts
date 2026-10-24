@@ -93,7 +93,7 @@ import Upload from './upload'
 import VerificationCode from './verification-code'
 import Watermark from './watermark'
 
-export const version = '1.0.3'
+export const version = '1.0.0'
 
 function install(app: App) {
   const plugins = [

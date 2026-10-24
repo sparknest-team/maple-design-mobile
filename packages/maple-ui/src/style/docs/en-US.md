@@ -9,7 +9,7 @@ Cedar counterpart: `c-elevation--0` … `--24` (ships with box-shadow tools).
 
 ```js
 // playground-ignore
-import '@maplejs/maple-ui/es/style/elevation.css'
+import '@maple-design/ui/es/style/elevation.css'
 ```
 
 ### Basic Usage

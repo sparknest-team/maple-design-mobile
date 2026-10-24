@@ -1,0 +1,5 @@
+- [x] 双端渲染上下文、类型导出、MenuOption label / 插槽 / highlight 同步
+- [x] 后代选中内部化并保留路径强调
+- [x] 双端 demo、中文与英文文档、类型用例同步
+- [x] 双端 Menu / SplitButton 回归、类型检查、lint、同源和全量 demo 检查
+- [x] 其他公开状态命名审查及待定建议记录

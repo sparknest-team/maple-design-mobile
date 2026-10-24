@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 
 const open = ref(false)
-const current = ref(0)
+const current = ref(1)
 const images = ['/cat.jpg', '/cat2.jpg']
 
 function onAction() {
@@ -13,12 +13,12 @@ function onAction() {
 <template>
   <mp-space direction="column" :size="16">
     <mp-button status="primary" size="sm" @click="open = true">打开自定义预览</mp-button>
-    <mp-image-preview-group v-model:open="open" v-model:current="current" :images="images" :loop="false">
+    <mp-image-preview-group v-model:open="open" v-model="current" :images="images" :loop="false">
       <template #close-icon>
         <span class="close-icon">×</span>
       </template>
-      <template #indicator="{ index, length }">
-        <span class="indicator">{{ index + 1 }} / {{ length }}</span>
+      <template #indicator="{ imageNumber, length }">
+        <span class="indicator">{{ imageNumber }} / {{ length }}</span>
       </template>
       <template #actions>
         <mp-image-preview-action name="切换" @click="onAction">+</mp-image-preview-action>

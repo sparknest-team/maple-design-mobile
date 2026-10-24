@@ -72,7 +72,7 @@ The function will return the information selected by the user and the user's las
 
 ```html
 <script setup>
-  import { Message, Picker } from '@maplejs/maple-ui'
+  import { Message, Picker } from '@maple-design/ui'
 
   async function picker() {
     const { state, values, indexes, options } = await Picker({
@@ -93,7 +93,7 @@ The function will return the information selected by the user and the user's las
 
 ```html
 <script setup>
-  import { Message, Picker } from '@maplejs/maple-ui'
+  import { Message, Picker } from '@maple-design/ui'
 
   async function picker() {
     const { state, values, indexes, options } = await Picker({
@@ -120,7 +120,7 @@ Set the `cascade` property to enable cascading scrolling.
 
 ```html
 <script setup>
-  import { Message, Picker } from '@maplejs/maple-ui'
+  import { Message, Picker } from '@maple-design/ui'
 
   async function picker() {
     const { state, texts, indexes } = await Picker({
@@ -177,8 +177,8 @@ The component library provides cascade data of Chinese provinces and cities, whi
 
 ```html
 <script setup>
-  import { Message, Picker } from '@maplejs/maple-ui'
-  import columns from '@maplejs/maple-ui/json/area.json'
+  import { Message, Picker } from '@maple-design/ui'
+  import columns from '@maple-design/ui/json/area.json'
 
   async function picker() {
     const { state, texts, indexes } = await Picker({
@@ -202,8 +202,8 @@ The maximum number of displayed columns can be set via `columnsCount`, which is 
 
 ```html
 <script setup>
-  import { Message, Picker } from '@maplejs/maple-ui'
-  import columns from '@maplejs/maple-ui/json/area.json'
+  import { Message, Picker } from '@maple-design/ui'
+  import columns from '@maple-design/ui/json/area.json'
 
   async function picker() {
     const { state, texts, indexes } = await Picker({
@@ -226,7 +226,7 @@ The maximum number of displayed columns can be set via `columnsCount`, which is 
 
 ```html
 <script setup>
-  import { Message, Picker } from '@maplejs/maple-ui'
+  import { Message, Picker } from '@maple-design/ui'
 
   async function picker() {
     const { state, values, indexes, options } = await Picker({
@@ -269,7 +269,7 @@ The maximum number of displayed columns can be set via `columnsCount`, which is 
 ```html
 <script setup>
   import { ref } from 'vue'
-  import { Message } from '@maplejs/maple-ui'
+  import { Message } from '@maple-design/ui'
 
   const columns = ref([[{ text: 'A' }, { text: 'B' }, { text: 'C' }, { text: 'D' }, { text: 'E' }]])
 
@@ -288,7 +288,7 @@ The maximum number of displayed columns can be set via `columnsCount`, which is 
 ```html
 <script setup>
   import { ref } from 'vue'
-  import { Message } from '@maplejs/maple-ui'
+  import { Message } from '@maple-design/ui'
 
   const columns = ref([
     [{ text: 'A' }, { text: 'B' }, { text: 'C' }, { text: 'D' }, { text: 'E' }],
@@ -311,7 +311,7 @@ The maximum number of displayed columns can be set via `columnsCount`, which is 
 ```html
 <script setup>
   import { ref } from 'vue'
-  import { Message } from '@maplejs/maple-ui'
+  import { Message } from '@maple-design/ui'
 
   const columns = ref([
     {
@@ -363,8 +363,8 @@ The maximum number of displayed columns can be set via `columnsCount`, which is 
 ```html
 <script setup>
   import { ref } from 'vue'
-  import { Message } from '@maplejs/maple-ui'
-  import area from '@maplejs/maple-ui/json/area.json'
+  import { Message } from '@maple-design/ui'
+  import area from '@maple-design/ui/json/area.json'
 
   const columns = ref(area)
 
@@ -383,8 +383,8 @@ The maximum number of displayed columns can be set via `columnsCount`, which is 
 ```html
 <script setup>
   import { ref } from 'vue'
-  import { Message } from '@maplejs/maple-ui'
-  import area from '@maplejs/maple-ui/json/area.json'
+  import { Message } from '@maple-design/ui'
+  import area from '@maple-design/ui/json/area.json'
 
   const columns = ref(area)
 
@@ -403,7 +403,7 @@ The maximum number of displayed columns can be set via `columnsCount`, which is 
 ```html
 <script setup>
   import { ref } from 'vue'
-  import { Message } from '@maplejs/maple-ui'
+  import { Message } from '@maple-design/ui'
 
   const columns = ref([
     [
@@ -441,7 +441,7 @@ The maximum number of displayed columns can be set via `columnsCount`, which is 
 ```html
 <script setup>
   import { ref } from 'vue'
-  import { Message } from '@maplejs/maple-ui'
+  import { Message } from '@maple-design/ui'
 
   const values = ref(['A', 'B', 'C'])
   const columns = ref([
@@ -477,6 +477,10 @@ The maximum number of displayed columns can be set via `columnsCount`, which is 
 <!-- api-review:end -->
 
 ## API
+
+### Model and default value
+
+Use ordinary `v-model`. `modelValue` is the selected column values array. `defaultValue` initializes uncontrolled state only at creation; changing it later does not reset the current state. A supplied model takes precedence. Initialization emits no `update:modelValue`.
 
 ### Props
 

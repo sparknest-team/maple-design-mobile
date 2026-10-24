@@ -22,8 +22,8 @@
 
 <script lang="ts">
 import { defineComponent, reactive, ref, watch } from 'vue'
-import { clamp, getRect, preventDefault } from '@maplejs/maple-shared'
-import { onSmartMounted, onWindowResize, useTouch } from '@maplejs/maple-use'
+import { clamp, getRect, preventDefault } from '@maple-design/shared'
+import { onSmartMounted, onWindowResize, useTouch } from '@maple-design/use'
 import { createNamespace, useTeleport } from '../utils/components'
 import { toPxNum } from '../utils/elements'
 import { usePopupContainer } from '../utils/popup-container'

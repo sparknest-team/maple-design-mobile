@@ -20,7 +20,7 @@ describe('test collapse and collapseItem render', () => {
 describe('test collapse and collapseItem props', () => {
   test('collapse accordion', async () => {
     const template = `
-     <mp-collapse v-model:active-names="value" accordion>
+     <mp-collapse v-model="value" accordion>
       <mp-collapse-item title="test1" name="1">test1</mp-collapse-item>
       <mp-collapse-item title="test2" name="2">test2</mp-collapse-item>
      </mp-collapse>
@@ -48,7 +48,7 @@ describe('test collapse and collapseItem props', () => {
     const offset = ref(false)
 
     const template = `
-     <mp-collapse v-model:active-names="value" :offset="offset">
+     <mp-collapse v-model="value" :offset="offset">
       <mp-collapse-item title="test1" name="1">test1</mp-collapse-item>
       <mp-collapse-item title="test2" name="2">test2</mp-collapse-item>
      </mp-collapse>
@@ -118,7 +118,7 @@ describe('test collapse and collapseItem props', () => {
 
   test('collapse divider', async () => {
     const template = `
-     <mp-collapse v-model:active-names="value" :divider="divider">
+     <mp-collapse v-model="value" :divider="divider">
       <mp-collapse-item title="test1" name="1">test1</mp-collapse-item>
       <mp-collapse-item title="test2" name="2">test2</mp-collapse-item>
      </mp-collapse>
@@ -152,7 +152,7 @@ describe('test collapse and collapseItem props', () => {
     const title = ref('test1')
     const name = ref('1')
     const template = `
-      <mp-collapse v-model:active-names="value">
+      <mp-collapse v-model="value">
         <mp-collapse-item :title="title" :name="name" />
       </mp-collapse>
     `
@@ -197,7 +197,7 @@ describe('test collapse and collapseItem props', () => {
 
   test('collapseItem expand icon', async () => {
     const template = `
-      <mp-collapse v-model:active-names="value">
+      <mp-collapse v-model="value">
         <mp-collapse-item title="test1" name="1" />
       </mp-collapse>
     `
@@ -226,7 +226,7 @@ describe('test collapse and collapseItem props', () => {
 
   test('collapseItem disabled', async () => {
     const template = `
-      <mp-collapse v-model:active-names="value">
+      <mp-collapse v-model="value">
         <mp-collapse-item title="test1" disabled name="1">test1</mp-collapse-item>
         <mp-collapse-item title="test2" name="2">test2</mp-collapse-item>
         <mp-collapse-item title="test3" name="3">test3</mp-collapse-item>
@@ -262,7 +262,7 @@ describe('test collapse and collapseItem props', () => {
 describe('test collapse Events', () => {
   test('collapse and collapseItem onChange', async () => {
     const template = `
-    <mp-collapse v-model:active-names="value" @change="handleChange">
+    <mp-collapse v-model="value" @change="handleChange">
       <mp-collapse-item title="test1" name="1">test1</mp-collapse-item>
       <mp-collapse-item title="test2" name="2">test2</mp-collapse-item>
       <mp-collapse-item title="test3" name="3">test3</mp-collapse-item>
@@ -340,7 +340,7 @@ describe('test collapse Events', () => {
       const collapseRef = ref(null)
 
       const template = `
-      <mp-collapse v-model:active-names="value" ref="collapseRef">
+      <mp-collapse v-model="value" ref="collapseRef">
         <mp-collapse-item title="test1" name="1">test1</mp-collapse-item>
         <mp-collapse-item title="test2" name="2"> test2</mp-collapse-item>
         <mp-collapse-item title="test3" disabled name="3"> test3</mp-collapse-item>
@@ -395,7 +395,7 @@ describe('test collapse Events', () => {
   describe('test collapse slot', () => {
     test('collapse slot default', async () => {
       const template = `
-      <mp-collapse v-model:active-names="value">
+      <mp-collapse v-model="value">
         <mp-collapse-item title="test1" name="1">test1</mp-collapse-item>
         <mp-collapse-item title="test2" name="2">test2</mp-collapse-item>
         <mp-collapse-item title="test3" name="3">test3</mp-collapse-item>
@@ -423,7 +423,7 @@ describe('test collapse Events', () => {
 
     test('collapse slot title', async () => {
       const template = `
-      <mp-collapse v-model:active-names="value">
+      <mp-collapse v-model="value">
         <mp-collapse-item name="1">
         test1
         <template #title>title slot1</template>
@@ -459,7 +459,7 @@ describe('test collapse Events', () => {
 
     test('collapse slot expand-icon', async () => {
       const template = `
-      <mp-collapse v-model:active-names="value">
+      <mp-collapse v-model="value">
         <mp-collapse-item name="1">
         test1
         <template #expand-icon>expand-icon slot1</template>

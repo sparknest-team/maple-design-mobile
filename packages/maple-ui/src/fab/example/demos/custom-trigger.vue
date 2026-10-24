@@ -7,10 +7,10 @@
       <mp-button status="success" variant="tonal" :elevation="false"
         ><template #icon><m-icon-checkbox-marked-circle-fill /></template
       ></mp-button>
-      <template #trigger="{ active }">
+      <template #trigger="{ open }">
         <mp-button class="custom-trigger" status="primary">
           <template #icon>
-            <m-icon-heart-fill v-if="active" :size="24" />
+            <m-icon-heart-fill v-if="open" :size="24" />
             <m-icon-heart-half-full v-else :size="24" />
           </template>
         </mp-button>

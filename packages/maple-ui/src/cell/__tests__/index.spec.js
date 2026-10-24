@@ -1,5 +1,5 @@
 import { createApp, h } from 'vue'
-import { IconFire } from '@maplejs/icons-vue'
+import { IconFire } from '@maple-design/icons-vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test } from 'vitest'
 import Cell from '..'

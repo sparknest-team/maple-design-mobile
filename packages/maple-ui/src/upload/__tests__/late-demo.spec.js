@@ -5,7 +5,7 @@ import Button from '../../button'
 import Space from '../../space'
 import Demo from '../example/demos/late-request.vue'
 
-vi.mock('@maplejs/maple-ui', () => import('..'))
+vi.mock('@maple-design/ui', () => import('..'))
 
 test('late transport handles abort obsolete attempts and only accept current success', async () => {
   const wrapper = mount(Demo, { global: { components: { MpUpload: Upload, MpButton: Button, MpSpace: Space } } })

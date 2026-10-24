@@ -6,7 +6,7 @@ import {
   IconStar,
   IconStarFill,
   IconStarHalfFull,
-} from '@maplejs/icons-vue'
+} from '@maple-design/icons-vue'
 import Icon from '../icon'
 import Ripple from '../ripple'
 import { createNamespace } from '../utils/components'

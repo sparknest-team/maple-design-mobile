@@ -1,6 +1,6 @@
 <template>
   <mp-tabs
-    default-active="overview"
+    default-value="overview"
     item-class="custom-tab-content"
     :item-style="{ padding: '16px' }"
     item-wrapper-class="custom-tab-panel"
@@ -9,12 +9,12 @@
     :tab-style="{ borderRadius: '8px' }"
   >
     <mp-tabs-navs :style="{ paddingInline: 0 }">
-      <mp-tab-nav key="overview" title="概览" />
-      <mp-tab-nav key="details" title="详情" />
+      <mp-tab-nav name="overview" title="概览" />
+      <mp-tab-nav name="details" title="详情" />
     </mp-tabs-navs>
     <mp-tabs-items>
-      <mp-tab-item key="overview">统一设置导航、内容和内容外层样式。</mp-tab-item>
-      <mp-tab-item key="details">自定义类名保留内置选中状态，样式支持响应式更新。</mp-tab-item>
+      <mp-tab-item name="overview">统一设置导航、内容和内容外层样式。</mp-tab-item>
+      <mp-tab-item name="details">自定义类名保留内置选中状态，样式支持响应式更新。</mp-tab-item>
     </mp-tabs-items>
   </mp-tabs>
 </template>

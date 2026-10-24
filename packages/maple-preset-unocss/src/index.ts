@@ -110,7 +110,7 @@ export function presetMaple(options: PresetMapleOptions = {}): Preset[] {
   return [
     presetUno({ prefix: 'mp-' }),
     {
-      name: '@maplejs/maple-preset-unocss',
+      name: '@maple-design/preset-unocss',
       blocklist: [/^(?:[\w-]+:)*mp-shadow(?:-.+)?$/],
       theme: {
         colors: getColors(options),

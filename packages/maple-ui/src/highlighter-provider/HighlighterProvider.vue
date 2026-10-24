@@ -1,6 +1,6 @@
 <script lang="ts">
 import { computed, defineComponent, h } from 'vue'
-import { call } from '@maplejs/maple-shared'
+import { call } from '@maple-design/shared'
 import { createNamespace } from '../utils/components'
 import { props } from './props'
 import { provideHighlighterProvider } from './provide'

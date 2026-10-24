@@ -22,7 +22,7 @@ Prefer direct component variables for local customization. A palette/system over
 ## Global variables
 
 ```ts
-import { StyleProvider, Themes } from '@maplejs/maple-ui'
+import { StyleProvider, Themes } from '@maple-design/ui'
 StyleProvider.setStyleVars(Themes.default.dark)
 StyleProvider.setStyleVars({ '--mp-color-scheme': 'light' })
 StyleProvider.setStyleVars(null)

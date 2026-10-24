@@ -21,7 +21,7 @@
 ## 全局调用
 
 ```ts
-import { StyleProvider, Themes } from '@maplejs/maple-ui'
+import { StyleProvider, Themes } from '@maple-design/ui'
 
 StyleProvider.setStyleVars(Themes.default.dark)
 StyleProvider.setStyleVars({ '--mp-color-scheme': 'light' })
@@ -36,7 +36,7 @@ StyleProvider.setStyleVars(null)
 ## 安装与默认值
 
 ```ts
-import { StyleProvider } from '@maplejs/maple-ui'
+import { StyleProvider } from '@maple-design/ui'
 
 app.use(StyleProvider)
 

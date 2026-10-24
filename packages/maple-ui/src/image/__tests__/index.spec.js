@@ -95,7 +95,7 @@ describe('test image component event', () => {
 describe('test image component props', () => {
   test('image default preview open', async () => {
     const wrapper = mount(VarImage, {
-      props: { src: SRC, defaultPreviewOpen: true },
+      props: { src: SRC, defaultOpen: true },
     })
 
     await wrapper.find('img').trigger('load')
@@ -225,7 +225,7 @@ describe('test image component props', () => {
     await wrapper.find('img').trigger('click')
 
     expect(wrapper.findComponent(ImagePreview).props('popupContainer')).toBe(false)
-    expect(wrapper.emitted('preview-open-change')?.[0]).toEqual([true])
+    expect(wrapper.emitted('open-change')?.[0]).toEqual([true])
     wrapper.unmount()
   })
 

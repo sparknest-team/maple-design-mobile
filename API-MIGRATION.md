@@ -152,7 +152,7 @@ Cedar 内部样式改为 BEM：`c-col-12` → `c-col--span-12`，`c-col-md-12` �
 | bottomNavigationProps / bottomNavigationItemProps | tabBarProps / tabBarItemProps |
 | --mp-bottom-navigation-* | --mp-tab-bar-* |
 
-根入口使用 `import { TabBar } from '@maplejs/maple-ui'`；子项可使用 `TabBar.Item`，或从 `@maplejs/maple-ui/tab-bar` 导入 `TabBarItem`。按需样式使用 `@maplejs/maple-ui/tab-bar/style`。自动解析器、IDE 元数据和主题导出已同步更新。
+根入口使用 `import { TabBar } from '@maple-design/ui'`；子项可使用 `TabBar.Item`，或从 `@maple-design/ui/tab-bar` 导入 `TabBarItem`。按需样式使用 `@maple-design/ui/tab-bar/style`。自动解析器、IDE 元数据和主题导出已同步更新。
 
 ### TabBar 选中状态补充
 
@@ -165,3 +165,17 @@ before-change 的抛错与 Promise 拒绝视为取消，不改变当前选中项
 ## Switch 造型命名收敛
 
 第四种造型统一使用 variant="tonal"；对应变量采用 --c-switch-tonal-* / --mp-switch-tonal-*，包含 width、height、handle-size、border-width、border-color、track-background、text-color、handle-color。旧第四变体及变量需一起迁移，不保留别名。主题独立使用 default / maple × light / dark，不使用造型名作为主题名称。
+
+## 主值接口统一：Tabs / Collapse / Pagination / Steps
+
+两端主值改为普通 `v-model`（modelValue / update:modelValue），非受控初值改为 defaultValue。Tabs 移除 active/defaultActive；Collapse 移除 activeNames/defaultActiveNames；Pagination、Steps 移除 current/defaultCurrent。直接迁移，不保留旧别名。
+
+值类型不变：Tabs 为 key，Collapse 为 name 数组（含手风琴模式），Pagination / Steps 从 1 开始。Pagination 的 pageSize/defaultPageSize 继续独立。Cedar Table 的 pagination 配置同步使用 modelValue/defaultValue。defaultValue 只在创建时读取，不会覆盖受控值，也不会初始化回写父级。
+
+## Tabs name 与 FAB open
+
+Tabs 子项 TabPane/TabNav/TabItem 的业务标识统一为必填 name，主值仍为 modelValue/defaultValue；不再读取 Vue key 作为选中值。循环仍提供 :key。FAB 的 active/update:active 改为 open/update:open，增加 defaultOpen；原整体显示 open 改为 visible。activeIcon/inactiveIcon 及尺寸改为 openIcon/closedIcon；trigger 插槽参数和 click 事件首参改为 open。open/close/opened/closed 事件继续表示动作菜单。
+
+## 主值与面板命名最终审查
+
+Carousel、TabBar、可选 Tag、ImagePreviewGroup 主值使用 modelValue/defaultValue；Carousel 和 ImagePreviewGroup 的主值、方法、事件公开序号从 1 开始，指示器插槽使用 slideNumber/imageNumber。FloatingPanel 使用 modelValue/defaultValue/update:modelValue，停靠通知为 height-change。Switch.defaultValue 使用真实 checkedValue/uncheckedValue 类型。Image 的 previewOpen/defaultPreviewOpen 改为 open/defaultOpen，update:previewOpen/preview-open-change 改为 update:open/open-change。同步迁移函数式 imagePreview 配置与 Upload 调用。Menu、Picker、NumberKeyboard、PullRefresh 补充 defaultValue；ActionSheet、NumberKeyboard、Picker popup 补充 defaultOpen。未命名 TabBar 项仍按位置匹配；声明式业务标识使用 name，数据选项 value/label 保留。FAB.visible 保留实例及自定义 trigger/action 状态，v-if 则销毁；隐藏不再触发菜单 closed 或响应外部点击。详见 design-ui/audits/primary-model-naming.md。

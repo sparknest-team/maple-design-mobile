@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import { execFileSync } from 'node:child_process'
-import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { tmpdir } from 'node:os'
 import { resolve } from 'node:path'
@@ -9,9 +9,13 @@ import { fileURLToPath } from 'node:url'
 import { gzipSync } from 'node:zlib'
 
 const root = fileURLToPath(new URL('../../', import.meta.url))
-const sharedRoot = resolve(root, 'packages/maple-shared')
+const isCedar = existsSync(resolve(root, 'packages/cedar-shared/package.json'))
+const sharedDirectory = isCedar ? 'cedar-shared' : 'maple-shared'
+const uiDirectory = isCedar ? 'cedar-ui' : 'maple-ui'
+const brand = isCedar ? 'Cedar' : 'Maple'
+const sharedRoot = resolve(root, 'packages', sharedDirectory)
 const require = createRequire(resolve(sharedRoot, 'package.json'))
-const esbuild = createRequire(resolve(root, 'packages/maple-cli/package.json'))('esbuild')
+const esbuild = createRequire(require.resolve('tsup/package.json'))('esbuild')
 const ts = require('typescript')
 
 // Deliberate public surface: keep repository consumers, remove the old wholesale re-export.
@@ -80,7 +84,7 @@ async function withGlobals(values, run) {
 }
 
 test('local shared utilities: published runtime, types, behavior and bundle size', async (t) => {
-  const output = mkdtempSync(resolve(tmpdir(), 'maple-shared-bundle-'))
+  const output = mkdtempSync(resolve(tmpdir(), `${sharedDirectory}-bundle-`))
   try {
     execFileSync(
       process.execPath,
@@ -101,6 +105,8 @@ test('local shared utilities: published runtime, types, behavior and bundle size
     const cjs = require(resolve(output, 'index.cjs'))
 
     await t.test('ESM/CJS expose only used tools and self-contained types', () => {
+      const sharedManifest = JSON.parse(readFileSync(resolve(sharedRoot, 'package.json'), 'utf8'))
+      assert.ok(sharedManifest.files.includes('THIRD_PARTY_NOTICES'))
       assert.deepEqual(Object.keys(esm).sort(), expectedExports)
       assert.deepEqual(Object.keys(cjs).sort(), expectedExports)
       for (const file of ['index.js', 'index.cjs', 'index.d.ts', 'index.d.cts']) {
@@ -109,7 +115,7 @@ test('local shared utilities: published runtime, types, behavior and bundle size
           /(?:from\s*|require\()["'](?:rattail|mitt)["']/,
         )
       }
-      for (const name of ['maple-shared', 'maple-ui']) {
+      for (const name of [sharedDirectory, uiDirectory]) {
         const manifest = JSON.parse(readFileSync(resolve(root, `packages/${name}/package.json`), 'utf8'))
         assert.equal(manifest.dependencies?.rattail, undefined)
       }
@@ -132,6 +138,9 @@ test('local shared utilities: published runtime, types, behavior and bundle size
         const active: 'mp-cell--active' = namespace.n('--active')
         const base: 'mp-cell' = namespace.n()
         const box: 'mp--box' = namespace.n('$--box')
+        const cedarNamespace = createNamespaceFn('c')('cell')
+        const cedarBase: 'c-cell' = cedarNamespace.n()
+        const cedarActive: 'c-cell--active' = cedarNamespace.n('--active')
         const state: MotionState = motion({ from: 0, to: 1 }).getState()
         const callback: unknown = () => 1
         if (isFunction(callback)) { callback(1) }
@@ -192,6 +201,17 @@ test('local shared utilities: published runtime, types, behavior and bundle size
         assert.equal(api.clampArrayRange(0, []), -1)
         assert.equal(api.camelize('Foo-Bar'), 'fooBar')
         assert.equal(api.pascalCase('Foo-Bar'), 'fooBar')
+        for (const [value, camel, pascal] of [
+          ['', '', ''],
+          ['a--b', 'a-B', 'A-B'],
+          ['-foo', 'foo', 'foo'],
+          ['İ-test', 'i\u0307Test', 'i\u0307Test'],
+          ['\nfoo-bar', '\nfooBar', '\nfooBar'],
+          ['😀-test', '😀Test', '😀Test'],
+        ]) {
+          assert.equal(api.camelize(value), camel)
+          assert.equal(api.pascalCase(value), pascal)
+        }
         assert.equal(api.kebabCase('XMLHttpRequest'), 'x-m-l-http-request')
         assert.equal(api.slash('C:\\folder\\file'), 'C:/folder/file')
         assert.equal(api.slash('\\\\?\\C:\\folder'), '\\\\?\\C:\\folder')
@@ -204,7 +224,7 @@ test('local shared utilities: published runtime, types, behavior and bundle size
         assert.deepEqual(api.uniq([NaN, NaN, 1, 1]), [NaN, 1])
         assert.deepEqual(api.call([(x) => x + 1, (x) => x * 2], 3), [4, 6])
         assert.equal(api.call(null), undefined)
-        assert.throws(() => api.assert(false, 'Test', 'failure'), /^Error: Maple \[Test\]: failure$/)
+        assert.throws(() => api.assert(false, 'Test', 'failure'), new RegExp(`^Error: ${brand} \\[Test\\]: failure$`))
         const namespace = api.createNamespaceFn('mp')('cell')
         assert.equal(namespace.name, 'MpCell')
         assert.equal(namespace.n('--active'), 'mp-cell--active')
@@ -463,6 +483,11 @@ test('local shared utilities: published runtime, types, behavior and bundle size
       })
       const bytes = gzipSync(result.outputFiles[0].contents).length
       assert.ok(bytes < 512, `Small shared imports retained unrelated utilities: ${bytes} gzip bytes`)
+      assert.doesNotMatch(
+        result.outputFiles[0].text,
+        /Array\.isArray/,
+        'Unused predicate initialization must be removed from unrelated named imports',
+      )
       console.info(`Published shared small imports: ${bytes} gzip bytes`)
     })
   } finally {

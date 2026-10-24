@@ -26,7 +26,7 @@
 
 <script setup lang="ts">
 import { computed, ref, useAttrs, useSlots } from 'vue'
-import { IconEye, IconEyeInvisible } from '@maplejs/icons-vue'
+import { IconEye, IconEyeInvisible } from '@maple-design/icons-vue'
 import { useFieldLocale } from '../field-decorator/use-field-locale'
 import { createNamespace } from '../utils/components'
 import Input from './Input.vue'

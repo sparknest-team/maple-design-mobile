@@ -339,6 +339,9 @@ export { colProps } from './col'
 export type { ColProps, ColBreakpoint, ColSizeDescriptor, FlexType, ColInstance } from './col'
 export { collapseProps, collapseItemProps } from './collapse'
 export type {
+  CollapseExpandIconSlotProps,
+  CollapseSlots,
+  CollapseItemSlots,
   CollapseInstance,
   CollapseItemInstance,
   CollapseActiveNames,
@@ -524,7 +527,7 @@ export type {
 } from './input-number'
 export type { LazyHTMLElement, LazyInstance } from './lazy'
 export { linkProps } from './link'
-export type { LinkProps, LinkUnderline, LinkInstance } from './link'
+export type { LinkProps, LinkUnderline, LinkSize, LinkInstance } from './link'
 export { listProps } from './list'
 export type {
   ListProps,
@@ -561,6 +564,8 @@ export type {
   MenuStrategy,
   MenuSubmenuTrigger,
   MenuReference,
+  MenuSlots,
+  MenuOptionSlots,
 } from './menu'
 export { messageProps } from './message'
 export type {
@@ -742,7 +747,7 @@ export type {
 export { switchProps } from './switch'
 export type { SwitchVariant, SwitchSize, SwitchValue, SwitchBeforeChange, SwitchInstance, SwitchProps } from './switch'
 export { tabBarProps, tabBarItemProps } from './tab-bar'
-export type { TabBarInstance, TabBarItemInstance, TabBarProps, TabBarItemProps } from './tab-bar'
+export type { TabBarInstance, TabBarItemInstance, TabBarProps, TabBarItemProps, TabBarVariant } from './tab-bar'
 export { tableProps } from './table'
 export type { TableInstance, TableProps } from './table'
 export { tabsProps, tabNavProps, tabItemProps, tabPaneProps, tabsNavsProps, tabsItemsProps } from './tabs'
@@ -761,7 +766,7 @@ export type {
   TabsItemsSlots,
   TabItemSlots,
   TabsNavsExpose,
-  TabsKey,
+  TabsName,
   TabsVariant,
   TabsTrigger,
   TabsIndicatorPosition,

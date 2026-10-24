@@ -26,7 +26,7 @@ The function returns a `Promise`, on selection return `action`. Click modal clos
 
 ```html
 <script setup>
-  import { ActionSheet, Message } from '@maplejs/maple-ui'
+  import { ActionSheet, Message } from '@maple-design/ui'
 
   async function createBasic() {
     const action = await ActionSheet({
@@ -59,7 +59,7 @@ The function returns a `Promise`, on selection return `action`. Click modal clos
 
 ```html
 <script setup>
-  import { ActionSheet, Message } from '@maplejs/maple-ui'
+  import { ActionSheet, Message } from '@maple-design/ui'
 
   async function handleSelect() {
     const action = await ActionSheet({
@@ -95,7 +95,7 @@ The option is passed `disabled` to leave the action in the disabled state.
 
 ```html
 <script setup>
-  import { ActionSheet, Message } from '@maplejs/maple-ui'
+  import { ActionSheet, Message } from '@maple-design/ui'
 
   async function handleSelect() {
     const action = await ActionSheet({
@@ -131,7 +131,7 @@ Passing in `CloseOnClickAction` disallows the action of `ActionSheet` closing au
 
 ```html
 <script setup>
-  import { ActionSheet, Message } from '@maplejs/maple-ui'
+  import { ActionSheet, Message } from '@maple-design/ui'
 
   async function handleSelect() {
     await ActionSheet({
@@ -166,7 +166,7 @@ Options provide parameters to configure the style. See the `Action` data structu
 
 ```html
 <script setup>
-  import { ActionSheet, Message } from '@maplejs/maple-ui'
+  import { ActionSheet, Message } from '@maple-design/ui'
 
   async function handleSelect() {
     const action = await ActionSheet({
@@ -205,7 +205,7 @@ Options provide parameters to configure the style. See the `Action` data structu
 ```html
 <script setup>
   import { ref } from 'vue'
-  import { Message } from '@maplejs/maple-ui'
+  import { Message } from '@maple-design/ui'
 
   const show = ref(false)
   const actions = ref([
@@ -239,7 +239,7 @@ Options provide parameters to configure the style. See the `Action` data structu
 ```html
 <script setup>
   import { ref } from 'vue'
-  import { Message } from '@maplejs/maple-ui'
+  import { Message } from '@maple-design/ui'
 
   const show = ref(false)
   const actions = ref([
@@ -273,7 +273,7 @@ Options provide parameters to configure the style. See the `Action` data structu
 ```html
 <script setup>
   import { ref } from 'vue'
-  import { Message } from '@maplejs/maple-ui'
+  import { Message } from '@maple-design/ui'
 
   const show = ref(false)
   const actions = ref([
@@ -308,7 +308,7 @@ Options provide parameters to configure the style. See the `Action` data structu
 ```html
 <script setup>
   import { ref } from 'vue'
-  import { Message } from '@maplejs/maple-ui'
+  import { Message } from '@maple-design/ui'
 
   const show = ref(false)
   const actions = ref([
@@ -342,7 +342,7 @@ Options provide parameters to configure the style. See the `Action` data structu
 ```html
 <script setup>
   import { ref } from 'vue'
-  import { Message } from '@maplejs/maple-ui'
+  import { Message } from '@maple-design/ui'
 
   const show = ref(false)
   const actions = ref([
@@ -384,6 +384,8 @@ Options provide parameters to configure the style. See the `Action` data structu
 <!-- api-review:end -->
 
 ## API
+
+Use `v-model:open` for the panel state; `defaultOpen` initializes uncontrolled opening once, without emitting an initialization update.
 
 ### Props
 

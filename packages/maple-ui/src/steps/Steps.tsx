@@ -11,12 +11,12 @@ export default defineComponent({
   name,
   props: stepsProps,
   emits: {
-    'update:current': (_current: number) => true,
+    'update:modelValue': (_current: number) => true,
     change: (_current: number, _previous: number, _event: Event) => true,
   },
   setup(props, { emit, slots }) {
-    const uncontrolledCurrent = ref(props.defaultCurrent)
-    const current = computed(() => props.current ?? uncontrolledCurrent.value)
+    const uncontrolledCurrent = ref(props.defaultValue)
+    const current = computed(() => props.modelValue ?? uncontrolledCurrent.value)
     const orientation = computed(() =>
       ['arrow', 'navigation'].includes(props.type) ? 'horizontal' : props.orientation,
     )
@@ -53,7 +53,7 @@ export default defineComponent({
       }
       const previous = current.value
       uncontrolledCurrent.value = index
-      emit('update:current', index)
+      emit('update:modelValue', index)
       emit('change', index, previous, event)
     }
 

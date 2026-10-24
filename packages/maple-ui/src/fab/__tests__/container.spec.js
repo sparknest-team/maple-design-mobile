@@ -15,7 +15,7 @@ test('default container renders a visible trigger and allows expanding actions',
     expect(trigger.querySelector('svg')).toBeTruthy()
     trigger.click()
     await nextTick()
-    expect(wrapper.emitted('update:active')).toEqual([[true]])
+    expect(wrapper.emitted('update:open')).toEqual([[true]])
     expect(document.body.querySelector('.mp-fab__actions').style.display).not.toBe('none')
   } finally {
     wrapper.unmount()

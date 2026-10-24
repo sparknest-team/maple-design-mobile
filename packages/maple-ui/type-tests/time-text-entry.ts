@@ -1,4 +1,4 @@
-import type { TimeProps, TimeRangeProps } from '@maplejs/maple-ui'
+import type { TimeProps, TimeRangeProps } from '@maple-design/ui'
 
 const single: TimeProps[] = [{}, { inputEditable: true }, { inputEditable: false }]
 const range: TimeRangeProps[] = [{}, { inputEditable: true }, { inputEditable: false }]

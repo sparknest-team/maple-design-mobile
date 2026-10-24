@@ -1,5 +1,5 @@
 import { type App, type Directive, type DirectiveBinding, type Plugin } from 'vue'
-import { getRect, getStyle, supportTouch } from '@maplejs/maple-shared'
+import { getRect, getStyle, supportTouch } from '@maple-design/shared'
 import context from '../context'
 import { createNamespace } from '../utils/components'
 
@@ -15,6 +15,7 @@ interface RippleStyles {
 
 interface RippleOptions {
   removeRipple: () => void
+  listening: boolean
   document: Document
   timers: Set<number>
   keyboardActive: boolean
@@ -297,17 +298,17 @@ function removeKeyboardRipple(this: RippleHTMLElement, event: Event) {
   this._ripple.keyboardKey = undefined
 }
 
-function mounted(el: RippleHTMLElement, binding: DirectiveBinding<RippleOptions>) {
-  el._ripple = {
-    document: el.ownerDocument,
-    tasker: null,
-    color: binding.value?.color,
-    disabled: binding.value?.disabled,
-    timers: new Set(),
-    keyboardActive: false,
-    removeRipple: removeRipple.bind(el),
-  }
+// A page may contain hundreds of buttons. Share release events per document,
+// and bind disabled hosts only when they become enabled.
+const releaseGroups = new WeakMap<Document, { hosts: Set<RippleHTMLElement>; release: () => void }>()
+const releaseEvents = ['touchend', 'mouseup', 'touchcancel', 'dragend'] as const
 
+function bindListeners(el: RippleHTMLElement) {
+  const state = el._ripple
+  if (!state || state.listening || state.disabled) {
+    return
+  }
+  state.listening = true
   el.addEventListener('touchstart', createTouchRipple, { passive: true })
   el.addEventListener('mousedown', createMouseRipple, { passive: true })
   el.addEventListener('touchmove', forbidRippleTask, { passive: true })
@@ -316,15 +317,30 @@ function mounted(el: RippleHTMLElement, binding: DirectiveBinding<RippleOptions>
   el.addEventListener('keyup', removeKeyboardRipple)
   el.addEventListener('blur', removeKeyboardRipple)
 
-  el._ripple.document.addEventListener('touchend', el._ripple.removeRipple, { passive: true })
-  el._ripple.document.addEventListener('mouseup', el._ripple.removeRipple, { passive: true })
-  el._ripple.document.defaultView?.addEventListener('blur', el._ripple.removeRipple)
-  el._ripple.document.addEventListener('touchcancel', el._ripple.removeRipple, { passive: true })
-  el._ripple.document.addEventListener('dragend', el._ripple.removeRipple, { passive: true })
+  let group = releaseGroups.get(state.document)
+  if (!group) {
+    const hosts = new Set<RippleHTMLElement>()
+    const release = () => {
+      for (const host of hosts) {
+        host._ripple?.removeRipple()
+      }
+    }
+    group = { hosts, release }
+    releaseGroups.set(state.document, group)
+    for (const event of releaseEvents) {
+      state.document.addEventListener(event, release, { passive: true })
+    }
+    state.document.defaultView?.addEventListener('blur', release)
+  }
+  group.hosts.add(el)
 }
 
-function unmounted(el: RippleHTMLElement) {
-  clearTasks(el)
+function unbindListeners(el: RippleHTMLElement) {
+  const state = el._ripple
+  if (!state?.listening) {
+    return
+  }
+  state.listening = false
   el.removeEventListener('keydown', createKeyboardRipple)
   el.removeEventListener('keyup', removeKeyboardRipple)
   el.removeEventListener('blur', removeKeyboardRipple)
@@ -333,16 +349,33 @@ function unmounted(el: RippleHTMLElement) {
   el.removeEventListener('touchmove', forbidRippleTask)
   el.removeEventListener('dragstart', removeRipple)
 
-  if (!el._ripple || !el._ripple.removeRipple) {
-    // may be null in nuxt
-    return
+  const group = releaseGroups.get(state.document)
+  if (group && group.hosts.delete(el) && !group.hosts.size) {
+    for (const event of releaseEvents) {
+      state.document.removeEventListener(event, group.release)
+    }
+    state.document.defaultView?.removeEventListener('blur', group.release)
+    releaseGroups.delete(state.document)
   }
+}
 
-  el._ripple.document.removeEventListener('touchend', el._ripple.removeRipple)
-  el._ripple.document.removeEventListener('mouseup', el._ripple.removeRipple)
-  el._ripple.document.defaultView?.removeEventListener('blur', el._ripple.removeRipple)
-  el._ripple.document.removeEventListener('touchcancel', el._ripple.removeRipple)
-  el._ripple.document.removeEventListener('dragend', el._ripple.removeRipple)
+function mounted(el: RippleHTMLElement, binding: DirectiveBinding<RippleOptions>) {
+  el._ripple = {
+    document: el.ownerDocument,
+    listening: false,
+    tasker: null,
+    color: binding.value?.color,
+    disabled: binding.value?.disabled,
+    timers: new Set(),
+    keyboardActive: false,
+    removeRipple: removeRipple.bind(el),
+  }
+  bindListeners(el)
+}
+
+function unmounted(el: RippleHTMLElement) {
+  clearTasks(el)
+  unbindListeners(el)
   delete el._ripple
 }
 
@@ -359,6 +392,11 @@ function updated(el: RippleHTMLElement, binding: DirectiveBinding<RippleOptions>
       clearTasks(el)
     }
     Object.assign(el._ripple, newBinding)
+    if (newBinding.disabled) {
+      unbindListeners(el)
+    } else {
+      bindListeners(el)
+    }
   }
 }
 

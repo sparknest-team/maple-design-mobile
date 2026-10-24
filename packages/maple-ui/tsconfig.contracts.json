@@ -4,7 +4,7 @@
     "noEmit": true,
     "declaration": false,
     "paths": {
-      "@maplejs/maple-ui": [
+      "@maple-design/ui": [
         "./types-generated/index.d.ts"
       ]
     },

@@ -6,7 +6,9 @@ export const pullRefreshProps = {
   /**
    * 是否处于刷新加载中，配合 `v-model` 使用
    */
-  modelValue: Boolean,
+  modelValue: { type: Boolean, default: undefined },
+  /** 非受控初始刷新状态，仅创建时读取。完成异步刷新时仍应由父级设置 modelValue=false。 */
+  defaultValue: Boolean,
   /**
    * 是否禁用下拉刷新
    */

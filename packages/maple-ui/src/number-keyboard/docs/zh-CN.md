@@ -23,6 +23,14 @@
 
 ## API
 
+`open/defaultOpen` 分别控制面板状态与非受控初始开合；使用 `v-model:open` 双向绑定。defaultOpen 只在创建时读取，不在初始化时回写。
+
+### 主值与默认值
+
+使用普通 `v-model`。`modelValue` 表示输入文字；`defaultValue` 仅在创建时初始化非受控值，后续修改不会重置当前状态。显式绑定值优先，初始化不发出 `update:modelValue`。
+
+键盘面板独立使用 `open/defaultOpen` 与 `update:open`；输入值和面板开关互不替代。
+
 ### 属性
 
 | 参数                    | 说明                       | 类型                        | 默认值     |

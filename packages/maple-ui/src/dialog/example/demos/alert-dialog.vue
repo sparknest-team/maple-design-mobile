@@ -1,5 +1,5 @@
 <script setup>
-import { Dialog, Message } from '@maplejs/maple-ui'
+import { Dialog, Message } from '@maple-design/ui'
 
 function createAlert() {
   Dialog.alert({

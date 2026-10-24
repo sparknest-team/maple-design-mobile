@@ -2,6 +2,16 @@
 
 ## 案例
 
+### 默认值与双向绑定
+
+`modelValue` 是受控值，通过普通 `v-model` 绑定；父级提供的值优先，包括空字符串。`defaultValue` 是非受控初始值，仅在组件创建时读取；之后由组件内部保存用户输入。修改 `defaultValue` 不会重置现有文字，重新挂载才会重新读取，也不会在初始化时触发 `update:modelValue` 或写入父级表单。
+
+需要表单默认值时，直接初始化绑定字段，例如 `const text = ref('北京')`，然后使用 `<mp-input v-model="text" />`。
+
+```demo
+../example/demos/default-value.vue
+```
+
 ### 基础用法
 
 ```demo
@@ -157,7 +167,7 @@ FormItem 的 `feedback` 配合 `validate-status` 显示校验反馈。有外置 
 | ----------------- | -------------------------------------------------------- | ------------------ | :-------: |
 | `v-model`         | 受控绑定值                                               | `string`           |    `-`    |
 | `model-modifiers` | `v-model` 修饰符，支持 `trim`                            | `object`           |   `{}`    |
-| `default-value`   | 非受控模式下的初始值                                     | `string`           |   `''`    |
+| `default-value`   | 非受控初始值，仅创建时读取；后续修改不重置输入，不回写父级                                     | `string`           |   `''`    |
 | `type`            | `text`、`password`、`number`、`tel` 或 `email`           | `InputType`        |  `text`   |
 | `placeholder`     | 占位符，也可作为浮动提示文字                             | `string`           |    `-`    |
 | `size`            | `xs`、`sm`、`md`、`lg` 或 `xl`                           | `ComponentSize`    |   `md`    |

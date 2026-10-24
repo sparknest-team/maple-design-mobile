@@ -1,14 +1,14 @@
 {
   "fields": [
     {
-      "name": "active",
-      "description": "当前选中 key；提供时受控",
+      "name": "model-value",
+      "description": "当前选中 name；提供时受控",
       "type": "string / number",
       "defaultValue": "undefined",
       "kind": "scalar"
     },
     {
-      "name": "default-active",
+      "name": "default-value",
       "description": "非受控初值，省略选首个可用项",
       "type": "string / number",
       "defaultValue": "undefined",
@@ -222,7 +222,7 @@
     }
   ],
   "events": [
-    "update:active",
+    "update:modelValue",
     "change",
     "tab-click",
     "add",

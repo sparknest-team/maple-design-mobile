@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import { inBrowser } from '@maplejs/maple-shared'
+import { inBrowser } from '@maple-design/shared'
 import { onSmartMounted } from './onSmartMounted'
 import { onWindowResize } from './onWindowResize'
 

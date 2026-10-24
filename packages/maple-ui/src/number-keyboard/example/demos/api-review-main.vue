@@ -33,7 +33,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { defineReviewConfig, ReviewSlot as DemoReviewSlot } from '@ui-foundation/ui-doc-preview'
+import { defineReviewConfig, ReviewSlot as DemoReviewSlot } from '@sparknest/ui-doc-preview'
 import DemoApiReviewPanel from '../../../../docs/components/ApiReviewPanel.vue'
 import __apiReviewRawConfig from './api-review.config.json'
 

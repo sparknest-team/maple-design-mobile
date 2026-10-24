@@ -11,16 +11,16 @@ export interface UseImagePreviewGroupOptions {
   images?: Ref<string[] | undefined>
   open?: Ref<boolean | undefined>
   defaultOpen?: boolean
-  current?: Ref<number | undefined>
-  defaultCurrent?: number
+  modelValue?: Ref<number | undefined>
+  defaultValue?: number
   onOpenChange?: (open: boolean) => void
-  onCurrentChange?: (index: number) => void
+  onCurrentChange?: (imageNumber: number) => void
 }
 
 export function useImagePreviewGroupState(options: UseImagePreviewGroupOptions) {
   const imageUrlMap = ref(new Map<number, ImageUrlRecord>())
   const localOpen = ref(options.defaultOpen ?? false)
-  const localCurrent = ref(options.defaultCurrent ?? 0)
+  const localCurrent = ref((options.defaultValue ?? 1) - 1)
 
   const propImages = computed(() => options.images?.value ?? [])
   const isDataMode = computed(() => propImages.value.length > 0)
@@ -53,17 +53,17 @@ export function useImagePreviewGroupState(options: UseImagePreviewGroupOptions) 
 
   const mergedCurrent = computed({
     get() {
-      return options.current?.value ?? localCurrent.value
+      return options.modelValue?.value !== undefined ? options.modelValue.value - 1 : localCurrent.value
     },
     set(value: number) {
       if (value === mergedCurrent.value) {
         return
       }
-      if (options.current?.value === undefined) {
+      if (options.modelValue?.value === undefined) {
         localCurrent.value = value
       }
 
-      options.onCurrentChange?.(value)
+      options.onCurrentChange?.(value + 1)
     },
   })
 
@@ -101,7 +101,11 @@ export function useImagePreviewGroupState(options: UseImagePreviewGroupOptions) 
     }
   }
 
-  function open(index = 0) {
+  function open(imageNumber = 1) {
+    const index = imageNumber - 1
+    if (!Number.isInteger(index) || index < 0 || index >= previewImages.value.length) {
+      return
+    }
     mergedCurrent.value = index
     mergedOpen.value = true
   }

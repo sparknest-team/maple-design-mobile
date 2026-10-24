@@ -1,7 +1,7 @@
 import { computed, defineComponent, ref, Transition, watch } from 'vue'
-import { IconClose, IconPlus } from '@maplejs/icons-vue'
-import { call, isBoolean } from '@maplejs/maple-shared'
-import { useClickOutside, useVModel } from '@maplejs/maple-use'
+import { IconClose, IconPlus } from '@maple-design/icons-vue'
+import { call, isBoolean } from '@maple-design/shared'
+import { useClickOutside } from '@maple-design/use'
 import Button from '../button'
 import Drag from '../drag'
 import Icon from '../icon'
@@ -17,9 +17,21 @@ export default defineComponent({
   name,
   inheritAttrs: false,
   props,
-  emits: ['click', 'close', 'open', 'opened', 'closed', 'update:active'],
+  emits: ['click', 'close', 'open', 'opened', 'closed', 'update:open'],
   setup(props, { slots, attrs, emit }) {
-    const isActive = useVModel(props, 'active', { emit, eventName: 'update:active' })
+    const localOpen = ref(props.defaultOpen)
+    const isOpen = computed({
+      get: () => props.open ?? localOpen.value,
+      set: (value: boolean) => {
+        if (value === isOpen.value) {
+          return
+        }
+        if (props.open === undefined) {
+          localOpen.value = value
+        }
+        emit('update:open', value)
+      },
+    })
     const popupContainer = computed(() => resolvePopupContainer(props.popupContainer))
     const host = ref<null | HTMLElement>(null)
     const dragRef = ref<InstanceType<typeof Drag> | null>(null)
@@ -27,14 +39,14 @@ export default defineComponent({
     watch(
       () => props.trigger,
       () => {
-        isActive.value = false
+        isOpen.value = false
       },
     )
 
     watch(
       () => props.disabled,
       () => {
-        isActive.value = false
+        isOpen.value = false
       },
     )
 
@@ -50,51 +62,50 @@ export default defineComponent({
     function handleClick(e: Event, value: boolean, childrenLength: number) {
       e.stopPropagation()
 
-      if (props.trigger !== 'click' || props.disabled) {
+      if (!props.visible || props.trigger !== 'click' || props.disabled) {
         return
       }
 
       if (childrenLength === 0) {
-        emit('click', isActive.value, e)
+        emit('click', isOpen.value, e)
         return
       }
 
-      isActive.value = value
-      emit('click', isActive.value, e)
-      call(isActive.value ? (...args: any[]) => emit('open', ...args) : (...args: any[]) => emit('close', ...args))
+      isOpen.value = value
+      emit('click', value, e)
+      call(value ? (...args: any[]) => emit('open', ...args) : (...args: any[]) => emit('close', ...args))
     }
 
     function handleMouse(value: boolean, childrenLength: number) {
-      if (props.trigger !== 'hover' || props.disabled || childrenLength === 0) {
+      if (!props.visible || props.trigger !== 'hover' || props.disabled || childrenLength === 0) {
         return
       }
 
-      isActive.value = value
-      call(isActive.value ? (...args: any[]) => emit('open', ...args) : (...args: any[]) => emit('close', ...args))
+      isOpen.value = value
+      call(value ? (...args: any[]) => emit('open', ...args) : (...args: any[]) => emit('close', ...args))
     }
 
     function handleClickOutside() {
-      if (props.trigger !== 'click' || props.disabled) {
+      if (!props.visible || props.trigger !== 'click' || props.disabled) {
         return
       }
 
-      if (isActive.value !== false) {
-        isActive.value = false
+      if (isOpen.value !== false) {
+        isOpen.value = false
         emit('close')
       }
     }
 
     function renderTrigger() {
       if (slots.trigger) {
-        return props.open ? slots.trigger({ active: isActive.value }) : null
+        return slots.trigger({ open: isOpen.value })
       }
 
-      const iconName = isActive.value ? props.activeIcon : props.inactiveIcon
+      const iconName = isOpen.value ? props.openIcon : props.closedIcon
       const builtinIcon = iconName === 'plus' ? IconPlus : iconName === 'close' ? IconClose : undefined
 
       return (
         <Button
-          v-show={props.open}
           mp-fab-cover
           class={n('trigger')}
           status={props.status}
@@ -106,9 +117,9 @@ export default defineComponent({
             icon: () => (
               <Icon
                 mp-fab-cover
-                class={classes([isActive.value, n('trigger-active-icon'), n('trigger-inactive-icon')])}
-                name={isActive.value ? props.activeIcon : props.inactiveIcon}
-                size={isActive.value ? props.activeIconSize : props.inactiveIconSize}
+                class={classes([isOpen.value, n('trigger-active-icon'), n('trigger-inactive-icon')])}
+                name={isOpen.value ? props.openIcon : props.closedIcon}
+                size={isOpen.value ? props.openIconSize : props.closedIconSize}
                 transition={200}
                 animationClass={n('--trigger-icon-animation')}
                 v-slots={
@@ -148,12 +159,13 @@ export default defineComponent({
           direction={dragProps.direction}
           attraction={dragProps.attraction}
           boundary={dragProps.boundary}
-          onClick={(e: Event) => handleClick(e, !isActive.value, children.length)}
+          onClick={(e: Event) => handleClick(e, !isOpen.value, children.length)}
           {...attrs}
         >
           <div
             class={classes(n(), n(`--direction-${props.direction}`), [props.safeArea, n('--safe-area')])}
             ref={host}
+            v-show={props.visible}
             onMouseleave={() => handleMouse(false, children.length)}
             onMouseenter={() => handleMouse(true, children.length)}
           >
@@ -167,7 +179,7 @@ export default defineComponent({
               <div
                 class={n('actions')}
                 role="presentation"
-                v-show={props.open && isActive.value && children.length}
+                v-show={isOpen.value && children.length}
                 onClick={(e) => e.stopPropagation()}
               >
                 {children.map((child) => (

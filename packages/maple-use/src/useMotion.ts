@@ -1,5 +1,6 @@
 import { ref } from 'vue'
-import { isFunction, motion, MotionState } from '@maplejs/maple-shared'
+import { isFunction, motion } from '@maple-design/shared'
+import type { MotionState } from '@maple-design/shared'
 
 export interface UseMotionOptions {
   from: number | (() => number)

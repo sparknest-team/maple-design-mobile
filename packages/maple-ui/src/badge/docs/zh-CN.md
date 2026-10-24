@@ -6,6 +6,8 @@
 
 ### 基础用法
 
+徽标默认使用红色背景和白色文字。
+
 ```demo
 ../example/demos/basic.vue
 ```
@@ -189,22 +191,22 @@ type BadgeSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 | `--mp-badge-size-md-border-radius` | `24px` |
 | `--mp-badge-size-lg-border-radius` | `28px` |
 | `--mp-badge-size-xl-border-radius` | `32px` |
-| `--mp-badge-bg-color` | `var(--mp-sys-color-status-danger)` |
-| `--mp-badge-text-color` | `var(--mp-sys-color-content-on-bright)` |
+| `--mp-badge-bg-color` | `rgb(var(--mp-danger-7))` |
+| `--mp-badge-text-color` | `var(--mp-sys-color-content-on-dark)` |
 | `--mp-badge-status-default-bg-color` | `#e0e0e0` |
 | `--mp-badge-status-default-text-color` | `var(--mp-sys-color-content-on-bright)` |
 | `--mp-badge-status-info-bg-color` | `var(--mp-sys-color-status-info)` |
-| `--mp-badge-status-info-text-color` | `var(--mp-sys-color-content-on-bright)` |
+| `--mp-badge-status-info-text-color` | `var(--mp-sys-color-content-on-dark)` |
 | `--mp-badge-status-success-bg-color` | `var(--mp-sys-color-status-success)` |
-| `--mp-badge-status-success-text-color` | `var(--mp-sys-color-content-on-bright)` |
+| `--mp-badge-status-success-text-color` | `var(--mp-sys-color-content-on-dark)` |
 | `--mp-badge-status-warning-bg-color` | `var(--mp-sys-color-status-warning)` |
-| `--mp-badge-status-warning-text-color` | `var(--mp-sys-color-content-on-bright)` |
-| `--mp-badge-status-danger-bg-color` | `var(--mp-sys-color-status-danger)` |
-| `--mp-badge-status-danger-text-color` | `var(--mp-sys-color-content-on-bright)` |
+| `--mp-badge-status-warning-text-color` | `var(--mp-sys-color-content-on-dark)` |
+| `--mp-badge-status-danger-bg-color` | `rgb(var(--mp-danger-7))` |
+| `--mp-badge-status-danger-text-color` | `var(--mp-sys-color-content-on-dark)` |
 | `--mp-badge-status-primary-bg-color` | `var(--mp-sys-color-action-primary)` |
-| `--mp-badge-status-primary-text-color` | `var(--mp-sys-color-content-on-bright)` |
+| `--mp-badge-status-primary-text-color` | `var(--mp-sys-color-content-on-dark)` |
 | `--mp-badge-status-secondary-bg-color` | `rgb(var(--mp-gray-6))` |
-| `--mp-badge-status-secondary-text-color` | `var(--mp-sys-color-content-on-bright)` |
+| `--mp-badge-status-secondary-text-color` | `var(--mp-sys-color-content-on-dark)` |
 | `--mp-badge-status-tertiary-bg-color` | `rgb(var(--mp-gray-7))` |
 | `--mp-badge-status-tertiary-text-color` | `var(--mp-sys-color-content-on-dark)` |
 | `--mp-badge-variant-outline-bg-color` | `transparent` |
@@ -221,10 +223,10 @@ type BadgeSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 | `--mp-badge-offset` | `2px` |
 | `--mp-badge-ring-width` | `2px` |
 
-填充徽标按背景选择前景：亮色状态底用 `content-on-bright`；浅色主题的深灰 tertiary 用 `content-on-dark`，暗色主题的亮灰 tertiary 用 `content-on-bright`。两端的 Maple 浅色品牌均为深橙 primary 配置 `content-on-dark`。默认危险红 `var(--mp-sys-color-status-danger)` 与中性背景 `#e0e0e0` 是组件视觉值。
+填充徽标的文字配色以 Button 为准：primary、info、success、warning、danger、secondary 使用 `content-on-dark`；tertiary 在亮色使用 `content-on-dark`，暗色使用 `content-on-bright`。默认通知徽标使用红底白字，中性背景 `#e0e0e0` 为固定浅灰色。
 
-轮廓文字和描边使用 `content-brand/info/success/warning/danger`，适配普通中性表面；secondary 与 tertiary 轮廓均使用 `content-secondary` 保持可读性。`variant-outline-bg-color` 对所有状态均生效，默认透明。`color` 属性覆盖轮廓文字和描边，`text-color` 进一步覆盖文字；二者均保留背景变量的控制权。自定义前景或背景后须重新验证对比度。
+彩色轮廓文字和描边与 Button 一致，使用对应的 `content-brand` / `content-info` / `content-success` / `content-warning` / `content-danger` 语义色；secondary 与 tertiary 轮廓均使用 `content-secondary` 保持可读性。`variant-outline-bg-color` 对所有状态均生效，默认透明。`color` 属性覆盖轮廓文字和描边，`text-color` 进一步覆盖文字；二者均保留背景变量的控制权。自定义前景或背景后须重新验证对比度。
 
 ### 颜色覆盖边界
 
-bg-color 兜底引用 system status-danger。中性固定浅灰与 secondary/tertiary 灰阶是有意的组件配色；border-color 隔离环可按宿主表面覆盖。自定义 color/text-color 由调用方保证对比度。
+bg-color 兜底和 danger 填充均使用红色背景与白色文字：浅色主题为 danger 第 7 阶，暗色主题为第 4 阶。中性固定浅灰与 secondary/tertiary 灰阶是有意的组件配色；border-color 隔离环可按宿主表面覆盖。自定义 color/text-color 由调用方保证对比度。

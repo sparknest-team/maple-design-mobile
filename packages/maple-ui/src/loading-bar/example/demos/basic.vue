@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
-import { AppType, onThemeChange } from '@maplejs/maple-cli/client'
-import { LoadingBar } from '@maplejs/maple-ui'
+import { AppType, onThemeChange } from '@maple-design/cli/client'
+import { LoadingBar } from '@maple-design/ui'
 
 const hasCustomStyle = ref(false)
 

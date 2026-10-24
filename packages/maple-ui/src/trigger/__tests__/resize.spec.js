@@ -309,3 +309,37 @@ test('visualViewport resize and scroll coalesce and detach when closed', async (
     }
   }
 })
+
+test('without native ResizeObserver window resize still batches and cleans up', () => {
+  const env = fixture()
+  window.ResizeObserver = undefined
+  const update = vi.fn()
+  const target = document.createElement('button')
+  const wrapper = mount({
+    setup() {
+      useTriggerResize(
+        () => [target],
+        () => true,
+        update,
+      )
+      return () => h('div')
+    },
+  })
+  try {
+    env.flush()
+    update.mockClear()
+    window.dispatchEvent(new Event('resize'))
+    window.dispatchEvent(new Event('resize'))
+    expect(env.frames.size).toBe(1)
+    env.flush()
+    expect(update).toHaveBeenCalledOnce()
+    window.dispatchEvent(new Event('resize'))
+    wrapper.unmount()
+    expect(env.frames.size).toBe(0)
+    window.dispatchEvent(new Event('resize'))
+    expect(env.frames.size).toBe(0)
+  } finally {
+    wrapper.unmount()
+    env.restore()
+  }
+})

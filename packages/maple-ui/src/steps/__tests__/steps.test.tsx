@@ -14,7 +14,11 @@ describe('Steps', () => {
     const wrapper = mount({
       setup() {
         return () =>
-          h(Steps, { current: 2 }, () => [h(Step, null, () => 'A'), h(Step, null, () => 'B'), h(Step, null, () => 'C')])
+          h(Steps, { modelValue: 2 }, () => [
+            h(Step, null, () => 'A'),
+            h(Step, null, () => 'B'),
+            h(Step, null, () => 'C'),
+          ])
       },
     })
     await nextTick()
@@ -35,8 +39,8 @@ describe('Steps', () => {
             Steps,
             {
               changeable: true,
-              current: current.value,
-              'onUpdate:current': (v: number) => {
+              modelValue: current.value,
+              'onUpdate:modelValue': (v: number) => {
                 current.value = v
               },
               onChange,
@@ -65,7 +69,7 @@ describe('Steps', () => {
 
   test('supports shared status icon slots', () => {
     const wrapper = mount(Steps, {
-      props: { current: 2 },
+      props: { modelValue: 2 },
       slots: {
         default: () => [h(Step, null, () => 'A'), h(Step, null, () => 'B')],
         'finish-icon': () => h('span', { class: 'finish-icon' }),
@@ -78,7 +82,7 @@ describe('Steps', () => {
   test('does not select a disabled step', async () => {
     const onChange = vi.fn()
     const wrapper = mount(Steps, {
-      props: { current: 1, changeable: true, onChange },
+      props: { modelValue: 1, changeable: true, onChange },
       slots: {
         default: () => [h(Step, null, () => 'A'), h(Step, { disabled: true }, () => 'B')],
       },
@@ -92,7 +96,7 @@ describe('Steps', () => {
     const wrapper = mount({
       setup() {
         return () =>
-          h(Steps, { current: 2, status: 'error' }, () => [h(Step, null, () => 'A'), h(Step, null, () => 'B')])
+          h(Steps, { modelValue: 2, status: 'error' }, () => [h(Step, null, () => 'A'), h(Step, null, () => 'B')])
       },
     })
     await nextTick()

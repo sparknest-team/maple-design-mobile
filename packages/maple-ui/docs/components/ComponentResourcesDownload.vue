@@ -1,5 +1,5 @@
 <script setup>
-import { onThemeChange, watchLang } from '@maplejs/maple-cli/client'
+import { onThemeChange, watchLang } from '@maple-design/cli/client'
 import MpButton from '../../src/button'
 import MpIcon from '../../src/icon'
 import { t, use } from './locale'

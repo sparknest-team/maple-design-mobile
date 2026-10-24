@@ -167,7 +167,7 @@ label 使用文本；复杂候选通过 option 插槽或选项 render 实现，�
 
 ```ts
 import type { AutoCompleteProps, AutoCompleteInstance, AutoCompleteOption, AutoCompleteOptionData,
-  AutoCompleteOptionInfo, AutoCompleteFieldNames, AutoCompleteFilterOption } from '@maplejs/maple-ui'
+  AutoCompleteOptionInfo, AutoCompleteFieldNames, AutoCompleteFilterOption } from '@maple-design/ui'
 ```
 
 ## 样式变量

@@ -5,7 +5,7 @@ import { ref } from 'vue'
   <div class="pagination-demo">
     <mp-pagination
       :total="300"
-      :default-current="10"
+      :default-value="10"
       :buffer-size="0"
       :responsive="false"
       :page-item-style="{ borderRadius: '8px' }"

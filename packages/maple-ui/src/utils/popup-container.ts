@@ -30,7 +30,11 @@ function isPopupElement(value: unknown): value is HTMLElement {
 export const popupContainerProp = {
   type: [String, Object, Boolean] as PropType<PopupContainer>,
   default: undefined,
-  validator: (value: unknown) => value === false || typeof value === 'string' || isPopupElement(value),
+  // Vue only runs prop validators in development; omit DOM-brand checks from production bundles.
+  validator:
+    process.env.NODE_ENV !== 'production'
+      ? (value: unknown) => value === false || typeof value === 'string' || isPopupElement(value)
+      : undefined,
 }
 export function resolvePopupContainer(value: PopupContainer | undefined): HTMLElement | string {
   if (value === false || value == null || typeof document === 'undefined') {

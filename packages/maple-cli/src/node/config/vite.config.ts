@@ -1,8 +1,8 @@
 import { createRequire } from 'node:module'
 import { resolve } from 'path'
-import { isArray } from '@maplejs/maple-shared'
-import { copy, html, inlineCss, markdown } from '@maplejs/maple-vite-plugins'
-import { MapleResolver, MapleStyleImports } from '@maplejs/resolver'
+import { MapleResolver, MapleStyleImports } from '@maple-design/resolver'
+import { isArray } from '@maple-design/shared'
+import { copy, html, inlineCss, markdown } from '@maple-design/vite-plugins'
 import vue from '@vitejs/plugin-vue'
 import jsx from '@vitejs/plugin-vue-jsx'
 import AutoImport from 'unplugin-auto-import/vite'
@@ -21,9 +21,14 @@ import {
   VITE_RESOLVE_EXTENSIONS,
 } from '../shared/constant.js'
 import { MapleConfig, type MapleConfigHtmlInject, type MapleConfigHtmlInjectPoint } from './maple.config.js'
-import { createSiteImportPlugin, createSiteResolver, getWorkspaceSourceAliases } from './site-resolver.js'
+import {
+  createSiteImportPlugin,
+  createSiteResolver,
+  getSiteComponentExcludes,
+  getWorkspaceSourceAliases,
+} from './site-resolver.js'
 
-const uiDocPreviewEntry = createRequire(import.meta.url).resolve('@ui-foundation/ui-doc-preview')
+const uiDocPreviewEntry = createRequire(import.meta.url).resolve('@sparknest/ui-doc-preview')
 
 export function getHtmlInject(inject: MapleConfigHtmlInject) {
   const getContent = (injectKey: keyof MapleConfigHtmlInject, position: MapleConfigHtmlInjectPoint['position']) =>
@@ -59,10 +64,12 @@ export function getPlugins(mapleConfig: Required<MapleConfig>): Plugin[] {
 
     Components({
       resolvers: [createSiteResolver(SRC_DIR, resolverOptions)],
+      exclude: getSiteComponentExcludes(SRC_DIR),
       dts: false,
     }),
 
     AutoImport({
+      exclude: getSiteComponentExcludes(SRC_DIR),
       resolvers: [MapleResolver({ ...resolverOptions, autoImport: true })],
       dts: false,
     }),
@@ -117,7 +124,7 @@ export function getDevConfig(mapleConfig: Required<MapleConfig>): InlineConfig {
       extensions: VITE_RESOLVE_EXTENSIONS,
 
       alias: [
-        { find: '@ui-foundation/ui-doc-preview', replacement: uiDocPreviewEntry },
+        { find: '@sparknest/ui-doc-preview', replacement: uiDocPreviewEntry },
         ...Object.entries(resolveAlias).map(([find, replacement]) => ({ find, replacement })),
         ...getWorkspaceSourceAliases(SRC_DIR),
         { find: '@config', replacement: SITE_CONFIG },
@@ -126,15 +133,15 @@ export function getDevConfig(mapleConfig: Required<MapleConfig>): InlineConfig {
         { find: '@pc-routes', replacement: SITE_PC_ROUTES },
         { find: '@mobile-routes', replacement: SITE_MOBILE_ROUTES },
         {
-          find: /^@maplejs\/maple-ui$/,
+          find: /^@maple-design\/ui$/,
           replacement: resolve(SRC_DIR, 'index.ts'),
         },
         {
-          find: /^@maplejs\/maple-ui\/style$/,
+          find: /^@maple-design\/ui\/style$/,
           replacement: resolve(SRC_DIR, 'style/index.less'),
         },
         {
-          find: /^@maplejs\/maple-ui\/(.+)\/style$/,
+          find: /^@maple-design\/ui\/(.+)\/style$/,
           replacement: resolve(SRC_DIR, '$1/style'),
         },
       ],

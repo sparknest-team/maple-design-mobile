@@ -146,7 +146,7 @@ InputNumber 用于编辑和提交业务数字。两端主体、数值控制器�
 ## 类型定义 / Types
 
 ```ts
-import type { InputNumberProps, InputNumberInstance, InputNumberMode, InputNumberModelEvent, InputNumberSize, InputNumberVariant, InputNumberFormatter, InputNumberParser } from '@maplejs/maple-ui'
+import type { InputNumberProps, InputNumberInstance, InputNumberMode, InputNumberModelEvent, InputNumberSize, InputNumberVariant, InputNumberFormatter, InputNumberParser } from '@maple-design/ui'
 ```
 
 ## 样式变量

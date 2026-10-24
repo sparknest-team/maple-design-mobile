@@ -74,7 +74,7 @@ describe('test tag component props', () => {
   test('tag checkable', async () => {
     const onCheck = vi.fn()
     const wrapper = mount(VarTag, {
-      props: { checkable: true, defaultChecked: false, onCheck },
+      props: { checkable: true, defaultValue: false, onCheck },
     })
     expect(wrapper.find('.mp-tag--checkable').exists()).toBe(true)
     await wrapper.find('.mp-tag').trigger('click')
@@ -93,14 +93,14 @@ describe('test tag component props', () => {
 
   test('supports keyboard interaction when checkable', async () => {
     const wrapper = mount(VarTag, {
-      props: { checkable: true, defaultChecked: false },
+      props: { checkable: true, defaultValue: false },
     })
 
     const tag = wrapper.find('.mp-tag')
     expect(tag.attributes()).toMatchObject({ role: 'checkbox', 'aria-checked': 'false', tabindex: '0' })
     await tag.trigger('keydown', { key: ' ' })
     expect(tag.attributes('aria-checked')).toBe('true')
-    expect(wrapper.emitted('update:checked')?.[0]).toEqual([true])
+    expect(wrapper.emitted('update:modelValue')?.[0]).toEqual([true])
     wrapper.unmount()
   })
 

@@ -1,6 +1,6 @@
 <script setup>
 import { reactive } from 'vue'
-import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
+import { AppType, onThemeChange, watchLang } from '@maple-design/cli/client'
 import { t, use } from './locale'
 
 const dates = reactive({

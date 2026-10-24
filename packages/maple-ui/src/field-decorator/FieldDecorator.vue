@@ -64,7 +64,7 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { IconCloseCircleFill } from '@maplejs/icons-vue'
+import { IconCloseCircleFill } from '@maple-design/icons-vue'
 import { createNamespace } from '../utils/components'
 import { fieldDecoratorProps } from './props'
 import { useFieldGeometry } from './use-field-geometry'

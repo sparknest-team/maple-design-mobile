@@ -12,7 +12,9 @@
 ../example/demos/basic-usage.vue
 ```
 
-### 变体
+### 胶囊指示器
+
+设置 `variant="pill"`，为选中图标显示胶囊背景；默认 `standard` 仅改变选中颜色。
 
 ```demo
 ../example/demos/variant.vue
@@ -26,7 +28,7 @@
 
 ### 徽标提示
 
-TabBar 徽标默认使用 xs 尺寸并向图标右上方外侧展开；通过 badge 对象可覆盖 size、position、offsetX、offsetY。普通与 variant 模式均支持红点、数字和 max 上限。
+TabBar 徽标默认使用 xs 尺寸并向图标右上方外侧展开；通过 badge 对象可覆盖 size、position、offsetX、offsetY。标准与胶囊样式均支持红点、数字和 max 上限。
 
 ```demo
 ../example/demos/show-badge.vue
@@ -66,13 +68,17 @@ TabBar 徽标默认使用 xs 尺寸并向图标右上方外侧展开；通过 ba
 ../example/demos/uncontrolled.vue
 ```
 
-### 数字名称与重排
+### 稳定 key 与选中保持
+
+`key` 保留节点身份，`name` 匹配选中项。两者使用同一个稳定标识，不要使用数组索引作为 key。
 
 ```demo
-../example/demos/numeric-name.vue
+../example/demos/stable-key.vue
 ```
 
 ### 自定义选中标签
+
+通过 default 插槽的 `modelValue` 参数加粗选中标签。
 
 ```demo
 ../example/demos/custom-label.vue
@@ -95,14 +101,18 @@ TabBar 徽标默认使用 xs 尺寸并向图标右上方外侧展开；通过 ba
 
 ## API
 
+### 主值与默认值
+
+使用普通 `v-model`。`modelValue` 表示选中子项的 name；未提供 name 的位置模式使用从 0 开始的索引；`defaultValue` 仅在创建时初始化非受控值，后续修改不会重置当前状态。显式绑定值优先，初始化不发出 `update:modelValue`。
+
 ### 属性
 
 #### TabBar Props
 
 | 参数               | 说明              | 类型 | 默认值 |
 |------------------|-----------------| ---- | ---- |
-| `v-model:active` | 当前选中名称或索引；传入时为受控模式 | _number \| string_ | `undefined` |
-| `default-active` | 非受控初始选中值，仅初始化时读取 | _number \| string_ | `0` |
+| `v-model` | 当前选中名称或索引；传入时为受控模式 | _number \| string_ | `undefined` |
+| `default-value` | 非受控初始选中值，仅初始化时读取 | _number \| string_ | `0` |
 | `before-change` | 切换前校验；返回真值允许，假值、抛错或 Promise 拒绝取消；仅最后一次请求可生效 | _(active: number \| string) => boolean \| Promise&lt;boolean&gt;_ | `-` |
 | `fixed`          | 是否固定在底部         | _boolean_ | `false` |
 | `border`         | 是否显示外边框         | _boolean_ | `false` |
@@ -112,7 +122,7 @@ TabBar 徽标默认使用 xs 尺寸并向图标右上方外侧展开；通过 ba
 | `inactive-color` | 未选中标签的颜色        | _string_ | `-` |
 | `placeholder`  ***3.2.11***   | 是否在底部生成相同高度的占位元素(需设置 `fixed`)  | _boolean_ | `false` |
 | `fab-props`      | 悬浮按钮属性          | _ButtonProps_ | `{ status: 'primary' }` |
-| `variant` ***3.2.0***      | 变体模式          | _boolean_ | `false` |
+| `variant` | 外观样式 | _TabBarVariant_：`standard` / `pill` | `standard` |
 
 未传 active 时组件自行维护选中值；传入 active 时仅通知调用者更新。撤去 active 后从最后的受控值继续。数字 name 优先于无 name 子项的索引；有 name 的子项不再按索引匹配。
 
@@ -190,3 +200,5 @@ TabBar 徽标默认使用 xs 尺寸并向图标右上方外侧展开；通过 ba
 | `--mp-tab-bar-item-variant-icon-container-max-width` | `58px` |
 | `--mp-tab-bar-item-variant-active-background-color` | `color-mix(in srgb, var(--mp-color-primary) 14%, var(--mp-tab-bar-background-color))` |
 | `--mp-tab-bar-item-variant-active-color` | `var(--mp-color-primary)` |
+
+`default` 和 `icon` 插槽的 active 表示当前项 name 是否对应 modelValue；焦点、悬停不会改变 active。activeColor/inactiveColor 分别控制当前项和非当前项的颜色。

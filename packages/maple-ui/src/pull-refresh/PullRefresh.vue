@@ -14,9 +14,9 @@ import {
   IconArrowDown as MIconArrowDown,
   IconCheckboxMarkedCircleFill as MIconCheckboxMarkedCircleFill,
   IconRefresh as MIconRefresh,
-} from '@maplejs/icons-vue'
-import { getRect, getScrollTop, isNumber, isString, preventDefault, toNumber } from '@maplejs/maple-shared'
-import { useTouch } from '@maplejs/maple-use'
+} from '@maple-design/icons-vue'
+import { getRect, getScrollTop, isNumber, isString, preventDefault, toNumber } from '@maple-design/shared'
+import { useTouch } from '@maple-design/use'
 import MpIcon from '../icon'
 import { createNamespace } from '../utils/components'
 import { getParentScroller, getTarget } from '../utils/elements'
@@ -40,6 +40,8 @@ export default defineComponent({
   props: pullRefreshProps,
   emits: ['update:modelValue', 'refresh'],
   setup(props, { emit }) {
+    const internalLoading = ref(props.defaultValue)
+    const loading = computed(() => props.modelValue ?? internalLoading.value)
     const controlPosition = ref(0)
     const freshNode = ref<HTMLElement | null>(null)
     const controlNode = ref<HTMLElement | null>(null)
@@ -181,10 +183,10 @@ export default defineComponent({
     }
 
     function settleCurrentModel() {
-      refreshStatus.value = props.modelValue ? 'loading' : 'default'
-      iconName.value = props.modelValue ? 'refresh' : 'arrow-down'
-      isEnd.value = props.modelValue
-      distance.value = props.modelValue ? maxDistance.value * 0.3 : controlPosition.value
+      refreshStatus.value = loading.value ? 'loading' : 'default'
+      iconName.value = loading.value ? 'refresh' : 'arrow-down'
+      isEnd.value = loading.value
+      distance.value = loading.value ? maxDistance.value * 0.3 : controlPosition.value
     }
 
     onDeactivated(() => {
@@ -222,7 +224,7 @@ export default defineComponent({
     )
 
     watch(
-      () => props.modelValue,
+      () => loading.value,
       (newValue) => {
         if (newValue && pendingRefresh && refreshStatus.value === 'loading') {
           return
@@ -427,6 +429,9 @@ export default defineComponent({
         distance.value = maxDistance.value * 0.3
 
         pendingRefresh = true
+        if (props.modelValue === undefined) {
+          internalLoading.value = true
+        }
         emit('update:modelValue', true)
         nextTick(() => {
           if (!current(version) || !pendingRefresh || props.disabled || refreshStatus.value !== 'loading') {

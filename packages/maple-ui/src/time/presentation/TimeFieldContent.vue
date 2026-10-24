@@ -90,7 +90,7 @@
 </template>
 <script setup lang="ts">
 import { computed, provide, ref, useId, useSlots, watch } from 'vue'
-import { IconClockCircle } from '@maplejs/icons-vue'
+import { IconClockCircle } from '@maple-design/icons-vue'
 import PickerField from '../../_components/picker-field/PickerField.vue'
 import { splitInputAttrs } from '../../input/native-attrs'
 import TimeRangePicker from '../../time-range/TimeRangePicker.vue'

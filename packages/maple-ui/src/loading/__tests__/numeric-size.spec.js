@@ -7,7 +7,7 @@ import Loading from '..'
 
 // Use the same Less compiler as maple-cli's build and test pipeline.
 const require = createRequire(import.meta.url)
-const less = createRequire(require.resolve('@maplejs/maple-cli'))('less')
+const less = createRequire(require.resolve('@maple-design/cli'))('less')
 
 let stylesheet
 beforeAll(async () => {

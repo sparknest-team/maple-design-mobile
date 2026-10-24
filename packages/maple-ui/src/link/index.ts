@@ -6,7 +6,7 @@ withInstall(Link)
 withPropsDefaultsSetter(Link, linkProps)
 
 export { linkProps }
-export type { LinkProps, LinkUnderline } from './props'
+export type { LinkProps, LinkUnderline, LinkSize } from './props'
 
 export type LinkInstance = InstanceType<typeof Link>
 export const _LinkComponent: typeof Link = Link

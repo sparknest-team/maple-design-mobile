@@ -3,4 +3,4 @@ export {
   IconChevronRight as NextIcon,
   IconChevronUp as UpIcon,
   IconChevronDown as DownIcon,
-} from '@maplejs/icons-vue'
+} from '@maple-design/icons-vue'

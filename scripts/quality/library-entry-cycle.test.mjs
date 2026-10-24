@@ -5,6 +5,15 @@ import { join } from 'node:path'
 import test from 'node:test'
 import { pathToFileURL } from 'node:url'
 
+test('Upload preview dependencies do not evaluate the Image public component barrel', async () => {
+  for (const path of ['../../packages/maple-ui/src/upload/Upload.vue']) {
+    const source = await readFile(new URL(path, import.meta.url), 'utf8')
+    assert.doesNotMatch(source, /from ['"]\.\.\/image['"]/, path)
+    assert.match(source, /import \{ previewImage \} from ['"]\.\.\/image\/preview(?:-api)?['"]/, path)
+    assert.match(source, /import type \{ ImagePreviewHandle \} from ['"]\.\.\/image\/api['"]/, path)
+  }
+})
+
 test('aggregate component properties preserve live bindings during circular entry evaluation', async () => {
   const entry = await readFile(new URL('../../packages/maple-ui/src/maple-vue.ts', import.meta.url), 'utf8')
   const generator = await readFile(
@@ -12,7 +21,7 @@ test('aggregate component properties preserve live bindings during circular entr
     'utf8',
   )
   assert.match(generator, /get \$\{name\}\(\) \{ return \$\{name\} \}/)
-  const property = entry.match(/get Image\(\) \{ return Image \}/)?.[0]
+  const property = entry.match(/get Image\(\)\s*\{\s*return Image\s*\}/)?.[0]
   assert.ok(property, 'generated entry must not eagerly read Image')
   const directory = await mkdtemp(join(tmpdir(), 'maple-entry-cycle-'))
   try {

@@ -1,5 +1,5 @@
 import type { ComputedRef, Slots } from 'vue'
-import { useChildren, useParent } from '@maplejs/maple-use'
+import { useChildren, useParent } from '@maple-design/use'
 import type { BreadcrumbMoreIconSlotData } from './types'
 
 export interface BreadcrumbProvider {

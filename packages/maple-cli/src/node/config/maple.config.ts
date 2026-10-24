@@ -1,6 +1,6 @@
 import { pathToFileURL } from 'url'
-import { isArray, mergeWith } from '@maplejs/maple-shared'
-import { type CopyOptions } from '@maplejs/maple-vite-plugins'
+import { isArray, mergeWith } from '@maple-design/shared'
+import { type CopyOptions } from '@maple-design/vite-plugins'
 import fse from 'fs-extra'
 import { Plugin, ProxyOptions } from 'vite'
 import { COMPONENT_REUSE_JSON, MAPLE_CONFIG, SITE_CONFIG } from '../shared/constant.js'

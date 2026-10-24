@@ -1,6 +1,6 @@
 import { onMounted, onUnmounted } from 'vue'
 import config from '@config'
-import { StyleProvider, Themes } from '@maplejs/maple-ui'
+import { StyleProvider, Themes } from '@maple-design/ui'
 import AppType from './appType'
 import { resolveDemoLanguage } from './language'
 import { currentTheme, observeTheme } from './theme-state'

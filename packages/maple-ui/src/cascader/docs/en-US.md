@@ -95,6 +95,8 @@ Cascading selection via dropdown menu or bottom popup picker.
 
 <!-- api-review:end -->
 
+Single selection uses the built-in check icon on the right. Multiple selection uses Checkbox controls: no checked descendants is unchecked, some is indeterminate, and all selectable leaf descendants is checked. Disabled leaves are excluded from select-all. With checkStrictly, parent and child selections are independent. Panel selections remain drafts until confirmation.
+
 ## API
 
 ### Cascader props
@@ -206,3 +208,10 @@ Maple 使用 presentation="popup" 点击值区域打开编辑面板；inline 直
 The former menu/list/picker presentation values are replaced by inline/popup. Overlay editors retain the existing option index, search, lazy loading and virtual scrolling.
 
 `read-pretty` 为独立布尔属性，与 `readonly`、`disabled` 同级；字段 > FormItem > Form 继承，显式 `false` 覆盖父级。默认 `false`。纯阅读不显示编辑器。
+
+### Selection check tokens
+
+| Token | Default |
+| --- | --- |
+| `--mp-cascader-item-check-color` | `var(--mp-sys-color-action-primary)` |
+| `--mp-cascader-item-check-size` | `var(--mp-sys-font-size-md)` |

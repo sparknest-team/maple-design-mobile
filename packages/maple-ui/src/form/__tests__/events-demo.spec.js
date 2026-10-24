@@ -7,7 +7,7 @@ import Space from '../../space'
 import EnglishDemo from '../example/demos/en-US/events.vue'
 import ChineseDemo from '../example/demos/events.vue'
 
-vi.mock('@maplejs/maple-ui', () => ({ Message: vi.fn() }))
+vi.mock('@maple-design/ui', () => ({ Message: vi.fn() }))
 
 test.each([
   [ChineseDemo, '提交结果：未通过', '提交结果：通过', '提交结果：已重置'],

@@ -93,11 +93,7 @@
       "type": "string",
       "defaultValue": "-",
       "kind": "string",
-      "path": [
-        "actions",
-        0,
-        "name"
-      ]
+      "path": ["actions", 0, "name"]
     },
     {
       "name": "ActionSheetAction.color",
@@ -106,11 +102,7 @@
       "defaultValue": "-",
       "kind": "string",
       "initial": "#5268cc",
-      "path": [
-        "actions",
-        0,
-        "color"
-      ]
+      "path": ["actions", 0, "color"]
     },
     {
       "name": "ActionSheetAction.icon",
@@ -118,11 +110,7 @@
       "type": "string",
       "defaultValue": "-",
       "kind": "string",
-      "path": [
-        "actions",
-        0,
-        "icon"
-      ]
+      "path": ["actions", 0, "icon"]
     },
     {
       "name": "ActionSheetAction.icon-size",
@@ -130,11 +118,7 @@
       "type": "string",
       "defaultValue": "-",
       "kind": "string",
-      "path": [
-        "actions",
-        0,
-        "iconSize"
-      ]
+      "path": ["actions", 0, "iconSize"]
     },
     {
       "name": "ActionSheetAction.namespace",
@@ -142,11 +126,7 @@
       "type": "string",
       "defaultValue": "-",
       "kind": "string",
-      "path": [
-        "actions",
-        0,
-        "namespace"
-      ]
+      "path": ["actions", 0, "namespace"]
     },
     {
       "name": "ActionSheetAction.class-name",
@@ -154,11 +134,7 @@
       "type": "string",
       "defaultValue": "-",
       "kind": "string",
-      "path": [
-        "actions",
-        0,
-        "className"
-      ]
+      "path": ["actions", 0, "className"]
     },
     {
       "name": "ActionSheetAction.disabled",
@@ -166,31 +142,15 @@
       "type": "boolean",
       "defaultValue": "false",
       "kind": "boolean",
-      "path": [
-        "actions",
-        0,
-        "disabled"
-      ]
+      "path": ["actions", 0, "disabled"]
     }
   ],
-  "events": [
-    "select",
-    "open",
-    "opened",
-    "close",
-    "closed",
-    "click-overlay",
-    "key-escape",
-    "update:open"
-  ],
+  "events": ["select", "open", "opened", "close", "closed", "click-overlay", "key-escape", "update:open"],
   "scenarios": [
     {
       "name": "actions",
       "kind": "prop",
-      "demos": [
-        "component-call.vue",
-        "function-call.vue"
-      ]
+      "demos": ["component-call.vue", "function-call.vue"]
     },
     {
       "name": "overlay-style",
@@ -200,25 +160,17 @@
     {
       "name": "actions",
       "kind": "slot",
-      "demos": [
-        "component-call.vue",
-        "function-call.vue"
-      ]
+      "demos": ["component-call.vue", "function-call.vue"]
     },
     {
       "name": "title",
       "kind": "slot",
-      "demos": [
-        "component-call.vue",
-        "function-call.vue"
-      ]
+      "demos": ["component-call.vue", "function-call.vue"]
     },
     {
       "name": "action-sheet",
       "kind": "method",
-      "demos": [
-        "component-call.vue"
-      ]
+      "demos": ["component-call.vue"]
     },
     {
       "name": "action-sheet.close",
@@ -236,10 +188,7 @@
       "demos": []
     }
   ],
-  "slotNames": [
-    "actions",
-    "title"
-  ],
+  "slotNames": ["actions", "title"],
   "slotDefaults": {
     "actions": false,
     "title": false

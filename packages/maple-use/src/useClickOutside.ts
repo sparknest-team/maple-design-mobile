@@ -1,5 +1,5 @@
 import { unref, type Ref } from 'vue'
-import { inBrowser, isFunction } from '@maplejs/maple-shared'
+import { inBrowser, isFunction } from '@maple-design/shared'
 import { useEventListener } from './useEventListener.js'
 
 export type UseClickOutsideTarget = Element | Ref<Element | undefined | null> | (() => Element | undefined | null)

@@ -12,6 +12,14 @@
 ../example/demos/basic.vue
 ```
 
+### 五种尺寸
+
+通过 `size` 设置五档尺寸，文字、图标和加载图标同步缩放，默认 `md`。
+
+```demo
+../example/demos/size.vue
+```
+
 ### 语义状态
 
 ```demo
@@ -102,16 +110,16 @@
 
 | 变量名 | 默认值                          |
 | --- |------------------------------|
-| `--link-default-color` | `#555`                       |
-| `--link-primary-color` | `var(--color-primary)`       |
-| `--link-danger-color` | `var(--color-danger)`        |
-| `--link-success-color` | `var(--color-success)`       |
-| `--link-warning-color` | `var(--color-warning)`       |
-| `--link-info-color` | `var(--color-info)`          |
-| `--link-disabled-color` | `var(--color-text-disabled)` |
-| `--link-font-size` | `var(--font-size-md)` |
-| `--link-icon-size` | `1em` |
-| `--link-focus-opacity` | `0.8` |
+| `--mp-link-default-color` | `var(--mp-sys-color-content-primary)`                       |
+| `--mp-link-primary-color` | `var(--mp-sys-color-content-brand)`       |
+| `--mp-link-danger-color` | `var(--mp-sys-color-content-danger)`        |
+| `--mp-link-success-color` | `var(--mp-sys-color-content-success)`       |
+| `--mp-link-warning-color` | `var(--mp-sys-color-content-warning)`       |
+| `--mp-link-info-color` | `var(--mp-sys-color-content-info)`          |
+| `--mp-link-disabled-color` | `var(--mp-sys-color-content-disabled)` |
+| `--mp-link-font-size` | `var(--mp-sys-font-size-md)` |
+| `--mp-link-icon-size` | `1em` |
+| `--mp-link-focus-opacity` | `0.8` |
 
 ### 同源样式约定
 
@@ -119,15 +127,19 @@
 
 | 变量名 | 默认值 |
 | --- | --- |
-| `--link-bg-hover` | `var(--color-fill-2)` |
-| `--link-bg-active` | `var(--color-fill-3)` |
-| `--link-padding-horizontal` | `0.25em` |
-| `--link-padding-vertical` | `1px` |
-| `--link-focus-width` | `2px` |
-| `--link-focus-offset` | `2px` |
-| `--link-focus-color` | `currentColor` |
-| `--link-spin-duration` | `1s` |
+| `--mp-link-bg-hover` | `var(--mp-color-fill-2)` |
+| `--mp-link-bg-active` | `var(--mp-color-fill-3)` |
+| `--mp-link-padding-horizontal` | `0.25em` |
+| `--mp-link-padding-vertical` | `1px` |
+| `--mp-link-focus-width` | `2px` |
+| `--mp-link-focus-offset` | `2px` |
+| `--mp-link-focus-color` | `currentColor` |
+| `--mp-link-spin-duration` | `1s` |
 
 ```ts
-import type { LinkProps, LinkUnderline, LinkInstance } from '@maplejs/maple-ui'
+import type { LinkProps, LinkUnderline, LinkInstance } from '@maple-design/ui'
 ```
+
+文字配色与 Button 的 text 变体一致：default 使用 content-primary，secondary / tertiary 使用 content-secondary，彩色状态使用对应 content 语义色，禁用和加载使用 content-disabled。两品牌明暗模式均继承这些规则。
+
+尺寸变量：`--mp-link-size-xs-font-size`, `--mp-link-size-sm-font-size`, `--mp-link-size-md-font-size`, `--mp-link-size-lg-font-size`, `--mp-link-size-xl-font-size`。默认分别为 12 / 13 / 14 / 16 / 18px；md 引用原有 `--mp-link-font-size`，图标和加载图标使用 1em。

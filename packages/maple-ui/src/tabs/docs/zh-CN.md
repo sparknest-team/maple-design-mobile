@@ -60,7 +60,7 @@
 
 ### 受控切换
 
-使用 `v-model:active` 时，父组件可以通过按钮切换当前页，也能读取用户点选后的值。
+使用 `v-model` 时，父组件可以通过按钮切换当前页，也能读取用户点选后的值。
 
 ```demo
 ../example/demos/controlled.vue
@@ -101,12 +101,16 @@ TabNav 支持图标与纵向排列；TabsNavs 支持前后附加内容。
 
 ## API
 
+TabPane、TabNav、TabItem 都需要唯一的 `name`；选中值及导航与面板对应关系均使用 name。Vue 的 key 只负责节点复用，循环渲染时单独提供 `:key`。
+
+主值使用普通 `v-model`：`modelValue` 表示选中标签的 name。`defaultValue` 仅在创建时初始化非受控状态，之后修改不会重置当前值；初始化不触发 `update:modelValue`。提供 `modelValue` 时由父级控制，以受控值为准。
+
 ### Tabs Props
 
 | 属性 | 类型 | 默认值 | 说明 |
 | --- | --- | --- | --- |
-| active | `string / number` | `undefined` | 当前选中 key；提供时受控 |
-| default-active | `string / number` | `undefined` | 非受控初值，省略选首个可用项 |
+| model-value | `string / number` | `undefined` | 当前选中 name；提供时受控 |
+| default-value | `string / number` | `undefined` | 非受控初值，省略选首个可用项 |
 | variant | `line / card / outline / plain / capsule / enclosed` | `line` | 视觉变体 |
 | size | `xs / sm / md / lg / xl` | `全局值或 md` | 尺寸 |
 | orientation | `horizontal / vertical` | `horizontal` | 导航方向 |
@@ -135,16 +139,17 @@ TabNav 支持图标与纵向排列；TabsNavs 支持前后附加内容。
 
 | 事件 | 参数 | 说明 |
 | --- | --- | --- |
-| update:active | key: string / number | 请求更新选中值 |
-| change | key: string / number | 选择不同可用项时通知；受控模式仍由父级更新 active |
-| tab-click | key, event: Event | 点击可用项，重复点击仍触发；hover/方向键/滑动不触发 |
+| update:model-value | name: string / number | 请求更新选中值 |
+| change | name: string / number | 选择不同可用项时通知；受控模式仍由父级更新 modelValue |
+| tab-click | name, event: Event | 点击可用项，重复点击仍触发；hover/方向键/滑动不触发 |
 | add | event: Event | 请求增加标签；由使用者修改数据 |
-| delete | key, event: Event | 请求删除标签；由使用者修改数据 |
+| delete | name, event: Event | 请求删除标签；由使用者修改数据 |
 
 ### TabPane Props
 
 | 属性 | 类型 | 默认值 | 说明 |
 | --- | --- | --- | --- |
+| name **(必填)** | string / number | — | 业务唯一标识，与 modelValue 对应 |
 | title | string | undefined | 导航标题 |
 | disabled | boolean | false | 禁止选择和关闭 |
 | closable | boolean | true | editable 模式显示关闭按钮 |
@@ -156,17 +161,19 @@ TabNav 支持图标与纵向排列；TabsNavs 支持前后附加内容。
 
 | 属性 | 类型 | 默认值 | 说明 |
 | --- | --- | --- | --- |
+| name **(必填)** | string / number | — | 业务唯一标识，与 modelValue 对应 |
 | title | string | undefined | 标题 |
 | disabled | boolean | false | 禁止选择和关闭 |
 | closable | boolean | true | editable 模式显示关闭按钮 |
 | item-vertical | boolean | false | 图标文字垂直布局 |
 
-TabNav 与 TabItem 使用同一个 Vue `key`，必须为字符串或数字，在同组内唯一。不要省略 key；不要混用 `1` 与 `'1'`。
+TabNav 与 TabItem 使用相同的 `name` 建立对应关系；`name` 在同组内唯一，数字 `1` 与字符串 `'1'` 不同。Vue 的 `key` 只负责节点复用，循环渲染时仍应提供 `:key`，它不参与选中值计算。
 
 ### TabItem Props
 
 | 属性 | 类型 | 默认值 | 说明 |
 | --- | --- | --- | --- |
+| name **(必填)** | string / number | — | 业务唯一标识，与 modelValue 对应 |
 | lazy-load | boolean | undefined | 继承 Tabs，显式 false 可覆盖 |
 | destroy-on-hide | boolean | undefined | 继承 Tabs，显式 false 可覆盖 |
 
@@ -194,7 +201,7 @@ TabNav 与 TabItem 使用同一个 Vue `key`，必须为字符串或数字，在
 
 ### 类型
 
-导出 TabsKey、TabsVariant、TabsTrigger、TabsIndicatorPosition、TabsScrollPosition、TabsActivationMode，以及六组件对应的 Props / Instance / 运行时 props / `_XxxComponent`。同一 props 定义用于两端。
+导出 TabsName、TabsVariant、TabsTrigger、TabsIndicatorPosition、TabsScrollPosition、TabsActivationMode，以及六组件对应的 Props / Instance / 运行时 props / `_XxxComponent`。同一 props 定义用于两端。
 
 ## 自定义内部样式
 

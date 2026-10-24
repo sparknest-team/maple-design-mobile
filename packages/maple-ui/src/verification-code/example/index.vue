@@ -1,6 +1,6 @@
 <script setup>
 import { computed, ref } from 'vue'
-import { watchLang } from '@maplejs/maple-cli/client'
+import { watchLang } from '@maple-design/cli/client'
 import DemoApiReview from './demos/api-review.vue'
 import appearance from './demos/appearance.vue'
 import basic from './demos/basic.vue'

@@ -22,12 +22,12 @@ The out-of-the-box `Vue3 component library` rapid prototyping tool provides a se
 
 ### Quickstart
 
-`@maplejs/maple-cli` has built-in `sfc` and `tsx` style component library project templates, which can be generated directly by the `gen` command.
+`@maple-design/cli` has built-in `sfc` and `tsx` style component library project templates, which can be generated directly by the `gen` command.
 It is convenient for you to directly enter the component library development.
 
 ```shell
 # playground-ignore
-pnpm add @maplejs/maple-cli -g
+pnpm add @maple-design/cli -g
 maple-cli gen
 ```
 
@@ -37,7 +37,7 @@ maple-cli gen
 
 The `maple.config.mjs` in the project root directory is used to manage the specific details of the entire component library project.
 The default configuration can be viewed [maple.default.config.ts](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/blob/master/packages/maple-cli/src/node/config/maple.default.config.ts?ref_type=heads).
-Also refer to `@maplejs/maple-ui` [maple.config.mjs](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/blob/master/packages/maple-ui/maple.config.mjs?ref_type=heads).
+Also refer to `@maple-design/ui` [maple.config.mjs](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/blob/master/packages/maple-ui/maple.config.mjs?ref_type=heads).
 
 | Parameter | Description | Type | Default |
 | --- | -------------- | -------- | ---------- |

@@ -1,6 +1,6 @@
 <script setup>
 import { reactive, ref } from 'vue'
-import { AppType, onThemeChange } from '@maplejs/maple-cli/client'
+import { AppType, onThemeChange } from '@maple-design/cli/client'
 
 const range = ref([])
 const rangePickerSeconds = ref(['09:00:00', '18:00:00'])

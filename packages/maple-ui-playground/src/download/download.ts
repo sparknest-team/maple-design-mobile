@@ -1,4 +1,4 @@
-import { Dialog } from '@maplejs/maple-ui'
+import { Dialog } from '@maple-design/ui'
 import { saveAs } from 'file-saver'
 import index from './template/index.html?raw'
 import main from './template/main.js?raw'

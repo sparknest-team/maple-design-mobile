@@ -1,5 +1,5 @@
 import { type App, type Directive, type DirectiveBinding, type Plugin } from 'vue'
-import { call, doubleRaf, inViewport, removeItem, throttle } from '@maplejs/maple-shared'
+import { call, doubleRaf, inViewport, removeItem, throttle } from '@maple-design/shared'
 import { getAllParentScroller } from '../utils/elements'
 import { createCache, type CacheInstance } from '../utils/shared'
 

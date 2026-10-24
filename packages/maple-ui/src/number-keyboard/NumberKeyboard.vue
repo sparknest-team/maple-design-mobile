@@ -71,10 +71,10 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue'
-import { IconChevronLeft as MIconChevronLeft } from '@maplejs/icons-vue'
-import { toNumber } from '@maplejs/maple-shared'
-import { useVModel } from '@maplejs/maple-use'
+import { computed, defineComponent, type Ref } from 'vue'
+import { IconChevronLeft as MIconChevronLeft } from '@maple-design/icons-vue'
+import { toNumber } from '@maple-design/shared'
+import { useVModel } from '@maple-design/use'
 import MpIcon from '../icon'
 import { t } from '../locale'
 import MpPopup from '../popup'
@@ -126,8 +126,12 @@ export default defineComponent({
     'key-escape',
   ],
   setup(props, { emit }) {
-    const open = useVModel(props, 'open', { emit, eventName: 'update:open' })
-    const modelValue = useVModel(props, 'modelValue', { emit, eventName: 'update:modelValue' })
+    const open = useVModel(props, 'open', { emit, eventName: 'update:open', defaultValue: props.defaultOpen })
+    const modelValue = useVModel(props, 'modelValue', {
+      emit,
+      eventName: 'update:modelValue',
+      defaultValue: props.defaultValue,
+    }) as Ref<string>
 
     const effectiveCloseOnClickOverlay = computed(() => {
       if (!props.hideOnClickOutside) {

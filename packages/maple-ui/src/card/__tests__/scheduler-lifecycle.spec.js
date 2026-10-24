@@ -18,8 +18,8 @@ vi.mock('vue', async () => {
     },
   }
 })
-vi.mock('@maplejs/maple-shared', async () => {
-  const actual = await vi.importActual('@maplejs/maple-shared')
+vi.mock('@maple-design/shared', async () => {
+  const actual = await vi.importActual('@maple-design/shared')
   return { ...actual, doubleRaf: () => new Promise((resolve) => paints.push(resolve)) }
 })
 const owners = []

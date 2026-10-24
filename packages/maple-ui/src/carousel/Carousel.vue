@@ -40,8 +40,8 @@ const keys = ref<Array<string | number | symbol>>([])
 const viewport = ref(0)
 const measured = ref<number[]>([])
 const measuredGap = ref(0)
-const local = ref(props.defaultCurrent)
-const current = computed(() => normalizeIndex(props.current ?? local.value, keys.value.length))
+const local = ref(props.defaultValue)
+const current = computed(() => normalizeIndex((props.modelValue ?? local.value) - 1, keys.value.length))
 const vertical = computed(() => props.direction === 'vertical')
 const layout = computed(() =>
   carouselLayout(
@@ -146,10 +146,13 @@ function schedule() {
     // Consume before to(): synchronous model listeners may suspend this instance.
     autoGeneration++
     timer = undefined
-    to(current.value + 1, { isManual: false })
+    toIndex(current.value + 1, { isManual: false })
   }, autoConfig.value.interval)
 }
-function to(index: number, options: CarouselToOptions = {}) {
+function to(slideNumber: number, options: CarouselToOptions = {}) {
+  toIndex(slideNumber - 1, options)
+}
+function toIndex(index: number, options: CarouselToOptions = {}) {
   if (!active || disposed) {
     return
   }
@@ -161,21 +164,21 @@ function to(index: number, options: CarouselToOptions = {}) {
     return
   }
   const previous = current.value
-  if (props.current === undefined) {
-    local.value = next
+  if (props.modelValue === undefined) {
+    local.value = next + 1
   }
   // Controlled consumers must always receive the model proposal, even when notification is suppressed.
-  emit('update:current', next)
+  emit('update:modelValue', next + 1)
   if (options.event !== false) {
-    emit('change', next, previous, options.isManual ?? true)
+    emit('change', next + 1, previous + 1, options.isManual ?? true)
   }
   schedule()
 }
 function next(options?: CarouselToOptions) {
-  to(current.value + 1, options)
+  toIndex(current.value + 1, options)
 }
 function prev(options?: CarouselToOptions) {
-  to(current.value - 1, options)
+  toIndex(current.value - 1, options)
 }
 function itemStyle(index: number): CSSProperties {
   if (props.effect === 'fade') {
@@ -328,7 +331,7 @@ function pointerUp(event: PointerEvent) {
     suppressClick = true
   }
   if (shouldMove) {
-    to(current.value + (delta < 0 ? 1 : -1))
+    toIndex(current.value + (delta < 0 ? 1 : -1))
   }
 }
 function keydown(event: KeyboardEvent) {
@@ -344,7 +347,7 @@ function keydown(event: KeyboardEvent) {
     return
   }
   event.preventDefault()
-  to(
+  toIndex(
     event.key === 'Home'
       ? 0
       : event.key === 'End'
@@ -367,7 +370,7 @@ function wheel(event: WheelEvent) {
     return
   }
   wheelTime = Date.now()
-  to(current.value + (event.deltaY > 0 ? 1 : -1))
+  toIndex(current.value + (event.deltaY > 0 ? 1 : -1))
 }
 function focusin() {
   if (!active || disposed) {
@@ -619,7 +622,15 @@ const Render = () => {
       }
     })
   }
-  const scope = { index: current.value, length: keys.value.length, hovering: hovering.value, next, prev, to, resize }
+  const scope = {
+    slideNumber: current.value + 1,
+    length: keys.value.length,
+    hovering: hovering.value,
+    next,
+    prev,
+    to,
+    resize,
+  }
   const duration: CSSProperties = {
     '--mp-internal-carousel-duration':
       props.moveSpeed !== undefined && Number.isFinite(props.moveSpeed)
@@ -754,10 +765,10 @@ const Render = () => {
                   'aria-label': text.value.goto(index + 1),
                   'aria-current': index === current.value ? 'true' : undefined,
                   style: props.indicatorColor ? { background: props.indicatorColor } : undefined,
-                  onClick: () => to(index),
+                  onClick: () => toIndex(index),
                   onPointerenter: (event: PointerEvent) => {
                     if (props.trigger === 'hover' && event.pointerType === 'mouse') {
-                      to(index)
+                      toIndex(index)
                     }
                   },
                 }),

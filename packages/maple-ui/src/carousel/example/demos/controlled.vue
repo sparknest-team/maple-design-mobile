@@ -1,9 +1,9 @@
 <script setup>
 import { ref } from 'vue'
 
-const current = ref(0)
+const current = ref(1)
 const accept = ref(true)
-const proposal = ref(0)
+const proposal = ref(1)
 function update(value) {
   proposal.value = value
   if (accept.value) {
@@ -14,7 +14,7 @@ function update(value) {
 <template>
   <mp-checkbox v-model="accept">Accept changes / 接受切换</mp-checkbox>
   <p>Current: {{ current }} · Proposal: {{ proposal }}</p>
-  <mp-carousel :current="current" height="180px" keyboard draggable @update:current="update">
+  <mp-carousel :model-value="current" height="180px" keyboard draggable @update:modelValue="update">
     <mp-carousel-item v-for="item in 4" :key="item"
       ><div class="carousel-demo-panel">Slide {{ item }}</div></mp-carousel-item
     >

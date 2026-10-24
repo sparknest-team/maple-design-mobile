@@ -1,4 +1,4 @@
-import { getScrollLeft, getScrollTop } from '@maplejs/maple-shared'
+import { getScrollLeft, getScrollTop } from '@maple-design/shared'
 import { easeInOutCubic } from '../utils/shared'
 
 // Private consumer task: entry/settlement frames and interpolation share one owner.

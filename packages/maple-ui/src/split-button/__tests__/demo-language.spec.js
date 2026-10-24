@@ -20,13 +20,13 @@ import Variants from '../example/variants.vue'
 useDemoControls()
 
 const { listeners, info } = vi.hoisted(() => ({ listeners: [], info: vi.fn() }))
-vi.mock('@maplejs/maple-cli/client', () => ({
+vi.mock('@maple-design/cli/client', () => ({
   watchLang: (callback) => {
     callback('zh-CN')
     listeners.push(callback)
   },
 }))
-vi.mock('@maplejs/maple-ui', () => ({ Message: { info } }))
+vi.mock('@maple-design/ui', () => ({ Message: { info } }))
 
 const components = Object.fromEntries(
   [SplitButton, Button, Space, MenuOption, Radio, RadioGroup].map((component) => [component.name, component]),

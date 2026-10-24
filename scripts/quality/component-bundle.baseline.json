@@ -1,0 +1,462 @@
+[
+  {
+    "name": "action-sheet",
+    "bytes": 36673,
+    "gzip": 13249
+  },
+  {
+    "name": "affix",
+    "bytes": 7284,
+    "gzip": 3042
+  },
+  {
+    "name": "alert",
+    "bytes": 11849,
+    "gzip": 3062
+  },
+  {
+    "name": "auto-complete",
+    "bytes": 150956,
+    "gzip": 48101
+  },
+  {
+    "name": "avatar",
+    "bytes": 35970,
+    "gzip": 12618
+  },
+  {
+    "name": "back-top",
+    "bytes": 7836,
+    "gzip": 3541
+  },
+  {
+    "name": "badge",
+    "bytes": 4617,
+    "gzip": 1892
+  },
+  {
+    "name": "breadcrumb",
+    "bytes": 61635,
+    "gzip": 20574
+  },
+  {
+    "name": "button",
+    "bytes": 22853,
+    "gzip": 8116
+  },
+  {
+    "name": "card",
+    "bytes": 37236,
+    "gzip": 12779
+  },
+  {
+    "name": "carousel",
+    "bytes": 26784,
+    "gzip": 8878
+  },
+  {
+    "name": "cascader",
+    "bytes": 187480,
+    "gzip": 57223
+  },
+  {
+    "name": "cell",
+    "bytes": 12172,
+    "gzip": 4723
+  },
+  {
+    "name": "checkbox",
+    "bytes": 68595,
+    "gzip": 23150
+  },
+  {
+    "name": "code",
+    "bytes": 2425,
+    "gzip": 1236
+  },
+  {
+    "name": "col",
+    "bytes": 2809,
+    "gzip": 1390
+  },
+  {
+    "name": "collapse",
+    "bytes": 11100,
+    "gzip": 4509
+  },
+  {
+    "name": "context",
+    "bytes": 125,
+    "gzip": 132
+  },
+  {
+    "name": "count-to",
+    "bytes": 4289,
+    "gzip": 1937
+  },
+  {
+    "name": "countdown",
+    "bytes": 3603,
+    "gzip": 1755
+  },
+  {
+    "name": "counter",
+    "bytes": 69112,
+    "gzip": 25456
+  },
+  {
+    "name": "date",
+    "bytes": 245176,
+    "gzip": 75971
+  },
+  {
+    "name": "date-range",
+    "bytes": 245492,
+    "gzip": 76070
+  },
+  {
+    "name": "dialog",
+    "bytes": 58830,
+    "gzip": 18622
+  },
+  {
+    "name": "divider",
+    "bytes": 3561,
+    "gzip": 1678
+  },
+  {
+    "name": "drag",
+    "bytes": 9757,
+    "gzip": 4085
+  },
+  {
+    "name": "ellipsis",
+    "bytes": 27580,
+    "gzip": 9766
+  },
+  {
+    "name": "empty",
+    "bytes": 10324,
+    "gzip": 3983
+  },
+  {
+    "name": "fab",
+    "bytes": 40604,
+    "gzip": 14020
+  },
+  {
+    "name": "field-decorator",
+    "bytes": 12748,
+    "gzip": 4782
+  },
+  {
+    "name": "floating-panel",
+    "bytes": 10455,
+    "gzip": 4374
+  },
+  {
+    "name": "form",
+    "bytes": 59161,
+    "gzip": 20695
+  },
+  {
+    "name": "form-details",
+    "bytes": 2357,
+    "gzip": 1108
+  },
+  {
+    "name": "grid",
+    "bytes": 5656,
+    "gzip": 2544
+  },
+  {
+    "name": "highlighter-provider",
+    "bytes": 1894,
+    "gzip": 974
+  },
+  {
+    "name": "hover",
+    "bytes": 3426,
+    "gzip": 1524
+  },
+  {
+    "name": "icon",
+    "bytes": 3737,
+    "gzip": 1919
+  },
+  {
+    "name": "image",
+    "bytes": 49200,
+    "gzip": 16581
+  },
+  {
+    "name": "index-bar",
+    "bytes": 15009,
+    "gzip": 6009
+  },
+  {
+    "name": "infinite-scroll",
+    "bytes": 17591,
+    "gzip": 6381
+  },
+  {
+    "name": "input",
+    "bytes": 81526,
+    "gzip": 25598
+  },
+  {
+    "name": "input-number",
+    "bytes": 122274,
+    "gzip": 40735
+  },
+  {
+    "name": "lazy",
+    "bytes": 3941,
+    "gzip": 1765
+  },
+  {
+    "name": "link",
+    "bytes": 6102,
+    "gzip": 2264
+  },
+  {
+    "name": "list",
+    "bytes": 35934,
+    "gzip": 12752
+  },
+  {
+    "name": "loading",
+    "bytes": 6252,
+    "gzip": 2620
+  },
+  {
+    "name": "loading-bar",
+    "bytes": 3522,
+    "gzip": 1718
+  },
+  {
+    "name": "locale",
+    "bytes": 24452,
+    "gzip": 4824
+  },
+  {
+    "name": "locale-provider",
+    "bytes": 2082,
+    "gzip": 1052
+  },
+  {
+    "name": "menu",
+    "bytes": 52915,
+    "gzip": 18114
+  },
+  {
+    "name": "message",
+    "bytes": 18065,
+    "gzip": 5089
+  },
+  {
+    "name": "notice-bar",
+    "bytes": 8910,
+    "gzip": 3818
+  },
+  {
+    "name": "number-keyboard",
+    "bytes": 36052,
+    "gzip": 12970
+  },
+  {
+    "name": "overlay",
+    "bytes": 8908,
+    "gzip": 3776
+  },
+  {
+    "name": "page-header",
+    "bytes": 4625,
+    "gzip": 1967
+  },
+  {
+    "name": "pagination",
+    "bytes": 197197,
+    "gzip": 58876
+  },
+  {
+    "name": "paper",
+    "bytes": 8326,
+    "gzip": 3303
+  },
+  {
+    "name": "picker",
+    "bytes": 60164,
+    "gzip": 20813
+  },
+  {
+    "name": "popover",
+    "bytes": 25922,
+    "gzip": 9205
+  },
+  {
+    "name": "popup",
+    "bytes": 14961,
+    "gzip": 5934
+  },
+  {
+    "name": "progress",
+    "bytes": 9550,
+    "gzip": 3726
+  },
+  {
+    "name": "progress-group",
+    "bytes": 8588,
+    "gzip": 3069
+  },
+  {
+    "name": "pull-refresh",
+    "bytes": 17508,
+    "gzip": 6300
+  },
+  {
+    "name": "radio",
+    "bytes": 68351,
+    "gzip": 23139
+  },
+  {
+    "name": "rate",
+    "bytes": 75286,
+    "gzip": 23958
+  },
+  {
+    "name": "result",
+    "bytes": 78273,
+    "gzip": 30121
+  },
+  {
+    "name": "ripple",
+    "bytes": 6375,
+    "gzip": 2415
+  },
+  {
+    "name": "row",
+    "bytes": 3280,
+    "gzip": 1578
+  },
+  {
+    "name": "search",
+    "bytes": 215148,
+    "gzip": 65966
+  },
+  {
+    "name": "select",
+    "bytes": 176878,
+    "gzip": 54148
+  },
+  {
+    "name": "signature",
+    "bytes": 4260,
+    "gzip": 1984
+  },
+  {
+    "name": "skeleton",
+    "bytes": 5108,
+    "gzip": 1993
+  },
+  {
+    "name": "slider",
+    "bytes": 133376,
+    "gzip": 44339
+  },
+  {
+    "name": "space",
+    "bytes": 2956,
+    "gzip": 1491
+  },
+  {
+    "name": "split-button",
+    "bytes": 72195,
+    "gzip": 23917
+  },
+  {
+    "name": "statistic",
+    "bytes": 13818,
+    "gzip": 5725
+  },
+  {
+    "name": "steps",
+    "bytes": 9371,
+    "gzip": 3353
+  },
+  {
+    "name": "style-provider",
+    "bytes": 2940,
+    "gzip": 1467
+  },
+  {
+    "name": "swipe-cell",
+    "bytes": 8057,
+    "gzip": 3331
+  },
+  {
+    "name": "switch",
+    "bytes": 61927,
+    "gzip": 20874
+  },
+  {
+    "name": "tab-bar",
+    "bytes": 36036,
+    "gzip": 12482
+  },
+  {
+    "name": "table",
+    "bytes": 2583,
+    "gzip": 1311
+  },
+  {
+    "name": "tabs",
+    "bytes": 14900,
+    "gzip": 5455
+  },
+  {
+    "name": "tag",
+    "bytes": 7776,
+    "gzip": 2827
+  },
+  {
+    "name": "textarea",
+    "bytes": 81210,
+    "gzip": 26339
+  },
+  {
+    "name": "time",
+    "bytes": 157237,
+    "gzip": 52226
+  },
+  {
+    "name": "time-range",
+    "bytes": 157384,
+    "gzip": 52239
+  },
+  {
+    "name": "tooltip",
+    "bytes": 25761,
+    "gzip": 9138
+  },
+  {
+    "name": "trigger",
+    "bytes": 22810,
+    "gzip": 8244
+  },
+  {
+    "name": "upload",
+    "bytes": 114971,
+    "gzip": 37085
+  },
+  {
+    "name": "verification-code",
+    "bytes": 92998,
+    "gzip": 29537
+  },
+  {
+    "name": "watermark",
+    "bytes": 7262,
+    "gzip": 3309
+  }
+]

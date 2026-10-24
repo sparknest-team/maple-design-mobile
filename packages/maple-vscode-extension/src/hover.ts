@@ -1,4 +1,4 @@
-import { kebabCase, pascalCase, uniq } from '@maplejs/maple-shared'
+import { kebabCase, pascalCase, uniq } from '@maple-design/shared'
 import { Hover, languages, MarkdownString, Position, Uri, type ExtensionContext, type TextDocument } from 'vscode'
 import { componentsMap } from './componentsMap'
 import { LANGUAGE_IDS, TAG_BIG_CAMELIZE_RE, TAG_LINK_RE } from './constant'

@@ -1,10 +1,9 @@
-import { withInstall, withPropsDefaultsSetter } from '../utils/components'
+import { withInstall } from '../utils/components'
 import { triggerProps } from './props'
 import type { Reference, TriggerElement } from './reference'
 import Trigger from './trigger'
 
 withInstall(Trigger)
-withPropsDefaultsSetter(Trigger, triggerProps)
 
 export interface TriggerInstance {
   isTopLayer(event?: Event): boolean

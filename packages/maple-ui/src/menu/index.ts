@@ -43,3 +43,5 @@ export const _MenuOptionComponent: typeof _MenuOption = _MenuOption
 export default Menu
 
 export type { MenuStrategy, MenuSubmenuTrigger, MenuReference } from './types'
+
+export type { MenuSlots, MenuOptionSlots } from './types'

@@ -43,8 +43,8 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { call } from '@maplejs/maple-shared'
-import { useVModel } from '@maplejs/maple-use'
+import { call } from '@maple-design/shared'
+import { useVModel } from '@maple-design/use'
 import { t } from '../locale'
 import { injectLocaleProvider } from '../locale-provider/provide'
 import MpPopup from '../popup'
@@ -67,7 +67,7 @@ export default defineComponent({
   props,
   emits: ['select', 'update:open', 'open', 'opened', 'close', 'closed', 'key-escape', 'click-overlay'],
   setup(props, { emit }) {
-    const open = useVModel(props, 'open', { emit, eventName: 'update:open' })
+    const open = useVModel(props, 'open', { emit, eventName: 'update:open', defaultValue: props.defaultOpen })
     const { t: pt } = injectLocaleProvider()
 
     function handleSelect(action: ActionItem) {

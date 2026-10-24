@@ -6,7 +6,7 @@ const pkg = JSON.parse(readFileSync(resolve(root, 'package.json'), 'utf8'))
 
 export default {
   root,
-  name: '@maplejs/maple-ui',
+  name: '@maple-design/ui',
   globalName: 'Maple',
   bundleName: 'maple',
   emitTypes: false,

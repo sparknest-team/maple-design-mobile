@@ -1,6 +1,6 @@
 <script setup>
 import { computed, ref } from 'vue'
-import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
+import { AppType, onThemeChange, watchLang } from '@maple-design/cli/client'
 import DemoApiReview from './demos/api-review.vue'
 import BasicDemo from './demos/basic.vue'
 import DisabledStatusDemo from './demos/disabled-status.vue'
@@ -11,12 +11,14 @@ import EnIconDemo from './demos/en-US/icon.vue'
 import EnLoadingDemo from './demos/en-US/loading.vue'
 import EnModeDemo from './demos/en-US/mode.vue'
 import EnSemanticStatusDemo from './demos/en-US/semantic-status.vue'
+import EnSizeDemo from './demos/en-US/size.vue'
 import EnUnderlineDemo from './demos/en-US/underline.vue'
 import HoverableDemo from './demos/hoverable.vue'
 import IconDemo from './demos/icon.vue'
 import LoadingDemo from './demos/loading.vue'
 import ModeDemo from './demos/mode.vue'
 import SemanticStatusDemo from './demos/semantic-status.vue'
+import SizeDemo from './demos/size.vue'
 import UnderlineDemo from './demos/underline.vue'
 
 const language = ref('zh-CN')
@@ -32,6 +34,12 @@ onThemeChange()
     <app-type>{{ english ? 'Basic Usage' : '基础用法' }}</app-type>
     <EnBasicDemo v-if="english" />
     <BasicDemo v-else />
+  </section>
+
+  <section data-demo="size">
+    <app-type>{{ english ? 'Sizes' : '五种尺寸' }}</app-type>
+    <EnSizeDemo v-if="english" />
+    <SizeDemo v-else />
   </section>
 
   <section data-demo="semantic-status">

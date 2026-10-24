@@ -136,11 +136,11 @@ Defaults below are the actual :root values. Prefer component variables for custo
 | `--mp-tooltip-status-success-background` | `var(--mp-sys-color-status-success)` | success status panel/arrow background |
 | `--mp-tooltip-status-warning-background` | `var(--mp-sys-color-status-warning)` | warning status panel/arrow background |
 | `--mp-tooltip-status-danger-background` | `var(--mp-sys-color-status-danger)` | danger status panel/arrow background |
-| `--mp-tooltip-status-primary-text-color` | `var(--mp-sys-color-content-on-bright)` | primary status foreground; pair with its fill |
-| `--mp-tooltip-status-info-text-color` | `var(--mp-sys-color-content-on-bright)` | info status foreground; pair with its fill |
-| `--mp-tooltip-status-success-text-color` | `var(--mp-sys-color-content-on-bright)` | success status foreground; pair with its fill |
-| `--mp-tooltip-status-warning-text-color` | `var(--mp-sys-color-content-on-bright)` | warning status foreground; pair with its fill |
-| `--mp-tooltip-status-danger-text-color` | `var(--mp-sys-color-content-on-bright)` | danger status foreground; pair with its fill |
+| `--mp-tooltip-status-primary-text-color` | `var(--mp-sys-color-content-on-dark)` | primary status foreground; pair with its fill |
+| `--mp-tooltip-status-info-text-color` | `var(--mp-sys-color-content-on-dark)` | info status foreground; pair with its fill |
+| `--mp-tooltip-status-success-text-color` | `var(--mp-sys-color-content-on-dark)` | success status foreground; pair with its fill |
+| `--mp-tooltip-status-warning-text-color` | `var(--mp-sys-color-content-on-dark)` | warning status foreground; pair with its fill |
+| `--mp-tooltip-status-danger-text-color` | `var(--mp-sys-color-content-on-dark)` | danger status foreground; pair with its fill |
 | `--mp-tooltip-padding-horizontal` | `var(--mp-sys-space-6)` | Horizontal content padding |
 | `--mp-tooltip-padding-vertical` | `var(--mp-sys-space-4)` | Vertical content padding |
 | `--mp-tooltip-font-size` | `var(--mp-sys-font-size-md)` | Content font size |
@@ -153,6 +153,6 @@ Defaults below are the actual :root values. Prefer component variables for custo
 | `--mp-tooltip-size-xs-font-size` | `var(--mp-sys-font-size-xs)` | xs size: Content font size |
 | `--mp-tooltip-animation-duration` | `var(--mp-sys-motion-duration-standard)` | Enter/leave duration; reduced-motion may override |
 
-All built-in themes use opacity 1. Colored fills use on-bright except the deep-orange primary in the Maple light brand, which uses on-dark. Maple dark retains 4px radius, 14px font and 8px/16px vertical/horizontal padding. The neutral surface is dark in both modes. `color` sets panel and arrow backgrounds; `text-color` sets text. Explicit `content-style` / `arrow-style` override their respective nodes. Recheck custom colors/opacity.
+All built-in themes use opacity 1. Colored solid states follow Button and use on-dark text in both modes. Maple dark retains 4px radius, 14px font and 8px/16px vertical/horizontal padding. The neutral surface is dark in both modes. `color` sets panel and arrow backgrounds; `text-color` sets text. Explicit `content-style` / `arrow-style` override their respective nodes. Recheck custom colors/opacity.
 
 With Teleport, apply variables to the actual popup scope (for example via `popup-style`); variables on the reference button do not automatically inherit into the popup.

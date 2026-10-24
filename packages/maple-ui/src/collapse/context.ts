@@ -1,5 +1,5 @@
-import type { ComputedRef, InjectionKey, Slots } from 'vue'
-import type { CollapseName, ExpandIconPosition } from './props'
+import type { ComputedRef, InjectionKey } from 'vue'
+import type { CollapseName, CollapseSlots, ExpandIconPosition } from './props'
 
 export interface CollapseItemContext {
   name: CollapseName
@@ -7,8 +7,8 @@ export interface CollapseItemContext {
 }
 
 export interface CollapseContext {
-  activeNames: CollapseName[]
-  slots: Slots
+  expandedNames: CollapseName[]
+  slots: CollapseSlots
   showExpandIcon?: boolean
   expandIconPosition: ExpandIconPosition
   destroyOnHide: boolean

@@ -15,7 +15,7 @@ No unprefixed aliases and no backward-compat shims.
 
 ```js
 // playground-ignore
-import '@maplejs/maple-ui/es/utilities/utilities.css'
+import '@maple-design/ui/es/utilities/utilities.css'
 ```
 
 Theme CSS variables must be loaded.

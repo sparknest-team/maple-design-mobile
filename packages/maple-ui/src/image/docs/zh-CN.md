@@ -36,7 +36,7 @@
 
 ### 错误状态
 
-图片加载失败时展示默认错误态，也可用 `error` 插槽自定义。
+图片加载失败时展示默认错误态，也可用 `error` 插槽自定义。示例使用损坏的内联图片数据触发解码失败，不发送无效网络请求。
 
 ```demo
 ../example/demos/error.vue
@@ -116,7 +116,7 @@
 
 ### 预览入口与受控
 
-通过 `preview-src`、`v-model:preview-open` 和 `preview-props` 配置 Image 内嵌预览。
+通过 `preview-src`、`v-model:open` 和 `preview-props` 配置 Image 内嵌预览。
 
 ```demo
 ../example/demos/preview-entry.vue
@@ -239,6 +239,8 @@ export default defineConfig({
 
 ## API
 
+图片预览组使用 `v-model` 绑定从 1 开始的图片序号，`defaultValue` 提供非受控初始图片序号；面板开关独立使用 `v-model:open` 与 `defaultOpen`。函数式预览配置同步使用 modelValue/defaultValue 和 onUpdate:modelValue。
+
 ### 属性
 
 | 参数                   | 说明                                                                                                                                | 类型                             | 默认值    |
@@ -264,8 +266,8 @@ export default defineConfig({
 | `block`                | 是否是块级元素                                                                                                                      | _boolean_                        | `true`    |
 | `preview-disabled`     | 是否禁用点击预览                                                                                                                    | _boolean_                        | `false`   |
 | `preview-src`          | 预览大图地址，默认与 `src` 相同                                                                                                     | _string_                         | `-`       |
-| `v-model:preview-open` | 受控预览状态                                                                                                                        | _boolean_                        | `-`       |
-| `default-preview-open` | 默认预览打开状态                                                                                                                    | _boolean_                        | `false`   |
+| `v-model:open` | 受控预览状态                                                                                                                        | _boolean_                        | `-`       |
+| `default-open` | 默认预览打开状态                                                                                                                    | _boolean_                        | `false`   |
 | `preview-props`        | 透传给 `ImagePreview` 的配置                                                                                                        | _object_                         | `-`       |
 | `popup-container`      | 预览挂载位置，设为 `false` 时禁用 Teleport                                                                                          | _string \| HTMLElement \| false_ | `body`    |
 
@@ -276,8 +278,8 @@ export default defineConfig({
 | `click`               | 点击图片时触发                                                                     | `event: Event`  |
 | `load`                | 图片成功加载时触发(懒加载模式下失败时会多次尝试加载图片，只会在成功加载时触发)     | `event: Event`  |
 | `error`               | 图片失败加载时触发(懒加载模式下失败时会多次尝试加载图片，只会在尝试次数结束时触发) | `event: Event`  |
-| `preview-open-change` | 预览打开/关闭时触发                                                                | `open: boolean` |
-| `update:preview-open` | `preview-open` 模型更新                                                            | `open: boolean` |
+| `open-change` | 预览打开/关闭时触发                                                                | `open: boolean` |
+| `update:open` | `open` 模型更新                                                            | `open: boolean` |
 
 ### 插槽
 
@@ -317,8 +319,8 @@ export default defineConfig({
 | `images`           | 图片 URL 列表（设置后不再收集子 Image）      | _string[]_                       | `[]`    |
 | `v-model:open`     | 是否打开预览                                 | _boolean_                        | `false` |
 | `default-open`     | 非受控默认打开状态                           | _boolean_                        | `false` |
-| `v-model:current`  | 当前图片索引                                 | _number_                         | `-`     |
-| `default-current`  | 非受控模式的默认图片索引                     | _number_                         | `0`     |
+| `v-model`  | 当前图片序号                                 | _number_                         | `-`     |
+| `default-value`  | 非受控模式的默认图片序号                     | _number_                         | `1`     |
 | `loop`             | 是否循环切换                                 | _boolean_                        | `false` |
 | `closable`         | 是否显示关闭按钮                             | _boolean_                        | `true`  |
 | `overlay-closable` | 点击图片外的背景层是否关闭，点击图片不会关闭 | _boolean_                        | `true`  |
@@ -329,13 +331,13 @@ export default defineConfig({
 
 | 事件名        | 说明                                     | 回调参数                 |
 | ------------- | ---------------------------------------- | ------------------------ |
-| `change`      | 切换图片时的回调函数，回调参数为当前索引 | `index: number` 图片索引 |
+| `change`      | 切换图片时的回调函数，回调参数为当前图片序号（从 1 开始） | `imageNumber: number, previousImageNumber: number` 图片序号 |
 | `open`        | 打开 image-preview 时触发                | `-`                      |
 | `opened`      | 打开 image-preview 动画结束时触发        | `-`                      |
 | `open-change` | 打开状态变化时触发                       | `open: boolean`          |
 | `close`       | 关闭 image-preview 时触发                | `-`                      |
 | `closed`      | 关闭 image-preview 动画结束时触发        | `-`                      |
-| `long-press`  | 长按图片时的回调函数，回调参数为当前索引 | `index: number` 图片索引 |
+| `long-press`  | 长按图片时的回调函数，回调参数为当前图片序号（从 1 开始） | `imageNumber: number` 图片序号 |
 | `key-escape`  | 点击键盘 ESC 时触发                      | `-`                      |
 
 ### 方法
@@ -347,7 +349,7 @@ export default defineConfig({
 | `imagePreview.setDefaultOptions`   | 设置默认的选项配置 | _options_                       | `-`    |
 | `imagePreview.resetDefaultOptions` | 重置默认的选项配置 | _-_                             | `-`    |
 | `prev` / `next`                    | 切换图片           | `-`                             | `-`    |
-| `to`                               | 跳转到指定下标     | `index: number`                 | `-`    |
+| `to`                               | 跳转到指定图片序号（从 1 开始）     | `imageNumber: number`                 | `-`    |
 | `zoomTo`                           | 设置缩放比例       | `scale: number`                 | `-`    |
 | `zoomIn` / `zoomOut`               | 放大或缩小         | `-`                             | `-`    |
 | `rotateLeft` / `rotateRight`       | 旋转图片           | `-`                             | `-`    |
@@ -357,7 +359,7 @@ export default defineConfig({
 
 | 插槽名       | 说明             | 参数                                                    |
 | ------------ | ---------------- | ------------------------------------------------------- |
-| `indicator`  | 分页指示器       | `index: number` 图片索引 <br> `length: number` 图片总数 |
+| `indicator`  | 分页指示器       | `imageNumber: number` 图片序号 <br> `length: number` 图片总数 |
 | `close-icon` | 关闭按钮         | `-`                                                     |
 | `extra`      | 额外插槽         | `-`                                                     |
 | `actions`    | 自定义预览操作区 | `-`                                                     |
@@ -367,19 +369,19 @@ export default defineConfig({
 | 参数                  | 说明                                      | 类型                      | 默认值  |
 | --------------------- | ----------------------------------------- | ------------------------- | ------- |
 | `images`              | 需要预览的图片 URL 数组或者单个图片的 URL | _string[] \| string_      | `[]`    |
-| `current`             | 图片预览起始的索引                        | _number_                  | `0`     |
+| `model-value`             | 图片预览起始序号（从 1 开始）                        | _number_                  | `1`     |
 | `scaleStep`           | 每次缩放增量                              | _number_                  | `0.5`   |
 | `closable`            | 是否显示关闭按钮                          | _boolean_                 | `true`  |
 | `escToClose`          | 是否支持键盘 ESC 关闭图片预览             | _boolean_                 | `true`  |
 | `loop`                | 是否开启循环播放                          | _boolean_                 | `false` |
 | `lockScroll`          | 锁定滚动                                  | _boolean_                 | `true`  |
 | `imagePreventDefault` | 是否禁止图片默认行为                      | _boolean_                 | `false` |
-| `onChange`            | 切换图片时的回调函数，回调参数为当前索引  | _(index: number) => void_ | `-`     |
+| `onChange`            | 切换图片时的回调函数，回调参数为当前图片序号（从 1 开始）  | _(imageNumber: number, previousImageNumber: number) => void_ | `-`     |
 | `onOpen`              | image-preview 开启时候的回调              | _() => void_              | `-`     |
 | `onOpened`            | image-preview 动画结束时候的回调          | _() => void_              | `-`     |
 | `onClose`             | image-preview 时关闭时候的回调            | _() => void_              | `-`     |
 | `onClosed`            | image-preview 关闭动画结束时候的回调      | _() => void_              | `-`     |
-| `onLongPress`         | 长按图片时的回调函数，回调参数为当前索引  | _(index: number) => void_ | `-`     |
+| `onLongPress`         | 长按图片时的回调函数，回调参数为当前图片序号（从 1 开始）  | _(imageNumber: number) => void_ | `-`     |
 | `onKeyEscape`         | 点击键盘 ESC 时触发                       | _() => void_              | `-`     |
 
 ### 样式变量
@@ -397,3 +399,7 @@ export default defineConfig({
 | `--image-preview-close-icon-color`            | `#fff`   |
 | `--image-preview-extra-top`                   | `14px`   |
 | `--image-preview-extra-left`                  | `14px`   |
+
+### 图片预览组序号
+
+`modelValue/defaultValue` 从 **1** 开始，`1` 表示第 1 张。`open(imageNumber = 1)`、`to(imageNumber)` 接收相同序号，无效或非整数序号会被忽略。`prev()/next()` 在循环边界也回传同一规则的序号。模型事件为 `update:modelValue(imageNumber)`，切换通知为 `change(imageNumber, previousImageNumber)`；外部赋值不补发切换通知。长按通知为 `long-press(imageNumber)`，指示器插槽参数为 `{ imageNumber, length }`。内部数组下标仍从 0 开始。

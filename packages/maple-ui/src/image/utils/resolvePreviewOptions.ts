@@ -24,7 +24,7 @@ export function resolvePreviewOpen(source: { open?: boolean; defaultOpen?: boole
 }
 
 export function resolvePreviewCurrent(
-  source: { current?: number | string; defaultCurrent?: number },
+  source: { current?: number | string; defaultValue?: number },
   localCurrent?: number,
 ): number {
   if (source.current !== undefined) {
@@ -33,7 +33,7 @@ export function resolvePreviewCurrent(
   if (localCurrent !== undefined) {
     return localCurrent
   }
-  return source.defaultCurrent ?? 0
+  return source.defaultValue ?? 0
 }
 
 export function resolveClosable(source: { closable?: boolean }, fallback: boolean): boolean {

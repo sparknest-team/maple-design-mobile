@@ -1,6 +1,6 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { basename, dirname, resolve } from 'node:path'
-import { kebabCase } from '@maplejs/maple-shared'
+import { kebabCase } from '@maple-design/shared'
 import hljs from 'highlight.js'
 import markdownIt from 'markdown-it'
 import { pinyin } from 'pinyin-pro'

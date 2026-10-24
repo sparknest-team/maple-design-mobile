@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import type { ComponentSize } from '@maplejs/maple-ui'
+import type { ComponentSize } from '@maple-design/ui'
 
 const sizes: ComponentSize[] = ['xs', 'sm', 'md', 'lg', 'xl']
 const options = ['Beijing', 'Shanghai', 'Chengdu']

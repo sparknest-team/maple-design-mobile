@@ -17,15 +17,19 @@ import {
   type Ref,
   type VNode,
 } from 'vue'
-import { hasOwn, isArray, isFunction, isPlainObject, isString, normalizeToArray } from '@maplejs/maple-shared'
-import { useEventListener } from '@maplejs/maple-use'
+import { createNamespaceFn, hasOwn, isFunction, isPlainObject, isString, normalizeToArray } from '@maple-design/shared'
+import { useEventListener } from '@maple-design/use'
 import type { SafeParseReturnType, ZodType } from 'zod'
 import { createRequestGuard } from './async-request'
-import { withPropsDefaultsSetter } from './props-defaults'
 
-export { withPropsDefaultsSetter } from './props-defaults'
-export { createNamespace } from './namespace'
-export type { NamespaceClass, ComponentNamespace } from './namespace'
+export type NamespaceClass = string | null | undefined
+export interface ComponentNamespace {
+  name: string
+  n(suffix?: string): string
+  classes(...names: (NamespaceClass | [unknown, NamespaceClass, NamespaceClass?])[]): NamespaceClass[]
+}
+
+export const createNamespace: (name: string) => ComponentNamespace = /* #__PURE__ */ createNamespaceFn('mp')
 
 export type ListenerProp<F> = F | F[]
 
@@ -39,7 +43,7 @@ export type ExtractPublicPropTypes<P> = Partial<ExtractPropTypes<P>>
 export function pickProps<T, U extends keyof T>(props: T, propsKey: U): T[U]
 export function pickProps<T, U extends keyof T>(props: T, propsKey: U[]): Pick<T, U>
 export function pickProps(props: any, propsKey: any): any {
-  return isArray(propsKey)
+  return Array.isArray(propsKey)
     ? propsKey.reduce((pickedProps: any, key) => {
         pickedProps[key] = props[key]
         return pickedProps
@@ -51,6 +55,40 @@ export type ComponentWithInstall<T> = T &
   Plugin & {
     setPropsDefaults: (defaults: Record<string, any>) => void
   }
+
+export function withPropsDefaultsSetter<T>(
+  target: T,
+  props: Record<string, any>,
+): T & {
+  setPropsDefaults: (defaults: Record<string, any>) => void
+} {
+  ;(target as any).setPropsDefaults = (defaults: Record<string, any>) => {
+    Object.entries(defaults).forEach(([key, value]) => {
+      const prop = props[key]
+
+      if (prop == null) {
+        return
+      }
+
+      const descriptor = isPlainObject(prop) ? prop : { type: prop }
+      const type = descriptor.type
+      const types = Array.isArray(type) ? type : [type]
+      const defaultValue =
+        types.includes(Object) && (value === null || isPlainObject(value))
+          ? () => (value === null ? null : { ...value })
+          : types.includes(Array) && (value === null || Array.isArray(value))
+            ? () => (value === null ? null : [...value])
+            : value
+
+      props[key] = {
+        ...descriptor,
+        default: defaultValue,
+      }
+    })
+  }
+
+  return target as T & { setPropsDefaults: (defaults: Record<string, any>) => void }
+}
 
 export interface WithInstallOptions<InstallOptions = unknown> {
   components?: Component[]
@@ -83,7 +121,7 @@ export function withInstall<T = Component, InstallOptions = unknown>(
     }
   }
 
-  ;(componentWithInstall as ComponentWithInstall<T>).install = function (app: App, installOptions?: InstallOptions) {
+  ;(componentWithInstall as ComponentWithInstall<T>).install = (app: App, installOptions?: InstallOptions) => {
     for (const item of components) {
       const name = options.resolveName?.(item, installOptions) ?? item.name
       if (name) {
@@ -141,7 +179,7 @@ export function flatFragment(vNodes: any) {
       return
     }
 
-    if (vNode.type === Fragment && isArray(vNode.children)) {
+    if (vNode.type === Fragment && Array.isArray(vNode.children)) {
       vNode.children.forEach((item: VNode) => {
         result.push(item)
       })

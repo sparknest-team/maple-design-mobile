@@ -1,6 +1,6 @@
 <script setup>
 import { reactive } from 'vue'
-import { IconHeart, IconHeartFill } from '@maplejs/icons-vue'
+import { IconHeart, IconHeartFill } from '@maple-design/icons-vue'
 
 const scores = reactive({
   score: 3,

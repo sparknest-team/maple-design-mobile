@@ -1,5 +1,5 @@
 ---
-"@maplejs/maple-ui": patch
+"@maple-design/ui": patch
 ---
 
 Centralize 375 cross-platform public CSS declarations in owning token files without changing their effective defaults. Fix ImagePreview enabled-arrow hover consumption, remove the unused Counter disabled-color variable, and make omitted TabBar z-index consume its CSS variable (visual default 1; prop default now undefined, explicit props still win).

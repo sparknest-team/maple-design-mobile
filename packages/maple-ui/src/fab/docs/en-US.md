@@ -81,14 +81,22 @@ The preview and button remain visible when toggling dragging. Switching it off s
 
 <!-- api-review:end -->
 
+
+### visible versus v-if
+
+Use `<mp-fab v-if="showFab" />` when destroying the instance is acceptable; visible is optional. v-if=false destroys FAB, its drag state and action children; remounting reads defaultOpen again. `:visible="showFab"` retains the instance and internal state while hiding its trigger and actions. FAB uses Drag/Teleport, so visible controls the actual content internally; avoid relying on v-show on the Teleport component. The action menu itself still uses open.
+
 ## API
+
+Bind `v-model:open` to control the action menu. Otherwise, `defaultOpen` initializes internal state once. `visible` controls the entire widget without resetting its open state. The trigger slot receives `{ open }`.
 
 ### Props
 
 | Prop  | Description  | Type      | Default        |
 | ------- | ---- | ----- | ---- |
-| `v-model:active` | Whether to activate the action menu | _boolean_ | `false` |
-| `open` | Whether to show trigger | _boolean_ | `true` |
+| `v-model:open` | Whether to activate the action menu | _boolean_ | `false` |
+| `default-open` | Initial uncontrolled action-menu state, read only at creation | _boolean_ | `false` |
+| `visible` | Whether to show the whole widget | _boolean_ | `true` |
 | `drag` | Drag component props, for deep customization (support `direction` `attraction` `boundary`） | _boolean \| DragProps_ | `false` |
 | `status` | Semantic status, optional values are `default` `primary` `info` `success` `warning` `danger` | _string_ | `primary` |
 | `position` | trigger position, optional values are `left-top` `right-top` `left-bottom` `right-bottom` | _string_ | `right-bottom` |
@@ -96,12 +104,10 @@ The preview and button remain visible when toggling dragging. Switching it off s
 | `trigger` | trigger method `click` `hover` | _string_ | `click` |
 | `disabled` | Whether to disable | _boolean_ | `false` |
 | `color` | trigger color | _string_ | `-` |
-| `inactive-icon` | Inactive trigger icon | _string_ | `plus` |
-| `active-icon` | trigger icon when active | _string_ | `window-close` |
-| `inactive-icon-size` | Inactive trigger icon size | _string \| number_ | `-` |
-| `active-icon-size` | Trigger icon size when active | _string \| number_ | `-` |
-| `inactive-icon-namespace` | Trigger icon namespace when inactive | _string_ | `mp-icon`    |
-| `active-icon-namespace` | Trigger icon namespace when active | _string_ | `mp-icon`  |
+| `closed-icon` | Inactive trigger icon | _string_ | `plus` |
+| `open-icon` | trigger icon when open | _string_ | `close` |
+| `closed-icon-size` | Inactive trigger icon size | _string \| number_ | `-` |
+| `open-icon-size` | Trigger icon size when open | _string \| number_ | `-` |
 | `fixed` | Whether to use fixed positioning, set to `false` to enable absolute positioning (absolute positioning prohibited from dragging) | _boolean_ | `true` |
 | `z-index` | Same as css z-index, used for custom trigger level | _string \| number_ | `90` |
 | `top` | Same as css top, for custom trigger position | _string \| number_ | `-` |
@@ -116,7 +122,7 @@ The preview and button remain visible when toggling dragging. Switching it off s
 
 | Event | Description  | Arguments  |
 | ---- | ---- | ---- |
-| `click` | Triggered when the trigger is clicked, not triggered when `disabled` state is `true` | `active: boolean, event: Event` |
+| `click` | Triggered when the trigger is clicked, not triggered when `disabled` state is `true` | `open: boolean, event: Event` |
 | `open` | Fires when the action menu is activated and opened | `-` |
 | `opened` | Fires at the end of the animation that activates and opens the action menu | `-` |
 | `close` | Triggered when the action menu is deactivated and closed | `-` |
@@ -127,7 +133,7 @@ The preview and button remain visible when toggling dragging. Switching it off s
 | Name | Description | SlotProps |
 | --- | --- | --- |
 | `default` | Action menu | `-` |
-| `trigger` | Trigger | `{ active: boolean }` |
+| `trigger` | Trigger | `{ open: boolean }` |
 
 
 ### Style Variables
@@ -142,8 +148,8 @@ Here are the CSS variables used by the component. Styles can be customized using
 | `--fab-right` | `16px` |
 | `--fab-trigger-size` | `56px` |
 | `--fab-trigger-border-radius` | `50%` |
-| `--fab-trigger-inactive-icon-size` | `26px` |
-| `--fab-trigger-active-icon-size` | `22px` |
+| `--mp-fab-trigger-inactive-icon-size` | `26px` |
+| `--mp-fab-trigger-active-icon-size` | `22px` |
 | `--fab-actions-padding` | `10px 0` |
 | `--fab-action-margin` | `6px` |
 | `--fab-action-size` | `40px` |

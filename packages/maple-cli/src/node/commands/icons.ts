@@ -16,6 +16,6 @@ function run(command: string, args: string[], cwd: string) {
 
 export async function icons({ watch = false }: IconsCommandOptions = {}) {
   const packageRoot = resolve(process.cwd(), 'packages/maple-icons-vue')
-  logger.info(`${watch ? 'Watching' : 'Building'} @maplejs/icons-vue...`)
+  logger.info(`${watch ? 'Watching' : 'Building'} @maple-design/icons-vue...`)
   await run('pnpm', ['--dir', packageRoot, watch ? 'dev' : 'build'], process.cwd())
 }

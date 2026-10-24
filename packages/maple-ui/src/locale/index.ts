@@ -1,5 +1,5 @@
 import { ref, type Ref } from 'vue'
-import { hasOwn } from '@maplejs/maple-shared'
+import { hasOwn } from '@maple-design/shared'
 import { type Month, type Week } from '../date/picker-props'
 import enUS from './en-US'
 import faIR from './fa-IR'

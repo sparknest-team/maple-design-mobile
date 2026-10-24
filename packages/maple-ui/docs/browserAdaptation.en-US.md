@@ -48,7 +48,7 @@ module.exports = {
 Because the theme is mounted at runtime and is not affected by postcss, the component library provides a utility tool `Themes.toViewport` for adaptation. The theme returned by the function will use the `375px -> 100vmin` rule by default.
 
 ```js
-import { Themes } from '@maplejs/maple-ui'
+import { Themes } from '@maple-design/ui'
 
 const viewportTheme = Themes.toViewport(Themes.maple.dark)
 ```
@@ -56,7 +56,7 @@ const viewportTheme = Themes.toViewport(Themes.maple.dark)
 You can also make changes to the conversion rules
 
 ```js
-import { Themes } from '@maplejs/maple-ui'
+import { Themes } from '@maple-design/ui'
 
 const viewportTheme = Themes.toViewport(Themes.maple.dark, {
   // defaults 375
@@ -73,7 +73,7 @@ const viewportTheme = Themes.toViewport(Themes.maple.dark, {
 Similar to the Viewport solution
 
 ```js
-import { Themes } from '@maplejs/maple-ui'
+import { Themes } from '@maple-design/ui'
 
 const remTheme = Themes.toRem(Themes.maple.dark)
 ```
@@ -81,7 +81,7 @@ const remTheme = Themes.toRem(Themes.maple.dark)
 Or customize
 
 ```js
-import { Themes } from '@maplejs/maple-ui'
+import { Themes } from '@maple-design/ui'
 
 const viewportTheme = Themes.toRem(Themes.maple.dark, {
   // defaults 16
@@ -94,19 +94,19 @@ const viewportTheme = Themes.toRem(Themes.maple.dark, {
 ### Desktop Adaptation
 
 Because component library interaction events are developed using `touch` events, `mouse` events on the desktop side are not supported.
-It is recommended to use `@maplejs/maple-touch-emulator` to set `touch -> mouse` for desktop adaptation.
+It is recommended to use `@maple-design/touch-emulator` to set `touch -> mouse` for desktop adaptation.
 
 ```shell
 # playground-ignore
 # npm
-npm i @maplejs/maple-touch-emulator
+npm i @maple-design/touch-emulator
 # yarn
-yarn add @maplejs/maple-touch-emulator
+yarn add @maple-design/touch-emulator
 # pnpm
-pnpm add @maplejs/maple-touch-emulator
+pnpm add @maple-design/touch-emulator
 ```
 
 ```js
 // playground-ignore
-import '@maplejs/maple-touch-emulator'
+import '@maple-design/touch-emulator'
 ```

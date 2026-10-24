@@ -120,8 +120,8 @@
 
 <script setup lang="ts">
 import { computed, nextTick, onActivated, onBeforeUnmount, onDeactivated, ref, shallowRef, watch } from 'vue'
-import { IconClose as MIconClose } from '@maplejs/icons-vue'
-import { doubleRaf, getRect } from '@maplejs/maple-shared'
+import { IconClose as MIconClose } from '@maple-design/icons-vue'
+import { doubleRaf, getRect } from '@maple-design/shared'
 import BaseButton from '../button'
 import { useLock } from '../context/lock'
 import { useZIndex } from '../context/zIndex'

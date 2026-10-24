@@ -12,12 +12,21 @@ concurrency:
 jobs:
   quality:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: maple-design-mobile
     steps:
       - uses: actions/checkout@v4
+        with:
+          path: maple-design-mobile
       - uses: actions/checkout@v4
         with:
           repository: loca-spirit/design-ui
-          path: .design-ui
+          path: design-ui
+      - uses: actions/checkout@v4
+        with:
+          repository: loca-spirit/cedar-design-web
+          path: cedar-design-web
       - uses: pnpm/action-setup@v4
         with:
           version: 9.6.0
@@ -25,15 +34,23 @@ jobs:
         with:
           node-version: 20
           cache: pnpm
+          cache-dependency-path: |
+            maple-design-mobile/pnpm-lock.yaml
+            cedar-design-web/pnpm-lock.yaml
+            design-ui/pnpm-lock.yaml
+      - run: corepack pnpm install --frozen-lockfile
+        working-directory: design-ui
       - run: pnpm install --frozen-lockfile
-      - run: pnpm spec:check
-      - run: pnpm lint:check
-        # Existing formatting/lint debt is non-blocking during baseline cleanup.
-        continue-on-error: true
-      - run: pnpm typecheck
-        # Existing repository-wide Vue type debt is tracked separately; remove
-        # this flag after the baseline reaches zero.
-        continue-on-error: true
-      - run: pnpm test
-      - run: pnpm build
-      - run: pnpm package:check
+        working-directory: cedar-design-web
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: node ../design-ui/bin/ci-toolchain-check.mjs
+      - run: node ../design-ui/bin/case-paths-check.mjs
+      - run: node --test ../design-ui/bin/ci-contract.test.mjs ../design-ui/bin/ci-toolchain-check.test.mjs ../design-ui/bin/shared-source-contract.test.mjs ../design-ui/bin/case-paths-check.test.mjs ../design-ui/packages/ui-build/test/environment.test.mjs ../design-ui/browser/inventory.test.mjs
+      - run: pnpm quality
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: maple-design-mobile-production-browser
+          path: maple-design-mobile/artifacts/docs-components
+          if-no-files-found: warn

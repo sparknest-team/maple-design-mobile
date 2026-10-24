@@ -109,13 +109,17 @@
 
 ## API
 
+### 主值与默认值
+
+使用普通 `v-model`。`modelValue` 表示开关的实际值，类型与 checkedValue/uncheckedValue 一致；`defaultValue` 仅在创建时初始化非受控值，后续修改不会重置当前状态。显式绑定值优先，初始化不发出 `update:modelValue`。
+
 <!-- same-source-api:start -->
 ### Props
 
 | Prop | 含义 | 类型 | 默认值 |
 | --- | --- | --- | --- |
 | model-value | 受控值；省略时内部管理 | string / number / boolean | undefined |
-| default-checked | 非受控初始状态，仅初始化生效 | boolean | false |
+| default-value | 非受控初始实际值，仅创建时读取；省略时使用 uncheckedValue | string / number / boolean | undefined |
 | presentation | 字段展示方式，省略时继承 FormItem / Form | FieldPresentation | undefined |
 | read-pretty | 纯阅读展示，独立于 readonly | boolean | undefined |
 | before-commit | 编辑层保存前的可取消拦截器 | BeforeFieldCommit | undefined |

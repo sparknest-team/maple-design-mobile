@@ -1,6 +1,6 @@
 <script setup>
 import { reactive, toRefs } from 'vue'
-import { Message } from '@maplejs/maple-ui'
+import { Message } from '@maple-design/ui'
 
 const values = reactive({
   center: false,

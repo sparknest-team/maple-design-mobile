@@ -15,7 +15,7 @@ function reset() {
       <mp-switch v-model="autoAdjust" /> Auto adjust<mp-button @click="total = 25">Reduce total</mp-button
       ><mp-button @click="reset">Reset</mp-button>
     </div>
-    <mp-pagination v-model:current="current" :total="total" :auto-adjust="autoAdjust" show-total show-page-size />
+    <mp-pagination v-model="current" :total="total" :auto-adjust="autoAdjust" show-total show-page-size />
     <span>Current: {{ current }} · Total: {{ total }}</span>
   </div>
 </template>

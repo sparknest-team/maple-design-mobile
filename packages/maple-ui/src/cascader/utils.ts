@@ -129,17 +129,15 @@ export const getCheckedStatus = (option: CascaderOptionInfo, valueMap?: Map<stri
       checked = true
     }
   } else {
-    const checkedLeafOptionNumber = collectTreeLeaves(
+    const selectableLeaves = collectTreeLeaves(
       [option],
       (node) => node.children,
       (node) => node.disabled || node.selectionDisabled,
       (node) => !!node.isLeaf,
-    ).filter((node) => valueMap?.has(node.key)).length
-    if (checkedLeafOptionNumber > 0 && checkedLeafOptionNumber >= (option.totalLeafOptions ?? 1)) {
-      checked = true
-    } else if (checkedLeafOptionNumber > 0) {
-      indeterminate = true
-    }
+    )
+    const checkedLeafOptionNumber = selectableLeaves.filter((node) => valueMap?.has(node.key)).length
+    checked = selectableLeaves.length > 0 && checkedLeafOptionNumber === selectableLeaves.length
+    indeterminate = checkedLeafOptionNumber > 0 && checkedLeafOptionNumber < selectableLeaves.length
   }
 
   return {

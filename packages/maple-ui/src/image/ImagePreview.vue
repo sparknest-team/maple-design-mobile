@@ -65,15 +65,17 @@
       <PreviewToolbar v-if="showToolbar && mergedActions.length" :actions="actions" :actions-layout="mergedActions">
         <slot name="actions" />
       </PreviewToolbar>
-      <div
+      <button
         v-if="closable"
+        type="button"
+        aria-label="Close image preview"
         :class="n('close-btn')"
         data-image-preview-close
         data-image-preview-interactive
         @click="close"
       >
         <slot name="close-icon"><PreviewCloseIcon /></slot>
-      </div>
+      </button>
       <slot name="overlay" />
       <slot name="extra" />
     </div>

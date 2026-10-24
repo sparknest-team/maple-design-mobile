@@ -1,7 +1,7 @@
 <template>
   <mp-space :size="16" wrap>
-    <mp-image width="160" height="120" src="invalid-image.jpg" />
-    <mp-image width="160" height="120" src="invalid-image.jpg" alt="自定义错误内容">
+    <mp-image width="160" height="120" src="data:image/png;base64,AA==" />
+    <mp-image width="160" height="120" src="data:image/png;base64,AA==" alt="自定义错误内容">
       <template #error>
         <div class="error-slot">加载失败</div>
       </template>

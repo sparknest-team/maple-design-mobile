@@ -79,7 +79,7 @@
 </template>
 <script setup lang="ts">
 import { computed, provide, ref, useId, useSlots, watch } from 'vue'
-import { IconCalendar } from '@maplejs/icons-vue'
+import { IconCalendar } from '@maple-design/icons-vue'
 import PickerField from '../../_components/picker-field/PickerField.vue'
 import { splitInputAttrs } from '../../input/native-attrs'
 import { useTriggerKeyboard } from '../../time/presentation/use-trigger-keyboard'

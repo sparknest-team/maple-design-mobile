@@ -26,7 +26,7 @@
 
 ```html
 <script setup>
-  import { ActionSheet, Message } from '@maplejs/maple-ui'
+  import { ActionSheet, Message } from '@maple-design/ui'
 
   async function createBasic() {
     const action = await ActionSheet({
@@ -59,7 +59,7 @@
 
 ```html
 <script setup>
-  import { ActionSheet, Message } from '@maplejs/maple-ui'
+  import { ActionSheet, Message } from '@maple-design/ui'
 
   async function handleSelect() {
     const action = await ActionSheet({
@@ -95,7 +95,7 @@
 
 ```html
 <script setup>
-  import { ActionSheet, Message } from '@maplejs/maple-ui'
+  import { ActionSheet, Message } from '@maple-design/ui'
 
   async function handleSelect() {
     const action = await ActionSheet({
@@ -132,7 +132,7 @@
 
 ```html
 <script setup>
-  import { ActionSheet, Message } from '@maplejs/maple-ui'
+  import { ActionSheet, Message } from '@maple-design/ui'
 
   async function handleSelect() {
     await ActionSheet({
@@ -167,7 +167,7 @@
 
 ```html
 <script setup>
-  import { ActionSheet, Message } from '@maplejs/maple-ui'
+  import { ActionSheet, Message } from '@maple-design/ui'
 
   async function handleSelect() {
     const action = await ActionSheet({
@@ -206,7 +206,7 @@
 ```html
 <script setup>
   import { ref } from 'vue'
-  import { Message } from '@maplejs/maple-ui'
+  import { Message } from '@maple-design/ui'
 
   const show = ref(false)
   const actions = ref([
@@ -240,7 +240,7 @@
 ```html
 <script setup>
   import { ref } from 'vue'
-  import { Message } from '@maplejs/maple-ui'
+  import { Message } from '@maple-design/ui'
 
   const show = ref(false)
   const actions = ref([
@@ -274,7 +274,7 @@
 ```html
 <script setup>
   import { ref } from 'vue'
-  import { Message } from '@maplejs/maple-ui'
+  import { Message } from '@maple-design/ui'
 
   const show = ref(false)
   const actions = ref([
@@ -309,7 +309,7 @@
 ```html
 <script setup>
   import { ref } from 'vue'
-  import { Message } from '@maplejs/maple-ui'
+  import { Message } from '@maple-design/ui'
 
   const show = ref(false)
   const actions = ref([
@@ -343,7 +343,7 @@
 ```html
 <script setup>
   import { ref } from 'vue'
-  import { Message } from '@maplejs/maple-ui'
+  import { Message } from '@maple-design/ui'
 
   const show = ref(false)
   const actions = ref([
@@ -385,6 +385,8 @@
 <!-- api-review:end -->
 
 ## API
+
+`open/defaultOpen` 分别控制面板状态与非受控初始开合；使用 `v-model:open` 双向绑定。defaultOpen 只在创建时读取，不在初始化时回写。
 
 ### 属性
 

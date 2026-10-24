@@ -24,11 +24,16 @@
 
 ## API
 
+### 主值与默认值
+
+使用普通 `v-model`。`modelValue` 表示当前停靠高度，单位 px；`defaultValue` 仅在创建时初始化非受控值，后续修改不会重置当前状态。显式绑定值优先，初始化不发出 `update:modelValue`。
+
 ### 属性
 
 | 参数              | 说明                                                             | 类型     | 默认值        |
 |------------------|----------------------------------------------------------------- |----------|----------------|
-| `v-model:anchor`    | 面板初始显示锚点，如果不传则为 `anchors` 属性的第一个值 | _number_ | `-`  |
+| `v-model`    | 当前停靠高度，单位 px；拖动结束并吸附后更新 | _number_ | `-`  |
+| `default-value` | 非受控初始高度，仅创建时读取 | _number_ | `100` |
 | `anchors`           | 自定义锚点，单位为 `px` | _number[]_ | `[100, window.innerHeight * 0.6]`  |
 | `content-draggable` | 是否允许拖拽面板内容       | _boolean_ | `true`  |
 | `duration`          | 动画时长，单位为 `ms`          | _number \| string_ | `300`  |
@@ -40,7 +45,8 @@
 
 | 事件名 | 说明 | 参数 |
 | --- | --- | --- |
-| `anchor-change` | 移动到某个锚点后触发 | `height: number` |
+| `update:model-value` | 用户拖动结束并吸附后回传高度；初始化不触发 | `height: number` |
+| `height-change` | 移动到某个锚点后触发 | `height: number` |
 
 ### 插槽
 

@@ -9,6 +9,13 @@
       "initial": "[]"
     },
     {
+      "name": "default-value",
+      "description": "非受控初始值，仅创建时读取",
+      "type": "(string | number)[]",
+      "defaultValue": "undefined",
+      "kind": "json"
+    },
+    {
       "name": "columns",
       "description": "列内容",
       "type": "PickerColumnOption[] | PickerColumnOption[][]",
@@ -203,10 +210,7 @@
       "kind": "callback"
     }
   ],
-  "methodNames": [
-    "confirm",
-    "cancel"
-  ],
+  "methodNames": ["confirm", "cancel"],
   "events": [
     "change",
     "cancel",

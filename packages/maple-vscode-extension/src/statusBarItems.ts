@@ -2,7 +2,7 @@ import { StatusBarAlignment, window, workspace } from 'vscode'
 
 function getIsInWorkspace(path: string) {
   try {
-    require.resolve('@maplejs/maple-ui/package.json', {
+    require.resolve('@maple-design/ui/package.json', {
       paths: [path],
     })
     return true

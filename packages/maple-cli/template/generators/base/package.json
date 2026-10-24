@@ -1,5 +1,5 @@
 {
-  "name": "@maplejs/maple-ui",
+  "name": "@maple-design/ui",
   "version": "0.0.0",
   "description": "A components library example",
   "main": "lib/maple.cjs.js",
@@ -38,11 +38,11 @@
     "vue": "^3.2.0"
   },
   "devDependencies": {
-    "@maplejs/maple-cli": "workspace:*",
-    "@maplejs/icons-vue": "workspace:*",
-    "@maplejs/maple-touch-emulator": "workspace:*",
-    "@maplejs/maple-shared": "workspace:*",
-    "@maplejs/maple-ui": "workspace:*",
+    "@maple-design/cli": "workspace:*",
+    "@maple-design/icons-vue": "workspace:*",
+    "@maple-design/touch-emulator": "workspace:*",
+    "@maple-design/shared": "workspace:*",
+    "@maple-design/ui": "workspace:*",
     "@vue/test-utils": "2.4.6",
     "@vue/runtime-core": "3.5.13",
     "@vitest/coverage-istanbul": "3.0.6",

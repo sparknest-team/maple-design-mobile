@@ -1,6 +1,6 @@
 import { resolve } from 'path'
 import { confirm, input, select } from '@inquirer/prompts'
-import { camelize, kebabCase, pascalCase } from '@maplejs/maple-shared'
+import { camelize, kebabCase, pascalCase } from '@maple-design/shared'
 import ejs from 'ejs'
 import fse from 'fs-extra'
 import { getMapleConfig } from '../config/maple.config.js'

@@ -9,7 +9,7 @@
   </span>
 </template>
 <script setup lang="ts">
-import { IconCheck, IconMinus } from '@maplejs/icons-vue'
+import { IconCheck, IconMinus } from '@maple-design/icons-vue'
 import { createNamespace } from '../../utils/components'
 
 defineOptions({ name: createNamespace('selection-indicator').name })

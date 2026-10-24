@@ -3,20 +3,11 @@ import type { TriggerPlacement } from './contract'
 import { getPlacementOffset } from './geometry'
 import type { TriggerPopupTranslate, TriggerStrategy } from './types'
 
-interface ElementRect {
-  top: number
-  bottom: number
-  left: number
-  right: number
+interface RelativeRect {
   width: number
   height: number
-}
-
-interface RelativeRect extends ElementRect {
   scrollTop: number
-  scrollBottom: number
   scrollLeft: number
-  scrollRight: number
 }
 
 interface PositionOffset {
@@ -89,22 +80,14 @@ function fitPosition(
   })
   const current = boundaries(offset)
   const side = basePlacement(placement)
-  const overflowsMain =
-    (side === 'top' && current.top < 0) ||
-    (side === 'bottom' && current.bottom < 0) ||
-    (side === 'left' && current.left < 0) ||
-    (side === 'right' && current.right < 0)
+  const overflowsMain = current[side] < 0
 
   if (overflowsMain) {
     const opposite = oppositePlacement(placement)
     const candidate = popupOffset(opposite, reference, popup, context.distance, context.translate)
     const candidateBoundary = boundaries(candidate)
     const candidateSide = basePlacement(opposite)
-    const candidateFits =
-      (candidateSide === 'top' && candidateBoundary.top >= 0) ||
-      (candidateSide === 'bottom' && candidateBoundary.bottom >= 0) ||
-      (candidateSide === 'left' && candidateBoundary.left >= 0) ||
-      (candidateSide === 'right' && candidateBoundary.right >= 0)
+    const candidateFits = candidateBoundary[candidateSide] >= 0
     if (candidateFits) {
       position = opposite
       offset = candidate

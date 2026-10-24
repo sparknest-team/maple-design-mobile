@@ -350,7 +350,7 @@ Source: `src/badge/style/token.less`
 
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
-| `--mp-badge-bg-color` | Public | `var(--mp-sys-color-status-danger)` | Local CSS<br>`background-color` |
+| `--mp-badge-bg-color` | Public | `rgb(var(--mp-danger-7))` | Local CSS<br>`background-color` |
 | `--mp-badge-border-color` | Public | `var(--mp-sys-color-surface-default)` | Local CSS<br>`background-color`, `box-shadow` |
 | `--mp-badge-description-size-lg-font-size` | Public | `var(--mp-sys-font-size-lg)` | Local CSS<br>`font-size` |
 | `--mp-badge-description-size-md-font-size` | Public | `var(--mp-sys-font-size-md)` | Local CSS<br>`font-size` |
@@ -401,23 +401,23 @@ Source: `src/badge/style/token.less`
 | `--mp-badge-size-xs-padding` | Public | `0 var(--mp-sys-space-3)` | Local CSS<br>`padding` |
 | `--mp-badge-size-xs-scale` | Public | `0.6667` | Local CSS<br>`transform` |
 | `--mp-badge-size-xs-space` | Public | `0px` | Local CSS<br>`margin-inline` |
-| `--mp-badge-status-danger-bg-color` | Public | `var(--mp-sys-color-status-danger)` | Local CSS<br>`background-color` |
-| `--mp-badge-status-danger-text-color` | Public | `var(--mp-sys-color-content-on-bright)` | Local CSS<br>`color` |
+| `--mp-badge-status-danger-bg-color` | Public | `rgb(var(--mp-danger-7))` | Local CSS<br>`background-color` |
+| `--mp-badge-status-danger-text-color` | Public | `var(--mp-sys-color-content-on-dark)` | Local CSS<br>`color` |
 | `--mp-badge-status-default-bg-color` | Public | `#e0e0e0` | Local CSS<br>`background-color` |
 | `--mp-badge-status-default-text-color` | Public | `var(--mp-sys-color-content-on-bright)` | Local CSS<br>`color` |
 | `--mp-badge-status-info-bg-color` | Public | `var(--mp-sys-color-status-info)` | Local CSS<br>`background-color` |
-| `--mp-badge-status-info-text-color` | Public | `var(--mp-sys-color-content-on-bright)` | Local CSS<br>`color` |
+| `--mp-badge-status-info-text-color` | Public | `var(--mp-sys-color-content-on-dark)` | Local CSS<br>`color` |
 | `--mp-badge-status-primary-bg-color` | Public | `var(--mp-sys-color-action-primary)` | Local CSS<br>`background-color` |
-| `--mp-badge-status-primary-text-color` | Public | `var(--mp-sys-color-content-on-bright)` | Local CSS<br>`color` |
+| `--mp-badge-status-primary-text-color` | Public | `var(--mp-sys-color-content-on-dark)` | Local CSS<br>`color` |
 | `--mp-badge-status-secondary-bg-color` | Public | `rgb(var(--mp-gray-6))` | Local CSS<br>`background-color` |
-| `--mp-badge-status-secondary-text-color` | Public | `var(--mp-sys-color-content-on-bright)` | Local CSS<br>`color` |
+| `--mp-badge-status-secondary-text-color` | Public | `var(--mp-sys-color-content-on-dark)` | Local CSS<br>`color` |
 | `--mp-badge-status-success-bg-color` | Public | `var(--mp-sys-color-status-success)` | Local CSS<br>`background-color` |
-| `--mp-badge-status-success-text-color` | Public | `var(--mp-sys-color-content-on-bright)` | Local CSS<br>`color` |
+| `--mp-badge-status-success-text-color` | Public | `var(--mp-sys-color-content-on-dark)` | Local CSS<br>`color` |
 | `--mp-badge-status-tertiary-bg-color` | Public | `rgb(var(--mp-gray-7))` | Local CSS<br>`background-color` |
 | `--mp-badge-status-tertiary-text-color` | Public | `var(--mp-sys-color-content-on-dark)` | Local CSS<br>`color` |
 | `--mp-badge-status-warning-bg-color` | Public | `var(--mp-sys-color-status-warning)` | Local CSS<br>`background-color` |
-| `--mp-badge-status-warning-text-color` | Public | `var(--mp-sys-color-content-on-bright)` | Local CSS<br>`color` |
-| `--mp-badge-text-color` | Public | `var(--mp-sys-color-content-on-bright)` | Local CSS<br>`color` |
+| `--mp-badge-status-warning-text-color` | Public | `var(--mp-sys-color-content-on-dark)` | Local CSS<br>`color` |
+| `--mp-badge-text-color` | Public | `var(--mp-sys-color-content-on-dark)` | Local CSS<br>`color` |
 | `--mp-badge-variant-outline-bg-color` | Public | `transparent` | Local CSS<br>`background-color` |
 | `--mp-badge-variant-outline-status-danger-text-color` | Public | `var(--mp-sys-color-content-danger)` | Local CSS<br>`border`, `color` |
 | `--mp-badge-variant-outline-status-default-text-color` | Public | `var(--mp-sys-color-content-primary)` | Local CSS<br>`border`, `color` |
@@ -1403,8 +1403,8 @@ Source: `src/link/style/token.less`
 | `--mp-link-bg-hover` | Public | `var(--mp-color-fill-2)` | Local CSS<br>`background-color` |
 | `--mp-link-border-radius` | Public | `var(--mp-sys-radius-md)` | Local CSS<br>`border-radius` |
 | `--mp-link-danger-color` | Public | `var(--mp-sys-color-content-danger)` | Local CSS<br>`color` |
-| `--mp-link-default-color` | Public | `#555` | Local CSS<br>`color` |
-| `--mp-link-disabled-color` | Public | `var(--mp-color-text-disabled)` | Local CSS<br>`color` |
+| `--mp-link-default-color` | Public | `var(--mp-sys-color-content-primary)` | Local CSS<br>`color` |
+| `--mp-link-disabled-color` | Public | `var(--mp-sys-color-content-disabled)` | Local CSS<br>`color` |
 | `--mp-link-focus-color` | Public | `currentColor` | Local CSS<br>`outline` |
 | `--mp-link-focus-offset` | Public | `2px` | Local CSS<br>`outline-offset` |
 | `--mp-link-focus-opacity` | Public | `0.8` | Local CSS<br>`opacity` |
@@ -1417,11 +1417,16 @@ Source: `src/link/style/token.less`
 | `--mp-link-padding-horizontal` | Public | `0.25em` | Local CSS<br>`padding` |
 | `--mp-link-padding-vertical` | Public | `1px` | Local CSS<br>`padding` |
 | `--mp-link-primary-color` | Public | `var(--mp-sys-color-content-brand)` | Local CSS<br>`color` |
-| `--mp-link-secondary-color` | Public | `rgb(var(--mp-gray-6))` | Local CSS<br>`color` |
+| `--mp-link-secondary-color` | Public | `var(--mp-sys-color-content-secondary)` | Local CSS<br>`color` |
 | `--mp-link-size-icon` | Public | `var(--mp-link-icon-size)` | Local CSS<br>`font-size` |
+| `--mp-link-size-lg-font-size` | Public | `var(--mp-sys-font-size-lg)` | Local CSS<br>`font-size` |
+| `--mp-link-size-md-font-size` | Public | `var(--mp-link-font-size)` | Local CSS<br>`font-size` |
+| `--mp-link-size-sm-font-size` | Public | `var(--mp-sys-font-size-sm)` | Local CSS<br>`font-size` |
+| `--mp-link-size-xl-font-size` | Public | `var(--mp-sys-font-size-xl)` | Local CSS<br>`font-size` |
+| `--mp-link-size-xs-font-size` | Public | `var(--mp-sys-font-size-xs)` | Local CSS<br>`font-size` |
 | `--mp-link-spin-duration` | Public | `1s` | Local CSS<br>`animation` |
 | `--mp-link-success-color` | Public | `var(--mp-sys-color-content-success)` | Local CSS<br>`color` |
-| `--mp-link-tertiary-color` | Public | `rgb(var(--mp-gray-7))` | Local CSS<br>`color` |
+| `--mp-link-tertiary-color` | Public | `var(--mp-sys-color-content-secondary)` | Local CSS<br>`color` |
 | `--mp-link-text-color` | Public | `var(--mp-link-primary-color)` | Local CSS<br>`color` |
 | `--mp-link-text-color-active` | Public | `var(--mp-link-text-color)` | Local CSS<br>`color` |
 | `--mp-link-text-color-default` | Public | `var(--mp-link-default-color)` | Local CSS<br>`color` |
@@ -2777,15 +2782,15 @@ Source: `src/tooltip/style/token.less`
 | `--mp-tooltip-size-xs-padding-horizontal` | Public | `var(--mp-sys-space-4)` | Local CSS<br>`padding` |
 | `--mp-tooltip-size-xs-padding-vertical` | Public | `var(--mp-sys-space-2)` | Local CSS<br>`padding` |
 | `--mp-tooltip-status-danger-background` | Public | `var(--mp-sys-color-status-danger)` | Local CSS<br>`background-color` |
-| `--mp-tooltip-status-danger-text-color` | Public | `var(--mp-sys-color-content-on-bright)` | Local CSS<br>`color` |
+| `--mp-tooltip-status-danger-text-color` | Public | `var(--mp-sys-color-content-on-dark)` | Local CSS<br>`color` |
 | `--mp-tooltip-status-info-background` | Public | `var(--mp-sys-color-status-info)` | Local CSS<br>`background-color` |
-| `--mp-tooltip-status-info-text-color` | Public | `var(--mp-sys-color-content-on-bright)` | Local CSS<br>`color` |
+| `--mp-tooltip-status-info-text-color` | Public | `var(--mp-sys-color-content-on-dark)` | Local CSS<br>`color` |
 | `--mp-tooltip-status-primary-background` | Public | `var(--mp-sys-color-action-primary)` | Local CSS<br>`background-color` |
-| `--mp-tooltip-status-primary-text-color` | Public | `var(--mp-sys-color-content-on-bright)` | Local CSS<br>`color` |
+| `--mp-tooltip-status-primary-text-color` | Public | `var(--mp-sys-color-content-on-dark)` | Local CSS<br>`color` |
 | `--mp-tooltip-status-success-background` | Public | `var(--mp-sys-color-status-success)` | Local CSS<br>`background-color` |
-| `--mp-tooltip-status-success-text-color` | Public | `var(--mp-sys-color-content-on-bright)` | Local CSS<br>`color` |
+| `--mp-tooltip-status-success-text-color` | Public | `var(--mp-sys-color-content-on-dark)` | Local CSS<br>`color` |
 | `--mp-tooltip-status-warning-background` | Public | `var(--mp-sys-color-status-warning)` | Local CSS<br>`background-color` |
-| `--mp-tooltip-status-warning-text-color` | Public | `var(--mp-sys-color-content-on-bright)` | Local CSS<br>`color` |
+| `--mp-tooltip-status-warning-text-color` | Public | `var(--mp-sys-color-content-on-dark)` | Local CSS<br>`color` |
 | `--mp-tooltip-text-color` | Public | `var(--mp-sys-color-content-on-dark)` | Local CSS<br>`color` |
 
 </div>

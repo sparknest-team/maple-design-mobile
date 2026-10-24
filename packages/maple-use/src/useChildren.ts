@@ -9,7 +9,7 @@ import {
   type ComputedRef,
   type VNode,
 } from 'vue'
-import { isArray, removeItem } from '@maplejs/maple-shared'
+import { isArray, removeItem } from '@maple-design/shared'
 
 function flatVNodes(subTree: any) {
   const vNodes: VNode[] = []

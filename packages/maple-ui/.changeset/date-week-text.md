@@ -1,5 +1,5 @@
 ---
-'@maplejs/maple-ui': patch
+'@maple-design/ui': patch
 ---
 
 独立复制日期手输的严格周解析与格式回归测试，保持公共日期解析逻辑一致，不增加移动端周/季度空展示模式。

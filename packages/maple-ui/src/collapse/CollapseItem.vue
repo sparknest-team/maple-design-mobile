@@ -5,7 +5,7 @@
       role="button"
       :tabindex="disabled ? -1 : 0"
       :aria-disabled="disabled"
-      :aria-expanded="isActive"
+      :aria-expanded="isExpanded"
       :aria-controls="`${idBase}-panel`"
       :class="headerClass"
       @click="handleClick"
@@ -39,7 +39,7 @@
       @after-leave="onAfterLeave"
     >
       <div
-        v-show="isActive"
+        v-show="isExpanded"
         :id="`${idBase}-panel`"
         role="region"
         :aria-labelledby="`${idBase}-header`"
@@ -58,24 +58,25 @@ import { computed, defineComponent, inject, onBeforeUnmount, onMounted, ref, use
 import { createNamespace } from '../utils/components'
 import { collapseKey } from './context'
 import { DefaultExpandIcon } from './platform'
-import { collapseItemProps, type CollapseName } from './props'
+import { collapseItemProps, type CollapseExpandIconSlotProps, type CollapseItemSlots, type CollapseName } from './props'
 
 defineOptions({ name: createNamespace('collapse-item').name })
 
 const props = defineProps(collapseItemProps)
+defineSlots<CollapseItemSlots>()
 const { n, classes } = createNamespace('collapse-item')
 const collapseCtx = inject(collapseKey)
 const itemName = computed(() => props.name as CollapseName)
 const disabledRef = computed(() => props.disabled)
-const isActive = computed(() => collapseCtx?.activeNames.includes(itemName.value) ?? false)
+const isExpanded = computed(() => collapseCtx?.expandedNames.includes(itemName.value) ?? false)
 const mergedDestroyOnHide = computed(() => Boolean(collapseCtx?.destroyOnHide || props.destroyOnHide))
 const mergedShowExpandIcon = computed(() => collapseCtx?.showExpandIcon ?? props.showExpandIcon)
 const expandIconPosition = computed(() => collapseCtx?.expandIconPosition ?? 'left')
-const contentMounted = ref(mergedDestroyOnHide.value ? isActive.value : true)
+const contentMounted = ref(mergedDestroyOnHide.value ? isExpanded.value : true)
 const instanceId = useId()
 const idBase = computed(() => `${n()}-${instanceId}-${String(itemName.value).replace(/[^\w-]/g, '-')}`)
-const expandIconSlotProps = computed(() => ({
-  active: isActive.value,
+const expandIconSlotProps = computed<CollapseExpandIconSlotProps>(() => ({
+  expanded: isExpanded.value,
   disabled: props.disabled,
   position: expandIconPosition.value,
 }))
@@ -86,7 +87,7 @@ const ParentExpandIcon = defineComponent({
     return () => collapseCtx?.slots['expand-icon']?.(expandIconSlotProps.value)
   },
 })
-const itemClass = computed(() => classes(n(), [isActive.value, n('--active')], [props.disabled, n('--disabled')]))
+const itemClass = computed(() => classes(n(), [isExpanded.value, n('--active')], [props.disabled, n('--disabled')]))
 const headerClass = computed(() => classes(n('header'), n(`header--icon-${expandIconPosition.value}`)))
 
 onMounted(() => {
@@ -110,8 +111,8 @@ watch(itemName, (nextName, prevName) => {
   })
 })
 
-watch([isActive, mergedDestroyOnHide], ([active, destroy]) => {
-  contentMounted.value = active || !destroy
+watch([isExpanded, mergedDestroyOnHide], ([expanded, destroy]) => {
+  contentMounted.value = expanded || !destroy
 })
 
 function handleClick(e: Event) {

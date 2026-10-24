@@ -7,6 +7,12 @@ import {
   getTriggerPosition,
 } from '../geometry'
 
+test('relative geometry uses only required coordinates and has the same minimal shape', () => {
+  expect(
+    getRelativeRect({ top: 72, left: 56, width: 150, height: 80 }, { x: 26, y: 12, scaleX: 1.5, scaleY: 2 }),
+  ).toEqual({ scrollTop: 30, scrollLeft: 20, width: 100, height: 40 })
+})
+
 test('containing-block coordinates include borders, scroll and non-uniform scale', () => {
   const parent = document.createElement('div')
   Object.defineProperties(parent, {

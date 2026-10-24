@@ -1,1 +1,1 @@
-export { IconLink, IconLoading } from '@maplejs/icons-vue'
+export { IconLink, IconLoading } from '@maple-design/icons-vue'

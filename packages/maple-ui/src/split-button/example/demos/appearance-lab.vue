@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue'
-import { watchLang } from '@maplejs/maple-cli/client'
-import { Message } from '@maplejs/maple-ui'
+import { watchLang } from '@maple-design/cli/client'
+import { Message } from '@maple-design/ui'
 import type { ComponentSize, SemanticStatus } from '../../../utils/constants'
 
 const language = ref('zh-CN')

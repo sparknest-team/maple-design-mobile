@@ -34,7 +34,7 @@
 
 ### 样式引入
 
-配置 MapleResolver 的指令解析时会自动引入 `@maplejs/maple-ui/ripple/style`。未使用 resolver、直接注册 Ripple 时，请在应用入口显式引入该样式。指令运行时代码不导入 CSS，以支持服务端包导入。卸载和禁用会取消待执行动画；每个实例独立维护键盘状态。
+配置 MapleResolver 的指令解析时会自动引入 `@maple-design/ui/ripple/style`。未使用 resolver、直接注册 Ripple 时，请在应用入口显式引入该样式。指令运行时代码不导入 CSS，以支持服务端包导入。卸载和禁用会取消待执行动画；每个实例独立维护键盘状态。
 
 <!-- api-review:start -->
 ### 功能调试

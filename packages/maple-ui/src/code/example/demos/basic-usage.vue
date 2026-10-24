@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import { onThemeChange } from '@maplejs/maple-cli/client'
+import { onThemeChange } from '@maple-design/cli/client'
 import { codeToHtml } from '../highlighter'
 
 const rootTheme = ref('vitesse-light')

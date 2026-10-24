@@ -1,1 +1,1 @@
-export { IconChevronLeft as BackIcon } from '@maplejs/icons-vue'
+export { IconChevronLeft as BackIcon } from '@maple-design/icons-vue'

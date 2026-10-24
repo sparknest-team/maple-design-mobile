@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
+import { AppType, onThemeChange, watchLang } from '@maple-design/cli/client'
+import ActiveRenderingDemo from './demos/active-rendering.vue'
 import DemoApiReview from './demos/api-review.vue'
 import ContextMenuDemo from './demos/context-menu.vue'
 import ControlledDemo from './demos/controlled.vue'
@@ -38,7 +39,7 @@ onThemeChange()
   </section>
 
   <section data-demo="selection">
-    <app-type>{{ english ? 'Active Value and Select Event' : '激活值与 select 事件' }}</app-type>
+    <app-type>{{ english ? 'Selected Value and Select Event' : '选中值与 select 事件' }}</app-type>
     <SelectionDemo />
   </section>
 
@@ -55,6 +56,11 @@ onThemeChange()
   <section data-demo="option-content">
     <app-type>{{ english ? 'Custom Option Content' : '自定义选项内容' }}</app-type>
     <OptionContentDemo />
+  </section>
+
+  <section data-demo="active-rendering">
+    <app-type>{{ english ? 'Selection and Visual Emphasis' : '选中与视觉强调' }}</app-type>
+    <ActiveRenderingDemo />
   </section>
 
   <section data-demo="trigger">

@@ -1,9 +1,8 @@
-import { withInstall, withPropsDefaultsSetter } from '../utils/components'
+import { withInstall } from '../utils/components'
 import { tooltipProps } from './props'
 import Tooltip from './Tooltip.vue'
 
 withInstall(Tooltip)
-withPropsDefaultsSetter(Tooltip, tooltipProps)
 
 export { tooltipProps }
 

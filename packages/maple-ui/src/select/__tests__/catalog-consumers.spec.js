@@ -75,11 +75,11 @@ test('Menu selected/focus/disabled rows and adjacent groups use current consumer
   }
 })
 
-test('FloatingPanel actual teleported root belongs to the surface override ancestor without changing anchor state', async () => {
+test('FloatingPanel actual teleported root belongs to the surface override ancestor without changing the height model', async () => {
   const popup = document.createElement('div')
   popup.style.setProperty('--mp-floating-panel-background', 'rgb(12, 34, 56)')
   const wrapper = mount(FloatingPanel, {
-    props: { popupContainer: popup, anchors: [100, 200], anchor: 100 },
+    props: { popupContainer: popup, anchors: [100, 200], modelValue: 100 },
   })
   try {
     await nextTick()
@@ -87,7 +87,7 @@ test('FloatingPanel actual teleported root belongs to the surface override ances
     expect(panel.parentElement).toBe(popup)
     expect(popup.style.getPropertyValue('--mp-floating-panel-background')).toBe('rgb(12, 34, 56)')
     expect(panel.querySelector('.mp-floating-panel__content')).not.toBeNull()
-    expect(wrapper.emitted('update:anchor')).toBeUndefined()
+    expect(wrapper.emitted('update:modelValue')).toBeUndefined()
   } finally {
     wrapper.unmount()
     popup.remove()

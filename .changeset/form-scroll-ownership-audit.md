@@ -1,5 +1,5 @@
 ---
-"@maplejs/maple-ui": patch
+"@maple-design/ui": patch
 ---
 
 Record the initial controlled Form scroll-task baseline and historical pending authorization. Preserve API,Tokens and open classification status;do not claim whole-family or native acceptance.

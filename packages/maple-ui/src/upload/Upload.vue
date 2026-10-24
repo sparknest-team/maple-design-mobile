@@ -130,8 +130,11 @@
 </template>
 <script setup lang="ts">
 import { onBeforeUnmount, ref, watch } from 'vue'
-import { IconClose, IconDownload, IconEye, IconRefresh } from '@maplejs/icons-vue'
-import { imagePreview as previewImage, type ImagePreviewHandle } from '../image'
+import { IconClose, IconDownload, IconEye, IconRefresh } from '@maple-design/icons-vue'
+// Keep preview types erased from runtime dependencies.
+import type { ImagePreviewHandle } from '../image/api'
+// Internal controls depend on the preview service, not the installed Image family.
+import { previewImage } from '../image/preview'
 import Ripple from '../ripple'
 import { createNamespace, formatElevation } from '../utils/components'
 import { useUploader } from './composables/use-uploader'
@@ -223,10 +226,11 @@ const uploader = useUploader({
       try {
         imageHandle = previewImage({
           images: media.length ? media.map((item) => item.thumbnailUrl || item.url!) : [file.url],
-          current: Math.max(
-            0,
-            media.findIndex((item) => item.uid === file.uid),
-          ),
+          modelValue:
+            Math.max(
+              0,
+              media.findIndex((item) => item.uid === file.uid),
+            ) + 1,
           onClosed: releaseImage,
         })
       } finally {

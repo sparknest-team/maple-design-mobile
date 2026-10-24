@@ -40,6 +40,8 @@ Use the `extra` slot to add custom footer content.
 
 ### Error state
 
+The example uses corrupt inline image data to exercise decode errors without requesting a missing HTTP resource.
+
 Failed images show the default error state, or a custom `error` slot.
 
 ```demo
@@ -120,7 +122,7 @@ Display images with captions, loading fallback and preview. Example groups match
 
 ### Preview entry
 
-Configure embedded preview with `preview-src`, `v-model:preview-open` and `preview-props`.
+Configure embedded preview with `preview-src`, `v-model:open` and `preview-props`.
 
 ```demo
 ../example/demos/preview-entry.vue
@@ -241,6 +243,8 @@ Or import separately
 
 ## API
 
+ImagePreviewGroup binds a one-based image number through ordinary `v-model`; `defaultValue` initializes the uncontrolled index. Panel opening uses `v-model:open` and `defaultOpen` independently. Programmatic preview options also use modelValue/defaultValue and onUpdate:modelValue.
+
 
 ### Props
 
@@ -267,8 +271,8 @@ Or import separately
 | `block`                       | Whether it is a block element                                                                                                                                                                   | _boolean_                        | `true`    |
 | `preview-disabled`            | Whether click preview is disabled                                                                                                                                                               | _boolean_                        | `false`   |
 | `preview-src`                 | Preview image URL, defaults to `src`                                                                                                                                                            | _string_                         | `-`       |
-| `v-model:preview-open`        | Controlled preview visibility                                                                                                                                                                   | _boolean_                        | `-`       |
-| `default-preview-open`        | Default preview visibility                                                                                                                                                                      | _boolean_                        | `false`   |
+| `v-model:open`        | Controlled preview visibility                                                                                                                                                                   | _boolean_                        | `-`       |
+| `default-open`        | Default preview visibility                                                                                                                                                                      | _boolean_                        | `false`   |
 | `preview-props`               | Props passed to `ImagePreview`                                                                                                                                                                  | _object_                         | `-`       |
 | `popup-container`             | Preview mount target; `false` disables Teleport                                                                                                                                                 | _string \| HTMLElement \| false_ | `body`    |
 
@@ -279,8 +283,8 @@ Or import separately
 | `click`               | Triggered when you click on Image                                                                                                                            | `event: Event`  |
 | `load`                | Triggered when the image is successfully loaded (when the image fails in lazy loading mode, it will only be triggered when the image is successfully loaded) | `event: Event`  |
 | `error`               | Triggered when an image fails to load (when an image fails in lazy loading mode, it will only be triggered when the number of attempts ends)                 | `event: Event`  |
-| `preview-open-change` | Triggered when preview opens or closes                                                                                                                       | `open: boolean` |
-| `update:preview-open` | Updates the `preview-open` model                                                                                                                             | `open: boolean` |
+| `open-change` | Triggered when preview opens or closes                                                                                                                       | `open: boolean` |
+| `update:open` | Updates the `open` model                                                                                                                             | `open: boolean` |
 
 ### Slots
 
@@ -322,8 +326,8 @@ Replacing an imperative preview disposes the previous instance and invokes its `
 | `images`           | Image URL list (skips collecting child Image when set)    | _string[]_                       | `[]`    |
 | `v-model:open`     | Whether preview is open                                   | _boolean_                        | `false` |
 | `default-open`     | Default open in uncontrolled mode                         | _boolean_                        | `false` |
-| `v-model:current`  | Current image index                                       | _number_                         | `-`     |
-| `default-current`  | Default image index in uncontrolled mode                  | _number_                         | `0`     |
+| `v-model`  | Current image number (starts at 1)                                       | _number_                         | `-`     |
+| `default-value`  | Initial image number (starts at 1) in uncontrolled mode                  | _number_                         | `1`     |
 | `loop`             | Whether to loop                                           | _boolean_                        | `false` |
 | `closable`         | Whether to show close button                              | _boolean_                        | `true`  |
 | `overlay-closable` | Close on backdrop click; clicking the image keeps it open | _boolean_                        | `true`  |
@@ -334,13 +338,13 @@ Replacing an imperative preview disposes the previous instance and invokes its `
 
 | Event         | Description                                                                                    | Arguments                      |
 | ------------- | ---------------------------------------------------------------------------------------------- | ------------------------------ |
-| `change`      | The callback function when switching images, the callback parameter is the current index       | `index: number` Image indexing |
+| `change`      | The callback function when switching images, the callback parameter is the current index       | `imageNumber: number, previousImageNumber: number` (starts at 1) |
 | `open`        | Triggered when Image-Preview is turned on                                                      | `-`                            |
 | `opened`      | Triggered at the end of the open image-preview animation                                       | `-`                            |
 | `open-change` | Triggered when open state changes                                                              | `open: boolean`                |
 | `close`       | Triggered when Image-Preview is off                                                            | `-`                            |
 | `closed`      | Triggered when the animation that closes the image-preview ends                                | `-`                            |
-| `long-press`  | The callback function when long pressing an image, the callback parameter is the current index | `index: number` Image indexing |
+| `long-press`  | The callback function when long pressing an image, the callback parameter is the current index | `imageNumber: number` (starts at 1) |
 | `key-escape`  | Triggered when click keyboard ESC                                                              | `-`                            |
 
 ### Methods
@@ -352,7 +356,7 @@ Replacing an imperative preview disposes the previous instance and invokes its `
 | `imagePreview.setDefaultOptions`   | Set default option configuration   | _options_                       | `-`    |
 | `imagePreview.resetDefaultOptions` | Reset default option configuration | _-_                             | `-`    |
 | `prev` / `next`                    | Switch image                       | `-`                             | `-`    |
-| `to`                               | Go to an index                     | `index: number`                 | `-`    |
+| `to`                               | Go to an image number (starts at 1)                     | `imageNumber: number`                 | `-`    |
 | `zoomTo`                           | Set scale                          | `scale: number`                 | `-`    |
 | `zoomIn` / `zoomOut`               | Zoom in or out                     | `-`                             | `-`    |
 | `rotateLeft` / `rotateRight`       | Rotate image                       | `-`                             | `-`    |
@@ -362,7 +366,7 @@ Replacing an imperative preview disposes the previous instance and invokes its `
 
 | Name         | Description                | SlotProps                                                                  |
 | ------------ | -------------------------- | -------------------------------------------------------------------------- |
-| `indicator`  | Paging indicator           | `index: number` Image indexing <br> `length: number` Total number of image |
+| `indicator`  | Paging indicator           | `imageNumber: number` (starts at 1) <br> `length: number` Total number of image |
 | `close-icon` | Close button               | `-`                                                                        |
 | `extra`      | Extra slots                | `-`                                                                        |
 | `actions`    | Custom preview action area | `-`                                                                        |
@@ -372,18 +376,18 @@ Replacing an imperative preview disposes the previous instance and invokes its `
 | Prop                  | Description                                                                                    | Type                      | Default |
 | --------------------- | ---------------------------------------------------------------------------------------------- | ------------------------- | ------- |
 | `images`              | The image URL array or the URL of a single image to be previewed                               | _string[] \| string_      | `[]`    |
-| `current`             | Index from which the image preview starts                                                      | _number_                  | `0`     |
+| `model-value`             | Index from which the image preview starts                                                      | _number_                  | `1`     |
 | `scaleStep`           | Scale increment per action                                                                     | _number_                  | `0.5`   |
 | `closable`            | Whether to show the close button                                                               | _boolean_                 | `true`  |
 | `escToClose`          | Whether to support keyboard ESC to close the image-preview                                     | _boolean_                 | `true`  |
 | `lockScroll`          | Lock scroll                                                                                    | _boolean_                 | `true`  |
 | `imagePreventDefault` | Whether to disable the default behavior of images                                              | _boolean_                 | `false` |
-| `onChange`            | The callback function when switching images, the callback parameter is the current index       | _(index: number) => void_ | `-`     |
+| `onChange`            | The callback function when switching images, the callback parameter is the current index       | _(imageNumber: number, previousImageNumber: number) => void_ | `-`     |
 | `onOpen`              | Callback when image-preview is turned on                                                       | _() => void_              | `-`     |
 | `onOpened`            | Callback at the end of the animation that opened image-preview                                 | _() => void_              | `-`     |
 | `onClose`             | Callback when image-preview is closed                                                          | _() => void_              | `-`     |
 | `onClosed`            | Callback at the end of the animation that closes the image-preview                             | _() => void_              | `-`     |
-| `onLongPress`         | The callback function when long pressing an image, the callback parameter is the current index | _(index: number) => void_ | `-`     |
+| `onLongPress`         | The callback function when long pressing an image, the callback parameter is the current index | _(imageNumber: number) => void_ | `-`     |
 | `onKeyEscape`         | Triggered when click keyboard ESC                                                              | _() => void_              | `-`     |
 
 ### Style Variables
@@ -401,3 +405,7 @@ Here are the CSS variables used by the component. Styles can be customized using
 | `--image-preview-close-icon-color`            | `#fff`   |
 | `--image-preview-extra-top`                   | `14px`   |
 | `--image-preview-extra-left`                  | `14px`   |
+
+### Preview group image numbers
+
+`modelValue/defaultValue` start at **1** (`1` means the first image). `open(imageNumber = 1)` and `to(imageNumber)` accept one-based image numbers; invalid/non-integer numbers are ignored. `prev()`/`next()` emit the same numbering, including loop boundaries. `update:modelValue(imageNumber)` and `change(imageNumber, previousImageNumber)` use one-based values; external controlled assignments do not emit a change notification. `long-press(imageNumber)` uses the same convention. The indicator slot exposes `{ imageNumber, length }`. Internal array positions remain zero-based.

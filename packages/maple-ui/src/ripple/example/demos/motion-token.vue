@@ -3,9 +3,9 @@ defineProps({ english: Boolean })
 </script>
 
 <template>
-  <mp-button v-ripple :ripple="false" class="ripple-motion-demo">
+  <div v-ripple role="button" tabindex="0" class="ripple-motion-demo">
     {{ english ? '600ms expansion / 800ms fading — Enter or Space' : '600ms 扩散／800ms 消退 — Enter 或 Space' }}
-  </mp-button>
+  </div>
 </template>
 
 <style scoped>

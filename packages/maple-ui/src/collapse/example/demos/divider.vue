@@ -3,7 +3,7 @@
     <mp-button @click="divider = !divider">
       {{ divider ? 'Hide divider' : 'Show divider' }}
     </mp-button>
-    <mp-collapse :default-active-names="[]" :divider="divider">
+    <mp-collapse :default-value="[]" :divider="divider">
       <mp-collapse-item title="Beijing Toutiao Technology Co., Ltd." name="1">
         <div>Beijing Toutiao Technology Co., Ltd.</div>
       </mp-collapse-item>

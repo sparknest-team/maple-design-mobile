@@ -1,8 +1,8 @@
 <template>
   <div
-    :id="ctx.id(key, 'panel')"
+    :id="ctx.id(name, 'panel')"
     role="tabpanel"
-    :aria-labelledby="ctx.id(key, 'tab')"
+    :aria-labelledby="ctx.id(name, 'tab')"
     :hidden="!active"
     :tabindex="0"
     :class="[classes(n('content-item'), [active, n('--content-item-active')]), ctx.props.itemWrapperClass]"
@@ -12,20 +12,19 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed, getCurrentInstance, inject, ref, watch } from 'vue'
+import { computed, inject, ref, watch } from 'vue'
 import { createNamespace } from '../utils/components'
 import { tabsInjectionKey } from './context'
-import { tabItemProps, type TabsKey } from './props'
+import { tabItemProps } from './props'
 import type { TabItemSlots } from './types'
 
 defineSlots<TabItemSlots>()
 defineOptions({ name: createNamespace('tab-item').name })
 const props = defineProps(tabItemProps)
 const ctx = inject(tabsInjectionKey)!
-const instance = getCurrentInstance()!
 const { n, classes } = createNamespace('tabs')
-const key = computed(() => instance.vnode.key as TabsKey)
-const active = computed(() => ctx.active.value === key.value)
+const name = computed(() => props.name)
+const active = computed(() => ctx.active.value === name.value)
 const visited = ref(active.value)
 watch(active, (value) => {
   if (value) {

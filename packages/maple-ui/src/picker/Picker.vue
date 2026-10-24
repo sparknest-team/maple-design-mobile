@@ -13,7 +13,7 @@
             overlayClosable,
             escToClose,
             popupContainer,
-            open,
+            open: mergedOpen,
             safeAreaInsetBottom: safeArea,
             closeOnRouteChange: true,
             'onUpdate:open': handlePopupUpdateShow,
@@ -137,9 +137,9 @@ import {
   watch,
   type ComponentPublicInstance,
 } from 'vue'
-import { IconCheck as MIconCheck } from '@maplejs/icons-vue'
-import { call, clamp, clampArrayRange, toNumber } from '@maplejs/maple-shared'
-import { useTouch, useVModel } from '@maplejs/maple-use'
+import { IconCheck as MIconCheck } from '@maple-design/icons-vue'
+import { call, clamp, clampArrayRange, toNumber } from '@maple-design/shared'
+import { useTouch } from '@maple-design/use'
 import MpButton from '../button'
 import MpIcon from '../icon'
 import { t } from '../locale'
@@ -196,6 +196,8 @@ export default defineComponent({
     'key-escape',
   ],
   setup(props, { emit }) {
+    const localOpen = ref(props.defaultOpen)
+    const mergedOpen = computed(() => props.open ?? localOpen.value)
     const controlId = useId()
     const reducedMotion = ref(false)
     let motionQuery: MediaQueryList | undefined
@@ -205,7 +207,7 @@ export default defineComponent({
     let motionDisposed = false
     let motionEpoch = 0
     const completions = new WeakMap<ScrollColumn, HTMLElement | null>()
-    const canUseMotion = () => motionMounted && motionActive && !motionDisposed && (!props.dynamic || props.open)
+    const canUseMotion = () => motionMounted && motionActive && !motionDisposed && (!props.dynamic || mergedOpen.value)
     const isCurrentColumn = (column: ScrollColumn) => canUseMotion() && scrollColumns.value.includes(column)
     function syncMotion() {
       reducedMotion.value = Boolean(motionQuery?.matches)
@@ -279,7 +281,16 @@ export default defineComponent({
       motionDisposed = true
       retireMotion()
     })
-    const modelValue = useVModel(props, 'modelValue', { emit, eventName: 'update:modelValue' })
+    const localValue = ref([...props.defaultValue])
+    const modelValue = computed({
+      get: () => props.modelValue ?? localValue.value,
+      set: (value: (string | number)[]) => {
+        if (props.modelValue === undefined) {
+          localValue.value = value
+        }
+        emit('update:modelValue', value)
+      },
+    })
     const scrollColumns = ref<ScrollColumn[]>([])
     const visibleColumnsCount = computed(() => toNumber(props.columnsCount))
     const optionHeight = computed(() => toPxNum(props.optionHeight))
@@ -298,7 +309,7 @@ export default defineComponent({
 
     watch(() => modelValue.value, initScrollColumns)
     watch(
-      () => [props.dynamic, props.open],
+      () => [props.dynamic, mergedOpen.value],
       () => {
         if (canUseMotion()) {
           bindMotion()
@@ -449,6 +460,9 @@ export default defineComponent({
     }
 
     function handlePopupUpdateShow(value: boolean) {
+      if (props.open === undefined) {
+        localOpen.value = value
+      }
       emit('update:open', value)
     }
 
@@ -729,6 +743,7 @@ export default defineComponent({
     }
 
     return {
+      mergedOpen,
       controlId,
       handleColumnKeydown,
       optionHeight,

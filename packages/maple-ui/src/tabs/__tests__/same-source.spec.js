@@ -7,11 +7,14 @@ import Tabs, { TabItem, TabNav, TabPane, TabsItems, TabsNavs } from '..'
 function content(keys = ['a', 'b', 'c'], disabled = [], itemProps = {}) {
   return [
     h(TabsNavs, null, {
-      default: () => keys.map((key) => h(TabNav, { key, title: String(key), disabled: disabled.includes(key) })),
+      default: () =>
+        keys.map((key) => h(TabNav, { name: key, key, title: String(key), disabled: disabled.includes(key) })),
     }),
     h(TabsItems, null, {
       default: () =>
-        keys.map((key) => h(TabItem, { key, ...itemProps }, { default: () => h('input', { value: `panel-${key}` }) })),
+        keys.map((key) =>
+          h(TabItem, { name: key, key, ...itemProps }, { default: () => h('input', { value: `panel-${key}` }) }),
+        ),
     }),
   ]
 }
@@ -28,7 +31,7 @@ function selected(wrapper) {
 describe('Tabs shared behavior', () => {
   test('plugin registration renders the TabPane template shorthand', () => {
     const w = mount(
-      { template: '<mp-tabs><mp-tab-pane key="a" title="First">panel-a</mp-tab-pane></mp-tabs>' },
+      { template: '<mp-tabs><mp-tab-pane name="a" title="First">panel-a</mp-tab-pane></mp-tabs>' },
       { global: { plugins: [Tabs] } },
     )
 
@@ -42,7 +45,7 @@ describe('Tabs shared behavior', () => {
       slots: {
         default: () =>
           h(TabsNavs, null, {
-            default: () => [h(TabNav, { key: 'a', title: 'a' }), h(TabNav, { key: 'b', title: 'b' })],
+            default: () => [h(TabNav, { name: 'a', title: 'a' }), h(TabNav, { name: 'b', title: 'b' })],
           }),
       },
     })
@@ -58,8 +61,8 @@ describe('Tabs shared behavior', () => {
     const w = mount(Tabs, {
       slots: {
         default: () => [
-          h(TabPane, { key: 'a', title: 'First' }, { default: () => 'panel-a' }),
-          h(TabPane, { key: 'b', title: 'Second' }, { default: () => 'panel-b' }),
+          h(TabPane, { name: 'a', title: 'First' }, { default: () => 'panel-a' }),
+          h(TabPane, { name: 'b', title: 'Second' }, { default: () => 'panel-b' }),
         ],
       },
     })
@@ -95,23 +98,23 @@ describe('Tabs shared behavior', () => {
     await w.findAll('[role="tab"]')[1].trigger('click')
     await w.findAll('[role="tab"]')[1].trigger('click')
     expect(selected(w)).toEqual(['b'])
-    expect(w.emitted('update:active')).toEqual([['b']])
+    expect(w.emitted('update:modelValue')).toEqual([['b']])
     expect(w.emitted('change')).toEqual([['b']])
     expect(w.emitted('tab-click')).toHaveLength(2)
     expect(w.emitted('tab-click')[0][1]).toBeInstanceOf(Event)
     w.unmount()
   })
   test('controlled selection waits for owner', async () => {
-    const w = setup({ active: 'a' })
+    const w = setup({ modelValue: 'a' })
     await w.findAll('[role="tab"]')[1].trigger('click')
     expect(selected(w)).toEqual(['a'])
     expect(w.emitted('change')).toEqual([['b']])
-    await w.setProps({ active: 'b' })
+    await w.setProps({ modelValue: 'b' })
     expect(selected(w)).toEqual(['b'])
     w.unmount()
   })
   test('number and string keys are distinct', async () => {
-    const w = setup({ defaultActive: 1 }, [1, '1'])
+    const w = setup({ defaultValue: 1 }, [1, '1'])
     const ids = w.findAll('[role="tab"]').map((tab) => tab.attributes('id'))
     expect(ids[0]).not.toBe(ids[1])
     await w.findAll('[role="tab"]')[1].trigger('click')
@@ -268,7 +271,7 @@ describe('Tabs shared behavior', () => {
   })
   test('uncontrolled removed selection falls back to an enabled tab', async () => {
     const keys = ref(['a', 'b'])
-    const w = mount(Tabs, { props: { defaultActive: 'b' }, slots: { default: () => content(keys.value) } })
+    const w = mount(Tabs, { props: { defaultValue: 'b' }, slots: { default: () => content(keys.value) } })
     keys.value = ['a']
     await nextTick()
     expect(selected(w)).toEqual(['a'])
@@ -333,7 +336,7 @@ describe('Tabs shared behavior', () => {
             TabsNavs,
             { 'aria-label': 'Sections' },
             {
-              default: () => h(TabNav, { key: 'a', title: 'Prop' }, { title: () => 'Slot', icon: () => 'Icon' }),
+              default: () => h(TabNav, { name: 'a', title: 'Prop' }, { title: () => 'Slot', icon: () => 'Icon' }),
               suffix: () => h('span', 'Suffix'),
             },
           ),
@@ -419,4 +422,56 @@ describe('Tabs shared behavior', () => {
     expect(selected(w)).toEqual(['b'])
     w.unmount()
   })
+})
+
+test('business names select and associate panels independently of Vue keys', async () => {
+  const w = mount(Tabs, {
+    props: { defaultValue: 'overview' },
+    slots: {
+      default: () => [
+        h(TabsNavs, null, {
+          default: () => [
+            h(TabNav, { key: 'nav-1', name: 'overview', title: 'Overview' }),
+            h(TabNav, { key: 'nav-2', name: 'details', title: 'Details' }),
+          ],
+        }),
+        h(TabsItems, null, {
+          default: () => [
+            h(TabItem, { key: 'panel-2', name: 'details' }, () => 'Details panel'),
+            h(TabItem, { key: 'panel-1', name: 'overview' }, () => 'Overview panel'),
+          ],
+        }),
+      ],
+    },
+  })
+  const tabs = w.findAll('[role="tab"]')
+  expect(w.find('[role="tabpanel"]:not([hidden])').text()).toBe('Overview panel')
+  expect(tabs[0].attributes('aria-controls')).toBe(w.findAll('[role="tabpanel"]')[1].attributes('id'))
+  await tabs[1].trigger('click')
+  expect(w.emitted('update:modelValue')).toEqual([['details']])
+  expect(w.find('[role="tabpanel"]:not([hidden])').text()).toBe('Details panel')
+  w.unmount()
+})
+
+test('reactive names update without replacing a pane with a stable Vue key', async () => {
+  const name = ref('overview')
+  const w = mount(Tabs, {
+    props: { modelValue: 'overview' },
+    slots: {
+      default: () => h(TabPane, { key: 'stable-render-key', name: name.value, title: 'Pane' }, () => 'Content'),
+    },
+  })
+  const paneUid = w.findComponent(TabPane).vm.$.uid
+  const firstId = w.find('[role="tab"]').attributes('id')
+  name.value = 'details'
+  await nextTick()
+  expect(w.findComponent(TabPane).vm.$.uid).toBe(paneUid)
+  expect(w.find('[aria-selected="true"]').exists()).toBe(false)
+  await w.setProps({ modelValue: 'details' })
+  const tab = w.find('[role="tab"]')
+  expect(tab.attributes('aria-selected')).toBe('true')
+  expect(tab.attributes('id')).not.toBe(firstId)
+  expect(tab.attributes('aria-controls')).toBe(w.find('[role="tabpanel"]').attributes('id'))
+  expect(w.emitted('update:modelValue')).toBeUndefined()
+  w.unmount()
 })

@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import { watchLang } from '@maplejs/maple-cli/client'
+import { watchLang } from '@maple-design/cli/client'
 import DemoApiReview from './demos/api-review.vue'
 import Demo5 from './demos/basic-usage.vue'
 import Demo6 from './demos/before-add.vue'

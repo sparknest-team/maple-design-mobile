@@ -49,3 +49,17 @@ describe('trigger position contract', () => {
     expect('cascadeOptimization' in triggerProps).toBe(false)
   })
 })
+
+for (const [side, opposite, left, top] of [
+  ['top', 'bottom', 100, 2],
+  ['bottom', 'top', 100, 620],
+  ['left', 'right', 2, 100],
+  ['right', 'left', 300, 100],
+]) {
+  test.each(['', '-start', '-end'])(`${side}%s flips without losing alignment`, (alignment) => {
+    const result = calculatePopupPosition(side + alignment, rect(left, top, 20, 20), rect(0, 0, 40, 40), context)
+    expect(result.placement).toBe(opposite + alignment)
+    expect(Number.parseFloat(result.style.left)).toBeGreaterThanOrEqual(0)
+    expect(Number.parseFloat(result.style.top)).toBeGreaterThanOrEqual(0)
+  })
+}

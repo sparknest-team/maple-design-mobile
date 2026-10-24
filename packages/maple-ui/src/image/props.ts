@@ -25,8 +25,8 @@ export const imageProps = {
   ripple: Boolean,
   block: { type: Boolean, default: true },
   previewDisabled: Boolean,
-  previewOpen: { type: Boolean, default: undefined },
-  defaultPreviewOpen: { type: Boolean, default: false },
+  open: { type: Boolean, default: undefined },
+  defaultOpen: { type: Boolean, default: false },
   previewProps: Object as PropType<Partial<ImagePreviewProps>>,
   popupContainer: popupContainerProp,
 }

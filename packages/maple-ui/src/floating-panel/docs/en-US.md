@@ -24,11 +24,16 @@ The demo is confined to a 400px container using `popup-container=false` and a lo
 
 ## API
 
+### Model and default value
+
+Use ordinary `v-model`. `modelValue` is the current anchor height in pixels. `defaultValue` initializes uncontrolled state only at creation; changing it later does not reset the current state. A supplied model takes precedence. Initialization emits no `update:modelValue`.
+
 ### Props
 
 | Prop  | Description  | Type      | Default        |
 | ------- | ---- | ----- | ---- |
-| `v-model:anchor`    | The panel initially displays the anchor point, or the first value of the `anchors` attribute if not passed | _number \| string_ | `-`  |
+| `v-model`    | Current settled height in pixels; updated after dragging and snapping | _number_ | `-`  |
+| `default-value` | Initial uncontrolled height, read only at creation | _number_ | `100` |
 | `anchors`           | Custom anchors which unit is `px` | _number[]_ | `[100, window.innerHeight * 0.6]`  |
 | `content-draggable` | Whether to allow to drag panel content area | _boolean_ | `true`  |
 | `duration`          | Transition duration which unit is `ms` | _number \| string_ | `300`  |
@@ -40,7 +45,8 @@ The demo is confined to a 400px container using `popup-container=false` and a lo
 
 | Event | Description  | Arguments  |
 | ---- | ---- | ---- |
-| `anchor-change` | Triggered after moving to an anchor | `height: number` |
+| `update:model-value` | Height after dragging and snapping; not emitted during initialization | `height: number` |
+| `height-change` | Triggered after moving to an anchor | `height: number` |
 
 ### Slots
 

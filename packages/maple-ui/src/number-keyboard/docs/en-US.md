@@ -23,6 +23,14 @@ A bottom popup virtual keyboard for numeric or password input flows.
 
 ## API
 
+Use `v-model:open` for the panel state; `defaultOpen` initializes uncontrolled opening once, without emitting an initialization update.
+
+### Model and default value
+
+Use ordinary `v-model`. `modelValue` is the entered text. `defaultValue` initializes uncontrolled state only at creation; changing it later does not reset the current state. A supplied model takes precedence. Initialization emits no `update:modelValue`.
+
+The keyboard panel uses an independent `open/defaultOpen` model with `update:open`. Text and panel opening are separate states.
+
 ### Props
 
 | Prop                    | Description                      | Type                        | Default    |

@@ -1,5 +1,5 @@
 import { resolve } from 'node:path'
-import { generateVueIcons } from '@ui-foundation/ui-icons'
+import { generateVueIcons } from '@sparknest/ui-icons'
 
 const root = resolve(import.meta.dirname, '..')
 const result = await generateVueIcons({

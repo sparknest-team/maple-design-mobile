@@ -16,7 +16,7 @@ test('render', async () => {
   expect(wrapper.html()).toMatchSnapshot()
 })
 
-test('menu option reads the selected value from context', async () => {
+test('menu option reads the active value from context', async () => {
   const onOptionClick = vi.fn()
   const wrapper = mount(
     {
@@ -67,7 +67,7 @@ test('option states use one background layer and keep disabled priority', async 
   expect(wrapper.classes()).toContain('mp-menu-option--active')
   await wrapper.trigger('blur')
   expect(wrapper.classes()).not.toContain('mp-menu-option--active')
-  await wrapper.setProps({ disabled: true, active: true })
+  await wrapper.setProps({ disabled: true, highlight: true })
   await wrapper.trigger('click')
   expect(wrapper.emitted('click')).toBeUndefined()
   expect(wrapper.classes()).toContain('mp-menu-option--disabled')

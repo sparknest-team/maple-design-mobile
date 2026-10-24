@@ -14,8 +14,12 @@ export type FabDirection = 'top' | 'right' | 'bottom' | 'left'
 export type FabDrag = Pick<ExtractPublicPropTypes<typeof dragProps>, 'direction' | 'attraction' | 'boundary'> | boolean
 
 export const props = {
-  active: Boolean,
-  open: {
+  /** 动作菜单展开状态，通过 v-model:open 绑定。 */
+  open: { type: Boolean, default: undefined },
+  /** 非受控初始展开状态，仅创建时读取。 */
+  defaultOpen: Boolean,
+  /** 整体显示状态。 */
+  visible: {
     type: Boolean,
     default: true,
   },
@@ -41,16 +45,16 @@ export const props = {
   },
   disabled: Boolean,
   color: String,
-  inactiveIcon: {
+  closedIcon: {
     type: String,
     default: 'plus',
   },
-  activeIcon: {
+  openIcon: {
     type: String,
     default: 'close',
   },
-  inactiveIconSize: pickProps(iconProps, 'size'),
-  activeIconSize: pickProps(iconProps, 'size'),
+  closedIconSize: pickProps(iconProps, 'size'),
+  openIconSize: pickProps(iconProps, 'size'),
   fixed: {
     type: Boolean,
     default: true,

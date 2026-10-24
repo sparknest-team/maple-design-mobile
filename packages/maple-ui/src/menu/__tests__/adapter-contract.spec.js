@@ -52,6 +52,26 @@ async function click(element) {
 }
 
 describe('Menu adapter contract', () => {
+  test('recursive option slots preserve three-level selection, field mapping and one-layer Escape', async () => {
+    const { wrapper, items } = await create({
+      fieldNames: { label: 'text', value: 'id', children: 'nodes' },
+      options: [{ text: 'Parent', nodes: [{ text: 'Child', nodes: [{ text: 'Leaf', id: 42 }] }] }],
+    })
+    const parent = items()[0]
+    parent.focus()
+    await key('ArrowRight')
+    const child = document.activeElement
+    expect(child.textContent).toContain('Child')
+    await key('ArrowRight')
+    expect(document.activeElement.textContent).toContain('Leaf')
+    await key('Enter')
+    expect(wrapper.emitted('select')).toHaveLength(1)
+    expect(wrapper.emitted('select')[0][0]).toBe(42)
+    await key('Escape')
+    expect(document.activeElement).toBe(child)
+    await key('Escape')
+    expect(document.activeElement).toBe(parent)
+  })
   test('options and slots share controlled selection and emit update before select', async () => {
     const calls = []
     const options = [

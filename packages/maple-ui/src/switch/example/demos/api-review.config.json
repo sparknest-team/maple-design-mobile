@@ -8,11 +8,11 @@
       "kind": "scenario"
     },
     {
-      "name": "default-checked",
-      "description": "",
-      "type": "boolean",
-      "defaultValue": "false",
-      "kind": "boolean"
+      "name": "default-value",
+      "description": "非受控初始实际值；省略时使用 uncheckedValue",
+      "type": "string / number / boolean",
+      "defaultValue": "undefined",
+      "kind": "scalar"
     },
     {
       "name": "checked-value",
@@ -34,12 +34,7 @@
       "type": "\"circle\" | \"round\" | \"line\" | \"tonal\"",
       "defaultValue": "'circle'",
       "kind": "enum",
-      "options": [
-        "circle",
-        "round",
-        "line",
-        "tonal"
-      ],
+      "options": ["circle", "round", "line", "tonal"],
       "initial": "circle"
     },
     {
@@ -48,11 +43,7 @@
       "type": "sm / md / lg",
       "defaultValue": "undefined",
       "kind": "enum",
-      "options": [
-        "sm",
-        "md",
-        "lg"
-      ],
+      "options": ["sm", "md", "lg"],
       "initial": "sm"
     },
     {
@@ -142,10 +133,7 @@
       "defaultValue": "undefined",
       "description": "字段编辑方式，字段 > FormItem > Form 继承；默认 inline。",
       "kind": "enum",
-      "options": [
-        "inline",
-        "popup"
-      ],
+      "options": ["inline", "popup"],
       "initial": "inline"
     },
     {
@@ -185,42 +173,27 @@
       "initial": "\"body\""
     }
   ],
-  "events": [
-    "click",
-    "update:modelValue",
-    "change",
-    "focus",
-    "blur",
-    "update:open"
-  ],
+  "events": ["click", "update:modelValue", "change", "focus", "blur", "update:open"],
   "scenarios": [
     {
       "name": "model-value",
       "kind": "prop",
-      "demos": [
-        "events.vue"
-      ]
+      "demos": ["events.vue"]
     },
     {
       "name": "checked-value",
       "kind": "prop",
-      "demos": [
-        "custom-value.vue"
-      ]
+      "demos": ["custom-value.vue"]
     },
     {
       "name": "unchecked-value",
       "kind": "prop",
-      "demos": [
-        "custom-value.vue"
-      ]
+      "demos": ["custom-value.vue"]
     },
     {
       "name": "before-change",
       "kind": "prop",
-      "demos": [
-        "switch-interception.vue"
-      ]
+      "demos": ["switch-interception.vue"]
     },
     {
       "name": "before-commit",
@@ -244,34 +217,20 @@
     {
       "name": "unchecked",
       "kind": "slot",
-      "demos": [
-        "custom-color.vue",
-        "custom-icon.vue",
-        "custom-text.vue",
-        "custom-value.vue"
-      ]
+      "demos": ["custom-color.vue", "custom-icon.vue", "custom-text.vue", "custom-value.vue"]
     },
     {
       "name": "checked-icon",
       "kind": "slot",
-      "demos": [
-        "custom-icon.vue"
-      ]
+      "demos": ["custom-icon.vue"]
     },
     {
       "name": "unchecked-icon",
       "kind": "slot",
-      "demos": [
-        "custom-icon.vue"
-      ]
+      "demos": ["custom-icon.vue"]
     }
   ],
-  "slotNames": [
-    "checked",
-    "unchecked",
-    "checked-icon",
-    "unchecked-icon"
-  ],
+  "slotNames": ["checked", "unchecked", "checked-icon", "unchecked-icon"],
   "slotDefaults": {
     "checked": false,
     "unchecked": false,

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref, watch, type Ref } from 'vue'
 import config from '@config'
-import { IconGithub as MIconGithub, IconTwitter as MIconTwitter } from '@maplejs/icons-vue'
-import { getPCLocationInfo, onThemeChange } from '@maplejs/maple-cli/client'
+import { getPCLocationInfo, onThemeChange } from '@maple-design/cli/client'
+import { IconGithub as MIconGithub, IconTwitter as MIconTwitter } from '@maple-design/icons-vue'
 import { useRoute, useRouter } from 'vue-router'
 import { resolveSiteAsset } from '../../../utils'
 import AppAd from '../../components/AppAd.vue'

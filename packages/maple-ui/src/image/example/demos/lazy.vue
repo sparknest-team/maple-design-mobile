@@ -5,7 +5,7 @@
       width="160"
       height="120"
       object-fit="cover"
-      src="invalid-image.jpg"
+      src="data:image/png;base64,AA=="
       fallback-src="/cat2.jpg"
       preview-disabled
     />

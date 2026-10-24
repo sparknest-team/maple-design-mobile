@@ -48,7 +48,7 @@ function end(event: TouchEvent) {
     return
   }
   const enabled = ctx.entries.value.filter((tab) => !tab.disabled)
-  const index = enabled.findIndex((tab) => tab.key === ctx.active.value)
+  const index = enabled.findIndex((tab) => tab.name === ctx.active.value)
   if (index < 0) {
     return
   }
@@ -56,7 +56,7 @@ function end(event: TouchEvent) {
   const direction = (dx < 0 ? 1 : -1) * (rtl ? -1 : 1)
   const target = enabled[index + direction]
   if (target) {
-    ctx.select(target.key)
+    ctx.select(target.name)
   }
 }
 </script>

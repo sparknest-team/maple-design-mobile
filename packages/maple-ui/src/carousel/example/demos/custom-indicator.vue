@@ -11,17 +11,17 @@
     <mp-carousel-item>
       <img class="carousel-item" :src="'cat3.jpg'" />
     </mp-carousel-item>
-    <template #indicator="{ index, length, to }">
+    <template #indicator="{ slideNumber, length, to }">
       <div class="carousel-custom-indicators">
         <mp-button
           v-for="(l, idx) in length"
           :key="l"
           size="xs"
           round
-          :variant="idx === index ? 'default' : 'tonal'"
-          :status="idx === index ? 'primary' : 'default'"
+          :variant="idx + 1 === slideNumber ? 'default' : 'tonal'"
+          :status="idx + 1 === slideNumber ? 'primary' : 'default'"
           :aria-label="`跳转至第 ${idx + 1} 页`"
-          @click="to(idx)"
+          @click="to(idx + 1)"
           >{{ idx + 1 }}</mp-button
         >
       </div>

@@ -17,7 +17,7 @@ async function beforeChange(value) {
   <p>
     先点慢速（1.2 秒），再点快速（0.25 秒），最终只切到快速；拒绝和异常都会保持当前选中。等待时点击当前标签可取消切换。
   </p>
-  <mp-tab-bar v-model:active="active" :before-change="beforeChange">
+  <mp-tab-bar v-model="active" :before-change="beforeChange">
     <mp-tab-bar-item label="首页" />
     <mp-tab-bar-item label="慢速" />
     <mp-tab-bar-item label="快速" />

@@ -1,6 +1,6 @@
 {
-  "name": "@maplejs/maple-cli",
-  "version": "1.0.3",
+  "name": "@maple-design/cli",
+  "version": "1.0.0",
   "description": "cli of maple",
   "keywords": [
     "cli",
@@ -24,9 +24,10 @@
   "main": "./lib/node/index.js",
   "module": "./lib/node/index.js",
   "bin": {
-    "maple-cli": "./lib/node/bin.js"
+    "maple-cli": "./bin/maple-cli.mjs"
   },
   "files": [
+    "bin",
     "lib",
     "client.js",
     "client.d.ts",
@@ -42,11 +43,11 @@
     "@babel/core": "^7.28.0",
     "@babel/preset-typescript": "^7.27.1",
     "@inquirer/prompts": "^6.0.1",
-    "@ui-foundation/ui-build": "link:../../../design-ui/packages/ui-build",
-    "@ui-foundation/ui-doc-preview": "link:../../../design-ui/packages/ui-doc-preview",
-    "@maplejs/maple-shared": "workspace:*",
-    "@maplejs/maple-vite-plugins": "workspace:*",
-    "@maplejs/resolver": "workspace:*",
+    "@sparknest/ui-build": "^1.0.0",
+    "@sparknest/ui-doc-preview": "^1.0.0",
+    "@maple-design/shared": "workspace:*",
+    "@maple-design/vite-plugins": "workspace:*",
+    "@maple-design/resolver": "workspace:*",
     "@vitejs/plugin-vue": "catalog:",
     "@vitejs/plugin-vue-jsx": "catalog:",
     "@vue/babel-plugin-jsx": "catalog:",
@@ -75,9 +76,9 @@
     "vue": "catalog:"
   },
   "devDependencies": {
-    "@maplejs/icons-vue": "workspace:*",
-    "@maplejs/maple-touch-emulator": "workspace:*",
-    "@maplejs/maple-ui": "workspace:*",
+    "@maple-design/icons-vue": "workspace:*",
+    "@maple-design/touch-emulator": "workspace:*",
+    "@maple-design/ui": "workspace:*",
     "@types/babel__core": "^7.20.5",
     "@types/ejs": "^3.1.5",
     "@types/fs-extra": "^9.0.13",
@@ -88,9 +89,9 @@
     "rimraf": "catalog:"
   },
   "peerDependencies": {
-    "@maplejs/icons-vue": "workspace:*",
-    "@maplejs/maple-touch-emulator": "workspace:*",
-    "@maplejs/maple-ui": "workspace:*",
+    "@maple-design/icons-vue": "workspace:*",
+    "@maple-design/touch-emulator": "workspace:*",
+    "@maple-design/ui": "workspace:*",
     "@vitest/coverage-istanbul": "catalog:",
     "@vue/runtime-core": "catalog:",
     "@vue/test-utils": "catalog:",
@@ -102,5 +103,9 @@
   },
   "engines": {
     "node": "^14.18.0 || >=16.0.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   }
 }

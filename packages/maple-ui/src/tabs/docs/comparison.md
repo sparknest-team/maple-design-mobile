@@ -9,10 +9,10 @@ API、组件结构、事件参数、受控状态、生命周期与键盘模型�
 | 维度 | Cedar 原实现 | Maple 原实现 | 本次统一 |
 | --- | --- | --- | --- |
 | 结构 | Tabs / TabsNavs / TabNav / TabsItems / TabItem | Tabs / Tab + 独立 TabsItems / TabItem | 简单场景使用 Tabs / TabPane；高级场景保留五组件组合 |
-| 标识 | Vue key，字符串或数字 | name 优先，索引兜底 | 显式 key，数字 1 与字符串 '1' 不混用 |
-| 初值 | active / defaultActive；首项 | active 默认 0；无 defaultActive | active / defaultActive；省略选择首个未禁用项 |
-| 点击 | update:active、change、tab-click(key, event) | update:active、change、click(key) | 统一 Cedar 事件，重复点击不重复 change |
-| 受控 | 父级 active 优先 | active 依赖外部更新 | 有 active 时只发请求，不抢改父级值 |
+| 标识 | Vue key，字符串或数字 | name 优先，索引兜底 | 显式 name，数字 1 与字符串 '1' 不混用 |
+| 初值 | active / defaultActive；首项 | active 默认 0；无 defaultActive | modelValue / defaultValue；省略选择首个未禁用项 |
+| 点击 | update:active、change、tab-click(key, event) | update:active、change、click(key) | 主值统一 update:modelValue，重复点击不重复 change |
+| 受控 | 父级 active 优先 | active 依赖外部更新 | 有 modelValue 时只发请求，不抢改父级值 |
 | 外观 | line/card/outline/plain/capsule/enclosed | line/card/capsule | 两端六种均实现 |
 | 方向 | horizontal/vertical | 相同枚举 | 统一；RTL 使用 dir 或平台配置 |
 | 图标方向 | TabNav.itemVertical | Tabs.itemVertical | 统一到 TabNav.itemVertical |
@@ -53,7 +53,7 @@ API、组件结构、事件参数、受控状态、生命周期与键盘模型�
 | [Quasar](https://quasar.dev/vue-components/tabs/) | QTabs/QTab 与 QTabPanels 分离；滚动和移动箭头策略 | 导航与内容可组合，移动差异通过展示配置表达 |
 | [Element Plus](https://element-plus.org/en-US/component/tabs.html) | Tabs/TabPane；卡片样式、位置、编辑、lazy、before-leave | PC 的编辑能力值得保留，内容生命周期需明确 |
 
-这里没有直接照搬任一库的属性拼写。Cedar 已有 active、variant、orientation，继续沿用；采用组合式结构和跨端输入能力，是对这些设计的综合判断。
+这里没有直接照搬任一库的属性拼写。主值采用 modelValue/defaultValue，variant、orientation 继续沿用；采用组合式结构和跨端输入能力，是对这些设计的综合判断。
 
 ## 同源边界
 
@@ -61,7 +61,7 @@ API、组件结构、事件参数、受控状态、生命周期与键盘模型�
 
 ## 使用边界
 
-导航和内容需要放入同一个 Tabs，并使用类型一致的显式 key 建立对应关系。内容隐藏使用原生 hidden，动画采用淡入效果，默认选中首个可用项。
+导航和内容需要放入同一个 Tabs，并使用类型一致的显式 name 建立对应关系。内容隐藏使用原生 hidden，动画采用淡入效果，默认选中首个可用项。
 
 Tabs 适合页内内容分区。应用底部主导航使用 TabBar；粘性导航使用 Affix 包裹 TabsNavs。启用 swipeable 时，横向手势阈值为 50px，不拦截纵向页面滚动；复杂横向内容可标记 data-tabs-no-swipe。
 

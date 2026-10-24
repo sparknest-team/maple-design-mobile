@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { DateShortcut } from '@maplejs/maple-ui'
+import type { DateShortcut } from '@maple-design/ui'
 
 const selected = ref(['2025-01-15', '2025-01-20'])
 const viewport = ref(['2025-01-01', '2025-02-01'])

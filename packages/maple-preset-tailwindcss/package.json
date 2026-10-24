@@ -1,6 +1,6 @@
 {
-  "name": "@maplejs/maple-preset-tailwindcss",
-  "version": "1.0.3",
+  "name": "@maple-design/preset-tailwindcss",
+  "version": "1.0.0",
   "description": "tailwindcss preset of maple",
   "keywords": [
     "tailwindcss",
@@ -43,5 +43,9 @@
   },
   "peerDependencies": {
     "tailwindcss": "^3.4.1"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   }
 }

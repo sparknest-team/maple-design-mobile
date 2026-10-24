@@ -6,8 +6,8 @@ Maple 提供两套能力：
 
 | 能力              | 包 / 入口                                                            | 何时用                            |
 | ----------------- | -------------------------------------------------------------------- | --------------------------------- |
-| 固定工具类 `mp-*` | `@maplejs/maple-ui/es/utilities/utilities.css`                       | 不接 Uno/TW 时使用                |
-| Uno / TW preset   | `@maplejs/maple-preset-unocss` / `@maplejs/maple-preset-tailwindcss` | 使用带 `mp-` 前缀的完整原子化体系 |
+| 固定工具类 `mp-*` | `@maple-design/ui/es/utilities/utilities.css`                       | 不接 Uno/TW 时使用                |
+| Uno / TW preset   | `@maple-design/preset-unocss` / `@maple-design/preset-tailwindcss` | 使用带 `mp-` 前缀的完整原子化体系 |
 
 Preset **不是组件**，是构建期配置。左侧预览用同等 CSS 变量演示视觉效果；真实类由 Uno / Tailwind 生成。
 两套引擎使用相同类名，例如 `mp-flex`、`mp-p-16`、`mp-text-md`、`mp-bg-primary`，项目中二选一启用。
@@ -18,7 +18,7 @@ Cedar 对应：`@cedar/preset-unocss` / `@cedar/preset-tailwindcss`（前缀 `c-
 
 ```js
 // playground-ignore
-import '@maplejs/maple-ui/es/utilities/utilities.css'
+import '@maple-design/ui/es/utilities/utilities.css'
 ```
 
 ### 新手示例
@@ -62,7 +62,7 @@ UnoCSS 和 Tailwind **二选一配置**，但组件里的类名完全相同。�
 
 ```shell
 # playground-ignore
-pnpm add -D @maplejs/maple-preset-unocss unocss
+pnpm add -D @maple-design/preset-unocss unocss
 ```
 
 #### 配置
@@ -70,7 +70,7 @@ pnpm add -D @maplejs/maple-preset-unocss unocss
 ```js
 // playground-ignore
 // uno.config.ts
-import { presetMaple } from '@maplejs/maple-preset-unocss'
+import { presetMaple } from '@maple-design/preset-unocss'
 import { defineConfig } from 'unocss'
 
 export default defineConfig({
@@ -88,7 +88,7 @@ export default defineConfig({
 
 ```shell
 # playground-ignore
-pnpm add -D @maplejs/maple-preset-tailwindcss tailwindcss
+pnpm add -D @maple-design/preset-tailwindcss tailwindcss
 ```
 
 #### Tailwind v3
@@ -96,7 +96,7 @@ pnpm add -D @maplejs/maple-preset-tailwindcss tailwindcss
 ```js
 // playground-ignore
 // tailwind.config.js
-import { presetMaple } from '@maplejs/maple-preset-tailwindcss'
+import { presetMaple } from '@maple-design/preset-tailwindcss'
 
 export default {
   content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
@@ -109,7 +109,7 @@ export default {
 ```js
 // playground-ignore
 // tailwind.config.js
-import { presetMaple } from '@maplejs/maple-preset-tailwindcss'
+import { presetMaple } from '@maple-design/preset-tailwindcss'
 
 export default {
   presets: [presetMaple()],

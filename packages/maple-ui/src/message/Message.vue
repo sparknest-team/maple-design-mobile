@@ -56,7 +56,7 @@ import {
   IconInfoCircleFill as MIconInfoCircleFill,
   IconLoading as MIconLoading,
   IconWarning as MIconWarning,
-} from '@maplejs/icons-vue'
+} from '@maple-design/icons-vue'
 import { createNamespace } from '../utils/components'
 import { usePopupContainer } from '../utils/popup-container'
 import { messageProps } from './props'

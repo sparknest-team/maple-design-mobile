@@ -13,7 +13,7 @@ Maple 主题色阶以 CSS 变量形式提供，前缀一律 `--mp-*`。
 
 ```js
 // playground-ignore
-import '@maplejs/maple-ui/es/style/theme/css-variables.css'
+import '@maple-design/ui/es/style/theme/css-variables.css'
 ```
 
 ### 功能色阶（1–10）

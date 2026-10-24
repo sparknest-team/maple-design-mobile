@@ -1,6 +1,6 @@
 <script setup>
 import { onBeforeUnmount } from 'vue'
-import { Message } from '@maplejs/maple-ui'
+import { Message } from '@maple-design/ui'
 
 function create(type) {
   const text = type === 'loading' ? '等待中...' : '这是一条消息提示'

@@ -1,14 +1,14 @@
 {
   "fields": [
     {
-      "name": "active",
+      "name": "model-value",
       "description": "当前选中名称或索引；传入时为受控模式",
       "type": "number | string",
       "defaultValue": "undefined",
       "kind": "scalar"
     },
     {
-      "name": "default-active",
+      "name": "default-value",
       "description": "非受控初始选中值，仅初始化时读取",
       "type": "number | string",
       "defaultValue": "0",
@@ -75,10 +75,12 @@
     },
     {
       "name": "variant",
-      "type": "boolean",
-      "defaultValue": "false",
-      "description": "源码公开属性 / Public source prop",
-      "kind": "boolean"
+      "type": "\"standard\" | \"pill\"",
+      "defaultValue": "standard",
+      "description": "外观样式 / Appearance",
+      "kind": "enum",
+      "options": ["standard", "pill"],
+      "initial": "standard"
     },
     {
       "name": "placeholder",
@@ -89,13 +91,8 @@
     }
   ],
   "methodNames": [],
-  "events": [
-    "change",
-    "fab-click"
-  ],
-  "slotNames": [
-    "fab"
-  ],
+  "events": ["change", "fab-click"],
+  "slotNames": ["fab"],
   "slotDefaults": {
     "fab": true
   },

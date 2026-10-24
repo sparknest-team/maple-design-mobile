@@ -1,4 +1,4 @@
-import { Themes } from '@maplejs/maple-ui'
+import { Themes } from '@maple-design/ui'
 
 export const themeMap = {
   defaultLightTheme: Themes.default.light,

@@ -70,7 +70,7 @@
 
 ```html
 <script setup>
-  import { Message, Picker } from '@maplejs/maple-ui'
+  import { Message, Picker } from '@maple-design/ui'
 
   async function picker() {
     const { state, values, indexes, options } = await Picker({
@@ -91,7 +91,7 @@
 
 ```html
 <script setup>
-  import { Message, Picker } from '@maplejs/maple-ui'
+  import { Message, Picker } from '@maple-design/ui'
 
   async function picker() {
     const { state, values, indexes, options } = await Picker({
@@ -118,7 +118,7 @@
 
 ```html
 <script setup>
-  import { Message, Picker } from '@maplejs/maple-ui'
+  import { Message, Picker } from '@maple-design/ui'
 
   async function picker() {
     const { state, texts, indexes } = await Picker({
@@ -175,8 +175,8 @@
 
 ```html
 <script setup>
-  import { Message, Picker } from '@maplejs/maple-ui'
-  import columns from '@maplejs/maple-ui/json/area.json'
+  import { Message, Picker } from '@maple-design/ui'
+  import columns from '@maple-design/ui/json/area.json'
 
   async function picker() {
     const { state, texts, indexes } = await Picker({
@@ -200,8 +200,8 @@
 
 ```html
 <script setup>
-  import { Message, Picker } from '@maplejs/maple-ui'
-  import columns from '@maplejs/maple-ui/json/area.json'
+  import { Message, Picker } from '@maple-design/ui'
+  import columns from '@maple-design/ui/json/area.json'
 
   async function picker() {
     const { state, texts, indexes } = await Picker({
@@ -224,7 +224,7 @@
 
 ```html
 <script setup>
-  import { Message, Picker } from '@maplejs/maple-ui'
+  import { Message, Picker } from '@maple-design/ui'
 
   async function picker() {
     const { state, values, indexes, options } = await Picker({
@@ -267,7 +267,7 @@
 ```html
 <script setup>
   import { ref } from 'vue'
-  import { Message } from '@maplejs/maple-ui'
+  import { Message } from '@maple-design/ui'
 
   const columns = ref([[{ text: 'A' }, { text: 'B' }, { text: 'C' }, { text: 'D' }, { text: 'E' }]])
 
@@ -286,7 +286,7 @@
 ```html
 <script setup>
   import { ref } from 'vue'
-  import { Message } from '@maplejs/maple-ui'
+  import { Message } from '@maple-design/ui'
 
   const columns = ref([
     [{ text: 'A' }, { text: 'B' }, { text: 'C' }, { text: 'D' }, { text: 'E' }],
@@ -309,7 +309,7 @@
 ```html
 <script setup>
   import { ref } from 'vue'
-  import { Message } from '@maplejs/maple-ui'
+  import { Message } from '@maple-design/ui'
 
   const columns = ref([
     {
@@ -361,8 +361,8 @@
 ```html
 <script setup>
   import { ref } from 'vue'
-  import { Message } from '@maplejs/maple-ui'
-  import area from '@maplejs/maple-ui/json/area.json'
+  import { Message } from '@maple-design/ui'
+  import area from '@maple-design/ui/json/area.json'
 
   const columns = ref(area)
 
@@ -381,8 +381,8 @@
 ```html
 <script setup>
   import { ref } from 'vue'
-  import { Message } from '@maplejs/maple-ui'
-  import area from '@maplejs/maple-ui/json/area.json'
+  import { Message } from '@maple-design/ui'
+  import area from '@maple-design/ui/json/area.json'
 
   const columns = ref(area)
 
@@ -401,7 +401,7 @@
 ```html
 <script setup>
   import { ref } from 'vue'
-  import { Message } from '@maplejs/maple-ui'
+  import { Message } from '@maple-design/ui'
 
   const columns = ref([
     [
@@ -439,7 +439,7 @@
 ```html
 <script setup>
   import { ref } from 'vue'
-  import { Message } from '@maplejs/maple-ui'
+  import { Message } from '@maple-design/ui'
 
   const values = ref(['A', 'B', 'C'])
   const columns = ref([
@@ -475,6 +475,10 @@
 <!-- api-review:end -->
 
 ## API
+
+### 主值与默认值
+
+使用普通 `v-model`。`modelValue` 表示选中列值数组；`defaultValue` 仅在创建时初始化非受控值，后续修改不会重置当前状态。显式绑定值优先，初始化不发出 `update:modelValue`。
 
 ### 属性
 

@@ -1,5 +1,5 @@
 <script setup>
-import { Dialog } from '@maplejs/maple-ui'
+import { Dialog } from '@maple-design/ui'
 
 let confirming = false
 

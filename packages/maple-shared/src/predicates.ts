@@ -31,7 +31,7 @@ export function isString(value: unknown): value is string {
 }
 
 export function isNumeric(value: unknown): value is number | string {
-  return isNumber(value) || (isString(value) && /^[-+]?\d+$/.test(value))
+  return typeof value === 'number' || (typeof value === 'string' && /^[-+]?\d+$/.test(value))
 }
 
 export function isObject(value: unknown): value is Record<string, any> {
@@ -43,7 +43,7 @@ export function toRawType(value: unknown): string {
 }
 
 export function isPlainObject(value: unknown): value is Record<string, any> {
-  return toRawType(value) === 'Object'
+  return Object.prototype.toString.call(value) === '[object Object]'
 }
 
 export function isEmpty(value: unknown): boolean {

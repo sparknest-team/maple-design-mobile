@@ -167,7 +167,7 @@ Use text labels and the option slot or option.render for rich content. Legacy fu
 
 ```ts
 import type { AutoCompleteProps, AutoCompleteInstance, AutoCompleteOption, AutoCompleteOptionData,
-  AutoCompleteOptionInfo, AutoCompleteFieldNames, AutoCompleteFilterOption } from '@maplejs/maple-ui'
+  AutoCompleteOptionInfo, AutoCompleteFieldNames, AutoCompleteFilterOption } from '@maple-design/ui'
 ```
 
 ## Style variables

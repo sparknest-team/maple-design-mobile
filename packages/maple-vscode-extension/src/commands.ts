@@ -1,4 +1,4 @@
-import { isPlainObject } from '@maplejs/maple-shared'
+import { isPlainObject } from '@maple-design/shared'
 import { commands, env, Range, Selection, Uri, ViewColumn, window, type ExtensionContext } from 'vscode'
 import { envs } from './env'
 

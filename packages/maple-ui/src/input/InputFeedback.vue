@@ -3,7 +3,12 @@
 </template>
 <script setup lang="ts">
 import { computed } from 'vue'
-import { IconCheckCircleFill, IconCloseCircleFill, IconExclamationCircleFill, IconLoading } from '@maplejs/icons-vue'
+import {
+  IconCheckCircleFill,
+  IconCloseCircleFill,
+  IconExclamationCircleFill,
+  IconLoading,
+} from '@maple-design/icons-vue'
 import { createNamespace } from '../utils/components'
 
 defineOptions({ name: createNamespace('input-feedback').name })

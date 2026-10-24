@@ -27,7 +27,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import type { PropType } from 'vue'
-import { IconQuestionCircle } from '@maplejs/icons-vue'
+import { IconQuestionCircle } from '@maple-design/icons-vue'
 import Tooltip from '../tooltip'
 import { formItemDecorationProps } from './item-decoration'
 import { useFormLabelMeasurement } from './use-form-label-width'

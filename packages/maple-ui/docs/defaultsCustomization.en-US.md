@@ -11,7 +11,7 @@ Customize the component's property definition through the mp-static method `setP
 ```js
 // playground-ignore
 // main.ts
-import { Button } from '@maplejs/maple-ui'
+import { Button } from '@maple-design/ui'
 
 Button.setPropsDefaults({
   status: 'primary',

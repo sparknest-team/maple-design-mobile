@@ -1,7 +1,7 @@
 import { isVNode, type VNode } from 'vue'
 
-export { IconImageClose as ImageErrorIcon } from '@maplejs/icons-vue'
-export { IconLoading as ImageLoadingIcon } from '@maplejs/icons-vue'
+export { IconImageClose as ImageErrorIcon } from '@maple-design/icons-vue'
+export { IconLoading as ImageLoadingIcon } from '@maple-design/icons-vue'
 export { toSizeUnit } from '../utils/elements'
 export { useElementResize } from '../utils/resize-observer'
 

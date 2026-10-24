@@ -15,7 +15,7 @@ export default defineConfig({
   resolve: {
     extensions: VITE_RESOLVE_EXTENSIONS,
     // Demo imports must resolve to the source under test, not require a prior library build.
-    alias: [{ find: /^@maplejs\/maple-ui$/, replacement: resolve(SRC_DIR, 'index.ts') }],
+    alias: [{ find: /^@maple-design\/ui$/, replacement: resolve(SRC_DIR, 'index.ts') }],
   },
 
   plugins: [vue(), jsx()],

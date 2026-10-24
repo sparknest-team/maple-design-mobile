@@ -88,6 +88,7 @@ describe('Ripple timing and ownership', () => {
     expect(wave(wrapper.element)).toBeNull()
   })
   test('unmounting a visible wave removes nodes, timers and document listeners', () => {
+    const add = vi.spyOn(document, 'addEventListener')
     const wrapper = create()
     const element = wrapper.element
     key(element, 'keydown')
@@ -99,7 +100,9 @@ describe('Ripple timing and ownership', () => {
     expect(state.timers.size).toBe(0)
     expect(wave(element)).toBeNull()
     for (const event of ['touchend', 'touchcancel', 'dragend']) {
-      expect(remove).toHaveBeenCalledWith(event, state.removeRipple)
+      const registered = add.mock.calls.find(([name]) => name === event)
+      expect(registered).toBeDefined()
+      expect(remove).toHaveBeenCalledWith(event, registered[1])
     }
   })
   test('default retains its 250ms display and removal floors', () => {

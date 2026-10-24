@@ -1,6 +1,6 @@
 <script setup>
 import { computed, ref } from 'vue'
-import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
+import { AppType, onThemeChange, watchLang } from '@maple-design/cli/client'
 import ControlSizes from '../../field-decorator/example/demos/control-sizes.vue'
 import DemoApiReview from './demos/api-review.vue'
 import OrganizedAppearanceLab from './demos/appearance-lab.vue'
@@ -19,6 +19,7 @@ import PopupDemo from './demos/popup.vue'
 import SameLabelDemo from './demos/same-label.vue'
 import SchedulerLifecycleDemo from './demos/scheduler-lifecycle.vue'
 import ScrollbarLifecycleDemo from './demos/scrollbar-lifecycle.vue'
+import SelectionDataFlow from './demos/selection-data-flow.vue'
 import DemoSize from './demos/size.vue'
 import SlotsReviewDemo from './demos/slots-review.vue'
 import DemoStandard from './demos/standard.vue'
@@ -40,6 +41,10 @@ watchLang((value) => {
   <section data-demo="standard">
     <app-type>{{ english ? 'Basic usage' : '基础用法' }}</app-type>
     <DemoStandard />
+  </section>
+  <section data-demo="selection-data-flow">
+    <app-type>{{ english ? 'Candidate highlighting and form data flow' : '候选高亮与表单数据流' }}</app-type>
+    <SelectionDataFlow :english="english" />
   </section>
   <section data-demo="state">
     <app-type>{{ english ? 'Disabled and readonly' : '禁用与只读' }}</app-type>

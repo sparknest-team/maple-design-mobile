@@ -1,5 +1,5 @@
 ---
-"@maplejs/maple-ui": patch
+"@maple-design/ui": patch
 ---
 
 修复 Counter 长按释放／替换／停用／卸载后的旧回调、重复交付及回调内释放仍续排；保留600ms等待、100ms重复和公开数值协议。

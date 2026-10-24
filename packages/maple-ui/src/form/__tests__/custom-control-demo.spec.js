@@ -7,7 +7,7 @@ import Space from '../../space'
 import ChineseDemo from '../example/demos/custom-control.vue'
 import EnglishDemo from '../example/demos/en-US/custom-control.vue'
 
-vi.mock('@maplejs/maple-ui', async () => ({ Form: (await import('..')).default }))
+vi.mock('@maple-design/ui', async () => ({ Form: (await import('..')).default }))
 
 test.each([ChineseDemo, EnglishDemo])(
   'custom control demo inherits form disabled and item readonly, validates and resets',

@@ -1,5 +1,8 @@
 ---
-"@maplejs/maple-ui": patch
+"@maple-design/ui": patch
+"@maple-design/shared": patch
 ---
 
-Reduce the on-demand Icon bundle by isolating namespace, size conversion, and prop-default helpers from the general utility dependency graph. Preserve existing icon rendering, animation, and installation behavior.
+Consolidate Icon namespace and predicate helpers in maple-shared, remove the duplicate Icon-only utility files, and keep UI-specific prop-default and CSS size handling in the existing component utilities. Preserve behavior and tighten bundle checks so consolidation does not increase on-demand Icon size.
+
+Reduce shared namespace and prop-default wrapper overhead, and keep unused array predicates out of unrelated named imports. Enforce raw/gzip size budgets from before the consolidation across all component entries.

@@ -1,5 +1,5 @@
-import { iconNames } from '@maplejs/icons-vue'
-import { isString, kebabCase, pascalCase } from '@maplejs/maple-shared'
+import { iconNames } from '@maple-design/icons-vue'
+import { isString, kebabCase, pascalCase } from '@maple-design/shared'
 import {
   CompletionItem,
   CompletionItemKind,

@@ -24,6 +24,13 @@
       "kind": "scenario"
     },
     {
+      "name": "default-value",
+      "description": "非受控初始值，仅创建时读取",
+      "type": "MenuValue",
+      "defaultValue": "undefined",
+      "kind": "scenario"
+    },
+    {
       "name": "open",
       "description": "浮层是否可见",
       "type": "boolean",
@@ -43,13 +50,7 @@
       "type": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\"",
       "defaultValue": "'md'",
       "kind": "enum",
-      "options": [
-        "xs",
-        "sm",
-        "md",
-        "lg",
-        "xl"
-      ],
+      "options": ["xs", "sm", "md", "lg", "xl"],
       "initial": "md"
     },
     {
@@ -58,12 +59,7 @@
       "type": "'click' | 'hover' | 'focus' | 'contextMenu'",
       "defaultValue": "'click'",
       "kind": "enum",
-      "options": [
-        "click",
-        "hover",
-        "focus",
-        "contextMenu"
-      ],
+      "options": ["click", "hover", "focus", "contextMenu"],
       "initial": "click"
     },
     {
@@ -72,10 +68,7 @@
       "type": "'click' | 'hover'",
       "defaultValue": "'click' as MenuSubmenuTrigger",
       "kind": "enum",
-      "options": [
-        "click",
-        "hover"
-      ],
+      "options": ["click", "hover"],
       "initial": "click"
     },
     {
@@ -91,10 +84,7 @@
       "type": "'absolute' | 'fixed'",
       "defaultValue": "undefined",
       "kind": "enum",
-      "options": [
-        "absolute",
-        "fixed"
-      ],
+      "options": ["absolute", "fixed"],
       "initial": "absolute"
     },
     {
@@ -253,9 +243,7 @@
     {
       "name": "placement",
       "kind": "prop",
-      "demos": [
-        "placement.vue"
-      ]
+      "demos": ["placement.vue"]
     },
     {
       "name": "reference",
@@ -327,10 +315,7 @@
     {
       "name": "open",
       "kind": "method",
-      "demos": [
-        "controlled.vue",
-        "group.vue"
-      ]
+      "demos": ["controlled.vue", "group.vue"]
     },
     {
       "name": "close",
@@ -348,13 +333,7 @@
       "demos": []
     }
   ],
-  "slotNames": [
-    "content",
-    "footer",
-    "option-label",
-    "option-icon",
-    "option-extra"
-  ],
+  "slotNames": ["content", "footer", "option-label", "option-icon", "option-extra"],
   "slotDefaults": {
     "content": true,
     "footer": false,
@@ -362,10 +341,5 @@
     "option-icon": false,
     "option-extra": false
   },
-  "methodNames": [
-    "open",
-    "close",
-    "resize",
-    "set-reference"
-  ]
+  "methodNames": ["open", "close", "resize", "set-reference"]
 }

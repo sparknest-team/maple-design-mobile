@@ -4,7 +4,7 @@ import { expect, test, vi } from 'vitest'
 import Button from '../../button'
 import Demo from '../example/demos/error.vue'
 
-vi.mock('@maplejs/maple-cli/client', () => ({ watchLang: (callback) => callback('zh-CN') }))
+vi.mock('@maple-design/cli/client', () => ({ watchLang: (callback) => callback('zh-CN') }))
 test('error demo uses a native retry button and clears pending work on unmount', async () => {
   vi.useFakeTimers()
   const retry = vi.fn()

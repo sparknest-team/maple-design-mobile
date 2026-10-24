@@ -1,11 +1,12 @@
 <script setup>
 import { computed, ref } from 'vue'
-import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
+import { AppType, onThemeChange, watchLang } from '@maple-design/cli/client'
 import ControlSizes from '../../field-decorator/example/demos/control-sizes.vue'
 import DemoApiReview from './demos/api-review.vue'
 import OrganizedAppearanceLab from './demos/appearance-lab.vue'
 import BasicDemo from './demos/basic.vue'
 import CustomClearIconDemo from './demos/custom-clear-icon.vue'
+import DefaultValueDemo from './demos/default-value.vue'
 import EnBasicDemo from './demos/en-US/basic.vue'
 import EnCustomClearIconDemo from './demos/en-US/custom-clear-icon.vue'
 import EnPipelineDemo from './demos/en-US/event-pipeline.vue'
@@ -52,6 +53,10 @@ onThemeChange()
     <app-type>{{ english ? 'Basic Usage' : '基础用法' }}</app-type>
     <EnBasicDemo v-if="english" />
     <BasicDemo v-else />
+  </section>
+  <section data-demo="default-value">
+    <app-type>{{ english ? 'Default value and v-model' : '默认值与双向绑定' }}</app-type>
+    <DefaultValueDemo :english="english" />
   </section>
   <section data-demo="variant">
     <app-type>{{ english ? 'Variants' : '外观变体' }}</app-type>

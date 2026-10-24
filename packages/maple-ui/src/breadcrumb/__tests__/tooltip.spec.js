@@ -1,5 +1,5 @@
 import { h, nextTick } from 'vue'
-import { IconMore } from '@maplejs/icons-vue'
+import { IconMore } from '@maple-design/icons-vue'
 import { mount } from '@vue/test-utils'
 import { expect, test } from 'vitest'
 import Breadcrumb from '..'

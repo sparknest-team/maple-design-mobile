@@ -25,3 +25,4 @@ export const _TabBarItemComponent: typeof TabBarItem = TabBarItem
 export default TabBar
 export type TabBarProps = import('vue').ExtractPublicPropTypes<typeof import('./props').props>
 export type TabBarItemProps = import('vue').ExtractPublicPropTypes<typeof import('./item-props').props>
+export type { TabBarVariant } from './props'

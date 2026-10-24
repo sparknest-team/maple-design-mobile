@@ -18,7 +18,7 @@ Autoplay interval is business playback cadence (business-clock), not CSS duratio
 
 ### Autoplay
 
-The demo uses a 2000ms interval. Displayed slide numbers start at 1; API indices remain zero-based. Toggle playback off/on to stop/resume. Focus inside the carousel also pauses playback.
+The demo uses a 2000ms interval. Displayed slide numbers start at 1; API indices remain one-based. Toggle playback off/on to stop/resume. Focus inside the carousel also pauses playback.
 
 Enable autoplay with `auto-play`. `true` uses a 3000ms interval; a number is the interval in milliseconds.
 
@@ -70,7 +70,7 @@ The active slide uses full scale and opacity; neighboring slides are scaled down
 
 ### Multiple Slides Per View
 
-This 2.5-slide example exposes mouse dragging, controlled acceptance and looping. Current is the parent's accepted zero-based index; Proposal records the request and Changes counts change events. Rejection can still emit a proposal and change event without updating the accepted model. Accept changes to drag both ways or wrap backward from the first item to the last. With looping off, dragging beyond the last item does not navigate or duplicate notifications. This mouse combination does not certify physical touch, centered or auto-width combinations.
+This 2.5-slide example exposes mouse dragging, controlled acceptance and looping. Current is the parent's accepted one-based slide number; Proposal records the request and Changes counts change events. Rejection can still emit a proposal and change event without updating the accepted model. Accept changes to drag both ways or wrap backward from the first item to the last. With looping off, dragging beyond the last item does not navigate or duplicate notifications. This mouse combination does not certify physical touch, centered or auto-width combinations.
 
 ```demo
 ../example/demos/multi-slides.vue
@@ -136,19 +136,19 @@ Wheeling over the carousel changes slides without scrolling the outer page. With
 
 ### auto-sized
 
-Reverse cards reorders the same uniquely keyed cards (their distinct widths are the Demo keys). Current is positional, not a business-card identity: index 1 changes from 220px to 180px without changing the index or event count. Drag left to index 2, restore order to show 180px there, then drag right to index 1. Reordering alone emits no change. Arbitrary insertion/sorting, identity-following selection, reordering during a held gesture and physical touch remain unverified.
+Reverse cards reorders the same uniquely keyed cards (their distinct widths are the Demo keys). Current is positional, not a business-card identity: slide number 2 changes from 220px to 180px without changing the index or event count. Drag left to slide number 3, restore order to show 180px there, then drag right to slide number 2. Reordering alone emits no change. Arbitrary insertion/sorting, identity-following selection, reordering during a held gesture and physical touch remain unverified.
 
-When the active fifth card is removed, parent Current stays 4 without another change; the view clamps it to the remaining fourth card and centers that card. A subsequent left drag wraps to 0 and updates the model once. Applications that need immediate parent-index correction must update current themselves. Arbitrary reordering and deletion during a held gesture remain unverified.
+When the active fifth card is removed, parent Current stays 5 without another change; the view clamps it to the remaining fourth card and centers that card. A subsequent left drag wraps to 1 and updates the model once. Applications that need immediate parent-index correction must update current themselves. Arbitrary reordering and deletion during a held gesture remain unverified.
 
-Empty temporarily removes every card: navigation is disabled and dragging emits no change. Turning it off restores the configured cards without switching. Clearing and restoring from index 0 allows a subsequent right drag to wrap to the last item. This does not cover nonzero out-of-range controlled indices or clearing during a held gesture.
+Empty temporarily removes every card: navigation is disabled and dragging emits no change. Turning it off restores the configured cards without switching. Clearing and restoring from slide number 1 allows a subsequent right drag to wrap to the last item. This does not cover nonzero out-of-range controlled indices or clearing during a held gesture.
 
-Clearing from index 3 retains the parent Current and change count. Restoring centers the last card; the next left drag wraps to 0 and emits once. Empty content does not force the controlled parent value to 0. Active-card deletion, arbitrary invalid indices and clearing during a held gesture remain unverified.
+Clearing from slide number 4 retains the parent Current and change count. Restoring centers the last card; the next left drag wraps to 1 and emits once. Empty content does not force the controlled parent value to 0. Active-card deletion, arbitrary invalid indices and clearing during a held gesture remain unverified.
 
 Extra card appends a 200px fifth item without changing a valid current index or incrementing Changes. Drag right from the first item to reach it, then right again to the original last item before removing the extra card. The index and count stay unchanged; dragging left then wraps across the restored four-item boundary. This covers removing an inactive final item, not deleting the active item, arbitrary reordering, or changes during a held gesture.
 
 Drag to the last item, then enable Wider cards (80px added per item) and the 300px viewport. Resizing does not change the model or increment Changes: the current 340px card recenters, and a left drag can wrap to the first item. Restoring both switches recenters again. This paragraph describes ResizeObserver updates after a completed gesture, not resizing while holding a drag.
 
-The centered auto-width example uses four independent items (140/220/180/260px), with a 12px gap. Dragging advances one item at a time and wraps at either boundary. Current displays the accepted zero-based model and Changes counts change events; the current item stays centered even when its width differs. This example does not certify physical touch, resizing during a gesture or dynamic item insertion.
+The centered auto-width example uses four independent items (140/220/180/260px), with a 12px gap. Dragging advances one item at a time and wraps at either boundary. Current displays the accepted one-based model and Changes counts change events; the current item stays centered even when its width differs. This example does not certify physical touch, resizing during a gesture or dynamic item insertion.
 
 ```demo
 ../example/demos/auto-sized.vue
@@ -185,12 +185,16 @@ Displays a collection of items that can be scrolled and swiped. Demos match Ceda
 
 ## API
 
+### Model and default value
+
+Use ordinary `v-model`. `modelValue` is the current slide number, starting at 1. `defaultValue` initializes uncontrolled state only at creation; changing it later does not reset the current state. A supplied model takes precedence. Initialization emits no `update:modelValue`.
+
 ### Carousel Props
 
 | Prop | Description | Type | Default |
 | --- | --- | --- | --- |
-| `current` | Controlled zero-based index | `number` | `undefined` |
-| `default-current` | Uncontrolled initial index | `number` | `0` |
+| `model-value` | Controlled one-based slide number | `number` | `undefined` |
+| `default-value` | Uncontrolled initial index | `number` | `1` |
 | `loop` | Loop without duplicating instances | `boolean` | `true` |
 | `auto-play` | Autoplay configuration | `boolean \| number \| CarouselAutoPlayConfig` | `false` |
 | `move-speed` | Explicit duration in milliseconds | `number` | `undefined (token)` |
@@ -218,7 +222,7 @@ Displays a collection of items that can be scrolled and swiped. Demos match Ceda
 | `next-button-aria-label` | Next button accessible name | `string` | Locale |
 
 ### Model and interaction
-All indices are zero-based. A controlled action proposes update:current followed by change(index, previousIndex, isManual); it does not move until the owner accepts current. External assignment does not emit another change. Options { event: false } suppress change only, never the model proposal. All user navigation is manual; autoplay is not.
+All indices are one-based. A controlled action proposes update:model-value followed by change(slideNumber, previousSlideNumber, isManual); it does not move until the owner accepts current. External assignment does not emit another change. Options { event: false } suppress change only, never the model proposal. All user navigation is manual; autoplay is not.
 
 loop wraps original slide instances without duplicate component state. In non-loop, non-centered layouts the final viewport is clamped to avoid blank space; the active item may move within that last visible group without moving the track. Partially visible slides remain accessible; fully offscreen slides are inert. fade always displays exactly one item. auto uses an explicit width (horizontal) or height (vertical) on CarouselItem; provide container height for vertical layouts. Only CarouselItem children, optionally inside Vue fragments, count as slides.
 
@@ -227,20 +231,20 @@ Autoplay true uses 3000ms and hover pause; a number sets milliseconds without ho
 ### Events
 | Event | Arguments |
 | --- | --- |
-| update:current | index: number |
-| change | index: number, previousIndex: number, isManual: boolean |
+| update:model-value | slideNumber: number |
+| change | slideNumber: number, previousSlideNumber: number, isManual: boolean |
 
 ### Slots
 | Slot | Scope |
 | --- | --- |
 | default | CarouselItem |
-| prev / next / indicator | { index, length, hovering, prev, next, to, resize } |
+| prev / next / indicator | { slideNumber, length, hovering, prev, next, to, resize } |
 
 ### Methods
 | Method | Signature |
 | --- | --- |
 | prev / next | (options?: CarouselToOptions) => void |
-| to | (index: number, options?: CarouselToOptions) => void |
+| to | (slideNumber: number, options?: CarouselToOptions) => void |
 | resize | () => void |
 
 CarouselItem has no own props, events or methods; its default slot contains slide content.

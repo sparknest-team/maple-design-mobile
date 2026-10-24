@@ -8,7 +8,7 @@ import Demo from '../example/demos/metadata-request.vue'
 
 useDemoControls()
 
-vi.mock('@maplejs/maple-ui', () => import('..'))
+vi.mock('@maple-design/ui', () => import('..'))
 test('metadata rejection settles once and late rejected canceled work cannot overwrite retries', async () => {
   const OriginalXHR = XMLHttpRequest
   const send = vi.fn()

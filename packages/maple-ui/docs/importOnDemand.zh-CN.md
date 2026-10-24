@@ -16,19 +16,19 @@
 ```shell
 # playground-ignore
 # npm
-npm i @maplejs/resolver unplugin-vue-components unplugin-auto-import -D
+npm i @maple-design/resolver unplugin-vue-components unplugin-auto-import -D
 
 # yarn
-yarn add @maplejs/resolver unplugin-vue-components unplugin-auto-import -D
+yarn add @maple-design/resolver unplugin-vue-components unplugin-auto-import -D
 
 # pnpm
-pnpm add @maplejs/resolver unplugin-vue-components unplugin-auto-import -D
+pnpm add @maple-design/resolver unplugin-vue-components unplugin-auto-import -D
 ```
 
-独立 SVG 图标由 `@maplejs/icons-vue` 提供，请将其安装为项目依赖：
+独立 SVG 图标由 `@maple-design/icons-vue` 提供，请将其安装为项目依赖：
 
 ```shell
-pnpm add @maplejs/icons-vue
+pnpm add @maple-design/icons-vue
 ```
 
 #### Vite
@@ -39,7 +39,7 @@ pnpm add @maplejs/icons-vue
 import vue from '@vitejs/plugin-vue'
 import components from 'unplugin-vue-components/vite'
 import autoImport from 'unplugin-auto-import/vite'
-import { MapleResolver } from '@maplejs/resolver'
+import { MapleResolver } from '@maple-design/resolver'
 import { defineConfig } from 'vite'
 
 export default defineConfig({
@@ -64,7 +64,7 @@ export default defineConfig({
 </template>
 ```
 
-`MpButton` 从 `@maplejs/maple-ui` 引入，`MpIconInfoCircleFill` 从 `@maplejs/icons-vue` 引入；`MpIcon` 本身仍是支持动态名称和切换动画的包装组件。
+`MpButton` 从 `@maple-design/ui` 引入，`MpIconInfoCircleFill` 从 `@maple-design/icons-vue` 引入；`MpIcon` 本身仍是支持动态名称和切换动画的包装组件。
 
 #### Vue CLI
 ```js
@@ -72,7 +72,7 @@ export default defineConfig({
 // vue.config.js
 const Components = require('unplugin-vue-components/webpack')
 const AutoImport = require('unplugin-auto-import/webpack')
-const { MapleResolver } = require('@maplejs/resolver')
+const { MapleResolver } = require('@maple-design/resolver')
 
 module.exports = {
   configureWebpack: {
@@ -107,8 +107,8 @@ module.exports = {
 // playground-ignore
 import App from './App.vue'
 import { createApp } from 'vue'
-import { Button } from '@maplejs/maple-ui'
-import '@maplejs/maple-ui/button/style'
+import { Button } from '@maple-design/ui'
+import '@maple-design/ui/button/style'
 
 createApp(App).use(Button)
 ```
@@ -118,8 +118,8 @@ createApp(App).use(Button)
 ```html
 // playground-ignore
 <script setup>
-import { Button as VarButton } from '@maplejs/maple-ui'
-import '@maplejs/maple-ui/button/style'
+import { Button as VarButton } from '@maple-design/ui'
+import '@maple-design/ui/button/style'
 </script>
 
 <template>
@@ -134,9 +134,9 @@ import '@maplejs/maple-ui/button/style'
 ```html
 // playground-ignore
 <script setup>
-import { Button as VarButton, Message } from '@maplejs/maple-ui'
-import '@maplejs/maple-ui/button/style'
-import '@maplejs/maple-ui/message/style'
+import { Button as VarButton, Message } from '@maple-design/ui'
+import '@maple-design/ui/button/style'
+import '@maple-design/ui/message/style'
 
 function handleClick() {
   Message('你好!')

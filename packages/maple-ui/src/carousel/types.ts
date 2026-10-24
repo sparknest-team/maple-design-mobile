@@ -15,22 +15,22 @@ export interface CarouselToOptions {
   isManual?: boolean
 }
 export interface CarouselChangeData {
-  index: number
-  prevIndex: number
+  slideNumber: number
+  previousSlideNumber: number
   isManual: boolean
 }
 export interface CarouselEmits {
-  'update:current': [index: number]
-  change: [index: number, prevIndex: number, isManual: boolean]
+  'update:modelValue': [slideNumber: number]
+  change: [slideNumber: number, previousSlideNumber: number, isManual: boolean]
 }
 export interface CarouselExpose {
   next: (options?: CarouselToOptions) => void
   prev: (options?: CarouselToOptions) => void
-  to: (index: number, options?: CarouselToOptions) => void
+  to: (slideNumber: number, options?: CarouselToOptions) => void
   resize: () => void
 }
 export interface CarouselSlotScope extends CarouselExpose {
-  index: number
+  slideNumber: number
   length: number
   hovering: boolean
 }

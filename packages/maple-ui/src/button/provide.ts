@@ -1,4 +1,4 @@
-import { useParent } from '@maplejs/maple-use'
+import { useParent } from '@maple-design/use'
 import { BUTTON_GROUP_BIND_BUTTON_KEY, ButtonGroupProvider } from './group-provide'
 
 export function useButtonGroup() {

@@ -1,13 +1,13 @@
 <template>
   <MenuView :options="viewOptions">
-    <template v-for="(_, slotName) in $slots" #[slotName]="slotProps">
-      <slot :name="slotName" v-bind="slotProps || {}" />
-    </template>
+    <template v-if="$slots.default" #default><slot /></template>
+    <template v-if="$slots.content" #content><slot name="content" /></template>
+    <template v-if="$slots.footer" #footer><slot name="footer" /></template>
   </MenuView>
 </template>
 
 <script setup lang="ts">
-import { computed, h, nextTick, provide, ref, useSlots, watch } from 'vue'
+import { computed, h, nextTick, provide, ref, watch } from 'vue'
 import type { TriggerInstance } from '../trigger'
 import Trigger from '../trigger'
 import { useTriggerState } from '../trigger/state'
@@ -21,11 +21,11 @@ import MenuOptions from './options'
 import { menuProps } from './props'
 import MenuView from './render'
 import { menuSelectionKey, useMenuSelection } from './selection'
-import type { MenuReference } from './types'
+import type { MenuReference, MenuSlots } from './types'
 
 defineOptions({ name: createNamespace('menu').name })
 const props = defineProps(menuProps)
-const slots = useSlots()
+const slots = defineSlots<MenuSlots>()
 const emit = defineEmits([
   'open-change',
   'select',
@@ -73,7 +73,7 @@ provide(menuSelectionKey, selection)
 provide(menuInjectionKey, {
   strategy: computed(() => props.strategy),
   popupMaxHeight: computed(() => props.popupMaxHeight),
-  modelValue: computed(() => props.modelValue),
+  modelValue: selection.modelValue,
   submenuTrigger: computed(() => props.submenuTrigger),
   onOptionClick: selection.select,
 })

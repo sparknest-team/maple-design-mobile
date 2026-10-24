@@ -7,7 +7,7 @@ import {
   IconInfoCircle,
   IconRefresh,
   IconSearch,
-} from '@maplejs/icons-vue'
+} from '@maple-design/icons-vue'
 
 const iconName = ref('arrow-left')
 const app = getCurrentInstance()?.appContext.app

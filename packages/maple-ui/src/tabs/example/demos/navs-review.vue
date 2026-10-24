@@ -29,7 +29,7 @@ function remove(key: string | number) {
     <mp-checkbox v-model="autoSwitch">新增自动切换</mp-checkbox>
   </mp-space>
   <mp-tabs
-    v-model:active="active"
+    v-model="active"
     :editable="editable"
     :show-add-button="addable"
     :auto-switch="autoSwitch"
@@ -38,14 +38,16 @@ function remove(key: string | number) {
   >
     <mp-tabs-navs aria-label="交付审查标签">
       <template #prefix><mp-tag>动态标签</mp-tag></template>
-      <mp-tab-nav v-for="item in items" :key="item.key" :title="item.title" />
+      <mp-tab-nav v-for="item in items" :key="item.key" :name="item.key" :title="item.title" />
       <template #suffix
         ><mp-tag>共 {{ items.length }} 项</mp-tag></template
       >
       <template #add-icon><mp-tag>＋</mp-tag></template>
     </mp-tabs-navs>
     <mp-tabs-items
-      ><mp-tab-item v-for="item in items" :key="item.key">{{ item.title }} 内容</mp-tab-item></mp-tabs-items
+      ><mp-tab-item v-for="item in items" :key="item.key" :name="item.key"
+        >{{ item.title }} 内容</mp-tab-item
+      ></mp-tabs-items
     >
   </mp-tabs>
   <p role="status">当前标签：{{ active }}；数量：{{ items.length }}</p>

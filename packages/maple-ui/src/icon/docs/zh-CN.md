@@ -2,7 +2,7 @@
 
 图标以独立 SVG Vue 组件提供。推荐通过 Resolver 自动按需导入；需要统一尺寸、颜色或旋转时，使用 Icon 容器包裹图标。
 
-图标容器的命名、尺寸转换和安装辅助采用轻量依赖模块，按需引入不会额外打入通用工具库。图形仍由实际使用的独立 SVG 组件提供。
+图标容器的命名和类型判断复用 maple-shared 的静态工具；尺寸转换和默认 props 处理保留在 UI 工具中。按需引入只保留实际使用的工具，图形仍由独立 SVG 组件提供。
 
 ## 案例
 
@@ -69,6 +69,7 @@
 ```
 
 <!-- api-review:start -->
+
 ### 功能调试
 
 启用 `name` 控件后，从已注册名称中选择图标，预览会随之切换。
@@ -83,27 +84,27 @@
 
 ### 属性
 
-| 参数              | 说明               | 类型               | 默认值 |
-| ----------------- | ------------------ | ------------------ | ------ |
-| `name`            | 已注册图标名称；默认插槽优先           | _string_           | `-`    |
-| `size`            | `inherit` | _string \| number_ | `-`    |
-| `color`           | 图标颜色           | _string_           | `-`    |
-| `rotate`          | 旋转角度           | _number_           | `-`    |
-| `spin`            | 是否持续旋转       | _boolean_          | `false` |
-| `animation-class` | 过渡动画类名       | _string_           | `-`    |
-| `transition`      | 过渡动画时间（ms） | _string \| number_ | `0`    |
+| 参数              | 说明                         | 类型               | 默认值  |
+| ----------------- | ---------------------------- | ------------------ | ------- |
+| `name`            | 已注册图标名称；默认插槽优先 | _string_           | `-`     |
+| `size`            | `inherit`                    | _string \| number_ | `-`     |
+| `color`           | 图标颜色                     | _string_           | `-`     |
+| `rotate`          | 旋转角度                     | _number_           | `-`     |
+| `spin`            | 是否持续旋转                 | _boolean_          | `false` |
+| `animation-class` | 过渡动画类名                 | _string_           | `-`     |
+| `transition`      | 过渡动画时间（ms）           | _string \| number_ | `0`     |
 
 ### 独立 SVG 图标属性
 
-| 参数              | 说明       | 类型                                       | 默认值    |
-| ----------------- | ---------- | ------------------------------------------ | --------- |
-| `size`            | `inherit` | _string \| number_                          | `-`       |
-| `color`           | 图标颜色   | _string_                                   | `-`       |
-| `rotate`          | 旋转角度   | _number_                                   | `-`       |
-| `spin`            | 是否旋转   | _boolean_                                  | `false`   |
-| `title`           | 无障碍标题 | _string_                                   | `-`       |
-| `stroke-width`    | 线宽       | _number_                                   | `4`       |
-| `stroke-linecap`  | 端点类型   | _'butt' \| 'round' \| 'square'_            | `'butt'`  |
+| 参数              | 说明       | 类型                                         | 默认值    |
+| ----------------- | ---------- | -------------------------------------------- | --------- |
+| `size`            | `inherit`  | _string \| number_                           | `-`       |
+| `color`           | 图标颜色   | _string_                                     | `-`       |
+| `rotate`          | 旋转角度   | _number_                                     | `-`       |
+| `spin`            | 是否旋转   | _boolean_                                    | `false`   |
+| `title`           | 无障碍标题 | _string_                                     | `-`       |
+| `stroke-width`    | 线宽       | _number_                                     | `4`       |
+| `stroke-linecap`  | 端点类型   | _'butt' \| 'round' \| 'square'_              | `'butt'`  |
 | `stroke-linejoin` | 拐角类型   | _'bevel' \| 'inherit' \| 'miter' \| 'round'_ | `'miter'` |
 
 ### 事件
@@ -130,8 +131,8 @@
 
 ### 动效变量
 
-| Token | Default |
-| --- | --- |
-| `--mp-icon-spin-duration` | `1s` |
+| Token                     | Default |
+| ------------------------- | ------- |
+| `--mp-icon-spin-duration` | `1s`    |
 
 内置动效遵循 prefers-reduced-motion: reduce：保留内容与状态反馈，关闭装饰性旋转、扫光和波纹。Icon 名称切换直接显示最新值并取消未结束阶段，CSS与JS时长保持一致；自定义动画类由调用方负责适配。Ripple的时长与清理策略以Ripple组件文档为准，不将其历史250ms规则当作Icon的时长上限。

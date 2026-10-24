@@ -1,5 +1,5 @@
 <script setup>
-import { AppType } from '@maplejs/maple-cli/client'
+import { AppType } from '@maple-design/cli/client'
 import VaButton from '..'
 </script>
 

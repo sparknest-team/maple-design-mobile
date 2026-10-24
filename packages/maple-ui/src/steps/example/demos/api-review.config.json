@@ -1,14 +1,14 @@
 {
   "fields": [
     {
-      "name": "current",
+      "name": "model-value",
       "description": "当前步骤（受控，从 1 起计）",
       "type": "number",
       "defaultValue": "undefined",
       "kind": "number"
     },
     {
-      "name": "default-current",
+      "name": "default-value",
       "description": "默认当前步骤（非受控）",
       "type": "number",
       "defaultValue": "1",
@@ -95,7 +95,7 @@
   ],
   "events": [
     "change",
-    "update:current"
+    "update:modelValue"
   ],
   "scenarios": [
     {

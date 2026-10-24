@@ -8,14 +8,14 @@
       "kind": "number"
     },
     {
-      "name": "current",
-      "description": "当前页码，支持 v-model:current",
+      "name": "model-value",
+      "description": "当前页码，支持 v-model",
       "type": "number",
       "defaultValue": "undefined",
       "kind": "number"
     },
     {
-      "name": "default-current",
+      "name": "default-value",
       "description": "非受控初始页码",
       "type": "number",
       "defaultValue": "1",
@@ -177,7 +177,7 @@
   ],
   "methodNames": [],
   "events": [
-    "update:current",
+    "update:modelValue",
     "change",
     "update:pageSize",
     "page-size-change"

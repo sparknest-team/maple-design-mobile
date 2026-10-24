@@ -32,3 +32,6 @@ export interface MenuLevel {
 }
 
 export const menuLevelKey: InjectionKey<MenuLevel> = Symbol('MenuLevel')
+
+/** Private row depth for declarative MenuOption rendering callbacks. */
+export const menuRenderLevelKey: InjectionKey<Readonly<Ref<number>>> = Symbol('MenuRenderLevel')

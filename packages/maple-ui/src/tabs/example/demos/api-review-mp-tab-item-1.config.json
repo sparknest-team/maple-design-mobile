@@ -1,6 +1,13 @@
 {
   "fields": [
     {
+      "name": "name",
+      "description": "业务唯一标识（必填），与 modelValue 对应",
+      "type": "string / number",
+      "defaultValue": "undefined",
+      "kind": "scalar"
+    },
+    {
       "name": "lazy-load",
       "description": "继承 Tabs，显式 false 可覆盖",
       "type": "boolean",

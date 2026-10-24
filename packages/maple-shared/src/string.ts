@@ -1,6 +1,7 @@
 export function camelize(value: string): string {
-  value = value.replace(/-(\w)/g, (_, character: string) => character.toUpperCase())
-  return value.replace(value.charAt(0), value.charAt(0).toLowerCase())
+  return value
+    .replace(/-(\w)/g, (_, character: string) => character.toUpperCase())
+    .replace(/^./, (character) => character.toLowerCase())
 }
 
 export function kebabCase(value: string): string {
@@ -12,8 +13,13 @@ export function kebabCase(value: string): string {
     .toLowerCase()
 }
 
+// Keep the Pascal export standalone so namespace imports do not retain a camelize wrapper.
 export function pascalCase(value: string): string {
-  return camelize(value).replace(value.charAt(0), value.charAt(0).toUpperCase())
+  const first = value.charAt(0)
+  return value
+    .replace(/-(\w)/g, (_, character: string) => character.toUpperCase())
+    .replace(/^./, (character) => character.toLowerCase())
+    .replace(first, first.toUpperCase())
 }
 
 export function slash(path: string): string {

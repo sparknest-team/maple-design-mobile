@@ -1,4 +1,4 @@
-import type { PropType } from 'vue'
+import type { PropType, VNodeChild } from 'vue'
 
 export type CollapseName = string | number
 export type CollapseActiveNames = CollapseName[]
@@ -11,8 +11,10 @@ export type CollapseToggleAllOptions = {
 }
 
 export const collapseProps = {
-  activeNames: Array as PropType<CollapseActiveNames>,
-  defaultActiveNames: {
+  /** 当前展开项的 name 数组；手风琴模式最多一项。 */
+  modelValue: Array as PropType<CollapseActiveNames>,
+  /** 非受控初始值，仅创建时读取；后续修改不重置当前状态。 */
+  defaultValue: {
     type: Array as PropType<CollapseActiveNames>,
     default: () => [],
   },
@@ -54,3 +56,17 @@ export const collapseItemProps = {
 
 export type CollapseProps = import('vue').ExtractPublicPropTypes<typeof collapseProps>
 export type CollapseItemProps = import('vue').ExtractPublicPropTypes<typeof collapseItemProps> & { name: CollapseName }
+
+export interface CollapseExpandIconSlotProps {
+  expanded: boolean
+  disabled: boolean
+  position: ExpandIconPosition
+}
+export interface CollapseSlots {
+  default?: () => VNodeChild
+  'expand-icon'?: (context: CollapseExpandIconSlotProps) => VNodeChild
+}
+export interface CollapseItemSlots extends CollapseSlots {
+  title?: () => VNodeChild
+  extra?: () => VNodeChild
+}

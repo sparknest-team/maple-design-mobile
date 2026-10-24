@@ -14,7 +14,7 @@ import { usePagination } from './use-pagination'
 defineOptions({ name: createNamespace('pagination').name })
 const props = defineProps(paginationProps)
 const emit = defineEmits<{
-  (event: 'update:current', value: number): void
+  (event: 'update:modelValue', value: number): void
   (event: 'update:pageSize', value: number): void
   (event: 'change', value: number): void
   (event: 'page-size-change', value: number): void

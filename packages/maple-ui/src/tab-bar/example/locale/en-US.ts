@@ -1,14 +1,14 @@
 export default {
   uncontrolled: 'Uncontrolled selection',
   uncontrolledHelp:
-    'No v-model is needed. Saved is initially selected and tabs update on click. default-active is read only during initialization.',
-  'numeric-name': 'Numeric names and reordering',
+    'No v-model is needed. Saved is initially selected and tabs update on click. default-value is read only during initialization.',
+  'stable-key': 'Stable keys and selection',
   numericHelp:
-    'Names 0, 10 and 20 are stable identifiers. Reordering preserves the selected name instead of selecting by position.',
+    'Stable keys preserve node identity and names identify the selection. Reversing the order keeps the same tab selected.',
   reorder: 'Reverse order',
   current: 'Selected',
   'custom-label': 'Custom selected label',
-  customLabelHelp: 'The default slot receives active for changing label weight and markers.',
+  customLabelHelp: 'The default slot receives active to make the selected label bold.',
   'async-change': 'Async selection guards',
   asyncHelp:
     'Click Slow (1.2s), then Fast (0.25s): only Fast is selected. Denied and Error preserve the current selection. Click the current tab to cancel a pending switch.',
@@ -16,8 +16,7 @@ export default {
   fast: 'Fast',
   denied: 'Denied',
   rejected: 'Error',
-  badgeHelp:
-    'Dots, 66 and 99+ sit outside the icon. Toggle the variant to inspect their position with the pill indicator.',
+  badgeHelp: 'Dots, 66 and 99+ sit outside the icon. Toggle the pill indicator to inspect badge placement.',
 
   fabDescription:
     'Use the floating button for a primary action such as creating a post, taking a photo or adding an item. The plus button opens the composer without changing the selected tab.',
@@ -41,5 +40,5 @@ export default {
   clickEvent: 'Click Event',
   fab: 'Fab',
   label: 'label',
-  variant: 'Variant',
+  variant: 'Pill indicator',
 }

@@ -1,5 +1,5 @@
 ---
-"@maplejs/maple-ui": major
+"@maple-design/ui": major
 ---
 
 Search 与 AutoComplete 同步 Input 的 input → update:modelValue 输入顺序和 clear → input → update:modelValue → change 清空管线；清空不会重复写模型、执行搜索或重开候选面板。AutoComplete 的 search 在模型更新通知后触发，候选选择行为不变。

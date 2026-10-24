@@ -17,7 +17,7 @@
 </template>
 
 <script setup lang="ts">
-import { IconToTop } from '@maplejs/icons-vue'
+import { IconToTop } from '@maple-design/icons-vue'
 import { createNamespace, formatElevation } from '../utils/components'
 import { toSizeUnit } from '../utils/elements'
 import { usePopupContainer } from '../utils/popup-container'

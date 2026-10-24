@@ -12,7 +12,7 @@ import type {
   RateProps,
   SwitchProps,
   TriggerProps,
-} from '@maplejs/maple-ui'
+} from '@maple-design/ui'
 
 const card: CardProps = { variant: 'outline', size: 'sm', direction: 'row' }
 const progress: ProgressProps[] = [{}, { size: 24 }, { size: '2rem' }, { size: 'xl' }]

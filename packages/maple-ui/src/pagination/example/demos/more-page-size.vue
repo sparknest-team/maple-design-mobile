@@ -11,7 +11,7 @@ const more = ref(false)
         ><mp-radio v-for="value in [0, 1, 2]" :key="value" :value="value">Buffer {{ value }}</mp-radio></mp-radio-group
       ><mp-switch v-model="more" /> Show more
     </div>
-    <mp-pagination :total="500" :default-current="12" :buffer-size="buffer" :show-more="more" :responsive="false" />
+    <mp-pagination :total="500" :default-value="12" :buffer-size="buffer" :show-more="more" :responsive="false" />
   </div>
 </template>
 <style scoped>

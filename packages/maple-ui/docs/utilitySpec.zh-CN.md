@@ -24,7 +24,7 @@ Cedar / Maple 共用同一套语义与结构；类名与变量均带库前缀，
 | 项 | Cedar | Maple |
 |---|---|---|
 | Typography 工具包 | 有（PC 扩展） | 无（用 token / 原子化） |
-| 原子化 CSS preset | `@cedar/preset-unocss` / `@cedar/preset-tailwindcss` | `@maplejs/maple-preset-unocss` / `@maplejs/maple-preset-tailwindcss` |
+| 原子化 CSS preset | `@cedar/preset-unocss` / `@cedar/preset-tailwindcss` | `@maple-design/preset-unocss` / `@maple-design/preset-tailwindcss` |
 
 ### 禁止
 

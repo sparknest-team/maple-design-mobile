@@ -1,6 +1,6 @@
 {
-  "name": "@maplejs/icons-vue",
-  "version": "1.0.3",
+  "name": "@maple-design/icons-vue",
+  "version": "1.0.0",
   "description": "Tree-shakable SVG icon components for Maple",
   "license": "MIT",
   "type": "module",
@@ -20,7 +20,11 @@
       "require": "./lib/*/index.cjs"
     }
   },
-  "files": ["es", "lib", "types"],
+  "files": [
+    "es",
+    "lib",
+    "types"
+  ],
   "scripts": {
     "generate": "node scripts/generate.mjs",
     "generate:check": "node scripts/generate.mjs --check",
@@ -32,12 +36,16 @@
     "vue": "^3.2.0"
   },
   "devDependencies": {
-    "@ui-foundation/ui-icons": "file:../../../design-ui/packages/ui-icons",
+    "@sparknest/ui-icons": "^1.0.0",
     "@vitejs/plugin-vue": "catalog:",
     "chokidar": "^3.6.0",
     "typescript": "catalog:",
     "vite": "catalog:",
     "vue": "catalog:",
     "vue-tsc": "^2.1.10"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   }
 }

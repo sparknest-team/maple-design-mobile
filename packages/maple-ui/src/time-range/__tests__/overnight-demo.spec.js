@@ -5,7 +5,7 @@ import Button from '../../button'
 import Demo from '../example/demos/next-day.vue'
 import TimeRange from '../index'
 
-vi.mock('@maplejs/maple-cli/client', () => ({ watchLang: (callback) => callback('en-US') }))
+vi.mock('@maple-design/cli/client', () => ({ watchLang: (callback) => callback('en-US') }))
 
 it('overnight demo preserves endpoint order and exposes clear/reset model state', async () => {
   const wrapper = mount(Demo, { global: { components: { MpTimeRange: TimeRange, MpButton: Button } } })

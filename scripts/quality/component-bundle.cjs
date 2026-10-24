@@ -98,8 +98,9 @@ const plugin = {
     metafile: true,
     logLevel: 'silent',
     alias: {
-      '@maplejs/maple-shared': path.join(root, 'packages/maple-shared/src/index.ts'),
-      '@maplejs/maple-use': path.join(root, 'packages/maple-use/src/index.ts'),
+      '@maple-design/shared': path.join(root, 'packages/maple-shared/src/index.ts'),
+      '@maple-design/use': path.join(root, 'packages/maple-use/src/index.ts'),
+      '@maple-design/icons-vue': path.join(root, 'packages/maple-icons-vue/src/index.ts'),
     },
     loader: {
       '.less': 'empty',
@@ -124,6 +125,14 @@ const plugin = {
       continue
     }
     const inc = Object.entries(output.inputs).filter(([, x]) => x.bytesInOutput > 0)
+    if (['trigger', 'tooltip', 'popover', 'ellipsis'].includes(name)) {
+      assert.deepEqual(
+        inc.filter(([filename]) => filename.includes('node_modules/')).map(([filename]) => filename),
+        [],
+        `${name} must not retain third-party runtime dependencies (Vue is external)`,
+      )
+      assert.doesNotMatch(file.text, /data-popup-container/, 'Development-only prop validators must be removed')
+    }
     rows.push({
       name,
       bytes: file.contents.length,
@@ -143,6 +152,21 @@ const plugin = {
     rows.every((r) => r.rattailBytes === 0),
     'A component retained the removed rattail dependency',
   )
+  // Entry caps cover shared-tool consolidation and floating-entry slimming; Vue is external and CSS excluded.
+  // Override the file to compare a separately captured MAPLE_BUNDLE_REPORT.
+  {
+    const baselinePath = process.env.MAPLE_BUNDLE_BASELINE || path.join(__dirname, 'component-bundle.baseline.json')
+    const baseline = JSON.parse(fs.readFileSync(baselinePath, 'utf8'))
+    const limits = new Map(baseline.map((row) => [row.name, row]))
+    const regressions = rows.flatMap((row) => {
+      const limit = limits.get(row.name)
+      assert.ok(limit, `Missing on-demand size baseline: ${row.name}`)
+      return row.bytes > limit.bytes || row.gzip > limit.gzip
+        ? [{ name: row.name, bytes: row.bytes - limit.bytes, gzip: row.gzip - limit.gzip }]
+        : []
+    })
+    assert.deepEqual(regressions, [], 'On-demand JS size exceeded the supplied baseline')
+  }
   if (process.env.MAPLE_BUNDLE_REPORT) {
     fs.writeFileSync(process.env.MAPLE_BUNDLE_REPORT, JSON.stringify(rows, null, 2) + '\n')
   }

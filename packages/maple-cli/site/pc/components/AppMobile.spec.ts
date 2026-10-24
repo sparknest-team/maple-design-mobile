@@ -2,7 +2,7 @@ import { mount } from '@vue/test-utils'
 import { describe, expect, it, vi } from 'vitest'
 import AppMobile from './AppMobile.vue'
 
-vi.mock('@maplejs/maple-cli/client', () => ({ getMobileIndex: () => '/mobile.html' }))
+vi.mock('@maple-design/cli/client', () => ({ getMobileIndex: () => '/mobile.html' }))
 
 describe('PC site mobile preview', () => {
   it('loads the selected component demo in the iframe', async () => {

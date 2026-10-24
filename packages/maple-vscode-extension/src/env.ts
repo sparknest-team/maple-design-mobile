@@ -1,5 +1,5 @@
-import enWebTypes from '@maplejs/maple-ui/highlight/web-types.en-US.json'
-import zhWebTypes from '@maplejs/maple-ui/highlight/web-types.zh-CN.json'
+import enWebTypes from '@maple-design/ui/highlight/web-types.en-US.json'
+import zhWebTypes from '@maple-design/ui/highlight/web-types.zh-CN.json'
 import { workspace } from 'vscode'
 import { HtmlTag } from './webTypes'
 

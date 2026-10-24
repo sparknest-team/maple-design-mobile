@@ -68,12 +68,6 @@
 import { computed, defineComponent, ref, watch, type ComputedRef, type Ref } from 'vue'
 import config from '@config'
 import {
-  IconChevronDown as MIconChevronDown,
-  IconGithub as MIconGithub,
-  IconPaletteFill as MIconPaletteFill,
-  IconTranslate as MIconTranslate,
-} from '@maplejs/icons-vue'
-import {
   getBrowserTheme,
   getMobileIndex,
   persistTheme,
@@ -81,8 +75,14 @@ import {
   watchLang,
   watchTheme,
   type Theme,
-} from '@maplejs/maple-cli/client'
-import { pascalCase } from '@maplejs/maple-shared'
+} from '@maple-design/cli/client'
+import {
+  IconChevronDown as MIconChevronDown,
+  IconGithub as MIconGithub,
+  IconPaletteFill as MIconPaletteFill,
+  IconTranslate as MIconTranslate,
+} from '@maple-design/icons-vue'
+import { pascalCase } from '@maple-design/shared'
 import { useRoute, useRouter } from 'vue-router'
 import { inIframe, isPhone, removeEmpty } from '../utils'
 

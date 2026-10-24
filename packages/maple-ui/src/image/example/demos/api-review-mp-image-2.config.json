@@ -155,14 +155,14 @@
       "kind": "string"
     },
     {
-      "name": "preview-open",
+      "name": "open",
       "description": "受控预览状态",
       "type": "boolean",
       "defaultValue": "undefined",
       "kind": "boolean"
     },
     {
-      "name": "default-preview-open",
+      "name": "default-open",
       "description": "默认预览打开状态",
       "type": "boolean",
       "defaultValue": "false",
@@ -213,8 +213,8 @@
     "click",
     "load",
     "error",
-    "preview-open-change",
-    "update:previewOpen"
+    "open-change",
+    "update:open"
   ],
   "slotNames": [
     "extra",

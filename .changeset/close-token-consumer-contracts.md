@@ -1,5 +1,5 @@
 ---
-"@maplejs/maple-ui": major
+"@maple-design/ui": major
 ---
 
 The subsequent explicitly authorized Select/Menu/FloatingPanel audit synchronizes the remaining21catalog rows and3inventory/hash entries after compiled/rendered consumer checks. Preserve existing parallel surfaces/geometry/business;no new production fix/API. Full motion/catalog gates now pass;SDK/native blockers and paused automation remain.

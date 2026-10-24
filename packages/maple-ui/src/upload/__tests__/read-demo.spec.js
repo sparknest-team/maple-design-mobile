@@ -9,7 +9,7 @@ import Demo from '../example/demos/replacement-validation.vue'
 
 useDemoControls()
 
-vi.mock('@maplejs/maple-ui', () => import('..'))
+vi.mock('@maple-design/ui', () => import('..'))
 
 test.each([
   [Demo, '加入小图片', '返回最早缩略图', '拒绝最早缩略图', '重置队列'],

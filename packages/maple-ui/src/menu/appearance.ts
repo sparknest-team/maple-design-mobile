@@ -1,11 +1,11 @@
 import { computed, h, type CSSProperties, type Ref, type Slots } from 'vue'
-import { IconChevronRight } from '@maplejs/icons-vue'
+import { IconChevronRight } from '@maple-design/icons-vue'
 import Icon from '../icon'
 import Ripple from '../ripple'
 import { createNamespace, formatElevation, MaybeVNode } from '../utils/components'
 import type { MenuViewOptions } from './render'
 import { getRootTriggerOptions } from './trigger-options'
-import type { MenuSubmenuTrigger } from './types'
+import type { MenuOptionSlots, MenuSubmenuTrigger } from './types'
 
 export interface OptionState {
   optionSelected: Ref<boolean>
@@ -43,9 +43,9 @@ export function panelAppearance(
 }
 
 export function useOptionAppearance(
-  props: { active: boolean; childrenTrigger: boolean; highlight: boolean; ripple: boolean },
+  props: { highlight: boolean; childrenTrigger: boolean; ripple: boolean },
   state: OptionState,
-  slots: Slots,
+  slots: MenuOptionSlots,
 ) {
   const { n, classes } = createNamespace('menu-option')
   return computed<MenuViewOptions>(() => ({
@@ -56,7 +56,7 @@ export function useOptionAppearance(
       n(`--${state.size.value}`),
       [state.optionSelected.value, n('--selected-color')],
       [state.disabled.value, n('--disabled')],
-      [props.active || props.highlight || state.isFocusing.value, n('--active')],
+      [props.highlight || state.isFocusing.value, n('--active')],
       [props.childrenTrigger, n('--children-trigger')],
       [!!slots.suffix || props.childrenTrigger, n('--has-suffix')],
     ),

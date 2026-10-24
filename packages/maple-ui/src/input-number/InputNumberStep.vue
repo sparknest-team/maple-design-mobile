@@ -21,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-import { IconChevronDown, IconChevronUp, IconMinus, IconPlus } from '@maplejs/icons-vue'
+import { IconChevronDown, IconChevronUp, IconMinus, IconPlus } from '@maple-design/icons-vue'
 import { createNamespace } from '../utils/components'
 import type { StepMethod } from './number-arithmetic'
 

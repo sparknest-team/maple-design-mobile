@@ -62,7 +62,7 @@
 <script lang="ts">
 import { computed, defineComponent, nextTick, onBeforeUnmount, onMounted, ref, useSlots } from 'vue'
 import type { ComponentPublicInstance } from 'vue'
-import { cloneDeep, normalizeToArray } from '@maplejs/maple-shared'
+import { cloneDeep, normalizeToArray } from '@maple-design/shared'
 import { provideItemPresentation } from '../_components/field-presentation/context'
 import Col from '../col'
 import MpFormDetails from '../form-details'

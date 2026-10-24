@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, h, inject, nextTick, ref } from 'vue'
+import { computed, h, inject, nextTick, ref, useSlots } from 'vue'
 import type { TriggerInstance } from '../trigger'
 import Trigger from '../trigger'
 import { createNamespace } from '../utils/components'
@@ -14,12 +14,12 @@ import { useMenuKeyboard } from './keyboard'
 import { useMenuLevel } from './level'
 import MenuOption from './MenuOption.vue'
 import MenuPanel from './MenuPanel.vue'
-import MenuOptions from './options'
 import MenuView from './render'
 import { createMenuTree, menuSelectionKey } from './selection'
 
 defineOptions({ name: createNamespace('menu-branch').name })
 const props = defineProps(menuBranchProps)
+const slots = useSlots()
 const computedOpen = ref(false)
 const triggerRef = ref<TriggerInstance>()
 const panel = ref<InstanceType<typeof MenuPanel>>()
@@ -70,11 +70,17 @@ async function handleArrow(key: 'ArrowLeft' | 'ArrowRight') {
 }
 const viewOptions = computed(() => {
   const names = createMenuTree([], props.fieldNames).names
-  const value = props.option[names.value] !== undefined ? props.option[names.value] : props.option[names.label]
-  const active =
-    selection
-      ?.ancestors(selection.tree.value.flat.find((node) => selection.isSelected(node.value))?.value)
-      .includes(props.option) ?? false
+  const value =
+    props.option[names.value] !== undefined
+      ? props.option[names.value]
+      : typeof props.option[names.label] === 'function'
+        ? undefined
+        : props.option[names.label]
+  const active = selection?.isSelected(value) ?? false
+  const hasSelectedDescendant =
+    selection && selection.modelValue.value !== undefined
+      ? selection.ancestors(selection.modelValue.value).includes(props.option)
+      : false
   return {
     kind: 'submenu',
     triggerComponent: Trigger,
@@ -103,7 +109,7 @@ const viewOptions = computed(() => {
           value,
           option: props.option,
           ripple: props.option.ripple,
-          active: computedOpen.value || active,
+          highlight: computedOpen.value || hasSelectedDescendant,
           childrenTrigger: true,
           disabled: disabled.value,
           'onKey-arrow-x': handleArrow,
@@ -121,13 +127,7 @@ const viewOptions = computed(() => {
       ),
     panelComponent: MenuPanel,
     panelProps: { ref: panel, submenu: true },
-    items: () =>
-      h(MenuOptions, {
-        options: props.options,
-        fieldNames: props.fieldNames,
-        level: props.level + 1,
-        renderers: props.renderers,
-      }),
+    items: () => slots.default?.(),
   }
 })
 </script>

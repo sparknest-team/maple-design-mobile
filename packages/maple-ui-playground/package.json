@@ -1,6 +1,6 @@
 {
-  "name": "@maplejs/maple-ui-playground",
-  "version": "1.0.3",
+  "name": "@maple-design/ui-playground",
+  "version": "1.0.0",
   "private": true,
   "description": "maple ui playground",
   "keywords": [
@@ -16,8 +16,8 @@
     "preview": "maple-cli preview"
   },
   "dependencies": {
-    "@maplejs/maple-touch-emulator": "workspace:*",
-    "@maplejs/maple-ui": "workspace:*",
+    "@maple-design/touch-emulator": "workspace:*",
+    "@maple-design/ui": "workspace:*",
     "@vue/repl": "^2.9.0",
     "file-saver": "^2.0.5",
     "jszip": "^3.10.1",
@@ -26,7 +26,7 @@
   "devDependencies": {
     "@types/file-saver": "^2.0.7",
     "@types/node": "catalog:",
-    "@maplejs/maple-cli": "workspace:*",
+    "@maple-design/cli": "workspace:*",
     "live-server": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:"

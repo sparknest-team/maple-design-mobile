@@ -13,6 +13,7 @@ packages/maple-icons-vue/types
 packages/maple-ui/site
 packages/maple-ui-playground/site
 node_modules/
+artifacts/docs-components/
 storybook-static/
 **/.DS_Store
 

@@ -1,5 +1,5 @@
 import { isRef, onBeforeUnmount, onDeactivated, unref, watch, type Ref, type WatchStopHandle } from 'vue'
-import { inBrowser, isFunction } from '@maplejs/maple-shared'
+import { inBrowser, isFunction } from '@maple-design/shared'
 import { onSmartMounted } from './onSmartMounted.js'
 
 export type UseEventListenerTarget =

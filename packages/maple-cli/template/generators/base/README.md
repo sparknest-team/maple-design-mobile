@@ -2,8 +2,8 @@
 
 ### Reference
 
-[@maplejs/maple-cli 中文文档](https://github.com/loca-spirit/maple-design-mobile/blob/main/packages/maple-cli/README.md)
-[@maplejs/maple-cli documentation](https://github.com/loca-spirit/maple-design-mobile/blob/main/packages/maple-cli/README.md)
+[@maple-design/cli 中文文档](https://github.com/loca-spirit/maple-design-mobile/blob/main/packages/maple-cli/README.md)
+[@maple-design/cli documentation](https://github.com/loca-spirit/maple-design-mobile/blob/main/packages/maple-cli/README.md)
 
 ### Quickstart
 

@@ -1,15 +1,15 @@
 {
   "fields": [
     {
-      "name": "active-names",
-      "description": "当前展开面板的 name，支持 v-model:active-names",
+      "name": "model-value",
+      "description": "当前展开面板的 name，支持 v-model",
       "type": "(string | number)[]",
       "defaultValue": "undefined",
       "kind": "json",
       "initial": "[]"
     },
     {
-      "name": "default-active-names",
+      "name": "default-value",
       "description": "非受控初始展开面板",
       "type": "(string | number)[]",
       "defaultValue": "() => []",
@@ -72,12 +72,12 @@
     }
   ],
   "events": [
-    "update:activeNames",
+    "update:modelValue",
     "change"
   ],
   "scenarios": [
     {
-      "name": "active-names",
+      "name": "model-value",
       "kind": "prop",
       "demos": [
         "basic.vue",
@@ -95,7 +95,7 @@
       ]
     },
     {
-      "name": "default-active-names",
+      "name": "default-value",
       "kind": "prop",
       "demos": [
         "basic.vue",

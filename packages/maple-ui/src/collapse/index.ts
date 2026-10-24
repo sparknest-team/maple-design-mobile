@@ -19,6 +19,9 @@ export { collapseProps, collapseItemProps, CollapseItem }
 export type CollapseInstance = InstanceType<typeof _Collapse>
 export type CollapseItemInstance = InstanceType<typeof CollapseItem>
 export type {
+  CollapseExpandIconSlotProps,
+  CollapseSlots,
+  CollapseItemSlots,
   CollapseActiveNames,
   CollapseItemProps,
   CollapseName,

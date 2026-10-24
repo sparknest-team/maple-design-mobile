@@ -202,7 +202,7 @@ describe('PreviewGroup track scheduler ownership', () => {
   test('disposed retained open does not emit change', async () => {
     const f = await fixture()
     f.owner.unmount()
-    f.vm.open(1)
+    f.vm.open(2)
     expect(f.child.emitted('change')).toBeUndefined()
   })
   test('deactivation cancels pending recenter timeout', async () => {
@@ -286,7 +286,7 @@ describe('PreviewGroup track scheduler ownership', () => {
   test('reentrant change disposal cannot schedule a recenter task', async () => {
     const f = await fixture({
       onChange: (index) => {
-        if (index === 0) {
+        if (index === 1) {
           f.owner.unmount()
         }
       },
@@ -354,8 +354,8 @@ describe('PreviewGroup track scheduler ownership', () => {
   test('reentrant newer navigation owns the current instant phase', async () => {
     const f = await fixture({
       onChange: (index) => {
-        if (index === 0) {
-          f.vm.to(1)
+        if (index === 1) {
+          f.vm.to(2)
         }
       },
     })

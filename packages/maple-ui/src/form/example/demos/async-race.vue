@@ -35,7 +35,7 @@
 </template>
 <script setup lang="ts">
 import { onBeforeUnmount, onDeactivated, reactive, ref, shallowRef, useId } from 'vue'
-import type { FormInstance } from '@maplejs/maple-ui'
+import type { FormInstance } from '@maple-design/ui'
 import ModelOutput from '../components/ModelOutput.vue'
 
 interface Pending {

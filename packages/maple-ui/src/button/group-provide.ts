@@ -1,5 +1,5 @@
 import type { ComputedRef } from 'vue'
-import { useChildren } from '@maplejs/maple-use'
+import { useChildren } from '@maple-design/use'
 import type { ComponentSize, SemanticStatus } from '../utils/constants'
 import type { ButtonVariant } from './props'
 

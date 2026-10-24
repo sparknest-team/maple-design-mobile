@@ -191,10 +191,10 @@ test('fab custom icon', async () => {
   const wrapper = mount(Fab, {
     props: {
       popupContainer: container,
-      inactiveIcon: 'check',
-      activeIcon: 'fire',
-      inactiveIconSize: 30,
-      activeIconSize: 30,
+      closedIcon: 'check',
+      openIcon: 'fire',
+      closedIconSize: 30,
+      openIconSize: 30,
     },
     slots: {
       default: () => h('div', 'action'),
@@ -272,7 +272,7 @@ test('fab events and fragment default slots and click outside close', async () =
   const onOpened = vi.fn()
   const onClose = vi.fn()
   const onClosed = vi.fn()
-  const onUpdateActive = vi.fn()
+  const onUpdateOpen = vi.fn()
   const container = document.createElement('div')
 
   const wrapper = mount(Fab, {
@@ -282,7 +282,7 @@ test('fab events and fragment default slots and click outside close', async () =
       onOpened,
       onClose,
       onClosed,
-      'onUpdate:active': onUpdateActive,
+      'onUpdate:open': onUpdateOpen,
     },
     slots: {
       default: () => h(Fragment, {}, [h('div', 'action'), h('div', 'action'), h('div', 'action')]),
@@ -295,13 +295,13 @@ test('fab events and fragment default slots and click outside close', async () =
   await new DOMWrapper(button).trigger('click')
 
   expect(onOpen).toBeCalledTimes(1)
-  expect(onUpdateActive).toBeCalledWith(true)
+  expect(onUpdateOpen).toBeCalledWith(true)
   await delay(300)
   expect(onOpened).toBeCalledTimes(1)
 
   await trigger(document, 'click')
   expect(onClose).toBeCalledTimes(1)
-  expect(onUpdateActive).toBeCalledWith(false)
+  expect(onUpdateOpen).toBeCalledWith(false)
   await delay(300)
   expect(onClosed).toBeCalledTimes(1)
 
@@ -313,7 +313,7 @@ test('fab trigger and disabled change', async () => {
   const wrapper = mount(Fab, {
     props: {
       popupContainer: container,
-      active: true,
+      open: true,
     },
     slots: {
       default: () => h('div', 'action'),
@@ -325,11 +325,15 @@ test('fab trigger and disabled change', async () => {
   expect(actions.style.display).toBe('')
   await wrapper.setProps({ trigger: 'hover' })
   await delay(300)
-  expect(actions.style.display).toBe('none')
-  await wrapper.setProps({ active: false })
-  await wrapper.setProps({ active: true })
+  expect(wrapper.emitted('update:open').at(-1)).toEqual([false])
+  expect(actions.style.display).toBe('')
+  await wrapper.setProps({ open: false })
+  await wrapper.setProps({ open: true })
   expect(actions.style.display).toBe('')
   await wrapper.setProps({ disabled: true })
+  await delay(300)
+  expect(wrapper.emitted('update:open').at(-1)).toEqual([false])
+  await wrapper.setProps({ open: false })
   await delay(300)
   expect(actions.style.display).toBe('none')
 

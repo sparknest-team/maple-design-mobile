@@ -201,12 +201,12 @@ test('does not load in a hidden tab and checks when activated', async () => {
       methods: { loadFirst, loadSecond },
       template: `
       <mp-tabs v-model:active="active">
-      <mp-tabs-navs><mp-tab-nav :key="0" title="First" /><mp-tab-nav :key="1" title="Second" /></mp-tabs-navs>
+      <mp-tabs-navs><mp-tab-nav :name="0" title="First" /><mp-tab-nav :name="1" title="Second" /></mp-tabs-navs>
       <mp-tabs-items>
-        <mp-tab-item :key="0">
+        <mp-tab-item :name="0">
           <mp-infinite-scroll v-model:status="first" @load="loadFirst" />
         </mp-tab-item>
-        <mp-tab-item :key="1">
+        <mp-tab-item :name="1">
           <mp-infinite-scroll v-model:status="second" @load="loadSecond" />
         </mp-tab-item>
       </mp-tabs-items></mp-tabs>

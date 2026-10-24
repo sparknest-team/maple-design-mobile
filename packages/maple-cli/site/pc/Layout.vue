@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { computed, nextTick, onMounted, ref, watch } from 'vue'
 import config from '@config'
-import { Context } from '@maplejs/maple-ui'
+import { Context } from '@maple-design/ui'
 import { useRoute, useRouter } from 'vue-router'
 import { type SiteContext } from '../types'
 import { MenuTypes, type Menu } from '../utils'

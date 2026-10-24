@@ -31,9 +31,9 @@ export const stepsProps = {
       STEPS_CONTENT_PLACEMENTS.includes(value as StepsContentPlacement),
   },
   /** 当前步骤，从 1 开始 */
-  current: Number,
-  /** 非受控模式的初始步骤 */
-  defaultCurrent: { type: Number, default: 1 },
+  modelValue: Number,
+  /** 非受控模式的初始步骤，仅创建时读取 */
+  defaultValue: { type: Number, default: 1 },
   /** 当前步骤状态 */
   status: {
     type: String as PropType<StepStatus>,

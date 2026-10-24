@@ -1,4 +1,4 @@
-declare module '@ui-foundation/ui-build' {
+declare module '@sparknest/ui-build' {
   export function defineConfig<T>(config: T): T
   export function buildLibrary(config: Record<string, unknown>): Promise<void>
 }

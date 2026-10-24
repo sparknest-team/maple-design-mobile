@@ -95,6 +95,8 @@ inline 即选即提交；popup、dialog 单选和多选都编辑草稿，外层�
 
 <!-- api-review:end -->
 
+单选已选项在右侧显示内置主色对勾。多选使用 Checkbox：可选后代全部未选为未选，部分选中为半选，全部可选叶子选中为全选；禁用叶子不参与全选计算。checkStrictly 开启时父子独立选择，不汇总半选。确认式编辑面板中的选择先作为草稿，确认后才提交。
+
 ## API
 
 ### Cascader 属性
@@ -242,3 +244,10 @@ Maple 使用 presentation="popup" 点击值区域打开编辑面板；inline 直
 
 
 异步搜索时应在新请求开始时清除旧候选，并只采纳当前搜索词的最后一次响应。可使用 `update:input-value` 立即响应输入，通过 `loading` 和 `filter-option` 展示远程过滤结果。popup 内方向键与 Enter 只操作当前候选，保存由底部确认按钮完成。校验失败保留草稿；确认期间锁定编辑和关闭，表单重置会关闭 popup 并中止提交。请求归属应在关闭和重置时失效，完整示例见 Form 的“各类字段统一展示”。
+
+### 单选对勾样式变量
+
+| 变量 | 默认值 |
+| --- | --- |
+| `--mp-cascader-item-check-color` | `var(--mp-sys-color-action-primary)` |
+| `--mp-cascader-item-check-size` | `var(--mp-sys-font-size-md)` |

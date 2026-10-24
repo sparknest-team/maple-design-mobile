@@ -1,6 +1,21 @@
 {
   "fields": [
     {
+      "name": "size",
+      "description": "文字、图标和加载图标尺寸",
+      "type": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\"",
+      "defaultValue": "'md'",
+      "kind": "enum",
+      "options": [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl"
+      ],
+      "initial": "md"
+    },
+    {
       "name": "status",
       "description": "语义状态，可选值为 default primary secondary tertiary info success warning danger",
       "type": "\"default\" | \"primary\" | \"secondary\" | \"tertiary\" | \"info\" | \"success\" | \"warning\" | \"danger\"",

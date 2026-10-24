@@ -1,8 +1,8 @@
 # Tabs
 
-Cedar and Maple expose the same simple Tabs / TabPane API and the same advanced TabsNavs / TabNav / TabsItems / TabItem composition. Bind `v-model:active` on Tabs and use explicit string or number `key` values. Both packages support six variants, controlled/uncontrolled state, lazy mounting, destroy-on-hide, keyboard navigation, RTL and opt-in swipes.
+Cedar and Maple expose the same simple Tabs / TabPane API and the same advanced TabsNavs / TabNav / TabsItems / TabItem composition. Bind `v-model` on Tabs and use explicit unique string or number `name` values on TabPane, TabNav and TabItem. Vue `key` is separate and is still used for list rendering. Both packages support six variants, controlled/uncontrolled state, lazy mounting, destroy-on-hide, keyboard navigation, RTL and opt-in swipes.
 
-Put navigation and panels inside the same `Tabs`. Use `tab-click(key, event)` for tab click handling, external positioning for custom layouts, and `TabBar` for application-level navigation. All props, events, slots, methods and theme variables are listed in the [shared API reference](./zh-CN.md).
+Put navigation and panels inside the same `Tabs`. Use `tab-click(name, event)` for tab click handling, external positioning for custom layouts, and `TabBar` for application-level navigation. All props, events, slots, methods and theme variables are listed in the [shared API reference](./zh-CN.md).
 
 ## Examples
 

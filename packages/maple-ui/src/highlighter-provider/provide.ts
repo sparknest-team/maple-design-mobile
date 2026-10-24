@@ -1,6 +1,6 @@
 import { inject, provide } from 'vue'
 import type { ComputedRef } from 'vue'
-import { keyInProvides } from '@maplejs/maple-use'
+import { keyInProvides } from '@maple-design/use'
 import type { Highlighter } from './props'
 
 export interface HighlighterProvider {

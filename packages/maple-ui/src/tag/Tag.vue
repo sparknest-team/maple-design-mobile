@@ -51,7 +51,7 @@ defineOptions({ name: createNamespace('tag').name, inheritAttrs: false })
 const props = defineProps(tagProps)
 const emit = defineEmits<{
   'update:show': [show: boolean]
-  'update:checked': [checked: boolean]
+  'update:modelValue': [checked: boolean]
   close: [event: MouseEvent]
   check: [checked: boolean, event: MouseEvent]
 }>()
@@ -60,9 +60,9 @@ const { mergedSize, rtl } = useTagPlatform(props)
 const isBuiltInColor = computed(() => props.color && TAG_COLORS.includes(props.color as any))
 const isCustomColor = computed(() => props.color && !TAG_COLORS.includes(props.color as any))
 const _show = ref(props.defaultShow)
-const _checked = ref(props.defaultChecked)
+const _checked = ref(props.defaultValue)
 const computedShow = computed(() => props.show ?? _show.value)
-const computedChecked = computed(() => (props.checkable ? (props.checked ?? _checked.value) : true))
+const computedChecked = computed(() => (props.checkable ? (props.modelValue ?? _checked.value) : true))
 
 const handleClose = (ev: MouseEvent) => {
   if (props.loading) {
@@ -77,7 +77,7 @@ const handleClick = (ev: MouseEvent) => {
   if (props.checkable && !props.loading) {
     const newChecked = !computedChecked.value
     _checked.value = newChecked
-    emit('update:checked', newChecked)
+    emit('update:modelValue', newChecked)
     emit('check', newChecked, ev)
   }
 }

@@ -54,7 +54,7 @@
 
 <script setup lang="ts">
 import { computed, nextTick, ref, useId, watch, type ComponentPublicInstance } from 'vue'
-import { IconCalendar, IconClockCircle } from '@maplejs/icons-vue'
+import { IconCalendar, IconClockCircle } from '@maple-design/icons-vue'
 import FieldDecorator from '../../field-decorator/FieldDecorator.vue'
 import { fieldDecoratorProps } from '../../field-decorator/props'
 import { splitInputAttrs } from '../../input/native-attrs'

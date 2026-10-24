@@ -1,6 +1,6 @@
 <script setup>
 import { reactive, ref } from 'vue'
-import { ActionSheet, Message } from '@maplejs/maple-ui'
+import { ActionSheet, Message } from '@maple-design/ui'
 
 const rawActions = [
   {

@@ -5,7 +5,7 @@ import Radio, { RadioGroup } from '../../radio'
 import Checkbox, { CheckboxGroup } from '../index'
 
 const language = vi.hoisted(() => ({ callbacks: [] }))
-vi.mock('@maplejs/maple-cli/client', () => ({
+vi.mock('@maple-design/cli/client', () => ({
   watchLang(callback) {
     language.callbacks.push(callback)
     callback('en-US')

@@ -49,14 +49,16 @@
 
 ## API
 
+主值使用普通 `v-model`：`modelValue` 表示当前步骤序号，从 1 开始。`defaultValue` 仅在创建时初始化非受控状态，之后修改不会重置当前值；初始化不触发 `update:modelValue`。提供 `modelValue` 时由父级控制，以受控值为准。
+
 ### 属性
 
 #### Steps Props
 
 | 参数                | 说明                        | 类型                                            | 默认值       |
 | ------------------- | --------------------------- | ----------------------------------------------- | ------------ |
-| `current`           | 当前步骤（受控，从 1 起计） | _number_                                        | `-`          |
-| `default-current`   | 默认当前步骤（非受控）      | _number_                                        | `1`          |
+| `model-value`           | 当前步骤（受控，从 1 起计） | _number_                                        | `-`          |
+| `default-value`   | 默认当前步骤（非受控）      | _number_                                        | `1`          |
 | `type`              | 步骤条类型                  | _'default' \| 'arrow' \| 'dot' \| 'navigation'_ | `default`    |
 | `orientation`       | 显示方向                    | _'horizontal' \| 'vertical'_                    | `horizontal` |
 | `content-placement` | 内容相对节点的位置          | _'right' \| 'bottom'_                           | `right`      |
@@ -81,7 +83,7 @@
 | 事件名           | 说明                                  | 回调参数                                       |
 | ---------------- | ------------------------------------- | ---------------------------------------------- |
 | `change`         | 步骤切换时触发（需开启 `changeable`） | `current: number, previous: number, ev: Event` |
-| `update:current` | `v-model:current` 同步                | `step: number`                                 |
+| `update:modelValue` | `v-model` 同步                | `step: number`                                 |
 
 ### 插槽
 
@@ -230,3 +232,5 @@
 两端各自保存完整源码，不引用公共核心，不共享组件实例或响应式状态；修改时同步维护两份实现。主体、Props、关键样式及配对测试纳入只读源码一致性检查，主题 token 和安装入口各自维护。
 
 Steps 和 Step 的主体、Props、上下文协议与样式同源复制；注入 Symbol 分别定义在各库，不跨库共享。保留四种 type 和原有状态/事件契约。
+
+`active` 只表示当前步骤序号（从 1 开始）是否对应 modelValue；与 status（wait/process/finish/error）分开。当前步骤即使为 error，active 仍为 true；焦点、悬停不会改变 active。

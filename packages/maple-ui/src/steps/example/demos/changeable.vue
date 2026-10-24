@@ -11,7 +11,7 @@ const changeableStatus = ref<StepStatus>('process')
   <mp-radio-group v-model="changeableStatus" class="status-switch">
     <mp-radio v-for="status in statuses" :key="status" :value="status">{{ status }}</mp-radio>
   </mp-radio-group>
-  <mp-steps v-model:current="current" :status="changeableStatus" content-placement="bottom" changeable>
+  <mp-steps v-model="current" :status="changeableStatus" content-placement="bottom" changeable>
     <mp-step description="这是描述信息">步骤1</mp-step>
     <mp-step description="这是描述信息">步骤2</mp-step>
     <mp-step description="这是描述信息">步骤3</mp-step>

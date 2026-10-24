@@ -14,7 +14,7 @@ function next() {
   <mp-radio-group v-model="verticalStatus" class="status-switch">
     <mp-radio v-for="status in statuses" :key="status" :value="status">{{ status }}</mp-radio>
   </mp-radio-group>
-  <mp-steps orientation="vertical" :current="current" :status="verticalStatus">
+  <mp-steps orientation="vertical" :model-value="current" :status="verticalStatus">
     <mp-step>步骤1</mp-step>
     <mp-step>步骤2</mp-step>
     <mp-step>步骤3</mp-step>

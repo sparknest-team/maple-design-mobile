@@ -150,7 +150,7 @@ import type {
   TextareaVariant,
   WordLength,
   WordSlice,
-} from '@maplejs/maple-ui'
+} from '@maple-design/ui'
 ```
 
 ### 样式变量

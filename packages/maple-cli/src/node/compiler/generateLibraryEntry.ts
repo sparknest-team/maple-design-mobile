@@ -1,7 +1,7 @@
 import { existsSync } from 'node:fs'
 import { readFile, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
-import { pascalCase } from '@maplejs/maple-shared'
+import { pascalCase } from '@maple-design/shared'
 import ts from 'typescript'
 import { SRC_DIR } from '../shared/constant.js'
 import { getPublicDirs, getVersion } from '../shared/fsUtils.js'

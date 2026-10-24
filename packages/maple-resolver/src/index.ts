@@ -1,5 +1,5 @@
-import { iconNames } from '@maplejs/icons-vue'
-import { kebabCase } from '@maplejs/maple-shared'
+import { iconNames } from '@maple-design/icons-vue'
+import { kebabCase } from '@maple-design/shared'
 
 export interface MapleResolverOptions {
   /** Resolve programmatic APIs for unplugin-auto-import. @default true */
@@ -219,12 +219,12 @@ function getStyleSideEffects(name: string, importStyle = true) {
     return undefined
   }
   const dir = styleDirAliases[name] ?? kebabCase(name)
-  return [`@maplejs/maple-ui/${dir}/style`]
+  return [`@maple-design/ui/${dir}/style`]
 }
 
 export function resolveMapleComponent(name: string, options: MapleResolverOptions = {}, programmatic = false) {
   return {
-    from: '@maplejs/maple-ui',
+    from: '@maple-design/ui',
     name: programmatic ? name : `_${name}Component`,
     sideEffects: getStyleSideEffects(name, options.importStyle),
   }
@@ -235,12 +235,13 @@ function resolveMapleIcon(name: string) {
   const iconPath = kebabCase(iconName)
   if (!mapleIcons.has(iconPath)) {
     throw new Error(
-      `[MapleResolver] Unknown icon component <m-icon-${iconPath}>. ` + `Choose a name exported by @maplejs/icons-vue.`,
+      `[MapleResolver] Unknown icon component <m-icon-${iconPath}>. ` +
+        `Choose a name exported by @maple-design/icons-vue.`,
     )
   }
 
   return {
-    from: `@maplejs/icons-vue/icon-${iconPath}`,
+    from: `@maple-design/icons-vue/icon-${iconPath}`,
     name: `Icon${iconName}`,
   }
 }
@@ -301,7 +302,7 @@ export function MapleStyleImports(options: Pick<MapleResolverOptions, 'importSty
         options.importStyle === false ||
         !/\.(?:[cm]?[jt]sx?|vue|md)(?:\?|$)/.test(id) ||
         /[?&](?:type=style|raw(?:&|$)|url(?:&|$))/.test(id) ||
-        !code.includes('@maplejs/maple-ui')
+        !code.includes('@maple-design/ui')
       ) {
         return
       }
@@ -320,7 +321,7 @@ export function MapleStyleImports(options: Pick<MapleResolverOptions, 'importSty
       )
       const styles = new Set<string>()
       for (const node of ast.body) {
-        if (node.type !== 'ImportDeclaration' || node.source?.value !== '@maplejs/maple-ui') {
+        if (node.type !== 'ImportDeclaration' || node.source?.value !== '@maple-design/ui') {
           continue
         }
         for (const specifier of node.specifiers ?? []) {

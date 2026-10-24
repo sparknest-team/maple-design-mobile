@@ -49,7 +49,7 @@
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
-import { IconMenuDown } from '@maplejs/icons-vue'
+import { IconMenuDown } from '@maple-design/icons-vue'
 import Button, { ButtonGroup, type ButtonHandler } from '../button'
 import Menu, { type MenuInstance } from '../menu'
 import { createNamespace } from '../utils/components'

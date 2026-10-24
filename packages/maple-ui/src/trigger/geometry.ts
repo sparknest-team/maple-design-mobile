@@ -30,20 +30,11 @@ export function getPositioningSpace(popup: HTMLElement): PositioningSpace {
   }
 }
 
-export function getRelativeRect(
-  rect: Pick<DOMRect, 'top' | 'bottom' | 'left' | 'right' | 'width' | 'height'>,
-  space: PositioningSpace,
-) {
+export function getRelativeRect(rect: Pick<DOMRect, 'top' | 'left' | 'width' | 'height'>, space: PositioningSpace) {
   const { x, y, scaleX, scaleY } = space
   return {
-    top: rect.top / scaleY,
-    bottom: rect.bottom / scaleY,
-    left: rect.left / scaleX,
-    right: rect.right / scaleX,
     scrollTop: (rect.top - y) / scaleY,
-    scrollBottom: (rect.bottom - y) / scaleY,
     scrollLeft: (rect.left - x) / scaleX,
-    scrollRight: (rect.right - x) / scaleX,
     width: rect.width / scaleX,
     height: rect.height / scaleY,
   }

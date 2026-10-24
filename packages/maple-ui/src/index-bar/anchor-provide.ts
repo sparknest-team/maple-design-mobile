@@ -1,6 +1,6 @@
 import type { ComputedRef } from 'vue'
-import { assert } from '@maplejs/maple-shared'
-import { useParent } from '@maplejs/maple-use'
+import { assert } from '@maple-design/shared'
+import { useParent } from '@maple-design/use'
 import { INDEX_BAR_BIND_INDEX_ANCHOR_KEY, type IndexBarProvider } from './provide'
 
 export interface IndexAnchorProvider {

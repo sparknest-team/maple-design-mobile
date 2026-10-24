@@ -27,7 +27,7 @@ const normalize = (text) =>
     .replaceAll('../_utils/global-config', '../utils/components')
     .replaceAll('../_utils/maple/elements', '../utils/elements')
     .replaceAll('../_utils/popup-container', '../utils/popup-container')
-    .replaceAll('@cedarjs/icons-vue', '@maplejs/icons-vue')
+    .replaceAll('@cedar-design/icons-vue', '@maple-design/icons-vue')
     .replaceAll('--c-', '--mp-')
     .replaceAll('.c-', '.mp-')
 const canonical = (source, file) =>

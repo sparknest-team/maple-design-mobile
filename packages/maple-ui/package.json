@@ -1,6 +1,6 @@
 {
-  "name": "@maplejs/maple-ui",
-  "version": "1.0.3",
+  "name": "@maple-design/ui",
+  "version": "1.0.0",
   "description": "A Vue3 component library based on semantic tokens and brand themes, supporting mobile and desktop.",
   "keywords": [
     "Vue3",
@@ -76,17 +76,17 @@
     "test:watch": "maple-cli test -w -cov"
   },
   "dependencies": {
-    "@maplejs/maple-shared": "workspace:*",
-    "@maplejs/maple-use": "workspace:*",
-    "@maplejs/icons-vue": "workspace:*",
+    "@maple-design/shared": "workspace:*",
+    "@maple-design/use": "workspace:*",
+    "@maple-design/icons-vue": "workspace:*",
     "dayjs": "^1.11.13",
     "decimal.js": "^10.6.0"
   },
   "devDependencies": {
     "@types/node": "catalog:",
-    "@maplejs/maple-cli": "workspace:*",
-    "@maplejs/maple-touch-emulator": "workspace:*",
-    "@maplejs/maple-ui": "workspace:*",
+    "@maple-design/cli": "workspace:*",
+    "@maple-design/touch-emulator": "workspace:*",
+    "@maple-design/ui": "workspace:*",
     "@vitest/coverage-istanbul": "catalog:",
     "@vue/runtime-core": "catalog:",
     "@vue/test-utils": "catalog:",
@@ -103,5 +103,9 @@
   "peerDependencies": {
     "vue": "^3.2.0"
   },
-  "web-types": "highlight/web-types.en-US.json"
+  "web-types": "highlight/web-types.en-US.json",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
 }

@@ -46,10 +46,10 @@ test('image preview onChange callback', async () => {
   await delay(200)
 
   await trigger(document.querySelector('[aria-label="Next image"]'), 'click')
-  expect(onChange).toHaveBeenLastCalledWith(1, 0)
+  expect(onChange).toHaveBeenLastCalledWith(2, 1)
 
   await trigger(document.querySelector('[aria-label="Previous image"]'), 'click')
-  expect(onChange).toHaveBeenLastCalledWith(0, 1)
+  expect(onChange).toHaveBeenLastCalledWith(1, 2)
 
   imagePreview.close()
   await delay(16)
@@ -61,7 +61,10 @@ test('image preview closable', async () => {
     closable: true,
   })
   await delay(200)
-  await trigger(document.querySelector('[data-image-preview-close]'), 'click')
+  const closeButton = document.querySelector('[data-image-preview-close]')
+  expect(closeButton.tagName).toBe('BUTTON')
+  expect(closeButton.getAttribute('aria-label')).toBe('Close image preview')
+  await trigger(closeButton, 'click')
   await delay(300)
   expect(document.querySelector('.mp-image-preview')).toBeFalsy()
 })
@@ -124,7 +127,7 @@ test('image preview onLongPress callback', async () => {
 test('image preview current', async () => {
   imagePreview({
     images: ['https://maplejs.org/cat.jpg', 'https://maplejs.org/cat2.jpg'],
-    current: 1,
+    modelValue: 2,
   })
 
   await delay(200)

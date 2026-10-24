@@ -8,7 +8,7 @@
         {{ hideIcon ? 'Show icon' : 'Hide icon' }}
       </mp-button>
     </mp-space>
-    <mp-collapse :default-active-names="['1']" :expand-icon-position="position" :show-expand-icon="!hideIcon">
+    <mp-collapse :default-value="['1']" :expand-icon-position="position" :show-expand-icon="!hideIcon">
       <mp-collapse-item title="Beijing Toutiao Technology Co., Ltd." name="1">
         <template #extra>
           <mp-tag size="sm">city</mp-tag>

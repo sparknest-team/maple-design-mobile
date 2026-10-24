@@ -7,6 +7,7 @@
     :class="
       classes(
         n(),
+        n('--size-' + size),
         n('--status-' + status),
         n('--underline-' + underline),
         [disabled, n('--disabled')],

@@ -1,7 +1,7 @@
 import { dirname, extname, relative, resolve } from 'path'
 import babel from '@babel/core'
 import type { BabelFileResult } from '@babel/core'
-import { pascalCase } from '@maplejs/maple-shared'
+import { pascalCase } from '@maple-design/shared'
 import jsx from '@vue/babel-plugin-jsx'
 import esbuild from 'esbuild'
 import fse from 'fs-extra'
@@ -44,7 +44,7 @@ export const resolveAlias = (dependence: string, file: string, alias: MapleConfi
 
   if (!matchedAliasKey) {
     // @/ -> yes
-    // @maplejs/maple-ui -> no
+    // @maple-design/ui -> no
     matchedAliasKey = Object.keys(alias).find((key) => dependence.startsWith(`${key}/`))
   }
 

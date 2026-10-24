@@ -113,7 +113,7 @@ export default defineComponent({
   },
   inheritAttrs: false,
   props: imageProps,
-  emits: ['update:previewOpen', 'preview-open-change', 'click', 'load', 'error'],
+  emits: ['update:open', 'open-change', 'click', 'load', 'error'],
   setup(props, { attrs, emit, slots }) {
     const loadStatus = ref<'loading' | 'loaded' | 'error'>('loading')
     const isLoading = computed(() => loadStatus.value === 'loading')
@@ -122,19 +122,19 @@ export default defineComponent({
     const usingFallback = ref(false)
     const displaySrc = computed(() => (usingFallback.value ? props.fallbackSrc : props.src))
     const groupContext = inject(PreviewGroupInjectionKey, undefined)
-    const localPreviewOpen = ref(props.defaultPreviewOpen)
+    const localPreviewOpen = ref(props.defaultOpen)
     const currentImageId = imageId++
 
     const previewOpenState = computed({
       get() {
-        return props.previewOpen ?? localPreviewOpen.value
+        return props.open ?? localPreviewOpen.value
       },
       set(value: boolean) {
-        if (props.previewOpen === undefined) {
+        if (props.open === undefined) {
           localPreviewOpen.value = value
         }
-        emit('update:previewOpen', value)
-        emit('preview-open-change', value)
+        emit('update:open', value)
+        emit('open-change', value)
       },
     })
 

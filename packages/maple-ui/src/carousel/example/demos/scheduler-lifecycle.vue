@@ -3,7 +3,7 @@ import { ref } from 'vue'
 
 const active = ref(true)
 const mounted = ref(true)
-const current = ref(0)
+const current = ref(1)
 const playing = ref(false)
 const moves = ref(0)
 </script>
@@ -19,7 +19,7 @@ const moves = ref(0)
     <KeepAlive v-if="mounted">
       <mp-carousel
         v-if="active"
-        v-model:current="current"
+        v-model="current"
         :auto-play="playing ? { interval: 1000 } : false"
         :move-speed="600"
         :height="180"

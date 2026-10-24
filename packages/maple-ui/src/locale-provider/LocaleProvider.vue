@@ -1,6 +1,6 @@
 <script lang="ts">
 import { computed, defineComponent, h } from 'vue'
-import { call, hasOwn } from '@maplejs/maple-shared'
+import { call, hasOwn } from '@maple-design/shared'
 import { type Message } from '../locale'
 import { createNamespace } from '../utils/components'
 import { props } from './props'

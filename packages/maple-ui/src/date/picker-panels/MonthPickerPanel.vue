@@ -38,7 +38,7 @@
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue'
 import type { ComputedRef, PropType, Ref, RendererNode } from 'vue'
-import { toNumber } from '@maplejs/maple-shared'
+import { toNumber } from '@maple-design/shared'
 import dayjs from 'dayjs/esm/index.js'
 import isSameOrAfter from 'dayjs/esm/plugin/isSameOrAfter/index.js'
 import isSameOrBefore from 'dayjs/esm/plugin/isSameOrBefore/index.js'

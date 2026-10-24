@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { SearchResult } from '@maplejs/maple-ui'
+import type { SearchResult } from '@maple-design/ui'
 
 const field = ref('name')
 const model = ref<Record<string, unknown>>({ name: 'Device A', tenant: 'demo' })

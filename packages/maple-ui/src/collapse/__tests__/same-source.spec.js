@@ -40,7 +40,7 @@ describe('Collapse same source', () => {
     const html = await renderToString(
       createSSRApp({
         render: () =>
-          h(Collapse, { defaultActiveNames: ['1'] }, () => [
+          h(Collapse, { defaultValue: ['1'] }, () => [
             h(CollapseItem, { name: '1', title: 'One' }, () => 'A'),
             h(CollapseItem, { name: '2', title: 'Two' }, () => 'B'),
           ]),
@@ -92,8 +92,8 @@ describe('Collapse same source', () => {
         Collapse,
         {
           accordion: true,
-          activeNames: activeNames.value,
-          'onUpdate:activeNames': (value) => {
+          modelValue: activeNames.value,
+          'onUpdate:modelValue': (value) => {
             activeNames.value = value
           },
           onChange,
@@ -117,7 +117,7 @@ describe('Collapse same source', () => {
     const wrapper = mount(() =>
       h(
         Collapse,
-        { activeNames: activeNames.value, 'onUpdate:activeNames': (value) => (activeNames.value = value) },
+        { modelValue: activeNames.value, 'onUpdate:modelValue': (value) => (activeNames.value = value) },
         () => [
           h(CollapseItem, { name: '1', title: 'One', disabled: true }, () => 'A'),
           h(CollapseItem, { name: '2', title: 'Two' }, () => 'B'),
@@ -143,7 +143,7 @@ describe('Collapse same source', () => {
   })
 
   test('destroyOnHide removes content after collapse', async () => {
-    const wrapper = mountCollapse({ defaultActiveNames: ['1'], destroyOnHide: true }, [
+    const wrapper = mountCollapse({ defaultValue: ['1'], destroyOnHide: true }, [
       { name: '1', title: 'One', content: 'Secret' },
     ])
     expect(wrapper.text()).toContain('Secret')
@@ -163,8 +163,8 @@ describe('Collapse same source', () => {
             Collapse,
             {
               ref: collapseRef,
-              activeNames: activeNames.value,
-              'onUpdate:activeNames': (value) => {
+              modelValue: activeNames.value,
+              'onUpdate:modelValue': (value) => {
                 activeNames.value = value
               },
             },
@@ -201,7 +201,7 @@ describe('Collapse same source', () => {
   test('parent expand-icon slot reaches items', () => {
     const wrapper = mount(Collapse, {
       slots: {
-        'expand-icon': ({ active }) => (active ? 'open' : 'closed'),
+        'expand-icon': ({ expanded }) => (expanded ? 'open' : 'closed'),
         default: () => h(CollapseItem, { name: '1', title: 'One' }, () => 'A'),
       },
     })
@@ -211,7 +211,7 @@ describe('Collapse same source', () => {
 })
 
 test('normalizes expanded panels immediately when accordion changes', async () => {
-  const wrapper = mountCollapse({ defaultActiveNames: ['1', 2] }, [
+  const wrapper = mountCollapse({ defaultValue: ['1', 2] }, [
     { name: '1', title: 'One', content: 'A' },
     { name: 2, title: 'Two', content: 'B' },
   ])
@@ -223,24 +223,24 @@ test('normalizes expanded panels immediately when accordion changes', async () =
   await wrapper.findAll('[role="button"]')[1].trigger('click')
   expect(expanded()).toHaveLength(1)
   expect(expanded()[0].text()).toBe('Two')
-  expect(wrapper.emitted('update:activeNames').at(-1)[0]).toEqual([2])
+  expect(wrapper.emitted('update:modelValue').at(-1)[0]).toEqual([2])
   wrapper.unmount()
 })
 
 test('limits controlled initial active names in accordion mode without rewriting the input', () => {
   const activeNames = ['1', 2]
-  const wrapper = mountCollapse({ activeNames, accordion: true }, [
+  const wrapper = mountCollapse({ modelValue: activeNames, accordion: true }, [
     { name: '1', title: 'One', content: 'A' },
     { name: 2, title: 'Two', content: 'B' },
   ])
   expect(wrapper.findAll('[aria-expanded="true"]')).toHaveLength(1)
   expect(activeNames).toEqual(['1', 2])
-  expect(wrapper.emitted('update:activeNames')).toBeUndefined()
+  expect(wrapper.emitted('update:modelValue')).toBeUndefined()
   wrapper.unmount()
 })
 
 test('updates hidden content immediately when destroyOnHide changes', async () => {
-  const wrapper = mountCollapse({ defaultActiveNames: ['1'] }, [
+  const wrapper = mountCollapse({ defaultValue: ['1'] }, [
     { name: '1', title: 'One', content: 'Visible' },
     { name: 2, title: 'Two', content: 'Hidden' },
   ])

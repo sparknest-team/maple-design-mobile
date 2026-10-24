@@ -8,7 +8,7 @@
         [fixed, n('--fixed')],
         [border, n('--border')],
         [safeArea, n('--safe-area')],
-        [variant, n('--variant')],
+        [variant === 'pill', n('--variant')],
       )
     "
     :style="{ zIndex: zIndex ?? 'var(--mp-tab-bar-z-index)' }"
@@ -32,8 +32,8 @@
 
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onUpdated, ref, useSlots, watch } from 'vue'
-import { call, getRect, isNumber, normalizeToArray } from '@maplejs/maple-shared'
-import { onSmartMounted, onWindowResize } from '@maplejs/maple-use'
+import { call, getRect, isNumber, normalizeToArray } from '@maple-design/shared'
+import { onSmartMounted, onWindowResize } from '@maple-design/use'
 import MpButton from '../button'
 import { createNamespace } from '../utils/components'
 import { toSizeUnit } from '../utils/elements'
@@ -54,20 +54,20 @@ defineOptions({ name: createNamespace('tab-bar').name })
 const props = defineProps(tabBarProps)
 const emit = defineEmits<{
   change: [active: number | string]
-  'update:active': [active: number | string]
+  'update:modelValue': [active: number | string]
   'fab-click': []
 }>()
 const slots = useSlots()
 
 const tabBarDom = ref<HTMLElement | null>(null)
-const internalActive = ref(props.defaultActive)
-const active = computed(() => (props.active === undefined ? internalActive.value : props.active))
+const internalActive = ref(props.defaultValue)
+const active = computed(() => (props.modelValue === undefined ? internalActive.value : props.modelValue))
 let requestId = 0
 const cancelPending = () => {
   requestId++
 }
 watch(
-  () => props.active,
+  () => props.modelValue,
   (value, previous) => {
     cancelPending()
     // If control is released, continue from the last externally selected value.
@@ -80,7 +80,7 @@ watch(
 onBeforeUnmount(cancelPending)
 const activeColor = computed<string | undefined>(() => props.activeColor)
 const inactiveColor = computed<string | undefined>(() => props.inactiveColor)
-const variant = computed<boolean | undefined>(() => props.variant)
+const variant = computed(() => props.variant)
 const placeholderHeight = ref<string | undefined>()
 const fabProps = ref({})
 const { length, tabBarItems, bindTabBarItem } = useTabBarItems()
@@ -156,10 +156,10 @@ function matchBoundary() {
   }
   const next = Math.max(0, Math.min(active.value, length.value - 1))
   if (next !== active.value) {
-    if (props.active === undefined) {
+    if (props.modelValue === undefined) {
       internalActive.value = next
     }
-    emit('update:active', next)
+    emit('update:modelValue', next)
   }
 }
 
@@ -188,10 +188,10 @@ async function onToggle(changedValue: number | string) {
   if (!exists) {
     return
   }
-  if (props.active === undefined) {
+  if (props.modelValue === undefined) {
     internalActive.value = changedValue
   }
-  emit('update:active', changedValue)
+  emit('update:modelValue', changedValue)
   emit('change', changedValue)
 }
 

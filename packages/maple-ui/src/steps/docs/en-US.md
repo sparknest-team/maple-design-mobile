@@ -49,14 +49,16 @@ Use this example for the current state of a multi-step flow. Adjust status, size
 
 ## API
 
+Use ordinary `v-model` for the primary value: `modelValue` is the current step number, starting at 1. `defaultValue` initializes uncontrolled state only at creation; later changes do not reset it. Initialization emits no `update:modelValue`. A supplied `modelValue` takes precedence and remains parent-controlled.
+
 ### Props
 
 #### Steps Props
 
 | Prop                | Description                                | Type                                            | Default      |
 | ------------------- | ------------------------------------------ | ----------------------------------------------- | ------------ |
-| `current`           | Current step (controlled, 1-based)         | _number_                                        | `-`          |
-| `default-current`   | Default current step (uncontrolled)        | _number_                                        | `1`          |
+| `model-value`           | Current step (controlled, 1-based)         | _number_                                        | `-`          |
+| `default-value`   | Default current step (uncontrolled)        | _number_                                        | `1`          |
 | `type`              | Display type                               | _'default' \| 'arrow' \| 'dot' \| 'navigation'_ | `default`    |
 | `orientation`       | Layout orientation                         | _'horizontal' \| 'vertical'_                    | `horizontal` |
 | `content-placement` | Content position relative to the indicator | _'right' \| 'bottom'_                           | `right`      |
@@ -81,7 +83,7 @@ Use this example for the current state of a multi-step flow. Adjust status, size
 | Event            | Description                                         | Arguments                                      |
 | ---------------- | --------------------------------------------------- | ---------------------------------------------- |
 | `change`         | Triggered when step changes (`changeable` required) | `current: number, previous: number, ev: Event` |
-| `update:current` | `v-model:current` sync                              | `step: number`                                 |
+| `update:modelValue` | `v-model` sync                              | `step: number`                                 |
 
 ### Slots
 
@@ -224,3 +226,5 @@ All variables can be overridden through StyleProvider or CSS.
 | `--mp-steps-navigation-description-padding-right`          | `20px`                                                                                                                                               |
 | `--mp-steps-navigation-ink-height`                         | `2px`                                                                                                                                                |
 | `--mp-steps-navigation-arrow-right`                        | `30px`                                                                                                                                               |
+
+`active` is true only for the step whose 1-based number matches modelValue. It is independent of status (wait/process/finish/error); focus and hover do not change it.

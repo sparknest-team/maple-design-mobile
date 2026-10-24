@@ -23,6 +23,10 @@ Provides pull-to-refresh at the top of a list.
 
 ## API
 
+### Model and default value
+
+Use ordinary `v-model`. `modelValue` is the refresh loading state; the parent sets its bound value to false when asynchronous work completes. `defaultValue` initializes uncontrolled state only at creation; changing it later does not reset the current state. A supplied model takes precedence. Initialization emits no `update:modelValue`.
+
 ### Props
 
 | Prop | Description | Type | Default |

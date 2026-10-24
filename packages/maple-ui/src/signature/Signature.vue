@@ -6,8 +6,8 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue'
-import { call, getRect, getStyle, toNumber } from '@maplejs/maple-shared'
-import { onWindowResize, useEventListener } from '@maplejs/maple-use'
+import { call, getRect, getStyle, toNumber } from '@maple-design/shared'
+import { onWindowResize, useEventListener } from '@maple-design/use'
 import { createNamespace } from '../utils/components'
 import { props } from './props'
 

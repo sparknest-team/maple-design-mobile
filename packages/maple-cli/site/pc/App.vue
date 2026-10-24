@@ -1,7 +1,7 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue'
 import config from '@config'
-import { getMobileIndex, getPCLocationInfo } from '@maplejs/maple-cli/client'
+import { getMobileIndex, getPCLocationInfo } from '@maple-design/cli/client'
 import { isPhone } from '../utils'
 
 export default defineComponent({

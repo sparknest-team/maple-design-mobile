@@ -7,7 +7,7 @@ Full scales: [Palette](#/en-US/palette).
 
 ```js
 // playground-ignore
-import '@maplejs/maple-ui/es/utilities/utilities.css'
+import '@maple-design/ui/es/utilities/utilities.css'
 ```
 
 ### Class rules

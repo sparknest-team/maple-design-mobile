@@ -26,8 +26,8 @@ import {
   ref,
   watch,
 } from 'vue'
-import { call, getRect, preventDefault, toNumber } from '@maplejs/maple-shared'
-import { useTouch } from '@maplejs/maple-use'
+import { call, getRect, preventDefault, toNumber } from '@maple-design/shared'
+import { useTouch } from '@maple-design/use'
 import { createNamespace } from '../utils/components'
 import { props, type SwipeCellPosition, type SwipeCellSide } from './props'
 

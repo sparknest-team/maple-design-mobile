@@ -65,9 +65,9 @@ function previewImage(options: UserImagePreviewOptions): ImagePreviewHandle | un
           reactiveOptions.open = open
           normalized['onUpdate:open']?.(open)
         },
-        'onUpdate:current': (current: number) => {
-          reactiveOptions.current = current
-          normalized['onUpdate:current']?.(current)
+        'onUpdate:modelValue': (current: number) => {
+          reactiveOptions.modelValue = current
+          normalized['onUpdate:modelValue']?.(current)
         },
         onOpenChange: (open: boolean) => normalized.onOpenChange?.(open),
         onClosed: () => {
@@ -86,12 +86,12 @@ function previewImage(options: UserImagePreviewOptions): ImagePreviewHandle | un
 
   const call = (method: string, ...args: unknown[]) => componentRef.value?.[method]?.(...args)
   const handle: ImagePreviewHandle = {
-    open: (index) => call('open', index),
+    open: (imageNumber) => call('open', imageNumber),
     close: () => call('close'),
     reset: () => call('reset'),
     prev: () => call('prev'),
     next: () => call('next'),
-    to: (index) => call('to', index),
+    to: (imageNumber) => call('to', imageNumber),
     zoomTo: (scale) => call('zoomTo', scale),
     zoomIn: () => call('zoomIn'),
     zoomOut: () => call('zoomOut'),
@@ -123,7 +123,7 @@ previewImage.resetDefaultOptions = () => {
   defaultOptions = {}
 }
 
-export { previewImage, ImagePreview, ImagePreviewGroup }
+export { previewImage }
 export { previewImage as imagePreview }
 export type { ImagePreviewOptions, UserImagePreviewOptions }
 export default previewImage

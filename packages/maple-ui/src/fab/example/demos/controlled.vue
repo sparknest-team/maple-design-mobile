@@ -1,18 +1,18 @@
 <script setup>
 import { ref } from 'vue'
 
-const active = ref(false)
+const open = ref(false)
 </script>
 
 <template>
-  <mp-button status="primary" @click.stop="active = !active">切换</mp-button>
-  <span class="fab-demo-label">active: {{ active }}</span>
+  <mp-button status="primary" @click.stop="open = !open">切换</mp-button>
+  <span class="fab-demo-label">open: {{ open }}</span>
   <div class="fab-demo-stage">
-    <mp-fab v-model:active="active" :fixed="false" :popup-container="false" status="primary">
-      <mp-button status="info" variant="tonal" :elevation="false" @click="active = false"
+    <mp-fab v-model:open="open" :fixed="false" :popup-container="false" status="primary">
+      <mp-button status="info" variant="tonal" :elevation="false" @click="open = false"
         ><template #icon><m-icon-user-circle-fill /></template
       ></mp-button>
-      <mp-button status="success" variant="tonal" :elevation="false" @click="active = false"
+      <mp-button status="success" variant="tonal" :elevation="false" @click="open = false"
         ><template #icon><m-icon-checkbox-marked-circle-fill /></template
       ></mp-button>
     </mp-fab>

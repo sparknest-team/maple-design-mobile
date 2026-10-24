@@ -6,8 +6,8 @@
 
 <script lang="ts" setup>
 import { computed, onActivated, onDeactivated, onMounted, onUnmounted, watch } from 'vue'
-import { floor, toNumber } from '@maplejs/maple-shared'
-import { useMotion } from '@maplejs/maple-use'
+import { floor, toNumber } from '@maple-design/shared'
+import { useMotion } from '@maple-design/use'
 import { createNamespace } from '../utils/components'
 import { countToProps } from './props'
 

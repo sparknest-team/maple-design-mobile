@@ -1,6 +1,6 @@
 <script setup>
 import { computed, reactive, ref, toRefs } from 'vue'
-import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
+import { AppType, onThemeChange, watchLang } from '@maple-design/cli/client'
 import DemoApiReview from './demos/api-review.vue'
 import EventDemo from './demos/event.vue'
 import MotionTokenDemo from './demos/motion-token.vue'

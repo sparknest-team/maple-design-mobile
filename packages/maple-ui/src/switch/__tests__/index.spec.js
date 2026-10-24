@@ -30,7 +30,7 @@ test('validators reject removed presets', () => {
   expect(switchProps.size.validator('xl')).toBe(false)
 })
 test('independent uncontrolled instances and custom values', async () => {
-  const first = mount(Switch, { props: { defaultChecked: true, checkedValue: 'yes', uncheckedValue: 'no' } })
+  const first = mount(Switch, { props: { defaultValue: 'yes', checkedValue: 'yes', uncheckedValue: 'no' } })
   const second = mount(Switch)
   await first.trigger('click')
   expect(first.emitted('update:modelValue')).toEqual([['no']])

@@ -1,6 +1,6 @@
 <script setup>
 import { reactive } from 'vue'
-import { Message } from '@maplejs/maple-ui'
+import { Message } from '@maple-design/ui'
 
 const scores = reactive({
   score: 3,

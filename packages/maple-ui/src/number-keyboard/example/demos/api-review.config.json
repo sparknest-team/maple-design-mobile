@@ -8,6 +8,13 @@
       "kind": "string"
     },
     {
+      "name": "default-value",
+      "description": "非受控初始值，仅创建时读取",
+      "type": "string",
+      "defaultValue": "undefined",
+      "kind": "string"
+    },
+    {
       "name": "open",
       "description": "是否显示键盘",
       "type": "boolean",
@@ -27,10 +34,7 @@
       "type": "'default' | 'custom'",
       "defaultValue": "'default'",
       "kind": "enum",
-      "options": [
-        "default",
-        "custom"
-      ],
+      "options": ["default", "custom"],
       "initial": "default"
     },
     {
@@ -151,9 +155,7 @@
     {
       "name": "extra-key",
       "kind": "prop",
-      "demos": [
-        "basic.vue"
-      ]
+      "demos": ["basic.vue"]
     },
     {
       "name": "overlay-style",

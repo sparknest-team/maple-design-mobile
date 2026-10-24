@@ -367,7 +367,7 @@ function splitComponent(name) {
     )
     .join('\n\n')
   const aggregate =
-    `<script setup>\nimport { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'\n${imports}\nimport { t, use } from './locale'\n\nwatchLang(use)\n` +
+    `<script setup>\nimport { AppType, onThemeChange, watchLang } from '@maple-design/cli/client'\n${imports}\nimport { t, use } from './locale'\n\nwatchLang(use)\n` +
     `onThemeChange()\n</script>\n\n<template>\n${sections}\n</template>\n`
 
   if (write) {

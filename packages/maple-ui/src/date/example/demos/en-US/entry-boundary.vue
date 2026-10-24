@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { DateSelection } from '@maplejs/maple-ui'
+import type { DateSelection } from '@maple-design/ui'
 
 const limited = ref(true)
 const fieldValue = ref<DateSelection>('2025-02-12')

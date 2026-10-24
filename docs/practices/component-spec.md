@@ -149,7 +149,7 @@ export type SpaceProps = ExtractPropTypes<typeof spaceProps>
 
 ## 5. 父子组件通信
 
-使用 `@maplejs/maple-use` 的 `useChildren` / `useParent`，文件 `provide.ts` 内导出 `XXX_BIND_KEY` Symbol 与 `useXxxs()` / `useXxxGroup()` 封装。子组件读取 group 配置必须 `??` 兜底：`props.size ?? group.size.value`。
+使用 `@maple-design/use` 的 `useChildren` / `useParent`，文件 `provide.ts` 内导出 `XXX_BIND_KEY` Symbol 与 `useXxxs()` / `useXxxGroup()` 封装。子组件读取 group 配置必须 `??` 兜底：`props.size ?? group.size.value`。
 
 ---
 
@@ -321,7 +321,7 @@ npx vitest run --config /path/to/maple-cli/lib/node/config/vitest.config.js
 - ❌ 将 `click` / `change` / `open` / `update:*` 等普通事件声明为 `onXxx` prop
 - ❌ 同一事件同时通过 props 回调和 `emit` 分发
 - ❌ 残留 `console.log`
-- ❌ 示例里 `import { Button } from '@maplejs/maple-ui'` 或 `import Button from '../../button'` 再注册到模板（应用 resolver）
+- ❌ 示例里 `import { Button } from '@maple-design/ui'` 或 `import Button from '../../button'` 再注册到模板（应用 resolver）
 
 ---
 
@@ -376,11 +376,17 @@ PC 侧 OpenSpec change：`cedar-design-web/openspec/changes/align-alert-spec/`�
 Steps 按 Pagination 语义完成 PC ↔ Mobile API 对齐（进度序号，不是 Tabs 的 key 选中）。
 
 **核心约定**：
-- 进度 prop：`current` / `defaultCurrent`（**1-based**）；不用 `active`。
+- 进度 prop：`modelValue` / `defaultValue`（**1-based**）；不用 `active`。
 - 状态：`status: wait | process | finish | error`；子项可覆盖；推导规则 `step < current → finish`。
-- 点击：`changeable` 门控 + `change(step, ev)` 事件 / `v-model:current`。
+- 点击：`changeable` 门控 + `change(step, ev)` 事件 / 普通 `v-model`。
 - Step 内容：`title` / `description` / `disabled` + `#icon` / `#description`。
 - PC 独有：`type` / `labelPlacement` / `small` / `showLine` / `#node`（移动不实现）。
 - 移动移除：`activeColor` / 三态 icon props / `click-step`。
 
 PC 侧 OpenSpec change：`cedar-design-web/openspec/changes/align-steps-spec/`。
+
+### 主值与非受控初始值约定
+
+主值采用 modelValue/update:modelValue，非受控初始值采用 defaultValue。Tabs、Collapse、Pagination、Steps 支持普通 v-model；Collapse 仍为 name 数组，Pagination 与 Steps 仍从 1 开始。defaultValue 仅创建时读取，不监听后续更新，也不在初始化时回写父级。Pagination 的 pageSize、选择器的 inputValue/open 保留独立具名模型。选项对象默认使用 value/label（树形使用 children），不与组件主值混淆。
+
+主值命名审查范围见 design-ui/audits/primary-model-naming.md：Carousel/TabBar、可选 Tag、图片预览组采用 modelValue/defaultValue；Carousel 与图片预览组公开序号从 1 开始，FloatingPanel 停靠高度采用 modelValue/defaultValue 与普通 v-model；Image 内嵌预览统一 open/defaultOpen。声明式子项 name 不替代选项数据 value/label 或原生表单 name。

@@ -1,5 +1,5 @@
 import { computed, type ComputedRef } from 'vue'
-import { IconEmpty as DefaultEmptyIcon } from '@maplejs/icons-vue'
+import { IconEmpty as DefaultEmptyIcon } from '@maple-design/icons-vue'
 import { t } from '../locale'
 import { injectLocaleProvider } from '../locale-provider/provide'
 

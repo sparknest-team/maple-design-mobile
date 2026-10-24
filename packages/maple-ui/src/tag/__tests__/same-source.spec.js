@@ -25,10 +25,10 @@ describe('tag copied implementation contract', () => {
   })
 
   it('does not mutate controlled checked/show props and does not bubble close into check', async () => {
-    const w = mount(Component, { props: { show: true, checked: false, checkable: true, closable: true } })
+    const w = mount(Component, { props: { show: true, modelValue: false, checkable: true, closable: true } })
     const root = w.find('[role="checkbox"]')
     await root.trigger('keydown', { key: 'Enter' })
-    expect(w.emitted('update:checked')).toEqual([[true]])
+    expect(w.emitted('update:modelValue')).toEqual([[true]])
     expect(root.attributes('aria-checked')).toBe('false')
     await w.find('[role="button"]').trigger('click')
     expect(w.emitted('close')).toHaveLength(1)
@@ -39,8 +39,8 @@ describe('tag copied implementation contract', () => {
     w.unmount()
   })
   it('keeps loading and unchecked state independent', async () => {
-    const a = mount(Component, { props: { checkable: true, defaultChecked: false, loading: true } })
-    const b = mount(Component, { props: { checkable: true, defaultChecked: false } })
+    const a = mount(Component, { props: { checkable: true, defaultValue: false, loading: true } })
+    const b = mount(Component, { props: { checkable: true, defaultValue: false } })
     await a.find('[role="checkbox"]').trigger('click')
     await b.find('[role="checkbox"]').trigger('click')
     expect(a.emitted('check')).toBeUndefined()

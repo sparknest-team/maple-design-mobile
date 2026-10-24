@@ -1,7 +1,7 @@
 import type { ExtractPublicPropTypes, HTMLAttributes, PropType, StyleValue } from 'vue'
 import type { ComponentSize, Orientation } from '../utils/constants'
 
-export type TabsKey = string | number
+export type TabsName = string | number
 export type TabsVariant = 'line' | 'card' | 'outline' | 'plain' | 'capsule' | 'enclosed'
 export type TabsTrigger = 'click' | 'hover'
 export type TabsIndicatorPosition = 'normal' | 'reverse'
@@ -9,10 +9,10 @@ export type TabsScrollPosition = 'start' | 'end' | 'center' | 'auto' | number
 export type TabsActivationMode = 'automatic' | 'manual'
 
 export const tabsProps = {
-  /** 当前选中 key，受控状态。 */
-  active: { type: [String, Number] as PropType<TabsKey>, default: undefined },
-  /** 非受控初始 key；省略时选择首个可用标签。 */
-  defaultActive: { type: [String, Number] as PropType<TabsKey>, default: undefined },
+  /** 当前选中 name，受控状态。 */
+  modelValue: { type: [String, Number] as PropType<TabsName>, default: undefined },
+  /** 非受控初始 name，仅创建时读取；省略时选择首个可用标签。 */
+  defaultValue: { type: [String, Number] as PropType<TabsName>, default: undefined },
   /** 视觉变体。 */
   variant: { type: String as PropType<TabsVariant>, default: 'line' },
   /** 组件尺寸，省略时继承全局设置。 */
@@ -61,6 +61,8 @@ export const tabsProps = {
   swipeable: Boolean,
 }
 export const tabNavProps = {
+  /** 业务唯一标识，与 modelValue 对应；不使用 Vue key 作为选中值。 */
+  name: { type: [String, Number] as PropType<TabsName>, required: true as const },
   /** 标签标题，title 插槽优先。 */
   title: String,
   /** 禁止选择与关闭。 */
@@ -71,12 +73,16 @@ export const tabNavProps = {
   itemVertical: Boolean,
 }
 export const tabItemProps = {
+  /** 业务唯一标识，与 modelValue 对应；不使用 Vue key 作为选中值。 */
+  name: { type: [String, Number] as PropType<TabsName>, required: true as const },
   /** 覆盖父级首次挂载策略。 */
   lazyLoad: { type: Boolean, default: undefined },
   /** 覆盖父级隐藏销毁策略。 */
   destroyOnHide: { type: Boolean, default: undefined },
 }
 export const tabPaneProps = {
+  /** 业务唯一标识，与 modelValue 对应；不使用 Vue key 作为选中值。 */
+  name: { type: [String, Number] as PropType<TabsName>, required: true as const },
   /** 导航标签标题。 */
   title: String,
   /** 禁止选择与关闭。 */

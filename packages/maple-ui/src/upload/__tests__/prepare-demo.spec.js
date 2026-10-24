@@ -8,7 +8,7 @@ import Space from '../../space'
 import EnglishDemo from '../example/demos/en-US/prepare-request.vue'
 import Demo from '../example/demos/prepare-request.vue'
 
-vi.mock('@maplejs/maple-ui', () => import('..'))
+vi.mock('@maple-design/ui', () => import('..'))
 
 test.each([
   [Demo, '加入示例图片', '准备并提交', '取消准备', '完成准备', '重置队列', '待返回准备任务', '请求次数'],

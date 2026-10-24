@@ -19,13 +19,13 @@ describe('steps copied implementation contract', () => {
       h(Step, { title: 'two', disabled: true }),
       h(Step, { title: 'three' }),
     ]
-    const a = mount(Component, { props: { current: 1, changeable: true }, slots: { default: make } })
-    const b = mount(Component, { props: { defaultCurrent: 1 }, slots: { default: make } })
+    const a = mount(Component, { props: { modelValue: 1, changeable: true }, slots: { default: make } })
+    const b = mount(Component, { props: { defaultValue: 1 }, slots: { default: make } })
     const items = a.findAll('[role="listitem"]')
     await items[1].trigger('click')
     expect(a.emitted('change')).toBeUndefined()
     await items[2].trigger('click')
-    expect(a.emitted('update:current')).toEqual([[3]])
+    expect(a.emitted('update:modelValue')).toEqual([[3]])
     expect(a.emitted('change')[0].slice(0, 2)).toEqual([3, 1])
     expect(items[0].classes()).toContain(n() + '-item-active')
     expect(b.emitted('change')).toBeUndefined()

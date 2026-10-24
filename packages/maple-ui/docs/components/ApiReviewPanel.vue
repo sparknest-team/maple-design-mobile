@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { markRaw } from 'vue'
-import { ReviewPanel, type ReviewField } from '@ui-foundation/ui-doc-preview'
+import { ReviewPanel, type ReviewField } from '@sparknest/ui-doc-preview'
 import Button from '../../src/button'
 import '../../src/button/style'
 import Checkbox from '../../src/checkbox'

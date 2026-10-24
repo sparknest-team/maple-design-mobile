@@ -67,7 +67,7 @@ Single-line or multi-line truncation with optional expansion and Tooltip.
 ### Types
 
 ```ts
-import type { EllipsisProps, EllipsisInstance, EllipsisExpandTrigger } from '@maplejs/maple-ui'
+import type { EllipsisProps, EllipsisInstance, EllipsisExpandTrigger } from '@maple-design/ui'
 ```
 
 ### CSS tokens

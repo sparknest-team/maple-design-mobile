@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Message } from '@maplejs/maple-ui'
+import { Message } from '@maple-design/ui'
 
 const variants = ['neutral', 'tonal', 'solid'] as const
 </script>

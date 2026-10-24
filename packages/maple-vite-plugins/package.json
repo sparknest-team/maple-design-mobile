@@ -1,6 +1,6 @@
 {
-  "name": "@maplejs/maple-vite-plugins",
-  "version": "1.0.3",
+  "name": "@maple-design/vite-plugins",
+  "version": "1.0.0",
   "description": "vite plugins of maple",
   "keywords": [
     "vite",
@@ -28,7 +28,7 @@
     "dev": "tsup src/index.ts --format esm --out-dir=lib --watch --dts"
   },
   "dependencies": {
-    "@maplejs/maple-shared": "workspace:*",
+    "@maple-design/shared": "workspace:*",
     "ejs": "^3.1.10",
     "fs-extra": "catalog:",
     "highlight.js": "^10.7.3",
@@ -45,5 +45,9 @@
   },
   "peerDependencies": {
     "vite": "catalog:"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   }
 }

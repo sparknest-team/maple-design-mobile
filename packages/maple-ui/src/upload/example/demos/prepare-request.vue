@@ -1,6 +1,6 @@
 <script setup>
 import { onBeforeUnmount, onDeactivated, ref } from 'vue'
-import { useUploader } from '@maplejs/maple-ui'
+import { useUploader } from '@maple-design/ui'
 
 const files = ref([])
 const reasons = ref([])

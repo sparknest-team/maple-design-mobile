@@ -12,11 +12,13 @@ import {
   isWindow,
   kebabCase,
   toNumber,
-} from '@maplejs/maple-shared'
+} from '@maple-design/shared'
 import { type StyleVarName, type StyleVars } from '../style-provider/props'
-import { toSizeUnit } from './size-unit'
 
-export { toSizeUnit } from './size-unit'
+// Numeric strings retain integer-only conversion; CSS expressions pass through.
+export function toSizeUnit(value: unknown): string | undefined {
+  return value == null ? undefined : isNumeric(value) ? `${value}px` : String(value)
+}
 
 export function getLeft(element: HTMLElement): number {
   const { left } = getRect(element)
@@ -277,9 +279,9 @@ export function isDisplayNoneElement(element: HTMLElement) {
   return false
 }
 
-const focusableSelector = ['button', 'input', 'select', 'textarea', '[tabindex]', '[href]']
-  .map((s) => `${s}:not([disabled])`)
-  .join(', ')
+// A static value avoids runtime initialization and disappears from size-only imports.
+const focusableSelector =
+  'button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([disabled]), [href]:not([disabled])'
 
 export function focusChildElementByKey(
   referenceElement: HTMLElement | SVGElement,

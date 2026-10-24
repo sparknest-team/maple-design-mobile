@@ -110,8 +110,8 @@ import {
   watch,
   type ComputedRef,
 } from 'vue'
-import { IconMinus as MIconMinus, IconPlus as MIconPlus } from '@maplejs/icons-vue'
-import { call, toNumber } from '@maplejs/maple-shared'
+import { IconMinus as MIconMinus, IconPlus as MIconPlus } from '@maple-design/icons-vue'
+import { call, toNumber } from '@maple-design/shared'
 import { Decimal } from 'decimal.js'
 import MpButton from '../button'
 import { useFormItem } from '../form/item-provide'

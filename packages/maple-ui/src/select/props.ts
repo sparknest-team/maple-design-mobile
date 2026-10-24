@@ -165,8 +165,8 @@ export const selectProps = {
    */
   popupContainer: popupContainerProp,
   /**
-   * @zh 是否在无值时默认选择第一个选项
-   * @en Whether to select the first option by default when there is no value
+   * @zh 打开列表且无有效选中项时激活首个可用候选；仅高亮，不更新 modelValue 或触发 change
+   * @en Activate the first enabled candidate on opening when no valid selection exists; highlighting does not update modelValue or emit change
    * @version 2.43.0
    */
   defaultActiveFirstOption: {

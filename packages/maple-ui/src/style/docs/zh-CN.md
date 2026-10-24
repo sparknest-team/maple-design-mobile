@@ -8,7 +8,7 @@ Cedar 对应 `c-elevation--0` … `--24`（随 box-shadow 工具层）。
 
 ```js
 // playground-ignore
-import '@maplejs/maple-ui/es/style/elevation.css'
+import '@maple-design/ui/es/style/elevation.css'
 ```
 
 ### 基本使用

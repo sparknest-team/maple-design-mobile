@@ -1,9 +1,10 @@
 import { withInstall, withPropsDefaultsSetter } from '../utils/components'
 import { imagePreviewGroupProps } from './groupProps'
 import _Image from './Image.vue'
+import _ImagePreview from './ImagePreview.vue'
 import _ImagePreviewAction from './ImagePreviewAction.vue'
 import _ImagePreviewGroup from './ImagePreviewGroup.vue'
-import { ImagePreview as _ImagePreview, imagePreview } from './preview'
+import { imagePreview } from './preview'
 import { imagePreviewProps } from './previewProps'
 import { imageProps } from './props'
 

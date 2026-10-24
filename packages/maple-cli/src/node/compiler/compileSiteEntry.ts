@@ -1,4 +1,4 @@
-import { slash } from '@maplejs/maple-shared'
+import { slash } from '@maple-design/shared'
 import fse from 'fs-extra'
 import { getMapleConfig } from '../config/maple.config.js'
 import {

@@ -5,7 +5,7 @@ const inlineIcon = (text: string) => h('span', { 'aria-hidden': 'true' }, text)
 const contentOptions = computed(() => [
   { label: '编辑', value: 'edit', icon: inlineIcon('✎'), extra: '⌘ E' },
   {
-    label: ({ active }: { active: boolean }) => h('strong', active ? '已复制' : '复制'),
+    label: ({ active }: { active: boolean }) => h('strong', active ? '已选中复制' : '复制'),
     value: 'copy',
     icon: inlineIcon('⧉'),
     extra: '⌘ C',

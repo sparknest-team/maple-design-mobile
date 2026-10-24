@@ -4,7 +4,7 @@
 import { computed, h, nextTick, provide, ref, useAttrs, useId, type VNode } from 'vue'
 import { createNamespace } from '../utils/components'
 import { flatten, tabsInjectionKey, type TabEntry } from './context'
-import { tabsProps, type TabsKey } from './props'
+import { tabsProps, type TabsName } from './props'
 import TabNav from './TabNav.vue'
 import TabsItems from './TabsItems.vue'
 import TabsNavs from './TabsNavs.vue'
@@ -19,32 +19,32 @@ const attrs = useAttrs()
 const { n, classes } = createNamespace('tabs')
 const { size, rtl } = useTabsConfiguration(computed(() => props.size))
 const uid = useId()
-const local = ref(props.defaultActive)
-const focused = ref<TabsKey>()
+const local = ref(props.defaultValue)
+const focused = ref<TabsName>()
 const entriesState = ref<TabEntry[]>([])
 const entries = computed(() => entriesState.value)
 const active = computed(() => {
-  if (props.active !== undefined) {
-    return props.active
+  if (props.modelValue !== undefined) {
+    return props.modelValue
   }
   return (
-    entries.value.find((tab) => tab.key === local.value && !tab.disabled)?.key ??
-    entries.value.find((tab) => !tab.disabled)?.key
+    entries.value.find((tab) => tab.name === local.value && !tab.disabled)?.name ??
+    entries.value.find((tab) => !tab.disabled)?.name
   )
 })
 
-function select(key: TabsKey) {
-  if (key === active.value || !entries.value.some((tab) => tab.key === key && !tab.disabled)) {
+function select(key: TabsName) {
+  if (key === active.value || !entries.value.some((tab) => tab.name === key && !tab.disabled)) {
     return
   }
-  if (props.active === undefined) {
+  if (props.modelValue === undefined) {
     local.value = key
   }
-  emit('update:active', key)
+  emit('update:modelValue', key)
   emit('change', key)
 }
-function click(key: TabsKey, event: Event) {
-  if (!entries.value.some((tab) => tab.key === key && !tab.disabled)) {
+function click(key: TabsName, event: Event) {
+  if (!entries.value.some((tab) => tab.name === key && !tab.disabled)) {
     return
   }
   select(key)
@@ -56,7 +56,7 @@ async function add(event: Event) {
     await nextTick()
     const last = entries.value.filter((tab) => !tab.disabled).at(-1)
     if (last) {
-      select(last.key)
+      select(last.name)
     }
   }
 }
@@ -95,15 +95,16 @@ const Render = () => {
   const rootNodes = flatten(nodes)
   const panes = rootNodes
     .filter((node) => (node.type as { name?: string })?.name === createNamespace('tab-pane').name)
-    .filter((node) => typeof node.key === 'string' || typeof node.key === 'number')
+    .filter((node) => typeof node.props?.name === 'string' || typeof node.props?.name === 'number')
   const explicitPanels = collect(nodes, 'tabs-items')
   const implicitNavs = panes.map((pane) => {
     const children = pane.children as { title?: () => VNode[] | VNode } | null
     return h(
       TabNav,
       {
-        key: pane.key as TabsKey,
-        title: pane.props?.title ?? String(pane.key),
+        key: pane.key ?? pane.props?.name,
+        name: pane.props?.name as TabsName,
+        title: pane.props?.title ?? String(pane.props?.name),
         disabled: pane.props?.disabled,
         closable: pane.props?.closable,
         itemVertical: pane.props?.itemVertical,
@@ -114,14 +115,14 @@ const Render = () => {
   const navs = [
     ...collect(nodes, 'tabs-navs')
       .filter((node) => (node.type as { name?: string })?.name === createNamespace('tab-nav').name)
-      .filter((node) => typeof node.key === 'string' || typeof node.key === 'number'),
+      .filter((node) => typeof node.props?.name === 'string' || typeof node.props?.name === 'number'),
     ...implicitNavs,
   ]
   const panels = [...explicitPanels, ...panes]
   const next = navs.map((node) => ({
-    key: node.key as TabsKey,
+    name: node.props?.name as TabsName,
     disabled: node.props?.disabled === '' || !!node.props?.disabled,
-    hasPanel: panels.some((panel) => panel.key === node.key),
+    hasPanel: panels.some((panel) => panel.props?.name === node.props?.name),
   }))
   if (JSON.stringify(next) !== JSON.stringify(entriesState.value)) {
     entriesState.value = next

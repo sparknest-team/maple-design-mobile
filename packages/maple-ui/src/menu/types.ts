@@ -11,6 +11,7 @@ export type MenuValue = string | number | boolean | Record<string, any> | undefi
 
 export interface MenuRenderContext {
   option: MenuOptionData
+  /** Whether this exact option is active; never descendant selection, hover, focus or open. */
   active: boolean
   level: number
 }
@@ -41,4 +42,18 @@ export interface MenuOptionData {
   /** 透传给命令行元素的 HTML 属性 */
   props?: HTMLAttributes & { style?: CSSProperties }
   [key: string]: any
+}
+
+export interface MenuSlots {
+  default?: () => VNodeChild
+  content?: () => VNodeChild
+  footer?: () => VNodeChild
+  'option-label'?: (context: MenuRenderContext) => VNodeChild
+  'option-icon'?: (context: MenuRenderContext) => VNodeChild
+  'option-extra'?: (context: MenuRenderContext) => VNodeChild
+}
+export interface MenuOptionSlots {
+  default?: (context: MenuRenderContext) => VNodeChild
+  icon?: (context: MenuRenderContext) => VNodeChild
+  suffix?: (context: MenuRenderContext) => VNodeChild
 }

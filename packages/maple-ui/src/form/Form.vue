@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, onActivated, onBeforeUnmount, onDeactivated, onMounted, ref, watch } from 'vue'
-import { getScrollLeft, getScrollTop, preventDefault } from '@maplejs/maple-shared'
+import { getScrollLeft, getScrollTop, preventDefault } from '@maple-design/shared'
 import { provideFormPresentation } from '../_components/field-presentation/context'
 import { createNamespace } from '../utils/components'
 import { getParentScroller, getTop, toPxNum } from '../utils/elements'

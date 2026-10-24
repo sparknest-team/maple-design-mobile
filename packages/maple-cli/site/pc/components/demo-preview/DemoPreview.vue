@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import config from '@config'
-import { getBrowserTheme, getPCLocationInfo } from '@maplejs/maple-cli/client'
-import { Context, Message } from '@maplejs/maple-ui'
-import { DocPreview, type DocPreviewSource } from '@ui-foundation/ui-doc-preview'
+import { getBrowserTheme, getPCLocationInfo } from '@maple-design/cli/client'
+import { Context, Message } from '@maple-design/ui'
+import { DocPreview, type DocPreviewSource } from '@sparknest/ui-doc-preview'
 import type { SiteContext } from '../../../types'
 import { utoa } from '../../../utils'
 

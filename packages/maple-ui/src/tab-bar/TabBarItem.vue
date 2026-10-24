@@ -2,7 +2,14 @@
   <button
     v-ripple
     type="button"
-    :class="classes(n(), n('$--box'), [variant, n('--variant-padding')], [isActive && !variant, n('--active')])"
+    :class="
+      classes(
+        n(),
+        n('$--box'),
+        [variant === 'pill', n('--variant-padding')],
+        [isActive && variant === 'standard', n('--active')],
+      )
+    "
     :style="{
       color: isActive ? activeColor : inactiveColor,
     }"
@@ -12,8 +19,8 @@
       :class="
         classes(
           n('icon-container'),
-          [variant, n('--variant-icon-container')],
-          [isActive && variant, n('--variant-active')],
+          [variant === 'pill', n('--variant-icon-container')],
+          [isActive && variant === 'pill', n('--variant-active')],
         )
       "
     >
@@ -35,7 +42,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { call } from '@maplejs/maple-shared'
+import { call } from '@maple-design/shared'
 import type { BadgeProps } from '../badge'
 import MpBadge from '../badge'
 import MpRegisteredIcon from '../icon/RegisteredIcon.vue'

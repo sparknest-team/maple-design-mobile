@@ -1,12 +1,12 @@
 import type { VNode } from 'vue'
-import type { TabsKey } from './props'
+import type { TabsName } from './props'
 
 export interface TabsEmits {
-  'update:active': [key: TabsKey]
-  change: [key: TabsKey]
-  'tab-click': [key: TabsKey, event: Event]
+  'update:modelValue': [name: TabsName]
+  change: [name: TabsName]
+  'tab-click': [name: TabsName, event: Event]
   add: [event: Event]
-  delete: [key: TabsKey, event: Event]
+  delete: [name: TabsName, event: Event]
 }
 export interface TabsSlots {
   default?: () => VNode[]

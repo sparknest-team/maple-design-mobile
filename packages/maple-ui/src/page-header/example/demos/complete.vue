@@ -1,5 +1,5 @@
 <script setup>
-import { Message } from '@maplejs/maple-ui'
+import { Message } from '@maple-design/ui'
 
 const handleBack = () => Message.info('点击返回')
 const handleAction = () => Message.success('已关注项目')

@@ -58,7 +58,7 @@
 
 ### 可选中标签
 
-通过 `checkable` 使标签可点击切换选中，配合 `v-model:checked`。
+通过 `checkable` 使标签可点击切换选中，配合 `v-model`。
 
 ```demo
 ../example/demos/checkable-tag.vue
@@ -99,6 +99,10 @@
 
 ## API
 
+### 主值与默认值
+
+使用普通 `v-model`。`modelValue` 表示可选标签是否选中，布尔值；`defaultValue` 仅在创建时初始化非受控值，后续修改不会重置当前状态。显式绑定值优先，初始化不发出 `update:modelValue`。
+
 ### 属性
 
 #### Tag Props
@@ -114,8 +118,8 @@
 | `loading` | 是否为加载中状态 | _boolean_ | `false` |
 | `closable` | 是否可关闭 | _boolean_ | `false` |
 | `checkable` | 是否可点击选中 | _boolean_ | `false` |
-| `checked` | 选中状态（checkable 时有效，v-model） | _boolean_ | `true` |
-| `default-checked` | 默认选中状态（checkable 时有效） | _boolean_ | `true` |
+| `model-value` | 选中状态（checkable 时有效，v-model） | _boolean_ | `true` |
+| `default-value` | 默认选中状态（checkable 时有效） | _boolean_ | `true` |
 | `nowrap` | 内容是否不换行（超出省略） | _boolean_ | `false` |
 | `color` | 自定义背景色（outline 时为边框色） | _string_ | `-` |
 | `text-color` | 自定义文字色 | _string_ | `-` |
@@ -127,7 +131,7 @@
 | 事件名 | 说明 | 参数 |
 | --- | --- | --- |
 | `update:show` | 可见状态变化 | `(show: boolean)` |
-| `update:checked` | 选中状态变化（checkable 时） | `(checked: boolean)` |
+| `update:model-value` | 选中状态变化（checkable 时） | `(checked: boolean)` |
 | `close` | 点击关闭按钮 | `(event: MouseEvent)` |
 | `check` | 点击切换选中状态（checkable 时） | `(checked: boolean, event: MouseEvent)` |
 

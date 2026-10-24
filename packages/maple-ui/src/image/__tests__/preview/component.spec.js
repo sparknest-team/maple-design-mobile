@@ -127,11 +127,11 @@ describe('single-image preview contract', () => {
 
 describe('collection state belongs to ImagePreviewGroup', () => {
   test('renders current image and reacts to the images input', async () => {
-    const wrapper = mount(ImagePreviewGroup, { props: { images, current: 1, open: true, popupContainer: false } })
+    const wrapper = mount(ImagePreviewGroup, { props: { images, modelValue: 2, open: true, popupContainer: false } })
     try {
       expect(wrapper.findComponent(ImagePreview).props('src')).toBe(images[1])
       expect(wrapper.get('.mp-image-preview__indicator').text()).toBe('2 / 2')
-      await wrapper.setProps({ images: [images[0]], current: 0 })
+      await wrapper.setProps({ images: [images[0]], modelValue: 1 })
       expect(wrapper.findComponent(ImagePreview).props('src')).toBe(images[0])
       expect(wrapper.find('.mp-image-preview__indicator').exists()).toBe(false)
     } finally {
@@ -142,10 +142,10 @@ describe('collection state belongs to ImagePreviewGroup', () => {
     const wrapper = mount(ImagePreviewGroup, { props: { images, open: true, popupContainer: false } })
     try {
       for (const [action, expected] of [
-        [() => wrapper.vm.to(1), '2 / 2'],
+        [() => wrapper.vm.to(2), '2 / 2'],
         [() => wrapper.vm.prev(), '1 / 2'],
         [() => wrapper.vm.next(), '2 / 2'],
-        [() => wrapper.vm.to(0), '1 / 2'],
+        [() => wrapper.vm.to(1), '1 / 2'],
       ]) {
         action()
         await wrapper.vm.$nextTick()

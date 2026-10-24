@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { MenuStrategy } from '@maplejs/maple-ui'
+import type { MenuStrategy } from '@maple-design/ui'
 
 const strategy = ref<MenuStrategy>('fixed')
 const options = [

@@ -5,7 +5,7 @@ import Basic from '../example/demos/basic.vue'
 import Custom from '../example/demos/custom-status.vue'
 import ErrorDemo from '../example/demos/error.vue'
 
-vi.mock('@maplejs/maple-cli/client', () => ({ watchLang: (callback) => callback('zh-CN') }))
+vi.mock('@maple-design/cli/client', () => ({ watchLang: (callback) => callback('zh-CN') }))
 
 // A loader stub isolates demo request cleanup; it is not a real scroll interaction.
 const Loader = defineComponent({

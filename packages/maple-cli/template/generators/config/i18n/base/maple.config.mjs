@@ -1,4 +1,4 @@
-import { defineConfig } from '@maplejs/maple-cli'
+import { defineConfig } from '@maple-design/cli'
 
 export default defineConfig({
   logo: './logo.svg',

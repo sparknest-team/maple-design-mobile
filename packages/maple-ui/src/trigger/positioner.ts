@@ -12,7 +12,6 @@ import {
 import { getArrowStyle } from './arrow'
 import type { TriggerPlacement } from './contract'
 import { getPositioningSpace, getRelativeRect, getTransformOrigin } from './geometry'
-import { triggerResizeObserverFallback } from './platform'
 import { calculatePopupPosition, getScrollElements } from './position'
 import { useTriggerResize } from './resize'
 import type { TriggerPopupTranslate, TriggerStrategy } from './types'
@@ -302,7 +301,6 @@ export function useTriggerPositioner(options: PositionerOptions, context: Positi
         context.referenceResize()
       }
     },
-    triggerResizeObserverFallback,
   )
 
   onMounted(() => nextTick(update))

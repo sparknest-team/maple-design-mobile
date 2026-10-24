@@ -13,8 +13,8 @@ export const switchProps = {
   ...fieldPresentationProps,
   /** 受控值；省略时使用内部状态 */
   modelValue: { type: [String, Number, Boolean] as PropType<SwitchValue>, default: undefined },
-  /** 非受控初始选中状态 */
-  defaultChecked: Boolean,
+  /** 非受控初始值，仅创建时读取；省略时使用 uncheckedValue */
+  defaultValue: { type: [String, Number, Boolean] as PropType<SwitchValue>, default: undefined },
   /** 禁用交互，或继承表单禁用 */
   disabled: Boolean,
   /** 只读，仍可聚焦 */

@@ -1,5 +1,5 @@
 import * as Vue from 'vue'
-import { kebabCase } from '@maplejs/maple-shared'
+import { kebabCase } from '@maple-design/shared'
 
 /** Vue 3.5 supplies hydration-safe IDs. Earlier Vue versions defer IDs to mount. */
 export function useId() {

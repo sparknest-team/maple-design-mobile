@@ -35,7 +35,7 @@
 ```html
 <script setup lang="ts">
   import { ref } from 'vue'
-  import type { InfiniteScrollStatus } from '@maplejs/maple-ui'
+  import type { InfiniteScrollStatus } from '@maple-design/ui'
 
   const status = ref<InfiniteScrollStatus>('idle')
   const items = ref([])

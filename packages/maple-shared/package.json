@@ -1,6 +1,6 @@
 {
-  "name": "@maplejs/maple-shared",
-  "version": "1.0.3",
+  "name": "@maple-design/shared",
+  "version": "1.0.0",
   "description": "shared utils of maple",
   "keywords": [
     "shared",
@@ -34,11 +34,16 @@
   ],
   "scripts": {
     "build": "tsup src/index.ts --format esm,cjs --out-dir=lib --dts --clean",
-    "dev": "tsup src/index.ts --format esm --out-dir=lib --watch --dts"
+    "dev": "tsup src/index.ts --format esm --out-dir=lib --watch --dts",
+    "test": "node --test ../../scripts/quality/shared-bundle.test.mjs"
   },
   "devDependencies": {
     "@types/node": "catalog:",
     "tsup": "catalog:",
     "typescript": "catalog:"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   }
 }

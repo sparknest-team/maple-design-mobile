@@ -36,7 +36,7 @@ Supports touch, the primary mouse button, and Enter/Space on the host. Mouse wav
 
 ### Styles
 
-MapleResolver directive resolution automatically imports `@maplejs/maple-ui/ripple/style`. When registering Ripple without the resolver, explicitly import that style in the application entry. Runtime code does not import CSS, so the package can be imported on the server. Unmounting or disabling cancels pending animations; keyboard state belongs to each instance.
+MapleResolver directive resolution automatically imports `@maple-design/ui/ripple/style`. When registering Ripple without the resolver, explicitly import that style in the application entry. Runtime code does not import CSS, so the package can be imported on the server. Unmounting or disabling cancels pending animations; keyboard state belongs to each instance.
 
 <!-- api-review:start -->
 ### Feature playground

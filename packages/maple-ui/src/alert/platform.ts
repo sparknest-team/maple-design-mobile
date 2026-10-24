@@ -4,5 +4,5 @@ export {
   IconCheckboxMarkedCircleFill as IconCheckCircleFill,
   IconWarning as IconExclamationCircleFill,
   IconError as IconCloseCircleFill,
-} from '@maplejs/icons-vue'
+} from '@maple-design/icons-vue'
 export const transitionName = 'mp-alert-leave'

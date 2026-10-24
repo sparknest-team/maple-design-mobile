@@ -5,16 +5,16 @@ import type { PageListItem } from './types'
 import { getLegalPage, positiveInteger } from './utils'
 
 type Emit = {
-  (event: 'update:current', value: number): void
+  (event: 'update:modelValue', value: number): void
   (event: 'change', value: number): void
   (event: 'update:pageSize', value: number): void
   (event: 'page-size-change', value: number): void
 }
 
 export function usePagination(props: Readonly<ExtractPropTypes<typeof paginationProps>>, emit: Emit) {
-  const innerCurrent = ref(positiveInteger(props.defaultCurrent, 1))
+  const innerCurrent = ref(positiveInteger(props.defaultValue, 1))
   const innerPageSize = ref(positiveInteger(props.defaultPageSize, 10))
-  const current = computed(() => positiveInteger(props.current ?? innerCurrent.value, 1))
+  const current = computed(() => positiveInteger(props.modelValue ?? innerCurrent.value, 1))
   const pageSize = computed(() => positiveInteger(props.pageSize ?? innerPageSize.value, 10))
   const total = computed(() => (Number.isFinite(props.total) ? Math.max(0, Math.trunc(props.total)) : 0))
   const pages = computed(() => Math.ceil(total.value / pageSize.value))
@@ -24,7 +24,7 @@ export function usePagination(props: Readonly<ExtractPropTypes<typeof pagination
       return
     }
     innerCurrent.value = page
-    emit('update:current', page)
+    emit('update:modelValue', page)
     emit('change', page)
   }
   const changeCurrent = (page: number) => {
@@ -48,7 +48,7 @@ export function usePagination(props: Readonly<ExtractPropTypes<typeof pagination
   // One watcher resolves page size + total updates together, avoiding duplicate
   // current events in controlled mode when both boundaries change in one tick.
   watch(
-    [pageSize, total, () => props.current],
+    [pageSize, total, () => props.modelValue],
     ([nextSize, nextTotal, nextCurrent], [oldSize, oldTotal, oldCurrent]) => {
       if ((nextSize === oldSize && nextTotal === oldTotal) || nextCurrent !== oldCurrent) {
         return

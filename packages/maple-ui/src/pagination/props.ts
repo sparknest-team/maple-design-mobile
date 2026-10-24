@@ -9,8 +9,10 @@ export const paginationProps = {
     required: true as const,
     validator: (value: number) => Number.isInteger(value) && value >= 0,
   },
-  current: Number,
-  defaultCurrent: {
+  /** 当前页码，从 1 开始；通过 v-model 绑定。 */
+  modelValue: Number,
+  /** 非受控初始值，仅创建时读取；后续修改不重置当前状态。 */
+  defaultValue: {
     type: Number,
     default: 1,
     validator: (value: number) => Number.isInteger(value) && value >= 1,

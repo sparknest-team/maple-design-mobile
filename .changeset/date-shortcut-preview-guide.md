@@ -1,5 +1,5 @@
 ---
-"@maplejs/maple-ui": patch
+"@maple-design/ui": patch
 ---
 
 Document Cedar single Date shortcut-preview timer evidence and unchanged Maple/date-range boundaries without granting native or whole-family acceptance.

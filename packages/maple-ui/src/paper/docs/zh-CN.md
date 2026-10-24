@@ -111,7 +111,7 @@ radius、width、height 的数字和数字字符串使用 px，其他字符串�
 ### 类型
 
 ```ts
-import type { PaperProps, PaperInstance } from '@maplejs/maple-ui'
+import type { PaperProps, PaperInstance } from '@maple-design/ui'
 ```
 
 ## 独立同源维护

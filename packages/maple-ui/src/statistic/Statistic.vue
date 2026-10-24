@@ -32,7 +32,7 @@
 
 <script lang="ts" setup>
 import { computed, onActivated, onDeactivated, onMounted, onUnmounted, useSlots, watch } from 'vue'
-import { useMotion } from '@maplejs/maple-use'
+import { useMotion } from '@maple-design/use'
 import dayjs from 'dayjs'
 import { createNamespace } from '../utils/components'
 import { statisticProps } from './props'

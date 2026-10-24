@@ -102,14 +102,14 @@
 import { computed, defineComponent, ref } from 'vue'
 import type { ComputedRef, Ref } from 'vue'
 import config from '@config'
+import { getBrowserTheme, getPCLocationInfo, persistTheme, setTheme, Theme } from '@maple-design/cli/client'
 import {
   IconChevronDown as MIconChevronDown,
   IconCodeJson as MIconCodeJson,
   IconGithub as MIconGithub,
   IconHistory as MIconHistory,
   IconPaletteFill as MIconPaletteFill,
-} from '@maplejs/icons-vue'
-import { getBrowserTheme, getPCLocationInfo, persistTheme, setTheme, Theme } from '@maplejs/maple-cli/client'
+} from '@maple-design/icons-vue'
 import { useRouter } from 'vue-router'
 import { removeEmpty, resolveSiteAsset } from '../../utils'
 

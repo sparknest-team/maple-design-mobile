@@ -1,7 +1,7 @@
 <script setup>
 import { onUnmounted, shallowRef } from 'vue'
-import { Message as ReviewService } from '@maplejs/maple-ui'
-import { defineReviewConfig } from '@ui-foundation/ui-doc-preview'
+import { Message as ReviewService } from '@maple-design/ui'
+import { defineReviewConfig } from '@sparknest/ui-doc-preview'
 import DemoApiReviewPanel from '../../../../docs/components/ApiReviewPanel.vue'
 import raw from './api-review-service.config.json'
 

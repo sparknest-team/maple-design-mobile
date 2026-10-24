@@ -24,12 +24,12 @@ The out-of-the-box `Vue3 component library` rapid prototyping tool provides a se
 
 ### Quickstart
 
-`@maplejs/maple-cli` has built-in `sfc` and `tsx` style component library project templates, which can be generated directly by the `gen` command.
+`@maple-design/cli` has built-in `sfc` and `tsx` style component library project templates, which can be generated directly by the `gen` command.
 It is convenient for you to directly enter the component library development.
 
 ```shell
 # playground-ignore
-pnpm add @maplejs/maple-cli -g
+pnpm add @maple-design/cli -g
 maple-cli gen
 ```
 
@@ -39,7 +39,7 @@ maple-cli gen
 
 The `maple.config.mjs` in the project root directory is used to manage the specific details of the entire component library project.
 The default configuration can be viewed [maple.default.config.ts](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/blob/master/packages/maple-cli/src/node/config/maple.default.config.ts?ref_type=heads).
-Also refer to `@maplejs/maple-ui` [maple.config.mjs](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/blob/master/packages/maple-ui/maple.config.mjs?ref_type=heads).
+Also refer to `@maple-design/ui` [maple.config.mjs](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/blob/master/packages/maple-ui/maple.config.mjs?ref_type=heads).
 
 | Parameter | Description | Type | Default |
 | --- | -------------- | -------- | ---------- |
@@ -135,7 +135,7 @@ Documentation development resolves components and styles from `src`. It generate
 
 Markdown supports standalone `<demo src="../example/demos/basic.vue"></demo>` tags (including self-closing tags) and `demo` fences. Each referenced Vue file renders in its own live card with a source toolbar. Tags inside code samples remain static. Editing a Vue demo updates both the rendered example and its source automatically. The mobile preview continues to render the collection in `example/index.vue`.
 
-Site component resolution follows the public export map directly to source modules, preventing circular barrel imports during documentation chunking. Authored function imports such as `import { Message } from '@maplejs/maple-ui'` retain automatic style injection. This is site-only resolution, not a change to published package entry points or a shared Cedar/Maple runtime.
+Site component resolution follows the public export map directly to source modules, preventing circular barrel imports during documentation chunking. Authored function imports such as `import { Message } from '@maple-design/ui'` retain automatic style injection. This is site-only resolution, not a change to published package entry points or a shared Cedar/Maple runtime.
 
 The standalone Playground still consumes a built component package: run `pnpm build:lib` at the repository root before `pnpm dev:play`. It reads the published entry/CSS and writes browser assets to its own `public` directory; it does not need documentation development stubs.
 

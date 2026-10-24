@@ -57,7 +57,7 @@ const emit = defineEmits<{
 }>()
 const { n, classes } = createNamespace('switch')
 const platform = useSwitchPlatform(props)
-const internal = ref<SwitchValue>(props.defaultChecked ? props.checkedValue : props.uncheckedValue)
+const internal = ref<SwitchValue>(props.defaultValue !== undefined ? props.defaultValue : props.uncheckedValue)
 const current = computed(() => (props.modelValue === undefined ? internal.value : props.modelValue))
 const checked = computed(() => current.value === props.checkedValue)
 const pending = ref(false)

@@ -1,5 +1,5 @@
 import { computed, nextTick, ref, watch, type Ref } from 'vue'
-import { call } from '@maplejs/maple-shared'
+import { call } from '@maple-design/shared'
 
 // Deferred inference also supports the TypeScript 5.3 package build.
 type ModelEvent<T> = [T][T extends any ? 0 : never]

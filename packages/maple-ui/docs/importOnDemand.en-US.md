@@ -16,19 +16,19 @@ Implement components to automatically import on demand, This is our most recomme
 ```shell
 # playground-ignore
 # npm
-npm i @maplejs/resolver unplugin-vue-components unplugin-auto-import -D
+npm i @maple-design/resolver unplugin-vue-components unplugin-auto-import -D
 
 # yarn
-yarn add @maplejs/resolver unplugin-vue-components unplugin-auto-import -D
+yarn add @maple-design/resolver unplugin-vue-components unplugin-auto-import -D
 
 # pnpm
-pnpm add @maplejs/resolver unplugin-vue-components unplugin-auto-import -D
+pnpm add @maple-design/resolver unplugin-vue-components unplugin-auto-import -D
 ```
 
 Install the standalone SVG icon package as an application dependency:
 
 ```shell
-pnpm add @maplejs/icons-vue
+pnpm add @maple-design/icons-vue
 ```
 
 #### Vite
@@ -39,7 +39,7 @@ pnpm add @maplejs/icons-vue
 import vue from '@vitejs/plugin-vue'
 import components from 'unplugin-vue-components/vite'
 import autoImport from 'unplugin-auto-import/vite'
-import { MapleResolver } from '@maplejs/resolver'
+import { MapleResolver } from '@maple-design/resolver'
 import { defineConfig } from 'vite'
 
 export default defineConfig({
@@ -64,7 +64,7 @@ The same resolver selects the UI or icon package from the component name; no sec
 </template>
 ```
 
-`MpButton` is imported from `@maplejs/maple-ui`, while `MpIconInfoCircleFill` is imported from `@maplejs/icons-vue`. `MpIcon` remains the wrapper component for dynamic names and icon transitions.
+`MpButton` is imported from `@maple-design/ui`, while `MpIconInfoCircleFill` is imported from `@maple-design/icons-vue`. `MpIcon` remains the wrapper component for dynamic names and icon transitions.
 
 #### Vue CLI
 ```js
@@ -72,7 +72,7 @@ The same resolver selects the UI or icon package from the component name; no sec
 // vue.config.js
 const Components = require('unplugin-vue-components/webpack')
 const AutoImport = require('unplugin-auto-import/webpack')
-const { MapleResolver } = require('@maplejs/resolver')
+const { MapleResolver } = require('@maple-design/resolver')
 
 module.exports = {
   configureWebpack: {
@@ -109,8 +109,8 @@ Each component is a `Vue plugin` and consists of `component logic` and `style fi
 // playground-ignore
 import App from './App.vue'
 import { createApp } from 'vue'
-import { Button } from '@maplejs/maple-ui'
-import '@maplejs/maple-ui/button/style'
+import { Button } from '@maple-design/ui'
+import '@maple-design/ui/button/style'
 
 createApp(App).use(Button)
 ```
@@ -120,8 +120,8 @@ OR
 ```html
 // playground-ignore
 <script setup>
-import { Button as VarButton } from '@maplejs/maple-ui'
-import '@maplejs/maple-ui/button/style'
+import { Button as VarButton } from '@maple-design/ui'
+import '@maple-design/ui/button/style'
 </script>
 
 <template>
@@ -136,9 +136,9 @@ Manual import
 ```html
 // playground-ignore
 <script setup>
-import { Button as VarButton, Message } from '@maplejs/maple-ui'
-import '@maplejs/maple-ui/button/style'
-import '@maplejs/maple-ui/message/style'
+import { Button as VarButton, Message } from '@maple-design/ui'
+import '@maple-design/ui/button/style'
+import '@maple-design/ui/message/style'
 
 function handleClick() {
   Message('Hello!')

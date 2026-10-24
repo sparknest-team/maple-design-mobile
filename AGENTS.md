@@ -63,18 +63,25 @@ packages/
 | 构建文档 | `pnpm build:doc` |
 | 仅检查示例脚本和模板语法 | `pnpm docs:check` |
 | 构建 npm 包及文档 | `pnpm build` |
+| 完整本地 CI | `pnpm quality`；先按同级目录安装 Cedar、Maple、design-ui，使用 pnpm 9.6.0；CI 与本地共用该入口，不单独维护步骤子集 |
 | 全组件按需 JS 依赖与共享包构建回归 | `pnpm check:component-bundle` |
 | Icon 按需 JS 依赖与体积回归 | `pnpm check:icon-bundle` |
 | 静态检查（不自动修改） | `pnpm lint:check` |
+| 全库运行时依赖与 HMR 兜底门禁 | `pnpm check:runtime-dependencies`（公共契约见 `design-ui/standards/component-anatomy.md`） |
+| shared 发布运行时、类型和体积回归 | `pnpm check:shared`（公共契约见 `design-ui/standards/shared-foundation.md`） |
 | 开发流程不覆盖发布产物的回归 | `pnpm check:dev-boundary` |
 | 跑指定包单测 | `pnpm --dir packages/maple-ui exec vitest run --config ../maple-cli/lib/node/config/vitest.config.js` |
 | 跑指定组件 | `... vitest run src/<component>` |
 | CLI 文档站与编译器回归 | `pnpm check:cli` |
+| 手机宽度文档与示例主题回归（先构建文档，首次运行需 `pnpm exec playwright install chromium`） | `pnpm check:docs-theme` |
+| 全组件生产文档与手机示例回归 | 构建后运行 `pnpm check:docs-components`；显式覆盖清单见 `design-ui/browser/contracts.mjs`，新增组件必须补行为契约；输出 `artifacts/docs-components/maple/coverage.json` |
 | 测试收集边界回归 | `pnpm check:test-collection` |
 | 同源检查格式归一化回归 | `pnpm check:source-normalization` |
 | 更新快照 | 上述命令加 `-u` |
 
 ## 与 PC 版（Cedar Design Web）的关系
+
+构建环境、发布产物消费行为与 CI 工具链遵守 `design-ui/standards/build-and-ci.md`；不能用自定义 NODE_ENV 编译发布包，也不能把入口版本当成子进程版本的证明。
 
 公共 API（如 `Space` 的 `size` 枚举、`Button` 的 `variant` 等）应**两端同步**，以 PC 实现为准。
 PC 端见 `/Users/shuaimeng/github/cedar-design-web/AGENTS.md`。
@@ -91,7 +98,7 @@ PC 端见 `/Users/shuaimeng/github/cedar-design-web/AGENTS.md`。
   - 已经带 `mp-` 前缀的（避免 `--mp-mp-`）
   - BEM 修饰符 `&--xxx`、`.mp-xxx--yyy` 选择器
   - 模板字符串里的 BEM 片段（`` `${ns}--xxx` ``、`` `${ns}--lock` ``）
-  - 固定字面量的功能类；图标由 `@maplejs/icons-vue` 的 SVG 组件渲染，不使用字体类
+  - 固定字面量的功能类；图标由 `@maple-design/icons-vue` 的 SVG 组件渲染，不使用字体类
 - 安全做法：仅匹配 `:root { ... }` 块内、或 `var(--xxx)` 内、或 inline `style="--xxx: ..."` 内的自定义属性。
 - 踩过的坑（git log 可查）：icon `--mp-set`、slider `--mp-error`、pull-refresh `--mp-lock`、common.less `&--mp-box`。
 

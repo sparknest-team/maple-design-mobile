@@ -1,13 +1,13 @@
 <script setup>
 import { computed, ref } from 'vue'
-import { watchLang } from '@maplejs/maple-cli/client'
+import { watchLang } from '@maple-design/cli/client'
 
 const language = ref('zh-CN')
 const english = computed(() => language.value === 'en-US')
 watchLang((value) => {
   language.value = value
 })
-const current = ref(0)
+const current = ref(1)
 const playing = ref(true)
 const changes = ref(0)
 const sources = ['cat.jpg', 'cat2.jpg', 'cat3.jpg']
@@ -21,7 +21,7 @@ const sources = ['cat.jpg', 'cat2.jpg', 'cat3.jpg']
         changes
       }}
     </p>
-    <mp-carousel v-model:current="current" height="180px" :auto-play="playing ? 2000 : false" @change="changes += 1">
+    <mp-carousel v-model="current" height="180px" :auto-play="playing ? 2000 : false" @change="changes += 1">
       <mp-carousel-item v-for="(source, index) in sources" :key="source">
         <img
           class="carousel-autoplay-demo__image"

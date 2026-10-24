@@ -2,7 +2,7 @@
 
 [English](./README.md) | 简体中文
 
-`@maplejs/resolver` 是 [unplugin-vue-components](https://github.com/unplugin/unplugin-vue-components) 的一个解析器，用于实现 Maple 按需引入。
+`@maple-design/resolver` 是 [unplugin-vue-components](https://github.com/unplugin/unplugin-vue-components) 的一个解析器，用于实现 Maple 按需引入。
 
 ## 特性
 
@@ -21,13 +21,13 @@
 
 ```shell
 # npm
-npm i @maplejs/resolver unplugin-vue-components unplugin-auto-import -D
+npm i @maple-design/resolver unplugin-vue-components unplugin-auto-import -D
 
 # yarn
-yarn add @maplejs/resolver unplugin-vue-components unplugin-auto-import -D
+yarn add @maple-design/resolver unplugin-vue-components unplugin-auto-import -D
 
 # pnpm
-pnpm add @maplejs/resolver unplugin-vue-components unplugin-auto-import -D
+pnpm add @maple-design/resolver unplugin-vue-components unplugin-auto-import -D
 ```
 
 ### Vite
@@ -37,7 +37,7 @@ pnpm add @maplejs/resolver unplugin-vue-components unplugin-auto-import -D
 import vue from '@vitejs/plugin-vue'
 import components from 'unplugin-vue-components/vite'
 import autoImport from 'unplugin-auto-import/vite'
-import { MapleResolver, MapleStyleImports } from '@maplejs/resolver'
+import { MapleResolver, MapleStyleImports } from '@maple-design/resolver'
 import { defineConfig } from 'vite'
 
 export default defineConfig({
@@ -60,7 +60,7 @@ export default defineConfig({
 // vue.config.js
 const Components = require('unplugin-vue-components/webpack')
 const AutoImport = require('unplugin-auto-import/webpack')
-const { MapleResolver } = require('@maplejs/resolver')
+const { MapleResolver } = require('@maple-design/resolver')
 
 module.exports = {
   configureWebpack: {
@@ -93,8 +93,8 @@ module.exports = {
 ```js
 import App from './App.vue'
 import { createApp } from 'vue'
-import { Button } from '@maplejs/maple-ui'
-import '@maplejs/maple-ui/button/style'
+import { Button } from '@maple-design/ui'
+import '@maple-design/ui/button/style'
 
 createApp(App).use(Button)
 ```
@@ -103,8 +103,8 @@ createApp(App).use(Button)
 
 ```html
 <script setup>
-import { Button as VarButton } from '@maplejs/maple-ui'
-import '@maplejs/maple-ui/button/style'
+import { Button as VarButton } from '@maple-design/ui'
+import '@maple-design/ui/button/style'
 </script>
 
 <template>
@@ -118,9 +118,9 @@ import '@maplejs/maple-ui/button/style'
 
 ```html
 <script setup>
-import { Button as VarButton, Message } from '@maplejs/maple-ui'
-import '@maplejs/maple-ui/button/style'
-import '@maplejs/maple-ui/message/style'
+import { Button as VarButton, Message } from '@maple-design/ui'
+import '@maple-design/ui/button/style'
+import '@maple-design/ui/message/style'
 
 function handleClick() {
   Message('你好!')
@@ -148,4 +148,4 @@ function handleClick() {
 
 ## 显式 import 自动样式（Vite）
 
-MapleResolver 为模板组件和未声明的函数标识符提供解析；已经手动 import 的函数不会再次触发自动导入。配套 MapleStyleImports() 在 Vue/TypeScript 编译后处理来自 @maplejs/maple-ui 的具名值导入，复用 resolver 的样式映射。支持 Message 别名、普通组件、去重及 importStyle:false；跳过类型、命名空间和默认导入。它是 Vite 插件，不要放进 resolvers 数组。Maple CLI 文档开发已内置该插件，应用项目按上方 Vite 示例配置。更改 CLI 插件配置后需重启开发服务。
+MapleResolver 为模板组件和未声明的函数标识符提供解析；已经手动 import 的函数不会再次触发自动导入。配套 MapleStyleImports() 在 Vue/TypeScript 编译后处理来自 @maple-design/ui 的具名值导入，复用 resolver 的样式映射。支持 Message 别名、普通组件、去重及 importStyle:false；跳过类型、命名空间和默认导入。它是 Vite 插件，不要放进 resolvers 数组。Maple CLI 文档开发已内置该插件，应用项目按上方 Vite 示例配置。更改 CLI 插件配置后需重启开发服务。

@@ -82,7 +82,7 @@ async function harness() {
   globalThis[Symbol.for(key)] = state
   const prefix = `const state = globalThis[Symbol.for(${JSON.stringify(key)})];\n`
   const mocks = {
-    '@maplejs/maple-shared': 'export const kebabCase = value => value;',
+    '@maple-design/shared': 'export const kebabCase = value => value;',
     chokidar: 'export default { watch: state.watch };',
     'fs-extra': 'export default state.fs;',
     vite: 'export const createServer = state.createServer;',
@@ -91,7 +91,7 @@ async function harness() {
     '../compiler/compileSiteEntry.js': 'export async function buildSiteEntry() { state.generated++; }',
     '../config/maple.config.js': "export async function getMapleConfig() { return { name: 'maple' }; }",
     '../config/vite.config.js':
-      "export const getDevConfig = () => ({ resolve: { alias: [{ find: '@maplejs/maple-ui', replacement: '/fixture/src/index.ts' }] } });",
+      "export const getDevConfig = () => ({ resolve: { alias: [{ find: '@maple-design/ui', replacement: '/fixture/src/index.ts' }] } });",
     '../shared/constant.js':
       "export const COMPONENT_REUSE_JSON = '/fixture/component-reuse.json', ES_DIR = '/fixture/es', MAPLE_CONFIG = '/fixture/maple.config.mjs', SITE = '/cli/site', SITE_DIR = '/fixture/.maple/site', SRC = 'src', SRC_DIR = '/fixture/src';",
     '../shared/fsUtils.js': 'export const getPublicDirs = async () => [];',

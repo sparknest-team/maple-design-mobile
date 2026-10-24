@@ -1,6 +1,6 @@
 <script setup>
 import { reactive, ref } from 'vue'
-import { Dialog, Message } from '@maplejs/maple-ui'
+import { Dialog, Message } from '@maple-design/ui'
 
 const demoText = {
   functionCall: '函数调用',

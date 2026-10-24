@@ -1,7 +1,7 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`test link component props > link rel 1`] = `
-"<a href="https://maplejs.org/" target="_blank" rel="noopener noreferrer" class="mp-link mp-link--status-default mp-link--underline-none mp-link--hoverless">
+"<a href="https://maplejs.org/" target="_blank" rel="noopener noreferrer" class="mp-link mp-link--size-md mp-link--status-default mp-link--underline-none mp-link--hoverless">
   <!--v-if-->
 </a>"
 `;

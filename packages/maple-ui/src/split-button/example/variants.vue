@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { watchLang } from '@maplejs/maple-cli/client'
-import { Message } from '@maplejs/maple-ui'
+import { watchLang } from '@maple-design/cli/client'
+import { Message } from '@maple-design/ui'
 
 const language = ref('zh-CN')
 const english = computed(() => language.value === 'en-US')

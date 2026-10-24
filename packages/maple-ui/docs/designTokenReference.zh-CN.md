@@ -350,7 +350,7 @@
 
 | 变量 | 层级 | 声明值／条件 | 消费路径／CSS 属性 |
 | --- | --- | --- | --- |
-| `--mp-badge-bg-color` | 公开 | `var(--mp-sys-color-status-danger)` | 本组件 CSS<br>`background-color` |
+| `--mp-badge-bg-color` | 公开 | `rgb(var(--mp-danger-7))` | 本组件 CSS<br>`background-color` |
 | `--mp-badge-border-color` | 公开 | `var(--mp-sys-color-surface-default)` | 本组件 CSS<br>`background-color`, `box-shadow` |
 | `--mp-badge-description-size-lg-font-size` | 公开 | `var(--mp-sys-font-size-lg)` | 本组件 CSS<br>`font-size` |
 | `--mp-badge-description-size-md-font-size` | 公开 | `var(--mp-sys-font-size-md)` | 本组件 CSS<br>`font-size` |
@@ -401,23 +401,23 @@
 | `--mp-badge-size-xs-padding` | 公开 | `0 var(--mp-sys-space-3)` | 本组件 CSS<br>`padding` |
 | `--mp-badge-size-xs-scale` | 公开 | `0.6667` | 本组件 CSS<br>`transform` |
 | `--mp-badge-size-xs-space` | 公开 | `0px` | 本组件 CSS<br>`margin-inline` |
-| `--mp-badge-status-danger-bg-color` | 公开 | `var(--mp-sys-color-status-danger)` | 本组件 CSS<br>`background-color` |
-| `--mp-badge-status-danger-text-color` | 公开 | `var(--mp-sys-color-content-on-bright)` | 本组件 CSS<br>`color` |
+| `--mp-badge-status-danger-bg-color` | 公开 | `rgb(var(--mp-danger-7))` | 本组件 CSS<br>`background-color` |
+| `--mp-badge-status-danger-text-color` | 公开 | `var(--mp-sys-color-content-on-dark)` | 本组件 CSS<br>`color` |
 | `--mp-badge-status-default-bg-color` | 公开 | `#e0e0e0` | 本组件 CSS<br>`background-color` |
 | `--mp-badge-status-default-text-color` | 公开 | `var(--mp-sys-color-content-on-bright)` | 本组件 CSS<br>`color` |
 | `--mp-badge-status-info-bg-color` | 公开 | `var(--mp-sys-color-status-info)` | 本组件 CSS<br>`background-color` |
-| `--mp-badge-status-info-text-color` | 公开 | `var(--mp-sys-color-content-on-bright)` | 本组件 CSS<br>`color` |
+| `--mp-badge-status-info-text-color` | 公开 | `var(--mp-sys-color-content-on-dark)` | 本组件 CSS<br>`color` |
 | `--mp-badge-status-primary-bg-color` | 公开 | `var(--mp-sys-color-action-primary)` | 本组件 CSS<br>`background-color` |
-| `--mp-badge-status-primary-text-color` | 公开 | `var(--mp-sys-color-content-on-bright)` | 本组件 CSS<br>`color` |
+| `--mp-badge-status-primary-text-color` | 公开 | `var(--mp-sys-color-content-on-dark)` | 本组件 CSS<br>`color` |
 | `--mp-badge-status-secondary-bg-color` | 公开 | `rgb(var(--mp-gray-6))` | 本组件 CSS<br>`background-color` |
-| `--mp-badge-status-secondary-text-color` | 公开 | `var(--mp-sys-color-content-on-bright)` | 本组件 CSS<br>`color` |
+| `--mp-badge-status-secondary-text-color` | 公开 | `var(--mp-sys-color-content-on-dark)` | 本组件 CSS<br>`color` |
 | `--mp-badge-status-success-bg-color` | 公开 | `var(--mp-sys-color-status-success)` | 本组件 CSS<br>`background-color` |
-| `--mp-badge-status-success-text-color` | 公开 | `var(--mp-sys-color-content-on-bright)` | 本组件 CSS<br>`color` |
+| `--mp-badge-status-success-text-color` | 公开 | `var(--mp-sys-color-content-on-dark)` | 本组件 CSS<br>`color` |
 | `--mp-badge-status-tertiary-bg-color` | 公开 | `rgb(var(--mp-gray-7))` | 本组件 CSS<br>`background-color` |
 | `--mp-badge-status-tertiary-text-color` | 公开 | `var(--mp-sys-color-content-on-dark)` | 本组件 CSS<br>`color` |
 | `--mp-badge-status-warning-bg-color` | 公开 | `var(--mp-sys-color-status-warning)` | 本组件 CSS<br>`background-color` |
-| `--mp-badge-status-warning-text-color` | 公开 | `var(--mp-sys-color-content-on-bright)` | 本组件 CSS<br>`color` |
-| `--mp-badge-text-color` | 公开 | `var(--mp-sys-color-content-on-bright)` | 本组件 CSS<br>`color` |
+| `--mp-badge-status-warning-text-color` | 公开 | `var(--mp-sys-color-content-on-dark)` | 本组件 CSS<br>`color` |
+| `--mp-badge-text-color` | 公开 | `var(--mp-sys-color-content-on-dark)` | 本组件 CSS<br>`color` |
 | `--mp-badge-variant-outline-bg-color` | 公开 | `transparent` | 本组件 CSS<br>`background-color` |
 | `--mp-badge-variant-outline-status-danger-text-color` | 公开 | `var(--mp-sys-color-content-danger)` | 本组件 CSS<br>`border`, `color` |
 | `--mp-badge-variant-outline-status-default-text-color` | 公开 | `var(--mp-sys-color-content-primary)` | 本组件 CSS<br>`border`, `color` |
@@ -1403,8 +1403,8 @@
 | `--mp-link-bg-hover` | 公开 | `var(--mp-color-fill-2)` | 本组件 CSS<br>`background-color` |
 | `--mp-link-border-radius` | 公开 | `var(--mp-sys-radius-md)` | 本组件 CSS<br>`border-radius` |
 | `--mp-link-danger-color` | 公开 | `var(--mp-sys-color-content-danger)` | 本组件 CSS<br>`color` |
-| `--mp-link-default-color` | 公开 | `#555` | 本组件 CSS<br>`color` |
-| `--mp-link-disabled-color` | 公开 | `var(--mp-color-text-disabled)` | 本组件 CSS<br>`color` |
+| `--mp-link-default-color` | 公开 | `var(--mp-sys-color-content-primary)` | 本组件 CSS<br>`color` |
+| `--mp-link-disabled-color` | 公开 | `var(--mp-sys-color-content-disabled)` | 本组件 CSS<br>`color` |
 | `--mp-link-focus-color` | 公开 | `currentColor` | 本组件 CSS<br>`outline` |
 | `--mp-link-focus-offset` | 公开 | `2px` | 本组件 CSS<br>`outline-offset` |
 | `--mp-link-focus-opacity` | 公开 | `0.8` | 本组件 CSS<br>`opacity` |
@@ -1417,11 +1417,16 @@
 | `--mp-link-padding-horizontal` | 公开 | `0.25em` | 本组件 CSS<br>`padding` |
 | `--mp-link-padding-vertical` | 公开 | `1px` | 本组件 CSS<br>`padding` |
 | `--mp-link-primary-color` | 公开 | `var(--mp-sys-color-content-brand)` | 本组件 CSS<br>`color` |
-| `--mp-link-secondary-color` | 公开 | `rgb(var(--mp-gray-6))` | 本组件 CSS<br>`color` |
+| `--mp-link-secondary-color` | 公开 | `var(--mp-sys-color-content-secondary)` | 本组件 CSS<br>`color` |
 | `--mp-link-size-icon` | 公开 | `var(--mp-link-icon-size)` | 本组件 CSS<br>`font-size` |
+| `--mp-link-size-lg-font-size` | 公开 | `var(--mp-sys-font-size-lg)` | 本组件 CSS<br>`font-size` |
+| `--mp-link-size-md-font-size` | 公开 | `var(--mp-link-font-size)` | 本组件 CSS<br>`font-size` |
+| `--mp-link-size-sm-font-size` | 公开 | `var(--mp-sys-font-size-sm)` | 本组件 CSS<br>`font-size` |
+| `--mp-link-size-xl-font-size` | 公开 | `var(--mp-sys-font-size-xl)` | 本组件 CSS<br>`font-size` |
+| `--mp-link-size-xs-font-size` | 公开 | `var(--mp-sys-font-size-xs)` | 本组件 CSS<br>`font-size` |
 | `--mp-link-spin-duration` | 公开 | `1s` | 本组件 CSS<br>`animation` |
 | `--mp-link-success-color` | 公开 | `var(--mp-sys-color-content-success)` | 本组件 CSS<br>`color` |
-| `--mp-link-tertiary-color` | 公开 | `rgb(var(--mp-gray-7))` | 本组件 CSS<br>`color` |
+| `--mp-link-tertiary-color` | 公开 | `var(--mp-sys-color-content-secondary)` | 本组件 CSS<br>`color` |
 | `--mp-link-text-color` | 公开 | `var(--mp-link-primary-color)` | 本组件 CSS<br>`color` |
 | `--mp-link-text-color-active` | 公开 | `var(--mp-link-text-color)` | 本组件 CSS<br>`color` |
 | `--mp-link-text-color-default` | 公开 | `var(--mp-link-default-color)` | 本组件 CSS<br>`color` |
@@ -2777,15 +2782,15 @@ expand-duration／fade-duration 消费到 transform／opacity 过渡；运行时
 | `--mp-tooltip-size-xs-padding-horizontal` | 公开 | `var(--mp-sys-space-4)` | 本组件 CSS<br>`padding` |
 | `--mp-tooltip-size-xs-padding-vertical` | 公开 | `var(--mp-sys-space-2)` | 本组件 CSS<br>`padding` |
 | `--mp-tooltip-status-danger-background` | 公开 | `var(--mp-sys-color-status-danger)` | 本组件 CSS<br>`background-color` |
-| `--mp-tooltip-status-danger-text-color` | 公开 | `var(--mp-sys-color-content-on-bright)` | 本组件 CSS<br>`color` |
+| `--mp-tooltip-status-danger-text-color` | 公开 | `var(--mp-sys-color-content-on-dark)` | 本组件 CSS<br>`color` |
 | `--mp-tooltip-status-info-background` | 公开 | `var(--mp-sys-color-status-info)` | 本组件 CSS<br>`background-color` |
-| `--mp-tooltip-status-info-text-color` | 公开 | `var(--mp-sys-color-content-on-bright)` | 本组件 CSS<br>`color` |
+| `--mp-tooltip-status-info-text-color` | 公开 | `var(--mp-sys-color-content-on-dark)` | 本组件 CSS<br>`color` |
 | `--mp-tooltip-status-primary-background` | 公开 | `var(--mp-sys-color-action-primary)` | 本组件 CSS<br>`background-color` |
-| `--mp-tooltip-status-primary-text-color` | 公开 | `var(--mp-sys-color-content-on-bright)` | 本组件 CSS<br>`color` |
+| `--mp-tooltip-status-primary-text-color` | 公开 | `var(--mp-sys-color-content-on-dark)` | 本组件 CSS<br>`color` |
 | `--mp-tooltip-status-success-background` | 公开 | `var(--mp-sys-color-status-success)` | 本组件 CSS<br>`background-color` |
-| `--mp-tooltip-status-success-text-color` | 公开 | `var(--mp-sys-color-content-on-bright)` | 本组件 CSS<br>`color` |
+| `--mp-tooltip-status-success-text-color` | 公开 | `var(--mp-sys-color-content-on-dark)` | 本组件 CSS<br>`color` |
 | `--mp-tooltip-status-warning-background` | 公开 | `var(--mp-sys-color-status-warning)` | 本组件 CSS<br>`background-color` |
-| `--mp-tooltip-status-warning-text-color` | 公开 | `var(--mp-sys-color-content-on-bright)` | 本组件 CSS<br>`color` |
+| `--mp-tooltip-status-warning-text-color` | 公开 | `var(--mp-sys-color-content-on-dark)` | 本组件 CSS<br>`color` |
 | `--mp-tooltip-text-color` | 公开 | `var(--mp-sys-color-content-on-dark)` | 本组件 CSS<br>`color` |
 
 </div>

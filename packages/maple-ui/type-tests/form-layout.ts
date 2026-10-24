@@ -5,7 +5,7 @@ import type {
   FormLabelFlex,
   FormLayout,
   FormProps,
-} from '@maplejs/maple-ui'
+} from '@maple-design/ui'
 
 const layout: FormLayout = 'horizontal'
 const align: FormLabelAlign = 'left'

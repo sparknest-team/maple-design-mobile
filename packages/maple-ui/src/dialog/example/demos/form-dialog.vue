@@ -1,6 +1,6 @@
 <script setup>
 import { reactive, ref } from 'vue'
-import { Dialog, Message } from '@maplejs/maple-ui'
+import { Dialog, Message } from '@maple-design/ui'
 
 const formOpen = ref(false)
 const formRef = ref(null)

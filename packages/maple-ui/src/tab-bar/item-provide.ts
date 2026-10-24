@@ -1,6 +1,6 @@
 import { type ComputedRef } from 'vue'
-import { assert } from '@maplejs/maple-shared'
-import { useParent } from '@maplejs/maple-use'
+import { assert } from '@maple-design/shared'
+import { useParent } from '@maple-design/use'
 import { TAB_BAR_BIND_TAB_BAR_ITEM_KEY, type TabBarProvider } from './provide'
 
 export interface TabBarItemProvider {

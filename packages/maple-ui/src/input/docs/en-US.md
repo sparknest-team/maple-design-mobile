@@ -2,6 +2,16 @@
 
 ## Examples
 
+### Default value and v-model
+
+`modelValue` is the controlled value bound through ordinary `v-model`. It takes precedence, including an empty string. `defaultValue` initializes uncontrolled state only when the component is created; subsequent user input is stored internally. Changing `defaultValue` does not reset existing text. Remounting reads it again. Initialization emits no `update:modelValue` and does not write to a parent form.
+
+For a form default, initialize the bound field, for example `const text = ref('Beijing')`, then use `<mp-input v-model="text" />`.
+
+```demo
+../example/demos/en-US/default-value.vue
+```
+
 ### Basic Usage
 
 Default length counts UTF-16 code units (an emoji usually uses 2). Default truncation never splits a valid surrogate pair; a character that does not fit is omitted entirely. For grapheme-cluster counting and slicing, provide matching `word-length` and `word-slice` functions; custom slicing remains application-controlled.
@@ -157,7 +167,7 @@ Use this example for single-line form inputs. Adjust disabled, read-only, error 
 | ----------------- | -------------------------------------------------------------------------- | ------------------ | :-------: |
 | `v-model`         | Controlled value                                                           | `string`           |    `-`    |
 | `model-modifiers` | `v-model` modifiers; supports `trim`                                       | `object`           |   `{}`    |
-| `default-value`   | Initial value in uncontrolled mode                                         | `string`           |   `''`    |
+| `default-value`   | Uncontrolled initial value; read only at creation, never written into the parent                                         | `string`           |   `''`    |
 | `type`            | `text`, `password`, `number`, `tel`, or `email`                            | `InputType`        |  `text`   |
 | `placeholder`     | Placeholder or floating hint text                                          | `string`           |    `-`    |
 | `size`            | `xs`, `sm`, `md`, `lg`, or `xl`                                            | `ComponentSize`    |   `md`    |

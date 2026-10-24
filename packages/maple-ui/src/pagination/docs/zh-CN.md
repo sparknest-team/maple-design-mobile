@@ -87,14 +87,16 @@
 
 ## API
 
+主值使用普通 `v-model`：`modelValue` 表示当前页码，从 1 开始；pageSize 仍独立控制每页条数。`defaultValue` 仅在创建时初始化非受控状态，之后修改不会重置当前值；初始化不触发 `update:modelValue`。提供 `modelValue` 时由父级控制，以受控值为准。
+
 <!-- same-source-api:start -->
 ### Props
 
 | 属性 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
 | total | 数据总数（必填） | `number` | `—` |
-| current | 当前页码，支持 v-model:current | `number` | `—` |
-| default-current | 非受控初始页码 | `number` | `1` |
+| model-value | 当前页码，支持 v-model | `number` | `—` |
+| default-value | 非受控初始页码 | `number` | `1` |
 | page-size | 每页条数，支持 v-model:page-size | `number` | `—` |
 | default-page-size | 非受控初始条数 | `number` | `10` |
 | disabled | 禁用所有交互 | `boolean` | `false` |
@@ -120,8 +122,8 @@
 
 | Event | Description | Arguments |
 | --- | --- | --- |
-| update:current | 请求更新页码 | `number` |
-| change | 页码提交变化（与 update:current 成对） | `number` |
+| update:model-value | 请求更新页码 | `number` |
+| change | 页码提交变化（与 update:modelValue 成对） | `number` |
 | update:page-size | 请求更新条数 | `number` |
 | page-size-change | 条数提交变化（与 update:page-size 成对） | `number` |
 
@@ -151,9 +153,9 @@
 
 页码按钮支持 Tab、Enter、Space，当前页使用 `aria-current=page`。跳转框使用数字键盘提示，Enter 或失焦提交；空值、非数字、小数不跳转，整数越界限制到有效页码。禁用状态阻止所有提交。
 
-`auto-adjust` 在条数改变时尽量保留原页面首条数据的位置，总数减少时限制到最后一页，零条数据时页码回到 1。受控模式只发出更新请求，显示由父组件决定；父组件同一批更新明确设置 current 时优先遵循该值。
+`auto-adjust` 在条数改变时尽量保留原页面首条数据的位置，总数减少时限制到最后一页，零条数据时页码回到 1。受控模式只发出更新请求，显示由父组件决定；父组件同一批更新明确设置 modelValue 时优先遵循该值。
 
-完整模式和简洁模式的“前往”输入框均显示当前页码。点击翻页、外部更新 current 或切换每页条数触发页码调整时同步回显；非法输入恢复为当前页码。
+完整模式和简洁模式的“前往”输入框均显示当前页码。点击翻页、外部更新 modelValue 或切换每页条数触发页码调整时同步回显；非法输入恢复为当前页码。
 
 ### PaginationPageSizeProps
 
@@ -166,7 +168,7 @@
 ## 类型定义
 
 ```ts
-import type { PaginationProps, PaginationInstance, PaginationPageSizeProps } from '@maplejs/maple-ui'
+import type { PaginationProps, PaginationInstance, PaginationPageSizeProps } from '@maple-design/ui'
 ```
 
 ## 样式变量

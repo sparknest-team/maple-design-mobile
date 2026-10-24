@@ -1,6 +1,6 @@
 <script setup>
 import { onBeforeUnmount, onDeactivated, ref } from 'vue'
-import { onThemeChange } from '@maplejs/maple-cli/client'
+import { onThemeChange } from '@maple-design/cli/client'
 
 const data1 = Array(30).fill('列表项')
 const data2 = Array(30).fill('新的列表项')
@@ -29,7 +29,17 @@ function refresh() {
 </script>
 
 <template>
-  <mp-pull-refresh v-model="isRefresh" :success-duration="2000" @refresh="refresh">
-    <mp-cell v-for="(item, index) in data" :key="index" border> {{ item }} {{ index + 1 }} </mp-cell>
-  </mp-pull-refresh>
+  <div class="pull-refresh-demo__scroller">
+    <mp-pull-refresh v-model="isRefresh" :success-duration="2000" @refresh="refresh">
+      <mp-cell v-for="(item, index) in data" :key="index" border> {{ item }} {{ index + 1 }} </mp-cell>
+    </mp-pull-refresh>
+  </div>
 </template>
+
+<style scoped>
+.pull-refresh-demo__scroller {
+  height: 360px;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+</style>

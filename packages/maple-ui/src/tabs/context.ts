@@ -1,22 +1,22 @@
 import { isVNode, type ComputedRef, type InjectionKey, type VNode } from 'vue'
-import type { TabsKey, TabsProps } from './props'
+import type { TabsName, TabsProps } from './props'
 
 export interface TabEntry {
-  key: TabsKey
+  name: TabsName
   disabled: boolean
   hasPanel: boolean
 }
 export interface TabsContext {
   props: Readonly<TabsProps>
   entries: ComputedRef<TabEntry[]>
-  active: ComputedRef<TabsKey | undefined>
-  focused: { value: TabsKey | undefined }
+  active: ComputedRef<TabsName | undefined>
+  focused: { value: TabsName | undefined }
   rtl: ComputedRef<boolean>
-  id: (key: TabsKey, part: 'tab' | 'panel') => string
-  select: (key: TabsKey) => void
-  click: (key: TabsKey, event: Event) => void
+  id: (key: TabsName, part: 'tab' | 'panel') => string
+  select: (key: TabsName) => void
+  click: (key: TabsName, event: Event) => void
   add: (event: Event) => void
-  remove: (key: TabsKey, event: Event) => void
+  remove: (key: TabsName, event: Event) => void
 }
 export const tabsInjectionKey: InjectionKey<TabsContext> = Symbol('Tabs')
 

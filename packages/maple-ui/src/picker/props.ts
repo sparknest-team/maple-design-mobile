@@ -14,10 +14,9 @@ export type PickerColumnOption = {
 }
 
 export const props = {
-  modelValue: {
-    type: Array as PropType<(string | number)[]>,
-    default: () => [],
-  },
+  modelValue: { type: Array as PropType<(string | number)[]>, default: undefined },
+  /** 非受控初始选中值，仅创建时读取。 */
+  defaultValue: { type: Array as PropType<(string | number)[]>, default: () => [] },
   columns: {
     type: Array as PropType<PickerColumnOption[] | PickerColumnOption[][]>,
     default: () => [],
@@ -52,6 +51,6 @@ export const props = {
   cancelButtonTextColor: String,
   // dynamic internal
   dynamic: Boolean,
-  ...pickProps(popupProps, ['open', 'overlayClosable', 'escToClose', 'popupContainer']),
+  ...pickProps(popupProps, ['open', 'defaultOpen', 'overlayClosable', 'escToClose', 'popupContainer']),
   safeArea: Boolean,
 }

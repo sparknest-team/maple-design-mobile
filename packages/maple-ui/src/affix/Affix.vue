@@ -29,8 +29,8 @@
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
-import { doubleRaf, getRect, raf, toNumber } from '@maplejs/maple-shared'
-import { onSmartMounted, onSmartUnmounted, onWindowResize, useEventListener } from '@maplejs/maple-use'
+import { doubleRaf, getRect, raf, toNumber } from '@maple-design/shared'
+import { onSmartMounted, onSmartUnmounted, onWindowResize, useEventListener } from '@maple-design/use'
 import { createNamespace } from '../utils/components'
 import { getParentScroller, getTarget, toPxNum } from '../utils/elements'
 import { affixProps } from './props'

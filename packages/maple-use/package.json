@@ -1,6 +1,6 @@
 {
-  "name": "@maplejs/maple-use",
-  "version": "1.0.3",
+  "name": "@maple-design/use",
+  "version": "1.0.0",
   "description": "composable utils of maple",
   "keywords": [
     "composable",
@@ -36,7 +36,7 @@
     "dev": "tsup src/index.ts --format esm --out-dir=lib --watch --dts"
   },
   "dependencies": {
-    "@maplejs/maple-shared": "workspace:*"
+    "@maple-design/shared": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "catalog:",
@@ -46,5 +46,9 @@
   },
   "peerDependencies": {
     "vue": "^3.2.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   }
 }

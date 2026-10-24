@@ -1,11 +1,11 @@
 import type { PropType } from 'vue'
-import type { MenuOptionData } from './types'
+import type { MenuOptionData, MenuOptionLabel } from './types'
 
 export type MenuOptionKeyArrowX = 'ArrowLeft' | 'ArrowRight'
 
 export const props = {
   /** 主内容 */
-  label: { type: [String, Number, Boolean, Function, Object, Array] as PropType<any>, default: undefined },
+  label: { type: [String, Number, Boolean, Function, Object, Array] as PropType<MenuOptionLabel>, default: undefined },
   /** 激活命令时传给事件的值 */
   value: { type: [String, Number, Boolean, Object] as PropType<any>, default: undefined },
   /** 禁用当前项 */
@@ -18,8 +18,6 @@ export const props = {
   childrenTrigger: Boolean,
   /** 强制高亮 */
   highlight: Boolean,
-  /** 处于激活路径上 */
-  active: Boolean,
   /** 不注入菜单上下文，用于独立使用 */
   uninjectContext: Boolean,
 }

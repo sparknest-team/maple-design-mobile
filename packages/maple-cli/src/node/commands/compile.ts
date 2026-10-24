@@ -1,6 +1,6 @@
 import { resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { buildLibrary } from '@ui-foundation/ui-build'
+import { buildLibrary } from '@sparknest/ui-build'
 import fse from 'fs-extra'
 import { createSpinner } from 'nanospinner'
 import { compileTemplateHighlight } from '../compiler/compileTemplateHighlight.js'
@@ -29,7 +29,7 @@ export async function runTask(taskName: string, task: () => any) {
 }
 
 export async function compile() {
-  process.env.NODE_ENV = 'compile'
+  process.env.NODE_ENV = 'production'
   await removeDir()
 
   await runTask('library entry', generateLibraryEntry)

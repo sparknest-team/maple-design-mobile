@@ -1,5 +1,5 @@
 import { inject, provide } from 'vue'
-import { keyInProvides } from '@maplejs/maple-use'
+import { keyInProvides } from '@maple-design/use'
 
 export interface LocaleProvider {
   t: (id: string) => string | undefined

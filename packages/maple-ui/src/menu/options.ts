@@ -1,10 +1,11 @@
-import { defineComponent, h, inject, type PropType, type Slots, type VNodeChild } from 'vue'
+import { computed, defineComponent, h, inject, provide, type PropType, type Slots, type VNodeChild } from 'vue'
 import { createNamespace } from '../utils/components'
 import type { MenuOptionRenderers } from './branch-props'
+import { menuRenderLevelKey } from './context'
 import MenuBranch from './MenuBranch.vue'
 import MenuOption from './MenuOption.vue'
 import { menuProps } from './props'
-import { createMenuTree, menuSelectionKey, type MenuNode } from './selection'
+import { createMenuTree, getMenuNodeKey, menuSelectionKey, type MenuNode } from './selection'
 import type { MenuContent, MenuOptionData, MenuRenderContext } from './types'
 
 function resolveContent(content: MenuContent | undefined, context: MenuRenderContext): VNodeChild {
@@ -29,7 +30,7 @@ function createRenderers(slots: Slots, names: { label: string }): MenuOptionRend
   }
 }
 
-export default defineComponent({
+const MenuOptions = defineComponent({
   name: createNamespace('menu-options').name,
   props: {
     options: menuProps.options,
@@ -38,41 +39,58 @@ export default defineComponent({
     renderers: Object as PropType<MenuOptionRenderers>,
   },
   setup(props, { slots }) {
+    provide(
+      menuRenderLevelKey,
+      computed(() => props.level),
+    )
     const selection = inject(menuSelectionKey, undefined)
     const { n } = createNamespace('menu')
     const group = createNamespace('menu-group')
     return () => {
       const tree = createMenuTree(props.options, props.fieldNames)
       const renderers = props.renderers ?? createRenderers(slots, tree.names)
-      const renderNode = (node: MenuNode, index: number): VNodeChild => {
+      const renderNode = (node: MenuNode): VNodeChild => {
+        const key = getMenuNodeKey(node, tree.names.value)
         const option = node.raw as MenuOptionData
-        const active = selection?.isSelected(node.value) ?? false
+        const active = node.type === 'item' && (selection?.isSelected(node.value) ?? false)
         const level = props.level + node.level
         if (node.type === 'divider') {
-          return h('li', { key: index, role: 'separator', class: n('divider') })
+          return h('li', { key, role: 'separator', class: n('divider') })
         }
         if (node.type === 'group') {
-          return h('li', { key: index, role: 'group', class: group.n() }, [
+          return h('li', { key, role: 'group', class: group.n() }, [
             h('div', { class: group.n('title') }, [renderers.label(option, active, level)]),
             h('ul', { role: 'group', class: group.n('list') }, node.children.map(renderNode)),
           ])
         }
         if (node.children.length) {
-          return h(MenuBranch, {
-            key: index,
-            option,
-            options: node.children.map((child) => child.raw),
-            fieldNames: props.fieldNames,
-            level,
-            disabled: node.disabled,
-            renderers,
-          })
+          return h(
+            MenuBranch,
+            {
+              key,
+              option,
+              fieldNames: props.fieldNames,
+              level,
+              disabled: node.disabled,
+              renderers,
+            },
+            {
+              // The branch owns popup/level state; recursion stays in this renderer.
+              default: () =>
+                h(MenuOptions, {
+                  options: node.children.map((child) => child.raw),
+                  fieldNames: props.fieldNames,
+                  level: level + 1,
+                  renderers,
+                }),
+            },
+          )
         }
         return h(
           MenuOption,
           {
             ...option.props,
-            key: index,
+            key,
             value: node.value,
             option,
             ripple: option.ripple,
@@ -89,3 +107,5 @@ export default defineComponent({
     }
   },
 })
+
+export default MenuOptions

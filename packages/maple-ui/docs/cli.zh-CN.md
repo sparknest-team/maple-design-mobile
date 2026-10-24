@@ -22,12 +22,12 @@
 
 ### 快速开始
 
-`@maplejs/maple-cli` 内置了 `sfc` 和 `tsx` 两种风格的组件库项目模板，可以通过 `gen` 命令直接生成。
+`@maple-design/cli` 内置了 `sfc` 和 `tsx` 两种风格的组件库项目模板，可以通过 `gen` 命令直接生成。
 方便您直接进入组件库开发。
 
 ```shell
 # playground-ignore
-pnpm add @maplejs/maple-cli -g
+pnpm add @maple-design/cli -g
 maple-cli gen
 ```
 
@@ -37,7 +37,7 @@ maple-cli gen
 
 项目根目录下的 `maple.config.mjs` 用来管理整个组件库项目的具体细节。
 默认配置可查阅 [maple.default.config.ts](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/blob/master/packages/maple-cli/src/node/config/maple.default.config.ts?ref_type=heads)。
-也可以参考 `@maplejs/maple-ui` 的 [maple.config.mjs](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/blob/master/packages/maple-ui/maple.config.mjs?ref_type=heads)。
+也可以参考 `@maple-design/ui` 的 [maple.config.mjs](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/blob/master/packages/maple-ui/maple.config.mjs?ref_type=heads)。
 
 | 参数 | 说明 | 类型 | 默认值 |
 | -- | -------------- | -------- | ---------- |

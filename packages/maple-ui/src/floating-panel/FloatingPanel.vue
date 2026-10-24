@@ -33,8 +33,8 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref, watch } from 'vue'
-import { call, isEmpty, preventDefault, toNumber } from '@maplejs/maple-shared'
-import { useTouch, useVModel, useWindowSize } from '@maplejs/maple-use'
+import { call, isEmpty, preventDefault, toNumber } from '@maple-design/shared'
+import { useTouch, useVModel, useWindowSize } from '@maple-design/use'
 import { useLock } from '../context/lock'
 import { createNamespace, formatElevation, useTeleport } from '../utils/components'
 import { toSizeUnit } from '../utils/elements'
@@ -48,16 +48,16 @@ const OVERFLOW_REDUCE_RATIO = 0.2
 export default defineComponent({
   name,
   props,
-  emits: ['anchor-change', 'update:anchor'],
+  emits: ['height-change', 'update:modelValue'],
   setup(props, { emit }) {
     const visibleHeight = ref<number>(0)
     const contentRef = ref<HTMLElement | null>(null)
     const { height: windowHeight } = useWindowSize()
     const defaultEndAnchor = computed(() => windowHeight.value * 0.6)
-    const anchor = useVModel(props, 'anchor', {
-      defaultValue: DEFAULT_START_ANCHOR,
+    const anchor = useVModel(props, 'modelValue', {
+      defaultValue: props.defaultValue,
       emit,
-      eventName: 'update:anchor',
+      eventName: 'update:modelValue',
     })
     const anchors = computed<number[]>(() => {
       const defaultAnchors = [DEFAULT_START_ANCHOR, defaultEndAnchor.value]
@@ -128,7 +128,7 @@ export default defineComponent({
       anchor.value = visibleHeight.value
 
       if (anchor.value !== oldAnchor) {
-        emit('anchor-change', visibleHeight.value)
+        emit('height-change', visibleHeight.value)
       }
     }
 

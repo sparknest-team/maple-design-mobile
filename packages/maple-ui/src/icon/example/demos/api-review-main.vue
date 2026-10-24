@@ -8,8 +8,8 @@ import {
   IconInfoCircle,
   IconRefresh,
   IconSearch,
-} from '@maplejs/icons-vue'
-import { defineReviewConfig, ReviewSlot as DemoReviewSlot } from '@ui-foundation/ui-doc-preview'
+} from '@maple-design/icons-vue'
+import { defineReviewConfig, ReviewSlot as DemoReviewSlot } from '@sparknest/ui-doc-preview'
 import DemoApiReviewPanel from '../../../../docs/components/ApiReviewPanel.vue'
 import __apiReviewRawConfig from './api-review.config.json'
 

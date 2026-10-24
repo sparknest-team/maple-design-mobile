@@ -31,29 +31,29 @@ const componentOrder = ref<(typeof componentOrders)[number]>('nav-first')
       </mp-radio-group>
     </div>
   </div>
-  <mp-tabs :orientation="orientation" :indicator-position="indicatorPosition" default-active="first">
+  <mp-tabs :orientation="orientation" :indicator-position="indicatorPosition" default-value="first">
     <template v-if="componentOrder === 'items-first'">
       <mp-tabs-items>
-        <mp-tab-item key="first">第一个面板</mp-tab-item>
-        <mp-tab-item key="second">第二个面板</mp-tab-item>
-        <mp-tab-item key="third">第三个面板</mp-tab-item>
+        <mp-tab-item name="first">第一个面板</mp-tab-item>
+        <mp-tab-item name="second">第二个面板</mp-tab-item>
+        <mp-tab-item name="third">第三个面板</mp-tab-item>
       </mp-tabs-items>
       <mp-tabs-navs aria-label="方向示例">
-        <mp-tab-nav key="first" title="第一个" />
-        <mp-tab-nav key="second" title="第二个" />
-        <mp-tab-nav key="third" title="第三个" />
+        <mp-tab-nav name="first" title="第一个" />
+        <mp-tab-nav name="second" title="第二个" />
+        <mp-tab-nav name="third" title="第三个" />
       </mp-tabs-navs>
     </template>
     <template v-else>
       <mp-tabs-navs aria-label="方向示例">
-        <mp-tab-nav key="first" title="第一个" />
-        <mp-tab-nav key="second" title="第二个" />
-        <mp-tab-nav key="third" title="第三个" />
+        <mp-tab-nav name="first" title="第一个" />
+        <mp-tab-nav name="second" title="第二个" />
+        <mp-tab-nav name="third" title="第三个" />
       </mp-tabs-navs>
       <mp-tabs-items>
-        <mp-tab-item key="first">第一个面板</mp-tab-item>
-        <mp-tab-item key="second">第二个面板</mp-tab-item>
-        <mp-tab-item key="third">第三个面板</mp-tab-item>
+        <mp-tab-item name="first">第一个面板</mp-tab-item>
+        <mp-tab-item name="second">第二个面板</mp-tab-item>
+        <mp-tab-item name="third">第三个面板</mp-tab-item>
       </mp-tabs-items>
     </template>
   </mp-tabs>

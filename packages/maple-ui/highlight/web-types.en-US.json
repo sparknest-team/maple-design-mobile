@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json",
   "framework": "vue",
-  "version": "1.0.3",
+  "version": "1.0.0",
   "name": "Maple",
   "contributions": {
     "html": {
@@ -1580,12 +1580,12 @@
           "attributes": [],
           "events": [
             {
-              "name": "update:current",
-              "description": "index: number"
+              "name": "update:model-value",
+              "description": "slideNumber: number"
             },
             {
               "name": "change",
-              "description": "index: number, previousIndex: number, isManual: boolean"
+              "description": "slideNumber: number, previousSlideNumber: number, isManual: boolean"
             }
           ],
           "slots": [
@@ -1595,7 +1595,7 @@
             },
             {
               "name": "prev / next / indicator",
-              "description": "{ index, length, hovering, prev, next, to, resize }"
+              "description": "{ slideNumber, length, hovering, prev, next, to, resize }"
             }
           ]
         },
@@ -2011,8 +2011,8 @@
           "name": "mp-collapse",
           "attributes": [
             {
-              "name": "active-names",
-              "description": "Expanded names; v-model:active-names",
+              "name": "model-value",
+              "description": "Expanded names; v-model",
               "default": "—",
               "value": {
                 "type": "`(string | number)[]`",
@@ -2020,7 +2020,7 @@
               }
             },
             {
-              "name": "default-active-names",
+              "name": "default-value",
               "description": "Uncontrolled initial expanded names",
               "default": "[]",
               "value": {
@@ -2094,7 +2094,7 @@
           ],
           "events": [
             {
-              "name": "update:active-names",
+              "name": "update:model-value",
               "description": "Request an expanded-name update"
             },
             {
@@ -3607,7 +3607,7 @@
           "name": "mp-fab",
           "attributes": [
             {
-              "name": "v-model:active",
+              "name": "v-model:open",
               "description": "Whether to activate the action menu",
               "default": "false",
               "value": {
@@ -3616,8 +3616,17 @@
               }
             },
             {
-              "name": "open",
-              "description": "Whether to show trigger",
+              "name": "default-open",
+              "description": "Initial uncontrolled action-menu state, read only at creation",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "visible",
+              "description": "Whether to show the whole widget",
               "default": "true",
               "value": {
                 "type": "boolean",
@@ -3688,7 +3697,7 @@
               }
             },
             {
-              "name": "inactive-icon",
+              "name": "closed-icon",
               "description": "Inactive trigger icon",
               "default": "plus",
               "value": {
@@ -3697,16 +3706,16 @@
               }
             },
             {
-              "name": "active-icon",
-              "description": "trigger icon when active",
-              "default": "window-close",
+              "name": "open-icon",
+              "description": "trigger icon when open",
+              "default": "close",
               "value": {
                 "type": "string",
                 "kind": "expression"
               }
             },
             {
-              "name": "inactive-icon-size",
+              "name": "closed-icon-size",
               "description": "Inactive trigger icon size",
               "default": "-",
               "value": {
@@ -3715,29 +3724,11 @@
               }
             },
             {
-              "name": "active-icon-size",
-              "description": "Trigger icon size when active",
+              "name": "open-icon-size",
+              "description": "Trigger icon size when open",
               "default": "-",
               "value": {
                 "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "inactive-icon-namespace",
-              "description": "Trigger icon namespace when inactive",
-              "default": "mp-icon",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "active-icon-namespace",
-              "description": "Trigger icon namespace when active",
-              "default": "mp-icon",
-              "value": {
-                "type": "string",
                 "kind": "expression"
               }
             },
@@ -3860,11 +3851,20 @@
           "name": "mp-floating-panel",
           "attributes": [
             {
-              "name": "v-model:anchor",
-              "description": "The panel initially displays the anchor point, or the first value of the `anchors` attribute if not passed",
+              "name": "v-model",
+              "description": "Current settled height in pixels; updated after dragging and snapping",
               "default": "-",
               "value": {
-                "type": "number | string",
+                "type": "number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-value",
+              "description": "Initial uncontrolled height, read only at creation",
+              "default": "100",
+              "value": {
+                "type": "number",
                 "kind": "expression"
               }
             },
@@ -3925,7 +3925,11 @@
           ],
           "events": [
             {
-              "name": "anchor-change",
+              "name": "update:model-value",
+              "description": "Height after dragging and snapping; not emitted during initialization"
+            },
+            {
+              "name": "height-change",
               "description": "Triggered after moving to an anchor"
             }
           ],
@@ -4513,7 +4517,7 @@
               }
             },
             {
-              "name": "v-model:preview-open",
+              "name": "v-model:open",
               "description": "Controlled preview visibility",
               "default": "-",
               "value": {
@@ -4522,7 +4526,7 @@
               }
             },
             {
-              "name": "default-preview-open",
+              "name": "default-open",
               "description": "Default preview visibility",
               "default": "false",
               "value": {
@@ -4563,12 +4567,12 @@
               "description": "Triggered when an image fails to load (when an image fails in lazy loading mode, it will only be triggered when the number of attempts ends)"
             },
             {
-              "name": "preview-open-change",
+              "name": "open-change",
               "description": "Triggered when preview opens or closes"
             },
             {
-              "name": "update:preview-open",
-              "description": "Updates the `preview-open` model"
+              "name": "update:open",
+              "description": "Updates the `open` model"
             }
           ],
           "slots": [
@@ -4783,7 +4787,7 @@
             },
             {
               "name": "default-value",
-              "description": "Initial value in uncontrolled mode",
+              "description": "Uncontrolled initial value; read only at creation, never written into the parent",
               "default": "''",
               "value": {
                 "type": "`string`",
@@ -6350,8 +6354,8 @@
               }
             },
             {
-              "name": "current",
-              "description": "Current page; v-model:current",
+              "name": "model-value",
+              "description": "Current page; v-model",
               "default": "—",
               "value": {
                 "type": "`number`",
@@ -6359,7 +6363,7 @@
               }
             },
             {
-              "name": "default-current",
+              "name": "default-value",
               "description": "Initial uncontrolled page",
               "default": "1",
               "value": {
@@ -6550,12 +6554,12 @@
           ],
           "events": [
             {
-              "name": "update:current",
+              "name": "update:model-value",
               "description": "Request current page update"
             },
             {
               "name": "change",
-              "description": "Committed page change; paired with update:current"
+              "description": "Committed page change; paired with update:modelValue"
             },
             {
               "name": "update:page-size",
@@ -8550,7 +8554,7 @@
           "name": "mp-steps",
           "attributes": [
             {
-              "name": "current",
+              "name": "model-value",
               "description": "Current step (controlled, 1-based)",
               "default": "-",
               "value": {
@@ -8559,7 +8563,7 @@
               }
             },
             {
-              "name": "default-current",
+              "name": "default-value",
               "description": "Default current step (uncontrolled)",
               "default": "1",
               "value": {
@@ -8637,8 +8641,8 @@
               "description": "Triggered when step changes (`changeable` required)"
             },
             {
-              "name": "update:current",
-              "description": "`v-model:current` sync"
+              "name": "update:modelValue",
+              "description": "`v-model` sync"
             }
           ],
           "slots": [
@@ -8768,11 +8772,11 @@
               }
             },
             {
-              "name": "default-checked",
-              "description": "Initial uncontrolled checked state; initialization only",
-              "default": "false",
+              "name": "default-value",
+              "description": "Initial uncontrolled value; falls back to uncheckedValue",
+              "default": "undefined",
               "value": {
-                "type": "boolean",
+                "type": "string / number / boolean",
                 "kind": "expression"
               }
             },
@@ -9011,7 +9015,7 @@
           "name": "mp-tab-bar",
           "attributes": [
             {
-              "name": "v-model:active",
+              "name": "v-model",
               "description": "Selected name or index; controlled when provided",
               "default": "undefined",
               "value": {
@@ -9020,7 +9024,7 @@
               }
             },
             {
-              "name": "default-active",
+              "name": "default-value",
               "description": "Initial uncontrolled selection; read once",
               "default": "0",
               "value": {
@@ -9111,10 +9115,10 @@
             },
             {
               "name": "variant",
-              "description": "Variant mode",
-              "default": "false",
+              "description": "Appearance",
+              "default": "standard",
               "value": {
-                "type": "boolean",
+                "type": "TabBarVariant：`standard` / `pill`",
                 "kind": "expression"
               }
             }
@@ -9274,7 +9278,7 @@
               }
             },
             {
-              "name": "checked",
+              "name": "model-value",
               "description": "Checked state when checkable (v-model)",
               "default": "true",
               "value": {
@@ -9283,7 +9287,7 @@
               }
             },
             {
-              "name": "default-checked",
+              "name": "default-value",
               "description": "Default checked state when checkable",
               "default": "true",
               "value": {
@@ -9325,7 +9329,7 @@
               "description": "Visibility changed"
             },
             {
-              "name": "update:checked",
+              "name": "update:model-value",
               "description": "Checked state changed (checkable)"
             },
             {

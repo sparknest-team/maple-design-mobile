@@ -13,7 +13,7 @@
     @close="$emit('close')"
     @closed="$emit('closed')"
     @key-escape="$emit('key-escape')"
-    @long-press="$emit('long-press', mergedCurrent)"
+    @long-press="$emit('long-press', mergedCurrent + 1)"
   >
     <template #image="{ scale, rotate, translateX, translateY, moving, previewedImgProps }">
       <div
@@ -71,7 +71,7 @@
       >
         ›
       </button>
-      <slot name="indicator" :index="mergedCurrent" :length="previewImages.length">
+      <slot name="indicator" :image-number="mergedCurrent + 1" :length="previewImages.length">
         <div v-if="previewImages.length > 1" :class="n('indicator')">
           {{ mergedCurrent + 1 }} / {{ previewImages.length }}
         </div>
@@ -111,7 +111,7 @@ export default defineComponent({
   props: imagePreviewGroupProps,
   emits: [
     'update:open',
-    'update:current',
+    'update:modelValue',
     'change',
     'open-change',
     'open',
@@ -122,25 +122,34 @@ export default defineComponent({
     'long-press',
   ],
   setup(props, { emit }) {
-    const previousIndex = ref(props.defaultCurrent)
+    const previousImageNumber = ref(props.modelValue ?? props.defaultValue)
     const group = useImagePreviewGroupState({
       images: toRef(props, 'images'),
       open: toRef(props, 'open'),
       defaultOpen: props.defaultOpen,
-      current: toRef(props, 'current'),
-      defaultCurrent: props.defaultCurrent,
+      modelValue: toRef(props, 'modelValue'),
+      defaultValue: props.defaultValue,
       onOpenChange: (open) => {
         emit('update:open', open)
         emit('open-change', open)
         props.onOpenChange?.(open)
       },
-      onCurrentChange: (index) => {
-        const previous = previousIndex.value
-        previousIndex.value = index
-        emit('update:current', index)
-        emit('change', index, previous)
+      onCurrentChange: (imageNumber) => {
+        const previous = previousImageNumber.value
+        previousImageNumber.value = imageNumber
+        emit('update:modelValue', imageNumber)
+        emit('change', imageNumber, previous)
       },
     })
+    watch(
+      () => props.modelValue,
+      (value) => {
+        if (value !== undefined) {
+          previousImageNumber.value = value
+        }
+      },
+      { flush: 'sync' },
+    )
     const previewRef = ref<ImagePreviewInstance>()
     const currentUrl = computed(() => group.previewImages.value[group.mergedCurrent.value])
     const visualCurrent = ref(0)
@@ -163,7 +172,7 @@ export default defineComponent({
     let releaseFrame: number | undefined
     let paintFrame: number | undefined
     const previewBindings = computed(() => {
-      const { images, current, defaultCurrent, loop, open, defaultOpen, ...shared } = props
+      const { images, modelValue, defaultValue, loop, open, defaultOpen, ...shared } = props
       return shared
     })
 
@@ -402,7 +411,7 @@ export default defineComponent({
       return { transform: `translate(${panX}px, ${panY}px) rotate(${rotate}deg) scale(${scale})` }
     }
 
-    function to(index: number, direction?: 'prev' | 'next') {
+    function toIndex(index: number, direction?: 'prev' | 'next') {
       if (!available()) {
         return
       }
@@ -432,13 +441,21 @@ export default defineComponent({
       }
       scheduleRecenter()
     }
-    function open(index = 0) {
-      if (!available()) {
+    function to(imageNumber: number) {
+      toIndex(imageNumber - 1)
+    }
+    function open(imageNumber = 1) {
+      if (
+        !available() ||
+        !Number.isInteger(imageNumber) ||
+        imageNumber < 1 ||
+        imageNumber > group.previewImages.value.length
+      ) {
         return
       }
-      to(index)
+      toIndex(imageNumber - 1)
       if (available()) {
-        group.open(index)
+        group.mergedOpen.value = true
       }
     }
     function close() {
@@ -453,9 +470,9 @@ export default defineComponent({
       }
       const index = group.mergedCurrent.value - 1
       if (index >= 0) {
-        to(index, 'prev')
+        toIndex(index, 'prev')
       } else if (props.loop && group.previewImages.value.length) {
-        to(group.previewImages.value.length - 1, 'prev')
+        toIndex(group.previewImages.value.length - 1, 'prev')
       }
     }
     function next() {
@@ -464,9 +481,9 @@ export default defineComponent({
       }
       const index = group.mergedCurrent.value + 1
       if (index < group.previewImages.value.length) {
-        to(index, 'next')
+        toIndex(index, 'next')
       } else if (props.loop && group.previewImages.value.length) {
-        to(0, 'next')
+        toIndex(0, 'next')
       }
     }
     function reset() {

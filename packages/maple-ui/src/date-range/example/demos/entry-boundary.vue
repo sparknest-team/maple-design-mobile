@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { DateValue } from '@maplejs/maple-ui'
+import type { DateValue } from '@maple-design/ui'
 
 const limited = ref(true)
 const blockEnd20 = ref(false)

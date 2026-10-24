@@ -67,7 +67,7 @@
 ### 类型
 
 ```ts
-import type { EllipsisProps, EllipsisInstance, EllipsisExpandTrigger } from '@maplejs/maple-ui'
+import type { EllipsisProps, EllipsisInstance, EllipsisExpandTrigger } from '@maple-design/ui'
 ```
 
 ### 样式变量

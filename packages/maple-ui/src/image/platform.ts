@@ -1,5 +1,5 @@
 import { computed, defineComponent, h } from 'vue'
-import { IconCloseCircleFill as PreviewCloseIcon } from '@maplejs/icons-vue'
+import { IconCloseCircleFill as PreviewCloseIcon } from '@maple-design/icons-vue'
 import { createNamespace } from '../utils/components'
 import { toSizeUnit } from '../utils/elements'
 import type { ImagePreviewActionName } from './api'

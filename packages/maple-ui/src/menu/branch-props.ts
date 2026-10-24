@@ -1,5 +1,4 @@
 import type { PropType, VNodeChild } from 'vue'
-import { menuProps } from './props'
 import type { MenuFieldNames } from './selection'
 import type { MenuOptionData } from './types'
 
@@ -13,7 +12,6 @@ export interface MenuOptionRenderers {
 
 export const menuBranchProps = {
   option: { type: Object as PropType<MenuOptionData>, required: true as const },
-  options: menuProps.options,
   fieldNames: Object as PropType<MenuFieldNames>,
   level: { type: Number, default: 0 },
   disabled: Boolean,

@@ -1,6 +1,6 @@
 <script setup>
 import { computed, ref } from 'vue'
-import { AppType, onThemeChange, watchLang } from '@maplejs/maple-cli/client'
+import { AppType, onThemeChange, watchLang } from '@maple-design/cli/client'
 import DemoApiReview from './demos/api-review.vue'
 import AsyncChangeDemo from './demos/async-change.vue'
 import BasicUsageDemo from './demos/basic-usage.vue'
@@ -10,8 +10,8 @@ import CustomColorDemo from './demos/custom-color.vue'
 import CustomLabelDemo from './demos/custom-label.vue'
 import FabDemo from './demos/fab.vue'
 import MatchByNameDemo from './demos/match-by-name.vue'
-import NumericNameDemo from './demos/numeric-name.vue'
 import ShowBadgeDemo from './demos/show-badge.vue'
+import StableKeyDemo from './demos/stable-key.vue'
 import UncontrolledDemo from './demos/uncontrolled.vue'
 import VariantDemo from './demos/variant.vue'
 
@@ -31,7 +31,7 @@ onThemeChange()
   </section>
 
   <section data-demo="variant">
-    <app-type>{{ english ? 'Variant' : '变体' }}</app-type>
+    <app-type>{{ english ? 'Pill indicator' : '胶囊指示器' }}</app-type>
     <VariantDemo />
   </section>
 
@@ -70,9 +70,9 @@ onThemeChange()
     <UncontrolledDemo />
   </section>
 
-  <section data-demo="numeric-name">
-    <app-type>{{ english ? 'Numeric names and reordering' : '数字名称与重排' }}</app-type>
-    <NumericNameDemo />
+  <section data-demo="stable-key">
+    <app-type>{{ english ? 'Stable keys and selection' : '稳定 key 与选中保持' }}</app-type>
+    <StableKeyDemo />
   </section>
 
   <section data-demo="custom-label">

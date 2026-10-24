@@ -50,12 +50,12 @@ export interface ImagePreviewProps {
 
 export interface ImagePreviewGroupProps extends Omit<ImagePreviewProps, 'src' | 'previewedImgProps' | 'onLongPress'> {
   images?: string[]
-  current?: number
-  defaultCurrent?: number
+  modelValue?: number
+  defaultValue?: number
   loop?: boolean
-  onChange?: (index: number, previousIndex: number) => void
-  'onUpdate:current'?: (index: number) => void
-  onLongPress?: (index: number) => void
+  onChange?: (imageNumber: number, previousImageNumber: number) => void
+  'onUpdate:modelValue'?: (imageNumber: number) => void
+  onLongPress?: (imageNumber: number) => void
 }
 
 export interface ImageProps {
@@ -81,8 +81,8 @@ export interface ImageProps {
   ripple?: boolean
   block?: boolean
   previewDisabled?: boolean
-  previewOpen?: boolean
-  defaultPreviewOpen?: boolean
+  open?: boolean
+  defaultOpen?: boolean
   previewProps?: Partial<ImagePreviewProps>
   extra?: Slot
   placeholder?: Slot
@@ -90,8 +90,8 @@ export interface ImageProps {
   error?: Slot
   errorIcon?: Slot
   previewActions?: Slot
-  onPreviewOpenChange?: (open: boolean) => void
-  'onUpdate:previewOpen'?: (open: boolean) => void
+  onOpenChange?: (open: boolean) => void
+  'onUpdate:open'?: (open: boolean) => void
   onClick?: (event: Event) => void
   onLoad?: (event: Event) => void
   onError?: (event: Event) => void
@@ -124,21 +124,21 @@ export interface ImagePreviewInstance {
 }
 
 export interface ImagePreviewGroupInstance extends Omit<ImagePreviewInstance, 'open'> {
-  open: (index?: number) => void
+  open: (imageNumber?: number) => void
   close: () => void
   prev: () => void
   next: () => void
-  to: (index: number) => void
+  to: (imageNumber: number) => void
   reset: () => void
 }
 
 export interface ImagePreviewHandle {
-  open: (index?: number) => void
+  open: (imageNumber?: number) => void
   close: () => void
   reset: () => void
   prev: () => void
   next: () => void
-  to: (index: number) => void
+  to: (imageNumber: number) => void
   zoomTo: (scale: number) => void
   zoomIn: () => void
   zoomOut: () => void
@@ -149,10 +149,10 @@ export interface ImagePreviewHandle {
 
 export interface ImagePreviewOptions extends ImagePreviewProps {
   images?: string[]
-  current?: number
-  defaultCurrent?: number
+  modelValue?: number
+  defaultValue?: number
   loop?: boolean
-  onChange?: (index: number, previousIndex: number) => void
-  'onUpdate:current'?: (index: number) => void
+  onChange?: (imageNumber: number, previousImageNumber: number) => void
+  'onUpdate:modelValue'?: (imageNumber: number) => void
 }
 export type UserImagePreviewOptions = ImagePreviewOptions | string | string[]

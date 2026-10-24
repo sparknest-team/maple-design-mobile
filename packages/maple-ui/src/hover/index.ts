@@ -1,5 +1,5 @@
 import { ref, type App, type Directive, type DirectiveBinding, type Plugin } from 'vue'
-import { camelize, inMobile, isFunction } from '@maplejs/maple-shared'
+import { camelize, inMobile, isFunction } from '@maple-design/shared'
 import { withPropsDefaultsSetter } from '../utils/components'
 import HoverOverlay from './HoverOverlay.vue'
 import { props as hoverOverlayProps } from './overlay-props'

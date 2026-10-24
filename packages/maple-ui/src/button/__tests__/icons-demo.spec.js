@@ -1,5 +1,5 @@
 import { nextTick } from 'vue'
-import { IconCheck, IconClose, IconDelete, IconInfoCircle, IconPlus, IconReply } from '@maplejs/icons-vue'
+import { IconCheck, IconClose, IconDelete, IconInfoCircle, IconPlus, IconReply } from '@maple-design/icons-vue'
 import { mount } from '@vue/test-utils'
 import { expect, test } from 'vitest'
 import Button from '..'

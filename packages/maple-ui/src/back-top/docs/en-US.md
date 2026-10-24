@@ -77,7 +77,7 @@ When `popup-container=false`, the button is positioned absolutely; give its cont
 ### Types
 
 ```ts
-import type { BackTopProps, BackTopInstance, BackTopTarget, BackTopEasing } from '@maplejs/maple-ui'
+import type { BackTopProps, BackTopInstance, BackTopTarget, BackTopEasing } from '@maple-design/ui'
 ```
 
 ### CSS tokens

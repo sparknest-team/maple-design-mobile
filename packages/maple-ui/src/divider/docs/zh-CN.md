@@ -116,7 +116,7 @@
 ## 类型定义
 
 ```ts
-import type { DividerProps, DividerInstance, DividerSize } from '@maplejs/maple-ui'
+import type { DividerProps, DividerInstance, DividerSize } from '@maple-design/ui'
 ```
 
 ### 样式变量

@@ -11,7 +11,7 @@ const basicStatus = ref<StepStatus>('process')
   <mp-radio-group v-model="basicStatus" class="status-switch">
     <mp-radio v-for="status in statuses" :key="status" :value="status">{{ status }}</mp-radio>
   </mp-radio-group>
-  <mp-steps :current="current" :status="basicStatus" content-placement="bottom">
+  <mp-steps :model-value="current" :status="basicStatus" content-placement="bottom">
     <mp-step>步骤1</mp-step>
     <mp-step>步骤2</mp-step>
     <mp-step>步骤3</mp-step>

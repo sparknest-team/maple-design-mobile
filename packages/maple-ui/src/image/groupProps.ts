@@ -9,7 +9,7 @@ void _previewedImgProps
 export const imagePreviewGroupProps = {
   ...previewGroupSharedProps,
   images: Array as PropType<string[]>,
-  current: { type: Number, default: undefined },
-  defaultCurrent: { type: Number, default: 0 },
+  modelValue: { type: Number, default: undefined },
+  defaultValue: { type: Number, default: 1 },
   loop: { type: Boolean, default: false },
 }

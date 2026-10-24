@@ -1,6 +1,6 @@
 {
-  "name": "@maplejs/maple-touch-emulator",
-  "version": "1.0.3",
+  "name": "@maple-design/touch-emulator",
+  "version": "1.0.0",
   "description": "touch-emulator",
   "keywords": [
     "emulator",
@@ -28,5 +28,9 @@
   },
   "devDependencies": {
     "tsup": "catalog:"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   }
 }

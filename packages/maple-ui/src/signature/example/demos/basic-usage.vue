@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import { AppType, onThemeChange } from '@maplejs/maple-cli/client'
+import { AppType, onThemeChange } from '@maple-design/cli/client'
 
 const signature = ref('')
 const signatureRef = ref()

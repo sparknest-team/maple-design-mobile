@@ -1,5 +1,5 @@
 <script setup>
-import { Message } from '@maplejs/maple-ui'
+import { Message } from '@maple-design/ui'
 </script>
 
 <template>

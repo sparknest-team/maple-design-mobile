@@ -1,9 +1,8 @@
-import { withInstall, withPropsDefaultsSetter } from '../utils/components'
+import { withInstall } from '../utils/components'
 import Popover from './Popover.vue'
 import { popoverProps } from './props'
 
 withInstall(Popover)
-withPropsDefaultsSetter(Popover, popoverProps)
 
 export { popoverProps }
 

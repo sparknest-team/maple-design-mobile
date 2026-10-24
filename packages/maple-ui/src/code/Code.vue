@@ -18,19 +18,31 @@ export default defineComponent({
     const highlightedCode = ref('')
     const normalizedTheme = computed(() => props.theme ?? theme?.value)
 
-    if (highlighter) {
-      watch(
-        () => [highlighter.value, props.code, props.language, normalizedTheme.value, props.trim] as const,
-        async ([highlighter, code, lang = '', theme = '', trim]) => {
-          if (!highlighter) {
-            return
+    watch(
+      () => [highlighter?.value, props.code, props.language, normalizedTheme.value, props.trim] as const,
+      async ([highlighter, code, lang = '', theme = '', trim], _previous, onCleanup) => {
+        let current = true
+        onCleanup(() => {
+          current = false
+        })
+        const content = trim ? code.trim() : code
+        // Removing a provider must not leave stale highlighted HTML behind.
+        const plain = `<pre><code>${content.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;')}</code></pre>`
+        highlightedCode.value = plain
+        if (!highlighter) {
+          return
+        }
+        try {
+          const html = await highlighter.codeToHtml(content, { lang, theme })
+          if (current) {
+            highlightedCode.value = html
           }
-
-          highlightedCode.value = await highlighter.codeToHtml(trim ? code.trim() : code, { lang, theme })
-        },
-        { immediate: true },
-      )
-    }
+        } catch {
+          // Keep readable, escaped source when an optional highlighter fails.
+        }
+      },
+      { immediate: true },
+    )
 
     return {
       n,

@@ -7,8 +7,8 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "@maplejs/maple-touch-emulator": "latest",
-    "@maplejs/maple-ui": "latest",
+    "@maple-design/touch-emulator": "latest",
+    "@maple-design/ui": "latest",
     "vue": "^3.5.13"
   },
   "devDependencies": {

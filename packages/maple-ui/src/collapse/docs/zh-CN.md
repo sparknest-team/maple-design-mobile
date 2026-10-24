@@ -22,7 +22,7 @@
 
 ### 手风琴模式
 
-通过 `accordion` 开启手风琴模式，同时只能打开一个面板。手风琴模式下 `activeNames` 仍为数组，最多包含一项。
+通过 `accordion` 开启手风琴模式，同时只能打开一个面板。手风琴模式下 `modelValue` 仍为数组，最多包含一项。
 
 ```demo
 ../example/demos/accordion.vue
@@ -119,13 +119,15 @@
 
 ## API
 
+主值使用普通 `v-model`：`modelValue` 表示展开面板的 name 数组，手风琴模式也使用数组。`defaultValue` 仅在创建时初始化非受控状态，之后修改不会重置当前值；初始化不触发 `update:modelValue`。提供 `modelValue` 时由父级控制，以受控值为准。
+
 <!-- same-source-api:start -->
 ### Props
 
 | 属性 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
-| active-names | 当前展开面板的 name，支持 v-model:active-names | `(string \| number)[]` | `—` |
-| default-active-names | 非受控初始展开面板 | `(string \| number)[]` | `[]` |
+| model-value | 当前展开面板的 name，支持 v-model | `(string \| number)[]` | `—` |
+| default-value | 非受控初始展开面板 | `(string \| number)[]` | `[]` |
 | accordion | 手风琴模式，同时最多展开一项 | `boolean` | `false` |
 | show-expand-icon | 是否显示展开图标；未设置时由子项决定 | `boolean` | `—` |
 | expand-icon-position | 展开图标位置 | `'left' \| 'right'` | `'left'` |
@@ -138,7 +140,7 @@
 
 | Event | Description | Arguments |
 | --- | --- | --- |
-| update:active-names | 请求更新展开面板 | `(string \| number)[]` |
+| update:model-value | 请求更新展开面板 | `(string \| number)[]` |
 | change | 展开面板变化时触发 | `(string \| number)[]`, `Event` |
 
 ### Slots
@@ -156,7 +158,7 @@
 <!-- same-source-api:end -->
 
 
-父级可通过 `expand-icon` 插槽下发默认展开图标，作用域为 `active`、`disabled`、`position`。该插槽由子项读取，不在根节点渲染。
+父级可通过 `expand-icon` 插槽下发默认展开图标，作用域为 `expanded`、`disabled`、`position`。该插槽由子项读取，不在根节点渲染。
 
 #### CollapseToggleAllOptions
 
@@ -169,7 +171,7 @@
 
 | 参数名 | 描述 | 类型 | 默认值 |
 | --- | --- | --- | --- |
-| name **(必填)** | 面板唯一标识，对应 `activeNames` 中的值 | `string \| number` | `—` |
+| name **(必填)** | 面板唯一标识，对应 `modelValue` 中的值 | `string \| number` | `—` |
 | title | 面板的标题 | `string` | `—` |
 | disabled | 是否禁用 | `boolean` | `false` |
 | show-expand-icon | 是否显示展开图标 | `boolean` | `true` |
@@ -181,7 +183,7 @@
 | --- | --- | --- |
 | title | 面板的标题 | `—` |
 | extra | 额外内容 | `—` |
-| expand-icon | 展开图标 | active: `boolean`<br>disabled: `boolean`<br>position: `'left' \| 'right'` |
+| expand-icon | 展开图标 | expanded: `boolean`<br>disabled: `boolean`<br>position: `'left' \| 'right'` |
 | default | 面板内容 | `—` |
 
 ### 类型定义
@@ -189,7 +191,7 @@
 组件导出以下类型定义。`Collapse.Item` 与 `mp-collapse-item` 为同一组件，`app.use(Collapse)` 会同时注册两者。
 
 ```ts
-import type { CollapseInstance, CollapseToggleAllOptions, ExpandIconPosition } from '@maplejs/maple-ui'
+import type { CollapseInstance, CollapseToggleAllOptions, ExpandIconPosition } from '@maple-design/ui'
 ```
 
 ## 颜色变量

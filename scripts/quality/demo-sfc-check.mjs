@@ -87,7 +87,7 @@ function checkResolverImports(filename, code) {
     if (isType) {
       continue
     }
-    if (from === '@maplejs/maple-ui') {
+    if (from === '@maple-design/ui') {
       for (const name of importedNames(match[2])) {
         if (!programmaticApis.has(name)) {
           issues.push(`do not import template component "${name}"; use MapleResolver`)
@@ -95,7 +95,7 @@ function checkResolverImports(filename, code) {
       }
       continue
     }
-    if (from.startsWith('@maplejs/maple-ui/')) {
+    if (from.startsWith('@maple-design/ui/')) {
       issues.push(`do not deep-import "${from}"; use MapleResolver`)
       continue
     }

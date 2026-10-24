@@ -1,5 +1,5 @@
 import { defineComponent } from 'vue'
-import { Message } from '@maplejs/maple-ui'
+import { Message } from '@maple-design/ui'
 import { flushPromises, mount } from '@vue/test-utils'
 import { afterEach, expect, test, vi } from 'vitest'
 import { useDemoControls } from '../../../test-utils/demo-controls'
@@ -7,9 +7,9 @@ import Demo from '../example/demos/icon-list.vue'
 
 useDemoControls()
 
-vi.mock('@maplejs/maple-ui', () => ({ Message: { success: vi.fn(), error: vi.fn() } }))
+vi.mock('@maple-design/ui', () => ({ Message: { success: vi.fn(), error: vi.fn() } }))
 const Input = defineComponent({
-  props: { modelValue: String, clearable: Boolean },
+  props: { modelValue: String, clearable: Boolean, size: String },
   emits: ['update:modelValue'],
   template: '<input :value="modelValue" @input="$emit(\'update:modelValue\', $event.target.value)" />',
 })
@@ -30,6 +30,7 @@ test('catalog normalizes search and keeps copy handlers after filtered nodes are
     global: { components: { MpInput: Input }, stubs: { MIconSearch: true }, directives: { ripple: {} } },
   })
   expect(owner.findComponent(Input).props('clearable')).toBe(true)
+  expect(owner.findComponent(Input).props('size')).toBe('sm')
   await owner.find('input').setValue('does-not-exist')
   expect(owner.findAll('button')).toHaveLength(0)
   await owner.find('input').setValue(' ARROW ')

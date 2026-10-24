@@ -4,7 +4,9 @@ import { pickProps } from '../utils/components'
 import { ActionItem } from './index'
 
 export const props = {
-  open: Boolean,
+  open: { type: Boolean, default: undefined },
+  /** 非受控初始开合状态，仅创建时读取。 */
+  defaultOpen: Boolean,
   title: String,
   actions: {
     type: Array as PropType<ActionItem[]>,

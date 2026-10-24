@@ -18,6 +18,12 @@ describe('time field commit boundary', () => {
     const source = ['18:00', '09:00']
     expect(getTimeCommitValue(source, { format: 'HH:mm', showNextDay }, true)).toEqual(showNextDay ? source : undefined)
     expect(source).toEqual(['18:00', '09:00'])
+    expect(
+      getTimeCommitValue(source, { format: 'HH:mm', showNextDay, disabledHours: () => [18] }, true),
+    ).toBeUndefined()
+    expect(
+      getTimeCommitValue(['18:15', '09:00'], { format: 'HH:mm', showNextDay, step: { minute: 30 } }, true),
+    ).toBeUndefined()
     expect(getTimeCommitValue(['18:00', undefined], { format: 'HH:mm' }, true)).toBeUndefined()
     expect(getTimeCommitValue([], { format: 'HH:mm' }, true)).toBeUndefined()
   })

@@ -198,7 +198,7 @@ async function resolveWorkspaces(): Promise<WorkspaceInfo[]> {
       continue
     }
     const pkg = await fse.readJson(pkgPath)
-    if (pkg.name?.startsWith('@maplejs/') && !pkg.private) {
+    if (pkg.name?.startsWith('@maple-design/') && !pkg.private) {
       results.push({ name: pkg.name, version: pkg.version, packageJsonPath: pkgPath, packageJson: pkg })
     }
   }

@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts">
-import { getMobileIndex } from '@maplejs/maple-cli/client'
+import { getMobileIndex } from '@maple-design/cli/client'
 
 export default {
   name: 'AppMobile',

@@ -51,8 +51,8 @@ import {
   type Ref,
   type RendererNode,
 } from 'vue'
-import { toNumber } from '@maplejs/maple-shared'
-import { onSmartMounted } from '@maplejs/maple-use'
+import { toNumber } from '@maple-design/shared'
+import { onSmartMounted } from '@maple-design/use'
 import dayjs from 'dayjs/esm/index.js'
 import MpAffix from '../../affix'
 import MpButton, { type ButtonVariant, type SemanticStatus } from '../../button'

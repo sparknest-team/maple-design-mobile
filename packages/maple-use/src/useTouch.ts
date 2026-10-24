@@ -1,5 +1,5 @@
 import { onBeforeUnmount, onDeactivated, ref } from 'vue'
-import { getScrollTop } from '@maplejs/maple-shared'
+import { getScrollTop } from '@maple-design/shared'
 
 export type TouchDirection = 'horizontal' | 'vertical'
 

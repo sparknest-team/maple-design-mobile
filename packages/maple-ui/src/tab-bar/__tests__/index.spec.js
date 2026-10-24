@@ -13,10 +13,10 @@ const Wrapper = {
     [VarTabBarItem.name]: VarTabBarItem,
   },
   data: () => ({
-    active: 0,
+    modelValue: 0,
   }),
   template: `
-    <mp-tab-bar v-model:active="active">
+    <mp-tab-bar v-model="modelValue">
       <template #fab>
         <span>home</span>
       </template>
@@ -49,8 +49,8 @@ test('tab-bar plugin', () => {
 describe('test tab-bar events', () => {
   test('tab-bar change event', async () => {
     let dummy
-    const handleChange = vi.fn((active) => {
-      dummy = active
+    const handleChange = vi.fn((modelValue) => {
+      dummy = modelValue
     })
     const wrapper = mount({
       components: {
@@ -58,13 +58,13 @@ describe('test tab-bar events', () => {
         [VarTabBarItem.name]: VarTabBarItem,
       },
       data: () => ({
-        active: 0,
+        modelValue: 0,
       }),
       methods: {
         handleChange,
       },
       template: `
-        <mp-tab-bar v-model:active="active" @change="handleChange">
+        <mp-tab-bar v-model="modelValue" @change="handleChange">
           <mp-tab-bar-item label="tag 1" icon="home-fill" />
           <mp-tab-bar-item label="tag 2" icon="search" />
         </mp-tab-bar>
@@ -84,8 +84,8 @@ describe('test tab-bar events', () => {
 
   test('tab-bar click event', async () => {
     let dummy
-    const handleClick = vi.fn((active) => {
-      dummy = active
+    const handleClick = vi.fn((modelValue) => {
+      dummy = modelValue
     })
     const wrapper = mount({
       components: {
@@ -93,13 +93,13 @@ describe('test tab-bar events', () => {
         [VarTabBarItem.name]: VarTabBarItem,
       },
       data: () => ({
-        active: 0,
+        modelValue: 0,
       }),
       methods: {
         handleClick,
       },
       template: `
-        <mp-tab-bar v-model:active="active">
+        <mp-tab-bar v-model="modelValue">
           <mp-tab-bar-item label="tag 1" icon="home-fill" />
           <mp-tab-bar-item label="tag 2" icon="search" @click="handleClick" />
         </mp-tab-bar>
@@ -128,13 +128,13 @@ describe('test tab-bar events', () => {
         [VarTabBarItem.name]: VarTabBarItem,
       },
       data: () => ({
-        active: 0,
+        modelValue: 0,
       }),
       methods: {
         handleBeforeChange,
       },
       template: `
-        <mp-tab-bar v-model:active="active" :before-change="handleBeforeChange">
+        <mp-tab-bar v-model="modelValue" :before-change="handleBeforeChange">
           <mp-tab-bar-item label="tag 1" icon="home-fill" />
           <mp-tab-bar-item label="tag 2" icon="search" />
         </mp-tab-bar>
@@ -144,15 +144,15 @@ describe('test tab-bar events', () => {
     await delay(16)
     await trigger(wrapper.findAll('.mp-tab-bar-item')[1], 'click')
     expect(handleBeforeChange).toHaveBeenCalledTimes(1)
-    expect(wrapper.vm.active).toBe(0)
+    expect(wrapper.vm.modelValue).toBe(0)
     await delay(200)
-    expect(wrapper.vm.active).toBe(1)
+    expect(wrapper.vm.modelValue).toBe(1)
 
     await trigger(wrapper.findAll('.mp-tab-bar-item')[1], 'click')
     expect(handleBeforeChange).toHaveBeenCalledTimes(1)
-    expect(wrapper.vm.active).toBe(1)
+    expect(wrapper.vm.modelValue).toBe(1)
     await delay(200)
-    expect(wrapper.vm.active).toBe(1)
+    expect(wrapper.vm.modelValue).toBe(1)
 
     wrapper.unmount()
   })
@@ -165,13 +165,13 @@ describe('test tab-bar events', () => {
         [VarTabBarItem.name]: VarTabBarItem,
       },
       data: () => ({
-        active: 0,
+        modelValue: 0,
       }),
       methods: {
         handleFabClick,
       },
       template: `
-        <mp-tab-bar v-model:active="active" @fab-click="handleFabClick">
+        <mp-tab-bar v-model="modelValue" @fab-click="handleFabClick">
           <template #fab>
             <span>home</span>
           </template>
@@ -248,7 +248,7 @@ describe('test tab-bar component props', () => {
       },
     })
 
-    await wrapper.setData({ active: 'home-fill' })
+    await wrapper.setData({ modelValue: 'home-fill' })
     await delay(16)
     expect(wrapper.find('.mp-tab-bar-item--active').attributes('style')).toContain('color: red;')
     await wrapper.setProps({ activeColor: '#ffffff' })
@@ -312,7 +312,7 @@ describe('test tab-bar component props', () => {
         [VarTabBarItem.name]: VarTabBarItem,
       },
       data: () => ({
-        variant: false,
+        variant: 'standard',
       }),
       template: `
 <mp-tab-bar :variant="variant">
@@ -325,7 +325,7 @@ describe('test tab-bar component props', () => {
     })
 
     expect(wrapper.html()).toMatchSnapshot()
-    await wrapper.setData({ variant: true })
+    await wrapper.setData({ variant: 'pill' })
     expect(wrapper.html()).toMatchSnapshot()
     wrapper.unmount()
   })
@@ -334,9 +334,9 @@ describe('test tab-bar component props', () => {
 test('fab reserves space when tabs change and restores it when removed', async () => {
   const wrapper = mount({
     components: { MpTabBar: VarTabBar, MpTabBarItem: VarTabBarItem },
-    data: () => ({ count: 4, showFab: true, active: 0 }),
+    data: () => ({ count: 4, showFab: true, modelValue: 0 }),
     template: `
-      <mp-tab-bar v-model:active="active">
+      <mp-tab-bar v-model="modelValue">
         <mp-tab-bar-item v-for="i in count" :key="i" :label="String(i)" />
         <template v-if="showFab" #fab><span>Create post</span></template>
       </mp-tab-bar>
@@ -348,7 +348,7 @@ test('fab reserves space when tabs change and restores it when removed', async (
   expect(items[2].classes()).toContain('mp-tab-bar-item--left-half-space')
   expect(wrapper.find('.mp-tab-bar--fab-center').exists()).toBe(true)
   await wrapper.find('.mp-tab-bar__fab').trigger('click')
-  expect(wrapper.vm.active).toBe(0)
+  expect(wrapper.vm.modelValue).toBe(0)
   await wrapper.setData({ count: 5 })
   await delay(16)
   items = wrapper.findAll('.mp-tab-bar-item')
@@ -377,11 +377,11 @@ const deferred = () => {
   return { promise, resolve, reject }
 }
 
-test('default-active initializes once and supports uncontrolled clicks', async () => {
-  const wrapper = makeTabBar({ defaultActive: 1 })
+test('default-value initializes once and supports uncontrolled clicks', async () => {
+  const wrapper = makeTabBar({ defaultValue: 1 })
   await flushPromises()
   expect(selectedText(wrapper)).toBe('1')
-  await wrapper.setProps({ defaultActive: 2 })
+  await wrapper.setProps({ defaultValue: 2 })
   expect(selectedText(wrapper)).toBe('1')
   await wrapper.findAll('button')[2].trigger('click')
   expect(selectedText(wrapper)).toBe('2')
@@ -389,15 +389,15 @@ test('default-active initializes once and supports uncontrolled clicks', async (
   wrapper.unmount()
 })
 
-test('controlled active wins and releasing control retains its last value', async () => {
-  const wrapper = makeTabBar({ active: 0, defaultActive: 2 })
+test('controlled modelValue wins and releasing control retains its last value', async () => {
+  const wrapper = makeTabBar({ modelValue: 0, defaultValue: 2 })
   await flushPromises()
   await wrapper.findAll('button')[1].trigger('click')
   expect(selectedText(wrapper)).toBe('0')
-  expect(wrapper.emitted('update:active')).toEqual([[1]])
-  await wrapper.setProps({ active: 1 })
+  expect(wrapper.emitted('update:modelValue')).toEqual([[1]])
+  await wrapper.setProps({ modelValue: 1 })
   expect(selectedText(wrapper)).toBe('1')
-  await wrapper.setProps({ active: undefined })
+  await wrapper.setProps({ modelValue: undefined })
   expect(selectedText(wrapper)).toBe('1')
   await wrapper.findAll('button')[2].trigger('click')
   expect(selectedText(wrapper)).toBe('2')
@@ -405,13 +405,13 @@ test('controlled active wins and releasing control retains its last value', asyn
 })
 
 test('explicit numeric names take precedence over unnamed indices', async () => {
-  const wrapper = makeTabBar({ active: 0 }, [undefined, 0, 10])
+  const wrapper = makeTabBar({ modelValue: 0 }, [undefined, 0, 10])
   await flushPromises()
   expect(wrapper.findAll('.mp-tab-bar-item--active')).toHaveLength(1)
   expect(selectedText(wrapper)).toBe('1')
-  await wrapper.setProps({ active: 2 })
+  await wrapper.setProps({ modelValue: 2 })
   expect(wrapper.findAll('.mp-tab-bar-item--active')).toHaveLength(0)
-  await wrapper.setProps({ active: 10 })
+  await wrapper.setProps({ modelValue: 10 })
   expect(selectedText(wrapper)).toBe('2')
   wrapper.unmount()
 })
@@ -446,7 +446,7 @@ test('only the latest async guard can commit', async () => {
   wrapper.unmount()
 })
 
-test('clicking current tab or changing controlled active cancels pending guards', async () => {
+test('clicking current tab or changing controlled modelValue cancels pending guards', async () => {
   const pending = deferred()
   const wrapper = makeTabBar({ beforeChange: () => pending.promise })
   await flushPromises()
@@ -456,9 +456,9 @@ test('clicking current tab or changing controlled active cancels pending guards'
   await flushPromises()
   expect(wrapper.emitted('change')).toBeUndefined()
   const second = deferred()
-  await wrapper.setProps({ active: 0, beforeChange: () => second.promise })
+  await wrapper.setProps({ modelValue: 0, beforeChange: () => second.promise })
   await wrapper.findAll('button')[1].trigger('click')
-  await wrapper.setProps({ active: 2 })
+  await wrapper.setProps({ modelValue: 2 })
   second.resolve(true)
   await flushPromises()
   expect(selectedText(wrapper)).toBe('2')
@@ -503,7 +503,7 @@ test('named selection survives keyed reorder and pending removal cancels', async
     components: { VarTabBar, TabBarItem },
     data: () => ({ names: [0, 10, 20], guard: () => pending.promise }),
     template:
-      '<var-tab-bar :default-active="0" :before-change="guard"><tab-bar-item v-for="name in names" :key="name" :name="name" :label="String(name)" /></var-tab-bar>',
+      '<var-tab-bar :default-value="0" :before-change="guard"><tab-bar-item v-for="name in names" :key="name" :name="name" :label="String(name)" /></var-tab-bar>',
   })
   await flushPromises()
   await wrapper.setData({ names: [20, 10, 0] })
@@ -522,8 +522,36 @@ test('placeholder follows variant height changes', async () => {
   const wrapper = makeTabBar({ fixed: true, placeholder: true })
   await flushPromises()
   wrapper.find('.mp-tab-bar').element.getBoundingClientRect = () => ({ height: 66 })
-  await wrapper.setProps({ variant: true })
+  await wrapper.setProps({ variant: 'pill' })
   await flushPromises()
   expect(wrapper.find('.mp-tab-bar__placeholder').attributes('style')).toContain('height: 66px')
+  wrapper.unmount()
+})
+
+test('named variants update the selected indicator and preserve selection', async () => {
+  const wrapper = mount(VarTabBar, {
+    slots: {
+      default: () => [h(VarTabBarItem, { label: 'Home' }), h(VarTabBarItem, { label: 'Saved' })],
+    },
+  })
+  await flushPromises()
+  const bar = wrapper
+  expect(bar.props('variant')).toBe('standard')
+  expect(selectedText(wrapper)).toBe('Home')
+  expect(wrapper.find('.mp-tab-bar--variant').exists()).toBe(false)
+
+  await bar.setProps({ variant: 'pill' })
+  expect(wrapper.find('.mp-tab-bar--variant').exists()).toBe(true)
+  expect(wrapper.find('.mp-tab-bar-item--active').exists()).toBe(false)
+  expect(wrapper.findAll('.mp-tab-bar-item--variant-active')).toHaveLength(1)
+  await wrapper.findAll('button')[1].trigger('click')
+  await flushPromises()
+  expect(wrapper.findAll('button')[1].find('.mp-tab-bar-item--variant-active').exists()).toBe(true)
+  expect(wrapper.findAll('button')[0].find('.mp-tab-bar-item--variant-active').exists()).toBe(false)
+
+  await bar.setProps({ variant: 'standard' })
+  expect(wrapper.find('.mp-tab-bar--variant').exists()).toBe(false)
+  expect(wrapper.find('.mp-tab-bar-item--variant-active').exists()).toBe(false)
+  expect(selectedText(wrapper)).toBe('Saved')
   wrapper.unmount()
 })

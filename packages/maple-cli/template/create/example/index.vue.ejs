@@ -1,10 +1,10 @@
 <script setup>
 import <%- bigCamelizeNamespace + bigCamelizeName %> from '..'
 <% if (!locale) { -%>
-import { AppType } from '@maplejs/maple-cli/client'
+import { AppType } from '@maple-design/cli/client'
 <% } -%>
 <% if (locale) { -%>
-import { watchLang, AppType } from '@maplejs/maple-cli/client'
+import { watchLang, AppType } from '@maple-design/cli/client'
 import { use, t } from './locale'
 
 watchLang(use)

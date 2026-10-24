@@ -4,7 +4,7 @@
     :style="ctx.props.tabStyle"
   >
     <button
-      :id="ctx.id(key, 'tab')"
+      :id="ctx.id(name, 'tab')"
       ref="button"
       type="button"
       role="tab"
@@ -12,13 +12,13 @@
       :aria-selected="selected"
       :aria-keyshortcuts="ctx.props.editable && closable ? 'Delete' : undefined"
       :aria-disabled="disabled || undefined"
-      :aria-controls="hasPanel ? ctx.id(key, 'panel') : undefined"
+      :aria-controls="hasPanel ? ctx.id(name, 'panel') : undefined"
       :disabled="disabled"
       :tabindex="tabIndex"
-      @click="ctx.click(key, $event)"
+      @click="ctx.click(name, $event)"
       @pointerenter="hover"
       @keydown="keydown"
-      @focus="ctx.focused.value = key"
+      @focus="ctx.focused.value = name"
     >
       <span v-if="$slots.icon" :class="n('icon')"><slot name="icon" /></span>
       <span :class="n('tab-title')"
@@ -34,44 +34,43 @@
       tabindex="-1"
       aria-hidden="true"
       :disabled="disabled"
-      :aria-label="`Close ${title ?? String(key)}`"
-      @click="ctx.remove(key, $event)"
+      :aria-label="`Close ${title ?? String(name)}`"
+      @click="ctx.remove(name, $event)"
     >
       ×
     </button>
   </div>
 </template>
 <script setup lang="ts">
-import { computed, getCurrentInstance, inject, nextTick, ref } from 'vue'
+import { computed, inject, nextTick, ref } from 'vue'
 import { createNamespace } from '../utils/components'
 import { tabsInjectionKey } from './context'
-import { tabNavProps, type TabsKey } from './props'
+import { tabNavProps } from './props'
 import type { TabNavSlots } from './types'
 
 defineSlots<TabNavSlots>()
 defineOptions({ name: createNamespace('tab-nav').name })
 const props = defineProps(tabNavProps)
 const ctx = inject(tabsInjectionKey)!
-const instance = getCurrentInstance()!
 const { n, classes } = createNamespace('tabs')
 const button = ref<HTMLButtonElement>()
-const key = computed(() => instance.vnode.key as TabsKey)
-const selected = computed(() => ctx.active.value === key.value)
-const hasPanel = computed(() => ctx.entries.value.find((tab) => tab.key === key.value)?.hasPanel)
+const name = computed(() => props.name)
+const selected = computed(() => ctx.active.value === name.value)
+const hasPanel = computed(() => ctx.entries.value.find((tab) => tab.name === name.value)?.hasPanel)
 const tabIndex = computed(() => {
   if (props.disabled) {
     return -1
   }
   const enabled = ctx.entries.value.filter((tab) => !tab.disabled)
   const target =
-    enabled.find((tab) => tab.key === ctx.focused.value)?.key ??
-    enabled.find((tab) => tab.key === ctx.active.value)?.key ??
-    enabled[0]?.key
-  return key.value === target ? 0 : -1
+    enabled.find((tab) => tab.name === ctx.focused.value)?.name ??
+    enabled.find((tab) => tab.name === ctx.active.value)?.name ??
+    enabled[0]?.name
+  return name.value === target ? 0 : -1
 })
 function hover(event: PointerEvent) {
   if (!props.disabled && ctx.props.trigger === 'hover' && event.pointerType === 'mouse') {
-    ctx.select(key.value)
+    ctx.select(name.value)
   }
 }
 async function keydown(event: KeyboardEvent) {
@@ -80,17 +79,17 @@ async function keydown(event: KeyboardEvent) {
   }
   if (event.key === 'Delete' && ctx.props.editable && props.closable) {
     event.preventDefault()
-    const removedKey = key.value
+    const removedKey = name.value
     const document = button.value?.ownerDocument
-    const index = ctx.entries.value.filter((tab) => !tab.disabled).findIndex((tab) => tab.key === removedKey)
+    const index = ctx.entries.value.filter((tab) => !tab.disabled).findIndex((tab) => tab.name === removedKey)
     ctx.remove(removedKey, event)
     await nextTick()
-    if (!ctx.entries.value.some((tab) => tab.key === removedKey)) {
+    if (!ctx.entries.value.some((tab) => tab.name === removedKey)) {
       const enabled = ctx.entries.value.filter((tab) => !tab.disabled)
       const target = enabled[Math.min(index, enabled.length - 1)]
       if (target) {
-        ctx.focused.value = target.key
-        document?.getElementById(ctx.id(target.key, 'tab'))?.focus()
+        ctx.focused.value = target.name
+        document?.getElementById(ctx.id(target.name, 'tab'))?.focus()
       }
     }
     return
@@ -100,7 +99,7 @@ async function keydown(event: KeyboardEvent) {
   const previous = vertical ? 'ArrowUp' : rtl ? 'ArrowRight' : 'ArrowLeft'
   const next = vertical ? 'ArrowDown' : rtl ? 'ArrowLeft' : 'ArrowRight'
   const enabled = ctx.entries.value.filter((tab) => !tab.disabled)
-  let index = enabled.findIndex((tab) => tab.key === key.value)
+  let index = enabled.findIndex((tab) => tab.name === name.value)
   if (event.key === 'Home') {
     index = 0
   } else if (event.key === 'End') {
@@ -117,10 +116,10 @@ async function keydown(event: KeyboardEvent) {
   if (!target) {
     return
   }
-  ctx.focused.value = target.key
-  button.value?.ownerDocument.getElementById(ctx.id(target.key, 'tab'))?.focus()
+  ctx.focused.value = target.name
+  button.value?.ownerDocument.getElementById(ctx.id(target.name, 'tab'))?.focus()
   if (ctx.props.activationMode === 'automatic') {
-    ctx.select(target.key)
+    ctx.select(target.name)
   }
 }
 </script>

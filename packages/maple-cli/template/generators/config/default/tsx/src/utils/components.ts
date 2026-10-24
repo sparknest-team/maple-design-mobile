@@ -1,5 +1,5 @@
 import type { App, Component, Plugin } from 'vue'
-import { createNamespaceFn } from '@maplejs/maple-shared'
+import { createNamespaceFn } from '@maple-design/shared'
 
 export type ComponentWithInstall<T> = T & Plugin
 

@@ -16,6 +16,8 @@ export const menuProps = {
   /** 当前激活值 */
   modelValue: { type: [String, Number, Boolean, Object] as PropType<MenuValue>, default: undefined },
   /** 尺寸 */
+  /** 非受控初始选中值，仅创建时读取。 */
+  defaultValue: { type: [String, Number, Boolean, Object] as PropType<MenuValue>, default: undefined },
   size: {
     type: String as PropType<ComponentSize>,
     default: 'md',

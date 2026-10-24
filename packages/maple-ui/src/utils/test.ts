@@ -1,5 +1,5 @@
 import { defineComponent, nextTick, type Component, type ComponentPublicInstance } from 'vue'
-import { getStyle, isPlainObject, pascalCase } from '@maplejs/maple-shared'
+import { getStyle, isPlainObject, pascalCase } from '@maple-design/shared'
 import { config, type DOMWrapper, type VueWrapper } from '@vue/test-utils'
 
 export function createRegisteredIconComponents(iconNames: string[]): Record<string, Component> {

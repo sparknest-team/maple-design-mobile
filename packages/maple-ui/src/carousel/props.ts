@@ -10,8 +10,8 @@ import type {
 } from './types'
 
 export const carouselProps = {
-  /** 受控页序号，从零开始 */ current: Number,
-  /** 非受控初始页 */ defaultCurrent: { type: Number, default: 0 },
+  /** 受控页序号，从 1 开始 */ modelValue: Number,
+  /** 非受控初始页 */ defaultValue: { type: Number, default: 1 },
   /** 循环切换 */ loop: { type: Boolean, default: true },
   /** 自动播放，数字为毫秒 */ autoPlay: {
     type: [Boolean, Number, Object] as PropType<boolean | number | CarouselAutoPlayConfig>,

@@ -3,8 +3,8 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@maplejs/maple-ui": ["./src/index.ts"],
-      "@ui-foundation/ui-doc-preview": ["../../../design-ui/packages/ui-doc-preview/src/index.ts"],
+      "@maple-design/ui": ["./src/index.ts"],
+      "@sparknest/ui-doc-preview": ["../../../design-ui/packages/ui-doc-preview/src/index.ts"],
       "vue": ["./node_modules/vue"]
     },
     "allowSyntheticDefaultImports": true,

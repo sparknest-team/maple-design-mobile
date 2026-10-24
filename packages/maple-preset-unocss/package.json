@@ -1,6 +1,6 @@
 {
-  "name": "@maplejs/maple-preset-unocss",
-  "version": "1.0.3",
+  "name": "@maple-design/preset-unocss",
+  "version": "1.0.0",
   "description": "unocss preset of maple",
   "keywords": [
     "unocss",
@@ -43,5 +43,9 @@
   },
   "peerDependencies": {
     "unocss": "^0.58.5"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   }
 }

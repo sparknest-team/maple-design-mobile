@@ -1,8 +1,8 @@
 <script setup>
 import { ref } from 'vue'
 
-const current = ref(0)
-const proposal = ref(0)
+const current = ref(1)
+const proposal = ref(1)
 const changes = ref(0)
 const accept = ref(true)
 const loop = ref(true)
@@ -23,11 +23,11 @@ function update(value) {
       class="carousel"
       :slides-per-view="2.5"
       :space-between="10"
-      :current="current"
+      :model-value="current"
       :loop="loop"
       draggable
       keyboard
-      @update:current="update"
+      @update:modelValue="update"
       @change="changes++"
     >
       <mp-carousel-item v-for="i in 6" :key="i">

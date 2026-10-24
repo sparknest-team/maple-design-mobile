@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import { Message } from '@maplejs/maple-ui'
+import { Message } from '@maple-design/ui'
 
 const demoText = {
   basic: '基础用法',
@@ -32,18 +32,18 @@ const demoText = {
   toggle: '切换',
 }
 
-const active = ref(false)
+const open = ref(false)
 
 function runAction(action) {
   Message.info(demoText[action] ?? String(action))
-  active.value = false
+  open.value = false
 }
 </script>
 
 <template>
   <div class="fab-demo-stage">
     <p>点击悬浮按钮展开或收起，点击动作按钮查看提示。下方参数实时生效。</p>
-    <mp-fab v-model:active="active" :fixed="false" :popup-container="false" status="primary">
+    <mp-fab v-model:open="open" :fixed="false" :popup-container="false" status="primary">
       <mp-button status="info" variant="tonal" :elevation="false" aria-label="查看用户" @click="runAction('profile')">
         <template #icon><m-icon-user-circle-fill /></template>
       </mp-button>
