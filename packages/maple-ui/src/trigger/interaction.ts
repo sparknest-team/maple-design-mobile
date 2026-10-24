@@ -45,6 +45,9 @@ interface ReferenceInteraction {
   isTopLayer: (event?: Event) => boolean
 }
 const referenceInteractions = new WeakMap<Document, Set<ReferenceInteraction>>()
+// Eagerly mounted children can process the same capture event before their
+// parent. Retain their dismissal ownership until this event is collected.
+const dismissedInteractions = new WeakMap<Event, Set<InteractionContext>>()
 
 function includes(element: Element | undefined, event: Event | Node): boolean {
   if (!element) {
@@ -263,7 +266,10 @@ export function useTriggerInteraction(
   // A sibling reference can dismiss this whole branch while its child owns
   // the top layer. An unrelated top layer still protects the branch below it.
   const hasTopDescendant = (event: Event, branch = context): boolean =>
-    [...branch.children].some((child) => child.isTopLayer?.(event) || hasTopDescendant(event, child))
+    [...branch.children].some(
+      (child) =>
+        dismissedInteractions.get(event)?.has(child) || child.isTopLayer?.(event) || hasTopDescendant(event, child),
+    )
   const isTopPeerReference = (event: Event) =>
     [...(owner ? (referenceInteractions.get(owner) ?? []) : [])].some(
       (other) =>
@@ -282,6 +288,12 @@ export function useTriggerInteraction(
     ) {
       return
     }
+    let dismissed = dismissedInteractions.get(event)
+    if (!dismissed) {
+      dismissed = new Set()
+      dismissedInteractions.set(event, dismissed)
+    }
+    dismissed.add(context)
     api.onOutside(event)
     close()
   }
