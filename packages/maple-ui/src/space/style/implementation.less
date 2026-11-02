@@ -16,6 +16,17 @@
     width: auto;
   }
 
+  &__group {
+    display: contents;
+  }
+
+  &--split-wrap &__group {
+    display: inline-flex;
+    flex-direction: inherit;
+    align-items: inherit;
+    gap: inherit;
+  }
+
   &__item {
     display: inline-flex;
     align-items: center;

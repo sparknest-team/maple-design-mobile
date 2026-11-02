@@ -265,7 +265,9 @@ const disabledDate = (date) => date.getDate() % 2 === 0
     <mp-date-picker
       v-model="dates.dateTimeCalendarPicker"
       show-time
-      :use-seconds="false"
+      :time-fields="['hour', 'minute']"
+      format="YYYY-MM-DD HH:mm"
+      value-format="YYYY-MM-DD HH:mm"
       presentation="calendarPicker"
       v-bind="__apiReview.bindings"
       v-on="__apiReview.listeners"
@@ -316,7 +318,9 @@ const disabledDate = (date) => date.getDate() % 2 === 0
     <mp-date-picker
       v-model="dates.dateTimePicker"
       show-time
-      :use-seconds="false"
+      :time-fields="['hour', 'minute']"
+      format="YYYY-MM-DD HH:mm"
+      value-format="YYYY-MM-DD HH:mm"
       presentation="picker"
       v-bind="__apiReview.bindings"
       v-on="__apiReview.listeners"

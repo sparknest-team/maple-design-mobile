@@ -1,5 +1,14 @@
 # 浏览器适配
 
+### 浏览器兼容范围与验收
+
+Maple 以移动端为主要兼容目标：iOS Safari、Android Chrome 最新两个稳定版本，以及业务实际使用的 Android System WebView、微信和 App 内嵌 WebView。具体最低 OS/内核版本须以真机验收记录为准，不能仅凭 Android 系统版本或桌面模拟结果判断。
+
+本页的视口单位转换与桌面触摸模拟解决布局/输入方式适配，不代表浏览器兼容性已通过。发布前需要验证真机触摸与滑动、输入法/自动填充、软键盘遮挡、弹层与锁滚、横竖屏和地址栏变化、安全区、文件上传与相机。自动化使用 Chromium/Firefox/WebKit，并单独记录模拟结果；iOS Safari、微信和 App WebView 需要原生验收。
+
+源码仓库根目录使用 `pnpm check:compatibility` 运行自动回归，`pnpm compatibility:native:init` 创建真机验收模板，`pnpm check:compatibility:release` 检查原生证据。最低版本和完整验收规则由同级 design-ui 仓库的 `standards/browser-compatibility.md` 统一维护。证据未完成的环境保持待验收，不声明全部兼容。
+
+
 ### 介绍
 
 组件库提供移动端和桌面端适配方案，
@@ -109,3 +118,7 @@ pnpm add @maple-design/touch-emulator
 // playground-ignore
 import '@maple-design/touch-emulator'
 ```
+
+## App / WebView 安全区
+
+参见 [SafeArea 安全区与 App 适配](#/zh-CN/safe-area)：四边覆盖、显式 0、嵌套消费、Teleport 宿主、键盘边界与真机验收。

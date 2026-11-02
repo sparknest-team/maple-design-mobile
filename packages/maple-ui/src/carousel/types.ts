@@ -5,7 +5,7 @@ export type CarouselArrowType = 'always' | 'hover' | 'never'
 export type CarouselIndicatorType = 'dot' | 'line' | 'slider'
 export type CarouselIndicatorPosition = 'bottom' | 'top' | 'left' | 'right' | 'outer'
 export type CarouselEffect = 'slide' | 'fade' | 'card'
-export type CarouselDirection = import('../utils/constants').Orientation
+export type CarouselOrientation = import('../utils/constants').Orientation
 export interface CarouselAutoPlayConfig {
   interval?: number
   hoverToPause?: boolean

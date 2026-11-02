@@ -41,10 +41,15 @@
       if ('<%= baidu %>') {
         var _hmt = _hmt || []
         ;(function () {
-          var hm = document.createElement('script')
-          hm.src = '<%= baidu %>'
-          var s = document.getElementsByTagName('script')[0]
-          s.parentNode.insertBefore(hm, s)
+          function startAnalytics() {
+            var hm = document.createElement('script')
+            hm.async = true
+            hm.src = '<%= baidu %>'
+            document.head.appendChild(hm)
+          }
+          // Optional telemetry must never hold the document load event open.
+          if (document.readyState === 'complete') startAnalytics()
+          else window.addEventListener('load', startAnalytics, { once: true })
         })()
       }
     </script>

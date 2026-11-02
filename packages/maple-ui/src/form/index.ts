@@ -34,8 +34,8 @@ export default Form
 export type FormProps = import('vue').ExtractPublicPropTypes<typeof import('./props').props>
 export type FormItemProps = import('vue').ExtractPublicPropTypes<typeof import('./item-props').props>
 
-export type { FormLayout, FormLabelAlign, FormColProps, FormLabelFlex } from './layout-props'
+export type { FormLayout, FormContentAlign, FormLabelAlign, FormColProps, FormLabelFlex } from './layout-props'
 
 export type { FormItemAsteriskPosition, FormItemValidateStatus } from './item-decoration'
 
-export type { FieldPresentation, BeforeFieldCommit } from '../_components/field-presentation/context'
+export type { FieldEditMode, BeforeFieldCommit } from '../_components/field-presentation/context'

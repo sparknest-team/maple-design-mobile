@@ -1,10 +1,10 @@
 # 拖拽
 
-## 案例
-
 ### 介绍
 
 使元素可以自由拖拽。
+
+## 基础示例
 
 ### 基本使用
 
@@ -12,22 +12,43 @@
 ../example/demos/basic-use.vue
 ```
 
+## 外观与状态
+
 ### 禁用
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `disabled` | 是否禁用 | 禁用 |
+| `attraction` | 吸附方向，可选值 `x`, `y`, `xy` | 禁用 |
+| `boundary` | 拖拽范围 | 禁用 |
+| `popup-container` | 拖拽元素挂载的位置 | 禁用 |
+| `z-index` | 拖拽元素的层级 | 禁用 |
+<!-- demo-config-notes:end -->
 
 ```demo
 ../example/demos/disabled.vue
 ```
 
+## 方向与拖动范围
+
 ### 拖拽方向
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `boundary` | 拖拽范围 | 拖拽方向、拖拽区域 |
+| `popup-container` | 拖拽元素挂载的位置 | 拖拽方向、拖拽区域 |
+| `axis` | 允许拖动的坐标轴，默认 xy；x 仅横向、y 仅纵向、xy 为双轴；不是展开侧别 | 拖拽方向 |
+| `attraction` | 吸附方向，可选值 `x`, `y`, `xy` | 拖拽区域 |
+<!-- demo-config-notes:end -->
 
 ```demo
 ../example/demos/direction.vue
-```
-
-### 吸附方向
-
-```demo
-../example/demos/attraction.vue
 ```
 
 ### 拖拽区域
@@ -36,20 +57,29 @@
 ../example/demos/boundary.vue
 ```
 
+## 内容与展示
+
+### 吸附方向
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `attraction` | 吸附方向，可选值 `x`, `y`, `xy` | 吸附方向、重置位置 |
+| `boundary` | 拖拽范围 | 吸附方向、重置位置 |
+| `popup-container` | 拖拽元素挂载的位置 | 吸附方向、重置位置 |
+<!-- demo-config-notes:end -->
+
+```demo
+../example/demos/attraction.vue
+```
+
 ### 重置位置
 
 ```demo
 ../example/demos/reset.vue
 ```
-
-<!-- api-review:start -->
-### 功能调试
-
-```demo
-../example/demos/api-review.vue
-```
-
-<!-- api-review:end -->
 
 ## API
 
@@ -57,7 +87,7 @@
 
 | 参数              | 说明                            | 类型                                                                                                       | 默认值                                     |
 | ----------------- | ------------------------------- | ---------------------------------------------------------------------------------------------------------- | ------------------------------------------ |
-| `direction`       | 拖拽方向，可选值 `x`, `y`, `xy` | _string_                                                                                                   | `xy`                                       |
+| `axis`       | 允许拖动的坐标轴，默认 xy；x 仅横向、y 仅纵向、xy 为双轴；不是展开侧别 | _string_                                                                                                   | `xy`                                       |
 | `attraction`      | 吸附方向，可选值 `x`, `y`, `xy` | _string_                                                                                                   | `-`                                        |
 | `disabled`        | 是否禁用                        | _boolean_                                                                                                  | `false`                                    |
 | `boundary`        | 拖拽范围                        | _{ top?: number \| string, bottom?: number \| string, left?: number \| string, right?: number \| string }_ | `{ top: 0, bottom: 0, left: 0, right: 0 }` |

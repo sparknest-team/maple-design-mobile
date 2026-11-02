@@ -2,7 +2,7 @@
 import { computed, ref } from 'vue'
 
 const direction = ref('top')
-const positions = { top: 'right-bottom', right: 'left-bottom', bottom: 'right-top', left: 'right-bottom' }
+const positions = { top: 'bottom-right', right: 'bottom-left', bottom: 'top-right', left: 'bottom-right' }
 const position = computed(() => positions[direction.value])
 </script>
 
@@ -14,7 +14,7 @@ const position = computed(() => positions[direction.value])
     <mp-radio value="left">left</mp-radio>
   </mp-radio-group>
   <div class="fab-demo-stage">
-    <mp-fab :fixed="false" :popup-container="false" :position="position" :direction="direction" status="primary">
+    <mp-fab :fixed="false" :popup-container="false" :position="position" :placement="direction" status="primary">
       <mp-button status="info" variant="tonal" :elevation="false"
         ><template #icon><m-icon-user-circle-fill /></template
       ></mp-button>

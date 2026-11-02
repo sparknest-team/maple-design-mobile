@@ -25,3 +25,8 @@ pnpm-debug.log
 package-lock.json
 yarn.lock
 packages/maple-ui/types-generated/
+
+# Generated LLM documentation
+packages/maple-ui/public/llms/
+packages/maple-ui/public/llms.txt
+packages/maple-ui/public/llms-full.txt

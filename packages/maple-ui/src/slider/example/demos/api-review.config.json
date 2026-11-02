@@ -84,16 +84,16 @@
       "kind": "scenario"
     },
     {
-      "name": "presentation",
-      "type": "'inline' | 'popup'",
+      "name": "edit-mode",
+      "type": "'direct' | 'popup'",
       "defaultValue": "undefined",
-      "description": "字段编辑方式，字段 > FormItem > Form 继承；默认 inline。",
+      "description": "字段编辑方式，字段 > FormItem > Form 继承；默认 direct。",
       "kind": "enum",
       "options": [
-        "inline",
+        "direct",
         "popup"
       ],
-      "initial": "inline"
+      "initial": "direct"
     },
     {
       "name": "read-pretty",
@@ -256,7 +256,7 @@
       "demos": [
         "controlled-range.vue",
         "range.vue",
-        "show-label.vue",
+        "thumb-label-comparison.vue",
         "touch-and-labels.vue",
         "vertical.vue"
       ]

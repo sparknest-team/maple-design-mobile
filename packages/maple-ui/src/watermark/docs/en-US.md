@@ -2,7 +2,7 @@
 
 Add text or image watermarks to a page or local region. The component responds to prop and theme changes automatically.
 
-## 案例
+## Basic examples
 
 ### Text Watermark
 
@@ -12,28 +12,26 @@ The local Demo exposes dark surface, visibility, and synthetic text controls. It
 ../example/demos/text-watermark.vue
 ```
 
+## Content and presentation
+
 ### Multiline Text
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `content` | One or more text lines; also used when an image fails | Multiline Text, Image Watermark, Fullscreen |
+| `image` | Image URL, preferred over text | Image Watermark |
+| `width` | Mark width; measured from content by default | Image Watermark |
+| `height` | Mark height; measured from content by default | Image Watermark |
+| `font` | Text style | Image Watermark |
+| `fullscreen` | Cover the viewport | Fullscreen |
+<!-- demo-config-notes:end -->
+
 
 ```demo
 ../example/demos/multiline.vue
-```
-
-### Custom Gap
-
-```demo
-../example/demos/custom-gap.vue
-```
-
-### Custom Offset
-
-```demo
-../example/demos/custom-offset.vue
-```
-
-### Custom Rotate
-
-```demo
-../example/demos/custom-rotate.vue
 ```
 
 ### Image Watermark
@@ -52,28 +50,41 @@ The fullscreen layer covers the viewport without intercepting pointer interactio
 ../example/demos/fullscreen.vue
 ```
 
-<!-- api-review:start -->
-### Feature playground
+## Customization and slots
+
+### Watermark spacing, offset and rotation
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `content` | One or more text lines; also used when an image fails | Watermark spacing, offset and rotation |
+| `gap` | Watermark gap `[x, y]` | Watermark spacing, offset and rotation |
+| `offset` | First mark offset; defaults to half the gap | Watermark spacing, offset and rotation |
+| `rotate` | Rotation angle | Watermark spacing, offset and rotation |
+<!-- demo-config-notes:end -->
+
+
+Compare repetition gaps, origin offsets and rotation independently of image loading and fullscreen positioning.
 
 ```demo
-../example/demos/api-review.vue
+../example/demos/geometry-comparison.vue
 ```
-
-<!-- api-review:end -->
 
 ## API
 
 ### Props
 
-| Prop | Description | Type | Default |
+| Arguments | Description | Type | Default |
 | --- | --- | --- | --- |
 | `content` | One or more text lines; also used when an image fails | `string \| string[]` | `-` |
 | `image` | Image URL, preferred over text | `string` | `-` |
 | `width` | Mark width; measured from content by default | `number` | `-` |
 | `height` | Mark height; measured from content by default | `number` | `-` |
-| `gap` | Horizontal and vertical spacing | `[number, number]` | `[90, 90]` |
+| `gap` | Watermark gap `[x, y]` | `[number, number]` | `[90, 90]` |
 | `offset` | First mark offset; defaults to half the gap | `[number, number]` | `[gap[0] / 2, gap[1] / 2]` |
-| `rotate` | Rotation in degrees | `number` | `-22` |
+| `rotate` | Rotation angle | `number` | `-22` |
 | `font` | Text style | `WatermarkFont` | `-` |
 | `z-index` | Layer z-index | `number` | `6` |
 | `alpha` | Overall opacity in the `0..1` range | `number` | `1` |
@@ -85,21 +96,35 @@ The fullscreen layer covers the viewport without intercepting pointer interactio
 
 ### WatermarkFont
 
-`WatermarkFont` supports `color`, `fontSize`, `fontFamily`, `fontStyle`, `fontWeight`, `textAlign`, and `lineHeight`.
+| Arguments | Type | Default |
+| --- | --- | --- |
+| `color` | `string` | `var(--mp-watermark-content-color)` |
+| `fontSize` | `number` | `16` |
+| `fontFamily` | `string` | `sans-serif` |
+| `fontStyle` | `'normal' \| 'italic' \| 'oblique'` | `normal` |
+| `fontWeight` | `string \| number` | `normal` |
+| `textAlign` | `CanvasTextAlign` | `center` |
+| `lineHeight` | `number` | `fontSize × 1.4` |
 
 ### Events
 
-`error` receives `{ source: 'image' | 'canvas'; error: unknown }` when image loading or Canvas rendering fails.
+| Event | Description | Arguments |
+| --- | --- | --- |
+| `error` | Image loading or Canvas rendering failed | `{ source: 'image' \| 'canvas'; error: unknown }` |
 
 ### Methods
 
-`redraw(): Promise<void>` regenerates the watermark using the current props.
+| Method | Description | Returns |
+| --- | --- | --- |
+| `redraw` | Regenerate the watermark from current props | `Promise<void>` |
 
 ### Slots
 
-The default slot contains the page content covered by the watermark.
+| Slot | Description |
+| --- | --- |
+| `default` | Page content covered by the watermark |
 
-### Style Variables
+### Style variables
 
 | Variable | Default |
 | --- | --- |

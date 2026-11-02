@@ -2,6 +2,7 @@ import { mount } from '@vue/test-utils'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import Date, { DatePicker } from '..'
 import DateRange, { DateRangePicker } from '../../date-range'
+import { rangeControls } from './range-controls'
 
 const Surface = { template: '<div><slot /><slot name="content" /></div>' }
 // This suite exercises calendar viewport ownership. Recreating hundreds of wheel
@@ -12,8 +13,15 @@ const variants = [
   { name: 'date', type: 'date' },
   { name: 'month', type: 'month' },
   { name: 'year', type: 'year' },
-  { name: 'datetime-minute', type: 'date', showTime: true, useSeconds: false },
-  { name: 'datetime-second', type: 'date', showTime: true, useSeconds: true },
+  {
+    name: 'datetime-minute',
+    type: 'date',
+    showTime: true,
+    timeFields: ['hour', 'minute'],
+    format: 'YYYY-MM-DD HH:mm',
+    valueFormat: 'YYYY-MM-DD HH:mm',
+  },
+  { name: 'datetime-second', type: 'date', showTime: true },
 ]
 function values(options) {
   if (options.type === 'year') {
@@ -22,16 +30,16 @@ function values(options) {
   if (options.type === 'month') {
     return ['2026-10', '2028-02']
   }
-  const suffix = options.showTime ? (options.useSeconds ? ' 09:30:12' : ' 09:30') : ''
+  const suffix = options.showTime ? (options.valueFormat !== 'YYYY-MM-DD HH:mm' ? ' 09:30:12' : ' 09:30') : ''
   return [`2026-10-19${suffix}`, `2028-02-25${suffix}`]
 }
-function fixture(range, presentation, options, modelValue = range ? values(options) : values(options)[0]) {
-  return mount(presentation === 'standalone' ? (range ? DateRangePicker : DatePicker) : range ? DateRange : Date, {
+function fixture(range, editMode, options, modelValue = range ? values(options) : values(options)[0]) {
+  return mount(editMode === 'standalone' ? (range ? DateRangePicker : DatePicker) : range ? DateRange : Date, {
     props: {
       ...options,
       modelValue,
       disableConfirm: false,
-      ...(presentation === 'standalone' ? {} : { presentation, open: true }),
+      ...(editMode === 'standalone' ? {} : { editMode, open: true }),
     },
     global,
   })
@@ -72,12 +80,12 @@ async function navigate(wrapper, type) {
 // Keep each full user journey sequential, but give every navigation step its
 // own assertion boundary instead of timing dozens of Vue renders as one test.
 for (const range of [false, true]) {
-  for (const presentation of ['standalone', 'inline', 'popup']) {
+  for (const editMode of ['standalone', 'direct', 'popup']) {
     for (const { name, ...options } of variants) {
-      describe.sequential(`${range ? 'range' : 'single'} ${name} ${presentation} navigation`, () => {
+      describe.sequential(`${range ? 'range' : 'single'} ${name} ${editMode} navigation`, () => {
         let wrapper
         beforeAll(() => {
-          wrapper = fixture(range, presentation, options)
+          wrapper = fixture(range, editMode, options)
         })
         afterAll(() => {
           wrapper?.unmount()
@@ -93,7 +101,7 @@ for (const range of [false, true]) {
         if (range) {
           for (const [step, endpoint] of [1, 0, 1].entries()) {
             it(`switches to endpoint ${endpoint} at step ${step + 1} and retains its viewport`, async () => {
-              await wrapper.findAll('.mp-date-range-picker__summary')[endpoint].trigger('click')
+              await rangeControls(wrapper)[endpoint].trigger('click')
               const year = endpoint === 0 ? '2026' : '2028'
               if (options.type === 'year') {
                 expect(title(wrapper)).toBe('2000 ~ 2099')
@@ -130,7 +138,7 @@ for (const range of [false, true]) {
                 ? '2027'
                 : options.type === 'month'
                   ? '2027-03'
-                  : `2027-03-15${options.showTime ? (options.useSeconds ? ' 09:30:12' : ' 09:30') : ''}`
+                  : `2027-03-15${options.showTime ? (options.valueFormat !== 'YYYY-MM-DD HH:mm' ? ' 09:30:12' : ' 09:30') : ''}`
             expect(wrapper.emitted('select').at(-1)[0]).toEqual([values(options)[0], end])
             expect(wrapper.emitted('update:modelValue')).toBeUndefined()
           })
@@ -141,13 +149,13 @@ for (const range of [false, true]) {
 }
 
 describe('same-year range endpoints', () => {
-  for (const presentation of ['standalone', 'inline', 'popup']) {
-    it(`${presentation} returns to the endpoint century after paging and switching equal years`, async () => {
-      const wrapper = fixture(true, presentation, { type: 'year' }, ['2026', '2026'])
+  for (const editMode of ['standalone', 'direct', 'popup']) {
+    it(`${editMode} returns to the endpoint century after paging and switching equal years`, async () => {
+      const wrapper = fixture(true, editMode, { type: 'year' }, ['2026', '2026'])
       try {
         await wrapper.findAll('.mp-date-picker-header__arrow')[1].trigger('click')
         expect(title(wrapper)).toBe('2100 ~ 2199')
-        await wrapper.findAll('.mp-date-range-picker__summary')[1].trigger('click')
+        await rangeControls(wrapper)[1].trigger('click')
         expect(title(wrapper)).toBe('2000 ~ 2099')
         await pageRoundTrip(wrapper)
         expect(wrapper.emitted('select')).toBeUndefined()

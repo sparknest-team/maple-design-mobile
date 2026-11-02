@@ -1,9 +1,9 @@
 # 浮动面板
 
-## 案例
-
 ### 介绍
 浮动在页面底部的面板，常用于提供额外的功能或信息，用户可灵活上下滑动浏览内容。
+
+## 基础示例
 
 ### 基本使用
 
@@ -12,15 +12,6 @@
 ```demo
 ../example/demos/basic.vue
 ```
-
-<!-- api-review:start -->
-### 功能调试
-
-```demo
-../example/demos/api-review.vue
-```
-
-<!-- api-review:end -->
 
 ## API
 
@@ -38,8 +29,10 @@
 | `content-draggable` | 是否允许拖拽面板内容       | _boolean_ | `true`  |
 | `duration`          | 动画时长，单位为 `ms`          | _number \| string_ | `300`  |
 | `elevation`         | 海拔高度，可选值为 `true`、`false` 和 `0-24` 的等级                                                            | _number \| boolean_ | `true`            |
-| `popup-container`          | 弹出层挂载的位置              | _TeleportProps['to'] \| false_ | `body`  |
+| `popup-container` | 挂载目标：省略时为 body，false 为当前位置；支持选择器或 HTMLElement | _string \| HTMLElement \| false_ | `body` |
 | `safe-area`         | 是否开启底部安全区适配        | _boolean_ | `false`  |
+
+省略 `popup-container` 时挂载到 `body`；传 `false` 在当前位置渲染。选择器目标缺失或无效时回退 `body`，开发环境会提示；可在运行时切换目标，SSR 不查询浏览器 DOM。
 
 ### 事件
 
@@ -71,3 +64,5 @@
 | `--floating-panel-toolbar-border-radius` | `10px` |
 | `--floating-panel-toolbar-background` | `#ddd` |
 | `--floating-panel-transition-timing-function` | `cubic-bezier(0.18, 0.89, 0.32, 1.28)` |
+
+原生 `id`、`aria-*`、class、style 和事件监听器作用于实际面板根节点；内置变换与业务样式合并。

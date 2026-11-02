@@ -46,7 +46,13 @@ for (const [format, value, range] of [
 for (const [Field, Panel, props, selector, count] of cases.slice(0, 4)) {
   cases.push([Field, Panel, { ...props, panelType: 'picker' }, selector, count])
   if (props.showTime) {
-    cases.push([Field, Panel, { ...props, useSeconds: false }, selector, count])
+    cases.push([
+      Field,
+      Panel,
+      { ...props, timeFields: ['hour', 'minute'], format: 'YYYY-MM-DD HH:mm', valueFormat: 'YYYY-MM-DD HH:mm' },
+      selector,
+      count,
+    ])
   }
 }
 const stubs = {
@@ -55,14 +61,14 @@ const stubs = {
 }
 
 for (const [Field, Panel, props, selector] of cases) {
-  for (const presentation of ['inline', 'popup', 'standalone']) {
-    it(`${Field.name} ${props.type ?? props.format ?? (props.showTime ? 'datetime' : 'default')} ${props.panelType ?? 'default'} seconds=${props.useSeconds ?? true} ${presentation} keeps only date-range summaries and matching column labels`, async () => {
+  for (const editMode of ['direct', 'popup', 'standalone']) {
+    it(`${Field.name} ${props.type ?? props.format ?? (props.showTime ? 'datetime' : 'default')} ${props.panelType ?? 'default'} seconds=${props.timeFields?.includes('second') ?? true} ${editMode} keeps only date-range summaries and matching column labels`, async () => {
       const { panelType, ...panelOptions } = props
-      const wrapper = mount(presentation === 'standalone' ? Panel : Field, {
+      const wrapper = mount(editMode === 'standalone' ? Panel : Field, {
         props:
-          presentation === 'standalone'
-            ? { ...panelOptions, ...(panelType ? { presentation: panelType } : {}) }
-            : { ...props, presentation, open: true },
+          editMode === 'standalone'
+            ? { ...panelOptions, ...(panelType ? { editMode: panelType } : {}) }
+            : { ...props, editMode, open: true },
         global: { stubs },
       })
       try {
@@ -116,10 +122,10 @@ for (const [Field, Panel, props, selector] of cases) {
   }
 }
 
-for (const presentation of ['inline', 'popup']) {
-  it(`TimeRange ${presentation} edits both wheels without summaries before one confirmation`, async () => {
+for (const editMode of ['direct', 'popup']) {
+  it(`TimeRange ${editMode} edits both wheels without summaries before one confirmation`, async () => {
     const wrapper = mount(TimeRange, {
-      props: { modelValue: ['09:30', '18:00'], format: 'HH:mm', presentation, open: true },
+      props: { modelValue: ['09:30', '18:00'], format: 'HH:mm', editMode, open: true },
       global: { stubs },
     })
     try {
@@ -129,9 +135,7 @@ for (const presentation of ['inline', 'popup']) {
       expect(wrapper.getComponent(Picker).props('modelValue')).toEqual(['10', '15', '19', '45'])
       expect(wrapper.emitted('update:modelValue')).toBeUndefined()
       await wrapper
-        .get(
-          presentation === 'inline' ? '.mp-time-range__confirm-button' : '.mp-field-presentation__footer > .mp-button',
-        )
+        .get(editMode === 'direct' ? '.mp-time-range__confirm-button' : '.mp-field-presentation__footer > .mp-button')
         .trigger('click')
       await flushPromises()
       expect(wrapper.emitted('update:modelValue')).toEqual([[['10:15', '19:45']]])

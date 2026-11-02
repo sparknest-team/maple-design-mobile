@@ -3,7 +3,8 @@
 exports[`input aria-label 1`] = `
 "<div class="mp-input">
   <div class="mp-field-decorator mp-field-decorator--size-md mp-field-decorator--variant-outline">
-    <!--v-if--><span class="mp-field-decorator__middle"><input id="v-0" class="mp-input__inner" type="text" aria-label="test aria-label" value="text"></span>
+    <!--v-if--><span class="mp-field-decorator__middle"><input id="v-0" autocomplete="off" class="mp-input__inner" type="text" aria-label="test aria-label" value="text"></span>
+    <!--v-if-->
     <!--v-if-->
     <!--v-if--><span class="mp-field-decorator__border" aria-hidden="true"></span><span class="mp-field-decorator__border-state" aria-hidden="true"></span>
   </div>
@@ -13,8 +14,9 @@ exports[`input aria-label 1`] = `
 exports[`input clear 1`] = `
 "<div class="mp-input">
   <div class="mp-field-decorator mp-field-decorator--size-md mp-field-decorator--variant-outline">
-    <!--v-if--><span class="mp-field-decorator__middle"><input id="v-0" class="mp-input__inner" type="text" value="text"></span>
-    <!--v-if--><span class="mp-field-decorator__suffix"><button type="button" class="mp-field-decorator__clear-btn" aria-label="清空"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img"><!--v-if--><path d="M12 2c5.53 0 10 4.47 10 10s-4.47 10-10 10S2 17.53 2 12 6.47 2 12 2m3.59 5L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg></button></span><span class="mp-field-decorator__border" aria-hidden="true"></span><span class="mp-field-decorator__border-state" aria-hidden="true"></span>
+    <!--v-if--><span class="mp-field-decorator__middle"><input id="v-0" autocomplete="off" class="mp-input__inner" type="text" value="text"></span>
+    <!--v-if--><span class="mp-field-decorator__suffix"><button type="button" class="mp-field-decorator__clear-btn" aria-label="清空"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img"><!--v-if--><path d="M12 2c5.53 0 10 4.47 10 10s-4.47 10-10 10S2 17.53 2 12 6.47 2 12 2m3.59 5L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z"></path></svg></button><!--v-if--></span>
+    <!--v-if--><span class="mp-field-decorator__border" aria-hidden="true"></span><span class="mp-field-decorator__border-state" aria-hidden="true"></span>
   </div>
 </div>"
 `;
@@ -22,7 +24,8 @@ exports[`input clear 1`] = `
 exports[`input hint to be false 1`] = `
 "<div class="mp-input">
   <div class="mp-field-decorator mp-field-decorator--size-md mp-field-decorator--variant-outline">
-    <!--v-if--><span class="mp-field-decorator__middle"><input id="v-0" class="mp-input__inner" type="text" value="text"></span>
+    <!--v-if--><span class="mp-field-decorator__middle"><input id="v-0" autocomplete="off" class="mp-input__inner" type="text" value="text"></span>
+    <!--v-if-->
     <!--v-if-->
     <!--v-if--><span class="mp-field-decorator__border" aria-hidden="true"></span><span class="mp-field-decorator__border-state" aria-hidden="true"></span>
   </div>
@@ -32,9 +35,10 @@ exports[`input hint to be false 1`] = `
 exports[`input maxLength 1`] = `
 "<div class="mp-input">
   <div class="mp-field-decorator mp-field-decorator--size-md mp-field-decorator--variant-outline">
-    <!--v-if--><span class="mp-field-decorator__middle"><input id="v-0" class="mp-input__inner" type="text" value="text"></span>
-    <!--v-if--><span class="mp-field-decorator__suffix"><!--v-if--><span class="mp-input__word-limit">4/100</span>
-    <!--v-if--></span><span class="mp-field-decorator__border" aria-hidden="true"></span><span class="mp-field-decorator__border-state" aria-hidden="true"></span>
+    <!--v-if--><span class="mp-field-decorator__middle"><input id="v-0" autocomplete="off" class="mp-input__inner" type="text" value="text"></span>
+    <!--v-if--><span class="mp-field-decorator__suffix"><!--v-if--><!--v-if--><span class="mp-input__word-limit">4/100</span>
+    <!--v-if--></span>
+    <!--v-if--><span class="mp-field-decorator__border" aria-hidden="true"></span><span class="mp-field-decorator__border-state" aria-hidden="true"></span>
   </div>
 </div>"
 `;
@@ -42,7 +46,8 @@ exports[`input maxLength 1`] = `
 exports[`input type 1`] = `
 "<div class="mp-input">
   <div class="mp-field-decorator mp-field-decorator--size-md mp-field-decorator--variant-outline">
-    <!--v-if--><span class="mp-field-decorator__middle"><input id="v-0" class="mp-input__inner" type="text" value="text"></span>
+    <!--v-if--><span class="mp-field-decorator__middle"><input id="v-0" autocomplete="off" class="mp-input__inner" type="text" value="text"></span>
+    <!--v-if-->
     <!--v-if-->
     <!--v-if--><span class="mp-field-decorator__border" aria-hidden="true"></span><span class="mp-field-decorator__border-state" aria-hidden="true"></span>
   </div>
@@ -52,7 +57,8 @@ exports[`input type 1`] = `
 exports[`input type 2`] = `
 "<div class="mp-input">
   <div class="mp-field-decorator mp-field-decorator--size-md mp-field-decorator--variant-outline">
-    <!--v-if--><span class="mp-field-decorator__middle"><input id="v-0" class="mp-input__inner" type="password" value="text"></span>
+    <!--v-if--><span class="mp-field-decorator__middle"><input id="v-0" autocomplete="off" class="mp-input__inner" type="password" value="text"></span>
+    <!--v-if-->
     <!--v-if-->
     <!--v-if--><span class="mp-field-decorator__border" aria-hidden="true"></span><span class="mp-field-decorator__border-state" aria-hidden="true"></span>
   </div>
@@ -62,7 +68,8 @@ exports[`input type 2`] = `
 exports[`input type 3`] = `
 "<div class="mp-input">
   <div class="mp-field-decorator mp-field-decorator--size-md mp-field-decorator--variant-outline">
-    <!--v-if--><span class="mp-field-decorator__middle"><input id="v-0" class="mp-input__inner" type="text" inputmode="decimal" value="text"></span>
+    <!--v-if--><span class="mp-field-decorator__middle"><input id="v-0" autocomplete="off" class="mp-input__inner" type="text" inputmode="decimal" value="text"></span>
+    <!--v-if-->
     <!--v-if-->
     <!--v-if--><span class="mp-field-decorator__border" aria-hidden="true"></span><span class="mp-field-decorator__border-state" aria-hidden="true"></span>
   </div>
@@ -72,7 +79,8 @@ exports[`input type 3`] = `
 exports[`input type 4`] = `
 "<div class="mp-input">
   <div class="mp-field-decorator mp-field-decorator--size-md mp-field-decorator--variant-outline">
-    <!--v-if--><span class="mp-field-decorator__middle"><input id="v-0" class="mp-input__inner" type="tel" value="text"></span>
+    <!--v-if--><span class="mp-field-decorator__middle"><input id="v-0" autocomplete="off" class="mp-input__inner" type="tel" value="text"></span>
+    <!--v-if-->
     <!--v-if-->
     <!--v-if--><span class="mp-field-decorator__border" aria-hidden="true"></span><span class="mp-field-decorator__border-state" aria-hidden="true"></span>
   </div>
@@ -82,7 +90,8 @@ exports[`input type 4`] = `
 exports[`input type 5`] = `
 "<div class="mp-input">
   <div class="mp-field-decorator mp-field-decorator--size-md mp-field-decorator--variant-outline">
-    <!--v-if--><span class="mp-field-decorator__middle"><input id="v-0" class="mp-input__inner" type="email" value="text"></span>
+    <!--v-if--><span class="mp-field-decorator__middle"><input id="v-0" autocomplete="off" class="mp-input__inner" type="email" value="text"></span>
+    <!--v-if-->
     <!--v-if-->
     <!--v-if--><span class="mp-field-decorator__border" aria-hidden="true"></span><span class="mp-field-decorator__border-state" aria-hidden="true"></span>
   </div>
@@ -92,7 +101,8 @@ exports[`input type 5`] = `
 exports[`input variant 1`] = `
 "<div class="mp-input">
   <div class="mp-field-decorator mp-field-decorator--size-md mp-field-decorator--variant-filled">
-    <!--v-if--><span class="mp-field-decorator__middle"><input id="v-0" class="mp-input__inner" type="text" value="text"></span>
+    <!--v-if--><span class="mp-field-decorator__middle"><input id="v-0" autocomplete="off" class="mp-input__inner" type="text" value="text"></span>
+    <!--v-if-->
     <!--v-if-->
     <!--v-if--><span class="mp-field-decorator__border" aria-hidden="true"></span><span class="mp-field-decorator__border-state" aria-hidden="true"></span>
   </div>
@@ -102,7 +112,8 @@ exports[`input variant 1`] = `
 exports[`input variant 2`] = `
 "<div class="mp-input">
   <div class="mp-field-decorator mp-field-decorator--size-md mp-field-decorator--variant-outline">
-    <!--v-if--><span class="mp-field-decorator__middle"><input id="v-0" class="mp-input__inner" type="text" value="text"></span>
+    <!--v-if--><span class="mp-field-decorator__middle"><input id="v-0" autocomplete="off" class="mp-input__inner" type="text" value="text"></span>
+    <!--v-if-->
     <!--v-if-->
     <!--v-if--><span class="mp-field-decorator__border" aria-hidden="true"></span><span class="mp-field-decorator__border-state" aria-hidden="true"></span>
   </div>
@@ -112,7 +123,8 @@ exports[`input variant 2`] = `
 exports[`input variant 3`] = `
 "<div class="mp-input">
   <div class="mp-field-decorator mp-field-decorator--size-md mp-field-decorator--variant-standard">
-    <!--v-if--><span class="mp-field-decorator__middle"><input id="v-0" class="mp-input__inner" type="text" value="text"></span>
+    <!--v-if--><span class="mp-field-decorator__middle"><input id="v-0" autocomplete="off" class="mp-input__inner" type="text" value="text"></span>
+    <!--v-if-->
     <!--v-if-->
     <!--v-if--><span class="mp-field-decorator__border" aria-hidden="true"></span><span class="mp-field-decorator__border-state" aria-hidden="true"></span>
   </div>
@@ -122,15 +134,17 @@ exports[`input variant 3`] = `
 exports[`test input component slots > input clear-icon slot 1`] = `
 "<div class="mp-input">
   <div class="mp-field-decorator mp-field-decorator--size-md mp-field-decorator--variant-outline">
-    <!--v-if--><span class="mp-field-decorator__middle"><input id="v-0" class="mp-input__inner" type="text" value="value"></span>
-    <!--v-if--><span class="mp-field-decorator__suffix"><button class="custom-clear-icon">Clear</button></span><span class="mp-field-decorator__border" aria-hidden="true"></span><span class="mp-field-decorator__border-state" aria-hidden="true"></span>
+    <!--v-if--><span class="mp-field-decorator__middle"><input id="v-0" autocomplete="off" class="mp-input__inner" type="text" value="value"></span>
+    <!--v-if--><span class="mp-field-decorator__suffix"><button class="custom-clear-icon">Clear</button><!--v-if--></span>
+    <!--v-if--><span class="mp-field-decorator__border" aria-hidden="true"></span><span class="mp-field-decorator__border-state" aria-hidden="true"></span>
   </div>
 </div>"
 `;
 
 exports[`test input component slots > input prefix slot 1`] = `
 "<div class="mp-input">
-  <div class="mp-field-decorator mp-field-decorator--size-md mp-field-decorator--variant-outline"><span class="mp-field-decorator__prefix">prefix</span><span class="mp-field-decorator__middle"><input id="v-0" class="mp-input__inner" type="text" value=""></span>
+  <div class="mp-field-decorator mp-field-decorator--size-md mp-field-decorator--variant-outline"><span class="mp-field-decorator__prefix">prefix</span><span class="mp-field-decorator__middle"><input id="v-0" autocomplete="off" class="mp-input__inner" type="text" value=""></span>
+    <!--v-if-->
     <!--v-if-->
     <!--v-if--><span class="mp-field-decorator__border" aria-hidden="true"></span><span class="mp-field-decorator__border-state" aria-hidden="true"></span>
   </div>
@@ -140,8 +154,9 @@ exports[`test input component slots > input prefix slot 1`] = `
 exports[`test input component slots > input suffix slot 1`] = `
 "<div class="mp-input">
   <div class="mp-field-decorator mp-field-decorator--size-md mp-field-decorator--variant-outline">
-    <!--v-if--><span class="mp-field-decorator__middle"><input id="v-0" class="mp-input__inner" type="text" value=""></span>
-    <!--v-if--><span class="mp-field-decorator__suffix"><!--v-if--><!--v-if-->suffix<!--v-if--></span><span class="mp-field-decorator__border" aria-hidden="true"></span><span class="mp-field-decorator__border-state" aria-hidden="true"></span>
+    <!--v-if--><span class="mp-field-decorator__middle"><input id="v-0" autocomplete="off" class="mp-input__inner" type="text" value=""></span>
+    <!--v-if--><span class="mp-field-decorator__suffix"><!--v-if--><!--v-if--><!--v-if-->suffix<!--v-if--></span>
+    <!--v-if--><span class="mp-field-decorator__border" aria-hidden="true"></span><span class="mp-field-decorator__border-state" aria-hidden="true"></span>
   </div>
 </div>"
 `;
@@ -149,7 +164,8 @@ exports[`test input component slots > input suffix slot 1`] = `
 exports[`test input events > input focus & blur 1`] = `
 "<div class="mp-input">
   <div class="mp-field-decorator mp-field-decorator--size-md mp-field-decorator--variant-outline mp-field-decorator--focus">
-    <!--v-if--><span class="mp-field-decorator__middle"><input id="v-0" class="mp-input__inner" type="text" value=""></span>
+    <!--v-if--><span class="mp-field-decorator__middle"><input id="v-0" autocomplete="off" class="mp-input__inner" type="text" value=""></span>
+    <!--v-if-->
     <!--v-if-->
     <!--v-if--><span class="mp-field-decorator__border" aria-hidden="true"></span><span class="mp-field-decorator__border-state" aria-hidden="true"></span>
   </div>
@@ -159,7 +175,8 @@ exports[`test input events > input focus & blur 1`] = `
 exports[`test input events > input focus & blur 2`] = `
 "<div class="mp-input">
   <div class="mp-field-decorator mp-field-decorator--size-md mp-field-decorator--variant-outline">
-    <!--v-if--><span class="mp-field-decorator__middle"><input id="v-0" class="mp-input__inner" type="text" value=""></span>
+    <!--v-if--><span class="mp-field-decorator__middle"><input id="v-0" autocomplete="off" class="mp-input__inner" type="text" value=""></span>
+    <!--v-if-->
     <!--v-if-->
     <!--v-if--><span class="mp-field-decorator__border" aria-hidden="true"></span><span class="mp-field-decorator__border-state" aria-hidden="true"></span>
   </div>

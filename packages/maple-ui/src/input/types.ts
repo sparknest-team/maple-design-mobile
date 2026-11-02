@@ -2,9 +2,9 @@ import type { VNodeChild } from 'vue'
 
 export interface InputEmits {
   'update:open': [value: boolean]
-  'update:modelValue': [value: string]
+  'update:modelValue': [value: string | null]
   input: [value: string, event: Event]
-  change: [value: string, event: Event]
+  change: [value: string | null, event: Event]
   'press-enter': [event: KeyboardEvent]
   keydown: [event: KeyboardEvent]
   clear: [event: Event]
@@ -13,7 +13,7 @@ export interface InputEmits {
   click: [event: MouseEvent]
 }
 export interface InputSlots {
-  read?(scope: { value: string }): VNodeChild
+  read?(scope: { value: string | null }): VNodeChild
   prefix?(): VNodeChild
   suffix?(): VNodeChild
   'clear-icon'?(scope: { clear(event?: Event): void }): VNodeChild

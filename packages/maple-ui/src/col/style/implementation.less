@@ -17,7 +17,7 @@
 
 .create-offset(@i) when (@i >= 0) {
   .mp-col--offset-@{i} {
-    margin-left: (@i * 100% / 24);
+    margin-inline-start: (@i * 100% / 24);
   }
   .create-offset(@i - 1);
 }
@@ -43,7 +43,7 @@
 
 .create-responsive-offset(@mode, @i) when (@i >= 0) {
   .mp-col--offset-@{mode}-@{i} {
-    margin-left: (@i * 100% / 24);
+    margin-inline-start: (@i * 100% / 24);
   }
   .create-responsive-offset(@mode, @i - 1);
 }

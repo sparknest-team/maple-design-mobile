@@ -209,16 +209,16 @@
       "kind": "string"
     },
     {
-      "name": "presentation",
-      "type": "'inline' | 'popup'",
+      "name": "edit-mode",
+      "type": "'direct' | 'popup'",
       "defaultValue": "undefined",
-      "description": "字段编辑方式，字段 > FormItem > Form 继承；默认 inline。",
+      "description": "字段编辑方式，字段 > FormItem > Form 继承；默认 direct。",
       "kind": "enum",
       "options": [
-        "inline",
+        "direct",
         "popup"
       ],
-      "initial": "inline"
+      "initial": "direct"
     },
     {
       "name": "read-pretty",
@@ -326,7 +326,7 @@
       "demos": [
         "basic-usage.vue",
         "field-appearance.vue",
-        "hour24.vue",
+        "format-comparison.vue",
         "panel-behavior.vue",
         "picker-seconds.vue",
         "separator.vue",

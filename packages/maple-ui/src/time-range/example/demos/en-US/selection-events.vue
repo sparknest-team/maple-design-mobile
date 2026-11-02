@@ -16,7 +16,7 @@ function record(name, value, dates) {
 </script>
 
 <template>
-  <div style="display: flex; flex-direction: column; gap: 12px; width: 100%">
+  <mp-space direction="column" size="12px" style="width: 100%">
     <mp-checkbox v-model="readonly">Read-only: focus allowed, edits blocked</mp-checkbox>
     <mp-checkbox v-model="disabled">Disabled: focus released, edits blocked</mp-checkbox>
     <mp-checkbox v-model="immediate">Commit immediately on selection</mp-checkbox>
@@ -40,5 +40,5 @@ function record(name, value, dates) {
     <mp-button variant="outline" @click="value = ['15:30', '18:00']">Replace model externally</mp-button>
     <small>External replacement updates the display without emitting select or change.</small>
     <div v-for="(event, index) in events" :key="index" style="overflow-wrap: anywhere">{{ event }}</div>
-  </div>
+  </mp-space>
 </template>

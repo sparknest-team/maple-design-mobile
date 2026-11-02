@@ -31,13 +31,15 @@ const value = (wrapper) => Number(wrapper.get('[role="slider"]').attributes('ari
 describe('Slider', () => {
   test('installs, snapshots and SSR', async () => {
     expect(createApp({}).use(Slider).component(Slider.name)).toBeTruthy()
-    const wrapper = mount(Slider)
+    const wrapper = mount(Slider, { props: { editMode: 'direct' } })
     expect(wrapper.html()).toMatchSnapshot()
     expect(value(wrapper)).toBe(0)
     wrapper.unmount()
     const render = () =>
       renderToString(
-        createApp({ render: () => h(Slider, { defaultValue: [10, 50], range: true, showTooltip: 'always' }) }),
+        createApp({
+          render: () => h(Slider, { editMode: 'direct', defaultValue: [10, 50], range: true, showTooltip: 'always' }),
+        }),
       )
     expect(await render()).toBe(await render())
   })
@@ -49,7 +51,7 @@ describe('Slider', () => {
     expect(sliderValues([Infinity, NaN], true, sliderBounds(0, 100, 1))).toEqual([0, 0])
   })
   test('uncontrolled local keyboard, page keys and endpoints', async () => {
-    const wrapper = mount(Slider, { props: { defaultValue: 20, step: 2, ariaLabel: 'Volume' } })
+    const wrapper = mount(Slider, { props: { editMode: 'direct', defaultValue: 20, step: 2, ariaLabel: 'Volume' } })
     const thumb = wrapper.get('[role="slider"]')
     await thumb.trigger('keydown', { key: 'ArrowRight' })
     expect(value(wrapper)).toBe(22)
@@ -70,13 +72,13 @@ describe('Slider', () => {
     wrapper.unmount()
   })
   test('keyboard leaves an off-grid maximum at the closest previous step', async () => {
-    const wrapper = mount(Slider, { props: { min: 0, max: 1, step: 0.3, defaultValue: 1 } })
+    const wrapper = mount(Slider, { props: { editMode: 'direct', min: 0, max: 1, step: 0.3, defaultValue: 1 } })
     await wrapper.get('[role="slider"]').trigger('keydown', { key: 'ArrowLeft' })
     expect(value(wrapper)).toBe(0.9)
     wrapper.unmount()
   })
   test('controlled rejection never mutates displayed value', async () => {
-    const wrapper = mount(Slider, { props: { modelValue: 20 } })
+    const wrapper = mount(Slider, { props: { editMode: 'direct', modelValue: 20 } })
     await wrapper.get('[role="slider"]').trigger('keydown', { key: 'ArrowRight' })
     expect(wrapper.emitted('update:modelValue')).toEqual([[21]])
     expect(value(wrapper)).toBe(20)
@@ -88,7 +90,12 @@ describe('Slider', () => {
     const pair = ref([20, 40])
     const wrapper = mount({
       render: () =>
-        h(Slider, { range: true, modelValue: pair.value, 'onUpdate:modelValue': (next) => (pair.value = next) }),
+        h(Slider, {
+          editMode: 'direct',
+          range: true,
+          modelValue: pair.value,
+          'onUpdate:modelValue': (next) => (pair.value = next),
+        }),
     })
     const [low, high] = wrapper.findAll('[role="slider"]')
     await low.trigger('keydown', { key: 'End' })
@@ -103,7 +110,7 @@ describe('Slider', () => {
   test.each(['mouse', 'touch', 'pen'])(
     '%s pointer drag emits once, ignores other pointer and releases capture',
     async (pointerType) => {
-      const wrapper = mount(Slider, { props: { defaultValue: 20 } })
+      const wrapper = mount(Slider, { props: { editMode: 'direct', defaultValue: 20 } })
       rect(wrapper)
       const thumb = wrapper.get('[role="slider"]').element
       thumb.setPointerCapture = vi.fn()
@@ -125,7 +132,7 @@ describe('Slider', () => {
     },
   )
   test('track chooses closest and separates overlapping thumbs at max', async () => {
-    const wrapper = mount(Slider, { props: { range: true, defaultValue: [100, 100] } })
+    const wrapper = mount(Slider, { props: { editMode: 'direct', range: true, defaultValue: [100, 100] } })
     rect(wrapper)
     await pointer(wrapper.get('.mp-slider__track').element, 'pointerdown', 80)
     await pointer(document, 'pointerup', 80)
@@ -133,7 +140,7 @@ describe('Slider', () => {
     wrapper.unmount()
   })
   test('vertical geometry and zero-size track are safe', async () => {
-    const wrapper = mount(Slider, { props: { orientation: 'vertical' } })
+    const wrapper = mount(Slider, { props: { editMode: 'direct', orientation: 'vertical' } })
     rect(wrapper)
     await pointer(wrapper.get('.mp-slider__track').element, 'pointerdown', 0, 25)
     await pointer(document, 'pointerup', 0, 25)
@@ -151,7 +158,9 @@ describe('Slider', () => {
     wrapper.unmount()
   })
   test.each(['disabled', 'readonly'])('%s blocks pointer, keyboard and input', async (state) => {
-    const wrapper = mount(Slider, { props: { [state]: true, showInput: true, defaultValue: 20 } })
+    const wrapper = mount(Slider, {
+      props: { editMode: 'direct', [state]: true, showInput: true, defaultValue: 20 },
+    })
     rect(wrapper)
     await wrapper.get('[role="slider"]').trigger('keydown', { key: 'ArrowRight' })
     await pointer(wrapper.get('.mp-slider__track').element, 'pointerdown', 80)
@@ -165,7 +174,7 @@ describe('Slider', () => {
     wrapper.unmount()
   })
   test('pointer cancel, disable mid-drag and unmount remove listeners', async () => {
-    const wrapper = mount(Slider)
+    const wrapper = mount(Slider, { props: { editMode: 'direct' } })
     rect(wrapper)
     await pointer(wrapper.get('[role="slider"]').element, 'pointerdown')
     await pointer(document, 'pointercancel', 30)
@@ -182,7 +191,9 @@ describe('Slider', () => {
   })
   test('KeepAlive deactivation cancels drag', async () => {
     const shown = ref(true)
-    const wrapper = mount({ render: () => h(KeepAlive, null, { default: () => (shown.value ? h(Slider) : null) }) })
+    const wrapper = mount({
+      render: () => h(KeepAlive, null, { default: () => (shown.value ? h(Slider, { editMode: 'direct' }) : null) }),
+    })
     rect(wrapper)
     const slider = wrapper.findComponent(Slider)
     await pointer(wrapper.get('[role="slider"]').element, 'pointerdown')
@@ -195,6 +206,7 @@ describe('Slider', () => {
   test('marks, ticks, formatting and custom button slot', async () => {
     const wrapper = mount(Slider, {
       props: {
+        editMode: 'direct',
         defaultValue: 25,
         step: 25,
         showTicks: true,
@@ -216,7 +228,7 @@ describe('Slider', () => {
   })
 
   test('pointerup commits its final coordinate without a move event', async () => {
-    const wrapper = mount(Slider, { props: { defaultValue: 20 } })
+    const wrapper = mount(Slider, { props: { editMode: 'direct', defaultValue: 20 } })
     rect(wrapper)
     await pointer(wrapper.get('[role="slider"]').element, 'pointerdown', 20)
     await pointer(document, 'pointerup', 65)
@@ -225,13 +237,13 @@ describe('Slider', () => {
     wrapper.unmount()
   })
   test('invalid geometry leaves theme token defaults intact', () => {
-    const wrapper = mount(Slider, { props: { thumbSize: -1, trackHeight: 'bad' } })
+    const wrapper = mount(Slider, { props: { editMode: 'direct', thumbSize: -1, trackHeight: 'bad' } })
     expect(wrapper.attributes('style') ?? '').not.toContain('thumb-size')
     expect(wrapper.attributes('style') ?? '').not.toContain('track-height')
     wrapper.unmount()
   })
   test('lost capture closes the drag and controlled rejection remains stable', async () => {
-    const wrapper = mount(Slider, { props: { modelValue: 20 } })
+    const wrapper = mount(Slider, { props: { editMode: 'direct', modelValue: 20 } })
     rect(wrapper)
     const thumb = wrapper.get('[role="slider"]').element
     await pointer(thumb, 'pointerdown', 20)
@@ -244,7 +256,7 @@ describe('Slider', () => {
     wrapper.unmount()
   })
   test('InputNumber normalizes input through the same range model', async () => {
-    const wrapper = mount(Slider, { props: { showInput: true, defaultValue: 20, step: 5 } })
+    const wrapper = mount(Slider, { props: { editMode: 'direct', showInput: true, defaultValue: 20, step: 5 } })
     const input = wrapper.get('input')
     await input.setValue('42')
     await input.trigger('keydown', { key: 'Enter' })

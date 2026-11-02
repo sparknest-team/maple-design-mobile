@@ -11,7 +11,7 @@
       v-if="!hide && hasHorizontalScrollbar"
       ref="horizontalThumbRef"
       :data="horizontalData"
-      direction="horizontal"
+      orientation="horizontal"
       :both="isBoth"
       @scroll="handleHorizontalScroll"
     />
@@ -19,7 +19,7 @@
       v-if="!hide && hasVerticalScrollbar"
       ref="verticalThumbRef"
       :data="verticalData"
-      direction="vertical"
+      orientation="vertical"
       :both="isBoth"
       @scroll="handleVerticalScroll"
     />
@@ -38,7 +38,9 @@ import {
   PropType,
   ref,
   StyleValue,
+  watch,
 } from 'vue'
+import { nativeScrollLeft, physicalScrollLeft, useDirection } from '../../_utils/direction'
 import { isObject } from '../../_utils/is'
 import { createNamespace, getPrefixCls } from '../../utils/components'
 import ResizeObserver from '../resize-observer-v2'
@@ -68,6 +70,7 @@ export default defineComponent({
     const prefixCls = getPrefixCls('scrollbar')
 
     const containerRef = ref<HTMLElement>()
+    const { dir } = useDirection(() => containerRef.value)
     const horizontalData = ref<ThumbData>()
     const verticalData = ref<ThumbData>()
     const horizontalThumbRef = ref()
@@ -144,7 +147,11 @@ export default defineComponent({
       if (!current(token, element)) {
         return
       }
-      horizontalThumbRef.value?.setOffset(thumbOffset(scrollLeft, hData))
+      const horizontalOffset = physicalScrollLeft(element)
+      if (!current(token, element)) {
+        return
+      }
+      horizontalThumbRef.value?.setOffset(thumbOffset(horizontalOffset, hData))
     }
     const handleResize = computed(() => {
       const epoch = binding.value
@@ -163,7 +170,7 @@ export default defineComponent({
         }
         const token = ++operation
         if (hasHorizontalScrollbar.value && horizontalData.value) {
-          const offset = thumbOffset(element.scrollLeft, horizontalData.value)
+          const offset = thumbOffset(physicalScrollLeft(element), horizontalData.value)
           if (!current(token, element)) {
             return
           }
@@ -189,7 +196,9 @@ export default defineComponent({
       return (offset: number) => {
         if (available() && epoch === binding.value && !props.hide && hasHorizontalScrollbar.value) {
           operation++
-          containerRef.value?.scrollTo({ left: offset * (horizontalData.value?.ratio ?? 1) })
+          containerRef.value?.scrollTo({
+            left: nativeScrollLeft(containerRef.value, offset * (horizontalData.value?.ratio ?? 1)),
+          })
         }
       }
     })
@@ -230,6 +239,7 @@ export default defineComponent({
       operation++
       binding.value++
     }
+    watch(dir, getContainerSize, { flush: 'post' })
     onMounted(getContainerSize)
     onDeactivated(suspend)
     onBeforeUnmount(() => {

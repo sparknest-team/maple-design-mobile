@@ -34,6 +34,6 @@ const options = computed(() => [
 
 <template>
   <mp-space direction="column" size="lg">
-    <mp-cascader v-model="listValue" path-mode placeholder="List 模式" presentation="popup" :options="options" />
+    <mp-cascader v-model="listValue" path-mode placeholder="List 模式" edit-mode="popup" :options="options" />
   </mp-space>
 </template>

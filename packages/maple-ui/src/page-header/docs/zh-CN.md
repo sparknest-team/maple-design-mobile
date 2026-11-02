@@ -4,7 +4,7 @@
 
 展示当前页面的标题、上下文和相关操作。API 参照 Naive UI，组件不负责固定定位、安全区或背景皮肤，这些能力可通过业务层的 `class` / `style` 实现。
 
-## 案例
+## 基础示例
 
 ### 基础用法
 
@@ -14,12 +14,27 @@
 ../example/demos/basic-usage.vue
 ```
 
-### 页头上方内容
+## 内容与展示
+
+### 面包屑与透明表面
+
+比较面包屑导航和透明背景下的标题层级；完整业务内容另见独立案例。
+
+<details>
+<summary>配置说明与使用限制</summary>
+
+#### 页头上方内容
 
 通过 `header` 插槽展示面包屑；使用 Card 承载内容，Space 将标题和副标题纵向排列。
 
+#### 透明底色
+
+页头默认透明。使用 Card 的 `tonal` 变体提供底色，展示页头自然融入外层表面，无需自定义背景样式。
+
+</details>
+
 ```demo
-../example/demos/breadcrumb.vue
+../example/demos/surface-comparison.vue
 ```
 
 ### 完整结构
@@ -30,22 +45,9 @@
 ../example/demos/complete.vue
 ```
 
-### 透明底色
+## 阅读方向
 
-页头默认透明。使用 Card 的 `tonal` 变体提供底色，展示页头自然融入外层表面，无需自定义背景样式。
-
-```demo
-../example/demos/transparent.vue
-```
-
-<!-- api-review:start -->
-### 功能调试
-
-```demo
-../example/demos/api-review.vue
-```
-
-<!-- api-review:end -->
+继承最近的 `dir="ltr|rtl"`，支持运行时切换与局部覆盖。返回按钮位于阅读起点，默认返回图形在 RTL 下指向右侧。标题、副标题与扩展区沿阅读顺序排列；自定义返回插槽不自动镜像。
 
 ## API
 

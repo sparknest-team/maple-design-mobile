@@ -1,6 +1,6 @@
 # 图片
 
-## 案例
+## 基础示例
 
 ### 基础用法
 
@@ -10,7 +10,22 @@
 ../example/demos/basic.vue
 ```
 
+## 图片展示与状态
+
 ### 填充模式
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `width` | 图片宽度 | 填充模式、图片说明与附加内容、错误状态 |
+| `src` | 图片地址 | 填充模式、图片说明与附加内容、错误状态 |
+| `height` | 图片高度 | 填充模式、错误状态、加载状态 |
+| `preview-disabled` | 是否禁用点击预览 | 填充模式、加载状态、懒加载与回退 |
+| `object-fit` | 填充模式, 可选值为 `fill contain cover none scale-down` | 填充模式、懒加载与回退 |
+| `title` | 图片描述，透传给 `img` 的 `title` 属性 | 图片说明与附加内容 |
+<!-- demo-config-notes:end -->
 
 通过 `object-fit` 控制图片如何适应容器。
 
@@ -18,20 +33,25 @@
 ../example/demos/fit-mode.vue
 ```
 
-### 标题与描述
+### 图片说明与附加内容
+
+比较图片说明和附加插槽的位置；预览入口、加载和错误回退保持独立。
+
+<details>
+<summary>配置说明与使用限制</summary>
+
+#### 标题与描述
 
 通过 `title`、`description` 和 `footer-position` 控制说明文案的展示位置。
 
-```demo
-../example/demos/caption.vue
-```
-
-### 底部额外内容
+#### 底部额外内容
 
 通过 `extra` 插槽在页脚定制额外内容。
 
+</details>
+
 ```demo
-../example/demos/extra.vue
+../example/demos/content-comparison.vue
 ```
 
 ### 错误状态
@@ -40,14 +60,6 @@
 
 ```demo
 ../example/demos/error.vue
-```
-
-### 错误时仍显示 Footer
-
-`hide-footer="never"` 可在加载失败时仍展示底部信息。
-
-```demo
-../example/demos/hide-footer-never.vue
 ```
 
 ### 加载状态
@@ -66,47 +78,22 @@
 ../example/demos/lazy.vue
 ```
 
-### 水波与行内
-
-`ripple` 开启点击水波；`block` 设为 `false` 时作为行内元素排列。
-
-```demo
-../example/demos/ripple.vue
-```
-
-### 点击背景层关闭
-
-通过 `preview-props.overlayClosable` 控制点击图片外的背景层是否关闭预览。左图开启，右图关闭；点击图片本身均不会关闭预览。
-
-```demo
-../example/demos/overlay-closable.vue
-```
-
-### 尺寸、圆角与位置
-
-`width` / `height`、`radius` 和 `object-position` 控制几何与裁切位置。
-
-```demo
-../example/demos/presentation.vue
-```
-
-### PreviewGroup track lifecycle / 轨道生命周期
-
-```demo
-../example/demos/track-lifecycle.vue
-```
-
-展示图片，支持说明、加载回退与预览。两端示例分组一致。
-
-单图与预览组未设置 `popup-container` 时均挂载到 body 并覆盖视口；只有显式 `false` 才原地渲染，需要父容器提供定位和尺寸。预览组仅由当前图片的 load/error 结束加载提示，切回已加载的缓存图片不会残留加载图标。
-
-### 预览交互生命周期
-
-```demo
-../example/demos/controller-lifecycle.vue
-```
+## 预览入口与分组
 
 ### 禁用预览
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `width` | 图片宽度 | 禁用预览、预览入口与受控、图片预览组 |
+| `src` | 图片地址 | 禁用预览、预览入口与受控、图片预览组 |
+| `height` | 图片高度 | 预览入口与受控、图片预览组 |
+| `object-fit` | 填充模式, 可选值为 `fill contain cover none scale-down` | 预览入口与受控、图片预览组 |
+| `preview-disabled` | 是否禁用点击预览 | 禁用预览 |
+| `preview-src` | 预览大图地址，默认与 `src` 相同 | 预览入口与受控 |
+<!-- demo-config-notes:end -->
 
 设置 `preview-disabled` 后点击图片不会打开预览。
 
@@ -122,44 +109,12 @@
 ../example/demos/preview-entry.vue
 ```
 
-### 指定挂载容器
-
-通过 `preview-props.popupContainer` 把预览挂载到指定节点。
-
-```demo
-../example/demos/preview-popup-container.vue
-```
-
-### 图片预览组
-
-`ImagePreviewGroup` 可以收集子 Image，集合状态只由 Group 管理。
-
-```demo
-../example/demos/preview-group.vue
-```
-
-### 数据驱动预览组
-
-也可以直接传入 `images`，用按钮打开预览。
-
-```demo
-../example/demos/component-preview-group.vue
-```
-
 ### 单图 Preview
 
 `ImagePreview` 只接收单个 `src`，负责缩放、旋转、拖拽和全屏等变换。
 
 ```demo
 ../example/demos/component-preview.vue
-```
-
-### 自定义预览内容
-
-关闭图标、指示器与操作区均可自定义。
-
-```demo
-../example/demos/preview-features.vue
 ```
 
 ### 命令式预览
@@ -228,14 +183,106 @@ export default defineConfig({
 </template>
 ```
 
-<!-- api-review:start -->
-### 功能调试
+### 图片预览组
+
+`ImagePreviewGroup` 可以收集子 Image，集合状态只由 Group 管理。
 
 ```demo
-../example/demos/api-review.vue
+../example/demos/preview-group.vue
 ```
 
-<!-- api-review:end -->
+### 数据驱动预览组
+
+也可以直接传入 `images`，用按钮打开预览。
+
+```demo
+../example/demos/component-preview-group.vue
+```
+
+## 预览定制与交互
+
+### 水波与行内
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `width` | 图片宽度 | 水波与行内、点击背景层关闭、错误时仍显示 Footer |
+| `src` | 图片地址 | 水波与行内、点击背景层关闭、错误时仍显示 Footer |
+| `height` | 图片高度 | 水波与行内、点击背景层关闭、尺寸、圆角与位置 |
+| `object-fit` | 填充模式, 可选值为 `fill contain cover none scale-down` | 水波与行内、点击背景层关闭、尺寸、圆角与位置 |
+| `preview-disabled` | 是否禁用点击预览 | 水波与行内、错误时仍显示 Footer、尺寸、圆角与位置 |
+| `preview-props` | 透传给 `ImagePreview` 的配置 | 点击背景层关闭、指定挂载容器 |
+<!-- demo-config-notes:end -->
+
+`ripple` 开启点击水波；`block` 设为 `false` 时作为行内元素排列。
+
+```demo
+../example/demos/ripple.vue
+```
+
+### 点击背景层关闭
+
+通过 `preview-props.overlayClosable` 控制点击图片外的背景层是否关闭预览。左图开启，右图关闭；点击图片本身均不会关闭预览。
+
+```demo
+../example/demos/overlay-closable.vue
+```
+
+### 错误时仍显示 Footer
+
+`hide-footer="never"` 可在加载失败时仍展示底部信息。
+
+```demo
+../example/demos/hide-footer-never.vue
+```
+
+### 自定义预览内容
+
+关闭图标、指示器与操作区均可自定义。
+
+```demo
+../example/demos/preview-features.vue
+```
+
+### 尺寸、圆角与位置
+
+`width` / `height`、`radius` 和 `object-position` 控制几何与裁切位置。
+
+```demo
+../example/demos/presentation.vue
+```
+
+### 指定挂载容器
+
+通过 `preview-props.popupContainer` 把预览挂载到指定节点。
+
+```demo
+../example/demos/preview-popup-container.vue
+```
+
+## 生命周期
+
+### PreviewGroup track lifecycle / 轨道生命周期
+
+```demo
+../example/demos/track-lifecycle.vue
+```
+
+展示图片，支持说明、加载回退与预览。两端示例分组一致。
+
+单图与预览组未设置 `popup-container` 时均挂载到 body 并覆盖视口；只有显式 `false` 才原地渲染，需要父容器提供定位和尺寸。预览组仅由当前图片的 load/error 结束加载提示，切回已加载的缓存图片不会残留加载图标。
+
+### 预览交互生命周期
+
+```demo
+../example/demos/controller-lifecycle.vue
+```
+
+## 阅读方向
+
+继承最近的 `dir="ltr|rtl"`，支持运行时切换与局部覆盖。预览集合的上一张/下一张、水平键与滑动沿阅读方向工作，值数组不反转。方向切换取消尚未完成的手势并保持当前图片、缩放与旋转；图片本身和放大后的拖拽坐标不自动镜像。图片序号保持 LTR 数值显示。
 
 ## API
 
@@ -247,12 +294,12 @@ export default defineConfig({
 | ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | -------------------------------- | --------- |
 | `src`                  | 图片地址                                                                                                                            | _string_                         | `-`       |
 | `object-fit`           | 填充模式, 可选值为 `fill contain cover none scale-down`                                                                             | _string_                         | `fill`    |
-| `object-position`      | 图片内容位置，等同 CSS `object-position`                                                                                            | _string_                         | `50% 50%` |
+| `object-position`      | 沿用 CSS object-position，控制图像内容在图片盒内的对齐，默认 50% 50%；不是组件坐标 | _string_                         | `50% 50%` |
 | `alt`                  | 替代文本                                                                                                                            | _string_                         | `-`       |
 | `title`                | 图片描述，透传给 `img` 的 `title` 属性                                                                                              | _string_                         | `-`       |
 | `description`          | 图片描述，`alt` 未设置时作为替代文本，也用于默认错误状态                                                                            | _string_                         | `-`       |
 | `hide-footer`          | 是否隐藏底部内容；设为 `never` 时错误状态仍显示                                                                                     | _boolean \| 'never'_             | `false`   |
-| `footer-position`      | 底部内容位置，可选 `inner` `outer`                                                                                                  | _string_                         | `inner`   |
+| `footer-position`      | 说明区位于图片内部 inner 或外部 outer，默认 inner；不是四边浮层方位 | _string_                         | `inner`   |
 | `footer-class`         | 底部内容类名                                                                                                                        | _string \| array \| object_      | `-`       |
 | `referrer-policy`      | 指示在获取资源时使用的来源地址。该属性需注意浏览器兼容性，参见 [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img) | _string_                         | `-`       |
 | `width`                | 图片宽度                                                                                                                            | _string \| number_               | `-`       |
@@ -403,3 +450,5 @@ export default defineConfig({
 ### 图片预览组序号
 
 `modelValue/defaultValue` 从 **1** 开始，`1` 表示第 1 张。`open(imageNumber = 1)`、`to(imageNumber)` 接收相同序号，无效或非整数序号会被忽略。`prev()/next()` 在循环边界也回传同一规则的序号。模型事件为 `update:modelValue(imageNumber)`，切换通知为 `change(imageNumber, previousImageNumber)`；外部赋值不补发切换通知。长按通知为 `long-press(imageNumber)`，指示器插槽参数为 `{ imageNumber, length }`。内部数组下标仍从 0 开始。
+
+根节点 `class`、`style` 与 Image 容器样式合并；内部图片样式通过 `img-props.class/style` 设置。预览的 `open-change` 是 Vue 通知事件：每次状态切换只发送一次，`.once` 遵循 Vue 事件语义，返回 Promise 不控制 loading。类型中的 `onOpenChange` 监听器也走同一事件入口。

@@ -4,16 +4,15 @@
 
 为代码展示子组件提供统一的语法高亮配置。
 
-## 案例
+## 基础示例
 
-<!-- api-review:start -->
-### 功能调试
+### 基础用法
+
+向 Code 子组件提供本地异步转换器；示例只转义并展示源码，不加载外部高亮服务。
 
 ```demo
-../example/demos/api-review.vue
+../example/demos/basic.vue
 ```
-
-<!-- api-review:end -->
 
 ## API
 

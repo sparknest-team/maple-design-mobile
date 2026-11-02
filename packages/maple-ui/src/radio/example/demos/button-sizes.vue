@@ -15,7 +15,7 @@ const options = [
     <p>纵向与只读</p>
     <mp-radio-group
       variant="button"
-      direction="vertical"
+      orientation="vertical"
       readonly
       default-value="day"
       :options="options"

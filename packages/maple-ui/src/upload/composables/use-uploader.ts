@@ -1,4 +1,5 @@
-import { computed, nextTick, onActivated, onBeforeUnmount, onDeactivated, reactive, watch } from 'vue'
+import { computed, nextTick, onActivated, onBeforeUnmount, onDeactivated, reactive, ref, watch } from 'vue'
+import { usePendingFeedback } from '../../_hooks/use-pending-feedback'
 import type {
   UploadBeforeRead,
   UploadBeforeRemove,
@@ -19,6 +20,7 @@ import { isAcceptedFile } from '../utils/accept'
 import { uploadRequest } from '../utils/request'
 import { resolveThumbnailUrl } from '../utils/thumbnail'
 import { createUploadUid } from '../utils/uid'
+import { isVideo, readVideoDuration } from '../utils/video-duration'
 import { useFilePicker } from './use-file-picker'
 import { useUploadQueue } from './use-upload-queue'
 
@@ -58,12 +60,14 @@ export interface UseUploaderOptions {
   onProgress?: (file: UploadFileItem, event?: ProgressEvent) => void
   onSuccess?: (file: UploadFileItem) => void
   onError?: (file: UploadFileItem) => void
+  onReplace?: (file: UploadFileItem, previous: UploadFileItem) => void
   onRemove?: (file: UploadFileItem) => void
   onPreview?: (file: UploadFileItem, event: import('../interfaces').UploadPreviewEvent) => void
   listType?: () => UploadListType
 }
 
 export function useUploader(options: UseUploaderOptions) {
+  const feedback = usePendingFeedback()
   let active = true
   let inactive = false
   let generation = 0
@@ -83,12 +87,50 @@ export function useUploader(options: UseUploaderOptions) {
     onChange: options.onChange,
     onUpdateModelValue: options.onUpdateModelValue,
   })
+  const replacementTarget = ref<UploadFileItem>()
+  const metadataVersion = ref(0)
+  const durationTasks = new Map<string, AbortController>()
+  const durationReads = new Map<string, File>()
   const picker = useFilePicker({
     accept: options.accept,
     directory: options.directory,
     disabled: () => disabled.value,
-    onFiles: addFiles,
+    onFiles: (files, rejected, event) => {
+      const previous = event?.type === 'drop' ? undefined : replacementTarget.value
+      replacementTarget.value = undefined
+      void enqueue(files, rejected, previous)
+    },
   })
+  const sameTarget = (previous: UploadFileItem) =>
+    queue.fileList.value.find(
+      (item) => item.uid === previous.uid && item.file === previous.file && item.url === previous.url,
+    )
+  async function chooseFile() {
+    replacementTarget.value = undefined
+    await nextTick()
+    if (!disabled.value) {
+      picker.chooseFile()
+    }
+  }
+  async function replace(file: UploadFileItem, replacement?: File) {
+    if (disabled.value || !sameTarget(file)) {
+      return
+    }
+    const previous = { ...file }
+    if (replacement) {
+      return enqueue([replacement], [], previous)
+    }
+    replacementTarget.value = previous
+    await nextTick()
+    if (!disabled.value && sameTarget(previous)) {
+      picker.chooseFile()
+    } else {
+      replacementTarget.value = undefined
+    }
+  }
+  function cancelChoose() {
+    replacementTarget.value = undefined
+  }
   const maxReached = computed(
     () => (options.maxFiles?.() ?? 0) > 0 && queue.fileList.value.length >= options.maxFiles!()!,
   )
@@ -177,17 +219,76 @@ export function useUploader(options: UseUploaderOptions) {
     },
     { immediate: true, flush: 'post' },
   )
+  watch(
+    () => [metadataVersion.value, queue.fileList.value.map((file) => [file.uid, file.file, file.duration] as const)],
+    () => {
+      for (const [uid, task] of durationTasks) {
+        if (
+          !queue.fileList.value.some(
+            (file) => file.uid === uid && file.file === durationReads.get(uid) && file.duration === undefined,
+          )
+        ) {
+          task.abort()
+          durationTasks.delete(uid)
+        }
+      }
+      for (const uid of durationReads.keys()) {
+        if (!queue.fileList.value.some((file) => file.uid === uid)) {
+          durationReads.delete(uid)
+        }
+      }
+      if (!active || inactive) {
+        return
+      }
+      for (const file of queue.fileList.value) {
+        if (!file.file || !isVideo(file) || file.duration !== undefined || durationReads.get(file.uid) === file.file) {
+          continue
+        }
+        const raw = file.file
+        const task = new AbortController()
+        durationReads.set(file.uid, raw)
+        durationTasks.set(file.uid, task)
+        void readVideoDuration(raw, task.signal)
+          .then((duration) => {
+            if (durationTasks.get(file.uid) === task) {
+              durationTasks.delete(file.uid)
+            }
+            if (!active || inactive || task.signal.aborted || duration === undefined) {
+              return
+            }
+            const current = queue.fileList.value.find((item) => item.uid === file.uid && item.file === raw)
+            if (current?.duration === undefined && current) {
+              queue.patch(file.uid, { duration })
+            }
+          })
+          .catch(() => {
+            if (durationTasks.get(file.uid) === task) {
+              durationTasks.delete(file.uid)
+            }
+          })
+      }
+    },
+    { immediate: true, flush: 'post' },
+  )
   function reject(files: UploadRejectedFile[]) {
     if (active && files.length) {
       options.onRejected?.(files)
     }
   }
   function addFiles(files: File[], initialRejected: UploadRejectedFile[] = []) {
+    return enqueue(files, initialRejected)
+  }
+  function enqueue(files: File[], rejected: UploadRejectedFile[], previous?: UploadFileItem) {
     const epoch = generation
-    adding = adding.then(() => prepareFiles(files, initialRejected, epoch)).catch(() => {})
+    adding = adding.then(() => prepareFiles(files, rejected, epoch, previous)).catch(() => {})
     return adding
   }
-  async function prepareFiles(files: File[], initialRejected: UploadRejectedFile[], epoch: number) {
+  async function prepareFiles(
+    files: File[],
+    initialRejected: UploadRejectedFile[],
+    epoch: number,
+    previous?: UploadFileItem,
+  ) {
     if (!valid(epoch)) {
       return
     }
@@ -195,7 +296,7 @@ export function useUploader(options: UseUploaderOptions) {
     let candidates = files
     if (options.beforeAdd) {
       try {
-        candidates = await options.beforeAdd(files)
+        candidates = await feedback.track(() => options.beforeAdd!(files))
         for (const file of files) {
           if (!candidates.includes(file)) {
             rejected.push({ file, reason: 'before-add' })
@@ -209,6 +310,10 @@ export function useUploader(options: UseUploaderOptions) {
     if (!valid(epoch)) {
       return
     }
+    if (previous && (!sameTarget(previous) || candidates.length !== 1)) {
+      reject([...rejected, ...candidates.map((file) => ({ file, reason: 'max-files' as const }))])
+      return
+    }
     const items: UploadFileItem[] = []
     for (const original of candidates) {
       if (!valid(epoch)) {
@@ -216,7 +321,7 @@ export function useUploader(options: UseUploaderOptions) {
       }
       let file = original
       try {
-        const result = await options.beforeRead?.()?.(file)
+        const result = await feedback.track(() => options.beforeRead?.()?.(file))
         if (result === false) {
           rejected.push({ file, reason: 'before-read' })
           continue
@@ -232,7 +337,10 @@ export function useUploader(options: UseUploaderOptions) {
         break
       }
       let reason: UploadRejectedFile['reason'] | undefined
-      const total = [...queue.fileList.value, ...items].reduce((sum, item) => sum + (item.size ?? 0), 0)
+      const total = [...queue.fileList.value.filter((item) => item.uid !== previous?.uid), ...items].reduce(
+        (sum, item) => sum + (item.size ?? 0),
+        0,
+      )
       if (!isAcceptedFile(file, options.accept?.())) {
         reason = 'accept'
       } else if (options.maxFileSize?.() !== undefined && file.size > options.maxFileSize!()!) {
@@ -241,7 +349,7 @@ export function useUploader(options: UseUploaderOptions) {
         reason = 'max-total-size'
       } else if (
         (options.maxFiles?.() ?? 0) > 0 &&
-        queue.fileList.value.length + items.length >= options.maxFiles!()!
+        queue.fileList.value.length - (previous ? 1 : 0) + items.length >= options.maxFiles!()!
       ) {
         reason = 'max-files'
       }
@@ -291,8 +399,32 @@ export function useUploader(options: UseUploaderOptions) {
     if (!items.length) {
       return
     }
+    if (previous) {
+      if (!sameTarget(previous)) {
+        items.forEach((item) => release(item.uid))
+        return
+      }
+      try {
+        if (
+          (await feedback.track(() => options.beforeRemove?.()?.(previous, queue.fileList.value))) === false ||
+          !valid(epoch) ||
+          !sameTarget(previous)
+        ) {
+          items.forEach((item) => release(item.uid))
+          return
+        }
+      } catch {
+        items.forEach((item) => release(item.uid))
+        return
+      }
+    }
     items.forEach((file) => pendingAuto.add(file.uid))
-    queue.append(items)
+    if (previous) {
+      queue.replace(previous, items[0])
+      options.onReplace?.(items[0], previous)
+    } else {
+      queue.append(items)
+    }
     items.forEach((file) => options.onRead?.(reactive(file)))
     await nextTick()
   }
@@ -320,7 +452,7 @@ export function useUploader(options: UseUploaderOptions) {
       )
     let item = file
     try {
-      const result = await options.beforeUpload?.()?.(file)
+      const result = await feedback.track(() => options.beforeUpload?.()?.(file))
       if (!current() || disabled.value) {
         if (attempts.get(file.uid) === attempt) {
           cancelAttempt(file.uid)
@@ -445,7 +577,7 @@ export function useUploader(options: UseUploaderOptions) {
     removals.set(file.uid, token)
     const epoch = generation
     try {
-      if ((await options.beforeRemove?.()?.(file, queue.fileList.value)) === false) {
+      if ((await feedback.track(() => options.beforeRemove?.()?.(file, queue.fileList.value))) === false) {
         return
       }
       if (
@@ -486,10 +618,12 @@ export function useUploader(options: UseUploaderOptions) {
     })
   }
   function reset() {
+    feedback.cancel()
     if (disabled.value) {
       return
     }
     generation++
+    replacementTarget.value = undefined
     adding = Promise.resolve()
     removals.clear()
     for (const uid of attempts.keys()) {
@@ -505,10 +639,15 @@ export function useUploader(options: UseUploaderOptions) {
   }
   onActivated(() => {
     inactive = false
+    metadataVersion.value++
   })
   onDeactivated(() => {
     inactive = true
+    durationTasks.forEach((task) => task.abort())
+    durationTasks.clear()
+    durationReads.clear()
     generation++
+    replacementTarget.value = undefined
     adding = Promise.resolve()
     removals.clear()
     for (const uid of attempts.keys()) {
@@ -518,7 +657,10 @@ export function useUploader(options: UseUploaderOptions) {
   })
   onBeforeUnmount(() => {
     active = false
+    durationTasks.forEach((task) => task.abort())
+    durationTasks.clear()
     generation++
+    replacementTarget.value = undefined
     removals.clear()
     for (const uid of attempts.keys()) {
       cancelAttempt(uid)
@@ -529,10 +671,15 @@ export function useUploader(options: UseUploaderOptions) {
     pendingAuto.clear()
   })
   return {
+    guardPending: feedback.pending,
     fileList: queue.fileList,
     maxReached,
     disabled,
     ...picker,
+    chooseFile,
+    replacementTarget,
+    cancelChoose,
+    replace,
     retainUrls,
     addFiles,
     submit,

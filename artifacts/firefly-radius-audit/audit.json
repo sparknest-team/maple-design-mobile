@@ -1,0 +1,430 @@
+[
+  {
+    "mode": "Light",
+    "component": "card",
+    "samples": [
+      {
+        "class": "mp-card mp-card--size-md mp-card--variant-default mp-elevation--1",
+        "radius": 4,
+        "overflow": "hidden",
+        "corners": []
+      },
+      {
+        "class": "mp-card mp-card--size-md mp-card--variant-default mp-elevation--1",
+        "radius": 4,
+        "overflow": "hidden",
+        "corners": []
+      },
+      {
+        "class": "mp-card mp-card--size-md mp-card--variant-default mp-elevation--1",
+        "radius": 4,
+        "overflow": "hidden",
+        "corners": []
+      },
+      {
+        "class": "mp-card mp-card--size-md mp-card--variant-outline",
+        "radius": 4,
+        "overflow": "hidden",
+        "corners": []
+      },
+      {
+        "class": "mp-card mp-card--size-md mp-card--variant-tonal",
+        "radius": 4,
+        "overflow": "hidden",
+        "corners": []
+      },
+      {
+        "class": "mp-card mp-card--size-md mp-card--variant-default",
+        "radius": 4,
+        "overflow": "hidden",
+        "corners": []
+      },
+      {
+        "class": "mp-card mp-card--size-md mp-card--variant-default mp-elevation--4",
+        "radius": 4,
+        "overflow": "hidden",
+        "corners": []
+      },
+      {
+        "class": "mp-card mp-card--size-sm mp-card--variant-default mp-elevation--1",
+        "radius": 4,
+        "overflow": "hidden",
+        "corners": []
+      }
+    ],
+    "error": null
+  },
+  {
+    "mode": "Light",
+    "component": "image",
+    "samples": [
+      {
+        "class": "mp-image__content",
+        "radius": 0,
+        "overflow": "hidden",
+        "corners": []
+      },
+      {
+        "class": "mp-image__content",
+        "radius": 12,
+        "overflow": "hidden",
+        "corners": []
+      },
+      {
+        "class": "mp-image__content",
+        "radius": 50,
+        "overflow": "hidden",
+        "corners": []
+      }
+    ],
+    "error": null
+  },
+  {
+    "mode": "Light",
+    "component": "upload",
+    "samples": [
+      {
+        "class": "mp-upload__thumb",
+        "radius": 24,
+        "overflow": "hidden",
+        "corners": []
+      },
+      {
+        "class": "mp-upload__thumb",
+        "radius": 24,
+        "overflow": "hidden",
+        "corners": []
+      }
+    ],
+    "error": null
+  },
+  {
+    "mode": "Light",
+    "component": "select",
+    "samples": [
+      {
+        "class": "mp-select-dropdown",
+        "radius": 24,
+        "overflow": "hidden",
+        "corners": []
+      }
+    ],
+    "error": null
+  },
+  {
+    "mode": "Light",
+    "component": "auto-complete",
+    "samples": [
+      {
+        "class": "mp-popup__content mp-popup--swipe-to-close mp-popup--bottom mp-popup--content-background-color mp-elevation--3",
+        "radius": 0,
+        "overflow": "auto",
+        "corners": []
+      },
+      {
+        "class": "mp-field-presentation__panel",
+        "radius": 8,
+        "overflow": "visible",
+        "corners": []
+      },
+      {
+        "class": "mp-select-dropdown mp-auto-complete__dropdown",
+        "radius": 0,
+        "overflow": "hidden",
+        "corners": []
+      }
+    ],
+    "error": null
+  },
+  {
+    "mode": "Light",
+    "component": "cascader",
+    "samples": [
+      {
+        "class": "mp-cascader-panel",
+        "radius": 24,
+        "overflow": "hidden",
+        "corners": []
+      },
+      {
+        "class": "mp-popup__content mp-popup--swipe-to-close mp-popup--bottom mp-popup--content-background-color mp-elevation--3",
+        "radius": 0,
+        "overflow": "auto",
+        "corners": []
+      },
+      {
+        "class": "mp-field-presentation__panel",
+        "radius": 8,
+        "overflow": "visible",
+        "corners": []
+      }
+    ],
+    "error": null
+  },
+  {
+    "mode": "Light",
+    "component": "date-range",
+    "samples": [
+      {
+        "class": "mp-date-field-panel",
+        "radius": 0,
+        "overflow": "visible",
+        "corners": []
+      }
+    ],
+    "error": null
+  },
+  {
+    "mode": "Light",
+    "component": "dialog",
+    "samples": [
+      {
+        "class": "mp--box mp-dialog mp-dialog--align-center",
+        "radius": 3,
+        "overflow": "visible",
+        "corners": []
+      }
+    ],
+    "error": null
+  },
+  {
+    "mode": "Light",
+    "component": "popover",
+    "samples": [
+      {
+        "class": "mp-popover__content",
+        "radius": 24,
+        "overflow": "visible",
+        "corners": []
+      }
+    ],
+    "error": null
+  },
+  {
+    "mode": "Light",
+    "component": "popup",
+    "samples": [
+      {
+        "class": "mp-popup__content mp-popup--center mp-popup--content-background-color mp-elevation--3",
+        "radius": 0,
+        "overflow": "auto",
+        "corners": []
+      }
+    ],
+    "error": null
+  },
+  {
+    "mode": "Dark",
+    "component": "card",
+    "samples": [
+      {
+        "class": "mp-card mp-card--size-md mp-card--variant-default mp-elevation--1",
+        "radius": 4,
+        "overflow": "hidden",
+        "corners": []
+      },
+      {
+        "class": "mp-card mp-card--size-md mp-card--variant-default mp-elevation--1",
+        "radius": 4,
+        "overflow": "hidden",
+        "corners": []
+      },
+      {
+        "class": "mp-card mp-card--size-md mp-card--variant-default mp-elevation--1",
+        "radius": 4,
+        "overflow": "hidden",
+        "corners": []
+      },
+      {
+        "class": "mp-card mp-card--size-md mp-card--variant-outline",
+        "radius": 4,
+        "overflow": "hidden",
+        "corners": []
+      },
+      {
+        "class": "mp-card mp-card--size-md mp-card--variant-tonal",
+        "radius": 4,
+        "overflow": "hidden",
+        "corners": []
+      },
+      {
+        "class": "mp-card mp-card--size-md mp-card--variant-default",
+        "radius": 4,
+        "overflow": "hidden",
+        "corners": []
+      },
+      {
+        "class": "mp-card mp-card--size-md mp-card--variant-default mp-elevation--4",
+        "radius": 4,
+        "overflow": "hidden",
+        "corners": []
+      },
+      {
+        "class": "mp-card mp-card--size-sm mp-card--variant-default mp-elevation--1",
+        "radius": 4,
+        "overflow": "hidden",
+        "corners": []
+      }
+    ],
+    "error": null
+  },
+  {
+    "mode": "Dark",
+    "component": "image",
+    "samples": [
+      {
+        "class": "mp-image__content",
+        "radius": 0,
+        "overflow": "hidden",
+        "corners": []
+      },
+      {
+        "class": "mp-image__content",
+        "radius": 12,
+        "overflow": "hidden",
+        "corners": []
+      },
+      {
+        "class": "mp-image__content",
+        "radius": 50,
+        "overflow": "hidden",
+        "corners": []
+      }
+    ],
+    "error": null
+  },
+  {
+    "mode": "Dark",
+    "component": "upload",
+    "samples": [
+      {
+        "class": "mp-upload__thumb",
+        "radius": 24,
+        "overflow": "hidden",
+        "corners": []
+      },
+      {
+        "class": "mp-upload__thumb",
+        "radius": 24,
+        "overflow": "hidden",
+        "corners": []
+      }
+    ],
+    "error": null
+  },
+  {
+    "mode": "Dark",
+    "component": "select",
+    "samples": [
+      {
+        "class": "mp-select-dropdown",
+        "radius": 24,
+        "overflow": "hidden",
+        "corners": []
+      }
+    ],
+    "error": null
+  },
+  {
+    "mode": "Dark",
+    "component": "auto-complete",
+    "samples": [
+      {
+        "class": "mp-popup__content mp-popup--swipe-to-close mp-popup--bottom mp-popup--content-background-color mp-elevation--3",
+        "radius": 0,
+        "overflow": "auto",
+        "corners": []
+      },
+      {
+        "class": "mp-field-presentation__panel",
+        "radius": 8,
+        "overflow": "visible",
+        "corners": []
+      },
+      {
+        "class": "mp-select-dropdown mp-auto-complete__dropdown",
+        "radius": 0,
+        "overflow": "hidden",
+        "corners": []
+      }
+    ],
+    "error": null
+  },
+  {
+    "mode": "Dark",
+    "component": "cascader",
+    "samples": [
+      {
+        "class": "mp-cascader-panel",
+        "radius": 24,
+        "overflow": "hidden",
+        "corners": []
+      },
+      {
+        "class": "mp-popup__content mp-popup--swipe-to-close mp-popup--bottom mp-popup--content-background-color mp-elevation--3",
+        "radius": 0,
+        "overflow": "auto",
+        "corners": []
+      },
+      {
+        "class": "mp-field-presentation__panel",
+        "radius": 8,
+        "overflow": "visible",
+        "corners": []
+      }
+    ],
+    "error": null
+  },
+  {
+    "mode": "Dark",
+    "component": "date-range",
+    "samples": [
+      {
+        "class": "mp-date-field-panel",
+        "radius": 0,
+        "overflow": "visible",
+        "corners": []
+      }
+    ],
+    "error": null
+  },
+  {
+    "mode": "Dark",
+    "component": "dialog",
+    "samples": [
+      {
+        "class": "mp--box mp-dialog mp-dialog--align-center",
+        "radius": 3,
+        "overflow": "visible",
+        "corners": []
+      }
+    ],
+    "error": null
+  },
+  {
+    "mode": "Dark",
+    "component": "popover",
+    "samples": [
+      {
+        "class": "mp-popover__content",
+        "radius": 2,
+        "overflow": "visible",
+        "corners": []
+      }
+    ],
+    "error": null
+  },
+  {
+    "mode": "Dark",
+    "component": "popup",
+    "samples": [
+      {
+        "class": "mp-popup__content mp-popup--center mp-popup--content-background-color mp-elevation--3",
+        "radius": 0,
+        "overflow": "auto",
+        "corners": []
+      }
+    ],
+    "error": null
+  }
+]

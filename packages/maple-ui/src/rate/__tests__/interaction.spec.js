@@ -10,7 +10,7 @@ describe('Rate interaction contract', () => {
     const state = reactive({ disabled: true, readonly: false, error: true })
     const calls = []
     const w = mount(
-      formHost(state, { onChange: () => calls.push('form') }, () => h(Rate)),
+      formHost(state, { onChange: () => calls.push('form') }, () => h(Rate, { editMode: 'direct' })),
       { attachTo: document.body },
     )
     const rate = w.findComponent(Rate)
@@ -31,15 +31,15 @@ describe('Rate interaction contract', () => {
   })
   test('explicit false overrides inherited disabled and readonly', async () => {
     const state = reactive({ disabled: true, readonly: true })
-    const w = mount(formHost(state, {}, () => h(Rate, { disabled: false, readonly: false })))
+    const w = mount(formHost(state, {}, () => h(Rate, { editMode: 'direct', disabled: false, readonly: false })))
     const rate = w.findComponent(Rate)
     await rate.trigger('keydown', { key: 'End' })
     expect(rate.emitted('change')).toEqual([[5]])
     w.unmount()
   })
   test('half taps use actual geometry and keep instances independent', async () => {
-    const left = mount(Rate, { props: { allowHalf: true } })
-    const right = mount(Rate, { props: { allowHalf: true } })
+    const left = mount(Rate, { props: { editMode: 'direct', allowHalf: true } })
+    const right = mount(Rate, { props: { editMode: 'direct', allowHalf: true } })
     const item = left.findAll('[class$="rate__content"]')[1]
     item.element.getBoundingClientRect = () => ({ left: 100, width: 24 })
     await item.trigger('click', { clientX: 104 })
@@ -49,7 +49,7 @@ describe('Rate interaction contract', () => {
     right.unmount()
   })
   test('uncontrolled value and default initialize only once', async () => {
-    const w = mount(Rate, { props: { defaultValue: 2 } })
+    const w = mount(Rate, { props: { editMode: 'direct', defaultValue: 2 } })
     await w.trigger('keydown', { key: 'ArrowRight' })
     await w.setProps({ defaultValue: 5 })
     expect(w.attributes('aria-valuenow')).toBe('3')
@@ -57,7 +57,7 @@ describe('Rate interaction contract', () => {
     w.unmount()
   })
   test('controlled rejection keeps authoritative value', async () => {
-    const w = mount(Rate, { props: { modelValue: 2 } })
+    const w = mount(Rate, { props: { editMode: 'direct', modelValue: 2 } })
     await w.trigger('keydown', { key: 'ArrowRight' })
     expect(w.attributes('aria-valuenow')).toBe('2')
     expect(w.emitted('update:modelValue')).toEqual([[3]])
@@ -67,7 +67,7 @@ describe('Rate interaction contract', () => {
     w.unmount()
   })
   test('clearable does not clear at keyboard boundary', async () => {
-    const w = mount(Rate, { props: { defaultValue: 5, clearable: true } })
+    const w = mount(Rate, { props: { editMode: 'direct', defaultValue: 5, clearable: true } })
     await w.trigger('keydown', { key: 'ArrowRight' })
     await w.trigger('keydown', { key: 'End' })
     expect(w.attributes('aria-valuenow')).toBe('5')
@@ -77,7 +77,7 @@ describe('Rate interaction contract', () => {
     w.unmount()
   })
   test('readonly stays focusable but is not disabled', async () => {
-    const w = mount(Rate, { props: { readonly: true, defaultValue: 2 } })
+    const w = mount(Rate, { props: { editMode: 'direct', readonly: true, defaultValue: 2 } })
     expect(w.attributes('tabindex')).toBe('0')
     expect(w.attributes('aria-readonly')).toBe('true')
     expect(w.attributes('aria-disabled')).toBeUndefined()
@@ -87,7 +87,7 @@ describe('Rate interaction contract', () => {
     w.unmount()
   })
   test('disabled guards all interaction and tab entry', async () => {
-    const w = mount(Rate, { props: { disabled: true } })
+    const w = mount(Rate, { props: { editMode: 'direct', disabled: true } })
     expect(w.attributes('tabindex')).toBeUndefined()
     await w.trigger('keydown', { key: 'End' })
     await w.find('.mp-rate__content').trigger('mousemove')
@@ -99,7 +99,7 @@ describe('Rate interaction contract', () => {
   test('invalid and out-of-range values never escape ARIA range', async () => {
     const warnings = []
     const w = mount(Rate, {
-      props: { count: Infinity, modelValue: NaN },
+      props: { editMode: 'direct', count: Infinity, modelValue: NaN },
       global: { config: { warnHandler: (message) => warnings.push(message) } },
     })
     expect(w.findAll('.mp-rate__content')).toHaveLength(5)
@@ -116,7 +116,7 @@ describe('Rate interaction contract', () => {
     w.unmount()
   })
   test('half step keyboard and modifier filtering', async () => {
-    const w = mount(Rate, { props: { allowHalf: true, defaultValue: 2 } })
+    const w = mount(Rate, { props: { editMode: 'direct', allowHalf: true, defaultValue: 2 } })
     await w.trigger('keydown', { key: 'ArrowRight', ctrlKey: true })
     expect(w.emitted('change')).toBeUndefined()
     await w.trigger('keydown', { key: 'ArrowRight' })
@@ -126,7 +126,7 @@ describe('Rate interaction contract', () => {
     w.unmount()
   })
   test('hover is transient and reset when readonly begins', async () => {
-    const w = mount(Rate, { props: { defaultValue: 1 } })
+    const w = mount(Rate, { props: { editMode: 'direct', defaultValue: 1 } })
     await w.findAll('.mp-rate__content')[2].trigger('mousemove')
     expect(w.emitted('hover-change')).toEqual([[3]])
     expect(w.attributes('aria-valuenow')).toBe('1')
@@ -135,13 +135,13 @@ describe('Rate interaction contract', () => {
     w.unmount()
   })
   test('slot descendants keep keyboard ownership', async () => {
-    const w = mount(Rate, { slots: { character: () => h('button', 'custom') } })
+    const w = mount(Rate, { props: { editMode: 'direct' }, slots: { character: () => h('button', 'custom') } })
     await w.find('button').trigger('keydown', { key: 'End' })
     expect(w.emitted('change')).toBeUndefined()
     w.unmount()
   })
   test('exposes focus and blur with accessible name', async () => {
-    const w = mount(Rate, { attachTo: document.body, props: { ariaLabel: 'Quality' } })
+    const w = mount(Rate, { attachTo: document.body, props: { editMode: 'direct', ariaLabel: 'Quality' } })
     w.vm.focus()
     await nextTick()
     expect(document.activeElement).toBe(w.element)
@@ -152,13 +152,13 @@ describe('Rate interaction contract', () => {
   })
   test('SSR exposes normalized value without browser APIs', async () => {
     const html = await renderToString(
-      createSSRApp(Rate, { modelValue: 9, count: 3, readonly: true, ariaLabel: 'Quality' }),
+      createSSRApp(Rate, { editMode: 'direct', modelValue: 9, count: 3, readonly: true, ariaLabel: 'Quality' }),
     )
     expect(html).toContain('aria-valuenow="3"')
     expect(html).toContain('aria-readonly="true"')
   })
   test.each([24, '24', '1.5rem', 'var(--size)'])('accepts documented size %s', (size) => {
-    const w = mount(Rate, { props: { size } })
+    const w = mount(Rate, { props: { editMode: 'direct', size } })
     expect(w.attributes('style')).toContain('font-size')
     w.unmount()
   })

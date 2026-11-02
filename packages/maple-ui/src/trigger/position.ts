@@ -1,4 +1,5 @@
 import type { CSSProperties } from 'vue'
+import type { ReadingDirection } from '../_utils/direction'
 import type { TriggerPlacement } from './contract'
 import { getPlacementOffset } from './geometry'
 import type { TriggerPopupTranslate, TriggerStrategy } from './types'
@@ -53,8 +54,9 @@ function popupOffset(
   popup: RelativeRect,
   distance: number,
   translate?: TriggerPopupTranslate,
+  direction?: ReadingDirection,
 ) {
-  return getPlacementOffset(placement, reference, popup, distance, resolveTranslate(placement, translate))
+  return getPlacementOffset(placement, reference, popup, distance, resolveTranslate(placement, translate), direction)
 }
 
 function fitPosition(
@@ -84,7 +86,7 @@ function fitPosition(
 
   if (overflowsMain) {
     const opposite = oppositePlacement(placement)
-    const candidate = popupOffset(opposite, reference, popup, context.distance, context.translate)
+    const candidate = popupOffset(opposite, reference, popup, context.distance, context.translate, context.direction)
     const candidateBoundary = boundaries(candidate)
     const candidateSide = basePlacement(opposite)
     const candidateFits = candidateBoundary[candidateSide] >= 0
@@ -109,10 +111,18 @@ function fitPosition(
       offset.top += finalBoundary.bottom
     }
   }
+  // When neither side fits, keep the main axis inside the visual viewport too.
+  // Oversized popups are pinned to its start; their content owns scrolling.
+  if (finalSide === 'top' || finalSide === 'bottom') {
+    offset.top = Math.max(-originTop, Math.min(offset.top, height - popup.height - originTop))
+  } else {
+    offset.left = Math.max(-originLeft, Math.min(offset.left, width - popup.width - originLeft))
+  }
   return { offset, placement: position }
 }
 
 export interface PositionContext {
+  direction?: ReadingDirection
   origin: { left: number; top: number }
   scaleX: number
   scaleY: number
@@ -130,7 +140,7 @@ export function calculatePopupPosition(
   popup: RelativeRect,
   context: PositionContext,
 ) {
-  const initial = popupOffset(placement, reference, popup, context.distance, context.translate)
+  const initial = popupOffset(placement, reference, popup, context.distance, context.translate, context.direction)
   const result = context.autoFitPosition
     ? fitPosition(placement, initial, reference, popup, context)
     : { offset: initial, placement }

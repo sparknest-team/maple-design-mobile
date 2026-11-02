@@ -4,6 +4,7 @@
     v-bind="$attrs"
     :field-props="props"
     range
+    endpoint-selection
     :root-class="n()"
     @update:model-value="emit('update:modelValue', $event)"
     @update:open="emit('update:open', $event)"

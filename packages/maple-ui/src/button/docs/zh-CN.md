@@ -4,7 +4,7 @@ Button 的禁用配色按变体区分：彩色实心使用淡化状态背景；t
 
 两端使用同一份实现和示例，组件前缀、主题基础变量与注册入口各自保留。
 
-## 案例
+## 基础示例
 
 ### 八种主题色
 
@@ -12,9 +12,24 @@ Button 的禁用配色按变体区分：彩色实心使用淡化状态背景；t
 ../example/demos/basic.vue
 ```
 
+## 外观与状态
+
 ### 变体、状态与尺寸
 
-选择变体和尺寸，同时对比八种状态色。实心适合主要操作，text 和 outline 适合次要操作；这里只组合三个外观维度。
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `variant` | 外观；省略时继承按钮组，否则 default | 变体、状态与尺寸、自定义颜色 |
+| `size` | 尺寸；省略时继承按钮组，否则 md | 变体、状态与尺寸、五档尺寸 |
+| `status` | 主题色；省略时继承按钮组，否则 default | 变体、状态与尺寸 |
+| `disabled` | 禁用；省略时继承按钮组，显式 false 可覆盖 | 禁用与链接拦截 |
+| `component` | 根标签，链接属性通过 attrs 传入 | 禁用与链接拦截 |
+| `loading` | 加载状态，禁止点击和链接跳转 | 禁用与链接拦截 |
+<!-- demo-config-notes:end -->
+
+选择变体和尺寸，同时对比八种状态色。实心适合主要操作，text 和 outline 适合次要操作；可切换卡片背景，对照透明按钮在不同背景上的表现。 变体、尺寸和背景选项较少，使用按钮式 RadioGroup 直接展示；Form/FormItem 提供标准字段布局，Card 承载背景对照。
 
 ```demo
 ../example/demos/variants.vue
@@ -34,24 +49,33 @@ Button 的禁用配色按变体区分：彩色实心使用淡化状态背景；t
 ../example/demos/disabled.vue
 ```
 
-### 加载动画、布局与尺寸
-
-选择加载布局和指示器尺寸，对比五种动画。点击选择框箭头展开菜单，选择选项后收起。加载时按钮保留文案并阻止重复操作。
+### 自定义颜色
 
 ```demo
-../example/demos/loading.vue
+../example/demos/custom-color.vue
 ```
 
-### 加载指示器样式
+## 图标与布局
+
+### 图标与图文布局
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `status` | 主题色；省略时继承按钮组，否则 default | 图标与图文布局 |
+| `variant` | 外观；省略时继承按钮组，否则 default | 图标与图文布局 |
+| `size` | 尺寸；省略时继承按钮组，否则 md | 图标与图文布局 |
+| `stacked` | 图标文字纵向排列；省略时继承按钮组 | 图标与图文布局 |
+| `round` | 圆形按钮 | 图标与图文布局 |
+| `block` | 占满可用宽度 | 块级按钮 |
+<!-- demo-config-notes:end -->
+
+使用内置图标，切换四种变体和五档尺寸，对比纯图标、横排图文、上下堆叠。堆叠按钮按内容撑高，上下至少保留 8px 内边距。纯图标只传 icon 插槽；round 控制圆形，stacked 控制上下排列。
 
 ```demo
-../example/demos/loading-appearance.vue
-```
-
-### 同步、异步与失败恢复
-
-```demo
-../example/demos/auto-loading.vue
+../example/demos/icons.vue
 ```
 
 ### 块级按钮
@@ -60,13 +84,19 @@ Button 的禁用配色按变体区分：彩色实心使用淡化状态背景；t
 ../example/demos/block.vue
 ```
 
-### 自定义颜色
-
-```demo
-../example/demos/custom-color.vue
-```
+## 按钮组
 
 ### 按钮组继承与覆盖
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `status` | 主题色；省略时继承按钮组，否则 default | 按钮组继承与覆盖 |
+| `disabled` | 禁用；省略时继承按钮组，显式 false 可覆盖 | 按钮组继承与覆盖 |
+| `loading` | 加载状态，禁止点击和链接跳转 | 按钮组图文与加载 |
+<!-- demo-config-notes:end -->
 
 切换组尺寸和禁用状态，观察子按钮继承配置。子按钮可独立覆盖状态色，显式 disabled=false 可覆盖组禁用。
 
@@ -75,6 +105,8 @@ Button 的禁用配色按变体区分：彩色实心使用淡化状态背景；t
 ```
 
 ### 按钮组布局
+
+切换 Mixed variants，让中间操作使用 text 外观，对照横向与纵向的接缝。
 
 在水平和垂直排列中比较变体和尺寸。尺寸、变体与排列方向共同组成三个外观维度。
 
@@ -90,10 +122,60 @@ Button 的禁用配色按变体区分：彩色实心使用淡化状态背景；t
 ../example/demos/button-group-content.vue
 ```
 
+## 表单与事件
+
+### 表单控件尺寸对照
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `size` | 尺寸；省略时继承按钮组，否则 md | 表单控件尺寸对照 |
+| `variant` | 外观；省略时继承按钮组，否则 default | 表单控件尺寸对照 |
+| `html-type` | 原生按钮类型 | 原生表单、焦点与触摸事件 |
+| `focusable` | 允许 Tab 顺序聚焦；不影响通过代码聚焦 | 原生表单、焦点与触摸事件 |
+<!-- demo-config-notes:end -->
+
+切换五档 size 和三种字段变体，比较 Input、Button、Select、日期时间及其他单行表单控件的高度。Button 在这里固定使用 outline。DatePicker/TimePicker 是面板，此处使用带输入框的 Date/Time 字段。示例同时展示有值、可清空、标签删除与长标签多选；Select/Cascader 设置 tag-nowrap 时保持同档高度，长标签文字省略、删除图标保留；标签行可横向滚动，清空按钮和箭头固定在外侧。被省略的标签正文支持悬停、键盘聚焦或点按查看完整文字，点外部或按 Esc 关闭，不改变选中值。可清空后恢复选中值重复比较。多行文本和允许换行的多选内容按内容撑高。
+
+```demo
+../../field-decorator/example/demos/control-sizes.vue
+```
+
 ### 原生表单、焦点与触摸事件
 
 ```demo
 ../example/demos/native-events.vue
+```
+
+## 加载与操作反馈
+
+### 加载动画、布局与尺寸
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `loading` | 加载状态，禁止点击和链接跳转 | 加载动画、布局与尺寸、加载指示器样式 |
+| `loading-size` | 指示器尺寸；xs/sm/md/lg/xl 对应 12/14/16/18/20px，数字为 px；省略时跟随按钮尺寸，line 模式不适用 | 加载动画、布局与尺寸、加载指示器样式 |
+| `loading-type` | 加载动画；与 Loading 的 type 相同，line 模式不适用 | 加载动画、布局与尺寸 |
+| `loading-mode` | 行内、覆盖或底部进度线；line 只使用 loading-color | 加载动画、布局与尺寸 |
+| `loading-color` | 加载指示器颜色 | 加载指示器样式 |
+| `ripple` | 点击水波 | 水波与阴影反馈 |
+<!-- demo-config-notes:end -->
+
+选择加载布局和指示器尺寸，对比五种动画。点击选择框箭头展开菜单，选择选项后收起。加载时按钮保留文案并阻止重复操作。
+
+```demo
+../example/demos/loading.vue
+```
+
+### 加载指示器样式
+
+```demo
+../example/demos/loading-appearance.vue
 ```
 
 ### 水波与阴影反馈
@@ -104,75 +186,60 @@ Button 的禁用配色按变体区分：彩色实心使用淡化状态背景；t
 ../example/demos/feedback.vue
 ```
 
-### 图标与图文布局
-
-使用内置图标，切换四种变体和五档尺寸，对比纯图标、横排图文、上下堆叠。堆叠按钮按内容撑高，上下至少保留 8px 内边距。纯图标只传 icon 插槽；round 控制圆形，stacked 控制上下排列。
+### 受控加载与失败恢复
 
 ```demo
-../example/demos/icons.vue
+../example/demos/controlled-loading.vue
 ```
 
-### 表单控件尺寸对照
+## 阅读方向
 
-切换五档 size 和三种字段变体，比较 Input、Button、Select、日期时间及其他单行表单控件的高度。Button 在这里固定使用 outline。DatePicker/TimePicker 是面板，此处使用带输入框的 Date/Time 字段。示例同时展示有值、可清空、标签删除与长标签多选；Select/Cascader 设置 tag-nowrap 时保持同档高度，长标签文字省略、删除图标保留；标签行可横向滚动，清空按钮和箭头固定在外侧。被省略的标签正文支持悬停、键盘聚焦或点按查看完整文字，点外部或按 Esc 关闭，不改变选中值。可清空后恢复选中值重复比较。多行文本和允许换行的多选内容按内容撑高。
-
-```demo
-../../field-decorator/example/demos/control-sizes.vue
-```
-
-<!-- api-review:start -->
-### 功能调试
-
-```demo
-../example/demos/api-review.vue
-```
-
-<!-- api-review:end -->
+继承最近的 `dir="ltr|rtl"`，支持运行时切换和局部覆盖。图标与内容按阅读顺序排列，stacked 仍由上到下排列，不整体镜像插槽图形。ButtonGroup 的横向排列、拼接边框与首尾圆角由组方向决定，子按钮可以单独设置文字方向；单个按钮保留完整圆角，纵向组保持上下顺序。使用原生 Tab、Enter、Space 操作，普通按钮组不额外接管左右键；禁用和加载规则保持不变。
 
 ## API
 
 <!-- same-source-api:start -->
+
 ### Props
 
-| 属性 | 说明 | 类型 | 默认值 |
-| --- | --- | --- | --- |
-| status | 主题色；省略时继承按钮组，否则 default | `SemanticStatus` | `undefined` |
-| variant | 外观；省略时继承按钮组，否则 default | `default / text / outline / tonal` | `undefined` |
-| size | 尺寸；省略时继承按钮组，否则 md | `xs / sm / md / lg / xl` | `undefined` |
-| html-type | 原生按钮类型 | `button / submit / reset` | `button` |
-| component | 根标签，链接属性通过 attrs 传入 | `button / a` | `button` |
-| round | 圆形按钮 | `boolean` | `false` |
-| block | 占满可用宽度 | `boolean` | `false` |
-| loading | 加载状态，禁止点击和链接跳转 | `boolean` | `false` |
-| loading-type | 加载动画；与 Loading 的 type 相同，line 模式不适用 | `circle / wave / cube / rect / disappear` | `circle` |
-| loading-mode | 行内、覆盖或底部进度线；line 只使用 loading-color | `default / fill / line` | `default` |
-| loading-size | 指示器尺寸；xs/sm/md/lg/xl 对应 12/14/16/18/20px，数字为 px；省略时跟随按钮尺寸，line 模式不适用 | `ComponentSize / number` | `undefined` |
-| loading-color | 加载指示器颜色 | `string` | `currentColor` |
-| auto-loading | 等待 click/touchstart 返回的 Promise；同步回调不闪 loading | `boolean` | `false` |
-| disabled | 禁用；省略时继承按钮组，显式 false 可覆盖 | `boolean` | `undefined` |
-| ripple | 点击水波 | `boolean` | `true` |
-| focusable | 允许 Tab 顺序聚焦；不影响通过代码聚焦 | `boolean` | `true` |
-| autofocus | 原生自动聚焦 | `boolean` | `false` |
-| text-color | 自定义文字色 | `string` | `undefined` |
-| color | 自定义背景／变体基色 | `string` | `undefined` |
-| elevation | default 变体阴影；true 为 2，false 关闭，数字四舍五入并限制 0～24；组内由组控制 | `boolean / number` | `true` |
-| stacked | 图标文字纵向排列；省略时继承按钮组 | `boolean` | `undefined` |
+| 属性          | 说明                                                                                             | 类型                                      | 默认值         |
+| ------------- | ------------------------------------------------------------------------------------------------ | ----------------------------------------- | -------------- |
+| status        | 主题色；省略时继承按钮组，否则 default                                                           | `SemanticStatus`                          | `undefined`    |
+| variant       | 外观；省略时继承按钮组，否则 default                                                             | `default / text / outline / tonal`        | `undefined`    |
+| size          | 尺寸；省略时继承按钮组，否则 md                                                                  | `xs / sm / md / lg / xl`                  | `undefined`    |
+| html-type     | 原生按钮类型                                                                                     | `button / submit / reset`                 | `button`       |
+| component     | 根标签，链接属性通过 attrs 传入                                                                  | `button / a`                              | `button`       |
+| round         | 圆形按钮                                                                                         | `boolean`                                 | `false`        |
+| block         | 占满可用宽度                                                                                     | `boolean`                                 | `false`        |
+| loading       | 加载状态，禁止点击和链接跳转                                                                     | `boolean`                                 | `false`        |
+| loading-type  | 加载动画；与 Loading 的 type 相同，line 模式不适用                                               | `circle / wave / cube / rect / disappear` | `circle`       |
+| loading-mode  | 行内、覆盖或底部进度线；line 只使用 loading-color                                                | `default / fill / line`                   | `default`      |
+| loading-size  | 指示器尺寸；xs/sm/md/lg/xl 对应 12/14/16/18/20px，数字为 px；省略时跟随按钮尺寸，line 模式不适用 | `ComponentSize / number`                  | `undefined`    |
+| loading-color | 加载指示器颜色                                                                                   | `string`                                  | `currentColor` |
+| disabled      | 禁用；省略时继承按钮组，显式 false 可覆盖                                                        | `boolean`                                 | `undefined`    |
+| ripple        | 点击水波                                                                                         | `boolean`                                 | `true`         |
+| focusable     | 允许 Tab 顺序聚焦；不影响通过代码聚焦                                                            | `boolean`                                 | `true`         |
+| autofocus     | 原生自动聚焦                                                                                     | `boolean`                                 | `false`        |
+| text-color    | 自定义文字色                                                                                     | `string`                                  | `undefined`    |
+| color         | 自定义背景／变体基色                                                                             | `string`                                  | `undefined`    |
+| elevation     | default 变体阴影；true 为 2，false 关闭，数字四舍五入并限制 0～24；组内由组控制                  | `boolean / number`                        | `true`         |
+| stacked       | 图标文字纵向排列；省略时继承按钮组                                                               | `boolean`                                 | `undefined`    |
 
 ### Events
 
-| 事件 | 参数与行为 |
-| --- | --- |
-| click | `(event: Event) => void / Promise<unknown>` |
-| touchstart | `(event: Event) => void / Promise<unknown>` |
+| 事件       | 参数与行为                                  |
+| ---------- | ------------------------------------------- |
+| click      | `(event: MouseEvent) => void` |
+| touchstart | `(event: TouchEvent) => void` |
 
-事件处理函数可返回 Promise，也支持多个监听器。auto-loading 会等待全部监听器完成，即使某个提前拒绝也不会提前解除禁用。卸载或 KeepAlive 停用会使旧异步结果失效。内部直接读取监听器返回值，不再二次 emit。原生 focus/blur 等事件透传。禁用／加载中的 click 会阻止跳转与冒泡。
+click 是普通事件通知，支持 async 回调；loading 由业务状态控制，建议在 finally 中恢复。事件监听器的 Promise 不会自动驱动加载。禁用／加载链接移除有效 href。
 
 ### Slots
 
-| 插槽 | 说明 | 参数 |
-| --- | --- | --- |
-| default | 按钮内容；加载时保留 | — |
-| icon | 前置图标；stacked 时位于文字上方 | — |
+| 插槽    | 说明                             | 参数 |
+| ------- | -------------------------------- | ---- |
+| default | 按钮内容；加载时保留             | —    |
+| icon    | 前置图标；stacked 时位于文字上方 | —    |
 
 ### Methods
 
@@ -181,11 +248,47 @@ Button 的禁用配色按变体区分：彩色实心使用淡化状态背景；t
 
 ## ButtonGroup
 
-属性：size=md、status=default、variant=default、color/text-color=undefined、disabled/stacked/vertical=false、elevation=true。使用 default 插槽，公开 buttonGroupProvider（响应式组配置），没有自定义事件。子按钮按字段覆盖组配置；阴影由组整体控制。
+### ButtonGroup Props
+
+| 属性 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| status | 子按钮默认语义状态；子按钮可覆盖 | SemanticStatus | default |
+| size | 子按钮默认尺寸；子按钮可覆盖 | xs / sm / md / lg / xl | md |
+| variant | 子按钮默认外观；相邻按钮按生效变体拼接，允许混合 | default / text / outline / tonal | default |
+| color | 子按钮默认自定义色；子按钮可覆盖 | string | undefined |
+| text-color | 子按钮默认文字色；子按钮可覆盖 | string | undefined |
+| disabled | 子按钮默认禁用状态；显式 false 可覆盖组 true | boolean | false |
+| stacked | 默认图文纵排；子按钮可显式 false 覆盖 | boolean | false |
+| vertical | 按钮组纵向排列，独立于按钮内部 stacked | boolean | false |
+| elevation | 组整体阴影；true 为 2，数值归一化到 0–24；仅 default 变体且组未禁用时生效 | boolean / number | true |
+
+根元素默认 `role="group"`；使用 `aria-label` 或 `aria-labelledby` 为需要命名的操作组提供名称。原生属性可覆盖 role，普通按钮组仍使用 Tab / Enter / Space，不自动接管方向键。
+
+**继承边界：** status、size、variant、color、text-color、disabled、stacked 按子按钮显式值优先。elevation 始终由组管理，子按钮自己的 elevation 不生效。嵌套组使用最近组的配置和默认值，不自动叠加外层禁用。
+
+### ButtonGroup Events
+
+无自定义事件。`@click` 是根元素的原生事件透传，可以接收后代冒泡；各操作继续监听对应 Button 的 click。组不收集事件 Promise，也不管理任务或选中值。
+
+### ButtonGroup Slots
+
+| 插槽 | 说明 | 参数 |
+| --- | --- | --- |
+| default | 连体样式支持组根元素下直接相邻的 Button DOM 节点 | — |
+
+**组合边界：** 额外的 DOM 包装层、前后文本和其他控件不属于连体外观契约。包装层内的按钮仍可能继承配置，但不会获得相同拼接效果。组接管首尾圆角，不保留独立 round 按钮的圆形外观。需要分离排列或任意内容混排时组合 Space；较窄区域由业务选择滚动、缩短文案或切换纵向，不自动换行。
+
+### ButtonGroup Expose
+
+| 名称 | 说明 |
+| --- | --- |
+| buttonGroupProvider | 响应式组配置对象，各字段为只读 ComputedRef；elevation 为 boolean / number，其余字段与 Props 对齐 |
+
+无额外的组级动作方法。
 
 ## 类型
 
-ButtonProps、ButtonVariant、ButtonLoadingMode、ButtonHandler、ButtonInstance、ButtonGroupProps、ButtonGroupInstance。
+ButtonProps、ButtonVariant、ButtonLoadingMode、ButtonInstance、ButtonGroupProps、ButtonGroupInstance。
 
 ## CSS 变量职责与完整默认值
 
@@ -193,64 +296,63 @@ Button 保留 58 个外观变量。`{status}-color` 控制实心背景，`{statu
 
 尺寸统一使用 xs/sm/md/lg/xl。字号、过渡时长、焦点宽度与偏移、堆叠高度增量直接复用系统变量；按钮组与堆叠圆角共用 border-radius。四个状态透明度变量保留 hover/active 的差异。loading-duration 仅控制底部进度线；其他加载动画由 Loading 负责。内部变量与固定动画几何细节不再作为公共定制项。
 
-
-| 变量名 | 默认值 |
-| --- | --- |
-| `--mp-button-border-radius` | `var(--mp-sys-radius-md)` |
-| `--mp-button-content-gap` | `var(--mp-sys-space-3)` |
-| `--mp-button-danger-color` | `var(--mp-sys-color-status-danger)` |
-| `--mp-button-danger-disabled-color` | `rgb(var(--mp-danger-3))` |
-| `--mp-button-danger-foreground-color` | `var(--mp-sys-color-content-danger)` |
-| `--mp-button-danger-tonal-color` | `rgb(var(--mp-danger-1))` |
-| `--mp-button-default-color` | `var(--mp-sys-color-surface-default)` |
-| `--mp-button-default-foreground-color` | `var(--mp-sys-color-content-primary)` |
-| `--mp-button-default-tonal-color` | `var(--mp-sys-color-surface-muted)` |
-| `--mp-button-disabled-color` | `var(--mp-color-fill-2)` |
-| `--mp-button-disabled-solid-text-color` | `var(--mp-sys-color-content-on-dark)` |
-| `--mp-button-disabled-text-color` | `var(--mp-sys-color-content-disabled)` |
-| `--mp-button-focus-color` | `var(--mp-sys-color-content-brand)` |
-| `--mp-button-info-color` | `var(--mp-sys-color-status-info)` |
-| `--mp-button-info-disabled-color` | `rgb(var(--mp-blue-3))` |
-| `--mp-button-info-foreground-color` | `var(--mp-sys-color-content-info)` |
-| `--mp-button-info-tonal-color` | `rgb(var(--mp-blue-1))` |
-| `--mp-button-lg-height` | `56px` |
-| `--mp-button-lg-padding` | `0 var(--mp-sys-space-7)` |
-| `--mp-button-loading-duration` | `1s` |
-| `--mp-button-loading-line-height` | `3px` |
-| `--mp-button-md-height` | `48px` |
-| `--mp-button-md-padding` | `0 var(--mp-sys-space-6)` |
-| `--mp-button-plain-state-opacity-active` | `1` |
-| `--mp-button-plain-state-opacity-hover` | `0.5` |
-| `--mp-button-primary-color` | `var(--mp-sys-color-action-primary)` |
-| `--mp-button-primary-disabled-color` | `rgb(var(--mp-primary-3))` |
-| `--mp-button-primary-foreground-color` | `var(--mp-sys-color-content-brand)` |
-| `--mp-button-primary-state-layer-color` | `var(--mp-button-solid-state-layer-color)` |
-| `--mp-button-primary-tonal-color` | `rgb(var(--mp-primary-1))` |
-| `--mp-button-secondary-color` | `rgb(var(--mp-gray-6))` |
-| `--mp-button-secondary-foreground-color` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-button-secondary-tonal-color` | `rgb(var(--mp-gray-2))` |
-| `--mp-button-sm-height` | `40px` |
-| `--mp-button-sm-padding` | `0 var(--mp-sys-space-5)` |
-| `--mp-button-solid-state-layer-color` | `var(--mp-sys-color-content-on-dark)` |
-| `--mp-button-solid-text-color` | `var(--mp-sys-color-content-on-dark)` |
-| `--mp-button-stacked-gap` | `var(--mp-sys-space-2)` |
-| `--mp-button-state-layer-color` | `var(--mp-sys-color-surface-page)` |
-| `--mp-button-state-opacity-active` | `0.12` |
-| `--mp-button-state-opacity-hover` | `0.08` |
-| `--mp-button-success-color` | `var(--mp-sys-color-status-success)` |
-| `--mp-button-success-disabled-color` | `rgb(var(--mp-success-3))` |
-| `--mp-button-success-foreground-color` | `var(--mp-sys-color-content-success)` |
-| `--mp-button-success-tonal-color` | `rgb(var(--mp-success-1))` |
-| `--mp-button-tertiary-color` | `rgb(var(--mp-gray-7))` |
-| `--mp-button-tertiary-foreground-color` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-button-tertiary-state-layer-color` | `var(--mp-sys-color-content-on-bright)` |
-| `--mp-button-tertiary-text-color` | `var(--mp-sys-color-content-on-dark)` |
-| `--mp-button-tertiary-tonal-color` | `rgb(var(--mp-gray-1))` |
-| `--mp-button-warning-color` | `var(--mp-sys-color-status-warning)` |
-| `--mp-button-warning-disabled-color` | `rgb(var(--mp-warning-3))` |
-| `--mp-button-warning-foreground-color` | `var(--mp-sys-color-content-warning)` |
-| `--mp-button-warning-tonal-color` | `rgb(var(--mp-warning-1))` |
-| `--mp-button-xl-height` | `64px` |
-| `--mp-button-xl-padding` | `0 var(--mp-sys-space-8)` |
-| `--mp-button-xs-height` | `32px` |
-| `--mp-button-xs-padding` | `0 var(--mp-sys-space-4)` |
+| 变量名                                   | 默认值                                     |
+| ---------------------------------------- | ------------------------------------------ |
+| `--mp-button-border-radius`              | `var(--mp-sys-radius-md)`                  |
+| `--mp-button-content-gap`                | `var(--mp-sys-space-3)`                    |
+| `--mp-button-danger-color`               | `var(--mp-sys-color-status-danger)`        |
+| `--mp-button-danger-disabled-color`      | `rgb(var(--mp-danger-3))`                  |
+| `--mp-button-danger-foreground-color`    | `var(--mp-sys-color-content-danger)`       |
+| `--mp-button-danger-tonal-color`         | `rgb(var(--mp-danger-1))`                  |
+| `--mp-button-default-color`              | `var(--mp-sys-color-surface-default)`      |
+| `--mp-button-default-foreground-color`   | `var(--mp-sys-color-content-primary)`      |
+| `--mp-button-default-tonal-color`        | `var(--mp-sys-color-surface-muted)`        |
+| `--mp-button-disabled-color`             | `var(--mp-color-fill-2)`                   |
+| `--mp-button-disabled-solid-text-color`  | `var(--mp-sys-color-content-on-dark)`      |
+| `--mp-button-disabled-text-color`        | `var(--mp-sys-color-content-disabled)`     |
+| `--mp-button-focus-color`                | `var(--mp-sys-color-content-brand)`        |
+| `--mp-button-info-color`                 | `var(--mp-sys-color-status-info)`          |
+| `--mp-button-info-disabled-color`        | `rgb(var(--mp-blue-3))`                    |
+| `--mp-button-info-foreground-color`      | `var(--mp-sys-color-content-info)`         |
+| `--mp-button-info-tonal-color`           | `rgb(var(--mp-blue-1))`                    |
+| `--mp-button-lg-height`                  | `56px`                                     |
+| `--mp-button-lg-padding`                 | `0 var(--mp-sys-space-7)`                  |
+| `--mp-button-loading-duration`           | `1s`                                       |
+| `--mp-button-loading-line-height`        | `3px`                                      |
+| `--mp-button-md-height`                  | `48px`                                     |
+| `--mp-button-md-padding`                 | `0 var(--mp-sys-space-6)`                  |
+| `--mp-button-plain-state-opacity-active` | `1`                                        |
+| `--mp-button-plain-state-opacity-hover`  | `0.5`                                      |
+| `--mp-button-primary-color`              | `var(--mp-sys-color-action-primary)`       |
+| `--mp-button-primary-disabled-color`     | `rgb(var(--mp-primary-3))`                 |
+| `--mp-button-primary-foreground-color`   | `var(--mp-sys-color-content-brand)`        |
+| `--mp-button-primary-state-layer-color`  | `var(--mp-button-solid-state-layer-color)` |
+| `--mp-button-primary-tonal-color`        | `rgb(var(--mp-primary-1))`                 |
+| `--mp-button-secondary-color`            | `rgb(var(--mp-gray-6))`                    |
+| `--mp-button-secondary-foreground-color` | `var(--mp-sys-color-content-secondary)`    |
+| `--mp-button-secondary-tonal-color`      | `rgb(var(--mp-gray-2))`                    |
+| `--mp-button-sm-height`                  | `40px`                                     |
+| `--mp-button-sm-padding`                 | `0 var(--mp-sys-space-5)`                  |
+| `--mp-button-solid-state-layer-color`    | `var(--mp-sys-color-content-on-dark)`      |
+| `--mp-button-solid-text-color`           | `var(--mp-sys-color-content-on-dark)`      |
+| `--mp-button-stacked-gap`                | `var(--mp-sys-space-2)`                    |
+| `--mp-button-state-layer-color`          | `var(--mp-sys-color-surface-page)`         |
+| `--mp-button-state-opacity-active`       | `0.12`                                     |
+| `--mp-button-state-opacity-hover`        | `0.08`                                     |
+| `--mp-button-success-color`              | `var(--mp-sys-color-status-success)`       |
+| `--mp-button-success-disabled-color`     | `rgb(var(--mp-success-3))`                 |
+| `--mp-button-success-foreground-color`   | `var(--mp-sys-color-content-success)`      |
+| `--mp-button-success-tonal-color`        | `rgb(var(--mp-success-1))`                 |
+| `--mp-button-tertiary-color`             | `rgb(var(--mp-gray-7))`                    |
+| `--mp-button-tertiary-foreground-color`  | `var(--mp-sys-color-content-secondary)`    |
+| `--mp-button-tertiary-state-layer-color` | `var(--mp-sys-color-content-on-bright)`    |
+| `--mp-button-tertiary-text-color`        | `var(--mp-sys-color-content-on-dark)`      |
+| `--mp-button-tertiary-tonal-color`       | `rgb(var(--mp-gray-1))`                    |
+| `--mp-button-warning-color`              | `var(--mp-sys-color-status-warning)`       |
+| `--mp-button-warning-disabled-color`     | `rgb(var(--mp-warning-3))`                 |
+| `--mp-button-warning-foreground-color`   | `var(--mp-sys-color-content-warning)`      |
+| `--mp-button-warning-tonal-color`        | `rgb(var(--mp-warning-1))`                 |
+| `--mp-button-xl-height`                  | `64px`                                     |
+| `--mp-button-xl-padding`                 | `0 var(--mp-sys-space-8)`                  |
+| `--mp-button-xs-height`                  | `32px`                                     |
+| `--mp-button-xs-padding`                 | `0 var(--mp-sys-space-4)`                  |

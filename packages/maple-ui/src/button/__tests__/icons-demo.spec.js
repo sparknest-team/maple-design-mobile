@@ -4,7 +4,8 @@ import { mount } from '@vue/test-utils'
 import { expect, test } from 'vitest'
 import Button from '..'
 import { useDemoControls } from '../../../test-utils/demo-controls'
-import Select from '../../select'
+import Form, { FormItem } from '../../form'
+import { RadioGroup } from '../../radio'
 import Space from '../../space'
 import IconsDemo from '../example/demos/icons.vue'
 
@@ -21,7 +22,9 @@ test('icon layouts share variant and size controls without hiding labels', async
         MIconDelete: IconDelete,
         MIconClose: IconClose,
         MpButton: Button,
-        MpSelect: Select,
+        MpRadioGroup: RadioGroup,
+        MpForm: Form,
+        MpFormItem: FormItem,
         MpSpace: Space,
       },
     },
@@ -29,7 +32,7 @@ test('icon layouts share variant and size controls without hiding labels', async
   try {
     const buttons = () => wrapper.findAllComponents(Button)
     for (const icon of [IconPlus, IconReply, IconInfoCircle, IconCheck, IconDelete, IconClose]) {
-      expect(wrapper.findAllComponents(icon)).toHaveLength(3)
+      expect(buttons().filter((button) => button.findComponent(icon).exists())).toHaveLength(3)
     }
     expect(buttons()).toHaveLength(18)
     expect(
@@ -60,7 +63,7 @@ test('icon layouts share variant and size controls without hiding labels', async
         .slice(12)
         .every((b) => b.classes().includes('mp-button--stacked')),
     ).toBe(true)
-    const controls = wrapper.findAllComponents(Select)
+    const controls = wrapper.findAllComponents(RadioGroup)
     for (const variant of ['default', 'text', 'outline', 'tonal']) {
       controls[0].vm.$emit('update:modelValue', variant)
       for (const size of ['xs', 'sm', 'md', 'lg', 'xl']) {

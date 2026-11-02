@@ -11,8 +11,10 @@ const type = ref('info')
 
 <template>
   <DemoApiReviewPanel v-slot="__apiReview" v-bind="defineReviewConfig(__apiReviewRawConfig)">
-    <mp-space direction="column" size="lg">
-      <mp-select v-model="type" variant="outline" size="sm" :options="options" />
+    <mp-space direction="column" align="stretch" size="lg">
+      <mp-form-item layout="vertical" size="sm" label="type">
+        <mp-radio-group v-model="type" aria-label="type" :options="options" variant="button" size="sm" />
+      </mp-form-item>
       <mp-alert
         closable
         title="傲慢与偏见"

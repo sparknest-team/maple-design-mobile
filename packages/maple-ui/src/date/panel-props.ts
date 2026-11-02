@@ -1,4 +1,5 @@
 import type { PropType } from 'vue'
+import { calendarViewportProps } from './calendar-viewport-props'
 import { dateRuleProps } from './core-props'
 import { dateCurrentProps } from './date-current'
 import { dateLabelProps } from './date-labels'
@@ -9,6 +10,7 @@ export type DateWeekStart = 0 | 1 | 2 | 3 | 4 | 5 | 6
 /** Pure panel capabilities; field/portal props must never leak into this object. */
 export const datePanelProps = {
   ...dateRuleProps,
+  ...calendarViewportProps,
   ...datePanelToolsProps,
   ...dateCurrentProps,
   ...dateLabelProps,

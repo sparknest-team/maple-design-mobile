@@ -98,8 +98,8 @@ onDeactivated(cleanupThumbnails)
     <mp-button html-type="button" :disabled="!pendingThumbnails.length" @click="settleThumbnail(true)"
       >拒绝最早缩略图</mp-button
     >
-    <mp-checkbox v-model="readDataUrl">使用原生 FileReader 读取为 data-url</mp-checkbox>
-    <mp-checkbox v-model="readObjectUrl">使用原生 Blob/object-url（优先）</mp-checkbox>
+    <mp-checkbox v-model="readDataUrl" edit-mode="direct">使用原生 FileReader 读取为 data-url</mp-checkbox>
+    <mp-checkbox v-model="readObjectUrl" edit-mode="direct">使用原生 Blob/object-url（优先）</mp-checkbox>
     <output>Blob URLs: {{ files.filter((file) => file.url?.startsWith('blob:')).length }}</output>
     <p role="status">
       Data URLs: {{ files.filter((file) => file.url?.startsWith('data:')).length }} · Decoded images: {{ decoded }}
@@ -121,8 +121,8 @@ onDeactivated(cleanupThumbnails)
       <mp-button @click="probe('total')">加入 768 KiB 图片</mp-button>
       <mp-button @click="reset">重置队列</mp-button>
     </mp-space>
-    <mp-checkbox v-model="pauseThumbnail">暂停本地缩略图 Promise</mp-checkbox>
-    <mp-upload v-model="files" :show-upload-button="false" :preview="false" />
+    <mp-checkbox v-model="pauseThumbnail" edit-mode="direct">暂停本地缩略图 Promise</mp-checkbox>
+    <mp-upload v-model="files" edit-mode="direct" :show-upload-button="false" :preview="false" />
     <p>队列：{{ files.map((file) => file.name).join(', ') || '空' }}</p>
     <p>拒绝原因：{{ reasons.join(', ') || '无' }}</p>
   </div>

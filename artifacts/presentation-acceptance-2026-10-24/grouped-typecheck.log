@@ -1,0 +1,4 @@
+
+> @1.0.0 typecheck /Users/shuaimeng/github_web/maple-design-mobile
+> pnpm --dir ./packages/maple-ui exec vue-tsc --noEmit -p tsconfig.json
+

@@ -1,0 +1,11 @@
+{
+  "details": {
+    "surface": "desktop",
+    "theme": "light",
+    "component": "Textarea",
+    "mode": "inline"
+  },
+  "error": "AssertionError [ERR_ASSERTION]: fixture does not overflow\n\n1807 !== 1280\n",
+  "diagnostic": "Maple presentation acceptance\nComponent\nInput\nInputPassword\nTextarea\nInputNumber\nVerificationCode\nSwitch\nCheckbox\nCheckboxGroup\nRadio\nRadioGroup\nSlider\nRate\nSelect\nAutoComplete\nCascader\nDate\nDateRange\nTime\nTimeRange\nUpload\nMode\ndefault\ninline\nform-default\nform-inline\nitem-default\nitem-inline\nfield-inline\nfield-popup\nTheme\nlight\ndark\nReset\n\"changed\"\n[\"AutoComplete\",\"Cascader\",\"Checkbox\",\"CheckboxGroup\",\"Date\",\"DateRange\",\"Form\",\"FormItem\",\"Input\",\"InputNumber\",\"InputPassword\",\"Radio\",\"RadioGroup\",\"Rate\",\"Select\",\"Slider\",\"Switch\",\"Textarea\",\"Time\",\"TimeRange\",\"Upload\",\"VerificationCode\"]",
+  "errors": []
+}

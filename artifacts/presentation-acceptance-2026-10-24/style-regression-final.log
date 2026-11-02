@@ -1,0 +1,71 @@
+TAP version 13
+# [33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html\#vite-cjs-node-api-deprecated for more details.[39m
+# Subtest: production field style imports retain the shared presentation surface
+ok 1 - production field style imports retain the shared presentation surface
+  ---
+  duration_ms: 674.937542
+  ...
+# Subtest: nested documentation examples are admitted while nested implementation files remain excluded
+ok 2 - nested documentation examples are admitted while nested implementation files remain excluded
+  ---
+  duration_ms: 0.892541
+  ...
+# Subtest: internal implementation imports stay explicit without intercepting Vue HMR
+ok 3 - internal implementation imports stay explicit without intercepting Vue HMR
+  ---
+  duration_ms: 19.521708
+  ...
+# Subtest: workspace browser dependencies use source without changing standalone projects
+ok 4 - workspace browser dependencies use source without changing standalone projects
+  ---
+  duration_ms: 1.74
+  ...
+# Subtest: automatic imports exclude every implementation file, including SFC queries and /@fs paths
+ok 5 - automatic imports exclude every implementation file, including SFC queries and /@fs paths
+  ---
+  duration_ms: 570.8595
+  ...
+# Subtest: documentation component imports bypass the root barrel, preserving styles
+ok 6 - documentation component imports bypass the root barrel, preserving styles
+  ---
+  duration_ms: 1.29125
+  ...
+# Subtest: nested components resolve through their actual public exporting module
+ok 7 - nested components resolve through their actual public exporting module
+  ---
+  duration_ms: 0.166083
+  ...
+# Subtest: directives use direct modules and keep their registered names
+ok 8 - directives use direct modules and keep their registered names
+  ---
+  duration_ms: 0.285583
+  ...
+# Subtest: public function APIs bypass the barrel while SVG and private component resolution stay unchanged
+ok 9 - public function APIs bypass the barrel while SVG and private component resolution stay unchanged
+  ---
+  duration_ms: 32.410917
+  ...
+# Subtest: explicit root function imports resolve directly without changing authored names or injected styles
+ok 10 - explicit root function imports resolve directly without changing authored names or injected styles
+  ---
+  duration_ms: 74.692042
+  ...
+# Subtest: primary exports and mixed direct imports preserve local names without loading the barrel
+ok 11 - primary exports and mixed direct imports preserve local names without loading the barrel
+  ---
+  duration_ms: 101.426292
+  ...
+# Subtest: namespaces, unknown exports and type-only imports retain the root barrel
+ok 12 - namespaces, unknown exports and type-only imports retain the root barrel
+  ---
+  duration_ms: 68.823417
+  ...
+1..12
+# tests 12
+# suites 0
+# pass 12
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2334.826375

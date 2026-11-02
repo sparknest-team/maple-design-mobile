@@ -21,7 +21,7 @@
       <div v-if="title" :class="n('header')">{{ title }}</div>
 
       <div :class="n('body')">
-        <div :class="n('keys')">
+        <div :class="n('keys')" dir="ltr">
           <div v-for="(row, rowIndex) in bodyKeys" :key="rowIndex" :class="n('row')">
             <div
               v-for="(key, keyIndex) in row"

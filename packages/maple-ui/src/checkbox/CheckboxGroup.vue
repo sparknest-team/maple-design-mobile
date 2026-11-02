@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="classes(n(), n(`--${direction}`))"
+    :class="classes(n(), n(`--${orientation}`))"
     role="group"
     :aria-label="ariaLabel"
     :aria-disabled="mergedDisabled || undefined"
@@ -9,6 +9,7 @@
       <checkbox
         v-for="option in normalizedOptions"
         :key="`${typeof option.value}:${String(option.value)}`"
+        edit-mode="direct"
         :value="option.value"
         :disabled="option.disabled"
         :readonly="option.readonly"
@@ -29,6 +30,7 @@
 
 <script setup lang="ts">
 import { computed, provide, reactive, useSlots } from 'vue'
+import { useOptionRequest } from '../_hooks/use-option-request'
 import { createNamespace } from '../utils/components'
 import { ChoiceLabel } from './choice-label'
 import { normalizeChoiceOptions } from './choice-options'
@@ -45,12 +47,20 @@ const { n, classes } = createNamespace('checkbox-group')
 const props = defineProps(checkboxGroupProps)
 const slots = useSlots()
 const emit = defineEmits<{
+  'load-error': [error: unknown]
   'update:modelValue': [value: ChoiceValue[]]
   change: [value: ChoiceValue[], event?: Event]
 }>()
 const { mergedDisabled, mergedReadonly, mergedError, eventHandlers } = useChoiceForm(props)
+const source = useOptionRequest(
+  () => props.options,
+  () => mergedDisabled.value || mergedReadonly.value || !!props.readPretty,
+  (error) => emit('load-error', error),
+  () => 0,
+  checkboxGroupProps,
+)
 const { value: computedValue, commit: handleChange } = useChoiceState(
-  () => props.modelValue,
+  () => (props.modelValue === null ? [] : props.modelValue),
   props.defaultValue,
   (value, event) => {
     emit('update:modelValue', value)
@@ -59,7 +69,7 @@ const { value: computedValue, commit: handleChange } = useChoiceState(
   },
   () => mergedDisabled.value || mergedReadonly.value,
 )
-const normalizedOptions = computed(() => normalizeChoiceOptions(props.options, props.fieldNames))
+const normalizedOptions = computed(() => normalizeChoiceOptions(source.options.value, props.fieldNames))
 const isMaxed = computed(() => computedValue.value.length >= choiceLimit(props.max))
 const { register: registerChoice, methods } = useCheckboxGroupMethods(
   () => computedValue.value,

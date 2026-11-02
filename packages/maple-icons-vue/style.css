@@ -1,0 +1,12 @@
+svg.mp-svg-icon--spin {
+  animation: mp-svg-icon-spin var(--mp-icon-spin-duration, 1s) infinite linear;
+}
+
+@keyframes mp-svg-icon-spin {
+  from { rotate: 0deg; }
+  to { rotate: 360deg; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  svg.mp-svg-icon--spin { animation: none; }
+}

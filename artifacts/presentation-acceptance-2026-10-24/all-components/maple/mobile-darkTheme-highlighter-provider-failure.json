@@ -1,0 +1,123 @@
+{
+  "failures": [],
+  "diagnostic": {
+    "url": "http://127.0.0.1:49257/mobile.html#/highlighter-provider?language=zh-CN",
+    "text": "Maple Design Mobile · Cedar’s Mobile Counterpart\nMaple Design Mobile,Cedar Design Web,Vue 3,TypeScript,移动端组件库,语义 Token,主题定制\n\nMaple Design Mobile is a mobile component library built with Vue 3 and TypeScript, maintained by 孟帅 and 吴甲明. It shares semantic tokens and component API conventions with Cedar Design Web and supports on-demand imports, theming and internationalization.\n\nHighlighterProvider\n中文\nEnglish\nmp-highlighter-provider · 组合属性›\n功能调试 / Feature playground\n重新挂载 / Remount\n重置 / Reset\n\n选择一类功能后调整相关属性。切换功能会清除上一次覆盖，恢复案例原有绑定。 default-* 等初始属性修改后，点击“重新挂载”验证。\n\nExplore one feature at a time. Changing the topic removes previous overrides.\n\n筛选属性 / Filter›\n属性 / Props（3）\n✓›\nconst review = true\ntheme: review\n当前覆盖值 / Active overrides\n事件 / Events（0）\n专项 API 定位 / Scenario API index",
+    "numericSteps": [],
+    "overflow": [],
+    "previews": [
+      "<section data-demo=\"api-review\"><div class=\"demo-review-suite\"><button type=\"button\" class=\"mp-field-presentation__reference\" aria-expanded=\"false\" aria-haspopup=\"dialog\"><span>mp-highlighter-provider · 组合属性</span><span aria-hidden=\"true\">›</span></button><div data-v-9912872b=\"\" class=\"demo-review\"><div data-v-9912872b=\"\" class=\"demo-review__toolbar\"><strong data-v-9912872b=\"\">功能调试 / Feature playground</strong><div data-v-9912872b=\"\" class=\"demo-review__actions\"><button data-v-9912872b=\"\" class=\"mp-button mp-button--size-sm mp-button--status-default mp-button--variant-default mp-elevation--2\" type=\"button\"><!--v-if--><!--v-if--><span class=\"mp-button__content\">重新挂载 / Remount</span><div class=\"mp-hover-overlay\"></div></button><button data-v-9912872b=\"\" class=\"mp-button mp-button--size-sm mp-button--status-default mp-button--variant-default mp-elevation--2\" type=\"button\"><!--v-if--><!--v-if--><span class=\"mp-button__content\">重置 / Reset</span><div class=\"mp-hover-overlay\"></div></button></div></div><p data-v-9912872b=\"\"> 选择一类功能后调整相关属性。切换功能会清除上一次覆盖，恢复案例原有绑定。 default-* 等初始属性修改后，点击“重新挂载”验证。 </p><p data-v-9912872b=\"\" lang=\"en\"> Explore one feature at a time. Changing the topic removes previous overrides. </p><!--v-if--><div data-v-9912872b=\"\" class=\"demo-review__search\"><div data-v-9912872b=\"\" class=\"mp-input\"><button id=\"v-1\" type=\"button\" class=\"mp-field-presentation__reference\" aria-label=\"筛选属性 / Filter\" aria-expanded=\"false\" aria-haspopup=\"dialog\"><span>筛选属性 / Filter</span><span aria-hidden=\"true\">›</span></button></div></div><div data-v-9912872b=\"\" class=\"mp-collapse\" default-active-names=\"props\"><div data-v-9912872b=\"\" class=\"mp-collapse-item demo-review__controls\"><div id=\"mp-collapse-item-v-2-props-header\" role=\"button\" tabindex=\"0\" aria-disabled=\"false\" aria-expanded=\"false\" aria-controls=\"mp-collapse-item-v-2-props-panel\" class=\"mp-collapse-item__header mp-collapse-item__header--icon-left\"><div class=\"mp-collapse-item__expand-icon-wrap\"><span class=\"mp-icon mp-collapse-item__expand-icon\" style=\"transition-duration: 0ms;\"><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" class=\"mp-svg-icon\" fill=\"currentColor\" aria-hidden=\"true\" stroke-width=\"4\" stroke-linecap=\"butt\" stroke-linejoin=\"miter\" role=\"img\" style=\"width: 1em; height: 1em; flex-shrink: 0;\"><!--v-if--><path d=\"M7.41 8.58 12 13.17l4.59-4.59L18 10l-6 6-6-6z\"></path></svg></span></div><div class=\"mp-collapse-item__header-title\">属性 / Props（3）</div><!--v-if--><!--v-if--></div><div id=\"mp-collapse-item-v-2-props-panel\" role=\"region\" aria-labelledby=\"mp-collapse-item-v-2-props-header\" class=\"mp-collapse-item__content\" style=\"display: none;\"><div class=\"mp-collapse-item__content-box\"><div data-v-9912872b=\"\" class=\"demo-review__grid\"><div data-v-9912872b=\"\" class=\"demo-review__field\"><button type=\"button\" class=\"mp-field-presentation__reference\" disabled=\"\" aria-label=\"highlighter\" aria-expanded=\"false\" aria-haspopup=\"dialog\"><span>—</span><span aria-hidden=\"true\">›</span></button><small data-v-9912872b=\"\">着色器 · Highlighter · 默认 / Default: undefined</small><!--v-if--><small data-v-9912872b=\"\">回调、节点及复杂类型请在下方专项案例验证 / Use the scenario demos below.</small></div><div data-v-9912872b=\"\" class=\"demo-review__field\"><button type=\"button\" class=\"mp-field-presentation__reference\" aria-label=\"theme\" aria-expanded=\"false\" aria-haspopup=\"dialog\"><span>—</span><span aria-hidden=\"true\">›</span></button><small data-v-9912872b=\"\">主题 · string · 默认 / Default: undefined</small><!--v-if--><div data-v-9912872b=\"\" class=\"demo-review__input mp-input mp-input--disabled\"><button id=\"v-3\" type=\"button\" class=\"mp-field-presentation__reference\" disabled=\"\" aria-expanded=\"false\" aria-haspopup=\"dialog\"><span>review</span><span aria-hidden=\"true\">›</span></button></div><!--v-if--></div><div data-v-9912872b=\"\" class=\"demo-review__field\"><button type=\"button\" class=\"mp-field-presentation__reference\" aria-label=\"tag\" aria-expanded=\"false\" aria-haspopup=\"dialog\"><span>—</span><span aria-hidden=\"true\">›</span></button><small data-v-9912872b=\"\">自定义标签名 · string · 默认 / Default: 'div'</small><!--v-if--><div data-v-9912872b=\"\" class=\"demo-review__input mp-input mp-input--disabled\"><button id=\"v-4\" type=\"button\" class=\"mp-field-presentation__reference\" disabled=\"\" aria-expanded=\"false\" aria-haspopup=\"dialog\"><span>div</span><span aria-hidden=\"true\">›</span></button></div><!--v-if--></div></div></div></div></div><!--v-if--></div><div data-v-9912872b=\"\" class=\"demo-review__preview\"><button type=\"button\" class=\"mp-field-presentation__reference\" aria-expanded=\"false\" aria-haspopup=\"dialog\"><span>✓</span><span aria-hidden=\"true\">›</span></button><div class=\"mp-highlighter-provider\"><div class=\"mp-code\"><pre><code>const review = true</code></pre><small>theme: review</small></div></div></div><div data-v-9912872b=\"\" class=\"mp-collapse\"><!--v-if--><div data-v-9912872b=\"\" class=\"mp-collapse-item\"><div id=\"mp-collapse-item-v-5-overrides-header\" role=\"button\" tabindex=\"0\" aria-disabled=\"false\" aria-expanded=\"false\" aria-controls=\"mp-collapse-item-v-5-overrides-panel\" class=\"mp-collapse-item__header mp-collapse-item__header--icon-left\"><div class=\"mp-collapse-item__expand-icon-wrap\"><span class=\"mp-icon mp-collapse-item__expand-icon\" style=\"transition-duration: 0ms;\"><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" class=\"mp-svg-icon\" fill=\"currentColor\" aria-hidden=\"true\" stroke-width=\"4\" stroke-linecap=\"butt\" stroke-linejoin=\"miter\" role=\"img\" style=\"width: 1em; height: 1em; flex-shrink: 0;\"><!--v-if--><path d=\"M7.41 8.58 12 13.17l4.59-4.59L18 10l-6 6-6-6z\"></path></svg></span></div><div class=\"mp-collapse-item__header-title\">当前覆盖值 / Active overrides</div><!--v-if--><!--v-if--></div><div id=\"mp-collapse-item-v-5-overrides-panel\" role=\"region\" aria-labelledby=\"mp-collapse-item-v-5-overrides-header\" class=\"mp-collapse-item__content\" style=\"display: none;\"><div class=\"mp-collapse-item__content-box\"><pre data-v-9912872b=\"\">{}</pre></div></div></div><div data-v-9912872b=\"\" "
+    ],
+    "controls": [
+      {
+        "tag": "BUTTON",
+        "role": null,
+        "label": "Back",
+        "class": "mp-page-header__back"
+      },
+      {
+        "tag": "svg",
+        "role": "img",
+        "label": "",
+        "class": {}
+      },
+      {
+        "tag": "BUTTON",
+        "role": null,
+        "label": "",
+        "class": "mp-button mp-button--size-md mp-button--status-default mp-button--variant-default mp-elevation--2 theme-button"
+      },
+      {
+        "tag": "svg",
+        "role": "img",
+        "label": "",
+        "class": {}
+      },
+      {
+        "tag": "svg",
+        "role": "img",
+        "label": "",
+        "class": {}
+      },
+      {
+        "tag": "BUTTON",
+        "role": null,
+        "label": "mp-highlighter-provider · 组合属性›",
+        "class": "mp-field-presentation__reference"
+      },
+      {
+        "tag": "BUTTON",
+        "role": null,
+        "label": "重新挂载 / Remount",
+        "class": "mp-button mp-button--size-sm mp-button--status-default mp-button--variant-default mp-elevation--2"
+      },
+      {
+        "tag": "BUTTON",
+        "role": null,
+        "label": "重置 / Reset",
+        "class": "mp-button mp-button--size-sm mp-button--status-default mp-button--variant-default mp-elevation--2"
+      },
+      {
+        "tag": "BUTTON",
+        "role": null,
+        "label": "筛选属性 / Filter",
+        "class": "mp-field-presentation__reference"
+      },
+      {
+        "tag": "DIV",
+        "role": "button",
+        "label": "属性 / Props（3）",
+        "class": "mp-collapse-item__header mp-collapse-item__header--icon-left"
+      },
+      {
+        "tag": "svg",
+        "role": "img",
+        "label": "",
+        "class": {}
+      },
+      {
+        "tag": "BUTTON",
+        "role": null,
+        "label": "✓›",
+        "class": "mp-field-presentation__reference"
+      },
+      {
+        "tag": "DIV",
+        "role": "button",
+        "label": "当前覆盖值 / Active overrides",
+        "class": "mp-collapse-item__header mp-collapse-item__header--icon-left"
+      },
+      {
+        "tag": "svg",
+        "role": "img",
+        "label": "",
+        "class": {}
+      },
+      {
+        "tag": "DIV",
+        "role": "button",
+        "label": "事件 / Events（0）",
+        "class": "mp-collapse-item__header mp-collapse-item__header--icon-left"
+      },
+      {
+        "tag": "svg",
+        "role": "img",
+        "label": "",
+        "class": {}
+      },
+      {
+        "tag": "DIV",
+        "role": "button",
+        "label": "专项 API 定位 / Scenario API index",
+        "class": "mp-collapse-item__header mp-collapse-item__header--icon-left"
+      },
+      {
+        "tag": "svg",
+        "role": "img",
+        "label": "",
+        "class": {}
+      }
+    ]
+  },
+  "error": "TimeoutError: locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('section[data-demo=\"api-review\"]').locator('.mp-checkbox').filter({ hasText: '自定义着色器 / Custom highlighter' })\u001b[22m\n"
+}

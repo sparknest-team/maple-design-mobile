@@ -1,7 +1,7 @@
 <template>
   <section class="async-race-form-demo">
     <p>本地异步规则只接受 admin；手动返回最早或最新结果，不访问网络。</p>
-    <mp-form ref="formRef" :model="model" :disabled="disabled" :readonly="readonly">
+    <mp-form ref="formRef" edit-mode="direct" :model="model" :disabled="disabled" :readonly="readonly">
       <mp-form-item
         v-if="mounted"
         field="name"
@@ -11,13 +11,13 @@
         :validate-trigger="[]"
         feedback
       >
-        <mp-input :id="demoId" v-model="model.name" placeholder="请输入 admin" />
+        <mp-input :id="demoId" v-model="model.name" edit-mode="direct" placeholder="请输入 admin" />
       </mp-form-item>
     </mp-form>
     <div class="async-race-controls">
-      <mp-checkbox v-model="disabled">Disable async form</mp-checkbox>
-      <mp-checkbox v-model="readonly">Readonly async form</mp-checkbox>
-      <mp-checkbox v-model="mounted">Mount async field</mp-checkbox>
+      <mp-checkbox v-model="disabled" edit-mode="direct">Disable async form</mp-checkbox>
+      <mp-checkbox v-model="readonly" edit-mode="direct">Readonly async form</mp-checkbox>
+      <mp-checkbox v-model="mounted" edit-mode="direct">Mount async field</mp-checkbox>
     </div>
     <mp-space wrap>
       <mp-button :disabled="!mounted" @click="validate">校验字段</mp-button>

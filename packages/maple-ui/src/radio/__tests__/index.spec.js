@@ -20,10 +20,7 @@ test('radio check value', async () => {
   const onUpdateModelValue = vi.fn((value) => wrapper.setProps({ modelValue: value }))
 
   const wrapper = mount(VarRadio, {
-    props: {
-      modelValue: false,
-      'onUpdate:modelValue': onUpdateModelValue,
-    },
+    props: { editMode: 'direct', modelValue: false, 'onUpdate:modelValue': onUpdateModelValue },
   })
 
   await wrapper.find('.mp-radio').trigger('click')
@@ -41,11 +38,7 @@ test('radio check value with custom value', async () => {
   const onUpdateModelValue = vi.fn((value) => wrapper.setProps({ modelValue: value }))
 
   const wrapper = mount(VarRadio, {
-    props: {
-      modelValue: 0,
-      value: 1,
-      'onUpdate:modelValue': onUpdateModelValue,
-    },
+    props: { editMode: 'direct', modelValue: 0, value: 1, 'onUpdate:modelValue': onUpdateModelValue },
   })
 
   await wrapper.find('.mp-radio').trigger('click')
@@ -60,11 +53,7 @@ test('radio onClick & onChange', async () => {
   const onChange = vi.fn()
 
   const wrapper = mount(VarRadio, {
-    props: {
-      modelValue: false,
-      onClick,
-      onChange,
-    },
+    props: { editMode: 'direct', modelValue: false, onClick, onChange },
   })
 
   await wrapper.find('.mp-radio').trigger('click')
@@ -78,10 +67,7 @@ test('radio select method', async () => {
   const onUpdateModelValue = vi.fn((value) => wrapper.setProps({ modelValue: value }))
 
   const wrapper = mount(VarRadio, {
-    props: {
-      modelValue: false,
-      'onUpdate:modelValue': onUpdateModelValue,
-    },
+    props: { editMode: 'direct', modelValue: false, 'onUpdate:modelValue': onUpdateModelValue },
   })
 
   wrapper.vm.select()
@@ -100,6 +86,7 @@ test('radio disabled', async () => {
 
   const wrapper = mount(VarRadio, {
     props: {
+      editMode: 'direct',
       modelValue: false,
       disabled: true,
       onClick,
@@ -125,6 +112,7 @@ test('radio readonly', async () => {
 
   const wrapper = mount(VarRadio, {
     props: {
+      editMode: 'direct',
       modelValue: false,
       readonly: true,
       onClick,
@@ -153,9 +141,9 @@ test('radio with radio group', async () => {
       value: 2,
     }),
     template: `
-      <mp-radio-group v-model="value">
-        <mp-radio :value="1" />
-        <mp-radio :value="2" />
+      <mp-radio-group edit-mode="direct" v-model="value">
+        <mp-radio edit-mode="direct" :value="1" />
+        <mp-radio edit-mode="direct" :value="2" />
       </mp-radio-group>
     `,
   })
@@ -171,6 +159,7 @@ test('radio with radio group', async () => {
 
 test('radio default slot', () => {
   const wrapper = mount(VarRadio, {
+    props: { editMode: 'direct' },
     slots: {
       default: ({ checked }) => h('span', { class: 'test-default-slot' }, checked),
     },
@@ -191,9 +180,9 @@ test('radio group layout direction', async () => {
       value: 2,
     }),
     template: `
-      <mp-radio-group direction="vertical" v-model="value">
-        <mp-radio :value="1" />
-        <mp-radio :value="2" />
+      <mp-radio-group edit-mode="direct" orientation="vertical" v-model="value">
+        <mp-radio edit-mode="direct" :value="1" />
+        <mp-radio edit-mode="direct" :value="2" />
       </mp-radio-group>
     `,
   })
@@ -218,7 +207,7 @@ test('radio group options', async () => {
       ],
     }),
     template: `
-      <mp-radio-group v-model="value" :options="options">
+      <mp-radio-group edit-mode="direct" v-model="value" :options="options">
       </mp-radio-group>
     `,
   })
@@ -255,7 +244,7 @@ test('radio accessibility', async () => {
       ],
     }),
     template: `
-      <mp-radio-group v-model="value" :options="options" aria-label="Radio Group">
+      <mp-radio-group edit-mode="direct" v-model="value" :options="options" aria-label="Radio Group">
       </mp-radio-group>
     `,
   })
@@ -290,7 +279,7 @@ test('radio group field-names label', async () => {
       fieldNames: { label: 'name' },
     }),
     template: `
-      <mp-radio-group v-model="value" :options="options" :field-names="fieldNames">
+      <mp-radio-group edit-mode="direct" v-model="value" :options="options" :field-names="fieldNames">
       </mp-radio-group>
     `,
   })
@@ -329,7 +318,7 @@ test('radio group field-names value', async () => {
       fieldNames: { value: 'id' },
     }),
     template: `
-      <mp-radio-group v-model="value" :options="options" :field-names="fieldNames">
+      <mp-radio-group edit-mode="direct" v-model="value" :options="options" :field-names="fieldNames">
       </mp-radio-group>
     `,
   })
@@ -368,7 +357,7 @@ test('radio group label is VNode', async () => {
       fieldNames: { label: 'name', value: 'id' },
     }),
     template: `
-      <mp-radio-group v-model="value" :options="options" :field-names="fieldNames">
+      <mp-radio-group edit-mode="direct" v-model="value" :options="options" :field-names="fieldNames">
       </mp-radio-group>
     `,
   })
@@ -408,7 +397,7 @@ test('radio group label is function', async () => {
       fieldNames: { label: 'name', value: 'id' },
     }),
     template: `
-      <mp-radio-group v-model="value" :options="options" :field-names="fieldNames">
+      <mp-radio-group edit-mode="direct" v-model="value" :options="options" :field-names="fieldNames">
       </mp-radio-group>
     `,
   })
@@ -443,9 +432,9 @@ test('radio keyboard Enter', async () => {
       value: 1,
     }),
     template: `
-          <mp-radio-group v-model="value">
-            <mp-radio :value="1" >eat</mp-radio>
-            <mp-radio :value="2" >sleep</mp-radio>
+          <mp-radio-group edit-mode="direct" v-model="value">
+            <mp-radio edit-mode="direct" :value="1" >eat</mp-radio>
+            <mp-radio edit-mode="direct" :value="2" >sleep</mp-radio>
           </mp-radio-group>
         `,
   })
@@ -473,9 +462,9 @@ test('radio group keyboard Arrow', async () => {
       value: 1,
     }),
     template: `
-          <mp-radio-group v-model="value">
-            <mp-radio :value="1" >est</mp-radio>
-            <mp-radio :value="2" >sleep</mp-radio>
+          <mp-radio-group edit-mode="direct" v-model="value">
+            <mp-radio edit-mode="direct" :value="1" >est</mp-radio>
+            <mp-radio edit-mode="direct" :value="2" >sleep</mp-radio>
           </mp-radio-group>
         `,
   })

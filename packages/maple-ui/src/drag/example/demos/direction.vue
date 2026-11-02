@@ -3,7 +3,7 @@
     <mp-drag
       ref="drag2"
       style="left: 16px; top: 16px"
-      direction="x"
+      axis="x"
       :boundary="{ top: 12, right: 12, bottom: 12, left: 12 }"
       :popup-container="false"
     >

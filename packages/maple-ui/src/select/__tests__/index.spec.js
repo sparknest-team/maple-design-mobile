@@ -19,7 +19,11 @@ const options = [
   { value: 2, label: 'Two', disabled: true },
 ]
 const mountSelect = (props = {}, slots = {}) => {
-  const wrapper = mount(Select, { props: { options, ...props }, slots, attachTo: document.body })
+  const wrapper = mount(Select, {
+    props: { editMode: 'direct', options, ...props },
+    slots,
+    attachTo: document.body,
+  })
   wrappers.push(wrapper)
   return wrapper
 }
@@ -31,7 +35,7 @@ describe('Select public contract', () => {
     const wrapper = mountSelect(
       { options: [], virtualListProps: { height: 160 } },
       {
-        default: () => h(Option, { value: 7, label: 'Virtual slot' }),
+        default: () => h(Option, { editMode: 'direct', value: 7, label: 'Virtual slot' }),
       },
     )
     await settle()
@@ -111,10 +115,10 @@ describe('Select public contract', () => {
         default: () => [
           h(
             Option,
-            { label: 'Alpha', value: 'a' },
+            { editMode: 'direct', label: 'Alpha', value: 'a' },
             { default: ({ selected }) => h('span', { 'data-slot-option': true }, String(selected)) },
           ),
-          h(Option, { label: 'Beta', value: 'b' }),
+          h(Option, { editMode: 'direct', label: 'Beta', value: 'b' }),
         ],
       },
     )

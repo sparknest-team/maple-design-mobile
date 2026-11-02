@@ -126,12 +126,12 @@ describe('test rate component props', () => {
       },
     })
 
-    expect(wrapper.find('.mp-rate__content').attributes('style')).toMatch(/(margin-right: 10px)(.*)/)
+    expect(wrapper.find('.mp-rate__content').attributes('style')).toMatch(/(margin-inline-end: 10px)(.*)/)
 
     await wrapper.setProps({
       gap: 20,
     })
-    expect(wrapper.find('.mp-rate__content').attributes('style')).toMatch(/(margin-right: 20px)(.*)/)
+    expect(wrapper.find('.mp-rate__content').attributes('style')).toMatch(/(margin-inline-end: 20px)(.*)/)
 
     wrapper.unmount()
   })

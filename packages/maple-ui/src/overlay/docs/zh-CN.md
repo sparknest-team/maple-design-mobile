@@ -1,10 +1,10 @@
 # 背景层
 
-## 案例
-
 ### 介绍
 
 创建一个背景层，用于强调特定的页面元素。
+
+## 基础示例
 
 ### 基本使用
 
@@ -14,26 +14,21 @@
 ../example/demos/overlay-base.vue
 ```
 
+## 内容与展示
+
 ### 嵌入内容
 
 ```demo
 ../example/demos/overlay-content.vue
 ```
 
+## 交互与控制
+
 ### 点击事件
 
 ```demo
 ../example/demos/click-event.vue
 ```
-
-<!-- api-review:start -->
-### 功能调试
-
-```demo
-../example/demos/api-review.vue
-```
-
-<!-- api-review:end -->
 
 ## API
 

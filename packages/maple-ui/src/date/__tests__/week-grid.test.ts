@@ -18,6 +18,7 @@ describe('calendar week grid reactivity', () => {
           ? range
             ? mount(DateRange, {
                 props: {
+                  editMode: 'direct',
                   defaultOpen: true,
                   panelType: 'calendar' as const,
                   modelValue: ['2025-02-12', '2025-02-15'],
@@ -27,6 +28,7 @@ describe('calendar week grid reactivity', () => {
               })
             : mount(DateInput, {
                 props: {
+                  editMode: 'direct',
                   defaultOpen: true,
                   panelType: 'calendar' as const,
                   modelValue: '2025-02-12',
@@ -36,10 +38,18 @@ describe('calendar week grid reactivity', () => {
               })
           : range
             ? mount(DateRangePicker, {
-                props: { defaultOpen: true, ...common, modelValue: ['2025-02-12', '2025-02-15'], dayStartOfWeek: 1 },
+                props: {
+                  defaultOpen: true,
+                  ...common,
+                  modelValue: ['2025-02-12', '2025-02-15'],
+                  dayStartOfWeek: 1,
+                },
                 global,
               })
-            : mount(DatePicker, { props: { ...common, modelValue: '2025-02-12', dayStartOfWeek: 1 }, global })
+            : mount(DatePicker, {
+                props: { ...common, modelValue: '2025-02-12', dayStartOfWeek: 1 },
+                global,
+              })
         wrappers.push(wrapper)
         await nextTick()
         const offset = () => wrapper.findAll('.mp-day-picker__body li').findIndex((cell) => cell.text() === '1')

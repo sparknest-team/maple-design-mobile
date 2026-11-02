@@ -1,12 +1,14 @@
 import type { ExtractPublicPropTypes, PropType } from 'vue'
 import { fieldPresentationProps } from '../_components/field-presentation/props'
 import type { Orientation } from '../utils/constants'
+import { emptyValueProp } from '../utils/empty-value'
 import { checkboxGroupValueProps, choiceOptionsProps } from './choice-group-props'
 import { checkboxValueProps } from './choice-value-props'
 
 export type CheckboxValue = import('./choice-value-props').ChoiceValue
 export const checkboxProps = {
   ...fieldPresentationProps,
+  emptyValue: emptyValueProp<import('./choice-value-props').CheckboxModel>(),
   ...checkboxValueProps,
   /** 是否禁用；未设置时继承分组或表单 */
   disabled: { type: Boolean, default: undefined },
@@ -33,10 +35,11 @@ export const checkboxProps = {
 }
 export const checkboxGroupProps = {
   ...fieldPresentationProps,
+  emptyValue: emptyValueProp<import('./choice-value-props').ChoiceValue[]>(),
   ...checkboxGroupValueProps,
   ...choiceOptionsProps,
   /** 组内排列方向 */
-  direction: { type: String as PropType<Orientation>, default: 'horizontal' },
+  orientation: { type: String as PropType<Orientation>, default: 'horizontal' },
   /** 是否禁用；未设置时继承表单 */
   disabled: { type: Boolean, default: undefined },
   /** 是否只读；未设置时继承表单 */

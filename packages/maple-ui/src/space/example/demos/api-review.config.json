@@ -72,11 +72,9 @@
       "kind": "prop",
       "demos": [
         "around.vue",
-        "between.vue",
-        "center.vue",
+        "alignment-comparison.vue",
         "demo-8.vue",
         "interactive-layout.vue",
-        "right-align.vue",
         "space.vue",
         "vertical.vue",
         "wrap.vue"

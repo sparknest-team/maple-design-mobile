@@ -270,7 +270,7 @@
       "name": "extra",
       "kind": "slot",
       "demos": [
-        "extra.vue"
+        "content-comparison.vue"
       ]
     },
     {

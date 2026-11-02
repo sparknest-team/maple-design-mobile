@@ -208,9 +208,7 @@
       "name": "content",
       "kind": "prop",
       "demos": [
-        "custom-gap.vue",
-        "custom-offset.vue",
-        "custom-rotate.vue",
+        "geometry-comparison.vue",
         "fullscreen.vue",
         "image-watermark.vue",
         "multiline.vue",
@@ -221,7 +219,7 @@
       "name": "gap",
       "kind": "prop",
       "demos": [
-        "custom-gap.vue",
+        "geometry-comparison.vue",
         "text-watermark.vue"
       ]
     },
@@ -229,8 +227,7 @@
       "name": "offset",
       "kind": "prop",
       "demos": [
-        "custom-offset.vue",
-        "custom-rotate.vue",
+        "geometry-comparison.vue",
         "fullscreen.vue"
       ]
     },

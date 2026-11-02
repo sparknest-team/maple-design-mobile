@@ -14,17 +14,23 @@ describe('Maple range field activation', () => {
       props: {
         modelValue: value,
         popupContainer: false,
-        presentation: 'popup',
+        editMode: 'popup',
         ...(name === 'time-range' ? { format: 'HH:mm' } : { panelType: 'picker' }),
       },
     })
     try {
-      await wrapper.get('button[aria-haspopup="dialog"]').trigger('click')
+      if (name === 'date-range') {
+        await wrapper.findAll('input[role="combobox"]')[1].trigger('click')
+      } else {
+        await wrapper.get('button[aria-haspopup="dialog"]').trigger('click')
+      }
       await flushPromises()
       expect(wrapper.get('[role="dialog"]').isVisible()).toBe(true)
       if (name === 'date-range') {
+        expect(wrapper.find('.mp-date-range-picker__summaries').exists()).toBe(true)
+        expect(wrapper.get('.mp-temporal-current__value').text()).toContain(value[0])
         await wrapper.findAll('.mp-date-range-picker__summary')[1].trigger('click')
-        expect(wrapper.get('.mp-date-range-picker__summary[aria-pressed="true"]').text()).toContain(value[1])
+        expect(wrapper.get('.mp-temporal-current__value').text()).toContain(value[1])
       } else {
         expect(wrapper.findAll('[role="listbox"]')).toHaveLength(4)
         await wrapper.findAll('[role="listbox"]')[2].get('[aria-selected="true"]').trigger('pointerdown')

@@ -15,11 +15,12 @@
     @compositionstart="composing = true"
     @compositionend="composing = false"
   >
-    <div :class="n('cells')">
+    <div :class="n('cells')" dir="ltr">
       <template v-for="(_, index) in lengthValue" :key="index">
         <div :class="n('cell')" :data-index="index">
           <Input
             :ref="(el) => setInputRef(el, index)"
+            edit-mode="direct"
             :model-value="display(index)"
             :size="mergedSize"
             :variant="variant"
@@ -34,7 +35,7 @@
             :aria-label="ariaLabel ? `${ariaLabel} ${index + 1}/${lengthValue}` : undefined"
             :input-attrs="{
               inputmode: type === 'digit' ? 'numeric' : 'text',
-              autocomplete: index === 0 ? 'one-time-code' : 'off',
+              autocomplete: 'off',
             }"
             @input="(value, event) => handleInput(index, value, event)"
             @keydown="(event) => handleKeydown(index, event)"
@@ -57,17 +58,20 @@ import {
   onDeactivated,
   onMounted,
   onScopeDispose,
+  provide,
   ref,
   useSlots,
   type ComponentPublicInstance,
 } from 'vue'
 import Input, { type InputInstance } from '../input'
+import { oneTimeCodeKey } from '../input/context'
 import { createNamespace } from '../utils/components'
 import { useVerificationForm } from './form-adapter'
 import { verificationCodeProps } from './props'
 import type { VerificationCodeEmits, VerificationCodeSlots } from './types'
 
 defineOptions({ name: createNamespace('verification-code').name })
+provide(oneTimeCodeKey, true)
 const props = defineProps(verificationCodeProps)
 const emit = defineEmits<VerificationCodeEmits>()
 defineSlots<VerificationCodeSlots>()

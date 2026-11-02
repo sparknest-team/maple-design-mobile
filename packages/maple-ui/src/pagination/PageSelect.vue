@@ -15,6 +15,7 @@ const emit = defineEmits<{ (event: 'update:modelValue', value: unknown): void }>
 </script>
 <template>
   <BaseSelect
+    edit-mode="direct"
     :auto-fit-popup-width="false"
     :class="config?.class"
     :style="config?.style"
@@ -23,7 +24,7 @@ const emit = defineEmits<{ (event: 'update:modelValue', value: unknown): void }>
     :size="size"
     :disabled="disabled"
     :popup-container="config?.popupContainer"
-    :placement="config?.placement ?? 'bottom-start'"
+    :trigger-props="{ placement: config?.placement ?? 'bottom-start' }"
     :aria-label="label"
     variant="standard"
     :clearable="false"

@@ -43,3 +43,11 @@ import '@maple-design/ui/es/style/elevation.css'
 }
 </style>
 ```
+
+## 基础示例
+
+### 基础用法
+
+```demo
+../example/basic.vue
+```

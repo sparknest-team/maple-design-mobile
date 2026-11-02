@@ -1,7 +1,5 @@
 # 悬浮动作按钮
 
-## 案例
-
 ### 介绍
 
 悬浮动作按钮组件，按下可显示一组动作按钮。
@@ -12,13 +10,28 @@
 
 开启或关闭拖拽时，预览区和按钮持续显示；关闭后停止拖动。预览区随页面正常滚动。
 
+## 基础示例
+
 ### 基础用法
 
 ```demo
 ../example/demos/basic.vue
 ```
 
+## 外观与状态
+
 ### 主题色按钮
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `fixed` | 是否使用固定定位，设置为 `false` 可开启绝对定位（绝对定位无法使用拖拽） | 主题色按钮、禁用 |
+| `popup-container` | 组件挂载的元素 | 主题色按钮、禁用 |
+| `status` | 状态，可选值为 `default` `primary` `info` `success` `warning` `danger` | 主题色按钮、禁用 |
+| `disabled` | 是否禁用 | 禁用 |
+<!-- demo-config-notes:end -->
 
 ```demo
 ../example/demos/status.vue
@@ -30,13 +43,40 @@
 ../example/demos/disabled.vue
 ```
 
+## 外观与定位
+
 ### 触发器位置
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `fixed` | 是否使用固定定位，设置为 `false` 可开启绝对定位（绝对定位无法使用拖拽） | 触发器位置 |
+| `popup-container` | 组件挂载的元素 | 触发器位置 |
+| `position` | 按钮自身在屏幕或定位容器中的角落，默认 bottom-right；四角统一使用上下在前的拼写 | 触发器位置 |
+<!-- demo-config-notes:end -->
 
 ```demo
 ../example/demos/position.vue
 ```
 
+## 动作与交互
+
 ### 触发方式
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `popup-container` | 组件挂载的元素 | 触发方式、动作菜单弹出方向、开启拖拽 |
+| `fixed` | 是否使用固定定位，设置为 `false` 可开启绝对定位（绝对定位无法使用拖拽） | 触发方式、动作菜单弹出方向、整体显示/隐藏 |
+| `status` | 状态，可选值为 `default` `primary` `info` `success` `warning` `danger` | 触发方式、动作菜单弹出方向、整体显示/隐藏 |
+| `trigger` | 触发方式 `click` `hover` | 触发方式 |
+| `position` | 按钮自身在屏幕或定位容器中的角落，默认 bottom-right；四角统一使用上下在前的拼写 | 动作菜单弹出方向 |
+| `placement` | 动作菜单相对按钮的放置侧，默认 top；不会自动翻转，不改变按钮自身 position | 动作菜单弹出方向 |
+<!-- demo-config-notes:end -->
 
 ```demo
 ../example/demos/trigger.vue
@@ -72,16 +112,6 @@
 ../example/demos/custom-trigger.vue
 ```
 
-<!-- api-review:start -->
-### 功能调试
-
-```demo
-../example/demos/api-review.vue
-```
-
-<!-- api-review:end -->
-
-
 ### visible 与 v-if
 
 不需要保留实例时，直接使用 `<mp-fab v-if="showFab" />`，无需再传 visible。v-if=false 会销毁 FAB、拖拽状态与动作子组件；重新显示会重新读取 defaultOpen。`:visible="showFab"` 保留实例和内部状态，只隐藏触发器与动作内容。FAB 默认通过 Drag/Teleport 挂到弹层容器，visible 在实际内容内部控制显示；不要依赖对 Teleport 组件直接使用 v-show。动作菜单自身仍使用 open。
@@ -97,10 +127,10 @@
 | `v-model:open` | 动作菜单是否展开                                                    | _boolean_ | `false`       |
 | `default-open` | 非受控初始展开状态，仅创建时读取 | _boolean_ | `false` |
 | `visible`           | 是否显示整个组件 | _boolean_ | `true`    |
-| `drag`      | Drag 组件配置，用于深度定制（支持 `direction` `attraction` `boundary`） | _boolean \| DragProps_  | `false`    |
+| `drag`      | Drag 组件配置，用于深度定制（支持 `axis` `attraction` `boundary`） | _boolean \| DragProps_  | `false`    |
 | `status`         | 状态，可选值为 `default` `primary` `info` `success` `warning` `danger` | _string_ | `primary`    |
-| `position` | 触发器位置，可选值为 `left-top` `right-top` `left-bottom` `right-bottom` | _string_ | `right-bottom`    |
-| `direction` | 动作菜单弹出方向，可选值为 `top` `bottom` `left` `right` | _string_ | `top`    |
+| `position` | 按钮自身在屏幕或定位容器中的角落，默认 bottom-right；四角统一使用上下在前的拼写 | _string_ | `bottom-right`    |
+| `placement` | 动作菜单相对按钮的放置侧，默认 top；不会自动翻转，不改变按钮自身 position | _string_ | `top`    |
 | `trigger` | 触发方式 `click` `hover` | _string_ | `click`    |
 | `disabled` | 是否禁用 | _boolean_ | `false`    |
 | `color` | 触发器颜色 | _string_ | `-`    |

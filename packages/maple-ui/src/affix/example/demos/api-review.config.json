@@ -60,11 +60,9 @@
       "kind": "prop",
       "demos": [
         "basic.vue",
-        "bottom.vue",
-        "container.vue",
+        "offset-container-comparison.vue",
         "controls.vue",
-        "fix-change.vue",
-        "top.vue"
+        "fix-change.vue"
       ]
     },
     {

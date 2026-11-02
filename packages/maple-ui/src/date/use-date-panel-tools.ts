@@ -20,7 +20,8 @@ export function useDatePanelTools(config: PanelToolsOptions) {
   const options = () => config.options()
   const first = options().defaultPickerValue ?? config.value()
   const values = Array.isArray(first) ? first : [first]
-  const anchor = parseDateValue(values[0], options()) ?? parseDateValue(new Date(), options())!
+  const anchor =
+    parseDateValue(values[0], options()) ?? parseDateValue(new Date(), options()) ?? parseDateValue(new Date())!
   const initial = config.range()
     ? options().defaultPickerValue !== undefined &&
       values.length === 2 &&

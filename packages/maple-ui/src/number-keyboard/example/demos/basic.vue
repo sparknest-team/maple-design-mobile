@@ -1,10 +1,11 @@
 <template>
   <div class="number-keyboard-example">
-    <mp-input v-model="value" readonly placeholder="点击输入" @click="open = true" />
+    <mp-input v-model="value" edit-mode="direct" readonly placeholder="点击输入" @click="open = true" />
     <mp-number-keyboard v-model="value" v-model:open="open" :max-length="11" title="安全键盘" />
 
     <mp-input
       v-model="customValue"
+      edit-mode="direct"
       readonly
       placeholder="自定义主题"
       style="margin-top: 16px"

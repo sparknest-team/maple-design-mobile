@@ -5,7 +5,22 @@ export const fieldVariants = ['filled', 'outline', 'standard'] as const
 export type FieldDecoratorVariant = (typeof fieldVariants)[number]
 export type FieldDecoratorSize = ComponentSize
 
+export const fieldLoadingModes = ['default', 'line'] as const
+export type FieldLoadingMode = (typeof fieldLoadingModes)[number]
+/** Shared presentation contract; loading never changes disabled or readonly. */
+export const fieldLoadingProps = {
+  loading: Boolean,
+  loadingMode: {
+    type: String as PropType<FieldLoadingMode>,
+    default: 'default',
+    validator: (value: FieldLoadingMode) => fieldLoadingModes.includes(value),
+  },
+}
+
+export type FieldLoadingProps = ExtractPublicPropTypes<typeof fieldLoadingProps>
+
 export const fieldDecoratorProps = {
+  ...fieldLoadingProps,
   /** 外壳标签。 */
   tag: { type: String as PropType<'div' | 'span'>, default: 'div' },
   /** 当前内容，仅用于空值判断。 */

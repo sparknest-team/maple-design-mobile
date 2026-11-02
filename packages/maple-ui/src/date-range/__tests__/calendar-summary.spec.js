@@ -47,6 +47,6 @@ it('shows the pending first date and updates both summaries before confirmation'
   await wrapper.get('.mp-date-panel-actions .mp-button:last-child').trigger('click')
   expect(wrapper.emitted('update:modelValue').at(-1)[0]).toEqual(['2026-09-10', '2026-09-12'])
   await wrapper.setProps({ modelValue: [] })
-  expect(dates()).toEqual(['—', '—'])
+  expect(dates()).toEqual(['选择开始', '选择结束'])
   wrapper.unmount()
 })

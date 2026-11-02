@@ -82,6 +82,7 @@
   }
   &__date-content {
     display: flex;
+    flex-wrap: wrap;
     align-items: flex-start;
     min-width: 0;
     gap: var(--mp-sys-space-2);
@@ -110,6 +111,10 @@
     margin-inline-end: var(--mp-temporal-panel-inset);
     border-radius: var(--mp-temporal-panel-radius);
     overflow: hidden;
+  }
+  &__quick-time--fields {
+    flex: 1 1 var(--mp-date-picker-panel-date-width);
+    min-width: var(--mp-date-picker-panel-date-width);
   }
   &__quick-time-wheel {
     --mp-picker-background: var(--mp-color-fill-1);
@@ -140,4 +145,10 @@
 .mp-date-range-picker--with-time .mp-date-range-picker__summary-date {
   color: inherit;
   font-size: var(--mp-sys-font-size-md);
+}
+
+.mp-date-range-picker__date-content:has(> .mp-date-range-picker__quick-time--fields)
+  > .mp-date-range-picker__date-main {
+  flex: 1 1 var(--mp-date-picker-panel-date-width);
+  min-width: ~'min(100%, var(--mp-date-picker-panel-date-width))';
 }

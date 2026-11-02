@@ -9,7 +9,7 @@ const configuredDirectiveLoading = ref(false)
 <template>
   <mp-space direction="column">
     <h4 class="loading-demo__title">简单用法</h4>
-    <mp-switch v-model="simpleDirectiveLoading" />
+    <mp-switch v-model="simpleDirectiveLoading" edit-mode="direct" />
     <mp-card
       v-mp-loading="simpleDirectiveLoading"
       title="介绍"
@@ -17,7 +17,7 @@ const configuredDirectiveLoading = ref(false)
     />
 
     <h4 class="loading-demo__title">复杂配置</h4>
-    <mp-switch v-model="configuredDirectiveLoading" />
+    <mp-switch v-model="configuredDirectiveLoading" edit-mode="direct" />
     <mp-card
       v-mp-loading="{
         loading: configuredDirectiveLoading,

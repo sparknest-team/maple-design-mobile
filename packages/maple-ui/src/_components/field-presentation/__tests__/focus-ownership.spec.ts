@@ -26,7 +26,7 @@ afterEach(() => {
 async function fixture() {
   const focus = vi.fn(),
     editorFocus = vi.fn()
-  const props = reactive({ presentation: 'popup' as const, open: true })
+  const props = reactive({ editMode: 'popup' as const, open: true })
   const active = ref(true)
   const reference = defineComponent({
     setup(_, { expose }) {

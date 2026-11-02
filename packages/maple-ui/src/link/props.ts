@@ -1,4 +1,4 @@
-import type { ExtractPublicPropTypes, PropType } from 'vue'
+import type { PropType } from 'vue'
 import { componentSizes, semanticStatuses } from '../utils/constants'
 import type { ComponentSize, SemanticStatus } from '../utils/constants'
 
@@ -43,4 +43,4 @@ export const linkProps = {
   disabled: Boolean,
 }
 
-export type LinkProps = ExtractPublicPropTypes<typeof linkProps>
+export type LinkProps = InstanceType<(typeof import('./Link.vue'))['default']>['$props']

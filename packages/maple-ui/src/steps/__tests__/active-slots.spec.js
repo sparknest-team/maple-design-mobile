@@ -30,9 +30,9 @@ test('all step slots keep active tied to modelValue, independently of error stat
       expect(contexts.get(kind)).not.toHaveProperty('current')
     }
     expect(contexts.get('icon').status).toBe('error')
-    await wrapper.findAll('[role="listitem"]')[2].trigger('focus')
+    await wrapper.findAll('[data-step-index]')[2].trigger('focus')
     expect(contexts.get('title').active).toBe(false)
-    await wrapper.findAll('[role="listitem"]')[2].trigger('click')
+    await wrapper.findAll('[data-step-index]')[2].trigger('click')
     expect(contexts.get('title').active).toBe(false)
     await wrapper.setProps({ modelValue: 3 })
     expect(contexts.get('icon').active).toBe(false)

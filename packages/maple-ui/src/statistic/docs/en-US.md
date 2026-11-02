@@ -1,12 +1,12 @@
 # Statistic
 
-## Examples
-
 ### Introduction
 
 Highlight a number or a group of numbers with an optional description.
 
 Use the standalone [Countdown](#/en-US/countdown) component for timers. You can also embed [CountTo](#/en-US/count-to) as the value.
+
+## Basic examples
 
 ### Basic Usage
 
@@ -16,15 +16,23 @@ Use `title` for the description and `value` for the number. `value` accepts a nu
 ../example/demos/basic-usage.vue
 ```
 
-### Prefix / Suffix
-
-Add a unit, currency symbol, or trend with `prefix` / `suffix` or the same-named slots.
-
-```demo
-../example/demos/prefix-suffix.vue
-```
+## Content and presentation
 
 ### Tabular Numbers
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `title` | Displayed-value title | Tabular Numbers, Extra, Animation |
+| `value` | Displayed value | Tabular Numbers, Extra, Animation |
+| `suffix` | Value suffix | Tabular Numbers, Animation |
+| `value-style` | Custom style of the value | Tabular Numbers |
+| `tabular-nums` | Whether to use tabular numbers | Tabular Numbers |
+| `prefix` | Value prefix | Extra |
+<!-- demo-config-notes:end -->
+
 
 Enable `tabular-nums` so every digit occupies the same width. This is useful for frequently changing values and vertically aligned numbers. Compare equal-length values such as `1111` and `8888`: proportional numbers may change total width, while tabular numbers remain stable.
 
@@ -50,14 +58,6 @@ The demo's Start button changes the parent's `start` from `false` to `true`, pla
 ../example/demos/animation.vue
 ```
 
-### Custom Value
-
-When `value` is omitted, the default slot can render custom content such as `CountTo`.
-
-```demo
-../example/demos/custom-value.vue
-```
-
 ### Countdown
 
 When `value` is omitted, the default slot can embed [Countdown](#/en-US/countdown).
@@ -66,25 +66,48 @@ When `value` is omitted, the default slot can embed [Countdown](#/en-US/countdow
 ../example/demos/countdown.vue
 ```
 
-<!-- api-review:start -->
-### Feature playground
+## Customization and slots
+
+### Prefix / Suffix
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `title` | Displayed-value title | Prefix / Suffix, Custom Value |
+| `suffix` | Value suffix | Prefix / Suffix, Custom Value |
+| `value` | Displayed value | Prefix / Suffix |
+| `prefix` | Value prefix | Prefix / Suffix |
+| `show-group-separator` | Whether to show the group separator | Prefix / Suffix |
+| `precision` | Decimal places (number mode) | Prefix / Suffix |
+<!-- demo-config-notes:end -->
+
+
+Add a unit, currency symbol, or trend with `prefix` / `suffix` or the same-named slots.
 
 ```demo
-../example/demos/api-review.vue
+../example/demos/prefix-suffix.vue
 ```
 
-<!-- api-review:end -->
+### Custom Value
+
+When `value` is omitted, the default slot can render custom content such as `CountTo`.
+
+```demo
+../example/demos/custom-value.vue
+```
 
 ## API
 
 ### Props
 
-| Prop | Description | Type | Default |
+| Arguments | Description | Type | Default |
 | --- | --- | --- | --- |
-| `title` | Title of the statistic | _string_ | `-` |
+| `title` | Displayed-value title | _string_ | `-` |
 | `value` | Displayed value | _number \| string \| Date_ | `-` |
-| `prefix` | Prefix of the value | _string_ | `-` |
-| `suffix` | Suffix of the value | _string_ | `-` |
+| `prefix` | Value prefix | _string_ | `-` |
+| `suffix` | Value suffix | _string_ | `-` |
 | `format` | Date format (date mode) | _string_ | `HH:mm:ss` |
 | `extra` | Extra content | _string_ | `-` |
 | `start` | Whether to start the animation | _boolean_ | `true` |
@@ -100,17 +123,17 @@ When `value` is omitted, the default slot can embed [Countdown](#/en-US/countdow
 
 ### Slots
 
-| Name | Description | SlotProps |
+| Slot | Description | Arguments |
 | --- | --- | --- |
-| `default` | Custom value, used when `value` is not provided | `-` |
+| `default` | Custom `value`, used when `value` is not provided | `-` |
 | `title` | Title | `-` |
-| `prefix` | Prefix | `-` |
+| `prefix` | The prepend icon of alert | `-` |
 | `suffix` | Suffix | `-` |
 | `extra` | Extra content | `-` |
 
-### Style Variables
+### Style variables
 
-Here are the CSS variables used by the component. Styles can be customized using [StyleProvider](#/en-US/style-provider).
+Customize these CSS variables through [StyleProvider](#/en-US/style-provider).
 
 | Variable | Default |
 | --- | --- |
@@ -130,3 +153,9 @@ Here are the CSS variables used by the component. Styles can be customized using
 | `--mp-statistic-extra-color` | `var(--mp-sys-color-content-secondary)` |
 | `--mp-statistic-extra-font-size` | `var(--mp-font-size-sm)` |
 | `--mp-statistic-extra-margin-top` | `8px` |
+
+## Shared implementation and platform boundaries
+
+Each platform maintains a complete local implementation. They do not import a common core or share component instances or reactive state. Changes must update both implementations. Component bodies, props, key styles and paired tests have read-only source consistency checks; theme tokens and installation entries remain local to each library.
+
+Placeholder text updates when the default slot appears/disappears. Animation pauses on unmount/KeepAlive deactivation.

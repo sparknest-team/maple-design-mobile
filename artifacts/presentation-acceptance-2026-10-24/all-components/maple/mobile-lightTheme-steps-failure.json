@@ -1,0 +1,370 @@
+{
+  "failures": [],
+  "diagnostic": {
+    "url": "http://127.0.0.1:49257/mobile.html#/steps?language=zh-CN",
+    "text": "Maple Design Mobile · Cedar’s Mobile Counterpart\nMaple Design Mobile,Cedar Design Web,Vue 3,TypeScript,移动端组件库,语义 Token,主题定制\n\nMaple Design Mobile is a mobile component library built with Vue 3 and TypeScript, maintained by 孟帅 and 吴甲明. It shares semantic tokens and component API conventions with Cedar Design Web and supports on-demand imports, theming and internationalization.\n\nSteps\n中文\nEnglish\n基本使用\nprocess›\n1\n步骤1\n2\n步骤2\n3\n步骤3\n4\n步骤4\n错误状态\nerror›\n步骤1\n步骤2\n3\n步骤3\n可切换\nprocess›\n1\n步骤1\n这是描述信息\n2\n步骤2\n这是描述信息\n3\n步骤3\n这是描述信息\n4\n步骤4\n这是描述信息\n垂直模式\nprocess›\n1步骤1\n2步骤2\n3步骤3\n4步骤4\n下一步\n外观组合\nstatuswait›\nsizemd›\n步骤1\n2\n步骤2\n3\n步骤3\nmp-steps · 组合属性›\n功能调试 / Feature playground\n重新挂载 / Remount\n重置 / Reset\n\n选择一类功能后调整相关属性。切换功能会清除上一次覆盖，恢复案例原有绑定。 default-* 等初始属性修改后，点击“重新挂载”验证。\n\nExplore one feature at a time. Changing the topic removes previous overrides.\n\n值与数据 / Value and data›\n筛选属性 / Filter›\n值与数据 / Value and data（2）\n案例插槽 / Fixture slots\nprocess›\n1\n步骤1\n2\n步骤2\n3\n步骤3\n4\n步骤4\n当前覆盖值 / Active overrides\n事件 / Events（0）\n专项 API 定位 / Scenario API index",
+    "numericSteps": [],
+    "overflow": [],
+    "previews": [
+      "<section data-demo=\"basic-usage\"><div class=\"app-type\">基本使用</div><button type=\"button\" class=\"mp-field-presentation__reference status-switch\" aria-expanded=\"false\" aria-haspopup=\"dialog\"><span>process</span><span aria-hidden=\"true\">›</span></button><div data-v-ce475ba7=\"\" role=\"list\" class=\"mp-steps mp-steps-horizontal mp-steps-label-vertical mp-steps-mode-default mp-steps-size-md mp-steps-show-line\"><div data-v-ce475ba7=\"\" role=\"listitem\" class=\"mp-steps-item mp-steps-item-process mp-steps-item-active\"><div class=\"mp-steps-item-tail\"></div><div class=\"mp-steps-item-node\"><div class=\"mp-steps-icon\">1</div></div><div class=\"mp-steps-item-content\"><div class=\"mp-steps-item-title\">步骤1</div><!--v-if--></div></div><div data-v-ce475ba7=\"\" role=\"listitem\" class=\"mp-steps-item mp-steps-item-wait\"><div class=\"mp-steps-item-tail\"></div><div class=\"mp-steps-item-node\"><div class=\"mp-steps-icon\">2</div></div><div class=\"mp-steps-item-content\"><div class=\"mp-steps-item-title\">步骤2</div><!--v-if--></div></div><div data-v-ce475ba7=\"\" role=\"listitem\" class=\"mp-steps-item mp-steps-item-wait\"><div class=\"mp-steps-item-tail\"></div><div class=\"mp-steps-item-node\"><div class=\"mp-steps-icon\">3</div></div><div class=\"mp-steps-item-content\"><div class=\"mp-steps-item-title\">步骤3</div><!--v-if--></div></div><div data-v-ce475ba7=\"\" role=\"listitem\" class=\"mp-steps-item mp-steps-item-wait\"><div class=\"mp-steps-item-tail\"></div><div class=\"mp-steps-item-node\"><div class=\"mp-steps-icon\">4</div></div><div class=\"mp-steps-item-content\"><div class=\"mp-steps-item-title\">步骤4</div><!--v-if--></div></div></div></section>",
+      "<section data-demo=\"error-status\"><div class=\"app-type\">错误状态</div><button type=\"button\" class=\"mp-field-presentation__reference status-switch\" aria-expanded=\"false\" aria-haspopup=\"dialog\"><span>error</span><span aria-hidden=\"true\">›</span></button><div data-v-ec3caf49=\"\" role=\"list\" class=\"mp-steps mp-steps-horizontal mp-steps-label-vertical mp-steps-mode-default mp-steps-size-md mp-steps-show-line\"><div data-v-ec3caf49=\"\" role=\"listitem\" class=\"mp-steps-item mp-steps-item-finish mp-steps-item-next-error\"><div class=\"mp-steps-item-tail\"></div><div class=\"mp-steps-item-node\"><div class=\"mp-steps-icon\"><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" class=\"mp-svg-icon\" fill=\"currentColor\" aria-hidden=\"true\" stroke-width=\"4\" stroke-linecap=\"butt\" stroke-linejoin=\"miter\" role=\"img\" style=\"width: 1em; height: 1em; flex-shrink: 0;\"><!--v-if--><path d=\"M21 7 9 19l-5.5-5.5 1.41-1.41L9 16.17 19.59 5.59z\"></path></svg></div></div><div class=\"mp-steps-item-content\"><div class=\"mp-steps-item-title\">步骤1</div><!--v-if--></div></div><div data-v-ec3caf49=\"\" role=\"listitem\" class=\"mp-steps-item mp-steps-item-error mp-steps-item-active\"><div class=\"mp-steps-item-tail\"></div><div class=\"mp-steps-item-node\"><div class=\"mp-steps-icon\"><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" class=\"mp-svg-icon\" fill=\"currentColor\" aria-hidden=\"true\" stroke-width=\"4\" stroke-linecap=\"butt\" stroke-linejoin=\"miter\" role=\"img\" style=\"width: 1em; height: 1em; flex-shrink: 0;\"><!--v-if--><path d=\"M13.46 12 19 17.54V19h-1.46L12 13.46 6.46 19H5v-1.46L10.54 12 5 6.46V5h1.46L12 10.54 17.54 5H19v1.46z\"></path></svg></div></div><div class=\"mp-steps-item-content\"><div class=\"mp-steps-item-title\">步骤2</div><!--v-if--></div></div><div data-v-ec3caf49=\"\" role=\"listitem\" class=\"mp-steps-item mp-steps-item-wait\"><div class=\"mp-steps-item-tail\"></div><div class=\"mp-steps-item-node\"><div class=\"mp-steps-icon\">3</div></div><div class=\"mp-steps-item-content\"><div class=\"mp-steps-item-title\">步骤3</div><!--v-if--></div></div></div></section>"
+    ],
+    "controls": [
+      {
+        "tag": "BUTTON",
+        "role": null,
+        "label": "Back",
+        "class": "mp-page-header__back"
+      },
+      {
+        "tag": "svg",
+        "role": "img",
+        "label": "",
+        "class": {}
+      },
+      {
+        "tag": "BUTTON",
+        "role": null,
+        "label": "",
+        "class": "mp-button mp-button--size-md mp-button--status-default mp-button--variant-default mp-elevation--2 theme-button"
+      },
+      {
+        "tag": "svg",
+        "role": "img",
+        "label": "",
+        "class": {}
+      },
+      {
+        "tag": "svg",
+        "role": "img",
+        "label": "",
+        "class": {}
+      },
+      {
+        "tag": "BUTTON",
+        "role": null,
+        "label": "process›",
+        "class": "mp-field-presentation__reference status-switch"
+      },
+      {
+        "tag": "DIV",
+        "role": "list",
+        "label": "1步骤12步骤23步骤34步骤4",
+        "class": "mp-steps mp-steps-horizontal mp-steps-label-vertical mp-steps-mode-default mp-steps-size-md mp-steps-show-line"
+      },
+      {
+        "tag": "DIV",
+        "role": "listitem",
+        "label": "1步骤1",
+        "class": "mp-steps-item mp-steps-item-process mp-steps-item-active"
+      },
+      {
+        "tag": "DIV",
+        "role": "listitem",
+        "label": "2步骤2",
+        "class": "mp-steps-item mp-steps-item-wait"
+      },
+      {
+        "tag": "DIV",
+        "role": "listitem",
+        "label": "3步骤3",
+        "class": "mp-steps-item mp-steps-item-wait"
+      },
+      {
+        "tag": "DIV",
+        "role": "listitem",
+        "label": "4步骤4",
+        "class": "mp-steps-item mp-steps-item-wait"
+      },
+      {
+        "tag": "BUTTON",
+        "role": null,
+        "label": "error›",
+        "class": "mp-field-presentation__reference status-switch"
+      },
+      {
+        "tag": "DIV",
+        "role": "list",
+        "label": "步骤1步骤23步骤3",
+        "class": "mp-steps mp-steps-horizontal mp-steps-label-vertical mp-steps-mode-default mp-steps-size-md mp-steps-show-line"
+      },
+      {
+        "tag": "DIV",
+        "role": "listitem",
+        "label": "步骤1",
+        "class": "mp-steps-item mp-steps-item-finish mp-steps-item-next-error"
+      },
+      {
+        "tag": "svg",
+        "role": "img",
+        "label": "",
+        "class": {}
+      },
+      {
+        "tag": "DIV",
+        "role": "listitem",
+        "label": "步骤2",
+        "class": "mp-steps-item mp-steps-item-error mp-steps-item-active"
+      },
+      {
+        "tag": "svg",
+        "role": "img",
+        "label": "",
+        "class": {}
+      },
+      {
+        "tag": "DIV",
+        "role": "listitem",
+        "label": "3步骤3",
+        "class": "mp-steps-item mp-steps-item-wait"
+      },
+      {
+        "tag": "BUTTON",
+        "role": null,
+        "label": "process›",
+        "class": "mp-field-presentation__reference status-switch"
+      },
+      {
+        "tag": "DIV",
+        "role": "list",
+        "label": "1步骤1这是描述信息2步骤2这是描述信息3步骤3这是描述信息4步骤4这是描述信息",
+        "class": "mp-steps mp-steps-horizontal mp-steps-label-vertical mp-steps-mode-default mp-steps-size-md mp-steps-changeable mp-steps-show-line"
+      },
+      {
+        "tag": "DIV",
+        "role": "listitem",
+        "label": "1步骤1这是描述信息",
+        "class": "mp-steps-item mp-steps-item-process mp-steps-item-active"
+      },
+      {
+        "tag": "DIV",
+        "role": "listitem",
+        "label": "2步骤2这是描述信息",
+        "class": "mp-steps-item mp-steps-item-wait"
+      },
+      {
+        "tag": "DIV",
+        "role": "listitem",
+        "label": "3步骤3这是描述信息",
+        "class": "mp-steps-item mp-steps-item-wait"
+      },
+      {
+        "tag": "DIV",
+        "role": "listitem",
+        "label": "4步骤4这是描述信息",
+        "class": "mp-steps-item mp-steps-item-wait"
+      },
+      {
+        "tag": "BUTTON",
+        "role": null,
+        "label": "process›",
+        "class": "mp-field-presentation__reference status-switch"
+      },
+      {
+        "tag": "DIV",
+        "role": "list",
+        "label": "1步骤12步骤23步骤34步骤4",
+        "class": "mp-steps mp-steps-vertical mp-steps-label-horizontal mp-steps-mode-default mp-steps-size-md mp-steps-show-line"
+      },
+      {
+        "tag": "DIV",
+        "role": "listitem",
+        "label": "1步骤1",
+        "class": "mp-steps-item mp-steps-item-process mp-steps-item-active"
+      },
+      {
+        "tag": "DIV",
+        "role": "listitem",
+        "label": "2步骤2",
+        "class": "mp-steps-item mp-steps-item-wait"
+      },
+      {
+        "tag": "DIV",
+        "role": "listitem",
+        "label": "3步骤3",
+        "class": "mp-steps-item mp-steps-item-wait"
+      },
+      {
+        "tag": "DIV",
+        "role": "listitem",
+        "label": "4步骤4",
+        "class": "mp-steps-item mp-steps-item-wait"
+      },
+      {
+        "tag": "BUTTON",
+        "role": null,
+        "label": "下一步",
+        "class": "mp-button mp-button--size-md mp-button--status-primary mp-button--variant-default mp-button--block mp-elevation--2"
+      },
+      {
+        "tag": "BUTTON",
+        "role": null,
+        "label": "wait›",
+        "class": "mp-field-presentation__reference"
+      },
+      {
+        "tag": "BUTTON",
+        "role": null,
+        "label": "md›",
+        "class": "mp-field-presentation__reference"
+      },
+      {
+        "tag": "DIV",
+        "role": "list",
+        "label": "步骤12步骤23步骤3",
+        "class": "mp-steps mp-steps-horizontal mp-steps-label-vertical mp-steps-mode-default mp-steps-size-md mp-steps-show-line"
+      },
+      {
+        "tag": "DIV",
+        "role": "listitem",
+        "label": "步骤1",
+        "class": "mp-steps-item mp-steps-item-finish"
+      },
+      {
+        "tag": "svg",
+        "role": "img",
+        "label": "",
+        "class": {}
+      },
+      {
+        "tag": "DIV",
+        "role": "listitem",
+        "label": "2步骤2",
+        "class": "mp-steps-item mp-steps-item-wait mp-steps-item-active"
+      },
+      {
+        "tag": "DIV",
+        "role": "listitem",
+        "label": "3步骤3",
+        "class": "mp-steps-item mp-steps-item-wait"
+      },
+      {
+        "tag": "BUTTON",
+        "role": null,
+        "label": "mp-steps · 组合属性›",
+        "class": "mp-field-presentation__reference"
+      },
+      {
+        "tag": "BUTTON",
+        "role": null,
+        "label": "重新挂载 / Remount",
+        "class": "mp-button mp-button--size-sm mp-button--status-default mp-button--variant-default mp-elevation--2"
+      },
+      {
+        "tag": "BUTTON",
+        "role": null,
+        "label": "重置 / Reset",
+        "class": "mp-button mp-button--size-sm mp-button--status-default mp-button--variant-default mp-elevation--2"
+      },
+      {
+        "tag": "BUTTON",
+        "role": null,
+        "label": "值与数据 / Value and data›",
+        "class": "mp-field-presentation__reference"
+      },
+      {
+        "tag": "BUTTON",
+        "role": null,
+        "label": "筛选属性 / Filter",
+        "class": "mp-field-presentation__reference"
+      },
+      {
+        "tag": "DIV",
+        "role": "button",
+        "label": "值与数据 / Value and data（2）",
+        "class": "mp-collapse-item__header mp-collapse-item__header--icon-left"
+      },
+      {
+        "tag": "svg",
+        "role": "img",
+        "label": "",
+        "class": {}
+      },
+      {
+        "tag": "DIV",
+        "role": "button",
+        "label": "案例插槽 / Fixture slots",
+        "class": "mp-collapse-item__header mp-collapse-item__header--icon-left"
+      },
+      {
+        "tag": "svg",
+        "role": "img",
+        "label": "",
+        "class": {}
+      },
+      {
+        "tag": "BUTTON",
+        "role": null,
+        "label": "process›",
+        "class": "mp-field-presentation__reference status-switch"
+      },
+      {
+        "tag": "DIV",
+        "role": "list",
+        "label": "1步骤12步骤23步骤34步骤4",
+        "class": "mp-steps mp-steps-horizontal mp-steps-label-vertical mp-steps-mode-default mp-steps-size-md mp-steps-show-line"
+      },
+      {
+        "tag": "DIV",
+        "role": "listitem",
+        "label": "1步骤1",
+        "class": "mp-steps-item mp-steps-item-process mp-steps-item-active"
+      },
+      {
+        "tag": "DIV",
+        "role": "listitem",
+        "label": "2步骤2",
+        "class": "mp-steps-item mp-steps-item-wait"
+      },
+      {
+        "tag": "DIV",
+        "role": "listitem",
+        "label": "3步骤3",
+        "class": "mp-steps-item mp-steps-item-wait"
+      },
+      {
+        "tag": "DIV",
+        "role": "listitem",
+        "label": "4步骤4",
+        "class": "mp-steps-item mp-steps-item-wait"
+      },
+      {
+        "tag": "DIV",
+        "role": "button",
+        "label": "当前覆盖值 / Active overrides",
+        "class": "mp-collapse-item__header mp-collapse-item__header--icon-left"
+      },
+      {
+        "tag": "svg",
+        "role": "img",
+        "label": "",
+        "class": {}
+      },
+      {
+        "tag": "DIV",
+        "role": "button",
+        "label": "事件 / Events（0）",
+        "class": "mp-collapse-item__header mp-collapse-item__header--icon-left"
+      },
+      {
+        "tag": "svg",
+        "role": "img",
+        "label": "",
+        "class": {}
+      },
+      {
+        "tag": "DIV",
+        "role": "button",
+        "label": "专项 API 定位 / Scenario API index",
+        "class": "mp-collapse-item__header mp-collapse-item__header--icon-left"
+      },
+      {
+        "tag": "svg",
+        "role": "img",
+        "label": "",
+        "class": {}
+      }
+    ]
+  },
+  "error": "TimeoutError: locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('section[data-demo=\"basic-usage\"]').getByText('error', { exact: true })\u001b[22m\n"
+}

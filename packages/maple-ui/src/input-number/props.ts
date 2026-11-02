@@ -1,7 +1,9 @@
 import type { ExtractPublicPropTypes, PropType } from 'vue'
 import { fieldPresentationProps } from '../_components/field-presentation/props'
+import { fieldLoadingProps } from '../field-decorator/props'
 import { inputProps, type InputVariant } from '../input/props'
 import type { ComponentSize } from '../utils/constants'
+import { emptyValueProp } from '../utils/empty-value'
 
 export const inputNumberModes = ['embed', 'button', 'input'] as const
 export const inputNumberModelEvents = ['change', 'input'] as const
@@ -13,11 +15,24 @@ export type InputNumberFormatter = (value: string) => string
 export type InputNumberParser = (value: string) => string
 
 export const inputNumberProps = {
+  ...fieldLoadingProps,
+  /** 清空动作产生的模型值；省略保留原默认值。 */
   ...fieldPresentationProps,
+  emptyValue: emptyValueProp<number | undefined>(),
   /** 受控业务数值；空值为 undefined。 */
-  modelValue: Number,
+  modelValue: Number as PropType<number | null>,
   /** 非受控初始值。 */
   defaultValue: Number,
+  /** 禁止手输，仍可使用步进按钮和方向键。 */
+  disableInput: Boolean,
+  /** 独立禁用增加或减少；按钮和方向键均遵守。 */
+  disableIncrement: Boolean,
+  disableDecrement: Boolean,
+  /** 是否显示增加／减少按钮。 */
+  incrementButton: { type: Boolean, default: true },
+  decrementButton: { type: Boolean, default: true },
+  /** 是否开启长按连续步进。 */
+  press: { type: Boolean, default: true },
   /** 按钮布局。 */
   mode: {
     type: String as PropType<InputNumberMode>,

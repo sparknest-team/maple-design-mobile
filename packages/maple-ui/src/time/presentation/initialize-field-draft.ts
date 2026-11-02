@@ -9,9 +9,15 @@ export function initializeTimeFieldDraft(
   range: boolean,
 ): TimeCommitInput {
   if (range) {
-    return [0, 1].map(
-      (index) => getFormattedTimeChoices(Array.isArray(value) ? value[index] : undefined, rules).value ?? '',
-    )
+    if (value != null && (!Array.isArray(value) || value.length > 2)) {
+      return value
+    }
+    return [0, 1].map((index) => {
+      const part = Array.isArray(value) ? value[index] : undefined
+      return part == null || part === ''
+        ? (getFormattedTimeChoices(Array.isArray(value) ? value[index ^ 1] : undefined, rules).value ?? '')
+        : part
+    })
   }
-  return getFormattedTimeChoices(Array.isArray(value) ? undefined : value, rules).value
+  return value == null || value === '' ? getFormattedTimeChoices(undefined, rules).value : value
 }

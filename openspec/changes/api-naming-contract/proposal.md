@@ -1,0 +1,3 @@
+# Record and enforce API naming conventions
+
+Establish shared orientation/direction/axis/position/placement semantics, a final component matrix, and reviewed machine declarations. Make the rules discoverable through both platforms' required component and AI guides. Add a shared naming linter to existing lint and quality entry points, with behavior tests and narrow recorded pending property/type/value migrations. The user approved the runtime migrations: implement Fab.placement, TimelineItem.contentPlacement, canonical placement types and vertical-first kebab-case corner values, removing legacy APIs without aliases.

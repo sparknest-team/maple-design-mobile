@@ -19,12 +19,13 @@ const step = computed(() => ({ hour: fiveHours.value ? 5 : 1, minute: coarse.val
 
 <template>
   <mp-space class="time-step-demo" direction="column" :size="12" style="width: 100%">
-    <mp-checkbox v-model="fiveHours">十二小时显示 + 5 小时步长</mp-checkbox>
-    <mp-checkbox v-model="coarse">切换为 30 分钟步长</mp-checkbox>
-    <mp-checkbox v-model="blockAfternoon">禁用 15 点（03 PM）</mp-checkbox>
-    <mp-checkbox v-model="accept">父级接受更新</mp-checkbox>
+    <mp-checkbox v-model="fiveHours" edit-mode="direct">十二小时显示 + 5 小时步长</mp-checkbox>
+    <mp-checkbox v-model="coarse" edit-mode="direct">切换为 30 分钟步长</mp-checkbox>
+    <mp-checkbox v-model="blockAfternoon" edit-mode="direct">禁用 15 点（03 PM）</mp-checkbox>
+    <mp-checkbox v-model="accept" edit-mode="direct">父级接受更新</mp-checkbox>
     <p>确认时按当前步长重新校验；切换规则不会自动修改已提交值。</p>
     <mp-time
+      edit-mode="direct"
       :model-value="value"
       format="HH:mm:ss"
       :use12-hours="fiveHours"

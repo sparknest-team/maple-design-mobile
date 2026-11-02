@@ -170,7 +170,7 @@
       "name": "default",
       "kind": "slot",
       "demos": [
-        "variant.vue"
+        "appearance-lab.vue"
       ]
     },
     {
@@ -199,10 +199,9 @@
         "no-padding.vue",
         "ripple.vue",
         "scheduler-lifecycle.vue",
-        "size.vue",
+        "appearance-lab.vue",
         "slots.vue",
-        "tooltip.vue",
-        "variant.vue"
+        "tooltip.vue"
       ]
     },
     {
@@ -219,7 +218,7 @@
       "demos": [
         "basic.vue",
         "no-padding.vue",
-        "size.vue",
+        "appearance-lab.vue",
         "slots.vue"
       ]
     },

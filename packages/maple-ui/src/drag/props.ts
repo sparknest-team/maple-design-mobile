@@ -1,7 +1,7 @@
 import { type PropType, type TeleportProps } from 'vue'
 import { popupContainerProp } from '../utils/popup-container'
 
-export type DragDirection = 'x' | 'y' | 'xy'
+export type DragAxis = 'x' | 'y' | 'xy'
 
 export type DragAttraction = 'x' | 'y' | 'xy'
 
@@ -13,8 +13,8 @@ export interface DragBoundary {
 }
 
 export const props = {
-  direction: {
-    type: String as PropType<DragDirection>,
+  axis: {
+    type: String as PropType<DragAxis>,
     default: 'xy',
   },
   attraction: String as PropType<DragAttraction>,

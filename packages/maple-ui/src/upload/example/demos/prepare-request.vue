@@ -94,7 +94,7 @@ onDeactivated(cleanup)
 <template>
   <div class="upload-prepare-demo">
     <p>提交后暂停 before-upload；可取消后再次提交，再统一完成准备，只有当前有效尝试可以发起本地请求。</p>
-    <mp-radio-group v-model="mode" :options="modes" />
+    <mp-radio-group v-model="mode" edit-mode="direct" :options="modes" />
     <mp-space wrap>
       <mp-button :disabled="files.length >= (mode === 'total' ? 2 : 1)" @click="add">加入示例图片</mp-button>
       <mp-button :disabled="!files.some((file) => ['ready', 'error', 'canceled'].includes(file.status))" @click="submit"
@@ -104,7 +104,13 @@ onDeactivated(cleanup)
       <mp-button :disabled="preparing === 0" @click="finish">完成准备</mp-button>
       <mp-button @click="reset">重置队列</mp-button>
     </mp-space>
-    <mp-upload v-model="files" :show-upload-button="false" :show-retry-button="false" :preview="false" />
+    <mp-upload
+      v-model="files"
+      edit-mode="direct"
+      :show-upload-button="false"
+      :show-retry-button="false"
+      :preview="false"
+    />
     <p>待返回准备任务：{{ preparing }}</p>
     <p>请求次数：{{ requestCount }}</p>
     <p>队列状态：{{ files.map((file) => `${file.status} (${file.percent}%)`).join(', ') || '空' }}</p>

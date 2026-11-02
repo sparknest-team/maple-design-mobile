@@ -4,7 +4,7 @@
 
 行为型无限加载器。它只负责触底检测与分页状态，列表展示可组合 `List`、`Cell` 或业务内容。
 
-## 案例
+## 基础示例
 
 ### 基础用法
 
@@ -12,19 +12,43 @@
 ../example/demos/basic.vue
 ```
 
+## 内容与展示
+
 ### 失败重试
 
 ```demo
 ../example/demos/error.vue
 ```
 
+## 自定义与插槽
+
 ### 自定义状态
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `target` | 滚动容器或 CSS 选择器 | 自定义状态 |
+| `bottom-offset` | 触底阈值 | 自定义状态 |
+<!-- demo-config-notes:end -->
 
 ```demo
 ../example/demos/custom-status.vue
 ```
 
+## 生命周期与边界
+
 ### 测量绑定生命周期
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `target` | 滚动容器或 CSS 选择器 | 测量绑定生命周期 |
+| `immediate` | 挂载后是否立即检查 | 测量绑定生命周期 |
+<!-- demo-config-notes:end -->
 
 ```demo
 ../example/demos/scheduler-lifecycle.vue
@@ -99,15 +123,6 @@ async function refresh() {
 ```
 
 隐藏的 Tab 不会触发加载，重新激活后会自动检查；也可在业务激活回调中调用 `check()`。
-
-<!-- api-review:start -->
-### 功能调试
-
-```demo
-../example/demos/api-review.vue
-```
-
-<!-- api-review:end -->
 
 ## API
 

@@ -1,6 +1,7 @@
-import { type ExtractPropTypes, type PropType } from 'vue'
+import { type PropType } from 'vue'
+import { componentSizes, semanticStatuses } from '../utils/constants'
 import type { ComponentSize, SemanticStatus } from '../utils/constants'
-import type { ButtonVariant } from './props'
+import { buttonVariants, type ButtonVariant } from './variant'
 
 export const buttonGroupProps = {
   /**
@@ -9,6 +10,7 @@ export const buttonGroupProps = {
   status: {
     type: String as PropType<SemanticStatus>,
     default: 'default',
+    validator: (value: SemanticStatus) => semanticStatuses.includes(value),
   },
   /**
    * 按钮组尺寸
@@ -16,6 +18,7 @@ export const buttonGroupProps = {
   size: {
     type: String as PropType<ComponentSize>,
     default: 'md',
+    validator: (value: ComponentSize) => componentSizes.includes(value),
   },
   /**
    * 按钮组变体
@@ -23,6 +26,7 @@ export const buttonGroupProps = {
   variant: {
     type: String as PropType<ButtonVariant>,
     default: 'default',
+    validator: (value: ButtonVariant) => buttonVariants.includes(value),
   },
   /**
    * 自定义背景色

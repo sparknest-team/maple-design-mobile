@@ -5,7 +5,24 @@
       <div v-if="title" class="maple-site-header__title" @click="backRoot">{{ title }}</div>
     </div>
 
+    <nav
+      v-if="sections.length > 1"
+      class="maple-site-header__sections"
+      :aria-label="language === 'en-US' ? 'Documentation areas' : '文档分区'"
+    >
+      <mp-space size="sm" wrap
+        ><mp-button
+          v-for="section in sections"
+          :key="section.id"
+          :status="activeSection === section.id ? 'primary' : 'default'"
+          :aria-pressed="activeSection === section.id"
+          @click="$emit('section-change', section)"
+          >{{ section.text[language] }}</mp-button
+        ></mp-space
+      >
+    </nav>
     <div class="maple-site-header__tail">
+      <DirectionToggle />
       <div
         v-if="isShowVersion"
         class="maple-site-header__versions"
@@ -100,7 +117,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue'
-import type { ComputedRef, Ref } from 'vue'
+import type { ComputedRef, PropType, Ref } from 'vue'
 import config from '@config'
 import { getBrowserTheme, getPCLocationInfo, persistTheme, setTheme, Theme } from '@maple-design/cli/client'
 import {
@@ -110,13 +127,18 @@ import {
   IconHistory as MIconHistory,
   IconPaletteFill as MIconPaletteFill,
 } from '@maple-design/icons-vue'
+import { DirectionToggle } from '@sparknest/ui-doc-preview'
 import { useRouter } from 'vue-router'
+import type { DocumentationSection } from '../../documentation-sections'
 import { removeEmpty, resolveSiteAsset } from '../../utils'
 
 export default defineComponent({
-  components: { MIconChevronDown, MIconHistory, MIconCodeJson, MIconGithub, MIconPaletteFill },
+  components: { DirectionToggle, MIconChevronDown, MIconHistory, MIconCodeJson, MIconGithub, MIconPaletteFill },
   name: 'AppHeader',
+  emits: ['section-change'],
   props: {
+    sections: { type: Array as PropType<DocumentationSection[]>, default: () => [] },
+    activeSection: String,
     language: {
       type: String,
     },
@@ -412,6 +434,26 @@ export default defineComponent({
   100% {
     top: 30px;
     opacity: 0;
+  }
+}
+</style>
+
+<style scoped>
+.maple-site-header__sections {
+  margin: 0 16px;
+}
+@media (max-width: 900px) {
+  .maple-site-header {
+    height: auto;
+    min-height: 60px;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 10px 16px;
+  }
+  .maple-site-header__sections {
+    order: 3;
+    width: 100%;
+    margin: 0;
   }
 }
 </style>

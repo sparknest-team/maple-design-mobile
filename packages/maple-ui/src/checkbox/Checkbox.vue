@@ -18,6 +18,7 @@
       ref="input"
       :class="n('input')"
       type="checkbox"
+      autocomplete="off"
       :name="name ?? group?.name"
       :value="value"
       :checked="checked"

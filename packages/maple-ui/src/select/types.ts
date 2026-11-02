@@ -1,7 +1,14 @@
-import type { RenderFunction } from 'vue'
+import type { RenderFunction, VNodeChild } from 'vue'
 import { FieldString } from '../_utils/types'
+import type { selectEmits } from './emits'
 
 export type SelectOptionValue = string | number | boolean | Record<string, unknown>
+
+/** Published 1.x value contract, including the existing empty-string-option clear result. */
+export type SelectValue = SelectOptionValue | SelectOptionValue[] | null | undefined
+
+/** Optional single-select clear override; a function may explicitly return undefined. */
+export type SelectEmptyValue = SelectValue | (() => SelectValue)
 
 export interface OptionValueWithKey {
   value: SelectOptionValue
@@ -85,3 +92,34 @@ export interface SelectOptionGroupInfo extends SelectOptionGroup {
  * @en Filter
  */
 export type FilterOption = boolean | ((inputValue: string, option: SelectOptionData) => boolean)
+
+/** Event argument tuples derived from the runtime validators. */
+export type SelectEmits = {
+  [Event in keyof typeof selectEmits]: Parameters<(typeof selectEmits)[Event]>
+}
+export interface SelectSlots {
+  default?(): VNodeChild
+  option?(scope: { data: SelectOptionData }): VNodeChild
+  label?(scope: { data: SelectOptionData }): VNodeChild
+  read?(scope: { value: SelectValue; text: string }): VNodeChild
+  selected?(): VNodeChild
+  prefix?(): VNodeChild
+  suffix?(): VNodeChild
+  header?(): VNodeChild
+  footer?(): VNodeChild
+  empty?(): VNodeChild
+  trigger?(): VNodeChild
+  'clear-icon'?(scope: { clear(event?: Event): void }): VNodeChild
+  'arrow-icon'?(scope: { focus: boolean; menuOpen: boolean }): VNodeChild
+  'loading-icon'?(): VNodeChild
+  'search-icon'?(): VNodeChild
+}
+export interface SelectExpose {
+  refresh(): Promise<void>
+  focus(): void
+  blur(): void
+}
+
+export type { OptionSearchField } from '../utils/option-data'
+
+export type SelectOptionsLoader = import('../_hooks/use-option-request').OptionsLoader<SelectOption>

@@ -15,7 +15,7 @@ const options = [
     <p>Vertical and readonly</p>
     <mp-radio-group
       variant="button"
-      direction="vertical"
+      orientation="vertical"
       readonly
       default-value="day"
       :options="options"

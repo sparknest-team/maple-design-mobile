@@ -17,7 +17,7 @@ describe('date editor action ownership', () => {
         modelValue: '2025-01-15 09:30:00',
         showTime: true,
         datePickerProps: { showNowButton: true },
-        presentation: 'popup',
+        editMode: 'popup',
       },
       global: { stubs: { Dialog: Surface, DatePanelContent: Content } },
     })
@@ -27,13 +27,16 @@ describe('date editor action ownership', () => {
     const panel = wrapper.getComponent(EditorPanel)
     expect(panel.get('[role=heading]').text()).toBe('请选择')
     expect(panel.findAll('button[aria-label="关闭"]')).toHaveLength(1)
-    expect(panel.findAll('footer button').map((button) => button.text())).toEqual(['此刻', '确认'])
+    expect(panel.findAll('footer button').map((button) => button.text())).toEqual(['此刻', '清空', '确认'])
     expect(panel.find('[class$="__body"]').findAll('button')).toHaveLength(0)
     await panel.findAll('footer button')[0].trigger('click')
     expect(wrapper.emitted('update:modelValue')).toBeUndefined()
     const candidate = wrapper.emitted('select')?.[0][0]
     expect(candidate).toBeTruthy()
-    await panel.findAll('footer button')[1].trigger('click')
+    await panel
+      .findAll('footer button')
+      .find((button) => button.text() === '确认')!
+      .trigger('click')
     await flushPromises()
     expect(wrapper.emitted('update:modelValue')?.[0][0]).toEqual(candidate)
   })

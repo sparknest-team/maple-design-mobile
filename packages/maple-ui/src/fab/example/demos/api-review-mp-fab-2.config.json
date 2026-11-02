@@ -23,7 +23,7 @@
     },
     {
       "name": "drag",
-      "description": "Drag 组件配置，用于深度定制（支持 direction attraction boundary）",
+      "description": "Drag 组件配置，用于深度定制（支持 axis attraction boundary）",
       "type": "boolean | DragProps",
       "defaultValue": "false",
       "kind": "json",
@@ -35,25 +35,44 @@
       "type": "\"default\" | \"primary\" | \"secondary\" | \"tertiary\" | \"info\" | \"success\" | \"warning\" | \"danger\"",
       "defaultValue": "'primary'",
       "kind": "enum",
-      "options": ["default", "primary", "secondary", "tertiary", "info", "success", "warning", "danger"],
+      "options": [
+        "default",
+        "primary",
+        "secondary",
+        "tertiary",
+        "info",
+        "success",
+        "warning",
+        "danger"
+      ],
       "initial": "primary"
     },
     {
       "name": "position",
-      "description": "触发器位置，可选值为 left-top right-top left-bottom right-bottom",
-      "type": "'left-top' | 'right-top' | 'left-bottom' | 'right-bottom'",
-      "defaultValue": "'right-bottom'",
+      "description": "触发器位置，可选值为 top-left top-right bottom-left bottom-right",
+      "type": "'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'",
+      "defaultValue": "'bottom-right'",
       "kind": "enum",
-      "options": ["left-top", "right-top", "left-bottom", "right-bottom"],
-      "initial": "right-bottom"
+      "options": [
+        "top-left",
+        "top-right",
+        "bottom-left",
+        "bottom-right"
+      ],
+      "initial": "bottom-right"
     },
     {
-      "name": "direction",
+      "name": "placement",
       "description": "动作菜单弹出方向，可选值为 top bottom left right",
       "type": "'top' | 'right' | 'bottom' | 'left'",
       "defaultValue": "'top'",
       "kind": "enum",
-      "options": ["top", "right", "bottom", "left"],
+      "options": [
+        "top",
+        "right",
+        "bottom",
+        "left"
+      ],
       "initial": "top"
     },
     {
@@ -62,7 +81,10 @@
       "type": "'click' | 'hover'",
       "defaultValue": "'click'",
       "kind": "enum",
-      "options": ["click", "hover"],
+      "options": [
+        "click",
+        "hover"
+      ],
       "initial": "click"
     },
     {
@@ -100,7 +122,9 @@
       "type": "pickProps(iconProps, 'size')",
       "defaultValue": "undefined",
       "kind": "enum",
-      "options": ["size"],
+      "options": [
+        "size"
+      ],
       "initial": "size"
     },
     {
@@ -109,7 +133,9 @@
       "type": "pickProps(iconProps, 'size')",
       "defaultValue": "undefined",
       "kind": "enum",
-      "options": ["size"],
+      "options": [
+        "size"
+      ],
       "initial": "size"
     },
     {
@@ -179,8 +205,16 @@
     }
   ],
   "methodNames": [],
-  "events": ["click", "open", "opened", "close", "closed"],
-  "slotNames": ["trigger"],
+  "events": [
+    "click",
+    "open",
+    "opened",
+    "close",
+    "closed"
+  ],
+  "slotNames": [
+    "trigger"
+  ],
   "slotDefaults": {
     "trigger": false
   },

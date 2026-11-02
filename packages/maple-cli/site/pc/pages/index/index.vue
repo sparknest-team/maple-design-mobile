@@ -26,7 +26,9 @@ const toGithub = () => {
 
 const setLocale = () => {
   const { language: lang } = getPCLocationInfo()
-  if (!lang) return
+  if (!lang) {
+    return
+  }
 
   language.value = lang
   document.title = config?.pc.title[lang] as string
@@ -59,7 +61,7 @@ watch(
           <img class="maple-doc-index__logo" :src="siteLogo" alt="" />
         </div>
         <div class="maple-doc-index__info-container">
-          <p class="maple-doc-index__eyebrow" v-if="indexPage.eyebrow">{{ indexPage.eyebrow[language] }}</p>
+          <p v-if="indexPage.eyebrow" class="maple-doc-index__eyebrow">{{ indexPage.eyebrow[language] }}</p>
           <p class="maple-doc-index__product">{{ title }}</p>
           <h1 class="maple-doc-index__title">{{ indexPage.headline?.[language] || title }}</h1>
           <div class="maple-doc-index__description">{{ indexPage.description[language] }}</div>
@@ -78,7 +80,7 @@ watch(
         </div>
       </div>
 
-      <section class="maple-doc-index__pair" v-if="indexPage.companion">
+      <section v-if="indexPage.companion" class="maple-doc-index__pair">
         <div>
           <h2>{{ indexPage.companion.title[language] }}</h2>
           <p>{{ indexPage.companion.description[language] }}</p>
@@ -89,21 +91,21 @@ watch(
         </div>
       </section>
 
-      <div class="maple-doc-index__features" v-if="indexPage.features">
-        <div class="maple-doc-index__feature" v-for="feature in indexPage.features" :key="feature.name[language]">
+      <div v-if="indexPage.features" class="maple-doc-index__features">
+        <div v-for="feature in indexPage.features" :key="feature.name[language]" class="maple-doc-index__feature">
           <div class="maple-doc-index__feature-name">{{ feature.name[language] }}</div>
           <div class="maple-doc-index__feature-description">{{ feature.description[language] }}</div>
         </div>
       </div>
 
-      <div class="maple-doc-index__team-members" v-if="indexPage.teamMembers">
+      <div v-if="indexPage.teamMembers" class="maple-doc-index__team-members">
         <div class="maple-doc-index__team-members-title">{{ indexPage.teamMembers.label[language] }}</div>
 
         <div class="maple-doc-index__team-members-container">
           <div
-            class="maple-doc-index__team-member"
             v-for="member in indexPage.teamMembers.members"
             :key="member.name[language]"
+            class="maple-doc-index__team-member"
           >
             <img
               v-if="member.avatar"
@@ -121,19 +123,19 @@ watch(
             <div class="maple-doc-index__team-member-name">{{ member.name[language] }}</div>
             <div class="maple-doc-index__team-member-title">{{ member.title[language] }}</div>
             <div class="maple-doc-index__team-member-description">{{ member.description[language] }}</div>
-            <div class="maple-doc-index__team-member-social" v-if="member.github || member.twitter">
+            <div v-if="member.github || member.twitter" class="maple-doc-index__team-member-social">
               <mp-icon
+                v-if="member.github"
                 class="maple-doc-index__team-member-social-icon"
                 :size="24"
                 @click="to(member.github)"
-                v-if="member.github"
                 ><MIconGithub
               /></mp-icon>
               <mp-icon
+                v-if="member.twitter"
                 class="maple-doc-index__team-member-social-icon"
                 :size="24"
                 @click="to(member.twitter)"
-                v-if="member.twitter"
                 ><MIconTwitter
               /></mp-icon>
             </div>
@@ -141,7 +143,7 @@ watch(
         </div>
       </div>
 
-      <div class="maple-doc-index__contributors" v-if="indexPage.contributors">
+      <div v-if="indexPage.contributors" class="maple-doc-index__contributors">
         <div class="maple-doc-index__contributors-title">{{ indexPage.contributors.label[language] }}</div>
 
         <a class="maple-doc-index__contributors-link" :href="indexPage.contributors.link">
@@ -149,7 +151,7 @@ watch(
         </a>
       </div>
 
-      <div class="maple-doc-index__sponsors" v-if="indexPage.sponsors">
+      <div v-if="indexPage.sponsors" class="maple-doc-index__sponsors">
         <div class="maple-doc-index__sponsors-title">{{ indexPage.sponsors.label[language] }}</div>
 
         <a class="maple-doc-index__sponsors-link" :href="indexPage.sponsors.link">
@@ -190,7 +192,7 @@ watch(
     min-width: 0;
   }
   &__eyebrow {
-    color: var(--site-config-color-primary);
+    color: var(--site-config-color-text);
     font-size: 12px;
     font-weight: 700;
     letter-spacing: 2px;
@@ -246,7 +248,7 @@ watch(
     border-radius: 4px;
   }
   a:hover {
-    color: var(--site-config-color-primary);
+    color: var(--site-config-color-text);
   }
   &__pair {
     display: grid;
@@ -347,7 +349,7 @@ watch(
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--site-config-color-primary);
+    color: var(--site-config-color-text);
     background: var(--site-config-color-side-bar-active-background);
     font-size: 20px;
   }

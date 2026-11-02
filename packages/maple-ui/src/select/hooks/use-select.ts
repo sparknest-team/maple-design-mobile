@@ -3,6 +3,7 @@ import { computed, nextTick, onActivated, onBeforeUnmount, onDeactivated, provid
 import { VirtualListRef } from '../../_components/virtual-list-v2/interface'
 import { getRelativeRect } from '../../_utils/dom'
 import { getKeyDownHandler, KEYBOARD_KEY } from '../../_utils/keyboard'
+import type { OptionSearchField } from '../../utils/option-data'
 import { selectInjectionKey } from '../context'
 import { FilterOption, SelectFieldNames, SelectOption } from '../types'
 import { useOptions } from './use-options'
@@ -21,6 +22,8 @@ export const useSelect = ({
   extraOptions,
   inputValue,
   filterOption,
+  caseSensitive,
+  searchFields,
   showExtraOptions,
   component,
   fieldNames,
@@ -40,6 +43,8 @@ export const useSelect = ({
   extraOptions?: Ref<SelectOption[]>
   inputValue?: Ref<string>
   filterOption?: Ref<FilterOption>
+  caseSensitive?: Ref<boolean>
+  searchFields?: Ref<readonly OptionSearchField[]>
   showExtraOptions?: Ref<boolean>
   component?: Ref<'li' | 'div'>
   fieldNames?: Ref<SelectFieldNames | undefined>
@@ -72,6 +77,8 @@ export const useSelect = ({
     extraOptions,
     inputValue,
     filterOption,
+    caseSensitive,
+    searchFields,
     showExtraOptions,
     fieldNames,
   })
@@ -277,6 +284,8 @@ export const useSelect = ({
       fieldNames: mergedFieldNames,
       inputValue,
       filterOption,
+      caseSensitive,
+      searchFields,
       component,
       valueKeys,
       activeKey,

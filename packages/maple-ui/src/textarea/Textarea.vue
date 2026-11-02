@@ -2,6 +2,8 @@
   <div v-bind="splitAttrs.root" :class="classes(n(), [mergedDisabled, n('--disabled')])" @mousedown="handleMousedown">
     <FieldDecorator
       :id="textareaId"
+      :loading="loading"
+      :loading-mode="loadingMode"
       :value="value"
       :variant="mergedVariant"
       :size="mergedSize"
@@ -28,6 +30,8 @@
         v-bind="nativeAttrs"
         :id="textareaId"
         ref="textareaRef"
+        :aria-busy="loading || undefined"
+        autocomplete="off"
         :class="n('inner')"
         :style="textareaStyle"
         :value="value"
@@ -157,7 +161,7 @@ function processInput(event: Event) {
   const input = event.target as HTMLTextAreaElement
   const restore = captureInputSelection(input)
   updateValue(input.value, (nextValue) => {
-    emit('input', nextValue, event)
+    emit('input', nextValue ?? '', event)
     eventHandlers.value?.onInput?.(event)
   })
   void nextTick(() => restore(value.value))
@@ -201,7 +205,7 @@ function handleClear(event: Event) {
   emit('clear', event)
   eventHandlers.value?.onClear?.(event)
   clearValue(event, (nextValue) => {
-    emit('input', nextValue, event)
+    emit('input', nextValue ?? '', event)
     eventHandlers.value?.onInput?.(event)
   })
   focus()

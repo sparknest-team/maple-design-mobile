@@ -23,7 +23,7 @@ const drag = ref(false)
             :record="__apiReview.record" /></template
       ></mp-fab>
     </div>
-    <mp-fab v-else drag position="right-bottom" v-bind="__apiReview.bindings" v-on="__apiReview.listeners"
+    <mp-fab v-else drag position="bottom-right" v-bind="__apiReview.bindings" v-on="__apiReview.listeners"
       ><template v-if="__apiReview.slotEnabled['trigger']" #trigger="__reviewSlot"
         ><DemoReviewSlot
           name="trigger"

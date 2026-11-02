@@ -7,9 +7,7 @@ import type { useDateSelection } from './use-date-selection'
 
 /** Evaluate relative ranges at selection time, rather than when the panel first opened. */
 export function currentRangeShortcuts(options: DatePanelOptions, now = new Date()): DateShortcut[] {
-  const end = dayjs(now)
-    .millisecond(0)
-    .second(options.useSeconds === false ? 0 : dayjs(now).second())
+  const end = dayjs(now).millisecond(0)
   const range = (start: dayjs.Dayjs) => [
     outputDateValue(start.toDate(), options),
     outputDateValue(end.toDate(), options),

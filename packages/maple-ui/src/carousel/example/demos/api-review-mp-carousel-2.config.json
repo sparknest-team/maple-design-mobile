@@ -49,7 +49,7 @@
       "initial": "click"
     },
     {
-      "name": "direction",
+      "name": "orientation",
       "description": "内部滑动方向",
       "type": "horizontal | vertical",
       "defaultValue": "'horizontal'",

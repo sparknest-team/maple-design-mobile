@@ -1,10 +1,10 @@
 # 对话框
 
-## 案例
-
 ### 介绍
 
 弹出对话框承载确认、提示和自定义交互。组件式 `<mp-dialog>` 与函数式 `Dialog.*` 共享同一套配置；函数式调用统一使用显式方法，不支持 `Dialog(...)`。
+
+## 基础示例
 
 ### 基本使用
 
@@ -12,12 +12,57 @@
 ../example/demos/basic-usage.vue
 ```
 
-### long content
+## 调用方式与内容
+
+### function call
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `title` | 标题 | confirm box、type icon、form dialog |
+| `type` | 类型图标 | confirm box、type icon |
+| `message` | 内容（也可用 default 插槽） | confirm box、type icon |
+| `before-close` | 返回 boolean/Promise 或调用 done；首次完成生效 | form dialog |
+<!-- demo-config-notes:end -->
 
 ```demo
-../example/demos/long-content.vue
+../example/demos/function-call.vue
 ```
 
+### alert dialog
+
+```demo
+../example/demos/alert-dialog.vue
+```
+
+### confirm box
+
+```demo
+../example/demos/confirm-box.vue
+```
+
+### type icon
+
+```demo
+../example/demos/type-icon.vue
+```
+
+### form dialog
+
+```demo
+../example/demos/form-dialog.vue
+```
+
+### 弹窗尺寸与长内容
+
+分别打开弹窗，比较宽度、全屏或长内容的可视范围；关闭当前弹窗后再打开另一种布局。
+
+<details>
+<summary>配置说明与使用限制</summary>
+
+#### long content
 
 左侧示例章节与右侧手机预览按相同顺序排列。
 
@@ -40,15 +85,14 @@
 
 ### 异步关闭
 
-`beforeClose(action, done, refs)` 只有调用 `done()` 才会关闭。函数式返回值同时是 Promise，并提供 `close()`、`update()`。
+`beforeClose({ action }, done, context)` 可返回 boolean/Promise，或调用 `done()` 决定关闭。函数式返回值同时是 Promise，并提供 `close()`、`update()`。
 
 ```ts
 const instance = Dialog.open({
   message: '正在提交',
   // 函数式调用默认 simple: true、closable: false
-  beforeClose(action, done, refs) {
+  beforeClose({ action }, done, context) {
     if (action !== 'confirm') return done()
-    refs.confirmButtonLoading.value = true
     submit().then(done)
   },
 })
@@ -154,7 +198,22 @@ Dialog.error({ title: '错误提示', message: '操作失败' })
 <mp-dialog v-model:open="unmountOpen" unmount-on-close />
 ```
 
+## 尺寸与布局
+
 ### 长内容
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `width` | 宽度 | 长内容 |
+| `title` | 标题 | 长内容 |
+| `message` | 内容（也可用 default 插槽） | 长内容 |
+| `simple` | 简洁布局 | 长内容 |
+| `draggable` | 允许拖动，`fullscreen` 时无效 | 长内容 |
+| `fullscreen` | 全屏显示 | 长内容 |
+<!-- demo-config-notes:end -->
 
 ```html
 <mp-dialog v-model:open="open" :body-style="{ maxHeight: '50vh', overflowY: 'auto' }">
@@ -162,37 +221,28 @@ Dialog.error({ title: '错误提示', message: '操作失败' })
 </mp-dialog>
 ```
 
-### function call
+</details>
 
 ```demo
-../example/demos/function-call.vue
+../example/demos/size-comparison.vue
 ```
 
-### alert dialog
-
-```demo
-../example/demos/alert-dialog.vue
-```
-
-### confirm box
-
-```demo
-../example/demos/confirm-box.vue
-```
-
-### type icon
-
-```demo
-../example/demos/type-icon.vue
-```
-
-### form dialog
-
-```demo
-../example/demos/form-dialog.vue
-```
+## 交互与定制
 
 ### custom footer
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `title` | 标题 | custom button text、高级用法 |
+| `message` | 内容（也可用 default 插槽） | custom button text、高级用法 |
+| `type` | 类型图标 | 高级用法 |
+| `footer` | 是否展示底部操作区 | 高级用法 |
+| `hide-title` | 隐藏标题区 | 高级用法 |
+| `aria-label` | 无可见标题时的无障碍名称 | 高级用法 |
+<!-- demo-config-notes:end -->
 
 ```demo
 ../example/demos/custom-footer.vue
@@ -204,32 +254,51 @@ Dialog.error({ title: '错误提示', message: '操作失败' })
 ../example/demos/custom-button-text.vue
 ```
 
-### layout
-
-```demo
-../example/demos/layout.vue
-```
-
 ### 高级用法
 
 ```demo
 ../example/demos/advanced-props.vue
 ```
 
+## 异步与关闭控制
+
 ### async close
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `before-close` | 返回 boolean/Promise 或调用 done；首次完成生效 | async close、before 钩子与 done 兼容 |
+| `title` | 标题 | async close |
+| `message` | 内容（也可用 default 插槽） | async close |
+<!-- demo-config-notes:end -->
 
 ```demo
 ../example/demos/async-close.vue
 ```
 
-<!-- api-review:start -->
-### 功能调试
+### before 钩子与 done 兼容
+
+`beforeClose({ action }, done, context)` 为统一入口，不新增另一套命名。
+
+
+只记录日志的同步钩子应显式 return true；同步 undefined 表示仍在等待回调。注意：以前返回 `Promise<void>` 却不调用 done 的异步钩子，现在会在 Promise 完成后放行。
+
 
 ```demo
-../example/demos/api-review.vue
+../example/demos/guard-protocol.vue
 ```
 
-<!-- api-review:end -->
+
+Promise 与 done 共用一次完成状态：`false` / `done(false)` 阻止，`true` / `done()` 允许；Promise&lt;void&gt; 正常完成允许。重复完成只生效一次，异常触发 guard-error，取消或卸载后迟到结果无效。此类关闭/确认回调同步返回 void 时保留原回调协议，等待 done。
+
+
+守卫统一使用 `(payload, done, context)`：关闭 payload 为 `{ action }`，切换和提交为 `{ value, previousValue }`，Popup 为 `{ reason }`。context 提供 `signal` 和可选原始 `event`。返回 boolean/Promise，或调用 done()/done(false)；同步 void 等待 done，Promise&lt;void&gt; 放行。首次完成生效。等待期间自动管理 loading/disabled，取消后旧结果失效，不暴露内部按钮 refs。
+
+## 阅读方向
+
+继承最近的 `dir="ltr|rtl"`，支持运行时切换与局部覆盖。内容、标题与动作间距使用逻辑起止位置；外部弹层继承来源方向。关闭、确认、取消和未提交状态不因方向切换改变。
 
 ## API
 
@@ -237,6 +306,7 @@ Dialog.error({ title: '错误提示', message: '操作失败' })
 
 | 参数                                                 | 说明                            | 类型                                          | 默认值            |
 | ---------------------------------------------------- | ------------------------------- | --------------------------------------------- | ----------------- |
+| dir | 阅读方向；省略时继承来源作用域。物理 left/right 方位保持原意。 | `ReadingDirection` (`ltr` / `rtl`) | — |
 | `open` **(v-model)**                                 | 是否显示                        | `boolean`                                     | `-`               |
 | `default-open`                                       | 非受控默认显示                  | `boolean`                                     | `false`           |
 | `title`                                              | 标题                            | `string`                                      | `-`               |
@@ -272,7 +342,7 @@ Dialog.error({ title: '错误提示', message: '操作失败' })
 | `aria-label`                                         | 无可见标题时的无障碍名称        | `string`                                      | `-`               |
 | `close-button-aria-label`                            | 关闭按钮无障碍名称              | `string`                                      | `'Close dialog'`  |
 | `z-index`                                            | 层级                            | `number`                                      | 自动分配          |
-| `before-close`                                       | 关闭前拦截                      | `(action, done, refs) => void`                | `-`               |
+| `before-close` | 返回 boolean/Promise 或调用 done；首次完成生效 | `DialogBeforeClose` | — |
 
 ### Events
 
@@ -374,3 +444,9 @@ type DialogType = 'info' | 'success' | 'warning' | 'error'
 | `--mp-dialog-fullscreen-height` | `100vh` |
 | `--mp-dialog-animation-duration` | `var(--mp-sys-motion-duration-slow)` |
 | `--mp-dialog-animation-easing` | `var(--mp-sys-motion-easing-standard)` |
+
+### 守卫等待反馈
+
+before-* 等待期间显示加载反馈并标记 aria-busy；拒绝或失败后恢复，重复提交不再启动同一操作。普通事件返回的 Promise 不参与加载。
+
+函数调用的通知回调不控制任务完成。服务的选择或关闭结果独立于回调异常结算，关闭完成时仍会清理所属宿主。异常继续通过调用方或 Vue 错误通道传递；回调返回 Promise 不控制 loading 或关闭。

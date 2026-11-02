@@ -1,0 +1,5 @@
+- [x] Audit and define quantity controls and guard semantics.
+- [x] Implement InputNumber changes and synchronize Cedar.
+- [x] Remove Counter source, exports, registration, themes and references.
+- [x] Add demo, docs and meaningful async/direction/lifecycle tests.
+- [x] Verify builds, types, lint, generated references and all light/dark browser scenarios.

@@ -22,6 +22,7 @@ export const messageProps = {
     default: 'default',
     validator: (value: MessageStatus) => messageStatuses.includes(value),
   },
+  /** 消息自身在可视区域中的 top/center/bottom 区域，默认 top；不相对触发元素定位 */
   position: {
     type: String as PropType<MessagePosition>,
     default: 'top',

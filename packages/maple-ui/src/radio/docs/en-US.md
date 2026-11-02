@@ -1,12 +1,16 @@
 # Radio
 
-## Examples
-
 ### Intro
 
-Basic demos follow the site language without changing business values or selection. Group demos cover accepted/rejected updates, readonly state and asynchronous option labels; removing options does not clear the model. Use `direction="column"` on the outer Space and `direction="vertical"` on the choice group itself.
+Basic demos follow the site language without changing business values or selection. Group demos cover accepted/rejected updates, readonly state and asynchronous option labels; removing options does not clear the model. Use `direction="column"` on the outer Space and `orientation="vertical"` on the choice group itself.
 
 Single selection among multiple options.
+
+## Reading direction
+
+Radio groups inherit source dir. Horizontal keys follow visible direction in RTL and skip disabled options; vertical keys and Home/End keep logical order. Radio and button variants retain one Tab entry. Changing direction does not change the selected value.
+
+## Basic examples
 
 ### Basic Usage
 
@@ -14,7 +18,20 @@ Single selection among multiple options.
 ../example/demos/basic-usage.vue
 ```
 
+## Appearance and states
+
 ### Disabled
+
+<!-- demo-config-notes:start -->
+
+#### Configuration reference for this comparison
+
+| Configuration | Purpose                              | Related examples |
+| ------------- | ------------------------------------ | ---------------- |
+| `disabled`    | Disabled; inherits Form when omitted | Disabled         |
+| `readonly`    | Readonly; inherits Form when omitted | Readonly         |
+
+<!-- demo-config-notes:end -->
 
 ```demo
 ../example/demos/disabled.vue
@@ -26,41 +43,28 @@ Single selection among multiple options.
 ../example/demos/readonly.vue
 ```
 
-### Set State Value
+## Groups and layout
 
-```demo
-../example/demos/set-state.vue
-```
+### Radio group declarations
 
-### Modify Icon And Color
+Compare child and options declarations, then select items to inspect the group model.
 
-```demo
-../example/demos/set-style.vue
-```
+<details>
+<summary>Configuration details and limits</summary>
 
-### RadioGroup
+#### RadioGroup
 
 In the radio group, you must set the `value` to identify the `radio`,
 The radio group bind group checked identifiers.
 
-```demo
-../example/demos/radio-group.vue
-```
-
-### Options API
+#### Options API
 
 Setting child elements via the `options` prop.
 
-```demo
-../example/demos/radio-group-options.vue
-```
-
-### Custom Fields
-
-Customize the format of the data in `options` through the `field-names` attribute.
+</details>
 
 ```demo
-../example/demos/custom-fields.vue
+../example/demos/group-declaration-comparison.vue
 ```
 
 ### Vertical Direction
@@ -81,7 +85,30 @@ Group inherits `disabled`, `readonly` and `error` from the form when omitted. An
 ../example/demos/en-US/group-state.vue
 ```
 
+### Button sizes
+
+Both libraries support `variant="button"`. RadioGroup supports `xs / sm / md / lg / xl`; size changes button height, not circular icons. Unset size inherits the form/global setting and finally defaults to md. The group variant takes precedence over its children.
+
+```demo
+../example/demos/en-US/button-sizes.vue
+```
+
+## Options and value model
+
 ### Standalone values and methods
+
+<!-- demo-config-notes:start -->
+
+#### Configuration reference for this comparison
+
+| Configuration   | Purpose                              | Related examples                               |
+| --------------- | ------------------------------------ | ---------------------------------------------- |
+| `value`         | Option identity                      | Standalone values and methods, Set State Value |
+| `default-value` | Initial uncontrolled value           | Standalone values and methods                  |
+| `readonly`      | Readonly; inherits Form when omitted | Standalone values and methods                  |
+| `disabled`      | Disabled; inherits Form when omitted | Standalone values and methods                  |
+
+<!-- demo-config-notes:end -->
 
 Radio accepts string, number, boolean or null; null means unselected. Selecting an already selected radio does not deselect it; the parent can clear it with null.
 Use `default-value` only to initialize uncontrolled state. Rejected controlled proposals preserve the current selection. The event order is `update:model-value → change(value, event?)`; imperative calls have no native event.
@@ -102,6 +129,43 @@ RadioGroup defaults to `null` (no selection). Set `model-value` to `null` to cle
 ../example/demos/en-US/option-data.vue
 ```
 
+### Custom Fields
+
+Customize the format of the data in `options` through the `field-names` attribute.
+
+```demo
+../example/demos/custom-fields.vue
+```
+
+### Set State Value
+
+```demo
+../example/demos/set-state.vue
+```
+
+## Interaction and keyboard
+
+### Interaction states
+
+<!-- demo-config-notes:start -->
+
+#### Configuration reference for this comparison
+
+| Configuration | Purpose                                 | Related examples   |
+| ------------- | --------------------------------------- | ------------------ |
+| `value`       | Option identity                         | Interaction states |
+| `disabled`    | Disabled; inherits Form when omitted    | Interaction states |
+| `readonly`    | Readonly; inherits Form when omitted    | Interaction states |
+| `error`       | Error state; inherits Form when omitted | Interaction states |
+
+<!-- demo-config-notes:end -->
+
+Use this example for mutually exclusive choices. Adjust disabled, read-only, error feedback and compare the component with the same data. The controls remain available to restore editing; error appearance alone does not run validation.
+
+```demo
+../example/demos/state-lab.vue
+```
+
 ### Keyboard navigation
 
 Tab enters the selected item, or the first enabled item. Arrow keys cycle; Home / End move to the first / last enabled item. Readonly items receive focus without changing the value. Navigation is local to the group and does not intercept embedded buttons.
@@ -110,15 +174,23 @@ Tab enters the selected item, or the first enabled item. Arrow keys cycle; Home 
 ../example/demos/en-US/keyboard-navigation.vue
 ```
 
-### Button sizes
-
-Both libraries support `variant="button"`. RadioGroup supports `xs / sm / md / lg / xl`; size changes button height, not circular icons. Unset size inherits the form/global setting and finally defaults to md. The group variant takes precedence over its children.
-
-```demo
-../example/demos/en-US/button-sizes.vue
-```
+## Control and content customization
 
 ### Native control and custom icons
+
+<!-- demo-config-notes:start -->
+
+#### Configuration reference for this comparison
+
+| Configuration     | Purpose                              | Related examples                                       |
+| ----------------- | ------------------------------------ | ------------------------------------------------------ |
+| `checked-color`   | Checked color                        | Native control and custom icons, Modify Icon And Color |
+| `value`           | Option identity                      | Native control and custom icons                        |
+| `icon-size`       | Icon size                            | Native control and custom icons                        |
+| `readonly`        | Readonly; inherits Form when omitted | Native control and custom icons                        |
+| `unchecked-color` | Unchecked color                      | Modify Icon And Color                                  |
+
+<!-- demo-config-notes:end -->
 
 Both libraries render a native radio input. Use name on the group for native form submission; aria-label/input-attrs address the input. Managed type, checked, disabled and tabindex take precedence over input-attrs. Icon slots replace only the icon; #radio replaces the complete visible content, so provide an accessible name.
 
@@ -126,13 +198,13 @@ Both libraries render a native radio input. Use name on the group for native for
 ../example/demos/en-US/native-control.vue
 ```
 
-### Interaction states
-
-Use this example for mutually exclusive choices. Adjust disabled, read-only, error feedback and compare the component with the same data. The controls remain available to restore editing; error appearance alone does not run validation.
+### Modify Icon And Color
 
 ```demo
-../example/demos/state-lab.vue
+../example/demos/set-style.vue
 ```
+
+## Async options
 
 ### Asynchronous options
 
@@ -148,125 +220,126 @@ Arrow keys can still select existing options while loading. Reloading the same o
 ../example/demos/en-US/async-options.vue
 ```
 
-<!-- api-review:start -->
-### Feature playground
-
-```demo
-../example/demos/api-review.vue
-```
-
-<!-- api-review:end -->
-
 ## API
 
-`ChoiceValue = string | number | boolean`;`CheckboxModel = boolean | ChoiceValue[]`;`RadioModel = ChoiceValue | null`.
+### Empty values and reading placeholders
+
+`empty-values` recognizes empty data; `empty-value` keeps existing clear output. `empty-text` defaults to `'-'` under `read-pretty`, with Field > FormItem > Form precedence and custom read slots first. With explicit empty-values, built-in required uses the policy; custom validators receive original data. See the [shared guide](#/en-US/emptyValues).
+
+| Prop         | Type               | Default and scope                                                           |
+| ------------ | ------------------ | --------------------------------------------------------------------------- |
+| empty-values | readonly unknown[] | Field > FormItem > Form > component-family default; replaces the whole list |
+| empty-text   | string             | Field > FormItem > Form > '-'; explicit '' is valid                         |
+
+These props belong to field presentation; pure panels do not gain reading mode. Form and FormItem provide inherited settings. The existing empty-value type and clear fallback remain component-specific.
+
+`ChoiceValue = string | number | boolean`；`CheckboxModel = boolean | ChoiceValue[]`；`RadioModel = ChoiceValue | null`。
 
 ### Props
 
 #### RadioGroup Props
 
-| Prop                     | Description                                                     | Type                                       | Default      |
-| ------------------------ | --------------------------------------------------------------- | ------------------------------------------ | ------------ |
-| model-value (v-model) | Controlled value | RadioModel | undefined |
-| default-value | Initial uncontrolled value | RadioModel | null |
-| `disabled` | Disabled; inherits form when omitted | _boolean_ | `undefined` |
-| `readonly` | Read only; inherits form when omitted | _boolean_ | `undefined` |
-| `error` | Error; inherits form when omitted | _boolean_ | `undefined` |
-| variant | Group appearance | radio \| button | radio |
-| size | Button height only | ComponentSize | undefined |
-| `direction`              | The layout direction, optional value is `horizontal` `vertical` | _string_                                   | `horizontal` |
-| options | Options; replaces default slot when supplied | Array<ChoiceValue \| RadioOption \| Record<string, unknown>> | undefined |
-| `aria-label` _**3.8.5**_ | The label of the radio group                                    | _string_                                   | `-`          |
-| field-names | Option field mapping | ChoiceFieldNames | undefined |
+| Arguments                | Description                                                                                            | Type                                                                                                    | Default      |
+| ------------------------ | ------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------- | ------------ |
+| model-value (v-model)    | Controlled value                                                                                       | RadioModel                                                                                              | undefined    |
+| default-value            | Initial uncontrolled value                                                                             | RadioModel                                                                                              | null         |
+| `disabled`               | Disabled; inherits Form when omitted                                                                   | _boolean_                                                                                               | `undefined`  |
+| `readonly`               | Readonly; inherits Form when omitted                                                                   | _boolean_                                                                                               | `undefined`  |
+| `error`                  | Error state; inherits Form when omitted                                                                | _boolean_                                                                                               | `undefined`  |
+| variant                  | Group appearance                                                                                       | radio \| button                                                                                         | radio        |
+| size                     | Button height only                                                                                     | ComponentSize                                                                                           | undefined    |
+| `orientation`            | Horizontal/vertical arrangement of radio-group options, default horizontal; not text reading direction | _string_                                                                                                | `horizontal` |
+| options                  | Options; replaces default slot when supplied                                                           | Array<ChoiceValue \| RadioOption \| Record<string, unknown>> / `(query, { signal }) => Array / Promise` | `undefined`  |
+| `aria-label` _**3.8.5**_ | The label of the radio group                                                                           | _string_                                                                                                | `-`          |
+| field-names              | Option field mapping                                                                                   | ChoiceFieldNames                                                                                        | undefined    |
 
 #### RadioOption
 
-| Property | Description | Type |
-| --- | --- | --- |
-| value | Option identity | ChoiceValue |
-| label | Label content or render function | VNodeChild \| (data: RadioOption, checked: boolean) => VNodeChild |
-| disabled | Disabled | boolean |
-| readonly | Read-only | boolean |
-
+| Field    | Description              | Type                                                              |
+| -------- | ------------------------ | ----------------------------------------------------------------- |
+| value    | Option identity          | ChoiceValue                                                       |
+| label    | Label or render function | VNodeChild \| (data: RadioOption, checked: boolean) => VNodeChild |
+| disabled | Disable interaction      | boolean                                                           |
+| readonly | Read-only interaction    | boolean                                                           |
 
 #### Radio Props
 
-| Prop              | Description              | Type               | Default |
-| ----------------- | ------------------------ | ------------------ | ------- |
-| model-value (v-model) | Controlled value | ChoiceValue \| null | undefined |
-| default-value | Initial uncontrolled value | ChoiceValue \| null | null |
-| variant | Appearance; group takes precedence | radio \| button | radio |
-| value | Option identity | string \| number \| boolean | true |
-| `checked-color`   | Checked color            | _string_           | `-`     |
-| `unchecked-color` | Unchecked color          | _string_           | `-`     |
-| `icon-size`       | Icon size                | _string \| number_ | `-`     |
-| `readonly` | Inherits group/form when omitted | _boolean_ | `undefined` |
-| `error` | Error; inherits group/form | _boolean_ | `undefined` |
-| `disabled` | Inherits group/form when omitted | _boolean_ | `undefined` |
-| `ripple`          | Whether to open ripple   | _boolean_          | `true`  |
+| Arguments             | Description                                      | Type                        | Default     |
+| --------------------- | ------------------------------------------------ | --------------------------- | ----------- |
+| model-value (v-model) | Controlled value                                 | ChoiceValue \| null         | undefined   |
+| default-value         | Initial uncontrolled value                       | ChoiceValue \| null         | null        |
+| variant               | Appearance; group configuration takes precedence | radio \| button             | radio       |
+| value                 | Option identity                                  | string \| number \| boolean | true        |
+| `checked-color`       | Checked color                                    | _string_                    | `-`         |
+| `unchecked-color`     | Unchecked color                                  | _string_                    | `-`         |
+| `icon-size`           | Icon size                                        | _string \| number_          | `-`         |
+| `disabled`            | Inherit group/form when omitted                  | _boolean_                   | `undefined` |
+| `readonly`            | Inherit group/form when omitted                  | _boolean_                   | `undefined` |
+| `error`               | Error state; inherits group/form                 | _boolean_                   | `undefined` |
+| `ripple`              | Whether to open ripple                           | _boolean_                   | `true`      |
 
 ### Methods
 
 #### Radio Methods
 
-| Method   | Description                                                                                                | Arguments    | Return |
-| -------- | ---------------------------------------------------------------------------------------------------------- | ------------ | ------ |
-| select | Request a selection; obeys disabled/readonly | - | void |
-| focus | Focus the control | options?: FocusOptions | void |
-| blur | Blur the control | - | void |
+| Method | Description                                  | Arguments              | Returns |
+| ------ | -------------------------------------------- | ---------------------- | ------- |
+| select | Request a selection; obeys disabled/readonly | -                      | void    |
+| focus  | Focus the control                            | options?: FocusOptions | void    |
+| blur   | Blur the control                             | -                      | void    |
 
 ### Events
 
 #### RadioGroup Events
 
-| Event    | Description         | Arguments    |
-| -------- | ------------------- | ------------ |
-| `update:model-value` | Proposes a value | `value: any` |
-| `change` | Value changed; emitted by Group only | `value: any, event?: Event` |
+| Event                | Description                         | Arguments                   |
+| -------------------- | ----------------------------------- | --------------------------- |
+| `update:model-value` | Proposes a new value                | `value: any`                |
+| `change`             | Value change; emitted only by Group | `value: any, event?: Event` |
 
 #### Radio Events
 
-| Event    | Description         | Arguments    |
-| -------- | ------------------- | ------------ |
-| `click`  | Triggered on click  | `e: Event`   |
-| update:model-value | Proposes a new value | value: ChoiceValue |
-| change | Value changed | value: ChoiceValue, event?: Event |
-| focus | Focused | event: FocusEvent |
-| blur | Blurred | event: FocusEvent |
+| Event              | Description                        | Arguments                         |
+| ------------------ | ---------------------------------- | --------------------------------- |
+| `click`            | Triggered when the cell is clicked | `e: Event`                        |
+| update:model-value | Proposes a new value               | value: ChoiceValue                |
+| change             | Value change                       | value: ChoiceValue, event?: Event |
+| focus              | Focus                              | event: FocusEvent                 |
+| blur               | Blur                               | event: FocusEvent                 |
 
 ### Slots
 
 #### RadioGroup Slots
 
-| Slot | Description | Parameters |
-| --- | --- | --- |
-| default | Children when options is omitted | - |
-| label | Option label | data: RadioOption, checked: boolean |
+| Slot    | Description                      | Arguments                           |
+| ------- | -------------------------------- | ----------------------------------- |
+| default | Children when options is omitted | -                                   |
+| label   | Option label                     | data: RadioOption, checked: boolean |
 
 #### Radio Slots
 
-| Name             | Description    | SlotProps |
+| Slot             | Description    | Arguments |
 | ---------------- | -------------- | --------- |
 | `checked-icon`   | Checked icon   | `-`       |
 | `unchecked-icon` | Unchecked icon | `-`       |
 | `default`        | Displayed text | `-`       |
 
-### Style Variables
+### Style variables
 
-| Token | Default |
-| --- | --- |
-| `--mp-radio-control-color-checked` | `var(--mp-sys-color-content-brand)` |
-| `--mp-radio-control-color` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-radio-control-color-disabled` | `var(--mp-sys-color-content-disabled)` |
-| `--mp-radio-control-color-error` | `var(--mp-sys-color-content-danger)` |
-| `--mp-radio-control-size` | `24px` |
-| `--mp-radio-action-padding` | `6px` |
-| `--mp-radio-label-text-color` | `var(--mp-sys-color-content-primary)` |
-| `--mp-radio-label-text-color-disabled` | `var(--mp-sys-color-content-disabled)` |
-| `--mp-radio-label-font-size` | `var(--mp-font-size-md)` |
-| `--mp-radio-label-gap` | `0` |
-| `--mp-radio-group-gap` | `0` |
-| `--mp-radio-animation-duration` | `var(--mp-sys-motion-duration-standard)` |
+| Variable                               | Default                                  |
+| -------------------------------------- | ---------------------------------------- |
+| `--mp-radio-control-color-checked`     | `var(--mp-sys-color-content-brand)`      |
+| `--mp-radio-control-color`             | `var(--mp-sys-color-content-secondary)`  |
+| `--mp-radio-control-color-disabled`    | `var(--mp-sys-color-content-disabled)`   |
+| `--mp-radio-control-color-error`       | `var(--mp-sys-color-content-danger)`     |
+| `--mp-radio-control-size`              | `24px`                                   |
+| `--mp-radio-action-padding`            | `6px`                                    |
+| `--mp-radio-label-text-color`          | `var(--mp-sys-color-content-primary)`    |
+| `--mp-radio-label-text-color-disabled` | `var(--mp-sys-color-content-disabled)`   |
+| `--mp-radio-label-font-size`           | `var(--mp-font-size-md)`                 |
+| `--mp-radio-label-gap`                 | `0`                                      |
+| `--mp-radio-group-gap`                 | `0`                                      |
+| `--mp-radio-animation-duration`        | `var(--mp-sys-motion-duration-standard)` |
 
 ### ChoiceFieldNames
 
@@ -274,20 +347,24 @@ Arrow keys can still select existing options while loading. Reloading the same o
 
 Exported types：`RadioOption`、`ChoiceFieldNames`。
 
-### Additional native and appearance Props
+### Native attributes and appearance
 
-| Component | Prop | Description | Type | Default |
-| --- | --- | --- | --- | --- |
-| Radio / RadioGroup | name | Native field name; child overrides group | string | undefined |
-| Radio | aria-label | Native accessible name | string | undefined |
-| Radio | input-attrs | Native input attributes | InputHTMLAttributes | undefined |
+| Component          | Prop        | Description                              | Type                | Default   |
+| ------------------ | ----------- | ---------------------------------------- | ------------------- | --------- |
+| Radio / RadioGroup | name        | Native field name; child overrides group | string              | undefined |
+| Radio              | aria-label  | Native control accessible name           | string              | undefined |
+| Radio              | input-attrs | Native input attributes                  | InputHTMLAttributes | undefined |
 
 ### Form field presentation and confirmation
 
-`presentation` inherits from field > FormItem > Form and defaults to `inline`. Supported values are `inline / popup`. Inline keeps the existing control behavior. Overlay editing uses a Cell reference and an isolated draft; only confirmation updates v-model. Cancel, reset and enabling readPretty discard the draft.
+This component supports `edit-mode` with field > FormItem > Form precedence. When unset, it defaults to `direct` and preserves `direct` editing. Supported values: `direct / popup`. Non-`direct` modes open the editor through the field value trigger and keep one draft; v-model updates only after confirmation. Cancel, reset or enabling readPretty discards the draft.
 
-Maple 使用 presentation="popup" 点击值区域打开编辑面板；inline 直接编辑。 readPretty 为纯阅读属性，与 readonly、disabled 独立。
+Maple uses edit-mode="popup" to open the editor when the value area is clicked; direct edits immediately. readPretty is a reading-only setting, independent of readonly and disabled.
 
 `before-commit(value, { previousValue, signal })` can reject an overlay save. FormItem validates the candidate first and keeps the editor open on failure. `open / default-open / update:open` control the editor. Use `#read="{ value, text }"` to customize display. See the full field comparison in Form.
 
-`read-pretty` 为独立布尔属性，与 `readonly`、`disabled` 同级；字段 > FormItem > Form 继承，显式 `false` 覆盖父级。默认 `false`。纯阅读不显示编辑器。
+`read-pretty` is an independent boolean alongside `readonly` and `disabled`. It inherits from field to FormItem to Form; explicit `false` overrides the parent. The default is `false`. Reading mode renders no editor.
+
+`empty-value` accepts explicit `null` (or `() => null`). Clearing publishes `null` unchanged; omitted values preserve the existing default. Editors render `null` as blank without converting ordinary empty-string input to `null`. In popup editing, clearing changes the draft; confirm commits it and cancel preserves the original model.
+
+The `options` prop accepts an array or `(query, { signal }) => array/Promise`. The component manages loading, cancellation and stale-result isolation; failures emit load-error. Single/multiple groups initialize with an empty-string query, searchable fields reload when the query changes, and root loading for tree fields remains independent of existing load-more child loading.

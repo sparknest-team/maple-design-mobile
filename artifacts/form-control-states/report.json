@@ -1,0 +1,882 @@
+[
+  {
+    "theme": "lightTheme",
+    "colors": {
+      "radioButton": {
+        "foreground": "rgb(29, 33, 41)",
+        "background": [
+          255,
+          255,
+          255
+        ],
+        "ratio": 16.131462775889503
+      },
+      "radioCircle": {
+        "foreground": "rgb(0, 94, 105)",
+        "background": [
+          255,
+          255,
+          255
+        ],
+        "ratio": 7.48645582447409
+      },
+      "checkbox": {
+        "foreground": "rgb(0, 0, 0)",
+        "background": [
+          0,
+          190,
+          190
+        ],
+        "ratio": 9.108923394349459
+      },
+      "switch-circle-true": {
+        "foreground": "rgb(0, 0, 0)",
+        "background": [
+          0,
+          190,
+          190
+        ],
+        "ratio": 9.108923394349459
+      },
+      "switch-circle-false": {
+        "foreground": "rgb(255, 255, 255)",
+        "background": [
+          78,
+          89,
+          105
+        ],
+        "ratio": 7.102090555306971
+      },
+      "switch-round-true": {
+        "foreground": "rgb(0, 0, 0)",
+        "background": [
+          0,
+          190,
+          190
+        ],
+        "ratio": 9.108923394349459
+      },
+      "switch-round-false": {
+        "foreground": "rgb(255, 255, 255)",
+        "background": [
+          78,
+          89,
+          105
+        ],
+        "ratio": 7.102090555306971
+      },
+      "switch-tonal-true": {
+        "foreground": "rgb(0, 0, 0)",
+        "background": [
+          0,
+          190,
+          190
+        ],
+        "ratio": 9.108923394349459
+      },
+      "switch-tonal-false": {
+        "foreground": "rgb(78, 89, 105)",
+        "background": [
+          247,
+          248,
+          250
+        ],
+        "ratio": 6.683478982205631
+      },
+      "calendar-inline": {
+        "foreground": "rgba(0, 0, 0, 0.87)",
+        "background": [
+          255,
+          255,
+          255
+        ],
+        "ratio": 16.07342873234395
+      },
+      "calendar-popup": {
+        "foreground": "rgba(0, 0, 0, 0.87)",
+        "background": [
+          255,
+          255,
+          255
+        ],
+        "ratio": 16.07342873234395
+      }
+    },
+    "variants": [
+      "outline",
+      "filled",
+      "standard"
+    ],
+    "uploadRadius": "4px"
+  },
+  {
+    "theme": "darkTheme",
+    "colors": {
+      "radioButton": {
+        "foreground": "rgba(255, 255, 255, 0.9)",
+        "background": [
+          35,
+          35,
+          36
+        ],
+        "ratio": 12.934565155281293
+      },
+      "radioCircle": {
+        "foreground": "rgb(179, 242, 233)",
+        "background": [
+          18,
+          18,
+          18
+        ],
+        "ratio": 14.98178549965798
+      },
+      "checkbox": {
+        "foreground": "rgb(0, 0, 0)",
+        "background": [
+          41,
+          203,
+          197
+        ],
+        "ratio": 10.442901261528636
+      },
+      "switch-circle-true": {
+        "foreground": "rgb(0, 0, 0)",
+        "background": [
+          41,
+          203,
+          197
+        ],
+        "ratio": 10.442901261528636
+      },
+      "switch-circle-false": {
+        "foreground": "rgb(35, 35, 36)",
+        "background": [
+          183.9,
+          183.9,
+          183.9
+        ],
+        "ratio": 7.9072557101312775
+      },
+      "switch-round-true": {
+        "foreground": "rgb(0, 0, 0)",
+        "background": [
+          41,
+          203,
+          197
+        ],
+        "ratio": 10.442901261528636
+      },
+      "switch-round-false": {
+        "foreground": "rgb(35, 35, 36)",
+        "background": [
+          183.9,
+          183.9,
+          183.9
+        ],
+        "ratio": 7.9072557101312775
+      },
+      "switch-tonal-true": {
+        "foreground": "rgb(0, 0, 0)",
+        "background": [
+          41,
+          203,
+          197
+        ],
+        "ratio": 10.442901261528636
+      },
+      "switch-tonal-false": {
+        "foreground": "rgba(255, 255, 255, 0.7)",
+        "background": [
+          27.480000000000004,
+          27.480000000000004,
+          27.480000000000004
+        ],
+        "ratio": 8.901781405426227
+      },
+      "calendar-inline": {
+        "foreground": "rgb(255, 255, 255)",
+        "background": [
+          48,
+          48,
+          48
+        ],
+        "ratio": 13.19811185826915
+      },
+      "calendar-popup": {
+        "foreground": "rgb(255, 255, 255)",
+        "background": [
+          48,
+          48,
+          48
+        ],
+        "ratio": 13.19811185826915
+      }
+    },
+    "variants": [
+      "outline",
+      "filled",
+      "standard"
+    ],
+    "uploadRadius": "4px"
+  },
+  {
+    "theme": "mapleLightTheme",
+    "colors": {
+      "radioButton": {
+        "foreground": "rgb(29, 33, 41)",
+        "background": [
+          255,
+          255,
+          255
+        ],
+        "ratio": 16.131462775889503
+      },
+      "radioCircle": {
+        "foreground": "rgb(101, 39, 11)",
+        "background": [
+          255,
+          255,
+          255
+        ],
+        "ratio": 11.361298306240295
+      },
+      "checkbox": {
+        "foreground": "rgb(0, 0, 0)",
+        "background": [
+          194,
+          65,
+          12
+        ],
+        "ratio": 4.055294358874974
+      },
+      "switch-circle-true": {
+        "foreground": "rgb(255, 255, 255)",
+        "background": [
+          194,
+          65,
+          12
+        ],
+        "ratio": 5.178415705888697
+      },
+      "switch-circle-false": {
+        "foreground": "rgb(255, 255, 255)",
+        "background": [
+          78,
+          89,
+          105
+        ],
+        "ratio": 7.102090555306971
+      },
+      "switch-round-true": {
+        "foreground": "rgb(255, 255, 255)",
+        "background": [
+          194,
+          65,
+          12
+        ],
+        "ratio": 5.178415705888697
+      },
+      "switch-round-false": {
+        "foreground": "rgb(255, 255, 255)",
+        "background": [
+          78,
+          89,
+          105
+        ],
+        "ratio": 7.102090555306971
+      },
+      "switch-tonal-true": {
+        "foreground": "rgb(255, 255, 255)",
+        "background": [
+          194,
+          65,
+          12
+        ],
+        "ratio": 5.178415705888697
+      },
+      "switch-tonal-false": {
+        "foreground": "rgb(78, 89, 105)",
+        "background": [
+          247,
+          248,
+          250
+        ],
+        "ratio": 6.683478982205631
+      },
+      "calendar-inline": {
+        "foreground": "rgba(0, 0, 0, 0.87)",
+        "background": [
+          255,
+          255,
+          255
+        ],
+        "ratio": 16.07342873234395
+      },
+      "calendar-popup": {
+        "foreground": "rgba(0, 0, 0, 0.87)",
+        "background": [
+          255,
+          255,
+          255
+        ],
+        "ratio": 16.07342873234395
+      }
+    },
+    "variants": [
+      "outline",
+      "filled",
+      "standard"
+    ],
+    "uploadRadius": "4px"
+  },
+  {
+    "theme": "mapleDarkTheme",
+    "colors": {
+      "radioButton": {
+        "foreground": "rgba(255, 255, 255, 0.9)",
+        "background": [
+          35,
+          35,
+          36
+        ],
+        "ratio": 12.934565155281293
+      },
+      "radioCircle": {
+        "foreground": "rgb(255, 237, 213)",
+        "background": [
+          5,
+          5,
+          5
+        ],
+        "ratio": 17.786621990215263
+      },
+      "checkbox": {
+        "foreground": "rgb(0, 0, 0)",
+        "background": [
+          251,
+          146,
+          60
+        ],
+        "ratio": 9.278648548026007
+      },
+      "switch-circle-true": {
+        "foreground": "rgb(0, 0, 0)",
+        "background": [
+          251,
+          146,
+          60
+        ],
+        "ratio": 9.278648548026007
+      },
+      "switch-circle-false": {
+        "foreground": "rgb(35, 35, 36)",
+        "background": [
+          180,
+          180,
+          180
+        ],
+        "ratio": 7.573335640534129
+      },
+      "switch-round-true": {
+        "foreground": "rgb(0, 0, 0)",
+        "background": [
+          251,
+          146,
+          60
+        ],
+        "ratio": 9.278648548026007
+      },
+      "switch-round-false": {
+        "foreground": "rgb(35, 35, 36)",
+        "background": [
+          180,
+          180,
+          180
+        ],
+        "ratio": 7.573335640534129
+      },
+      "switch-tonal-true": {
+        "foreground": "rgb(0, 0, 0)",
+        "background": [
+          251,
+          146,
+          60
+        ],
+        "ratio": 9.278648548026007
+      },
+      "switch-tonal-false": {
+        "foreground": "rgba(255, 255, 255, 0.7)",
+        "background": [
+          15,
+          15,
+          15
+        ],
+        "ratio": 9.557513933894288
+      },
+      "calendar-inline": {
+        "foreground": "rgb(255, 255, 255)",
+        "background": [
+          48,
+          48,
+          48
+        ],
+        "ratio": 13.19811185826915
+      },
+      "calendar-popup": {
+        "foreground": "rgb(255, 255, 255)",
+        "background": [
+          48,
+          48,
+          48
+        ],
+        "ratio": 13.19811185826915
+      }
+    },
+    "variants": [
+      "outline",
+      "filled",
+      "standard"
+    ],
+    "uploadRadius": "4px"
+  },
+  {
+    "theme": "alpsLightTheme",
+    "colors": {
+      "radioButton": {
+        "foreground": "rgb(9, 12, 26)",
+        "background": [
+          255,
+          255,
+          255
+        ],
+        "ratio": 19.460293847895333
+      },
+      "radioCircle": {
+        "foreground": "rgb(255, 61, 0)",
+        "background": [
+          255,
+          255,
+          255
+        ],
+        "ratio": 3.5475984866333756
+      },
+      "checkbox": {
+        "foreground": "rgb(0, 0, 0)",
+        "background": [
+          255,
+          61,
+          0
+        ],
+        "ratio": 5.9194973949627325
+      },
+      "switch-circle-true": {
+        "foreground": "rgb(0, 0, 0)",
+        "background": [
+          255,
+          61,
+          0
+        ],
+        "ratio": 5.9194973949627325
+      },
+      "switch-circle-false": {
+        "foreground": "rgb(9, 12, 26)",
+        "background": [
+          220,
+          222,
+          228
+        ],
+        "ratio": 14.467270319480408
+      },
+      "switch-round-true": {
+        "foreground": "rgb(0, 0, 0)",
+        "background": [
+          255,
+          61,
+          0
+        ],
+        "ratio": 5.9194973949627325
+      },
+      "switch-round-false": {
+        "foreground": "rgb(9, 12, 26)",
+        "background": [
+          220,
+          222,
+          228
+        ],
+        "ratio": 14.467270319480408
+      },
+      "switch-tonal-true": {
+        "foreground": "rgb(0, 0, 0)",
+        "background": [
+          255,
+          61,
+          0
+        ],
+        "ratio": 5.9194973949627325
+      },
+      "switch-tonal-false": {
+        "foreground": "rgb(107, 109, 120)",
+        "background": [
+          247,
+          247,
+          247
+        ],
+        "ratio": 4.799960546116684
+      },
+      "calendar-inline": {
+        "foreground": "rgb(9, 12, 26)",
+        "background": [
+          255,
+          255,
+          255
+        ],
+        "ratio": 19.460293847895333
+      },
+      "calendar-popup": {
+        "foreground": "rgb(9, 12, 26)",
+        "background": [
+          255,
+          255,
+          255
+        ],
+        "ratio": 19.460293847895333
+      }
+    },
+    "variants": [
+      "outline",
+      "filled",
+      "standard"
+    ],
+    "uploadRadius": "8px"
+  },
+  {
+    "theme": "alpsDarkTheme",
+    "colors": {
+      "radioButton": {
+        "foreground": "rgb(241, 242, 246)",
+        "background": [
+          27,
+          30,
+          41
+        ],
+        "ratio": 14.847200064926037
+      },
+      "radioCircle": {
+        "foreground": "rgb(255, 148, 111)",
+        "background": [
+          18,
+          18,
+          18
+        ],
+        "ratio": 8.668781085383383
+      },
+      "checkbox": {
+        "foreground": "rgb(0, 0, 0)",
+        "background": [
+          255,
+          148,
+          111
+        ],
+        "ratio": 9.717501271327095
+      },
+      "switch-circle-true": {
+        "foreground": "rgb(0, 0, 0)",
+        "background": [
+          255,
+          148,
+          111
+        ],
+        "ratio": 9.717501271327095
+      },
+      "switch-circle-false": {
+        "foreground": "rgb(241, 242, 246)",
+        "background": [
+          34,
+          38,
+          51
+        ],
+        "ratio": 13.475159754967033
+      },
+      "switch-round-true": {
+        "foreground": "rgb(0, 0, 0)",
+        "background": [
+          255,
+          148,
+          111
+        ],
+        "ratio": 9.717501271327095
+      },
+      "switch-round-false": {
+        "foreground": "rgb(241, 242, 246)",
+        "background": [
+          34,
+          38,
+          51
+        ],
+        "ratio": 13.475159754967033
+      },
+      "switch-tonal-true": {
+        "foreground": "rgb(0, 0, 0)",
+        "background": [
+          255,
+          148,
+          111
+        ],
+        "ratio": 9.717501271327095
+      },
+      "switch-tonal-false": {
+        "foreground": "rgb(189, 193, 205)",
+        "background": [
+          34,
+          38,
+          51
+        ],
+        "ratio": 8.379584747824941
+      },
+      "calendar-inline": {
+        "foreground": "rgb(241, 242, 246)",
+        "background": [
+          36,
+          40,
+          54
+        ],
+        "ratio": 13.110621734478276
+      },
+      "calendar-popup": {
+        "foreground": "rgb(241, 242, 246)",
+        "background": [
+          36,
+          40,
+          54
+        ],
+        "ratio": 13.110621734478276
+      }
+    },
+    "variants": [
+      "outline",
+      "filled",
+      "standard"
+    ],
+    "uploadRadius": "8px"
+  },
+  {
+    "theme": "fireflyLightTheme",
+    "colors": {
+      "radioButton": {
+        "foreground": "rgb(23, 34, 75)",
+        "background": [
+          255,
+          255,
+          255
+        ],
+        "ratio": 15.363875518933586
+      },
+      "radioCircle": {
+        "foreground": "rgb(103, 84, 181)",
+        "background": [
+          255,
+          255,
+          255
+        ],
+        "ratio": 5.979359913413254
+      },
+      "checkbox": {
+        "foreground": "rgb(0, 0, 0)",
+        "background": [
+          207,
+          199,
+          255
+        ],
+        "ratio": 13.266449146067968
+      },
+      "switch-circle-true": {
+        "foreground": "rgb(0, 0, 0)",
+        "background": [
+          182,
+          168,
+          251
+        ],
+        "ratio": 9.98307636476055
+      },
+      "switch-circle-false": {
+        "foreground": "rgb(23, 34, 75)",
+        "background": [
+          236.44000000000003,
+          237.32000000000002,
+          240.60000000000002
+        ],
+        "ratio": 13.167443671869213
+      },
+      "switch-round-true": {
+        "foreground": "rgb(0, 0, 0)",
+        "background": [
+          182,
+          168,
+          251
+        ],
+        "ratio": 9.98307636476055
+      },
+      "switch-round-false": {
+        "foreground": "rgb(23, 34, 75)",
+        "background": [
+          236.44000000000003,
+          237.32000000000002,
+          240.60000000000002
+        ],
+        "ratio": 13.167443671869213
+      },
+      "switch-tonal-true": {
+        "foreground": "rgb(0, 0, 0)",
+        "background": [
+          182,
+          168,
+          251
+        ],
+        "ratio": 9.98307636476055
+      },
+      "switch-tonal-false": {
+        "foreground": "rgb(23, 34, 75)",
+        "background": [
+          245.71999999999997,
+          246.16,
+          247.79999999999998
+        ],
+        "ratio": 14.239539630035734
+      },
+      "calendar-inline": {
+        "foreground": "rgb(23, 34, 75)",
+        "background": [
+          255,
+          255,
+          255
+        ],
+        "ratio": 15.363875518933586
+      },
+      "calendar-popup": {
+        "foreground": "rgb(23, 34, 75)",
+        "background": [
+          255,
+          255,
+          255
+        ],
+        "ratio": 15.363875518933586
+      }
+    },
+    "variants": [
+      "outline",
+      "filled",
+      "standard"
+    ],
+    "uploadRadius": "24px"
+  },
+  {
+    "theme": "fireflyDarkTheme",
+    "colors": {
+      "radioButton": {
+        "foreground": "rgb(235, 238, 255)",
+        "background": [
+          26,
+          34,
+          54
+        ],
+        "ratio": 13.73018378367051
+      },
+      "radioCircle": {
+        "foreground": "rgb(197, 184, 255)",
+        "background": [
+          18,
+          18,
+          18
+        ],
+        "ratio": 10.414364230418768
+      },
+      "checkbox": {
+        "foreground": "rgb(0, 0, 0)",
+        "background": [
+          197,
+          184,
+          255
+        ],
+        "ratio": 11.674259235799132
+      },
+      "switch-circle-true": {
+        "foreground": "rgb(0, 0, 0)",
+        "background": [
+          197,
+          184,
+          255
+        ],
+        "ratio": 11.674259235799132
+      },
+      "switch-circle-false": {
+        "foreground": "rgb(235, 238, 255)",
+        "background": [
+          37,
+          47,
+          69
+        ],
+        "ratio": 11.58745565225476
+      },
+      "switch-round-true": {
+        "foreground": "rgb(0, 0, 0)",
+        "background": [
+          197,
+          184,
+          255
+        ],
+        "ratio": 11.674259235799132
+      },
+      "switch-round-false": {
+        "foreground": "rgb(235, 238, 255)",
+        "background": [
+          37,
+          47,
+          69
+        ],
+        "ratio": 11.58745565225476
+      },
+      "switch-tonal-true": {
+        "foreground": "rgb(0, 0, 0)",
+        "background": [
+          197,
+          184,
+          255
+        ],
+        "ratio": 11.674259235799132
+      },
+      "switch-tonal-false": {
+        "foreground": "rgb(235, 238, 255)",
+        "background": [
+          37,
+          47,
+          69
+        ],
+        "ratio": 11.58745565225476
+      },
+      "calendar-inline": {
+        "foreground": "rgb(235, 238, 255)",
+        "background": [
+          34,
+          44,
+          67
+        ],
+        "ratio": 12.062401075466063
+      },
+      "calendar-popup": {
+        "foreground": "rgb(235, 238, 255)",
+        "background": [
+          34,
+          44,
+          67
+        ],
+        "ratio": 12.062401075466063
+      }
+    },
+    "variants": [
+      "outline",
+      "filled",
+      "standard"
+    ],
+    "uploadRadius": "24px"
+  }
+]

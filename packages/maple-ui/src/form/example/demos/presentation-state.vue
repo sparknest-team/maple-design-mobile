@@ -3,7 +3,7 @@ import { computed, onBeforeUnmount, ref, shallowRef } from 'vue'
 import ModelOutput from '../components/ModelOutput.vue'
 
 const form = ref()
-const presentation = ref('popup')
+const editMode = ref('popup')
 const disabled = ref(false)
 const readonly = ref(false)
 const model = ref({ title: '原名称', note: '原备注', department: 'dev' })
@@ -74,19 +74,14 @@ function save(value, { signal }) {
 onBeforeUnmount(() => pending.value?.finish(false, true))
 </script>
 <template>
-  <mp-space direction="column" :size="16">
-    <mp-select v-model="scenario" :options="scenarios" aria-label="异步保存场景" :clearable="false" />
+  <mp-space direction="column" align="stretch" :size="16">
+    <mp-form-item layout="vertical" size="sm" label="异步保存场景">
+      <mp-radio-group v-model="scenario" aria-label="异步保存场景" :options="scenarios" variant="button" size="sm" />
+    </mp-form-item>
     <mp-checkbox v-model="disabled">禁用状态示例</mp-checkbox>
     <mp-checkbox v-model="readonly">只读状态示例</mp-checkbox>
     <p>编辑名称、备注或部门并保存，模拟等待 1.2 秒。选择保存结果，或在等待时禁用、只读、重置，观察草稿是否提交。</p>
-    <mp-form
-      ref="form"
-      :model="model"
-      :presentation="presentation"
-      :disabled="disabled"
-      :readonly="readonly"
-      :rules="rules"
-    >
+    <mp-form ref="form" :model="model" :edit-mode="editMode" :disabled="disabled" :readonly="readonly" :rules="rules">
       <mp-form-item field="title" label="事务名称"
         ><mp-input v-model="model.title" :before-commit="save"
       /></mp-form-item>

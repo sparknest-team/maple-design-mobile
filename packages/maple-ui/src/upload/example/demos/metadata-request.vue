@@ -81,7 +81,9 @@ onDeactivated(cleanup)
 <template>
   <section class="metadata-upload-demo">
     <p>默认 XHR 请求；先配置你控制的本地接口。headers 与 data 分别等待手动返回，默认不访问任何地址。</p>
-    <label>Local upload endpoint <mp-input v-model="endpoint" placeholder="http://127.0.0.1:4197/upload" /></label>
+    <label
+      >Local upload endpoint <mp-input v-model="endpoint" edit-mode="direct" placeholder="http://127.0.0.1:4197/upload"
+    /></label>
     <mp-space wrap>
       <mp-button :disabled="files.length > 0" @click="add">加入合成文件</mp-button>
       <mp-button
@@ -98,7 +100,13 @@ onDeactivated(cleanup)
       <mp-button :disabled="!data.length" @click="rejectData">拒绝 data</mp-button>
       <mp-button @click="reset">重置元数据示例</mp-button>
     </mp-space>
-    <mp-upload v-model="files" :show-upload-button="false" :show-retry-button="false" :preview="false" />
+    <mp-upload
+      v-model="files"
+      edit-mode="direct"
+      :show-upload-button="false"
+      :show-retry-button="false"
+      :preview="false"
+    />
     <p role="status">
       headers 等待：{{ headers.length }}；data 等待：{{ data.length }}；成功：{{ successes }}；错误：{{ errors }}
     </p>

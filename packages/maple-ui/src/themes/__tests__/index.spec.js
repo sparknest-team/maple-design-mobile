@@ -16,7 +16,7 @@ test('selection dark themes use current component tokens and semantic roles', ()
       expect(theme).not.toHaveProperty(`--mp-field-variant-filled-background${suffix}`)
     }
     expect(theme).not.toHaveProperty('--mp-field-suffix-text-color')
-    expect(theme).not.toHaveProperty('--mp-field-error-color')
+    expect(theme['--mp-field-error-color']).toBe('rgb(var(--mp-danger-8))')
   }
 })
 
@@ -328,5 +328,125 @@ test('dark breadcrumb themes keep the documented semantic text and brand roles',
   for (const theme of [Themes.default.dark, Themes.maple.dark]) {
     expect(theme['--mp-breadcrumb-item-active-color']).toBe('rgb(var(--mp-primary-8))')
     expect(theme['--mp-breadcrumb-item-inactive-color']).toBe('var(--mp-color-text-2)')
+  }
+})
+
+test('Firefly keeps popover geometry across light and dark themes without rounding the arrow into a dot', () => {
+  for (const theme of [Themes.firefly.light, Themes.firefly.dark]) {
+    expect(theme['--mp-popover-border-radius']).toBe('var(--mp-sys-radius-md)')
+    expect(theme['--mp-trigger-arrow-radius']).toBe('min(2px, var(--mp-sys-radius-sm))')
+  }
+  expect(Themes.default.dark['--mp-popover-border-radius']).toBe('2px')
+  expect(Themes.maple.dark['--mp-popover-border-radius']).toBe('2px')
+})
+
+test('brand forms separate action backgrounds from readable content colors', () => {
+  for (const brand of [Themes.alps, Themes.firefly]) {
+    for (const theme of [brand.light, brand.dark]) {
+      expect(theme['--mp-selection-editor-accent']).toBe('var(--mp-sys-color-content-primary)')
+      expect(theme['--mp-selection-editor-selected-background']).toBe('var(--mp-sys-color-state-selected)')
+      expect(theme['--mp-selected-options-clear-color']).toBe('var(--mp-sys-color-content-primary)')
+      expect(theme['--mp-select-popup-option-check-color']).toBe('var(--mp-sys-color-content-primary)')
+    }
+  }
+})
+
+test('brand field variants keep distinct surfaces and readable focus/error roles', () => {
+  for (const brand of [Themes.alps, Themes.firefly]) {
+    for (const theme of [brand.light, brand.dark]) {
+      expect(theme['--mp-field-variant-filled-background']).not.toBe('transparent')
+      expect(theme['--mp-field-variant-filled-background-hover']).not.toBe(
+        theme['--mp-field-variant-filled-background-focus'],
+      )
+      expect(theme['--mp-field-variant-filled-background-focus']).not.toBe(
+        theme['--mp-field-variant-filled-background'],
+      )
+      expect(theme['--mp-field-variant-standard-line-color']).not.toBe('transparent')
+      expect(theme['--mp-field-variant-filled-background-error']).toBe('var(--mp-color-danger-light-1)')
+      expect(theme['--mp-field-placeholder-text-color']).toBeDefined()
+    }
+  }
+  const tokens = readFileSync(resolve(__dirname, '../../_components/selected-options/style/token.less'), 'utf8')
+  expect(tokens).toContain('--mp-selection-editor-accent: var(--mp-sys-color-content-primary)')
+  expect(tokens).toContain('--mp-selected-options-clear-color: var(--mp-sys-color-content-primary)')
+})
+
+test('Firefly light foreground roles stay readable on their actual soft surfaces', () => {
+  const theme = Themes.firefly.light
+  const rgb = (value) => {
+    const values = value.match(/[\d.]+/g).map(Number)
+    const alpha = values[3] ?? 1
+    return values.slice(0, 3).map((channel) => channel * alpha + 255 * (1 - alpha))
+  }
+  const luminance = (value) =>
+    rgb(value)
+      .map((channel) => {
+        const normalized = channel / 255
+        return normalized <= 0.04045 ? normalized / 12.92 : ((normalized + 0.055) / 1.055) ** 2.4
+      })
+      .reduce((sum, channel, index) => sum + channel * [0.2126, 0.7152, 0.0722][index], 0)
+  const contrast = (foreground, background) => {
+    const values = [luminance(foreground), luminance(background)].sort((a, b) => b - a)
+    return (values[0] + 0.05) / (values[1] + 0.05)
+  }
+  for (const role of ['brand', 'info', 'success', 'warning', 'danger']) {
+    const foreground = theme[`--mp-sys-color-content-${role}`]
+    const backgrounds = ['rgb(255, 255, 255)', theme['--mp-color-fill-1']]
+    if (role !== 'brand') {
+      backgrounds.push(theme[`--mp-color-${role}-light-1`])
+    }
+    for (const background of backgrounds) {
+      expect(contrast(foreground, background), `${role} on ${background}`).toBeGreaterThanOrEqual(4.5)
+    }
+  }
+  expect(theme['--mp-sys-color-action-primary']).toBe('rgb(234, 255, 104)')
+})
+
+test('Firefly selection and focus use auxiliary violet instead of yellow actions', () => {
+  const light = Themes.firefly.light
+  const dark = Themes.firefly.dark
+  expect(light['--mp-radio-control-color-checked']).toBe('rgb(207, 199, 255)')
+  expect(light['--mp-checkbox-control-color-checked']).toBe('rgb(207, 199, 255)')
+  expect(light['--mp-slider-active-color']).toBe('rgb(207, 199, 255)')
+  expect(light['--mp-field-focus-color']).toBe('var(--mp-sys-color-content-brand)')
+  expect(light['--mp-date-picker-range-background']).toBe('rgba(207, 199, 255, 0.24)')
+  expect(light['--mp-checkbox-mark-color']).toBe('rgb(23, 34, 75)')
+  for (const suffix of [
+    'radio-control-color-checked',
+    'checkbox-control-color-checked',
+    'slider-active-color',
+    'date-calendar-selected-background',
+  ]) {
+    expect(dark[`--mp-${suffix}`]).toBe('#CFC7FF')
+  }
+  expect(dark['--mp-switch-track-active-background']).toBe('#B6A8FB')
+  expect(dark['--mp-date-picker-range-background']).toBe('#322D49')
+})
+
+// Compare resolved roles, including inherited dark overrides and Cedar token conversion.
+test('Firefly links match the corresponding Button text foreground in both modes and prefixes', () => {
+  for (const mode of ['light', 'dark']) {
+    for (const prefix of ['mp', 'c']) {
+      const theme = Object.fromEntries(
+        Object.entries(Themes.firefly[mode]).map(([key, value]) => [
+          key.replaceAll('--mp-', `--${prefix}-`),
+          value.replaceAll('--mp-', `--${prefix}-`),
+        ]),
+      )
+      const resolve = (key, depth = 0) => {
+        if (depth > 10) {
+          throw new Error('Cyclic theme role')
+        }
+        const value = theme[key]
+        const match = value?.match(/^var\((--[^)]+)\)$/)
+        return match ? resolve(match[1], depth + 1) : value
+      }
+      for (const status of ['primary', 'secondary', 'tertiary']) {
+        const link = resolve(`--${prefix}-link-text-color-${status}`)
+        expect(link).toBeTruthy()
+        expect(link).toBe(resolve(`--${prefix}-button-${status}-foreground-color`))
+      }
+      expect(resolve(`--${prefix}-link-text-color-primary`)).not.toBe(resolve(`--${prefix}-link-text-color-tertiary`))
+    }
   }
 })

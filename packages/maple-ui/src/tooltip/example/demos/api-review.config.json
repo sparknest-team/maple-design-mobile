@@ -409,7 +409,7 @@
         "events.vue",
         "offset.vue",
         "placement.vue",
-        "theme-color-tooltip.vue",
+        "appearance-lab.vue",
         "trigger.vue"
       ]
     },
@@ -471,8 +471,7 @@
         "events.vue",
         "offset.vue",
         "placement.vue",
-        "size.vue",
-        "theme-color-tooltip.vue",
+        "appearance-lab.vue",
         "trigger.vue"
       ]
     }

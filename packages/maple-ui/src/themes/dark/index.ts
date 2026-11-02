@@ -15,7 +15,6 @@ import checkbox from './checkbox'
 import code from './code'
 import collapse from './collapse'
 import countdown from './countdown'
-import counter from './counter'
 import datePicker from './datePicker'
 import dialog from './dialog'
 import divider from './divider'
@@ -69,6 +68,9 @@ import watermark from './watermark'
 
 export default {
   '--mp-color-scheme': 'dark',
+  '--mp-field-focus-color': 'rgb(var(--mp-primary-9))',
+  '--mp-field-error-color': 'rgb(var(--mp-danger-8))',
+  '--mp-field-variant-outline-border-color-focus': 'rgb(var(--mp-primary-9))',
   '--mp-brand-1': '0, 66, 77',
   '--mp-brand-2': '4, 94, 105',
   '--mp-brand-3': '11, 125, 133',
@@ -154,7 +156,6 @@ export default {
   ...backTop,
   ...tabBar,
   ...countdown,
-  ...counter,
   ...fab,
   ...floatingPanel,
   ...formDetails,

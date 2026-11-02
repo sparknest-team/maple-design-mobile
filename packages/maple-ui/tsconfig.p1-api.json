@@ -1,0 +1,36 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "declaration": false,
+    "emitDeclarationOnly": false,
+    "rootDir": ".",
+    "paths": {
+      "@maple-design/ui": [
+        "./src/index.ts"
+      ],
+      "@sparknest/ui-doc-preview": [
+        "../../../design-ui/packages/ui-doc-preview/src/index.ts"
+      ],
+      "vue": [
+        "./node_modules/vue"
+      ],
+      "@maple-design/ui/*": [
+        "./src/*/index.ts"
+      ]
+    }
+  },
+  "include": [
+    "type-tests/p1-api.ts",
+    "src/**/*.d.ts",
+    "type-tests/p2-api.ts",
+    "type-tests/f07-api.ts",
+    "type-tests/api-naming.ts",
+    "type-tests/button-group.ts",
+    "type-tests/icon.ts",
+    "type-tests/link.ts",
+    "type-tests/space.ts",
+    "type-tests/divider.ts",
+    "type-tests/lazy.ts"
+  ]
+}

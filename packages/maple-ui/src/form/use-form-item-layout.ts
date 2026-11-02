@@ -1,8 +1,9 @@
 import { computed } from 'vue'
 import type { CSSProperties } from 'vue'
-import type { FormColProps, FormLabelAlign, FormLabelFlex, FormLayout } from './layout-props'
+import type { FormColProps, FormContentAlign, FormLabelAlign, FormLabelFlex, FormLayout } from './layout-props'
 
 export interface FormLayoutOptions {
+  contentAlign?: FormContentAlign
   layout?: FormLayout
   labelAlign?: FormLabelAlign
   labelColProps?: FormColProps
@@ -23,7 +24,12 @@ export function useFormItemLayout(
   defaultLayout: FormLayout = 'horizontal',
 ) {
   const layout = computed(() => item().layout ?? form().layout ?? defaultLayout)
-  const labelAlign = computed(() => item().labelAlign ?? form().labelAlign ?? 'right')
+  const contentAlign = computed(() => item().contentAlign ?? form().contentAlign ?? 'start')
+  const contentJustify = computed(
+    () =>
+      ({ start: 'flex-start', end: 'flex-end', left: 'left', center: 'center', right: 'right' })[contentAlign.value],
+  )
+  const labelAlign = computed(() => item().labelAlign ?? form().labelAlign ?? 'end')
   const labelColFlex = computed(() => item().labelColFlex ?? form().labelColFlex)
   const autoLabelWidth = computed(() => layout.value === 'horizontal' && !!form().autoLabelWidth)
   const measureLabel = computed(
@@ -56,6 +62,8 @@ export function useFormItemLayout(
   })
   return {
     layout,
+    contentAlign,
+    contentJustify,
     labelAlign,
     labelColFlex,
     autoLabelWidth,
@@ -64,7 +72,19 @@ export function useFormItemLayout(
     labelCol,
     wrapperCol,
     wrap: computed(() => !fixedLabel.value),
-    labelStyle: computed(() => item().labelColStyle ?? form().labelColStyle),
+    labelStyle: computed(
+      () =>
+        ({
+          ...(layout.value === 'horizontal'
+            ? {
+                justifyContent: { start: 'flex-start', end: 'flex-end', left: 'left', right: 'right' }[
+                  labelAlign.value
+                ],
+              }
+            : {}),
+          ...(item().labelColStyle ?? form().labelColStyle),
+        }) as CSSProperties,
+    ),
     wrapperStyle: computed(() => item().wrapperColStyle ?? form().wrapperColStyle),
   }
 }

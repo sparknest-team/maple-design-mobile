@@ -9,7 +9,7 @@ describe('Unicode length boundaries in text controls', () => {
     ['Textarea', Textarea, 'textarea'],
   ] as const) {
     it(`${name} keeps complete surrogate pairs and emits the safe value`, async () => {
-      const wrapper = mount(component, { props: { maxLength: 10 } })
+      const wrapper = mount(component, { props: { editMode: 'direct', maxLength: 10 } })
       try {
         await wrapper.get(selector).setValue('123456789😀Z')
         expect((wrapper.get(selector).element as HTMLInputElement).value).toBe('123456789')

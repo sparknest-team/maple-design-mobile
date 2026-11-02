@@ -144,49 +144,55 @@ describe('mobile range quick actions', () => {
       .trigger('click')
     expect(wrapper.emitted('change')).toHaveLength(1)
   })
-  it('inline quick selection still requires confirmation with disableConfirm enabled', async () => {
+  it('inline disableConfirm commits only the opened endpoint without range presets', async () => {
     const Surface = defineComponent({ template: '<div><slot /><slot name="content" /></div>' })
     const wrapper = mount(DateRange, {
-      props: { presentation: 'inline', open: true, modelValue: initial, showTime: true, disableConfirm: true },
+      props: { editMode: 'direct', open: true, modelValue: initial, showTime: true, disableConfirm: true },
       global: { stubs: { Trigger: Surface, MpTrigger: Surface, teleport: true } },
     })
     wrappers.push(wrapper)
     const initialOpenRequests = wrapper.emitted('update:open')?.length ?? 0
-    await wrapper.get('[aria-label="快捷选择"]').trigger('click')
-    await wrapper.get('.mp-date-range-quick-panel__item').trigger('click')
-    expect(wrapper.emitted('update:modelValue')).toBeUndefined()
-    expect(wrapper.emitted('update:open')?.length ?? 0).toBe(initialOpenRequests)
+    expect(wrapper.find('[aria-label="快捷选择"]').exists()).toBe(false)
     await wrapper
-      .findAll('button')
-      .find((button) => button.text() === '确认')!
+      .findAll('.mp-day-picker__body button')
+      .find((button) => button.text() === '24')!
       .trigger('click')
     await flushPromises()
-    expect(wrapper.emitted('update:modelValue')).toHaveLength(1)
+    expect(wrapper.emitted('update:modelValue')?.at(-1)?.[0]).toEqual(['2026-10-24 09:30:00', initial[1]])
     expect(wrapper.emitted('update:open')).toHaveLength(initialOpenRequests + 1)
     expect(wrapper.emitted('update:open')?.at(-1)).toEqual([false])
   })
-  it('popup presets use beforeCommit and close only after successful confirmation', async () => {
+  it('popup endpoint changes use beforeCommit and close only after successful confirmation', async () => {
     // Stub only the floating transport; use the actual editor and session owners.
     const Surface = defineComponent({ template: '<div><slot /><slot name="content" /></div>' })
     const beforeCommit = vi.fn().mockResolvedValue(false)
     const wrapper = mount(DateRange, {
-      props: { presentation: 'popup', modelValue: initial, showTime: true, beforeCommit },
+      props: { editMode: 'popup', modelValue: initial, showTime: true, beforeCommit },
       global: { stubs: { Dialog: Surface, Popup: Surface, MpPopup: Surface, teleport: true } },
     })
     wrappers.push(wrapper)
     await wrapper.get('[aria-haspopup=dialog]').trigger('click')
     await nextTick()
-    await wrapper.get('[aria-label="快捷选择"]').trigger('click')
-    await wrapper.get('.mp-date-range-quick-panel__item').trigger('click')
+    expect(wrapper.find('[aria-label="快捷选择"]').exists()).toBe(false)
+    await wrapper
+      .findAll('.mp-day-picker__body button')
+      .find((button) => button.text() === '24')!
+      .trigger('click')
     await flushPromises()
     expect(beforeCommit).not.toHaveBeenCalled()
-    await wrapper.get('.mp-field-presentation__footer > .mp-button').trigger('click')
+    await wrapper
+      .findAll('.mp-field-presentation__footer > .mp-button')
+      .find((button) => button.text() === '确认')!
+      .trigger('click')
     await flushPromises()
     expect(beforeCommit).toHaveBeenCalledTimes(1)
     expect(wrapper.emitted('update:modelValue')).toBeUndefined()
     expect(wrapper.emitted('update:open')).toEqual([[true]])
     beforeCommit.mockResolvedValue(true)
-    await wrapper.get('.mp-field-presentation__footer > .mp-button').trigger('click')
+    await wrapper
+      .findAll('.mp-field-presentation__footer > .mp-button')
+      .find((button) => button.text() === '确认')!
+      .trigger('click')
     await flushPromises()
     expect(wrapper.emitted('update:modelValue')).toHaveLength(1)
     expect(wrapper.emitted('update:open')?.at(-1)).toEqual([false])

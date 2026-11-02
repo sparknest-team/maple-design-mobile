@@ -4,6 +4,7 @@ import { useImageInteraction } from './useInteraction'
 
 export interface PreviewControllerOptions {
   open: Ref<boolean | undefined>
+  isRtl?: Ref<boolean>
   defaultOpen: boolean
   src: Ref<string | undefined>
   interaction: Ref<ImageInteraction | undefined>
@@ -255,7 +256,11 @@ export function usePreviewController(options: PreviewControllerOptions) {
     pointerId = undefined
     if (scale.value <= 1 && Math.abs(dx) > 48) {
       cancelPendingTap()
-      dx > 0 ? options.onPrev?.() : options.onNext?.()
+      if (dx > 0 !== !!options.isRtl?.value) {
+        options.onPrev?.()
+      } else {
+        options.onNext?.()
+      }
       resetOffset()
       return
     }
@@ -356,9 +361,9 @@ export function usePreviewController(options: PreviewControllerOptions) {
     if (!available() || !mergedOpen.value || !mergedKeyboard.value) {
       return
     }
-    if (event.key === 'ArrowLeft') {
+    if (event.key === (options.isRtl?.value ? 'ArrowRight' : 'ArrowLeft')) {
       options.onPrev?.()
-    } else if (event.key === 'ArrowRight') {
+    } else if (event.key === (options.isRtl?.value ? 'ArrowLeft' : 'ArrowRight')) {
       options.onNext?.()
     } else if (event.key === 'ArrowUp') {
       event.preventDefault()
@@ -372,6 +377,18 @@ export function usePreviewController(options: PreviewControllerOptions) {
     }
   }
 
+  if (options.isRtl) {
+    watch(
+      options.isRtl,
+      () => {
+        cancelGesture()
+        if (scale.value <= 1) {
+          resetOffset()
+        }
+      },
+      { flush: 'sync' },
+    )
+  }
   watch(
     options.src,
     () => {

@@ -1,12 +1,13 @@
-import { createApp } from 'vue'
+import { createApp, defineAsyncComponent } from 'vue'
 import config from '@config'
 import { getSavedLanguage, normalizeLanguage, saveLanguage } from '@maple-design/cli/client'
 import { Locale } from '@maple-design/ui'
 import routes from '@mobile-routes'
 import { createRouter, createWebHashHistory } from 'vue-router'
+import { installRouteRecovery } from '../route-recovery'
 import { inIframe, isPhone } from '../utils'
 import App from './App.vue'
-import { shouldSyncMobileRoute } from './route-sync'
+import { getDesktopPath, shouldSyncMobileRoute } from './route-sync'
 import '@maple-design/touch-emulator'
 import '@maple-foundation'
 
@@ -32,9 +33,11 @@ const router = createRouter({
   routes,
 })
 
+installRouteRecovery(router)
+
 router.beforeEach((to: any) => {
   const { path, hash, query } = to
-  const language = normalizeLanguage(query.language, defaultLanguage)
+  const language = normalizeLanguage(query.language ?? /^\/(zh-CN|en-US)\//.exec(path)?.[1], defaultLanguage)
   if (query.language !== language) {
     return { path, hash, query: { ...query, language }, replace: true }
   }
@@ -42,7 +45,7 @@ router.beforeEach((to: any) => {
   saveLanguage(language)
 
   if (!isPhone() && !inIframe()) {
-    window.location.href = `./#/${language}${path}`
+    window.location.href = `./#${getDesktopPath(path, language)}`
   }
 
   // @ts-expect-error Analytics is injected at runtime.
@@ -64,10 +67,16 @@ router.afterEach((to, from, failure) => {
   try {
     const language = normalizeLanguage(to.query.language, defaultLanguage)
     // @ts-expect-error The PC site registers this iframe callback at runtime.
-    window.parent.onMobileRouteChange(to.path, language, to.query.replace, to.hash)
+    window.parent.onMobileRouteChange(to.path, language, to.query.replace, to.hash, to.query)
   } catch (error) {
     console.error(error)
   }
 })
 
-createApp(App).use(router).mount('#app')
+createApp(App)
+  .use(router)
+  .component(
+    'MpSiteDemoPreview',
+    defineAsyncComponent(() => import('../pc/components/demo-preview/DemoPreview.vue')),
+  )
+  .mount('#app')

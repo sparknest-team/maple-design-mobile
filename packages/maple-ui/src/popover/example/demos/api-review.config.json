@@ -366,11 +366,9 @@
       "kind": "prop",
       "demos": [
         "basic-usage.vue",
-        "auto-fit-popup-width.vue",
+        "positioning-comparison.vue",
         "disabled.vue",
         "events.vue",
-        "offset.vue",
-        "placement.vue",
         "trigger.vue",
         "two-way-binding.vue"
       ]
@@ -379,7 +377,7 @@
       "name": "popup-translate",
       "kind": "prop",
       "demos": [
-        "offset.vue"
+        "positioning-comparison.vue"
       ]
     },
     {
@@ -435,12 +433,10 @@
       "kind": "slot",
       "demos": [
         "basic-usage.vue",
-        "auto-fit-popup-width.vue",
+        "positioning-comparison.vue",
         "disabled.vue",
         "events.vue",
         "interactive.vue",
-        "offset.vue",
-        "placement.vue",
         "trigger.vue",
         "two-way-binding.vue"
       ]

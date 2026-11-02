@@ -1,6 +1,7 @@
 import type { PropType, VNodeChild } from 'vue'
 import { fieldDecoratorProps } from '../../field-decorator/props'
 import type { TagProps } from '../../tag/props'
+import { openTriggerTargetProp } from '../picker-field/open-trigger'
 
 /** key identifies the selected value, never its display label. */
 export interface SelectionFieldItem {
@@ -12,6 +13,7 @@ export interface SelectionFieldItem {
 }
 
 export const selectionFieldProps = {
+  openTriggerTarget: openTriggerTargetProp,
   ...fieldDecoratorProps,
   items: { type: Array as PropType<SelectionFieldItem[]>, default: () => [] },
   multiple: Boolean,
@@ -23,5 +25,6 @@ export const selectionFieldProps = {
   loading: Boolean,
   maxTagCount: { type: Number, default: 0 },
   tagNowrap: Boolean,
-  textAlign: { type: String as PropType<'left' | 'right' | 'center'>, default: 'left' },
+  /** 文字对齐；未设置时继承 FormItem.contentAlign，独立使用默认 left。 */
+  textAlign: { type: String as PropType<'left' | 'right' | 'center'> },
 }

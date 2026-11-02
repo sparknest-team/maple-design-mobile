@@ -1,0 +1,37 @@
+PASS {"surface":"desktop","theme":"light","component":"Input","mode":"default"}
+PASS {"surface":"desktop","theme":"light","component":"Input","mode":"inline"}
+PASS {"surface":"desktop","theme":"light","component":"InputPassword","mode":"default"}
+PASS {"surface":"desktop","theme":"light","component":"InputPassword","mode":"inline"}
+PASS {"surface":"desktop","theme":"light","component":"Textarea","mode":"default"}
+PASS {"surface":"desktop","theme":"light","component":"Textarea","mode":"inline"}
+PASS {"surface":"desktop","theme":"light","component":"InputNumber","mode":"default"}
+PASS {"surface":"desktop","theme":"light","component":"InputNumber","mode":"inline"}
+PASS {"surface":"desktop","theme":"light","component":"VerificationCode","mode":"default"}
+PASS {"surface":"desktop","theme":"light","component":"VerificationCode","mode":"inline"}
+PASS {"surface":"desktop","theme":"light","component":"Switch","mode":"default"}
+PASS {"surface":"desktop","theme":"light","component":"Switch","mode":"inline"}
+PASS {"surface":"desktop","theme":"light","component":"Checkbox","mode":"default"}
+PASS {"surface":"desktop","theme":"light","component":"Checkbox","mode":"inline"}
+PASS {"surface":"desktop","theme":"light","component":"CheckboxGroup","mode":"default"}
+PASS {"surface":"desktop","theme":"light","component":"CheckboxGroup","mode":"inline"}
+PASS {"surface":"desktop","theme":"light","component":"Radio","mode":"default"}
+PASS {"surface":"desktop","theme":"light","component":"Radio","mode":"inline"}
+PASS {"surface":"desktop","theme":"light","component":"RadioGroup","mode":"default"}
+PASS {"surface":"desktop","theme":"light","component":"RadioGroup","mode":"inline"}
+PASS {"surface":"desktop","theme":"light","component":"Slider","mode":"default"}
+PASS {"surface":"desktop","theme":"light","component":"Slider","mode":"inline"}
+PASS {"surface":"desktop","theme":"light","component":"Rate","mode":"default"}
+PASS {"surface":"desktop","theme":"light","component":"Rate","mode":"inline"}
+PASS {"surface":"desktop","theme":"light","component":"Select","mode":"default"}
+PASS {"surface":"desktop","theme":"light","component":"Select","mode":"inline"}
+PASS {"surface":"desktop","theme":"light","component":"AutoComplete","mode":"default"}
+PASS {"surface":"desktop","theme":"light","component":"AutoComplete","mode":"inline"}
+PASS {"surface":"desktop","theme":"light","component":"Cascader","mode":"default"}
+PASS {"surface":"desktop","theme":"light","component":"Cascader","mode":"inline"}
+FAIL {"surface":"desktop","theme":"light","component":"Date","mode":"default"} Error: locator.waitFor: Target page, context or browser has been closed
+Call log:
+[2m  - waiting for locator('.mp-field-presentation__panel').filter({ visible: true }).last() to be hidden[22m
+[2m    4 × locator resolved to visible <section class="mp-field-presentation__panel">…</section>[22m
+
+FAIL {"surface":"desktop","theme":"light","component":"Date","mode":"inline"} Error: locator.selectOption: Target page, context or browser has been closed
+FAIL {"surface":"desktop","theme":"light","component":"DateRange","mode":"default"} Error: locator.selectOption: Target page, context or browser has been closed

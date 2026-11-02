@@ -2,7 +2,7 @@
 
 两端主体、API 与样式独立同源。
 
-## 案例
+## 基础示例
 
 ### 基础用法
 
@@ -10,19 +10,44 @@
 ../example/demos/basic-usage.vue
 ```
 
-### 八种状态
+## 外观与状态
+
+### 进度尺寸与状态
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `size` | 五档预设或自定义长度；线形厚度、环形直径 | 进度尺寸与状态 |
+| `percent` | 0–100 百分比，保留小数；支持十进制数字字符串，非法值归零，越界裁剪 | 进度尺寸与状态 |
+| `mode` | 线形或环形 | 进度尺寸与状态 |
+| `stroke-width` | 覆盖轨道厚度，数字按 px，字符串支持 CSS 长度 | 进度尺寸与状态 |
+| `status` | default/primary/secondary/tertiary/info/success/warning/danger；default 确定进度达到 100 时推导 success | 进度尺寸与状态 |
+<!-- demo-config-notes:end -->
+
+在相同进度范围内比较尺寸和状态色；环形、分段和不确定进度保留独立模型。
 
 ```demo
-../example/demos/status.vue
+../example/demos/appearance-comparison.vue
 ```
 
-### 五档与自定义尺寸
-
-```demo
-../example/demos/size.vue
-```
+## 内容与展示
 
 ### 环形进度
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `percent` | 0–100 百分比，保留小数；支持十进制数字字符串，非法值归零，越界裁剪 | 环形进度、分段进度、不确定进度与动画 |
+| `mode` | 线形或环形 | 环形进度、不确定进度与动画、渐变、起点、隐藏轨道与文本 |
+| `size` | 五档预设或自定义长度；线形厚度、环形直径 | 环形进度、分段进度、更多样式与不确定进度 |
+| `color` | 进度颜色或渐变 stop 映射，优先于 status | 环形进度、渐变、起点、隐藏轨道与文本、更多样式与不确定进度 |
+| `status` | default/primary/secondary/tertiary/info/success/warning/danger；default 确定进度达到 100 时推导 success | 环形进度、分段进度、更多样式与不确定进度 |
+| `track` | 显示背景轨道；false 同时隐藏缓冲装饰层 | 环形进度、渐变、起点、隐藏轨道与文本 |
+<!-- demo-config-notes:end -->
 
 ```demo
 ../example/demos/circle.vue
@@ -56,14 +81,9 @@
 ../example/demos/indeterminate-progress.vue
 ```
 
-<!-- api-review:start -->
-### 功能调试
+## 阅读方向
 
-```demo
-../example/demos/api-review.vue
-```
-
-<!-- api-review:end -->
+线性进度从阅读起点增长，活动与不确定进度动画沿阅读方向运动。百分比、数值和圆环角度不反转，减少动态效果的设置仍生效。
 
 ## API
 

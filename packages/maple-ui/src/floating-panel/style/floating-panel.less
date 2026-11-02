@@ -50,6 +50,10 @@
 
   &--safe-area {
     padding-bottom: constant(safe-area-inset-bottom);
-    padding-bottom: env(safe-area-inset-bottom);
+    padding-bottom: var(--mp-safe-area-bottom, env(safe-area-inset-bottom, 0px));
   }
+}
+
+.mp-floating-panel--safe-area > * {
+  --mp-safe-area-bottom: 0px;
 }

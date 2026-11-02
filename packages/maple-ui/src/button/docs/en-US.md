@@ -4,7 +4,7 @@ Disabled colors depend on the variant: colored solid fills use a lighter status 
 
 Both libraries use the same implementation and examples; package prefixes, themes and registration stay local.
 
-## Examples
+## Basic examples
 
 ### Eight statuses
 
@@ -12,9 +12,25 @@ Both libraries use the same implementation and examples; package prefixes, theme
 ../example/demos/basic.vue
 ```
 
+## Appearance and states
+
 ### Variants, statuses and sizes
 
-Choose a variant and size to compare eight semantic colors. Filled buttons suit primary actions; text and outline suit secondary actions. This example has three appearance dimensions.
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `variant` | Appearance; inherits group, otherwise default | Variants, statuses and sizes, Custom colors |
+| `size` | Size; inherits group, otherwise md | Variants, statuses and sizes, Five sizes |
+| `status` | Semantic color; inherits group, otherwise default | Variants, statuses and sizes |
+| `disabled` | Disabled; inherits group, explicit false overrides | Disabled buttons and links |
+| `component` | Root tag; link attributes fall through | Disabled buttons and links |
+| `loading` | Loading; blocks activation and navigation | Disabled buttons and links |
+<!-- demo-config-notes:end -->
+
+
+Choose a variant and size to compare eight semantic colors. Filled buttons suit primary actions; text and outline suit secondary actions. The few variant, size and background options are shown directly with button-style RadioGroups. Form/FormItem provide standard field layout; Card carries the background comparison.
 
 ```demo
 ../example/demos/variants.vue
@@ -34,24 +50,34 @@ Horizontal buttons and inputs of the same size share the default height and font
 ../example/demos/disabled.vue
 ```
 
-### Loading animations, layouts and sizes
-
-Choose a loading layout and indicator size to compare five animations. Click a select arrow to open its menu, then choose an option to close it. Loading buttons keep their label and prevent repeated actions.
+### Custom colors
 
 ```demo
-../example/demos/loading.vue
+../example/demos/custom-color.vue
 ```
 
-### Loading indicator appearance
+## Icons and layout
+
+### Icons and label layouts
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `status` | Semantic color; inherits group, otherwise default | Icons and label layouts |
+| `variant` | Appearance; inherits group, otherwise default | Icons and label layouts |
+| `size` | Size; inherits group, otherwise md | Icons and label layouts |
+| `stacked` | Stack icon and text; inherits group when omitted | Icons and label layouts |
+| `round` | Round button | Icons and label layouts |
+| `block` | Full available width | Block buttons |
+<!-- demo-config-notes:end -->
+
+
+Use built-in icons to compare icon-only, inline and stacked labels across four variants and five sizes. Stacked buttons grow with content and keep at least 8px of top and bottom padding. Omit the default slot for icon-only buttons; round controls shape and stacked controls label layout.
 
 ```demo
-../example/demos/loading-appearance.vue
-```
-
-### Sync, async and rejection recovery
-
-```demo
-../example/demos/auto-loading.vue
+../example/demos/icons.vue
 ```
 
 ### Block buttons
@@ -60,13 +86,20 @@ Choose a loading layout and indicator size to compare five animations. Click a s
 ../example/demos/block.vue
 ```
 
-### Custom colors
-
-```demo
-../example/demos/custom-color.vue
-```
+## Button groups
 
 ### Group inheritance and overrides
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `status` | Semantic color; inherits group, otherwise default | Group inheritance and overrides |
+| `disabled` | Disabled; inherits group, explicit false overrides | Group inheritance and overrides |
+| `loading` | Loading; blocks activation and navigation | Group icons and loading |
+<!-- demo-config-notes:end -->
+
 
 Change the group size and disabled state. Children inherit group settings and can explicitly override color or disabled state.
 
@@ -90,10 +123,62 @@ Compare stacked labels and group direction, then load the first button while the
 ../example/demos/button-group-content.vue
 ```
 
+## Forms and events
+
+### Form control size comparison
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `size` | Size; inherits group, otherwise md | Form control size comparison |
+| `variant` | Appearance; inherits group, otherwise default | Form control size comparison |
+| `html-type` | Native button type | Native form, focus and touch events |
+| `focusable` | Allow sequential Tab focus; does not prevent programmatic focus | Native form, focus and touch events |
+<!-- demo-config-notes:end -->
+
+
+Compare Input, Button, Select, date/time fields and other single-line controls at the same size. Field variants share the height scale; Button uses outline here. DatePicker/TimePicker are panels; this example uses Date/Time fields. The example includes selected and clearable values, removable tags and long multiple selections. Select/Cascader keep the same size height with tag-nowrap. Long tag text uses ellipsis while removal icons remain available; tags scroll horizontally while clear and arrow controls stay outside the scrolling area. Hover, focus or tap truncated tag text to read its full content; dismiss with an outside click or Escape without changing the selected value. Restore values after clearing to repeat the comparison. Multiline text and wrapping multiple selections can grow with content.
+
+```demo
+../../field-decorator/example/demos/control-sizes.vue
+```
+
 ### Native form, focus and touch events
 
 ```demo
 ../example/demos/native-events.vue
+```
+
+## Loading and action feedback
+
+### Loading animations, layouts and sizes
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `loading` | Loading; blocks activation and navigation | Loading animations, layouts and sizes, Loading indicator appearance |
+| `loading-size` | Indicator size; xs/sm/md/lg/xl map to 12/14/16/18/20px; numbers are px; follows button size when omitted; not used in line mode | Loading animations, layouts and sizes, Loading indicator appearance |
+| `loading-type` | Spinner animation; same as Loading.type; not used in line mode | Loading animations, layouts and sizes |
+| `loading-mode` | Inline, covering, or bottom progress line; line only uses loading-color | Loading animations, layouts and sizes |
+| `loading-color` | Loading indicator color | Loading indicator appearance |
+| `ripple` | Click ripple | Ripple and elevation feedback |
+<!-- demo-config-notes:end -->
+
+
+Choose a loading layout and indicator size to compare five animations. Click a select arrow to open its menu, then choose an option to close it. Loading buttons keep their label and prevent repeated actions.
+
+```demo
+../example/demos/loading.vue
+```
+
+### Loading indicator appearance
+
+```demo
+../example/demos/loading-appearance.vue
 ```
 
 ### Ripple and elevation feedback
@@ -104,38 +189,24 @@ Click to observe ripple feedback and adjust elevation to compare depth. Disablin
 ../example/demos/feedback.vue
 ```
 
-### Icons and label layouts
-
-Use built-in icons to compare icon-only, inline and stacked labels across four variants and five sizes. Stacked buttons grow with content and keep at least 8px of top and bottom padding. Omit the default slot for icon-only buttons; round controls shape and stacked controls label layout.
+### Sync, async and rejection recovery
 
 ```demo
-../example/demos/icons.vue
+../example/demos/controlled-loading.vue
 ```
 
-### Form control size comparison
+## Reading direction
 
-Compare Input, Button, Select, date/time fields and other single-line controls at the same size. Field variants share the height scale; Button uses outline here. DatePicker/TimePicker are panels; this example uses Date/Time fields. The example includes selected and clearable values, removable tags and long multiple selections. Select/Cascader keep the same size height with tag-nowrap. Long tag text uses ellipsis while removal icons remain available; tags scroll horizontally while clear and arrow controls stay outside the scrolling area. Hover, focus or tap truncated tag text to read its full content; dismiss with an outside click or Escape without changing the selected value. Restore values after clearing to repeat the comparison. Multiline text and wrapping multiple selections can grow with content.
-
-```demo
-../../field-decorator/example/demos/control-sizes.vue
-```
-
-<!-- api-review:start -->
-### Feature playground
-
-```demo
-../example/demos/api-review.vue
-```
-
-<!-- api-review:end -->
+Inherits the nearest `dir="ltr|rtl"`, including runtime changes and local overrides. Icons and content follow reading order; stacked content stays top to bottom and slot graphics are not mirrored. ButtonGroup owns horizontal joining edges and outer corners even when a child has a different text direction. A single child keeps all corners; vertical groups preserve top-to-bottom order. Native Tab, Enter and Space remain available; ordinary groups do not intercept horizontal arrows. Disabled and loading behavior stays unchanged.
 
 ## API
 
 <!-- same-source-api:start -->
+
 ### Props
 
 | Prop | Description | Type | Default |
-| --- | --- | --- | --- |
+| ------------- | ------------------------------------------------------------------------------------------------ | ----------------------------------------- | -------------- |
 | status | Semantic color; inherits group, otherwise default | `SemanticStatus` | `undefined` |
 | variant | Appearance; inherits group, otherwise default | `default / text / outline / tonal` | `undefined` |
 | size | Size; inherits group, otherwise md | `xs / sm / md / lg / xl` | `undefined` |
@@ -148,7 +219,6 @@ Compare Input, Button, Select, date/time fields and other single-line controls a
 | loading-mode | Inline, covering, or bottom progress line; line only uses loading-color | `default / fill / line` | `default` |
 | loading-size | Indicator size; xs/sm/md/lg/xl map to 12/14/16/18/20px; numbers are px; follows button size when omitted; not used in line mode | `ComponentSize / number` | `undefined` |
 | loading-color | Loading indicator color | `string` | `currentColor` |
-| auto-loading | Wait for click/touchstart Promise results; sync callbacks do not flash loading | `boolean` | `false` |
 | disabled | Disabled; inherits group, explicit false overrides | `boolean` | `undefined` |
 | ripple | Click ripple | `boolean` | `true` |
 | focusable | Allow sequential Tab focus; does not prevent programmatic focus | `boolean` | `true` |
@@ -161,16 +231,16 @@ Compare Input, Button, Select, date/time fields and other single-line controls a
 ### Events
 
 | Event | Arguments and behavior |
-| --- | --- |
-| click | `(event: Event) => void / Promise<unknown>` |
-| touchstart | `(event: Event) => void / Promise<unknown>` |
+| ---------- | ------------------------------------------- |
+| click | `(event: MouseEvent) => void` |
+| touchstart | `(event: TouchEvent) => void` |
 
-Handlers may return promises and multiple listeners are supported. With auto-loading, all listeners must settle before unblocking, including after rejection. Unmounting or KeepAlive deactivation invalidates pending completion. Listener return values are read directly; events are not dispatched a second time. Native focus/blur attributes fall through. Disabled/busy clicks prevent navigation and propagation.
+click is a normal emitted event and supports async handlers. Business state controls loading; restore it in finally. Listener Promises do not automatically drive loading. Disabled/loading links have no effective href.
 
 ### Slots
 
 | Slot | Description | Arguments |
-| --- | --- | --- |
+| ------- | -------------------------------- | ---- |
 | default | Button label; retained while loading | — |
 | icon | Leading icon; above label when stacked | — |
 
@@ -181,21 +251,56 @@ No custom public methods.
 
 ## ButtonGroup
 
-Props: size=md, status=default, variant=default, color/text-color=undefined, disabled/stacked/vertical=false, elevation=true. Uses the default slot and exposes buttonGroupProvider (reactive group configuration). No custom events.
+### ButtonGroup Props
+
+| Prop | Description | Type | Default |
+| --- | --- | --- | --- |
+| status | Default semantic status; a child may override it | SemanticStatus | default |
+| size | Default button size; a child may override it | xs / sm / md / lg / xl | md |
+| variant | Default appearance; adjacent effective variants determine joining, including mixed variants | default / text / outline / tonal | default |
+| color | Default custom color; a child may override it | string | undefined |
+| text-color | Default text color; a child may override it | string | undefined |
+| disabled | Default disabled state; an explicit child false overrides group true | boolean | false |
+| stacked | Default vertical icon/text layout; a child may explicitly override with false | boolean | false |
+| vertical | Vertical group layout, independent of button content stacking | boolean | false |
+| elevation | Group shadow; true means 2, numbers normalize to 0–24; applies only to an enabled default-variant group | boolean / number | true |
+
+The root defaults to `role="group"`. Supply `aria-label` or `aria-labelledby` when the action group needs a name. Native attributes can override role. Ordinary groups retain native Tab / Enter / Space handling without arrow-key focus management.
+
+**Inheritance:** explicit child values win for status, size, variant, color, text-color, disabled and stacked. Elevation belongs to the group; a child's own elevation does not apply. Nested groups use their nearest group's settings and defaults rather than combining outer disabled states.
+
+### ButtonGroup Events
+
+No custom events. `@click` falls through to the root DOM element and can receive descendant bubbling; listen to each Button for its action. The group does not collect listener Promises or own a task or selection model.
+
+### ButtonGroup Slots
+
+| Slot | Description | Arguments |
+| --- | --- | --- |
+| default | Joined styling supports directly adjacent Button DOM nodes under the group root | — |
+
+**Composition:** extra DOM wrappers, prefix/suffix text and arbitrary controls are outside the joined-styling contract. Wrapped buttons may still inherit configuration without sharing the same joined edges. The group owns outer corners and does not preserve an individual round button's circular shape. Use Space for separated or arbitrary content. For narrow containers, the application chooses scrolling, shorter labels or vertical layout; groups do not wrap automatically.
+
+### ButtonGroup Expose
+
+| Name | Description |
+| --- | --- |
+| buttonGroupProvider | Reactive group configuration with readonly ComputedRef fields; elevation is boolean / number and other fields match the Props |
+
+There are no additional group action methods.
 
 ## Types
 
-ButtonProps、ButtonVariant、ButtonLoadingMode、ButtonHandler、ButtonInstance、ButtonGroupProps、ButtonGroupInstance。
+ButtonProps、ButtonVariant、ButtonLoadingMode、ButtonInstance、ButtonGroupProps、ButtonGroupInstance。
 
-## CSS variable roles and defaults
+## CSS variable responsibilities and complete defaults
 
 Button exposes 58 appearance tokens. `{status}-color` controls the solid background, `{status}-foreground-color` controls text/outline/tonal foreground, and `{status}-tonal-color` controls soft backgrounds. `solid-text-color` and `solid-state-layer-color` are shared by semantic statuses; default/tertiary foregrounds and primary/tertiary state layers retain theme-specific roles.
 
-Size names use xs/sm/md/lg/xl. Typography, transition duration, focus width/offset and stacked height increments inherit system tokens; group and stacked corners reuse border-radius. The four state opacity tokens keep hover/active distinct. Loading duration applies to the bottom progress line; spinner animation is owned by Loading. Internal variables and fixed animation geometry are implementation details.
-
+Sizes use xs/sm/md/lg/xl. Font sizes, transition duration, focus width/offset and stacked-height increments reuse system variables. Button groups and stacked buttons share border-radius. Four state opacity variables preserve hover/active differences. loading-duration controls only the bottom progress line; Loading controls other loading animations. Internal variables and fixed animation geometry are not public customization points.
 
 | Variable | Default |
-| --- | --- |
+| ---------------------------------------- | ------------------------------------------ |
 | `--mp-button-border-radius` | `var(--mp-sys-radius-md)` |
 | `--mp-button-content-gap` | `var(--mp-sys-space-3)` |
 | `--mp-button-danger-color` | `var(--mp-sys-color-status-danger)` |

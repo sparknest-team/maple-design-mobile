@@ -18,7 +18,7 @@ onThemeChange(() => {
 </script>
 
 <template>
-  <mp-signature ref="customStyleSignatureRef" style="color: var(--mp-color-primary)" :line-width="4" />
+  <mp-signature ref="customStyleSignatureRef" style="color: var(--mp-sys-color-content-primary)" :line-width="4" />
   <mp-space class="gap">
     <mp-button status="primary" @click="confirmCustomStyleSignature">确认</mp-button>
     <mp-button status="primary" @click="clearCustomStyleSignature">重置</mp-button>

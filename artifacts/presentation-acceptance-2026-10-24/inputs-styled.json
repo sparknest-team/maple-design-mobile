@@ -1,0 +1,13 @@
+{
+  "node": "v20.18.3",
+  "source": "66bae9c199b55ce54e1e27d2b2d1b64097b66083c1f270f115eb425731f0c715",
+  "production": "a6b5ce70819bfa2fa691ef7d5e70f8e2a2ecb1718b35ddfc472b9ecc8c9b5f07",
+  "index": "6c48a643ec09b1f69eb2a5ed5e7a8244dd8ca0cf4e9dfbfd5d0a8a0cc22699cf",
+  "harness": {
+    "runner": "169a5830498a880722977d18d50e35b05824d7f3937345fff3a74a48ad605f69",
+    "actions": "1fcbbdff6c5c9dfb86e67d51708ba6d70f63dc7868623e367105434e1779856a",
+    "inventory": "2a2a69fd0b2dc7cedccedd4b7296ae935a4ae23f41edad0cd8bc73d6ce0570ab",
+    "snapshot": "3c3aa8d7bf3a8adff1a34c8bc0160356736b4b650acc349f2f87ab56b5dcc665",
+    "contracts": "3e124150ef58b0566844721557898739c0cc103a8cd5ee507515a90b9ebee536"
+  }
+}

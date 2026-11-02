@@ -3,7 +3,8 @@ import { describe, expect, it } from 'vitest'
 import Cascader from '../../../cascader'
 import Select from '../../../select'
 import SelectMenu from '../../../select/SelectMenu'
-import type { FieldPresentation } from '../../field-presentation/context'
+import type { FieldEditMode } from '../../field-presentation/context'
+import { selectionEditorSurface } from '../context'
 import { mobile } from '../platform'
 import SelectedOptions from '../SelectedOptions.vue'
 
@@ -27,6 +28,7 @@ const dismissible = (wrapper: ReturnType<typeof mount>) =>
 describe('selected options presentation', () => {
   it('uses distinct keys for duplicate labels and keeps locked items', async () => {
     const wrapper = mount(SelectedOptions, {
+      global: { provide: { [selectionEditorSurface as symbol]: { mobile } } },
       props: {
         multiple: true,
         items: [
@@ -46,8 +48,9 @@ describe('selected options presentation', () => {
     expect(dismissible(wrapper)[0].attributes('disabled')).toBeDefined()
     wrapper.unmount()
   })
-  it('returns to options when an inline panel closes, without mutating the options slot', async () => {
+  it('returns to options when an editor panel closes, without mutating the options slot', async () => {
     const wrapper = mount(SelectedOptions, {
+      global: { provide: { [selectionEditorSurface as symbol]: { mobile } } },
       props: { multiple: true, open: true, items: [] },
       slots: { default: '<input value="search" />' },
       attachTo: document.body,
@@ -64,12 +67,12 @@ describe('selected options presentation', () => {
   })
 })
 
-for (const presentation of ['popup' as FieldPresentation] as const) {
-  describe(`multi selection ${presentation}`, () => {
+for (const editMode of ['popup' as FieldEditMode] as const) {
+  describe(`multi selection ${editMode}`, () => {
     it('Select removes and clears the draft, preserves disabled values and commits once', async () => {
       const wrapper = mount(Select, {
         props: {
-          presentation,
+          editMode,
           multiple: true,
           defaultOpen: true,
           modelValue: [1, 2],
@@ -104,7 +107,7 @@ for (const presentation of ['popup' as FieldPresentation] as const) {
       let finish: (value: false) => void = () => {}
       const wrapper = mount(Select, {
         props: {
-          presentation,
+          editMode,
           multiple: true,
           defaultOpen: true,
           modelValue: [1, 2],
@@ -144,7 +147,7 @@ for (const presentation of ['popup' as FieldPresentation] as const) {
     it('Cascader clears only the editor draft and cancellation restores the selection', async () => {
       const wrapper = mount(Cascader, {
         props: {
-          presentation,
+          editMode,
           multiple: true,
           modelValue: ['a', 'b'],
           clearable: false,

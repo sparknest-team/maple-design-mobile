@@ -10,10 +10,19 @@ watchLang((value) => {
 })
 
 const completed = ref(0)
+const publishing = ref(false)
 const publish = async () => {
-  await new Promise<void>((resolve) => setTimeout(resolve, 800))
-  completed.value += 1
-  Message.info(english.value ? 'Published' : '发布成功')
+  if (publishing.value) {
+    return
+  }
+  publishing.value = true
+  try {
+    await new Promise<void>((resolve) => setTimeout(resolve, 800))
+    completed.value += 1
+    Message.info('发布成功 / Published')
+  } finally {
+    publishing.value = false
+  }
 }
 const handleSelect = (_value: unknown, option: { label?: unknown }) => {
   Message.info(String(option.label))
@@ -22,7 +31,7 @@ const handleSelect = (_value: unknown, option: { label?: unknown }) => {
 
 <template>
   <mp-space direction="column" align="flex-start">
-    <mp-split-button auto-loading @click="publish" @select="handleSelect">
+    <mp-split-button :button-props="{ loading: publishing }" @click="publish" @select="handleSelect">
       {{ english ? 'Publish' : '发布' }}
 
       <template #content>

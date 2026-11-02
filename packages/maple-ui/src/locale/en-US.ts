@@ -12,6 +12,8 @@ export default {
   'fieldPresentation.selected': 'Selected',
   'fieldPresentation.limit': 'Select at most',
 
+  datePickerPreviousWeek: 'Previous week',
+  datePickerNextWeek: 'Next week',
   datePickerPreviousMonth: 'Previous month',
   datePickerNextMonth: 'Next month',
   datePickerPreviousYear: 'Previous year',
@@ -23,6 +25,8 @@ export default {
   'carousel.next': 'Next slide',
   'carousel.slide': '{index} of {total}',
   'carousel.goto': 'Go to slide {index}',
+  'upload.replace': 'Replace',
+  'upload.duration': 'Video duration',
   'upload.buttonText': 'Upload',
   'upload.drag': 'Drop files here',
   'upload.preview': 'Preview',
@@ -162,6 +166,8 @@ export default {
   // time-picker
   timePickerHint: 'SELECT TIME',
   // time-range
+  rangeStartPlaceholder: 'Select start',
+  rangeEndPlaceholder: 'Select end',
   timeRangeStart: 'Start',
   dateRangeStart: 'Start date',
   dateRangeEnd: 'End date',

@@ -22,7 +22,10 @@ const sources = computed<DocPreviewSource[]>(() => [
     highlightCode: decodeURIComponent(props.highlightCode),
   },
 ])
-const playground = config?.pc?.header?.playground
+const playground =
+  typeof window !== 'undefined' && window.location.pathname.endsWith('mobile.html')
+    ? undefined
+    : config?.pc?.header?.playground
 const labels = isEnglish
   ? {
       playground: 'Edit in Playground',
@@ -44,7 +47,9 @@ const labels = isEnglish
     }
 
 function openPlayground(source: string) {
-  if (!playground) return
+  if (!playground) {
+    return
+  }
   context.showPlayground = true
   context.playgroundURL = `${playground}/?initialTheme=${getBrowserTheme('demo')}#${utoa(
     JSON.stringify({ 'App.vue': source }),
@@ -77,7 +82,7 @@ function showCopiedMessage() {
   --loca-doc-preview-source-bg: var(--site-config-color-hl-background);
   --loca-doc-preview-text: var(--site-config-color-text);
   --loca-doc-preview-border: var(--site-config-color-hl-border);
-  --loca-doc-preview-brand: var(--site-config-color-primary);
+  --loca-doc-preview-brand: var(--site-config-color-text);
 }
 
 .maple-component-preview--page .loca-doc-preview__example {

@@ -11,7 +11,7 @@ const max = ref(100)
 const tooltip = ref(true)
 </script>
 <template>
-  <div data-demo-capacity style="display: grid; gap: 24px">
+  <mp-space direction="column" size="24px" data-demo-capacity>
     <mp-space wrap>
       <mp-button @click="max = max === 100 ? 200 : 100">Capacity: {{ max }}</mp-button>
       <mp-button @click="items = items.length ? [] : initialItems">{{
@@ -29,5 +29,5 @@ const tooltip = ref(true)
       aria-label="Capacity circle"
     />
     <p aria-live="polite">Items: {{ items.length }}; capacity: {{ max }}; tooltips: {{ tooltip ? 'on' : 'off' }}</p>
-  </div>
+  </mp-space>
 </template>

@@ -29,7 +29,7 @@
       </div>
       <template v-for="(count, animationType) in loadingTypeDict" :key="animationType">
         <div
-          v-if="!hideIcon && type === animationType"
+          v-if="!hideIcon && !$slots.icon && !customLoading && type === animationType"
           :class="classes(n(animationType), sizeClass(animationType))"
           :style="sizeStyle"
           aria-hidden="true"

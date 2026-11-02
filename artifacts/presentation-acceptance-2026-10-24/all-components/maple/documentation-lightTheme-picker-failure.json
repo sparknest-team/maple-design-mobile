@@ -1,0 +1,496 @@
+{
+  "failures": [],
+  "diagnostic": {
+    "url": "http://127.0.0.1:49257/#/zh-CN/picker",
+    "text": "n\t弹出层开启回调\t() => void\t-\nonOpened\t弹出层开启动画结束回调\t() => void\t-\nonClose\t弹出层关闭回调\t() => void\t-\nonClosed\t关闭弹出层动画结束时回调\t() => void\t() => void\nonChange\t选择内容变化时回调\t(values: (string | number)[], indexes: number[], options: PickerColumnOption[]) => void\t() => void\nonConfirm\t点击确认按钮时触发\t(values: (string | number)[], indexes: number[], options: PickerColumnOption[]) => void\t() => void\nonCancel\t点击取消按钮时触发\t(values: (string | number)[], indexes: number[], options: PickerColumnOption[]) => void\t() => void\nonKeyEscape\t点击键盘 ESC 时触发\t() => void\t-\n#\nPickerColumnOption\n参数\t说明\t类型\t默认值\ntext\t文本\tstring | number\t-\nvalue\t值\tstring | number\t-\ndisabled\t是否禁用\tboolean\tfalse\nchildren\t子列表\tPickerColumnOption[]\t-\nclassName\t附加的类名\tstring\t-\ntextClassName\t文本附加的类名\tstring\t-\n#\n方法\n方法名\t说明\t参数\t返回值\nconfirm\t立刻停止滚动并触发 confirm 事件\t-\t-\ncancel\t立刻停止滚动并触发 cancel 事件\t-\t-\n#\n事件\n事件名\t说明\t参数\nchange\t选择内容变化时触发\tvalues: (string | number)[] 选择的值列表\nindexes: number[] 选择的下标列表\noptions: PickerColumnOption[] 选择的选项对象列表\ncancel\t点击取消按钮时触发\tvalues: (string | number)[] 选择的值列表\nindexes: number[] 选择的下标列表\noptions: PickerColumnOption[] 选择的选项对象列表\nconfirm\t点击确认按钮时触发\tvalues: (string | number)[] 选择的值列表\nindexes: number[] 选择的下标列表\noptions: PickerColumnOption[] 选择的选项对象列表\nkey-escape\t按下 ESC 时触发\tKeyboardEvent\n#\n插槽\n插槽名\t说明\t参数\ntitle\t标题内容\t-\ncancel\t取消按钮内容\t-\nconfirm\t确认按钮内容\t-\n#\n样式变量\n\n以下为组件使用的 css 变量，可以使用 StyleProvider 组件 进行样式定制。\n\n变量名\t默认值\n--mp-picker-background\tvar(--mp-color-body)\n--mp-picker-toolbar-height\t44px\n--mp-picker-picked-border\t1px solid var(--mp-color-border-2)\n--mp-picker-title-font-size\tvar(--mp-font-size-lg)\n--mp-picker-title-text-color\tvar(--mp-color-text-1)\n--mp-picker-option-font-size\tvar(--mp-font-size-lg)\n--mp-picker-option-disabled-text-color\tvar(--mp-color-text-disabled)\n--mp-picker-option-check-color\tvar(--mp-sys-color-content-brand)\n--mp-picker-option-text-color\tvar(--mp-color-text-1)\n--mp-picker-toolbar-padding\t0 4px\n--mp-picker-mask-background-image\tlinear-gradient(180deg, color-mix(in srgb, var(--mp-picker-background) 90%, transparent), color-mix(in srgb, var(--mp-picker-background) 40%, transparent)), linear-gradient(0deg, color-mix(in srgb, var(--mp-picker-background) 90%, transparent), color-mix(in srgb, var(--mp-picker-background) 40%, transparent))\n#\n键盘与减少动效\n\n每个可操作列为一个 listbox，可用 Tab 聚焦；方向键上下移动，Home/End 到首尾可用项，跳过禁用项。aria-selected 表达当前滚轮项；selected-values 只表达额外勾选标记，两者职责不同。空列和全禁用列不进入 Tab 顺序。\n\n减少动效偏好下，选择立即提交且不等待 transitionend；偏好动态切换时收束待提交滚动，卸载时移除监听。",
+    "numericSteps": [],
+    "overflow": [],
+    "previews": [
+      "<div class=\"loca-doc-preview__example\"><div class=\"mp-space mp-space--block\" style=\"gap: 12px; flex-flow: column; justify-content: flex-start; align-items: stretch; width: 100%;\"><!----><div class=\"mp-space__item\"><button type=\"button\" class=\"mp-field-presentation__reference\" aria-expanded=\"false\" aria-haspopup=\"dialog\"><span>✓</span><span aria-hidden=\"true\">›</span></button></div><!----><div class=\"mp-space__item\"><div class=\"mp-picker\" mp-picker-cover=\"\"><!--v-if--><div class=\"mp-picker__columns\" style=\"height: 264px;\"><div class=\"mp-picker__column\" role=\"listbox\" tabindex=\"-1\" aria-label=\"请选择 1\" aria-disabled=\"true\"><div class=\"mp-picker__scroller\" style=\"transform: translateY(110px); transition-duration: 0ms; transition-property: none;\"><div id=\"v-0-0-0\" role=\"option\" aria-selected=\"true\" class=\"mp-picker__option\" style=\"height: 44px;\"><div class=\"mp-picker__text\">A</div><!--v-if--></div><div id=\"v-0-0-1\" role=\"option\" aria-selected=\"false\" class=\"mp-picker__option\" style=\"height: 44px;\"><div class=\"mp-picker__text\">B</div><!--v-if--></div><div id=\"v-0-0-2\" role=\"option\" aria-selected=\"false\" class=\"mp-picker__option\" style=\"height: 44px;\"><div class=\"mp-picker__text\">C</div><!--v-if--></div></div></div><div class=\"mp-picker__picked\" style=\"top: 110px; height: 44px;\"></div><div class=\"mp-picker__mask\" style=\"background-size: 100% 110px;\"></div></div></div></div><!----><div class=\"mp-space__item\"><output aria-label=\"Picker value\">A</output></div></div></div>",
+      "<div class=\"loca-doc-preview__example\"><div class=\"mp-space mp-space--block\" style=\"gap: 3vmin 4vmin; flex-flow: column; justify-content: flex-start; align-items: stretch;\"><!----><div class=\"mp-space__item\"><button class=\"mp-button mp-button--size-md mp-button--status-primary mp-button--variant-default mp-button--block mp-elevation--2\" type=\"button\"><!--v-if--><!--v-if--><span class=\"mp-button__content\">单列选择</span><div class=\"mp-hover-overlay\"></div></button></div><!----><div class=\"mp-space__item\"><button class=\"mp-button mp-button--size-md mp-button--status-primary mp-button--variant-default mp-button--block mp-elevation--2\" type=\"button\"><!--v-if--><!--v-if--><span class=\"mp-button__content\">多列选择</span><div class=\"mp-hover-overlay\"></div></button></div><!----><div class=\"mp-space__item\"><button class=\"mp-button mp-button--size-md mp-button--status-primary mp-button--variant-default mp-button--block mp-elevation--2\" type=\"button\"><!--v-if--><!--v-if--><span class=\"mp-button__content\">级联选择</span><div class=\"mp-hover-overlay\"></div></button></div><!----><div class=\"mp-space__item\"><button class=\"mp-button mp-button--size-md mp-button--status-primary mp-button--variant-default mp-button--block mp-elevation--2\" type=\"button\"><!--v-if--><!--v-if--><span class=\"mp-button__content\">地区选择</span><div class=\"mp-hover-overlay\"></div></button></div><!----><div class=\"mp-space__item\"><button class=\"mp-button mp-button--size-md mp-button--status-primary mp-button--variant-default mp-button--block mp-elevation--2\" type=\"button\"><!--v-if--><!--v-if--><span class=\"mp-button__content\">列数量</span><div class=\"mp-hover-overlay\"></div></button></div><!----><div class=\"mp-space__item\"><button class=\"mp-button mp-button--size-md mp-button--status-primary mp-button--variant-default mp-button--block mp-elevation--2\" type=\"button\"><!--v-if--><!--v-if--><span class=\"mp-button__content\">值映射</span><div class=\"mp-hover-overlay\"></div></button></div></div></div>"
+    ],
+    "controls": [
+      {
+        "tag": "BUTTON",
+        "role": null,
+        "label": "Copy Example Code",
+        "class": "mp-site-code-example__toolbar-button"
+      },
+      {
+        "tag": "svg",
+        "role": "img",
+        "label": "",
+        "class": {}
+      },
+      {
+        "tag": "BUTTON",
+        "role": null,
+        "label": "Show Source",
+        "class": "mp-site-code-example__toolbar-button"
+      },
+      {
+        "tag": "svg",
+        "role": "img",
+        "label": "",
+        "class": {}
+      },
+      {
+        "tag": "BUTTON",
+        "role": null,
+        "label": "mp-picker · 组合属性›",
+        "class": "mp-field-presentation__reference"
+      },
+      {
+        "tag": "BUTTON",
+        "role": null,
+        "label": "重新挂载 / Remount",
+        "class": "mp-button mp-button--size-sm mp-button--status-default mp-button--variant-default mp-elevation--2"
+      },
+      {
+        "tag": "BUTTON",
+        "role": null,
+        "label": "重置 / Reset",
+        "class": "mp-button mp-button--size-sm mp-button--status-default mp-button--variant-default mp-elevation--2"
+      },
+      {
+        "tag": "BUTTON",
+        "role": null,
+        "label": "值与数据 / Value and data (1/4)›",
+        "class": "mp-field-presentation__reference"
+      },
+      {
+        "tag": "BUTTON",
+        "role": null,
+        "label": "筛选属性 / Filter",
+        "class": "mp-field-presentation__reference"
+      },
+      {
+        "tag": "DIV",
+        "role": "button",
+        "label": "值与数据 / Value and data (1/4)（3）",
+        "class": "mp-collapse-item__header mp-collapse-item__header--icon-left"
+      },
+      {
+        "tag": "svg",
+        "role": "img",
+        "label": "",
+        "class": {}
+      },
+      {
+        "tag": "DIV",
+        "role": "button",
+        "label": "案例插槽 / Fixture slots",
+        "class": "mp-collapse-item__header mp-collapse-item__header--icon-left"
+      },
+      {
+        "tag": "svg",
+        "role": "img",
+        "label": "",
+        "class": {}
+      },
+      {
+        "tag": "BUTTON",
+        "role": null,
+        "label": "取消",
+        "class": "mp-button mp-button--size-md mp-button--status-default mp-button--variant-text mp-picker__cancel-button"
+      },
+      {
+        "tag": "BUTTON",
+        "role": null,
+        "label": "确认",
+        "class": "mp-button mp-button--size-md mp-button--status-default mp-button--variant-text mp-picker__confirm-button"
+      },
+      {
+        "tag": "DIV",
+        "role": "listbox",
+        "label": "请选择 1",
+        "class": "mp-picker__column"
+      },
+      {
+        "tag": "DIV",
+        "role": "option",
+        "label": "北京市",
+        "class": "mp-picker__option"
+      },
+      {
+        "tag": "DIV",
+        "role": "option",
+        "label": "天津市",
+        "class": "mp-picker__option"
+      },
+      {
+        "tag": "DIV",
+        "role": "option",
+        "label": "河北省",
+        "class": "mp-picker__option"
+      },
+      {
+        "tag": "DIV",
+        "role": "option",
+        "label": "山西省",
+        "class": "mp-picker__option"
+      },
+      {
+        "tag": "DIV",
+        "role": "option",
+        "label": "内蒙古自治区",
+        "class": "mp-picker__option"
+      },
+      {
+        "tag": "DIV",
+        "role": "option",
+        "label": "辽宁省",
+        "class": "mp-picker__option"
+      },
+      {
+        "tag": "DIV",
+        "role": "option",
+        "label": "吉林省",
+        "class": "mp-picker__option"
+      },
+      {
+        "tag": "DIV",
+        "role": "option",
+        "label": "黑龙江省",
+        "class": "mp-picker__option"
+      },
+      {
+        "tag": "DIV",
+        "role": "option",
+        "label": "上海市",
+        "class": "mp-picker__option"
+      },
+      {
+        "tag": "DIV",
+        "role": "option",
+        "label": "江苏省",
+        "class": "mp-picker__option"
+      },
+      {
+        "tag": "DIV",
+        "role": "option",
+        "label": "浙江省",
+        "class": "mp-picker__option"
+      },
+      {
+        "tag": "DIV",
+        "role": "option",
+        "label": "安徽省",
+        "class": "mp-picker__option"
+      },
+      {
+        "tag": "DIV",
+        "role": "option",
+        "label": "福建省",
+        "class": "mp-picker__option"
+      },
+      {
+        "tag": "DIV",
+        "role": "option",
+        "label": "江西省",
+        "class": "mp-picker__option"
+      },
+      {
+        "tag": "DIV",
+        "role": "option",
+        "label": "山东省",
+        "class": "mp-picker__option"
+      },
+      {
+        "tag": "DIV",
+        "role": "option",
+        "label": "河南省",
+        "class": "mp-picker__option"
+      },
+      {
+        "tag": "DIV",
+        "role": "option",
+        "label": "湖北省",
+        "class": "mp-picker__option"
+      },
+      {
+        "tag": "DIV",
+        "role": "option",
+        "label": "湖南省",
+        "class": "mp-picker__option"
+      },
+      {
+        "tag": "DIV",
+        "role": "option",
+        "label": "广东省",
+        "class": "mp-picker__option"
+      },
+      {
+        "tag": "DIV",
+        "role": "option",
+        "label": "广西壮族自治区",
+        "class": "mp-picker__option"
+      },
+      {
+        "tag": "DIV",
+        "role": "option",
+        "label": "海南省",
+        "class": "mp-picker__option"
+      },
+      {
+        "tag": "DIV",
+        "role": "option",
+        "label": "重庆市",
+        "class": "mp-picker__option"
+      },
+      {
+        "tag": "DIV",
+        "role": "option",
+        "label": "四川省",
+        "class": "mp-picker__option"
+      },
+      {
+        "tag": "DIV",
+        "role": "option",
+        "label": "贵州省",
+        "class": "mp-picker__option"
+      },
+      {
+        "tag": "DIV",
+        "role": "option",
+        "label": "云南省",
+        "class": "mp-picker__option"
+      },
+      {
+        "tag": "DIV",
+        "role": "option",
+        "label": "西藏自治区",
+        "class": "mp-picker__option"
+      },
+      {
+        "tag": "DIV",
+        "role": "option",
+        "label": "陕西省",
+        "class": "mp-picker__option"
+      },
+      {
+        "tag": "DIV",
+        "role": "option",
+        "label": "甘肃省",
+        "class": "mp-picker__option"
+      },
+      {
+        "tag": "DIV",
+        "role": "option",
+        "label": "青海省",
+        "class": "mp-picker__option"
+      },
+      {
+        "tag": "DIV",
+        "role": "option",
+        "label": "宁夏回族自治区",
+        "class": "mp-picker__option"
+      },
+      {
+        "tag": "DIV",
+        "role": "option",
+        "label": "新疆维吾尔自治区",
+        "class": "mp-picker__option"
+      },
+      {
+        "tag": "DIV",
+        "role": "option",
+        "label": "台湾省",
+        "class": "mp-picker__option"
+      },
+      {
+        "tag": "DIV",
+        "role": "option",
+        "label": "香港特别行政区",
+        "class": "mp-picker__option"
+      },
+      {
+        "tag": "DIV",
+        "role": "option",
+        "label": "澳门特别行政区",
+        "class": "mp-picker__option"
+      },
+      {
+        "tag": "DIV",
+        "role": "listbox",
+        "label": "请选择 2",
+        "class": "mp-picker__column"
+      },
+      {
+        "tag": "DIV",
+        "role": "option",
+        "label": "市辖区",
+        "class": "mp-picker__option"
+      },
+      {
+        "tag": "DIV",
+        "role": "listbox",
+        "label": "请选择 3",
+        "class": "mp-picker__column"
+      },
+      {
+        "tag": "DIV",
+        "role": "option",
+        "label": "东城区",
+        "class": "mp-picker__option"
+      },
+      {
+        "tag": "DIV",
+        "role": "option",
+        "label": "西城区",
+        "class": "mp-picker__option"
+      },
+      {
+        "tag": "DIV",
+        "role": "option",
+        "label": "朝阳区",
+        "class": "mp-picker__option"
+      },
+      {
+        "tag": "DIV",
+        "role": "option",
+        "label": "丰台区",
+        "class": "mp-picker__option"
+      },
+      {
+        "tag": "DIV",
+        "role": "option",
+        "label": "石景山区",
+        "class": "mp-picker__option"
+      },
+      {
+        "tag": "DIV",
+        "role": "option",
+        "label": "海淀区",
+        "class": "mp-picker__option"
+      },
+      {
+        "tag": "DIV",
+        "role": "option",
+        "label": "门头沟区",
+        "class": "mp-picker__option"
+      },
+      {
+        "tag": "DIV",
+        "role": "option",
+        "label": "房山区",
+        "class": "mp-picker__option"
+      },
+      {
+        "tag": "DIV",
+        "role": "option",
+        "label": "通州区",
+        "class": "mp-picker__option"
+      },
+      {
+        "tag": "DIV",
+        "role": "option",
+        "label": "顺义区",
+        "class": "mp-picker__option"
+      },
+      {
+        "tag": "DIV",
+        "role": "option",
+        "label": "昌平区",
+        "class": "mp-picker__option"
+      },
+      {
+        "tag": "DIV",
+        "role": "option",
+        "label": "大兴区",
+        "class": "mp-picker__option"
+      },
+      {
+        "tag": "DIV",
+        "role": "option",
+        "label": "怀柔区",
+        "class": "mp-picker__option"
+      },
+      {
+        "tag": "DIV",
+        "role": "option",
+        "label": "平谷区",
+        "class": "mp-picker__option"
+      },
+      {
+        "tag": "DIV",
+        "role": "option",
+        "label": "密云区",
+        "class": "mp-picker__option"
+      },
+      {
+        "tag": "DIV",
+        "role": "option",
+        "label": "延庆区",
+        "class": "mp-picker__option"
+      },
+      {
+        "tag": "DIV",
+        "role": "button",
+        "label": "实例 API / Instance API",
+        "class": "mp-collapse-item__header mp-collapse-item__header--icon-left"
+      },
+      {
+        "tag": "svg",
+        "role": "img",
+        "label": "",
+        "class": {}
+      },
+      {
+        "tag": "DIV",
+        "role": "button",
+        "label": "当前覆盖值 / Active overrides",
+        "class": "mp-collapse-item__header mp-collapse-item__header--icon-left"
+      },
+      {
+        "tag": "svg",
+        "role": "img",
+        "label": "",
+        "class": {}
+      },
+      {
+        "tag": "DIV",
+        "role": "button",
+        "label": "事件 / Events（0）",
+        "class": "mp-collapse-item__header mp-collapse-item__header--icon-left"
+      },
+      {
+        "tag": "svg",
+        "role": "img",
+        "label": "",
+        "class": {}
+      },
+      {
+        "tag": "DIV",
+        "role": "button",
+        "label": "专项 API 定位 / Scenario API index",
+        "class": "mp-collapse-item__header mp-collapse-item__header--icon-left"
+      },
+      {
+        "tag": "svg",
+        "role": "img",
+        "label": "",
+        "class": {}
+      },
+      {
+        "tag": "BUTTON",
+        "role": null,
+        "label": "在 Playground 中编辑",
+        "class": "loca-doc-preview__action"
+      },
+      {
+        "tag": "BUTTON",
+        "role": null,
+        "label": "复制源码",
+        "class": "loca-doc-preview__action"
+      },
+      {
+        "tag": "BUTTON",
+        "role": null,
+        "label": "展开源码",
+        "class": "loca-doc-preview__action"
+      }
+    ]
+  },
+  "error": "TimeoutError: locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.loca-doc-preview__example').first().locator('.mp-checkbox')\u001b[22m\n"
+}

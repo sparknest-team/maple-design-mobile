@@ -5,7 +5,7 @@ import { props as dividerProps } from './props'
 withInstall(Divider)
 withPropsDefaultsSetter(Divider, dividerProps)
 
-export { dividerProps }
+export { Divider, dividerProps }
 export type {
   DividerProps,
   DividerOrientation,

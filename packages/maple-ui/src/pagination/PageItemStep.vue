@@ -34,7 +34,10 @@ function click() {
     @click="click"
   >
     <slot :type="next ? 'next' : 'previous'"
-      ><IconNext v-if="next" aria-hidden="true" /><IconPrevious v-else aria-hidden="true"
+      ><IconNext v-if="next" :class="n('step-icon')" aria-hidden="true" /><IconPrevious
+        v-else
+        :class="n('step-icon')"
+        aria-hidden="true"
     /></slot>
   </button>
 </template>

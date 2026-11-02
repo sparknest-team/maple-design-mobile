@@ -200,7 +200,7 @@ test('does not load in a hidden tab and checks when activated', async () => {
       data: () => ({ active: 0, first: 'idle', second: 'idle' }),
       methods: { loadFirst, loadSecond },
       template: `
-      <mp-tabs v-model:active="active">
+      <mp-tabs v-model="active">
       <mp-tabs-navs><mp-tab-nav :name="0" title="First" /><mp-tab-nav :name="1" title="Second" /></mp-tabs-navs>
       <mp-tabs-items>
         <mp-tab-item :name="0">

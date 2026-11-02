@@ -1,0 +1,246 @@
+{
+  "component": "nav-menu",
+  "scope": "Targeted production component acceptance; not a full-library compatibility matrix",
+  "generatedAt": "2026-10-29T03:50:55.601Z",
+  "node": "v20.19.0",
+  "pnpm": "9.6.0",
+  "expectedTargetCases": 12,
+  "completedTargetCases": 12,
+  "completeTargetMatrix": true,
+  "completeLibraryMatrix": false,
+  "nativeDeviceAcceptance": false,
+  "latestTwoVersionsAccepted": false,
+  "checks": [
+    "full-width and full remaining-height panels",
+    "independent filter values and entry switching",
+    "long options and filter-body scrolling",
+    "background scroll lock",
+    "fixed bottom actions",
+    "shortened mobile viewport",
+    "landscape viewport",
+    "light/dark documentation and mobile themes",
+    "exact demo source"
+  ],
+  "remaining": [
+    "Physical iOS Safari and Android Chrome: native keyboard, address-bar viewport changes and hardware safe areas"
+  ],
+  "buildIndexHash": "7d8f805181654254cf3b5489b623fe39bd8c0b25763cff587a05c833c45ce93c",
+  "sourceFingerprint": "01b62cb84cb2e1e5646ee7f6470557f2bd317edda4e12c11ffec216a78b74288",
+  "productionFingerprint": "4a2d1b35f49cda54868012b579c8f9d26e94b0f0853625e8848b957d03dc69eb",
+  "builds": {
+    "library": "passed",
+    "documentation": "passed",
+    "packageCheck": "passed",
+    "componentTests": 13,
+    "artifactTests": 3
+  },
+  "browsers": [
+    {
+      "name": "chromium",
+      "version": "151.0.7922.34",
+      "passed": true,
+      "completedTargetCases": 4,
+      "sourcesStable": true,
+      "productionInputsStable": true,
+      "coverage": "/Users/shuaimeng/github_web/maple-design-mobile/artifacts/nav-menu-acceptance-20261029/maple/chromium/coverage.json",
+      "screenshots": [
+        "/Users/shuaimeng/github_web/maple-design-mobile/artifacts/nav-menu-acceptance-20261029/maple/chromium/documentation-darkTheme-nav-menu-full-panel.png",
+        "/Users/shuaimeng/github_web/maple-design-mobile/artifacts/nav-menu-acceptance-20261029/maple/chromium/documentation-darkTheme-nav-menu-full-width.png",
+        "/Users/shuaimeng/github_web/maple-design-mobile/artifacts/nav-menu-acceptance-20261029/maple/chromium/documentation-darkTheme-nav-menu-passed.png",
+        "/Users/shuaimeng/github_web/maple-design-mobile/artifacts/nav-menu-acceptance-20261029/maple/chromium/documentation-lightTheme-nav-menu-full-panel.png",
+        "/Users/shuaimeng/github_web/maple-design-mobile/artifacts/nav-menu-acceptance-20261029/maple/chromium/documentation-lightTheme-nav-menu-full-width.png",
+        "/Users/shuaimeng/github_web/maple-design-mobile/artifacts/nav-menu-acceptance-20261029/maple/chromium/documentation-lightTheme-nav-menu-passed.png",
+        "/Users/shuaimeng/github_web/maple-design-mobile/artifacts/nav-menu-acceptance-20261029/maple/chromium/mobile-darkTheme-nav-menu-full-panel.png",
+        "/Users/shuaimeng/github_web/maple-design-mobile/artifacts/nav-menu-acceptance-20261029/maple/chromium/mobile-darkTheme-nav-menu-full-width.png",
+        "/Users/shuaimeng/github_web/maple-design-mobile/artifacts/nav-menu-acceptance-20261029/maple/chromium/mobile-darkTheme-nav-menu-landscape.png",
+        "/Users/shuaimeng/github_web/maple-design-mobile/artifacts/nav-menu-acceptance-20261029/maple/chromium/mobile-darkTheme-nav-menu-passed.png",
+        "/Users/shuaimeng/github_web/maple-design-mobile/artifacts/nav-menu-acceptance-20261029/maple/chromium/mobile-darkTheme-nav-menu-short-viewport.png",
+        "/Users/shuaimeng/github_web/maple-design-mobile/artifacts/nav-menu-acceptance-20261029/maple/chromium/mobile-lightTheme-nav-menu-full-panel.png",
+        "/Users/shuaimeng/github_web/maple-design-mobile/artifacts/nav-menu-acceptance-20261029/maple/chromium/mobile-lightTheme-nav-menu-full-width.png",
+        "/Users/shuaimeng/github_web/maple-design-mobile/artifacts/nav-menu-acceptance-20261029/maple/chromium/mobile-lightTheme-nav-menu-landscape.png",
+        "/Users/shuaimeng/github_web/maple-design-mobile/artifacts/nav-menu-acceptance-20261029/maple/chromium/mobile-lightTheme-nav-menu-passed.png",
+        "/Users/shuaimeng/github_web/maple-design-mobile/artifacts/nav-menu-acceptance-20261029/maple/chromium/mobile-lightTheme-nav-menu-short-viewport.png"
+      ],
+      "cases": [
+        {
+          "component": "nav-menu",
+          "surface": "documentation",
+          "theme": "lightTheme",
+          "kind": "interaction",
+          "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/nav-menu/example/demos/basic.vue",
+          "checkedSources": 3,
+          "result": "nav-menu-filter",
+          "passed": true
+        },
+        {
+          "component": "nav-menu",
+          "surface": "documentation",
+          "theme": "darkTheme",
+          "kind": "interaction",
+          "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/nav-menu/example/demos/basic.vue",
+          "checkedSources": 1,
+          "result": "nav-menu-filter",
+          "passed": true
+        },
+        {
+          "component": "nav-menu",
+          "surface": "mobile",
+          "theme": "lightTheme",
+          "kind": "interaction",
+          "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/nav-menu/example/demos/basic.vue",
+          "checkedSources": 0,
+          "result": "nav-menu-filter",
+          "passed": true
+        },
+        {
+          "component": "nav-menu",
+          "surface": "mobile",
+          "theme": "darkTheme",
+          "kind": "interaction",
+          "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/nav-menu/example/demos/basic.vue",
+          "checkedSources": 0,
+          "result": "nav-menu-filter",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "firefox",
+      "version": "153.0",
+      "passed": true,
+      "completedTargetCases": 4,
+      "sourcesStable": true,
+      "productionInputsStable": true,
+      "coverage": "/Users/shuaimeng/github_web/maple-design-mobile/artifacts/nav-menu-acceptance-20261029/maple/firefox/coverage.json",
+      "screenshots": [
+        "/Users/shuaimeng/github_web/maple-design-mobile/artifacts/nav-menu-acceptance-20261029/maple/firefox/documentation-darkTheme-nav-menu-full-panel.png",
+        "/Users/shuaimeng/github_web/maple-design-mobile/artifacts/nav-menu-acceptance-20261029/maple/firefox/documentation-darkTheme-nav-menu-full-width.png",
+        "/Users/shuaimeng/github_web/maple-design-mobile/artifacts/nav-menu-acceptance-20261029/maple/firefox/documentation-darkTheme-nav-menu-passed.png",
+        "/Users/shuaimeng/github_web/maple-design-mobile/artifacts/nav-menu-acceptance-20261029/maple/firefox/documentation-lightTheme-nav-menu-full-panel.png",
+        "/Users/shuaimeng/github_web/maple-design-mobile/artifacts/nav-menu-acceptance-20261029/maple/firefox/documentation-lightTheme-nav-menu-full-width.png",
+        "/Users/shuaimeng/github_web/maple-design-mobile/artifacts/nav-menu-acceptance-20261029/maple/firefox/documentation-lightTheme-nav-menu-passed.png",
+        "/Users/shuaimeng/github_web/maple-design-mobile/artifacts/nav-menu-acceptance-20261029/maple/firefox/mobile-darkTheme-nav-menu-full-panel.png",
+        "/Users/shuaimeng/github_web/maple-design-mobile/artifacts/nav-menu-acceptance-20261029/maple/firefox/mobile-darkTheme-nav-menu-full-width.png",
+        "/Users/shuaimeng/github_web/maple-design-mobile/artifacts/nav-menu-acceptance-20261029/maple/firefox/mobile-darkTheme-nav-menu-landscape.png",
+        "/Users/shuaimeng/github_web/maple-design-mobile/artifacts/nav-menu-acceptance-20261029/maple/firefox/mobile-darkTheme-nav-menu-passed.png",
+        "/Users/shuaimeng/github_web/maple-design-mobile/artifacts/nav-menu-acceptance-20261029/maple/firefox/mobile-darkTheme-nav-menu-short-viewport.png",
+        "/Users/shuaimeng/github_web/maple-design-mobile/artifacts/nav-menu-acceptance-20261029/maple/firefox/mobile-lightTheme-nav-menu-full-panel.png",
+        "/Users/shuaimeng/github_web/maple-design-mobile/artifacts/nav-menu-acceptance-20261029/maple/firefox/mobile-lightTheme-nav-menu-full-width.png",
+        "/Users/shuaimeng/github_web/maple-design-mobile/artifacts/nav-menu-acceptance-20261029/maple/firefox/mobile-lightTheme-nav-menu-landscape.png",
+        "/Users/shuaimeng/github_web/maple-design-mobile/artifacts/nav-menu-acceptance-20261029/maple/firefox/mobile-lightTheme-nav-menu-passed.png",
+        "/Users/shuaimeng/github_web/maple-design-mobile/artifacts/nav-menu-acceptance-20261029/maple/firefox/mobile-lightTheme-nav-menu-short-viewport.png"
+      ],
+      "cases": [
+        {
+          "component": "nav-menu",
+          "surface": "documentation",
+          "theme": "lightTheme",
+          "kind": "interaction",
+          "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/nav-menu/example/demos/basic.vue",
+          "checkedSources": 3,
+          "result": "nav-menu-filter",
+          "passed": true
+        },
+        {
+          "component": "nav-menu",
+          "surface": "documentation",
+          "theme": "darkTheme",
+          "kind": "interaction",
+          "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/nav-menu/example/demos/basic.vue",
+          "checkedSources": 1,
+          "result": "nav-menu-filter",
+          "passed": true
+        },
+        {
+          "component": "nav-menu",
+          "surface": "mobile",
+          "theme": "lightTheme",
+          "kind": "interaction",
+          "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/nav-menu/example/demos/basic.vue",
+          "checkedSources": 0,
+          "result": "nav-menu-filter",
+          "passed": true
+        },
+        {
+          "component": "nav-menu",
+          "surface": "mobile",
+          "theme": "darkTheme",
+          "kind": "interaction",
+          "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/nav-menu/example/demos/basic.vue",
+          "checkedSources": 0,
+          "result": "nav-menu-filter",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "webkit",
+      "version": "26.5",
+      "passed": true,
+      "completedTargetCases": 4,
+      "sourcesStable": true,
+      "productionInputsStable": true,
+      "coverage": "/Users/shuaimeng/github_web/maple-design-mobile/artifacts/nav-menu-acceptance-20261029/maple/webkit/coverage.json",
+      "screenshots": [
+        "/Users/shuaimeng/github_web/maple-design-mobile/artifacts/nav-menu-acceptance-20261029/maple/webkit/documentation-darkTheme-nav-menu-full-panel.png",
+        "/Users/shuaimeng/github_web/maple-design-mobile/artifacts/nav-menu-acceptance-20261029/maple/webkit/documentation-darkTheme-nav-menu-full-width.png",
+        "/Users/shuaimeng/github_web/maple-design-mobile/artifacts/nav-menu-acceptance-20261029/maple/webkit/documentation-darkTheme-nav-menu-passed.png",
+        "/Users/shuaimeng/github_web/maple-design-mobile/artifacts/nav-menu-acceptance-20261029/maple/webkit/documentation-lightTheme-nav-menu-full-panel.png",
+        "/Users/shuaimeng/github_web/maple-design-mobile/artifacts/nav-menu-acceptance-20261029/maple/webkit/documentation-lightTheme-nav-menu-full-width.png",
+        "/Users/shuaimeng/github_web/maple-design-mobile/artifacts/nav-menu-acceptance-20261029/maple/webkit/documentation-lightTheme-nav-menu-passed.png",
+        "/Users/shuaimeng/github_web/maple-design-mobile/artifacts/nav-menu-acceptance-20261029/maple/webkit/mobile-darkTheme-nav-menu-full-panel.png",
+        "/Users/shuaimeng/github_web/maple-design-mobile/artifacts/nav-menu-acceptance-20261029/maple/webkit/mobile-darkTheme-nav-menu-full-width.png",
+        "/Users/shuaimeng/github_web/maple-design-mobile/artifacts/nav-menu-acceptance-20261029/maple/webkit/mobile-darkTheme-nav-menu-landscape.png",
+        "/Users/shuaimeng/github_web/maple-design-mobile/artifacts/nav-menu-acceptance-20261029/maple/webkit/mobile-darkTheme-nav-menu-passed.png",
+        "/Users/shuaimeng/github_web/maple-design-mobile/artifacts/nav-menu-acceptance-20261029/maple/webkit/mobile-darkTheme-nav-menu-short-viewport.png",
+        "/Users/shuaimeng/github_web/maple-design-mobile/artifacts/nav-menu-acceptance-20261029/maple/webkit/mobile-lightTheme-nav-menu-full-panel.png",
+        "/Users/shuaimeng/github_web/maple-design-mobile/artifacts/nav-menu-acceptance-20261029/maple/webkit/mobile-lightTheme-nav-menu-full-width.png",
+        "/Users/shuaimeng/github_web/maple-design-mobile/artifacts/nav-menu-acceptance-20261029/maple/webkit/mobile-lightTheme-nav-menu-landscape.png",
+        "/Users/shuaimeng/github_web/maple-design-mobile/artifacts/nav-menu-acceptance-20261029/maple/webkit/mobile-lightTheme-nav-menu-passed.png",
+        "/Users/shuaimeng/github_web/maple-design-mobile/artifacts/nav-menu-acceptance-20261029/maple/webkit/mobile-lightTheme-nav-menu-short-viewport.png"
+      ],
+      "cases": [
+        {
+          "component": "nav-menu",
+          "surface": "documentation",
+          "theme": "lightTheme",
+          "kind": "interaction",
+          "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/nav-menu/example/demos/basic.vue",
+          "checkedSources": 3,
+          "result": "nav-menu-filter",
+          "passed": true
+        },
+        {
+          "component": "nav-menu",
+          "surface": "documentation",
+          "theme": "darkTheme",
+          "kind": "interaction",
+          "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/nav-menu/example/demos/basic.vue",
+          "checkedSources": 1,
+          "result": "nav-menu-filter",
+          "passed": true
+        },
+        {
+          "component": "nav-menu",
+          "surface": "mobile",
+          "theme": "lightTheme",
+          "kind": "interaction",
+          "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/nav-menu/example/demos/basic.vue",
+          "checkedSources": 0,
+          "result": "nav-menu-filter",
+          "passed": true
+        },
+        {
+          "component": "nav-menu",
+          "surface": "mobile",
+          "theme": "darkTheme",
+          "kind": "interaction",
+          "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/nav-menu/example/demos/basic.vue",
+          "checkedSources": 0,
+          "result": "nav-menu-filter",
+          "passed": true
+        }
+      ]
+    }
+  ]
+}

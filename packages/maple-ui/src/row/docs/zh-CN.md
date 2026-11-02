@@ -8,7 +8,7 @@
 > - Row + Col：适合 24 栏 Flex 布局，需要水平/垂直对齐、控制换行、固定宽度与自适应宽度组合，或响应式排序时使用。Row 控制整行，Col 控制列宽、偏移和排序。
 > - Space：适合按钮、标签、文字等简单排列，只需要间距、方向和对齐时使用；更自由的宽度分配可使用原生 Flex。
 
-## 案例
+## 基础示例
 
 ### 24 栏基础布局
 
@@ -16,7 +16,21 @@
 ../example/demos/basic.vue
 ```
 
+## 布局与排列
+
 ### 双向间距与响应式间距
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `gutter` | 间距：数值、响应式对象或 [水平, 垂直] | 双向间距与响应式间距、水平与垂直对齐、换行与普通容器模式 |
+| `justify` | 水平对齐 | 水平与垂直对齐、布局与对齐 |
+| `align` | 垂直对齐 | 水平与垂直对齐、布局与对齐 |
+| `wrap` | 是否换行 | 换行与普通容器模式 |
+| `div` | Row 与 Col 均作为普通容器，移除全部布局样式 | 换行与普通容器模式 |
+<!-- demo-config-notes:end -->
 
 ```demo
 ../example/demos/gutter.vue
@@ -48,15 +62,6 @@
 ```demo
 ../example/demos/layout-lab.vue
 ```
-
-<!-- api-review:start -->
-### 功能调试
-
-```demo
-../example/demos/api-review.vue
-```
-
-<!-- api-review:end -->
 
 ## API
 

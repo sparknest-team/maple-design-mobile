@@ -41,4 +41,8 @@ export type DatePickerOptions = Omit<
   | 'multiple'
   | 'range'
   | 'presentation'
+  | 'dateFields'
+  | 'timeFields'
 >
+
+export type { DatePickerField } from '../_components/picker-field/fields'

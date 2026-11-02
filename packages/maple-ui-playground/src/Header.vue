@@ -24,6 +24,10 @@ const themeOptions = ref([
   { 'zh-CN': 'Default 暗色', 'en-US': 'Default Dark', value: 'defaultDarkTheme' },
   { 'zh-CN': 'Maple 亮色', 'en-US': 'Maple Light', value: 'mapleLightTheme' },
   { 'zh-CN': 'Maple 暗色', 'en-US': 'Maple Dark', value: 'mapleDarkTheme' },
+  { 'zh-CN': 'Alps 乐道', 'en-US': 'Alps Light', value: 'alpsLightTheme' },
+  { 'zh-CN': 'Firefly 萤火虫', 'en-US': 'Firefly Light', value: 'fireflyLightTheme' },
+  { 'zh-CN': 'Alps 乐道暗色', 'en-US': 'Alps Dark', value: 'alpsDarkTheme' },
+  { 'zh-CN': 'Firefly 萤火虫暗色', 'en-US': 'Firefly Dark', value: 'fireflyDarkTheme' },
 ])
 
 onMounted(() => {

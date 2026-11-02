@@ -74,14 +74,13 @@ function switchLocale() {
 | `Farsi` | fa-IR | _Locale.faIR_ | `v2.22.0` |
 | `Japanese` | ja-JP | _Locale.jaJP_ | `v3.9.0` |
 
-<!-- shared-locale-provider-review:start -->
-### LocaleProvider 组合审查 / API review
+## Basic examples
+
+### Local language comparison
 
 ```demo
-../../locale-provider/example/demos/api-review.vue
+../../locale-provider/example/demos/basic.vue
 ```
-
-<!-- shared-locale-provider-review:end -->
 
 ## API
 
@@ -89,16 +88,16 @@ function switchLocale() {
 
 #### LocaleProvider Props
 
-| Prop         | Description   | Type                     | Default | 
-|--------------|---------------|--------------------------|---------| 
-| `locale` | Current locale | _string_ | `zh-CN`    |
-| `messages`    | Language messages      | _Record<string, Record<string, string>>_                 | `-`   |
-| `tag`        | Tag name      | _string_                 | `div`   |
+| Arguments | Description | Type | Default |
+| -------------- | --------------- | -------------------------- | --------- |
+| `locale` | Current locale | _string_ | `zh-CN` |
+| `messages` | Language messages | _Record<string, Record<string, string>>_ | `-` |
+| `tag` | Custom tag name | _string_ | `div` |
 
 ### Slots
 
 #### LocaleProvider Slots
 
-| Name | Description | SlotProps |
+| Slot | Description | Arguments |
 | --- | --- | --- |
 | `default` | Component content | `-` |

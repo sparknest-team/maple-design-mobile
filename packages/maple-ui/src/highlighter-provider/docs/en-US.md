@@ -4,29 +4,26 @@
 
 Provide a shared syntax highlighter configuration to code displays.
 
-## Examples
+## Basic examples
 
-<!-- api-review:start -->
-### Feature playground
+### Basic usage
 
 ```demo
-../example/demos/api-review.vue
+../example/demos/basic.vue
 ```
-
-<!-- api-review:end -->
 
 ## API
 
 ### Props
 
-| Prop             | Description                                                  | Type           | Default       |
-|------------------|--------------------------------------------------------------|----------------|------------------|
-| `highlighter`    | Shader                                                       | `Highlighter`  | `-`              |
-| `theme`          | Theme                                                        | _string_       | `-`              |
-| `tag`            | Tag name                                                     | _string_       | `div`              |
+| Arguments | Description | Type | Default |
+| ------------------ | -------------------------------------------------------------- | ---------------- | ------------------ |
+| `highlighter` | Code Highlighter | `Highlighter` | `-` |
+| `theme` | Code Theme | _string_ | `-` |
+| `tag` | Custom tag name | _string_ | `div` |
 
 ### Slots
 
-| Name | Description | SlotProps |
+| Slot | Description | Arguments |
 | --- | --- | --- |
 | `default` | Component content | `-` |

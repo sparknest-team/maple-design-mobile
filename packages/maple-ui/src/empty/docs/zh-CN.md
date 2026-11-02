@@ -2,7 +2,7 @@
 
 指当前场景没有对应的数据内容，呈现出的一种状态。示例与 Cedar Design Web 保持一致，布局按移动端换行。
 
-## 案例
+## 基础示例
 
 ### 基础用法
 
@@ -12,15 +12,18 @@
 ../example/demos/basic-usage.vue
 ```
 
-### 自定义图片和文案
-
-通过 `image` 插槽自定义图标、图片，或通过默认插槽修改文案。也可用 `image-url` 指定图片地址。
-
-```demo
-../example/demos/custom-image.vue
-```
+## 外观与状态
 
 ### 图片尺寸
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `image-size` | 图片/图标尺寸 | 图片尺寸 |
+| `description` | 描述内容，缺省时使用国际化文案 | 图片尺寸 |
+<!-- demo-config-notes:end -->
 
 通过 `image-size` 控制图标尺寸，可选值为 `xs` `sm` `md` `lg` `xl`，也可传入数值。
 
@@ -28,14 +31,41 @@
 ../example/demos/image-size.vue
 ```
 
-### 操作按钮
+## 内容与展示
+
+### 空态图形与补充操作
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `description` | 描述内容，缺省时使用国际化文案 | 空态图形与补充操作、显示与隐藏 |
+| `image-url` | 自定义图片地址 | 空态图形与补充操作 |
+| `alt` | 图片替代文本 | 空态图形与补充操作 |
+| `show-icon` | 是否显示图标 | 显示与隐藏 |
+| `show-description` | 是否显示描述 | 显示与隐藏 |
+<!-- demo-config-notes:end -->
+
+对比自定义图形和补充操作，观察替换默认内容与保留业务操作入口的区别。
+
+<details>
+<summary>配置说明与使用限制</summary>
+
+#### 自定义图片和文案
+
+通过 `image` 插槽自定义图标、图片，或通过默认插槽修改文案。也可用 `image-url` 指定图片地址。
+
+#### 操作按钮
 
 Reload 只更新本地刷新次数和描述，不请求服务；真实业务请自行接入请求与结果状态。
 
 通过 `extra` 插槽添加操作按钮。
 
+</details>
+
 ```demo
-../example/demos/extra-slot.vue
+../example/demos/content-comparison.vue
 ```
 
 ### 显示与隐藏
@@ -47,15 +77,6 @@ Reload 只更新本地刷新次数和描述，不请求服务；真实业务请�
 ```demo
 ../example/demos/show.vue
 ```
-
-<!-- api-review:start -->
-### 功能调试
-
-```demo
-../example/demos/api-review.vue
-```
-
-<!-- api-review:end -->
 
 ## API
 

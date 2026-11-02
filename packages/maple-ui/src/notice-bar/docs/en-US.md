@@ -1,10 +1,10 @@
 # NoticeBar
 
-## Examples
-
 ### Intro
 
 Display temporary system notices or campaign messages.
+
+## Basic examples
 
 ### Basic Usage
 
@@ -12,25 +12,20 @@ Display temporary system notices or campaign messages.
 ../example/demos/basic.vue
 ```
 
-<!-- api-review:start -->
-### Feature playground
+## Reading direction
 
-```demo
-../example/demos/api-review.vue
-```
-
-<!-- api-review:end -->
+Inherits the nearest `dir="ltr|rtl"` and supports runtime and nested overrides. Icons, text and close actions follow reading order. Scrolling text travels from reading end toward reading start; RTL reverses motion without mirroring text or changing close/replay semantics.
 
 ## API
 
 ### Props
 
-| Prop | Description | Type | Default |
+| Arguments | Description | Type | Default |
 | --- | --- | --- | --- |
 | `text` | Notice text | `string` | `-` |
-| `type` | Tone | `info \| success \| warning \| danger` | `warning` |
+| `type` | Type | `info \| success \| warning \| danger` | `warning` |
 | `mode` | `closeable` shows close icon | `closeable` | `-` |
-| `icon` | Left icon name | `string` | `info-circle` |
+| `icon` | Left-icon name; empty string hides it | `string` | `info-circle` |
 | `color` | Text color | `string` | `-` |
 | `background` | Background color | `string` | `-` |
 | `scrollable` | Enable marquee | `boolean` | `false` |

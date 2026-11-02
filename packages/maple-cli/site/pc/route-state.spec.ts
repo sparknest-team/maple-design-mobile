@@ -27,3 +27,8 @@ describe('PC site mobile preview route', () => {
     expect(state.value).toMatchObject({ language: 'en-US', componentName: 'button' })
   })
 })
+
+it('previews opted-in root documentation on the phone route', () => {
+  expect(getPcSiteRoute('/zh-CN/guide', '', menu, '/home', true, ['guide']).componentName).toBe('zh-CN/guide')
+  expect(getPcSiteRoute('/en-US/guide', '', menu, '/home', true, ['guide']).componentName).toBe('en-US/guide')
+})

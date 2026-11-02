@@ -4,11 +4,15 @@ import { createRequire } from 'node:module'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { normalizeBoundImports } from './normalize-bound-imports.mjs'
+import { normalizeTypeScript, normalizeVueSource } from './normalize-source.mjs'
 
 const workspace = fileURLToPath(new URL('../../', import.meta.url))
 const cedar = resolve(workspace, 'cedar-design-web/packages/cedar-ui/src')
 const maple = resolve(workspace, 'maple-design-mobile/packages/maple-ui/src')
 const files = [
+  'trigger/interaction.ts',
+  'trigger/reference-click.ts',
+  'trigger/__tests__/reference-open-guard.spec.ts',
   '_components/selected-options/context.ts',
   '_components/selected-options/style/index.less',
   '_components/selected-options/style/token.less',
@@ -33,6 +37,8 @@ const files = [
   'select/emits.ts',
   'cascader/utils.ts',
   'cascader/use-cascader-controller.ts',
+  'cascader/use-lazy-options.ts',
+  'cascader/__tests__/lazy-lifecycle.spec.ts',
   'cascader/cascader-column.tsx',
   'cascader/CascaderMenu.vue',
   'cascader/Cascader.vue',
@@ -61,15 +67,22 @@ const toMaple = (source) =>
     .replaceAll('_utils/global-config', 'utils/components')
     .replaceAll('_utils/option-data', 'utils/option-data')
     .replaceAll('_utils/text-input-value', 'utils/text-input-value')
+    .replaceAll('_utils/empty-value', 'utils/empty-value')
     .replaceAll('../scrollbar', '../_components/selection-scrollbar')
     .replaceAll('--c-', '--mp-')
     .replaceAll('.c-', '.mp-')
+const canonical = (source, file) =>
+  /\.tsx?$/.test(file)
+    ? normalizeTypeScript(source)
+    : file.endsWith('.vue')
+      ? normalizeVueSource(source)
+      : normalizeBoundImports(source)
 for (const file of files) {
   const c = readFileSync(resolve(cedar, file), 'utf8')
   const m = readFileSync(resolve(maple, file), 'utf8')
   assert.equal(
-    normalizeBoundImports(toMaple(c)),
-    normalizeBoundImports(m),
+    await canonical(toMaple(c), file),
+    await canonical(m, file),
     file + ' differs: copy Cedar and adjust local imports/prefixes',
   )
   assert.doesNotMatch(m, /from ['"][^'"]*(?:cedar-design|@cedar-design\/ui|platform)/)

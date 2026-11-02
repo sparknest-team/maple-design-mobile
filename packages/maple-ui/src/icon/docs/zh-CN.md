@@ -4,7 +4,7 @@
 
 图标容器的命名和类型判断复用 maple-shared 的静态工具；尺寸转换和默认 props 处理保留在 UI 工具中。按需引入只保留实际使用的工具，图形仍由独立 SVG 组件提供。
 
-## 案例
+## 基础示例
 
 ### 基础用法
 
@@ -12,46 +12,43 @@
 ../example/demos/basic.vue
 ```
 
-### 图标尺寸
+## 外观与状态
+
+### 图标尺寸与颜色
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `size` | `inherit` | 图标尺寸与颜色 |
+| `color` | 图标颜色 | 图标尺寸与颜色 |
+<!-- demo-config-notes:end -->
+
+比较相同图标的尺寸和颜色，旋转/动画与点击行为另行展示。
 
 ```demo
-../example/demos/icon-size.vue
+../example/demos/appearance-comparison.vue
 ```
 
-### 图标颜色
-
-```demo
-../example/demos/icon-color.vue
-```
+## 内容与展示
 
 ### 旋转与持续旋转
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `size` | `inherit` | 旋转与持续旋转 |
+| `rotate` | 旋转角度 | 旋转与持续旋转 |
+| `spin` | 是否持续旋转 | 旋转与持续旋转 |
+<!-- demo-config-notes:end -->
 
 `rotate` 设置静态角度，`spin` 开启持续旋转动画，两者可以组合使用。
 
 ```demo
 ../example/demos/rotate-and-spin.vue
-```
-
-### 点击事件
-
-```demo
-../example/demos/click-event.vue
-```
-
-### 自定义图标
-
-在默认插槽内放入自定义 SVG，尺寸和颜色由 Icon 容器统一控制。
-
-```demo
-../example/demos/custom.vue
-```
-
-### 动态名称
-
-`name` 使用短横线名称（例如 `arrow-left`），只查找当前 Vue 应用已注册的图标，不会自动加载图标全集。点击“切换图标”查看名称与图形同步变化。设置默认插槽时，优先显示插槽内容，`name` 不再决定图形。
-
-```demo
-../example/demos/icon-animation.vue
 ```
 
 ### 全部图标
@@ -62,25 +59,86 @@
 ../example/demos/icon-list.vue
 ```
 
+## 自定义与插槽
+
+### 自定义图标
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `size` | `inherit` | 自定义图标 |
+| `color` | 图标颜色 | 自定义图标 |
+<!-- demo-config-notes:end -->
+
+在默认插槽内放入自定义 SVG，尺寸和颜色由 Icon 容器统一控制。
+
+```demo
+../example/demos/custom.vue
+```
+
+## 交互与控制
+
+### 点击事件
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `size` | `inherit` | 点击事件、动态名称 |
+| `color` | 图标颜色 | 点击事件 |
+| `name` | 已注册图标名称；默认插槽优先 | 动态名称 |
+| `transition` | 过渡动画时间（ms） | 动态名称 |
+<!-- demo-config-notes:end -->
+
+```demo
+../example/demos/click-event.vue
+```
+
+### 动态名称
+
+`name` 使用短横线名称（例如 `arrow-left`），只查找当前 Vue 应用已注册的图标，不会自动加载图标全集。点击“切换图标”查看名称与图形同步变化。设置默认插槽时，优先显示插槽内容，`name` 不再决定图形。
+
+```demo
+../example/demos/icon-animation.vue
+```
+
+## 生命周期与边界
+
 ### 名称切换与生命周期
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `name` | 已注册图标名称；默认插槽优先 | 名称切换与生命周期 |
+| `transition` | 过渡动画时间（ms） | 名称切换与生命周期 |
+| `size` | `inherit` | 名称切换与生命周期 |
+<!-- demo-config-notes:end -->
 
 ```demo
 ../example/demos/lifecycle.vue
 ```
 
-<!-- api-review:start -->
+## API
 
-### 功能调试
+### 独立图标样式与使用边界
 
-启用 `name` 控件后，从已注册名称中选择图标，预览会随之切换。
+Resolver 自动导入独立图标时会一并引入轻量旋转样式；`importStyle: false` 时由业务自行引入。UI Icon 的样式入口也包含这份样式，不需要加载全部图标。
 
-```demo
-../example/demos/api-review.vue
+手动导入独立 SVG 组件时，若使用 `spin`，请在应用入口引入一次：
+
+```ts
+import '@maple-design/icons-vue/style.css'
 ```
 
-<!-- api-review:end -->
+`rotate` 与 `spin` 可以组合；内置旋转遵循减少动态效果设置。`transition` 只控制注册名称的切换，以毫秒数值或数字字符串传入（如 `200` / `"200"`），不解析 `"200ms"` / `"1s"`。默认插槽接管内容后不执行名称切换动画，移除插槽时立即显示最新名称。自定义 `animation-class` 应避免覆盖持续旋转使用的 `transform`，并自行适配减少动态效果设置。
 
-## API
+`name` 只查找当前应用在渲染前显式注册的图标，不自动下载资源；挂载后补注册不会自动刷新。容器的原生 `title` 不会传给内部 SVG，需要图像名称时在独立图标上设置 `title`；作为操作入口时使用带可访问名称的 Button。`click` 是普通通知事件，支持 Vue 的 `.once`，不会根据监听器返回的 Promise 管理等待状态。`stroke-*` 只作用于描边，填充或固定多色资源不保证随这些属性变化。
+
 
 ### 属性
 
@@ -111,7 +169,19 @@
 
 | 事件名  | 说明           | 参数           |
 | ------- | -------------- | -------------- |
-| `click` | 点击图标时触发 | `event: Event` |
+| `click` | 点击图标时触发 | `event: MouseEvent` |
+
+### 插槽
+
+| 插槽名 | 说明 |
+| --- | --- |
+| `default` | 自定义内容，优先于 name |
+
+### 类型定义
+
+```ts
+import type { IconProps, IconInstance } from '@maple-design/ui'
+```
 
 ### 样式变量
 
@@ -119,7 +189,7 @@
 
 | 变量名        | 默认值 |
 | ------------- | ------ |
-| `--icon-size` | `20px` |
+| `--mp-icon-size` | `inherit` |
 
 ## 同源实现与平台边界
 

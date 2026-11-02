@@ -1,6 +1,6 @@
 # Card
 
-## 案例
+## 基础示例
 
 ### 基础用法与副标题
 
@@ -8,22 +8,33 @@
 ../example/demos/basic.vue
 ```
 
-### 变体与阴影
+## 外观与状态
+
+### 外观配置对比
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `title` | 标题 | 外观配置对比、悬浮样式 |
+| `description` | 描述 | 外观配置对比 |
+| `hoverable` | 悬浮样式 | 悬浮样式 |
+<!-- demo-config-notes:end -->
+
+选择一个对比维度后，同屏展示它的全部可选值；其余配置和内容保持一致。可切换其他配置检查组合效果；输入类预览共享一个值。
+
+<details>
+<summary>配置说明与使用限制</summary>
+
+#### 外观组合
+
+适用于信息分组和内容层次。调整变体、尺寸，用相同数据观察变化。内容保持一致，便于比较不同设置的实际效果。
+
+</details>
 
 ```demo
-../example/demos/variant.vue
-```
-
-### 尺寸
-
-```demo
-../example/demos/size.vue
-```
-
-### 自定义标题区域
-
-```demo
-../example/demos/no-padding.vue
+../example/demos/appearance-lab.vue
 ```
 
 ### 悬浮样式
@@ -32,11 +43,28 @@
 ../example/demos/hoverable.vue
 ```
 
+## 布局与排列
+
 ### 图片与三种布局
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `direction` | 封面与正文的排列顺序，默认 column；支持 row、column、row-reverse，不表示卡片自身位置 | 图片与三种布局 |
+| `title` | 标题 | 图片与三种布局 |
+| `src` | 封面图片地址；cover 插槽优先 | 图片与三种布局 |
+| `alt` | 封面图片替代文本 | 图片与三种布局 |
+| `image-height` | 封面图片高度，数字单位为 px | 图片与三种布局 |
+| `image-width` | 封面图片宽度，数字单位为 px | 图片与三种布局 |
+<!-- demo-config-notes:end -->
 
 ```demo
 ../example/demos/image.vue
 ```
+
+## 内容与展示
 
 ### 长标题与提示
 
@@ -44,7 +72,44 @@
 ../example/demos/tooltip.vue
 ```
 
+## 自定义与插槽
+
+### 自定义标题区域
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `title` | 标题 | 自定义标题区域 |
+| `top-divider` | 上分割线 | 内容插槽 |
+| `bottom-divider` | 下分割线 | 内容插槽 |
+<!-- demo-config-notes:end -->
+
+```demo
+../example/demos/no-padding.vue
+```
+
+### 内容插槽
+
+```demo
+../example/demos/slots.vue
+```
+
+## 交互与控制
+
 ### 水波与点击事件
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `title` | 标题 | 水波与点击事件、全屏展开与关闭 |
+| `ripple` | 点击水波 | 水波与点击事件 |
+| `floating` | 全屏展开状态，支持 v-model:floating | 全屏展开与关闭 |
+| `floating-duration` | 全屏展开与关闭动画时长，单位 ms | 全屏展开与关闭 |
+<!-- demo-config-notes:end -->
 
 ```demo
 ../example/demos/ripple.vue
@@ -56,21 +121,20 @@
 ../example/demos/floating.vue
 ```
 
-### 外观组合
-
-适用于信息分组和内容层次。调整变体、尺寸，用相同数据观察变化。内容保持一致，便于比较不同设置的实际效果。
-
-```demo
-../example/demos/appearance-lab.vue
-```
-
-### 内容插槽
-
-```demo
-../example/demos/slots.vue
-```
+## 生命周期与边界
 
 ### Floating scheduler lifecycle / 浮起调度生命周期
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `floating` | 全屏展开状态，支持 v-model:floating | Floating scheduler lifecycle / 浮起调度生命周期 |
+| `ripple` | 点击水波 | Floating scheduler lifecycle / 浮起调度生命周期 |
+| `floating-duration` | 全屏展开与关闭动画时长，单位 ms | Floating scheduler lifecycle / 浮起调度生命周期 |
+| `title` | 标题 | Floating scheduler lifecycle / 浮起调度生命周期 |
+<!-- demo-config-notes:end -->
 
 ```demo
 ../example/demos/scheduler-lifecycle.vue
@@ -78,14 +142,9 @@
 
 与 Cedar 使用相同场景、参数和交互顺序；示例源码仅替换组件前缀，主题与站点外壳各自保留。
 
-<!-- api-review:start -->
-### 功能调试
+## 阅读方向
 
-```demo
-../example/demos/api-review.vue
-```
-
-<!-- api-review:end -->
+标题、内容和操作沿阅读顺序排列，默认浮动操作位于阅读终点，不镜像图片或自定义插槽。
 
 ## API
 
@@ -96,7 +155,7 @@
 | --- | --- | --- | --- |
 | variant | 卡片外观 | `default / outline / tonal` | `default` |
 | size | 内容密度；省略时按平台规则回退，见下方说明 | `sm / md` | `undefined` |
-| direction | 封面与正文排列 | `row / column / row-reverse` | `column` |
+| direction | 封面与正文的排列顺序，默认 column；支持 row、column、row-reverse，不表示卡片自身位置 | `row / column / row-reverse` | `column` |
 | hoverable | 悬浮样式 | `boolean` | `false` |
 | title-style | 标题行样式 | `CSSProperties` | `undefined` |
 | title | 标题 | `string` | `undefined` |

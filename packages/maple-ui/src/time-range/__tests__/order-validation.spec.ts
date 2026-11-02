@@ -18,7 +18,7 @@ const action = (wrapper: ReturnType<typeof mount>, label: string) =>
   wrapper.findAll('button').find((button) => button.text() === label)!
 const now = new Date(2026, 9, 23, 19, 45, 12)
 
-for (const mode of ['standalone', 'inline', 'popup'] as const) {
+for (const mode of ['standalone', 'direct', 'popup'] as const) {
   for (const format of ['HH:mm:ss', 'hh:mm A']) {
     for (const showNextDay of [false, true]) {
       for (const endpoint of [0, 1]) {
@@ -35,7 +35,7 @@ for (const mode of ['standalone', 'inline', 'popup'] as const) {
               format,
               showNextDay,
               disableConfirm: false,
-              ...(mode === 'standalone' ? {} : { presentation: mode, ...(mode === 'inline' ? { open: true } : {}) }),
+              ...(mode === 'standalone' ? {} : { editMode: mode, ...(mode === 'direct' ? { open: true } : {}) }),
             },
             global,
           })

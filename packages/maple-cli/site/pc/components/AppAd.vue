@@ -12,7 +12,7 @@ defineProps({
 
 const ad = ref(config?.pc?.ad)
 const storageKey = `maple-site-ad-closed-${ad.value?.id}`
-const isClose = ref(localStorage.getItem(storageKey) == 'true')
+const isClose = ref(localStorage.getItem(storageKey) === 'true')
 
 setSiteAddHeight()
 
@@ -37,11 +37,11 @@ function handleClose() {
       color: ad?.textColor,
     }"
   >
-    <img class="maple-site-ad__logo" :style="{ height: ad?.logoHeight }" :src="ad?.logo" v-if="ad?.logo" />
+    <img v-if="ad?.logo" class="maple-site-ad__logo" :style="{ height: ad?.logoHeight }" :src="ad?.logo" />
     <div
+      v-if="ad?.description"
       class="maple-site-ad__description"
       :style="{ background: ad?.descriptionBackground, color: ad?.descriptionTextColor }"
-      v-if="ad?.description"
     >
       <span>{{ ad?.description?.[language] }}</span>
       <mp-icon style="margin-left: 4px" :size="24"><MIconChevronRight /></mp-icon>
@@ -88,7 +88,7 @@ function handleClose() {
     margin-left: 12px;
     font-size: 15px;
     background: var(--site-config-color-side-bar-active-background);
-    color: var(--site-config-color-primary);
+    color: var(--site-config-color-text);
   }
 
   &__close-button {

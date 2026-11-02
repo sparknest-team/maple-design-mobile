@@ -16,7 +16,7 @@ describe('Trigger wrapper migration', () => {
     ['Popover', Popover],
   ])('%s retains click activation', async (_name, Component) => {
     const wrapper = mount(Component, {
-      props: { popupContainer: false },
+      props: { editMode: 'direct', popupContainer: false },
       slots: { default: () => h('button', 'reference') },
     })
     try {

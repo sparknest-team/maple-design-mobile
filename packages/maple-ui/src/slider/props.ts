@@ -1,6 +1,7 @@
 import type { ExtractPublicPropTypes, PropType, VNodeChild } from 'vue'
 import { fieldPresentationProps } from '../_components/field-presentation/props'
 import type { Orientation } from '../utils/constants'
+import { emptyValueProp } from '../utils/empty-value'
 
 export type SliderValue = number | [number, number]
 export type SliderOrientation = Orientation
@@ -8,8 +9,9 @@ export type SliderTooltipFormatter = (value: number) => string | number
 export type SliderTooltipVisibility = boolean | 'always'
 export const sliderProps = {
   ...fieldPresentationProps,
+  emptyValue: emptyValueProp<SliderValue>(),
   /** 受控值；range 时为升序二元组 */
-  modelValue: [Number, Array] as PropType<SliderValue>,
+  modelValue: [Number, Array] as PropType<SliderValue | null>,
   /** 非受控初始值 */
   defaultValue: { type: [Number, Array] as PropType<SliderValue>, default: 0 },
   /** 正有限步长，非法值回退 1；按 min 对齐 */
@@ -58,8 +60,8 @@ export const sliderProps = {
 export type SliderProps = ExtractPublicPropTypes<typeof sliderProps>
 
 export interface SliderEmits {
-  'update:modelValue': [value: SliderValue]
-  change: [value: SliderValue]
+  'update:modelValue': [value: SliderValue | null]
+  change: [value: SliderValue | null]
   start: []
   end: [value: SliderValue]
 }

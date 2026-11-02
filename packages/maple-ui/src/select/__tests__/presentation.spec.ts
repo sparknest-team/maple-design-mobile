@@ -6,11 +6,11 @@ import SelectMenu from '../SelectMenu'
 import { getKeyFromValue } from '../utils'
 
 describe('Select presentation contract', () => {
-  for (const presentation of ['inline', 'popup', 'popup'] as const) {
-    test(presentation + ' has one field and independently controlled values', async () => {
+  for (const editMode of ['direct', 'popup', 'popup'] as const) {
+    test(editMode + ' has one field and independently controlled values', async () => {
       const wrapper = mount(Select, {
         props: {
-          presentation,
+          editMode,
           multiple: true,
           modelValue: [1],
           options: [
@@ -20,7 +20,7 @@ describe('Select presentation contract', () => {
         },
       })
       await nextTick()
-      if (presentation === 'inline') {
+      if (editMode === 'direct') {
         expect(wrapper.findAll('input')).toHaveLength(1)
       }
       const controller = wrapper.findComponent(SelectMenu).props('controller')
@@ -28,7 +28,7 @@ describe('Select presentation contract', () => {
       await nextTick()
       controller.handleSelect(getKeyFromValue(2), new Event('click'))
       await nextTick()
-      if (presentation === 'inline') {
+      if (editMode === 'direct') {
         expect(wrapper.emitted('change')).toEqual([[[1, 2]]])
       } else {
         expect(wrapper.emitted('change')).toBeUndefined()
@@ -42,7 +42,7 @@ describe('Select presentation contract', () => {
   }
   test('popup cancellation discards draft, external updates win, and instances are isolated', async () => {
     const props = {
-      presentation: 'popup' as const,
+      editMode: 'popup' as const,
       multiple: true,
       modelValue: [1],
       options: [

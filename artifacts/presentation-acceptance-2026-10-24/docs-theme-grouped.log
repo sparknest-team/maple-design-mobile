@@ -1,0 +1,51 @@
+
+> @1.0.0 check:docs-theme /Users/shuaimeng/github_web/maple-design-mobile
+> node --test scripts/browser/docs-theme.test.mjs
+
+TAP version 13
+# Subtest: phone-width documentation theme regression
+    # Subtest: example at 320px: live highlighting and theme persistence across reload
+    ok 1 - example at 320px: live highlighting and theme persistence across reload
+      ---
+      duration_ms: 3943.484792
+      ...
+    # Subtest: example at 375px: live highlighting and theme persistence across reload
+    ok 2 - example at 375px: live highlighting and theme persistence across reload
+      ---
+      duration_ms: 3296.445708
+      ...
+    # Subtest: example at 390px: live highlighting and theme persistence across reload
+    ok 3 - example at 390px: live highlighting and theme persistence across reload
+      ---
+      duration_ms: 3454.768167
+      ...
+    # Subtest: documentation at 320px: live highlighting and theme persistence across reload
+    ok 4 - documentation at 320px: live highlighting and theme persistence across reload
+      ---
+      duration_ms: 5558.796416
+      ...
+    # Subtest: documentation at 375px: live highlighting and theme persistence across reload
+    ok 5 - documentation at 375px: live highlighting and theme persistence across reload
+      ---
+      duration_ms: 5451.155083
+      ...
+    # Subtest: documentation at 390px: live highlighting and theme persistence across reload
+    ok 6 - documentation at 390px: live highlighting and theme persistence across reload
+      ---
+      duration_ms: 5347.484167
+      ...
+    1..6
+ok 1 - phone-width documentation theme regression
+  ---
+  duration_ms: 27981.67475
+  type: 'suite'
+  ...
+1..1
+# tests 6
+# suites 1
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 28310.384708

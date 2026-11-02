@@ -25,7 +25,7 @@ const formats = [
   { format: 'HH:mm', initial: '09:30', current: '19:45', edited: '19:46' },
   { format: 'hh:mm A', initial: '09:30 AM', current: '07:45 PM', edited: '07:46 PM' },
 ]
-for (const mode of ['standalone', 'inline', 'popup'] as const) {
+for (const mode of ['standalone', 'direct', 'popup'] as const) {
   for (const { format, initial, current, edited } of formats) {
     for (const disableConfirm of [false, true]) {
       it(`${mode} ${format} disableConfirm=${disableConfirm} Now stages a value until explicit confirmation`, async () => {
@@ -35,7 +35,7 @@ for (const mode of ['standalone', 'inline', 'popup'] as const) {
             modelValue: initial,
             format,
             disableConfirm,
-            ...(mode === 'standalone' ? {} : { presentation: mode, ...(mode === 'inline' ? { open: true } : {}) }),
+            ...(mode === 'standalone' ? {} : { editMode: mode, ...(mode === 'direct' ? { open: true } : {}) }),
           },
           global,
         })
@@ -73,7 +73,7 @@ for (const mode of ['standalone', 'inline', 'popup'] as const) {
       props: {
         format: 'HH:mm',
         showNowButton: false,
-        ...(mode === 'standalone' ? {} : { presentation: mode, open: true }),
+        ...(mode === 'standalone' ? {} : { editMode: mode, open: true }),
       },
       global,
     })
@@ -108,7 +108,7 @@ it('popup Now preserves cancellation and beforeCommit ownership', async () => {
   freeze()
   const beforeCommit = vi.fn().mockResolvedValue(false)
   const wrapper = mount(Time, {
-    props: { modelValue: '09:30:00', presentation: 'popup', beforeCommit },
+    props: { modelValue: '09:30:00', editMode: 'popup', beforeCommit },
     global,
   })
   wrappers.push(wrapper)

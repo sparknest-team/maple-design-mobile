@@ -1,10 +1,10 @@
 # ProgressGroup
 
-## Examples
-
 ### Introduction
 
 Display multiple values as segments of a single progress track with a matching legend.
+
+## Basic examples
 
 ### Basic Usage
 
@@ -12,37 +12,86 @@ Display multiple values as segments of a single progress track with a matching l
 ../example/demos/basic.vue
 ```
 
-### Track Sizes
+## Appearance and states
+
+### Progress group sizes and colors
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `items` | Segment data | Progress group sizes and colors |
+| `size` | Track size | Progress group sizes and colors |
+| `color` | Default segment color | Progress group sizes and colors |
+| `show-text` | Show the summed percentage | Progress group sizes and colors |
+<!-- demo-config-notes:end -->
+
+
+Compare segment sizes and color overrides separately from orientation, circular layouts, overflow and keyboard interaction.
 
 ```demo
-../example/demos/size.vue
+../example/demos/appearance-comparison.vue
 ```
 
+## Layout and arrangement
+
 ### Orientation
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `items` | Segment data | Orientation |
+| `show-text` | Show the summed percentage | Orientation |
+| `orientation` | Horizontal/vertical orientation of the linear progress track, default horizontal; only used for mode=line | Orientation |
+| `size` | Track size | Orientation |
+<!-- demo-config-notes:end -->
+
 
 ```demo
 ../example/demos/orientation.vue
 ```
 
+## Content and presentation
+
 ### Circular Segments
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `mode` | Display mode | Circular Segments |
+| `items` | Segment data | Circular Segments |
+| `show-text` | Show the summed percentage | Circular Segments |
+| `circle-size` | Diameter in circle mode | Circular Segments |
+| `stroke-width` | Track width in circle mode | Circular Segments |
+<!-- demo-config-notes:end -->
+
 
 ```demo
 ../example/demos/circle.vue
 ```
 
-### Default Color and Track Only
-
-```demo
-../example/demos/color.vue
-```
-
-### Custom Content
-
-```demo
-../example/demos/custom.vue
-```
+## Interaction and control
 
 ### Overflow and keyboard
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `items` | Segment data | Overflow and keyboard, Custom Content |
+| `max` | Total used to calculate each share | Overflow and keyboard, Custom Content |
+| `show-text` | Show the summed percentage | Overflow and keyboard, Custom Content |
+| `tooltip` | Enable segment hover/focus tips | Overflow and keyboard |
+| `aria-label` | Accessible group name | Overflow and keyboard |
+| `mode` | Display mode | Overflow and keyboard |
+<!-- demo-config-notes:end -->
+
 
 The demo's parent updates `max`, `items` and `tooltip` for both shapes; these controls are not built-in editing events. Toggle capacity between 100/200, clear/restore data or disable/enable tooltips. Disabling tooltips removes segments from the Tab order, and clearing data removes their tips. Pointer hover takes precedence over keyboard focus; leaving the hovered segment restores the focused segment's tip.
 
@@ -54,14 +103,15 @@ Segments are clipped cumulatively at max in both line and circle modes. Legend a
 
 All five size presets affect line thickness (2/4/8/12/16px), not circle diameter; circle-size and stroke-width control circles. CSS-length circle-size values are supported.
 
-<!-- api-review:start -->
-### Feature playground
+### Custom Content
 
 ```demo
-../example/demos/api-review.vue
+../example/demos/custom.vue
 ```
 
-<!-- api-review:end -->
+## Reading direction
+
+Horizontal segments, highlights and tooltips share a logical start. Vertical progress stays top to bottom; circular angles and data order are preserved.
 
 ## API
 
@@ -75,15 +125,15 @@ All five size presets affect line thickness (2/4/8/12/16px), not circle diameter
 | max | Total used to calculate each share | `number` | `100` |
 | show-text | Show the summed percentage | `boolean` | `false` |
 | size | Track size | `xs \| sm \| md \| lg \| xl` | `md` |
-| color | Default segment color | `string` | theme primary |
+| color | Default segment color | `string` | `content-brand` |
 | circle-size | Diameter in circle mode | `number \| string` | `120` |
 | stroke-width | Track width in circle mode | `number` | `8` |
 | tooltip | Enable segment hover/focus tips | `boolean` | `true` |
-| orientation | Track orientation | `horizontal \| vertical` | `horizontal` |
+| orientation | Horizontal/vertical orientation of the linear progress track, default horizontal; only used for mode=line | `horizontal \| vertical` | `horizontal` |
 
 ### Slots
 
-| Name | Slot props |
+| Name | Slot arguments |
 | --- | --- |
 | text | `{ percent, value, max }` |
 | tooltip | `{ item, index, percent }` |
@@ -104,7 +154,7 @@ All five size presets affect line thickness (2/4/8/12/16px), not circle diameter
 | `--mp-progress-group-tooltip-bg` | `var(--mp-sys-color-surface-tooltip)` |
 | `--mp-progress-group-tooltip-color` | `var(--mp-sys-color-content-on-dark)` |
 
-Marks use system content-brand. Color precedence: item.color > component color > default. Custom colors require contrast validation. Both libraries use the same geometry tokens.
+Graphic markers default to system content-brand. Color precedence: item.color → component color → default. Check custom-color contrast; geometry tokens retain platform differences.
 
 ### Geometry and motion variables
 

@@ -1,4 +1,14 @@
-import { computed, nextTick, onActivated, onBeforeUnmount, onDeactivated, ref, shallowRef, watch } from 'vue'
+import {
+  computed,
+  getCurrentInstance,
+  nextTick,
+  onActivated,
+  onBeforeUnmount,
+  onDeactivated,
+  ref,
+  shallowRef,
+  watch,
+} from 'vue'
 import type { SetupContext } from 'vue'
 import { useInputForm } from '../input/use-input-form'
 import type { SearchResolvedProps } from './props'
@@ -6,11 +16,11 @@ import type { SearchResult } from './result'
 import { useSearchLocale } from './use-search-locale'
 
 export const searchEmits = {
-  'update:modelValue': (_value: string) => true,
+  'update:modelValue': (_value: string | null) => true,
   'update:modelField': (_value: string) => true,
   'update:model': (_value: Record<string, unknown>) => true,
   input: (_value: string, _event: Event) => true,
-  change: (_value: string, _event: Event) => true,
+  change: (_value: string | null, _event: Event) => true,
   clear: (_event: Event) => true,
   search: (_result: SearchResult, _event: Event) => true,
   cancel: (_event: Event) => true,
@@ -24,9 +34,11 @@ export function useSearchControl(
   input: { value: { focus(): void; blur(): void } | null | undefined },
 ) {
   const { searchText, cancelText } = useSearchLocale()
+  const instance = getCurrentInstance()
+  const editMode = computed(() => props.editMode ?? 'direct')
   const popupInput = shallowRef<{ focus(): void; blur(): void }>()
   const activeInput = shallowRef<{ focus(): void; blur(): void }>()
-  const value = ref(props.defaultValue)
+  const value = ref<string | null>(props.defaultValue)
   const field = ref<string | undefined>(props.defaultField ?? props.fields[0]?.value)
   const historyMenuVisible = ref(false)
   const historyPopupVisible = ref(false)
@@ -79,7 +91,7 @@ export function useSearchControl(
     },
   )
 
-  function updateValue(nextValue: string, nextField = computedField.value) {
+  function updateValue(nextValue: string | null, nextField = computedField.value) {
     value.value = nextValue
     emit('update:modelValue', nextValue)
     if (props.model && props.fields.length) {
@@ -107,7 +119,7 @@ export function useSearchControl(
       modelField: computedField.value,
       modelValue: computedValue.value,
       model: props.model,
-      recentSearches: getRecentSearches(computedValue.value),
+      recentSearches: getRecentSearches(computedValue.value ?? ''),
     }
   }
 
@@ -125,19 +137,20 @@ export function useSearchControl(
     if (disposed || inactive || searchDisabled.value || historyPopupClosing.value || !props.recentSearches.length) {
       return
     }
-    if (props.historyPopup) {
+    if (editMode.value === 'popup') {
       historyPopupVisible.value = true
     } else {
       historyMenuVisible.value = true
     }
   }
   function handleHistoryMenuVisibleChange(open: boolean) {
-    historyMenuVisible.value = open && !props.historyPopup && !searchDisabled.value && props.recentSearches.length > 0
+    historyMenuVisible.value =
+      open && editMode.value === 'direct' && !searchDisabled.value && props.recentSearches.length > 0
   }
   function handlePopupVisibleChange(open: boolean) {
     if (!open) {
       closeHistoryPopup()
-    } else if (props.historyPopup) {
+    } else if (editMode.value === 'popup') {
       openHistory()
     }
   }
@@ -146,9 +159,9 @@ export function useSearchControl(
     activeInput.value = undefined
     historyPopupClosing.value = false
   }
-  watch([searchDisabled, () => props.recentSearches.length, () => props.historyPopup], () => {
+  watch([searchDisabled, () => props.recentSearches.length, () => editMode.value], () => {
     closeHistoryPopup()
-    if (!props.historyPopup) {
+    if (editMode.value === 'direct') {
       historyPopupClosing.value = false
     }
   })
@@ -157,7 +170,7 @@ export function useSearchControl(
     emit('input', nextValue, event)
     openHistory()
   }
-  function handleChange(nextValue: string, event: Event) {
+  function handleChange(nextValue: string | null, event: Event) {
     emit('change', nextValue, event)
   }
   function handleClear(event: Event) {
@@ -252,6 +265,7 @@ export function useSearchControl(
   }
 
   return {
+    editMode,
     searchText,
     cancelText,
     computedValue,

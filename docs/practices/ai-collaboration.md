@@ -60,3 +60,7 @@ PC 端入口：`/Users/shuaimeng/github/cedar-design-web/AGENTS.md`。
 - ❌ 把"个人偏好"写进 `AGENTS.md`（应放 user memory）。
 - ❌ 在 `AGENTS.md` 重复 `component-spec.md` 的全部内容 —— 只摘要 + 链接。
 - ❌ 删掉「历史教训」段，即使代码已修复 —— 它是给未来 AI 的免疫接种。
+
+## API 方位命名校验
+
+AI 新增或调整相关属性前必须读取 [共享 API 命名规范](../../../design-ui/standards/api-design.md)，以其中的最终组件清单和机器契约为准。具体规则只在共享规范维护；新增声明需登记用途与值域，不自动扩充基线。检查命令：仓库根目录 `pnpm check:api-naming`，完整交付仍执行已有 lint、类型和受影响行为测试。

@@ -7,7 +7,9 @@
   "main": "./lib/index.cjs",
   "module": "./es/index.mjs",
   "types": "./types/index.d.ts",
-  "sideEffects": false,
+  "sideEffects": [
+    "./style.css"
+  ],
   "exports": {
     ".": {
       "types": "./types/index.d.ts",
@@ -18,12 +20,14 @@
       "types": "./types/*/index.d.ts",
       "import": "./es/*/index.mjs",
       "require": "./lib/*/index.cjs"
-    }
+    },
+    "./style.css": "./style.css"
   },
   "files": [
     "es",
     "lib",
-    "types"
+    "types",
+    "style.css"
   ],
   "scripts": {
     "generate": "node scripts/generate.mjs",

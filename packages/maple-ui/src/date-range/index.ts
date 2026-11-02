@@ -21,7 +21,7 @@ export { dateRangeProps, dateRangePickerProps, DateRangePicker }
 
 export type DateRangeInstance = InstanceType<typeof _DateRange>
 export type DateRangePickerInstance = InstanceType<typeof DateRangePicker>
-export type { DateRangeProps, DateRangeType, DateRangePresentation } from './props'
+export type { DateRangeProps, DateRangeType, DateRangeEditMode } from './props'
 export type { DateRangePickerProps, DateRangePickerPresentation } from './picker-props'
 
 export const _DateRangeComponent: typeof DateRange = DateRange
@@ -38,3 +38,7 @@ export type { DateRangeEmits, DateRangePickerEmits } from '../date/events'
 export type { DateRangeCalendarOptions } from './calendar-options'
 
 export type { DateWheelOptions } from '../date/wheel-options'
+
+export type { DateRangePopupOptions } from './popup-options'
+
+export type { DatePickerField } from '../_components/picker-field/fields'

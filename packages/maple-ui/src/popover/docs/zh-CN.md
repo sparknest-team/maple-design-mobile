@@ -2,7 +2,7 @@
 
 点击触发元素后展示结构化内容。Popover 可以包含按钮、表单和其他交互元素；纯文字说明使用 Tooltip。
 
-## 案例
+## 基础示例
 
 ### 基本使用
 
@@ -10,24 +10,25 @@
 ../example/demos/basic-usage.vue
 ```
 
-### 交互内容与状态保留
+## 内容与展示
+
+### 位置、偏移与宽度
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `placement` | 浮层相对触发元素的首选方位，默认 bottom；启用默认的 auto-fit-position 时，空间不足会自动翻转并约束到可视区域，不保证最终停在该侧 | 位置、偏移与宽度 |
+| `popup-translate` | 屏幕轴附加平移 | 位置、偏移与宽度 |
+| `trigger` | 触发方式 | 触发方式、受控状态与事件 |
+| `disabled` | 禁止打开 | 触发方式、受控状态与事件 |
+<!-- demo-config-notes:end -->
+
+依次触发浮层，对比锚点方向、偏移与触发器宽度适配。关闭当前浮层后比较下一种配置。
 
 ```demo
-../example/demos/interactive.vue
-```
-
-### 位置、偏移与同宽
-
-```demo
-../example/demos/placement.vue
-```
-
-```demo
-../example/demos/offset.vue
-```
-
-```demo
-../example/demos/auto-fit-popup-width.vue
+../example/demos/positioning-comparison.vue
 ```
 
 ### 触发方式、受控状态与事件
@@ -48,14 +49,17 @@
 ../example/demos/disabled.vue
 ```
 
-<!-- api-review:start -->
-### 功能调试
+## 交互与控制
+
+### 交互内容与状态保留
 
 ```demo
-../example/demos/api-review.vue
+../example/demos/interactive.vue
 ```
 
-<!-- api-review:end -->
+## 阅读方向
+
+继承最近的 `dir="ltr|rtl"`，支持运行时切换与局部覆盖。内容默认对齐阅读起点，弹层继承来源方向；逻辑 start/end 对齐随方向变化，显式 left/right 方位保持物理语义。
 
 ## API
 
@@ -70,7 +74,7 @@ Popover 继承 Trigger 的定位、容器、受控状态、关闭策略和公开
 | title | 标题 | `string` | — |
 | content | 正文 | `string` | — |
 | trigger | 触发方式 | `TriggerEvent \| TriggerEvent[]` | `click` |
-| placement | 首选方位 | `TriggerPlacement` | `bottom` |
+| placement | 浮层相对触发元素的首选方位，默认 bottom；启用默认的 auto-fit-position 时，空间不足会自动翻转并约束到可视区域，不保证最终停在该侧 | `TriggerPlacement` | `bottom` |
 | show-arrow | 是否显示箭头 | `boolean` | `true` |
 | popup-offset | 沿方位主轴的距离 | `number` | `10` |
 | popup-translate | 屏幕轴附加平移 | `[number, number] \| Record` | — |

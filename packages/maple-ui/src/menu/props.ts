@@ -3,7 +3,7 @@ import { triggerProps as triggerPropDefaults } from '../trigger'
 import { componentSizes, type ComponentSize } from '../utils/constants'
 import { menuDefaults } from './appearance'
 import type { MenuFieldNames } from './selection'
-import type { MenuOptionData, MenuPosition, MenuReference, MenuSubmenuTrigger, MenuValue } from './types'
+import type { MenuOptionData, MenuPlacement, MenuReference, MenuSubmenuTrigger, MenuValue } from './types'
 
 export type { MenuOptionData, MenuOptionLabel, MenuOptionLabelRender } from './types'
 export type MenuSize = ComponentSize
@@ -43,7 +43,8 @@ export const menuProps = {
     validator: (value: unknown) => value === 'click' || value === 'hover',
   },
   /** 弹出位置 */
-  placement: { type: String as PropType<MenuPosition>, default: 'bottom' },
+  /** 浮层相对触发元素的首选方位，默认 bottom；启用默认的 auto-fit-position 时，空间不足会自动翻转并约束到可视区域，不保证最终停在该侧 */
+  placement: { type: String as PropType<MenuPlacement>, default: 'bottom' },
   /** 外部触发元素 */
   reference: { type: [String, Object] as PropType<MenuReference>, default: undefined },
   /** 定位策略，所有层级子菜单响应式继承。 */

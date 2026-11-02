@@ -15,12 +15,9 @@ export const semanticStatuses = [
 export type SemanticStatus = (typeof semanticStatuses)[number]
 export const MESSAGE_TYPES = ['info', 'success', 'warning', 'error'] as const
 export type MessageType = (typeof MESSAGE_TYPES)[number]
-export { triggerPlacements as TRIGGER_POSITIONS } from '../trigger/contract'
-export type { TriggerPlacement as TriggerPosition } from '../trigger/contract'
 export { triggerEvents as TRIGGER_EVENTS } from '../trigger/contract'
 export type { TriggerEvent } from '../trigger/contract'
-export const DIRECTIONS = ['horizontal', 'vertical'] as const
-export type Direction = (typeof DIRECTIONS)[number]
+export { orientations, type Orientation } from '../utils/constants'
 export const INPUT_EVENTS = [
   // focus events
   'onFocus',

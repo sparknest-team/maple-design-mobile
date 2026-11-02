@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
-import { readdirSync, readFileSync } from 'node:fs'
+import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
-import { resolve } from 'node:path'
+import { dirname, resolve } from 'node:path'
 import test from 'node:test'
 import { fileURLToPath } from 'node:url'
 import { markdown } from '../../packages/maple-vite-plugins/lib/index.js'
@@ -9,7 +9,7 @@ import { markdown } from '../../packages/maple-vite-plugins/lib/index.js'
 const root = fileURLToPath(new URL('../../', import.meta.url))
 const source = resolve(root, 'packages/maple-ui/src')
 const require = createRequire(resolve(root, 'packages/maple-ui/package.json'))
-const { parse, compileTemplate } = require('vue/compiler-sfc')
+const { parse, compileTemplate, compileScript } = require('vue/compiler-sfc')
 const pluginRequire = createRequire(resolve(root, 'packages/maple-vite-plugins/package.json'))
 const markdownIt = pluginRequire('markdown-it')
 
@@ -57,6 +57,10 @@ test('authored demo counts include both live syntaxes and exclude documentation 
   assert.deepEqual(countAuthoredDemos(content), { tags: 2, fences: 1, total: 3 })
 })
 
+function metadataWatchCount(id = resolve(source, 'verification-code/docs/zh-CN.md')) {
+  return existsSync(resolve(dirname(id), '../example/index.vue')) ? 1 : 0
+}
+
 function render(content, id = resolve(source, 'verification-code/docs/zh-CN.md')) {
   const watched = []
   const plugin = markdown({})
@@ -71,9 +75,9 @@ function render(content, id = resolve(source, 'verification-code/docs/zh-CN.md')
     id,
   )
   const { descriptor, errors } = parse(result)
-  assert.deepEqual(errors, [])
+  assert.deepEqual(errors, [], id)
   const template = compileTemplate({ source: descriptor.template.content, filename: id, id: 'syntax-test' })
-  assert.deepEqual(template.errors, [])
+  assert.deepEqual(template.errors, [], id)
   return { result, watched }
 }
 
@@ -84,7 +88,7 @@ test('paired and self-closing live demo tags produce separate source cards', () 
   assert.equal((result.match(/<mp-site-demo-preview /g) ?? []).length, 2)
   assert.ok(result.includes("import MapleDemo0 from '../example/demos/basic.vue'"))
   assert.ok(result.includes("import MapleDemo1 from '../example/demos/appearance.vue'"))
-  assert.equal(watched.length, 2)
+  assert.equal(watched.length, 2 + metadataWatchCount())
   assert.ok(!result.includes("from '../example/index.vue'"))
 })
 
@@ -103,7 +107,7 @@ test('demo tags inside code samples are never executed or watched', () => {
     '# Syntax\n\n```html\n<demo src="./not-a-real-file.vue"></demo>\n```\n\n<demo src="../example/demos/basic.vue"></demo>\n',
   )
   assert.equal((result.match(/<mp-site-demo-preview /g) ?? []).length, 1)
-  assert.equal(watched.length, 1)
+  assert.equal(watched.length, 1 + metadataWatchCount())
   assert.ok(result.includes('not-a-real-file.vue'))
 })
 
@@ -116,7 +120,7 @@ test('actual bilingual VerificationCode and Upload docs expose every authored de
       const { result, watched } = render(content, id)
       assert.ok(expected >= 4)
       assert.equal((result.match(/<mp-site-demo-preview /g) ?? []).length, expected)
-      assert.equal(watched.length, expected)
+      assert.equal(watched.length, expected + metadataWatchCount(id))
     }
   }
 })
@@ -138,7 +142,7 @@ test('all component docs render each live demo reference independently', () => {
       }
       const { result, watched } = render(content, id)
       assert.equal((result.match(/<mp-site-demo-preview /g) ?? []).length, total, id)
-      assert.equal(watched.length, total, id)
+      assert.equal(watched.length, total + metadataWatchCount(id), id)
       pages++
     }
   }
@@ -189,5 +193,60 @@ test('Fab live cards have no second static source toolbar for the same examples'
     }
     const { result } = render(content, id)
     assert.equal((result.match(/<mp-site-demo-preview /g) ?? []).length, countAuthoredDemos(content).total)
+  }
+})
+
+test('links bilingual desktop demos to stable mobile section ids, including dynamic locale components', () => {
+  for (const language of ['zh-CN', 'en-US']) {
+    for (const [component, mobileId] of [
+      ['button', 'size'],
+      ['verification-code', 'basic'],
+    ]) {
+      const id = resolve(source, component, 'docs', `${language}.md`)
+      const { result, watched } = render(readFileSync(id, 'utf8'), id)
+      assert.ok(result.includes(`data-mobile-demo="${mobileId}"`), `${component}/${language}`)
+      assert.ok(watched.includes(resolve(source, component, 'example/index.vue')))
+    }
+  }
+})
+
+test('disclosure headings remain within their example card', () => {
+  const { result } = render(
+    [
+      '## Examples',
+      '',
+      '### Outer demo',
+      '',
+      '<details>',
+      '<summary>Notes</summary>',
+      '',
+      '### Inner explanation',
+      '',
+      'Some details.',
+      '',
+      '</details>',
+      '',
+      '<demo src="../example/demos/basic.vue"></demo>',
+    ].join('\n'),
+  )
+  assert.ok(result.includes('<h3>Inner explanation</h3>'))
+  assert.ok(result.indexOf('</details>') < result.indexOf('data-mobile-demo="basic"'))
+})
+
+test('ordinary Vue snippets with named imports remain static code and produce valid page scripts', () => {
+  const id = resolve(root, 'packages/maple-ui/docs/controlledUncontrolled.en-US.md')
+  const content = readFileSync(id, 'utf8')
+  const { result } = render(content, id)
+  const { descriptor } = parse(result)
+  assert.doesNotThrow(() => compileScript(descriptor, { id: 'static-vue-snippet' }))
+  assert.ok(!descriptor.script.content.includes('import { ref }'))
+  const bindings = [
+    ...new Set([...content.matchAll(/\b(?:const|function)\s+([A-Za-z_$][\w$]*)/g)].map((match) => match[1])),
+  ]
+  assert.ok(bindings.length > 0, 'the guide contains explanatory script bindings')
+  const compiled = compileTemplate({ source: descriptor.template.content, filename: id, id: 'static-vue-snippet' })
+  for (const binding of bindings) {
+    assert.ok(result.includes(binding), `${binding}: the explanatory example remains visible`)
+    assert.ok(!compiled.code.includes(`_ctx.${binding}`), `${binding}: code does not execute as a Vue template`)
   }
 })

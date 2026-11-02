@@ -132,3 +132,11 @@ Do not interpolate class names such as `mp-bg-${status}`; Uno / TW only scans co
 | Semantic color levels | [Color](#/en-US/color) |
 | Palette scales | [Palette](#/en-US/palette) |
 | Install / config | [Atomic CSS](#/en-US/atomic-css) |
+
+## Basic examples
+
+### Basic usage
+
+```demo
+../example/basic.vue
+```

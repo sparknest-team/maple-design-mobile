@@ -6,7 +6,14 @@
       "type": "string",
       "defaultValue": "undefined",
       "kind": "enum",
-      "options": ["arrow-left", "arrow-right", "check-circle", "info-circle", "refresh", "search"],
+      "options": [
+        "arrow-left",
+        "arrow-right",
+        "check-circle",
+        "info-circle",
+        "refresh",
+        "search"
+      ],
       "initial": "arrow-left"
     },
     {
@@ -53,7 +60,9 @@
       "kind": "scalar"
     }
   ],
-  "events": ["click"],
+  "events": [
+    "click"
+  ],
   "scenarios": [],
   "slotNames": [],
   "slotDefaults": {},

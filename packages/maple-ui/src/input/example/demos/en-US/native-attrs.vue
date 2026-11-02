@@ -2,7 +2,7 @@
   <mp-input
     enterkeyhint="next"
     aria-label="Enter your email"
-    :input-attrs="{ name: 'email', autocomplete: 'email', autocapitalize: 'none' }"
+    :input-attrs="{ name: 'email', autocomplete: 'off', autocapitalize: 'none' }"
     placeholder="Enter your email"
     type="email"
   />

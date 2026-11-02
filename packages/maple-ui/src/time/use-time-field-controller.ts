@@ -17,6 +17,7 @@ type ControllerOptions<T extends TimeCommitInput> = Omit<
   'onCommit'
 > & {
   disabled: () => boolean
+  emptyValue?: () => T
   clearable: () => boolean
   onCommit: (value: T, dates: EventDates) => void
   onSelect: (value: T, dates: EventDates) => void
@@ -62,7 +63,7 @@ export function useTimeFieldController<T extends TimeCommitInput>(options: Contr
   }
 
   function clearField() {
-    if (!options.clearable() || !transaction.clear(undefined as T)) {
+    if (!options.clearable() || !transaction.clear(options.emptyValue ? options.emptyValue() : (undefined as T))) {
       return false
     }
     options.onClear()

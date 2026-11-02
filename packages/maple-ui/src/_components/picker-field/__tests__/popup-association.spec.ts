@@ -12,7 +12,7 @@ describe('temporal field popup association', () => {
     it(name + ' connects the native combobox to its own named popup', async () => {
       const wrapper = mount(Component as typeof DateField, {
         attachTo: document.body,
-        props: { open: true, popupContainer: false },
+        props: { editMode: 'direct', open: true, popupContainer: false },
         attrs: { 'aria-label': name + ' field', 'aria-describedby': 'help-' + name },
       })
       await nextTick()

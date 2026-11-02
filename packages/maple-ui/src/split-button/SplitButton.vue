@@ -9,7 +9,7 @@
     :disabled="disabled"
     :elevation="elevation"
   >
-    <Button v-bind="{ ...buttonProps, onClick: clickHandlers }" :auto-loading="autoLoading" :disabled="actionDisabled">
+    <Button v-bind="buttonProps" :disabled="actionDisabled" @click="emit('click', $event)">
       <slot />
     </Button>
 
@@ -50,7 +50,7 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
 import { IconMenuDown } from '@maple-design/icons-vue'
-import Button, { ButtonGroup, type ButtonHandler } from '../button'
+import Button, { ButtonGroup } from '../button'
 import Menu, { type MenuInstance } from '../menu'
 import { createNamespace } from '../utils/components'
 import { splitButtonProps } from './props'
@@ -60,17 +60,12 @@ defineOptions({
 })
 
 const props = defineProps(splitButtonProps)
-const emit = defineEmits(['update:open', 'open-change', 'select'])
+const emit = defineEmits(['update:open', 'open-change', 'select', 'click'])
 
 const { n } = createNamespace('split-button')
 const menuRef = ref<MenuInstance>()
 const actionDisabled = computed(() => !!(props.disabled || props.buttonProps?.disabled))
 const triggerDisabled = computed(() => !!(props.disabled || props.triggerButtonProps?.disabled))
-const clickHandlers = computed(() =>
-  [props.buttonProps?.onClick, props.onClick]
-    .flat()
-    .filter((handler): handler is ButtonHandler => typeof handler === 'function'),
-)
 
 const uncontrolledOpen = ref(props.defaultOpen)
 const computedOpen = computed({

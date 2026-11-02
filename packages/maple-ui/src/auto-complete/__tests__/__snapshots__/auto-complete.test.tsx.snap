@@ -6,6 +6,7 @@ exports[`AutoComplete > base markup snapshot 1`] = `
     <div class="mp-field-decorator mp-field-decorator--size-md mp-field-decorator--variant-outline">
       <!--v-if--><span class="mp-field-decorator__middle"><input role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="mp-auto-complete-listbox-v-0" autocomplete="off" id="v-1" class="mp-input__inner" type="text" value=""></span>
       <!--v-if-->
+      <!--v-if-->
       <!--v-if--><span class="mp-field-decorator__border" aria-hidden="true"></span><span class="mp-field-decorator__border-state" aria-hidden="true"></span>
     </div>
   </div>

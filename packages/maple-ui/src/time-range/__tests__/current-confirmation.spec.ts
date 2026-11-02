@@ -17,7 +17,7 @@ afterEach(() => {
 const action = (wrapper: ReturnType<typeof mount>, label: string) =>
   wrapper.findAll('button').find((button) => button.text() === label)!
 
-for (const mode of ['standalone', 'inline', 'popup'] as const) {
+for (const mode of ['standalone', 'direct', 'popup'] as const) {
   for (const endpoint of [0, 1]) {
     for (const showNextDay of [false, true]) {
       for (const disableConfirm of [false, true]) {
@@ -30,7 +30,7 @@ for (const mode of ['standalone', 'inline', 'popup'] as const) {
               modelValue: initial,
               showNextDay,
               disableConfirm,
-              ...(mode === 'standalone' ? {} : { presentation: mode, ...(mode === 'inline' ? { open: true } : {}) }),
+              ...(mode === 'standalone' ? {} : { editMode: mode, ...(mode === 'direct' ? { open: true } : {}) }),
             },
             global,
           })
@@ -79,7 +79,7 @@ it('cancels Now without committing and honours an asynchronous beforeCommit reje
   const initial = ['00:00:00', '23:59:59']
   const beforeCommit = vi.fn().mockResolvedValue(false)
   const wrapper = mount(TimeRange, {
-    props: { modelValue: initial, presentation: 'popup', disableConfirm: true, beforeCommit },
+    props: { modelValue: initial, editMode: 'popup', disableConfirm: true, beforeCommit },
     global,
   })
   wrappers.push(wrapper)

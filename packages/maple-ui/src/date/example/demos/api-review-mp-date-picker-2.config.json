@@ -60,11 +60,12 @@
       "kind": "boolean"
     },
     {
-      "name": "use-seconds",
-      "description": "默认时间精度，显式 format 优先",
-      "type": "boolean",
-      "defaultValue": "true",
-      "kind": "boolean"
+      "name": "time-fields",
+      "description": "时间列及顺序",
+      "type": "readonly TimePickerField[]",
+      "defaultValue": "['hour', 'minute', 'second']",
+      "kind": "json",
+      "initial": "[\"hour\",\"minute\",\"second\"]"
     },
     {
       "name": "disabled-date",
@@ -125,7 +126,15 @@
       "type": "0 | 1 | 2 | 3 | 4 | 5 | 6",
       "defaultValue": "0",
       "kind": "enum",
-      "options": ["0", "1", "2", "3", "4", "5", "6"],
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6"
+      ],
       "initial": "1"
     },
     {
@@ -178,11 +187,33 @@
       "type": "boolean",
       "defaultValue": "true",
       "kind": "boolean"
+    },
+    {
+      "name": "date-fields",
+      "description": "日期滚轮列及顺序，不改变日历网格",
+      "type": "readonly DatePickerField[]",
+      "kind": "json",
+      "defaultValue": "按 type 生成",
+      "initial": "[\"year\",\"month\",\"day\"]"
     }
   ],
   "methodNames": [],
-  "events": ["preview", "change", "select", "update:pickerValue", "picker-value-change", "select-shortcut"],
-  "slotNames": ["year", "month", "date", "range", "multiple", "actions"],
+  "events": [
+    "preview",
+    "change",
+    "select",
+    "update:pickerValue",
+    "picker-value-change",
+    "select-shortcut"
+  ],
+  "slotNames": [
+    "year",
+    "month",
+    "date",
+    "range",
+    "multiple",
+    "actions"
+  ],
   "slotDefaults": {
     "year": false,
     "month": false,

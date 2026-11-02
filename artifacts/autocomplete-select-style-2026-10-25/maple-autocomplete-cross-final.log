@@ -1,0 +1,65 @@
+
+> @1.0.0 check:cross-platform /Users/shuaimeng/github_web/maple-design-mobile
+> pnpm check:tabs && pnpm check:rate && pnpm check:ripple && pnpm check:lightweight-feedback && pnpm check:input && pnpm check:selection-field && pnpm check:selection-presentations && pnpm check:auto-complete && pnpm check:time-rules && pnpm check:form-kernel && pnpm check:date-family && pnpm check:scroll-text
+
+
+> @1.0.0 check:tabs /Users/shuaimeng/github_web/maple-design-mobile
+> node checks/tabs-same-source.mjs
+
+Tabs parity passed: 13 copied source pairs; 40 token consumers; six components. Local configuration, registration and four visual defaults remain independent.
+
+> @1.0.0 check:rate /Users/shuaimeng/github_web/maple-design-mobile
+> node checks/rate-same-source.mjs
+
+Rate parity passed: shared behavior, props and precedence; only package imports differ.
+
+> @1.0.0 check:ripple /Users/shuaimeng/github_web/maple-design-mobile
+> node checks/ripple-same-source.mjs
+
+Ripple parity passed: shared directive behavior and visual rules; token defaults remain platform-specific.
+
+> @1.0.0 check:lightweight-feedback /Users/shuaimeng/github_web/maple-design-mobile
+> node checks/lightweight-feedback-same-source.mjs
+
+Loading/Result and Message parity passed: feedback views, Message service/timer/contracts, graphics and tokens match.
+
+> @1.0.0 check:input /Users/shuaimeng/github_web/maple-design-mobile
+> node checks/input-same-source.mjs
+
+Input / FieldDecorator: 18 independently maintained source pairs match; form/locale bridges and token defaults remain local.
+Both Less compilers preserve the hint notch offset expression.
+
+> @1.0.0 check:selection-field /Users/shuaimeng/github_web/maple-design-mobile
+> node checks/selection-field-same-source.mjs
+
+Field layers: 25 independent source pairs, four Less outputs and Cedar ownership boundaries verified. Select/Cascader also have a separate presentation source check.
+
+> @1.0.0 check:selection-presentations /Users/shuaimeng/github_web/maple-design-mobile
+> node checks/selection-presentations-same-source.mjs
+
+Selection presentations: 43 independent source pairs and six Less outputs verified. Selected-options platform views are covered by component tests.
+
+> @1.0.0 check:auto-complete /Users/shuaimeng/github_web/maple-design-mobile
+> node checks/auto-complete-same-source.mjs
+
+AutoComplete: 7 independent source/test pairs and both Less outputs verified.
+
+> @1.0.0 check:time-rules /Users/shuaimeng/github_web/maple-design-mobile
+> node checks/time-rules-same-source.mjs
+
+Time foundation: 35 independent source/test pairs, 4 panel and 2 field presentation boundaries verified; field owners copied, local views remain independent.
+
+> @1.0.0 check:form-kernel /Users/shuaimeng/github_web/maple-design-mobile
+> node checks/form-kernel-same-source.mjs
+
+Form kernel parity passed: 12 copied pairs: registry, validation, reset, clear, triggers, async races, layout and label-width lifecycle are same-source.
+
+> @1.0.0 check:date-family /Users/shuaimeng/github_web/maple-design-mobile
+> node checks/date-family-same-source.mjs
+
+Date family: 35 independent source/test pairs and field/panel presentation boundaries verified.
+
+> @1.0.0 check:scroll-text /Users/shuaimeng/github_web/maple-design-mobile
+> node checks/scroll-text-same-source.mjs
+
+BackTop / Ellipsis: 12 independent source, style and test pairs verified.

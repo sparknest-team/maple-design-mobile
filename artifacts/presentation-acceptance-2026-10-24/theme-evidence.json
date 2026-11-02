@@ -1,0 +1,15 @@
+{
+  "node": "v20.18.3",
+  "before": {
+    "source": "7800248a161dd33a0b97b46cf4329be7548ef45893f37e28e08d5f0612c8d7e1",
+    "production": "0274f972b389f02c294e353c953276654046d606f2c334799b9e1ec8038e953b",
+    "index": "e12a1fa1d3ccae5e12fcfeac9965c69071ab9fe4074d2ef376d8d2c1e7d3df2a"
+  },
+  "after": {
+    "source": "7800248a161dd33a0b97b46cf4329be7548ef45893f37e28e08d5f0612c8d7e1",
+    "production": "0274f972b389f02c294e353c953276654046d606f2c334799b9e1ec8038e953b",
+    "index": "e12a1fa1d3ccae5e12fcfeac9965c69071ab9fe4074d2ef376d8d2c1e7d3df2a"
+  },
+  "stable": true,
+  "exitCode": 0
+}

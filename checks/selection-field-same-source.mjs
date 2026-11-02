@@ -21,6 +21,8 @@ const groups = {
     '__tests__/selection-key.spec.ts',
   ],
   'picker-field': [
+    'open-trigger.ts',
+    '__tests__/open-trigger.spec.ts',
     'PickerField.vue',
     'props.ts',
     'use-field-transaction.ts',

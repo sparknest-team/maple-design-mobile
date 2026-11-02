@@ -2,8 +2,8 @@
 import { ref } from 'vue'
 import ModelOutput from '../components/ModelOutput.vue'
 
-const presentation = ref('inline')
-const presentations = ['inline', 'popup'].map((value) => ({ value, label: value }))
+const editMode = ref('popup')
+const presentations = ['direct', 'popup'].map((value) => ({ value, label: value }))
 const choices = [
   { label: '研发', value: 'dev' },
   { label: '设计', value: 'design' },
@@ -18,9 +18,17 @@ const model = ref({
 </script>
 
 <template>
-  <mp-space direction="column" :size="16">
-    <mp-select v-model="presentation" :options="presentations" :clearable="false" aria-label="字段展示方式" />
-    <mp-form :model="model" :presentation="presentation">
+  <mp-space direction="column" align="stretch" :size="16">
+    <mp-form-item layout="vertical" size="sm" label="字段展示方式">
+      <mp-radio-group
+        v-model="editMode"
+        aria-label="字段展示方式"
+        :options="presentations"
+        variant="button"
+        size="sm"
+      />
+    </mp-form-item>
+    <mp-form :model="model" :edit-mode="editMode">
       <mp-form-item field="enabled" label="启用"><mp-switch v-model="model.enabled" /></mp-form-item>
       <mp-form-item field="agreed" label="确认状态"
         ><mp-checkbox v-model="model.agreed">已阅读说明</mp-checkbox></mp-form-item

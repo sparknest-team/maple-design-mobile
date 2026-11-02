@@ -58,7 +58,7 @@ describe('Search', () => {
       props: {
         defaultValue: 'keyword',
         clearable: true,
-        historyPopup: false,
+        editMode: 'direct',
         recentSearches: ['keyword', 'other'],
       },
     })
@@ -88,7 +88,7 @@ describe('Search', () => {
       props: {
         defaultValue: ' keyword ',
         recentSearches: ['keyword', 'other'],
-        historyPopup: false,
+        editMode: 'direct',
       },
     })
     const input = wrapper.get('.mp-input__inner')
@@ -191,7 +191,7 @@ describe('Search', () => {
   test('selects popup history and searches immediately', async () => {
     const wrapper = mount(MpSearch, {
       attachTo: document.body,
-      props: { recentSearches: ['Maple', 'Cedar'] },
+      props: { editMode: 'popup', recentSearches: ['Maple', 'Cedar'] },
     })
 
     await wrapper.get('.mp-input__inner').trigger('focus')
@@ -210,7 +210,7 @@ describe('Search', () => {
       attachTo: document.body,
       props: {
         recentSearches: ['Maple', 'Cedar'],
-        historyPopup: false,
+        editMode: 'direct',
       },
     })
 

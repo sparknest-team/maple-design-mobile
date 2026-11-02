@@ -2,7 +2,7 @@
 
 与 Cedar 使用相同场景、参数和交互顺序；示例源码仅替换组件前缀，主题与站点外壳各自保留。
 
-## 案例
+## 基础示例
 
 ### 基础用法
 
@@ -10,25 +10,41 @@
 ../example/demos/basic.vue
 ```
 
-### 顶部偏移
+## 布局与排列
+
+### 吸附方向、偏移与容器
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `target` | 滚动容器或选择器；省略时寻找最近滚动父元素，找不到则使用 window | 吸附方向、偏移与容器 |
+| `offset-top` | 相对滚动容器顶部的吸附距离，支持 CSS 长度 | 吸附方向、偏移与容器 |
+| `offset-bottom` | 相对滚动容器底部的吸附距离；设置后优先于 offset-top，0 也有效 | 吸附方向、偏移与容器 |
+<!-- demo-config-notes:end -->
+
+分别滚动三个有边框的区域，比较顶部/底部吸附和不同偏移；每个预览独立指定滚动容器。
 
 ```demo
-../example/demos/top.vue
+../example/demos/offset-container-comparison.vue
 ```
 
-### 底部偏移
-
-```demo
-../example/demos/bottom.vue
-```
-
-### 指定滚动容器
-
-```demo
-../example/demos/container.vue
-```
+## 交互与控制
 
 ### 吸附状态变化
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `target` | 滚动容器或选择器；省略时寻找最近滚动父元素，找不到则使用 window | 吸附状态变化、禁用、CSS 模式与手动更新 |
+| `offset-top` | 相对滚动容器顶部的吸附距离，支持 CSS 长度 | 吸附状态变化、禁用、CSS 模式与手动更新 |
+| `disabled` | 禁用吸附 | 禁用、CSS 模式与手动更新 |
+| `css-mode` | 使用原生 position: sticky，受祖先 overflow 和容器边界影响 | 禁用、CSS 模式与手动更新 |
+| `z-index` | 固钉层级 | 禁用、CSS 模式与手动更新 |
+<!-- demo-config-notes:end -->
 
 ```demo
 ../example/demos/fix-change.vue
@@ -39,15 +55,6 @@
 ```demo
 ../example/demos/controls.vue
 ```
-
-<!-- api-review:start -->
-### 功能调试
-
-```demo
-../example/demos/api-review.vue
-```
-
-<!-- api-review:end -->
 
 ## API
 
@@ -86,3 +93,5 @@
 
 属性、事件参数、插槽与公开方法一致。CSS 模式遵循浏览器 sticky 规则；示例统一使用独立滚动容器。
 <!-- same-source-api:end -->
+
+`change` 只通知固定状态变化：已固定时重复测量不重复发送 true，禁用解除固定发送 false、0。视口单位随测量重新求值。CSS 模式将有效长度交给原生 sticky；JS 模式解析数字、数值字符串、px、rem、vw、vh、vmin、vmax。target 控制监听及 JS 测量，原生 sticky 仍受实际 CSS 祖先约束。停用后，待完成的 `updatePosition()` 不会恢复旧激活代次的监听。

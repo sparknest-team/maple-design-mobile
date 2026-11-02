@@ -18,8 +18,19 @@ export function toCalendarValue(
     parseDateValue(part, options)?.format(calendarValueFormat(options))
   return Array.isArray(value) ? value.map(convert) : convert(value)
 }
-export function fromCalendarValue(value: DateSelection, options: DateValueOptions): DateSelection {
-  const convert = (part: Exclude<DateSelection, unknown[]>) => {
+export function fromCalendarValue(
+  value: DateSelection,
+  options: DateValueOptions,
+  previous?: DateSelection,
+): DateSelection {
+  const oldValues = Array.isArray(previous) ? previous : [previous]
+  const convert = (part: Exclude<DateSelection, unknown[]>, index = 0) => {
+    const old = oldValues[index]
+    // Civil labels omit the fold occurrence and sub-display precision. Untouched
+    // endpoints retain their original instant, especially when that side is locked.
+    if (part !== undefined && old !== undefined && toCalendarValue(old, options) === part) {
+      return old instanceof Date ? new Date(old.getTime()) : old
+    }
     const date = parseDateValue(part, { ...options, valueFormat: calendarValueFormat(options) })
     return date ? outputDateValue(date.toDate(), options) : undefined
   }

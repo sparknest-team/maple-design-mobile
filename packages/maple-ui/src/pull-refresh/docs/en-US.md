@@ -1,6 +1,6 @@
 # PullRefresh
 
-## Examples
+## Basic examples
 
 ### Basic Usage
 
@@ -8,28 +8,15 @@
 ../example/demos/basic.vue
 ```
 
-## Timing and lifecycle
-
-Provides pull-to-refresh at the top of a list.
-
-<!-- api-review:start -->
-### Feature playground
-
-```demo
-../example/demos/api-review.vue
-```
-
-<!-- api-review:end -->
-
 ## API
 
-### Model and default value
+### Value and default value
 
-Use ordinary `v-model`. `modelValue` is the refresh loading state; the parent sets its bound value to false when asynchronous work completes. `defaultValue` initializes uncontrolled state only at creation; changing it later does not reset the current state. A supplied model takes precedence. Initialization emits no `update:modelValue`.
+Use ordinary `v-model`. `modelValue` is refresh-loading state; the parent still sets false after async completion. `defaultValue` initializes uncontrolled state once without later resets. Explicit binding wins, without initialization `update:modelValue`.
 
 ### Props
 
-| Prop | Description | Type | Default |
+| Arguments | Description | Type | Default |
 | --- | --- | --- | --- |
 | `v-model` | Loading status | `boolean` | `-` |
 | `disabled` | Disable pull-to-refresh | `boolean` | `false` |
@@ -54,7 +41,7 @@ Use ordinary `v-model`. `modelValue` is the refresh loading state; the parent se
 | --- | --- |
 | `default` | List content |
 
-## Style Variables
+## Style variables
 
 | Variable | Default |
 | --- | --- |

@@ -10,7 +10,7 @@
         @check-date="checkDate"
       />
       <transition :name="`${nDate()}${reverse ? '-reverse' : ''}-translatex`">
-        <ul :key="panelKey" @pointerleave="clearPreview">
+        <ul :key="panelKey" @pointerleave="clearPreview" @keydown="onGridKeydown">
           <li
             v-for="month in MONTH_LIST"
             :key="month"
@@ -42,6 +42,7 @@ import { toNumber } from '@maple-design/shared'
 import dayjs from 'dayjs/esm/index.js'
 import isSameOrAfter from 'dayjs/esm/plugin/isSameOrAfter/index.js'
 import isSameOrBefore from 'dayjs/esm/plugin/isSameOrBefore/index.js'
+import { navigateTemporalGrid } from '../../_utils/temporal-keyboard'
 import MpButton, { type ButtonVariant, type SemanticStatus } from '../../button'
 import { t } from '../../locale'
 import { injectLocaleProvider } from '../../locale-provider/provide'
@@ -222,7 +223,7 @@ export default defineComponent({
           return ''
         }
         if (computeOutline()) {
-          return color ?? ''
+          return color ?? 'var(--mp-date-calendar-today-color)'
         }
         if (monthExist()) {
           return ''
@@ -247,8 +248,8 @@ export default defineComponent({
       return {
         variant,
         status,
-        color: !computeText() ? color : '',
-        textColor: isCover ? '' : textColorOrCover(),
+        color: !computeText() ? (color ?? 'var(--mp-date-calendar-selected-background)') : '',
+        textColor: !computeText() ? 'var(--mp-date-calendar-selected-color)' : isCover ? '' : textColorOrCover(),
         [`${nDate()}-color-cover`]: isCover,
         class: classes(n('button'), [disabled, n('button--disabled')]),
         disabled,
@@ -286,6 +287,7 @@ export default defineComponent({
     })
 
     return {
+      onGridKeydown: (event: KeyboardEvent) => navigateTemporalGrid(event, 'button[mp-month-picker-cover]', 3),
       n,
       nDate,
       t,

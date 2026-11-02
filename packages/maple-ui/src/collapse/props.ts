@@ -23,6 +23,7 @@ export const collapseProps = {
     type: Boolean,
     default: undefined,
   },
+  /** 展开图标在标题区域的 left 或 right 位置，默认 left；不控制内容展开方向 */
   expandIconPosition: {
     type: String as PropType<ExpandIconPosition>,
     default: 'left',

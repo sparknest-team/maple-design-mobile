@@ -6,11 +6,11 @@ import SelectMenu from '../SelectMenu'
 import { getKeyFromValue } from '../utils'
 
 describe('Select field integration', () => {
-  for (const presentation of ['inline', 'popup']) {
-    test(`${presentation}: removes the selected identity, not the first matching label`, async () => {
+  for (const editMode of ['direct', 'popup']) {
+    test(`${editMode}: removes the selected identity, not the first matching label`, async () => {
       const wrapper = mount(Select, {
         props: {
-          presentation,
+          editMode,
           multiple: true,
           showTags: true,
           modelValue: [1, 2],
@@ -21,7 +21,7 @@ describe('Select field integration', () => {
         },
       })
       await nextTick()
-      if (presentation === 'inline') {
+      if (editMode === 'direct') {
         await wrapper.findAll('.mp-tag__close-btn')[1].trigger('click')
       } else {
         const controller = wrapper.findComponent(SelectMenu).props('controller')
@@ -40,7 +40,7 @@ describe('Select field integration', () => {
   test('renders formatted labels in a popup field', () => {
     const wrapper = mount(Select, {
       props: {
-        presentation: 'popup',
+        editMode: 'popup',
         modelValue: 1,
         options: [{ value: 1, label: '设备' }],
         formatLabel: (option) => `设备 ${option.value} true`,
@@ -53,7 +53,7 @@ describe('Select field integration', () => {
   test('focuses the real input once and preserves custom clear slots', async () => {
     const wrapper = mount(Select, {
       attachTo: document.body,
-      props: { modelValue: 1, clearable: true, options: [{ value: 1, label: '设备' }] },
+      props: { editMode: 'direct', modelValue: 1, clearable: true, options: [{ value: 1, label: '设备' }] },
     })
     await wrapper.get('input').trigger('focus')
     expect(wrapper.emitted('focus')).toHaveLength(1)
@@ -68,6 +68,7 @@ test('passes committed values and plain option text to the read slot', async () 
   const read = vi.fn(({ text }) => h('span', { 'data-read-text': '' }, text))
   const wrapper = mount(Select, {
     props: {
+      editMode: 'direct',
       multiple: true,
       modelValue: [1, 2],
       options: [

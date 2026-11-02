@@ -9,11 +9,12 @@ const pair = ref([7, 64])
   <section class="slider-vertical-demo">
     <mp-space justify="space-around">
       <div class="slider-vertical-demo__track">
-        <mp-slider v-model="value" orientation="vertical" aria-label="Vertical value" />
+        <mp-slider v-model="value" edit-mode="direct" orientation="vertical" aria-label="Vertical value" />
       </div>
       <div class="slider-vertical-demo__track">
         <mp-slider
           v-model="pair"
+          edit-mode="direct"
           range
           show-tooltip="always"
           orientation="vertical"

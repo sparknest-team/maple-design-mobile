@@ -4,8 +4,7 @@ Paper 是承载内容的底层表面：背景、圆角、可选边框与阴影�
 
 适用于自定义面板、表单分区、侧栏底板以及弹层内部表面。Paper 不负责弹层定位、焦点管理，也不会自动赋予按钮语义。交互内容请使用 Button 等语义组件。
 
-
-## 案例
+## 基础示例
 
 ### basic usage
 
@@ -13,29 +12,30 @@ Paper 是承载内容的底层表面：背景、圆角、可选边框与阴影�
 ../example/demos/basic-usage.vue
 ```
 
-### bordered
+## 内容与展示
+
+### 边框与圆角对比
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `bordered` | 显示边框，与 elevation 独立 | 边框与圆角对比 |
+| `width` | 宽度 | 边框与圆角对比 |
+| `height` | 高度 | 边框与圆角对比 |
+| `elevation` | false 关闭；true 使用 2 级；数字为 0–24 | 边框与圆角对比 |
+| `round` | 50% 圆角；宽高相等时为圆形 | 边框与圆角对比 |
+| `radius` | 圆角，显式值优先于 round | 边框与圆角对比 |
+<!-- demo-config-notes:end -->
+
+比较边框、完全圆角和指定半径；动态属性与点击波纹另行展示。
 
 ```demo
-../example/demos/bordered.vue
+../example/demos/surface-comparison.vue
 ```
 
-### ripple
-
-```demo
-../example/demos/ripple.vue
-```
-
-### round
-
-```demo
-../example/demos/round.vue
-```
-
-### radius
-
-```demo
-../example/demos/radius.vue
-```
+## 自定义与插槽
 
 ### slot
 
@@ -50,7 +50,22 @@ Paper 是承载内容的底层表面：背景、圆角、可选边框与阴影�
 <mp-paper :width="120" height="4rem" :radius="8" />
 ```
 
-## 动态属性
+## 交互与控制
+
+### 动态属性
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `elevation` | false 关闭；true 使用 2 级；数字为 0–24 | 动态属性、ripple |
+| `width` | 宽度 | 动态属性、ripple |
+| `height` | 高度 | 动态属性、ripple |
+| `bordered` | 显示边框，与 elevation 独立 | 动态属性 |
+| `round` | 50% 圆角；宽高相等时为圆形 | 动态属性 |
+| `radius` | 圆角，显式值优先于 round | 动态属性 |
+<!-- demo-config-notes:end -->
 
 边框与阴影独立；显式 radius 优先于 round。内部按钮提供键盘语义，父级统计 Paper click，不将表面容器伪装成按钮。
 
@@ -58,14 +73,11 @@ Paper 是承载内容的底层表面：背景、圆角、可选边框与阴影�
 ../example/demos/live-properties.vue
 ```
 
-<!-- api-review:start -->
-### 功能调试
+### ripple
 
 ```demo
-../example/demos/api-review.vue
+../example/demos/ripple.vue
 ```
-
-<!-- api-review:end -->
 
 ## API
 

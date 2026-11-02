@@ -1,6 +1,7 @@
 import { type PropType } from 'vue'
-import { fieldPresentationProp, readPrettyProp } from '../_components/field-presentation/context'
+import { fieldEditModeProp, readPrettyProp } from '../_components/field-presentation/context'
 import { componentSizes, type ComponentSize } from '../utils/constants'
+import { emptyTextProp, emptyValuesProp } from '../utils/empty-value'
 import { formLayoutProps } from './layout-props'
 import type { FormLayout } from './layout-props'
 
@@ -10,9 +11,13 @@ export type { FormLayout, FormLabelAlign } from './layout-props'
 export type FormRules = Record<string, unknown | unknown[]>
 
 export const props = {
-  /** 字段展示方式，未设置时继承上层。 */
-  presentation: fieldPresentationProp,
+  /** 表单内字段的统一编辑模式；未设置时保留各字段默认值。 */
+  editMode: fieldEditModeProp,
   readPretty: readPrettyProp,
+  /** 模型空值识别；不改变受控判定或清空输出。 */
+  emptyValues: emptyValuesProp,
+  /** 纯阅读空值文案；字段 > FormItem > Form，缺省为 '-'。 */
+  emptyText: emptyTextProp,
   ...formLayoutProps,
   /** 表单 id 及显式字段容器 id 前缀。 */
   id: String,

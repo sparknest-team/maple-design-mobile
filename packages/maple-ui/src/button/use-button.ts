@@ -1,23 +1,23 @@
-import { computed, onActivated, onBeforeUnmount, onDeactivated, ref, type CSSProperties } from 'vue'
+import { computed, onActivated, onBeforeUnmount, onDeactivated, type CSSProperties } from 'vue'
 import { createNamespace } from '../utils/components'
-import type { ButtonHandler, ButtonProps } from './props'
+import type { ButtonProps } from './props'
 import { useButtonGroup } from './provide'
 
 /** Shared state and event contract; group registration stays platform-local. */
-export function useButton(props: Readonly<ButtonProps>) {
+export function useButton(
+  props: Readonly<ButtonProps>,
+  emit: { (event: 'click', value: MouseEvent): void; (event: 'touchstart', value: TouchEvent): void },
+) {
   const { n } = createNamespace('button')
   const { buttonGroup: group } = useButtonGroup()
-  const pending = ref(false)
   let active = true
-  let generation = 0
   let invoking = false
-  const invalidate = () => {
+  onBeforeUnmount(() => {
     active = false
-    generation++
-    pending.value = false
-  }
-  onBeforeUnmount(invalidate)
-  onDeactivated(invalidate)
+  })
+  onDeactivated(() => {
+    active = false
+  })
   onActivated(() => {
     active = true
   })
@@ -38,7 +38,7 @@ export function useButton(props: Readonly<ButtonProps>) {
             `$-elevation--${props.elevation === true || props.elevation == null ? 2 : Math.min(24, Math.max(0, Math.round(Number(props.elevation) || 0)))}`,
           ),
   }))
-  const busy = computed(() => !!(props.loading || pending.value))
+  const busy = computed(() => !!props.loading)
   const blocked = computed(() => !!(states.value.disabled || busy.value))
   const computedStyle = computed<CSSProperties>(() => {
     if (states.value.disabled) {
@@ -56,49 +56,31 @@ export function useButton(props: Readonly<ButtonProps>) {
       borderColor: variant === 'outline' ? textColor || color : undefined,
     }
   })
-  function invoke(event: Event, handlers?: ButtonHandler | ButtonHandler[]) {
+  function handleClick(event: MouseEvent) {
     if (blocked.value || invoking || !active) {
-      if (event.type === 'click') {
-        event.preventDefault()
-        event.stopPropagation()
-      }
+      event.preventDefault()
+      event.stopPropagation()
       return
     }
-    if (!handlers) {
-      return
-    }
-    const results: PromiseLike<unknown>[] = []
     invoking = true
     try {
-      for (const handler of Array.isArray(handlers) ? handlers : [handlers]) {
-        const result = handler(event)
-        if (result && typeof result.then === 'function') {
-          results.push(result)
-        }
-      }
+      emit('click', event)
     } finally {
       invoking = false
-      // A synchronous handler never flashes loading. allSettled keeps the button
-      // blocked until every listener finishes, including after an early rejection.
-      if (results.length) {
-        const ticket = ++generation
-        if (props.autoLoading && active) {
-          pending.value = true
-        }
-        void Promise.allSettled(results).then(() => {
-          if (active && ticket === generation) {
-            pending.value = false
-          }
-        })
-      }
     }
   }
+  function handleTouchstart(event: TouchEvent) {
+    if (!blocked.value && active) {
+      emit('touchstart', event)
+    }
+  }
+
   return {
     states,
     busy,
     blocked,
     computedStyle,
-    handleClick: (event: Event) => invoke(event, props.onClick),
-    handleTouchstart: (event: Event) => invoke(event, props.onTouchstart),
+    handleClick,
+    handleTouchstart,
   }
 }

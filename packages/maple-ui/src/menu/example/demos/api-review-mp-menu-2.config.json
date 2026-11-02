@@ -50,7 +50,13 @@
       "type": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\"",
       "defaultValue": "'md'",
       "kind": "enum",
-      "options": ["xs", "sm", "md", "lg", "xl"],
+      "options": [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl"
+      ],
       "initial": "md"
     },
     {
@@ -59,7 +65,12 @@
       "type": "'click' | 'hover' | 'focus' | 'contextMenu'",
       "defaultValue": "'click'",
       "kind": "enum",
-      "options": ["click", "hover", "focus", "contextMenu"],
+      "options": [
+        "click",
+        "hover",
+        "focus",
+        "contextMenu"
+      ],
       "initial": "click"
     },
     {
@@ -68,13 +79,16 @@
       "type": "'click' | 'hover'",
       "defaultValue": "'click' as MenuSubmenuTrigger",
       "kind": "enum",
-      "options": ["click", "hover"],
+      "options": [
+        "click",
+        "hover"
+      ],
       "initial": "click"
     },
     {
       "name": "placement",
       "description": "弹出位置",
-      "type": "MenuPosition",
+      "type": "MenuPlacement",
       "defaultValue": "'bottom'",
       "kind": "scenario"
     },
@@ -84,7 +98,10 @@
       "type": "'absolute' | 'fixed'",
       "defaultValue": "undefined",
       "kind": "enum",
-      "options": ["absolute", "fixed"],
+      "options": [
+        "absolute",
+        "fixed"
+      ],
       "initial": "absolute"
     },
     {
@@ -205,7 +222,12 @@
       "initial": "true"
     }
   ],
-  "methodNames": ["open", "close", "resize", "set-reference"],
+  "methodNames": [
+    "open",
+    "close",
+    "resize",
+    "set-reference"
+  ],
   "events": [
     "update:modelValue",
     "select",
@@ -217,7 +239,13 @@
     "click-outside",
     "key-escape"
   ],
-  "slotNames": ["content", "footer", "option-label", "option-icon", "option-extra"],
+  "slotNames": [
+    "content",
+    "footer",
+    "option-label",
+    "option-icon",
+    "option-extra"
+  ],
   "slotDefaults": {
     "content": true,
     "footer": false,

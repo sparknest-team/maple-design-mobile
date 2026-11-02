@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, provide, reactive, useSlots } from 'vue'
+import { useOptionRequest } from '../_hooks/use-option-request'
 import { ChoiceLabel } from '../checkbox/choice-label'
 import { normalizeChoiceOptions } from '../checkbox/choice-options'
 import { useChoiceState } from '../checkbox/choice-state'
@@ -15,8 +16,19 @@ defineOptions({ name: createNamespace('radio-group').name })
 const { n, classes } = createNamespace('radio-group')
 const props = defineProps(radioGroupProps)
 const slots = useSlots()
-const emit = defineEmits<{ 'update:modelValue': [value: RadioModel]; change: [value: RadioModel, event?: Event] }>()
+const emit = defineEmits<{
+  'load-error': [error: unknown]
+  'update:modelValue': [value: RadioModel]
+  change: [value: RadioModel, event?: Event]
+}>()
 const { mergedDisabled, mergedReadonly, mergedError, mergedSize, eventHandlers } = useRadioForm(props)
+const source = useOptionRequest(
+  () => props.options,
+  () => mergedDisabled.value || mergedReadonly.value || !!props.readPretty,
+  (error) => emit('load-error', error),
+  () => 0,
+  radioGroupProps,
+)
 const { value, commit } = useChoiceState(
   () => props.modelValue,
   props.defaultValue,
@@ -27,7 +39,7 @@ const { value, commit } = useChoiceState(
   },
   () => mergedDisabled.value || mergedReadonly.value,
 )
-const options = computed(() => normalizeChoiceOptions(props.options, props.fieldNames))
+const options = computed(() => normalizeChoiceOptions(source.options.value, props.fieldNames))
 const navigation = useRadioNavigation(() => value.value !== null)
 provide(
   radioGroupKey,
@@ -52,13 +64,14 @@ provide(
     :aria-disabled="mergedDisabled || undefined"
     :aria-readonly="mergedReadonly || undefined"
     :aria-invalid="mergedError || undefined"
-    :class="classes(n(), n(`--${direction}`), n(`--size-${mergedSize}`), [variant === 'button', n('--button')])"
+    :class="classes(n(), n(`--${orientation}`), n(`--size-${mergedSize}`), [variant === 'button', n('--button')])"
     @keydown="navigation.keydown"
   >
     <template v-if="props.options !== undefined">
       <Radio
         v-for="option in options"
         :key="`${typeof option.value}:${String(option.value)}`"
+        edit-mode="direct"
         :value="option.value"
         :disabled="option.disabled"
         :readonly="option.readonly"

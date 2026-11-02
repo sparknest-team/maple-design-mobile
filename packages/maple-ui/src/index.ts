@@ -22,7 +22,6 @@ export {
   Context,
   CountTo,
   Countdown,
-  Counter,
   Date,
   DateRange,
   Dialog,
@@ -53,12 +52,14 @@ export {
   LocaleProvider,
   Menu,
   Message,
+  NavMenu,
   NoticeBar,
   NumberKeyboard,
   Overlay,
   PageHeader,
   Pagination,
   Paper,
+  PeopleSelect,
   Picker,
   Popover,
   Popup,
@@ -70,6 +71,7 @@ export {
   Result,
   Ripple,
   Row,
+  SafeArea,
   Search,
   Select,
   Signature,
@@ -116,7 +118,6 @@ export { CollapseItem, _CollapseComponent, _CollapseItemComponent } from './coll
 export { _ContextComponent } from './context'
 export { _CountToComponent } from './count-to'
 export { _CountdownComponent } from './countdown'
-export { _CounterComponent } from './counter'
 export { DatePicker, _DateComponent, _DatePickerComponent } from './date'
 export { DateRangePicker, _DateRangeComponent, _DateRangePickerComponent } from './date-range'
 export { _DialogComponent } from './dialog'
@@ -164,12 +165,14 @@ export { _LocaleComponent } from './locale'
 export { _LocaleProviderComponent } from './locale-provider'
 export { MenuOption, _MenuComponent, _MenuOptionComponent } from './menu'
 export { _MessageComponent } from './message'
+export { NavMenuItem, _NavMenuComponent, _NavMenuItemComponent } from './nav-menu'
 export { _NoticeBarComponent } from './notice-bar'
 export { _NumberKeyboardComponent } from './number-keyboard'
 export { _OverlayComponent } from './overlay'
 export { _PageHeaderComponent } from './page-header'
 export { _PaginationComponent } from './pagination'
 export { _PaperComponent } from './paper'
+export { _PeopleSelectComponent } from './people-select'
 export { _PickerComponent } from './picker'
 export { _PopoverComponent } from './popover'
 export { _PopupComponent } from './popup'
@@ -181,6 +184,7 @@ export { _RateComponent } from './rate'
 export { _ResultComponent } from './result'
 export { _RippleComponent } from './ripple'
 export { _RowComponent } from './row'
+export { _SafeAreaComponent } from './safe-area'
 export { _SearchComponent } from './search'
 export { Option, Optgroup, _SelectComponent, _OptionComponent, _OptgroupComponent } from './select'
 export { _SignatureComponent } from './signature'
@@ -243,6 +247,10 @@ export type { AlertInstance, AlertProps, AlertStatus, AlertVariant } from './ale
 export { autoCompleteProps } from './auto-complete'
 export type {
   AutoCompleteInstance,
+  AutoCompleteEmits,
+  AutoCompleteSlots,
+  AutoCompleteExpose,
+  AutoCompleteTriggerOptions,
   AutoCompleteOptionData,
   AutoCompleteOption,
   AutoCompleteOptionInfo,
@@ -280,7 +288,6 @@ export type {
   ButtonProps,
   ButtonVariant,
   ButtonLoadingMode,
-  ButtonHandler,
   ButtonGroupProps,
   ButtonInstance,
   ButtonGroupInstance,
@@ -298,7 +305,7 @@ export type {
   CarouselIndicatorPosition,
   CarouselIndicatorType,
   CarouselTriggerEvent,
-  CarouselDirection,
+  CarouselOrientation,
   CarouselEffect,
   CarouselToOptions,
   CarouselChangeData,
@@ -316,7 +323,8 @@ export type {
   CascaderOption,
   CascaderFieldNames,
   CascaderProps,
-  CascaderPresentation,
+  CascaderEditMode,
+  CascaderTriggerOptions,
 } from './cascader'
 export { cellProps } from './cell'
 export type { CellInstance, CellProps } from './cell'
@@ -339,11 +347,11 @@ export { colProps } from './col'
 export type { ColProps, ColBreakpoint, ColSizeDescriptor, FlexType, ColInstance } from './col'
 export { collapseProps, collapseItemProps } from './collapse'
 export type {
+  CollapseInstance,
+  CollapseItemInstance,
   CollapseExpandIconSlotProps,
   CollapseSlots,
   CollapseItemSlots,
-  CollapseInstance,
-  CollapseItemInstance,
   CollapseActiveNames,
   CollapseItemProps,
   CollapseName,
@@ -355,8 +363,6 @@ export { countToProps } from './count-to'
 export type { CountToInstance, CountToProps } from './count-to'
 export { countdownProps } from './countdown'
 export type { CountdownInstance, CountdownProps, TimeData } from './countdown'
-export { counterProps } from './counter'
-export type { CounterInstance, CounterProps } from './counter'
 export { dateProps, datePickerProps } from './date'
 export type {
   DateInstance,
@@ -381,6 +387,9 @@ export type {
   DateShortcut,
   DateShortcutsPosition,
   DateWheelOptions,
+  CalendarInteractiveMode,
+  DatePopupOptions,
+  DatePickerField,
 } from './date'
 export { dateRangeProps, dateRangePickerProps } from './date-range'
 export type {
@@ -388,7 +397,7 @@ export type {
   DateRangePickerInstance,
   DateRangeProps,
   DateRangeType,
-  DateRangePresentation,
+  DateRangeEditMode,
   DateRangePickerProps,
   DateRangePickerPresentation,
   DateRangePickerType,
@@ -396,11 +405,11 @@ export type {
   DateRangeEmits,
   DateRangePickerEmits,
   DateRangeCalendarOptions,
+  DateRangePopupOptions,
 } from './date-range'
 export { dialogProps } from './dialog'
 export type {
   DialogAction,
-  DialogBeforeCloseRefs,
   DialogConfig,
   DialogMessageAlign,
   DialogMethod,
@@ -412,6 +421,9 @@ export type {
   DialogUpdateConfig,
   DialogProps,
   DialogInstance,
+  DialogBeforeClose,
+  BeforeHookContext,
+  BeforeHookDone,
 } from './dialog'
 export { dividerProps } from './divider'
 export type {
@@ -424,19 +436,22 @@ export type {
   DividerInstance,
 } from './divider'
 export { dragProps } from './drag'
-export type { DragInstance, DragProps } from './drag'
+export type { DragInstance, DragProps, DragAxis, DragAttraction, DragBoundary } from './drag'
 export { ellipsisProps } from './ellipsis'
 export type { EllipsisProps, EllipsisExpandTrigger, EllipsisInstance } from './ellipsis'
 export { emptyProps } from './empty'
 export type { EmptyInstance, EmptyImageSize, EmptyProps } from './empty'
 export { fabProps } from './fab'
-export type { FabInstance, FabProps } from './fab'
-export { fieldDecoratorProps } from './field-decorator'
+export type { FabInstance, FabProps, FabPlacement, FabPosition, FabTrigger, FabDrag } from './fab'
+export { fieldDecoratorProps, fieldLoadingProps } from './field-decorator'
 export type {
   FieldDecoratorInstance,
   FieldDecoratorProps,
   FieldDecoratorSize,
   FieldDecoratorVariant,
+  OpenTriggerTarget,
+  FieldLoadingMode,
+  FieldLoadingProps,
 } from './field-decorator'
 export { floatingPanelProps } from './floating-panel'
 export type { FloatingPanelInstance, FloatingPanelProps } from './floating-panel'
@@ -449,12 +464,13 @@ export type {
   FormProps,
   FormItemProps,
   FormLayout,
+  FormContentAlign,
   FormLabelAlign,
   FormColProps,
   FormLabelFlex,
   FormItemAsteriskPosition,
   FormItemValidateStatus,
-  FieldPresentation,
+  FieldEditMode,
   BeforeFieldCommit,
 } from './form'
 export { formDetailsProps } from './form-details'
@@ -466,7 +482,7 @@ export type { HighlighterProviderInstance, HighlighterProviderProps } from './hi
 export { hoverOverlayProps } from './hover'
 export type { HoverValue, HoverHTMLElement, HoverOverlayInstance, HoverInstance, HoverOverlayProps } from './hover'
 export { iconProps } from './icon'
-export type { IconProps } from './icon'
+export type { IconProps, IconInstance } from './icon'
 export { imageProps, imagePreviewProps, imagePreviewGroupProps } from './image'
 export type {
   ImagePreviewActionInstance,
@@ -525,7 +541,7 @@ export type {
   InputNumberFormatter,
   InputNumberParser,
 } from './input-number'
-export type { LazyHTMLElement, LazyInstance } from './lazy'
+export type { LazyHTMLElement, LazyInstance, LazyOptions, LazyContext, LazyState } from './lazy'
 export { linkProps } from './link'
 export type { LinkProps, LinkUnderline, LinkSize, LinkInstance } from './link'
 export { listProps } from './list'
@@ -549,7 +565,7 @@ export type { LocaleProviderInstance, LocaleProviderProps } from './locale-provi
 export { menuProps, menuOptionProps } from './menu'
 export type {
   MenuProps,
-  MenuPosition,
+  MenuPlacement,
   MenuValue,
   MenuOptionData,
   MenuFieldNames,
@@ -581,6 +597,23 @@ export type {
   MessageProps,
   MessageInstance,
 } from './message'
+export { navMenuProps, navMenuItemProps } from './nav-menu'
+export type {
+  NavMenuItemProps,
+  NavMenuItemSlotContext,
+  NavMenuItemExposed,
+  NavMenuProps,
+  NavMenuKey,
+  NavMenuOption,
+  NavMenuFieldNames,
+  NavMenuContent,
+  NavMenuRenderContext,
+  NavMenuMode,
+  NavMenuPopupLayout,
+  NavMenuExposed,
+  NavMenuInstance,
+  NavMenuItemInstance,
+} from './nav-menu'
 export { noticeBarProps } from './notice-bar'
 export type { NoticeBarMode, NoticeBarType, NoticeBarInstance, NoticeBarProps } from './notice-bar'
 export { numberKeyboardProps } from './number-keyboard'
@@ -593,12 +626,23 @@ export { paginationProps } from './pagination'
 export type { PaginationProps, PaginationInstance, PaginationPageSizeProps } from './pagination'
 export { paperProps } from './paper'
 export type { PaperInstance, PaperProps } from './paper'
+export { peopleSelectProps } from './people-select'
+export type {
+  PeopleSelectInstance,
+  PeopleSelectProps,
+  PeopleSelectOption,
+  PeopleSelectOptionsLoader,
+  PeopleSelectAction,
+  PeopleSelectFallbackOption,
+  PeopleSelectRenderActions,
+  PeopleSelectActionScope,
+} from './people-select'
 export { pickerProps } from './picker'
 export type { PickerInstance, PickerProps } from './picker'
 export { popoverProps } from './popover'
 export type { PopoverInstance, PopoverPlacement, PopoverProps, PopoverTrigger } from './popover'
 export { popupProps } from './popup'
-export type { PopupPlacement, PopupProps, PopupInstance } from './popup'
+export type { PopupPlacement, PopupProps, PopupCloseReason, PopupBeforeClose, PopupInstance } from './popup'
 export { progressProps } from './progress'
 export type {
   ProgressInstance,
@@ -649,8 +693,11 @@ export type { ResultProps, ResultStatus, ResultInstance } from './result'
 export type { RippleInstance } from './ripple'
 export { rowProps } from './row'
 export type { RowProps, RowGutter, RowAlign, RowJustify, RowInstance } from './row'
+export { safeAreaProps } from './safe-area'
+export type { SafeAreaInstance, SafeAreaEdge, SafeAreaInsets, SafeAreaProps } from './safe-area'
 export { searchProps } from './search'
 export type {
+  SearchEditMode,
   SearchActionType,
   SearchField,
   SearchProps,
@@ -666,7 +713,11 @@ export type {
   OptgroupInstance,
   OptgroupProps,
   SelectProps,
-  SelectPresentation,
+  SelectEditMode,
+  OptionSearchField,
+  SelectOptionsLoader,
+  SelectValue,
+  SelectEmptyValue,
   SelectOption,
   SelectOptionData,
   SelectOptionGroup,
@@ -675,6 +726,10 @@ export type {
   SelectInstance,
   OptionInstance,
   OptionProps,
+  SelectEmits,
+  SelectSlots,
+  SelectExpose,
+  SelectTriggerOptions,
 } from './select'
 export { signatureProps } from './signature'
 export type { SignatureInstance, SignatureProps } from './signature'
@@ -804,13 +859,14 @@ export type {
   TimePickerProps,
   TimeDisabledRules,
   TimeStep,
+  TimePickerField,
 } from './time'
 export { timeRangeProps, timeRangePickerProps } from './time-range'
 export type {
   TimeRangeInstance,
   TimeRangePickerInstance,
   TimeRangeProps,
-  TimeRangePresentation,
+  TimeRangeEditMode,
   TimeRangePickerProps,
   TimeRangePickerPresentation,
 } from './time-range'

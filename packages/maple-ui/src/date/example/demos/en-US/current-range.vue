@@ -27,7 +27,9 @@ const range = ref(['2025-01-05 09:00', '2025-01-10 18:00'])
     <mp-date-range-picker
       v-model="range"
       show-time
-      :use-seconds="false"
+      :time-fields="['hour', 'minute']"
+      format="YYYY-MM-DD HH:mm"
+      value-format="YYYY-MM-DD HH:mm"
       :disable-confirm="false"
       presentation="calendarPicker"
     />

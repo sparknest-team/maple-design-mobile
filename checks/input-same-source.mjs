@@ -3,7 +3,7 @@ import { readFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { normalizeBoundImports } from './normalize-bound-imports.mjs'
+import { normalizeLessSource, normalizeTypeScript, normalizeVueSource } from './normalize-source.mjs'
 
 const workspace = fileURLToPath(new URL('../../', import.meta.url))
 const cedar = resolve(workspace, 'cedar-design-web/packages/cedar-ui/src')
@@ -36,22 +36,32 @@ const normalizePlatform = (source) =>
     .replaceAll('_utils/input-composition', 'utils/input-composition')
     .replaceAll('_utils/popup-container', 'utils/popup-container')
     .replaceAll('_utils/text-input-value', 'utils/text-input-value')
+    .replaceAll('_utils/empty-value', 'utils/empty-value')
     .replaceAll('./input.vue', './Input.vue')
     .replaceAll('--c-', '--mp-')
     .replaceAll('.c-', '.mp-')
     .replaceAll('c-input-feedback-spin', 'mp-input-feedback-spin')
+    .replaceAll('c-field-loading-line', 'mp-field-loading-line')
     .replace(
       /hint:\s*\{\s*type: Boolean,\s*default: (?:false|true),?\s*\}/g,
       'hint: { type: Boolean, default: PLATFORM_DEFAULT }',
     )
 
 const normalize = (source) => normalizePlatform(source).replace(/\s+/g, ' ').trim()
-const canonical = (source, file) =>
-  normalize(/\.(ts|vue)$/.test(file) ? normalizeBoundImports(normalizePlatform(source)) : source)
+const canonical = (source, file) => {
+  const normalized = normalizePlatform(source)
+  return file.endsWith('.ts')
+    ? normalizeTypeScript(normalized)
+    : file.endsWith('.vue')
+      ? normalizeVueSource(normalized)
+      : file.endsWith('.less')
+        ? normalizeLessSource(normalized)
+        : normalized.replace(/\s+/g, ' ').trim()
+}
 for (const [a, b] of pairs) {
   assert.equal(
-    canonical(readFileSync(resolve(cedar, a), 'utf8'), a),
-    canonical(readFileSync(resolve(maple, b), 'utf8'), b),
+    await canonical(readFileSync(resolve(cedar, a), 'utf8'), a),
+    await canonical(readFileSync(resolve(maple, b), 'utf8'), b),
     a + ' differs',
   )
 }

@@ -2,9 +2,9 @@
 
 Collects transient commands for the current object, such as overflow actions, context menus and the extra actions of a button. Use [Select](#/en-US/select) to pick form data and [Cascader](#/en-US/cascader) to pick hierarchical data.
 
-## Examples
-
 The popup is built on the unstyled [Trigger](#/en-US/trigger). It uses the shared twelve placements and the separate `cover` mode, defaulting to `bottom`. Use `auto-fit-popup-width` and `popup-max-height` for width matching and height limits.
+
+## Basic examples
 
 ### Overflow Actions
 
@@ -14,7 +14,81 @@ Pass the trigger element through the default slot and describe commands with `op
 ../example/demos/overflow-actions.vue
 ```
 
+## Appearance and states
+
+### Disabled State
+
+`disabled` on the menu disables the whole popup; on an option it disables that option and its descendants.
+
+```demo
+../example/demos/disabled-state.vue
+```
+
+## Options and hierarchy
+
+### Groups, submenus and option content
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `options` | Command tree | Groups, submenus and option content, Selection and visual emphasis |
+| `hide-on-select` | Close the popup after activating a command | Selection and visual emphasis |
+| `submenu-trigger` | How every submenu level expands | Selection and visual emphasis |
+<!-- demo-config-notes:end -->
+
+
+Compare flat groups, nested menus and option content. Expand or select options to inspect their hierarchy.
+
+<details>
+<summary>Configuration details and limits</summary>
+
+#### Option Group
+
+Group commands with `{ type: 'group', children }` inside `options`; no extra group component is needed. A group is purely visual and does not add a level.
+
+#### Submenu
+
+A plain option with `children` becomes a submenu. Every level shares `submenu-trigger`, which expands on tap by default; switching it to `'hover'` applies to all levels too. It cannot be set per option, so a single tree never mixes two expansion styles.
+
+#### Custom Option Content
+
+Prefer passing `icon`, `extra` or a VNode directly on the option; all three also accept a render function receiving `{ option, active, level }`. To render a whole data set uniformly, use the `option-label`, `option-icon` and `option-extra` scoped slots.
+
+`active` means this exact option matches the active value. A active descendant does not select its parent. Descendant selection and submenu opening remain private styling state. MenuOption uses `highlight` for visual emphasis without changing selection.
+
+</details>
+
+```demo
+../example/demos/structure-comparison.vue
+```
+
+### Selection and visual emphasis
+
+`active` is false on a parent whose child is active. The three examples compare render functions, scoped slots and manual MenuOption content; `highlight` only emphasizes a row.
+
+```demo
+../example/demos/active-rendering.vue
+```
+
+## Triggers and positioning
+
 ### Context Menu
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `trigger` | Root menu trigger | Context Menu, Trigger |
+| `options` | Command tree | Context Menu, Positioning strategy |
+| `align-point` | Align to the pointer position at activation; stays in place until the next context menu activation | Context Menu |
+| `placement` | Preferred popup side relative to the trigger, default bottom. With the default auto-fit-position enabled, Trigger may flip and constrain it to the viewport when space is limited; this is not a fixed final position | Placement |
+| `strategy` | Positioning strategy inherited by every submenu | Positioning strategy |
+| `submenu-trigger` | How every submenu level expands | Positioning strategy |
+<!-- demo-config-notes:end -->
+
 
 Right click inside the target area. Set both `trigger="contextMenu"` and `align-point`. The menu stays at the activation point as the pointer moves; another right click updates its position.
 
@@ -26,78 +100,10 @@ Right click inside the target area. Set both `trigger="contextMenu"` and `align-
 
 [SplitButton](#/en-US/split-button) already wraps a button together with a dropdown command menu and describes extra actions through `MenuOption`.
 
-### Selected Value and Select Event
-
-Use `v-model` to keep the active value. Activating a command emits `update:model-value` first and then `select(value, option, event)`; `select` means a menu item was activated, not that a form value changed.
-
-```demo
-../example/demos/selection.vue
-```
-
-### Option Group
-
-Group commands with `{ type: 'group', children }` inside `options`; no extra group component is needed. A group is purely visual and does not add a level.
-
-```demo
-../example/demos/group.vue
-```
-
-### Submenu
-
-A plain option with `children` becomes a submenu. Every level shares `submenu-trigger`, which expands on tap by default; switching it to `'hover'` applies to all levels too. It cannot be set per option, so a single tree never mixes two expansion styles.
-
-```demo
-../example/demos/submenu.vue
-```
-
-### Custom Option Content
-
-Prefer passing `icon`, `extra` or a VNode directly on the option; all three also accept a render function receiving `{ option, active, level }`. To render a whole data set uniformly, use the `option-label`, `option-icon` and `option-extra` scoped slots.
-
-`active` means this exact option matches the active value. A active descendant does not select its parent. Descendant selection and submenu opening remain private styling state. MenuOption uses `highlight` for visual emphasis without changing selection.
-
-```demo
-../example/demos/option-content.vue
-```
-
-### Selection and visual emphasis
-
-`active` is false on a parent whose child is active. The three examples compare render functions, scoped slots and manual MenuOption content; `highlight` only emphasizes a row.
-
-```demo
-../example/demos/active-rendering.vue
-```
-
 ### Trigger
 
 ```demo
 ../example/demos/trigger.vue
-```
-
-### Disabled State
-
-`disabled` on the menu disables the whole popup; on an option it disables that option and its descendants.
-
-```demo
-../example/demos/disabled-state.vue
-```
-
-### Popup Max Height
-
-```demo
-../example/demos/popup-max-height.vue
-```
-
-### Controlled Open State
-
-```demo
-../example/demos/controlled.vue
-```
-
-### Footer
-
-```demo
-../example/demos/footer.vue
 ```
 
 ### Placement
@@ -114,24 +120,47 @@ Both root and nested menus use the same reactive `strategy` (`absolute` by defau
 ../example/demos/en-US/positioning.vue
 ```
 
-<!-- api-review:start -->
-### Feature playground
+### Popup Max Height
 
 ```demo
-../example/demos/api-review.vue
+../example/demos/popup-max-height.vue
 ```
 
-<!-- api-review:end -->
+## State and content customization
+
+### Selected Value and Select Event
+
+Use `v-model` to keep the active value. Activating a command emits `update:model-value` first and then `select(value, option, event)`; `select` means a menu item was activated, not that a form value changed.
+
+```demo
+../example/demos/selection.vue
+```
+
+### Controlled Open State
+
+```demo
+../example/demos/controlled.vue
+```
+
+### Footer
+
+```demo
+../example/demos/footer.vue
+```
+
+## Reading direction
+
+Inherits the nearest `dir="ltr|rtl"` and supports runtime and nested overrides. Submenus and horizontal parent/child navigation follow the current reading direction. Vertical and boundary navigation keeps item order and skips disabled items. Portals inherit their source direction; switching direction preserves selection.
 
 ## API
 
-### Model and default value
+### Value and default value
 
-Use ordinary `v-model`. `modelValue` is the active option value. `defaultValue` initializes uncontrolled state only at creation; changing it later does not reset the current state. A supplied model takes precedence. Initialization emits no `update:modelValue`.
+Use ordinary `v-model`. `modelValue` is the selected option value; `defaultValue` initializes uncontrolled state once, and later changes do not reset it. Explicit binding takes precedence. Initialization emits no `update:modelValue`.
 
 ### Props
 
-| Prop | Description | Type | Default |
+| Parameter | Description | Type | Default |
 | --- | --- | --- | --- |
 | `options` | Command tree | _MenuOption[]_ | `[]` |
 | `field-names` | `label/value/children/disabled` field mapping | _MenuFieldNames_ | `-` |
@@ -141,7 +170,7 @@ Use ordinary `v-model`. `modelValue` is the active option value. `defaultValue` 
 | `size` | Option size | _'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'_ | `'md'` |
 | `trigger` | Root menu trigger | _'click' \| 'hover' \| 'focus' \| 'contextMenu'_ | `'click'` |
 | `submenu-trigger` | How every submenu level expands | _'click' \| 'hover'_ | `'click'` |
-| `placement` | Popup placement | _MenuPosition_ | `'bottom'` |
+| `placement` | Preferred popup side relative to the trigger, default bottom. With the default auto-fit-position enabled, Trigger may flip and constrain it to the viewport when space is limited; this is not a fixed final position | _MenuPosition_ | `'bottom'` |
 | `strategy` | Positioning strategy inherited by every submenu | _'absolute' \| 'fixed'_ | `'absolute'` |
 | `reference` | External trigger element | _string \| HTMLElement_ | `-` |
 | `popup-container` | Popup mount container | _string \| HTMLElement \| false_ | `-` |
@@ -170,7 +199,7 @@ Use ordinary `v-model`. `modelValue` is the active option value. `defaultValue` 
 | `extra` | Trailing content such as a shortcut | _VNodeChild \| (context) => VNodeChild_ |
 | `value` | Value passed to events on activation | _any_ |
 | `children` | Child commands; a plain option with children becomes a submenu | _MenuOption[]_ |
-| `disabled` | Disable this option and its descendants | _boolean_ |
+| `disabled` | Disable this item and its descendants | _boolean_ |
 | `show` | Whether to render | _boolean_ |
 | `ripple` | Whether to show the click ripple | _boolean_ |
 | `props` | HTML attributes forwarded to the row element | _HTMLAttributes_ |
@@ -209,27 +238,27 @@ The render context is `{ option, active, level }`. `type: 'group'` is visual onl
 | `option-icon` | Render every option's icon | `{ option, active, level }` |
 | `option-extra` | Render every option's trailing content | `{ option, active, level }` |
 
-### MenuOption Props
+### MenuOption props
 
 Kept for SplitButton and hand-written `content`. Groups and submenus are described through `options` only; there are no `MenuGroup` or `MenuSubmenu` components.
 
-| Prop | Description | Type | Default |
+| Parameter | Description | Type | Default |
 | --- | --- | --- | --- |
-| `label` | Content or render function | _MenuContent_ | `-` |
+| `label` | Main content or render function | _MenuContent_ | `-` |
 | `value` | Value passed to events on activation | _any_ | `-` |
-| `disabled` | Disabled | _boolean_ | `false` |
+| `disabled` | Disable interaction | _boolean_ | `false` |
 | `ripple` | Whether to show the click ripple | _boolean_ | `true` |
 | `highlight` | Visual emphasis without changing selection | _boolean_ | `false` |
 
-### MenuOption Events and Slots
+### MenuOption events and slots
 
 `click` fires when the option is not disabled. The `default`, `icon` and `suffix` slots and the `label` render function receive the same `{ option, active, level }` context.
 
-### Keyboard
+### Keyboard interaction
 
-The root menu supports arrow keys, Home/End and Enter. Submenus are entered with ArrowRight and left with ArrowLeft or Escape; Escape closes only the topmost level and restores focus.
+Root menus support Up/Down, Home/End and Enter. Right enters submenus; Left/Escape returns. Each Escape closes only the topmost popup and restores focus.
 
-## Types
+## Type definitions
 
 ```ts
 import type {
@@ -239,7 +268,7 @@ import type {
   MenuRenderContext,
   MenuSlots,
   MenuOptionSlots,
-  MenuPosition,
+  MenuPlacement,
   MenuProps,
   MenuSubmenuTrigger,
   MenuOptionProps,
@@ -247,12 +276,12 @@ import type {
 } from '@maple-design/ui'
 ```
 
-## Style Variables
+## Style variables
 
-Group labels align with options. A 20px line height plus 4px padding on each side gives a 28px single-line title. Adjacent groups have an extra 8px gap; the first group has no group gap. Title height grows with its content instead of clipping the line box.
+Group titles align left with options, using 20px line height plus 4px top/bottom padding, total 28px. Adjacent groups add 8px; the first does not. Titles grow with content without line-height/padding overlap.
 
 
-| Name | Default |
+| Variable | Default |
 | --- | --- |
 | `--mp-menu-max-height` | `278px` |
 | `--mp-menu-padding` | `4px 0` |
@@ -285,13 +314,20 @@ Group labels align with options. A 20px line height plus 4px padding on each sid
 | `--mp-menu-group-title-font-size` | `var(--mp-font-size-sm)` |
 | `--mp-menu-group-title-text-color` | `var(--mp-color-text-3)` |
 
-### State and timing variables
+### State and duration variables
 
-Disabled wins over active, pointer hover and keyboard focus states. Selected hover uses its own role, defaulting to the active background; override it for an additional hover treatment. The active background is painted directly on the option, matching Cedar.
+Disabled overrides selection, pointer hover and keyboard focus. Selected hover has a separate role inheriting selection background by default and may be overridden. Selected backgrounds paint directly on options, matching Cedar.
 
 | Token | Default |
 | --- | --- |
 | `--mp-menu-option-bg-selected-hover` | `var(--mp-menu-option-selected-background)` |
 | `--mp-menu-option-bg-disabled` | `transparent` |
 
-### Render context and stable identity
+### Data identity and trigger switching
+
+Reorderable items should provide stable unique values; internal Vue keys derive from business values. Numeric `0`, string `'0'` and boolean `false` remain distinct. Groups, separators and display items without values retain identity through their original option objects; no public key alias is added. Clicking another sibling trigger that is already hover-open closes the previous menu. Clicking inside a submenu does not incorrectly close its parent.
+
+
+### Placement semantics and configuration
+
+MenuPlacement uses the twelve-value TriggerPlacement domain. Both prop and type describe the preferred popup side relative to its trigger. The old MenuPosition export has been removed.

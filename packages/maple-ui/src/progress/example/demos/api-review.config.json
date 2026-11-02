@@ -150,14 +150,14 @@
         "basic-usage.vue",
         "advanced.vue",
         "circle.vue",
-        "status.vue"
+        "appearance-comparison.vue"
       ]
     },
     {
       "name": "default",
       "kind": "slot",
       "demos": [
-        "status.vue"
+        "appearance-comparison.vue"
       ]
     }
   ],

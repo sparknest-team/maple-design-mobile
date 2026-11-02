@@ -1,5 +1,5 @@
 <template>
-  <div v-if="multiple" :class="n()">
+  <div v-if="multiple && editor" :class="n()">
     <div :class="n('summary')">
       <button
         v-if="mobile"
@@ -93,5 +93,6 @@ const removable = computed(() => props.items.some((item) => item.closable !== fa
 const labelText = (item: SelectedOptionItem) =>
   typeof item.label === 'string' || typeof item.label === 'number' ? String(item.label) : String(item.key)
 const Label = (labelProps: { value?: VNodeChild }) => labelProps.value
-provide(selectionListStyle, !mobile || Boolean(inject(selectionEditorSurface, undefined)))
+const editor = inject(selectionEditorSurface, undefined)
+provide(selectionListStyle, !mobile || Boolean(editor))
 </script>

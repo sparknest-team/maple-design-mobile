@@ -1,0 +1,85 @@
+{
+  "browser": {
+    "name": "chrome",
+    "engine": "chromium",
+    "expectedVersion": "156.0.8078.73",
+    "launchOptions": {
+      "executablePath": "/tmp/cedar-maple-native-validation/156.0.8078.73/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing"
+    },
+    "version": "156.0.8078.73",
+    "platform": "darwin",
+    "architecture": "arm64",
+    "recordedAt": "2026-10-29T06:29:27.884Z",
+    "evidenceType": "automated-engine-regression",
+    "nativeDeviceAcceptance": false,
+    "userAgentEmulation": "device routing preset; not evidence of an actual OS/browser version",
+    "gestureInput": "CDP touch injection"
+  },
+  "result": {
+    "userAgent": "Mozilla/5.0 (Linux; Android 14; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.73 Mobile Safari/537.36",
+    "events": [
+      {
+        "type": "touchstart",
+        "trusted": true,
+        "x": 98
+      },
+      {
+        "type": "touchmove",
+        "trusted": true,
+        "x": 108
+      },
+      {
+        "type": "touchmove",
+        "trusted": true,
+        "x": 118
+      },
+      {
+        "type": "touchmove",
+        "trusted": true,
+        "x": 128
+      },
+      {
+        "type": "touchmove",
+        "trusted": true,
+        "x": 138
+      },
+      {
+        "type": "touchmove",
+        "trusted": true,
+        "x": 148
+      },
+      {
+        "type": "touchmove",
+        "trusted": true,
+        "x": 158
+      },
+      {
+        "type": "touchmove",
+        "trusted": true,
+        "x": 168
+      },
+      {
+        "type": "touchmove",
+        "trusted": true,
+        "x": 178
+      },
+      {
+        "type": "touchend",
+        "trusted": true,
+        "x": 178
+      }
+    ],
+    "features": {
+      "colorMix": true,
+      "has": true,
+      "dvh": true,
+      "resizeObserver": true,
+      "intersectionObserver": true,
+      "visualViewport": true
+    },
+    "padding": "10px",
+    "viewportHeight": 900,
+    "height": 900,
+    "passed": true
+  }
+}

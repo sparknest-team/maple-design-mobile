@@ -1,7 +1,32 @@
 <template>
+  <CalendarViewport
+    v-if="
+      !('presentation' in options && options.presentation === 'picker') &&
+      options.interactiveMode &&
+      options.interactiveMode !== 'page' &&
+      !options.showTime &&
+      (options.type ?? 'date') === 'date' &&
+      !range &&
+      !options.range
+    "
+    v-bind="bindings"
+    :mode="options.interactiveMode"
+    :locale="dateLocaleName(options)"
+    :use-virtual-scroll="options.useVirtualScroll"
+    :model-value="calendarValue"
+    :picker-value="bindings.pickerValue"
+    :range="range || options.range"
+    :multiple="options.multiple"
+    :day-start-of-week="options.dayStartOfWeek"
+    :show-current="options.showCurrent"
+    :today="parseDateValue(new Date(), options)?.format('YYYY-MM-DD')"
+    @select="select"
+    @navigate="navigate"
+  />
   <RangeContent
-    v-if="range && !options.range"
+    v-else-if="range && !options.range"
     v-bind="{ ...$attrs, ...bindings }"
+    :endpoint-editor="endpointEditor"
     :model-value="rangeValue"
     @update:model-value="select"
     @update:picker-value="navigate"
@@ -20,6 +45,7 @@
 </template>
 <script setup lang="ts">
 import { computed, shallowRef, useSlots, watch } from 'vue'
+import type { DatePickerField, TimePickerField } from '../../_components/picker-field/fields'
 import {
   provideRangeDisabledParts,
   useRangeFieldIndex,
@@ -28,16 +54,18 @@ import { props as rangeProps } from '../../date-range/presentation-props'
 import RangeContent from '../../date-range/presentation/RangeContent.vue'
 import { createNamespace } from '../../utils/components'
 import { calendarValueFormat, fromCalendarValue, toCalendarValue } from '../calendar-value'
-import { isDateDisabled } from '../date-rules'
-import { dateTimeDisabledRules } from '../date-time-rules'
-import { dateUsesSeconds, dateValueFormat, outputDateValue, parseDateValue } from '../date-value'
+import { dateLocaleName } from '../date-locale'
+import { isCalendarDateDisabled } from '../date-rules'
+import { dateTimeDisabledPredicates } from '../date-time-rules'
+import { dateValueFormat, parseDateValue } from '../date-value'
 import type { DatePanelContentProps } from '../panel-state'
 import { datePresentationOptions } from '../presentation-options'
 import { props as calendarProps } from '../presentation-props'
 import CalendarContent from './CalendarContent.vue'
+import CalendarViewport from './CalendarViewport.vue'
 
 defineOptions({ name: createNamespace('date-panel-content').name, inheritAttrs: false })
-const props = defineProps<DatePanelContentProps>()
+const props = defineProps<DatePanelContentProps & { endpointEditor?: boolean }>()
 const { n } = createNamespace('date-picker')
 const slots = useSlots()
 const forwardedSlots = computed(() => Object.keys(slots).filter((name) => name !== 'actions'))
@@ -46,8 +74,14 @@ const disabledParts = provideRangeDisabledParts(() =>
   (props.range || props.options.range) && Array.isArray(props.options.disabled) ? props.options.disabled : [],
 )
 const activeIndex = useRangeFieldIndex(disabledParts)
+// Keep complete civil values internally; display format never controls wheel precision.
+const valueOptions = computed(() => ({
+  ...props.options,
+  format: undefined,
+  valueFormat: dateValueFormat(props.options),
+}))
 const calendarValue = computed(() => {
-  const value = toCalendarValue(props.value, props.options)
+  const value = toCalendarValue(props.value, valueOptions.value)
   return Array.isArray(value) ? value.map((part) => part ?? '') : value
 })
 // The calendar owns its pending click; partial drafts only gate outer confirmation.
@@ -65,13 +99,19 @@ watch(calendarValue, (value) => {
 const rangeValue = computed(() =>
   Array.isArray(calendarValue.value) ? calendarValue.value.map((value) => value ?? '') : [],
 )
+// Keep each endpoint's rules stable while switching endpoints or paging the calendar.
+const timeRules = computed(() =>
+  [0, 1].map((index) => {
+    const options = props.options
+    const current = Array.isArray(props.value) ? props.value[index] : props.value
+    const date = parseDateValue(current, options)?.toDate() ?? new Date()
+    return dateTimeDisabledPredicates(date, options, index === 1 ? 'end' : 'start')
+  }),
+)
 const bindings = computed(() => {
   const { modelValue: _model, defaultValue: _default, ...options } = props.options
-  const value = toCalendarValue(props.value, options)
+  const value = toCalendarValue(props.value, valueOptions.value)
   const side = props.range && activeIndex.value === 1 ? 'end' : 'start'
-  const current = Array.isArray(props.value) ? props.value[activeIndex.value] : props.value
-  const base = parseDateValue(current, options)?.toDate() ?? new Date()
-  const timeRules = dateTimeDisabledRules(base, options, side)
   const disabledDate = (text: string, endpoint: 'start' | 'end') => {
     if (options.readonly || (Array.isArray(options.disabled) ? options.disabled.every(Boolean) : options.disabled)) {
       return true
@@ -82,15 +122,8 @@ const bindings = computed(() => {
     }
     const format =
       precision === 'year' ? 'YYYY' : precision === 'month' ? 'YYYY-MM' : text.length === 9 ? 'YYYY-MM-D' : 'YYYY-MM-DD'
-    const parsed = parseDateValue(text, { valueFormat: format })
-    return (
-      !parsed ||
-      isDateDisabled(
-        outputDateValue(parsed.toDate(), options),
-        { ...options, valueFormat: dateValueFormat(options), showTime: false },
-        endpoint,
-      )
-    )
+    const parsed = parseDateValue(text, { ...options, valueFormat: format })
+    return !parsed || isCalendarDateDisabled(parsed.toDate(), options, endpoint)
   }
   return {
     ...Object.fromEntries(
@@ -109,10 +142,13 @@ const bindings = computed(() => {
         }
       : {}),
     pickerValue: (() => {
-      const viewport = toCalendarValue(props.pickerValue, props.options)
+      const viewport = toCalendarValue(props.pickerValue, valueOptions.value)
       return Array.isArray(viewport) ? viewport.map((part) => part ?? '') : viewport
     })(),
-    useSeconds: dateUsesSeconds(options),
+    dateFields: (options as typeof options & { dateFields?: readonly DatePickerField[] }).dateFields,
+    timeFields: (options as typeof options & { timeFields?: readonly TimePickerField[] }).timeFields,
+    calendarLocale: dateLocaleName(options),
+    currentDate: parseDateValue(new Date(), options)?.format('YYYY-MM-D'),
     type: (options.type === 'year' || options.type === 'month' ? options.type : 'date') as 'year' | 'month' | 'date',
     readonly:
       options.readonly ||
@@ -129,32 +165,16 @@ const bindings = computed(() => {
           rangeDisabledDate: ['start', 'end'].map(
             (endpoint) => (text: string) => disabledDate(text, endpoint as 'start' | 'end'),
           ),
-          rangeDisabledTime: ['start', 'end'].map((endpoint, index) => {
-            const value = Array.isArray(props.value) ? props.value[index] : undefined
-            const date = parseDateValue(value, options)?.toDate() ?? new Date()
-            const rules = dateTimeDisabledRules(date, options, endpoint as 'start' | 'end')
-            return {
-              hours: (hour: number) => Boolean(rules.disabledHours?.().includes(hour)),
-              minutes: (minute: number, hour = date.getHours()) =>
-                Boolean(rules.disabledMinutes?.(hour).includes(minute)),
-              seconds: (second: number, hour = date.getHours(), minute = date.getMinutes()) =>
-                Boolean(rules.disabledSeconds?.(hour, minute).includes(second)),
-            }
-          }),
+          rangeDisabledTime: timeRules.value,
         }
       : {}),
-    disabledTime: {
-      hours: (value: number) => Boolean(timeRules.disabledHours?.().includes(value)),
-      minutes: (value: number, hour = base.getHours()) => Boolean(timeRules.disabledMinutes?.(hour).includes(value)),
-      seconds: (value: number, hour = base.getHours(), minute = base.getMinutes()) =>
-        Boolean(timeRules.disabledSeconds?.(hour, minute).includes(value)),
-    },
+    disabledTime: timeRules.value[props.range && activeIndex.value === 1 ? 1 : 0],
   }
 })
 function navigate(value: string | string[] | undefined) {
-  emit('navigate', fromCalendarValue(value, props.options))
+  emit('navigate', fromCalendarValue(value, valueOptions.value))
 }
 function select(value: string | string[] | undefined) {
-  emit('select', fromCalendarValue(value, props.options))
+  emit('select', fromCalendarValue(value, valueOptions.value, props.value))
 }
 </script>

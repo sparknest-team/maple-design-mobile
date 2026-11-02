@@ -29,5 +29,14 @@ export type DateRangePickerType = NonNullable<DateRangePickerProps['type']>
 /** 范围字段嵌套设置；模型、规则和 presentation 由根拥有。 */
 export type DateRangePickerOptions = Omit<
   DateRangePickerProps,
-  keyof typeof dateRuleProps | 'modelValue' | 'defaultValue' | 'disabled' | 'readonly' | 'presentation'
+  | keyof typeof dateRuleProps
+  | 'modelValue'
+  | 'defaultValue'
+  | 'disabled'
+  | 'readonly'
+  | 'presentation'
+  | 'dateFields'
+  | 'timeFields'
 >
+
+export type { DatePickerField } from '../_components/picker-field/fields'

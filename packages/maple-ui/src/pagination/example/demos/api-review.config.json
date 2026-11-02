@@ -186,7 +186,7 @@
       "name": "page-size-props",
       "kind": "prop",
       "demos": [
-        "show-page-size.vue"
+        "auxiliary-controls-comparison.vue"
       ]
     },
     {
@@ -200,9 +200,7 @@
         "disabled.vue",
         "more-page-size.vue",
         "responsive.vue",
-        "show-jumper.vue",
-        "show-page-size.vue",
-        "show-total.vue",
+        "auxiliary-controls-comparison.vue",
         "simple.vue",
         "size.vue"
       ]
@@ -232,14 +230,14 @@
       "name": "jumper-prepend",
       "kind": "slot",
       "demos": [
-        "show-jumper.vue"
+        "auxiliary-controls-comparison.vue"
       ]
     },
     {
       "name": "jumper-append",
       "kind": "slot",
       "demos": [
-        "show-jumper.vue"
+        "auxiliary-controls-comparison.vue"
       ]
     }
   ],

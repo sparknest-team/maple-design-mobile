@@ -2,7 +2,7 @@
 
 The same scenarios, parameters and interactions as Cedar. Only component prefixes differ; themes and site shells remain independent.
 
-## Examples
+## Basic examples
 
 ### Basic usage
 
@@ -10,25 +10,43 @@ The same scenarios, parameters and interactions as Cedar. Only component prefixe
 ../example/demos/basic.vue
 ```
 
-### Top offset
+## Layout and arrangement
+
+### Affix direction, offset and container
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `target` | Scroller or selector; finds nearest scrolling ancestor when omitted, falling back to window | Affix direction, offset and container |
+| `offset-top` | Distance from the scroll container top; accepts CSS lengths | Affix direction, offset and container |
+| `offset-bottom` | Distance from the bottom; takes precedence over offset-top, including 0 | Affix direction, offset and container |
+<!-- demo-config-notes:end -->
+
+
+Scroll each bordered area separately to compare top/bottom affixing and offsets within an explicit scroll container.
 
 ```demo
-../example/demos/top.vue
+../example/demos/offset-container-comparison.vue
 ```
 
-### Bottom offset
-
-```demo
-../example/demos/bottom.vue
-```
-
-### Scroll container
-
-```demo
-../example/demos/container.vue
-```
+## Interaction and control
 
 ### Change event
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `target` | Scroller or selector; finds nearest scrolling ancestor when omitted, falling back to window | Change event, Disabled, CSS mode and manual update |
+| `offset-top` | Distance from the scroll container top; accepts CSS lengths | Change event, Disabled, CSS mode and manual update |
+| `disabled` | Disable affixing | Disabled, CSS mode and manual update |
+| `css-mode` | Use native position: sticky, subject to ancestor overflow and container boundaries | Disabled, CSS mode and manual update |
+| `z-index` | Stacking level | Disabled, CSS mode and manual update |
+<!-- demo-config-notes:end -->
+
 
 ```demo
 ../example/demos/fix-change.vue
@@ -39,15 +57,6 @@ The same scenarios, parameters and interactions as Cedar. Only component prefixe
 ```demo
 ../example/demos/controls.vue
 ```
-
-<!-- api-review:start -->
-### Feature playground
-
-```demo
-../example/demos/api-review.vue
-```
-
-<!-- api-review:end -->
 
 ## API
 
@@ -68,7 +77,7 @@ The same scenarios, parameters and interactions as Cedar. Only component prefixe
 
 | Event | Arguments and timing |
 | --- | --- |
-| change | `(fixed: boolean, offset: number)`, when fixed state changes; offset is the threshold while fixed, otherwise distance to the corresponding container edge; disabling reports 0 |
+| change | `(fixed: boolean, offset: number)`, emitted when the fixed state changes. While fixed, offset is the affix threshold; otherwise it is the distance to the corresponding container edge. Disabling affixing reports 0. |
 
 ### Slots
 
@@ -84,5 +93,7 @@ The same scenarios, parameters and interactions as Cedar. Only component prefixe
 
 ### Platform notes
 
-Props, event arguments, slots and methods match. CSS mode follows browser sticky rules; paired demos use independent scroll containers.
+Props, event arguments, slots and public methods match across platforms. CSS mode follows browser sticky rules; examples use independent scroll containers.
 <!-- same-source-api:end -->
+
+`change` reports state transitions, so remeasuring an already fixed item does not repeat `true`; disabling a fixed item reports `false, 0`. Viewport units are reevaluated during measurement. CSS mode passes valid lengths to native sticky positioning; JS mode resolves numbers, numeric strings, px, rem, vw, vh, vmin and vmax. The target controls observation and JS measurement; native sticky remains constrained by actual CSS ancestors. Pending `updatePosition()` work cannot rebind a deactivated or replaced activation generation.

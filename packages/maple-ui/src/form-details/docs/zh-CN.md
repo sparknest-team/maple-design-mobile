@@ -4,16 +4,25 @@
 
 表单辅助信息，用于展示错误反馈与补充说明。
 
-## 案例
+## 阅读方向
 
-<!-- api-review:start -->
-### 功能调试
+继承来源 dir；错误信息按阅读起点对齐，附加信息按阅读终点对齐，间距随方向切换。
+
+## 基础示例
+
+### 基础用法
 
 ```demo
-../example/demos/api-review.vue
+../example/demos/basic.vue
 ```
 
-<!-- api-review:end -->
+## 自定义与插槽
+
+### 自定义辅助信息
+
+```demo
+../example/demos/extra-slot.vue
+```
 
 ## API
 

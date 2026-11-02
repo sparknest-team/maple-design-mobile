@@ -27,7 +27,13 @@ function remount() {
           : '1. 非受控：defaultValue 提供初始文字。输入后由组件自己保存新值，下方的默认值变量不会随之变化。'
       }}
     </p>
-    <mp-input :key="instanceKey" :default-value="seed" aria-label="Uncontrolled input" @update:model-value="record" />
+    <mp-input
+      :key="instanceKey"
+      edit-mode="direct"
+      :default-value="seed"
+      aria-label="Uncontrolled input"
+      @update:model-value="record"
+    />
     <p>
       defaultValue = <code>{{ seed }}</code>
     </p>
@@ -55,7 +61,12 @@ function remount() {
           : '2. 受控：v-model 是数据来源。这里初始值为空字符串，仍优先于 defaultValue，不会自动填入默认文字。'
       }}
     </p>
-    <mp-input v-model="controlled" default-value="This default is ignored" aria-label="Controlled input" />
+    <mp-input
+      v-model="controlled"
+      edit-mode="direct"
+      default-value="This default is ignored"
+      aria-label="Controlled input"
+    />
     <p role="status">
       v-model = <code>{{ JSON.stringify(controlled) }}</code>
     </p>

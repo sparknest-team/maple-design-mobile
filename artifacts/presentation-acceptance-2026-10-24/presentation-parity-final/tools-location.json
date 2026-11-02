@@ -1,0 +1,5 @@
+{
+  "tools": "/private/tmp/maple-acceptance-parity-sjzcs08o",
+  "originalArchive": "../acceptance-tools.tar.gz",
+  "purpose": "Rerun 308 cases after platform-default parity refactor; code and build remain outside workspace."
+}

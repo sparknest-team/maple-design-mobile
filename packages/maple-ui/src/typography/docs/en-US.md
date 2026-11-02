@@ -12,3 +12,11 @@ Shared semantic text-color utilities remain in Utilities: `mp-text-1` … `mp-te
 - [Utilities Overview](#/en-US/utilities)
 - [Atomic CSS](#/en-US/atomic-css)
 - [Utility Spec](#/en-US/utilitySpec)
+
+## Basic examples
+
+### Basic usage
+
+```demo
+../example/basic.vue
+```

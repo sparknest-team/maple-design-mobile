@@ -2,7 +2,7 @@
 
 A content area which can be collapsed and expanded. Examples match Cedar Design Web, with a more compact mobile layout.
 
-## Examples
+## Basic examples
 
 ### Basic usage
 
@@ -12,6 +12,8 @@ Group and hide complex content. Multiple panels can stay open.
 ../example/demos/basic.vue
 ```
 
+## Appearance and states
+
 ### Disabled
 
 Disable a panel with `disabled`.
@@ -20,36 +22,27 @@ Disable a panel with `disabled`.
 ../example/demos/disabled.vue
 ```
 
-### Accordion
-
-Use `accordion` so only one panel is open. `modelValue` remains an array with at most one item.
-
-```demo
-../example/demos/accordion.vue
-```
+## Layout and arrangement
 
 ### Nested panels
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `default-value` | Uncontrolled initial expanded names | Nested panels, Icon position |
+| `destroy-on-hide` | Destroy content when hidden | Nested panels |
+| `offset` | Gap between expanded panels | Expanded offset |
+| `expand-icon-position` | Expand-icon position within the header: left or right, default left. Does not control content expansion direction | Icon position |
+| `show-expand-icon` | Whether to show expansion icons; child items decide when omitted | Icon position |
+<!-- demo-config-notes:end -->
+
 
 Panels can be nested.
 
 ```demo
 ../example/demos/nested.vue
-```
-
-### Borderless
-
-Hide the border with `bordered="false"`.
-
-```demo
-../example/demos/border-less.vue
-```
-
-### Divider
-
-Control item dividers with `divider`.
-
-```demo
-../example/demos/divider.vue
 ```
 
 ### Expanded offset
@@ -58,6 +51,58 @@ Control the gap between expanded panels with `offset`.
 
 ```demo
 ../example/demos/offset.vue
+```
+
+### Icon position
+
+Set `expand-icon-position` to `left` or `right`.
+
+```demo
+../example/demos/icon-position.vue
+```
+
+## Content and presentation
+
+### Accordion
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `default-value` | Uncontrolled initial expanded names | Accordion, Borders and dividers, Expand icon |
+| `accordion` | Accordion mode; at most one open panel | Accordion |
+| `bordered` | Whether to show border | Borders and dividers |
+| `divider` | Show dividers | Borders and dividers |
+| `destroy-on-hide` | Destroy content when hidden | Destroy on hide |
+<!-- demo-config-notes:end -->
+
+
+Use `accordion` so only one panel is open. `modelValue` remains an array with at most one item.
+
+```demo
+../example/demos/accordion.vue
+```
+
+### Borders and dividers
+
+Compare outer borders and separators between panels, including their appearance while expanded.
+
+<details>
+<summary>Configuration details and limits</summary>
+
+#### Borderless
+
+Hide the border with `bordered="false"`.
+
+#### Divider
+
+Control item dividers with `divider`.
+
+</details>
+
+```demo
+../example/demos/border-comparison.vue
 ```
 
 ### Extra
@@ -76,22 +121,6 @@ Customize the expand icon. The parent `expand-icon` slot is used by items withou
 ../example/demos/expand-icon.vue
 ```
 
-### Custom style
-
-Customize panel styles.
-
-```demo
-../example/demos/custom.vue
-```
-
-### Icon position
-
-Set `expand-icon-position` to `left` or `right`.
-
-```demo
-../example/demos/icon-position.vue
-```
-
 ### Destroy on hide
 
 Destroy panel content after collapse with `destroy-on-hide`.
@@ -99,6 +128,28 @@ Destroy panel content after collapse with `destroy-on-hide`.
 ```demo
 ../example/demos/destroy.vue
 ```
+
+## Customization and slots
+
+### Custom style
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `default-value` | Uncontrolled initial expanded names | Custom style |
+| `bordered` | Whether to show border | Custom style |
+<!-- demo-config-notes:end -->
+
+
+Customize panel styles.
+
+```demo
+../example/demos/custom.vue
+```
+
+## Interaction and control
 
 ### Toggle all
 
@@ -108,18 +159,13 @@ Use `toggleAll` to expand or collapse all panels. It is a no-op in accordion mod
 ../example/demos/toggle-all.vue
 ```
 
-<!-- api-review:start -->
-### Feature playground
+## Reading direction
 
-```demo
-../example/demos/api-review.vue
-```
-
-<!-- api-review:end -->
+Inherits the nearest `dir="ltr|rtl"` and supports runtime and nested overrides. Titles and expanded content inherit reading direction without changing expansion state. The left/right values of expand-icon-position remain physical sides. Custom expansion graphics are not additionally mirrored.
 
 ## API
 
-Use ordinary `v-model` for the primary value: `modelValue` is an array of expanded panel names, including accordion mode. `defaultValue` initializes uncontrolled state only at creation; later changes do not reset it. Initialization emits no `update:modelValue`. A supplied `modelValue` takes precedence and remains parent-controlled.
+The main value uses ordinary `v-model`: `modelValue` is an array of expanded panel names, including in accordion mode. `defaultValue` initializes uncontrolled state only on creation; later changes do not reset it. Initialization does not emit `update:modelValue`. When `modelValue` is provided, the parent controls the state and its value is authoritative.
 
 <!-- same-source-api:start -->
 ### Props
@@ -129,9 +175,9 @@ Use ordinary `v-model` for the primary value: `modelValue` is an array of expand
 | model-value | Expanded names; v-model | `(string \| number)[]` | `—` |
 | default-value | Uncontrolled initial expanded names | `(string \| number)[]` | `[]` |
 | accordion | Accordion mode; at most one open panel | `boolean` | `false` |
-| show-expand-icon | Show expand icons; unset defers to the item | `boolean` | `—` |
-| expand-icon-position | Expand icon position | `'left' \| 'right'` | `'left'` |
-| bordered | Show border | `boolean` | `true` |
+| show-expand-icon | Whether to show expansion icons; child items decide when omitted | `boolean` | `—` |
+| expand-icon-position | Expand-icon position within the header: left or right, default left. Does not control content expansion direction | `'left' \| 'right'` | `'left'` |
+| bordered | Whether to show border | `boolean` | `true` |
 | divider | Show dividers | `boolean` | `true` |
 | offset | Gap between expanded panels | `boolean` | `false` |
 | destroy-on-hide | Destroy content when hidden | `boolean` | `false` |
@@ -157,35 +203,36 @@ Use ordinary `v-model` for the primary value: `modelValue` is an array of expand
 
 <!-- same-source-api:end -->
 
+
 The parent `expand-icon` slot is forwarded to items that do not provide their own icon. Scope: `expanded`, `disabled`, `position`. It is not rendered on the root node.
 
 #### CollapseToggleAllOptions
 
-| Prop | Description | Type | Default |
+| Arguments | Description | Type | Default |
 | --- | --- | --- | --- |
 | expand | `'inverse'` toggles all; `boolean` expands or collapses all | `'inverse' \| boolean` | `—` |
 | skipDisabled | Skip disabled panels | `boolean` | `false` |
 
 ### `<collapse-item>` Props
 
-| Prop | Description | Type | Default |
+| Parameter | Description | Type | Default |
 | --- | --- | --- | --- |
-| name **(required)** | Unique name, corresponding to `modelValue` | `string \| number` | `—` |
+| name **(required)** | Unique panel identifier corresponding to a value in `modelValue` | `string \| number` | `—` |
 | title | Panel title | `string` | `—` |
-| disabled | Disable the panel | `boolean` | `false` |
-| show-expand-icon | Whether to show the expand icon | `boolean` | `true` |
+| disabled | Whether disabled | `boolean` | `false` |
+| show-expand-icon | Whether to show an expansion icon | `boolean` | `true` |
 | destroy-on-hide | Destroy content when hidden | `boolean` | `false` |
 
 ### `<collapse-item>` Slots
 
-| Slot | Description | Scope |
+| Slot | Description | Arguments |
 | --- | --- | --- |
 | title | Panel title | `—` |
 | extra | Extra content | `—` |
 | expand-icon | Expand icon | expanded: `boolean`<br>disabled: `boolean`<br>position: `'left' \| 'right'` |
 | default | Panel content | `—` |
 
-### Types
+### Type definitions
 
 `Collapse.Item` is the same component as `mp-collapse-item`; `app.use(Collapse)` registers both.
 
@@ -195,9 +242,9 @@ import type { CollapseInstance, CollapseToggleAllOptions, ExpandIconPosition } f
 
 ## Color variables
 
-Public Collapse color variables use system semantics by default and stay aligned with Cedar:
+Collapse public color variables use system semantics consistently in Maple/Cedar:
 
-| Variable | Default semantic role |
+| Variable | Default semantic value |
 | --- | --- |
 | `--mp-collapse-border-color` | `--mp-sys-color-border-default` |
 | `--mp-collapse-title-bg` | `--mp-sys-color-surface-default` |
@@ -213,4 +260,4 @@ Public Collapse color variables use system semantics by default and stay aligned
 
 ### Reduced motion
 
-Built-in CSS transitions respect `prefers-reduced-motion: reduce`. Final visibility, checked/expanded state and event semantics remain unchanged; custom slot animations are controlled by the application.
+Built-in CSS transitions follow `prefers-reduced-motion: reduce`. Removing transitions does not change final visibility, selected/expanded state or event semantics. Applications control custom animations inside slots.

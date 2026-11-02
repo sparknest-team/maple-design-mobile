@@ -4,6 +4,8 @@
   min-width: 0;
 
   &__content {
+    text-align: var(--mp-internal-selection-text-align, var(--mp-form-content-align, start));
+    justify-content: var(--mp-internal-selection-justify, var(--mp-form-content-justify, flex-start));
     display: flex;
     align-items: center;
     flex-wrap: wrap;
@@ -140,5 +142,27 @@
   .mp-selection-field__icon {
     transition: none;
     animation: none;
+  }
+}
+
+.mp-selection-field {
+  &__icon {
+    border: 0;
+    padding: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    flex: none;
+  }
+  &__icon:disabled {
+    cursor: default;
+  }
+  &--icon-trigger &__selection {
+    pointer-events: auto;
+    user-select: text;
+    cursor: text;
   }
 }

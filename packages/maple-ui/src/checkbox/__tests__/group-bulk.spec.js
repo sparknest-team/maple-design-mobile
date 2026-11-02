@@ -7,14 +7,14 @@ import Checkbox, { CheckboxGroup } from '../index'
 describe('Maple bulk selection and radio entry focus', () => {
   it('checkAll/inverseAll preserve locked and unloaded values and enforce max', async () => {
     const wrapper = mount(CheckboxGroup, {
-      props: { defaultValue: ['remote', 'locked', 'a'], max: 4 },
+      props: { editMode: 'direct', defaultValue: ['remote', 'locked', 'a'], max: 4 },
       slots: {
         default: () => [
-          h(Checkbox, { value: 'locked', disabled: true }),
-          h(Checkbox, { value: 'a' }),
-          h(Checkbox, { value: 'b' }),
-          h(Checkbox, { value: 'c', readonly: true }),
-          h(Checkbox, { value: 'd' }),
+          h(Checkbox, { editMode: 'direct', value: 'locked', disabled: true }),
+          h(Checkbox, { editMode: 'direct', value: 'a' }),
+          h(Checkbox, { editMode: 'direct', value: 'b' }),
+          h(Checkbox, { editMode: 'direct', value: 'c', readonly: true }),
+          h(Checkbox, { editMode: 'direct', value: 'd' }),
         ],
       },
     })
@@ -32,8 +32,8 @@ describe('Maple bulk selection and radio entry focus', () => {
 
   it('bulk proposals remain controlled and disabled methods are inert', async () => {
     const wrapper = mount(CheckboxGroup, {
-      props: { modelValue: [], max: 1 },
-      slots: { default: () => ['a', 'b'].map((value) => h(Checkbox, { value })) },
+      props: { editMode: 'direct', modelValue: [], max: 1 },
+      slots: { default: () => ['a', 'b'].map((value) => h(Checkbox, { editMode: 'direct', value })) },
     })
     await nextTick()
     expect(wrapper.vm.checkAll()).toEqual(['a'])
@@ -49,6 +49,7 @@ describe('Maple bulk selection and radio entry focus', () => {
   it('radio focus entry recovers after clearing, disabling and removing a selected option', async () => {
     const wrapper = mount(RadioGroup, {
       props: {
+        editMode: 'direct',
         modelValue: 'b',
         options: [
           { value: 'a', label: 'A', disabled: true },
@@ -78,8 +79,8 @@ describe('Maple bulk selection and radio entry focus', () => {
 
   it('group readonly prevents keyboard selection and exposed child toggles', async () => {
     const wrapper = mount(RadioGroup, {
-      props: { readonly: true, defaultValue: 'a' },
-      slots: { default: () => ['a', 'b'].map((value) => h(Radio, { value })) },
+      props: { editMode: 'direct', readonly: true, defaultValue: 'a' },
+      slots: { default: () => ['a', 'b'].map((value) => h(Radio, { editMode: 'direct', value })) },
     })
     await nextTick()
     wrapper.findAllComponents(Radio)[1].vm.select()

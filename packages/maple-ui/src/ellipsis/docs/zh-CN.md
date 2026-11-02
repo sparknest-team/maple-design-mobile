@@ -2,7 +2,7 @@
 
 单行或多行文本省略，可选展开交互和 Tooltip。
 
-## 案例
+## 基础示例
 
 ### 单行省略
 
@@ -10,19 +10,20 @@
 ../example/demos/line.vue
 ```
 
-### 多行省略
-
-```demo
-../example/demos/multiple-line.vue
-```
-
-### 交互展开
-
-```demo
-../example/demos/expand.vue
-```
+## 内容与展示
 
 ### 受控展开
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `tooltip` | Tooltip 配置，false 禁用 | 受控展开、自定义提示 |
+| `expand` | 受控展开状态，配合 v-model:expand | 受控展开 |
+| `line-clamp` | 正数行数，向下取整；未传或无效为单行 | 受控展开 |
+| `expand-trigger` | 启用点击与 Enter / Space 展开 | 受控展开 |
+<!-- demo-config-notes:end -->
 
 ```demo
 ../example/demos/two-way-binding.vue
@@ -34,14 +35,31 @@
 ../example/demos/tooltip.vue
 ```
 
-<!-- api-review:start -->
-### 功能调试
+## 数据与选项
+
+### 多行省略
 
 ```demo
-../example/demos/api-review.vue
+../example/demos/multiple-line.vue
 ```
 
-<!-- api-review:end -->
+## 交互与控制
+
+### 交互展开
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `line-clamp` | 正数行数，向下取整；未传或无效为单行 | 交互展开 |
+| `expand-trigger` | 启用点击与 Enter / Space 展开 | 交互展开 |
+| `tooltip` | Tooltip 配置，false 禁用 | 交互展开 |
+<!-- demo-config-notes:end -->
+
+```demo
+../example/demos/expand.vue
+```
 
 ## API
 

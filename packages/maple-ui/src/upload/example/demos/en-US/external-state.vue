@@ -47,7 +47,7 @@ function retry() {
       <mp-button :disabled="!hasUploading" @click="complete">Complete externally</mp-button>
       <mp-button :disabled="!hasRetryable" @click="retry">Retry externally</mp-button>
     </mp-space>
-    <mp-upload v-model="files" :show-retry-button="false" @read="read" />
+    <mp-upload v-model="files" edit-mode="direct" :show-retry-button="false" @read="read" />
     <p>Queue：{{ files.map((file) => `${file.name}: ${file.status} (${file.percent}%)`).join('；') || 'Empty' }}</p>
   </div>
 </template>

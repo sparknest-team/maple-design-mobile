@@ -4,6 +4,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import DateRange from '../../date-range'
 import DateRangePicker from '../../date-range/DateRangePicker.vue'
 import DatePicker from '../DatePicker.vue'
+import { rangeControls } from './range-controls'
 
 const Surface = defineComponent({ template: '<div><slot /><slot name="content" /></div>' })
 const global = { stubs: { MpTrigger: Surface, Dialog: Surface, Popup: Surface, teleport: true } }
@@ -19,7 +20,7 @@ function freeze() {
 const action = (wrapper: ReturnType<typeof mount>, label: string) =>
   wrapper.findAll('button').find((button) => button.text() === label)!
 
-for (const mode of ['standalone', 'inline', 'popup'] as const) {
+for (const mode of ['standalone', 'direct', 'popup'] as const) {
   for (const showTime of [false, true]) {
     for (const disableConfirm of [false, true]) {
       it(`${mode} showTime=${showTime} disableConfirm=${disableConfirm} stages reversed Now and repairs the active endpoint`, async () => {
@@ -31,13 +32,13 @@ for (const mode of ['standalone', 'inline', 'popup'] as const) {
             modelValue: initial,
             showTime,
             disableConfirm,
-            ...(mode === 'standalone' ? {} : { presentation: mode, ...(mode === 'inline' ? { open: true } : {}) }),
+            ...(mode === 'standalone' ? {} : { editMode: mode, ...(mode === 'direct' ? { open: true } : {}) }),
           },
           global,
         })
         wrappers.push(wrapper)
         if (mode === 'popup') {
-          await wrapper.get('[aria-haspopup=dialog]').trigger('click')
+          await wrapper.get('[aria-haspopup=dialog]:not(:disabled)').trigger('click')
         }
         expect(action(wrapper, '此刻').attributes('disabled')).toBeUndefined()
         await action(wrapper, '此刻').trigger('click')
@@ -54,7 +55,7 @@ for (const mode of ['standalone', 'inline', 'popup'] as const) {
         await action(wrapper, '确认').trigger('click')
         expect(wrapper.emitted('update:modelValue')).toBeUndefined()
         // Endpoint switching must retain the invalid draft rather than restore the old start.
-        await wrapper.findAll('.mp-date-range-picker__summary')[1].trigger('click')
+        await rangeControls(wrapper)[1].trigger('click')
         await action(wrapper, '此刻').trigger('click')
         await flushPromises()
         expect(wrapper.emitted('select')?.at(-1)?.[0]).toEqual([current, current])
@@ -85,7 +86,7 @@ describe('endpoint-only range edits', () => {
     expect(action(wrapper, '确认').attributes('disabled')).toBeDefined()
     expect(wrapper.emitted('update:modelValue')).toBeUndefined()
   })
-  it.each(['standalone', 'inline', 'popup'] as const)(
+  it.each(['standalone', 'direct', 'popup'] as const)(
     '%s Now edits the unlocked end without moving the locked start',
     async (mode) => {
       freeze()
@@ -95,13 +96,13 @@ describe('endpoint-only range edits', () => {
           showTime: true,
           disabled: [true, false],
           disableConfirm: false,
-          ...(mode === 'standalone' ? {} : { presentation: mode, ...(mode === 'inline' ? { open: true } : {}) }),
+          ...(mode === 'standalone' ? {} : { editMode: mode, ...(mode === 'direct' ? { open: true } : {}) }),
         },
         global,
       })
       wrappers.push(wrapper)
       if (mode === 'popup') {
-        await wrapper.get('[aria-haspopup=dialog]').trigger('click')
+        await wrapper.get('[aria-haspopup=dialog]:not(:disabled)').trigger('click')
       }
       expect(action(wrapper, '此刻').attributes('disabled')).toBeUndefined()
       await action(wrapper, '此刻').trigger('click')
@@ -137,21 +138,19 @@ it('cancels a reversed Now draft and restores the committed range on reopen', as
   freeze()
   const initial = ['2026-10-20 09:30:00', '2026-10-21 18:00:00']
   const wrapper = mount(DateRange, {
-    props: { presentation: 'popup', modelValue: initial, showTime: true },
+    props: { editMode: 'popup', modelValue: initial, showTime: true },
     global,
   })
   wrappers.push(wrapper)
-  await wrapper.get('[aria-haspopup=dialog]').trigger('click')
+  await wrapper.get('[aria-haspopup=dialog]:not(:disabled)').trigger('click')
   await action(wrapper, '此刻').trigger('click')
   expect(wrapper.find('[role=alert]').exists()).toBe(true)
   await wrapper.get('.mp-field-presentation__close').trigger('click')
   await flushPromises()
   expect(wrapper.emitted('update:modelValue')).toBeUndefined()
-  await wrapper.get('[aria-haspopup=dialog]').trigger('click')
+  await wrapper.get('[aria-haspopup=dialog]:not(:disabled)').trigger('click')
   expect(wrapper.find('[role=alert]').exists()).toBe(false)
-  expect(wrapper.findAll('.mp-date-range-picker__summary-date').map((item) => item.text())).toEqual([
-    '2026-10-20',
-    '2026-10-21',
-  ])
+  expect(wrapper.get('.mp-temporal-current__value').text()).toBe('2026-10-20')
+  expect(wrapper.find('.mp-date-range-picker__summaries').exists()).toBe(true)
   expect(action(wrapper, '确认').attributes('disabled')).toBeUndefined()
 })

@@ -170,3 +170,14 @@
     transition: none;
   }
 }
+
+.mp-carousel--rtl:not(.mp-carousel--vertical) {
+  .mp-carousel__arrow-prev {
+    left: auto;
+    right: var(--mp-carousel-arrow-margin);
+  }
+  .mp-carousel__arrow-next {
+    right: auto;
+    left: var(--mp-carousel-arrow-margin);
+  }
+}

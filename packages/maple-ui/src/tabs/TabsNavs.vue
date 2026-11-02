@@ -8,7 +8,7 @@
       aria-label="Previous tabs"
       @click="scroll(-1)"
     >
-      ‹
+      {{ ctx.props.orientation !== 'vertical' && ctx.rtl.value ? '›' : '‹' }}
     </button>
     <div
       ref="scroller"
@@ -27,7 +27,7 @@
       aria-label="Next tabs"
       @click="scroll(1)"
     >
-      ›
+      {{ ctx.props.orientation !== 'vertical' && ctx.rtl.value ? '‹' : '›' }}
     </button>
     <button
       v-if="ctx.props.editable && ctx.props.showAddButton"
@@ -43,6 +43,7 @@
 </template>
 <script setup lang="ts">
 import { computed, inject, nextTick, onActivated, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { resolveDirection } from '../_utils/direction'
 import { createNamespace } from '../utils/components'
 import { tabsInjectionKey } from './context'
 import { tabsNavsProps } from './props'
@@ -102,7 +103,8 @@ function scroll(direction: number) {
   if (ctx.props.orientation === 'vertical') {
     el.scrollTop += direction * el.clientHeight
   } else {
-    el.scrollLeft += direction * el.clientWidth * (el.closest('[dir]')?.getAttribute('dir') === 'rtl' ? -1 : 1)
+    el.scrollLeft +=
+      direction * el.clientWidth * (resolveDirection(el, ctx.rtl.value ? 'rtl' : 'ltr') === 'rtl' ? -1 : 1)
   }
 }
 function wheel(event: WheelEvent) {
@@ -116,7 +118,7 @@ function wheel(event: WheelEvent) {
     return
   }
   event.preventDefault()
-  const rtl = el.closest('[dir]')?.getAttribute('dir') === 'rtl'
+  const rtl = resolveDirection(el, ctx.rtl.value ? 'rtl' : 'ltr') === 'rtl'
   el.scrollLeft += event.deltaY * (rtl ? -1 : 1)
 }
 async function refresh() {

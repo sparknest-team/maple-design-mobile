@@ -16,18 +16,18 @@ const options = computed(() => [
 
 <template>
   <mp-space direction="column" :size="16">
-    <section v-for="presentation in ['inline', 'popup', 'popup']" :key="presentation" style="width: 100%">
+    <section v-for="editMode in ['inline', 'popup', 'popup']" :key="editMode" style="width: 100%">
       <mp-select
-        v-model="values[presentation]"
-        :presentation="presentation"
+        v-model="values[editMode]"
+        :edit-mode="editMode"
         :options="options"
-        :placeholder="presentation"
+        :placeholder="editMode"
         variant="outline"
         multiple
         show-tags
         clearable
       />
-      <p>{{ presentation }} · ID：{{ values[presentation].join(', ') || '—' }}</p>
+      <p>{{ editMode }} · ID：{{ values[editMode].join(', ') || '—' }}</p>
     </section>
   </mp-space>
 </template>

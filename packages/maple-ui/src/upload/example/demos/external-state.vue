@@ -47,7 +47,7 @@ function retry() {
       <mp-button :disabled="!hasUploading" @click="complete">模拟外部完成</mp-button>
       <mp-button :disabled="!hasRetryable" @click="retry">模拟外部重试</mp-button>
     </mp-space>
-    <mp-upload v-model="files" :show-retry-button="false" @read="read" />
+    <mp-upload v-model="files" edit-mode="direct" :show-retry-button="false" @read="read" />
     <p>队列状态：{{ files.map((file) => `${file.name}: ${file.status} (${file.percent}%)`).join('；') || '空' }}</p>
   </div>
 </template>

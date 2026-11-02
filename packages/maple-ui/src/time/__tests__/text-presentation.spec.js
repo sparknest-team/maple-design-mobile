@@ -6,11 +6,11 @@ import { fieldState, mountField } from './field-test-utils'
 
 describe('mobile time text presentation', () => {
   for (const Component of [Time, TimeRange]) {
-    it('defaults to selection only and keeps editable text keys local', async () => {
+    it('defaults to selection only and keeps icon-mode editable text keys local', async () => {
       const wrapper = mountField(Component)
       const input = wrapper.get('input')
       expect(input.element.readOnly).toBe(true)
-      await wrapper.setProps({ inputEditable: true })
+      await wrapper.setProps({ inputEditable: true, openTriggerTarget: 'icon' })
       expect(input.element.readOnly).toBe(false)
       await input.trigger('click')
       await input.trigger('keydown', { key: 'Enter' })

@@ -127,7 +127,7 @@ test('keyboard is scoped and does not steal editable control keys', async () => 
   expect(wrapper.emitted('change')).toBeUndefined()
   await wrapper.trigger('keydown', { key: 'ArrowRight' })
   expect(wrapper.emitted('change')).toEqual([[2, 1, true]])
-  await wrapper.setProps({ direction: 'vertical' })
+  await wrapper.setProps({ orientation: 'vertical' })
   await wrapper.trigger('keydown', { key: 'ArrowRight' })
   expect(wrapper.emitted('change')).toHaveLength(1)
   await wrapper.trigger('keydown', { key: 'End' })

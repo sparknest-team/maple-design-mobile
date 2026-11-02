@@ -3,7 +3,7 @@ import { expect, test } from 'vitest'
 import Empty from '..'
 import Button from '../../button'
 import Space from '../../space'
-import Extra from '../example/demos/extra-slot.vue'
+import Extra from '../example/demos/content-comparison.vue'
 import Show from '../example/demos/show.vue'
 
 const global = { components: { MpEmpty: Empty, MpSpace: Space, MpButton: Button } }

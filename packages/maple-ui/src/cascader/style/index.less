@@ -48,7 +48,7 @@
     }
 
     &:not(:last-of-type) {
-      border-right: 1px solid var(~'--mp-cascader-popup-color-border');
+      border-inline-end: 1px solid var(~'--mp-cascader-popup-color-border');
     }
   }
 
@@ -88,16 +88,16 @@
     &-multiple,
     &-strictly {
       .mp-cascader-option-label {
-        padding-left: 0;
+        padding-inline-start: 0;
       }
 
       .mp-cascader-option {
-        padding-left: var(~'--mp-cascader-padding-item-left');
+        padding-inline-start: var(~'--mp-cascader-padding-item-left');
 
         .mp-checkbox,
         .mp-radio {
-          margin-right: var(~'--mp-cascader-margin-checkbox-right');
-          padding-left: 0;
+          margin-inline-end: var(~'--mp-cascader-margin-checkbox-right');
+          padding-inline-start: 0;
         }
       }
     }
@@ -105,14 +105,14 @@
 
   &-search-list&-list-multiple {
     .mp-cascader-option-label {
-      padding-right: var(~'--mp-cascader-padding-item-left');
+      padding-inline-end: var(~'--mp-cascader-padding-item-left');
     }
   }
 
   &-list-footer {
     box-sizing: border-box;
     height: var(~'--mp-cascader-size-item-height');
-    padding-left: var(~'--mp-cascader-padding-item-left');
+    padding-inline-start: var(~'--mp-cascader-padding-item-left');
     line-height: var(~'--mp-cascader-size-item-height');
     border-top: 1px solid var(~'--mp-cascader-popup-color-border');
   }
@@ -136,8 +136,8 @@
       align-items: center;
       flex-grow: 1;
       min-width: 0;
-      padding-right: var(--mp-cascader-padding-item-right);
-      padding-left: var(--mp-cascader-padding-item-left);
+      padding-inline-end: var(--mp-cascader-padding-item-right);
+      padding-inline-start: var(--mp-cascader-padding-item-left);
     }
 
     &-label-content {
@@ -238,10 +238,14 @@
 
 .mp-cascader-slide-enter-from,
 .mp-cascader-slide-leave-to {
-  margin-left: calc(-1 * var(~'--mp-cascader-slide-margin'));
+  margin-inline-start: calc(-1 * var(~'--mp-cascader-slide-margin'));
 }
 
 .mp-cascader-slide-enter-to,
 .mp-cascader-slide-leave-from {
-  margin-left: 0;
+  margin-inline-start: 0;
+}
+
+.mp-cascader-option-expand-icon:dir(rtl) {
+  transform: rotate(180deg);
 }

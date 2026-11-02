@@ -8,7 +8,7 @@ const statuses = ['default', 'primary', 'secondary', 'tertiary', 'info', 'succes
 </script>
 <template>
   <DemoApiReviewPanel v-slot="__apiReview" v-bind="defineReviewConfig(__apiReviewRawConfig)">
-    <div style="display: flex; flex-wrap: wrap; gap: 12px">
+    <mp-space wrap size="12px">
       <mp-button
         v-for="status in statuses"
         :key="status"
@@ -23,6 +23,6 @@ const statuses = ['default', 'primary', 'secondary', 'tertiary', 'info', 'succes
             :controls="__apiReview.controls"
             :record="__apiReview.record" /></template
       ></mp-button>
-    </div>
+    </mp-space>
   </DemoApiReviewPanel>
 </template>

@@ -10,10 +10,10 @@ const hairline = ref(false)
 <template>
   <section class="divider-live-demo">
     <div class="controls">
-      <mp-checkbox v-model="vertical">Vertical divider</mp-checkbox>
-      <mp-checkbox v-model="text">Divider text</mp-checkbox>
-      <mp-checkbox v-model="invisible">Zero opacity</mp-checkbox>
-      <mp-checkbox v-model="hairline">Hairline divider</mp-checkbox>
+      <mp-checkbox v-model="vertical" edit-mode="direct">Vertical divider</mp-checkbox>
+      <mp-checkbox v-model="text" edit-mode="direct">Divider text</mp-checkbox>
+      <mp-checkbox v-model="invisible" edit-mode="direct">Zero opacity</mp-checkbox>
+      <mp-checkbox v-model="hairline" edit-mode="direct">Hairline divider</mp-checkbox>
     </div>
     <p role="status">Orientation: {{ vertical ? 'vertical' : 'horizontal' }}; opacity: {{ invisible ? 0 : 1 }}</p>
     <div class="preview" :class="{ vertical }">

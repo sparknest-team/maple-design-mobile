@@ -76,7 +76,10 @@
       "initial": "#5268cc"
     }
   ],
-  "events": ["refresh", "update:modelValue"],
+  "events": [
+    "refresh",
+    "update:modelValue"
+  ],
   "scenarios": [
     {
       "name": "target",

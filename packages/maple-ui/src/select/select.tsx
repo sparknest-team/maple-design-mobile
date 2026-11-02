@@ -34,10 +34,11 @@ const Select = defineComponent({
         controller.handleOpenChange(false)
         controller.session.reset()
       },
-      focus: () => (controller.presentation === 'inline' ? fieldRef.value?.focus() : presentationRef.value?.focus()),
+      focus: () => (controller.editMode === 'direct' ? fieldRef.value?.focus() : presentationRef.value?.focus()),
     })
     expose({
-      focus: () => (controller.presentation === 'inline' ? fieldRef.value?.focus() : presentationRef.value?.focus()),
+      refresh: () => controller.refresh(),
+      focus: () => (controller.editMode === 'direct' ? fieldRef.value?.focus() : presentationRef.value?.focus()),
       blur: () => fieldRef.value?.blur(),
     })
     const renderLabel = ({ data }: { data: SelectionFieldItem }) => {
@@ -68,7 +69,7 @@ const Select = defineComponent({
         {(props.filterable || props.creatable) && (
           <Input
             modelValue={controller.computedInputValue}
-            presentation="inline"
+            editMode="direct"
             hint={false}
             variant="outline"
             disabled={controller.mergedDisabled || controller.session.pending}
@@ -76,7 +77,7 @@ const Select = defineComponent({
             ariaLabel={texts.search}
             placeholder={texts.search}
             clearable
-            onUpdate:modelValue={controller.handleInputValueChange}
+            onUpdate:modelValue={(value: string | null) => controller.handleInputValueChange(value ?? '')}
             onKeydown={controller.handleKeyDown}
           />
         )}
@@ -98,14 +99,19 @@ const Select = defineComponent({
           return String(typeof formatted === 'string' || typeof formatted === 'number' ? formatted : (item.label ?? ''))
         })
         .join(props.separator)
-      if (controller.presentation !== 'inline' || controller.readPretty) {
+      if (controller.editMode !== 'direct' || controller.readPretty) {
         return (
           <FieldPresentation
+            loading={controller.loading}
             ref={presentationRef}
-            presentation={controller.presentation}
+            style={props.textAlign ? { '--mp-form-content-align': props.textAlign } : undefined}
+            editMode={controller.editMode}
+            openTriggerTarget={props.openTriggerTarget}
             readPretty={controller.readPretty}
+            empty={controller.emptyPolicy.isEmpty(controller.committedValue)}
+            emptyText={controller.emptyPolicy.emptyText}
             popupContainer={props.popupContainer}
-            confirmDisabled={props.loading}
+            confirmDisabled={controller.loading}
             label={controller.presentationLabel}
             text={text}
             placeholder={props.placeholder}
@@ -130,7 +136,7 @@ const Select = defineComponent({
                     {
                       ...props,
                       ...attrs,
-                      presentation: 'inline',
+                      editMode: 'direct',
                       readPretty: false,
                       beforeCommit: undefined,
                       open: undefined,
@@ -177,6 +183,7 @@ const Select = defineComponent({
                 <div class={[classes(n()), className]} style={style as StyleValue}>
                   <SelectionField
                     ref={fieldRef}
+                    openTriggerTarget={props.openTriggerTarget}
                     showTags={props.showTags}
                     separator={props.separator}
                     textAlign={props.textAlign}
@@ -203,7 +210,8 @@ const Select = defineComponent({
                     disabled={controller.mergedDisabled}
                     readonly={controller.mergedReadonly}
                     error={controller.mergedError}
-                    loading={props.loading}
+                    loading={controller.loading || controller.session.pending}
+                    loadingMode={props.loadingMode}
                     clearable={props.clearable}
                     searchable={Boolean(props.filterable || props.creatable)}
                     open={controller.computedOpen}

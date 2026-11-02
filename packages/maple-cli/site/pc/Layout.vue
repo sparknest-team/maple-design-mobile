@@ -3,6 +3,7 @@ import { computed, nextTick, onMounted, ref, watch } from 'vue'
 import config from '@config'
 import { Context } from '@maple-design/ui'
 import { useRoute, useRouter } from 'vue-router'
+import { getDocumentationSection, getSectionMenu, sectionRoute } from '../documentation-sections'
 import { type SiteContext } from '../types'
 import { MenuTypes, type Menu } from '../utils'
 import AppAd from './components/AppAd.vue'
@@ -10,6 +11,7 @@ import AppHeader from './components/AppHeader.vue'
 import AppMobile from './components/AppMobile.vue'
 import AppSidebar from './components/AppSidebar.vue'
 import { getPcSiteRoute } from './route-state'
+import { createScrollHashSync } from './scroll-hash'
 
 const context = Context as SiteContext
 const menu: Menu[] = config?.pc?.menu ?? []
@@ -19,17 +21,33 @@ const sidebarOpen = ref(false)
 const sidebarToggle = ref<HTMLButtonElement | null>(null)
 const route = useRoute()
 const router = useRouter()
-const routeState = computed(() => getPcSiteRoute(route.path, route.hash, menu, mobileRedirect, config?.useMobile))
+const scrollHashSync = createScrollHashSync(router)
+const sections = config?.pc?.sections ?? []
+const activeSection = computed(() => getDocumentationSection(route.path, sections))
+const visibleMenu = computed(() => getSectionMenu(menu, activeSection.value, sections))
+const switchSection = (section: (typeof sections)[number]) => router.push(sectionRoute(section, language.value))
+const routeState = computed(() =>
+  getPcSiteRoute(route.path, route.hash, menu, mobileRedirect, config?.useMobile, config?.mobile?.docs),
+)
 const language = computed(() => routeState.value.language)
 const menuName = computed(() => routeState.value.menuName)
-const hash = computed(() => routeState.value.hash)
+const hash = ref(routeState.value.hash)
+watch(
+  () => route.fullPath.split('#')[0],
+  () => {
+    hash.value = routeState.value.hash
+  },
+  { flush: 'sync' },
+)
 const componentName = computed(() => routeState.value.componentName)
 const useMobile = computed(() => routeState.value.useMobile)
 
 const init = () => {
   nextTick(() => {
-    const children = document.querySelector('.maple-site-sidebar')!.getElementsByClassName('mp-cell')
-    const index = menu.findIndex((item) => item.doc === menuName.value && item.type !== MenuTypes.TITLE)
+    const sidebar = document.querySelector('.maple-site-sidebar')
+    if (!sidebar) return
+    const children = sidebar.getElementsByClassName('mp-cell')
+    const index = visibleMenu.value.findIndex((item) => item.doc === menuName.value && item.type !== MenuTypes.TITLE)
 
     if (index !== -1 && children[index]) {
       children[index].scrollIntoView({
@@ -45,6 +63,14 @@ const handleSidebarChange = (menu: Menu) => {
     doc.value.scrollTop = 0
   }
   router.push({ path: `/${language.value}/${menu.doc}` })
+}
+
+const navigateOutline = (id: string) => {
+  if (route.hash === `#${id}`) {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    return
+  }
+  router.push({ hash: `#${id}`, query: route.query })
 }
 
 const closeSidebar = async () => {
@@ -93,6 +119,8 @@ onMounted(() => {
   })
 })
 
+watch(menuName, init, { flush: 'post' })
+
 watch(
   language,
   (lang) => {
@@ -108,7 +136,12 @@ watch(
   <div class="maple-site">
     <app-ad :language="language" />
 
-    <app-header :language="language" />
+    <app-header
+      :language="language"
+      :sections="sections"
+      :active-section="activeSection?.id"
+      @section-change="switchSection"
+    />
 
     <button
       ref="sidebarToggle"
@@ -125,7 +158,7 @@ watch(
       <app-sidebar
         id="maple-site-navigation"
         :language="language"
-        :menu="menu"
+        :menu="visibleMenu"
         :menu-name="menuName"
         @change="handleSidebarChange"
         @keydown.esc="closeSidebar"
@@ -142,10 +175,15 @@ watch(
 
       <app-mobile
         v-if="useMobile"
+        :doc-root="doc"
+        :page-key="route.path"
+        @navigate="navigateOutline"
+        @active-change="scrollHashSync.replace($event ? `#${$event}` : '')"
         :component-name="componentName"
         :language="language"
         :replace="menuName"
         :hash="hash"
+        :query="route.query"
       />
     </div>
   </div>
@@ -332,7 +370,7 @@ iframe {
       }
 
       a:not(.loca-doc-preview__example a) {
-        color: var(--site-config-color-link);
+        color: var(--site-config-color-text);
         -webkit-font-smoothing: antialiased;
         word-break: keep-all;
         font-size: 15px;
@@ -350,6 +388,7 @@ iframe {
       h5,
       h6 {
         position: relative;
+        scroll-margin-top: 100px;
         color: var(--site-config-color-text);
         font-weight: normal;
         line-height: 1.5;
@@ -419,7 +458,7 @@ iframe {
       table code {
         -webkit-font-smoothing: antialiased;
         word-break: keep-all;
-        color: var(--site-config-color-primary);
+        color: var(--site-config-color-text);
         font-size: 15px;
         @doc-active();
       }
@@ -589,5 +628,14 @@ iframe {
   .maple-site-playground-container {
     width: 100vw;
   }
+}
+</style>
+
+<style>
+pre,
+pre code {
+  direction: ltr;
+  text-align: left;
+  unicode-bidi: isolate;
 }
 </style>

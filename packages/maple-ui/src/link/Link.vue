@@ -15,6 +15,7 @@
         [!hoverable, n('--hoverless')],
       )
     "
+    :role="blocked && href != null ? 'link' : ($attrs.role as string | undefined)"
     :aria-disabled="blocked || undefined"
     :aria-busy="loading || undefined"
     :tabindex="blocked ? -1 : ($attrs.tabindex as number | string | undefined)"

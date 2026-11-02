@@ -24,14 +24,14 @@ test('form-item validation', async () => {
       model: { username: '' },
     }),
     template: `
-      <mp-form ref="form" :model="model">
+      <mp-form edit-mode="direct" ref="form" :model="model">
         <mp-form-item
           field="username"
           label="用户名"
           required
           :rules="[(v) => !!v || '不能为空']"
         >
-          <mp-input v-model="model.username" />
+          <mp-input edit-mode="direct" v-model="model.username" />
         </mp-form-item>
       </mp-form>
     `,
@@ -70,9 +70,9 @@ test('clear trigger validates only after clearing', async () => {
     },
     data: () => ({ model: { username: 'seed' } }),
     template: `
-      <mp-form :model="model">
+      <mp-form edit-mode="direct" :model="model">
         <mp-form-item field="username" validate-trigger="clear" :rules="[value => !!value || 'Required']">
-          <mp-input v-model="model.username" clearable />
+          <mp-input edit-mode="direct" v-model="model.username" clearable />
         </mp-form-item>
       </mp-form>
     `,
@@ -98,9 +98,9 @@ test('form-item resetFields', async () => {
       model: { username: 'init' },
     }),
     template: `
-      <mp-form ref="form" :model="model">
+      <mp-form edit-mode="direct" ref="form" :model="model">
         <mp-form-item field="username" :rules="[(v) => !!v || '不能为空']">
-          <mp-input v-model="model.username" />
+          <mp-input edit-mode="direct" v-model="model.username" />
         </mp-form-item>
       </mp-form>
     `,
@@ -142,9 +142,9 @@ test('form-item outer label disables floating hint', async () => {
       model: { username: '' },
     }),
     template: `
-      <mp-form :model="model">
+      <mp-form edit-mode="direct" :model="model">
         <mp-form-item field="username" label="用户名">
-          <mp-input v-model="model.username" placeholder="请输入" />
+          <mp-input edit-mode="direct" v-model="model.username" placeholder="请输入" />
         </mp-form-item>
       </mp-form>
     `,
@@ -169,9 +169,9 @@ test('form-item horizontal layout', async () => {
       model: { username: '' },
     }),
     template: `
-      <mp-form :model="model" layout="horizontal">
+      <mp-form edit-mode="direct" :model="model" layout="horizontal">
         <mp-form-item field="username" label="用户名">
-          <mp-input v-model="model.username" />
+          <mp-input edit-mode="direct" v-model="model.username" />
         </mp-form-item>
       </mp-form>
     `,

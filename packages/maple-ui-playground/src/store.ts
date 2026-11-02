@@ -111,6 +111,10 @@ export function installMapleUI() {
     defaultDarkTheme: MapleUI.Themes.default.dark,
     mapleLightTheme: MapleUI.Themes.maple.light,
     mapleDarkTheme: MapleUI.Themes.maple.dark,
+    alpsLightTheme: MapleUI.Themes.alps.light,
+    fireflyLightTheme: MapleUI.Themes.firefly.light,
+    alpsDarkTheme: MapleUI.Themes.alps.dark,
+    fireflyDarkTheme: MapleUI.Themes.firefly.dark,
   }
 
   const theme = parent.document.documentElement.getAttribute('theme')

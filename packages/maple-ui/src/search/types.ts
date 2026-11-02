@@ -2,11 +2,11 @@ import type { VNodeChild } from 'vue'
 import type { SearchResult } from './result'
 
 export interface SearchEmits {
-  'update:modelValue': [value: string]
+  'update:modelValue': [value: string | null]
   'update:modelField': [field: string]
   'update:model': [model: Record<string, unknown>]
   input: [value: string, event: Event]
-  change: [value: string, event: Event]
+  change: [value: string | null, event: Event]
   clear: [event: Event]
   search: [result: SearchResult, event: Event]
   cancel: [event: Event]
@@ -14,6 +14,7 @@ export interface SearchEmits {
   blur: [event: FocusEvent]
 }
 export interface SearchSlots {
+  read?: (scope: { value: string | null; text: string }) => VNodeChild
   prefix?(): VNodeChild
   suffix?(): VNodeChild
   label?(): VNodeChild

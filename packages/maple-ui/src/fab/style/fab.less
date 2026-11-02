@@ -44,22 +44,22 @@
   }
 
   &--position {
-    &-left-top {
+    &-top-left {
       top: var(--mp-fab-top);
       left: var(--mp-fab-left);
     }
 
-    &-right-top {
+    &-top-right {
       top: var(--mp-fab-top);
       right: var(--mp-fab-right);
     }
 
-    &-left-bottom {
+    &-bottom-left {
       bottom: var(--mp-fab-bottom);
       left: var(--mp-fab-left);
     }
 
-    &-right-bottom {
+    &-bottom-right {
       bottom: var(--mp-fab-bottom);
       right: var(--mp-fab-right);
     }
@@ -177,6 +177,6 @@
 
   &--safe-area {
     margin-bottom: constant(safe-area-inset-bottom); // iOS < 11.2
-    margin-bottom: env(safe-area-inset-bottom); // iOS >= 11.2
+    margin-bottom: var(--mp-safe-area-bottom, env(safe-area-inset-bottom, 0px)); // iOS >= 11.2
   }
 }

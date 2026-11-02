@@ -62,6 +62,15 @@ export function useTimePanel<T extends TimePanelValue>(
     return true
   }
 
+  /** Stage a renderer's visible initial candidate without selecting or committing. */
+  function initialize(value: T) {
+    if (blocked.value || getTimeCommitValue(value, options, range()) === undefined) {
+      return false
+    }
+    draft.value = cloneFieldValue(value)
+    return true
+  }
+
   function select(value: T, immediate = options.disableConfirm) {
     if (blocked.value || Array.isArray(value) !== range()) {
       return false
@@ -80,5 +89,5 @@ export function useTimePanel<T extends TimePanelValue>(
     return true
   }
 
-  return { draft, blocked, canConfirm, select, confirm }
+  return { draft, blocked, canConfirm, initialize, select, confirm }
 }

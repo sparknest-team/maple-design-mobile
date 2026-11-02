@@ -6,6 +6,7 @@ export function getPcSiteRoute(
   menu: Menu[],
   mobileRedirect: string | undefined,
   defaultUseMobile: boolean | undefined,
+  mobileDocs: string[] = [],
 ) {
   const [, language = '', menuName = ''] = path.split('/')
   const component = menu.find((item) => item.doc === menuName && item.type === MenuTypes.COMPONENT)
@@ -14,7 +15,11 @@ export function getPcSiteRoute(
     language,
     menuName,
     hash: hash.replace(/^#/, ''),
-    componentName: component ? menuName : mobileRedirect?.replace(/^\//, ''),
+    componentName: component
+      ? menuName
+      : mobileDocs.includes(menuName)
+        ? `${language}/${menuName}`
+        : mobileRedirect?.replace(/^\//, ''),
     useMobile: component?.useMobile ?? defaultUseMobile,
   }
 }

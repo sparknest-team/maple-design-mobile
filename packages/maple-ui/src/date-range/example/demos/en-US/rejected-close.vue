@@ -16,7 +16,7 @@ function requestOpen(next) {
 </script>
 
 <template>
-  <div style="display: flex; flex-direction: column; gap: 12px">
+  <mp-space direction="column" size="12px">
     <p>
       The parent rejects close requests. Changing the range starts a new confirmation; repeated confirmation does not
       submit twice.
@@ -26,5 +26,5 @@ function requestOpen(next) {
       >Value: {{ value.join(' ~ ') }}; commits: {{ commits }}; rejected closes: {{ closeRequests }}</span
     >
     <mp-button @click="open = false">Allow close</mp-button>
-  </div>
+  </mp-space>
 </template>

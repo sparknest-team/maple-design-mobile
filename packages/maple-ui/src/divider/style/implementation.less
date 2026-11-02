@@ -19,9 +19,9 @@
     max-height: 100%;
     align-self: stretch;
     border-top: none;
-    border-left-width: var(--mp-divider-border-width);
-    border-left-style: solid;
-    border-left-color: var(--mp-divider-color);
+    border-inline-start-width: var(--mp-divider-border-width);
+    border-inline-start-style: solid;
+    border-inline-start-color: var(--mp-divider-color);
   }
 
   &__text {
@@ -52,6 +52,10 @@
     }
   }
 
+  &--with-text&--orientation-horizontal {
+    max-height: none;
+  }
+
   &--with-text&--orientation-vertical {
     width: fit-content;
     max-width: 100%;
@@ -62,9 +66,9 @@
     &::after {
       width: 0;
       border-top: none;
-      border-left-style: solid;
-      border-left-width: var(--mp-divider-border-width);
-      border-left-color: var(--mp-divider-color);
+      border-inline-start-style: solid;
+      border-inline-start-width: var(--mp-divider-border-width);
+      border-inline-start-color: var(--mp-divider-color);
     }
   }
 
@@ -106,7 +110,7 @@
 
     &--type-@{type}&--orientation-vertical {
       border-top: none;
-      border-left-style: @type;
+      border-inline-start-style: @type;
     }
 
     &--type-@{type}&--with-text {
@@ -122,7 +126,7 @@
       &::before,
       &::after {
         border-top: none;
-        border-left-style: @type;
+        border-inline-start-style: @type;
       }
     }
   }

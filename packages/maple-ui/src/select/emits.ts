@@ -1,9 +1,10 @@
+import type { SelectValue } from './types'
+
 export const selectEmits = {
+  'load-error': (error: unknown) => true,
   focus: (event: FocusEvent) => true,
   blur: (event: FocusEvent) => true,
-  'update:modelValue': (
-    value: string | number | boolean | Record<string, any> | (string | number | boolean | Record<string, any>)[],
-  ) => true,
+  'update:modelValue': (value: SelectValue) => true,
   'update:inputValue': (inputValue: string) => true,
   'update:open': (visible: boolean) => true,
   /**
@@ -11,9 +12,7 @@ export const selectEmits = {
    * @en Triggered when the value changes
    * @param { string | number | boolean | Record<string, any> | (string | number | boolean | Record<string, any>)[] } value
    */
-  change: (
-    value: string | number | boolean | Record<string, any> | (string | number | boolean | Record<string, any>)[],
-  ) => true,
+  change: (value: SelectValue) => true,
   /**
    * @zh 输入框的值发生改变时触发
    * @en Triggered when the value of the input changes
@@ -58,7 +57,6 @@ export const selectEmits = {
    * @en Triggered when multiple selection exceeds the limit
    * @param {string | number | boolean | Record<string, any> | undefined} value
    * @param {Event} ev
-   * @version 2.18.0
    */
   'exceed-limit': (value: string | number | boolean | Record<string, any> | undefined, ev: Event) => true,
 }

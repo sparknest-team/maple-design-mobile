@@ -217,8 +217,8 @@
     },
     {
       "name": "before-close",
-      "description": "关闭前拦截",
-      "type": "(action, done, refs) => void",
+      "description": "before hook; synchronous void waits for done; first completion wins",
+      "type": "boolean | Promise<boolean | void> | done callback",
       "defaultValue": "undefined",
       "kind": "callback"
     },

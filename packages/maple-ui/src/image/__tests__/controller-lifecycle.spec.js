@@ -34,6 +34,7 @@ function fixture() {
   const timer = vi.spyOn(globalThis, 'setTimeout')
   const open = ref(true)
   const src = ref('a')
+  const isRtl = ref(false)
   const interaction = ref('touch')
   const active = ref(true)
   const longPress = vi.fn()
@@ -50,6 +51,7 @@ function fixture() {
   const Child = defineComponent({
     setup() {
       api = usePreviewController({
+        isRtl,
         open,
         defaultOpen: false,
         src,
@@ -91,7 +93,7 @@ function fixture() {
     api.onPointerUp(event(x))
   }
   const callback = (delay) => timer.mock.calls.filter((call) => call[1] === delay).at(-1)[0]
-  return { api, open, src, interaction, active, owner, longPress, next, down, tap, event, callback, release }
+  return { api, isRtl, open, src, interaction, active, owner, longPress, next, down, tap, event, callback, release }
 }
 describe('ImagePreview controller interaction lifecycle', () => {
   test('current long press fires at500ms not499ms', () => {
@@ -294,4 +296,16 @@ describe('ImagePreview controller interaction lifecycle', () => {
     listener()
     expect(f.api.isTouch.value).toBe(false)
   })
+})
+
+test('direction changes cancel a pending gesture and its delayed callbacks', () => {
+  const f = fixture()
+  f.down()
+  f.isRtl.value = true
+  f.api.onPointerUp(f.event(80))
+  vi.advanceTimersByTime(600)
+  expect(f.longPress).not.toHaveBeenCalled()
+  expect(f.next).not.toHaveBeenCalled()
+  expect(f.api.moving.value).toBe(false)
+  expect(f.api.translateX.value).toBe(0)
 })

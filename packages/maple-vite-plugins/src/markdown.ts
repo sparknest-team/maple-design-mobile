@@ -13,6 +13,28 @@ function transformHash(hash: string) {
 }
 
 function htmlWrapper(html: string) {
+  // Headings inside authored disclosure blocks belong to their surrounding
+  // example. Splitting a card there would close it before </details>.
+  const disclosures: string[] = []
+  const ranges: Array<{ start: number; end: number }> = []
+  let depth = 0
+  let start = 0
+  for (const tag of html.matchAll(/<\/?details\b[^>]*>/gi)) {
+    if (tag[0].startsWith('</')) {
+      if (depth && --depth === 0) {
+        ranges.push({ start, end: tag.index! + tag[0].length })
+      }
+    } else {
+      if (depth++ === 0) {
+        start = tag.index!
+      }
+    }
+  }
+  ranges.forEach((range) => disclosures.push(html.slice(range.start, range.end)))
+  for (let index = ranges.length - 1; index >= 0; index--) {
+    const range = ranges[index]
+    html = html.slice(0, range.start) + `MAPLE_DISCLOSURE_${index}` + html.slice(range.end)
+  }
   const matches = html.matchAll(/<h3>(.*?)<\/h3>/g)
   const hGroup = html
     .replace(/<h3>/g, () => {
@@ -33,18 +55,25 @@ function htmlWrapper(html: string) {
     })
     .join('')
 
-  return cardGroup.replace(/<code>/g, '<code v-pre>')
+  return cardGroup
+    .replace(/MAPLE_DISCLOSURE_(\d+)/g, (_, index) => disclosures[Number(index)])
+    .replace(/<code(?=[\s>])/g, '<code v-pre')
 }
 
 function extractComponents(source: string) {
-  const componentRE = /import (.+) from ['"].+['"]/
+  const componentRE = /import ([A-Z]\w*) from ['"][^'"]+\.vue['"]/
   const importRE = /import .+ from ['"].+['"]/g
   const vueRE = /```vue((.|\r|\n)*?)```/g
   const imports: string[] = []
   const components: string[] = []
 
-  source = source.replace(vueRE, (_, p1) => {
+  source = source.replace(vueRE, (block, p1) => {
     const partImports = p1.match(importRE)
+    // Only legacy default .vue imports represent mounted component examples.
+    // Named Vue imports in explanatory SFC snippets remain highlighted code.
+    if (!partImports?.length || partImports.some((importer: string) => !componentRE.test(importer))) {
+      return block
+    }
 
     const partComponents = partImports?.map((importer: string) => {
       importer = importer.replace(/(\n|\r)/g, '')
@@ -72,13 +101,15 @@ interface DemoFile {
   source: string
   title?: string
   page?: boolean
+  mobileId?: string
 }
 
 function renderDemo(demo: DemoFile) {
   const encodedSource = encodeURIComponent(demo.source)
   const encodedHighlight = encodeURIComponent(highlight(demo.source, 'html'))
   const pageClass = demo.page ? ' maple-component-preview--page' : ''
-  return `<div class="maple-component-preview${pageClass}">
+  const mobileId = demo.mobileId ? ` data-mobile-demo="${encodeURIComponent(demo.mobileId)}"` : ''
+  return `<div class="maple-component-preview${pageClass}"${mobileId}>
 <mp-site-demo-preview source-name="${basename(demo.path)}" source="${encodedSource}" highlight-code="${encodedHighlight}">
 <${demo.component}></${demo.component}>
 </mp-site-demo-preview>
@@ -300,8 +331,35 @@ function highlight(str: string, lang: string, style?: string) {
   return ''
 }
 
+function attachMobileDemoIds(demos: DemoFile[], id: string, onDependency?: (path: string) => void) {
+  if (!demos.length || !/\/src\/[^/]+\/docs\/[^/]+\.md$/.test(id.replaceAll('\\', '/'))) {
+    return
+  }
+  const indexPath = resolve(dirname(id), '../example/index.vue')
+  if (!existsSync(indexPath)) {
+    return
+  }
+  onDependency?.(indexPath)
+  const indexSource = readFileSync(indexPath, 'utf8')
+  const imports = [...indexSource.matchAll(/import\s+(\w+)\s+from\s+['"](\.{1,2}\/[^'"]+\.vue)['"]/g)]
+  const canonical = (file: string) => file.replace(/\/demos\/(?:en-US|zh-CN)\//, '/demos/')
+  const ids = new Map<string, string>()
+  for (const section of indexSource.matchAll(/<section\b[^>]*data-demo=['"]([^'"]+)['"][^>]*>([\s\S]*?)<\/section>/g)) {
+    for (const [, name, request] of imports) {
+      // Both direct <Demo /> and locale-dependent <component :is="..." />.
+      if (new RegExp(`<${name}(?=[\\s/>])|:is=["'][^"']*\\b${name}\\b`).test(section[2])) {
+        ids.set(canonical(resolve(dirname(indexPath), request)), section[1])
+      }
+    }
+  }
+  for (const demo of demos) {
+    demo.mobileId = ids.get(canonical(demo.path))
+  }
+}
+
 function markdownToVue(source: string, options: MarkdownOptions, id: string, onDemo?: (path: string) => void) {
   const expanded = expandDemoFiles(source, id, onDemo)
+  attachMobileDemoIds(expanded.demos, id, onDemo)
   source = expanded.source
   const { source: vueSource, imports, components } = extractComponents(source)
   const md = markdownIt({

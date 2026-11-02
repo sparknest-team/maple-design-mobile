@@ -12,7 +12,7 @@ const image = computed(() => (failed.value ? 'data:image/png;base64,invalid-loca
 </script>
 <template>
   <section class="watermark-image-failure-demo">
-    <mp-checkbox v-model="failed">Fail local image / 本地图片失败</mp-checkbox>
+    <mp-checkbox v-model="failed" edit-mode="direct">Fail local image / 本地图片失败</mp-checkbox>
     <mp-button html-type="button" :disabled="!failed" @click="failed = false">Restore image / 恢复图片</mp-button>
     <mp-watermark
       content="FALLBACK 201"

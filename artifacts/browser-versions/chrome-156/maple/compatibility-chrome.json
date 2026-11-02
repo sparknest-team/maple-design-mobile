@@ -1,0 +1,19 @@
+{
+  "library": "maple",
+  "generatedAt": "2026-10-29T06:47:18.643Z",
+  "nativeDeviceAcceptance": false,
+  "latestTwoVersionsAccepted": false,
+  "completeEngineMatrix": false,
+  "evidenceOnly": false,
+  "results": [
+    {
+      "name": "chrome",
+      "startedAt": "2026-10-29T06:29:07.495Z",
+      "completedAt": "2026-10-29T06:47:18.643Z",
+      "passed": false,
+      "exitCode": 1,
+      "evidence": "/Users/shuaimeng/github_web/maple-design-mobile/artifacts/browser-versions/chrome-156/maple/chrome",
+      "error": "AssertionError [ERR_ASSERTION]: stale component source\n+ actual - expected\n\n+ 'eb69d6f457a7373f0141220fcd7834ae92048874f42ae5806914643af3e42b15'\n- 'c9d70b437096d444f33af51737720f6d1f71873f8ba39ac83816d46044a9004a'"
+    }
+  ]
+}

@@ -15,7 +15,7 @@ const highlighter = {
 </script>
 <template>
   <DemoApiReviewPanel v-slot="__apiReview" v-bind="defineReviewConfig(__apiReviewRawConfig)">
-    <mp-checkbox v-model="custom">自定义着色器 / Custom highlighter</mp-checkbox>
+    <mp-checkbox v-model="custom" edit-mode="direct">自定义着色器 / Custom highlighter</mp-checkbox>
     <mp-highlighter-provider
       :highlighter="custom ? highlighter : undefined"
       theme="review"

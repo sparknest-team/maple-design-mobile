@@ -4,29 +4,31 @@
 
 Set locale and messages for a subtree without changing the rest of the page.
 
-## Examples
+## Basic examples
 
-<!-- api-review:start -->
-### Feature playground
+### Basic usage
 
 ```demo
-../example/demos/api-review.vue
+../example/demos/basic.vue
 ```
-
-<!-- api-review:end -->
 
 ## API
 
 ### Props
 
-| Prop         | Description   | Type                     | Default | 
-|--------------|---------------|--------------------------|---------| 
-| `locale` | Current locale | _string_ | `zh-CN`    |
-| `messages`    | Language messages      | _Record<string, Record<string, string>>_                 | `-`   |
-| `tag`        | Tag name      | _string_                 | `div`   |
+| Arguments | Description | Type | Default |
+| -------------- | --------------- | -------------------------- | --------- |
+| `locale` | Current locale | _string_ | `zh-CN` |
+| `messages` | Language messages | _Record<string, Record<string, string>>_ | `-` |
+| `tag` | Custom tag name | _string_ | `div` |
 
 ### Slots
 
-| Name | Description | SlotProps |
+| Slot | Description | Arguments |
 | --- | --- | --- |
 | `default` | Component content | `-` |
+
+
+## Reading direction
+
+`<mp-locale-provider dir="rtl">` supplies a reading-direction scope independently of locale. Omit dir to inherit; nested `dir="ltr"` and native DOM dir containers provide local overrides. Popup content retains the source scope after teleporting. Physical left/right API values and media content keep their original semantics.

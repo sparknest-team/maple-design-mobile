@@ -1,5 +1,6 @@
 <template>
   <div
+    role="group"
     :class="
       classes(
         n(),
@@ -31,7 +32,7 @@ const props = defineProps(buttonGroupProps)
 const { bindButtons } = useButtons()
 
 const buttonGroupProvider: ButtonGroupProvider = {
-  elevation: computed(() => props.elevation as boolean | number | string),
+  elevation: computed(() => props.elevation),
   status: computed(() => props.status),
   size: computed(() => props.size),
   variant: computed(() => props.variant),

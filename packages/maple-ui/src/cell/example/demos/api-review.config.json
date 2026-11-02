@@ -86,15 +86,14 @@
       "kind": "slot",
       "demos": [
         "list.vue",
-        "show-desc.vue",
-        "show-icon.vue"
+        "content-comparison.vue"
       ]
     },
     {
       "name": "description",
       "kind": "slot",
       "demos": [
-        "show-desc.vue"
+        "content-comparison.vue"
       ]
     },
     {
@@ -102,8 +101,7 @@
       "kind": "slot",
       "demos": [
         "list.vue",
-        "show-desc.vue",
-        "show-icon.vue"
+        "content-comparison.vue"
       ]
     }
   ],

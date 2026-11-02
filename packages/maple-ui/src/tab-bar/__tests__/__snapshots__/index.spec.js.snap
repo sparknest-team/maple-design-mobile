@@ -1,7 +1,8 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`test tab-bar component props > variant mode 1`] = `
-"<div class="mp-tab-bar mp--box" style="z-index: var(--mp-tab-bar-z-index);"><button type="button" class="mp-tab-bar-item mp--box">
+"<div class="mp-tab-bar mp--box" style="z-index: var(--mp-tab-bar-z-index);">
+  <!--v-if--><button type="button" class="mp-tab-bar-item mp--box">
     <div class="mp-tab-bar-item__icon-container"><span class="mp-badge mp-badge--position-top-right mp-badge--mode-floating mp-badge--dot mp-badge--size-xs mp-badge--status-danger mp-badge--variant-default mp-tab-bar-item__badge" mp-tab-bar-item-cover=""><span class="mp-badge__wrapper"><span class="mp-badge__content-wrapper"><span class="mp-badge__dot-content"></span></span><span class="mp-badge__description-wrapper"><span class="mp-icon mp-tab-bar-item__icon" style="transition-duration: 0ms;" mp-tab-bar-item-cover=""></span></span></span></span></div><span class="mp-tab-bar-item__label">tag 1</span>
   </button><button type="button" class="mp-tab-bar-item mp--box">
     <div class="mp-tab-bar-item__icon-container"><span class="mp-icon mp-tab-bar-item__icon" style="transition-duration: 0ms;" mp-tab-bar-item-cover=""></span></div><span class="mp-tab-bar-item__label">tag 2</span>
@@ -16,7 +17,8 @@ exports[`test tab-bar component props > variant mode 1`] = `
 `;
 
 exports[`test tab-bar component props > variant mode 2`] = `
-"<div class="mp-tab-bar mp--box mp-tab-bar--variant" style="z-index: var(--mp-tab-bar-z-index);"><button type="button" class="mp-tab-bar-item mp--box mp-tab-bar-item--variant-padding">
+"<div class="mp-tab-bar mp--box mp-tab-bar--variant" style="z-index: var(--mp-tab-bar-z-index);">
+  <!--v-if--><button type="button" class="mp-tab-bar-item mp--box mp-tab-bar-item--variant-padding">
     <div class="mp-tab-bar-item__icon-container mp-tab-bar-item--variant-icon-container"><span class="mp-badge mp-badge--position-top-right mp-badge--mode-floating mp-badge--dot mp-badge--size-xs mp-badge--status-danger mp-badge--variant-default mp-tab-bar-item__badge" mp-tab-bar-item-cover=""><span class="mp-badge__wrapper"><span class="mp-badge__content-wrapper"><span class="mp-badge__dot-content"></span></span><span class="mp-badge__description-wrapper"><span class="mp-icon mp-tab-bar-item__icon" style="transition-duration: 0ms;" mp-tab-bar-item-cover=""></span></span></span></span></div><span class="mp-tab-bar-item__label">tag 1</span>
   </button><button type="button" class="mp-tab-bar-item mp--box mp-tab-bar-item--variant-padding">
     <div class="mp-tab-bar-item__icon-container mp-tab-bar-item--variant-icon-container"><span class="mp-icon mp-tab-bar-item__icon" style="transition-duration: 0ms;" mp-tab-bar-item-cover=""></span></div><span class="mp-tab-bar-item__label">tag 2</span>

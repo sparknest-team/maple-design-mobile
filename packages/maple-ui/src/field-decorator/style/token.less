@@ -1,5 +1,10 @@
 // Component tokens for field-decorator
 :root {
+  --mp-field-loading-line-size: 2px;
+  --mp-field-loading-duration: 1s;
+  --mp-field-loading-color: var(--mp-field-focus-color);
+
+  --mp-field-caret-color: currentColor;
   --mp-field-control-text-color: var(--mp-sys-color-content-primary);
   --mp-field-error-color: var(--mp-sys-color-status-danger);
   --mp-field-blur-color: var(--mp-sys-color-content-tertiary);
@@ -7,7 +12,7 @@
   --mp-field-icon-size: 20px;
   --mp-field-variant-standard-line-size: 1px;
   --mp-field-variant-standard-line-size-focus: 2px;
-  --mp-field-border-radius: 4px;
+  --mp-field-border-radius: var(--mp-sys-radius-md);
   --mp-field-control-text-color-disabled: var(--mp-sys-color-content-disabled);
 
   // Shared semantic (align with Cedar)
@@ -46,6 +51,7 @@
   --mp-field-variant-filled-background-error: var(--mp-color-danger-light-1);
 
   // variant: outline (border axis — Cedar 对齐；Maple 几何仍用 size-* padding)
+  --mp-field-variant-outline-background: transparent;
   --mp-field-variant-outline-border-color: var(--mp-sys-color-border-default);
   --mp-field-variant-outline-border-color-hover: var(--mp-sys-color-border-strong);
   --mp-field-variant-outline-border-color-focus: var(--mp-sys-color-action-primary);

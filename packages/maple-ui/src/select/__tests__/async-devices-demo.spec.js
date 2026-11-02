@@ -8,9 +8,9 @@ import Select from '../select'
 import SelectMenu from '../SelectMenu'
 import { getKeyFromValue } from '../utils'
 
-test.each(['inline', 'popup'])(
+test.each(['direct', 'popup'])(
   'async devices demo preserves IDs and commits %s selections with limit feedback',
-  async (presentation) => {
+  async (editMode) => {
     const wrapper = mount(Demo, {
       global: {
         components: { MpSelect: Select, MpButton: Button, MpSpace: Space, MpRadioGroup: RadioGroup, MpRadio: Radio },
@@ -20,7 +20,7 @@ test.each(['inline', 'popup'])(
       const devices = wrapper.findComponent(Select)
       const mode = wrapper.findComponent(RadioGroup)
       expect(wrapper.findAllComponents(Select)).toHaveLength(1)
-      expect(mode.props('modelValue')).toBe('inline')
+      expect(mode.props('modelValue')).toBe('popup')
       expect(devices.props('modelValue')).toEqual([2])
       expect(devices.props('options')).toEqual([])
       await wrapper
@@ -30,9 +30,9 @@ test.each(['inline', 'popup'])(
       await flushPromises()
       expect(devices.text()).toContain('设备 2')
       expect(devices.props('modelValue')).toEqual([2])
-      mode.vm.$emit('update:modelValue', presentation)
+      mode.vm.$emit('update:modelValue', editMode)
       await flushPromises()
-      expect(devices.props('presentation')).toBe(presentation)
+      expect(devices.props('editMode')).toBe(editMode)
       const controller = devices.findComponent(SelectMenu).props('controller')
       controller.handleOpenChange(true)
       await flushPromises()
@@ -41,7 +41,7 @@ test.each(['inline', 'popup'])(
         await flushPromises()
       }
       expect(wrapper.get('[role=status]').text()).toContain('最多选择三个设备')
-      if (presentation !== 'inline') {
+      if (editMode !== 'direct') {
         expect(devices.props('modelValue')).toEqual([2])
         controller.session.commit()
         await flushPromises()

@@ -35,9 +35,9 @@ function isChecked(item, label) {
 
 for (const { label, Item, Group, empty, initial, next } of variants) {
   describe(label + ' group state contract', () => {
-    const children = () => ['a', 'b', 'c'].map((value) => h(Item, { value }, () => value))
+    const children = () => ['a', 'b', 'c'].map((value) => h(Item, { editMode: 'direct', value }, () => value))
     function group(props = {}) {
-      return mount(Group, { props, slots: { default: children } })
+      return mount(Group, { props: { editMode: 'direct', ...props }, slots: { default: children } })
     }
 
     it('uses defaultValue once and edits without a model listener', async () => {
@@ -92,6 +92,7 @@ for (const { label, Item, Group, empty, initial, next } of variants) {
           h(
             Group,
             {
+              editMode: 'direct',
               defaultValue: empty,
               'onUpdate:modelValue': () => order.push('update'),
               onChange: () => order.push('change'),
@@ -112,7 +113,9 @@ for (const { label, Item, Group, empty, initial, next } of variants) {
       const changed = vi.fn()
       const wrapper = mount(
         formHost(state, { onChange: changed }, () =>
-          h(Group, { ...groupProps, defaultValue: empty }, () => h(Item, { value: 'a' })),
+          h(Group, { editMode: 'direct', ...groupProps, defaultValue: empty }, () =>
+            h(Item, { editMode: 'direct', value: 'a' }),
+          ),
         ),
       )
       await nextTick()
@@ -129,8 +132,8 @@ for (const { label, Item, Group, empty, initial, next } of variants) {
       wrapper.unmount()
 
       const locked = mount(Group, {
-        props: { readonly: true },
-        slots: { default: () => h(Item, { value: 'a', readonly: false }) },
+        props: { editMode: 'direct', readonly: true },
+        slots: { default: () => h(Item, { editMode: 'direct', value: 'a', readonly: false }) },
       })
       await nextTick()
       await activate(locked.findComponent(Item), label)
@@ -139,7 +142,7 @@ for (const { label, Item, Group, empty, initial, next } of variants) {
     })
 
     it('keeps async options and unmounted selected values without reverse writes', async () => {
-      const wrapper = mount(Group, { props: { modelValue: initial, options: [] } })
+      const wrapper = mount(Group, { props: { editMode: 'direct', modelValue: initial, options: [] } })
       await wrapper.setProps({ options: [{ label: 'A', value: 'a' }] })
       expect(isChecked(wrapper.findComponent(Item), label)).toBe(true)
       await wrapper.setProps({ options: [{ label: 'B', value: 'b' }] })
@@ -152,6 +155,7 @@ for (const { label, Item, Group, empty, initial, next } of variants) {
     it('supports boolean false and number zero option identity', async () => {
       const wrapper = mount(Group, {
         props: {
+          editMode: 'direct',
           defaultValue: label === 'checkbox' ? [false] : false,
           options: [
             { label: 'False', value: false },
@@ -172,8 +176,8 @@ for (const { label, Item, Group, empty, initial, next } of variants) {
 
 it('checkbox max blocks additions but permits removing an existing selection', async () => {
   const wrapper = mount(CheckboxGroup, {
-    props: { defaultValue: ['a'], max: 1 },
-    slots: { default: () => ['a', 'b'].map((value) => h(Checkbox, { value })) },
+    props: { editMode: 'direct', defaultValue: ['a'], max: 1 },
+    slots: { default: () => ['a', 'b'].map((value) => h(Checkbox, { editMode: 'direct', value })) },
   })
   await nextTick()
   const items = wrapper.findAllComponents(Checkbox)
@@ -188,8 +192,8 @@ it('checkbox max blocks additions but permits removing an existing selection', a
 
 it('radio repeated selection does not emit another change', async () => {
   const wrapper = mount(RadioGroup, {
-    props: { defaultValue: 'a' },
-    slots: { default: () => h(Radio, { value: 'a' }) },
+    props: { editMode: 'direct', defaultValue: 'a' },
+    slots: { default: () => h(Radio, { editMode: 'direct', value: 'a' }) },
   })
   await nextTick()
   await activate(wrapper.findComponent(Radio), 'radio')

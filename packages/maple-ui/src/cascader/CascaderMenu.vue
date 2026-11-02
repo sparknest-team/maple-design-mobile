@@ -10,7 +10,7 @@
     <Input
       v-if="searchable"
       :model-value="controller.computedInputValue"
-      presentation="inline"
+      edit-mode="direct"
       :disabled="controller.mergedDisabled"
       :readonly="controller.mergedReadonly"
       :hint="false"
@@ -68,6 +68,7 @@ defineOptions({ name: createNamespace('cascader-menu').name })
 const texts = useFieldTexts()
 const editor = inject(selectionEditorSurface, undefined)
 const { controller } = defineProps<{ controller: UnwrapNestedRefs<CascaderController>; searchable?: boolean }>()
-const { showSearchPanel, filteredLeafOptions, activeKey, displayColumns, selectedPath, totalLevel } = toRefs(controller)
-const { multiple, checkStrictly, loading, searchOptionOnlyLabel, virtualListProps } = toRefs(controller.props)
+const { loading, showSearchPanel, filteredLeafOptions, activeKey, displayColumns, selectedPath, totalLevel } =
+  toRefs(controller)
+const { multiple, checkStrictly, searchOptionOnlyLabel, virtualListProps } = toRefs(controller.props)
 </script>

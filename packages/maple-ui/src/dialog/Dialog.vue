@@ -4,6 +4,7 @@
       v-if="!unmountOnClose || transition.shouldRender.value"
       v-show="mergedOpen || transition.leaving.value"
       ref="dialogRoot"
+      :dir="readingDirection"
       :class="classes(n('$--box'), popupN(), n('popup'), [!overlay, popupN('--pointer-events-none')])"
       :style="{ zIndex: mergedZIndex - 2 }"
     >
@@ -24,6 +25,7 @@
           ref="dialogRef"
           data-modal-focus-root
           role="dialog"
+          :aria-busy="dialog.pending.value || undefined"
           aria-modal="true"
           tabindex="-1"
           :aria-label="ariaLabel || (!$slots.title ? title : undefined)"
@@ -57,7 +59,11 @@
           </div>
 
           <div :class="[n('message'), bodyClass]" :style="[{ textAlign: messageAlign }, bodyStyle]">
-            <slot>{{ message }}</slot>
+            <PendingFeedback
+              :loading="
+                dialog.pending.value && (dialog.pendingAction.value === 'close' || !showFooter || !!$slots.footer)
+              "
+            /><slot>{{ message }}</slot>
           </div>
 
           <slot v-if="showFooter" name="footer" :cancel="handleCancel" :confirm="handleConfirm" :close="handleClose">
@@ -105,6 +111,8 @@ import {
   IconInfoCircleFill as MIconInfoCircleFill,
   IconWarning as MIconWarning,
 } from '@maple-design/icons-vue'
+import PendingFeedback from '../_components/pending-feedback/PendingFeedback.vue'
+import { useDirection } from '../_utils/direction'
 import MpButton from '../button'
 import MpIcon from '../icon'
 import { t } from '../locale'
@@ -122,7 +130,9 @@ defineOptions({ name: createNamespace('dialog').name, inheritAttrs: false })
 const { n, classes } = createNamespace('dialog')
 const { n: popupN } = createNamespace('popup')
 const props = defineProps(dialogProps)
+const { dir: readingDirection } = useDirection(undefined, () => props.dir)
 const emit = defineEmits<{
+  (event: 'guard-error', error: unknown, action: DialogAction): void
   (event: 'update:open', value: boolean): void
   (event: 'open' | 'opened' | 'close' | 'closed'): void
   (event: 'confirm' | 'cancel', value: Event): void
@@ -163,6 +173,7 @@ const {
 const dialog = useDialog({
   open: mergedOpen,
   beforeClose: () => props.beforeClose,
+  onGuardError: (error, action) => emit('guard-error', error, action),
   confirmButtonLoading: () => props.confirmButtonLoading || Boolean(props.confirmButtonProps?.loading),
   cancelButtonLoading: () => props.cancelButtonLoading || Boolean(props.cancelButtonProps?.loading),
   confirmButtonDisabled: () => props.confirmButtonDisabled || Boolean(props.confirmButtonProps?.disabled),

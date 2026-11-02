@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json",
   "framework": "vue",
   "version": "1.0.0",
-  "name": "Maple",
+  "name": "Maple Design Mobile",
   "contributions": {
     "html": {
       "tags": [
@@ -30,7 +30,7 @@
             {
               "name": "title",
               "description": "Action sheet title",
-              "default": "Select One",
+              "default": "请选择",
               "value": {
                 "type": "string",
                 "kind": "expression"
@@ -38,7 +38,7 @@
             },
             {
               "name": "overlay",
-              "description": "Whether to display the overlay",
+              "description": "Show overlay",
               "default": "true",
               "value": {
                 "type": "boolean",
@@ -229,7 +229,7 @@
           "events": [
             {
               "name": "change",
-              "description": "`(fixed: boolean, offset: number)`, when fixed state changes; offset is the threshold while fixed, otherwise distance to the corresponding container edge; disabling reports 0"
+              "description": "`(fixed: boolean, offset: number)`, emitted when the fixed state changes. While fixed, offset is the affix threshold; otherwise it is the distance to the corresponding container edge. Disabling affixing reports 0."
             }
           ],
           "slots": [
@@ -247,7 +247,7 @@
               "description": "Type, optional values are `info`, `success`, `warning`, `danger`, `default`",
               "default": "info",
               "value": {
-                "type": "string",
+                "type": "AlertStatus",
                 "kind": "expression"
               }
             },
@@ -256,7 +256,7 @@
               "description": "Variant, optional values are `standard` `outline` `tonal`",
               "default": "standard",
               "value": {
-                "type": "string",
+                "type": "AlertVariant",
                 "kind": "expression"
               }
             },
@@ -280,7 +280,7 @@
             },
             {
               "name": "message",
-              "description": "Message",
+              "description": "Content",
               "default": "-",
               "value": {
                 "type": "string",
@@ -288,20 +288,47 @@
               }
             },
             {
-              "name": "elevation",
-              "description": "Elevation, optional values are true, false, and levels from 0-24",
-              "default": "false",
+              "name": "show-icon",
+              "description": "Whether to show the left icon",
+              "default": "true",
               "value": {
-                "type": "number | boolean",
+                "type": "boolean",
                 "kind": "expression"
               }
             },
             {
               "name": "closable",
-              "description": "Whether the alert is closeable",
+              "description": "Whether the alert is `closeable`",
               "default": "false",
               "value": {
                 "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "banner",
+              "description": "Full-width mode without rounded corners",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "center",
+              "description": "Whether to center content",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "elevation",
+              "description": "Elevation, optional values are `true`, `false`, and levels from `0-24`",
+              "default": "false",
+              "value": {
+                "type": "number | boolean",
                 "kind": "expression"
               }
             }
@@ -319,15 +346,19 @@
           "slots": [
             {
               "name": "default",
-              "description": "The message of alert"
+              "description": "Content"
             },
             {
               "name": "title",
-              "description": "The title of alert"
+              "description": "Title"
             },
             {
               "name": "icon",
               "description": "The prepend icon of alert"
+            },
+            {
+              "name": "action",
+              "description": "Right action"
             },
             {
               "name": "close-icon",
@@ -371,9 +402,9 @@
             {
               "name": "options",
               "description": "Suggestions, including groups; unique values become strings on selection",
-              "default": "[]",
+              "default": "undefined",
               "value": {
-                "type": "`(AutoCompleteOption | SelectOptionGroup)[]`",
+                "type": "`(AutoCompleteOption | SelectOptionGroup)[]` / `(query, { signal }) => Array / Promise`",
                 "kind": "expression"
               }
             },
@@ -398,14 +429,14 @@
             {
               "name": "filter-option",
               "description": "Filter by label; false for remote filtering",
-              "default": "true",
+              "default": "Automatic: enabled for arrays, disabled for loader functions",
               "value": {
                 "type": "`AutoCompleteFilterOption`",
                 "kind": "expression"
               }
             },
             {
-              "name": "strict",
+              "name": "case-sensitive",
               "description": "Case-sensitive built-in matching",
               "default": "false",
               "value": {
@@ -689,7 +720,7 @@
             },
             {
               "name": "size",
-              "description": "Width and height; numbers are px, strings are CSS lengths",
+              "description": "Avatar width and height; numbers are px, strings are CSS lengths",
               "default": "-",
               "value": {
                 "type": "`number / string`",
@@ -698,7 +729,7 @@
             },
             {
               "name": "auto-fix-font-size",
-              "description": "Scale overflow text automatically",
+              "description": "Whether to shrink long text automatically",
               "default": "true",
               "value": {
                 "type": "`boolean`",
@@ -770,7 +801,7 @@
             },
             {
               "name": "error",
-              "description": "Fallback image on load failure",
+              "description": "Fallback image URL when image loading fails",
               "default": "-",
               "value": {
                 "type": "`string`",
@@ -807,17 +838,17 @@
             },
             {
               "name": "error",
-              "description": "Emitted when the image fails to load"
+              "description": "Emitted when image loading fails"
             }
           ],
           "slots": [
             {
               "name": "default",
-              "description": "Text, icon, or loading content"
+              "description": "Text, icon, or loading content for an image"
             },
             {
               "name": "error",
-              "description": "Fallback when the image fails"
+              "description": "Fallback content when image loading fails"
             },
             {
               "name": "trigger-icon",
@@ -936,7 +967,7 @@
             },
             {
               "name": "max",
-              "description": "Numeric overflow shows max+; strings are not capped",
+              "description": "Maximum displayed numeric badge value. Numeric content above this value is shown as `${max}+`.",
               "default": "99",
               "value": {
                 "type": "`number`",
@@ -999,7 +1030,7 @@
             },
             {
               "name": "position",
-              "description": "Physical floating position, unchanged in RTL",
+              "description": "Physical corner or left/right midpoint inside the host box, default top-right. Only used in floating mode; RTL does not mirror it",
               "default": "top-right",
               "value": {
                 "type": "`'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' | 'left' | 'right'`",
@@ -1008,7 +1039,7 @@
             },
             {
               "name": "inline-position",
-              "description": "Logical inline position",
+              "description": "Inline badge at the logical start or end of the host content, default end. Only used in inline mode",
               "default": "end",
               "value": {
                 "type": "`'start' | 'end'`",
@@ -1065,11 +1096,11 @@
           "slots": [
             {
               "name": "default",
-              "description": "Wrapped content; overrides description"
+              "description": "Fallback description text"
             },
             {
               "name": "content",
-              "description": "Custom badge content"
+              "description": "Content displayed inside the badge"
             }
           ]
         },
@@ -1078,7 +1109,7 @@
           "attributes": [
             {
               "name": "separator",
-              "description": "Separator",
+              "description": "Range separator",
               "default": "/",
               "value": {
                 "type": "string | number",
@@ -1117,7 +1148,7 @@
           "slots": [
             {
               "name": "default",
-              "description": "Breadcrumb items"
+              "description": "Breadcrumb children"
             },
             {
               "name": "separator",
@@ -1125,7 +1156,7 @@
             },
             {
               "name": "item-render",
-              "description": "Custom render in routes mode"
+              "description": "Custom render in `routes` mode"
             },
             {
               "name": "more-icon",
@@ -1245,15 +1276,6 @@
               }
             },
             {
-              "name": "auto-loading",
-              "description": "Wait for click/touchstart Promise results; sync callbacks do not flash loading",
-              "default": "false",
-              "value": {
-                "type": "`boolean`",
-                "kind": "expression"
-              }
-            },
-            {
               "name": "disabled",
               "description": "Disabled; inherits group, explicit false overrides",
               "default": "undefined",
@@ -1329,11 +1351,11 @@
           "events": [
             {
               "name": "click",
-              "description": "`(event: Event) => void / Promise<unknown>`"
+              "description": "`(event: MouseEvent) => void`"
             },
             {
               "name": "touchstart",
-              "description": "`(event: Event) => void / Promise<unknown>`"
+              "description": "`(event: TouchEvent) => void`"
             }
           ],
           "slots": [
@@ -1370,7 +1392,7 @@
             },
             {
               "name": "direction",
-              "description": "Cover and body layout",
+              "description": "Order of cover and body, default column; supports row, column and row-reverse. Does not position the card itself",
               "default": "column",
               "value": {
                 "type": "`row / column / row-reverse`",
@@ -1525,11 +1547,11 @@
           "events": [
             {
               "name": "click",
-              "description": "`(event: Event)`, when the card is clicked"
+              "description": "`(event: Event)`, emitted when the card is clicked"
             },
             {
               "name": "update:floating",
-              "description": "`(value: boolean)`, built-in close requests false; the parent controls opening"
+              "description": "`(value: boolean)`, emits false when the built-in close button requests closing; expansion is controlled by the parent"
             }
           ],
           "slots": [
@@ -1577,7 +1599,251 @@
         },
         {
           "name": "mp-carousel",
-          "attributes": [],
+          "attributes": [
+            {
+              "name": "model-value",
+              "description": "Controlled one-based slide number",
+              "default": "undefined",
+              "value": {
+                "type": "`number`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-value",
+              "description": "Uncontrolled initial index",
+              "default": "1",
+              "value": {
+                "type": "`number`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "loop",
+              "description": "Loop without duplicating instances",
+              "default": "true",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "auto-play",
+              "description": "Autoplay configuration",
+              "default": "false",
+              "value": {
+                "type": "`boolean | number | CarouselAutoPlayConfig`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "move-speed",
+              "description": "Explicit duration in milliseconds",
+              "default": "undefined (token)",
+              "value": {
+                "type": "`number`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "trigger",
+              "description": "Indicator trigger",
+              "default": "click",
+              "value": {
+                "type": "`click | hover`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "orientation",
+              "description": "Horizontal/vertical axis of carousel sliding, default horizontal; does not determine indicator position",
+              "default": "horizontal",
+              "value": {
+                "type": "`horizontal | vertical`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show-arrow",
+              "description": "Arrow visibility",
+              "default": "always",
+              "value": {
+                "type": "`always | hover | never`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "arrow-class",
+              "description": "Additional arrow class",
+              "default": "undefined",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "indicator",
+              "description": "Show indicators",
+              "default": "true",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "indicator-type",
+              "description": "Indicator appearance",
+              "default": "dot",
+              "value": {
+                "type": "`dot | line | slider`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "indicator-position",
+              "description": "Indicator edge or outer region of the carousel container, default bottom. Not a trigger-relative popup placement",
+              "default": "bottom",
+              "value": {
+                "type": "`bottom | top | left | right | outer`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "indicator-class",
+              "description": "Additional indicator class",
+              "default": "undefined",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "indicator-color",
+              "description": "Custom indicator background",
+              "default": "undefined",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "height",
+              "description": "Container height; numbers are px",
+              "default": "undefined",
+              "value": {
+                "type": "`number | string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "transition-timing-function",
+              "description": "Explicit timing function",
+              "default": "undefined (token)",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "touchable",
+              "description": "Touch dragging",
+              "default": "true",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "draggable",
+              "description": "Mouse dragging, independent of touch",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "mousewheel",
+              "description": "Wheel navigation",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "keyboard",
+              "description": "Scoped arrow/Home/End navigation",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "slides-per-view",
+              "description": "Visible count; auto uses item size",
+              "default": "1",
+              "value": {
+                "type": "`number | auto`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "space-between",
+              "description": "Item gap; numbers/numeric strings are px",
+              "default": "0",
+              "value": {
+                "type": "`number | string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "effect",
+              "description": "Effect; all supported by both libraries",
+              "default": "slide",
+              "value": {
+                "type": "`slide | fade | card`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "centered-slides",
+              "description": "Center active slide",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "aria-label",
+              "description": "Carousel accessible name",
+              "default": "Locale",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "previous-button-aria-label",
+              "description": "Previous button accessible name",
+              "default": "Locale",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "next-button-aria-label",
+              "description": "Next button accessible name",
+              "default": "Locale",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            }
+          ],
           "events": [
             {
               "name": "update:model-value",
@@ -1601,7 +1867,350 @@
         },
         {
           "name": "mp-cascader",
-          "attributes": [],
+          "attributes": [
+            {
+              "name": "model-value / default-value",
+              "description": "Controlled value / uncontrolled initial value",
+              "default": "Single: ''; multiple: []",
+              "value": {
+                "type": "`Value`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "open / default-open",
+              "description": "Controlled / initial open state",
+              "default": "undefined / false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "open-trigger-target",
+              "description": "Pointer opening area: field includes the whole field; icon uses only the suffix trigger. Clear/remove actions are excluded; explicit keyboard opening and controlled open remain available.",
+              "default": "'field'",
+              "value": {
+                "type": "`'field' | 'icon'`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "input-value / default-input-value",
+              "description": "Search text, independent of selected values",
+              "default": "undefined / ''",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "multiple",
+              "description": "Multiple selection; enables search by default",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "size",
+              "description": "Supports all five sizes; inherits group/form settings",
+              "default": "md",
+              "value": {
+                "type": "`ComponentSize`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "variant",
+              "description": "filled, outline, standard; inherits InputGroup",
+              "default": "filled",
+              "value": {
+                "type": "`FormControlVariant`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "disabled / readonly / error",
+              "description": "Inherits form state unless explicitly overridden",
+              "default": "undefined",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "placeholder",
+              "description": "Placeholder",
+              "default": "—",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "hint / line",
+              "description": "Floating hint / standard variant underline",
+              "default": "true",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "text-color / focus-color / blur-color",
+              "description": "Field colors",
+              "default": "—",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "loading",
+              "description": "Loading state; blocks selection and confirmation",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show-tags",
+              "description": "Show tags; false displays separated text",
+              "default": "true",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "separator",
+              "description": "Separator when show-tags=false",
+              "default": ",",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "text-align",
+              "description": "Text alignment: left / center / right. Inherits FormItem content-align when unset; standalone fields default to inline start",
+              "default": "-",
+              "value": {
+                "type": "`'left' | 'center' | 'right'`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "max-tag-count",
+              "description": "Maximum visible tags; 0 means unlimited",
+              "default": "0",
+              "value": {
+                "type": "`number`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "tag-nowrap",
+              "description": "Keep tags on one line with ellipsis and preserved removal icons; overflow scrolls horizontally; hover, focus or tap truncated text to preview it",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "popup-container",
+              "description": "Selector, element, element resolver, or false for inline rendering",
+              "default": "—",
+              "value": {
+                "type": "`PopupContainer`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "trigger-props",
+              "description": "Menu Trigger props; field owns open state",
+              "default": "—",
+              "value": {
+                "type": "`TriggerProps`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "virtual-list-props",
+              "description": "Pass the virtual list attribute, pass in this parameter to turn on virtual scrolling [VirtualListProps](#VirtualListProps)",
+              "default": "—",
+              "value": {
+                "type": "`VirtualListProps`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "search-delay",
+              "description": "Search debounce delay in ms",
+              "default": "500",
+              "value": {
+                "type": "`number`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "format-label",
+              "description": "Format selected labels; use label slot for VNodes",
+              "default": "—",
+              "value": {
+                "type": "`function`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "clearable",
+              "description": "Allow clearing; preserve disabled selections",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "options",
+              "description": "Tree options; leaf values must be unique in scalar mode; paths distinguish branches",
+              "default": "undefined",
+              "value": {
+                "type": "`CascaderOption[]` / `(query, { signal }) => Array / Promise`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "field-names",
+              "description": "Map value, label, disabled, children, isLeaf, tagProps, render",
+              "default": "—",
+              "value": {
+                "type": "`CascaderFieldNames`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "path-mode",
+              "description": "Return a complete path instead of a node value",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "check-strictly",
+              "description": "Allow parent selection; unlink parent/child checks",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "filterable",
+              "description": "Enable search",
+              "default": "Single: false; multiple: true",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "case-sensitive",
+              "description": "Case-sensitive built-in filtering; custom filters take priority",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "filter-option",
+              "description": "Receives query and raw node",
+              "default": "—",
+              "value": {
+                "type": "`(input, option) => boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "expand-trigger",
+              "description": "Menu / List expansion: click or hover",
+              "default": "click",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "expand-child",
+              "description": "Expand to first child",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "load-more",
+              "description": "Load children asynchronously; call done(children), or done() to allow retry",
+              "default": "—",
+              "value": {
+                "type": "`(option, done) => void`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "fallback-option",
+              "description": "Display unresolved values",
+              "default": "true",
+              "value": {
+                "type": "`boolean or (value) => string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "search-option-only-label",
+              "description": "Show node label only in search results",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "auto-fit-popup-width",
+              "description": "Match Menu width to field",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "edit-mode",
+              "description": "Field presentation; inherits FormItem/Form when omitted",
+              "default": "popup",
+              "value": {
+                "type": "`direct / popup`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "popup-props",
+              "description": "Popup appearance; open state, bottom placement and mounting are owned by the extension",
+              "default": "{}",
+              "value": {
+                "type": "`PopupProps`",
+                "kind": "expression"
+              }
+            }
+          ],
           "events": [],
           "slots": []
         },
@@ -1619,7 +2228,7 @@
             },
             {
               "name": "icon",
-              "description": "Registered icon name",
+              "description": "Registered left-icon name",
               "default": "-",
               "value": {
                 "type": "string",
@@ -1628,7 +2237,7 @@
             },
             {
               "name": "description",
-              "description": "Description",
+              "description": "Cell description",
               "default": "-",
               "value": {
                 "type": "string",
@@ -1712,11 +2321,11 @@
             },
             {
               "name": "icon",
-              "description": "Icon of cell"
+              "description": "Custom left-icon area"
             },
             {
               "name": "description",
-              "description": "Description of cell"
+              "description": "Description content"
             },
             {
               "name": "extra",
@@ -1747,7 +2356,7 @@
             },
             {
               "name": "disabled",
-              "description": "Disabled; inherits form when omitted",
+              "description": "Disabled; inherits Form when omitted",
               "default": "undefined",
               "value": {
                 "type": "boolean",
@@ -1756,7 +2365,7 @@
             },
             {
               "name": "readonly",
-              "description": "Read only; inherits form when omitted",
+              "description": "Readonly; inherits Form when omitted",
               "default": "undefined",
               "value": {
                 "type": "boolean",
@@ -1765,7 +2374,7 @@
             },
             {
               "name": "error",
-              "description": "Error; inherits form when omitted",
+              "description": "Error state; inherits Form when omitted",
               "default": "undefined",
               "value": {
                 "type": "boolean",
@@ -1782,8 +2391,8 @@
               }
             },
             {
-              "name": "direction",
-              "description": "The layout direction, optional value is `horizontal` `vertical`",
+              "name": "orientation",
+              "description": "Horizontal/vertical arrangement of checkbox-group options, default horizontal; not text reading direction",
               "default": "horizontal",
               "value": {
                 "type": "string",
@@ -1795,7 +2404,7 @@
               "description": "Options; replaces default slot when supplied",
               "default": "undefined",
               "value": {
-                "type": "Array<ChoiceValue | CheckboxOption | Record<string, unknown>>",
+                "type": "Array<ChoiceValue | CheckboxOption | Record<string, unknown>> / `(query, { signal }) => Array / Promise`",
                 "kind": "expression"
               }
             },
@@ -1810,7 +2419,7 @@
             },
             {
               "name": "name",
-              "description": "Native input name inherited by children",
+              "description": "Native input name within the group",
               "default": "undefined",
               "value": {
                 "type": "string",
@@ -1830,11 +2439,11 @@
           "events": [
             {
               "name": "update:model-value",
-              "description": "Proposes a value"
+              "description": "Proposes a new value"
             },
             {
               "name": "change",
-              "description": "Value changed; emitted by Group only"
+              "description": "Value change; emitted only by Group"
             }
           ],
           "slots": [
@@ -2039,7 +2648,7 @@
             },
             {
               "name": "show-expand-icon",
-              "description": "Show expand icons; unset defers to the item",
+              "description": "Whether to show expansion icons; child items decide when omitted",
               "default": "—",
               "value": {
                 "type": "`boolean`",
@@ -2048,7 +2657,7 @@
             },
             {
               "name": "expand-icon-position",
-              "description": "Expand icon position",
+              "description": "Expand-icon position within the header: left or right, default left. Does not control content expansion direction",
               "default": "'left'",
               "value": {
                 "type": "`'left' | 'right'`",
@@ -2057,7 +2666,7 @@
             },
             {
               "name": "bordered",
-              "description": "Show border",
+              "description": "Whether to show border",
               "default": "true",
               "value": {
                 "type": "`boolean`",
@@ -2235,210 +2844,6 @@
           ]
         },
         {
-          "name": "mp-counter",
-          "attributes": [
-            {
-              "name": "v-model",
-              "description": "The value of the binding",
-              "default": "0",
-              "value": {
-                "type": "number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "min",
-              "description": "Minimum value",
-              "default": "-",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "max",
-              "description": "Maximum value",
-              "default": "-",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "step",
-              "description": "Step size",
-              "default": "1",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "decimal-length",
-              "description": "Preserve decimal places",
-              "default": "-",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "color",
-              "description": "Background color",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "input-width",
-              "description": "The width of the input box",
-              "default": "-",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "input-text-size",
-              "description": "The text size of the input box",
-              "default": "-",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "button-size",
-              "description": "Button size",
-              "default": "-",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "elevation",
-              "description": "Elevation level, options `true` `false` and level of `0-24`, not in simple mode",
-              "default": "true",
-              "value": {
-                "type": "number | boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "readonly",
-              "description": "Whether the readonly",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "disabled",
-              "description": "Whether the disabled",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "disable-increment",
-              "description": "Whether to disable increments",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "disable-decrement",
-              "description": "Whether to disable decrements",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "disable-input",
-              "description": "Whether to disable input",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "increment-button",
-              "description": "Whether to display the increment button",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "decrement-button",
-              "description": "Whether to display the decrement button",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "press",
-              "description": "Long press the open button",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "ripple",
-              "description": "Whether to open ripple",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "lazy-change",
-              "description": "Whether to prevent the component itself from updating the bound value",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            }
-          ],
-          "events": [
-            {
-              "name": "before-change",
-              "description": "Triggered before the change (lazy-change mode only)"
-            },
-            {
-              "name": "change",
-              "description": "Triggered on change"
-            },
-            {
-              "name": "increment",
-              "description": "Triggered on increment"
-            },
-            {
-              "name": "decrement",
-              "description": "Triggered on decrement"
-            }
-          ],
-          "slots": []
-        },
-        {
           "name": "mp-date",
           "attributes": [
             {
@@ -2469,6 +2874,15 @@
               }
             },
             {
+              "name": "open-trigger-target",
+              "description": "Pointer opening area: field includes the whole field; icon uses only the suffix trigger. Clear/remove actions are excluded; explicit keyboard opening and controlled open remain available.",
+              "default": "'field'",
+              "value": {
+                "type": "`'field' | 'icon'`",
+                "kind": "expression"
+              }
+            },
+            {
               "name": "format",
               "description": "Display format or formatter",
               "default": "—",
@@ -2489,7 +2903,7 @@
             {
               "name": "disable-confirm",
               "description": "Commit immediately",
-              "default": "field: false; panel: true",
+              "default": "Fields: false; panels: true",
               "value": {
                 "type": "boolean",
                 "kind": "expression"
@@ -2533,7 +2947,7 @@
             },
             {
               "name": "type",
-              "description": "Picker type: `year` `month` `date`",
+              "description": "Selection type: `year`/`month`/`date`",
               "default": "date",
               "value": {
                 "type": "string",
@@ -2550,17 +2964,8 @@
               }
             },
             {
-              "name": "use-seconds",
-              "description": "Default time precision; explicit format takes priority",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
               "name": "multiple",
-              "description": "Enable multiple select",
+              "description": "Whether multiple selection is enabled",
               "default": "false",
               "value": {
                 "type": "boolean",
@@ -2623,7 +3028,7 @@
             },
             {
               "name": "popup-props",
-              "description": "Props passed to popup",
+              "description": "Optional field-popup presentation settings. Placement defaults to bottom-start and is positioned automatically by the underlying Trigger; the preferred side can be overridden. No top-level placement prop; field state and rules cannot be overridden",
               "default": "{}",
               "value": {
                 "type": "Partial\\<PopupProps\\>",
@@ -2641,7 +3046,7 @@
             },
             {
               "name": "clearable",
-              "description": "Show clear button",
+              "description": "Whether the value can be cleared",
               "default": "true",
               "value": {
                 "type": "boolean",
@@ -2650,7 +3055,7 @@
             },
             {
               "name": "disabled",
-              "description": "Disabled",
+              "description": "Whether disabled",
               "default": "false",
               "value": {
                 "type": "boolean",
@@ -2659,7 +3064,7 @@
             },
             {
               "name": "readonly",
-              "description": "Readonly",
+              "description": "Whether readonly",
               "default": "false",
               "value": {
                 "type": "boolean",
@@ -2696,7 +3101,7 @@
             },
             {
               "name": "click",
-              "description": "Emitted on click"
+              "description": "Triggered when the cell is clicked"
             },
             {
               "name": "clear",
@@ -2704,7 +3109,7 @@
             },
             {
               "name": "open-change",
-              "description": "Open-state change"
+              "description": "Popup visibility changes"
             },
             {
               "name": "change",
@@ -2722,7 +3127,7 @@
             },
             {
               "name": "prefix",
-              "description": "Prefix"
+              "description": "The prepend icon of alert"
             },
             {
               "name": "clear-icon",
@@ -2769,6 +3174,15 @@
               }
             },
             {
+              "name": "open-trigger-target",
+              "description": "Pointer opening area: field includes the whole field; icon uses only the suffix trigger. Clear/remove actions are excluded; explicit keyboard opening and controlled open remain available.",
+              "default": "'field'",
+              "value": {
+                "type": "`'field' | 'icon'`",
+                "kind": "expression"
+              }
+            },
+            {
               "name": "format",
               "description": "Display format or formatter",
               "default": "—",
@@ -2789,7 +3203,7 @@
             {
               "name": "disable-confirm",
               "description": "Commit immediately",
-              "default": "field: false; panel: true",
+              "default": "Fields: false; panels: true",
               "value": {
                 "type": "boolean",
                 "kind": "expression"
@@ -2833,7 +3247,7 @@
             },
             {
               "name": "type",
-              "description": "Picker type: `year` `month` `date`",
+              "description": "Selection type: `year`/`month`/`date`",
               "default": "date",
               "value": {
                 "type": "string",
@@ -2844,15 +3258,6 @@
               "name": "show-time",
               "description": "Enable time selection",
               "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "use-seconds",
-              "description": "Default time precision; explicit format takes priority",
-              "default": "true",
               "value": {
                 "type": "boolean",
                 "kind": "expression"
@@ -2950,7 +3355,7 @@
             },
             {
               "name": "clearable",
-              "description": "Show clear button",
+              "description": "Whether the value can be cleared",
               "default": "true",
               "value": {
                 "type": "boolean",
@@ -2968,7 +3373,7 @@
             },
             {
               "name": "readonly",
-              "description": "Readonly",
+              "description": "Whether readonly",
               "default": "false",
               "value": {
                 "type": "boolean",
@@ -3005,7 +3410,7 @@
             },
             {
               "name": "click",
-              "description": "Emitted on click"
+              "description": "Triggered when the cell is clicked"
             },
             {
               "name": "clear",
@@ -3013,7 +3418,7 @@
             },
             {
               "name": "open-change",
-              "description": "Open-state change"
+              "description": "Popup visibility changes"
             },
             {
               "name": "change",
@@ -3035,6 +3440,15 @@
           "name": "mp-dialog",
           "attributes": [
             {
+              "name": "dir",
+              "description": "Reading direction; inherits the source scope when omitted. Physical left/right placements keep their meaning.",
+              "default": "—",
+              "value": {
+                "type": "`ReadingDirection` (`ltr` / `rtl`)",
+                "kind": "expression"
+              }
+            },
+            {
               "name": "open **(v-model)**",
               "description": "Visible state",
               "default": "-",
@@ -3053,8 +3467,17 @@
               }
             },
             {
-              "name": "title / message",
-              "description": "Title and message",
+              "name": "title",
+              "description": "Title",
+              "default": "-",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "message",
+              "description": "Message content; the default slot is also supported",
               "default": "-",
               "value": {
                 "type": "`string`",
@@ -3080,8 +3503,17 @@
               }
             },
             {
-              "name": "width / top",
-              "description": "Width and top offset",
+              "name": "width",
+              "description": "Width",
+              "default": "-",
+              "value": {
+                "type": "`number | string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "top",
+              "description": "Top offset; ineffective with `align-center`",
               "default": "-",
               "value": {
                 "type": "`number | string`",
@@ -3145,7 +3577,7 @@
             {
               "name": "confirm-button-text / cancel-button-text",
               "description": "Button labels",
-              "default": "localized",
+              "default": "Localized text",
               "value": {
                 "type": "`string`",
                 "kind": "expression"
@@ -3206,8 +3638,26 @@
               }
             },
             {
-              "name": "overlay-closable / esc-to-close / lock-scroll",
-              "description": "Close/scroll behavior",
+              "name": "overlay-closable",
+              "description": "Request closure on an overlay click",
+              "default": "true",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "esc-to-close",
+              "description": "Request closure on Escape",
+              "default": "true",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "lock-scroll",
+              "description": "Lock background scrolling while open",
               "default": "true",
               "value": {
                 "type": "`boolean`",
@@ -3233,8 +3683,8 @@
               }
             },
             {
-              "name": "hide-title / unmount-on-close",
-              "description": "Rendering behavior",
+              "name": "hide-title",
+              "description": "Hide the title area",
               "default": "false",
               "value": {
                 "type": "`boolean`",
@@ -3242,8 +3692,8 @@
               }
             },
             {
-              "name": "draggable / fullscreen",
-              "description": "Layout modes",
+              "name": "unmount-on-close",
+              "description": "Unmount after the close animation",
               "default": "false",
               "value": {
                 "type": "`boolean`",
@@ -3251,9 +3701,36 @@
               }
             },
             {
-              "name": "overlay-animation-name / dialog-animation-name",
-              "description": "Transition names",
-              "default": "library defaults",
+              "name": "draggable",
+              "description": "Allow dragging; ineffective in `fullscreen` mode",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "fullscreen",
+              "description": "Fullscreen display",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "overlay-animation-name",
+              "description": "Overlay animation name",
+              "default": "'mp-fade'",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "dialog-animation-name",
+              "description": "Dialog animation name",
+              "default": "'mp-pop-center'",
               "value": {
                 "type": "`string`",
                 "kind": "expression"
@@ -3280,7 +3757,7 @@
             {
               "name": "z-index",
               "description": "Stack level",
-              "default": "automatic",
+              "default": "Automatically distributed",
               "value": {
                 "type": "`number`",
                 "kind": "expression"
@@ -3288,15 +3765,44 @@
             },
             {
               "name": "before-close",
-              "description": "Close interceptor",
-              "default": "-",
+              "description": "Return a boolean/Promise or call done; the first completion wins",
+              "default": "—",
               "value": {
-                "type": "`(action, done, refs) => void`",
+                "type": "`DialogBeforeClose`",
                 "kind": "expression"
               }
             }
           ],
-          "events": [],
+          "events": [
+            {
+              "name": "update:open",
+              "description": "Open state changed"
+            },
+            {
+              "name": "open / opened",
+              "description": "Opening starts / opening animation completes"
+            },
+            {
+              "name": "close / closed",
+              "description": "Closing starts / closing animation completes"
+            },
+            {
+              "name": "confirm",
+              "description": "Confirmation closing succeeds"
+            },
+            {
+              "name": "cancel",
+              "description": "Cancellation closing succeeds"
+            },
+            {
+              "name": "click-overlay",
+              "description": "`MouseEvent`"
+            },
+            {
+              "name": "key-escape",
+              "description": "ESC pressed"
+            }
+          ],
           "slots": []
         },
         {
@@ -3304,7 +3810,7 @@
           "attributes": [
             {
               "name": "orientation",
-              "description": "Divider orientation",
+              "description": "Horizontal/vertical orientation of the divider itself, default horizontal; does not control text alignment",
               "default": "horizontal",
               "value": {
                 "type": "`horizontal` | `vertical`",
@@ -3405,8 +3911,8 @@
           "name": "mp-drag",
           "attributes": [
             {
-              "name": "direction",
-              "description": "Drag direction, optional value is `x` `y` `xy`",
+              "name": "axis",
+              "description": "Allowed drag axis, default xy: x is horizontal only, y vertical only, xy both. Not an expansion side",
               "default": "xy",
               "value": {
                 "type": "string",
@@ -3424,7 +3930,7 @@
             },
             {
               "name": "disabled",
-              "description": "Whether to disable",
+              "description": "Whether disabled",
               "default": "false",
               "value": {
                 "type": "boolean",
@@ -3547,7 +4053,7 @@
             },
             {
               "name": "alt",
-              "description": "Image alt text",
+              "description": "Image alternative text",
               "default": "''",
               "value": {
                 "type": "`string`",
@@ -3635,7 +4141,7 @@
             },
             {
               "name": "drag",
-              "description": "Drag component props, for deep customization (support `direction` `attraction` `boundary`）",
+              "description": "Drag component props, for deep customization (support `axis` `attraction` `boundary`）",
               "default": "false",
               "value": {
                 "type": "boolean | DragProps",
@@ -3653,16 +4159,16 @@
             },
             {
               "name": "position",
-              "description": "trigger position, optional values are `left-top` `right-top` `left-bottom` `right-bottom`",
-              "default": "right-bottom",
+              "description": "Corner of the button itself within the screen or positioning container, default bottom-right. Corner values use vertical-first spelling",
+              "default": "bottom-right",
               "value": {
                 "type": "string",
                 "kind": "expression"
               }
             },
             {
-              "name": "direction",
-              "description": "Action menu popup direction, optional values are `top` `bottom` `left` `right`",
+              "name": "placement",
+              "description": "Action-menu placement relative to the button, default top; no automatic flipping. Does not change the button position",
               "default": "top",
               "value": {
                 "type": "string",
@@ -3671,7 +4177,7 @@
             },
             {
               "name": "trigger",
-              "description": "trigger method `click` `hover`",
+              "description": "Trigger: `click`/`hover`",
               "default": "click",
               "value": {
                 "type": "string",
@@ -3680,7 +4186,7 @@
             },
             {
               "name": "disabled",
-              "description": "Whether to disable",
+              "description": "Whether disabled",
               "default": "false",
               "value": {
                 "type": "boolean",
@@ -3788,7 +4294,7 @@
             },
             {
               "name": "safe-area",
-              "description": "Whether to enable bottom safe area adaptation",
+              "description": "Whether to enable bottom safety zone adaptation",
               "default": "false",
               "value": {
                 "type": "boolean",
@@ -3846,6 +4352,12 @@
               "description": "Trigger"
             }
           ]
+        },
+        {
+          "name": "mp-field-decorator",
+          "attributes": [],
+          "events": [],
+          "slots": []
         },
         {
           "name": "mp-floating-panel",
@@ -3915,7 +4427,7 @@
             },
             {
               "name": "safe-area",
-              "description": "Whether to enable bottom safe area adaptation",
+              "description": "Whether to enable bottom safety zone adaptation",
               "default": "false",
               "value": {
                 "type": "boolean",
@@ -3967,7 +4479,7 @@
             },
             {
               "name": "layout",
-              "description": "Form item layout: `vertical`, `horizontal`, or `inline`; can be overridden by `FormItem.layout`",
+              "description": "Form-item layout: `vertical`/`horizontal`/`inline`; overridable by `FormItem.layout`",
               "default": "'vertical'",
               "value": {
                 "type": "'vertical' | 'horizontal' | 'inline'",
@@ -3977,9 +4489,36 @@
             {
               "name": "label-align",
               "description": "Label alignment",
-              "default": "'right'",
+              "default": "'end'",
               "value": {
-                "type": "'left' | 'right'",
+                "type": "'start' | 'end' | 'left' | 'right'",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "content-align",
+              "description": "Content alignment shared by direct fields, editor triggers and readPretty output; independent of label-align",
+              "default": "'start'",
+              "value": {
+                "type": "`'start' | 'end' | 'left' | 'center' | 'right'`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "read-pretty",
+              "description": "Independent reading toggle. When true, displays the saved value; when false, restores the current edit-mode. FormItem inherits Form when unset",
+              "default": "-",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "edit-mode",
+              "description": "Shared editing mode for form fields; when unset, preserves each field default",
+              "default": "-",
+              "value": {
+                "type": "`'direct' | 'popup'`",
                 "kind": "expression"
               }
             },
@@ -4039,7 +4578,7 @@
             },
             {
               "name": "size",
-              "description": "Form control size inherited by FormItem and controls",
+              "description": "Form-control size inherited by FormItem/controls",
               "default": "-",
               "value": {
                 "type": "'xs' | 'sm' | 'md' | 'lg' | 'xl'",
@@ -4057,7 +4596,7 @@
             },
             {
               "name": "readonly",
-              "description": "Whether controls are readonly",
+              "description": "Whether readonly",
               "default": "-",
               "value": {
                 "type": "boolean",
@@ -4066,7 +4605,7 @@
             },
             {
               "name": "disabled",
-              "description": "Whether controls are disabled",
+              "description": "Whether disabled",
               "default": "-",
               "value": {
                 "type": "boolean",
@@ -4209,7 +4748,7 @@
           "attributes": [
             {
               "name": "highlighter",
-              "description": "Shader",
+              "description": "Code Highlighter",
               "default": "-",
               "value": {
                 "type": "`Highlighter`",
@@ -4218,7 +4757,7 @@
             },
             {
               "name": "theme",
-              "description": "Theme",
+              "description": "Code Theme",
               "default": "-",
               "value": {
                 "type": "string",
@@ -4227,7 +4766,7 @@
             },
             {
               "name": "tag",
-              "description": "Tag name",
+              "description": "Custom tag name",
               "default": "div",
               "value": {
                 "type": "string",
@@ -4290,7 +4829,7 @@
             },
             {
               "name": "spin",
-              "description": "Whether to spin continuously",
+              "description": "Whether to rotate continuously",
               "default": "false",
               "value": {
                 "type": "boolean",
@@ -4329,7 +4868,7 @@
           "attributes": [
             {
               "name": "src",
-              "description": "Image src",
+              "description": "Image URL",
               "default": "-",
               "value": {
                 "type": "string",
@@ -4338,7 +4877,7 @@
             },
             {
               "name": "object-fit",
-              "description": "Image fit mode, optional value is `fill` `contain` `cover` `none` `scale-down`",
+              "description": "Fit: fill/contain/cover/none/scale-down",
               "default": "fill",
               "value": {
                 "type": "string",
@@ -4346,8 +4885,8 @@
               }
             },
             {
-              "name": "object-position _**3.2.3**_",
-              "description": "The position of the replaceable element's content in its content box, equal to [object-position](https://developer.mozilla.org/en-US/docs/Web/CSS/object-position)",
+              "name": "object-position",
+              "description": "CSS object-position for alignment of image content within its box, default 50% 50%; not component coordinates",
               "default": "50% 50%",
               "value": {
                 "type": "string",
@@ -4365,7 +4904,7 @@
             },
             {
               "name": "title",
-              "description": "Image title text, the same as with the native attributes of the `img` tag",
+              "description": "Image `title` text, the same as with the native attributes of the `img` tag",
               "default": "-",
               "value": {
                 "type": "string",
@@ -4374,7 +4913,7 @@
             },
             {
               "name": "description",
-              "description": "Image description; used as fallback alt text and in the default error state",
+              "description": "Image description; used as fallback `alt` text and in the default error state",
               "default": "-",
               "value": {
                 "type": "string",
@@ -4392,7 +4931,7 @@
             },
             {
               "name": "footer-position",
-              "description": "Footer position: `inner` or `outer`",
+              "description": "Footer region inside (inner) or outside (outer) the image, default inner; not four-side popup placement",
               "default": "inner",
               "value": {
                 "type": "string",
@@ -4455,7 +4994,7 @@
             },
             {
               "name": "show-loader",
-              "description": "When lazy loading is enabled, the image displayed while loading",
+              "description": "Image displayed while lazy loading",
               "default": "-",
               "value": {
                 "type": "string",
@@ -4518,7 +5057,7 @@
             },
             {
               "name": "v-model:open",
-              "description": "Controlled preview visibility",
+              "description": "Controlled preview state",
               "default": "-",
               "value": {
                 "type": "boolean",
@@ -4527,7 +5066,7 @@
             },
             {
               "name": "default-open",
-              "description": "Default preview visibility",
+              "description": "Default preview open state",
               "default": "false",
               "value": {
                 "type": "boolean",
@@ -4564,11 +5103,11 @@
             },
             {
               "name": "error",
-              "description": "Triggered when an image fails to load (when an image fails in lazy loading mode, it will only be triggered when the number of attempts ends)"
+              "description": "Emitted on image loading failure. Lazy loading retries and emits only after all attempts fail"
             },
             {
               "name": "open-change",
-              "description": "Triggered when preview opens or closes"
+              "description": "Emitted when preview opens/closes"
             },
             {
               "name": "update:open",
@@ -4578,7 +5117,7 @@
           "slots": [
             {
               "name": "error",
-              "description": "Load failure slot"
+              "description": "Loading-failure slot"
             },
             {
               "name": "error-icon",
@@ -4590,7 +5129,7 @@
             },
             {
               "name": "extra",
-              "description": "Extra footer content"
+              "description": "Additional footer content"
             },
             {
               "name": "preview-actions",
@@ -4642,7 +5181,7 @@
               "description": "z-index",
               "default": "1",
               "value": {
-                "type": "string | number",
+                "type": "number | string",
                 "kind": "expression"
               }
             },
@@ -4678,7 +5217,7 @@
           "slots": [
             {
               "name": "default",
-              "description": "Content of index bar"
+              "description": "Index-bar content"
             }
           ]
         },
@@ -4772,7 +5311,7 @@
               "description": "Controlled value",
               "default": "-",
               "value": {
-                "type": "`string`",
+                "type": "`string | null`",
                 "kind": "expression"
               }
             },
@@ -4886,7 +5425,7 @@
             },
             {
               "name": "readonly",
-              "description": "Read-only state",
+              "description": "Whether readonly",
               "default": "false",
               "value": {
                 "type": "`boolean`",
@@ -4895,7 +5434,7 @@
             },
             {
               "name": "disabled",
-              "description": "Disabled state",
+              "description": "Whether disabled",
               "default": "false",
               "value": {
                 "type": "`boolean`",
@@ -4917,6 +5456,15 @@
               "default": "false",
               "value": {
                 "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "empty-value",
+              "description": "Clear output; omission clears to an empty string and manual deletion is unchanged",
+              "default": "undefined",
+              "value": {
+                "type": "`string | null | (() => string | null)`",
                 "kind": "expression"
               }
             },
@@ -4949,7 +5497,7 @@
             },
             {
               "name": "input-attrs",
-              "description": "Native attributes such as `autocomplete`",
+              "description": "Native attributes such as name; `autocomplete` is fixed to `off`",
               "default": "-",
               "value": {
                 "type": "`object`",
@@ -4995,7 +5543,7 @@
             },
             {
               "name": "clear",
-              "description": "Emitted after clearing"
+              "description": "Emitted when clearing"
             },
             {
               "name": "input",
@@ -5363,7 +5911,80 @@
         },
         {
           "name": "mp-list",
-          "attributes": [],
+          "attributes": [
+            {
+              "name": "data",
+              "description": "Data consumed by item slot",
+              "default": "undefined",
+              "value": {
+                "type": "unknown[]",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "size",
+              "description": "Implemented sizes only; xs/xl are not supported",
+              "default": "md",
+              "value": {
+                "type": "'sm' | 'md' | 'lg'",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "bordered",
+              "description": "Outer border",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "split",
+              "description": "Item/header/footer separators, independent of border",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "loading",
+              "description": "Initial loading/refresh feedback, not pagination state",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "max-height",
+              "description": "Maximum ordinary viewport height; number in px or CSS length, zero means unlimited",
+              "default": "0",
+              "value": {
+                "type": "number | string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "virtual-list-props",
+              "description": "Data virtualization; ignored when default slot exists",
+              "default": "undefined",
+              "value": {
+                "type": "ListVirtualListProps",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "scrollbar",
+              "description": "Ordinary viewport custom scrollbar; false uses native scrolling",
+              "default": "true",
+              "value": {
+                "type": "boolean | ListScrollbarProps",
+                "kind": "expression"
+              }
+            }
+          ],
           "events": [],
           "slots": []
         },
@@ -5438,11 +6059,11 @@
           "slots": [
             {
               "name": "default",
-              "description": "Content wrapped in loading"
+              "description": "Content wrapped in `loading`"
             },
             {
               "name": "tip",
-              "description": "Tip of the loading"
+              "description": "Tip of the `loading`"
             },
             {
               "name": "icon",
@@ -5479,7 +6100,7 @@
             },
             {
               "name": "tag",
-              "description": "Tag name",
+              "description": "Custom tag name",
               "default": "div",
               "value": {
                 "type": "string",
@@ -5518,7 +6139,7 @@
             },
             {
               "name": "tag",
-              "description": "Tag name",
+              "description": "Custom tag name",
               "default": "div",
               "value": {
                 "type": "string",
@@ -5611,7 +6232,7 @@
             },
             {
               "name": "placement",
-              "description": "Popup placement",
+              "description": "Preferred popup side relative to the trigger, default bottom. With the default auto-fit-position enabled, Trigger may flip and constrain it to the viewport when space is limited; this is not a fixed final position",
               "default": "'bottom'",
               "value": {
                 "type": "MenuPosition",
@@ -5836,6 +6457,12 @@
           "slots": []
         },
         {
+          "name": "mp-nav-menu",
+          "attributes": [],
+          "events": [],
+          "slots": []
+        },
+        {
           "name": "mp-notice-bar",
           "attributes": [
             {
@@ -5849,7 +6476,7 @@
             },
             {
               "name": "type",
-              "description": "Tone",
+              "description": "Type",
               "default": "warning",
               "value": {
                 "type": "`info | success | warning | danger`",
@@ -5867,7 +6494,7 @@
             },
             {
               "name": "icon",
-              "description": "Left icon name",
+              "description": "Left-icon name; empty string hides it",
               "default": "info-circle",
               "value": {
                 "type": "`string`",
@@ -6005,7 +6632,7 @@
             {
               "name": "close-button-text",
               "description": "Done button text in custom theme",
-              "default": "Done",
+              "default": "完成",
               "value": {
                 "type": "`string`",
                 "kind": "expression"
@@ -6152,7 +6779,7 @@
           "attributes": [
             {
               "name": "v-model:open",
-              "description": "Whether to display the Overlay",
+              "description": "Show overlay",
               "default": "false",
               "value": {
                 "type": "boolean",
@@ -6215,7 +6842,7 @@
             },
             {
               "name": "z-index",
-              "description": "Custom stack level",
+              "description": "Custom z-index",
               "default": "-",
               "value": {
                 "type": "number",
@@ -6230,11 +6857,11 @@
             },
             {
               "name": "click",
-              "description": "Triggered when clicking on overlay"
+              "description": "Triggered when clicking the overlay"
             },
             {
               "name": "key-escape",
-              "description": "Triggered when pressing keyboard ESC"
+              "description": "Triggered when click keyboard ESC"
             },
             {
               "name": "open",
@@ -6303,7 +6930,7 @@
           "events": [
             {
               "name": "back",
-              "description": "Emitted when back is clicked"
+              "description": "Emitted when the back button is clicked"
             }
           ],
           "slots": [
@@ -6346,7 +6973,7 @@
           "attributes": [
             {
               "name": "total",
-              "description": "Total records (required)",
+              "description": "Total item count; required",
               "default": "—",
               "value": {
                 "type": "`number`",
@@ -6463,7 +7090,7 @@
             },
             {
               "name": "page-size-props",
-              "description": "Shared selector configuration; cannot override value, options or size",
+              "description": "Optional restricted configuration for the page-size Select. Placement defaults to bottom-start and reaches Trigger through Select.triggerProps for automatic positioning; cannot override pagination values, options or size",
               "default": "—",
               "value": {
                 "type": "`PaginationPageSizeProps`",
@@ -6617,16 +7244,16 @@
             },
             {
               "name": "elevation",
-              "description": "Elevation level, options `true` `false` and level of `0-24`",
+              "description": "false disables; true uses level 2; numeric levels 0–24",
               "default": "false",
               "value": {
-                "type": "number | boolean",
+                "type": "boolean / number",
                 "kind": "expression"
               }
             },
             {
               "name": "ripple",
-              "description": "Whether to enable ripple effect",
+              "description": "Opt-in ripple; does not add button semantics",
               "default": "false",
               "value": {
                 "type": "boolean",
@@ -6635,34 +7262,34 @@
             },
             {
               "name": "radius",
-              "description": "Paper border radius",
-              "default": "-",
+              "description": "Explicit radius, taking priority over round",
+              "default": "—",
               "value": {
-                "type": "string | number",
+                "type": "number / string",
                 "kind": "expression"
               }
             },
             {
               "name": "width",
-              "description": "Paper width",
-              "default": "-",
+              "description": "Width",
+              "default": "—",
               "value": {
-                "type": "string | number",
+                "type": "number / string",
                 "kind": "expression"
               }
             },
             {
               "name": "height",
-              "description": "Paper height",
-              "default": "-",
+              "description": "Surface height",
+              "default": "—",
               "value": {
-                "type": "string | number",
+                "type": "number / string",
                 "kind": "expression"
               }
             },
             {
               "name": "round",
-              "description": "Whether to enable round paper",
+              "description": "50% radius; a circle only with equal width and height",
               "default": "false",
               "value": {
                 "type": "boolean",
@@ -6671,7 +7298,7 @@
             },
             {
               "name": "inline",
-              "description": "Whether to use inline paper",
+              "description": "Use inline-flex",
               "default": "false",
               "value": {
                 "type": "boolean",
@@ -6691,6 +7318,12 @@
               "description": "Paper content"
             }
           ]
+        },
+        {
+          "name": "mp-people-select",
+          "attributes": [],
+          "events": [],
+          "slots": []
         },
         {
           "name": "mp-picker",
@@ -6716,7 +7349,7 @@
             {
               "name": "title",
               "description": "Title",
-              "default": "Pick it",
+              "default": "请选择",
               "value": {
                 "type": "string",
                 "kind": "expression"
@@ -6724,7 +7357,7 @@
             },
             {
               "name": "field-names",
-              "description": "Custom column field mapping (`label` maps to text, default `text`)",
+              "description": "Custom column field mapping (`label` maps to `text`, default `text`)",
               "default": "-",
               "value": {
                 "type": "{ label?, value?, children? }",
@@ -6742,7 +7375,7 @@
             },
             {
               "name": "disabled",
-              "description": "Block option clicks, touch, keyboard selection, and confirmation",
+              "description": "Disable option clicks, touch, keyboard selection and confirmation",
               "default": "false",
               "value": {
                 "type": "boolean",
@@ -6797,7 +7430,7 @@
             {
               "name": "confirm-button-text",
               "description": "Confirm button text",
-              "default": "Confirm",
+              "default": "确认",
               "value": {
                 "type": "string",
                 "kind": "expression"
@@ -6806,7 +7439,7 @@
             {
               "name": "cancel-button-text",
               "description": "Cancel button text",
-              "default": "Cancel",
+              "default": "取消",
               "value": {
                 "type": "string",
                 "kind": "expression"
@@ -6847,11 +7480,11 @@
             },
             {
               "name": "cancel",
-              "description": "Triggered when you click the cancel button"
+              "description": "Accepted cancel action"
             },
             {
               "name": "confirm",
-              "description": "Triggered when you click the confirm button"
+              "description": "Accepted confirm action"
             },
             {
               "name": "key-escape",
@@ -6865,11 +7498,11 @@
             },
             {
               "name": "cancel",
-              "description": "Cancel button content"
+              "description": "Cancel-button content"
             },
             {
               "name": "confirm",
-              "description": "Confirm button content"
+              "description": "Confirm-button content"
             }
           ]
         },
@@ -6896,7 +7529,7 @@
             },
             {
               "name": "title",
-              "description": "Heading",
+              "description": "Title",
               "default": "—",
               "value": {
                 "type": "`string`",
@@ -6923,7 +7556,7 @@
             },
             {
               "name": "placement",
-              "description": "Preferred placement",
+              "description": "Preferred popup side relative to the trigger, default bottom. With the default auto-fit-position enabled, Trigger may flip and constrain it to the viewport when space is limited; this is not a fixed final position",
               "default": "bottom",
               "value": {
                 "type": "`TriggerPlacement`",
@@ -6959,7 +7592,7 @@
             },
             {
               "name": "popup-container",
-              "description": "Teleport target; false renders inline",
+              "description": "Render target; false renders locally",
               "default": "body",
               "value": {
                 "type": "`string | HTMLElement | false`",
@@ -6968,7 +7601,7 @@
             },
             {
               "name": "reference",
-              "description": "External reference element",
+              "description": "External trigger element",
               "default": "—",
               "value": {
                 "type": "`string | HTMLElement | SVGElement`",
@@ -6995,7 +7628,7 @@
             },
             {
               "name": "close-on-click-reference",
-              "description": "Close when the reference is clicked again",
+              "description": "Close when the trigger is clicked again",
               "default": "true",
               "value": {
                 "type": "`boolean`",
@@ -7030,17 +7663,17 @@
             },
             {
               "name": "click-outside",
-              "description": "The pointer activated outside the floating layer"
+              "description": "Clicked outside the popup"
             }
           ],
           "slots": [
             {
               "name": "default",
-              "description": "Reference element"
+              "description": "Trigger element"
             },
             {
               "name": "title",
-              "description": "Heading; falls back to the `title` prop"
+              "description": "Title; falls back to the `title` prop"
             },
             {
               "name": "content",
@@ -7056,9 +7689,154 @@
         },
         {
           "name": "mp-progress",
-          "attributes": [],
+          "attributes": [
+            {
+              "name": "mode",
+              "description": "Line or circle",
+              "default": "line",
+              "value": {
+                "type": "`line | circle`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "percent",
+              "description": "Decimal 0–100; numeric strings supported; invalid values become zero, out-of-range values clamp",
+              "default": "0",
+              "value": {
+                "type": "`number | string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "size",
+              "description": "xs/sm/md/lg/xl or CSS length; line thickness / circle diameter",
+              "default": "md",
+              "value": {
+                "type": "`ProgressSize`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "stroke-width",
+              "description": "Overrides thickness, numbers in px",
+              "default": "Follows size",
+              "value": {
+                "type": "`number | string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "steps",
+              "description": "Line segments, floored and clamped to 0–1000; ignored when indeterminate",
+              "default": "0",
+              "value": {
+                "type": "`number`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "status",
+              "description": "default/primary/secondary/tertiary/info/success/warning/danger; default becomes success at 100 unless indeterminate",
+              "default": "default",
+              "value": {
+                "type": "`ProgressStatus`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "color",
+              "description": "Solid or gradient stops; overrides status",
+              "default": "—",
+              "value": {
+                "type": "`string | Record<string, string>`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "track-color",
+              "description": "Background track color",
+              "default": "—",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "buffer-color",
+              "description": "Remaining line track decoration, not a second progress value",
+              "default": "—",
+              "value": {
+                "type": "`ProgressColor`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "track",
+              "description": "Show track and buffer decoration",
+              "default": "true",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show-text",
+              "description": "Show text; xs circle hides text",
+              "default": "true",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "text-class",
+              "description": "Text container class",
+              "default": "—",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "rotate",
+              "description": "Clockwise angle from twelve o'clock",
+              "default": "0",
+              "value": {
+                "type": "`number`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "animation",
+              "description": "Determinate continuous line shimmer",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "indeterminate",
+              "description": "Unknown progress; omits aria-valuenow",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            }
+          ],
           "events": [],
-          "slots": []
+          "slots": [
+            {
+              "name": "text",
+              "description": "`{ percent: number }`"
+            },
+            {
+              "name": "default",
+              "description": "`{ percent: number }`"
+            }
+          ]
         },
         {
           "name": "mp-progress-group",
@@ -7120,7 +7898,7 @@
             {
               "name": "color",
               "description": "Default segment color",
-              "default": "theme primary",
+              "default": "content-brand",
               "value": {
                 "type": "`string`",
                 "kind": "expression"
@@ -7155,7 +7933,7 @@
             },
             {
               "name": "orientation",
-              "description": "Track orientation",
+              "description": "Horizontal/vertical orientation of the linear progress track, default horizontal; only used for mode=line",
               "default": "horizontal",
               "value": {
                 "type": "`horizontal | vertical`",
@@ -7304,7 +8082,7 @@
             },
             {
               "name": "disabled",
-              "description": "Disabled; inherits form when omitted",
+              "description": "Disabled; inherits Form when omitted",
               "default": "undefined",
               "value": {
                 "type": "boolean",
@@ -7313,7 +8091,7 @@
             },
             {
               "name": "readonly",
-              "description": "Read only; inherits form when omitted",
+              "description": "Readonly; inherits Form when omitted",
               "default": "undefined",
               "value": {
                 "type": "boolean",
@@ -7322,7 +8100,7 @@
             },
             {
               "name": "error",
-              "description": "Error; inherits form when omitted",
+              "description": "Error state; inherits Form when omitted",
               "default": "undefined",
               "value": {
                 "type": "boolean",
@@ -7348,8 +8126,8 @@
               }
             },
             {
-              "name": "direction",
-              "description": "The layout direction, optional value is `horizontal` `vertical`",
+              "name": "orientation",
+              "description": "Horizontal/vertical arrangement of radio-group options, default horizontal; not text reading direction",
               "default": "horizontal",
               "value": {
                 "type": "string",
@@ -7361,7 +8139,7 @@
               "description": "Options; replaces default slot when supplied",
               "default": "undefined",
               "value": {
-                "type": "Array<ChoiceValue | RadioOption | Record<string, unknown>>",
+                "type": "Array<ChoiceValue | RadioOption | Record<string, unknown>> / `(query, { signal }) => Array / Promise`",
                 "kind": "expression"
               }
             },
@@ -7387,11 +8165,11 @@
           "events": [
             {
               "name": "update:model-value",
-              "description": "Proposes a value"
+              "description": "Proposes a new value"
             },
             {
               "name": "change",
-              "description": "Value changed; emitted by Group only"
+              "description": "Value change; emitted only by Group"
             }
           ],
           "slots": [
@@ -7407,7 +8185,170 @@
         },
         {
           "name": "mp-rate",
-          "attributes": [],
+          "attributes": [
+            {
+              "name": "model-value",
+              "description": "Controlled value, including zero; external updates emit no events",
+              "default": "undefined",
+              "value": {
+                "type": "number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-value",
+              "description": "Initial uncontrolled value; subsequent changes do not reset it",
+              "default": "0",
+              "value": {
+                "type": "number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "count",
+              "description": "Positive finite number, rounded down; invalid values fall back to 5",
+              "default": "5",
+              "value": {
+                "type": "number | string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "allow-half",
+              "description": "Enable half-point steps",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "clearable",
+              "description": "Click the current score again to clear; keyboard boundaries do not clear",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "grading",
+              "description": "Fixed five-face rating; overrides slots and icon props",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "disabled",
+              "description": "Disable interaction; inherits Form when omitted",
+              "default": "undefined",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "readonly",
+              "description": "Focusable but not editable; inherits Form when omitted",
+              "default": "undefined",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "aria-label",
+              "description": "Accessible business label",
+              "default": "undefined",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "size",
+              "description": "Icon dimension: number/numeric string in px, otherwise CSS length",
+              "default": "Style default",
+              "value": {
+                "type": "number | string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "gap",
+              "description": "Icon spacing: number/numeric string in px, otherwise CSS length",
+              "default": "Style default",
+              "value": {
+                "type": "number | string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "color",
+              "description": "Active color or increasing per-icon threshold color map",
+              "default": "undefined",
+              "value": {
+                "type": "string | Record<string, string>",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "empty-color",
+              "description": "Inactive color",
+              "default": "undefined",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "disabled-color",
+              "description": "Disabled color, overriding active/inactive colors",
+              "default": "undefined",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "icon",
+              "description": "Checked icon",
+              "default": "Filled star",
+              "value": {
+                "type": "string | Component",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "half-icon",
+              "description": "Half icon",
+              "default": "Half star",
+              "value": {
+                "type": "string | Component",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "empty-icon",
+              "description": "Unchecked icon",
+              "default": "Empty star",
+              "value": {
+                "type": "string | Component",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "ripple",
+              "description": "Click ripple",
+              "default": "true",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            }
+          ],
           "events": [
             {
               "name": "update:model-value",
@@ -7422,7 +8363,12 @@
               "description": "value: number"
             }
           ],
-          "slots": []
+          "slots": [
+            {
+              "name": "character",
+              "description": "{ index, value, active }"
+            }
+          ]
         },
         {
           "name": "mp-result",
@@ -7438,7 +8384,7 @@
             },
             {
               "name": "title",
-              "description": "The title of Result",
+              "description": "Title",
               "default": "-",
               "value": {
                 "type": "string",
@@ -7447,7 +8393,7 @@
             },
             {
               "name": "subtitle",
-              "description": "The description of Result",
+              "description": "Description",
               "default": "-",
               "value": {
                 "type": "string",
@@ -7566,6 +8512,12 @@
           ]
         },
         {
+          "name": "mp-safe-area",
+          "attributes": [],
+          "events": [],
+          "slots": []
+        },
+        {
           "name": "mp-search",
           "attributes": [
             {
@@ -7650,11 +8602,11 @@
               }
             },
             {
-              "name": "history-popup",
-              "description": "Whether to show history in a full-screen Popup",
-              "default": "true",
+              "name": "edit-mode",
+              "description": "Search editing mode: direct searches in place; popup opens the search editor in a popup",
+              "default": "'direct'",
               "value": {
-                "type": "boolean",
+                "type": "`'direct' | 'popup'`",
                 "kind": "expression"
               }
             },
@@ -7732,7 +8684,7 @@
             },
             {
               "name": "disabled",
-              "description": "Whether Search is disabled",
+              "description": "Whether disabled",
               "default": "false",
               "value": {
                 "type": "boolean",
@@ -7741,7 +8693,7 @@
             },
             {
               "name": "readonly",
-              "description": "Whether Search is readonly",
+              "description": "Whether readonly",
               "default": "false",
               "value": {
                 "type": "boolean",
@@ -7750,7 +8702,7 @@
             },
             {
               "name": "label",
-              "description": "Left label",
+              "description": "Text to the left of the search input",
               "default": "-",
               "value": {
                 "type": "string",
@@ -7795,8 +8747,8 @@
             },
             {
               "name": "action-text",
-              "description": "Action text",
-              "default": "Global locale for action-type",
+              "description": "Action button text",
+              "default": "Follows global locale and action-type",
               "value": {
                 "type": "`string`",
                 "kind": "expression"
@@ -7914,9 +8866,449 @@
         },
         {
           "name": "mp-select",
-          "attributes": [],
-          "events": [],
-          "slots": []
+          "attributes": [
+            {
+              "name": "model-value / default-value",
+              "description": "Controlled value / uncontrolled initial value",
+              "default": "Single: ''; multiple: []",
+              "value": {
+                "type": "`Value`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "open / default-open",
+              "description": "Controlled / initial open state",
+              "default": "undefined / false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "open-trigger-target",
+              "description": "Pointer opening area: field includes the whole field; icon uses only the suffix trigger. Clear/remove actions are excluded; explicit keyboard opening and controlled open remain available.",
+              "default": "'field'",
+              "value": {
+                "type": "`'field' | 'icon'`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "input-value / default-input-value",
+              "description": "Search text, independent of selected values",
+              "default": "undefined / ''",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "multiple",
+              "description": "Multiple selection; enables search by default",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "size",
+              "description": "Supports all five sizes; inherits group/form settings",
+              "default": "md",
+              "value": {
+                "type": "`ComponentSize`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "variant",
+              "description": "filled, outline, standard; inherits InputGroup",
+              "default": "filled",
+              "value": {
+                "type": "`FormControlVariant`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "disabled / readonly / error",
+              "description": "Inherits form state unless explicitly overridden",
+              "default": "undefined",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "placeholder",
+              "description": "Placeholder",
+              "default": "—",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "hint / line",
+              "description": "Floating hint / standard variant underline",
+              "default": "true",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "text-color / focus-color / blur-color",
+              "description": "Field colors",
+              "default": "—",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "loading",
+              "description": "Loading state; blocks selection and confirmation",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "loading-mode",
+              "description": "Loading layout: default indicator or bottom line",
+              "default": "default",
+              "value": {
+                "type": "`default / line`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show-tags",
+              "description": "Show tags; false displays separated text",
+              "default": "true",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "separator",
+              "description": "Separator when show-tags=false",
+              "default": ",",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "text-align",
+              "description": "Text alignment: left / center / right. Inherits FormItem content-align when unset; standalone fields default to inline start",
+              "default": "-",
+              "value": {
+                "type": "`'left' | 'center' | 'right'`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "max-tag-count",
+              "description": "Maximum visible tags; 0 means unlimited",
+              "default": "0",
+              "value": {
+                "type": "`number`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "tag-nowrap",
+              "description": "Keep tags on one line with ellipsis and preserved removal icons; overflow scrolls horizontally; hover, focus or tap truncated text to preview it",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "popup-container",
+              "description": "Selector, element, element resolver, or false for inline rendering",
+              "default": "—",
+              "value": {
+                "type": "`PopupContainer`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "trigger-props",
+              "description": "Optional dropdown Trigger settings. Placement defaults to bottom-start and automatically adjusts when space is limited. The field owns open state; there is no top-level placement prop",
+              "default": "—",
+              "value": {
+                "type": "`TriggerProps`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "virtual-list-props",
+              "description": "Virtual list settings for option panels",
+              "default": "—",
+              "value": {
+                "type": "`VirtualListProps`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "search-delay",
+              "description": "Search debounce delay in ms",
+              "default": "500",
+              "value": {
+                "type": "`number`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "format-label",
+              "description": "Format selected labels; use label slot for VNodes",
+              "default": "—",
+              "value": {
+                "type": "`function`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "clearable",
+              "description": "Allow clearing; preserve disabled selections",
+              "default": "true",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "empty-value",
+              "description": "Clear output override; return an array for multiple selection and preserve protected items",
+              "default": "undefined",
+              "value": {
+                "type": "`SelectEmptyValue`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "options",
+              "description": "Primitive, object or grouped options; one source for every presentation",
+              "default": "undefined",
+              "value": {
+                "type": "`SelectOption[]` / `(query, { signal }) => Array / Promise`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "field-names",
+              "description": "Map value, label, disabled, tagProps, render; object values need a unique ID field",
+              "default": "—",
+              "value": {
+                "type": "`SelectFieldNames`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "filterable",
+              "description": "Enable search; optionally retainInputValue",
+              "default": "Single: false; multiple: true",
+              "value": {
+                "type": "`boolean or { retainInputValue?: boolean }`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "case-sensitive",
+              "description": "Case-sensitive built-in filtering; custom filters take priority",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "filter-option",
+              "description": "false disables local filtering; callback receives query and raw option",
+              "default": "Automatic: enabled for arrays, disabled for loader functions",
+              "value": {
+                "type": "`boolean or (input, option) => boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "creatable",
+              "description": "Allow creating missing options",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "fallback-option",
+              "description": "Display unresolved values or return a complete fallback option",
+              "default": "true",
+              "value": {
+                "type": "`boolean or (value) => SelectOptionData`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show-extra-options",
+              "description": "Display fallback/created options in the panel",
+              "default": "true",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "limit",
+              "description": "Selection limit; 0 means unlimited",
+              "default": "0",
+              "value": {
+                "type": "`number`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "auto-fit-popup-width",
+              "description": "Match Menu width to the field",
+              "default": "true",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-active-first-option",
+              "description": "On opening, activate the first enabled candidate if no valid selected option exists. Highlighting does not update modelValue or emit change; an existing valid selection takes priority",
+              "default": "true",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "unmount-on-close",
+              "description": "Unmount Menu content when closed",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "scrollbar",
+              "description": "option panels scrollbar settings",
+              "default": "true",
+              "value": {
+                "type": "`boolean or ScrollbarProps`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show-header-on-empty / show-footer-on-empty",
+              "description": "Display header/footer in empty state",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "edit-mode",
+              "description": "Field presentation; inherits FormItem/Form when omitted",
+              "default": "popup",
+              "value": {
+                "type": "`direct / popup`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "before-commit",
+              "description": "Asynchronous before-commit hook after validation",
+              "default": "—",
+              "value": {
+                "type": "`(value, context) => void / false / Promise`",
+                "kind": "expression"
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "update:model-value",
+              "description": "Request a model value update"
+            },
+            {
+              "name": "change",
+              "description": "Option"
+            },
+            {
+              "name": "update:open",
+              "description": "Request popup visibility"
+            },
+            {
+              "name": "open-change",
+              "description": "Popup visibility changes"
+            },
+            {
+              "name": "update:input-value",
+              "description": "Request search text update"
+            },
+            {
+              "name": "input-value-change",
+              "description": "Search text changes"
+            },
+            {
+              "name": "search",
+              "description": "Triggered when the user searches"
+            },
+            {
+              "name": "focus",
+              "description": "Field gains focus"
+            },
+            {
+              "name": "blur",
+              "description": "Field loses focus"
+            },
+            {
+              "name": "clear",
+              "description": "Triggered when the value of the input changes"
+            },
+            {
+              "name": "remove",
+              "description": "Triggered when the delete button of the label is clicked"
+            },
+            {
+              "name": "exceed-limit",
+              "description": "Selection would exceed the multiple-selection limit"
+            },
+            {
+              "name": "dropdown-scroll",
+              "description": "Menu scrolls"
+            },
+            {
+              "name": "dropdown-reach-bottom",
+              "description": "Menu reaches its bottom"
+            }
+          ],
+          "slots": [
+            {
+              "name": "default",
+              "description": "Custom option content"
+            },
+            {
+              "name": "icon",
+              "description": "Option icon"
+            },
+            {
+              "name": "suffix",
+              "description": "Option suffix"
+            }
+          ]
         },
         {
           "name": "mp-signature",
@@ -8091,8 +9483,170 @@
         },
         {
           "name": "mp-slider",
-          "attributes": [],
-          "events": [],
+          "attributes": [
+            {
+              "name": "model-value",
+              "description": "Controlled value; range uses a tuple",
+              "default": "—",
+              "value": {
+                "type": "`SliderValue`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-value",
+              "description": "Initial uncontrolled value",
+              "default": "0",
+              "value": {
+                "type": "`SliderValue`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "min / max",
+              "description": "Finite bounds; numeric strings are accepted. Invalid values fall back to 0/100. max<=min blocks interaction",
+              "default": "0 / 100",
+              "value": {
+                "type": "`number | string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "step",
+              "description": "Positive finite step aligned to min; max remains reachable",
+              "default": "1",
+              "value": {
+                "type": "`number | string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "range",
+              "description": "Fixed low/high thumbs; initial reversed values are sorted",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "orientation",
+              "description": "Horizontal/vertical axis of the slider track and interaction, default horizontal; not the direction of value increments",
+              "default": "horizontal",
+              "value": {
+                "type": "`horizontal | vertical`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "disabled / readonly / error",
+              "description": "Inherits applicable FormItem/Form state when omitted; readonly is focusable but cannot change values",
+              "default": "Inherited",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show-ticks",
+              "description": "Show step ticks; dense ticks are reduced, up to 1000",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "marks",
+              "description": "Map positions within the finite range to text",
+              "default": "—",
+              "value": {
+                "type": "`Record<number,string>`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show-input",
+              "description": "InputNumber; Enter or blur commits via the same model",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show-tooltip",
+              "description": "true on hover/focus/drag, false hidden, always persistent",
+              "default": "true",
+              "value": {
+                "type": "`boolean | 'always'`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "format-tooltip",
+              "description": "Formats tooltip and aria-valuetext",
+              "default": "Original value",
+              "value": {
+                "type": "`(value:number)=>string|number`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "aria-label",
+              "description": "Name, or separate names for range thumbs",
+              "default": "—",
+              "value": {
+                "type": "`string | [string,string]`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "active-color / track-color / thumb-color",
+              "description": "Active track/background/thumb fill colors",
+              "default": "CSS variable",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "label-color / label-text-color",
+              "description": "Tooltip background/text colors",
+              "default": "CSS variable",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "track-height / thumb-size",
+              "description": "Track thickness/thumb diameter in numeric px or CSS lengths; invalid values retain theme defaults",
+              "default": "CSS variable",
+              "value": {
+                "type": "`number | string`",
+                "kind": "expression"
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "update:model-value",
+              "description": "`SliderValue`"
+            },
+            {
+              "name": "change",
+              "description": "`SliderValue`"
+            },
+            {
+              "name": "start",
+              "description": "—"
+            },
+            {
+              "name": "end",
+              "description": "`SliderValue`"
+            }
+          ],
           "slots": []
         },
         {
@@ -8100,7 +9654,7 @@
           "attributes": [
             {
               "name": "direction",
-              "description": "Layout direction, can be set to `row` `column`",
+              "description": "Row/column order of children, default row; column stacks them vertically. Does not use horizontal/vertical values",
               "default": "row",
               "value": {
                 "type": "string",
@@ -8118,7 +9672,7 @@
             },
             {
               "name": "align",
-              "description": "Cross axis arrangement, Can be set to `stretch` `center` `flex-start` `flex-end` `baseline`. Inferred when omitted (`row` → `center`, `column` → `stretch`)",
+              "description": "Cross-axis alignment: `stretch`/`center`/`flex-start`/`flex-end`/`baseline`. Omitted values follow `direction`: `row` → `center`, `column` → `stretch`",
               "default": "-",
               "value": {
                 "type": "string",
@@ -8127,7 +9681,7 @@
             },
             {
               "name": "size",
-              "description": "Spacing, can be set to `xs` `sm` `md` `lg` `xl` or `[Vertical, Horizontal]`(Support length unit)",
+              "description": "Gap: `xs`/`sm`/`md`/`lg`/`xl` or [rowGap, columnGap], supporting CSS lengths",
               "default": "md",
               "value": {
                 "type": "string | number | [string | number, string | number]",
@@ -8158,6 +9712,10 @@
             {
               "name": "default",
               "description": "Content of space"
+            },
+            {
+              "name": "split",
+              "description": "Range separator"
             }
           ]
         },
@@ -8220,7 +9778,7 @@
             },
             {
               "name": "color",
-              "description": "Custom background color",
+              "description": "Background color",
               "default": "''",
               "value": {
                 "type": "string",
@@ -8264,15 +9822,6 @@
               }
             },
             {
-              "name": "auto-loading",
-              "description": "Automatically show loading while the primary action promise is pending",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
               "name": "trigger",
               "description": "Menu trigger method",
               "default": "click",
@@ -8283,10 +9832,10 @@
             },
             {
               "name": "placement",
-              "description": "Menu placement",
+              "description": "Preferred popup side relative to the trigger, default bottom. With the default auto-fit-position enabled, Trigger may flip and constrain it to the viewport when space is limited; this is not a fixed final position",
               "default": "bottom",
               "value": {
-                "type": "PopoverPlacement",
+                "type": "MenuPosition",
                 "kind": "expression"
               }
             },
@@ -8383,7 +9932,7 @@
           "attributes": [
             {
               "name": "title",
-              "description": "Title of the statistic",
+              "description": "Displayed-value title",
               "default": "-",
               "value": {
                 "type": "string",
@@ -8401,7 +9950,7 @@
             },
             {
               "name": "prefix",
-              "description": "Prefix of the value",
+              "description": "Value prefix",
               "default": "-",
               "value": {
                 "type": "string",
@@ -8410,7 +9959,7 @@
             },
             {
               "name": "suffix",
-              "description": "Suffix of the value",
+              "description": "Value suffix",
               "default": "-",
               "value": {
                 "type": "string",
@@ -8530,7 +10079,7 @@
           "slots": [
             {
               "name": "default",
-              "description": "Custom value, used when `value` is not provided"
+              "description": "Custom `value`, used when `value` is not provided"
             },
             {
               "name": "title",
@@ -8538,7 +10087,7 @@
             },
             {
               "name": "prefix",
-              "description": "Prefix"
+              "description": "The prepend icon of alert"
             },
             {
               "name": "suffix",
@@ -8582,7 +10131,7 @@
             },
             {
               "name": "orientation",
-              "description": "Layout orientation",
+              "description": "Horizontal/vertical axis of the step flow, default horizontal; arrow and navigation variants remain horizontal",
               "default": "horizontal",
               "value": {
                 "type": "'horizontal' | 'vertical'",
@@ -8591,7 +10140,7 @@
             },
             {
               "name": "content-placement",
-              "description": "Content position relative to the indicator",
+              "description": "Content side relative to the step node: right or bottom, default right. Dot steps derive it from orientation; navigation steps always use right",
               "default": "right",
               "value": {
                 "type": "'right' | 'bottom'",
@@ -8600,7 +10149,7 @@
             },
             {
               "name": "status",
-              "description": "Status of the current step",
+              "description": "Current step status",
               "default": "process",
               "value": {
                 "type": "'wait' | 'process' | 'finish' | 'error'",
@@ -8686,7 +10235,7 @@
             },
             {
               "name": "left-width",
-              "description": "Left action width",
+              "description": "Left action-area width; `auto` measures content",
               "default": "auto",
               "value": {
                 "type": "`number | string`",
@@ -8704,7 +10253,7 @@
             },
             {
               "name": "before-close",
-              "description": "Hook before close",
+              "description": "Before-close hook; `false` prevents closing",
               "default": "-",
               "value": {
                 "type": "`(args) => boolean | Promise<boolean>`",
@@ -8722,7 +10271,7 @@
             },
             {
               "name": "stop-propagation",
-              "description": "Stop touchmove bubbling",
+              "description": "Stop `touchmove` bubbling",
               "default": "false",
               "value": {
                 "type": "`boolean`",
@@ -8733,15 +10282,15 @@
           "events": [
             {
               "name": "click",
-              "description": "Emitted on click"
+              "description": "Triggered when the cell is clicked"
             },
             {
               "name": "open",
-              "description": "Emitted when opened"
+              "description": "Emitted on open"
             },
             {
               "name": "close",
-              "description": "Emitted when closed"
+              "description": "Emitted on close"
             }
           ],
           "slots": [
@@ -8755,7 +10304,7 @@
             },
             {
               "name": "right",
-              "description": "Right actions"
+              "description": "Right action"
             }
           ]
         },
@@ -8764,7 +10313,7 @@
           "attributes": [
             {
               "name": "model-value",
-              "description": "Controlled value; omit for internal state",
+              "description": "Controlled value; managed internally when omitted",
               "default": "undefined",
               "value": {
                 "type": "string / number / boolean",
@@ -8781,17 +10330,35 @@
               }
             },
             {
-              "name": "presentation",
-              "description": "Field presentation inherited from FormItem / Form",
+              "name": "clearable",
+              "description": "Show clearing in popup editing",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "empty-value",
+              "description": "Value committed after clearing; accepts a value or factory",
               "default": "undefined",
               "value": {
-                "type": "FieldPresentation",
+                "type": "SwitchValue | null | (() => SwitchValue | null)",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "edit-mode",
+              "description": "Editing mode; inherits FormItem/Form when unset. See editing-mode guidance for platform-specific values",
+              "default": "undefined",
+              "value": {
+                "type": "FieldEditMode",
                 "kind": "expression"
               }
             },
             {
               "name": "read-pretty",
-              "description": "Read-only presentation independent of readonly",
+              "description": "Plain reading display, independent of readonly",
               "default": "undefined",
               "value": {
                 "type": "boolean",
@@ -8800,7 +10367,7 @@
             },
             {
               "name": "before-commit",
-              "description": "Cancellable interceptor before saving the editor",
+              "description": "Cancelable interceptor before saving the editor",
               "default": "undefined",
               "value": {
                 "type": "BeforeFieldCommit",
@@ -8809,7 +10376,7 @@
             },
             {
               "name": "open",
-              "description": "Controlled editor visibility",
+              "description": "Controlled editor open state",
               "default": "undefined",
               "value": {
                 "type": "boolean",
@@ -8818,7 +10385,7 @@
             },
             {
               "name": "default-open",
-              "description": "Initial uncontrolled editor visibility",
+              "description": "Initial uncontrolled editor state",
               "default": "false",
               "value": {
                 "type": "boolean",
@@ -8873,7 +10440,7 @@
             {
               "name": "disabled",
               "description": "Disable interaction, including inherited form disabled state",
-              "default": "false",
+              "default": "undefined",
               "value": {
                 "type": "boolean",
                 "kind": "expression"
@@ -8882,7 +10449,7 @@
             {
               "name": "readonly",
               "description": "Read only; focus and click remain available without toggling",
-              "default": "false",
+              "default": "undefined",
               "value": {
                 "type": "boolean",
                 "kind": "expression"
@@ -8899,10 +10466,10 @@
             },
             {
               "name": "before-change",
-              "description": "Change interceptor, not an event",
+              "description": "Switch interceptor, not an event",
               "default": "—",
               "value": {
-                "type": "(nextValue: SwitchValue) => boolean / void / Promise<boolean / void>",
+                "type": "(payload, done, context) => boolean / void / Promise<boolean / void>",
                 "kind": "expression"
               }
             },
@@ -8944,7 +10511,7 @@
             },
             {
               "name": "loading-color",
-              "description": "Spinner color",
+              "description": "Loading-icon color",
               "default": "—",
               "value": {
                 "type": "string",
@@ -8962,7 +10529,7 @@
             },
             {
               "name": "handle-elevation",
-              "description": "Thumb shadow; true means level 2; numbers are truncated and clamped to 0–24",
+              "description": "Thumb elevation: true means level 2; numbers are integer-clamped to 0–24",
               "default": "true",
               "value": {
                 "type": "boolean / number",
@@ -8973,23 +10540,23 @@
           "events": [
             {
               "name": "click",
-              "description": "`(event: Event)`, before interception"
+              "description": "(event: Event), before interception when clicking is allowed"
             },
             {
               "name": "update:model-value",
-              "description": "`(nextValue: SwitchValue)`, before change after an accepted toggle"
+              "description": "(nextValue: SwitchValue), after switching is allowed and before change"
             },
             {
               "name": "change",
-              "description": "`(nextValue: SwitchValue, event: Event)`, once per committed toggle"
+              "description": "(nextValue: SwitchValue, event: Event), once per commit"
             },
             {
               "name": "focus",
-              "description": "`(event: FocusEvent)`, when focused"
+              "description": "(event: FocusEvent), on focus"
             },
             {
               "name": "blur",
-              "description": "`(event: FocusEvent)`, when blurred"
+              "description": "(event: FocusEvent), on blur"
             }
           ],
           "slots": [
@@ -9061,7 +10628,7 @@
             },
             {
               "name": "safe-area",
-              "description": "Whether to enable bottom safe area adaptation",
+              "description": "Whether to enable bottom safety zone adaptation",
               "default": "false",
               "value": {
                 "type": "boolean",
@@ -9071,7 +10638,7 @@
             {
               "name": "z-index",
               "description": "Z-index; an explicit prop overrides the CSS variable",
-              "default": "undefined (CSS default 1)",
+              "default": "undefined; CSS defaults to 1",
               "value": {
                 "type": "number | string",
                 "kind": "expression"
@@ -9136,7 +10703,7 @@
           "slots": [
             {
               "name": "default",
-              "description": "Content of bottom navigation"
+              "description": "Bottom-navigation content"
             },
             {
               "name": "fab",
@@ -9189,9 +10756,285 @@
         },
         {
           "name": "mp-tabs",
-          "attributes": [],
-          "events": [],
-          "slots": []
+          "attributes": [
+            {
+              "name": "model-value",
+              "description": "`string / number`",
+              "default": "Current selected name; controlled when provided",
+              "value": {
+                "type": "`undefined`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-value",
+              "description": "`string / number`",
+              "default": "Initial uncontrolled value; defaults to the first available item",
+              "value": {
+                "type": "`undefined`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "variant",
+              "description": "`line / card / outline / plain / capsule / enclosed`",
+              "default": "Visual variant",
+              "value": {
+                "type": "`line`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "size",
+              "description": "`xs / sm / md / lg / xl`",
+              "default": "Size",
+              "value": {
+                "type": "Global value or md",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "orientation",
+              "description": "Horizontal/vertical axis of tab navigation, default horizontal; affects navigation layout and arrow-key behavior",
+              "default": "Navigation orientation",
+              "value": {
+                "type": "`horizontal`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "indicator-position",
+              "description": "Indicator on the navigation side facing the content (normal) or the opposite side (reverse), default normal; does not use four-side values",
+              "default": "Indicator on the content side or opposite side",
+              "value": {
+                "type": "`normal`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "editable",
+              "description": "`boolean`",
+              "default": "Allow closing tabs",
+              "value": {
+                "type": "`false`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show-add-button",
+              "description": "`boolean`",
+              "default": "Show the add button in editable mode",
+              "value": {
+                "type": "`false`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "auto-switch",
+              "description": "`boolean`",
+              "default": "Switch to the last available tab after adding",
+              "value": {
+                "type": "`false`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "lazy-load",
+              "description": "`boolean`",
+              "default": "Mount on first activation",
+              "value": {
+                "type": "`false`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "destroy-on-hide",
+              "description": "`boolean`",
+              "default": "Unmount content when hidden",
+              "value": {
+                "type": "`false`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "justify",
+              "description": "`boolean`",
+              "default": "Fill container height in horizontal orientation",
+              "value": {
+                "type": "`false`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "animation",
+              "description": "`boolean`",
+              "default": "Content fade-in animation",
+              "value": {
+                "type": "`false`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "item-class",
+              "description": "`string / object / array`",
+              "default": "Inner class for each panel; merged with built-in classes",
+              "value": {
+                "type": "`undefined`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "item-style",
+              "description": "`StyleValue`",
+              "default": "Inner style for each panel; supports string, object or array",
+              "value": {
+                "type": "`undefined`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "item-wrapper-class",
+              "description": "`string / object / array`",
+              "default": "Outer class for each panel; merged with built-in classes",
+              "value": {
+                "type": "`undefined`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "item-wrapper-style",
+              "description": "`StyleValue`",
+              "default": "Outer style for each panel; supports string, object or array",
+              "value": {
+                "type": "`undefined`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "tab-class",
+              "description": "`string / object / array`",
+              "default": "Outer navigation-label class, including title/close button; merged with built-in classes",
+              "value": {
+                "type": "`undefined`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "tab-style",
+              "description": "`StyleValue`",
+              "default": "Outer navigation-label style; supports string, object or array",
+              "value": {
+                "type": "`undefined`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "hide-content",
+              "description": "`boolean`",
+              "default": "Hide the content area",
+              "value": {
+                "type": "`false`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "trigger",
+              "description": "`click / hover`",
+              "default": "Mouse trigger mode; touch always uses click",
+              "value": {
+                "type": "`click`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "scroll-position",
+              "description": "Target position or numeric offset of the selected tab within the navigation scroll viewport, default auto; not popup placement",
+              "default": "Selected-tab scroll position; numbers are start offsets",
+              "value": {
+                "type": "`auto`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "scroll-buttons",
+              "description": "`boolean / auto`",
+              "default": "Show arrows on overflow; auto hides them on touch devices",
+              "value": {
+                "type": "`auto`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "activation-mode",
+              "description": "`automatic / manual`",
+              "default": "Whether arrow keys immediately select",
+              "value": {
+                "type": "`automatic`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "swipeable",
+              "description": "`boolean`",
+              "default": "Horizontal swipe between content panels; no looping",
+              "value": {
+                "type": "`false`",
+                "kind": "expression"
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "update:model-value",
+              "description": "name: string / number"
+            },
+            {
+              "name": "change",
+              "description": "name: string / number"
+            },
+            {
+              "name": "tab-click",
+              "description": "name, event: Event"
+            },
+            {
+              "name": "add",
+              "description": "event: Event"
+            },
+            {
+              "name": "delete",
+              "description": "name, event: Event"
+            }
+          ],
+          "slots": [
+            {
+              "name": "Tabs",
+              "description": "default"
+            },
+            {
+              "name": "TabPane",
+              "description": "default / title"
+            },
+            {
+              "name": "TabsNavs",
+              "description": "default"
+            },
+            {
+              "name": "TabsNavs",
+              "description": "prefix / suffix / add-icon"
+            },
+            {
+              "name": "TabNav",
+              "description": "title / default / icon"
+            },
+            {
+              "name": "TabsItems",
+              "description": "default"
+            },
+            {
+              "name": "TabItem",
+              "description": "default"
+            }
+          ]
         },
         {
           "name": "mp-tag",
@@ -9348,7 +11191,7 @@
             },
             {
               "name": "icon",
-              "description": "Leading icon"
+              "description": "The prepend icon of alert"
             },
             {
               "name": "close-icon",
@@ -9424,7 +11267,7 @@
             },
             {
               "name": "disabled",
-              "description": "Disables editing",
+              "description": "Whether disabled",
               "default": "undefined",
               "value": {
                 "type": "boolean",
@@ -9433,7 +11276,7 @@
             },
             {
               "name": "readonly",
-              "description": "Makes the value read-only",
+              "description": "Whether readonly",
               "default": "undefined",
               "value": {
                 "type": "boolean",
@@ -9442,7 +11285,7 @@
             },
             {
               "name": "error",
-              "description": "Enables the visual error state",
+              "description": "Show the error state",
               "default": "undefined",
               "value": {
                 "type": "boolean",
@@ -9487,7 +11330,7 @@
             },
             {
               "name": "show-word-limit",
-              "description": "Shows the length counter",
+              "description": "Show the character counter",
               "default": "false",
               "value": {
                 "type": "boolean",
@@ -9523,7 +11366,7 @@
             },
             {
               "name": "autofocus",
-              "description": "Focuses after mount",
+              "description": "Focus automatically after mount",
               "default": "false",
               "value": {
                 "type": "boolean",
@@ -9532,7 +11375,7 @@
             },
             {
               "name": "enterkeyhint",
-              "description": "Virtual-keyboard Enter hint",
+              "description": "Virtual keyboard Enter hint",
               "default": "-",
               "value": {
                 "type": "string",
@@ -9613,11 +11456,11 @@
             },
             {
               "name": "focus",
-              "description": "Focus"
+              "description": "Emitted on focus"
             },
             {
               "name": "blur",
-              "description": "Blur"
+              "description": "Emitted on blur"
             }
           ],
           "slots": [
@@ -9631,7 +11474,7 @@
             },
             {
               "name": "clear-icon",
-              "description": "Custom clear control"
+              "description": "Clear icon or button"
             }
           ]
         },
@@ -9646,7 +11489,7 @@
           "attributes": [
             {
               "name": "v-model",
-              "description": "Model value",
+              "description": "Bound value",
               "default": "-",
               "value": {
                 "type": "TimeValue",
@@ -9659,6 +11502,15 @@
               "default": "-",
               "value": {
                 "type": "TimeValue",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "hide-disabled-options",
+              "description": "Hide disabled time options; clock tick positions remain",
+              "default": "false",
+              "value": {
+                "type": "boolean",
                 "kind": "expression"
               }
             },
@@ -9681,8 +11533,17 @@
               }
             },
             {
+              "name": "open-trigger-target",
+              "description": "Pointer opening area: field includes the whole field; icon uses only the suffix trigger. Clear/remove actions are excluded; explicit keyboard opening and controlled open remain available.",
+              "default": "'field'",
+              "value": {
+                "type": "`'field' | 'icon'`",
+                "kind": "expression"
+              }
+            },
+            {
               "name": "disable-confirm",
-              "description": "Commit a valid choice immediately and request close",
+              "description": "Valid selection commits immediately and requests closing",
               "default": "false",
               "value": {
                 "type": "boolean",
@@ -9727,7 +11588,7 @@
             },
             {
               "name": "min",
-              "description": "Minimum time",
+              "description": "Minimum selectable time",
               "default": "-",
               "value": {
                 "type": "string",
@@ -9736,7 +11597,7 @@
             },
             {
               "name": "max",
-              "description": "Maximum time",
+              "description": "Maximum selectable time",
               "default": "-",
               "value": {
                 "type": "string",
@@ -9781,7 +11642,7 @@
             },
             {
               "name": "picker-props",
-              "description": "Props passed to `mp-picker`",
+              "description": "Props forwarded to `mp-picker`",
               "default": "{}",
               "value": {
                 "type": "Partial\\<PickerProps\\>",
@@ -9817,7 +11678,7 @@
             },
             {
               "name": "clearable",
-              "description": "Show clear button",
+              "description": "Whether the value can be cleared",
               "default": "false",
               "value": {
                 "type": "boolean",
@@ -9826,7 +11687,7 @@
             },
             {
               "name": "disabled",
-              "description": "Disabled",
+              "description": "Whether disabled",
               "default": "false",
               "value": {
                 "type": "boolean",
@@ -9835,7 +11696,7 @@
             },
             {
               "name": "readonly",
-              "description": "Readonly",
+              "description": "Whether readonly",
               "default": "false",
               "value": {
                 "type": "boolean",
@@ -9864,27 +11725,11 @@
           "events": [
             {
               "name": "focus",
-              "description": "Emitted on focus"
+              "description": "Focused"
             },
             {
               "name": "blur",
-              "description": "Emitted on blur"
-            },
-            {
-              "name": "click",
-              "description": "Emitted on click"
-            },
-            {
-              "name": "clear",
-              "description": "Cleared"
-            },
-            {
-              "name": "open-change",
-              "description": "Visibility request"
-            },
-            {
-              "name": "click",
-              "description": "Enabled field click (including readonly)"
+              "description": "Blur"
             },
             {
               "name": "change",
@@ -9893,28 +11738,24 @@
             {
               "name": "select",
               "description": "User draft selection"
+            },
+            {
+              "name": "clear",
+              "description": "Clear the selection"
+            },
+            {
+              "name": "open-change",
+              "description": "Visibility request"
+            },
+            {
+              "name": "click",
+              "description": "Enabled field click (including readonly)"
             }
           ],
           "slots": [
             {
-              "name": "selected",
-              "description": "Selected content"
-            },
-            {
-              "name": "prefix",
-              "description": "Prefix"
-            },
-            {
-              "name": "clear-icon",
-              "description": "Clear icon"
-            },
-            {
-              "name": "suffix",
-              "description": "Suffix"
-            },
-            {
-              "name": "suffix-icon",
-              "description": "Field icon"
+              "name": "actions",
+              "description": "Replace panel actions"
             }
           ]
         },
@@ -9923,7 +11764,7 @@
           "attributes": [
             {
               "name": "v-model",
-              "description": "Model value",
+              "description": "Bound value",
               "default": "-",
               "value": {
                 "type": "TimeValue[]",
@@ -9936,6 +11777,15 @@
               "default": "-",
               "value": {
                 "type": "TimeValue[]",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "hide-disabled-options",
+              "description": "Hide disabled time options; clock tick positions remain",
+              "default": "false",
+              "value": {
+                "type": "boolean",
                 "kind": "expression"
               }
             },
@@ -9958,8 +11808,17 @@
               }
             },
             {
+              "name": "open-trigger-target",
+              "description": "Pointer opening area: field includes the whole field; icon uses only the suffix trigger. Clear/remove actions are excluded; explicit keyboard opening and controlled open remain available.",
+              "default": "'field'",
+              "value": {
+                "type": "`'field' | 'icon'`",
+                "kind": "expression"
+              }
+            },
+            {
               "name": "disable-confirm",
-              "description": "Commit a valid choice immediately and request close",
+              "description": "Valid selection commits immediately and requests closing",
               "default": "false",
               "value": {
                 "type": "boolean",
@@ -10004,7 +11863,7 @@
             },
             {
               "name": "min",
-              "description": "Min time",
+              "description": "Minimum selectable time",
               "default": "-",
               "value": {
                 "type": "string",
@@ -10013,7 +11872,7 @@
             },
             {
               "name": "max",
-              "description": "Max time",
+              "description": "Maximum selectable time",
               "default": "-",
               "value": {
                 "type": "string",
@@ -10058,7 +11917,7 @@
             },
             {
               "name": "show-next-day",
-              "description": "Allow overnight ranges and show a next-day marker. Otherwise a reversed draft shows an error and disables confirmation",
+              "description": "Allow end before start as next day. Otherwise reversed drafts show a red warning and disable confirmation. Endpoints never swap",
               "default": "false",
               "value": {
                 "type": "boolean",
@@ -10085,7 +11944,7 @@
             },
             {
               "name": "popup-props",
-              "description": "Props for popup",
+              "description": "Props passed to popup",
               "default": "{}",
               "value": {
                 "type": "Partial\\<TriggerProps\\>",
@@ -10112,7 +11971,7 @@
             },
             {
               "name": "clearable",
-              "description": "Clearable",
+              "description": "Whether the value can be cleared",
               "default": "false",
               "value": {
                 "type": "boolean",
@@ -10121,7 +11980,7 @@
             },
             {
               "name": "disabled",
-              "description": "Disabled",
+              "description": "Whether disabled",
               "default": "false",
               "value": {
                 "type": "boolean",
@@ -10130,7 +11989,7 @@
             },
             {
               "name": "readonly",
-              "description": "Readonly",
+              "description": "Whether readonly",
               "default": "false",
               "value": {
                 "type": "boolean",
@@ -10139,7 +11998,7 @@
             },
             {
               "name": "size",
-              "description": "`xs` `sm` `md` `lg` `xl`",
+              "description": "Size: `xs` `sm` `md` `lg` `xl`",
               "default": "md",
               "value": {
                 "type": "ComponentSize",
@@ -10148,7 +12007,7 @@
             },
             {
               "name": "variant",
-              "description": "`filled` | `standard` | `outline`",
+              "description": "Variant: `filled` `standard` `outline`",
               "default": "standard",
               "value": {
                 "type": "string",
@@ -10163,7 +12022,7 @@
             },
             {
               "name": "blur",
-              "description": "Blurred"
+              "description": "Blur"
             },
             {
               "name": "change",
@@ -10175,7 +12034,7 @@
             },
             {
               "name": "clear",
-              "description": "Cleared"
+              "description": "Clear the selection"
             },
             {
               "name": "open-change",
@@ -10216,7 +12075,7 @@
             },
             {
               "name": "content",
-              "description": "Tooltip content",
+              "description": "Hint content",
               "default": "—",
               "value": {
                 "type": "`string`",
@@ -10243,7 +12102,7 @@
             },
             {
               "name": "color",
-              "description": "Custom background",
+              "description": "Background color",
               "default": "—",
               "value": {
                 "type": "`string`",
@@ -10270,7 +12129,7 @@
             },
             {
               "name": "placement",
-              "description": "Preferred placement",
+              "description": "Preferred popup side relative to the trigger, default top. With the default auto-fit-position enabled, Trigger may flip and constrain it to the viewport when space is limited; this is not a fixed final position",
               "default": "top",
               "value": {
                 "type": "`TriggerPlacement`",
@@ -10306,7 +12165,7 @@
             },
             {
               "name": "popup-container",
-              "description": "Teleport target; false renders inline",
+              "description": "Render target; false renders locally",
               "default": "body",
               "value": {
                 "type": "`string | HTMLElement | false`",
@@ -10315,7 +12174,7 @@
             },
             {
               "name": "reference",
-              "description": "External reference element",
+              "description": "External trigger element",
               "default": "—",
               "value": {
                 "type": "`string | HTMLElement | SVGElement`",
@@ -10368,17 +12227,17 @@
             },
             {
               "name": "click-outside",
-              "description": "The pointer activated outside the floating layer"
+              "description": "Clicked outside the popup"
             }
           ],
           "slots": [
             {
               "name": "default",
-              "description": "Reference element"
+              "description": "Trigger element"
             },
             {
               "name": "content",
-              "description": "Tooltip content; falls back to the `content` prop"
+              "description": "Tooltip `content`; falls back to `content`"
             }
           ]
         },
@@ -10432,7 +12291,7 @@
             },
             {
               "name": "placement",
-              "description": "Twelve standard placements",
+              "description": "Preferred popup side relative to the trigger, default bottom. With the default auto-fit-position enabled, Trigger may flip and constrain it to the viewport when space is limited; this is not a fixed final position",
               "default": "bottom",
               "value": {
                 "type": "TriggerPlacement",
@@ -10486,7 +12345,7 @@
             },
             {
               "name": "popup-container",
-              "description": "Teleport target; false renders inline",
+              "description": "Render target; false renders locally",
               "default": "body",
               "value": {
                 "type": "string | HTMLElement | false",
@@ -10667,7 +12526,242 @@
         },
         {
           "name": "mp-upload",
-          "attributes": [],
+          "attributes": [
+            {
+              "name": "model-value / default-value",
+              "description": "UploadFileItem[]",
+              "default": "",
+              "value": {
+                "type": "Controlled value / uncontrolled initial []",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "accept / capture",
+              "description": "string / native capture",
+              "default": "",
+              "value": {
+                "type": "Unspecified",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "multiple / directory / draggable",
+              "description": "boolean",
+              "default": "",
+              "value": {
+                "type": "false",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "disabled / readonly",
+              "description": "boolean",
+              "default": "",
+              "value": {
+                "type": "undefined inherits Form; explicit false overrides",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "action / method",
+              "description": "string",
+              "default": "",
+              "value": {
+                "type": "None / post",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "headers / data",
+              "description": "object or async(file) => object",
+              "default": "",
+              "value": {
+                "type": "Cancelable during request preparation",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "name",
+              "description": "string / (file) => string",
+              "default": "",
+              "value": {
+                "type": "file",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "with-credentials",
+              "description": "boolean",
+              "default": "",
+              "value": {
+                "type": "false",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "custom-request",
+              "description": "(UploadRequestOptions) => UploadRequest / Promise / void",
+              "default": "",
+              "value": {
+                "type": "Custom transport; may return abort",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "auto-upload",
+              "description": "boolean",
+              "default": "",
+              "value": {
+                "type": "true; requires action or custom-request to start",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "max-files / max-file-size / max-total-size",
+              "description": "number",
+              "default": "",
+              "value": {
+                "type": "Unspecified; sizes use bytes, max-files applies when >0",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "resolve-type",
+              "description": "file / data-url / object-url",
+              "default": "",
+              "value": {
+                "type": "object-url; all files get url, images also get thumbnailUrl",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "create-thumbnail-url",
+              "description": "(options) => string / Promise",
+              "default": "",
+              "value": {
+                "type": "Custom URLs belong to callers and are not automatically revoked",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "before-add",
+              "description": "async(files) => File[]",
+              "default": "",
+              "value": {
+                "type": "Batch filtering/replacement",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "before-read",
+              "description": "async(file) => boolean / File",
+              "default": "",
+              "value": {
+                "type": "false/rejection rejects; replacements are revalidated",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "before-upload",
+              "description": "async(item) => boolean / File / Blob",
+              "default": "",
+              "value": {
+                "type": "false/rejection cancels preparation; replacements are revalidated",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "before-remove",
+              "description": "async(item,list) => boolean",
+              "default": "",
+              "value": {
+                "type": "false/rejection prevents removal",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "is-success-response",
+              "description": "(xhr,item) => boolean",
+              "default": "",
+              "value": {
+                "type": "HTTP 2xx by default",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "request-choose",
+              "description": "(chooseFile,event) => void / Promise",
+              "default": "",
+              "value": {
+                "type": "Own the selection entry; exceptions do not automatically open a file chooser",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "list-type",
+              "description": "text / picture / picture-card",
+              "default": "",
+              "value": {
+                "type": "text; supported on both platforms",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "image-fit",
+              "description": "fill / contain / cover / none / scale-down",
+              "default": "",
+              "value": {
+                "type": "cover; item.fit overrides",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "preview",
+              "description": "boolean",
+              "default": "",
+              "value": {
+                "type": "true",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show-file-list / show-upload-button / show-remove-button",
+              "description": "boolean",
+              "default": "",
+              "value": {
+                "type": "true",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show-retry-button / show-cancel-button / show-preview-button",
+              "description": "boolean",
+              "default": "",
+              "value": {
+                "type": "true",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show-download-button",
+              "description": "boolean",
+              "default": "",
+              "value": {
+                "type": "false; disabled prevents interaction",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "elevation / ripple",
+              "description": "boolean or number / boolean",
+              "default": "",
+              "value": {
+                "type": "false / true",
+                "kind": "expression"
+              }
+            }
+          ],
           "events": [],
           "slots": []
         },
@@ -10679,9 +12773,206 @@
         },
         {
           "name": "mp-verification-code",
-          "attributes": [],
-          "events": [],
-          "slots": []
+          "attributes": [
+            {
+              "name": "model-value",
+              "description": "Controlled complete code",
+              "default": "undefined",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-value",
+              "description": "Uncontrolled initial value",
+              "default": "''",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "length",
+              "description": "Positive integer cell count, measured in Unicode code points",
+              "default": "6",
+              "value": {
+                "type": "`number`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "type",
+              "description": "Character set",
+              "default": "digit",
+              "value": {
+                "type": "`digit / text / alphanumeric`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "size",
+              "description": "Five wrapper sizes",
+              "default": "Inherited / md",
+              "value": {
+                "type": "`xs / sm / md / lg / xl`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "variant",
+              "description": "Input variant",
+              "default": "Inherited / outline",
+              "value": {
+                "type": "`filled / outline / standard`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "disabled / readonly / error",
+              "description": "State; explicit values override Form",
+              "default": "undefined",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "masked",
+              "description": "Visual character masking only, not encryption",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "mask-symbol",
+              "description": "Use the first Unicode code point",
+              "default": "•",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "autofocus",
+              "description": "Focus the first empty cell after mounting",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "gutter",
+              "description": "Cell gap; numbers are px",
+              "default": "Component token",
+              "value": {
+                "type": "`number / string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "align",
+              "description": "Horizontal alignment",
+              "default": "center",
+              "value": {
+                "type": "`start / center / end`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "allow-paste",
+              "description": "Allow pasting; false prevents native paste",
+              "default": "true",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "paste-transform",
+              "description": "Paste preprocessing, before type/formatter",
+              "default": "undefined",
+              "value": {
+                "type": "`(text: string) => string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "formatter",
+              "description": "Per-character formatting: false rejects; true/undefined retains. A returned string contributes its first valid code point",
+              "default": "undefined",
+              "value": {
+                "type": "`(character, index, value) => string / boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "separator",
+              "description": "Separator after each nonfinal cell",
+              "default": "undefined",
+              "value": {
+                "type": "`(index, character) => VNodeChild`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "aria-label",
+              "description": "Group name and numbered cell labels",
+              "default": "undefined",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "text-color / focus-color / blur-color",
+              "description": "Dynamic instance colors; prefer tokens for static themes",
+              "default": "undefined",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "input",
+              "description": "character, index, event"
+            },
+            {
+              "name": "update:model-value",
+              "description": "value"
+            },
+            {
+              "name": "change",
+              "description": "value"
+            },
+            {
+              "name": "finish",
+              "description": "value"
+            },
+            {
+              "name": "paste",
+              "description": "text, event"
+            },
+            {
+              "name": "focus / blur",
+              "description": "FocusEvent"
+            },
+            {
+              "name": "click",
+              "description": "MouseEvent"
+            }
+          ],
+          "slots": [
+            {
+              "name": "separator",
+              "description": "{ index, character }"
+            }
+          ]
         },
         {
           "name": "mp-watermark",
@@ -10724,7 +13015,7 @@
             },
             {
               "name": "gap",
-              "description": "Horizontal and vertical spacing",
+              "description": "Watermark gap `[x, y]`",
               "default": "[90, 90]",
               "value": {
                 "type": "`[number, number]`",
@@ -10742,7 +13033,7 @@
             },
             {
               "name": "rotate",
-              "description": "Rotation in degrees",
+              "description": "Rotation angle",
               "default": "-22",
               "value": {
                 "type": "`number`",
@@ -10822,8 +13113,18 @@
               }
             }
           ],
-          "events": [],
-          "slots": []
+          "events": [
+            {
+              "name": "error",
+              "description": "Image loading or Canvas rendering failed"
+            }
+          ],
+          "slots": [
+            {
+              "name": "default",
+              "description": "Page content covered by the watermark"
+            }
+          ]
         }
       ],
       "types-syntax": "typescript"

@@ -16,7 +16,7 @@ function record(name, value, dates) {
 </script>
 
 <template>
-  <div style="display: flex; flex-direction: column; gap: 12px; width: 100%">
+  <mp-space direction="column" size="12px" style="width: 100%">
     <mp-checkbox v-model="readonly">只读：可聚焦，不可修改</mp-checkbox>
     <mp-checkbox v-model="disabled">禁用：释放焦点，不可修改</mp-checkbox>
     <mp-checkbox v-model="immediate">选择后立即提交</mp-checkbox>
@@ -40,5 +40,5 @@ function record(name, value, dates) {
     <mp-button variant="outline" @click="value = ['15:30', '18:00']">从外部替换模型</mp-button>
     <small>外部替换会更新反显，不触发 select 或 change。</small>
     <div v-for="(event, index) in events" :key="index" style="overflow-wrap: anywhere">{{ event }}</div>
-  </div>
+  </mp-space>
 </template>

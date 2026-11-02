@@ -1,0 +1,8 @@
+
+> cedar-design-web-monorepo@1.0.0 lint /Users/shuaimeng/github_web/cedar-design-web
+> pnpm --filter @cedar-design/ui lint
+
+
+> @cedar-design/ui@1.0.0 lint /Users/shuaimeng/github_web/cedar-design-web/packages/cedar-ui
+> eslint src --ext .vue,.js,.ts,.tsx --max-warnings 0
+

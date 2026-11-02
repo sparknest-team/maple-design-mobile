@@ -6,7 +6,7 @@ withInstall(Popup)
 withPropsDefaultsSetter(Popup, popupProps)
 
 export { popupProps }
-export type { PopupPlacement, PopupProps } from './props'
+export type { PopupPlacement, PopupProps, PopupCloseReason, PopupBeforeClose } from './props'
 
 export type PopupInstance = InstanceType<typeof Popup>
 export const _PopupComponent: typeof Popup = Popup

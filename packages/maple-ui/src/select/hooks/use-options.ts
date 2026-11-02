@@ -1,6 +1,7 @@
 import type { Ref } from 'vue'
 import { computed, reactive, ref, watch } from 'vue'
 import { isNumber } from '../../_utils/is'
+import type { OptionSearchField } from '../../utils/option-data'
 import type { FilterOption, SelectFieldNames, SelectOption, SelectOptionInfo } from '../types'
 import { getOptionInfos, getValidOptions, isValidOption } from '../utils'
 
@@ -17,6 +18,8 @@ export const useOptions = ({
   extraOptions,
   inputValue,
   filterOption,
+  caseSensitive,
+  searchFields,
   showExtraOptions,
   fieldNames,
 }: {
@@ -24,6 +27,8 @@ export const useOptions = ({
   extraOptions?: Ref<SelectOption[]>
   inputValue?: Ref<string>
   filterOption?: Ref<FilterOption>
+  caseSensitive?: Ref<boolean>
+  searchFields?: Ref<readonly OptionSearchField[]>
   showExtraOptions?: Ref<boolean>
   fieldNames?: Ref<SelectFieldNames | undefined>
 }) => {
@@ -100,12 +105,16 @@ export const useOptions = ({
     const options = getValidOptions(propOptionData.value.optionInfos, {
       inputValue: inputValue?.value,
       filterOption: filterOption?.value,
+      caseSensitive: caseSensitive?.value,
+      searchFields: searchFields?.value,
     })
     if (showExtraOptions?.value ?? true) {
       options.push(
         ...getValidOptions(extraOptionData.value.optionInfos, {
           inputValue: inputValue?.value,
           filterOption: filterOption?.value,
+          caseSensitive: caseSensitive?.value,
+          searchFields: searchFields?.value,
         }),
       )
     }
@@ -120,6 +129,8 @@ export const useOptions = ({
       return isValidOption(optionInfo, {
         inputValue: inputValue?.value,
         filterOption: filterOption?.value,
+        caseSensitive: caseSensitive?.value,
+        searchFields: searchFields?.value,
       })
     }),
   )

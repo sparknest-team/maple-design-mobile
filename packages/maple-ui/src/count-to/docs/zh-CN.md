@@ -1,10 +1,10 @@
 # 数字动画
 
-## 案例
-
 ### 介绍
 
 展示起始数值到目标数值的数字动画。
+
+## 基础示例
 
 ### 基本使用
 
@@ -14,21 +14,45 @@
 ../example/demos/basic-usage.vue
 ```
 
-### 精度
+## 内容与展示
+
+### 精度、时长与动画曲线
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `to` | 目标值 | 精度、时长与动画曲线 |
+| `precision` | 精度 | 精度、时长与动画曲线 |
+| `duration` | 动画持续时间（单位：毫秒） | 精度、时长与动画曲线 |
+| `timing-function` | 动画曲线函数 | 精度、时长与动画曲线 |
+<!-- demo-config-notes:end -->
+
+比较小数精度对最终文本的影响，以及时长和缓动曲线对数字变化过程的影响；手动启动、暂停另行展示。
+
+<details>
+<summary>配置说明与使用限制</summary>
+
+#### 精度
 
 通过 `precision` 控制数值精度
 
-```demo
-../example/demos/precision.vue
-```
-
-### 自定义时长
+#### 自定义时长
 
 通过 `duration` 属性指定动画时长（单位为毫秒）。
 
+#### 自定义动画曲线
+
+通过 `timing-function` 属性指定动画曲线。
+
+</details>
+
 ```demo
-../example/demos/custom-duration.vue
+../example/demos/number-format-comparison.vue
 ```
+
+## 自定义与插槽
 
 ### 自定义样式
 
@@ -36,30 +60,24 @@
 ../example/demos/custom-style.vue
 ```
 
-### 自定义动画曲线
-
-通过 `timing-function` 属性指定动画曲线。
-
-```demo
-../example/demos/custom-animation-curve.vue
-```
+## 交互与控制
 
 ### 手动控制
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `to` | 目标值 | 手动控制 |
+| `auto-start` | 是否自动开始播放动画 | 手动控制 |
+<!-- demo-config-notes:end -->
 
 调用 `start`、`pause`、`reset` 方法，手动控制动画的开始、暂停、重置。
 
 ```demo
 ../example/demos/manual-control.vue
 ```
-
-<!-- api-review:start -->
-### 功能调试
-
-```demo
-../example/demos/api-review.vue
-```
-
-<!-- api-review:end -->
 
 ## API
 

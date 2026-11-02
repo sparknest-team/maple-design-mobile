@@ -6,6 +6,7 @@ import {
   Fragment,
   h,
   isVNode,
+  mergeProps,
   nextTick,
   onActivated,
   onBeforeUnmount,
@@ -18,6 +19,7 @@ import {
   type CSSProperties,
   type VNode,
 } from 'vue'
+import { useDirection } from '../_utils/direction'
 import { createNamespace } from '../utils/components'
 import { carouselInjectionKey } from './context'
 import { DownIcon, NextIcon, PreviousIcon, UpIcon } from './icons'
@@ -34,6 +36,11 @@ const attrs = useAttrs()
 const text = useCarouselLocale()
 const { n, classes } = createNamespace('carousel')
 const root = ref<HTMLElement>()
+const { isRtl } = useDirection(
+  () => root.value,
+  () => attrs.dir,
+)
+const axisSign = computed(() => (!vertical.value && isRtl.value ? -1 : 1))
 const viewportEl = ref<HTMLElement>()
 const track = ref<HTMLElement>()
 const keys = ref<Array<string | number | symbol>>([])
@@ -42,7 +49,7 @@ const measured = ref<number[]>([])
 const measuredGap = ref(0)
 const local = ref(props.defaultValue)
 const current = computed(() => normalizeIndex((props.modelValue ?? local.value) - 1, keys.value.length))
-const vertical = computed(() => props.direction === 'vertical')
+const vertical = computed(() => props.orientation === 'vertical')
 const layout = computed(() =>
   carouselLayout(
     viewport.value,
@@ -187,7 +194,7 @@ function itemStyle(index: number): CSSProperties {
   const dimension = vertical.value ? 'height' : 'width'
   const shift = itemShift(index)
   return {
-    translate: shift ? (vertical.value ? '0 ' + shift + 'px' : shift + 'px 0') : undefined,
+    translate: shift ? (vertical.value ? '0 ' + shift + 'px' : shift * axisSign.value + 'px 0') : undefined,
     [dimension]:
       props.slidesPerView === 'auto'
         ? 'auto'
@@ -316,7 +323,7 @@ function pointerMove(event: PointerEvent) {
       event.preventDefault()
     }
   }
-  dragOffset.value = props.effect === 'fade' ? 0 : delta
+  dragOffset.value = props.effect === 'fade' ? 0 : delta * axisSign.value
 }
 function pointerUp(event: PointerEvent) {
   if (!pointer || pointer.id !== event.pointerId) {
@@ -331,7 +338,7 @@ function pointerUp(event: PointerEvent) {
     suppressClick = true
   }
   if (shouldMove) {
-    toIndex(current.value + (delta < 0 ? 1 : -1))
+    toIndex(current.value + (delta * axisSign.value < 0 ? 1 : -1))
   }
 }
 function keydown(event: KeyboardEvent) {
@@ -341,8 +348,8 @@ function keydown(event: KeyboardEvent) {
   if (!props.keyboard || editable(event.target) || event.altKey || event.ctrlKey || event.metaKey) {
     return
   }
-  const previous = vertical.value ? 'ArrowUp' : 'ArrowLeft'
-  const following = vertical.value ? 'ArrowDown' : 'ArrowRight'
+  const previous = vertical.value ? 'ArrowUp' : isRtl.value ? 'ArrowRight' : 'ArrowLeft'
+  const following = vertical.value ? 'ArrowDown' : isRtl.value ? 'ArrowLeft' : 'ArrowRight'
   if (![previous, following, 'Home', 'End'].includes(event.key)) {
     return
   }
@@ -490,7 +497,8 @@ watch(
     const transform = track.value && owner?.defaultView?.getComputedStyle(track.value).transform
     if (transform?.startsWith('matrix(')) {
       const matrix = transform.slice(7, -1).split(',').map(Number)
-      from = -(matrix[vertical.value ? 5 : 4] || 0)
+      // CSS matrices are physical; loop windows use logical offsets.
+      from = -(matrix[vertical.value ? 5 : 4] || 0) * axisSign.value
     }
     noMotion.value = false
     motionOffset.value = undefined
@@ -563,7 +571,7 @@ watch(
 )
 watch(
   () => [
-    props.direction,
+    props.orientation,
     props.slidesPerView,
     props.spaceBetween,
     props.effect,
@@ -652,22 +660,32 @@ const Render = () => {
           n(),
           n('--' + props.effect),
           [vertical.value, n('--vertical')],
+          [isRtl.value, n('--rtl')],
           [props.indicatorPosition === 'outer', n('--outer')],
         ),
         attrs.class,
       ],
       style: [duration, { height: toSize(props.height) }, attrs.style as CSSProperties],
-      onMouseenter: () => {
-        hovering.value = true
-        schedule()
-      },
-      onMouseleave: () => {
-        hovering.value = false
-        schedule()
-      },
-      onFocusin: focusin,
-      onFocusout: focusout,
-      onKeydown: keydown,
+      ...mergeProps(
+        {
+          onMouseenter: () => {
+            hovering.value = true
+            schedule()
+          },
+          onMouseleave: () => {
+            hovering.value = false
+            schedule()
+          },
+          onFocusin: focusin,
+          onFocusout: focusout,
+          onKeydown: keydown,
+        },
+        Object.fromEntries(
+          Object.entries(attrs).filter(([key]) =>
+            ['onMouseenter', 'onMouseleave', 'onFocusin', 'onFocusout', 'onKeydown'].includes(key),
+          ),
+        ),
+      ),
     },
     [
       h(
@@ -712,7 +730,7 @@ const Render = () => {
                     : 'translate' +
                       (vertical.value ? 'Y' : 'X') +
                       '(' +
-                      (-renderedOffset.value + dragOffset.value) +
+                      (-renderedOffset.value + dragOffset.value) * axisSign.value +
                       'px)',
                 transitionDuration: dragging.value || noMotion.value ? '0ms' : undefined,
               },
@@ -733,7 +751,7 @@ const Render = () => {
                   disabled: !keys.value.length || (!props.loop && current.value === 0),
                   onClick: () => prev(),
                 },
-                [h(vertical.value ? UpIcon : PreviousIcon)],
+                [h(vertical.value ? UpIcon : isRtl.value ? NextIcon : PreviousIcon)],
               ),
             slots.next?.(scope) ??
               h(
@@ -745,7 +763,7 @@ const Render = () => {
                   disabled: !keys.value.length || (!props.loop && current.value === keys.value.length - 1),
                   onClick: () => next(),
                 },
-                [h(vertical.value ? DownIcon : NextIcon)],
+                [h(vertical.value ? DownIcon : isRtl.value ? PreviousIcon : NextIcon)],
               ),
           ]
         : []),

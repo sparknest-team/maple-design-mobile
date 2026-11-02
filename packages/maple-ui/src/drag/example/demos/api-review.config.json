@@ -1,7 +1,7 @@
 {
   "fields": [
     {
-      "name": "direction",
+      "name": "axis",
       "description": "拖拽方向，可选值 x, y, xy",
       "type": "'x' | 'y' | 'xy'",
       "defaultValue": "'xy'",

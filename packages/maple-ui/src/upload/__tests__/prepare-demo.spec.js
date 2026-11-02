@@ -107,6 +107,7 @@ afterEach(() => wrappers.splice(0).forEach((wrapper) => wrapper.unmount()))
 
 function create(Component) {
   const wrapper = mount(Component, {
+    props: { editMode: 'direct' },
     global: { components: { MpUpload: Upload, MpButton: Button, MpRadioGroup: RadioGroup, MpSpace: Space } },
   })
   wrappers.push(wrapper)
@@ -172,7 +173,9 @@ test.each([
 
 test('deactivating preparation releases the wait and permits a fresh attempt', async () => {
   const enabled = ref(true)
-  const Host = { setup: () => () => h(KeepAlive, null, { default: () => (enabled.value ? h(Demo) : null) }) }
+  const Host = {
+    setup: () => () => h(KeepAlive, null, { default: () => (enabled.value ? h(Demo, { editMode: 'direct' }) : null) }),
+  }
   const wrapper = create(Host)
   await click(wrapper, '加入示例图片')
   await click(wrapper, '准备并提交')

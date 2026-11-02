@@ -21,7 +21,7 @@ const renderOptions = [
 <template>
   <section class="option-demo">
     <p>Field mapping and label slots. Read-only options can receive focus; disabled options cannot be edited.</p>
-    <mp-radio-group v-model="value" :options="options" :field-names="fields" direction="vertical">
+    <mp-radio-group v-model="value" :options="options" :field-names="fields" orientation="vertical">
       <template #label="{ data, checked }">{{ data.label }} {{ checked ? '✓' : '' }}</template>
     </mp-radio-group>
     <p>Current value: {{ JSON.stringify(value) }}</p>

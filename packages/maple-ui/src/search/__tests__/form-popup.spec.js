@@ -43,7 +43,7 @@ describe('Search form and popup interaction', () => {
     const wrapper = mount(Search, {
       attachTo: document.body,
       props: {
-        historyPopup: true,
+        editMode: 'popup',
         recentSearches: ['x'],
         error: true,
         inputAttrs: { name: 'query', autocomplete: 'off', 'aria-describedby': 'query-help' },
@@ -71,7 +71,7 @@ describe('Search form and popup interaction', () => {
           { value: 'name', label: 'Name' },
           { value: 'id', label: 'ID' },
         ],
-        historyPopup: false,
+        editMode: 'direct',
       },
       global: { provide: formContext(onChange) },
     })
@@ -99,7 +99,7 @@ describe('Search form and popup interaction', () => {
     const onChange = vi.fn()
     const wrapper = mount(Search, {
       attachTo: document.body,
-      props: { defaultValue: 'before', historyPopup: true, recentSearches: ['before'] },
+      props: { defaultValue: 'before', editMode: 'popup', recentSearches: ['before'] },
       global: { provide: formContext(onChange) },
     })
     await wrapper.get('input.mp-input__inner').trigger('focus')

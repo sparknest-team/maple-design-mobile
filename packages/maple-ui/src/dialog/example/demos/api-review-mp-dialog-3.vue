@@ -7,15 +7,13 @@ import DemoApiReviewPanel from '../../../../docs/components/ApiReviewPanel.vue'
 import __apiReviewRawConfig from './api-review-mp-dialog-3.config.json'
 
 const loadingOpen = ref(false)
-function buttonLoadingClose(action, done, refs) {
+function buttonLoadingClose({ action }, done) {
   if (action !== 'confirm') {
     done()
     return
   }
 
-  refs.confirmButtonLoading.value = true
   setTimeout(() => {
-    refs.confirmButtonLoading.value = false
     done()
     Message.success('confirm')
   }, 1000)

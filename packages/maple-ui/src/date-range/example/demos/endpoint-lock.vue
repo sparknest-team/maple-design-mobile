@@ -11,12 +11,12 @@ const selections = ref(0)
 <template>
   <section class="date-range-lock-demo">
     <p>本地日期：锁定一个端点，修改另一端并确认。两端都锁定时不允许选择；切换锁定不提交草稿。</p>
-    <mp-checkbox v-model="lockStart">锁定起点</mp-checkbox>
-    <mp-checkbox v-model="lockEnd">锁定终点</mp-checkbox>
+    <mp-checkbox v-model="lockStart" edit-mode="direct">锁定起点</mp-checkbox>
+    <mp-checkbox v-model="lockEnd" edit-mode="direct">锁定终点</mp-checkbox>
     <mp-button html-type="button" @click="value = ['2026-09-18', '2026-09-22']">外部改为18~22</mp-button>
     <mp-date-range-picker
       v-model="value"
-      presentation="calendar"
+      editMode="calendar"
       :disable-confirm="false"
       :disabled="[lockStart, lockEnd]"
       @select="selections++"

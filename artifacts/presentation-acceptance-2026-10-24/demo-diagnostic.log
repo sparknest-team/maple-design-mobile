@@ -1,0 +1,44 @@
+PASS {"surface":"desktop","theme":"light","demo":"field-components.vue"}
+PASS {"surface":"desktop","theme":"light","demo":"field-choice.vue"}
+PASS {"surface":"desktop","theme":"light","demo":"field-rating.vue"}
+PASS {"surface":"desktop","theme":"light","demo":"field-date.vue"}
+PASS {"surface":"desktop","theme":"light","demo":"field-time.vue"}
+PASS {"surface":"desktop","theme":"light","demo":"field-selection.vue"}
+FAIL {"surface":"desktop","theme":"light","demo":"field-tree.vue"} TimeoutError: locator.click: Timeout 5000ms exceeded.
+Call log:
+[2m  - waiting for locator('.mp-field-presentation__panel').filter({ visible: true }).last().getByText('华北', { exact: true }).filter({ visible: true }).last()[22m
+
+PASS {"surface":"desktop","theme":"light","demo":"field-upload.vue"}
+PASS {"surface":"desktop","theme":"dark","demo":"field-components.vue"}
+PASS {"surface":"desktop","theme":"dark","demo":"field-choice.vue"}
+PASS {"surface":"desktop","theme":"dark","demo":"field-rating.vue"}
+PASS {"surface":"desktop","theme":"dark","demo":"field-date.vue"}
+PASS {"surface":"desktop","theme":"dark","demo":"field-time.vue"}
+PASS {"surface":"desktop","theme":"dark","demo":"field-selection.vue"}
+FAIL {"surface":"desktop","theme":"dark","demo":"field-tree.vue"} TimeoutError: locator.click: Timeout 5000ms exceeded.
+Call log:
+[2m  - waiting for locator('.mp-field-presentation__panel').filter({ visible: true }).last().getByText('华北', { exact: true }).filter({ visible: true }).last()[22m
+
+PASS {"surface":"desktop","theme":"dark","demo":"field-upload.vue"}
+PASS {"surface":"mobile","theme":"light","demo":"field-components.vue"}
+PASS {"surface":"mobile","theme":"light","demo":"field-choice.vue"}
+PASS {"surface":"mobile","theme":"light","demo":"field-rating.vue"}
+PASS {"surface":"mobile","theme":"light","demo":"field-date.vue"}
+FAIL {"surface":"mobile","theme":"light","demo":"field-time.vue"} Error: locator.evaluate: Target page, context or browser has been closed
+node:internal/modules/run_main:128
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: all presentation acceptance cases pass
+
+3 !== 0
+
+    at file:///Users/shuaimeng/github_web/maple-design-mobile/artifacts/presentation-acceptance-2026-10-24/presentation-browser.mjs:161:72 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 3,
+  expected: 0,
+  operator: 'strictEqual'
+}
+
+Node.js v20.18.3

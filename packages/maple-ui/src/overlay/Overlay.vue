@@ -5,6 +5,7 @@
         v-if="shouldRender"
         v-show="mergedOpen"
         ref="overlayRoot"
+        :dir="readingDirection"
         :class="n()"
         :style="{ zIndex: mergedZIndex }"
         v-bind="$attrs"
@@ -24,8 +25,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onActivated, onDeactivated, ref } from 'vue'
+import { computed, onActivated, onDeactivated, ref, useAttrs } from 'vue'
 import { useEventListener } from '@maple-design/use'
+import { useDirection } from '../_utils/direction'
 import { useZIndex } from '../context/zIndex'
 import { createNamespace } from '../utils/components'
 import { usePopupContainer } from '../utils/popup-container'
@@ -40,6 +42,8 @@ defineOptions({
 })
 
 const props = defineProps(overlayProps)
+const directionAttrs = useAttrs()
+const { dir: readingDirection } = useDirection(undefined, () => directionAttrs.dir)
 const emit = defineEmits<{
   (event: 'update:open', value: boolean): void
   (event: 'open' | 'opened' | 'close' | 'closed'): void

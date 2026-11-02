@@ -9,7 +9,7 @@ const gradient = ref(false)
 </script>
 <template>
   <DemoApiReviewPanel v-slot="__apiReview" v-bind="defineReviewConfig(__apiReviewRawConfig)">
-    <div style="display: grid; gap: 16px">
+    <mp-space direction="column" size="16px">
       <mp-switch v-model="gradient" aria-label="Gradient" />
       <mp-progress
         :percent="65"
@@ -24,7 +24,7 @@ const gradient = ref(false)
             :controls="__apiReview.controls"
             :record="__apiReview.record" /></template
       ></mp-progress>
-      <div style="display: flex; gap: 24px">
+      <mp-space wrap size="24px">
         <mp-progress
           mode="circle"
           :percent="65"
@@ -49,7 +49,7 @@ const gradient = ref(false)
             >{{ percent }} / 100</template
           ></mp-progress
         >
-      </div>
-    </div>
+      </mp-space>
+    </mp-space>
   </DemoApiReviewPanel>
 </template>

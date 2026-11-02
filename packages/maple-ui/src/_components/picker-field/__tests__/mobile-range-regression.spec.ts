@@ -72,7 +72,7 @@ async function setup(config: RangeCase, entry: Entry, scenario: Scenario, showNe
       modelValue: initial,
       disableConfirm: false,
       ...(config.timeOnly ? { format: config.format, showNextDay } : { showTime: config.showTime }),
-      ...(entry === 'popup' ? { presentation: 'popup', popupContainer: false } : {}),
+      ...(entry === 'popup' ? { editMode: 'popup', popupContainer: false } : {}),
     },
   })
   wrappers.push(wrapper)

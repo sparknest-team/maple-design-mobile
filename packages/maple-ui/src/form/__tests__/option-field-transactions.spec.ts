@@ -26,7 +26,7 @@ const deferred = () => {
 function fixture(
   name: string,
   Field: any,
-  presentation: string,
+  editMode: string,
   props: Record<string, any>,
   extra: Record<string, any> = {},
   reject = false,
@@ -53,7 +53,7 @@ function fixture(
             h(Field, {
               ...props,
               ...extra,
-              presentation,
+              editMode,
               disabled: state.fieldDisabled,
               readonly: state.fieldReadonly,
               modelValue: model.value,
@@ -85,12 +85,12 @@ function fixture(
   return { wrapper, model, state, panel, open, change, confirm }
 }
 for (const [name, Field, props] of cases) {
-  for (const presentation of ['popup']) {
-    describe(`${name} ${presentation} Form transactions`, () => {
+  for (const editMode of ['popup']) {
+    describe(`${name} ${editMode} Form transactions`, () => {
       it('locks during asynchronous confirmation and preserves a rejected draft', async () => {
         const task = deferred()
         const commit = vi.fn((_value: unknown) => task.promise)
-        const f = fixture(name, Field, presentation, props, { beforeCommit: commit })
+        const f = fixture(name, Field, editMode, props, { beforeCommit: commit })
         try {
           await f.open()
           await f.change()
@@ -113,7 +113,7 @@ for (const [name, Field, props] of cases) {
           expect(f.wrapper.get('[aria-haspopup=dialog]').attributes('aria-expanded')).toBe('true')
           commit.mockResolvedValueOnce(undefined)
           await f.confirm()
-          expect(commit.mock.calls[1][0]).toBe('new')
+          expect(commit.mock.calls[1][0]).toEqual({ value: 'new', previousValue: 'old' })
           expect(f.model.value).toBe('new')
         } finally {
           task.resolve()
@@ -121,7 +121,7 @@ for (const [name, Field, props] of cases) {
         }
       })
       it('retains failed validation and lets a corrected candidate commit', async () => {
-        const f = fixture(name, Field, presentation, props, {}, true)
+        const f = fixture(name, Field, editMode, props, {}, true)
         try {
           await f.open()
           await f.change()
@@ -141,8 +141,8 @@ for (const [name, Field, props] of cases) {
       it('reset aborts pending confirmation and discards late completion', async () => {
         const task = deferred()
         let signal: AbortSignal | undefined
-        const f = fixture(name, Field, presentation, props, {
-          beforeCommit: (_value: unknown, ctx: { signal: AbortSignal }) => {
+        const f = fixture(name, Field, editMode, props, {
+          beforeCommit: (_payload: unknown, _done: unknown, ctx: { signal: AbortSignal }) => {
             signal = ctx.signal
             return task.promise
           },
@@ -173,7 +173,7 @@ for (const [name, Field, props] of cases) {
       for (const restriction of ['disabled', 'readonly'] as const) {
         it(`inherits ${restriction}, permits explicit false, and cancels a pending draft when blocked`, async () => {
           const task = deferred()
-          const f = fixture(name, Field, presentation, props, { beforeCommit: () => task.promise })
+          const f = fixture(name, Field, editMode, props, { beforeCommit: () => task.promise })
           try {
             await f.wrapper.setProps({ [restriction]: true })
             await f.open()
@@ -200,11 +200,11 @@ for (const [name, Field, props] of cases) {
   }
 }
 
-for (const presentation of ['popup']) {
-  it(`AutoComplete ${presentation} reset ignores a late search result and cannot reopen the editor`, async () => {
+for (const editMode of ['popup']) {
+  it(`AutoComplete ${editMode} reset ignores a late search result and cannot reopen the editor`, async () => {
     const remote = reactive({ options: ['old'], filterOption: false, shouldOpen: () => true })
     const search = vi.fn()
-    const f = fixture('AutoComplete', AutoComplete, presentation, remote, { onSearch: search })
+    const f = fixture('AutoComplete', AutoComplete, editMode, remote, { onSearch: search })
     try {
       await f.open()
       await f.change('query')

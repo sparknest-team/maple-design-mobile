@@ -12,7 +12,8 @@
     "disabled": "禁用与单页隐藏",
     "auto-adjust": "数据变化与自动调整",
     "responsive": "容器宽度与窄屏布局",
-    "api-review": "功能调试"
+    "api-review": "功能调试",
+    "auxiliary-controls-comparison": "总数、每页条数与跳页"
   },
   "en-US": {
     "basic": "Basic and two-way binding",
@@ -27,6 +28,7 @@
     "disabled": "Disabled and hide on single page",
     "auto-adjust": "Data changes and auto adjustment",
     "responsive": "Container width and compact layout",
-    "api-review": "Feature playground"
+    "api-review": "Feature playground",
+    "auxiliary-controls-comparison": "Totals, page sizes and jumpers"
   }
 }

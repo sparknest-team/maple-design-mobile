@@ -12,3 +12,11 @@ Maple（Mobile）**不复制**该工具包：移动端字阶由组件与 `--mp-f
 - [总览 Utilities](#/zh-CN/utilities)
 - [原子化 CSS](#/zh-CN/atomic-css)
 - [Utility 规范](#/zh-CN/utilitySpec)
+
+## 基础示例
+
+### 基础用法
+
+```demo
+../example/basic.vue
+```

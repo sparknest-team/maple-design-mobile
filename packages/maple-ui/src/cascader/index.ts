@@ -28,4 +28,6 @@ export { cascaderProps }
 export default Cascader
 export type CascaderProps = import('vue').ExtractPublicPropTypes<typeof import('./props').cascaderProps>
 
-export type { CascaderPresentation } from './props'
+export type { CascaderEditMode } from './props'
+
+export type { CascaderTriggerOptions } from './trigger-options'

@@ -3,7 +3,6 @@ import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maple-design/cli/client'
 import AdvancedPropsDemo from './demos/advanced-props.vue'
 import AlertDialogDemo from './demos/alert-dialog.vue'
-import DemoApiReview from './demos/api-review.vue'
 import AsyncCloseDemo from './demos/async-close.vue'
 import BasicUsageDemo from './demos/basic-usage.vue'
 import ConfirmBoxDemo from './demos/confirm-box.vue'
@@ -11,8 +10,8 @@ import CustomButtonTextDemo from './demos/custom-button-text.vue'
 import CustomFooterDemo from './demos/custom-footer.vue'
 import FormDialogDemo from './demos/form-dialog.vue'
 import FunctionCallDemo from './demos/function-call.vue'
-import LayoutDemo from './demos/layout.vue'
-import LongContentDemo from './demos/long-content.vue'
+import GuardProtocolDemo from './demos/guard-protocol.vue'
+import ContentSizeComparison from './demos/size-comparison.vue'
 import TypeIconDemo from './demos/type-icon.vue'
 
 const language = ref('zh-CN')
@@ -25,15 +24,20 @@ onThemeChange()
 </script>
 
 <template>
+  <h2 class="mobile-demo-group-heading" data-demo-group="basic-examples" data-demo-component="dialog">
+    <span lang="zh-CN">基础示例</span>
+    <span lang="en-US">Basic examples</span>
+  </h2>
+
   <section data-demo="basic-usage">
     <app-type>{{ english ? 'Basic Usage' : '基本使用' }}</app-type>
     <BasicUsageDemo />
   </section>
 
-  <section data-demo="long-content">
-    <app-type>{{ english ? 'Long Content' : 'long content' }}</app-type>
-    <LongContentDemo />
-  </section>
+  <h2 class="mobile-demo-group-heading" data-demo-group="invocation-and-content">
+    <span lang="zh-CN">调用方式与内容</span>
+    <span lang="en-US">Invocation and content</span>
+  </h2>
 
   <section data-demo="function-call">
     <app-type>{{ english ? 'Function Calls' : 'function call' }}</app-type>
@@ -60,6 +64,23 @@ onThemeChange()
     <FormDialogDemo />
   </section>
 
+  <h2 class="mobile-demo-group-heading" data-demo-group="sizing-and-layout">
+    <span lang="zh-CN">尺寸与布局</span>
+    <span lang="en-US">Sizing and layout</span>
+  </h2>
+
+  <section data-demo="size-comparison">
+    <h3 class="mobile-demo-case-heading">
+      <span lang="zh-CN">弹窗尺寸与长内容</span><span lang="en-US">Dialog sizing and long content</span>
+    </h3>
+    <ContentSizeComparison />
+  </section>
+
+  <h2 class="mobile-demo-group-heading" data-demo-group="interaction-and-customization">
+    <span lang="zh-CN">交互与定制</span>
+    <span lang="en-US">Interaction and customization</span>
+  </h2>
+
   <section data-demo="custom-footer">
     <app-type>{{ english ? 'Custom Footer' : 'custom footer' }}</app-type>
     <CustomFooterDemo />
@@ -70,19 +91,23 @@ onThemeChange()
     <CustomButtonTextDemo />
   </section>
 
-  <section data-demo="layout">
-    <app-type>{{ english ? 'Layout' : 'layout' }}</app-type>
-    <LayoutDemo />
-  </section>
-
   <section data-demo="advanced-props">
     <app-type>{{ english ? 'Advanced Props' : '高级用法' }}</app-type>
     <AdvancedPropsDemo />
   </section>
 
+  <h2 class="mobile-demo-group-heading" data-demo-group="async-actions-and-closing">
+    <span lang="zh-CN">异步与关闭控制</span>
+    <span lang="en-US">Async actions and closing</span>
+  </h2>
+
   <section data-demo="async-close">
     <app-type>{{ english ? 'Async Close' : 'async close' }}</app-type>
     <AsyncCloseDemo />
   </section>
-  <section data-demo="api-review"><DemoApiReview /></section>
+
+  <section data-demo="guard-protocol">
+    <app-type>异步守卫 / Guard protocol</app-type>
+    <GuardProtocolDemo />
+  </section>
 </template>

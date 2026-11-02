@@ -14,7 +14,7 @@
           <ul :class="n('head')">
             <li v-for="week in sortWeekList" :key="week">{{ getDayAbbr(week) }}</li>
           </ul>
-          <ul :class="n('body')" @pointerleave="clearPreview">
+          <ul :class="n('body')" @pointerleave="clearPreview" @keydown="onGridKeydown">
             <li
               v-for="(day, index) in days"
               :key="index"
@@ -56,6 +56,7 @@ import { toNumber } from '@maple-design/shared'
 import dayjs from 'dayjs/esm/index.js'
 import isSameOrAfter from 'dayjs/esm/plugin/isSameOrAfter/index.js'
 import isSameOrBefore from 'dayjs/esm/plugin/isSameOrBefore/index.js'
+import { navigateTemporalGrid } from '../../_utils/temporal-keyboard'
 import MpButton, { type ButtonVariant, type SemanticStatus } from '../../button'
 import { t } from '../../locale'
 import { injectLocaleProvider } from '../../locale-provider/provide'
@@ -293,7 +294,7 @@ export default defineComponent({
           return ''
         }
         if (computeOutline()) {
-          return color ?? ''
+          return color ?? 'var(--mp-date-calendar-today-color)'
         }
         if (dayExist()) {
           return ''
@@ -303,22 +304,19 @@ export default defineComponent({
       }
 
       const isCover = textColorOrCover().startsWith(nDate())
-      const variant: ButtonVariant =
-        range && rangeState(day).inside
-          ? computeText()
-            ? 'text'
-            : 'default'
-          : computeOutline()
-            ? 'outline'
-            : computeText()
-              ? 'text'
-              : 'default'
+      const variant: ButtonVariant = computeText() ? 'text' : 'default'
       const status: SemanticStatus = !computeText() ? 'primary' : 'default'
 
       return {
         variant,
         status,
-        textColor: isCover ? '' : textColorOrCover(),
+        'aria-current':
+          props.componentProps.showCurrent && isCurrent.value && toNumber(currentDay) === day
+            ? ('date' as const)
+            : undefined,
+        'aria-pressed': range || multiple ? shouldChoose(val) : isSame.value && toNumber(chooseDay) === day,
+        color: !computeText() ? (color ?? 'var(--mp-date-calendar-selected-background)') : '',
+        textColor: !computeText() ? 'var(--mp-date-calendar-selected-color)' : isCover ? '' : textColorOrCover(),
         [`${nDate()}-color-cover`]: isCover,
         class: classes(n('button'), n('button--usable'), [disabled, n('button--disabled')]),
         disabled,
@@ -347,6 +345,7 @@ export default defineComponent({
     }
 
     return {
+      onGridKeydown: (event: KeyboardEvent) => navigateTemporalGrid(event, 'button[mp-day-picker-cover]', 7),
       n,
       nDate,
       clearPreview,

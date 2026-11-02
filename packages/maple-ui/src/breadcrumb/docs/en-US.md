@@ -4,11 +4,11 @@ The current page uses primary text color with normal font weight and `aria-curre
 
 On touch devices, interactive items have a minimum 44 × 44px target. Press feedback clears after release; mouse hover styles do not stick. Tap the ellipsis icon to show omitted paths.
 
-## Examples
-
 ### Intro
 
 Identify the page location in a hierarchy and navigate upward when needed. The API aligns with Cedar Design Web core features (`routes` / `max-count` / separator slots). Affix positioning is not included for mobile.
+
+## Basic examples
 
 ### Basic Usage
 
@@ -16,21 +16,19 @@ Identify the page location in a hierarchy and navigate upward when needed. The A
 ../example/demos/basic-usage.vue
 ```
 
-### Custom Separator
-
-Compare the separator slot, parent separator prop and child override. Child settings take precedence.
-
-```demo
-../example/demos/separator.vue
-```
-
-### Custom Icon
-
-```demo
-../example/demos/custom-icon.vue
-```
+## Content and presentation
 
 ### Route Configuration
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `routes` | Route data (used when default slot is empty) | Route Configuration, Dropdown, Max Count |
+| `max-count` | Max visible normal items, excluding more; `0` means unlimited | Max Count |
+<!-- demo-config-notes:end -->
+
 
 Pass breadcrumb data via `routes`. Ancestor paths render as native links; the current page remains text. Customize with `#item-render`.
 
@@ -60,14 +58,21 @@ Compare plain text, `href` links and `@click` actions. Activate an item to see t
 ../example/demos/click-event.vue
 ```
 
-<!-- api-review:start -->
-### Feature playground
+## Customization and slots
+
+### Custom Separator
+
+Compare the separator slot, parent separator prop and child override. Child settings take precedence.
 
 ```demo
-../example/demos/api-review.vue
+../example/demos/separator.vue
 ```
 
-<!-- api-review:end -->
+### Custom Icon
+
+```demo
+../example/demos/custom-icon.vue
+```
 
 ## API
 
@@ -75,19 +80,19 @@ Compare plain text, `href` links and `@click` actions. Activate an item to see t
 
 #### Breadcrumb Props
 
-| Prop | Description | Type | Default |
+| Arguments | Description | Type | Default |
 | --- | --- | --- | --- |
-| `separator` | Separator | _string \| number_ | `/` |
+| `separator` | Range separator | _string \| number_ | `/` |
 | `max-count` | Max visible normal items, excluding more; `0` means unlimited | _number_ | `0` |
 | `routes` | Route data (used when default slot is empty) | _BreadcrumbRoute[]_ | `-` |
 
 #### BreadcrumbItem Props
 
-| Prop | Description | Type | Default |
+| Arguments | Description | Type | Default |
 | --- | --- | --- | --- |
-| `separator` | Separator (overrides parent) | _string \| number_ | `-` |
+| `separator` | Separator; overrides parent | _string \| number_ | `-` |
 | `href` | Link URL | _string_ | `-` |
-| `droplist` | Dropdown menu items | _BreadcrumbRoute['children']_ | `-` |
+| `droplist` | Dropdown menu content | _BreadcrumbRoute['children']_ | `-` |
 | `dropdown-props` | Props passed to Menu | _MenuProps_ | `-` |
 
 ### Events
@@ -97,40 +102,40 @@ Compare plain text, `href` links and `@click` actions. Activate an item to see t
 | Event | Description | Arguments |
 | --- | --- | --- |
 | `click` | Fired on click (not for collapsed item) | `event: MouseEvent` |
-| `select` | Fired when a built-in dropdown item is selected | `route: BreadcrumbRoute` |
+| `select` | Fired when a built-in dropdown item is selected | `route: BreadcrumbRoute, event?: Event` |
 
 ### Slots
 
-#### BreadcrumbSlots
+#### Breadcrumb Slots
 
 | Slot | Description | Arguments |
 | --- | --- | --- |
-| `default` | Breadcrumb items | `-` |
+| `default` | Breadcrumb children | `-` |
 | `separator` | Custom separator | `-` |
-| `item-render` | Custom render in routes mode | `route` `routes` `paths` |
+| `item-render` | Custom render in `routes` mode | `route` `routes` `paths` |
 | `more-icon` | Custom ellipsis icon | `omittedItems` `count` `start` `end` |
 
 #### BreadcrumbItem Slots
 
 | Slot | Description | Arguments |
 | --- | --- | --- |
-| `default` | Item content | `-` |
-| `separator` | Custom separator (priority over parent) | `-` |
+| `default` | Breadcrumb content | `-` |
+| `separator` | Custom separator; overrides parent | `-` |
 | `droplist` | Custom dropdown menu | `-` |
 
-### Type Definitions
+### Type definitions
 
 ```ts
 interface BreadcrumbRoute {
   label: string
   path: string
-  children?: { label: string; path: string }[]
+  children?: BreadcrumbRoute[]
 }
 ```
 
-### Style Variables
+### Style variables
 
-Customize via [StyleProvider](#/en-US/style-provider).
+Customize these CSS variables through [StyleProvider](#/en-US/style-provider).
 
 #### BreadcrumbItem Variables
 
@@ -150,11 +155,11 @@ See [Breadcrumb](#/en-US/breadcrumb).
 
 ### Props
 
-| Prop | Description | Type | Default |
+| Arguments | Description | Type | Default |
 | --- | --- | --- | --- |
-| `separator` | Separator (overrides parent) | _string \| number_ | `-` |
+| `separator` | Separator; overrides parent | _string \| number_ | `-` |
 | `href` | Link URL | _string_ | `-` |
-| `droplist` | Dropdown items | _BreadcrumbRoute[]_ | `-` |
+| `droplist` | Dropdown menu content | _BreadcrumbRoute[]_ | `-` |
 | `dropdown-props` | Props passed to Menu | _MenuProps_ | `-` |
 
 ### Events
@@ -162,18 +167,23 @@ See [Breadcrumb](#/en-US/breadcrumb).
 | Event | Description | Arguments |
 | --- | --- | --- |
 | `click` | Fired on click (not for collapsed item) | `event: MouseEvent` |
-| `select` | Fired when a built-in dropdown item is selected | `route: BreadcrumbRoute` |
+| `select` | Fired when a built-in dropdown item is selected | `route: BreadcrumbRoute, event?: Event` |
 
 ### Slots
 
 | Slot | Description |
 | --- | --- |
-| `default` | Item content |
+| `default` | Breadcrumb content |
 | `separator` | Custom separator |
 | `droplist` | Custom dropdown menu |
 
-## Same-source implementation
 
-Breadcrumb and BreadcrumbItem are maintained as independent source copies in Cedar and Maple. Non-empty routes take precedence over the default slot; empty routes fall back to slot items. Item separator slot/prop overrides the parent separator slot/prop. Collapsed items cannot activate their original link or dropdown. The select event provides `(route, event)`. Icons, Menu, installation and theme tokens remain local.
+## Shared implementation and platform boundaries
 
-An SVG icon can be used directly as the Tooltip trigger element. Use `trigger="click"` for touch interaction.
+Breadcrumb and BreadcrumbItem are maintained as local copies in Cedar / Maple. Component bodies, props, context, types, key styles and paired tests are checked by `design-ui/bin/copied-components-check.mjs`. Each library supplies its own icons, installation entry, menu implementation and theme tokens.
+
+- A nonempty `routes` array takes precedence over the default slot; an empty array falls back to the slot. Default route rendering links all items except the last, which has `aria-current="page"`. `item-render` controls links itself.
+- Separator precedence: child slot → child prop → parent slot → parent prop. `0` and an empty string are supported.
+- `max-count` preserves the existing boundary: collapsing occurs only when the total exceeds `max-count + 1`. It keeps the first and trailing items. The overflow position does not trigger omitted items’ clicks, links or dropdowns.
+- Built-in dropdown selection emits `select(route, event)`. Indices and separators update with dynamic insertion, removal, reordering and SSR.
+- Cedar adds a `__content` wrapper for item content; attributes fall through to it. Maple retains its existing theme variables through token mappings.

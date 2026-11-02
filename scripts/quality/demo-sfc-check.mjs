@@ -17,6 +17,9 @@ const programmaticApis = new Set([
   'Dialog',
   'Locale',
   'StyleProvider',
+  // Preset configuration is a script API, not a component rendered by the template.
+  'Themes',
+  'SafeArea',
   'LoadingBar',
   'Form',
   'useFormItem',
@@ -231,7 +234,10 @@ function checkDemoDocs(component, examples) {
     const code = readFileSync(filename, 'utf8')
     const references = [...code.matchAll(/\.\.\/example\/demos\/([^\s]+\.vue)/g)].map((match) => match[1])
     const uniqueReferences = [...new Set(references)].sort()
-    const expectedFiles = demoFilesForLanguage(demoFiles, language)
+    // Internal API review fixtures compile above but are intentionally not public demos.
+    const expectedFiles = demoFilesForLanguage(demoFiles, language).filter(
+      (file) => !/(?:^|\/)api-review(?:-|\.)/.test(file),
+    )
     // A review suite exposes its selected cases through local SFC imports.
     const reachable = new Set(uniqueReferences)
     const queue = [...uniqueReferences]

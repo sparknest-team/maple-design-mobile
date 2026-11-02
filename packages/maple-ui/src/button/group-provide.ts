@@ -4,7 +4,7 @@ import type { ComponentSize, SemanticStatus } from '../utils/constants'
 import type { ButtonVariant } from './props'
 
 export interface ButtonGroupProvider {
-  elevation: ComputedRef<string | number | boolean>
+  elevation: ComputedRef<number | boolean>
   status: ComputedRef<SemanticStatus>
   size: ComputedRef<ComponentSize>
   variant: ComputedRef<ButtonVariant>

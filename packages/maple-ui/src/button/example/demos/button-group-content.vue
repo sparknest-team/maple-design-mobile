@@ -12,7 +12,7 @@ const loading = ref(false)
       <mp-checkbox v-model="vertical">Vertical group</mp-checkbox>
       <mp-checkbox v-model="loading">Load first action</mp-checkbox>
     </mp-space>
-    <mp-button-group status="primary" :stacked="stacked" :vertical="vertical">
+    <mp-button-group aria-label="Save or cancel" status="primary" :stacked="stacked" :vertical="vertical">
       <mp-button :loading="loading"
         ><template #icon><m-icon-check /></template>Save</mp-button
       >

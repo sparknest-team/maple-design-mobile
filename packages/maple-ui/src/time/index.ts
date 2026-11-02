@@ -33,3 +33,5 @@ export const _TimePickerComponent: typeof TimePicker = TimePicker
 export default Time
 export type TimePickerProps = import('vue').ExtractPublicPropTypes<typeof import('./picker-props').props>
 export type { TimeDisabledRules, TimeStep } from './time-rules'
+
+export type { TimePickerField } from '../_components/picker-field/fields'

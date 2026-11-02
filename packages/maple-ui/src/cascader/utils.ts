@@ -174,7 +174,7 @@ export const getValueKey = (
 }
 
 export const getValidValues = (
-  value: UnionType | UnionType[] | UnionType[][] | undefined,
+  value: UnionType | UnionType[] | UnionType[][] | null | undefined,
   { multiple, pathMode }: { multiple: boolean; pathMode: boolean },
 ): UnionType[] | UnionType[][] => {
   if (!isArray(value)) {

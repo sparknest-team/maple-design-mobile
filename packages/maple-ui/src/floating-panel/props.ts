@@ -1,4 +1,4 @@
-import { TeleportProps, type PropType } from 'vue'
+import { type PropType } from 'vue'
 import { popupContainerProp } from '../utils/popup-container'
 
 export const props = {

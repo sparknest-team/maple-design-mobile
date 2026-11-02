@@ -12,3 +12,8 @@ export const _FieldDecoratorComponent: typeof FieldDecorator = FieldDecorator
 
 export default FieldDecorator
 export type { FieldDecoratorProps, FieldDecoratorSize, FieldDecoratorVariant } from './props'
+
+export type { OpenTriggerTarget } from '../_components/picker-field/open-trigger'
+
+export { fieldLoadingProps, fieldLoadingModes } from './props'
+export type { FieldLoadingMode, FieldLoadingProps } from './props'

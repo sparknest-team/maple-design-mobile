@@ -2,8 +2,6 @@
 
 两端独立同源，API、安装、默认值设置和运行逻辑一致；仅平台标识与本地导入不同。
 
-## 案例
-
 示例演示局部变量、嵌套覆盖、清空和自定义标签。
 
 按钮只切换本例外层 `section` 的局部变量：关闭时文字继承父级颜色，内层 coral 覆盖和外部文字不变；再次切换恢复 teal。该 Demo 不调用全局 `setStyleVars`，不能用它验证全局主题注入、替换或清理。
@@ -11,6 +9,8 @@
 局部变量按 DOM 继承，嵌套 Provider 可覆盖父级变量；传入 `null` 清除本层覆盖（仍会继承父级）。通过 `popupContainer` 移到 Provider 外的节点不继承局部变量。组件式调用不修改全局主题属性。
 
 局部组件定制优先设置实际 component 变量；只改 palette/system 变量，不会自动重算从根节点继承的组件别名。需要局部联动时在本层显式重声明相关映射；这不是自动完整主题重建。弹层变量放在真实挂载宿主。详见[Design Token 与 CSS 变量分层](#/zh-CN/design-tokens)。
+
+## 基础示例
 
 ### basic
 
@@ -48,15 +48,6 @@ StyleProvider.setPropsDefaults({
 
 在应用初始化、挂载组件之前设置默认值，不追溯更新已挂载实例；显式 Props 优先。对象形式会为每个实例复制变量对象，也支持工厂和 `null`。默认配置仅属于本库，不跨库共享。
 安装固定注册 `MpStyleProvider`，不修改应用全局配置；自定义别名使用 `app.component('MyStyleProvider', StyleProvider)`。
-
-<!-- api-review:start -->
-### 功能调试
-
-```demo
-../example/demos/api-review.vue
-```
-
-<!-- api-review:end -->
 
 ## API
 

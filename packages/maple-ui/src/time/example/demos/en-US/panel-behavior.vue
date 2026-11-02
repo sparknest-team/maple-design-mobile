@@ -10,7 +10,7 @@ const disabledHours = () => [0, 1, 2, 3, 4, 5, 6, 7]
 </script>
 
 <template>
-  <div style="display: flex; flex-direction: column; gap: 12px; width: 100%">
+  <mp-space direction="column" size="12px" style="width: 100%">
     <mp-checkbox v-model="immediate">Commit without confirmation</mp-checkbox>
     <mp-checkbox v-model="hideDisabled">Hide disabled hours (00–07)</mp-checkbox>
     <mp-checkbox v-model="readonly">Read-only (including confirmation)</mp-checkbox>
@@ -29,5 +29,5 @@ const disabledHours = () => [0, 1, 2, 3, 4, 5, 6, 7]
     <span>Valid confirmations: {{ confirmations }}</span>
     <span>Committed value: {{ value }}</span>
     <p>With confirmation enabled, selection only changes the draft. The value above changes after confirmation.</p>
-  </div>
+  </mp-space>
 </template>

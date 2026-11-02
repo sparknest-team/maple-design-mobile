@@ -1,0 +1,42 @@
+import { afterEach, expect, test, vi } from 'vitest'
+import ActionSheet from '..'
+import { delay } from '../../utils/test'
+
+afterEach(async () => {
+  ActionSheet({ actions: [] })
+  ActionSheet.close()
+  await delay(350)
+  ActionSheet.resetDefaultOptions()
+})
+test('vetoed close retains the service owner and can be requested again', async () => {
+  const guard = vi.fn(() => false)
+  const result = ActionSheet({ actions: [], beforeClose: guard })
+  await delay(40)
+  ActionSheet.close()
+  await delay(40)
+  expect(guard).toHaveBeenCalledTimes(1)
+  expect(document.querySelector('.mp-popup')).not.toBeNull()
+  ActionSheet.close()
+  await delay(40)
+  expect(guard).toHaveBeenCalledTimes(2)
+  guard.mockReturnValue(true)
+  ActionSheet.close()
+  await delay(350)
+  expect(await result).toBe('close')
+  expect(document.querySelector('.mp-popup')).toBeNull()
+})
+test('a new invocation disposes a vetoed previous owner and settles its result', async () => {
+  const previous = ActionSheet({ title: 'old owner', actions: [], beforeClose: () => false })
+  await delay(40)
+  ActionSheet.close()
+  await delay(40)
+  const next = ActionSheet({ title: 'new owner', actions: [] })
+  await delay(40)
+  expect(await previous).toBe('close')
+  expect(document.querySelectorAll('.mp-popup')).toHaveLength(1)
+  expect(document.body.textContent).not.toContain('old owner')
+  expect(document.body.textContent).toContain('new owner')
+  ActionSheet.close()
+  await delay(350)
+  expect(await next).toBe('close')
+})

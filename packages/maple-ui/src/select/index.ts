@@ -16,8 +16,18 @@ export const optionProps = OptionComponent.props
 export const optgroupProps = OptgroupComponent.props
 export type OptgroupInstance = InstanceType<typeof OptgroupComponent>
 export type OptgroupProps = import('vue').ExtractPublicPropTypes<typeof OptgroupComponent.props>
-export type { SelectProps, SelectPresentation } from './props'
-export type { SelectOption, SelectOptionData, SelectOptionGroup, SelectFieldNames, FilterOption } from './types'
+export type { SelectProps, SelectEditMode } from './props'
+export type {
+  OptionSearchField,
+  SelectOptionsLoader,
+  SelectValue,
+  SelectEmptyValue,
+  SelectOption,
+  SelectOptionData,
+  SelectOptionGroup,
+  SelectFieldNames,
+  FilterOption,
+} from './types'
 export type SelectInstance = InstanceType<typeof SelectComponent>
 export type OptionInstance = InstanceType<typeof OptionComponent>
 export type OptionProps = import('vue').ExtractPublicPropTypes<typeof OptionComponent.props>
@@ -25,3 +35,7 @@ export const _SelectComponent = Select
 export const _OptionComponent = Option
 export const _OptgroupComponent = Optgroup
 export default Select
+
+export type { SelectEmits, SelectSlots, SelectExpose } from './types'
+
+export type { SelectTriggerOptions } from './trigger-options'

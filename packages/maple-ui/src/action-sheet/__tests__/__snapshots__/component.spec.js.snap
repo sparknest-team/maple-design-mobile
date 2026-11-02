@@ -3,12 +3,15 @@
 exports[`action-sheet styles 1`] = `
 "<!--teleport start-->
 <transition-stub name="mp-fade" appear="false" persisted="false" css="true">
-  <div class="mp--box mp-popup" style="z-index: 1998;">
+  <div dir="ltr" class="mp--box mp-popup" style="z-index: 1998;">
     <div class="mp-popup__overlay" style="z-index: 1999;" role="presentation"></div>
     <transition-stub name="mp-pop-bottom" appear="false" persisted="true" css="true">
       <div data-modal-focus-root="" class="mp-popup__content mp-popup--bottom mp-popup--content-background-color mp-elevation--3 mp-popup--safe-area-inset-bottom mp-action-sheet__popup-radius" style="z-index: 2000;" tabindex="-1" role="dialog" aria-modal="true">
+        <!--v-if-->
         <div class="mp-action-sheet mp--box">
-          <div class="mp-action-sheet__title">请选择</div>
+          <div data-popup-swipe-handle="">
+            <div class="mp-action-sheet__title">请选择</div>
+          </div>
           <div class="mp-action-sheet__action-item customClass" style="color: rgb(76, 175, 80);"><span class="mp-icon mp-action-sheet__action-icon" style="font-size: 30px; transition-duration: 0ms;" mp-action-sheet-cover=""></span>
             <div class="mp-action-sheet__action-name">Item 01</div>
             <div class="mp-hover-overlay"></div>

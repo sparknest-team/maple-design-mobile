@@ -99,31 +99,16 @@ describe('SplitButton copied contract', () => {
     expect(wrapper.emitted('update:open')).toBeUndefined()
   })
 
-  test('awaits both async callbacks and blocks repeat clicks until all settle', async () => {
-    let resolveMain, resolveNested
-    const onClick = vi.fn(
-      () =>
-        new Promise((resolve) => {
-          resolveMain = resolve
-        }),
-    )
-    const nestedClick = vi.fn(
-      () =>
-        new Promise((resolve) => {
-          resolveNested = resolve
-        }),
-    )
-    const wrapper = render({ autoLoading: true, onClick, buttonProps: { onClick: nestedClick } })
+  test('primary loading is controlled through buttonProps', async () => {
+    const observer = vi.fn()
+    const wrapper = render({ onClick: observer, buttonProps: { loading: true } })
     await wrapper.find('button').trigger('click')
+    expect(observer).not.toHaveBeenCalled()
     expect(wrapper.find('button').attributes('aria-busy')).toBe('true')
+    await wrapper.setProps({ buttonProps: { loading: false } })
     await wrapper.find('button').trigger('click')
-    expect(onClick).toHaveBeenCalledTimes(1)
-    resolveMain()
-    await flushPromises()
-    expect(wrapper.find('button').attributes('aria-busy')).toBe('true')
-    resolveNested()
-    await flushPromises()
-    expect(wrapper.find('button').attributes('aria-busy')).not.toBe('true')
+    expect(observer).toHaveBeenCalledTimes(1)
+    expect(wrapper.find('button').attributes('aria-busy')).toBeUndefined()
   })
 
   test('trigger opens, icon receives state and menu selection is forwarded', async () => {

@@ -17,6 +17,56 @@ afterEach(() => {
 })
 
 describe('Form layout contract', () => {
+  it('applies inherited alignment to content while preserving item overrides and content-flex=false', async () => {
+    const state = reactive<{ contentAlign?: 'left' | 'center' | 'right' }>({ contentAlign: 'center' })
+    const wrapper = mount(Form, {
+      props: { contentAlign: 'right', editMode: 'direct' },
+      slots: {
+        default: () => [
+          h(FormItem, { label: 'Inherited' }, () => h('span', 'Value')),
+          h(FormItem, { label: 'Override', ...state }, () => h('span', 'Value')),
+          h(FormItem, { label: 'Custom grid', contentFlex: false }, () => h('span', 'Value')),
+        ],
+      },
+    })
+    try {
+      const content = () => wrapper.findAll('[style*="text-align"]')
+      expect(content().map((node) => (node.element as HTMLElement).style.textAlign)).toEqual([
+        'right',
+        'center',
+        'right',
+      ])
+      expect((content()[0].element as HTMLElement).style.justifyContent).toBe('right')
+      expect((content()[2].element as HTMLElement).style.justifyContent).toBe('')
+      state.contentAlign = undefined
+      await nextTick()
+      expect((content()[1].element as HTMLElement).style.textAlign).toBe('right')
+      await wrapper.setProps({ contentAlign: 'left' })
+      expect(content().map((node) => (node.element as HTMLElement).style.textAlign)).toEqual(['left', 'left', 'left'])
+    } finally {
+      wrapper.unmount()
+    }
+  })
+
+  it('inherits content alignment, supports item overrides and defaults to left', () => {
+    const parent = reactive<{ contentAlign?: 'left' | 'center' | 'right' }>({ contentAlign: 'right' })
+    const item = reactive<{ contentAlign?: 'left' | 'center' | 'right' }>({})
+    const layout = useFormItemLayout(
+      () => item,
+      () => parent,
+    )
+    expect(layout.contentAlign.value).toBe('right')
+    expect(layout.contentJustify.value).toBe('right')
+    item.contentAlign = 'center'
+    expect(layout.contentJustify.value).toBe('center')
+    parent.contentAlign = 'left'
+    expect(layout.contentAlign.value).toBe('center')
+    item.contentAlign = undefined
+    expect(layout.contentAlign.value).toBe('left')
+    parent.contentAlign = undefined
+    expect(layout.contentJustify.value).toBe('flex-start')
+  })
+
   it('resolves overrides, numeric zero flex and auto width without mutating Col options', () => {
     const parent = reactive({
       layout: 'horizontal' as const,
@@ -72,13 +122,14 @@ describe('Form layout contract', () => {
     })
     const wrapper = mount(Form, {
       props: {
+        editMode: 'direct',
         layout: 'horizontal',
         labelColProps: { span: 6, xs: 24, md: 8 },
         wrapperColProps: { span: 18, xs: 24, md: 16 },
         labelAlign: 'left',
         labelColStyle: { color: 'red' },
       },
-      slots: { default: () => h(FormItem, { label: 'Name', ...item }, () => h('input')) },
+      slots: { default: () => h(FormItem, { editMode: 'direct', label: 'Name', ...item }, () => h('input')) },
     })
     const cols = () => wrapper.findAllComponents(Col)
     expect(cols()[0].props('span')).toBe(6)
@@ -135,11 +186,13 @@ describe('Form layout contract', () => {
         setup: () => () =>
           h(
             Form,
-            { layout: state.layout as any, autoLabelWidth: true },
+            { editMode: 'direct', layout: state.layout as any, autoLabelWidth: true },
             {
               default: () => [
-                h(FormItem, { key: 'short', label: 'Name' }, () => h('input')),
-                state.showLong ? h(FormItem, { key: 'long', label: state.label }, () => h('input')) : null,
+                h(FormItem, { editMode: 'direct', key: 'short', label: 'Name' }, () => h('input')),
+                state.showLong
+                  ? h(FormItem, { editMode: 'direct', key: 'long', label: state.label }, () => h('input'))
+                  : null,
               ],
             },
           ),
@@ -198,9 +251,9 @@ describe('Form layout contract', () => {
                 state.show
                   ? h(
                       Form,
-                      { layout: 'horizontal', autoLabelWidth: true },
+                      { editMode: 'direct', layout: 'horizontal', autoLabelWidth: true },
                       {
-                        default: () => h(FormItem, { label: 'Name' }, () => h('input')),
+                        default: () => h(FormItem, { editMode: 'direct', label: 'Name' }, () => h('input')),
                       },
                     )
                   : null,
@@ -223,8 +276,10 @@ describe('Form layout contract', () => {
     vi.stubGlobal('ResizeObserver', undefined)
     vi.spyOn(HTMLElement.prototype, 'offsetWidth', 'get').mockReturnValue(80)
     const wrapper = mount(Form, {
-      props: { layout: 'vertical', autoLabelWidth: true },
-      slots: { default: () => h(FormItem, { label: 'Name', layout: 'horizontal' }, () => h('input')) },
+      props: { editMode: 'direct', layout: 'vertical', autoLabelWidth: true },
+      slots: {
+        default: () => h(FormItem, { editMode: 'direct', label: 'Name', layout: 'horizontal' }, () => h('input')),
+      },
     })
     await nextTick()
     await nextTick()
@@ -237,8 +292,8 @@ describe('Form layout contract', () => {
     const add = vi.spyOn(window, 'addEventListener')
     const remove = vi.spyOn(window, 'removeEventListener')
     const wrapper = mount(Form, {
-      props: { layout: 'horizontal', autoLabelWidth: true },
-      slots: { default: () => h(FormItem, { label: 'Name' }, () => h('input')) },
+      props: { editMode: 'direct', layout: 'horizontal', autoLabelWidth: true },
+      slots: { default: () => h(FormItem, { editMode: 'direct', label: 'Name' }, () => h('input')) },
     })
     await nextTick()
     expect(add.mock.calls.some(([event]) => event === 'resize')).toBe(true)
@@ -248,8 +303,11 @@ describe('Form layout contract', () => {
 
   it('lets item control size override the form size', () => {
     const wrapper = mount(Form, {
-      props: { layout: 'horizontal', size: 'sm' },
-      slots: { default: () => h(FormItem, { label: 'Name', size: 'lg' }, () => h(Input)) },
+      props: { editMode: 'direct', layout: 'horizontal', size: 'sm' },
+      slots: {
+        default: () =>
+          h(FormItem, { editMode: 'direct', label: 'Name', size: 'lg' }, () => h(Input, { editMode: 'direct' })),
+      },
     })
     expect(
       wrapper
@@ -262,8 +320,10 @@ describe('Form layout contract', () => {
 
   it('prefixes nested field containers when an explicit form id is provided', () => {
     const wrapper = mount(Form, {
-      props: { id: 'profile', layout: 'horizontal' },
-      slots: { default: () => h(FormItem, { field: 'users[0].name', label: 'Name' }, () => h('input')) },
+      props: { editMode: 'direct', id: 'profile', layout: 'horizontal' },
+      slots: {
+        default: () => h(FormItem, { editMode: 'direct', field: 'users[0].name', label: 'Name' }, () => h('input')),
+      },
     })
     expect(wrapper.get('form').attributes('id')).toBe('profile')
     expect(wrapper.findAllComponents(Col)[1].attributes('id')).toBe('profile-users_0_name')
@@ -274,9 +334,9 @@ describe('Form layout contract', () => {
     const html = await renderToString(
       h(
         Form,
-        { layout: 'horizontal', autoLabelWidth: true },
+        { editMode: 'direct', layout: 'horizontal', autoLabelWidth: true },
         {
-          default: () => h(FormItem, { label: 'Name' }, () => h('input')),
+          default: () => h(FormItem, { editMode: 'direct', label: 'Name' }, () => h('input')),
         },
       ),
     )

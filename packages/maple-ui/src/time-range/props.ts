@@ -1,6 +1,9 @@
 import { type ExtractPropTypes, type PropType } from 'vue'
 import { fieldPresentationProps } from '../_components/field-presentation/props'
+import { timePickerFieldsProp } from '../_components/picker-field/fields'
+import { openTriggerTargetProp } from '../_components/picker-field/open-trigger'
 import { fieldDecoratorProps } from '../field-decorator'
+import { fieldLoadingProps } from '../field-decorator/props'
 import { pickerProps as pickerPropsSource } from '../picker'
 import { timeDisabledProps } from '../time/disabled-props'
 import type {
@@ -12,14 +15,20 @@ import { timeStepProp } from '../time/step-prop'
 import type { TimeValue } from '../time/time-value'
 import { triggerProps } from '../trigger'
 import { pickProps } from '../utils/components'
+import { emptyValueProp } from '../utils/empty-value'
 import { popupContainerProp } from '../utils/popup-container'
 import { props as timeRangePickerPropsSource } from './picker-props'
 
 export type TimeRangePanelType = 'picker'
-export type TimeRangePresentation = import('../_components/field-presentation/context').FieldPresentation
+export type TimeRangeEditMode = import('../_components/field-presentation/context').FieldEditMode
 
 export const props = {
+  ...fieldLoadingProps,
+  openTriggerTarget: openTriggerTargetProp,
+  timeFields: timePickerFieldsProp,
+  /** 清空动作产生的模型值；省略保留原默认值。 */
   ...fieldPresentationProps,
+  emptyValue: emptyValueProp<(string | number | Date)[] | undefined>(),
   /** 是否允许手输时间；移动端默认关闭，面板选择不受影响。 */
   inputEditable: { type: Boolean, default: false },
   /** 隐藏禁用的时间选项。 */
@@ -30,7 +39,7 @@ export const props = {
   /** 非受控初始值，仅在初始化读取。 */
   defaultValue: Array as PropType<TimeValue[]>,
   modelValue: {
-    type: Array as PropType<TimeValue[]>,
+    type: Array as PropType<TimeValue[] | null>,
     default: undefined,
   },
   /** 非受控初始展开状态。 */

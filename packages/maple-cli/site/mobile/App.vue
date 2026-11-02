@@ -8,6 +8,7 @@
         v-on="showBackIcon ? { back } : {}"
       >
         <template #extra>
+          <DirectionToggle />
           <mp-button
             v-if="!showBackIcon && github"
             style="margin-left: 2px; margin-right: 6px"
@@ -43,7 +44,17 @@
         </template>
       </mp-page-header>
     </header>
-    <div class="router-view__block">
+    <mp-space v-if="sections.length > 1" class="mobile-documentation-sections" size="sm" wrap>
+      <mp-button
+        v-for="section in sections"
+        :key="section.id"
+        :status="activeSection?.id === section.id ? 'primary' : 'default'"
+        :aria-pressed="activeSection?.id === section.id"
+        @click="switchSection(section)"
+        >{{ section.text[language] }}</mp-button
+      >
+    </mp-space>
+    <div class="router-view__block" :class="{ 'mobile-documentation': isDocumentation }">
       <router-view />
     </div>
 
@@ -83,11 +94,13 @@ import {
   IconTranslate as MIconTranslate,
 } from '@maple-design/icons-vue'
 import { pascalCase } from '@maple-design/shared'
+import { DirectionToggle } from '@sparknest/ui-doc-preview'
 import { useRoute, useRouter } from 'vue-router'
+import { getDocumentationSection, sectionRoute, type DocumentationSection } from '../documentation-sections'
 import { inIframe, isPhone, removeEmpty } from '../utils'
 
 export default defineComponent({
-  components: { MIconGithub, MIconPaletteFill, MIconChevronDown, MIconTranslate },
+  components: { DirectionToggle, MIconGithub, MIconPaletteFill, MIconChevronDown, MIconTranslate },
   setup() {
     const bigCamelizeComponentName: Ref<string> = ref('')
     const route = useRoute()
@@ -95,9 +108,25 @@ export default defineComponent({
     const showBackIcon: Ref<boolean> = ref(false)
     const showThemeMenu: Ref<boolean> = ref(false)
     const language: Ref<string> = ref('')
+    const sections = config?.pc?.sections ?? []
+    const activeSection = computed(() => getDocumentationSection(route.path, sections, route.query.section))
+    const switchSection = (section: DocumentationSection) => {
+      if (inIframe()) {
+        ;(window.parent as any).onMobileRouteChange(
+          `/${language.value}/${section.entry}`,
+          language.value,
+          section.entry,
+          '',
+          {},
+        )
+        return
+      }
+      return router.push(sectionRoute(section, language.value, true))
+    }
     const languages: Ref<Record<string, string>> = ref(config?.mobile?.header?.i18n ?? {})
     const themes: Ref<Record<string, any>[]> = ref(config?.mobile?.header?.themes ?? {})
     const nonEmptyLanguages: ComputedRef<Record<string, string>> = computed(() => removeEmpty(languages.value))
+    const isDocumentation = computed(() => (config?.mobile?.docs ?? []).includes(route.path.split('/').at(-1) ?? ''))
     const redirect = config?.mobile?.redirect ?? ''
     const github: Ref<string> = ref(config?.mobile?.header?.github ?? '')
     const darkMode: Ref<string> = ref(config?.mobile?.header?.darkMode ?? '')
@@ -105,7 +134,11 @@ export default defineComponent({
 
     const changeLanguage = (lang: string) => {
       language.value = lang
-      router.push({ path: route.path, query: { ...route.query, language: lang }, hash: route.hash })
+      router.push({
+        path: route.path.replace(/^\/(?:zh-CN|en-US)(?=\/)/, `/${lang}`),
+        query: { ...route.query, language: lang },
+        hash: route.hash,
+      })
 
       if (!isPhone() && inIframe()) {
         ;(window.top as any).scrollToMenu(redirect.slice(1))
@@ -113,11 +146,10 @@ export default defineComponent({
     }
 
     const back = () => {
-      window.location.href = `${getMobileIndex()}#${redirect}?language=${language.value}&replace=${redirect.slice(1)}`
-
-      if (!isPhone() && inIframe()) {
-        ;(window.top as any).scrollToMenu(redirect.slice(1))
-      }
+      const section = activeSection.value
+      if (section?.docs && route.path.split('/').at(-1) !== section.entry)
+        router.push(sectionRoute(section, language.value))
+      else router.push({ path: '/home', query: { section: section?.id ?? 'components', language: language.value } })
     }
 
     const toGithub = () => {
@@ -133,13 +165,14 @@ export default defineComponent({
     })
 
     watch(
-      () => route.path,
-      (to: string) => {
-        const componentName = pascalCase(to.slice(1))
-        const redirectName = pascalCase(redirect.slice(1))
-        bigCamelizeComponentName.value = componentName === redirectName ? '' : componentName
-        showBackIcon.value = componentName !== redirectName
+      () => [route.path, language.value] as const,
+      ([to, lang]) => {
+        const docName = to.split('/').at(-1) ?? ''
+        const page = isDocumentation.value ? config?.pc?.menu?.find((item: any) => item.doc === docName) : undefined
+        bigCamelizeComponentName.value = to === redirect ? '' : (page?.text?.[lang] ?? pascalCase(docName))
+        showBackIcon.value = to !== redirect
       },
+      { immediate: true },
     )
 
     const setCurrentTheme = (theme: Theme) => {
@@ -166,6 +199,10 @@ export default defineComponent({
     })
 
     return {
+      sections,
+      activeSection,
+      switchSection,
+      isDocumentation,
       bigCamelizeComponentName,
       showBackIcon,
       github,
@@ -186,6 +223,11 @@ export default defineComponent({
 </script>
 
 <style lang="less">
+.mobile-documentation {
+  padding: 16px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
 * {
   -webkit-font-smoothing: antialiased;
   box-sizing: border-box;
@@ -278,6 +320,26 @@ body {
   }
 }
 
+.mobile-demo-group-heading {
+  margin: 28px 0 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--mp-color-border-1);
+  color: var(--mp-color-text-1);
+  font-size: var(--mp-font-size-lg);
+  font-weight: 600;
+
+  &:first-child {
+    margin-top: 0;
+  }
+}
+
+html[lang='en-US'] .mobile-demo-group-heading > [lang='zh-CN'],
+html:not([lang='en-US']) .mobile-demo-group-heading > [lang='en-US'],
+html[lang='en-US'] .mobile-demo-case-heading > [lang='zh-CN'],
+html:not([lang='en-US']) .mobile-demo-case-heading > [lang='en-US'] {
+  display: none;
+}
+
 .mobile-language-cell {
   color: var(--site-config-color-text) !important;
   background: var(--site-config-color-bar) !important;
@@ -360,5 +422,16 @@ body {
       margin-left: 0;
     }
   }
+}
+</style>
+
+<style scoped>
+.mobile-documentation-sections {
+  margin-top: calc(55px + var(--site-mobile-page-header-safe-area-top));
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--site-config-color-border);
+}
+.mobile-documentation-sections + .router-view__block {
+  padding-top: 15px;
 }
 </style>

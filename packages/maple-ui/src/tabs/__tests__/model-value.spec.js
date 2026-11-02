@@ -44,7 +44,7 @@ const cases = [
     component: Steps,
     props: { changeable: true },
     children: '<Step title="A" /><Step title="B" />',
-    selector: '[role="listitem"]',
+    selector: '[role="button"]',
     index: 1,
   },
 ]

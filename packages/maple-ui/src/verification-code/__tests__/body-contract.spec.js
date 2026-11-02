@@ -8,7 +8,9 @@ import { formHost } from '../../input-number/__tests__/form-host'
 const paste = (wrapper, text) => wrapper.trigger('paste', { clipboardData: { getData: () => text } })
 describe('verification code paired contract', () => {
   test('IME after an existing character replaces from the committed text', async () => {
-    const wrapper = mount(VerificationCode, { props: { defaultValue: '1234', type: 'text', length: 4 } })
+    const wrapper = mount(VerificationCode, {
+      props: { editMode: 'direct', defaultValue: '1234', type: 'text', length: 4 },
+    })
     const input = wrapper.find('input').element
     for (const [data, expected] of [
       ['中', '中234'],
@@ -28,7 +30,10 @@ describe('verification code paired contract', () => {
     wrapper.unmount()
   })
   test('typing at the end of a filled cell replaces only that cell', async () => {
-    const wrapper = mount(VerificationCode, { props: { defaultValue: '1234', length: 4 }, attachTo: document.body })
+    const wrapper = mount(VerificationCode, {
+      props: { editMode: 'direct', defaultValue: '1234', length: 4 },
+      attachTo: document.body,
+    })
     const input = wrapper.find('input').element
     input.focus()
     await nextTick()
@@ -42,7 +47,7 @@ describe('verification code paired contract', () => {
   })
   test('real autofill and Unicode insertion preserve formatter and complete codes', async () => {
     const wrapper = mount(VerificationCode, {
-      props: { length: 4, type: 'text', formatter: (char) => char.toUpperCase() },
+      props: { editMode: 'direct', length: 4, type: 'text', formatter: (char) => char.toUpperCase() },
     })
     const input = wrapper.find('input').element
     input.value = 'ab12'
@@ -62,7 +67,9 @@ describe('verification code paired contract', () => {
     const wrapper = mount(
       {
         setup: () => () =>
-          h(KeepAlive, null, () => (shown.value ? h(VerificationCode, { length: 2, onFinish: finish }) : null)),
+          h(KeepAlive, null, () =>
+            shown.value ? h(VerificationCode, { editMode: 'direct', length: 2, onFinish: finish }) : null,
+          ),
       },
       { attachTo: document.body },
     )
@@ -82,7 +89,7 @@ describe('verification code paired contract', () => {
   test('Form notification is once per whole-code edit and group focus boundary', async () => {
     const handlers = { onInput: vi.fn(), onChange: vi.fn(), onFocus: vi.fn(), onBlur: vi.fn() }
     const wrapper = mount(
-      formHost({}, handlers, () => h(VerificationCode, { length: 2 })),
+      formHost({}, handlers, () => h(VerificationCode, { editMode: 'direct', length: 2 })),
       { attachTo: document.body },
     )
     const inputs = wrapper.findAll('input')
@@ -99,13 +106,17 @@ describe('verification code paired contract', () => {
   })
   test('Form state inherits and explicit false overrides', () => {
     const inherited = mount(
-      formHost({ disabled: true, readonly: true, error: true, size: 'xl' }, {}, () => h(VerificationCode)),
+      formHost({ disabled: true, readonly: true, error: true, size: 'xl' }, {}, () =>
+        h(VerificationCode, { editMode: 'direct' }),
+      ),
     )
     expect(inherited.find('input').attributes('disabled')).toBeDefined()
     expect(inherited.find('input').attributes('aria-invalid')).toBe('true')
     inherited.unmount()
     const explicit = mount(
-      formHost({ disabled: true, readonly: true }, {}, () => h(VerificationCode, { disabled: false, readonly: false })),
+      formHost({ disabled: true, readonly: true }, {}, () =>
+        h(VerificationCode, { editMode: 'direct', disabled: false, readonly: false }),
+      ),
     )
     expect(explicit.find('input').attributes('disabled')).toBeUndefined()
     expect(explicit.find('input').attributes('readonly')).toBeUndefined()
@@ -115,6 +126,7 @@ describe('verification code paired contract', () => {
     const events = []
     const wrapper = mount(VerificationCode, {
       props: {
+        editMode: 'direct',
         length: 2,
         defaultValue: '1',
         onInput: () => events.push('input'),
@@ -129,7 +141,7 @@ describe('verification code paired contract', () => {
     wrapper.unmount()
   })
   test('rejected model restores DOM and does not finish, including repeated proposal', async () => {
-    const wrapper = mount(VerificationCode, { props: { length: 2, modelValue: '1' } })
+    const wrapper = mount(VerificationCode, { props: { editMode: 'direct', length: 2, modelValue: '1' } })
     for (let i = 0; i < 2; i++) {
       await wrapper.findAll('input')[1].setValue('2')
       await nextTick()
@@ -140,7 +152,7 @@ describe('verification code paired contract', () => {
     wrapper.unmount()
   })
   test('SMS autofill distributes a whole code once', async () => {
-    const wrapper = mount(VerificationCode, { props: { length: 4 } })
+    const wrapper = mount(VerificationCode, { props: { editMode: 'direct', length: 4 } })
     await wrapper.find('input').setValue('12a34')
     expect(wrapper.findAll('input').map((input) => input.element.value)).toEqual(['1', '2', '3', '4'])
     expect(wrapper.emitted('change')).toEqual([['1234']])
@@ -150,6 +162,7 @@ describe('verification code paired contract', () => {
   test('paste begins at target and formatter rejects without consuming a cell', async () => {
     const wrapper = mount(VerificationCode, {
       props: {
+        editMode: 'direct',
         defaultValue: '12',
         length: 4,
         type: 'text',
@@ -162,14 +175,16 @@ describe('verification code paired contract', () => {
     wrapper.unmount()
   })
   test('text and formatter preserve Unicode code points', async () => {
-    const wrapper = mount(VerificationCode, { props: { length: 2, type: 'text', formatter: (char) => char } })
-    await paste(wrapper, '😀中X')
+    const wrapper = mount(VerificationCode, {
+      props: { editMode: 'direct', length: 2, type: 'text', formatter: (char) => char },
+    })
+    await paste(wrapper.get('[role=group]'), '😀中X')
     expect(wrapper.emitted('change')).toEqual([['😀中']])
     expect(wrapper.findAll('input').map((input) => input.element.value)).toEqual(['😀', '中'])
     wrapper.unmount()
   })
   test('allowPaste false prevents browser default without events', async () => {
-    const wrapper = mount(VerificationCode, { props: { allowPaste: false } })
+    const wrapper = mount(VerificationCode, { props: { editMode: 'direct', allowPaste: false } })
     const event = new Event('paste', { bubbles: true, cancelable: true })
     Object.defineProperty(event, 'clipboardData', { value: { getData: () => '123456' } })
     wrapper.find('input').element.dispatchEvent(event)
@@ -180,7 +195,10 @@ describe('verification code paired contract', () => {
   })
   for (const state of ['disabled', 'readonly']) {
     test(state + ' prevents input, paste and reset', async () => {
-      const wrapper = mount(VerificationCode, { props: { defaultValue: '12', [state]: true }, attachTo: document.body })
+      const wrapper = mount(VerificationCode, {
+        props: { editMode: 'direct', defaultValue: '12', [state]: true },
+        attachTo: document.body,
+      })
       await paste(wrapper, '9999')
       await wrapper.find('input').trigger('keydown', { key: 'Backspace' })
       wrapper.vm.reset()
@@ -191,7 +209,10 @@ describe('verification code paired contract', () => {
     })
   }
   test('IME does not commit or jump focus until composition ends', async () => {
-    const wrapper = mount(VerificationCode, { props: { type: 'text' }, attachTo: document.body })
+    const wrapper = mount(VerificationCode, {
+      props: { editMode: 'direct', type: 'text' },
+      attachTo: document.body,
+    })
     const input = wrapper.find('input')
     input.element.focus()
     await input.trigger('compositionstart')
@@ -206,7 +227,10 @@ describe('verification code paired contract', () => {
     wrapper.unmount()
   })
   test('Backspace empty cell removes previous char, Delete compacts at current', async () => {
-    const wrapper = mount(VerificationCode, { props: { defaultValue: '123', length: 4 }, attachTo: document.body })
+    const wrapper = mount(VerificationCode, {
+      props: { editMode: 'direct', defaultValue: '123', length: 4 },
+      attachTo: document.body,
+    })
     await wrapper.findAll('input')[3].trigger('keydown', { key: 'Backspace' })
     await nextTick()
     expect(wrapper.emitted('change').at(-1)).toEqual(['12'])
@@ -219,7 +243,10 @@ describe('verification code paired contract', () => {
     const html = await renderToString(
       createSSRApp({
         render: () =>
-          h('div', [h(VerificationCode, { ariaLabel: 'First' }), h(VerificationCode, { ariaLabel: 'Second' })]),
+          h('div', [
+            h(VerificationCode, { editMode: 'direct', ariaLabel: 'First' }),
+            h(VerificationCode, { editMode: 'direct', ariaLabel: 'Second' }),
+          ]),
       }),
     )
     const ids = [...html.matchAll(/<input[^>]* id="([^"]+)"/g)].map((match) => match[1])
@@ -227,15 +254,15 @@ describe('verification code paired contract', () => {
     expect(new Set(ids).size).toBe(12)
     expect(html).toContain('First 6/6')
     expect(html).toContain('Second 6/6')
-    const a = mount(VerificationCode)
-    const b = mount(VerificationCode)
+    const a = mount(VerificationCode, { props: { editMode: 'direct' } })
+    const b = mount(VerificationCode, { props: { editMode: 'direct' } })
     await a.find('input').setValue('1')
     expect(b.find('input').element.value).toBe('')
     a.unmount()
     b.unmount()
   })
   test('all size and variant values reach Input', async () => {
-    const wrapper = mount(VerificationCode)
+    const wrapper = mount(VerificationCode, { props: { editMode: 'direct' } })
     for (const size of ['xs', 'sm', 'md', 'lg', 'xl']) {
       await wrapper.setProps({ size })
       expect(wrapper.find('[class*="field-decorator--size-' + size + '"]').exists()).toBe(true)

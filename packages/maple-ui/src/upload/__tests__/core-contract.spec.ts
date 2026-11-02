@@ -605,3 +605,85 @@ describe('Upload native request terminal and cancellation guards', () => {
     expect(options.onSuccess).not.toHaveBeenCalled()
   })
 })
+
+describe('atomic file replacement', () => {
+  test('replacement excludes the old file from count/total limits and invalidates its late request', async () => {
+    const calls: UploadRequestOptions[] = []
+    const abort = vi.fn()
+    const previous = item('old')
+    const result = host({
+      defaultValue: () => [previous],
+      maxFiles: () => 1,
+      maxTotalSize: () => 3,
+      customRequest: () => (request) => {
+        calls.push(request)
+        return { abort }
+      },
+    })
+    await result.api.submit(previous)
+    await result.api.replace(previous, new File(['new'], 'new.txt', { type: 'text/plain' }))
+    await flushPromises()
+    expect(result.api.getFiles()).toHaveLength(1)
+    expect(result.api.getFiles()[0].name).toBe('new.txt')
+    expect(abort).toHaveBeenCalledTimes(1)
+    calls[0].onSuccess('late old success')
+    calls[1].onSuccess('new success')
+    await flushPromises()
+    expect(result.api.getFiles()[0]).toMatchObject({ name: 'new.txt', status: 'success', response: 'new success' })
+  })
+  test('validation failure and an asynchronous removal veto preserve the original file and release prepared URLs', async () => {
+    const previous = item('old')
+    const guard = deferred<boolean>()
+    const result = host({
+      defaultValue: () => [previous],
+      maxFileSize: () => 3,
+      beforeRemove: () => () => guard.promise,
+    })
+    await result.api.replace(previous, new File(['large'], 'oversize.txt'))
+    expect(result.api.getFiles()[0].uid).toBe(previous.uid)
+    const replacing = result.api.replace(previous, new File(['ok'], 'ok.txt'))
+    await flushPromises()
+    expect(result.api.getFiles()[0].uid).toBe(previous.uid)
+    guard.resolve(false)
+    await replacing
+    expect(result.api.getFiles()[0].uid).toBe(previous.uid)
+    expect(URL.revokeObjectURL).toHaveBeenCalledTimes(1)
+  })
+  test('controlled refusal keeps the original transport active and discards replacement resources', async () => {
+    const previous = item('old')
+    const abort = vi.fn()
+    const request = vi.fn(() => ({ abort }))
+    const result = host({ customRequest: () => request }, [previous])
+    await result.api.submit(previous)
+    await result.api.replace(previous, new File(['new'], 'new.txt'))
+    await flushPromises()
+    expect(result.api.getFiles()[0].uid).toBe(previous.uid)
+    expect(abort).not.toHaveBeenCalled()
+    expect(request).toHaveBeenCalledTimes(1)
+    result.wrapper.unmount()
+    expect(URL.revokeObjectURL).toHaveBeenCalledTimes(1)
+  })
+  test('an externally removed target cannot be restored by a late replacement read', async () => {
+    const previous = item('old')
+    const read = deferred<boolean>()
+    const result = host({ beforeRead: () => () => read.promise }, [previous])
+    const replacing = result.api.replace(previous, new File(['new'], 'new.txt'))
+    await flushPromises()
+    await result.wrapper.setProps({ modelValue: [] })
+    read.resolve(true)
+    await replacing
+    expect(result.api.getFiles()).toHaveLength(0)
+  })
+  test('readonly and canceled native replacement choices preserve the original file', async () => {
+    let readonly = true
+    const previous = item('old')
+    const result = host({ defaultValue: () => [previous], readonly: () => readonly })
+    await result.api.replace(previous, new File(['new'], 'new.txt'))
+    expect(result.api.getFiles()[0].uid).toBe(previous.uid)
+    readonly = false
+    await result.api.replace(previous)
+    result.api.cancelChoose()
+    expect(result.api.replacementTarget.value).toBeUndefined()
+    expect(result.api.getFiles()[0].uid).toBe(previous.uid)
+  })
+})

@@ -1,0 +1,562 @@
+[
+  {
+    "theme": "lightTheme",
+    "samples": {
+      "number": {
+        "foreground": [
+          29,
+          33,
+          41
+        ],
+        "background": [
+          255,
+          255,
+          255
+        ],
+        "contrast": 16.131462775889503
+      },
+      "stepButton": {
+        "foreground": [
+          78,
+          89,
+          105
+        ],
+        "background": [
+          247,
+          248,
+          250
+        ],
+        "contrast": 6.683478982205631
+      },
+      "selected": {
+        "foreground": [
+          29,
+          33,
+          41
+        ],
+        "background": [
+          232,
+          255,
+          251
+        ],
+        "contrast": 15.46175199506081
+      },
+      "check": {
+        "foreground": [
+          29,
+          33,
+          41
+        ],
+        "background": [
+          232,
+          255,
+          251
+        ],
+        "contrast": 15.46175199506081
+      },
+      "clear": {
+        "foreground": [
+          29,
+          33,
+          41
+        ],
+        "background": [
+          255,
+          255,
+          255
+        ],
+        "contrast": 16.131462775889503
+      }
+    }
+  },
+  {
+    "theme": "darkTheme",
+    "samples": {
+      "number": {
+        "foreground": [
+          231.3,
+          231.3,
+          231.3
+        ],
+        "background": [
+          18,
+          18,
+          18
+        ],
+        "contrast": 15.191268914291287
+      },
+      "stepButton": {
+        "foreground": [
+          186.744,
+          186.744,
+          186.744
+        ],
+        "background": [
+          27.480000000000004,
+          27.480000000000004,
+          27.480000000000004
+        ],
+        "contrast": 8.901781405426227
+      },
+      "selected": {
+        "foreground": [
+          234.72,
+          237.96,
+          238
+        ],
+        "background": [
+          52.2,
+          84.6,
+          85
+        ],
+        "contrast": 7.010542030549638
+      },
+      "check": {
+        "foreground": [
+          234.72,
+          237.96,
+          238
+        ],
+        "background": [
+          52.2,
+          84.6,
+          85
+        ],
+        "contrast": 7.010542030549638
+      },
+      "clear": {
+        "foreground": [
+          235,
+          235,
+          235.2
+        ],
+        "background": [
+          55,
+          55,
+          57
+        ],
+        "contrast": 9.964758244110694
+      }
+    }
+  },
+  {
+    "theme": "mapleLightTheme",
+    "samples": {
+      "number": {
+        "foreground": [
+          29,
+          33,
+          41
+        ],
+        "background": [
+          255,
+          255,
+          255
+        ],
+        "contrast": 16.131462775889503
+      },
+      "stepButton": {
+        "foreground": [
+          78,
+          89,
+          105
+        ],
+        "background": [
+          247,
+          248,
+          250
+        ],
+        "contrast": 6.683478982205631
+      },
+      "selected": {
+        "foreground": [
+          29,
+          33,
+          41
+        ],
+        "background": [
+          255,
+          247,
+          237
+        ],
+        "contrast": 15.193679901982854
+      },
+      "check": {
+        "foreground": [
+          29,
+          33,
+          41
+        ],
+        "background": [
+          255,
+          247,
+          237
+        ],
+        "contrast": 15.193679901982854
+      },
+      "clear": {
+        "foreground": [
+          29,
+          33,
+          41
+        ],
+        "background": [
+          255,
+          255,
+          255
+        ],
+        "contrast": 16.131462775889503
+      }
+    }
+  },
+  {
+    "theme": "mapleDarkTheme",
+    "samples": {
+      "number": {
+        "foreground": [
+          230,
+          230,
+          230
+        ],
+        "background": [
+          5,
+          5,
+          5
+        ],
+        "contrast": 16.33029042726615
+      },
+      "stepButton": {
+        "foreground": [
+          183,
+          183,
+          183
+        ],
+        "background": [
+          15,
+          15,
+          15
+        ],
+        "contrast": 9.557513933894288
+      },
+      "selected": {
+        "foreground": [
+          238.92,
+          236.82,
+          235.26
+        ],
+        "background": [
+          94.2,
+          73.2,
+          57.6
+        ],
+        "contrast": 7.194853815682734
+      },
+      "check": {
+        "foreground": [
+          238.92,
+          236.82,
+          235.26
+        ],
+        "background": [
+          94.2,
+          73.2,
+          57.6
+        ],
+        "contrast": 7.194853815682734
+      },
+      "clear": {
+        "foreground": [
+          235,
+          235,
+          235.2
+        ],
+        "background": [
+          55,
+          55,
+          57
+        ],
+        "contrast": 9.964758244110694
+      }
+    }
+  },
+  {
+    "theme": "alpsLightTheme",
+    "samples": {
+      "number": {
+        "foreground": [
+          9,
+          12,
+          26
+        ],
+        "background": [
+          255,
+          255,
+          255
+        ],
+        "contrast": 19.460293847895333
+      },
+      "stepButton": {
+        "foreground": [
+          107,
+          109,
+          120
+        ],
+        "background": [
+          247,
+          247,
+          247
+        ],
+        "contrast": 4.799960546116684
+      },
+      "selected": {
+        "foreground": [
+          9,
+          12,
+          26
+        ],
+        "background": [
+          240,
+          248,
+          255
+        ],
+        "contrast": 18.14071323871111
+      },
+      "check": {
+        "foreground": [
+          9,
+          12,
+          26
+        ],
+        "background": [
+          240,
+          248,
+          255
+        ],
+        "contrast": 18.14071323871111
+      },
+      "clear": {
+        "foreground": [
+          9,
+          12,
+          26
+        ],
+        "background": [
+          255,
+          255,
+          255
+        ],
+        "contrast": 19.460293847895333
+      }
+    }
+  },
+  {
+    "theme": "alpsDarkTheme",
+    "samples": {
+      "number": {
+        "foreground": [
+          241,
+          242,
+          246
+        ],
+        "background": [
+          18,
+          18,
+          18
+        ],
+        "contrast": 16.745907004486497
+      },
+      "stepButton": {
+        "foreground": [
+          189,
+          193,
+          205
+        ],
+        "background": [
+          34,
+          38,
+          51
+        ],
+        "contrast": 8.379584747824941
+      },
+      "selected": {
+        "foreground": [
+          241,
+          242,
+          246
+        ],
+        "background": [
+          60,
+          41,
+          40
+        ],
+        "contrast": 12.18987925119288
+      },
+      "check": {
+        "foreground": [
+          241,
+          242,
+          246
+        ],
+        "background": [
+          60,
+          41,
+          40
+        ],
+        "contrast": 12.18987925119288
+      },
+      "clear": {
+        "foreground": [
+          241,
+          242,
+          246
+        ],
+        "background": [
+          36,
+          40,
+          54
+        ],
+        "contrast": 13.110621734478276
+      }
+    }
+  },
+  {
+    "theme": "fireflyLightTheme",
+    "samples": {
+      "number": {
+        "foreground": [
+          23,
+          34,
+          75
+        ],
+        "background": [
+          245.71999999999997,
+          246.16,
+          247.79999999999998
+        ],
+        "contrast": 14.239539630035734
+      },
+      "stepButton": {
+        "foreground": [
+          108.52447999999998,
+          115.46943999999999,
+          141.3552
+        ],
+        "background": [
+          236.81119999999996,
+          237.6736,
+          240.88799999999998
+        ],
+        "contrast": 4.008032586869802
+      },
+      "selected": {
+        "foreground": [
+          23,
+          34,
+          75
+        ],
+        "background": [
+          243.48000000000002,
+          241.56,
+          255
+        ],
+        "contrast": 13.842537130100874
+      },
+      "check": {
+        "foreground": [
+          23,
+          34,
+          75
+        ],
+        "background": [
+          243.48000000000002,
+          241.56,
+          255
+        ],
+        "contrast": 13.842537130100874
+      },
+      "clear": {
+        "foreground": [
+          23,
+          34,
+          75
+        ],
+        "background": [
+          255,
+          255,
+          255
+        ],
+        "contrast": 15.363875518933586
+      }
+    }
+  },
+  {
+    "theme": "fireflyDarkTheme",
+    "samples": {
+      "number": {
+        "foreground": [
+          235,
+          238,
+          255
+        ],
+        "background": [
+          37,
+          47,
+          69
+        ],
+        "contrast": 11.58745565225476
+      },
+      "stepButton": {
+        "foreground": [
+          189,
+          197,
+          223
+        ],
+        "background": [
+          37,
+          47,
+          69
+        ],
+        "contrast": 7.774810211422193
+      },
+      "selected": {
+        "foreground": [
+          235,
+          238,
+          255
+        ],
+        "background": [
+          50,
+          45,
+          73
+        ],
+        "contrast": 11.32804036275994
+      },
+      "check": {
+        "foreground": [
+          235,
+          238,
+          255
+        ],
+        "background": [
+          50,
+          45,
+          73
+        ],
+        "contrast": 11.32804036275994
+      },
+      "clear": {
+        "foreground": [
+          235,
+          238,
+          255
+        ],
+        "background": [
+          34,
+          44,
+          67
+        ],
+        "contrast": 12.062401075466063
+      }
+    }
+  }
+]

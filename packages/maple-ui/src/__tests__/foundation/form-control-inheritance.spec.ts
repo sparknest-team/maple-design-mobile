@@ -12,9 +12,9 @@ describe('form control inheritance', () => {
       defineComponent({
         components: { Form, FormItem, Input },
         template: `
-        <Form size="xl" readonly disabled>
-          <FormItem :disabled="false">
-            <Input :readonly="false" />
+        <Form edit-mode="direct" size="xl" readonly disabled>
+          <FormItem edit-mode="direct" :disabled="false">
+            <Input edit-mode="direct" :readonly="false" />
           </FormItem>
         </Form>
       `,
@@ -32,7 +32,8 @@ describe('form control inheritance', () => {
     const wrapper = mount(
       defineComponent({
         components: { Form, FormItem, Input },
-        template: '<Form disabled readonly><FormItem><Input /></FormItem></Form>',
+        template:
+          '<Form edit-mode="direct" disabled readonly><FormItem edit-mode="direct"><Input edit-mode="direct" /></FormItem></Form>',
       }),
     )
 
@@ -47,7 +48,7 @@ describe('form control inheritance', () => {
       defineComponent({
         components: { Form, FormItem, Textarea },
         template:
-          '<Form size="xl" readonly disabled><FormItem><Textarea :readonly="false" :disabled="false" /></FormItem></Form>',
+          '<Form edit-mode="direct" size="xl" readonly disabled><FormItem edit-mode="direct"><Textarea edit-mode="direct" :readonly="false" :disabled="false" /></FormItem></Form>',
       }),
     )
     expect(wrapper.get('.mp-field-decorator').classes()).toContain('mp-field-decorator--size-xl')
@@ -58,7 +59,8 @@ describe('form control inheritance', () => {
     const inherited = mount(
       defineComponent({
         components: { Form, FormItem, Textarea },
-        template: '<Form readonly disabled><FormItem><Textarea /></FormItem></Form>',
+        template:
+          '<Form edit-mode="direct" readonly disabled><FormItem edit-mode="direct"><Textarea edit-mode="direct" /></FormItem></Form>',
       }),
     )
     expect(inherited.get('textarea').attributes('readonly')).toBeDefined()

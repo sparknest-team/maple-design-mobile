@@ -8,7 +8,11 @@ import {
   type ExtractPropTypes,
   type SetupContext,
 } from 'vue'
-import { useFieldPresentation } from '../_components/field-presentation/context'
+import {
+  defaultSelectionPresentation,
+  invokeBeforeCommit,
+  useFieldPresentation,
+} from '../_components/field-presentation/context'
 import { useFieldTexts } from '../_components/field-presentation/texts'
 import { useFieldSearch } from '../_components/field-presentation/use-field-search'
 import type { SelectionFieldItem } from '../_components/selection-field/props'
@@ -17,6 +21,7 @@ import {
   useSelectionSession,
   type SelectionSession,
 } from '../_components/selection-field/use-selection-session'
+import { useOptionRequest } from '../_hooks/use-option-request'
 import { useTrigger } from '../_hooks/use-trigger'
 import {
   isArray,
@@ -30,10 +35,11 @@ import {
   isUndefined,
 } from '../_utils/is'
 import { useInputForm } from '../input/use-input-form'
+import { resolveEmptyValue, useEmptyValues } from '../utils/empty-value'
 import { selectEmits } from './emits'
 import { useSelect } from './hooks/use-select'
 import { selectProps } from './props'
-import type { OptionValueWithKey, SelectOptionData } from './types'
+import type { OptionValueWithKey, SelectOption, SelectOptionData, SelectValue } from './types'
 import { getKeyFromValue, hasEmptyStringKey } from './utils'
 
 const DEFAULT_FIELD_NAMES = {
@@ -50,30 +56,39 @@ export function useSelectController(
 ) {
   const texts = useFieldTexts()
   const presentationState = useFieldPresentation(
-    () => props.presentation,
+    () => props.editMode,
     () => props.readPretty,
+    defaultSelectionPresentation,
   )
-  const presentation = presentationState.presentation
+  const editMode = presentationState.editMode
   const readPretty = presentationState.readPretty
+  const emptyPolicy = useEmptyValues(props, [undefined, null], Boolean(presentationState.item))
   // props
   const {
     size,
     variant,
     disabled,
     error,
-    options,
-    filterOption,
+    caseSensitive,
+    searchFields,
     multiple,
     open,
     defaultOpen,
     showExtraOptions,
     modelValue,
     fieldNames,
-    loading,
     defaultActiveFirstOption,
   } = toRefs(props)
   const { mergedSize, mergedDisabled, mergedReadonly, mergedError, feedback, eventHandlers, group, hasOuterLabel } =
     useInputForm(props)
+  const source = useOptionRequest<SelectOption>(
+    () => props.options,
+    () => mergedDisabled.value || mergedReadonly.value || readPretty.value,
+    (error) => emit('load-error', error),
+  )
+  const options = source.options
+  const loading = computed(() => props.loading || source.loading.value)
+  const filterOption = computed(() => props.filterOption ?? !source.remote.value)
   const mergedVariant = computed(() => props.variant ?? group?.variant.value ?? 'filled')
   const mergedHint = computed(() => !hasOuterLabel.value && props.hint)
   const component = computed(() => (props.virtualListProps ? 'div' : 'li'))
@@ -102,16 +117,16 @@ export function useSelectController(
   }
 
   // value and key
-  const _value = ref(props.defaultValue)
+  const _value = ref<SelectValue>(props.defaultValue)
 
   const mergedFieldNames = computed(() => ({
     ...DEFAULT_FIELD_NAMES,
     ...fieldNames?.value,
   }))
 
-  const committedValue = computed(() => props.modelValue ?? _value.value)
-  const deferred = computed(() => presentation.value !== 'inline')
-  const publish = (value: typeof props.defaultValue) => {
+  const committedValue = computed<SelectValue>(() => (props.modelValue !== undefined ? props.modelValue : _value.value))
+  const deferred = computed(() => editMode.value !== 'direct')
+  const publish = (value: SelectValue) => {
     _value.value = value
     emit('update:modelValue', value)
     emit('change', value)
@@ -123,7 +138,7 @@ export function useSelectController(
     value: () => committedValue.value,
     open: computedOpen,
     deferred: () => deferred.value,
-    blocked: () => mergedDisabled.value || mergedReadonly.value || props.loading || readPretty.value,
+    blocked: () => mergedDisabled.value || mergedReadonly.value || loading.value || readPretty.value,
     clone: (value) => (Array.isArray(value) ? [...value] : value),
     publish,
     cancelOnExternalChange: true,
@@ -135,21 +150,24 @@ export function useSelectController(
         return false
       }
       if (!sameSelectionValue(next, committedValue.value)) {
-        return props.beforeCommit?.(next, { previousValue: committedValue.value, signal })
+        return invokeBeforeCommit(props.beforeCommit, next, {
+          previousValue: committedValue.value,
+          signal,
+        })
       }
     },
     valid: () => canConfirm.value,
     close: () => handleOpenChange(false),
   })
   watch(
-    () => presentation.value,
+    () => editMode.value,
     () => {
       session.cancel()
       session.reset()
     },
   )
   watch(
-    [presentation, readPretty],
+    [editMode, readPretty],
     ([value]) => {
       presentationState.item?.resolved?.(value, readPretty.value)
       if (readPretty.value && requestedOpen.value) {
@@ -160,12 +178,12 @@ export function useSelectController(
   )
 
   watch(
-    [mergedDisabled, mergedReadonly, presentation, readPretty],
+    [mergedDisabled, mergedReadonly, editMode, readPretty],
     () => {
       if (mergedDisabled.value || mergedReadonly.value || readPretty.value) {
         setOpen(false)
         session.reset()
-        if (presentation.value !== 'inline' || deferred.value) {
+        if (editMode.value !== 'direct' || deferred.value) {
           presentationState.item?.resetValidation?.()
         }
       }
@@ -174,12 +192,21 @@ export function useSelectController(
   )
   const committedValueObjects = computed<OptionValueWithKey[]>(() => {
     const value = committedValue.value
+    if (emptyPolicy.isEmpty(value)) {
+      return []
+    }
     const values = Array.isArray(value) ? value : value == null ? [] : [value]
-    return values.map((value) => ({ value, key: getKeyFromValue(value, mergedFieldNames.value.value) }))
+    return values.map((value) => ({
+      value,
+      key: getKeyFromValue(value, mergedFieldNames.value.value),
+    }))
   })
 
   const computedValueObjects = computed<OptionValueWithKey[]>(() => {
     const mergedValue = session.value.value
+    if (emptyPolicy.isEmpty(mergedValue)) {
+      return []
+    }
     const valueArray = isArray(mergedValue)
       ? mergedValue
       : mergedValue || isNumber(mergedValue) || isString(mergedValue) || isBoolean(mergedValue)
@@ -283,12 +310,9 @@ export function useSelectController(
   })
 
   // update func
-  const getValueFromValueKeys = (valueKeys: string[]) => {
+  const getValueFromValueKeys = (valueKeys: string[]): SelectValue => {
     if (!props.multiple) {
-      return (
-        optionInfoMap.get(valueKeys[0])?.value ??
-        (hasEmptyStringKey(optionInfoMap) ? (undefined as unknown as string) : '')
-      )
+      return optionInfoMap.get(valueKeys[0])?.value ?? (hasEmptyStringKey(optionInfoMap) ? undefined : '')
     }
     return valueKeys.map((key) => optionInfoMap.get(key)?.value ?? '')
   }
@@ -312,7 +336,7 @@ export function useSelectController(
       mergedReadonly.value ||
       session.pending.value ||
       readPretty.value ||
-      props.loading ||
+      loading.value ||
       !enabledOptionKeys.value.includes(key)
     ) {
       return
@@ -362,7 +386,10 @@ export function useSelectController(
       !mergedDisabled.value &&
       !mergedReadonly.value &&
       !session.pending.value,
-    (value) => emit('search', value),
+    (value) => {
+      emit('search', value)
+      void source.search(value)
+    },
   )
 
   const handleInputValueChange = (inputValue: string) => {
@@ -370,7 +397,7 @@ export function useSelectController(
       return
     }
     if (inputValue !== computedInputValue.value) {
-      if (!computedOpen.value) {
+      if (!computedOpen.value && props.openTriggerTarget !== 'icon') {
         handleOpenChange(true)
       }
 
@@ -416,7 +443,9 @@ export function useSelectController(
       return
     }
     const newKeys = computedValueObjects.value.map((item) => item.key).filter((key) => optionInfoMap.get(key)?.disabled)
-    session.update(getValueFromValueKeys(newKeys))
+    const fallback = getValueFromValueKeys(newKeys)
+    const clearedValue = newKeys.length === 0 ? resolveEmptyValue(props, fallback) : fallback
+    session.update(clearedValue)
     updateInputValue('')
     if (!deferred.value) {
       eventHandlers.value?.onClear?.()
@@ -455,6 +484,8 @@ export function useSelectController(
     extraOptions,
     inputValue: computedInputValue,
     filterOption,
+    caseSensitive,
+    searchFields,
     showExtraOptions,
     component,
     fieldNames,
@@ -510,10 +541,13 @@ export function useSelectController(
   })
   return {
     props,
+    loading,
+    refresh: source.refresh,
     registerPresentation: presentationState.register,
-    presentation,
+    editMode,
     presentationLabel: presentationState.label,
     readPretty: presentationState.readPretty,
+    emptyPolicy,
     nativeEditor: presentationState.nativeEditor,
     presentationError: computed(() => presentationState.item?.message?.value),
     cancelSession: () => {

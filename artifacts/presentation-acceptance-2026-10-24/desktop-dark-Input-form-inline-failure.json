@@ -1,0 +1,11 @@
+{
+  "details": {
+    "surface": "desktop",
+    "theme": "dark",
+    "component": "Input",
+    "mode": "form-inline"
+  },
+  "error": "Error: locator.selectOption: Target page, context or browser has been closed",
+  "diagnostic": "",
+  "errors": []
+}

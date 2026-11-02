@@ -1,19 +1,8 @@
 # List
 
-Current-source revalidation,2026-10-16:15 lifecycle/two measurement cases pass with measured-row/self-scroll alignment and reactive padding;related List total38. Pre/post hashes match;only classification is updated,not parallel product code. These controls do not certify arbitrary destructive geometry reentry,native smooth scrolling,trusted input or OS. Earlier counts remain historical.
-
-VirtualList lifecycle audit: superseded requests, changed data, deactivation and disposal invalidate old nextTick corrections; retained inactive/disposed commands are inert and activation does not replay old work. Corrections are not RAF interpolation and introduce no CSS token/API. All15 scoped cases per copy pass; full List Cedar41/Maple34. New real browser cases:0. Existing key/index/align and measurement contracts remain. The classification note below is historical.
-
-```demo
-../example/demos/en-US/virtual-lifecycle.vue
-```
-
-`scrollIntoView` forwards options to the internal VirtualList `scrollTo` only in virtual mode; it is not a direct native DOM scrollIntoView or a local motion timer. Native scrolling, preferences and retained-command lifecycle require a separate VirtualList consumer audit. Source hints are not visual acceptance; this classification changes no List API/implementation.
-
 A presentational list. Compose it with `InfiniteScroll` for pagination.
 
-
-## 案例
+## Basic examples
 
 ### basic usage
 
@@ -21,47 +10,41 @@ A presentational list. Compose it with `InfiniteScroll` for pagination.
 ../example/demos/basic-usage.vue
 ```
 
-### manual usage
-
-```demo
-../example/demos/manual-usage.vue
-```
+## Appearance and states
 
 ### states
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `data` | Data consumed by item slot | states |
+| `loading` | Initial loading/refresh feedback, not pagination state | states |
+<!-- demo-config-notes:end -->
+
 
 ```demo
 ../example/demos/states.vue
 ```
 
-## Basic Usage
-
-```html
-<mp-list :data="items" size="md" bordered>
-  <template #header>Contacts</template>
-  <template #item="{ item, index }">
-    <mp-list-item>
-      <template #prefix>{{ index + 1 }}</template>
-      {{ item.name }}
-      <template #suffix>{{ item.phone }}</template>
-    </mp-list-item>
-  </template>
-  <template #empty>No contacts</template>
-  <template #footer>{{ items.length }} items</template>
-</mp-list>
-```
-
-You can also provide list content directly. When both the default slot and `data` are present, the default slot wins and `item` is not invoked.
-
-```html
-<mp-list :data="items">
-  <mp-list-item>Default slot content</mp-list-item>
-  <template #item="{ item }">{{ item }}</template>
-</mp-list>
-```
-
-`loading` represents an initial full-list load or refresh, not next-page loading. An empty list does not render its empty state while loading.
+## Scrolling and virtualization
 
 ### Bounded scrolling
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `data` | Data consumed by item slot | Bounded scrolling, Virtual navigation |
+| `size` | Implemented sizes only; xs/xl are not supported | Bounded scrolling, manual usage |
+| `max-height` | Maximum ordinary viewport height; number in px or CSS length, zero means unlimited | Bounded scrolling |
+| `scrollbar` | Ordinary viewport custom scrollbar; false uses native scrolling | Bounded scrolling |
+| `split` | Item/header/footer separators, independent of border | Bounded scrolling |
+| `virtual-list-props` | Data virtualization; ignored when default slot exists | Virtual navigation |
+<!-- demo-config-notes:end -->
+
 
 ```demo
 ../example/demos/en-US/bounded-scroll.vue
@@ -77,16 +60,35 @@ Navigation uses rendered row bounds when available and updates virtual padding a
 ../example/demos/en-US/virtual-navigation.vue
 ```
 
-<!-- api-review:start -->
-### Feature playground
+### manual usage
 
 ```demo
-../example/demos/api-review.vue
+../example/demos/manual-usage.vue
 ```
 
-<!-- api-review:end -->
+## Lifecycle
+
+### Lifecycle
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `data` | Data consumed by item slot | Lifecycle |
+| `virtual-list-props` | Data virtualization; ignored when default slot exists | Lifecycle |
+<!-- demo-config-notes:end -->
+
+
+```demo
+../example/demos/en-US/virtual-lifecycle.vue
+```
+
+`scrollIntoView` forwards options to the internal VirtualList `scrollTo` only in virtual mode; it is not a direct native DOM scrollIntoView or a local motion timer. Native scrolling, preferences and retained-command lifecycle require a separate VirtualList consumer audit. Source hints are not visual acceptance; this classification changes no List API/implementation.
 
 ## API
+
+### List Props
 
 | Prop | Description | Type | Default |
 | --- | --- | --- | --- |
@@ -99,28 +101,28 @@ Navigation uses rendered row bounds when available and updates virtual padding a
 | virtual-list-props | Data virtualization; ignored when default slot exists | ListVirtualListProps | undefined |
 | scrollbar | Ordinary viewport custom scrollbar; false uses native scrolling | boolean \| ListScrollbarProps | true |
 
-Virtual mode owns its scroll viewport and does not nest a custom scrollbar. virtualListProps.height takes precedence over maxHeight; otherwise the virtual height defaults to 200px. Invalid or non-positive max-height values leave height unlimited.
+Virtual lists use a dedicated viewport without nesting a custom scrollbar. virtualListProps.height overrides maxHeight; with neither, height defaults to 200px. Numeric and unit-bearing CSS lengths are accepted. Invalid/nonpositive max-height does not constrain height.
 
-ListVirtualListProps includes height, threshold, fixedSize, estimatedSize, buffer, itemKey and component. Data is supplied by List.data; the deprecated isStaticItemHeight field is not supported. All rows render when the data length is at or below threshold. Dynamic rows use measured heights with estimatedSize as fallback; buffer controls prerendered rows.
+ListVirtualListProps supports height, threshold, fixedSize, estimatedSize, buffer, itemKey and component. Removed isStaticItemHeight is unsupported; List.data supplies data. Counts at or below threshold render all items. Variable heights use measurements and estimatedSize; buffer controls overscan rows.
 
-ListScrollbarProps includes type: 'track'|'embed', outerClass, outerStyle, hide, disableHorizontal and disableVertical. Object fields use camelCase.
+ListScrollbarProps supports type: 'track'|'embed', outerClass, outerStyle, hide, disableHorizontal and disableVertical. JavaScript object fields use camelCase.
 
-### Events and methods
+### Events / Methods
 
-- scroll(event: Event): one notification for each actual scroll event.
-- scrollIntoView({ index?, key?, align }): virtual item navigation, index takes precedence; align is top/bottom/auto. Auto retains the position of a fully visible item and otherwise moves enough to reveal it. Invalid targets and non-virtual lists do nothing.
+- scroll(event: Event): one notification per real scroll event.
+- scrollIntoView({ index?, key?, align }): virtual-list positioning. index overrides key; align is top/bottom/auto. auto does nothing for a fully visible item, otherwise scrolls the minimum distance required. Invalid targets or nonvirtual mode do nothing.
 
-### Slots and types
+### Slots
 
-List slots: default (takes precedence over data and disables virtualization), item({ item, index }), header, footer, empty. Empty is displayed only without default content/data and while not loading.
+List slots: default (overrides data), item({ item, index }), header, footer, empty. Empty state appears only without a default slot/data and while not loading. ListItem prefix/default/suffix retain list-item semantics without managing buttons/business interactions.
 
-ListItem slots: prefix, default, suffix. Items preserve listitem semantics; business interactions remain in slots.
+### Types
 
-Types: ListProps, ListSize, ListVirtualListProps, ListScrollbarProps, ListExpose, ListSlots, ListEmits, ListInstance, ListItemInstance.
+ListProps、ListSize、ListVirtualListProps、ListScrollbarProps、ListExpose、ListSlots、ListEmits、ListInstance、ListItemInstance。
 
-List displays content; compose InfiniteScroll for pagination instead of duplicating its loading state machine inside List.
+List handles display and an optional virtual viewport. Compose InfiniteScroll status/target behavior for pagination rather than duplicating its loading state machine inside List.
 
-## Style tokens
+## Style variables
 
 | Token | Default |
 | --- | --- |

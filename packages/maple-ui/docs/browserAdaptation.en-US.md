@@ -1,5 +1,14 @@
 # Browser Adaptation
 
+### Browser compatibility and acceptance
+
+Maple primarily targets mobile environments: the latest two stable iOS Safari and Android Chrome versions, plus the Android System WebView, WeChat and embedded app browsers used by the product. Minimum OS and engine versions require native-device evidence; an Android OS version or desktop mobile emulation is insufficient.
+
+Viewport conversion and desktop touch emulation address layout and input modes. Native acceptance additionally covers touch gestures, IME/autofill, software keyboards, popup positioning and scroll locking, orientation/address-bar changes, safe areas, file upload and camera entry points. Automated Chromium/Firefox/WebKit results are recorded separately from native Safari, WeChat and app WebView acceptance.
+
+At the repository root, run `pnpm check:compatibility`, create the native template with `pnpm compatibility:native:init`, and validate native evidence with `pnpm check:compatibility:release`. The shared policy lives in the sibling design-ui repository at `standards/browser-compatibility.md`. Environments without evidence remain pending.
+
+
 ### Intro
 
 The component library provides mobile and desktop adaptations,
@@ -110,3 +119,7 @@ pnpm add @maple-design/touch-emulator
 // playground-ignore
 import '@maple-design/touch-emulator'
 ```
+
+## App / WebView safe area
+
+See [SafeArea and App Integration](#/en-US/safe-area) for native overrides, explicit zero, consumption boundaries, portals and keyboard limitations.

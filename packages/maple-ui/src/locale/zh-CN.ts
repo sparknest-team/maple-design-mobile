@@ -12,6 +12,8 @@ export default {
   'fieldPresentation.selected': '已选择',
   'fieldPresentation.limit': '最多选择',
 
+  datePickerPreviousWeek: '上一周',
+  datePickerNextWeek: '下一周',
   datePickerPreviousMonth: '上一月',
   datePickerNextMonth: '下一月',
   datePickerPreviousYear: '上一年',
@@ -23,6 +25,8 @@ export default {
   'carousel.next': '下一页',
   'carousel.slide': '第 {index} 页，共 {total} 页',
   'carousel.goto': '切换到第 {index} 页',
+  'upload.replace': '替换',
+  'upload.duration': '视频时长',
   'upload.buttonText': '上传',
   'upload.drag': '将文件拖拽到此处',
   'upload.preview': '预览',
@@ -162,6 +166,8 @@ export default {
   // time-picker
   timePickerHint: '选择时间',
   // time-range
+  rangeStartPlaceholder: '选择开始',
+  rangeEndPlaceholder: '选择结束',
   timeRangeStart: '开始时间',
   dateRangeStart: '开始日期',
   dateRangeEnd: '结束日期',

@@ -7,7 +7,7 @@ import ModelOutput from '../components/ModelOutput.vue'
 import __apiReviewRawConfig from './api-review-mp-form-2.config.json'
 
 const form = ref()
-const presentation = ref('popup')
+const editMode = ref('popup')
 const disabled = ref(false)
 const readonly = ref(false)
 const model = ref({ title: '原名称', note: '原备注', department: 'dev' })
@@ -79,15 +79,17 @@ onBeforeUnmount(() => pending.value?.finish(false, true))
 </script>
 <template>
   <DemoApiReviewPanel v-slot="__apiReview" v-bind="defineReviewConfig(__apiReviewRawConfig)">
-    <mp-space direction="column" :size="16">
-      <mp-select v-model="scenario" :options="scenarios" aria-label="异步保存场景" :clearable="false" />
+    <mp-space direction="column" align="stretch" :size="16">
+      <mp-form-item layout="vertical" size="sm" label="异步保存场景">
+        <mp-radio-group v-model="scenario" aria-label="异步保存场景" :options="scenarios" variant="button" size="sm" />
+      </mp-form-item>
       <mp-checkbox v-model="disabled">禁用状态示例</mp-checkbox>
       <mp-checkbox v-model="readonly">只读状态示例</mp-checkbox>
       <p>编辑名称、备注或部门并保存，模拟等待 1.2 秒。选择保存结果，或在等待时禁用、只读、重置，观察草稿是否提交。</p>
       <mp-form
         ref="form"
         :model="model"
-        :presentation="presentation"
+        :edit-mode="editMode"
         :disabled="disabled"
         :readonly="readonly"
         :rules="rules"

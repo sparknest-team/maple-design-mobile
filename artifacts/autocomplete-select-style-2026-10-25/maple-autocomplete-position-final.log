@@ -1,0 +1,10 @@
+
+ RUN  v3.0.6 /Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui
+
+ ✓ src/auto-complete/__tests__/auto-complete.test.tsx (45 tests) 533ms
+
+ Test Files  1 passed (1)
+      Tests  45 passed (45)
+   Start at  15:55:48
+   Duration  27.60s (transform 5.78s, setup 27ms, collect 25.01s, tests 533ms, environment 1.32s, prepare 134ms)
+

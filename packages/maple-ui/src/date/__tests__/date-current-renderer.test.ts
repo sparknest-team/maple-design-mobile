@@ -13,7 +13,7 @@ describe('date current renderer', () => {
       props: { modelValue: '2025-01-01', pickerValue: '2025-01-01', showNowButton: false, presentation: 'calendar' },
     })
     await nextTick()
-    const today = () => wrapper.findAll('.mp-day-picker__button--usable.mp-button--variant-outline')
+    const today = () => wrapper.findAll('.mp-day-picker__button--usable[aria-current="date"]')
     expect(today()).toHaveLength(1)
     await wrapper.setProps({ showCurrent: false })
     expect(today()).toHaveLength(0)
@@ -35,7 +35,8 @@ describe('date current renderer', () => {
       props: {
         modelValue: ['2025-01-05 09:00', '2025-01-10 18:00'],
         showTime: true,
-        useSeconds: false,
+        format: 'YYYY-MM-DD HH:mm',
+        valueFormat: 'YYYY-MM-DD HH:mm',
         presentation: 'calendarPicker',
       },
     })

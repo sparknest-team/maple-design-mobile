@@ -1,7 +1,7 @@
 <script setup></script>
 
 <template>
-  <mp-carousel class="carousel" direction="vertical">
+  <mp-carousel class="carousel" orientation="vertical">
     <mp-carousel-item>
       <img class="carousel-item" :src="'cat.jpg'" alt="" />
     </mp-carousel-item>

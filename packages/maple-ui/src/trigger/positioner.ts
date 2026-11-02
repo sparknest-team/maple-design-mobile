@@ -9,6 +9,7 @@ import {
   type CSSProperties,
   type Ref,
 } from 'vue'
+import type { ReadingDirection } from '../_utils/direction'
 import { getArrowStyle } from './arrow'
 import type { TriggerPlacement } from './contract'
 import { getPositioningSpace, getRelativeRect, getTransformOrigin } from './geometry'
@@ -36,6 +37,7 @@ interface PositionerOptions {
 }
 
 interface PositionerContext {
+  direction?: Readonly<Ref<ReadingDirection>>
   reference: Readonly<Ref<HTMLElement | SVGElement | undefined>>
   popup: Readonly<Ref<HTMLElement | undefined>>
   visible: Readonly<Ref<boolean>>
@@ -137,6 +139,7 @@ export function useTriggerPositioner(options: PositionerOptions, context: Positi
           : relativeReference.height
         : 0)
     const result = calculatePopupPosition(options.placement, relativeReference, relativePopup, {
+      direction: context.direction?.value,
       origin: { left: space.x / space.scaleX, top: space.y / space.scaleY },
       scaleX: space.scaleX,
       scaleY: space.scaleY,
@@ -153,7 +156,9 @@ export function useTriggerPositioner(options: PositionerOptions, context: Positi
       ...(options.autoFitPopupMinWidth ? { minWidth: `${relativeReference.width}px` } : {}),
       ...(options.autoFitPopupWidth ? { width: `${relativeReference.width}px` } : {}),
     }
-    wrapperStyle.value = options.autoFitTransformOrigin ? { transformOrigin: getTransformOrigin(result.placement) } : {}
+    wrapperStyle.value = options.autoFitTransformOrigin
+      ? { transformOrigin: getTransformOrigin(result.placement, context.direction?.value) }
+      : {}
 
     if (options.showArrow) {
       nextTick(() => {
@@ -283,6 +288,7 @@ export function useTriggerPositioner(options: PositionerOptions, context: Positi
       options.autoFitPosition,
       options.autoFitTransformOrigin,
       context.point.value,
+      context.direction?.value,
     ],
     () => nextTick(update),
     { deep: true },

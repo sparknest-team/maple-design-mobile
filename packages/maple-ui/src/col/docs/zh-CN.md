@@ -8,7 +8,7 @@
 > - Row + Col：适合 24 栏 Flex 布局，需要水平/垂直对齐、控制换行、固定宽度与自适应宽度组合，或响应式排序时使用。Row 控制整行，Col 控制列宽、偏移和排序。
 > - Space：适合按钮、标签、文字等简单排列，只需要间距、方向和对齐时使用；更自由的宽度分配可使用原生 Flex。
 
-## 案例
+## 基础示例
 
 ### 列宽与偏移
 
@@ -16,13 +16,21 @@
 ../example/demos/basic.vue
 ```
 
-### 排序与零值恢复
-
-```demo
-../example/demos/order.vue
-```
+## 布局与排列
 
 ### 弹性比例与固定宽度
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `flex` | 弹性比例、固定长度或 CSS flex 值 | 弹性比例与固定宽度 |
+| `xs` | 响应式栏数或包含 span、offset、order 的对象 | 响应式对象与隐藏恢复 |
+| `sm` | 响应式栏数或包含 span、offset、order 的对象 | 响应式对象与隐藏恢复 |
+| `md` | 响应式栏数或包含 span、offset、order 的对象 | 响应式对象与隐藏恢复 |
+| `span` | 占用栏数；0 隐藏 | 响应式对象与隐藏恢复 |
+<!-- demo-config-notes:end -->
 
 ```demo
 ../example/demos/flex.vue
@@ -35,14 +43,22 @@
 ../example/demos/responsive.vue
 ```
 
-<!-- api-review:start -->
-### 功能调试
+## 内容与展示
+
+### 排序与零值恢复
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `span` | 占用栏数；0 隐藏 | 排序与零值恢复 |
+| `order` | 排序，0 可恢复 | 排序与零值恢复 |
+<!-- demo-config-notes:end -->
 
 ```demo
-../example/demos/api-review.vue
+../example/demos/order.vue
 ```
-
-<!-- api-review:end -->
 
 ## API
 

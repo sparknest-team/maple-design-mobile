@@ -62,7 +62,6 @@ function Picker(options: PickerOptions | PickerColumnOption[] | PickerColumnOpti
 
     const { unmountInstance } = mountInstance(VarPicker, reactivePickerOptions, {
       onConfirm: (values: (string | number)[], indexes: number[], options: PickerColumnOption[]) => {
-        call(reactivePickerOptions.onConfirm, values, indexes, options)
         resolve({
           state: 'confirm',
           values,
@@ -71,9 +70,9 @@ function Picker(options: PickerOptions | PickerColumnOption[] | PickerColumnOpti
         })
         reactivePickerOptions.open = false
         resetSingletonOptions()
+        return call(reactivePickerOptions.onConfirm, values, indexes, options)
       },
       onCancel: (values: (string | number)[], indexes: number[], options: PickerColumnOption[]) => {
-        call(reactivePickerOptions.onCancel, values, indexes, options)
         resolve({
           state: 'cancel',
           values,
@@ -82,18 +81,22 @@ function Picker(options: PickerOptions | PickerColumnOption[] | PickerColumnOpti
         })
         reactivePickerOptions.open = false
         resetSingletonOptions()
+        return call(reactivePickerOptions.onCancel, values, indexes, options)
       },
       onClose: () => {
-        call(reactivePickerOptions.onClose)
         resolve({
           state: 'close',
         })
         resetSingletonOptions()
+        return call(reactivePickerOptions.onClose)
       },
       onClosed: () => {
-        call(reactivePickerOptions.onClosed)
-        unmountInstance()
-        resetSingletonOptions()
+        try {
+          return call(reactivePickerOptions.onClosed)
+        } finally {
+          unmountInstance()
+          resetSingletonOptions()
+        }
       },
       'onUpdate:open': (value: boolean) => {
         reactivePickerOptions.open = value

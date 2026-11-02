@@ -25,13 +25,14 @@ function restore() {
 <template>
   <section class="upload-state-demo">
     <div class="controls">
-      <mp-checkbox v-model="readonly">Readonly upload</mp-checkbox>
-      <mp-checkbox v-model="disabled">Disabled upload</mp-checkbox>
+      <mp-checkbox v-model="readonly" edit-mode="direct">Readonly upload</mp-checkbox>
+      <mp-checkbox v-model="disabled" edit-mode="direct">Disabled upload</mp-checkbox>
       <mp-button html-type="button" @click="restore">Restore sample</mp-button>
     </div>
     <p>Local selection callback only; no file chooser or network request.</p>
     <mp-upload
       v-model="files"
+      edit-mode="direct"
       data-testid="state-upload"
       :readonly="readonly"
       :disabled="disabled"

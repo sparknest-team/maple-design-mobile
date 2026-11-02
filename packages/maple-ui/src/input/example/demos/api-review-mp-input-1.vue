@@ -9,7 +9,7 @@ import __apiReviewRawConfig from './api-review-mp-input-1.config.json'
     <mp-input
       enterkeyhint="next"
       aria-label="请输入邮箱"
-      :input-attrs="{ name: 'email', autocomplete: 'email', autocapitalize: 'none' }"
+      :input-attrs="{ name: 'email', autocomplete: 'off', autocapitalize: 'none' }"
       placeholder="请输入邮箱"
       type="email"
       v-bind="__apiReview.bindings"

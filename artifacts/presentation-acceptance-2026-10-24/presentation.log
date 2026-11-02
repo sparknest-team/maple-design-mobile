@@ -1,0 +1,467 @@
+FAIL {"surface":"desktop","theme":"light","component":"Input","mode":"default"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"light","component":"Input","mode":"inline"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"light","component":"InputPassword","mode":"default"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"light","component":"InputPassword","mode":"inline"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"light","component":"Textarea","mode":"default"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"light","component":"Textarea","mode":"inline"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"light","component":"InputNumber","mode":"default"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"light","component":"InputNumber","mode":"inline"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"light","component":"VerificationCode","mode":"default"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"light","component":"VerificationCode","mode":"inline"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"light","component":"Switch","mode":"default"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"light","component":"Switch","mode":"inline"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"light","component":"Checkbox","mode":"default"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"light","component":"Checkbox","mode":"inline"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"light","component":"CheckboxGroup","mode":"default"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"light","component":"CheckboxGroup","mode":"inline"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"light","component":"Radio","mode":"default"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"light","component":"Radio","mode":"inline"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"light","component":"RadioGroup","mode":"default"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"light","component":"RadioGroup","mode":"inline"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"light","component":"Slider","mode":"default"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"light","component":"Slider","mode":"inline"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"light","component":"Rate","mode":"default"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"light","component":"Rate","mode":"inline"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"light","component":"Select","mode":"default"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"light","component":"Select","mode":"inline"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"light","component":"AutoComplete","mode":"default"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"light","component":"AutoComplete","mode":"inline"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"light","component":"Cascader","mode":"default"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"light","component":"Cascader","mode":"inline"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"light","component":"Date","mode":"default"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"light","component":"Date","mode":"inline"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"light","component":"DateRange","mode":"default"} TimeoutError: locator.click: Timeout 5000ms exceeded.
+Call log:
+[2m  - waiting for locator('.mp-field-presentation__panel').filter({ visible: true }).last().locator('footer').getByRole('button', { name: /^(确认|确定|Confirm)$/ })[22m
+[2m    - locator resolved to <button disabled type="button" class="mp-button mp-button--size-md mp-button--status-primary mp-button--variant-default mp-elevation--2 mp-button--disabled">…</button>[22m
+[2m  - attempting click action[22m
+[2m    2 × waiting for element to be visible, enabled and stable[22m
+[2m      - element is not enabled[22m
+[2m    - retrying click action[22m
+[2m    - waiting 20ms[22m
+[2m    2 × waiting for element to be visible, enabled and stable[22m
+[2m      - element is not enabled[22m
+[2m    - retrying click action[22m
+[2m      - waiting 100ms[22m
+[2m    9 × waiting for element to be visible, enabled and stable[22m
+[2m      - element is not enabled[22m
+[2m    - retrying click action[22m
+[2m      - waiting 500ms[22m
+
+FAIL {"surface":"desktop","theme":"light","component":"DateRange","mode":"inline"} TimeoutError: locator.click: Timeout 5000ms exceeded.
+Call log:
+[2m  - waiting for getByRole('button', { name: /^(确认|确定|Confirm)$/ }).filter({ visible: true }).last()[22m
+[2m    - locator resolved to <button disabled type="button" class="mp-button mp-button--size-md mp-button--status-primary mp-button--variant-default mp-elevation--2 mp-button--disabled">…</button>[22m
+[2m  - attempting click action[22m
+[2m    2 × waiting for element to be visible, enabled and stable[22m
+[2m      - element is not enabled[22m
+[2m    - retrying click action[22m
+[2m    - waiting 20ms[22m
+[2m    2 × waiting for element to be visible, enabled and stable[22m
+[2m      - element is not enabled[22m
+[2m    - retrying click action[22m
+[2m      - waiting 100ms[22m
+[2m    9 × waiting for element to be visible, enabled and stable[22m
+[2m      - element is not enabled[22m
+[2m    - retrying click action[22m
+[2m      - waiting 500ms[22m
+
+FAIL {"surface":"desktop","theme":"light","component":"Time","mode":"default"} AssertionError [ERR_ASSERTION]: Time default updates actual committed model; last="\"09:30\""
+FAIL {"surface":"desktop","theme":"light","component":"Time","mode":"inline"} AssertionError [ERR_ASSERTION]: Time inline updates actual committed model; last="\"09:30\""
+FAIL {"surface":"desktop","theme":"light","component":"TimeRange","mode":"default"} TimeoutError: locator.click: Timeout 5000ms exceeded.
+Call log:
+[2m  - waiting for locator('.mp-time-picker').filter({ visible: true }).first().getByRole('listbox').first().getByRole('option', { name: '10', exact: true })[22m
+
+FAIL {"surface":"desktop","theme":"light","component":"TimeRange","mode":"inline"} TimeoutError: locator.click: Timeout 5000ms exceeded.
+Call log:
+[2m  - waiting for locator('.mp-time-picker').filter({ visible: true }).first().getByRole('listbox').first().getByRole('option', { name: '10', exact: true })[22m
+
+FAIL {"surface":"desktop","theme":"light","component":"Upload","mode":"default"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"light","component":"Upload","mode":"inline"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"light","component":"Input","mode":"form-default"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"light","component":"Input","mode":"form-inline"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"light","component":"Input","mode":"item-default"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"light","component":"Input","mode":"item-inline"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"light","component":"Input","mode":"field-inline"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"light","component":"Input","mode":"field-popup"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"light","demo":"field-components.vue"} TimeoutError: locator.click: Timeout 5000ms exceeded.
+Call log:
+[2m  - waiting for locator('.loca-doc-preview__example').nth(8).getByRole('button', { name: '字段展示方式', exact: true })[22m
+
+FAIL {"surface":"desktop","theme":"light","demo":"field-choice.vue"} TimeoutError: locator.click: Timeout 5000ms exceeded.
+Call log:
+[2m  - waiting for locator('.loca-doc-preview__example').nth(9).getByRole('button', { name: '字段展示方式', exact: true })[22m
+
+FAIL {"surface":"desktop","theme":"light","demo":"field-rating.vue"} TimeoutError: locator.click: Timeout 5000ms exceeded.
+Call log:
+[2m  - waiting for locator('.loca-doc-preview__example').nth(14).getByRole('button', { name: '字段展示方式', exact: true })[22m
+
+FAIL {"surface":"desktop","theme":"light","demo":"field-date.vue"} TimeoutError: locator.click: Timeout 5000ms exceeded.
+Call log:
+[2m  - waiting for locator('.mp-day-picker').filter({ visible: true }).first().getByText('21', { exact: true })[22m
+[2m    - locator resolved to <span class="mp-button__content">21</span>[22m
+[2m  - attempting click action[22m
+[2m    - waiting for element to be visible, enabled and stable[22m
+[2m    - element is visible, enabled and stable[22m
+[2m    - scrolling into view if needed[22m
+[2m    - done scrolling[22m
+[2m    - <div role="presentation" class="mp-popup__overlay"></div> from <div class="mp--box mp-popup mp-fade-enter-active mp-fade-enter-to">…</div> subtree intercepts pointer events[22m
+[2m  - retrying click action[22m
+[2m    - waiting for element to be visible, enabled and stable[22m
+[2m    - element is visible, enabled and stable[22m
+[2m    - scrolling into view if needed[22m
+[2m    - done scrolling[22m
+[2m    - <button type="button" mp-day-picker-cover="" mp-date-picker-color-cover="true" class="mp-button mp-button--size-md mp-button--status-default mp-button--variant-text mp-button--round mp-day-picker__button mp-day-picker__button--usable">…</button> from <div class="mp--box mp-popup mp-fade-enter-active mp-fade-enter-to">…</div> subtree intercepts pointer events[22m
+[2m  - retrying click action[22m
+[2m    - waiting 20ms[22m
+[2m    - waiting for element to be visible, enabled and stable[22m
+[2m    - element is visible, enabled and stable[22m
+[2m    - scrolling into view if needed[22m
+[2m    - done scrolling[22m
+[2m    - <div role="presentation" class="mp-popup__overlay"></div> from <div class="mp--box mp-popup mp-fade-enter-active mp-fade-enter-to">…</div> subtree intercepts pointer events[22m
+[2m  2 × retrying click action[22m
+[2m      - waiting 100ms[22m
+[2m      - waiting for element to be visible, enabled and stable[22m
+[2m      - element is visible, enabled and stable[22m
+[2m      - scrolling into view if needed[22m
+[2m      - done scrolling[22m
+[2m      - <div role="presentation" class="mp-popup__overlay"></div> from <div class="mp--box mp-popup">…</div> subtree intercepts pointer events[22m
+[2m  2 × retrying click action[22m
+[2m      - waiting 500ms[22m
+[2m      - waiting for element to be visible, enabled and stable[22m
+[2m      - element is visible, enabled and stable[22m
+[2m      - scrolling into view if needed[22m
+[2m      - done scrolling[22m
+[2m      - <footer class="mp-field-presentation__footer">…</footer> from <div class="mp--box mp-popup">…</div> subtree intercepts pointer events[22m
+[2m    - retrying click action[22m
+[2m      - waiting 500ms[22m
+[2m      - waiting for element to be visible, enabled and stable[22m
+[2m      - element is visible, enabled and stable[22m
+[2m      - scrolling into view if needed[22m
+[2m      - done scrolling[22m
+[2m      - <div role="presentation" class="mp-popup__overlay"></div> from <div class="mp--box mp-popup">…</div> subtree intercepts pointer events[22m
+[2m    - retrying click action[22m
+[2m      - waiting 500ms[22m
+[2m      - waiting for element to be visible, enabled and stable[22m
+[2m      - element is visible, enabled and stable[22m
+[2m      - scrolling into view if needed[22m
+[2m      - done scrolling[22m
+[2m      - <div role="presentation" class="mp-popup__overlay"></div> from <div class="mp--box mp-popup">…</div> subtree intercepts pointer events[22m
+[2m    - retrying click action[22m
+[2m      - waiting 500ms[22m
+[2m      - waiting for element to be visible, enabled and stable[22m
+[2m      - element is visible, enabled and stable[22m
+[2m      - scrolling into view if needed[22m
+[2m      - done scrolling[22m
+[2m      - <div role="presentation" class="mp-popup__overlay"></div> from <div class="mp--box mp-popup">…</div> subtree intercepts pointer events[22m
+[2m  - retrying click action[22m
+[2m    - waiting 500ms[22m
+
+FAIL {"surface":"desktop","theme":"light","demo":"field-time.vue"} AssertionError [ERR_ASSERTION]: demo confirms model; last="{\n  \"time\": \"09:30\",\n  \"times\": [\n    \"09:30\",\n    \"18:00\"\n  ]\n}"
+FAIL {"surface":"desktop","theme":"light","demo":"field-selection.vue"} TimeoutError: locator.click: Timeout 5000ms exceeded.
+Call log:
+[2m  - waiting for getByRole('option').filter({ visible: true }).filter({ hasNot: locator('[aria-disabled="true"]') }).nth(1)[22m
+[2m    - locator resolved to <div id="v-35-0-1" role="option" aria-selected="false" class="mp-picker__option">…</div>[22m
+[2m  - attempting click action[22m
+[2m    - waiting for element to be visible, enabled and stable[22m
+[2m    - element is visible, enabled and stable[22m
+[2m    - scrolling into view if needed[22m
+[2m    - done scrolling[22m
+[2m    - <div role="presentation" class="mp-popup__overlay"></div> from <div class="mp--box mp-popup mp-fade-enter-active mp-fade-enter-to">…</div> subtree intercepts pointer events[22m
+[2m  - retrying click action[22m
+[2m    - waiting for element to be visible, enabled and stable[22m
+[2m    - element is visible, enabled and stable[22m
+[2m    - scrolling into view if needed[22m
+[2m    - done scrolling[22m
+[2m    - <li class="mp-select-group-title">常用设备</li> from <div class="mp--box mp-popup mp-fade-enter-active mp-fade-enter-to">…</div> subtree intercepts pointer events[22m
+[2m  - retrying click action[22m
+[2m    - waiting 20ms[22m
+[2m    2 × waiting for element to be visible, enabled and stable[22m
+[2m      - element is visible, enabled and stable[22m
+[2m      - scrolling into view if needed[22m
+[2m      - done scrolling[22m
+[2m      - <div role="presentation" class="mp-popup__overlay"></div> from <div class="mp--box mp-popup mp-fade-enter-active mp-fade-enter-to">…</div> subtree intercepts pointer events[22m
+[2m    - retrying click action[22m
+[2m      - waiting 100ms[22m
+[2m    2 × waiting for element to be visible, enabled and stable[22m
+[2m      - element is visible, enabled and stable[22m
+[2m      - scrolling into view if needed[22m
+[2m      - done scrolling[22m
+[2m      - <div role="presentation" class="mp-popup__overlay"></div> from <div class="mp--box mp-popup">…</div> subtree intercepts pointer events[22m
+[2m    - retrying click action[22m
+[2m      - waiting 500ms[22m
+[2m      - waiting for element to be visible, enabled and stable[22m
+[2m      - element is visible, enabled and stable[22m
+[2m      - scrolling into view if needed[22m
+[2m      - done scrolling[22m
+[2m      - <footer class="mp-field-presentation__footer">…</footer> from <div class="mp--box mp-popup">…</div> subtree intercepts pointer events[22m
+[2m    - retrying click action[22m
+[2m      - waiting 500ms[22m
+[2m      - waiting for element to be visible, enabled and stable[22m
+[2m      - element is visible, enabled and stable[22m
+[2m      - scrolling into view if needed[22m
+[2m      - done scrolling[22m
+[2m      - <header class="mp-field-presentation__toolbar">…</header> from <div class="mp--box mp-popup">…</div> subtree intercepts pointer events[22m
+[2m    - retrying click action[22m
+[2m      - waiting 500ms[22m
+[2m      - waiting for element to be visible, enabled and stable[22m
+[2m      - element is visible, enabled and stable[22m
+[2m      - scrolling into view if needed[22m
+[2m      - done scrolling[22m
+[2m      - <div role="presentation" class="mp-popup__overlay"></div> from <div class="mp--box mp-popup">…</div> subtree intercepts pointer events[22m
+[2m    - retrying click action[22m
+[2m      - waiting 500ms[22m
+[2m    - waiting for element to be visible, enabled and stable[22m
+[2m    - element is visible, enabled and stable[22m
+[2m    - scrolling into view if needed[22m
+[2m    - done scrolling[22m
+[2m    - <div role="presentation" class="mp-popup__overlay"></div> from <div class="mp--box mp-popup">…</div> subtree intercepts pointer events[22m
+[2m  - retrying click action[22m
+[2m    - waiting 500ms[22m
+
+FAIL {"surface":"desktop","theme":"light","demo":"field-tree.vue"} TimeoutError: locator.click: Timeout 5000ms exceeded.
+Call log:
+[2m  - waiting for getByText('华北', { exact: true }).filter({ visible: true }).last()[22m
+
+FAIL {"surface":"desktop","theme":"light","demo":"field-upload.vue"} TimeoutError: locator.click: Timeout 5000ms exceeded.
+Call log:
+[2m  - waiting for locator('.loca-doc-preview__example').nth(15).getByRole('button', { name: '字段展示方式', exact: true })[22m
+
+FAIL {"surface":"desktop","theme":"dark","component":"Input","mode":"default"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"dark","component":"Input","mode":"inline"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"dark","component":"InputPassword","mode":"default"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"dark","component":"InputPassword","mode":"inline"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"dark","component":"Textarea","mode":"default"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"dark","component":"Textarea","mode":"inline"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"dark","component":"InputNumber","mode":"default"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"dark","component":"InputNumber","mode":"inline"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"dark","component":"VerificationCode","mode":"default"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"dark","component":"VerificationCode","mode":"inline"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"dark","component":"Switch","mode":"default"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"dark","component":"Switch","mode":"inline"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"dark","component":"Checkbox","mode":"default"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"dark","component":"Checkbox","mode":"inline"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"dark","component":"CheckboxGroup","mode":"default"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"dark","component":"CheckboxGroup","mode":"inline"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"dark","component":"Radio","mode":"default"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"dark","component":"Radio","mode":"inline"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"dark","component":"RadioGroup","mode":"default"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"dark","component":"RadioGroup","mode":"inline"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"dark","component":"Slider","mode":"default"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"dark","component":"Slider","mode":"inline"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"dark","component":"Rate","mode":"default"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"dark","component":"Rate","mode":"inline"} AssertionError [ERR_ASSERTION]: fixture does not overflow
+
+1807 !== 1280
+
+FAIL {"surface":"desktop","theme":"dark","component":"Select","mode":"default"} Error: locator.waitFor: Target page, context or browser has been closed
+Call log:
+[2m  - waiting for locator('.mp-field-presentation__panel').filter({ visible: true }).last() to be hidden[22m
+[2m    2 × locator resolved to visible <section class="mp-field-presentation__panel">…</section>[22m
+
+FAIL {"surface":"desktop","theme":"dark","component":"Select","mode":"inline"} Error: locator.selectOption: Target page, context or browser has been closed
+FAIL {"surface":"desktop","theme":"dark","component":"AutoComplete","mode":"default"} Error: locator.selectOption: Target page, context or browser has been closed
+FAIL {"surface":"desktop","theme":"dark","component":"AutoComplete","mode":"inline"} Error: locator.selectOption: Target page, context or browser has been closed
+FAIL {"surface":"desktop","theme":"dark","component":"Cascader","mode":"default"} Error: locator.selectOption: Target page, context or browser has been closed
+FAIL {"surface":"desktop","theme":"dark","component":"Cascader","mode":"inline"} Error: locator.selectOption: Target page, context or browser has been closed
+FAIL {"surface":"desktop","theme":"dark","component":"Date","mode":"default"} Error: locator.selectOption: Target page, context or browser has been closed
+FAIL {"surface":"desktop","theme":"dark","component":"Date","mode":"inline"} Error: locator.selectOption: Target page, context or browser has been closed
+FAIL {"surface":"desktop","theme":"dark","component":"DateRange","mode":"default"} Error: locator.selectOption: Target page, context or browser has been closed
+FAIL {"surface":"desktop","theme":"dark","component":"DateRange","mode":"inline"} Error: locator.selectOption: Target page, context or browser has been closed
+FAIL {"surface":"desktop","theme":"dark","component":"Time","mode":"default"} Error: locator.selectOption: Target page, context or browser has been closed
+FAIL {"surface":"desktop","theme":"dark","component":"Time","mode":"inline"} Error: locator.selectOption: Target page, context or browser has been closed
+FAIL {"surface":"desktop","theme":"dark","component":"TimeRange","mode":"default"} Error: locator.selectOption: Target page, context or browser has been closed
+FAIL {"surface":"desktop","theme":"dark","component":"TimeRange","mode":"inline"} Error: locator.selectOption: Target page, context or browser has been closed
+FAIL {"surface":"desktop","theme":"dark","component":"Upload","mode":"default"} Error: locator.selectOption: Target page, context or browser has been closed
+FAIL {"surface":"desktop","theme":"dark","component":"Upload","mode":"inline"} Error: locator.selectOption: Target page, context or browser has been closed
+FAIL {"surface":"desktop","theme":"dark","component":"Input","mode":"form-default"} Error: locator.selectOption: Target page, context or browser has been closed
+FAIL {"surface":"desktop","theme":"dark","component":"Input","mode":"form-inline"} Error: locator.selectOption: Target page, context or browser has been closed

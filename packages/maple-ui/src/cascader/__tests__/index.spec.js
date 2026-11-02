@@ -20,7 +20,7 @@ const options = [
   { value: 'b', label: 'Group B', children: [{ value: 3, label: 'Same' }] },
 ]
 const mountCascader = (props = {}) => {
-  const wrapper = mount(Cascader, { props: { options, ...props }, attachTo: document.body })
+  const wrapper = mount(Cascader, { props: { editMode: 'direct', options, ...props }, attachTo: document.body })
   wrappers.push(wrapper)
   return wrapper
 }

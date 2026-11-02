@@ -59,9 +59,11 @@ async function fixture(Component, foreign = false) {
   observe(window)
   observe(attachTo.ownerDocument.defaultView)
   const active = ref(true),
-    direction = ref('horizontal'),
+    orientation = ref('horizontal'),
     data = ref({ ratio: 2, thumbSize: 20, max: 100 })
-  const Child = defineComponent({ setup: () => () => h(Component, { direction: direction.value, data: data.value }) })
+  const Child = defineComponent({
+    setup: () => () => h(Component, { orientation: orientation.value, data: data.value }),
+  })
   const owner = mount(
     defineComponent({ setup: () => () => h(KeepAlive, null, () => (active.value ? h(Child) : null)) }),
     { attachTo },
@@ -86,7 +88,7 @@ async function fixture(Component, foreign = false) {
   const last = (name) => bindings(name).at(-1).callback
   const removed = (name, callback) =>
     views.some((item) => item.off.mock.calls.some((call) => call[0] === name && call[1] === callback))
-  const offset = () => Number.parseFloat(vm.thumbStyle[direction.value === 'horizontal' ? 'left' : 'top'])
+  const offset = () => Number.parseFloat(vm.thumbStyle[orientation.value === 'horizontal' ? 'left' : 'top'])
   const dragging = () => vm.thumbCls.some((value) => typeof value === 'object' && Object.values(value).some(Boolean))
   return {
     owner,
@@ -96,7 +98,7 @@ async function fixture(Component, foreign = false) {
     track,
     view,
     active,
-    direction,
+    orientation,
     data,
     event,
     start,
@@ -216,10 +218,10 @@ describe('selection-thumb', () => {
     f.view.dispatchEvent(new f.view.Event('blur'))
     expect(f.dragging()).toBe(false)
   })
-  test('direction change cancels old gesture', async () => {
+  test('orientation change cancels old gesture', async () => {
     const f = await fixture(Component)
     f.start()
-    f.direction.value = 'vertical'
+    f.orientation.value = 'vertical'
     await flush()
     expect(f.dragging()).toBe(false)
   })
@@ -324,7 +326,7 @@ describe('selection-thumb', () => {
     Object.defineProperty(element, 'scrollTo', { configurable: true, value: scroll })
     bar.vm.handleResize()
     await flush()
-    const thumb = bar.findAllComponents(Component).find((item) => item.props('direction') === 'horizontal').vm
+    const thumb = bar.findAllComponents(Component).find((item) => item.props('orientation') === 'horizontal').vm
     const rect = { left: 10, top: 10, right: 110, bottom: 110, width: 100, height: 100, x: 10, y: 10, toJSON() {} }
     vi.spyOn(thumb.thumbRef, 'getBoundingClientRect').mockReturnValue(rect)
     vi.spyOn(thumb.trackRef, 'getBoundingClientRect').mockReturnValue(rect)

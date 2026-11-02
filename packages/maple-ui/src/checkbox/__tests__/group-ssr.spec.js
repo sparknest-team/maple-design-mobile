@@ -11,11 +11,11 @@ it('renders grouped defaults on the server without reverse model writes', async 
     createSSRApp({
       render: () =>
         h('div', [
-          h(CheckboxGroup, { defaultValue: ['a'], 'onUpdate:modelValue': changed }, () =>
-            h(Checkbox, { value: 'a' }, () => 'checkbox-a'),
+          h(CheckboxGroup, { editMode: 'direct', defaultValue: ['a'], 'onUpdate:modelValue': changed }, () =>
+            h(Checkbox, { editMode: 'direct', value: 'a' }, () => 'checkbox-a'),
           ),
-          h(RadioGroup, { defaultValue: 'b', 'onUpdate:modelValue': changed }, () =>
-            h(Radio, { value: 'b' }, () => 'radio-b'),
+          h(RadioGroup, { editMode: 'direct', defaultValue: 'b', 'onUpdate:modelValue': changed }, () =>
+            h(Radio, { editMode: 'direct', value: 'b' }, () => 'radio-b'),
           ),
         ]),
     }),
@@ -31,8 +31,8 @@ it('renders standalone initial selections without notifications', async () => {
     createSSRApp({
       render: () =>
         h('div', [
-          h(Checkbox, { defaultValue: true, 'onUpdate:modelValue': changed }),
-          h(Radio, { defaultValue: false, value: false, 'onUpdate:modelValue': changed }),
+          h(Checkbox, { editMode: 'direct', defaultValue: true, 'onUpdate:modelValue': changed }),
+          h(Radio, { editMode: 'direct', defaultValue: false, value: false, 'onUpdate:modelValue': changed }),
         ]),
     }),
   )
@@ -50,6 +50,7 @@ it('renders mapped label functions and readonly options on the server', async ()
           'div',
           [CheckboxGroup, RadioGroup].map((Group) =>
             h(Group, {
+              editMode: 'direct',
               options: [{ id: false, name: (_data, checked) => h('b', 'mapped:' + checked), locked: true }],
               fieldNames: { value: 'id', label: 'name', readonly: 'locked' },
               'onUpdate:modelValue': changed,
@@ -65,7 +66,8 @@ it('renders mapped label functions and readonly options on the server', async ()
 it('renders one tab entry when the selected radio is not the first option', async () => {
   const html = await renderToString(
     createSSRApp({
-      render: () => h(RadioGroup, { defaultValue: false, options: [0, false], ariaLabel: 'channel' }),
+      render: () =>
+        h(RadioGroup, { editMode: 'direct', defaultValue: false, options: [0, false], ariaLabel: 'channel' }),
     }),
   )
   expect(html.match(/tabindex="0"/g)).toHaveLength(1)

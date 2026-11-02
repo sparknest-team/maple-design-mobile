@@ -1,0 +1,22 @@
+# Mobile touch interactions
+
+Some scenario descriptions and demo labels are currently in Chinese. Component messages follow the selected site language.
+
+尝试下拉刷新和滑动操作。触屏设备与鼠标模拟应分别体验；滑动操作同时提供页面中的可见操作入口。
+
+## 下拉刷新：等待与恢复
+
+向下拉动至触发阈值，松手后等待刷新完成；再重复一次观察状态是否恢复。
+
+```demo
+../src/pull-refresh/example/demos/basic.vue
+```
+
+## 滑动操作：展开与关闭
+
+向左滑动显示操作，点击操作或收起；在真机触屏体验后，再用可见按钮核对相同业务动作。
+
+```demo
+../src/swipe-cell/example/demos/basic.vue
+```
+

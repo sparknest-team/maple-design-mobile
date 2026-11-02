@@ -1,4 +1,5 @@
 import { nextTick, onActivated, onBeforeUnmount, onDeactivated, onMounted, watch } from 'vue'
+import { resolveDirection } from '../_utils/direction'
 
 interface MenuKeyboardOptions {
   reference: () => HTMLElement | SVGElement | undefined
@@ -46,7 +47,9 @@ export function useMenuKeyboard(options: MenuKeyboardOptions) {
     const reference = options.reference()
     const active = reference?.ownerDocument.activeElement
     if (!options.visible()) {
-      const openKeyPressed = options.openKey ? key === options.openKey : key === 'ArrowDown' || key === 'ArrowUp'
+      const openKeyPressed = options.openKey
+        ? key === (resolveDirection(reference) === 'rtl' ? 'ArrowLeft' : options.openKey)
+        : key === 'ArrowDown' || key === 'ArrowUp'
       if (options.open && openKeyPressed && (active === reference || !!reference?.contains(active ?? null))) {
         event.preventDefault()
         options.open()
@@ -67,7 +70,10 @@ export function useMenuKeyboard(options: MenuKeyboardOptions) {
     ) {
       return
     }
-    if (key === 'Escape' || (options.openKey && key === 'ArrowLeft')) {
+    if (
+      key === 'Escape' ||
+      (options.openKey && key === (resolveDirection(reference) === 'rtl' ? 'ArrowRight' : 'ArrowLeft'))
+    ) {
       event.preventDefault()
       options.close()
       if (key === 'Escape') {

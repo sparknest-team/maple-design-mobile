@@ -1,0 +1,16 @@
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v0.22.1 /Users/shuaimeng/github_web/cedar-design-web/packages/cedar-ui
+
+ ✓ src/search/__tests__/form-popup.spec.js  (4 tests) 203ms
+ ✓ src/search/__tests__/control.spec.js  (16 tests) 286ms
+ ✓ src/auto-complete/__tests__/auto-complete.test.tsx  (44 tests) 366ms
+ ✓ src/search/__tests__/search.test.tsx  (4 tests) 134ms
+ ✓ src/search/__tests__/input-contract.spec.js  (5 tests) 84ms
+ ✓ src/search/__tests__/locale.spec.js  (2 tests) 56ms
+
+Test Files  6 passed (6)
+     Tests  75 passed (75)
+  Start at  22:26:48
+  Duration  10.59s (transform 362ms, setup 2ms, collect 8.02s, tests 1.13s)
+

@@ -33,7 +33,7 @@ it('uses the calendar by default and switches the endpoint without selecting a v
 })
 
 it('shows 48 half-hour quick options without rounding the model on opening', async () => {
-  const wrapper = mount(DateRangePicker, { props: { modelValue: initial, showTime: true, useSeconds: true } })
+  const wrapper = mount(DateRangePicker, { props: { modelValue: initial, showTime: true } })
   try {
     const quick = picker(wrapper, '.mp-date-range-picker__quick-time')
     expect(quick.props('columns')[0]).toHaveLength(48)
@@ -58,7 +58,15 @@ it('shows 48 half-hour quick options without rounding the model on opening', asy
 for (const useSeconds of [false, true]) {
   it(`toggles the detailed time picker for the selected endpoint (seconds=${useSeconds})`, async () => {
     const value = useSeconds ? initial : initial.map((part) => part.slice(0, 16))
-    const wrapper = mount(DateRangePicker, { props: { modelValue: value, showTime: true, useSeconds } })
+    const wrapper = mount(DateRangePicker, {
+      props: {
+        modelValue: value,
+        showTime: true,
+        timeFields: useSeconds ? ['hour', 'minute', 'second'] : ['hour', 'minute'],
+        format: useSeconds ? 'YYYY-MM-DD HH:mm:ss' : 'YYYY-MM-DD HH:mm',
+        valueFormat: useSeconds ? 'YYYY-MM-DD HH:mm:ss' : 'YYYY-MM-DD HH:mm',
+      },
+    })
     try {
       await toggle(wrapper).trigger('click')
       expect(toggle(wrapper).attributes('aria-label')).toBe('选择日期')
@@ -91,7 +99,7 @@ it('applies endpoint time rules to quick options and keeps a locked endpoint unc
     props: {
       modelValue: initial,
       showTime: true,
-      useSeconds: true,
+
       disabled: [true, false],
       disabledTime: (_date, side) => ({
         disabledHours: () => (side === 'end' ? [10] : [11]),
@@ -120,7 +128,7 @@ it('keeps an incomplete date range as a draft until the other endpoint is chosen
     await chooseDay(wrapper, 20)
     expect(wrapper.emitted('update:modelValue')).toBeUndefined()
     expect(summary(wrapper, 0).text()).toContain('2026-10-20')
-    expect(summary(wrapper, 1).text()).toContain('—')
+    expect(summary(wrapper, 1).text()).toContain('选择结束')
     await summary(wrapper, 1).trigger('click')
     await chooseDay(wrapper, 25)
     expect(wrapper.emitted('update:modelValue').at(-1)[0]).toEqual(['2026-10-20', '2026-10-25'])

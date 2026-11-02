@@ -36,7 +36,7 @@ describe('calendar dynamic navigation limits', () => {
                     defaultOpen: true,
                     ...common,
                     panelType: 'calendar',
-                    presentation: undefined,
+                    editMode: 'direct',
                     modelValue: ['2025-02-12', '2025-02-15'],
                   },
                   global,
@@ -46,13 +46,16 @@ describe('calendar dynamic navigation limits', () => {
                     defaultOpen: true,
                     ...common,
                     panelType: 'calendar',
-                    presentation: undefined,
+                    editMode: 'direct',
                     modelValue: '2025-02-12',
                   },
                   global,
                 })
             : range
-              ? mount(DateRangePicker, { props: { ...common, modelValue: ['2025-02-12', '2025-02-15'] }, global })
+              ? mount(DateRangePicker, {
+                  props: { ...common, modelValue: ['2025-02-12', '2025-02-15'] },
+                  global,
+                })
               : mount(DatePicker, { props: { ...common, modelValue: '2025-02-12' }, global })
           wrappers.push(wrapper)
           await nextTick()

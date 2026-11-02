@@ -1,9 +1,8 @@
 <template>
-  <Teleport
-    :to="popupContainer === false ? undefined : popupContainer"
-    :disabled="teleportDisabled || popupContainer === false"
-  >
+  <Teleport :to="teleportTarget" :disabled="teleportDisabled || popupContainer === false">
     <div
+      v-bind="$attrs"
+      :dir="readingDirection"
       :class="classes(n(), [safeArea, n('--safe-area')], formatElevation(elevation, 3))"
       :style="{
         height: `${toSizeUnit(maxAnchor)}`,
@@ -35,9 +34,11 @@
 import { computed, defineComponent, ref, watch } from 'vue'
 import { call, isEmpty, preventDefault, toNumber } from '@maple-design/shared'
 import { useTouch, useVModel, useWindowSize } from '@maple-design/use'
+import { useDirection } from '../_utils/direction'
 import { useLock } from '../context/lock'
 import { createNamespace, formatElevation, useTeleport } from '../utils/components'
 import { toSizeUnit } from '../utils/elements'
+import { usePopupContainer } from '../utils/popup-container'
 import { props } from './props'
 
 const { name, n, classes } = createNamespace('floating-panel')
@@ -47,9 +48,11 @@ const OVERFLOW_REDUCE_RATIO = 0.2
 
 export default defineComponent({
   name,
+  inheritAttrs: false,
   props,
   emits: ['height-change', 'update:modelValue'],
-  setup(props, { emit }) {
+  setup(props, { attrs, emit }) {
+    const { dir: readingDirection } = useDirection(undefined, () => attrs.dir)
     const visibleHeight = ref<number>(0)
     const contentRef = ref<HTMLElement | null>(null)
     const { height: windowHeight } = useWindowSize()
@@ -66,6 +69,7 @@ export default defineComponent({
     })
     const minAnchor = computed<number>(() => Math.min(...anchors.value))
     const maxAnchor = computed<number>(() => Math.max(...anchors.value))
+    const teleportTarget = usePopupContainer(() => props.popupContainer)
     const { disabled: teleportDisabled } = useTeleport()
     const { deltaY, touching, startTouch, moveTouch, endTouch, isReachTop, isReachBottom } = useTouch()
 
@@ -172,8 +176,10 @@ export default defineComponent({
     }
 
     return {
+      readingDirection,
       contentRef,
       teleportDisabled,
+      teleportTarget,
       touching,
       minAnchor,
       maxAnchor,

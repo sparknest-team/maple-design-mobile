@@ -19,6 +19,7 @@ describe('verification-code', () => {
 
     const wrapper = mount(VarVerificationCode, {
       props: {
+        editMode: 'direct',
         modelValue: '',
         length: 4,
         onChange,
@@ -50,6 +51,7 @@ describe('verification-code', () => {
 
     const wrapper = mount(VarVerificationCode, {
       props: {
+        editMode: 'direct',
         modelValue: '',
         length: 6,
         type: 'alphanumeric',
@@ -81,6 +83,7 @@ describe('verification-code', () => {
 
     const wrapper = mount(VarVerificationCode, {
       props: {
+        editMode: 'direct',
         modelValue: '',
         length: 4,
         type: 'text',
@@ -101,12 +104,7 @@ describe('verification-code', () => {
 
   test('masked mode shows mask symbol', async () => {
     const wrapper = mount(VarVerificationCode, {
-      props: {
-        modelValue: '12',
-        length: 4,
-        masked: true,
-        maskSymbol: '*',
-      },
+      props: { editMode: 'direct', modelValue: '12', length: 4, masked: true, maskSymbol: '*' },
     })
 
     const inputs = wrapper.findAll('.mp-input__inner')
@@ -120,6 +118,7 @@ describe('verification-code', () => {
   test('separator prop renders', async () => {
     const wrapper = mount(VarVerificationCode, {
       props: {
+        editMode: 'direct',
         modelValue: '12',
         length: 4,
         separator: (index) => (index === 1 ? h('span', { class: 'custom-sep' }, '-') : null),
@@ -132,12 +131,7 @@ describe('verification-code', () => {
 
   test('error and size classes', async () => {
     const wrapper = mount(VarVerificationCode, {
-      props: {
-        modelValue: '',
-        length: 4,
-        error: true,
-        size: 'lg',
-      },
+      props: { editMode: 'direct', modelValue: '', length: 4, error: true, size: 'lg' },
     })
 
     expect(wrapper.classes()).toContain('mp-verification-code--size-lg')
@@ -147,11 +141,7 @@ describe('verification-code', () => {
 
   test('disabled prevents input update', async () => {
     const wrapper = mount(VarVerificationCode, {
-      props: {
-        modelValue: '',
-        length: 4,
-        disabled: true,
-      },
+      props: { editMode: 'direct', modelValue: '', length: 4, disabled: true },
     })
 
     const inputs = wrapper.findAll('.mp-input__inner')
@@ -162,10 +152,7 @@ describe('verification-code', () => {
 
   test('focus method focuses first empty cell', async () => {
     const wrapper = mount(VarVerificationCode, {
-      props: {
-        modelValue: '12',
-        length: 4,
-      },
+      props: { editMode: 'direct', modelValue: '12', length: 4 },
       attachTo: document.body,
     })
 

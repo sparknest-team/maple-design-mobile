@@ -8,13 +8,13 @@ async function fixture(initial = ['2026-10-19', '2026-10-22']) {
   const wrapper = mount(DateRange, {
     props: {
       modelValue: initial,
-      pickerValue: ['2026-10-01', '2026-11-01'],
-      presentation: 'popup',
+      dateRangePickerProps: { defaultPickerValue: ['2026-10-01', '2026-11-01'] },
+      editMode: 'popup',
       valueFormat: 'YYYY-MM-DD',
       ...(!pc ? { panelType: 'calendar' } : {}),
     },
   })
-  await wrapper.get('button[aria-haspopup=dialog]').trigger('click')
+  await wrapper.get('input[aria-haspopup=dialog]').trigger('click')
   await flushPromises()
   const panel = wrapper.getComponent(EditorPanel)
   const cells = () => panel.findAll(pc ? '.c-picker-cell-in-view' : '.mp-day-picker__button--usable')
@@ -40,7 +40,7 @@ for (const [start, end] of [
       expect(f.filled()).toEqual([])
       await f.cell(start).trigger('click')
       expect(f.filled().every((day) => day === String(start))).toBe(true)
-      await f.panel.findAll('.mp-date-range-picker__summary')[1].trigger('click')
+      await f.wrapper.findAll('input[role=combobox]')[1].trigger('click')
       await f.cell(end).trigger('click')
       expect(f.filled()).toEqual([String(end)])
       expect(f.wrapper.emitted('update:modelValue')).toBeUndefined()
@@ -90,7 +90,7 @@ test('cross-month selection highlights only visible dates inside both endpoints'
         .trigger('click')
       await flushPromises()
     }
-    await f.panel.findAll('.mp-date-range-picker__summary')[1].trigger('click')
+    await f.wrapper.findAll('input[role=combobox]')[1].trigger('click')
     await f.cell(2, pc ? 1 : 0).trigger('click')
     expect(f.filled()).toEqual(['2'])
     await f.confirm()
@@ -113,7 +113,7 @@ test('mouse and touch hover do not preview another endpoint while editing a fixe
     expect(f.filled()).toEqual(['26'])
     await f.panel.get('.mp-day-picker__body').trigger('pointerleave')
     expect(f.filled()).toEqual(['26'])
-    await f.panel.findAll('.mp-date-range-picker__summary')[1].trigger('click')
+    await f.wrapper.findAll('input[role=combobox]')[1].trigger('click')
     await f.cell(28).trigger('click')
     expect(f.cell(26).classes()).not.toContain('mp-button--status-primary')
     expect(f.cell(27).classes()).not.toContain('mp-button--status-primary')

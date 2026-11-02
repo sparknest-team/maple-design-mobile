@@ -20,6 +20,7 @@ export interface DateFieldState {
   blur: () => void
   click: (event: Event) => void
   clear: () => boolean
+  initialize: (value: DateSelection) => boolean
   select: (value: DateSelection, commit?: boolean) => boolean
   confirm: (value?: DateSelection) => boolean
   cancel: () => void

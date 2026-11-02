@@ -4,6 +4,7 @@ import type { FieldPresentationAdapter } from '../_components/field-presentation
 import CascaderEditor from './CascaderEditor.vue'
 
 export const cascaderFieldAdapter: FieldPresentationAdapter = {
+  defaultPresentation: 'popup',
   text: (value, props) => optionValueText(value, { ...props, showPathLabel: true }),
   editor: ({ props, value, update, emit, slots, disabled, readonly }) =>
     h(

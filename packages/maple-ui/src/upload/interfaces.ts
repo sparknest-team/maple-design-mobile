@@ -21,6 +21,8 @@ export interface UploadFileItem {
   type?: string
   file?: File
   url?: string
+  /** Video duration in seconds; unknown duration is omitted. */
+  duration?: number
   thumbnailUrl?: string
   response?: unknown
   error?: unknown
@@ -96,6 +98,7 @@ export type UploadIsSuccessResponse = (xhr: XMLHttpRequest, file: UploadFileItem
 export type UploadRenderFile = (file: UploadFileItem, index: number) => VNodeChild
 
 export interface UploadPublicMethods {
+  replace: (file: UploadFileItem, replacement?: File) => Promise<void>
   chooseFile: () => void
   submit: (file?: UploadFileItem) => void
   abort: (file?: UploadFileItem) => void
@@ -119,6 +122,7 @@ export interface UploadItemSlotProps {
   remove: () => void
   retry: () => void
   abort: () => void
+  replace: () => void
 }
 
 export interface UploadStyleProps {
@@ -133,14 +137,15 @@ export interface UploadPreviewEvent {
 }
 export type UploadRequestChoose = (chooseFile: () => void, event: Event) => void | Promise<void>
 export interface UploadEmits {
-  'update:modelValue': [files: UploadFileItem[]]
+  'update:modelValue': [files: UploadFileItem[] | null]
   read: [file: UploadFileItem]
-  change: [files: UploadFileItem[], file?: UploadFileItem]
+  change: [files: UploadFileItem[] | null, file?: UploadFileItem]
   rejected: [files: UploadRejectedFile[]]
   exceed: [files: File[], fileList: UploadFileItem[]]
   progress: [file: UploadFileItem, event?: ProgressEvent]
   success: [file: UploadFileItem]
   error: [file: UploadFileItem]
+  replace: [file: UploadFileItem, previous: UploadFileItem]
   remove: [file: UploadFileItem]
   preview: [file: UploadFileItem, event: UploadPreviewEvent]
 }

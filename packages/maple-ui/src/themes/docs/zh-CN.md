@@ -1,89 +1,126 @@
 # 主题定制
 
-### 介绍
+使用内置主题统一页面外观，再按需要覆盖少量 CSS 变量。主题控制配色、圆角和字体；设备边缘留白请使用 [SafeArea](#/zh-CN/safe-area)。
 
-Maple 色板与 Cedar 结构对齐：**RGB 通道色阶** + **语义色** + **组件 token**。
+## 如何选择
 
-- 色阶：`--mp-primary-6: r, g, b`，用法 `rgb(var(--mp-primary-6))` / `rgba(var(--mp-primary-6), 0.12)`
-- 语义：`--mp-color-text-1`、`--mp-color-bg-*`、`--mp-color-fill-*`、`--mp-color-primary` 等
-- 暗色：根节点属性 `maple-theme="dark"` 整表覆盖
-- 覆盖 / 多主题包：继续用 [StyleProvider](#/zh-CN/style-provider)
+| 需求                     | 推荐方式                                            |
+| ------------------------ | --------------------------------------------------- |
+| 整个应用使用一种品牌风格 | `StyleProvider.setStyleVars(Themes.maple.light)` 等 |
+| 只修改一个区域或组件     | `<mp-style-provider :style-vars="…">`               |
+| 查找可覆盖的变量         | 本页变量说明及各组件文档的样式变量表                |
 
-### 内置主题包
+## 基础示例
 
-| 主题名称 | 主题包 | 说明 |
-| --- | --- | --- |
-| 默认 | `Themes.default.light` / `Themes.default.dark` | 青绿色品牌色阶，提供亮暗模式 |
-| 枫叶 | `Themes.maple.light` / `Themes.maple.dark` | 枫叶红橙品牌色阶，提供亮暗模式 |
+### 内置主题预览
 
-### DOM 切换暗色
+在页面主题菜单中切换品牌和亮暗模式，比较同一份预约表单。输入、选择、开关和校验提示均可操作，提交仅在本地演示。
+
+```demo
+../example/BrandForm.vue
+```
+
+## 局部主题与定制
+
+### 局部定制
+
+选择一种颜色，“定制按钮”随之变化，“默认按钮”继续使用页面主题。这个例子只覆盖按钮的颜色和圆角，不修改站点全局主题。
+
+```demo
+../example/LocalTheme.vue
+```
+
+## 品牌与状态对照
+
+### 萤火虫按钮使用场景
+
+沿用现有 status × variant API：黄色 primary、中性 secondary、紫色 tertiary。切换卡片背景对照透明按钮，再操作单选、多选、开关、滑块、输入框和链接，查看紫色交互反馈。
+
+```demo
+../example/FireflyScenes.vue
+```
+
+### 更多组件状态
+
+需要检查主题在不同尺寸、字段变体、禁用、只读、错误和上传状态下的表现时，再展开对应分组。控制项和恢复入口始终可用。
+
+```demo
+../example/ThemeDetails.vue
+```
+
+## 在应用中使用
+
+### 1. 选择内置主题
+
+| 主题    | 亮色                   | 暗色                  | 风格                           |
+| ------- | ---------------------- | --------------------- | ------------------------------ |
+| 默认    | `Themes.default.light` | `Themes.default.dark` | 青绿色                         |
+| 枫叶    | `Themes.maple.light`   | `Themes.maple.dark`   | 红橙色                         |
+| Alps    | `Themes.alps.light`    | `Themes.alps.dark`    | 深色主按钮、橙色选择控件       |
+| Firefly | `Themes.firefly.light` | `Themes.firefly.dark` | 黄绿主按钮、深蓝文字、圆角字段 |
+
+Alps / Firefly 亮色基于品牌样式，暗色为 Maple 适配版。品牌字体文件由业务自行加载；未加载时使用系统字体回退。
 
 ```ts
-document.documentElement.setAttribute('maple-theme', 'dark')
-document.documentElement.removeAttribute('maple-theme')
+import { StyleProvider, Themes } from '@maple-design/ui'
+
+// 在应用挂载前设置，也可以在用户切换主题时再次调用。
+StyleProvider.setStyleVars(Themes.maple.light)
+StyleProvider.setStyleVars(Themes.maple.dark)
 ```
 
-### StyleProvider 切换
+亮色对象移除 `html[maple-theme="dark"]`，暗色对象设置该属性。**每次调用替换上次注入的变量，不会累计合并。**
 
-亮色对象会移除 `html[maple-theme=dark]`，暗色对象会设置该属性。切换主题时直接传入对应的 `light` / `dark` 对象。
+#### Firefly 的颜色角色与现有 API
 
-```html
-<!-- playground-ignore -->
-<script setup>
-  import { StyleProvider, Themes } from '@maple-design/ui'
-</script>
+| 用途               | Maple 写法                            | Horo 对应角色   |
+| ------------------ | ------------------------------------- | --------------- |
+| 黄色实心主行动     | `status="primary" variant="default"`  | primary         |
+| 中性次级操作       | `status="secondary"`                  | secondary       |
+| 紫色辅助实心       | `status="tertiary" variant="default"` | tertiary，仅 FY |
+| 紫色文字操作       | `status="tertiary" variant="text"`    | text            |
+| 中性文字操作       | `status="default" variant="text"`     | text_secondary  |
+| 深色区域的黄色文字 | `status="primary" variant="text"`     | text_bg         |
 
-<template>
-  <mp-space direction="column" size="lg">
-    <mp-button status="primary" block @click="StyleProvider.setStyleVars(Themes.default.light)">默认亮色</mp-button>
-    <mp-button status="primary" block @click="StyleProvider.setStyleVars(Themes.default.dark)">默认暗色</mp-button>
-    <mp-button status="primary" block @click="StyleProvider.setStyleVars(Themes.maple.light)">枫叶亮色</mp-button>
-    <mp-button status="primary" block @click="StyleProvider.setStyleVars(Themes.maple.dark)">枫叶暗色</mp-button>
-  </mp-space>
-</template>
-```
+黄色主色保持 `#EAFF68`。辅助紫色填充使用 `#CFC7FF`，亮色文字使用 `#9A89EB`；secondary 是中性色，不代表紫色。text/outline 保持透明，不给按钮额外加承托底。示例通过整张卡片的背景切换比较场景；原始亮色文字不应视为在所有浅色背景上都满足对比度要求。
 
-### 设置 body
+选择、焦点、滑块、日期范围与强调链接使用辅助紫色；正文和普通页面强调保留深色文字的可读性适配。tonal 和暗色是 Maple 在现有 API 上的扩展，不声称是 Horo 原始暗色样本。
+
+本次仅覆盖 Firefly 主题变量；默认、Maple、Alps 的亮暗色板保持原值。
+
+### 2. 设置页面背景和文字
+
+组件主题与业务页面背景需要一起设置。将以下样式加入应用的全局样式：
 
 ```css
-/* playground-ignore */
 body {
-  transition:
-    background-color 0.25s,
-    color 0.25s;
   color: var(--mp-color-text);
   background-color: var(--mp-color-body);
   color-scheme: var(--mp-color-scheme);
 }
 ```
 
-### 主题定制
+### 3. 在主题上覆盖变量
 
-```html
-<!-- playground-ignore -->
-<script setup>
-  import { StyleProvider, Themes } from '@maple-design/ui'
+基于现有主题扩展，切换亮暗模式时分别使用对应基础对象。下面只调整按钮圆角：
 
-  const customTheme = {
-    ...Themes.maple.light,
-    '--mp-primary-6': '255, 0, 0',
-    '--mp-color-primary': 'rgb(var(--mp-primary-6))',
-  }
-
-  StyleProvider.setStyleVars(customTheme)
-</script>
+```ts
+StyleProvider.setStyleVars({
+  ...Themes.maple.light,
+  '--mp-button-border-radius': '16px',
+})
 ```
 
-### 通用样式变量（节选）
+局部定制优先覆盖实际组件变量。仅在局部修改色阶变量，不会重新计算从根节点继承的组件别名；完整规则见 [StyleProvider](#/zh-CN/style-provider)。传送到 body 的弹层需在实际挂载宿主上配置变量。
 
-| 变量名 | 说明 |
-| --- | --- |
-| `--mp-primary-1` … `--mp-primary-10` | 主色阶（RGB 通道） |
-| `--mp-success-*` / `--mp-danger-*` / `--mp-warning-*` / `--mp-info-*` | 功能色阶 |
-| `--mp-gray-1` … `--mp-gray-10` | 中性色阶 |
-| `--mp-color-text-1` … `--mp-color-text-4` | 文本语义 |
-| `--mp-color-bg-1` … `--mp-color-bg-5` | 背景语义 |
-| `--mp-color-fill-1` … `--mp-color-fill-4` | 填充语义 |
-| `--mp-color-border-1` … `--mp-color-border-4` | 边框语义 |
-| `--mp-color-primary` 等 | 功能语义色（成品色） |
-| `--mp-opacity-*` | 交互透明度 |
+## 变量怎么找
+
+| 层级     | 示例                                                            | 适合用途                        |
+| -------- | --------------------------------------------------------------- | ------------------------------- |
+| 品牌色阶 | `--mp-primary-1` … `--mp-primary-10`                            | 构建整套品牌色板，值为 RGB 通道 |
+| 语义角色 | `--mp-sys-color-content-primary`、`--mp-sys-color-surface-page` | 业务文字、页面背景等通用角色    |
+| 组件变量 | `--mp-button-primary-color`、`--mp-button-border-radius`        | 定向调整某个组件                |
+
+RGB 通道通过 `rgb(var(--mp-primary-6))` 使用；颜色成品值和尺寸按组件变量表填写。字体入口为 `--mp-sys-font-family`，字体文件由应用自行提供。
+
+更多变量见 [Design Token 分层](#/zh-CN/design-tokens) 和各组件文档底部的样式变量表；表单交互见 [Form](#/zh-CN/form)。

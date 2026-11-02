@@ -16,6 +16,7 @@
       height: toSizeUnit(height),
       borderRadius: toSizeUnit(radius),
     }"
+    v-bind="rootAttrs()"
   >
     <div :class="n('content')">
       <img
@@ -77,7 +78,6 @@
       v-bind="previewProps"
       :previewed-img-props="previewedImgProps"
       :popup-container="mergedPopupContainer"
-      @close="handlePreviewClose"
     >
       <template v-if="$slots['preview-actions']" #actions>
         <slot name="preview-actions" />
@@ -87,6 +87,7 @@
 </template>
 
 <script lang="ts">
+import type { HTMLAttributes } from 'vue'
 import { computed, defineComponent, inject, ref, watch, watchEffect } from 'vue'
 import Ripple from '../ripple'
 import { createNamespace } from '../utils/components'
@@ -115,6 +116,7 @@ export default defineComponent({
   props: imageProps,
   emits: ['update:open', 'open-change', 'click', 'load', 'error'],
   setup(props, { attrs, emit, slots }) {
+    const rootAttrs = () => ({ class: attrs.class, style: attrs.style }) as Pick<HTMLAttributes, 'class' | 'style'>
     const loadStatus = ref<'loading' | 'loaded' | 'error'>('loading')
     const isLoading = computed(() => loadStatus.value === 'loading')
     const isLoaded = computed(() => loadStatus.value === 'loaded')
@@ -204,10 +206,6 @@ export default defineComponent({
       previewOpenState.value = true
     }
 
-    function handlePreviewClose() {
-      previewOpenState.value = false
-    }
-
     function showPreview() {
       if (!previewEnabled.value || isError.value) {
         return
@@ -234,10 +232,10 @@ export default defineComponent({
       previewUrl,
       mergedPopupContainer,
       mergedImgProps,
+      rootAttrs,
       handleLoad,
       handleError,
       handleClick,
-      handlePreviewClose,
       showPreview,
       click: showPreview,
     }

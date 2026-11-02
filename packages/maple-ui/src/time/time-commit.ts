@@ -7,7 +7,7 @@ import {
 } from './time-value'
 
 export type TimeCommitRules = FormattedTimeRules & { showNextDay?: boolean }
-export type TimeCommitInput = TimeValue | Array<TimeValue | undefined> | undefined
+export type TimeCommitInput = null | TimeValue | Array<TimeValue | null | undefined> | undefined
 
 /** One commit boundary for typed fields, popup fields and standalone panels. */
 export function getTimeCommitValue(

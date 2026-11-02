@@ -5,6 +5,12 @@ import { MapleResolver } from '../lib/index.js'
 
 const [components, directives] = MapleResolver()
 
+test('standalone icons include motion styles unless disabled', () => {
+  const [unstyled] = MapleResolver({ importStyle: false })
+  assert.deepEqual(components.resolve('MIconCheck').sideEffects, ['@maple-design/icons-vue/style.css'])
+  assert.equal(unstyled.resolve('MIconCheck').sideEffects, undefined)
+})
+
 test('resolves Menu and MenuOption through the menu style entry', () => {
   for (const name of ['Menu', 'MenuOption']) {
     assert.deepEqual(components.resolve(`Mp${name}`), {
@@ -149,18 +155,22 @@ test('distinguishes the icon wrapper from standalone SVG icons', () => {
   assert.deepEqual(components.resolve('MIconInfoCircleFill'), {
     from: '@maple-design/icons-vue/icon-info-circle-fill',
     name: 'IconInfoCircleFill',
+    sideEffects: ['@maple-design/icons-vue/style.css'],
   })
   assert.deepEqual(components.resolve('MIconMore'), {
     from: '@maple-design/icons-vue/icon-more',
     name: 'IconMore',
+    sideEffects: ['@maple-design/icons-vue/style.css'],
   })
   assert.deepEqual(components.resolve('MIconCaretUp'), {
     from: '@maple-design/icons-vue/icon-caret-up',
     name: 'IconCaretUp',
+    sideEffects: ['@maple-design/icons-vue/style.css'],
   })
   assert.deepEqual(components.resolve('MIconCheckCircleFill'), {
     from: '@maple-design/icons-vue/icon-check-circle-fill',
     name: 'IconCheckCircleFill',
+    sideEffects: ['@maple-design/icons-vue/style.css'],
   })
   assert.throws(() => components.resolve('MIconNotExists'), /Unknown icon component <m-icon-not-exists>/)
   assert.equal(components.resolve('MpIconInfoCircleFill'), undefined)

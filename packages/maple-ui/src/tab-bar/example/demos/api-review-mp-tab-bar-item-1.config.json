@@ -31,8 +31,12 @@
     }
   ],
   "methodNames": [],
-  "events": ["click"],
-  "slotNames": ["icon"],
+  "events": [
+    "click"
+  ],
+  "slotNames": [
+    "icon"
+  ],
   "slotDefaults": {
     "icon": true
   },

@@ -143,7 +143,16 @@
     "action-sheet.set-default-options",
     "action-sheet.reset-default-options"
   ],
-  "events": ["select", "open", "opened", "close", "closed", "click-overlay", "key-escape", "update:open"],
+  "events": [
+    "select",
+    "open",
+    "opened",
+    "close",
+    "closed",
+    "click-overlay",
+    "key-escape",
+    "update:open"
+  ],
   "slotNames": [],
   "scenarios": []
 }

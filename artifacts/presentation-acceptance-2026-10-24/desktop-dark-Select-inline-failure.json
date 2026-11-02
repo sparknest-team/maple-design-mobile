@@ -1,0 +1,11 @@
+{
+  "details": {
+    "surface": "desktop",
+    "theme": "dark",
+    "component": "Select",
+    "mode": "inline"
+  },
+  "error": "Error: locator.selectOption: Target page, context or browser has been closed",
+  "diagnostic": "",
+  "errors": []
+}

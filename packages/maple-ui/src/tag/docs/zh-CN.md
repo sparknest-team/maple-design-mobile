@@ -1,10 +1,10 @@
 # 标签
 
-## 案例
-
 ### 介绍
 
 标签用于标记、分类与筛选。API 与 Cedar Design Web (PC) 的 Tag 对齐，并吸收移动端常见能力（圆角、自定义文字色）。
+
+## 基础示例
 
 ### 主题色标签
 
@@ -14,15 +14,22 @@
 ../example/demos/theme-color-tag.vue
 ```
 
-### 描边标签
-
-通过 `variant="outline"` 切换为描边风格。
-
-```demo
-../example/demos/outline-tag.vue
-```
+## 外观与状态
 
 ### 圆角标签
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `variant` | 变体，可选 `default`（实心） / `outline`（描边） | 圆角标签、自定义颜色 |
+| `round` | 是否为圆角胶囊形 | 圆角标签 |
+| `status` | 主题色，可选值 `default` `primary` `secondary` `tertiary` `info` `success` `warning` `danger` | 圆角标签 |
+| `closable` | 是否可关闭 | 圆角标签 |
+| `color` | 自定义背景色（outline 时为边框色） | 自定义颜色 |
+| `text-color` | 自定义文字色 | 自定义颜色 |
+<!-- demo-config-notes:end -->
 
 通过 `round` 开启胶囊圆角。
 
@@ -30,15 +37,84 @@
 ../example/demos/round-tag.vue
 ```
 
-### 标签尺寸
+### 自定义颜色
+
+通过 `color` 与 `text-color` 设置自定义颜色（覆盖 status）。`variant="outline"` 时 `color` 作为边框色。
+
+```demo
+../example/demos/custom-color-tag.vue
+```
+
+### 外观配置对比
+
+选择一个对比维度后，同屏展示它的全部可选值；其余配置和内容保持一致。可切换其他配置检查组合效果；输入类预览共享一个值。
+
+<details>
+<summary>配置说明与使用限制</summary>
+
+#### 标签尺寸
 
 通过 `size` 设置尺寸，可选值 `xs` `sm` `md` `lg` `xl`。
 
+#### 描边标签
+
+通过 `variant="outline"` 切换为描边风格。
+
+#### 外观组合
+
+适用于短标签与分类标记。调整变体、状态、尺寸，用相同数据观察变化。内容保持一致，便于比较不同设置的实际效果。
+
+</details>
+
 ```demo
-../example/demos/tag-size.vue
+../example/demos/appearance-lab.vue
 ```
 
+## 内容与展示
+
+### 可选中标签
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `status` | 主题色，可选值 `default` `primary` `secondary` `tertiary` `info` `success` `warning` `danger` | 可选中标签、带图标 |
+| `checkable` | 是否可点击选中 | 可选中标签 |
+| `default-value` | 默认选中状态（checkable 时有效） | 可选中标签 |
+| `variant` | 变体，可选 `default`（实心） / `outline`（描边） | 可选中标签 |
+| `loading` | 是否为加载中状态 | 可选中标签 |
+<!-- demo-config-notes:end -->
+
+通过 `checkable` 使标签可点击切换选中，配合 `v-model`。
+
+```demo
+../example/demos/checkable-tag.vue
+```
+
+### 带图标
+
+通过 `icon` 插槽自定义前缀，`close-icon` 自定义关闭图标。
+
+```demo
+../example/demos/icon-tag.vue
+```
+
+## 交互与控制
+
 ### 可关闭标签
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `status` | 主题色，可选值 `default` `primary` `secondary` `tertiary` `info` `success` `warning` `danger` | 可关闭标签、加载中标签 |
+| `show` | 是否可见（v-model） | 可关闭标签 |
+| `closable` | 是否可关闭 | 可关闭标签 |
+| `round` | 是否为圆角胶囊形 | 可关闭标签 |
+| `loading` | 是否为加载中状态 | 加载中标签 |
+<!-- demo-config-notes:end -->
 
 关闭按钮支持 Space / Enter，关闭不应冒泡为选中。可选中标签支持 Space / Enter；受控 checked 仍由父级决定是否接受，未传时由组件自持状态。loading 阻止选中动作，不是 disabled API。两端各自维护状态，不共享实例；这些基本操作不等于长按/异步或触屏组合均已验收。
 
@@ -55,47 +131,6 @@
 ```demo
 ../example/demos/loading-tag.vue
 ```
-
-### 可选中标签
-
-通过 `checkable` 使标签可点击切换选中，配合 `v-model`。
-
-```demo
-../example/demos/checkable-tag.vue
-```
-
-### 带图标
-
-通过 `icon` 插槽自定义前缀，`close-icon` 自定义关闭图标。
-
-```demo
-../example/demos/icon-tag.vue
-```
-
-### 自定义颜色
-
-通过 `color` 与 `text-color` 设置自定义颜色（覆盖 status）。`variant="outline"` 时 `color` 作为边框色。
-
-```demo
-../example/demos/custom-color-tag.vue
-```
-
-### 外观组合
-
-适用于短标签与分类标记。调整变体、状态、尺寸，用相同数据观察变化。内容保持一致，便于比较不同设置的实际效果。
-
-```demo
-../example/demos/appearance-lab.vue
-```
-
-<!-- api-review:start -->
-### 功能调试
-
-```demo
-../example/demos/api-review.vue
-```
-
-<!-- api-review:end -->
 
 ## API
 

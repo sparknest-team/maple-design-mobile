@@ -11,6 +11,7 @@
       unmountOnClose: controller.props.unmountOnClose ?? false,
       closeOnClickReference: !(controller.props.filterable || controller.props.creatable),
       ...controller.props.triggerProps,
+      ...(controller.props.openTriggerTarget === 'icon' ? { trigger: 'click' } : {}),
     }"
     :open="controller.computedOpen"
     :disabled="controller.mergedDisabled || controller.mergedReadonly"
@@ -33,6 +34,7 @@ defineOptions({ name: createNamespace('selection-menu-presentation').name })
 defineProps<{
   controller: {
     props: {
+      openTriggerTarget?: 'field' | 'icon'
       triggerProps?: TriggerProps
       popupContainer?: TriggerProps['popupContainer']
       autoFitPopupWidth?: boolean

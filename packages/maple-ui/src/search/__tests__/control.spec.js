@@ -13,13 +13,23 @@ const fields = [
 const input = (wrapper) => wrapper.get('input.mp-input__inner')
 
 describe('Search shared control', () => {
+  test('uses inline history by default and switches explicitly to popup', async () => {
+    const wrapper = mount(Search, { props: { recentSearches: ['candidate'] } })
+    await input(wrapper).trigger('focus')
+    expect(wrapper.vm.$.setupState.state.historyMenuVisible).toBe(true)
+    expect(wrapper.vm.$.setupState.state.historyPopupVisible).toBe(false)
+    await wrapper.setProps({ editMode: 'popup' })
+    await input(wrapper).trigger('focus')
+    expect(wrapper.vm.$.setupState.state.historyMenuVisible).toBe(false)
+    expect(wrapper.vm.$.setupState.state.historyPopupVisible).toBe(true)
+  })
   test.each(['outline', 'filled', 'standard'])(
-    'renders the real Input variant %s with its border enabled',
+    'renders the real Input variant %s inside the shared borderless search shell',
     async (variant) => {
-      const wrapper = mount(Search, { props: { variant, size: 'xl', historyPopup: false } })
+      const wrapper = mount(Search, { props: { variant, size: 'xl', editMode: 'direct' } })
       expect(wrapper.find('.mp-input .mp-field-decorator--variant-' + variant).exists()).toBe(true)
       const child = wrapper.findComponent(Input)
-      expect(child.props('line')).not.toBe(false)
+      expect(child.props('line')).toBe(false)
       expect(child.props('size')).toBe('xl')
     },
   )
@@ -68,17 +78,20 @@ describe('Search shared control', () => {
       model: { name: 'actual' },
     })
   })
-  test.each([false, true])('history selection respects controlled rejection, popup=%s', async (historyPopup) => {
-    const wrapper = mount(Search, { props: { modelValue: 'actual', recentSearches: ['candidate'], historyPopup } })
-    await wrapper.vm.$.setupState.state.handleHistorySelect('candidate', new Event('click'))
-    expect(wrapper.emitted('update:modelValue')[0]).toEqual(['candidate'])
-    expect(wrapper.emitted('search')[0][0]).toMatchObject({
-      modelValue: 'actual',
-      recentSearches: ['actual', 'candidate'],
-    })
-    expect(wrapper.vm.$.setupState.state.historyMenuVisible).toBe(false)
-    expect(wrapper.vm.$.setupState.state.historyPopupVisible).toBe(false)
-  })
+  test.each(['direct', 'popup'])(
+    'history selection respects controlled rejection, presentation=%s',
+    async (editMode) => {
+      const wrapper = mount(Search, { props: { modelValue: 'actual', recentSearches: ['candidate'], editMode } })
+      await wrapper.vm.$.setupState.state.handleHistorySelect('candidate', new Event('click'))
+      expect(wrapper.emitted('update:modelValue')[0]).toEqual(['candidate'])
+      expect(wrapper.emitted('search')[0][0]).toMatchObject({
+        modelValue: 'actual',
+        recentSearches: ['actual', 'candidate'],
+      })
+      expect(wrapper.vm.$.setupState.state.historyMenuVisible).toBe(false)
+      expect(wrapper.vm.$.setupState.state.historyPopupVisible).toBe(false)
+    },
+  )
   test('normalizes and bounds history without changing the supplied array', async () => {
     const history = Object.freeze([' a ', 'a', '', 'b'])
     const wrapper = mount(Search, { props: { defaultValue: ' a ', recentSearches: history, maxSearchHistoryCount: 2 } })
@@ -101,8 +114,8 @@ describe('Search shared control', () => {
   test.each(['disabled', 'readonly'])('inherits FormItem %s for all controls', async (flag) => {
     const wrapper = mount({
       render: () =>
-        h(Form, { model: {} }, () =>
-          h(FormItem, { [flag]: true }, () =>
+        h(Form, { editMode: 'direct', model: {} }, () =>
+          h(FormItem, { editMode: 'direct', [flag]: true }, () =>
             h(Search, { defaultValue: 'x', showAction: true, recentSearches: ['x'] }),
           ),
         ),
@@ -117,11 +130,11 @@ describe('Search shared control', () => {
     expect(search.vm.$.setupState.state.historyPopupVisible).toBe(false)
   })
   test('switching history presentation resets the closing guard', async () => {
-    const wrapper = mount(Search, { props: { historyPopup: true, recentSearches: ['x'] } })
+    const wrapper = mount(Search, { props: { editMode: 'popup', recentSearches: ['x'] } })
     wrapper.vm.$.setupState.state.openHistory()
     expect(wrapper.vm.$.setupState.state.historyPopupVisible).toBe(true)
-    await wrapper.setProps({ historyPopup: false })
-    await wrapper.setProps({ historyPopup: true })
+    await wrapper.setProps({ editMode: 'direct' })
+    await wrapper.setProps({ editMode: 'popup' })
     wrapper.vm.$.setupState.state.openHistory()
     expect(wrapper.vm.$.setupState.state.historyPopupVisible).toBe(true)
   })
@@ -149,4 +162,26 @@ describe('Search shared control', () => {
     await nextTick()
     expect(wrapper.emitted('search')).toBeUndefined()
   })
+})
+
+// The field-model path must clear the accepted object as well as the input value.
+test('clears the real field-model demo with one immutable proposal', async () => {
+  const model = ref({ name: '设备 A', tenant: 'demo' })
+  const wrapper = mount({
+    setup: () => () =>
+      h(Search, {
+        model: model.value,
+        fields,
+        modelField: 'name',
+        clearable: true,
+        'onUpdate:model': (proposal) => {
+          model.value = proposal
+        },
+      }),
+  })
+  await input(wrapper).trigger('focus')
+  await wrapper.get('.mp-field-decorator__clear-btn').trigger('click')
+  await nextTick()
+  expect(model.value).toEqual({ name: '', id: undefined, tenant: 'demo' })
+  expect(input(wrapper).element.value).toBe('')
 })

@@ -1,0 +1,10 @@
+{
+  "details": {
+    "surface": "mobile",
+    "theme": "light",
+    "demo": "field-time.vue"
+  },
+  "error": "Error: locator.evaluate: Target page, context or browser has been closed",
+  "diagnostic": "",
+  "errors": []
+}

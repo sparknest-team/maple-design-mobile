@@ -3,6 +3,7 @@
     <PreviewAction
       v-for="action in resultActions"
       :key="action.key"
+      :data-image-preview-action="action.key"
       :name="action.name"
       :disabled="action.disabled"
       @click="action.onClick"

@@ -1,10 +1,10 @@
 # 结果
 
-## 案例
-
 ### 介绍
 
 用于向用户展示结果。
+
+## 基础示例
 
 ### 基本使用
 
@@ -14,22 +14,25 @@ Next status 循环六种本地结果状态并更新标题/图形，Reset status 
 ../example/demos/basic-usage.vue
 ```
 
+## 内容与展示
+
 ### 状态
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `status` | info / success / warning / danger / question / empty / 403 / 404 / 500 | 状态 |
+| `title` | 标题 | 状态 |
+| `subtitle` | 描述 | 状态 |
+<!-- demo-config-notes:end -->
 
 结果状态，可选值为 `info`，`success`，`warning`，`danger`，`question`，`empty`。
 
 ```demo
 ../example/demos/type.vue
 ```
-
-<!-- api-review:start -->
-### 功能调试
-
-```demo
-../example/demos/api-review.vue
-```
-
-<!-- api-review:end -->
 
 ## API
 

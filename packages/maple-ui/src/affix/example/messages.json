@@ -6,7 +6,8 @@
     "container": "指定滚动容器",
     "fix-change": "吸附状态变化",
     "controls": "禁用、CSS 模式与手动更新",
-    "api-review": "功能调试"
+    "api-review": "功能调试",
+    "offset-container-comparison": "吸附方向、偏移与容器"
   },
   "en-US": {
     "basic": "Basic usage",
@@ -15,6 +16,7 @@
     "container": "Scroll container",
     "fix-change": "Change event",
     "controls": "Disabled, CSS mode and manual update",
-    "api-review": "Feature playground"
+    "api-review": "Feature playground",
+    "offset-container-comparison": "Affix direction, offset and container"
   }
 }

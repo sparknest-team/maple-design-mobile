@@ -13,7 +13,7 @@ describe('FieldDecorator focus/caret consumer DOM (not native painting)', () => 
     test.each(['outline', 'filled', 'standard'] as const)(
       name + ' %s keeps real focus and state targets',
       async (variant) => {
-        const wrapper = mount(component, { props: { variant, clearable: true, error: true } })
+        const wrapper = mount(component, { props: { editMode: 'direct', variant, clearable: true, error: true } })
         try {
           const field = wrapper.get('.mp-field-decorator')
           const native = wrapper.get(control)

@@ -11,6 +11,7 @@ export const popoverProps = {
   /** Popover 默认使用点击触发。 */
   trigger: { type: [String, Array] as PropType<TriggerEvent | TriggerEvent[]>, default: 'click' },
   /** 首选弹出位置。 */
+  /** 浮层相对触发元素的首选方位，默认 bottom；启用默认的 auto-fit-position 时，空间不足会自动翻转并约束到可视区域，不保证最终停在该侧 */
   placement: { type: String as PropType<TriggerPlacement>, default: 'bottom' },
   /** 默认显示箭头。 */
   showArrow: { type: Boolean, default: true },

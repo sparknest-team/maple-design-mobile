@@ -1,6 +1,17 @@
-import { expect, test } from 'vitest'
+import { afterEach, beforeEach, expect, test, vi } from 'vitest'
 import LoadingBar from '..'
-import { delay } from '../../utils/test'
+
+const delay = (duration) => vi.advanceTimersByTimeAsync(duration)
+
+beforeEach(() => vi.useFakeTimers())
+afterEach(async () => {
+  LoadingBar.resetDefaultOptions()
+  LoadingBar.finish()
+  await vi.runAllTimersAsync()
+  expect(document.querySelector('.mp-loading-bar')).toBeNull()
+  expect(vi.getTimerCount()).toBe(0)
+  vi.useRealTimers()
+})
 
 test('loading-bar methods', async () => {
   LoadingBar.start()
@@ -71,6 +82,4 @@ test('setDefaultOptions and resetDefaultOptions', async () => {
   LoadingBar.error()
   await delay(200)
   expect(el.style.backgroundColor).toBe('')
-
-  el.remove()
 })

@@ -121,12 +121,12 @@
 
   &--safe-area-inset-bottom {
     padding-bottom: constant(safe-area-inset-bottom);
-    padding-bottom: env(safe-area-inset-bottom);
+    padding-bottom: var(--mp-safe-area-bottom, env(safe-area-inset-bottom, 0px));
   }
 
   &--safe-area-inset-top {
     padding-top: constant(safe-area-inset-top);
-    padding-top: env(safe-area-inset-top);
+    padding-top: var(--mp-safe-area-top, env(safe-area-inset-top, 0px));
   }
 
   &--pointer-events-none {
@@ -154,4 +154,32 @@
   .mp-popup__overlay {
     transition: none !important;
   }
+}
+
+.mp-popup--safe-area-inset-top > * {
+  --mp-safe-area-top: 0px;
+}
+
+.mp-popup--safe-area-inset-bottom > * {
+  --mp-safe-area-bottom: 0px;
+}
+
+.mp-popup--safe-area-inset-left {
+  padding-left: var(--mp-safe-area-left, env(safe-area-inset-left, 0px));
+}
+.mp-popup--safe-area-inset-left > * {
+  --mp-safe-area-left: 0px;
+}
+
+.mp-popup--safe-area-inset-right {
+  padding-right: var(--mp-safe-area-right, env(safe-area-inset-right, 0px));
+}
+.mp-popup--safe-area-inset-right > * {
+  --mp-safe-area-right: 0px;
+}
+
+.mp-popup--swipe-to-close [data-popup-swipe-handle] {
+  touch-action: none;
+  user-select: none;
+  cursor: grab;
 }

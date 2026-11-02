@@ -41,3 +41,9 @@ export type { DateEventPayload, DateChangeArgs, DateEmits, DatePickerEmits } fro
 export type { DateShortcut, DateShortcutsPosition } from './panel-tools-props'
 
 export type { DateWheelOptions } from './wheel-options'
+
+export type { CalendarInteractiveMode } from './calendar-viewport-props'
+
+export type { DatePopupOptions } from './popup-options'
+
+export type { DatePickerField } from '../_components/picker-field/fields'

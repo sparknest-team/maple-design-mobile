@@ -63,3 +63,29 @@ for (const [side, opposite, left, top] of [
     expect(Number.parseFloat(result.style.top)).toBeGreaterThanOrEqual(0)
   })
 }
+
+test('keeps the main axis visible when neither side fits', () => {
+  const result = calculatePopupPosition('bottom', rect(100, 240, 40, 20), rect(0, 0, 265, 600), context)
+  expect(result.style.top).toBe('40px')
+  const horizontal = calculatePopupPosition('right', rect(130, 100, 20, 20), rect(0, 0, 300, 100), context)
+  expect(horizontal.style.left).toBe('20px')
+})
+
+test('main-axis fitting respects the visual viewport, scale and disabled fitting', () => {
+  const shifted = {
+    ...context,
+    origin: { left: 10, top: 15 },
+    scaleX: 2,
+    scaleY: 2,
+    view: { visualViewport: { width: 640, height: 480, offsetLeft: 20, offsetTop: 30 } },
+  }
+  const result = calculatePopupPosition('bottom', rect(100, 100, 40, 20), rect(0, 0, 100, 220), shifted)
+  expect(result.style.top).toBe('20px')
+  const oversized = calculatePopupPosition('bottom', rect(100, 100, 40, 20), rect(0, 0, 100, 300), shifted)
+  expect(Number.parseFloat(oversized.style.top)).toBe(0)
+  const unfitted = calculatePopupPosition('bottom', rect(100, 100, 40, 20), rect(0, 0, 100, 600), {
+    ...context,
+    autoFitPosition: false,
+  })
+  expect(unfitted.style.top).toBe('128px')
+})

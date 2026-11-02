@@ -11,9 +11,26 @@ interface PCLocationInfo {
   hash: string
 }
 
-export type Theme = 'lightTheme' | 'darkTheme' | 'mapleLightTheme' | 'mapleDarkTheme'
+export type Theme =
+  | 'lightTheme'
+  | 'darkTheme'
+  | 'mapleLightTheme'
+  | 'mapleDarkTheme'
+  | 'alpsLightTheme'
+  | 'fireflyLightTheme'
+  | 'alpsDarkTheme'
+  | 'fireflyDarkTheme'
 
-const themes: readonly Theme[] = ['lightTheme', 'darkTheme', 'mapleLightTheme', 'mapleDarkTheme']
+const themes: readonly Theme[] = [
+  'lightTheme',
+  'darkTheme',
+  'mapleLightTheme',
+  'mapleDarkTheme',
+  'alpsLightTheme',
+  'fireflyLightTheme',
+  'alpsDarkTheme',
+  'fireflyDarkTheme',
+]
 
 function isTheme(value: string | null): value is Theme {
   return value !== null && themes.includes(value as Theme)
@@ -128,10 +145,22 @@ const themeMap = {
   darkTheme: Themes.default.dark,
   mapleLightTheme: Themes.maple.light,
   mapleDarkTheme: Themes.maple.dark,
+  alpsLightTheme: Themes.alps.light,
+  fireflyLightTheme: Themes.firefly.light,
+  alpsDarkTheme: Themes.alps.dark,
+  fireflyDarkTheme: Themes.firefly.dark,
 }
 
 export function setTheme(theme: Theme) {
-  const siteStyleVars = withSiteConfigNamespace(config[theme] || {})
+  const siteStyleVars = withSiteConfigNamespace(
+    config[theme] ||
+      (theme === 'alpsLightTheme' || theme === 'fireflyLightTheme'
+        ? config.lightTheme
+        : theme === 'alpsDarkTheme' || theme === 'fireflyDarkTheme'
+          ? config.darkTheme
+          : {}) ||
+      {},
+  )
   const styleVars = { ...siteStyleVars, ...(themeMap[theme] ?? {}) }
   StyleProvider.setStyleVars(styleVars)
   setColorScheme(theme)
@@ -147,7 +176,15 @@ export function onThemeChange(cb?: (theme: Theme) => void, scope: ThemeScope = '
 }
 
 export function getSiteStyleVars(theme: Theme) {
-  return withSiteConfigNamespace(config[theme] || {})
+  return withSiteConfigNamespace(
+    config[theme] ||
+      (theme === 'alpsLightTheme' || theme === 'fireflyLightTheme'
+        ? config.lightTheme
+        : theme === 'alpsDarkTheme' || theme === 'fireflyDarkTheme'
+          ? config.darkTheme
+          : {}) ||
+      {},
+  )
 }
 
 export function setColorScheme(theme: Theme) {

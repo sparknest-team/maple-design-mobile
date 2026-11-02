@@ -146,7 +146,10 @@ test('English queue demo exposes the same working submit and cleanup actions', a
 
 test('deactivation cancels the request and reactivation can retry', async () => {
   const enabled = ref(true)
-  const Host = { setup: () => () => h(KeepAlive, null, { default: () => (enabled.value ? h(QueueDemo) : null) }) }
+  const Host = {
+    setup: () => () =>
+      h(KeepAlive, null, { default: () => (enabled.value ? h(QueueDemo, { editMode: 'direct' }) : null) }),
+  }
   const wrapper = create(Host)
   await click(wrapper, '加入示例文件')
   await click(wrapper, '提交队列')

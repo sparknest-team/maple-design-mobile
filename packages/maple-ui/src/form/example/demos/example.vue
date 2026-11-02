@@ -40,7 +40,7 @@ onThemeChange()
     scroll-to-error="start"
     scroll-to-error-offset-y="14.4vmin"
   >
-    <mp-space direction="column" :size="['4vmin', 0]">
+    <mp-space direction="column" align="stretch">
       <mp-form-item field="username" :rules="[(v) => !!v || '用户名不能为空']">
         <mp-input v-model="formData.username" placeholder="请输入用户名" />
       </mp-form-item>
@@ -87,7 +87,7 @@ onThemeChange()
         <mp-switch v-model="formData.license" variant="tonal" />
       </mp-form-item>
       <mp-form-item field="count" :rules="[(v) => v > 10 || '必须大于10']">
-        <mp-counter v-model="formData.count" />
+        <mp-input-number v-model="formData.count" mode="button" edit-mode="direct" aria-label="数量" />
       </mp-form-item>
       <mp-form-item field="range" :rules="[(v) => v > 10 || '必须大于10']">
         <mp-slider v-model="formData.range" />

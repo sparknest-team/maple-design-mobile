@@ -90,7 +90,7 @@ describe('test button component props', () => {
     }
   })
 
-  test('button auto loading', async () => {
+  test('async click and touch handlers do not automatically set loading', async () => {
     const onClick = () =>
       new Promise((resolve) => {
         setTimeout(resolve, 100)
@@ -103,7 +103,6 @@ describe('test button component props', () => {
 
     const wrapper = mount(VarButton, {
       props: {
-        autoLoading: true,
         onClick,
         onTouchstart,
         ripple: false,
@@ -111,12 +110,12 @@ describe('test button component props', () => {
     })
 
     await trigger(wrapper, 'click')
-    expect(wrapper.find('.mp-loading').exists()).toBeTruthy()
+    expect(wrapper.find('.mp-loading').exists()).toBeFalsy()
     await delay(100)
     expect(wrapper.find('.mp-loading').exists()).toBeFalsy()
 
     await trigger(wrapper, 'touchstart')
-    expect(wrapper.find('.mp-loading').exists()).toBeTruthy()
+    expect(wrapper.find('.mp-loading').exists()).toBeFalsy()
     await delay(100)
     expect(wrapper.find('.mp-loading').exists()).toBeFalsy()
 

@@ -155,3 +155,28 @@
     display: none;
   }
 }
+
+@media (prefers-reduced-motion: no-preference) {
+  .mp-progress__bar--animated:dir(rtl)::after {
+    animation-name: mp-progress-shine-rtl;
+  }
+  .mp-progress__indeterminate:dir(rtl) > div {
+    animation-name: mp-progress-slide-rtl;
+  }
+}
+@keyframes mp-progress-shine-rtl {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+@keyframes mp-progress-slide-rtl {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(-350%);
+  }
+}

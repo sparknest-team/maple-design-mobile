@@ -1,19 +1,37 @@
 import type { PropType } from 'vue'
 import { fieldPresentationProps } from '../_components/field-presentation/props'
+import { openTriggerTargetProp } from '../_components/picker-field/open-trigger'
 import type { VirtualListProps } from '../_components/virtual-list-v2/interface'
+import type { OptionsLoader } from '../_hooks/use-option-request'
 import type { ComponentSize } from '../_utils/constant'
 import type { Data } from '../_utils/types'
-import { fieldDecoratorProps, fieldVariants, type FieldDecoratorVariant } from '../field-decorator/props'
+import {
+  fieldDecoratorProps,
+  fieldLoadingProps,
+  fieldVariants,
+  type FieldDecoratorVariant,
+} from '../field-decorator/props'
 import type { TriggerProps } from '../trigger'
+import { emptyValueProp } from '../utils/empty-value'
+import type { OptionSearchField } from '../utils/option-data'
 import { popupContainerProp } from '../utils/popup-container'
 import type { CascaderFieldNames, CascaderOption } from './types'
 
-export type CascaderPresentation = import('../_components/field-presentation/context').FieldPresentation
+export type CascaderEditMode = import('../_components/field-presentation/context').FieldEditMode
 export const cascaderProps = {
+  ...fieldLoadingProps,
+  openTriggerTarget: openTriggerTargetProp,
+  /** 清空动作产生的模型值；省略保留原默认值。 */
+  /** 内置本地过滤是否区分大小写；自定义过滤函数优先。 */
+  caseSensitive: { type: Boolean, default: false },
+  /** 内置搜索字段；语义字段通过 fieldNames 映射。 */
+  searchFields: { type: Array as PropType<readonly OptionSearchField[]>, default: () => ['label'] },
   ...fieldPresentationProps,
+  emptyValue: emptyValueProp<string | number | (string | number)[] | (string | number)[][]>(),
   showTags: { type: Boolean, default: true },
   separator: { type: String, default: ',' },
-  textAlign: { type: String as PropType<'left' | 'right' | 'center'>, default: 'left' },
+  /** 文字对齐；未设置时继承 FormItem.contentAlign，独立使用默认阅读起点 start。 */
+  textAlign: { type: String as PropType<'left' | 'right' | 'center'> },
 
   autoFitPopupWidth: { type: Boolean, default: false },
   hint: fieldDecoratorProps.hint,
@@ -76,8 +94,8 @@ export const cascaderProps = {
    * @en Options for cascader
    */
   options: {
-    type: Array as PropType<CascaderOption[]>,
-    default: () => [],
+    type: [Array, Function] as PropType<readonly CascaderOption[] | OptionsLoader<CascaderOption>>,
+    default: undefined,
   },
   /**
    * @zh 是否禁用
@@ -214,24 +232,13 @@ export const cascaderProps = {
   /**
    * @zh 数据懒加载函数，传入时开启懒加载功能
    * @en Data lazy loading function, open the lazy loading function when it is passed in
-   * @version 2.13.0
    */
   loadMore: {
     type: Function as PropType<(option: CascaderOption, done: (children?: CascaderOption[]) => void) => void>,
   },
   /**
-   * @zh 是否为加载中状态
-   * @en Whether it is loading state
-   * @version 2.15.0
-   */
-  loading: {
-    type: Boolean,
-    default: false,
-  },
-  /**
    * @zh 搜索下拉菜单中的选项是否仅展示标签
    * @en Whether the options in the search dropdown show only label
-   * @version 2.18.0
    */
   searchOptionOnlyLabel: {
     type: Boolean,
@@ -240,7 +247,6 @@ export const cascaderProps = {
   /**
    * @zh 触发搜索事件的延迟时间
    * @en Delay time to trigger search event
-   * @version 2.18.0
    */
   searchDelay: {
     type: Number,
@@ -249,7 +255,6 @@ export const cascaderProps = {
   /**
    * @zh 自定义 `CascaderOption` 中的字段；当选项值为对象时，也用其中的 `value` 作为键属性
    * @en Customize fields in `CascaderOption`; when option value is an object, `value` is also used as the key property
-   * @version 2.22.0
    */
   fieldNames: {
     type: Object as PropType<CascaderFieldNames>,
@@ -257,9 +262,8 @@ export const cascaderProps = {
   /**
    * @zh 自定义不存在选项的值的展示
    * @en Options that do not exist in custom values
-   * @version 2.29.0
    */
-  fallback: {
+  fallbackOption: {
     type: [Boolean, Function] as PropType<
       | boolean
       | ((value: string | number | Record<string, unknown> | (string | number | Record<string, unknown>)[]) => string)
@@ -269,7 +273,6 @@ export const cascaderProps = {
   /**
    * @zh 是否展开子菜单
    * @en whether to expand the submenu
-   * @version 2.29.0
    */
   expandChild: {
     type: Boolean,
@@ -279,7 +282,6 @@ export const cascaderProps = {
    * @zh 传递虚拟列表属性，传入此参数以开启虚拟滚动 [VirtualListProps](#VirtualListProps)
    * @en Pass the virtual list attribute, pass in this parameter to turn on virtual scrolling [VirtualListProps](#VirtualListProps)
    * @type VirtualListProps
-   * @version 2.49.0
    */
   virtualListProps: {
     type: Object as PropType<VirtualListProps>,
@@ -287,7 +289,6 @@ export const cascaderProps = {
   /**
    * @zh 标签内容不换行
    * @en Tag content does not wrap
-   * @version 2.56.1
    */
   tagNowrap: {
     type: Boolean,

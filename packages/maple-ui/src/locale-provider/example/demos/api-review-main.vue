@@ -13,7 +13,7 @@ const messages = {
 </script>
 <template>
   <DemoApiReviewPanel v-slot="__apiReview" v-bind="defineReviewConfig(__apiReviewRawConfig)">
-    <mp-checkbox v-model="custom">自定义语言包 / Custom messages</mp-checkbox>
+    <mp-checkbox v-model="custom" edit-mode="direct">自定义语言包 / Custom messages</mp-checkbox>
     <mp-locale-provider
       locale="zh-CN"
       :messages="custom ? messages : undefined"

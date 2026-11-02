@@ -10,6 +10,7 @@ import { getScrollLeft, getScrollTop, preventDefault } from '@maple-design/share
 import { provideFormPresentation } from '../_components/field-presentation/context'
 import { createNamespace } from '../utils/components'
 import { getParentScroller, getTop, toPxNum } from '../utils/elements'
+import { provideEmptyValues } from '../utils/empty-value'
 import { linear } from '../utils/shared'
 import { createFormController, type FormFieldController, type FormValidateErrors } from './form-controller'
 import { props, type FormScrollToError } from './props'
@@ -24,8 +25,9 @@ export default defineComponent({
   props,
   emits: ['submit', 'submit-success', 'submit-failed', 'reset'],
   setup(props, { emit }) {
+    provideEmptyValues(props)
     const presentationState = provideFormPresentation(
-      () => props.presentation,
+      () => props.editMode,
       () => props.readPretty,
     )
     const id = computed(() => props.id)

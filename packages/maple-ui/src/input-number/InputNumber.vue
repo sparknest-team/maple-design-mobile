@@ -1,6 +1,7 @@
 <template>
   <div
     v-bind="splitAttrs.root"
+    :aria-busy="effectiveLoading || undefined"
     :class="
       classes(
         n(),
@@ -14,26 +15,28 @@
     <div v-if="$slots.prepend" :class="[n('addon'), n('prepend')]"><slot name="prepend" /></div>
     <FieldDecorator
       :id="inputId"
+      :loading="effectiveLoading"
+      :loading-mode="loadingMode"
       :class="n('field')"
       :value="text"
       :size="mergedSize"
       :variant="mergedVariant"
       :disabled="mergedDisabled"
-      :readonly="mergedReadonly"
+      :readonly="mergedReadonly || disableInput || commitPending"
       :error="mergedError"
       :focused="focused"
       :hint="mergedHint"
       :placeholder="placeholder"
-      :clearable="clearable"
+      :clearable="clearable && !disableInput && !commitPending"
       :composing="composition.isComposing.value"
       @clear="handleClear"
       @mousedown="handleMousedown"
     >
-      <template v-if="(mode === 'button' && !mergedReadonly) || $slots.prefix" #prefix>
+      <template v-if="(mode === 'button' && !mergedReadonly && decrementButton) || $slots.prefix" #prefix>
         <InputNumberStep
-          v-if="mode === 'button' && !mergedReadonly"
+          v-if="mode === 'button' && !mergedReadonly && decrementButton"
           method="minus"
-          :disabled="mergedDisabled || isMin"
+          :disabled="mergedDisabled || commitPending || disableDecrement || isMin"
           :label="t('common.decrease')"
           @step="handleStep"
           @stop="stop"
@@ -46,16 +49,18 @@
         v-bind="nativeAttrs"
         :id="inputId"
         ref="inputRef"
+        :aria-busy="effectiveLoading || undefined"
+        autocomplete="off"
         :class="n('input')"
         type="text"
         role="spinbutton"
         :value="text"
         :disabled="mergedDisabled"
-        :readonly="mergedReadonly"
+        :readonly="mergedReadonly || disableInput || commitPending"
         :placeholder="mergedHint ? undefined : placeholder"
         :aria-valuemin="Number.isFinite(min) ? min : undefined"
         :aria-valuemax="Number.isFinite(max) ? max : undefined"
-        :aria-valuenow="number"
+        :aria-valuenow="number ?? undefined"
         :aria-valuetext="text || undefined"
         :aria-invalid="mergedError || nativeAttrs['aria-invalid'] || undefined"
         :inputmode="nativeAttrs.inputmode ?? 'decimal'"
@@ -72,9 +77,10 @@
         <InputFeedback :status="feedback" />
         <div v-if="mode === 'embed' && !mergedReadonly" :class="n('step')">
           <InputNumberStep
+            v-if="incrementButton"
             method="plus"
             compact
-            :disabled="mergedDisabled || isMax"
+            :disabled="mergedDisabled || commitPending || disableIncrement || isMax"
             :label="t('common.increase')"
             @step="handleStep"
             @stop="stop"
@@ -82,9 +88,10 @@
             <template v-if="$slots.plus" #default><slot name="plus" /></template>
           </InputNumberStep>
           <InputNumberStep
+            v-if="decrementButton"
             method="minus"
             compact
-            :disabled="mergedDisabled || isMin"
+            :disabled="mergedDisabled || commitPending || disableDecrement || isMin"
             :label="t('common.decrease')"
             @step="handleStep"
             @stop="stop"
@@ -93,9 +100,9 @@
           </InputNumberStep>
         </div>
         <InputNumberStep
-          v-else-if="mode === 'button' && !mergedReadonly"
+          v-else-if="mode === 'button' && !mergedReadonly && incrementButton"
           method="plus"
-          :disabled="mergedDisabled || isMax"
+          :disabled="mergedDisabled || commitPending || disableIncrement || isMax"
           :label="t('common.increase')"
           @step="handleStep"
           @stop="stop"
@@ -126,13 +133,15 @@ import { useStepRepeat } from './use-step-repeat'
 defineOptions({ name: createNamespace('input-number').name, inheritAttrs: false })
 const props = defineProps(inputNumberProps)
 const emit = defineEmits<{
-  'update:modelValue': [value: number | undefined]
-  input: [value: number | undefined, text: string, event: Event]
-  change: [value: number | undefined, event: Event]
+  'update:modelValue': [value: number | null | undefined]
+  input: [value: number | null | undefined, text: string, event: Event]
+  change: [value: number | null | undefined, event: Event]
   clear: [event: Event]
   focus: [event: FocusEvent]
   blur: [event: FocusEvent]
   keydown: [event: KeyboardEvent]
+  step: [value: number, direction: StepMethod, event: Event]
+  'commit-error': [error: unknown]
 }>()
 const { n, classes } = createNamespace('input-number')
 const { t } = useFieldLocale()
@@ -151,7 +160,7 @@ const nativeAttrs = computed(() => ({ ...splitAttrs.value.native, ...props.input
 const generatedId = useId()
 const inputId = computed(() => nativeAttrs.value.id ?? generatedId)
 const composition = useInputComposition()
-const { text, number, isMin, isMax, edit, commit, step, clear } = useNumberValue(props, blocked, {
+const { text, number, isMin, isMax, edit, commit, step, clear, commitPending } = useNumberValue(props, blocked, {
   update: (value) => emit('update:modelValue', value),
   input: (value, text, event) => {
     emit('input', value, text, event)
@@ -161,13 +170,30 @@ const { text, number, isMin, isMax, edit, commit, step, clear } = useNumberValue
     emit('change', value, event)
     eventHandlers.value?.onChange?.(event)
   },
+  step: (value, direction, event) => emit('step', value, direction, event),
+  commitError: (error) => emit('commit-error', error),
   clear: (event) => {
     emit('clear', event)
     eventHandlers.value?.onClear?.(event)
   },
 })
+const effectiveLoading = computed(() => props.loading || commitPending.value)
 const { start, stop } = useStepRepeat()
-watch(() => [blocked.value, props.mode], stop)
+watch(
+  () => [
+    blocked.value,
+    props.mode,
+    props.press,
+    props.disableInput,
+    props.disableIncrement,
+    props.disableDecrement,
+    props.incrementButton,
+    props.decrementButton,
+    commitPending.value,
+  ],
+  stop,
+  { flush: 'sync' },
+)
 function processInput(event: Event) {
   const input = event.target as HTMLInputElement
   const restoreSelection = captureInputSelection(input)
@@ -211,7 +237,7 @@ function handleStep(method: StepMethod, event: Event, repeat = false) {
     return
   }
   focus()
-  if (step(method, event) && repeat) {
+  if (step(method, event) && repeat && props.press) {
     start(() => step(method, event), inputRef.value?.ownerDocument.defaultView)
   }
 }

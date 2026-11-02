@@ -1,0 +1,31 @@
+{
+  "node": "v20.18.3",
+  "presentation": {
+    "expected": 308,
+    "completed": 308,
+    "passed": 308,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "visual": {
+    "expected": 24,
+    "completed": 24,
+    "passed": 24,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "initial": {
+    "source": "5217800b9dc1bb34dbb2934577d6265373526e389b7fd1f3a253036fd8be5a01",
+    "production": "e72172ce78cd8387f28179d1163968b7abfd331d13e8259a62f4247fd7372b00",
+    "buildIndexHash": "cffd8de1331e27b8c4748d5e00a9b29c598d62804453e71d3a6261a49bf07f13"
+  },
+  "final": {
+    "source": "5217800b9dc1bb34dbb2934577d6265373526e389b7fd1f3a253036fd8be5a01",
+    "production": "e72172ce78cd8387f28179d1163968b7abfd331d13e8259a62f4247fd7372b00",
+    "buildIndexHash": "cffd8de1331e27b8c4748d5e00a9b29c598d62804453e71d3a6261a49bf07f13"
+  },
+  "stable": true,
+  "fixtureInputsMatch": true
+}

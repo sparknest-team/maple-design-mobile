@@ -21,7 +21,7 @@ afterEach(() => wrappers.splice(0).forEach((wrapper) => wrapper.unmount()))
 function create(props = {}) {
   const wrapper = mount(Cascader, {
     attachTo: document.body,
-    props: { options, defaultOpen: true, popupContainer: false, ...props },
+    props: { editMode: 'direct', options, defaultOpen: true, popupContainer: false, ...props },
   })
   wrappers.push(wrapper)
   return wrapper

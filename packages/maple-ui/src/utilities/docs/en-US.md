@@ -5,8 +5,8 @@
 Maple / Cedar share utility structure; **class names must use library prefixes** (`mp-` / `c-`), variables `--mp-*` / `--c-*`.  
 No unprefixed aliases and no backward-compat shims.
 
-| | Maple | Cedar |
-|---|---|---|
+|  | Maple | Cedar |
+| --- | --- | --- |
 | Class | `mp-text-1`, `mp-mt-16` | `c-text-1`, `c-mt-16` |
 | Ship | standalone Utilities + Uno/TW preset | fixed Utilities + Uno/TW preset |
 | Token | `--mp-*` | `--c-*` |
@@ -23,7 +23,7 @@ Theme CSS variables must be loaded.
 ### Sections
 
 | Page | Content |
-|---|---|
+| --- | --- |
 | [Color](#/en-US/color) | Status colors, text / fill / border / bg |
 | [Common Utilities](#/en-US/atomic-usage) | Flex / spacing / size / overflow / radius |
 | [Elevation](#/en-US/styles) | `mp-elevation--0` … `--24` |
@@ -32,3 +32,11 @@ Theme CSS variables must be loaded.
 | [Utility Spec](#/en-US/utilitySpec) | Shared conventions |
 
 Palette scales: [Palette](#/en-US/palette). Phone preview shows a quick overview.
+
+## Basic examples
+
+### Basic usage
+
+```demo
+../example/basic.vue
+```

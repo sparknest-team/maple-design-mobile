@@ -1,6 +1,7 @@
 <script lang="ts">
-import { computed, defineComponent, h } from 'vue'
+import { computed, defineComponent, h, inject } from 'vue'
 import { call, hasOwn } from '@maple-design/shared'
+import { provideDirection, readingDirectionKey } from '@maple-design/use'
 import { type Message } from '../locale'
 import { createNamespace } from '../utils/components'
 import { props } from './props'
@@ -12,6 +13,9 @@ export default defineComponent({
   name,
   props,
   setup(props, { slots }) {
+    const parentDirection = inject(readingDirectionKey, undefined)
+    const direction = computed(() => props.dir ?? parentDirection?.value)
+    provideDirection(direction)
     const messages = computed(() =>
       Object.entries(props.messages ?? {}).reduce(
         (messages, [key, value]) => {
@@ -39,6 +43,7 @@ export default defineComponent({
         props.tag,
         {
           class: n(),
+          dir: props.dir,
         },
         call(slots.default),
       )

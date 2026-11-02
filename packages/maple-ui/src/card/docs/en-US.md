@@ -2,7 +2,7 @@
 
 Source changes synchronously invalidate render generations. Close, row direction, newer work, deactivation or disposal prevent old nextTick/timer/double-frame continuations from changing newer phases. Render/timer deliveries consume once. Recheck lifecycle/request/node after geometry hooks to reject reentrant disposal. Suspension cancels both timers and retained close/click input is inert; activation starts a fresh phase from current props without replay, and initial KeepAlive activation does not duplicate the wait.
 
-## Examples
+## Basic examples
 
 ### Basic usage and subtitle
 
@@ -10,22 +10,34 @@ Source changes synchronously invalidate render generations. Close, row direction
 ../example/demos/basic.vue
 ```
 
-### Variants and elevation
+## Appearance and states
+
+### Appearance configuration comparison
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `title` | Title | Appearance configuration comparison, Hover style |
+| `description` | Description | Appearance configuration comparison |
+| `hoverable` | Hover style | Hover style |
+<!-- demo-config-notes:end -->
+
+
+Choose a dimension to compare all its values side by side while keeping other settings and content identical. Change the other settings to inspect combinations; input specimens share one model.
+
+<details>
+<summary>Configuration details and limits</summary>
+
+#### Appearance combinations
+
+Use this example for content grouping and visual hierarchy. Adjust variant, size and compare the component with the same data. Keep the content unchanged while comparing the available settings.
+
+</details>
 
 ```demo
-../example/demos/variant.vue
-```
-
-### Sizes
-
-```demo
-../example/demos/size.vue
-```
-
-### Custom header
-
-```demo
-../example/demos/no-padding.vue
+../example/demos/appearance-lab.vue
 ```
 
 ### Hover style
@@ -34,11 +46,29 @@ Source changes synchronously invalidate render generations. Close, row direction
 ../example/demos/hoverable.vue
 ```
 
+## Layout and arrangement
+
 ### Images and directions
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `direction` | Order of cover and body, default column; supports row, column and row-reverse. Does not position the card itself | Images and directions |
+| `title` | Title | Images and directions |
+| `src` | Cover image URL; cover slot takes precedence | Images and directions |
+| `alt` | Image alternative text | Images and directions |
+| `image-height` | Image height; numbers use px | Images and directions |
+| `image-width` | Image width; numbers use px | Images and directions |
+<!-- demo-config-notes:end -->
+
 
 ```demo
 ../example/demos/image.vue
 ```
+
+## Content and presentation
 
 ### Long title and tooltip
 
@@ -46,7 +76,46 @@ Source changes synchronously invalidate render generations. Close, row direction
 ../example/demos/tooltip.vue
 ```
 
+## Customization and slots
+
+### Custom header
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `title` | Title | Custom header |
+| `top-divider` | Top divider | Content slots |
+| `bottom-divider` | Bottom divider | Content slots |
+<!-- demo-config-notes:end -->
+
+
+```demo
+../example/demos/no-padding.vue
+```
+
+### Content slots
+
+```demo
+../example/demos/slots.vue
+```
+
+## Interaction and control
+
 ### Ripple and click
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `title` | Title | Ripple and click, Floating and close |
+| `ripple` | Click ripple | Ripple and click |
+| `floating` | Fullscreen state; supports v-model:floating | Floating and close |
+| `floating-duration` | Fullscreen transition duration in ms | Floating and close |
+<!-- demo-config-notes:end -->
+
 
 ```demo
 ../example/demos/ripple.vue
@@ -58,21 +127,21 @@ Source changes synchronously invalidate render generations. Close, row direction
 ../example/demos/floating.vue
 ```
 
-### Appearance combinations
+## Lifecycle and edge cases
 
-Use this example for content grouping and visual hierarchy. Adjust variant, size and compare the component with the same data. Keep the content unchanged while comparing the available settings.
+### Floating scheduler lifecycle
 
-```demo
-../example/demos/appearance-lab.vue
-```
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
 
-### Content slots
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `floating` | Fullscreen state; supports v-model:floating | Floating scheduler lifecycle |
+| `ripple` | Click ripple | Floating scheduler lifecycle |
+| `floating-duration` | Fullscreen transition duration in ms | Floating scheduler lifecycle |
+| `title` | Title | Floating scheduler lifecycle |
+<!-- demo-config-notes:end -->
 
-```demo
-../example/demos/slots.vue
-```
-
-### Floating scheduler lifecycle / 浮起调度生命周期
 
 ```demo
 ../example/demos/en-US/scheduler-lifecycle.vue
@@ -80,20 +149,9 @@ Use this example for content grouping and visual hierarchy. Adjust variant, size
 
 The same scenarios, parameters and interactions as Cedar. Only component prefixes differ; themes and site shells remain independent.
 
-### scheduler-lifecycle
+## Reading direction
 
-```demo
-../example/demos/scheduler-lifecycle.vue
-```
-
-<!-- api-review:start -->
-### Feature playground
-
-```demo
-../example/demos/api-review.vue
-```
-
-<!-- api-review:end -->
+Headings, content and actions follow reading order. Default floating actions sit at reading end without mirroring images or custom slots.
 
 ## API
 
@@ -104,7 +162,7 @@ The same scenarios, parameters and interactions as Cedar. Only component prefixe
 | --- | --- | --- | --- |
 | variant | Appearance | `default / outline / tonal` | `default` |
 | size | Density; omitted value follows platform rules below | `sm / md` | `undefined` |
-| direction | Cover and body layout | `row / column / row-reverse` | `column` |
+| direction | Order of cover and body, default column; supports row, column and row-reverse. Does not position the card itself | `row / column / row-reverse` | `column` |
 | hoverable | Hover styling | `boolean` | `false` |
 | title-style | Title row styles | `CSSProperties` | `undefined` |
 | title | Title | `string` | `undefined` |
@@ -126,8 +184,8 @@ The same scenarios, parameters and interactions as Cedar. Only component prefixe
 
 | Event | Arguments and timing |
 | --- | --- |
-| click | `(event: Event)`, when the card is clicked |
-| update:floating | `(value: boolean)`, built-in close requests false; the parent controls opening |
+| click | `(event: Event)`, emitted when the card is clicked |
+| update:floating | `(value: boolean)`, emits false when the built-in close button requests closing; expansion is controlled by the parent |
 
 ### Slots
 
@@ -150,10 +208,11 @@ No public methods.
 
 ### Platform notes
 
-Cedar inherits global size when omitted (xs/sm map to sm, others to md); Maple falls back to md. Pass size explicitly for matching density. Themes and CSS prefixes remain platform-specific. Card has no loading prop; compose it with the Loading directive.
+Props, event arguments and slots match. Cedar inherits the global size when size is omitted: xs/sm map to sm, all others to md. Maple falls back to md. Pass size explicitly for identical density. Themes and CSS prefixes remain platform-specific.
+Card no longer has a loading prop. Compose a loading overlay with the Loading directive.
 <!-- same-source-api:end -->
 
-### Style Variables
+### Style variables
 
 | Variable | Default |
 | --- | --- |
@@ -204,8 +263,8 @@ Cedar inherits global size when omitted (xs/sm map to sm, others to md); Maple f
 | `--mp-card-close-button-text-color` | `var(--mp-sys-color-content-on-dark)` |
 | `--mp-card-close-button-border-radius` | `50%` |
 
-Card body colors share Cedar's system roles: default and filled surfaces use `surface-default` and `surface-muted`, the outline uses `border-default`, and title, body, and supporting text use `content-primary`, `content-tertiary`, and `content-secondary`. The dark theme keeps these roles. The expanded floating-button container sits on the card surface and uses `content-primary`; text and icons on the dark close button use `content-on-dark`. Its `#212121` background is Card-specific, not the global primary action color. See the Design Token guide for the former variable name's migration.
+Card colors share Cedar's system semantics: regular/filled backgrounds and borders use `surface-default`/`surface-muted`/`border-default`; titles/body/secondary text use `content-primary`/`content-tertiary`/`content-secondary`, including dark themes. Expanded floating-button containers use `content-primary` on the card surface; dark close-button text/icons use `content-on-dark`. `#212121` close-button backgrounds are Card-specific, not global primary-action colors. See Design Token migration mappings.
 
-### Token consumer contract
+### Variable consumption rules
 
 Row content consumes `--mp-card-content-row-margin`, independently from the title margin. Card intentionally exposes only sm/md density, not all five control sizes. Motion uses `--mp-card-animation-duration` (`var(--mp-sys-motion-duration-slow)`) and `--mp-card-animation-easing` (`var(--mp-sys-motion-easing-standard)`). Reduced motion disables transitions on every animated Card section.

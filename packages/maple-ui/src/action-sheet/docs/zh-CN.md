@@ -1,12 +1,12 @@
 # 动作面板
 
-## 案例
-
 ### 介绍
 
 弹出一个动作面板提供用户选择选项的能力。
 `ActionSheet` 提供了函数式和组件式两种使用方式，两种使用效果和参数并没有本质区别。
 函数返回一个 `Promise`，选择时返回 `当前选择的 action`，点击背景层关闭返回 `close`。
+
+## 基础示例
 
 ### 函数调用
 
@@ -14,7 +14,19 @@
 ../example/demos/function-call.vue
 ```
 
+## 声明式与状态控制
+
 ### 组件调用
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `actions` | 选项列表 | 组件调用 |
+| `title` | 动作面板标题 | 组件调用 |
+| `close-on-click-action` | 是否点击选项时关闭动作面板 | 组件调用 |
+<!-- demo-config-notes:end -->
 
 ```demo
 ../example/demos/component-call.vue
@@ -375,15 +387,6 @@
 </template>
 ```
 
-<!-- api-review:start -->
-### 功能调试
-
-```demo
-../example/demos/api-review.vue
-```
-
-<!-- api-review:end -->
-
 ## API
 
 `open/defaultOpen` 分别控制面板状态与非受控初始开合；使用 `v-model:open` 双向绑定。defaultOpen 只在创建时读取，不在初始化时回写。
@@ -487,3 +490,21 @@
 | `--action-sheet-action-item-disabled-color` | `var(--color-text-disabled)` |
 | `--action-sheet-icon-margin`                | `0 0 20px 0`                 |
 | `--action-sheet-icon-size`                  | `24px`                       |
+
+### 标题下拉关闭
+
+`swipe-to-close` 默认 false；开启后可以从默认标题向下拖动关闭。`swipe-threshold` 默认为 40 CSS px。自定义 title 插槽需添加 `data-popup-swipe-handle`，正文选项和标题内按钮不会触发拖动关闭。详见 Popup 的头部手势说明。
+`before-close` 透传到 Popup，遮罩、Esc、路由、下拉以及操作后修改 `open` 的关闭请求均可异步拒绝；异常触发 `close-error(error, reason)`。操作的 `select` 表示选择事件，不代表关闭已获批准。
+
+## before 钩子与 done 兼容
+
+`beforeClose(reason, done)` 为统一入口，不新增另一套命名。
+
+返回 true/false 或 `Promise<boolean>`；async 函数正常完成且返回 void 时放行。回调方式使用 done() 放行、done(false) 拒绝；同步返回 void 时等待 done，可异步调用。返回值和 done 同时使用时，第一次完成生效。等待中去重；异常保留弹层并恢复临时按钮状态。done 同时携带 signal/event，Dialog/Drawer 原第三参数 refs 保留。关闭、卸载或更换钩子会使旧结果失效。
+
+只记录日志的同步钩子应显式 return true；同步 undefined 表示仍在等待回调。注意：以前返回 `Promise<void>` 却不调用 done 的异步钩子，现在会在 Promise 完成后放行。
+
+Popup 原因为 overlay、escape、route、swipe、close、api、model。拒绝外部 open=false 时请求 update:open(true)。直接销毁组件不能等待内部钩子，应先 await requestClose()。
+
+函数调用的通知回调不控制任务完成。服务的选择或关闭结果独立于回调异常结算，关闭完成时仍会清理所属宿主。异常继续通过调用方或 Vue 错误通道传递；回调返回 Promise 不控制 loading 或关闭。
+`ActionSheet.close()` 是遵守 `beforeClose` 的关闭请求；拒绝后保留服务所有权，可以再次请求关闭。再次函数调用会替换旧单例：直接清理旧宿主并将旧结果结算为 `close`，不等待旧关闭守卫，也不合成生命周期通知。

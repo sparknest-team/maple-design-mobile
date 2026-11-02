@@ -16,11 +16,11 @@ const widths = computed(() => {
 
 <template>
   <section class="auto-sized-demo">
-    <mp-checkbox v-model="wider">Wider cards / 加宽卡片</mp-checkbox>
-    <mp-checkbox v-model="compact">300px viewport / 窄容器</mp-checkbox>
-    <mp-checkbox v-model="extra">Extra card / 增加末项</mp-checkbox>
-    <mp-checkbox v-model="empty">Empty / 清空项目</mp-checkbox>
-    <mp-checkbox v-model="reversed">Reverse cards / 反转顺序</mp-checkbox>
+    <mp-checkbox v-model="wider" edit-mode="direct">Wider cards / 加宽卡片</mp-checkbox>
+    <mp-checkbox v-model="compact" edit-mode="direct">300px viewport / 窄容器</mp-checkbox>
+    <mp-checkbox v-model="extra" edit-mode="direct">Extra card / 增加末项</mp-checkbox>
+    <mp-checkbox v-model="empty" edit-mode="direct">Empty / 清空项目</mp-checkbox>
+    <mp-checkbox v-model="reversed" edit-mode="direct">Reverse cards / 反转顺序</mp-checkbox>
     <p role="status">Current: {{ current }} · Changes: {{ changes }}</p>
     <mp-carousel
       v-model="current"

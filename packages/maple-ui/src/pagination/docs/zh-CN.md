@@ -2,7 +2,7 @@
 
 两端统一 API、交互与演示，支持按容器宽度自适应布局。
 
-## 案例
+## 基础示例
 
 ### 基础与双向绑定
 
@@ -10,7 +10,22 @@
 ../example/demos/basic.vue
 ```
 
+## 外观与状态
+
 ### 五档尺寸与阴影
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `total` | 数据总数（必填） | 五档尺寸与阴影、禁用与单页隐藏 |
+| `show-page-size` | 显示条数选择器 | 五档尺寸与阴影、禁用与单页隐藏 |
+| `show-jumper` | 完整模式显示独立跳转框；简洁模式已有页码输入 | 五档尺寸与阴影、禁用与单页隐藏 |
+| `size` | 所有内部控件尺寸 | 五档尺寸与阴影 |
+| `elevation` | 页码按钮阴影；true 使用 2 级 | 五档尺寸与阴影 |
+| `disabled` | 禁用所有交互 | 禁用与单页隐藏 |
+<!-- demo-config-notes:end -->
 
 ```demo
 ../example/demos/size.vue
@@ -22,46 +37,81 @@
 ../example/demos/disabled.vue
 ```
 
+## 分页模式与信息
+
+### 简洁模式
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `total` | 数据总数（必填） | 简洁模式、更多页码与省略跳转、总数、每页条数与跳页 |
+| `show-total` | 显示总数 | 简洁模式、总数、每页条数与跳页 |
+| `show-page-size` | 显示条数选择器 | 简洁模式、总数、每页条数与跳页 |
+| `responsive` | 按容器宽度自动切换简洁模式 | 更多页码与省略跳转、总数、每页条数与跳页 |
+| `simple` | 显式启用简洁模式 | 简洁模式 |
+| `default-value` | 非受控初始页码 | 更多页码与省略跳转 |
+<!-- demo-config-notes:end -->
+
+```demo
+../example/demos/simple.vue
+```
+
 ### 更多页码与省略跳转
 
 ```demo
 ../example/demos/more-page-size.vue
 ```
 
-### 每页条数与公共选择器配置
+### 总数、每页条数与跳页
+
+比较三种分页附加能力。更改页码或每页条数时观察对应输出，数据总数与自动修正另行说明。
 
 ```demo
-../example/demos/show-page-size.vue
+../example/demos/auxiliary-controls-comparison.vue
 ```
 
-### 跳转与前后缀插槽
-
-```demo
-../example/demos/show-jumper.vue
-```
-
-### 简洁模式
-
-```demo
-../example/demos/simple.vue
-```
-
-### 自定义总数插槽
-
-```demo
-../example/demos/show-total.vue
-```
-
-### 完整功能交互
-
-```demo
-../example/demos/all.vue
-```
+## 条数、跳转与按钮
 
 ### 自定义分页按钮与样式
 
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `total` | 数据总数（必填） | 自定义分页按钮与样式 |
+| `default-value` | 非受控初始页码 | 自定义分页按钮与样式 |
+| `buffer-size` | 当前页两侧的页码数 | 自定义分页按钮与样式 |
+| `responsive` | 按容器宽度自动切换简洁模式 | 自定义分页按钮与样式 |
+| `page-item-style` | 数字页码基础样式 | 自定义分页按钮与样式 |
+| `active-page-item-style` | 叠加到当前数字页码的样式 | 自定义分页按钮与样式 |
+<!-- demo-config-notes:end -->
+
 ```demo
 ../example/demos/custom-page-button.vue
+```
+
+## 响应式与数据变化
+
+### 容器宽度与窄屏布局
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `total` | 数据总数（必填） | 容器宽度与窄屏布局、数据变化与自动调整、完整功能交互 |
+| `show-total` | 显示总数 | 容器宽度与窄屏布局、数据变化与自动调整、完整功能交互 |
+| `show-page-size` | 显示条数选择器 | 容器宽度与窄屏布局、数据变化与自动调整、完整功能交互 |
+| `show-jumper` | 完整模式显示独立跳转框；简洁模式已有页码输入 | 容器宽度与窄屏布局、完整功能交互 |
+| `responsive` | 按容器宽度自动切换简洁模式 | 容器宽度与窄屏布局 |
+| `auto-adjust` | 条数变化时保留首条位置；总数减少时修正越界页码 | 数据变化与自动调整 |
+<!-- demo-config-notes:end -->
+
+```demo
+../example/demos/responsive.vue
 ```
 
 ### 数据变化与自动调整
@@ -70,20 +120,15 @@
 ../example/demos/auto-adjust.vue
 ```
 
-### 容器宽度与窄屏布局
+### 完整功能交互
 
 ```demo
-../example/demos/responsive.vue
+../example/demos/all.vue
 ```
 
-<!-- api-review:start -->
-### 功能调试
+## 阅读方向
 
-```demo
-../example/demos/api-review.vue
-```
-
-<!-- api-review:end -->
+继承最近的 `dir="ltr|rtl"`，支持运行时切换与局部覆盖。页码与上一页/下一页含义保持不变，默认前后图形跟随阅读方向。输入页码、禁用边界和选择不因方向切换而改变；自定义图形插槽由业务决定方向。
 
 ## API
 
@@ -107,7 +152,7 @@
 | show-jumper | 完整模式显示独立跳转框；简洁模式已有页码输入 | `boolean` | `false` |
 | show-page-size | 显示条数选择器 | `boolean` | `false` |
 | page-size-options | 正整数条数选项 | `number[]` | `[10, 20, 30, 40, 50]` |
-| page-size-props | 公共选择器配置，不能覆盖分页值、选项和尺寸 | `PaginationPageSizeProps` | `—` |
+| page-size-props | 可选的条数 Select 受限配置；placement 默认 bottom-start，经 Select.triggerProps 交给 Trigger 自动定位；不能覆盖分页值、选项和尺寸 | `PaginationPageSizeProps` | `—` |
 | size | 所有内部控件尺寸 | `'xs' / 'sm' / 'md' / 'lg' / 'xl'` | `'md'` |
 | page-item-style | 数字页码基础样式 | `CSSProperties` | `—` |
 | active-page-item-style | 叠加到当前数字页码的样式 | `CSSProperties` | `—` |
@@ -200,3 +245,8 @@ import type { PaginationProps, PaginationInstance, PaginationPageSizeProps } fro
 | `--mp-pagination-active-color` | `var(--mp-color-primary)` |
 | `--mp-pagination-disabled-color` | `var(--mp-color-text-disabled)` |
 | `--mp-pagination-disabled-background` | `var(--mp-color-fill-1)` |
+
+
+### 方位语义与配置入口
+
+普通使用无需配置方位：默认 bottom-start，空间不足时底层 Trigger 自动翻转和约束。pageSizeProps.placement 仅是条数 Select 的受限覆盖入口，链路为 Pagination → Select.triggerProps.placement → Trigger；不是分页器自身位置。

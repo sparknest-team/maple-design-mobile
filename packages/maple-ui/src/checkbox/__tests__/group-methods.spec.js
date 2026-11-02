@@ -5,19 +5,19 @@ import { formHost } from '../../input-number/__tests__/form-host'
 import Checkbox, { CheckboxGroup } from '../index'
 
 const methods = (wrapper) => wrapper.vm.$.exposed ?? wrapper.vm
-const children = (values) => values.map((value) => h(Checkbox, { value, key: String(value) }))
+const children = (values) => values.map((value) => h(Checkbox, { editMode: 'direct', value, key: String(value) }))
 
 describe('checkbox group methods', () => {
   it('preserves locked and unloaded values and uses slots as candidates', async () => {
     const wrapper = mount(CheckboxGroup, {
-      props: { defaultValue: ['remote', 'locked', 'a'], max: 4 },
+      props: { editMode: 'direct', defaultValue: ['remote', 'locked', 'a'], max: 4 },
       slots: {
         default: () => [
-          h(Checkbox, { value: 'locked', disabled: true }),
-          h(Checkbox, { value: 'a' }),
-          h(Checkbox, { value: 'b' }),
-          h(Checkbox, { value: 'readonly', readonly: true }),
-          h(Checkbox, { value: 'd' }),
+          h(Checkbox, { editMode: 'direct', value: 'locked', disabled: true }),
+          h(Checkbox, { editMode: 'direct', value: 'a' }),
+          h(Checkbox, { editMode: 'direct', value: 'b' }),
+          h(Checkbox, { editMode: 'direct', value: 'readonly', readonly: true }),
+          h(Checkbox, { editMode: 'direct', value: 'd' }),
         ],
       },
     })
@@ -30,7 +30,9 @@ describe('checkbox group methods', () => {
   })
 
   it('frees max capacity before inverse selection rather than locking capped items', async () => {
-    const wrapper = mount(CheckboxGroup, { props: { defaultValue: ['a'], max: 1, options: ['a', 'b'] } })
+    const wrapper = mount(CheckboxGroup, {
+      props: { editMode: 'direct', defaultValue: ['a'], max: 1, options: ['a', 'b'] },
+    })
     await nextTick()
     expect(methods(wrapper).inverseAll()).toEqual(['b'])
     await nextTick()
@@ -41,6 +43,7 @@ describe('checkbox group methods', () => {
   it('retains model order and emits nothing for an already complete selection', async () => {
     const wrapper = mount(CheckboxGroup, {
       props: {
+        editMode: 'direct',
         defaultValue: ['b', 'a', 'locked'],
         options: ['a', 'b', { value: 'locked', readonly: true }],
       },
@@ -52,7 +55,9 @@ describe('checkbox group methods', () => {
   })
 
   it('never stores rejected proposals, clones results and observes readonly/disabled', async () => {
-    const wrapper = mount(CheckboxGroup, { props: { modelValue: [], options: [false, 0, ''], max: 2 } })
+    const wrapper = mount(CheckboxGroup, {
+      props: { editMode: 'direct', modelValue: [], options: [false, 0, ''], max: 2 },
+    })
     await nextTick()
     const result = methods(wrapper).checkAll()
     expect(result).toEqual([false, 0])
@@ -67,7 +72,7 @@ describe('checkbox group methods', () => {
   })
 
   it('appends newly loaded candidates without deleting or mutating existing selections', async () => {
-    const wrapper = mount(CheckboxGroup, { props: { defaultValue: ['remote'], options: [] } })
+    const wrapper = mount(CheckboxGroup, { props: { editMode: 'direct', defaultValue: ['remote'], options: [] } })
     await nextTick()
     expect(methods(wrapper).checkAll()).toEqual(['remote'])
     await wrapper.setProps({ options: ['b', 'a'] })
@@ -85,7 +90,7 @@ describe('checkbox group methods', () => {
   it('uses live DOM order after keyed reordering, not registration order', async () => {
     const order = ref(['a', 'b'])
     const wrapper = mount(CheckboxGroup, {
-      props: { modelValue: [], max: 1 },
+      props: { editMode: 'direct', modelValue: [], max: 1 },
       slots: { default: () => children(order.value) },
     })
     await nextTick()
@@ -100,9 +105,9 @@ describe('checkbox group methods', () => {
     const item = ref('a')
     const visible = ref(true)
     const wrapper = mount(CheckboxGroup, {
-      props: { modelValue: [] },
+      props: { editMode: 'direct', modelValue: [] },
       slots: {
-        default: () => (visible.value ? h(Checkbox, { value: item.value }) : null),
+        default: () => (visible.value ? h(Checkbox, { editMode: 'direct', value: item.value }) : null),
       },
     })
     await nextTick()
@@ -117,9 +122,9 @@ describe('checkbox group methods', () => {
 
   it('removes and restores KeepAlive children without stale or duplicate candidates', async () => {
     const visible = ref(true)
-    const Child = defineComponent({ setup: () => () => h(Checkbox, { value: 'a' }) })
+    const Child = defineComponent({ setup: () => () => h(Checkbox, { editMode: 'direct', value: 'a' }) })
     const wrapper = mount(CheckboxGroup, {
-      props: { modelValue: [] },
+      props: { editMode: 'direct', modelValue: [] },
       slots: {
         default: () => h(KeepAlive, null, { default: () => (visible.value ? h(Child) : null) }),
       },
@@ -137,12 +142,13 @@ describe('checkbox group methods', () => {
 
   it('respects locked duplicate values and isolates nested groups', async () => {
     const wrapper = mount(CheckboxGroup, {
+      props: { editMode: 'direct' },
       slots: {
         default: () => [
-          h(Checkbox, { value: 'a' }),
-          h(Checkbox, { value: 'a', readonly: true }),
-          h(Checkbox, { value: 'b' }),
-          h(CheckboxGroup, null, { default: () => h(Checkbox, { value: 'nested' }) }),
+          h(Checkbox, { editMode: 'direct', value: 'a' }),
+          h(Checkbox, { editMode: 'direct', value: 'a', readonly: true }),
+          h(Checkbox, { editMode: 'direct', value: 'b' }),
+          h(CheckboxGroup, null, { default: () => h(Checkbox, { editMode: 'direct', value: 'nested' }) }),
         ],
       },
     })
@@ -159,6 +165,7 @@ describe('checkbox group methods', () => {
     const wrapper = mount(
       formHost(state, { onChange: () => order.push('form') }, () =>
         h(CheckboxGroup, {
+          editMode: 'direct',
           options: ['a', 'b'],
           'onUpdate:modelValue': () => order.push('update'),
           onChange: (_value, event) => {
@@ -182,8 +189,8 @@ describe('checkbox group methods', () => {
 
   it('ignores retained methods after disposal and does not affect another instance', async () => {
     const changed = vi.fn()
-    const left = mount(CheckboxGroup, { props: { options: ['a'], onChange: changed } })
-    const right = mount(CheckboxGroup, { props: { options: ['b'] } })
+    const left = mount(CheckboxGroup, { props: { editMode: 'direct', options: ['a'], onChange: changed } })
+    const right = mount(CheckboxGroup, { props: { editMode: 'direct', options: ['b'] } })
     await nextTick()
     const retained = methods(left)
     left.unmount()

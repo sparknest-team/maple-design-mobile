@@ -9,7 +9,13 @@ const mount = (component, options = {}) => baseMount(component, { attachTo: docu
 describe('Checkbox native body contract', () => {
   it('has one native control and preserves mixed state after a rejected controlled change', async () => {
     const wrapper = mount(Checkbox, {
-      props: { modelValue: false, indeterminate: true, ariaLabel: 'Approval', name: 'approval' },
+      props: {
+        editMode: 'direct',
+        modelValue: false,
+        indeterminate: true,
+        ariaLabel: 'Approval',
+        name: 'approval',
+      },
     })
     const input = wrapper.find('input[type="checkbox"]')
     expect(wrapper.element.tagName).toBe('LABEL')
@@ -25,7 +31,7 @@ describe('Checkbox native body contract', () => {
     wrapper.unmount()
   })
   it('a label click activates once and readonly/disabled prevent native state changes', async () => {
-    const wrapper = mount(Checkbox, { slots: { default: () => 'Label' } })
+    const wrapper = mount(Checkbox, { props: { editMode: 'direct' }, slots: { default: () => 'Label' } })
     await wrapper.trigger('click')
     expect(wrapper.emitted('change')).toHaveLength(1)
     expect(wrapper.emitted('click')).toHaveLength(1)
@@ -42,7 +48,7 @@ describe('Checkbox native body contract', () => {
   })
   it('all three icon slots and the complete-control slot keep the native control', async () => {
     const wrapper = mount(Checkbox, {
-      props: { defaultValue: false },
+      props: { editMode: 'direct', defaultValue: false },
       slots: {
         'checked-icon': () => h('i', { 'data-icon': 'checked' }),
         'unchecked-icon': () => h('i', { 'data-icon': 'unchecked' }),
@@ -58,7 +64,7 @@ describe('Checkbox native body contract', () => {
     expect(wrapper.findAll('input')).toHaveLength(1)
     wrapper.unmount()
     const group = mount(CheckboxGroup, {
-      props: { options: ['a'], defaultValue: ['a'] },
+      props: { editMode: 'direct', options: ['a'], defaultValue: ['a'] },
       slots: { checkbox: ({ checked, disabled }) => h('b', `${checked}/${disabled}`) },
     })
     expect(group.find('b').text()).toBe('true/false')
@@ -67,7 +73,7 @@ describe('Checkbox native body contract', () => {
   })
   it('group native names and max state update without hiding checked controls', async () => {
     const wrapper = mount(CheckboxGroup, {
-      props: { name: 'features', ariaLabel: 'Features', max: 1, options: ['a', 'b'] },
+      props: { editMode: 'direct', name: 'features', ariaLabel: 'Features', max: 1, options: ['a', 'b'] },
     })
     expect(wrapper.attributes('role')).toBe('group')
     expect(wrapper.attributes('aria-label')).toBe('Features')
@@ -82,8 +88,10 @@ describe('Checkbox native body contract', () => {
   })
   it('a detached child does not inherit or modify its surrounding group', async () => {
     const wrapper = mount(CheckboxGroup, {
-      props: { disabled: true },
-      slots: { default: () => h(Checkbox, { uninjectGroupContext: true, value: 'independent' }) },
+      props: { editMode: 'direct', disabled: true },
+      slots: {
+        default: () => h(Checkbox, { editMode: 'direct', uninjectGroupContext: true, value: 'independent' }),
+      },
     })
     const input = wrapper.find('input')
     expect(input.element.disabled).toBe(false)
@@ -95,7 +103,14 @@ describe('Checkbox native body contract', () => {
   it('renders native accessible controls during SSR without a browser', async () => {
     const html = await renderToString(
       createSSRApp({
-        render: () => h(CheckboxGroup, { ariaLabel: 'SSR', name: 'ssr', defaultValue: [false], options: [false, 0] }),
+        render: () =>
+          h(CheckboxGroup, {
+            editMode: 'direct',
+            ariaLabel: 'SSR',
+            name: 'ssr',
+            defaultValue: [false],
+            options: [false, 0],
+          }),
       }),
     )
     expect(html).toContain('role="group"')
@@ -106,6 +121,7 @@ describe('Checkbox native body contract', () => {
 
   it('does not activate when an embedded link or button is clicked', async () => {
     const wrapper = mount(Checkbox, {
+      props: { editMode: 'direct' },
       slots: { default: () => [h('a', { href: '#help' }, 'Help'), h('button', { type: 'button' }, 'Action')] },
     })
     await wrapper.find('a').trigger('click')
@@ -115,7 +131,7 @@ describe('Checkbox native body contract', () => {
     wrapper.unmount()
   })
   it('readonly native clicks restore checked state while keeping focus available', async () => {
-    const wrapper = mount(Checkbox, { props: { readonly: true } })
+    const wrapper = mount(Checkbox, { props: { editMode: 'direct', readonly: true } })
     wrapper.vm.focus()
     const input = wrapper.find('input')
     expect(document.activeElement).toBe(input.element)
@@ -127,7 +143,7 @@ describe('Checkbox native body contract', () => {
   })
   it('applies number/string icon sizes and preserves full-slot text for accessible naming', async () => {
     const wrapper = mount(Checkbox, {
-      props: { iconSize: 28, checkedColor: '#137547', uncheckedColor: '#656565' },
+      props: { editMode: 'direct', iconSize: 28, checkedColor: '#137547', uncheckedColor: '#656565' },
       slots: { checkbox: () => h('span', 'Visible custom label') },
     })
     expect(wrapper.attributes('style')).toContain('28px')

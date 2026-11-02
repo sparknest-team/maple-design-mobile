@@ -1,0 +1,7 @@
+
+> @1.0.0 spec:check /Users/shuaimeng/github_web/maple-design-mobile
+> node scripts/quality/spec-check.mjs
+
+
+maple: 89 components, 0 errors, 0 warnings
+Shared standards: ../design-ui/standards

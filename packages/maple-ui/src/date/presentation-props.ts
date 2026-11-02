@@ -1,4 +1,6 @@
 import { type PropType } from 'vue'
+import { datePickerFieldsProp, timePickerFieldsProp } from '../_components/picker-field/fields'
+import { calendarViewportProps } from './calendar-viewport-props'
 import type { DisabledTime } from './time-constraints'
 import type { DateWheelOptions } from './wheel-options'
 
@@ -55,6 +57,10 @@ export const MONTH_LIST: Array<Month> = ['01', '02', '03', '04', '05', '06', '07
 export const WEEK_HEADER: Array<Week> = ['0', '1', '2', '3', '4', '5', '6']
 
 export const props = {
+  dateFields: datePickerFieldsProp,
+  timeFields: timePickerFieldsProp,
+  ...calendarViewportProps,
+  currentDate: String,
   pickerProps: { type: Object as PropType<DateWheelOptions>, default: () => ({}) },
   abbreviation: { type: Boolean, default: true },
   pickerValue: [String, Array] as PropType<string | string[]>,
@@ -68,7 +74,6 @@ export const props = {
     default: 'picker',
   },
   showTime: Boolean,
-  useSeconds: Boolean,
   hint: String,
   disabledDate: Function as PropType<DisabledDate>,
   // Maple DisabledTime is `(n)=>boolean` object shape (mobile wheels); Cedar DatePicker DisabledTime is Date-based — intentional signature difference, shared name/polarity.

@@ -5,7 +5,7 @@ import { defineReviewConfig, ReviewSlot as DemoReviewSlot } from '@sparknest/ui-
 import DemoApiReviewPanel from '../../../../docs/components/ApiReviewPanel.vue'
 import __apiReviewRawConfig from './api-review.config.json'
 
-const presentation = ref<'inline' | 'popup'>('inline')
+const editMode = ref<'direct' | 'popup'>('popup')
 const value = ref(['factory', 'device-2'])
 const options = ref<Record<string, unknown>[]>([])
 const loading = ref(false)
@@ -30,22 +30,24 @@ async function load() {
 </script>
 <template>
   <DemoApiReviewPanel v-slot="__apiReview" v-bind="defineReviewConfig(__apiReviewRawConfig)">
-    <mp-space direction="column" :size="16">
-      <mp-select
-        v-model="presentation"
-        placeholder="展示方式"
-        :clearable="false"
-        hint
-        :options="[
-          { label: 'inline', value: 'inline' },
-          { label: 'popup', value: 'popup' },
-        ]"
-        :style="{ width: '200px' }"
-      />
+    <mp-space direction="column" align="stretch" :size="16">
+      <mp-form-item layout="vertical" size="sm" label="展示方式">
+        <mp-radio-group
+          v-model="editMode"
+          aria-label="展示方式"
+          :style="{ width: '200px' }"
+          :options="[
+            { label: 'inline', value: 'inline' },
+            { label: 'popup', value: 'popup' },
+          ]"
+          variant="button"
+          size="sm"
+        />
+      </mp-form-item>
       <mp-button @click="load">加载设备树</mp-button>
       <mp-cascader
         v-model="value"
-        :presentation="presentation"
+        :edit-mode="editMode"
         :options="options"
         :loading="loading"
         path-mode

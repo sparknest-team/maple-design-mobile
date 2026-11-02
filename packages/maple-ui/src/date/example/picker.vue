@@ -38,10 +38,24 @@ const disabledDate = (date) => date.getDate() % 2 === 0
   <mp-date-picker v-model="dates.date3" type="date" range />
 
   <app-type>{{ t('dateTimeCalendarPicker') }}</app-type>
-  <mp-date-picker v-model="dates.dateTimeCalendarPicker" show-time :use-seconds="false" presentation="calendarPicker" />
+  <mp-date-picker
+    v-model="dates.dateTimeCalendarPicker"
+    show-time
+    :time-fields="['hour', 'minute']"
+    format="YYYY-MM-DD HH:mm"
+    value-format="YYYY-MM-DD HH:mm"
+    presentation="calendarPicker"
+  />
 
   <app-type>{{ t('dateTimePicker') }}</app-type>
-  <mp-date-picker v-model="dates.dateTimePicker" show-time :use-seconds="false" presentation="picker" />
+  <mp-date-picker
+    v-model="dates.dateTimePicker"
+    show-time
+    :time-fields="['hour', 'minute']"
+    format="YYYY-MM-DD HH:mm"
+    value-format="YYYY-MM-DD HH:mm"
+    presentation="picker"
+  />
 
   <app-type>{{ t('dateLimit') }}</app-type>
   <mp-date-picker v-model="dates.date4" type="date" min="2020-10-15" max="2021-01-15" :disabled-date="disabledDate" />

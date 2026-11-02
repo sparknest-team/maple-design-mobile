@@ -35,7 +35,7 @@ for (const [name, Field] of [
     const state = reactive({ options: choices, loading: false })
     const owner = mount(Form, {
       attachTo: document.body,
-      props: { model, presentation: 'popup' },
+      props: { model, editMode: 'popup' },
       slots: {
         default: () =>
           h(FormItem, { field: 'value', label: name, rules }, () =>

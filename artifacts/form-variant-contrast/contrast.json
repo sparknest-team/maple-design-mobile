@@ -1,0 +1,1490 @@
+[
+  {
+    "theme": "lightTheme",
+    "scheme": {
+      "dark": null,
+      "page": "#ffffff"
+    },
+    "variant": "outline",
+    "normal": {
+      "color": "rgb(29, 33, 41)",
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "contrast": 16.131462775889503
+    },
+    "focus": {
+      "color": "rgb(29, 33, 41)",
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "contrast": 16.131462775889503
+    },
+    "focusLabel": {
+      "color": "rgb(0, 94, 105)",
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "contrast": 7.48645582447409
+    },
+    "error": {
+      "color": "rgb(29, 33, 41)",
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "contrast": 16.131462775889503
+    },
+    "errorLabel": {
+      "color": "rgb(161, 21, 30)",
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "contrast": 7.950247906009078
+    },
+    "mark": {
+      "color": "rgb(0, 0, 0)",
+      "background": [
+        0,
+        190,
+        190
+      ],
+      "contrast": 9.108923394349459
+    }
+  },
+  {
+    "theme": "lightTheme",
+    "scheme": {
+      "dark": null,
+      "page": "#ffffff"
+    },
+    "variant": "filled",
+    "normal": {
+      "color": "rgb(29, 33, 41)",
+      "background": [
+        247,
+        248,
+        250
+      ],
+      "contrast": 15.180641752635323
+    },
+    "focus": {
+      "color": "rgb(29, 33, 41)",
+      "background": [
+        229,
+        230,
+        235
+      ],
+      "contrast": 12.943547838796936
+    },
+    "focusLabel": {
+      "color": "rgb(0, 94, 105)",
+      "background": [
+        229,
+        230,
+        235
+      ],
+      "contrast": 6.006975340881765
+    },
+    "error": {
+      "color": "rgb(29, 33, 41)",
+      "background": [
+        255,
+        236,
+        232
+      ],
+      "contrast": 14.146079249185588
+    },
+    "errorLabel": {
+      "color": "rgb(161, 21, 30)",
+      "background": [
+        255,
+        236,
+        232
+      ],
+      "contrast": 6.971769299010442
+    },
+    "mark": {
+      "color": "rgb(0, 0, 0)",
+      "background": [
+        0,
+        190,
+        190
+      ],
+      "contrast": 9.108923394349459
+    }
+  },
+  {
+    "theme": "lightTheme",
+    "scheme": {
+      "dark": null,
+      "page": "#ffffff"
+    },
+    "variant": "standard",
+    "normal": {
+      "color": "rgb(29, 33, 41)",
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "contrast": 16.131462775889503
+    },
+    "focus": {
+      "color": "rgb(29, 33, 41)",
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "contrast": 16.131462775889503
+    },
+    "focusLabel": {
+      "color": "rgb(0, 94, 105)",
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "contrast": 7.48645582447409
+    },
+    "error": {
+      "color": "rgb(29, 33, 41)",
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "contrast": 16.131462775889503
+    },
+    "errorLabel": {
+      "color": "rgb(161, 21, 30)",
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "contrast": 7.950247906009078
+    },
+    "mark": {
+      "color": "rgb(0, 0, 0)",
+      "background": [
+        0,
+        190,
+        190
+      ],
+      "contrast": 9.108923394349459
+    }
+  },
+  {
+    "theme": "darkTheme",
+    "scheme": {
+      "dark": "dark",
+      "page": "#17171a"
+    },
+    "variant": "outline",
+    "normal": {
+      "color": "rgba(255, 255, 255, 0.9)",
+      "background": [
+        18,
+        18,
+        18
+      ],
+      "contrast": 15.191268914291287
+    },
+    "focus": {
+      "color": "rgba(255, 255, 255, 0.9)",
+      "background": [
+        18,
+        18,
+        18
+      ],
+      "contrast": 15.191268914291287
+    },
+    "focusLabel": {
+      "color": "rgb(179, 242, 233)",
+      "background": [
+        18,
+        18,
+        18
+      ],
+      "contrast": 14.98178549965798
+    },
+    "error": {
+      "color": "rgba(255, 255, 255, 0.9)",
+      "background": [
+        18,
+        18,
+        18
+      ],
+      "contrast": 15.191268914291287
+    },
+    "errorLabel": {
+      "color": "rgb(251, 176, 167)",
+      "background": [
+        18,
+        18,
+        18
+      ],
+      "contrast": 10.588965907139157
+    },
+    "mark": {
+      "color": "rgb(0, 0, 0)",
+      "background": [
+        41,
+        203,
+        197
+      ],
+      "contrast": 10.442901261528636
+    }
+  },
+  {
+    "theme": "darkTheme",
+    "scheme": {
+      "dark": "dark",
+      "page": "#17171a"
+    },
+    "variant": "filled",
+    "normal": {
+      "color": "rgba(255, 255, 255, 0.9)",
+      "background": [
+        27.480000000000004,
+        27.480000000000004,
+        27.480000000000004
+      ],
+      "contrast": 14.018287930339762
+    },
+    "focus": {
+      "color": "rgba(255, 255, 255, 0.9)",
+      "background": [
+        46.44,
+        46.44,
+        46.44
+      ],
+      "contrast": 11.232489452107425
+    },
+    "focusLabel": {
+      "color": "rgb(179, 242, 233)",
+      "background": [
+        46.44,
+        46.44,
+        46.44
+      ],
+      "contrast": 10.79265217779046
+    },
+    "error": {
+      "color": "rgba(255, 255, 255, 0.9)",
+      "background": [
+        63.800000000000004,
+        35.4,
+        34.6
+      ],
+      "contrast": 11.711564253183212
+    },
+    "errorLabel": {
+      "color": "rgb(251, 176, 167)",
+      "background": [
+        63.800000000000004,
+        35.4,
+        34.6
+      ],
+      "contrast": 7.990006754498143
+    },
+    "mark": {
+      "color": "rgb(0, 0, 0)",
+      "background": [
+        41,
+        203,
+        197
+      ],
+      "contrast": 10.442901261528636
+    }
+  },
+  {
+    "theme": "darkTheme",
+    "scheme": {
+      "dark": "dark",
+      "page": "#17171a"
+    },
+    "variant": "standard",
+    "normal": {
+      "color": "rgba(255, 255, 255, 0.9)",
+      "background": [
+        18,
+        18,
+        18
+      ],
+      "contrast": 15.191268914291287
+    },
+    "focus": {
+      "color": "rgba(255, 255, 255, 0.9)",
+      "background": [
+        18,
+        18,
+        18
+      ],
+      "contrast": 15.191268914291287
+    },
+    "focusLabel": {
+      "color": "rgb(179, 242, 233)",
+      "background": [
+        18,
+        18,
+        18
+      ],
+      "contrast": 14.98178549965798
+    },
+    "error": {
+      "color": "rgba(255, 255, 255, 0.9)",
+      "background": [
+        18,
+        18,
+        18
+      ],
+      "contrast": 15.191268914291287
+    },
+    "errorLabel": {
+      "color": "rgb(251, 176, 167)",
+      "background": [
+        18,
+        18,
+        18
+      ],
+      "contrast": 10.588965907139157
+    },
+    "mark": {
+      "color": "rgb(0, 0, 0)",
+      "background": [
+        41,
+        203,
+        197
+      ],
+      "contrast": 10.442901261528636
+    }
+  },
+  {
+    "theme": "mapleLightTheme",
+    "scheme": {
+      "dark": null,
+      "page": "#ffffff"
+    },
+    "variant": "outline",
+    "normal": {
+      "color": "rgb(29, 33, 41)",
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "contrast": 16.131462775889503
+    },
+    "focus": {
+      "color": "rgb(29, 33, 41)",
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "contrast": 16.131462775889503
+    },
+    "focusLabel": {
+      "color": "rgb(124, 45, 18)",
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "contrast": 9.370372776049363
+    },
+    "error": {
+      "color": "rgb(29, 33, 41)",
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "contrast": 16.131462775889503
+    },
+    "errorLabel": {
+      "color": "rgb(161, 21, 30)",
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "contrast": 7.950247906009078
+    },
+    "mark": {
+      "color": "rgb(0, 0, 0)",
+      "background": [
+        194,
+        65,
+        12
+      ],
+      "contrast": 4.055294358874974
+    }
+  },
+  {
+    "theme": "mapleLightTheme",
+    "scheme": {
+      "dark": null,
+      "page": "#ffffff"
+    },
+    "variant": "filled",
+    "normal": {
+      "color": "rgb(29, 33, 41)",
+      "background": [
+        247,
+        248,
+        250
+      ],
+      "contrast": 15.180641752635323
+    },
+    "focus": {
+      "color": "rgb(29, 33, 41)",
+      "background": [
+        229,
+        230,
+        235
+      ],
+      "contrast": 12.943547838796936
+    },
+    "focusLabel": {
+      "color": "rgb(124, 45, 18)",
+      "background": [
+        229,
+        230,
+        235
+      ],
+      "contrast": 7.518590841955905
+    },
+    "error": {
+      "color": "rgb(29, 33, 41)",
+      "background": [
+        255,
+        236,
+        232
+      ],
+      "contrast": 14.146079249185588
+    },
+    "errorLabel": {
+      "color": "rgb(161, 21, 30)",
+      "background": [
+        255,
+        236,
+        232
+      ],
+      "contrast": 6.971769299010442
+    },
+    "mark": {
+      "color": "rgb(0, 0, 0)",
+      "background": [
+        194,
+        65,
+        12
+      ],
+      "contrast": 4.055294358874974
+    }
+  },
+  {
+    "theme": "mapleLightTheme",
+    "scheme": {
+      "dark": null,
+      "page": "#ffffff"
+    },
+    "variant": "standard",
+    "normal": {
+      "color": "rgb(29, 33, 41)",
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "contrast": 16.131462775889503
+    },
+    "focus": {
+      "color": "rgb(29, 33, 41)",
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "contrast": 16.131462775889503
+    },
+    "focusLabel": {
+      "color": "rgb(124, 45, 18)",
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "contrast": 9.370372776049363
+    },
+    "error": {
+      "color": "rgb(29, 33, 41)",
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "contrast": 16.131462775889503
+    },
+    "errorLabel": {
+      "color": "rgb(161, 21, 30)",
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "contrast": 7.950247906009078
+    },
+    "mark": {
+      "color": "rgb(0, 0, 0)",
+      "background": [
+        194,
+        65,
+        12
+      ],
+      "contrast": 4.055294358874974
+    }
+  },
+  {
+    "theme": "mapleDarkTheme",
+    "scheme": {
+      "dark": "dark",
+      "page": "#17171a"
+    },
+    "variant": "outline",
+    "normal": {
+      "color": "rgba(255, 255, 255, 0.9)",
+      "background": [
+        5,
+        5,
+        5
+      ],
+      "contrast": 16.33029042726615
+    },
+    "focus": {
+      "color": "rgba(255, 255, 255, 0.9)",
+      "background": [
+        5,
+        5,
+        5
+      ],
+      "contrast": 16.33029042726615
+    },
+    "focusLabel": {
+      "color": "rgb(255, 237, 213)",
+      "background": [
+        5,
+        5,
+        5
+      ],
+      "contrast": 17.786621990215263
+    },
+    "error": {
+      "color": "rgba(255, 255, 255, 0.9)",
+      "background": [
+        5,
+        5,
+        5
+      ],
+      "contrast": 16.33029042726615
+    },
+    "errorLabel": {
+      "color": "rgb(251, 176, 167)",
+      "background": [
+        5,
+        5,
+        5
+      ],
+      "contrast": 11.520311112138225
+    },
+    "mark": {
+      "color": "rgb(0, 0, 0)",
+      "background": [
+        251,
+        146,
+        60
+      ],
+      "contrast": 9.278648548026007
+    }
+  },
+  {
+    "theme": "mapleDarkTheme",
+    "scheme": {
+      "dark": "dark",
+      "page": "#17171a"
+    },
+    "variant": "filled",
+    "normal": {
+      "color": "rgba(255, 255, 255, 0.9)",
+      "background": [
+        15,
+        15,
+        15
+      ],
+      "contrast": 15.501094603840597
+    },
+    "focus": {
+      "color": "rgba(255, 255, 255, 0.9)",
+      "background": [
+        35,
+        35,
+        35
+      ],
+      "contrast": 12.945375603661887
+    },
+    "focusLabel": {
+      "color": "rgb(255, 237, 213)",
+      "background": [
+        35,
+        35,
+        35
+      ],
+      "contrast": 13.715921150700598
+    },
+    "error": {
+      "color": "rgba(255, 255, 255, 0.9)",
+      "background": [
+        53.400000000000006,
+        25,
+        24.200000000000003
+      ],
+      "contrast": 13.196364499376479
+    },
+    "errorLabel": {
+      "color": "rgb(251, 176, 167)",
+      "background": [
+        53.400000000000006,
+        25,
+        24.200000000000003
+      ],
+      "contrast": 9.089065731164249
+    },
+    "mark": {
+      "color": "rgb(0, 0, 0)",
+      "background": [
+        251,
+        146,
+        60
+      ],
+      "contrast": 9.278648548026007
+    }
+  },
+  {
+    "theme": "mapleDarkTheme",
+    "scheme": {
+      "dark": "dark",
+      "page": "#17171a"
+    },
+    "variant": "standard",
+    "normal": {
+      "color": "rgba(255, 255, 255, 0.9)",
+      "background": [
+        5,
+        5,
+        5
+      ],
+      "contrast": 16.33029042726615
+    },
+    "focus": {
+      "color": "rgba(255, 255, 255, 0.9)",
+      "background": [
+        5,
+        5,
+        5
+      ],
+      "contrast": 16.33029042726615
+    },
+    "focusLabel": {
+      "color": "rgb(255, 237, 213)",
+      "background": [
+        5,
+        5,
+        5
+      ],
+      "contrast": 17.786621990215263
+    },
+    "error": {
+      "color": "rgba(255, 255, 255, 0.9)",
+      "background": [
+        5,
+        5,
+        5
+      ],
+      "contrast": 16.33029042726615
+    },
+    "errorLabel": {
+      "color": "rgb(251, 176, 167)",
+      "background": [
+        5,
+        5,
+        5
+      ],
+      "contrast": 11.520311112138225
+    },
+    "mark": {
+      "color": "rgb(0, 0, 0)",
+      "background": [
+        251,
+        146,
+        60
+      ],
+      "contrast": 9.278648548026007
+    }
+  },
+  {
+    "theme": "alpsLightTheme",
+    "scheme": {
+      "dark": null,
+      "page": "rgb(255, 255, 255)"
+    },
+    "variant": "outline",
+    "normal": {
+      "color": "rgb(9, 12, 26)",
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "contrast": 19.460293847895333
+    },
+    "focus": {
+      "color": "rgb(9, 12, 26)",
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "contrast": 19.460293847895333
+    },
+    "focusLabel": {
+      "color": "rgb(9, 12, 26)",
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "contrast": 19.460293847895333
+    },
+    "error": {
+      "color": "rgb(9, 12, 26)",
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "contrast": 19.460293847895333
+    },
+    "errorLabel": {
+      "color": "rgb(184, 50, 49)",
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "contrast": 5.93444894445473
+    },
+    "mark": {
+      "color": "rgb(0, 0, 0)",
+      "background": [
+        255,
+        61,
+        0
+      ],
+      "contrast": 5.9194973949627325
+    }
+  },
+  {
+    "theme": "alpsLightTheme",
+    "scheme": {
+      "dark": null,
+      "page": "rgb(255, 255, 255)"
+    },
+    "variant": "filled",
+    "normal": {
+      "color": "rgb(9, 12, 26)",
+      "background": [
+        247,
+        247,
+        247
+      ],
+      "contrast": 18.164995530951117
+    },
+    "focus": {
+      "color": "rgb(9, 12, 26)",
+      "background": [
+        229,
+        233,
+        239
+      ],
+      "contrast": 15.970013301074239
+    },
+    "focusLabel": {
+      "color": "rgb(9, 12, 26)",
+      "background": [
+        229,
+        233,
+        239
+      ],
+      "contrast": 15.970013301074239
+    },
+    "error": {
+      "color": "rgb(9, 12, 26)",
+      "background": [
+        255,
+        243,
+        239
+      ],
+      "contrast": 17.902206205763168
+    },
+    "errorLabel": {
+      "color": "rgb(184, 50, 49)",
+      "background": [
+        255,
+        243,
+        239
+      ],
+      "contrast": 5.459307529042897
+    },
+    "mark": {
+      "color": "rgb(0, 0, 0)",
+      "background": [
+        255,
+        61,
+        0
+      ],
+      "contrast": 5.9194973949627325
+    }
+  },
+  {
+    "theme": "alpsLightTheme",
+    "scheme": {
+      "dark": null,
+      "page": "rgb(255, 255, 255)"
+    },
+    "variant": "standard",
+    "normal": {
+      "color": "rgb(9, 12, 26)",
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "contrast": 19.460293847895333
+    },
+    "focus": {
+      "color": "rgb(9, 12, 26)",
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "contrast": 19.460293847895333
+    },
+    "focusLabel": {
+      "color": "rgb(9, 12, 26)",
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "contrast": 19.460293847895333
+    },
+    "error": {
+      "color": "rgb(9, 12, 26)",
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "contrast": 19.460293847895333
+    },
+    "errorLabel": {
+      "color": "rgb(184, 50, 49)",
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "contrast": 5.93444894445473
+    },
+    "mark": {
+      "color": "rgb(0, 0, 0)",
+      "background": [
+        255,
+        61,
+        0
+      ],
+      "contrast": 5.9194973949627325
+    }
+  },
+  {
+    "theme": "alpsDarkTheme",
+    "scheme": {
+      "dark": "dark",
+      "page": "#10121A"
+    },
+    "variant": "outline",
+    "normal": {
+      "color": "rgb(241, 242, 246)",
+      "background": [
+        18,
+        18,
+        18
+      ],
+      "contrast": 16.745907004486497
+    },
+    "focus": {
+      "color": "rgb(241, 242, 246)",
+      "background": [
+        18,
+        18,
+        18
+      ],
+      "contrast": 16.745907004486497
+    },
+    "focusLabel": {
+      "color": "rgb(241, 242, 246)",
+      "background": [
+        18,
+        18,
+        18
+      ],
+      "contrast": 16.745907004486497
+    },
+    "error": {
+      "color": "rgb(241, 242, 246)",
+      "background": [
+        18,
+        18,
+        18
+      ],
+      "contrast": 16.745907004486497
+    },
+    "errorLabel": {
+      "color": "rgb(255, 146, 127)",
+      "background": [
+        18,
+        18,
+        18
+      ],
+      "contrast": 8.626419530098184
+    },
+    "mark": {
+      "color": "rgb(0, 0, 0)",
+      "background": [
+        255,
+        148,
+        111
+      ],
+      "contrast": 9.717501271327095
+    }
+  },
+  {
+    "theme": "alpsDarkTheme",
+    "scheme": {
+      "dark": "dark",
+      "page": "#10121A"
+    },
+    "variant": "filled",
+    "normal": {
+      "color": "rgb(241, 242, 246)",
+      "background": [
+        34,
+        38,
+        51
+      ],
+      "contrast": 13.475159754967033
+    },
+    "focus": {
+      "color": "rgb(241, 242, 246)",
+      "background": [
+        52,
+        60,
+        80
+      ],
+      "contrast": 9.837455417455468
+    },
+    "focusLabel": {
+      "color": "rgb(241, 242, 246)",
+      "background": [
+        52,
+        60,
+        80
+      ],
+      "contrast": 9.837455417455468
+    },
+    "error": {
+      "color": "rgb(241, 242, 246)",
+      "background": [
+        62,
+        42,
+        46
+      ],
+      "contrast": 11.91507664948733
+    },
+    "errorLabel": {
+      "color": "rgb(255, 146, 127)",
+      "background": [
+        62,
+        42,
+        46
+      ],
+      "contrast": 6.137884910277881
+    },
+    "mark": {
+      "color": "rgb(0, 0, 0)",
+      "background": [
+        255,
+        148,
+        111
+      ],
+      "contrast": 9.717501271327095
+    }
+  },
+  {
+    "theme": "alpsDarkTheme",
+    "scheme": {
+      "dark": "dark",
+      "page": "#10121A"
+    },
+    "variant": "standard",
+    "normal": {
+      "color": "rgb(241, 242, 246)",
+      "background": [
+        18,
+        18,
+        18
+      ],
+      "contrast": 16.745907004486497
+    },
+    "focus": {
+      "color": "rgb(241, 242, 246)",
+      "background": [
+        18,
+        18,
+        18
+      ],
+      "contrast": 16.745907004486497
+    },
+    "focusLabel": {
+      "color": "rgb(241, 242, 246)",
+      "background": [
+        18,
+        18,
+        18
+      ],
+      "contrast": 16.745907004486497
+    },
+    "error": {
+      "color": "rgb(241, 242, 246)",
+      "background": [
+        18,
+        18,
+        18
+      ],
+      "contrast": 16.745907004486497
+    },
+    "errorLabel": {
+      "color": "rgb(255, 146, 127)",
+      "background": [
+        18,
+        18,
+        18
+      ],
+      "contrast": 8.626419530098184
+    },
+    "mark": {
+      "color": "rgb(0, 0, 0)",
+      "background": [
+        255,
+        148,
+        111
+      ],
+      "contrast": 9.717501271327095
+    }
+  },
+  {
+    "theme": "fireflyLightTheme",
+    "scheme": {
+      "dark": null,
+      "page": "rgb(255, 255, 255)"
+    },
+    "variant": "outline",
+    "normal": {
+      "color": "rgb(23, 34, 75)",
+      "background": [
+        245.71999999999997,
+        246.16,
+        247.79999999999998
+      ],
+      "contrast": 14.239539630035734
+    },
+    "focus": {
+      "color": "rgb(23, 34, 75)",
+      "background": [
+        245.71999999999997,
+        246.16,
+        247.79999999999998
+      ],
+      "contrast": 14.239539630035734
+    },
+    "focusLabel": {
+      "color": "rgb(103, 84, 181)",
+      "background": [
+        245.71999999999997,
+        246.16,
+        247.79999999999998
+      ],
+      "contrast": 5.541787444474486
+    },
+    "error": {
+      "color": "rgb(23, 34, 75)",
+      "background": [
+        245.71999999999997,
+        246.16,
+        247.79999999999998
+      ],
+      "contrast": 14.239539630035734
+    },
+    "errorLabel": {
+      "color": "rgb(180, 59, 40)",
+      "background": [
+        245.71999999999997,
+        246.16,
+        247.79999999999998
+      ],
+      "contrast": 5.411128117048297
+    },
+    "mark": {
+      "color": "rgb(0, 0, 0)",
+      "background": [
+        207,
+        199,
+        255
+      ],
+      "contrast": 13.266449146067968
+    }
+  },
+  {
+    "theme": "fireflyLightTheme",
+    "scheme": {
+      "dark": null,
+      "page": "rgb(255, 255, 255)"
+    },
+    "variant": "filled",
+    "normal": {
+      "color": "rgb(23, 34, 75)",
+      "background": [
+        245.71999999999997,
+        246.16,
+        247.79999999999998
+      ],
+      "contrast": 14.239539630035734
+    },
+    "focus": {
+      "color": "rgb(23, 34, 75)",
+      "background": [
+        227.16,
+        228.48000000000002,
+        233.4
+      ],
+      "contrast": 12.14686809148367
+    },
+    "focusLabel": {
+      "color": "rgb(103, 84, 181)",
+      "background": [
+        227.16,
+        228.48000000000002,
+        233.4
+      ],
+      "contrast": 4.727355155294654
+    },
+    "error": {
+      "color": "rgb(23, 34, 75)",
+      "background": [
+        255,
+        232.6,
+        228.76
+      ],
+      "contrast": 13.162502194232879
+    },
+    "errorLabel": {
+      "color": "rgb(180, 59, 40)",
+      "background": [
+        255,
+        232.6,
+        228.76
+      ],
+      "contrast": 5.00184609646293
+    },
+    "mark": {
+      "color": "rgb(0, 0, 0)",
+      "background": [
+        207,
+        199,
+        255
+      ],
+      "contrast": 13.266449146067968
+    }
+  },
+  {
+    "theme": "fireflyLightTheme",
+    "scheme": {
+      "dark": null,
+      "page": "rgb(255, 255, 255)"
+    },
+    "variant": "standard",
+    "normal": {
+      "color": "rgb(23, 34, 75)",
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "contrast": 15.363875518933586
+    },
+    "focus": {
+      "color": "rgb(23, 34, 75)",
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "contrast": 15.363875518933586
+    },
+    "focusLabel": {
+      "color": "rgb(103, 84, 181)",
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "contrast": 5.979359913413254
+    },
+    "error": {
+      "color": "rgb(23, 34, 75)",
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "contrast": 15.363875518933586
+    },
+    "errorLabel": {
+      "color": "rgb(180, 59, 40)",
+      "background": [
+        255,
+        255,
+        255
+      ],
+      "contrast": 5.838383892128884
+    },
+    "mark": {
+      "color": "rgb(0, 0, 0)",
+      "background": [
+        207,
+        199,
+        255
+      ],
+      "contrast": 13.266449146067968
+    }
+  },
+  {
+    "theme": "fireflyDarkTheme",
+    "scheme": {
+      "dark": "dark",
+      "page": "#111625"
+    },
+    "variant": "outline",
+    "normal": {
+      "color": "rgb(235, 238, 255)",
+      "background": [
+        37,
+        47,
+        69
+      ],
+      "contrast": 11.58745565225476
+    },
+    "focus": {
+      "color": "rgb(235, 238, 255)",
+      "background": [
+        37,
+        47,
+        69
+      ],
+      "contrast": 11.58745565225476
+    },
+    "focusLabel": {
+      "color": "rgb(197, 184, 255)",
+      "background": [
+        37,
+        47,
+        69
+      ],
+      "contrast": 7.43013952038073
+    },
+    "error": {
+      "color": "rgb(235, 238, 255)",
+      "background": [
+        37,
+        47,
+        69
+      ],
+      "contrast": 11.58745565225476
+    },
+    "errorLabel": {
+      "color": "rgb(255, 146, 127)",
+      "background": [
+        37,
+        47,
+        69
+      ],
+      "contrast": 6.154528423612602
+    },
+    "mark": {
+      "color": "rgb(0, 0, 0)",
+      "background": [
+        197,
+        184,
+        255
+      ],
+      "contrast": 11.674259235799132
+    }
+  },
+  {
+    "theme": "fireflyDarkTheme",
+    "scheme": {
+      "dark": "dark",
+      "page": "#111625"
+    },
+    "variant": "filled",
+    "normal": {
+      "color": "rgb(235, 238, 255)",
+      "background": [
+        37,
+        47,
+        69
+      ],
+      "contrast": 11.58745565225476
+    },
+    "focus": {
+      "color": "rgb(235, 238, 255)",
+      "background": [
+        60,
+        71,
+        100
+      ],
+      "contrast": 7.994147582819705
+    },
+    "focusLabel": {
+      "color": "rgb(197, 184, 255)",
+      "background": [
+        60,
+        71,
+        100
+      ],
+      "contrast": 5.126028842691347
+    },
+    "error": {
+      "color": "rgb(235, 238, 255)",
+      "background": [
+        62,
+        42,
+        46
+      ],
+      "contrast": 11.5561200308408
+    },
+    "errorLabel": {
+      "color": "rgb(255, 146, 127)",
+      "background": [
+        62,
+        42,
+        46
+      ],
+      "contrast": 6.137884910277881
+    },
+    "mark": {
+      "color": "rgb(0, 0, 0)",
+      "background": [
+        197,
+        184,
+        255
+      ],
+      "contrast": 11.674259235799132
+    }
+  },
+  {
+    "theme": "fireflyDarkTheme",
+    "scheme": {
+      "dark": "dark",
+      "page": "#111625"
+    },
+    "variant": "standard",
+    "normal": {
+      "color": "rgb(235, 238, 255)",
+      "background": [
+        18,
+        18,
+        18
+      ],
+      "contrast": 16.24141556634217
+    },
+    "focus": {
+      "color": "rgb(235, 238, 255)",
+      "background": [
+        18,
+        18,
+        18
+      ],
+      "contrast": 16.24141556634217
+    },
+    "focusLabel": {
+      "color": "rgb(197, 184, 255)",
+      "background": [
+        18,
+        18,
+        18
+      ],
+      "contrast": 10.414364230418768
+    },
+    "error": {
+      "color": "rgb(235, 238, 255)",
+      "background": [
+        18,
+        18,
+        18
+      ],
+      "contrast": 16.24141556634217
+    },
+    "errorLabel": {
+      "color": "rgb(255, 146, 127)",
+      "background": [
+        18,
+        18,
+        18
+      ],
+      "contrast": 8.626419530098184
+    },
+    "mark": {
+      "color": "rgb(0, 0, 0)",
+      "background": [
+        197,
+        184,
+        255
+      ],
+      "contrast": 11.674259235799132
+    }
+  }
+]

@@ -27,7 +27,7 @@ describe('date current action and interaction range policy', () => {
     expect(currentDateValue({ valueFormat: 'Date', type: 'week', dayStartOfWeek: 1 }, now)).toEqual(
       new Date(2025, 4, 12),
     )
-    expect(currentDateValue({ showTime: true, useSeconds: false, valueFormat: 'Date' }, now)).toEqual(
+    expect(currentDateValue({ showTime: true, format: 'YYYY-MM-DD HH:mm', valueFormat: 'Date' }, now)).toEqual(
       new Date(2025, 4, 15, 9, 30),
     )
   })

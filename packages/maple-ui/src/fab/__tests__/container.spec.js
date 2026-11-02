@@ -89,3 +89,20 @@ test('the drag demo keeps its preview and trigger visible while toggling touch d
     vi.restoreAllMocks()
   }
 })
+
+test('drag axis and action expansion can change independently', async () => {
+  const wrapper = mount(Fab, {
+    props: { popupContainer: false, drag: { axis: 'x' }, placement: 'left' },
+    slots: { default: () => h('button', 'Action') },
+  })
+  try {
+    const drag = wrapper.findComponent({ name: 'MpDrag' })
+    expect(drag.props('axis')).toBe('x')
+    expect(wrapper.find('.mp-fab--direction-left').exists()).toBe(true)
+    await wrapper.setProps({ drag: { axis: 'y' }, placement: 'bottom' })
+    expect(drag.props('axis')).toBe('y')
+    expect(wrapper.find('.mp-fab--direction-bottom').exists()).toBe(true)
+  } finally {
+    wrapper.unmount()
+  }
+})

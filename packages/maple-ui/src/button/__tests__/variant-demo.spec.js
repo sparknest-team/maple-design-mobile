@@ -3,8 +3,10 @@ import { mount } from '@vue/test-utils'
 import { expect, test, vi } from 'vitest'
 import Button from '..'
 import { useDemoControls } from '../../../test-utils/demo-controls'
+import Card from '../../card'
+import Form, { FormItem } from '../../form'
 import { MenuOption } from '../../menu'
-import Select from '../../select'
+import { RadioGroup } from '../../radio'
 import Space from '../../space'
 import SplitButton from '../../split-button'
 import SplitDemo from '../../split-button/example/variants.vue'
@@ -19,6 +21,10 @@ vi.mock('../../split-button/example/locale', () => ({ t: (key) => key }))
 
 const components = {
   MpButton: Button,
+  MpCard: Card,
+  MpForm: Form,
+  MpFormItem: FormItem,
+  MpRadioGroup: RadioGroup,
   MpSplitButton: SplitButton,
   MpMenuOption: MenuOption,
   MpSpace: Space,
@@ -35,11 +41,15 @@ test('button catalog controls update variant and size while preserving every sem
       expect(button.classes()).toContain('mp-button--variant-default')
       expect(button.props('size')).toBe('md')
     }
-    const controls = wrapper.findAllComponents(Select)
-    expect(controls).toHaveLength(2)
+    const controls = wrapper.findAllComponents(RadioGroup)
+    expect(controls).toHaveLength(3)
     controls[0].vm.$emit('update:modelValue', 'outline')
     controls[1].vm.$emit('update:modelValue', 'lg')
     await nextTick()
+    controls[2].vm.$emit('update:modelValue', 'light')
+    await nextTick()
+    expect(wrapper.find('.button-variant-card').element.style.getPropertyValue('--mp-card-background')).toBe('#FFFFFF')
+
     for (const [index, button] of buttons().entries()) {
       expect(button.classes()).toContain('mp-button--variant-outline')
       expect(button.classes()).toContain(`mp-button--status-${statuses[index]}`)

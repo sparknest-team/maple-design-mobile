@@ -1,34 +1,57 @@
 # Loading
 
-## 案例
+## Basic examples
+
+### Basic usage
+
+```demo
+../example/demos/basic.vue
+```
 
 ### Intro
 
 Loading component for performing animations when data is loaded.
 
-### Size
+## Appearance and states
+
+### Loading shape, size and color
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `size` | Can be set to `xs` `sm` `md` `lg` `xl`, or a number | Loading shape, size and color |
+| `type` | Can be set to `circle` `wave` `cube` `rect` `disappear` | Loading shape, size and color |
+| `color` | Loading color | Loading shape, size and color |
+<!-- demo-config-notes:end -->
+
+
+Compare the shape, size and color of loading indicators. Container masks and directives remain separate.
 
 ```demo
-../example/demos/size.vue
+../example/demos/appearance-comparison.vue
 ```
 
-### Type
-
-```demo
-../example/demos/type.vue
-```
-
-### Color
-
-```demo
-../example/demos/color.vue
-```
+## Layout and arrangement
 
 ### Wrap
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `tip` | Tip of the loading | Wrap |
+| `loading` | Specify whether loading is active | Wrap |
+<!-- demo-config-notes:end -->
+
 
 ```demo
 ../example/demos/wrap.vue
 ```
+
+## Content and presentation
 
 ### Loading Directive
 
@@ -50,54 +73,49 @@ With `MapleResolver()`, `unplugin-vue-components` resolves `v-mp-loading` automa
 ../example/demos/directive.vue
 ```
 
-<!-- api-review:start -->
-### Feature playground
-
-```demo
-../example/demos/api-review.vue
-```
-
-<!-- api-review:end -->
-
 ## API
 
 ### Props
 
-| prop      | Description                                             | Type               | Default  |
-| --------- | ------------------------------------------------------- | ------------------ | -------- |
-| `color`   | Loading color                                           | _string_           | `-`      |
-| `type`    | Can be set to `circle` `wave` `cube` `rect` `disappear` | _string_           | `circle` |
-| `size`    | Can be set to `xs` `sm` `md` `lg` `xl`, or a number     | _string \| number_ | `md`     |
-| `tip`     | Tip of the loading                                      | _string_           | `-`      |
-| `loading` | Specify whether loading is active                       | _boolean_          | `false`  |
-| `radius`  | Set radius size when the `type` is `circle`             | _string \| number_ | `-`      |
-| `hide-icon` | Whether to hide the loading indicator                  | _boolean_          | `false`  |
+| Arguments | Description | Type | Default |
+| --------- | ------------------------------------------------------------------ | ------------------ | -------- |
+| `color` | Loading color | _string_ | `-` |
+| `type` | Can be set to `circle` `wave` `cube` `rect` `disappear` | _string_ | `circle` |
+| `size` | Can be set to `xs` `sm` `md` `lg` `xl`, or a number | _string \| number_ | `md` |
+| `tip` | Tip of the loading | _string_ | `-` |
+| `loading` | Specify whether loading is active | _boolean_ | `false` |
+| `radius` | Set radius size when the `type` is `circle` | _string \| number_ | `-` |
+| `hide-icon` | Whether to hide the loading indicator | _boolean_ | `false` |
 
 ### Slots
 
-| Name      | Description                | SlotProps |
-| --------- | -------------------------- | --------- |
-| `default` | Content wrapped in loading | `-`       |
-| `tip`     | Tip of the loading         | `-`       |
-| `icon`    | Custom loading indicator   | `-`       |
+| Slot | Description | Arguments |
+| --------- | ---------------------- | ---- |
+| `default` | Content wrapped in `loading` | `-` |
+| `tip` | Tip of the `loading` | `-` |
+| `icon` | Custom loading indicator | `-` |
 
-### Style Variables
+The `icon` slot replaces every built-in `type` animation instead of rendering alongside it. `hide-icon=true` hides all indicators while allowing tip content to remain visible.
 
-Here are the CSS variables used by the component. Styles can be customized using [StyleProvider](#/en-US/style-provider)
+### Style variables
 
-| Variable                | Default                |
+The following CSS variables support customization with [StyleProvider](#/en-US/style-provider).
+
+| Variable | Default |
 | ----------------------- | ---------------------- |
-| `--loading-color`       | `var(--color-primary)` |
-| `--loading-opacity`     | `0.38`                 |
-| `--loading-desc-margin` | `8px 0 0`              |
-| `--loading-desc-color`  | `var(--color-primary)` |
+| `--loading-color` | `var(--color-primary)` |
+| `--loading-opacity` | `0.38` |
+| `--loading-desc-margin` | `8px 0 0` |
+| `--loading-desc-color` | `var(--color-primary)` |
 
-The directive overlay prevents the default click action and stops click propagation, so clicking the overlay does not invoke a Card or ancestor click handler. Normal clicks resume when loading ends. Keyboard interaction with underlying controls is not disabled; use disabled on those controls when necessary.
+The loading-directive mask prevents default click behavior and propagation. Clicking it does not activate Card or ordinary parent click handlers. Normal clicking resumes after loading. It does not disable keyboard access to underlying controls; set those controls’ `disabled` props to block all interaction.
 
-### Overlay styling
+### Overlay styles
 
-| Token | Description |
+| Variable | Description |
 | --- | --- |
 | `--mp-loading-overlay-background` | Directive overlay background; the background option overrides this value. |
 
-Content overlay class：`.mp-loading__content-overlay`。
+Content-overlay class: `.mp-loading__content-overlay`.
+
+Each directive update replaces the complete configuration; omitted options and boolean `true` use defaults. Changing `fullscreen` while loading moves the overlay between the host and its owner document body. Host children stay in place. Multiple fullscreen instances share a counted scroll lock: closing a local instance does not unlock fullscreen instances, and the final fullscreen instance preserves an existing external lock class.

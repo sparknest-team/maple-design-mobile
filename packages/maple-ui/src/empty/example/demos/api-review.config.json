@@ -57,7 +57,7 @@
       "name": "image",
       "kind": "slot",
       "demos": [
-        "custom-image.vue",
+        "content-comparison.vue",
         "image-size.vue"
       ]
     },
@@ -65,7 +65,7 @@
       "name": "extra",
       "kind": "slot",
       "demos": [
-        "extra-slot.vue"
+        "content-comparison.vue"
       ]
     }
   ],

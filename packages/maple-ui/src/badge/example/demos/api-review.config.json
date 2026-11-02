@@ -167,7 +167,7 @@
       "kind": "slot",
       "demos": [
         "color.vue",
-        "variant.vue"
+        "appearance-lab.vue"
       ]
     },
     {
@@ -182,8 +182,7 @@
         "max.vue",
         "position.vue",
         "show.vue",
-        "size.vue",
-        "variant.vue"
+        "appearance-lab.vue"
       ]
     }
   ],

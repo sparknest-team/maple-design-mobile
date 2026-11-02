@@ -66,10 +66,10 @@ function deferred() {
   })
   return { promise, resolve, reject }
 }
-function fixture(entry: any[], presentation: string, beforeCommit?: any, rules?: any) {
+function fixture(entry: any[], editMode: string, beforeCommit?: any, rules?: any) {
   const [name, Field, Editor, initial, next, fixed, extra] = entry
   const model = reactive({ value: clone(initial) })
-  const state = reactive({ disabled: false, readonly: false, readPretty: false, presentation })
+  const state = reactive({ disabled: false, readonly: false, readPretty: false, editMode })
   const wrapper = mount(Form, {
     props: { model },
     slots: {
@@ -83,7 +83,7 @@ function fixture(entry: any[], presentation: string, beforeCommit?: any, rules?:
             disabled: state.disabled,
             readonly: state.readonly,
             readPretty: state.readPretty,
-            presentation: state.presentation as any,
+            editMode: state.editMode as any,
           },
           () =>
             h(Field, {
@@ -123,11 +123,11 @@ function fixture(entry: any[], presentation: string, beforeCommit?: any, rules?:
 describe('temporal and upload presentation transactions', () => {
   for (const entry of cases) {
     const [name] = entry
-    for (const presentation of presentations) {
-      test(`${name} ${presentation} freezes the editor during async confirmation and retains a refused draft`, async () => {
+    for (const editMode of presentations) {
+      test(`${name} ${editMode} freezes the editor during async confirmation and retains a refused draft`, async () => {
         const task = deferred()
         const save = vi.fn((_value: any) => task.promise)
-        const f = fixture(entry, presentation, save)
+        const f = fixture(entry, editMode, save)
         try {
           await f.open()
           await f.choose()
@@ -161,12 +161,12 @@ describe('temporal and upload presentation transactions', () => {
           f.wrapper.unmount()
         }
       })
-      test(`${name} ${presentation} keeps a failed validation candidate and can correct and retry it`, async () => {
+      test(`${name} ${editMode} keeps a failed validation candidate and can correct and retry it`, async () => {
         const validate = vi.fn(async (value: any) =>
           JSON.stringify(value) === JSON.stringify(entry[4]) ? '候选校验失败' : true,
         )
-        const save = vi.fn()
-        const f = fixture(entry, presentation, save, rulesFor(validate))
+        const save = vi.fn(() => true)
+        const f = fixture(entry, editMode, save, rulesFor(validate))
         try {
           await f.open()
           await f.choose()
@@ -177,6 +177,7 @@ describe('temporal and upload presentation transactions', () => {
           expect(f.panel().get('[role=alert]').text()).toContain('候选校验失败')
           expect(save).not.toHaveBeenCalled()
           await f.choose(f.fixed)
+          expect(f.draft()).toEqual(f.fixed)
           await f.action()
           expect(f.model.value).toEqual(f.fixed)
           expect(f.isOpen()).toBe(false)
@@ -186,9 +187,9 @@ describe('temporal and upload presentation transactions', () => {
           f.wrapper.unmount()
         }
       })
-      test(`${name} ${presentation} preserves the draft on a save error and retries without duplicate change`, async () => {
+      test(`${name} ${editMode} preserves the draft on a save error and retries without duplicate change`, async () => {
         const save = vi.fn().mockRejectedValueOnce(new Error('模拟保存失败')).mockResolvedValueOnce(undefined)
-        const f = fixture(entry, presentation, save)
+        const f = fixture(entry, editMode, save)
         try {
           await f.open()
           await f.choose()
@@ -204,19 +205,14 @@ describe('temporal and upload presentation transactions', () => {
         }
       })
       for (const stage of ['validation', 'save', 'native-reset']) {
-        test(`${name} ${presentation} reset during ${stage} closes the panel and rejects late completion`, async () => {
+        test(`${name} ${editMode} reset during ${stage} closes the panel and rejects late completion`, async () => {
           const task = deferred()
           let signal: AbortSignal | undefined
-          const save = vi.fn((_value, context) => {
+          const save = vi.fn((_payload, _done, context) => {
             signal = context.signal
             return stage === 'validation' ? undefined : task.promise
           })
-          const f = fixture(
-            entry,
-            presentation,
-            save,
-            stage === 'validation' ? rulesFor(() => task.promise) : undefined,
-          )
+          const f = fixture(entry, editMode, save, stage === 'validation' ? rulesFor(() => task.promise) : undefined)
           try {
             await f.open()
             await f.choose()
@@ -250,10 +246,10 @@ describe('temporal and upload presentation transactions', () => {
         })
       }
       for (const restriction of ['disabled', 'readonly', 'read']) {
-        test(`${name} ${presentation} ${restriction} invalidates pending confirmation`, async () => {
+        test(`${name} ${editMode} ${restriction} invalidates pending confirmation`, async () => {
           const task = deferred()
           let signal!: AbortSignal
-          const f = fixture(entry, presentation, (_value: unknown, context: { signal: AbortSignal }) => {
+          const f = fixture(entry, editMode, (_payload: unknown, _done: unknown, context: { signal: AbortSignal }) => {
             signal = context.signal
             return task.promise
           })
@@ -279,7 +275,7 @@ describe('temporal and upload presentation transactions', () => {
             f.state.disabled = false
             f.state.readonly = false
             f.state.readPretty = false
-            f.state.presentation = presentation
+            f.state.editMode = editMode
             await flushPromises()
             expect(f.isOpen()).toBe(false)
             await f.open()

@@ -180,3 +180,11 @@ export default {
   </div>
 </template>
 ```
+
+## 基础示例
+
+### 基础用法
+
+```demo
+../example/basic.vue
+```

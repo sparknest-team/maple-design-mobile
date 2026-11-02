@@ -18,7 +18,7 @@ withPropsDefaultsSetter(ButtonGroup, buttonGroupProps)
 export { buttonProps, buttonGroupProps, Button, ButtonGroup }
 export { componentSizes, semanticStatuses } from '../utils/constants'
 export type { ComponentSize, SemanticStatus } from '../utils/constants'
-export type { ButtonProps, ButtonVariant, ButtonLoadingMode, ButtonHandler } from './props'
+export type { ButtonProps, ButtonVariant, ButtonLoadingMode } from './props'
 export type { ButtonGroupProps } from './group-props'
 
 export type ButtonInstance = InstanceType<typeof _Button>

@@ -1,0 +1,276 @@
+# Maple Design Mobile
+
+> Vue 3 component library. Package: @maple-design/ui. Component prefix: Mp / mp-.
+
+Read the quick start and the relevant component page before generating code. Follow the documented props, events, slots, imports and styles. Do not substitute APIs from another component library.
+
+Links are relative to this file and work under a documentation deployment subpath. English pages are included only when an authored English source exists.
+
+- [Full documentation](./llms-full.txt): All pages and expanded Vue examples; large context required.
+
+## zh-CN
+
+- [动作面板](./llms/zh-CN/action-sheet.md): /zh-CN/action-sheet
+- [Affix](./llms/zh-CN/affix.md): /zh-CN/affix
+- [警告信息](./llms/zh-CN/alert.md): /zh-CN/alert
+- [原子化 CSS](./llms/zh-CN/atomic-css.md): /zh-CN/atomic-css
+- [常用写法](./llms/zh-CN/atomic-usage.md): /zh-CN/atomic-usage
+- [AutoComplete 自动补全](./llms/zh-CN/auto-complete.md): /zh-CN/auto-complete
+- [Avatar 头像](./llms/zh-CN/avatar.md): /zh-CN/avatar
+- [BackTop 回到顶部](./llms/zh-CN/back-top.md): /zh-CN/back-top
+- [Badge](./llms/zh-CN/badge.md): /zh-CN/badge
+- [面包屑](./llms/zh-CN/breadcrumb.md): /zh-CN/breadcrumb
+- [浏览器适配](./llms/zh-CN/browserAdaptation.md): /zh-CN/browserAdaptation
+- [Button](./llms/zh-CN/button.md): /zh-CN/button
+- [Card](./llms/zh-CN/card.md): /zh-CN/card
+- [轮播](./llms/zh-CN/carousel.md): /zh-CN/carousel
+- [级联选择器](./llms/zh-CN/cascader.md): /zh-CN/cascader
+- [单元格](./llms/zh-CN/cell.md): /zh-CN/cell
+- [复选框](./llms/zh-CN/checkbox.md): /zh-CN/checkbox
+- [组件库快速成型工具](./llms/zh-CN/cli.md): /zh-CN/cli
+- [代码块](./llms/zh-CN/code.md): /zh-CN/code
+- [Col](./llms/zh-CN/col.md): /zh-CN/col
+- [Collapse](./llms/zh-CN/collapse.md): /zh-CN/collapse
+- [颜色 Color](./llms/zh-CN/color.md): /zh-CN/color
+- [Cedar / Maple 跨端代码复用调研](./llms/zh-CN/componentReuse.md): /zh-CN/componentReuse
+- [数字动画](./llms/zh-CN/count-to.md): /zh-CN/count-to
+- [倒计时](./llms/zh-CN/countdown.md): /zh-CN/countdown
+- [DateRange 日期范围](./llms/zh-CN/date-range.md): /zh-CN/date-range
+- [Date 日期](./llms/zh-CN/date.md): /zh-CN/date
+- [默认值定制](./llms/zh-CN/defaultsCustomization.md): /zh-CN/defaultsCustomization
+- [设计资源](./llms/zh-CN/designResources.md): /zh-CN/designResources
+- [Maple 组件 CSS 变量参考](./llms/zh-CN/designTokenReference.md): /zh-CN/designTokenReference
+- [Design Token 与 CSS 变量分层](./llms/zh-CN/designTokens.md): /zh-CN/designTokens
+- [对话框](./llms/zh-CN/dialog.md): /zh-CN/dialog
+- [Divider 分割线](./llms/zh-CN/divider.md): /zh-CN/divider
+- [拖拽](./llms/zh-CN/drag.md): /zh-CN/drag
+- [Ellipsis 文本省略](./llms/zh-CN/ellipsis.md): /zh-CN/ellipsis
+- [空状态 Empty](./llms/zh-CN/empty.md): /zh-CN/empty
+- [VSCode 插件](./llms/zh-CN/extension.md): /zh-CN/extension
+- [悬浮动作按钮](./llms/zh-CN/fab.md): /zh-CN/fab
+- [FieldDecorator 字段装饰器](./llms/zh-CN/field-decorator.md): /zh-CN/field-decorator
+- [浮动面板](./llms/zh-CN/floating-panel.md): /zh-CN/floating-panel
+- [FormDetails](./llms/zh-CN/form-details.md): /zh-CN/form-details
+- [表单](./llms/zh-CN/form.md): /zh-CN/form
+- [Grid](./llms/zh-CN/grid.md): /zh-CN/grid
+- [HighlighterProvider](./llms/zh-CN/highlighter-provider.md): /zh-CN/highlighter-provider
+- [Maple Design Mobile](./llms/zh-CN/home.md): /zh-CN/home
+- [悬停指令](./llms/zh-CN/hover.md): /zh-CN/hover
+- [图标](./llms/zh-CN/icon.md): /zh-CN/icon
+- [图片](./llms/zh-CN/image.md): /zh-CN/image
+- [按需引入](./llms/zh-CN/importOnDemand.md): /zh-CN/importOnDemand
+- [索引栏](./llms/zh-CN/index-bar.md): /zh-CN/index-bar
+- [无限滚动 InfiniteScroll](./llms/zh-CN/infinite-scroll.md): /zh-CN/infinite-scroll
+- [InputNumber](./llms/zh-CN/input-number.md): /zh-CN/input-number
+- [输入框](./llms/zh-CN/input.md): /zh-CN/input
+- [图片懒加载](./llms/zh-CN/lazy.md): /zh-CN/lazy
+- [链接](./llms/zh-CN/link.md): /zh-CN/link
+- [列表 List](./llms/zh-CN/list.md): /zh-CN/list
+- [LLM 文档](./llms/zh-CN/llms.md): /zh-CN/llms
+- [加载条](./llms/zh-CN/loading-bar.md): /zh-CN/loading-bar
+- [加载](./llms/zh-CN/loading.md): /zh-CN/loading
+- [LocaleProvider](./llms/zh-CN/locale-provider.md): /zh-CN/locale-provider
+- [国际化](./llms/zh-CN/locale.md): /zh-CN/locale
+- [Menu 菜单](./llms/zh-CN/menu.md): /zh-CN/menu
+- [全局提示](./llms/zh-CN/message.md): /zh-CN/message
+- [通知栏](./llms/zh-CN/notice-bar.md): /zh-CN/notice-bar
+- [数字键盘](./llms/zh-CN/number-keyboard.md): /zh-CN/number-keyboard
+- [背景层](./llms/zh-CN/overlay.md): /zh-CN/overlay
+- [PageHeader 页头](./llms/zh-CN/page-header.md): /zh-CN/page-header
+- [Pagination](./llms/zh-CN/pagination.md): /zh-CN/pagination
+- [色板 Palette](./llms/zh-CN/palette.md): /zh-CN/palette
+- [Paper 基础表面](./llms/zh-CN/paper.md): /zh-CN/paper
+- [PeopleSelect 人员选择](./llms/zh-CN/people-select.md): /zh-CN/people-select
+- [多列选择器](./llms/zh-CN/picker.md): /zh-CN/picker
+- [Popover 气泡卡片](./llms/zh-CN/popover.md): /zh-CN/popover
+- [弹出层](./llms/zh-CN/popup.md): /zh-CN/popup
+- [项目卡片页](./llms/zh-CN/practiceCard.md): /zh-CN/practiceCard
+- [团队工作台](./llms/zh-CN/practiceDashboard.md): /zh-CN/practiceDashboard
+- [业务详情页](./llms/zh-CN/practiceDetail.md): /zh-CN/practiceDetail
+- [分步表单页](./llms/zh-CN/practiceForm.md): /zh-CN/practiceForm
+- [查询列表页](./llms/zh-CN/practiceList.md): /zh-CN/practiceList
+- [结果与异常页](./llms/zh-CN/practiceResult.md): /zh-CN/practiceResult
+- [ProgressGroup 分段进度条](./llms/zh-CN/progress-group.md): /zh-CN/progress-group
+- [Progress 进度条](./llms/zh-CN/progress.md): /zh-CN/progress
+- [下拉刷新 PullRefresh](./llms/zh-CN/pull-refresh.md): /zh-CN/pull-refresh
+- [快速开始](./llms/zh-CN/quickstart.md): /zh-CN/quickstart
+- [单选框](./llms/zh-CN/radio.md): /zh-CN/radio
+- [评分](./llms/zh-CN/rate.md): /zh-CN/rate
+- [结果](./llms/zh-CN/result.md): /zh-CN/result
+- [水波指令](./llms/zh-CN/ripple.md): /zh-CN/ripple
+- [Row](./llms/zh-CN/row.md): /zh-CN/row
+- [SafeArea 安全区](./llms/zh-CN/safe-area.md): /zh-CN/safe-area
+- [搜索](./llms/zh-CN/search.md): /zh-CN/search
+- [选择框](./llms/zh-CN/select.md): /zh-CN/select
+- [服务端渲染](./llms/zh-CN/serverSideRendering.md): /zh-CN/serverSideRendering
+- [特色与场景](./llms/zh-CN/showcase.md): /zh-CN/showcase
+- [异步数据选择](./llms/zh-CN/showcaseAsync.md): /zh-CN/showcaseAsync
+- [逐组件对照](./llms/zh-CN/showcaseComponents.md): /zh-CN/showcaseComponents
+- [桌面与移动](./llms/zh-CN/showcaseCrossPlatform.md): /zh-CN/showcaseCrossPlatform
+- [数据与文件](./llms/zh-CN/showcaseData.md): /zh-CN/showcaseData
+- [一致的表单体验](./llms/zh-CN/showcaseForms.md): /zh-CN/showcaseForms
+- [最佳实践](./llms/zh-CN/showcasePractices.md): /zh-CN/showcasePractices
+- [核心特点](./llms/zh-CN/showcaseStrengths.md): /zh-CN/showcaseStrengths
+- [主题与品牌](./llms/zh-CN/showcaseThemes.md): /zh-CN/showcaseThemes
+- [移动触控体验](./llms/zh-CN/showcaseTouch.md): /zh-CN/showcaseTouch
+- [签名](./llms/zh-CN/signature.md): /zh-CN/signature
+- [骨架屏](./llms/zh-CN/skeleton.md): /zh-CN/skeleton
+- [Slider 滑块](./llms/zh-CN/slider.md): /zh-CN/slider
+- [Space 间隔](./llms/zh-CN/space.md): /zh-CN/space
+- [SplitButton 分裂按钮](./llms/zh-CN/split-button.md): /zh-CN/split-button
+- [统计数值](./llms/zh-CN/statistic.md): /zh-CN/statistic
+- [步骤条](./llms/zh-CN/steps.md): /zh-CN/steps
+- [StyleProvider 样式定制](./llms/zh-CN/style-provider.md): /zh-CN/style-provider
+- [海拔 Elevation](./llms/zh-CN/style.md): /zh-CN/style
+- [滑动单元格](./llms/zh-CN/swipe-cell.md): /zh-CN/swipe-cell
+- [Switch](./llms/zh-CN/switch.md): /zh-CN/switch
+- [底部标签栏](./llms/zh-CN/tab-bar.md): /zh-CN/tab-bar
+- [表格](./llms/zh-CN/table.md): /zh-CN/table
+- [Tabs 标签页](./llms/zh-CN/tabs.md): /zh-CN/tabs
+- [标签](./llms/zh-CN/tag.md): /zh-CN/tag
+- [文本域](./llms/zh-CN/textarea.md): /zh-CN/textarea
+- [主题定制](./llms/zh-CN/themes.md): /zh-CN/themes
+- [TimeRange 时间范围](./llms/zh-CN/time-range.md): /zh-CN/time-range
+- [Time 时间](./llms/zh-CN/time.md): /zh-CN/time
+- [Tooltip 文字气泡](./llms/zh-CN/tooltip.md): /zh-CN/tooltip
+- [Trigger](./llms/zh-CN/trigger.md): /zh-CN/trigger
+- [字体排版 Typography](./llms/zh-CN/typography.md): /zh-CN/typography
+- [Upload 上传](./llms/zh-CN/upload.md): /zh-CN/upload
+- [总览 Utilities](./llms/zh-CN/utilities.md): /zh-CN/utilities
+- [Utility 工具类规范](./llms/zh-CN/utilitySpec.md): /zh-CN/utilitySpec
+- [VerificationCode 验证码](./llms/zh-CN/verification-code.md): /zh-CN/verification-code
+- [水印](./llms/zh-CN/watermark.md): /zh-CN/watermark
+- [Zod 验证](./llms/zh-CN/zodValidation.md): /zh-CN/zodValidation
+
+## en-US
+
+- [ActionSheet](./llms/en-US/action-sheet.md): /en-US/action-sheet
+- [Affix](./llms/en-US/affix.md): /en-US/affix
+- [Alert](./llms/en-US/alert.md): /en-US/alert
+- [Atomic CSS](./llms/en-US/atomic-css.md): /en-US/atomic-css
+- [Common Utilities](./llms/en-US/atomic-usage.md): /en-US/atomic-usage
+- [AutoComplete](./llms/en-US/auto-complete.md): /en-US/auto-complete
+- [Avatar](./llms/en-US/avatar.md): /en-US/avatar
+- [BackTop](./llms/en-US/back-top.md): /en-US/back-top
+- [Badge](./llms/en-US/badge.md): /en-US/badge
+- [Breadcrumb](./llms/en-US/breadcrumb.md): /en-US/breadcrumb
+- [Browser Adaptation](./llms/en-US/browserAdaptation.md): /en-US/browserAdaptation
+- [Button](./llms/en-US/button.md): /en-US/button
+- [Card](./llms/en-US/card.md): /en-US/card
+- [Carousel](./llms/en-US/carousel.md): /en-US/carousel
+- [Cascader](./llms/en-US/cascader.md): /en-US/cascader
+- [Cell](./llms/en-US/cell.md): /en-US/cell
+- [Checkbox](./llms/en-US/checkbox.md): /en-US/checkbox
+- [Components Library Tools](./llms/en-US/cli.md): /en-US/cli
+- [Code](./llms/en-US/code.md): /en-US/code
+- [Col](./llms/en-US/col.md): /en-US/col
+- [Collapse](./llms/en-US/collapse.md): /en-US/collapse
+- [Color](./llms/en-US/color.md): /en-US/color
+- [Cross-platform component reuse](./llms/en-US/componentReuse.md): /en-US/componentReuse
+- [CountTo](./llms/en-US/count-to.md): /en-US/count-to
+- [Countdown](./llms/en-US/countdown.md): /en-US/countdown
+- [DateRange](./llms/en-US/date-range.md): /en-US/date-range
+- [Date](./llms/en-US/date.md): /en-US/date
+- [Defaults Customization](./llms/en-US/defaultsCustomization.md): /en-US/defaultsCustomization
+- [Design Resources](./llms/en-US/designResources.md): /en-US/designResources
+- [Maple Component CSS Variable Reference](./llms/en-US/designTokenReference.md): /en-US/designTokenReference
+- [Design Tokens and CSS Variable Layers](./llms/en-US/designTokens.md): /en-US/designTokens
+- [Dialog](./llms/en-US/dialog.md): /en-US/dialog
+- [Divider](./llms/en-US/divider.md): /en-US/divider
+- [Drag](./llms/en-US/drag.md): /en-US/drag
+- [Ellipsis](./llms/en-US/ellipsis.md): /en-US/ellipsis
+- [Empty](./llms/en-US/empty.md): /en-US/empty
+- [VSCode Extension](./llms/en-US/extension.md): /en-US/extension
+- [Fab](./llms/en-US/fab.md): /en-US/fab
+- [FloatingPanel](./llms/en-US/floating-panel.md): /en-US/floating-panel
+- [FormDetails](./llms/en-US/form-details.md): /en-US/form-details
+- [Form](./llms/en-US/form.md): /en-US/form
+- [Grid](./llms/en-US/grid.md): /en-US/grid
+- [HighlighterProvider](./llms/en-US/highlighter-provider.md): /en-US/highlighter-provider
+- [Maple Design Mobile](./llms/en-US/home.md): /en-US/home
+- [Hover](./llms/en-US/hover.md): /en-US/hover
+- [Icon](./llms/en-US/icon.md): /en-US/icon
+- [Image](./llms/en-US/image.md): /en-US/image
+- [Import On Demand](./llms/en-US/importOnDemand.md): /en-US/importOnDemand
+- [IndexBar](./llms/en-US/index-bar.md): /en-US/index-bar
+- [InfiniteScroll](./llms/en-US/infinite-scroll.md): /en-US/infinite-scroll
+- [InputNumber](./llms/en-US/input-number.md): /en-US/input-number
+- [Input](./llms/en-US/input.md): /en-US/input
+- [Lazy](./llms/en-US/lazy.md): /en-US/lazy
+- [Link](./llms/en-US/link.md): /en-US/link
+- [List](./llms/en-US/list.md): /en-US/list
+- [LLM documentation](./llms/en-US/llms.md): /en-US/llms
+- [LoadingBar](./llms/en-US/loading-bar.md): /en-US/loading-bar
+- [Loading](./llms/en-US/loading.md): /en-US/loading
+- [LocaleProvider](./llms/en-US/locale-provider.md): /en-US/locale-provider
+- [Locale](./llms/en-US/locale.md): /en-US/locale
+- [Menu](./llms/en-US/menu.md): /en-US/menu
+- [Message](./llms/en-US/message.md): /en-US/message
+- [NoticeBar](./llms/en-US/notice-bar.md): /en-US/notice-bar
+- [NumberKeyboard](./llms/en-US/number-keyboard.md): /en-US/number-keyboard
+- [Overlay](./llms/en-US/overlay.md): /en-US/overlay
+- [PageHeader](./llms/en-US/page-header.md): /en-US/page-header
+- [Pagination](./llms/en-US/pagination.md): /en-US/pagination
+- [Palette](./llms/en-US/palette.md): /en-US/palette
+- [Paper](./llms/en-US/paper.md): /en-US/paper
+- [PeopleSelect](./llms/en-US/people-select.md): /en-US/people-select
+- [Picker](./llms/en-US/picker.md): /en-US/picker
+- [Popover](./llms/en-US/popover.md): /en-US/popover
+- [Popup](./llms/en-US/popup.md): /en-US/popup
+- [项目卡片页](./llms/en-US/practiceCard.md): /en-US/practiceCard
+- [团队工作台](./llms/en-US/practiceDashboard.md): /en-US/practiceDashboard
+- [业务详情页](./llms/en-US/practiceDetail.md): /en-US/practiceDetail
+- [分步表单页](./llms/en-US/practiceForm.md): /en-US/practiceForm
+- [查询列表页](./llms/en-US/practiceList.md): /en-US/practiceList
+- [结果与异常页](./llms/en-US/practiceResult.md): /en-US/practiceResult
+- [ProgressGroup](./llms/en-US/progress-group.md): /en-US/progress-group
+- [Progress](./llms/en-US/progress.md): /en-US/progress
+- [PullRefresh](./llms/en-US/pull-refresh.md): /en-US/pull-refresh
+- [Quick Start](./llms/en-US/quickstart.md): /en-US/quickstart
+- [Radio](./llms/en-US/radio.md): /en-US/radio
+- [Rate](./llms/en-US/rate.md): /en-US/rate
+- [Result](./llms/en-US/result.md): /en-US/result
+- [Ripple Directive](./llms/en-US/ripple.md): /en-US/ripple
+- [Row](./llms/en-US/row.md): /en-US/row
+- [SafeArea](./llms/en-US/safe-area.md): /en-US/safe-area
+- [Search](./llms/en-US/search.md): /en-US/search
+- [Select](./llms/en-US/select.md): /en-US/select
+- [Server Side Rendering](./llms/en-US/serverSideRendering.md): /en-US/serverSideRendering
+- [Features and scenarios](./llms/en-US/showcase.md): /en-US/showcase
+- [Async selection](./llms/en-US/showcaseAsync.md): /en-US/showcaseAsync
+- [Component comparisons](./llms/en-US/showcaseComponents.md): /en-US/showcaseComponents
+- [Desktop and mobile](./llms/en-US/showcaseCrossPlatform.md): /en-US/showcaseCrossPlatform
+- [Data and files](./llms/en-US/showcaseData.md): /en-US/showcaseData
+- [Consistent forms](./llms/en-US/showcaseForms.md): /en-US/showcaseForms
+- [最佳实践](./llms/en-US/showcasePractices.md): /en-US/showcasePractices
+- [Core features](./llms/en-US/showcaseStrengths.md): /en-US/showcaseStrengths
+- [Themes and branding](./llms/en-US/showcaseThemes.md): /en-US/showcaseThemes
+- [Mobile touch interactions](./llms/en-US/showcaseTouch.md): /en-US/showcaseTouch
+- [Signature](./llms/en-US/signature.md): /en-US/signature
+- [Skeleton](./llms/en-US/skeleton.md): /en-US/skeleton
+- [Slider](./llms/en-US/slider.md): /en-US/slider
+- [Space](./llms/en-US/space.md): /en-US/space
+- [SplitButton](./llms/en-US/split-button.md): /en-US/split-button
+- [Statistic](./llms/en-US/statistic.md): /en-US/statistic
+- [Steps](./llms/en-US/steps.md): /en-US/steps
+- [StyleProvider](./llms/en-US/style-provider.md): /en-US/style-provider
+- [Elevation](./llms/en-US/style.md): /en-US/style
+- [SwipeCell](./llms/en-US/swipe-cell.md): /en-US/swipe-cell
+- [Switch](./llms/en-US/switch.md): /en-US/switch
+- [TabBar](./llms/en-US/tab-bar.md): /en-US/tab-bar
+- [Table](./llms/en-US/table.md): /en-US/table
+- [Tabs](./llms/en-US/tabs.md): /en-US/tabs
+- [Tag](./llms/en-US/tag.md): /en-US/tag
+- [Textarea](./llms/en-US/textarea.md): /en-US/textarea
+- [Theme Customization](./llms/en-US/themes.md): /en-US/themes
+- [TimeRange](./llms/en-US/time-range.md): /en-US/time-range
+- [Time](./llms/en-US/time.md): /en-US/time
+- [Tooltip](./llms/en-US/tooltip.md): /en-US/tooltip
+- [Trigger](./llms/en-US/trigger.md): /en-US/trigger
+- [Typography](./llms/en-US/typography.md): /en-US/typography
+- [Upload](./llms/en-US/upload.md): /en-US/upload
+- [Utilities Overview](./llms/en-US/utilities.md): /en-US/utilities
+- [Utility Spec](./llms/en-US/utilitySpec.md): /en-US/utilitySpec
+- [VerificationCode](./llms/en-US/verification-code.md): /en-US/verification-code
+- [Watermark](./llms/en-US/watermark.md): /en-US/watermark
+- [Zod Validation](./llms/en-US/zodValidation.md): /en-US/zodValidation

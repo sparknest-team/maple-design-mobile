@@ -2,7 +2,12 @@ import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import type { MapleConfig } from '../../config/maple.config.js'
-import { HL_EN_TITLE_ATTRIBUTES_RE, HL_EN_TITLE_EVENTS_RE, HL_EN_TITLE_SLOTS_RE } from '../../shared/constant.js'
+import {
+  HL_EN_TITLE_ATTRIBUTES_RE,
+  HL_EN_TITLE_EVENTS_RE,
+  HL_EN_TITLE_SLOTS_RE,
+  HL_ZH_TITLE_ATTRIBUTES_RE,
+} from '../../shared/constant.js'
 import { compileMD, compileTable, compileWebTypes, parseTable } from '../compileTemplateHighlight.js'
 
 describe('template highlight API tables', () => {
@@ -61,4 +66,19 @@ describe('template highlight API tables', () => {
       slots: [{ name: 'default', description: 'Layout content' }],
     })
   })
+})
+
+it('recognizes component-prefixed attribute headings and keeps the opening target in generated hints', () => {
+  for (const [title, expression] of [
+    ['Select props', HL_EN_TITLE_ATTRIBUTES_RE],
+    ['Cascader 属性', HL_ZH_TITLE_ATTRIBUTES_RE],
+  ] as const) {
+    const md =
+      '## API\n### ' +
+      title +
+      '\n| Name | Description | Type | Default |\n| --- | --- | --- | --- |\n| open-trigger-target | Opening target | field | field |\n'
+    const rows = parseTable(compileTable(md, expression))
+    expect(rows).toHaveLength(1)
+    expect(rows[0][0]).toBe('open-trigger-target')
+  }
 })

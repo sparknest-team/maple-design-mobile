@@ -6,7 +6,16 @@
       "type": "\"default\" | \"primary\" | \"secondary\" | \"tertiary\" | \"info\" | \"success\" | \"warning\" | \"danger\"",
       "defaultValue": "'default'",
       "kind": "enum",
-      "options": ["default", "primary", "secondary", "tertiary", "info", "success", "warning", "danger"],
+      "options": [
+        "default",
+        "primary",
+        "secondary",
+        "tertiary",
+        "info",
+        "success",
+        "warning",
+        "danger"
+      ],
       "initial": "default"
     },
     {
@@ -15,7 +24,10 @@
       "type": "'default' | 'outline'",
       "defaultValue": "'default'",
       "kind": "enum",
-      "options": ["default", "outline"],
+      "options": [
+        "default",
+        "outline"
+      ],
       "initial": "default"
     },
     {
@@ -24,7 +36,13 @@
       "type": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\"",
       "defaultValue": "'md'",
       "kind": "enum",
-      "options": ["xs", "sm", "md", "lg", "xl"],
+      "options": [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl"
+      ],
       "initial": "md"
     },
     {
@@ -107,17 +125,26 @@
       "initial": "#5268cc"
     }
   ],
-  "events": ["update:show", "update:modelValue", "close", "check"],
+  "events": [
+    "update:show",
+    "update:modelValue",
+    "close",
+    "check"
+  ],
   "scenarios": [
     {
       "name": "default",
       "kind": "slot",
-      "demos": ["checkable-tag.vue"]
+      "demos": [
+        "checkable-tag.vue"
+      ]
     },
     {
       "name": "icon",
       "kind": "slot",
-      "demos": ["icon-tag.vue"]
+      "demos": [
+        "icon-tag.vue"
+      ]
     },
     {
       "name": "close-icon",
@@ -125,7 +152,10 @@
       "demos": []
     }
   ],
-  "slotNames": ["icon", "close-icon"],
+  "slotNames": [
+    "icon",
+    "close-icon"
+  ],
   "slotDefaults": {
     "icon": false,
     "close-icon": false

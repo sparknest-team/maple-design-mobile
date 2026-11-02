@@ -1,10 +1,10 @@
 # 骨架屏
 
-## 案例
-
 ### 介绍
 
 显示一些带过渡效果的占位元素，优化加载过程。
+
+## 基础示例
 
 ### 基本使用
 
@@ -12,22 +12,14 @@
 ../example/demos/basic-usage.vue
 ```
 
-### 自定义段落宽度
+## 内容与展示
+
+### 骨架内容形态对比
+
+比较标题/文本行与头像/卡片形态，按最终内容轮廓选择占位布局；动画和全屏加载另行展示。
 
 ```demo
-../example/demos/custom-rows-width.vue
-```
-
-### 显示卡片
-
-```demo
-../example/demos/display-card.vue
-```
-
-### 自定义模板
-
-```demo
-../example/demos/custom-template.vue
+../example/demos/content-comparison.vue
 ```
 
 ### 动画
@@ -44,14 +36,13 @@
 ../example/demos/fullscreen-mode.vue
 ```
 
-<!-- api-review:start -->
-### 功能调试
+## 自定义与插槽
+
+### 自定义模板
 
 ```demo
-../example/api-review.vue
+../example/demos/custom-template.vue
 ```
-
-<!-- api-review:end -->
 
 ## API
 

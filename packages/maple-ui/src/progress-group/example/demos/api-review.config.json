@@ -106,11 +106,10 @@
       "demos": [
         "basic.vue",
         "circle.vue",
-        "color.vue",
+        "appearance-comparison.vue",
         "custom.vue",
         "orientation.vue",
-        "overflow-keyboard.vue",
-        "size.vue"
+        "overflow-keyboard.vue"
       ]
     },
     {
@@ -119,7 +118,7 @@
       "demos": [
         "basic.vue",
         "circle.vue",
-        "color.vue",
+        "appearance-comparison.vue",
         "custom.vue",
         "orientation.vue",
         "overflow-keyboard.vue"

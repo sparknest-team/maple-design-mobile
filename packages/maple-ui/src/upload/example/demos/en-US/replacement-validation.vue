@@ -98,8 +98,8 @@ onDeactivated(cleanupThumbnails)
     <mp-button html-type="button" :disabled="!pendingThumbnails.length" @click="settleThumbnail(true)">
       Reject oldest thumbnail
     </mp-button>
-    <mp-checkbox v-model="readDataUrl">Read with native FileReader / data-url</mp-checkbox>
-    <mp-checkbox v-model="readObjectUrl">Use native Blob/object-url (takes priority)</mp-checkbox>
+    <mp-checkbox v-model="readDataUrl" edit-mode="direct">Read with native FileReader / data-url</mp-checkbox>
+    <mp-checkbox v-model="readObjectUrl" edit-mode="direct">Use native Blob/object-url (takes priority)</mp-checkbox>
     <output>Blob URLs: {{ files.filter((file) => file.url?.startsWith('blob:')).length }}</output>
     <p role="status">
       Data URLs: {{ files.filter((file) => file.url?.startsWith('data:')).length }} · Decoded images: {{ decoded }}
@@ -121,8 +121,8 @@ onDeactivated(cleanupThumbnails)
       <mp-button @click="probe('total')">Add 768 KiB image</mp-button>
       <mp-button @click="reset">Reset queue</mp-button>
     </mp-space>
-    <mp-checkbox v-model="pauseThumbnail">Pause local thumbnail promise</mp-checkbox>
-    <mp-upload v-model="files" :show-upload-button="false" :preview="false" />
+    <mp-checkbox v-model="pauseThumbnail" edit-mode="direct">Pause local thumbnail promise</mp-checkbox>
+    <mp-upload v-model="files" edit-mode="direct" :show-upload-button="false" :preview="false" />
     <p>Queue：{{ files.map((file) => file.name).join(', ') || 'Empty' }}</p>
     <p>Rejected：{{ reasons.join(', ') || 'None' }}</p>
   </div>

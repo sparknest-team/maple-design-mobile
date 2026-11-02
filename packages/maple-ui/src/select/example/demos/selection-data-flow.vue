@@ -34,7 +34,9 @@ function reset() {
 
 <template>
   <div class="selection-data-flow">
-    <mp-checkbox v-model="autoFirst" @change="reset">defaultActiveFirstOption = {{ autoFirst }}</mp-checkbox>
+    <mp-checkbox v-model="autoFirst" edit-mode="direct" @change="reset"
+      >defaultActiveFirstOption = {{ autoFirst }}</mp-checkbox
+    >
     <mp-button @click="reset">{{ english ? 'Reset both forms and logs' : '重置两组表单和日志' }}</mp-button>
     <p>
       {{
@@ -46,21 +48,23 @@ function reset() {
 
     <section>
       <h4>inline · {{ english ? 'Selection commits immediately' : '选择即提交' }}</h4>
-      <mp-select
-        :key="`inline-${generation}`"
-        v-model="form.city"
-        presentation="inline"
-        :options="options"
-        :default-active-first-option="autoFirst"
-        :placeholder="english ? 'Choose a city' : '请选择城市'"
-        @update:model-value="record('inline', 'update:modelValue', $event)"
-        @change="record('inline', 'change', $event)"
-        @open-change="record('inline', 'open-change', $event)"
-      >
-        <template #footer>
-          <p class="panel-value">form.city = {{ show(form.city) }} · update:modelValue × {{ counts.inline }}</p>
-        </template>
-      </mp-select>
+      <mp-form-item layout="vertical" hide-label>
+        <mp-select
+          :key="`inline-${generation}`"
+          v-model="form.city"
+          edit-mode="direct"
+          :options="options"
+          :default-active-first-option="autoFirst"
+          :placeholder="english ? 'Choose a city' : '请选择城市'"
+          @update:model-value="record('inline', 'update:modelValue', $event)"
+          @change="record('inline', 'change', $event)"
+          @open-change="record('inline', 'open-change', $event)"
+        >
+          <template #footer>
+            <p class="panel-value">form.city = {{ show(form.city) }} · update:modelValue × {{ counts.inline }}</p>
+          </template>
+        </mp-select>
+      </mp-form-item>
       <p>
         {{
           english
@@ -81,24 +85,26 @@ function reset() {
 
     <section>
       <h4>popup · {{ english ? 'Confirm commits the draft' : '确认后提交草稿' }}</h4>
-      <mp-select
-        :key="`panel-${generation}`"
-        v-model="form.panelCity"
-        presentation="popup"
-        :options="options"
-        :default-active-first-option="autoFirst"
-        :placeholder="english ? 'Choose a city, then confirm' : '选择城市后确认'"
-        @update:model-value="record('panel', 'update:modelValue', $event)"
-        @change="record('panel', 'change', $event)"
-        @open-change="record('panel', 'open-change', $event)"
-      >
-        <template #footer>
-          <p class="panel-value">
-            {{ english ? 'Committed form value' : '已提交表单值' }}：{{ show(form.panelCity) }} · update:modelValue ×
-            {{ counts.panel }}
-          </p>
-        </template>
-      </mp-select>
+      <mp-form-item layout="vertical" hide-label>
+        <mp-select
+          :key="`panel-${generation}`"
+          v-model="form.panelCity"
+          edit-mode="popup"
+          :options="options"
+          :default-active-first-option="autoFirst"
+          :placeholder="english ? 'Choose a city, then confirm' : '选择城市后确认'"
+          @update:model-value="record('panel', 'update:modelValue', $event)"
+          @change="record('panel', 'change', $event)"
+          @open-change="record('panel', 'open-change', $event)"
+        >
+          <template #footer>
+            <p class="panel-value">
+              {{ english ? 'Committed form value' : '已提交表单值' }}：{{ show(form.panelCity) }} · update:modelValue ×
+              {{ counts.panel }}
+            </p>
+          </template>
+        </mp-select>
+      </mp-form-item>
       <p>
         {{
           english

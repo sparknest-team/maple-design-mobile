@@ -27,7 +27,7 @@ const renderOptions = [
         v-model="value"
         :options="options"
         :field-names="fields"
-        direction="vertical"
+        orientation="vertical"
         v-bind="__apiReview.bindings"
         v-on="__apiReview.listeners"
       >

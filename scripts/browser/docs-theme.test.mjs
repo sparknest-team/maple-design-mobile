@@ -1,11 +1,13 @@
 import assert from 'node:assert/strict'
-import { cp, mkdtemp, readFile, rm } from 'node:fs/promises'
+import { mkdtemp, readFile, rm } from 'node:fs/promises'
 import { createServer } from 'node:http'
 import { tmpdir } from 'node:os'
 import { extname, resolve, sep } from 'node:path'
 import { after, before, describe, it } from 'node:test'
 import { fileURLToPath } from 'node:url'
 import { chromium, devices } from 'playwright'
+import { navigateWithDiagnostics } from '../../../design-ui/browser/navigation.mjs'
+import { copyProductionSnapshot } from '../../../design-ui/browser/snapshot.mjs'
 
 const root = fileURLToPath(new URL('../../', import.meta.url))
 const themes = [
@@ -13,6 +15,10 @@ const themes = [
   { label: '默认亮色', value: 'lightTheme', dark: false },
   { label: '枫叶暗色', value: 'mapleDarkTheme', dark: true },
   { label: '枫叶亮色', value: 'mapleLightTheme', dark: false },
+  { label: 'Alps 乐道', value: 'alpsLightTheme', dark: false },
+  { label: 'Firefly 萤火虫', value: 'fireflyLightTheme', dark: false },
+  { label: 'Alps 乐道暗色', value: 'alpsDarkTheme', dark: true },
+  { label: 'Firefly 萤火虫暗色', value: 'fireflyDarkTheme', dark: true },
 ]
 const contentTypes = {
   '.html': 'text/html; charset=utf-8',
@@ -98,7 +104,7 @@ describe('phone-width documentation theme regression', { timeout: 600_000 }, () 
         throw new Error('Build the production docs first: pnpm build:doc')
       })
       directory = await mkdtemp(resolve(tmpdir(), 'maple-docs-theme-'))
-      await cp(resolve(root, 'packages/maple-ui/site'), directory, { recursive: true })
+      await copyProductionSnapshot(resolve(root, 'packages/maple-ui/site'), directory)
       server = createServer(async (request, response) => {
         const pathname = decodeURIComponent(new URL(request.url, 'http://localhost').pathname)
         const file = resolve(directory, `.${pathname.endsWith('/') ? `${pathname}index.html` : pathname}`)
@@ -187,20 +193,29 @@ describe('phone-width documentation theme regression', { timeout: 600_000 }, () 
                 wasmRequests.push(response.url())
               }
             })
-            await page.goto(`${origin}/${demo ? 'mobile.html#/code?language=zh-CN' : '#/zh-CN/code'}`)
+            await navigateWithDiagnostics(
+              page,
+              `${origin}/${demo ? 'mobile.html#/code?language=zh-CN' : '#/zh-CN/code'}`,
+            )
             await highlightedState(page, demo)
             assert.equal(wasmRequests.length, 1)
 
             for (const theme of themes) {
               if (demo) {
                 await page.locator('.theme-button').click()
-                await page.locator('.mobile-theme-cell').filter({ hasText: theme.label }).click()
+                await page
+                  .locator('.mobile-theme-cell')
+                  .filter({ hasText: new RegExp(`^${theme.label}$`) })
+                  .click()
               } else {
                 // The docs header hides this control below 562px. Use its real UI,
                 // then restore the phone width for assertions and the full reload.
                 await page.setViewportSize({ width: 800, height: 844 })
                 await page.locator('.maple-site-header__theme').hover()
-                await page.locator('.maple-site-header__theme .mp-cell').filter({ hasText: theme.label }).click()
+                await page
+                  .locator('.maple-site-header__theme .mp-cell')
+                  .filter({ hasText: new RegExp(`^${theme.label}$`) })
+                  .click()
                 await page.setViewportSize({ width, height: 844 })
               }
               const switched = await highlightedState(page, theme.dark)

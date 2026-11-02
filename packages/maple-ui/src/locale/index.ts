@@ -25,6 +25,8 @@ export type Message = {
   'carousel.next': string
   'carousel.slide': string
   'carousel.goto': string
+  'upload.replace': string
+  'upload.duration': string
   'upload.buttonText': string
   'upload.drag': string
   'upload.preview': string
@@ -56,6 +58,8 @@ export type Message = {
   cascaderPickerAddButtonText: string
   cascaderPickerDoneButtonText: string
   // date-picker
+  datePickerPreviousWeek: string
+  datePickerNextWeek: string
   datePickerPreviousMonth: string
   datePickerNextMonth: string
   datePickerPreviousYear: string
@@ -89,6 +93,8 @@ export type Message = {
   dateRangeStart: string
   dateRangeEnd: string
   // time-range
+  rangeStartPlaceholder: string
+  rangeEndPlaceholder: string
   timeRangeStart: string
   timeRangeEnd: string
   timeRangeNextDay: string

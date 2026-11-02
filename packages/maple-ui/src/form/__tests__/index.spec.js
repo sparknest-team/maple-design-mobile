@@ -4,8 +4,8 @@ import { expect, test, vi } from 'vitest'
 import Form from '..'
 import VarAutoComplete from '../../auto-complete/auto-complete'
 import VarCheckbox from '../../checkbox/Checkbox'
-import VarCounter from '../../counter/Counter'
 import VarFormItem from '../../form/FormItem'
+import VarInputNumber from '../../input-number'
 import VarInput from '../../input/Input'
 import VarRadio from '../../radio/Radio'
 import VarRate from '../../rate'
@@ -47,7 +47,7 @@ const Wrapper = {
     [VarOption.name]: VarOption,
     [VarRadio.name]: VarRadio,
     [VarCheckbox.name]: VarCheckbox,
-    [VarCounter.name]: VarCounter,
+    [VarInputNumber.name]: VarInputNumber,
     [VarRate.name]: VarRate,
     [VarUpload.name]: VarUpload,
     [VarSwitch.name]: VarSwitch,
@@ -74,9 +74,9 @@ test('form with input', async () => {
       onChange,
     },
     template: `
-      <mp-form ref="form" scroll-to-error="start" :model="model" :disabled="disabled" :readonly="readonly">
+      <mp-form edit-mode="direct" ref="form" scroll-to-error="start" :model="model" :disabled="disabled" :readonly="readonly">
         <mp-form-item field="value" :rules="[v => !!v || 'It can not be not empty']">
-          <mp-input
+          <mp-input edit-mode="direct"
             clearable
             v-model="model.value"
             @click="onClick"
@@ -134,9 +134,9 @@ test('form with select', async () => {
       onClose,
     },
     template: `
-      <mp-form ref="form" :model="model" :disabled="disabled" :readonly="readonly">
+      <mp-form edit-mode="direct" ref="form" :model="model" :disabled="disabled" :readonly="readonly">
         <mp-form-item field="value" :rules="[v => v.length > 1 || 'You must choose one option at least']">
-          <mp-select
+          <mp-select edit-mode="direct"
             clearable
             show-tags
             multiple
@@ -199,9 +199,9 @@ test('form with radio', async () => {
       onClick,
     },
     template: `
-      <mp-form ref="form" :model="model" :disabled="disabled" :readonly="readonly">
+      <mp-form edit-mode="direct" ref="form" :model="model" :disabled="disabled" :readonly="readonly">
         <mp-form-item field="value" :rules="[v => !!v || 'You must choose one option']">
-          <mp-radio
+          <mp-radio edit-mode="direct"
             v-model="model.value"
             @change="onChange"
             @click="onClick"
@@ -248,9 +248,9 @@ test('form with checkbox', async () => {
       onClick,
     },
     template: `
-      <mp-form ref="form" :model="model" :disabled="disabled" :readonly="readonly">
+      <mp-form edit-mode="direct" ref="form" :model="model" :disabled="disabled" :readonly="readonly">
         <mp-form-item field="value" :rules="[v => !!v || 'You must choose one option']">
-          <mp-checkbox
+          <mp-checkbox edit-mode="direct"
             v-model="model.value"
             @change="onChange"
             @click="onClick"
@@ -282,7 +282,7 @@ test('form with checkbox', async () => {
   wrapper.unmount()
 })
 
-test('form with counter', async () => {
+test('form with input-number', async () => {
   const onIncrement = vi.fn()
   const onDecrement = vi.fn()
   const onChange = vi.fn()
@@ -300,14 +300,13 @@ test('form with counter', async () => {
       onChange,
     },
     template: `
-      <mp-form ref="form" :model="model" :disabled="disabled" :readonly="readonly">
+      <mp-form edit-mode="direct" ref="form" :model="model" :disabled="disabled" :readonly="readonly">
         <mp-form-item field="value" :rules="[v => v > 0 || 'The value must be more than zero']">
-          <mp-counter
-            ref="counter"
+          <mp-input-number edit-mode="direct" mode="button"
+            ref="number"
             v-model="model.value"
             @change="onChange"
-            @increment="onIncrement"
-            @decrement="onDecrement"
+            @step="(value, direction) => direction === 'plus' ? onIncrement(value) : onDecrement(value)"
           />
         </mp-form-item>
       </mp-form>
@@ -315,10 +314,10 @@ test('form with counter', async () => {
   })
 
   const triggerEvents = async () => {
-    await wrapper.find('.mp-counter__input').setValue('1')
-    await wrapper.find('.mp-counter__input').trigger('change')
-    await wrapper.find('.mp-counter__decrement-button').trigger('click')
-    await wrapper.find('.mp-counter__increment-button').trigger('click')
+    await wrapper.find('.mp-input-number__input').setValue('1')
+    await wrapper.find('.mp-input-number__input').trigger('blur')
+    await wrapper.findAll('.mp-input-number__step-button')[0].trigger('click')
+    await wrapper.findAll('.mp-input-number__step-button')[1].trigger('click')
   }
 
   expect(wrapper.html()).toMatchSnapshot()
@@ -355,9 +354,9 @@ test('form with rate', async () => {
       onChange,
     },
     template: `
-      <mp-form ref="form" :model="model" :disabled="disabled" :readonly="readonly">
+      <mp-form edit-mode="direct" ref="form" :model="model" :disabled="disabled" :readonly="readonly">
         <mp-form-item field="value" :rules="[v => v > 0 || 'The value must be more than zero']">
-          <mp-rate
+          <mp-rate edit-mode="direct"
             v-model="model.value"
             @change="onChange"
           />
@@ -406,9 +405,9 @@ test('form with upload', async () => {
       onRead,
     },
     template: `
-      <mp-form ref="form" :model="model" :disabled="disabled" :readonly="readonly">
+      <mp-form edit-mode="direct" ref="form" :model="model" :disabled="disabled" :readonly="readonly">
         <mp-form-item field="value" :rules="[v => v.length > 0 || 'You must upload one file at least']">
-          <mp-upload
+          <mp-upload edit-mode="direct"
             ref="upload"
             resolve-type="file"
             v-model="model.value"
@@ -459,9 +458,9 @@ test('form with switch', async () => {
       onChange,
     },
     template: `
-      <mp-form ref="form" :model="model" :disabled="disabled" :readonly="readonly">
+      <mp-form edit-mode="direct" ref="form" :model="model" :disabled="disabled" :readonly="readonly">
         <mp-form-item field="value" :rules="[v => v === true || 'It should be truthy']">
-          <mp-switch
+          <mp-switch edit-mode="direct"
             v-model="model.value"
             @change="onChange"
           />
@@ -513,9 +512,9 @@ test('form with slider', async () => {
       onEnd,
     },
     template: `
-      <mp-form ref="form" :model="model" :disabled="disabled" :readonly="readonly">
+      <mp-form edit-mode="direct" ref="form" :model="model" :disabled="disabled" :readonly="readonly">
         <mp-form-item field="value" :rules="[(v) => v > 10 || 'It must be more than ten']">
-          <mp-slider
+          <mp-slider edit-mode="direct"
             v-model="model.value"
             @change="onChange"
             @start="onStart"
@@ -569,9 +568,9 @@ test('form events', async () => {
       onReset,
     },
     template: `
-      <mp-form :model="model" @submit="onSubmit" @reset="onReset">
+      <mp-form edit-mode="direct" :model="model" @submit="onSubmit" @reset="onReset">
         <mp-form-item field="value" :rules="[v => !!v || 'It can not be not empty']">
-          <mp-input
+          <mp-input edit-mode="direct"
             clearable
             v-model="model.value"
           />
@@ -611,9 +610,9 @@ test('form with auto-complete', async () => {
       model: { value: '' },
     }),
     template: `
-      <mp-form ref="form" scroll-to-error="start" :model="model" :disabled="disabled" :readonly="readonly">
+      <mp-form edit-mode="direct" ref="form" scroll-to-error="start" :model="model" :disabled="disabled" :readonly="readonly">
         <mp-form-item field="value" :rules="[v => !!v || '不能为空']">
-          <mp-auto-complete
+          <mp-auto-complete edit-mode="direct"
             v-model="model.value"
           />
         </mp-form-item>

@@ -16,8 +16,8 @@ function update(value) {
 
 <template>
   <section class="multi-slides-demo">
-    <mp-checkbox v-model="accept">Accept changes / 接受切换</mp-checkbox>
-    <mp-checkbox v-model="loop">Loop / 循环</mp-checkbox>
+    <mp-checkbox v-model="accept" edit-mode="direct">Accept changes / 接受切换</mp-checkbox>
+    <mp-checkbox v-model="loop" edit-mode="direct">Loop / 循环</mp-checkbox>
     <p role="status">Current: {{ current }} · Proposal: {{ proposal }} · Changes: {{ changes }}</p>
     <mp-carousel
       class="carousel"

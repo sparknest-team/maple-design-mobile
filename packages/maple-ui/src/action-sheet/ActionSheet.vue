@@ -3,6 +3,9 @@
     v-model:open="open"
     placement="bottom"
     :class="n('popup-radius')"
+    :before-close="beforeClose"
+    :swipe-to-close="swipeToClose"
+    :swipe-threshold="swipeThreshold"
     :overlay="overlay"
     :overlay-class="overlayClass"
     :overlay-style="overlayStyle"
@@ -12,6 +15,7 @@
     :popup-container="popupContainer"
     :safe-area-inset-bottom="safeArea"
     close-on-route-change
+    @close-error="(error, reason) => $emit('close-error', error, reason)"
     @open="$emit('open')"
     @close="$emit('close')"
     @closed="$emit('closed')"
@@ -20,9 +24,11 @@
     @click-overlay="$emit('click-overlay', $event)"
   >
     <div :class="classes(n(), n('$--box'))" v-bind="$attrs">
-      <slot name="title">
-        <div :class="n('title')">{{ title ?? (pt ? pt : t)('actionSheetTitle') }}</div>
-      </slot>
+      <div data-popup-swipe-handle>
+        <slot name="title">
+          <div :class="n('title')">{{ title ?? (pt ? pt : t)('actionSheetTitle') }}</div>
+        </slot>
+      </div>
 
       <slot name="actions">
         <mp-action-item
@@ -65,7 +71,7 @@ export default defineComponent({
   },
   inheritAttrs: false,
   props,
-  emits: ['select', 'update:open', 'open', 'opened', 'close', 'closed', 'key-escape', 'click-overlay'],
+  emits: ['select', 'update:open', 'open', 'opened', 'close', 'closed', 'key-escape', 'click-overlay', 'close-error'],
   setup(props, { emit }) {
     const open = useVModel(props, 'open', { emit, eventName: 'update:open', defaultValue: props.defaultOpen })
     const { t: pt } = injectLocaleProvider()

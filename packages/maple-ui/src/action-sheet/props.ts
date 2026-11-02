@@ -17,6 +17,9 @@ export const props = {
     default: true,
   },
   ...pickProps(popupProps, [
+    'beforeClose',
+    'swipeToClose',
+    'swipeThreshold',
     'overlay',
     'overlayClass',
     'overlayStyle',

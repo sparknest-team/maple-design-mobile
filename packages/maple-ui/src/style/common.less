@@ -29,3 +29,8 @@
     display: inline-flex;
   }
 }
+
+// Low specificity preserves explicit component/app font overrides.
+:where([class^='mp-'], [class*=' mp-']) {
+  font-family: var(--mp-sys-font-family, inherit);
+}

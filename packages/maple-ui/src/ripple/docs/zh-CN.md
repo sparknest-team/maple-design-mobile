@@ -1,10 +1,10 @@
 # 水波指令
 
-## 案例
-
 ### 介绍
 
 元素点击时生成一个水波扩散的效果。
+
+## 基础示例
 
 ### 基本使用
 
@@ -13,6 +13,8 @@
 ```demo
 ../example/demos/basic-usage.vue
 ```
+
+## 外观与状态
 
 ### 自定义颜色
 
@@ -26,6 +28,8 @@
 ../example/demos/disabled-status.vue
 ```
 
+## 内容与展示
+
 ### 长时长动效 Token
 
 ```demo
@@ -35,15 +39,6 @@
 ### 样式引入
 
 配置 MapleResolver 的指令解析时会自动引入 `@maple-design/ui/ripple/style`。未使用 resolver、直接注册 Ripple 时，请在应用入口显式引入该样式。指令运行时代码不导入 CSS，以支持服务端包导入。卸载和禁用会取消待执行动画；每个实例独立维护键盘状态。
-
-<!-- api-review:start -->
-### 功能调试
-
-```demo
-../example/demos/api-review.vue
-```
-
-<!-- api-review:end -->
 
 ## API
 

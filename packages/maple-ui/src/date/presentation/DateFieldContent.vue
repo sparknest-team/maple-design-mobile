@@ -23,6 +23,8 @@
       <PickerField
         v-bind="{ ...splitInputAttrs($attrs).native, ...state.controlProps.value }"
         ref="field"
+        :loading="fieldProps.loading"
+        :loading-mode="fieldProps.loadingMode"
         :aria-controls="state.open.value ? popupId : undefined"
         :cursor="state.disabled.value || state.readonly.value || state.controlProps.value.editable ? '' : 'pointer'"
         @commit="state.commitText"
@@ -32,22 +34,7 @@
         @blur="state.blur"
       >
         <template v-for="name in fieldSlots" #[name]="scope"><slot :name="name" v-bind="scope || {}" /></template>
-        <template v-if="state.controlProps.value.editable || $slots['suffix-icon']" #arrow-icon="scope">
-          <button
-            v-if="state.controlProps.value.editable"
-            type="button"
-            :class="n('input-trigger')"
-            :aria-label="locale.title()"
-            aria-haspopup="dialog"
-            :aria-expanded="state.open.value"
-            :aria-controls="state.open.value ? popupId : undefined"
-            :disabled="state.disabled.value || state.readonly.value"
-            @click.stop="openPanel"
-          >
-            <slot name="suffix-icon" v-bind="scope"><IconCalendar aria-hidden="true" /></slot>
-          </button>
-          <slot v-else name="suffix-icon" v-bind="scope" />
-        </template>
+        <template v-if="$slots['suffix-icon']" #arrow-icon="scope"><slot name="suffix-icon" v-bind="scope" /></template>
         <template v-if="$slots.suffix" #suffix><slot name="suffix" /></template>
       </PickerField>
     </div>
@@ -63,8 +50,10 @@
         :aria-label="locale.title()"
       >
         <DatePanel
+          :endpoint-editor="range"
           :options="panelProps"
           :range="range"
+          @draft-initialize="state.initialize"
           @select="(value) => state.select(value, fieldProps.disableConfirm && !quickConfirmRequired)"
           @confirm="(value) => state.confirm(value)"
           @update:picker-value="emit('update:pickerValue', $event)"
@@ -79,7 +68,7 @@
 </template>
 <script setup lang="ts">
 import { computed, provide, ref, useId, useSlots, watch } from 'vue'
-import { IconCalendar } from '@maple-design/icons-vue'
+import { isFieldOpenClick } from '../../_components/picker-field/open-trigger'
 import PickerField from '../../_components/picker-field/PickerField.vue'
 import { splitInputAttrs } from '../../input/native-attrs'
 import { useTriggerKeyboard } from '../../time/presentation/use-trigger-keyboard'
@@ -122,8 +111,8 @@ const popupProps = computed(() => ({
 }))
 const panelProps = computed(() => ({
   ...dateFieldPanelOptions(props.fieldProps, props.range),
-  // Inline popovers use a calendar; wheels remain available in popup/dialog editors.
-  presentation: props.fieldProps.showTime ? 'calendarPicker' : 'calendar',
+  // Honor the field's content mode in inline popovers as well as hosted editors.
+  presentation: props.fieldProps.panelType ?? (props.fieldProps.showTime ? 'calendarPicker' : 'calendar'),
   modelValue: props.state.draft.value,
   defaultValue: undefined,
   disableConfirm: props.fieldProps.disableConfirm,
@@ -132,19 +121,11 @@ const panelProps = computed(() => ({
 }))
 function click(event: Event) {
   props.state.click(event)
-  const target = event.target as HTMLElement | null
-  if (props.state.controlProps.value.editable && target?.closest('input')) {
+  if (!isFieldOpenClick(event, props.fieldProps.openTriggerTarget)) {
     return
   }
   if (!props.state.disabled.value && !props.state.readonly.value) {
     field.value?.commit(event)
-    props.state.setOpen(true)
-  }
-}
-function openPanel(event: MouseEvent) {
-  props.state.click(event)
-  if (!props.state.disabled.value && !props.state.readonly.value) {
-    field.value?.blur()
     props.state.setOpen(true)
   }
 }

@@ -1,15 +1,17 @@
 import type { Component, PropType } from 'vue'
 import { fieldPresentationProps } from '../_components/field-presentation/props'
+import { emptyValueProp } from '../utils/empty-value'
 
 export type RateColor = string | Record<string, string>
 export type RateIcon = string | Component
 
 export const rateProps = {
   ...fieldPresentationProps,
+  emptyValue: emptyValueProp<number>(),
   /** 评分控件的无障碍名称。 */
   ariaLabel: String,
   /** 受控评分，零值有效。 */
-  modelValue: { type: Number, default: undefined },
+  modelValue: { type: Number as PropType<number | null>, default: undefined },
   /** 非受控初始评分。 */
   defaultValue: { type: Number, default: 0 },
   /** 评分总数，正有限数向下取整。 */
@@ -63,7 +65,7 @@ export interface RateCharacterSlotProps {
 }
 
 export interface RateEmits {
-  'update:modelValue': (value: number) => void
-  change: (value: number) => void
-  'hover-change': (value: number) => void
+  'update:modelValue': (value: number | null) => void
+  change: (value: number | null) => void
+  'hover-change': (value: number | null) => void
 }

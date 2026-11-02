@@ -78,18 +78,18 @@ function createDialogMethod(defaultMethodConfig: Partial<DialogConfig> = {}) {
                 state.open = open
               },
               onConfirm: (event?: Event) => {
-                config.onConfirm?.(event)
                 resolveAction('confirm')
+                return config.onConfirm?.(event)
               },
               onCancel: (event?: Event) => {
-                config.onCancel?.(event)
                 resolveAction('cancel')
+                return config.onCancel?.(event)
               },
               onOpen: config.onOpen,
               onOpened: config.onOpened,
               onClose: () => {
-                config.onClose?.()
                 resolveAction('close')
+                return config.onClose?.()
               },
               onClosed: () => {
                 render(null, host)
@@ -98,7 +98,7 @@ function createDialogMethod(defaultMethodConfig: Partial<DialogConfig> = {}) {
                 if (index >= 0) {
                   activeDialogs.splice(index, 1)
                 }
-                config.onClosed?.()
+                return config.onClosed?.()
               },
               onClickOverlay: config.onClickOverlay,
               onKeyEscape: config.onKeyEscape,

@@ -1,0 +1,10 @@
+{
+  "details": {
+    "surface": "desktop",
+    "theme": "light",
+    "demo": "field-tree.vue"
+  },
+  "error": "Error: locator.evaluate: Target page, context or browser has been closed\nCall log:\n\u001b[2m  - waiting for locator('.mp-field-presentation__panel').filter({ visible: true }).last()\u001b[22m\n",
+  "diagnostic": "",
+  "errors": []
+}

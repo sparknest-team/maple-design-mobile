@@ -50,7 +50,13 @@
       "type": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\"",
       "defaultValue": "'md'",
       "kind": "enum",
-      "options": ["xs", "sm", "md", "lg", "xl"],
+      "options": [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl"
+      ],
       "initial": "md"
     },
     {
@@ -59,7 +65,12 @@
       "type": "'click' | 'hover' | 'focus' | 'contextMenu'",
       "defaultValue": "'click'",
       "kind": "enum",
-      "options": ["click", "hover", "focus", "contextMenu"],
+      "options": [
+        "click",
+        "hover",
+        "focus",
+        "contextMenu"
+      ],
       "initial": "click"
     },
     {
@@ -68,13 +79,16 @@
       "type": "'click' | 'hover'",
       "defaultValue": "'click' as MenuSubmenuTrigger",
       "kind": "enum",
-      "options": ["click", "hover"],
+      "options": [
+        "click",
+        "hover"
+      ],
       "initial": "click"
     },
     {
       "name": "placement",
       "description": "弹出位置",
-      "type": "MenuPosition",
+      "type": "MenuPlacement",
       "defaultValue": "'bottom'",
       "kind": "scenario"
     },
@@ -84,7 +98,10 @@
       "type": "'absolute' | 'fixed'",
       "defaultValue": "undefined",
       "kind": "enum",
-      "options": ["absolute", "fixed"],
+      "options": [
+        "absolute",
+        "fixed"
+      ],
       "initial": "absolute"
     },
     {
@@ -222,12 +239,10 @@
       "name": "options",
       "kind": "prop",
       "demos": [
-        "group.vue",
-        "option-content.vue",
+        "structure-comparison.vue",
         "overflow-actions.vue",
         "positioning.vue",
-        "selection.vue",
-        "submenu.vue"
+        "selection.vue"
       ]
     },
     {
@@ -243,7 +258,9 @@
     {
       "name": "placement",
       "kind": "prop",
-      "demos": ["placement.vue"]
+      "demos": [
+        "placement.vue"
+      ]
     },
     {
       "name": "reference",
@@ -268,13 +285,11 @@
         "controlled.vue",
         "disabled-state.vue",
         "footer.vue",
-        "group.vue",
-        "option-content.vue",
+        "structure-comparison.vue",
         "overflow-actions.vue",
         "placement.vue",
         "popup-max-height.vue",
         "selection.vue",
-        "submenu.vue",
         "trigger.vue"
       ]
     },
@@ -286,14 +301,12 @@
         "controlled.vue",
         "disabled-state.vue",
         "footer.vue",
-        "group.vue",
-        "option-content.vue",
+        "structure-comparison.vue",
         "overflow-actions.vue",
         "placement.vue",
         "popup-max-height.vue",
         "positioning.vue",
         "selection.vue",
-        "submenu.vue",
         "trigger.vue"
       ]
     },
@@ -315,7 +328,10 @@
     {
       "name": "open",
       "kind": "method",
-      "demos": ["controlled.vue", "group.vue"]
+      "demos": [
+        "controlled.vue",
+        "structure-comparison.vue"
+      ]
     },
     {
       "name": "close",
@@ -333,7 +349,13 @@
       "demos": []
     }
   ],
-  "slotNames": ["content", "footer", "option-label", "option-icon", "option-extra"],
+  "slotNames": [
+    "content",
+    "footer",
+    "option-label",
+    "option-icon",
+    "option-extra"
+  ],
   "slotDefaults": {
     "content": true,
     "footer": false,
@@ -341,5 +363,10 @@
     "option-icon": false,
     "option-extra": false
   },
-  "methodNames": ["open", "close", "resize", "set-reference"]
+  "methodNames": [
+    "open",
+    "close",
+    "resize",
+    "set-reference"
+  ]
 }

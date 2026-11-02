@@ -5,26 +5,25 @@ const __demoLayout = __demoReactive({ align: 'start', justify: 'start' })
 </script>
 <template>
   <mp-space direction="column" :size="16">
-    <mp-space wrap>
-      <div>
-        <span>align</span
-        ><mp-select
+    <mp-form layout="vertical">
+      <mp-form-item layout="vertical" size="sm" label="align">
+        <mp-radio-group
           v-model="__demoLayout['align']"
-          :clearable="false"
+          aria-label="align"
           :options="[
             { label: 'start', value: 'start' },
             { label: 'center', value: 'center' },
             { label: 'end', value: 'end' },
             { label: 'stretch', value: 'stretch' },
           ]"
-          aria-label="align"
+          variant="button"
+          size="sm"
         />
-      </div>
-      <div>
-        <span>justify</span
-        ><mp-select
+      </mp-form-item>
+      <mp-form-item layout="vertical" size="sm" label="justify">
+        <mp-radio-group
           v-model="__demoLayout['justify']"
-          :clearable="false"
+          aria-label="justify"
           :options="[
             { label: 'start', value: 'start' },
             { label: 'center', value: 'center' },
@@ -32,10 +31,11 @@ const __demoLayout = __demoReactive({ align: 'start', justify: 'start' })
             { label: 'space-around', value: 'space-around' },
             { label: 'space-between', value: 'space-between' },
           ]"
-          aria-label="justify"
+          variant="button"
+          size="sm"
         />
-      </div>
-    </mp-space>
+      </mp-form-item>
+    </mp-form>
     <mp-row :gutter="12" v-bind="__demoLayout"
       ><mp-col v-for="i in 3" :key="i" :span="8"><div class="cell">8</div></mp-col></mp-row
     >

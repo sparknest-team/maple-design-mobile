@@ -61,21 +61,22 @@ onDeactivated(() => settle(false))
 
 <template>
   <section class="remove-confirm-demo">
-    <mp-checkbox v-model="allow">允许此操作</mp-checkbox>
-    <mp-checkbox v-model="manual">手动异步确认</mp-checkbox>
-    <mp-checkbox v-model="blocked">禁用上传组件</mp-checkbox>
+    <mp-checkbox v-model="allow" edit-mode="direct">允许此操作</mp-checkbox>
+    <mp-checkbox v-model="manual" edit-mode="direct">手动异步确认</mp-checkbox>
+    <mp-checkbox v-model="blocked" edit-mode="direct">禁用上传组件</mp-checkbox>
     <mp-button html-type="button" :disabled="!pending.length" @click="settle(true)">确认删除</mp-button>
     <mp-button html-type="button" :disabled="!pending.length" @click="settle(false)">取消删除</mp-button>
     <mp-button html-type="button" :disabled="!pending.length" @click="settle('reject')">异常拒绝删除</mp-button>
     <mp-button html-type="button" :disabled="!files.length" @click="replace">替换同 UID 文件</mp-button>
     <mp-button html-type="button" @click="uploadRef?.reset()">重置上传队列</mp-button>
     <mp-button html-type="button" @click="restore">恢复示例文件</mp-button>
-    <mp-checkbox v-model="mounted">激活上传组件</mp-checkbox>
+    <mp-checkbox v-model="mounted" edit-mode="direct">激活上传组件</mp-checkbox>
     <KeepAlive>
       <mp-upload
         v-if="mounted"
         ref="uploadRef"
         v-model="files"
+        edit-mode="direct"
         :before-remove="beforeRemove"
         :disabled="blocked"
         @remove="removed++"

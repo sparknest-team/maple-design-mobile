@@ -2,7 +2,7 @@
 
 Shown when the current view has no data. Examples match Cedar Design Web, with a more compact mobile layout.
 
-## Examples
+## Basic examples
 
 ### Basic Usage
 
@@ -12,15 +12,19 @@ Basic empty state. Without `description`, the i18n copy is used.
 ../example/demos/basic-usage.vue
 ```
 
-### Custom Image and Copy
-
-Customize the illustration with the `image` slot or default slot copy. Use `image-url` for an image source.
-
-```demo
-../example/demos/custom-image.vue
-```
+## Appearance and states
 
 ### Image Size
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `image-size` | Image/icon size | Image Size |
+| `description` | Description; falls back to i18n | Image Size |
+<!-- demo-config-notes:end -->
+
 
 `image-size` accepts `xs` `sm` `md` `lg` `xl`, or a number.
 
@@ -28,14 +32,42 @@ Customize the illustration with the `image` slot or default slot copy. Use `imag
 ../example/demos/image-size.vue
 ```
 
-### Extra Action
+## Content and presentation
+
+### Empty-state image and actions
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `description` | Description; falls back to i18n | Empty-state image and actions, Show and Hide |
+| `image-url` | Custom image URL | Empty-state image and actions |
+| `alt` | Image alternative text | Empty-state image and actions |
+| `show-icon` | Whether to show the icon | Show and Hide |
+| `show-description` | Whether to show the description | Show and Hide |
+<!-- demo-config-notes:end -->
+
+
+Compare custom artwork and extra actions to distinguish content replacement from supplemental controls.
+
+<details>
+<summary>Configuration details and limits</summary>
+
+#### Custom Image and Copy
+
+Customize the illustration with the `image` slot or default slot copy. Use `image-url` for an image source.
+
+#### Extra Action
 
 Reload updates a local attempt counter and description only; it does not call a service. Provide your own request and result state for real reload behavior.
 
 Add actions with the `extra` slot.
 
+</details>
+
 ```demo
-../example/demos/extra-slot.vue
+../example/demos/content-comparison.vue
 ```
 
 ### Show and Hide
@@ -48,24 +80,15 @@ Use the two buttons to toggle the image and description independently, then rest
 ../example/demos/show.vue
 ```
 
-<!-- api-review:start -->
-### Feature playground
-
-```demo
-../example/demos/api-review.vue
-```
-
-<!-- api-review:end -->
-
 ## API
 
 ### Props
 
-| Prop | Description | Type | Default |
+| Arguments | Description | Type | Default |
 | --- | --- | --- | --- |
 | `description` | Description; falls back to i18n | `string` | `-` |
 | `image-url` | Custom image URL | `string` | `-` |
-| `alt` | Image alt text | `string` | `''` |
+| `alt` | Image alternative text | `string` | `''` |
 | `image-size` | Image/icon size | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| number \| string` | `'md'` |
 | `show-icon` | Whether to show the icon | `boolean` | `true` |
 | `show-description` | Whether to show the description | `boolean` | `true` |
@@ -78,19 +101,19 @@ Use the two buttons to toggle the image and description independently, then rest
 
 ### Slots
 
-| Name | Description |
+| Slot | Description |
 | --- | --- |
 | `default` | Description content |
 | `image` | Custom icon/image |
 | `extra` | Extra actions |
 
-### Types
+### Type definitions
 
 ```ts
 type EmptyImageSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | number | string
 ```
 
-### Style Variables
+### Style variables
 
 | Name | Default |
 | --- | --- |

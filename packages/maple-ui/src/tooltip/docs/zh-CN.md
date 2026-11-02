@@ -2,7 +2,7 @@
 
 用于补充说明按钮、图标或被截断的文字。默认同时响应鼠标悬停和键盘聚焦；需要承载可操作内容时使用 Popover。
 
-## 案例
+## 基础示例
 
 ### 基本使用
 
@@ -10,29 +10,43 @@
 ../example/demos/basic-usage.vue
 ```
 
-### 尺寸
+## 外观与状态
+
+### 外观配置对比
+
+选择一个对比维度后，同屏展示它的全部可选值；其余配置和内容保持一致。可切换其他配置检查组合效果；输入类预览共享一个值。
+
+<details>
+<summary>配置说明与使用限制</summary>
+
+#### 尺寸
 
 只实现 `md` 和 `xs` 两档，默认 `md`。
 
-```demo
-../example/demos/size.vue
-```
+#### 外观组合
 
-### 内容、主题与颜色
+适用于悬浮时的补充说明。调整状态、尺寸，用相同数据观察变化。内容保持一致，便于比较不同设置的实际效果。
 
-```demo
-../example/demos/content-slot.vue
-```
+</details>
 
 ```demo
-../example/demos/theme-color-tooltip.vue
+../example/demos/appearance-lab.vue
 ```
 
-```demo
-../example/demos/custom-color.vue
-```
+## 布局与排列
 
 ### 位置、偏移与触发
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `content` | 提示内容 | 位置、偏移与触发 |
+| `placement` | 浮层相对触发元素的首选方位，默认 top；启用默认的 auto-fit-position 时，空间不足会自动翻转并约束到可视区域，不保证最终停在该侧 | 位置、偏移与触发 |
+| `popup-translate` | 屏幕轴附加平移 | 位置、偏移与触发 |
+| `trigger` | 触发方式 | 位置、偏移与触发 |
+<!-- demo-config-notes:end -->
 
 ```demo
 ../example/demos/placement.vue
@@ -46,6 +60,31 @@
 ../example/demos/trigger.vue
 ```
 
+## 内容与展示
+
+### 内容、主题与颜色
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `content` | 提示内容 | 内容、主题与颜色、事件与禁用 |
+| `color` | 自定义背景色 | 内容、主题与颜色 |
+| `text-color` | 自定义文字色 | 内容、主题与颜色 |
+| `disabled` | 禁止打开 | 事件与禁用 |
+<!-- demo-config-notes:end -->
+
+```demo
+../example/demos/content-slot.vue
+```
+
+
+
+```demo
+../example/demos/custom-color.vue
+```
+
 ### 事件与禁用
 
 ```demo
@@ -55,23 +94,6 @@
 ```demo
 ../example/demos/disabled.vue
 ```
-
-### 外观组合
-
-适用于悬浮时的补充说明。调整状态、尺寸，用相同数据观察变化。内容保持一致，便于比较不同设置的实际效果。
-
-```demo
-../example/demos/appearance-lab.vue
-```
-
-<!-- api-review:start -->
-### 功能调试
-
-```demo
-../example/demos/api-review.vue
-```
-
-<!-- api-review:end -->
 
 ## API
 
@@ -89,7 +111,7 @@ Tooltip 继承 Trigger 的定位、容器、受控状态、关闭策略和公开
 | color | 自定义背景色 | `string` | — |
 | text-color | 自定义文字色 | `string` | — |
 | trigger | 触发方式 | `TriggerEvent \| TriggerEvent[]` | `['hover', 'focus']` |
-| placement | 首选方位 | `TriggerPlacement` | `top` |
+| placement | 浮层相对触发元素的首选方位，默认 top；启用默认的 auto-fit-position 时，空间不足会自动翻转并约束到可视区域，不保证最终停在该侧 | `TriggerPlacement` | `top` |
 | show-arrow | 是否显示箭头 | `boolean` | `true` |
 | popup-offset | 沿方位主轴的距离 | `number` | `10` |
 | popup-translate | 屏幕轴附加平移 | `[number, number] \| Record` | — |

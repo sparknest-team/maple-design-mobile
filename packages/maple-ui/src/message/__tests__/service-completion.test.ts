@@ -1,4 +1,4 @@
-import { nextTick } from 'vue'
+import { createApp, nextTick } from 'vue'
 import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from 'vitest'
 import type { MessageMethod } from '../types'
 
@@ -70,4 +70,45 @@ describe('Message service waits for component completion', () => {
     document.querySelector<HTMLButtonElement>('[data-motion-owner="leaving"]')!.click()
     expect(closed).toHaveBeenCalledTimes(1)
   })
+})
+
+it('a throwing closed notification still disposes its empty manager host', async () => {
+  const app = createApp({}),
+    report = vi.fn(),
+    cause = new Error('closed notification')
+  app.config.errorHandler = report
+  const before = document.body.children.length
+  const handle = Message(
+    {
+      content: 'owned host',
+      duration: 0,
+      onClosed: () => {
+        throw cause
+      },
+    },
+    app._context,
+  )
+  await nextTick()
+  handle.close()
+  await nextTick()
+  document.querySelector<HTMLButtonElement>('[data-motion-owner="leaving"]')!.click()
+  await nextTick()
+  expect(report.mock.calls[0][0]).toBe(cause)
+  expect(document.body.children.length).toBe(before)
+})
+
+it('rejected closed notifications reach Vue errors after owned cleanup', async () => {
+  const app = createApp({}),
+    report = vi.fn(),
+    cause = new Error('async closed')
+  app.config.errorHandler = report
+  const before = document.body.children.length
+  const handle = Message({ content: 'async host', duration: 0, onClosed: () => Promise.reject(cause) }, app._context)
+  await nextTick()
+  handle.close()
+  await nextTick()
+  document.querySelector<HTMLButtonElement>('[data-motion-owner="leaving"]')!.click()
+  await nextTick()
+  expect(report.mock.calls[0][0]).toBe(cause)
+  expect(document.body.children.length).toBe(before)
 })

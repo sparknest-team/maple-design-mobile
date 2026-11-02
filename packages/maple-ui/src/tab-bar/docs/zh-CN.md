@@ -1,10 +1,10 @@
 # 底部标签栏
 
-## 案例
-
 ### 介绍
 
 在页面底部显示导航和关键操作。
+
+## 基础示例
 
 ### 基本使用
 
@@ -12,18 +12,24 @@
 ../example/demos/basic-usage.vue
 ```
 
+## 外观与内容
+
 ### 胶囊指示器
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `variant` | 外观样式 | 胶囊指示器、徽标提示 |
+| `active-color` | 选中标签的颜色 | 自定义颜色 |
+| `fab-props` | 悬浮按钮属性 | 悬浮按钮 |
+<!-- demo-config-notes:end -->
 
 设置 `variant="pill"`，为选中图标显示胶囊背景；默认 `standard` 仅改变选中颜色。
 
 ```demo
 ../example/demos/variant.vue
-```
-
-### 通过名称匹配
-
-```demo
-../example/demos/match-by-name.vue
 ```
 
 ### 徽标提示
@@ -40,18 +46,6 @@ TabBar 徽标默认使用 xs 尺寸并向图标右上方外侧展开；通过 ba
 ../example/demos/custom-color.vue
 ```
 
-### 监听切换事件
-
-```demo
-../example/demos/change-event.vue
-```
-
-### 监听点击事件
-
-```demo
-../example/demos/click-event.vue
-```
-
 ### 悬浮按钮
 
 悬浮按钮用于发布、拍摄或新建等主要操作。点击加号打开发布框，不切换当前导航。
@@ -60,6 +54,30 @@ TabBar 徽标默认使用 xs 尺寸并向图标右上方外侧展开；通过 ba
 
 ```demo
 ../example/demos/fab.vue
+```
+
+### 自定义选中标签
+
+通过 default 插槽的 `active` 参数加粗选中标签。
+
+```demo
+../example/demos/custom-label.vue
+```
+
+## 值模型与交互
+
+### 通过名称匹配
+
+```demo
+../example/demos/match-by-name.vue
+```
+
+### 点击与值变更事件
+
+分别点击当前项和其他项，对比点击通知与值变更通知；受控和非受控值模型另行展示。
+
+```demo
+../example/demos/event-comparison.vue
 ```
 
 ### 非受控初始选中
@@ -76,13 +94,7 @@ TabBar 徽标默认使用 xs 尺寸并向图标右上方外侧展开；通过 ba
 ../example/demos/stable-key.vue
 ```
 
-### 自定义选中标签
-
-通过 default 插槽的 `modelValue` 参数加粗选中标签。
-
-```demo
-../example/demos/custom-label.vue
-```
+## 异步切换
 
 ### 异步切换与拦截
 
@@ -90,14 +102,26 @@ TabBar 徽标默认使用 xs 尺寸并向图标右上方外侧展开；通过 ba
 ../example/demos/async-change.vue
 ```
 
-<!-- api-review:start -->
-### 功能调试
+## 加载与等待
+
+### 受控加载
+
+| 属性 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| `loading` | 业务显式控制的加载状态 | `boolean` | `false` |
+
+外部 loading 暂停关闭／切换操作；内部 before 守卫等待与它合并展示。
+
+
+通过 loading 显式展示等待；普通事件返回值不参与加载。before-* 守卫按其契约管理内部等待状态。
 
 ```demo
-../example/demos/api-review.vue
+../example/demos/loading.vue
 ```
 
-<!-- api-review:end -->
+## 阅读方向
+
+继承最近的 `dir="ltr|rtl"`，支持运行时切换与局部覆盖。导航项随阅读方向排列，选中值与项目顺序保持不变。自动留出的浮动按钮空间位于阅读终点；中心按钮仍居中。Badge 显式命名的位置保持物理角落。
 
 ## API
 
@@ -202,3 +226,11 @@ TabBar 徽标默认使用 xs 尺寸并向图标右上方外侧展开；通过 ba
 | `--mp-tab-bar-item-variant-active-color` | `var(--mp-color-primary)` |
 
 `default` 和 `icon` 插槽的 active 表示当前项 name 是否对应 modelValue；焦点、悬停不会改变 active。activeColor/inactiveColor 分别控制当前项和非当前项的颜色。
+
+### 守卫等待反馈
+
+before-* 等待期间显示加载反馈并标记 aria-busy；拒绝或失败后恢复，重复提交不再启动同一操作。普通事件返回的 Promise 不参与加载。切换到其他目标仍保留最后一次请求优先的规则。
+
+### guard-error
+
+切换守卫失败后通知一次，参数为 `(error, value)`。

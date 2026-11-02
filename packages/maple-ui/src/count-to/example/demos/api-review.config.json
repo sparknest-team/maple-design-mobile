@@ -51,7 +51,7 @@
       "name": "timing-function",
       "kind": "prop",
       "demos": [
-        "custom-animation-curve.vue"
+        "number-format-comparison.vue"
       ]
     },
     {

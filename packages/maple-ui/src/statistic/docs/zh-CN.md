@@ -1,12 +1,12 @@
 # 统计数值
 
-## 案例
-
 ### 介绍
 
 突出展示某个或某组数字、带描述的统计类数据。
 
 倒计时请使用独立的 [Countdown](#/zh-CN/countdown) 组件；滚动数字也可嵌入 [CountTo](#/zh-CN/count-to)。
+
+## 基础示例
 
 ### 基本使用
 
@@ -16,15 +16,22 @@
 ../example/demos/basic-usage.vue
 ```
 
-### 前缀 / 后缀
-
-通过 `prefix` / `suffix` 或同名插槽为数值添加单位、货币符号或趋势。
-
-```demo
-../example/demos/prefix-suffix.vue
-```
+## 内容与展示
 
 ### 等宽数字
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `title` | 数值展示的标题 | 等宽数字、额外信息、数值动画 |
+| `value` | 数值展示的值 | 等宽数字、额外信息、数值动画 |
+| `suffix` | 数值后缀 | 等宽数字、数值动画 |
+| `value-style` | 自定义显示值的样式 | 等宽数字 |
+| `tabular-nums` | 是否使用等宽数字 | 等宽数字 |
+| `prefix` | 数值前缀 | 额外信息 |
+<!-- demo-config-notes:end -->
 
 开启 `tabular-nums` 后，每个数字字符占用相同宽度，适合数值频繁变化或纵向对齐的场景。对比相同位数的 `1111` 和 `8888`：比例数字的总宽度可能变化，等宽数字的总宽度保持稳定。
 
@@ -50,14 +57,6 @@
 ../example/demos/animation.vue
 ```
 
-### 自定义数值
-
-未传入 `value` 时，可用默认插槽自定义数值内容。例如嵌入 `CountTo`。
-
-```demo
-../example/demos/custom-value.vue
-```
-
 ### 倒计时
 
 未传入 `value` 时，可用默认插槽嵌入 [Countdown](#/zh-CN/countdown)。
@@ -66,14 +65,36 @@
 ../example/demos/countdown.vue
 ```
 
-<!-- api-review:start -->
-### 功能调试
+## 自定义与插槽
+
+### 前缀 / 后缀
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `title` | 数值展示的标题 | 前缀 / 后缀、自定义数值 |
+| `suffix` | 数值后缀 | 前缀 / 后缀、自定义数值 |
+| `value` | 数值展示的值 | 前缀 / 后缀 |
+| `prefix` | 数值前缀 | 前缀 / 后缀 |
+| `show-group-separator` | 是否展示进位分隔符（数字模式使用） | 前缀 / 后缀 |
+| `precision` | 小数保留位数（数字模式使用） | 前缀 / 后缀 |
+<!-- demo-config-notes:end -->
+
+通过 `prefix` / `suffix` 或同名插槽为数值添加单位、货币符号或趋势。
 
 ```demo
-../example/demos/api-review.vue
+../example/demos/prefix-suffix.vue
 ```
 
-<!-- api-review:end -->
+### 自定义数值
+
+未传入 `value` 时，可用默认插槽自定义数值内容。例如嵌入 `CountTo`。
+
+```demo
+../example/demos/custom-value.vue
+```
 
 ## API
 

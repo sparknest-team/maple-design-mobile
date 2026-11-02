@@ -3,18 +3,18 @@
     :class="
       classes(
         n(),
-        n(`--orientation-${orientation}`),
-        n(`--text-align-${textAlign}`),
-        n(`--type-${type}`),
+        n(`--orientation-${orientationValue}`),
+        n(`--text-align-${textAlignValue}`),
+        n(`--type-${typeValue}`),
         [withText(), n('--with-text')],
-        [withPresetInset, n(`--inset-${inset}`)],
-        [withPresetSpacing, n(`--spacing-${spacing}`)],
+        [withPresetInset, n(`--inset-${insetValue}`)],
+        [withPresetSpacing, n(`--spacing-${spacingValue}`)],
         [hairline, n('--hairline')],
       )
     "
     :style="rootStyle"
     role="separator"
-    :aria-orientation="orientation"
+    :aria-orientation="orientationValue"
   >
     <slot>
       <span v-if="description" :class="n('text')">{{ description }}</span>
@@ -25,31 +25,47 @@
 <script setup lang="ts">
 import { computed, useSlots, type CSSProperties } from 'vue'
 import { createNamespace } from '../utils/components'
+import { componentSizes, orientations } from '../utils/constants'
 import { toSizeUnit } from '../utils/elements'
-import { dividerProps } from './props'
+import {
+  dividerProps,
+  dividerTextAligns,
+  dividerTypes,
+  isValidDividerOpacity,
+  isValidDividerThickness,
+  resolveDividerSize,
+  type DividerSize,
+} from './props'
 
 defineOptions({ name: createNamespace('divider').name })
 const { n, classes } = createNamespace('divider')
 const props = defineProps(dividerProps)
 const slots = useSlots()
-const SIZE_PRESETS = ['xs', 'sm', 'md', 'lg', 'xl'] as const
+const orientationValue = computed(() => (orientations.includes(props.orientation) ? props.orientation : 'horizontal'))
+const textAlignValue = computed(() => (dividerTextAligns.includes(props.textAlign) ? props.textAlign : 'center'))
+const typeValue = computed(() => (dividerTypes.includes(props.type) ? props.type : 'solid'))
+const insetValue = computed(() => resolveDividerSize(props.inset))
+const spacingValue = computed(() => resolveDividerSize(props.spacing, 'md'))
 
 const withText = () => Boolean(slots.default || props.description)
 
-const withPresetInset = computed(() => SIZE_PRESETS.includes(props.inset as (typeof SIZE_PRESETS)[number]))
-const withPresetSpacing = computed(() => SIZE_PRESETS.includes(props.spacing as (typeof SIZE_PRESETS)[number]))
+const withPresetInset = computed(() => componentSizes.includes(insetValue.value as (typeof componentSizes)[number]))
+const withPresetSpacing = computed(() => componentSizes.includes(spacingValue.value as (typeof componentSizes)[number]))
 
 const rootStyle = computed(() => {
-  const { inset, spacing, orientation, hairline } = props
+  const { hairline } = props
+  const inset = insetValue.value,
+    spacing = spacingValue.value,
+    orientation = orientationValue.value
   const styles: CSSProperties & Record<string, string | number | undefined> = {}
 
-  if (props.thickness && !hairline) {
+  if (isValidDividerThickness(props.thickness) && !hairline) {
     styles['--mp-divider-border-width'] = toSizeUnit(props.thickness)
   }
   if (props.color) {
     styles['--mp-divider-color'] = props.color
   }
-  if (props.opacity != null) {
+  if (isValidDividerOpacity(props.opacity)) {
     styles['--mp-divider-opacity'] = String(props.opacity)
     styles.opacity = props.opacity
   }
@@ -81,13 +97,17 @@ const rootStyle = computed(() => {
   return styles
 })
 
-function resolveSpacingPair(size: number | string | Array<number | string>) {
+function resolveSpacingPair(size: DividerSize) {
+  const unit = (value: number | string) => {
+    const length = typeof value === 'string' ? value.trim() : value
+    return toSizeUnit(typeof length === 'string' && Number.isFinite(Number(length)) ? Number(length) : length) as string
+  }
   if (Array.isArray(size)) {
-    const start = toSizeUnit(size[0]) as string
-    const end = toSizeUnit(size.length > 1 ? size[1] : size[0]) as string
+    const start = unit(size[0])
+    const end = unit(size[1] ?? size[0])
     return [start, end] as const
   }
-  const value = toSizeUnit(size) as string
+  const value = unit(size)
   return [value, value] as const
 }
 </script>

@@ -59,3 +59,25 @@ const badStatus: FormItemProps = { validateStatus: 'primary' }
 // @ts-expect-error Content flex is boolean.
 const badContent: FormItemProps = { contentFlex: 'false' }
 void [decoration, badAsterisk, badStatus, badContent]
+
+const contentAlignment: FormProps = { contentAlign: 'right' }
+const itemContentAlignment: FormItemProps = { contentAlign: 'center' }
+// @ts-expect-error Content alignment is a closed enum.
+const invalidContentAlignment: FormItemProps = { contentAlign: 'stretch' }
+void [contentAlignment, itemContentAlignment, invalidContentAlignment]
+
+const contentAlignType: import('@maple-design/ui').FormContentAlign = 'center'
+void contentAlignType
+
+const directForm: FormProps = { editMode: 'direct', readPretty: false }
+const overlayItem: FormItemProps = { editMode: 'popup', readPretty: true }
+const editingType: import('@maple-design/ui').FieldEditMode = 'direct'
+// @ts-expect-error New edit-mode calls the direct mode direct, not inline.
+const invalidEditMode: FormProps = { editMode: 'inline' }
+void [directForm, overlayItem, editingType, invalidEditMode]
+
+// @ts-expect-error Legacy editing prop has been removed.
+const legacyEditing: FormProps = { presentation: 'popup' }
+// @ts-expect-error Legacy editing type has been removed.
+type LegacyEditing = import('@maple-design/ui').FieldPresentation
+void legacyEditing

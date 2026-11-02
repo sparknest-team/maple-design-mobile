@@ -2,7 +2,7 @@
 
 The same scenarios, parameters and interactions as Cedar. Only component prefixes differ; themes and site shells remain independent.
 
-## Examples
+## Basic examples
 
 ### Basic usage
 
@@ -12,19 +12,84 @@ Badges use a red background and white text by default.
 ../example/demos/basic.vue
 ```
 
-### Five sizes
+## Appearance and states
+
+### Statuses and colors
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `content` | Badge content | Statuses and colors, Appearance configuration comparison |
+| `status` | Semantic status | Statuses and colors |
+| `mode` | Layout mode | Statuses and colors |
+| `description` | Fallback description text | Statuses and colors |
+| `color` | Custom color; outline uses it for border and text | Statuses and colors |
+| `text-color` | Content text color | Statuses and colors |
+<!-- demo-config-notes:end -->
+
 
 ```demo
-../example/demos/size.vue
+../example/demos/color.vue
 ```
 
-### Solid and outline
+### Appearance configuration comparison
+
+Choose a dimension to compare all its values side by side while keeping other settings and content identical. Change the other settings to inspect combinations; input specimens share one model.
+
+<details>
+<summary>Configuration details and limits</summary>
+
+#### Appearance combinations
+
+Use this example for notification counts and markers. Adjust variant, status, size and compare the component with the same data. Keep the content unchanged while comparing the available settings.
+
+</details>
 
 ```demo
-../example/demos/variant.vue
+../example/demos/appearance-lab.vue
 ```
+
+## Layout and arrangement
+
+### Positions and offsets
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `position` | Physical corner or left/right midpoint inside the host box, default top-right. Only used in floating mode; RTL does not mirror it | Positions and offsets |
+| `content` | Badge content | Positions and offsets |
+| `dot` | Display a dot | Positions and offsets |
+| `offset-x` | Horizontal offset; ignored in inline mode | Positions and offsets |
+| `offset-y` | Vertical offset | Positions and offsets |
+| `mode` | Layout mode | Positions and offsets |
+<!-- demo-config-notes:end -->
+
+
+```demo
+../example/demos/position.vue
+```
+
+## Content and presentation
 
 ### Inline and standalone
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `content` | Badge content | Inline and standalone, Dot badges, Maximum and zero |
+| `dot` | Display a dot | Inline and standalone, Dot badges, Show and hide |
+| `description` | Fallback description text | Inline and standalone, Show and hide |
+| `show-zero` | Show numeric zero | Maximum and zero, Show and hide |
+| `mode` | Layout mode | Inline and standalone |
+| `inline-position` | Inline badge at the logical start or end of the host content, default end. Only used in inline mode | Inline and standalone |
+<!-- demo-config-notes:end -->
+
 
 ```demo
 ../example/demos/inline.vue
@@ -36,28 +101,10 @@ Badges use a red background and white text by default.
 ../example/demos/dot.vue
 ```
 
-### Custom content
-
-```demo
-../example/demos/content.vue
-```
-
 ### Maximum and zero
 
 ```demo
 ../example/demos/max.vue
-```
-
-### Statuses and colors
-
-```demo
-../example/demos/color.vue
-```
-
-### Positions and offsets
-
-```demo
-../example/demos/position.vue
 ```
 
 ### Show and hide
@@ -66,41 +113,43 @@ Badges use a red background and white text by default.
 ../example/demos/show.vue
 ```
 
-### Appearance combinations
+## Customization and slots
 
-Use this example for notification counts and markers. Adjust variant, status, size and compare the component with the same data. Keep the content unchanged while comparing the available settings.
+### Custom content
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `content` | Badge content | Custom content |
+| `mode` | Layout mode | Custom content |
+| `inline-position` | Inline badge at the logical start or end of the host content, default end. Only used in inline mode | Custom content |
+<!-- demo-config-notes:end -->
+
 
 ```demo
-../example/demos/appearance-lab.vue
+../example/demos/content.vue
 ```
-
-<!-- api-review:start -->
-### Feature playground
-
-```demo
-../example/demos/api-review.vue
-```
-
-<!-- api-review:end -->
 
 ## API
 
 <!-- same-source-api:start -->
 ### Props
 
-| Prop | Description | Type | Default |
-| --- | --- | --- | --- |
+| Parameter | Description | Type | Default |
+| --------------- | ---------------------------------------------------------------------------------- | -------------------------------------------------------------- | :---------: |
 | description | Fallback description text | `string` | `-` |
 | content | Badge content | `number \| string` | `-` |
-| max | Numeric overflow shows max+; strings are not capped | `number` | `99` |
+| max | Maximum displayed numeric badge value. Numeric content above this value is shown as `${max}+`. | `number` | `99` |
 | dot | Display a dot | `boolean` | `false` |
 | offset-x | Horizontal offset; ignored in inline mode | `number` | `0` |
 | offset-y | Vertical offset | `number` | `0` |
 | color | Custom color; outline uses it for border and text | `string` | `-` |
 | text-color | Content text color | `string` | `-` |
 | mode | Layout mode | `'floating' \| 'inline'` | `floating` |
-| position | Physical floating position, unchanged in RTL | `'top-right' \| 'top-left' \| 'bottom-right' \| 'bottom-left' \| 'left' \| 'right'` | `top-right` |
-| inline-position | Logical inline position | `'start' \| 'end'` | `end` |
+| position | Physical corner or left/right midpoint inside the host box, default top-right. Only used in floating mode; RTL does not mirror it | `'top-right' \| 'top-left' \| 'bottom-right' \| 'bottom-left' \| 'left' \| 'right'` | `top-right` |
+| inline-position | Inline badge at the logical start or end of the host content, default end. Only used in inline mode | `'start' \| 'end'` | `end` |
 | size | Size | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `md` |
 | status | Semantic status | `SemanticStatus` | `danger` |
 | show | Show the badge | `boolean` | `true` |
@@ -109,14 +158,14 @@ Use this example for notification counts and markers. Adjust variant, status, si
 
 ### Events
 
-No component-defined events.
+No component-specific events.
 
 ### Slots
 
 | Slot | Description | Arguments |
-| --- | --- | --- |
-| default | Wrapped content; overrides description | — |
-| content | Custom badge content | — |
+| ------- | ---------------- | ---- |
+| default | Fallback description text | - |
+| content | Content displayed inside the badge | - |
 
 ### Methods
 
@@ -124,10 +173,10 @@ No public methods.
 
 ### Platform notes
 
-Props and slots match. Without a default slot or description, the badge becomes standalone inline content. Omitted content displays a dot. Direction, theme and CSS prefix come from each platform.
+Props and slots match across platforms. Without a default slot and with an empty description, the badge renders independently inline. Omitting content displays a dot. Each library reads text direction from its own configuration and supplies its own theme colors and CSS prefix.
 <!-- same-source-api:end -->
 
-## Types
+## Type definitions
 
 ```ts
 type SemanticStatus = 'default' | 'success' | 'warning' | 'danger' | 'info' | 'primary' | 'secondary' | 'tertiary'
@@ -138,9 +187,9 @@ type BadgeInlinePosition = 'start' | 'end'
 type BadgeSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 ```
 
-## Style Variables
+## Style variables
 
-All public Badge variables and their default values:
+All public Badge variables and defaults:
 
 | Variable | Default |
 | --- | --- |
@@ -229,4 +278,4 @@ Colored outline text and borders follow Button, using the matching `content-bran
 
 ### Color override boundaries
 
-Fallback and danger fills use red backgrounds with white text: danger step 7 in light themes and step 4 in dark themes. The fixed neutral default fill and gray secondary/tertiary fills are intentional; override border-color to match a different host surface. Custom color/text-color contrast is caller-owned.
+The bg-color fallback and danger fill use red backgrounds with white text: danger level 7 in light mode and level 4 in dark mode. Fixed neutral light gray and secondary/tertiary gray levels are intentional component colors. Override the border-color isolation ring to match the host surface. Callers must ensure contrast for custom color/text-color values.

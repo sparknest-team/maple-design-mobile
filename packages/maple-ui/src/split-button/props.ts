@@ -26,13 +26,10 @@ export const splitButtonProps = {
   textColor: buttonGroupProps.textColor,
   /** 按钮组海拔阴影 */
   elevation: buttonGroupProps.elevation,
-  /** 主按钮是否自动进入加载状态 */
-  autoLoading: buttonProps.autoLoading,
-  /** 主按钮点击回调，Promise 返回值用于 autoLoading */
-  onClick: buttonProps.onClick,
   /** 菜单触发方式 */
   trigger: menuProps.trigger,
   /** 菜单弹出位置 */
+  /** 浮层相对触发元素的首选方位，默认 bottom；启用默认的 auto-fit-position 时，空间不足会自动翻转并约束到可视区域，不保证最终停在该侧 */
   placement: menuProps.placement,
   /** 菜单挂载容器 */
   popupContainer: popupContainerProp,

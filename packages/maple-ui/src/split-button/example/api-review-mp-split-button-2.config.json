@@ -102,13 +102,6 @@
       "initial": "{}"
     },
     {
-      "name": "auto-loading",
-      "description": "主按钮异步点击时是否自动进入加载状态",
-      "type": "boolean",
-      "defaultValue": "undefined",
-      "kind": "boolean"
-    },
-    {
       "name": "trigger",
       "description": "菜单触发方式",
       "type": "TriggerEvent | TriggerEvent[]",

@@ -11,6 +11,7 @@ import {
   Text,
   type VNode,
 } from 'vue'
+import { useDirection } from '../_utils/direction'
 import { createNamespace } from '../utils/components'
 import { usePopupContainer } from '../utils/popup-container'
 import { useTriggerInteraction } from './interaction'
@@ -19,10 +20,9 @@ import TriggerPopup from './popup'
 import { useTriggerPositioner } from './positioner'
 import { triggerProps } from './props'
 import { useTriggerReference, useTriggerReferenceAttrs, useTriggerTarget } from './reference'
+import { isTriggerReferenceListener, useTriggerReferenceListeners } from './reference-listeners'
 import { useTriggerRender } from './render'
 import { useTriggerState } from './state'
-
-const REFERENCE_EVENTS = ['onClick', 'onMouseenter', 'onMouseleave', 'onFocusin', 'onFocusout', 'onContextmenu']
 
 function mergeFirstReferenceClass(nodes: VNode[], value: unknown): VNode[] {
   if (!value) {
@@ -83,6 +83,11 @@ export default defineComponent({
     const point = ref<{ x: number; y: number }>()
     const { nodes, element: slotElement } = useTriggerReference()
     const { element: reference, getReference, setReference } = useTriggerTarget(slotElement, () => props.reference)
+    const { dir } = useDirection(
+      () => reference.value,
+      () => props.dir ?? attrs.dir,
+    )
+    useTriggerReferenceListeners(reference, attrs)
     const { visible, request } = useTriggerState(props, (event, value) => {
       if (event === 'update:open') {
         emit('update:open', value)
@@ -115,6 +120,7 @@ export default defineComponent({
     )
 
     const positioner = useTriggerPositioner(props, {
+      direction: dir,
       reference,
       popup,
       visible,
@@ -135,16 +141,11 @@ export default defineComponent({
         nextTick(positioner.update)
       },
       onOutside: (event) => emit('click-outside', event),
-      onReferenceEvent: (eventName, event) => {
-        const handlers = (attrs as Record<string, any>)[eventName]
-        for (const handler of Array.isArray(handlers) ? handlers : [handlers]) {
-          handler?.(event)
-        }
-      },
     })
-    const popupAttrs = computed(() =>
-      Object.fromEntries(Object.entries(attrs).filter(([key]) => !REFERENCE_EVENTS.includes(key))),
-    )
+    const popupAttrs = computed(() => ({
+      ...Object.fromEntries(Object.entries(attrs).filter(([key]) => !isTriggerReferenceListener(key))),
+      dir: dir.value,
+    }))
 
     expose({
       open: interaction.open,

@@ -1,0 +1,15 @@
+{
+  "archive": "acceptance-tools.tar.gz",
+  "temporaryDirectory": "/private/tmp/maple-acceptance-tools-wppwz3z_",
+  "restore": "Extract acceptance-tools.tar.gz into this evidence directory to restore the original relative paths.",
+  "sha256": {
+    "fixture/app.js": "9a7cd284af42a90dd0846c8329459a224e0cfff5c3a3f3376325e139081bdab2",
+    "fixture/build.mjs": "c2a79cbfbb9fca292fb8a8262713022a0bfd9cb23e9b57fb6dff9e23a35be32e",
+    "fixture/index.html": "40ed89ceb3a923c38c03d99911214cfe2234993a7a1cc098c5fb74ef5b38cb25",
+    "fixture/main.js": "181499cf44449cab130fc005b9e4b1f0151fda3524c058ac205b7be9679ac066",
+    "fixture/site/assets/index-Byk_G6NF.js": "768f982b8fedfbd4c7c8dd6529ee81521cd29ff3ac991e7e29eadedec83317c2",
+    "fixture/site/assets/index-Du2AMcxc.css": "6818792198a789db47824c03d521a855f6fcc1baf915c31fa30d92b0dd0d3773",
+    "fixture/site/index.html": "12dcaac3328ea3ee58893bb0ab8cb54ccfbd1c1aa331c5a6a77132112b0bbc0b",
+    "presentation-browser.mjs": "7765a157143e6cc5977a9b927989e5bca043cb986aef0dac144b63f4386795fc"
+  }
+}

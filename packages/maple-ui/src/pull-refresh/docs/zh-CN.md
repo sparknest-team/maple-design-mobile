@@ -2,24 +2,13 @@
 
 用于在列表顶部提供下拉刷新交互。
 
-## 案例
+## 基础示例
 
 ### 基本使用
 
 ```demo
 ../example/demos/basic.vue
 ```
-
-## 计时与生命周期
-
-<!-- api-review:start -->
-### 功能调试
-
-```demo
-../example/demos/api-review.vue
-```
-
-<!-- api-review:end -->
 
 ## API
 

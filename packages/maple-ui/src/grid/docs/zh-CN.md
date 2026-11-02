@@ -8,7 +8,7 @@ CSS Grid 布局：列数、跨列、间距、折叠与后缀。24 栏 Flex 布�
 > - Row + Col：适合 24 栏 Flex 布局，需要水平/垂直对齐、控制换行、固定宽度与自适应宽度组合，或响应式排序时使用。Row 控制整行，Col 控制列宽、偏移和排序。
 > - Space：适合按钮、标签、文字等简单排列，只需要间距、方向和对齐时使用；更自由的宽度分配可使用原生 Flex。
 
-## 案例
+## 基础示例
 
 ### 列数、跨列与偏移
 
@@ -16,7 +16,39 @@ CSS Grid 布局：列数、跨列、间距、折叠与后缀。24 栏 Flex 布�
 ../example/demos/basic.vue
 ```
 
+## 布局与排列
+
+### 响应式列数、间距与跨列
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `cols` | 每行列数，最少为 1 | 响应式列数、间距与跨列 |
+| `col-gap` | 列间距（px） | 响应式列数、间距与跨列 |
+| `row-gap` | 行间距（px） | 响应式列数、间距与跨列 |
+<!-- demo-config-notes:end -->
+
+```demo
+../example/demos/responsive.vue
+```
+
+## 自定义与插槽
+
 ### 折叠行数与后缀插槽
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `cols` | 每行列数，最少为 1 | 折叠行数与后缀插槽 |
+| `col-gap` | 列间距（px） | 折叠行数与后缀插槽 |
+| `row-gap` | 行间距（px） | 折叠行数与后缀插槽 |
+| `collapsed` | 折叠超出的行 | 折叠行数与后缀插槽 |
+| `collapsed-rows` | 折叠时保留行数，最少为 1 | 折叠行数与后缀插槽 |
+<!-- demo-config-notes:end -->
 
 示例由父级保存 `collapsed` 和行数；More/Less 与开关修改同一状态。4列折叠1行时展示3项及后缀，2行时展示7项及后缀；展开后展示全部9项及后缀。后缀占一个网格位置，不是浮在内容之上的额外按钮。
 
@@ -24,13 +56,20 @@ CSS Grid 布局：列数、跨列、间距、折叠与后缀。24 栏 Flex 布�
 ../example/demos/collapse.vue
 ```
 
-### 响应式列数、间距与跨列
-
-```demo
-../example/demos/responsive.vue
-```
+## 交互与控制
 
 ### 动态插入、删除与排序
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `cols` | 每行列数，最少为 1 | 动态插入、删除与排序 |
+| `col-gap` | 列间距（px） | 动态插入、删除与排序 |
+| `row-gap` | 行间距（px） | 动态插入、删除与排序 |
+| `collapsed` | 折叠超出的行 | 动态插入、删除与排序 |
+<!-- demo-config-notes:end -->
 
 按钮只修改本例的数据数组；删除至空时禁用 Remove first，后缀显示 End。重新插入后恢复布局与删除能力。Grid 本身不提供新增/删除业务事件。
 
@@ -38,15 +77,6 @@ CSS Grid 布局：列数、跨列、间距、折叠与后缀。24 栏 Flex 布�
 ```demo
 ../example/demos/dynamic.vue
 ```
-
-<!-- api-review:start -->
-### 功能调试
-
-```demo
-../example/demos/api-review.vue
-```
-
-<!-- api-review:end -->
 
 ## API
 

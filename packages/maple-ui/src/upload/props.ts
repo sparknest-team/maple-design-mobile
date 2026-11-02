@@ -1,5 +1,6 @@
 import type { PropType } from 'vue'
 import { fieldPresentationProps } from '../_components/field-presentation/props'
+import { emptyValueProp } from '../utils/empty-value'
 import type {
   UploadBeforeRead,
   UploadBeforeRemove,
@@ -18,7 +19,8 @@ import type {
 
 export const uploadProps = {
   ...fieldPresentationProps,
-  modelValue: Array as PropType<UploadFileItem[]>,
+  emptyValue: emptyValueProp<UploadFileItem[]>(),
+  modelValue: Array as PropType<UploadFileItem[] | null>,
   defaultValue: {
     type: Array as PropType<UploadFileItem[]>,
     default: () => [],
@@ -26,6 +28,8 @@ export const uploadProps = {
   accept: String,
   capture: [String, Boolean] as PropType<UploadCapture>,
   multiple: Boolean,
+  /** Enable replacement of a selected file without first removing it. */
+  reupload: Boolean,
   directory: Boolean,
   draggable: Boolean,
   disabled: { type: Boolean, default: undefined },

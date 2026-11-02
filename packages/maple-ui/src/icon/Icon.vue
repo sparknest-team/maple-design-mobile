@@ -7,7 +7,17 @@
 
 <script setup lang="ts">
 import type { CSSProperties } from 'vue'
-import { computed, getCurrentInstance, onActivated, onBeforeUnmount, onDeactivated, onMounted, ref, watch } from 'vue'
+import {
+  computed,
+  getCurrentInstance,
+  onActivated,
+  onBeforeUnmount,
+  onBeforeUpdate,
+  onDeactivated,
+  onMounted,
+  ref,
+  watch,
+} from 'vue'
 import { createNamespace } from '../utils/components'
 import { toSizeUnit } from '../utils/elements'
 import { registeredPrefix, spinClass } from './platform'
@@ -20,6 +30,15 @@ defineOptions({
 const props = defineProps(iconProps)
 const emit = defineEmits<{ click: [event: MouseEvent] }>()
 const instance = getCurrentInstance()
+const slots = instance!.slots
+let hasDefaultSlot = Boolean(slots.default)
+onBeforeUpdate(() => {
+  if (hasDefaultSlot !== Boolean(slots.default)) {
+    hasDefaultSlot = !hasDefaultSlot
+    cancelTransition()
+    nextName.value = props.name
+  }
+})
 const prefixCls = createNamespace('icon').n()
 const nextName = ref<string>()
 const animateInProgress = ref(false)
@@ -131,7 +150,7 @@ watch(
       return
     }
     const duration = transitionDuration.value
-    if (!active || reduce || newName === oldName || oldName == null || duration === 0) {
+    if (hasDefaultSlot || !active || reduce || newName === oldName || oldName == null || duration === 0) {
       nextName.value = newName
       return
     }

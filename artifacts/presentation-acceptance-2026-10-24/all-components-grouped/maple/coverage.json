@@ -1,0 +1,3768 @@
+{
+  "library": "maple",
+  "components": 91,
+  "sourcesStable": true,
+  "sourceFingerprint": "7800248a161dd33a0b97b46cf4329be7548ef45893f37e28e08d5f0612c8d7e1",
+  "buildIndexHash": "e12a1fa1d3ccae5e12fcfeac9965c69071ab9fe4074d2ef376d8d2c1e7d3df2a",
+  "node": "v20.18.3",
+  "productionInputsStable": true,
+  "productionFingerprint": "0274f972b389f02c294e353c953276654046d606f2c334799b9e1ec8038e953b",
+  "concurrency": 2,
+  "expectedComponentCases": 364,
+  "expectedGuideCases": 16,
+  "completedComponentCases": 364,
+  "results": [
+    {
+      "component": "affix",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/affix/example/demos/basic.vue",
+      "checkedSources": 7,
+      "result": "affix",
+      "passed": true
+    },
+    {
+      "component": "action-sheet",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/action-sheet/example/demos/function-call.vue",
+      "checkedSources": 3,
+      "result": "action-sheet",
+      "passed": true
+    },
+    {
+      "component": "alert",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/alert/example/demos/variant.vue",
+      "checkedSources": 13,
+      "result": "alert",
+      "passed": true
+    },
+    {
+      "component": "auto-complete",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/auto-complete/example/demos/zh-CN/basic.vue",
+      "checkedSources": 14,
+      "result": "auto-complete",
+      "passed": true
+    },
+    {
+      "component": "avatar",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/avatar/example/demos/basic.vue",
+      "checkedSources": 13,
+      "result": "avatar: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "back-top",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/back-top/example/demos/basic-usage.vue",
+      "checkedSources": 6,
+      "result": "back-top",
+      "passed": true
+    },
+    {
+      "component": "badge",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/badge/example/demos/basic.vue",
+      "checkedSources": 12,
+      "result": "badge: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "breadcrumb",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/breadcrumb/example/demos/basic-usage.vue",
+      "checkedSources": 8,
+      "result": "breadcrumb: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "card",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/card/example/demos/basic.vue",
+      "checkedSources": 13,
+      "result": "card: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "button",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/button/example/demos/variants.vue",
+      "checkedSources": 17,
+      "result": "button",
+      "passed": true
+    },
+    {
+      "component": "carousel",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/carousel/example/demos/basic-usage.vue",
+      "checkedSources": 23,
+      "result": "carousel",
+      "passed": true
+    },
+    {
+      "component": "cascader",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/cascader/example/demos/placeholder.vue",
+      "checkedSources": 13,
+      "result": "cascader",
+      "passed": true
+    },
+    {
+      "component": "cell",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/cell/example/demos/basic-usage.vue",
+      "checkedSources": 6,
+      "result": "cell: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "code",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/code/example/demos/basic-usage.vue",
+      "checkedSources": 3,
+      "result": "code: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "checkbox",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/checkbox/example/demos/basic-usage.vue",
+      "checkedSources": 20,
+      "result": "checkbox",
+      "passed": true
+    },
+    {
+      "component": "col",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/col/example/demos/basic.vue",
+      "checkedSources": 5,
+      "result": "col: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "collapse",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/collapse/example/demos/basic.vue",
+      "checkedSources": 14,
+      "result": "collapse",
+      "passed": true
+    },
+    {
+      "component": "count-to",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/count-to/example/demos/basic-usage.vue",
+      "checkedSources": 7,
+      "result": "count-to",
+      "passed": true
+    },
+    {
+      "component": "counter",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/counter/example/demos/basic-usage.vue",
+      "checkedSources": 9,
+      "result": "counter",
+      "passed": true
+    },
+    {
+      "component": "countdown",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/countdown/example/demos/basic-usage.vue",
+      "checkedSources": 7,
+      "result": "countdown",
+      "passed": true
+    },
+    {
+      "component": "date-range",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/date-range/example/demos/basic-usage.vue",
+      "checkedSources": 22,
+      "result": "temporal",
+      "passed": true
+    },
+    {
+      "component": "dialog",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/dialog/example/demos/basic-usage.vue",
+      "checkedSources": 13,
+      "result": "dialog",
+      "passed": true
+    },
+    {
+      "component": "date",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/date/example/demos/basic-usage.vue",
+      "checkedSources": 30,
+      "result": "temporal",
+      "passed": true
+    },
+    {
+      "component": "divider",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/divider/example/demos/basic-usage.vue",
+      "checkedSources": 9,
+      "result": "divider: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "drag",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/drag/example/demos/basic-use.vue",
+      "checkedSources": 7,
+      "result": "drag",
+      "passed": true
+    },
+    {
+      "component": "ellipsis",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/ellipsis/example/demos/expand.vue",
+      "checkedSources": 6,
+      "result": "ellipsis",
+      "passed": true
+    },
+    {
+      "component": "empty",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/empty/example/demos/basic-usage.vue",
+      "checkedSources": 6,
+      "result": "empty: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "field-decorator",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/field-decorator/example/demos/control-sizes.vue",
+      "checkedSources": 2,
+      "result": "field-decorator: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "fab",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/fab/example/demos/basic.vue",
+      "checkedSources": 11,
+      "result": "fab",
+      "passed": true
+    },
+    {
+      "component": "form-details",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/form-details/example/demos/api-review.vue",
+      "checkedSources": 1,
+      "result": "form-details: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "floating-panel",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/floating-panel/example/demos/basic.vue",
+      "checkedSources": 2,
+      "result": "floating-panel",
+      "passed": true
+    },
+    {
+      "component": "grid",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/grid/example/demos/basic.vue",
+      "checkedSources": 5,
+      "result": "grid: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "highlighter-provider",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/highlighter-provider/example/demos/api-review.vue",
+      "checkedSources": 1,
+      "result": "highlighter-provider",
+      "passed": true
+    },
+    {
+      "component": "hover",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/hover/example/demos/style-binding.vue",
+      "checkedSources": 3,
+      "result": "hover",
+      "passed": true
+    },
+    {
+      "component": "form",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/form/example/demos/events.vue",
+      "checkedSources": 31,
+      "result": "form",
+      "passed": true
+    },
+    {
+      "component": "icon",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/icon/example/demos/basic.vue",
+      "checkedSources": 10,
+      "result": "icon: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "index-bar",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/index-bar/example/demos/basic.vue",
+      "checkedSources": 3,
+      "result": "index-bar",
+      "passed": true
+    },
+    {
+      "component": "image",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/image/example/demos/basic.vue",
+      "checkedSources": 22,
+      "result": "image",
+      "passed": true
+    },
+    {
+      "component": "infinite-scroll",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/infinite-scroll/example/demos/basic.vue",
+      "checkedSources": 5,
+      "result": "infinite-scroll",
+      "passed": true
+    },
+    {
+      "component": "input-number",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/input-number/example/demos/field-basic.vue",
+      "checkedSources": 11,
+      "result": "input-number",
+      "passed": true
+    },
+    {
+      "component": "lazy",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/lazy/example/demos/basic-usage.vue",
+      "checkedSources": 3,
+      "result": "lazy",
+      "passed": true
+    },
+    {
+      "component": "input",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/input/example/demos/default-value.vue",
+      "checkedSources": 21,
+      "result": "input",
+      "passed": true
+    },
+    {
+      "component": "link",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/link/example/demos/basic.vue",
+      "checkedSources": 10,
+      "result": "link: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "list",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/list/example/demos/basic-usage.vue",
+      "checkedSources": 7,
+      "result": "list: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "loading",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/loading/example/demos/size.vue",
+      "checkedSources": 6,
+      "result": "loading: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "loading-bar",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/loading-bar/example/demos/basic.vue",
+      "checkedSources": 2,
+      "result": "loading-bar",
+      "passed": true
+    },
+    {
+      "component": "locale-provider",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/locale-provider/example/demos/api-review.vue",
+      "checkedSources": 1,
+      "result": "locale",
+      "passed": true
+    },
+    {
+      "component": "locale",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/locale-provider/example/demos/api-review.vue",
+      "checkedSources": 1,
+      "result": "locale",
+      "passed": true
+    },
+    {
+      "component": "message",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/message/example/demos/function-call.vue",
+      "checkedSources": 6,
+      "result": "message",
+      "passed": true
+    },
+    {
+      "component": "notice-bar",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/notice-bar/example/demos/basic.vue",
+      "checkedSources": 2,
+      "result": "notice-bar",
+      "passed": true
+    },
+    {
+      "component": "menu",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/menu/example/demos/overflow-actions.vue",
+      "checkedSources": 15,
+      "result": "menu",
+      "passed": true
+    },
+    {
+      "component": "number-keyboard",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/number-keyboard/example/demos/basic.vue",
+      "checkedSources": 2,
+      "result": "number-keyboard",
+      "passed": true
+    },
+    {
+      "component": "overlay",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/overlay/example/demos/overlay-base.vue",
+      "checkedSources": 4,
+      "result": "overlay",
+      "passed": true
+    },
+    {
+      "component": "page-header",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/page-header/example/demos/basic-usage.vue",
+      "checkedSources": 5,
+      "result": "page-header: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "pagination",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/pagination/example/demos/basic.vue",
+      "checkedSources": 13,
+      "result": "pagination",
+      "passed": true
+    },
+    {
+      "component": "paper",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/paper/example/demos/basic-usage.vue",
+      "checkedSources": 8,
+      "result": "paper: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "picker",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/picker/example/demos/disabled.vue",
+      "checkedSources": 10,
+      "result": "picker",
+      "passed": true
+    },
+    {
+      "component": "popover",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/popover/example/demos/basic-usage.vue",
+      "checkedSources": 10,
+      "result": "popover",
+      "passed": true
+    },
+    {
+      "component": "popup",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/popup/example/demos/popup-position.vue",
+      "checkedSources": 5,
+      "result": "popup",
+      "passed": true
+    },
+    {
+      "component": "progress-group",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/progress-group/example/demos/basic.vue",
+      "checkedSources": 8,
+      "result": "progress-group: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "progress",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/progress/example/demos/basic-usage.vue",
+      "checkedSources": 10,
+      "result": "progress: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "pull-refresh",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/pull-refresh/example/demos/basic.vue",
+      "checkedSources": 2,
+      "result": "pull-refresh",
+      "passed": true
+    },
+    {
+      "component": "radio",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/radio/example/demos/basic-usage.vue",
+      "checkedSources": 18,
+      "result": "radio",
+      "passed": true
+    },
+    {
+      "component": "result",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/result/example/demos/basic-usage.vue",
+      "checkedSources": 3,
+      "result": "result: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "rate",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/rate/example/demos/basic-usage.vue",
+      "checkedSources": 12,
+      "result": "rate",
+      "passed": true
+    },
+    {
+      "component": "ripple",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/ripple/example/demos/basic-usage.vue",
+      "checkedSources": 5,
+      "result": "ripple",
+      "passed": true
+    },
+    {
+      "component": "row",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/row/example/demos/basic.vue",
+      "checkedSources": 7,
+      "result": "row: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "search",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/search/example/demos/basic.vue",
+      "checkedSources": 10,
+      "result": "search",
+      "passed": true
+    },
+    {
+      "component": "signature",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/signature/example/demos/basic-usage.vue",
+      "checkedSources": 3,
+      "result": "signature",
+      "passed": true
+    },
+    {
+      "component": "select",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/select/example/demos/standard.vue",
+      "checkedSources": 25,
+      "result": "select",
+      "passed": true
+    },
+    {
+      "component": "skeleton",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/skeleton/example/demos/basic-usage.vue",
+      "checkedSources": 7,
+      "result": "skeleton: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "slider",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/slider/example/demos/basic-usage.vue",
+      "checkedSources": 16,
+      "result": "slider",
+      "passed": true
+    },
+    {
+      "component": "space",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/space/example/demos/base-use.vue",
+      "checkedSources": 12,
+      "result": "space: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "split-button",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/split-button/example/basic.vue",
+      "checkedSources": 10,
+      "result": "split-button",
+      "passed": true
+    },
+    {
+      "component": "statistic",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/statistic/example/demos/basic-usage.vue",
+      "checkedSources": 8,
+      "result": "statistic: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "steps",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/steps/example/demos/basic-usage.vue",
+      "checkedSources": 6,
+      "result": "steps",
+      "passed": true
+    },
+    {
+      "component": "style-provider",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/style-provider/example/demos/basic.vue",
+      "checkedSources": 2,
+      "result": "style-provider",
+      "passed": true
+    },
+    {
+      "component": "swipe-cell",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/swipe-cell/example/demos/basic.vue",
+      "checkedSources": 4,
+      "result": "swipe-cell",
+      "passed": true
+    },
+    {
+      "component": "switch",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/switch/example/demos/basic.vue",
+      "checkedSources": 16,
+      "result": "switch",
+      "passed": true
+    },
+    {
+      "component": "tab-bar",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/tab-bar/example/demos/basic-usage.vue",
+      "checkedSources": 13,
+      "result": "tab-bar",
+      "passed": true
+    },
+    {
+      "component": "table",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/table/example/demos/basic-usage.vue",
+      "checkedSources": 4,
+      "result": "table: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "tabs",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/tabs/example/demos/basic.vue",
+      "checkedSources": 13,
+      "result": "tabs",
+      "passed": true
+    },
+    {
+      "component": "tag",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/tag/example/demos/closable-tag.vue",
+      "checkedSources": 11,
+      "result": "tag",
+      "passed": true
+    },
+    {
+      "component": "textarea",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/textarea/example/demos/demo-1.vue",
+      "checkedSources": 10,
+      "result": "textarea",
+      "passed": true
+    },
+    {
+      "component": "time-range",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/time-range/example/demos/basic-usage.vue",
+      "checkedSources": 19,
+      "result": "temporal",
+      "passed": true
+    },
+    {
+      "component": "tooltip",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/tooltip/example/demos/basic-usage.vue",
+      "checkedSources": 12,
+      "result": "tooltip",
+      "passed": true
+    },
+    {
+      "component": "time",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/time/example/demos/basic-usage.vue",
+      "checkedSources": 27,
+      "result": "temporal",
+      "passed": true
+    },
+    {
+      "component": "trigger",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/trigger/example/demos/basic.vue",
+      "checkedSources": 4,
+      "result": "trigger",
+      "passed": true
+    },
+    {
+      "component": "verification-code",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/verification-code/example/demos/basic.vue",
+      "checkedSources": 7,
+      "result": "verification-code",
+      "passed": true
+    },
+    {
+      "component": "upload",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/upload/example/demos/read-only.vue",
+      "checkedSources": 27,
+      "result": "upload",
+      "passed": true
+    },
+    {
+      "component": "watermark",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/watermark/example/demos/text-watermark.vue",
+      "checkedSources": 8,
+      "result": "watermark",
+      "passed": true
+    },
+    {
+      "component": "action-sheet",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/action-sheet/example/demos/function-call.vue",
+      "checkedSources": 1,
+      "result": "action-sheet",
+      "passed": true
+    },
+    {
+      "component": "affix",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/affix/example/demos/basic.vue",
+      "checkedSources": 1,
+      "result": "affix",
+      "passed": true
+    },
+    {
+      "component": "alert",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/alert/example/demos/variant.vue",
+      "checkedSources": 1,
+      "result": "alert",
+      "passed": true
+    },
+    {
+      "component": "avatar",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/avatar/example/demos/basic.vue",
+      "checkedSources": 1,
+      "result": "avatar: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "auto-complete",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/auto-complete/example/demos/zh-CN/basic.vue",
+      "checkedSources": 1,
+      "result": "auto-complete",
+      "passed": true
+    },
+    {
+      "component": "back-top",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/back-top/example/demos/basic-usage.vue",
+      "checkedSources": 1,
+      "result": "back-top",
+      "passed": true
+    },
+    {
+      "component": "badge",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/badge/example/demos/basic.vue",
+      "checkedSources": 1,
+      "result": "badge: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "breadcrumb",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/breadcrumb/example/demos/basic-usage.vue",
+      "checkedSources": 1,
+      "result": "breadcrumb: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "card",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/card/example/demos/basic.vue",
+      "checkedSources": 1,
+      "result": "card: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "button",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/button/example/demos/variants.vue",
+      "checkedSources": 2,
+      "result": "button",
+      "passed": true
+    },
+    {
+      "component": "carousel",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/carousel/example/demos/basic-usage.vue",
+      "checkedSources": 1,
+      "result": "carousel",
+      "passed": true
+    },
+    {
+      "component": "cascader",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/cascader/example/demos/placeholder.vue",
+      "checkedSources": 1,
+      "result": "cascader",
+      "passed": true
+    },
+    {
+      "component": "cell",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/cell/example/demos/basic-usage.vue",
+      "checkedSources": 1,
+      "result": "cell: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "checkbox",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/checkbox/example/demos/basic-usage.vue",
+      "checkedSources": 1,
+      "result": "checkbox",
+      "passed": true
+    },
+    {
+      "component": "code",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/code/example/demos/basic-usage.vue",
+      "checkedSources": 1,
+      "result": "code: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "col",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/col/example/demos/basic.vue",
+      "checkedSources": 1,
+      "result": "col: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "collapse",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/collapse/example/demos/basic.vue",
+      "checkedSources": 1,
+      "result": "collapse",
+      "passed": true
+    },
+    {
+      "component": "count-to",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/count-to/example/demos/basic-usage.vue",
+      "checkedSources": 1,
+      "result": "count-to",
+      "passed": true
+    },
+    {
+      "component": "countdown",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/countdown/example/demos/basic-usage.vue",
+      "checkedSources": 1,
+      "result": "countdown",
+      "passed": true
+    },
+    {
+      "component": "counter",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/counter/example/demos/basic-usage.vue",
+      "checkedSources": 1,
+      "result": "counter",
+      "passed": true
+    },
+    {
+      "component": "date-range",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/date-range/example/demos/basic-usage.vue",
+      "checkedSources": 2,
+      "result": "temporal",
+      "passed": true
+    },
+    {
+      "component": "date",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/date/example/demos/basic-usage.vue",
+      "checkedSources": 1,
+      "result": "temporal",
+      "passed": true
+    },
+    {
+      "component": "divider",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/divider/example/demos/basic-usage.vue",
+      "checkedSources": 1,
+      "result": "divider: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "dialog",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/dialog/example/demos/basic-usage.vue",
+      "checkedSources": 1,
+      "result": "dialog",
+      "passed": true
+    },
+    {
+      "component": "ellipsis",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/ellipsis/example/demos/expand.vue",
+      "checkedSources": 2,
+      "result": "ellipsis",
+      "passed": true
+    },
+    {
+      "component": "drag",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/drag/example/demos/basic-use.vue",
+      "checkedSources": 1,
+      "result": "drag",
+      "passed": true
+    },
+    {
+      "component": "empty",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/empty/example/demos/basic-usage.vue",
+      "checkedSources": 1,
+      "result": "empty: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "fab",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/fab/example/demos/basic.vue",
+      "checkedSources": 1,
+      "result": "fab",
+      "passed": true
+    },
+    {
+      "component": "field-decorator",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/field-decorator/example/demos/control-sizes.vue",
+      "checkedSources": 1,
+      "result": "field-decorator: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "form-details",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/form-details/example/demos/api-review.vue",
+      "checkedSources": 1,
+      "result": "form-details: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "floating-panel",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/floating-panel/example/demos/basic.vue",
+      "checkedSources": 1,
+      "result": "floating-panel",
+      "passed": true
+    },
+    {
+      "component": "grid",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/grid/example/demos/basic.vue",
+      "checkedSources": 1,
+      "result": "grid: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "form",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/form/example/demos/events.vue",
+      "checkedSources": 2,
+      "result": "form",
+      "passed": true
+    },
+    {
+      "component": "highlighter-provider",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/highlighter-provider/example/demos/api-review.vue",
+      "checkedSources": 1,
+      "result": "highlighter-provider",
+      "passed": true
+    },
+    {
+      "component": "hover",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/hover/example/demos/style-binding.vue",
+      "checkedSources": 1,
+      "result": "hover",
+      "passed": true
+    },
+    {
+      "component": "icon",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/icon/example/demos/basic.vue",
+      "checkedSources": 1,
+      "result": "icon: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "image",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/image/example/demos/basic.vue",
+      "checkedSources": 1,
+      "result": "image",
+      "passed": true
+    },
+    {
+      "component": "index-bar",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/index-bar/example/demos/basic.vue",
+      "checkedSources": 1,
+      "result": "index-bar",
+      "passed": true
+    },
+    {
+      "component": "infinite-scroll",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/infinite-scroll/example/demos/basic.vue",
+      "checkedSources": 1,
+      "result": "infinite-scroll",
+      "passed": true
+    },
+    {
+      "component": "input",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/input/example/demos/default-value.vue",
+      "checkedSources": 1,
+      "result": "input",
+      "passed": true
+    },
+    {
+      "component": "input-number",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/input-number/example/demos/field-basic.vue",
+      "checkedSources": 1,
+      "result": "input-number",
+      "passed": true
+    },
+    {
+      "component": "lazy",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/lazy/example/demos/basic-usage.vue",
+      "checkedSources": 1,
+      "result": "lazy",
+      "passed": true
+    },
+    {
+      "component": "link",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/link/example/demos/basic.vue",
+      "checkedSources": 1,
+      "result": "link: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "list",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/list/example/demos/basic-usage.vue",
+      "checkedSources": 1,
+      "result": "list: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "loading-bar",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/loading-bar/example/demos/basic.vue",
+      "checkedSources": 1,
+      "result": "loading-bar",
+      "passed": true
+    },
+    {
+      "component": "loading",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/loading/example/demos/size.vue",
+      "checkedSources": 1,
+      "result": "loading: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "locale-provider",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/locale-provider/example/demos/api-review.vue",
+      "checkedSources": 1,
+      "result": "locale",
+      "passed": true
+    },
+    {
+      "component": "locale",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/locale-provider/example/demos/api-review.vue",
+      "checkedSources": 1,
+      "result": "locale",
+      "passed": true
+    },
+    {
+      "component": "message",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/message/example/demos/function-call.vue",
+      "checkedSources": 1,
+      "result": "message",
+      "passed": true
+    },
+    {
+      "component": "menu",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/menu/example/demos/overflow-actions.vue",
+      "checkedSources": 1,
+      "result": "menu",
+      "passed": true
+    },
+    {
+      "component": "notice-bar",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/notice-bar/example/demos/basic.vue",
+      "checkedSources": 1,
+      "result": "notice-bar",
+      "passed": true
+    },
+    {
+      "component": "number-keyboard",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/number-keyboard/example/demos/basic.vue",
+      "checkedSources": 1,
+      "result": "number-keyboard",
+      "passed": true
+    },
+    {
+      "component": "overlay",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/overlay/example/demos/overlay-base.vue",
+      "checkedSources": 1,
+      "result": "overlay",
+      "passed": true
+    },
+    {
+      "component": "page-header",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/page-header/example/demos/basic-usage.vue",
+      "checkedSources": 1,
+      "result": "page-header: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "pagination",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/pagination/example/demos/basic.vue",
+      "checkedSources": 1,
+      "result": "pagination",
+      "passed": true
+    },
+    {
+      "component": "paper",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/paper/example/demos/basic-usage.vue",
+      "checkedSources": 1,
+      "result": "paper: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "picker",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/picker/example/demos/disabled.vue",
+      "checkedSources": 1,
+      "result": "picker",
+      "passed": true
+    },
+    {
+      "component": "popover",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/popover/example/demos/basic-usage.vue",
+      "checkedSources": 1,
+      "result": "popover",
+      "passed": true
+    },
+    {
+      "component": "popup",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/popup/example/demos/popup-position.vue",
+      "checkedSources": 1,
+      "result": "popup",
+      "passed": true
+    },
+    {
+      "component": "progress-group",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/progress-group/example/demos/basic.vue",
+      "checkedSources": 1,
+      "result": "progress-group: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "progress",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/progress/example/demos/basic-usage.vue",
+      "checkedSources": 1,
+      "result": "progress: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "radio",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/radio/example/demos/basic-usage.vue",
+      "checkedSources": 1,
+      "result": "radio",
+      "passed": true
+    },
+    {
+      "component": "rate",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/rate/example/demos/basic-usage.vue",
+      "checkedSources": 1,
+      "result": "rate",
+      "passed": true
+    },
+    {
+      "component": "pull-refresh",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/pull-refresh/example/demos/basic.vue",
+      "checkedSources": 1,
+      "result": "pull-refresh",
+      "passed": true
+    },
+    {
+      "component": "result",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/result/example/demos/basic-usage.vue",
+      "checkedSources": 1,
+      "result": "result: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "ripple",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/ripple/example/demos/basic-usage.vue",
+      "checkedSources": 1,
+      "result": "ripple",
+      "passed": true
+    },
+    {
+      "component": "row",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/row/example/demos/basic.vue",
+      "checkedSources": 1,
+      "result": "row: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "search",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/search/example/demos/basic.vue",
+      "checkedSources": 1,
+      "result": "search",
+      "passed": true
+    },
+    {
+      "component": "select",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/select/example/demos/standard.vue",
+      "checkedSources": 1,
+      "result": "select",
+      "passed": true
+    },
+    {
+      "component": "signature",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/signature/example/demos/basic-usage.vue",
+      "checkedSources": 1,
+      "result": "signature",
+      "passed": true
+    },
+    {
+      "component": "slider",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/slider/example/demos/basic-usage.vue",
+      "checkedSources": 1,
+      "result": "slider",
+      "passed": true
+    },
+    {
+      "component": "skeleton",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/skeleton/example/demos/basic-usage.vue",
+      "checkedSources": 1,
+      "result": "skeleton: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "space",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/space/example/demos/base-use.vue",
+      "checkedSources": 1,
+      "result": "space: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "split-button",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/split-button/example/basic.vue",
+      "checkedSources": 1,
+      "result": "split-button",
+      "passed": true
+    },
+    {
+      "component": "statistic",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/statistic/example/demos/basic-usage.vue",
+      "checkedSources": 1,
+      "result": "statistic: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "steps",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/steps/example/demos/basic-usage.vue",
+      "checkedSources": 1,
+      "result": "steps",
+      "passed": true
+    },
+    {
+      "component": "style-provider",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/style-provider/example/demos/basic.vue",
+      "checkedSources": 1,
+      "result": "style-provider",
+      "passed": true
+    },
+    {
+      "component": "swipe-cell",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/swipe-cell/example/demos/basic.vue",
+      "checkedSources": 1,
+      "result": "swipe-cell",
+      "passed": true
+    },
+    {
+      "component": "switch",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/switch/example/demos/basic.vue",
+      "checkedSources": 1,
+      "result": "switch",
+      "passed": true
+    },
+    {
+      "component": "tab-bar",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/tab-bar/example/demos/basic-usage.vue",
+      "checkedSources": 1,
+      "result": "tab-bar",
+      "passed": true
+    },
+    {
+      "component": "table",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/table/example/demos/basic-usage.vue",
+      "checkedSources": 1,
+      "result": "table: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "tabs",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/tabs/example/demos/basic.vue",
+      "checkedSources": 1,
+      "result": "tabs",
+      "passed": true
+    },
+    {
+      "component": "textarea",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/textarea/example/demos/demo-1.vue",
+      "checkedSources": 1,
+      "result": "textarea",
+      "passed": true
+    },
+    {
+      "component": "tag",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/tag/example/demos/closable-tag.vue",
+      "checkedSources": 2,
+      "result": "tag",
+      "passed": true
+    },
+    {
+      "component": "time-range",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/time-range/example/demos/basic-usage.vue",
+      "checkedSources": 1,
+      "result": "temporal",
+      "passed": true
+    },
+    {
+      "component": "time",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/time/example/demos/basic-usage.vue",
+      "checkedSources": 1,
+      "result": "temporal",
+      "passed": true
+    },
+    {
+      "component": "tooltip",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/tooltip/example/demos/basic-usage.vue",
+      "checkedSources": 1,
+      "result": "tooltip",
+      "passed": true
+    },
+    {
+      "component": "trigger",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/trigger/example/demos/basic.vue",
+      "checkedSources": 1,
+      "result": "trigger",
+      "passed": true
+    },
+    {
+      "component": "upload",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/upload/example/demos/read-only.vue",
+      "checkedSources": 2,
+      "result": "upload",
+      "passed": true
+    },
+    {
+      "component": "verification-code",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/verification-code/example/demos/basic.vue",
+      "checkedSources": 1,
+      "result": "verification-code",
+      "passed": true
+    },
+    {
+      "component": "watermark",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/watermark/example/demos/text-watermark.vue",
+      "checkedSources": 1,
+      "result": "watermark",
+      "passed": true
+    },
+    {
+      "component": "action-sheet",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/action-sheet/example/demos/function-call.vue",
+      "checkedSources": 0,
+      "result": "action-sheet",
+      "passed": true
+    },
+    {
+      "component": "affix",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/affix/example/demos/basic.vue",
+      "checkedSources": 0,
+      "result": "affix",
+      "passed": true
+    },
+    {
+      "component": "alert",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/alert/example/demos/variant.vue",
+      "checkedSources": 0,
+      "result": "alert",
+      "passed": true
+    },
+    {
+      "component": "auto-complete",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/auto-complete/example/demos/zh-CN/basic.vue",
+      "checkedSources": 0,
+      "result": "auto-complete",
+      "passed": true
+    },
+    {
+      "component": "avatar",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/avatar/example/demos/basic.vue",
+      "checkedSources": 0,
+      "result": "avatar: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "back-top",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/back-top/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "back-top",
+      "passed": true
+    },
+    {
+      "component": "badge",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/badge/example/demos/basic.vue",
+      "checkedSources": 0,
+      "result": "badge: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "breadcrumb",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/breadcrumb/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "breadcrumb: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "card",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/card/example/demos/basic.vue",
+      "checkedSources": 0,
+      "result": "card: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "button",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/button/example/demos/variants.vue",
+      "checkedSources": 0,
+      "result": "button",
+      "passed": true
+    },
+    {
+      "component": "carousel",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/carousel/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "carousel",
+      "passed": true
+    },
+    {
+      "component": "cascader",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/cascader/example/demos/placeholder.vue",
+      "checkedSources": 0,
+      "result": "cascader",
+      "passed": true
+    },
+    {
+      "component": "cell",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/cell/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "cell: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "checkbox",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/checkbox/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "checkbox",
+      "passed": true
+    },
+    {
+      "component": "code",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/code/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "code: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "col",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/col/example/demos/basic.vue",
+      "checkedSources": 0,
+      "result": "col: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "collapse",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/collapse/example/demos/basic.vue",
+      "checkedSources": 0,
+      "result": "collapse",
+      "passed": true
+    },
+    {
+      "component": "count-to",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/count-to/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "count-to",
+      "passed": true
+    },
+    {
+      "component": "countdown",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/countdown/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "countdown",
+      "passed": true
+    },
+    {
+      "component": "counter",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/counter/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "counter",
+      "passed": true
+    },
+    {
+      "component": "date-range",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/date-range/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "temporal",
+      "passed": true
+    },
+    {
+      "component": "date",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/date/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "temporal",
+      "passed": true
+    },
+    {
+      "component": "dialog",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/dialog/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "dialog",
+      "passed": true
+    },
+    {
+      "component": "divider",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/divider/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "divider: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "drag",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/drag/example/demos/basic-use.vue",
+      "checkedSources": 0,
+      "result": "drag",
+      "passed": true
+    },
+    {
+      "component": "ellipsis",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/ellipsis/example/demos/expand.vue",
+      "checkedSources": 0,
+      "result": "ellipsis",
+      "passed": true
+    },
+    {
+      "component": "empty",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/empty/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "empty: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "fab",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/fab/example/demos/basic.vue",
+      "checkedSources": 0,
+      "result": "fab",
+      "passed": true
+    },
+    {
+      "component": "field-decorator",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/field-decorator/example/demos/control-sizes.vue",
+      "checkedSources": 0,
+      "result": "field-decorator: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "form-details",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/form-details/example/demos/api-review.vue",
+      "checkedSources": 0,
+      "result": "form-details: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "floating-panel",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/floating-panel/example/demos/basic.vue",
+      "checkedSources": 0,
+      "result": "floating-panel",
+      "passed": true
+    },
+    {
+      "component": "form",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/form/example/demos/events.vue",
+      "checkedSources": 0,
+      "result": "form",
+      "passed": true
+    },
+    {
+      "component": "grid",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/grid/example/demos/basic.vue",
+      "checkedSources": 0,
+      "result": "grid: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "highlighter-provider",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/highlighter-provider/example/demos/api-review.vue",
+      "checkedSources": 0,
+      "result": "highlighter-provider",
+      "passed": true
+    },
+    {
+      "component": "hover",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/hover/example/demos/style-binding.vue",
+      "checkedSources": 0,
+      "result": "hover",
+      "passed": true
+    },
+    {
+      "component": "icon",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/icon/example/demos/basic.vue",
+      "checkedSources": 0,
+      "result": "icon: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "image",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/image/example/demos/basic.vue",
+      "checkedSources": 0,
+      "result": "image",
+      "passed": true
+    },
+    {
+      "component": "index-bar",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/index-bar/example/demos/basic.vue",
+      "checkedSources": 0,
+      "result": "index-bar",
+      "passed": true
+    },
+    {
+      "component": "infinite-scroll",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/infinite-scroll/example/demos/basic.vue",
+      "checkedSources": 0,
+      "result": "infinite-scroll",
+      "passed": true
+    },
+    {
+      "component": "input-number",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/input-number/example/demos/field-basic.vue",
+      "checkedSources": 0,
+      "result": "input-number",
+      "passed": true
+    },
+    {
+      "component": "input",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/input/example/demos/default-value.vue",
+      "checkedSources": 0,
+      "result": "input",
+      "passed": true
+    },
+    {
+      "component": "lazy",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/lazy/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "lazy",
+      "passed": true
+    },
+    {
+      "component": "link",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/link/example/demos/basic.vue",
+      "checkedSources": 0,
+      "result": "link: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "list",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/list/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "list: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "loading",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/loading/example/demos/size.vue",
+      "checkedSources": 0,
+      "result": "loading: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "loading-bar",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/loading-bar/example/demos/basic.vue",
+      "checkedSources": 0,
+      "result": "loading-bar",
+      "passed": true
+    },
+    {
+      "component": "locale-provider",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/locale-provider/example/demos/api-review.vue",
+      "checkedSources": 0,
+      "result": "locale",
+      "passed": true
+    },
+    {
+      "component": "locale",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/locale-provider/example/demos/api-review.vue",
+      "checkedSources": 0,
+      "result": "locale",
+      "passed": true
+    },
+    {
+      "component": "message",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/message/example/demos/function-call.vue",
+      "checkedSources": 0,
+      "result": "message",
+      "passed": true
+    },
+    {
+      "component": "menu",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/menu/example/demos/overflow-actions.vue",
+      "checkedSources": 0,
+      "result": "menu",
+      "passed": true
+    },
+    {
+      "component": "notice-bar",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/notice-bar/example/demos/basic.vue",
+      "checkedSources": 0,
+      "result": "notice-bar",
+      "passed": true
+    },
+    {
+      "component": "overlay",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/overlay/example/demos/overlay-base.vue",
+      "checkedSources": 0,
+      "result": "overlay",
+      "passed": true
+    },
+    {
+      "component": "number-keyboard",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/number-keyboard/example/demos/basic.vue",
+      "checkedSources": 0,
+      "result": "number-keyboard",
+      "passed": true
+    },
+    {
+      "component": "pagination",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/pagination/example/demos/basic.vue",
+      "checkedSources": 0,
+      "result": "pagination",
+      "passed": true
+    },
+    {
+      "component": "page-header",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/page-header/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "page-header: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "paper",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/paper/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "paper: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "picker",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/picker/example/demos/disabled.vue",
+      "checkedSources": 0,
+      "result": "picker",
+      "passed": true
+    },
+    {
+      "component": "popover",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/popover/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "popover",
+      "passed": true
+    },
+    {
+      "component": "popup",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/popup/example/demos/popup-position.vue",
+      "checkedSources": 0,
+      "result": "popup",
+      "passed": true
+    },
+    {
+      "component": "progress-group",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/progress-group/example/demos/basic.vue",
+      "checkedSources": 0,
+      "result": "progress-group: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "progress",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/progress/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "progress: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "radio",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/radio/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "radio",
+      "passed": true
+    },
+    {
+      "component": "rate",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/rate/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "rate",
+      "passed": true
+    },
+    {
+      "component": "result",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/result/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "result: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "pull-refresh",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/pull-refresh/example/demos/basic.vue",
+      "checkedSources": 0,
+      "result": "pull-refresh",
+      "passed": true
+    },
+    {
+      "component": "ripple",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/ripple/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "ripple",
+      "passed": true
+    },
+    {
+      "component": "search",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/search/example/demos/basic.vue",
+      "checkedSources": 0,
+      "result": "search",
+      "passed": true
+    },
+    {
+      "component": "row",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/row/example/demos/basic.vue",
+      "checkedSources": 0,
+      "result": "row: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "signature",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/signature/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "signature",
+      "passed": true
+    },
+    {
+      "component": "select",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/select/example/demos/standard.vue",
+      "checkedSources": 0,
+      "result": "select",
+      "passed": true
+    },
+    {
+      "component": "skeleton",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/skeleton/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "skeleton: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "slider",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/slider/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "slider",
+      "passed": true
+    },
+    {
+      "component": "space",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/space/example/demos/base-use.vue",
+      "checkedSources": 0,
+      "result": "space: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "statistic",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/statistic/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "statistic: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "steps",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/steps/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "steps",
+      "passed": true
+    },
+    {
+      "component": "split-button",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/split-button/example/basic.vue",
+      "checkedSources": 0,
+      "result": "split-button",
+      "passed": true
+    },
+    {
+      "component": "style-provider",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/style-provider/example/demos/basic.vue",
+      "checkedSources": 0,
+      "result": "style-provider",
+      "passed": true
+    },
+    {
+      "component": "swipe-cell",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/swipe-cell/example/demos/basic.vue",
+      "checkedSources": 0,
+      "result": "swipe-cell",
+      "passed": true
+    },
+    {
+      "component": "switch",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/switch/example/demos/basic.vue",
+      "checkedSources": 0,
+      "result": "switch",
+      "passed": true
+    },
+    {
+      "component": "tab-bar",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/tab-bar/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "tab-bar",
+      "passed": true
+    },
+    {
+      "component": "table",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/table/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "table: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "tabs",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/tabs/example/demos/basic.vue",
+      "checkedSources": 0,
+      "result": "tabs",
+      "passed": true
+    },
+    {
+      "component": "tag",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/tag/example/demos/closable-tag.vue",
+      "checkedSources": 0,
+      "result": "tag",
+      "passed": true
+    },
+    {
+      "component": "textarea",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/textarea/example/demos/demo-1.vue",
+      "checkedSources": 0,
+      "result": "textarea",
+      "passed": true
+    },
+    {
+      "component": "time",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/time/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "temporal",
+      "passed": true
+    },
+    {
+      "component": "time-range",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/time-range/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "temporal",
+      "passed": true
+    },
+    {
+      "component": "trigger",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/trigger/example/demos/basic.vue",
+      "checkedSources": 0,
+      "result": "trigger",
+      "passed": true
+    },
+    {
+      "component": "tooltip",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/tooltip/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "tooltip",
+      "passed": true
+    },
+    {
+      "component": "upload",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/upload/example/demos/read-only.vue",
+      "checkedSources": 0,
+      "result": "upload",
+      "passed": true
+    },
+    {
+      "component": "verification-code",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/verification-code/example/demos/basic.vue",
+      "checkedSources": 0,
+      "result": "verification-code",
+      "passed": true
+    },
+    {
+      "component": "watermark",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/watermark/example/demos/text-watermark.vue",
+      "checkedSources": 0,
+      "result": "watermark",
+      "passed": true
+    },
+    {
+      "component": "action-sheet",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/action-sheet/example/demos/function-call.vue",
+      "checkedSources": 0,
+      "result": "action-sheet",
+      "passed": true
+    },
+    {
+      "component": "affix",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/affix/example/demos/basic.vue",
+      "checkedSources": 0,
+      "result": "affix",
+      "passed": true
+    },
+    {
+      "component": "alert",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/alert/example/demos/variant.vue",
+      "checkedSources": 0,
+      "result": "alert",
+      "passed": true
+    },
+    {
+      "component": "auto-complete",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/auto-complete/example/demos/zh-CN/basic.vue",
+      "checkedSources": 0,
+      "result": "auto-complete",
+      "passed": true
+    },
+    {
+      "component": "avatar",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/avatar/example/demos/basic.vue",
+      "checkedSources": 0,
+      "result": "avatar: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "back-top",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/back-top/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "back-top",
+      "passed": true
+    },
+    {
+      "component": "badge",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/badge/example/demos/basic.vue",
+      "checkedSources": 0,
+      "result": "badge: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "breadcrumb",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/breadcrumb/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "breadcrumb: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "button",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/button/example/demos/variants.vue",
+      "checkedSources": 0,
+      "result": "button",
+      "passed": true
+    },
+    {
+      "component": "card",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/card/example/demos/basic.vue",
+      "checkedSources": 0,
+      "result": "card: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "carousel",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/carousel/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "carousel",
+      "passed": true
+    },
+    {
+      "component": "cell",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/cell/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "cell: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "cascader",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/cascader/example/demos/placeholder.vue",
+      "checkedSources": 0,
+      "result": "cascader",
+      "passed": true
+    },
+    {
+      "component": "checkbox",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/checkbox/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "checkbox",
+      "passed": true
+    },
+    {
+      "component": "code",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/code/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "code: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "col",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/col/example/demos/basic.vue",
+      "checkedSources": 0,
+      "result": "col: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "collapse",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/collapse/example/demos/basic.vue",
+      "checkedSources": 0,
+      "result": "collapse",
+      "passed": true
+    },
+    {
+      "component": "count-to",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/count-to/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "count-to",
+      "passed": true
+    },
+    {
+      "component": "countdown",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/countdown/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "countdown",
+      "passed": true
+    },
+    {
+      "component": "counter",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/counter/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "counter",
+      "passed": true
+    },
+    {
+      "component": "date-range",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/date-range/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "temporal",
+      "passed": true
+    },
+    {
+      "component": "date",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/date/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "temporal",
+      "passed": true
+    },
+    {
+      "component": "dialog",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/dialog/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "dialog",
+      "passed": true
+    },
+    {
+      "component": "divider",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/divider/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "divider: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "ellipsis",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/ellipsis/example/demos/expand.vue",
+      "checkedSources": 0,
+      "result": "ellipsis",
+      "passed": true
+    },
+    {
+      "component": "drag",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/drag/example/demos/basic-use.vue",
+      "checkedSources": 0,
+      "result": "drag",
+      "passed": true
+    },
+    {
+      "component": "empty",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/empty/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "empty: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "fab",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/fab/example/demos/basic.vue",
+      "checkedSources": 0,
+      "result": "fab",
+      "passed": true
+    },
+    {
+      "component": "field-decorator",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/field-decorator/example/demos/control-sizes.vue",
+      "checkedSources": 0,
+      "result": "field-decorator: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "floating-panel",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/floating-panel/example/demos/basic.vue",
+      "checkedSources": 0,
+      "result": "floating-panel",
+      "passed": true
+    },
+    {
+      "component": "form-details",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/form-details/example/demos/api-review.vue",
+      "checkedSources": 0,
+      "result": "form-details: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "form",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/form/example/demos/events.vue",
+      "checkedSources": 0,
+      "result": "form",
+      "passed": true
+    },
+    {
+      "component": "grid",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/grid/example/demos/basic.vue",
+      "checkedSources": 0,
+      "result": "grid: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "highlighter-provider",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/highlighter-provider/example/demos/api-review.vue",
+      "checkedSources": 0,
+      "result": "highlighter-provider",
+      "passed": true
+    },
+    {
+      "component": "hover",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/hover/example/demos/style-binding.vue",
+      "checkedSources": 0,
+      "result": "hover",
+      "passed": true
+    },
+    {
+      "component": "icon",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/icon/example/demos/basic.vue",
+      "checkedSources": 0,
+      "result": "icon: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "image",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/image/example/demos/basic.vue",
+      "checkedSources": 0,
+      "result": "image",
+      "passed": true
+    },
+    {
+      "component": "index-bar",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/index-bar/example/demos/basic.vue",
+      "checkedSources": 0,
+      "result": "index-bar",
+      "passed": true
+    },
+    {
+      "component": "infinite-scroll",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/infinite-scroll/example/demos/basic.vue",
+      "checkedSources": 0,
+      "result": "infinite-scroll",
+      "passed": true
+    },
+    {
+      "component": "input-number",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/input-number/example/demos/field-basic.vue",
+      "checkedSources": 0,
+      "result": "input-number",
+      "passed": true
+    },
+    {
+      "component": "input",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/input/example/demos/default-value.vue",
+      "checkedSources": 0,
+      "result": "input",
+      "passed": true
+    },
+    {
+      "component": "lazy",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/lazy/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "lazy",
+      "passed": true
+    },
+    {
+      "component": "link",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/link/example/demos/basic.vue",
+      "checkedSources": 0,
+      "result": "link: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "list",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/list/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "list: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "loading",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/loading/example/demos/size.vue",
+      "checkedSources": 0,
+      "result": "loading: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "loading-bar",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/loading-bar/example/demos/basic.vue",
+      "checkedSources": 0,
+      "result": "loading-bar",
+      "passed": true
+    },
+    {
+      "component": "locale-provider",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/locale-provider/example/demos/api-review.vue",
+      "checkedSources": 0,
+      "result": "locale",
+      "passed": true
+    },
+    {
+      "component": "locale",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/locale-provider/example/demos/api-review.vue",
+      "checkedSources": 0,
+      "result": "locale",
+      "passed": true
+    },
+    {
+      "component": "message",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/message/example/demos/function-call.vue",
+      "checkedSources": 0,
+      "result": "message",
+      "passed": true
+    },
+    {
+      "component": "notice-bar",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/notice-bar/example/demos/basic.vue",
+      "checkedSources": 0,
+      "result": "notice-bar",
+      "passed": true
+    },
+    {
+      "component": "menu",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/menu/example/demos/overflow-actions.vue",
+      "checkedSources": 0,
+      "result": "menu",
+      "passed": true
+    },
+    {
+      "component": "number-keyboard",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/number-keyboard/example/demos/basic.vue",
+      "checkedSources": 0,
+      "result": "number-keyboard",
+      "passed": true
+    },
+    {
+      "component": "overlay",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/overlay/example/demos/overlay-base.vue",
+      "checkedSources": 0,
+      "result": "overlay",
+      "passed": true
+    },
+    {
+      "component": "page-header",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/page-header/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "page-header: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "pagination",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/pagination/example/demos/basic.vue",
+      "checkedSources": 0,
+      "result": "pagination",
+      "passed": true
+    },
+    {
+      "component": "paper",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/paper/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "paper: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "picker",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/picker/example/demos/disabled.vue",
+      "checkedSources": 0,
+      "result": "picker",
+      "passed": true
+    },
+    {
+      "component": "popover",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/popover/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "popover",
+      "passed": true
+    },
+    {
+      "component": "progress-group",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/progress-group/example/demos/basic.vue",
+      "checkedSources": 0,
+      "result": "progress-group: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "popup",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/popup/example/demos/popup-position.vue",
+      "checkedSources": 0,
+      "result": "popup",
+      "passed": true
+    },
+    {
+      "component": "progress",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/progress/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "progress: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "radio",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/radio/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "radio",
+      "passed": true
+    },
+    {
+      "component": "rate",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/rate/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "rate",
+      "passed": true
+    },
+    {
+      "component": "pull-refresh",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/pull-refresh/example/demos/basic.vue",
+      "checkedSources": 0,
+      "result": "pull-refresh",
+      "passed": true
+    },
+    {
+      "component": "result",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/result/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "result: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "ripple",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/ripple/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "ripple",
+      "passed": true
+    },
+    {
+      "component": "row",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/row/example/demos/basic.vue",
+      "checkedSources": 0,
+      "result": "row: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "search",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/search/example/demos/basic.vue",
+      "checkedSources": 0,
+      "result": "search",
+      "passed": true
+    },
+    {
+      "component": "select",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/select/example/demos/standard.vue",
+      "checkedSources": 0,
+      "result": "select",
+      "passed": true
+    },
+    {
+      "component": "signature",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/signature/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "signature",
+      "passed": true
+    },
+    {
+      "component": "skeleton",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/skeleton/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "skeleton: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "slider",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/slider/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "slider",
+      "passed": true
+    },
+    {
+      "component": "space",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/space/example/demos/base-use.vue",
+      "checkedSources": 0,
+      "result": "space: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "split-button",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/split-button/example/basic.vue",
+      "checkedSources": 0,
+      "result": "split-button",
+      "passed": true
+    },
+    {
+      "component": "statistic",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/statistic/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "statistic: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "steps",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/steps/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "steps",
+      "passed": true
+    },
+    {
+      "component": "style-provider",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/style-provider/example/demos/basic.vue",
+      "checkedSources": 0,
+      "result": "style-provider",
+      "passed": true
+    },
+    {
+      "component": "switch",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/switch/example/demos/basic.vue",
+      "checkedSources": 0,
+      "result": "switch",
+      "passed": true
+    },
+    {
+      "component": "swipe-cell",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/swipe-cell/example/demos/basic.vue",
+      "checkedSources": 0,
+      "result": "swipe-cell",
+      "passed": true
+    },
+    {
+      "component": "tab-bar",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/tab-bar/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "tab-bar",
+      "passed": true
+    },
+    {
+      "component": "table",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "presentation",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/table/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "table: rendered content and geometry",
+      "passed": true
+    },
+    {
+      "component": "tabs",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/tabs/example/demos/basic.vue",
+      "checkedSources": 0,
+      "result": "tabs",
+      "passed": true
+    },
+    {
+      "component": "tag",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/tag/example/demos/closable-tag.vue",
+      "checkedSources": 0,
+      "result": "tag",
+      "passed": true
+    },
+    {
+      "component": "textarea",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/textarea/example/demos/demo-1.vue",
+      "checkedSources": 0,
+      "result": "textarea",
+      "passed": true
+    },
+    {
+      "component": "time-range",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/time-range/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "temporal",
+      "passed": true
+    },
+    {
+      "component": "time",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/time/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "temporal",
+      "passed": true
+    },
+    {
+      "component": "tooltip",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/tooltip/example/demos/basic-usage.vue",
+      "checkedSources": 0,
+      "result": "tooltip",
+      "passed": true
+    },
+    {
+      "component": "trigger",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/trigger/example/demos/basic.vue",
+      "checkedSources": 0,
+      "result": "trigger",
+      "passed": true
+    },
+    {
+      "component": "upload",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/upload/example/demos/read-only.vue",
+      "checkedSources": 0,
+      "result": "upload",
+      "passed": true
+    },
+    {
+      "component": "verification-code",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/verification-code/example/demos/basic.vue",
+      "checkedSources": 0,
+      "result": "verification-code",
+      "passed": true
+    },
+    {
+      "component": "watermark",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/watermark/example/demos/text-watermark.vue",
+      "checkedSources": 0,
+      "result": "watermark",
+      "passed": true
+    },
+    {
+      "kind": "guide",
+      "component": "atomic-css",
+      "theme": "lightTheme",
+      "checkedSources": 1,
+      "passed": true
+    },
+    {
+      "kind": "guide",
+      "component": "atomic-usage",
+      "theme": "lightTheme",
+      "checkedSources": 1,
+      "passed": true
+    },
+    {
+      "kind": "guide",
+      "component": "color",
+      "theme": "lightTheme",
+      "checkedSources": 1,
+      "passed": true
+    },
+    {
+      "kind": "guide",
+      "component": "palette",
+      "theme": "lightTheme",
+      "checkedSources": 1,
+      "passed": true
+    },
+    {
+      "kind": "guide",
+      "component": "style",
+      "theme": "lightTheme",
+      "checkedSources": 1,
+      "passed": true
+    },
+    {
+      "kind": "guide",
+      "component": "themes",
+      "theme": "lightTheme",
+      "checkedSources": 1,
+      "passed": true
+    },
+    {
+      "kind": "guide",
+      "component": "typography",
+      "theme": "lightTheme",
+      "checkedSources": 1,
+      "passed": true
+    },
+    {
+      "kind": "guide",
+      "component": "utilities",
+      "theme": "lightTheme",
+      "checkedSources": 1,
+      "passed": true
+    },
+    {
+      "kind": "guide",
+      "component": "atomic-usage",
+      "theme": "darkTheme",
+      "checkedSources": 1,
+      "passed": true
+    },
+    {
+      "kind": "guide",
+      "component": "atomic-css",
+      "theme": "darkTheme",
+      "checkedSources": 1,
+      "passed": true
+    },
+    {
+      "kind": "guide",
+      "component": "color",
+      "theme": "darkTheme",
+      "checkedSources": 1,
+      "passed": true
+    },
+    {
+      "kind": "guide",
+      "component": "palette",
+      "theme": "darkTheme",
+      "checkedSources": 1,
+      "passed": true
+    },
+    {
+      "kind": "guide",
+      "component": "style",
+      "theme": "darkTheme",
+      "checkedSources": 1,
+      "passed": true
+    },
+    {
+      "kind": "guide",
+      "component": "themes",
+      "theme": "darkTheme",
+      "checkedSources": 1,
+      "passed": true
+    },
+    {
+      "kind": "guide",
+      "component": "typography",
+      "theme": "darkTheme",
+      "checkedSources": 1,
+      "passed": true
+    },
+    {
+      "kind": "guide",
+      "component": "utilities",
+      "theme": "darkTheme",
+      "checkedSources": 1,
+      "passed": true
+    }
+  ]
+}

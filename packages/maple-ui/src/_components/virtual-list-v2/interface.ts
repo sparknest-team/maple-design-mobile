@@ -35,20 +35,17 @@ export interface VirtualListProps {
   /**
    * @zh 元素高度是否是固定的。
    * @en Is the element height fixed.
-   * @version 2.34.1
    */
   fixedSize?: boolean
   /**
    * @zh 元素高度不固定时的预估高度。
    * @en Is the element height fixed.
-   * @version 2.34.1
    */
   estimatedSize?: number
   /**
    * @zh 视口边界外提前挂载的元素数量。
    * @en The number of elements mounted in advance outside the boundary of the viewport.
    * @default-value 10
-   * @version 2.34.1
    */
   buffer?: number
   data?: any[]

@@ -8,13 +8,35 @@ import {
   type InjectionKey,
   type PropType,
 } from 'vue'
+import { invokeBeforeHook, type BeforeHookDone } from '../../_hooks/use-action-guard'
 
-export type FieldPresentation = 'inline' | 'popup'
+/** Field editing mode; independent of layout and readPretty. */
+export type FieldEditMode = 'direct' | 'popup'
+export const fieldEditModeProp = {
+  type: String as PropType<FieldEditMode>,
+  default: undefined,
+  validator: (value: string) => ['direct', 'popup'].includes(value),
+}
+export const defaultSelectionPresentation: FieldEditMode = 'popup'
 export type BeforeFieldCommit = (
+  payload: { value: unknown; previousValue: unknown },
+  done: BeforeHookDone,
+  context: { signal: AbortSignal; event?: Event },
+) => void | boolean | Promise<void | boolean>
+/** Undefined waits for done; return a boolean or Promise for return-based completion. */
+export function invokeBeforeCommit(
+  hook: BeforeFieldCommit | undefined,
   value: unknown,
   context: { previousValue: unknown; signal: AbortSignal },
-) => void | false | Promise<void | false>
-export const fieldPresentationProp = { type: String as PropType<FieldPresentation>, default: undefined }
+) {
+  if (!hook) {
+    return undefined
+  }
+  return invokeBeforeHook(
+    (done) => hook({ value, previousValue: context.previousValue }, done, { signal: context.signal }),
+    context,
+  )
+}
 export type ReadPretty = boolean
 export const readPrettyProp = { type: Boolean, default: undefined }
 export const beforeFieldCommitProp = Function as PropType<BeforeFieldCommit>
@@ -25,7 +47,7 @@ export interface ActiveEditor {
   focus: () => void
 }
 interface PresentationContext {
-  presentation: ComputedRef<FieldPresentation | undefined>
+  editMode: ComputedRef<FieldEditMode | undefined>
   readPretty?: ComputedRef<ReadPretty | undefined>
   label?: ComputedRef<string | undefined>
   message?: ComputedRef<string>
@@ -33,7 +55,7 @@ interface PresentationContext {
   validate?: (value: unknown) => Promise<boolean>
   resetValidation?: () => void
   register?: (editor: ActiveEditor) => () => void
-  resolved?: (value: FieldPresentation | undefined, readPretty?: boolean) => void
+  resolved?: (value: FieldEditMode | undefined, readPretty?: boolean) => void
 }
 const formKey: InjectionKey<PresentationContext> = Symbol('form-presentation')
 const itemKey: InjectionKey<PresentationContext> = Symbol('form-item-presentation')
@@ -41,12 +63,12 @@ export const fieldEditorBoundary: InjectionKey<boolean> = Symbol('field-editor-b
 /** Only the wrapped control owns inline Form notifications; its nested inputs do not. */
 export const fieldControlFormEvents: InjectionKey<ComputedRef<boolean>> = Symbol('field-control-form-events')
 export function provideFormPresentation(
-  presentation: () => FieldPresentation | undefined,
+  editMode: () => FieldEditMode | undefined,
   readPretty?: () => ReadPretty | undefined,
 ) {
   const editors = new Set<ActiveEditor>()
   provide(formKey, {
-    presentation: computed(() => presentation() ?? 'inline'),
+    editMode: computed(() => editMode()),
     readPretty: computed(() => readPretty?.()),
     register(editor) {
       editors.add(editor)
@@ -71,18 +93,18 @@ export function provideFormPresentation(
   }
 }
 export function provideItemPresentation(
-  options: Omit<PresentationContext, 'presentation' | 'readPretty'> & {
-    presentation: () => FieldPresentation | undefined
+  options: Omit<PresentationContext, 'editMode' | 'readPretty'> & {
+    editMode: () => FieldEditMode | undefined
     readPretty?: () => ReadPretty | undefined
   },
 ) {
   const form = inject(formKey, undefined)
-  const resolved = ref<FieldPresentation>()
+  const resolved = ref<FieldEditMode>()
   const resolvedReadPretty = ref<boolean>()
   const editors = new Set<ActiveEditor>()
   const context: PresentationContext = {
     ...options,
-    presentation: computed(() => options.presentation() ?? form?.presentation.value),
+    editMode: computed(() => options.editMode() ?? form?.editMode.value),
     readPretty: computed(() => options.readPretty?.() ?? form?.readPretty?.value),
     register: (editor) => {
       editors.add(editor)
@@ -104,7 +126,7 @@ export function provideItemPresentation(
   }
   provide(itemKey, context)
   return {
-    resolved: computed(() => resolved.value ?? context.presentation.value ?? 'inline'),
+    resolved: computed(() => resolved.value ?? context.editMode.value ?? 'direct'),
     readPretty: computed(() => resolvedReadPretty.value ?? context.readPretty?.value ?? false),
     cancel() {
       for (const editor of editors) {
@@ -114,20 +136,21 @@ export function provideItemPresentation(
   }
 }
 export function useFieldPresentation(
-  presentation: () => FieldPresentation | undefined,
+  editMode: () => FieldEditMode | undefined,
   readPretty?: () => ReadPretty | undefined,
+  defaultPresentation: FieldEditMode = 'direct',
 ) {
   const boundary = inject(fieldEditorBoundary, false)
   const item = boundary ? undefined : inject(itemKey, undefined)
   const form = boundary ? undefined : inject(formKey, undefined)
   const resolved = computed(() => {
-    const supported: readonly string[] = ['inline', 'popup']
-    for (const value of [presentation(), item?.presentation.value, form?.presentation.value]) {
+    const supported: readonly string[] = ['direct', 'popup']
+    for (const value of [editMode(), item?.editMode.value, form?.editMode.value]) {
       if (value && supported.includes(value)) {
         return value
       }
     }
-    return 'inline' as FieldPresentation
+    return (boundary ? 'direct' : defaultPresentation) as FieldEditMode
   })
   const register = (editor: ActiveEditor) => {
     const remove = (item?.register ?? form?.register)?.(editor)
@@ -135,10 +158,12 @@ export function useFieldPresentation(
   }
   return {
     readPretty: computed(() => readPretty?.() ?? item?.readPretty?.value ?? form?.readPretty?.value ?? false),
-    presentation: resolved,
+    editMode: resolved,
     nativeEditor: false,
     item,
     label: computed(() => item?.label?.value),
     register,
   }
 }
+
+/** Loading owned by the field, consumed by native field-specific renderers. */

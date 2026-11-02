@@ -74,7 +74,7 @@ onDeactivated(cleanup)
 <template>
   <section class="async-fields-form-demo">
     <p>两个独立本地 Promise 规则分别接受 admin 和 1234；手动返回各字段，不访问网络。</p>
-    <mp-form ref="formRef" :model="model" @submit="submitted">
+    <mp-form ref="formRef" edit-mode="direct" :model="model" @submit="submitted">
       <mp-form-item
         field="name"
         label="用户名"
@@ -83,7 +83,7 @@ onDeactivated(cleanup)
         :validate-trigger="[]"
         feedback
       >
-        <mp-input :id="id + '-name'" v-model="model.name" />
+        <mp-input :id="id + '-name'" v-model="model.name" edit-mode="direct" />
       </mp-form-item>
       <mp-form-item
         field="code"
@@ -93,7 +93,7 @@ onDeactivated(cleanup)
         :validate-trigger="[]"
         feedback
       >
-        <mp-input :id="id + '-code'" v-model="model.code" />
+        <mp-input :id="id + '-code'" v-model="model.code" edit-mode="direct" />
       </mp-form-item>
       <mp-button html-type="submit">原生异步提交</mp-button>
     </mp-form>

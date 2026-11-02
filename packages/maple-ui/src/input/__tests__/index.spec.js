@@ -13,10 +13,7 @@ test('input plugin', () => {
 test('input variant', () => {
   ;['filled', 'outline', 'standard'].forEach((variant) => {
     const wrapper = mount(VarInput, {
-      props: {
-        modelValue: 'text',
-        variant,
-      },
+      props: { editMode: 'direct', modelValue: 'text', variant },
     })
 
     expect(wrapper.find(`.mp-field-decorator--variant-${variant}`).exists()).toBe(true)
@@ -31,10 +28,7 @@ test('input variant', () => {
 test('input size', () => {
   ;['xs', 'sm', 'md', 'lg', 'xl'].forEach((size) => {
     const wrapper = mount(VarInput, {
-      props: {
-        modelValue: 'text',
-        size,
-      },
+      props: { editMode: 'direct', modelValue: 'text', size },
     })
 
     expect(wrapper.find(`.mp-field-decorator--size-${size}`).exists()).toBe(true)
@@ -45,10 +39,7 @@ test('input size', () => {
 test('input type', () => {
   ;['text', 'password', 'number', 'tel', 'email'].forEach((type) => {
     const wrapper = mount(VarInput, {
-      props: {
-        modelValue: 'text',
-        type,
-      },
+      props: { editMode: 'direct', modelValue: 'text', type },
     })
 
     switch (type) {
@@ -79,6 +70,7 @@ test('input type', () => {
 test('input default value and native attributes', () => {
   const wrapper = mount(VarInput, {
     props: {
+      editMode: 'direct',
       defaultValue: 'seed',
       inputAttrs: {
         'aria-label': 'Amount',
@@ -103,11 +95,7 @@ test('input default value and native attributes', () => {
 test('input format number', async () => {
   const onUpdateModelValue = vi.fn()
   const wrapper = mount(VarInput, {
-    props: {
-      modelValue: '',
-      type: 'number',
-      'onUpdate:modelValue': onUpdateModelValue,
-    },
+    props: { editMode: 'direct', modelValue: '', type: 'number', 'onUpdate:modelValue': onUpdateModelValue },
   })
 
   await wrapper.find('.mp-input__inner').setValue('10')
@@ -128,11 +116,7 @@ describe('test input events', () => {
     const onBlur = vi.fn()
 
     const wrapper = mount(VarInput, {
-      props: {
-        onFocus,
-        onBlur,
-        ...props,
-      },
+      props: { editMode: 'direct', onFocus, onBlur, ...props },
     })
 
     wrapper.vm.focus()
@@ -153,6 +137,7 @@ describe('test input events', () => {
 
     const wrapper = mount(VarInput, {
       props: {
+        editMode: 'direct',
         modelValue: '',
         onInput,
         onChange,
@@ -189,6 +174,7 @@ describe('test input events', () => {
     const order = []
     const wrapper = mount(VarInput, {
       props: {
+        editMode: 'direct',
         modelValue: 'before',
         modelModifiers: { trim: true },
         onChange: (...args) => {
@@ -222,11 +208,7 @@ describe('test input events', () => {
 
 test('input maxLength', () => {
   const wrapper = mount(VarInput, {
-    props: {
-      modelValue: 'text',
-      maxLength: 100,
-      showWordLimit: true,
-    },
+    props: { editMode: 'direct', modelValue: 'text', maxLength: 100, showWordLimit: true },
   })
 
   expect(wrapper.find('.mp-input__word-limit').text()).toBe('4/100')
@@ -236,7 +218,7 @@ test('input maxLength', () => {
 })
 
 test('input truncates over-limit input and reports the normalized value', async () => {
-  const wrapper = mount(VarInput, { props: { maxLength: 3 } })
+  const wrapper = mount(VarInput, { props: { editMode: 'direct', maxLength: 3 } })
   await wrapper.find('.mp-input__inner').setValue('four')
   expect(wrapper.emitted('update:modelValue')?.[0]).toEqual(['fou'])
   expect(wrapper.emitted('input')?.[0]?.[0]).toBe('fou')
@@ -247,6 +229,7 @@ test('input truncates over-limit input and reports the normalized value', async 
 test('input maxLength errorOnly keeps the value and exposes error state', () => {
   const wrapper = mount(VarInput, {
     props: {
+      editMode: 'direct',
       modelValue: 'text',
       maxLength: { length: 3, errorOnly: true },
       showWordLimit: true,
@@ -262,10 +245,7 @@ test('input maxLength errorOnly keeps the value and exposes error state', () => 
 
 test('input hint to be false', () => {
   const wrapper = mount(VarInput, {
-    props: {
-      modelValue: 'text',
-      hint: false,
-    },
+    props: { editMode: 'direct', modelValue: 'text', hint: false },
   })
 
   expect(wrapper.html()).toMatchSnapshot()
@@ -279,6 +259,7 @@ test('input clear', async () => {
 
   const wrapper = mount(VarInput, {
     props: {
+      editMode: 'direct',
       modelValue: 'text',
       clearable: true,
       onClear,
@@ -299,6 +280,7 @@ test('input clear', async () => {
 test('input clear does not emit change on the following blur', async () => {
   const wrapper = mount(VarInput, {
     props: {
+      editMode: 'direct',
       modelValue: 'text',
       clearable: true,
       'onUpdate:modelValue': (value) => wrapper.setProps({ modelValue: value }),
@@ -314,10 +296,7 @@ test('input clear does not emit change on the following blur', async () => {
 
 test('input default clear icon supports keyboard activation', async () => {
   const wrapper = mount(VarInput, {
-    props: {
-      modelValue: 'value',
-      clearable: true,
-    },
+    props: { editMode: 'direct', modelValue: 'value', clearable: true },
   })
 
   const clear = wrapper.find('button')
@@ -346,6 +325,7 @@ test('input disabled', async () => {
 
   const wrapper = mount(VarInput, {
     props: {
+      editMode: 'direct',
       modelValue: 'hello',
       clearable: true,
       disabled: true,
@@ -374,6 +354,7 @@ test('input readonly', async () => {
 
   const wrapper = mount(VarInput, {
     props: {
+      editMode: 'direct',
       modelValue: 'hello',
       clearable: true,
       readonly: true,
@@ -399,6 +380,7 @@ test('input trim', async () => {
 
   const wrapper = mount(VarInput, {
     props: {
+      editMode: 'direct',
       modelValue: '123',
       modelModifiers: { trim: true },
       'onUpdate:modelValue': onUpdateModelValue,
@@ -414,9 +396,7 @@ test('input trim', async () => {
 
 test('input autofocus', async () => {
   const wrapper = mount(VarInput, {
-    props: {
-      autofocus: true,
-    },
+    props: { editMode: 'direct', autofocus: true },
   })
 
   await wrapper.find('.mp-input__inner').trigger('focus')
@@ -426,7 +406,7 @@ test('input autofocus', async () => {
 })
 
 test('input focus on mousedown', async () => {
-  const wrapper = mount(VarInput)
+  const wrapper = mount(VarInput, { props: { editMode: 'direct' } })
 
   await wrapper.trigger('mousedown')
   await wrapper.find('.mp-input__inner').trigger('focus')
@@ -437,6 +417,7 @@ test('input focus on mousedown', async () => {
 describe('test input component slots', () => {
   test('input suffix slot', () => {
     const wrapper = mount(VarInput, {
+      props: { editMode: 'direct' },
       slots: {
         suffix: () => 'suffix',
       },
@@ -449,6 +430,7 @@ describe('test input component slots', () => {
 
   test('input prefix slot', () => {
     const wrapper = mount(VarInput, {
+      props: { editMode: 'direct' },
       slots: {
         prefix: () => 'prefix',
       },
@@ -461,10 +443,7 @@ describe('test input component slots', () => {
 
   test('input clear-icon slot', async () => {
     const wrapper = mount(VarInput, {
-      props: {
-        clearable: true,
-        modelValue: 'value',
-      },
+      props: { editMode: 'direct', clearable: true, modelValue: 'value' },
       slots: {
         'clear-icon': ({ clear }) => h('button', { class: 'custom-clear-icon', onClick: () => clear() }, 'Clear'),
       },
@@ -479,10 +458,7 @@ describe('test input component slots', () => {
 
 test('input aria-label', async () => {
   const wrapper = mount(VarInput, {
-    props: {
-      modelValue: 'text',
-      ariaLabel: 'test aria-label',
-    },
+    props: { editMode: 'direct', modelValue: 'text', ariaLabel: 'test aria-label' },
   })
 
   await delay(100)

@@ -2,7 +2,7 @@
 
 给页面或局部区域添加文字、图片水印。组件会自动响应属性和主题变化，无需手动刷新。
 
-## 案例
+## 基础示例
 
 ### 文字水印
 
@@ -12,28 +12,25 @@
 ../example/demos/text-watermark.vue
 ```
 
+## 内容与展示
+
 ### 多行文本
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `content` | 单行或多行文字；图片加载失败时作为回退内容 | 多行文本、图片水印、全屏 |
+| `image` | 图片地址，优先于文字 | 图片水印 |
+| `width` | 单块水印宽度，默认按内容测量 | 图片水印 |
+| `height` | 单块水印高度，默认按内容测量 | 图片水印 |
+| `font` | 文字样式 | 图片水印 |
+| `fullscreen` | 是否固定覆盖整个视口 | 全屏 |
+<!-- demo-config-notes:end -->
 
 ```demo
 ../example/demos/multiline.vue
-```
-
-### 自定义间距
-
-```demo
-../example/demos/custom-gap.vue
-```
-
-### 自定义偏移量
-
-```demo
-../example/demos/custom-offset.vue
-```
-
-### 自定义旋转角度
-
-```demo
-../example/demos/custom-rotate.vue
 ```
 
 ### 图片水印
@@ -52,14 +49,26 @@
 ../example/demos/fullscreen.vue
 ```
 
-<!-- api-review:start -->
-### 功能调试
+## 自定义与插槽
+
+### 水印间距、偏移与旋转
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `content` | 单行或多行文字；图片加载失败时作为回退内容 | 水印间距、偏移与旋转 |
+| `gap` | 水印间距 `[x, y]` | 水印间距、偏移与旋转 |
+| `offset` | 第一块水印相对容器的偏移，默认是间距的一半 | 水印间距、偏移与旋转 |
+| `rotate` | 旋转角度 | 水印间距、偏移与旋转 |
+<!-- demo-config-notes:end -->
+
+比较水印重复间距、起始偏移和旋转角度；图片加载与全屏定位保持独立。
 
 ```demo
-../example/demos/api-review.vue
+../example/demos/geometry-comparison.vue
 ```
-
-<!-- api-review:end -->
 
 ## API
 

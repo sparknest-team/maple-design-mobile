@@ -6,7 +6,7 @@ const formData = reactive({ username: '', email: '', department: '', confirmed: 
 
 <template>
   <mp-form :model="formData" scroll-to-error="start">
-    <mp-space direction="column" :size="[14, 0]">
+    <mp-space direction="column" align="stretch">
       <mp-form-item field="username" :rules="[(value) => !!value || 'Username is required']">
         <mp-input v-model="formData.username" placeholder="Username" />
       </mp-form-item>

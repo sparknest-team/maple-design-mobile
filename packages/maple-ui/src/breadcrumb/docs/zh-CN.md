@@ -4,11 +4,11 @@
 
 触屏设备上，可点击项的触摸区域至少为 44 × 44px；按下显示底色和下划线，松手后恢复，不保留鼠标悬停效果。省略图标支持点击查看隐藏路径。
 
-## 案例
-
 ### 介绍
 
 用于识别页面在层次结构中的位置，并按需向上返回。API 对齐 Cedar Design Web 的核心能力（`routes` / `max-count` / 分隔符插槽），不包含 PC 向的 sticky。
+
+## 基础示例
 
 ### 基本使用
 
@@ -16,21 +16,18 @@
 ../example/demos/basic-usage.vue
 ```
 
-### 自定义分隔符
-
-通过 `separator` 属性或插槽自定义分隔符；子项配置优先于父级。同一示例对比分隔符插槽、父级属性和子项覆盖。
-
-```demo
-../example/demos/separator.vue
-```
-
-### 自定义图标
-
-```demo
-../example/demos/custom-icon.vue
-```
+## 内容与展示
 
 ### 参数化配置
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `routes` | 路径数据（非空时优先；为空时使用默认插槽） | 参数化配置、下拉菜单、显示省略 |
+| `max-count` | 最多展示的正常面包屑项数量，不包含 more；`0` 表示不限制 | 显示省略 |
+<!-- demo-config-notes:end -->
 
 通过 `routes` 传递面包屑数据。默认仅为前面的层级渲染链接，最后一级保持文本；可用 `#item-render` 自定义渲染。
 
@@ -62,14 +59,21 @@ Tooltip 支持 SVG 图标直接作为触发节点；触屏点击显示可设置 
 ../example/demos/click-event.vue
 ```
 
-<!-- api-review:start -->
-### 功能调试
+## 自定义与插槽
+
+### 自定义分隔符
+
+通过 `separator` 属性或插槽自定义分隔符；子项配置优先于父级。同一示例对比分隔符插槽、父级属性和子项覆盖。
 
 ```demo
-../example/demos/api-review.vue
+../example/demos/separator.vue
 ```
 
-<!-- api-review:end -->
+### 自定义图标
+
+```demo
+../example/demos/custom-icon.vue
+```
 
 ## API
 

@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json",
   "framework": "vue",
   "version": "1.0.0",
-  "name": "Maple",
+  "name": "Maple Design Mobile",
   "contributions": {
     "html": {
       "tags": [
@@ -408,7 +408,350 @@
         },
         {
           "name": "mp-cascader",
-          "attributes": [],
+          "attributes": [
+            {
+              "name": "model-value / default-value",
+              "description": "受控值 / 非受控初始值",
+              "default": "单选 ''，多选 []",
+              "value": {
+                "type": "`Value`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "open / default-open",
+              "description": "受控展开 / 默认展开",
+              "default": "undefined / false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "open-trigger-target",
+              "description": "打开面板的点击区域：field 为整个字段，icon 仅右侧选择按钮。清除、移除等独立操作除外；不影响键盘展开和受控 open。",
+              "default": "'field'",
+              "value": {
+                "type": "`'field' | 'icon'`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "input-value / default-input-value",
+              "description": "搜索文本，独立于选中值",
+              "default": "undefined / ''",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "multiple",
+              "description": "多选；默认启用搜索",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "size",
+              "description": "完整支持 xs、sm、md、lg、xl，未设置时继承分组与表单",
+              "default": "md",
+              "value": {
+                "type": "`ComponentSize`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "variant",
+              "description": "filled、outline、standard；未设置时继承 InputGroup",
+              "default": "filled",
+              "value": {
+                "type": "`FormControlVariant`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "disabled / readonly / error",
+              "description": "未设置时继承表单；显式 false 可覆盖",
+              "default": "undefined",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "placeholder",
+              "description": "占位文本",
+              "default": "—",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "hint / line",
+              "description": "浮动提示 / standard 变体下划线",
+              "default": "true",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "text-color / focus-color / blur-color",
+              "description": "字段颜色",
+              "default": "—",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "loading",
+              "description": "加载状态；禁止选择和确认",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show-tags",
+              "description": "多选值以标签展示；false 改用分隔文本",
+              "default": "true",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "separator",
+              "description": "show-tags=false 时的多选分隔符",
+              "default": ",",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "text-align",
+              "description": "文字对齐 left / center / right；未设置时继承 FormItem 的 content-align，独立使用默认阅读起点 start",
+              "default": "-",
+              "value": {
+                "type": "`'left' | 'center' | 'right'`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "max-tag-count",
+              "description": "标签数量上限，0 不限制",
+              "default": "0",
+              "value": {
+                "type": "`number`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "tag-nowrap",
+              "description": "标签单行显示；长文字省略、删除图标保留，标签行可横向滚动；悬停、聚焦或点按省略正文查看全文",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "popup-container",
+              "description": "选择器、元素、返回元素的函数或 false（原地渲染）",
+              "default": "—",
+              "value": {
+                "type": "`PopupContainer`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "trigger-props",
+              "description": "Menu 的 Trigger 属性；展开状态由字段控制",
+              "default": "—",
+              "value": {
+                "type": "`TriggerProps`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "virtual-list-props",
+              "description": "Menu / List 的虚拟列表参数",
+              "default": "—",
+              "value": {
+                "type": "`VirtualListProps`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "search-delay",
+              "description": "search 事件防抖时长（毫秒）",
+              "default": "500",
+              "value": {
+                "type": "`number`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "format-label",
+              "description": "格式化已选标签；VNode 使用 label 插槽",
+              "default": "—",
+              "value": {
+                "type": "`function`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "clearable",
+              "description": "允许清除，保留禁用的已选项",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "options",
+              "description": "树形选项；叶值模式要求叶值唯一，路径模式可区分不同分支",
+              "default": "undefined",
+              "value": {
+                "type": "`CascaderOption[]` / `(query, { signal }) => Array / Promise`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "field-names",
+              "description": "value、label、disabled、children、isLeaf、tagProps、render 的字段映射",
+              "default": "—",
+              "value": {
+                "type": "`CascaderFieldNames`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "path-mode",
+              "description": "true 返回完整路径；false 返回选中节点的值",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "check-strictly",
+              "description": "允许选中父节点；多选不关联父子节点",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "filterable",
+              "description": "开启搜索",
+              "default": "单选 false / 多选 true",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "case-sensitive",
+              "description": "内置本地过滤是否区分大小写，自定义过滤函数优先",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "filter-option",
+              "description": "接收搜索词和原始节点",
+              "default": "—",
+              "value": {
+                "type": "`(input, option) => boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "expand-trigger",
+              "description": "Menu / List 的展开交互：click 或 hover",
+              "default": "click",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "expand-child",
+              "description": "展开到首个子节点",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "load-more",
+              "description": "异步加载子节点；完成后调用 done(children)，失败调用 done() 以允许重试",
+              "default": "—",
+              "value": {
+                "type": "`(option, done) => void`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "fallback-option",
+              "description": "尚未加载的值如何反显",
+              "default": "true",
+              "value": {
+                "type": "`boolean 或 (value) => string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "search-option-only-label",
+              "description": "搜索结果仅显示节点标签，不显示路径",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "auto-fit-popup-width",
+              "description": "Menu 是否与字段等宽",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "edit-mode",
+              "description": "字段展示；未指定时继承 FormItem / Form",
+              "default": "popup",
+              "value": {
+                "type": "`direct / popup`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "popup-props",
+              "description": "弹层外观；展开状态、底部位置和挂载时机由扩展接管",
+              "default": "{}",
+              "value": {
+                "type": "`PopupProps`",
+                "kind": "expression"
+              }
+            }
+          ],
           "events": [],
           "slots": []
         },
@@ -589,8 +932,8 @@
               }
             },
             {
-              "name": "direction",
-              "description": "布局方向，可选值为 `horizontal` `vertical`",
+              "name": "orientation",
+              "description": "复选组内选项的横纵排列，默认 horizontal；不表示文字阅读方向",
               "default": "horizontal",
               "value": {
                 "type": "string",
@@ -602,7 +945,7 @@
               "description": "选项；传入时替代默认插槽",
               "default": "undefined",
               "value": {
-                "type": "Array<ChoiceValue | CheckboxOption | Record<string, unknown>>",
+                "type": "Array<ChoiceValue | CheckboxOption | Record<string, unknown>> / `(query, { signal }) => Array / Promise`",
                 "kind": "expression"
               }
             },
@@ -845,210 +1188,6 @@
           ]
         },
         {
-          "name": "mp-counter",
-          "attributes": [
-            {
-              "name": "v-model",
-              "description": "绑定的值",
-              "default": "0",
-              "value": {
-                "type": "number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "min",
-              "description": "最小值",
-              "default": "-",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "max",
-              "description": "最大值",
-              "default": "-",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "step",
-              "description": "步长",
-              "default": "1",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "decimal-length",
-              "description": "保留小数位数",
-              "default": "-",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "color",
-              "description": "背景颜色",
-              "default": "-",
-              "value": {
-                "type": "string",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "input-width",
-              "description": "输入框的宽度",
-              "default": "-",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "input-text-size",
-              "description": "输入框的文字大小",
-              "default": "-",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "button-size",
-              "description": "按钮大小",
-              "default": "-",
-              "value": {
-                "type": "string | number",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "elevation",
-              "description": "海拔高度，可选值为 `true` `false` 和 `0-24` 的等级, 不为简单模式时生效",
-              "default": "true",
-              "value": {
-                "type": "number | boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "readonly",
-              "description": "是否只读",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "disabled",
-              "description": "是否禁用",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "disable-increment",
-              "description": "是否禁用增加",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "disable-decrement",
-              "description": "是否禁用减少",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "disable-input",
-              "description": "是否禁用输入",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "increment-button",
-              "description": "是否显示增加按钮",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "decrement-button",
-              "description": "是否显示减少按钮",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "press",
-              "description": "是否开启按钮长按",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "ripple",
-              "description": "是否开启水波纹",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "lazy-change",
-              "description": "是否阻止组件本身的绑定值更新操作",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            }
-          ],
-          "events": [
-            {
-              "name": "before-change",
-              "description": "变更之前(仅限 lazy-change 模式)触发"
-            },
-            {
-              "name": "change",
-              "description": "变更时触发"
-            },
-            {
-              "name": "increment",
-              "description": "增加时触发"
-            },
-            {
-              "name": "decrement",
-              "description": "减少时触发"
-            }
-          ],
-          "slots": []
-        },
-        {
           "name": "mp-date",
           "attributes": [
             {
@@ -1075,6 +1214,15 @@
               "default": "true",
               "value": {
                 "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "open-trigger-target",
+              "description": "打开面板的点击区域：field 为整个字段，icon 仅右侧选择按钮。清除、移除等独立操作除外；不影响键盘展开和受控 open。",
+              "default": "'field'",
+              "value": {
+                "type": "`'field' | 'icon'`",
                 "kind": "expression"
               }
             },
@@ -1160,15 +1308,6 @@
               }
             },
             {
-              "name": "use-seconds",
-              "description": "默认时间精度，显式 format 优先",
-              "default": "true",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
               "name": "multiple",
               "description": "是否多选",
               "default": "false",
@@ -1233,7 +1372,7 @@
             },
             {
               "name": "popup-props",
-              "description": "透传给弹窗的属性",
+              "description": "可选的字段浮层展示配置，placement 默认 bottom-start；交给底层 Trigger 自动定位，可覆盖首选方位；不增加顶层 placement，不允许覆盖字段状态和规则",
               "default": "{}",
               "value": {
                 "type": "Partial\\<PopupProps\\>",
@@ -1379,6 +1518,15 @@
               }
             },
             {
+              "name": "open-trigger-target",
+              "description": "打开面板的点击区域：field 为整个字段，icon 仅右侧选择按钮。清除、移除等独立操作除外；不影响键盘展开和受控 open。",
+              "default": "'field'",
+              "value": {
+                "type": "`'field' | 'icon'`",
+                "kind": "expression"
+              }
+            },
+            {
               "name": "format",
               "description": "展示格式或格式化函数",
               "default": "—",
@@ -1454,15 +1602,6 @@
               "name": "show-time",
               "description": "是否选择时间",
               "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "use-seconds",
-              "description": "默认时间精度，显式 format 优先",
-              "default": "true",
               "value": {
                 "type": "boolean",
                 "kind": "expression"
@@ -1652,7 +1791,7 @@
           "attributes": [
             {
               "name": "orientation",
-              "description": "分割线方向",
+              "description": "分割线自身的横纵朝向，默认 horizontal；不控制文字对齐",
               "default": "horizontal",
               "value": {
                 "type": "`horizontal` | `vertical`",
@@ -1753,8 +1892,8 @@
           "name": "mp-drag",
           "attributes": [
             {
-              "name": "direction",
-              "description": "拖拽方向，可选值 `x`, `y`, `xy`",
+              "name": "axis",
+              "description": "允许拖动的坐标轴，默认 xy；x 仅横向、y 仅纵向、xy 为双轴；不是展开侧别",
               "default": "xy",
               "value": {
                 "type": "string",
@@ -1864,7 +2003,7 @@
             },
             {
               "name": "drag",
-              "description": "Drag 组件配置，用于深度定制（支持 `direction` `attraction` `boundary`）",
+              "description": "Drag 组件配置，用于深度定制（支持 `axis` `attraction` `boundary`）",
               "default": "false",
               "value": {
                 "type": "boolean | DragProps",
@@ -1882,16 +2021,16 @@
             },
             {
               "name": "position",
-              "description": "触发器位置，可选值为 `left-top` `right-top` `left-bottom` `right-bottom`",
-              "default": "right-bottom",
+              "description": "按钮自身在屏幕或定位容器中的角落，默认 bottom-right；四角统一使用上下在前的拼写",
+              "default": "bottom-right",
               "value": {
                 "type": "string",
                 "kind": "expression"
               }
             },
             {
-              "name": "direction",
-              "description": "动作菜单弹出方向，可选值为 `top` `bottom` `left` `right`",
+              "name": "placement",
+              "description": "动作菜单相对按钮的放置侧，默认 top；不会自动翻转，不改变按钮自身 position",
               "default": "top",
               "value": {
                 "type": "string",
@@ -2212,9 +2351,36 @@
             {
               "name": "label-align",
               "description": "标签对齐",
-              "default": "'right'",
+              "default": "'end'",
               "value": {
-                "type": "'left' | 'right'",
+                "type": "'start' | 'end' | 'left' | 'right'",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "content-align",
+              "description": "内容对齐，统一控制 direct 字段、弹出入口及 readPretty；与 label-align 独立",
+              "default": "'start'",
+              "value": {
+                "type": "`'start' | 'end' | 'left' | 'center' | 'right'`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "read-pretty",
+              "description": "独立的阅读开关；为 true 时展示已保存的值，关闭后恢复当前 edit-mode 的编辑方式；FormItem 未传时继承 Form",
+              "default": "-",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "edit-mode",
+              "description": "表单内字段的统一编辑模式；未设置时保留各字段默认值",
+              "default": "-",
+              "value": {
+                "type": "`'direct' | 'popup'`",
                 "kind": "expression"
               }
             },
@@ -2531,7 +2697,7 @@
             },
             {
               "name": "object-position",
-              "description": "图片内容位置，等同 CSS `object-position`",
+              "description": "沿用 CSS object-position，控制图像内容在图片盒内的对齐，默认 50% 50%；不是组件坐标",
               "default": "50% 50%",
               "value": {
                 "type": "string",
@@ -2576,7 +2742,7 @@
             },
             {
               "name": "footer-position",
-              "description": "底部内容位置，可选 `inner` `outer`",
+              "description": "说明区位于图片内部 inner 或外部 outer，默认 inner；不是四边浮层方位",
               "default": "inner",
               "value": {
                 "type": "string",
@@ -2956,7 +3122,7 @@
               "description": "受控绑定值",
               "default": "-",
               "value": {
-                "type": "`string`",
+                "type": "`string | null`",
                 "kind": "expression"
               }
             },
@@ -3105,6 +3271,15 @@
               }
             },
             {
+              "name": "empty-value",
+              "description": "清空输出；省略时清空返回空字符串，不影响手动删除",
+              "default": "undefined",
+              "value": {
+                "type": "`string | null | (() => string | null)`",
+                "kind": "expression"
+              }
+            },
+            {
               "name": "autofocus",
               "description": "是否自动聚焦",
               "default": "false",
@@ -3133,7 +3308,7 @@
             },
             {
               "name": "input-attrs",
-              "description": "透传原生属性，例如 `autocomplete`",
+              "description": "透传 name 等原生属性；`autocomplete` 固定为 `off`",
               "default": "-",
               "value": {
                 "type": "`object`",
@@ -3577,7 +3752,7 @@
             },
             {
               "name": "placement",
-              "description": "弹出位置",
+              "description": "浮层相对触发元素的首选方位，默认 bottom；启用默认的 auto-fit-position 时，空间不足会自动翻转并约束到可视区域，不保证最终停在该侧",
               "default": "'bottom'",
               "value": {
                 "type": "MenuPosition",
@@ -3797,6 +3972,12 @@
         },
         {
           "name": "mp-message",
+          "attributes": [],
+          "events": [],
+          "slots": []
+        },
+        {
+          "name": "mp-nav-menu",
           "attributes": [],
           "events": [],
           "slots": []
@@ -4326,6 +4507,12 @@
           "slots": []
         },
         {
+          "name": "mp-people-select",
+          "attributes": [],
+          "events": [],
+          "slots": []
+        },
+        {
           "name": "mp-picker",
           "attributes": [
             {
@@ -4556,7 +4743,7 @@
             },
             {
               "name": "placement",
-              "description": "首选方位",
+              "description": "浮层相对触发元素的首选方位，默认 bottom；启用默认的 auto-fit-position 时，空间不足会自动翻转并约束到可视区域，不保证最终停在该侧",
               "default": "bottom",
               "value": {
                 "type": "`TriggerPlacement`",
@@ -4868,8 +5055,8 @@
               }
             },
             {
-              "name": "direction",
-              "description": "布局方向，可选值为 `horizontal` `vertical`",
+              "name": "orientation",
+              "description": "单选组内选项的横纵排列，默认 horizontal；不表示文字阅读方向",
               "default": "horizontal",
               "value": {
                 "type": "string",
@@ -4881,7 +5068,7 @@
               "description": "选项；传入时替代默认插槽",
               "default": "undefined",
               "value": {
-                "type": "Array<ChoiceValue | RadioOption | Record<string, unknown>>",
+                "type": "Array<ChoiceValue | RadioOption | Record<string, unknown>> / `(query, { signal }) => Array / Promise`",
                 "kind": "expression"
               }
             },
@@ -5017,6 +5204,12 @@
           "slots": []
         },
         {
+          "name": "mp-safe-area",
+          "attributes": [],
+          "events": [],
+          "slots": []
+        },
+        {
           "name": "mp-search",
           "attributes": [
             {
@@ -5101,11 +5294,11 @@
               }
             },
             {
-              "name": "history-popup",
-              "description": "是否使用全屏 Popup 展示历史",
-              "default": "true",
+              "name": "edit-mode",
+              "description": "搜索编辑方式：direct 为直接搜索，popup 为弹层搜索",
+              "default": "'direct'",
               "value": {
-                "type": "boolean",
+                "type": "`'direct' | 'popup'`",
                 "kind": "expression"
               }
             },
@@ -5365,7 +5558,377 @@
         },
         {
           "name": "mp-select",
-          "attributes": [],
+          "attributes": [
+            {
+              "name": "model-value / default-value",
+              "description": "受控值 / 非受控初始值",
+              "default": "单选 ''，多选 []",
+              "value": {
+                "type": "`Value`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "open / default-open",
+              "description": "受控展开 / 默认展开",
+              "default": "undefined / false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "open-trigger-target",
+              "description": "打开面板的点击区域：field 为整个字段，icon 仅右侧选择按钮。清除、移除等独立操作除外；不影响键盘展开和受控 open。",
+              "default": "'field'",
+              "value": {
+                "type": "`'field' | 'icon'`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "input-value / default-input-value",
+              "description": "搜索文本，独立于选中值",
+              "default": "undefined / ''",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "multiple",
+              "description": "多选；默认启用搜索",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "size",
+              "description": "完整支持 xs、sm、md、lg、xl，未设置时继承分组与表单",
+              "default": "md",
+              "value": {
+                "type": "`ComponentSize`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "variant",
+              "description": "filled、outline、standard；未设置时继承 InputGroup",
+              "default": "filled",
+              "value": {
+                "type": "`FormControlVariant`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "disabled / readonly / error",
+              "description": "未设置时继承表单；显式 false 可覆盖",
+              "default": "undefined",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "placeholder",
+              "description": "占位文本",
+              "default": "—",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "hint / line",
+              "description": "浮动提示 / standard 变体下划线",
+              "default": "true",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "text-color / focus-color / blur-color",
+              "description": "字段颜色",
+              "default": "—",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "loading",
+              "description": "加载状态；禁止选择和确认",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "loading-mode",
+              "description": "加载布局：默认指示器或底部加载线",
+              "default": "default",
+              "value": {
+                "type": "`default / line`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show-tags",
+              "description": "多选值以标签展示；false 改用分隔文本",
+              "default": "true",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "separator",
+              "description": "show-tags=false 时的多选分隔符",
+              "default": ",",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "text-align",
+              "description": "文字对齐 left / center / right；未设置时继承 FormItem 的 content-align，独立使用默认阅读起点 start",
+              "default": "-",
+              "value": {
+                "type": "`'left' | 'center' | 'right'`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "max-tag-count",
+              "description": "标签数量上限，0 不限制",
+              "default": "0",
+              "value": {
+                "type": "`number`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "tag-nowrap",
+              "description": "标签单行显示；长文字省略、删除图标保留，标签行可横向滚动；悬停、聚焦或点按省略正文查看全文",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "popup-container",
+              "description": "选择器、元素、返回元素的函数或 false（原地渲染）",
+              "default": "—",
+              "value": {
+                "type": "`PopupContainer`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "trigger-props",
+              "description": "可选的下拉浮层 Trigger 配置；placement 默认 bottom-start，空间不足时自动调整；字段拥有展开状态，不提供顶层 placement",
+              "default": "—",
+              "value": {
+                "type": "`TriggerProps`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "virtual-list-props",
+              "description": "选项面板 的虚拟列表参数",
+              "default": "—",
+              "value": {
+                "type": "`VirtualListProps`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "search-delay",
+              "description": "search 事件防抖时长（毫秒）",
+              "default": "500",
+              "value": {
+                "type": "`number`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "format-label",
+              "description": "格式化已选标签；VNode 使用 label 插槽",
+              "default": "—",
+              "value": {
+                "type": "`function`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "clearable",
+              "description": "允许清除，保留禁用的已选项",
+              "default": "true",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "empty-value",
+              "description": "清空输出覆盖；多选返回数组，保留不可清除项",
+              "default": "undefined",
+              "value": {
+                "type": "`SelectEmptyValue`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "options",
+              "description": "原始值、对象、分组均支持；三种展示使用同一数据源",
+              "default": "undefined",
+              "value": {
+                "type": "`SelectOption[]` / `(query, { signal }) => Array / Promise`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "field-names",
+              "description": "value、label、disabled、tagProps、render 字段映射；对象值须有唯一标识字段",
+              "default": "—",
+              "value": {
+                "type": "`SelectFieldNames`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "filterable",
+              "description": "开启搜索，可设置 retainInputValue",
+              "default": "单选 false / 多选 true",
+              "value": {
+                "type": "`boolean 或 { retainInputValue?: boolean }`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "case-sensitive",
+              "description": "内置本地过滤是否区分大小写，自定义过滤函数优先",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "filter-option",
+              "description": "false 关闭本地过滤；函数接收搜索词和原始选项",
+              "default": "自动：数组开启，加载函数关闭",
+              "value": {
+                "type": "`boolean 或 (input, option) => boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "creatable",
+              "description": "允许创建不存在的选项",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "fallback-option",
+              "description": "异步选项未到达时反显值，或返回完整回退选项",
+              "default": "true",
+              "value": {
+                "type": "`boolean 或 (value) => SelectOptionData`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show-extra-options",
+              "description": "菜单中展示回退/创建选项",
+              "default": "true",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "limit",
+              "description": "多选数量上限，0 不限制",
+              "default": "0",
+              "value": {
+                "type": "`number`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "auto-fit-popup-width",
+              "description": "Menu 与字段等宽",
+              "default": "true",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-active-first-option",
+              "description": "打开选项列表时，无有效选中项则默认激活首个可用候选；仅高亮，不更新 modelValue 或触发 change。已有有效选中项优先激活该项",
+              "default": "true",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "unmount-on-close",
+              "description": "关闭 Menu 后销毁内容",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "scrollbar",
+              "description": "选项面板 滚动条配置",
+              "default": "true",
+              "value": {
+                "type": "`boolean 或 ScrollbarProps`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show-header-on-empty / show-footer-on-empty",
+              "description": "空状态仍展示 header / footer",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "edit-mode",
+              "description": "字段展示；未指定时继承 FormItem/Form",
+              "default": "popup",
+              "value": {
+                "type": "`direct / popup`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "before-commit",
+              "description": "确认校验后可等待的保存拦截钩子",
+              "default": "—",
+              "value": {
+                "type": "`(value, context) => void / false / Promise`",
+                "kind": "expression"
+              }
+            }
+          ],
           "events": [],
           "slots": []
         },
@@ -5551,7 +6114,7 @@
           "attributes": [
             {
               "name": "direction",
-              "description": "布局方向 可选值为 `row` `column`",
+              "description": "子元素的行列排列顺序，默认 row；column 表示按列排列，不使用 horizontal/vertical",
               "default": "row",
               "value": {
                 "type": "string",
@@ -5719,15 +6282,6 @@
               }
             },
             {
-              "name": "auto-loading",
-              "description": "主按钮异步点击时是否自动进入加载状态",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
               "name": "trigger",
               "description": "菜单触发方式",
               "default": "click",
@@ -5738,10 +6292,10 @@
             },
             {
               "name": "placement",
-              "description": "菜单弹出位置",
+              "description": "浮层相对触发元素的首选方位，默认 bottom；启用默认的 auto-fit-position 时，空间不足会自动翻转并约束到可视区域，不保证最终停在该侧",
               "default": "bottom",
               "value": {
-                "type": "PopoverPlacement",
+                "type": "MenuPosition",
                 "kind": "expression"
               }
             },
@@ -6037,7 +6591,7 @@
             },
             {
               "name": "orientation",
-              "description": "显示方向",
+              "description": "步骤流程的横纵轴向，默认 horizontal；arrow 和 navigation 类型固定横向",
               "default": "horizontal",
               "value": {
                 "type": "'horizontal' | 'vertical'",
@@ -6046,7 +6600,7 @@
             },
             {
               "name": "content-placement",
-              "description": "内容相对节点的位置",
+              "description": "正文相对步骤节点的方位，可选 right 或 bottom，默认 right；dot 类型按横纵轴推导，navigation 固定 right",
               "default": "right",
               "value": {
                 "type": "'right' | 'bottom'",
@@ -6899,6 +7453,15 @@
               }
             },
             {
+              "name": "open-trigger-target",
+              "description": "打开面板的点击区域：field 为整个字段，icon 仅右侧选择按钮。清除、移除等独立操作除外；不影响键盘展开和受控 open。",
+              "default": "'field'",
+              "value": {
+                "type": "`'field' | 'icon'`",
+                "kind": "expression"
+              }
+            },
+            {
               "name": "disable-confirm",
               "description": "有效选择后立即提交并请求关闭",
               "default": "false",
@@ -7161,6 +7724,15 @@
               "default": "false",
               "value": {
                 "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "open-trigger-target",
+              "description": "打开面板的点击区域：field 为整个字段，icon 仅右侧选择按钮。清除、移除等独立操作除外；不影响键盘展开和受控 open。",
+              "default": "'field'",
+              "value": {
+                "type": "`'field' | 'icon'`",
                 "kind": "expression"
               }
             },
@@ -7477,7 +8049,7 @@
             },
             {
               "name": "placement",
-              "description": "首选方位",
+              "description": "浮层相对触发元素的首选方位，默认 top；启用默认的 auto-fit-position 时，空间不足会自动翻转并约束到可视区域，不保证最终停在该侧",
               "default": "top",
               "value": {
                 "type": "`TriggerPlacement`",
@@ -7639,7 +8211,7 @@
             },
             {
               "name": "placement",
-              "description": "十二方位",
+              "description": "浮层相对触发元素的首选方位，默认 bottom；启用默认的 auto-fit-position 时，空间不足会自动翻转并约束到可视区域，不保证最终停在该侧",
               "default": "bottom",
               "value": {
                 "type": "TriggerPlacement",

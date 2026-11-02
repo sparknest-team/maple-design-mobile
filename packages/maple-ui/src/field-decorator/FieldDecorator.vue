@@ -2,6 +2,7 @@
   <component
     :is="tag"
     ref="rootRef"
+    :aria-busy="loading || undefined"
     :class="
       classes(
         n(),
@@ -23,7 +24,7 @@
     <span v-if="$slots.prefix" :class="n('prefix')"><slot name="prefix" /></span>
     <span ref="middleRef" :class="n('middle')"><slot /></span>
     <label v-if="hasHint" :for="id" :class="n('placeholder')">{{ placeholder }}</label>
-    <span v-if="showClear || $slots.suffix" :class="n('suffix')">
+    <span v-if="showClear || $slots.suffix || (loading && loadingMode === 'default')" :class="n('suffix')">
       <slot v-if="showClear" name="clear-icon" :clear="handleClear">
         <button
           type="button"
@@ -35,8 +36,14 @@
           <IconCloseCircleFill aria-hidden="true" />
         </button>
       </slot>
+      <span v-if="loading && loadingMode === 'default'" :class="n('loading-icon')" aria-hidden="true">
+        <Loading :size="indicatorSize"
+          ><template v-if="$slots['loading-icon']" #icon><slot name="loading-icon" /></template
+        ></Loading>
+      </span>
       <slot name="suffix" />
     </span>
+    <span v-if="loading && loadingMode === 'line'" :class="n('loading-line')" aria-hidden="true"><span /></span>
     <template v-if="line">
       <fieldset
         v-if="variant === 'outline' && hasHint"
@@ -65,6 +72,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { IconCloseCircleFill } from '@maple-design/icons-vue'
+import Loading from '../loading/Loading.vue'
 import { createNamespace } from '../utils/components'
 import { fieldDecoratorProps } from './props'
 import { useFieldGeometry } from './use-field-geometry'
@@ -72,6 +80,7 @@ import { useFieldLocale } from './use-field-locale'
 
 defineOptions({ name: createNamespace('field-decorator').name })
 const props = defineProps(fieldDecoratorProps)
+const indicatorSize = computed(() => ({ xs: 12, sm: 14, md: 16, lg: 18, xl: 20 })[props.size])
 const emit = defineEmits<{ clear: [event: Event]; mousedown: [event: MouseEvent] }>()
 const { n, classes } = createNamespace('field-decorator')
 const { t } = useFieldLocale()

@@ -1,7 +1,5 @@
 # 索引栏
 
-## 案例
-
 ### 生命周期与滚动任务
 
 新命令替换旧滚动；停用／卸载取消入口、插值及两帧稳定等待，保留命令不再写入／通知。激活等子锚点登记后恢复active位置，event:false不重复change。取消不跳旧目标，公开scrollTo仍返回void，duration默认0、正值cubic easing不变。组件私有任务替代原通用工具调用，不新增公共取消API／CSS变量。减少动效跳插值，但不跳列表／clickedName的必要两帧状态稳定。
@@ -14,6 +12,8 @@
 
 用于跳转到页面指定位置。
 
+## 基础示例
+
 ### 基本使用
 
 点击索引栏时，会自动跳转到对应的 `IndexAnchor` 锚点位置。
@@ -22,20 +22,17 @@
 ../example/demos/basic.vue
 ```
 
+## 生命周期与边界
+
 ### 停用、卸载与保留命令
 
 ```demo
 ../example/demos/lifecycle.vue
 ```
 
-<!-- api-review:start -->
-### 功能调试
+## 阅读方向
 
-```demo
-../example/demos/api-review.vue
-```
-
-<!-- api-review:end -->
+默认索引列表位于阅读终点，字母/条目顺序及纵向滚动坐标不反转；安全区和 sticky 顶部偏移仍保持物理含义。
 
 ## API
 

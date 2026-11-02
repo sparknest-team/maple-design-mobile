@@ -3,6 +3,7 @@ import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test, vi } from 'vitest'
 import Pagination from '..'
 import Select from '../../select'
+import Trigger from '../../trigger'
 import PageStep from '../PageItemStep.vue'
 import PageJumper from '../PageJumper.vue'
 import PageOptions from '../PageOptions.vue'
@@ -278,4 +279,18 @@ describe('Pagination shared contract', () => {
       globalThis.ResizeObserver = Original
     }
   })
+})
+
+test('page-size placement reaches the actual Trigger through Select and remains automatic', async () => {
+  const w = render({ showPageSize: true })
+  const trigger = w.findComponent(Select).findComponent(Trigger)
+  expect(trigger.props('placement')).toBe('bottom-start')
+  expect(trigger.props('autoFitPosition')).toBe(true)
+  await w.setProps({ pageSizeProps: { placement: 'top-end' } })
+  expect(trigger.props('placement')).toBe('top-end')
+  expect(trigger.props('autoFitPosition')).toBe(true)
+  await w.setProps({ pageSizeProps: {} })
+  expect(trigger.props('placement')).toBe('bottom-start')
+  expect(w.emitted('change')).toBeUndefined()
+  expect(w.emitted('page-size-change')).toBeUndefined()
 })

@@ -38,7 +38,7 @@ const options = computed(() => [
       v-model="pickerMultipleValue"
       path-mode
       placeholder="Picker 多选"
-      presentation="popup"
+      edit-mode="popup"
       :options="options"
       multiple
       show-tags

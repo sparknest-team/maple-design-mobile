@@ -11,6 +11,8 @@ export default {
   'fieldPresentation.selected': 'Selected',
   'fieldPresentation.limit': 'Select at most',
 
+  datePickerPreviousWeek: 'هفته قبل',
+  datePickerNextWeek: 'هفته بعد',
   datePickerPreviousMonth: 'ماه قبل',
   datePickerNextMonth: 'ماه بعد',
   datePickerPreviousYear: 'سال قبل',
@@ -22,6 +24,8 @@ export default {
   'carousel.next': 'اسلاید بعدی',
   'carousel.slide': '{index} از {total}',
   'carousel.goto': 'رفتن به اسلاید {index}',
+  'upload.replace': 'جایگزینی',
+  'upload.duration': 'مدت ویدیو',
   'upload.buttonText': 'بارگذاری',
   'upload.drag': 'فایل‌ها را اینجا رها کنید',
   'upload.preview': 'پیش‌نمایش',
@@ -161,6 +165,8 @@ export default {
   // time-picker
   timePickerHint: 'انتخاب زمان',
   // time-range
+  rangeStartPlaceholder: 'انتخاب شروع',
+  rangeEndPlaceholder: 'انتخاب پایان',
   timeRangeStart: 'شروع',
   dateRangeStart: 'تاریخ شروع',
   dateRangeEnd: 'تاریخ پایان',

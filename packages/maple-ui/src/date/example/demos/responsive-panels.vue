@@ -13,8 +13,24 @@ const presentations = ['calendarPicker', 'calendarPicker', 'picker'].map((value)
 </script>
 <template>
   <div>
-    <mp-select v-model="position" aria-label="独立面板快捷位置" :options="positions" />
-    <mp-select v-model="presentation" aria-label="独立面板时间形式" :options="presentations" />
+    <mp-form-item layout="vertical" size="sm" label="独立面板快捷位置">
+      <mp-radio-group
+        v-model="position"
+        aria-label="独立面板快捷位置"
+        :options="positions"
+        variant="button"
+        size="sm"
+      />
+    </mp-form-item>
+    <mp-form-item layout="vertical" size="sm" label="独立面板时间形式">
+      <mp-radio-group
+        v-model="presentation"
+        aria-label="独立面板时间形式"
+        :options="presentations"
+        variant="button"
+        size="sm"
+      />
+    </mp-form-item>
     <section v-for="type in types" :key="type" :aria-label="'独立 ' + type + ' 面板'">
       <h4>{{ type }} · DatePicker / DateRangePicker</h4>
       <mp-date-picker :type="type" :disable-confirm="false" presentation="calendar" />

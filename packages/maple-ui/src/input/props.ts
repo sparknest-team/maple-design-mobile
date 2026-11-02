@@ -1,7 +1,8 @@
 import type { ExtractPublicPropTypes, InputHTMLAttributes, PropType } from 'vue'
-import { beforeFieldCommitProp, fieldPresentationProp, readPrettyProp } from '../_components/field-presentation/context'
-import { fieldVariants, type FieldDecoratorVariant } from '../field-decorator/props'
+import { beforeFieldCommitProp, fieldEditModeProp, readPrettyProp } from '../_components/field-presentation/context'
+import { fieldLoadingProps, fieldVariants, type FieldDecoratorVariant } from '../field-decorator/props'
 import { componentSizes, type ComponentSize } from '../utils/constants'
+import { emptyTextProp, emptyValueProp, emptyValuesProp } from '../utils/empty-value'
 import { popupContainerProp } from '../utils/popup-container'
 
 export const inputTypes = ['text', 'password', 'number', 'tel', 'email'] as const
@@ -13,15 +14,22 @@ export type WordLength = (value: string) => number
 export type WordSlice = (value: string, maxLength: number) => string
 
 export const inputProps = {
-  /** 字段展示方式，未设置时继承上层。 */
-  presentation: fieldPresentationProp,
+  ...fieldLoadingProps,
+  /** 清空动作产生的模型值；省略保留原默认值。 */
+  emptyValue: emptyValueProp<string>(),
+  /** 编辑模式，未设置时继承 FormItem / Form。 */
+  editMode: fieldEditModeProp,
   readPretty: readPrettyProp,
+  /** 模型空值识别；不改变受控判定或清空输出。 */
+  emptyValues: emptyValuesProp,
+  /** 纯阅读空值文案；字段 > FormItem > Form，缺省为 '-'。 */
+  emptyText: emptyTextProp,
   beforeCommit: beforeFieldCommitProp,
   popupContainer: popupContainerProp,
   open: { type: Boolean, default: undefined },
   defaultOpen: Boolean,
   /** 受控输入值，通过 v-model 绑定；包括空字符串在内均优先于 defaultValue。 */
-  modelValue: String,
+  modelValue: String as PropType<string | null>,
   /** v-model 修饰符，trim 在提交时生效。 */
   modelModifiers: { type: Object as PropType<{ trim?: boolean }>, default: () => ({}) },
   /** 非受控初始值，仅创建时读取；后续修改不重置输入，也不回写父级。 */

@@ -9,19 +9,19 @@ test('installs the component', () => {
   expect(app.component(Switch.name)).toBeTruthy()
 })
 test('renders the common contract', () => {
-  const wrapper = mount(Switch)
+  const wrapper = mount(Switch, { props: { editMode: 'direct' } })
   expect(wrapper.html()).toMatchSnapshot()
   expect(wrapper.attributes('role')).toBe('switch')
   expect(wrapper.attributes('aria-checked')).toBe('false')
   wrapper.unmount()
 })
 test.each(['circle', 'round', 'line', 'tonal'])('variant %s', (variant) => {
-  const wrapper = mount(Switch, { props: { variant } })
+  const wrapper = mount(Switch, { props: { editMode: 'direct', variant } })
   expect(wrapper.classes()).toContain('mp-switch--variant-' + variant)
   wrapper.unmount()
 })
 test.each(['sm', 'md', 'lg'])('size %s', (size) => {
-  const wrapper = mount(Switch, { props: { size } })
+  const wrapper = mount(Switch, { props: { editMode: 'direct', size } })
   expect(wrapper.classes()).toContain('mp-switch--size-' + size)
   wrapper.unmount()
 })
@@ -30,8 +30,10 @@ test('validators reject removed presets', () => {
   expect(switchProps.size.validator('xl')).toBe(false)
 })
 test('independent uncontrolled instances and custom values', async () => {
-  const first = mount(Switch, { props: { defaultValue: 'yes', checkedValue: 'yes', uncheckedValue: 'no' } })
-  const second = mount(Switch)
+  const first = mount(Switch, {
+    props: { editMode: 'direct', defaultValue: 'yes', checkedValue: 'yes', uncheckedValue: 'no' },
+  })
+  const second = mount(Switch, { props: { editMode: 'direct' } })
   await first.trigger('click')
   expect(first.emitted('update:modelValue')).toEqual([['no']])
   expect(first.attributes('aria-checked')).toBe('false')
@@ -40,7 +42,7 @@ test('independent uncontrolled instances and custom values', async () => {
   second.unmount()
 })
 test('controlled values only change after the parent updates', async () => {
-  const wrapper = mount(Switch, { props: { modelValue: false } })
+  const wrapper = mount(Switch, { props: { editMode: 'direct', modelValue: false } })
   await wrapper.trigger('click')
   expect(wrapper.attributes('aria-checked')).toBe('false')
   expect(wrapper.emitted('change')[0]).toEqual([true, expect.any(Event)])
@@ -52,6 +54,7 @@ test('update precedes change and all events are emitted once', async () => {
   const order = []
   const wrapper = mount(Switch, {
     props: {
+      editMode: 'direct',
       onClick: () => order.push('click'),
       'onUpdate:modelValue': () => order.push('update'),
       onChange: () => order.push('change'),
@@ -62,7 +65,7 @@ test('update precedes change and all events are emitted once', async () => {
   wrapper.unmount()
 })
 test.each(['disabled', 'loading', 'readonly'])('%s blocks changes', async (prop) => {
-  const wrapper = mount(Switch, { props: { [prop]: true } })
+  const wrapper = mount(Switch, { props: { editMode: 'direct', [prop]: true } })
   await wrapper.trigger('click')
   expect(wrapper.emitted('change')).toBeUndefined()
   expect(wrapper.emitted('click')?.length ?? 0).toBe(prop === 'readonly' ? 1 : 0)
@@ -75,7 +78,9 @@ test.each([
   },
   () => Promise.reject(Error('cancel')),
 ])('interceptor cancellation %s', async (result) => {
-  const wrapper = mount(Switch, { props: { beforeChange: typeof result === 'function' ? result : () => result } })
+  const wrapper = mount(Switch, {
+    props: { editMode: 'direct', beforeChange: typeof result === 'function' ? result : () => result },
+  })
   await wrapper.trigger('click')
   await flushPromises()
   expect(wrapper.emitted('change')).toBeUndefined()
@@ -90,12 +95,16 @@ test('pending interceptor locks repeated input and commits once', async () => {
         resolve = done
       }),
   )
-  const wrapper = mount(Switch, { props: { beforeChange } })
+  const wrapper = mount(Switch, { props: { editMode: 'direct', beforeChange } })
   await wrapper.trigger('click')
   expect(wrapper.attributes('aria-busy')).toBe('true')
   await wrapper.trigger('click')
   expect(beforeChange).toHaveBeenCalledTimes(1)
-  expect(beforeChange).toHaveBeenCalledWith(true)
+  expect(beforeChange).toHaveBeenCalledWith(
+    { value: true, previousValue: false },
+    expect.any(Function),
+    expect.objectContaining({ signal: expect.any(AbortSignal) }),
+  )
   resolve(true)
   await flushPromises()
   expect(wrapper.emitted('change')).toHaveLength(1)
@@ -108,6 +117,7 @@ test.each(['unmount', 'disabled', 'readonly', 'external'])(
     let resolve
     const wrapper = mount(Switch, {
       props: {
+        editMode: 'direct',
         beforeChange: () =>
           new Promise((done) => {
             resolve = done
@@ -138,6 +148,7 @@ test('deactivation cancels a pending interceptor', async () => {
         default: () =>
           shown.value
             ? h(Switch, {
+                editMode: 'direct',
                 beforeChange: () =>
                   new Promise((done) => {
                     resolve = done
@@ -156,7 +167,7 @@ test('deactivation cancels a pending interceptor', async () => {
   wrapper.unmount()
 })
 test('keyboard, focus, blur and repeat suppression', async () => {
-  const wrapper = mount(Switch)
+  const wrapper = mount(Switch, { props: { editMode: 'direct' } })
   await wrapper.trigger('focus')
   await wrapper.trigger('keydown', { key: 'Enter', repeat: true })
   expect(wrapper.emitted('change')).toBeUndefined()
@@ -171,6 +182,7 @@ test('keyboard, focus, blur and repeat suppression', async () => {
 test('text, icon slots, colors, elevation and ripple are real capabilities', async () => {
   const wrapper = mount(Switch, {
     props: {
+      editMode: 'direct',
       checkedText: 'On',
       uncheckedText: 'Off',
       checkedColor: 'red',

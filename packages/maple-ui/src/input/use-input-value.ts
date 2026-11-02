@@ -1,8 +1,11 @@
 import { computed, ref, watch } from 'vue'
+import { resolveEmptyValue, useEmptyValues } from '../utils/empty-value'
 import { normalizeTextInputValue } from '../utils/text-input-value'
 
 interface InputValueProps {
-  modelValue?: string
+  emptyValues?: readonly unknown[]
+  emptyValue?: string | null | (() => string | null)
+  modelValue?: string | null
   defaultValue: string
   modelModifiers: { trim?: boolean }
   type: string
@@ -13,18 +16,22 @@ interface InputValueProps {
 
 export function useInputValue(
   props: Readonly<InputValueProps>,
-  emitUpdate: (value: string) => void,
-  emitChange: (value: string, ev: Event) => void,
+  emitUpdate: (value: string | null) => void,
+  emitChange: (value: string | null, ev: Event) => void,
 ) {
   const localValue = ref(props.defaultValue)
-  const value = computed(() => props.modelValue ?? localValue.value)
+  const emptyPolicy = useEmptyValues(props)
+  const value = computed(() => {
+    const raw = props.modelValue === null ? null : (props.modelValue ?? localValue.value)
+    return emptyPolicy.isEmpty(raw) ? '' : (raw ?? '')
+  })
   const focused = ref(false)
   const maxLength = computed(() => (typeof props.maxLength === 'object' ? props.maxLength.length : props.maxLength))
   const errorOnly = computed(() => typeof props.maxLength === 'object' && Boolean(props.maxLength.errorOnly))
   const getValueLength = (text: string) => props.wordLength?.(text) ?? text.length
   const valueLength = computed(() => getValueLength(value.value))
-  let previousValue = value.value
-  let pendingCommittedValue: string | undefined
+  let previousValue: string | null = value.value
+  let pendingCommittedValue: string | null | undefined
   let requestedValue: string | undefined
 
   watch(
@@ -83,13 +90,17 @@ export function useInputValue(
     }
   }
 
-  const clearValue = (event: Event, beforeUpdate?: (value: string) => void) => {
-    pendingCommittedValue = ''
+  const clearValue = (event: Event, beforeUpdate?: (value: string | null) => void) => {
+    const cleared = resolveEmptyValue(props, '')
+    pendingCommittedValue = cleared
     const previous = value.value
-    updateValue('', beforeUpdate)
-    previousValue = props.modelValue !== undefined ? value.value : ''
-    if (previous !== '') {
-      emitChange('', event)
+    const next = cleared
+    beforeUpdate?.(next)
+    localValue.value = next ?? ''
+    emitUpdate(next)
+    previousValue = props.modelValue !== undefined ? value.value : next
+    if (previous !== next) {
+      emitChange(next, event)
     }
   }
 

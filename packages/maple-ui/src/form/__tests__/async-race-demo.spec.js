@@ -14,7 +14,7 @@ useDemoControls()
 const components = { MpForm: Form, MpFormItem: FormItem, MpInput: Input, MpButton: Button, MpSpace: Space }
 
 test('English async demo uses real rules and exposes a failed result', async () => {
-  const wrapper = mount(EnglishDemo, { global: { components } })
+  const wrapper = mount(EnglishDemo, { props: { editMode: 'direct' }, global: { components } })
   try {
     await wrapper.get('input').setValue('guest')
     await click(wrapper, 'Validate field')
@@ -108,7 +108,9 @@ test('clear/reset invalidate late errors while retaining controls for a fresh va
 
 test('deactivation settles pending demo requests and allows another transaction', async () => {
   const shown = ref(true)
-  const Host = defineComponent({ setup: () => () => h(KeepAlive, null, () => (shown.value ? h(Demo) : null)) })
+  const Host = defineComponent({
+    setup: () => () => h(KeepAlive, null, () => (shown.value ? h(Demo, { editMode: 'direct' }) : null)),
+  })
   const wrapper = mount(Host, { global: { components } })
   try {
     await wrapper.get('input').setValue('guest')

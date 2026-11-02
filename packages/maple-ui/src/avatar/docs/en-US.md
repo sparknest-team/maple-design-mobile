@@ -2,7 +2,7 @@
 
 Both libraries use the same implementation and examples; package prefixes, themes and registration stay local.
 
-## Examples
+## Basic examples
 
 ### Basic usage
 
@@ -12,23 +12,111 @@ Avatars default to a circle at the default size. Use the default slot for text o
 ../example/demos/basic.vue
 ```
 
-### Size
+## Appearance and states
+
+### Size and shape comparison
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `shape` | Avatar shape | Size and shape comparison, Color and border, Hoverable |
+| `image-url` | Image URL | Size and shape comparison, Hoverable |
+| `alt` | Image alternative text | Size and shape comparison, Hoverable |
+| `bordered` | Whether to show a border | Color and border, Hoverable |
+| `size` | Avatar width and height; numbers are px, strings are CSS lengths | Size and shape comparison |
+| `color` | Background color | Color and border |
+<!-- demo-config-notes:end -->
+
+
+Compare space used at each size, then round and square boundaries. Image fitting and fallback remain separate.
+
+<details>
+<summary>Configuration details and limits</summary>
+
+#### Size
 
 `size` sets width and height. Numbers are px; strings are CSS lengths such as `3rem`. Text and image avatars both use it.
 
-```demo
-../example/demos/size.vue
-```
-
-### Shape
+#### Shape
 
 `shape` supports circle and square.
 
+</details>
+
 ```demo
-../example/demos/shape.vue
+../example/demos/shape-size-comparison.vue
 ```
 
+### Color and border
+
+`color` sets the background. `bordered` / `borderColor` control the outline.
+
+```demo
+../example/demos/style.vue
+```
+
+### Hoverable
+
+`hoverable` scales the avatar on hover, alone or inside a group.
+
+```demo
+../example/demos/hoverable.vue
+```
+
+## Layout and arrangement
+
+### Group direction and overflow
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `image-url` | Image URL | Group direction and overflow |
+| `alt` | Image alternative text | Group direction and overflow |
+| `bordered` | Whether to show a border | Group direction and overflow |
+| `color` | Background color | Group direction and overflow |
+<!-- demo-config-notes:end -->
+
+
+Compare horizontal and vertical groups, maximum counts, stacking and overflow indicators.
+
+<details>
+<summary>Configuration details and limits</summary>
+
+#### Avatar group
+
+`AvatarGroup` stacks children. Use `bordered` for layered outlines, `maxCount` to fold extras into a Popover, `maxStyle` for the summary avatar, and `zIndexAscend` for stacking order. `shape` / `size` / `offset` apply to every child.
+
+#### Vertical group
+
+`vertical` stacks avatars in a column. `offset` is the overlap, in px when numeric.
+
+</details>
+
+```demo
+../example/demos/group-comparison.vue
+```
+
+## Content and presentation
+
 ### Auto-fit text
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `image-url` | Image URL | Image avatar, Image fit, Loading and fallback |
+| `alt` | Image alternative text | Image avatar, Image fit, Loading and fallback |
+| `size` | Avatar width and height; numbers are px, strings are CSS lengths | Image avatar, Image fit, Loading and fallback |
+| `shape` | Avatar shape | Auto-fit text, Image avatar |
+| `auto-fix-font-size` | Whether to shrink long text automatically | Auto-fit text |
+| `object-fit` | Image fitting mode | Image fit |
+<!-- demo-config-notes:end -->
+
 
 Long text scales to the avatar width by default. Updated slot text is measured after rendering; shortening it restores the original scale when it fits. Set `auto-fix-font-size` to `false` to keep the original size.
 
@@ -60,39 +148,21 @@ Set `imageUrl` and provide `alt`. You can also put `img` / `picture` in the defa
 ../example/demos/fallback.vue
 ```
 
-### Color and border
-
-`color` sets the background. `bordered` / `borderColor` control the outline.
-
-```demo
-../example/demos/style.vue
-```
-
-### Avatar group
-
-`AvatarGroup` stacks children. Use `bordered` for layered outlines, `maxCount` to fold extras into a Popover, `maxStyle` for the summary avatar, and `zIndexAscend` for stacking order. `shape` / `size` / `offset` apply to every child.
-
-```demo
-../example/demos/group.vue
-```
-
-### Vertical group
-
-`vertical` stacks avatars in a column. `offset` is the overlap, in px when numeric.
-
-```demo
-../example/demos/group-vertical.vue
-```
-
-### Hoverable
-
-`hoverable` scales the avatar on hover, alone or inside a group.
-
-```demo
-../example/demos/hoverable.vue
-```
+## Interaction and control
 
 ### Trigger icon
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `image-url` | Image URL | Trigger icon |
+| `alt` | Image alternative text | Trigger icon |
+| `size` | Avatar width and height; numbers are px, strings are CSS lengths | Trigger icon |
+| `trigger-type` | How the action icon is shown | Trigger icon |
+<!-- demo-config-notes:end -->
+
 
 The `trigger-icon` slot adds an action. `triggerType` is `button` or `overlay`; clicks emit `click`.
 
@@ -100,27 +170,18 @@ The `trigger-icon` slot adds an action. `triggerType` is `button` or `overlay`; 
 ../example/demos/trigger.vue
 ```
 
-<!-- api-review:start -->
-### Feature playground
-
-```demo
-../example/demos/api-review.vue
-```
-
-<!-- api-review:end -->
-
 ## API
 
 <!-- same-source-api:start -->
 ### Props
 
-| 属性 | 说明 | 类型 | 默认值 |
+| Prop | Description | Type | Default |
 | --- | --- | --- | --- |
 | shape | Avatar shape | `circle / square` | `circle` |
 | image-url | Image URL | `string` | `-` |
 | alt | Image alternative text | `string` | `''` |
-| size | Width and height; numbers are px, strings are CSS lengths | `number / string` | `-` |
-| auto-fix-font-size | Scale overflow text automatically | `boolean` | `true` |
+| size | Avatar width and height; numbers are px, strings are CSS lengths | `number / string` | `-` |
+| auto-fix-font-size | Whether to shrink long text automatically | `boolean` | `true` |
 | trigger-type | How the action icon is shown | `button / overlay` | `button` |
 | trigger-icon-style | Custom style for the action icon | `CSSProperties` | `-` |
 | object-fit | Image fitting mode | `fill / contain / cover / none / scale-down` | `cover` |
@@ -128,29 +189,29 @@ The `trigger-icon` slot adds an action. `triggerType` is `button` or `overlay`; 
 | bordered | Whether to show a border | `boolean` | `false` |
 | border-color | Border color | `string` | `-` |
 | loading | Placeholder image while loading | `string` | `-` |
-| error | Fallback image on load failure | `string` | `-` |
+| error | Fallback image URL when image loading fails | `string` | `-` |
 | lazy | Whether to lazy-load the image | `boolean` | `false` |
 | hoverable | Whether to scale on hover | `boolean` | `false` |
 
 ### Events
 
-| 事件 | 说明 | 参数 |
+| Event | Description | Arguments |
 | --- | --- | --- |
 | click | Emitted when the avatar is clicked | `(event: MouseEvent) => void` |
 | load | Emitted when the image loads | `() => void` |
-| error | Emitted when the image fails to load | `() => void` |
+| error | Emitted when image loading fails | `() => void` |
 
 ### Slots
 
-| 插槽 | 说明 |
+| Slot | Description |
 | --- | --- |
-| default | Text, icon, or loading content |
-| error | Fallback when the image fails |
+| default | Text, icon, or loading content for an image |
+| error | Fallback content when image loading fails |
 | trigger-icon | Action icon on the avatar |
 
 ### Methods
 
-No public methods.
+No custom public methods.
 <!-- same-source-api:end -->
 
 ### AvatarGroup Props
@@ -158,8 +219,8 @@ No public methods.
 | Prop | Description | Type | Default |
 | --- | --- | --- | --- |
 | shape | Child avatar shape | `circle / square` | `circle` |
-| size | Child width and height; numbers are px, strings are CSS lengths | `number / string` | `-` |
-| auto-fix-font-size | Scale overflow text on children | `boolean` | `true` |
+| size | Child avatar width and height; numbers are px, strings are CSS lengths | `number / string` | `-` |
+| auto-fix-font-size | Whether to shrink child avatar text automatically | `boolean` | `true` |
 | max-count | Maximum visible avatars; `0` means unlimited | `number` | `0` |
 | z-index-ascend | Use ascending stacking order | `boolean` | `false` |
 | max-style | Custom summary avatar style | `CSSProperties` | `-` |
@@ -173,7 +234,7 @@ No public methods.
 | --- | --- |
 | default | Avatar list |
 
-### Type Definitions
+### Type definitions
 
 ```ts
 import type {
@@ -184,10 +245,10 @@ import type {
   AvatarObjectFit,
   AvatarShape,
   AvatarTriggerType,
-} from '@maple-design/ui'
+} from '@maple-design/ui';
 ```
 
-### Style Variables
+### Style variables
 
 | Variable | Default |
 | --- | --- |
@@ -228,4 +289,4 @@ Text, summary counts, and button-style trigger icons use the primary content rol
 
 ### Reduced motion
 
-Built-in CSS transitions respect `prefers-reduced-motion: reduce`. Final visibility, checked/expanded state and event semantics remain unchanged; custom slot animations are controlled by the application.
+Built-in CSS transitions follow `prefers-reduced-motion: reduce`. Removing transitions does not change final visibility, selected/expanded state or event semantics. Applications control custom animations inside slots.

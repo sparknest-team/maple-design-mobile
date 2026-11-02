@@ -74,11 +74,13 @@ export function withPropsDefaultsSetter<T>(
       const type = descriptor.type
       const types = Array.isArray(type) ? type : [type]
       const defaultValue =
-        types.includes(Object) && (value === null || isPlainObject(value))
-          ? () => (value === null ? null : { ...value })
-          : types.includes(Array) && (value === null || Array.isArray(value))
-            ? () => (value === null ? null : [...value])
-            : value
+        types.includes(Function) && typeof value === 'function' && type !== Function
+          ? () => value
+          : types.includes(Object) && (value === null || isPlainObject(value))
+            ? () => (value === null ? null : { ...value })
+            : types.includes(Array) && (value === null || Array.isArray(value))
+              ? () => (value === null ? null : [...value])
+              : value
 
       props[key] = {
         ...descriptor,

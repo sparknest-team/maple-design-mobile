@@ -1,5 +1,5 @@
-import dayjs from 'dayjs/esm/index.js'
-import customParseFormat from 'dayjs/esm/plugin/customParseFormat/index.js'
+import dayjs from 'dayjs'
+import customParseFormat from 'dayjs/plugin/customParseFormat.js'
 import { parseClock } from '../utils/picker-data'
 import { formatClockLabel, resolveTimeFormat, type TimeFormatOptions } from './time-format'
 import { getTimeChoices, isTimeAllowed, type TimeConstraints } from './time-rules'
@@ -42,12 +42,12 @@ export function fromClockValue(value: string | undefined, options: TimeFormatOpt
   return seconds === null ? undefined : formatClockLabel(seconds, resolveTimeFormat(options).format)
 }
 
-export function getFormattedTimeChoices(value: TimeValue | undefined, rules: FormattedTimeRules) {
+export function getFormattedTimeChoices(value: TimeValue | null | undefined, rules: FormattedTimeRules) {
   const result = getTimeChoices(toClockValue(value, rules), getTimeConstraints(rules))
   return { ...result, value: fromClockValue(result.value, rules) }
 }
 
-export function isFormattedTimeAllowed(value: TimeValue | undefined, rules: FormattedTimeRules) {
+export function isFormattedTimeAllowed(value: TimeValue | null | undefined, rules: FormattedTimeRules) {
   return isTimeAllowed(toClockValue(value, rules), getTimeConstraints(rules))
 }
 

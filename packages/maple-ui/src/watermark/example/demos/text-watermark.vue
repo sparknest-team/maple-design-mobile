@@ -9,9 +9,9 @@ const clicks = ref(0)
 
 <template>
   <section class="watermark-contrast-demo">
-    <mp-checkbox v-model="dark">Dark surface / 深色底</mp-checkbox>
-    <mp-checkbox v-model="shown">Show watermark / 显示水印</mp-checkbox>
-    <label>Watermark text / 水印文字<mp-input v-model="content" /></label>
+    <mp-checkbox v-model="dark" edit-mode="direct">Dark surface / 深色底</mp-checkbox>
+    <mp-checkbox v-model="shown" edit-mode="direct">Show watermark / 显示水印</mp-checkbox>
+    <label>Watermark text / 水印文字<mp-input v-model="content" edit-mode="direct" /></label>
     <mp-watermark
       v-if="shown"
       :content="content"

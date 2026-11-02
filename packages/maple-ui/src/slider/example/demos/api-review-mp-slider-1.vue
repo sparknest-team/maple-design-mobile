@@ -10,7 +10,7 @@ const proposed = ref(50)
 </script>
 <template>
   <DemoApiReviewPanel v-slot="__apiReview" v-bind="defineReviewConfig(__apiReviewRawConfig)">
-    <div style="display: grid; gap: 28px; padding: 24px 12px">
+    <mp-space direction="column" size="28px" style="padding: 24px 12px">
       <mp-slider
         v-model="accepted"
         range
@@ -41,6 +41,6 @@ const proposed = ref(50)
         v-bind="__apiReview.bindings"
         v-on="__apiReview.listeners"
       />
-    </div>
+    </mp-space>
   </DemoApiReviewPanel>
 </template>

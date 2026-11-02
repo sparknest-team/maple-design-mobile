@@ -18,7 +18,7 @@ defineProps({ english: Boolean })
   white-space: normal;
   overflow: hidden;
   padding: 16px;
-  color: var(--mp-sys-color-action-primary);
+  color: var(--mp-sys-color-content-primary);
   background: var(--mp-sys-color-surface-default);
   border: 1px solid var(--mp-sys-color-border-default);
 }

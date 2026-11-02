@@ -27,7 +27,7 @@ const editorProps = reactive({
   ...Object.fromEntries(Object.keys(props.options).map((key) => [key, computed(() => props.options[key])])),
   modelValue: computed(() => props.modelValue),
   open: true,
-  presentation: 'inline',
+  editMode: 'direct',
 })
 const forward = ((event: string, ...args: any[]) => {
   if (event === 'update:modelValue') {

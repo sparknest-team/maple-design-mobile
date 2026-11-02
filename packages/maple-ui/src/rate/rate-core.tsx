@@ -7,9 +7,11 @@ import {
   IconStarFill,
   IconStarHalfFull,
 } from '@maple-design/icons-vue'
+import { useDirection } from '../_utils/direction'
 import Icon from '../icon'
 import Ripple from '../ripple'
 import { createNamespace } from '../utils/components'
+import { resolveEmptyValue } from '../utils/empty-value'
 import { positiveLength } from '../utils/size-length'
 import { rateProps, type RateColor, type RateIcon as RateIconValue } from './props'
 import { useRateForm } from './use-rate-form'
@@ -30,8 +32,12 @@ export default defineComponent({
   emits: ['change', 'hover-change', 'update:modelValue'],
   setup(props, { emit, slots, expose }) {
     const root = ref<HTMLElement>()
-    expose({ focus: () => root.value?.focus(), blur: () => root.value?.blur() })
-    const innerValue = ref(props.defaultValue)
+    const { isRtl } = useDirection(() => root.value)
+    expose({
+      focus: () => root.value?.focus(),
+      blur: () => root.value?.blur(),
+    })
+    const innerValue = ref<number | null>(props.defaultValue)
     const hoverValue = ref(0)
     const animation = ref(false)
     const count = computed(() =>
@@ -41,7 +47,7 @@ export default defineComponent({
           ? Math.max(1, Math.floor(Number(props.count)))
           : 5,
     )
-    const value = computed(() => normalize(props.modelValue !== undefined ? props.modelValue : innerValue.value))
+    const value = computed(() => normalize((props.modelValue !== undefined ? props.modelValue : innerValue.value) ?? 0))
     const displayValue = computed(() => normalize(hoverValue.value || value.value))
     const { mergedDisabled, mergedReadonly, mergedError, eventHandlers } = useRateForm(props)
     const interactionDisabled = computed(() => mergedDisabled.value || mergedReadonly.value)
@@ -63,7 +69,7 @@ export default defineComponent({
       }
       const previous = value.value
       const normalized = normalize(next)
-      const result = clear && props.clearable && normalized === previous ? 0 : normalized
+      const result = clear && props.clearable && normalized === previous ? resolveEmptyValue(props, 0) : normalized
       if (result === previous) {
         return
       }
@@ -91,7 +97,10 @@ export default defineComponent({
       return threshold == null ? undefined : source[String(threshold)]
     }
 
-    function iconAt(index: number): { icon?: RateIconValue; fallback: 'full' | 'empty' | 'half' } {
+    function iconAt(index: number): {
+      icon?: RateIconValue
+      fallback: 'full' | 'empty' | 'half'
+    } {
       if (index <= displayValue.value) {
         return { icon: props.icon, fallback: 'full' }
       }
@@ -114,14 +123,24 @@ export default defineComponent({
         return renderIcon(undefined, fallback)
       }
       if (slots.character) {
-        return slots.character({ index: index - 1, value: index, active: index <= displayValue.value })
+        return slots.character({
+          index: index - 1,
+          value: index,
+          active: index <= displayValue.value,
+        })
       }
       const state = iconAt(index)
       return renderIcon(state.icon, state.fallback)
     }
 
     function renderIcon(icon: RateIconValue | undefined, fallback: keyof typeof defaultIcons) {
-      const attrs = { class: n('content-icon'), style: { fontSize: positiveLength(props.size, '') } }
+      const attrs = {
+        class: n('content-icon'),
+        style: {
+          fontSize: positiveLength(props.size, ''),
+          transform: fallback === 'half' && isRtl.value ? 'scaleX(-1)' : undefined,
+        },
+      }
       if (typeof icon === 'string') {
         return h(Icon, { ...attrs, name: icon })
       }
@@ -134,7 +153,10 @@ export default defineComponent({
         return
       }
       const rect = (event.currentTarget as HTMLElement).getBoundingClientRect()
-      const next = props.allowHalf && event.clientX - rect.left <= rect.width / 2 ? index - 0.5 : index
+      const next =
+        props.allowHalf && (isRtl.value ? rect.right - event.clientX : event.clientX - rect.left) <= rect.width / 2
+          ? index - 0.5
+          : index
       if (hoverValue.value !== next) {
         hoverValue.value = next
         emit('hover-change', next)
@@ -159,9 +181,9 @@ export default defineComponent({
         return
       }
       const step = props.allowHalf ? 0.5 : 1
-      if (event.key === 'ArrowRight' || event.key === 'ArrowUp') {
+      if (event.key === (isRtl.value ? 'ArrowLeft' : 'ArrowRight') || event.key === 'ArrowUp') {
         setValue(value.value + step)
-      } else if (event.key === 'ArrowLeft' || event.key === 'ArrowDown') {
+      } else if (event.key === (isRtl.value ? 'ArrowRight' : 'ArrowLeft') || event.key === 'ArrowDown') {
         setValue(value.value - step)
       } else if (event.key === 'Home') {
         setValue(0)
@@ -223,12 +245,18 @@ export default defineComponent({
                 ],
                 style: {
                   color: active || half ? selectedColor : emptyColor,
-                  marginRight: index < count.value ? positiveLength(props.gap, '') : undefined,
+                  marginInlineEnd: index < count.value ? positiveLength(props.gap, '') : undefined,
                 },
                 onMousemove: (event: MouseEvent) => hover(index, event),
                 onClick: (event: MouseEvent) => {
                   const rect = (event.currentTarget as HTMLElement).getBoundingClientRect()
-                  setValue(props.allowHalf && event.clientX - rect.left <= rect.width / 2 ? index - 0.5 : index, true)
+                  setValue(
+                    props.allowHalf &&
+                      (isRtl.value ? rect.right - event.clientX : event.clientX - rect.left) <= rect.width / 2
+                      ? index - 0.5
+                      : index,
+                    true,
+                  )
                 },
                 onAnimationend: () => {
                   animation.value = false

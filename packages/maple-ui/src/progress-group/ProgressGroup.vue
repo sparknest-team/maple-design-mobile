@@ -207,7 +207,7 @@ const activeLineItem = computed(() => circleSegments.value[activeIndex.value])
 const lineTooltipStyle = computed(() => {
   const before = circleSegments.value.slice(0, activeIndex.value).reduce((sum, item) => sum + item.displayPercent, 0)
   const middle = before + (activeLineItem.value?.displayPercent || 0) / 2
-  return props.orientation === 'vertical' ? { top: `${middle}%` } : { left: `${middle}%` }
+  return props.orientation === 'vertical' ? { top: `${middle}%` } : { insetInlineStart: `${middle}%` }
 })
 const activeSegmentStyle = computed(() => {
   const before = circleSegments.value.slice(0, activeIndex.value).reduce((sum, item) => sum + item.displayPercent, 0)
@@ -217,7 +217,7 @@ const activeSegmentStyle = computed(() => {
   }
   return props.orientation === 'vertical'
     ? { top: `${before}%`, height: `${item.displayPercent}%`, backgroundColor: item.color }
-    : { left: `${before}%`, width: `${item.displayPercent}%`, backgroundColor: item.color }
+    : { insetInlineStart: `${before}%`, width: `${item.displayPercent}%`, backgroundColor: item.color }
 })
 const getTip = (item: { label?: string; value: number; percent: number; tip?: string }) =>
   item.tip || `${item.label ? `${item.label}: ` : ''}${item.value} (${Math.round(item.percent)}%)`

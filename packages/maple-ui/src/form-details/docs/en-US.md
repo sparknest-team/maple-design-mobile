@@ -4,28 +4,37 @@
 
 Form helper messages for errors and additional guidance.
 
-## Examples
+## Reading direction
 
-<!-- api-review:start -->
-### Feature playground
+Inherits source dir. Errors align to inline start, extra information to inline end, and their spacing follows reading direction.
+
+## Basic examples
+
+### Basic usage
 
 ```demo
-../example/demos/api-review.vue
+../example/demos/basic.vue
 ```
 
-<!-- api-review:end -->
+## Customization and slots
+
+### Custom helper content
+
+```demo
+../example/demos/extra-slot.vue
+```
 
 ## API
 
 ### Props
 
-| Prop | Description | Type | Default | 
+| Arguments | Description | Type | Default |
 | ----------------- | --------- | --- | --- |
 | `error-message` | Error message | _string_ | `-` |
 | `extra-message` | Extra message | _string_ | `-` |
 
 ### Slots
 
-| Name | Description | SlotProps |
+| Slot | Description | Arguments |
 | --- | --- | --- |
 | `extra-message` | Extra message | `-` |

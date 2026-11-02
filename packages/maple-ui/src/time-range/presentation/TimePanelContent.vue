@@ -1,5 +1,5 @@
 <template>
-  <div :class="classes(n(), formatElevation(elevation, 2))">
+  <div :class="classes(n(), formatElevation(elevation, 2))" @keydown="onColumnsKeydown">
     <div :class="n('column-labels')" :data-temporal-split="pickerSplit">
       <span v-for="(label, index) in columnLabels" :key="index" :class="n('column-label')">{{ label }}</span>
     </div>
@@ -67,6 +67,7 @@ import {
   type PropType,
 } from 'vue'
 import { editorAuxiliaryActions, useEditorFeedback } from '../../_components/field-presentation/editor-actions'
+import { navigateTemporalColumns } from '../../_utils/temporal-keyboard'
 import MpButton from '../../button'
 import { t } from '../../locale'
 import { injectLocaleProvider } from '../../locale-provider/provide'
@@ -124,6 +125,7 @@ export default defineComponent({
     })
     // Reuse the owner's refs; no duplicate model or draft.
     return {
+      onColumnsKeydown: (event: KeyboardEvent) => navigateTemporalColumns(event, '.mp-picker__column[role=listbox]'),
       hostActions,
       feedbackHosted,
       nowAction,

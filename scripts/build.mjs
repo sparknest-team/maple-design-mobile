@@ -23,6 +23,10 @@ export async function runTask(taskName, task) {
 
 export const buildCli = createTask(resolve(CWD, './packages/maple-cli'))
 
+// The UI compiler needs the Node CLI before UI declarations exist. The browser
+// client imports UI types and must be checked only after the UI build finishes.
+export const buildCliNode = createTask(resolve(CWD, './packages/maple-cli'), 'build:node')
+
 export const buildVitePlugins = createTask(resolve(CWD, './packages/maple-vite-plugins'))
 
 export const buildPresetUnocss = createTask(resolve(CWD, './packages/maple-preset-unocss'))
@@ -48,9 +52,10 @@ export async function runTaskQueue() {
   await runTask('preset-unocss & preset-tailwindcss & resolver & use & vite-plugins', () =>
     Promise.all([buildPresetUnocss(), buildPresetTailwindcss(), buildResolver(), buildUse(), buildVitePlugins()]),
   )
-  await runTask('cli', buildCli)
+  await runTask('cli node', buildCliNode)
   await runTask('icons', buildIcons)
   await runTask('ui', buildUI)
+  await runTask('cli', buildCli)
 
   console.info(`All tasks built in ${Math.ceil(performance.now() - start)} ms`)
 }

@@ -1,24 +1,10 @@
 # 多列选择器
 
-## 案例
-
 ### 介绍
 
 提供了函数和组件两种调用方式。同时支持级联模式，可以处理多级联动。
 
-### 禁用选择器
-
-勾选时无法通过点击、触摸或键盘改变选择；解除禁用后继续使用原模型值。
-
-```demo
-../example/demos/disabled.vue
-```
-
-### function call
-
-```demo
-../example/demos/function-call.vue
-```
+## 基础示例
 
 ### single picker
 
@@ -26,7 +12,18 @@
 ../example/demos/single-picker.vue
 ```
 
+## 选择模式与选项
+
 ### multiple picker
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `columns` | 列内容 | multiple picker、cascade picker、area picker |
+| `cascade` | 是否开启级联模式 | cascade picker、area picker、columns count |
+<!-- demo-config-notes:end -->
 
 ```demo
 ../example/demos/multiple-picker.vue
@@ -56,10 +53,36 @@
 ../example/demos/value-mapping.vue
 ```
 
+## 交互与调用方式
+
+### 禁用选择器
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `columns` | 列内容 | 禁用选择器、two way binding |
+| `disabled` | 禁用选项点击、触摸、键盘选择及确认 | 禁用选择器 |
+| `toolbar` | 是否显示上方工具栏 | 禁用选择器 |
+<!-- demo-config-notes:end -->
+
+勾选时无法通过点击、触摸或键盘改变选择；解除禁用后继续使用原模型值。
+
+```demo
+../example/demos/disabled.vue
+```
+
 ### two way binding
 
 ```demo
 ../example/demos/two-way-binding.vue
+```
+
+### function call
+
+```demo
+../example/demos/function-call.vue
 ```
 
 ## 函数调用
@@ -465,14 +488,9 @@
 </template>
 ```
 
-<!-- api-review:start -->
-### 功能调试
+## 阅读方向
 
-```demo
-../example/demos/api-review.vue
-```
-
-<!-- api-review:end -->
+列按阅读顺序排列，选中标记位于逻辑终点；上下键、滚轮、禁用项和数据顺序保持原有语义。
 
 ## API
 
@@ -590,3 +608,16 @@
 每个可操作列为一个 listbox，可用 Tab 聚焦；方向键上下移动，Home/End 到首尾可用项，跳过禁用项。aria-selected 表达当前滚轮项；selected-values 只表达额外勾选标记，两者职责不同。空列和全禁用列不进入 Tab 顺序。
 
 减少动效偏好下，选择立即提交且不等待 transitionend；偏好动态切换时收束待提交滚动，卸载时移除监听。
+
+### Brand appearance tokens
+
+| CSS variable | Default |
+| --- | --- |
+| `--mp-picker-option-padding-horizontal` | `28px` |
+| `--mp-picker-option-check-right` | `12px` |
+| `--mp-picker-option-check-size` | `18px` |
+| `--mp-picker-option-disabled-opacity` | `0.5` |
+| `--mp-picker-transition-duration` | `250ms` |
+| `--mp-picker-scroll-easing` | `cubic-bezier(0.23, 1, 0.68, 1)` |
+
+函数调用的通知回调不控制任务完成。服务的选择或关闭结果独立于回调异常结算，关闭完成时仍会清理所属宿主。异常继续通过调用方或 Vue 错误通道传递；回调返回 Promise 不控制 loading 或关闭。

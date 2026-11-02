@@ -1,6 +1,7 @@
 import type { HTMLAttributes } from 'vue'
 
 const panelOwnedKeys = [
+  'editMode',
   'modelValue',
   'defaultValue',
   'open',
@@ -8,6 +9,7 @@ const panelOwnedKeys = [
   'disabled',
   'readonly',
   'format',
+  'timeFields',
   'use12Hours',
   'step',
   'min',
@@ -31,6 +33,7 @@ const panelOwnedKeys = [
   'onOpenChange',
 ] as const
 const wheelOwnedKeys = [
+  'editMode',
   'open',
   'defaultOpen',
   'selectedValues',
@@ -49,6 +52,7 @@ const wheelOwnedKeys = [
   'onCancel',
 ] as const
 const popupOwnedKeys = [
+  'editMode',
   'open',
   'defaultOpen',
   'onUpdate:open',

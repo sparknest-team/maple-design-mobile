@@ -1,6 +1,14 @@
-import type { AppContext, CSSProperties, Ref, StyleValue, VNodeChild } from 'vue'
+import type { AppContext, CSSProperties, StyleValue, VNodeChild } from 'vue'
+import type { BeforeHookDone, BeforeHookResult } from '../_hooks/use-action-guard'
+import type { ReadingDirection } from '../_utils/direction'
 import type { buttonProps } from '../button/props'
 import type { ExtractPublicPropTypes } from '../utils/components'
+
+export type DialogBeforeClose = (
+  payload: { action: DialogAction },
+  done: BeforeHookDone,
+  context: { signal: AbortSignal; event?: Event },
+) => BeforeHookResult
 
 export type DialogAction = 'confirm' | 'cancel' | 'close'
 export type DialogType = 'info' | 'success' | 'warning' | 'error'
@@ -8,14 +16,11 @@ export type DialogMessageAlign = 'left' | 'center' | 'right'
 export type DialogTitleAlign = 'start' | 'center'
 export type DialogRenderContent = string | number | VNodeChild | (() => VNodeChild)
 
-export interface DialogBeforeCloseRefs {
-  confirmButtonLoading: Ref<boolean>
-  cancelButtonLoading: Ref<boolean>
-  confirmButtonDisabled: Ref<boolean>
-  cancelButtonDisabled: Ref<boolean>
-}
-
 export interface DialogConfig {
+  /** 阅读方向；省略时使用调用上下文或文档方向。 */
+  dir?: ReadingDirection
+  onGuardError?: (error: unknown, action: DialogAction) => void
+
   open?: boolean
   defaultOpen?: boolean
   title?: DialogRenderContent
@@ -61,7 +66,7 @@ export interface DialogConfig {
   ariaLabel?: string
   closeButtonAriaLabel?: string
   zIndex?: number
-  beforeClose?: (action: DialogAction, done: () => void, refs: DialogBeforeCloseRefs) => void
+  beforeClose?: DialogBeforeClose
   onOpen?: () => void
   onOpened?: () => void
   onClose?: () => void
@@ -78,6 +83,7 @@ export type DialogUpdateConfig = Omit<
   | 'message'
   | 'footer'
   | 'beforeClose'
+  | 'onGuardError'
   | 'onOpen'
   | 'onOpened'
   | 'onClose'

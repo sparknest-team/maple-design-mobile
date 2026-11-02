@@ -2,7 +2,7 @@
   "zh-CN": {
     "basic": "基础用法",
     "fit-mode": "填充模式",
-    "presentation": "尺寸、圆角与位置",
+    "editMode": "尺寸、圆角与位置",
     "caption": "标题与描述",
     "extra": "底部额外内容",
     "error": "错误状态",
@@ -23,7 +23,7 @@
   "en-US": {
     "basic": "Basic usage",
     "fit-mode": "Fit mode",
-    "presentation": "Size, radius and position",
+    "editMode": "Size, radius and position",
     "caption": "Caption",
     "extra": "Extra footer",
     "error": "Error state",

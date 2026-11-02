@@ -6,11 +6,11 @@ The service uses --mp-loading-bar-transition-duration (250ms) and --mp-loading-b
 
 Repeated finish is deduplicated; start/error cancel obsolete tasks. Completion unmounts the service and the next load remounts. setDefaultOptions replaces the full configuration and resetDefaultOptions clears owned settings. SSR calls create no DOM/timers.
 
-## Examples
-
 ### Intro
 
 Display loading progress at the top of the page.
+
+## Basic examples
 
 ### Basic Usage
 
@@ -18,40 +18,35 @@ Display loading progress at the top of the page.
 ../example/demos/basic.vue
 ```
 
-<!-- api-review:start -->
-### Feature playground
+## Reading direction
 
-```demo
-../example/demos/api-review.vue
-```
-
-<!-- api-review:end -->
+The loading bar grows from document reading start. Timing, progress and completion are preserved across direction changes; imperative calls use document direction.
 
 ## API
 
 ### Methods
 
-| Method | Description | Arguments | Return |
-|---------------------|----------|--|---------|
-| `LoadingBar.start`  | Start loading  | `-` | `-` |
-| `LoadingBar.finish` | Finish loading  | `-` | `-` |
-| `LoadingBar.error`  | Loading error  | `-` | `-` |
+| Method | Description | Arguments | Returns |
+| --------------------- | ---------- | -- | --------- |
+| `LoadingBar.start` | Start loading | `-` | `-` |
+| `LoadingBar.finish` | Finish loading | `-` | `-` |
+| `LoadingBar.error` | Loading error | `-` | `-` |
 | `LoadingBar.setDefaultOptions` | Set default option configuration | _options: LoadingBarOptions_ | `-` |
 | `LoadingBar.resetDefaultOptions` | Reset default option configuration | _-_ | `-` |
 
 ### LoadingBar Options
 
-| Option       | Description            | Type | Default |
-|--------------|------------------------|-----------|--------|
-| `color`      | LoadingBar color       | _string_  | `-`    |
-| `errorColor` | LoadingBar error color | _string_  | `-`    |
-| `height`     | LoadingBar height      | _string \| number_ | `-` |
-| `top`        | LoadingBar top         | _string \| number_ | `-` |
+| Arguments | Description | Type | Default |
+| -------------- | -------------- | ----------- | -------- |
+| `color` | LoadingBar color | _string_ | `-` |
+| `errorColor` | LoadingBar error color | _string_ | `-` |
+| `height` | LoadingBar height | _string \| number_ | `-` |
+| `top` | LoadingBar top | _string \| number_ | `-` |
 | `finishDelay` ***3.3.13*** | The delay time of the finish function, which can be used to increase the duration of loading animation | _number_ | `-` |
 
 ## Public CSS variables
 
-Normal/error strokes use readable content-brand/content-danger, not action/status fills: the thin bar must remain visible against ordinary surfaces. color/errorColor options override these defaults. Custom backdrops and colors require fresh contrast checks; height remains 3px.
+Ordinary/error progress bars use readable content-brand/content-danger rather than action/status fills, keeping thin lines visible on ordinary surfaces. color/errorColor override defaults. Recheck custom background/color contrast. Height remains 3px.
 
 | Variable | Default |
 | --- | --- |
@@ -61,4 +56,8 @@ Normal/error strokes use readable content-brand/content-danger, not action/statu
 | `--mp-loading-bar-transition-duration` | `250ms` |
 | `--mp-loading-bar-transition-timing-function` | `ease` |
 
-Theme variables must be placed on the actual DOM ancestor after Teleport. Content-local variables do not propagate to outer service containers.
+Motion variables control width/opacity/background-color; reduce disables transitions. Finishing waits max(300ms, computed width duration+delay) before hiding, then max(250ms, opacity duration+delay) before unmounting. Long overrides are not truncated at 250ms; explicit zero retains cleanup floors. 200ms display/progress ticks are scheduling policy, not CSS tokens. Timing is sampled after DOM updates at each phase, without guaranteeing arbitrary mid-wait CSS changes/custom animations.
+
+Repeated finish deduplicates; start/error cancel old tasks. Completion unmounts the service; the next call remounts it. setDefaultOptions replaces the entire config; resetDefaultOptions clears all options. SSR creates no DOM/timers.
+
+After Teleport, theme variables follow actual DOM ancestors. Variables inside content do not propagate upward to service-created containers.

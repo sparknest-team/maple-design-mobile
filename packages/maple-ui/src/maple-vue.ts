@@ -19,7 +19,6 @@ import Collapse from './collapse'
 import Context from './context'
 import CountTo from './count-to'
 import Countdown from './countdown'
-import Counter from './counter'
 import Date from './date'
 import DateRange from './date-range'
 import Dialog from './dialog'
@@ -50,12 +49,14 @@ import Locale from './locale'
 import LocaleProvider from './locale-provider'
 import Menu from './menu'
 import Message from './message'
+import NavMenu from './nav-menu'
 import NoticeBar from './notice-bar'
 import NumberKeyboard from './number-keyboard'
 import Overlay from './overlay'
 import PageHeader from './page-header'
 import Pagination from './pagination'
 import Paper from './paper'
+import PeopleSelect from './people-select'
 import Picker from './picker'
 import Popover from './popover'
 import Popup from './popup'
@@ -67,6 +68,7 @@ import Rate from './rate'
 import Result from './result'
 import Ripple from './ripple'
 import Row from './row'
+import SafeArea from './safe-area'
 import Search from './search'
 import Select from './select'
 import Signature from './signature'
@@ -117,7 +119,6 @@ function install(app: App) {
     Context,
     CountTo,
     Countdown,
-    Counter,
     Date,
     DateRange,
     Dialog,
@@ -148,12 +149,14 @@ function install(app: App) {
     LocaleProvider,
     Menu,
     Message,
+    NavMenu,
     NoticeBar,
     NumberKeyboard,
     Overlay,
     PageHeader,
     Pagination,
     Paper,
+    PeopleSelect,
     Picker,
     Popover,
     Popup,
@@ -165,6 +168,7 @@ function install(app: App) {
     Result,
     Ripple,
     Row,
+    SafeArea,
     Search,
     Select,
     Signature,
@@ -220,7 +224,6 @@ export {
   Context,
   CountTo,
   Countdown,
-  Counter,
   Date,
   DateRange,
   Dialog,
@@ -251,12 +254,14 @@ export {
   LocaleProvider,
   Menu,
   Message,
+  NavMenu,
   NoticeBar,
   NumberKeyboard,
   Overlay,
   PageHeader,
   Pagination,
   Paper,
+  PeopleSelect,
   Picker,
   Popover,
   Popup,
@@ -268,6 +273,7 @@ export {
   Result,
   Ripple,
   Row,
+  SafeArea,
   Search,
   Select,
   Signature,
@@ -318,7 +324,6 @@ export interface MapleLibrary {
   Context: typeof Context
   CountTo: typeof CountTo
   Countdown: typeof Countdown
-  Counter: typeof Counter
   Date: typeof Date
   DateRange: typeof DateRange
   Dialog: typeof Dialog
@@ -349,12 +354,14 @@ export interface MapleLibrary {
   LocaleProvider: typeof LocaleProvider
   Menu: typeof Menu
   Message: typeof Message
+  NavMenu: typeof NavMenu
   NoticeBar: typeof NoticeBar
   NumberKeyboard: typeof NumberKeyboard
   Overlay: typeof Overlay
   PageHeader: typeof PageHeader
   Pagination: typeof Pagination
   Paper: typeof Paper
+  PeopleSelect: typeof PeopleSelect
   Picker: typeof Picker
   Popover: typeof Popover
   Popup: typeof Popup
@@ -366,6 +373,7 @@ export interface MapleLibrary {
   Result: typeof Result
   Ripple: typeof Ripple
   Row: typeof Row
+  SafeArea: typeof SafeArea
   Search: typeof Search
   Select: typeof Select
   Signature: typeof Signature
@@ -457,9 +465,6 @@ const library: MapleLibrary = {
   get Countdown() {
     return Countdown
   },
-  get Counter() {
-    return Counter
-  },
   get Date() {
     return Date
   },
@@ -550,6 +555,9 @@ const library: MapleLibrary = {
   get Message() {
     return Message
   },
+  get NavMenu() {
+    return NavMenu
+  },
   get NoticeBar() {
     return NoticeBar
   },
@@ -567,6 +575,9 @@ const library: MapleLibrary = {
   },
   get Paper() {
     return Paper
+  },
+  get PeopleSelect() {
+    return PeopleSelect
   },
   get Picker() {
     return Picker
@@ -600,6 +611,9 @@ const library: MapleLibrary = {
   },
   get Row() {
     return Row
+  },
+  get SafeArea() {
+    return SafeArea
   },
   get Search() {
     return Search

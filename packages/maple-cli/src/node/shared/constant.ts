@@ -44,15 +44,15 @@ export const HL_DIR = resolve(CWD, 'highlight')
 export const HL_COMPONENT_NAME_RE = /.*(\/|\\)(.+)(\/|\\)docs(\/|\\)/
 export const HL_API_RE = /##\s*API(?:\r\n|\n)+/
 
-export const HL_EN_TITLE_ATTRIBUTES_RE = /###\s*Props(?:\r\n|\n)+/
-export const HL_EN_TITLE_EVENTS_RE = /###\s*Events(?:\r\n|\n)+/
-export const HL_EN_TITLE_SLOTS_RE = /###\s*Slots(?:\r\n|\n)+/
+export const HL_EN_TITLE_ATTRIBUTES_RE = /###\s*(?:[A-Za-z][\w-]*[ \t]+)?Props(?:\r\n|\n)+/i
+export const HL_EN_TITLE_EVENTS_RE = /###\s*(?:[A-Za-z][\w-]*[ \t]+)?Events(?:\r\n|\n)+/i
+export const HL_EN_TITLE_SLOTS_RE = /###\s*(?:[A-Za-z][\w-]*[ \t]+)?Slots(?:\r\n|\n)+/i
 export const HL_EN_MD = 'en-US.md'
 export const HL_EN_WEB_TYPES_JSON = resolve(HL_DIR, 'web-types.en-US.json')
 
-export const HL_ZH_TITLE_ATTRIBUTES_RE = /###\s*属性(?:\r\n|\n)+/
-export const HL_ZH_TITLE_EVENTS_RE = /###\s*事件(?:\r\n|\n)+/
-export const HL_ZH_TITLE_SLOTS_RE = /###\s*插槽(?:\r\n|\n)+/
+export const HL_ZH_TITLE_ATTRIBUTES_RE = /###\s*(?:[A-Za-z][\w-]*[ \t]+)?属性(?:\r\n|\n)+/
+export const HL_ZH_TITLE_EVENTS_RE = /###\s*(?:[A-Za-z][\w-]*[ \t]+)?事件(?:\r\n|\n)+/
+export const HL_ZH_TITLE_SLOTS_RE = /###\s*(?:[A-Za-z][\w-]*[ \t]+)?插槽(?:\r\n|\n)+/
 export const HL_ZH_MD = 'zh-CN.md'
 export const HL_ZH_WEB_TYPES_JSON = resolve(HL_DIR, 'web-types.zh-CN.json')
 

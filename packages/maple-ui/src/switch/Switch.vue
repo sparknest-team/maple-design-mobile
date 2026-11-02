@@ -43,6 +43,7 @@
 
 <script setup lang="ts">
 import { computed, onActivated, onBeforeUnmount, onDeactivated, ref, watch, type CSSProperties } from 'vue'
+import { invokeBeforeHook } from '../_hooks/use-action-guard'
 import { createNamespace } from '../utils/components'
 import { useSwitchPlatform } from './platform'
 import { switchProps, type SwitchValue } from './props'
@@ -50,8 +51,8 @@ import { switchProps, type SwitchValue } from './props'
 defineOptions({ name: createNamespace('switch').name })
 const props = defineProps(switchProps)
 const emit = defineEmits<{
-  (event: 'update:modelValue', value: SwitchValue): void
-  (event: 'change', value: SwitchValue, originalEvent: Event): void
+  (event: 'update:modelValue', value: SwitchValue | null): void
+  (event: 'change', value: SwitchValue | null, originalEvent: Event): void
   (event: 'click', originalEvent: Event): void
   (event: 'focus' | 'blur', originalEvent: FocusEvent): void
 }>()
@@ -65,8 +66,11 @@ const busy = computed(() => props.loading || pending.value)
 const rippleKey = ref(0)
 let active = true
 let generation = 0
+let controller: AbortController | undefined
 function cancelPending() {
   generation++
+  controller?.abort()
+  controller = undefined
   pending.value = false
 }
 onBeforeUnmount(() => {
@@ -108,15 +112,20 @@ async function toggle(event: Event) {
   const version = ++generation
   try {
     if (props.beforeChange) {
-      const result = props.beforeChange(next)
-      let permitted: boolean | void
-      if (result && typeof (result as Promise<unknown>).then === 'function') {
-        pending.value = true
-        permitted = await result
-      } else {
-        permitted = result as boolean | void
-      }
-      if (permitted === false) {
+      const hook = props.beforeChange
+      controller = new AbortController()
+      pending.value = true
+      const context = { signal: controller.signal, event }
+      const permitted = await invokeBeforeHook(
+        (done) =>
+          hook(
+            { value: next, previousValue: props.modelValue !== undefined ? props.modelValue : internal.value },
+            done,
+            context,
+          ),
+        context,
+      )
+      if (!permitted) {
         return
       }
     }

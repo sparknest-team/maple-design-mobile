@@ -2,25 +2,54 @@
 
 Displays determinate or indeterminate progress. Cedar and Maple maintain independent copies of the same implementation.
 
+## Basic examples
+
 ### basic-usage
 
 ```demo
 ../example/demos/basic-usage.vue
 ```
 
-### status
+## Appearance and states
+
+### Progress sizes and states
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `size` | xs/sm/md/lg/xl or CSS length; line thickness / circle diameter | Progress sizes and states |
+| `percent` | Decimal 0–100; numeric strings supported; invalid values become zero, out-of-range values clamp | Progress sizes and states |
+| `mode` | Line or circle | Progress sizes and states |
+| `stroke-width` | Overrides thickness, numbers in px | Progress sizes and states |
+| `status` | default/primary/secondary/tertiary/info/success/warning/danger; default becomes success at 100 unless indeterminate | Progress sizes and states |
+<!-- demo-config-notes:end -->
+
+
+Compare sizes and semantic states independently of circular, stepped and indeterminate models.
 
 ```demo
-../example/demos/status.vue
+../example/demos/appearance-comparison.vue
 ```
 
-### size
-
-```demo
-../example/demos/size.vue
-```
+## Content and presentation
 
 ### circle
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `percent` | Decimal 0–100; numeric strings supported; invalid values become zero, out-of-range values clamp | circle, step, loop |
+| `mode` | Line or circle | circle, loop, advanced |
+| `size` | xs/sm/md/lg/xl or CSS length; line thickness / circle diameter | circle, step, More styles and indeterminate progress |
+| `color` | Solid or gradient stops; overrides status | circle, advanced, More styles and indeterminate progress |
+| `status` | default/primary/secondary/tertiary/info/success/warning/danger; default becomes success at 100 unless indeterminate | circle, step, More styles and indeterminate progress |
+| `track` | Show track and buffer decoration | circle, advanced |
+<!-- demo-config-notes:end -->
+
 
 ```demo
 ../example/demos/circle.vue
@@ -54,17 +83,23 @@ Displays determinate or indeterminate progress. Cedar and Maple maintain indepen
 ../example/demos/indeterminate-progress.vue
 ```
 
-### API
+## Reading direction
+
+Linear progress grows from reading start and activity motion follows reading direction. Values and circular angles remain unchanged, and reduced-motion settings still apply.
+
+## API
+
+### Props
 
 | Prop | Description | Type | Default |
 | --- | --- | --- | --- |
 | mode | Line or circle | `line \| circle` | `line` |
 | percent | Decimal 0–100; numeric strings supported; invalid values become zero, out-of-range values clamp | `number \| string` | `0` |
 | size | xs/sm/md/lg/xl or CSS length; line thickness / circle diameter | `ProgressSize` | `md` |
-| stroke-width | Overrides thickness, numbers in px | `number \| string` | size preset |
+| stroke-width | Overrides thickness, numbers in px | `number \| string` | Follows size |
 | steps | Line segments, floored and clamped to 0–1000; ignored when indeterminate | `number` | `0` |
 | status | default/primary/secondary/tertiary/info/success/warning/danger; default becomes success at 100 unless indeterminate | `ProgressStatus` | `default` |
-| color | Solid or gradient stops; overrides status | `ProgressColor` | — |
+| color | Solid or gradient stops; overrides status | `string \| Record<string, string>` | — |
 | track-color | Background track color | `string` | — |
 | buffer-color | Remaining line track decoration, not a second progress value | `ProgressColor` | — |
 | track | Show track and buffer decoration | `boolean` | `true` |
@@ -74,15 +109,27 @@ Displays determinate or indeterminate progress. Cedar and Maple maintain indepen
 | animation | Determinate continuous line shimmer | `boolean` | `false` |
 | indeterminate | Unknown progress; omits aria-valuenow | `boolean` | `false` |
 
-### Sizes and slots
+### Size semantics
 
-All five presets are implemented. Thickness: 2/3/4/6/8px; circle diameter: 16/48/64/80/96px. Custom numbers and numeric strings use px; CSS lengths such as rem, percentages and calc are retained. Invalid or nonpositive lengths fall back to md. stroke-width overrides thickness. Percentage circle sizes require a defined parent width. Cedar inherits ConfigProvider size; Maple defaults to md.
+| size | xs | sm | md | lg | xl |
+| --- | --- | --- | --- | --- | --- |
+| Linear thickness / default circular stroke in px | 2 | 3 | 4 | 6 | 8 |
+| Circular diameter in px | 16 | 48 | 64 | 80 | 96 |
 
-Both text and default slots receive `{ percent: number }`; text wins. Unknown progress displays an ellipsis by default. Supply aria-label for the task name. The component is display-only and emits no value updates. Built-in animations respect reduced motion.
+`size=12` / `size="12"` means 12px; `size="2rem"`, `"50%"` and `"calc(100% - 2px)"` retain CSS lengths. Custom linear size controls thickness; custom circular size controls diameter. stroke-width always takes precedence for thickness. Invalid/nonpositive lengths fall back to md. Percentage circular diameters require a definite parent width. All five presets are implemented; xs circular progress hides text. Cedar inherits omitted size from ConfigProvider; Maple defaults to md.
 
-### Types
+### Slots
 
-Exports ProgressProps, ProgressInstance, ProgressSize, ProgressMode, ProgressStatus, ProgressColor and progressProps.
+| Slot | Arguments | Description |
+| --- | --- | --- |
+| text | `{ percent: number }` | Takes precedence over default |
+| default | `{ percent: number }` | Custom display text |
+
+Indeterminate progress shows an ellipsis by default; use the text slot for business text. The component does not mutate values or emit updates. Provide `aria-label` for the business task. All built-in animations respect reduced-motion settings.
+
+### Type definitions
+
+Exports `ProgressProps`, `ProgressInstance`, `ProgressSize`, `ProgressMode`, `ProgressStatus`, `ProgressColor` and runtime `progressProps`.
 
 ### Style variables
 
@@ -105,14 +152,4 @@ Exports ProgressProps, ProgressInstance, ProgressSize, ProgressMode, ProgressSta
 | `--mp-progress-transition-duration` | `var(--mp-sys-motion-duration-standard)` |
 | `--mp-progress-animation-duration` | `1.5s` |
 
-Determinate circle success/danger states show completion/failure icons, including xs. The text slot overrides them; numeric ARIA is retained.
-
-
-<!-- api-review:start -->
-### 组合审查 / API review
-
-```demo
-../example/demos/api-review.vue
-```
-
-<!-- api-review:end -->
+Determinate circular success/danger states show completion/failure icons, including xs. The text slot overrides these; ARIA numeric values remain.

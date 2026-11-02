@@ -24,6 +24,7 @@ const week = ref<0 | 1 | 6>(1)
       <p>范围字段：管理输入、浮层和确认流程。</p>
       <mp-date-range
         v-model="fieldValue"
+        edit-mode="direct"
         :min="limited ? '2025-02-01' : undefined"
         :max="limited ? '2025-02-28' : undefined"
         panel-type="calendar"
@@ -32,12 +33,12 @@ const week = ref<0 | 1 | 6>(1)
     </div>
     <div>
       <p>范围面板：日历按所选周起始日排列，点击确认后才提交。</p>
-      <mp-checkbox v-model="blockEnd20">禁用20日结束（不改已提交值）</mp-checkbox>
+      <mp-checkbox v-model="blockEnd20" edit-mode="direct">禁用20日结束（不改已提交值）</mp-checkbox>
       <mp-date-range-picker
         v-model="panelValue"
         :min="limited ? '2025-02-01' : undefined"
         :max="limited ? '2025-02-28' : undefined"
-        presentation="calendar"
+        editMode="calendar"
         :day-start-of-week="week"
         :disable-confirm="false"
         :disabled-date="disabledEnd"

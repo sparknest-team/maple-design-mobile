@@ -11,10 +11,10 @@ const clicks = ref(0)
 <template>
   <section class="paper-live-demo">
     <div class="controls">
-      <mp-checkbox v-model="bordered">Paper border</mp-checkbox>
-      <mp-checkbox v-model="round">Round paper</mp-checkbox>
-      <mp-checkbox v-model="explicitRadius">Explicit radius</mp-checkbox>
-      <mp-checkbox v-model="elevated">Paper shadow</mp-checkbox>
+      <mp-checkbox v-model="bordered" edit-mode="direct">Paper border</mp-checkbox>
+      <mp-checkbox v-model="round" edit-mode="direct">Round paper</mp-checkbox>
+      <mp-checkbox v-model="explicitRadius" edit-mode="direct">Explicit radius</mp-checkbox>
+      <mp-checkbox v-model="elevated" edit-mode="direct">Paper shadow</mp-checkbox>
     </div>
     <p role="status">Surface clicks: {{ clicks }}</p>
     <mp-paper

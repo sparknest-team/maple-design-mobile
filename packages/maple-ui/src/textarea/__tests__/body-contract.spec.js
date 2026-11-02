@@ -26,7 +26,9 @@ describe('Textarea auto-size lifecycle', () => {
         return () => h('div', [h('textarea', { ref: input }), h('div', { ref: mirror })])
       },
     })
-    const wrapper = mount({ setup: () => () => h(KeepAlive, null, () => (show.value ? h(Field) : null)) })
+    const wrapper = mount({
+      setup: () => () => h(KeepAlive, null, () => (show.value ? h(Field, { editMode: 'direct' }) : null)),
+    })
     await nextTick()
     expect(observe).toHaveBeenCalledTimes(1)
     show.value = false
@@ -40,7 +42,13 @@ describe('Textarea auto-size lifecycle', () => {
   })
   it('forwards native attrs and keeps hints associated through form groups', async () => {
     const wrapper = mount(Textarea, {
-      props: { hint: true, placeholder: 'Notes', textareaAttrs: { id: 'notes', 'aria-label': 'Notes text' }, rows: 3 },
+      props: {
+        editMode: 'direct',
+        hint: true,
+        placeholder: 'Notes',
+        textareaAttrs: { id: 'notes', 'aria-label': 'Notes text' },
+        rows: 3,
+      },
       attrs: { name: 'notes', cols: 40, wrap: 'soft', class: 'outer', 'aria-describedby': 'help' },
     })
     expect(wrapper.classes()).toContain('outer')
@@ -57,7 +65,10 @@ describe('Textarea auto-size lifecycle', () => {
     wrapper.unmount()
   })
   it('exposes select and focus refuses disabled controls', async () => {
-    const wrapper = mount(Textarea, { attachTo: document.body, props: { defaultValue: 'hello', disabled: true } })
+    const wrapper = mount(Textarea, {
+      attachTo: document.body,
+      props: { editMode: 'direct', defaultValue: 'hello', disabled: true },
+    })
     wrapper.vm.focus()
     expect(document.activeElement).not.toBe(wrapper.get('textarea').element)
     await wrapper.setProps({ disabled: false })

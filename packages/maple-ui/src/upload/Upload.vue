@@ -1,17 +1,19 @@
 <template>
-  <div :class="classes(n(), n('--' + listType))">
+  <div :class="classes(n(), n('--' + listType))" :aria-busy="uploader.guardPending.value || undefined">
     <input
       ref="inputRef"
       :class="n('input')"
       type="file"
       :accept="accept"
       :capture="capture"
-      :multiple="multiple || directory"
+      :multiple="!replacementTarget && (multiple || directory)"
       :disabled="disabledState"
-      :webkitdirectory="directory || undefined"
+      :webkitdirectory="(!replacementTarget && directory) || undefined"
       @change="handleInputChange"
+      @cancel="cancelChoose"
     />
     <div :class="n('content')">
+      <PendingFeedback :loading="uploader.guardPending.value" />
       <div
         v-if="showUploadButton && !maxReached"
         v-ripple="{ disabled: disabledState || !ripple }"
@@ -54,10 +56,21 @@
                   :alt="file.name"
                   :style="{ objectFit: file.fit || imageFit }"
                 /><span v-else>{{ file.name?.slice(0, 1) || 'F' }}</span>
+                <span
+                  v-if="isVideo(file) && formatVideoDuration(file.duration)"
+                  :class="n('duration')"
+                  :aria-label="`${text.duration} ${formatVideoDuration(file.duration)}`"
+                  >{{ formatVideoDuration(file.duration) }}</span
+                >
               </button>
               <div :class="n('meta')">
                 <span :class="n('name')">{{ file.name }}</span
                 ><span :class="n('size')">{{ formatSize(file.size) }}</span>
+                <span
+                  v-if="listType === 'text' && isVideo(file) && formatVideoDuration(file.duration)"
+                  :aria-label="`${text.duration} ${formatVideoDuration(file.duration)}`"
+                  >{{ formatVideoDuration(file.duration) }}</span
+                >
                 <progress
                   v-if="file.status === 'uploading'"
                   :class="n('progress')"
@@ -109,6 +122,16 @@
                 >
                   <IconRefresh />
                 </button>
+                <button
+                  v-if="reupload"
+                  type="button"
+                  :class="n('action')"
+                  :disabled="disabledState"
+                  :aria-label="text.replace"
+                  @click="chooseReplacement(file, $event)"
+                >
+                  <IconRefresh />
+                </button>
                 <slot v-if="showRemoveButton" name="remove-button" v-bind="itemScope(file, index)"
                   ><button
                     type="button"
@@ -125,12 +148,19 @@
         </template>
       </div>
     </div>
-    <PreviewPresentation :file="video" :label="text.preview" @close="closePreview" @closed="releaseClosedVideos" />
+    <PreviewPresentation
+      :popup-container="popupContainer"
+      :file="video"
+      :label="text.preview"
+      @close="closePreview"
+      @closed="releaseClosedVideos"
+    />
   </div>
 </template>
 <script setup lang="ts">
 import { onBeforeUnmount, ref, watch } from 'vue'
 import { IconClose, IconDownload, IconEye, IconRefresh } from '@maple-design/icons-vue'
+import PendingFeedback from '../_components/pending-feedback/PendingFeedback.vue'
 // Keep preview types erased from runtime dependencies.
 import type { ImagePreviewHandle } from '../image/api'
 // Internal controls depend on the preview service, not the installed Image family.
@@ -143,6 +173,7 @@ import type { UploadEmits, UploadExpose, UploadFileItem, UploadSlots } from './i
 import PreviewPresentation from './preview-presentation.vue'
 import { uploadProps } from './props'
 import { useUploadLocale } from './use-upload-locale'
+import { formatVideoDuration, isVideo } from './utils/video-duration'
 
 defineOptions({ name: createNamespace('upload').name })
 const props = defineProps(uploadProps)
@@ -170,7 +201,7 @@ function releaseClosedVideos() {
   closedVideos.splice(0).forEach((release) => release())
 }
 const uploader = useUploader({
-  modelValue: () => props.modelValue,
+  modelValue: () => (props.modelValue === null ? [] : props.modelValue),
   defaultValue: () => props.defaultValue,
   accept: () => props.accept,
   capture: () => props.capture,
@@ -208,6 +239,7 @@ const uploader = useUploader({
   onProgress: (file, event) => emit('progress', file, event),
   onSuccess: (file) => emit('success', file),
   onError: (file) => emit('error', file),
+  onReplace: (file, previous) => emit('replace', file, previous),
   onRemove: (file) => emit('remove', file),
   onPreview: (file, event) => {
     emit('preview', file, event)
@@ -216,9 +248,9 @@ const uploader = useUploader({
     }
     closePreview()
     const media = uploader.fileList.value.filter(
-      (item) => item.url && (item.type?.startsWith('image/') || item.thumbnailUrl),
+      (item) => item.url && !isVideo(item) && (item.type?.startsWith('image/') || item.thumbnailUrl),
     )
-    if (file.type?.startsWith('video/') || /\.(mp4|webm|ogg)(?:[?#]|$)/i.test(file.url ?? '')) {
+    if (isVideo(file)) {
       videoRelease = retainPreview([file.uid])
       video.value = file
     } else if (file.url) {
@@ -248,6 +280,8 @@ const {
   inputRef,
   dragOver,
   chooseFile,
+  replacementTarget,
+  cancelChoose,
   handleInputChange,
   handleDragOver,
   handleDragLeave,
@@ -269,6 +303,24 @@ function itemScope(file: UploadFileItem, index: number) {
     remove: () => uploader.remove(file),
     retry: () => uploader.retry(file),
     abort: () => uploader.abort(file),
+    replace: () => uploader.replace(file),
+  }
+}
+async function chooseReplacement(file: UploadFileItem, event: Event) {
+  if (disabledState.value) {
+    return
+  }
+  try {
+    const choose = () => {
+      void uploader.replace(file)
+    }
+    if (props.requestChoose) {
+      await props.requestChoose(choose, event)
+    } else {
+      choose()
+    }
+  } catch {
+    /* A rejected chooser preserves the previous attachment. */
   }
 }
 async function choose(event: Event) {
@@ -325,6 +377,7 @@ onBeforeUnmount(() => {
   releaseClosedVideos()
 })
 defineExpose<UploadExpose>({
+  replace: uploader.replace,
   chooseFile,
   submit: uploader.submit,
   abort: uploader.abort,

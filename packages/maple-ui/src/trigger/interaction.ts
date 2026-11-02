@@ -12,6 +12,7 @@ import {
 } from 'vue'
 import type { TriggerEvent } from './contract'
 import { bindTriggerEvents, type TriggerElement } from './reference'
+import { isTriggerReferenceClickBlocked } from './reference-click'
 
 export type { TriggerEvent } from './contract'
 export interface InteractionOptions {
@@ -167,7 +168,7 @@ export function useTriggerInteraction(
 
   const onClick = (event: Event) => {
     api.onReferenceEvent?.('onClick', event)
-    if (options.disabled) {
+    if (options.disabled || isTriggerReferenceClickBlocked(event)) {
       return
     }
     if (has('click')) {

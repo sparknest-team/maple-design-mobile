@@ -10,10 +10,10 @@ const readonly = ref(false)
 
 <template>
   <mp-space>
-    <mp-checkbox v-model="disabled">禁用表单</mp-checkbox>
-    <mp-checkbox v-model="readonly">只读字段</mp-checkbox>
+    <mp-checkbox v-model="disabled" edit-mode="direct">禁用表单</mp-checkbox>
+    <mp-checkbox v-model="readonly" edit-mode="direct">只读字段</mp-checkbox>
   </mp-space>
-  <mp-form ref="form" :model="formData" :disabled="disabled">
+  <mp-form ref="form" edit-mode="direct" :model="formData" :disabled="disabled">
     <mp-form-item
       field="confirmed"
       :readonly="readonly"

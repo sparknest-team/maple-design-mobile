@@ -44,3 +44,11 @@ Shadows are divided into `0-24` levels, and the higher the level, the higher the
 }
 </style>
 ```
+
+## Basic examples
+
+### Basic usage
+
+```demo
+../example/basic.vue
+```

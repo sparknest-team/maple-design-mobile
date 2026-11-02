@@ -5,24 +5,23 @@ const __demoLayout = __demoReactive({ direction: 'row', align: 'flex-start', jus
 </script>
 <template>
   <mp-space direction="column" :size="16">
-    <mp-space wrap>
-      <div>
-        <span>direction</span
-        ><mp-select
+    <mp-form layout="vertical">
+      <mp-form-item layout="vertical" size="sm" label="direction">
+        <mp-radio-group
           v-model="__demoLayout['direction']"
-          :clearable="false"
+          aria-label="direction"
           :options="[
             { label: 'row', value: 'row' },
             { label: 'column', value: 'column' },
           ]"
-          aria-label="direction"
+          variant="button"
+          size="sm"
         />
-      </div>
-      <div>
-        <span>align</span
-        ><mp-select
+      </mp-form-item>
+      <mp-form-item layout="vertical" size="sm" label="align">
+        <mp-radio-group
           v-model="__demoLayout['align']"
-          :clearable="false"
+          aria-label="align"
           :options="[
             { label: 'flex-start', value: 'flex-start' },
             { label: 'flex-end', value: 'flex-end' },
@@ -30,12 +29,12 @@ const __demoLayout = __demoReactive({ direction: 'row', align: 'flex-start', jus
             { label: 'baseline', value: 'baseline' },
             { label: 'stretch', value: 'stretch' },
           ]"
-          aria-label="align"
+          variant="button"
+          size="sm"
         />
-      </div>
-      <div>
-        <span>justify</span
-        ><mp-select
+      </mp-form-item>
+      <mp-form-item layout="vertical" size="sm" label="justify">
+        <mp-select
           v-model="__demoLayout['justify']"
           :clearable="false"
           :options="[
@@ -48,8 +47,8 @@ const __demoLayout = __demoReactive({ direction: 'row', align: 'flex-start', jus
           ]"
           aria-label="justify"
         />
-      </div>
-    </mp-space>
+      </mp-form-item>
+    </mp-form>
     <mp-space wrap :size="[8, 6]" v-bind="__demoLayout">
       <mp-button v-for="item in 8" :key="item">项目 {{ item }}</mp-button>
     </mp-space>

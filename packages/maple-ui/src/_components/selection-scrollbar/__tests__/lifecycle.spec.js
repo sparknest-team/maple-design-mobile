@@ -30,9 +30,9 @@ async function fixture(Component) {
                 h('div', slots.default?.()),
           }),
           Thumb: defineComponent({
-            props: ['direction'],
+            props: ['orientation'],
             setup(props, { expose }) {
-              expose({ setOffset: (value) => offsets[props.direction](value) })
+              expose({ setOffset: (value) => offsets[props.orientation](value) })
               return () => h('i')
             },
           }),

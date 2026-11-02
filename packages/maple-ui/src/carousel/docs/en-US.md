@@ -2,7 +2,7 @@
 
 Autoplay interval is business playback cadence (business-clock), not CSS duration. Autoplay remains off by default; true uses3000ms, with existing numeric/config intervals and hover/focus/hidden pause rules. Cancellation/replacement invalidates old playback work; delivery consumes once before navigation. Retained inactive/disposed next/prev/to, keyboard and wheel cannot navigate or intercept input. Activation creates fresh observer/event bindings; detached deliveries cannot use a newer active state to reschedule.
 
-## Examples
+## Basic examples
 
 ### Basic Usage
 
@@ -10,62 +10,26 @@ Autoplay interval is business playback cadence (business-clock), not CSS duratio
 ../example/demos/basic-usage.vue
 ```
 
-### Forbid Loop
-
-```demo
-../example/demos/forbid-loop.vue
-```
-
-### Autoplay
-
-The demo uses a 2000ms interval. Displayed slide numbers start at 1; API indices remain one-based. Toggle playback off/on to stop/resume. Focus inside the carousel also pauses playback.
-
-Enable autoplay with `auto-play`. `true` uses a 3000ms interval; a number is the interval in milliseconds.
-
-```demo
-../example/demos/autoplay.vue
-```
-
-### Autoplay with Hover to Pause
-
-```demo
-../example/demos/autoplay-hover-pause.vue
-```
+## Direction and layout
 
 ### Vertical Carousel
 
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `slides-per-view` | Visible count; auto uses item size | Multiple Slides Per View, Centered Slides, auto-sized |
+| `space-between` | Item gap; numbers/numeric strings are px | Multiple Slides Per View, Centered Slides, auto-sized |
+| `draggable` | Mouse dragging, independent of touch | Multiple Slides Per View, auto-sized |
+| `centered-slides` | Center active slide | Centered Slides, auto-sized |
+| `orientation` | Horizontal/vertical axis of carousel sliding, default horizontal; does not determine indicator position | Vertical Carousel |
+| `model-value` | Controlled one-based slide number | Multiple Slides Per View |
+<!-- demo-config-notes:end -->
+
+
 ```demo
 ../example/demos/vertical.vue
-```
-
-### Navigation Arrows
-
-Use `show-arrow` to control when arrows appear: `always`, `hover`, or `never`. Both libraries default to `always`.
-
-```demo
-../example/demos/navigation.vue
-```
-
-### Slide Effect (Default)
-
-```demo
-../example/demos/effect-slide.vue
-```
-
-### Fade Effect
-
-Use the indicator buttons to switch pages. Inactive slides become transparent and inert. All slides overlap in one grid cell, keeping the active slide at the viewport width rather than splitting the track into columns.
-
-```demo
-../example/demos/effect-fade.vue
-```
-
-### Card Effect
-
-The active slide uses full scale and opacity; neighboring slides are scaled down and dimmed. Previous/next buttons retain native keyboard activation.
-
-```demo
-../example/demos/effect-card.vue
 ```
 
 ### Multiple Slides Per View
@@ -80,58 +44,6 @@ This 2.5-slide example exposes mouse dragging, controlled acceptance and looping
 
 ```demo
 ../example/demos/centered-slides.vue
-```
-
-### Indicator Types
-
-Use `indicator-type` for `dot`, `line`, or `slider`. Hide indicators with `indicator`.
-
-```demo
-../example/demos/indicator-type.vue
-```
-
-### Indicator Position
-
-```demo
-../example/demos/indicator-position.vue
-```
-
-### Trigger with Hover
-
-```demo
-../example/demos/trigger-hover.vue
-```
-
-### Mousewheel Control
-
-Wheeling over the carousel changes slides without scrolling the outer page. With loop enabled, moving backward from the first slide selects the last. This is separate from touch dragging.
-
-```demo
-../example/demos/mousewheel.vue
-```
-
-### Keyboard Control
-
-```demo
-../example/demos/keyboard.vue
-```
-
-### Custom Indicator
-
-```demo
-../example/demos/custom-indicator.vue
-```
-
-### Handle Change
-
-```demo
-../example/demos/handle-change.vue
-```
-
-### controlled
-
-```demo
-../example/demos/controlled.vue
 ```
 
 ### auto-sized
@@ -154,6 +66,142 @@ The centered auto-width example uses four independent items (140/220/180/260px),
 ../example/demos/auto-sized.vue
 ```
 
+## Navigation and effects
+
+### Navigation Arrows
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `show-arrow` | Arrow visibility | Navigation Arrows |
+| `indicator-type` | Indicator appearance | Indicator style and position |
+| `indicator-position` | Indicator edge or outer region of the carousel container, default bottom. Not a trigger-relative popup placement | Indicator style and position |
+| `effect` | Effect; all supported by both libraries | Transition effects |
+<!-- demo-config-notes:end -->
+
+
+Use `show-arrow` to control when arrows appear: `always`, `hover`, or `never`. Both libraries default to `always`.
+
+```demo
+../example/demos/navigation.vue
+```
+
+### Indicator style and position
+
+All indicator presets use the same three local slides and active-slide model. Click an indicator or a navigation arrow in any specimen: every specimen changes to the same slide. The first group compares dot, line and slider; the second compares top and outer positions. The grid stacks on narrow screens.
+
+<details>
+<summary>Configuration details and limits</summary>
+
+#### Indicator Types
+
+Use `indicator-type` for `dot`, `line`, or `slider`. Hide indicators with `indicator`.
+
+</details>
+
+```demo
+../example/demos/indicator-comparison.vue
+```
+
+### Transition effects
+
+Change adjacent slides to compare fade, card and slide effects independently of autoplay and input methods.
+
+<details>
+<summary>Configuration details and limits</summary>
+
+#### Fade Effect
+
+Use the indicator buttons to switch pages. Inactive slides become transparent and inert. All slides overlap in one grid cell, keeping the active slide at the viewport width rather than splitting the track into columns.
+
+#### Card Effect
+
+The active slide uses full scale and opacity; neighboring slides are scaled down and dimmed. Previous/next buttons retain native keyboard activation.
+
+</details>
+
+```demo
+../example/demos/effect-comparison.vue
+```
+
+### Custom Indicator
+
+```demo
+../example/demos/custom-indicator.vue
+```
+
+## Playback and interaction
+
+### Forbid Loop
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `height` | Container height; numbers are px | Autoplay, controlled, interactive-content |
+| `keyboard` | Scoped arrow/Home/End navigation | Keyboard Control, controlled, interactive-content |
+| `auto-play` | Autoplay configuration | Autoplay, Autoplay with Hover to Pause |
+| `draggable` | Mouse dragging, independent of touch | controlled、interactive-content |
+| `loop` | Loop without duplicating instances | Forbid Loop |
+| `trigger` | Indicator trigger | Trigger with Hover |
+<!-- demo-config-notes:end -->
+
+
+```demo
+../example/demos/forbid-loop.vue
+```
+
+### Autoplay
+
+The demo uses a 2000ms interval. Displayed slide numbers start at 1; API indices remain one-based. Toggle playback off/on to stop/resume. Focus inside the carousel also pauses playback.
+
+Enable autoplay with `auto-play`. `true` uses a 3000ms interval; a number is the interval in milliseconds.
+
+```demo
+../example/demos/autoplay.vue
+```
+
+### Autoplay with Hover to Pause
+
+```demo
+../example/demos/autoplay-hover-pause.vue
+```
+
+### Trigger with Hover
+
+```demo
+../example/demos/trigger-hover.vue
+```
+
+### Mousewheel Control
+
+Wheeling over the carousel changes slides without scrolling the outer page. With loop enabled, moving backward from the first slide selects the last. This is separate from touch dragging.
+
+```demo
+../example/demos/mousewheel.vue
+```
+
+### Keyboard Control
+
+```demo
+../example/demos/keyboard.vue
+```
+
+### Handle Change
+
+```demo
+../example/demos/handle-change.vue
+```
+
+### controlled
+
+```demo
+../example/demos/controlled.vue
+```
+
 ### interactive-content
 
 The current index and change count expose the controlled model. Arrow/Home/End keys and mouse text selection inside inputs remain native editing actions, not slide navigation. Drag the background or focus the carousel container and press an arrow key to change slides; returning to a slide retains its input text. This example does not demonstrate saving text externally or physical touch selection.
@@ -162,7 +210,22 @@ The current index and change count expose the controlled model. Arrow/Home/End k
 ../example/demos/interactive-content.vue
 ```
 
-### Scheduler lifecycle / 调度生命周期
+## Lifecycle
+
+### Scheduler lifecycle
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `auto-play` | Autoplay configuration | Scheduler lifecycle |
+| `move-speed` | Explicit duration in milliseconds | Scheduler lifecycle |
+| `height` | Container height; numbers are px | Scheduler lifecycle |
+| `keyboard` | Scoped arrow/Home/End navigation | Scheduler lifecycle |
+| `mousewheel` | Wheel navigation | Scheduler lifecycle |
+<!-- demo-config-notes:end -->
+
 
 Loop nextTick waits for rendering; the settlement timer is visual-completion and two RAFs are state-settlement. Request/track/window checks and per-phase consumption prevent old timers clearing newer offsets, duplicate first-frame forks and old second frames releasing newer noMotion. Cancel held timers and RAF through their original frame window; already-dequeued callbacks still require ownership checks. Content/config render measurements are binding-generation scoped. Playback cadence and motion settlement are distinct, never a forced shared CSS duration.
 
@@ -174,20 +237,11 @@ Loop nextTick waits for rendering; the settlement timer is visual-completion and
 
 Displays a collection of items that can be scrolled and swiped. Demos match Cedar Design Web; `effect` and `centered-slides` are shared.
 
-<!-- api-review:start -->
-### Feature playground
-
-```demo
-../example/demos/api-review.vue
-```
-
-<!-- api-review:end -->
-
 ## API
 
-### Model and default value
+### Value and default value
 
-Use ordinary `v-model`. `modelValue` is the current slide number, starting at 1. `defaultValue` initializes uncontrolled state only at creation; changing it later does not reset the current state. A supplied model takes precedence. Initialization emits no `update:modelValue`.
+Use ordinary `v-model`. `modelValue` is the current slide number, starting at 1. `defaultValue` initializes uncontrolled state only on creation; later changes do not reset it. An explicit bound value takes precedence. Initialization does not emit `update:modelValue`.
 
 ### Carousel Props
 
@@ -199,12 +253,12 @@ Use ordinary `v-model`. `modelValue` is the current slide number, starting at 1.
 | `auto-play` | Autoplay configuration | `boolean \| number \| CarouselAutoPlayConfig` | `false` |
 | `move-speed` | Explicit duration in milliseconds | `number` | `undefined (token)` |
 | `trigger` | Indicator trigger | `click \| hover` | `click` |
-| `direction` | Slide direction | `horizontal \| vertical` | `horizontal` |
+| `orientation` | Horizontal/vertical axis of carousel sliding, default horizontal; does not determine indicator position | `horizontal \| vertical` | `horizontal` |
 | `show-arrow` | Arrow visibility | `always \| hover \| never` | `always` |
 | `arrow-class` | Additional arrow class | `string` | `undefined` |
 | `indicator` | Show indicators | `boolean` | `true` |
 | `indicator-type` | Indicator appearance | `dot \| line \| slider` | `dot` |
-| `indicator-position` | Indicator position | `bottom \| top \| left \| right \| outer` | `bottom` |
+| `indicator-position` | Indicator edge or outer region of the carousel container, default bottom. Not a trigger-relative popup placement | `bottom \| top \| left \| right \| outer` | `bottom` |
 | `indicator-class` | Additional indicator class | `string` | `undefined` |
 | `indicator-color` | Custom indicator background | `string` | `undefined` |
 | `height` | Container height; numbers are px | `number \| string` | `undefined` |
@@ -222,11 +276,11 @@ Use ordinary `v-model`. `modelValue` is the current slide number, starting at 1.
 | `next-button-aria-label` | Next button accessible name | `string` | Locale |
 
 ### Model and interaction
-All indices are one-based. A controlled action proposes update:model-value followed by change(slideNumber, previousSlideNumber, isManual); it does not move until the owner accepts current. External assignment does not emit another change. Options { event: false } suppress change only, never the model proposal. All user navigation is manual; autoplay is not.
+Public slide numbers start at 1. Controlled actions emit update:model-value, then change(slideNumber, previousSlideNumber, isManual), and do not move until the parent accepts current. External assignments do not emit change. Method option event:false suppresses only change, not the model proposal. isManual is true for user actions and false for autoplay.
 
-loop wraps original slide instances without duplicate component state. In non-loop, non-centered layouts the final viewport is clamped to avoid blank space; the active item may move within that last visible group without moving the track. Partially visible slides remain accessible; fully offscreen slides are inert. fade always displays exactly one item. auto uses an explicit width (horizontal) or height (vertical) on CarouselItem; provide container height for vertical layouts. Only CarouselItem children, optionally inside Vue fragments, count as slides.
+loop moves existing children across boundaries without cloning component instances. Without looping or centering, the final viewport is clamped to avoid empty space; selection can move within the final visible group without moving the track. Partly visible slides remain accessible; fully offscreen slides are inert. fade displays one slide. auto uses explicit CarouselItem width horizontally or height vertically; vertical mode requires a container height. Only CarouselItem children, including those inside Vue Fragments, count as slides; comments and ordinary elements do not.
 
-Autoplay true uses 3000ms and hover pause; a number sets milliseconds without hover pause. The object form supports interval/hoverToPause. Focus, dragging, document/ancestor visibility and KeepAlive always pause playback. Reduced motion disables transitions. Interactive child controls retain keyboard/pointer behavior; data-carousel-no-drag exempts custom interactive content. show-arrow=hover also reveals arrows on focus.
+auto-play=true uses 3000ms and pauses on hover; a number sets milliseconds without hover pausing; an object configures interval/hoverToPause. Focus within, dragging, hidden documents/ancestors and KeepAlive deactivation always pause playback. Reduced-motion preferences are respected. Interactive children such as inputs/buttons keep native behavior; mark custom interactive areas with data-carousel-no-drag. show-arrow=hover also shows arrows on keyboard focus.
 
 ### Events
 | Event | Arguments |
@@ -235,7 +289,7 @@ Autoplay true uses 3000ms and hover pause; a number sets milliseconds without ho
 | change | slideNumber: number, previousSlideNumber: number, isManual: boolean |
 
 ### Slots
-| Slot | Scope |
+| Slot | Arguments |
 | --- | --- |
 | default | CarouselItem |
 | prev / next / indicator | { slideNumber, length, hovering, prev, next, to, resize } |
@@ -247,10 +301,10 @@ Autoplay true uses 3000ms and hover pause; a number sets milliseconds without ho
 | to | (slideNumber: number, options?: CarouselToOptions) => void |
 | resize | () => void |
 
-CarouselItem has no own props, events or methods; its default slot contains slide content.
+CarouselItem has no own props, events or methods. Its default slot supplies slide content.
 
 ### Types
-CarouselProps, CarouselItemProps, CarouselInstance, CarouselItemInstance, CarouselEmits, CarouselSlots, CarouselItemSlots, CarouselExpose, CarouselSlotScope, CarouselToOptions, CarouselChangeData, CarouselDirection, CarouselEffect, CarouselAutoPlayConfig, CarouselArrowType, CarouselIndicatorType, CarouselIndicatorPosition, CarouselTriggerEvent.
+CarouselProps, CarouselItemProps, CarouselInstance, CarouselItemInstance, CarouselEmits, CarouselSlots, CarouselItemSlots, CarouselExpose, CarouselSlotScope, CarouselToOptions, CarouselChangeData, CarouselOrientation, CarouselEffect, CarouselAutoPlayConfig, CarouselArrowType, CarouselIndicatorType, CarouselIndicatorPosition, CarouselTriggerEvent.
 
 ### Style variables
 
@@ -283,6 +337,8 @@ CarouselProps, CarouselItemProps, CarouselInstance, CarouselItemInstance, Carous
 | `--mp-carousel-focus-offset` | `2px` |
 | `--mp-carousel-focus-color` | `var(--mp-sys-color-content-brand)` |
 
-### Loop transition boundary
+### Loop transition boundaries
 
-Slides remain single component instances. Ordinary next/previous transitions recycle only after the outgoing page leaves the viewport. A long or centered jump that would need one slide in two positions snaps without animation; it does not clone interactive content or queue an unbounded series of transitions. When the number of slides is smaller than the requested visible count, no duplicate slides are fabricated. Accessibility labels follow the global Locale; explicit label props override it.
+Each slide always has one component instance. Ordinary previous/next navigation recycles positions after the departing slide exits. Multi-slide or centered jumps that would require one slide in two positions settle immediately without animation, cloning interactive content or queuing unlimited transitions. Fewer items than visible slides are not cloned to fill space. Accessible names follow global Locale; explicit label props take precedence.
+
+Native root listeners such as `keydown`, `mouseenter`, `mouseleave`, `focusin` and `focusout` run alongside internal navigation and autoplay pause handling. Native `.once` listeners fire once for the root element lifetime.

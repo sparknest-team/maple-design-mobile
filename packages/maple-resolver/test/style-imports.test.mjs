@@ -38,6 +38,7 @@ test('ignores other packages, namespace imports, comments, strings and styleless
     "// import { Message } from '@maple-design/ui'",
     `const text = "import { Message } from '@maple-design/ui'"`,
     "import { Locale, Themes, messageProps } from '@maple-design/ui'",
+    "import { providePeopleSelect, peopleSelectConfigKey } from '@maple-design/ui'",
   ]) {
     assert.equal(transform(source), undefined)
   }
@@ -86,4 +87,11 @@ test('TabBar and TabBarItem resolve to the renamed component and shared style en
   }
   assert.equal(resolver.resolve('MpBottomNavigation'), undefined)
   assert.equal(resolver.resolve('MpBottomNavigationItem'), undefined)
+})
+
+// NavMenuItem is a public subcomponent sharing its parent's style entry.
+test('NavMenu and NavMenuItem share the nav-menu style entry', () => {
+  const result = transform("import { NavMenu, NavMenuItem, _NavMenuItemComponent } from '@maple-design/ui'")
+  assert.equal(result.code.match(/import "@maple-design\/ui\/nav-menu\/style";/g).length, 1)
+  assert(!result.code.includes('@maple-design/ui/nav-menu-item/style'))
 })

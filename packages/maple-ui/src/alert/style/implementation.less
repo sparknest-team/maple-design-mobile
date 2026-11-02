@@ -7,7 +7,7 @@
   overflow: hidden;
   font-size: var(~'--mp-alert-font-size-content');
   line-height: var(~'--mp-alert-line-height');
-  text-align: left;
+  text-align: start;
   border-radius: var(~'--mp-alert-border-radius');
   border: var(~'--mp-alert-border-width') solid transparent;
 
@@ -32,7 +32,7 @@
   &__icon {
     display: inline-flex;
     align-items: center;
-    margin-right: var(~'--mp-alert-icon-margin-right');
+    margin-inline-end: var(~'--mp-alert-icon-margin-right');
     font-size: var(~'--mp-alert-icon-size');
   }
 
@@ -54,12 +54,12 @@
 
   &__action {
     flex-shrink: 0;
-    margin-left: var(~'--mp-alert-action-margin-left');
+    margin-inline-start: var(~'--mp-alert-action-margin-left');
   }
 
   &__close-btn {
     flex-shrink: 0;
-    margin-left: var(~'--mp-alert-close-margin-left');
+    margin-inline-start: var(~'--mp-alert-close-margin-left');
     cursor: pointer;
   }
 

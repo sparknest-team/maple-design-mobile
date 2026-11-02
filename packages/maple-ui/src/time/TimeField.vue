@@ -17,6 +17,7 @@ import { provideRangeField } from '../_components/picker-field/range-field-conte
 import { useFieldOpen } from '../_components/picker-field/use-field-open'
 import { cloneFieldValue, useFieldValue } from '../_components/picker-field/use-field-value'
 import { createNamespace } from '../utils/components'
+import { resolveEmptyValue, useEmptyValues } from '../utils/empty-value'
 import { resolveTimeFieldPlaceholders } from './field-placeholders'
 import type { TimeFieldControlProps, TimeFieldProps, TimeFieldState } from './field-state'
 import { initializeTimeFieldDraft } from './presentation/initialize-field-draft'
@@ -50,6 +51,14 @@ const model = useFieldValue<TimeCommitInput>({
   value: () => props.fieldProps.modelValue,
   defaultValue: () => props.fieldProps.defaultValue,
 })
+const emptyPolicy = useEmptyValues({
+  get emptyValues() {
+    return props.fieldProps.emptyValues
+  },
+})
+const viewValue = computed(() =>
+  emptyPolicy.hasCustomEmptyValues.value && emptyPolicy.isEmpty(model.value.value) ? undefined : model.value.value,
+)
 const form = useTimeFieldForm(() => props.fieldProps)
 const locale = useTimeFieldLocale()
 const blocked = computed(() => form.disabled.value || form.readonly.value)
@@ -63,7 +72,7 @@ const open = useFieldOpen({
   },
 })
 const transaction = useTimeFieldController<TimeCommitInput>({
-  value: () => model.value.value,
+  value: () => viewValue.value,
   open,
   clone: cloneFieldValue,
   initialize: (value) => initializeTimeFieldDraft(value, props.fieldProps, props.range),
@@ -71,6 +80,7 @@ const transaction = useTimeFieldController<TimeCommitInput>({
   rules: () => props.fieldProps,
   range: () => props.range,
   disabled: () => form.disabled.value,
+  emptyValue: () => resolveEmptyValue<TimeCommitInput>(props.fieldProps, undefined),
   clearable: () => Boolean(props.fieldProps.clearable),
   onCommit: (next, dates) => {
     model.setValue(next)
@@ -85,13 +95,14 @@ const transaction = useTimeFieldController<TimeCommitInput>({
 })
 const controlProps = computed<TimeFieldControlProps>(() => {
   const options = props.fieldProps
-  const value = model.value.value
+  const value = viewValue.value
   const values = Array.isArray(value) ? value : props.range ? [] : [value]
   const placeholders = resolveTimeFieldPlaceholders(options.placeholder, locale.placeholder(props.range), props.range)
   const start = Array.isArray(value) ? toClockValue(value[0], options) : undefined
   const end = Array.isArray(value) ? toClockValue(value[1], options) : undefined
   return {
     kind: 'time',
+    openTriggerTarget: options.openTriggerTarget,
     range: props.range,
     texts: values.map((part) => formatTimeValue(part, options) ?? ''),
     placeholders,

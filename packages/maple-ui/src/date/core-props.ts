@@ -1,4 +1,5 @@
 import type { PropType } from 'vue'
+import { emptyValueProp } from '../utils/empty-value'
 import type { DateFormatMode } from './date-format'
 import type { DateRules } from './date-rules'
 import type { DateValue, DateValueOptions } from './date-value'
@@ -10,9 +11,8 @@ export const dateRuleProps = {
     default: 'date',
     validator: (value: string) => ['date', 'year', 'quarter', 'month', 'week'].includes(value),
   },
+  timeZone: String,
   showTime: Boolean,
-  /** 未指定 format 时是否包含秒；显式 format 优先。 */
-  useSeconds: { type: Boolean, default: true },
   format: [String, Function] as PropType<DateValueOptions['format']>,
   valueFormat: String,
   min: [String, Number, Date] as PropType<DateValue>,
@@ -23,10 +23,12 @@ export const dateRuleProps = {
   disableConfirm: { type: Boolean, default: true },
 }
 export const dateSingleValueProps = {
-  modelValue: [String, Number, Date] as PropType<DateValue>,
+  emptyValue: emptyValueProp<DateValue | undefined>(),
+  modelValue: [String, Number, Date] as PropType<DateValue | null>,
   defaultValue: [String, Number, Date] as PropType<DateValue>,
 }
 export const dateRangeValueProps = {
-  modelValue: Array as PropType<DateValue[]>,
-  defaultValue: Array as PropType<DateValue[]>,
+  emptyValue: emptyValueProp<(DateValue | undefined)[] | undefined>(),
+  modelValue: Array as PropType<(DateValue | undefined)[] | null>,
+  defaultValue: Array as PropType<(DateValue | undefined)[]>,
 }

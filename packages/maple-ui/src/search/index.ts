@@ -6,7 +6,7 @@ withInstall(Search)
 withPropsDefaultsSetter(Search, searchProps)
 
 export { searchProps }
-export type { SearchActionType, SearchField, SearchProps, SearchShape } from './props'
+export type { SearchEditMode, SearchActionType, SearchField, SearchProps, SearchShape } from './props'
 export type { SearchResult } from './result'
 
 export type SearchInstance = InstanceType<typeof Search>

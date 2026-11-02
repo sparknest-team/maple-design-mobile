@@ -1,5 +1,12 @@
 <template>
-  <div role="listitem" :class="cls" @click="handleClick">
+  <div
+    :role="changeable ? 'button' : 'listitem'"
+    :aria-disabled="changeable ? disabled : undefined"
+    :aria-current="active ? 'step' : undefined"
+    :class="cls"
+    @click="handleClick"
+    @keydown="handleKeydown"
+  >
     <div v-if="showTail" :class="`${prefixCls}-tail`" />
     <div v-if="type !== 'arrow'" :class="`${prefixCls}-node`">
       <slot name="node" v-bind="slotScope">
@@ -77,6 +84,19 @@ export default defineComponent({
 
     return {
       prefixCls,
+      changeable: computed(() => steps?.changeable.value ?? false),
+      disabled: computed(() => props.disabled),
+      active,
+      handleKeydown: (event: KeyboardEvent) => {
+        if (
+          event.target === event.currentTarget &&
+          steps?.changeable.value &&
+          (event.key === 'Enter' || event.key === ' ')
+        ) {
+          event.preventDefault()
+          handleClick(event)
+        }
+      },
       iconCls,
       cls,
       computedStatus,

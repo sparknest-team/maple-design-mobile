@@ -1,7 +1,6 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maple-design/cli/client'
-import DemoApiReview from './demos/api-review.vue'
 import AreaPickerDemo from './demos/area-picker.vue'
 import CascadePickerDemo from './demos/cascade-picker.vue'
 import ColumnsCountDemo from './demos/columns-count.vue'
@@ -22,20 +21,20 @@ onThemeChange()
 </script>
 
 <template>
-  <section data-demo="disabled">
-    <app-type>{{ english ? 'Disabled picker' : '禁用选择器' }}</app-type>
-    <DisabledDemo />
-  </section>
-
-  <section data-demo="function-call">
-    <app-type>{{ english ? 'function call' : 'function call' }}</app-type>
-    <FunctionCallDemo />
-  </section>
+  <h2 class="mobile-demo-group-heading" data-demo-group="basic-examples" data-demo-component="picker">
+    <span lang="zh-CN">基础示例</span>
+    <span lang="en-US">Basic examples</span>
+  </h2>
 
   <section data-demo="single-picker">
     <app-type>{{ english ? 'single picker' : 'single picker' }}</app-type>
     <SinglePickerDemo />
   </section>
+
+  <h2 class="mobile-demo-group-heading" data-demo-group="selection-modes-and-options">
+    <span lang="zh-CN">选择模式与选项</span>
+    <span lang="en-US">Selection modes and options</span>
+  </h2>
 
   <section data-demo="multiple-picker">
     <app-type>{{ english ? 'multiple picker' : 'multiple picker' }}</app-type>
@@ -62,9 +61,23 @@ onThemeChange()
     <ValueMappingDemo />
   </section>
 
+  <h2 class="mobile-demo-group-heading" data-demo-group="interaction-and-invocation">
+    <span lang="zh-CN">交互与调用方式</span>
+    <span lang="en-US">Interaction and invocation</span>
+  </h2>
+
+  <section data-demo="disabled">
+    <app-type>{{ english ? 'Disabled picker' : '禁用选择器' }}</app-type>
+    <DisabledDemo />
+  </section>
+
   <section data-demo="two-way-binding">
     <app-type>{{ english ? 'two way binding' : 'two way binding' }}</app-type>
     <TwoWayBindingDemo />
   </section>
-  <section data-demo="api-review"><DemoApiReview /></section>
+
+  <section data-demo="function-call">
+    <app-type>{{ english ? 'function call' : 'function call' }}</app-type>
+    <FunctionCallDemo />
+  </section>
 </template>

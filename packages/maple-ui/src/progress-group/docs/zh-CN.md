@@ -1,10 +1,10 @@
 # ProgressGroup 分段进度条
 
-## 案例
-
 ### 介绍
 
 将多个数值展示为同一条进度轨中的分段，并提供对应图例。
+
+## 基础示例
 
 ### 基础用法
 
@@ -12,37 +12,82 @@
 ../example/demos/basic.vue
 ```
 
-### 进度轨尺寸
+## 外观与状态
+
+### 进度组尺寸与颜色
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `items` | 分段数据 | 进度组尺寸与颜色 |
+| `size` | 进度轨尺寸 | 进度组尺寸与颜色 |
+| `color` | 默认分段颜色 | 进度组尺寸与颜色 |
+| `show-text` | 是否展示累计百分比 | 进度组尺寸与颜色 |
+<!-- demo-config-notes:end -->
+
+比较同类分段数据的尺寸和颜色覆盖；方向、环形布局、总量溢出与键盘操作另行展示。
 
 ```demo
-../example/demos/size.vue
+../example/demos/appearance-comparison.vue
 ```
 
+## 布局与排列
+
 ### 排列方向
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `items` | 分段数据 | 排列方向 |
+| `show-text` | 是否展示累计百分比 | 排列方向 |
+| `orientation` | 线形进度轨的横纵朝向，默认 horizontal；仅 mode=line 生效 | 排列方向 |
+| `size` | 进度轨尺寸 | 排列方向 |
+<!-- demo-config-notes:end -->
 
 ```demo
 ../example/demos/orientation.vue
 ```
 
+## 内容与展示
+
 ### 环形分段进度
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `mode` | 展示模式 | 环形分段进度 |
+| `items` | 分段数据 | 环形分段进度 |
+| `show-text` | 是否展示累计百分比 | 环形分段进度 |
+| `circle-size` | 环形模式的直径 | 环形分段进度 |
+| `stroke-width` | 环形模式的轨道宽度 | 环形分段进度 |
+<!-- demo-config-notes:end -->
 
 ```demo
 ../example/demos/circle.vue
 ```
 
-### 默认颜色与纯进度轨
-
-```demo
-../example/demos/color.vue
-```
-
-### 自定义内容
-
-```demo
-../example/demos/custom.vue
-```
+## 交互与控制
 
 ### 超额数据与键盘提示
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `items` | 分段数据 | 超额数据与键盘提示、自定义内容 |
+| `max` | 计算占比时的总值 | 超额数据与键盘提示、自定义内容 |
+| `show-text` | 是否展示累计百分比 | 超额数据与键盘提示、自定义内容 |
+| `tooltip` | 是否显示分段悬浮/聚焦提示 | 超额数据与键盘提示 |
+| `aria-label` | 分组的无障碍名称 | 超额数据与键盘提示 |
+| `mode` | 展示模式 | 超额数据与键盘提示 |
+<!-- demo-config-notes:end -->
 
 示例按钮由父级更新 `max`、`items` 和 `tooltip`，同步驱动线形与环形；它们不是组件内置的编辑事件。可切换容量 100/200、清空/恢复数据、关闭/开启提示。关闭提示后分段不再进入 Tab 顺序，清空后不保留提示。鼠标悬浮优先于键盘焦点，离开悬浮段后回到焦点段提示。
 
@@ -54,14 +99,15 @@
 
 size 五档均实现，仅影响线形厚度（2/4/8/12/16px）；环形用 circle-size（支持 number/CSS长度）和 stroke-width。累计文本开关为 show-text，自定义插槽为 text，已删除旧布尔 status / status 插槽。
 
-<!-- api-review:start -->
-### 功能调试
+### 自定义内容
 
 ```demo
-../example/demos/api-review.vue
+../example/demos/custom.vue
 ```
 
-<!-- api-review:end -->
+## 阅读方向
+
+横向分段、高亮与提示使用同一逻辑起点；垂直进度仍从上到下，圆环保持原有角度与数据顺序。
 
 ## API
 
@@ -79,7 +125,7 @@ size 五档均实现，仅影响线形厚度（2/4/8/12/16px）；环形用 circ
 | circle-size | 环形模式的直径 | `number \| string` | `120` |
 | stroke-width | 环形模式的轨道宽度 | `number` | `8` |
 | tooltip | 是否显示分段悬浮/聚焦提示 | `boolean` | `true` |
-| orientation | 排列方向 | `horizontal \| vertical` | `horizontal` |
+| orientation | 线形进度轨的横纵朝向，默认 horizontal；仅 mode=line 生效 | `horizontal \| vertical` | `horizontal` |
 
 ### Slots
 

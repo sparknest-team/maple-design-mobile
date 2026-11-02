@@ -14,7 +14,6 @@ import CustomIcon from '../example/custom-icon.vue'
 import Appearance from '../example/demos/appearance-lab.vue'
 import Disabled from '../example/disabled.vue'
 import Popup from '../example/popup.vue'
-import Sizes from '../example/sizes.vue'
 import Variants from '../example/variants.vue'
 
 useDemoControls()
@@ -38,7 +37,7 @@ afterEach(() => {
   info.mockClear()
 })
 
-test.each([Basic, Controlled, AsyncAction, Popup, Disabled, CustomIcon, Sizes, Variants, Appearance])(
+test.each([Basic, Controlled, AsyncAction, Popup, Disabled, CustomIcon, Variants, Appearance])(
   'actual demo labels follow the site language without an uninitialized local locale: %s',
   async (demo) => {
     const wrapper = mount(demo, {
@@ -70,4 +69,28 @@ test('primary action uses the current translated message', async () => {
   await nextTick()
   await wrapper.find('button').trigger('click')
   expect(info).toHaveBeenLastCalledWith('Published')
+})
+
+test('appearance comparison keeps every size localized after the sizes demo was consolidated', async () => {
+  const wrapper = mount(Appearance, {
+    global: { components, stubs: { MIconMenuDown: true, MpSelect: true } },
+  })
+  wrappers.push(wrapper)
+  wrapper
+    .findAllComponents(RadioGroup)
+    .find((group) => group.attributes('aria-label') === 'Compare configuration')
+    .vm.$emit('update:modelValue', 'size')
+  await nextTick()
+  const menus = wrapper.findAllComponents(SplitButton)
+  expect(menus.map((menu) => menu.props('size'))).toEqual(['xs', 'sm', 'md', 'lg', 'xl'])
+  listeners.forEach((callback) => callback('en-US'))
+  await nextTick()
+  for (const menu of menus) {
+    expect(
+      menu.vm.$slots
+        .content()
+        .filter((node) => node.props?.label)
+        .map((node) => node.props.label),
+    ).toEqual(['Save draft', 'Save and publish', 'Unavailable'])
+  }
 })

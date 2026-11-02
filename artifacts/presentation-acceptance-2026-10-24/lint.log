@@ -1,0 +1,4 @@
+
+> @1.0.0 lint:check /Users/shuaimeng/github_web/maple-design-mobile
+> eslint . --max-warnings 0
+

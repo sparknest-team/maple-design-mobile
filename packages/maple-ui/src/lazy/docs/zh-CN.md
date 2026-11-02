@@ -1,16 +1,18 @@
 # 图片懒加载
 
-## 案例
-
 ### 介绍
 
 在图片可见时进行加载。
+
+## 基础示例
 
 ### 基本使用
 
 ```demo
 ../example/demos/basic-usage.vue
 ```
+
+## 内容与展示
 
 ### 背景图懒加载
 
@@ -20,7 +22,7 @@
 
 ### 内联属性
 
-可以通过内联属性修改 `loading`、 `error` 图片和`加载失败时尝试重新加载的次数`。
+可以通过内联属性修改 `loading`、 `error` 图片和`总尝试次数，包含首次请求`。
 
 ```html
 <template>
@@ -70,19 +72,10 @@ createApp().use(Lazy, {
   filter(lazy) {
     // 可以访问 lazy 上下文的所有属性,执行一些属性拦截,
     // 比如简单修改所有的图片地址 http -> https
-    lazy.src.replace('http://', 'https://')
+    lazy.src = lazy.src.replace('http://', 'https://')
   }
 })
 ```
-
-<!-- api-review:start -->
-### 功能调试
-
-```demo
-../example/demos/api-review.vue
-```
-
-<!-- api-review:end -->
 
 ## API
 
@@ -92,7 +85,13 @@ createApp().use(Lazy, {
 | --- | --- | --- | --- |
 | `loading` | 加载中的图片，尽可能选择加载速度很快的图片 | _string_ | `1像素透明图片` |
 | `error` | 加载失败显示的图片 | _string_ | `1像素透明图片` |
-| `attempt` | 加载失败时尝试重新加载的次数 | _number_ | `3` |
+| `attempt` | 总尝试次数，包含首次请求 | _number_ | `3` |
 | `throttleWait` | 节流时间，数值越大事件触发频率越低 | _number_ | `300` |
 | `events` | 触发可见性检测注册的事件列表 | _string[]_ | `['scroll'...]` |
-| `filter` | 属性拦截函数 | _(lazy: Lazy) => void_ | `() => void` |
+| `filter` | 属性拦截函数 | _(lazy: LazyContext) => void_ | `() => void` |
+
+`attempt` 表示包含首次请求的总尝试次数。非有限值（含非法字符串、Infinity）恢复为3；有限值向下取整且至少为1。失败达到上限即终止，缓存命中不计网络尝试。`filter` 可修改 `LazyContext`，修改地址需要赋回 `lazy.src`。公开类型包括 `LazyOptions`、`LazyContext`、`LazyState`、`LazyHTMLElement`。
+
+资源地址、背景参数或 `lazy-loading` / `lazy-error` / `lazy-attempt` 改变时，旧任务失效并创建新任务；卸载取消排队帧、预加载监听器和全局待调度检查，已交付的旧回调也不能写入新任务或卸载节点。背景URL以CSS字符串转义，支持括号、空格、引号和data URL。
+
+插件默认配置、100项FIFO资源缓存和可见性调度为模块级共享，并非各应用隔离。再次安装更新后续任务的默认配置；已有任务保留创建时的资源选项，所有待加载节点的事件按新事件列表重新绑定，最后一个任务结束时解除全部注册。`events` 与 `throttleWait` 只支持插件配置，不支持 `lazy-throttle-wait` 属性。可见性按视口判断，滚动祖先监听负责触发检查，不承诺按每层裁剪区域预加载。

@@ -5,13 +5,13 @@ import { ExtractPublicPropTypes, pickProps } from '../utils/components'
 import type { SemanticStatus } from '../utils/constants'
 import { popupContainerProp } from '../utils/popup-container'
 
-export type FabPosition = 'left-top' | 'right-top' | 'left-bottom' | 'right-bottom'
+export type FabPosition = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'
 
 export type FabTrigger = 'click' | 'hover'
 
-export type FabDirection = 'top' | 'right' | 'bottom' | 'left'
+export type FabPlacement = 'top' | 'right' | 'bottom' | 'left'
 
-export type FabDrag = Pick<ExtractPublicPropTypes<typeof dragProps>, 'direction' | 'attraction' | 'boundary'> | boolean
+export type FabDrag = Pick<ExtractPublicPropTypes<typeof dragProps>, 'axis' | 'attraction' | 'boundary'> | boolean
 
 export const props = {
   /** 动作菜单展开状态，通过 v-model:open 绑定。 */
@@ -31,12 +31,14 @@ export const props = {
     type: String as PropType<SemanticStatus>,
     default: 'primary',
   },
+  /** 按钮自身在屏幕或定位容器中的角落，默认 bottom-right；四角统一使用上下在前的拼写 */
   position: {
     type: String as PropType<FabPosition>,
-    default: 'right-bottom',
+    default: 'bottom-right',
   },
-  direction: {
-    type: String as PropType<FabDirection>,
+  /** 动作菜单相对按钮的放置侧，默认 top；不会自动翻转，不改变按钮自身 position */
+  placement: {
+    type: String as PropType<FabPlacement>,
     default: 'top',
   },
   trigger: {

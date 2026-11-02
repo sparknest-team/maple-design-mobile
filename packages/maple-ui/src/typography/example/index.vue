@@ -1,20 +1,12 @@
 <script setup>
-import { onThemeChange } from '@maple-design/cli/client'
-
-onThemeChange()
+import BasicDemo from './basic.vue'
 </script>
 
 <template>
-  <div class="demo mp-px-16 mp-py-16">
-    <div class="mp-text-1 mp-mb-8">mp-text-1 主文案</div>
-    <div class="mp-text-2 mp-mb-8">mp-text-2 次级</div>
-    <div class="mp-text-3 mp-mb-8">mp-text-3 辅助</div>
-    <div class="mp-text-4">mp-text-4 弱化</div>
-    <div class="mp-text-3 mp-mt-24">PC 排版工具类见 Cedar Typography；Mobile 用 token / 原子化 CSS。</div>
-  </div>
-</template>
+  <h2 class="mobile-demo-group-heading" data-demo-group="basic-examples" data-demo-component="typography">
+    <span lang="zh-CN">基础示例</span>
+    <span lang="en-US">Basic examples</span>
+  </h2>
 
-<style lang="less">
-@import '../../style/theme/css-variables.less';
-@import '../../utilities/style/utilities.less';
-</style>
+  <section data-demo="basic"><BasicDemo /></section>
+</template>

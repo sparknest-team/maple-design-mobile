@@ -2,7 +2,11 @@
 
 Final batch verification:Form115tests/19files within the combined Maple532tests/95files pass;root read-only lint,types and shared29tests pass. Runtime-candidate classification33/33families is not whole-component/native acceptance;latest evidence below retains diagnostics/boundaries.
 
-## Examples
+## Reading direction
+
+Form and FormItem accept start/end/left/center/right for content-align and start/end/left/right for label-align. Content defaults to start and labels to end: default LTR placement stays the same while RTL follows reading order. Explicit left/right remain physical. Item overrides and explicit label-column styles retain precedence. Direction changes preserve values, validation and disabled/readonly state.
+
+## Basic examples
 
 ### Basic Form
 
@@ -10,59 +14,59 @@ Final batch verification:Form115tests/19files within the combined Maple532tests/
 ../example/demos/en-US/example.vue
 ```
 
-### Form Controller
+## Form appearance and layout
 
-Use the Form instance to reset fields, clear validation, validate, and toggle disabled or readonly state.
+### Layout switching and item overrides
 
-```demo
-../example/demos/en-US/controller.vue
-```
+`edit-mode` describes editing behavior: `direct` always shows the control; `popup` opens the mobile editor. `readPretty` is an independent boolean. FormItem and fields inherit the mode when omitted. The legacy field `presentation` prop has been removed; use `edit-mode` to configure editing behavior. Replace `presentation="inline"` with `edit-mode="direct"`; `layout="inline"` is unchanged.
 
-### Form Events
+Combine `vertical`, `horizontal` and `inline` layouts with `direct / popup` editing and the independent `readPretty` boolean to compare label, control, value and wrapped-text alignment while retaining the same data. Notes can override the layout or inherit it. In `popup`, click a value to edit and confirm to save; `readPretty` uses `read-pretty` to display plain text.
 
-Use Button's `html-type="submit"` / `html-type="reset"` to trigger native form events. The demo displays validation results and current model values; reset restores the initial values and clears errors.
+`content-align` switches values between left, center and right in every field mode. FormItem inherits Form unless overridden. It positions compact controls and aligns field values; label alignment and help/error text stay independent. A field's explicit `text-align` overrides the inherited alignment.
 
 ```demo
-../example/demos/en-US/events.vue
+../example/demos/en-US/layout-comparison.vue
 ```
 
-### Validate on clear
+### Label and content decoration
 
-`validate-trigger="clear"` validates only when the user clicks a control's clear button, not while typing. Typing again does not automatically clear the error; validate explicitly or reset the form.
+<!-- demo-config-notes:start -->
+
+#### Configuration reference for this comparison
+
+| Configuration      | Purpose                                                                              | Related examples                                                                          |
+| ------------------ | ------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------- |
+| `model`            | The form data object, `FormItem` reads and writes to it using `field`                | Layout switching and item overrides, Label and content decoration, Label width strategies |
+| `layout`           | Form-item layout: `vertical`/`horizontal`/`inline`; overridable by `FormItem.layout` | Layout switching and item overrides, Label and content decoration, Label width strategies |
+| `label-align`      | Label alignment                                                                      | Label width strategies                                                                    |
+| `auto-label-width` | Align eligible horizontal labels to their maximum natural width                      | Label width strategies                                                                    |
+| `label-col-flex`   | Label flex; unit strings set width, numbers are grow ratios                          | Label width strategies                                                                    |
+| `label-col-props`  | Horizontal label Col options, including breakpoints                                  | Label width strategies                                                                    |
+
+<!-- demo-config-notes:end -->
 
 ```demo
-../example/demos/en-US/clear-trigger.vue
+../example/demos/en-US/decoration.vue
 ```
 
-### Responsive label columns
+### Label width strategies
+
+Enter values, then switch between measured labels, responsive columns and fixed widths: all three strategies retain the same form model. Edit the longest label or hide the contact field to observe remeasurement. Below 576px, the responsive strategy stacks labels above controls; fixed widths use 6rem with an 8rem contact-field override.
+
+<details>
+<summary>Configuration details and limits</summary>
+
+#### Responsive label columns
 
 Horizontal layouts default to 5/24 label and 19/24 control columns. Cedar defaults to horizontal; Maple defaults to vertical. Only horizontal uses column proportions and auto width. Responsive options use viewport breakpoints. FormItem overrides Form; Col/style objects replace inherited objects. label-col-flex overrides auto-label-width: unit strings set width, numbers are Col grow ratios, not pixels. The control fills the remainder. Hidden labels leave full-width controls. Automatic width updates on label changes/removal and stays isolated per form. Use vertical or a fixed width for long labels on narrow screens.
 
-```demo
-../example/demos/en-US/label-columns.vue
-```
-
-### Fixed label width
+</details>
 
 ```demo
-../example/demos/en-US/fixed-label-width.vue
+../example/demos/en-US/label-width-comparison.vue
 ```
 
-### Automatic label width
-
-```demo
-../example/demos/en-US/auto-label-width.vue
-```
-
-### Cross-field validation and native submit
-
-When not paused, confirmation immediately compares the current source code. Change the source after a successful match, then validate only confirmation or submit again to observe the dependency error; correct confirmation and submit with Enter or the submit button. Native reset clears model values, feedback and the displayed last-submission value, while the submission count remains cumulative. Dependencies are revalidated explicitly: editing alone does not guarantee that an existing success is current. This local example is not exhaustive asynchronous submit-race coverage or external persistence.
-
-```demo
-../example/demos/en-US/cross-field.vue
-```
-
-Pause cross-field validation holds the confirmation rule until Resolve cross-field result. Completion compares that confirmation value with the current source, not a remote service or a source snapshot from submission start. Changing the source while waiting yields a dependency error; correcting confirmation and retrying with Enter succeeds. Native reset settles local tasks, clears values and the submitted snapshot, retains the history count and prevents late submission. Suspension/disposal also clean pending tasks. Cyclic dependencies and arbitrary request ordering remain unverified.
+## Fields and data model
 
 ### Text and numeric fields
 
@@ -80,6 +84,12 @@ Pause cross-field validation holds the confirmation rule until Resolve cross-fie
 
 ```demo
 ../example/demos/field-selection.vue
+```
+
+### Direct / popup selection summaries
+
+```demo
+../example/demos/selection-summary.vue
 ```
 
 ### Hierarchical fields
@@ -112,43 +122,78 @@ Pause cross-field validation holds the confirmation rule until Resolve cross-fie
 ../example/demos/field-upload.vue
 ```
 
-### Standalone panel actions
+## Validation and submission
+
+### Cross-field validation and native submit
+
+<!-- demo-config-notes:start -->
+
+#### Configuration reference for this comparison
+
+| Configuration | Purpose                                                               | Related examples                                                             |
+| ------------- | --------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| `model`       | The form data object, `FormItem` reads and writes to it using `field` | Cross-field validation and native submit, Validate on clear, Form Controller |
+| `disabled`    | Whether disabled                                                      | Form Controller                                                              |
+| `readonly`    | Whether readonly                                                      | Form Controller                                                              |
+
+<!-- demo-config-notes:end -->
+
+When not paused, confirmation immediately compares the current source code. Change the source after a successful match, then validate only confirmation or submit again to observe the dependency error; correct confirmation and submit with Enter or the submit button. Native reset clears model values, feedback and the displayed last-submission value, while the submission count remains cumulative. Dependencies are revalidated explicitly: editing alone does not guarantee that an existing success is current. This local example is not exhaustive asynchronous submit-race coverage or external persistence.
 
 ```demo
-../example/demos/field-panel-actions.vue
+../example/demos/en-US/cross-field.vue
 ```
 
-### Label and content decoration
+Pause cross-field validation holds the confirmation rule until Resolve cross-field result. Completion compares that confirmation value with the current source, not a remote service or a source snapshot from submission start. Changing the source while waiting yields a dependency error; correcting confirmation and retrying with Enter succeeds. Native reset settles local tasks, clears values and the submitted snapshot, retains the history count and prevents late submission. Suspension/disposal also clean pending tasks. Cyclic dependencies and arbitrary request ordering remain unverified.
+
+### Validate on clear
+
+`validate-trigger="clear"` validates only when the user clicks a control's clear button, not while typing. Typing again does not automatically clear the error; validate explicitly or reset the form.
 
 ```demo
-../example/demos/en-US/decoration.vue
+../example/demos/en-US/clear-trigger.vue
 ```
 
-### Disabled, readonly and asynchronous confirmation
+### Form Controller
 
-Lint follow-up (2026-10-19): current scoped/root lint, configured types, 300 related regressions and SFC compilation pass after pre-existing formatting corrections. This run did not change business source; the 1200ms delay, cancellation signal and once-only settlement remain intact. Example compilation is not native-browser acceptance; automation remains paused.
+Use the Form instance to reset fields, clear validation, validate, and toggle disabled or readonly state.
 
 ```demo
-../example/demos/presentation-state.vue
+../example/demos/en-US/controller.vue
 ```
 
-### Cross-page range boundaries
+### Form Events
 
-Compare date, month and year ranges with 2027-01-01, 2026-12 and 2100 disabled. Disabled values cannot be endpoints, but a range may span them; navigate across pages to observe their disabled appearance.
+Use Button's `html-type="submit"` / `html-type="reset"` to trigger native form events. The demo displays validation results and current model values; reset restores the initial values and clears errors.
 
 ```demo
-../example/demos/field-range-boundaries.vue
+../example/demos/en-US/events.vue
 ```
 
-### 字段展示与确认提交
+## Field presentation and interaction
 
-Form、FormItem、Input、Select 支持 presentation 继承：字段 > FormItem > Form。默认 inline；Maple 支持 popup。弹层默认确认后提交，readPretty 只阅读。普通 v-model 和默认插槽保持不变。搜索位置自动随展示形式切换。
+### Field presentation and confirmed commits
+
+<!-- demo-config-notes:start -->
+
+#### Configuration reference for this comparison
+
+| Configuration | Purpose                                                                              | Related examples                                              |
+| ------------- | ------------------------------------------------------------------------------------ | ------------------------------------------------------------- |
+| `layout`      | Form-item layout: `vertical`/`horizontal`/`inline`; overridable by `FormItem.layout` | Field presentation and confirmed commits, Presentation status |
+| `model`       | The form data object, `FormItem` reads and writes to it using `field`                | Field presentation and confirmed commits                      |
+
+<!-- demo-config-notes:end -->
+
+Form, FormItem, Input and Select inherit presentation from field > FormItem > Form. When omitted, each field retains its own default. Maple supports direct / popup. Popup edits commit after confirmation by default; readPretty displays reading content only. Ordinary v-model/default slots remain. Select, Cascader, AutoComplete, Date/DateRange and Time/TimeRange default to popup; other fields default to direct.
+
+`edit-mode` only controls field editing and preserves `layout`, label widths and grid proportions. In non-vertical layouts, labels are vertically centered against the field content; errors and help text do not affect alignment.
 
 <demo src="../example/demos/field-presentation.vue" />
 
-### presentation 继承规则
+### edit-mode inheritance
 
-Form 支持 `inline / popup`，默认 inline；FormItem 和字段未设置时继承，显式值覆盖。read 是阅读展示，与 readonly/disabled 分开。确认编辑未结束时整表提交会失败并保留草稿；reset 取消编辑。原有默认插槽与 v-model 保持不变，不需要 editor 插槽。
+Form supports direct / popup. Omission preserves field-specific defaults; explicit Form settings inherit into FormItem/fields, with explicit child values overriding. read is reading presentation, separate from readonly/disabled. Submitting with unfinished confirmation editing fails and preserves the draft; reset cancels editing. Existing default slots/v-model remain; no editor slot is needed.
 
 ### Presentation status
 
@@ -158,7 +203,28 @@ Explicit validate-status overrides automatic presentation without changing valid
 ../example/demos/en-US/presentation-status.vue
 ```
 
+### Standalone panel actions
+
+```demo
+../example/demos/field-panel-actions.vue
+```
+
+## Dynamic and async fields
+
 ### Independent async fields
+
+<!-- demo-config-notes:start -->
+
+#### Configuration reference for this comparison
+
+| Configuration | Purpose                                                               | Related examples                                                                                            |
+| ------------- | --------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| `model`       | The form data object, `FormItem` reads and writes to it using `field` | Independent async fields, Disabled, readonly and asynchronous confirmation, Async validation response order |
+| `disabled`    | Whether disabled                                                      | Disabled, readonly and asynchronous confirmation, Async validation response order                           |
+| `readonly`    | Whether readonly                                                      | Disabled, readonly and asynchronous confirmation, Async validation response order                           |
+| `rules`       | Validation rules keyed by field name                                  | Disabled, readonly and asynchronous confirmation                                                            |
+
+<!-- demo-config-notes:end -->
 
 State-command addendum: public `clearValidate()` and `setFields()` also invalidate a pending native submission, including field-scoped calls. Old completion cannot append submit events after a clear or explicit error; a fresh native submission still validates normally. The earlier exclusion below now applies only to editing without revalidation. The Demo keeps old tasks available for manual settlement; this does not cancel real requests.
 
@@ -189,6 +255,14 @@ Provides the ability to control all form components. Use with `FormItem`.
 - With `FormItem.label`: outer label (vertical / horizontal); floating placeholder on Input / Select is turned off automatically.
 - Without `FormItem.label`: controls keep floating placeholder (`placeholder` + `hint`).
 
+### Disabled, readonly and asynchronous confirmation
+
+Lint follow-up (2026-10-19): current scoped/root lint, configured types, 300 related regressions and SFC compilation pass after pre-existing formatting corrections. This run did not change business source; the 1200ms delay, cancellation signal and once-only settlement remain intact. Example compilation is not native-browser acceptance; automation remains paused.
+
+```demo
+../example/demos/presentation-state.vue
+```
+
 ### Async validation response order
 
 This local Promise rule only accepts admin and never accesses the network. Automatic validation triggers are disabled. Validate guest, then admin; resolve the newest result before the oldest to check that an old error does not overwrite the latest field state. The Demo protects its result text with a request sequence; the validated value is a snapshot, not a server submission.
@@ -207,197 +281,263 @@ Validate whole form calls `validate()`, while Validate field calls `validateFiel
 ../example/demos/en-US/async-race.vue
 ```
 
+### Cross-page range boundaries
+
+Compare date, month and year ranges with 2027-01-01, 2026-12 and 2100 disabled. Disabled values cannot be endpoints, but a range may span them; navigate across pages to observe their disabled appearance.
+
+```demo
+../example/demos/field-range-boundaries.vue
+```
+
 ## FormItem
 
-### Intro
+### Introduction
 
-Form item for labels, validation rules, and error messages. Use with `Form` and form controls.
+FormItem renders labels, validation rules and errors. Use it with `Form` and form controls.
 
-- With `label`: outer label layout; Input / Select automatically disable floating `hint`.
-- Without `label`: no outer label; controls keep floating placeholder mode.
+- Providing `label` renders an external `label` and automatically disables floating Input/Select hints.
+- Without `label`, no external `label` is rendered and controls retain floating placeholders.
 
-### Outer Label (aligned with Cedar)
+### External labels, aligned with Cedar
 
-Pass `label` to use an outer label and `layout="vertical"` to stack the label and control.
+Provide `label` for external labels and use `layout="vertical"` for vertical arrangement.
 
 ```demo
 ../example/demos/en-US/vertical-label.vue
 ```
 
-### Horizontal Layout
+### Horizontal layout
 
-Use `layout="horizontal"` to place labels beside controls. A FormItem can override the form layout.
+Use `layout="horizontal"` for labels/controls side by side; individual `FormItem` layouts can override it.
 
 ```demo
 ../example/demos/en-US/horizontal-layout.vue
 ```
 
-### Floating Placeholder (no label)
+### Floating placeholders without label
 
-Without `label`, no outer label is rendered and Input keeps its floating placeholder.
+Without `label`, no external `label` is rendered and Input retains its floating placeholder.
 
 ```demo
 ../example/demos/en-US/floating-placeholder.vue
 ```
 
-### Help and Extra Content
+### Help and extra content
 
-Use `help` for guidance and `extra` for supplementary information.
+`help` displays `help`; `extra` displays additional information.
 
 ```demo
 ../example/demos/en-US/help-extra.vue
 ```
 
-### Custom Form Control
+### Custom form controls
 
-Custom controls use `FormItem.useFormItem` (or `Form.useFormItem`) to participate in validation.
+Use `FormItem.useFormItem` or `Form.useFormItem` for error state/validation triggers.
 
-The demo uses a native button with checkbox semantics and Enter/Space activation. Read `mergedDisabled` / `mergedReadonly` to inherit Form and FormItem state. Omitted boolean settings stay `undefined`, avoiding accidental overrides. Notify `eventHandlers.onChange` after updating the model and forward focus/blur events.
+The example uses a native button for Enter/Space and checkbox semantics. `mergedDisabled`/`mergedReadonly` inherit Form/FormItem state. Omitted booleans remain `undefined` to avoid overriding parents. After toggling, notify `eventHandlers.onChange` and forward focus events to Form.
 
 ```demo
 ../example/demos/en-US/custom-control.vue
 ```
 
-### Interaction states
+### Interactive state controls
 
-Use this example for state inherited by form controls. Adjust disabled, read-only and compare the component with the same data. The controls remain available to restore editing; error appearance alone does not run validation.
+Demonstrates whole-form state inheritance. Toggle disabled/readonly with the same data. Controls remain enabled so editing can be restored. Error appearance alone does not validate Form.
 
 ```demo
 ../example/demos/state-lab.vue
 ```
 
-<!-- api-review:start -->
-### Feature playground
+### Matching desktop/mobile scenarios
+
+Click department/date/time to open Popup. Edit/cancel, then edit/confirm and compare the committed model below.
 
 ```demo
-../example/demos/api-review.vue
+../example/demos/platform-presentation.vue
 ```
 
-<!-- api-review:end -->
+### Complete inspection-task workflow
+
+Fill, validate, confirm, simulate failure and retry. Returning to edit preserves submitted records.
+
+```demo
+../example/demos/task-workflow.vue
+```
+
+### Empty markers and required validation
+
+The API uses -1 for no selection. Validate the initial value to see a required error, choose a department and validate successfully, then clear to -1 and validate again. Form provides recognition settings; the field defines clear output. Custom validators still receive the original value.
+
+```demo
+../example/demos/en-US/empty-values-validation.vue
+```
+
+### Reading placeholders and inheritance
+
+Initially in reading mode, Name inherits Form’s default “-”, Code uses the FormItem override, Nickname uses the field override, and Quantity remains 0. Changing Form text only affects inheriting fields. Toggling reading/editing does not rewrite the model. Precedence is Field > FormItem > Form; custom read slots win.
+
+```demo
+../example/demos/en-US/empty-text.vue
+```
 
 ## API
+
+### Empty values and reading placeholders
+
+Form / FormItem provide empty recognition through `empty-values`; each field defines clear output with its own `empty-value`. `empty-text` defaults to `'-'` under `read-pretty`, with Field > FormItem > Form precedence and custom read slots first. With explicit empty-values, built-in required uses the policy; custom validators receive original data. See the [shared guide](#/en-US/emptyValues).
+
+| Prop         | Type               | Default and scope                                                           |
+| ------------ | ------------------ | --------------------------------------------------------------------------- |
+| empty-values | readonly unknown[] | Field > FormItem > Form > component-family default; replaces the whole list |
+| empty-text   | string             | Field > FormItem > Form > '-'; explicit '' is valid                         |
+
+These props belong to field presentation; pure panels do not gain reading mode. Form and FormItem provide inherited settings. The existing empty-value type and clear fallback remain component-specific.
 
 ### Props
 
 #### Form Props
 
-| Prop | Description | Type | Default |
-| --- | --- | --- | --- |
-| `id` | Native form id; an explicit value prefixes normalized field container ids | _string_ | `-` |
-| `model` | The form data object, `FormItem` reads and writes to it using `field` | _Record<string, any>_ | `-` |
-| `layout` | Form item layout: `vertical`, `horizontal`, or `inline`; can be overridden by `FormItem.layout` | _'vertical' \| 'horizontal' \| 'inline'_ | `'vertical'` |
-| `label-align` | Label alignment | _'left' \| 'right'_ | `'right'` |
-| `label-col-props` | Horizontal label Col options, including breakpoints | _FormColProps_ | `{ span: 5, offset: 0 }` |
-| `wrapper-col-props` | Horizontal control Col options | _FormColProps_ | `{ span: 19, offset: 0 }` |
-| `label-col-style` | Per-instance label column style | _CSSProperties_ | `-` |
-| `wrapper-col-style` | Per-instance control column style | _CSSProperties_ | `-` |
-| `label-col-flex` | Label flex; unit strings set width, numbers are grow ratios | _number \| string_ | `-` |
-| `auto-label-width` | Align eligible horizontal labels to their maximum natural width | _boolean_ | `false` |
-| `size` | Form control size inherited by FormItem and controls | _'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'_ | `-` |
-| `rules` | Validation rules keyed by field name | _Record<string, rule \| rule[]>_ | `-` |
-| `readonly` | Whether controls are readonly | _boolean_ | `-` |
-| `disabled` | Whether controls are disabled | _boolean_ | `-` |
-| `scroll-to-error` | After failed validation, scroll to the first (`start`) or last (`end`) invalid field in document order; these values do not specify viewport alignment | _'start' \| 'end'_ | `-` |
-| `scroll-to-error-offset-y` | Scroll to the position offset of the form item that fails validation | _number \| string_ | `0` |
+| Arguments                  | Description                                                                                                                                            | Type                                     | Default                   |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------- | ------------------------- |
+| `id`                       | Native form id; an explicit value prefixes normalized field container ids                                                                              | _string_                                 | `-`                       |
+| `model`                    | The form data object, `FormItem` reads and writes to it using `field`                                                                                  | _Record<string, any>_                    | `-`                       |
+| `layout`                   | Form-item layout: `vertical`/`horizontal`/`inline`; overridable by `FormItem.layout`                                                                   | _'vertical' \| 'horizontal' \| 'inline'_ | `'vertical'`              |
+| `label-align`              | Label alignment                                                                                                                                        | _'start' \| 'end' \| 'left' \| 'right'_                      | `'end'`                 |
+| `content-align`            | Content alignment shared by direct fields, editor triggers and readPretty output; independent of label-align                                           | `'start' \| 'end' \| 'left' \| 'center' \| 'right'`          | `'start'`                  |
+| `read-pretty`              | Independent reading toggle. When true, displays the saved value; when false, restores the current edit-mode. FormItem inherits Form when unset         | `boolean`                                | `-`                       |
+| `edit-mode`                | Shared editing mode for form fields; when unset, preserves each field default                                                                          | `'direct' \| 'popup'`                    | `-`                       |
+| `label-col-props`          | Horizontal label Col options, including breakpoints                                                                                                    | _FormColProps_                           | `{ span: 5, offset: 0 }`  |
+| `wrapper-col-props`        | Horizontal control Col options                                                                                                                         | _FormColProps_                           | `{ span: 19, offset: 0 }` |
+| `label-col-style`          | Per-instance label column style                                                                                                                        | _CSSProperties_                          | `-`                       |
+| `wrapper-col-style`        | Per-instance control column style                                                                                                                      | _CSSProperties_                          | `-`                       |
+| `label-col-flex`           | Label flex; unit strings set width, numbers are grow ratios                                                                                            | _number \| string_                       | `-`                       |
+| `auto-label-width`         | Align eligible horizontal labels to their maximum natural width                                                                                        | _boolean_                                | `false`                   |
+| `size`                     | Form-control size inherited by FormItem/controls                                                                                                       | _'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'_   | `-`                       |
+| `rules`                    | Validation rules keyed by field name                                                                                                                   | _Record<string, rule \| rule[]>_         | `-`                       |
+| `readonly`                 | Whether readonly                                                                                                                                       | _boolean_                                | `-`                       |
+| `disabled`                 | Whether disabled                                                                                                                                       | _boolean_                                | `-`                       |
+| `scroll-to-error`          | After failed validation, scroll to the first (`start`) or last (`end`) invalid field in document order; these values do not specify viewport alignment | _'start' \| 'end'_                       | `-`                       |
+| `scroll-to-error-offset-y` | Scroll to the position offset of the form item that fails validation                                                                                   | _number \| string_                       | `0`                       |
 
 ### Methods
 
 #### Form Methods
 
-| Method | Description | Arguments | Return |
-| --- | --- | --- | --- |
-| `validate` | Validate all form items | `callback?: (errors) => void` | `Promise<undefined \| Record<string, ValidatedError>>` |
-| `validateField` | Validate the given form item(s) | `field: string \| string[]`, `callback?: (errors) => void` | `Promise<undefined \| Record<string, ValidatedError>>` |
-| `resetFields` | Reset the value and validation message of the form item(s) to their initial value, resets all items when `field` is omitted | `field?: string \| string[]` | `-` |
-| `clearValidate` | Clear the validation message of the form item(s), clears all items when `field` is omitted | `field?: string \| string[]` | `-` |
-| `setFields` | Set field values or error states in batches | `Record<string, { value?; status?; message? }>` | `-` |
-| `scrollToField` | Scroll to the given form item | `field: string` | `-` |
+| Method          | Description                                                                                                                 | Arguments                                                  | Returns                                                |
+| --------------- | --------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- | ------------------------------------------------------ |
+| `validate`      | Trigger Form validation                                                                                                     | `callback?: (errors) => void`                              | `Promise<undefined \| Record<string, ValidatedError>>` |
+| `validateField` | Validate the given form item(s)                                                                                             | `field: string \| string[]`、`callback?: (errors) => void` | `Promise<undefined \| Record<string, ValidatedError>>` |
+| `resetFields`   | Reset the value and validation message of the form item(s) to their initial value, resets all items when `field` is omitted | `field?: string \| string[]`                               | `-`                                                    |
+| `clearValidate` | Clear `field` validation messages; omit `field` to clear all items                                                          | `field?: string \| string[]`                               | `-`                                                    |
+| `setFields`     | Set field values or error states in batches                                                                                 | `Record<string, { value?; status?; message? }>`            | `-`                                                    |
+| `scrollToField` | Scroll to the given form item                                                                                               | `field: string`                                            | `-`                                                    |
 
 ### Events
 
 #### Form Events
 
-| Event | Description  | Arguments  |
-| --- | --- | --- |
-| `submit` | Triggered when the form is submitted | `data: { values; errors }`, `event: Event` |
-| `submit-success` | Triggered after successful validation | `values`, `event: Event` |
-| `submit-failed` | Triggered after failed validation | `data: { values; errors }`, `event: Event` |
-| `reset` | Fired when the form is reset | `event: Event` |
+| Event            | Description                           | Arguments                                  |
+| ---------------- | ------------------------------------- | ------------------------------------------ |
+| `submit`         | Triggered when the form is submitted  | `data: { values; errors }`、`event: Event` |
+| `submit-success` | Triggered after successful validation | `values`、`event: Event`                   |
+| `submit-failed`  | Triggered after failed validation     | `data: { values; errors }`、`event: Event` |
+| `reset`          | Fired when the form is reset          | `event: Event`                             |
 
 ### Slots
 
 #### Form Slots
 
-| Name | Description | SlotProps |
-| --- | --- | --- |
-| `default` | Form content | `-` |
+| Slot      | Description  | Arguments |
+| --------- | ------------ | --------- |
+| `default` | Form content | `-`       |
 
 ## FormItem API
 
 ### Props
 
-| Prop | Description | Type | Default |
-| --- | --- | --- | --- |
-| `field` | Field path in `Form.model`, supports `a.b` | _string_ | `''` |
-| `label` | Label text; when set, renders outer label and disables floating hint | _string_ | `-` |
-| `tooltip` | Label hint (hover, keyboard focus or touch click) | _string_ | `-` |
-| `show-colon` | Append a colon to the label | _boolean_ | `false` |
-| `label-component` | Native label element name | _string_ | `'label'` |
-| `label-attrs` | Native label attributes; for targets the control's actual id | _HTMLAttributes & Record<string, unknown>_ | `-` |
-| `content-class` | Content container class | _string \| array \| object_ | `-` |
-| `content-flex` | Enable flex layout; disable for custom Grid | _boolean_ | `true` |
-| `layout` | Layout: `vertical`, `horizontal`, or `inline`; inherits `Form.layout` when omitted | _'vertical' \| 'horizontal' \| 'inline'_ | `-` |
-| `label-align` | Label alignment | _'left' \| 'right'_ | `-` |
-| `label-col-props` | Horizontal label Col options, including breakpoints | _FormColProps_ | `-` |
-| `wrapper-col-props` | Horizontal control Col options | _FormColProps_ | `-` |
-| `label-col-style` | Per-instance label column style | _CSSProperties_ | `-` |
-| `wrapper-col-style` | Per-instance control column style | _CSSProperties_ | `-` |
-| `label-col-flex` | Label flex; unit strings set width, numbers are grow ratios | _number \| string_ | `-` |
-| `row-props` | Form item Row options, including gutter, align, justify and wrap | _RowProps_ | `-` |
-| `row-class` | Layout container class | _string \| array \| object_ | `-` |
-| `required` | Required (asterisk + auto required rule) | _boolean_ | `false` |
-| `hide-label` | Hide label | _boolean_ | `false` |
-| `feedback` | Show input validation feedback, including pending async validation | _boolean_ | `false` |
-| `validate-status` | Explicit feedback state; otherwise derived from validation | _'success' \| 'warning' \| 'error' \| 'validating'_ | `-` |
-| `hide-asterisk` | Hide required asterisk | _boolean_ | `false` |
-| `asterisk-position` | Asterisk position | _'start' \| 'end'_ | `'start'` |
-| `help` | Help text (shown when no error) | _string_ | `-` |
-| `extra` | Extra text | _string_ | `-` |
-| `disabled` | Disabled; inherits Form when omitted | _boolean_ | `-` |
-| `readonly` | Readonly; inherits Form when omitted | _boolean_ | `-` |
-| `size` | Control size; inherits Form when omitted | _'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'_ | `-` |
-| `no-style` | Remove label/error UI, keep validation | _boolean_ | `false` |
-| `rules` | Validation rules (function / Zod / array) | _any_ | `-` |
-| `validate-trigger` | Validation triggers; `clear` fires only for a control's clear action, not for `change` | _FormItemValidateTrigger \| FormItemValidateTrigger[]_ | `'change'` |
+| Arguments           | Description                                                                                                                                    | Type                                                   | Default             |
+| ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------ | ------------------- |
+| `field`             | Field path in `Form.model`, supports `a.b`                                                                                                     | _string_                                               | `''`                |
+| `label`             | Label text; a nonempty label renders externally and disables the control's floating hint                                                       | _string_                                               | `-`                 |
+| `tooltip`           | Label hint (hover, keyboard focus or touch click)                                                                                              | _string_                                               | `-`                 |
+| `show-colon`        | Append a colon to the label                                                                                                                    | _boolean_                                              | `false`             |
+| `label-component`   | Native label element name                                                                                                                      | _string_                                               | `'label'`           |
+| `label-attrs`       | Native label attributes; for targets the control's actual id                                                                                   | _HTMLAttributes & Record<string, unknown>_             | `-`                 |
+| `content-class`     | Content container class                                                                                                                        | _string \| array \| object_                            | `-`                 |
+| `content-flex`      | Enable flex layout; disable for custom Grid                                                                                                    | _boolean_                                              | `true`              |
+| `layout`            | Layout: `vertical`/`horizontal`/`inline`; inherits `Form.layout` when omitted                                                                  | _'vertical' \| 'horizontal' \| 'inline'_               | `-`                 |
+| `label-align`       | Label alignment                                                                                                                                | _'start' \| 'end' \| 'left' \| 'right'_                                    | `-`                 |
+| `content-align`     | Content alignment shared by direct fields, editor triggers and readPretty output; independent of label-align                                   | `'start' \| 'end' \| 'left' \| 'center' \| 'right'`                        | `-` (inherits Form) |
+| `read-pretty`       | Independent reading toggle. When true, displays the saved value; when false, restores the current edit-mode. FormItem inherits Form when unset | `boolean`                                              | `-`                 |
+| `edit-mode`         | Editing mode; inherits Form when unset and may be overridden by individual fields                                                              | `'direct' \| 'popup'`                                  | `-`                 |
+| `label-col-props`   | Horizontal label Col options, including breakpoints                                                                                            | _FormColProps_                                         | `-`                 |
+| `wrapper-col-props` | Horizontal control Col options                                                                                                                 | _FormColProps_                                         | `-`                 |
+| `label-col-style`   | Per-instance label column style                                                                                                                | _CSSProperties_                                        | `-`                 |
+| `wrapper-col-style` | Per-instance control column style                                                                                                              | _CSSProperties_                                        | `-`                 |
+| `label-col-flex`    | Label flex; unit strings set width, numbers are grow ratios                                                                                    | _number \| string_                                     | `-`                 |
+| `row-props`         | Form item Row options, including gutter, align, justify and wrap                                                                               | _RowProps_                                             | `-`                 |
+| `row-class`         | Layout container class                                                                                                                         | _string \| array \| object_                            | `-`                 |
+| `required`          | Required (asterisk + auto required rule)                                                                                                       | _boolean_                                              | `false`             |
+| `hide-label`        | Hide label                                                                                                                                     | _boolean_                                              | `false`             |
+| `feedback`          | Show input validation feedback, including pending async validation                                                                             | _boolean_                                              | `false`             |
+| `validate-status`   | Explicit feedback state; otherwise derived from validation                                                                                     | _'success' \| 'warning' \| 'error' \| 'validating'_    | `-`                 |
+| `hide-asterisk`     | Hide required asterisk                                                                                                                         | _boolean_                                              | `false`             |
+| `asterisk-position` | Logical start/end position of the required asterisk within the field label, default start; not the form or popup position                      | _'start' \| 'end'_                                     | `'start'`           |
+| `help`              | Help text, displayed when no error exists                                                                                                      | _string_                                               | `-`                 |
+| `extra`             | Extra text                                                                                                                                     | _string_                                               | `-`                 |
+| `disabled`          | Disabled; inherits Form when omitted                                                                                                           | _boolean_                                              | `-`                 |
+| `readonly`          | Readonly state; inherits from Form when omitted                                                                                                | _boolean_                                              | `-`                 |
+| `size`              | Control size; inherits Form when omitted                                                                                                       | _'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'_                 | `-`                 |
+| `no-style`          | Remove label/error UI, keep validation                                                                                                         | _boolean_                                              | `false`             |
+| `rules`             | Validation rules: function / Zod / array                                                                                                       | _any_                                                  | `-`                 |
+| `validate-trigger`  | Validation triggers; `clear` fires only for a control's `clear` action, not for `change`                                                       | _FormItemValidateTrigger \| FormItemValidateTrigger[]_ | `'change'`          |
 
 ### Events
 
-| Event | Description | Arguments |
-| --- | --- | --- |
-| `validate` | Emitted after validation | `valid: boolean` |
+| Event      | Description                       | Arguments        |
+| ---------- | --------------------------------- | ---------------- |
+| `validate` | Emitted when validation completes | `valid: boolean` |
 
 ### Slots
 
-| Slot | Description |
-| --- | --- |
-| `default` | Form control |
-| `label` | Custom label |
-| `help` | Custom help |
-| `extra` | Custom extra |
+| Slot      | Description          |
+| --------- | -------------------- |
+| `default` | Form control         |
+| `label`   | Custom label         |
+| `help`    | Custom help content  |
+| `extra`   | Custom extra content |
 
 ### Methods
 
-| Method | Description | Arguments | Return |
-| --- | --- | --- | --- |
-| `validate` | Validate the field | `-` | `Promise<undefined \| ValidatedError>` |
-| `clearValidate` | Clear validation status | `-` | `-` |
-| `resetField` | Reset value to initial and clear validation | `-` | `-` |
+| Method          | Description                                 | Arguments | Returns                                |
+| --------------- | ------------------------------------------- | --------- | -------------------------------------- |
+| `validate`      | Trigger validation                          | `-`       | `Promise<undefined \| ValidatedError>` |
+| `clearValidate` | Clear validation state                      | `-`       | `-`                                    |
+| `resetField`    | Reset value to initial and clear validation | `-`       | `-`                                    |
 
-### Type Definitions
+### Style variables
+
+| Variable                     | Default                               |
+| ---------------------------- | ------------------------------------- |
+| `--mp-form-item-label-width` | `88px` label width in `inline` layout |
+| `--mp-form-item-label-gap`   | `12px`                                |
+
+### Type definitions
 
 ```ts
 type FormItemValidateTrigger = 'change' | 'input' | 'focus' | 'blur' | 'clear'
 type FormItemLayout = 'vertical' | 'horizontal'
 ```
 
-`read-pretty` 为独立布尔属性，与 `readonly`、`disabled` 同级；字段 > FormItem > Form 继承，显式 `false` 覆盖父级。默认 `false`。纯阅读不显示编辑器。
+`read-pretty` is an independent boolean alongside `readonly` and `disabled`. It inherits from field to FormItem to Form; explicit `false` overrides the parent. The default is `false`. Reading mode renders no editor.
+
+### Brand appearance tokens
+
+| CSS variable                  | Default |
+| ----------------------------- | ------- |
+| `--mp-form-label-min-height`  | `24px`  |
+| `--mp-form-label-padding-top` | `4px`   |
+| `--mp-form-label-line-height` | `1.4`   |
+| `--mp-form-help-line-height`  | `1.4`   |
+
+Function rules return `true` for success or a message/false for a business validation failure. An unexpected throw or rejected Promise remains a rejection of the public `validate()` call and should be handled by its caller. It releases the current validating feedback without inventing a new business error; a previous known business message remains available. A stale rejection cannot clear a newer validation task.

@@ -47,6 +47,8 @@ const SelectMenu: DefineComponent<SelectMenuProps> = defineComponent({
         !isValidOption(optionInfo, {
           inputValue: controller.computedInputValue,
           filterOption: controller.props.filterOption,
+          caseSensitive: controller.props.caseSensitive,
+          searchFields: controller.props.searchFields,
         })
       ) {
         return null
@@ -103,7 +105,7 @@ const SelectMenu: DefineComponent<SelectMenuProps> = defineComponent({
               header: slots.header,
               footer: slots.footer,
             }}
-            loading={controller.props.loading}
+            loading={controller.loading}
             empty={controller.validOptionInfos.length === 0}
             virtualList={Boolean(controller.props.virtualListProps)}
             scrollbar={controller.props.scrollbar}

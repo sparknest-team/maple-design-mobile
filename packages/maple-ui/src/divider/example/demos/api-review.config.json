@@ -99,7 +99,7 @@
       "kind": "prop",
       "demos": [
         "live-properties.vue",
-        "size.vue"
+        "line-appearance-comparison.vue"
       ]
     },
     {
@@ -107,7 +107,7 @@
       "kind": "prop",
       "demos": [
         "live-properties.vue",
-        "size.vue"
+        "line-appearance-comparison.vue"
       ]
     },
     {

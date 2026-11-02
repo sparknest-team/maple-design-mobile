@@ -1,10 +1,10 @@
 # Tag
 
-## 案例
-
 ### Intro
 
 Tag is used for marking, categorizing, and filtering. The API aligns with Cedar Design Web (PC) Tag, with mobile-friendly extras such as round shape and custom text color.
+
+## Basic examples
 
 ### Theme Color
 
@@ -14,15 +14,23 @@ Set the theme color with `status`. Options match Button: `default` `primary` `se
 ../example/demos/theme-color-tag.vue
 ```
 
-### Outline
-
-Use `variant="outline"` for the outline style.
-
-```demo
-../example/demos/outline-tag.vue
-```
+## Appearance and states
 
 ### Round
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `variant` | Variant: `default` (filled) / `outline` | Round, Custom Color |
+| `round` | Whether to use a pill shape | Round |
+| `status` | Theme color: `default` `primary` `secondary` `tertiary` `info` `success` `warning` `danger` | Round |
+| `closable` | Whether closable | Round |
+| `color` | Custom background (border color when outline) | Custom Color |
+| `text-color` | Custom text color | Custom Color |
+<!-- demo-config-notes:end -->
+
 
 Enable the pill shape with `round`.
 
@@ -30,15 +38,86 @@ Enable the pill shape with `round`.
 ../example/demos/round-tag.vue
 ```
 
-### Size
+### Custom Color
+
+Override status colors with `color` and `text-color`. With `variant="outline"`, `color` is used as the border color.
+
+```demo
+../example/demos/custom-color-tag.vue
+```
+
+### Appearance configuration comparison
+
+Choose a dimension to compare all its values side by side while keeping other settings and content identical. Change the other settings to inspect combinations; input specimens share one model.
+
+<details>
+<summary>Configuration details and limits</summary>
+
+#### Size
 
 Set size with `size`: `xs` `sm` `md` `lg` `xl`.
 
+#### Outline
+
+Use `variant="outline"` for the outline style.
+
+#### Appearance combinations
+
+Use this example for short labels and category markers. Adjust variant, status, size and compare the component with the same data. Keep the content unchanged while comparing the available settings.
+
+</details>
+
 ```demo
-../example/demos/tag-size.vue
+../example/demos/appearance-lab.vue
 ```
 
+## Content and presentation
+
+### Checkable
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `status` | Theme color: `default` `primary` `secondary` `tertiary` `info` `success` `warning` `danger` | Checkable, Icon |
+| `checkable` | Whether checkable | Checkable |
+| `default-value` | Default checked state when checkable | Checkable |
+| `variant` | Variant: `default` (filled) / `outline` | Checkable |
+| `loading` | Loading state | Checkable |
+<!-- demo-config-notes:end -->
+
+
+Make the tag toggleable with `checkable` and `v-model`.
+
+```demo
+../example/demos/checkable-tag.vue
+```
+
+### Icon
+
+Customize the leading icon with the `icon` slot, and the close icon with `close-icon`.
+
+```demo
+../example/demos/icon-tag.vue
+```
+
+## Interaction and control
+
 ### Closable
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `status` | Theme color: `default` `primary` `secondary` `tertiary` `info` `success` `warning` `danger` | Closable, Loading |
+| `show` | Visibility (v-model) | Closable |
+| `closable` | Whether closable | Closable |
+| `round` | Whether to use a pill shape | Closable |
+| `loading` | Loading state | Loading |
+<!-- demo-config-notes:end -->
+
 
 The close button supports Space and Enter without bubbling into selection. Checkable tags support both keys; controlled checked values still require parent acceptance, while omitted checked uses local state. Loading blocks selection, rather than acting as a disabled API. Each library maintains independent state. These basic interactions do not certify held-key, asynchronous or physical-touch combinations.
 
@@ -56,58 +135,17 @@ Show a loading state with `loading`.
 ../example/demos/loading-tag.vue
 ```
 
-### Checkable
-
-Make the tag toggleable with `checkable` and `v-model`.
-
-```demo
-../example/demos/checkable-tag.vue
-```
-
-### Icon
-
-Customize the leading icon with the `icon` slot, and the close icon with `close-icon`.
-
-```demo
-../example/demos/icon-tag.vue
-```
-
-### Custom Color
-
-Override status colors with `color` and `text-color`. With `variant="outline"`, `color` is used as the border color.
-
-```demo
-../example/demos/custom-color-tag.vue
-```
-
-### Appearance combinations
-
-Use this example for short labels and category markers. Adjust variant, status, size and compare the component with the same data. Keep the content unchanged while comparing the available settings.
-
-```demo
-../example/demos/appearance-lab.vue
-```
-
-<!-- api-review:start -->
-### Feature playground
-
-```demo
-../example/demos/api-review.vue
-```
-
-<!-- api-review:end -->
-
 ## API
 
-### Model and default value
+### Value and default value
 
-Use ordinary `v-model`. `modelValue` is whether a checkable tag is selected. `defaultValue` initializes uncontrolled state only at creation; changing it later does not reset the current state. A supplied model takes precedence. Initialization emits no `update:modelValue`.
+Use ordinary `v-model`. `modelValue` is a selectable tag's boolean checked state. `defaultValue` initializes uncontrolled state once; later changes do not reset it. Explicit binding takes precedence, without initialization `update:modelValue`.
 
 ### Props
 
 #### Tag Props
 
-| Prop | Description | Type | Default |
+| Arguments | Description | Type | Default |
 | --- | --- | --- | --- |
 | `status` | Theme color: `default` `primary` `secondary` `tertiary` `info` `success` `warning` `danger` | _string_ | `default` |
 | `variant` | Variant: `default` (filled) / `outline` | _string_ | `default` |
@@ -142,10 +180,10 @@ Use ordinary `v-model`. `modelValue` is whether a checkable tag is selected. `de
 | Slot | Description |
 | --- | --- |
 | `default` | Tag content |
-| `icon` | Leading icon |
+| `icon` | The prepend icon of alert |
 | `close-icon` | Custom close icon |
 
-### Type Definitions
+### Type definitions
 
 ```ts
 type TagStatus = 'default' | 'primary' | 'secondary' | 'tertiary' | 'info' | 'success' | 'warning' | 'danger'
@@ -153,13 +191,19 @@ type TagSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 type TagVariant = 'default' | 'outline'
 ```
 
-### Style Variables
+### Style variables
 
 The complete public contract is the `--mp-tag-*` set in `style/token.less`. Customize it with [StyleProvider](#/en-US/style-provider). Cedar uses the same logical names with a different brand prefix.
 
-### Token defaults and scope
+## Shared implementation and platform boundaries
 
-Semantic status text/outline uses readable system content; colored filled surfaces use palette step 1. Unchecked tags stay neutral; checked semantic colors win over generic hover. Preset color overrides status and remains outside this batch's contrast guarantee. Custom backgrounds require explicit contrast verification and possibly text-color. Geometry remains platform-specific. The table lists current public defaults. Fifteen ineffective preset hover/size declarations have been removed; custom-icon-bg-hover and its legacy InputTag reference have also been removed without aliases.
+Each platform maintains a complete local implementation. They do not import a common core or share component instances or reactive state. Changes must update both implementations. Component bodies, props, key styles and paired tests have read-only source consistency checks; theme tokens and installation entries remain local to each library.
+
+Both retain independent show/checked state, with controlled values updated by callers. Fade-out remains; class/style fall through explicitly to the actual tag. Size configuration, RTL context and icons are locally adapted. Mobile touch dimensions remain in tokens.
+
+### Complete variable defaults and boundaries
+
+Status text and outline borders use readable system content colors; colored fills use palette level 1. Unchecked stays neutral; checked status colors override generic hover. Neutral fills use fill-2 → fill-3. color overrides status; preset colors are outside this contrast guarantee. Callers must check custom backgrounds and set text-color if needed. Platform dimensions remain distinct. All public declarations are listed; 15 unused preset-icon hover-background/size variables, custom-icon-bg-hover and old InputTag references are removed without aliases.
 
 | Variable | Default |
 | --- | --- |
@@ -295,15 +339,11 @@ Semantic status text/outline uses readable system content; colored filled surfac
 
 ### Color override boundaries
 
-Preset outline stays transparent; preset loading suppresses hover. Dark preset backgrounds consume bg/bg-hover tokens, so local overrides work. Preset icon-color remains separate from text-color. Unchecked presets are neutral, while custom color props remain applied. Preset/custom contrast is caller-owned.
-
-### Removed ineffective tokens
-
-The 13 preset {color}-icon-bg-hover tokens and icon-hover-size / icon-hover-bg-size have been removed without aliases or replacements. They had no consumers. custom-icon-bg-hover has also been removed after verifying that InputTag renders close-btn, not the legacy icon-hover element.
+Preset outline stays transparent; loading does not trigger preset fill hover. Dark backgrounds consume bg/bg-hover with instance overrides. Preset icon-color is separate from text-color. Unchecked presets remain neutral, while an explicit color still applies. Preset/custom colors do not guarantee contrast on arbitrary backgrounds.
 
 ### Motion variables
 
-Built-in effects respect `prefers-reduced-motion: reduce`; loading and closing still update state immediately.
+Built-in motion follows `prefers-reduced-motion: reduce`. Reduced motion does not prevent loading-state or close-event updates.
 
 | Token | Default |
 | --- | --- |

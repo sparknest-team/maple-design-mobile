@@ -49,3 +49,11 @@ const steps = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 .swatch { display: flex; align-items: center; justify-content: center; height: 48px; color: #fff; }
 </style>
 ```
+
+## Basic examples
+
+### Basic usage
+
+```demo
+../example/basic.vue
+```

@@ -10,6 +10,32 @@ import {
 import Loading from './Loading.vue'
 import type { LoadingSize, LoadingType } from './props'
 
+const locks = new WeakMap<Document, { count: number; owned: boolean }>()
+
+function acquireBodyLock(document: Document) {
+  let state = locks.get(document)
+  if (!state) {
+    state = { count: 0, owned: !document.body.classList.contains('mp-loading-parent--hidden') }
+    locks.set(document, state)
+  }
+  const lease = state
+  lease.count++
+  document.body.classList.add('mp-loading-parent--hidden')
+  let released = false
+  return () => {
+    if (released) {
+      return
+    }
+    released = true
+    if (--lease.count === 0) {
+      if (lease.owned) {
+        document.body.classList.remove('mp-loading-parent--hidden')
+      }
+      locks.delete(document)
+    }
+  }
+}
+
 const INSTANCE_KEY = Symbol('MapleLoading')
 
 export interface LoadingDirectiveOptions {
@@ -31,6 +57,8 @@ interface LoadingElement extends HTMLElement {
     container: HTMLElement
     options: LoadingRenderOptions
     restorePosition: boolean
+    releaseLock?: () => void
+    fullscreen: boolean
   }
 }
 
@@ -72,6 +100,7 @@ function getOptions(value: boolean | LoadingDirectiveOptions): LoadingRenderOpti
 
 function mountLoading(el: LoadingElement, binding: DirectiveBinding<boolean | LoadingDirectiveOptions>) {
   const options = reactive<LoadingRenderOptions>(getOptions(binding.value))
+  const document = el.ownerDocument
   const container = document.createElement('div')
   // The overlay is inside the host: consume clicks before they reach Card/ancestors.
   container.addEventListener(
@@ -83,7 +112,10 @@ function mountLoading(el: LoadingElement, binding: DirectiveBinding<boolean | Lo
     true,
   )
   const fullscreen = options.fullscreen === true
-  const restorePosition = !fullscreen && getComputedStyle(el).position === 'static'
+  const restorePosition =
+    !fullscreen &&
+    !el.classList.contains('mp-loading-parent--relative') &&
+    document.defaultView?.getComputedStyle(el).position === 'static'
 
   container.className = fullscreen ? 'mp-loading-directive mp-loading-directive--fullscreen' : 'mp-loading-directive'
   if (options.background) {
@@ -94,8 +126,8 @@ function mountLoading(el: LoadingElement, binding: DirectiveBinding<boolean | Lo
   vnode.appContext = getAppContext(binding.instance) as typeof vnode.appContext
   render(vnode, container)
 
+  const releaseLock = fullscreen ? acquireBodyLock(document) : undefined
   if (fullscreen) {
-    document.body.classList.add('mp-loading-parent--hidden')
     document.body.appendChild(container)
   } else {
     if (restorePosition) {
@@ -104,7 +136,7 @@ function mountLoading(el: LoadingElement, binding: DirectiveBinding<boolean | Lo
     el.appendChild(container)
   }
 
-  el[INSTANCE_KEY] = { container, options, restorePosition }
+  el[INSTANCE_KEY] = { container, options, restorePosition, releaseLock, fullscreen }
 }
 
 function unmountLoading(el: LoadingElement) {
@@ -118,7 +150,7 @@ function unmountLoading(el: LoadingElement) {
   if (state.restorePosition) {
     el.classList.remove('mp-loading-parent--relative')
   }
-  document.body.classList.remove('mp-loading-parent--hidden')
+  state.releaseLock?.()
   el[INSTANCE_KEY] = undefined
 }
 
@@ -133,10 +165,20 @@ export const vLoading: Directive<LoadingElement, boolean | LoadingDirectiveOptio
       mountLoading(el, binding)
     } else if (!isLoading(binding.value)) {
       unmountLoading(el)
-    } else if (typeof binding.value === 'object' && el[INSTANCE_KEY]) {
-      Object.assign(el[INSTANCE_KEY].options, getOptions(binding.value))
-      if (binding.value.background) {
-        el[INSTANCE_KEY].container.style.setProperty('--mp-loading-overlay-background', binding.value.background)
+    } else if (el[INSTANCE_KEY]) {
+      const options = getOptions(binding.value)
+      if (el[INSTANCE_KEY].fullscreen !== (options.fullscreen === true)) {
+        unmountLoading(el)
+        mountLoading(el, binding)
+        return
+      }
+      const current = el[INSTANCE_KEY].options
+      for (const key of Object.keys(current)) {
+        delete current[key as keyof LoadingRenderOptions]
+      }
+      Object.assign(current, options)
+      if (options.background) {
+        el[INSTANCE_KEY].container.style.setProperty('--mp-loading-overlay-background', options.background)
       } else {
         el[INSTANCE_KEY].container.style.removeProperty('--mp-loading-overlay-background')
       }

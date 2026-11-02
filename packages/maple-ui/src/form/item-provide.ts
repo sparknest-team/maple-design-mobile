@@ -2,6 +2,7 @@ import { computed, inject, provide, type ComputedRef, type InjectionKey, type Re
 import { type ComponentSize } from '../utils/constants'
 import { resolveFormControlState } from '../utils/form-control-context'
 import { type FormItemValidateTrigger } from './item-props'
+import { useForm } from './provide'
 
 export interface FormItemEventHandlers {
   onChange?: (event?: Event) => void
@@ -36,16 +37,32 @@ export function useFormItem(
     formSize?: Ref<ComponentSize | undefined> | ComputedRef<ComponentSize | undefined>
   } = {},
 ) {
+  const { form } = useForm()
   const formItem = inject(FORM_ITEM_BIND_CONTROL_KEY, null)
 
   const mergedDisabled = computed(() =>
-    resolveFormControlState(options.disabled?.value, formItem?.disabled.value, options.formDisabled?.value, false),
+    resolveFormControlState(
+      options.disabled?.value,
+      formItem?.disabled.value,
+      options.formDisabled?.value ?? form?.disabled.value,
+      false,
+    ),
   )
   const mergedReadonly = computed(() =>
-    resolveFormControlState(options.readonly?.value, formItem?.readonly.value, options.formReadonly?.value, false),
+    resolveFormControlState(
+      options.readonly?.value,
+      formItem?.readonly.value,
+      options.formReadonly?.value ?? form?.readonly.value,
+      false,
+    ),
   )
   const mergedSize = computed(() =>
-    resolveFormControlState(options.size?.value, formItem?.size.value, options.formSize?.value, 'md'),
+    resolveFormControlState(
+      options.size?.value,
+      formItem?.size.value,
+      options.formSize?.value ?? form?.size.value,
+      'md',
+    ),
   )
   const mergedError = computed(() =>
     resolveFormControlState(options.error?.value, formItem?.error.value, undefined, false),

@@ -1,11 +1,8 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maple-design/cli/client'
-import DemoApiReview from './demos/api-review.vue'
-import CustomGapDemo from './demos/custom-gap.vue'
-import CustomOffsetDemo from './demos/custom-offset.vue'
-import CustomRotateDemo from './demos/custom-rotate.vue'
 import FullscreenDemo from './demos/fullscreen.vue'
+import ContentGeometryComparison from './demos/geometry-comparison.vue'
 import ImageWatermarkDemo from './demos/image-watermark.vue'
 import MultilineDemo from './demos/multiline.vue'
 import TextWatermarkDemo from './demos/text-watermark.vue'
@@ -20,29 +17,24 @@ onThemeChange()
 </script>
 
 <template>
+  <h2 class="mobile-demo-group-heading" data-demo-group="basic-examples" data-demo-component="watermark">
+    <span lang="zh-CN">基础示例</span>
+    <span lang="en-US">Basic examples</span>
+  </h2>
+
   <section data-demo="text-watermark">
     <app-type>{{ english ? 'Text Watermark' : '文字水印' }}</app-type>
     <TextWatermarkDemo />
   </section>
 
+  <h2 class="mobile-demo-group-heading" data-demo-group="content-and-presentation">
+    <span lang="zh-CN">内容与展示</span>
+    <span lang="en-US">Content and presentation</span>
+  </h2>
+
   <section data-demo="multiline">
     <app-type>{{ english ? 'Multiline Text' : '多行文本' }}</app-type>
     <MultilineDemo />
-  </section>
-
-  <section data-demo="custom-gap">
-    <app-type>{{ english ? 'Custom Gap' : '自定义间距' }}</app-type>
-    <CustomGapDemo />
-  </section>
-
-  <section data-demo="custom-offset">
-    <app-type>{{ english ? 'Custom Offset' : '自定义偏移量' }}</app-type>
-    <CustomOffsetDemo />
-  </section>
-
-  <section data-demo="custom-rotate">
-    <app-type>{{ english ? 'Custom Rotate' : '自定义旋转角度' }}</app-type>
-    <CustomRotateDemo />
   </section>
 
   <section data-demo="image-watermark">
@@ -54,5 +46,16 @@ onThemeChange()
     <app-type>{{ english ? 'Fullscreen' : '全屏' }}</app-type>
     <FullscreenDemo />
   </section>
-  <section data-demo="api-review"><DemoApiReview /></section>
+
+  <h2 class="mobile-demo-group-heading" data-demo-group="customization-and-slots">
+    <span lang="zh-CN">自定义与插槽</span>
+    <span lang="en-US">Customization and slots</span>
+  </h2>
+
+  <section data-demo="geometry-comparison">
+    <h3 class="mobile-demo-case-heading">
+      <span lang="zh-CN">水印间距、偏移与旋转</span><span lang="en-US">Watermark spacing, offset and rotation</span>
+    </h3>
+    <ContentGeometryComparison />
+  </section>
 </template>

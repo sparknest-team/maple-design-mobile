@@ -97,7 +97,7 @@ onDeactivated(cleanup)
       Submit to pause before-upload. Cancel and submit again before resolving both attempts; only the current valid
       attempt may start a local request.
     </p>
-    <mp-radio-group v-model="mode" :options="modes" />
+    <mp-radio-group v-model="mode" edit-mode="direct" :options="modes" />
     <mp-space wrap>
       <mp-button :disabled="files.length >= (mode === 'total' ? 2 : 1)" @click="add">Add sample image</mp-button>
       <mp-button :disabled="!files.some((file) => ['ready', 'error', 'canceled'].includes(file.status))" @click="submit"
@@ -107,7 +107,13 @@ onDeactivated(cleanup)
       <mp-button :disabled="preparing === 0" @click="finish">Resolve preparation</mp-button>
       <mp-button @click="reset">Reset queue</mp-button>
     </mp-space>
-    <mp-upload v-model="files" :show-upload-button="false" :show-retry-button="false" :preview="false" />
+    <mp-upload
+      v-model="files"
+      edit-mode="direct"
+      :show-upload-button="false"
+      :show-retry-button="false"
+      :preview="false"
+    />
     <p>Pending preparations：{{ preparing }}</p>
     <p>Requests started：{{ requestCount }}</p>
     <p>Queue：{{ files.map((file) => `${file.status} (${file.percent}%)`).join(', ') || 'Empty' }}</p>

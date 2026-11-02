@@ -32,6 +32,14 @@ export function useUploadQueue(options: {
       commit([...mutationList(), ...files], files[0])
     }
   }
+  function replace(previous: UploadFileItem, file: UploadFileItem) {
+    if (mutationList().some((item) => item.uid === previous.uid)) {
+      commit(
+        mutationList().map((item) => (item.uid === previous.uid ? file : item)),
+        file,
+      )
+    }
+  }
   function patch(uid: string, values: Partial<UploadFileItem>) {
     const found = mutationList().find((file) => file.uid === uid)
     if (!found) {
@@ -68,6 +76,7 @@ export function useUploadQueue(options: {
   return {
     fileList,
     append,
+    replace,
     patch,
     remove,
     reset,

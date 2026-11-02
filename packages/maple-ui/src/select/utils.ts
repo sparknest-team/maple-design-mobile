@@ -1,4 +1,5 @@
 import { isBoolean, isFunction, isNumber, isObject, isString } from '../_utils/is'
+import type { OptionSearchField } from '../utils/option-data'
 import { matchesOptionText } from '../utils/option-data'
 import type {
   FilterOption,
@@ -146,9 +147,13 @@ export const getValidOptions = (
   {
     inputValue,
     filterOption,
+    caseSensitive,
+    searchFields,
   }: {
     inputValue?: string
     filterOption?: FilterOption
+    caseSensitive?: boolean
+    searchFields?: readonly OptionSearchField[]
   },
 ) => {
   const travel = (optionInfos: (SelectOptionInfo | SelectOptionGroupInfo)[]) => {
@@ -160,7 +165,7 @@ export const getValidOptions = (
         if (_options.length > 0) {
           options.push({ ...item, options: _options })
         }
-      } else if (isValidOption(item, { inputValue, filterOption })) {
+      } else if (isValidOption(item, { inputValue, filterOption, caseSensitive, searchFields })) {
         options.push(item)
       }
     }
@@ -175,9 +180,13 @@ export const isValidOption = (
   {
     inputValue,
     filterOption,
+    caseSensitive,
+    searchFields,
   }: {
     inputValue?: string
     filterOption?: FilterOption
+    caseSensitive?: boolean
+    searchFields?: readonly OptionSearchField[]
   },
 ) => {
   if (isFunction(filterOption)) {
@@ -185,7 +194,10 @@ export const isValidOption = (
   }
 
   if (filterOption) {
-    return matchesOptionText(optionInfo.label, inputValue ?? '')
+    return (
+      !inputValue ||
+      (searchFields ?? ['label']).some((field) => matchesOptionText(optionInfo[field], inputValue, caseSensitive))
+    )
   }
 
   return true

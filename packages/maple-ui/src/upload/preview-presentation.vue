@@ -1,5 +1,6 @@
 <template>
   <UploadPopup
+    :popup-container="popupContainer"
     :open="Boolean(file)"
     placement="center"
     :aria-label="label"
@@ -11,7 +12,8 @@
 <script setup lang="ts">
 import UploadPopup from '../popup'
 import type { UploadFileItem } from './interfaces'
+import type { UploadProps } from './props'
 
-defineProps<{ file?: UploadFileItem; label: string }>()
+defineProps<{ file?: UploadFileItem; label: string; popupContainer?: UploadProps['popupContainer'] }>()
 defineEmits<{ close: []; closed: [] }>()
 </script>

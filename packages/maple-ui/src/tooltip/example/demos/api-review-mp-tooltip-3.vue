@@ -24,9 +24,11 @@ const placementOptions = ref([
 
 <template>
   <DemoApiReviewPanel v-slot="__apiReview" v-bind="defineReviewConfig(__apiReviewRawConfig)">
-    <mp-select v-model="placementValue" :hint="false">
-      <mp-option v-for="(item, index) in placementOptions" :key="index" :label="item" />
-    </mp-select>
+    <mp-form-item layout="vertical" size="sm" label="placementValue">
+      <mp-select v-model="placementValue" aria-label="placementValue" :hint="false">
+        <mp-option v-for="(item, index) in placementOptions" :key="index" :label="item" />
+      </mp-select>
+    </mp-form-item>
     <div class="placement-container">
       <mp-tooltip
         content="Tooltip"

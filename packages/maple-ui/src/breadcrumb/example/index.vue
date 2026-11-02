@@ -1,7 +1,6 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maple-design/cli/client'
-import DemoApiReview from './demos/api-review.vue'
 import BasicUsageDemo from './demos/basic-usage.vue'
 import ClickEventDemo from './demos/click-event.vue'
 import CustomIconDemo from './demos/custom-icon.vue'
@@ -20,20 +19,20 @@ onThemeChange()
 </script>
 
 <template>
+  <h2 class="mobile-demo-group-heading" data-demo-group="basic-examples" data-demo-component="breadcrumb">
+    <span lang="zh-CN">基础示例</span>
+    <span lang="en-US">Basic examples</span>
+  </h2>
+
   <section data-demo="basic-usage">
     <app-type>{{ english ? 'Basic Usage' : '基本使用' }}</app-type>
     <BasicUsageDemo />
   </section>
 
-  <section data-demo="separator">
-    <app-type>{{ english ? 'Custom Separator' : '自定义分隔符' }}</app-type>
-    <SeparatorDemo />
-  </section>
-
-  <section data-demo="custom-icon">
-    <app-type>{{ english ? 'Custom Icon' : '自定义图标' }}</app-type>
-    <CustomIconDemo />
-  </section>
+  <h2 class="mobile-demo-group-heading" data-demo-group="content-and-presentation">
+    <span lang="zh-CN">内容与展示</span>
+    <span lang="en-US">Content and presentation</span>
+  </h2>
 
   <section data-demo="routes-mode">
     <app-type>{{ english ? 'Route Configuration' : '参数化配置' }}</app-type>
@@ -54,5 +53,19 @@ onThemeChange()
     <app-type>{{ english ? 'Link & Click' : '链接与点击' }}</app-type>
     <ClickEventDemo />
   </section>
-  <section data-demo="api-review"><DemoApiReview /></section>
+
+  <h2 class="mobile-demo-group-heading" data-demo-group="customization-and-slots">
+    <span lang="zh-CN">自定义与插槽</span>
+    <span lang="en-US">Customization and slots</span>
+  </h2>
+
+  <section data-demo="separator">
+    <app-type>{{ english ? 'Custom Separator' : '自定义分隔符' }}</app-type>
+    <SeparatorDemo />
+  </section>
+
+  <section data-demo="custom-icon">
+    <app-type>{{ english ? 'Custom Icon' : '自定义图标' }}</app-type>
+    <CustomIconDemo />
+  </section>
 </template>

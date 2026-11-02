@@ -1,0 +1,111 @@
+
+ RUN  v3.0.6 /Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui
+
+ ✓ src/auto-complete/__tests__/auto-complete.test.tsx (44 tests) 705ms
+ ✓ src/form/__tests__/async-fields-demo.spec.js (10 tests) 943ms
+ ✓ src/form/__tests__/index.spec.js (12 tests) 881ms
+ ✓ src/form/__tests__/layout-contract.spec.ts (10 tests) 147ms
+ ✓ src/form/__tests__/temporal-upload-state.spec.ts (45 tests) 3475ms
+ ✓ src/form/__tests__/presentation-state.spec.ts (40 tests) 1342ms
+ ✓ src/form/__tests__/field-presentation.spec.ts (15 tests) 524ms
+ ✓ src/form/__tests__/scroll-validation-eligibility.spec.js (19 tests) 150ms
+ ✓ src/form/__tests__/field-components.spec.ts (55 tests) 1305ms
+ ✓ src/form/__tests__/scroll-task-ownership.spec.js (10 tests) 114ms
+ ✓ src/form/__tests__/option-field-transactions.spec.ts (16 tests) 791ms
+ ❯ src/search/__tests__/index.spec.js (11 tests | 2 failed) 325ms
+   ✓ Search > installs as a plugin
+   × Search > renders the shared defaults 57ms
+     → Snapshot `Search > renders the shared defaults 1` mismatched
+   ✓ Search > separates live input from committed change
+   ✓ Search > clears through one input/change cycle without submitting and keeps history visible
+   ✓ Search > submits once on Enter without actively blurring
+   ✓ Search > blocks icon, button, and Enter search while loading or readonly
+   ✓ Search > updates the field model once per logical edit and field switch
+   ✓ Search > emits the canonical result and bounded trimmed history
+   × Search > selects popup history and searches immediately 20ms
+     → expected null to be truthy
+   ✓ Search > selects menu history and searches immediately
+   ✓ Search > exposes focus and blur methods
+ ✓ src/form/__tests__/scroll-animation-lifecycle.spec.js (11 tests) 123ms
+ ✓ src/search/__tests__/control.spec.js (15 tests) 378ms
+ ✓ src/_components/selected-options/__tests__/manager.spec.ts (5 tests) 165ms
+ ✓ src/form/__tests__/decoration-contract.spec.ts (6 tests) 123ms
+ ✓ src/form/__tests__/async-option-keyboard.spec.ts (9 tests) 683ms
+ ✓ src/form/__tests__/form-item-index.spec.js (7 tests) 260ms
+ ✓ src/form/__tests__/scroll-completion-wait.spec.js (9 tests) 91ms
+ ✓ src/search/__tests__/form-popup.spec.js (4 tests) 276ms
+ ✓ src/form/__tests__/async-race-demo.spec.js (4 tests) 270ms
+ ✓ src/form/__tests__/cross-field-demo.spec.js (2 tests) 212ms
+ ✓ src/_components/field-presentation/__tests__/search-ownership.spec.ts (9 tests) 70ms
+ ✓ src/search/__tests__/input-contract.spec.js (5 tests) 157ms
+ ✓ src/_components/field-presentation/__tests__/focus-ownership.spec.ts (6 tests) 134ms
+ ✓ src/form/__tests__/presentation-search-ownership.spec.ts (3 tests) 168ms
+ ✓ src/_components/selected-options/__tests__/editor.spec.ts (2 tests) 129ms
+ ✓ src/form/__tests__/form-controller.spec.ts (4 tests) 10ms
+ ✓ src/form/__tests__/async-remount-demo.spec.js (1 test) 162ms
+ ✓ src/_components/selected-options/__tests__/option-fields.spec.ts (2 tests) 154ms
+ ✓ src/form/__tests__/custom-control-demo.spec.js (2 tests) 176ms
+ ✓ src/form/__tests__/async-state-demo.spec.js (1 test) 112ms
+ ✓ src/form/__tests__/async-whole-demo.spec.js (2 tests) 193ms
+ ✓ src/form/__tests__/async-server-demo.spec.js (1 test) 130ms
+ ✓ src/form-details/__tests__/index.spec.js (4 tests) 37ms
+ ✓ src/_components/field-presentation/__tests__/option-labels.spec.ts (4 tests) 8ms
+ ✓ src/form/__tests__/events-demo.spec.js (2 tests) 127ms
+ ✓ src/search/__tests__/locale.spec.js (1 test) 36ms
+ ✓ src/form/__tests__/validate-trigger.spec.ts (2 tests) 6ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/search/__tests__/index.spec.js > Search > renders the shared defaults
+Error: Snapshot `Search > renders the shared defaults 1` mismatched
+
+- Expected
++ Received
+
+@@ -8,8 +8,7 @@
+          <!--v-if--><span class="mp-field-decorator__border" aria-hidden="true"></span><span class="mp-field-decorator__border-state" aria-hidden="true"></span>
+        </div>
+      </div>
+    </div>
+    <!--v-if-->
+-   <!--teleport start-->
+-   <!--teleport end-->
++   <!--v-if-->
+  </div>"
+
+ ❯ src/search/__tests__/index.spec.js:29:28
+     27|     expect(wrapper.find('.mp-field-decorator--variant-outline').exists…
+     28|     expect(wrapper.find('.mp-field-decorator__clear-btn').exists()).to…
+     29|     expect(wrapper.html()).toMatchSnapshot()
+       |                            ^
+     30|   })
+     31| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  src/search/__tests__/index.spec.js > Search > selects popup history and searches immediately
+AssertionError: expected null to be truthy
+
+- Expected: 
+true
+
++ Received: 
+null
+
+ ❯ src/search/__tests__/index.spec.js:198:62
+    196| 
+    197|     await wrapper.get('.mp-input__inner').trigger('focus')
+    198|     expect(document.body.querySelector('.mp-search__popup')).toBeTruth…
+       |                                                              ^
+    199|     document.body.querySelector('.mp-search__history-item').click()
+    200|     await nextTick()
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+  Snapshots  1 failed
+ Test Files  1 failed | 38 passed (39)
+      Tests  2 failed | 408 passed (410)
+   Start at  22:21:18
+   Duration  68.35s (transform 7.37s, setup 913ms, collect 66.62s, tests 15.09s, environment 40.39s, prepare 3.26s)
+

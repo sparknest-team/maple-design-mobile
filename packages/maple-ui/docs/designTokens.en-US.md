@@ -347,16 +347,6 @@ Valid12-case baseline:10failures/two controls. Initial12 fixture errors used the
 
 Classification stays24/33 families72.7%,nine remaining27.3%;59files,143/182 hints78.6%,39 pending21.4%, denominator unchanged. Only SwipeCell inventory205→248 is updated. Preserve26 unrelated drifts, Form/date/linked Time/Picker/Scheduler,144 blocked environment cases and Button white-text exception. Evidence:design-ui/audits/evidence/swipe-cell-close-lifecycle-2026-10-15/results.json.
 
-### Maple Counter: hold repetition and lifetime (2026-10-15)
-
-Counter's600ms wait plus100ms repeat is interaction-repeat policy: first held step at700ms, ordinary click stays immediate. It is not CSS motion duration, adds no Token and is not forced to InputNumber's800/150ms cadence. Directions own separate generations/consumption. Same-direction press replaces old work; release/touchcancel/suspension/disposal cancel both pending timers, and stale callbacks cannot clear new handles or cross reactivation.
-
-Disabled/readonly including Form inheritance, press/lazyChange, controls/directional button/disable flags and numeric bounds invalidate unavailable holds synchronously. Activation accepts fresh gestures, never resumes old ones. Recheck ownership after each step so release/disposal inside callbacks cannot restart repetition. Retained inactive press/direct step is inert. Value formatting, step, precision and beforeChange API stay unchanged; deferred beforeChange request replacement remains a separate boundary, without taking over Form.
-
-Valid24-case baseline20failures/four controls covers both directions, not20 distinct defects. Final32 targeted/full55 Counter tests pass. Vue guidance informs suspension/disposal cancellation and clock/probe cleanup. Actual Counter/KeepAlive with stub buttons and controlled timers is not native touch/click deduplication/cross-document/OS acceptance; new browser/OS cases:0.
-
-Classification adds one file/four interaction-repeat hints(total8):24/33 families72.7%,nine remaining27.3%;59files,143/182 hints78.6%,39 pending21.4%, denominator unchanged. Refresh only Counter's four inventory lines/hash. Preserve26 unrelated drifts, Form/date/linked Time/Picker/Scheduler,144 blocked environment groups and Button white-text exception. Evidence:design-ui/audits/evidence/counter-press-lifecycle-2026-10-15/results.json.
-
 ### Maple LoadingBar: task and render-continuation ownership (2026-10-15)
 
 The shared timer entry is task-dispatch, not one CSS duration: retain200ms show/progress cadence, public finishDelay,300ms error policy and computed width/opacity cleanup floors300/250ms. Public motion Tokens/defaults and original timer-window ownership stay unchanged; Cedar has no LoadingBar runtime, so no fake counterpart or variables are added.
@@ -1121,7 +1111,6 @@ Public component defaults belong in the owning `style/token.less`; implementatio
 
 The inventory compiles `style/index.less` and Less directly imported by `style/index.ts`, including shared selection presentation styles. Runtime consumers require reviewed executable evidence: Watermark reads a variable into its canvas renderer; FloatingPanel, Time clock and TabBar bind variables through inline styles. Comments and theme assignments are not consumers.
 
-Explicit props take precedence over CSS variables; omitted props should use their variable fallback. Maple TabBar now follows this rule: its visual z-index remains 1, while the prop default is undefined. ImagePreview consumes its arrow hover background only on hover-capable devices and enabled arrows. Counter removes its unused disabled-color; disabled opacity and the actual text/background variables remain supported.
 
 Reduced motion must cover JavaScript as well as CSS. Picker commits without transitionend and settles pending selection when the preference changes to reduce. Its columns are listboxes with active options; ArrowUp/Down and Home/End skip disabled items. This does not redefine the additional selected-values checkmark decoration. Time commits a pending draft without blurring before opening, preserving return focus.
 

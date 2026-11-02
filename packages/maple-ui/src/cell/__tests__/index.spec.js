@@ -6,7 +6,7 @@ import Cell from '..'
 import MpIcon from '../../icon/Icon'
 import { createRegisteredIconComponents } from '../../utils/test'
 import VarCell from '../Cell'
-import ShowDescDemo from '../example/demos/show-desc.vue'
+import ContentComparisonDemo from '../example/demos/content-comparison.vue'
 
 test('cell plugin', () => {
   const app = createApp({}).use(Cell)
@@ -194,11 +194,13 @@ test('default slot overrides title', () => {
 })
 
 test('description demo displays an automatically resolved fire icon', () => {
-  const wrapper = mount(ShowDescDemo, {
+  const wrapper = mount(ContentComparisonDemo, {
     global: { components: { MpCell: Cell, MpIcon, MIconFire: IconFire }, stubs: { MIconInfoCircleFill: true } },
   })
-  expect(wrapper.find('.mp-cell__icon svg').exists()).toBe(true)
-  expect(wrapper.find('.mp-cell__title').text()).toBe('这是单元格')
+  const scene = wrapper.get('[data-comparison-scene="show-desc"]')
+  expect(scene.find('.mp-cell__icon svg').exists()).toBe(true)
+  expect(scene.find('.mp-cell__title').text()).toBe('这是单元格')
+  expect(scene.find('.mp-cell__description').text()).toBe('描述')
   wrapper.unmount()
 })
 

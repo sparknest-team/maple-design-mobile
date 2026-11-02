@@ -2,6 +2,7 @@
   <Teleport :to="teleportTarget" :disabled="teleportDisabled || popupContainer === false">
     <div
       ref="drag"
+      :dir="readingDirection"
       :class="
         classes(n(), n('$--box'), [popupContainer === false, n('--local')], [enableTransition, n('--transition')])
       "
@@ -24,6 +25,7 @@
 import { defineComponent, reactive, ref, watch } from 'vue'
 import { clamp, getRect, preventDefault } from '@maple-design/shared'
 import { onSmartMounted, onWindowResize, useTouch } from '@maple-design/use'
+import { useDirection } from '../_utils/direction'
 import { createNamespace, useTeleport } from '../utils/components'
 import { toPxNum } from '../utils/elements'
 import { usePopupContainer } from '../utils/popup-container'
@@ -37,6 +39,7 @@ export default defineComponent({
   props,
   emits: ['click'],
   setup(props, { attrs, emit }) {
+    const { dir: readingDirection } = useDirection(undefined, () => attrs.dir)
     const drag = ref<HTMLElement | null>(null)
     const x = ref(0)
     const y = ref(0)
@@ -80,11 +83,11 @@ export default defineComponent({
       enableTransition.value = false
       dragged.value = true
 
-      if (props.direction.includes('x')) {
+      if (props.axis.includes('x')) {
         x.value += moveX.value
       }
 
-      if (props.direction.includes('y')) {
+      if (props.axis.includes('y')) {
         y.value += moveY.value
       }
 
@@ -240,6 +243,7 @@ export default defineComponent({
     }
 
     return {
+      readingDirection,
       drag,
       x,
       y,

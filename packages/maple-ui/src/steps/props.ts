@@ -24,6 +24,7 @@ export const stepsProps = {
     default: 'horizontal' as Orientation,
   },
   /** 内容相对节点的位置 */
+  /** 正文相对步骤节点的方位，可选 right 或 bottom，默认 right；dot 类型按横纵轴推导，navigation 固定 right */
   contentPlacement: {
     type: String as PropType<StepsContentPlacement>,
     default: 'right' as StepsContentPlacement,

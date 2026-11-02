@@ -1,6 +1,6 @@
 import { createApp, createSSRApp, h, nextTick } from 'vue'
 import { renderToString } from '@vue/server-renderer'
-import { DOMWrapper, mount } from '@vue/test-utils'
+import { DOMWrapper, flushPromises, mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test, vi } from 'vitest'
 import { InputGroup } from '../../input'
 import { formHost } from '../../input-number/__tests__/form-host'
@@ -16,10 +16,7 @@ const mountAutoComplete = (mountOptions: Record<string, any> = {}) => {
   const wrapper = mount(AutoComplete, {
     attachTo: document.body,
     ...mountOptions,
-    props: {
-      shouldOpen: () => true,
-      ...(mountOptions.props ?? {}),
-    },
+    props: { editMode: 'direct', shouldOpen: () => true, ...(mountOptions.props ?? {}) },
   } as any)
   wrappers.push(wrapper)
   return wrapper
@@ -37,6 +34,40 @@ const options = [
 ]
 
 describe('AutoComplete', () => {
+  test('keeps inline suggestions below their input and reanchors when the page scrolls', async () => {
+    let top = 700
+    const original = HTMLElement.prototype.getBoundingClientRect
+    const geometry = vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function (
+      this: HTMLElement,
+    ) {
+      if (this.matches('.mp-auto-complete')) {
+        return { x: 40, y: top, top, bottom: top + 48, left: 40, right: 320, width: 280, height: 48, toJSON() {} }
+      }
+      if (this.matches('.mp-trigger__popup')) {
+        return { x: 0, y: 0, top: 0, bottom: 200, left: 0, right: 280, width: 280, height: 200, toJSON() {} }
+      }
+      return original.call(this)
+    })
+    const wrapper = mountAutoComplete({ props: { options } })
+    try {
+      await wrapper.get('input').trigger('focus')
+      await flushPromises()
+      const popup = document.querySelector('.mp-auto-complete__dropdown')!.closest('.mp-trigger__popup') as HTMLElement
+      expect(popup.style.top).toBe('752px')
+      expect(popup.style.left).toBe('40px')
+      expect(popup.style.width).toBe('280px')
+      top = 300
+      window.dispatchEvent(new Event('scroll'))
+      await new Promise<void>((resolve) => window.requestAnimationFrame(() => resolve()))
+      await nextTick()
+      expect(popup.style.top).toBe('352px')
+      expect(wrapper.get('input').attributes('aria-expanded')).toBe('true')
+    } finally {
+      wrapper.unmount()
+      geometry.mockRestore()
+    }
+  })
+
   test('trimmed input update still produces one normalized search', async () => {
     const wrapper = mountAutoComplete({ attrs: { modelModifiers: { trim: true } }, props: { options: ['Alpha'] } })
     const input = wrapper.get('input.mp-input__inner')
@@ -95,7 +126,7 @@ describe('AutoComplete', () => {
     const changes: Event[] = []
     const wrapper = mount(
       formHost({}, { onChange: (event: Event) => changes.push(event) }, () =>
-        h(AutoComplete, { options: ['Alpha'], shouldOpen: () => true }),
+        h(AutoComplete, { editMode: 'direct', options: ['Alpha'], shouldOpen: () => true }),
       ),
       { attachTo: document.body },
     )
@@ -174,9 +205,9 @@ describe('AutoComplete', () => {
     expect(getOptions(input)[0].text()).toContain('Alpha')
   })
 
-  test('supports strict, disabled, and custom filtering', async () => {
+  test('supports case-sensitive, disabled, and custom filtering', async () => {
     const wrapper = mountAutoComplete({
-      props: { options, strict: true },
+      props: { options, caseSensitive: true },
     })
     const input = wrapper.get('input.mp-input__inner')
 
@@ -372,7 +403,7 @@ describe('aligned autocomplete boundaries', () => {
     expect(input.attributes('aria-expanded')).toBe('true')
     expect(getOptions(input)).toHaveLength(3)
   })
-  test('renders groups and uses mapped labels for strict filtering', async () => {
+  test('renders groups and uses mapped labels for case-sensitive filtering', async () => {
     const wrapper = mountAutoComplete({
       props: {
         options: [
@@ -386,7 +417,7 @@ describe('aligned autocomplete boundaries', () => {
           },
         ],
         fieldNames: { value: 'id', label: 'title' },
-        strict: true,
+        caseSensitive: true,
         defaultValue: 'A',
       },
     })
@@ -444,9 +475,9 @@ describe('aligned autocomplete boundaries', () => {
   })
   test('inherits group state while explicit false overrides it', async () => {
     const wrapper = mount(InputGroup, {
-      props: { readonly: true, size: 'lg', variant: 'standard' },
+      props: { editMode: 'direct', readonly: true, size: 'lg', variant: 'standard' },
       slots: {
-        default: () => h(AutoComplete, { options, shouldOpen: () => true }),
+        default: () => h(AutoComplete, { editMode: 'direct', options, shouldOpen: () => true }),
       },
     })
     wrappers.push(wrapper)
@@ -489,7 +520,10 @@ describe('aligned autocomplete boundaries', () => {
     expect(wrapper.html()).toContain('green')
   })
   test('SSR uses deterministic per-app IDs', async () => {
-    const render = () => renderToString(createSSRApp({ render: () => h(AutoComplete, { defaultValue: 'a', options }) }))
+    const render = () =>
+      renderToString(
+        createSSRApp({ render: () => h(AutoComplete, { editMode: 'direct', defaultValue: 'a', options }) }),
+      )
     expect(await render()).toBe(await render())
   })
   test('SSR does not require browser globals', async () => {
@@ -498,7 +532,9 @@ describe('aligned autocomplete boundaries', () => {
     vi.stubGlobal('window', undefined)
     vi.stubGlobal('document', undefined)
     try {
-      const html = await renderToString(createSSRApp({ render: () => h(AutoComplete, { defaultValue: 'server' }) }))
+      const html = await renderToString(
+        createSSRApp({ render: () => h(AutoComplete, { editMode: 'direct', defaultValue: 'server' }) }),
+      )
       expect(html).toContain('server')
       expect(html).toContain('combobox')
     } finally {
@@ -526,9 +562,9 @@ describe('input boundaries', () => {
   })
   test('explicit false overrides inherited readonly', () => {
     const wrapper = mount(InputGroup, {
-      props: { readonly: true },
+      props: { editMode: 'direct', readonly: true },
       slots: {
-        default: () => h(AutoComplete, { readonly: false }),
+        default: () => h(AutoComplete, { editMode: 'direct', readonly: false }),
       },
     })
     wrappers.push(wrapper)
@@ -559,4 +595,23 @@ describe('input boundaries', () => {
     await getOptions(input)[0].trigger('click')
     expect(wrapper.emitted('select')).toHaveLength(1)
   })
+})
+
+test('uses caseSensitive with no strict compatibility prop', () => {
+  expect('caseSensitive' in AutoComplete.props).toBe(true)
+  expect('strict' in AutoComplete.props).toBe(false)
+})
+
+test('AutoComplete searchFields matches value or label using standard configuration', async () => {
+  const wrapper = mountAutoComplete({
+    props: { options: [{ value: 'USER_A', label: 'Apple' }], searchFields: ['value', 'label'] },
+  })
+  const input = wrapper.get('input.mp-input__inner')
+  await input.trigger('focus')
+  await input.setValue('user')
+  await nextTick()
+  expect(getOptions(input).map((option) => option.text())).toEqual(['Apple'])
+  await input.setValue('apple')
+  await nextTick()
+  expect(getOptions(input).map((option) => option.text())).toEqual(['Apple'])
 })

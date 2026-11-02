@@ -1,3 +1,4 @@
+import '../../_components/pending-feedback/style'
 import '../../style/index.less'
 import '../../badge/style'
 import '../../button/style'

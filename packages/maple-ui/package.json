@@ -66,14 +66,15 @@
     "typecheck:contracts": "tsc -p tsconfig.contracts.json",
     "build": "pnpm build:lib && pnpm build:doc",
     "build:lib": "maple-cli compile",
-    "build:doc": "node ../../scripts/quality/demo-sfc-check.mjs && maple-cli build",
+    "build:doc": "pnpm docs:llms && node ../../scripts/quality/demo-sfc-check.mjs && maple-cli build",
     "compile:style-vars": "maple-cli compile:style-vars",
     "create": "maple-cli create -i",
-    "dev": "maple-cli dev",
+    "dev": "pnpm docs:llms && maple-cli dev",
     "preview": "maple-cli preview",
     "test": "maple-cli test",
     "test:coverage": "maple-cli test -cov",
-    "test:watch": "maple-cli test -w -cov"
+    "test:watch": "maple-cli test -w -cov",
+    "docs:llms": "node ../../../design-ui/bin/llms-docs.mjs maple . public"
   },
   "dependencies": {
     "@maple-design/shared": "workspace:*",

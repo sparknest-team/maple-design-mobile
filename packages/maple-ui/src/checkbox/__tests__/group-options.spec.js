@@ -43,7 +43,7 @@ for (const [kind, Group, Item] of [
 ]) {
   describe(kind + ' group option contract', () => {
     it('supports primitives and does not implicitly select empty string', async () => {
-      const wrapper = mount(Group, { props: { options: [false, 0, '', '0'] } })
+      const wrapper = mount(Group, { props: { editMode: 'direct', options: [false, 0, '', '0'] } })
       await nextTick()
       const items = wrapper.findAllComponents(Item)
       expect(items).toHaveLength(4)
@@ -55,7 +55,10 @@ for (const [kind, Group, Item] of [
 
     it('renders VNode arrays, numeric labels and missing-label fallbacks', async () => {
       const wrapper = mount(Group, {
-        props: { options: [{ value: 'a', label: [h('b', 'A'), ' text'] }, { value: 'b', label: 42 }, { value: 0 }] },
+        props: {
+          editMode: 'direct',
+          options: [{ value: 'a', label: [h('b', 'A'), ' text'] }, { value: 'b', label: 42 }, { value: 0 }],
+        },
       })
       await nextTick()
       expect(wrapper.find('b').text()).toBe('A')
@@ -66,6 +69,7 @@ for (const [kind, Group, Item] of [
     it('reacts to field mapping and data changes without emitting', async () => {
       const wrapper = mount(Group, {
         props: {
+          editMode: 'direct',
           modelValue: kind === 'checkbox' ? [0] : 0,
           options: [{ id: 0, name: 'Old', title: 'New' }],
           fieldNames: { value: 'id', label: 'name' },
@@ -88,6 +92,7 @@ for (const [kind, Group, Item] of [
     it('maps disabled and readonly guards and blocks component methods', async () => {
       const wrapper = mount(Group, {
         props: {
+          editMode: 'direct',
           options: [{ id: 'a', locked: true }, { id: 'b', stopped: true }, { id: 'c' }],
           fieldNames: { value: 'id', readonly: 'locked', disabled: 'stopped' },
         },
@@ -117,14 +122,14 @@ for (const [kind, Group, Item] of [
         options: [{ id: false, name: render, code: 'X' }],
         fieldNames: { value: 'id', label: 'name' },
       }
-      const wrapper = mount(Group, { props })
+      const wrapper = mount(Group, { props: { editMode: 'direct', ...props } })
       await nextTick()
       expect(wrapper.text()).toBe('X:true')
       expect(render.mock.calls.at(-1)[0]).toMatchObject({ value: false, code: 'X' })
       wrapper.unmount()
       render.mockClear()
       const slotWrapper = mount(Group, {
-        props,
+        props: { editMode: 'direct', ...props },
         slots: {
           label: ({ data, checked: selected }) => h('i', data.code + ':' + selected),
         },
@@ -136,7 +141,10 @@ for (const [kind, Group, Item] of [
     })
 
     it('lets explicit options replace the default slot even when empty', async () => {
-      const wrapper = mount(Group, { props: { options: [] }, slots: { default: () => h(Item, { value: 'fallback' }) } })
+      const wrapper = mount(Group, {
+        props: { editMode: 'direct', options: [] },
+        slots: { default: () => h(Item, { editMode: 'direct', value: 'fallback' }) },
+      })
       await nextTick()
       expect(wrapper.findAllComponents(Item)).toHaveLength(0)
       await wrapper.setProps({ options: ['a'] })
@@ -150,7 +158,9 @@ for (const [kind, Group, Item] of [
 }
 
 it('radio null clears selection silently without treating it as uncontrolled', async () => {
-  const wrapper = mount(RadioGroup, { props: { options: ['', false], defaultValue: false, modelValue: '' } })
+  const wrapper = mount(RadioGroup, {
+    props: { editMode: 'direct', options: ['', false], defaultValue: false, modelValue: '' },
+  })
   await nextTick()
   expect(checked(wrapper.findAllComponents(Radio)[0], 'radio')).toBe(true)
   await wrapper.setProps({ modelValue: null })
@@ -163,7 +173,9 @@ it('radio null clears selection silently without treating it as uncontrolled', a
 })
 
 it('checkbox option indeterminate is presentation only', async () => {
-  const wrapper = mount(CheckboxGroup, { props: { options: [{ value: 'a', indeterminate: true }] } })
+  const wrapper = mount(CheckboxGroup, {
+    props: { editMode: 'direct', options: [{ value: 'a', indeterminate: true }] },
+  })
   await nextTick()
   const item = wrapper.findComponent(Checkbox)
   expect(item.props('indeterminate')).toBe(true)

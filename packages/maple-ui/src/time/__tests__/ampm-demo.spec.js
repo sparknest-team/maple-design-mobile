@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils'
 import { expect, it } from 'vitest'
 import Picker from '../../picker/Picker.vue'
-import RangeDemo from '../../time-range/example/demos/ampm.vue'
+import RangeDemo from '../../time-range/example/demos/format-comparison.vue'
 import TimeRange from '../../time-range/index'
 import TimeRangePicker from '../../time-range/TimeRangePicker.vue'
 import Demo from '../example/demos/ampm-formats.vue'
@@ -28,7 +28,10 @@ it('AM/PM range demo commits a cross-midnight wheel range without reversing endp
     global: { components: { MpTimeRange: TimeRange, MpTimeRangePicker: TimeRangePicker, MpSpace: space } },
   })
   try {
-    expect(wrapper.findAllComponents(TimeRange)).toHaveLength(2)
+    const scene = wrapper.get('[data-comparison-scene="ampm"]')
+    expect(wrapper.findAllComponents(TimeRange).filter((field) => scene.element.contains(field.element))).toHaveLength(
+      2,
+    )
     const panel = wrapper.getComponent(TimeRangePicker)
     panel.getComponent(Picker).vm.$emit('change', ['11', '30', 'pm', '01', '00', 'am'])
     await wrapper.vm.$nextTick()

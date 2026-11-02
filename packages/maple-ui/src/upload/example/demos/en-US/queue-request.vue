@@ -74,12 +74,19 @@ onDeactivated(cleanup)
 <template>
   <div>
     <p>Local request simulation with cancel, retry and manual submit; no network.</p>
-    <mp-checkbox v-model="failOnce">Fail first attempt (retry succeeds)</mp-checkbox>
+    <mp-checkbox v-model="failOnce" edit-mode="direct">Fail first attempt (retry succeeds)</mp-checkbox>
     <mp-space wrap>
       <mp-button @click="addExample">Add example file</mp-button>
       <mp-button @click="uploader?.submit()">Submit queue</mp-button>
     </mp-space>
-    <mp-upload ref="uploader" v-model="files" multiple :auto-upload="false" :custom-request="request" />
+    <mp-upload
+      ref="uploader"
+      v-model="files"
+      edit-mode="direct"
+      multiple
+      :auto-upload="false"
+      :custom-request="request"
+    />
     <p>
       Queue status：{{ files.map((file) => `${file.name}: ${file.status} (${file.percent}%)`).join('；') || 'empty' }}
     </p>

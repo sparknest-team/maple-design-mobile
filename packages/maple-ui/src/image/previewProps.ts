@@ -24,7 +24,6 @@ export const imagePreviewProps = {
   showToolbar: { type: Boolean, default: true },
   actionsLayout: Array as PropType<ImagePreviewActionName[]>,
   previewedImgProps: Object as PropType<ImgHTMLAttributes>,
-  onOpenChange: Function as PropType<(open: boolean) => void>,
 }
 
 export const props = imagePreviewProps

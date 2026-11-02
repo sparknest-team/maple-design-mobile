@@ -4,7 +4,7 @@ Visibility RAF and JS duration/easing interpolation have separate ownership. Old
 
 A native button that scrolls the page or an explicit container to the top.
 
-## Examples
+## Basic examples
 
 ### Basic usage
 
@@ -12,16 +12,48 @@ A native button that scrolls the page or an explicit container to the top.
 ../example/demos/en-US/basic-usage.vue
 ```
 
-### Switch scroll container
-
-```demo
-../example/demos/en-US/target-container.vue
-```
+## Customization and slots
 
 ### Custom position
 
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `target-container` | Scroll target; omitted means page | Custom position |
+| `popup-container` | Render target; false renders locally | Custom position |
+| `visible-height` | Inclusive scroll threshold in px, numeric strings accepted | Custom position |
+| `right` | Right offset; number in px, string accepts CSS units | Custom position |
+| `bottom` | Bottom offset; number in px, string accepts CSS units | Custom position |
+| `aria-label` | Accessible name | Custom position |
+<!-- demo-config-notes:end -->
+
+
 ```demo
 ../example/demos/en-US/custom-position.vue
+```
+
+## Interaction and control
+
+### Switch scroll container
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `target-container` | Scroll target; omitted means page | Switch scroll container, Content and events |
+| `popup-container` | Render target; false renders locally | Switch scroll container, Content and events |
+| `visible-height` | Inclusive scroll threshold in px, numeric strings accepted | Switch scroll container, Content and events |
+| `right` | Right offset; number in px, string accepts CSS units | Switch scroll container, Content and events |
+| `bottom` | Bottom offset; number in px, string accepts CSS units | Switch scroll container, Content and events |
+| `aria-label` | Accessible name | Switch scroll container, Content and events |
+<!-- demo-config-notes:end -->
+
+
+```demo
+../example/demos/en-US/target-container.vue
 ```
 
 ### Content and events
@@ -32,24 +64,27 @@ A native button that scrolls the page or an explicit container to the top.
 
 The examples use isolated local containers. Omit `target-container` to listen to the page, not the nearest scrollable ancestor. A selector that is invalid or missing hides the button; use a reactive getter for a container mounted asynchronously. `popup-container` controls where the button renders, not what scrolls.
 
+## Lifecycle and edge cases
+
 ### Scheduling Lifecycle
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `target-container` | Scroll target; omitted means page | Scheduling Lifecycle |
+| `popup-container` | Render target; false renders locally | Scheduling Lifecycle |
+| `duration` | Animation duration in ms; 0 is immediate | Scheduling Lifecycle |
+| `easing` | Built-in curve or normalized progress function | Scheduling Lifecycle |
+<!-- demo-config-notes:end -->
+
 
 ```demo
 ../example/demos/en-US/scheduler-lifecycle.vue
 ```
 
-<!-- api-review:start -->
-### Feature playground
-
-```demo
-../example/demos/api-review.vue
-```
-
-<!-- api-review:end -->
-
 ## API
-
-BackTop duration (200ms) and easing (quartOut) are JS requestAnimationFrame scroll parameters, not CSS motion tokens. Existing component variables own geometry, color, focus and stacking. Preference comes from the scroll target ownerDocument window; enabling reduce during scrolling jumps to top on the next frame while preserving horizontal scroll, not synchronously on an OS event. Repeated activation, target replacement, deactivation and disposal invalidate even dequeued callbacks. Visibility coalescing is not visual animation. Mocked RAF/iframe-document and SSR tests add no real browser/OS passes.
 
 ### Props
 
@@ -67,12 +102,12 @@ BackTop duration (200ms) and easing (quartOut) are JS requestAnimationFrame scro
 
 When `popup-container=false`, the button is positioned absolutely; give its containing block `position: relative`. Repeated clicks replace the previous animation; changing target, deactivation and unmount cancel queued work. Reduced-motion preference skips animation. Horizontal scroll position is preserved.
 
-### Events / Slots / Expose
+### Events / slots / methods
 
 - `click(event: MouseEvent)`: emitted once per activation.
-- Default slot: non-interactive content such as text or an icon. Do not nest buttons or links inside the native button.
-- `scrollToTop()`: scroll the current target; does not emit `click`.
-- Keyboard: Tab focuses the visible native button; Enter or Space activates it. Hidden buttons cannot receive focus.
+- Default slot: noninteractive text or icons. The root is already a native button; do not nest another Button or link.
+- `scrollToTop()`: scrolls the current target without emitting an additional click.
+- Keyboard: Tab focuses the visible button; Enter / Space activates it. Hidden buttons are not focusable.
 
 ### Types
 
@@ -80,7 +115,7 @@ When `popup-container=false`, the button is positioned absolutely; give its cont
 import type { BackTopProps, BackTopInstance, BackTopTarget, BackTopEasing } from '@maple-design/ui'
 ```
 
-### CSS tokens
+### Style variables
 
 | Token | Default |
 | --- | --- |

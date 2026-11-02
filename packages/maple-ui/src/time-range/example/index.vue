@@ -1,16 +1,14 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maple-design/cli/client'
-import AmPmDemo from './demos/ampm.vue'
-import DemoApiReview from './demos/api-review.vue'
+import PickerFieldsDemo from '../../time/example/demos/time-fields.vue'
 import BasicUsageDemo from './demos/basic-usage.vue'
 import BoundsDemo from './demos/bounds.vue'
 import DefaultStateDemo from './demos/default-state.vue'
-import DisabledDemo from './demos/disabled.vue'
-import EnAmPmDemo from './demos/en-US/ampm.vue'
 import EnBoundsDemo from './demos/en-US/bounds.vue'
 import EnDefaultStateDemo from './demos/en-US/default-state.vue'
 import EnFieldAppearanceDemo from './demos/en-US/field-appearance.vue'
+import ContentFormatComparisonEn from './demos/en-US/format-comparison.vue'
 import EnFormatModelDemo from './demos/en-US/format-model.vue'
 import EnPanelBehaviorDemo from './demos/en-US/panel-behavior.vue'
 import EnSelectionEventsDemo from './demos/en-US/selection-events.vue'
@@ -18,9 +16,10 @@ import EnStepDemo from './demos/en-US/step.vue'
 import EnTextEntryDemo from './demos/en-US/text-entry.vue'
 import EnWheelLimitsDemo from './demos/en-US/wheel-limits.vue'
 import FieldAppearanceDemo from './demos/field-appearance.vue'
+import ContentFormatComparison from './demos/format-comparison.vue'
 import FormatModelDemo from './demos/format-model.vue'
-import Hour24Demo from './demos/hour24.vue'
 import NextDayDemo from './demos/next-day.vue'
+import GroupedOpenTriggerTargetDemo from './demos/open-trigger-target.vue'
 import PanelBehaviorDemo from './demos/panel-behavior.vue'
 import PickerSecondsDemo from './demos/picker-seconds.vue'
 import SelectionEventsDemo from './demos/selection-events.vue'
@@ -41,49 +40,58 @@ onThemeChange()
 </script>
 
 <template>
+  <h2 class="mobile-demo-group-heading" data-demo-group="basic-examples" data-demo-component="time-range">
+    <span lang="zh-CN">基础示例</span>
+    <span lang="en-US">Basic examples</span>
+  </h2>
+
   <section data-demo="basic-usage">
     <app-type>{{ english ? 'Basic Usage' : '基本使用' }}</app-type>
     <BasicUsageDemo />
   </section>
-  <section data-demo="disabled">
-    <app-type>{{ english ? 'disabled' : '禁用' }}</app-type>
-    <DisabledDemo />
+
+  <h2 class="mobile-demo-group-heading" data-demo-group="appearance-and-presentation">
+    <span lang="zh-CN">外观与展示</span>
+    <span lang="en-US">Appearance and presentation</span>
+  </h2>
+
+  <section data-demo="field-appearance">
+    <app-type>{{ english ? 'Field appearance and nested options' : '字段外壳与配置边界' }}</app-type>
+    <EnFieldAppearanceDemo v-if="english" />
+    <FieldAppearanceDemo v-else />
   </section>
-  <section data-demo="text-entry">
-    <app-type>{{ english ? 'Text entry' : '手输与面板选择' }}</app-type>
-    <EnTextEntryDemo v-if="english" />
-    <TextEntryDemo v-else />
+
+  <section data-demo="format-comparison">
+    <h3 class="mobile-demo-case-heading">
+      <span lang="zh-CN">范围格式与十二小时制</span><span lang="en-US">Range formats and 12-hour clocks</span>
+    </h3>
+    <component :is="english ? ContentFormatComparisonEn : ContentFormatComparison" />
   </section>
-  <section data-demo="picker-seconds">
-    <app-type>{{ english ? 'picker seconds' : '列滚轮含秒' }}</app-type>
-    <PickerSecondsDemo />
+
+  <section data-demo="time-fields">
+    <app-type>{{ english ? 'Visible wheel fields' : '滚轮可见字段' }}</app-type>
+    <PickerFieldsDemo :english="english" range />
   </section>
-  <section data-demo="hour24">
-    <app-type>{{ english ? 'hour24' : '24 小时制与秒' }}</app-type>
-    <Hour24Demo />
-  </section>
+
   <section data-demo="separator">
     <app-type>{{ english ? 'separator' : '自定义分隔符' }}</app-type>
     <SeparatorDemo />
   </section>
+
   <section data-demo="next-day">
     <app-type>{{ english ? 'next day' : '次日标记' }}</app-type>
     <NextDayDemo />
   </section>
-  <section data-demo="with-form-item">
-    <app-type>{{ english ? 'With FormItem' : '搭配 FormItem' }}</app-type>
-    <WithFormItemDemo />
-  </section>
-  <section data-demo="wheel-limits">
-    <app-type>{{ english ? 'Wheel constraints' : '滚轮约束与动态禁用' }}</app-type>
-    <EnWheelLimitsDemo v-if="english" />
-    <WheelLimitsDemo v-else />
-  </section>
 
-  <section data-demo="ampm">
-    <app-type>{{ english ? 'AM/PM and midnight/noon' : 'AM/PM 与午夜/中午' }}</app-type>
-    <EnAmPmDemo v-if="english" />
-    <AmPmDemo v-else />
+  <h2 class="mobile-demo-group-heading" data-demo-group="value-model-and-selection-rules">
+    <span lang="zh-CN">值模型与选择规则</span>
+    <span lang="en-US">Value model and selection rules</span>
+  </h2>
+
+  <section data-demo="format-model">
+    <app-type>{{ english ? 'Model types and literals' : '模型类型与固定文字' }}</app-type>
+    <EnFormatModelDemo v-if="english" />
+    <FormatModelDemo v-else />
   </section>
 
   <section data-demo="step">
@@ -92,10 +100,60 @@ onThemeChange()
     <StepDemo v-else />
   </section>
 
-  <section data-demo="format-model">
-    <app-type>{{ english ? 'Model types and literals' : '模型类型与固定文字' }}</app-type>
-    <EnFormatModelDemo v-if="english" />
-    <FormatModelDemo v-else />
+  <section data-demo="bounds">
+    <app-type>{{ english ? 'Time bounds' : '时间上下限' }}</app-type>
+    <EnBoundsDemo v-if="english" />
+    <BoundsDemo v-else />
+  </section>
+
+  <section data-demo="wheel-limits">
+    <app-type>{{ english ? 'Wheel constraints' : '滚轮约束与动态禁用' }}</app-type>
+    <EnWheelLimitsDemo v-if="english" />
+    <WheelLimitsDemo v-else />
+  </section>
+
+  <h2 class="mobile-demo-group-heading" data-demo-group="content-and-presentation">
+    <span lang="zh-CN">内容与展示</span>
+    <span lang="en-US">Content and presentation</span>
+  </h2>
+
+  <section data-demo="with-form-item">
+    <app-type>{{ english ? 'With FormItem' : '搭配 FormItem' }}</app-type>
+    <WithFormItemDemo />
+  </section>
+
+  <h2 class="mobile-demo-group-heading" data-demo-group="standalone-time-panels">
+    <span lang="zh-CN">独立时间面板</span>
+    <span lang="en-US">Standalone time panels</span>
+  </h2>
+
+  <section data-demo="panel-behavior">
+    <app-type>{{ english ? 'Panel confirmation and disabled options' : '纯面板确认与禁用选项' }}</app-type>
+    <EnPanelBehaviorDemo v-if="english" />
+    <PanelBehaviorDemo v-else />
+  </section>
+
+  <section data-demo="picker-seconds">
+    <app-type>{{ english ? 'picker seconds' : '列滚轮含秒' }}</app-type>
+    <PickerSecondsDemo />
+  </section>
+
+  <h2 class="mobile-demo-group-heading" data-demo-group="input-and-state-control">
+    <span lang="zh-CN">输入与状态控制</span>
+    <span lang="en-US">Input and state control</span>
+  </h2>
+
+  <section data-demo="state-lab">
+    <h3 class="mobile-demo-case-heading">
+      <span lang="zh-CN">交互状态对比</span><span lang="en-US">Interaction state comparison</span>
+    </h3>
+    <OrganizedStateLab />
+  </section>
+
+  <section data-demo="text-entry">
+    <app-type>{{ english ? 'Text entry' : '手输与面板选择' }}</app-type>
+    <EnTextEntryDemo v-if="english" />
+    <TextEntryDemo v-else />
   </section>
 
   <section data-demo="default-state">
@@ -110,26 +168,10 @@ onThemeChange()
     <SelectionEventsDemo v-else />
   </section>
 
-  <section data-demo="panel-behavior">
-    <app-type>{{ english ? 'Panel confirmation and disabled options' : '纯面板确认与禁用选项' }}</app-type>
-    <EnPanelBehaviorDemo v-if="english" />
-    <PanelBehaviorDemo v-else />
+  <section data-demo="open-trigger-target">
+    <h3 class="app-type mobile-demo-case-heading">
+      <span lang="zh-CN">复制与编辑</span><span lang="en-US">Copying and editing</span>
+    </h3>
+    <GroupedOpenTriggerTargetDemo />
   </section>
-
-  <section data-demo="state-lab">
-    <app-type>{{ english ? 'Interaction states' : '交互状态切换' }}</app-type>
-    <OrganizedStateLab />
-  </section>
-
-  <section data-demo="field-appearance">
-    <app-type>{{ english ? 'Field appearance and nested options' : '字段外壳与配置边界' }}</app-type>
-    <EnFieldAppearanceDemo v-if="english" />
-    <FieldAppearanceDemo v-else />
-  </section>
-  <section data-demo="bounds">
-    <app-type>{{ english ? 'Time bounds' : '时间上下限' }}</app-type>
-    <EnBoundsDemo v-if="english" />
-    <BoundsDemo v-else />
-  </section>
-  <section data-demo="api-review"><DemoApiReview /></section>
 </template>

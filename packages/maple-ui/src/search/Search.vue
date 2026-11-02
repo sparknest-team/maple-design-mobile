@@ -1,10 +1,26 @@
 <template>
-  <div :class="classes(n(), n('$--box'), n(`--${shape}`), [mergedDisabled, n('--disabled')])" :style="{ background }">
+  <FieldPresentation
+    v-if="readPretty"
+    edit-mode="direct"
+    :read-pretty="true"
+    :empty="emptyPolicy.isEmpty(computedValue)"
+    :empty-text="emptyPolicy.emptyText.value"
+    :text="computedValue ?? ''"
+  >
+    <template v-if="$slots.read" #read
+      ><slot name="read" :value="computedValue" :text="computedValue ?? ''"
+    /></template>
+  </FieldPresentation>
+  <div
+    v-else
+    :class="classes(n(), n('$--box'), n(`--${shape}`), [mergedDisabled, n('--disabled')])"
+    :style="{ background }"
+  >
     <mp-menu
-      v-if="!historyPopup && recentSearches.length"
+      v-if="editMode === 'direct' && recentSearches.length"
       ref="historyMenu"
       :open="historyMenuVisible"
-      :reference="fieldRef"
+      :reference="fieldRef?.$el"
       :options="historyOptions"
       :auto-fit-popup-width="true"
       :popup-class="n('history-menu')"
@@ -15,7 +31,19 @@
       @select="handleHistoryMenuSelect"
     />
 
-    <div ref="fieldRef" :class="n('field')" :style="{ background: inputBackground }">
+    <mp-field-decorator
+      ref="fieldRef"
+      :loading="loading && loadingMode === 'line'"
+      :loading-mode="loadingMode"
+      :class="n('field')"
+      :style="{ background: inputBackground }"
+      :variant="variant"
+      :size="mergedSize"
+      :hint="false"
+      :disabled="mergedDisabled"
+      :readonly="mergedReadonly"
+      :error="error"
+    >
       <mp-select
         v-if="fields.length"
         ref="select"
@@ -37,6 +65,7 @@
 
       <mp-input
         ref="input"
+        edit-mode="direct"
         :model-value="computedValue"
         :model-modifiers="modelModifiers"
         :input-attrs="inputAttrs"
@@ -55,7 +84,10 @@
         :size="mergedSize"
         :variant="variant"
         :clearable="clearable"
+        :empty-value="emptyValue"
+        :empty-values="emptyPolicy.emptyValues.value"
         :hint="false"
+        :line="false"
         :class="n('input')"
         @focus="handleFocus"
         @blur="handleBlur"
@@ -75,7 +107,7 @@
               :aria-label="buttonText || searchText"
               @click="handleSearch"
             >
-              <mp-loading v-if="loading" size="sm" />
+              <mp-loading v-if="loading && loadingMode !== 'line'" size="sm" />
               <mp-registered-icon
                 v-else
                 :class="n('search-icon')"
@@ -95,7 +127,7 @@
           <slot name="suffix" />
         </template>
       </mp-input>
-    </div>
+    </mp-field-decorator>
 
     <mp-button
       v-if="effectiveShowAction"
@@ -104,7 +136,7 @@
       :elevation="false"
       v-bind="buttonProps"
       :disabled="searchDisabled"
-      :loading="effectiveActionType === 'search' && loading"
+      :loading="effectiveActionType === 'search' && loading && loadingMode !== 'line'"
       :aria-label="effectiveActionText || (effectiveActionType === 'search' ? searchText : cancelText)"
       @click="handleAction"
     >
@@ -122,7 +154,7 @@
     </mp-button>
 
     <history-presentation
-      v-if="historyPopup"
+      v-if="editMode === 'popup'"
       :open="historyPopupVisible"
       @update:open="handlePopupVisibleChange"
       @closed="handleHistoryPopupClosed"
@@ -140,12 +172,16 @@
 <script setup lang="ts">
 import { nextTick, reactive, ref, shallowRef, watch } from 'vue'
 import { IconSearch } from '@maple-design/icons-vue'
+import { useFieldPresentation } from '../_components/field-presentation/context'
+import FieldPresentation from '../_components/field-presentation/FieldPresentation.vue'
 import MpButton from '../button'
+import MpFieldDecorator from '../field-decorator'
 import MpRegisteredIcon from '../icon/RegisteredIcon.vue'
 import MpInput from '../input'
 import MpLoading from '../loading'
 import MpMenu from '../menu'
 import { createNamespace } from '../utils/components'
+import { useEmptyValues } from '../utils/empty-value'
 import MpSelect from './FieldSelect.vue'
 import HistoryPresentation from './history-presentation.vue'
 import HistoryContent from './HistoryContent.vue'
@@ -161,8 +197,15 @@ const { n, classes } = createNamespace('search')
 const input = shallowRef<{ focus(): void; blur(): void } | null>(null)
 const select = shallowRef<{ focus(): void; blur(): void } | null>(null)
 const historyMenu = shallowRef<{ resize(): void; setReference(element: HTMLElement): void } | null>(null)
-const fieldRef = ref<HTMLElement>()
+const fieldRef = ref<InstanceType<typeof MpFieldDecorator>>()
 const core = useSearchControl(props, emit, input)
+const editMode = core.editMode
+const presentationState = useFieldPresentation(
+  () => undefined,
+  () => props.readPretty,
+)
+const readPretty = presentationState.readPretty
+const emptyPolicy = useEmptyValues(props, undefined, Boolean(presentationState.item))
 const control = reactive(core)
 const state = control
 const {
@@ -204,7 +247,7 @@ watch(historyMenuVisible, async (open) => {
   }
   await nextTick()
   if (fieldRef.value) {
-    historyMenu.value?.setReference(fieldRef.value)
+    historyMenu.value?.setReference(fieldRef.value.$el)
   }
   historyMenu.value?.resize()
 })

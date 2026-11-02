@@ -1,0 +1,27 @@
+{
+  "library": "maple",
+  "browser": {
+    "name": "firefox",
+    "engine": "firefox",
+    "launchOptions": {},
+    "version": "153.0",
+    "platform": "darwin",
+    "architecture": "arm64",
+    "recordedAt": "2026-10-29T03:35:40.649Z",
+    "evidenceType": "automated-engine-regression",
+    "nativeDeviceAcceptance": false,
+    "userAgentEmulation": "device routing preset; not evidence of an actual OS/browser version",
+    "gestureInput": "synthetic touch events (handler regression only)"
+  },
+  "node": "v20.19.0",
+  "productionFingerprint": "4a2d1b35f49cda54868012b579c8f9d26e94b0f0853625e8848b957d03dc69eb",
+  "buildIndexHash": "44491515e34dbe5e8c7b40e22681ab9eb48332c2635e3b1ef3a2f05c588a66ce",
+  "stable": true,
+  "timeoutMs": 5000,
+  "logoDelayMs": 1200,
+  "externalPolicy": "all HTTP(S) requests held without responses until case cleanup",
+  "expected": 4,
+  "completed": 0,
+  "passed": 0,
+  "results": []
+}

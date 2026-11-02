@@ -23,7 +23,7 @@ const { value, value2, value3, value4, value5, value6, value9, optionValue, fiel
 </script>
 
 <template>
-  <mp-radio-group v-model="value9" direction="vertical">
+  <mp-radio-group v-model="value9" orientation="vertical">
     <mp-radio :value="0">{{ english ? 'Eat' : '吃饭' }}</mp-radio>
     <mp-radio :value="1">{{ english ? 'Sleep' : '睡觉' }}</mp-radio>
   </mp-radio-group>

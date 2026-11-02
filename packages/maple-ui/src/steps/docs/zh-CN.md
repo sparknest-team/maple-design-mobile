@@ -1,10 +1,10 @@
 # 步骤条
 
-## 案例
-
 ### 介绍
 
-引导用户按照流程完成任务的导航条。进度由 `current` 控制，**从 1 起计**（与 Pagination / PC 端一致）。
+引导用户按照流程完成任务的导航条。进度由 `modelValue` 控制，**从 1 起计**（与 Pagination / PC 端一致）。
+
+## 基础示例
 
 ### 基本使用
 
@@ -12,25 +12,21 @@
 ../example/demos/basic-usage.vue
 ```
 
-### 错误状态
-
-```demo
-../example/demos/error-status.vue
-```
-
-### 可切换
-
-```demo
-../example/demos/changeable.vue
-```
-
-### 垂直模式
-
-```demo
-../example/demos/vertical.vue
-```
+## 外观与状态
 
 ### 外观组合
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `model-value` | 当前步骤（受控，从 1 起计） | 外观组合 |
+| `content-placement` | 正文相对步骤节点的方位，可选 right 或 bottom，默认 right；dot 类型按横纵轴推导，navigation 固定 right | 外观组合 |
+| `type` | 步骤条类型 | 类型与状态对比 |
+| `status` | 当前步骤状态 | 类型与状态对比 |
+| `changeable` | 是否可点击切换步骤 | 类型与状态对比 |
+<!-- demo-config-notes:end -->
 
 适用于多步骤流程的当前状态。调整状态、尺寸，用相同数据观察变化。内容保持一致，便于比较不同设置的实际效果。
 
@@ -38,14 +34,60 @@
 ../example/demos/appearance-lab.vue
 ```
 
-<!-- api-review:start -->
-### 功能调试
+### 类型与状态对比
+
+四种类型共享当前步骤和状态。先点击步骤或选择 1–3，再切换 wait、process、finish、error，观察 default、arrow、dot、navigation 同步更新；status 改变当前节点的语义状态，不改变步骤序号。标题与描述按页面语言显示，方便在手机宽度内对比。
+
+<details>
+<summary>配置说明与使用限制</summary>
+
+#### 四种外观类型
+
+`type` 当前有 `default`（编号）、`arrow`（箭头）、`dot`（圆点）、`navigation`（导航）四种外观；`status` 独立表示流程状态。箭头和导航类型仅支持水平方向。切换当前步骤或点击步骤，对比相同进度下的外观。现有 `type` 保持兼容。
+
+#### 错误状态
+
+</details>
 
 ```demo
-../example/demos/api-review.vue
+../example/demos/types.vue
 ```
 
-<!-- api-review:end -->
+## 布局与排列
+
+### 垂直模式
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `orientation` | 步骤流程的横纵轴向，默认 horizontal；arrow 和 navigation 类型固定横向 | 垂直模式 |
+| `model-value` | 当前步骤（受控，从 1 起计） | 垂直模式 |
+| `status` | 当前步骤状态 | 垂直模式 |
+<!-- demo-config-notes:end -->
+
+```demo
+../example/demos/vertical.vue
+```
+
+## 交互与控制
+
+### 可切换
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `status` | 当前步骤状态 | 可切换 |
+| `content-placement` | 正文相对步骤节点的方位，可选 right 或 bottom，默认 right；dot 类型按横纵轴推导，navigation 固定 right | 可切换 |
+| `changeable` | 是否可点击切换步骤 | 可切换 |
+<!-- demo-config-notes:end -->
+
+```demo
+../example/demos/changeable.vue
+```
 
 ## API
 
@@ -60,8 +102,8 @@
 | `model-value`           | 当前步骤（受控，从 1 起计） | _number_                                        | `-`          |
 | `default-value`   | 默认当前步骤（非受控）      | _number_                                        | `1`          |
 | `type`              | 步骤条类型                  | _'default' \| 'arrow' \| 'dot' \| 'navigation'_ | `default`    |
-| `orientation`       | 显示方向                    | _'horizontal' \| 'vertical'_                    | `horizontal` |
-| `content-placement` | 内容相对节点的位置          | _'right' \| 'bottom'_                           | `right`      |
+| `orientation`       | 步骤流程的横纵轴向，默认 horizontal；arrow 和 navigation 类型固定横向 | _'horizontal' \| 'vertical'_                    | `horizontal` |
+| `content-placement` | 正文相对步骤节点的方位，可选 right 或 bottom，默认 right；dot 类型按横纵轴推导，navigation 固定 right | _'right' \| 'bottom'_                           | `right`      |
 | `status`            | 当前步骤状态                | _'wait' \| 'process' \| 'finish' \| 'error'_    | `process`    |
 | `size`              | 步骤条尺寸                  | _'sm' \| 'md'_                                  | `md`         |
 | `show-line`         | 是否显示连接线              | _boolean_                                       | `true`       |
@@ -234,3 +276,15 @@
 Steps 和 Step 的主体、Props、上下文协议与样式同源复制；注入 Symbol 分别定义在各库，不跨库共享。保留四种 type 和原有状态/事件契约。
 
 `active` 只表示当前步骤序号（从 1 开始）是否对应 modelValue；与 status（wait/process/finish/error）分开。当前步骤即使为 error，active 仍为 true；焦点、悬停不会改变 active。
+
+
+### 方位语义与配置入口
+
+content-placement 统一的是方位词汇和拼写，不要求所有组件开放相同集合。Steps 仅实现 right/bottom；dot 和 navigation 类型有各自推导规则，不为统一添加尚未实现的方位。
+
+
+## 阅读方向与键盘交互
+
+Steps 继承最近的 `dir="ltr"` 或 `dir="rtl"`，支持运行时切换。横向步骤、连接线和方向箭头随阅读方向排列，纵向步骤仍从上到下；序号、进度值和自定义图标内容保持原意。
+
+`changeable` 开启时，左右键按当前阅读方向移动焦点，纵向使用上下键；Home/End 聚焦首尾可用步骤，禁用项会被跳过。Enter/Space 确认步骤；移动焦点和切换方向不会触发进度更新。

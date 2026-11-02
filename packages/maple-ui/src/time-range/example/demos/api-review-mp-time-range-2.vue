@@ -29,9 +29,10 @@ const updateOpen = (next) => {
 
 <template>
   <DemoApiReviewPanel v-slot="__apiReview" v-bind="defineReviewConfig(__apiReviewRawConfig)">
-    <div style="display: flex; flex-direction: column; gap: 12px; width: 100%">
+    <mp-space direction="column" size="12px" style="width: 100%">
       <p>非受控初始值，无需绑定 v-model</p>
       <mp-time-range
+        edit-mode="direct"
         :default-value="['09:00', '10:00']"
         format="HH:mm"
         clearable
@@ -39,9 +40,10 @@ const updateOpen = (next) => {
         v-on="__apiReview.listeners"
       />
       <p>受控值与展开状态</p>
-      <mp-checkbox v-model="acceptValue">接受值更新</mp-checkbox>
-      <mp-checkbox v-model="acceptOpen">接受展开更新</mp-checkbox>
+      <mp-checkbox v-model="acceptValue" edit-mode="direct">接受值更新</mp-checkbox>
+      <mp-checkbox v-model="acceptOpen" edit-mode="direct">接受展开更新</mp-checkbox>
       <mp-time-range
+        edit-mode="direct"
         :model-value="value"
         :open="open"
         format="HH:mm"
@@ -53,9 +55,9 @@ const updateOpen = (next) => {
         v-on="__apiReview.listeners"
       />
       <span>{{ value }} / {{ open }}</span>
-      <mp-checkbox v-model="acceptClose">接受关闭请求</mp-checkbox>
+      <mp-checkbox v-model="acceptClose" edit-mode="direct">接受关闭请求</mp-checkbox>
       <output aria-label="Commit count">{{ commits }}</output>
       <output aria-label="Controlled proposals">{{ JSON.stringify({ value: proposal, open: openProposal }) }}</output>
-    </div>
+    </mp-space>
   </DemoApiReviewPanel>
 </template>

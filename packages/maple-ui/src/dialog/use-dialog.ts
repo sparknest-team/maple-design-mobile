@@ -1,9 +1,11 @@
-import { computed, ref, watch, type Ref } from 'vue'
-import type { DialogAction, DialogBeforeCloseRefs } from './types'
+import { computed, onScopeDispose, ref, watch, type Ref } from 'vue'
+import { invokeBeforeHook, useActionGuard } from '../_hooks/use-action-guard'
+import type { DialogAction, DialogBeforeClose } from './types'
 
 export interface DialogControllerOptions {
   open: Ref<boolean>
-  beforeClose: () => ((action: DialogAction, done: () => void, refs: DialogBeforeCloseRefs) => void) | undefined
+  beforeClose: () => DialogBeforeClose | undefined
+  onGuardError?: (error: unknown, action: DialogAction) => void
   confirmButtonLoading: () => boolean
   cancelButtonLoading: () => boolean
   confirmButtonDisabled: () => boolean
@@ -12,75 +14,78 @@ export interface DialogControllerOptions {
   emitAction: (action: DialogAction, event?: Event) => void
 }
 
-/** Same-source Dialog action state machine. Layout and presentation stay local to each library. */
+/** Same-source action state machine; legacy callback semantics remain explicit. */
 export function useDialog(options: DialogControllerOptions) {
-  const confirmButtonLoading = ref(false)
-  const cancelButtonLoading = ref(false)
-  const confirmButtonDisabled = ref(false)
-  const cancelButtonDisabled = ref(false)
+  const guard = useActionGuard()
+  const pendingAction = ref<DialogAction>()
   let closeRequestId = 0
-
-  const beforeCloseRefs: DialogBeforeCloseRefs = {
-    confirmButtonLoading,
-    cancelButtonLoading,
-    confirmButtonDisabled,
-    cancelButtonDisabled,
+  let disposed = false
+  const mergedConfirmButtonLoading = computed(
+    () => options.confirmButtonLoading() || (guard.pending.value && pendingAction.value === 'confirm'),
+  )
+  const mergedCancelButtonLoading = computed(
+    () => options.cancelButtonLoading() || (guard.pending.value && pendingAction.value === 'cancel'),
+  )
+  const mergedConfirmButtonDisabled = computed(() => options.confirmButtonDisabled() || guard.pending.value)
+  const mergedCancelButtonDisabled = computed(() => options.cancelButtonDisabled() || guard.pending.value)
+  function retire() {
+    closeRequestId++
+    guard.cancel()
   }
-  const mergedConfirmButtonLoading = computed(() => options.confirmButtonLoading() || confirmButtonLoading.value)
-  const mergedCancelButtonLoading = computed(() => options.cancelButtonLoading() || cancelButtonLoading.value)
-  const mergedConfirmButtonDisabled = computed(() => options.confirmButtonDisabled() || confirmButtonDisabled.value)
-  const mergedCancelButtonDisabled = computed(() => options.cancelButtonDisabled() || cancelButtonDisabled.value)
-
-  function resetTransientState() {
-    confirmButtonLoading.value = false
-    cancelButtonLoading.value = false
-    confirmButtonDisabled.value = false
-    cancelButtonDisabled.value = false
-  }
-
   function commitClose(action: DialogAction, event?: Event) {
-    closeRequestId += 1
-    resetTransientState()
+    if (disposed || !options.open.value) {
+      return
+    }
+    retire()
     options.emitAction(action, event)
     options.commitOpen(false)
   }
-
-  function requestClose(action: DialogAction, event?: Event) {
-    const beforeClose = options.beforeClose()
-    if (!beforeClose) {
+  async function requestClose(action: DialogAction, event?: Event) {
+    if (disposed || !options.open.value || guard.pending.value) {
+      return
+    }
+    if (
+      (action === 'confirm' && mergedConfirmButtonDisabled.value) ||
+      (action === 'cancel' && mergedCancelButtonDisabled.value)
+    ) {
+      return
+    }
+    const hook = options.beforeClose()
+    if (!hook) {
       commitClose(action, event)
       return
     }
-
     const requestId = ++closeRequestId
-    let completed = false
-    beforeClose(
+    pendingAction.value = action
+    const outcome = await guard.run(
       action,
-      () => {
-        if (!completed && requestId === closeRequestId && options.open.value) {
-          completed = true
-          commitClose(action, event)
-        }
-      },
-      beforeCloseRefs,
+      (current, context) => invokeBeforeHook((done) => hook({ action: current }, done, context), context),
+      event,
     )
+    if (requestId !== closeRequestId || disposed || !options.open.value) {
+      return
+    }
+    if (outcome.status === 'allowed') {
+      commitClose(action, event)
+    } else if (outcome.status === 'error') {
+      options.onGuardError?.(outcome.error, action)
+    }
   }
 
   function close() {
     commitClose('close')
   }
-
-  watch(options.open, (open, previousOpen) => {
-    if (open !== previousOpen) {
-      closeRequestId += 1
-    }
-    if (open) {
-      resetTransientState()
-    }
+  watch(options.open, () => retire(), { flush: 'sync' })
+  watch([() => options.beforeClose(), options.confirmButtonDisabled, options.cancelButtonDisabled], () => retire(), {
+    flush: 'sync',
   })
-
+  onScopeDispose(() => {
+    disposed = true
+    retire()
+  })
   return {
-    beforeCloseRefs,
+    pending: guard.pending,
+    pendingAction,
     mergedConfirmButtonLoading,
     mergedCancelButtonLoading,
     mergedConfirmButtonDisabled,

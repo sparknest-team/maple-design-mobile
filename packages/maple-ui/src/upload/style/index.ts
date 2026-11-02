@@ -1,3 +1,4 @@
+import '../../_components/pending-feedback/style'
 import '../../_components/field-presentation/style'
 import '../../style/index.less'
 import '../../image/style'

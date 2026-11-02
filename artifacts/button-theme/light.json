@@ -1,0 +1,1788 @@
+[
+  {
+    "variant": "default",
+    "status": "default",
+    "state": "rest",
+    "color": "rgb(23, 34, 75)",
+    "background": [
+      255,
+      255,
+      255
+    ],
+    "contrast": 15.363875518933586
+  },
+  {
+    "variant": "default",
+    "status": "default",
+    "state": "hover",
+    "color": "rgb(23, 34, 75)",
+    "background": [
+      236.44000000000003,
+      237.32000000000002,
+      240.60000000000002
+    ],
+    "contrast": 13.167443671869213
+  },
+  {
+    "variant": "default",
+    "status": "default",
+    "state": "active",
+    "color": "rgb(23, 34, 75)",
+    "background": [
+      227.16,
+      228.48000000000002,
+      233.4
+    ],
+    "contrast": 12.14686809148367
+  },
+  {
+    "variant": "default",
+    "status": "primary",
+    "state": "rest",
+    "color": "rgb(23, 34, 75)",
+    "background": [
+      234,
+      255,
+      104
+    ],
+    "contrast": 13.902390722965876
+  },
+  {
+    "variant": "default",
+    "status": "primary",
+    "state": "hover",
+    "color": "rgb(23, 34, 75)",
+    "background": [
+      231.84,
+      252.44000000000003,
+      98.72000000000001
+    ],
+    "contrast": 13.596596197052877
+  },
+  {
+    "variant": "default",
+    "status": "primary",
+    "state": "active",
+    "color": "rgb(23, 34, 75)",
+    "background": [
+      230.76,
+      251.16,
+      96.08
+    ],
+    "contrast": 13.44549623451438
+  },
+  {
+    "variant": "default",
+    "status": "secondary",
+    "state": "rest",
+    "color": "rgb(23, 34, 75)",
+    "background": [
+      207,
+      199,
+      255
+    ],
+    "contrast": 9.70590825040243
+  },
+  {
+    "variant": "default",
+    "status": "secondary",
+    "state": "hover",
+    "color": "rgb(23, 34, 75)",
+    "background": [
+      210.84,
+      203.48000000000002,
+      255.00000000000003
+    ],
+    "contrast": 10.093950124282632
+  },
+  {
+    "variant": "default",
+    "status": "secondary",
+    "state": "active",
+    "color": "rgb(23, 34, 75)",
+    "background": [
+      212.76,
+      205.72,
+      255
+    ],
+    "contrast": 10.292067438648411
+  },
+  {
+    "variant": "default",
+    "status": "tertiary",
+    "state": "rest",
+    "color": "rgb(255, 255, 255)",
+    "background": [
+      107,
+      119,
+      133
+    ],
+    "contrast": 4.562657047253765
+  },
+  {
+    "variant": "default",
+    "status": "tertiary",
+    "state": "hover",
+    "color": "rgb(255, 255, 255)",
+    "background": [
+      98.44,
+      109.48,
+      122.36
+    ],
+    "contrast": 5.230315223987898
+  },
+  {
+    "variant": "default",
+    "status": "tertiary",
+    "state": "active",
+    "color": "rgb(255, 255, 255)",
+    "background": [
+      94.16,
+      104.72,
+      117.04
+    ],
+    "contrast": 5.60907914011944
+  },
+  {
+    "variant": "default",
+    "status": "info",
+    "state": "rest",
+    "color": "rgb(23, 34, 75)",
+    "background": [
+      133.39999999999998,
+      133,
+      183
+    ],
+    "contrast": 4.420863304942853
+  },
+  {
+    "variant": "default",
+    "status": "info",
+    "state": "hover",
+    "color": "rgb(23, 34, 75)",
+    "background": [
+      143.128,
+      142.76,
+      188.76000000000002
+    ],
+    "contrast": 4.987803975146863
+  },
+  {
+    "variant": "default",
+    "status": "info",
+    "state": "active",
+    "color": "rgb(23, 34, 75)",
+    "background": [
+      147.992,
+      147.64000000000001,
+      191.64
+    ],
+    "contrast": 5.2898595076127615
+  },
+  {
+    "variant": "default",
+    "status": "success",
+    "state": "rest",
+    "color": "rgb(23, 34, 75)",
+    "background": [
+      90,
+      233,
+      133
+    ],
+    "contrast": 9.824823997716397
+  },
+  {
+    "variant": "default",
+    "status": "success",
+    "state": "hover",
+    "color": "rgb(23, 34, 75)",
+    "background": [
+      103.2,
+      234.76000000000002,
+      142.76
+    ],
+    "contrast": 10.118301901215514
+  },
+  {
+    "variant": "default",
+    "status": "success",
+    "state": "active",
+    "color": "rgb(23, 34, 75)",
+    "background": [
+      109.8,
+      235.64,
+      147.64000000000001
+    ],
+    "contrast": 10.273709768918346
+  },
+  {
+    "variant": "default",
+    "status": "warning",
+    "state": "rest",
+    "color": "rgb(23, 34, 75)",
+    "background": [
+      255,
+      183,
+      42
+    ],
+    "contrast": 8.822396762594906
+  },
+  {
+    "variant": "default",
+    "status": "warning",
+    "state": "hover",
+    "color": "rgb(23, 34, 75)",
+    "background": [
+      255.00000000000003,
+      188.76000000000002,
+      59.040000000000006
+    ],
+    "contrast": 9.199040469513607
+  },
+  {
+    "variant": "default",
+    "status": "warning",
+    "state": "active",
+    "color": "rgb(23, 34, 75)",
+    "background": [
+      255,
+      191.64,
+      67.56
+    ],
+    "contrast": 9.395868976883056
+  },
+  {
+    "variant": "default",
+    "status": "danger",
+    "state": "rest",
+    "color": "rgb(23, 34, 75)",
+    "background": [
+      255,
+      115,
+      91
+    ],
+    "contrast": 5.747084224227305
+  },
+  {
+    "variant": "default",
+    "status": "danger",
+    "state": "hover",
+    "color": "rgb(23, 34, 75)",
+    "background": [
+      255.00000000000003,
+      126.20000000000002,
+      104.12
+    ],
+    "contrast": 6.179910855959799
+  },
+  {
+    "variant": "default",
+    "status": "danger",
+    "state": "active",
+    "color": "rgb(23, 34, 75)",
+    "background": [
+      255,
+      131.8,
+      110.67999999999999
+    ],
+    "contrast": 6.416099932179679
+  },
+  {
+    "variant": "text",
+    "status": "default",
+    "state": "rest",
+    "color": "rgb(23, 34, 75)",
+    "background": [
+      23,
+      34,
+      75
+    ],
+    "contrast": 1
+  },
+  {
+    "variant": "text",
+    "status": "default",
+    "state": "hover",
+    "color": "rgb(23, 34, 75)",
+    "background": [
+      23,
+      34,
+      75
+    ],
+    "contrast": 1
+  },
+  {
+    "variant": "text",
+    "status": "default",
+    "state": "active",
+    "color": "rgb(23, 34, 75)",
+    "background": [
+      23,
+      34,
+      75
+    ],
+    "contrast": 1
+  },
+  {
+    "variant": "text",
+    "status": "primary",
+    "state": "rest",
+    "color": "rgb(234, 255, 104)",
+    "background": [
+      23,
+      34,
+      75
+    ],
+    "contrast": 13.902390722965876
+  },
+  {
+    "variant": "text",
+    "status": "primary",
+    "state": "hover",
+    "color": "rgb(234, 255, 104)",
+    "background": [
+      35.5,
+      45.5,
+      53
+    ],
+    "contrast": 12.60384059523449
+  },
+  {
+    "variant": "text",
+    "status": "primary",
+    "state": "active",
+    "color": "rgb(234, 255, 104)",
+    "background": [
+      48,
+      57,
+      31
+    ],
+    "contrast": 10.979513286639294
+  },
+  {
+    "variant": "text",
+    "status": "secondary",
+    "state": "rest",
+    "color": "rgb(207, 199, 255)",
+    "background": [
+      23,
+      34,
+      75
+    ],
+    "contrast": 9.70590825040243
+  },
+  {
+    "variant": "text",
+    "status": "secondary",
+    "state": "hover",
+    "color": "rgb(207, 199, 255)",
+    "background": [
+      36.5,
+      39.5,
+      74
+    ],
+    "contrast": 9.009309424892937
+  },
+  {
+    "variant": "text",
+    "status": "secondary",
+    "state": "active",
+    "color": "rgb(207, 199, 255)",
+    "background": [
+      50,
+      45,
+      73
+    ],
+    "contrast": 8.254466993486426
+  },
+  {
+    "variant": "text",
+    "status": "tertiary",
+    "state": "rest",
+    "color": "rgba(23, 34, 75, 0.68)",
+    "background": [
+      23,
+      34,
+      75
+    ],
+    "contrast": 1
+  },
+  {
+    "variant": "text",
+    "status": "tertiary",
+    "state": "hover",
+    "color": "rgba(23, 34, 75, 0.68)",
+    "background": [
+      135,
+      141,
+      162.5
+    ],
+    "contrast": 2.8757179530358528
+  },
+  {
+    "variant": "text",
+    "status": "tertiary",
+    "state": "active",
+    "color": "rgba(23, 34, 75, 0.68)",
+    "background": [
+      247,
+      248,
+      250
+    ],
+    "contrast": 5.297654900205602
+  },
+  {
+    "variant": "text",
+    "status": "info",
+    "state": "rest",
+    "color": "rgb(103, 84, 181)",
+    "background": [
+      23,
+      34,
+      75
+    ],
+    "contrast": 2.569484985252089
+  },
+  {
+    "variant": "text",
+    "status": "info",
+    "state": "hover",
+    "color": "rgb(103, 84, 181)",
+    "background": [
+      45.08,
+      53.8,
+      96.6
+    ],
+    "contrast": 1.943580049057603
+  },
+  {
+    "variant": "text",
+    "status": "info",
+    "state": "active",
+    "color": "rgb(103, 84, 181)",
+    "background": [
+      67.16,
+      73.6,
+      118.19999999999999
+    ],
+    "contrast": 1.4212006698846475
+  },
+  {
+    "variant": "text",
+    "status": "success",
+    "state": "rest",
+    "color": "rgb(8, 120, 63)",
+    "background": [
+      23,
+      34,
+      75
+    ],
+    "contrast": 2.7572225969886737
+  },
+  {
+    "variant": "text",
+    "status": "success",
+    "state": "hover",
+    "color": "rgb(8, 120, 63)",
+    "background": [
+      28.36,
+      49.92,
+      79.64
+    ],
+    "contrast": 2.32628515971628
+  },
+  {
+    "variant": "text",
+    "status": "success",
+    "state": "active",
+    "color": "rgb(8, 120, 63)",
+    "background": [
+      33.72,
+      65.84,
+      84.28
+    ],
+    "contrast": 1.9115671931955918
+  },
+  {
+    "variant": "text",
+    "status": "warning",
+    "state": "rest",
+    "color": "rgb(135, 85, 0)",
+    "background": [
+      23,
+      34,
+      75
+    ],
+    "contrast": 2.4359638043092398
+  },
+  {
+    "variant": "text",
+    "status": "warning",
+    "state": "hover",
+    "color": "rgb(135, 85, 0)",
+    "background": [
+      41.56,
+      45.92,
+      72.36
+    ],
+    "contrast": 2.106434874371112
+  },
+  {
+    "variant": "text",
+    "status": "warning",
+    "state": "active",
+    "color": "rgb(135, 85, 0)",
+    "background": [
+      60.120000000000005,
+      57.84,
+      69.72
+    ],
+    "contrast": 1.7685932371099962
+  },
+  {
+    "variant": "text",
+    "status": "danger",
+    "state": "rest",
+    "color": "rgb(180, 59, 40)",
+    "background": [
+      23,
+      34,
+      75
+    ],
+    "contrast": 2.6315288276344173
+  },
+  {
+    "variant": "text",
+    "status": "danger",
+    "state": "hover",
+    "color": "rgb(180, 59, 40)",
+    "background": [
+      41.56,
+      40.480000000000004,
+      76.28
+    ],
+    "contrast": 2.379249927931632
+  },
+  {
+    "variant": "text",
+    "status": "danger",
+    "state": "active",
+    "color": "rgb(180, 59, 40)",
+    "background": [
+      60.120000000000005,
+      46.96,
+      77.56
+    ],
+    "contrast": 2.1063979225200695
+  },
+  {
+    "variant": "outline",
+    "status": "default",
+    "state": "rest",
+    "color": "rgb(23, 34, 75)",
+    "background": [
+      23,
+      34,
+      75
+    ],
+    "contrast": 1
+  },
+  {
+    "variant": "outline",
+    "status": "default",
+    "state": "hover",
+    "color": "rgb(23, 34, 75)",
+    "background": [
+      23,
+      34,
+      75
+    ],
+    "contrast": 1
+  },
+  {
+    "variant": "outline",
+    "status": "default",
+    "state": "active",
+    "color": "rgb(23, 34, 75)",
+    "background": [
+      23,
+      34,
+      75
+    ],
+    "contrast": 1
+  },
+  {
+    "variant": "outline",
+    "status": "primary",
+    "state": "rest",
+    "color": "rgb(234, 255, 104)",
+    "background": [
+      23,
+      34,
+      75
+    ],
+    "contrast": 13.902390722965876
+  },
+  {
+    "variant": "outline",
+    "status": "primary",
+    "state": "hover",
+    "color": "rgb(234, 255, 104)",
+    "background": [
+      35.5,
+      45.5,
+      53
+    ],
+    "contrast": 12.60384059523449
+  },
+  {
+    "variant": "outline",
+    "status": "primary",
+    "state": "active",
+    "color": "rgb(234, 255, 104)",
+    "background": [
+      48,
+      57,
+      31
+    ],
+    "contrast": 10.979513286639294
+  },
+  {
+    "variant": "outline",
+    "status": "secondary",
+    "state": "rest",
+    "color": "rgb(207, 199, 255)",
+    "background": [
+      23,
+      34,
+      75
+    ],
+    "contrast": 9.70590825040243
+  },
+  {
+    "variant": "outline",
+    "status": "secondary",
+    "state": "hover",
+    "color": "rgb(207, 199, 255)",
+    "background": [
+      36.5,
+      39.5,
+      74
+    ],
+    "contrast": 9.009309424892937
+  },
+  {
+    "variant": "outline",
+    "status": "secondary",
+    "state": "active",
+    "color": "rgb(207, 199, 255)",
+    "background": [
+      50,
+      45,
+      73
+    ],
+    "contrast": 8.254466993486426
+  },
+  {
+    "variant": "outline",
+    "status": "tertiary",
+    "state": "rest",
+    "color": "rgba(23, 34, 75, 0.68)",
+    "background": [
+      23,
+      34,
+      75
+    ],
+    "contrast": 1
+  },
+  {
+    "variant": "outline",
+    "status": "tertiary",
+    "state": "hover",
+    "color": "rgba(23, 34, 75, 0.68)",
+    "background": [
+      135,
+      141,
+      162.5
+    ],
+    "contrast": 2.8757179530358528
+  },
+  {
+    "variant": "outline",
+    "status": "tertiary",
+    "state": "active",
+    "color": "rgba(23, 34, 75, 0.68)",
+    "background": [
+      247,
+      248,
+      250
+    ],
+    "contrast": 5.297654900205602
+  },
+  {
+    "variant": "outline",
+    "status": "info",
+    "state": "rest",
+    "color": "rgb(103, 84, 181)",
+    "background": [
+      23,
+      34,
+      75
+    ],
+    "contrast": 2.569484985252089
+  },
+  {
+    "variant": "outline",
+    "status": "info",
+    "state": "hover",
+    "color": "rgb(103, 84, 181)",
+    "background": [
+      45.08,
+      53.8,
+      96.6
+    ],
+    "contrast": 1.943580049057603
+  },
+  {
+    "variant": "outline",
+    "status": "info",
+    "state": "active",
+    "color": "rgb(103, 84, 181)",
+    "background": [
+      67.16,
+      73.6,
+      118.19999999999999
+    ],
+    "contrast": 1.4212006698846475
+  },
+  {
+    "variant": "outline",
+    "status": "success",
+    "state": "rest",
+    "color": "rgb(8, 120, 63)",
+    "background": [
+      23,
+      34,
+      75
+    ],
+    "contrast": 2.7572225969886737
+  },
+  {
+    "variant": "outline",
+    "status": "success",
+    "state": "hover",
+    "color": "rgb(8, 120, 63)",
+    "background": [
+      28.36,
+      49.92,
+      79.64
+    ],
+    "contrast": 2.32628515971628
+  },
+  {
+    "variant": "outline",
+    "status": "success",
+    "state": "active",
+    "color": "rgb(8, 120, 63)",
+    "background": [
+      33.72,
+      65.84,
+      84.28
+    ],
+    "contrast": 1.9115671931955918
+  },
+  {
+    "variant": "outline",
+    "status": "warning",
+    "state": "rest",
+    "color": "rgb(135, 85, 0)",
+    "background": [
+      23,
+      34,
+      75
+    ],
+    "contrast": 2.4359638043092398
+  },
+  {
+    "variant": "outline",
+    "status": "warning",
+    "state": "hover",
+    "color": "rgb(135, 85, 0)",
+    "background": [
+      41.56,
+      45.92,
+      72.36
+    ],
+    "contrast": 2.106434874371112
+  },
+  {
+    "variant": "outline",
+    "status": "warning",
+    "state": "active",
+    "color": "rgb(135, 85, 0)",
+    "background": [
+      60.120000000000005,
+      57.84,
+      69.72
+    ],
+    "contrast": 1.7685932371099962
+  },
+  {
+    "variant": "outline",
+    "status": "danger",
+    "state": "rest",
+    "color": "rgb(180, 59, 40)",
+    "background": [
+      23,
+      34,
+      75
+    ],
+    "contrast": 2.6315288276344173
+  },
+  {
+    "variant": "outline",
+    "status": "danger",
+    "state": "hover",
+    "color": "rgb(180, 59, 40)",
+    "background": [
+      41.56,
+      40.480000000000004,
+      76.28
+    ],
+    "contrast": 2.379249927931632
+  },
+  {
+    "variant": "outline",
+    "status": "danger",
+    "state": "active",
+    "color": "rgb(180, 59, 40)",
+    "background": [
+      60.120000000000005,
+      46.96,
+      77.56
+    ],
+    "contrast": 2.1063979225200695
+  },
+  {
+    "variant": "tonal",
+    "status": "default",
+    "state": "rest",
+    "color": "rgb(23, 34, 75)",
+    "background": [
+      23,
+      34,
+      75
+    ],
+    "contrast": 1
+  },
+  {
+    "variant": "tonal",
+    "status": "default",
+    "state": "hover",
+    "color": "rgb(23, 34, 75)",
+    "background": [
+      41.56,
+      51.68000000000001,
+      89.4
+    ],
+    "contrast": 1.264012864051807
+  },
+  {
+    "variant": "tonal",
+    "status": "default",
+    "state": "active",
+    "color": "rgb(23, 34, 75)",
+    "background": [
+      50.839999999999996,
+      60.519999999999996,
+      96.6
+    ],
+    "contrast": 1.440070883699765
+  },
+  {
+    "variant": "tonal",
+    "status": "primary",
+    "state": "rest",
+    "color": "rgb(234, 255, 104)",
+    "background": [
+      48,
+      57,
+      31
+    ],
+    "contrast": 10.979513286639294
+  },
+  {
+    "variant": "tonal",
+    "status": "primary",
+    "state": "hover",
+    "color": "rgb(234, 255, 104)",
+    "background": [
+      64.56,
+      72.84,
+      48.92
+    ],
+    "contrast": 8.579709854212803
+  },
+  {
+    "variant": "tonal",
+    "status": "primary",
+    "state": "active",
+    "color": "rgb(234, 255, 104)",
+    "background": [
+      72.84,
+      80.76,
+      57.879999999999995
+    ],
+    "contrast": 7.562387328313765
+  },
+  {
+    "variant": "tonal",
+    "status": "secondary",
+    "state": "rest",
+    "color": "rgb(207, 199, 255)",
+    "background": [
+      50,
+      45,
+      73
+    ],
+    "contrast": 8.254466993486426
+  },
+  {
+    "variant": "tonal",
+    "status": "secondary",
+    "state": "hover",
+    "color": "rgb(207, 199, 255)",
+    "background": [
+      66.4,
+      61.8,
+      87.56
+    ],
+    "contrast": 6.4443781629117955
+  },
+  {
+    "variant": "tonal",
+    "status": "secondary",
+    "state": "active",
+    "color": "rgb(207, 199, 255)",
+    "background": [
+      74.6,
+      70.2,
+      94.83999999999999
+    ],
+    "contrast": 5.66531919805588
+  },
+  {
+    "variant": "tonal",
+    "status": "tertiary",
+    "state": "rest",
+    "color": "rgba(23, 34, 75, 0.68)",
+    "background": [
+      247,
+      248,
+      250
+    ],
+    "contrast": 5.297654900205602
+  },
+  {
+    "variant": "tonal",
+    "status": "tertiary",
+    "state": "hover",
+    "color": "rgba(23, 34, 75, 0.68)",
+    "background": [
+      247.64000000000001,
+      248.56,
+      250.4
+    ],
+    "contrast": 5.3095423569359035
+  },
+  {
+    "variant": "tonal",
+    "status": "tertiary",
+    "state": "active",
+    "color": "rgba(23, 34, 75, 0.68)",
+    "background": [
+      247.96,
+      248.84,
+      250.6
+    ],
+    "contrast": 5.315480407150832
+  },
+  {
+    "variant": "tonal",
+    "status": "info",
+    "state": "rest",
+    "color": "rgb(103, 84, 181)",
+    "background": [
+      67.16,
+      73.6,
+      118.19999999999999
+    ],
+    "contrast": 1.4212006698846475
+  },
+  {
+    "variant": "tonal",
+    "status": "info",
+    "state": "hover",
+    "color": "rgb(103, 84, 181)",
+    "background": [
+      82.1872,
+      88.11200000000001,
+      129.144
+    ],
+    "contrast": 1.1411084266120757
+  },
+  {
+    "variant": "tonal",
+    "status": "info",
+    "state": "active",
+    "color": "rgb(103, 84, 181)",
+    "background": [
+      89.7008,
+      95.368,
+      134.61599999999999
+    ],
+    "contrast": 1.024048015770186
+  },
+  {
+    "variant": "tonal",
+    "status": "success",
+    "state": "rest",
+    "color": "rgb(8, 120, 63)",
+    "background": [
+      33.72,
+      65.84,
+      84.28
+    ],
+    "contrast": 1.9115671931955918
+  },
+  {
+    "variant": "tonal",
+    "status": "success",
+    "state": "hover",
+    "color": "rgb(8, 120, 63)",
+    "background": [
+      51.4224,
+      80.9728,
+      97.9376
+    ],
+    "contrast": 1.510338070628273
+  },
+  {
+    "variant": "tonal",
+    "status": "success",
+    "state": "active",
+    "color": "rgb(8, 120, 63)",
+    "background": [
+      60.2736,
+      88.53920000000001,
+      104.76639999999999
+    ],
+    "contrast": 1.3409198305132288
+  },
+  {
+    "variant": "tonal",
+    "status": "warning",
+    "state": "rest",
+    "color": "rgb(135, 85, 0)",
+    "background": [
+      60.120000000000005,
+      57.84,
+      69.72
+    ],
+    "contrast": 1.7685932371099962
+  },
+  {
+    "variant": "tonal",
+    "status": "warning",
+    "state": "hover",
+    "color": "rgb(135, 85, 0)",
+    "background": [
+      75.7104,
+      73.61280000000001,
+      84.5424
+    ],
+    "contrast": 1.3850964268725383
+  },
+  {
+    "variant": "tonal",
+    "status": "warning",
+    "state": "active",
+    "color": "rgb(135, 85, 0)",
+    "background": [
+      83.5056,
+      81.4992,
+      91.9536
+    ],
+    "contrast": 1.2247126657736245
+  },
+  {
+    "variant": "tonal",
+    "status": "danger",
+    "state": "rest",
+    "color": "rgb(180, 59, 40)",
+    "background": [
+      60.120000000000005,
+      46.96,
+      77.56
+    ],
+    "contrast": 2.1063979225200695
+  },
+  {
+    "variant": "tonal",
+    "status": "danger",
+    "state": "hover",
+    "color": "rgb(180, 59, 40)",
+    "background": [
+      75.7104,
+      63.6032,
+      91.75520000000002
+    ],
+    "contrast": 1.6476360663699003
+  },
+  {
+    "variant": "tonal",
+    "status": "danger",
+    "state": "active",
+    "color": "rgb(180, 59, 40)",
+    "background": [
+      83.5056,
+      71.9248,
+      98.8528
+    ],
+    "contrast": 1.452097997729548
+  },
+  {
+    "status": "workflow-step",
+    "color": "rgb(103, 84, 181)",
+    "background": [
+      245.71999999999997,
+      246.16,
+      247.79999999999998
+    ],
+    "contrast": 5.541787444474486
+  },
+  {
+    "scene": "dark",
+    "status": "primary",
+    "variant": "default",
+    "state": "rest",
+    "color": "rgb(23, 34, 75)",
+    "background": [
+      234,
+      255,
+      104
+    ],
+    "contrast": 13.902390722965876
+  },
+  {
+    "scene": "dark",
+    "status": "primary",
+    "variant": "default",
+    "state": "hover",
+    "color": "rgb(23, 34, 75)",
+    "background": [
+      231.84,
+      252.44000000000003,
+      98.72000000000001
+    ],
+    "contrast": 13.596596197052877
+  },
+  {
+    "scene": "dark",
+    "status": "primary",
+    "variant": "default",
+    "state": "active",
+    "color": "rgb(23, 34, 75)",
+    "background": [
+      230.76,
+      251.16,
+      96.08
+    ],
+    "contrast": 13.44549623451438
+  },
+  {
+    "scene": "dark",
+    "status": "primary",
+    "variant": "text",
+    "state": "rest",
+    "color": "rgb(234, 255, 104)",
+    "background": [
+      37,
+      37,
+      37
+    ],
+    "contrast": 13.870305996233695
+  },
+  {
+    "scene": "dark",
+    "status": "primary",
+    "variant": "text",
+    "state": "hover",
+    "color": "rgb(234, 255, 104)",
+    "background": [
+      42.5,
+      47,
+      34
+    ],
+    "contrast": 12.417627065663542
+  },
+  {
+    "scene": "dark",
+    "status": "primary",
+    "variant": "text",
+    "state": "active",
+    "color": "rgb(234, 255, 104)",
+    "background": [
+      48,
+      57,
+      31
+    ],
+    "contrast": 10.979513286639294
+  },
+  {
+    "scene": "dark",
+    "status": "primary",
+    "variant": "outline",
+    "state": "rest",
+    "color": "rgb(234, 255, 104)",
+    "background": [
+      37,
+      37,
+      37
+    ],
+    "contrast": 13.870305996233695
+  },
+  {
+    "scene": "dark",
+    "status": "primary",
+    "variant": "outline",
+    "state": "hover",
+    "color": "rgb(234, 255, 104)",
+    "background": [
+      42.5,
+      47,
+      34
+    ],
+    "contrast": 12.417627065663542
+  },
+  {
+    "scene": "dark",
+    "status": "primary",
+    "variant": "outline",
+    "state": "active",
+    "color": "rgb(234, 255, 104)",
+    "background": [
+      48,
+      57,
+      31
+    ],
+    "contrast": 10.979513286639294
+  },
+  {
+    "scene": "dark",
+    "status": "primary",
+    "variant": "tonal",
+    "state": "rest",
+    "color": "rgb(234, 255, 104)",
+    "background": [
+      48,
+      57,
+      31
+    ],
+    "contrast": 10.979513286639294
+  },
+  {
+    "scene": "dark",
+    "status": "primary",
+    "variant": "tonal",
+    "state": "hover",
+    "color": "rgb(234, 255, 104)",
+    "background": [
+      47.120000000000005,
+      55.400000000000006,
+      31.48
+    ],
+    "contrast": 11.205283367027599
+  },
+  {
+    "scene": "dark",
+    "status": "primary",
+    "variant": "tonal",
+    "state": "active",
+    "color": "rgb(234, 255, 104)",
+    "background": [
+      46.68,
+      54.6,
+      31.72
+    ],
+    "contrast": 11.318948681914613
+  },
+  {
+    "scene": "dark",
+    "status": "secondary",
+    "variant": "default",
+    "state": "rest",
+    "color": "rgb(23, 34, 75)",
+    "background": [
+      207,
+      199,
+      255
+    ],
+    "contrast": 9.70590825040243
+  },
+  {
+    "scene": "dark",
+    "status": "secondary",
+    "variant": "default",
+    "state": "hover",
+    "color": "rgb(23, 34, 75)",
+    "background": [
+      210.84,
+      203.48000000000002,
+      255.00000000000003
+    ],
+    "contrast": 10.093950124282632
+  },
+  {
+    "scene": "dark",
+    "status": "secondary",
+    "variant": "default",
+    "state": "active",
+    "color": "rgb(23, 34, 75)",
+    "background": [
+      212.76,
+      205.72,
+      255
+    ],
+    "contrast": 10.292067438648411
+  },
+  {
+    "scene": "dark",
+    "status": "secondary",
+    "variant": "text",
+    "state": "rest",
+    "color": "rgb(207, 199, 255)",
+    "background": [
+      37,
+      37,
+      37
+    ],
+    "contrast": 9.68350840420998
+  },
+  {
+    "scene": "dark",
+    "status": "secondary",
+    "variant": "text",
+    "state": "hover",
+    "color": "rgb(207, 199, 255)",
+    "background": [
+      43.5,
+      41,
+      55
+    ],
+    "contrast": 8.980592265887081
+  },
+  {
+    "scene": "dark",
+    "status": "secondary",
+    "variant": "text",
+    "state": "active",
+    "color": "rgb(207, 199, 255)",
+    "background": [
+      50,
+      45,
+      73
+    ],
+    "contrast": 8.254466993486426
+  },
+  {
+    "scene": "dark",
+    "status": "secondary",
+    "variant": "outline",
+    "state": "rest",
+    "color": "rgb(207, 199, 255)",
+    "background": [
+      37,
+      37,
+      37
+    ],
+    "contrast": 9.68350840420998
+  },
+  {
+    "scene": "dark",
+    "status": "secondary",
+    "variant": "outline",
+    "state": "hover",
+    "color": "rgb(207, 199, 255)",
+    "background": [
+      43.5,
+      41,
+      55
+    ],
+    "contrast": 8.980592265887081
+  },
+  {
+    "scene": "dark",
+    "status": "secondary",
+    "variant": "outline",
+    "state": "active",
+    "color": "rgb(207, 199, 255)",
+    "background": [
+      50,
+      45,
+      73
+    ],
+    "contrast": 8.254466993486426
+  },
+  {
+    "scene": "dark",
+    "status": "secondary",
+    "variant": "tonal",
+    "state": "rest",
+    "color": "rgb(207, 199, 255)",
+    "background": [
+      50,
+      45,
+      73
+    ],
+    "contrast": 8.254466993486426
+  },
+  {
+    "scene": "dark",
+    "status": "secondary",
+    "variant": "tonal",
+    "state": "hover",
+    "color": "rgb(207, 199, 255)",
+    "background": [
+      48.96,
+      44.36,
+      70.11999999999999
+    ],
+    "contrast": 8.371065602785173
+  },
+  {
+    "scene": "dark",
+    "status": "secondary",
+    "variant": "tonal",
+    "state": "active",
+    "color": "rgb(207, 199, 255)",
+    "background": [
+      48.44,
+      44.04,
+      68.67999999999999
+    ],
+    "contrast": 8.429368714429957
+  },
+  {
+    "scene": "navy",
+    "status": "primary",
+    "variant": "default",
+    "state": "rest",
+    "color": "rgb(23, 34, 75)",
+    "background": [
+      234,
+      255,
+      104
+    ],
+    "contrast": 13.902390722965876
+  },
+  {
+    "scene": "navy",
+    "status": "primary",
+    "variant": "default",
+    "state": "hover",
+    "color": "rgb(23, 34, 75)",
+    "background": [
+      231.84,
+      252.44000000000003,
+      98.72000000000001
+    ],
+    "contrast": 13.596596197052877
+  },
+  {
+    "scene": "navy",
+    "status": "primary",
+    "variant": "default",
+    "state": "active",
+    "color": "rgb(23, 34, 75)",
+    "background": [
+      230.76,
+      251.16,
+      96.08
+    ],
+    "contrast": 13.44549623451438
+  },
+  {
+    "scene": "navy",
+    "status": "primary",
+    "variant": "text",
+    "state": "rest",
+    "color": "rgb(234, 255, 104)",
+    "background": [
+      23,
+      34,
+      75
+    ],
+    "contrast": 13.902390722965876
+  },
+  {
+    "scene": "navy",
+    "status": "primary",
+    "variant": "text",
+    "state": "hover",
+    "color": "rgb(234, 255, 104)",
+    "background": [
+      35.5,
+      45.5,
+      53
+    ],
+    "contrast": 12.60384059523449
+  },
+  {
+    "scene": "navy",
+    "status": "primary",
+    "variant": "text",
+    "state": "active",
+    "color": "rgb(234, 255, 104)",
+    "background": [
+      48,
+      57,
+      31
+    ],
+    "contrast": 10.979513286639294
+  },
+  {
+    "scene": "navy",
+    "status": "primary",
+    "variant": "outline",
+    "state": "rest",
+    "color": "rgb(234, 255, 104)",
+    "background": [
+      23,
+      34,
+      75
+    ],
+    "contrast": 13.902390722965876
+  },
+  {
+    "scene": "navy",
+    "status": "primary",
+    "variant": "outline",
+    "state": "hover",
+    "color": "rgb(234, 255, 104)",
+    "background": [
+      35.5,
+      45.5,
+      53
+    ],
+    "contrast": 12.60384059523449
+  },
+  {
+    "scene": "navy",
+    "status": "primary",
+    "variant": "outline",
+    "state": "active",
+    "color": "rgb(234, 255, 104)",
+    "background": [
+      48,
+      57,
+      31
+    ],
+    "contrast": 10.979513286639294
+  },
+  {
+    "scene": "navy",
+    "status": "primary",
+    "variant": "tonal",
+    "state": "rest",
+    "color": "rgb(234, 255, 104)",
+    "background": [
+      48,
+      57,
+      31
+    ],
+    "contrast": 10.979513286639294
+  },
+  {
+    "scene": "navy",
+    "status": "primary",
+    "variant": "tonal",
+    "state": "hover",
+    "color": "rgb(234, 255, 104)",
+    "background": [
+      46.00000000000001,
+      55.160000000000004,
+      34.519999999999996
+    ],
+    "contrast": 11.24805660491794
+  },
+  {
+    "scene": "navy",
+    "status": "primary",
+    "variant": "tonal",
+    "state": "active",
+    "color": "rgb(234, 255, 104)",
+    "background": [
+      45,
+      54.24,
+      36.28
+    ],
+    "contrast": 11.381792605321833
+  },
+  {
+    "scene": "navy",
+    "status": "secondary",
+    "variant": "default",
+    "state": "rest",
+    "color": "rgb(23, 34, 75)",
+    "background": [
+      207,
+      199,
+      255
+    ],
+    "contrast": 9.70590825040243
+  },
+  {
+    "scene": "navy",
+    "status": "secondary",
+    "variant": "default",
+    "state": "hover",
+    "color": "rgb(23, 34, 75)",
+    "background": [
+      210.84,
+      203.48000000000002,
+      255.00000000000003
+    ],
+    "contrast": 10.093950124282632
+  },
+  {
+    "scene": "navy",
+    "status": "secondary",
+    "variant": "default",
+    "state": "active",
+    "color": "rgb(23, 34, 75)",
+    "background": [
+      212.76,
+      205.72,
+      255
+    ],
+    "contrast": 10.292067438648411
+  },
+  {
+    "scene": "navy",
+    "status": "secondary",
+    "variant": "text",
+    "state": "rest",
+    "color": "rgb(207, 199, 255)",
+    "background": [
+      23,
+      34,
+      75
+    ],
+    "contrast": 9.70590825040243
+  },
+  {
+    "scene": "navy",
+    "status": "secondary",
+    "variant": "text",
+    "state": "hover",
+    "color": "rgb(207, 199, 255)",
+    "background": [
+      36.5,
+      39.5,
+      74
+    ],
+    "contrast": 9.009309424892937
+  },
+  {
+    "scene": "navy",
+    "status": "secondary",
+    "variant": "text",
+    "state": "active",
+    "color": "rgb(207, 199, 255)",
+    "background": [
+      50,
+      45,
+      73
+    ],
+    "contrast": 8.254466993486426
+  },
+  {
+    "scene": "navy",
+    "status": "secondary",
+    "variant": "outline",
+    "state": "rest",
+    "color": "rgb(207, 199, 255)",
+    "background": [
+      23,
+      34,
+      75
+    ],
+    "contrast": 9.70590825040243
+  },
+  {
+    "scene": "navy",
+    "status": "secondary",
+    "variant": "outline",
+    "state": "hover",
+    "color": "rgb(207, 199, 255)",
+    "background": [
+      36.5,
+      39.5,
+      74
+    ],
+    "contrast": 9.009309424892937
+  },
+  {
+    "scene": "navy",
+    "status": "secondary",
+    "variant": "outline",
+    "state": "active",
+    "color": "rgb(207, 199, 255)",
+    "background": [
+      50,
+      45,
+      73
+    ],
+    "contrast": 8.254466993486426
+  },
+  {
+    "scene": "navy",
+    "status": "secondary",
+    "variant": "tonal",
+    "state": "rest",
+    "color": "rgb(207, 199, 255)",
+    "background": [
+      50,
+      45,
+      73
+    ],
+    "contrast": 8.254466993486426
+  },
+  {
+    "scene": "navy",
+    "status": "secondary",
+    "variant": "tonal",
+    "state": "hover",
+    "color": "rgb(207, 199, 255)",
+    "background": [
+      47.84,
+      44.12,
+      73.16
+    ],
+    "contrast": 8.377422750276402
+  },
+  {
+    "scene": "navy",
+    "status": "secondary",
+    "variant": "tonal",
+    "state": "active",
+    "color": "rgb(207, 199, 255)",
+    "background": [
+      46.76,
+      43.68,
+      73.24
+    ],
+    "contrast": 8.438688439524967
+  }
+]

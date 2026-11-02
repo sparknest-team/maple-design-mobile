@@ -6,6 +6,10 @@ export interface ComponentDescriptor {
 }
 
 export const componentsMap: Record<string, ComponentDescriptor> = {
+  'nav-menu': { path: '/nav-menu' },
+  'nav-menu-item': { path: '/nav-menu' },
+  'people-select': { path: '/people-select' },
+  'safe-area': { path: '/safe-area' },
   button: {
     path: '/button',
     attrs: ['type="primary"'],

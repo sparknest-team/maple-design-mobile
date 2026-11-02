@@ -1,3 +1,3 @@
 <template>
-  <mp-link>Default link</mp-link>
+  <mp-link href="https://example.com/" target="_blank" rel="noopener noreferrer">Visit example website</mp-link>
 </template>

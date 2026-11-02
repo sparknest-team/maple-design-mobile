@@ -101,11 +101,12 @@
       "kind": "boolean"
     },
     {
-      "name": "use-seconds",
-      "description": "默认时间精度，显式 format 优先",
-      "type": "boolean",
-      "defaultValue": "true",
-      "kind": "boolean"
+      "name": "time-fields",
+      "description": "时间列及顺序",
+      "type": "readonly TimePickerField[]",
+      "defaultValue": "['hour', 'minute', 'second']",
+      "kind": "json",
+      "initial": "[\"hour\",\"minute\",\"second\"]"
     },
     {
       "name": "min",
@@ -234,16 +235,16 @@
       "initial": "standard"
     },
     {
-      "name": "presentation",
-      "type": "'inline' | 'popup'",
+      "name": "edit-mode",
+      "type": "'direct' | 'popup'",
       "defaultValue": "undefined",
-      "description": "字段编辑方式，字段 > FormItem > Form 继承；默认 inline。",
+      "description": "字段编辑方式，字段 > FormItem > Form 继承；默认 direct。",
       "kind": "enum",
       "options": [
-        "inline",
+        "direct",
         "popup"
       ],
-      "initial": "inline"
+      "initial": "direct"
     },
     {
       "name": "read-pretty",
@@ -303,6 +304,14 @@
       "description": "源码公开属性 / Public source prop",
       "kind": "string",
       "initial": "#5268cc"
+    },
+    {
+      "name": "date-fields",
+      "description": "日期滚轮列及顺序，不改变日历网格",
+      "type": "readonly DatePickerField[]",
+      "kind": "json",
+      "defaultValue": "按 type 生成",
+      "initial": "[\"year\",\"month\",\"day\"]"
     }
   ],
   "methodNames": [

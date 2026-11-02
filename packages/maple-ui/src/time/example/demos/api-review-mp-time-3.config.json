@@ -166,7 +166,13 @@
       "type": "ComponentSize",
       "defaultValue": "md",
       "kind": "enum",
-      "options": ["xs", "sm", "md", "lg", "xl"],
+      "options": [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl"
+      ],
       "initial": "md"
     },
     {
@@ -206,17 +212,28 @@
       "kind": "boolean"
     },
     {
-      "name": "presentation",
-      "type": "'inline' | 'popup'",
+      "name": "edit-mode",
+      "type": "'direct' | 'popup'",
       "defaultValue": "undefined",
-      "description": "字段编辑方式，字段 > FormItem > Form 继承；默认 inline。",
+      "description": "字段编辑方式，字段 > FormItem > Form 继承；默认 direct。",
       "kind": "enum",
-      "options": ["inline", "popup"],
-      "initial": "inline"
+      "options": [
+        "direct",
+        "popup"
+      ],
+      "initial": "direct"
     }
   ],
   "methodNames": [],
-  "events": ["focus", "blur", "change", "select", "clear", "open-change", "click"],
+  "events": [
+    "focus",
+    "blur",
+    "change",
+    "select",
+    "clear",
+    "open-change",
+    "click"
+  ],
   "slotNames": [],
   "slotDefaults": {},
   "scenarios": []

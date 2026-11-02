@@ -11,7 +11,7 @@
 
   &--safe-area {
     padding-bottom: constant(safe-area-inset-bottom); // iOS < 11.2
-    padding-bottom: env(safe-area-inset-bottom); // iOS >= 11.2
+    padding-bottom: var(--mp-safe-area-bottom, env(safe-area-inset-bottom, 0px)); // iOS >= 11.2
     box-sizing: content-box !important;
   }
 
@@ -37,14 +37,18 @@
     z-index: 2;
     transform: translateY(-50%);
     overflow: hidden;
-    transition: right 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    transition: inset-inline-end 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   }
 
   &--fab-center {
-    right: calc(50% - var(--mp-tab-bar-height) / 2);
+    inset-inline-end: calc(50% - var(--mp-tab-bar-height) / 2);
   }
 
   &--fab-right {
-    right: var(--mp-tab-bar-fab-offset);
+    inset-inline-end: var(--mp-tab-bar-fab-offset);
   }
+}
+
+.mp-tab-bar--safe-area > * {
+  --mp-safe-area-bottom: 0px;
 }

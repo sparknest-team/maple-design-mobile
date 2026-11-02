@@ -4,6 +4,7 @@ import { type TabBarItemProvider } from './item-provide'
 import type { TabBarVariant } from './props'
 
 export interface TabBarProvider {
+  loading: ComputedRef<boolean>
   active: ComputedRef<number | string | undefined>
   activeColor: ComputedRef<string | undefined>
   inactiveColor: ComputedRef<string | undefined>

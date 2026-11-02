@@ -12,7 +12,7 @@ function setup(props: Record<string, unknown> = {}) {
 }
 describe('mobile date input and popup trigger', () => {
   it('keeps input click/Enter/Space in text mode and exposes an accessible calendar button', async () => {
-    const wrapper = setup()
+    const wrapper = setup({ openTriggerTarget: 'icon' })
     const input = wrapper.get('input')
     await input.trigger('click')
     await input.trigger('keydown', { key: ' ' })
@@ -20,7 +20,7 @@ describe('mobile date input and popup trigger', () => {
     await input.setValue('2025-01-18')
     await input.trigger('keydown', { key: 'Enter' })
     expect(wrapper.emitted('update:open')).toBeUndefined()
-    const button = wrapper.get('.mp-date__input-trigger')
+    const button = wrapper.get('.mp-picker-field__open-trigger')
     expect(button.attributes('aria-haspopup')).toBe('dialog')
     expect(button.attributes('aria-label')).toBeTruthy()
     expect(button.attributes('aria-expanded')).toBe('false')
@@ -43,14 +43,14 @@ describe('mobile date input and popup trigger', () => {
   it('retains field-click opening when inputEditable is false', async () => {
     const wrapper = setup({ inputEditable: false })
     expect(wrapper.get('input').element.readOnly).toBe(true)
-    expect(wrapper.find('.mp-date__input-trigger').exists()).toBe(false)
+    expect(wrapper.find('.mp-picker-field__open-trigger').exists()).toBe(true)
     await wrapper.get('input').trigger('click')
     expect(wrapper.emitted('update:open')?.[0]).toEqual([true])
   })
   it('blocks panel triggers in disabled and readonly states', async () => {
     for (const props of [{ disabled: true }, { readonly: true }]) {
       const wrapper = setup(props)
-      expect(wrapper.get('.mp-date__input-trigger').element.hasAttribute('disabled')).toBe(true)
+      expect(wrapper.get('.mp-picker-field__open-trigger').element.hasAttribute('disabled')).toBe(true)
       await wrapper.get('input').trigger('keydown', { key: 'ArrowDown' })
       await wrapper.get('.mp-field-decorator').trigger('click')
       expect(wrapper.emitted('update:open')).toBeUndefined()

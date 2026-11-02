@@ -1,6 +1,12 @@
 <script setup>
-import DemoApiReview from './demos/api-review.vue'
+import BasicDemo from './demos/basic.vue'
 </script>
+
 <template>
-  <section data-demo="api-review"><DemoApiReview /></section>
+  <h2 class="mobile-demo-group-heading" data-demo-group="basic-examples" data-demo-component="highlighter-provider">
+    <span lang="zh-CN">基础示例</span>
+    <span lang="en-US">Basic examples</span>
+  </h2>
+
+  <section data-demo="basic"><BasicDemo /></section>
 </template>

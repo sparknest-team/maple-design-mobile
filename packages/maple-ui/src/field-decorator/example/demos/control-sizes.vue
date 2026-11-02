@@ -3,6 +3,9 @@ import { ref } from 'vue'
 
 const sizes = ['xs', 'sm', 'md', 'lg', 'xl'] as const
 const variants = ['outline', 'filled', 'standard'] as const
+const disabled = ref(false)
+const readonly = ref(false)
+const error = ref(false)
 const size = ref<(typeof sizes)[number]>('md')
 const variant = ref<(typeof variants)[number]>('outline')
 const options = [
@@ -12,6 +15,7 @@ const options = [
 const cascaderOptions = [{ value: 'china', label: 'China', children: options }]
 
 const inputValue = ref('Beijing')
+const textareaValue = ref('Textarea value')
 const selectValue = ref('beijing')
 const cascaderValue = ref('beijing')
 const selectMultiple = ref(['beijing', 'shanghai'])
@@ -40,17 +44,44 @@ function resetSelections() {
 <template>
   <section aria-label="Form control size comparison" class="control-size-comparison">
     <mp-space wrap :size="12">
-      <mp-radio-group v-model="size" aria-label="Comparison size">
-        <mp-radio v-for="item in sizes" :key="item" :value="item">{{ item }}</mp-radio>
+      <mp-radio-group v-model="size" edit-mode="direct" aria-label="Comparison size">
+        <mp-radio v-for="item in sizes" :key="item" edit-mode="direct" :value="item">{{ item }}</mp-radio>
       </mp-radio-group>
-      <mp-radio-group v-model="variant" aria-label="Comparison variant">
-        <mp-radio v-for="item in variants" :key="item" :value="item">{{ item }}</mp-radio>
+      <mp-radio-group v-model="variant" edit-mode="direct" aria-label="Comparison variant">
+        <mp-radio v-for="item in variants" :key="item" edit-mode="direct" :value="item">{{ item }}</mp-radio>
       </mp-radio-group>
+    </mp-space>
+    <mp-space wrap>
+      <mp-checkbox v-model="disabled" edit-mode="direct">Disabled / 禁用对照</mp-checkbox>
+      <mp-checkbox v-model="readonly" edit-mode="direct">Readonly / 只读对照</mp-checkbox>
+      <mp-checkbox v-model="error" edit-mode="direct">Error / 错误对照</mp-checkbox>
     </mp-space>
     <div class="control-size-comparison__grid">
       <div data-control="Input">
         <p>Input</p>
-        <mp-input :size="size" :variant="variant" placeholder="Input" />
+        <mp-input
+          :disabled="disabled"
+          :readonly="readonly"
+          :error="error"
+          edit-mode="direct"
+          :size="size"
+          :variant="variant"
+          placeholder="Input"
+        />
+      </div>
+      <div data-control="Textarea">
+        <p>Textarea</p>
+        <mp-textarea
+          v-model="textareaValue"
+          edit-mode="direct"
+          :size="size"
+          :variant="variant"
+          :disabled="disabled"
+          :readonly="readonly"
+          :error="error"
+          placeholder="Textarea"
+          :rows="2"
+        />
       </div>
       <div data-control="Button">
         <p>Button</p>
@@ -58,35 +89,102 @@ function resetSelections() {
       </div>
       <div data-control="Select">
         <p>Select</p>
-        <mp-select :size="size" :variant="variant" :options="options" placeholder="Select" />
+        <mp-select
+          :disabled="disabled"
+          :readonly="readonly"
+          :error="error"
+          edit-mode="direct"
+          :size="size"
+          :variant="variant"
+          :options="options"
+          placeholder="Select"
+        />
       </div>
       <div data-control="Date">
         <p>Date</p>
-        <mp-date :size="size" :variant="variant" placeholder="Date" />
+        <mp-date
+          :disabled="disabled"
+          :readonly="readonly"
+          :error="error"
+          edit-mode="direct"
+          :size="size"
+          :variant="variant"
+          placeholder="Date"
+        />
       </div>
       <div data-control="Time">
         <p>Time</p>
-        <mp-time :size="size" :variant="variant" placeholder="Time" />
+        <mp-time
+          :disabled="disabled"
+          :readonly="readonly"
+          :error="error"
+          edit-mode="direct"
+          :size="size"
+          :variant="variant"
+          placeholder="Time"
+        />
       </div>
       <div data-control="InputNumber">
         <p>InputNumber</p>
-        <mp-input-number :size="size" :variant="variant" placeholder="Number" />
+        <mp-input-number
+          :disabled="disabled"
+          :readonly="readonly"
+          :error="error"
+          edit-mode="direct"
+          :size="size"
+          :variant="variant"
+          placeholder="Number"
+        />
       </div>
       <div data-control="AutoComplete">
         <p>AutoComplete</p>
-        <mp-auto-complete :size="size" :variant="variant" :options="options" placeholder="AutoComplete" />
+        <mp-auto-complete
+          :disabled="disabled"
+          :readonly="readonly"
+          :error="error"
+          edit-mode="direct"
+          :size="size"
+          :variant="variant"
+          :options="options"
+          placeholder="AutoComplete"
+        />
       </div>
       <div data-control="Cascader">
         <p>Cascader</p>
-        <mp-cascader :size="size" :variant="variant" :options="cascaderOptions" placeholder="Cascader" />
+        <mp-cascader
+          :disabled="disabled"
+          :readonly="readonly"
+          :error="error"
+          edit-mode="direct"
+          :size="size"
+          :variant="variant"
+          :options="cascaderOptions"
+          placeholder="Cascader"
+        />
       </div>
       <div data-control="DateRange">
         <p>DateRange</p>
-        <mp-date-range :size="size" :variant="variant" :placeholder="['Start', 'End']" />
+        <mp-date-range
+          :disabled="disabled"
+          :readonly="readonly"
+          :error="error"
+          edit-mode="direct"
+          :size="size"
+          :variant="variant"
+          :placeholder="['Start', 'End']"
+        />
       </div>
       <div data-control="TimeRange">
         <p>TimeRange</p>
-        <mp-time-range :size="size" :variant="variant" :placeholder="['Start', 'End']" />
+        <mp-time-range
+          :disabled="disabled"
+          :readonly="readonly"
+          :error="error"
+          edit-mode="direct"
+          :size="size"
+          :variant="variant"
+          :placeholder="['Start', 'End']"
+        />
       </div>
     </div>
 
@@ -102,7 +200,17 @@ function resetSelections() {
       <div class="control-size-comparison__grid">
         <div data-control="InputValue">
           <p>Input · clearable</p>
-          <mp-input v-model="inputValue" :size="size" :variant="variant" clearable placeholder="Input value" />
+          <mp-input
+            v-model="inputValue"
+            :disabled="disabled"
+            :readonly="readonly"
+            :error="error"
+            edit-mode="direct"
+            :size="size"
+            :variant="variant"
+            clearable
+            placeholder="Input value"
+          />
         </div>
         <div data-control="ButtonReference">
           <p>Button · reference</p>
@@ -112,6 +220,10 @@ function resetSelections() {
           <p>Select · clearable</p>
           <mp-select
             v-model="selectValue"
+            :disabled="disabled"
+            :readonly="readonly"
+            :error="error"
+            edit-mode="direct"
             :size="size"
             :variant="variant"
             :options="selectedOptions"
@@ -123,6 +235,10 @@ function resetSelections() {
           <p>Cascader · clearable</p>
           <mp-cascader
             v-model="cascaderValue"
+            :disabled="disabled"
+            :readonly="readonly"
+            :error="error"
+            edit-mode="direct"
             :size="size"
             :variant="variant"
             :options="selectedCascaderOptions"
@@ -134,6 +250,10 @@ function resetSelections() {
           <p>Select · multiple / nowrap</p>
           <mp-select
             v-model="selectMultiple"
+            :disabled="disabled"
+            :readonly="readonly"
+            :error="error"
+            edit-mode="direct"
             :size="size"
             :variant="variant"
             :options="selectedOptions"
@@ -147,6 +267,10 @@ function resetSelections() {
           <p>Cascader · multiple / nowrap</p>
           <mp-cascader
             v-model="cascaderMultiple"
+            :disabled="disabled"
+            :readonly="readonly"
+            :error="error"
+            edit-mode="direct"
             :size="size"
             :variant="variant"
             :options="selectedCascaderOptions"
@@ -160,7 +284,10 @@ function resetSelections() {
           <p>Select · long values / nowrap</p>
           <mp-select
             v-model="selectOverflow"
-            presentation="inline"
+            :disabled="disabled"
+            :readonly="readonly"
+            :error="error"
+            edit-mode="direct"
             :size="size"
             :variant="variant"
             :options="selectedOptions"
@@ -174,7 +301,10 @@ function resetSelections() {
           <p>Cascader · long values / nowrap</p>
           <mp-cascader
             v-model="cascaderOverflow"
-            presentation="inline"
+            :disabled="disabled"
+            :readonly="readonly"
+            :error="error"
+            edit-mode="direct"
             :size="size"
             :variant="variant"
             :options="selectedCascaderOptions"

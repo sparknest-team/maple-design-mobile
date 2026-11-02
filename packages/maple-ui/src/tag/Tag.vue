@@ -56,7 +56,7 @@ const emit = defineEmits<{
   check: [checked: boolean, event: MouseEvent]
 }>()
 const { n, classes } = createNamespace('tag')
-const { mergedSize, rtl } = useTagPlatform(props)
+const { mergedSize } = useTagPlatform(props)
 const isBuiltInColor = computed(() => props.color && TAG_COLORS.includes(props.color as any))
 const isCustomColor = computed(() => props.color && !TAG_COLORS.includes(props.color as any))
 const _show = ref(props.defaultShow)
@@ -100,7 +100,6 @@ const cls = computed(() => {
     [props.nowrap, n('--nowrap')],
     [props.round, n('--round')],
     [isCustomColor.value, n('--custom-color')],
-    [rtl.value, n('--rtl')],
   )
 })
 

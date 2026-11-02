@@ -73,7 +73,9 @@ test('date-range-picker show-time calendarPicker', async () => {
     props: {
       modelValue: ['2025-01-15 10:29', '2025-01-16 11:29'],
       showTime: true,
-      useSeconds: false,
+      timeFields: ['hour', 'minute'],
+      format: 'YYYY-MM-DD HH:mm',
+      valueFormat: 'YYYY-MM-DD HH:mm',
       presentation: 'calendarPicker',
     },
   })
@@ -93,7 +95,9 @@ test('date-range-picker show-time picker', async () => {
     props: {
       modelValue: ['2025-01-15 10:29', '2025-01-16 11:29'],
       showTime: true,
-      useSeconds: false,
+      timeFields: ['hour', 'minute'],
+      format: 'YYYY-MM-DD HH:mm',
+      valueFormat: 'YYYY-MM-DD HH:mm',
       presentation: 'picker',
     },
   })
@@ -104,7 +108,7 @@ test('date-range-picker show-time picker', async () => {
   expect(wrapper.find('.mp-date-range-picker__summary-date').exists()).toBeTruthy()
   expect(wrapper.find('.mp-date-range-picker__summary-time').exists()).toBeTruthy()
   expect(wrapper.find('.mp-picker').exists()).toBeTruthy()
-  expect(wrapper.findAll('.mp-date-range-picker__column-label').length).toBe(3)
+  expect(wrapper.findAll('.mp-date-range-picker__column-label').length).toBe(5)
   await wrapper.get('.mp-date-range-picker__view-toggle').trigger('click')
   expect(wrapper.findAll('.mp-date-range-picker__column-label').length).toBe(2)
   expect(wrapper.find('.mp-date-range-picker__summary-times').exists()).toBeFalsy()

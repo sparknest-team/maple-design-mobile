@@ -1,0 +1,11 @@
+{
+  "details": {
+    "surface": "desktop",
+    "theme": "light",
+    "component": "Date",
+    "mode": "default"
+  },
+  "error": "Error: locator.waitFor: Target page, context or browser has been closed\nCall log:\n\u001b[2m  - waiting for locator('.mp-field-presentation__panel').filter({ visible: true }).last() to be hidden\u001b[22m\n\u001b[2m    4 × locator resolved to visible <section class=\"mp-field-presentation__panel\">…</section>\u001b[22m\n",
+  "diagnostic": "",
+  "errors": []
+}

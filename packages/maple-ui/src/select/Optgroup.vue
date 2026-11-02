@@ -27,7 +27,6 @@ export default defineComponent({
    * @zh 选项组的标题
    * @en Title of option group
    * @slot label
-   * @version 2.10.0
    */
   setup() {
     const prefixCls = getPrefixCls('select-group')

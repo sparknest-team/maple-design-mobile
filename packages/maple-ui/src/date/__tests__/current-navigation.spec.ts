@@ -5,6 +5,7 @@ import DateRange from '../../date-range'
 import DateRangePicker from '../../date-range/DateRangePicker.vue'
 import DatePicker from '../DatePicker.vue'
 import DateField from '../index'
+import { rangeControls } from './range-controls'
 
 const Surface = defineComponent({ template: '<div><slot /><slot name="content" /></div>' })
 const global = { stubs: { MpTrigger: Surface, MpPopup: Surface, teleport: true } }
@@ -16,7 +17,7 @@ afterEach(() => {
 const action = (wrapper: ReturnType<typeof mount>, label: string) =>
   wrapper.findAll('button').find((button) => button.text() === label)!
 
-for (const mode of ['standalone', 'inline', 'popup'] as const) {
+for (const mode of ['standalone', 'direct', 'popup'] as const) {
   for (const showTime of [false, true]) {
     for (const range of [false, true]) {
       for (const endpoint of range ? [0, 1] : [0]) {
@@ -34,7 +35,7 @@ for (const mode of ['standalone', 'inline', 'popup'] as const) {
                 disableConfirm: false,
                 ...(mode === 'standalone'
                   ? {}
-                  : { presentation: mode, popupContainer: false, ...(mode === 'inline' ? { open: true } : {}) }),
+                  : { editMode: mode, popupContainer: false, ...(mode === 'direct' ? { open: true } : {}) }),
               },
               global,
             },
@@ -45,7 +46,7 @@ for (const mode of ['standalone', 'inline', 'popup'] as const) {
           }
           await flushPromises()
           if (range) {
-            await wrapper.findAll('.mp-date-range-picker__summary')[endpoint].trigger('click')
+            await rangeControls(wrapper)[endpoint].trigger('click')
           }
           await action(wrapper, '此刻').trigger('click')
           await flushPromises()

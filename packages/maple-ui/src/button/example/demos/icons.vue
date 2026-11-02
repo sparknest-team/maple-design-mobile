@@ -17,26 +17,14 @@ const items = [
 </script>
 <template>
   <mp-space direction="column" :size="16">
-    <mp-space wrap>
-      <div>
-        <span>Variant</span>
-        <mp-select
-          v-model="variant"
-          :options="variants.map((value) => ({ label: value, value }))"
-          :clearable="false"
-          aria-label="Icon button variant"
-        />
-      </div>
-      <div>
-        <span>Size</span>
-        <mp-select
-          v-model="size"
-          :options="sizes.map((value) => ({ label: value, value }))"
-          :clearable="false"
-          aria-label="Icon button size"
-        />
-      </div>
-    </mp-space>
+    <mp-form layout="vertical" size="sm">
+      <mp-form-item label="Variant" field="variant">
+        <mp-radio-group v-model="variant" :options="variants" aria-label="Icon button variant" variant="button" />
+      </mp-form-item>
+      <mp-form-item label="Size" field="size">
+        <mp-radio-group v-model="size" :options="sizes" aria-label="Icon button size" variant="button" />
+      </mp-form-item>
+    </mp-form>
     <mp-space v-for="layout in layouts" :key="layout" direction="column" :size="8">
       <span>{{
         layout === 'icon'

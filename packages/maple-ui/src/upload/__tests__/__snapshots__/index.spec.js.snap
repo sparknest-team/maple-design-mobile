@@ -3,6 +3,7 @@
 exports[`upload disabled 1`] = `
 "<div class="mp-upload mp-upload--text"><input class="mp-upload__input" type="file" capture="false">
   <div class="mp-upload__content">
+    <!--v-if-->
     <div class="mp-upload__trigger" role="button" tabindex="0" aria-disabled="false"><span aria-hidden="true">＋</span><span>上传</span></div>
     <div class="mp-upload__list"></div>
   </div>
@@ -14,6 +15,7 @@ exports[`upload disabled 1`] = `
 exports[`upload disabled 2`] = `
 "<div class="mp-upload mp-upload--text"><input class="mp-upload__input" type="file" capture="false" disabled="">
   <div class="mp-upload__content">
+    <!--v-if-->
     <div class="mp-upload__trigger" role="button" aria-disabled="true"><span aria-hidden="true">＋</span><span>上传</span></div>
     <div class="mp-upload__list">
       <div class="mp-upload__item mp-upload__item--ready">
@@ -21,11 +23,13 @@ exports[`upload disabled 2`] = `
         <div class="mp-upload__meta"><span class="mp-upload__name">cat.png</span><span class="mp-upload__size">0 B</span>
           <!--v-if-->
           <!--v-if-->
+          <!--v-if-->
         </div>
         <div class="mp-upload__actions"><button type="button" class="mp-upload__action" aria-label="预览" disabled=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img">
               <!--v-if-->
               <path d="M12 9a3 3 0 0 1 3 3 3 3 0 0 1-3 3 3 3 0 0 1-3-3 3 3 0 0 1 3-3m0-4.5c5 0 9.27 3.11 11 7.5-1.73 4.39-6 7.5-11 7.5S2.73 16.39 1 12c1.73-4.39 6-7.5 11-7.5M3.18 12a9.821 9.821 0 0 0 17.64 0 9.821 9.821 0 0 0-17.64 0"></path>
             </svg></button>
+          <!--v-if-->
           <!--v-if-->
           <!--v-if-->
           <!--v-if--><button type="button" class="mp-upload__action" aria-label="删除" disabled=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img">
@@ -44,6 +48,7 @@ exports[`upload disabled 2`] = `
 exports[`upload hideList 1`] = `
 "<div class="mp-upload mp-upload--text"><input class="mp-upload__input" type="file" capture="false">
   <div class="mp-upload__content">
+    <!--v-if-->
     <div class="mp-upload__trigger" role="button" tabindex="0" aria-disabled="false"><span aria-hidden="true">＋</span><span>上传</span></div>
     <!--v-if-->
   </div>
@@ -55,6 +60,7 @@ exports[`upload hideList 1`] = `
 exports[`upload length over maxFiles in multiple mode 1`] = `
 "<div class="mp-upload mp-upload--text"><input class="mp-upload__input" type="file" capture="false">
   <div class="mp-upload__content">
+    <!--v-if-->
     <div class="mp-upload__trigger" role="button" tabindex="0" aria-disabled="false"><span aria-hidden="true">＋</span><span>上传</span></div>
     <div class="mp-upload__list"></div>
   </div>
@@ -66,11 +72,13 @@ exports[`upload length over maxFiles in multiple mode 1`] = `
 exports[`upload progress 1`] = `
 "<div class="mp-upload mp-upload--text"><input class="mp-upload__input" type="file" capture="false">
   <div class="mp-upload__content">
+    <!--v-if-->
     <div class="mp-upload__trigger" role="button" tabindex="0" aria-disabled="false"><span aria-hidden="true">＋</span><span>上传</span></div>
     <div class="mp-upload__list">
       <div class="mp-upload__item mp-upload__item--uploading">
         <!--v-if-->
-        <div class="mp-upload__meta"><span class="mp-upload__name">progress</span><span class="mp-upload__size"></span><progress class="mp-upload__progress" max="100" aria-label="progress" value="40"></progress>
+        <div class="mp-upload__meta"><span class="mp-upload__name">progress</span><span class="mp-upload__size"></span>
+          <!--v-if--><progress class="mp-upload__progress" max="100" aria-label="progress" value="40"></progress>
           <!--v-if-->
         </div>
         <div class="mp-upload__actions">
@@ -79,6 +87,7 @@ exports[`upload progress 1`] = `
               <!--v-if-->
               <path d="M13.46 12 19 17.54V19h-1.46L12 13.46 6.46 19H5v-1.46L10.54 12 5 6.46V5h1.46L12 10.54 17.54 5H19v1.46z"></path>
             </svg></button>
+          <!--v-if-->
           <!--v-if--><button type="button" class="mp-upload__action" aria-label="删除"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img">
               <!--v-if-->
               <path d="M13.46 12 19 17.54V19h-1.46L12 13.46 6.46 19H5v-1.46L10.54 12 5 6.46V5h1.46L12 10.54 17.54 5H19v1.46z"></path>
@@ -95,6 +104,7 @@ exports[`upload progress 1`] = `
 exports[`upload remove button slot 1`] = `
 "<div class="mp-upload mp-upload--text"><input class="mp-upload__input" type="file" capture="false">
   <div class="mp-upload__content">
+    <!--v-if-->
     <div class="mp-upload__trigger" role="button" tabindex="0" aria-disabled="false"><span aria-hidden="true">＋</span><span>上传</span></div>
     <div class="mp-upload__list">
       <div class="mp-upload__item mp-upload__item--undefined">
@@ -102,11 +112,13 @@ exports[`upload remove button slot 1`] = `
         <div class="mp-upload__meta"><span class="mp-upload__name"></span><span class="mp-upload__size"></span>
           <!--v-if-->
           <!--v-if-->
+          <!--v-if-->
         </div>
         <div class="mp-upload__actions"><button type="button" class="mp-upload__action" aria-label="预览"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mp-svg-icon" style="width: 1em; height: 1em; flex-shrink: 0;" fill="currentColor" aria-hidden="true" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" role="img">
               <!--v-if-->
               <path d="M12 9a3 3 0 0 1 3 3 3 3 0 0 1-3 3 3 3 0 0 1-3-3 3 3 0 0 1 3-3m0-4.5c5 0 9.27 3.11 11 7.5-1.73 4.39-6 7.5-11 7.5S2.73 16.39 1 12c1.73-4.39 6-7.5 11-7.5M3.18 12a9.821 9.821 0 0 0 17.64 0 9.821 9.821 0 0 0-17.64 0"></path>
             </svg></button>
+          <!--v-if-->
           <!--v-if-->
           <!--v-if-->
           <!--v-if-->remove

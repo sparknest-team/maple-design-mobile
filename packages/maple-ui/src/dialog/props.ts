@@ -1,8 +1,9 @@
 import type { CSSProperties, PropType, StyleValue } from 'vue'
+import { readingDirectionProp } from '../_utils/direction'
 import { buttonProps } from '../button/props'
 import { type ExtractPublicPropTypes } from '../utils/components'
 import { popupContainerProp } from '../utils/popup-container'
-import type { DialogAction, DialogBeforeCloseRefs, DialogMessageAlign, DialogTitleAlign, DialogType } from './types'
+import type { DialogAction, DialogBeforeClose, DialogMessageAlign, DialogTitleAlign, DialogType } from './types'
 
 export const DIALOG_TYPE_ICON: Record<DialogType, string> = {
   info: 'info-circle-fill',
@@ -12,6 +13,8 @@ export const DIALOG_TYPE_ICON: Record<DialogType, string> = {
 }
 
 export const dialogProps = {
+  /** 阅读方向，省略时继承来源作用域；函数式调用可显式指定。 */
+  dir: readingDirectionProp,
   open: { type: Boolean, default: undefined },
   defaultOpen: { type: Boolean, default: false },
   title: String,
@@ -56,7 +59,7 @@ export const dialogProps = {
   ariaLabel: String,
   closeButtonAriaLabel: { type: String, default: 'Close dialog' },
   zIndex: Number,
-  beforeClose: Function as PropType<(action: DialogAction, done: () => void, refs: DialogBeforeCloseRefs) => void>,
+  beforeClose: Function as PropType<DialogBeforeClose>,
 }
 
 export type DialogProps = ExtractPublicPropTypes<typeof dialogProps>

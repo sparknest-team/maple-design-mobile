@@ -12,6 +12,7 @@ describe('FormItem decoration and presentation contract', () => {
   it('renders custom label elements/attributes, colon, required marker and accessible tooltip', () => {
     const wrapper = mount(FormItem, {
       props: {
+        editMode: 'direct',
         label: 'Name',
         required: true,
         asteriskPosition: 'end',
@@ -36,7 +37,12 @@ describe('FormItem decoration and presentation contract', () => {
 
   it('supports label slots, custom tags, content classes and reactive flex opt-out', async () => {
     const wrapper = mount(FormItem, {
-      props: { labelComponent: 'div', contentClass: ['custom-content', { highlighted: true }], contentFlex: false },
+      props: {
+        editMode: 'direct',
+        labelComponent: 'div',
+        contentClass: ['custom-content', { highlighted: true }],
+        contentFlex: false,
+      },
       slots: { label: () => h('span', 'Custom label'), default: () => h('input') },
     })
     expect(wrapper.findComponent(FormItemLabel).element.tagName).toBe('DIV')
@@ -60,7 +66,7 @@ describe('FormItem decoration and presentation contract', () => {
   })
 
   it('shows required markers from rules and respects hideAsterisk', async () => {
-    const wrapper = mount(FormItem, { props: { label: 'Name', rules: { required: true } } })
+    const wrapper = mount(FormItem, { props: { editMode: 'direct', label: 'Name', rules: { required: true } } })
     expect(wrapper.find('strong').exists()).toBe(true)
     await wrapper.setProps({ hideAsterisk: true })
     expect(wrapper.find('strong').exists()).toBe(false)
@@ -70,10 +76,12 @@ describe('FormItem decoration and presentation contract', () => {
   it('explicit statuses override error presentation without discarding validation errors', async () => {
     const item = reactive<{ validateStatus?: 'success' | 'warning' | 'error' | 'validating' }>({})
     const wrapper = mount(Form, {
-      props: { model: { name: '' } },
+      props: { editMode: 'direct', model: { name: '' } },
       slots: {
         default: () =>
-          h(FormItem, { field: 'name', label: 'Name', help: 'Help', feedback: true, ...item }, () => h(Input)),
+          h(FormItem, { editMode: 'direct', field: 'name', label: 'Name', help: 'Help', feedback: true, ...item }, () =>
+            h(Input, { editMode: 'direct' }),
+          ),
       },
     })
     const form = wrapper.vm as unknown as {
@@ -112,10 +120,14 @@ describe('FormItem decoration and presentation contract', () => {
 
   it('keeps real validation errors when explicit success hides them', async () => {
     const wrapper = mount(Form, {
-      props: { model: { name: '' } },
+      props: { editMode: 'direct', model: { name: '' } },
       slots: {
         default: () =>
-          h(FormItem, { field: 'name', label: 'Name', required: true, validateStatus: 'success' }, () => h('input')),
+          h(
+            FormItem,
+            { editMode: 'direct', field: 'name', label: 'Name', required: true, validateStatus: 'success' },
+            () => h('input'),
+          ),
       },
     })
     const form = wrapper.vm as unknown as {

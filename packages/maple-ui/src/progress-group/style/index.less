@@ -85,7 +85,7 @@
     transform: translateX(-50%);
   }
   &--vertical &__track-wrap > &__tooltip {
-    left: calc(100% + var(--mp-progress-group-tooltip-offset));
+    inset-inline-start: calc(100% + var(--mp-progress-group-tooltip-offset));
     transform: translateY(-50%);
   }
   &__status {
@@ -251,4 +251,8 @@
 .mp-progress-group__circle-segment:focus-visible {
   outline: 2px solid currentColor;
   outline-offset: 2px;
+}
+
+.mp-progress-group--horizontal:dir(rtl) > .mp-progress-group__track-wrap > .mp-progress-group__tooltip {
+  transform: translateX(50%);
 }

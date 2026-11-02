@@ -1,0 +1,10 @@
+
+ RUN  v3.0.6 /Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui
+
+ ✓ src/_components/selected-options/__tests__/editor.spec.ts (3 tests) 131ms
+
+ Test Files  1 passed (1)
+      Tests  3 passed (3)
+   Start at  22:27:03
+   Duration  8.95s (transform 2.92s, setup 22ms, collect 7.84s, tests 131ms, environment 699ms, prepare 52ms)
+

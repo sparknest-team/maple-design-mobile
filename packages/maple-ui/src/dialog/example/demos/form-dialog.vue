@@ -5,15 +5,13 @@ import { Dialog, Message } from '@maple-design/ui'
 const formOpen = ref(false)
 const formRef = ref(null)
 const formData = reactive({ name: '', email: '' })
-async function formBeforeClose(action, done, refs) {
+async function formBeforeClose({ action }, done) {
   if (action !== 'confirm') {
     done()
     return
   }
 
-  refs.confirmButtonLoading.value = true
   const errors = await formRef.value?.validate()
-  refs.confirmButtonLoading.value = false
   if (!errors) {
     done()
     Message.success('表单提交成功')

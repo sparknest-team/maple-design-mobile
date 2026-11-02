@@ -130,6 +130,11 @@ export async function findPageLocales(): Promise<string[]> {
   return Promise.resolve(Array.from(filterMap.values()))
 }
 
+export function selectMobileDocumentation(documents: string[], allowedNames: string[]) {
+  const allowed = new Set(allowedNames)
+  return documents.filter((doc) => allowed.has(getRootDocRoutePath(doc).split('/').at(-1)!))
+}
+
 export async function buildMobileSiteRoutes(draftMode: boolean) {
   const examples: string[] = await findExamples(draftMode)
   const routes = examples.map(
@@ -140,6 +145,15 @@ export async function buildMobileSiteRoutes(draftMode: boolean) {
     component: () => import('${example}')
   }`,
   )
+  const { mobile } = await getMapleConfig()
+  const mobileDocs = new Set(mobile?.docs ?? [])
+  if (mobileDocs.size) {
+    const rootDocs = await findRootDocs(draftMode)
+    for (const doc of selectMobileDocumentation(rootDocs, [...mobileDocs])) {
+      const route = getRootDocRoutePath(doc)
+      routes.push(`{ path: '${route}', component: () => import('${doc}') }`)
+    }
+  }
   const source = `export default [\
     ${routes.join(',')}
 ]`

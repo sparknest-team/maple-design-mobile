@@ -18,13 +18,13 @@ function handleReset() {
 </script>
 
 <template>
-  <mp-form :model="formData" @submit="handleSubmit" @reset="handleReset">
-    <mp-space direction="column" :size="[14, 0]">
+  <mp-form edit-mode="direct" :model="formData" @submit="handleSubmit" @reset="handleReset">
+    <mp-space direction="column" align="stretch" :size="[14, 0]">
       <mp-form-item field="username" :rules="[(value) => !!value || '用户名不能为空']">
-        <mp-input v-model="formData.username" placeholder="请输入用户名" />
+        <mp-input v-model="formData.username" edit-mode="direct" placeholder="请输入用户名" />
       </mp-form-item>
       <mp-form-item field="password" :rules="[(value) => !!value || '密码不能为空']">
-        <mp-input v-model="formData.password" type="password" placeholder="请输入密码" />
+        <mp-input v-model="formData.password" edit-mode="direct" type="password" placeholder="请输入密码" />
       </mp-form-item>
       <mp-space>
         <mp-button status="primary" html-type="submit">提交</mp-button>

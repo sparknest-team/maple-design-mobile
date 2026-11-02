@@ -1,9 +1,13 @@
 import { type ExtractPropTypes, type PropType } from 'vue'
 import { fieldPresentationProps } from '../_components/field-presentation/props'
+import { timePickerFieldsProp } from '../_components/picker-field/fields'
+import { openTriggerTargetProp } from '../_components/picker-field/open-trigger'
 import { fieldDecoratorProps } from '../field-decorator'
+import { fieldLoadingProps } from '../field-decorator/props'
 import { pickerProps as pickerPropsSource } from '../picker'
 import { triggerProps } from '../trigger'
 import { pickProps } from '../utils/components'
+import { emptyValueProp } from '../utils/empty-value'
 import { popupContainerProp } from '../utils/popup-container'
 import { timeDisabledProps } from './disabled-props'
 import { props as timePickerPropsSource } from './picker-props'
@@ -15,10 +19,15 @@ import type {
 import { timeStepProp } from './step-prop'
 import type { TimeValue } from './time-value'
 
-export type TimePresentation = import('../_components/field-presentation/context').FieldPresentation
+export type TimeEditMode = import('../_components/field-presentation/context').FieldEditMode
 
 export const props = {
+  ...fieldLoadingProps,
+  openTriggerTarget: openTriggerTargetProp,
+  timeFields: timePickerFieldsProp,
+  /** 清空动作产生的模型值；省略保留原默认值。 */
   ...fieldPresentationProps,
+  emptyValue: emptyValueProp<string | number | Date | undefined>(),
   /** 显示此刻按钮；此刻仅更新草稿，仍需确认。 */
   showNowButton: timePickerPropsSource.showNowButton,
   /** 是否允许手输时间；移动端默认关闭，面板选择不受影响。 */
@@ -31,7 +40,7 @@ export const props = {
   /** 非受控初始值，仅在初始化读取。 */
   defaultValue: [String, Number, Date] as PropType<TimeValue>,
   modelValue: {
-    type: [String, Number, Date] as PropType<TimeValue>,
+    type: [String, Number, Date] as PropType<TimeValue | null>,
     default: undefined,
   },
   /** 非受控初始展开状态。 */

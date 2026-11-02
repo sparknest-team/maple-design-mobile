@@ -8,18 +8,18 @@ const history = ref(['项目 A', '设备 B'])
 const lastAction = ref('尚未搜索')
 function recordSearch(result: SearchResult) {
   history.value = result.recentSearches
-  lastAction.value = result.modelValue
+  lastAction.value = result.modelValue ?? ''
 }
 function recordAction(result: SearchResult) {
-  lastAction.value = result.modelValue
+  lastAction.value = result.modelValue ?? ''
 }
 </script>
 <template>
   <div class="search-demo">
-    <mp-checkbox v-model="popup">全屏搜索历史（关闭后使用菜单）</mp-checkbox>
+    <mp-checkbox v-model="popup">popup 全屏搜索（关闭后为 direct）</mp-checkbox>
     <mp-search
       v-model="keyword"
-      :history-popup="popup"
+      :edit-mode="popup ? 'popup' : 'direct'"
       :recent-searches="history"
       label="资源"
       placeholder="输入资源名称"

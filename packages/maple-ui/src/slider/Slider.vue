@@ -80,6 +80,7 @@
 
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onDeactivated, ref, useId, watch } from 'vue'
+import { useDirection } from '../_utils/direction'
 import { createNamespace } from '../utils/components'
 import { positiveLength } from '../utils/size-length'
 import { sliderBounds, sliderValues, snap, stepValue } from './model'
@@ -103,6 +104,7 @@ const isDisabled = computed(() => mergedDisabled.value || bounds.value.min === b
 const blocked = computed(() => isDisabled.value || mergedReadonly.value)
 const indices = computed(() => (props.range ? [0, 1] : [1]))
 const track = ref<HTMLElement>()
+const { isRtl } = useDirection(() => track.value)
 const hovered = ref(-1)
 const focused = ref(-1)
 const dragIndex = ref(-1)
@@ -116,11 +118,16 @@ const tooltipVisible = (index: number) =>
 const percent = (value: number) =>
   bounds.value.max === bounds.value.min ? 0 : ((value - bounds.value.min) / (bounds.value.max - bounds.value.min)) * 100
 const position = (value: number) =>
-  props.orientation === 'vertical' ? { bottom: percent(value) + '%' } : { left: percent(value) + '%' }
+  props.orientation === 'vertical'
+    ? { bottom: percent(value) + '%' }
+    : { left: (isRtl.value ? 100 - percent(value) : percent(value)) + '%' }
 const fillStyle = computed(() =>
   props.orientation === 'vertical'
     ? { bottom: percent(values.value[0]) + '%', height: percent(values.value[1]) - percent(values.value[0]) + '%' }
-    : { left: percent(values.value[0]) + '%', width: percent(values.value[1]) - percent(values.value[0]) + '%' },
+    : {
+        left: (isRtl.value ? 100 - percent(values.value[1]) : percent(values.value[0])) + '%',
+        width: percent(values.value[1]) - percent(values.value[0]) + '%',
+      },
 )
 const ticks = computed(() => {
   if (!props.showTicks) {
@@ -206,7 +213,9 @@ function coordinate(event: PointerEvent | MouseEvent) {
     return undefined
   }
   const ratio =
-    props.orientation === 'vertical' ? (rect.bottom - event.clientY) / length : (event.clientX - rect.left) / length
+    props.orientation === 'vertical'
+      ? (rect.bottom - event.clientY) / length
+      : (isRtl.value ? rect.right - event.clientX : event.clientX - rect.left) / length
   return bounds.value.min + Math.min(1, Math.max(0, ratio)) * (bounds.value.max - bounds.value.min)
 }
 function nearest(value: number) {
@@ -299,9 +308,9 @@ function keydown(event: KeyboardEvent, index: number) {
     return
   }
   const delta: Record<string, number> = {
-    ArrowRight: 1,
+    ArrowRight: props.orientation === 'horizontal' && isRtl.value ? -1 : 1,
     ArrowUp: 1,
-    ArrowLeft: -1,
+    ArrowLeft: props.orientation === 'horizontal' && isRtl.value ? 1 : -1,
     ArrowDown: -1,
     PageUp: 10,
     PageDown: -10,

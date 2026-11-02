@@ -1,7 +1,5 @@
 # IndexBar
 
-## Examples
-
 ### Lifecycle-owned scrolling
 
 New commands replace older scrolling. Deactivation/disposal cancels entry/interpolation/two-frame settlement; retained methods cannot write or notify. Activation waits for child registration before restoring active/event:false. Cancellation stops without jumping to an old target. Public scrollTo still returns void; default0/cubic easing and events remain. Private tasks replace the generic-helper call, with no new public cancellation API/CSS variable. Reduced motion skips interpolation, not necessary list/clickedName settlement frames.
@@ -16,6 +14,8 @@ Earlier helper10 tests per platform and real IAB8 cases are independent tool evi
 
 Hyperlinks to scroll on one page.
 
+## Basic examples
+
 ### Basic Usage
 
 When you click the index bar, it will automatically jump to the corresponding `IndexAnchor` anchor position.
@@ -24,20 +24,17 @@ When you click the index bar, it will automatically jump to the corresponding `I
 ../example/demos/basic.vue
 ```
 
+## Lifecycle and edge cases
+
 ### Deactivation, disposal and retained commands
 
 ```demo
 ../example/demos/lifecycle.vue
 ```
 
-<!-- api-review:start -->
-### Feature playground
+## Reading direction
 
-```demo
-../example/demos/api-review.vue
-```
-
-<!-- api-review:end -->
+The default index list sits at reading end. Index order and vertical scrolling are preserved; safe areas and sticky top offsets remain physical.
 
 ## API
 
@@ -45,87 +42,87 @@ When you click the index bar, it will automatically jump to the corresponding `I
 
 #### IndexBar Props
 
-| Prop                | Description                         | Type               | Default |
-| ------------------- | ----------------------------------- | ------------------ | ------- |
-| `sticky`            | Whether to enable anchor sticky top | _boolean_          | `true`  |
-| `sticky-offset-top` | Anchor offset top when sticky       | _number \| string_ | `0`     |
-| `hide-list`         | Whether to hide anchor list         | _boolean_          | `false` |
-| `sticky-css-mode`   | Enable native `css sticky` mode     | _boolean_          | `false` |
-| `z-index`           | z-index                             | _string \| number_ | `1`     |
-| `highlight-color`   | Index character highlight color     | _string_           | `-`     |
-| `duration`          | Animation duration                  | _string \| number_ | `0`     |
+| Arguments | Description | Type | Default |
+| ------------------- | -------------------------- | ------------------ | ------- |
+| `sticky` | Whether to enable anchor sticky top | _boolean_ | `true` |
+| `sticky-offset-top` | Anchor offset top when sticky | _number \| string_ | `0` |
+| `hide-list` | Whether to hide anchor list | _boolean_ | `false` |
+| `sticky-css-mode` | Enable native `css sticky` mode | _boolean_ | `false` |
+| `z-index` | z-index | _number \| string_ | `1` |
+| `highlight-color` | Index character highlight color | _string_ | `-` |
+| `duration` | Animation duration | _string \| number_ | `0` |
 
 #### IndexAnchor Props
 
-| Prop    | Description | Type               | Default |
-| ------- | ----------- | ------------------ | ------- |
-| `index` | Index       | _string \| number_ | `-`     |
+| Arguments | Description | Type | Default |
+| ------- | -------- | ------------------ | ------ |
+| `index` | Index | _number \| string_ | `-` |
 
 ### Events
 
 #### IndexBar Events
 
-| Event    | Description                       | arguments                 |
-| -------- | --------------------------------- | ------------------------- |
-| `click`  | Emitted when an index is clicked  | `index: number \| string` |
+| Event | Description | Callback arguments |
+| -------- | ---------------------------- | ------------------------- |
+| `click` | Emitted when an index is clicked | `index: number \| string` |
 | `change` | Emitted when active index changed | `index: number \| string` |
 
 ### Slots
 
 #### IndexBar Slots
 
-| Name      | Description          | SlotProps |
-| --------- | -------------------- | --------- |
-| `default` | Content of index bar | `-`       |
+| Name | Description | Arguments |
+| --------- | ---------- | ---- |
+| `default` | Index-bar content | `-` |
 
 #### IndexAnchor Slots
 
-| Name          | Description            | SlotProps                           |
-| ------------- | ---------------------- | ----------------------------------- |
-| `default`     | Custom index character | `-`                                 |
-| `anchor-name` | Custom anchor content  | `anchorName: string` anchor content |
+| Name | Description | Arguments |
+| ------------- | -------------- | ----------------------------- |
+| `default` | Custom index character | `-` |
+| `anchor-name` | Custom anchor content | `anchorName: string`; anchor content |
 
 ### Methods
 
-Use ref to get IndexBar instance and call instance methods.
+Access IndexBar through ref to call instance methods
 
-| Method     | Description              | arguments                                                    | Return |
-| ---------- | ------------------------ | ------------------------------------------------------------ | ------ |
-| `scrollTo` | Scroll to target element | `index: number \| string, options?: IndexBarScrollToOptions` | `-`    |
+| Method | Description | Arguments | Returns |
+| ---------- | -------------- | ------------------------------------------------------------ | ------ |
+| `scrollTo` | Scroll to target element | `index: number \| string, options?: IndexBarScrollToOptions` | `-` |
 
 #### IndexBarScrollToOptions
 
-| Option  | Description                              | Type      | Default |
-| ------- | ---------------------------------------- | --------- | ------- |
-| `event` | Prevent `change` emit event when `false` | _boolean_ | `-`     |
+| Arguments | Description | Type | Default |
+| ------- | ------------------------------------- | --------- | ------ |
+| `event` | Prevent `change` emit event when `false` | _boolean_ | `-` |
 
-### Style Variables
+### Style variables
 
-Here are the CSS variables used by the component. Styles can be customized using [StyleProvider](#/en-US/style-provider).
+The following CSS variables support customization with [StyleProvider](#/en-US/style-provider).
 
-| Variable                                | Default                   |
+| Variable | Default |
 | --------------------------------------- | ------------------------- |
-| `--mp-index-bar-list-right`             | `0`                       |
-| `--mp-index-bar-list-top`               | `50%`                     |
-| `--mp-index-bar-list-left`              | `auto`                    |
-| `--mp-index-bar-list-bottom`            | `auto`                    |
-| `--mp-index-bar-list-transform`         | `translate(0, -50%)`      |
-| `--mp-index-bar-list-item-font-size`    | `var(--mp-font-size-xs)`  |
-| `--mp-index-bar-list-item-color`        | `var(--mp-color-primary)` |
-| `--mp-index-bar-list-item-active-color` | `var(--mp-color-danger)`  |
-| `--mp-index-bar-list-item-height`       | `14px`                    |
-| `--mp-index-bar-list-item-padding`      | `0 10px`                  |
+| `--mp-index-bar-list-right` | `0` |
+| `--mp-index-bar-list-top` | `50%` |
+| `--mp-index-bar-list-left` | `auto` |
+| `--mp-index-bar-list-bottom` | `auto` |
+| `--mp-index-bar-list-transform` | `translate(0, -50%)` |
+| `--mp-index-bar-list-item-font-size` | `var(--mp-font-size-xs)` |
+| `--mp-index-bar-list-item-color` | `var(--mp-color-primary)` |
+| `--mp-index-bar-list-item-active-color` | `var(--mp-color-danger)` |
+| `--mp-index-bar-list-item-height` | `14px` |
+| `--mp-index-bar-list-item-padding` | `0 10px` |
 
 ### API
 
 ### Props
 
-| Prop    | Description | Type               | Default |
-| ------- | ----------- | ------------------ | ------- |
-| `index` | Index       | _string \| number_ | `-`     |
+| Arguments | Description | Type | Default |
+| ------- | -------- | -------------------- | ------ |
+| `index` | Index | _number_ \| _string_ | - |
 
 ### Slots
 
-| Name      | Description            | SlotProps |
-| --------- | ---------------------- | --------- |
-| `default` | Custom index character | `-`       |
+| Name | Description | Arguments |
+| --------- | -------------- | ---- |
+| `default` | Custom index character | - |

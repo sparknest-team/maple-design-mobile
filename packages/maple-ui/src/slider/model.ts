@@ -26,7 +26,7 @@ export function snap(value: unknown, bounds: ReturnType<typeof sliderBounds>) {
   return Math.min(max, Math.max(min, Number((min + Math.round((number - min) / step) * step).toFixed(12))))
 }
 export function sliderValues(
-  value: SliderValue | undefined,
+  value: SliderValue | null | undefined,
   range: boolean,
   bounds: ReturnType<typeof sliderBounds>,
 ): [number, number] {

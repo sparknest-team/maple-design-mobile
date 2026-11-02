@@ -27,7 +27,7 @@ function handleMenuHistorySearch(result) {
     v-model="menuHistoryValue"
     placeholder="Search"
     :recent-searches="menuRecentSearches"
-    :history-popup="false"
+    edit-mode="direct"
     show-action
     action-type="search"
     action-text="Search"

@@ -2,8 +2,8 @@ import type { StyleValue, VNode } from 'vue'
 import { computed, defineComponent, inject, nextTick, ref, toRefs, useId, watch } from 'vue'
 import { selectionEditorSurface } from '../_components/selected-options/context'
 import VirtualList from '../_components/virtual-list-v2'
+import { useOptionRequest } from '../_hooks/use-option-request'
 import { isFunction, isNull, isUndefined } from '../_utils/is'
-import Empty from '../empty'
 import Input from '../input'
 import { useInputForm } from '../input/use-input-form'
 import { useSelect } from '../select/hooks/use-select'
@@ -15,8 +15,9 @@ import { getKeyFromValue, isGroupOptionInfo } from '../select/utils'
 import Trigger from '../trigger'
 import { createNamespace, getPrefixCls } from '../utils/components'
 import { normalizeTextInputValue } from '../utils/text-input-value'
+import { autoCompleteEmits } from './emits'
 import { autoCompleteProps } from './props'
-import type { AutoCompleteOptionData, AutoCompleteOptionInfo } from './props'
+import type { AutoCompleteOption, AutoCompleteOptionData, AutoCompleteOptionInfo } from './props'
 
 const { n, classes } = createNamespace('auto-complete')
 
@@ -24,23 +25,21 @@ export default defineComponent({
   name: createNamespace('auto-complete').name,
   inheritAttrs: false,
   props: autoCompleteProps,
-  emits: {
-    'update:modelValue': (value: string) => true,
-    input: (value: string, ev: Event) => true,
-    search: (value: string, ev: Event) => true,
-    change: (value: string, ev: Event) => true,
-    select: (value: string, option: AutoCompleteOptionInfo, ev: Event) => true,
-    clear: (ev: Event) => true,
-    focus: (ev: FocusEvent) => true,
-    blur: (ev: FocusEvent) => true,
-    'dropdown-scroll': (ev: Event) => true,
-    'dropdown-reach-bottom': (ev: Event) => true,
-  },
+  emits: autoCompleteEmits,
   setup(props, { emit, attrs, slots, expose }) {
     const prefixCls = getPrefixCls('auto-complete')
     const editor = inject(selectionEditorSurface, undefined)
-    const { modelValue, options, fieldNames } = toRefs(props)
+    const { modelValue, fieldNames, caseSensitive, searchFields } = toRefs(props)
     const { mergedSize, mergedDisabled, mergedReadonly, mergedError, eventHandlers, group } = useInputForm(props)
+    const source = useOptionRequest<AutoCompleteOption | import('../select/types').SelectOptionGroup>(
+      () => props.options,
+      () => mergedDisabled.value || mergedReadonly.value,
+      (error) => emit('load-error', error),
+      () => props.searchDelay,
+      autoCompleteProps,
+    )
+    const options = source.options
+    const loading = computed(() => props.loading || source.loading.value)
     const mergedVariant = computed(() => props.variant ?? group?.variant.value ?? 'outline')
 
     const inputRef = ref<InstanceType<typeof Input>>()
@@ -49,10 +48,12 @@ export default defineComponent({
     const optionRefs = ref<Record<string, HTMLElement>>({})
     const focused = ref(false)
     const open = ref(false)
-    const innerValue = ref(props.defaultValue)
-    const computedValue = computed(() => props.modelValue ?? innerValue.value)
+    const innerValue = ref<string | null>(props.defaultValue)
+    const computedValue = computed(() =>
+      props.modelValue === null ? '' : (props.modelValue ?? innerValue.value ?? ''),
+    )
     let committedValue = computedValue.value
-    let pendingCommittedValue: string | undefined
+    let pendingCommittedValue: string | null | undefined
     let requestedInputValue: string | undefined
     let clearing = false
 
@@ -77,22 +78,14 @@ export default defineComponent({
     const computedValueKeys = computed(() => (computedValue.value ? [getKeyFromValue(computedValue.value)] : []))
     const component = computed(() => (props.virtualListProps ? 'div' : 'li'))
 
-    const strictFilterOption = (inputValue: string, option: SelectOptionData) =>
-      String(option[props.fieldNames?.label ?? 'label'] ?? option[props.fieldNames?.value ?? 'value'] ?? '').includes(
-        inputValue,
-      )
-
     const mergedFilterOption = computed<FilterOption>(() => {
-      const filterOption = props.filterOption
+      const filterOption = props.filterOption ?? !source.remote.value
       if (isFunction(filterOption)) {
         return (inputValue: string, option: SelectOptionData) =>
           filterOption(inputValue, option as AutoCompleteOptionData)
       }
       if (filterOption === false) {
         return false
-      }
-      if (props.strict) {
-        return strictFilterOption
       }
       return true
     })
@@ -104,7 +97,7 @@ export default defineComponent({
         optionsReady.value &&
         editable.value &&
         (editor || open.value) &&
-        validOptionInfos.value.length > 0 &&
+        (validOptionInfos.value.length > 0 || loading.value) &&
         props.shouldOpen(computedValue.value),
     )
     const listboxId = `${prefixCls}-listbox-${useId()}`
@@ -124,7 +117,7 @@ export default defineComponent({
       }
     }
 
-    const updateValue = (value: string) => {
+    const updateValue = (value: string | null) => {
       const changed = value !== computedValue.value
       innerValue.value = value
       if (changed) {
@@ -133,7 +126,7 @@ export default defineComponent({
       return changed
     }
 
-    const emitChange = (value: string, ev: Event, notifyForm = false) => {
+    const emitChange = (value: string | null, ev: Event, notifyForm = false) => {
       if (value === committedValue) {
         return false
       }
@@ -179,13 +172,14 @@ export default defineComponent({
 
     let pendingSearch: { value: string; event: Event } | undefined
     let clearEvent: Event | undefined
-    const handleInputUpdate = (value: string) => {
-      requestedInputValue = value
+    const handleInputUpdate = (value: string | null) => {
+      requestedInputValue = value ?? ''
       updateValue(value)
       const search = pendingSearch
       pendingSearch = undefined
       if (search) {
-        emit('search', value, search.event)
+        emit('search', value ?? '', search.event)
+        void source.search(value ?? '')
         openDropdown()
       }
     }
@@ -199,7 +193,7 @@ export default defineComponent({
       clearEvent = undefined
     }
 
-    const handleChange = (value: string, ev: Event) => {
+    const handleChange = (value: string | null, ev: Event) => {
       if (ev.defaultPrevented) {
         return
       }
@@ -236,8 +230,11 @@ export default defineComponent({
 
     const { validOptions, optionInfoMap, validOptionInfos, activeKey, handleKeyDown } = useSelect({
       options,
+      loading,
       inputValue: computedValue,
       filterOption: mergedFilterOption,
+      caseSensitive,
+      searchFields,
       fieldNames,
       open: computedOpen,
       valueKeys: computedValueKeys,
@@ -305,6 +302,8 @@ export default defineComponent({
     const renderDropdown = () => (
       <SelectDropdown
         ref={dropdownRef}
+        loading={loading.value}
+        empty={Boolean(editor) && !computedOpen.value}
         {...({ id: listboxId, role: 'listbox' } as any)}
         class={classes(n('dropdown'))}
         virtualList={Boolean(props.virtualListProps)}
@@ -322,6 +321,7 @@ export default defineComponent({
               }}
             />
           ),
+          empty: slots.empty,
           footer: slots.footer,
         }}
       />
@@ -331,6 +331,7 @@ export default defineComponent({
       ...props.inputAttrs,
       role: 'combobox',
       'aria-autocomplete': 'list',
+      'aria-busy': loading.value || undefined,
       'aria-expanded': computedOpen.value,
       'aria-controls': listboxId,
       'aria-activedescendant': computedOpen.value && activeKey.value ? getOptionId(activeKey.value) : undefined,
@@ -339,8 +340,11 @@ export default defineComponent({
 
     const renderInput = (restAttrs: Record<string, unknown>) => (
       <Input
+        loading={loading.value}
+        loadingMode={props.loadingMode}
         {...restAttrs}
         ref={inputRef}
+        editMode="direct"
         modelValue={computedValue.value}
         defaultValue={props.defaultValue}
         size={mergedSize.value}
@@ -370,6 +374,7 @@ export default defineComponent({
         onUpdate:modelValue={handleInputUpdate}
         onInput={handleInput}
         onChange={handleChange}
+        emptyValue={props.emptyValue}
         onClear={handleClear}
         onFocus={handleFocus}
         onBlur={handleBlur}
@@ -383,7 +388,7 @@ export default defineComponent({
         return (
           <div class={[classes(n()), className]} style={style as StyleValue}>
             {renderInput(restAttrs)}
-            {computedOpen.value ? renderDropdown() : (slots.empty?.() ?? <Empty />)}
+            {renderDropdown()}
           </div>
         )
       }
@@ -397,6 +402,8 @@ export default defineComponent({
           preventFocus
           popupOffset={4}
           autoFitPopupWidth
+          autoFitPosition={false}
+          updateAtScroll
           unmountOnClose={true}
           {...props.triggerProps}
           open={computedOpen.value}
@@ -415,6 +422,7 @@ export default defineComponent({
     }
 
     expose({
+      refresh: source.refresh,
       focus: () => inputRef.value?.focus(),
       blur: () => inputRef.value?.blur(),
     })

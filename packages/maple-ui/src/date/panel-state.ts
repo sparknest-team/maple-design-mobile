@@ -1,9 +1,13 @@
+import type { EmptyValue } from '../utils/empty-value'
 import type { DateRules } from './date-rules'
 import type { DateSelection } from './date-value'
 import type { DateWeekStart } from './panel-props'
 import type { DateShortcut, DateShortcutsPosition } from './panel-tools-props'
 
 export interface DatePanelOptions extends DateRules {
+  emptyValue?: EmptyValue<DateSelection>
+  interactiveMode?: import('./calendar-viewport-props').CalendarInteractiveMode
+  useVirtualScroll?: boolean
   dayStartOfWeek?: DateWeekStart
   abbreviation?: boolean
   showCurrent?: boolean

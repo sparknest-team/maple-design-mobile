@@ -8,7 +8,8 @@ const esbuild = req('esbuild'),
   vue = req('@vue/compiler-sfc'),
   babel = req('@babel/core')
 const assert = require('node:assert/strict')
-const src = path.join(root, 'packages/maple-ui/src')
+const sourceRoot = fs.realpathSync(process.env.MAPLE_BUNDLE_SOURCE_ROOT || root)
+const src = path.join(sourceRoot, 'packages/maple-ui/src')
 const entries = Object.fromEntries(
   fs
     .readdirSync(src, { withFileTypes: true })
@@ -98,9 +99,9 @@ const plugin = {
     metafile: true,
     logLevel: 'silent',
     alias: {
-      '@maple-design/shared': path.join(root, 'packages/maple-shared/src/index.ts'),
-      '@maple-design/use': path.join(root, 'packages/maple-use/src/index.ts'),
-      '@maple-design/icons-vue': path.join(root, 'packages/maple-icons-vue/src/index.ts'),
+      '@maple-design/shared': path.join(sourceRoot, 'packages/maple-shared/src/index.ts'),
+      '@maple-design/use': path.join(sourceRoot, 'packages/maple-use/src/index.ts'),
+      '@maple-design/icons-vue': path.join(sourceRoot, 'packages/maple-icons-vue/src/index.ts'),
     },
     loader: {
       '.less': 'empty',
@@ -113,6 +114,7 @@ const plugin = {
     plugins: [plugin],
   })
   const rows = []
+  const retainedInputs = {}
   for (const file of result.outputFiles) {
     if (!file.path.endsWith('.js')) {
       continue
@@ -133,6 +135,7 @@ const plugin = {
       )
       assert.doesNotMatch(file.text, /data-popup-container/, 'Development-only prop validators must be removed')
     }
+    retainedInputs[name] = inc.map(([file, metadata]) => ({ file, bytes: metadata.bytesInOutput }))
     rows.push({
       name,
       bytes: file.contents.length,
@@ -152,6 +155,10 @@ const plugin = {
     rows.every((r) => r.rattailBytes === 0),
     'A component retained the removed rattail dependency',
   )
+  if (process.env.MAPLE_BUNDLE_REPORT) {
+    fs.writeFileSync(process.env.MAPLE_BUNDLE_REPORT, JSON.stringify(rows, null, 2) + '\n')
+    fs.writeFileSync(process.env.MAPLE_BUNDLE_REPORT + '.inputs.json', JSON.stringify(retainedInputs, null, 2) + '\n')
+  }
   // Entry caps cover shared-tool consolidation and floating-entry slimming; Vue is external and CSS excluded.
   // Override the file to compare a separately captured MAPLE_BUNDLE_REPORT.
   {
@@ -166,9 +173,6 @@ const plugin = {
         : []
     })
     assert.deepEqual(regressions, [], 'On-demand JS size exceeded the supplied baseline')
-  }
-  if (process.env.MAPLE_BUNDLE_REPORT) {
-    fs.writeFileSync(process.env.MAPLE_BUNDLE_REPORT, JSON.stringify(rows, null, 2) + '\n')
   }
   console.log(
     JSON.stringify(

@@ -5,7 +5,7 @@ const drag = ref(false)
 </script>
 
 <template>
-  <mp-switch v-model="drag" />
+  <mp-switch v-model="drag" edit-mode="direct" />
   <span class="fab-demo-label">拖拽: {{ drag }}</span>
   <p class="fab-demo-hint">开启后可用触摸在预览区内拖动按钮；关闭后停止拖动。</p>
   <div class="fab-demo-stage">

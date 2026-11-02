@@ -4,6 +4,8 @@ import { getSavedLanguage, normalizeLanguage, saveLanguage } from '@maple-design
 import { Locale } from '@maple-design/ui'
 import routes from '@pc-routes'
 import { createRouter, createWebHashHistory } from 'vue-router'
+import { getDesktopPath } from '../mobile/route-sync'
+import { installRouteRecovery } from '../route-recovery'
 import App from './App.vue'
 import CodeExample from './components/code-example'
 import DemoPreview from './components/demo-preview'
@@ -38,6 +40,8 @@ const router = createRouter({
   },
 })
 
+installRouteRecovery(router)
+
 router.beforeEach((to: any, from: any) => {
   const language = normalizeLanguage(to.path.split('/')[1], defaultLanguage)
   Locale.use(language)
@@ -47,7 +51,10 @@ router.beforeEach((to: any, from: any) => {
   }
 
   // @ts-ignore
-  if (window._hmt) {
+  if (
+    window._hmt &&
+    (from.matched.length === 0 || to.path !== from.path || JSON.stringify(to.query) !== JSON.stringify(from.query))
+  ) {
     if (to.path) {
       // @ts-ignore
       window._hmt.push(['_trackPageview', `/#${to.fullPath}`])
@@ -56,13 +63,13 @@ router.beforeEach((to: any, from: any) => {
 })
 
 Object.defineProperty(window, 'onMobileRouteChange', {
-  value: (path: string, language: string, replace: string, hash: string) => {
-    if (path === mobileRedirect) {
-      router.replace(`/${language}/${replace}${hash}`)
-      return
-    }
-
-    router.replace(`/${language}${path}${hash}`)
+  value: (path: string, language: string, replace: string, hash: string, query: Record<string, any> = {}) => {
+    const { language: _language, platform: _platform, replace: _replace, ...businessQuery } = query
+    router.replace({
+      path: path === mobileRedirect ? `/${language}/${replace}` : getDesktopPath(path, language),
+      hash,
+      query: businessQuery,
+    })
   },
 })
 

@@ -1,16 +1,20 @@
 import { computed, provide, reactive, ref, toRefs, watch, type ExtractPropTypes, type SetupContext } from 'vue'
 import { useFieldSearch } from '../_components/field-presentation/use-field-search'
 import { useSelectionSession } from '../_components/selection-field/use-selection-session'
+import { useOptionRequest } from '../_hooks/use-option-request'
+import { resolveDirection } from '../_utils/direction'
 import { isArray, isFunction, isNull, isUndefined } from '../_utils/is'
 import { getKeyDownHandler, KEYBOARD_KEY } from '../_utils/keyboard'
 import type { BaseType, UnionType } from '../_utils/types'
 import { useInputForm } from '../input/use-input-form'
+import { resolveEmptyValue, useEmptyValues } from '../utils/empty-value'
 import { cascaderInjectionKey } from './context'
 import { cascaderEmits } from './emits'
 import { useSelectedPath } from './hooks/use-selected-path'
 import { presentations } from './presentations'
 import { cascaderProps } from './props'
 import type { CascaderBaseValue, CascaderOption, CascaderOptionInfo } from './types'
+import { useLazyOptions } from './use-lazy-options'
 import {
   getCheckedStatus,
   getLeafOptionInfos,
@@ -25,28 +29,28 @@ export function useCascaderController(
   props: Readonly<ExtractPropTypes<typeof cascaderProps>>,
   { emit, slots }: Pick<SetupContext<typeof cascaderEmits>, 'emit' | 'slots'>,
 ) {
-  const {
-    options,
-    checkStrictly,
-    loadMore,
-    formatLabel,
-    modelValue,
-    disabled,
-    expandTrigger,
-    expandChild,
-    pathMode,
-    multiple,
-  } = toRefs(props)
+  const { checkStrictly, formatLabel, modelValue, disabled, expandTrigger, expandChild, pathMode, multiple } =
+    toRefs(props)
+  const emptyPolicy = useEmptyValues(props)
   const _value = ref<CascaderBaseValue | undefined>(props.defaultValue)
   const _inputValue = ref(props.defaultInputValue)
   const _open = ref(props.defaultOpen)
 
   const { mergedDisabled, mergedReadonly, mergedError, mergedSize, eventHandlers, group, hasOuterLabel, feedback } =
     useInputForm(props)
+  const source = useOptionRequest<CascaderOption>(
+    () => props.options,
+    () => mergedDisabled.value || mergedReadonly.value || !!props.readPretty,
+    (error) => emit('load-error', error),
+    () => 0,
+    cascaderProps,
+  )
+  const options = source.options
+  const loading = computed(() => props.loading || source.loading.value)
   const mergedVariant = computed(() => props.variant ?? group?.variant.value ?? 'filled')
   const mergedHint = computed(() => !hasOuterLabel.value && props.hint)
   const computedOpen = computed(() => props.open ?? _open.value)
-  const committedValue = computed(() => props.modelValue ?? _value.value)
+  const committedValue = computed(() => (props.modelValue !== undefined ? props.modelValue : _value.value))
   const deferred = computed(() => presentations.inline.deferred(props.multiple))
   const publish = (value: CascaderBaseValue | undefined) => {
     _value.value = value
@@ -58,14 +62,14 @@ export function useCascaderController(
     value: () => committedValue.value,
     open: computedOpen,
     deferred: () => deferred.value,
-    blocked: () => mergedDisabled.value || mergedReadonly.value || props.loading,
+    blocked: () => mergedDisabled.value || mergedReadonly.value || loading.value,
     clone: (value) => (Array.isArray(value) ? value.map((item) => (Array.isArray(item) ? [...item] : item)) : value),
     publish,
     valid: () => canConfirm.value,
     close: () => handleOpenChange(false),
   })
   watch(
-    () => props.presentation,
+    () => props.editMode,
     () => {
       session.cancel()
       session.reset()
@@ -91,50 +95,6 @@ export function useCascaderController(
 
   const lazyLoadOptions = reactive<Record<string, CascaderOption[]>>({})
 
-  const pendingLoads = new Map<string, Promise<void>>()
-  let optionsVersion = 0
-  watch(options, () => {
-    optionsVersion++
-    pendingLoads.clear()
-    Object.keys(lazyLoadOptions).forEach((key) => delete lazyLoadOptions[key])
-  })
-  const expandOption = (option: CascaderOptionInfo): Promise<void> => {
-    if (option.disabled || mergedDisabled.value || mergedReadonly.value) {
-      return Promise.resolve()
-    }
-    setSelectedPath(option.key)
-    if (!props.loadMore || option.isLeaf || option.children) {
-      return Promise.resolve()
-    }
-    const pending = pendingLoads.get(option.key)
-    if (pending) {
-      return pending
-    }
-    const version = optionsVersion
-    const task = new Promise<void>((resolve, reject) => {
-      try {
-        props.loadMore?.(option.raw, (children) => {
-          if (version === optionsVersion && children) {
-            addLazyLoadOptions(children, option.key)
-          }
-          resolve()
-        })
-      } catch (error) {
-        reject(error)
-      }
-    }).finally(() => {
-      if (version === optionsVersion) {
-        pendingLoads.delete(option.key)
-      }
-    })
-    pendingLoads.set(option.key, task)
-    return task
-  }
-
-  const addLazyLoadOptions = (children: CascaderOption[], key: string) => {
-    lazyLoadOptions[key] = children
-  }
-
   const DEFAULT_FIELD_NAMES = {
     value: 'value',
     label: 'label',
@@ -149,6 +109,21 @@ export function useCascaderController(
     ...DEFAULT_FIELD_NAMES,
     ...props.fieldNames,
   }))
+
+  const loadLazyOption = useLazyOptions({
+    options: () => options.value,
+    loader: () => props.loadMore,
+    fieldNames: () => props.fieldNames,
+    blocked: () => mergedDisabled.value || mergedReadonly.value,
+    cache: lazyLoadOptions,
+  })
+  const expandOption = (option: CascaderOptionInfo): Promise<void> => {
+    if (option.disabled || mergedDisabled.value || mergedReadonly.value) {
+      return Promise.resolve()
+    }
+    setSelectedPath(option.key)
+    return loadLazyOption(option)
+  }
 
   watch(
     [options, lazyLoadOptions, mergedFieldNames],
@@ -177,7 +152,7 @@ export function useCascaderController(
   )
 
   const computedValueMap = computed(() => {
-    const values = getValidValues(session.value.value, {
+    const values = getValidValues(emptyPolicy.isEmpty(session.value.value) ? undefined : session.value.value, {
       multiple: props.multiple,
       pathMode: props.pathMode,
     })
@@ -194,6 +169,9 @@ export function useCascaderController(
 
   const computedInputValue = computed(() => props.inputValue ?? _inputValue.value)
   const getFilteredStatus = (label: string) => {
+    if (props.caseSensitive) {
+      return label?.includes(computedInputValue.value)
+    }
     return label?.toLocaleLowerCase().includes(computedInputValue.value?.toLocaleLowerCase())
   }
 
@@ -201,15 +179,22 @@ export function useCascaderController(
     const options = props.checkStrictly ? Array.from(optionMap.values()) : Array.from(leafOptionSet)
 
     return options.filter((item) => {
+      if (source.remote.value && !props.filterOption) {
+        return true
+      }
       if (isFunction(props.filterOption)) {
         return props.filterOption(computedInputValue.value, item.raw)
       }
 
-      if (props.checkStrictly) {
-        return getFilteredStatus(item.label)
+      if (!computedInputValue.value) {
+        return true
       }
 
-      return item.path?.find((leaf) => getFilteredStatus(leaf.label))
+      if (props.checkStrictly) {
+        return props.searchFields.some((field) => getFilteredStatus(String(item[field] ?? '')))
+      }
+
+      return item.path?.some((leaf) => props.searchFields.some((field) => getFilteredStatus(String(leaf[field] ?? ''))))
     })
   })
 
@@ -253,7 +238,10 @@ export function useCascaderController(
     if (mergedDisabled.value || mergedReadonly.value || leafOptionMap.get(key)?.disabled || !props.multiple) {
       return
     }
-    const values = getValidValues(committedValue.value, { multiple: true, pathMode: props.pathMode })
+    const values = getValidValues(emptyPolicy.isEmpty(committedValue.value) ? undefined : committedValue.value, {
+      multiple: true,
+      pathMode: props.pathMode,
+    })
     publish(
       values.filter(
         (value) => getValueKey(value, { valueField: mergedFieldNames.value.value, leafOptionValueMap }) !== key,
@@ -298,7 +286,7 @@ export function useCascaderController(
     if (
       mergedDisabled.value ||
       mergedReadonly.value ||
-      props.loading ||
+      loading.value ||
       option.disabled ||
       (!props.multiple && !props.checkStrictly && !option.isLeaf)
     ) {
@@ -314,12 +302,16 @@ export function useCascaderController(
   const handleSearch = useFieldSearch(
     () => props.searchDelay,
     () => Boolean(computedOpen.value) && !mergedDisabled.value && !mergedReadonly.value,
-    (value) => emit('search', value),
+    (value) => {
+      emit('search', value)
+      void source.search(value)
+    },
   )
 
-  const handleInputValueChange = (value: string, reason = 'manual'): void => {
+  const handleInputValueChange = (nextValue: string | null, reason = 'manual'): void => {
+    const value = nextValue ?? ''
     if (value !== computedInputValue.value) {
-      if (reason === 'manual' && !computedOpen.value) {
+      if (reason === 'manual' && !computedOpen.value && props.openTriggerTarget !== 'icon') {
         _open.value = true
         emit('update:open', true)
         emit('open-change', true)
@@ -355,6 +347,14 @@ export function useCascaderController(
     }
   })
 
+  // A closed picker must not reopen at the old path after its last value clears.
+  watch(computedValueMap, (values) => {
+    if (!computedOpen.value && values.size === 0) {
+      setSelectedPath()
+      setActiveKey()
+    }
+  })
+
   const clearSelection = (e: Event) => {
     if (mergedDisabled.value || mergedReadonly.value) {
       return
@@ -369,9 +369,9 @@ export function useCascaderController(
           newValues.push(props.pathMode ? option.pathValue : option.value)
         }
       })
-      publish(newValues)
+      publish(newValues.length ? newValues : resolveEmptyValue(props, newValues))
     } else {
-      publish('')
+      publish(resolveEmptyValue(props, ''))
     }
     handleInputValueChange('', 'clear')
     eventHandlers.value?.onClear?.()
@@ -409,15 +409,37 @@ export function useCascaderController(
       onClickOption: handleClickOption,
       setActiveKey,
       setSelectedPath,
-      loadMore,
       expandTrigger,
-      addLazyLoadOptions,
       expandOption,
       formatLabel,
       slots,
       valueMap: computedValueMap,
     }),
   )
+
+  // Screen left/right keys map to logical child/parent navigation without
+  // rewriting the original keyboard event or changing path/value order.
+  const navigateLevel = (event: Event, physicalRight: boolean) => {
+    if (showSearchPanel.value) {
+      return
+    }
+    event.preventDefault()
+    const forward = physicalRight !== (resolveDirection(event.target as Element) === 'rtl')
+    const node = activeOption.value
+    if (!node || node.disabled) {
+      return
+    }
+    if (forward && node.children) {
+      setSelectedPath(node.key)
+      const child = node.children.find((option) => !option.disabled)
+      if (child) {
+        setActiveKey(child.key)
+      }
+    } else if (!forward && node.parent) {
+      setSelectedPath(node.parent.key)
+      setActiveKey(node.parent.key)
+    }
+  }
 
   const dispatchKeyDown = getKeyDownHandler(
     new Map([
@@ -463,42 +485,23 @@ export function useCascaderController(
           setActiveKey(activeNode?.key)
         },
       ],
-      [
-        KEYBOARD_KEY.ARROW_RIGHT,
-        (ev: Event) => {
-          if (!showSearchPanel.value) {
-            ev.preventDefault()
-            if (activeOption.value?.children) {
-              setSelectedPath(activeOption.value.key)
-              setActiveKey(activeOption.value.children[0]?.key)
-            }
-          }
-        },
-      ],
-      [
-        KEYBOARD_KEY.ARROW_LEFT,
-        (ev: Event) => {
-          if (!showSearchPanel.value) {
-            ev.preventDefault()
-            if (activeOption.value?.parent) {
-              setSelectedPath(activeOption.value.parent.key)
-              setActiveKey(activeOption.value.parent.key)
-            }
-          }
-        },
-      ],
+      [KEYBOARD_KEY.ARROW_RIGHT, (event: Event) => navigateLevel(event, true)],
+      [KEYBOARD_KEY.ARROW_LEFT, (event: Event) => navigateLevel(event, false)],
     ]),
   )
 
   const handleKeyDown = (event: KeyboardEvent) => {
-    if (mergedDisabled.value || mergedReadonly.value || props.loading || session.pending.value || event.isComposing) {
+    if (mergedDisabled.value || mergedReadonly.value || loading.value || session.pending.value || event.isComposing) {
       return
     }
     dispatchKeyDown(event)
   }
 
   const canConfirm = computed<boolean>(() => {
-    const committed = getValidValues(committedValue.value, { multiple: props.multiple, pathMode: props.pathMode })
+    const committed = getValidValues(emptyPolicy.isEmpty(committedValue.value) ? undefined : committedValue.value, {
+      multiple: props.multiple,
+      pathMode: props.pathMode,
+    })
     const keys = new Set(
       committed.map((value) => getValueKey(value, { valueField: mergedFieldNames.value.value, leafOptionValueMap })),
     )
@@ -513,7 +516,10 @@ export function useCascaderController(
   const fieldItems = computed(() => {
     const result: any[] = []
     new Map(
-      getValidValues(committedValue.value, { multiple: props.multiple, pathMode: props.pathMode }).map(
+      getValidValues(emptyPolicy.isEmpty(committedValue.value) ? undefined : committedValue.value, {
+        multiple: props.multiple,
+        pathMode: props.pathMode,
+      }).map(
         (value) =>
           [getValueKey(value, { valueField: mergedFieldNames.value.value, leafOptionValueMap }), value] as const,
       ),
@@ -527,9 +533,9 @@ export function useCascaderController(
           closable: !option.disabled,
           tagProps: option.tagProps,
         })
-      } else if (props.fallback) {
-        const label = isFunction(props.fallback)
-          ? props.fallback(value)
+      } else if (props.fallbackOption) {
+        const label = isFunction(props.fallbackOption)
+          ? props.fallbackOption(value)
           : isArray(value)
             ? value.join(' / ')
             : String(value)
@@ -546,6 +552,8 @@ export function useCascaderController(
 
   return {
     props,
+    loading,
+    refresh: source.refresh,
     session,
     deferred,
     canConfirm,
@@ -557,7 +565,6 @@ export function useCascaderController(
     computedValueMap,
     setSelectedPath,
     setActiveKey,
-    addLazyLoadOptions,
     expandOption,
     optionInfos,
     filteredLeafOptions,

@@ -1,0 +1,27 @@
+{
+  "library": "maple",
+  "browser": {
+    "name": "chromium",
+    "engine": "chromium",
+    "launchOptions": {},
+    "version": "151.0.7922.34",
+    "platform": "darwin",
+    "architecture": "arm64",
+    "recordedAt": "2026-10-29T03:27:44.426Z",
+    "evidenceType": "automated-engine-regression",
+    "nativeDeviceAcceptance": false,
+    "userAgentEmulation": "device routing preset; not evidence of an actual OS/browser version",
+    "gestureInput": "CDP touch injection"
+  },
+  "node": "v20.19.0",
+  "productionFingerprint": "7f61ddbc02931f6e9605aa2628f2eda6823b7313ba8470f751e07c9f5e0442bc",
+  "buildIndexHash": "44491515e34dbe5e8c7b40e22681ab9eb48332c2635e3b1ef3a2f05c588a66ce",
+  "stable": true,
+  "timeoutMs": 5000,
+  "logoDelayMs": 1200,
+  "externalPolicy": "all HTTP(S) requests held without responses until case cleanup",
+  "expected": 4,
+  "completed": 0,
+  "passed": 0,
+  "results": []
+}

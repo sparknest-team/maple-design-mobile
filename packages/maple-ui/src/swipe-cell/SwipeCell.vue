@@ -1,5 +1,11 @@
 <template>
-  <div ref="root" :class="classes(n(), n('$--box'))" @click="handleClick('cell', $event)">
+  <div
+    ref="root"
+    :class="classes(n(), n('$--box'))"
+    :aria-busy="busy || undefined"
+    @click="handleClick('cell', $event)"
+  >
+    <PendingFeedback :loading="busy" />
     <div ref="wrapper" :class="n('wrapper')" :style="wrapperStyle">
       <div v-if="$slots.left" ref="leftRef" :class="n('left')" @click.stop="handleClick('left', $event)">
         <slot name="left" />
@@ -28,6 +34,8 @@ import {
 } from 'vue'
 import { call, getRect, preventDefault, toNumber } from '@maple-design/shared'
 import { useTouch } from '@maple-design/use'
+import PendingFeedback from '../_components/pending-feedback/PendingFeedback.vue'
+import { useActionGuard } from '../_hooks/use-action-guard'
 import { createNamespace } from '../utils/components'
 import { props, type SwipeCellPosition, type SwipeCellSide } from './props'
 
@@ -36,8 +44,11 @@ const { name, n, classes } = createNamespace('swipe-cell')
 export default defineComponent({
   name,
   props,
-  emits: ['click', 'open', 'close'],
+  components: { PendingFeedback },
+  emits: ['click', 'open', 'close', 'guard-error'],
   setup(props, { emit, expose }) {
+    const guard = useActionGuard()
+    const busy = computed(() => props.loading || guard.pending.value)
     const root = ref<HTMLElement | null>(null)
     const wrapper = ref<HTMLElement | null>(null)
     const leftRef = ref<HTMLElement | null>(null)
@@ -63,8 +74,9 @@ export default defineComponent({
     const available = () => active && !disposed
 
     watch(
-      () => [props.beforeClose, props.name],
+      () => [props.beforeClose, props.name, props.loading],
       () => {
+        guard.cancel()
         commandGeneration += 1
       },
       { flush: 'sync' },
@@ -143,6 +155,7 @@ export default defineComponent({
     watch(
       () => props.disabled,
       (disabled) => {
+        guard.cancel()
         commandGeneration += 1
         if (disabled) {
           cancelGesture()
@@ -216,7 +229,8 @@ export default defineComponent({
     }
 
     function open(side: SwipeCellSide) {
-      if (!available() || props.disabled) {
+      guard.cancel()
+      if (!available() || props.disabled || props.loading) {
         return
       }
       if (hasTouch) {
@@ -236,7 +250,7 @@ export default defineComponent({
     }
 
     async function close(position: SwipeCellPosition = 'outside', event?: Event) {
-      if (!available() || (!opened.value && offset.value === 0)) {
+      if (!available() || busy.value || (!opened.value && offset.value === 0)) {
         return
       }
       if (hasTouch) {
@@ -246,12 +260,16 @@ export default defineComponent({
       const generation = ++commandGeneration
 
       if (props.beforeClose) {
-        const result = await props.beforeClose({
-          name: props.name,
+        const hook = props.beforeClose
+        const outcome = await guard.run(
           position,
+          (current) => hook({ name: props.name, position: current, event }),
           event,
-        })
-        if (result === false) {
+        )
+        if (outcome.status !== 'allowed') {
+          if (outcome.status === 'error') {
+            emit('guard-error', outcome.error, position)
+          }
           return
         }
       }
@@ -273,7 +291,11 @@ export default defineComponent({
     }
 
     function handleTouchstart(event: TouchEvent) {
-      if (!available() || props.disabled) {
+      if (props.loading) {
+        return
+      }
+      guard.cancel()
+      if (!available() || props.disabled || props.loading) {
         return
       }
       commandGeneration += 1
@@ -385,12 +407,12 @@ export default defineComponent({
       }
     }
 
-    expose({
-      open,
-      close: () => close('outside'),
-    })
+    const publicApi = { open, close: () => close('outside') }
+    expose(publicApi)
 
     return {
+      ...publicApi,
+      busy,
       root,
       wrapper,
       leftRef,

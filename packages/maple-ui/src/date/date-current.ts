@@ -21,7 +21,10 @@ export function useDateCurrent(fallback: () => boolean = () => true) {
   return inject(currentKey, undefined) ?? computed(fallback)
 }
 export function currentDateValue(options: DateValueOptions & { dayStartOfWeek?: number }, now = new Date()) {
-  let point = parseDateValue(now, options)!
+  let point = parseDateValue(now, options)
+  if (!point) {
+    return undefined
+  }
   const type = options.type ?? 'date'
   if (type === 'year' || type === 'month' || type === 'quarter') {
     point = point.startOf(type)

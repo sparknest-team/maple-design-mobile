@@ -3,7 +3,8 @@
 exports[`textarea renders the shared defaults 1`] = `
 "<div class="mp-textarea">
   <div class="mp-field-decorator mp-field-decorator--size-md mp-field-decorator--variant-outline mp-field-decorator--hint mp-field-decorator--floating mp-field-decorator--multiline">
-    <!--v-if--><span class="mp-field-decorator__middle"><!--v-if--><textarea id="v-0" class="mp-textarea__inner" style="resize: none;" value="text"></textarea></span><label for="v-0" class="mp-field-decorator__placeholder">请输入</label>
+    <!--v-if--><span class="mp-field-decorator__middle"><!--v-if--><textarea id="v-0" autocomplete="off" class="mp-textarea__inner" style="resize: none;" value="text"></textarea></span><label for="v-0" class="mp-field-decorator__placeholder">请输入</label>
+    <!--v-if-->
     <!--v-if-->
     <fieldset class="mp-field-decorator__border mp-field-decorator__border--notched" aria-hidden="true">
       <legend class="mp-field-decorator__legend mp-field-decorator__legend--open"><span>请输入</span></legend>

@@ -1,7 +1,5 @@
 # Code
 
-## Examples
-
 ### Intro
 
 Code Block component, used for code highlighted
@@ -17,13 +15,28 @@ If you choose [Shiki](https://shiki.tmrs.site/), install it in your application 
 
 The examples below use Shiki only to demonstrate how highlighting is injected into `HighlighterProvider`; `Code` is not coupled to Shiki.
 
+## Basic examples
+
 ### Basic Usage
 
 ```demo
 ../example/demos/basic-usage.vue
 ```
 
+## Layout and arrangement
+
 ### Word Wrap
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `code` | Code Snippet | Word Wrap |
+| `language` | Code Language | Word Wrap |
+| `word-wrap` | Whether to support automatic line wrapping when code overflows | Word Wrap |
+<!-- demo-config-notes:end -->
+
 
 Set `word-wrap` to support automatic line wrapping when code overflows.
 
@@ -31,55 +44,46 @@ Set `word-wrap` to support automatic line wrapping when code overflows.
 ../example/demos/word-wrap.vue
 ```
 
-<!-- api-review:start -->
-### Feature playground
-
-```demo
-../example/demos/api-review.vue
-```
-
-<!-- api-review:end -->
-
 ## API
 
 ### Props
 
 #### Code Props
 
-| Prop        | Description                                                                 | Type      | Default |
-| ----------- | --------------------------------------------------------------------------- | --------- | ------- |
-| `code`      | Code Snippet                                                                | _string_  | `-`     |
-| `language`  | Code Language                                                               | _string_  | `-`     |
-| `theme`     | Code Theme                                                                  | _string_  | `-`     |
-| `word-wrap` | Whether to support automatic line wrapping when code overflows              | _boolean_ | `false` |
-| `trim`      | Whether to remove the blank characters at the beginning and end of the code | _boolean_ | `true`  |
+| Arguments | Description | Type | Default |
+| ----------- | -------------------------------- | --------- | ------- |
+| `code` | Code Snippet | _string_ | `-` |
+| `language` | Code Language | _string_ | `-` |
+| `theme` | Code Theme | _string_ | `-` |
+| `word-wrap` | Whether to support automatic line wrapping when code overflows | _boolean_ | `false` |
+| `trim` | Whether to remove the blank characters at the beginning and end of the code | _boolean_ | `true` |
 
 #### HighlighterProvider Props
 
-| Prop          | Description      | Type          | Default |
-| ------------- | ---------------- | ------------- | ------- |
-| `highlighter` | Code Highlighter | `Highlighter` | `-`     |
-| `theme`       | Code Theme       | _string_      | `-`     |
-| `tag`         | Custom tag name  | _string_      | `div`   |
+| Arguments | Description | Type | Default |
+| ------------- | ------------ | ------------- | ------ |
+| `highlighter` | Code Highlighter | `Highlighter` | `-` |
+| `theme` | Code Theme | _string_ | `-` |
+| `tag` | Custom tag name | _string_ | `div` |
 
 #### Highlighter
 
-| Prop         | Description                                                              | Type                                                            | Default |
-| ------------ | ------------------------------------------------------------------------ | --------------------------------------------------------------- | ------- |
-| `codeToHtml` | Highlighter function, component highlighter must implement this function | `(code: string, options: CodeToHtmlOptions) => Promise<string>` | `-`     |
+| Arguments | Description | Type | Default |
+| ------------ | ------------------------------------ | --------------------------------------------------------------- | ------ |
+| `codeToHtml` | Highlighter function, component highlighter must implement this function | `(code: string, options: CodeToHtmlOptions) => Promise<string>` | `-` |
 
 #### CodeToHtmlOptions
 
-| Prop    | Description   | Type     | Default |
-| ------- | ------------- | -------- | ------- |
-| `lang`  | Code Language | _string_ | `-`     |
-| `theme` | Code Theme    | _string_ | `-`     |
+| Arguments | Description | Type | Default |
+| ------- | ---- | -------- | ------ |
+| `lang` | Code Language | _string_ | `-` |
+| `theme` | Code Theme | _string_ | `-` |
 
-### Style Variables
+### Style variables
 
-Here are the CSS variables used by the component. Styles can be customized using [StyleProvider](#/en-US/style-provider).
+The following CSS variables support customization with [StyleProvider](#/en-US/style-provider).
 
-| Variable                | Default |
-| ----------------------- | ------- |
-| `--mp-code-line-height` | `1.7`   |
-| `--mp-code-font-size`   | `14px`  |
+| Variable | Default |
+| ----------------------- | ------ |
+| `--mp-code-line-height` | `1.7` |
+| `--mp-code-font-size` | `14px` |

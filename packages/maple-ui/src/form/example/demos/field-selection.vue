@@ -2,8 +2,8 @@
 import { ref, watch } from 'vue'
 import ModelOutput from '../components/ModelOutput.vue'
 
-const presentation = ref('inline')
-const presentations = ['inline', 'popup'].map((value) => ({ value, label: value }))
+const editMode = ref('popup')
+const presentations = ['direct', 'popup'].map((value) => ({ value, label: value }))
 const devices = [
   {
     isGroup: true,
@@ -45,9 +45,17 @@ const model = ref({
 </script>
 
 <template>
-  <mp-space direction="column" :size="16">
-    <mp-select v-model="presentation" :options="presentations" :clearable="false" aria-label="字段展示方式" />
-    <mp-form :model="model" :presentation="presentation">
+  <mp-space direction="column" align="stretch" :size="16">
+    <mp-form-item layout="vertical" size="sm" label="字段展示方式">
+      <mp-radio-group
+        v-model="editMode"
+        aria-label="字段展示方式"
+        :options="presentations"
+        variant="button"
+        size="sm"
+      />
+    </mp-form-item>
+    <mp-form :model="model" :edit-mode="editMode">
       <mp-form-item field="device" label="单选设备"
         ><mp-select v-model="model.device" :options="devices" filterable
       /></mp-form-item>

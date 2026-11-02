@@ -2,11 +2,11 @@
 
 Display duration is a business deadline, not CSS enter/leave time. Zero is persistent; only finite positive values schedule auto-close. Hover preserves remaining time; KeepAlive activation restarts the full configured deadline, while suspension/disposal invalidate old timers. The2026-10-15 reconciliation confirms the existing audited source hash and adds business-clock classification only. Current39 tests do not add native-browser acceptance or certify service nextTick update identity/cross-document adoption.
 
-## 案例
-
 ### Description
 
 Message provides lightweight, non-modal global feedback. Maple and Cedar share the same public contract, queue, timer, and imperative service while keeping separate source copies and platform-specific styling. Message never locks scrolling or blocks background interaction.
+
+## Basic examples
 
 ### Function Calls
 
@@ -14,7 +14,19 @@ Message provides lightweight, non-modal global feedback. Maple and Cedar share t
 ../example/demos/function-call.vue
 ```
 
+## Appearance and states
+
 ### Statuses
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `variant` | Visual emphasis | Appearance combinations |
+| `status` | Semantic status | Appearance combinations |
+<!-- demo-config-notes:end -->
+
 
 The standard statuses are `default / info / success / warning / danger / loading`. The convenience method is named `error`, while the component receives `status="danger"`. Call `Message(...)` for a default message; there is no `normal` alias.
 
@@ -22,27 +34,7 @@ The standard statuses are `default / info / success / warning / danger / loading
 ../example/demos/type.vue
 ```
 
-### Component Usage
-
-```demo
-../example/demos/component-call.vue
-```
-
-## Behavior
-
-- `duration` is measured in milliseconds; `0` disables auto-close and `Message.loading(...)` defaults to `0`.
-- The same `id` updates one instance within the same container and position.
-- An update restarts the full duration only when `resetOnUpdate` is `true`.
-- `pauseOnHover` preserves the remaining duration and resumes from it.
-- Display deadlines are independent of CSS motion. Restart, hover pause, clear and unmount invalidate stale timer callbacks; execution rechecks open.
-- KeepAlive deactivation cancels timers; reactivation starts the full current duration. Inactive updates and restart after unmount cannot schedule work.
-- Resuming an exhausted positive hover deadline requests close; an explicit reset to zero remains persistent. Only finite positive durations schedule auto-close.
-- Service disposal waits for real leaving completion, not forced 150ms/200ms waits. Close/clear before mount disposes directly and reports onClosed without inventing component open/opened/close animation events. Business duration remains separate from CSS transition duration.
-- Four real IAB default/light/top service cases pass: default, 600ms, zero and reopen while leaving. Reopen may replace the root DOM. Other themes/positions, hover, KeepAlive and real OS preference still need separate acceptance.
-- Local reduced-motion styles disable transitions/displacement but retain standalone horizontal/center positioning, colors and display deadlines. Isolated Less checks do not prove real OS switching.
-- Queues are isolated by `popupContainer + position`.
-
-## Visual variants
+### Visual variants
 
 Visual emphasis is independent of status: neutral uses an overlay surface and status icon; tonal uses a subtle status background; solid uses a strong status fill and paired foreground. Cedar and Maple both default to neutral. Explicit solid / tonal variants share the same color contract. Solid default/loading retain a dark surface. MessageVariant is exported; imperative calls, default options and same-id updates accept variant.
 
@@ -58,35 +50,67 @@ Use this example for immediate feedback after an action. Adjust variant, status 
 ../example/demos/appearance-lab.vue
 ```
 
-<!-- api-review:start -->
-### Feature playground
+## Content and presentation
+
+### Component Usage
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `position` | Region of the message itself in the viewport: top/center/bottom, default top. Not positioned relative to a trigger | Component Usage |
+| `duration` | Auto-close duration in ms; `0` disables automatic closing | Component Usage |
+| `closable` | Show the close button | Component Usage |
+| `status` | Semantic status | Component Usage |
+<!-- demo-config-notes:end -->
+
 
 ```demo
-../example/demos/api-review.vue
+../example/demos/component-call.vue
 ```
 
-<!-- api-review:end -->
+## Behavior
+
+- `duration` is milliseconds; `0` stays open. `Message.loading(...)` stays open by default.
+- Within one mount container/position, the same `id` updates the instance without duplicate DOM.
+- Only `resetOnUpdate`=`true` restarts the full duration on same-id updates.
+- `pauseOnHover` saves remaining time and resumes it on pointer leave.
+- Display deadlines are independent of CSS motion. Restarting, hover pause, cleanup/unmount invalidate old timer callbacks, which recheck open before running.
+- KeepAlive deactivation cancels timers; reactivation restarts the current full duration. Updates while deactivated/retained restart after unmount do not schedule work.
+- Resuming exhausted positive hover timing requests closing; resetting duration to 0 keeps it open. Only finite positive durations auto-close; negative/nonfinite values do not schedule.
+- Services await actual leave completion rather than forcing 150ms/200ms exits. Closing/clearing before mount cleans up directly and reports service onClosed without inventing component open/opened/close animation events. Business duration stays independent of CSS transitions.
+- Actual IAB default/light/top service checks passed for defaults, 600ms, zero and reopening during leave. Reopening may replace root DOM. Other themes/positions, hover, KeepAlive and real OS preferences need separate validation.
+- Local reduced motion cancels transitions/displacement while retaining independent-message static horizontal/center positioning, colors and display deadlines. No global tiny-duration fallback is required. Isolated Less checks are not real OS validation.
+- Queues isolate by `popupContainer + position`; `Message.clear(position?)` clears per position.
+
+## Reading direction
+
+Inherits the nearest `dir="ltr|rtl"` and supports runtime and nested overrides. Content, icon and close gaps follow reading direction. Direction changes preserve message type, timing and close semantics. Imperative calls use explicit or document direction.
 
 ## API
 
 ### Props / MessageOptions
 
-| Prop                          | Description                         | Type                                                         | Default         |
-| ----------------------------- | ----------------------------------- | ------------------------------------------------------------ | --------------- |
-| `open` / `v-model:open`       | Controlled visibility               | `boolean`                                                    | `false`         |
-| `id`                          | Unique id in one queue              | `string \| number`                                           | generated       |
-| `status`                      | Semantic status                     | `default \| info \| success \| warning \| danger \| loading` | `default`       |
+| Arguments | Description | Type | Default |
+| ----------------------- | ---------------------------------- | ------------------------------------------------------------ | --------------- |
+| `open` / `v-model:open` | Controlled visibility | `boolean` | `false` |
+| `id` | Unique id in one queue | `string \| number` | Automatically generated |
+| `status` | Semantic status | `default \| info \| success \| warning \| danger \| loading` | `default` |
 | variant | Visual emphasis | `neutral \| tonal \| solid` | `neutral` |
-| `position`                    | Placement                           | `top \| center \| bottom`                                    | `top`           |
-| `content` / `icon` / `action` | Renderable content                  | `MessageContent`                                             | -               |
-| `duration`                    | Auto-close duration in ms           | `number`                                                     | `3000`          |
-| `showIcon` / `closable`       | Icon and close control              | `boolean`                                                    | `true / false`  |
-| `pauseOnHover`                | Pause while hovered                 | `boolean`                                                    | `false`         |
-| `resetOnUpdate`               | Restart duration after an id update | `boolean`                                                    | `false`         |
-| `closeButtonAriaLabel`        | Accessible close label              | `string`                                                     | `Close message` |
-| `popupContainer`              | Mount target                        | `string \| HTMLElement \| false`                             | `body`          |
+| `position` | Region of the message itself in the viewport: top/center/bottom, default top. Not positioned relative to a trigger | `top \| center \| bottom` | `top` |
+| `content` | Content | `MessageContent` | - |
+| `icon` | Custom icon | `MessageContent` | - |
+| `action` | Actions | `MessageContent` | - |
+| `duration` | Auto-close duration in ms; `0` disables automatic closing | `number` | `3000` |
+| `showIcon` | Whether to show the status icon | `boolean` | `true` |
+| `closable` | Show the close button | `boolean` | `false` |
+| `pauseOnHover` | Pause while hovered | `boolean` | `false` |
+| `resetOnUpdate` | Restart duration after an id update | `boolean` | `false` |
+| `closeButtonAriaLabel` | Close button label | `string` | `Close message` |
+| `popupContainer` | Portal container | `string \| HTMLElement \| false` | `body` |
 
-Function options also accept `onOpen / onOpened / onClose / onClosed`; close callbacks receive the current id.
+Function options additionally accept `onOpen / onOpened / onClose / onClosed`. Close callbacks receive the current `id`.
 
 ### Events
 
@@ -94,15 +118,25 @@ Function options also accept `onOpen / onOpened / onClose / onClosed`; close cal
 
 ### Methods
 
-`Message(...)`, `Message.info/success/warning/error/loading(...)`, `Message.clear(position?)`, `Message.setDefaultOptions(options)`, and `Message.resetDefaultOptions()`.
+| Method | Description |
+| ------------------------------------------------- | ------------------------ |
+| `Message(options \| string)` | Open a default message |
+| `Message.info/success/warning/error/loading(...)` | Open a message with the corresponding status |
+| `Message.clear(position?)` | Clear all messages or a specified position |
+| `Message.setDefaultOptions(options)` | Set defaults for subsequent calls |
+| `Message.resetDefaultOptions()` | Restore defaults |
 
-The returned handle contains an idempotent `close()` method. Slots: `default`, `icon`, and `action`.
+Returns `{ close() }`. Repeated `close()` calls do not duplicate closing lifecycle events.
+
+### Slots
+
+`default`、`icon`、`action`。
 
 ## Public CSS variables
 
-Visual emphasis is independent of status: neutral uses an overlay surface and status icon; tonal uses a subtle status background; solid uses a strong status fill and paired foreground. Cedar and Maple both default to neutral. Explicit solid / tonal variants share the same color contract. Solid default/loading retain a dark surface. MessageVariant is exported; imperative calls, default options and same-id updates accept variant.
+Visual variant is independent of status. neutral uses a neutral popup and status icon; tonal uses a low-emphasis status background with dark content; solid uses a high-emphasis fill and matching foreground. Cedar/Maple both default to neutral; explicit solid/tonal have matching visual semantics. default/loading solid retains a dark background, with the loading icon indicating progress. Both export MessageVariant; function calls, setDefaultOptions and same-id updates support variant.
 
-Color names follow `--mp-message-{variant}-{status}-{bg|content-color|icon-color|border-color|close-color}`。Each color is independently overridable; custom backgrounds require checking all foregrounds. Geometry remains platform-specific. Variables must be applied on the actual teleport ancestor.
+Colors use `--mp-message-{variant}-{status}-{bg|content-color|icon-color|border-color|close-color}`. bg sets the panel; content-color sets body/actions without separate styling; icon-color sets status icons; border-color sets borders; close-color sets close buttons. Custom backgrounds require checking all three foregrounds. Geometry retains platform density. Variables must affect actual Teleport-container ancestors.
 
 | Variable | Default |
 | --- | --- |
@@ -217,3 +251,5 @@ Color names follow `--mp-message-{variant}-{status}-{bg|content-color|icon-color
 | `--mp-message-content-padding` | `14px 16px` |
 | `--mp-message-action-margin` | `0 8px` |
 | `--mp-message-icon-margin` | `0 8px` |
+
+A throwing close/closed notification cannot retain the closed item or its empty manager host. Resources are released independently of notification callbacks.

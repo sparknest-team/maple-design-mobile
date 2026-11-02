@@ -35,6 +35,7 @@ test.each([
   'validation demo checks replacements, total size and released slots',
   async (Component, small, type, size, total, reset) => {
     const wrapper = mount(Component, {
+      props: { editMode: 'direct' },
       global: { components: { MpUpload: Upload, MpButton: Button, MpSpace: Space } },
     })
     wrappers.push(wrapper)

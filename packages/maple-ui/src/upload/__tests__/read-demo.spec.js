@@ -17,7 +17,10 @@ test.each([
 ])(
   'reset starts a fresh thumbnail transaction before the stale promise settles',
   async (Component, add, resolve, reject, reset) => {
-    const wrapper = mount(Component, { global: { components: { MpUpload: Upload, MpButton: Button, MpSpace: Space } } })
+    const wrapper = mount(Component, {
+      props: { editMode: 'direct' },
+      global: { components: { MpUpload: Upload, MpButton: Button, MpSpace: Space } },
+    })
     const click = async (name) => {
       await wrapper
         .findAll('button')
@@ -80,7 +83,10 @@ test.each([
   const revoke = vi.fn()
   Object.defineProperty(URL, 'createObjectURL', { configurable: true, value: create })
   Object.defineProperty(URL, 'revokeObjectURL', { configurable: true, value: revoke })
-  const wrapper = mount(Component, { global: { components: { MpUpload: Upload, MpButton: Button, MpSpace: Space } } })
+  const wrapper = mount(Component, {
+    props: { editMode: 'direct' },
+    global: { components: { MpUpload: Upload, MpButton: Button, MpSpace: Space } },
+  })
   const click = async (name) => {
     await wrapper
       .findAll('button')
@@ -142,7 +148,10 @@ test.each([
       Promise.resolve().then(() => this.onload?.())
     }
   }
-  const wrapper = mount(Component, { global: { components: { MpUpload: Upload, MpButton: Button, MpSpace: Space } } })
+  const wrapper = mount(Component, {
+    props: { editMode: 'direct' },
+    global: { components: { MpUpload: Upload, MpButton: Button, MpSpace: Space } },
+  })
   const click = async (name) => {
     await wrapper
       .findAll('button')

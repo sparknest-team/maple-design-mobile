@@ -23,10 +23,7 @@ test('checkbox check value', async () => {
   const onUpdateModelValue = vi.fn((value) => wrapper.setProps({ modelValue: value }))
 
   const wrapper = mount(VarCheckbox, {
-    props: {
-      modelValue: false,
-      'onUpdate:modelValue': onUpdateModelValue,
-    },
+    props: { editMode: 'direct', modelValue: false, 'onUpdate:modelValue': onUpdateModelValue },
   })
 
   await wrapper.find('.mp-checkbox').trigger('click')
@@ -44,11 +41,7 @@ test('checkbox check value with custom value', async () => {
   const onUpdateModelValue = vi.fn((value) => wrapper.setProps({ modelValue: value }))
 
   const wrapper = mount(VarCheckbox, {
-    props: {
-      modelValue: [],
-      value: 1,
-      'onUpdate:modelValue': onUpdateModelValue,
-    },
+    props: { editMode: 'direct', modelValue: [], value: 1, 'onUpdate:modelValue': onUpdateModelValue },
   })
 
   await wrapper.find('.mp-checkbox').trigger('click')
@@ -63,11 +56,7 @@ test('checkbox onClick & onChange', async () => {
   const onChange = vi.fn()
 
   const wrapper = mount(VarCheckbox, {
-    props: {
-      modelValue: false,
-      onClick,
-      onChange,
-    },
+    props: { editMode: 'direct', modelValue: false, onClick, onChange },
   })
 
   await wrapper.find('.mp-checkbox').trigger('click')
@@ -81,10 +70,7 @@ test('checkbox toggle method', async () => {
   const onUpdateModelValue = vi.fn((value) => wrapper.setProps({ modelValue: value }))
 
   const wrapper = mount(VarCheckbox, {
-    props: {
-      modelValue: false,
-      'onUpdate:modelValue': onUpdateModelValue,
-    },
+    props: { editMode: 'direct', modelValue: false, 'onUpdate:modelValue': onUpdateModelValue },
   })
 
   wrapper.vm.toggle()
@@ -103,6 +89,7 @@ test('checkbox disabled', async () => {
 
   const wrapper = mount(VarCheckbox, {
     props: {
+      editMode: 'direct',
       modelValue: false,
       disabled: true,
       onClick,
@@ -128,6 +115,7 @@ test('checkbox readonly', async () => {
 
   const wrapper = mount(VarCheckbox, {
     props: {
+      editMode: 'direct',
       modelValue: false,
       readonly: true,
       onClick,
@@ -149,11 +137,7 @@ test('checkbox readonly', async () => {
 test('checkbox indeterminate', async () => {
   const onChange = vi.fn()
   const wrapper = mount(VarCheckbox, {
-    props: {
-      modelValue: false,
-      indeterminate: true,
-      onChange,
-    },
+    props: { editMode: 'direct', modelValue: false, indeterminate: true, onChange },
   })
 
   expect(wrapper.html()).toMatchSnapshot()
@@ -173,9 +157,9 @@ test('checkbox with checkbox group', async () => {
       value: [],
     }),
     template: `
-      <mp-checkbox-group v-model="value">
-        <mp-checkbox :value="1" />
-        <mp-checkbox :value="2" />
+      <mp-checkbox-group edit-mode="direct" v-model="value">
+        <mp-checkbox edit-mode="direct" :value="1" />
+        <mp-checkbox edit-mode="direct" :value="2" />
       </mp-checkbox-group>
     `,
   })
@@ -190,6 +174,7 @@ test('checkbox with checkbox group', async () => {
 
 test('radio default slot', () => {
   const wrapper = mount(VarCheckbox, {
+    props: { editMode: 'direct' },
     slots: {
       default: ({ checked }) => h('span', { class: 'test-default-slot' }, checked),
     },
@@ -210,9 +195,9 @@ test('checkbox group max', async () => {
       value: [],
     }),
     template: `
-      <mp-checkbox-group :max="1" v-model="value">
-        <mp-checkbox :value="1" />
-        <mp-checkbox :value="2" />
+      <mp-checkbox-group edit-mode="direct" :max="1" v-model="value">
+        <mp-checkbox edit-mode="direct" :value="1" />
+        <mp-checkbox edit-mode="direct" :value="2" />
       </mp-checkbox-group>
     `,
   })
@@ -238,9 +223,9 @@ test('checkbox group checkAll & inverseAll methods', async () => {
       value: [1],
     }),
     template: `
-      <mp-checkbox-group ref="checkbox-group" v-model="value">
-        <mp-checkbox :value="1" />
-        <mp-checkbox :value="2" />
+      <mp-checkbox-group edit-mode="direct" ref="checkbox-group" v-model="value">
+        <mp-checkbox edit-mode="direct" :value="1" />
+        <mp-checkbox edit-mode="direct" :value="2" />
       </mp-checkbox-group>
     `,
   })
@@ -269,9 +254,9 @@ test('checkbox group layout direction', () => {
       value: [],
     }),
     template: `
-      <mp-checkbox-group direction="vertical" v-model="value">
-        <mp-checkbox :value="1" />
-        <mp-checkbox :value="2" />
+      <mp-checkbox-group edit-mode="direct" orientation="vertical" v-model="value">
+        <mp-checkbox edit-mode="direct" :value="1" />
+        <mp-checkbox edit-mode="direct" :value="2" />
       </mp-checkbox-group>
     `,
   })
@@ -295,7 +280,7 @@ test('checkbox group options', async () => {
       ],
     }),
     template: `
-      <mp-checkbox-group v-model="value" :options="options">
+      <mp-checkbox-group edit-mode="direct" v-model="value" :options="options">
       </mp-checkbox-group>
     `,
   })
@@ -334,7 +319,7 @@ test('checkbox group field-names label', async () => {
       fieldNames: { label: 'name' },
     }),
     template: `
-      <mp-checkbox-group v-model="value" :options="options" :field-names="fieldNames">
+      <mp-checkbox-group edit-mode="direct" v-model="value" :options="options" :field-names="fieldNames">
       </mp-checkbox-group>
     `,
   })
@@ -373,7 +358,7 @@ test('checkbox group field-names value', async () => {
       fieldNames: { value: 'id' },
     }),
     template: `
-      <mp-checkbox-group v-model="value" :options="options" :field-names="fieldNames">
+      <mp-checkbox-group edit-mode="direct" v-model="value" :options="options" :field-names="fieldNames">
       </mp-checkbox-group>
     `,
   })
@@ -412,7 +397,7 @@ test('checkbox group label is VNode', async () => {
       fieldNames: { label: 'name', value: 'id' },
     }),
     template: `
-      <mp-checkbox-group v-model="value" :options="options" :field-names="fieldNames">
+      <mp-checkbox-group edit-mode="direct" v-model="value" :options="options" :field-names="fieldNames">
       </mp-checkbox-group>
     `,
   })
@@ -452,7 +437,7 @@ test('checkbox group label is function', async () => {
       fieldNames: { label: 'name', value: 'id' },
     }),
     template: `
-      <mp-checkbox-group v-model="value" :options="options" :field-names="fieldNames">
+      <mp-checkbox-group edit-mode="direct" v-model="value" :options="options" :field-names="fieldNames">
       </mp-checkbox-group>
     `,
   })
@@ -488,9 +473,9 @@ test('checkbox keyboard Enter', async () => {
       value: [],
     }),
     template: `
-          <mp-checkbox-group v-model="value">
-            <mp-checkbox :value="1" >eat</mp-checkbox>
-            <mp-checkbox :value="2" >sleep</mp-checkbox>
+          <mp-checkbox-group edit-mode="direct" v-model="value">
+            <mp-checkbox edit-mode="direct" :value="1" >eat</mp-checkbox>
+            <mp-checkbox edit-mode="direct" :value="2" >sleep</mp-checkbox>
           </mp-checkbox-group>
         `,
   })

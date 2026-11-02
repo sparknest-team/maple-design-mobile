@@ -2,22 +2,25 @@ import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 import DateRange from '..'
+import { rangeControls } from '../../date/__tests__/range-controls'
 import DateRangePicker from '../DateRangePicker.vue'
 
 const Surface = { template: '<div><slot /><slot name="content" /></div>' }
 const stubs = { MpTrigger: Surface, Dialog: Surface, teleport: true }
 
-for (const presentation of ['standalone', 'inline', 'popup'] as const) {
+for (const editMode of ['standalone', 'direct', 'popup'] as const) {
   for (const useSeconds of [false, true]) {
-    it(`${presentation} datetime range navigates years, months and arrows without selecting (seconds=${useSeconds})`, async () => {
+    it(`${editMode} datetime range navigates years, months and arrows without selecting (seconds=${useSeconds})`, async () => {
       const suffix = useSeconds ? ':00' : ''
-      const wrapper = mount(presentation === 'standalone' ? DateRangePicker : DateRange, {
+      const wrapper = mount(editMode === 'standalone' ? DateRangePicker : DateRange, {
         props: {
           modelValue: [`2026-10-19 09:30${suffix}`, `2026-10-25 18:00${suffix}`],
           showTime: true,
-          useSeconds,
+          timeFields: useSeconds ? ['hour', 'minute', 'second'] : ['hour', 'minute'],
+          format: useSeconds ? 'YYYY-MM-DD HH:mm:ss' : 'YYYY-MM-DD HH:mm',
+          valueFormat: useSeconds ? 'YYYY-MM-DD HH:mm:ss' : 'YYYY-MM-DD HH:mm',
           disableConfirm: false,
-          ...(presentation === 'standalone' ? {} : { presentation, open: true }),
+          ...(editMode === 'standalone' ? {} : { editMode, open: true }),
         },
         global: { stubs },
       })
@@ -38,7 +41,7 @@ for (const presentation of ['standalone', 'inline', 'popup'] as const) {
         expect(header().text()).toBe('2027 四月')
         await wrapper.get('[aria-label="上一月"]').trigger('click')
         expect(header().text()).toBe('2027 三月')
-        await wrapper.findAll('.mp-date-range-picker__summary')[1].trigger('click')
+        await rangeControls(wrapper)[1].trigger('click')
         expect(header().text()).toBe('2026 十月')
         await wrapper.get('[aria-label="上一月"]').trigger('click')
         expect(header().text()).toBe('2026 九月')
@@ -61,7 +64,9 @@ describe('controlled datetime range viewport', () => {
       const wrapper = mount(DateRangePicker, {
         props: {
           showTime: true,
-          useSeconds,
+          timeFields: useSeconds ? ['hour', 'minute', 'second'] : ['hour', 'minute'],
+          format: useSeconds ? 'YYYY-MM-DD HH:mm:ss' : 'YYYY-MM-DD HH:mm',
+          valueFormat: useSeconds ? 'YYYY-MM-DD HH:mm:ss' : 'YYYY-MM-DD HH:mm',
           pickerValue: viewport,
           modelValue: [`2026-10-19 09:30${suffix}`, `2026-10-25 18:00${suffix}`],
         },

@@ -63,7 +63,7 @@
       "initial": "xs"
     },
     {
-      "name": "direction",
+      "name": "orientation",
       "description": "布局方向，可选值为 horizontal vertical",
       "type": "string",
       "defaultValue": "horizontal",
@@ -86,16 +86,16 @@
       "initial": "{}"
     },
     {
-      "name": "presentation",
-      "type": "'inline' | 'popup'",
+      "name": "edit-mode",
+      "type": "'direct' | 'popup'",
       "defaultValue": "undefined",
-      "description": "字段编辑方式，字段 > FormItem > Form 继承；默认 inline。",
+      "description": "字段编辑方式，字段 > FormItem > Form 继承；默认 direct。",
       "kind": "enum",
       "options": [
-        "inline",
+        "direct",
         "popup"
       ],
-      "initial": "inline"
+      "initial": "direct"
     },
     {
       "name": "read-pretty",
@@ -249,7 +249,7 @@
         "group-state.vue",
         "keyboard-navigation.vue",
         "option-data.vue",
-        "radio-group-options.vue"
+        "group-declaration-comparison.vue"
       ]
     },
     {
@@ -279,8 +279,7 @@
         "keyboard-navigation.vue",
         "native-control.vue",
         "option-data.vue",
-        "radio-group-options.vue",
-        "radio-group.vue",
+        "group-declaration-comparison.vue",
         "readonly.vue",
         "set-state.vue",
         "set-style.vue",

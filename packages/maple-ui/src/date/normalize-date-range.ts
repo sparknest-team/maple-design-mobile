@@ -11,11 +11,21 @@ export function normalizeDateRange(
   }
   const start = parseDateValue(value[0], options)
   const end = parseDateValue(value[1], options)
-  if (!start || !end || !start.isAfter(end)) {
+  if (!start || !end || start.valueOf() <= end.valueOf()) {
     return cloneFieldValue(value)
   }
   if (!options.showTime || options.exchangeTime !== false) {
     return cloneFieldValue([value[1], value[0]])
+  }
+  if (options.timeZone) {
+    const swapDate = (date: typeof start, time: typeof start) => {
+      const parsed = parseDateValue(`${date.format('YYYY-MM-DD')} ${time.format('HH:mm:ss.SSS')}`, {
+        ...options,
+        valueFormat: 'YYYY-MM-DD HH:mm:ss.SSS',
+      })
+      return parsed ? outputDateValue(parsed.toDate(), options) : undefined
+    }
+    return [swapDate(end, start), swapDate(start, end)]
   }
   const nextStart = end
     .hour(start.hour())

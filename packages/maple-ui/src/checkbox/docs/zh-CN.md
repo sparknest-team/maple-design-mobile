@@ -2,13 +2,17 @@
 
 独立 Checkbox 的 modelValue 在布尔模式下表示是否选中，在数组模式下表示选中选项的集合；value 是当前选项的标识。CheckboxGroup 的 modelValue 是选中值数组。defaultValue 只初始化非受控状态，不会回写父级绑定值。
 
-## 案例
-
 ### 介绍
 
-基础示例随站点语言切换显示文案，业务值和选中状态不会随语言变化。分组示例覆盖父级接受/拒绝更新、只读和异步选项回显；移除选项不会清空业务值。外层 Space 纵向布局使用 `direction="column"`，选择组自身纵向使用 `direction="vertical"`。
+基础示例随站点语言切换显示文案，业务值和选中状态不会随语言变化。分组示例覆盖父级接受/拒绝更新、只读和异步选项回显；移除选项不会清空业务值。外层 Space 纵向布局使用 `direction="column"`，选择组自身纵向使用 `orientation="vertical"`。
 
 在一组备选项中进行多选。
+
+## 阅读方向
+
+复选框标签及分组按来源 dir 排列，业务数组顺序不变。Space 保持切换语义，禁用/只读状态不因方向变化失效；切换 LTR/RTL 不自动勾选或清空选项。
+
+## 基础示例
 
 ### 基本使用
 
@@ -16,75 +20,28 @@
 ../example/demos/basic-usage.vue
 ```
 
-### 禁用
+## 分组与布局
 
-```demo
-../example/demos/disabled.vue
-```
+### 选项声明方式对比
 
-### 只读
+比较子组件声明和 options 数据声明；两种方式都使用组值，字段映射和异步选项另见对应示例。
 
-```demo
-../example/demos/readonly.vue
-```
+<details>
+<summary>配置说明与使用限制</summary>
 
-### 设置状态值
-
-```demo
-../example/demos/set-state.vue
-```
-
-### 修改图标和颜色
-
-```demo
-../example/demos/set-style.vue
-```
-
-### 不确定状态
-
-```demo
-../example/demos/indeterminate.vue
-```
-
-### 复选框组
+#### 复选框组
 
 在复选框组中，必须给 `checkbox` 设置 `value` 用来标识，
 复选框组会收集所有选择的标识。
 
-```demo
-../example/demos/checkbox-group.vue
-```
-
-### 选项式 API
+#### 选项式 API
 
 通过 `options` 属性设置子元素。
 
-```demo
-../example/demos/checkbox-group-options.vue
-```
-
-### 自定义字段
-
-通过 `field-names` 属性自定义 `options` 中数据的格式。
+</details>
 
 ```demo
-../example/demos/custom-fields.vue
-```
-
-### 垂直布局
-
-```demo
-../example/demos/vertical.vue
-```
-
-### 最大选中数量
-
-在复选框组中，可以通过设置 `max` 属性来限制最大选中数量。
-
-> 复选框及复选框组的表单校验请使用 [FormItem 组件](#/zh-CN/form-item)。
-
-```demo
-../example/demos/max.vue
+../example/demos/group-declaration-comparison.vue
 ```
 
 ### 分组状态与只读
@@ -96,7 +53,28 @@ Group 的 `disabled`、`readonly`、`error` 未设置时继承表单，显式 `f
 ../example/demos/group-state.vue
 ```
 
+### 垂直布局
+
+```demo
+../example/demos/vertical.vue
+```
+
+## 选项与值模型
+
 ### 独立值模型与方法
+
+<!-- demo-config-notes:start -->
+
+#### 本组配置对照
+
+| 配置            | 作用                   | 相关示例                     |
+| --------------- | ---------------------- | ---------------------------- |
+| `value`         | 选项标识               | 独立值模型与方法、设置状态值 |
+| `default-value` | 非受控初始值           | 独立值模型与方法             |
+| `readonly`      | 只读，未设置时继承表单 | 独立值模型与方法             |
+| `disabled`      | 禁用，未设置时继承表单 | 独立值模型与方法             |
+
+<!-- demo-config-notes:end -->
 
 Checkbox 的布尔模型始终返回 boolean；数组模型按 value 增删选项，不修改传入数组。indeterminate 只用于展示，由业务方计算，不会自动回写。
 两端统一使用 `default-value` 初始化非受控值；受控提议被拒绝时保持原值。用户选择按 `update:model-value → change(value, event?)` 通知，命令式调用的 event 为 undefined。
@@ -117,6 +95,52 @@ CheckboxGroup 使用 `ChoiceValue[]`，`max` 只接受 number，请使用 `:max=
 ../example/demos/option-data.vue
 ```
 
+### 自定义字段
+
+通过 `field-names` 属性自定义 `options` 中数据的格式。
+
+```demo
+../example/demos/custom-fields.vue
+```
+
+### 设置状态值
+
+```demo
+../example/demos/set-state.vue
+```
+
+## 选择与批量操作
+
+### 最大选中数量
+
+<!-- demo-config-notes:start -->
+
+#### 本组配置对照
+
+| 配置            | 作用                               | 相关示例     |
+| --------------- | ---------------------------------- | ------------ |
+| `value`         | 选项标识                           | 最大选中数量 |
+| `indeterminate` | 是否为不确定状态（样式优先级最高） | 不确定状态   |
+| `disabled`      | 禁用，未设置时继承表单             | 交互状态对比 |
+| `readonly`      | 只读，未设置时继承表单             | 交互状态对比 |
+| `error`         | 错误态，未设置时继承表单           | 交互状态对比 |
+
+<!-- demo-config-notes:end -->
+
+在复选框组中，可以通过设置 `max` 属性来限制最大选中数量。
+
+> 复选框及复选框组的表单校验请使用 [FormItem 组件](#/zh-CN/form-item)。
+
+```demo
+../example/demos/max.vue
+```
+
+### 不确定状态
+
+```demo
+../example/demos/indeterminate.vue
+```
+
 ### 分组批量方法
 
 两端提供 `checkAll()` 和 `inverseAll()`，返回独立数组副本。仅操作已挂载且可编辑的子项，保留禁用、只读及未加载的已选值；重复值只要有一项被锁定，该值就不参与批量修改。
@@ -128,7 +152,41 @@ CheckboxGroup 使用 `ChoiceValue[]`，`max` 只接受 number，请使用 `:max=
 ../example/demos/group-methods.vue
 ```
 
+### 交互状态对比
+
+在同一实例上切换禁用、只读和错误状态后再操作控件，比较可编辑性和交互反馈。恢复开关位于目标控件外；错误外观本身不会执行校验。
+
+<details>
+<summary>配置说明与使用限制</summary>
+
+#### 交互状态切换
+
+适用于协议确认和独立勾选。调整禁用、只读、错误反馈，用相同数据观察变化。控制区始终可用，可以随时恢复编辑；错误外观本身不会触发表单校验。
+
+</details>
+
+```demo
+../example/demos/state-lab.vue
+```
+
+## 控件与插槽定制
+
 ### 原生控件与外观
+
+<!-- demo-config-notes:start -->
+
+#### 本组配置对照
+
+| 配置              | 作用                               | 相关示例                       |
+| ----------------- | ---------------------------------- | ------------------------------ |
+| `unchecked-color` | 未选中状态的颜色                   | 修改图标和颜色、自定义控件插槽 |
+| `checked-color`   | 选中状态的颜色                     | 修改图标和颜色、自定义控件插槽 |
+| `name`            | 组内原生输入字段名                 | 原生控件与外观                 |
+| `indeterminate`   | 是否为不确定状态（样式优先级最高） | 原生控件与外观                 |
+| `aria-label`      | 分组无障碍名称                     | 原生控件与外观                 |
+| `default-value`   | 非受控初始值                       | 原生控件与外观                 |
+
+<!-- demo-config-notes:end -->
 
 两端主体均独立复制为原生 checkbox + label。Tab 聚焦，空格/Enter 切换；只读可聚焦，禁用不可聚焦。半选通过 aria-checked="mixed" 表达，点击标签只激活一次。没有可见标签时设置 aria-label；name 传到原生输入，子项未设置时继承 Group。
 
@@ -136,6 +194,12 @@ icon-size 接受像素数字或 CSS 长度字符串，不是 ComponentSize 档�
 
 ```demo
 ../example/demos/native-control.vue
+```
+
+### 修改图标和颜色
+
+```demo
+../example/demos/set-style.vue
 ```
 
 ### 自定义控件插槽
@@ -146,13 +210,7 @@ icon-size 接受像素数字或 CSS 长度字符串，不是 ComponentSize 档�
 ../example/demos/custom-control.vue
 ```
 
-### 交互状态切换
-
-适用于协议确认和独立勾选。调整禁用、只读、错误反馈，用相同数据观察变化。控制区始终可用，可以随时恢复编辑；错误外观本身不会触发表单校验。
-
-```demo
-../example/demos/state-lab.vue
-```
+## 异步选项
 
 ### 异步选项
 
@@ -166,16 +224,18 @@ icon-size 接受像素数字或 CSS 长度字符串，不是 ComponentSize 档�
 ../example/demos/async-options.vue
 ```
 
-<!-- api-review:start -->
-### 功能调试
-
-```demo
-../example/demos/api-review.vue
-```
-
-<!-- api-review:end -->
-
 ## API
+
+### 空值识别与阅读空文案
+
+`empty-values` 用于空值识别，`empty-value` 保留原清空输出；`empty-text` 仅在 `read-pretty` 空内容下展示，默认 `'-'`，字段 > FormItem > Form，自定义 read 插槽优先。显式配置 empty-values 后，内置 required 接入该策略，自定义校验仍收到原值。详见[统一说明](#/zh-CN/emptyValues)。
+
+| 参数         | 类型               | 缺省与范围                                            |
+| ------------ | ------------------ | ----------------------------------------------------- |
+| empty-values | readonly unknown[] | 字段 > FormItem > Form > 组件族默认；完整覆盖，不合并 |
+| empty-text   | string             | 字段 > FormItem > Form > '-'；显式 '' 有效            |
+
+以上是字段展示层 API；纯面板不因此新增阅读模式。Form 与 FormItem 提供继承配置。empty-value 的现有类型与默认输出仍按该组件原 API 执行。
 
 `ChoiceValue = string | number | boolean`；`CheckboxModel = boolean | ChoiceValue[]`；`RadioModel = ChoiceValue | null`。
 
@@ -183,100 +243,97 @@ icon-size 接受像素数字或 CSS 长度字符串，不是 ComponentSize 档�
 
 #### CheckboxGroup Props
 
-| 参数                   | 说明                                       | 类型                                       | 默认值       |
-| ---------------------- | ------------------------------------------ | ------------------------------------------ | ------------ |
-| model-value (v-model) | 受控值 | ChoiceValue[] | undefined |
-| default-value | 非受控初始值 | ChoiceValue[] | [] |
-| `disabled` | 禁用，未设置时继承表单 | _boolean_ | `undefined` |
-| `readonly` | 只读，未设置时继承表单 | _boolean_ | `undefined` |
-| `error` | 错误态，未设置时继承表单 | _boolean_ | `undefined` |
-| max | 最多可选数量 | number | undefined |
-| `direction`            | 布局方向，可选值为 `horizontal` `vertical` | _string_                                   | `horizontal` |
-| options | 选项；传入时替代默认插槽 | Array<ChoiceValue \| CheckboxOption \| Record<string, unknown>> | undefined |
-| field-names | 选项字段映射 | ChoiceFieldNames | undefined |
-| name | 组内原生输入字段名 | string | undefined |
-| aria-label | 分组无障碍名称 | string | undefined |
+| 参数                  | 说明                                                        | 类型                                                                                                       | 默认值       |
+| --------------------- | ----------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ------------ |
+| model-value (v-model) | 受控值                                                      | ChoiceValue[]                                                                                              | undefined    |
+| default-value         | 非受控初始值                                                | ChoiceValue[]                                                                                              | []           |
+| `disabled`            | 禁用，未设置时继承表单                                      | _boolean_                                                                                                  | `undefined`  |
+| `readonly`            | 只读，未设置时继承表单                                      | _boolean_                                                                                                  | `undefined`  |
+| `error`               | 错误态，未设置时继承表单                                    | _boolean_                                                                                                  | `undefined`  |
+| max                   | 最多可选数量                                                | number                                                                                                     | undefined    |
+| `orientation`         | 复选组内选项的横纵排列，默认 horizontal；不表示文字阅读方向 | _string_                                                                                                   | `horizontal` |
+| options               | 选项；传入时替代默认插槽                                    | Array<ChoiceValue \| CheckboxOption \| Record<string, unknown>> / `(query, { signal }) => Array / Promise` | `undefined`  |
+| field-names           | 选项字段映射                                                | ChoiceFieldNames                                                                                           | undefined    |
+| name                  | 组内原生输入字段名                                          | string                                                                                                     | undefined    |
+| aria-label            | 分组无障碍名称                                              | string                                                                                                     | undefined    |
 
 #### CheckboxOption
 
-| 字段 | 说明 | 类型 |
-| --- | --- | --- |
-| value | 选项标识 | ChoiceValue |
-| label | 标签或渲染函数 | VNodeChild \| (data: CheckboxOption, checked: boolean) => VNodeChild |
-| disabled | 禁用 | boolean |
-| readonly | 只读 | boolean |
-| indeterminate | 仅展示半选状态 | boolean |
-
+| 字段          | 说明           | 类型                                                                 |
+| ------------- | -------------- | -------------------------------------------------------------------- |
+| value         | 选项标识       | ChoiceValue                                                          |
+| label         | 标签或渲染函数 | VNodeChild \| (data: CheckboxOption, checked: boolean) => VNodeChild |
+| disabled      | 禁用           | boolean                                                              |
+| readonly      | 只读           | boolean                                                              |
+| indeterminate | 仅展示半选状态 | boolean                                                              |
 
 #### Checkbox Props
 
-| 参数              | 说明                               | 类型               | 默认值  |
-| ----------------- | ---------------------------------- | ------------------ | ------- |
-| model-value (v-model) | 受控值 | boolean \| ChoiceValue[] | undefined |
-| default-value | 非受控初始值 | boolean \| ChoiceValue[] | false |
-| value | 选项标识 | string \| number \| boolean | true |
-| `checked-color`   | 选中状态的颜色                     | _string_           | `-`     |
-| `unchecked-color` | 未选中状态的颜色                   | _string_           | `-`     |
-| `icon-size`       | 图标尺寸                           | _string \| number_ | `-`     |
-| `disabled` | 未设置时继承分组/表单 | _boolean_ | `undefined` |
-| `readonly` | 未设置时继承分组/表单 | _boolean_ | `undefined` |
-| `error` | 错误态，继承分组/表单 | _boolean_ | `undefined` |
-| `indeterminate`   | 是否为不确定状态（样式优先级最高） | _boolean_          | `false` |
-| uninject-group-context | 脱离外层 CheckboxGroup，仍参与表单 | boolean | false |
-| name | 原生字段名，未设置时继承 Group | string | undefined |
-| aria-label | 无可见标签时的无障碍名称 | string | undefined |
-| `ripple`          | 是否开启水波纹                     | _boolean_          | `true`  |
+| 参数                   | 说明                               | 类型                        | 默认值      |
+| ---------------------- | ---------------------------------- | --------------------------- | ----------- |
+| model-value (v-model)  | 受控值                             | boolean \| ChoiceValue[]    | undefined   |
+| default-value          | 非受控初始值                       | boolean \| ChoiceValue[]    | false       |
+| value                  | 选项标识                           | string \| number \| boolean | true        |
+| `checked-color`        | 选中状态的颜色                     | _string_                    | `-`         |
+| `unchecked-color`      | 未选中状态的颜色                   | _string_                    | `-`         |
+| `icon-size`            | 图标尺寸                           | _string \| number_          | `-`         |
+| `disabled`             | 未设置时继承分组/表单              | _boolean_                   | `undefined` |
+| `readonly`             | 未设置时继承分组/表单              | _boolean_                   | `undefined` |
+| `error`                | 错误态，继承分组/表单              | _boolean_                   | `undefined` |
+| `indeterminate`        | 是否为不确定状态（样式优先级最高） | _boolean_                   | `false`     |
+| uninject-group-context | 脱离外层 CheckboxGroup，仍参与表单 | boolean                     | false       |
+| name                   | 原生字段名，未设置时继承 Group     | string                      | undefined   |
+| aria-label             | 无可见标签时的无障碍名称           | string                      | undefined   |
+| `ripple`               | 是否开启水波纹                     | _boolean_                   | `true`      |
 
 ### 方法
 
 #### CheckboxGroup Methods
 
-| 方法 | 参数 | 返回值 |
-| --- | --- | --- |
-| checkAll | - | ChoiceValue[] |
-| inverseAll | - | ChoiceValue[] |
-
+| 方法       | 参数 | 返回值        |
+| ---------- | ---- | ------------- |
+| checkAll   | -    | ChoiceValue[] |
+| inverseAll | -    | ChoiceValue[] |
 
 #### Checkbox Methods
 
-| 方法名   | 说明                                                                       | 参数          | 返回值 |
-| -------- | -------------------------------------------------------------------------- | ------------- | ------ |
-| toggle | 请求选择；遵守禁用/只读限制 | checked?: boolean | void |
-| focus | 聚焦控件 | options?: FocusOptions | void |
-| blur | 失焦控件 | - | void |
+| 方法名 | 说明                        | 参数                   | 返回值 |
+| ------ | --------------------------- | ---------------------- | ------ |
+| toggle | 请求选择；遵守禁用/只读限制 | checked?: boolean      | void   |
+| focus  | 聚焦控件                    | options?: FocusOptions | void   |
+| blur   | 失焦控件                    | -                      | void   |
 
 ### 事件
 
 #### CheckboxGroup Events
 
-| 事件名   | 说明       | 参数           |
-| -------- | ---------- | -------------- |
-| `update:model-value` | 提议新值 | `value: ChoiceValue[]` |
-| `change` | 值变化，只由 Group 触发 | `value: ChoiceValue[], event?: Event` |
+| 事件名               | 说明                    | 参数                                  |
+| -------------------- | ----------------------- | ------------------------------------- |
+| `update:model-value` | 提议新值                | `value: ChoiceValue[]`                |
+| `change`             | 值变化，只由 Group 触发 | `value: ChoiceValue[], event?: Event` |
 
 #### Checkbox Events
 
-| 事件名   | 说明           | 参数         |
-| -------- | -------------- | ------------ |
-| `click`  | 点击时触发     | `e: Event`   |
-| update:model-value | 提议新值 | value: CheckboxModel |
-| change | 值变化 | value: CheckboxModel, event?: Event |
-| focus | 聚焦 | event: FocusEvent |
-| blur | 失焦 | event: FocusEvent |
+| 事件名             | 说明       | 参数                                |
+| ------------------ | ---------- | ----------------------------------- |
+| `click`            | 点击时触发 | `e: Event`                          |
+| update:model-value | 提议新值   | value: CheckboxModel                |
+| change             | 值变化     | value: CheckboxModel, event?: Event |
+| focus              | 聚焦       | event: FocusEvent                   |
+| blur               | 失焦       | event: FocusEvent                   |
 
 ### 插槽
 
 #### CheckboxGroup Slots
 
-| 插槽 | 说明 | 参数 |
-| --- | --- | --- |
-| default | 未传 options 时的子项 | - |
-| label | 选项标签 | data: CheckboxOption, checked: boolean |
+| 插槽    | 说明                  | 参数                                   |
+| ------- | --------------------- | -------------------------------------- |
+| default | 未传 options 时的子项 | -                                      |
+| label   | 选项标签              | data: CheckboxOption, checked: boolean |
 
 #### Checkbox Slots
 
 组件与分组都支持 checkbox 插槽，参数为 { checked, disabled, indeterminate }。
-
 
 | 插槽名               | 说明           | 参数                        |
 | -------------------- | -------------- | --------------------------- |
@@ -287,20 +344,21 @@ icon-size 接受像素数字或 CSS 长度字符串，不是 ComponentSize 档�
 
 ### 样式变量
 
-| 变量名 | 默认值 |
-| --- | --- |
-| `--mp-checkbox-control-color` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-checkbox-control-color-checked` | `var(--mp-sys-color-content-brand)` |
-| `--mp-checkbox-control-color-disabled` | `var(--mp-sys-color-content-disabled)` |
-| `--mp-checkbox-control-color-error` | `var(--mp-sys-color-content-danger)` |
-| `--mp-checkbox-control-size` | `24px` |
-| `--mp-checkbox-label-text-color` | `var(--mp-sys-color-content-primary)` |
-| `--mp-checkbox-label-text-color-disabled` | `var(--mp-sys-color-content-disabled)` |
-| `--mp-checkbox-label-font-size` | `var(--mp-font-size-md)` |
-| `--mp-checkbox-label-gap` | `0` |
-| `--mp-checkbox-action-padding` | `6px` |
-| `--mp-checkbox-group-gap` | `0` |
-| `--mp-checkbox-animation-duration` | `var(--mp-sys-motion-duration-standard)` |
+| 变量名                                    | 默认值                                   |
+| ----------------------------------------- | ---------------------------------------- |
+| `--mp-checkbox-control-color`             | `var(--mp-sys-color-content-secondary)`  |
+| `--mp-checkbox-control-color-checked`     | `var(--mp-sys-color-content-brand)`      |
+| `--mp-checkbox-mark-color`                | `var(--mp-sys-color-content-on-bright)`  |
+| `--mp-checkbox-control-color-disabled`    | `var(--mp-sys-color-content-disabled)`   |
+| `--mp-checkbox-control-color-error`       | `var(--mp-sys-color-content-danger)`     |
+| `--mp-checkbox-control-size`              | `24px`                                   |
+| `--mp-checkbox-label-text-color`          | `var(--mp-sys-color-content-primary)`    |
+| `--mp-checkbox-label-text-color-disabled` | `var(--mp-sys-color-content-disabled)`   |
+| `--mp-checkbox-label-font-size`           | `var(--mp-font-size-md)`                 |
+| `--mp-checkbox-label-gap`                 | `0`                                      |
+| `--mp-checkbox-action-padding`            | `6px`                                    |
+| `--mp-checkbox-group-gap`                 | `0`                                      |
+| `--mp-checkbox-animation-duration`        | `var(--mp-sys-motion-duration-standard)` |
 
 ### ChoiceFieldNames
 
@@ -316,10 +374,14 @@ icon-size 接受像素数字或 CSS 长度字符串，不是 ComponentSize 档�
 
 ### Form 字段展示与确认
 
-本组件支持 `presentation`，字段 > FormItem > Form 逐层继承；未指定时为 `inline`，保留原有交互。支持值：`inline / popup`。其他编辑展示使用 Cell 入口和一份草稿，确认后才更新 v-model；取消、重置或启用 readPretty 丢弃草稿。
+本组件支持 `edit-mode`，字段 > FormItem > Form 逐层继承；未指定时为 `direct`，保留直接编辑。支持值：`direct / popup`。非 direct 编辑模式通过字段值入口打开编辑面板，并维护单份草稿；确认后才更新 v-model，取消、重置或启用 readPretty 时丢弃草稿。
 
-Maple 使用 presentation="popup" 点击值区域打开编辑面板；inline 直接编辑。 readPretty 为纯阅读属性，与 readonly、disabled 独立。
+Maple 使用 edit-mode="popup" 点击值区域打开编辑面板；direct 直接编辑。 readPretty 为纯阅读属性，与 readonly、disabled 独立。
 
 `before-commit(value, { previousValue, signal })` 可拦截弹层保存；FormItem 先校验候选值，失败保持编辑。`open / default-open / update:open` 控制编辑层。`#read="{ value, text }"` 可自定义阅读内容。集中示例见 Form 的“各类字段统一展示”。
 
 `read-pretty` 为独立布尔属性，与 `readonly`、`disabled` 同级；字段 > FormItem > Form 继承，显式 `false` 覆盖父级。默认 `false`。纯阅读不显示编辑器。
+
+`empty-value` 可显式设为 `null`（或 `() => null`），清空时原样提交 null；省略时保留组件原默认值。界面把 null 显示为空，不会把普通输入的空字符串自动转成 null。支持弹出编辑的字段中，清空先修改草稿，确认后提交，取消则保留原值。
+
+候选属性 `options` 支持数组或 `(query, { signal }) => 数组/Promise`。加载、取消、过期结果隔离由组件内部处理，失败触发 load-error。单选/多选分组初始化以空字符串查询，搜索型字段在查询变化时调用；树形字段根数据与原有 load-more 子节点懒加载独立。

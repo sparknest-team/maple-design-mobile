@@ -456,7 +456,9 @@ test('datePicker show-time calendarPicker', async () => {
     props: {
       modelValue: '2025-01-15 10:29',
       showTime: true,
-      useSeconds: false,
+      timeFields: ['hour', 'minute'],
+      format: 'YYYY-MM-DD HH:mm',
+      valueFormat: 'YYYY-MM-DD HH:mm',
       presentation: 'calendarPicker',
     },
   })
@@ -477,7 +479,9 @@ test('datePicker show-time picker', async () => {
     props: {
       modelValue: '2025-01-15 10:29',
       showTime: true,
-      useSeconds: false,
+      timeFields: ['hour', 'minute'],
+      format: 'YYYY-MM-DD HH:mm',
+      valueFormat: 'YYYY-MM-DD HH:mm',
       presentation: 'picker',
     },
   })
@@ -488,7 +492,7 @@ test('datePicker show-time picker', async () => {
   expect(wrapper.get('.mp-date-picker__current-date').text()).toContain('2025-01-15')
   expect(wrapper.get('.mp-date-picker__current-time-value').text()).toBe('10:29')
   expect(wrapper.find('.mp-picker').exists()).toBeTruthy()
-  expect(wrapper.findAll('.mp-date-picker__column-label').length).toBe(3)
+  expect(wrapper.findAll('.mp-date-picker__column-label').length).toBe(5)
   await wrapper.get('.mp-date-picker__view-toggle').trigger('click')
   expect(wrapper.findAll('.mp-date-picker__column-label').length).toBe(2)
   expect(wrapper.find('.mp-date-picker__view-tabs').exists()).toBeFalsy()

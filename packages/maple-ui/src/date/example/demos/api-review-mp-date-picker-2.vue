@@ -12,7 +12,9 @@ const value = ref('2026-10-22 13:30')
     <mp-date-picker
       v-model="value"
       show-time
-      :use-seconds="false"
+      :time-fields="['hour', 'minute']"
+      format="YYYY-MM-DD HH:mm"
+      value-format="YYYY-MM-DD HH:mm"
       v-bind="__apiReview.bindings"
       v-on="__apiReview.listeners"
       ><template v-if="__apiReview.slotEnabled['year']" #year="__reviewSlot"

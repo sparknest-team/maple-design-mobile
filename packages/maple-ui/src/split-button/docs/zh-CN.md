@@ -6,13 +6,13 @@
 
 箭头通过 icon 插槽显示，两段默认继承相同的 variant、status 和自定义颜色，图标布局不改变配色。
 
-## 案例
-
 ### 介绍
 
 将主要操作按钮和关联操作菜单组合在一起。点击主按钮执行操作，点击右侧按钮展开菜单。
 
 示例统一使用两端都支持的 `Message.info(...)`。默认选择后关闭；仅“浮层与连续选择”保留菜单，同时弹出 Message。outline / text 的箭头保持透明背景。
+
+## 基础示例
 
 ### 基础用法
 
@@ -22,7 +22,21 @@
 ../example/basic.vue
 ```
 
+## 外观与状态
+
 ### 视觉变体
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `variant` | 按钮组变体 | 视觉变体 |
+| `disabled` | 是否禁用整个分裂按钮 | 禁用状态 |
+| `button-props` | 主按钮属性 | 禁用状态 |
+| `trigger-button-props` | 菜单触发按钮属性 | 禁用状态 |
+| `placement` | 浮层相对触发元素的首选方位，默认 bottom；启用默认的 auto-fit-position 时，空间不足会自动翻转并约束到可视区域，不保证最终停在该侧 | 外观配置对比 |
+<!-- demo-config-notes:end -->
 
 统一展示 default、outline、tonal、text 四种变体。
 
@@ -38,13 +52,49 @@
 ../example/disabled.vue
 ```
 
-### 五档尺寸
+### 外观配置对比
+
+选择一个对比维度后，同屏展示它的全部可选值；其余配置和内容保持一致。可切换其他配置检查组合效果；输入类预览共享一个值。
+
+<details>
+<summary>配置说明与使用限制</summary>
+
+#### 五档尺寸
 
 支持 xs、sm、md、lg、xl 五档尺寸，默认 md；窄屏自动换行。
 
+#### 外观组合
+
+适用于主操作和附加菜单。调整状态、尺寸，用相同数据观察变化。内容保持一致，便于比较不同设置的实际效果。
+
+</details>
+
 ```demo
-../example/sizes.vue
+../example/demos/appearance-lab.vue
 ```
+
+## 内容与展示
+
+### 浮层与连续选择
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `placement` | 浮层相对触发元素的首选方位，默认 bottom；启用默认的 auto-fit-position 时，空间不足会自动翻转并约束到可视区域，不保证最终停在该侧 | 浮层与连续选择 |
+| `offset-y` | 菜单纵向偏移 | 浮层与连续选择 |
+| `popup-max-height` | 菜单最大高度 | 浮层与连续选择 |
+| `hide-on-select` | 选择菜单项后是否关闭菜单 | 浮层与连续选择 |
+<!-- demo-config-notes:end -->
+
+演示 bottom-start、8px 纵向偏移和 160px 最大高度。hide-on-select=false 支持连续选择，页面显示最近选中的 value。
+
+```demo
+../example/popup.vue
+```
+
+## 自定义与插槽
 
 ### 自定义图标
 
@@ -53,6 +103,8 @@
 ```demo
 ../example/custom-icon.vue
 ```
+
+## 交互与控制
 
 ### 受控展开
 
@@ -64,38 +116,19 @@
 ../example/controlled.vue
 ```
 
-### 浮层与连续选择
-
-演示 bottom-start、8px 纵向偏移和 160px 最大高度。hide-on-select=false 支持连续选择，页面显示最近选中的 value。
-
-```demo
-../example/popup.vue
-```
-
-### 外观组合
-
-适用于主操作和附加菜单。调整状态、尺寸，用相同数据观察变化。内容保持一致，便于比较不同设置的实际效果。
-
-```demo
-../example/demos/appearance-lab.vue
-```
+## 异步与动态数据
 
 ### 异步操作
 
-@click 直接返回 Promise，auto-loading 等待完成并阻止重复点击；完成次数用于观察是否重复执行。
+click 是普通事件通知，支持 async 回调；loading 由业务状态控制，建议在 finally 中恢复。事件监听器的 Promise 不会自动驱动加载。禁用／加载链接移除有效 href。
 
 ```demo
 ../example/async-action.vue
 ```
 
-<!-- api-review:start -->
-### 功能调试
+## 阅读方向
 
-```demo
-../example/api-review.vue
-```
-
-<!-- api-review:end -->
+主按钮位于阅读起点，菜单按钮位于阅读终点；LTR/RTL 切换不交换业务动作或额外触发选择。Enter/Space 保留原生按钮行为，菜单按钮支持上下键打开菜单并跳过禁用项，Home/End 定位首尾，Enter 选择，Escape 关闭并归还焦点。弹层继承触发按钮来源方向，start/end 对齐随方向变化，显式 left/right 保持物理侧。自定义向下图形不额外镜像。
 
 ## API
 
@@ -114,9 +147,8 @@
 | `elevation`            | 按钮组海拔阴影                       | _boolean \| number_              | `true`      |
 | `button-props`         | 主按钮属性                           | `Partial<ButtonProps>`           | `undefined` |
 | `trigger-button-props` | 菜单触发按钮属性                     | `Partial<ButtonProps>`           | `undefined` |
-| `auto-loading`         | 主按钮异步点击时是否自动进入加载状态 | _boolean_                        | `false`     |
 | `trigger`              | 菜单触发方式                         | _TriggerEvent \| TriggerEvent[]_ | `click`     |
-| `placement`            | 菜单弹出位置                         | _PopoverPlacement_               | `bottom`    |
+| `placement`            | 浮层相对触发元素的首选方位，默认 bottom；启用默认的 auto-fit-position 时，空间不足会自动翻转并约束到可视区域，不保证最终停在该侧 | _MenuPosition_               | `bottom`    |
 | `popup-container`      | 菜单挂载容器                         | _PopupContainer_                 | `body`      |
 | `popup-max-height`     | 菜单最大高度                         | _boolean \| number_              | `true`      |
 | `popup-class`          | 菜单浮层类名                         | _string \| array \| object_      | `undefined` |
@@ -143,24 +175,29 @@
 
 ### 异步操作与点击语义
 
-设置 `auto-loading`，让 `@click` 回调返回 Promise，即可自动加载。若同时设置 `button-props.onClick`，两组回调各执行一次，并等待所有返回的 Promise 完成；同步回调不产生加载态。
+click 是普通事件通知，支持 async 回调；loading 由业务状态控制，建议在 finally 中恢复。事件监听器的 Promise 不会自动驱动加载。禁用／加载链接移除有效 href。
 
 ```html
 <script setup>
+import { ref } from 'vue'
+const publishing = ref(false)
 const publish = async () => {
-  await new Promise((resolve) => setTimeout(resolve, 800))
+  if (publishing.value) return
+  publishing.value = true
+  try { await new Promise((resolve) => setTimeout(resolve, 800)) }
+  finally { publishing.value = false }
 }
 </script>
 
 <template>
-  <mp-split-button auto-loading @click="publish">
+  <mp-split-button :button-props="{ loading: publishing }" @click="publish">
     发布
     <template #content><mp-menu-option label="保存草稿" /></template>
   </mp-split-button>
 </template>
 ```
 
-`click` 沿用 Button 的 `onClick` 控制回调 Prop（支持 `@click`），不是同时 emit 的通知。主按钮正常冒泡，不打开菜单；整体 disabled 优先于两个按钮的 disabled 配置。
+`click` 是普通 Emits 事件；主按钮正常冒泡，不打开菜单；整体 disabled 优先于两个按钮的 disabled 配置。
 
 ### 实例方法
 
@@ -173,3 +210,8 @@ const publish = async () => {
 受控 open 只请求更新，需由调用方更新绑定值。offset-x / offset-y 表示屏幕 X/Y 轴，数字单位为 px，长度字符串按现有长度工具转换。
 
 两端主体、Props、样式依赖入口和契约测试为独立同源副本；底层 Menu 保留平台适配，不共享实例。
+
+
+### 方位语义与配置入口
+
+菜单方位通过内部 Menu 的 placement 传递给 Trigger，使用 MenuPlacement 类型，不新增第二个定位入口。

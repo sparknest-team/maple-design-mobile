@@ -15,3 +15,7 @@ export { AutoComplete, autoCompleteProps }
 export const _AutoCompleteComponent = AutoComplete
 
 export default AutoComplete
+
+export type { AutoCompleteEmits, AutoCompleteSlots, AutoCompleteExpose } from './types'
+
+export type { AutoCompleteTriggerOptions } from './trigger-options'

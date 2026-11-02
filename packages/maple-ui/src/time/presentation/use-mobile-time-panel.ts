@@ -1,9 +1,9 @@
-import { computed, inject, ref, type ExtractPropTypes, type ShallowRef } from 'vue'
+import { computed, inject, onMounted, ref, watch, type ExtractPropTypes, type ShallowRef } from 'vue'
 import { getTimePickerChange, getTimePickerState } from '../picker-columns'
 import { props as pickerProps } from '../picker-props'
 import { getTimeWheelPresentationProps } from '../presentation-props'
 import { resolveTimeFormat } from '../time-format'
-import { formatTimeValue, isFormattedTimeAllowed, type TimeValue } from '../time-value'
+import { formatTimeValue, getFormattedTimeChoices, isFormattedTimeAllowed, type TimeValue } from '../time-value'
 import { timeExplicitConfirmation } from './confirmation-context'
 
 /** Wheel rendering uses the panel owner's draft and selection transaction. */
@@ -11,7 +11,19 @@ export function useMobileTimePanel(
   props: Readonly<ExtractPropTypes<typeof pickerProps>>,
   draft: ShallowRef<TimeValue | undefined>,
   select: (value: TimeValue, immediate?: boolean) => boolean,
+  initialize: (value: string) => void,
 ) {
+  function initializeDraft() {
+    if (props.disabled || props.readonly || (draft.value != null && draft.value !== '')) {
+      return
+    }
+    const value = getFormattedTimeChoices(undefined, props).value
+    if (value !== undefined) {
+      initialize(value)
+    }
+  }
+  onMounted(initializeDraft)
+  watch([draft, () => props], initializeDraft, { deep: true, flush: 'post' })
   const confirmationRequired = inject(timeExplicitConfirmation, undefined) ?? ref(false)
   const nowValue = () => formatTimeValue(new Date(), props)!
   const nowDisabled = computed(() => props.disabled || props.readonly || !isFormattedTimeAllowed(nowValue(), props))
@@ -35,7 +47,7 @@ export function useMobileTimePanel(
     if (props.disabled || props.readonly) {
       return
     }
-    const value = getTimePickerChange(values, props)
+    const value = getTimePickerChange(values, props, draft.value)
     if (value !== undefined) {
       select(value, props.disableConfirm && !confirmationRequired.value)
     }

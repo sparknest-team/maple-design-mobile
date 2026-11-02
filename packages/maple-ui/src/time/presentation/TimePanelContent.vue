@@ -1,5 +1,8 @@
 <template>
-  <div :class="classes(n(), formatElevation(elevation, 2), [useSeconds, n('--with-seconds')])">
+  <div
+    :class="classes(n(), formatElevation(elevation, 2), [useSeconds, n('--with-seconds')])"
+    @keydown="onColumnsKeydown"
+  >
     <div :class="n('column-labels')">
       <span v-for="(label, index) in columnLabels" :key="index" :class="n('column-label')">{{ label }}</span>
     </div>
@@ -56,6 +59,7 @@ import {
   type PropType,
 } from 'vue'
 import { editorAuxiliaryActions } from '../../_components/field-presentation/editor-actions'
+import { navigateTemporalColumns } from '../../_utils/temporal-keyboard'
 import MpButton from '../../button'
 import { t } from '../../locale'
 import { injectLocaleProvider } from '../../locale-provider/provide'
@@ -105,6 +109,7 @@ export default defineComponent({
 
     // The owner supplies the only draft and confirmation transaction.
     return {
+      onColumnsKeydown: (event: KeyboardEvent) => navigateTemporalColumns(event, '.mp-picker__column[role=listbox]'),
       hostActions,
       nowAction,
       ...toRefs(props.options),

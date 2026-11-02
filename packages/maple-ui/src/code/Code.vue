@@ -1,5 +1,5 @@
 <template>
-  <div :class="classes(n(), [wordWrap, n('--word-wrap')])" v-html="highlightedCode"></div>
+  <div dir="ltr" :class="classes(n(), [wordWrap, n('--word-wrap')])" v-html="highlightedCode"></div>
 </template>
 
 <script lang="ts">

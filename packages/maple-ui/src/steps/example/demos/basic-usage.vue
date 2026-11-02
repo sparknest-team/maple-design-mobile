@@ -8,7 +8,7 @@ const basicStatus = ref<StepStatus>('process')
 </script>
 
 <template>
-  <mp-radio-group v-model="basicStatus" class="status-switch">
+  <mp-radio-group v-model="basicStatus" edit-mode="direct" class="status-switch">
     <mp-radio v-for="status in statuses" :key="status" :value="status">{{ status }}</mp-radio>
   </mp-radio-group>
   <mp-steps :model-value="current" :status="basicStatus" content-placement="bottom">

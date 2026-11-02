@@ -1,17 +1,25 @@
 import type { PropType } from 'vue'
 import { fieldPresentationProps } from '../_components/field-presentation/props'
+import { datePickerFieldsProp, timePickerFieldsProp } from '../_components/picker-field/fields'
+import { openTriggerTargetProp } from '../_components/picker-field/open-trigger'
+import { calendarViewportProps } from '../date/calendar-viewport-props'
 import { dateRangeValueProps, dateRuleProps } from '../date/core-props'
 import type { DateValue } from '../date/date-value'
 import type { DateWheelOptions } from '../date/wheel-options'
-import { fieldDecoratorProps } from '../field-decorator/props'
+import { fieldDecoratorProps, fieldLoadingProps } from '../field-decorator/props'
 import { popupContainerProp, type PopupContainer } from '../utils/popup-container'
 import type { DateRangeCalendarOptions } from './calendar-options'
 import type { DateRangePickerOptions } from './picker-props'
 import { props as panelProps } from './picker-props'
 
 export const props = {
+  ...fieldLoadingProps,
+  openTriggerTarget: openTriggerTargetProp,
+  dateFields: datePickerFieldsProp,
+  timeFields: timePickerFieldsProp,
   ...fieldPresentationProps,
   ...dateRuleProps,
+  ...calendarViewportProps,
   ...dateRangeValueProps,
   type: panelProps.type,
   showNowButton: panelProps.showNowButton,
@@ -45,4 +53,4 @@ export const props = {
 }
 export type DateRangeProps = import('vue').ExtractPublicPropTypes<typeof props>
 export type DateRangeType = NonNullable<DateRangeProps['type']>
-export type DateRangePresentation = NonNullable<DateRangeProps['presentation']>
+export type DateRangeEditMode = NonNullable<DateRangeProps['editMode']>

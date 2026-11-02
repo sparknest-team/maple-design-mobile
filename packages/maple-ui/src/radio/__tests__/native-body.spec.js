@@ -6,7 +6,11 @@ import Radio, { RadioGroup } from '../index'
 
 describe('native radio body', () => {
   it('does not cancel accepted native activation and emits each notification once', async () => {
-    const wrapper = mount(Radio, { attachTo: document.body, slots: { default: () => 'Label' } })
+    const wrapper = mount(Radio, {
+      props: { editMode: 'direct' },
+      attachTo: document.body,
+      slots: { default: () => 'Label' },
+    })
     const input = wrapper.get('input')
     let canceled
     input.element.addEventListener('click', (event) => {
@@ -27,7 +31,7 @@ describe('native radio body', () => {
   it('restores every same-name member after a rejected group selection', async () => {
     const wrapper = mount(RadioGroup, {
       attachTo: document.body,
-      props: { name: 'rejected-group', modelValue: 'a', options: ['a', 'b'] },
+      props: { editMode: 'direct', name: 'rejected-group', modelValue: 'a', options: ['a', 'b'] },
     })
     const inputs = wrapper.findAll('input')
     inputs[1].element.click()
@@ -41,6 +45,7 @@ describe('native radio body', () => {
   it('puts state and attributes on the native input without allowing attrs to replace state', async () => {
     const wrapper = mount(Radio, {
       props: {
+        editMode: 'direct',
         defaultValue: true,
         readonly: true,
         error: true,
@@ -64,7 +69,9 @@ describe('native radio body', () => {
     wrapper.unmount()
   })
   it('inherits group name and native disabled state', () => {
-    const wrapper = mount(RadioGroup, { props: { name: 'period', disabled: true, options: ['day', 'week'] } })
+    const wrapper = mount(RadioGroup, {
+      props: { editMode: 'direct', name: 'period', disabled: true, options: ['day', 'week'] },
+    })
     const inputs = wrapper.findAll('input')
     expect(inputs).toHaveLength(2)
     for (const input of inputs) {
@@ -74,7 +81,7 @@ describe('native radio body', () => {
     wrapper.unmount()
   })
   it('restores native state when the controlled parent rejects the proposal', async () => {
-    const wrapper = mount(Radio, { props: { modelValue: false, value: true } })
+    const wrapper = mount(Radio, { props: { editMode: 'direct', modelValue: false, value: true } })
     await wrapper.get('input').trigger('click')
     await nextTick()
     expect(wrapper.get('input').element.checked).toBe(false)
@@ -84,7 +91,7 @@ describe('native radio body', () => {
   })
   it('supports both icon slots, scoped labels and per-instance geometry', async () => {
     const wrapper = mount(Radio, {
-      props: { iconSize: 30, checkedColor: 'purple', uncheckedColor: 'gray' },
+      props: { editMode: 'direct', iconSize: 30, checkedColor: 'purple', uncheckedColor: 'gray' },
       slots: {
         'checked-icon': '<b>checked</b>',
         'unchecked-icon': '<b>empty</b>',
@@ -100,7 +107,7 @@ describe('native radio body', () => {
   })
   it('supports component and group custom radio content', () => {
     const wrapper = mount(RadioGroup, {
-      props: { options: ['a'], defaultValue: 'a' },
+      props: { editMode: 'direct', options: ['a'], defaultValue: 'a' },
       slots: { radio: ({ checked }) => h('strong', 'custom:' + checked) },
     })
     expect(wrapper.get('strong').text()).toBe('custom:true')
@@ -112,6 +119,7 @@ describe('native radio body', () => {
       createSSRApp({
         render: () =>
           h(RadioGroup, {
+            editMode: 'direct',
             name: 'ssr',
             defaultValue: 'b',
             options: ['a', 'b'],

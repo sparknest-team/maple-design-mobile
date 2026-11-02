@@ -73,7 +73,11 @@
       "type": "'calendar' | 'picker' | 'calendarPicker'",
       "defaultValue": "'calendar' as const",
       "kind": "enum",
-      "options": ["calendar", "picker", "calendarPicker"],
+      "options": [
+        "calendar",
+        "picker",
+        "calendarPicker"
+      ],
       "initial": "calendar"
     },
     {
@@ -82,7 +86,11 @@
       "type": "'year' | 'date' | 'month'",
       "defaultValue": "'date'",
       "kind": "enum",
-      "options": ["year", "date", "month"],
+      "options": [
+        "year",
+        "date",
+        "month"
+      ],
       "initial": "date"
     },
     {
@@ -93,11 +101,12 @@
       "kind": "boolean"
     },
     {
-      "name": "use-seconds",
-      "description": "默认时间精度，显式 format 优先",
-      "type": "boolean",
-      "defaultValue": "true",
-      "kind": "boolean"
+      "name": "time-fields",
+      "description": "时间列及顺序",
+      "type": "readonly TimePickerField[]",
+      "defaultValue": "['hour', 'minute', 'second']",
+      "kind": "json",
+      "initial": "[\"hour\",\"minute\",\"second\"]"
     },
     {
       "name": "multiple",
@@ -193,7 +202,13 @@
       "type": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\"",
       "defaultValue": "'md'",
       "kind": "enum",
-      "options": ["xs", "sm", "md", "lg", "xl"],
+      "options": [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl"
+      ],
       "initial": "md"
     },
     {
@@ -202,17 +217,24 @@
       "type": "\"filled\" | \"outline\" | \"standard\"",
       "defaultValue": "'standard'",
       "kind": "enum",
-      "options": ["filled", "outline", "standard"],
+      "options": [
+        "filled",
+        "outline",
+        "standard"
+      ],
       "initial": "standard"
     },
     {
-      "name": "presentation",
-      "type": "'inline' | 'popup'",
+      "name": "edit-mode",
+      "type": "'direct' | 'popup'",
       "defaultValue": "undefined",
-      "description": "字段编辑方式，字段 > FormItem > Form 继承；默认 inline。",
+      "description": "字段编辑方式，字段 > FormItem > Form 继承；默认 direct。",
       "kind": "enum",
-      "options": ["inline", "popup"],
-      "initial": "inline"
+      "options": [
+        "direct",
+        "popup"
+      ],
+      "initial": "direct"
     },
     {
       "name": "read-pretty",
@@ -280,6 +302,14 @@
       "description": "源码公开属性 / Public source prop",
       "kind": "string",
       "initial": "#5268cc"
+    },
+    {
+      "name": "date-fields",
+      "description": "日期滚轮列及顺序，不改变日历网格",
+      "type": "readonly DatePickerField[]",
+      "kind": "json",
+      "defaultValue": "按 type 生成",
+      "initial": "[\"year\",\"month\",\"day\"]"
     }
   ],
   "events": [
@@ -298,12 +328,16 @@
     {
       "name": "model-value",
       "kind": "prop",
-      "demos": ["time-presentation.vue"]
+      "demos": [
+        "time-presentation.vue"
+      ]
     },
     {
       "name": "default-value",
       "kind": "prop",
-      "demos": ["panel-tools.vue"]
+      "demos": [
+        "panel-tools.vue"
+      ]
     },
     {
       "name": "format",
@@ -332,12 +366,21 @@
     {
       "name": "max",
       "kind": "prop",
-      "demos": ["../picker.vue", "entry-boundary.vue", "picker-limit.vue", "text-entry.vue"]
+      "demos": [
+        "../picker.vue",
+        "entry-boundary.vue",
+        "picker-limit.vue",
+        "text-entry.vue"
+      ]
     },
     {
       "name": "disabled-date",
       "kind": "prop",
-      "demos": ["../picker.vue", "disabled.vue", "picker-limit.vue"]
+      "demos": [
+        "../picker.vue",
+        "state-lab.vue",
+        "picker-limit.vue"
+      ]
     },
     {
       "name": "disabled-time",
@@ -347,7 +390,11 @@
     {
       "name": "date-picker-props",
       "kind": "prop",
-      "demos": ["entry-boundary.vue", "field-panel-tools.vue", "month-labels.vue"]
+      "demos": [
+        "entry-boundary.vue",
+        "field-panel-tools.vue",
+        "month-labels.vue"
+      ]
     },
     {
       "name": "popup-props",
@@ -362,12 +409,22 @@
     {
       "name": "picker-props",
       "kind": "prop",
-      "demos": ["entry-boundary.vue", "field-panel-tools.vue", "month-labels.vue", "time-presentation.vue"]
+      "demos": [
+        "entry-boundary.vue",
+        "field-panel-tools.vue",
+        "month-labels.vue",
+        "time-presentation.vue"
+      ]
     },
     {
       "name": "selected",
       "kind": "slot",
-      "demos": ["current-range.vue", "field-panel-tools.vue", "panel-tools.vue", "responsive-panels.vue"]
+      "demos": [
+        "current-range.vue",
+        "field-panel-tools.vue",
+        "panel-tools.vue",
+        "responsive-panels.vue"
+      ]
     },
     {
       "name": "prefix",
@@ -400,7 +457,13 @@
       "demos": []
     }
   ],
-  "slotNames": ["selected", "prefix", "clear-icon", "suffix", "suffix-icon"],
+  "slotNames": [
+    "selected",
+    "prefix",
+    "clear-icon",
+    "suffix",
+    "suffix-icon"
+  ],
   "slotDefaults": {
     "selected": false,
     "prefix": false,
@@ -408,5 +471,8 @@
     "suffix": false,
     "suffix-icon": false
   },
-  "methodNames": ["focus", "blur"]
+  "methodNames": [
+    "focus",
+    "blur"
+  ]
 }

@@ -2,6 +2,11 @@ import type { StyleVars } from '../../style-provider'
 
 const mapleLight: StyleVars = {
   '--mp-color-scheme': 'light',
+  '--mp-switch-checked-text-color': 'var(--mp-sys-color-content-on-dark)',
+  '--mp-date-calendar-selected-color': 'var(--mp-sys-color-content-on-dark)',
+  '--mp-field-focus-color': 'rgb(var(--mp-primary-8))',
+  '--mp-field-error-color': 'rgb(var(--mp-danger-8))',
+  '--mp-field-variant-outline-border-color-focus': 'rgb(var(--mp-primary-8))',
   '--mp-brand-1': '255, 247, 237',
   '--mp-brand-2': '255, 237, 213',
   '--mp-brand-3': '254, 215, 170',

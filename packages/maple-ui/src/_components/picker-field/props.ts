@@ -1,7 +1,9 @@
 import type { PropType } from 'vue'
 import { fieldDecoratorProps } from '../../field-decorator/props'
+import { openTriggerTargetProp } from './open-trigger'
 
 export const pickerFieldProps = {
+  openTriggerTarget: openTriggerTargetProp,
   ...fieldDecoratorProps,
   texts: { type: Array as PropType<string[]>, default: () => [] },
   placeholders: { type: Array as PropType<string[]>, default: () => [] },

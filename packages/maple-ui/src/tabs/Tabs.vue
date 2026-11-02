@@ -2,6 +2,7 @@
 
 <script setup lang="ts">
 import { computed, h, nextTick, provide, ref, useAttrs, useId, type VNode } from 'vue'
+import { useDirection } from '../_utils/direction'
 import { createNamespace } from '../utils/components'
 import { flatten, tabsInjectionKey, type TabEntry } from './context'
 import { tabsProps, type TabsName } from './props'
@@ -17,7 +18,8 @@ const emit = defineEmits<TabsEmits>()
 const slots = defineSlots<TabsSlots>()
 const attrs = useAttrs()
 const { n, classes } = createNamespace('tabs')
-const { size, rtl } = useTabsConfiguration(computed(() => props.size))
+const { size } = useTabsConfiguration(computed(() => props.size))
+const { isRtl: rtl } = useDirection(undefined, () => attrs.dir)
 const uid = useId()
 const local = ref(props.defaultValue)
 const focused = ref<TabsName>()
@@ -142,7 +144,7 @@ const Render = () => {
         ),
         attrs.class,
       ],
-      dir: attrs.dir ?? (rtl.value ? 'rtl' : undefined),
+      dir: attrs.dir,
     },
     panes.length
       ? [

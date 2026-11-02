@@ -7,16 +7,13 @@ import TimePicker from './TimePicker.vue'
 
 export function timeFieldAdapter(range: boolean): FieldPresentationAdapter {
   return {
+    defaultPresentation: 'popup',
     text: (value, props) =>
       (Array.isArray(value) ? value : [value])
         .map((part) => formatTimeValue(part, props))
         .filter(Boolean)
         .join(props.separator ?? ' ~ '),
-    valid: (value, props) =>
-      value == null ||
-      value === '' ||
-      (Array.isArray(value) && !value.length) ||
-      getTimeCommitValue(value, props, range) !== undefined,
+    valid: (value, props) => getTimeCommitValue(value, props, range) !== undefined,
     changeArgs: (value, props) => [
       value,
       Array.isArray(value)
@@ -40,6 +37,7 @@ export function timeFieldAdapter(range: boolean): FieldPresentationAdapter {
           readonly,
           disableConfirm: true,
           pickerProps: { ...props.pickerProps, toolbar: false },
+          onDraftInitialize: update,
           onSelect: (next: any, dates: any) => {
             update(next)
             emit('select', next, dates)

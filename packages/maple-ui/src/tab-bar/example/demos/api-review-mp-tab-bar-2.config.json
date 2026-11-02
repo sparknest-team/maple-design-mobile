@@ -79,7 +79,10 @@
       "defaultValue": "standard",
       "description": "外观样式 / Appearance",
       "kind": "enum",
-      "options": ["standard", "pill"],
+      "options": [
+        "standard",
+        "pill"
+      ],
       "initial": "standard"
     },
     {
@@ -91,8 +94,13 @@
     }
   ],
   "methodNames": [],
-  "events": ["change", "fab-click"],
-  "slotNames": ["fab"],
+  "events": [
+    "change",
+    "fab-click"
+  ],
+  "slotNames": [
+    "fab"
+  ],
   "slotDefaults": {
     "fab": false
   },

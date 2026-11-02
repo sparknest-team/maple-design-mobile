@@ -1,10 +1,10 @@
 # 链接
 
-## 案例
-
 ### 介绍
 
 链接组件，用于页面跳转。
+
+## 基础示例
 
 ### 基础用法
 
@@ -12,18 +12,36 @@
 ../example/demos/basic.vue
 ```
 
-### 五种尺寸
+## 外观与状态
+
+### 链接尺寸与语义颜色
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `status` | 语义状态，可选值为 `default` `primary` `secondary` `tertiary` `info` `success` `warning` `danger` | 链接尺寸与语义颜色、链接模式、下划线 |
+| `href` | 原生 `href` 属性 | 链接模式、悬浮态底色 |
+| `icon` | 是否显示默认链接图标 | 链接尺寸与语义颜色 |
+| `loading` | 加载状态，加载时禁止导航和点击 | 链接尺寸与语义颜色 |
+| `target` | 原生 `target` 属性 | 链接模式 |
+| `rel` | 原生 `rel` 属性 | 链接模式 |
+<!-- demo-config-notes:end -->
+
+比较尺寸和语义颜色；导航目标、禁用拦截和加载反馈保留独立行为示例。
+
+<details>
+<summary>配置说明与使用限制</summary>
+
+#### 五种尺寸
 
 通过 `size` 设置五档尺寸，文字、图标和加载图标同步缩放，默认 `md`。
 
-```demo
-../example/demos/size.vue
-```
-
-### 语义状态
+</details>
 
 ```demo
-../example/demos/semantic-status.vue
+../example/demos/appearance-comparison.vue
 ```
 
 ### 链接模式
@@ -44,18 +62,6 @@
 ../example/demos/disabled-status.vue
 ```
 
-### 图标
-
-```demo
-../example/demos/icon.vue
-```
-
-### 加载中
-
-```demo
-../example/demos/loading.vue
-```
-
 ### 悬浮态底色
 
 两端均支持 hoverable（默认 false），开启后增加内边距与悬浮/按下底色；不影响 underline。键盘聚焦通过 :focus-visible 显示焦点轮廓，无需开启 hoverable。
@@ -67,30 +73,63 @@
 ../example/demos/hoverable.vue
 ```
 
-<!-- api-review:start -->
-### 功能调试
+## 内容与展示
+
+### 图标
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `icon` | 是否显示默认链接图标 | 图标 |
+| `status` | 语义状态，可选值为 `default` `primary` `secondary` `tertiary` `info` `success` `warning` `danger` | 萤火虫配色 |
+<!-- demo-config-notes:end -->
 
 ```demo
-../example/demos/api-review.vue
+../example/demos/icon.vue
 ```
 
-<!-- api-review:end -->
+### 萤火虫配色
+
+primary、secondary、tertiary 链接使用与同状态 Button 的 text/outline 形态一致的文字角色。示例为明亮主色、紫色文字使用深蓝背景，为浅色模式的 secondary 使用浅色背景，与 Button 示例保持一致。
+
+```demo
+../example/demos/theme-colors.vue
+```
+
+## 交互与控制
+
+### 加载中
+
+```demo
+../example/demos/loading.vue
+```
 
 ## API
 
+### 原生链接与手动加载
+
+导航请提供 href。禁用或加载时，原本有 href 的链接保留 link 角色，移除导航属性并退出 Tab 顺序。download、hreflang、referrerpolicy 和 ARIA 等原生属性直接透传。loading 优先于 icon 插槽。click 是 MouseEvent 通知事件，遵守 Vue 的 once 语义，不根据监听器返回的 Promise 管理 loading；没有导航目标的业务操作使用 Button。
+
+加载示例首次激活时由业务准备报告，完成后再次激活交给浏览器原生下载；卸载时取消准备任务。
+
+
 ### 属性
 
-| 参数           | 说明                                                              | 类型       | 默认值      |
-|--------------|-----------------------------------------------------------------|----------|----------|
-| `status`       | 语义状态，可选值为 `default` `primary` `secondary` `tertiary` `info` `success` `warning` `danger` | _string_ | `default` |
-| `underline`  | 下划线状态，可选值为 `always` `hover` `none`                              | _string_ | `none` |
-| `hoverable` | 是否显示带内边距的悬浮/按下底色 | _boolean_ | `false` |
-| `disabled`   | 禁用状态                                                            | _boolean_ | `false`  |
-| `loading`    | 加载状态，加载时禁止导航和点击                                        | _boolean_ | `false`  |
-| `icon`       | 是否显示默认链接图标                                                  | _boolean_ | `false`  |
-| `href`       | 原生 `href` 属性                                         | _string_ | `-`      |
-| `rel`        | 原生 `rel` 属性                                            | _string_ | `-`      |
-| `target`     | 原生 `target` 属性                                                  | _string_ | `-`      |
+| 属性 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| `size` | 文字、图标与加载图标的五档尺寸 | 'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' | 'md' |
+| `href` | 原生链接地址 | string | - |
+| `target` | 原生打开目标 | string | - |
+| `rel` | 原生链接关系 | string | - |
+| `status` | 链接语义状态 | SemanticStatus | 'default' |
+| `underline` | 下划线策略 | 'always' \| 'hover' \| 'none' | 'none' |
+| `hoverable` | 显示带内边距的悬浮/按下底色 | boolean | false |
+| `icon` | 显示默认前置图标；icon 插槽优先 | boolean | false |
+| `loading` | 显示加载图标并阻止导航与点击 | boolean | false |
+| `disabled` | 禁用链接 | boolean | false |
+
 
 ### 事件
 
@@ -104,6 +143,12 @@
 | --- | --- | --- |
 | `default` | 链接内容 | `-` |
 | `icon` | 自定义链接图标 | `-` |
+
+### 类型定义
+
+```ts
+import type { LinkProps, LinkSize, LinkUnderline, LinkInstance } from '@maple-design/ui'
+```
 
 ### 样式变量
 以下为组件使用的 css 变量，可以使用 [StyleProvider 组件](#/zh-CN/style-provider) 进行样式定制。
@@ -136,9 +181,6 @@
 | `--mp-link-focus-color` | `currentColor` |
 | `--mp-link-spin-duration` | `1s` |
 
-```ts
-import type { LinkProps, LinkUnderline, LinkInstance } from '@maple-design/ui'
-```
 
 文字配色与 Button 的 text 变体一致：default 使用 content-primary，secondary / tertiary 使用 content-secondary，彩色状态使用对应 content 语义色，禁用和加载使用 content-disabled。两品牌明暗模式均继承这些规则。
 

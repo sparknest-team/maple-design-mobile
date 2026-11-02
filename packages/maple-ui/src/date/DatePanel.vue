@@ -27,6 +27,7 @@
     <div :class="n('main')">
       <DatePanelContent
         v-bind="$attrs"
+        :endpoint-editor="endpointEditor"
         :options="options"
         :range="isRange"
         :value="tools.displayValue.value"
@@ -58,13 +59,15 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed, h, inject, nextTick, onBeforeUnmount, provide, useSlots, type PropType } from 'vue'
+import { computed, h, inject, nextTick, onBeforeUnmount, onMounted, provide, useSlots, watch, type PropType } from 'vue'
 import { editorAuxiliaryActions, useEditorFeedback } from '../_components/field-presentation/editor-actions'
 import { provideRangePanel } from '../_components/picker-field/range-field-context'
 import { useFieldValue } from '../_components/picker-field/use-field-value'
 import { createNamespace } from '../utils/components'
+import { resolveEmptyValue } from '../utils/empty-value'
 import { currentDateValue, provideDateCurrent } from './date-current'
 import { provideDateLocale, scopeDateOptions } from './date-locale'
+import { isDateEndpointSelectionValid } from './date-rules'
 import { dateEventPayload, outputDateValue, parseDateValue, type DateSelection } from './date-value'
 import DatePanelActions from './DatePanelActions.vue'
 import DateShortcuts from './DateShortcuts.vue'
@@ -76,9 +79,17 @@ import { usePanelActionsLocale } from './presentation/use-panel-actions-locale'
 import { useRangeQuickSelection } from './range-quick-selection'
 import { useDatePanelTools } from './use-date-panel-tools'
 import { useDateSelection } from './use-date-selection'
+import { dateWheelDraft } from './wheel-draft'
 
 defineOptions({ name: createNamespace('date-panel').name, inheritAttrs: false })
-const props = defineProps({ options: { type: Object as PropType<DatePanelOptions>, required: true }, range: Boolean })
+const props = defineProps({
+  options: {
+    type: Object as PropType<DatePanelOptions & { presentation?: import('./datetime').DateTimePresentation }>,
+    required: true,
+  },
+  range: Boolean,
+  endpointEditor: Boolean,
+})
 const emit = defineEmits([
   'update:modelValue',
   'change',
@@ -87,6 +98,7 @@ const emit = defineEmits([
   'update:pickerValue',
   'picker-value-change',
   'select-shortcut',
+  'draft-initialize',
 ])
 const { n, classes } = createNamespace('date-panel')
 const language = useDateLocale()
@@ -98,6 +110,11 @@ provide(simultaneousDateLayout, !hostActions)
 const slots = useSlots()
 const forwardedSlots = computed(() => Object.keys(slots).filter((name) => name !== 'actions'))
 const rangeIndex = provideRangePanel()
+if (props.endpointEditor) {
+  // A new field editor session always starts at the first editable endpoint.
+  const locked = options.value.disabled
+  rangeIndex.value = Array.isArray(locked) && locked[0] && !locked[1] ? 1 : 0
+}
 const activeIndex = computed(() => {
   const index = rangeIndex.value === 1 ? 1 : 0
   const locked = options.value.disabled
@@ -116,10 +133,15 @@ const blocked = computed(() =>
   ),
 )
 const selection = useDateSelection({
+  emptyValue: () =>
+    resolveEmptyValue<DateSelection>(options.value, props.range || options.value.multiple ? [] : undefined),
   value: () => model.value.value,
   rules: () => options.value,
   range: () => isRange.value,
   allowReversedDraft: () => isRange.value,
+  validate: props.endpointEditor
+    ? (value) => isDateEndpointSelectionValid(value, options.value, activeIndex.value)
+    : undefined,
   multiple: () => Boolean(options.value.multiple),
   blocked: () => blocked.value,
   disabledParts: () => (Array.isArray(options.value.disabled) ? options.value.disabled : []),
@@ -139,13 +161,51 @@ const selection = useDateSelection({
     emit('confirm', value, payload.dates, payload.texts)
   },
 })
+function initializeWheelDraft() {
+  if (options.value.presentation !== 'picker' || options.value.multiple || blocked.value) {
+    return
+  }
+  const next = dateWheelDraft(selection.draft.value, options.value, isRange.value)
+  if (next !== selection.draft.value && selection.initialize(next)) {
+    emit('draft-initialize', next)
+  }
+}
+onMounted(initializeWheelDraft)
+watch([() => options.value, () => blocked.value, () => model.value.value], initializeWheelDraft, {
+  flush: 'post',
+})
 const tools = useDatePanelTools({
-  options: () => options.value,
+  options: () => {
+    if (!props.endpointEditor || !isRange.value) {
+      return options.value
+    }
+    const value = Array.isArray(selection.draft.value) ? selection.draft.value[0] : undefined
+    let start = parseDateValue(value, options.value)
+    if (!start) {
+      return options.value
+    }
+    const minimum = parseDateValue(options.value.min, options.value)
+    const maximum = parseDateValue(options.value.max, options.value)
+    if (minimum && start.valueOf() < minimum.valueOf()) {
+      start = minimum
+    }
+    if (maximum && start.valueOf() > maximum.valueOf()) {
+      start = maximum
+    }
+    return { ...options.value, defaultPickerValue: [outputDateValue(start.toDate(), options.value)] }
+  },
   range: () => isRange.value,
   value: () => selection.draft.value,
   blocked: () => blocked.value,
   valid: selection.valid,
-  select: (value) => selection.select(value, options.value.disableConfirm !== false && !quick.pending.value),
+  select: (value) => {
+    if (props.endpointEditor && Array.isArray(value)) {
+      const next = Array.isArray(selection.draft.value) ? [...selection.draft.value] : [undefined, undefined]
+      next[activeIndex.value] = value[activeIndex.value]
+      return selection.select(next, options.value.disableConfirm !== false && !quick.pending.value)
+    }
+    return selection.select(value, options.value.disableConfirm !== false && !quick.pending.value)
+  },
   onShortcut: (shortcut) => emit('select-shortcut', shortcut),
   onNavigate: (value) => {
     const payload = dateEventPayload(value, options.value)
@@ -163,7 +223,7 @@ function select(value: DateSelection) {
 
 const quick = useRangeQuickSelection(
   options,
-  isRange,
+  computed(() => isRange.value && !props.endpointEditor),
   blocked,
   selection,
   () => tools.endPreview(),
@@ -171,7 +231,7 @@ const quick = useRangeQuickSelection(
 )
 const showNow = computed(() => !options.value.multiple && options.value.showNowButton !== false)
 function nowCandidate(): DateSelection {
-  const now = currentDateValue(options.value)
+  const now = currentDateValue({ ...options.value, format: undefined })
   if (!isRange.value) {
     return now
   }
@@ -232,7 +292,7 @@ function reversed(value: DateSelection) {
   }
   const start = parseDateValue(value[0], options.value)
   const end = parseDateValue(value[1], options.value)
-  return Boolean(start && end && start.isAfter(end))
+  return Boolean(start && end && start.valueOf() > end.valueOf())
 }
 const orderError = computed(() =>
   reversed(selection.draft.value) ? orderErrorText(Boolean(options.value.showTime)) : '',

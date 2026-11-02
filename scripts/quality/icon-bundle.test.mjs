@@ -24,11 +24,12 @@ const vueSfc = {
   },
 }
 
-// Measured before consolidating the Icon-only helpers into maple-shared.
+// Gzip ceilings retain the pre-consolidation budget. Minified ceilings include
+// the reviewed slot-ownership guard and named Icon export (+50 / +6 / +3 bytes).
 const budgets = {
-  'index.ts': { minified: 3731, gzip: 1915 },
-  'Icon.vue': { minified: 2999, gzip: 1561 },
-  'RegisteredIcon.vue': { minified: 3630, gzip: 1786 },
+  'index.ts': { minified: 3781, gzip: 1915 },
+  'Icon.vue': { minified: 3005, gzip: 1561 },
+  'RegisteredIcon.vue': { minified: 3633, gzip: 1786 },
 }
 
 for (const [entry, budget] of Object.entries(budgets)) {
@@ -66,7 +67,7 @@ for (const [entry, budget] of Object.entries(budgets)) {
     )
     assert.ok(
       result.outputFiles[0].contents.length <= budget.minified,
-      `${entry}: minified bytes exceed the pre-consolidation ${budget.minified} byte budget`,
+      `${entry}: minified bytes exceed the reviewed Icon contract ${budget.minified} byte budget`,
     )
     assert.doesNotMatch(
       result.outputFiles[0].text,

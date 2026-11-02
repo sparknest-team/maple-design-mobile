@@ -10,11 +10,11 @@ mouse-enter-delay／mouse-leave-delay 是交互请求延迟，独立于CSS进出
 
 连续点击两个独立触发器时，先关闭之前的顶层浮层，再打开新的浮层；嵌套子浮层仍视为父层内部。受控 open 只发出关闭请求，调用方仍可决定是否接受。
 
-## 案例
-
 ### 介绍
 
 无视觉样式的锚点浮层基础组件，统一负责触发、定位、挂载、层级和打开状态。业务提示优先使用 Tooltip，结构化内容使用 Popover，命令选择使用 Menu；只有构建新的浮层组件时才直接使用 Trigger。
+
+## 基础示例
 
 ### 基础用法
 
@@ -22,13 +22,39 @@ mouse-enter-delay／mouse-leave-delay 是交互请求延迟，独立于CSS进出
 ../example/demos/basic.vue
 ```
 
+## 布局与排列
+
 ### 方位与箭头
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `trigger` | `hover/click/focus/contextMenu/manual`，可传数组 | 方位与箭头 |
+| `placement` | 浮层相对触发元素的首选方位，默认 bottom；启用默认的 auto-fit-position 时，空间不足会自动翻转并约束到可视区域，不保证最终停在该侧 | 方位与箭头 |
+| `popup-offset` | 主轴向外距离 | 方位与箭头 |
+| `show-arrow` | 显示箭头 | 方位与箭头 |
+<!-- demo-config-notes:end -->
 
 ```demo
 ../example/demos/placement.vue
 ```
 
+## 交互与控制
+
 ### 受控状态与偏移
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `trigger` | `hover/click/focus/contextMenu/manual`，可传数组 | 受控状态与偏移 |
+| `placement` | 浮层相对触发元素的首选方位，默认 bottom；启用默认的 auto-fit-position 时，空间不足会自动翻转并约束到可视区域，不保证最终停在该侧 | 受控状态与偏移 |
+| `popup-offset` | 主轴向外距离 | 受控状态与偏移 |
+| `popup-translate` | 屏幕轴平移或按方位配置 | 受控状态与偏移 |
+<!-- demo-config-notes:end -->
 
 `popup-offset` 是沿 placement 主轴向外的距离；`popup-translate` 是屏幕 x/y 轴上的附加平移。
 
@@ -37,15 +63,6 @@ mouse-enter-delay／mouse-leave-delay 是交互请求延迟，独立于CSS进出
 ```demo
 ../example/demos/controlled.vue
 ```
-
-<!-- api-review:start -->
-### 功能调试
-
-```demo
-../example/demos/api-review.vue
-```
-
-<!-- api-review:end -->
 
 ## API
 
@@ -58,7 +75,7 @@ mouse-enter-delay／mouse-leave-delay 是交互请求延迟，独立于CSS进出
 | `trigger` | `hover/click/focus/contextMenu/manual`，可传数组 | _TriggerEvent \| TriggerEvent[]_ | `hover` |
 | `disabled` | 禁止打开 | _boolean_ | `false` |
 | `reference` | 外部参考元素 | _string \| HTMLElement \| SVGElement_ | `-` |
-| `placement` | 十二方位 | _TriggerPlacement_ | `bottom` |
+| `placement` | 浮层相对触发元素的首选方位，默认 bottom；启用默认的 auto-fit-position 时，空间不足会自动翻转并约束到可视区域，不保证最终停在该侧 | _TriggerPlacement_ | `bottom` |
 | `strategy` | 定位策略 | _absolute \| fixed_ | `absolute` |
 | `cover` | 沿主轴覆盖参考元素 | _boolean_ | `false` |
 | `popup-offset` | 主轴向外距离 | _number_ | `0` |
@@ -117,3 +134,12 @@ Tooltip 与 Popover 自行定义箭头外观；应覆盖其组件变量，而不
 ### 减少动态效果
 
 内置 CSS 过渡遵循 `prefers-reduced-motion: reduce`。关闭过渡不改变最终显隐、选中／展开状态及事件语义；插槽内自定义动画由应用自行控制。
+
+
+### 方位语义与配置入口
+
+placement 是首选方位，auto-fit-position 默认 true 时最终方位可能变化；它不是 position 坐标。top-start 与 top-left 不是同一种枚举：前者是锚点方位及沿边对齐，后者是容器角落。当前 Trigger 的 start/end 由物理交叉轴几何解释，尚不应承诺 RTL 自动镜像。
+
+## 参考元素的原生事件修饰符
+
+`click`、`mouseenter`、`mouseleave`、`focusin`、`focusout`、`contextmenu` 的原生监听器和 `.once`、`.capture`、`.passive` 均绑定到实际参考元素，不会落到浮层。`.once` 按原生元素的监听生命周期执行；更新回调不重新启用已消费的监听，换参考元素或移除后重加监听才开始新的周期。停用和卸载会解绑。普通监听器只通知，返回 Promise 不驱动打开或加载，异常进入 Vue 的事件错误处理链。

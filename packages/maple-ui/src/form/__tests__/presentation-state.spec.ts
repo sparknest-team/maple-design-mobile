@@ -32,12 +32,12 @@ function deferred<T>() {
   return { promise, resolve }
 }
 const rulesFor = (validate: (value: unknown) => Promise<boolean | string>) => [validate]
-function fixture(Field: any, presentation: string, extra: Record<string, any> = {}, rules?: any) {
+function fixture(Field: any, editMode: string, extra: Record<string, any> = {}, rules?: any) {
   const model = reactive({ value: 'old' })
   const state = reactive({
     disabled: undefined as boolean | undefined,
     readonly: undefined as boolean | undefined,
-    presentation,
+    editMode,
     readPretty: false,
   })
   const wrapper = mount(Form, {
@@ -53,7 +53,7 @@ function fixture(Field: any, presentation: string, extra: Record<string, any> = 
             disabled: state.disabled,
             readonly: state.readonly,
             readPretty: state.readPretty,
-            presentation: state.presentation as any,
+            editMode: state.editMode as any,
           },
           () =>
             h(Field, {
@@ -94,11 +94,11 @@ function fixture(Field: any, presentation: string, extra: Record<string, any> = 
 }
 describe('presentation state and validation transactions', () => {
   for (const [name, Field] of fields) {
-    for (const presentation of presentations) {
-      test(`${name} ${presentation} locks editors during async confirmation and retains a rejected draft`, async () => {
+    for (const editMode of presentations) {
+      test(`${name} ${editMode} locks editors during async confirmation and retains a rejected draft`, async () => {
         const save = deferred<void | false>()
         const beforeCommit = vi.fn((_value: unknown) => save.promise)
-        const f = fixture(Field, presentation, { beforeCommit })
+        const f = fixture(Field, editMode, { beforeCommit })
         try {
           await f.open()
           await f.change()
@@ -124,17 +124,17 @@ describe('presentation state and validation transactions', () => {
           expect(f.model.value).toBe('old')
           beforeCommit.mockResolvedValueOnce(undefined)
           await f.action(true)
-          expect(beforeCommit.mock.calls[1][0]).toBe('new')
+          expect(beforeCommit.mock.calls[1][0]).toEqual({ value: 'new', previousValue: 'old' })
           expect(f.model.value).toBe('new')
           expect(f.wrapper.get('[aria-haspopup=dialog]').attributes('aria-expanded')).toBe('false')
         } finally {
           f.wrapper.unmount()
         }
       })
-      test(`${name} ${presentation} preserves the draft on validation failure and retries with the corrected value`, async () => {
+      test(`${name} ${editMode} preserves the draft on validation failure and retries with the corrected value`, async () => {
         const validate = vi.fn(async (value: unknown) => (value === 'new' ? '候选校验失败' : true))
-        const beforeCommit = vi.fn()
-        const f = fixture(Field, presentation, { beforeCommit }, rulesFor(validate))
+        const beforeCommit = vi.fn(() => true)
+        const f = fixture(Field, editMode, { beforeCommit }, rulesFor(validate))
         try {
           await f.open()
           await f.change()
@@ -154,16 +154,16 @@ describe('presentation state and validation transactions', () => {
         }
       })
       for (const stage of ['validation', 'save', 'native-reset']) {
-        test(`${name} ${presentation} reset during ${stage} closes the editor and discards late completion`, async () => {
+        test(`${name} ${editMode} reset during ${stage} closes the editor and discards late completion`, async () => {
           const task = deferred<any>()
           let signal: AbortSignal | undefined
-          const beforeCommit = vi.fn((_value, context) => {
+          const beforeCommit = vi.fn((_payload, _done, context) => {
             signal = context.signal
             return stage !== 'validation' ? task.promise : undefined
           })
           const f = fixture(
             Field,
-            presentation,
+            editMode,
             { beforeCommit },
             stage === 'validation' ? rulesFor(() => task.promise) : undefined,
           )
@@ -223,7 +223,7 @@ describe('presentation state and validation transactions', () => {
         const task = deferred<void>()
         let signal!: AbortSignal
         const f = fixture(Field, 'popup', {
-          beforeCommit: (_value: unknown, context: { signal: AbortSignal }) => {
+          beforeCommit: (_payload: unknown, _done: unknown, context: { signal: AbortSignal }) => {
             signal = context.signal
             return task.promise
           },
@@ -250,7 +250,7 @@ describe('presentation state and validation transactions', () => {
           f.state.disabled = false
           f.state.readonly = false
           f.state.readPretty = false
-          f.state.presentation = 'popup'
+          f.state.editMode = 'popup'
           await flushPromises()
           expect(f.wrapper.get('[aria-haspopup=dialog]').attributes('aria-expanded')).toBe('false')
         } finally {

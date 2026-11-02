@@ -1,4 +1,5 @@
 import { type ExtractPropTypes, type PropType } from 'vue'
+import { timePickerFieldsProp } from '../_components/picker-field/fields'
 import { pickerProps as pickerPropsSource } from '../picker'
 import { timeDisabledProps } from '../time/disabled-props'
 import type { TimeWheelPresentationProps } from '../time/presentation-props'
@@ -8,6 +9,7 @@ import type { TimeValue } from '../time/time-value'
 export type TimeRangePickerPresentation = 'picker'
 
 export const props = {
+  timeFields: timePickerFieldsProp,
   /** 隐藏禁用的时间选项。 */
   hideDisabledOptions: Boolean,
   /** 跳过确认，选择后立即提交。 */
@@ -45,3 +47,5 @@ export const props = {
 }
 
 export type TimeRangePickerProps = import('vue').ExtractPublicPropTypes<typeof props>
+
+export type { TimePickerField } from '../_components/picker-field/fields'

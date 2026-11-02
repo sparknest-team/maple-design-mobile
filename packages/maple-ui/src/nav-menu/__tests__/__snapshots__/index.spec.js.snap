@@ -1,0 +1,23 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`migrated NavMenu filtering > renders the horizontal entry structure 1`] = `
+"<div class="mp-nav-menu mp--box">
+  <div class="mp-nav-menu__bar" role="group">
+    <div class="mp-nav-menu__node"><button type="button" data-nav-item="" aria-expanded="false" aria-controls="mp-nav-menu-v-0" class="mp-nav-menu__item mp-nav-menu--md">
+        <!----><span class="mp-nav-menu__label">分类</span><span class="mp-nav-menu__arrow" aria-hidden="true"></span>
+      </button>
+      <!---->
+    </div>
+    <div class="mp-nav-menu__node"><button type="button" data-nav-item="" aria-expanded="false" aria-controls="mp-nav-menu-v-1" class="mp-nav-menu__item mp-nav-menu--md">
+        <!----><span class="mp-nav-menu__label">地区</span><span class="mp-nav-menu__arrow" aria-hidden="true"></span>
+      </button>
+      <!---->
+    </div>
+  </div>
+  <!--teleport start-->
+  <transition-stub name="mp-overlay--fade" appear="false" persisted="false" css="true">
+    <!--v-if-->
+  </transition-stub>
+  <!--teleport end-->
+</div>"
+`;

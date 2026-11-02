@@ -347,16 +347,6 @@ beforeClose 是业务确认 Promise，不是 CSS 动效完成或可参数化时�
 
 分类保持24/33族72.7%，剩9族27.3%；59文件，143/182提示78.6%，39待审21.4%，分母不变。只更新SwipeCell库存205→248，其他26处并行漂移、Form／日期／关联Time／Picker／Scheduler、144环境阻塞和Button白字例外保留。证据：design-ui/audits/evidence/swipe-cell-close-lifecycle-2026-10-15/results.json。
 
-### Maple Counter：长按重复与生命周期（2026-10-15）
-
-Counter的600ms等待＋100ms重复是interaction-repeat交互节奏：第一次长按步进在700ms，正常点击仍即时。它不是CSS动效时长，不新增Token，也不强行改为InputNumber的800／150ms。两个方向独立拥有代次与消费位；同方向新按替代旧按，释放／touchcancel／停用／卸载取消当前两计时，旧交付不清新句柄、不跨激活复活。
-
-禁用／只读（含Form继承）、press／lazyChange、controls／方向按钮、方向禁用与数值边界使长按不可用时同步失效；激活不恢复旧手势，允许新请求。重复步进返回后再核对归属，回调内release或卸载不续排。停用的保留press／直接步进无效；未改变数值格式、步长、精度或beforeChange公开协议，异步beforeChange的请求替代身份仍独立待验，不接管Form。
-
-有效24项基线20失败／4对照（两方向重复覆盖，不算20独立缺陷）；32专项、完整55项通过。Vue技能用于停用／卸载均取消及清理假时钟／探针。实际Counter／KeepAlive、stub按钮和受控timer不等于原生触摸／点击去重／跨文档／OS；真实浏览器／OS新增0。
-
-分类新增1文件／4条interaction-repeat（8），24/33族72.7%，剩9族27.3%；59文件，143/182提示78.6%，39待审21.4%，分母不变。仅刷新Counter四行库存／hash，26处并行漂移、Form／日期／关联Time／Picker／Scheduler、144环境阻塞和Button白字例外保留。证据：design-ui/audits/evidence/counter-press-lifecycle-2026-10-15/results.json。
-
 ### Maple LoadingBar：任务与渲染续体归属（2026-10-15）
 
 LoadingBar统一timer归task-dispatch：200ms显示／进度节奏、公开finishDelay、error的300ms策略，以及按computed width／opacity完成等待的300／250ms清理下限，各自保留语义，不全转为CSS duration。公开动效Token、默认值及原timer窗口归属不变；Cedar无LoadingBar运行时，不新增对应变量或组件。
@@ -1429,7 +1419,7 @@ Input、Textarea、InputNumber 的实际原生控件使用 `caret-color: current
 
 全量目录同时检查 `style/index.less` 和 `style/index.ts` 直接导入的 Less。共享 selection 的 presentation 样式是合法入口；忽略它会误判变量无消费者。Watermark 在运行时读取变量并用于画布，FloatingPanel、Time 时钟和 TabBar 通过实际行内样式消费变量；这些可执行路径需单独登记，不接受注释或主题赋值充当证据。
 
-属性与变量应有明确优先级：显式属性优先，未传属性时使用对应 CSS 变量。Maple TabBar 的 `z-index` 现遵循此规则，默认视觉值仍为 `1`，属性默认值为 `undefined`。ImagePreview 的箭头 hover 变量仅在可悬停设备且箭头可用时生效。Counter 无消费的 disabled-color 已移除，禁用仍由 disabled-opacity 及实际文字／背景变量表达。
+属性与变量应有明确优先级：显式属性优先，未传属性时使用对应 CSS 变量。Maple TabBar 的 `z-index` 现遵循此规则，默认视觉值仍为 `1`，属性默认值为 `undefined`。ImagePreview 的箭头 hover 变量仅在可悬停设备且箭头可用时生效。
 
 动效规则须同时约束 CSS 与 JavaScript：Maple Picker 在 reduced-motion 下立即提交选择，不等待 transitionend；偏好动态变为 reduce 时收束待提交滚动。键盘列为 listbox，当前项为 option，方向键与 Home/End 跳过禁用项；这不改变 selected-values 的附加勾选标记语义。Time 打开面板先提交输入草稿而不提前 blur，确保弹层关闭后回到原输入。
 

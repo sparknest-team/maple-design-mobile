@@ -20,7 +20,9 @@ import { useFieldFocus } from '../_components/picker-field/use-field-focus'
 import { useFieldOpen } from '../_components/picker-field/use-field-open'
 import { useFieldValue } from '../_components/picker-field/use-field-value'
 import { createNamespace } from '../utils/components'
+import { resolveEmptyValue, useEmptyValues } from '../utils/empty-value'
 import { scopeDateOptions } from './date-locale'
+import { isDateEndpointSelectionValid } from './date-rules'
 import { dateEventPayload, formatDateValue, outputDateValue, parseDateText, type DateSelection } from './date-value'
 import { dateFieldPanelOptions } from './field-panel-options'
 import type { DateFieldControlProps, DateFieldProps, DateFieldState } from './field-state'
@@ -34,6 +36,7 @@ defineOptions({ name: createNamespace('date-field').name, inheritAttrs: false })
 const props = defineProps({
   fieldProps: { type: Object as PropType<DateFieldProps>, required: true },
   range: Boolean,
+  endpointSelection: Boolean,
   rootClass: String,
 })
 const emit = defineEmits([
@@ -59,11 +62,19 @@ const fieldProps = computed(() =>
   ),
 )
 const content = ref<InstanceType<typeof DateFieldContent>>()
-provideRangeField()
+const rangeIndex = provideRangeField()
 const model = useFieldValue<DateSelection>({
   value: () => fieldProps.value.modelValue,
   defaultValue: () => fieldProps.value.defaultValue,
 })
+const emptyPolicy = useEmptyValues({
+  get emptyValues() {
+    return fieldProps.value.emptyValues
+  },
+})
+const viewValue = computed(() =>
+  emptyPolicy.hasCustomEmptyValues.value && emptyPolicy.isEmpty(model.value.value) ? undefined : model.value.value,
+)
 const form = useDateFieldForm(() => fieldProps.value)
 const locale = useDateFieldLocale()
 const disabledParts = computed(() =>
@@ -84,10 +95,14 @@ const open = useFieldOpen({
   },
 })
 const selection = useDateSelection({
-  value: () => model.value.value,
+  emptyValue: () => resolveEmptyValue<DateSelection>(fieldProps.value, props.range ? [] : undefined),
+  value: () => viewValue.value,
   rules: () => fieldProps.value,
   range: () => props.range,
   allowReversedDraft: () => props.range,
+  validate: props.endpointSelection
+    ? (value) => isDateEndpointSelectionValid(value, fieldProps.value, rangeIndex.value)
+    : undefined,
   multiple: () => 'multiple' in fieldProps.value && Boolean(fieldProps.value.multiple),
   disabledParts: () => (props.range ? disabledParts.value : []),
   blocked: () => blocked.value,
@@ -120,7 +135,7 @@ const focus = useFieldFocus({
 })
 const controlProps = computed<DateFieldControlProps>(() => {
   const options = fieldProps.value
-  const value = model.value.value
+  const value = viewValue.value
   const values = Array.isArray(value) ? value : [value]
   const placeholder = options.placeholder ?? locale.placeholder(props.range, options.type)
   const placeholders = Array.isArray(placeholder)
@@ -130,6 +145,7 @@ const controlProps = computed<DateFieldControlProps>(() => {
       : [placeholder]
   return {
     kind: 'date',
+    openTriggerTarget: options.openTriggerTarget,
     editable:
       options.inputEditable !== false &&
       typeof options.format !== 'function' &&
@@ -180,6 +196,7 @@ const state: DateFieldState = {
     form.events.value?.onClear?.()
     return true
   },
+  initialize: selection.initialize,
   select: selection.select,
   confirm: selection.commit,
   cancel: () => {
@@ -203,7 +220,7 @@ const state: DateFieldState = {
     if (props.range && Array.isArray(previous)) {
       values.forEach((_, index) => {
         if (disabledParts.value[index]) {
-          values[index] = previous[index]
+          values[index] = previous[index] ?? undefined
         }
       })
     }

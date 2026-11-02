@@ -1,7 +1,6 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maple-design/cli/client'
-import DemoApiReview from './demos/api-review.vue'
 import BasicDemo from './demos/basic.vue'
 import ControlledDemo from './demos/controlled.vue'
 import CustomTriggerDemo from './demos/custom-trigger.vue'
@@ -23,10 +22,20 @@ onThemeChange()
 </script>
 
 <template>
+  <h2 class="mobile-demo-group-heading" data-demo-group="basic-examples" data-demo-component="fab">
+    <span lang="zh-CN">基础示例</span>
+    <span lang="en-US">Basic examples</span>
+  </h2>
+
   <section data-demo="basic">
     <app-type>{{ english ? 'Basic Usage' : '基础用法' }}</app-type>
     <BasicDemo />
   </section>
+
+  <h2 class="mobile-demo-group-heading" data-demo-group="appearance-and-states">
+    <span lang="zh-CN">外观与状态</span>
+    <span lang="en-US">Appearance and states</span>
+  </h2>
 
   <section data-demo="status">
     <app-type>{{ english ? 'Theme Color Button' : '主题色按钮' }}</app-type>
@@ -38,10 +47,20 @@ onThemeChange()
     <DisabledDemo />
   </section>
 
+  <h2 class="mobile-demo-group-heading" data-demo-group="appearance-and-positioning">
+    <span lang="zh-CN">外观与定位</span>
+    <span lang="en-US">Appearance and positioning</span>
+  </h2>
+
   <section data-demo="position">
     <app-type>{{ english ? 'Trigger Position' : '触发器位置' }}</app-type>
     <PositionDemo />
   </section>
+
+  <h2 class="mobile-demo-group-heading" data-demo-group="actions-and-interaction">
+    <span lang="zh-CN">动作与交互</span>
+    <span lang="en-US">Actions and interaction</span>
+  </h2>
 
   <section data-demo="trigger">
     <app-type>{{ english ? 'Trigger Method' : '触发方式' }}</app-type>
@@ -72,5 +91,4 @@ onThemeChange()
     <app-type>{{ english ? 'Custom Trigger' : '自定义触发器' }}</app-type>
     <CustomTriggerDemo />
   </section>
-  <section data-demo="api-review"><DemoApiReview /></section>
 </template>

@@ -3,6 +3,7 @@
     :class="
       classes(n(), formatElevation(elevation, 2), [showTime, n('--with-time')], [isCalendarTime, n('--calendar-time')])
     "
+    @keydown="onColumnsKeydown"
   >
     <div
       :class="
@@ -94,7 +95,7 @@
           </div>
           <div
             v-show="!isCalendarTime || datetimeView === 'date'"
-            :class="n('body')"
+            :class="classes(n('body'), [interactiveMode !== 'page', n('body--viewport')])"
             @touchstart="handleTouchstart"
             @touchmove="handleTouchmove"
             @touchend="handleTouchend"
@@ -123,6 +124,26 @@
                 :readonly="readonly"
                 @choose-month="getChooseMonth"
                 @check-preview="checkPreview"
+              />
+              <CalendarViewport
+                v-else-if="getPanelType === 'date' && interactiveMode !== 'page'"
+                :locale="calendarLocale"
+                :mode="interactiveMode"
+                :use-virtual-scroll="useVirtualScroll"
+                :model-value="modelValue"
+                :picker-value="pickerValue"
+                :min="min"
+                :max="max"
+                :readonly="readonly"
+                :multiple="multiple"
+                :range="range"
+                :range-endpoint="rangeEndpoint"
+                :day-start-of-week="dayStartOfWeek"
+                :today="currentDate"
+                :show-current="showCurrent"
+                :disabled-date="disabledDate"
+                @select="handleViewportSelect"
+                @navigate="handleViewportNavigate"
               />
               <day-picker-panel
                 v-else-if="getPanelType === 'date'"
@@ -159,24 +180,38 @@
           </div>
         </template>
       </div>
-      <div v-if="showTime && !range && !multiple && datetimeView === 'date'" :class="n('quick-time')">
+      <div
+        v-if="showTime && !range && !multiple && datetimeView === 'date'"
+        :class="[n('quick-time'), customTimeFields && n('quick-time--fields')]"
+      >
+        <div v-if="customTimeFields" :class="n('column-labels')">
+          <span v-for="label in timeOnlyColumnLabels" :key="label" :class="n('column-label')">{{ label }}</span>
+        </div>
         <mp-picker
           :class="n('quick-time-wheel')"
           v-bind="pickerBindingProps"
           :toolbar="false"
           :title="(pt ?? t)('timePickerHint')"
           :option-count="pickerBindingProps.optionCount ?? 7"
-          :disabled="readonly || !quickTimeOptions.length"
-          :columns="[quickTimeColumns]"
-          :model-value="quickTimeValue"
-          @change="handleQuickTimeChange"
+          :disabled="
+            readonly || (customTimeFields ? timeOnlyColumns.some((column) => !column.length) : !quickTimeOptions.length)
+          "
+          :columns="customTimeFields ? timeOnlyColumns : [quickTimeColumns]"
+          :model-value="customTimeFields ? timeOnlyPickerValue : quickTimeValue"
+          @change="customTimeFields ? handleTimeOnlyPickerChange($event) : handleQuickTimeChange($event)"
         />
       </div>
     </div>
     <TemporalCurrent
       v-if="showTime && !range && !multiple"
-      :date="displayDateTimeParts.date"
-      :time="displayDateTimeParts.time"
+      :date="emptyEndpoint ? (pt ?? t)('datePickerHint') : displayDateTimeParts.date"
+      :time="
+        emptyEndpoint
+          ? ''
+          : timeFieldIndexes.includes(2)
+            ? displayDateTimeParts.time
+            : displayDateTimeParts.time.slice(0, 5)
+      "
       show-time
       :view="datetimeView"
       @update:view="$event === 'date' ? showDateSummary() : (datetimeView = 'time')"
@@ -191,8 +226,10 @@
 import { computed, defineComponent, nextTick, ref, watch, type PropType, type RendererNode } from 'vue'
 import { call, doubleRaf, error, isArray, toNumber } from '@maple-design/shared'
 import dayjs from 'dayjs/esm/index.js'
+import { mergePickerFields, pickerFieldIndexes, timeFields } from '../../_components/picker-field/fields'
 import { useRangeDisabledParts, useRangeFieldIndex } from '../../_components/picker-field/mobile-range-field-context'
 import TemporalCurrent from '../../_components/picker-field/TemporalCurrent.vue'
+import { navigateTemporalColumns } from '../../_utils/temporal-keyboard'
 import { t } from '../../locale'
 import { injectLocaleProvider } from '../../locale-provider/provide'
 import { _PickerComponent as MpPicker } from '../../picker'
@@ -200,6 +237,7 @@ import MpTimePicker from '../../time/TimePicker.vue'
 import { createNamespace, formatElevation } from '../../utils/components'
 import { padStart } from '../../utils/shared'
 import { useDateCurrent } from '../date-current'
+import { dateWheelFieldIndexes, mergeDateWheelFields } from '../date-wheel-fields'
 import {
   buildDateOrDateTimeColumns,
   buildTimeOnlyColumns,
@@ -232,6 +270,7 @@ import {
 } from '../presentation-props'
 import { useQuickTime } from '../quick-time'
 import { dateWheelOptions } from '../wheel-options'
+import CalendarViewport from './CalendarViewport.vue'
 
 const { name, n, classes } = createNamespace('date-picker')
 
@@ -242,17 +281,23 @@ export default defineComponent({
     YearPickerPanel,
     DayPickerPanel,
     MpPicker,
+    CalendarViewport,
     TemporalCurrent,
   },
-  props: { ...props, rangeEndpoint: Number as PropType<0 | 1> },
+  props: {
+    ...props,
+    calendarLocale: String,
+    rangeEndpoint: Number as PropType<0 | 1>,
+    emptySelection: Boolean,
+  },
   emits: ['change', 'update:modelValue', 'preview', 'range-candidate', 'endpoint-candidate', 'update:pickerValue'],
   setup(props, { emit }) {
     const activeIndex = useRangeFieldIndex()
     const disabledParts = useRangeDisabledParts()
     const { t: pt } = injectLocaleProvider()
     const datetimeView = ref<'date' | 'time'>('date')
-    const currentDate = dayjs().format('YYYY-MM-D')
-    const [currentYear, currentMonth] = currentDate.split('-')
+    const currentDate = computed(() => props.currentDate || dayjs().format('YYYY-MM-D'))
+    const [currentYear, currentMonth] = currentDate.value.split('-')
     const monthDes = MONTH_LIST.find((month) => month === currentMonth) as Month
     const isYearPanel = ref(false)
     const isMonthPanel = ref(false)
@@ -288,7 +333,11 @@ export default defineComponent({
     }))
     const emptyEndpoint = computed(
       () =>
-        props.rangeEndpoint !== undefined && Array.isArray(props.modelValue) && !props.modelValue[props.rangeEndpoint],
+        props.emptySelection ||
+        (!props.range && !props.multiple && !props.modelValue) ||
+        (props.rangeEndpoint !== undefined &&
+          Array.isArray(props.modelValue) &&
+          !props.modelValue[props.rangeEndpoint]),
     )
     const getChoose = computed<Choose>(() => ({
       chooseMonth: emptyEndpoint.value ? undefined : chooseMonth.value,
@@ -379,7 +428,10 @@ export default defineComponent({
 
       return ''
     })
-    const isUntouchable = computed(() => !props.touchable || !getPanelType.value)
+    const isUntouchable = computed(
+      () =>
+        !props.touchable || !getPanelType.value || (getPanelType.value === 'date' && props.interactiveMode !== 'page'),
+    )
     const slotProps = computed<Record<string, string>>(() => {
       const weekIndex = dayjs(`${chooseYear.value}-${chooseMonth.value}-${chooseDay.value}`).day()
       const date = chooseDay.value ? padStart(chooseDay.value, 2, '0') : ''
@@ -459,7 +511,7 @@ export default defineComponent({
           ? previewYear.value
           : props.type === 'month'
             ? `${previewYear.value}-${previewMonth.value}`
-            : `${previewYear.value}-${previewMonth.value}-01${props.showTime ? ` 00:00${props.useSeconds ? ':00' : ''}` : ''}`
+            : `${previewYear.value}-${previewMonth.value}-01${props.showTime ? ' 00:00:00' : ''}`
       const value = Array.isArray(props.pickerValue)
         ? [
             anchor,
@@ -471,9 +523,7 @@ export default defineComponent({
                   : props.type === 'month'
                     ? 'YYYY-MM'
                     : props.showTime
-                      ? props.useSeconds
-                        ? 'YYYY-MM-DD HH:mm:ss'
-                        : 'YYYY-MM-DD HH:mm'
+                      ? 'YYYY-MM-DD HH:mm:ss'
                       : 'YYYY-MM-DD',
               ),
           ]
@@ -615,6 +665,21 @@ export default defineComponent({
       return isSameMonth.value ? (date as number) < toNumber(chooseDay.value) : chooseMonth.value > previewMonth.value
     }
 
+    function handleViewportSelect(value: string | string[]) {
+      if (Array.isArray(value)) {
+        emit('update:modelValue', value)
+        emit('change', value)
+        return
+      }
+      const date = dayjs(value)
+      previewYear.value = date.format('YYYY')
+      previewMonth.value = date.format('MM') as Month
+      getChooseDay(date.date())
+    }
+    function handleViewportNavigate(value: string | string[]) {
+      const viewport = (part: string) => (props.showTime ? combineDateAndTime(part, '00:00:00', true) : part)
+      emit('update:pickerValue', Array.isArray(value) ? value.map(viewport) : viewport(value))
+    }
     function getChooseDay(day: number) {
       const { readonly, range, multiple, showTime } = props
       if (day < 0 || readonly) {
@@ -627,7 +692,7 @@ export default defineComponent({
       const formatDate = dayjs(date).format('YYYY-MM-DD')
 
       if (showTime && !range && !multiple) {
-        const next = combineDateAndTime(formatDate, displayDateTimeParts.value.time, props.useSeconds)
+        const next = combineDateAndTime(formatDate, displayDateTimeParts.value.time, true)
         emit('update:modelValue', next)
         emit('change', next)
         return
@@ -814,10 +879,10 @@ export default defineComponent({
       if (typeof props.modelValue === 'string' && props.modelValue) {
         return props.modelValue
       }
-      return defaultDateTime(props.useSeconds)
+      return defaultDateTime(true)
     })
 
-    const displayDateTimeParts = computed(() => splitDateTimeDisplay(displayDateTime.value, props.useSeconds))
+    const displayDateTimeParts = computed(() => splitDateTimeDisplay(displayDateTime.value, true))
 
     const resolvedPresentation = computed(() => resolveDateTimePresentation(props.presentation, props.showTime))
     const isCalendarTime = computed(() => isCalendarTimePresentation(resolvedPresentation.value))
@@ -825,6 +890,9 @@ export default defineComponent({
       () => resolvedPresentation.value === 'picker' && !props.multiple && !props.range,
     )
 
+    const dateFieldIndexes = computed(() =>
+      dateWheelFieldIndexes(props.dateFields, props.showTime ? 'date' : props.type),
+    )
     const dateTimeColumnLabels = computed(() => {
       const translate = (key: string) => (pt ? pt : t)(key as any)
       const dateLabels = [
@@ -834,52 +902,61 @@ export default defineComponent({
       ]
 
       if (!props.showTime) {
-        return dateLabels.slice(0, props.type === 'year' ? 1 : props.type === 'month' ? 2 : 3)
+        return dateFieldIndexes.value.map((index) => dateLabels[index])
       }
 
       const labels = [...dateLabels, translate('datePickerColumnHour'), translate('datePickerColumnMinute')]
-      if (props.useSeconds) {
-        labels.push(translate('datePickerColumnSecond'))
-      }
-      return datetimeView.value === 'date' ? labels.slice(0, 3) : labels.slice(3)
+      labels.push(translate('datePickerColumnSecond'))
+      return datetimeView.value === 'date'
+        ? dateFieldIndexes.value.map((index) => labels[index])
+        : timeFieldIndexes.value.map((index) => labels[index + 3])
     })
 
+    const timeFieldIndexes = computed(() => pickerFieldIndexes(props.timeFields, timeFields, [0, 1, 2]))
+    const customTimeFields = computed(() => props.timeFields !== undefined)
     const timeOnlyColumnLabels = computed(() => {
       const translate = (key: string) => (pt ? pt : t)(key as any)
       const labels = [translate('datePickerColumnHour'), translate('datePickerColumnMinute')]
-      if (props.useSeconds) {
-        labels.push(translate('datePickerColumnSecond'))
-      }
-      return labels
+      labels.push(translate('datePickerColumnSecond'))
+      return timeFieldIndexes.value.map((index) => labels[index])
     })
 
     const dateTimeColumns = computed(() => {
       const columns = buildDateOrDateTimeColumns({
         type: props.type,
         showTime: props.showTime,
-        useSeconds: props.useSeconds,
+        useSeconds: true,
         min: props.min,
         max: props.max,
         disabledDate: props.disabledDate,
         disabledTime: props.disabledTime,
         current: displayDateTime.value,
       })
-      return !props.showTime ? columns : datetimeView.value === 'date' ? columns.slice(0, 3) : columns.slice(3)
+      return !props.showTime || datetimeView.value === 'date'
+        ? dateFieldIndexes.value.map((index) => columns[index])
+        : timeFieldIndexes.value.map((index) => columns[index + 3])
     })
 
-    const timeOnlyColumns = computed(() => buildTimeOnlyColumns(props.useSeconds, props.disabledTime))
+    const timeOnlyColumns = computed(() => {
+      const columns = buildTimeOnlyColumns(true, props.disabledTime)
+      return timeFieldIndexes.value.map((index) => columns[index])
+    })
 
-    const dateTimePickerValue = computed(() =>
-      props.showTime
-        ? datetimeView.value === 'date'
-          ? parseDateTimeParts(displayDateTime.value, props.useSeconds).slice(0, 3)
-          : parseDateTimeParts(displayDateTime.value, props.useSeconds).slice(3)
+    const dateTimePickerValue = computed(() => {
+      const parts = props.showTime
+        ? parseDateTimeParts(displayDateTime.value, true)
         : parseDateParts(
             typeof props.modelValue === 'string' && props.modelValue ? props.modelValue : defaultDate(props.type),
             props.type,
-          ),
-    )
-    const timeOnlyPickerValue = computed(() => parseTimeParts(displayDateTimeParts.value.time, props.useSeconds))
+          )
+      return props.showTime && datetimeView.value === 'time'
+        ? timeFieldIndexes.value.map((index) => parts[index + 3])
+        : dateFieldIndexes.value.map((index) => parts[index])
+    })
+    const timeOnlyPickerValue = computed(() => {
+      const parts = parseTimeParts(displayDateTimeParts.value.time, true)
+      return timeFieldIndexes.value.map((index) => parts[index])
+    })
 
     const {
       options: quickTimeOptions,
@@ -894,7 +971,7 @@ export default defineComponent({
       if (!quickTimeOptions.value.some((option) => option.value === time)) {
         return
       }
-      handleTimeOnlyPickerChange([...time.split(':'), ...(props.useSeconds ? ['00'] : [])])
+      handleTimeOnlyPickerChange([...time.split(':'), '00'])
     }
     watch(
       () => props.showTime,
@@ -910,13 +987,16 @@ export default defineComponent({
       if (props.readonly) {
         return
       }
-      const parts = parseDateTimeParts(displayDateTime.value, props.useSeconds)
+      const parts = parseDateTimeParts(displayDateTime.value, true)
+      const dateParts = mergeDateWheelFields(parts.slice(0, 3), dateFieldIndexes.value, values)
       const next = props.showTime
         ? joinDateTimeParts(
-            datetimeView.value === 'date' ? [...values, ...parts.slice(3)] : [...parts.slice(0, 3), ...values],
-            props.useSeconds,
+            datetimeView.value === 'date'
+              ? [...dateParts, ...parts.slice(3)]
+              : [...parts.slice(0, 3), ...mergePickerFields(parts.slice(3), timeFieldIndexes.value, values)],
+            true,
           )
-        : joinDateParts(values, props.type)
+        : joinDateParts(dateParts, props.type)
       emit('update:modelValue', next)
       emit('change', next)
     }
@@ -925,13 +1005,17 @@ export default defineComponent({
       if (props.readonly) {
         return
       }
-      const time = joinTimeParts(values, props.useSeconds)
-      const next = combineDateAndTime(displayDateTimeParts.value.date, time, props.useSeconds)
+      const time = joinTimeParts(
+        mergePickerFields(parseTimeParts(displayDateTimeParts.value.time, true), timeFieldIndexes.value, values),
+        true,
+      )
+      const next = combineDateAndTime(displayDateTimeParts.value.date, time, true)
       emit('update:modelValue', next)
       emit('change', next)
     }
 
     return {
+      onColumnsKeydown: (event: KeyboardEvent) => navigateTemporalColumns(event, '.mp-picker__column[role=listbox]'),
       quickTimeOptions,
       quickTimeColumns,
       quickTimeValue,
@@ -962,8 +1046,11 @@ export default defineComponent({
       isPickerPresentation,
       isCalendarTime,
       displayDateTimeParts,
+      emptyEndpoint,
       dateTimeColumnLabels,
       timeOnlyColumnLabels,
+      timeFieldIndexes,
+      customTimeFields,
       dateTimeColumns,
       timeOnlyColumns,
       dateTimePickerValue,
@@ -981,6 +1068,8 @@ export default defineComponent({
       handleTouchmove,
       handleTouchend,
       getChooseDay,
+      handleViewportSelect,
+      handleViewportNavigate,
       getChooseMonth,
       getChooseYear,
       checkPreview,

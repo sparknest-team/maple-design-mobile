@@ -1,0 +1,5 @@
+
+> @1.0.0 check:auto-complete /Users/shuaimeng/github_web/maple-design-mobile
+> node checks/auto-complete-same-source.mjs
+
+AutoComplete: 7 independent source/test pairs and both Less outputs verified.

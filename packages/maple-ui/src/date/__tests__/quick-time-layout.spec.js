@@ -6,15 +6,24 @@ import DatePicker from '../DatePicker.vue'
 
 for (const presentation of ['calendar', 'calendarPicker', 'picker']) {
   for (const useSeconds of [false, true]) {
-    it(`single ${presentation} uses quick time and a footer toggle (seconds=${useSeconds})`, async () => {
+    it(`single ${presentation} uses configured time columns and a footer toggle (seconds=${useSeconds})`, async () => {
       const initial = `2026-10-20 09:45${useSeconds ? ':17' : ''}`
-      const wrapper = mount(DatePicker, { props: { presentation, modelValue: initial, showTime: true, useSeconds } })
+      const wrapper = mount(DatePicker, {
+        props: {
+          presentation,
+          modelValue: initial,
+          showTime: true,
+          timeFields: useSeconds ? ['hour', 'minute', 'second'] : ['hour', 'minute'],
+          format: useSeconds ? 'YYYY-MM-DD HH:mm:ss' : 'YYYY-MM-DD HH:mm',
+          valueFormat: useSeconds ? 'YYYY-MM-DD HH:mm:ss' : 'YYYY-MM-DD HH:mm',
+        },
+      })
       try {
         const quick = wrapper.get('.mp-date-picker__quick-time').getComponent(Picker)
-        expect(quick.props('columns')[0]).toHaveLength(48)
+        expect(quick.props('columns')).toHaveLength(useSeconds ? 3 : 2)
         expect(wrapper.get('.mp-date-picker__current-time-value').text()).toBe(initial.split(' ')[1])
         expect(wrapper.emitted('update:modelValue')).toBeUndefined()
-        quick.vm.$emit('change', ['10:30'])
+        quick.vm.$emit('change', useSeconds ? ['10', '30', '00'] : ['10', '30'])
         await wrapper.vm.$nextTick()
         expect(wrapper.emitted('update:modelValue').at(-1)[0]).toBe(`2026-10-20 10:30${useSeconds ? ':00' : ''}`)
         await wrapper.get('.mp-date-picker__view-toggle').trigger('click')

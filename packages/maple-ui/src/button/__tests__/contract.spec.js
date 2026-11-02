@@ -1,21 +1,13 @@
-import { h, KeepAlive, nextTick, ref } from 'vue'
-import { flushPromises, mount } from '@vue/test-utils'
+import { h } from 'vue'
+import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import Button from '..'
 
 const wrappers = []
 const render = (props = {}, slots = { default: 'Action' }) => {
-  const wrapper = mount(Button, { props, slots })
+  const wrapper = mount(Button, { props, slots, global: { config: { errorHandler: vi.fn() } } })
   wrappers.push(wrapper)
   return wrapper
-}
-const deferred = () => {
-  let resolve, reject
-  const promise = new Promise((yes, no) => {
-    resolve = yes
-    reject = no
-  })
-  return { promise, resolve, reject }
 }
 afterEach(() => {
   wrappers.splice(0).forEach((wrapper) => wrapper.unmount())
@@ -149,63 +141,7 @@ describe('Button shared contract', () => {
     await render({ onTouchstart }).trigger('touchstart', { touches: [{ clientX: 0, clientY: 0 }] })
     expect(onTouchstart).toHaveBeenCalledTimes(1)
   })
-  it('does not enter automatic loading for synchronous handlers', async () => {
-    const w = render({ autoLoading: true, onClick: () => undefined })
-    w.element.dispatchEvent(new MouseEvent('click', { bubbles: true }))
-    await nextTick()
-    expect(w.attributes('aria-busy')).toBeUndefined()
-    expect(w.classes().some((c) => c.endsWith('--loading'))).toBe(false)
-  })
-  it('waits for async click and blocks reentry immediately', async () => {
-    const job = deferred(),
-      onClick = vi.fn(() => job.promise)
-    const w = render({ autoLoading: true, onClick })
-    w.element.dispatchEvent(new MouseEvent('click', { bubbles: true }))
-    w.element.dispatchEvent(new MouseEvent('click', { bubbles: true }))
-    await nextTick()
-    expect(onClick).toHaveBeenCalledTimes(1)
-    expect(w.attributes('aria-busy')).toBe('true')
-    job.resolve()
-    await flushPromises()
-    expect(w.attributes('aria-busy')).toBeUndefined()
-  })
-  it('clears loading after rejected promises', async () => {
-    const job = deferred()
-    const w = render({ autoLoading: true, onClick: () => job.promise })
-    await w.trigger('click')
-    job.reject(new Error('expected rejection'))
-    await flushPromises()
-    expect(w.classes().some((c) => c.endsWith('--loading'))).toBe(false)
-  })
-  it('waits for all listeners even if one rejects early', async () => {
-    const first = deferred(),
-      second = deferred()
-    const w = render({ autoLoading: true, onClick: [() => first.promise, () => second.promise] })
-    await w.trigger('click')
-    first.reject(new Error('first failed'))
-    await flushPromises()
-    expect(w.attributes('aria-busy')).toBe('true')
-    second.resolve()
-    await flushPromises()
-    expect(w.attributes('aria-busy')).toBeUndefined()
-  })
-  it('auto-loads touchstart handlers too', async () => {
-    const job = deferred()
-    const w = render({ autoLoading: true, onTouchstart: () => job.promise })
-    await w.trigger('touchstart', { touches: [{ clientX: 0, clientY: 0 }] })
-    expect(w.attributes('aria-busy')).toBe('true')
-    job.resolve()
-    await flushPromises()
-    expect(w.attributes('aria-busy')).toBeUndefined()
-  })
-  it('does not mutate state after unmount', async () => {
-    const job = deferred(),
-      w = render({ autoLoading: true, onClick: () => job.promise })
-    await w.trigger('click')
-    w.unmount()
-    job.resolve()
-    await flushPromises()
-  })
+
   it.each(['default', 'fill', 'line'])('supports loading mode %s and preserves content', (mode) => {
     const w = render({ loading: true, loadingMode: mode })
     expect(w.classes().some((c) => c.endsWith(`--loading-${mode}`))).toBe(true)
@@ -219,33 +155,6 @@ describe('Button shared contract', () => {
     expect(loading.exists()).toBe(true)
     expect(loading.props()).toMatchObject({ type: 'wave', size: 28, color: 'red' })
   })
-})
-
-it('keeps a new async operation busy after an old deactivated operation completes', async () => {
-  const visible = ref(true),
-    oldJob = deferred(),
-    newJob = deferred()
-  const onClick = vi.fn().mockReturnValueOnce(oldJob.promise).mockReturnValueOnce(newJob.promise)
-  const host = mount({
-    render: () =>
-      h(KeepAlive, null, {
-        default: () => (visible.value ? h(Button, { autoLoading: true, onClick }, () => 'Action') : null),
-      }),
-  })
-  wrappers.push(host)
-  await host.findComponent(Button).trigger('click')
-  visible.value = false
-  await nextTick()
-  visible.value = true
-  await nextTick()
-  expect(host.findComponent(Button).attributes('aria-busy')).toBeUndefined()
-  await host.findComponent(Button).trigger('click')
-  oldJob.resolve()
-  await flushPromises()
-  expect(host.findComponent(Button).attributes('aria-busy')).toBe('true')
-  newJob.resolve()
-  await flushPromises()
-  expect(host.findComponent(Button).attributes('aria-busy')).toBeUndefined()
 })
 
 describe('Button icon layout', () => {

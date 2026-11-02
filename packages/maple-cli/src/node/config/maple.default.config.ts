@@ -139,6 +139,10 @@ export default defineConfig({
         { 'zh-CN': '默认暗色', 'en-US': 'Default Dark', value: 'darkTheme' },
         { 'zh-CN': '枫叶亮色', 'en-US': 'Maple Light', value: 'mapleLightTheme' },
         { 'zh-CN': '枫叶暗色', 'en-US': 'Maple Dark', value: 'mapleDarkTheme' },
+        { 'zh-CN': 'Alps 乐道', 'en-US': 'Alps Light', value: 'alpsLightTheme' },
+        { 'zh-CN': 'Firefly 萤火虫', 'en-US': 'Firefly Light', value: 'fireflyLightTheme' },
+        { 'zh-CN': 'Alps 乐道暗色', 'en-US': 'Alps Dark', value: 'alpsDarkTheme' },
+        { 'zh-CN': 'Firefly 萤火虫暗色', 'en-US': 'Firefly Dark', value: 'fireflyDarkTheme' },
       ],
     },
     clipboard: {
@@ -146,7 +150,7 @@ export default defineConfig({
       'en-US': 'The code has been copied to the clipboard',
     },
     fold: {
-      defaultFold: true,
+      defaultFold: false,
       foldHeight: 0,
     },
     htmlInject: {
@@ -171,6 +175,10 @@ export default defineConfig({
         { 'zh-CN': '默认暗色', 'en-US': 'Default Dark', value: 'darkTheme' },
         { 'zh-CN': '枫叶亮色', 'en-US': 'Maple Light', value: 'mapleLightTheme' },
         { 'zh-CN': '枫叶暗色', 'en-US': 'Maple Dark', value: 'mapleDarkTheme' },
+        { 'zh-CN': 'Alps 乐道', 'en-US': 'Alps Light', value: 'alpsLightTheme' },
+        { 'zh-CN': 'Firefly 萤火虫', 'en-US': 'Firefly Light', value: 'fireflyLightTheme' },
+        { 'zh-CN': 'Alps 乐道暗色', 'en-US': 'Alps Dark', value: 'alpsDarkTheme' },
+        { 'zh-CN': 'Firefly 萤火虫暗色', 'en-US': 'Firefly Dark', value: 'fireflyDarkTheme' },
       ],
     },
     htmlInject: {

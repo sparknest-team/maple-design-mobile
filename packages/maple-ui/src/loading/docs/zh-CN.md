@@ -1,34 +1,55 @@
 # 加载
 
-## 案例
+## 基础示例
+
+### 基础用法
+
+```demo
+../example/demos/basic.vue
+```
 
 ### 介绍
 
 加载组件，用于数据加载时执行动画。
 
-### 大小
+## 外观与状态
+
+### 加载图形、尺寸与颜色
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `size` | loading 的大小，可选值为 `xs` `sm` `md` `lg` `xl`，也支持数字 | 加载图形、尺寸与颜色 |
+| `type` | loading 的类型，可选值为 `circle` `wave` `cube` `rect` `disappear` | 加载图形、尺寸与颜色 |
+| `color` | loading 的颜色 | 加载图形、尺寸与颜色 |
+<!-- demo-config-notes:end -->
+
+对比相同加载状态的图形、尺寸和颜色；容器遮罩与指令用法保持独立。
 
 ```demo
-../example/demos/size.vue
+../example/demos/appearance-comparison.vue
 ```
 
-### 类型
-
-```demo
-../example/demos/type.vue
-```
-
-### 颜色
-
-```demo
-../example/demos/color.vue
-```
+## 布局与排列
 
 ### 包裹内容
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `tip` | loading 的提示文字 | 包裹内容 |
+| `loading` | 存在内容时 loading 是否显示 | 包裹内容 |
+<!-- demo-config-notes:end -->
 
 ```demo
 ../example/demos/wrap.vue
 ```
+
+## 内容与展示
 
 ### 加载指令
 
@@ -49,15 +70,6 @@
 ```demo
 ../example/demos/directive.vue
 ```
-
-<!-- api-review:start -->
-### 功能调试
-
-```demo
-../example/demos/api-review.vue
-```
-
-<!-- api-review:end -->
 
 ## API
 
@@ -81,6 +93,8 @@
 | `tip`     | `loading` 的提示文字   | `-`  |
 | `icon`    | 自定义加载指示器     | `-`  |
 
+`icon` 插槽替换全部内置 `type` 动画，不会与内置动画同时显示。`hide-icon=true` 隐藏所有指示器，提示内容仍可显示。
+
 ### 样式变量
 
 以下为组件使用的 css 变量，可以使用 [StyleProvider 组件](#/zh-CN/style-provider) 进行样式定制。
@@ -101,3 +115,5 @@
 | `--mp-loading-overlay-background` | 指令覆盖层背景色；background 选项可覆盖该值。 |
 
 内容覆盖层类名：`.mp-loading__content-overlay`。
+
+指令每次更新都替换完整配置，省略的选项以及布尔值 `true` 使用默认值。加载中修改 `fullscreen` 会在宿主与所属文档的 body 之间迁移遮罩，宿主内容保持原位。多个全屏实例按数量持有滚动锁：关闭局部实例不会解除全屏锁，最后一个全屏实例结束时保留外部原有的锁类。

@@ -13,7 +13,7 @@
     </mp-affix>
 
     <transition :name="`${nDate()}${reverse ? '-reverse' : ''}-translatex`">
-      <ul ref="panel" :key="panelKey" :class="n()" @pointerleave="clearPreview">
+      <ul ref="panel" :key="panelKey" :class="n()" @pointerleave="clearPreview" @keydown="onGridKeydown">
         <li
           v-for="year in yearList"
           :key="year"
@@ -54,6 +54,7 @@ import {
 import { toNumber } from '@maple-design/shared'
 import { onSmartMounted } from '@maple-design/use'
 import dayjs from 'dayjs/esm/index.js'
+import { navigateTemporalGrid } from '../../_utils/temporal-keyboard'
 import MpAffix from '../../affix'
 import MpButton, { type ButtonVariant, type SemanticStatus } from '../../button'
 import { createNamespace } from '../../utils/components'
@@ -215,7 +216,7 @@ export default defineComponent({
           return ''
         }
         if (computeOutline()) {
-          return color ?? ''
+          return color ?? 'var(--mp-date-calendar-today-color)'
         }
         if (yearExist()) {
           return ''
@@ -240,8 +241,8 @@ export default defineComponent({
       return {
         variant,
         status,
-        color: !computeText() ? color : '',
-        textColor: isCover ? '' : textColorOrCover(),
+        color: !computeText() ? (color ?? 'var(--mp-date-calendar-selected-background)') : '',
+        textColor: !computeText() ? 'var(--mp-date-calendar-selected-color)' : isCover ? '' : textColorOrCover(),
         [`${nDate()}-color-cover`]: isCover,
         class: classes(n('button'), [disabled, n('button--disabled')]),
         disabled,
@@ -349,6 +350,7 @@ export default defineComponent({
     })
 
     return {
+      onGridKeydown: (event: KeyboardEvent) => navigateTemporalGrid(event, 'button[mp-year-picker-cover]', 3),
       n,
       classes,
       buttonProps,

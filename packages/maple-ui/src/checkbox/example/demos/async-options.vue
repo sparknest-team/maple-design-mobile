@@ -77,7 +77,7 @@ onUnmounted(cleanup)
 <template>
   <mp-space class="checkbox-async-demo" direction="column">
     <p>业务值独立于当前选项，加载或移除选项不会清空已选值：{{ value }}</p>
-    <mp-checkbox v-model="manual" @change="remove">Manual responses / 手动返回</mp-checkbox>
+    <mp-checkbox v-model="manual" edit-mode="direct" @change="remove">Manual responses / 手动返回</mp-checkbox>
     <mp-space wrap>
       <mp-button size="sm" @click="load">加载选项</mp-button>
       <mp-button size="sm" @click="remove">移除选项</mp-button>
@@ -87,7 +87,7 @@ onUnmounted(cleanup)
     <p aria-live="polite">
       {{ loading ? '加载中，可在完成前移除选项以取消本次加载。' : '加载完成后保留当前选值和键盘焦点。' }}
     </p>
-    <mp-checkbox-group v-model="value" :options="options" :max="2" @change="changeCount++" />
+    <mp-checkbox-group v-model="value" edit-mode="direct" :options="options" :max="2" @change="changeCount++" />
     <p>用户变更次数：{{ changeCount }}</p>
     <p role="status">Applied: {{ applied }} · Ignored: {{ ignored }} · Pending: {{ waiting.length }}</p>
   </mp-space>

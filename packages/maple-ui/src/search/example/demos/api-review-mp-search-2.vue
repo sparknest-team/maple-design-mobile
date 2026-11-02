@@ -39,7 +39,7 @@ function search(next: SearchResult) {
         :model-field="field"
         :fields="fields"
         :recent-searches="history"
-        :history-popup="false"
+        edit-mode="direct"
         search-button
         button-text="搜索"
         clearable

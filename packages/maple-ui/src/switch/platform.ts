@@ -4,12 +4,17 @@ import { useForm } from '../form/provide'
 import type { SwitchProps, SwitchSize } from './props'
 
 export function useSwitchPlatform(props: Readonly<SwitchProps>) {
-  const item = useFormItem()
   const { form } = useForm()
+  const item = useFormItem({
+    disabled: computed(() => props.disabled),
+    readonly: computed(() => props.readonly),
+    formDisabled: form?.disabled,
+    formReadonly: form?.readonly,
+  })
   return {
     size: computed<SwitchSize>(() => props.size ?? 'md'),
-    disabled: computed(() => !!(props.disabled || item.mergedDisabled.value || form?.disabled.value)),
-    readonly: computed(() => !!(props.readonly || form?.readonly.value)),
+    disabled: item.mergedDisabled,
+    readonly: item.mergedReadonly,
     error: computed(() => !!item.mergedError.value),
     notify: (type: 'onChange' | 'onFocus' | 'onBlur', _event: Event) => item.eventHandlers.value[type]?.(),
   }

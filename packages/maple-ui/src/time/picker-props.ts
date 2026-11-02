@@ -1,10 +1,12 @@
 import type { PropType } from 'vue'
+import { timePickerFieldsProp } from '../_components/picker-field/fields'
 import { timeDisabledProps } from './disabled-props'
 import type { TimeWheelPresentationProps } from './presentation-props'
 import { timeStepProp } from './step-prop'
 import type { TimeValue } from './time-value'
 
 export const props = {
+  timeFields: timePickerFieldsProp,
   /** 显示此刻按钮；此刻仅更新草稿，仍需确认。 */
   showNowButton: { type: Boolean, default: true },
   /** 隐藏禁用的时间选项。 */
@@ -30,3 +32,5 @@ export const props = {
   disabled: Boolean,
   readonly: Boolean,
 }
+
+export type { TimePickerField } from '../_components/picker-field/fields'

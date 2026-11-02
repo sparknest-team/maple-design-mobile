@@ -24,7 +24,7 @@ const updateOpen = (next) => {
 </script>
 
 <template>
-  <div style="display: flex; flex-direction: column; gap: 12px; width: 100%">
+  <mp-space direction="column" size="12px" style="width: 100%">
     <p>Uncontrolled initial value</p>
     <mp-time-range :default-value="['09:00', '10:00']" format="HH:mm" clearable />
     <p>Controlled value and visibility</p>
@@ -43,5 +43,5 @@ const updateOpen = (next) => {
     <mp-checkbox v-model="acceptClose">Accept close requests</mp-checkbox>
     <output aria-label="Commit count">{{ commits }}</output>
     <output aria-label="Controlled proposals">{{ JSON.stringify({ value: proposal, open: openProposal }) }}</output>
-  </div>
+  </mp-space>
 </template>

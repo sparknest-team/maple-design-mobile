@@ -74,14 +74,15 @@ function switchLocale() {
 | `波斯语` | fa-IR | _Locale.faIR_ | `v2.22.0` |
 | `日语` | ja-JP | _Locale.jaJP_ | `v3.9.0` |
 
-<!-- shared-locale-provider-review:start -->
-### LocaleProvider 组合审查 / API review
+## 基础示例
+
+### 局部语言对照
+
+两个子树分别显示中文与英文，不修改页面其他区域的语言。
 
 ```demo
-../../locale-provider/example/demos/api-review.vue
+../../locale-provider/example/demos/basic.vue
 ```
-
-<!-- shared-locale-provider-review:end -->
 
 ## API
 

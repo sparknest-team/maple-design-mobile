@@ -11,6 +11,7 @@
 </template>
 <script setup lang="ts">
 import { inject } from 'vue'
+import { resolveDirection } from '../_utils/direction'
 import { createNamespace } from '../utils/components'
 import { tabsInjectionKey } from './context'
 import { tabsItemsProps } from './props'
@@ -52,7 +53,7 @@ function end(event: TouchEvent) {
   if (index < 0) {
     return
   }
-  const rtl = (point.target as Element)?.closest('[dir]')?.getAttribute('dir') === 'rtl'
+  const rtl = resolveDirection(point.target as Element, ctx.rtl.value ? 'rtl' : 'ltr') === 'rtl'
   const direction = (dx < 0 ? 1 : -1) * (rtl ? -1 : 1)
   const target = enabled[index + direction]
   if (target) {

@@ -4,34 +4,6 @@
 
 纯展示型列表。分页加载请组合使用 `InfiniteScroll`。
 
-## 案例
-
-### basic usage
-
-```demo
-../example/demos/basic-usage.vue
-```
-
-### manual usage
-
-```demo
-../example/demos/manual-usage.vue
-```
-
-### states
-
-```demo
-../example/demos/states.vue
-```
-
-### 保留命令与 KeepAlive 生命周期
-
-```demo
-../example/demos/virtual-lifecycle.vue
-```
-
-## 基础用法
-
 ```html
 <mp-list :data="items" size="md" bordered>
   <template #header>联系人</template>
@@ -58,7 +30,47 @@
 
 `loading` 表示整张列表首次加载或刷新，不表示下一页正在加载。空列表加载时不会同时显示空态。
 
+## 基础示例
+
+### basic usage
+
+```demo
+../example/demos/basic-usage.vue
+```
+
+## 外观与状态
+
+### states
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `data` | 数据，与 item 插槽配合 | states |
+| `loading` | 首次加载/刷新反馈，不管理分页 | states |
+<!-- demo-config-notes:end -->
+
+```demo
+../example/demos/states.vue
+```
+
+## 滚动与虚拟列表
+
 ### 容器滚动
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `data` | 数据，与 item 插槽配合 | 容器滚动、虚拟定位 |
+| `size` | 仅实现 sm/md/lg，不支持 xs/xl | 容器滚动、manual usage |
+| `max-height` | 普通列表最大高度；数字px/CSS长度，0不限 | 容器滚动 |
+| `scrollbar` | 普通列表自定义滚动条；false使用原生滚动 | 容器滚动 |
+| `split` | 头尾及列表项分隔线，与边框独立 | 容器滚动 |
+| `virtual-list-props` | 数据模式虚拟化；default插槽存在时忽略 | 虚拟定位 |
+<!-- demo-config-notes:end -->
 
 ```demo
 ../example/demos/bounded-scroll.vue
@@ -74,14 +86,28 @@
 ../example/demos/virtual-navigation.vue
 ```
 
-<!-- api-review:start -->
-### 功能调试
+### manual usage
 
 ```demo
-../example/demos/api-review.vue
+../example/demos/manual-usage.vue
 ```
 
-<!-- api-review:end -->
+## 生命周期
+
+### 保留命令与 KeepAlive 生命周期
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `data` | 数据，与 item 插槽配合 | 保留命令与 KeepAlive 生命周期 |
+| `virtual-list-props` | 数据模式虚拟化；default插槽存在时忽略 | 保留命令与 KeepAlive 生命周期 |
+<!-- demo-config-notes:end -->
+
+```demo
+../example/demos/virtual-lifecycle.vue
+```
 
 ## API
 

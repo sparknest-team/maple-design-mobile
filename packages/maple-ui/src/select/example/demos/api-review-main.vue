@@ -5,7 +5,7 @@ import { defineReviewConfig, ReviewSlot as DemoReviewSlot } from '@sparknest/ui-
 import DemoApiReviewPanel from '../../../../docs/components/ApiReviewPanel.vue'
 import __apiReviewRawConfig from './api-review.config.json'
 
-const presentation = ref<'inline' | 'popup'>('inline')
+const editMode = ref<'direct' | 'popup'>('popup')
 const value = ref([2])
 const options = ref<{ id: number; name: string; disabled?: boolean }[]>([])
 const loading = ref(false)
@@ -28,14 +28,14 @@ async function load() {
 <template>
   <DemoApiReviewPanel v-slot="__apiReview" v-bind="defineReviewConfig(__apiReviewRawConfig)">
     <mp-space direction="column" :size="16">
-      <mp-radio-group v-model="presentation" aria-label="展示方式">
+      <mp-radio-group v-model="editMode" aria-label="展示方式">
         <mp-radio value="inline">inline</mp-radio>
         <mp-radio value="popup">popup</mp-radio>
       </mp-radio-group>
       <mp-button @click="load">加载设备列表</mp-button>
       <mp-select
         v-model="value"
-        :presentation="presentation"
+        :edit-mode="editMode"
         :options="options"
         :loading="loading"
         :field-names="{ label: 'name', value: 'id' }"
@@ -149,7 +149,7 @@ async function load() {
       ></mp-select>
       <p role="note">
         {{
-          presentation === 'popup'
+          editMode === 'popup'
             ? '列表模式：勾选设备后点击“确认”提交；“取消”会丢弃草稿。'
             : '菜单模式：点选立即提交。设备 4 为停用状态，不可选择。'
         }}

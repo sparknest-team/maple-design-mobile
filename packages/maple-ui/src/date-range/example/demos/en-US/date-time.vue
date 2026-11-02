@@ -10,7 +10,9 @@ const dateTimeRange = ref([])
     <mp-date-range
       v-model="dateTimeRange"
       show-time
-      :use-seconds="false"
+      :time-fields="['hour', 'minute']"
+      format="YYYY-MM-DD HH:mm"
+      value-format="YYYY-MM-DD HH:mm"
       placeholder="Select date and time range"
       clearable
     />

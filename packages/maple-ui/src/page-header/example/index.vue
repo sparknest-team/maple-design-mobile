@@ -1,11 +1,9 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maple-design/cli/client'
-import DemoApiReview from './demos/api-review.vue'
 import BasicUsageDemo from './demos/basic-usage.vue'
-import BreadcrumbDemo from './demos/breadcrumb.vue'
 import CompleteDemo from './demos/complete.vue'
-import TransparentDemo from './demos/transparent.vue'
+import ContentSurfaceComparison from './demos/surface-comparison.vue'
 
 const language = ref('zh-CN')
 const english = computed(() => language.value === 'en-US')
@@ -17,23 +15,30 @@ onThemeChange()
 </script>
 
 <template>
+  <h2 class="mobile-demo-group-heading" data-demo-group="basic-examples" data-demo-component="page-header">
+    <span lang="zh-CN">基础示例</span>
+    <span lang="en-US">Basic examples</span>
+  </h2>
+
   <section data-demo="basic-usage">
     <app-type>{{ english ? 'Basic usage' : '基础用法' }}</app-type>
     <BasicUsageDemo />
   </section>
 
-  <section data-demo="breadcrumb">
-    <app-type>{{ english ? 'Content above the heading' : '页头上方内容' }}</app-type>
-    <BreadcrumbDemo />
+  <h2 class="mobile-demo-group-heading" data-demo-group="content-and-presentation">
+    <span lang="zh-CN">内容与展示</span>
+    <span lang="en-US">Content and presentation</span>
+  </h2>
+
+  <section data-demo="surface-comparison">
+    <h3 class="mobile-demo-case-heading">
+      <span lang="zh-CN">面包屑与透明表面</span><span lang="en-US">Breadcrumbs and transparent surfaces</span>
+    </h3>
+    <ContentSurfaceComparison />
   </section>
 
   <section data-demo="complete">
     <app-type>{{ english ? 'Complete structure' : '完整结构' }}</app-type>
     <CompleteDemo />
   </section>
-  <section data-demo="transparent">
-    <app-type>{{ english ? 'Transparent background' : '透明底色' }}</app-type>
-    <TransparentDemo />
-  </section>
-  <section data-demo="api-review"><DemoApiReview /></section>
 </template>

@@ -8,18 +8,18 @@ const history = ref(['Project A', 'Device B'])
 const lastAction = ref('No search yet')
 function recordSearch(result: SearchResult) {
   history.value = result.recentSearches
-  lastAction.value = result.modelValue
+  lastAction.value = result.modelValue ?? ''
 }
 function recordAction(result: SearchResult) {
-  lastAction.value = result.modelValue
+  lastAction.value = result.modelValue ?? ''
 }
 </script>
 <template>
   <div class="search-demo">
-    <mp-checkbox v-model="popup">Fullscreen history (uncheck for a menu)</mp-checkbox>
+    <mp-checkbox v-model="popup">popup fullscreen search (uncheck for inline)</mp-checkbox>
     <mp-search
       v-model="keyword"
-      :history-popup="popup"
+      :edit-mode="popup ? 'popup' : 'direct'"
       :recent-searches="history"
       label="Resource"
       placeholder="Enter resource name"

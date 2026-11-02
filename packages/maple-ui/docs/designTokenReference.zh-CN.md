@@ -17,14 +17,17 @@
 | `--mp-field-presentation-border` | 内部 | `var(--mp-color-border-2)` | 本组件 CSS<br>`border`, `border-bottom`, `border-top` |
 | `--mp-field-presentation-close-font-size` | 内部 | `24px` | 本组件 CSS<br>`font-size` |
 | `--mp-field-presentation-close-size` | 内部 | `32px` | 本组件 CSS<br>`height`, `width` |
+| `--mp-field-presentation-divider-width` | 内部 | `1px` | 本组件 CSS<br>`border`, `border-bottom`, `border-top` |
 | `--mp-field-presentation-gap` | 内部 | `var(--mp-sys-space-3)` | 本组件 CSS<br>`gap`, `margin-bottom`, `margin-top`, `padding-bottom`, `padding-top` |
 | `--mp-field-presentation-max-height` | 内部 | `60vh` | 本组件 CSS<br>`max-height` |
 | `--mp-field-presentation-min-width` | 内部 | `280px` | 本组件 CSS<br>`min-width` |
-| `--mp-field-presentation-padding` | 内部 | `var(--mp-sys-space-4)` | 本组件 CSS<br>`max-width`, `padding`, `padding-block`, `padding-bottom` |
+| `--mp-field-presentation-padding` | 内部 | `var(--mp-sys-space-4)` | 本组件 CSS<br>`max-width`, `padding`, `padding-block`, `padding-bottom`, `padding-left`, `padding-right` |
 | `--mp-field-presentation-radius` | 内部 | `8px` | 本组件 CSS<br>`border-radius` |
+| `--mp-field-presentation-read-text-align` | 内部 | `end` | 本组件 CSS<br>`text-align` |
 | `--mp-field-presentation-shadow` | 内部 | `0 8px 28px rgb(0 0 0%)` | 本组件 CSS<br>`box-shadow` |
 | `--mp-field-presentation-title-font-size` | 内部 | `16px` | 本组件 CSS<br>`font-size` |
 | `--mp-field-presentation-title-font-weight` | 内部 | `500` | 本组件 CSS<br>`font-weight` |
+| `--mp-field-presentation-viewport-max-height` | 内部 | `90dvh` | 本组件 CSS<br>`max-height` |
 
 </div>
 
@@ -51,6 +54,7 @@
 | --- | --- | --- | --- |
 | `--mp-selected-options-background` | 公开 | `var(--mp-sys-color-surface-overlay)` | 本组件 CSS<br>`background` |
 | `--mp-selected-options-border` | 公开 | `var(--mp-color-border-2)` | 本组件 CSS<br>`border-bottom` |
+| `--mp-selected-options-clear-color` | 公开 | `var(--mp-sys-color-content-primary)` | 本组件 CSS<br>`color` |
 | `--mp-selected-options-details-max-height` | 公开 | `50dvh` | 本组件 CSS<br>`max-height` |
 | `--mp-selected-options-disabled-opacity` | 公开 | `0.5` | 本组件 CSS<br>`opacity` |
 | `--mp-selected-options-gap` | 公开 | `8px` | 本组件 CSS<br>`gap` |
@@ -59,7 +63,7 @@
 | `--mp-selected-options-remove-size` | 公开 | `24px` | 本组件 CSS<br>`height`, `width` |
 | `--mp-selected-options-tag-padding` | 公开 | `2px 6px` | 本组件 CSS<br>`padding` |
 | `--mp-selected-options-tags-max-height` | 公开 | `112px` | 本组件 CSS<br>`max-height` |
-| `--mp-selection-editor-accent` | 公开 | `var(--mp-color-primary)` | 本组件 CSS<br>`color` |
+| `--mp-selection-editor-accent` | 公开 | `var(--mp-sys-color-content-primary)` | 本组件 CSS<br>`color` |
 | `--mp-selection-editor-background` | 公开 | `var(--mp-sys-color-surface-overlay)` | 本组件 CSS<br>`background` |
 | `--mp-selection-editor-border` | 公开 | `var(--mp-color-border-2)` | 本组件 CSS<br>`border-bottom`, `border-right` |
 | `--mp-selection-editor-check-size` | 公开 | `20px` | 本组件 CSS<br>`height`, `width` |
@@ -74,7 +78,7 @@
 | `--mp-selection-editor-path-height` | 公开 | `44px` | 本组件 CSS<br>`min-height` |
 | `--mp-selection-editor-radius` | 公开 | `8px` | 本组件 CSS<br>`border-radius` |
 | `--mp-selection-editor-row-height` | 公开 | `42px` | 本组件 CSS<br>`min-height` |
-| `--mp-selection-editor-selected-background` | 公开 | `var(--mp-color-primary-light-1)` | 本组件 CSS<br>`background` |
+| `--mp-selection-editor-selected-background` | 公开 | `var(--mp-sys-color-state-selected)` | 本组件 CSS<br>`background` |
 | `--mp-selection-editor-touch-font-size` | 公开 | `16px` | 本组件 CSS<br>`font-size` |
 | `--mp-selection-editor-touch-height` | 公开 | `52px` | 本组件 CSS<br>`min-height` |
 | `--mp-selection-editor-width` | 公开 | `640px` | 本组件 CSS<br>`width` |
@@ -254,24 +258,24 @@
 
 | 变量 | 层级 | 声明值／条件 | 消费路径／CSS 属性 |
 | --- | --- | --- | --- |
-| `--mp-auto-complete-option-bg-default` | 公开 | `var(--mp-sys-color-surface-overlay)` | 跨组件 CSS<br>`background-color` |
-| `--mp-auto-complete-option-bg-disabled` | 公开 | `var(--mp-sys-color-surface-overlay)` | 跨组件 CSS<br>`background-color` |
-| `--mp-auto-complete-option-bg-hover` | 公开 | `var(--mp-sys-color-state-hover)` | 跨组件 CSS<br>`background-color` |
-| `--mp-auto-complete-option-bg-selected` | 公开 | `var(--mp-sys-color-surface-overlay)` | 跨组件 CSS<br>`background-color` |
-| `--mp-auto-complete-option-font-weight-selected` | 公开 | `var(--mp-sys-font-weight-medium)` | 跨组件 CSS<br>`font-weight` |
-| `--mp-auto-complete-option-height` | 公开 | `36px` | 跨组件 CSS<br>`line-height` |
-| `--mp-auto-complete-option-padding-horizontal` | 公开 | `var(--mp-sys-space-5)` | 跨组件 CSS<br>`padding` |
-| `--mp-auto-complete-option-text-color-default` | 公开 | `var(--mp-sys-color-content-primary)` | 跨组件 CSS<br>`color` |
-| `--mp-auto-complete-option-text-color-disabled` | 公开 | `var(--mp-sys-color-content-disabled)` | 跨组件 CSS<br>`color` |
-| `--mp-auto-complete-option-text-color-hover` | 公开 | `var(--mp-sys-color-content-primary)` | 跨组件 CSS<br>`color` |
-| `--mp-auto-complete-option-text-color-selected` | 公开 | `var(--mp-sys-color-content-primary)` | 跨组件 CSS<br>`color` |
-| `--mp-auto-complete-popup-bg` | 公开 | `var(--mp-sys-color-surface-overlay)` | 跨组件 CSS<br>`background-color` |
-| `--mp-auto-complete-popup-border-color` | 公开 | `var(--mp-sys-color-border-default)` | 跨组件 CSS<br>`border`, `border-bottom`, `border-top` |
-| `--mp-auto-complete-popup-border-radius` | 公开 | `var(--mp-sys-radius-md)` | 跨组件 CSS<br>`border-radius` |
-| `--mp-auto-complete-popup-box-shadow` | 公开 | `0 4px 10px rgb(0 0 0%)` | 跨组件 CSS<br>`box-shadow` |
-| `--mp-auto-complete-popup-font-size` | 公开 | `var(--mp-sys-font-size-md)` | 跨组件 CSS<br>`font-size` |
-| `--mp-auto-complete-popup-max-height` | 公开 | `200px` | 跨组件 CSS<br>`max-height` |
-| `--mp-auto-complete-popup-padding-vertical` | 公开 | `var(--mp-sys-space-2)` | 跨组件 CSS<br>`padding` |
+| `--mp-auto-complete-option-bg-default` | 公开 | `var(--mp-select-popup-option-bg)` | 本组件 CSS<br>`background-color` |
+| `--mp-auto-complete-option-bg-disabled` | 公开 | `var(--mp-select-popup-option-bg-disabled)` | 本组件 CSS<br>`background-color` |
+| `--mp-auto-complete-option-bg-hover` | 公开 | `var(--mp-select-popup-option-bg-hover)` | 本组件 CSS<br>`background-color` |
+| `--mp-auto-complete-option-bg-selected` | 公开 | `var(--mp-select-popup-option-bg-selected)` | 本组件 CSS<br>`background-color` |
+| `--mp-auto-complete-option-font-weight-selected` | 公开 | `var(--mp-select-popup-option-font-weight-selected)` | 本组件 CSS<br>`font-weight` |
+| `--mp-auto-complete-option-height` | 公开 | `var(--mp-select-popup-option-height)` | 本组件 CSS<br>`line-height` |
+| `--mp-auto-complete-option-padding-horizontal` | 公开 | `var(--mp-select-popup-option-padding-horizontal)` | 本组件 CSS<br>`padding-inline` |
+| `--mp-auto-complete-option-text-color-default` | 公开 | `var(--mp-select-popup-option-text-color)` | 本组件 CSS<br>`color` |
+| `--mp-auto-complete-option-text-color-disabled` | 公开 | `var(--mp-select-popup-option-text-color-disabled)` | 本组件 CSS<br>`color` |
+| `--mp-auto-complete-option-text-color-hover` | 公开 | `var(--mp-select-popup-option-text-color-hover)` | 本组件 CSS<br>`color` |
+| `--mp-auto-complete-option-text-color-selected` | 公开 | `var(--mp-select-popup-option-text-color-selected)` | 本组件 CSS<br>`color` |
+| `--mp-auto-complete-popup-bg` | 公开 | `var(--mp-select-popup-bg)` | 本组件 CSS<br>`background-color` |
+| `--mp-auto-complete-popup-border-color` | 公开 | `var(--mp-select-popup-border-color)` | 本组件 CSS<br>`border-color` |
+| `--mp-auto-complete-popup-border-radius` | 公开 | `var(--mp-select-popup-border-radius)` | 本组件 CSS<br>`border-radius` |
+| `--mp-auto-complete-popup-box-shadow` | 公开 | `var(--mp-select-popup-box-shadow)` | 本组件 CSS<br>`box-shadow` |
+| `--mp-auto-complete-popup-font-size` | 公开 | `var(--mp-select-popup-font-size)` | 本组件 CSS<br>`font-size` |
+| `--mp-auto-complete-popup-max-height` | 公开 | `var(--mp-select-popup-max-height)` | 本组件 CSS<br>`max-height` |
+| `--mp-auto-complete-popup-padding-vertical` | 公开 | `var(--mp-select-popup-padding-vertical)` | 本组件 CSS<br>`padding-block` |
 
 </div>
 
@@ -481,7 +485,7 @@
 | `--mp-button-danger-foreground-color` | 公开 | `var(--mp-sys-color-content-danger)` | 本组件 CSS<br>`color` |
 | `--mp-button-danger-tonal-color` | 公开 | `rgb(var(--mp-danger-1))` | 本组件 CSS<br>`background-color` |
 | `--mp-button-default-color` | 公开 | `var(--mp-sys-color-surface-default)` | 本组件 CSS<br>`background-color` |
-| `--mp-button-default-foreground-color` | 公开 | `var(--mp-sys-color-content-primary)` | 本组件 CSS<br>`background-color`, `color` |
+| `--mp-button-default-foreground-color` | 公开 | `var(--mp-sys-color-content-primary)` | 本组件 CSS<br>`background`, `background-color`, `color` |
 | `--mp-button-default-tonal-color` | 公开 | `var(--mp-sys-color-surface-muted)` | 本组件 CSS<br>`background-color` |
 | `--mp-button-disabled-color` | 公开 | `var(--mp-color-fill-2)` | 本组件 CSS<br>`background-color` |
 | `--mp-button-disabled-solid-text-color` | 公开 | `var(--mp-sys-color-content-on-dark)`<br>`rgba(255, 255, 255, 0.3)` (`:root[maple-theme='dark']`) | 本组件 CSS<br>`color` |
@@ -645,6 +649,8 @@
 | `--mp-cascader-item-bg-disabled` | 公开 | `transparent` | 本组件 CSS<br>`background-color` |
 | `--mp-cascader-item-bg-disabled-active` | 公开 | `var(--mp-color-fill-2)` | 本组件 CSS<br>`background-color` |
 | `--mp-cascader-item-bg-hover` | 公开 | `var(--mp-cascader-item-bg-active)` | 本组件 CSS<br>`background-color` |
+| `--mp-cascader-item-check-color` | 公开 | `var(--mp-sys-color-content-primary)` | 本组件 CSS<br>`color` |
+| `--mp-cascader-item-check-size` | 公开 | `var(--mp-sys-font-size-md)` | 本组件 CSS<br>`height`, `width` |
 | `--mp-cascader-item-icon-color` | 公开 | `var(--mp-sys-color-content-secondary)` | 本组件 CSS<br>`color` |
 | `--mp-cascader-item-text-color` | 公开 | `var(--mp-sys-color-content-primary)` | 本组件 CSS<br>`color` |
 | `--mp-cascader-item-text-color-active` | 公开 | `var(--mp-cascader-item-text-color)` | 本组件 CSS<br>`color` |
@@ -652,10 +658,10 @@
 | `--mp-cascader-item-text-color-disabled-active` | 公开 | `var(--mp-sys-color-content-disabled)` | 本组件 CSS<br>`color` |
 | `--mp-cascader-item-text-color-hover` | 公开 | `var(--mp-cascader-item-text-color)` | 本组件 CSS<br>`color` |
 | `--mp-cascader-margin-checkbox-right` | 公开 | `var(--mp-sys-space-4)` | 本组件 CSS<br>`margin-right` |
-| `--mp-cascader-margin-item-icon-left` | 公开 | `var(--mp-sys-space-5)` | 本组件 CSS<br>`padding-right` |
+| `--mp-cascader-margin-item-icon-left` | 公开 | `var(--mp-sys-space-5)` | 本组件 CSS<br>`margin-inline-start` |
 | `--mp-cascader-option-min-width` | 公开 | `100px` | 本组件 CSS<br>`min-width` |
 | `--mp-cascader-padding-item-left` | 公开 | `var(--mp-sys-space-5)` | 本组件 CSS<br>`padding-left`, `padding-right` |
-| `--mp-cascader-padding-item-right` | 公开 | `var(--mp-sys-space-5)` | 本组件 CSS<br>`padding-right`, `right` |
+| `--mp-cascader-padding-item-right` | 公开 | `var(--mp-sys-space-5)` | 本组件 CSS<br>`margin-inline-end`, `padding-right` |
 | `--mp-cascader-panel-column-max-height` | 公开 | `200px` | 本组件 CSS<br>`max-height` |
 | `--mp-cascader-panel-column-min-width` | 公开 | `120px` | 本组件 CSS<br>`min-width` |
 | `--mp-cascader-popup-border-radius` | 公开 | `var(--mp-sys-radius-md)` | 本组件 CSS<br>`border-radius` |
@@ -664,7 +670,7 @@
 | `--mp-cascader-popup-max-height` | 公开 | `200px` | 本组件 CSS<br>`height` |
 | `--mp-cascader-popup-padding-vertical` | 公开 | `var(--mp-sys-space-2)` | 本组件 CSS<br>`padding` |
 | `--mp-cascader-size-item-height` | 公开 | `36px` | 本组件 CSS<br>`height`, `line-height` |
-| `--mp-cascader-size-item-icon` | 公开 | `12px` | 本组件 CSS<br>`font-size`, `margin-top`, `padding-right` |
+| `--mp-cascader-size-item-icon` | 公开 | `12px` | 本组件 CSS<br>`height`, `width` |
 | `--mp-cascader-slide-margin` | 公开 | `120px` | 本组件 CSS<br>`margin-left` |
 
 </div>
@@ -702,6 +708,7 @@
 | --- | --- | --- | --- |
 | `--mp-checkbox-action-padding` | 公开 | `6px` | 本组件 CSS<br>`padding` |
 | `--mp-checkbox-animation-duration` | 公开 | `var(--mp-sys-motion-duration-standard)` | 本组件 CSS<br>`transition` |
+| `--mp-checkbox-control-border-radius` | 公开 | `2px` | 本组件 CSS<br>`border-radius` |
 | `--mp-checkbox-control-color` | 公开 | `var(--mp-sys-color-content-secondary)` | 本组件 CSS<br>`color` |
 | `--mp-checkbox-control-color-checked` | 公开 | `var(--mp-sys-color-content-brand)` | 本组件 CSS<br>`color`, `outline` |
 | `--mp-checkbox-control-color-disabled` | 公开 | `var(--mp-sys-color-content-disabled)` | 本组件 CSS<br>`color` |
@@ -712,15 +719,16 @@
 | `--mp-checkbox-label-gap` | 公开 | `0` | 本组件 CSS<br>`margin-inline-start` |
 | `--mp-checkbox-label-text-color` | 公开 | `var(--mp-sys-color-content-primary)` | 本组件 CSS<br>`color` |
 | `--mp-checkbox-label-text-color-disabled` | 公开 | `var(--mp-sys-color-content-disabled)` | 本组件 CSS<br>`color` |
+| `--mp-checkbox-mark-color` | 公开 | `var(--mp-sys-color-content-on-bright)` | 本组件 CSS<br>`background-color`, `color` |
 | `--mp-internal-checkbox-action-radius` | 内部 | `50%` | 本组件 CSS<br>`border-radius` |
 | `--mp-internal-checkbox-background` | 内部 | `var(--mp-sys-color-surface-default)` | 本组件 CSS<br>`background-color` |
 | `--mp-internal-checkbox-background-disabled` | 内部 | `var(--mp-sys-color-surface-muted)` | 本组件 CSS<br>`background-color` |
-| `--mp-internal-checkbox-border-radius` | 内部 | `2px` | 本组件 CSS<br>`border-radius` |
+| `--mp-internal-checkbox-border-radius` | 内部 | `var(--mp-checkbox-control-border-radius)` | 本组件 CSS<br>`border-radius` |
 | `--mp-internal-checkbox-border-width` | 内部 | `1px` | 本组件 CSS<br>`border` |
 | `--mp-internal-checkbox-focus-offset` | 内部 | `2px` | 本组件 CSS<br>`outline-offset` |
 | `--mp-internal-checkbox-focus-width` | 内部 | `2px` | 本组件 CSS<br>`outline` |
 | `--mp-internal-checkbox-hover-background` | 内部 | `var(--mp-sys-color-state-hover)` | 本组件 CSS<br>`background-color` |
-| `--mp-internal-checkbox-mark-color` | 内部 | `var(--mp-sys-color-surface-default)` | 本组件 CSS<br>`background-color`, `color` |
+| `--mp-internal-checkbox-mark-color` | 内部 | `var(--mp-checkbox-mark-color)` | 本组件 CSS<br>`background-color`, `color` |
 | `--mp-internal-checkbox-mark-height` | 内部 | `2px` | 本组件 CSS<br>`height` |
 | `--mp-internal-checkbox-mark-radius` | 内部 | `1px` | 本组件 CSS<br>`border-radius` |
 | `--mp-internal-checkbox-mark-size` | 内部 | `75%` | 本组件 CSS<br>`height`, `width` |
@@ -808,28 +816,6 @@
 
 </div>
 
-## counter
-
-声明来源: `src/counter/style/token.less`
-
-<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
-
-| 变量 | 层级 | 声明值／条件 | 消费路径／CSS 属性 |
-| --- | --- | --- | --- |
-| `--mp-counter-background` | 公开 | `var(--mp-color-primary)` | 本组件 CSS<br>`background` |
-| `--mp-counter-button-icon-size` | 公开 | `100%` | 本组件 CSS<br>`font-size` |
-| `--mp-counter-button-size` | 公开 | `28px` | 本组件 CSS<br>`border-radius`, `height`, `width` |
-| `--mp-counter-button-text-color` | 公开 | `#fff` | 本组件 CSS<br>`color` |
-| `--mp-counter-disabled-opacity` | 公开 | `var(--mp-opacity-disabled)` | 本组件 CSS<br>`opacity` |
-| `--mp-counter-error-color` | 公开 | `var(--mp-color-danger)` | 本组件 CSS<br>`background` |
-| `--mp-counter-font-color` | 公开 | `#fff` | 本组件 CSS<br>`color` |
-| `--mp-counter-input-font-size` | 公开 | `14px` | 本组件 CSS<br>`font-size` |
-| `--mp-counter-input-margin` | 公开 | `0 4px` | 本组件 CSS<br>`margin` |
-| `--mp-counter-input-width` | 公开 | `28px` | 本组件 CSS<br>`width` |
-| `--mp-counter-padding` | 公开 | `0 4px` | 本组件 CSS<br>`padding` |
-
-</div>
-
 ## date
 
 声明来源: `src/date/style/token.less`
@@ -838,13 +824,21 @@
 
 | 变量 | 层级 | 声明值／条件 | 消费路径／CSS 属性 |
 | --- | --- | --- | --- |
+| `--mp-date-calendar-disabled-opacity` | 公开 | `0.4` | 本组件 CSS<br>`opacity` |
+| `--mp-date-calendar-line-height` | 公开 | `60px` | 本组件 CSS<br>`grid-auto-rows` |
+| `--mp-date-calendar-month-height` | 公开 | `320px` | 本组件 CSS<br>`height` |
+| `--mp-date-calendar-row-height` | 公开 | `38px` | 本组件 CSS<br>`grid-auto-rows`, `line-height` |
+| `--mp-date-calendar-scroll-height` | 公开 | `320px` | 本组件 CSS<br>`height` |
+| `--mp-date-calendar-selected-background` | 公开 | `var(--mp-sys-color-action-primary)` | 本组件 CSS<br>`background` |
+| `--mp-date-calendar-selected-color` | 公开 | `var(--mp-sys-color-content-on-bright)` | 本组件 CSS<br>`color` |
+| `--mp-date-calendar-today-color` | 公开 | `var(--mp-button-default-foreground-color)` | 本组件 CSS<br>`background`, `color` |
 | `--mp-date-input-trigger-outline-color` | 公开 | `var(--mp-sys-color-content-brand)` | 本组件 CSS<br>`outline` |
 | `--mp-date-input-trigger-outline-offset` | 公开 | `var(--mp-sys-space-1)` | 本组件 CSS<br>`outline-offset` |
 | `--mp-date-input-trigger-outline-width` | 公开 | `var(--mp-sys-space-1)` | 本组件 CSS<br>`outline` |
 | `--mp-date-input-trigger-padding` | 公开 | `0` | 本组件 CSS<br>`padding` |
 | `--mp-date-picker-actions-padding` | 公开 | `0 8px 12px 8px` | 本组件 CSS<br>`padding` |
 | `--mp-date-picker-body-background-color` | 公开 | `#fff` | 本组件 CSS<br>`background`, `background-color` |
-| `--mp-date-picker-body-height` | 公开 | `280px` | 本组件 CSS<br>`height` |
+| `--mp-date-picker-body-height` | 公开 | `280px` | 本组件 CSS<br>`height`, `min-height` |
 | `--mp-date-picker-body-padding` | 公开 | `0` | 本组件 CSS<br>`padding` |
 | `--mp-date-picker-border-radius` | 公开 | `4px` | 本组件 CSS<br>`border-radius` |
 | `--mp-date-picker-datetime-popover-width` | 公开 | `calc(var(--mp-date-picker-panel-date-width) + var(--mp-date-picker-time-panel-min-width) + 2px)` | 待审查，不应依赖 |
@@ -860,7 +854,7 @@
 | `--mp-date-picker-panel-preferred-width` | 公开 | `var(--mp-date-picker-popover-width)` | 本组件 CSS<br>`flex`, `width` |
 | `--mp-date-picker-panel-radius` | 公开 | `8px` | 本组件 CSS<br>`border-radius` |
 | `--mp-date-picker-popover-gap` | 公开 | `32px` | 本组件 CSS<br>`max-height`, `max-width` |
-| `--mp-date-picker-popover-max-height` | 公开 | `calc(50dvh - var(--mp-date-picker-popover-gap))` | 本组件 CSS<br>`max-height` |
+| `--mp-date-picker-popover-max-height` | 公开 | `calc(100dvh - var(--mp-date-picker-popover-gap))` | 本组件 CSS<br>`max-height` |
 | `--mp-date-picker-popover-width` | 公开 | `calc(var(--mp-date-picker-panel-date-width) + 2px)` | 本组件 CSS<br>`flex`, `width` |
 | `--mp-date-picker-range-background` | 公开 | `var(--mp-color-primary-light-1)` | 本组件 CSS<br>`background` |
 | `--mp-date-picker-range-disabled-background` | 公开 | `var(--mp-color-fill-1)` | 本组件 CSS<br>`background` |
@@ -1030,49 +1024,6 @@
 
 </div>
 
-## menu
-
-声明来源: `src/menu/style/token.less`
-
-<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
-
-| 变量 | 层级 | 声明值／条件 | 消费路径／CSS 属性 |
-| --- | --- | --- | --- |
-| `--mp-menu-background-color` | 公开 | `var(--mp-sys-color-surface-overlay)` | 本组件 CSS<br>`background-color` |
-| `--mp-menu-border-color` | 公开 | `var(--mp-color-fill-3)` | 本组件 CSS<br>`background-color`, `border`, `border-top` |
-| `--mp-menu-border-radius` | 公开 | `2px` | 本组件 CSS<br>`border-radius` |
-| `--mp-menu-group-title-font-size` | 公开 | `var(--mp-font-size-sm)` | 本组件 CSS<br>`font-size` |
-| `--mp-menu-group-title-height` | 公开 | `20px` | 本组件 CSS<br>`line-height` |
-| `--mp-menu-group-title-padding` | 公开 | `4px 12px` | 本组件 CSS<br>`padding` |
-| `--mp-menu-group-title-text-color` | 公开 | `var(--mp-color-text-3)` | 本组件 CSS<br>`color` |
-| `--mp-menu-max-height` | 公开 | `278px` | 本组件 CSS<br>`max-height` |
-| `--mp-menu-option-arrow-icon-size` | 公开 | `18px` | 本组件 CSS<br>`font-size` |
-| `--mp-menu-option-arrow-padding` | 公开 | `0 6px 0 8px` | 本组件 CSS<br>`padding` |
-| `--mp-menu-option-bg-disabled` | 公开 | `transparent` | 本组件 CSS<br>`background` |
-| `--mp-menu-option-bg-hover` | 公开 | `var(--mp-sys-color-state-hover)` | 本组件 CSS<br>`background-color` |
-| `--mp-menu-option-bg-selected-hover` | 公开 | `var(--mp-menu-option-selected-background)` | 本组件 CSS<br>`background-color` |
-| `--mp-menu-option-disabled-color` | 公开 | `var(--mp-color-text-disabled)` | 本组件 CSS<br>`color` |
-| `--mp-menu-option-icon-margin-right` | 公开 | `8px` | 本组件 CSS<br>`margin-right` |
-| `--mp-menu-option-lg-font-size` | 公开 | `var(--mp-font-size-lg)` | 本组件 CSS<br>`font-size` |
-| `--mp-menu-option-lg-height` | 公开 | `46px` | 本组件 CSS<br>`height` |
-| `--mp-menu-option-md-font-size` | 公开 | `var(--mp-font-size-md)` | 本组件 CSS<br>`font-size` |
-| `--mp-menu-option-md-height` | 公开 | `38px` | 本组件 CSS<br>`height` |
-| `--mp-menu-option-padding` | 公开 | `0 12px` | 本组件 CSS<br>`padding` |
-| `--mp-menu-option-selected-background` | 公开 | `var(--mp-sys-color-state-hover)` | 本组件 CSS<br>`background-color` |
-| `--mp-menu-option-selected-text-color` | 公开 | `var(--mp-sys-color-content-primary)` | 本组件 CSS<br>`color` |
-| `--mp-menu-option-sm-font-size` | 公开 | `var(--mp-font-size-sm)` | 本组件 CSS<br>`font-size` |
-| `--mp-menu-option-sm-height` | 公开 | `30px` | 本组件 CSS<br>`height` |
-| `--mp-menu-option-suffix-margin-left` | 公开 | `16px` | 本组件 CSS<br>`margin-left` |
-| `--mp-menu-option-text-color` | 公开 | `var(--mp-sys-color-content-secondary)` | 本组件 CSS<br>`color` |
-| `--mp-menu-option-xl-font-size` | 公开 | `var(--mp-font-size-lg)` | 本组件 CSS<br>`font-size` |
-| `--mp-menu-option-xl-height` | 公开 | `54px` | 本组件 CSS<br>`height` |
-| `--mp-menu-option-xs-font-size` | 公开 | `var(--mp-font-size-xs)` | 本组件 CSS<br>`font-size` |
-| `--mp-menu-option-xs-height` | 公开 | `24px` | 本组件 CSS<br>`height` |
-| `--mp-menu-padding` | 公开 | `4px 0` | 本组件 CSS<br>`margin`, `padding` |
-| `--mp-menu-padding-vertical` | 公开 | `4px` | 本组件 CSS<br>`margin-top` |
-
-</div>
-
 ## ellipsis
 
 声明来源: `src/ellipsis/style/token.less`
@@ -1143,8 +1094,9 @@
 | 变量 | 层级 | 声明值／条件 | 消费路径／CSS 属性 |
 | --- | --- | --- | --- |
 | `--mp-field-blur-color` | 公开 | `var(--mp-sys-color-content-tertiary)` | 本组件 CSS<br>`border-bottom`, `color` |
-| `--mp-field-border-radius` | 公开 | `4px` | 本组件 CSS<br>`border-end-end-radius`, `border-end-start-radius`, `border-radius`, `border-start-end-radius`, `border-start-start-radius` |
+| `--mp-field-border-radius` | 公开 | `var(--mp-sys-radius-md)` | 本组件 CSS<br>`border-end-end-radius`, `border-end-start-radius`, `border-radius`, `border-start-end-radius`, `border-start-start-radius` |
 | `--mp-field-border-width` | 公开 | `1px` | 本组件 CSS<br>`border`, `border-bottom`, `margin-inline-start`, `min-height`, `outline`, `outline-offset`, `padding-inline-start` |
+| `--mp-field-caret-color` | 公开 | `currentColor` | 跨组件 CSS<br>`caret-color` |
 | `--mp-field-clear-icon-color` | 公开 | `var(--mp-sys-color-content-secondary)` | 本组件 CSS<br>`color` |
 | `--mp-field-clear-icon-size` | 公开 | `var(--mp-field-icon-size)` | 本组件 CSS<br>`font-size` |
 | `--mp-field-clear-padding` | 公开 | `4px` | 本组件 CSS<br>`padding` |
@@ -1180,6 +1132,7 @@
 | `--mp-field-variant-filled-background-error` | 公开 | `var(--mp-color-danger-light-1)` | 本组件 CSS<br>`background` |
 | `--mp-field-variant-filled-background-focus` | 公开 | `var(--mp-color-fill-3)` | 本组件 CSS<br>`background` |
 | `--mp-field-variant-filled-background-hover` | 公开 | `var(--mp-sys-color-state-hover)` | 本组件 CSS<br>`background` |
+| `--mp-field-variant-outline-background` | 公开 | `transparent` | 本组件 CSS<br>`background` |
 | `--mp-field-variant-outline-border-color` | 公开 | `var(--mp-sys-color-border-default)` | 本组件 CSS<br>`border`, `border-color` |
 | `--mp-field-variant-outline-border-color-disabled` | 公开 | `var(--mp-sys-color-border-subtle)` | 本组件 CSS<br>`border-color` |
 | `--mp-field-variant-outline-border-color-error` | 公开 | `var(--mp-sys-color-status-danger)` | 本组件 CSS<br>`border-color` |
@@ -1226,9 +1179,13 @@
 | `--mp-form-extra-margin-top` | 公开 | `6px` | 本组件 CSS<br>`margin-top` |
 | `--mp-form-extra-text-color` | 公开 | `var(--mp-sys-color-content-secondary)` | 本组件 CSS<br>`color` |
 | `--mp-form-extra-text-font-size` | 公开 | `12px` | 本组件 CSS<br>`font-size` |
+| `--mp-form-help-line-height` | 公开 | `1.4` | 本组件 CSS<br>`line-height` |
 | `--mp-form-item-asterisk-margin` | 公开 | `4px` | 本组件 CSS<br>`margin-left`, `margin-right` |
 | `--mp-form-item-label-gap` | 公开 | `12px` | 本组件 CSS<br>`margin-right`, `padding-inline-end` |
 | `--mp-form-item-label-width` | 公开 | `88px` | 本组件 CSS<br>`flex`, `width` |
+| `--mp-form-label-line-height` | 公开 | `1.4` | 本组件 CSS<br>`line-height` |
+| `--mp-form-label-min-height` | 公开 | `24px` | 本组件 CSS<br>`min-height` |
+| `--mp-form-label-padding-top` | 公开 | `4px` | 本组件 CSS<br>`padding-top` |
 | `--mp-form-label-text-color` | 公开 | `var(--mp-sys-color-content-primary)` | 本组件 CSS<br>`color` |
 | `--mp-form-required-symbol-color` | 公开 | `var(--mp-sys-color-content-danger)` | 本组件 CSS<br>`color` |
 | `--mp-form-size-md-item-margin-bottom` | 公开 | `16px` | 本组件 CSS<br>`margin-bottom` |
@@ -1347,6 +1304,7 @@
 
 | 变量 | 层级 | 声明值／条件 | 消费路径／CSS 属性 |
 | --- | --- | --- | --- |
+| `--mp-input-caret-color` | 公开 | `var(--mp-field-caret-color)` | 本组件 CSS<br>`caret-color` |
 | `--mp-input-control-font-size` | 公开 | `inherit` | 本组件 CSS<br>`font-size` |
 | `--mp-input-control-height` | 公开 | `auto` | 本组件 CSS<br>`height` |
 | `--mp-input-control-line-height` | 公开 | `inherit` | 本组件 CSS<br>`line-height` |
@@ -1374,6 +1332,7 @@
 | `--mp-input-number-addon-color` | 公开 | `var(--mp-sys-color-content-primary)` | 本组件 CSS<br>`color` |
 | `--mp-input-number-border-radius` | 公开 | `var(--mp-field-border-radius)` | 本组件 CSS<br>`border-end-end-radius`, `border-end-start-radius`, `border-start-end-radius`, `border-start-start-radius` |
 | `--mp-input-number-border-width` | 公开 | `1px` | 本组件 CSS<br>`border`, `border-inline-end`, `border-inline-start`, `border-top`, `outline`, `outline-offset` |
+| `--mp-input-number-caret-color` | 公开 | `var(--mp-field-caret-color)` | 本组件 CSS<br>`caret-color` |
 | `--mp-input-number-size-lg-step-button-width` | 公开 | `var(--mp-sys-control-height-lg)` | 本组件 CSS<br>`width` |
 | `--mp-input-number-size-md-step-button-width` | 公开 | `var(--mp-sys-control-height-md)` | 本组件 CSS<br>`width` |
 | `--mp-input-number-size-sm-step-button-width` | 公开 | `var(--mp-sys-control-height-sm)` | 本组件 CSS<br>`width` |
@@ -1533,6 +1492,49 @@
 | `--mp-loading-bar-height` | 公开 | `3px` | 本组件 CSS<br>`height` |
 | `--mp-loading-bar-transition-duration` | 公开 | `250ms` | 本组件 CSS<br>`transition` |
 | `--mp-loading-bar-transition-timing-function` | 公开 | `ease` | 本组件 CSS<br>`transition` |
+
+</div>
+
+## menu
+
+声明来源: `src/menu/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| 变量 | 层级 | 声明值／条件 | 消费路径／CSS 属性 |
+| --- | --- | --- | --- |
+| `--mp-menu-background-color` | 公开 | `var(--mp-sys-color-surface-overlay)` | 本组件 CSS<br>`background-color` |
+| `--mp-menu-border-color` | 公开 | `var(--mp-color-fill-3)` | 本组件 CSS<br>`background-color`, `border`, `border-top` |
+| `--mp-menu-border-radius` | 公开 | `2px` | 本组件 CSS<br>`border-radius` |
+| `--mp-menu-group-title-font-size` | 公开 | `var(--mp-font-size-sm)` | 本组件 CSS<br>`font-size` |
+| `--mp-menu-group-title-height` | 公开 | `20px` | 本组件 CSS<br>`line-height` |
+| `--mp-menu-group-title-padding` | 公开 | `4px 12px` | 本组件 CSS<br>`padding` |
+| `--mp-menu-group-title-text-color` | 公开 | `var(--mp-color-text-3)` | 本组件 CSS<br>`color` |
+| `--mp-menu-max-height` | 公开 | `278px` | 本组件 CSS<br>`max-height` |
+| `--mp-menu-option-arrow-icon-size` | 公开 | `18px` | 本组件 CSS<br>`font-size` |
+| `--mp-menu-option-arrow-padding` | 公开 | `0 6px 0 8px` | 本组件 CSS<br>`padding` |
+| `--mp-menu-option-bg-disabled` | 公开 | `transparent` | 本组件 CSS<br>`background` |
+| `--mp-menu-option-bg-hover` | 公开 | `var(--mp-sys-color-state-hover)` | 本组件 CSS<br>`background-color` |
+| `--mp-menu-option-bg-selected-hover` | 公开 | `var(--mp-menu-option-selected-background)` | 本组件 CSS<br>`background-color` |
+| `--mp-menu-option-disabled-color` | 公开 | `var(--mp-color-text-disabled)` | 本组件 CSS<br>`color` |
+| `--mp-menu-option-icon-margin-right` | 公开 | `8px` | 本组件 CSS<br>`margin-right` |
+| `--mp-menu-option-lg-font-size` | 公开 | `var(--mp-font-size-lg)` | 本组件 CSS<br>`font-size` |
+| `--mp-menu-option-lg-height` | 公开 | `46px` | 本组件 CSS<br>`height` |
+| `--mp-menu-option-md-font-size` | 公开 | `var(--mp-font-size-md)` | 本组件 CSS<br>`font-size` |
+| `--mp-menu-option-md-height` | 公开 | `38px` | 本组件 CSS<br>`height` |
+| `--mp-menu-option-padding` | 公开 | `0 12px` | 本组件 CSS<br>`padding` |
+| `--mp-menu-option-selected-background` | 公开 | `var(--mp-sys-color-state-hover)` | 本组件 CSS<br>`background-color` |
+| `--mp-menu-option-selected-text-color` | 公开 | `var(--mp-sys-color-content-primary)` | 本组件 CSS<br>`color` |
+| `--mp-menu-option-sm-font-size` | 公开 | `var(--mp-font-size-sm)` | 本组件 CSS<br>`font-size` |
+| `--mp-menu-option-sm-height` | 公开 | `30px` | 本组件 CSS<br>`height` |
+| `--mp-menu-option-suffix-margin-left` | 公开 | `16px` | 本组件 CSS<br>`margin-left` |
+| `--mp-menu-option-text-color` | 公开 | `var(--mp-sys-color-content-secondary)` | 本组件 CSS<br>`color` |
+| `--mp-menu-option-xl-font-size` | 公开 | `var(--mp-font-size-lg)` | 本组件 CSS<br>`font-size` |
+| `--mp-menu-option-xl-height` | 公开 | `54px` | 本组件 CSS<br>`height` |
+| `--mp-menu-option-xs-font-size` | 公开 | `var(--mp-font-size-xs)` | 本组件 CSS<br>`font-size` |
+| `--mp-menu-option-xs-height` | 公开 | `24px` | 本组件 CSS<br>`height` |
+| `--mp-menu-padding` | 公开 | `4px 0` | 本组件 CSS<br>`margin`, `padding` |
+| `--mp-menu-padding-vertical` | 公开 | `4px` | 本组件 CSS<br>`margin-top` |
 
 </div>
 
@@ -1770,7 +1772,7 @@
 | `--mp-pagination-input-width` | 公开 | `32px` | 本组件 CSS<br>`width` |
 | `--mp-pagination-item-background` | 公开 | `transparent` | 本组件 CSS<br>`background` |
 | `--mp-pagination-item-border-radius` | 公开 | `var(--mp-sys-radius-md)` | 本组件 CSS<br>`border-radius` |
-| `--mp-pagination-item-gap` | 公开 | `var(--mp-sys-space-2)` | 本组件 CSS<br>`gap` |
+| `--mp-pagination-item-gap` | 公开 | `var(--mp-sys-space-2)` | 本组件 CSS<br>`gap`, `padding-inline-start` |
 | `--mp-pagination-item-padding` | 公开 | `var(--mp-sys-space-4)` | 本组件 CSS<br>`padding` |
 | `--mp-pagination-select-width` | 公开 | `max-content` | 本组件 CSS<br>`width` |
 | `--mp-pagination-size-lg` | 公开 | `44px` | 本组件 CSS<br>`height`, `min-height`, `min-width` |
@@ -1799,6 +1801,20 @@
 
 </div>
 
+## people-select
+
+声明来源: `src/people-select/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| 变量 | 层级 | 声明值／条件 | 消费路径／CSS 属性 |
+| --- | --- | --- | --- |
+| `--mp-people-select-avatar-radius` | 公开 | `50%` | 本组件 CSS<br>`border-radius` |
+| `--mp-people-select-avatar-size` | 公开 | `24px` | 本组件 CSS<br>`height`, `width` |
+| `--mp-people-select-content-gap` | 公开 | `8px` | 本组件 CSS<br>`gap` |
+
+</div>
+
 ## picker
 
 声明来源: `src/picker/style/token.less`
@@ -1809,15 +1825,22 @@
 | --- | --- | --- | --- |
 | `--mp-picker-background` | 公开 | `var(--mp-color-body)` | 本组件 CSS<br>`background`, `background-image` |
 | `--mp-picker-mask-background-image` | 公开 | `linear-gradient(180deg, color-mix(in srgb, var(--mp-picker-background) 90%, transparent), color-mix(in srgb, var(--mp-picker-background) 40%, transparent)),     linear-gradient(       0deg,       color-mix(in srgb, var(--mp-picker-background) 90%, transparent),       color-mix(in srgb, var(--mp-picker-background) 40%, transparent)     )` | 本组件 CSS<br>`background-image` |
+| `--mp-picker-option-active-text-color` | 公开 | `var(--mp-picker-option-text-color)` | 本组件 CSS<br>`color` |
 | `--mp-picker-option-check-color` | 公开 | `var(--mp-sys-color-content-brand)` | 本组件 CSS<br>`color` |
+| `--mp-picker-option-check-right` | 公开 | `12px` | 本组件 CSS<br>`right` |
+| `--mp-picker-option-check-size` | 公开 | `18px` | 本组件 CSS<br>`font-size` |
+| `--mp-picker-option-disabled-opacity` | 公开 | `0.5` | 本组件 CSS<br>`opacity` |
 | `--mp-picker-option-disabled-text-color` | 公开 | `var(--mp-color-text-disabled)` | 本组件 CSS<br>`color` |
 | `--mp-picker-option-font-size` | 公开 | `var(--mp-font-size-lg)` | 本组件 CSS<br>`font-size` |
+| `--mp-picker-option-padding-horizontal` | 公开 | `28px` | 本组件 CSS<br>`padding` |
 | `--mp-picker-option-text-color` | 公开 | `var(--mp-color-text-1)` | 本组件 CSS<br>`color` |
 | `--mp-picker-picked-border` | 公开 | `1px solid var(--mp-color-border-2)` | 本组件 CSS<br>`border-bottom`, `border-top` |
+| `--mp-picker-scroll-easing` | 公开 | `cubic-bezier(0.23, 1, 0.68, 1)` | 本组件 CSS<br>`transition-timing-function` |
 | `--mp-picker-title-font-size` | 公开 | `var(--mp-font-size-lg)` | 本组件 CSS<br>`font-size` |
 | `--mp-picker-title-text-color` | 公开 | `var(--mp-color-text-1)` | 本组件 CSS<br>`color` |
 | `--mp-picker-toolbar-height` | 公开 | `44px` | 本组件 CSS<br>`height` |
 | `--mp-picker-toolbar-padding` | 公开 | `0 4px` | 本组件 CSS<br>`padding` |
+| `--mp-picker-transition-duration` | 公开 | `250ms` | 本组件 CSS<br>`transition` |
 
 </div>
 
@@ -1952,7 +1975,7 @@
 | 变量 | 层级 | 声明值／条件 | 消费路径／CSS 属性 |
 | --- | --- | --- | --- |
 | `--mp-internal-radio-focus-offset` | 内部 | `2px` | 本组件 CSS<br>`outline-offset` |
-| `--mp-internal-radio-focus-width` | 内部 | `2px` | 本组件 CSS<br>`outline` |
+| `--mp-internal-radio-focus-width` | 内部 | `2px` | 本组件 CSS<br>`box-shadow`, `outline` |
 | `--mp-internal-radio-segment-bg` | 内部 | `var(--mp-sys-color-surface-default)` | 本组件 CSS<br>`background` |
 | `--mp-internal-radio-segment-gap` | 内部 | `3px` | 本组件 CSS<br>`gap`, `padding` |
 | `--mp-internal-radio-segment-group-bg` | 内部 | `var(--mp-sys-color-surface-muted)` | 本组件 CSS<br>`background` |
@@ -1963,9 +1986,9 @@
 | `--mp-radio-action-padding` | 公开 | `6px` | 本组件 CSS<br>`padding` |
 | `--mp-radio-animation-duration` | 公开 | `var(--mp-sys-motion-duration-standard)` | 本组件 CSS<br>`transition` |
 | `--mp-radio-control-color` | 公开 | `var(--mp-sys-color-content-secondary)` | 本组件 CSS<br>`color` |
-| `--mp-radio-control-color-checked` | 公开 | `var(--mp-sys-color-content-brand)` | 本组件 CSS<br>`color`, `outline` |
+| `--mp-radio-control-color-checked` | 公开 | `rgb(var(--mp-primary-9))` | 本组件 CSS<br>`color`, `outline` |
 | `--mp-radio-control-color-disabled` | 公开 | `var(--mp-sys-color-content-disabled)` | 本组件 CSS<br>`color` |
-| `--mp-radio-control-color-error` | 公开 | `var(--mp-sys-color-content-danger)` | 本组件 CSS<br>`color` |
+| `--mp-radio-control-color-error` | 公开 | `var(--mp-sys-color-content-danger)` | 本组件 CSS<br>`box-shadow`, `color` |
 | `--mp-radio-control-size` | 公开 | `24px` | 本组件 CSS<br>`font-size`, `height`, `width` |
 | `--mp-radio-group-gap` | 公开 | `0` | 本组件 CSS<br>`gap` |
 | `--mp-radio-label-font-size` | 公开 | `var(--mp-font-size-md)` | 本组件 CSS<br>`font-size` |
@@ -2055,6 +2078,21 @@ expand-duration／fade-duration 消费到 transform／opacity 过渡；运行时
 
 </div>
 
+## safe-area
+
+声明来源: `src/safe-area/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| 变量 | 层级 | 声明值／条件 | 消费路径／CSS 属性 |
+| --- | --- | --- | --- |
+| `--mp-safe-area-bottom` | 公开 | `env(safe-area-inset-bottom, 0px)` | 本组件 CSS<br>`margin-bottom`, `padding-bottom` |
+| `--mp-safe-area-left` | 公开 | `env(safe-area-inset-left, 0px)` | 本组件 CSS<br>`padding-left` |
+| `--mp-safe-area-right` | 公开 | `env(safe-area-inset-right, 0px)` | 本组件 CSS<br>`padding-right` |
+| `--mp-safe-area-top` | 公开 | `env(safe-area-inset-top, 0px)` | 本组件 CSS<br>`padding-top` |
+
+</div>
+
 ## search
 
 声明来源: `src/search/style/token.less`
@@ -2084,7 +2122,7 @@ expand-duration／fade-duration 消费到 transform／opacity 过渡；运行时
 | `--mp-search-select-icon-size` | 公开 | `18px` | 本组件 CSS<br>`font-size` |
 | `--mp-search-select-icon-spacing` | 公开 | `2px` | 本组件 CSS<br>`margin-inline-start` |
 | `--mp-search-select-size-max-width` | 公开 | `120px` | 本组件 CSS<br>`max-width` |
-| `--mp-search-select-size-min-width` | 公开 | `72px` | 本组件 CSS<br>`min-width` |
+| `--mp-search-select-size-min-width` | 公开 | `96px` | 本组件 CSS<br>`min-width` |
 | `--mp-search-size-icon` | 公开 | `20px` | 本组件 CSS<br>`font-size` |
 | `--mp-search-size-min-height` | 公开 | `48px` | 本组件 CSS<br>`min-height` |
 | `--mp-search-spacing-padding` | 公开 | `8px 16px` | 本组件 CSS<br>`padding` |
@@ -2100,7 +2138,7 @@ expand-duration／fade-duration 消费到 transform／opacity 过渡；运行时
 | 变量 | 层级 | 声明值／条件 | 消费路径／CSS 属性 |
 | --- | --- | --- | --- |
 | `--mp-select-popup-bg` | 公开 | `var(--mp-sys-color-surface-overlay)` | 本组件 CSS<br>`background-color` |
-| `--mp-select-popup-border-color` | 公开 | `var(--mp-sys-color-border-default)` | 本组件 CSS<br>`border`, `border-bottom`, `border-top` |
+| `--mp-select-popup-border-color` | 公开 | `var(--mp-sys-color-border-default)` | 本组件 CSS<br>`border`, `border-bottom`, `border-color`, `border-top` |
 | `--mp-select-popup-border-radius` | 公开 | `var(--mp-sys-radius-md)` | 本组件 CSS<br>`border-radius` |
 | `--mp-select-popup-box-shadow` | 公开 | `0 4px 10px rgb(0 0 0%)` | 本组件 CSS<br>`box-shadow` |
 | `--mp-select-popup-font-size` | 公开 | `var(--mp-sys-font-size-md)` | 本组件 CSS<br>`font-size` |
@@ -2115,16 +2153,19 @@ expand-duration／fade-duration 消费到 transform／opacity 过渡；运行时
 | `--mp-select-popup-option-bg-disabled` | 公开 | `var(--mp-sys-color-surface-overlay)` | 本组件 CSS<br>`background-color` |
 | `--mp-select-popup-option-bg-hover` | 公开 | `var(--mp-sys-color-state-hover)` | 本组件 CSS<br>`background-color` |
 | `--mp-select-popup-option-bg-selected` | 公开 | `var(--mp-sys-color-surface-overlay)` | 本组件 CSS<br>`background-color` |
+| `--mp-select-popup-option-check-color` | 公开 | `var(--mp-sys-color-content-primary)` | 本组件 CSS<br>`color` |
+| `--mp-select-popup-option-check-gap` | 公开 | `var(--mp-sys-space-4)` | 本组件 CSS<br>`margin-inline-start` |
+| `--mp-select-popup-option-check-size` | 公开 | `var(--mp-sys-font-size-md)` | 本组件 CSS<br>`height`, `width` |
 | `--mp-select-popup-option-font-weight-selected` | 公开 | `var(--mp-sys-font-weight-medium)` | 本组件 CSS<br>`font-weight` |
 | `--mp-select-popup-option-height` | 公开 | `36px` | 本组件 CSS<br>`line-height` |
 | `--mp-select-popup-option-icon-margin-right` | 公开 | `var(--mp-sys-space-4)` | 本组件 CSS<br>`margin-right` |
-| `--mp-select-popup-option-padding-horizontal` | 公开 | `var(--mp-sys-space-5)` | 本组件 CSS<br>`padding` |
+| `--mp-select-popup-option-padding-horizontal` | 公开 | `var(--mp-sys-space-5)` | 本组件 CSS<br>`padding`, `padding-inline` |
 | `--mp-select-popup-option-suffix-icon-margin-left` | 公开 | `var(--mp-sys-space-5)` | 本组件 CSS<br>`margin-left` |
 | `--mp-select-popup-option-text-color` | 公开 | `var(--mp-sys-color-content-primary)` | 本组件 CSS<br>`color` |
 | `--mp-select-popup-option-text-color-disabled` | 公开 | `var(--mp-sys-color-content-disabled)` | 本组件 CSS<br>`color` |
 | `--mp-select-popup-option-text-color-hover` | 公开 | `var(--mp-sys-color-content-primary)` | 本组件 CSS<br>`color` |
 | `--mp-select-popup-option-text-color-selected` | 公开 | `var(--mp-sys-color-content-primary)` | 本组件 CSS<br>`color` |
-| `--mp-select-popup-padding-vertical` | 公开 | `var(--mp-sys-space-2)` | 本组件 CSS<br>`padding` |
+| `--mp-select-popup-padding-vertical` | 公开 | `var(--mp-sys-space-2)` | 本组件 CSS<br>`padding`, `padding-block` |
 
 </div>
 
@@ -2263,23 +2304,23 @@ expand-duration／fade-duration 消费到 transform／opacity 过渡；运行时
 
 | 变量 | 层级 | 声明值／条件 | 消费路径／CSS 属性 |
 | --- | --- | --- | --- |
-| `--mp-steps-arrow-item-bg-error` | 公开 | `var(--mp-sys-color-content-danger)` | 本组件 CSS<br>`background-color`, `border-left` |
-| `--mp-steps-arrow-item-bg-finish` | 公开 | `var(--mp-sys-color-state-selected)` | 本组件 CSS<br>`background-color`, `border-left` |
-| `--mp-steps-arrow-item-bg-process` | 公开 | `var(--mp-sys-color-content-brand)` | 本组件 CSS<br>`background-color`, `border-left` |
-| `--mp-steps-arrow-item-bg-wait` | 公开 | `var(--mp-sys-color-surface-muted)` | 本组件 CSS<br>`background-color`, `border-left` |
+| `--mp-steps-arrow-item-bg-error` | 公开 | `var(--mp-sys-color-content-danger)` | 本组件 CSS<br>`background-color`, `border-inline-start` |
+| `--mp-steps-arrow-item-bg-finish` | 公开 | `var(--mp-sys-color-state-selected)` | 本组件 CSS<br>`background-color`, `border-inline-start` |
+| `--mp-steps-arrow-item-bg-process` | 公开 | `var(--mp-sys-color-content-brand)` | 本组件 CSS<br>`background-color`, `border-inline-start` |
+| `--mp-steps-arrow-item-bg-wait` | 公开 | `var(--mp-sys-color-surface-muted)` | 本组件 CSS<br>`background-color`, `border-inline-start` |
 | `--mp-steps-arrow-item-description-color-error` | 公开 | `var(--mp-sys-color-surface-default)` | 本组件 CSS<br>`color` |
 | `--mp-steps-arrow-item-description-color-finish` | 公开 | `var(--mp-sys-color-content-secondary)` | 本组件 CSS<br>`color` |
 | `--mp-steps-arrow-item-description-color-process` | 公开 | `var(--mp-sys-color-surface-default)` | 本组件 CSS<br>`color` |
 | `--mp-steps-arrow-item-description-color-wait` | 公开 | `var(--mp-sys-color-content-secondary)` | 本组件 CSS<br>`color` |
 | `--mp-steps-arrow-item-description-margin-top` | 公开 | `0` | 本组件 CSS<br>`margin-top` |
-| `--mp-steps-arrow-item-gap` | 公开 | `4px` | 本组件 CSS<br>`margin-right` |
+| `--mp-steps-arrow-item-gap` | 公开 | `4px` | 本组件 CSS<br>`margin-inline-end` |
 | `--mp-steps-arrow-item-title-color-error` | 公开 | `var(--mp-sys-color-surface-default)` | 本组件 CSS<br>`color` |
 | `--mp-steps-arrow-item-title-color-finish` | 公开 | `var(--mp-sys-color-content-primary)` | 本组件 CSS<br>`color` |
 | `--mp-steps-arrow-item-title-color-process` | 公开 | `var(--mp-sys-color-surface-default)` | 本组件 CSS<br>`color` |
 | `--mp-steps-arrow-item-title-color-wait` | 公开 | `var(--mp-sys-color-content-secondary)` | 本组件 CSS<br>`color` |
 | `--mp-steps-arrow-item-title-font-weight-active` | 公开 | `500` | 本组件 CSS<br>`font-weight` |
-| `--mp-steps-arrow-size-md-title-padding-left` | 公开 | `16px` | 本组件 CSS<br>`padding-left` |
-| `--mp-steps-arrow-size-sm-title-padding-left` | 公开 | `20px` | 本组件 CSS<br>`padding-left` |
+| `--mp-steps-arrow-size-md-title-padding-left` | 公开 | `16px` | 本组件 CSS<br>`padding-inline-start` |
+| `--mp-steps-arrow-size-sm-title-padding-left` | 公开 | `20px` | 本组件 CSS<br>`padding-inline-start` |
 | `--mp-steps-changeable-hover-text-color` | 公开 | `var(--mp-sys-color-content-brand)` | 本组件 CSS<br>`color` |
 | `--mp-steps-circle-horizontal-item-description-margin-top` | 公开 | `2px` | 本组件 CSS<br>`margin-top` |
 | `--mp-steps-circle-item-bg-error` | 公开 | `var(--mp-sys-color-content-danger)` | 本组件 CSS<br>`background-color` |
@@ -2295,7 +2336,7 @@ expand-duration／fade-duration 消费到 transform／opacity 过渡；运行时
 | `--mp-steps-circle-item-description-color-process` | 公开 | `var(--mp-sys-color-content-secondary)` | 本组件 CSS<br>`color` |
 | `--mp-steps-circle-item-description-color-wait` | 公开 | `var(--mp-sys-color-content-secondary)` | 本组件 CSS<br>`color` |
 | `--mp-steps-circle-item-icon-border-radius` | 公开 | `50%` | 本组件 CSS<br>`border-radius` |
-| `--mp-steps-circle-item-icon-gap` | 公开 | `12px` | 本组件 CSS<br>`left`, `margin-right`, `padding-right` |
+| `--mp-steps-circle-item-icon-gap` | 公开 | `12px` | 本组件 CSS<br>`inset-inline-start`, `margin-inline-end`, `padding-inline-end` |
 | `--mp-steps-circle-item-icon-text-color-error` | 公开 | `var(--mp-sys-color-surface-default)` | 本组件 CSS<br>`color` |
 | `--mp-steps-circle-item-icon-text-color-finish` | 公开 | `var(--mp-sys-color-content-brand)` | 本组件 CSS<br>`color` |
 | `--mp-steps-circle-item-icon-text-color-process` | 公开 | `var(--mp-sys-color-surface-default)` | 本组件 CSS<br>`color` |
@@ -2303,7 +2344,7 @@ expand-duration／fade-duration 消费到 transform／opacity 过渡；运行时
 | `--mp-steps-circle-item-tail-color-error` | 公开 | `var(--mp-sys-color-content-danger)` | 本组件 CSS<br>`background-color` |
 | `--mp-steps-circle-item-tail-color-process` | 公开 | `var(--mp-sys-color-content-brand)` | 本组件 CSS<br>`background-color` |
 | `--mp-steps-circle-item-tail-color-wait` | 公开 | `var(--mp-sys-color-border-default)` | 本组件 CSS<br>`background-color` |
-| `--mp-steps-circle-item-tail-size` | 公开 | `1px` | 本组件 CSS<br>`height`, `left`, `top`, `width` |
+| `--mp-steps-circle-item-tail-size` | 公开 | `1px` | 本组件 CSS<br>`height`, `inset-inline-start`, `top`, `width` |
 | `--mp-steps-circle-item-title-color-error` | 公开 | `var(--mp-sys-color-content-primary)` | 本组件 CSS<br>`color` |
 | `--mp-steps-circle-item-title-color-finish` | 公开 | `var(--mp-sys-color-content-primary)` | 本组件 CSS<br>`color` |
 | `--mp-steps-circle-item-title-color-process` | 公开 | `var(--mp-sys-color-content-primary)` | 本组件 CSS<br>`color` |
@@ -2328,10 +2369,10 @@ expand-duration／fade-duration 消费到 transform／opacity 过渡；运行时
 | `--mp-steps-dot-item-description-color-process` | 公开 | `var(--mp-sys-color-content-secondary)` | 本组件 CSS<br>`color` |
 | `--mp-steps-dot-item-description-color-wait` | 公开 | `var(--mp-sys-color-content-secondary)` | 本组件 CSS<br>`color` |
 | `--mp-steps-dot-item-icon-border-radius` | 公开 | `50%` | 本组件 CSS<br>`border-radius` |
-| `--mp-steps-dot-item-icon-gap` | 公开 | `4px` | 本组件 CSS<br>`left`, `margin-right`, `padding-top` |
-| `--mp-steps-dot-item-icon-margin-left` | 公开 | `calc((var(--mp-steps-label-vertical-content-width) - var(--mp-steps-dot-item-icon-size)) / 2)` | 本组件 CSS<br>`left`, `margin-left` |
-| `--mp-steps-dot-item-icon-size` | 公开 | `8px` | 本组件 CSS<br>`height`, `left`, `margin-left`, `margin-right`, `margin-top`, `padding-top`, `top`, `width` |
-| `--mp-steps-dot-item-icon-size-active` | 公开 | `10px` | 本组件 CSS<br>`height`, `margin-left`, `margin-top`, `width` |
+| `--mp-steps-dot-item-icon-gap` | 公开 | `4px` | 本组件 CSS<br>`inset-inline-start`, `margin-inline-end`, `padding-top` |
+| `--mp-steps-dot-item-icon-margin-left` | 公开 | `calc((var(--mp-steps-label-vertical-content-width) - var(--mp-steps-dot-item-icon-size)) / 2)` | 本组件 CSS<br>`inset-inline-start`, `margin-inline-start` |
+| `--mp-steps-dot-item-icon-size` | 公开 | `8px` | 本组件 CSS<br>`height`, `inset-inline-start`, `margin-inline-end`, `margin-inline-start`, `margin-top`, `padding-top`, `top`, `width` |
+| `--mp-steps-dot-item-icon-size-active` | 公开 | `10px` | 本组件 CSS<br>`height`, `margin-inline-start`, `margin-top`, `width` |
 | `--mp-steps-dot-item-tail-color-error` | 公开 | `var(--mp-sys-color-content-danger)` | 本组件 CSS<br>`background-color` |
 | `--mp-steps-dot-item-tail-color-process` | 公开 | `var(--mp-sys-color-content-brand)` | 本组件 CSS<br>`background-color` |
 | `--mp-steps-dot-item-tail-color-wait` | 公开 | `var(--mp-sys-color-border-default)` | 本组件 CSS<br>`background-color` |
@@ -2344,36 +2385,36 @@ expand-duration／fade-duration 消费到 transform／opacity 过渡；运行时
 | `--mp-steps-dot-vertical-item-description-margin-top` | 公开 | `4px` | 本组件 CSS<br>`margin-top` |
 | `--mp-steps-dot-vertical-item-dot-margin-top` | 公开 | `8px` | 本组件 CSS<br>`margin-top` |
 | `--mp-steps-dot-vertical-item-dot-margin-top-active` | 公开 | `calc(var(--mp-steps-dot-vertical-item-dot-margin-top) - (var(--mp-steps-dot-item-icon-size-active) - var(--mp-steps-dot-item-icon-size)))` | 本组件 CSS<br>`margin-top` |
-| `--mp-steps-dot-vertical-item-icon-margin-right` | 公开 | `16px` | 本组件 CSS<br>`margin-right` |
+| `--mp-steps-dot-vertical-item-icon-margin-right` | 公开 | `16px` | 本组件 CSS<br>`margin-inline-end` |
 | `--mp-steps-dot-vertical-tail-padding-bottom` | 公开 | `2px` | 本组件 CSS<br>`padding-bottom` |
 | `--mp-steps-dot-vertical-tail-padding-top-extra` | 公开 | `4px` | 本组件 CSS<br>`padding-top` |
-| `--mp-steps-label-vertical-content-width` | 公开 | `100%` | 本组件 CSS<br>`left`, `margin-left` |
+| `--mp-steps-label-vertical-content-width` | 公开 | `100%` | 本组件 CSS<br>`inset-inline-start`, `margin-inline-start` |
 | `--mp-steps-navigation-arrow-color` | 公开 | `var(--mp-sys-color-content-secondary)` | 本组件 CSS<br>`border` |
 | `--mp-steps-navigation-arrow-line-width` | 公开 | `2px` | 本组件 CSS<br>`border` |
-| `--mp-steps-navigation-arrow-right` | 公开 | `30px` | 本组件 CSS<br>`right` |
+| `--mp-steps-navigation-arrow-right` | 公开 | `30px` | 本组件 CSS<br>`inset-inline-end` |
 | `--mp-steps-navigation-arrow-size` | 公开 | `6px` | 本组件 CSS<br>`height`, `width` |
-| `--mp-steps-navigation-arrow-spacing-right` | 公开 | `10px` | 本组件 CSS<br>`padding-right` |
+| `--mp-steps-navigation-arrow-spacing-right` | 公开 | `10px` | 本组件 CSS<br>`padding-inline-end` |
 | `--mp-steps-navigation-arrow-top` | 公开 | `10px` | 本组件 CSS<br>`top` |
 | `--mp-steps-navigation-content-margin-bottom` | 公开 | `20px` | 本组件 CSS<br>`margin-bottom` |
-| `--mp-steps-navigation-description-padding-right` | 公开 | `20px` | 本组件 CSS<br>`padding-right` |
+| `--mp-steps-navigation-description-padding-right` | 公开 | `20px` | 本组件 CSS<br>`padding-inline-end` |
 | `--mp-steps-navigation-ink-bg` | 公开 | `var(--mp-sys-color-content-brand)` | 本组件 CSS<br>`background-color` |
 | `--mp-steps-navigation-ink-height` | 公开 | `2px` | 本组件 CSS<br>`height` |
-| `--mp-steps-navigation-ink-spacing-left` | 公开 | `0` | 本组件 CSS<br>`left` |
-| `--mp-steps-navigation-ink-spacing-right` | 公开 | `30px` | 本组件 CSS<br>`right` |
-| `--mp-steps-navigation-margin-right` | 公开 | `32px` | 本组件 CSS<br>`margin-right` |
-| `--mp-steps-navigation-padding-left` | 公开 | `20px` | 本组件 CSS<br>`padding-left` |
+| `--mp-steps-navigation-ink-spacing-left` | 公开 | `0` | 本组件 CSS<br>`inset-inline-start` |
+| `--mp-steps-navigation-ink-spacing-right` | 公开 | `30px` | 本组件 CSS<br>`inset-inline-end` |
+| `--mp-steps-navigation-margin-right` | 公开 | `32px` | 本组件 CSS<br>`margin-inline-end` |
+| `--mp-steps-navigation-padding-left` | 公开 | `20px` | 本组件 CSS<br>`padding-inline-start` |
 | `--mp-steps-node-font-weight` | 公开 | `500` | 本组件 CSS<br>`font-weight` |
-| `--mp-steps-size-md` | 公开 | `28px` | 本组件 CSS<br>`height`, `left`, `line-height`, `margin-left`, `margin-top`, `padding`, `padding-right`, `top`, `width` |
-| `--mp-steps-size-md-arrow` | 公开 | `72px` | 本组件 CSS<br>`border-bottom`, `border-left`, `border-top`, `height`, `padding-left`, `right` |
+| `--mp-steps-size-md` | 公开 | `28px` | 本组件 CSS<br>`height`, `inset-inline-start`, `line-height`, `margin-inline-start`, `margin-top`, `padding`, `padding-inline-end`, `top`, `width` |
+| `--mp-steps-size-md-arrow` | 公开 | `72px` | 本组件 CSS<br>`border-bottom`, `border-inline-start`, `border-top`, `height`, `inset-inline-end`, `padding-inline-start` |
 | `--mp-steps-size-md-description-font-size` | 公开 | `var(--mp-font-size-sm)` | 本组件 CSS<br>`font-size` |
 | `--mp-steps-size-md-icon-font-size` | 公开 | `16px` | 本组件 CSS<br>`font-size` |
-| `--mp-steps-size-md-item-icon-margin-left` | 公开 | `calc((var(--mp-steps-label-vertical-content-width) - var(--mp-steps-size-md)) / 2)` | 本组件 CSS<br>`left`, `margin-left` |
+| `--mp-steps-size-md-item-icon-margin-left` | 公开 | `calc((var(--mp-steps-label-vertical-content-width) - var(--mp-steps-size-md)) / 2)` | 本组件 CSS<br>`inset-inline-start`, `margin-inline-start` |
 | `--mp-steps-size-md-title-font-size` | 公开 | `var(--mp-font-size-lg)` | 本组件 CSS<br>`font-size` |
-| `--mp-steps-size-sm` | 公开 | `24px` | 本组件 CSS<br>`height`, `left`, `line-height`, `margin-left`, `padding`, `padding-right`, `top`, `width` |
-| `--mp-steps-size-sm-arrow` | 公开 | `40px` | 本组件 CSS<br>`border-bottom`, `border-left`, `border-top`, `height`, `padding-left`, `right` |
+| `--mp-steps-size-sm` | 公开 | `24px` | 本组件 CSS<br>`height`, `inset-inline-start`, `line-height`, `margin-inline-start`, `padding`, `padding-inline-end`, `top`, `width` |
+| `--mp-steps-size-sm-arrow` | 公开 | `40px` | 本组件 CSS<br>`border-bottom`, `border-inline-start`, `border-top`, `height`, `inset-inline-end`, `padding-inline-start` |
 | `--mp-steps-size-sm-description-font-size` | 公开 | `var(--mp-font-size-sm)` | 本组件 CSS<br>`font-size` |
 | `--mp-steps-size-sm-icon-font-size` | 公开 | `var(--mp-sys-font-size-md)` | 本组件 CSS<br>`font-size` |
-| `--mp-steps-size-sm-item-icon-margin-left` | 公开 | `calc((var(--mp-steps-label-vertical-content-width) - var(--mp-steps-size-sm)) / 2)` | 本组件 CSS<br>`left`, `margin-left` |
+| `--mp-steps-size-sm-item-icon-margin-left` | 公开 | `calc((var(--mp-steps-label-vertical-content-width) - var(--mp-steps-size-sm)) / 2)` | 本组件 CSS<br>`inset-inline-start`, `margin-inline-start` |
 | `--mp-steps-size-sm-title-font-size` | 公开 | `var(--mp-sys-font-size-md)` | 本组件 CSS<br>`font-size` |
 | `--mp-steps-transition-duration-1` | 公开 | `0.1s` | 本组件 CSS<br>`transition` |
 | `--mp-steps-transition-timing-function-linear` | 公开 | `cubic-bezier(0, 0, 1, 1)` | 本组件 CSS<br>`transition` |
@@ -2402,6 +2443,8 @@ expand-duration／fade-duration 消费到 transform／opacity 过渡；运行时
 
 | 变量 | 层级 | 声明值／条件 | 消费路径／CSS 属性 |
 | --- | --- | --- | --- |
+| `--mp-internal-switch-checked-text-color` | 内部 | `var(--mp-sys-color-content-on-bright)` | 本组件 CSS<br>`color` |
+| `--mp-internal-switch-error-text-color` | 内部 | `var(--mp-sys-color-content-on-bright)` | 本组件 CSS<br>`color` |
 | `--mp-switch-disabled-opacity` | 公开 | `0.5` | 本组件 CSS<br>`opacity` |
 | `--mp-switch-duration` | 公开 | `var(--mp-sys-motion-duration-standard)` | 本组件 CSS<br>`transition` |
 | `--mp-switch-focus-width` | 公开 | `2px` | 本组件 CSS<br>`outline`, `outline-offset` |
@@ -2482,13 +2525,13 @@ expand-duration／fade-duration 消费到 transform／opacity 过渡；运行时
 | `--mp-table-row-height` | 公开 | `46px` | 本组件 CSS<br>`height`, `min-height` |
 | `--mp-table-row-padding` | 公开 | `0 16px` | 本组件 CSS<br>`padding` |
 | `--mp-table-tbody-td-font-size` | 公开 | `16px` | 本组件 CSS<br>`font-size` |
-| `--mp-table-tbody-td-text-align` | 公开 | `left` | 本组件 CSS<br>`text-align` |
+| `--mp-table-tbody-td-text-align` | 公开 | `start` | 本组件 CSS<br>`text-align` |
 | `--mp-table-tbody-td-text-color` | 公开 | `#555` | 本组件 CSS<br>`color` |
 | `--mp-table-tbody-tr-border-bottom` | 公开 | `thin solid var(--mp-color-border-2)` | 本组件 CSS<br>`border-bottom` |
 | `--mp-table-tbody-tr-hover-background` | 公开 | `#eee` | 本组件 CSS<br>`background` |
 | `--mp-table-thead-border-bottom` | 公开 | `thin solid var(--mp-color-border-2)` | 本组件 CSS<br>`border-bottom` |
 | `--mp-table-thead-th-font-size` | 公开 | `14px` | 本组件 CSS<br>`font-size` |
-| `--mp-table-thead-th-text-align` | 公开 | `left` | 本组件 CSS<br>`text-align` |
+| `--mp-table-thead-th-text-align` | 公开 | `start` | 本组件 CSS<br>`text-align` |
 | `--mp-table-thead-th-text-color` | 公开 | `rgba(0, 0, 0, 0.6)` | 本组件 CSS<br>`color` |
 | `--mp-table-thead-tr-border-bottom` | 公开 | `thin solid var(--mp-color-border-2)` | 本组件 CSS<br>`border-bottom` |
 
@@ -2694,6 +2737,7 @@ expand-duration／fade-duration 消费到 transform／opacity 过渡；运行时
 
 | 变量 | 层级 | 声明值／条件 | 消费路径／CSS 属性 |
 | --- | --- | --- | --- |
+| `--mp-textarea-caret-color` | 公开 | `var(--mp-field-caret-color)` | 本组件 CSS<br>`caret-color` |
 | `--mp-textarea-counter-color` | 公开 | `var(--mp-sys-color-content-secondary)` | 本组件 CSS<br>`color` |
 | `--mp-textarea-counter-font-size` | 公开 | `var(--mp-sys-font-size-xs)` | 本组件 CSS<br>`font-size` |
 | `--mp-textarea-counter-margin-top` | 公开 | `var(--mp-sys-space-2)` | 本组件 CSS<br>`margin-block-start` |
@@ -2819,6 +2863,7 @@ expand-duration／fade-duration 消费到 transform／opacity 过渡；运行时
 
 | 变量 | 层级 | 声明值／条件 | 消费路径／CSS 属性 |
 | --- | --- | --- | --- |
+| `--mp-internal-upload-caption-background` | 内部 | `rgba(0, 0, 0, 0.72)` | 本组件 CSS<br>`background` |
 | `--mp-upload-action-size` | 公开 | `var(--mp-sys-control-touch-target)` | 本组件 CSS<br>`height`, `width` |
 | `--mp-upload-active-color` | 公开 | `var(--mp-sys-color-action-primary)` | 本组件 CSS<br>`accent-color`, `border-color`, `outline` |
 | `--mp-upload-background` | 公开 | `var(--mp-sys-color-surface-default)` | 本组件 CSS<br>`background` |
@@ -2826,7 +2871,12 @@ expand-duration／fade-duration 消费到 transform／opacity 过渡；运行时
 | `--mp-upload-border-radius` | 公开 | `var(--mp-sys-radius-md)` | 本组件 CSS<br>`border-radius` |
 | `--mp-upload-card-size` | 公开 | `calc(var(--mp-sys-control-height-md) * 2)` | 本组件 CSS<br>`height`, `min-height`, `width` |
 | `--mp-upload-disabled-opacity` | 公开 | `0.56` | 本组件 CSS<br>`opacity` |
-| `--mp-upload-error-color` | 公开 | `var(--mp-sys-color-content-danger)` | 本组件 CSS<br>`color` |
+| `--mp-upload-duration-background` | 公开 | `var(--mp-sys-color-surface-tooltip)` | 本组件 CSS<br>`background` |
+| `--mp-upload-duration-color` | 公开 | `var(--mp-sys-color-content-on-dark)` | 本组件 CSS<br>`color` |
+| `--mp-upload-duration-font-size` | 公开 | `var(--mp-sys-font-size-sm)` | 本组件 CSS<br>`font-size` |
+| `--mp-upload-duration-padding` | 公开 | `var(--mp-sys-space-1) var(--mp-sys-space-2)` | 本组件 CSS<br>`padding` |
+| `--mp-upload-duration-radius` | 公开 | `var(--mp-sys-radius-sm)` | 本组件 CSS<br>`border-radius` |
+| `--mp-upload-error-color` | 公开 | `rgb(var(--mp-danger-8))` | 本组件 CSS<br>`color` |
 | `--mp-upload-font-size` | 公开 | `var(--mp-sys-font-size-md)` | 本组件 CSS<br>`font-size` |
 | `--mp-upload-gap` | 公开 | `var(--mp-sys-space-4)` | 本组件 CSS<br>`gap` |
 | `--mp-upload-hover-background` | 公开 | `var(--mp-sys-color-state-hover)` | 本组件 CSS<br>`background` |

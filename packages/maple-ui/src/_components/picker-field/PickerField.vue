@@ -3,7 +3,7 @@
     v-bind="{ ...splitInputAttrs($attrs).root, ...decoration }"
     :class="n()"
     @clear="emit('clear', $event)"
-    @click="emit('click', $event)"
+    @click="handleClick"
   >
     <template v-if="$slots.prefix" #prefix><slot name="prefix" /></template>
     <span :class="n('controls')">
@@ -43,10 +43,21 @@
     </span>
     <template v-if="$slots['clear-icon']" #clear-icon="scope"><slot name="clear-icon" v-bind="scope" /></template>
     <template #suffix>
-      <slot name="arrow-icon" :focus="active" :popup-open="open">
-        <IconClockCircle v-if="kind === 'time'" aria-hidden="true" />
-        <IconCalendar v-else aria-hidden="true" />
-      </slot>
+      <button
+        type="button"
+        :class="n('open-trigger')"
+        data-field-open-trigger
+        :disabled="disabled || readonly"
+        :aria-label="placeholder || placeholders[0] || selectText"
+        :aria-expanded="open"
+        :aria-haspopup="popupRole"
+        @mousedown.prevent
+      >
+        <slot name="arrow-icon" :focus="active" :popup-open="open">
+          <IconClockCircle v-if="kind === 'time'" aria-hidden="true" />
+          <IconCalendar v-else aria-hidden="true" />
+        </slot>
+      </button>
       <slot name="suffix" />
     </template>
   </FieldDecorator>
@@ -59,6 +70,8 @@ import FieldDecorator from '../../field-decorator/FieldDecorator.vue'
 import { fieldDecoratorProps } from '../../field-decorator/props'
 import { splitInputAttrs } from '../../input/native-attrs'
 import { createNamespace } from '../../utils/components'
+import { useFieldTexts } from '../field-presentation/texts'
+import { blockFieldOpenClick, isFieldOpenClick } from '../picker-field/open-trigger'
 import { pickerFieldProps } from './props'
 import { useRangeFieldIndex } from './range-field-context'
 
@@ -66,6 +79,7 @@ defineOptions({
   name: createNamespace('picker-field').name,
   inheritAttrs: false,
 })
+const { select: selectText } = useFieldTexts()
 const props = defineProps(pickerFieldProps)
 const emit = defineEmits<{
   edit: [texts: string[], index: number]
@@ -77,6 +91,12 @@ const emit = defineEmits<{
   keydown: [event: KeyboardEvent]
 }>()
 const { n } = createNamespace('picker-field')
+function handleClick(event: MouseEvent) {
+  if (!isFieldOpenClick(event, props.openTriggerTarget)) {
+    blockFieldOpenClick(event)
+  }
+  emit('click', event)
+}
 const generatedId = useId()
 const controlId = computed(() => props.id ?? generatedId)
 const inputs: (HTMLInputElement | undefined)[] = []
@@ -115,6 +135,7 @@ const decoration = computed(() => ({
   ...Object.fromEntries(
     Object.keys(fieldDecoratorProps).map((key) => [key, props[key as keyof typeof fieldDecoratorProps]]),
   ),
+  cursor: props.openTriggerTarget === 'icon' && !props.disabled && !props.readonly ? 'text' : props.cursor,
   id: controlId.value,
   placeholder: props.placeholder ?? props.placeholders[0],
   value: props.texts.some(Boolean) ? props.texts : [],

@@ -96,8 +96,7 @@
       "name": "default",
       "kind": "slot",
       "demos": [
-        "type.vue",
-        "variant.vue"
+        "appearance-lab.vue"
       ]
     },
     {
@@ -105,20 +104,18 @@
       "kind": "slot",
       "demos": [
         "action.vue",
-        "allow-to-close.vue",
-        "custom-close-icon.vue",
+        "dismiss-comparison.vue",
         "custom-icon.vue",
         "show-icon.vue",
-        "title.vue",
-        "type.vue",
-        "variant.vue"
+        "content-comparison.vue",
+        "appearance-lab.vue"
       ]
     },
     {
       "name": "icon",
       "kind": "slot",
       "demos": [
-        "custom-close-icon.vue",
+        "dismiss-comparison.vue",
         "custom-icon.vue",
         "show-icon.vue"
       ]
@@ -134,7 +131,7 @@
       "name": "close-icon",
       "kind": "slot",
       "demos": [
-        "custom-close-icon.vue"
+        "dismiss-comparison.vue"
       ]
     }
   ],

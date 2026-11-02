@@ -136,13 +136,6 @@
       "kind": "string"
     },
     {
-      "name": "auto-loading",
-      "description": "等待 click/touchstart 返回的 Promise；同步回调不闪 loading",
-      "type": "boolean",
-      "defaultValue": "false",
-      "kind": "boolean"
-    },
-    {
       "name": "disabled",
       "description": "禁用；省略时继承按钮组，显式 false 可覆盖",
       "type": "boolean",

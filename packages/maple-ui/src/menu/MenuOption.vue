@@ -9,6 +9,7 @@
 <script setup lang="ts">
 import { computed, inject, ref } from 'vue'
 import { useEventListener } from '@maple-design/use'
+import { resolveDirection } from '../_utils/direction'
 import { createNamespace } from '../utils/components'
 import { useOptionAppearance } from './appearance'
 import { menuInjectionKey, menuLevelKey, menuRenderLevelKey } from './context'
@@ -73,12 +74,12 @@ function handleKeydown(event: KeyboardEvent) {
     return
   }
   if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
-    // A submenu's panel owns ArrowLeft; only references consume ArrowRight.
-    if (event.key === 'ArrowLeft' && level?.leave) {
+    const rtl = resolveDirection(root.value) === 'rtl'
+    if (event.key === (rtl ? 'ArrowRight' : 'ArrowLeft') && level?.leave) {
       event.preventDefault()
       level.leave()
     }
-    if (event.key === 'ArrowRight' && props.childrenTrigger) {
+    if (event.key === (rtl ? 'ArrowLeft' : 'ArrowRight') && props.childrenTrigger) {
       event.preventDefault()
       emit('key-arrow-x', event.key)
     }

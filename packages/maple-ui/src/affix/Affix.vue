@@ -4,8 +4,8 @@
     :class="classes(n(), [enableCSSMode, n('--css-mode')])"
     :style="{
       zIndex: toNumber(zIndex),
-      top: enableCSSMode && offsetBottom == null ? `${offsetTop}px` : undefined,
-      bottom: enableCSSMode && offsetBottom != null ? `${offsetBottom}px` : undefined,
+      top: enableCSSMode && offsetBottom == null ? toSizeUnit(offsetTop) : undefined,
+      bottom: enableCSSMode && offsetBottom != null ? toSizeUnit(offsetBottom) : undefined,
       width: enableFixedMode ? fixedWidth : undefined,
       height: enableFixedMode ? fixedHeight : undefined,
     }"
@@ -32,7 +32,7 @@ import { computed, ref, watch } from 'vue'
 import { doubleRaf, getRect, raf, toNumber } from '@maple-design/shared'
 import { onSmartMounted, onSmartUnmounted, onWindowResize, useEventListener } from '@maple-design/use'
 import { createNamespace } from '../utils/components'
-import { getParentScroller, getTarget, toPxNum } from '../utils/elements'
+import { getParentScroller, getTarget, toPxNum, toSizeUnit } from '../utils/elements'
 import { affixProps } from './props'
 
 defineOptions({ name: createNamespace('affix').name })
@@ -50,10 +50,9 @@ const fixedWrapperWidth = ref('auto')
 const fixedWrapperHeight = ref('auto')
 const enableCSSMode = computed(() => !props.disabled && props.cssMode)
 const enableFixedMode = computed(() => !props.disabled && !props.cssMode && isFixed.value)
-const offsetTop = computed(() => toPxNum(props.offsetTop))
-
-const offsetBottom = computed(() => (props.offsetBottom == null ? undefined : toPxNum(props.offsetBottom)))
 let active = true
+let lifecycle = 0
+let resizeVersion = 0
 let observer: ResizeObserver | undefined
 let container: HTMLElement | Window | undefined
 let scroller: HTMLElement | Window
@@ -66,14 +65,19 @@ watch(
 
 onSmartMounted(async () => {
   active = true
+  const cycle = ++lifecycle
   await doubleRaf()
-  if (!active) {
+  if (!active || cycle !== lifecycle) {
     return
   }
   setupScroller()
   handleScroll()
   if (typeof ResizeObserver !== 'undefined') {
-    observer = new ResizeObserver(handleScroll)
+    observer = new ResizeObserver(() => {
+      if (active && cycle === lifecycle) {
+        handleScroll()
+      }
+    })
     if (affixEl.value) {
       observer.observe(affixEl.value)
     }
@@ -85,6 +89,8 @@ onSmartMounted(async () => {
 
 onSmartUnmounted(() => {
   active = false
+  lifecycle++
+  resizeVersion++
   observer?.disconnect()
   removeScrollListener()
 })
@@ -103,6 +109,11 @@ function emitChange(fixed: boolean, currentOffsetTop: number) {
 }
 
 function computeFixedParams() {
+  if (!active || !affixEl.value || !wrapperEl.value) {
+    return
+  }
+  const offsetTop = toPxNum(props.offsetTop)
+  const offsetBottom = props.offsetBottom == null ? undefined : toPxNum(props.offsetBottom)
   const { cssMode, disabled } = props
 
   if (disabled) {
@@ -127,14 +138,14 @@ function computeFixedParams() {
   const wrapper = wrapperEl.value as HTMLElement
   const sticky = affixEl.value as HTMLElement
   const { top: stickyTop, left: stickyLeft, bottom: stickyBottom } = getRect(sticky)
-  const currentOffsetTop = offsetBottom.value == null ? stickyTop - scrollerTop : scrollerBottom - stickyBottom
-  const threshold = offsetBottom.value ?? offsetTop.value
+  const currentOffsetTop = offsetBottom == null ? stickyTop - scrollerTop : scrollerBottom - stickyBottom
+  const threshold = offsetBottom ?? offsetTop
 
   if (currentOffsetTop <= threshold) {
     if (!cssMode) {
       fixedWidth.value = `${sticky.offsetWidth}px`
       fixedHeight.value = `${sticky.offsetHeight}px`
-      fixedTop.value = `${offsetBottom.value == null ? scrollerTop + offsetTop.value : scrollerBottom - offsetBottom.value - wrapper.offsetHeight}px`
+      fixedTop.value = `${offsetBottom == null ? scrollerTop + offsetTop : scrollerBottom - offsetBottom - wrapper.offsetHeight}px`
       fixedLeft.value = `${stickyLeft}px`
       fixedWrapperWidth.value = `${wrapper.offsetWidth}px`
       fixedWrapperHeight.value = `${wrapper.offsetHeight}px`
@@ -188,10 +199,14 @@ function removeScrollListener() {
 }
 
 async function resize() {
+  if (!active) {
+    return
+  }
+  const cycle = lifecycle
+  const version = ++resizeVersion
   isFixed.value = false
-  lastFixed = false
   await raf()
-  if (!affixEl.value || !wrapperEl.value) {
+  if (!active || cycle !== lifecycle || version !== resizeVersion || !affixEl.value || !wrapperEl.value) {
     return
   }
   setupScroller()

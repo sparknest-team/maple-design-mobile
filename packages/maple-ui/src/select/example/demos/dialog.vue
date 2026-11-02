@@ -38,17 +38,17 @@ const keyOptions = computed(() => [
 
 <template>
   <mp-space direction="column" :size="['3vmin', 0]">
-    <mp-select v-model="pickerValue" presentation="popup" placeholder="请选择一个选项" :options="options" />
+    <mp-select v-model="pickerValue" edit-mode="popup" placeholder="请选择一个选项" :options="options" />
     <mp-select
       v-model="pickerValue2"
-      presentation="popup"
+      edit-mode="popup"
       placeholder="自定义字段"
       :options="keyOptions"
       :field-names="{ label: 'name', value: 'id' }"
     />
     <mp-select
       v-model="pickerMultiple"
-      presentation="popup"
+      edit-mode="popup"
       multiple
       show-tags
       clearable

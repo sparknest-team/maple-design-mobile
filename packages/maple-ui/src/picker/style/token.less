@@ -9,6 +9,7 @@
   --mp-picker-title-font-size: var(--mp-font-size-lg);
   --mp-picker-title-text-color: var(--mp-color-text-1);
   --mp-picker-option-font-size: var(--mp-font-size-lg);
+  --mp-picker-option-active-text-color: var(--mp-picker-option-text-color);
   --mp-picker-option-text-color: var(--mp-color-text-1);
   --mp-picker-option-disabled-text-color: var(--mp-color-text-disabled);
   --mp-picker-toolbar-padding: 0 4px;
@@ -23,4 +24,13 @@
       color-mix(in srgb, var(--mp-picker-background) 90%, transparent),
       color-mix(in srgb, var(--mp-picker-background) 40%, transparent)
     );
+}
+
+:root {
+  --mp-picker-option-padding-horizontal: 28px;
+  --mp-picker-option-check-right: 12px;
+  --mp-picker-option-check-size: 18px;
+  --mp-picker-option-disabled-opacity: 0.5;
+  --mp-picker-transition-duration: 250ms;
+  --mp-picker-scroll-easing: cubic-bezier(0.23, 1, 0.68, 1);
 }

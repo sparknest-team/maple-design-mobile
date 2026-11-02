@@ -1,6 +1,7 @@
 <template>
   <div
     ref="tabBarDom"
+    :aria-busy="busy || undefined"
     :class="
       classes(
         n(),
@@ -14,6 +15,7 @@
     :style="{ zIndex: zIndex ?? 'var(--mp-tab-bar-z-index)' }"
     v-bind="$attrs"
   >
+    <PendingFeedback :loading="busy" />
     <slot />
 
     <mp-button
@@ -34,9 +36,12 @@
 import { computed, onBeforeUnmount, onUpdated, ref, useSlots, watch } from 'vue'
 import { call, getRect, isNumber, normalizeToArray } from '@maple-design/shared'
 import { onSmartMounted, onWindowResize } from '@maple-design/use'
+import PendingFeedback from '../_components/pending-feedback/PendingFeedback.vue'
+import { useActionGuard } from '../_hooks/use-action-guard'
 import MpButton from '../button'
 import { createNamespace } from '../utils/components'
 import { toSizeUnit } from '../utils/elements'
+import { useElementResize } from '../utils/resize-observer'
 import { props as tabBarProps } from './props'
 import { useTabBarItems, type TabBarProvider } from './provide'
 
@@ -55,15 +60,27 @@ const props = defineProps(tabBarProps)
 const emit = defineEmits<{
   change: [active: number | string]
   'update:modelValue': [active: number | string]
+  'guard-error': [error: unknown, value: number | string]
   'fab-click': []
 }>()
 const slots = useSlots()
 
 const tabBarDom = ref<HTMLElement | null>(null)
+// Native inset updates can change CSS geometry without a Vue update or window resize.
+useElementResize(
+  () => [tabBarDom.value],
+  () => props.fixed && props.placeholder,
+  () => resizePlaceholder(),
+)
 const internalActive = ref(props.defaultValue)
 const active = computed(() => (props.modelValue === undefined ? internalActive.value : props.modelValue))
+const guard = useActionGuard()
+const busy = computed(() => props.loading || guard.pending.value)
+let pendingTarget: number | string | undefined
 let requestId = 0
 const cancelPending = () => {
+  guard.cancel()
+  pendingTarget = undefined
   requestId++
 }
 watch(
@@ -77,6 +94,7 @@ watch(
   },
   { flush: 'sync' },
 )
+watch(() => [props.beforeChange, props.loading], cancelPending, { flush: 'sync' })
 onBeforeUnmount(cancelPending)
 const activeColor = computed<string | undefined>(() => props.activeColor)
 const inactiveColor = computed<string | undefined>(() => props.inactiveColor)
@@ -86,6 +104,7 @@ const fabProps = ref({})
 const { length, tabBarItems, bindTabBarItem } = useTabBarItems()
 
 const tabBarProvider: TabBarProvider = {
+  loading: computed(() => props.loading),
   active,
   activeColor,
   inactiveColor,
@@ -107,7 +126,7 @@ const selectedIndex = computed(() => {
 bindTabBarItem(tabBarProvider)
 
 watch(
-  () => [length.value, ...tabBarItems.map((item) => [item.name.value, item.index.value])],
+  () => JSON.stringify([length.value, ...tabBarItems.map((item) => [item.name.value, item.index.value])]),
   () => {
     cancelPending()
     matchBoundary()
@@ -164,28 +183,36 @@ function matchBoundary() {
 }
 
 async function onToggle(changedValue: number | string) {
-  const currentRequest = ++requestId
-  // Clicking the current tab also cancels an older pending selection.
+  if (props.loading || (guard.pending.value && pendingTarget === changedValue)) {
+    return
+  }
+  cancelPending()
+  const currentRequest = requestId
   if (active.value === changedValue) {
     return
   }
   const from = active.value
-  try {
-    if (props.beforeChange) {
-      const results = await Promise.all(normalizeToArray(call(props.beforeChange, changedValue)))
-      if (!results.every(Boolean)) {
-        return
-      }
+  if (props.beforeChange) {
+    pendingTarget = changedValue
+    const outcome = await guard.run(changedValue, async (value) => {
+      const results = await Promise.all(normalizeToArray(call(props.beforeChange, value)))
+      return results.every(Boolean)
+    })
+    if (currentRequest !== requestId) {
+      return
     }
-  } catch {
-    // A rejected/throwing guard cancels the selection without unhandled rejections.
+    pendingTarget = undefined
+    if (outcome.status !== 'allowed') {
+      if (outcome.status === 'error') {
+        emit('guard-error', outcome.error, changedValue)
+      }
+      return
+    }
+  }
+  if (requestId !== currentRequest || active.value !== from || props.loading) {
     return
   }
-  if (requestId !== currentRequest || active.value !== from) {
-    return
-  }
-  const exists = tabBarItems.some((item) => (item.name.value ?? item.index.value) === changedValue)
-  if (!exists) {
+  if (!tabBarItems.some((item) => (item.name.value ?? item.index.value) === changedValue)) {
     return
   }
   if (props.modelValue === undefined) {

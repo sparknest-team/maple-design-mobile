@@ -15,7 +15,8 @@ import DateRange from '../../date-range'
 import DatePanel from '../../date/DatePanel.vue'
 import InputNumber from '../../input-number'
 import RawNumber from '../../input-number/InputNumber.vue'
-import { RadioGroup } from '../../radio'
+import Radio, { RadioGroup } from '../../radio'
+import RawRadio from '../../radio/Radio.vue'
 import RawRadioGroup from '../../radio/RadioGroup.vue'
 import Rate from '../../rate'
 import RawRate from '../../rate/rate-core'
@@ -46,6 +47,7 @@ const cases: any[] = [
   ['InputNumber', InputNumber, RawNumber, 1, 5, {}],
   ['Switch', Switch, RawSwitch, false, true, {}],
   ['Checkbox', Checkbox, RawCheckbox, false, true, {}],
+  ['Radio', Radio, RawRadio, false, true, {}],
   ['CheckboxGroup', CheckboxGroup, RawCheckboxGroup, ['dev'], ['design'], { options }],
   ['RadioGroup', RadioGroup, RawRadioGroup, 'dev', 'design', { options }],
   ['Slider', Slider, RawSlider, 20, 60, {}],
@@ -71,7 +73,7 @@ const action = (panel: any, text: string[]) =>
 describe('all field presentation adapters', () => {
   test('AutoComplete candidate clicks stay in the draft and commit the full selected label', async () => {
     const wrapper = mount(AutoComplete, {
-      props: { modelValue: '研发', presentation: 'popup', options: ['研发', '设计', '运营'] },
+      props: { modelValue: '研发', editMode: 'popup', options: ['研发', '设计', '运营'] },
     })
     await wrapper.get('[aria-haspopup=dialog]').trigger('click')
     await flushPromises()
@@ -92,6 +94,23 @@ describe('all field presentation adapters', () => {
   })
 
   for (const [name, Field, Editor, initial, next, extra] of cases) {
+    test(name + ' retains its component default standalone and inside an unconfigured Form', () => {
+      const popup = ['Date', 'DateRange', 'Time', 'TimeRange', 'Cascader', 'AutoComplete'].includes(name)
+      for (const inForm of [false, true]) {
+        const field = () => h(Field, { modelValue: initial, ...extra })
+        const wrapper = inForm
+          ? mount(Form, { slots: { default: () => h(FormItem, {}, field) } })
+          : mount(Field, { props: { modelValue: initial, ...extra } })
+        expect(wrapper.find('[aria-haspopup=dialog]').exists()).toBe(popup)
+        wrapper.unmount()
+      }
+    })
+    test(name + ' supports explicit inline without a popup reference', () => {
+      const wrapper = mount(Field, { props: { modelValue: initial, editMode: 'direct', ...extra } })
+      expect(wrapper.findComponent(FieldReference).exists()).toBe(false)
+      expect(wrapper.findComponent(EditorPanel).exists()).toBe(false)
+      wrapper.unmount()
+    })
     test(name + ' inherits read and refreshes external values without mounting an editor', async () => {
       const model = reactive({ value: initial })
       const wrapper = mount(Form, {
@@ -119,8 +138,8 @@ describe('all field presentation adapters', () => {
       }
       wrapper.unmount()
     })
-    test(name + ' has one confirmation boundary and cancels drafts', async () => {
-      const wrapper = mount(Field, { props: { modelValue: initial, presentation: 'popup', ...extra } })
+    test(name + ' supports popup with one confirmation boundary and cancels drafts', async () => {
+      const wrapper = mount(Field, { props: { modelValue: initial, ...extra, editMode: 'popup' } })
       await wrapper.get('[aria-haspopup=dialog]').trigger('click')
       await flushPromises()
       let panel = wrapper.getComponent(EditorPanel)
@@ -151,17 +170,17 @@ describe('all field presentation adapters', () => {
     })
   }
   test('native draft input does not validate committed data; confirmation validates once', async () => {
-    const model = reactive({ value: '原值' })
+    const model = reactive<{ value: string | null }>({ value: '原值' })
     const rule = vi.fn(() => true)
     const rules = [rule]
     const wrapper = mount(Form, {
-      props: { model, presentation: 'popup' },
+      props: { model, editMode: 'popup' },
       slots: {
         default: () =>
           h(FormItem, { field: 'value', label: '备注', rules }, () =>
             h(Textarea, {
               modelValue: model.value,
-              'onUpdate:modelValue': (value: string) => {
+              'onUpdate:modelValue': (value: string | null) => {
                 model.value = value
               },
             }),
@@ -183,7 +202,7 @@ describe('all field presentation adapters', () => {
   test('readPretty inherits and an explicit false keeps the original control', () => {
     const wrapper = mount(Form, {
       props: { readPretty: true, model: {} },
-      slots: { default: () => h(FormItem, {}, () => h(Textarea, { readPretty: false })) },
+      slots: { default: () => h(FormItem, {}, () => h(Textarea, { editMode: 'direct', readPretty: false })) },
     })
     expect(wrapper.find('textarea').exists()).toBe(true)
     expect(wrapper.findComponent(FieldReference).exists()).toBe(false)
@@ -195,10 +214,10 @@ describe('all field presentation adapters', () => {
       slots: {
         default: () => [
           h(FormItem, {}, () =>
-            h(CheckboxGroup, { presentation: 'inline', readPretty: false, options, modelValue: ['dev'] }),
+            h(CheckboxGroup, { editMode: 'direct', readPretty: false, options, modelValue: ['dev'] }),
           ),
           h(FormItem, {}, () =>
-            h(AutoComplete, { presentation: 'inline', readPretty: false, options: ['研发'], modelValue: '研发' }),
+            h(AutoComplete, { editMode: 'direct', readPretty: false, options: ['研发'], modelValue: '研发' }),
           ),
         ],
       },

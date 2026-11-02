@@ -7,7 +7,7 @@ import Checkbox from '../index'
 
 const wrappers = []
 function make(Item, props = {}) {
-  const wrapper = mount(Item, { props, attachTo: document.body })
+  const wrapper = mount(Item, { props: { editMode: 'direct', ...props }, attachTo: document.body })
   wrappers.push(wrapper)
   return wrapper
 }
@@ -99,6 +99,7 @@ describe('choice control contract copies', () => {
           },
           () =>
             h(Item, {
+              editMode: 'direct',
               'onUpdate:modelValue': () => calls.push('update'),
               onChange: () => calls.push('change'),
             }),
@@ -183,7 +184,10 @@ it('does not complete a Space press after KeepAlive deactivation', async () => {
   const show = ref(true)
   const changed = vi.fn()
   const host = mount({
-    setup: () => () => h(KeepAlive, null, { default: () => (show.value ? h(Checkbox, { onChange: changed }) : null) }),
+    setup: () => () =>
+      h(KeepAlive, null, {
+        default: () => (show.value ? h(Checkbox, { editMode: 'direct', onChange: changed }) : null),
+      }),
   })
   wrappers.push(host)
   await focusedElement(host.findComponent(Checkbox), 'checkbox').trigger('keydown', { key: ' ' })

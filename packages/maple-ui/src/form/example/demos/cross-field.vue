@@ -58,7 +58,7 @@ function reset() {
 <template>
   <section class="cross-field-form-demo">
     <p>仅使用本地合成代码。校验时确认值比较当前源代码；修改源代码不自动复验依赖字段。</p>
-    <mp-form ref="formRef" :model="model" @submit="submitted" @reset="reset">
+    <mp-form ref="formRef" edit-mode="direct" :model="model" @submit="submitted" @reset="reset">
       <mp-form-item
         field="source"
         label="源代码"
@@ -67,7 +67,7 @@ function reset() {
         :validate-trigger="[]"
         feedback
       >
-        <mp-input :id="id + '-source'" v-model="model.source" />
+        <mp-input :id="id + '-source'" v-model="model.source" edit-mode="direct" />
       </mp-form-item>
       <mp-form-item
         field="confirmation"
@@ -77,7 +77,7 @@ function reset() {
         :validate-trigger="[]"
         feedback
       >
-        <mp-input :id="id + '-confirmation'" v-model="model.confirmation" />
+        <mp-input :id="id + '-confirmation'" v-model="model.confirmation" edit-mode="direct" />
       </mp-form-item>
       <mp-space wrap>
         <mp-button html-type="submit">提交代码</mp-button>

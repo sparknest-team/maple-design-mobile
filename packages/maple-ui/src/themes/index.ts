@@ -1,5 +1,8 @@
+import alpsLight from './alps-light'
 import { convert } from './convert'
+import { createBrandDark } from './create-brand-dark'
 import defaultDark from './dark'
+import fireflyLight from './firefly-light'
 import mapleDark from './maple-dark'
 import mapleLight from './maple-light'
 import { toRem } from './toRem'
@@ -7,6 +10,9 @@ import { toViewport } from './toViewport'
 
 const defaultLight = {
   '--mp-color-scheme': 'light',
+  '--mp-field-focus-color': 'rgb(var(--mp-primary-9))',
+  '--mp-field-error-color': 'rgb(var(--mp-danger-8))',
+  '--mp-field-variant-outline-border-color-focus': 'rgb(var(--mp-primary-9))',
   '--mp-brand-1': '232, 255, 251',
   '--mp-brand-2': '176, 242, 233',
   '--mp-brand-3': '125, 229, 219',
@@ -32,6 +38,8 @@ const defaultLight = {
 const Themes = {
   default: { light: defaultLight, dark: defaultDark },
   maple: { light: mapleLight, dark: mapleDark },
+  alps: { light: alpsLight, dark: createBrandDark(alpsLight, 'alps') },
+  firefly: { light: fireflyLight, dark: createBrandDark(fireflyLight, 'firefly') },
   toViewport,
   toRem,
   convert,

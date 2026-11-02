@@ -6,9 +6,9 @@ import Input, { InputGroup, InputGroupLabel, InputPassword } from '..'
 describe('Input Cedar-aligned extensions', () => {
   it('inherits group size, variant, and disabled state while allowing local overrides', async () => {
     const wrapper = mount(InputGroup, {
-      props: { size: 'lg', variant: 'filled', disabled: true },
+      props: { editMode: 'direct', size: 'lg', variant: 'filled', disabled: true },
       slots: {
-        default: () => [h(InputGroupLabel, () => 'Prefix'), h(Input, { defaultValue: 'value' })],
+        default: () => [h(InputGroupLabel, () => 'Prefix'), h(Input, { editMode: 'direct', defaultValue: 'value' })],
       },
     })
 
@@ -23,7 +23,11 @@ describe('Input Cedar-aligned extensions', () => {
   })
 
   it('toggles password visibility and exposes focus/blur', async () => {
-    const wrapper = mount(InputPassword, { attrs: { defaultValue: 'secret' }, attachTo: document.body })
+    const wrapper = mount(InputPassword, {
+      props: { editMode: 'direct' },
+      attrs: { defaultValue: 'secret' },
+      attachTo: document.body,
+    })
     const field = wrapper.findAll('input').at(-1)!
 
     expect(field.attributes('type')).toBe('password')

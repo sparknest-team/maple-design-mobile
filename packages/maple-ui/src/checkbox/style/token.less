@@ -5,6 +5,7 @@
   --mp-checkbox-control-color-disabled: var(--mp-sys-color-content-disabled);
   --mp-checkbox-control-color-error: var(--mp-sys-color-content-danger);
   --mp-checkbox-control-size: 24px;
+  --mp-checkbox-control-border-radius: 2px;
   --mp-checkbox-label-text-color: var(--mp-sys-color-content-primary);
   --mp-checkbox-label-text-color-disabled: var(--mp-sys-color-content-disabled);
   --mp-checkbox-label-font-size: var(--mp-font-size-md);
@@ -12,9 +13,10 @@
   --mp-checkbox-action-padding: 6px;
   --mp-checkbox-group-gap: 0;
   --mp-checkbox-animation-duration: var(--mp-sys-motion-duration-standard);
+  --mp-checkbox-mark-color: var(--mp-sys-color-content-on-bright);
   // Independent copies of rendering details; platform defaults live above.
   --mp-internal-checkbox-border-width: 1px;
-  --mp-internal-checkbox-border-radius: 2px;
+  --mp-internal-checkbox-border-radius: var(--mp-checkbox-control-border-radius);
   --mp-internal-checkbox-action-radius: 50%;
   --mp-internal-checkbox-focus-width: 2px;
   --mp-internal-checkbox-focus-offset: 2px;
@@ -24,5 +26,5 @@
   --mp-internal-checkbox-mark-size: 75%;
   --mp-internal-checkbox-mark-height: 2px;
   --mp-internal-checkbox-mark-radius: 1px;
-  --mp-internal-checkbox-mark-color: var(--mp-sys-color-surface-default);
+  --mp-internal-checkbox-mark-color: var(--mp-checkbox-mark-color);
 }

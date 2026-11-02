@@ -15,12 +15,18 @@
       </div>
       <SearchInput
         ref="inputRef"
+        :loading="settings.loading && settings.loadingMode === 'line'"
+        :loading-mode="settings.loadingMode"
+        edit-mode="direct"
         v-bind="inputOptions"
         :model-value="state.computedValue"
+        :empty-value="settings.emptyValue"
         :input-attrs="settings.inputAttrs"
         :error="settings.error"
         :placeholder="state.searchPlaceholder"
         :class="n('input')"
+        :hint="false"
+        :line="false"
         autofocus
         @update:model-value="state.updateValue"
         @input="state.handleInput"

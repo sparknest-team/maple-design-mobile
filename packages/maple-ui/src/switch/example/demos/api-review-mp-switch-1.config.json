@@ -34,7 +34,12 @@
       "type": "\"circle\" | \"round\" | \"line\" | \"tonal\"",
       "defaultValue": "'circle'",
       "kind": "enum",
-      "options": ["circle", "round", "line", "tonal"],
+      "options": [
+        "circle",
+        "round",
+        "line",
+        "tonal"
+      ],
       "initial": "circle"
     },
     {
@@ -43,7 +48,11 @@
       "type": "sm / md / lg",
       "defaultValue": "undefined",
       "kind": "enum",
-      "options": ["sm", "md", "lg"],
+      "options": [
+        "sm",
+        "md",
+        "lg"
+      ],
       "initial": "sm"
     },
     {
@@ -128,13 +137,16 @@
       "initial": "true"
     },
     {
-      "name": "presentation",
-      "type": "'inline' | 'popup'",
+      "name": "edit-mode",
+      "type": "'direct' | 'popup'",
       "defaultValue": "undefined",
-      "description": "字段编辑方式，字段 > FormItem > Form 继承；默认 inline。",
+      "description": "字段编辑方式，字段 > FormItem > Form 继承；默认 direct。",
       "kind": "enum",
-      "options": ["inline", "popup"],
-      "initial": "inline"
+      "options": [
+        "direct",
+        "popup"
+      ],
+      "initial": "direct"
     },
     {
       "name": "read-pretty",
@@ -174,8 +186,19 @@
     }
   ],
   "methodNames": [],
-  "events": ["click", "update:modelValue", "change", "focus", "blur"],
-  "slotNames": ["checked-icon", "unchecked-icon", "checked", "unchecked"],
+  "events": [
+    "click",
+    "update:modelValue",
+    "change",
+    "focus",
+    "blur"
+  ],
+  "slotNames": [
+    "checked-icon",
+    "unchecked-icon",
+    "checked",
+    "unchecked"
+  ],
   "slotDefaults": {
     "checked-icon": true,
     "unchecked-icon": true,

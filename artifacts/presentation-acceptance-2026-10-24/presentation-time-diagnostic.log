@@ -1,0 +1,57 @@
+PASS {"surface":"desktop","theme":"light","component":"Time","mode":"default"}
+PASS {"surface":"desktop","theme":"light","component":"Time","mode":"inline"}
+FAIL {"surface":"desktop","theme":"light","component":"TimeRange","mode":"default"} TimeoutError: locator.click: Timeout 5000ms exceeded.
+Call log:
+[2m  - waiting for locator('.mp-time-picker').filter({ visible: true }).first().getByRole('listbox').first().getByText('10', { exact: true })[22m
+
+FAIL {"surface":"desktop","theme":"light","component":"TimeRange","mode":"inline"} TimeoutError: locator.click: Timeout 5000ms exceeded.
+Call log:
+[2m  - waiting for locator('.mp-time-picker').filter({ visible: true }).first().getByRole('listbox').first().getByText('10', { exact: true })[22m
+
+PASS {"surface":"desktop","theme":"dark","component":"Time","mode":"default"}
+PASS {"surface":"desktop","theme":"dark","component":"Time","mode":"inline"}
+FAIL {"surface":"desktop","theme":"dark","component":"TimeRange","mode":"default"} TimeoutError: locator.click: Timeout 5000ms exceeded.
+Call log:
+[2m  - waiting for locator('.mp-time-picker').filter({ visible: true }).first().getByRole('listbox').first().getByText('10', { exact: true })[22m
+
+FAIL {"surface":"desktop","theme":"dark","component":"TimeRange","mode":"inline"} TimeoutError: locator.click: Timeout 5000ms exceeded.
+Call log:
+[2m  - waiting for locator('.mp-time-picker').filter({ visible: true }).first().getByRole('listbox').first().getByText('10', { exact: true })[22m
+
+PASS {"surface":"mobile","theme":"light","component":"Time","mode":"default"}
+PASS {"surface":"mobile","theme":"light","component":"Time","mode":"inline"}
+FAIL {"surface":"mobile","theme":"light","component":"TimeRange","mode":"default"} TimeoutError: locator.click: Timeout 5000ms exceeded.
+Call log:
+[2m  - waiting for locator('.mp-time-picker').filter({ visible: true }).first().getByRole('listbox').first().getByText('10', { exact: true })[22m
+
+FAIL {"surface":"mobile","theme":"light","component":"TimeRange","mode":"inline"} TimeoutError: locator.click: Timeout 5000ms exceeded.
+Call log:
+[2m  - waiting for locator('.mp-time-picker').filter({ visible: true }).first().getByRole('listbox').first().getByText('10', { exact: true })[22m
+
+PASS {"surface":"mobile","theme":"dark","component":"Time","mode":"default"}
+PASS {"surface":"mobile","theme":"dark","component":"Time","mode":"inline"}
+FAIL {"surface":"mobile","theme":"dark","component":"TimeRange","mode":"default"} TimeoutError: locator.click: Timeout 5000ms exceeded.
+Call log:
+[2m  - waiting for locator('.mp-time-picker').filter({ visible: true }).first().getByRole('listbox').first().getByText('10', { exact: true })[22m
+
+FAIL {"surface":"mobile","theme":"dark","component":"TimeRange","mode":"inline"} TimeoutError: locator.click: Timeout 5000ms exceeded.
+Call log:
+[2m  - waiting for locator('.mp-time-picker').filter({ visible: true }).first().getByRole('listbox').first().getByText('10', { exact: true })[22m
+
+node:internal/modules/run_main:128
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: all presentation acceptance cases pass
+
+8 !== 0
+
+    at file:///Users/shuaimeng/github_web/maple-design-mobile/artifacts/presentation-acceptance-2026-10-24/presentation-browser.mjs:155:72 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 8,
+  expected: 0,
+  operator: 'strictEqual'
+}
+
+Node.js v20.18.3

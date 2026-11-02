@@ -68,11 +68,16 @@
       "kind": "number"
     },
     {
-      "name": "history-popup",
-      "description": "是否使用全屏 Popup 展示历史",
-      "type": "boolean",
-      "defaultValue": "true",
-      "kind": "boolean"
+      "name": "edit-mode",
+      "description": "搜索展示方式：direct 行内历史菜单，popup 全屏搜索",
+      "type": "'direct' | 'popup'",
+      "defaultValue": "'direct'",
+      "kind": "enum",
+      "options": [
+        "direct",
+        "popup"
+      ],
+      "initial": "direct"
     },
     {
       "name": "search-button",

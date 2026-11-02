@@ -1,0 +1,202 @@
+{
+  "failures": [],
+  "diagnostic": {
+    "url": "http://127.0.0.1:49257/#/zh-CN/number-keyboard",
+    "text": "同源]\nDate 日期字段 [逻辑已同源]\nDateRange 日期范围字段 [逻辑已同源]\nTime 时间字段 [逻辑已同源]\nTimeRange 时间范围字段 [逻辑已同源]\nUpload 文件上传 [逻辑已同源]\nSignature 签名\n数据展示\nAvatar 头像 [已同源]\nBadge 徽标 [已同源]\nTag 标签 [已同源]\nEllipsis 文本省略 [已同源]\nEmpty 空状态 [已同源]\nImage 图片 [已同源]\nTabs 选项卡 [已同源]\nCollapse 折叠面板 [已同源]\nList 列表 [已同源]\nInfiniteScroll 无限滚动 [已同源]\nCarousel 轮播 [已同源]\nPaper 纸张 [已同源]\nCard 卡片 [已同源]\nTable 表格 [独立]\nCode 代码块\nStatistic 统计数值 [已同源]\nCountTo 数字动画 [已同源]\nCountdown 倒计时 [已同源]\nPopover 气泡卡片 [已同源]\nTooltip 文字提示 [已同源]\nTrigger 浮层定位 [已同源]\n反馈\nAlert 警告信息 [已同源]\nNoticeBar 通知栏\nMessage 全局提示 [逻辑已同源]\nOverlay 遮罩层 [已同源]\nDialog 对话框 [逻辑已同源]\nActionSheet 动作面板\nFloatingPanel 浮动面板\nPopup 弹出层 [逻辑已同源]\nPullRefresh 下拉刷新\nLoading 加载 [已同源]\nLoadingBar 加载条\nSkeleton 骨架屏 [已同源]\nProgress 进度条 [已同源]\nProgressGroup 分段进度条 [已同源]\nResult 结果 [已同源]\n其他\nAffix 固钉 [已同源]\nBackTop 回到顶部 [已同源]\nWatermark 水印 [已同源]\nRipple 水波指令 [已同源]\nDrag 拖拽\nLazy 懒加载\nHover 悬停指令\n数字键盘\n案例\n#\n介绍\n\n用于输入数字、密码等场景，从底部弹出的虚拟键盘。\n\n#\n基本使用\n点击输入›\n自定义主题›\n#\n功能调试\nmp-number-keyboard · 组合属性›\n功能调试 / Feature playground\n重新挂载 / Remount\n重置 / Reset\n\n选择一类功能后调整相关属性。切换功能会清除上一次覆盖，恢复案例原有绑定。 default-* 等初始属性修改后，点击“重新挂载”验证。\n\nExplore one feature at a time. Changing the topic removes previous overrides.\n\n值与数据 / Value and data›\n筛选属性 / Filter›\n值与数据 / Value and data（2）\n点击输入›\n自定义主题›\n当前覆盖值 / Active overrides\n事件 / Events（0）\n专项 API 定位 / Scenario API index\nAPI\n\nopen/defaultOpen 分别控制面板状态与非受控初始开合；使用 v-model:open 双向绑定。defaultOpen 只在创建时读取，不在初始化时回写。\n\n#\n主值与默认值\n\n使用普通 v-model。modelValue 表示输入文字；defaultValue 仅在创建时初始化非受控值，后续修改不会重置当前状态。显式绑定值优先，初始化不发出 update:modelValue。\n\n键盘面板独立使用 open/defaultOpen 与 update:open；输入值和面板开关互不替代。\n\n#\n属性\n参数\t说明\t类型\t默认值\nv-model\t当前输入值\tstring\t''\nv-model:open\t是否显示键盘\tboolean\tfalse\ntitle\t键盘标题\tstring\t-\ntheme\t键盘主题\tdefault | custom\tdefault\nmax-length\t最大输入长度\tnumber | string\tInfinity\nextra-key\t左下角额外按键\tstring | string[]\t''\nclose-button-text\t自定义主题完成按钮文案\tstring\t完成\ndelete-button-text\t删除键文案，为空时显示图标\tstring\t-\nshow-delete-key\t是否显示删除键\tboolean\ttrue\nrandom-key-order\t是否随机 1-9 顺序\tboolean\tfalse\nhide-on-click-outside\t点击背景层是否关闭\tboolean\ttrue\noverlay\t是否显示背景层\tboolean\ttrue\noverlay-class\t背景层类名\tstring\t-\noverlay-style\t背景层样式\tobject\t-\nlock-scroll\t是否锁定背景滚动\tboolean\ttrue\nesc-to-close\t按 Esc 是否关闭\tboolean\ttrue\npopup-container\t挂载节点\tstring | HTMLElement | false\tbody\nsafe-area\t是否开启底部安全区\tboolean\ttrue\n#\n事件\n事件名\t说明\t参数\ninput\t点击按键时触发\tkey: string\ndelete\t点击删除键时触发\t-\nclose\t关闭时触发\t-\nblur\t关闭时触发（同 close）\t-\nopen\t打开时触发\t-\nopened\t打开动画结束后触发\t-\nclosed\t关闭动画结束后触发\t-\nkey-escape\t按 Esc 时触发\t-",
+    "numericSteps": [],
+    "overflow": [],
+    "previews": [
+      "<div class=\"loca-doc-preview__example\"><div class=\"number-keyboard-example\"><div class=\"mp-input\"><button id=\"v-0\" type=\"button\" class=\"mp-field-presentation__reference\" disabled=\"\" aria-label=\"点击输入\" aria-expanded=\"false\" aria-haspopup=\"dialog\"><span>点击输入</span><span aria-hidden=\"true\">›</span></button></div><div class=\"mp-input\" style=\"margin-top: 16px;\"><button id=\"v-1\" type=\"button\" class=\"mp-field-presentation__reference\" disabled=\"\" aria-label=\"自定义主题\" aria-expanded=\"false\" aria-haspopup=\"dialog\"><span>自定义主题</span><span aria-hidden=\"true\">›</span></button></div></div></div>",
+      "<div class=\"loca-doc-preview__example\"><div class=\"demo-review-suite\"><button type=\"button\" class=\"mp-field-presentation__reference\" aria-expanded=\"false\" aria-haspopup=\"dialog\"><span>mp-number-keyboard · 组合属性</span><span aria-hidden=\"true\">›</span></button><div data-v-9912872b=\"\" class=\"demo-review\"><div data-v-9912872b=\"\" class=\"demo-review__toolbar\"><strong data-v-9912872b=\"\">功能调试 / Feature playground</strong><div data-v-9912872b=\"\" class=\"demo-review__actions\"><button data-v-9912872b=\"\" class=\"mp-button mp-button--size-sm mp-button--status-default mp-button--variant-default mp-elevation--2\" type=\"button\"><!--v-if--><!--v-if--><span class=\"mp-button__content\">重新挂载 / Remount</span><div class=\"mp-hover-overlay\"></div></button><button data-v-9912872b=\"\" class=\"mp-button mp-button--size-sm mp-button--status-default mp-button--variant-default mp-elevation--2\" type=\"button\"><!--v-if--><!--v-if--><span class=\"mp-button__content\">重置 / Reset</span><div class=\"mp-hover-overlay\"></div></button></div></div><p data-v-9912872b=\"\"> 选择一类功能后调整相关属性。切换功能会清除上一次覆盖，恢复案例原有绑定。 default-* 等初始属性修改后，点击“重新挂载”验证。 </p><p data-v-9912872b=\"\" lang=\"en\"> Explore one feature at a time. Changing the topic removes previous overrides. </p><button type=\"button\" class=\"mp-field-presentation__reference\" aria-expanded=\"false\" aria-haspopup=\"dialog\"><span>值与数据 / Value and data</span><span aria-hidden=\"true\">›</span></button><div data-v-9912872b=\"\" class=\"demo-review__search\"><div data-v-9912872b=\"\" class=\"mp-input\"><button id=\"v-4\" type=\"button\" class=\"mp-field-presentation__reference\" aria-label=\"筛选属性 / Filter\" aria-expanded=\"false\" aria-haspopup=\"dialog\"><span>筛选属性 / Filter</span><span aria-hidden=\"true\">›</span></button></div></div><div data-v-9912872b=\"\" class=\"mp-collapse\" default-active-names=\"props\"><div data-v-9912872b=\"\" class=\"mp-collapse-item demo-review__controls\"><div id=\"mp-collapse-item-v-5-props-header\" role=\"button\" tabindex=\"0\" aria-disabled=\"false\" aria-expanded=\"false\" aria-controls=\"mp-collapse-item-v-5-props-panel\" class=\"mp-collapse-item__header mp-collapse-item__header--icon-left\"><div class=\"mp-collapse-item__expand-icon-wrap\"><span class=\"mp-icon mp-collapse-item__expand-icon\" style=\"transition-duration: 0ms;\"><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" class=\"mp-svg-icon\" fill=\"currentColor\" aria-hidden=\"true\" stroke-width=\"4\" stroke-linecap=\"butt\" stroke-linejoin=\"miter\" role=\"img\" style=\"width: 1em; height: 1em; flex-shrink: 0;\"><!--v-if--><path d=\"M7.41 8.58 12 13.17l4.59-4.59L18 10l-6 6-6-6z\"></path></svg></span></div><div class=\"mp-collapse-item__header-title\">值与数据 / Value and data（2）</div><!--v-if--><!--v-if--></div><div id=\"mp-collapse-item-v-5-props-panel\" role=\"region\" aria-labelledby=\"mp-collapse-item-v-5-props-header\" class=\"mp-collapse-item__content\" style=\"display: none;\"><div class=\"mp-collapse-item__content-box\"><div data-v-9912872b=\"\" class=\"demo-review__grid\"><div data-v-9912872b=\"\" class=\"demo-review__field\"><button type=\"button\" class=\"mp-field-presentation__reference\" aria-label=\"model-value\" aria-expanded=\"false\" aria-haspopup=\"dialog\"><span>—</span><span aria-hidden=\"true\">›</span></button><small data-v-9912872b=\"\">当前输入值 · string · 默认 / Default: ''</small><!--v-if--><div data-v-9912872b=\"\" class=\"demo-review__input mp-input mp-input--disabled\"><button id=\"v-6\" type=\"button\" class=\"mp-field-presentation__reference\" disabled=\"\" aria-expanded=\"false\" aria-haspopup=\"dialog\"><span>—</span><span aria-hidden=\"true\">›</span></button></div><!--v-if--></div><div data-v-9912872b=\"\" class=\"demo-review__field\"><button type=\"button\" class=\"mp-field-presentation__reference\" aria-label=\"default-value\" aria-expanded=\"false\" aria-haspopup=\"dialog\"><span>—</span><span aria-hidden=\"true\">›</span></button><small data-v-9912872b=\"\">非受控初始值，仅创建时读取 · string · 默认 / Default: undefined</small><!--v-if--><div data-v-9912872b=\"\" class=\"demo-review__input mp-input mp-input--disabled\"><button id=\"v-7\" type=\"button\" class=\"mp-field-presentation__reference\" disabled=\"\" aria-expanded=\"false\" aria-haspopup=\"dialog\"><span>—</span><span aria-hidden=\"true\">›</span></button></div><!--v-if--></div></div></div></div></div><!--v-if--></div><div data-v-9912872b=\"\" class=\"demo-review__preview\"><div class=\"number-keyboard-example\"><div class=\"mp-input\"><button id=\"v-8\" type=\"button\" class=\"mp-field-presentation__reference\" disabled=\"\" aria-label=\"点击输入\" aria-expanded=\"false\" aria-haspopup=\"dialog\"><span>点击输入</span><span aria-hidden=\"true\">›</span></button></div><div class=\"mp-input\" style=\"margin-top: 16px;\"><button id=\"v-9\" type=\"button\" class=\"mp-field-presentation__reference\" disabled=\"\" aria-label=\"自定义主题\" aria-expanded=\"false\" aria-haspopup=\"dialog\"><span>自定义主题</span><span aria-hidden=\"true\">›</span></button></div></div></div><div data-v-9912872b=\"\" class=\"mp-collapse\"><!--v-if--><div data-v-9912872b=\"\" class=\"mp-collapse-item\"><div id=\"mp-collapse-item-v-10-overrides-header\" role=\"button\" tabindex=\"0\" aria-disabled=\"false\" aria-expanded=\"false\" aria-controls=\"mp-collapse-item-v-10-overrides-panel\" class=\"mp-collapse-item__header mp-collapse-item__header--icon-left\"><div class=\"mp-collapse-item__expand-icon-wrap\"><span class=\"mp-icon mp-collapse-item__expand-icon\" style=\"transition-duration: 0ms;\"><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" class=\"mp-svg-icon\" fill=\"currentColor\" aria-hidden=\"true\" stroke-width=\"4\" stroke-linecap=\"butt\" stroke-linejoin=\"miter\" role=\"img\" style=\"width: 1em; height: 1em; flex-shrink: 0;\"><!--v-if--><path d=\"M7.41 8.58 12 13.17l4.59-4.59L18 10l-6 6-6-6z\"></path></svg></span></div><div class=\"mp-collapse-item__header-title\">当前覆盖值 / Active overrides</div><!--v-if--><!--v-if--></div><div id=\"mp-collapse-item-v-10-overrides-panel\" role=\"region\" aria-labelledby=\"mp-collapse-item-v-10-overrides-header\" class=\"mp-collapse-item__content\" style=\"display: none;\"><div class=\"mp-collapse-item__content-box\"><pre data-v-9912872b=\"\">{}</pre></div></div></div><div data-v-9912"
+    ],
+    "controls": [
+      {
+        "tag": "BUTTON",
+        "role": null,
+        "label": "",
+        "class": "mp-button mp-button--size-md mp-button--status-default mp-button--variant-default mp-button--round mp-elevation--2 maple-site-ad__close-button"
+      },
+      {
+        "tag": "svg",
+        "role": "img",
+        "label": "",
+        "class": {}
+      },
+      {
+        "tag": "svg",
+        "role": "img",
+        "label": "",
+        "class": {}
+      },
+      {
+        "tag": "svg",
+        "role": "img",
+        "label": "",
+        "class": {}
+      },
+      {
+        "tag": "svg",
+        "role": "img",
+        "label": "",
+        "class": {}
+      },
+      {
+        "tag": "svg",
+        "role": "img",
+        "label": "",
+        "class": {}
+      },
+      {
+        "tag": "svg",
+        "role": "img",
+        "label": "",
+        "class": {}
+      },
+      {
+        "tag": "svg",
+        "role": "img",
+        "label": "",
+        "class": {}
+      },
+      {
+        "tag": "BUTTON",
+        "role": null,
+        "label": "点击输入",
+        "class": "mp-field-presentation__reference"
+      },
+      {
+        "tag": "BUTTON",
+        "role": null,
+        "label": "自定义主题",
+        "class": "mp-field-presentation__reference"
+      },
+      {
+        "tag": "BUTTON",
+        "role": null,
+        "label": "在 Playground 中编辑",
+        "class": "loca-doc-preview__action"
+      },
+      {
+        "tag": "BUTTON",
+        "role": null,
+        "label": "复制源码",
+        "class": "loca-doc-preview__action"
+      },
+      {
+        "tag": "BUTTON",
+        "role": null,
+        "label": "展开源码",
+        "class": "loca-doc-preview__action"
+      },
+      {
+        "tag": "BUTTON",
+        "role": null,
+        "label": "mp-number-keyboard · 组合属性›",
+        "class": "mp-field-presentation__reference"
+      },
+      {
+        "tag": "BUTTON",
+        "role": null,
+        "label": "重新挂载 / Remount",
+        "class": "mp-button mp-button--size-sm mp-button--status-default mp-button--variant-default mp-elevation--2"
+      },
+      {
+        "tag": "BUTTON",
+        "role": null,
+        "label": "重置 / Reset",
+        "class": "mp-button mp-button--size-sm mp-button--status-default mp-button--variant-default mp-elevation--2"
+      },
+      {
+        "tag": "BUTTON",
+        "role": null,
+        "label": "值与数据 / Value and data›",
+        "class": "mp-field-presentation__reference"
+      },
+      {
+        "tag": "BUTTON",
+        "role": null,
+        "label": "筛选属性 / Filter",
+        "class": "mp-field-presentation__reference"
+      },
+      {
+        "tag": "DIV",
+        "role": "button",
+        "label": "值与数据 / Value and data（2）",
+        "class": "mp-collapse-item__header mp-collapse-item__header--icon-left"
+      },
+      {
+        "tag": "svg",
+        "role": "img",
+        "label": "",
+        "class": {}
+      },
+      {
+        "tag": "BUTTON",
+        "role": null,
+        "label": "点击输入",
+        "class": "mp-field-presentation__reference"
+      },
+      {
+        "tag": "BUTTON",
+        "role": null,
+        "label": "自定义主题",
+        "class": "mp-field-presentation__reference"
+      },
+      {
+        "tag": "DIV",
+        "role": "button",
+        "label": "当前覆盖值 / Active overrides",
+        "class": "mp-collapse-item__header mp-collapse-item__header--icon-left"
+      },
+      {
+        "tag": "svg",
+        "role": "img",
+        "label": "",
+        "class": {}
+      },
+      {
+        "tag": "DIV",
+        "role": "button",
+        "label": "事件 / Events（0）",
+        "class": "mp-collapse-item__header mp-collapse-item__header--icon-left"
+      },
+      {
+        "tag": "svg",
+        "role": "img",
+        "label": "",
+        "class": {}
+      },
+      {
+        "tag": "DIV",
+        "role": "button",
+        "label": "专项 API 定位 / Scenario API index",
+        "class": "mp-collapse-item__header mp-collapse-item__header--icon-left"
+      },
+      {
+        "tag": "svg",
+        "role": "img",
+        "label": "",
+        "class": {}
+      },
+      {
+        "tag": "BUTTON",
+        "role": null,
+        "label": "在 Playground 中编辑",
+        "class": "loca-doc-preview__action"
+      },
+      {
+        "tag": "BUTTON",
+        "role": null,
+        "label": "复制源码",
+        "class": "loca-doc-preview__action"
+      },
+      {
+        "tag": "BUTTON",
+        "role": null,
+        "label": "展开源码",
+        "class": "loca-doc-preview__action"
+      }
+    ]
+  },
+  "error": "TimeoutError: locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.loca-doc-preview__example').first().locator('input:not([type=\"checkbox\"]):not([type=\"radio\"]):not([type=\"file\"])').first()\u001b[22m\n"
+}

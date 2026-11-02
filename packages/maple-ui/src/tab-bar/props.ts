@@ -5,6 +5,8 @@ import { defineListenerProp, type ExtractPublicPropTypes } from '../utils/compon
 export type TabBarVariant = 'standard' | 'pill'
 
 export const props = {
+  /** 外部加载状态；加载期间不能切换。 */
+  loading: Boolean,
   /** 当前选中项，传入时由调用者控制 */
   modelValue: {
     type: [Number, String] as PropType<number | string>,

@@ -1,13 +1,10 @@
 # 表单
 
-## 案例
+## 阅读方向
 
-### 介绍
+Form 与 FormItem 的 content-align 支持 start、end、left、center、right，label-align 支持 start、end、left、right；默认内容 start、标签 end。默认 LTR 位置保持不变，RTL 按阅读方向排列；显式 left/right 均为物理对齐。字段覆盖优先于 Form，逐实例标签列样式保持最高优先级。切换方向不重置业务值、校验结果或只读/禁用状态。
 
-提供了对所有表单组件进行控制的能力，需要搭配 `FormItem` 组件使用。
-
-- `FormItem` 写了 `label`：外置标签（上下 / 左右），并自动关闭 Input / Select 的浮动 placeholder。
-- `FormItem` 未写 `label`：控件继续使用浮动 placeholder（`placeholder` + `hint`）。
+## 基础示例
 
 ### 基础表单
 
@@ -15,61 +12,59 @@
 ../example/demos/example.vue
 ```
 
-### 表单控制
+## 表单外观与布局
 
-通过 Form 实例重置字段、清空校验、主动校验，并统一切换禁用或只读状态。
+### 布局切换与单项覆盖
 
-```demo
-../example/demos/controller.vue
-```
+`edit-mode` 表示编辑模式：`direct` 始终显示控件；`popup` 打开移动编辑弹层。`readPretty` 是独立布尔属性。FormItem 和字段未设置时继承上层。字段旧 `presentation` 属性已移除，使用 `edit-mode` 配置编辑模式。`presentation="inline"` 迁移为 `edit-mode="direct"`，`layout="inline"` 不变。
 
-### 表单事件
+组合切换 `vertical`、`horizontal`、`inline` 布局与 `direct / popup` 编辑方式及独立的 `readPretty` 阅读开关，对比标签、控件、字段值及长文字换行的对齐效果，已有数据保持不变。备注项可单独覆盖布局或恢复继承。`popup` 点击字段值进入弹层并确认保存；`readPretty` 通过 `read-pretty` 展示纯文字。
 
-Button 使用 `html-type="submit"` / `html-type="reset"` 触发原生表单事件。示例同时展示校验结果和当前模型；重置恢复初始值并清除错误。
-
-通过 `submit` 与 `reset` 事件处理原生表单提交和重置行为。
+`content-align` 可切换 left、center、right，在各字段模式下保持一致。FormItem 默认继承 Form，也可单独覆盖；紧凑控件在内容区内移动，输入与展示值按指定方向对齐。标签、帮助和错误信息独立排列。字段显式设置的 `text-align` 优先于继承值。
 
 ```demo
-../example/demos/events.vue
+../example/demos/layout-comparison.vue
 ```
 
-### 清空时校验
+### 标签与内容装饰
 
-`validate-trigger="clear"` 只在用户点击控件的清空按钮时校验；普通输入不会触发。清空后重新输入不会自动清除错误，可主动校验或重置表单。
+<!-- demo-config-notes:start -->
+
+#### 本组配置对照
+
+| 配置               | 作用                                                                                   | 相关示例                                             |
+| ------------------ | -------------------------------------------------------------------------------------- | ---------------------------------------------------- |
+| `model`            | 表单数据对象，`FormItem` 通过 `field` 从中读取和写入数据                               | 布局切换与单项覆盖、标签与内容装饰、标签宽度方案对比 |
+| `layout`           | 表单项布局方式，可选值为 `vertical` `horizontal` `inline`；可被 `FormItem.layout` 覆盖 | 布局切换与单项覆盖、标签与内容装饰、标签宽度方案对比 |
+| `label-align`      | 标签对齐                                                                               | 标签宽度方案对比                                     |
+| `auto-label-width` | 对齐参与自动计算的横向标签最大自然宽度                                                 | 标签宽度方案对比                                     |
+| `label-col-flex`   | 标签 flex；单位字符串为宽度，数字为伸缩比例                                            | 标签宽度方案对比                                     |
+| `label-col-props`  | 横向标签 Col 参数，支持响应式断点                                                      | 标签宽度方案对比                                     |
+
+<!-- demo-config-notes:end -->
 
 ```demo
-../example/demos/clear-trigger.vue
+../example/demos/decoration.vue
 ```
 
-### 响应式标签栅格
+### 标签宽度方案对比
+
+先输入数据，再切换自动测量、响应式栅格和固定宽度，三种方案使用同一份表单数据。修改最长标签或隐藏联系方式，观察自动测量更新。响应式方案在 576px 以下上下排列；固定宽度默认 6rem，联系方式单项覆盖为 8rem。
+
+<details>
+<summary>配置说明与使用限制</summary>
+
+#### 响应式标签栅格
 
 horizontal 默认标签占 5/24、内容占 19/24；Cedar 默认 horizontal，Maple 默认 vertical。只有横向布局使用栅格比例和自动宽度，响应式参数按视口断点生效。FormItem 显式覆盖 Form，Col/style 对象整项替换。label-col-flex 优先于 auto-label-width：带单位字符串表示宽度，数字表示 Col 伸缩比例，并非 px；内容填满剩余空间。隐藏标签后内容占满。自动宽度随标签变化、字段移除更新，各表单独立计算。窄屏长标签可用 vertical 或固定宽度。
 
-```demo
-../example/demos/label-columns.vue
-```
-
-### 固定标签宽度
+</details>
 
 ```demo
-../example/demos/fixed-label-width.vue
+../example/demos/label-width-comparison.vue
 ```
 
-### 自动标签宽度
-
-```demo
-../example/demos/auto-label-width.vue
-```
-
-### 跨字段校验与原生提交
-
-“暂停跨字段校验”将确认规则挂起到“返回跨字段结果”，返回时比较本次确认值与当前源代码（不是远端接口或提交开始时的源快照）。匹配值提交后等待中修改源代码，会返回依赖错误；修正确认值并Enter重试后通过。等待中原生重置会结清本地任务、清空模型与提交快照、保留历史计数，不产生迟到提交；停用/卸载也清理等待。不代表异步循环依赖或多请求顺序均已覆盖。
-
-未暂停时确认规则立即比较当前源代码。先匹配通过，再修改源代码，主动只校验确认值或重新提交会显示依赖错误；改正确认值后可按 Enter 或提交按钮提交。原生重置清空模型、反馈和上次提交值，提交次数累计不清零。依赖由业务主动复验，单纯编辑不保证已有成功态仍有效；本地示例不等于任意异步提交竞争或外部持久化。
-
-```demo
-../example/demos/cross-field.vue
-```
+## 字段与数据模型
 
 ### 文本与数值字段
 
@@ -88,6 +83,19 @@ horizontal 默认标签占 5/24、内容占 19/24；Cedar 默认 horizontal，Ma
 ```demo
 ../example/demos/field-selection.vue
 ```
+
+### 直接／弹窗编辑的已选区域对照
+
+```demo
+../example/demos/selection-summary.vue
+```
+
+### 介绍
+
+提供了对所有表单组件进行控制的能力，需要搭配 `FormItem` 组件使用。
+
+- `FormItem` 写了 `label`：外置标签（上下 / 左右），并自动关闭 Input / Select 的浮动 placeholder。
+- `FormItem` 未写 `label`：控件继续使用浮动 placeholder（`placeholder` + `hint`）。
 
 ### 层级选择字段
 
@@ -119,41 +127,80 @@ horizontal 默认标签占 5/24、内容占 19/24；Cedar 默认 horizontal，Ma
 ../example/demos/field-upload.vue
 ```
 
-### 独立面板操作区
+## 校验与提交
+
+### 跨字段校验与原生提交
+
+<!-- demo-config-notes:start -->
+
+#### 本组配置对照
+
+| 配置       | 作用                                                     | 相关示例                                   |
+| ---------- | -------------------------------------------------------- | ------------------------------------------ |
+| `model`    | 表单数据对象，`FormItem` 通过 `field` 从中读取和写入数据 | 跨字段校验与原生提交、清空时校验、表单控制 |
+| `disabled` | 是否禁用                                                 | 表单控制                                   |
+| `readonly` | 是否只读                                                 | 表单控制                                   |
+
+<!-- demo-config-notes:end -->
+
+“暂停跨字段校验”将确认规则挂起到“返回跨字段结果”，返回时比较本次确认值与当前源代码（不是远端接口或提交开始时的源快照）。匹配值提交后等待中修改源代码，会返回依赖错误；修正确认值并Enter重试后通过。等待中原生重置会结清本地任务、清空模型与提交快照、保留历史计数，不产生迟到提交；停用/卸载也清理等待。不代表异步循环依赖或多请求顺序均已覆盖。
+
+未暂停时确认规则立即比较当前源代码。先匹配通过，再修改源代码，主动只校验确认值或重新提交会显示依赖错误；改正确认值后可按 Enter 或提交按钮提交。原生重置清空模型、反馈和上次提交值，提交次数累计不清零。依赖由业务主动复验，单纯编辑不保证已有成功态仍有效；本地示例不等于任意异步提交竞争或外部持久化。
 
 ```demo
-../example/demos/field-panel-actions.vue
+../example/demos/cross-field.vue
 ```
 
-### 标签与内容装饰
+### 清空时校验
+
+`validate-trigger="clear"` 只在用户点击控件的清空按钮时校验；普通输入不会触发。清空后重新输入不会自动清除错误，可主动校验或重置表单。
 
 ```demo
-../example/demos/decoration.vue
+../example/demos/clear-trigger.vue
 ```
 
-### 禁用、只读与异步确认
+### 表单控制
+
+通过 Form 实例重置字段、清空校验、主动校验，并统一切换禁用或只读状态。
 
 ```demo
-../example/demos/presentation-state.vue
+../example/demos/controller.vue
 ```
 
-### 日期范围的跨页边界
+### 表单事件
 
-比较日期、月份、年份范围：禁用 2027-01-01、2026-12、2100 年。禁用项不能作为端点，范围可以跨过它们；翻页后检查禁用项仍保持灰态。
+Button 使用 `html-type="submit"` / `html-type="reset"` 触发原生表单事件。示例同时展示校验结果和当前模型；重置恢复初始值并清除错误。
+
+通过 `submit` 与 `reset` 事件处理原生表单提交和重置行为。
 
 ```demo
-../example/demos/field-range-boundaries.vue
+../example/demos/events.vue
 ```
+
+## 字段呈现与交互
 
 ### 字段展示与确认提交
 
-Form、FormItem、Input、Select 支持 presentation 继承：字段 > FormItem > Form。默认 inline；Maple 支持 popup。弹层默认确认后提交，readPretty 只阅读。普通 v-model 和默认插槽保持不变。搜索位置自动随展示形式切换。
+<!-- demo-config-notes:start -->
+
+#### 本组配置对照
+
+| 配置     | 作用                                                                                   | 相关示例                         |
+| -------- | -------------------------------------------------------------------------------------- | -------------------------------- |
+| `layout` | 表单项布局方式，可选值为 `vertical` `horizontal` `inline`；可被 `FormItem.layout` 覆盖 | 字段展示与确认提交、校验展示状态 |
+| `model`  | 表单数据对象，`FormItem` 通过 `field` 从中读取和写入数据                               | 字段展示与确认提交               |
+
+<!-- demo-config-notes:end -->
+
+Form、FormItem、Input、Select 支持 edit-mode 继承：字段 > FormItem > Form。未设置时保留字段各自的默认值；Maple 支持 direct / popup。弹层默认确认后提交，readPretty 只阅读。普通 v-model 和默认插槽保持不变。Select、Cascader、AutoComplete、Date／DateRange、Time／TimeRange 默认 popup，其余字段默认 direct。
+
+`edit-mode` 只控制字段编辑方式，不改变 `layout`、标签宽度或栅格比例。非 `vertical` 布局中，标签与右侧字段内容垂直居中，错误提示和帮助文字不参与居中。
 
 <demo src="../example/demos/field-presentation.vue" />
 
-### presentation 继承规则
+### edit-mode 继承规则
 
-Form 支持 `inline / popup`，默认 inline；FormItem 和字段未设置时继承，显式值覆盖。read 是阅读展示，与 readonly/disabled 分开。确认编辑未结束时整表提交会失败并保留草稿；reset 取消编辑。原有默认插槽与 v-model 保持不变，不需要 editor 插槽。
+Form 支持 `direct / popup`，未设置时保留字段各自的默认值；FormItem 和字段继承显式设置的值，显式值覆盖。readPretty 是阅读展示，与 readonly/disabled 分开。确认编辑未结束时整表提交会失败并保留草稿；reset 取消编辑。原有默认插槽与 v-model 保持不变，不需要 editor 插槽。
 
 ### 校验展示状态
 
@@ -163,7 +210,28 @@ Form 支持 `inline / popup`，默认 inline；FormItem 和字段未设置时继
 ../example/demos/presentation-status.vue
 ```
 
+### 独立面板操作区
+
+```demo
+../example/demos/field-panel-actions.vue
+```
+
+## 动态与异步字段
+
 ### 多字段异步聚合
+
+<!-- demo-config-notes:start -->
+
+#### 本组配置对照
+
+| 配置       | 作用                                                     | 相关示例                                                 |
+| ---------- | -------------------------------------------------------- | -------------------------------------------------------- |
+| `model`    | 表单数据对象，`FormItem` 通过 `field` 从中读取和写入数据 | 多字段异步聚合、禁用、只读与异步确认、异步校验的返回顺序 |
+| `disabled` | 是否禁用                                                 | 禁用、只读与异步确认、异步校验的返回顺序                 |
+| `readonly` | 是否只读                                                 | 禁用、只读与异步确认、异步校验的返回顺序                 |
+| `rules`    | 按字段名配置的表单校验规则                               | 禁用、只读与异步确认                                     |
+
+<!-- demo-config-notes:end -->
 
 显式调用validate()或validateField()会使等待中的旧原生submit失效：命令校验有自己的结果，不应让旧submit在完成后把旧错误或成功与当前模型混发。此后新的原生submit仍正常等待自己的字段校验并通知一次。该规则仅逻辑失效、不取消真实请求，不清空历史提交计数；既有方法签名不变，不保留旧的混发行为。仅编辑但未重新校验的快照协议仍未覆盖。
 
@@ -185,6 +253,12 @@ Form 支持 `inline / popup`，默认 inline；FormItem 和字段未设置时继
 ../example/demos/async-fields.vue
 ```
 
+### 禁用、只读与异步确认
+
+```demo
+../example/demos/presentation-state.vue
+```
+
 ### 异步校验的返回顺序
 
 主动调用 `validateField` 后可继续修改字段并发起新校验。本例用真实 Promise 规则且不访问网络，关闭自动触发，只通过按钮发起。先校验 guest，再校验 admin，先返回最新结果再返回最早结果，观察旧错误不会覆盖最新字段状态。结果文案由示例请求序号保护，“本次校验值”是校验快照，不是服务端提交。
@@ -201,6 +275,14 @@ Form 支持 `inline / popup`，默认 inline；FormItem 和字段未设置时继
 
 ```demo
 ../example/demos/async-race.vue
+```
+
+### 日期范围的跨页边界
+
+比较日期、月份、年份范围：禁用 2027-01-01、2026-12、2100 年。禁用项不能作为端点，范围可以跨过它们；翻页后检查禁用项仍保持灰态。
+
+```demo
+../example/demos/field-range-boundaries.vue
 ```
 
 ## FormItem 表单项
@@ -262,139 +344,179 @@ Form 支持 `inline / popup`，默认 inline；FormItem 和字段未设置时继
 ../example/demos/state-lab.vue
 ```
 
-<!-- api-review:start -->
-### 功能调试
+### 桌面与移动的同场景展示
+
+点击部门、日期或时间，打开 Popup。先修改后取消，再修改并确认，比较下方已提交模型。
 
 ```demo
-../example/demos/api-review.vue
+../example/demos/platform-presentation.vue
 ```
 
-<!-- api-review:end -->
+### 巡检任务完整流程
+
+填写、校验、确认、模拟失败与重试；返回修改不会覆盖已提交记录。
+
+```demo
+../example/demos/task-workflow.vue
+```
+
+### 空值标记与必填校验
+
+接口用 -1 表示未选择。点击“校验”会显示必填错误；选择部门后再次校验通过。点击清空返回 -1，再次校验失败。Form 统一提供识别列表，字段单独指定清空输出；自定义校验仍收到原值。
+
+```demo
+../example/demos/empty-values-validation.vue
+```
+
+### 阅读空文案与配置继承
+
+初始为阅读模式，姓名继承 Form 的默认“-”，编号使用 FormItem 的“未分配”，昵称使用字段的“匿名”，数量 0 保持可见。切换空文案只影响继承的字段；切换阅读/编辑不改模型。优先级为字段 > FormItem > Form；自定义 read 插槽优先。
+
+```demo
+../example/demos/empty-text.vue
+```
 
 ## API
+
+### 空值识别与阅读空文案
+
+Form / FormItem 通过 `empty-values` 提供空值识别策略；字段自己的 `empty-value` 决定清空输出。`empty-text` 仅在 `read-pretty` 空内容下展示，默认 `'-'`，字段 > FormItem > Form，自定义 read 插槽优先。显式配置 empty-values 后，内置 required 接入该策略，自定义校验仍收到原值。详见[统一说明](#/zh-CN/emptyValues)。
+
+| 参数         | 类型               | 缺省与范围                                            |
+| ------------ | ------------------ | ----------------------------------------------------- |
+| empty-values | readonly unknown[] | 字段 > FormItem > Form > 组件族默认；完整覆盖，不合并 |
+| empty-text   | string             | 字段 > FormItem > Form > '-'；显式 '' 有效            |
+
+以上是字段展示层 API；纯面板不因此新增阅读模式。Form 与 FormItem 提供继承配置。empty-value 的现有类型与默认输出仍按该组件原 API 执行。
 
 ### 属性
 
 #### Form Props
 
-| 参数 | 说明                                        | 类型 | 默认值 |
-| --- |-------------------------------------------| --- | -- |
-| `id` | 表单原生 id；显式设置时作为字段容器 id 前缀（嵌套路径归一化） | _string_ | `-` |
-| `model` | 表单数据对象，`FormItem` 通过 `field` 从中读取和写入数据 | _Record<string, any>_ | `-` |
-| `layout` | 表单项布局方式，可选值为 `vertical` `horizontal` `inline`；可被 `FormItem.layout` 覆盖 | _'vertical' \| 'horizontal' \| 'inline'_ | `'vertical'` |
-| `label-align` | 标签对齐 | _'left' \| 'right'_ | `'right'` |
-| `label-col-props` | 横向标签 Col 参数，支持响应式断点 | _FormColProps_ | `{ span: 5, offset: 0 }` |
-| `wrapper-col-props` | 横向内容 Col 参数 | _FormColProps_ | `{ span: 19, offset: 0 }` |
-| `label-col-style` | 标签列逐实例样式 | _CSSProperties_ | `-` |
-| `wrapper-col-style` | 内容列逐实例样式 | _CSSProperties_ | `-` |
-| `label-col-flex` | 标签 flex；单位字符串为宽度，数字为伸缩比例 | _number \| string_ | `-` |
-| `auto-label-width` | 对齐参与自动计算的横向标签最大自然宽度 | _boolean_ | `false` |
-| `size` | 表单控件尺寸，由 FormItem 和控件继承 | _'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'_ | `-` |
-| `rules` | 按字段名配置的表单校验规则 | _Record<string, rule \| rule[]>_ | `-` |
-| `readonly` | 是否只读                                      | _boolean_ | `-` |
-| `disabled` | 是否禁用                                      | _boolean_ | `-` |
-| `scroll-to-error` | 校验失败后滚动到页面顺序的第一个（`start`）或最后一个（`end`）错误字段；不是视口对齐方式 | _'start' \| 'end'_ | `-` |
-| `scroll-to-error-offset-y` | 滚动到校验不通过的表单项的位置偏移量 | _number \| string_ | `0` |
+| 参数                       | 说明                                                                                                    | 类型                                     | 默认值                    |
+| -------------------------- | ------------------------------------------------------------------------------------------------------- | ---------------------------------------- | ------------------------- |
+| `id`                       | 表单原生 id；显式设置时作为字段容器 id 前缀（嵌套路径归一化）                                           | _string_                                 | `-`                       |
+| `model`                    | 表单数据对象，`FormItem` 通过 `field` 从中读取和写入数据                                                | _Record<string, any>_                    | `-`                       |
+| `layout`                   | 表单项布局方式，可选值为 `vertical` `horizontal` `inline`；可被 `FormItem.layout` 覆盖                  | _'vertical' \| 'horizontal' \| 'inline'_ | `'vertical'`              |
+| `label-align`              | 标签对齐                                                                                                | _'start' \| 'end' \| 'left' \| 'right'_                      | `'end'`                 |
+| `content-align`            | 内容对齐，统一控制 direct 字段、弹出入口及 readPretty；与 label-align 独立                              | `'start' \| 'end' \| 'left' \| 'center' \| 'right'`          | `'start'`                  |
+| `read-pretty`              | 独立的阅读开关；为 true 时展示已保存的值，关闭后恢复当前 edit-mode 的编辑方式；FormItem 未传时继承 Form | `boolean`                                | `-`                       |
+| `edit-mode`                | 表单内字段的统一编辑模式；未设置时保留各字段默认值                                                      | `'direct' \| 'popup'`                    | `-`                       |
+| `label-col-props`          | 横向标签 Col 参数，支持响应式断点                                                                       | _FormColProps_                           | `{ span: 5, offset: 0 }`  |
+| `wrapper-col-props`        | 横向内容 Col 参数                                                                                       | _FormColProps_                           | `{ span: 19, offset: 0 }` |
+| `label-col-style`          | 标签列逐实例样式                                                                                        | _CSSProperties_                          | `-`                       |
+| `wrapper-col-style`        | 内容列逐实例样式                                                                                        | _CSSProperties_                          | `-`                       |
+| `label-col-flex`           | 标签 flex；单位字符串为宽度，数字为伸缩比例                                                             | _number \| string_                       | `-`                       |
+| `auto-label-width`         | 对齐参与自动计算的横向标签最大自然宽度                                                                  | _boolean_                                | `false`                   |
+| `size`                     | 表单控件尺寸，由 FormItem 和控件继承                                                                    | _'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'_   | `-`                       |
+| `rules`                    | 按字段名配置的表单校验规则                                                                              | _Record<string, rule \| rule[]>_         | `-`                       |
+| `readonly`                 | 是否只读                                                                                                | _boolean_                                | `-`                       |
+| `disabled`                 | 是否禁用                                                                                                | _boolean_                                | `-`                       |
+| `scroll-to-error`          | 校验失败后滚动到页面顺序的第一个（`start`）或最后一个（`end`）错误字段；不是视口对齐方式                | _'start' \| 'end'_                       | `-`                       |
+| `scroll-to-error-offset-y` | 滚动到校验不通过的表单项的位置偏移量                                                                    | _number \| string_                       | `0`                       |
 
 ### 方法
 
 #### Form Methods
 
-| 方法名 | 说明 | 参数 | 返回值 |
-| --- | --- | --- | --- |
-| `validate` | 触发表单组件的校验 | `callback?: (errors) => void` | `Promise<undefined \| Record<string, ValidatedError>>` |
-| `validateField` | 触发指定表单项的校验 | `field: string \| string[]`、`callback?: (errors) => void` | `Promise<undefined \| Record<string, ValidatedError>>` |
-| `resetFields` | 重置表单项的值和校验信息为初始值，不传 `field` 则重置所有表单项 | `field?: string \| string[]` | `-` |
-| `clearValidate` | 清空表单项的校验信息，不传 `field` 则清空所有表单项 | `field?: string \| string[]` | `-` |
-| `setFields` | 批量设置表单项的值或错误状态 | `Record<string, { value?; status?; message? }>` | `-` |
-| `scrollToField` | 滚动到指定的表单项 | `field: string` | `-` |
+| 方法名          | 说明                                                            | 参数                                                       | 返回值                                                 |
+| --------------- | --------------------------------------------------------------- | ---------------------------------------------------------- | ------------------------------------------------------ |
+| `validate`      | 触发表单组件的校验                                              | `callback?: (errors) => void`                              | `Promise<undefined \| Record<string, ValidatedError>>` |
+| `validateField` | 触发指定表单项的校验                                            | `field: string \| string[]`、`callback?: (errors) => void` | `Promise<undefined \| Record<string, ValidatedError>>` |
+| `resetFields`   | 重置表单项的值和校验信息为初始值，不传 `field` 则重置所有表单项 | `field?: string \| string[]`                               | `-`                                                    |
+| `clearValidate` | 清空表单项的校验信息，不传 `field` 则清空所有表单项             | `field?: string \| string[]`                               | `-`                                                    |
+| `setFields`     | 批量设置表单项的值或错误状态                                    | `Record<string, { value?; status?; message? }>`            | `-`                                                    |
+| `scrollToField` | 滚动到指定的表单项                                              | `field: string`                                            | `-`                                                    |
 
 ### 事件
 
 #### Form Events
 
-| 事件名 | 说明 | 参数 |
-| --- | --- | --- |
-| `submit` | 表单提交时触发 | `data: { values; errors }`、`event: Event` |
-| `submit-success` | 校验成功时触发 | `values`、`event: Event` |
-| `submit-failed` | 校验失败时触发 | `data: { values; errors }`、`event: Event` |
-| `reset` | 表单重置时触发 | `event: Event` |
+| 事件名           | 说明           | 参数                                       |
+| ---------------- | -------------- | ------------------------------------------ |
+| `submit`         | 表单提交时触发 | `data: { values; errors }`、`event: Event` |
+| `submit-success` | 校验成功时触发 | `values`、`event: Event`                   |
+| `submit-failed`  | 校验失败时触发 | `data: { values; errors }`、`event: Event` |
+| `reset`          | 表单重置时触发 | `event: Event`                             |
 
 ### 插槽
 
 #### Form Slots
 
-| 插槽名 | 说明 | 参数 |
-| --- | --- | --- |
-| `default` | 表单内容 | `-` |
+| 插槽名    | 说明     | 参数 |
+| --------- | -------- | ---- |
+| `default` | 表单内容 | `-`  |
 
 ## FormItem API
 
 ### 属性
 
-| 参数 | 说明 | 类型 | 默认值 |
-| --- | --- | --- | --- |
-| `field` | 对应 `Form.model` 中的字段路径，支持 `a.b` | _string_ | `''` |
-| `label` | 标签文本；有值时渲染外置标签，并自动关闭控件浮动 hint | _string_ | `-` |
-| `tooltip` | 标签提示；支持悬停、键盘聚焦和触摸点击 | _string_ | `-` |
-| `show-colon` | 标签后显示冒号 | _boolean_ | `false` |
-| `label-component` | 标签原生元素名 | _string_ | `'label'` |
-| `label-attrs` | 标签原生属性；for 应指向控件的真实 id | _HTMLAttributes & Record<string, unknown>_ | `-` |
-| `content-class` | 内容容器 class | _string \| array \| object_ | `-` |
-| `content-flex` | 内容层启用 flex；业务 Grid 布局可关闭 | _boolean_ | `true` |
-| `layout` | 布局方式，可选值为 `vertical` `horizontal` `inline`；未传时继承 `Form.layout` | _'vertical' \| 'horizontal' \| 'inline'_ | `-` |
-| `label-align` | 标签对齐 | _'left' \| 'right'_ | `-` |
-| `label-col-props` | 横向标签 Col 参数，支持响应式断点 | _FormColProps_ | `-` |
-| `wrapper-col-props` | 横向内容 Col 参数 | _FormColProps_ | `-` |
-| `label-col-style` | 标签列逐实例样式 | _CSSProperties_ | `-` |
-| `wrapper-col-style` | 内容列逐实例样式 | _CSSProperties_ | `-` |
-| `label-col-flex` | 标签 flex；单位字符串为宽度，数字为伸缩比例 | _number \| string_ | `-` |
-| `row-props` | 表单项 Row 参数；支持 gutter、align、justify、wrap | _RowProps_ | `-` |
-| `row-class` | 布局容器 class | _string \| array \| object_ | `-` |
-| `required` | 是否必填（显示星号，并自动追加必填规则） | _boolean_ | `false` |
-| `hide-label` | 是否隐藏标签 | _boolean_ | `false` |
-| `feedback` | 在输入框显示校验反馈图标，异步校验期间显示加载状态 | _boolean_ | `false` |
-| `validate-status` | 手动指定反馈状态；省略时由校验结果决定 | _'success' \| 'warning' \| 'error' \| 'validating'_ | `-` |
-| `hide-asterisk` | 是否隐藏必填星号 | _boolean_ | `false` |
-| `asterisk-position` | 星号位置 | _'start' \| 'end'_ | `'start'` |
-| `help` | 帮助文案（无错误时展示） | _string_ | `-` |
-| `extra` | 额外文案 | _string_ | `-` |
-| `disabled` | 是否禁用；未传时继承 Form | _boolean_ | `-` |
-| `readonly` | 是否只读；未传时继承 Form | _boolean_ | `-` |
-| `size` | 控件尺寸；未传时继承 Form | _'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'_ | `-` |
-| `no-style` | 去除标签与错误信息样式，仅保留校验能力 | _boolean_ | `false` |
-| `rules` | 校验规则（函数 / Zod / 数组） | _any_ | `-` |
-| `validate-trigger` | 触发校验的时机；`clear` 仅由控件清空动作触发，不等同于 `change` | _FormItemValidateTrigger \| FormItemValidateTrigger[]_ | `'change'` |
+| 参数                | 说明                                                                                                    | 类型                                                   | 默认值           |
+| ------------------- | ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------ | ---------------- |
+| `field`             | 对应 `Form.model` 中的字段路径，支持 `a.b`                                                              | _string_                                               | `''`             |
+| `label`             | 标签文本；有值时渲染外置标签，并自动关闭控件浮动 hint                                                   | _string_                                               | `-`              |
+| `tooltip`           | 标签提示；支持悬停、键盘聚焦和触摸点击                                                                  | _string_                                               | `-`              |
+| `show-colon`        | 标签后显示冒号                                                                                          | _boolean_                                              | `false`          |
+| `label-component`   | 标签原生元素名                                                                                          | _string_                                               | `'label'`        |
+| `label-attrs`       | 标签原生属性；for 应指向控件的真实 id                                                                   | _HTMLAttributes & Record<string, unknown>_             | `-`              |
+| `content-class`     | 内容容器 class                                                                                          | _string \| array \| object_                            | `-`              |
+| `content-flex`      | 内容层启用 flex；业务 Grid 布局可关闭                                                                   | _boolean_                                              | `true`           |
+| `layout`            | 布局方式，可选值为 `vertical` `horizontal` `inline`；未传时继承 `Form.layout`                           | _'vertical' \| 'horizontal' \| 'inline'_               | `-`              |
+| `label-align`       | 标签对齐                                                                                                | _'start' \| 'end' \| 'left' \| 'right'_                                    | `-`              |
+| `content-align`     | 内容对齐，统一控制 direct 字段、弹出入口及 readPretty；与 label-align 独立                              | `'start' \| 'end' \| 'left' \| 'center' \| 'right'`                        | `-`（继承 Form） |
+| `read-pretty`       | 独立的阅读开关；为 true 时展示已保存的值，关闭后恢复当前 edit-mode 的编辑方式；FormItem 未传时继承 Form | `boolean`                                              | `-`              |
+| `edit-mode`         | 编辑模式；未设置时继承 Form，字段可单独覆盖                                                             | `'direct' \| 'popup'`                                  | `-`              |
+| `label-col-props`   | 横向标签 Col 参数，支持响应式断点                                                                       | _FormColProps_                                         | `-`              |
+| `wrapper-col-props` | 横向内容 Col 参数                                                                                       | _FormColProps_                                         | `-`              |
+| `label-col-style`   | 标签列逐实例样式                                                                                        | _CSSProperties_                                        | `-`              |
+| `wrapper-col-style` | 内容列逐实例样式                                                                                        | _CSSProperties_                                        | `-`              |
+| `label-col-flex`    | 标签 flex；单位字符串为宽度，数字为伸缩比例                                                             | _number \| string_                                     | `-`              |
+| `row-props`         | 表单项 Row 参数；支持 gutter、align、justify、wrap                                                      | _RowProps_                                             | `-`              |
+| `row-class`         | 布局容器 class                                                                                          | _string \| array \| object_                            | `-`              |
+| `required`          | 是否必填（显示星号，并自动追加必填规则）                                                                | _boolean_                                              | `false`          |
+| `hide-label`        | 是否隐藏标签                                                                                            | _boolean_                                              | `false`          |
+| `feedback`          | 在输入框显示校验反馈图标，异步校验期间显示加载状态                                                      | _boolean_                                              | `false`          |
+| `validate-status`   | 手动指定反馈状态；省略时由校验结果决定                                                                  | _'success' \| 'warning' \| 'error' \| 'validating'_    | `-`              |
+| `hide-asterisk`     | 是否隐藏必填星号                                                                                        | _boolean_                                              | `false`          |
+| `asterisk-position` | 必填星号在字段标签中的逻辑 start/end 位置，默认 start；不是表单或浮层位置                               | _'start' \| 'end'_                                     | `'start'`        |
+| `help`              | 帮助文案（无错误时展示）                                                                                | _string_                                               | `-`              |
+| `extra`             | 额外文案                                                                                                | _string_                                               | `-`              |
+| `disabled`          | 是否禁用；未传时继承 Form                                                                               | _boolean_                                              | `-`              |
+| `readonly`          | 是否只读；未传时继承 Form                                                                               | _boolean_                                              | `-`              |
+| `size`              | 控件尺寸；未传时继承 Form                                                                               | _'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'_                 | `-`              |
+| `no-style`          | 去除标签与错误信息样式，仅保留校验能力                                                                  | _boolean_                                              | `false`          |
+| `rules`             | 校验规则（函数 / Zod / 数组）                                                                           | _any_                                                  | `-`              |
+| `validate-trigger`  | 触发校验的时机；`clear` 仅由控件清空动作触发，不等同于 `change`                                         | _FormItemValidateTrigger \| FormItemValidateTrigger[]_ | `'change'`       |
 
 ### 事件
 
-| 事件名 | 说明 | 参数 |
-| --- | --- | --- |
+| 事件名     | 说明           | 参数             |
+| ---------- | -------------- | ---------------- |
 | `validate` | 校验完成时触发 | `valid: boolean` |
 
 ### 插槽
 
-| 插槽名 | 说明 |
-| --- | --- |
-| `default` | 表单控件 |
-| `label` | 自定义标签 |
-| `help` | 自定义帮助信息 |
-| `extra` | 自定义额外信息 |
+| 插槽名    | 说明           |
+| --------- | -------------- |
+| `default` | 表单控件       |
+| `label`   | 自定义标签     |
+| `help`    | 自定义帮助信息 |
+| `extra`   | 自定义额外信息 |
 
 ### 方法
 
-| 方法名 | 说明 | 参数 | 返回值 |
-| --- | --- | --- | --- |
-| `validate` | 触发校验 | `-` | `Promise<undefined \| ValidatedError>` |
-| `clearValidate` | 清空校验状态 | `-` | `-` |
-| `resetField` | 重置字段值到初始值并清空校验 | `-` | `-` |
+| 方法名          | 说明                         | 参数 | 返回值                                 |
+| --------------- | ---------------------------- | ---- | -------------------------------------- |
+| `validate`      | 触发校验                     | `-`  | `Promise<undefined \| ValidatedError>` |
+| `clearValidate` | 清空校验状态                 | `-`  | `-`                                    |
+| `resetField`    | 重置字段值到初始值并清空校验 | `-`  | `-`                                    |
 
 ### 样式变量
 
-| 变量名 | 默认值 |
-| --- | --- |
+| 变量名                       | 默认值                            |
+| ---------------------------- | --------------------------------- |
 | `--mp-form-item-label-width` | `88px`（`inline` 布局下标签宽度） |
-| `--mp-form-item-label-gap` | `12px` |
+| `--mp-form-item-label-gap`   | `12px`                            |
 
 ### 类型定义
 
@@ -404,3 +526,14 @@ type FormItemLayout = 'vertical' | 'horizontal'
 ```
 
 `read-pretty` 为独立布尔属性，与 `readonly`、`disabled` 同级；字段 > FormItem > Form 继承，显式 `false` 覆盖父级。默认 `false`。纯阅读不显示编辑器。
+
+### Brand appearance tokens
+
+| CSS variable                  | Default |
+| ----------------------------- | ------- |
+| `--mp-form-label-min-height`  | `24px`  |
+| `--mp-form-label-padding-top` | `4px`   |
+| `--mp-form-label-line-height` | `1.4`   |
+| `--mp-form-help-line-height`  | `1.4`   |
+
+函数规则返回 true 表示通过，返回错误文字或 false 表示业务校验不通过。意外 throw 或 Promise 拒绝仍会使公开 `validate()` 拒绝，调用方需要处理该异常；当前任务会释放 validating，不合成新的业务错误，之前已有的业务错误消息继续保留。旧任务异常不会清理更新任务的等待状态。

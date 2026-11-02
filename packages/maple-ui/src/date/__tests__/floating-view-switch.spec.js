@@ -7,7 +7,14 @@ import DatePicker from '../DatePicker.vue'
 for (const presentation of ['calendarPicker', 'picker']) {
   it(`switches ${presentation} views without committing and preserves the other datetime part`, async () => {
     const wrapper = mount(DatePicker, {
-      props: { presentation, showTime: true, useSeconds: false, modelValue: '2026-10-20 09:30' },
+      props: {
+        presentation,
+        showTime: true,
+        timeFields: ['hour', 'minute'],
+        format: 'YYYY-MM-DD HH:mm',
+        valueFormat: 'YYYY-MM-DD HH:mm',
+        modelValue: '2026-10-20 09:30',
+      },
     })
     try {
       const button = wrapper.get('.mp-date-picker__view-toggle')
@@ -40,7 +47,14 @@ for (const presentation of ['calendarPicker', 'picker']) {
 
   it(`keeps ${presentation} endpoint selection while switching views`, async () => {
     const wrapper = mount(DateRangePicker, {
-      props: { presentation, showTime: true, useSeconds: false, modelValue: ['2026-10-20 09:30', '2026-10-25 18:00'] },
+      props: {
+        presentation,
+        showTime: true,
+        timeFields: ['hour', 'minute'],
+        format: 'YYYY-MM-DD HH:mm',
+        valueFormat: 'YYYY-MM-DD HH:mm',
+        modelValue: ['2026-10-20 09:30', '2026-10-25 18:00'],
+      },
     })
     try {
       await wrapper.get('.mp-date-range-picker__view-toggle').trigger('click')
@@ -69,7 +83,13 @@ for (const presentation of ['calendarPicker', 'picker']) {
 
 it('preserves a pending first date while switching views and choosing the second date', async () => {
   const wrapper = mount(DateRangePicker, {
-    props: { showTime: true, useSeconds: false, modelValue: ['2026-10-20 09:30', '2026-10-25 18:00'] },
+    props: {
+      showTime: true,
+      timeFields: ['hour', 'minute'],
+      format: 'YYYY-MM-DD HH:mm',
+      valueFormat: 'YYYY-MM-DD HH:mm',
+      modelValue: ['2026-10-20 09:30', '2026-10-25 18:00'],
+    },
   })
   try {
     const chooseDay = (day) =>

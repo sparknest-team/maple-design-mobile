@@ -81,6 +81,7 @@
       calc(2 * var(--mp-switch-gap) * var(--mp-switch-scale));
   }
   &--checked &__text {
+    color: var(--mp-switch-checked-text-color);
     padding-inline: calc(2 * var(--mp-switch-gap) * var(--mp-switch-scale))
       calc((var(--mp-switch-local-handle) + 2 * var(--mp-switch-gap)) * var(--mp-switch-scale));
   }
@@ -135,7 +136,7 @@
     color: var(--mp-switch-handle-color);
   }
   &--error:not(.mp-switch--disabled):not(.mp-switch--loading) &__text {
-    color: var(--mp-switch-text-color);
+    color: var(--mp-internal-switch-error-text-color);
   }
   // Unavailable states suppress validation; error wins over variant defaults.
   &--error:not(.mp-switch--disabled):not(.mp-switch--loading) &__track {

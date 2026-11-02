@@ -132,3 +132,11 @@ UnoCSS 与 Tailwind **类名相同**，项目里二选一配置即可。
 | 语义色层级 | [颜色 Color](#/zh-CN/color) |
 | 色阶 | [色板 Palette](#/zh-CN/palette) |
 | 安装配置 | [原子化 CSS](#/zh-CN/atomic-css) |
+
+## 基础示例
+
+### 基础用法
+
+```demo
+../example/basic.vue
+```

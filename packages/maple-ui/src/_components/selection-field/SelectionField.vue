@@ -1,13 +1,28 @@
 <template>
   <FieldDecorator
     v-bind="decoration"
-    :class="classes(n(), [multiple, n('--multiple')], [tagNowrap, n('--nowrap')])"
+    :class="
+      classes(
+        n(),
+        [multiple, n('--multiple')],
+        [tagNowrap, n('--nowrap')],
+        [openTriggerTarget === 'icon', n('--icon-trigger')],
+      )
+    "
     @mousedown="handleMousedown"
     @clear="emit('clear', $event)"
-    @click="emit('click', $event)"
+    @click="handleClick"
   >
     <template v-if="$slots.prefix" #prefix><slot name="prefix" /></template>
-    <span :class="n('content')" :style="{ textAlign }">
+    <span
+      :class="n('content')"
+      :style="{
+        '--mp-internal-selection-text-align': textAlign,
+        '--mp-internal-selection-justify': textAlign
+          ? { left: 'left', center: 'center', right: 'right' }[textAlign]
+          : undefined,
+      }"
+    >
       <span v-if="items.length && !hideSelection" :class="n('selection')">
         <slot name="selected">
           <template v-if="multiple && showTags">
@@ -51,6 +66,7 @@
         :aria-label="typeof $attrs['aria-label'] === 'string' ? $attrs['aria-label'] : placeholder"
         :aria-expanded="open"
         :aria-invalid="error || undefined"
+        :aria-busy="loading || undefined"
         :aria-autocomplete="searchable ? 'list' : 'none'"
         role="combobox"
         autocomplete="off"
@@ -63,15 +79,21 @@
       />
     </span>
     <template v-if="$slots['clear-icon']" #clear-icon="scope"><slot name="clear-icon" v-bind="scope" /></template>
+    <template v-if="$slots['loading-icon']" #loading-icon><slot name="loading-icon" /></template>
     <template #suffix>
-      <span
-        :class="classes(n('icon'), [loading, n('icon--loading')], [open && !loading && !searchable, n('icon--open')])"
-        aria-hidden="true"
+      <button
+        v-if="!loading || loadingMode === 'line'"
+        type="button"
+        data-field-open-trigger
+        :disabled="disabled || readonly"
+        :aria-label="placeholder || selectText"
+        :aria-expanded="open"
+        aria-haspopup="listbox"
+        :class="classes(n('icon'), [open && !searchable, n('icon--open')])"
       >
-        <slot v-if="loading" name="loading-icon"><IconLoading /></slot>
-        <slot v-else-if="searchable && open" name="search-icon"><IconSearch /></slot>
+        <slot v-if="searchable && open" name="search-icon"><IconSearch /></slot>
         <slot v-else name="arrow-icon" :focus="active" :menu-open="open"><IconDown /></slot>
-      </span>
+      </button>
       <slot name="suffix" />
     </template>
   </FieldDecorator>
@@ -79,15 +101,18 @@
 
 <script setup lang="ts">
 import { computed, ref, useId, watch, type VNodeChild } from 'vue'
-import { IconDown, IconLoading, IconSearch } from '@maple-design/icons-vue'
+import { IconDown, IconSearch } from '@maple-design/icons-vue'
 import FieldDecorator from '../../field-decorator/FieldDecorator.vue'
 import { fieldDecoratorProps } from '../../field-decorator/props'
 import Tag from '../../tag'
 import { createNamespace } from '../../utils/components'
+import { useFieldTexts } from '../field-presentation/texts'
+import { blockFieldOpenClick, isFieldOpenClick } from '../picker-field/open-trigger'
 import { selectionFieldProps, type SelectionFieldItem } from './props'
 import SelectionTagLabel from './SelectionTagLabel.vue'
 
 defineOptions({ name: createNamespace('selection-field').name, inheritAttrs: false })
+const { select: selectText } = useFieldTexts()
 const props = defineProps(selectionFieldProps)
 const emit = defineEmits<{
   'update:inputValue': [value: string]
@@ -109,6 +134,12 @@ watch(
     lastInput.value = value
   },
 )
+function handleClick(event: MouseEvent) {
+  if (!isFieldOpenClick(event, props.openTriggerTarget)) {
+    blockFieldOpenClick(event)
+  }
+  emit('click', event)
+}
 const generatedId = useId()
 const controlId = computed(() => props.id ?? generatedId)
 const editable = computed(() => !props.disabled && !props.readonly)
@@ -120,6 +151,7 @@ const decoration = computed(() => ({
   ...Object.fromEntries(
     Object.keys(fieldDecoratorProps).map((key) => [key, props[key as keyof typeof fieldDecoratorProps]]),
   ),
+  cursor: props.openTriggerTarget === 'icon' && !props.disabled && !props.readonly ? 'text' : props.cursor,
   id: controlId.value,
   value: props.items.map((item) => item.value),
   focused: props.focused || active.value || props.open,
@@ -134,7 +166,7 @@ function blur() {
   inputRef.value?.blur()
 }
 function handleMousedown(event: MouseEvent) {
-  if (props.disabled || event.button !== 0) {
+  if (props.disabled || props.openTriggerTarget === 'icon' || event.button !== 0) {
     return
   }
   const target = event.target as HTMLElement

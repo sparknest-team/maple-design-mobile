@@ -23,7 +23,7 @@ const options = [
       v-model="value"
       :options="reverse ? [...options].reverse() : options"
       :max="4"
-      direction="vertical"
+      orientation="vertical"
     />
     <mp-space wrap>
       <mp-button @click="proposal = group?.checkAll() ?? []">全选</mp-button>

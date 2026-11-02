@@ -1,10 +1,13 @@
 import { nextTick } from 'vue'
 import { flushPromises, mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test } from 'vitest'
+import { useDemoControls } from '../../../test-utils/demo-controls'
 import Button from '../../button'
 import Checkbox from '../../checkbox'
 import Demo from '../example/demos/selection-data-flow.vue'
 import Select from '../index'
+
+useDemoControls()
 
 const cleanups: (() => void)[] = []
 afterEach(() => cleanups.splice(0).forEach((cleanup) => cleanup()))

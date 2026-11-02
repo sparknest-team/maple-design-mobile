@@ -1,4 +1,4 @@
-import { computed, inject, ref, type ExtractPropTypes, type ShallowRef } from 'vue'
+import { computed, inject, onMounted, ref, watch, type ExtractPropTypes, type ShallowRef } from 'vue'
 import { useRangeFieldIndex } from '../../_components/picker-field/range-field-context'
 import { formatTimeLabel, getTimePickerChange, getTimePickerState } from '../../time/picker-columns'
 import { getTimeWheelPresentationProps } from '../../time/presentation-props'
@@ -6,6 +6,7 @@ import { timeExplicitConfirmation } from '../../time/presentation/confirmation-c
 import {
   formatTimeValue,
   fromClockValue,
+  getFormattedTimeChoices,
   isFormattedTimeAllowed,
   toClockValue,
   type TimeValue,
@@ -18,7 +19,31 @@ export function useMobileRangePanel(
   props: Readonly<ExtractPropTypes<typeof pickerProps>>,
   draft: ShallowRef<TimeValue[] | undefined>,
   select: (value: TimeValue[], immediate?: boolean) => boolean,
+  initialize: (value: string[]) => void,
 ) {
+  function initializeDraft() {
+    if (props.disabled || props.readonly) {
+      return
+    }
+    const values = draft.value
+    if (values != null && (!Array.isArray(values) || values.length > 2)) {
+      return
+    }
+    const empty = (value: TimeValue | undefined) => value == null || value === ''
+    if (values?.length === 2 && values.every((value) => !empty(value))) {
+      return
+    }
+    const next = [0, 1].map((index) =>
+      empty(values?.[index])
+        ? getFormattedTimeChoices(values?.[index ^ 1], props).value
+        : formatTimeValue(values?.[index], props),
+    )
+    if (next.every((value): value is string => value !== undefined)) {
+      initialize(next)
+    }
+  }
+  onMounted(initializeDraft)
+  watch([draft, () => props], initializeDraft, { deep: true, flush: 'post' })
   const confirmationRequired = inject(timeExplicitConfirmation, undefined) ?? ref(false)
   const activeIndex = useRangeFieldIndex()
   const nowValue = () => formatTimeValue(new Date(), props)!
@@ -89,8 +114,8 @@ export function useMobileRangePanel(
     } else if (values.slice(0, split).some((value, index) => value !== pickerValue.value[index])) {
       activeIndex.value = 0
     }
-    const start = getTimePickerChange(values.slice(0, pickerSplit.value), props)
-    const end = getTimePickerChange(values.slice(pickerSplit.value), props)
+    const start = getTimePickerChange(values.slice(0, pickerSplit.value), props, startValue.value)
+    const end = getTimePickerChange(values.slice(pickerSplit.value), props, endValue.value)
     if (start !== undefined && end !== undefined) {
       select([start, end], props.disableConfirm && !confirmationRequired.value)
     }

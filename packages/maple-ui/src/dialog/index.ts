@@ -47,7 +47,6 @@ withInstall(MpDialog, Dialog, {
 export { dialogProps }
 export type {
   DialogAction,
-  DialogBeforeCloseRefs,
   DialogConfig,
   DialogMessageAlign,
   DialogMethod,
@@ -64,3 +63,7 @@ export const _DialogComponent: typeof MpDialog = MpDialog
 export { Dialog }
 
 export default Dialog
+
+export type { DialogBeforeClose } from './types'
+
+export type { BeforeHookContext, BeforeHookDone } from '../_hooks/use-action-guard'

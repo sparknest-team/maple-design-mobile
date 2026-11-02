@@ -8,20 +8,29 @@ import { createNamespace } from '../../utils/components'
 const { n: field } = createNamespace('field-decorator')
 
 describe('input family contract', () => {
+  test('prevents native autofill from overriding the input session', () => {
+    const wrapper = mount(Input, {
+      props: { editMode: 'direct', inputAttrs: { autocomplete: 'email' } },
+      attrs: { autocomplete: 'on' },
+    })
+    expect(wrapper.get('input').attributes('autocomplete')).toBe('off')
+    wrapper.unmount()
+  })
+
   test('inherits an outer label through a no-style item and displays explicit feedback', () => {
     const wrapper = mount(Form, {
-      props: { model: { name: '' } },
+      props: { editMode: 'direct', model: { name: '' } },
       slots: {
         default: () =>
           h(
             FormItem,
-            { label: 'Account' },
+            { editMode: 'direct', label: 'Account' },
             {
               default: () =>
                 h(
                   FormItem,
-                  { field: 'name', noStyle: true, feedback: true, validateStatus: 'warning' },
-                  { default: () => h(Input, { hint: true, placeholder: 'Account' }) },
+                  { editMode: 'direct', field: 'name', noStyle: true, feedback: true, validateStatus: 'warning' },
+                  { default: () => h(Input, { editMode: 'direct', hint: true, placeholder: 'Account' }) },
                 ),
             },
           ),
@@ -33,7 +42,7 @@ describe('input family contract', () => {
   })
 
   test('does not emit disabled clicks but permits readonly clicks', async () => {
-    const wrapper = mount(Input, { props: { disabled: true } })
+    const wrapper = mount(Input, { props: { editMode: 'direct', disabled: true } })
     await wrapper.trigger('click')
     expect(wrapper.emitted('click')).toBeUndefined()
     await wrapper.setProps({ disabled: false, readonly: true })
@@ -43,11 +52,11 @@ describe('input family contract', () => {
   })
   test('group state is reactive and explicit false overrides inherited state', async () => {
     const wrapper = mount(InputGroup, {
-      props: { size: 'lg', disabled: true, readonly: true, hint: true, variant: 'filled' },
+      props: { editMode: 'direct', size: 'lg', disabled: true, readonly: true, hint: true, variant: 'filled' },
       slots: {
         default: () => [
           h(InputGroupLabel, () => 'https://'),
-          h(Input, { placeholder: 'Host', disabled: false, readonly: false }),
+          h(Input, { editMode: 'direct', placeholder: 'Host', disabled: false, readonly: false }),
         ],
       },
     })
@@ -66,12 +75,12 @@ describe('input family contract', () => {
 
   test('password toggle inherits disabling and forwards custom clear slots', async () => {
     const wrapper = mount(InputGroup, {
-      props: { disabled: true },
+      props: { editMode: 'direct', disabled: true },
       slots: {
         default: () =>
           h(
             InputPassword,
-            { defaultValue: 'secret', clearable: true },
+            { editMode: 'direct', defaultValue: 'secret', clearable: true },
             {
               'clear-icon': ({ clear }: { clear: (event: Event) => void }) =>
                 h('button', { class: 'custom-clear', onClick: clear }, 'clear'),
@@ -92,6 +101,7 @@ describe('input family contract', () => {
   test('keeps input attrs on the native element and protects controlled fields', () => {
     const wrapper = mount(Input, {
       props: {
+        editMode: 'direct',
         hint: true,
         placeholder: 'Name',
         defaultValue: 'actual',
@@ -116,7 +126,7 @@ describe('input family contract', () => {
   })
 
   test('restores rejected controlled input without moving a zero-position cursor to the end', async () => {
-    const wrapper = mount(Input, { props: { modelValue: 'abc' }, attachTo: document.body })
+    const wrapper = mount(Input, { props: { editMode: 'direct', modelValue: 'abc' }, attachTo: document.body })
     const native = wrapper.get('input')
     const input = native.element as HTMLInputElement
     input.focus()
@@ -131,7 +141,7 @@ describe('input family contract', () => {
 
   test('ignores Enter while the native event is composing', async () => {
     const press = vi.fn()
-    const wrapper = mount(Input, { props: { onPressEnter: press } })
+    const wrapper = mount(Input, { props: { editMode: 'direct', onPressEnter: press } })
     await wrapper.get('input').trigger('keydown', { key: 'Enter', isComposing: true })
     expect(press).not.toHaveBeenCalled()
     wrapper.unmount()

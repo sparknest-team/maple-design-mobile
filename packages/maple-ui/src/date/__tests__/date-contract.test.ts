@@ -29,7 +29,13 @@ describe('date family value and rules', () => {
   })
   it('supports explicit minute precision and second defaults', () => {
     expect(parseDateValue('2025-01-15 09:30', { showTime: true })).toBeUndefined()
-    expect(parseDateValue('2025-01-15 09:30', { showTime: true, useSeconds: false })).toBeDefined()
+    expect(
+      parseDateValue('2025-01-15 09:30', {
+        showTime: true,
+        format: 'YYYY-MM-DD HH:mm',
+        valueFormat: 'YYYY-MM-DD HH:mm',
+      }),
+    ).toBeDefined()
     expect(parseDateValue('2025-01-15 09:30:01', { showTime: true })).toBeDefined()
   })
   it('keeps week and quarter labels separate from model strings', () => {

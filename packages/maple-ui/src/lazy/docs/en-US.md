@@ -1,16 +1,18 @@
 # Lazy
 
-## Examples
-
 ### Intro
 
 Load when the image is visible.
+
+## Basic examples
 
 ### Basic Usage
 
 ```demo
 ../example/demos/basic-usage.vue
 ```
+
+## Content and presentation
 
 ### Background Image Lazy Load
 
@@ -69,29 +71,26 @@ createApp().use(Lazy, {
   filter(lazy) {
     // All properties of the context can be accessed, and some property interceptions can be performed.
     // Such as simply modifying all image addresses http-> https
-    lazy.src.replace('http://', 'https://')
+    lazy.src = lazy.src.replace('http://', 'https://')
   }
 })
 ```
 
-<!-- api-review:start -->
-### Feature playground
-
-```demo
-../example/demos/api-review.vue
-```
-
-<!-- api-review:end -->
-
 ## API
 
-### Plugin Options
+### Plugin options
 
-| Option | Description | Type | Default |
+| Arguments | Description | Type | Default |
 | --- | --- | --- | --- |
-| `loading` | Loading images, if possible, select images that load quickly | _string_ | `Pixel transparent picture` |
-| `error` | Load failed to display the picture | _string_ | `Pixel transparent picture` |
-| `attempt` | The number of times a load failed to reload | _number_ | `3` |  
+| `loading` | Loading images, if possible, select images that load quickly | _string_ | 1-pixel transparent image |
+| `error` | Load failed to display the picture | _string_ | 1-pixel transparent image |
+| `attempt` | Total attempts including the initial request | _number_ | `3` |
 | `throttleWait` | throttle wait time, The higher the value, the lower the trigger frequency | _number_ | `300` |
 | `events` | A list of events that trigger visibility detection registration | _string[]_ | `['scroll'...]` |
-| `filter` | Attribute interceptor function | _(lazy: Lazy) => void_ | `() => void` |
+| `filter` | Attribute interceptor function | _(lazy: LazyContext) => void_ | `() => void` |
+
+`attempt` is the total request count including the first request. Non-finite values fall back to 3; finite values are floored and clamped to at least 1. Cache hits do not consume requests. Assign transformed URLs back to `lazy.src` in `filter`. Public types include `LazyOptions`, `LazyContext`, `LazyState` and `LazyHTMLElement`.
+
+Changing the source, background argument or inline `lazy-loading`, `lazy-error`, `lazy-attempt` options invalidates the previous job. Unmount cancels queued frames and preload listeners; already-delivered stale callbacks cannot update a replacement job or detached node. Background URLs use quoted CSS escaping.
+
+Default configuration, the 100-entry FIFO cache and visibility scheduling are module-wide. Reinstall updates defaults for future jobs and rebinds pending elements to the new event list; existing jobs retain their resource options. Final teardown releases registrations and scheduled checks. `events` and `throttleWait` are plugin options, not inline `lazy-throttle-wait` attributes. Visibility uses the viewport; ancestor scrolling triggers checks without promising clipping-aware preloading.

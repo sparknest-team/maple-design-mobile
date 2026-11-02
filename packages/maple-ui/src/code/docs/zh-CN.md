@@ -1,7 +1,5 @@
 # 代码块
 
-## 案例
-
 ### 介绍
 
 代码块组件，用于代码着色
@@ -17,28 +15,33 @@
 
 下方示例使用 Shiki，是为了演示如何向 `HighlighterProvider` 注入着色能力，并不表示 `Code` 只能与 Shiki 配合使用。
 
+## 基础示例
+
 ### 基本使用
 
 ```demo
 ../example/demos/basic-usage.vue
 ```
 
+## 布局与排列
+
 ### 自动换行
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `code` | 代码片段 | 自动换行 |
+| `language` | 语言 | 自动换行 |
+| `word-wrap` | 是否开启在代码溢出时自动换行 | 自动换行 |
+<!-- demo-config-notes:end -->
 
 设置 `word-wrap` 支持在代码溢出时自动换行。
 
 ```demo
 ../example/demos/word-wrap.vue
 ```
-
-<!-- api-review:start -->
-### 功能调试
-
-```demo
-../example/demos/api-review.vue
-```
-
-<!-- api-review:end -->
 
 ## API
 

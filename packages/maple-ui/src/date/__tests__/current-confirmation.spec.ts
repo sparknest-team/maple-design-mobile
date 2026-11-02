@@ -6,6 +6,7 @@ import DateRangePicker from '../../date-range/DateRangePicker.vue'
 import DatePicker from '../DatePicker.vue'
 import DateField from '../index'
 import DatePanelContent from '../presentation/DatePanelContent.vue'
+import { rangeControls } from './range-controls'
 
 const Surface = defineComponent({ template: '<div><slot /><slot name="content" /></div>' })
 const global = { stubs: { MpTrigger: Surface, Dialog: Surface, Popup: Surface, teleport: true } }
@@ -21,7 +22,7 @@ function freeze() {
 const action = (wrapper: ReturnType<typeof mount>, label: string) =>
   wrapper.findAll('button').find((button) => button.text() === label)!
 
-for (const mode of ['standalone', 'inline', 'popup'] as const) {
+for (const mode of ['standalone', 'direct', 'popup'] as const) {
   for (const showTime of [false, true]) {
     for (const range of [false, true]) {
       for (const endpoint of range ? [0, 1] : [0]) {
@@ -39,9 +40,7 @@ for (const mode of ['standalone', 'inline', 'popup'] as const) {
                   modelValue: initial,
                   showTime,
                   disableConfirm,
-                  ...(mode === 'standalone'
-                    ? {}
-                    : { presentation: mode, ...(mode === 'inline' ? { open: true } : {}) }),
+                  ...(mode === 'standalone' ? {} : { editMode: mode, ...(mode === 'direct' ? { open: true } : {}) }),
                 },
                 global,
               },
@@ -52,7 +51,7 @@ for (const mode of ['standalone', 'inline', 'popup'] as const) {
             }
             await flushPromises()
             if (range) {
-              await wrapper.findAll('.mp-date-range-picker__summary')[endpoint].trigger('click')
+              await rangeControls(wrapper)[endpoint].trigger('click')
             }
             const requests = wrapper.emitted('update:open')?.length ?? 0
             expect(wrapper.findAll('button').filter((button) => button.text() === '此刻')).toHaveLength(1)
@@ -96,7 +95,7 @@ for (const range of [false, true]) {
     const initial = range ? ['2026-10-20 09:30:00', '2026-10-27 18:00:00'] : '2026-10-20 09:30:00'
     const beforeCommit = vi.fn().mockResolvedValue(false)
     const wrapper = mount(range ? DateRange : DateField, {
-      props: { modelValue: initial, showTime: true, presentation: 'popup', disableConfirm: true, beforeCommit },
+      props: { modelValue: initial, showTime: true, editMode: 'popup', disableConfirm: true, beforeCommit },
       global,
     })
     wrappers.push(wrapper)

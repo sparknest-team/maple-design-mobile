@@ -4,6 +4,8 @@
 
 Style binding is performed when the pointer hovers the binding element, and the current hovering state can also be obtained through a function, which supports selective enablement on desktop or mobile.
 
+## Basic examples
+
 ### Style Binding
 
 The style binding is performed when the pointer hovers over the bound element, and the style binding is canceled when the pointer leaves the element.
@@ -11,6 +13,8 @@ The style binding is performed when the pointer hovers over the bound element, a
 ```demo
 ../example/demos/style-binding.vue
 ```
+
+## Interaction and control
 
 ### Function Binding
 
@@ -37,6 +41,7 @@ Considering the differences in `hover` effects on different platforms, the hover
 // playground-ignore
 <mp-paper v-hover:mobile="{ color: '#fff' }"">HOVER</mp-paper>
 ```
+
 ### Governed defaults
 
 | Token | Default |
@@ -51,13 +56,3 @@ Considering the differences in `hover` effects on different platforms, the hover
 | `--mp-hover-transition-duration` | `var(--mp-sys-motion-duration-fast)` |
 
 Built-in motion honors prefers-reduced-motion: reduce. State/content remain visible; decorative spin, shimmer and ripple are suppressed. Icon name changes skip delays and cancel pending transitions. Ripple duration tokens control CSS only: its 250ms lifecycle timers are unchanged, so keep each visual duration at or below 250ms. Custom animation classes remain the caller’s responsibility.
-
-
-<!-- api-review:start -->
-### 组合审查 / API review
-
-```demo
-../example/demos/api-review.vue
-```
-
-<!-- api-review:end -->

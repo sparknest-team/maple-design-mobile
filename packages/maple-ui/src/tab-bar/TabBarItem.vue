@@ -2,6 +2,7 @@
   <button
     v-ripple
     type="button"
+    :disabled="tabBar.loading.value"
     :class="
       classes(
         n(),
@@ -79,6 +80,9 @@ const tabBarItemProvider: TabBarItemProvider = {
 bindTabBar(tabBarItemProvider)
 
 function handleClick() {
+  if (tabBar.loading.value) {
+    return
+  }
   const active = name.value ?? index.value
 
   emit('click', active)

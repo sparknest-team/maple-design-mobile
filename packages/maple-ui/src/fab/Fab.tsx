@@ -156,14 +156,14 @@ export default defineComponent({
           zIndex={props.zIndex}
           popupContainer={props.popupContainer === false ? false : popupContainer.value}
           disabled={props.disabled || !props.drag || !props.fixed}
-          direction={dragProps.direction}
+          axis={dragProps.axis}
           attraction={dragProps.attraction}
           boundary={dragProps.boundary}
           onClick={(e: Event) => handleClick(e, !isOpen.value, children.length)}
           {...attrs}
         >
           <div
-            class={classes(n(), n(`--direction-${props.direction}`), [props.safeArea, n('--safe-area')])}
+            class={classes(n(), n(`--direction-${props.placement}`), [props.safeArea, n('--safe-area')])}
             ref={host}
             v-show={props.visible}
             onMouseleave={() => handleMouse(false, children.length)}
@@ -172,7 +172,7 @@ export default defineComponent({
             <Transition name={n(`--active-transition`)}>{renderTrigger()}</Transition>
 
             <Transition
-              name={n(`--actions-transition-${props.direction}`)}
+              name={n(`--actions-transition-${props.placement}`)}
               onAfterEnter={(...args: any[]) => emit('opened', ...args)}
               onAfterLeave={(...args: any[]) => emit('closed', ...args)}
             >

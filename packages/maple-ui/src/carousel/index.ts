@@ -15,7 +15,7 @@ export type {
   CarouselIndicatorPosition,
   CarouselIndicatorType,
   CarouselTriggerEvent,
-  CarouselDirection,
+  CarouselOrientation,
   CarouselEffect,
   CarouselToOptions,
   CarouselChangeData,

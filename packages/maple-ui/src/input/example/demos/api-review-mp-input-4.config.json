@@ -166,7 +166,7 @@
     },
     {
       "name": "input-attrs",
-      "description": "透传原生属性，例如 autocomplete",
+      "description": "透传 name 等原生属性；autocomplete 固定为 off",
       "type": "object",
       "defaultValue": "undefined",
       "kind": "json",
@@ -197,16 +197,16 @@
       "initial": "#5268cc"
     },
     {
-      "name": "presentation",
-      "type": "'inline' | 'popup'",
+      "name": "edit-mode",
+      "type": "'direct' | 'popup'",
       "defaultValue": "undefined",
-      "description": "字段编辑方式，字段 > FormItem > Form 继承；默认 inline。",
+      "description": "字段编辑方式，字段 > FormItem > Form 继承；默认 direct。",
       "kind": "enum",
       "options": [
-        "inline",
+        "direct",
         "popup"
       ],
-      "initial": "inline"
+      "initial": "direct"
     },
     {
       "name": "read-pretty",

@@ -8,7 +8,7 @@
 > - Row + Col: Use for 24-column Flex layouts that need horizontal/vertical alignment, wrapping control, fixed and flexible widths together, or responsive ordering. Row controls the row; Col controls width, offset and order.
 > - Space: Use for simple groups of buttons, tags or text that only need spacing, direction and alignment. Use native Flex for more flexible width allocation.
 
-## Examples
+## Basic examples
 
 ### 24-column layout
 
@@ -16,7 +16,22 @@
 ../example/demos/basic.vue
 ```
 
+## Layout and arrangement
+
 ### Two-axis and responsive gutters
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `gutter` | Gutter: number, responsive object or [horizontal, vertical] | Two-axis and responsive gutters, Horizontal and vertical alignment, Wrapping and plain container mode |
+| `justify` | Horizontal alignment | Horizontal and vertical alignment, Layout and alignment |
+| `align` | Vertical alignment | Horizontal and vertical alignment, Layout and alignment |
+| `wrap` | Wrap columns | Wrapping and plain container mode |
+| `div` | Use Row and Col as plain divs without layout styles | Wrapping and plain container mode |
+<!-- demo-config-notes:end -->
+
 
 ```demo
 ../example/demos/gutter.vue
@@ -49,15 +64,6 @@ Use this example for row. Adjust cross-axis alignment, main-axis distribution an
 ../example/demos/layout-lab.vue
 ```
 
-<!-- api-review:start -->
-### Feature playground
-
-```demo
-../example/demos/api-review.vue
-```
-
-<!-- api-review:end -->
-
 ## API
 
 <!-- same-source-api:start -->
@@ -89,12 +95,12 @@ Use this example for row. Adjust cross-axis alignment, main-axis distribution an
 | --- | --- |
 <!-- same-source-api:end -->
 
-The wrap example toggles wrapping and plain `div` mode independently. Plain mode removes Row layout styles and child Col spacing; gutter controls distinguish horizontal spacing from vertical spacing. Row uses Flex, not CSS Grid.
+Wrapping examples compare wrapped and ordinary `div` modes. Ordinary mode removes Row layout and child Col spacing. Gap examples distinguish horizontal/vertical spacing. Row uses Flex, not CSS Grid.
 
-## Responsive behavior and accessibility
+## Responsiveness and accessibility
 
-Breakpoints use the viewport: xs is the baseline, sm ≥576, md ≥768, lg ≥992, xl ≥1200, xxl ≥1600px. Values cascade from the largest matching configured breakpoint. SSR uses xs; the viewport and Grid collapse/reordering are resolved after mount. These layout containers add no keyboard shortcuts; consumers provide semantic content and focusable controls. No public methods or dedicated theme tokens.
+Breakpoints use the browser viewport: xs is the base; sm ≥576, md ≥768, lg ≥992, xl ≥1200 and xxl ≥1600px. Configured values resolve downward from the largest matching breakpoint. SSR starts with xs and responds to the viewport after mounting. Grid collapsing and dynamic ordering are calculated after mounting. These layout containers add no keyboard shortcuts; callers supply content semantics and focusable elements. There are no public methods or dedicated theme tokens.
 
 ## Imports
 
-Grid only owns Grid.Item. Row and Col are standalone components with independent entries, styles, documentation, menus and demos. Grid.Row/Grid.Col, Grid re-exports of Row/Col and GridRowInstance/GridColInstance are removed. Import from the library root or standalone row/col entries. Installing Grid no longer registers Row/Col.
+Grid contains only Grid.Item. Row and Col are independent components with their own source, styles, navigation, documentation and demos. Grid.Row/Grid.Col, Row/Col re-exports from Grid and GridRowInstance/GridColInstance are removed. Import them from the library root or separate row/col entries. Installing Grid no longer registers Row/Col automatically.

@@ -11,6 +11,8 @@ export default {
   'fieldPresentation.selected': 'Selected',
   'fieldPresentation.limit': 'Select at most',
 
+  datePickerPreviousWeek: '前の週',
+  datePickerNextWeek: '次の週',
   datePickerPreviousMonth: '前の月',
   datePickerNextMonth: '次の月',
   datePickerPreviousYear: '前の年',
@@ -22,6 +24,8 @@ export default {
   'carousel.next': '次のスライド',
   'carousel.slide': '{total} 枚中 {index} 枚目',
   'carousel.goto': 'スライド {index} に移動',
+  'upload.replace': '置き換え',
+  'upload.duration': '動画の長さ',
   'upload.buttonText': 'アップロード',
   'upload.drag': 'ここにファイルをドロップ',
   'upload.preview': 'プレビュー',
@@ -161,6 +165,8 @@ export default {
   // time-picker
   timePickerHint: '時間を選択',
   // time-range
+  rangeStartPlaceholder: '開始を選択',
+  rangeEndPlaceholder: '終了を選択',
   timeRangeStart: '開始時刻',
   dateRangeStart: '開始日',
   dateRangeEnd: '終了日',

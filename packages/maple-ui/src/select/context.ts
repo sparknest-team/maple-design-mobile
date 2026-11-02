@@ -1,4 +1,5 @@
 import type { InjectionKey } from 'vue'
+import type { OptionSearchField } from '../utils/option-data'
 import type { FilterOption, SelectFieldNames, SelectOptionInfo } from './types'
 
 export interface SelectContext {
@@ -6,6 +7,8 @@ export interface SelectContext {
   fieldNames?: Required<SelectFieldNames>
   inputValue?: string
   filterOption?: FilterOption
+  caseSensitive?: boolean
+  searchFields?: readonly OptionSearchField[]
   component?: string
   valueKeys: string[]
   activeKey: string | undefined

@@ -1,3 +1,4 @@
+import { pickerFieldIndexes, timeFields, type TimePickerField } from '../_components/picker-field/fields'
 import { parseClock, unitSequence } from '../utils/picker-data'
 import { resolveTimeFormat } from './time-format'
 import { getTimeChoices } from './time-rules'
@@ -10,25 +11,27 @@ import {
   type TimeValue,
 } from './time-value'
 
+type PickerRules = FormattedTimeRules & { timeFields?: readonly TimePickerField[] }
+
 export function formatTimeLabel(value: TimeValue | undefined, rules: FormattedTimeRules) {
   return formatTimeValue(value, rules) ?? ''
 }
 
-export function getTimePickerColumnLabels(rules: FormattedTimeRules, translate: (key: string) => string) {
-  const format = resolveTimeFormat(rules)
-  const hours = format.columns.includes('H') || format.columns.includes('h')
-  return [
-    ...(hours ? [translate('datePickerColumnHour')] : []),
-    ...(format.columns.includes('m') ? [translate('datePickerColumnMinute')] : []),
-    ...(format.columns.includes('s') ? [translate('datePickerColumnSecond')] : []),
-    ...(hours && format.use12Hours ? ['AM/PM'] : []),
+export function getTimePickerColumnLabels(rules: PickerRules, translate: (key: string) => string) {
+  const config = resolveTimeFormat(rules)
+  const labels = [
+    translate('datePickerColumnHour'),
+    translate('datePickerColumnMinute'),
+    translate('datePickerColumnSecond'),
   ]
+  const indexes = visibleIndexes(rules)
+  return [...indexes.map((index) => labels[index]), ...(indexes.includes(0) && config.use12Hours ? ['AM/PM'] : [])]
 }
 
 /** Mobile wheel rendering stays local; candidate rules are independently copied across libraries. */
 export function getTimePickerState(
   value: TimeValue | undefined,
-  rules: FormattedTimeRules & { hideDisabledOptions?: boolean },
+  rules: PickerRules & { hideDisabledOptions?: boolean },
 ) {
   const config = resolveTimeFormat(rules)
   const choices = getTimeChoices(toClockValue(value, rules), getTimeConstraints(rules))
@@ -66,7 +69,7 @@ export function getTimePickerState(
   }
 }
 
-export function getTimePickerChange(values: (string | number)[], rules: FormattedTimeRules) {
+export function getTimePickerChange(values: (string | number)[], rules: PickerRules, current?: TimeValue) {
   const config = resolveTimeFormat(rules)
   const indexes = visibleIndexes(rules)
   const count = indexes.length
@@ -78,7 +81,8 @@ export function getTimePickerChange(values: (string | number)[], rules: Formatte
   if (ampm && period !== 'am' && period !== 'pm') {
     return undefined
   }
-  const parts = [0, 0, 0]
+  const previous = toClockValue(current, rules)?.split(':').map(Number)
+  const parts = previous ? [...previous] : [0, 0, 0]
   indexes.forEach((index, position) => {
     parts[index] = Number(values[position])
   })
@@ -103,12 +107,21 @@ export function getTimePickerChange(values: (string | number)[], rules: Formatte
         }
       : getTimeConstraints(rules),
   ).value
+  if (rules.timeFields && previous && choices) {
+    const next = choices.split(':').map(Number)
+    if (previous.some((part, index) => !indexes.includes(index) && part !== next[index])) {
+      return undefined
+    }
+  }
   return fromClockValue(choices, rules)
 }
 
-function visibleIndexes(rules: FormattedTimeRules) {
+function visibleIndexes(rules: PickerRules) {
   const { columns } = resolveTimeFormat(rules)
-  return [columns.includes('H') || columns.includes('h'), columns.includes('m'), columns.includes('s')].flatMap(
-    (visible, index) => (visible ? [index] : []),
-  )
+  const defaults = [
+    columns.includes('H') || columns.includes('h'),
+    columns.includes('m'),
+    columns.includes('s'),
+  ].flatMap((visible, index) => (visible ? [index] : []))
+  return pickerFieldIndexes(rules.timeFields, timeFields, defaults)
 }

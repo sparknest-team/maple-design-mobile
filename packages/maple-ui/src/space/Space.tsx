@@ -1,20 +1,24 @@
-import { Comment, computed, defineComponent, Fragment, toRefs, type VNode } from 'vue'
+import { computed, defineComponent, toRefs } from 'vue'
 import { createNamespace } from '../utils/components'
 import { componentSizes } from '../utils/constants'
 import { padStartFlex, toSizeUnit } from '../utils/elements'
-import { flatChildren } from './children'
-import { spaceProps as props, type SpaceSize } from './props'
+import { createSpaceChildren, isEmptySpaceNode } from './children'
+import { isValidSpaceSize, spaceProps as props, type SpaceSize } from './props'
 
 const isInternalSize = (size: SpaceSize) => componentSizes.some((value) => value === size)
-
 const { name, n, classes } = createNamespace('space')
 
-function getSize(size: SpaceSize, isInternalSize: boolean): string[] {
-  return isInternalSize
+function getSize(value: SpaceSize): string[] {
+  const size = isValidSpaceSize(value) ? (typeof value === 'string' ? value.trim() : value) : 'md'
+  const unit = (value: number | string) => {
+    const length = typeof value === 'string' && Number.isFinite(Number(value)) ? Number(value) : value
+    return toSizeUnit(length) as string
+  }
+  return isInternalSize(size)
     ? [`var(--mp-space-size-${size}-row-gap)`, `var(--mp-space-size-${size}-column-gap)`]
     : Array.isArray(size)
-      ? (size.map(toSizeUnit) as string[])
-      : [toSizeUnit(size) as string, toSizeUnit(size) as string]
+      ? size.map(unit)
+      : [unit(size), unit(size)]
 }
 
 export default defineComponent({
@@ -22,48 +26,31 @@ export default defineComponent({
   props,
   setup(props, { slots }) {
     const { block, justify, align, wrap, direction, size } = toRefs(props)
-
-    // 将 size 转为 CSS gap 值
-    const gapStyle = computed(() => {
-      const [rowGap, columnGap] = getSize(size.value, isInternalSize(size.value))
-      return `${rowGap} ${columnGap}`
-    })
+    const flatten = createSpaceChildren()
+    const gapStyle = computed(() => getSize(size.value).join(' '))
 
     return () => {
-      const rawChildren = (slots.default?.() ?? []) as VNode[]
-      const children = (flatChildren(rawChildren) as any[]).filter(
-        (node) => !(node && typeof node === 'object' && (node as VNode).type === Comment),
-      )
-      const hasSplit = !!slots.split
-
+      const children = flatten(slots.default?.() ?? [])
+      // Each invocation returns separate VNodes for its own separator instance.
+      const splits = children.slice(0, -1).map(() => (slots.split?.() ?? []).filter((node) => !isEmptySpaceNode(node)))
+      const hasSplit = splits.some((nodes) => nodes.length > 0)
       return (
         <div
-          class={classes(n(), [block.value, n('--block')])}
+          class={classes(n(), [block.value, n('--block')], [wrap.value && hasSplit, n('--split-wrap')])}
           style={{
             gap: gapStyle.value,
             flexDirection: direction.value,
             justifyContent: padStartFlex(justify.value),
-            alignItems: padStartFlex(
-              direction.value === 'row'
-                ? !align.value
-                  ? 'center'
-                  : align.value
-                : !align.value
-                  ? 'stretch'
-                  : align.value,
-            ),
+            alignItems: padStartFlex(align.value ?? (direction.value === 'row' ? 'center' : 'stretch')),
             flexWrap: wrap.value ? 'wrap' : 'nowrap',
           }}
         >
-          {children.map((child, index) => {
-            const key = (child as VNode)?.key ?? `mp-space-item-${index}`
-            return (
-              <Fragment key={key as string | number | symbol}>
-                {hasSplit && index > 0 && <div class={n('item-split')}>{slots.split?.()}</div>}
-                <div class={n('item')}>{child}</div>
-              </Fragment>
-            )
-          })}
+          {children.map(({ node, key }, index) => (
+            <div class={n('group')} key={key}>
+              <div class={n('item')}>{node}</div>
+              {(splits[index]?.length ?? 0) > 0 && <div class={n('item-split')}>{splits[index]}</div>}
+            </div>
+          ))}
         </div>
       )
     }

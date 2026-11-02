@@ -28,12 +28,21 @@ onThemeChange()
   <mp-date-range-picker
     v-model="ranges.dateTimeCalendarPicker"
     show-time
-    :use-seconds="false"
+    :time-fields="['hour', 'minute']"
+    format="YYYY-MM-DD HH:mm"
+    value-format="YYYY-MM-DD HH:mm"
     presentation="calendarPicker"
   />
 
   <app-type>{{ t('dateTimePicker') }}</app-type>
-  <mp-date-range-picker v-model="ranges.dateTimePicker" show-time :use-seconds="false" presentation="picker" />
+  <mp-date-range-picker
+    v-model="ranges.dateTimePicker"
+    show-time
+    :time-fields="['hour', 'minute']"
+    format="YYYY-MM-DD HH:mm"
+    value-format="YYYY-MM-DD HH:mm"
+    presentation="picker"
+  />
 
   <app-type>{{ t('yearRange') }}</app-type>
   <mp-date-range-picker v-model="ranges.year" presentation="picker" type="year" />

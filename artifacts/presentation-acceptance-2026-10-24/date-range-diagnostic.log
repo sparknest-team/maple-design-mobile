@@ -1,0 +1,20 @@
+PASS {"surface":"desktop","theme":"light","component":"DateRange","mode":"default"}
+FAIL {"surface":"desktop","theme":"light","component":"DateRange","mode":"inline"} TimeoutError: locator.click: Timeout 5000ms exceeded.
+Call log:
+[2m  - waiting for locator('.mp-popup').filter({ visible: true }).last().locator('.mp-day-picker').first().getByText('25', { exact: true })[22m
+
+PASS {"surface":"desktop","theme":"dark","component":"DateRange","mode":"default"}
+FAIL {"surface":"desktop","theme":"dark","component":"DateRange","mode":"inline"} TimeoutError: locator.click: Timeout 5000ms exceeded.
+Call log:
+[2m  - waiting for locator('.mp-popup').filter({ visible: true }).last().locator('.mp-day-picker').first().getByText('25', { exact: true })[22m
+
+PASS {"surface":"mobile","theme":"light","component":"DateRange","mode":"default"}
+FAIL {"surface":"mobile","theme":"light","component":"DateRange","mode":"inline"} TimeoutError: locator.click: Timeout 5000ms exceeded.
+Call log:
+[2m  - waiting for locator('.mp-popup').filter({ visible: true }).last().locator('.mp-day-picker').first().getByText('25', { exact: true })[22m
+
+PASS {"surface":"mobile","theme":"dark","component":"DateRange","mode":"default"}
+FAIL {"surface":"mobile","theme":"dark","component":"DateRange","mode":"inline"} Error: locator.click: Target page, context or browser has been closed
+Call log:
+[2m  - waiting for locator('.mp-popup').filter({ visible: true }).last().locator('.mp-day-picker').first().getByText('25', { exact: true })[22m
+

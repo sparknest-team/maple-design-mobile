@@ -6,7 +6,16 @@
       "type": "\"default\" | \"primary\" | \"secondary\" | \"tertiary\" | \"info\" | \"success\" | \"warning\" | \"danger\"",
       "defaultValue": "'default'",
       "kind": "enum",
-      "options": ["default", "primary", "secondary", "tertiary", "info", "success", "warning", "danger"],
+      "options": [
+        "default",
+        "primary",
+        "secondary",
+        "tertiary",
+        "info",
+        "success",
+        "warning",
+        "danger"
+      ],
       "initial": "default"
     },
     {
@@ -15,7 +24,10 @@
       "type": "'default' | 'outline'",
       "defaultValue": "'default'",
       "kind": "enum",
-      "options": ["default", "outline"],
+      "options": [
+        "default",
+        "outline"
+      ],
       "initial": "default"
     },
     {
@@ -24,7 +36,13 @@
       "type": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\"",
       "defaultValue": "'md'",
       "kind": "enum",
-      "options": ["xs", "sm", "md", "lg", "xl"],
+      "options": [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl"
+      ],
       "initial": "md"
     },
     {
@@ -108,8 +126,16 @@
     }
   ],
   "methodNames": [],
-  "events": ["update:show", "update:modelValue", "close", "check"],
-  "slotNames": ["icon", "close-icon"],
+  "events": [
+    "update:show",
+    "update:modelValue",
+    "close",
+    "check"
+  ],
+  "slotNames": [
+    "icon",
+    "close-icon"
+  ],
   "slotDefaults": {
     "icon": true,
     "close-icon": false

@@ -2,7 +2,7 @@
 
 可以折叠 / 展开的内容区域。示例与 Cedar Design Web 保持一致，布局按移动端换行。
 
-## 案例
+## 基础示例
 
 ### 基础用法
 
@@ -12,6 +12,8 @@
 ../example/demos/basic.vue
 ```
 
+## 外观与状态
+
 ### 禁用
 
 通过 `disabled` 禁用面板。
@@ -20,36 +22,26 @@
 ../example/demos/disabled.vue
 ```
 
-### 手风琴模式
-
-通过 `accordion` 开启手风琴模式，同时只能打开一个面板。手风琴模式下 `modelValue` 仍为数组，最多包含一项。
-
-```demo
-../example/demos/accordion.vue
-```
+## 布局与排列
 
 ### 嵌套面板
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `default-value` | 非受控初始展开面板 | 嵌套面板、展开图标位置 |
+| `destroy-on-hide` | 是否在隐藏时销毁内容 | 嵌套面板 |
+| `offset` | 展开面板是否显示间距 | 展开间距 |
+| `expand-icon-position` | 展开图标在标题区域的 left 或 right 位置，默认 left；不控制内容展开方向 | 展开图标位置 |
+| `show-expand-icon` | 是否显示展开图标；未设置时由子项决定 | 展开图标位置 |
+<!-- demo-config-notes:end -->
 
 面板多层嵌套。
 
 ```demo
 ../example/demos/nested.vue
-```
-
-### 无边框模式
-
-通过设置 `bordered="false"` 隐藏边框。
-
-```demo
-../example/demos/border-less.vue
-```
-
-### 分割线
-
-通过 `divider` 控制面板之间的分割线。
-
-```demo
-../example/demos/divider.vue
 ```
 
 ### 展开间距
@@ -58,6 +50,57 @@
 
 ```demo
 ../example/demos/offset.vue
+```
+
+### 展开图标位置
+
+通过 `expand-icon-position` 属性设置展开图标的位置。
+
+```demo
+../example/demos/icon-position.vue
+```
+
+## 内容与展示
+
+### 手风琴模式
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `default-value` | 非受控初始展开面板 | 手风琴模式、边框与分隔线、展开图标 |
+| `accordion` | 手风琴模式，同时最多展开一项 | 手风琴模式 |
+| `bordered` | 是否显示边框 | 边框与分隔线 |
+| `divider` | 是否显示面板分割线 | 边框与分隔线 |
+| `destroy-on-hide` | 是否在隐藏时销毁内容 | 隐藏时销毁 |
+<!-- demo-config-notes:end -->
+
+通过 `accordion` 开启手风琴模式，同时只能打开一个面板。手风琴模式下 `modelValue` 仍为数组，最多包含一项。
+
+```demo
+../example/demos/accordion.vue
+```
+
+### 边框与分隔线
+
+比较外边框和面板间分隔线，分别展开面板观察两种装饰的边界。
+
+<details>
+<summary>配置说明与使用限制</summary>
+
+#### 无边框模式
+
+通过设置 `bordered="false"` 隐藏边框。
+
+#### 分割线
+
+通过 `divider` 控制面板之间的分割线。
+
+</details>
+
+```demo
+../example/demos/border-comparison.vue
 ```
 
 ### 额外节点
@@ -76,22 +119,6 @@
 ../example/demos/expand-icon.vue
 ```
 
-### 自定义样式
-
-自定义面板样式。
-
-```demo
-../example/demos/custom.vue
-```
-
-### 展开图标位置
-
-通过 `expand-icon-position` 属性设置展开图标的位置。
-
-```demo
-../example/demos/icon-position.vue
-```
-
 ### 隐藏时销毁
 
 通过设置 `destroy-on-hide` 可以让面板内容在隐藏时销毁。
@@ -99,6 +126,27 @@
 ```demo
 ../example/demos/destroy.vue
 ```
+
+## 自定义与插槽
+
+### 自定义样式
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `default-value` | 非受控初始展开面板 | 自定义样式 |
+| `bordered` | 是否显示边框 | 自定义样式 |
+<!-- demo-config-notes:end -->
+
+自定义面板样式。
+
+```demo
+../example/demos/custom.vue
+```
+
+## 交互与控制
 
 ### 切换全部
 
@@ -108,14 +156,9 @@
 ../example/demos/toggle-all.vue
 ```
 
-<!-- api-review:start -->
-### 功能调试
+## 阅读方向
 
-```demo
-../example/demos/api-review.vue
-```
-
-<!-- api-review:end -->
+继承最近的 `dir="ltr|rtl"`，支持运行时切换与局部覆盖。标题文字与扩展内容继承阅读方向，展开状态不因切换方向改变。expand-icon-position 的 left/right 始终表示物理侧，不改为逻辑起止；自定义展开图形不额外镜像。
 
 ## API
 
@@ -130,7 +173,7 @@
 | default-value | 非受控初始展开面板 | `(string \| number)[]` | `[]` |
 | accordion | 手风琴模式，同时最多展开一项 | `boolean` | `false` |
 | show-expand-icon | 是否显示展开图标；未设置时由子项决定 | `boolean` | `—` |
-| expand-icon-position | 展开图标位置 | `'left' \| 'right'` | `'left'` |
+| expand-icon-position | 展开图标在标题区域的 left 或 right 位置，默认 left；不控制内容展开方向 | `'left' \| 'right'` | `'left'` |
 | bordered | 是否显示边框 | `boolean` | `true` |
 | divider | 是否显示面板分割线 | `boolean` | `true` |
 | offset | 展开面板是否显示间距 | `boolean` | `false` |

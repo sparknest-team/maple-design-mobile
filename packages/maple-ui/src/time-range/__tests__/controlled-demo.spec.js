@@ -1,15 +1,25 @@
-import { nextTick } from 'vue'
+import { defineComponent, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { expect, it } from 'vitest'
 import { useDemoControls } from '../../../test-utils/demo-controls'
 import Demo from '../example/demos/default-state.vue'
-import TimeRange from '../index'
+
+// This test covers the demo's parent proposal gates, independent of panel open normalization.
+const TimeRange = defineComponent({
+  name: 'MpTimeRange',
+  props: ['modelValue', 'open'],
+  emits: ['update:modelValue', 'update:open'],
+  template: '<div />',
+})
 
 useDemoControls()
 
 it('controlled demo rejects proposals without mutating parent state, then accepts new requests', async () => {
-  const wrapper = mount(Demo, { global: { components: { MpTimeRange: TimeRange } } })
-  const field = wrapper.findAllComponents(TimeRange)[1]
+  const wrapper = mount(Demo, {
+    attachTo: document.body,
+    global: { components: { MpTimeRange: TimeRange } },
+  })
+  const field = wrapper.findAllComponents(TimeRange).find((item) => item.props('modelValue') !== undefined)
   const controls = wrapper.findAll('input[type="checkbox"]')
   await controls[0].setValue(false)
   await controls[1].setValue(false)

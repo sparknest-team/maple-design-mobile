@@ -35,6 +35,7 @@ export const paginationProps = {
     default: () => [10, 20, 30, 40, 50],
     validator: (value: number[]) => value.length > 0 && value.every((item) => Number.isInteger(item) && item > 0),
   },
+  /** 可选的条数 Select 受限配置；placement 默认 bottom-start，经 Select.triggerProps 交给 Trigger 自动定位；不能覆盖分页值、选项和尺寸 */
   pageSizeProps: Object as PropType<PaginationPageSizeProps>,
   /** 所有内部控件使用相同尺寸。 */
   size: {

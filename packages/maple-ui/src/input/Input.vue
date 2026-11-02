@@ -8,11 +8,14 @@
     <FieldPresentation
       :id="inputId"
       ref="presentationRef"
+      :loading="loading"
       intent="input"
-      :presentation="presentation"
+      :edit-mode="editMode"
       :read-pretty="readPretty"
+      :empty="emptyPolicy.isEmpty(committedValue)"
+      :empty-text="emptyPolicy.emptyText.value"
       :popup-container="popupContainer"
-      :text="type === 'password' && committedValue ? '••••••' : committedValue"
+      :text="type === 'password' && committedValue ? '••••••' : (committedValue ?? '')"
       :placeholder="placeholder"
       :label="presentationLabel"
       :open="editorOpen"
@@ -30,7 +33,9 @@
 
       <FieldDecorator
         :id="inputId"
-        :value="value"
+        :loading="loading || inputSession.pending.value"
+        :loading-mode="loadingMode"
+        :value="composition.isComposing.value ? inputRef?.value : value"
         :variant="mergedVariant"
         :size="mergedSize"
         :disabled="mergedDisabled || inputSession.pending.value"
@@ -52,8 +57,10 @@
           v-bind="nativeAttrs"
           :id="inputId"
           ref="inputRef"
+          :aria-busy="loading || inputSession.pending.value || undefined"
+          :autocomplete="oneTimeCode && nativeAttrs.autocomplete === 'one-time-code' ? 'one-time-code' : 'off'"
           :class="n('inner')"
-          :value="value"
+          :value="composition.isComposing.value ? inputRef?.value : value"
           :type="type === 'number' ? 'text' : type"
           :disabled="mergedDisabled || inputSession.pending.value"
           :readonly="mergedReadonly"
@@ -83,13 +90,15 @@
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick, onMounted, ref, useAttrs, useId, watch, type InputHTMLAttributes } from 'vue'
-import { useFieldPresentation } from '../_components/field-presentation/context'
+import { computed, inject, nextTick, onMounted, ref, useAttrs, useId, watch, type InputHTMLAttributes } from 'vue'
+import { invokeBeforeCommit, useFieldPresentation } from '../_components/field-presentation/context'
 import FieldPresentation from '../_components/field-presentation/FieldPresentation.vue'
 import { useSelectionSession } from '../_components/selection-field/use-selection-session'
 import FieldDecorator, { fieldDecoratorProps } from '../field-decorator'
 import { createNamespace } from '../utils/components'
+import { useEmptyValues } from '../utils/empty-value'
 import { useInputComposition } from '../utils/input-composition'
+import { oneTimeCodeKey } from './context'
 import InputFeedback from './InputFeedback.vue'
 import { captureInputSelection, splitInputAttrs } from './native-attrs'
 import { inputProps } from './props'
@@ -103,6 +112,7 @@ const emit = defineEmits<InputEmits>()
 defineSlots<InputSlots>()
 const { n, classes } = createNamespace('input')
 const attrs = useAttrs()
+const oneTimeCode = inject(oneTimeCodeKey, false)
 const inputRef = ref<HTMLInputElement>()
 const generatedId = useId()
 const splitAttrs = computed(() => splitInputAttrs(attrs))
@@ -125,22 +135,23 @@ const mergedHint = computed(
   () => !hasOuterLabel.value && (props.hint ?? group?.hint.value ?? fieldDecoratorProps.hint.default),
 )
 const {
-  presentation,
+  editMode,
   readPretty,
   item: presentationItem,
   label: presentationLabel,
   register: registerPresentation,
 } = useFieldPresentation(
-  () => props.presentation,
+  () => props.editMode,
   () => props.readPretty,
 )
 const presentationRef = ref<InstanceType<typeof FieldPresentation>>()
-const localCommittedValue = ref(props.defaultValue)
+const emptyPolicy = useEmptyValues(props, undefined, Boolean(presentationItem))
+const localCommittedValue = ref<string | null>(props.defaultValue)
 const committedValue = computed(() => (props.modelValue !== undefined ? props.modelValue : localCommittedValue.value))
 const localEditorOpen = ref(props.defaultOpen)
 const editorOpen = computed(
   () =>
-    presentation.value !== 'inline' &&
+    editMode.value !== 'direct' &&
     !readPretty.value &&
     !mergedDisabled.value &&
     !mergedReadonly.value &&
@@ -156,7 +167,7 @@ function setEditorOpen(open: boolean) {
 const inputSession = useSelectionSession({
   value: () => committedValue.value,
   open: editorOpen,
-  deferred: () => presentation.value !== 'inline',
+  deferred: () => editMode.value !== 'direct',
   blocked: () => mergedDisabled.value || mergedReadonly.value || readPretty.value,
   clone: (value) => value,
   publish: (next) => {
@@ -177,7 +188,7 @@ const inputSession = useSelectionSession({
       return false
     }
     if (next !== committedValue.value) {
-      return props.beforeCommit?.(next, { previousValue: committedValue.value, signal })
+      return invokeBeforeCommit(props.beforeCommit, next, { previousValue: committedValue.value, signal })
     }
   },
 })
@@ -193,7 +204,7 @@ function confirmEditor() {
   return inputSession.commit()
 }
 watch(
-  [presentation, readPretty],
+  [editMode, readPretty],
   ([next, pretty], previous) => {
     presentationItem?.resolved?.(next, readPretty.value)
     if (previous && (next !== previous[0] || pretty !== previous[1])) {
@@ -207,7 +218,7 @@ watch(
 watch(
   [mergedDisabled, mergedReadonly, readPretty],
   () => {
-    if (readPretty.value || (presentation.value !== 'inline' && (mergedDisabled.value || mergedReadonly.value))) {
+    if (readPretty.value || (editMode.value !== 'direct' && (mergedDisabled.value || mergedReadonly.value))) {
       setEditorOpen(false)
       inputSession.reset()
       presentationItem?.resetValidation?.()
@@ -259,10 +270,15 @@ function processInput(event: Event) {
   const input = event.target as HTMLInputElement
   const restore = captureInputSelection(input)
   updateValue(input.value, (nextValue) => {
-    emit('input', nextValue, event)
+    emit('input', nextValue ?? '', event)
     !editorOpen.value && eventHandlers.value?.onInput?.(event)
   })
-  nextTick(() => restore(value.value))
+  nextTick(() => {
+    // A later composition owns the DOM buffer; an older edit cannot restore over it.
+    if (!composition.isComposing.value) {
+      restore(value.value)
+    }
+  })
 }
 function handleInput(event: Event) {
   if (composition.accepts(event)) {
@@ -316,7 +332,7 @@ function handleClear(event: Event) {
   emit('clear', event)
   !editorOpen.value && eventHandlers.value?.onClear?.(event)
   clearValue(event, (nextValue) => {
-    emit('input', nextValue, event)
+    emit('input', nextValue ?? '', event)
     !editorOpen.value && eventHandlers.value?.onInput?.(event)
   })
   focus()
@@ -327,7 +343,7 @@ function handleClick(event: MouseEvent) {
   }
 }
 function handleMousedown(event: MouseEvent) {
-  if (presentation.value !== 'inline') {
+  if (editMode.value !== 'direct') {
     return
   }
   if (mergedDisabled.value || event.target === inputRef.value) {

@@ -118,3 +118,14 @@ PC 端见 `/Users/shuaimeng/github/cedar-design-web/AGENTS.md`。
 - 组件单测只收集 `src/`，生成目录 `.maple/` 中的文档站副本不能进入组件测试。CLI 源码的站点与编译器测试通过 `pnpm check:cli` 独立执行。
 
 更多细节见 [docs/practices/component-spec.md](docs/practices/component-spec.md)。
+
+### 浅色品牌主色的文字使用
+
+- `--mp-color-primary` / `--mp-sys-color-action-primary` 是填充色，Firefly 黄绿等浅色不能直接用于白底或浅底的文字、链接、步骤标签、选中按钮文字。
+- 页面文字强调使用 `--mp-sys-color-content-brand`，Button 的 text / outline / tonal 使用各状态的 foreground token；实心底色与前景必须配对。
+- Firefly 沿用 Horo 角色：primary 为黄色主行动、secondary 为中性次级、tertiary 为紫色辅助品牌。紫色填充与文字使用不同色阶；选择、焦点、日期和滑块使用紫色，不能把 secondary 固定映射为紫色。text/outline 保持透明，黄色文字通过示例卡片背景切换展示深色场景。
+- 调整品牌 Button 时检查明暗主题的四种变体、八种状态和交互态，不能让实心状态层以全不透明覆盖底色。浏览器回归：`node --test scripts/browser/button-theme.test.mjs`（先构建文档）。
+
+## 浏览器兼容性
+
+构建后执行 `pnpm check:compatibility`，运行三引擎完整生产回归。原生版本和移动真机发布验收见 `design-ui/standards/browser-compatibility.md`（同级仓库）。使用 `pnpm compatibility:native:init` 创建待验收报告，`pnpm check:compatibility:release` 核对最终发布产物与原生证据。模拟手机不等于真机通过。

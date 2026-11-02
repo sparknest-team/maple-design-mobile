@@ -10,7 +10,7 @@ const wrappers: ReturnType<typeof mount>[] = []
 afterEach(() => wrappers.splice(0).forEach((wrapper) => wrapper.unmount()))
 describe('mobile date presentation ownership', () => {
   for (const range of [false, true]) {
-    it(`keeps inline views as calendars regardless of wheel selection (range=${range})`, async () => {
+    it(`honors the root content mode in inline views (range=${range})`, async () => {
       const nested = { presentation: 'calendar' as const, dayStartOfWeek: 1 as const }
       const global = { stubs: { Trigger: Surface, MpTrigger: Surface, teleport: true } }
       const wrapper = range
@@ -26,7 +26,11 @@ describe('mobile date presentation ownership', () => {
       expect(wrapper.find('.mp-date-picker-header').exists()).toBe(true)
       expect(wrapper.find('.mp-picker').exists()).toBe(false)
       await wrapper.setProps({ panelType: 'picker' })
+      expect(wrapper.find('.mp-picker').exists()).toBe(true)
+      expect(wrapper.find('.mp-date-picker-header').exists()).toBe(false)
+      await wrapper.setProps({ panelType: 'calendar' })
       expect(wrapper.find('.mp-picker').exists()).toBe(false)
+      expect(wrapper.find('.mp-date-picker-header').exists()).toBe(true)
       expect(wrapper.emitted('update:modelValue')).toBeUndefined()
       expect(wrapper.emitted('select')).toBeUndefined()
     })

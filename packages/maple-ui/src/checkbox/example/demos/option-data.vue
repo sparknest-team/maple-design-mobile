@@ -18,7 +18,7 @@ const renderOptions = [
 <template>
   <section class="option-demo">
     <p>字段映射与标签插槽；只读可聚焦，禁用不可操作。</p>
-    <mp-checkbox-group v-model="value" :options="options" :field-names="fields" direction="vertical">
+    <mp-checkbox-group v-model="value" :options="options" :field-names="fields" orientation="vertical">
       <template #label="{ data, checked }">{{ data.label }} {{ checked ? '✓' : '' }}</template>
     </mp-checkbox-group>
     <p>当前值：{{ JSON.stringify(value) }}</p>

@@ -1,30 +1,41 @@
 <template>
-  <div v-if="readPretty" v-bind="$attrs" :class="n('read')">
-    <slot name="read">{{ text || '—' }}</slot>
+  <div v-if="readPretty" v-bind="$attrs" :class="n('read')" :aria-busy="loading || undefined">
+    <slot name="read">{{ (empty ?? !text) ? (emptyText ?? '-') : text }}</slot>
+    <PendingFeedback :loading="loading" />
   </div>
-  <slot v-else-if="presentation === 'inline'" />
+  <slot v-else-if="editMode === 'direct'" />
   <template v-else>
-    <FieldReference
-      v-bind="$attrs"
-      ref="reference"
-      :label="label || placeholder"
-      :text="text"
-      :placeholder="placeholder"
-      :open="open"
-      :disabled="disabled || readonly || pending"
-      @open="$emit('open', true)"
-    />
+    <slot name="reference"
+      ><FieldReference
+        v-bind="$attrs"
+        ref="reference"
+        :label="label || placeholder"
+        :text="text"
+        :placeholder="placeholder"
+        :open="open"
+        :loading="loading || pending"
+        :open-trigger-target="openTriggerTarget"
+        :disabled="disabled || readonly || pending"
+        @open="$emit('open', true)"
+    /></slot>
     <Popup
-      v-if="presentation === 'popup'"
+      v-if="editMode === 'popup'"
       :aria-label="label || placeholder"
       :open="open"
       :popup-container="popupContainer"
       placement="bottom"
       :overlay-closable="!pending"
       :esc-to-close="!pending"
+      :swipe-to-close="!pending"
       @update:open="!$event && $emit('cancel')"
     >
-      <EditorPanel ref="panel" v-bind="panelProps" @confirm="$emit('confirm')" @cancel="$emit('cancel')"
+      <EditorPanel
+        ref="panel"
+        :clearable="clearable"
+        v-bind="panelProps"
+        @clear="$emit('clear')"
+        @confirm="$emit('confirm')"
+        @cancel="$emit('cancel')"
         ><slot
       /></EditorPanel>
     </Popup>
@@ -35,15 +46,22 @@ import { computed, nextTick, onActivated, onBeforeUnmount, onDeactivated, ref, w
 import Popup from '../../popup'
 import { createNamespace } from '../../utils/components'
 import type { PopupContainer } from '../../utils/popup-container'
-import type { FieldPresentation } from './context'
+import PendingFeedback from '../pending-feedback/PendingFeedback.vue'
+import type { FieldEditMode } from './context'
 import EditorPanel from './EditorPanel.vue'
 import FieldReference from './FieldReference.vue'
 
 defineOptions({ name: createNamespace('field-presentation').name, inheritAttrs: false })
 const props = defineProps<{
+  clearable?: boolean
   commit?: () => unknown | Promise<unknown>
-  presentation: FieldPresentation
+  referenceFocus?: () => void
+  openTriggerTarget?: 'field' | 'icon'
+  editMode: FieldEditMode
+  empty?: boolean
+  emptyText?: string
   readPretty?: boolean
+  loading?: boolean
   text?: string
   placeholder?: string
   intent?: 'input' | 'select'
@@ -59,7 +77,7 @@ const props = defineProps<{
   count?: number
   limit?: number
 }>()
-const emit = defineEmits<{ open: [value: boolean]; confirm: []; cancel: [] }>()
+const emit = defineEmits<{ open: [value: boolean]; confirm: []; cancel: []; clear: [] }>()
 const { n } = createNamespace('field-presentation')
 const reference = ref<InstanceType<typeof FieldReference>>()
 const panel = ref<InstanceType<typeof EditorPanel>>()
@@ -92,10 +110,10 @@ const panelProps = computed(() => ({
   limit: props.limit,
 }))
 watch(
-  [() => props.open, () => props.presentation, () => props.disabled, () => props.readonly],
-  ([open, presentation], previous) => {
+  [() => props.open, () => props.editMode, () => props.disabled, () => props.readonly],
+  ([open, editMode], previous) => {
     const generation = ++focusGeneration
-    if (!open && previous?.[0] && canFocus() && presentation !== 'inline' && !props.readPretty) {
+    if (!open && previous?.[0] && canFocus() && editMode !== 'direct' && !props.readPretty) {
       const target = reference.value
       let pending = true
       nextTick(() => {
@@ -109,10 +127,14 @@ watch(
           !props.disabled &&
           !props.readonly &&
           generation === focusGeneration &&
-          props.presentation === presentation &&
+          props.editMode === editMode &&
           reference.value === target
         ) {
-          target?.focus()
+          if (props.referenceFocus) {
+            props.referenceFocus()
+          } else {
+            target?.focus()
+          }
         }
       })
     }
@@ -122,7 +144,11 @@ watch(
 defineExpose({
   focus: () => {
     if (canFocus()) {
-      reference.value?.focus()
+      if (props.referenceFocus) {
+        props.referenceFocus()
+      } else {
+        reference.value?.focus()
+      }
     }
   },
 })

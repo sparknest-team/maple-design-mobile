@@ -82,11 +82,10 @@
       "demos": [
         "basic.vue",
         "accordion.vue",
-        "border-less.vue",
+        "border-comparison.vue",
         "custom.vue",
         "destroy.vue",
         "disabled.vue",
-        "divider.vue",
         "expand-icon.vue",
         "icon-position.vue",
         "nested.vue",
@@ -100,11 +99,10 @@
       "demos": [
         "basic.vue",
         "accordion.vue",
-        "border-less.vue",
+        "border-comparison.vue",
         "custom.vue",
         "destroy.vue",
         "disabled.vue",
-        "divider.vue",
         "expand-icon.vue",
         "icon-position.vue",
         "nested.vue"
@@ -116,11 +114,10 @@
       "demos": [
         "basic.vue",
         "accordion.vue",
-        "border-less.vue",
+        "border-comparison.vue",
         "custom.vue",
         "destroy.vue",
         "disabled.vue",
-        "divider.vue",
         "expand-icon.vue",
         "icon-position.vue",
         "nested.vue"

@@ -3,6 +3,7 @@ import { resolve } from 'path'
 import { MapleResolver, MapleStyleImports } from '@maple-design/resolver'
 import { isArray } from '@maple-design/shared'
 import { copy, html, inlineCss, markdown } from '@maple-design/vite-plugins'
+import { browserTargets } from '@sparknest/ui-build/browser-targets'
 import vue from '@vitejs/plugin-vue'
 import jsx from '@vitejs/plugin-vue-jsx'
 import AutoImport from 'unplugin-auto-import/vite'
@@ -181,7 +182,8 @@ export function getBuildConfig(mapleConfig: Required<MapleConfig>): InlineConfig
       outDir: SITE_OUTPUT_PATH,
       reportCompressedSize: false,
       emptyOutDir: true,
-      cssTarget: 'chrome61',
+      target: [...browserTargets],
+      cssTarget: [...browserTargets],
       rollupOptions: {
         input: {
           main: resolve(SITE_DIR, 'index.html'),

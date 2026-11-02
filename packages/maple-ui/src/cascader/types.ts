@@ -3,7 +3,7 @@ import { BaseType, FieldString } from '../_utils/types'
 import { TagProps } from '../tag'
 
 export type CascaderBaseValue =
-  BaseType | Record<string, any> | (BaseType | Record<string, any> | (BaseType | Record<string, any>)[])[]
+  null | BaseType | Record<string, any> | (BaseType | Record<string, any> | (BaseType | Record<string, any>)[])[]
 
 export interface CascaderOption {
   /**
@@ -29,7 +29,6 @@ export interface CascaderOption {
   /**
    * @zh 展示的标签属性
    * @en Displayed tag attributes
-   * @version 2.8.0
    */
   tagProps?: TagProps
   /**

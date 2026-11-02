@@ -19,10 +19,12 @@ export { timeRangeProps, timeRangePickerProps, TimeRangePicker }
 
 export type TimeRangeInstance = InstanceType<typeof _TimeRange>
 export type TimeRangePickerInstance = InstanceType<typeof TimeRangePicker>
-export type { TimeRangeProps, TimeRangePresentation } from './props'
+export type { TimeRangeProps, TimeRangeEditMode } from './props'
 export type { TimeRangePickerProps, TimeRangePickerPresentation } from './picker-props'
 
 export const _TimeRangeComponent: typeof TimeRange = TimeRange
 export const _TimeRangePickerComponent: typeof TimeRangePicker = TimeRangePicker
 
 export default TimeRange
+
+export type { TimePickerField } from '../_components/picker-field/fields'

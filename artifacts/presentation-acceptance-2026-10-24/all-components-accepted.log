@@ -1,0 +1,655 @@
+
+> @1.0.0 check:docs-components /Users/shuaimeng/github_web/maple-design-mobile
+> node --test scripts/browser/components.test.mjs
+
+TAP version 13
+# Subtest: maple: every production component page, source and behavior
+    # Subtest: documentation lightTheme action-sheet: interaction, exact source
+    ok 1 - documentation lightTheme action-sheet: interaction, exact source
+      ---
+      duration_ms: 3269.733167
+      ...
+    # {"component":"action-sheet","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/action-sheet/example/demos/function-call.vue","result":"action-sheet"}
+    # Subtest: documentation lightTheme affix: interaction, exact source
+    ok 2 - documentation lightTheme affix: interaction, exact source
+      ---
+      duration_ms: 2788.8975
+      ...
+    # {"component":"affix","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/affix/example/demos/basic.vue","result":"affix"}
+    # Subtest: documentation lightTheme alert: interaction, exact source
+    ok 3 - documentation lightTheme alert: interaction, exact source
+      ---
+      duration_ms: 2787.962417
+      ...
+    # {"component":"alert","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/alert/example/demos/variant.vue","result":"alert"}
+    # Subtest: documentation lightTheme auto-complete: interaction, exact source
+    ok 4 - documentation lightTheme auto-complete: interaction, exact source
+      ---
+      duration_ms: 3461.620625
+      ...
+    # {"component":"auto-complete","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/auto-complete/example/demos/zh-CN/basic.vue","result":"auto-complete"}
+    # Subtest: documentation lightTheme avatar: presentation, exact source
+    ok 5 - documentation lightTheme avatar: presentation, exact source
+      ---
+      duration_ms: 2458.769667
+      ...
+    # {"component":"avatar","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/avatar/example/demos/basic.vue","result":"avatar: rendered content and geometry"}
+    # Subtest: documentation lightTheme back-top: interaction, exact source
+    ok 6 - documentation lightTheme back-top: interaction, exact source
+      ---
+      duration_ms: 2066.513333
+      ...
+    # {"component":"back-top","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/back-top/example/demos/basic-usage.vue","result":"back-top"}
+    # Subtest: documentation lightTheme badge: presentation, exact source
+    ok 7 - documentation lightTheme badge: presentation, exact source
+      ---
+      duration_ms: 2451.370375
+      ...
+    # {"component":"badge","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/badge/example/demos/basic.vue","result":"badge: rendered content and geometry"}
+    # Subtest: documentation lightTheme breadcrumb: presentation, exact source
+    ok 8 - documentation lightTheme breadcrumb: presentation, exact source
+      ---
+      duration_ms: 2069.4055
+      ...
+    # {"component":"breadcrumb","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/breadcrumb/example/demos/basic-usage.vue","result":"breadcrumb: rendered content and geometry"}
+    # Subtest: documentation lightTheme button: interaction, exact source
+    ok 9 - documentation lightTheme button: interaction, exact source
+      ---
+      duration_ms: 3889.052708
+      ...
+    # {"component":"button","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/button/example/demos/variants.vue","result":"button"}
+    # Subtest: documentation lightTheme card: presentation, exact source
+    ok 10 - documentation lightTheme card: presentation, exact source
+      ---
+      duration_ms: 2566.266166
+      ...
+    # {"component":"card","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/card/example/demos/basic.vue","result":"card: rendered content and geometry"}
+    # Subtest: documentation lightTheme carousel: interaction, exact source
+    ok 11 - documentation lightTheme carousel: interaction, exact source
+      ---
+      duration_ms: 3617.983667
+      ...
+    # {"component":"carousel","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/carousel/example/demos/basic-usage.vue","result":"carousel"}
+    # Subtest: documentation lightTheme cascader: interaction, exact source
+    ok 12 - documentation lightTheme cascader: interaction, exact source
+      ---
+      duration_ms: 3467.259083
+      ...
+    # {"component":"cascader","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/cascader/example/demos/placeholder.vue","result":"cascader"}
+    # Subtest: documentation lightTheme cell: presentation, exact source
+    ok 13 - documentation lightTheme cell: presentation, exact source
+      ---
+      duration_ms: 1686.721375
+      ...
+    # {"component":"cell","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/cell/example/demos/basic-usage.vue","result":"cell: rendered content and geometry"}
+    # Subtest: documentation lightTheme checkbox: interaction, exact source
+    ok 14 - documentation lightTheme checkbox: interaction, exact source
+      ---
+      duration_ms: 4037.285167
+      ...
+    # {"component":"checkbox","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/checkbox/example/demos/basic-usage.vue","result":"checkbox"}
+    # Subtest: documentation lightTheme code: presentation, exact source
+    ok 15 - documentation lightTheme code: presentation, exact source
+      ---
+      duration_ms: 1441.312041
+      ...
+    # {"component":"code","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/code/example/demos/basic-usage.vue","result":"code: rendered content and geometry"}
+    # Subtest: documentation lightTheme col: presentation, exact source
+    ok 16 - documentation lightTheme col: presentation, exact source
+      ---
+      duration_ms: 1929.991583
+      ...
+    # {"component":"col","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/col/example/demos/basic.vue","result":"col: rendered content and geometry"}
+    # Subtest: documentation lightTheme collapse: interaction, exact source
+    ok 17 - documentation lightTheme collapse: interaction, exact source
+      ---
+      duration_ms: 2635.736583
+      ...
+    # {"component":"collapse","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/collapse/example/demos/basic.vue","result":"collapse"}
+    # Subtest: documentation lightTheme count-to: interaction, exact source
+    ok 18 - documentation lightTheme count-to: interaction, exact source
+      ---
+      duration_ms: 2477.2965
+      ...
+    # {"component":"count-to","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/count-to/example/demos/basic-usage.vue","result":"count-to"}
+    # Subtest: documentation lightTheme countdown: interaction, exact source
+    ok 19 - documentation lightTheme countdown: interaction, exact source
+      ---
+      duration_ms: 2671.442625
+      ...
+    # {"component":"countdown","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/countdown/example/demos/basic-usage.vue","result":"countdown"}
+    # Subtest: documentation lightTheme counter: interaction, exact source
+    ok 20 - documentation lightTheme counter: interaction, exact source
+      ---
+      duration_ms: 2498.173375
+      ...
+    # {"component":"counter","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/counter/example/demos/basic-usage.vue","result":"counter"}
+    # Subtest: documentation lightTheme date-range: interaction, exact source
+    ok 21 - documentation lightTheme date-range: interaction, exact source
+      ---
+      duration_ms: 6036.209375
+      ...
+    # {"component":"date-range","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/date-range/example/demos/basic-usage.vue","result":"temporal"}
+    # Subtest: documentation lightTheme date: interaction, exact source
+    ok 22 - documentation lightTheme date: interaction, exact source
+      ---
+      duration_ms: 9273.149
+      ...
+    # {"component":"date","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/date/example/demos/basic-usage.vue","result":"temporal"}
+    # Subtest: documentation lightTheme dialog: interaction, exact source
+    ok 23 - documentation lightTheme dialog: interaction, exact source
+      ---
+      duration_ms: 3185.114625
+      ...
+    # {"component":"dialog","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/dialog/example/demos/basic-usage.vue","result":"dialog"}
+    # Subtest: documentation lightTheme divider: presentation, exact source
+    ok 24 - documentation lightTheme divider: presentation, exact source
+      ---
+      duration_ms: 1915.360833
+      ...
+    # {"component":"divider","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/divider/example/demos/basic-usage.vue","result":"divider: rendered content and geometry"}
+    # Subtest: documentation lightTheme drag: interaction, exact source
+    ok 25 - documentation lightTheme drag: interaction, exact source
+      ---
+      duration_ms: 2306.363417
+      ...
+    # {"component":"drag","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/drag/example/demos/basic-use.vue","result":"drag"}
+    # Subtest: documentation lightTheme ellipsis: interaction, exact source
+    ok 26 - documentation lightTheme ellipsis: interaction, exact source
+      ---
+      duration_ms: 1740.803083
+      ...
+    # {"component":"ellipsis","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/ellipsis/example/demos/expand.vue","result":"ellipsis"}
+    # Subtest: documentation lightTheme empty: presentation, exact source
+    ok 27 - documentation lightTheme empty: presentation, exact source
+      ---
+      duration_ms: 1827.34825
+      ...
+    # {"component":"empty","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/empty/example/demos/basic-usage.vue","result":"empty: rendered content and geometry"}
+    # Subtest: documentation lightTheme fab: interaction, exact source
+    ok 28 - documentation lightTheme fab: interaction, exact source
+      ---
+      duration_ms: 2612.3965
+      ...
+    # {"component":"fab","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/fab/example/demos/basic.vue","result":"fab"}
+    # Subtest: documentation lightTheme field-decorator: presentation, exact source
+    ok 29 - documentation lightTheme field-decorator: presentation, exact source
+      ---
+      duration_ms: 1503.795375
+      ...
+    # {"component":"field-decorator","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/field-decorator/example/demos/control-sizes.vue","result":"field-decorator: rendered content and geometry"}
+    # Subtest: documentation lightTheme floating-panel: interaction, exact source
+    ok 30 - documentation lightTheme floating-panel: interaction, exact source
+      ---
+      duration_ms: 1762.447917
+      ...
+    # {"component":"floating-panel","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/floating-panel/example/demos/basic.vue","result":"floating-panel"}
+    # Subtest: documentation lightTheme form-details: presentation, exact source
+    ok 31 - documentation lightTheme form-details: presentation, exact source
+      ---
+      duration_ms: 1244.680875
+      ...
+    # {"component":"form-details","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/form-details/example/demos/api-review.vue","result":"form-details: rendered content and geometry"}
+    # Subtest: documentation lightTheme form: interaction, exact source
+    ok 32 - documentation lightTheme form: interaction, exact source
+      ---
+      duration_ms: 5353.597541
+      ...
+    # {"component":"form","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/form/example/demos/events.vue","result":"form"}
+    # Subtest: documentation lightTheme grid: presentation, exact source
+    ok 33 - documentation lightTheme grid: presentation, exact source
+      ---
+      duration_ms: 1739.788875
+      ...
+    # {"component":"grid","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/grid/example/demos/basic.vue","result":"grid: rendered content and geometry"}
+    # Subtest: documentation lightTheme highlighter-provider: interaction, exact source
+    ok 34 - documentation lightTheme highlighter-provider: interaction, exact source
+      ---
+      duration_ms: 1746.619459
+      ...
+    # {"component":"highlighter-provider","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/highlighter-provider/example/demos/api-review.vue","result":"highlighter-provider"}
+    # Subtest: documentation lightTheme hover: interaction, exact source
+    ok 35 - documentation lightTheme hover: interaction, exact source
+      ---
+      duration_ms: 1462.84075
+      ...
+    # {"component":"hover","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/hover/example/demos/style-binding.vue","result":"hover"}
+    # Subtest: documentation lightTheme icon: presentation, exact source
+    ok 36 - documentation lightTheme icon: presentation, exact source
+      ---
+      duration_ms: 2185.846917
+      ...
+    # {"component":"icon","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/icon/example/demos/basic.vue","result":"icon: rendered content and geometry"}
+    # Subtest: documentation lightTheme image: interaction, exact source
+    ok 37 - documentation lightTheme image: interaction, exact source
+      ---
+      duration_ms: 4221.311625
+      ...
+    # {"component":"image","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/image/example/demos/basic.vue","result":"image"}
+    # Subtest: documentation lightTheme index-bar: interaction, exact source
+    ok 38 - documentation lightTheme index-bar: interaction, exact source
+      ---
+      duration_ms: 1822.039583
+      ...
+    # {"component":"index-bar","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/index-bar/example/demos/basic.vue","result":"index-bar"}
+    # Subtest: documentation lightTheme infinite-scroll: interaction, exact source
+    ok 39 - documentation lightTheme infinite-scroll: interaction, exact source
+      ---
+      duration_ms: 1920.610791
+      ...
+    # {"component":"infinite-scroll","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/infinite-scroll/example/demos/basic.vue","result":"infinite-scroll"}
+    # Subtest: documentation lightTheme input-number: interaction, exact source
+    ok 40 - documentation lightTheme input-number: interaction, exact source
+      ---
+      duration_ms: 3153.47125
+      ...
+    # {"component":"input-number","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/input-number/example/demos/field-basic.vue","result":"input-number"}
+    # Subtest: documentation lightTheme input: interaction, exact source
+    ok 41 - documentation lightTheme input: interaction, exact source
+      ---
+      duration_ms: 3689.219458
+      ...
+    # {"component":"input","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/input/example/demos/default-value.vue","result":"input"}
+    # Subtest: documentation lightTheme lazy: interaction, exact source
+    ok 42 - documentation lightTheme lazy: interaction, exact source
+      ---
+      duration_ms: 1529.797583
+      ...
+    # {"component":"lazy","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/lazy/example/demos/basic-usage.vue","result":"lazy"}
+    # Subtest: documentation lightTheme link: presentation, exact source
+    ok 43 - documentation lightTheme link: presentation, exact source
+      ---
+      duration_ms: 2312.877292
+      ...
+    # {"component":"link","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/link/example/demos/basic.vue","result":"link: rendered content and geometry"}
+    # Subtest: documentation lightTheme list: presentation, exact source
+    ok 44 - documentation lightTheme list: presentation, exact source
+      ---
+      duration_ms: 2142.366375
+      ...
+    # {"component":"list","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/list/example/demos/basic-usage.vue","result":"list: rendered content and geometry"}
+    # Subtest: documentation lightTheme loading-bar: interaction, exact source
+    ok 45 - documentation lightTheme loading-bar: interaction, exact source
+      ---
+      duration_ms: 2921.6815
+      ...
+    # {"component":"loading-bar","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/loading-bar/example/demos/basic.vue","result":"loading-bar"}
+    # Subtest: documentation lightTheme loading: presentation, exact source
+    ok 46 - documentation lightTheme loading: presentation, exact source
+      ---
+      duration_ms: 2149.596666
+      ...
+    # {"component":"loading","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/loading/example/demos/size.vue","result":"loading: rendered content and geometry"}
+    # Subtest: documentation lightTheme locale-provider: interaction, exact source
+    ok 47 - documentation lightTheme locale-provider: interaction, exact source
+      ---
+      duration_ms: 1374.546083
+      ...
+    # {"component":"locale-provider","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/locale-provider/example/demos/api-review.vue","result":"locale"}
+    # Subtest: documentation lightTheme locale: interaction, exact source
+    ok 48 - documentation lightTheme locale: interaction, exact source
+      ---
+      duration_ms: 1434.093542
+      ...
+    # {"component":"locale","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/locale-provider/example/demos/api-review.vue","result":"locale"}
+    # Subtest: documentation lightTheme menu: interaction, exact source
+    ok 49 - documentation lightTheme menu: interaction, exact source
+      ---
+      duration_ms: 4783.135542
+      ...
+    # {"component":"menu","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/menu/example/demos/overflow-actions.vue","result":"menu"}
+    # Subtest: documentation lightTheme message: interaction, exact source
+    ok 50 - documentation lightTheme message: interaction, exact source
+      ---
+      duration_ms: 1987.017584
+      ...
+    # {"component":"message","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/message/example/demos/function-call.vue","result":"message"}
+    # Subtest: documentation lightTheme notice-bar: interaction, exact source
+    ok 51 - documentation lightTheme notice-bar: interaction, exact source
+      ---
+      duration_ms: 1486.426167
+      ...
+    # {"component":"notice-bar","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/notice-bar/example/demos/basic.vue","result":"notice-bar"}
+    # Subtest: documentation lightTheme number-keyboard: interaction, exact source
+    ok 52 - documentation lightTheme number-keyboard: interaction, exact source
+      ---
+      duration_ms: 2168.315875
+      ...
+    # {"component":"number-keyboard","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/number-keyboard/example/demos/basic.vue","result":"number-keyboard"}
+    # Subtest: documentation lightTheme overlay: interaction, exact source
+    ok 53 - documentation lightTheme overlay: interaction, exact source
+      ---
+      duration_ms: 1733.7945
+      ...
+    # {"component":"overlay","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/overlay/example/demos/overlay-base.vue","result":"overlay"}
+    # Subtest: documentation lightTheme page-header: presentation, exact source
+    ok 54 - documentation lightTheme page-header: presentation, exact source
+      ---
+      duration_ms: 1615.810042
+      ...
+    # {"component":"page-header","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/page-header/example/demos/basic-usage.vue","result":"page-header: rendered content and geometry"}
+    # Subtest: documentation lightTheme pagination: interaction, exact source
+    ok 55 - documentation lightTheme pagination: interaction, exact source
+      ---
+      duration_ms: 2651.064333
+      ...
+    # {"component":"pagination","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/pagination/example/demos/basic.vue","result":"pagination"}
+    # Subtest: documentation lightTheme paper: presentation, exact source
+    ok 56 - documentation lightTheme paper: presentation, exact source
+      ---
+      duration_ms: 2152.337875
+      ...
+    # {"component":"paper","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/paper/example/demos/basic-usage.vue","result":"paper: rendered content and geometry"}
+    # Subtest: documentation lightTheme picker: interaction, exact source
+    ok 57 - documentation lightTheme picker: interaction, exact source
+      ---
+      duration_ms: 2552.038834
+      ...
+    # {"component":"picker","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/picker/example/demos/disabled.vue","result":"picker"}
+    # Subtest: documentation lightTheme popover: interaction, exact source
+    ok 58 - documentation lightTheme popover: interaction, exact source
+      ---
+      duration_ms: 2767.680625
+      ...
+    # {"component":"popover","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/popover/example/demos/basic-usage.vue","result":"popover"}
+    # Subtest: documentation lightTheme popup: interaction, exact source
+    ok 59 - documentation lightTheme popup: interaction, exact source
+      ---
+      duration_ms: 2128.9005
+      ...
+    # {"component":"popup","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/popup/example/demos/popup-position.vue","result":"popup"}
+    # Subtest: documentation lightTheme progress-group: presentation, exact source
+    ok 60 - documentation lightTheme progress-group: presentation, exact source
+      ---
+      duration_ms: 2132.222375
+      ...
+    # {"component":"progress-group","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/progress-group/example/demos/basic.vue","result":"progress-group: rendered content and geometry"}
+    # Subtest: documentation lightTheme progress: presentation, exact source
+    ok 61 - documentation lightTheme progress: presentation, exact source
+      ---
+      duration_ms: 2261.722375
+      ...
+    # {"component":"progress","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/progress/example/demos/basic-usage.vue","result":"progress: rendered content and geometry"}
+    # Subtest: documentation lightTheme pull-refresh: interaction, exact source
+    ok 62 - documentation lightTheme pull-refresh: interaction, exact source
+      ---
+      duration_ms: 3904.196375
+      ...
+    # {"component":"pull-refresh","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/pull-refresh/example/demos/basic.vue","result":"pull-refresh"}
+    # Subtest: documentation lightTheme radio: interaction, exact source
+    ok 63 - documentation lightTheme radio: interaction, exact source
+      ---
+      duration_ms: 3580.933125
+      ...
+    # {"component":"radio","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/radio/example/demos/basic-usage.vue","result":"radio"}
+    # Subtest: documentation lightTheme rate: interaction, exact source
+    ok 64 - documentation lightTheme rate: interaction, exact source
+      ---
+      duration_ms: 2988.458834
+      ...
+    # {"component":"rate","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/rate/example/demos/basic-usage.vue","result":"rate"}
+    # Subtest: documentation lightTheme result: presentation, exact source
+    ok 65 - documentation lightTheme result: presentation, exact source
+      ---
+      duration_ms: 1414.689542
+      ...
+    # {"component":"result","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/result/example/demos/basic-usage.vue","result":"result: rendered content and geometry"}
+    # Subtest: documentation lightTheme ripple: interaction, exact source
+    ok 66 - documentation lightTheme ripple: interaction, exact source
+      ---
+      duration_ms: 1890.764542
+      ...
+    # {"component":"ripple","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/ripple/example/demos/basic-usage.vue","result":"ripple"}
+    # Subtest: documentation lightTheme row: presentation, exact source
+    ok 67 - documentation lightTheme row: presentation, exact source
+      ---
+      duration_ms: 2144.907125
+      ...
+    # {"component":"row","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/row/example/demos/basic.vue","result":"row: rendered content and geometry"}
+    # Subtest: documentation lightTheme search: interaction, exact source
+    ok 68 - documentation lightTheme search: interaction, exact source
+      ---
+      duration_ms: 2670.052375
+      ...
+    # {"component":"search","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/search/example/demos/basic.vue","result":"search"}
+    # Subtest: documentation lightTheme select: interaction, exact source
+    ok 69 - documentation lightTheme select: interaction, exact source
+      ---
+      duration_ms: 6200.336208
+      ...
+    # {"component":"select","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/select/example/demos/standard.vue","result":"select"}
+    # Subtest: documentation lightTheme signature: interaction, exact source
+    ok 70 - documentation lightTheme signature: interaction, exact source
+      ---
+      duration_ms: 2049.320875
+      ...
+    # {"component":"signature","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/signature/example/demos/basic-usage.vue","result":"signature"}
+    # Subtest: documentation lightTheme skeleton: presentation, exact source
+    ok 71 - documentation lightTheme skeleton: presentation, exact source
+      ---
+      duration_ms: 1957.010458
+      ...
+    # {"component":"skeleton","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/skeleton/example/demos/basic-usage.vue","result":"skeleton: rendered content and geometry"}
+    # Subtest: documentation lightTheme slider: interaction, exact source
+    ok 72 - documentation lightTheme slider: interaction, exact source
+      ---
+      duration_ms: 3291.569417
+      ...
+    # {"component":"slider","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/slider/example/demos/basic-usage.vue","result":"slider"}
+    # Subtest: documentation lightTheme space: presentation, exact source
+    ok 73 - documentation lightTheme space: presentation, exact source
+      ---
+      duration_ms: 2199.937208
+      ...
+    # {"component":"space","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/space/example/demos/base-use.vue","result":"space: rendered content and geometry"}
+    # Subtest: documentation lightTheme split-button: interaction, exact source
+    ok 74 - documentation lightTheme split-button: interaction, exact source
+      ---
+      duration_ms: 2558.364833
+      ...
+    # {"component":"split-button","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/split-button/example/basic.vue","result":"split-button"}
+    # Subtest: documentation lightTheme statistic: presentation, exact source
+    ok 75 - documentation lightTheme statistic: presentation, exact source
+      ---
+      duration_ms: 1908.7855
+      ...
+    # {"component":"statistic","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/statistic/example/demos/basic-usage.vue","result":"statistic: rendered content and geometry"}
+    # Subtest: documentation lightTheme steps: interaction, exact source
+    ok 76 - documentation lightTheme steps: interaction, exact source
+      ---
+      duration_ms: 1952.20375
+      ...
+    # {"component":"steps","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/steps/example/demos/basic-usage.vue","result":"steps"}
+    # Subtest: documentation lightTheme style-provider: interaction, exact source
+    ok 77 - documentation lightTheme style-provider: interaction, exact source
+      ---
+      duration_ms: 1473.089125
+      ...
+    # {"component":"style-provider","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/style-provider/example/demos/basic.vue","result":"style-provider"}
+    # Subtest: documentation lightTheme swipe-cell: interaction, exact source
+    ok 78 - documentation lightTheme swipe-cell: interaction, exact source
+      ---
+      duration_ms: 2234.42675
+      ...
+    # {"component":"swipe-cell","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/swipe-cell/example/demos/basic.vue","result":"swipe-cell"}
+    # Subtest: documentation lightTheme switch: interaction, exact source
+    ok 79 - documentation lightTheme switch: interaction, exact source
+      ---
+      duration_ms: 4118.483417
+      ...
+    # {"component":"switch","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/switch/example/demos/basic.vue","result":"switch"}
+    # Subtest: documentation lightTheme tab-bar: interaction, exact source
+    ok 80 - documentation lightTheme tab-bar: interaction, exact source
+      ---
+      duration_ms: 2643.115417
+      ...
+    # {"component":"tab-bar","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/tab-bar/example/demos/basic-usage.vue","result":"tab-bar"}
+    # Subtest: documentation lightTheme table: presentation, exact source
+    ok 81 - documentation lightTheme table: presentation, exact source
+      ---
+      duration_ms: 1490.113042
+      ...
+    # {"component":"table","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/table/example/demos/basic-usage.vue","result":"table: rendered content and geometry"}
+    # Subtest: documentation lightTheme tabs: interaction, exact source
+    ok 82 - documentation lightTheme tabs: interaction, exact source
+      ---
+      duration_ms: 2850.2605
+      ...
+    # {"component":"tabs","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/tabs/example/demos/basic.vue","result":"tabs"}
+    # Subtest: documentation lightTheme tag: interaction, exact source
+    ok 83 - documentation lightTheme tag: interaction, exact source
+      ---
+      duration_ms: 3654.664291
+      ...
+    # {"component":"tag","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/tag/example/demos/closable-tag.vue","result":"tag"}
+    # Subtest: documentation lightTheme textarea: interaction, exact source
+    ok 84 - documentation lightTheme textarea: interaction, exact source
+      ---
+      duration_ms: 4371.23775
+      ...
+    # {"component":"textarea","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/textarea/example/demos/demo-1.vue","result":"textarea"}
+    # Subtest: documentation lightTheme time-range: interaction, exact source
+    ok 85 - documentation lightTheme time-range: interaction, exact source
+      ---
+      duration_ms: 3976.79325
+      ...
+    # {"component":"time-range","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/time-range/example/demos/basic-usage.vue","result":"temporal"}
+    # Subtest: documentation lightTheme time: interaction, exact source
+    ok 86 - documentation lightTheme time: interaction, exact source
+      ---
+      duration_ms: 5468.464333
+      ...
+    # {"component":"time","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/time/example/demos/basic-usage.vue","result":"temporal"}
+    # Subtest: documentation lightTheme tooltip: interaction, exact source
+    ok 87 - documentation lightTheme tooltip: interaction, exact source
+      ---
+      duration_ms: 2682.682209
+      ...
+    # {"component":"tooltip","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/tooltip/example/demos/basic-usage.vue","result":"tooltip"}
+    # Subtest: documentation lightTheme trigger: interaction, exact source
+    ok 88 - documentation lightTheme trigger: interaction, exact source
+      ---
+      duration_ms: 1733.511375
+      ...
+    # {"component":"trigger","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/trigger/example/demos/basic.vue","result":"trigger"}
+    # Subtest: documentation lightTheme upload: interaction, exact source
+    ok 89 - documentation lightTheme upload: interaction, exact source
+      ---
+      duration_ms: 4098.039083
+      ...
+    # {"component":"upload","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/upload/example/demos/read-only.vue","result":"upload"}
+    # Subtest: documentation lightTheme verification-code: interaction, exact source
+    ok 90 - documentation lightTheme verification-code: interaction, exact source
+      ---
+      duration_ms: 2417.7955
+      ...
+    # {"component":"verification-code","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/verification-code/example/demos/basic.vue","result":"verification-code"}
+    # Subtest: documentation lightTheme watermark: interaction, exact source
+    ok 91 - documentation lightTheme watermark: interaction, exact source
+      ---
+      duration_ms: 2065.974375
+      ...
+    # {"component":"watermark","library":"maple","surface":"documentation","theme":"lightTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/watermark/example/demos/text-watermark.vue","result":"watermark"}
+    # Subtest: documentation darkTheme action-sheet: interaction, exact source
+    ok 92 - documentation darkTheme action-sheet: interaction, exact source
+      ---
+      duration_ms: 1553.075
+      ...
+    # {"component":"action-sheet","library":"maple","surface":"documentation","theme":"darkTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/action-sheet/example/demos/function-call.vue","result":"action-sheet"}
+    # Subtest: documentation darkTheme affix: interaction, exact source
+    ok 93 - documentation darkTheme affix: interaction, exact source
+      ---
+      duration_ms: 1349.405833
+      ...
+    # {"component":"affix","library":"maple","surface":"documentation","theme":"darkTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/affix/example/demos/basic.vue","result":"affix"}
+    # Subtest: documentation darkTheme alert: interaction, exact source
+    ok 94 - documentation darkTheme alert: interaction, exact source
+      ---
+      duration_ms: 1658.454666
+      ...
+    # {"component":"alert","library":"maple","surface":"documentation","theme":"darkTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/alert/example/demos/variant.vue","result":"alert"}
+    # Subtest: documentation darkTheme auto-complete: interaction, exact source
+    ok 95 - documentation darkTheme auto-complete: interaction, exact source
+      ---
+      duration_ms: 1959.047875
+      ...
+    # {"component":"auto-complete","library":"maple","surface":"documentation","theme":"darkTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/auto-complete/example/demos/zh-CN/basic.vue","result":"auto-complete"}
+    # Subtest: documentation darkTheme avatar: presentation, exact source
+    ok 96 - documentation darkTheme avatar: presentation, exact source
+      ---
+      duration_ms: 1420.518416
+      ...
+    # {"component":"avatar","library":"maple","surface":"documentation","theme":"darkTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/avatar/example/demos/basic.vue","result":"avatar: rendered content and geometry"}
+    # Subtest: documentation darkTheme back-top: interaction, exact source
+    ok 97 - documentation darkTheme back-top: interaction, exact source
+      ---
+      duration_ms: 1535.901209
+      ...
+    # {"component":"back-top","library":"maple","surface":"documentation","theme":"darkTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/back-top/example/demos/basic-usage.vue","result":"back-top"}
+    # Subtest: documentation darkTheme badge: presentation, exact source
+    ok 98 - documentation darkTheme badge: presentation, exact source
+      ---
+      duration_ms: 1308.909125
+      ...
+    # {"component":"badge","library":"maple","surface":"documentation","theme":"darkTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/badge/example/demos/basic.vue","result":"badge: rendered content and geometry"}
+    # Subtest: documentation darkTheme breadcrumb: presentation, exact source
+    ok 99 - documentation darkTheme breadcrumb: presentation, exact source
+      ---
+      duration_ms: 1266.690792
+      ...
+    # {"component":"breadcrumb","library":"maple","surface":"documentation","theme":"darkTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/breadcrumb/example/demos/basic-usage.vue","result":"breadcrumb: rendered content and geometry"}
+    # Subtest: documentation darkTheme button: interaction, exact source
+    ok 100 - documentation darkTheme button: interaction, exact source
+      ---
+      duration_ms: 2162.400375
+      ...
+    # {"component":"button","library":"maple","surface":"documentation","theme":"darkTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/button/example/demos/variants.vue","result":"button"}
+    # Subtest: documentation darkTheme card: presentation, exact source
+    ok 101 - documentation darkTheme card: presentation, exact source
+      ---
+      duration_ms: 1466.839875
+      ...
+    # {"component":"card","library":"maple","surface":"documentation","theme":"darkTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/card/example/demos/basic.vue","result":"card: rendered content and geometry"}
+    # Subtest: documentation darkTheme carousel: interaction, exact source
+    ok 102 - documentation darkTheme carousel: interaction, exact source
+      ---
+      duration_ms: 1485.510334
+      ...
+    # {"component":"carousel","library":"maple","surface":"documentation","theme":"darkTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/carousel/example/demos/basic-usage.vue","result":"carousel"}
+    # Subtest: documentation darkTheme cascader: interaction, exact source
+    ok 103 - documentation darkTheme cascader: interaction, exact source
+      ---
+      duration_ms: 2343.654917
+      ...
+    # {"component":"cascader","library":"maple","surface":"documentation","theme":"darkTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/cascader/example/demos/placeholder.vue","result":"cascader"}
+    # Subtest: documentation darkTheme cell: presentation, exact source
+    ok 104 - documentation darkTheme cell: presentation, exact source
+      ---
+      duration_ms: 1352.592834
+      ...
+    # {"component":"cell","library":"maple","surface":"documentation","theme":"darkTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/cell/example/demos/basic-usage.vue","result":"cell: rendered content and geometry"}
+    # Subtest: documentation darkTheme checkbox: interaction, exact source
+    ok 105 - documentation darkTheme checkbox: interaction, exact source
+      ---
+      duration_ms: 2194.112208
+      ...
+    # {"component":"checkbox","library":"maple","surface":"documentation","theme":"darkTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/checkbox/example/demos/basic-usage.vue","result":"checkbox"}
+    # Subtest: documentation darkTheme code: presentation, exact source
+    ok 106 - documentation darkTheme code: presentation, exact source
+      ---
+      duration_ms: 1489.775584
+      ...
+    # {"component":"code","library":"maple","surface":"documentation","theme":"darkTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/code/example/demos/basic-usage.vue","result":"code: rendered content and geometry"}
+    # Subtest: documentation darkTheme col: presentation, exact source
+    ok 107 - documentation darkTheme col: presentation, exact source
+      ---
+      duration_ms: 1311.972584
+      ...
+    # {"component":"col","library":"maple","surface":"documentation","theme":"darkTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/col/example/demos/basic.vue","result":"col: rendered content and geometry"}
+    # Subtest: documentation darkTheme collapse: interaction, exact source
+    ok 108 - documentation darkTheme collapse: interaction, exact source
+      ---
+      duration_ms: 1518.340625
+      ...
+    # {"component":"collapse","library":"maple","surface":"documentation","theme":"darkTheme","source":"/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/collapse/example/demos/basic.vue","result":"collapse"}
+ ELIFECYCLE  Command failed with exit code 1.

@@ -6,8 +6,10 @@ import { sameDateSelection, type DateSelection } from './date-value'
 interface DateSelectionOptions {
   value: () => DateSelection
   rules: () => DateRules
+  emptyValue?: () => DateSelection
   range: () => boolean
   allowReversedDraft?: () => boolean
+  validate?: (value: DateSelection) => boolean
   multiple?: () => boolean
   blocked: () => boolean
   disabledParts?: () => boolean[]
@@ -49,7 +51,11 @@ export function useDateSelection(options: DateSelectionOptions) {
     )
   }
   function valid(value: DateSelection) {
-    return isDateSelectionValid(value, options.rules(), options.range(), options.multiple?.()) && unlocked(value)
+    return (
+      (options.validate
+        ? options.validate(value)
+        : isDateSelectionValid(value, options.rules(), options.range(), options.multiple?.())) && unlocked(value)
+    )
   }
   function editable(value: DateSelection) {
     if (valid(value)) {
@@ -82,6 +88,15 @@ export function useDateSelection(options: DateSelectionOptions) {
     options.onConfirm?.()
     return true
   }
+  // Stage an initial wheel candidate without publishing selection or model events.
+  function initialize(value: DateSelection) {
+    if (options.blocked() || !editable(value)) {
+      return false
+    }
+    draft.value = cloneFieldValue(value)
+    settled = false
+    return true
+  }
   function select(value: DateSelection, immediate = false) {
     if (options.blocked()) {
       return false
@@ -98,7 +113,7 @@ export function useDateSelection(options: DateSelectionOptions) {
     if (options.blocked() || options.disabledParts?.().some(Boolean)) {
       return false
     }
-    const value = options.range() || options.multiple?.() ? [] : undefined
+    const value = options.emptyValue ? options.emptyValue() : options.range() || options.multiple?.() ? [] : undefined
     draft.value = value
     settled = true
     if (!sameDateSelection(value, options.value(), options.rules())) {
@@ -107,5 +122,5 @@ export function useDateSelection(options: DateSelectionOptions) {
     options.onConfirm?.()
     return true
   }
-  return { draft, canConfirm, valid, editable, select, commit, clear, reset }
+  return { draft, canConfirm, valid, editable, initialize, select, commit, clear, reset }
 }

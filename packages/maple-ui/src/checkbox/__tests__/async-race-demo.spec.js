@@ -71,7 +71,9 @@ test('obsolete local loads preserve selections, max and user change counts', asy
 
 test('deactivation settles pending local promises and permits a fresh load', async () => {
   const active = ref(true)
-  const Host = { setup: () => () => h(KeepAlive, null, { default: () => (active.value ? h(Demo) : null) }) }
+  const Host = {
+    setup: () => () => h(KeepAlive, null, { default: () => (active.value ? h(Demo, { editMode: 'direct' }) : null) }),
+  }
   const wrapper = mount(Host, { global })
   try {
     await wrapper.get('input[type=checkbox]').setValue(true)

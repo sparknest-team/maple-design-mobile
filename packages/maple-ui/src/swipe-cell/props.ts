@@ -10,6 +10,8 @@ export interface SwipeCellBeforeCloseArgs {
 }
 
 export const props = {
+  /** 外部加载状态；等待期间暂停滑动与关闭。 */
+  loading: Boolean,
   name: {
     type: [String, Number] as PropType<string | number>,
     default: '',

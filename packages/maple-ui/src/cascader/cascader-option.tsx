@@ -1,12 +1,12 @@
 import type { PropType } from 'vue'
-import { computed, defineComponent, inject, ref } from 'vue'
+import { computed, defineComponent, inject, onBeforeUnmount, onDeactivated, ref } from 'vue'
 import { IconCheck, IconLoading, IconRight } from '@maple-design/icons-vue'
 import { isolateEditorForm } from '../_components/field-presentation/form-bridge'
 import { isFunction } from '../_utils/is'
 import Checkbox from '../checkbox'
 import { createNamespace, getPrefixCls } from '../utils/components'
 import { CascaderContext, cascaderInjectionKey } from './context'
-import type { CascaderOption, CascaderOptionInfo } from './types'
+import type { CascaderOptionInfo } from './types'
 import { getCheckedStatus, getOptionLabel } from './utils'
 
 const { name } = createNamespace('cascader-option')
@@ -30,49 +30,53 @@ export default defineComponent({
 
     isolateEditorForm()
     const isLoading = ref(false)
-    const events: Record<string, any> = {}
-
+    let request = 0
+    const invalidate = () => {
+      request++
+      isLoading.value = false
+    }
+    onDeactivated(invalidate)
+    onBeforeUnmount(invalidate)
     const handlePathChange = (_event: Event) => {
-      if (props.option.disabled) {
+      if (props.option.disabled || isLoading.value) {
         return
       }
-      if (cascaderCtx.expandOption) {
-        isLoading.value = true
-        void cascaderCtx
-          .expandOption(props.option)
-          .catch(() => undefined)
-          .finally(() => {
-            isLoading.value = false
-          })
-      } else {
-        if (cascaderCtx.loadMore && !props.option.isLeaf && !props.option.children && !isLoading.value) {
-          isLoading.value = true
-          cascaderCtx.loadMore(props.option.raw, (children) => {
-            isLoading.value = false
-            if (children) {
-              cascaderCtx.addLazyLoadOptions?.(children, props.option.key)
-            }
-          })
+      const task = cascaderCtx.expandOption?.(props.option)
+      if (!task) {
+        return
+      }
+      const token = ++request
+      isLoading.value = true
+      return task.finally(() => {
+        if (token === request) {
+          isLoading.value = false
         }
-        cascaderCtx.setSelectedPath?.(props.option.key)
-      }
+      })
     }
-
-    if (!props.option.disabled) {
-      events.onMouseenter = [() => cascaderCtx.setActiveKey?.(props.option.key)]
-      events.onMouseleave = () => cascaderCtx.setActiveKey?.()
-      events.onClick = []
-      if (cascaderCtx.expandTrigger === 'hover') {
-        events.onMouseenter.push((ev: Event) => handlePathChange(ev))
-      } else {
-        events.onClick.push((ev: Event) => handlePathChange(ev))
-      }
-      if (props.option.isLeaf || props.checkStrictly) {
-        events.onClick.push((ev: Event) => {
-          handlePathChange(ev)
+    const events = {
+      onMouseenter: (event: Event) => {
+        if (props.option.disabled) {
+          return
+        }
+        cascaderCtx.setActiveKey?.(props.option.key)
+        if (cascaderCtx.expandTrigger === 'hover') {
+          return handlePathChange(event)
+        }
+      },
+      onMouseleave: () => cascaderCtx.setActiveKey?.(),
+      onClick: (event: Event) => {
+        if (props.option.disabled) {
+          return
+        }
+        const task =
+          cascaderCtx.expandTrigger !== 'hover' || props.option.isLeaf || props.checkStrictly
+            ? handlePathChange(event)
+            : undefined
+        if (props.option.isLeaf || props.checkStrictly) {
           cascaderCtx.onClickOption?.(props.option, !checkedStatus.value.checked)
-        })
-      }
+        }
+        return task
+      },
     }
 
     const cls = computed(() => [
@@ -132,7 +136,7 @@ export default defineComponent({
         {props.multiple && (
           <span class={`${prefixCls}-checkbox`} onClick={(event: MouseEvent) => event.stopPropagation()}>
             <Checkbox
-              presentation="inline"
+              editMode="direct"
               uninjectGroupContext
               modelValue={Boolean(checkedStatus.value.checked)}
               indeterminate={checkedStatus.value.indeterminate}
@@ -142,8 +146,9 @@ export default defineComponent({
                 if (props.option.disabled || props.option.selectionDisabled) {
                   return
                 }
-                handlePathChange(new Event('change'))
+                const task = handlePathChange(new Event('change'))
                 cascaderCtx.onClickOption?.(props.option, Boolean(checked))
+                return task
               }}
             />
           </span>

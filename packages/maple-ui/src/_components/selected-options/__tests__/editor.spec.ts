@@ -1,8 +1,9 @@
 import { flushPromises, mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
+import AutoComplete from '../../../auto-complete'
 import Cascader from '../../../cascader'
 import Select from '../../../select'
-import type { FieldPresentation } from '../../field-presentation/context'
+import type { FieldEditMode } from '../../field-presentation/context'
 import { mobile } from '../platform'
 
 const p = mobile ? 'mp' : 'c'
@@ -20,12 +21,41 @@ const global = {
     teleport: true,
   },
 }
-for (const presentation of ['popup'] as FieldPresentation[]) {
-  describe(`selection editor ${presentation}`, () => {
+for (const editMode of ['popup'] as FieldEditMode[]) {
+  describe(`selection editor ${editMode}`, () => {
+    it('keeps AutoComplete search, empty state and candidates in the standard list surface', async () => {
+      const wrapper = mount(AutoComplete, {
+        props: { editMode, options: ['Alpha', 'Beta'] },
+        slots: { empty: () => 'No matching candidates' },
+        global,
+      })
+      try {
+        await wrapper.get('[aria-haspopup=dialog]').trigger('click')
+        await flushPromises()
+        const editor = wrapper.get(`.${p}-selection-editor--auto-complete`)
+        expect(editor.findAll('input')).toHaveLength(1)
+        expect(editor.get(`.${p}-select-dropdown-empty`).text()).toContain('No matching candidates')
+        await editor.get('input').setValue('Be')
+        await flushPromises()
+        expect(
+          editor
+            .findAll('[role=option]')
+            .filter((option) => option.isVisible())
+            .map((option) => option.text()),
+        ).toEqual(['Beta'])
+        await editor.get('[role=option]').trigger('click')
+        expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+        await wrapper.get(`.${p}-field-presentation__footer button`).trigger('click')
+        await flushPromises()
+        expect(wrapper.emitted('update:modelValue')?.[0][0]).toBe('Beta')
+      } finally {
+        wrapper.unmount()
+      }
+    })
     it('uses a full list without inline checkboxes and commits the draft only on confirmation', async () => {
       const wrapper = mount(Select, {
         props: {
-          presentation,
+          editMode,
           defaultOpen: true,
           multiple: true,
           modelValue: [1],
@@ -59,7 +89,7 @@ for (const presentation of ['popup'] as FieldPresentation[]) {
           children: [{ value: 'zhejiang', label: '浙江', children: [{ value: 'ningbo', label: '宁波' }] }],
         },
       ]
-      const wrapper = mount(Cascader, { props: { presentation, options }, global })
+      const wrapper = mount(Cascader, { props: { editMode, options }, global })
       try {
         await wrapper.get('[aria-haspopup=dialog]').trigger('click')
         await flushPromises()
@@ -86,3 +116,50 @@ for (const presentation of ['popup'] as FieldPresentation[]) {
     })
   })
 }
+
+describe('inline selection menus', () => {
+  for (const [name, component, options, value] of [
+    [
+      'Select',
+      Select,
+      [
+        { value: 'a', label: 'Alpha' },
+        { value: 'b', label: 'Beta' },
+      ],
+      ['a'],
+    ],
+    [
+      'Cascader',
+      Cascader,
+      [
+        { value: 'a', label: 'Alpha' },
+        { value: 'b', label: 'Beta' },
+      ],
+      ['a'],
+    ],
+  ] as const) {
+    it(`${name} keeps selected values in the field and omits the duplicate summary/clear`, async () => {
+      const wrapper = mount(component as any, {
+        props: {
+          editMode: 'direct',
+          multiple: true,
+          defaultOpen: true,
+          clearable: true,
+          options,
+          modelValue: value,
+        },
+        global,
+      })
+      try {
+        await flushPromises()
+        expect(wrapper.find(`.${p}-selected-options__summary`).exists()).toBe(false)
+        expect(wrapper.find(`.${p}-selected-options__tags`).exists()).toBe(false)
+        expect(wrapper.find(`.${p}-selected-options__details`).exists()).toBe(false)
+        expect(wrapper.get(`.${p}-selection-field`).text()).toContain('Alpha')
+        expect(wrapper.find('[role=option], [role=menuitem]').exists()).toBe(true)
+      } finally {
+        wrapper.unmount()
+      }
+    })
+  }
+})

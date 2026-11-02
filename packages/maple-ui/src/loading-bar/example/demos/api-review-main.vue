@@ -20,10 +20,10 @@ onUnmounted(() => {
 <template>
   <DemoApiReviewPanel v-slot="__apiReview" v-bind="defineReviewConfig(__apiReviewRawConfig)">
     <p>修改选项后重新触发 / Trigger again to apply options.</p>
-    <div style="display: flex; flex-wrap: wrap; gap: 12px">
+    <mp-space wrap size="12px">
       <mp-button @click="run('start', __apiReview.bindings)">start</mp-button>
       <mp-button @click="run('finish', __apiReview.bindings)">finish</mp-button>
       <mp-button @click="run('error', __apiReview.bindings)">error</mp-button>
-    </div>
+    </mp-space>
   </DemoApiReviewPanel>
 </template>

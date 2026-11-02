@@ -114,6 +114,9 @@ export interface MapleConfigPcIndexPage {
 }
 
 export interface MapleConfigPc {
+  /** Independent documentation areas with scoped menus. */
+  sections?: { id: string; text: Record<string, string>; entry: string; mobileEntry?: string; docs?: string[] }[]
+
   title?: Record<string, string>
   redirect?: string
   clipboard?: Record<string, string>
@@ -123,7 +126,7 @@ export interface MapleConfigPc {
   menu?: MapleConfigPcMenu[]
   htmlInject?: MapleConfigHtmlInject
   fold?: {
-    /** Whether example source code is collapsed on first render. @default true */
+    /** Whether Markdown code blocks are collapsed on first render. Does not affect live demo previews. @default false */
     defaultFold?: boolean
     /** Visible source height while collapsed. Use 0 to hide it completely. @default 0 */
     foldHeight?: number
@@ -131,6 +134,8 @@ export interface MapleConfigPc {
 }
 
 export interface MapleConfigMobile {
+  /** Root documentation pages also available in the mobile site. */
+  docs?: string[]
   title?: Record<string, string>
   redirect?: string
   header?: MapleConfigMobileHeader
@@ -180,8 +185,12 @@ export interface MapleConfig {
   darkTheme?: Record<string, string>
   mapleLightTheme?: Record<string, string>
   mapleDarkTheme?: Record<string, string>
-  defaultLightTheme?: 'lightTheme' | 'mapleLightTheme'
-  defaultDarkTheme?: 'darkTheme' | 'mapleDarkTheme'
+  alpsLightTheme?: Record<string, string>
+  fireflyLightTheme?: Record<string, string>
+  alpsDarkTheme?: Record<string, string>
+  fireflyDarkTheme?: Record<string, string>
+  defaultLightTheme?: 'lightTheme' | 'mapleLightTheme' | 'alpsLightTheme' | 'fireflyLightTheme'
+  defaultDarkTheme?: 'darkTheme' | 'mapleDarkTheme' | 'alpsDarkTheme' | 'fireflyDarkTheme'
   highlight?: { style: string }
   analysis?: { baidu: string }
   pc?: MapleConfigPc

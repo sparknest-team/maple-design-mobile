@@ -16,7 +16,7 @@ afterEach(() => {
 
 test('Upload follows global locale without a component dictionary', async () => {
   Locale.use('zh-CN')
-  const wrapper = mount(Upload)
+  const wrapper = mount(Upload, { props: { editMode: 'direct' } })
   wrappers.push(wrapper)
   expect(wrapper.text()).toContain('上传')
   Locale.use('en-US')

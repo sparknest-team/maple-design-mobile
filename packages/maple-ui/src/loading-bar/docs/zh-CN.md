@@ -1,10 +1,10 @@
 # 加载条
 
-## 案例
-
 ### 介绍
 
 页面顶部显示加载进度。
+
+## 基础示例
 
 ### 基本使用
 
@@ -12,14 +12,9 @@
 ../example/demos/basic.vue
 ```
 
-<!-- api-review:start -->
-### 功能调试
+## 阅读方向
 
-```demo
-../example/demos/api-review.vue
-```
-
-<!-- api-review:end -->
+加载条从文档阅读起点增长，计时、进度和完成状态不因方向切换改变。函数式调用使用文档方向。
 
 ## API
 

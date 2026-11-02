@@ -1,0 +1,285 @@
+{
+  "scope": "Select,AutoComplete",
+  "node": "v20.18.3",
+  "fixture": "production Vite bundle of the exact Maple source, separate from rebuilt documentation",
+  "initialFingerprint": {
+    "source": "7800248a161dd33a0b97b46cf4329be7548ef45893f37e28e08d5f0612c8d7e1",
+    "production": "0274f972b389f02c294e353c953276654046d606f2c334799b9e1ec8038e953b"
+  },
+  "finalFingerprint": {
+    "source": "7800248a161dd33a0b97b46cf4329be7548ef45893f37e28e08d5f0612c8d7e1",
+    "production": "0274f972b389f02c294e353c953276654046d606f2c334799b9e1ec8038e953b"
+  },
+  "stable": true,
+  "expected": null,
+  "completed": 24,
+  "passed": 24,
+  "failed": 0,
+  "results": [
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "Select",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "Select",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "Select",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "AutoComplete",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "\"Alpha\"",
+        "value": "Beta"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "AutoComplete",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "\"Alpha\"",
+        "value": "Beta"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "AutoComplete",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "\"Alpha\"",
+        "value": "Beta"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "Select",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "Select",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "Select",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "AutoComplete",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "\"Alpha\"",
+        "value": "Beta"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "AutoComplete",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "\"Alpha\"",
+        "value": "Beta"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "AutoComplete",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "\"Alpha\"",
+        "value": "Beta"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "Select",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "Select",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "Select",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "AutoComplete",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "\"Alpha\"",
+        "value": "Beta"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "AutoComplete",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "\"Alpha\"",
+        "value": "Beta"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "AutoComplete",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "\"Alpha\"",
+        "value": "Beta"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "Select",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "Select",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "Select",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "AutoComplete",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "\"Alpha\"",
+        "value": "Beta"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "AutoComplete",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "\"Alpha\"",
+        "value": "Beta"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "AutoComplete",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "\"Alpha\"",
+        "value": "Beta"
+      }
+    }
+  ],
+  "errors": []
+}

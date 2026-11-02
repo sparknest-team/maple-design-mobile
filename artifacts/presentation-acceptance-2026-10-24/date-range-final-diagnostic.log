@@ -1,0 +1,37 @@
+PASS {"surface":"desktop","theme":"light","component":"DateRange","mode":"default"}
+FAIL {"surface":"desktop","theme":"light","component":"DateRange","mode":"inline"} TimeoutError: locator.click: Timeout 5000ms exceeded.
+Call log:
+[2m  - waiting for locator('.mp-popup').filter({ visible: true }).last().locator('.mp-day-picker').first().getByText('25', { exact: true })[22m
+
+PASS {"surface":"desktop","theme":"dark","component":"DateRange","mode":"default"}
+FAIL {"surface":"desktop","theme":"dark","component":"DateRange","mode":"inline"} TimeoutError: locator.click: Timeout 5000ms exceeded.
+Call log:
+[2m  - waiting for locator('.mp-popup').filter({ visible: true }).last().locator('.mp-day-picker').first().getByText('25', { exact: true })[22m
+
+PASS {"surface":"mobile","theme":"light","component":"DateRange","mode":"default"}
+FAIL {"surface":"mobile","theme":"light","component":"DateRange","mode":"inline"} TimeoutError: locator.click: Timeout 5000ms exceeded.
+Call log:
+[2m  - waiting for locator('.mp-popup').filter({ visible: true }).last().locator('.mp-day-picker').first().getByText('25', { exact: true })[22m
+
+PASS {"surface":"mobile","theme":"dark","component":"DateRange","mode":"default"}
+FAIL {"surface":"mobile","theme":"dark","component":"DateRange","mode":"inline"} TimeoutError: locator.click: Timeout 5000ms exceeded.
+Call log:
+[2m  - waiting for locator('.mp-popup').filter({ visible: true }).last().locator('.mp-day-picker').first().getByText('25', { exact: true })[22m
+
+node:internal/modules/run_main:128
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: all presentation acceptance cases pass
+
+4 !== 0
+
+    at file:///Users/shuaimeng/github_web/maple-design-mobile/artifacts/presentation-acceptance-2026-10-24/presentation-browser.mjs:161:72 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 4,
+  expected: 0,
+  operator: 'strictEqual'
+}
+
+Node.js v20.18.3

@@ -63,7 +63,7 @@
       "initial": "xs"
     },
     {
-      "name": "direction",
+      "name": "orientation",
       "description": "布局方向，可选值为 horizontal vertical",
       "type": "string",
       "defaultValue": "horizontal",

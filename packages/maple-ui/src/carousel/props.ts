@@ -2,10 +2,10 @@ import type { ExtractPublicPropTypes, PropType } from 'vue'
 import type {
   CarouselArrowType,
   CarouselAutoPlayConfig,
-  CarouselDirection,
   CarouselEffect,
   CarouselIndicatorPosition,
   CarouselIndicatorType,
+  CarouselOrientation,
   CarouselTriggerEvent,
 } from './types'
 
@@ -19,7 +19,7 @@ export const carouselProps = {
   },
   /** 切换时长，毫秒；省略使用样式变量 */ moveSpeed: Number,
   /** 指示器触发方式 */ trigger: { type: String as PropType<CarouselTriggerEvent>, default: 'click' },
-  /** 内部运动方向 */ direction: { type: String as PropType<CarouselDirection>, default: 'horizontal' },
+  /** 内部运动方向 */ orientation: { type: String as PropType<CarouselOrientation>, default: 'horizontal' },
   /** 箭头显示策略 */ showArrow: { type: String as PropType<CarouselArrowType>, default: 'always' },
   /** 箭头附加类 */ arrowClass: String,
   /** 显示指示器 */ indicator: { type: Boolean, default: true },

@@ -19,7 +19,9 @@ const changes = ref(0)
   >
     <mp-carousel-item v-for="item in 3" :key="item">
       <div class="carousel-demo-panel">
-        <label>Slide {{ item }} <mp-input :aria-label="'Slide ' + item" placeholder="Type here" /></label>
+        <label
+          >Slide {{ item }} <mp-input edit-mode="direct" :aria-label="'Slide ' + item" placeholder="Type here"
+        /></label>
       </div>
     </mp-carousel-item>
   </mp-carousel>

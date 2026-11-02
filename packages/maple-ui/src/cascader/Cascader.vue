@@ -3,6 +3,8 @@
     <template #reference>
       <SelectionField
         ref="fieldRef"
+        :loading-mode="loadingMode"
+        :open-trigger-target="openTriggerTarget"
         :show-tags="showTags"
         :separator="separator"
         :text-align="textAlign"
@@ -76,6 +78,7 @@ const props = defineProps(cascaderProps)
 const emit = defineEmits(cascaderEmits)
 const controller = reactive(useCascaderController(props, { emit, slots: useSlots() }))
 const {
+  loading,
   fieldItems,
   computedInputValue,
   mergedDisabled,
@@ -93,5 +96,5 @@ const {
   handleKeyDown,
 } = toRefs(controller)
 const fieldRef = ref<InstanceType<typeof SelectionField>>()
-defineExpose({ focus: () => fieldRef.value?.focus(), blur: () => fieldRef.value?.blur() })
+defineExpose({ refresh: controller.refresh, focus: () => fieldRef.value?.focus(), blur: () => fieldRef.value?.blur() })
 </script>

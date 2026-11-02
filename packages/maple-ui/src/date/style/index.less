@@ -86,6 +86,7 @@
   background: var(--mp-date-picker-panel-background);
   border: 1px solid var(--mp-date-picker-panel-border);
   border-radius: var(--mp-date-picker-panel-radius);
+  overflow: hidden;
 }
 .mp-date-panel__layout--embedded {
   border: 0;
@@ -111,7 +112,9 @@
   display: flex;
   flex-direction: column;
   max-height: var(--mp-date-picker-popover-max-height);
+  // Scroll only when the complete panel cannot fit the viewport; keep actions visible.
   > :first-child {
+    flex: 1 1 auto;
     min-height: 0;
     overflow: auto;
   }
@@ -120,8 +123,16 @@
   }
 }
 
+// Six-week months need more room than the original fixed calendar body.
+// The floating panel owns overflow on short viewports; do not nest a day scroll area.
+.mp-date-field-popover .mp-date-picker__body:has(> .mp-day-picker) {
+  height: auto;
+  min-height: var(--mp-date-picker-body-height);
+  overflow: visible;
+}
+
 .mp-date-panel-actions > .mp-button--variant-text {
-  margin-right: auto;
+  margin-inline-end: auto;
 }
 
 // Inline calendars share one preferred column width, independent of trigger width.
@@ -181,10 +192,10 @@
 .mp-date-panel-actions > .mp-date-panel-actions__quick {
   flex: 0 0 var(--mp-sys-control-touch-target);
   min-width: var(--mp-sys-control-touch-target);
-  margin-right: 0;
+  margin-inline-end: 0;
   padding-inline: var(--mp-sys-space-2);
   &[aria-pressed='true'] {
-    color: var(--mp-color-primary);
+    color: var(--mp-sys-color-content-primary);
     background: var(--mp-color-primary-light-1);
   }
   svg {
@@ -205,4 +216,161 @@
     justify-content: flex-start;
     padding-inline: var(--mp-sys-space-3);
   }
+}
+
+.mp-calendar-viewport {
+  color: var(--mp-color-text);
+  background: var(--mp-date-picker-panel-background);
+  width: 100%;
+  &__scroll {
+    height: var(--mp-date-calendar-scroll-height);
+    overflow: auto;
+    overflow-anchor: none;
+    overscroll-behavior: contain;
+  }
+  &__month {
+    height: var(--mp-date-calendar-month-height);
+    padding: var(--mp-sys-space-2);
+    box-sizing: border-box;
+  }
+  h4 {
+    margin: 0;
+    height: 32px;
+    line-height: 32px;
+  }
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    grid-auto-rows: var(--mp-date-calendar-row-height);
+    align-items: stretch;
+  }
+  &__weekday {
+    text-align: center;
+    line-height: var(--mp-date-calendar-row-height);
+    color: var(--mp-sys-color-content-secondary);
+  }
+  button {
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+    border-radius: var(--mp-date-picker-border-radius);
+    padding: 0;
+    min-width: 0;
+  }
+  button:disabled {
+    opacity: var(--mp-date-calendar-disabled-opacity);
+    cursor: default;
+  }
+  button[aria-current='date'] {
+    color: var(--mp-date-calendar-today-color);
+  }
+  button[aria-current='date']:not([aria-pressed='true']) {
+    position: relative;
+    &::after {
+      content: '';
+      position: absolute;
+      pointer-events: none;
+      width: var(--mp-sys-space-1);
+      height: var(--mp-sys-space-1);
+      inset-inline-start: 50%;
+      inset-block-end: var(--mp-sys-space-1);
+      transform: translateX(-50%);
+      border-radius: 50%;
+      background: var(--mp-date-calendar-today-color);
+    }
+  }
+  button[data-in-range] {
+    background: var(--mp-date-picker-range-background);
+  }
+  button[aria-pressed='true'] {
+    background: var(--mp-date-calendar-selected-background);
+    color: var(--mp-date-calendar-selected-color);
+  }
+  button:focus-visible {
+    outline: 2px solid var(--mp-color-primary);
+    outline-offset: -2px;
+  }
+  &__navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 40px;
+    button {
+      width: 44px;
+      height: 40px;
+    }
+  }
+  &[data-mode='line'] .mp-calendar-viewport__grid {
+    grid-auto-rows: var(--mp-date-calendar-line-height);
+  }
+  &[data-mode='line'] {
+    .mp-calendar-viewport__navigation {
+      padding: var(--mp-sys-space-1) 0;
+      gap: var(--mp-sys-space-1);
+      button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        min-height: var(--mp-temporal-panel-touch-height);
+        color: var(--mp-date-picker-header-color);
+      }
+    }
+    .mp-calendar-viewport__period {
+      min-width: 0;
+      text-align: center;
+      font-size: var(--mp-font-size-sm);
+      font-weight: var(--mp-day-picker-head-item-font-weight);
+      line-height: 1.5;
+      color: var(--mp-date-picker-header-color);
+    }
+    .mp-calendar-viewport__weekdays {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      font-size: var(--mp-day-picker-content-item-font-size);
+      font-weight: var(--mp-day-picker-head-item-font-weight);
+      color: var(--mp-day-picker-head-item-color);
+    }
+    .mp-calendar-viewport__weekday {
+      color: inherit;
+    }
+    .mp-calendar-viewport__grid button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      color: inherit;
+    }
+    .mp-calendar-viewport__day-value {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 auto;
+      box-sizing: border-box;
+      width: var(--mp-day-picker-content-item-button-width);
+      max-width: 100%;
+      height: var(--mp-day-picker-content-item-button-height);
+      border-radius: 50%;
+      font-size: var(--mp-day-picker-content-item-button-font-size);
+    }
+    button[aria-pressed='true'] .mp-calendar-viewport__day-value {
+      color: var(--mp-date-calendar-selected-color);
+      background: var(--mp-date-calendar-selected-background);
+    }
+    button[aria-current='date']:not([aria-pressed='true']) .mp-calendar-viewport__day-value {
+      color: var(--mp-date-calendar-today-color);
+    }
+  }
+}
+
+.mp-date-picker__body--viewport {
+  height: auto;
+  overflow: visible;
+}
+
+.mp-date-panel__layout--left:dir(rtl),
+.mp-date-panel__layout--right:dir(rtl) {
+  flex-direction: row-reverse;
 }

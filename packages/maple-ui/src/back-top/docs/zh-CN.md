@@ -2,7 +2,7 @@
 
 滚动页面或指定容器的回顶按钮，支持原生键盘操作。
 
-## 案例
+## 基础示例
 
 ### 基础用法
 
@@ -10,16 +10,46 @@
 ../example/demos/basic-usage.vue
 ```
 
-### 切换滚动容器
-
-```demo
-../example/demos/target-container.vue
-```
+## 自定义与插槽
 
 ### 自定义位置
 
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `target-container` | 滚动容器；省略时为页面 | 自定义位置 |
+| `popup-container` | 挂载容器；false 原地渲染 | 自定义位置 |
+| `visible-height` | 显示阈值（含边界）；数字字符串按 px，不支持 CSS 单位 | 自定义位置 |
+| `right` | 右侧偏移；数字按 px，字符串支持 CSS 长度 | 自定义位置 |
+| `bottom` | 底部偏移；数字按 px，字符串支持 CSS 长度 | 自定义位置 |
+| `aria-label` | 无障碍名称 | 自定义位置 |
+<!-- demo-config-notes:end -->
+
 ```demo
 ../example/demos/custom-position.vue
+```
+
+## 交互与控制
+
+### 切换滚动容器
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `target-container` | 滚动容器；省略时为页面 | 切换滚动容器、自定义内容与事件 |
+| `popup-container` | 挂载容器；false 原地渲染 | 切换滚动容器、自定义内容与事件 |
+| `visible-height` | 显示阈值（含边界）；数字字符串按 px，不支持 CSS 单位 | 切换滚动容器、自定义内容与事件 |
+| `right` | 右侧偏移；数字按 px，字符串支持 CSS 长度 | 切换滚动容器、自定义内容与事件 |
+| `bottom` | 底部偏移；数字按 px，字符串支持 CSS 长度 | 切换滚动容器、自定义内容与事件 |
+| `aria-label` | 无障碍名称 | 切换滚动容器、自定义内容与事件 |
+<!-- demo-config-notes:end -->
+
+```demo
+../example/demos/target-container.vue
 ```
 
 ### 自定义内容与事件
@@ -30,20 +60,24 @@
 
 示例使用独立局部容器，避免多个卡片争用页面回顶按钮。不传 `target-container` 时监听页面，不自动查找滚动祖先。无效或未匹配的选择器会隐藏按钮；异步容器使用返回元素的响应式 getter。`popup-container` 只控制按钮挂载位置，不改变滚动目标。
 
+## 生命周期与边界
+
 ### 调度生命周期
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `target-container` | 滚动容器；省略时为页面 | 调度生命周期 |
+| `popup-container` | 挂载容器；false 原地渲染 | 调度生命周期 |
+| `duration` | 回顶动画毫秒数，0 立即回顶 | 调度生命周期 |
+| `easing` | 内置曲线或输入/输出 0–1 的自定义缓动函数 | 调度生命周期 |
+<!-- demo-config-notes:end -->
 
 ```demo
 ../example/demos/scheduler-lifecycle.vue
 ```
-
-<!-- api-review:start -->
-### 功能调试
-
-```demo
-../example/demos/api-review.vue
-```
-
-<!-- api-review:end -->
 
 ## API
 

@@ -14,39 +14,46 @@
     }
   }
 
+  // The group owns joining edges; a child's local text direction must not move them.
   &--horizontal {
     > .mp-button {
-      &:first-child {
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
-      }
+      border-radius: 0;
+    }
 
-      &:last-child {
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
-      }
-
-      &:not(:first-child):not(:last-child) {
-        border-radius: 0;
-      }
+    &:dir(ltr) > .mp-button:first-child {
+      border-top-left-radius: var(--mp-button-border-radius);
+      border-bottom-left-radius: var(--mp-button-border-radius);
+    }
+    &:dir(ltr) > .mp-button:last-child {
+      border-top-right-radius: var(--mp-button-border-radius);
+      border-bottom-right-radius: var(--mp-button-border-radius);
+    }
+    &:dir(rtl) > .mp-button:first-child {
+      border-top-right-radius: var(--mp-button-border-radius);
+      border-bottom-right-radius: var(--mp-button-border-radius);
+    }
+    &:dir(rtl) > .mp-button:last-child {
+      border-top-left-radius: var(--mp-button-border-radius);
+      border-bottom-left-radius: var(--mp-button-border-radius);
     }
   }
 
-  &--horizontal&--variant-text {
-    > .mp-button {
+  // Join effective child variants, independently of the group default.
+  &--horizontal:dir(ltr) {
+    > .mp-button--variant-outline + .mp-button--variant-outline {
+      border-left: none;
+    }
+    > .mp-button--variant-text + .mp-button--variant-text {
+      border-left: thin solid currentColor;
+    }
+  }
+
+  &--horizontal:dir(rtl) {
+    > .mp-button--variant-outline + .mp-button--variant-outline {
+      border-right: none;
+    }
+    > .mp-button--variant-text + .mp-button--variant-text {
       border-right: thin solid currentColor;
-
-      &:last-child {
-        border: none;
-      }
-    }
-  }
-
-  &--horizontal&--variant-outline {
-    > .mp-button {
-      &:not(:first-child) {
-        border-left: none;
-      }
     }
   }
 
@@ -60,13 +67,13 @@
 
     > .mp-button {
       &:first-child {
-        border-bottom-left-radius: 0;
-        border-bottom-right-radius: 0;
+        border-end-start-radius: 0;
+        border-end-end-radius: 0;
       }
 
       &:last-child {
-        border-top-left-radius: 0;
-        border-top-right-radius: 0;
+        border-start-start-radius: 0;
+        border-start-end-radius: 0;
       }
 
       &:not(:first-child):not(:last-child) {
@@ -75,21 +82,16 @@
     }
   }
 
-  &--vertical&--variant-text {
-    > .mp-button {
-      border-bottom: thin solid currentColor;
-
-      &:last-child {
-        border: none;
-      }
+  &--vertical {
+    > .mp-button--variant-outline + .mp-button--variant-outline {
+      border-top: none;
+    }
+    > .mp-button--variant-text + .mp-button--variant-text {
+      border-top: thin solid currentColor;
     }
   }
+}
 
-  &--vertical&--variant-outline {
-    > .mp-button {
-      &:not(:first-child) {
-        border-top: none;
-      }
-    }
-  }
+.mp-button-group > .mp-button:only-child {
+  border-radius: var(--mp-button-border-radius);
 }

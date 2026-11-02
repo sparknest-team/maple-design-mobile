@@ -1,0 +1,25 @@
+{
+  "site": "http://127.0.0.1:53345/#/zh-CN/form#xia4la1xuan3ze2zi4duan4",
+  "inline": {
+    "autocompleteAndSelect": {
+      "fontSize": "14px",
+      "lineHeight": "36px",
+      "padding": "0px 12px"
+    },
+    "afterScroll": {
+      "gap": 4,
+      "leftDifference": 0,
+      "widthDifference": 0
+    },
+    "direction": "bottom-start"
+  },
+  "popup": {
+    "autocompleteAndSelect": {
+      "height": 52,
+      "fontSize": "16px",
+      "lineHeight": "24px",
+      "padding": "12px"
+    }
+  },
+  "scope": "Latest Maple production Form demo, current dark theme, existing popup and inline tabs retained with AutoComplete expanded."
+}

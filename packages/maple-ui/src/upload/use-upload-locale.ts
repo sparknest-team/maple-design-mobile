@@ -3,6 +3,8 @@ import { t } from '../locale'
 
 export function useUploadLocale() {
   return computed(() => ({
+    replace: String(t('upload.replace')),
+    duration: String(t('upload.duration')),
     upload: String(t('upload.buttonText')),
     dropFiles: String(t('upload.drag')),
     preview: String(t('upload.preview')),

@@ -4,7 +4,7 @@ import { ref } from 'vue'
 const value = ref(45)
 </script>
 <template>
-  <div style="display: grid; gap: 36px; padding: 32px 12px">
+  <mp-space direction="column" size="36px" style="padding: 32px 12px">
     <mp-slider v-model="value" show-tooltip="always" aria-label="Always visible" />
     <mp-slider
       v-model="value"
@@ -20,7 +20,7 @@ const value = ref(45)
         ><span class="slider-custom-handle">{{ currentValue }}</span></template
       ></mp-slider
     >
-  </div>
+  </mp-space>
 </template>
 <style scoped>
 .slider-custom-handle {

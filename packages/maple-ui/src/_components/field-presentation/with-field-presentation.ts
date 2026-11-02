@@ -14,8 +14,11 @@ import {
   type ComponentPublicInstance,
   type VNodeChild,
 } from 'vue'
+import { provideOptionRequest, useOptionRequest } from '../../_hooks/use-option-request'
+import { provideEmptyValues, resolveEmptyValue, useEmptyValues } from '../../utils/empty-value'
 import { useSelectionSession } from '../selection-field/use-selection-session'
-import { fieldControlFormEvents, fieldEditorBoundary, useFieldPresentation } from './context'
+import { fieldControlFormEvents, fieldEditorBoundary, invokeBeforeCommit, useFieldPresentation } from './context'
+import type { FieldEditMode as FieldPresentationMode } from './context'
 import FieldPresentation from './FieldPresentation.vue'
 import { usePresentationForm } from './form-bridge'
 
@@ -30,6 +33,11 @@ export interface FieldEditorContext {
   readonly: boolean
 }
 export interface FieldPresentationAdapter {
+  setup?: () => void
+  reference?: (
+    context: FieldEditorContext & { open: boolean; setOpen: (open: boolean) => void; referenceRef: any },
+  ) => VNodeChild
+  defaultPresentation?: FieldPresentationMode
   intent?: 'input' | 'select'
   text?: (value: any, props: Record<string, any>) => string
   editor?: (context: FieldEditorContext) => VNodeChild
@@ -108,6 +116,21 @@ export function withFieldPresentation<T extends Component>(Base: T, adapter: Fie
   const base = Base as any
   const control = { ...base, name: base.name + 'Control' }
   const events: string[] = Array.isArray(base.emits) ? base.emits : Object.keys(base.emits ?? {})
+  // Declared notifications belong to the public wrapper. Vue owns their Once
+  // lifecycle; forwarding the same listener to the control invokes it twice.
+  const ownedListenerKeys = new Set(
+    events.flatMap((event) => {
+      const aliases = [
+        event,
+        event.replace(/-(\w)/g, (_, letter: string) => letter.toUpperCase()),
+        event.replace(/\B([A-Z])/g, '-$1').toLowerCase(),
+      ]
+      return aliases.flatMap((alias) => {
+        const key = 'on' + alias[0].toUpperCase() + alias.slice(1)
+        return [key, key + 'Once']
+      })
+    }),
+  )
   const Component = defineComponent({
     name: base.name,
     inheritAttrs: false,
@@ -117,16 +140,27 @@ export function withFieldPresentation<T extends Component>(Base: T, adapter: Fie
     props: base.props,
     emits: [...new Set([...events, 'update:open', 'open-change'])],
     setup(props: Record<string, any>, { attrs, slots, emit, expose }) {
+      adapter.setup?.()
       const instance = getCurrentInstance()!
       const state = useFieldPresentation(
-        () => props.presentation,
+        () => props.editMode,
         () => props.readPretty,
+        adapter.defaultPresentation,
       )
+      const emptyPolicy = useEmptyValues(props, undefined, Boolean(state.item))
+      provideEmptyValues({
+        get emptyValues() {
+          return emptyPolicy.emptyValues.value
+        },
+        get emptyText() {
+          return emptyPolicy.emptyText.value
+        },
+      })
       // The public field owns presentation; nested controls only render its editor.
       provide(fieldEditorBoundary, true)
       provide(
         fieldControlFormEvents,
-        computed(() => state.presentation.value === 'inline'),
+        computed(() => state.editMode.value === 'direct'),
       )
       const form = usePresentationForm({
         disabled: computed(() => (Array.isArray(props.disabled) ? props.disabled.every(Boolean) : props.disabled)),
@@ -145,7 +179,35 @@ export function withFieldPresentation<T extends Component>(Base: T, adapter: Fie
       })
       const localOpen = ref(props.defaultOpen ?? false)
       const blocked = computed(() => form.mergedDisabled.value || form.mergedReadonly.value || state.readPretty.value)
+      const sourceKey = ['options', 'data'].find((key) => {
+        const definition = base.props?.[key]
+        const types = Array.isArray(definition?.type) ? definition.type : [definition?.type]
+        return types.includes(Array) && types.includes(Function)
+      })
+      const source = sourceKey
+        ? useOptionRequest(
+            () => props[sourceKey],
+            () => blocked.value,
+            (error) => emit('load-error', error),
+            // AutoComplete debounces here; Cascader already debounces its search events.
+            () => (base.name.endsWith('AutoComplete') ? (props.searchDelay ?? 0) : 0),
+            base.props,
+            true,
+          )
+        : undefined
+      if (source) {
+        provideOptionRequest(base.props, source)
+      }
+
       const open = computed(() => !blocked.value && Boolean(props.open ?? localOpen.value))
+      watch(open, (next) => {
+        if (next && source?.remote.value) {
+          const query = props.inputValue ?? props.defaultInputValue ?? ''
+          if (source.query.value !== query) {
+            void source.search(query)
+          }
+        }
+      })
       const setOpen = (next: boolean) => {
         if (next && blocked.value) {
           return
@@ -184,7 +246,7 @@ export function withFieldPresentation<T extends Component>(Base: T, adapter: Fie
             return false
           }
           if (!sameFieldValue(next, value.value)) {
-            return props.beforeCommit?.(next, { previousValue: value.value, signal })
+            return invokeBeforeCommit(props.beforeCommit, next, { previousValue: value.value, signal })
           }
         },
       })
@@ -206,13 +268,13 @@ export function withFieldPresentation<T extends Component>(Base: T, adapter: Fie
         return session.commit()
       }
       watch(
-        [state.presentation, state.readPretty, blocked],
-        ([presentation], previous) => {
-          state.item?.resolved?.(presentation, state.readPretty.value)
-          if (blocked.value || (previous && presentation !== previous[0])) {
+        [state.editMode, state.readPretty, blocked],
+        ([editMode], previous) => {
+          state.item?.resolved?.(editMode, state.readPretty.value)
+          if (blocked.value || (previous && previous.length > 0 && editMode !== previous[0])) {
             setOpen(false)
             session.reset()
-            if (presentation !== 'inline') {
+            if (editMode !== 'direct') {
               state.item?.resetValidation?.()
             }
           }
@@ -220,7 +282,7 @@ export function withFieldPresentation<T extends Component>(Base: T, adapter: Fie
         { immediate: true, flush: 'sync' },
       )
       state.register({
-        active: () => state.presentation.value !== 'inline' && open.value,
+        active: () => state.editMode.value !== 'direct' && open.value,
         cancel: () => {
           setOpen(false)
           session.reset()
@@ -229,6 +291,9 @@ export function withFieldPresentation<T extends Component>(Base: T, adapter: Fie
       })
       const exposed: Record<string, any> = {}
       const bindings: Record<string, any> = {}
+      if (source) {
+        bindings.refresh = source.refresh
+      }
       const syncExposed = () => {
         const child = inner.value
         if (!child) {
@@ -298,36 +363,44 @@ export function withFieldPresentation<T extends Component>(Base: T, adapter: Fie
         onChange: () => {},
       }
       const render = () => {
-        if (state.presentation.value === 'inline' && !state.readPretty.value) {
+        if (state.editMode.value === 'direct' && !state.readPretty.value) {
           const original = { ...(instance.vnode.props ?? {}) }
-          for (const key of ['ref', 'ref_for', 'ref_key', 'key']) {
+          for (const key of ['ref', 'ref_for', 'ref_key', 'key', ...ownedListenerKeys]) {
             delete original[key]
           }
           const controlled =
             Object.prototype.hasOwnProperty.call(original, 'modelValue') ||
             Object.prototype.hasOwnProperty.call(original, 'model-value')
-          return h(
+          const rendered = h(
             control,
             {
               ...attrs,
               ...original,
               ...(controlled ? {} : { defaultValue: localValue.value }),
+              emptyValues: emptyPolicy.emptyValues.value,
               ...adapter.inlineProps?.(props),
               ...handlers,
+              ...(props.loading ? { 'aria-busy': true } : {}),
               ref: inner,
             },
             slots,
           )
+          return rendered
         }
-        const text = (adapter.text ?? formatFieldValue)(value.value, props)
+        const textProps = source && sourceKey ? { ...props, [sourceKey]: source.options.value } : props
+        const text = (adapter.text ?? formatFieldValue)(value.value, textProps)
         return h(
           FieldPresentation,
           {
             ...attrs,
+            ...(props.textAlign ? { style: [attrs.style, { '--mp-form-content-align': props.textAlign }] } : {}),
             ref: host,
             intent: adapter.intent,
-            presentation: state.presentation.value,
+            editMode: state.editMode.value,
+            openTriggerTarget: props.openTriggerTarget,
             readPretty: state.readPretty.value,
+            empty: emptyPolicy.isEmpty(value.value),
+            emptyText: emptyPolicy.emptyText.value,
             label: state.label.value ?? props.ariaLabel,
             text,
             placeholder: typeof props.placeholder === 'string' ? props.placeholder : undefined,
@@ -336,6 +409,22 @@ export function withFieldPresentation<T extends Component>(Base: T, adapter: Fie
             disabled: form.mergedDisabled.value,
             readonly: form.mergedReadonly.value,
             needConfirm: true,
+            clearable: props.clearable,
+            onClear: () => {
+              if (!open.value || blocked.value || session.pending.value) {
+                return
+              }
+              const fallback =
+                'uncheckedValue' in props
+                  ? props.uncheckedValue
+                  : typeof props.defaultValue === 'boolean'
+                    ? false
+                    : Array.isArray(value.value)
+                      ? []
+                      : props.defaultValue
+              session.update(resolveEmptyValue(props, fallback))
+            },
+            loading: props.loading,
             pending: session.pending.value,
             confirmDisabled: adapter.valid?.(session.draft.value, props) === false,
             error: session.error.value || state.item?.message?.value,
@@ -343,8 +432,25 @@ export function withFieldPresentation<T extends Component>(Base: T, adapter: Fie
             onCancel: cancel,
             commit: confirm,
             onConfirm: confirm,
+            referenceFocus: adapter.reference ? () => inner.value?.focus?.() : undefined,
           },
           {
+            reference: adapter.reference
+              ? () =>
+                  adapter.reference!({
+                    props,
+                    attrs,
+                    value: value.value,
+                    update: publish,
+                    emit,
+                    slots,
+                    disabled: form.mergedDisabled.value || session.pending.value,
+                    readonly: form.mergedReadonly.value,
+                    open: open.value,
+                    setOpen,
+                    referenceRef: inner,
+                  })
+              : undefined,
             read: slots.read ? () => slots.read?.({ value: value.value, text }) : undefined,
             default: () =>
               !open.value
@@ -368,7 +474,7 @@ export function withFieldPresentation<T extends Component>(Base: T, adapter: Fie
                       ...editorHandlers,
                       ref: inner,
                       modelValue: session.value.value,
-                      presentation: 'inline',
+                      editMode: 'direct',
                       readPretty: false,
                       beforeCommit: undefined,
                       ...(state.nativeEditor && 'disableConfirm' in base.props ? { disableConfirm: true } : {}),

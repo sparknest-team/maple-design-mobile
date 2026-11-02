@@ -21,7 +21,9 @@ const settled = async () => {
 for (const variant of ['radio', 'button']) {
   describe('radio navigation / ' + variant, () => {
     it('maintains one tab entry and cycles locally with the original event', async () => {
-      const wrapper = mount(RadioGroup, { props: { variant, ariaLabel: 'Choices', options: ['a', 'b', 'c'] } })
+      const wrapper = mount(RadioGroup, {
+        props: { editMode: 'direct', variant, ariaLabel: 'Choices', options: ['a', 'b', 'c'] },
+      })
       await settled()
       expect(wrapper.attributes('role') || wrapper.find('[role="radiogroup"]').attributes('role')).toBe('radiogroup')
       expect(tabs(wrapper)).toEqual(['0', '-1', '-1'])
@@ -40,6 +42,7 @@ for (const variant of ['radio', 'button']) {
       const wrapper = mount(RadioGroup, {
         attachTo: document.body,
         props: {
+          editMode: 'direct',
           variant,
           defaultValue: 'a',
           options: ['a', { value: 'b', disabled: true }, { value: 'c', readonly: true }, 'd'],
@@ -57,7 +60,9 @@ for (const variant of ['radio', 'button']) {
     })
 
     it('respects rejected controlled values, readonly and modified/repeated keys', async () => {
-      const wrapper = mount(RadioGroup, { props: { variant, modelValue: 'a', options: ['a', 'b'] } })
+      const wrapper = mount(RadioGroup, {
+        props: { editMode: 'direct', variant, modelValue: 'a', options: ['a', 'b'] },
+      })
       await settled()
       await target(items(wrapper)[0]).trigger('keydown', { key: 'ArrowRight', ctrlKey: true })
       await target(items(wrapper)[0]).trigger('keydown', { key: 'ArrowRight', repeat: true })
@@ -74,7 +79,9 @@ for (const variant of ['radio', 'button']) {
     })
 
     it('recovers tab entry after reset, selected removal and disabled updates', async () => {
-      const wrapper = mount(RadioGroup, { props: { variant, modelValue: 'b', options: ['a', 'b'] } })
+      const wrapper = mount(RadioGroup, {
+        props: { editMode: 'direct', variant, modelValue: 'b', options: ['a', 'b'] },
+      })
       await settled()
       expect(tabs(wrapper)).toEqual(['-1', '0'])
       await wrapper.setProps({ modelValue: null })
@@ -93,8 +100,8 @@ for (const variant of ['radio', 'button']) {
     it('tracks keyed DOM order and handles no enabled options', async () => {
       const order = ref(['a', 'b', 'c'])
       const wrapper = mount(RadioGroup, {
-        props: { variant },
-        slots: { default: () => order.value.map((value) => h(Radio, { key: value, value })) },
+        props: { editMode: 'direct', variant },
+        slots: { default: () => order.value.map((value) => h(Radio, { editMode: 'direct', key: value, value })) },
       })
       await settled()
       order.value = ['c', 'a', 'b']
@@ -112,10 +119,11 @@ for (const variant of ['radio', 'button']) {
 
 it('does not respond to window events, nested groups or interactive label descendants', async () => {
   const wrapper = mount(RadioGroup, {
+    props: { editMode: 'direct' },
     slots: {
       default: () => [
-        h(Radio, { value: 'outer' }, () => h('button', 'Embedded')),
-        h(RadioGroup, { options: ['a', 'b'] }),
+        h(Radio, { editMode: 'direct', value: 'outer' }, () => h('button', 'Embedded')),
+        h(RadioGroup, { editMode: 'direct', options: ['a', 'b'] }),
       ],
     },
   })
@@ -132,10 +140,14 @@ it('does not respond to window events, nested groups or interactive label descen
 
 it('cleans up KeepAlive registrations and keeps restored ordering', async () => {
   const show = ref(true)
-  const Child = defineComponent({ setup: () => () => h(Radio, { value: 'a' }) })
+  const Child = defineComponent({ setup: () => () => h(Radio, { editMode: 'direct', value: 'a' }) })
   const wrapper = mount(RadioGroup, {
+    props: { editMode: 'direct' },
     slots: {
-      default: () => [h(KeepAlive, null, { default: () => (show.value ? h(Child) : null) }), h(Radio, { value: 'b' })],
+      default: () => [
+        h(KeepAlive, null, { default: () => (show.value ? h(Child) : null) }),
+        h(Radio, { editMode: 'direct', value: 'b' }),
+      ],
     },
   })
   await settled()
@@ -149,7 +161,7 @@ it('cleans up KeepAlive registrations and keeps restored ordering', async () => 
 })
 
 it('supports all five button sizes and inherits the group variant', async () => {
-  const wrapper = mount(RadioGroup, { props: { variant: 'button', options: ['a', 'b'] } })
+  const wrapper = mount(RadioGroup, { props: { editMode: 'direct', variant: 'button', options: ['a', 'b'] } })
   for (const size of ['xs', 'sm', 'md', 'lg', 'xl']) {
     await wrapper.setProps({ size })
     await settled()

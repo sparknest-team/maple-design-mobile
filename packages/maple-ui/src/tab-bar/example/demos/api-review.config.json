@@ -79,7 +79,10 @@
       "defaultValue": "standard",
       "description": "外观样式 / Appearance",
       "kind": "enum",
-      "options": ["standard", "pill"],
+      "options": [
+        "standard",
+        "pill"
+      ],
       "initial": "standard"
     },
     {
@@ -90,30 +93,46 @@
       "kind": "boolean"
     }
   ],
-  "events": ["change", "fab-click"],
+  "events": [
+    "change",
+    "fab-click"
+  ],
   "scenarios": [
     {
       "name": "before-change",
       "kind": "prop",
-      "demos": ["async-change.vue"]
+      "demos": [
+        "async-change.vue"
+      ]
     },
     {
       "name": "fab-props",
       "kind": "prop",
-      "demos": ["fab.vue"]
+      "demos": [
+        "fab.vue"
+      ]
     },
     {
       "name": "default",
       "kind": "slot",
-      "demos": ["custom-label.vue", "fab.vue", "uncontrolled.vue"]
+      "demos": [
+        "custom-label.vue",
+        "fab.vue",
+        "uncontrolled.vue"
+      ]
     },
     {
       "name": "fab",
       "kind": "slot",
-      "demos": ["custom-label.vue", "fab.vue"]
+      "demos": [
+        "custom-label.vue",
+        "fab.vue"
+      ]
     }
   ],
-  "slotNames": ["fab"],
+  "slotNames": [
+    "fab"
+  ],
   "slotDefaults": {
     "fab": false
   },

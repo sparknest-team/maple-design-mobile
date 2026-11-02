@@ -1,0 +1,11 @@
+{
+  "action": "rgb(9, 12, 26)",
+  "foreground": "rgb(255, 255, 255)",
+  "caret": "rgb(218, 44, 0)",
+  "fieldRadius": "0px",
+  "fieldBackground": "rgba(0, 0, 0, 0)",
+  "checkboxRadius": "999px",
+  "overflow": false,
+  "safeBottom": "34px",
+  "switchColor": "rgb(255, 61, 0)"
+}

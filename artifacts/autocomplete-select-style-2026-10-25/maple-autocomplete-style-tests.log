@@ -1,0 +1,14 @@
+
+ RUN  v3.0.6 /Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui
+
+ ✓ src/auto-complete/__tests__/auto-complete.test.tsx (44 tests) 632ms
+ ✓ src/_components/selected-options/__tests__/editor.spec.ts (3 tests) 258ms
+ ✓ src/_components/selected-options/__tests__/manager.spec.ts (5 tests) 254ms
+ ✓ src/form/__tests__/field-presentation.spec.ts (15 tests) 444ms
+ ✓ src/_components/selected-options/__tests__/option-fields.spec.ts (2 tests) 93ms
+
+ Test Files  5 passed (5)
+      Tests  69 passed (69)
+   Start at  15:51:01
+   Duration  36.74s (transform 17.77s, setup 144ms, collect 100.14s, tests 1.68s, environment 26.05s, prepare 1.19s)
+

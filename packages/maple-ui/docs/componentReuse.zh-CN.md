@@ -232,4 +232,4 @@ Cedar：129 个 Props 导出；Maple：119 个；同名可比较：97 个。
 
 ## 仅 Maple 根入口存在的 Props 导出
 
-`actionSheetProps`, `cellProps`, `codeProps`, `counterProps`, `dragProps`, `fabProps`, `floatingPanelProps`, `formDetailsProps`, `highlighterProviderProps`, `indexAnchorProps`, `indexBarProps`, `loadingBarProps`, `localeProviderProps`, `noticeBarProps`, `numberKeyboardProps`, `pickerProps`, `popupProps`, `pullRefreshProps`, `signatureProps`, `swipeCellProps`, `tabBarItemProps`, `tabBarProps`
+`actionSheetProps`, `cellProps`, `codeProps`, `dragProps`, `fabProps`, `floatingPanelProps`, `formDetailsProps`, `highlighterProviderProps`, `indexAnchorProps`, `indexBarProps`, `loadingBarProps`, `localeProviderProps`, `noticeBarProps`, `numberKeyboardProps`, `pickerProps`, `popupProps`, `pullRefreshProps`, `signatureProps`, `swipeCellProps`, `tabBarItemProps`, `tabBarProps`

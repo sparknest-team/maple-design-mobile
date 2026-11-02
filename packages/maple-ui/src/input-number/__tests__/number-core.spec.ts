@@ -7,7 +7,7 @@ import { useStepRepeat } from '../use-step-repeat'
 
 const wrappers: Array<ReturnType<typeof mount>> = []
 function render(props: Record<string, unknown> = {}) {
-  const wrapper = mount(InputNumber, { props })
+  const wrapper = mount(InputNumber, { props: { editMode: 'direct', ...props } })
   wrappers.push(wrapper)
   return wrapper
 }

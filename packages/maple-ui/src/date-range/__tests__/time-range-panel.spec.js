@@ -10,7 +10,9 @@ for (const useSeconds of [false, true]) {
       attachTo: document.body,
       props: {
         showTime: true,
-        useSeconds,
+        timeFields: useSeconds ? ['hour', 'minute', 'second'] : ['hour', 'minute'],
+        format: useSeconds ? 'YYYY-MM-DD HH:mm:ss' : 'YYYY-MM-DD HH:mm',
+        valueFormat: useSeconds ? 'YYYY-MM-DD HH:mm:ss' : 'YYYY-MM-DD HH:mm',
         modelValue: [`2026-10-20 09:30${suffix}`, `2026-10-25 18:00${suffix}`],
       },
     })
@@ -48,7 +50,9 @@ it('uses endpoint-specific time rules and preserves a locked endpoint', async ()
   const wrapper = mount(DateRangePicker, {
     props: {
       showTime: true,
-      useSeconds: false,
+      timeFields: ['hour', 'minute'],
+      format: 'YYYY-MM-DD HH:mm',
+      valueFormat: 'YYYY-MM-DD HH:mm',
       disabled: [true, false],
       modelValue: ['2026-10-20 09:30', '2026-10-25 18:00'],
       disabledTime: (_date, side) => ({ disabledHours: () => (side === 'end' ? [19] : [10]) }),

@@ -2,11 +2,11 @@
 
 展示duration是业务期限，不是CSS进出场时长；0常驻，只有有限正值排自动关闭。hover保留剩余期限，KeepAlive重新激活重新开始完整配置期限；停用／卸载使旧计时失效。2026-10-15计时源码与既有审计hash一致，本次仅补录business-clock分类；当前39项回归不增加原生浏览器验收，也不自动认证服务nextTick更新身份或跨文档迁移。
 
-## 案例
-
 ### 介绍
 
 用于展示轻量级、非模态的全局反馈。Maple 与 Cedar 共享同一套公开契约、队列、计时和命令式服务；两端分别维护源码和端侧外观。Message 不锁滚动，也不阻断页面操作。
+
+## 基础示例
 
 ### 函数调用
 
@@ -14,7 +14,18 @@
 ../example/demos/function-call.vue
 ```
 
+## 外观与状态
+
 ### 消息状态
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `variant` | 视觉强调层级 | 外观组合 |
+| `status` | 语义状态 | 外观组合 |
+<!-- demo-config-notes:end -->
 
 状态统一为 `default / info / success / warning / danger / loading`。函数方法使用 `error`，组件状态使用标准语义 `danger`；普通提示直接调用 `Message(...)`，不提供 `normal` 别名。
 
@@ -22,7 +33,36 @@
 ../example/demos/type.vue
 ```
 
+### 视觉变体
+
+视觉变体与 status 独立：neutral 是中性浮层与状态图标；tonal 是低强调状态色底与深色正文；solid 是高强调实色底与配套前景。Cedar 与 Maple 默认均为 neutral；显式 solid / tonal 保持相同视觉语义。default/loading 的 solid 保留深色底，loading 图标仍表达进度。两端导出 MessageVariant，函数调用、setDefaultOptions 和相同 id 更新都支持 variant。
+
+```demo
+../example/demos/variant.vue
+```
+
+### 外观组合
+
+适用于操作结果的即时反馈。调整变体、状态，用相同数据观察变化。内容保持一致，便于比较不同设置的实际效果。
+
+```demo
+../example/demos/appearance-lab.vue
+```
+
+## 内容与展示
+
 ### 组件调用
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `position` | 消息自身在可视区域中的 top/center/bottom 区域，默认 top；不相对触发元素定位 | 组件调用 |
+| `duration` | 自动关闭时长（ms），`0` 不自动关闭 | 组件调用 |
+| `closable` | 是否显示关闭按钮 | 组件调用 |
+| `status` | 语义状态 | 组件调用 |
+<!-- demo-config-notes:end -->
 
 声明式组件支持受控 `open`、三种位置、操作区、自定义图标和可关闭按钮。
 
@@ -44,30 +84,9 @@
 - 局部减少动效取消进出过渡和动画位移，保留独立提示的水平/居中静态定位、颜色及业务展示期限；不依赖全局极短时长，隔离Less检查不是实际OS验收。
 - 队列按 `popupContainer + position` 隔离；`Message.clear(position?)` 可按位置清理。
 
-## 视觉变体
+## 阅读方向
 
-视觉变体与 status 独立：neutral 是中性浮层与状态图标；tonal 是低强调状态色底与深色正文；solid 是高强调实色底与配套前景。Cedar 与 Maple 默认均为 neutral；显式 solid / tonal 保持相同视觉语义。default/loading 的 solid 保留深色底，loading 图标仍表达进度。两端导出 MessageVariant，函数调用、setDefaultOptions 和相同 id 更新都支持 variant。
-
-```demo
-../example/demos/variant.vue
-```
-
-### 外观组合
-
-适用于操作结果的即时反馈。调整变体、状态，用相同数据观察变化。内容保持一致，便于比较不同设置的实际效果。
-
-```demo
-../example/demos/appearance-lab.vue
-```
-
-<!-- api-review:start -->
-### 功能调试
-
-```demo
-../example/demos/api-review.vue
-```
-
-<!-- api-review:end -->
+继承最近的 `dir="ltr|rtl"`，支持运行时切换与局部覆盖。内容、图标与关闭按钮间距随阅读方向排列；方向切换不改变消息类型、计时或关闭语义。函数式调用遵循显式配置或文档方向。
 
 ## API
 
@@ -79,7 +98,7 @@
 | `id`                    | 队列内唯一标识                     | `string \| number`                                           | 自动生成        |
 | `status`                | 语义状态                           | `default \| info \| success \| warning \| danger \| loading` | `default`       |
 | variant | 视觉强调层级 | `neutral \| tonal \| solid` | `neutral` |
-| `position`              | 显示位置                           | `top \| center \| bottom`                                    | `top`           |
+| `position`              | 消息自身在可视区域中的 top/center/bottom 区域，默认 top；不相对触发元素定位 | `top \| center \| bottom`                                    | `top`           |
 | `content`               | 内容                               | `MessageContent`                                             | -               |
 | `icon`                  | 自定义图标                         | `MessageContent`                                             | -               |
 | `action`                | 操作区                             | `MessageContent`                                             | -               |
@@ -232,3 +251,5 @@
 | `--mp-message-content-padding` | `14px 16px` |
 | `--mp-message-action-margin` | `0 8px` |
 | `--mp-message-icon-margin` | `0 8px` |
+
+close/closed 通知回调抛错不会保留已关闭项目或空管理器宿主，资源清理独立于通知回调执行。

@@ -1,0 +1,130 @@
+
+> @1.0.0 check:doc-pipeline /Users/shuaimeng/github_web/maple-design-mobile
+> node --test scripts/quality/site-resolver.test.mjs scripts/quality/markdown-demo-syntax.test.mjs scripts/quality/demo-language-route.test.mjs
+
+TAP version 13
+# Subtest: standalone middle demos read desktop language on initial load and route changes
+ok 1 - standalone middle demos read desktop language on initial load and route changes
+  ---
+  duration_ms: 2.169375
+  ...
+# Subtest: mobile collections and iframe demos read the same language from the query
+ok 2 - mobile collections and iframe demos read the same language from the query
+  ---
+  duration_ms: 0.395917
+  ...
+# Subtest: explicit platform selection remains deterministic and empty routes use the default
+ok 3 - explicit platform selection remains deterministic and empty routes use the default
+  ---
+  duration_ms: 0.115584
+  ...
+# Subtest: authored demo counts include both live syntaxes and exclude documentation code samples
+ok 4 - authored demo counts include both live syntaxes and exclude documentation code samples
+  ---
+  duration_ms: 13.377291
+  ...
+# Subtest: paired and self-closing live demo tags produce separate source cards
+ok 5 - paired and self-closing live demo tags produce separate source cards
+  ---
+  duration_ms: 60.044209
+  ...
+# Subtest: fenced demo and HTML demo syntaxes can be mixed without losing description or source order
+ok 6 - fenced demo and HTML demo syntaxes can be mixed without losing description or source order
+  ---
+  duration_ms: 24.884
+  ...
+# Subtest: demo tags inside code samples are never executed or watched
+ok 7 - demo tags inside code samples are never executed or watched
+  ---
+  duration_ms: 14.994333
+  ...
+# Subtest: actual bilingual VerificationCode and Upload docs expose every authored demo independently
+ok 8 - actual bilingual VerificationCode and Upload docs expose every authored demo independently
+  ---
+  duration_ms: 551.077583
+  ...
+# Subtest: all component docs render each live demo reference independently
+ok 9 - all component docs render each live demo reference independently
+  ---
+  duration_ms: 14757.632625
+  ...
+# Subtest: editing a referenced demo invalidates the Markdown module so its source also refreshes
+ok 10 - editing a referenced demo invalidates the Markdown module so its source also refreshes
+  ---
+  duration_ms: 17.886584
+  ...
+# Subtest: Fab live cards have no second static source toolbar for the same examples
+ok 11 - Fab live cards have no second static source toolbar for the same examples
+  ---
+  duration_ms: 255.5905
+  ...
+# [33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html\#vite-cjs-node-api-deprecated for more details.[39m
+# Subtest: production field style imports retain the shared presentation surface
+ok 12 - production field style imports retain the shared presentation surface
+  ---
+  duration_ms: 921.498166
+  ...
+# Subtest: nested documentation examples are admitted while nested implementation files remain excluded
+ok 13 - nested documentation examples are admitted while nested implementation files remain excluded
+  ---
+  duration_ms: 0.754
+  ...
+# Subtest: internal implementation imports stay explicit without intercepting Vue HMR
+ok 14 - internal implementation imports stay explicit without intercepting Vue HMR
+  ---
+  duration_ms: 43.45275
+  ...
+# Subtest: workspace browser dependencies use source without changing standalone projects
+ok 15 - workspace browser dependencies use source without changing standalone projects
+  ---
+  duration_ms: 0.620542
+  ...
+# Subtest: automatic imports exclude every implementation file, including SFC queries and /@fs paths
+ok 16 - automatic imports exclude every implementation file, including SFC queries and /@fs paths
+  ---
+  duration_ms: 548.401625
+  ...
+# Subtest: documentation component imports bypass the root barrel, preserving styles
+ok 17 - documentation component imports bypass the root barrel, preserving styles
+  ---
+  duration_ms: 0.613625
+  ...
+# Subtest: nested components resolve through their actual public exporting module
+ok 18 - nested components resolve through their actual public exporting module
+  ---
+  duration_ms: 0.088167
+  ...
+# Subtest: directives use direct modules and keep their registered names
+ok 19 - directives use direct modules and keep their registered names
+  ---
+  duration_ms: 0.252958
+  ...
+# Subtest: public function APIs bypass the barrel while SVG and private component resolution stay unchanged
+ok 20 - public function APIs bypass the barrel while SVG and private component resolution stay unchanged
+  ---
+  duration_ms: 8.380458
+  ...
+# Subtest: explicit root function imports resolve directly without changing authored names or injected styles
+ok 21 - explicit root function imports resolve directly without changing authored names or injected styles
+  ---
+  duration_ms: 12.680083
+  ...
+# Subtest: primary exports and mixed direct imports preserve local names without loading the barrel
+ok 22 - primary exports and mixed direct imports preserve local names without loading the barrel
+  ---
+  duration_ms: 10.385416
+  ...
+# Subtest: namespaces, unknown exports and type-only imports retain the root barrel
+ok 23 - namespaces, unknown exports and type-only imports retain the root barrel
+  ---
+  duration_ms: 22.184125
+  ...
+1..23
+# tests 23
+# suites 0
+# pass 23
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 17926.7465

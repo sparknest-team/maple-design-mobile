@@ -1,7 +1,8 @@
 import { type PropType } from 'vue'
-import { fieldPresentationProp, readPrettyProp } from '../_components/field-presentation/context'
+import { fieldEditModeProp, readPrettyProp } from '../_components/field-presentation/context'
 import type { RowProps } from '../row/props'
 import { componentSizes, type ComponentSize } from '../utils/constants'
+import { emptyTextProp, emptyValuesProp } from '../utils/empty-value'
 import { formItemDecorationProps, type FormItemValidateStatus } from './item-decoration'
 import { formItemLayoutProps } from './layout-props'
 import { type FormLayout } from './props'
@@ -14,9 +15,13 @@ export type { FormItemAsteriskPosition } from './item-decoration'
 export type FormItemLayout = FormLayout
 
 export const props = {
-  /** 字段展示方式，未设置时继承上层。 */
-  presentation: fieldPresentationProp,
+  /** 编辑模式；未设置时继承 Form，字段可单独覆盖。 */
+  editMode: fieldEditModeProp,
   readPretty: readPrettyProp,
+  /** 模型空值识别；不改变受控判定或清空输出。 */
+  emptyValues: emptyValuesProp,
+  /** 纯阅读空值文案；字段 > FormItem > Form，缺省为 '-'。 */
+  emptyText: emptyTextProp,
   ...formItemLayoutProps,
   ...formItemDecorationProps,
   /** 表单项 Row 配置。 */

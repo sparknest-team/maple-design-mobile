@@ -1,7 +1,7 @@
 import type { PropType } from 'vue'
 
 export type ChoiceValue = string | number | boolean
-export type CheckboxModel = boolean | ChoiceValue[]
+export type CheckboxModel = boolean | ChoiceValue[] | null
 export type RadioModel = ChoiceValue | null
 
 export const checkboxValueProps = {

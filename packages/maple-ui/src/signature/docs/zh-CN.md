@@ -1,10 +1,10 @@
 # 签名
 
-## 案例
-
 ### 介绍
 
 基于 `Canvas` 的签名组件。
+
+## 基础示例
 
 ### 基本使用
 
@@ -14,6 +14,8 @@
 ../example/demos/basic-usage.vue
 ```
 
+## 自定义与插槽
+
 ### 自定义样式
 
 可以通过 `stroke-style`、`line-width` 自定义签名的样式，`stroke-style` 默认是 `currentColor`，会继承文字颜色，所以也可以通过 `css color` 来设置颜色。
@@ -21,15 +23,6 @@
 ```demo
 ../example/demos/custom-style.vue
 ```
-
-<!-- api-review:start -->
-### 功能调试
-
-```demo
-../example/demos/api-review.vue
-```
-
-<!-- api-review:end -->
 
 ## API
 

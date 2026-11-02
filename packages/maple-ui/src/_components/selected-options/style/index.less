@@ -40,7 +40,7 @@
     gap: var(--mp-selected-options-gap);
   }
   &__clear {
-    color: var(--mp-color-primary);
+    color: var(--mp-selected-options-clear-color);
     white-space: nowrap;
   }
   &__tags {
@@ -142,21 +142,27 @@
     box-shadow: none;
     background: inherit;
   }
-  .mp-select-dropdown-list-wrapper {
+  .mp-select-dropdown .mp-select-dropdown-list-wrapper {
     height: var(--mp-selection-editor-height);
     max-height: none;
+  }
+  .mp-select-dropdown-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: var(--mp-selection-editor-height);
   }
   .mp-select-dropdown-list {
     padding: 0;
   }
-  .mp-select-option {
+  .mp-select-dropdown .mp-select-option {
     min-height: var(--mp-selection-editor-row-height);
     padding: var(--mp-selection-editor-padding);
     border-radius: var(--mp-selection-editor-radius);
     line-height: 1.5;
     gap: var(--mp-selection-editor-gap);
   }
-  .mp-select-option-content {
+  .mp-select-dropdown .mp-select-option-content {
     flex: 1;
     white-space: normal;
     overflow-wrap: anywhere;
@@ -170,7 +176,7 @@
   .mp-select-option-disabled {
     opacity: var(--mp-selected-options-disabled-opacity);
   }
-  .mp-select-group-title {
+  .mp-select-dropdown .mp-select-group-title {
     padding: var(--mp-selection-editor-padding);
     font-size: var(--mp-selection-editor-font-size);
     color: var(--mp-selection-editor-muted-color);
@@ -218,7 +224,7 @@
       border-bottom: 1px solid var(--mp-selection-editor-border);
       border-radius: 0;
     }
-    .mp-select-option,
+    .mp-select-dropdown .mp-select-option,
     .mp-cascader-option {
       min-height: var(--mp-selection-editor-touch-height);
       border-radius: 0;
@@ -284,7 +290,7 @@
   }
   .mp-cascader-panel-column:not(:last-child) {
     background: var(--mp-selection-editor-muted-background);
-    border-right: 1px solid var(--mp-selection-editor-border);
+    border-inline-end: 1px solid var(--mp-selection-editor-border);
   }
   .mp-cascader-column-content {
     flex: 1;

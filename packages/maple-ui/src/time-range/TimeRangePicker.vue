@@ -32,7 +32,11 @@ const panel = useTimePanel<TimeValue[]>(
   () => true,
 )
 provideRangePanel()
-const mobile = useMobileRangePanel(options, panel.draft, panel.select)
+const mobile = useMobileRangePanel(options, panel.draft, panel.select, (value) => {
+  if (panel.initialize(value)) {
+    emit('draft-initialize', value)
+  }
+})
 const content = {
   ...panel,
   ...mobile,

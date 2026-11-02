@@ -7,11 +7,18 @@ const second = ref()
 
 <template>
   <mp-space direction="column" size="lg">
-    <span>Minute precision: disable use-seconds</span>
-    <mp-date v-model="minute" show-time :use-seconds="false" clearable />
+    <span>Time columns: hour / minute</span>
+    <mp-date
+      v-model="minute"
+      show-time
+      :time-fields="['hour', 'minute']"
+      format="YYYY-MM-DD HH:mm"
+      value-format="YYYY-MM-DD HH:mm"
+      clearable
+    />
     <span>Committed value：{{ minute || 'Not selected' }}</span>
     <span>Second precision: the default on both platforms</span>
-    <mp-date v-model="second" show-time use-seconds clearable />
+    <mp-date v-model="second" show-time :time-fields="['hour', 'minute', 'second']" clearable />
     <span>Committed value：{{ second || 'Not selected' }}</span>
   </mp-space>
 </template>

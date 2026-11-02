@@ -28,7 +28,7 @@ const options = Array.from({ length: 200 }, (_, index) => 'Item ' + (index + 1))
           v-model:open="open"
           :options="options"
           :scrollbar="true"
-          presentation="popup"
+          edit-mode="popup"
           style="width: 240px"
           v-bind="__apiReview.bindings"
           v-on="__apiReview.listeners"

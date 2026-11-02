@@ -1,15 +1,15 @@
 <script setup>
 import { ref } from 'vue'
 
-const position = ref('right-bottom')
+const position = ref('bottom-right')
 </script>
 
 <template>
   <mp-radio-group v-model="position">
-    <mp-radio value="left-top">left-top</mp-radio>
-    <mp-radio value="right-top">right-top</mp-radio>
-    <mp-radio value="left-bottom">left-bottom</mp-radio>
-    <mp-radio value="right-bottom">right-bottom</mp-radio>
+    <mp-radio value="top-left">top-left</mp-radio>
+    <mp-radio value="top-right">top-right</mp-radio>
+    <mp-radio value="bottom-left">bottom-left</mp-radio>
+    <mp-radio value="bottom-right">bottom-right</mp-radio>
   </mp-radio-group>
   <div class="fab-demo-stage">
     <mp-fab :fixed="false" :popup-container="false" :position="position" />

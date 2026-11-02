@@ -1,0 +1,48 @@
+
+ RUN  v3.0.6 /Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui
+
+ ✓ src/auto-complete/__tests__/auto-complete.test.tsx (44 tests) 473ms
+ ✓ src/form/__tests__/async-fields-demo.spec.js (10 tests) 620ms
+ ✓ src/form/__tests__/index.spec.js (12 tests) 642ms
+ ✓ src/form/__tests__/field-components.spec.ts (72 tests) 1251ms
+ ✓ src/form/__tests__/temporal-upload-state.spec.ts (45 tests) 2875ms
+ ✓ src/form/__tests__/layout-contract.spec.ts (10 tests) 101ms
+ ✓ src/form/__tests__/field-presentation.spec.ts (15 tests) 321ms
+ ✓ src/form/__tests__/presentation-state.spec.ts (40 tests) 999ms
+ ✓ src/form/__tests__/scroll-validation-eligibility.spec.js (19 tests) 100ms
+ ✓ src/form/__tests__/scroll-task-ownership.spec.js (10 tests) 82ms
+ ✓ src/form/__tests__/option-field-transactions.spec.ts (16 tests) 753ms
+ ✓ src/search/__tests__/index.spec.js (11 tests) 227ms
+ ✓ src/form/__tests__/scroll-animation-lifecycle.spec.js (11 tests) 83ms
+ ✓ src/search/__tests__/control.spec.js (16 tests) 241ms
+ ✓ src/_components/selected-options/__tests__/manager.spec.ts (5 tests) 136ms
+ ✓ src/form/__tests__/decoration-contract.spec.ts (6 tests) 80ms
+ ✓ src/form/__tests__/async-option-keyboard.spec.ts (9 tests) 465ms
+ ✓ src/form/__tests__/form-item-index.spec.js (7 tests) 253ms
+ ✓ src/form/__tests__/scroll-completion-wait.spec.js (9 tests) 70ms
+ ✓ src/search/__tests__/form-popup.spec.js (4 tests) 128ms
+ ✓ src/form/__tests__/cross-field-demo.spec.js (2 tests) 143ms
+ ✓ src/form/__tests__/async-race-demo.spec.js (4 tests) 184ms
+ ✓ src/_components/field-presentation/__tests__/search-ownership.spec.ts (9 tests) 30ms
+ ✓ src/search/__tests__/input-contract.spec.js (5 tests) 75ms
+ ✓ src/_components/field-presentation/__tests__/focus-ownership.spec.ts (6 tests) 94ms
+ ✓ src/form/__tests__/presentation-search-ownership.spec.ts (3 tests) 126ms
+ ✓ src/_components/selected-options/__tests__/editor.spec.ts (2 tests) 120ms
+ ✓ src/form/__tests__/form-controller.spec.ts (4 tests) 10ms
+ ✓ src/form/__tests__/async-remount-demo.spec.js (1 test) 111ms
+ ✓ src/_components/selected-options/__tests__/option-fields.spec.ts (2 tests) 74ms
+ ✓ src/form/__tests__/custom-control-demo.spec.js (2 tests) 104ms
+ ✓ src/form/__tests__/async-state-demo.spec.js (1 test) 87ms
+ ✓ src/form/__tests__/async-whole-demo.spec.js (2 tests) 119ms
+ ✓ src/form/__tests__/async-server-demo.spec.js (1 test) 85ms
+ ✓ src/form-details/__tests__/index.spec.js (4 tests) 27ms
+ ✓ src/_components/field-presentation/__tests__/option-labels.spec.ts (4 tests) 6ms
+ ✓ src/form/__tests__/events-demo.spec.js (2 tests) 82ms
+ ✓ src/search/__tests__/locale.spec.js (1 test) 38ms
+ ✓ src/form/__tests__/validate-trigger.spec.ts (2 tests) 6ms
+
+ Test Files  39 passed (39)
+      Tests  428 passed (428)
+   Start at  22:24:36
+   Duration  48.57s (transform 6.12s, setup 196ms, collect 50.31s, tests 11.42s, environment 23.81s, prepare 2.28s)
+

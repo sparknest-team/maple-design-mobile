@@ -43,6 +43,7 @@
 </template>
 <script setup lang="ts">
 import { computed, inject, nextTick, ref } from 'vue'
+import { resolveDirection } from '../_utils/direction'
 import { createNamespace } from '../utils/components'
 import { tabsInjectionKey } from './context'
 import { tabNavProps } from './props'
@@ -95,7 +96,7 @@ async function keydown(event: KeyboardEvent) {
     return
   }
   const vertical = ctx.props.orientation === 'vertical'
-  const rtl = button.value?.closest('[dir]')?.getAttribute('dir') === 'rtl'
+  const rtl = resolveDirection(button.value, ctx.rtl.value ? 'rtl' : 'ltr') === 'rtl'
   const previous = vertical ? 'ArrowUp' : rtl ? 'ArrowRight' : 'ArrowLeft'
   const next = vertical ? 'ArrowDown' : rtl ? 'ArrowLeft' : 'ArrowRight'
   const enabled = ctx.entries.value.filter((tab) => !tab.disabled)

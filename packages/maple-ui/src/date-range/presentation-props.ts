@@ -1,4 +1,6 @@
 import { type PropType } from 'vue'
+import { datePickerFieldsProp, timePickerFieldsProp } from '../_components/picker-field/fields'
+import { calendarViewportProps } from '../date/calendar-viewport-props'
 import { props as datePickerPropsSource } from '../date/presentation-props'
 import type { DisabledTime } from '../date/time-constraints'
 import type { DateWheelOptions } from '../date/wheel-options'
@@ -8,6 +10,9 @@ export type DateRangePickerType = 'year' | 'month' | 'date'
 export type DateRangePickerPresentation = 'calendar' | 'picker' | 'calendarPicker'
 
 export const props = {
+  dateFields: datePickerFieldsProp,
+  timeFields: timePickerFieldsProp,
+  ...calendarViewportProps,
   abbreviation: datePickerPropsSource.abbreviation,
   pickerValue: [String, Array] as PropType<string | string[]>,
   modelValue: {
@@ -24,7 +29,6 @@ export const props = {
   },
   dayStartOfWeek: datePickerPropsSource.dayStartOfWeek,
   showTime: Boolean,
-  useSeconds: Boolean,
   min: String,
   max: String,
   disabledDate: Function as PropType<(val: string) => boolean>,

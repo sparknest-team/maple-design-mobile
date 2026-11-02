@@ -28,11 +28,13 @@ export const badgeProps = {
     default: 'floating',
     validator: (value: unknown): value is BadgeMode => badgeModes.includes(value as BadgeMode),
   },
+  /** 浮动徽标在宿主盒子中的物理角落或左右中点，默认 top-right；只在 floating 模式生效，RTL 不反转 */
   position: {
     type: String as PropType<BadgePosition>,
     default: 'top-right',
     validator: (value: unknown): value is BadgePosition => badgePositions.includes(value as BadgePosition),
   },
+  /** 内联徽标位于宿主内容的逻辑 start 或 end，默认 end；仅 inline 模式生效 */
   inlinePosition: {
     type: String as PropType<BadgeInlinePosition>,
     default: 'end',

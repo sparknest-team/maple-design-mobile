@@ -16,11 +16,11 @@ async function updateLayout() {
 </script>
 
 <template>
-  <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 12px">
+  <mp-space wrap size="12px" style="margin-bottom: 12px">
     <mp-checkbox v-model="disabled">Disabled</mp-checkbox>
     <mp-checkbox v-model="cssMode">CSS sticky</mp-checkbox>
     <mp-button @click="updateLayout">Change layout and update position</mp-button>
-  </div>
+  </mp-space>
   <p aria-live="polite">Position updates: {{ updates }}</p>
   <div ref="containerRef" class="scroller">
     <div class="scroll-content">

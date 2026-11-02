@@ -10,11 +10,19 @@ const trigger = ref('click')
 
 <template>
   <DemoApiReviewPanel v-slot="__apiReview" v-bind="defineReviewConfig(__apiReviewRawConfig)">
-    <mp-select v-model="trigger" :hint="false">
-      <mp-option label="click" />
-      <mp-option label="hover" />
-      <mp-option label="contextMenu" />
-    </mp-select>
+    <mp-form-item layout="vertical" size="sm" label="trigger">
+      <mp-radio-group
+        v-model="trigger"
+        aria-label="trigger"
+        :options="[
+          { label: 'click', value: 'click' },
+          { label: 'hover', value: 'hover' },
+          { label: 'contextMenu', value: 'contextMenu' },
+        ]"
+        variant="button"
+        size="sm"
+      />
+    </mp-form-item>
     <mp-popover style="margin-top: 15px" :trigger="trigger" v-bind="__apiReview.bindings" v-on="__apiReview.listeners">
       <mp-button status="primary">触发方式</mp-button>
 

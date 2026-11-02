@@ -45,11 +45,11 @@ each(xs sm md lg xl, {
     background: var(--mp-internal-radio-segment-hover);
   }
   &.mp-radio--checked {
-    color: var(--mp-radio-control-color-checked);
+    color: var(--mp-radio-label-text-color);
     background: var(--mp-internal-radio-segment-bg);
   }
   &.mp-radio--error:not(.mp-radio--disabled) {
-    color: var(--mp-radio-control-color-error);
+    box-shadow: inset 0 0 0 var(--mp-internal-radio-focus-width) var(--mp-radio-control-color-error);
   }
   &.mp-radio--disabled {
     color: var(--mp-radio-label-text-color-disabled);

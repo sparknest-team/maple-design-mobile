@@ -1,73 +1,61 @@
 # Alert
 
-## 案例
-
 ### Intro
 
 Alerts display brief messages for the user without interrupting their use.
 
-### Variant
+## Basic examples
+
+### Basic usage
 
 ```demo
-../example/demos/variant.vue
+../example/demos/basic.vue
 ```
 
-### Title
+## Appearance and states
 
-```demo
-../example/demos/title.vue
-```
+### Appearance configuration comparison
 
-### Message
+Choose a dimension to compare all its values side by side while keeping other settings and content identical. Change the other settings to inspect combinations; input specimens share one model.
 
-```demo
-../example/demos/message.vue
-```
+<details>
+<summary>Configuration details and limits</summary>
 
-### Type
+#### Appearance combinations
+
+Use this example for the emphasis of informational messages. Adjust variant, status and compare the component with the same data. Keep the content unchanged while comparing the available settings.
+
+#### Type
 
 `type`: `info` / `success` / `warning` / `danger` / `default`. `default` has no built-in icon; use `#icon` to customize.
 
+</details>
+
 ```demo
-../example/demos/type.vue
+../example/demos/appearance-lab.vue
 ```
 
-### Custom Icon
+## Content and presentation
+
+### Title, alignment and banners
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `message` | Content | Title, alignment and banners, Hide Icon, Action |
+| `title` | Title | Title, alignment and banners, Hide Icon, Action |
+| `center` | Whether to center content | Title, alignment and banners |
+| `banner` | Full-width mode without rounded corners | Title, alignment and banners |
+| `show-icon` | Whether to show the left icon | Hide Icon |
+<!-- demo-config-notes:end -->
+
+
+Compare title hierarchy, centered content and page-wide banners. Actions and dismiss behavior have separate examples.
 
 ```demo
-../example/demos/custom-icon.vue
-```
-
-### Allow To Close
-
-Activate Close with a click, Space or Enter. The close event starts closing; closed follows the leave transition. Unmounting the component in close prevents observing its completed transition. This Demo retains the instance, counts both events, and reopens with a fresh key without changing other Alert instances.
-
-```demo
-../example/demos/allow-to-close.vue
-```
-
-### Custom Close Icon
-
-```demo
-../example/demos/custom-close-icon.vue
-```
-
-### Action
-
-```demo
-../example/demos/action.vue
-```
-
-### center
-
-```demo
-../example/demos/center.vue
-```
-
-### banner
-
-```demo
-../example/demos/banner.vue
+../example/demos/content-comparison.vue
 ```
 
 ### Hide Icon
@@ -76,60 +64,125 @@ Activate Close with a click, Space or Enter. The close event starts closing; clo
 ../example/demos/show-icon.vue
 ```
 
-### Appearance combinations
-
-Use this example for the emphasis of informational messages. Adjust variant, status and compare the component with the same data. Keep the content unchanged while comparing the available settings.
+### Action
 
 ```demo
-../example/demos/appearance-lab.vue
+../example/demos/action.vue
 ```
 
-<!-- api-review:start -->
-### Feature playground
+### Message
 
 ```demo
-../example/demos/api-review.vue
+../example/demos/message.vue
 ```
 
-<!-- api-review:end -->
+## Customization and slots
+
+### Custom Icon
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `title` | Title | Custom Icon |
+| `message` | Content | Custom Icon |
+<!-- demo-config-notes:end -->
+
+
+```demo
+../example/demos/custom-icon.vue
+```
+
+## Interaction and control
+
+### Dismiss controls and custom icons
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `title` | Title | Dismiss controls and custom icons |
+| `message` | Content | Dismiss controls and custom icons |
+| `closable` | Whether the alert is `closeable` | Dismiss controls and custom icons |
+<!-- demo-config-notes:end -->
+
+
+Operate the default and custom dismiss controls to compare the same dismissal behavior.
+
+<details>
+<summary>Configuration details and limits</summary>
+
+#### Allow To Close
+
+Activate Close with a click, Space or Enter. The close event starts closing; closed follows the leave transition. Unmounting the component in close prevents observing its completed transition. This Demo retains the instance, counts both events, and reopens with a fresh key without changing other Alert instances.
+
+</details>
+
+```demo
+../example/demos/dismiss-comparison.vue
+```
 
 ## API
 
 ### Props
 
-| Prop        | Description                                                                 | Type                | Default    |
-| ----------- | --------------------------------------------------------------------------- | ------------------- | ---------- |
-| status      | Type, optional values are `info`, `success`, `warning`, `danger`, `default` | _string_            | `info`     |
-| `variant`   | Variant, optional values are `standard` `outline` `tonal`                   | _string_            | `standard` |
-| `color`     | Background color                                                            | string              | `-`        |
-| `title`     | Title                                                                       | string              | `-`        |
-| `message`   | Message                                                                     | string              | `-`        |
-| `elevation` | Elevation, optional values are true, false, and levels from 0-24            | _number \| boolean_ | `false`    |
-| `closable` | Whether the alert is closeable                                              | boolean             | `false`    |
+| Arguments | Description | Type | Default |
+| ----------- | -------------------------------------------------------------------- | ------------------- | ---------- |
+| status | Type, optional values are `info`, `success`, `warning`, `danger`, `default` | _AlertStatus_ | `info` |
+| `variant` | Variant, optional values are `standard` `outline` `tonal` | _AlertVariant_ | `standard` |
+| `color` | Background color | _string_ | `-` |
+| `title` | Title | _string_ | `-` |
+| `message` | Content | _string_ | `-` |
+| `show-icon` | Whether to show the left icon | _boolean_ | `true` |
+| `closable` | Whether the alert is `closeable` | _boolean_ | `false` |
+| `banner` | Full-width mode without rounded corners | _boolean_ | `false` |
+| `center` | Whether to center content | _boolean_ | `false` |
+| `elevation` | Elevation, optional values are `true`, `false`, and levels from `0-24` | _number \| boolean_ | `false` |
 
 ### Slots
 
-| Name         | Description               | SlotProps |
-| ------------ | ------------------------- | --------- |
-| `default`    | The message of alert      | `-`       |
-| `title`      | The title of alert        | `-`       |
-| `icon`       | The prepend icon of alert | `-`       |
-| `close-icon` | The close icon of alert   | `-`       |
+| Name | Description |
+| ------------ | ---------- |
+| `default` | Content |
+| `title` | Title |
+| `icon` | The prepend icon of alert |
+| `action` | Right action |
+| `close-icon` | The close icon of alert |
 
 ### Events
 
-| Event   | Description                                                                                        | Arguments      |
-| ------- | -------------------------------------------------------------------------------------------------- | -------------- |
+| Event | Description | Callback arguments |
+| -------- | ------------------ | -------------- |
 | `close` | Triggered when the Close button is clicked and can only be used when the Close button is displayed | `event: Event` |
 | `closed` | Triggered after the leave transition completes | `-` |
 
-### Style Variables
+### Type definitions
 
-See `style/token.less` for the complete `--mp-alert-*` contract. Override these variables with [StyleProvider](#/en-US/style-provider). The public names are shared with Cedar; only the `--mp-` / `--c-` brand prefix differs.
+```ts
+import type { AlertInstance, AlertProps, AlertStatus, AlertVariant } from 'maple-ui'
+```
 
-### Complete token defaults
+### Style variables
 
-Colored title/content/icon and outline borders use readable system content roles. Standard and tonal share palette step 1 backgrounds, with only standard showing a weak decorative border. Neutral title uses content-primary; content/icon use content-secondary. The content token also supplies inherited close/action colors. Maple dark inherits the same color defaults, while keeping its existing geometry overrides (padding 16px, icon 22px, icon/close margins 12px, line-height 1.5). Custom color only changes the background; verify all foregrounds when overriding it. The table lists root defaults, not theme overrides.
+See `--mp-alert-*` variables under `:root` in `style/token.less`. All use the `--mp-alert-` prefix and support customization through [StyleProvider](#/en-US/style-provider).
+
+## Migration notes (breaking changes)
+
+- `closeable` → `closable`
+- Adds `default` status and `show-icon` / `banner` / `center` / `closed` APIs
+- Removes `content` slot; its structure becomes `body`
+
+## Shared implementation and platform boundaries
+
+Each platform maintains a complete local implementation. They do not import a common core or share component instances or reactive state. Changes must update both implementations. Component bodies, props, key styles and paired tests have read-only source consistency checks; theme tokens and installation entries remain local to each library.
+
+The close button supports keyboard activation. close fires once, and closed fires after the leave transition. Maple renamed its internal __close-icon class to __close-btn. Default icons are adapted locally in each library.
+
+### Complete variable defaults
+
+Colored titles, content, icons and outline borders use readable system content colors. standard and tonal share the same level-1 background; standard adds a subtle decorative border. Default titles use content-primary; body text and icons use content-secondary. The content variable also sets the root inherited color, used by close icons and actions without an explicit color. Maple dark mode inherits these colors while retaining its geometry overrides: 16px padding, 22px icons, 12px icon/close gaps and 1.5 body line height. color changes only the background; callers must also verify foreground contrast. The table lists :root defaults, not theme overrides.
 
 | Variable | Default |
 | --- | --- |
@@ -217,7 +270,7 @@ Colored title/content/icon and outline borders use readable system content roles
 
 ### Motion variables
 
-Built-in effects respect `prefers-reduced-motion: reduce`; loading and closing still update state immediately.
+Built-in motion follows `prefers-reduced-motion: reduce`. Reduced motion does not prevent loading-state or close-event updates.
 
 | Token | Default |
 | --- | --- |

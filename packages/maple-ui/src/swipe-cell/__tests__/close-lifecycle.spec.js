@@ -99,11 +99,12 @@ describe('SwipeCell close request lifetime', () => {
     expect(beforeClose).toHaveBeenCalledTimes(1)
     expect(f.transform()).toBe('translate3d(80px, 0, 0)')
   })
-  test('explicit rejected hook retains rejection and open state', async () => {
+  test('rejected hook reports guard-error, recovers and keeps the cell open', async () => {
     const error = new Error('confirmation failed'),
       f = await create({ beforeClose: () => Promise.reject(error) })
     f.vm.open('left')
-    await expect(f.vm.close()).rejects.toBe(error)
+    await f.vm.close()
+    expect(f.component.emitted('guard-error')?.[0]?.[0]).toBe(error)
     expect(f.transform()).toBe('translate3d(80px, 0, 0)')
   })
   test('current confirmation closes normally', async () => {
@@ -143,19 +144,17 @@ describe('SwipeCell close request lifetime', () => {
     await closing
     expect(f.transform()).toBe('translate3d(80px, 0, 0)')
   })
-  test('latest veto prevents an older confirmation from committing', async () => {
-    const first = deferred(),
-      second = deferred()
-    const beforeClose = vi.fn().mockReturnValueOnce(first.promise).mockReturnValueOnce(second.promise)
+  test('duplicate close requests share one active confirmation', async () => {
+    const first = deferred()
+    const beforeClose = vi.fn(() => first.promise)
     const f = await create({ beforeClose })
     f.vm.open('left')
-    const a = f.vm.close(),
-      b = f.vm.close()
-    second.resolve(false)
-    await b
+    const a = f.vm.close()
+    await f.vm.close()
+    expect(beforeClose).toHaveBeenCalledTimes(1)
     first.resolve(true)
     await a
-    expect(f.transform()).toBe('translate3d(80px, 0, 0)')
+    expect(f.transform()).toBe('translate3d(0px, 0, 0)')
   })
   test('synchronous hook reentry cannot close replacement', async () => {
     const f = await create({

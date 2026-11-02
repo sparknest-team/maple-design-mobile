@@ -10,10 +10,10 @@ const hint = ref(false)
 <template>
   <div class="number-demo">
     <div class="number-demo__options">
-      <mp-checkbox v-model="disabled">禁用</mp-checkbox>
-      <mp-checkbox v-model="readonly">只读</mp-checkbox>
-      <mp-checkbox v-model="clearable">可清空</mp-checkbox>
-      <mp-checkbox v-model="hint">浮动提示</mp-checkbox>
+      <mp-checkbox v-model="disabled" edit-mode="direct">禁用</mp-checkbox>
+      <mp-checkbox v-model="readonly" edit-mode="direct">只读</mp-checkbox>
+      <mp-checkbox v-model="clearable" edit-mode="direct">可清空</mp-checkbox>
+      <mp-checkbox v-model="hint" edit-mode="direct">浮动提示</mp-checkbox>
     </div>
     <mp-input-number
       v-model="value"

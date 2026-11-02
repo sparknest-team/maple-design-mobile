@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict'
 import { readdirSync, readFileSync } from 'node:fs'
+import { createRequire } from 'node:module'
 import { resolve } from 'node:path'
 import test from 'node:test'
 import { fileURLToPath } from 'node:url'
@@ -13,6 +14,27 @@ import {
 const root = fileURLToPath(new URL('../../', import.meta.url))
 const source = resolve(root, 'packages/maple-ui/src')
 const [components, directives] = createSiteResolver(source)
+
+test('production field style imports retain the shared presentation surface', async () => {
+  const require = createRequire(resolve(root, 'packages/maple-cli/package.json'))
+  const { build } = require('vite')
+  const result = await build({
+    configFile: false,
+    logLevel: 'silent',
+    build: {
+      write: false,
+      minify: false,
+      rollupOptions: { input: resolve(source, 'input/style/index.ts') },
+    },
+  })
+  const css = result.output
+    .filter((asset) => asset.type === 'asset' && asset.fileName.endsWith('.css'))
+    .map((asset) => asset.source)
+    .join('\n')
+  for (const selector of ['reference', 'panel', 'toolbar', 'close', 'footer']) {
+    assert.ok(css.includes(`.mp-field-presentation__${selector}`), `${selector} survives tree-shaking`)
+  }
+})
 
 test('nested documentation examples are admitted while nested implementation files remain excluded', () => {
   const excluded = (path) => getSiteComponentExcludes(source).some((rule) => rule.test(path))
@@ -84,7 +106,7 @@ test('documentation component imports bypass the root barrel, preserving styles'
   for (const [name, directory] of [
     ['MpCell', 'cell'],
     ['MpCascader', 'cascader'],
-    ['MpCounter', 'counter'],
+    ['MpInputNumber', 'input-number'],
   ]) {
     const result = components.resolve(name)
     assert.equal(result.from, resolve(source, directory))

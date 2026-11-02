@@ -1,0 +1,11 @@
+{
+  "details": {
+    "surface": "desktop",
+    "theme": "dark",
+    "component": "DateRange",
+    "mode": "inline"
+  },
+  "error": "TimeoutError: locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.mp-popup').filter({ visible: true }).last().locator('.mp-day-picker').first().getByText('25', { exact: true })\u001b[22m\n",
+  "diagnostic": "Maple presentation acceptance\nComponent\nInput\nInputPassword\nTextarea\nInputNumber\nVerificationCode\nSwitch\nCheckbox\nCheckboxGroup\nRadio\nRadioGroup\nSlider\nRate\nSelect\nAutoComplete\nCascader\nDate\nDateRange\nTime\nTimeRange\nUpload\nMode\ndefault\ninline\nform-default\nform-inline\nitem-default\nitem-inline\nfield-inline\nfield-popup\nTheme\nlight\ndark\nReset\n~\n[\"2026-10-19\",\"2026-10-22\"]\n[\"AutoComplete\",\"Cascader\",\"Checkbox\",\"CheckboxGroup\",\"Date\",\"DateRange\",\"Form\",\"FormItem\",\"Input\",\"InputNumber\",\"InputPassword\",\"Radio\",\"RadioGroup\",\"Rate\",\"Select\",\"Slider\",\"Switch\",\"Textarea\",\"Time\",\"TimeRange\",\"Upload\",\"VerificationCode\"]\n2026-10-19\n2026-10-22\n2026 十月\n日\n一\n二\n三\n四\n五\n六\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31\n开始日期\n2026-10-19\n此刻\n确认",
+  "errors": []
+}

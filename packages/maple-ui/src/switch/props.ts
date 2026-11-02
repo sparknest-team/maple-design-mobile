@@ -1,24 +1,31 @@
 import type { ExtractPublicPropTypes, PropType } from 'vue'
 import { fieldPresentationProps } from '../_components/field-presentation/props'
+import type { BeforeHookDone } from '../_hooks/use-action-guard'
 import type { ComponentSize } from '../utils/constants'
+import { emptyValueProp } from '../utils/empty-value'
 
 export const switchVariants = ['circle', 'round', 'line', 'tonal'] as const
 export const switchSizes = ['sm', 'md', 'lg'] as const
 export type SwitchVariant = (typeof switchVariants)[number]
 export type SwitchSize = Extract<ComponentSize, (typeof switchSizes)[number]>
 export type SwitchValue = string | number | boolean
-export type SwitchBeforeChange = (nextValue: SwitchValue) => boolean | void | Promise<boolean | void>
+export type SwitchBeforeChange = (
+  payload: { value: SwitchValue; previousValue: SwitchValue | null },
+  done: BeforeHookDone,
+  context: { signal: AbortSignal; event?: Event },
+) => boolean | void | Promise<boolean | void>
 
 export const switchProps = {
   ...fieldPresentationProps,
+  emptyValue: emptyValueProp<SwitchValue>(),
   /** 受控值；省略时使用内部状态 */
-  modelValue: { type: [String, Number, Boolean] as PropType<SwitchValue>, default: undefined },
+  modelValue: { type: [String, Number, Boolean] as PropType<SwitchValue | null>, default: undefined },
   /** 非受控初始值，仅创建时读取；省略时使用 uncheckedValue */
   defaultValue: { type: [String, Number, Boolean] as PropType<SwitchValue>, default: undefined },
   /** 禁用交互，或继承表单禁用 */
-  disabled: Boolean,
+  disabled: { type: Boolean, default: undefined },
   /** 只读，仍可聚焦 */
-  readonly: Boolean,
+  readonly: { type: Boolean, default: undefined },
   /** 加载中，禁止切换 */
   loading: Boolean,
   /** 四种相同的跨端造型 */

@@ -1,4 +1,10 @@
 :root {
+  --mp-date-calendar-scroll-height: 320px;
+  --mp-date-calendar-month-height: 320px;
+  --mp-date-calendar-row-height: 38px;
+  --mp-date-calendar-line-height: 60px;
+  --mp-date-calendar-disabled-opacity: 0.4;
+
   --mp-date-picker-panel-date-width: 265px;
   --mp-date-picker-time-panel-min-width: 160px;
   --mp-date-picker-popover-width: calc(var(--mp-date-picker-panel-date-width) + 2px);
@@ -8,7 +14,7 @@
   --mp-date-picker-panel-preferred-width: var(--mp-date-picker-popover-width);
   --mp-date-picker-shortcuts-column-width: 128px;
   --mp-date-picker-popover-gap: 32px;
-  --mp-date-picker-popover-max-height: calc(50dvh - var(--mp-date-picker-popover-gap));
+  --mp-date-picker-popover-max-height: calc(100dvh - var(--mp-date-picker-popover-gap));
   --mp-date-picker-panel-background: var(--mp-sys-color-surface-overlay);
   --mp-date-picker-panel-border: var(--mp-color-border-2);
   --mp-date-picker-panel-radius: 8px;
@@ -74,4 +80,10 @@
   --mp-date-toolbar-padding: var(--mp-picker-toolbar-padding, 0 4px);
   --mp-date-title-text-color: var(--mp-picker-title-text-color, #555);
   --mp-date-title-font-size: var(--mp-picker-title-font-size, 16px);
+}
+
+:root {
+  --mp-date-calendar-selected-background: var(--mp-sys-color-action-primary);
+  --mp-date-calendar-selected-color: var(--mp-button-solid-text-color);
+  --mp-date-calendar-today-color: var(--mp-button-default-foreground-color);
 }

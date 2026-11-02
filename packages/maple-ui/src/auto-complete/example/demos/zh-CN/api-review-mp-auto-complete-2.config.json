@@ -46,7 +46,7 @@
       "initial": "{}"
     },
     {
-      "name": "strict",
+      "name": "case-sensitive",
       "description": "内置过滤是否区分大小写",
       "type": "boolean",
       "defaultValue": "false",
@@ -229,16 +229,16 @@
       "initial": "{}"
     },
     {
-      "name": "presentation",
-      "type": "'inline' | 'popup'",
+      "name": "edit-mode",
+      "type": "'direct' | 'popup'",
       "defaultValue": "undefined",
-      "description": "字段编辑方式，字段 > FormItem > Form 继承；默认 inline。",
+      "description": "字段编辑方式，字段 > FormItem > Form 继承；默认 direct。",
       "kind": "enum",
       "options": [
-        "inline",
+        "direct",
         "popup"
       ],
-      "initial": "inline"
+      "initial": "direct"
     },
     {
       "name": "read-pretty",
@@ -267,6 +267,14 @@
       "defaultValue": "false",
       "description": "源码公开属性 / Public source prop",
       "kind": "boolean"
+    },
+    {
+      "name": "search-fields",
+      "type": "readonly ('label' | 'value')[]",
+      "defaultValue": "['label']",
+      "description": "内置匹配字段，多字段 OR；默认 label",
+      "kind": "json",
+      "initial": "[\"label\"]"
     }
   ],
   "methodNames": [],

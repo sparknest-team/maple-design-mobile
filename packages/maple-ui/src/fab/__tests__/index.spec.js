@@ -29,16 +29,17 @@ test('fab drag', async () => {
   wrapper.unmount()
 })
 
-test('fab type', () => {
-  ;['default', 'primary', 'warning', 'info', 'danger', 'success'].forEach((type) => {
+test('fab status', () => {
+  ;['default', 'primary', 'warning', 'info', 'danger', 'success'].forEach((status) => {
     const container = document.createElement('div')
     const wrapper = mount(Fab, {
       props: {
         popupContainer: container,
-        type,
+        status,
       },
     })
 
+    expect(container.querySelector('.mp-button').classList.contains(`mp-button--status-${status}`)).toBe(true)
     expect(container.innerHTML).toMatchSnapshot()
 
     wrapper.unmount()
@@ -46,7 +47,7 @@ test('fab type', () => {
 })
 
 test('fab position', () => {
-  ;['left-top', 'right-top', 'left-bottom', 'right-bottom'].forEach((position) => {
+  ;['top-left', 'top-right', 'bottom-left', 'bottom-right'].forEach((position) => {
     const container = document.createElement('div')
     const wrapper = mount(Fab, {
       props: {
@@ -61,13 +62,13 @@ test('fab position', () => {
   })
 })
 
-test('fab direction', () => {
+test('fab placement', () => {
   ;['top', 'right', 'bottom', 'left'].forEach((direction) => {
     const container = document.createElement('div')
     const wrapper = mount(Fab, {
       props: {
         popupContainer: container,
-        direction,
+        placement: direction,
       },
     })
 

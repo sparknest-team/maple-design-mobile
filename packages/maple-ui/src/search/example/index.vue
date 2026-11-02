@@ -2,7 +2,6 @@
 import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maple-design/cli/client'
 import ActionDemo from './demos/action.vue'
-import DemoApiReview from './demos/api-review.vue'
 import BasicDemo from './demos/basic.vue'
 import EnActionDemo from './demos/en-US/action.vue'
 import EnBasicDemo from './demos/en-US/basic.vue'
@@ -30,34 +29,37 @@ onThemeChange()
 </script>
 
 <template>
+  <h2 class="mobile-demo-group-heading" data-demo-group="basic-examples" data-demo-component="search">
+    <span lang="zh-CN">基础示例</span>
+    <span lang="en-US">Basic examples</span>
+  </h2>
+
   <section data-demo="basic">
     <app-type>{{ english ? 'Basic Usage' : '基础用法' }}</app-type>
     <EnBasicDemo v-if="english" />
     <BasicDemo v-else />
   </section>
 
-  <section data-demo="state">
-    <app-type>{{ english ? 'States' : '状态' }}</app-type>
-    <EnStateDemo v-if="english" />
-    <StateDemo v-else />
+  <h2 class="mobile-demo-group-heading" data-demo-group="appearance-and-states">
+    <span lang="zh-CN">外观与状态</span>
+    <span lang="en-US">Appearance and states</span>
+  </h2>
+
+  <section data-demo="shape">
+    <app-type>{{ english ? 'Search Shape' : '搜索框形状' }}</app-type>
+    <EnShapeDemo v-if="english" />
+    <ShapeDemo v-else />
   </section>
 
-  <section data-demo="action">
-    <app-type>{{ english ? 'Cancel Button' : '取消按钮' }}</app-type>
-    <EnActionDemo v-if="english" />
-    <ActionDemo v-else />
-  </section>
+  <h2 class="mobile-demo-group-heading" data-demo-group="data-and-options">
+    <span lang="zh-CN">数据与选项</span>
+    <span lang="en-US">Data and options</span>
+  </h2>
 
   <section data-demo="search-button">
     <app-type>{{ english ? 'Search Button' : '搜索按钮' }}</app-type>
     <EnSearchButtonDemo v-if="english" />
     <SearchButtonDemo v-else />
-  </section>
-
-  <section data-demo="history">
-    <app-type>{{ english ? 'Search History' : '搜索历史' }}</app-type>
-    <EnHistoryDemo v-if="english" />
-    <HistoryDemo v-else />
   </section>
 
   <section data-demo="fields">
@@ -66,19 +68,47 @@ onThemeChange()
     <FieldsDemo v-else />
   </section>
 
-  <section data-demo="shape">
-    <app-type>{{ english ? 'Search Shape' : '搜索框形状' }}</app-type>
-    <EnShapeDemo v-if="english" />
-    <ShapeDemo v-else />
+  <section data-demo="history">
+    <app-type>{{ english ? 'Search History' : '搜索历史' }}</app-type>
+    <EnHistoryDemo v-if="english" />
+    <HistoryDemo v-else />
   </section>
-  <section data-demo="state-lab">
-    <app-type>{{ english ? 'Interaction states' : '交互状态切换' }}</app-type>
-    <OrganizedStateLab />
-  </section>
+
+  <h2 class="mobile-demo-group-heading" data-demo-group="customization-and-slots">
+    <span lang="zh-CN">自定义与插槽</span>
+    <span lang="en-US">Customization and slots</span>
+  </h2>
+
   <section data-demo="presentation">
     <app-type>{{ english ? 'History presentation and slots' : '历史展示与插槽' }}</app-type>
     <EnPresentationDemo v-if="english" />
     <PresentationDemo v-else />
   </section>
-  <section data-demo="api-review"><DemoApiReview /></section>
+
+  <h2 class="mobile-demo-group-heading" data-demo-group="content-and-presentation">
+    <span lang="zh-CN">内容与展示</span>
+    <span lang="en-US">Content and presentation</span>
+  </h2>
+
+  <section data-demo="action">
+    <app-type>{{ english ? 'Cancel Button' : '取消按钮' }}</app-type>
+    <EnActionDemo v-if="english" />
+    <ActionDemo v-else />
+  </section>
+
+  <h2 class="mobile-demo-group-heading" data-demo-group="interaction-and-control">
+    <span lang="zh-CN">交互与控制</span>
+    <span lang="en-US">Interaction and control</span>
+  </h2>
+
+  <section data-demo="state-lab">
+    <app-type>{{ english ? 'Interaction states' : '交互状态切换' }}</app-type>
+    <OrganizedStateLab />
+  </section>
+
+  <section data-demo="state">
+    <app-type>{{ english ? 'States' : '状态' }}</app-type>
+    <EnStateDemo v-if="english" />
+    <StateDemo v-else />
+  </section>
 </template>

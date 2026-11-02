@@ -1,9 +1,13 @@
 import type { PropType, RenderFunction } from 'vue'
 import { fieldPresentationProps } from '../_components/field-presentation/props'
 import type { VirtualListProps } from '../_components/virtual-list-v2/interface'
+import type { OptionsLoader } from '../_hooks/use-option-request'
+import { fieldLoadingProps } from '../field-decorator/props'
 import { inputProps } from '../input/props'
 import type { SelectFieldNames, SelectOptionGroup } from '../select/types'
 import type { TriggerProps } from '../trigger'
+import { emptyValueProp } from '../utils/empty-value'
+import type { OptionSearchField } from '../utils/option-data'
 import { popupContainerProp } from '../utils/popup-container'
 
 export interface AutoCompleteOptionData {
@@ -29,25 +33,33 @@ export type AutoCompleteFieldNames = SelectFieldNames
 export type AutoCompleteFilterOption = boolean | ((inputValue: string, option: AutoCompleteOptionData) => boolean)
 
 export const autoCompleteProps = {
+  ...fieldLoadingProps,
+  searchDelay: { type: Number, default: 250 },
+  /** 清空动作产生的模型值；省略保留原默认值。 */
   ...fieldPresentationProps,
+  emptyValue: emptyValueProp<string>(),
   /** 受控文本值。 */
-  modelValue: String,
+  modelValue: String as PropType<string | null>,
   /** 非受控初始文本。 */
   defaultValue: { type: String, default: '' },
   /** 候选；支持分组，value 唯一，选择后转为字符串。 */
   options: {
-    type: Array as PropType<(AutoCompleteOption | SelectOptionGroup)[]>,
-    default: () => [],
+    type: [Array, Function] as PropType<
+      readonly (AutoCompleteOption | SelectOptionGroup)[] | OptionsLoader<AutoCompleteOption | SelectOptionGroup>
+    >,
+    default: undefined,
   },
   /** 映射 value、label、disabled 等字段。 */
   fieldNames: Object as PropType<AutoCompleteFieldNames>,
   /** 按标签过滤；false 用于远程筛选。 */
   filterOption: {
     type: [Boolean, Function] as PropType<AutoCompleteFilterOption>,
-    default: true,
+    default: undefined,
   },
   /** 内置过滤是否区分大小写。 */
-  strict: { type: Boolean, default: false },
+  caseSensitive: { type: Boolean, default: false },
+  /** 内置搜索字段；语义字段通过 fieldNames 映射。 */
+  searchFields: { type: Array as PropType<readonly OptionSearchField[]>, default: () => ['label'] },
   /** 弹层挂载容器，与 Trigger 一致。 */
   popupContainer: popupContainerProp,
   /** 允许展开的条件，不负责过滤候选。 */

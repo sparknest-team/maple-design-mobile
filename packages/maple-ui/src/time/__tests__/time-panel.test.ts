@@ -19,6 +19,22 @@ function setup(initial: TimePanelOptions<TimePanelValue> = {}, range = false) {
 }
 
 describe('copied time panel controller', () => {
+  it('stages an initial candidate without notifying selection and commits only on confirmation', () => {
+    const { panel, events, wrapper } = setup({ format: 'HH:mm', min: '09:00', max: '10:00' })
+    try {
+      expect(panel.initialize('08:30')).toBe(false)
+      expect(panel.initialize('09:30')).toBe(true)
+      expect(panel.draft.value).toBe('09:30')
+      expect(panel.canConfirm.value).toBe(true)
+      expect(events.select).not.toHaveBeenCalled()
+      expect(events.change).not.toHaveBeenCalled()
+      expect(panel.confirm()).toBe(true)
+      expect(events.change).toHaveBeenCalledWith('09:30', expect.anything())
+    } finally {
+      wrapper.unmount()
+    }
+  })
+
   it.each(['readonly', 'disabled'] as const)(
     'does not commit a pending single draft when toggling %s and immediate mode',
     async (flag) => {

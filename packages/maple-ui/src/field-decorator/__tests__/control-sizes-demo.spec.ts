@@ -3,10 +3,12 @@ import { mount } from '@vue/test-utils'
 import { expect, test } from 'vitest'
 import Button from '../../button'
 import Cascader from '../../cascader'
+import Checkbox from '../../checkbox'
 import Input from '../../input'
 import Radio, { RadioGroup } from '../../radio'
 import Select from '../../select'
 import Space from '../../space'
+import Textarea from '../../textarea'
 import Demo from '../example/demos/control-sizes.vue'
 
 test('selected controls retain size and support clear, tag removal and restoring values', async () => {
@@ -14,6 +16,8 @@ test('selected controls retain size and support clear, tag removal and restoring
     global: {
       components: {
         MpInput: Input,
+        MpCheckbox: Checkbox,
+        MpTextarea: Textarea,
         MpButton: Button,
         MpSelect: Select,
         MpCascader: Cascader,

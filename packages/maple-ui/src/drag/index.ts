@@ -12,3 +12,5 @@ export const _DragComponent: typeof Drag = Drag
 
 export default Drag
 export type DragProps = import('vue').ExtractPublicPropTypes<typeof import('./props').props>
+
+export type { DragAxis, DragAttraction, DragBoundary } from './props'

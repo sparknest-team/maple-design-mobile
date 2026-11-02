@@ -1,5 +1,6 @@
 import { nextTick, reactive, type TeleportProps } from 'vue'
 import { call, inBrowser } from '@maple-design/shared'
+import type { PopupProps } from '../popup'
 import { mountInstance, withInstall, withPropsDefaultsSetter } from '../utils/components'
 import VarActionSheet from './ActionSheet.vue'
 import { props as actionSheetProps } from './props'
@@ -16,7 +17,7 @@ export interface ActionItem {
   disabled?: boolean
 }
 
-export interface ActionSheetOptions {
+export interface ActionSheetOptions extends Pick<PopupProps, 'beforeClose'> {
   actions?: ActionItem[]
   open?: boolean
   title?: string
@@ -40,6 +41,7 @@ export interface ActionSheetOptions {
 }
 
 let singletonOptions: ActionSheetOptions | null
+let disposeSingleton: (() => void) | undefined
 let defaultOptions: ActionSheetOptions = {}
 
 function normalizeOptions(options: ActionSheetOptions = {}) {
@@ -52,31 +54,56 @@ function ActionSheet(options?: ActionSheetOptions): Promise<ActionSheetActions |
   }
 
   return new Promise((resolve) => {
-    ActionSheet.close()
+    disposeSingleton?.()
 
     const reactiveActionSheetOptions: ActionSheetOptions = reactive(normalizeOptions(options))
     reactiveActionSheetOptions.popupContainer = 'body'
     singletonOptions = reactiveActionSheetOptions
 
+    let disposed = false
     const { unmountInstance } = mountInstance(VarActionSheet, reactiveActionSheetOptions, {
       onSelect: (action: ActionItem) => {
-        call(reactiveActionSheetOptions.onSelect, action)
+        if (disposed) {
+          return
+        }
         resolve(action)
+        return call(reactiveActionSheetOptions.onSelect, action)
       },
       onClose: () => {
-        call(reactiveActionSheetOptions.onClose)
+        if (disposed) {
+          return
+        }
         resolve('close')
+        return call(reactiveActionSheetOptions.onClose)
       },
       onClosed: () => {
-        call(reactiveActionSheetOptions.onClosed)
-        unmountInstance()
-        singletonOptions === reactiveActionSheetOptions && (singletonOptions = null)
+        if (disposed) {
+          return
+        }
+        try {
+          return call(reactiveActionSheetOptions.onClosed)
+        } finally {
+          dispose()
+        }
       },
       'onUpdate:open': (value: boolean) => {
         reactiveActionSheetOptions.open = value
       },
     })
 
+    function dispose() {
+      if (disposed) {
+        return
+      }
+      disposed = true
+      resolve('close')
+      unmountInstance()
+      if (singletonOptions === reactiveActionSheetOptions) {
+        singletonOptions = null
+        disposeSingleton = undefined
+      }
+    }
+    disposeSingleton = dispose
     reactiveActionSheetOptions.open = true
   })
 }
@@ -92,10 +119,10 @@ ActionSheet.resetDefaultOptions = function () {
 ActionSheet.close = function () {
   if (singletonOptions != null) {
     const prevSingletonOptions = singletonOptions
-    singletonOptions = null
-
     nextTick().then(() => {
-      prevSingletonOptions.open = false
+      if (singletonOptions === prevSingletonOptions) {
+        prevSingletonOptions.open = false
+      }
     })
   }
 }

@@ -49,17 +49,31 @@ const files = [
 const normalize = (text) =>
   text
     .replace(/^.*\['presentation' in options && options.presentation === 'calendarClock'.*\n/gm, '')
+    .replaceAll('../_utils/empty-value', '../utils/empty-value')
     .replaceAll('../_utils/global-config', '../utils/components')
     .replaceAll('{ dateProps as fieldProps }', '{ props as fieldProps }')
     .replaceAll('{ dateRangeProps as fieldProps }', '{ props as fieldProps }')
 
 assert.equal(new Set(files).size, files.length, 'Source pair entries must be unique')
+// Keep the mobile-only presentation contract explicit before comparing shared owners.
+const mobileRangeEntry = '    endpoint-selection\n'
+const mobilePanelOptions =
+  "  interactiveMode?: import('./calendar-viewport-props').CalendarInteractiveMode\n  useVirtualScroll?: boolean\n"
 for (const file of files) {
-  assert.equal(
-    normalize(readFileSync(resolve(cedar, file), 'utf8')),
-    normalize(readFileSync(resolve(maple, file), 'utf8')),
-    file,
-  )
+  const desktop = readFileSync(resolve(cedar, file), 'utf8')
+  let mobile = readFileSync(resolve(maple, file), 'utf8')
+  if (file === 'date-range/DateRange.vue') {
+    assert.ok(mobile.includes(mobileRangeEntry), 'Mobile range fields must use endpoint selection')
+    assert.ok(!desktop.includes(mobileRangeEntry), 'Desktop range fields use two-endpoint selection')
+    mobile = mobile.replace(mobileRangeEntry, '')
+  }
+  if (file === 'date/panel-state.ts') {
+    assert.ok(mobile.includes(mobilePanelOptions), 'Mobile panels must declare their viewport options')
+    assert.ok(!desktop.includes('interactiveMode?'), 'Desktop panels do not expose mobile viewport modes')
+    assert.ok(!desktop.includes('useVirtualScroll?'), 'Desktop panels do not expose mobile virtual scrolling')
+    mobile = mobile.replace(mobilePanelOptions, '')
+  }
+  assert.equal(normalize(desktop), normalize(mobile), file)
 }
 for (const root of [cedar, maple]) {
   for (const file of ['date/Date.vue', 'date-range/DateRange.vue']) {

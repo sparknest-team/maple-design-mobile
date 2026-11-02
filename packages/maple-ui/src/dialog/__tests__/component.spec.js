@@ -1,6 +1,6 @@
 import { createApp, createSSRApp, h, nextTick } from 'vue'
 import { renderToString } from '@vue/server-renderer'
-import { mount } from '@vue/test-utils'
+import { flushPromises, mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
 import Dialog, { _DialogComponent as DialogComponent, dialogProps } from '..'
 import { delay, triggerKeyboard } from '../../utils/test'
@@ -97,7 +97,7 @@ describe('dialog actions', () => {
     await wrapper.get('.mp-popup__overlay').trigger('pointerdown')
     await wrapper.get('.mp-popup__overlay').trigger('click')
     expect(wrapper.emitted('click-overlay')).toHaveLength(1)
-    expect(beforeClose).toHaveBeenCalledWith('close', expect.any(Function), expect.any(Object))
+    expect(beforeClose).toHaveBeenCalledWith({ action: 'close' }, expect.any(Function), expect.any(Object))
     expect(wrapper.emitted('update:open')?.at(-1)).toEqual([false])
   })
 
@@ -111,18 +111,23 @@ describe('dialog actions', () => {
     expect(wrapper.emitted('confirm')).toHaveLength(1)
   })
 
-  test('ignores stale async close completions', async () => {
+  test('deduplicates pending callback attempts and ignores externally retired completions', async () => {
     const completions = []
-    const wrapper = mountDialog({ beforeClose: (_action, done) => completions.push(done) })
+    const wrapper = mountDialog({
+      beforeClose: (_action, done) => {
+        completions.push(done)
+      },
+    })
+    await nextTick()
     const confirm = wrapper.get('.mp-dialog__confirm-button')
     await confirm.trigger('click')
     await confirm.trigger('click')
+    expect(completions).toHaveLength(1)
+    await wrapper.setProps({ open: false })
+    await wrapper.setProps({ open: true })
     completions[0]()
-    await nextTick()
+    await flushPromises()
     expect(wrapper.emitted('confirm')).toBeUndefined()
-    completions[1]()
-    await nextTick()
-    expect(wrapper.emitted('confirm')).toHaveLength(1)
   })
 
   test('route close follows closeOnRouteChange', async () => {

@@ -7,6 +7,9 @@
     <h2 class="maple-home__desc">{{ description[lang] }}</h2>
   </div>
 
+  <RouterLink v-for="page in documentPages" :key="page.doc" class="maple-home__cell" :to="`/${lang}/${page.doc}`">{{
+    page.text[lang]
+  }}</RouterLink>
   <div
     class="maple-home__cell"
     :class="{ 'maple-home__cell--child': component.parent }"
@@ -21,23 +24,31 @@
 </template>
 
 <script lang="ts">
-import { reactive, ref } from 'vue'
+import { computed, ref } from 'vue'
 import config from '@config'
 import { watchLang, watchPlatform } from '@maple-design/cli/client'
 import { IconChevronRight as MIconChevronRight } from '@maple-design/icons-vue'
-import { useRouter } from 'vue-router'
+import { RouterLink, useRoute, useRouter } from 'vue-router'
+import { getDocumentationSection, getSectionMenu } from '../documentation-sections'
 import { inIframe, isPhone, resolveSiteAsset } from '../utils'
 
 export default {
-  components: { MIconChevronRight },
+  components: { MIconChevronRight, RouterLink },
   name: 'AppHome',
   setup() {
     const title = ref(config?.title ?? '')
     const logo = ref(resolveSiteAsset(config?.logo))
     const description = ref(config?.mobile?.title ?? {})
     const menu = ref(config?.pc?.menu ?? [])
-    const configComponents = menu.value.filter((item: any) => item.type === 2)
-    const components = reactive<any>(configComponents)
+    const route = useRoute()
+    const sections = config?.pc?.sections ?? []
+    const visible = computed(() =>
+      getSectionMenu(menu.value, getDocumentationSection(route.path, sections, route.query.section), sections),
+    )
+    const components = computed(() => visible.value.filter((item: any) => item.type === 2))
+    const documentPages = computed(() =>
+      visible.value.filter((item: any) => item.type === 3 && (config?.mobile?.docs ?? []).includes(item.doc)),
+    )
     const lang = ref('zh-CN')
     const platform = ref('mobile')
     const router = useRouter()
@@ -68,6 +79,7 @@ export default {
 
     return {
       components,
+      documentPages,
       lang,
       toComponent,
       logo,

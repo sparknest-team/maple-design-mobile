@@ -146,6 +146,7 @@ defineExpose<RadioMethods>({
       v-bind="inputAttrs"
       :class="n('input')"
       type="radio"
+      autocomplete="off"
       :name="name ?? group?.name ?? inputAttrs?.name"
       :value="value"
       :checked="checked"

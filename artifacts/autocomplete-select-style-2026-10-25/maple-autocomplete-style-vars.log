@@ -1,0 +1,5 @@
+
+> @1.0.0 check:style-vars /Users/shuaimeng/github_web/maple-design-mobile
+> node checks/style-vars-contract.mjs
+
+Style variable contract passed: 64 shared system tokens, 57 governed system values, 1030 governed component values, 49 component contracts, and no unresolved system references.

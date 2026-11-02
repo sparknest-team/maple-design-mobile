@@ -1,0 +1,69 @@
+{
+  "library": "maple",
+  "browser": {
+    "name": "webkit",
+    "engine": "webkit",
+    "launchOptions": {},
+    "version": "26.5",
+    "platform": "darwin",
+    "architecture": "arm64",
+    "recordedAt": "2026-10-29T03:39:38.936Z",
+    "evidenceType": "automated-engine-regression",
+    "nativeDeviceAcceptance": false,
+    "userAgentEmulation": "device routing preset; not evidence of an actual OS/browser version",
+    "gestureInput": "synthetic touch events (handler regression only)"
+  },
+  "components": 93,
+  "sourcesStable": true,
+  "sourceFingerprint": "01b62cb84cb2e1e5646ee7f6470557f2bd317edda4e12c11ffec216a78b74288",
+  "buildIndexHash": "44491515e34dbe5e8c7b40e22681ab9eb48332c2635e3b1ef3a2f05c588a66ce",
+  "node": "v20.19.0",
+  "productionInputsStable": true,
+  "productionFingerprint": "4a2d1b35f49cda54868012b579c8f9d26e94b0f0853625e8848b957d03dc69eb",
+  "concurrency": 1,
+  "expectedComponentCases": 372,
+  "expectedGuideCases": 16,
+  "completedComponentCases": 4,
+  "results": [
+    {
+      "component": "nav-menu",
+      "surface": "documentation",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/nav-menu/example/demos/basic.vue",
+      "checkedSources": 3,
+      "result": "nav-menu-filter",
+      "passed": true
+    },
+    {
+      "component": "nav-menu",
+      "surface": "documentation",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/nav-menu/example/demos/basic.vue",
+      "checkedSources": 1,
+      "result": "nav-menu-filter",
+      "passed": true
+    },
+    {
+      "component": "nav-menu",
+      "surface": "mobile",
+      "theme": "lightTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/nav-menu/example/demos/basic.vue",
+      "checkedSources": 0,
+      "result": "nav-menu-filter",
+      "passed": true
+    },
+    {
+      "component": "nav-menu",
+      "surface": "mobile",
+      "theme": "darkTheme",
+      "kind": "interaction",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/nav-menu/example/demos/basic.vue",
+      "checkedSources": 0,
+      "result": "nav-menu-filter",
+      "passed": true
+    }
+  ]
+}

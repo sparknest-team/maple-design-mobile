@@ -1,0 +1,10 @@
+{
+  "fixture/app.js": "9a7cd284af42a90dd0846c8329459a224e0cfff5c3a3f3376325e139081bdab2",
+  "fixture/build.mjs": "f9154b85dd689d933162e630c340803385e7d05dd93b8e5d62c73eca46003898",
+  "fixture/index.html": "40ed89ceb3a923c38c03d99911214cfe2234993a7a1cc098c5fb74ef5b38cb25",
+  "fixture/main.js": "181499cf44449cab130fc005b9e4b1f0151fda3524c058ac205b7be9679ac066",
+  "fixture/site/assets/index-D6GZrD8Z.js": "55d3ced96389c33335d3ccad0469e32931b6a4d2ea6421ae272123998c7c43ac",
+  "fixture/site/assets/index-Du2AMcxc.css": "6818792198a789db47824c03d521a855f6fcc1baf915c31fa30d92b0dd0d3773",
+  "fixture/site/index.html": "d4d464eae8fda87bd8dfdedd3626e3d451c3732df4ed53087662a4f5c5ed0cb1",
+  "presentation-browser.mjs": "a0b84a9ad18589aa7dc2ecf5bd8afcb927aff2692926f4b5fa4f5bf170a7d1dd"
+}

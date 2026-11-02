@@ -208,7 +208,7 @@ test('pending native submissions cannot emit after disposal or KeepAlive suspens
               },
               'Suspend',
             ),
-            h(KeepAlive, null, { default: () => (active.value ? h(Demo) : null) }),
+            h(KeepAlive, null, { default: () => (active.value ? h(Demo, { editMode: 'direct' }) : null) }),
           ])
       },
     })

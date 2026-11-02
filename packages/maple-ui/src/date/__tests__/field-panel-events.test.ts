@@ -3,6 +3,7 @@ import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it } from 'vitest'
 import DateRange from '../../date-range/DateRange.vue'
 import DateInput from '../Date.vue'
+import DateField from '../DateField.vue'
 import DateShortcuts from '../DateShortcuts.vue'
 
 const Content = defineComponent({ props: ['pickerValue', 'value'], emits: ['navigate'], template: '<div />' })
@@ -57,13 +58,16 @@ describe('date field panel event chain', () => {
       expect(wrapper.emitted('picker-value-change')).toHaveLength(1)
     })
     it(`forwards the chosen shortcut once while keeping the field draft uncommitted (range=${range})`, async () => {
-      const { wrapper, value } = setup(range)
+      const { wrapper, value, selected } = setup(range)
       const shortcuts = wrapper.getComponent(DateShortcuts)
       const shortcut = shortcuts.props('shortcuts')[0]
       await shortcuts.get('button').trigger('click')
       expect(wrapper.emitted('select-shortcut')).toHaveLength(1)
       expect(wrapper.emitted('select-shortcut')?.[0][0]).toBe(shortcut)
-      expect(wrapper.emitted('select')?.[0][0]).toEqual(value)
+      const endpointSelection = range && wrapper.getComponent(DateField).props('endpointSelection')
+      expect(wrapper.emitted('select')?.[0][0]).toEqual(
+        endpointSelection ? [(value as string[])[0], (selected as string[])[1]] : value,
+      )
       expect(wrapper.emitted('select')).toHaveLength(1)
       expect(wrapper.emitted('update:modelValue')).toBeUndefined()
       expect(wrapper.emitted('change')).toBeUndefined()

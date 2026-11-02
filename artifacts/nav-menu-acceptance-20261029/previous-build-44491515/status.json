@@ -1,0 +1,6 @@
+{
+  "scope": "nav-menu",
+  "doNotTreatAsCurrentAcceptance": true,
+  "reason": "Individual cases passed on the previous documentation build, but source fingerprints changed during engine installation. A fresh build and all three engines are being rerun.",
+  "nativeDeviceAcceptance": false
+}

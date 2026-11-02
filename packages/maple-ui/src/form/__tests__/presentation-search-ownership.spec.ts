@@ -17,7 +17,7 @@ async function fixture() {
     return original(callback, ms)
   }) as typeof setTimeout)
   const owner = mount(Form, {
-    props: { model, presentation: 'popup' },
+    props: { model, editMode: 'popup' },
     slots: {
       default: () =>
         h(FormItem, { field: 'device', label: 'Device' }, () =>

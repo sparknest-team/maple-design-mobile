@@ -1,0 +1,122 @@
+[
+  {
+    "mode": "light",
+    "kind": "workflow",
+    "text": "01 填写与校验",
+    "color": "rgb(103, 84, 181)",
+    "background": [
+      245.71999999999997,
+      246.16,
+      247.79999999999998
+    ],
+    "contrast": 5.541787444474486
+  },
+  {
+    "mode": "light",
+    "kind": "checkbox-label",
+    "text": "当前的值: true",
+    "color": "rgb(23, 34, 75)",
+    "background": [
+      255,
+      255,
+      255
+    ],
+    "contrast": 15.363875518933586
+  },
+  {
+    "mode": "light",
+    "kind": "checkbox-mark",
+    "text": "",
+    "color": "rgb(23, 34, 75)",
+    "background": [
+      207,
+      199,
+      255
+    ],
+    "contrast": 9.70590825040243
+  },
+  {
+    "mode": "light",
+    "kind": "switch-off",
+    "text": "OFF",
+    "color": "rgb(23, 34, 75)",
+    "background": [
+      236.44000000000003,
+      237.32000000000002,
+      240.60000000000002
+    ],
+    "contrast": 13.167443671869213
+  },
+  {
+    "mode": "light",
+    "kind": "switch-on",
+    "text": "ON",
+    "color": "rgb(0, 0, 0)",
+    "background": [
+      182,
+      168,
+      251
+    ],
+    "contrast": 9.98307636476055
+  },
+  {
+    "mode": "dark",
+    "kind": "workflow",
+    "text": "01 填写与校验",
+    "color": "rgb(197, 184, 255)",
+    "background": [
+      37,
+      47,
+      69
+    ],
+    "contrast": 7.43013952038073
+  },
+  {
+    "mode": "dark",
+    "kind": "checkbox-label",
+    "text": "当前的值: true",
+    "color": "rgb(235, 238, 255)",
+    "background": [
+      18,
+      18,
+      18
+    ],
+    "contrast": 16.24141556634217
+  },
+  {
+    "mode": "dark",
+    "kind": "checkbox-mark",
+    "text": "",
+    "color": "rgb(17, 22, 37)",
+    "background": [
+      207,
+      199,
+      255
+    ],
+    "contrast": 11.384459200833627
+  },
+  {
+    "mode": "dark",
+    "kind": "switch-off",
+    "text": "OFF",
+    "color": "rgb(235, 238, 255)",
+    "background": [
+      37,
+      47,
+      69
+    ],
+    "contrast": 11.58745565225476
+  },
+  {
+    "mode": "dark",
+    "kind": "switch-on",
+    "text": "ON",
+    "color": "rgb(0, 0, 0)",
+    "background": [
+      182,
+      168,
+      251
+    ],
+    "contrast": 9.98307636476055
+  }
+]

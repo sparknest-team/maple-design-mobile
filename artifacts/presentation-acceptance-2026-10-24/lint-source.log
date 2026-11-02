@@ -1,0 +1,16 @@
+
+> @1.0.0 lint:check /Users/shuaimeng/github_web/maple-design-mobile
+> eslint . --max-warnings 0 "--ignore-pattern" "artifacts/**"
+
+
+/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/input-number/example/demos/en-US/field-basic.vue
+  13:42  warning  Attribute "v-model" should go before "presentation"  vue/attributes-order
+  14:42  warning  Attribute "v-model" should go before "presentation"  vue/attributes-order
+  15:42  warning  Attribute "v-model" should go before "presentation"  vue/attributes-order
+  16:42  warning  Attribute "v-model" should go before "presentation"  vue/attributes-order
+
+✖ 4 problems (0 errors, 4 warnings)
+  0 errors and 4 warnings potentially fixable with the `--fix` option.
+
+ESLint found too many warnings (maximum: 0).
+ ELIFECYCLE  Command failed with exit code 1.

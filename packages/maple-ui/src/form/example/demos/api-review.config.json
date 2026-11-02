@@ -143,16 +143,16 @@
       "kind": "scalar"
     },
     {
-      "name": "presentation",
-      "type": "'inline' | 'popup'",
+      "name": "edit-mode",
+      "type": "'direct' | 'popup'",
       "defaultValue": "undefined",
-      "description": "字段编辑方式，字段 > FormItem > Form 继承；默认 inline。",
+      "description": "字段编辑方式，字段 > FormItem > Form 继承；默认 direct。",
       "kind": "enum",
       "options": [
-        "inline",
+        "direct",
         "popup"
       ],
-      "initial": "inline"
+      "initial": "direct"
     },
     {
       "name": "read-pretty",
@@ -177,7 +177,7 @@
         "../CustomFormComponent.vue",
         "async-fields.vue",
         "async-race.vue",
-        "auto-label-width.vue",
+        "label-width-comparison.vue",
         "clear-trigger.vue",
         "controller.vue",
         "cross-field.vue",
@@ -187,11 +187,9 @@
         "example.vue",
         "field-components.vue",
         "field-presentation.vue",
-        "fixed-label-width.vue",
         "floating-placeholder.vue",
         "help-extra.vue",
         "horizontal-layout.vue",
-        "label-columns.vue",
         "presentation-state.vue",
         "vertical-label.vue"
       ]
@@ -200,14 +198,14 @@
       "name": "label-col-props",
       "kind": "prop",
       "demos": [
-        "label-columns.vue"
+        "label-width-comparison.vue"
       ]
     },
     {
       "name": "wrapper-col-props",
       "kind": "prop",
       "demos": [
-        "label-columns.vue"
+        "label-width-comparison.vue"
       ]
     },
     {

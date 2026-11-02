@@ -2,7 +2,7 @@
 
 与 Cedar 使用相同场景、参数和交互顺序；示例源码仅替换组件前缀，主题与站点外壳各自保留。
 
-## 案例
+## 基础示例
 
 ### 基础用法
 
@@ -12,19 +12,81 @@
 ../example/demos/basic.vue
 ```
 
-### 五种尺寸
+## 外观与状态
+
+### 状态和颜色
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `content` | 徽标显示的内容 | 状态和颜色、外观配置对比 |
+| `status` | 徽标的状态 | 状态和颜色 |
+| `mode` | 徽标的类型 | 状态和颜色 |
+| `description` | 徽标的描述文本 | 状态和颜色 |
+| `color` | 徽标的背景色，也可以设置自定义色值 | 状态和颜色 |
+| `text-color` | 徽标显示的内容颜色 | 状态和颜色 |
+<!-- demo-config-notes:end -->
 
 ```demo
-../example/demos/size.vue
+../example/demos/color.vue
 ```
 
-### 实心与描边
+### 外观配置对比
+
+选择一个对比维度后，同屏展示它的全部可选值；其余配置和内容保持一致。可切换其他配置检查组合效果；输入类预览共享一个值。
+
+<details>
+<summary>配置说明与使用限制</summary>
+
+#### 外观组合
+
+适用于通知数量和标记。调整变体、状态、尺寸，用相同数据观察变化。内容保持一致，便于比较不同设置的实际效果。
+
+</details>
 
 ```demo
-../example/demos/variant.vue
+../example/demos/appearance-lab.vue
 ```
+
+## 布局与排列
+
+### 位置与偏移
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `position` | 浮动徽标在宿主盒子中的物理角落或左右中点，默认 top-right；只在 floating 模式生效，RTL 不反转 | 位置与偏移 |
+| `content` | 徽标显示的内容 | 位置与偏移 |
+| `dot` | 显示为小红点 | 位置与偏移 |
+| `offset-x` | 设置徽标位置的偏移X，mode为inline时无效。 | 位置与偏移 |
+| `offset-y` | 设置徽标位置的偏移Y。 | 位置与偏移 |
+| `mode` | 徽标的类型 | 位置与偏移 |
+<!-- demo-config-notes:end -->
+
+```demo
+../example/demos/position.vue
+```
+
+## 内容与展示
 
 ### 内联与独立展示
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `content` | 徽标显示的内容 | 内联与独立展示、小圆点、最大值与零值 |
+| `dot` | 显示为小红点 | 内联与独立展示、小圆点、显示与隐藏 |
+| `description` | 徽标的描述文本 | 内联与独立展示、显示与隐藏 |
+| `show-zero` | 徽标为0时是否显示 | 最大值与零值、显示与隐藏 |
+| `mode` | 徽标的类型 | 内联与独立展示 |
+| `inline-position` | 内联徽标位于宿主内容的逻辑 start 或 end，默认 end；仅 inline 模式生效 | 内联与独立展示 |
+<!-- demo-config-notes:end -->
 
 ```demo
 ../example/demos/inline.vue
@@ -36,28 +98,10 @@
 ../example/demos/dot.vue
 ```
 
-### 自定义内容
-
-```demo
-../example/demos/content.vue
-```
-
 ### 最大值与零值
 
 ```demo
 ../example/demos/max.vue
-```
-
-### 状态和颜色
-
-```demo
-../example/demos/color.vue
-```
-
-### 位置与偏移
-
-```demo
-../example/demos/position.vue
 ```
 
 ### 显示与隐藏
@@ -66,22 +110,23 @@
 ../example/demos/show.vue
 ```
 
-### 外观组合
+## 自定义与插槽
 
-适用于通知数量和标记。调整变体、状态、尺寸，用相同数据观察变化。内容保持一致，便于比较不同设置的实际效果。
+### 自定义内容
+
+<!-- demo-config-notes:start -->
+#### 本组配置对照
+
+| 配置 | 作用 | 相关示例 |
+| --- | --- | --- |
+| `content` | 徽标显示的内容 | 自定义内容 |
+| `mode` | 徽标的类型 | 自定义内容 |
+| `inline-position` | 内联徽标位于宿主内容的逻辑 start 或 end，默认 end；仅 inline 模式生效 | 自定义内容 |
+<!-- demo-config-notes:end -->
 
 ```demo
-../example/demos/appearance-lab.vue
+../example/demos/content.vue
 ```
-
-<!-- api-review:start -->
-### 功能调试
-
-```demo
-../example/demos/api-review.vue
-```
-
-<!-- api-review:end -->
 
 ## API
 
@@ -99,8 +144,8 @@
 | color           | 徽标的背景色，也可以设置自定义色值                                                 | `string`                                                       |     `-`     |
 | text-color      | 徽标显示的内容颜色                                                                 | `string`                                                       |     `-`     |
 | mode            | 徽标的类型                                                                         | `'floating' \| 'inline'`                                       | `floating`  |
-| position        | 徽标物理位置（RTL 下不翻转），mode 为 floating 时有效                               | `'top-right' \| 'top-left' \| 'bottom-right' \| 'bottom-left' \| 'left' \| 'right'` | `top-right` |
-| inline-position | 徽标的位置，mode 为 inline 时有效                                                  | `'start' \| 'end'`                                             |    `end`    |
+| position        | 浮动徽标在宿主盒子中的物理角落或左右中点，默认 top-right；只在 floating 模式生效，RTL 不反转 | `'top-right' \| 'top-left' \| 'bottom-right' \| 'bottom-left' \| 'left' \| 'right'` | `top-right` |
+| inline-position | 内联徽标位于宿主内容的逻辑 start 或 end，默认 end；仅 inline 模式生效 | `'start' \| 'end'`                                             |    `end`    |
 | size            | 徽标的尺寸                                                                         | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'`                         |    `md`     |
 | status          | 徽标的状态                                                                         | `SemanticStatus`                                               |  `danger`   |
 | show            | 是否显示徽标                                                                       | `boolean`                                                      |   `true`    |

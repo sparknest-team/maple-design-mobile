@@ -3,6 +3,7 @@
     <Transition :name="`${n()}-fade`" appear @after-enter="emit('opened')" @after-leave="emit('closed')">
       <div
         v-if="open"
+        :dir="readingDirection"
         :class="[n(), { [n('standalone')]: popupContainer !== false }, n(`standalone-${position}`)]"
         @mouseenter="pause"
         @mouseleave="resume"
@@ -48,7 +49,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineComponent, onMounted, watch, type PropType } from 'vue'
+import { defineComponent, onMounted, useAttrs, watch, type PropType } from 'vue'
 import {
   IconCheckboxMarkedCircleFill as MIconCheckboxMarkedCircleFill,
   IconClose as MIconClose,
@@ -57,6 +58,7 @@ import {
   IconLoading as MIconLoading,
   IconWarning as MIconWarning,
 } from '@maple-design/icons-vue'
+import { useDirection } from '../_utils/direction'
 import { createNamespace } from '../utils/components'
 import { usePopupContainer } from '../utils/popup-container'
 import { messageProps } from './props'
@@ -70,6 +72,8 @@ const DynamicContent = defineComponent({
   setup: (props) => () => (typeof props.value === 'function' ? props.value() : props.value),
 })
 const props = defineProps(messageProps)
+const directionAttrs = useAttrs()
+const { dir: readingDirection } = useDirection(undefined, () => directionAttrs.dir)
 const emit = defineEmits<{
   (event: 'update:open', value: boolean): void
   (event: 'open' | 'opened' | 'close' | 'closed'): void

@@ -22,7 +22,7 @@ export { menuProps, menuOptionProps, Menu, _MenuOption as MenuOption }
 
 export type {
   MenuProps,
-  MenuPosition,
+  MenuPlacement,
   MenuValue,
   MenuOptionData,
   MenuFieldNames,

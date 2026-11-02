@@ -37,7 +37,8 @@
   "scripts": {
     "build": "rimraf ./lib && tsc",
     "dev": "tsc --watch",
-    "test": "vitest run --config vitest.config.ts"
+    "test": "vitest run --config vitest.config.ts",
+    "build:node": "tsc -p tsconfig.node.json"
   },
   "dependencies": {
     "@babel/core": "^7.28.0",

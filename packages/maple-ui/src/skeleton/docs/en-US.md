@@ -1,10 +1,10 @@
 # Skeleton
 
-## Examples
-
 ### Intro
 
 Display some space occupying elements with transition effect to optimize the loading process.
+
+## Basic examples
 
 ### Basic Usage
 
@@ -12,22 +12,14 @@ Display some space occupying elements with transition effect to optimize the loa
 ../example/demos/basic-usage.vue
 ```
 
-### Custom Rows Width
+## Content and presentation
+
+### Skeleton content shapes
+
+Compare text-row placeholders with avatar and card shapes according to the final content layout.
 
 ```demo
-../example/demos/custom-rows-width.vue
-```
-
-### Display Card
-
-```demo
-../example/demos/display-card.vue
-```
-
-### Custom Template
-
-```demo
-../example/demos/custom-template.vue
+../example/demos/content-comparison.vue
 ```
 
 ### Animation
@@ -44,21 +36,20 @@ The demo restores content after two seconds using its own timer. Skeleton neithe
 ../example/demos/fullscreen-mode.vue
 ```
 
-<!-- api-review:start -->
-### Feature playground
+## Customization and slots
+
+### Custom Template
 
 ```demo
-../example/api-review.vue
+../example/demos/custom-template.vue
 ```
-
-<!-- api-review:end -->
 
 ## API
 
 ### Props
 
-| Prop | Description | Type | Default | 
-| --- | --- | --- | --- | 
+| Arguments | Description | Type | Default |
+| --- | --- | --- | --- |
 | `loading` | Loading Status Set to `true` to turn on the skeleton | _boolean_ | `true` |
 | `animation` | Whether to enable the shimmer animation | _boolean_ | `true` |
 | `title` | Whether to display the title | _boolean_ | `false` |
@@ -74,16 +65,16 @@ The demo restores content after two seconds using its own timer. Skeleton neithe
 
 ### Slots
 
-| Name | Description | SlotProps |
-| --- | --- | --- |
+| Slot | Description | Arguments |
+| --- | -- | --- |
 | `default` | Content not loaded | `-` |
 | `template` | Custom loading placeholder | `-` |
 
 The package also exports `SkeletonLine` and `SkeletonShape`, available as `Skeleton.Line` and `Skeleton.Shape` for custom templates.
 
-### Style Variables
+### Style variables
 
-Here are the CSS variables used by the component. Styles can be customized using [StyleProvider](#/en-US/style-provider).
+The following CSS variables support customization with [StyleProvider](#/en-US/style-provider).
 
 | Variable | Default |
 | --- | --- |
@@ -104,7 +95,13 @@ Here are the CSS variables used by the component. Styles can be customized using
 | `--skeleton-row-border-radius` | `10px` |
 | `--skeleton-row-margin-top` | `10px` |
 
-### Governed defaults
+## Shared implementation and platform boundaries
+
+Each platform maintains a complete local implementation. They do not import a common core or share component instances or reactive state. Changes must update both implementations. Component bodies, props, key styles and paired tests have read-only source consistency checks; theme tokens and installation entries remain local to each library.
+
+Skeleton, SkeletonLine and SkeletonShape use independently copied source. Each library maintains its skeleton theme and size tokens.
+
+### Managed defaults
 
 | Token | Default |
 | --- | --- |
@@ -125,11 +122,11 @@ Here are the CSS variables used by the component. Styles can be customized using
 | `--mp-skeleton-shape-size-lg` | `60px` |
 | `--mp-skeleton-shape-border-radius` | `var(--mp-sys-radius-md)` |
 
-### Motion tokens
+### Motion variables
 
 | Token | Default |
 | --- | --- |
 | `--mp-skeleton-animation-duration` | `1s` |
 | `--mp-skeleton-transition-duration` | `var(--mp-sys-motion-duration-slow)` |
 
-Built-in motion honors prefers-reduced-motion: reduce. State/content remain visible; decorative spin, shimmer and ripple are suppressed. Icon name changes skip delays and cancel pending transitions. Ripple duration tokens control CSS only: its 250ms lifecycle timers are unchanged, so keep each visual duration at or below 250ms. Custom animation classes remain the caller’s responsibility.
+Built-in motion follows prefers-reduced-motion: reduce, preserving content/state feedback while disabling decorative spinning, shimmer and ripples. Icon name changes skip waiting and cancel unfinished transitions. Ripple duration variables affect only CSS; the 250ms lifecycle timer remains unchanged, so each visual stage should not exceed 250ms. Callers must adapt custom animation classes.

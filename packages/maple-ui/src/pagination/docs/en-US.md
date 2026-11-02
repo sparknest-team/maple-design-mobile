@@ -2,7 +2,7 @@
 
 Pagination with a shared API and container-responsive layout.
 
-## Examples
+## Basic examples
 
 ### Basic and two-way binding
 
@@ -10,7 +10,23 @@ Pagination with a shared API and container-responsive layout.
 ../example/demos/basic.vue
 ```
 
+## Appearance and states
+
 ### Five sizes and elevation
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `total` | Total item count; required | Five sizes and elevation, Disabled and hide on single page |
+| `show-page-size` | Show page size selector | Five sizes and elevation, Disabled and hide on single page |
+| `show-jumper` | Show separate jumper in full mode; simple mode includes input | Five sizes and elevation, Disabled and hide on single page |
+| `size` | Size of all controls | Five sizes and elevation |
+| `elevation` | Page button shadow; true uses level 2 | Five sizes and elevation |
+| `disabled` | Disable all interactions | Disabled and hide on single page |
+<!-- demo-config-notes:end -->
+
 
 ```demo
 ../example/demos/size.vue
@@ -22,46 +38,84 @@ Pagination with a shared API and container-responsive layout.
 ../example/demos/disabled.vue
 ```
 
+## Pagination modes and information
+
+### Simple mode
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `total` | Total item count; required | Simple mode, Page window and ellipsis, Totals, page sizes and jumpers |
+| `show-total` | Show total | Simple mode, Totals, page sizes and jumpers |
+| `show-page-size` | Show page size selector | Simple mode, Totals, page sizes and jumpers |
+| `responsive` | Automatically use simple mode by container width | Page window and ellipsis, Totals, page sizes and jumpers |
+| `simple` | Explicit simple mode | Simple mode |
+| `default-value` | Initial uncontrolled page | Page window and ellipsis |
+<!-- demo-config-notes:end -->
+
+
+```demo
+../example/demos/simple.vue
+```
+
 ### Page window and ellipsis
 
 ```demo
 ../example/demos/more-page-size.vue
 ```
 
-### Page size and shared selector options
+### Totals, page sizes and jumpers
+
+Compare total labels, page-size selection and page jumpers. Change the available controls and observe their output.
 
 ```demo
-../example/demos/show-page-size.vue
+../example/demos/auxiliary-controls-comparison.vue
 ```
 
-### Jumper and prefix/suffix slots
-
-```demo
-../example/demos/show-jumper.vue
-```
-
-### Simple mode
-
-```demo
-../example/demos/simple.vue
-```
-
-### Custom total slot
-
-```demo
-../example/demos/show-total.vue
-```
-
-### Full feature controls
-
-```demo
-../example/demos/all.vue
-```
+## Page size, navigation and buttons
 
 ### Custom page slots and styles
 
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `total` | Total item count; required | Custom page slots and styles |
+| `default-value` | Initial uncontrolled page | Custom page slots and styles |
+| `buffer-size` | Pages on either side of current page | Custom page slots and styles |
+| `responsive` | Automatically use simple mode by container width | Custom page slots and styles |
+| `page-item-style` | Base numeric page style | Custom page slots and styles |
+| `active-page-item-style` | Additional active numeric page style | Custom page slots and styles |
+<!-- demo-config-notes:end -->
+
+
 ```demo
 ../example/demos/custom-page-button.vue
+```
+
+## Responsive layout and data changes
+
+### Container width and compact layout
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `total` | Total item count; required | Container width and compact layout, Data changes and auto adjustment, Full feature controls |
+| `show-total` | Show total | Container width and compact layout, Data changes and auto adjustment, Full feature controls |
+| `show-page-size` | Show page size selector | Container width and compact layout, Data changes and auto adjustment, Full feature controls |
+| `show-jumper` | Show separate jumper in full mode; simple mode includes input | Container width and compact layout, Full feature controls |
+| `responsive` | Automatically use simple mode by container width | Container width and compact layout |
+| `auto-adjust` | Preserve first record on size change; clamp after total shrinks | Data changes and auto adjustment |
+<!-- demo-config-notes:end -->
+
+
+```demo
+../example/demos/responsive.vue
 ```
 
 ### Data changes and auto adjustment
@@ -70,31 +124,26 @@ Pagination with a shared API and container-responsive layout.
 ../example/demos/auto-adjust.vue
 ```
 
-### Container width and compact layout
+### Full feature controls
 
 ```demo
-../example/demos/responsive.vue
+../example/demos/all.vue
 ```
 
-<!-- api-review:start -->
-### Feature playground
+## Reading direction
 
-```demo
-../example/demos/api-review.vue
-```
-
-<!-- api-review:end -->
+Inherits the nearest `dir="ltr|rtl"` and supports runtime and nested overrides. Page numbers and previous/next semantics remain unchanged. Default navigation icons follow reading direction; page input, disabled boundaries and selection are preserved. Custom icon slots own their direction.
 
 ## API
 
-Use ordinary `v-model` for the primary value: `modelValue` is the current page number, starting at 1; pageSize controls the page size separately. `defaultValue` initializes uncontrolled state only at creation; later changes do not reset it. Initialization emits no `update:modelValue`. A supplied `modelValue` takes precedence and remains parent-controlled.
+Use ordinary `v-model`: `modelValue` is the current page, starting at 1; pageSize independently controls items per page. `defaultValue` initializes uncontrolled state once without later resets or initialization `update:modelValue`. When `modelValue` is supplied, the parent value controls the display.
 
 <!-- same-source-api:start -->
 ### Props
 
 | Prop | Description | Type | Default |
 | --- | --- | --- | --- |
-| total | Total records (required) | `number` | `—` |
+| total | Total item count; required | `number` | `—` |
 | model-value | Current page; v-model | `number` | `—` |
 | default-value | Initial uncontrolled page | `number` | `1` |
 | page-size | Page size; v-model:page-size | `number` | `—` |
@@ -107,7 +156,7 @@ Use ordinary `v-model` for the primary value: `modelValue` is the current page n
 | show-jumper | Show separate jumper in full mode; simple mode includes input | `boolean` | `false` |
 | show-page-size | Show page size selector | `boolean` | `false` |
 | page-size-options | Positive integer size options | `number[]` | `[10, 20, 30, 40, 50]` |
-| page-size-props | Shared selector configuration; cannot override value, options or size | `PaginationPageSizeProps` | `—` |
+| page-size-props | Optional restricted configuration for the page-size Select. Placement defaults to bottom-start and reaches Trigger through Select.triggerProps for automatic positioning; cannot override pagination values, options or size | `PaginationPageSizeProps` | `—` |
 | size | Size of all controls | `'xs' / 'sm' / 'md' / 'lg' / 'xl'` | `'md'` |
 | page-item-style | Base numeric page style | `CSSProperties` | `—` |
 | active-page-item-style | Additional active numeric page style | `CSSProperties` | `—` |
@@ -147,25 +196,25 @@ Use ordinary `v-model` for the primary value: `modelValue` is the current page n
 
 ## Behavior
 
-Containers at or below compact-breakpoint use simple mode automatically, including desktop sidebars. Total and page-size controls remain available and wrap. Previous/next buttons follow size without forced enlargement on narrow screens (36px by default). Set responsive=false to retain full pagination; only the page list scrolls horizontally if necessary.
+Containers at or below `compact-breakpoint` automatically use compact mode, consistently in desktop sidebars and mobile. Totals/page-size selectors remain; auxiliary controls wrap. Previous/next sizes follow size without forced narrow-screen enlargement (formerly 36px). `responsive=false` retains full page numbers; extremely narrow page lists scroll internally without widening the page.
 
-The simple page input also serves as the jumper. Numeric page, ellipsis and separate jumper prefix/suffix slots render only with their corresponding full-mode controls.
+The compact current-page input also serves as the jumper, so no duplicate jumper appears. `page-item`, `page-item-ellipsis`, `jumper-prepend` and `jumper-append` render only in their full-mode controls.
 
-Buttons support Tab, Enter and Space; the active page exposes aria-current=page. The jumper requests a numeric keyboard and commits on Enter or blur. Empty, fractional and non-numeric values do not navigate. Integers are clamped to the valid range. Disabled controls cannot submit.
+Page buttons support Tab/Enter/Space, with `aria-current=page` on the current page. The jumper requests a numeric keyboard and submits on Enter/blur. Empty, nonnumeric or fractional values do not navigate; out-of-range integers clamp to valid pages. Disabled blocks all commits.
 
-Auto adjustment preserves the first visible record when page size changes and clamps pages when total shrinks. An empty dataset resets to page 1. Controlled state waits for parent updates; an explicit current update in the same batch takes priority.
+`auto-adjust` tries to preserve the previous page's first item when page size changes, clamps to the last page after total reductions and returns to page 1 for zero items. Controlled mode proposes updates only; the parent decides the display. An explicit parent modelValue in the same update batch takes precedence.
 
-The jump input displays the current page in both full and simple modes. Page navigation, external current updates and automatic page-size adjustment keep it in sync; invalid input restores the current page.
+Both full and compact jumper inputs show the current page. Navigation, external modelValue changes and page-size adjustments update them together. Invalid input restores the current page number.
 
 ### PaginationPageSizeProps
 
-The page-size selector fits the selected label and dropdown arrow, with only the item gap between them. Its width updates with the selection or locale. Customize it with `--mp-pagination-select-width`. The menu fits its option content independently of the trigger width.
+Page-size selectors fit selected text/arrow with only item spacing, updating on option/locale changes. `--mp-pagination-select-width` overrides width. Popup menus size independently from option contents.
 
-Shared fields: disabled?: boolean; placement?: top / top-start / top-end / bottom / bottom-start / bottom-end; popupContainer?: string | HTMLElement | false; class?: string; style?: CSSProperties. Parent disabled takes priority. Placement defaults to bottom-start.
+Both platforms support `disabled?: boolean`, `placement?: 'top' | 'top-start' | 'top-end' | 'bottom' | 'bottom-start' | 'bottom-end'`, `popupContainer?: string | HTMLElement | false`, `class?: string` and `style?: CSSProperties`. Outer disabled takes precedence. Default placement is bottom-start.
 
-Arbitrary SelectProps/MenuProps are no longer forwarded. Use page-size, page-size-options and size for pagination-owned fields.
+This configuration no longer forwards arbitrary SelectProps/MenuProps. page-size, page-size-options and size control the pagination value, options and dimensions.
 
-## Types
+## Type definitions
 
 ```ts
 import type { PaginationProps, PaginationInstance, PaginationPageSizeProps } from '@maple-design/ui'
@@ -200,3 +249,8 @@ import type { PaginationProps, PaginationInstance, PaginationPageSizeProps } fro
 | `--mp-pagination-active-color` | `var(--mp-color-primary)` |
 | `--mp-pagination-disabled-color` | `var(--mp-color-text-disabled)` |
 | `--mp-pagination-disabled-background` | `var(--mp-color-fill-1)` |
+
+
+### Placement semantics and configuration
+
+No placement configuration is required for normal use: bottom-start is preferred and the underlying Trigger automatically flips/constrains the popup. pageSizeProps.placement is only a restricted override for the page-size Select: Pagination → Select.triggerProps.placement → Trigger. It does not position the pagination itself.

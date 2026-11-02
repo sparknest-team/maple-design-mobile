@@ -145,8 +145,11 @@ class MessageManager {
       return
     }
     this.items.splice(index, 1)
-    item.onClosed?.(item.id)
-    this.destroyIfEmpty()
+    try {
+      return item.onClosed?.(item.id)
+    } finally {
+      this.destroyIfEmpty()
+    }
   }
 
   private destroyIfEmpty() {

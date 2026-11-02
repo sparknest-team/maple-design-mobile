@@ -43,9 +43,9 @@
     </div>
     <div
       :id="`clip-target-${cid}`"
+      ref="code"
       class="mp-site-code-example__code"
       :class="[disabledFold ? 'mp-site-code-example--scroller' : null]"
-      ref="code"
       :aria-hidden="height >= 0"
       :style="{
         height: height >= 0 ? `${height}px` : undefined,
@@ -76,6 +76,12 @@ export default defineComponent({
   components: { MIconXml, MIconCopy, MIconCodeJson },
   name: 'MpSiteCodeExample',
   props: {
+    // Markdown is documentation content. Keep it readable even when a running
+    // site still has an older global fold configuration.
+    defaultExpanded: {
+      type: Boolean,
+      default: true,
+    },
     playgroundIgnore: {
       type: Boolean,
       default: false,
@@ -135,7 +141,7 @@ export default defineComponent({
       const { offsetHeight } = code.value as HTMLElement
       const foldHeight = fold.value?.foldHeight ?? 0
       disabledFold.value = offsetHeight - foldHeight < offset
-      height.value = fold.value?.defaultFold && !disabledFold.value ? foldHeight : -1
+      height.value = !props.defaultExpanded && fold.value?.defaultFold && !disabledFold.value ? foldHeight : -1
     })
 
     return {

@@ -41,7 +41,7 @@ const {
 </script>
 
 <template>
-  <mp-checkbox-group v-model="value9" direction="vertical">
+  <mp-checkbox-group v-model="value9" orientation="vertical">
     <mp-checkbox :value="0">{{ english ? 'Eat' : '吃饭' }}</mp-checkbox>
     <mp-checkbox :value="1">{{ english ? 'Sleep' : '睡觉' }}</mp-checkbox>
   </mp-checkbox-group>

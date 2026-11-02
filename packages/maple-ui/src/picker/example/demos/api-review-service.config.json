@@ -210,7 +210,10 @@
       "kind": "callback"
     }
   ],
-  "methodNames": ["confirm", "cancel"],
+  "methodNames": [
+    "confirm",
+    "cancel"
+  ],
   "events": [
     "change",
     "cancel",

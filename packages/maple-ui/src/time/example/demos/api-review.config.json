@@ -166,7 +166,13 @@
       "type": "ComponentSize",
       "defaultValue": "md",
       "kind": "enum",
-      "options": ["xs", "sm", "md", "lg", "xl"],
+      "options": [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl"
+      ],
       "initial": "md"
     },
     {
@@ -206,46 +212,79 @@
       "kind": "boolean"
     },
     {
-      "name": "presentation",
-      "type": "'inline' | 'popup'",
+      "name": "edit-mode",
+      "type": "'direct' | 'popup'",
       "defaultValue": "undefined",
-      "description": "字段编辑方式，字段 > FormItem > Form 继承；默认 inline。",
+      "description": "字段编辑方式，字段 > FormItem > Form 继承；默认 direct。",
       "kind": "enum",
-      "options": ["inline", "popup"],
-      "initial": "inline"
+      "options": [
+        "direct",
+        "popup"
+      ],
+      "initial": "direct"
     }
   ],
-  "events": ["focus", "blur", "change", "select", "clear", "open-change", "click", "update:modelValue", "update:open"],
+  "events": [
+    "focus",
+    "blur",
+    "change",
+    "select",
+    "clear",
+    "open-change",
+    "click",
+    "update:modelValue",
+    "update:open"
+  ],
   "scenarios": [
     {
       "name": "model-value",
       "kind": "prop",
-      "demos": ["step.vue"]
+      "demos": [
+        "step.vue"
+      ]
     },
     {
       "name": "default-value",
       "kind": "prop",
-      "demos": ["default-state.vue"]
+      "demos": [
+        "default-state.vue"
+      ]
     },
     {
       "name": "step",
       "kind": "prop",
-      "demos": ["step.vue"]
+      "demos": [
+        "step.vue"
+      ]
     },
     {
       "name": "disabled-hours",
       "kind": "prop",
-      "demos": ["../picker.vue", "panel-behavior.vue", "picker-limit.vue", "step.vue", "wheel-limits.vue"]
+      "demos": [
+        "../picker.vue",
+        "panel-behavior.vue",
+        "picker-limit.vue",
+        "step.vue",
+        "wheel-limits.vue"
+      ]
     },
     {
       "name": "disabled-minutes",
       "kind": "prop",
-      "demos": ["../picker.vue", "picker-limit.vue", "wheel-limits.vue"]
+      "demos": [
+        "../picker.vue",
+        "picker-limit.vue",
+        "wheel-limits.vue"
+      ]
     },
     {
       "name": "disabled-seconds",
       "kind": "prop",
-      "demos": ["../picker.vue", "picker-limit.vue", "wheel-limits.vue"]
+      "demos": [
+        "../picker.vue",
+        "picker-limit.vue",
+        "wheel-limits.vue"
+      ]
     },
     {
       "name": "time-picker-props",

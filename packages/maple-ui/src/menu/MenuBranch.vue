@@ -4,6 +4,7 @@
 
 <script setup lang="ts">
 import { computed, h, inject, nextTick, ref, useSlots } from 'vue'
+import { useDirection } from '../_utils/direction'
 import type { TriggerInstance } from '../trigger'
 import Trigger from '../trigger'
 import { createNamespace } from '../utils/components'
@@ -22,6 +23,7 @@ const props = defineProps(menuBranchProps)
 const slots = useSlots()
 const computedOpen = ref(false)
 const triggerRef = ref<TriggerInstance>()
+const { isRtl } = useDirection(() => triggerRef.value?.getReference?.())
 const panel = ref<InstanceType<typeof MenuPanel>>()
 const selection = inject(menuSelectionKey, undefined)
 const menu = inject(menuInjectionKey, undefined)
@@ -59,7 +61,7 @@ function handleMouseenter() {
   }
 }
 async function handleArrow(key: 'ArrowLeft' | 'ArrowRight') {
-  if (key !== 'ArrowRight') {
+  if (key !== (isRtl.value ? 'ArrowLeft' : 'ArrowRight')) {
     return
   }
   open()
@@ -90,7 +92,7 @@ const viewOptions = computed(() => {
       strategy: menu?.strategy.value ?? 'absolute',
       open: computedOpen.value,
       trigger: trigger.value,
-      placement: 'right-start',
+      placement: isRtl.value ? 'left-start' : 'right-start',
       unmountOnClose: true,
       disabled: disabled.value,
       escToClose: false,

@@ -1,13 +1,13 @@
 # Dialog
 
-## Examples
-
 ### Description
 
 Use `<mp-dialog>` for component usage and explicit `Dialog.*` methods for functional usage. Both forms share one configuration model. Callable `Dialog(...)` is not supported.
 
 
 The sections below follow the same order as the controls in the mobile preview.
+
+## Basic examples
 
 ### Basic Usage
 
@@ -17,7 +17,21 @@ Component dialogs show the top-right close button by default.
 ../example/demos/basic-usage.vue
 ```
 
+## Invocation and content
+
 ### Function Calls
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `title` | Title | confirm box、type icon、form dialog |
+| `type` | Semantic icon | confirm box、type icon |
+| `message` | Message content; the default slot is also supported | confirm box、type icon |
+| `before-close` | Return a boolean/Promise or call done; the first completion wins | form dialog |
+<!-- demo-config-notes:end -->
+
 
 ```demo
 ../example/demos/function-call.vue
@@ -52,7 +66,56 @@ Use a component dialog for complex forms and validate from `before-close`.
 ../example/demos/form-dialog.vue
 ```
 
+## Sizing and layout
+
+### Dialog sizing and long content
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `width` | Width | Dialog sizing and long content |
+| `title` | Title | Dialog sizing and long content |
+| `message` | Message content; the default slot is also supported | Dialog sizing and long content |
+| `simple` | Compact layout | Dialog sizing and long content |
+| `draggable` | Allow dragging; ineffective in `fullscreen` mode | Dialog sizing and long content |
+| `fullscreen` | Fullscreen display | Dialog sizing and long content |
+<!-- demo-config-notes:end -->
+
+
+Open one dialog at a time to compare widths, fullscreen layouts and long-content boundaries.
+
+<details>
+<summary>Configuration details and limits</summary>
+
+#### Layout
+
+The preview demonstrates custom width, simple, draggable, and fullscreen dialogs in this order.
+
+</details>
+
+```demo
+../example/demos/size-comparison.vue
+```
+
+## Interaction and customization
+
 ### Custom Footer
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `title` | Title | Custom Button Text, Advanced Props |
+| `message` | Message content; the default slot is also supported | Custom Button Text, Advanced Props |
+| `type` | Semantic icon | Advanced Props |
+| `footer` | Show footer | Advanced Props |
+| `hide-title` | Hide the title area | Advanced Props |
+| `aria-label` | Accessible name without a visible title | Advanced Props |
+<!-- demo-config-notes:end -->
+
 
 ```demo
 ../example/demos/custom-footer.vue
@@ -66,14 +129,6 @@ Confirm and cancel buttons use Button's `default` status and `text` variant unle
 ../example/demos/custom-button-text.vue
 ```
 
-### Layout
-
-The preview demonstrates custom width, simple, draggable, and fullscreen dialogs in this order.
-
-```demo
-../example/demos/layout.vue
-```
-
 ### Advanced Props
 
 The preview demonstrates hidden footer, hidden title, custom body, and unmount-on-close behavior.
@@ -82,115 +137,154 @@ The preview demonstrates hidden footer, hidden title, custom body, and unmount-o
 ../example/demos/advanced-props.vue
 ```
 
-### Long Content
-
-```demo
-../example/demos/long-content.vue
-```
+## Async actions and closing
 
 ### Async Close
 
-`beforeClose` closes only after `done()` is called. Functional calls default to `simple: true` and `closable: false`.
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `before-close` | Return a boolean/Promise or call done; the first completion wins | Async Close, Before hooks and callback compatibility |
+| `title` | Title | async close |
+| `message` | Message content; the default slot is also supported | async close |
+<!-- demo-config-notes:end -->
 
 
-Component dialogs support the same interception and loading refs through `before-close`.
+`beforeClose` supports boolean/Promise results and the existing done callback. Functional calls default to `simple: true` and `closable: false`.
+
+
 
 ```demo
 ../example/demos/async-close.vue
 ```
 
-<!-- api-review:start -->
-### Feature playground
+### Before hooks and callback compatibility
+
+`beforeClose({ action }, done, context)` is the only hook entry. No new closeGuard/confirmGuard/cancelGuard prop is introduced.
+
+
+A before hook that only logs synchronously must explicitly return true; synchronous undefined means callback completion is still pending. Old async callbacks that returned `Promise<void>` without calling done now complete on Promise resolution.
+
 
 ```demo
-../example/demos/api-review.vue
+../example/demos/en-US/guard-protocol.vue
 ```
 
-<!-- api-review:end -->
+
+Promise and done share a single completion state: false/done(false) rejects; true/done() allows; a resolved Promise&lt;void&gt; allows. The first completion wins. Errors emit guard-error; cancellation/unmount invalidates late completion. Synchronous void retains the callback protocol and waits for done on these close/confirm guards.
+
+
+Cancellable hooks use `(payload, done, context)`: closure payloads contain `{ action }`, change/commit payloads contain `{ value, previousValue }`, and Popup uses `{ reason }`. Context provides `signal` and an optional original `event`. Return a boolean/Promise, or call done()/done(false). Synchronous void waits for done; Promise&lt;void&gt; allows the operation. First completion wins. Pending state controls loading/disabled automatically. Cancellation invalidates stale results. Button refs are not exposed.
+
+## Reading direction
+
+Inherits the nearest `dir="ltr|rtl"` and supports runtime and nested overrides. Content, headings and action gaps use logical edges. Portals inherit their source direction. Direction changes preserve close, confirm, cancel and pending-state semantics.
 
 ## API
 
 ### Props
 
-| Prop                                                 | Description                                | Type                                          | Default          |
-| ---------------------------------------------------- | ------------------------------------------ | --------------------------------------------- | ---------------- |
-| `open` **(v-model)**                                 | Visible state                              | `boolean`                                     | `-`              |
-| `default-open`                                       | Initial uncontrolled state                 | `boolean`                                     | `false`          |
-| `title` / `message`                                  | Title and message                          | `string`                                      | `-`              |
-| `type`                                               | Semantic icon                              | `'info' \| 'success' \| 'warning' \| 'error'` | `-`              |
-| `simple`                                             | Compact layout                             | `boolean`                                     | `false`          |
-| `width` / `top`                                      | Width and top offset                       | `number \| string`                            | `-`              |
-| `title-align`                                        | Title alignment                            | `'start' \| 'center'`                         | `'center'`       |
-| `message-align`                                      | Message alignment                          | `'left' \| 'center' \| 'right'`               | `'left'`         |
-| `align-center`                                       | Center vertically and horizontally         | `boolean`                                     | `true`           |
-| `footer`                                             | Show footer                                | `boolean`                                     | `true`           |
-| `confirm-button` / `cancel-button`                   | Show action buttons                        | `boolean`                                     | `true`           |
-| `closable`                                           | Show close button                          | `boolean`                                     | `true`           |
-| `confirm-button-text` / `cancel-button-text`         | Button labels                              | `string`                                      | localized        |
-| `confirm-button-props` / `cancel-button-props`       | Button props, including colors             | `ButtonProps`                                 | `-`              |
-| `confirm-button-loading` / `cancel-button-loading`   | Loading state                              | `boolean`                                     | `false`          |
-| `confirm-button-disabled` / `cancel-button-disabled` | Disabled state                             | `boolean`                                     | `false`          |
-| `overlay`                                            | Show overlay                               | `boolean`                                     | `true`           |
-| `overlay-class` / `dialog-class` / `body-class`      | Custom classes                             | `string \| any[]`                             | `-`              |
-| `overlay-style` / `dialog-style` / `body-style`      | Custom styles                              | `StyleValue`                                  | `-`              |
-| `overlay-closable` / `esc-to-close` / `lock-scroll`  | Close/scroll behavior                      | `boolean`                                     | `true`           |
-| `close-on-route-change`                              | Close on browser history or hash changes   | `boolean`                                     | `false`          |
-| `popup-container`                                    | Teleport target; `false` disables teleport | `string \| HTMLElement \| false`              | `'body'`         |
-| `hide-title` / `unmount-on-close`                    | Rendering behavior                         | `boolean`                                     | `false`          |
-| `draggable` / `fullscreen`                           | Layout modes                               | `boolean`                                     | `false`          |
-| `overlay-animation-name` / `dialog-animation-name`   | Transition names                           | `string`                                      | library defaults |
-| `aria-label`                                         | Accessible name without a visible title    | `string`                                      | `-`              |
-| `close-button-aria-label`                            | Close button label                         | `string`                                      | `'Close dialog'` |
-| `z-index`                                            | Stack level                                | `number`                                      | automatic        |
-| `before-close`                                       | Close interceptor                          | `(action, done, refs) => void`                | `-`              |
+| Arguments | Description | Type | Default |
+| ---------------------------------------------------- | ------------------------------- | --------------------------------------------- | ----------------- |
+| dir | Reading direction; inherits the source scope when omitted. Physical left/right placements keep their meaning. | `ReadingDirection` (`ltr` / `rtl`) | — |
+| `open` **(v-model)** | Visible state | `boolean` | `-` |
+| `default-open` | Initial uncontrolled state | `boolean` | `false` |
+| `title` | Title | `string` | `-` |
+| `message` | Message content; the default slot is also supported | `string` | `-` |
+| `type` | Semantic icon | `'info' \| 'success' \| 'warning' \| 'error'` | `-` |
+| `simple` | Compact layout | `boolean` | `false` |
+| `width` | Width | `number \| string` | `-` |
+| `top` | Top offset; ineffective with `align-center` | `number \| string` | `-` |
+| `title-align` | Title alignment | `'start' \| 'center'` | `'center'` |
+| `message-align` | Message alignment | `'left' \| 'center' \| 'right'` | `'left'` |
+| `align-center` | Center vertically and horizontally | `boolean` | `true` |
+| `footer` | Show footer | `boolean` | `true` |
+| `confirm-button` / `cancel-button` | Show action buttons | `boolean` | `true` |
+| `closable` | Show close button | `boolean` | `true` |
+| `confirm-button-text` / `cancel-button-text` | Button labels | `string` | Localized text |
+| `confirm-button-props` / `cancel-button-props` | Button props, including colors | `ButtonProps` | `-` |
+| `confirm-button-loading` / `cancel-button-loading` | Loading state | `boolean` | `false` |
+| `confirm-button-disabled` / `cancel-button-disabled` | Disabled state | `boolean` | `false` |
+| `overlay` | Show overlay | `boolean` | `true` |
+| `overlay-class` / `dialog-class` / `body-class` | Custom classes | `string \| any[]` | `-` |
+| `overlay-style` / `dialog-style` / `body-style` | Custom styles | `StyleValue` | `-` |
+| `overlay-closable` | Request closure on an overlay click | `boolean` | `true` |
+| `esc-to-close` | Request closure on Escape | `boolean` | `true` |
+| `lock-scroll` | Lock background scrolling while open | `boolean` | `true` |
+| `close-on-route-change` | Close on browser history or hash changes | `boolean` | `false` |
+| `popup-container` | Teleport target; `false` disables teleport | `string \| HTMLElement \| false` | `'body'` |
+| `hide-title` | Hide the title area | `boolean` | `false` |
+| `unmount-on-close` | Unmount after the close animation | `boolean` | `false` |
+| `draggable` | Allow dragging; ineffective in `fullscreen` mode | `boolean` | `false` |
+| `fullscreen` | Fullscreen display | `boolean` | `false` |
+| `overlay-animation-name` | Overlay animation name | `string` | `'mp-fade'` |
+| `dialog-animation-name` | Dialog animation name | `string` | `'mp-pop-center'` |
+| `aria-label` | Accessible name without a visible title | `string` | `-` |
+| `close-button-aria-label` | Close button label | `string` | `'Close dialog'` |
+| `z-index` | Stack level | `number` | Automatically distributed |
+| `before-close` | Return a boolean/Promise or call done; the first completion wins | `DialogBeforeClose` | — |
 
-### Events and slots
+### Events
 
-| Event                                  | Arguments       |
-| -------------------------------------- | --------------- |
-| `update:open`                          | `boolean`       |
-| `open` / `opened` / `close` / `closed` | `-`             |
-| `confirm` / `cancel`                   | `Event`         |
-| `click-overlay`                        | `MouseEvent`    |
-| `key-escape`                           | `KeyboardEvent` |
+| Event | Description | Arguments |
+| ------------------ | ----------------------- | --------------- |
+| `update:open` | Open state changed | `boolean` |
+| `open` / `opened` | Opening starts / opening animation completes | `-` |
+| `close` / `closed` | Closing starts / closing animation completes | `-` |
+| `confirm` | Confirmation closing succeeds | `Event` |
+| `cancel` | Cancellation closing succeeds | `Event` |
+| `click-overlay` | `MouseEvent` | `MouseEvent` |
+| `key-escape` | ESC pressed | `KeyboardEvent` |
 
-| Slot                | Slot props                   |
-| ------------------- | ---------------------------- |
-| `default` / `title` | `-`                          |
-| `footer`            | `confirm`, `cancel`, `close` |
+The `close` button, overlay, ESC and `close()` all use action `close` without an additional `cancel` event.
 
-The component exposes `confirm()`, `cancel()`, and `close()`. Close button, overlay, Escape, and programmatic close use `close` semantics and do not emit `cancel`.
+### Slots and instance methods
 
-### Functional API
+| Slot | Description | Arguments |
+| --------- | ---------- | ---------------------------- |
+| `default` | Content | `-` |
+| `title` | Title | `-` |
+| `footer` | Show footer | `confirm`, `cancel`, `close` |
 
-Opening methods accept `DialogConfig | string` and return `Promise<DialogAction | void> & DialogReturn`.
-All functional dialogs use the compact layout (`simple: true`) and hide the top-right close button (`closable: false`) by default. Call options or global defaults can explicitly override either value.
+Instances expose `confirm()`, `cancel()` and `close()`.
 
-| Method                                                       | Behavior                                        |
-| ------------------------------------------------------------ | ----------------------------------------------- |
-| `Dialog.open(config)`                                        | General dialog                                  |
-| `Dialog.confirm(config)`                                     | Warning type and simple layout                  |
-| `Dialog.alert(config)`                                       | No cancel button; overlay/Escape close disabled |
-| `Dialog.info/success/warning/error(config)`                  | Semantic one-button dialog                      |
-| `Dialog.close()`                                             | Close the latest functional dialog              |
-| `Dialog.setDefaultOptions(config)` / `resetDefaultOptions()` | Manage functional defaults                      |
+### Function methods
 
-`DialogConfig` uses camelCase component props and also supports renderable `content`, `title`, `message`, and `footer`, plus lifecycle and interaction callbacks including `onClickOverlay`. `DialogReturn` exposes `close()` and `update(config)`. The same service is available as `this.$dialog` after installation.
+All open methods accept `DialogConfig | string` and return `Promise<DialogAction | void> & DialogReturn`.
+Function-based Dialog calls default to simple layout (`simple: true`) with the top-right close button hidden (`closable: false`). Explicit options or global defaults can override both.
+
+| Method | Default behavior |
+| ------------------------------------------- | ----------------------------------- |
+| `Dialog.open(config)` | Ordinary dialog |
+| `Dialog.confirm(config)` | `type: 'warning'`, simple layout |
+| `Dialog.alert(config)` | No cancel button; overlay/ESC closing disabled |
+| `Dialog.info/success/warning/error(config)` | Corresponding status, no cancel button, simple layout |
+| `Dialog.close()` | Close the latest functional dialog |
+| `Dialog.setDefaultOptions(config)` | Set default programmatic options |
+| `Dialog.resetDefaultOptions()` | Reset default programmatic options |
+
+`DialogConfig` matches camelCase component props and additionally supports renderable `content`/`title`/`message`/`footer` plus `onOpen`/`onOpened`/`onClose`/`onClosed`/`onConfirm`/`onCancel`/`onClickOverlay`/`onKeyEscape`.
+
+`DialogReturn.close()` closes this dialog; `DialogReturn.update(config)` updates mutable configuration. After installation, `this.$dialog` exposes the same API.
 
 ```ts
 type DialogAction = 'confirm' | 'cancel' | 'close'
 type DialogType = 'info' | 'success' | 'warning' | 'error'
 ```
 
-### Style Variables
+### Style variables
 
-Dialog color roles match Cedar: `--mp-dialog-background` uses the raised surface, `--mp-dialog-overlay-background` controls the backdrop, title and content use the primary content color, the close button uses the secondary content color, and `--mp-dialog-status-{info|success|warning|danger}-color` maps to readable status content roles (content-info/success/warning/danger), not status fills. Override component variables for local themes and system variables for cross-component themes. Mobile borders, sizing, and layout remain platform-specific.
+Variables use `--mp-`, e.g. `--mp-dialog-width`, `--mp-dialog-background`, `--mp-dialog-border-radius`, `--mp-dialog-simple-width`, `--mp-dialog-fullscreen-width` and `--mp-dialog-close-button-color`.
 
-#### Complete token defaults
+Color semantics match Cedar: `--mp-dialog-background` uses `surface-raised`; `--mp-dialog-overlay-background` controls scrim; titles/body use primary content and close controls secondary content. `--mp-dialog-status-{info|success|warning|danger}-color` uses readable content-info/success/warning/danger, not status fill. Business themes should override component variables; shared themes override system variables. Mobile borderless geometry/layout remain independent.
 
-Token groups: background/overlay-background define panel and scrim; border-* controls panel/separator borders; title-* and content-* control title/body typography and spacing; actions-* controls the footer; close-button-* controls the close action; status-* defines semantic icons; simple-*/fullscreen-* controls those modes; animation-* controls transitions. Width and margin-top define ordinary panel layout. Private drag and positioning variables are not public customization APIs.
+#### Complete variable defaults
 
 The backdrop consumes `sys-color-scrim` through the Dialog component variable. Maple no longer uses Popup colors for Dialog. Set a per-instance backdrop variable via `overlay-style`; a variable on the panel (`dialog-style`) does not inherit to its sibling backdrop. Explicit `overlay-style.backgroundColor` wins. Teleported content needs variables on its actual DOM ancestors. Dark themes inherit the same semantic colors; geometry remains platform-specific. Status icons use readable content colors.
+
+Variables are grouped by purpose: background/overlay-background for panel/scrim; border-* for panel/divider borders; title-* for title typography; content-* for body typography; actions-* for actions; close-button-* for the close button; status-* for semantic icons; simple-*/fullscreen-* for mode dimensions; animation-* for enter/leave motion. width/margin-top control ordinary panel layout. Internal drag/position variables are not public customization points.
 
 | Variable | Default |
 | --- | --- |
@@ -232,3 +326,9 @@ The backdrop consumes `sys-color-scrim` through the Dialog component variable. M
 | `--mp-dialog-fullscreen-height` | `100vh` |
 | `--mp-dialog-animation-duration` | `var(--mp-sys-motion-duration-slow)` |
 | `--mp-dialog-animation-easing` | `var(--mp-sys-motion-easing-standard)` |
+
+### Before-hook waiting feedback
+
+Before-hook waits show visible feedback and aria-busy. Rejected or failed operations recover; duplicate submissions do not start another copy. Notification event Promises never drive loading.
+
+Service notification callbacks do not control task completion. The selected/closed result is settled independently of callback errors, and closing completion always releases the owned host. Callback errors still propagate through the calling/Vue error path; returned Promises do not control loading or closing.

@@ -1,4 +1,5 @@
 import type { PropType } from 'vue'
+import { readingDirectionProp } from '../_utils/direction'
 import { popupContainerProp } from '../utils/popup-container'
 import type { TriggerPlacement } from './contract'
 import { triggerInteractionProps } from './interaction-props'
@@ -8,9 +9,12 @@ import type { TriggerPopupTranslate, TriggerStrategy } from './types'
 export type TriggerReferenceAttrs = Record<string, string | number | boolean | null | undefined>
 
 export const triggerProps = {
+  /** 阅读方向，省略时从触发元素所在作用域继承。 */
+  dir: readingDirectionProp,
   ...triggerInteractionProps,
   ...triggerRenderProps,
   /** 浮层相对触发元素的首选方位。 */
+  /** 浮层相对触发元素的首选方位，默认 bottom；启用默认的 auto-fit-position 时，空间不足会自动翻转并约束到可视区域，不保证最终停在该侧 */
   placement: { type: String as PropType<TriggerPlacement>, default: 'bottom' },
   /** 定位策略；fixed 相对可视视口定位。 */
   strategy: { type: String as PropType<TriggerStrategy>, default: 'absolute' },

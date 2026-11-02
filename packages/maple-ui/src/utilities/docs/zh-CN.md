@@ -32,3 +32,11 @@ import '@maple-design/ui/es/utilities/utilities.css'
 | [Utility 规范](#/zh-CN/utilitySpec) | 两端共用约定 |
 
 色阶变量见 [色板 Palette](#/zh-CN/palette)，不进默认工具包。左侧预览为总览快照。
+
+## 基础示例
+
+### 基础用法
+
+```demo
+../example/basic.vue
+```

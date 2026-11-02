@@ -7,7 +7,7 @@
     <header v-if="showHeading()" :class="n()">
       <div :class="n('main')">
         <button v-if="showBack" type="button" :class="n('back')" aria-label="Back" @click="handleBack">
-          <slot name="back"><BackIcon /></slot>
+          <slot name="back"><BackIcon :class="n('back-icon')" /></slot>
         </button>
         <div v-if="$slots.avatar" :class="n('avatar')">
           <slot name="avatar" />

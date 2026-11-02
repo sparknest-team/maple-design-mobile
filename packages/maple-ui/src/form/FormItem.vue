@@ -8,12 +8,12 @@
       classes(n(), n('$--box'), n(`--${mergedLayout}`), [noStyle, n('--no-style')], [showLabel, n('--with-label')]),
     ]"
     v-bind="rowProps"
-    :data-presentation="presentationState.resolved.value === 'inline' ? undefined : presentationState.resolved.value"
+    :data-presentation="presentationState.resolved.value === 'direct' ? undefined : presentationState.resolved.value"
   >
     <mp-col
       v-if="showLabel"
       v-bind="labelCol"
-      :style="labelStyle"
+      :style="[labelStyle, labelHeightStyle]"
       :class="
         classes(
           n('label-col'),
@@ -38,7 +38,11 @@
     </mp-col>
 
     <mp-col :class="n('wrapper')" v-bind="wrapperCol" :style="wrapperStyle">
-      <div :class="[n('content'), { [n('content--flex')]: contentFlex }, contentClass]">
+      <div
+        ref="contentRef"
+        :style="contentStyle"
+        :class="[n('content'), { [n('content--flex')]: contentFlex }, contentClass]"
+      >
         <slot />
       </div>
 
@@ -69,14 +73,16 @@ import MpFormDetails from '../form-details'
 import Row from '../row'
 import { createRequestGuard } from '../utils/async-request'
 import { createNamespace, useValidation } from '../utils/components'
+import { provideEmptyValues } from '../utils/empty-value'
 import { getFormElementId } from './form-id'
 import FormItemLabel from './FormItemLabel.vue'
 import { resolveFormItemStatus, type FormItemValidateStatus } from './item-decoration'
 import { props, type FormItemValidateTrigger } from './item-props'
 import { bindFormItem, useFormItem, type FormItemEventHandlers, type FormItemProvider } from './item-provide'
 import { useForm } from './provide'
+import { useFormContentHeight } from './use-form-content-height'
 import { useFormItemLayout } from './use-form-item-layout'
-import { getValueByPath, isEmptyValue, setValueByPath } from './utils'
+import { getValueByPath, setValueByPath } from './utils'
 import { hasValidateTrigger } from './validate-trigger'
 
 const { name, n, classes } = createNamespace('form-item')
@@ -102,8 +108,9 @@ export default defineComponent({
     const formItemRef = ref<HTMLElement>()
 
     const fieldValue = computed(() => getValueByPath(form?.model.value, props.field))
+    const emptyPolicy = provideEmptyValues(props, true)
     const presentationState = provideItemPresentation({
-      presentation: () => props.presentation,
+      editMode: () => props.editMode,
       readPretty: () => props.readPretty,
       label: computed(() => props.label),
       field: computed(() => props.field),
@@ -123,6 +130,8 @@ export default defineComponent({
     )
     const {
       layout: mergedLayout,
+      contentAlign,
+      contentJustify,
       labelAlign,
       labelCol,
       wrapperCol: resolvedWrapperCol,
@@ -132,6 +141,17 @@ export default defineComponent({
       fixedLabel,
       measureLabel,
     } = resolvedLayout
+    const contentStyle = computed(() => ({
+      '--mp-form-content-align': contentAlign.value,
+      '--mp-form-content-justify': contentJustify.value,
+      textAlign: contentAlign.value,
+      justifyContent: props.contentFlex ? contentJustify.value : undefined,
+    }))
+    const contentRef = ref<HTMLElement>()
+    const labelHeightStyle = useFormContentHeight(
+      contentRef,
+      () => showLabel.value && mergedLayout.value !== 'vertical',
+    )
     const wrapperCol = computed(() => ({
       ...resolvedWrapperCol.value,
       ...(form?.id.value && props.field ? { id: getFormElementId(form.id.value, props.field) } : {}),
@@ -147,7 +167,10 @@ export default defineComponent({
       const rules = normalizeToArray(source).filter(Boolean)
 
       if (props.required && !hasRequiredRule(rules)) {
-        return [(value: any) => !isEmptyValue(value) || `${props.label || props.field || '该项'}不能为空`, ...rules]
+        return [
+          (value: any) => !emptyPolicy.isEmpty(value) || `${props.label || props.field || '该项'}不能为空`,
+          ...rules,
+        ]
       }
 
       return rules
@@ -218,14 +241,21 @@ export default defineComponent({
       if (candidate && props.field) {
         setValueByPath(candidateModel, props.field, candidate.value)
       }
-      const valid = await v(mergedRules.value, candidate ? candidate.value : fieldValue.value, {
-        model: candidateModel,
-        field: props.field,
-      })
-      if (isCurrent()) {
-        validationStatus.value = mergedRules.value.length ? (valid ? 'success' : 'error') : undefined
+      try {
+        const valid = await v(mergedRules.value, candidate ? candidate.value : fieldValue.value, {
+          model: candidateModel,
+          field: props.field,
+        })
+        if (isCurrent()) {
+          validationStatus.value = mergedRules.value.length ? (valid ? 'success' : 'error') : undefined
+        }
+        return { valid, isCurrent }
+      } catch (error) {
+        if (isCurrent()) {
+          validationStatus.value = errorMessage.value ? 'error' : undefined
+        }
+        throw error
       }
-      return { valid, isCurrent }
     }
 
     async function validate() {
@@ -240,7 +270,8 @@ export default defineComponent({
             label: props.label || '',
             value: fieldValue.value,
             type: 'validator',
-            isRequiredError: isEmptyValue(fieldValue.value) && (props.required || hasRequiredRule(mergedRules.value)),
+            isRequiredError:
+              emptyPolicy.isEmpty(fieldValue.value) && (props.required || hasRequiredRule(mergedRules.value)),
             message: errorMessage.value,
           }
     }
@@ -305,6 +336,9 @@ export default defineComponent({
       labelCol,
       wrapperCol,
       labelStyle,
+      labelHeightStyle,
+      contentRef,
+      contentStyle,
       wrapperStyle,
       layoutWrap,
       fixedLabel,

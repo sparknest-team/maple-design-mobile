@@ -1,0 +1,286 @@
+{
+  "scope": "Select,AutoComplete",
+  "buildIndexHash": null,
+  "node": "v20.18.3",
+  "fixture": "production Vite bundle of the exact Maple source, separate from rebuilt documentation",
+  "initialFingerprint": {
+    "source": "5217800b9dc1bb34dbb2934577d6265373526e389b7fd1f3a253036fd8be5a01",
+    "production": "e72172ce78cd8387f28179d1163968b7abfd331d13e8259a62f4247fd7372b00"
+  },
+  "finalFingerprint": {
+    "source": "5217800b9dc1bb34dbb2934577d6265373526e389b7fd1f3a253036fd8be5a01",
+    "production": "e72172ce78cd8387f28179d1163968b7abfd331d13e8259a62f4247fd7372b00"
+  },
+  "stable": true,
+  "expected": null,
+  "completed": 24,
+  "passed": 24,
+  "failed": 0,
+  "results": [
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "Select",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "Select",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "Select",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "AutoComplete",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "\"Alpha\"",
+        "value": "Beta"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "AutoComplete",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "\"Alpha\"",
+        "value": "Beta"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "AutoComplete",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "\"Alpha\"",
+        "value": "Beta"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "Select",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "Select",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "Select",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "AutoComplete",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "\"Alpha\"",
+        "value": "Beta"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "AutoComplete",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "\"Alpha\"",
+        "value": "Beta"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "AutoComplete",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "\"Alpha\"",
+        "value": "Beta"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "Select",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "Select",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "Select",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "AutoComplete",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "\"Alpha\"",
+        "value": "Beta"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "AutoComplete",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "\"Alpha\"",
+        "value": "Beta"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "AutoComplete",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "\"Alpha\"",
+        "value": "Beta"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "Select",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "Select",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "Select",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "AutoComplete",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "\"Alpha\"",
+        "value": "Beta"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "AutoComplete",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "\"Alpha\"",
+        "value": "Beta"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "AutoComplete",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "\"Alpha\"",
+        "value": "Beta"
+      }
+    }
+  ],
+  "errors": []
+}

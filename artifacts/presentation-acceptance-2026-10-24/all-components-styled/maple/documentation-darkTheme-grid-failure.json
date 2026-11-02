@@ -1,0 +1,5 @@
+{
+  "failures": [],
+  "diagnostic": {},
+  "error": "Error: locator.evaluate: Target page, context or browser has been closed"
+}

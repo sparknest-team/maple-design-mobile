@@ -21,7 +21,7 @@ describe('Slider Form integration', () => {
     const wrapper = mount({
       setup() {
         provide(FORM_ITEM_BIND_CONTROL_KEY, context)
-        return () => h(Slider, { defaultValue: 20, ...props })
+        return () => h(Slider, { editMode: 'direct', defaultValue: 20, ...props })
       },
     })
     return { wrapper, state, handlers }

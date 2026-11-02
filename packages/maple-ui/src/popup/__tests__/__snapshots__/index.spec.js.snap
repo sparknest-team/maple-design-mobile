@@ -3,10 +3,12 @@
 exports[`popup show 1`] = `
 "<!--teleport start-->
 <transition-stub name="mp-fade" appear="false" persisted="false" css="true">
-  <div class="mp--box mp-popup" style="z-index: 1998; display: none;">
+  <div dir="ltr" class="mp--box mp-popup" style="z-index: 1998; display: none;">
     <div class="mp-popup__overlay" style="z-index: 1999;" role="presentation"></div>
     <transition-stub name="mp-pop-center" appear="false" persisted="true" css="true">
-      <div data-modal-focus-root="" class="mp-popup__content mp-popup--center mp-popup--content-background-color mp-elevation--3" style="z-index: 2000; display: none;" tabindex="-1" role="dialog" aria-modal="true"> default slot content </div>
+      <div data-modal-focus-root="" class="mp-popup__content mp-popup--center mp-popup--content-background-color mp-elevation--3" style="z-index: 2000; display: none;" tabindex="-1" role="dialog" aria-modal="true">
+        <!--v-if--> default slot content
+      </div>
     </transition-stub>
   </div>
 </transition-stub>
@@ -16,10 +18,12 @@ exports[`popup show 1`] = `
 exports[`popup show 2`] = `
 "<!--teleport start-->
 <transition-stub name="mp-fade" appear="false" persisted="false" css="true">
-  <div class="mp--box mp-popup" style="z-index: 1998;">
+  <div dir="ltr" class="mp--box mp-popup" style="z-index: 1998;">
     <div class="mp-popup__overlay" style="z-index: 1999;" role="presentation"></div>
     <transition-stub name="mp-pop-center" appear="false" persisted="true" css="true">
-      <div data-modal-focus-root="" class="mp-popup__content mp-popup--center mp-popup--content-background-color mp-elevation--3" style="z-index: 2000;" tabindex="-1" role="dialog" aria-modal="true"> default slot content </div>
+      <div data-modal-focus-root="" class="mp-popup__content mp-popup--center mp-popup--content-background-color mp-elevation--3" style="z-index: 2000;" tabindex="-1" role="dialog" aria-modal="true">
+        <!--v-if--> default slot content
+      </div>
     </transition-stub>
   </div>
 </transition-stub>
@@ -29,10 +33,12 @@ exports[`popup show 2`] = `
 exports[`popup show 3`] = `
 "<!--teleport start-->
 <transition-stub name="mp-fade" appear="false" persisted="false" css="true">
-  <div class="mp--box mp-popup" style="z-index: 1998; display: none;">
+  <div dir="ltr" class="mp--box mp-popup" style="z-index: 1998; display: none;">
     <div class="mp-popup__overlay" style="z-index: 1999;" role="presentation"></div>
     <transition-stub name="mp-pop-center" appear="false" persisted="true" css="true">
-      <div data-modal-focus-root="" class="mp-popup__content mp-popup--center mp-popup--content-background-color mp-elevation--3" style="z-index: 2000; display: none;" tabindex="-1" role="dialog" aria-modal="true"> default slot content </div>
+      <div data-modal-focus-root="" class="mp-popup__content mp-popup--center mp-popup--content-background-color mp-elevation--3" style="z-index: 2000; display: none;" tabindex="-1" role="dialog" aria-modal="true">
+        <!--v-if--> default slot content
+      </div>
     </transition-stub>
   </div>
 </transition-stub>

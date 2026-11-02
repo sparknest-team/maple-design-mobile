@@ -74,7 +74,6 @@ export default defineComponent({
     /**
      * @zh 展示的标签属性
      * @en Displayed tag attributes
-     * @version 2.8.0
      */
     tagProps: {
       type: Object as PropType<TagProps>,
@@ -82,7 +81,6 @@ export default defineComponent({
     /**
      * @zh 额外数据。2.18.0 版本废弃，可使用对象形式的 value 扩展数据
      * @en Extra data
-     * @version 2.10.0
      */
     extra: {
       type: Object,
@@ -90,7 +88,6 @@ export default defineComponent({
     /**
      * @zh 用于手动指定选项的 index
      * @en index for manually specifying option
-     * @version 2.20.0
      */
     index: {
       type: Number,
@@ -157,6 +154,8 @@ export default defineComponent({
         isValidOption(optionInfo, {
           inputValue: selectCtx?.inputValue,
           filterOption: selectCtx?.filterOption,
+          caseSensitive: selectCtx?.caseSensitive,
+          searchFields: selectCtx?.searchFields,
         }),
     )
 

@@ -1,0 +1,146 @@
+[
+  {
+    "mode": "light",
+    "width": 346,
+    "layout": [
+      {
+        "demo": "variants",
+        "width": 314,
+        "scroll": 314,
+        "clipped": []
+      },
+      {
+        "demo": "icons",
+        "width": 314,
+        "scroll": 314,
+        "clipped": []
+      },
+      {
+        "demo": "loading",
+        "width": 314,
+        "scroll": 314,
+        "clipped": []
+      },
+      {
+        "demo": "button-group",
+        "width": 314,
+        "scroll": 314,
+        "clipped": []
+      },
+      {
+        "demo": "button-group-layout",
+        "width": 314,
+        "scroll": 314,
+        "clipped": []
+      }
+    ]
+  },
+  {
+    "mode": "light",
+    "width": 390,
+    "layout": [
+      {
+        "demo": "variants",
+        "width": 358,
+        "scroll": 358,
+        "clipped": []
+      },
+      {
+        "demo": "icons",
+        "width": 358,
+        "scroll": 358,
+        "clipped": []
+      },
+      {
+        "demo": "loading",
+        "width": 358,
+        "scroll": 358,
+        "clipped": []
+      },
+      {
+        "demo": "button-group",
+        "width": 358,
+        "scroll": 358,
+        "clipped": []
+      },
+      {
+        "demo": "button-group-layout",
+        "width": 358,
+        "scroll": 358,
+        "clipped": []
+      }
+    ]
+  },
+  {
+    "mode": "dark",
+    "width": 346,
+    "layout": [
+      {
+        "demo": "variants",
+        "width": 314,
+        "scroll": 314,
+        "clipped": []
+      },
+      {
+        "demo": "icons",
+        "width": 314,
+        "scroll": 314,
+        "clipped": []
+      },
+      {
+        "demo": "loading",
+        "width": 314,
+        "scroll": 314,
+        "clipped": []
+      },
+      {
+        "demo": "button-group",
+        "width": 314,
+        "scroll": 314,
+        "clipped": []
+      },
+      {
+        "demo": "button-group-layout",
+        "width": 314,
+        "scroll": 314,
+        "clipped": []
+      }
+    ]
+  },
+  {
+    "mode": "dark",
+    "width": 390,
+    "layout": [
+      {
+        "demo": "variants",
+        "width": 358,
+        "scroll": 358,
+        "clipped": []
+      },
+      {
+        "demo": "icons",
+        "width": 358,
+        "scroll": 358,
+        "clipped": []
+      },
+      {
+        "demo": "loading",
+        "width": 358,
+        "scroll": 358,
+        "clipped": []
+      },
+      {
+        "demo": "button-group",
+        "width": 358,
+        "scroll": 358,
+        "clipped": []
+      },
+      {
+        "demo": "button-group-layout",
+        "width": 358,
+        "scroll": 358,
+        "clipped": []
+      }
+    ]
+  }
+]

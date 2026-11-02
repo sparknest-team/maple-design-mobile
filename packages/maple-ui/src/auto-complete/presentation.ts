@@ -1,9 +1,11 @@
 import { h } from 'vue'
+import { defaultSelectionPresentation } from '../_components/field-presentation/context'
 import { withFieldPresentation } from '../_components/field-presentation/with-field-presentation'
 import SelectionEditor from '../_components/selected-options/SelectionEditor.vue'
 import Base from './auto-complete'
 
 export default withFieldPresentation(Base, {
+  defaultPresentation: defaultSelectionPresentation,
   intent: 'input',
   editor: ({ props, attrs, value, update, emit, slots, disabled, readonly }) =>
     h(SelectionEditor, { kind: 'auto-complete' }, () =>
@@ -13,7 +15,7 @@ export default withFieldPresentation(Base, {
           ...attrs,
           ...props,
           modelValue: value,
-          presentation: 'inline',
+          editMode: 'direct',
           disabled,
           readonly,
           'onUpdate:modelValue': update,

@@ -11,7 +11,7 @@ const open = ref(false)
 
 <template>
   <DemoApiReviewPanel v-slot="__apiReview" v-bind="defineReviewConfig(__apiReviewRawConfig)">
-    <div style="display: flex; flex-direction: column; gap: 12px; width: 100%">
+    <mp-space direction="column" size="12px" style="width: 100%">
       <p>非受控初始值，无需绑定 v-model</p>
       <mp-time
         :default-value="'09:00'"
@@ -30,6 +30,6 @@ const open = ref(false)
         v-on="__apiReview.listeners"
       />
       <span>{{ value }} / {{ open }}</span>
-    </div>
+    </mp-space>
   </DemoApiReviewPanel>
 </template>

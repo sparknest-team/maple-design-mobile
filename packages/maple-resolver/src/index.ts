@@ -19,6 +19,7 @@ const mapleFunctions = [
   'Dialog',
   'Locale',
   'StyleProvider',
+  'SafeArea',
   'LoadingBar',
 ]
 const mapleDirectives: Record<string, string> = {
@@ -37,6 +38,7 @@ const mapleComponents = new Set([
   'Alert',
   'PageHeader',
   'AutoComplete',
+  'PeopleSelect',
   'Avatar',
   'AvatarGroup',
   'BackTop',
@@ -62,7 +64,6 @@ const mapleComponents = new Set([
   'Context',
   'CountTo',
   'Countdown',
-  'Counter',
   'Date',
   'DatePicker',
   'DateRange',
@@ -107,6 +108,8 @@ const mapleComponents = new Set([
   'LocaleProvider',
   'MenuOption',
   'Message',
+  'NavMenu',
+  'NavMenuItem',
   'NoticeBar',
   'NumberKeyboard',
   'Option',
@@ -138,6 +141,7 @@ const mapleComponents = new Set([
   'Steps',
   'Affix',
   'StyleProvider',
+  'SafeArea',
   'SwipeCell',
   'Switch',
   'SplitButton',
@@ -187,6 +191,7 @@ const styleDirAliases: Record<string, string> = {
   CheckboxGroup: 'checkbox',
   RadioGroup: 'radio',
   MenuOption: 'menu',
+  NavMenuItem: 'nav-menu',
   Step: 'steps',
   ListItem: 'list',
   FormItem: 'form',
@@ -230,7 +235,7 @@ export function resolveMapleComponent(name: string, options: MapleResolverOption
   }
 }
 
-function resolveMapleIcon(name: string) {
+function resolveMapleIcon(name: string, importStyle = true) {
   const iconName = name.slice('MIcon'.length)
   const iconPath = kebabCase(iconName)
   if (!mapleIcons.has(iconPath)) {
@@ -243,6 +248,7 @@ function resolveMapleIcon(name: string) {
   return {
     from: `@maple-design/icons-vue/icon-${iconPath}`,
     name: `Icon${iconName}`,
+    sideEffects: importStyle ? ['@maple-design/icons-vue/style.css'] : undefined,
   }
 }
 
@@ -258,7 +264,7 @@ export function MapleResolver(options: MapleResolverOptions = {}) {
         // Standalone SVG icons use the short `m-icon-*` prefix, mirroring
         // Cedar's `c-icon-*` syntax. `mp-icon` remains the Maple UI wrapper.
         if (name.startsWith('MIcon') && name.length > 'MIcon'.length) {
-          return resolveMapleIcon(name)
+          return resolveMapleIcon(name, options.importStyle)
         }
 
         if (name.startsWith('Mp')) {

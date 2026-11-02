@@ -1,0 +1,3602 @@
+{
+  "scope": "complete",
+  "buildIndexHash": "cffd8de1331e27b8c4748d5e00a9b29c598d62804453e71d3a6261a49bf07f13",
+  "node": "v20.18.3",
+  "fixture": "production Vite bundle of the exact Maple source, separate from rebuilt documentation",
+  "initialFingerprint": {
+    "source": "5217800b9dc1bb34dbb2934577d6265373526e389b7fd1f3a253036fd8be5a01",
+    "production": "e72172ce78cd8387f28179d1163968b7abfd331d13e8259a62f4247fd7372b00"
+  },
+  "finalFingerprint": {
+    "source": "5217800b9dc1bb34dbb2934577d6265373526e389b7fd1f3a253036fd8be5a01",
+    "production": "e72172ce78cd8387f28179d1163968b7abfd331d13e8259a62f4247fd7372b00"
+  },
+  "stable": true,
+  "expected": 308,
+  "completed": 308,
+  "passed": 308,
+  "failed": 0,
+  "results": [
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "Input",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "\"initial\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "Input",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "\"initial\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "Input",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "\"initial\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "InputPassword",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "\"abc123\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "InputPassword",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "\"abc123\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "InputPassword",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "\"abc123\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "Textarea",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "\"initial\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "Textarea",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "\"initial\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "Textarea",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "\"initial\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "InputNumber",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "2",
+        "value": 5
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "InputNumber",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "2",
+        "value": 5
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "InputNumber",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "2",
+        "value": 5
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "VerificationCode",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "\"1234\"",
+        "value": "9234"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "VerificationCode",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "\"1234\"",
+        "value": "9234"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "VerificationCode",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "\"1234\"",
+        "value": "9234"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "Switch",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "false",
+        "value": true
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "Switch",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "false",
+        "value": true
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "Switch",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "false",
+        "value": true
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "Checkbox",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "false",
+        "value": true
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "Checkbox",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "false",
+        "value": true
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "Checkbox",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "false",
+        "value": true
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "CheckboxGroup",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "[\"a\"]",
+        "value": [
+          "a",
+          "b"
+        ]
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "CheckboxGroup",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "[\"a\"]",
+        "value": [
+          "a",
+          "b"
+        ]
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "CheckboxGroup",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "[\"a\"]",
+        "value": [
+          "a",
+          "b"
+        ]
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "Radio",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "false",
+        "value": true
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "Radio",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "false",
+        "value": true
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "Radio",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "false",
+        "value": true
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "RadioGroup",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "RadioGroup",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "RadioGroup",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "Slider",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "20",
+        "value": 30
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "Slider",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "20",
+        "value": 30
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "Slider",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "20",
+        "value": 30
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "Rate",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "2",
+        "value": 3
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "Rate",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "2",
+        "value": 3
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "Rate",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "2",
+        "value": 3
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "Select",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "Select",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "Select",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "AutoComplete",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "\"Alpha\"",
+        "value": "Beta"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "AutoComplete",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "\"Alpha\"",
+        "value": "Beta"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "AutoComplete",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "\"Alpha\"",
+        "value": "Beta"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "Cascader",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "Cascader",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "Cascader",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "Date",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "\"2026-10-19\"",
+        "value": "2026-10-21"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "Date",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "\"2026-10-19\"",
+        "value": "2026-10-21"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "Date",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "\"2026-10-19\"",
+        "value": "2026-10-21"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "DateRange",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "[\"2026-10-19\",\"2026-10-22\"]",
+        "value": [
+          "2026-10-25",
+          "2026-10-26"
+        ]
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "DateRange",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "[\"2026-10-19\",\"2026-10-22\"]",
+        "value": [
+          "2026-10-25",
+          "2026-10-26"
+        ]
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "DateRange",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "[\"2026-10-19\",\"2026-10-22\"]",
+        "value": [
+          "2026-10-25",
+          "2026-10-26"
+        ]
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "Time",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "\"09:30\"",
+        "value": "10:30"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "Time",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "\"09:30\"",
+        "value": "10:30"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "Time",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "\"09:30\"",
+        "value": "10:30"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "TimeRange",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "[\"09:30\",\"18:00\"]",
+        "value": [
+          "10:30",
+          "18:00"
+        ]
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "TimeRange",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "[\"09:30\",\"18:00\"]",
+        "value": [
+          "10:30",
+          "18:00"
+        ]
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "TimeRange",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "[\"09:30\",\"18:00\"]",
+        "value": [
+          "10:30",
+          "18:00"
+        ]
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "Upload",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "[]",
+        "value": [
+          {
+            "uid": "1792854367551-1",
+            "name": "presentation-qa.txt",
+            "size": 24,
+            "type": "text/plain",
+            "status": "ready",
+            "percent": 0,
+            "url": "blob:http://127.0.0.1:52027/b27267db-461d-4cb7-950c-cc156f2699b7"
+          }
+        ]
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "Upload",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "[]",
+        "value": [
+          {
+            "uid": "1792854367604-2",
+            "name": "presentation-qa.txt",
+            "size": 24,
+            "type": "text/plain",
+            "status": "ready",
+            "percent": 0,
+            "url": "blob:http://127.0.0.1:52027/fd1ece6a-bdd6-44f1-9546-5aa833f3c6e2"
+          }
+        ]
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "Upload",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "[]",
+        "value": [
+          {
+            "uid": "1792854368627-4",
+            "name": "presentation-qa.txt",
+            "size": 24,
+            "type": "text/plain",
+            "status": "ready",
+            "percent": 0,
+            "url": "blob:http://127.0.0.1:52027/4e3d49e6-1759-4f55-8a63-8796785c28bc"
+          }
+        ]
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "Input",
+      "mode": "form-default",
+      "passed": true,
+      "result": {
+        "before": "\"initial\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "Input",
+      "mode": "form-inline",
+      "passed": true,
+      "result": {
+        "before": "\"initial\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "Input",
+      "mode": "form-popup",
+      "passed": true,
+      "result": {
+        "before": "\"initial\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "Input",
+      "mode": "item-default",
+      "passed": true,
+      "result": {
+        "before": "\"initial\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "Input",
+      "mode": "item-inline",
+      "passed": true,
+      "result": {
+        "before": "\"initial\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "Input",
+      "mode": "item-popup",
+      "passed": true,
+      "result": {
+        "before": "\"initial\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "Input",
+      "mode": "field-inline",
+      "passed": true,
+      "result": {
+        "before": "\"initial\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "component": "Input",
+      "mode": "field-popup",
+      "passed": true,
+      "result": {
+        "before": "\"initial\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "demo": "field-components.vue",
+      "passed": true,
+      "result": {
+        "fields": 4,
+        "model": "{\n  \"name\": \"inline changed\",\n  \"notes\": \"每个字段都继承上方的展示与触发方式\",\n  \"count\": 3,\n  \"code\": \"123456\"\n}"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "demo": "field-choice.vue",
+      "passed": true,
+      "result": {
+        "fields": 4,
+        "model": "{\n  \"enabled\": true,\n  \"agreed\": true,\n  \"teams\": [\n    \"dev\",\n    \"design\"\n  ],\n  \"role\": \"dev\"\n}"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "demo": "field-rating.vue",
+      "passed": true,
+      "result": {
+        "fields": 2,
+        "model": "{\n  \"progress\": 42,\n  \"score\": 4\n}"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "demo": "field-date.vue",
+      "passed": true,
+      "result": {
+        "fields": 4,
+        "model": "{\n  \"datetime\": \"2026-10-20 09:30:00\",\n  \"dateTimes\": [\n    \"2026-10-20 09:30:00\",\n    \"2026-10-22 18:00:00\"\n  ],\n  \"day\": \"2026-10-22\",\n  \"days\": [\n    \"2026-10-19\",\n    \"2026-10-22\"\n  ]\n}"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "demo": "field-time.vue",
+      "passed": true,
+      "result": {
+        "fields": 2,
+        "model": "{\n  \"time\": \"11:30\",\n  \"times\": [\n    \"09:30\",\n    \"18:00\"\n  ]\n}"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "demo": "field-selection.vue",
+      "passed": true,
+      "result": {
+        "fields": 4,
+        "model": "{\n  \"device\": \"tablet\",\n  \"devices\": [\n    \"laptop\",\n    \"phone\"\n  ],\n  \"keyword\": \"研发\",\n  \"person\": \"lin\"\n}"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "demo": "field-tree.vue",
+      "passed": true,
+      "result": {
+        "fields": 4,
+        "model": "{\n  \"regions\": [\n    \"shanghai\",\n    \"hangzhou\"\n  ],\n  \"region\": \"shanghai\",\n  \"tree\": \"shanghai\",\n  \"trees\": [\n    \"shanghai\",\n    \"hangzhou\"\n  ]\n}"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "demo": "field-upload.vue",
+      "passed": true,
+      "result": {
+        "fields": 1,
+        "model": "{\n  \"attachments\": [\n    {\n      \"uid\": \"1792854397476-2\",\n      \"name\": \"presentation-qa.txt\",\n      \"size\": 24,\n      \"type\": \"text/plain\",\n      \"file\": {},\n      \"status\": \"ready\",\n      \"percent\": 0,\n      \"url\": \"blob:http://127.0.0.1:52027/03574f2d-1198-42b9-914a-764509e81c3a\"\n    },\n    {\n      \"uid\": \"1792854398531-3\",\n      \"name\": \"presentation-inline-qa.txt\",\n      \"size\": 24,\n      \"type\": \"text/plain\",\n      \"file\": {},\n      \"status\": \"ready\",\n      \"percent\": 0,\n      \"url\": \"blob:http://127.0.0.1:52027/1262694c-928c-4c2e-a2af-6bee64c880cf\"\n    }\n  ]\n}"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "light",
+      "demo": "Search inline/popup",
+      "passed": true,
+      "result": {
+        "inline": true,
+        "popup": true
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "Input",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "\"initial\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "Input",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "\"initial\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "Input",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "\"initial\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "InputPassword",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "\"abc123\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "InputPassword",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "\"abc123\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "InputPassword",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "\"abc123\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "Textarea",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "\"initial\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "Textarea",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "\"initial\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "Textarea",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "\"initial\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "InputNumber",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "2",
+        "value": 5
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "InputNumber",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "2",
+        "value": 5
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "InputNumber",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "2",
+        "value": 5
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "VerificationCode",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "\"1234\"",
+        "value": "9234"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "VerificationCode",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "\"1234\"",
+        "value": "9234"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "VerificationCode",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "\"1234\"",
+        "value": "9234"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "Switch",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "false",
+        "value": true
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "Switch",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "false",
+        "value": true
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "Switch",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "false",
+        "value": true
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "Checkbox",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "false",
+        "value": true
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "Checkbox",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "false",
+        "value": true
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "Checkbox",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "false",
+        "value": true
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "CheckboxGroup",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "[\"a\"]",
+        "value": [
+          "a",
+          "b"
+        ]
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "CheckboxGroup",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "[\"a\"]",
+        "value": [
+          "a",
+          "b"
+        ]
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "CheckboxGroup",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "[\"a\"]",
+        "value": [
+          "a",
+          "b"
+        ]
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "Radio",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "false",
+        "value": true
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "Radio",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "false",
+        "value": true
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "Radio",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "false",
+        "value": true
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "RadioGroup",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "RadioGroup",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "RadioGroup",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "Slider",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "20",
+        "value": 30
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "Slider",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "20",
+        "value": 30
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "Slider",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "20",
+        "value": 30
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "Rate",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "2",
+        "value": 3
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "Rate",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "2",
+        "value": 3
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "Rate",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "2",
+        "value": 3
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "Select",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "Select",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "Select",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "AutoComplete",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "\"Alpha\"",
+        "value": "Beta"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "AutoComplete",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "\"Alpha\"",
+        "value": "Beta"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "AutoComplete",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "\"Alpha\"",
+        "value": "Beta"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "Cascader",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "Cascader",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "Cascader",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "Date",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "\"2026-10-19\"",
+        "value": "2026-10-21"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "Date",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "\"2026-10-19\"",
+        "value": "2026-10-21"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "Date",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "\"2026-10-19\"",
+        "value": "2026-10-21"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "DateRange",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "[\"2026-10-19\",\"2026-10-22\"]",
+        "value": [
+          "2026-10-25",
+          "2026-10-26"
+        ]
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "DateRange",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "[\"2026-10-19\",\"2026-10-22\"]",
+        "value": [
+          "2026-10-25",
+          "2026-10-26"
+        ]
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "DateRange",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "[\"2026-10-19\",\"2026-10-22\"]",
+        "value": [
+          "2026-10-25",
+          "2026-10-26"
+        ]
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "Time",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "\"09:30\"",
+        "value": "10:30"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "Time",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "\"09:30\"",
+        "value": "10:30"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "Time",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "\"09:30\"",
+        "value": "10:30"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "TimeRange",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "[\"09:30\",\"18:00\"]",
+        "value": [
+          "10:30",
+          "18:00"
+        ]
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "TimeRange",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "[\"09:30\",\"18:00\"]",
+        "value": [
+          "10:30",
+          "18:00"
+        ]
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "TimeRange",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "[\"09:30\",\"18:00\"]",
+        "value": [
+          "10:30",
+          "18:00"
+        ]
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "Upload",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "[]",
+        "value": [
+          {
+            "uid": "1792854443701-1",
+            "name": "presentation-qa.txt",
+            "size": 24,
+            "type": "text/plain",
+            "status": "ready",
+            "percent": 0,
+            "url": "blob:http://127.0.0.1:52027/97583bdc-0686-4c01-ae20-85e43ef19bbd"
+          }
+        ]
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "Upload",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "[]",
+        "value": [
+          {
+            "uid": "1792854443748-2",
+            "name": "presentation-qa.txt",
+            "size": 24,
+            "type": "text/plain",
+            "status": "ready",
+            "percent": 0,
+            "url": "blob:http://127.0.0.1:52027/bfe0374d-4cf8-42d2-ba58-ac4eda779363"
+          }
+        ]
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "Upload",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "[]",
+        "value": [
+          {
+            "uid": "1792854445220-4",
+            "name": "presentation-qa.txt",
+            "size": 24,
+            "type": "text/plain",
+            "status": "ready",
+            "percent": 0,
+            "url": "blob:http://127.0.0.1:52027/d9779ed6-6669-4776-99fa-698d4479d6aa"
+          }
+        ]
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "Input",
+      "mode": "form-default",
+      "passed": true,
+      "result": {
+        "before": "\"initial\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "Input",
+      "mode": "form-inline",
+      "passed": true,
+      "result": {
+        "before": "\"initial\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "Input",
+      "mode": "form-popup",
+      "passed": true,
+      "result": {
+        "before": "\"initial\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "Input",
+      "mode": "item-default",
+      "passed": true,
+      "result": {
+        "before": "\"initial\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "Input",
+      "mode": "item-inline",
+      "passed": true,
+      "result": {
+        "before": "\"initial\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "Input",
+      "mode": "item-popup",
+      "passed": true,
+      "result": {
+        "before": "\"initial\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "Input",
+      "mode": "field-inline",
+      "passed": true,
+      "result": {
+        "before": "\"initial\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "component": "Input",
+      "mode": "field-popup",
+      "passed": true,
+      "result": {
+        "before": "\"initial\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "demo": "field-components.vue",
+      "passed": true,
+      "result": {
+        "fields": 4,
+        "model": "{\n  \"name\": \"inline changed\",\n  \"notes\": \"每个字段都继承上方的展示与触发方式\",\n  \"count\": 3,\n  \"code\": \"123456\"\n}"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "demo": "field-choice.vue",
+      "passed": true,
+      "result": {
+        "fields": 4,
+        "model": "{\n  \"enabled\": true,\n  \"agreed\": true,\n  \"teams\": [\n    \"dev\",\n    \"design\"\n  ],\n  \"role\": \"dev\"\n}"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "demo": "field-rating.vue",
+      "passed": true,
+      "result": {
+        "fields": 2,
+        "model": "{\n  \"progress\": 42,\n  \"score\": 4\n}"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "demo": "field-date.vue",
+      "passed": true,
+      "result": {
+        "fields": 4,
+        "model": "{\n  \"datetime\": \"2026-10-20 09:30:00\",\n  \"dateTimes\": [\n    \"2026-10-20 09:30:00\",\n    \"2026-10-22 18:00:00\"\n  ],\n  \"day\": \"2026-10-22\",\n  \"days\": [\n    \"2026-10-19\",\n    \"2026-10-22\"\n  ]\n}"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "demo": "field-time.vue",
+      "passed": true,
+      "result": {
+        "fields": 2,
+        "model": "{\n  \"time\": \"11:30\",\n  \"times\": [\n    \"09:30\",\n    \"18:00\"\n  ]\n}"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "demo": "field-selection.vue",
+      "passed": true,
+      "result": {
+        "fields": 4,
+        "model": "{\n  \"device\": \"tablet\",\n  \"devices\": [\n    \"laptop\",\n    \"phone\"\n  ],\n  \"keyword\": \"研发\",\n  \"person\": \"lin\"\n}"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "demo": "field-tree.vue",
+      "passed": true,
+      "result": {
+        "fields": 4,
+        "model": "{\n  \"regions\": [\n    \"shanghai\",\n    \"hangzhou\"\n  ],\n  \"region\": \"shanghai\",\n  \"tree\": \"shanghai\",\n  \"trees\": [\n    \"shanghai\",\n    \"hangzhou\"\n  ]\n}"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "demo": "field-upload.vue",
+      "passed": true,
+      "result": {
+        "fields": 1,
+        "model": "{\n  \"attachments\": [\n    {\n      \"uid\": \"1792854473931-2\",\n      \"name\": \"presentation-qa.txt\",\n      \"size\": 24,\n      \"type\": \"text/plain\",\n      \"file\": {},\n      \"status\": \"ready\",\n      \"percent\": 0,\n      \"url\": \"blob:http://127.0.0.1:52027/c8b90916-a74e-46b8-9233-0d0cdeaae661\"\n    },\n    {\n      \"uid\": \"1792854474989-3\",\n      \"name\": \"presentation-inline-qa.txt\",\n      \"size\": 24,\n      \"type\": \"text/plain\",\n      \"file\": {},\n      \"status\": \"ready\",\n      \"percent\": 0,\n      \"url\": \"blob:http://127.0.0.1:52027/387246cf-1736-44e0-a88f-d707e1ead34e\"\n    }\n  ]\n}"
+      }
+    },
+    {
+      "surface": "desktop",
+      "theme": "dark",
+      "demo": "Search inline/popup",
+      "passed": true,
+      "result": {
+        "inline": true,
+        "popup": true
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "Input",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "\"initial\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "Input",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "\"initial\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "Input",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "\"initial\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "InputPassword",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "\"abc123\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "InputPassword",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "\"abc123\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "InputPassword",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "\"abc123\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "Textarea",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "\"initial\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "Textarea",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "\"initial\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "Textarea",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "\"initial\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "InputNumber",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "2",
+        "value": 5
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "InputNumber",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "2",
+        "value": 5
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "InputNumber",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "2",
+        "value": 5
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "VerificationCode",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "\"1234\"",
+        "value": "9234"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "VerificationCode",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "\"1234\"",
+        "value": "9234"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "VerificationCode",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "\"1234\"",
+        "value": "9234"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "Switch",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "false",
+        "value": true
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "Switch",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "false",
+        "value": true
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "Switch",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "false",
+        "value": true
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "Checkbox",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "false",
+        "value": true
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "Checkbox",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "false",
+        "value": true
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "Checkbox",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "false",
+        "value": true
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "CheckboxGroup",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "[\"a\"]",
+        "value": [
+          "a",
+          "b"
+        ]
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "CheckboxGroup",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "[\"a\"]",
+        "value": [
+          "a",
+          "b"
+        ]
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "CheckboxGroup",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "[\"a\"]",
+        "value": [
+          "a",
+          "b"
+        ]
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "Radio",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "false",
+        "value": true
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "Radio",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "false",
+        "value": true
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "Radio",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "false",
+        "value": true
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "RadioGroup",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "RadioGroup",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "RadioGroup",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "Slider",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "20",
+        "value": 30
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "Slider",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "20",
+        "value": 30
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "Slider",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "20",
+        "value": 30
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "Rate",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "2",
+        "value": 3
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "Rate",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "2",
+        "value": 3
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "Rate",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "2",
+        "value": 3
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "Select",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "Select",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "Select",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "AutoComplete",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "\"Alpha\"",
+        "value": "Beta"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "AutoComplete",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "\"Alpha\"",
+        "value": "Beta"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "AutoComplete",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "\"Alpha\"",
+        "value": "Beta"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "Cascader",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "Cascader",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "Cascader",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "Date",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "\"2026-10-19\"",
+        "value": "2026-10-21"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "Date",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "\"2026-10-19\"",
+        "value": "2026-10-21"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "Date",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "\"2026-10-19\"",
+        "value": "2026-10-21"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "DateRange",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "[\"2026-10-19\",\"2026-10-22\"]",
+        "value": [
+          "2026-10-25",
+          "2026-10-26"
+        ]
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "DateRange",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "[\"2026-10-19\",\"2026-10-22\"]",
+        "value": [
+          "2026-10-25",
+          "2026-10-26"
+        ]
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "DateRange",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "[\"2026-10-19\",\"2026-10-22\"]",
+        "value": [
+          "2026-10-25",
+          "2026-10-26"
+        ]
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "Time",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "\"09:30\"",
+        "value": "10:30"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "Time",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "\"09:30\"",
+        "value": "10:30"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "Time",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "\"09:30\"",
+        "value": "10:30"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "TimeRange",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "[\"09:30\",\"18:00\"]",
+        "value": [
+          "10:30",
+          "18:00"
+        ]
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "TimeRange",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "[\"09:30\",\"18:00\"]",
+        "value": [
+          "10:30",
+          "18:00"
+        ]
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "TimeRange",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "[\"09:30\",\"18:00\"]",
+        "value": [
+          "10:30",
+          "18:00"
+        ]
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "Upload",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "[]",
+        "value": [
+          {
+            "uid": "1792854519867-1",
+            "name": "presentation-qa.txt",
+            "size": 24,
+            "type": "text/plain",
+            "status": "ready",
+            "percent": 0,
+            "url": "blob:http://127.0.0.1:52027/2ea3556d-bf27-4c2d-9481-232e6a295194"
+          }
+        ]
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "Upload",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "[]",
+        "value": [
+          {
+            "uid": "1792854519917-2",
+            "name": "presentation-qa.txt",
+            "size": 24,
+            "type": "text/plain",
+            "status": "ready",
+            "percent": 0,
+            "url": "blob:http://127.0.0.1:52027/4e51ce62-08e7-4b70-b059-74f73471b965"
+          }
+        ]
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "Upload",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "[]",
+        "value": [
+          {
+            "uid": "1792854521397-4",
+            "name": "presentation-qa.txt",
+            "size": 24,
+            "type": "text/plain",
+            "status": "ready",
+            "percent": 0,
+            "url": "blob:http://127.0.0.1:52027/7a7edfa8-4e74-40e5-986d-25a73f884270"
+          }
+        ]
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "Input",
+      "mode": "form-default",
+      "passed": true,
+      "result": {
+        "before": "\"initial\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "Input",
+      "mode": "form-inline",
+      "passed": true,
+      "result": {
+        "before": "\"initial\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "Input",
+      "mode": "form-popup",
+      "passed": true,
+      "result": {
+        "before": "\"initial\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "Input",
+      "mode": "item-default",
+      "passed": true,
+      "result": {
+        "before": "\"initial\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "Input",
+      "mode": "item-inline",
+      "passed": true,
+      "result": {
+        "before": "\"initial\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "Input",
+      "mode": "item-popup",
+      "passed": true,
+      "result": {
+        "before": "\"initial\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "Input",
+      "mode": "field-inline",
+      "passed": true,
+      "result": {
+        "before": "\"initial\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "component": "Input",
+      "mode": "field-popup",
+      "passed": true,
+      "result": {
+        "before": "\"initial\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "demo": "field-components.vue",
+      "passed": true,
+      "result": {
+        "fields": 4,
+        "model": "{\n  \"name\": \"inline changed\",\n  \"notes\": \"每个字段都继承上方的展示与触发方式\",\n  \"count\": 3,\n  \"code\": \"123456\"\n}"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "demo": "field-choice.vue",
+      "passed": true,
+      "result": {
+        "fields": 4,
+        "model": "{\n  \"enabled\": true,\n  \"agreed\": true,\n  \"teams\": [\n    \"dev\",\n    \"design\"\n  ],\n  \"role\": \"dev\"\n}"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "demo": "field-rating.vue",
+      "passed": true,
+      "result": {
+        "fields": 2,
+        "model": "{\n  \"progress\": 42,\n  \"score\": 4\n}"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "demo": "field-date.vue",
+      "passed": true,
+      "result": {
+        "fields": 4,
+        "model": "{\n  \"datetime\": \"2026-10-20 09:30:00\",\n  \"dateTimes\": [\n    \"2026-10-20 09:30:00\",\n    \"2026-10-22 18:00:00\"\n  ],\n  \"day\": \"2026-10-22\",\n  \"days\": [\n    \"2026-10-19\",\n    \"2026-10-22\"\n  ]\n}"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "demo": "field-time.vue",
+      "passed": true,
+      "result": {
+        "fields": 2,
+        "model": "{\n  \"time\": \"11:30\",\n  \"times\": [\n    \"09:30\",\n    \"18:00\"\n  ]\n}"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "demo": "field-selection.vue",
+      "passed": true,
+      "result": {
+        "fields": 4,
+        "model": "{\n  \"device\": \"tablet\",\n  \"devices\": [\n    \"laptop\",\n    \"phone\"\n  ],\n  \"keyword\": \"研发\",\n  \"person\": \"lin\"\n}"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "demo": "field-tree.vue",
+      "passed": true,
+      "result": {
+        "fields": 4,
+        "model": "{\n  \"regions\": [\n    \"shanghai\",\n    \"hangzhou\"\n  ],\n  \"region\": \"shanghai\",\n  \"tree\": \"shanghai\",\n  \"trees\": [\n    \"shanghai\",\n    \"hangzhou\"\n  ]\n}"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "demo": "field-upload.vue",
+      "passed": true,
+      "result": {
+        "fields": 1,
+        "model": "{\n  \"attachments\": [\n    {\n      \"uid\": \"1792854545626-2\",\n      \"name\": \"presentation-qa.txt\",\n      \"size\": 24,\n      \"type\": \"text/plain\",\n      \"file\": {},\n      \"status\": \"ready\",\n      \"percent\": 0,\n      \"url\": \"blob:http://127.0.0.1:52027/8c5527f8-81b0-48d5-8213-fdac24eed692\"\n    },\n    {\n      \"uid\": \"1792854546667-3\",\n      \"name\": \"presentation-inline-qa.txt\",\n      \"size\": 24,\n      \"type\": \"text/plain\",\n      \"file\": {},\n      \"status\": \"ready\",\n      \"percent\": 0,\n      \"url\": \"blob:http://127.0.0.1:52027/874e46c8-971c-4863-a8db-24ee30d68b3b\"\n    }\n  ]\n}"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "light",
+      "demo": "Search inline/popup",
+      "passed": true,
+      "result": {
+        "inline": true,
+        "popup": true
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "Input",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "\"initial\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "Input",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "\"initial\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "Input",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "\"initial\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "InputPassword",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "\"abc123\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "InputPassword",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "\"abc123\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "InputPassword",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "\"abc123\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "Textarea",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "\"initial\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "Textarea",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "\"initial\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "Textarea",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "\"initial\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "InputNumber",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "2",
+        "value": 5
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "InputNumber",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "2",
+        "value": 5
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "InputNumber",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "2",
+        "value": 5
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "VerificationCode",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "\"1234\"",
+        "value": "9234"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "VerificationCode",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "\"1234\"",
+        "value": "9234"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "VerificationCode",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "\"1234\"",
+        "value": "9234"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "Switch",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "false",
+        "value": true
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "Switch",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "false",
+        "value": true
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "Switch",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "false",
+        "value": true
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "Checkbox",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "false",
+        "value": true
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "Checkbox",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "false",
+        "value": true
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "Checkbox",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "false",
+        "value": true
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "CheckboxGroup",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "[\"a\"]",
+        "value": [
+          "a",
+          "b"
+        ]
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "CheckboxGroup",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "[\"a\"]",
+        "value": [
+          "a",
+          "b"
+        ]
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "CheckboxGroup",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "[\"a\"]",
+        "value": [
+          "a",
+          "b"
+        ]
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "Radio",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "false",
+        "value": true
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "Radio",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "false",
+        "value": true
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "Radio",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "false",
+        "value": true
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "RadioGroup",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "RadioGroup",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "RadioGroup",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "Slider",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "20",
+        "value": 30
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "Slider",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "20",
+        "value": 30
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "Slider",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "20",
+        "value": 30
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "Rate",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "2",
+        "value": 3
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "Rate",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "2",
+        "value": 3
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "Rate",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "2",
+        "value": 3
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "Select",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "Select",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "Select",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "AutoComplete",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "\"Alpha\"",
+        "value": "Beta"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "AutoComplete",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "\"Alpha\"",
+        "value": "Beta"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "AutoComplete",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "\"Alpha\"",
+        "value": "Beta"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "Cascader",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "Cascader",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "Cascader",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "\"a\"",
+        "value": "b"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "Date",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "\"2026-10-19\"",
+        "value": "2026-10-21"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "Date",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "\"2026-10-19\"",
+        "value": "2026-10-21"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "Date",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "\"2026-10-19\"",
+        "value": "2026-10-21"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "DateRange",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "[\"2026-10-19\",\"2026-10-22\"]",
+        "value": [
+          "2026-10-25",
+          "2026-10-26"
+        ]
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "DateRange",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "[\"2026-10-19\",\"2026-10-22\"]",
+        "value": [
+          "2026-10-25",
+          "2026-10-26"
+        ]
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "DateRange",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "[\"2026-10-19\",\"2026-10-22\"]",
+        "value": [
+          "2026-10-25",
+          "2026-10-26"
+        ]
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "Time",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "\"09:30\"",
+        "value": "10:30"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "Time",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "\"09:30\"",
+        "value": "10:30"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "Time",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "\"09:30\"",
+        "value": "10:30"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "TimeRange",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "[\"09:30\",\"18:00\"]",
+        "value": [
+          "10:30",
+          "18:00"
+        ]
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "TimeRange",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "[\"09:30\",\"18:00\"]",
+        "value": [
+          "10:30",
+          "18:00"
+        ]
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "TimeRange",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "[\"09:30\",\"18:00\"]",
+        "value": [
+          "10:30",
+          "18:00"
+        ]
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "Upload",
+      "mode": "default",
+      "passed": true,
+      "result": {
+        "before": "[]",
+        "value": [
+          {
+            "uid": "1792854590422-1",
+            "name": "presentation-qa.txt",
+            "size": 24,
+            "type": "text/plain",
+            "status": "ready",
+            "percent": 0,
+            "url": "blob:http://127.0.0.1:52027/04e65eff-53b1-4b7d-8745-a91249f032b9"
+          }
+        ]
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "Upload",
+      "mode": "inline",
+      "passed": true,
+      "result": {
+        "before": "[]",
+        "value": [
+          {
+            "uid": "1792854590471-2",
+            "name": "presentation-qa.txt",
+            "size": 24,
+            "type": "text/plain",
+            "status": "ready",
+            "percent": 0,
+            "url": "blob:http://127.0.0.1:52027/5b74fedf-8545-4da4-95f0-da4b7ae8ea71"
+          }
+        ]
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "Upload",
+      "mode": "popup",
+      "passed": true,
+      "result": {
+        "before": "[]",
+        "value": [
+          {
+            "uid": "1792854591470-4",
+            "name": "presentation-qa.txt",
+            "size": 24,
+            "type": "text/plain",
+            "status": "ready",
+            "percent": 0,
+            "url": "blob:http://127.0.0.1:52027/c9f02016-4621-430b-a96f-55dee39aa77d"
+          }
+        ]
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "Input",
+      "mode": "form-default",
+      "passed": true,
+      "result": {
+        "before": "\"initial\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "Input",
+      "mode": "form-inline",
+      "passed": true,
+      "result": {
+        "before": "\"initial\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "Input",
+      "mode": "form-popup",
+      "passed": true,
+      "result": {
+        "before": "\"initial\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "Input",
+      "mode": "item-default",
+      "passed": true,
+      "result": {
+        "before": "\"initial\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "Input",
+      "mode": "item-inline",
+      "passed": true,
+      "result": {
+        "before": "\"initial\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "Input",
+      "mode": "item-popup",
+      "passed": true,
+      "result": {
+        "before": "\"initial\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "Input",
+      "mode": "field-inline",
+      "passed": true,
+      "result": {
+        "before": "\"initial\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "component": "Input",
+      "mode": "field-popup",
+      "passed": true,
+      "result": {
+        "before": "\"initial\"",
+        "value": "changed"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "demo": "field-components.vue",
+      "passed": true,
+      "result": {
+        "fields": 4,
+        "model": "{\n  \"name\": \"inline changed\",\n  \"notes\": \"每个字段都继承上方的展示与触发方式\",\n  \"count\": 3,\n  \"code\": \"123456\"\n}"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "demo": "field-choice.vue",
+      "passed": true,
+      "result": {
+        "fields": 4,
+        "model": "{\n  \"enabled\": true,\n  \"agreed\": true,\n  \"teams\": [\n    \"dev\",\n    \"design\"\n  ],\n  \"role\": \"dev\"\n}"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "demo": "field-rating.vue",
+      "passed": true,
+      "result": {
+        "fields": 2,
+        "model": "{\n  \"progress\": 42,\n  \"score\": 4\n}"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "demo": "field-date.vue",
+      "passed": true,
+      "result": {
+        "fields": 4,
+        "model": "{\n  \"datetime\": \"2026-10-20 09:30:00\",\n  \"dateTimes\": [\n    \"2026-10-20 09:30:00\",\n    \"2026-10-22 18:00:00\"\n  ],\n  \"day\": \"2026-10-22\",\n  \"days\": [\n    \"2026-10-19\",\n    \"2026-10-22\"\n  ]\n}"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "demo": "field-time.vue",
+      "passed": true,
+      "result": {
+        "fields": 2,
+        "model": "{\n  \"time\": \"11:30\",\n  \"times\": [\n    \"09:30\",\n    \"18:00\"\n  ]\n}"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "demo": "field-selection.vue",
+      "passed": true,
+      "result": {
+        "fields": 4,
+        "model": "{\n  \"device\": \"tablet\",\n  \"devices\": [\n    \"laptop\",\n    \"phone\"\n  ],\n  \"keyword\": \"研发\",\n  \"person\": \"lin\"\n}"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "demo": "field-tree.vue",
+      "passed": true,
+      "result": {
+        "fields": 4,
+        "model": "{\n  \"regions\": [\n    \"shanghai\",\n    \"hangzhou\"\n  ],\n  \"region\": \"shanghai\",\n  \"tree\": \"shanghai\",\n  \"trees\": [\n    \"shanghai\",\n    \"hangzhou\"\n  ]\n}"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "demo": "field-upload.vue",
+      "passed": true,
+      "result": {
+        "fields": 1,
+        "model": "{\n  \"attachments\": [\n    {\n      \"uid\": \"1792854616280-2\",\n      \"name\": \"presentation-qa.txt\",\n      \"size\": 24,\n      \"type\": \"text/plain\",\n      \"file\": {},\n      \"status\": \"ready\",\n      \"percent\": 0,\n      \"url\": \"blob:http://127.0.0.1:52027/1d108c4c-39b4-4a08-817b-f893b507ae98\"\n    },\n    {\n      \"uid\": \"1792854617369-3\",\n      \"name\": \"presentation-inline-qa.txt\",\n      \"size\": 24,\n      \"type\": \"text/plain\",\n      \"file\": {},\n      \"status\": \"ready\",\n      \"percent\": 0,\n      \"url\": \"blob:http://127.0.0.1:52027/fc52b72a-53d9-4489-ae09-9c4f9725a149\"\n    }\n  ]\n}"
+      }
+    },
+    {
+      "surface": "mobile",
+      "theme": "dark",
+      "demo": "Search inline/popup",
+      "passed": true,
+      "result": {
+        "inline": true,
+        "popup": true
+      }
+    }
+  ],
+  "errors": []
+}

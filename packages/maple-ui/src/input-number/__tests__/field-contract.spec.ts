@@ -9,7 +9,7 @@ import { formHost } from './form-host'
 
 const wrappers: Array<ReturnType<typeof mount>> = []
 const render = (component: any = InputNumber, options: any = {}) => {
-  const wrapper = mount(component, options)
+  const wrapper = mount(component, { ...options, props: { editMode: 'direct', ...options.props } })
   wrappers.push(wrapper)
   return wrapper
 }
@@ -30,15 +30,16 @@ describe('InputNumber field contract', () => {
   })
 
   test('accepts controlled input echoes without losing commit changes', async () => {
-    const value = ref<number | undefined>(1)
+    const value = ref<number | null | undefined>(1)
     const change = vi.fn()
     const wrapper = render({
       render: () =>
         h(InputNumber, {
+          editMode: 'direct',
           modelValue: value.value,
           modelEvent: 'input',
           clearable: true,
-          'onUpdate:modelValue': (next: number | undefined) => {
+          'onUpdate:modelValue': (next: number | null | undefined) => {
             value.value = next
           },
           onChange: change,
@@ -123,6 +124,7 @@ describe('InputNumber field contract', () => {
     const wrapper = render(
       formHost(state, {}, () =>
         h(InputNumber, {
+          editMode: 'direct',
           defaultValue: 1,
           ...(override.value ? { disabled: false, readonly: false, error: false, size: 'xs' } : {}),
         }),
@@ -144,7 +146,9 @@ describe('InputNumber field contract', () => {
   test('only the numeric field notifies FormItem, once per semantic event', async () => {
     const handlers = { onInput: vi.fn(), onChange: vi.fn(), onClear: vi.fn(), onFocus: vi.fn(), onBlur: vi.fn() }
     const state = reactive({ disabled: false, readonly: false, error: false, size: 'md' })
-    const wrapper = render(formHost(state, handlers, () => h(InputNumber, { defaultValue: 1, clearable: true })))
+    const wrapper = render(
+      formHost(state, handlers, () => h(InputNumber, { editMode: 'direct', defaultValue: 1, clearable: true })),
+    )
     const input = wrapper.get('input')
     await input.trigger('focus')
     await input.setValue('2')
@@ -165,9 +169,9 @@ describe('InputNumber field contract', () => {
       render: () =>
         h(
           InputGroup,
-          { variant: 'filled', hint: true, size: 'lg' },
+          { editMode: 'direct', variant: 'filled', hint: true, size: 'lg' },
           {
-            default: () => h(InputNumber, { placeholder: 'Amount' }),
+            default: () => h(InputNumber, { editMode: 'direct', placeholder: 'Amount' }),
           },
         ),
     })

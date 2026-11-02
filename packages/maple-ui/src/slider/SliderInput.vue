@@ -11,7 +11,7 @@
       :readonly="readonly"
       :error="error"
       :input-attrs="{ 'aria-label': label(0) }"
-      @change="(value) => emit('change', 0, value)"
+      @change="(value) => emit('change', 0, value ?? undefined)"
       @focus="emit('focus')"
       @blur="emit('blur')"
     />
@@ -25,7 +25,7 @@
       :readonly="readonly"
       :error="error"
       :input-attrs="{ 'aria-label': label(1) }"
-      @change="(value) => emit('change', 1, value)"
+      @change="(value) => emit('change', 1, value ?? undefined)"
       @focus="emit('focus')"
       @blur="emit('blur')"
     />
