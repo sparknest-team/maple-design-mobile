@@ -1,5 +1,7 @@
 <template>
   <button
+    v-bind="$attrs"
+    :aria-describedby="describeError($attrs['aria-describedby'])"
     type="button"
     role="switch"
     :class="
@@ -44,15 +46,17 @@
 <script setup lang="ts">
 import { computed, onActivated, onBeforeUnmount, onDeactivated, ref, watch, type CSSProperties } from 'vue'
 import { invokeBeforeHook } from '../_hooks/use-action-guard'
+import { useFormErrorDescription } from '../form/error-description'
 import { createNamespace } from '../utils/components'
 import { useSwitchPlatform } from './platform'
 import { switchProps, type SwitchValue } from './props'
 
-defineOptions({ name: createNamespace('switch').name })
+defineOptions({ name: createNamespace('switch').name, inheritAttrs: false })
 const props = defineProps(switchProps)
+const { describe: describeError } = useFormErrorDescription()
 const emit = defineEmits<{
   (event: 'update:modelValue', value: SwitchValue | null): void
-  (event: 'change', value: SwitchValue | null, originalEvent: Event): void
+  (event: 'change', value: SwitchValue | null, originalEvent?: Event): void
   (event: 'click', originalEvent: Event): void
   (event: 'focus' | 'blur', originalEvent: FocusEvent): void
 }>()

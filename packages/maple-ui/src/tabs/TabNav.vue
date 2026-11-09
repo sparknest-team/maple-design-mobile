@@ -21,9 +21,9 @@
       @focus="ctx.focused.value = name"
     >
       <span v-if="$slots.icon" :class="n('icon')"><slot name="icon" /></span>
-      <span :class="n('tab-title')"
+      <span :id="ctx.id(name, 'title')" :class="n('tab-title')"
         ><slot name="title"
-          ><slot>{{ title }}</slot></slot
+          ><slot>{{ title ?? String(name) }}</slot></slot
         ></span
       >
     </button>
@@ -32,28 +32,30 @@
       type="button"
       :class="n('close')"
       tabindex="-1"
-      aria-hidden="true"
       :disabled="disabled"
-      :aria-label="`Close ${title ?? String(name)}`"
+      :aria-labelledby="`${ctx.id(name, 'close')} ${ctx.id(name, 'title')}`"
       @click="ctx.remove(name, $event)"
     >
-      ×
+      <span :id="ctx.id(name, 'close')" :class="n('visually-hidden')">{{ text.close }}</span>
+      <span aria-hidden="true">×</span>
     </button>
   </div>
 </template>
 <script setup lang="ts">
-import { computed, inject, nextTick, ref } from 'vue'
+import { computed, inject, ref } from 'vue'
 import { resolveDirection } from '../_utils/direction'
 import { createNamespace } from '../utils/components'
 import { tabsInjectionKey } from './context'
 import { tabNavProps } from './props'
 import type { TabNavSlots } from './types'
+import { useTabsLocale } from './use-tabs-configuration'
 
 defineSlots<TabNavSlots>()
 defineOptions({ name: createNamespace('tab-nav').name })
 const props = defineProps(tabNavProps)
 const ctx = inject(tabsInjectionKey)!
 const { n, classes } = createNamespace('tabs')
+const text = useTabsLocale()
 const button = ref<HTMLButtonElement>()
 const name = computed(() => props.name)
 const selected = computed(() => ctx.active.value === name.value)
@@ -80,19 +82,7 @@ async function keydown(event: KeyboardEvent) {
   }
   if (event.key === 'Delete' && ctx.props.editable && props.closable) {
     event.preventDefault()
-    const removedKey = name.value
-    const document = button.value?.ownerDocument
-    const index = ctx.entries.value.filter((tab) => !tab.disabled).findIndex((tab) => tab.name === removedKey)
-    ctx.remove(removedKey, event)
-    await nextTick()
-    if (!ctx.entries.value.some((tab) => tab.name === removedKey)) {
-      const enabled = ctx.entries.value.filter((tab) => !tab.disabled)
-      const target = enabled[Math.min(index, enabled.length - 1)]
-      if (target) {
-        ctx.focused.value = target.name
-        document?.getElementById(ctx.id(target.name, 'tab'))?.focus()
-      }
-    }
+    ctx.remove(name.value, event)
     return
   }
   const vertical = ctx.props.orientation === 'vertical'

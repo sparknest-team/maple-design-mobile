@@ -48,3 +48,26 @@ test('opposite placements preserve screen offsets and cover uses the actual refe
   expect(getTransformOrigin('top-start')).toBe('0 100%')
   expect(getTransformOrigin('bottom-start')).toBe('0 0')
 })
+
+test('fixed positioning measures the transformed containing block before style application', () => {
+  const parent = document.createElement('div')
+  parent.style.transform = 'scale(2)'
+  const popup = document.createElement('div')
+  parent.append(popup)
+  document.body.append(parent)
+  Object.defineProperties(parent, {
+    offsetWidth: { value: 100 },
+    offsetHeight: { value: 50 },
+    clientLeft: { value: 2 },
+    clientTop: { value: 3 },
+    scrollLeft: { value: 4 },
+    scrollTop: { value: 5 },
+  })
+  Object.defineProperty(parent, 'getBoundingClientRect', {
+    value: () => ({ left: 10, top: 20, width: 200, height: 100 }),
+  })
+  expect(getPositioningSpace(popup, 'fixed')).toEqual({ x: 6, y: 16, scaleX: 2, scaleY: 2 })
+  parent.style.transform = 'none'
+  expect(getPositioningSpace(popup, 'fixed')).toEqual({ x: 0, y: 0, scaleX: 1, scaleY: 1 })
+  parent.remove()
+})

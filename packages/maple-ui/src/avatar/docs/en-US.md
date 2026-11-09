@@ -173,7 +173,11 @@ The `trigger-icon` slot adds an action. `triggerType` is `button` or `overlay`; 
 ## API
 
 <!-- same-source-api:start -->
-### Props
+The default image `error` icon retains a nonempty `alt` as its accessible name; an empty `alt` denotes decoration. Provide appropriate semantics for a custom `error` slot. The default slot may switch dynamically between images and text; application code owns slotted image load events and styles.
+
+When `trigger-icon` contains no interactive control, the avatar exposes button semantics and supports Enter and Space. Describe the action with `trigger-aria-label` or the root `aria-label`. If the slot supplies its own interactive control, that control handles keyboard input. The default click-triggered group summary can be opened by keyboard; Escape closes it and restores focus.
+
+### Avatar Props
 
 | Prop | Description | Type | Default |
 | --- | --- | --- | --- |
@@ -183,6 +187,7 @@ The `trigger-icon` slot adds an action. `triggerType` is `button` or `overlay`; 
 | size | Avatar width and height; numbers are px, strings are CSS lengths | `number / string` | `-` |
 | auto-fix-font-size | Whether to shrink long text automatically | `boolean` | `true` |
 | trigger-type | How the action icon is shown | `button / overlay` | `button` |
+| trigger-aria-label | Accessible name of the interaction | `string` | `—` |
 | trigger-icon-style | Custom style for the action icon | `CSSProperties` | `-` |
 | object-fit | Image fitting mode | `fill / contain / cover / none / scale-down` | `cover` |
 | color | Background color | `string` | `-` |
@@ -193,7 +198,7 @@ The `trigger-icon` slot adds an action. `triggerType` is `button` or `overlay`; 
 | lazy | Whether to lazy-load the image | `boolean` | `false` |
 | hoverable | Whether to scale on hover | `boolean` | `false` |
 
-### Events
+### Avatar Events
 
 | Event | Description | Arguments |
 | --- | --- | --- |
@@ -201,7 +206,7 @@ The `trigger-icon` slot adds an action. `triggerType` is `button` or `overlay`; 
 | load | Emitted when the image loads | `() => void` |
 | error | Emitted when image loading fails | `() => void` |
 
-### Slots
+### Avatar Slots
 
 | Slot | Description |
 | --- | --- |
@@ -209,10 +214,12 @@ The `trigger-icon` slot adds an action. `triggerType` is `button` or `overlay`; 
 | error | Fallback content when image loading fails |
 | trigger-icon | Action icon on the avatar |
 
-### Methods
+### Avatar Methods
 
 No custom public methods.
 <!-- same-source-api:end -->
+
+Group `shape` and `auto-fix-font-size` override item values, and a supplied group `size` takes priority. `max-count` is a nonnegative integer; zero or an invalid value means unlimited. Numeric `size` must be finite and nonnegative; invalid numbers use the default, while strings are CSS lengths. `offset` accepts finite negative numbers or CSS length strings; invalid numbers use the default spacing. The summary participates in group stacking order, which overrides z-index in `max-style`.
 
 ### AvatarGroup Props
 
@@ -234,7 +241,7 @@ No custom public methods.
 | --- | --- |
 | default | Avatar list |
 
-### Type definitions
+## Types
 
 ```ts
 import type {
@@ -248,44 +255,64 @@ import type {
 } from '@maple-design/ui';
 ```
 
-### Style variables
-
-| Variable | Default |
-| --- | --- |
-| `--mp-avatar-size-default` | `40px` |
-| `--mp-avatar-font-size-text` | `20px` |
-| `--mp-avatar-text-color` | `var(--mp-sys-color-content-primary)` |
-| `--mp-avatar-text-padding-inline` | `4px` |
-| `--mp-avatar-bg` | `var(--mp-color-fill-4)` |
-| `--mp-avatar-border-width` | `2px` |
-| `--mp-avatar-border-color` | `var(--mp-sys-color-surface-default)` |
-| `--mp-avatar-group-item-border` | `var(--mp-sys-color-surface-default)` |
-| `--mp-avatar-group-item-border-width` | `2px` |
-| `--mp-avatar-group-offset` | `-10px` |
-| `--mp-avatar-group-popover-item-spacing` | `8px` |
-| `--mp-avatar-font-weight-text` | `500` |
-| `--mp-avatar-circle-border-radius` | `50%` |
-| `--mp-avatar-square-border-radius` | `4px` |
-| `--mp-avatar-size-trigger-button` | `20px` |
-| `--mp-avatar-trigger-button-bg` | `var(--mp-color-fill-2)` |
-| `--mp-avatar-trigger-button-bg-hover` | `var(--mp-color-fill-3)` |
-| `--mp-avatar-trigger-overlay-icon` | `var(--mp-sys-color-content-on-dark)` |
-| `--mp-avatar-trigger-overlay-bg` | `color-mix(in srgb, var(--mp-color-black) 60%, transparent)` |
-| `--mp-avatar-trigger-icon-button` | `var(--mp-sys-color-content-primary)` |
-| `--mp-avatar-spacing-trigger-button-right` | `4px` |
-| `--mp-avatar-spacing-trigger-button-bottom` | `4px` |
-| `--mp-avatar-size-trigger-icon` | `12px` |
-| `--mp-avatar-trigger-button-border-radius` | `50%` |
-| `--mp-avatar-font-size-max-count` | `20px` |
-| `--mp-avatar-max-count-text-color` | `var(--mp-sys-color-content-primary)` |
-| `--mp-avatar-trigger-overlay-font-size` | `16px` |
-| `--mp-avatar-hover-transform` | `scale(1.1)` |
-| `--mp-avatar-motion-duration` | `0.2s` |
-| `--mp-avatar-z-index-trigger` | `1` |
-| `--mp-avatar-z-index-overlay` | `0` |
-| `--mp-avatar-z-index-overlay-hover` | `2` |
+## CSS Variables
 
 Text, summary counts, and button-style trigger icons use the primary content role. Borders follow the ordinary container surface; only icons on the dark interaction overlay use `content-on-dark`. The `fill-4` avatar background, trigger background/hover step, and translucent black overlay remain component visual values. If the `color` prop changes the avatar background, check text contrast and override `text-color` when needed. Maple's dark avatar background remains a component-specific `#303030`.
+
+<!-- component-css-variables:start -->
+
+Use these variables to customize the component. Defaults may vary by the selector condition shown. Each variable applies to the corresponding size, variant and interaction states.
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Default / condition | Affected styles |
+| --- | --- | --- |
+| `--mp-avatar-bg` | `var(--mp-color-fill-4)` | `background-color` |
+| `--mp-avatar-border-color` | `var(--mp-sys-color-surface-default)` | `border` |
+| `--mp-avatar-border-width` | `2px` | `border` |
+| `--mp-avatar-circle-border-radius` | `50%` | `border-radius` |
+| `--mp-avatar-font-size-max-count` | `20px` | `font-size` |
+| `--mp-avatar-font-size-text` | `20px` | `font-size` |
+| `--mp-avatar-font-weight-text` | `500` | `font-weight` |
+| `--mp-avatar-group-item-border` | `var(--mp-sys-color-surface-default)` | `border` |
+| `--mp-avatar-group-item-border-width` | `2px` | `border` |
+| `--mp-avatar-group-offset` | `-10px` | `margin-block-start`, `margin-inline-start` |
+| `--mp-avatar-group-popover-item-spacing` | `8px` | `gap` |
+| `--mp-avatar-hover-transform` | `scale(1.1)` | `transform` |
+| `--mp-avatar-max-count-text-color` | `var(--mp-sys-color-content-primary)` | `color` |
+| `--mp-avatar-motion-duration` | `0.2s` | `transition` |
+| `--mp-avatar-size-default` | `40px` | `height`, `width` |
+| `--mp-avatar-size-trigger-button` | `20px` | `height`, `width` |
+| `--mp-avatar-size-trigger-icon` | `12px` | `font-size` |
+| `--mp-avatar-spacing-trigger-button-bottom` | `4px` | `bottom` |
+| `--mp-avatar-spacing-trigger-button-right` | `4px` | `inset-inline-end` |
+| `--mp-avatar-square-border-radius` | `4px` | `border-radius` |
+| `--mp-avatar-text-color` | `var(--mp-sys-color-content-primary)` | `color` |
+| `--mp-avatar-text-padding-inline` | `4px` | `padding-inline` |
+| `--mp-avatar-trigger-button-bg` | `var(--mp-color-fill-2)` | `background-color` |
+| `--mp-avatar-trigger-button-bg-hover` | `var(--mp-color-fill-3)` | `background-color` |
+| `--mp-avatar-trigger-button-border-radius` | `50%` | `border-radius` |
+| `--mp-avatar-trigger-icon-button` | `var(--mp-sys-color-content-primary)` | `color` |
+| `--mp-avatar-trigger-overlay-bg` | `color-mix(in srgb, var(--mp-color-black) 60%, transparent)` | `background-color` |
+| `--mp-avatar-trigger-overlay-font-size` | `16px` | `font-size` |
+| `--mp-avatar-trigger-overlay-icon` | `var(--mp-sys-color-content-on-dark)` | `color` |
+| `--mp-avatar-z-index-overlay` | `0` | `z-index` |
+| `--mp-avatar-z-index-overlay-hover` | `2` | `z-index` |
+| `--mp-avatar-z-index-trigger` | `1` | `z-index` |
+
+</div>
+
+Apply overrides to the rendered component root or the actual popup ancestor. For example, add the following class to that element and replace the value as needed:
+
+```css
+.component-theme {
+  --mp-avatar-border-color: var(--mp-sys-color-surface-default);
+}
+```
+
+Explicit inline styles and props that write the same CSS property take precedence over stylesheet defaults. After Teleport, ordinary CSS variables inherit from the actual mount location. When using ThemeProvider, follow its local-theme and popup configuration rules. Override the component variable directly for local styling; root-level aliases are not recalculated merely because a descendant system variable changes. Internal variables are not public APIs.
+
+<!-- component-css-variables:end -->
 
 ### Reduced motion
 

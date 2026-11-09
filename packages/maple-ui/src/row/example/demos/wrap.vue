@@ -5,12 +5,12 @@ const wrap = ref(true)
 const div = ref(false)
 </script>
 <template>
-  <div>
+  <div class="row-demo">
     <div class="controls">
       <mp-switch v-model="wrap" aria-label="Wrap" />Wrap<mp-switch v-model="div" aria-label="Plain div" />Plain div
     </div>
     <div style="overflow: auto; padding: 8px">
-      <mp-row :gutter="12" :wrap="wrap" :div="div"
+      <mp-row :wrap="wrap" :div="div"
         ><mp-col v-for="i in 3" :key="i" :span="12"
           ><div class="cell">{{ i }}</div></mp-col
         ></mp-row
@@ -20,6 +20,11 @@ const div = ref(false)
 </template>
 
 <style scoped>
+.row-demo {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
 .controls {
   display: flex;
   flex-wrap: wrap;

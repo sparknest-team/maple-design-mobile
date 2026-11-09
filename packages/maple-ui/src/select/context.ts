@@ -11,6 +11,7 @@ export interface SelectContext {
   searchFields?: readonly OptionSearchField[]
   component?: string
   valueKeys: string[]
+  getOptionId?: (key: string) => string
   activeKey: string | undefined
   onSelect: (key: string, ev: Event) => void
   setActiveKey: (key?: string) => void

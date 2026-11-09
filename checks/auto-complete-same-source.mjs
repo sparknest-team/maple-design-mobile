@@ -3,7 +3,7 @@ import { readFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { normalizeBoundImports } from './normalize-bound-imports.mjs'
+import { normalizeLessSource, normalizeTypeScript } from './normalize-source.mjs'
 
 const workspace = fileURLToPath(new URL('../../', import.meta.url))
 const cedar = resolve(workspace, 'cedar-design-web/packages/cedar-ui')
@@ -12,6 +12,11 @@ const files = [
   '../_hooks/use-option-request.ts',
   'auto-complete.tsx',
   'props.ts',
+  'types.ts',
+  'trigger-options.ts',
+  '__tests__/keyboard-reopen.spec.ts',
+  '__tests__/public-contract.spec.ts',
+  '__tests__/empty-slot.spec.ts',
   'index.ts',
   'style/index.ts',
   'style/index.less',
@@ -33,7 +38,8 @@ const normalize = (source) =>
 for (const file of files) {
   const c = readFileSync(resolve(cedar, 'src/auto-complete', file), 'utf8')
   const m = readFileSync(resolve(maple, 'src/auto-complete', file), 'utf8')
-  assert.equal(normalizeBoundImports(normalize(c)), normalizeBoundImports(m), file + ' differs')
+  const canonical = file.endsWith('.less') ? normalizeLessSource : normalizeTypeScript
+  assert.equal(await canonical(normalize(c)), await canonical(normalize(m)), file + ' differs')
   assert.doesNotMatch(m, /from ['"][^'"]*(?:@cedar-design|cedar-design|platform)/)
 }
 for (const [root, compiler] of [
@@ -46,4 +52,4 @@ for (const [root, compiler] of [
   assert.match(css, /auto-complete__dropdown/)
   assert.match(css, /select-popup-option-height/)
 }
-console.log('AutoComplete and async request owner: 8 independent source/test pairs and both Less outputs verified.')
+console.log('AutoComplete and async request owner: 13 independent source/test pairs and both Less outputs verified.')

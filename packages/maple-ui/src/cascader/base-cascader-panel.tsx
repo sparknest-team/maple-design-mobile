@@ -38,7 +38,7 @@ export default defineComponent({
     const emptySlot = useEmptySlot()
 
     const renderEmpty = () => {
-      return slots.empty?.() ?? emptySlot?.({ component: 'cascader' }) ?? <Empty />
+      return slots.empty?.() ?? emptySlot.value?.({ component: 'cascader' }) ?? <Empty />
     }
 
     const renderContent = () => {
@@ -67,6 +67,7 @@ export default defineComponent({
           selectedPath={props.selectedPath}
           activeKey={props.activeKey}
           totalLevel={props.totalLevel}
+          displayedLevels={props.displayColumns.length}
           multiple={props.multiple}
           checkStrictly={props.checkStrictly}
           virtualListProps={props.virtualListProps}

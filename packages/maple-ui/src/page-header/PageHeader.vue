@@ -6,7 +6,13 @@
 
     <header v-if="showHeading()" :class="n()">
       <div :class="n('main')">
-        <button v-if="showBack" type="button" :class="n('back')" aria-label="Back" @click="handleBack">
+        <button
+          v-if="showBack"
+          type="button"
+          :class="n('back')"
+          :aria-label="props.backButtonAriaLabel ?? backLabel"
+          @click="handleBack"
+        >
           <slot name="back"><BackIcon :class="n('back-icon')" /></slot>
         </button>
         <div v-if="$slots.avatar" :class="n('avatar')">
@@ -32,13 +38,14 @@
 <script setup lang="ts">
 import { useSlots } from 'vue'
 import { createNamespace } from '../utils/components'
-import { BackIcon } from './platform'
+import { BackIcon, usePageHeaderBackLabel } from './platform'
 import { pageHeaderProps } from './props'
 
 defineOptions({ name: createNamespace('page-header').name, inheritAttrs: false })
 const { n } = createNamespace('page-header')
 const props = defineProps(pageHeaderProps)
 const slots = useSlots()
+const backLabel = usePageHeaderBackLabel()
 const emit = defineEmits<{ back: [event: MouseEvent] }>()
 const showHeading = () =>
   props.showBack ||

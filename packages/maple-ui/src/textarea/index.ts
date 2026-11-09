@@ -14,7 +14,7 @@ export type {
   WordLength,
   WordSlice,
 } from './props'
-export { textareaProps }
+export { Textarea, textareaProps }
 export const _TextareaComponent: typeof Textarea = Textarea
 export default Textarea
 

@@ -395,7 +395,7 @@
     "gzip": 3372
   },
   {
-    "name": "style-provider",
+    "name": "theme-provider",
     "bytes": 2940,
     "gzip": 1467
   },

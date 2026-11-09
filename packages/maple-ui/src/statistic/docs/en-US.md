@@ -98,11 +98,17 @@ When `value` is omitted, the default slot can render custom content such as `Cou
 ../example/demos/custom-value.vue
 ```
 
+## Animation duration boundaries
+
+Duration is finite nonnegative milliseconds. Zero reaches the target on the next frame. Negative, NaN and infinite values produce development prop diagnostics and safely behave as zero without continuing to request frames. Pausing or unmounting before that frame cancels completion. Changing animation-duration replays enabled numeric animation according to the existing rules.
+
 ## API
 
-### Props
+`precision` accepts integers from 0 to 100; invalid values fall back to 0. Numeric formatting uses JavaScript binary numbers and rounding and is not exact financial arithmetic. Very large values may use exponential notation; when the difference between animation endpoints overflows, the final value is shown directly. Numeric grouping follows en-US rules, `separator` replaces grouping commas, and the decimal point remains a dot; dates use local time. Non-finite numeric values produce a warning, display literally, and do not animate. An invalid animation start falls back to 0 and an invalid duration to 0 with completion on the next frame.
 
-| Arguments | Description | Type | Default |
+### Statistic Props
+
+| Prop | Description | Type | Default |
 | --- | --- | --- | --- |
 | `title` | Displayed-value title | _string_ | `-` |
 | `value` | Displayed value | _number \| string \| Date_ | `-` |
@@ -121,9 +127,9 @@ When `value` is omitted, the default slot can render custom content such as `Cou
 | `placeholder` | Placeholder when `value` is `undefined` and the default slot is unused | _string_ | `-` |
 | `value-style` | Custom style of the value | _CSSProperties_ | `-` |
 
-### Slots
+### Statistic Slots
 
-| Slot | Description | Arguments |
+| Slot | Description | Prop |
 | --- | --- | --- |
 | `default` | Custom `value`, used when `value` is not provided | `-` |
 | `title` | Title | `-` |
@@ -131,31 +137,55 @@ When `value` is omitted, the default slot can render custom content such as `Cou
 | `suffix` | Suffix | `-` |
 | `extra` | Extra content | `-` |
 
-### Style variables
+## Usage notes
 
-Customize these CSS variables through [StyleProvider](#/en-US/style-provider).
 
-| Variable | Default |
-| --- | --- |
-| `--mp-statistic-title-color` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-statistic-title-font-size` | `var(--mp-font-size-sm)` |
-| `--mp-statistic-title-margin-bottom` | `8px` |
-| `--mp-statistic-value-color` | `var(--mp-sys-color-content-primary)` |
-| `--mp-statistic-value-font-size` | `28px` |
-| `--mp-statistic-value-font-weight` | `500` |
-| `--mp-statistic-decimal-font-size` | `inherit` |
-| `--mp-statistic-prefix-color` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-statistic-prefix-font-size` | `var(--mp-font-size-md)` |
-| `--mp-statistic-prefix-spacing` | `4px` |
-| `--mp-statistic-suffix-color` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-statistic-suffix-font-size` | `var(--mp-font-size-md)` |
-| `--mp-statistic-suffix-spacing` | `4px` |
-| `--mp-statistic-extra-color` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-statistic-extra-font-size` | `var(--mp-font-size-sm)` |
-| `--mp-statistic-extra-margin-top` | `8px` |
-
-## Shared implementation and platform boundaries
-
-Each platform maintains a complete local implementation. They do not import a common core or share component instances or reactive state. Changes must update both implementations. Component bodies, props, key styles and paired tests have read-only source consistency checks; theme tokens and installation entries remain local to each library.
 
 Placeholder text updates when the default slot appears/disappears. Animation pauses on unmount/KeepAlive deactivation.
+
+### Animation configuration and lifecycle
+
+With `start=true`, dynamically enabling `animation` or changing the numeric target, `valueFrom` or `animationDuration` replays from the currently configured start. Formatting-only changes, such as precision or separators, do not replay. Disabling `animation` or switching to string/date immediately shows the target and stops frames. `start=false` pauses the current number; explicitly returning to `true` replays. Configuration changes while paused prepare a new start without scheduling frames. KeepAlive deactivation pauses; activation resumes unchanged configuration or resynchronizes changed configuration. Unmount releases frames.
+
+## CSS Variables
+
+Customize these CSS variables through [ThemeProvider](#/en-US/theme-provider).
+
+<!-- component-css-variables:start -->
+
+Use these variables to customize the component. Defaults may vary by the selector condition shown. Each variable applies to the corresponding size, variant and interaction states.
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Default / condition | Affected styles |
+| --- | --- | --- |
+| `--mp-statistic-decimal-font-size` | `inherit` | `font-size` |
+| `--mp-statistic-extra-color` | `var(--mp-sys-color-content-secondary)` | `color` |
+| `--mp-statistic-extra-font-size` | `var(--mp-font-size-sm)` | `font-size` |
+| `--mp-statistic-extra-margin-top` | `8px` | `margin-top` |
+| `--mp-statistic-prefix-color` | `var(--mp-sys-color-content-secondary)` | `color` |
+| `--mp-statistic-prefix-font-size` | `var(--mp-font-size-md)` | `font-size` |
+| `--mp-statistic-prefix-spacing` | `4px` | `margin-inline-end` |
+| `--mp-statistic-suffix-color` | `var(--mp-sys-color-content-secondary)` | `color` |
+| `--mp-statistic-suffix-font-size` | `var(--mp-font-size-md)` | `font-size` |
+| `--mp-statistic-suffix-spacing` | `4px` | `margin-inline-start` |
+| `--mp-statistic-title-color` | `var(--mp-sys-color-content-secondary)` | `color` |
+| `--mp-statistic-title-font-size` | `var(--mp-font-size-sm)` | `font-size` |
+| `--mp-statistic-title-margin-bottom` | `8px` | `margin-bottom` |
+| `--mp-statistic-value-color` | `var(--mp-sys-color-content-primary)` | `color` |
+| `--mp-statistic-value-font-size` | `28px` | `font-size` |
+| `--mp-statistic-value-font-weight` | `500` | `font-weight` |
+
+</div>
+
+Apply overrides to the rendered component root or the actual popup ancestor. For example, add the following class to that element and replace the value as needed:
+
+```css
+.component-theme {
+  --mp-statistic-decimal-font-size: inherit;
+}
+```
+
+Explicit inline styles and props that write the same CSS property take precedence over stylesheet defaults. After Teleport, ordinary CSS variables inherit from the actual mount location. When using ThemeProvider, follow its local-theme and popup configuration rules. Override the component variable directly for local styling; root-level aliases are not recalculated merely because a descendant system variable changes. Internal variables are not public APIs.
+
+<!-- component-css-variables:end -->

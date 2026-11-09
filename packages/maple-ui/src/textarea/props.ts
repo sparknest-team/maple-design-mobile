@@ -4,11 +4,9 @@ import { fieldLoadingProps } from '../field-decorator/props'
 import { inputProps, type InputMaxLength, type InputVariant } from '../input/props'
 import { emptyValueProp } from '../utils/empty-value'
 import { textareaDefaults } from './defaults'
+import { isValidTextareaAutoSize, isValidTextareaRows, type TextareaAutoSizeOptions } from './utils'
 
-export interface TextareaAutoSize {
-  minRows?: number
-  maxRows?: number
-}
+export type TextareaAutoSize = TextareaAutoSizeOptions
 export type TextareaMaxLength = InputMaxLength
 export type TextareaVariant = InputVariant
 export type { WordLength, WordSlice } from '../input/props'
@@ -62,11 +60,15 @@ export const textareaProps = {
   /** 与 Input 保持一致的 blurColor 契约。 */
   blurColor: inputProps.blurColor,
   /** 原生文本域行数。 */
-  rows: [String, Number],
+  rows: { type: [String, Number], validator: isValidTextareaRows },
   /** 允许垂直调整高度；autoSize 开启时忽略。 */
   resize: { type: Boolean, default: textareaDefaults.resize },
   /** 按内容调整高度，可限制最小/最大行数。 */
-  autoSize: { type: [Boolean, Object] as PropType<boolean | TextareaAutoSize>, default: false },
+  autoSize: {
+    type: [Boolean, Object] as PropType<boolean | TextareaAutoSize>,
+    default: false,
+    validator: isValidTextareaAutoSize,
+  },
   /** 原生属性；受控值、状态和组件事件不可覆盖。 */
   textareaAttrs: Object as PropType<Record<string, unknown>>,
 }

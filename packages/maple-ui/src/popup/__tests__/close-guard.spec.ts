@@ -4,6 +4,41 @@ import { expect, it, vi } from 'vitest'
 import Popup from '../Popup.vue'
 import type { PopupCloseReason } from '../props'
 
+it('keeps uncontrolled popup closed when a close guard is added or removed', async () => {
+  const owner = mount(Popup, { props: { defaultOpen: true, popupContainer: false } })
+  try {
+    expect(await owner.vm.close()).toBe(true)
+    await nextTick()
+    expect(owner.get('[role=dialog]').isVisible()).toBe(false)
+    await owner.setProps({ beforeClose: () => true })
+    await flushPromises()
+    expect(owner.get('[role=dialog]').isVisible()).toBe(false)
+    await owner.setProps({ beforeClose: undefined })
+    await flushPromises()
+    expect(owner.get('[role=dialog]').isVisible()).toBe(false)
+    expect(owner.emitted('open')).toHaveLength(1)
+  } finally {
+    owner.unmount()
+  }
+})
+
+it('keeps a controlled popup open until its parent accepts a close request', async () => {
+  const owner = mount(Popup, { props: { open: true, popupContainer: false } })
+  try {
+    await owner.vm.close()
+    await nextTick()
+    expect(owner.emitted('update:open')?.at(-1)).toEqual([false])
+    expect(owner.get('[role=dialog]').isVisible()).toBe(true)
+    await owner.setProps({ beforeClose: () => true })
+    expect(owner.get('[role=dialog]').isVisible()).toBe(true)
+    await owner.setProps({ beforeClose: undefined })
+    await owner.setProps({ open: false })
+    expect(owner.get('[role=dialog]').isVisible()).toBe(false)
+  } finally {
+    owner.unmount()
+  }
+})
+
 it.each(['overlay', 'escape', 'route', 'swipe', 'close', 'api', 'model'] as PopupCloseReason[])(
   'awaits and vetoes %s without closing',
   async (reason) => {

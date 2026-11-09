@@ -125,19 +125,19 @@ test('built-in call/chat icons use global callbacks, local overrides and Promise
     { showPhone: true, showChat: true, call, chat: globalChat },
   )
   await flushPromises()
-  await owner.get('button[aria-label="Call"]').trigger('click')
+  await owner.get('button[aria-label="拨打电话"]').trigger('click')
   await flushPromises()
   expect(call).toHaveBeenCalledWith(people[0])
-  await owner.get('button[aria-label="Chat"]').trigger('click')
+  await owner.get('button[aria-label="聊天"]').trigger('click')
   expect(chat).toHaveBeenCalledTimes(1)
   expect(globalChat).not.toHaveBeenCalled()
-  expect(owner.get('button[aria-label="Chat"]').attributes('aria-busy')).toBe('true')
+  expect(owner.get('button[aria-label="聊天"]').attributes('aria-busy')).toBe('true')
   release()
   await flushPromises()
   expect(owner.emitted('update:open')).toBeUndefined()
   expect(owner.emitted('update:modelValue')).toBeUndefined()
   await owner.setProps({ showChat: false })
-  expect(owner.find('button[aria-label="Chat"]').exists()).toBe(false)
+  expect(owner.find('button[aria-label="聊天"]').exists()).toBe(false)
 })
 
 test('reactive fallback updates read and edit labels/avatars without inserting candidates or changing the model', async () => {

@@ -1,4 +1,4 @@
-import { computed, type ComputedRef } from 'vue'
+import { computed, type Ref } from 'vue'
 import { IconEmpty as DefaultEmptyIcon } from '@maple-design/icons-vue'
 import { t } from '../locale'
 import { injectLocaleProvider } from '../locale-provider/provide'
@@ -10,7 +10,7 @@ export function useDefaultDescription() {
   return computed(() => (pt ? pt : t)('emptyDescription'))
 }
 
-export function useConfigEmpty(_hasCustomContent: ComputedRef<boolean>) {
+export function useConfigEmpty(_hasCustomContent: Readonly<Ref<boolean>>) {
   return computed(() => null as unknown)
 }
 

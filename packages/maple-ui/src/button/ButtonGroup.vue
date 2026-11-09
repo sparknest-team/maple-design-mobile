@@ -20,6 +20,7 @@ import { computed } from 'vue'
 import { createNamespace, formatElevation } from '../utils/components'
 import { buttonGroupProps } from './group-props'
 import { useButtons, type ButtonGroupProvider } from './group-provide'
+import { useButtonDefaultSize } from './platform'
 
 defineOptions({
   name: createNamespace('button-group').name,
@@ -30,11 +31,12 @@ const { n, classes } = createNamespace('button-group')
 const props = defineProps(buttonGroupProps)
 
 const { bindButtons } = useButtons()
+const defaultSize = useButtonDefaultSize()
 
 const buttonGroupProvider: ButtonGroupProvider = {
   elevation: computed(() => props.elevation),
   status: computed(() => props.status),
-  size: computed(() => props.size),
+  size: computed(() => props.size ?? defaultSize.value),
   variant: computed(() => props.variant),
   color: computed(() => props.color),
   textColor: computed(() => props.textColor),

@@ -1,4 +1,4 @@
-import type { ComputedRef, InjectionKey, Slots } from 'vue'
+import type { ComputedRef, InjectionKey, Ref, Slot } from 'vue'
 import type { Orientation } from './platform'
 import type { StepsContentPlacement, StepsSize, StepStatus, StepsType } from './props'
 
@@ -10,7 +10,7 @@ export interface StepsContext {
   type: ComputedRef<StepsType>
   showLine: ComputedRef<boolean>
   changeable: ComputedRef<boolean>
-  slots: Slots
+  icons: Ref<{ finish?: Slot; error?: Slot }>
   getStatus: (index: number, status?: StepStatus) => StepStatus
   select: (index: number, event: Event) => void
 }

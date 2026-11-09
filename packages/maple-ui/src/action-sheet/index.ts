@@ -1,6 +1,6 @@
 import { nextTick, reactive, type TeleportProps } from 'vue'
 import { call, inBrowser } from '@maple-design/shared'
-import type { PopupProps } from '../popup'
+import type { PopupCloseReason, PopupProps } from '../popup'
 import { mountInstance, withInstall, withPropsDefaultsSetter } from '../utils/components'
 import VarActionSheet from './ActionSheet.vue'
 import { props as actionSheetProps } from './props'
@@ -17,7 +17,7 @@ export interface ActionItem {
   disabled?: boolean
 }
 
-export interface ActionSheetOptions extends Pick<PopupProps, 'beforeClose'> {
+export interface ActionSheetOptions extends Pick<PopupProps, 'beforeClose' | 'swipeToClose' | 'swipeThreshold'> {
   actions?: ActionItem[]
   open?: boolean
   title?: string
@@ -36,6 +36,7 @@ export interface ActionSheetOptions extends Pick<PopupProps, 'beforeClose'> {
   onClickOverlay?: (event: MouseEvent) => void
   onSelect?: (action: ActionItem) => void
   onKeyEscape?: (event: KeyboardEvent) => void
+  onCloseError?: (error: unknown, reason: PopupCloseReason) => void
   // internal
   popupContainer?: TeleportProps['to']
 }
@@ -61,35 +62,40 @@ function ActionSheet(options?: ActionSheetOptions): Promise<ActionSheetActions |
     singletonOptions = reactiveActionSheetOptions
 
     let disposed = false
-    const { unmountInstance } = mountInstance(VarActionSheet, reactiveActionSheetOptions, {
-      onSelect: (action: ActionItem) => {
-        if (disposed) {
-          return
-        }
-        resolve(action)
-        return call(reactiveActionSheetOptions.onSelect, action)
+    const { unmountInstance } = mountInstance(
+      VarActionSheet,
+      reactiveActionSheetOptions,
+      {
+        onSelect: (action: ActionItem) => {
+          if (disposed) {
+            return
+          }
+          resolve(action)
+          return call(reactiveActionSheetOptions.onSelect, action)
+        },
+        onClose: () => {
+          if (disposed) {
+            return
+          }
+          resolve('close')
+          return call(reactiveActionSheetOptions.onClose)
+        },
+        onClosed: () => {
+          if (disposed) {
+            return
+          }
+          try {
+            return call(reactiveActionSheetOptions.onClosed)
+          } finally {
+            dispose()
+          }
+        },
+        'onUpdate:open': (value: boolean) => {
+          reactiveActionSheetOptions.open = value
+        },
       },
-      onClose: () => {
-        if (disposed) {
-          return
-        }
-        resolve('close')
-        return call(reactiveActionSheetOptions.onClose)
-      },
-      onClosed: () => {
-        if (disposed) {
-          return
-        }
-        try {
-          return call(reactiveActionSheetOptions.onClosed)
-        } finally {
-          dispose()
-        }
-      },
-      'onUpdate:open': (value: boolean) => {
-        reactiveActionSheetOptions.open = value
-      },
-    })
+      'mp-action-sheet-service',
+    )
 
     function dispose() {
       if (disposed) {

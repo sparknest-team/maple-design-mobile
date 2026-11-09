@@ -5,7 +5,7 @@
       v-if="showButtons"
       type="button"
       :class="classes(n('scroll-button'), [ctx.props.scrollButtons === 'auto', n('--scroll-auto')])"
-      aria-label="Previous tabs"
+      :aria-label="text.previous"
       @click="scroll(-1)"
     >
       {{ ctx.props.orientation !== 'vertical' && ctx.rtl.value ? '›' : '‹' }}
@@ -13,6 +13,13 @@
     <div
       ref="scroller"
       v-bind="$attrs"
+      :aria-label="
+        typeof $attrs['aria-label'] === 'string'
+          ? $attrs['aria-label']
+          : $attrs['aria-labelledby']
+            ? undefined
+            : ctx.props.tabListAriaLabel
+      "
       role="tablist"
       :aria-orientation="ctx.props.orientation"
       :class="n('nav-list')"
@@ -24,7 +31,7 @@
       v-if="showButtons"
       type="button"
       :class="classes(n('scroll-button'), [ctx.props.scrollButtons === 'auto', n('--scroll-auto')])"
-      aria-label="Next tabs"
+      :aria-label="text.next"
       @click="scroll(1)"
     >
       {{ ctx.props.orientation !== 'vertical' && ctx.rtl.value ? '‹' : '›' }}
@@ -33,7 +40,7 @@
       v-if="ctx.props.editable && ctx.props.showAddButton"
       type="button"
       :class="n('add')"
-      aria-label="Add tab"
+      :aria-label="text.add"
       @click="ctx.add($event)"
     >
       <slot name="add-icon">+</slot>
@@ -48,12 +55,14 @@ import { createNamespace } from '../utils/components'
 import { tabsInjectionKey } from './context'
 import { tabsNavsProps } from './props'
 import type { TabsNavsExpose, TabsNavsSlots } from './types'
+import { useTabsLocale } from './use-tabs-configuration'
 
 defineSlots<TabsNavsSlots>()
 defineOptions({ name: createNamespace('tabs-navs').name, inheritAttrs: false })
 defineProps(tabsNavsProps)
 const ctx = inject(tabsInjectionKey)!
 const { n, classes } = createNamespace('tabs')
+const text = useTabsLocale()
 const scroller = ref<HTMLElement>()
 const overflow = ref(false)
 const showButtons = computed(() => ctx.props.scrollButtons !== false && overflow.value)
@@ -75,15 +84,16 @@ function resize() {
   const extent = vertical ? rect.height : rect.width
   const viewport = vertical ? el.clientHeight : el.clientWidth
   const position = ctx.props.scrollPosition
+  const rtl = !vertical && resolveDirection(el, ctx.rtl.value ? 'rtl' : 'ltr') === 'rtl'
   let delta = 0
   if (position === 'start') {
-    delta = start
+    delta = rtl ? start + extent - viewport : start
   } else if (position === 'center') {
     delta = start - (viewport - extent) / 2
   } else if (position === 'end') {
-    delta = start - viewport + extent
+    delta = rtl ? start : start - viewport + extent
   } else if (typeof position === 'number') {
-    delta = start - position
+    delta = rtl ? start + extent - viewport + position : start - position
   } else if (start < 0) {
     delta = start
   } else if (start + extent > viewport) {

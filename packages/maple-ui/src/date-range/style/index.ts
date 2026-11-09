@@ -1,3 +1,4 @@
+import '../../_components/temporal-panel/style'
 import '../../_components/field-presentation/style'
 import '../../style/index.less'
 import '../../button/style'

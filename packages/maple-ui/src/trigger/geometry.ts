@@ -13,11 +13,33 @@ export interface PositioningSpace {
 }
 
 /** CSS coordinates belong to the actual containing block, not the Teleport target. */
-export function getPositioningSpace(popup: HTMLElement): PositioningSpace {
-  const parent = popup.offsetParent as HTMLElement | null
+export function getPositioningSpace(popup: HTMLElement, strategy?: 'absolute' | 'fixed'): PositioningSpace {
   const view = popup.ownerDocument.defaultView
-  if (!parent || (parent === popup.ownerDocument.body && view?.getComputedStyle(parent).position === 'static')) {
-    const fixed = view?.getComputedStyle(popup).position === 'fixed'
+  const fixed = strategy === 'fixed' || (!strategy && view?.getComputedStyle(popup).position === 'fixed')
+  let parent = popup.offsetParent as HTMLElement | null
+  if (fixed) {
+    parent = popup.parentElement
+    while (parent) {
+      const style = view?.getComputedStyle(parent)
+      const willChange = style?.willChange ?? ''
+      if (
+        (style?.transform && style.transform !== 'none') ||
+        (style?.perspective && style.perspective !== 'none') ||
+        (style?.filter && style.filter !== 'none') ||
+        (style?.backdropFilter && style.backdropFilter !== 'none') ||
+        /\b(layout|paint|strict|content)\b/.test(style?.contain ?? '') ||
+        /\b(transform|perspective|filter|contain)\b/.test(willChange) ||
+        style?.getPropertyValue('content-visibility') === 'auto'
+      ) {
+        break
+      }
+      parent = parent.parentElement
+    }
+  }
+  if (
+    !parent ||
+    (!fixed && parent === popup.ownerDocument.body && view?.getComputedStyle(parent).position === 'static')
+  ) {
     return { x: fixed ? 0 : -(view?.scrollX ?? 0), y: fixed ? 0 : -(view?.scrollY ?? 0), scaleX: 1, scaleY: 1 }
   }
   const rect = parent.getBoundingClientRect()
@@ -39,6 +61,59 @@ export function getRelativeRect(rect: Pick<DOMRect, 'top' | 'left' | 'width' | '
     width: rect.width / scaleX,
     height: rect.height / scaleY,
   }
+}
+
+/** Convert same-origin frame viewport coordinates into the popup document. */
+export function translateRectBetweenDocuments(
+  rect: Pick<DOMRect, 'top' | 'left' | 'width' | 'height'>,
+  source: Document,
+  target: Document,
+) {
+  if (source === target) {
+    return rect
+  }
+  function ancestors(document: Document) {
+    const result = new Map<Document, PositioningSpace>()
+    let current: Document | undefined = document
+    let space: PositioningSpace = { x: 0, y: 0, scaleX: 1, scaleY: 1 }
+    while (current) {
+      result.set(current, space)
+      let frame: HTMLElement | null = null
+      try {
+        frame = current.defaultView?.frameElement as HTMLElement | null
+      } catch {
+        break
+      }
+      if (!frame) {
+        break
+      }
+      const bounds = frame.getBoundingClientRect()
+      const scaleX = frame.offsetWidth ? bounds.width / frame.offsetWidth || 1 : 1
+      const scaleY = frame.offsetHeight ? bounds.height / frame.offsetHeight || 1 : 1
+      space = {
+        x: bounds.left + (frame.clientLeft + space.x) * scaleX,
+        y: bounds.top + (frame.clientTop + space.y) * scaleY,
+        scaleX: space.scaleX * scaleX,
+        scaleY: space.scaleY * scaleY,
+      }
+      current = frame.ownerDocument
+    }
+    return result
+  }
+  const from = ancestors(source)
+  const to = ancestors(target)
+  for (const [document, a] of from) {
+    const b = to.get(document)
+    if (b) {
+      return {
+        left: (a.x + rect.left * a.scaleX - b.x) / b.scaleX,
+        top: (a.y + rect.top * a.scaleY - b.y) / b.scaleY,
+        width: (rect.width * a.scaleX) / b.scaleX,
+        height: (rect.height * a.scaleY) / b.scaleY,
+      }
+    }
+  }
+  return undefined
 }
 
 /** Screen-axis offsets remain screen-axis offsets even after a placement flips. */

@@ -13,7 +13,7 @@ import {
   kebabCase,
   toNumber,
 } from '@maple-design/shared'
-import { type StyleVarName, type StyleVars } from '../style-provider/props'
+import { type StyleVarName, type StyleVars } from '../theme-provider/props'
 
 // Numeric strings retain integer-only conversion; CSS expressions pass through.
 export function toSizeUnit(value: unknown): string | undefined {

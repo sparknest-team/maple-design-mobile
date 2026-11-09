@@ -250,3 +250,20 @@ test('ordinary Vue snippets with named imports remain static code and produce va
     assert.ok(!compiled.code.includes(`_ctx.${binding}`), `${binding}: code does not execute as a Vue template`)
   }
 })
+
+test('all bilingual component Markdown compiles as Vue templates', () => {
+  function visit(directory) {
+    for (const entry of readdirSync(directory, { withFileTypes: true })) {
+      if (['example', '__tests__', 'node_modules'].includes(entry.name)) {
+        continue
+      }
+      const file = resolve(directory, entry.name)
+      if (entry.isDirectory()) {
+        visit(file)
+      } else if (/\/docs\/(?:zh-CN|en-US)\.md$/.test(file)) {
+        render(readFileSync(file, 'utf8'), file)
+      }
+    }
+  }
+  visit(source)
+})

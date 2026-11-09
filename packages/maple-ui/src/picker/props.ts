@@ -6,6 +6,7 @@ import { type FieldNames } from '../utils/options'
 export type PickerColumnOption = {
   text?: string | number
   value?: string | number
+  disabled?: boolean
   children?: PickerColumnOption[]
   className?: string
   textClassName?: string

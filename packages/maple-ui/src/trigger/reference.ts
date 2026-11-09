@@ -108,8 +108,14 @@ export function useTriggerReferenceAttrs(
         if (value == null) {
           continue
         }
-        originals.set(name, nextElement.getAttribute(name))
-        nextElement.setAttribute(name, String(value))
+        const original = nextElement.getAttribute(name)
+        originals.set(name, original)
+        if (name === 'aria-describedby') {
+          const ids = `${original ?? ''} ${String(value)}`.trim().split(/\s+/).filter(Boolean)
+          nextElement.setAttribute(name, [...new Set(ids)].join(' '))
+        } else {
+          nextElement.setAttribute(name, String(value))
+        }
       }
     },
     { immediate: true, flush: 'post' },

@@ -26,7 +26,7 @@ export interface SelectionSession<T> {
   pending: Ref<boolean>
   error: Ref<string>
   update: (value: T) => void
-  commit: () => boolean | Promise<boolean>
+  commit: (event?: Event) => boolean | Promise<boolean>
   cancel: () => void
   reset: () => void
 }
@@ -38,7 +38,7 @@ export function useSelectionSession<T>(options: {
   valid?: (value: T) => boolean
   same?: (left: T, right: T) => boolean
   clone: (value: T) => T
-  publish: (value: T) => void
+  publish: (value: T, event?: Event) => void
   close: () => void
   beforeCommit?: (value: T, signal: AbortSignal) => void | boolean | Promise<void | boolean>
   cancelOnExternalChange?: boolean
@@ -89,7 +89,7 @@ export function useSelectionSession<T>(options: {
       options.publish(options.clone(next))
     }
   }
-  function commit() {
+  function commit(event?: Event) {
     if (
       options.blocked() ||
       settled.value ||
@@ -109,7 +109,11 @@ export function useSelectionSession<T>(options: {
       publishing = true
       try {
         if (!(options.same ?? sameSelectionValue)(next, options.value())) {
-          options.publish(next)
+          if (event) {
+            options.publish(next, event)
+          } else {
+            options.publish(next)
+          }
         }
       } finally {
         publishing = false

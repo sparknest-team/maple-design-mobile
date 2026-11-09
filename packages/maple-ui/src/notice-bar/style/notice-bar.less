@@ -67,6 +67,14 @@
   }
 }
 
+.mp-notice-bar:dir(rtl) .mp-notice-bar__icon {
+  margin: var(--mp-notice-bar-icon-margin-rtl);
+}
+
+.mp-notice-bar:dir(rtl) .mp-notice-bar__close {
+  margin: var(--mp-notice-bar-close-margin-rtl);
+}
+
 @keyframes mp-notice-bar-scroll {
   from {
     transform: translate3d(0, 0, 0);
@@ -86,5 +94,19 @@
   }
   to {
     transform: translate3d(100%, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mp-notice-bar__content {
+    overflow: visible;
+  }
+
+  .mp-notice-bar__text--scroll,
+  .mp-notice-bar__text--scroll:dir(rtl) {
+    padding-inline-start: 0;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    animation: none;
   }
 }

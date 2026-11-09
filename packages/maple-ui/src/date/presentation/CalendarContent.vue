@@ -225,7 +225,7 @@
 <script lang="ts">
 import { computed, defineComponent, nextTick, ref, watch, type PropType, type RendererNode } from 'vue'
 import { call, doubleRaf, error, isArray, toNumber } from '@maple-design/shared'
-import dayjs from 'dayjs/esm/index.js'
+import dayjs from 'dayjs'
 import { mergePickerFields, pickerFieldIndexes, timeFields } from '../../_components/picker-field/fields'
 import { useRangeDisabledParts, useRangeFieldIndex } from '../../_components/picker-field/mobile-range-field-context'
 import TemporalCurrent from '../../_components/picker-field/TemporalCurrent.vue'

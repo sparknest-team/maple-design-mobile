@@ -2,6 +2,9 @@ import { type App, type Directive, type DirectiveBinding, type Plugin } from 'vu
 import { getRect, getStyle, supportTouch } from '@maple-design/shared'
 import context from '../context'
 import { createNamespace } from '../utils/components'
+import type { RippleDirectiveValue } from './props'
+
+export type { RippleDirectiveValue } from './props'
 
 const { n } = createNamespace('ripple')
 
@@ -24,6 +27,7 @@ interface RippleOptions {
   color?: string
   disabled?: boolean
   tasker?: number | null
+  styles?: Map<string, { value: string; priority: string; applied: string }>
 }
 
 interface RippleHTMLElement extends HTMLElement {
@@ -88,16 +92,50 @@ function clearTasks(element: RippleHTMLElement) {
     waves.delete(ripple)
     ripple.remove()
   })
+  restoreStyles(element)
+}
+
+function restoreStyles(element: RippleHTMLElement) {
+  const styles = element._ripple?.styles
+  if (!styles) {
+    return
+  }
+  styles.forEach(({ value, priority, applied }, property) => {
+    if (element.style.getPropertyValue(property) !== applied || element.style.getPropertyPriority(property)) {
+      return
+    }
+    if (value) {
+      element.style.setProperty(property, value, priority)
+    } else {
+      element.style.removeProperty(property)
+    }
+  })
+  element._ripple!.styles = undefined
 }
 
 function setStyles(element: RippleHTMLElement) {
+  if (element._ripple?.styles) {
+    return
+  }
   const { zIndex, position } = getStyle(element)
-
-  element.style.overflow = 'hidden'
-  element.style.overflowX = 'hidden'
-  element.style.overflowY = 'hidden'
-  position === 'static' && (element.style.position = 'relative')
-  zIndex === 'auto' && (element.style.zIndex = '1')
+  const styles = new Map<string, { value: string; priority: string; applied: string }>()
+  const set = (property: string, applied: string) => {
+    styles.set(property, {
+      value: element.style.getPropertyValue(property),
+      priority: element.style.getPropertyPriority(property),
+      applied,
+    })
+    element.style.setProperty(property, applied)
+  }
+  element._ripple!.styles = styles
+  set('overflow-x', 'hidden')
+  set('overflow-y', 'hidden')
+  if (position === 'static') {
+    set('position', 'relative')
+  }
+  if (zIndex === 'auto') {
+    set('z-index', '1')
+  }
 }
 
 function isTouchEvent(event: Event): event is TouchEvent {
@@ -105,15 +143,19 @@ function isTouchEvent(event: Event): event is TouchEvent {
 }
 
 function computeRippleStyles(element: RippleHTMLElement, event: TouchEvent | KeyboardEvent | MouseEvent): RippleStyles {
-  const { top, left }: DOMRect = getRect(element)
+  const { top, left, width, height }: DOMRect = getRect(element)
   const { clientWidth, clientHeight } = element
 
   const radius: number = Math.sqrt(clientWidth ** 2 + clientHeight ** 2) / 2
   const size: number = radius * 2
 
   const point = isTouchEvent(event) ? event.touches[0] : 'clientX' in event ? event : undefined
-  const localX = point ? point.clientX - left : clientWidth / 2
-  const localY = point ? point.clientY - top : clientHeight / 2
+  const localX = point
+    ? (point.clientX - left) * (width ? (element.offsetWidth || width) / width : 1) - element.clientLeft
+    : clientWidth / 2
+  const localY = point
+    ? (point.clientY - top) * (height ? (element.offsetHeight || height) / height : 1) - element.clientTop
+    : clientHeight / 2
 
   const centerX: number = (clientWidth - radius * 2) / 2
   const centerY: number = (clientHeight - radius * 2) / 2
@@ -227,6 +269,9 @@ function removeRipple(this: RippleHTMLElement) {
         () => {
           waves.delete(lastRipple)
           lastRipple.remove()
+          if (!ownedRipples(this).length) {
+            restoreStyles(this)
+          }
         },
         Math.max(MINIMUM_REMOVAL_DELAY, transitionTime(lastRipple, 'opacity')),
       )
@@ -359,7 +404,7 @@ function unbindListeners(el: RippleHTMLElement) {
   }
 }
 
-function mounted(el: RippleHTMLElement, binding: DirectiveBinding<RippleOptions>) {
+function mounted(el: RippleHTMLElement, binding: DirectiveBinding<RippleDirectiveValue | undefined>) {
   el._ripple = {
     document: el.ownerDocument,
     listening: false,
@@ -379,7 +424,7 @@ function unmounted(el: RippleHTMLElement) {
   delete el._ripple
 }
 
-function updated(el: RippleHTMLElement, binding: DirectiveBinding<RippleOptions>) {
+function updated(el: RippleHTMLElement, binding: DirectiveBinding<RippleDirectiveValue | undefined>) {
   const newBinding = {
     color: binding.value?.color,
     disabled: binding.value?.disabled,
@@ -400,7 +445,7 @@ function updated(el: RippleHTMLElement, binding: DirectiveBinding<RippleOptions>
   }
 }
 
-const Ripple: Directive & Plugin = {
+const Ripple: Directive<HTMLElement, RippleDirectiveValue | undefined> & Plugin = {
   mounted,
   unmounted,
   updated,

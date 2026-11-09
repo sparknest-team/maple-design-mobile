@@ -8,6 +8,21 @@
     border-top: var(--mp-action-sheet-border-top);
   }
 
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__close {
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    padding: 10px 16px;
+    cursor: pointer;
+  }
+
   &__title {
     padding: var(--mp-action-sheet-title-padding);
     color: var(--mp-action-sheet-title-color);
@@ -16,6 +31,11 @@
 
   &__action-item {
     display: flex;
+    width: 100%;
+    border: 0;
+    background: transparent;
+    font: inherit;
+    text-align: start;
     align-items: center;
     height: var(--mp-action-sheet-action-item-height);
     padding: var(--mp-action-sheet-action-item-padding);

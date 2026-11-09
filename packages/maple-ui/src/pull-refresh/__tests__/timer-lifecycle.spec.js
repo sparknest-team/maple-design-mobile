@@ -214,7 +214,7 @@ describe('PullRefresh timer and refresh continuation lifetime', () => {
     expect(f.vm.refreshStatus).toBe('loading')
   })
   test('disposed icon wait resolves without scheduling refresh', async () => {
-    const f = await create()
+    const f = await create({}, false)
     f.drag()
     f.vm.iconName = 'arrow-down'
     const ending = f.vm.handleTouchend(),
@@ -227,7 +227,7 @@ describe('PullRefresh timer and refresh continuation lifetime', () => {
     expect(f.vm.refreshStatus).not.toBe('loading')
   })
   test('ordinary released pull requests one refresh', async () => {
-    const f = await create()
+    const f = await create({}, false)
     f.drag()
     await f.vm.handleTouchend()
     await nextTick()

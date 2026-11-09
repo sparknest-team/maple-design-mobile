@@ -1,0 +1,35 @@
+{
+  "fields": [
+    {
+      "name": "theme",
+      "description": "亮暗模式或主题预设，省略时继承外层",
+      "type": "ThemeProviderTheme",
+      "defaultValue": "undefined",
+      "kind": "enum",
+      "options": [
+        "light",
+        "dark"
+      ]
+    },
+    {
+      "name": "style-vars",
+      "description": "局部变量，null 清空本层覆盖",
+      "type": "StyleVars | null",
+      "defaultValue": "(): StyleVars | null => ({})",
+      "kind": "json",
+      "initial": "{}"
+    },
+    {
+      "name": "tag",
+      "description": "包裹标签",
+      "type": "string",
+      "defaultValue": "'div'",
+      "kind": "string"
+    }
+  ],
+  "events": [],
+  "scenarios": [],
+  "slotNames": [],
+  "slotDefaults": {},
+  "methodNames": []
+}

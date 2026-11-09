@@ -2,7 +2,7 @@ import { defineComponent, h, KeepAlive, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test, vi } from 'vitest'
 import InputNumber from '..'
-import { clampNumber, getNumberPrecision, parseNumberInput } from '../number-value'
+import { clampNumber, getNumberPrecision, parseNumberInput, resolveNumberBounds } from '../number-value'
 import { useStepRepeat } from '../use-step-repeat'
 
 const wrappers: Array<ReturnType<typeof mount>> = []
@@ -180,4 +180,14 @@ describe('numeric source contract', () => {
     vi.advanceTimersByTime(3000)
     expect(step).toHaveBeenCalledTimes(1)
   })
+})
+
+test('range resolution protects invalid boundaries without constraining zero or negative finite values', () => {
+  expect(resolveNumberBounds(NaN, 5)).toEqual({ min: -Infinity, max: 5 })
+  expect(resolveNumberBounds(-5, NaN)).toEqual({ min: -5, max: Infinity })
+  expect(resolveNumberBounds(5, 1)).toEqual({ min: -Infinity, max: Infinity })
+  expect(resolveNumberBounds(-Infinity, Infinity)).toEqual({ min: -Infinity, max: Infinity })
+  expect(resolveNumberBounds(-5, 0)).toEqual({ min: -5, max: 0 })
+  expect(clampNumber(3, NaN, 5)).toBe(3)
+  expect(clampNumber(3, 5, 1)).toBe(3)
 })

@@ -1,6 +1,6 @@
 # NavMenu 导航菜单
 
-从 Cedar NavMenu 迁移，保留 NavMenu/NavMenuItem、独立选中值、标题跟随、插槽与受控状态写法。移动端只提供横向筛选入口，不包含桌面侧栏、折叠导航、悬停或“更多”收纳。
+移动端提供横向筛选入口，支持 NavMenu / NavMenuItem、独立选中值、标题跟随、插槽和受控状态；不提供桌面侧栏、折叠导航、悬停展开或“更多”收纳。
 
 ## 基础示例
 
@@ -32,7 +32,11 @@
 
 普通 v-model 保存每个 Item 独立的筛选值；v-model:open 控制面板展开。更新事件只是请求，受控父级必须接收更新；父级拒绝关闭时面板保持展开。非受控入口同一时间只展开一个，切换入口不清空其他值或已挂载插槽内容。关闭不会自动应用或重置表单。
 
+使用 content 插槽时，自定义面板的无障碍名称跟随入口的名称；入口可通过 aria-label 或 aria-labelledby 指定名称。请确保自定义入口具有有意义的名称。
+
 默认标题跟随匹配选项，无匹配时使用 label；label 插槽可固定标题。highlight 只覆盖视觉强调，打开面板不会让筛选自动生效。需要根级业务单选时，为 Item 设置唯一 name，并使用根 active-item。
+
+## 交互与控制
 
 ### 面板状态与关闭
 
@@ -62,7 +66,7 @@ Item 的选中值、展开状态、事件、插槽上下文及 `select/close/set
 
 ## API
 
-### NavMenu
+### NavMenu Props
 
 | 属性                              | 说明                                                                                     | 默认值           |
 | --------------------------------- | ---------------------------------------------------------------------------------------- | ---------------- |
@@ -80,7 +84,7 @@ Item 的选中值、展开状态、事件、插槽上下文及 `select/close/set
 
 事件：update:active-item。方法：close()、resize()、setActiveItem(key)。默认插槽放置 mp-nav-menu-item；也可使用 NavMenu.Item。
 
-### NavMenuItem
+### NavMenuItem Props
 
 | 属性                          | 说明                                                                                                                         | 默认值            |
 | ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ----------------- |
@@ -104,32 +108,51 @@ Item 的选中值、展开状态、事件、插槽上下文及 `select/close/set
 
 插槽：default（入口内部内容）、label、icon、content（替换默认选项面板）、option-label、option-icon、option-extra。入口与 content 插槽收到 `{ modelValue, selectedOption, active, open, select, close }`；选项插槽收到 `{ option, active, expanded, level }`。
 
-## 类型定义
+## Types
 
 NavMenuKey 为 string | number。NavMenuOption 使用 key、label、icon、extra、children、disabled、show、props，type 为 item/group/divider。label/icon/extra 支持 VNode 或上下文渲染函数。数字 0 和空字符串是有效 key；普通项缺少 key 或重复 key 抛错。禁用向子项继承，隐藏项及其子树不展示。所有类型从 @maple-design/ui 导出。
-
-## 样式变量
-
-| 变量                              | 默认值                              |
-| --------------------------------- | ----------------------------------- |
-| --mp-nav-menu-background          | var(--mp-sys-color-surface-overlay) |
-| --mp-nav-menu-color               | var(--mp-sys-color-content-primary) |
-| --mp-nav-menu-active-color        | var(--mp-sys-color-content-brand)   |
-| --mp-nav-menu-disabled-color      | var(--mp-color-text-disabled)       |
-| --mp-nav-menu-border-color        | var(--mp-sys-color-border-default)  |
-| --mp-nav-menu-height              | 48px                                |
-| --mp-nav-menu-size-xs-height | 32px |
-| --mp-nav-menu-size-sm-height | 40px |
-| --mp-nav-menu-size-lg-height | 56px |
-| --mp-nav-menu-size-xl-height | 64px |
-| --mp-nav-menu-font-size           | var(--mp-font-size-md)              |
-| --mp-nav-menu-padding             | 12px 16px                           |
-| --mp-nav-menu-gap                 | 8px                                 |
-| --mp-nav-menu-arrow-size          | 6px                                 |
-| --mp-nav-menu-panel-padding       | 12px                                |
-| --mp-nav-menu-transition-duration | 200ms                               |
-
 
 ## 阅读方向与键盘交互
 
 NavMenu 继承最近的原生 `dir`，支持动态切换和局部覆盖。导航栏左右键按阅读方向移动焦点，Home/End 聚焦首尾可用项；下键打开选项面板，Escape 关闭并返回触发项。选项面板的水平按键随方向调整，上下键保持原有顺序。Teleport 面板继承触发项的方向，切换方向不会清空筛选值或选中项。
+
+## CSS Variables
+
+<!-- component-css-variables:start -->
+
+通过以下变量定制组件外观。默认值随表中注明的主题或选择器条件变化；变量仅在对应的尺寸、变体和交互状态下生效。
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| 变量 | 默认值／条件 | 影响的样式 |
+| --- | --- | --- |
+| `--mp-nav-menu-active-color` | `var(--mp-sys-color-content-brand)` | `color`, `outline` |
+| `--mp-nav-menu-arrow-size` | `6px` | `height`, `width` |
+| `--mp-nav-menu-background` | `var(--mp-sys-color-surface-overlay)` | `background` |
+| `--mp-nav-menu-border-color` | `var(--mp-sys-color-border-default)` | `border-top` |
+| `--mp-nav-menu-color` | `var(--mp-sys-color-content-primary)` | `color` |
+| `--mp-nav-menu-disabled-color` | `var(--mp-color-text-disabled)` | `color` |
+| `--mp-nav-menu-font-size` | `var(--mp-font-size-md)` | `font-size` |
+| `--mp-nav-menu-gap` | `8px` | `gap` |
+| `--mp-nav-menu-height` | `48px` | `min-height` |
+| `--mp-nav-menu-padding` | `12px 16px` | `padding` |
+| `--mp-nav-menu-panel-padding` | `12px` | `padding`, `padding-bottom` |
+| `--mp-nav-menu-size-lg-height` | `56px` | `min-height` |
+| `--mp-nav-menu-size-sm-height` | `40px` | `min-height` |
+| `--mp-nav-menu-size-xl-height` | `64px` | `min-height` |
+| `--mp-nav-menu-size-xs-height` | `32px` | `min-height` |
+| `--mp-nav-menu-transition-duration` | `200ms` | `transition` |
+
+</div>
+
+将覆盖设置在组件实际根节点或弹层真实挂载祖先上。例如给该元素添加下列 class，再按需替换变量值：
+
+```css
+.component-theme {
+  --mp-nav-menu-active-color: var(--mp-sys-color-content-brand);
+}
+```
+
+显式行内样式及直接写入同一 CSS 属性的 Props 优先于样式表默认值。Teleport 后，普通 CSS 变量按实际挂载位置继承；使用 ThemeProvider 时，请遵循其局部主题与弹层配置规则。局部定制请直接覆盖组件变量；仅修改后代的 system 变量不会重新计算从根继承的组件别名。内部变量不属于公共 API。
+
+<!-- component-css-variables:end -->

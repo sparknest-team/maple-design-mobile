@@ -171,8 +171,9 @@ TabPane、TabNav、TabItem 都需要唯一的 `name`；选中值及导航与面�
 | default-value | `string / number` | `undefined` | 非受控初值，省略选首个可用项 |
 | variant | `line / card / outline / plain / capsule / enclosed` | `line` | 视觉变体 |
 | size | `xs / sm / md / lg / xl` | `全局值或 md` | 尺寸 |
-| orientation | 标签导航的横纵轴向，默认 horizontal；影响导航布局和方向键操作 | `horizontal` | 导航方向 |
-| indicator-position | 指示器位于导航靠内容的一侧 normal 或相反侧 reverse，默认 normal；不使用四边值 | `normal` | 指示器在内容侧或相反侧 |
+| tab-list-aria-label | `string` | `undefined` | 标签列表的无障碍名称；TabsNavs 的显式 aria-label 或 aria-labelledby 优先 |
+| orientation | `Orientation`<br>`'horizontal' \| 'vertical'` | `horizontal` | 导航方向 |
+| indicator-position | `TabsIndicatorPosition`<br>`'normal' \| 'reverse'` | `normal` | 指示器在内容侧或相反侧 |
 | editable | `boolean` | `false` | 允许关闭标签 |
 | show-add-button | `boolean` | `false` | 编辑模式显示新增按钮 |
 | auto-switch | `boolean` | `false` | 新增后切换最后一个可用标签 |
@@ -188,7 +189,7 @@ TabPane、TabNav、TabItem 都需要唯一的 `name`；选中值及导航与面�
 | tab-style | `StyleValue` | `undefined` | 导航标签外层（含标题与关闭按钮）样式，支持字符串、对象和数组 |
 | hide-content | `boolean` | `false` | 隐藏内容区域 |
 | trigger | `click / hover` | `click` | 鼠标触发方式，触摸始终点击 |
-| scroll-position | 选中标签在导航滚动视口中的目标位置或数值偏移，默认 auto；不是弹层方位 | `auto` | 选中标签滚动位置，数字为起点偏移 |
+| scroll-position | `TabsScrollPosition`<br>`'start' \| 'end' \| 'center' \| 'auto' \| number` | `auto` | 选中标签滚动位置，数字为起点偏移 |
 | scroll-buttons | `boolean / auto` | `auto` | 溢出时显示箭头，auto 在触摸设备隐藏 |
 | activation-mode | `automatic / manual` | `automatic` | 方向键是否立即选中 |
 | swipeable | `boolean` | `false` | 内容横向触摸切换；不循环 |
@@ -237,7 +238,7 @@ TabNav 与 TabItem 使用相同的 `name` 建立对应关系；`name` 在同组�
 
 未激活的 panel 始终带 hidden，内部状态是否保留由上述属性决定。destroy-on-hide 优先于 lazy-load；active 内容始终挂载。TabsNavs 和 TabsItems 没有业务 Props。
 
-### Slots
+### TabItem Slots
 
 | 组件 | 插槽 | 说明 |
 | --- | --- | --- |
@@ -249,7 +250,7 @@ TabNav 与 TabItem 使用相同的 `name` 建立对应关系；`name` 在同组�
 | TabsItems | default | TabItem 列表 |
 | TabItem | default | 面板内容 |
 
-### Expose
+### TabItem Methods
 
 `TabsNavs.resize(): void` 重新测量溢出并将选中标签滚入可见区域。尺寸变化有 ResizeObserver 自动监听。
 
@@ -257,59 +258,84 @@ TabNav 与 TabItem 使用相同的 `name` 建立对应关系；`name` 在同组�
 
 方向键跳过禁用项并循环；Home/End 到首尾；可编辑标签按 Delete 请求关闭。horizontal 使用左右键，vertical 使用上下键。manual 模式只移动焦点，Enter/Space 通过原生 button 激活。使用 `dir="rtl"` 支持从右向左布局。TabsNavs 可传 `aria-label` 为导航命名。
 
-### 类型
+关闭请求后，若获得焦点的标签被移除，焦点移到相邻可用标签；若用户已将焦点移到别处则不抢回。切换面板时，仅当焦点位于将隐藏的面板内才将其移到新标签。水平滚动的 start、end 和数值偏移按阅读方向计算，RTL 时起点在右侧。
+
+简单 TabPane 模式可通过 tab-list-aria-label 命名标签列表；高级 TabsNavs 可直接使用 aria-label 或 aria-labelledby。仅使用导航、不提供 TabItem 时，调用方负责管理外部面板的关联和可访问性。
+
+## Types
 
 导出 TabsName、TabsVariant、TabsTrigger、TabsIndicatorPosition、TabsScrollPosition、TabsActivationMode，以及六组件对应的 Props / Instance / 运行时 props / `_XxxComponent`。同一 props 定义用于两端。
 
-## 样式变量
+## 使用说明
+
+支持 xs / sm / md / lg / xl 五档尺寸。Cedar 继承 ConfigProvider 的 size / rtl；Maple 默认 md，支持 setPropsDefaults、显式 size 与 DOM dir。未激活面板被隐藏，InfiniteScroll 会随面板可见性工作。
+
+公开类型包括 TabsEmits、TabsSlots、TabPaneSlots、TabsNavsSlots、TabNavSlots、TabsItemsSlots、TabItemSlots、TabsNavsExpose。自有实例方法仅 TabsNavs.resize()；其余成员没有自有命令式方法或通知事件，选择及编辑事件归属 Tabs。
+### 配置说明
 
 相同 token 后缀在两端意义一致，只有默认值不同。[完整跨端对比与设计依据](./comparison.md)。
 
-| 变量 | 默认值 |
-| --- | --- |
-| `--mp-tabs-background` | `var(--mp-sys-color-surface-default)` |
-| `--mp-tabs-title-text-color` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-tabs-title-text-color-active` | `var(--mp-sys-color-content-brand)` |
-| `--mp-tabs-title-text-color-disabled` | `var(--mp-sys-color-content-disabled)` |
-| `--mp-tabs-muted-background` | `var(--mp-sys-color-surface-muted)` |
-| `--mp-tabs-border-color` | `var(--mp-sys-color-border-default)` |
-| `--mp-tabs-hover-background` | `var(--mp-sys-color-state-hover)` |
-| `--mp-tabs-nav-gap` | `var(--mp-sys-space-2)` |
-| `--mp-tabs-tab-gap` | `var(--mp-sys-space-2)` |
-| `--mp-tabs-header-padding` | `var(--mp-sys-space-4)` |
-| `--mp-tabs-control-height` | `var(--mp-sys-control-height-xs)` |
-| `--mp-tabs-touch-target` | `var(--mp-sys-control-touch-target)` |
-| `--mp-tabs-border-width` | `1px` |
-| `--mp-tabs-focus-width` | `2px` |
-| `--mp-tabs-focus-offset` | `-3px` |
-| `--mp-tabs-radius` | `var(--mp-sys-radius-md)` |
-| `--mp-tabs-icon-gap` | `var(--mp-sys-space-3)` |
-| `--mp-tabs-content-padding` | `var(--mp-sys-space-5)` |
-| `--mp-tabs-indicator-size` | `2px` |
-| `--mp-tabs-indicator-radius` | `1px` |
-| `--mp-tabs-animation-duration` | `var(--mp-sys-motion-duration-standard)` |
-| `--mp-tabs-active-font-weight` | `var(--mp-sys-font-weight-semibold)` |
-| `--mp-tabs-group-padding` | `var(--mp-sys-space-2)` |
-| `--mp-tabs-capsule-radius` | `12px` |
-| `--mp-tabs-active-shadow` | `none` |
-| `--mp-tabs-size-xs-tab-height` | `var(--mp-sys-control-height-xs)` |
-| `--mp-tabs-size-xs-tab-padding` | `var(--mp-sys-space-2) var(--mp-sys-space-4)` |
-| `--mp-tabs-size-xs-tab-font-size` | `var(--mp-sys-font-size-xs)` |
-| `--mp-tabs-size-sm-tab-height` | `var(--mp-sys-control-height-sm)` |
-| `--mp-tabs-size-sm-tab-padding` | `var(--mp-sys-space-3) var(--mp-sys-space-5)` |
-| `--mp-tabs-size-sm-tab-font-size` | `var(--mp-sys-font-size-sm)` |
-| `--mp-tabs-size-md-tab-height` | `var(--mp-sys-control-height-md)` |
-| `--mp-tabs-size-md-tab-padding` | `var(--mp-sys-space-4) var(--mp-sys-space-6)` |
-| `--mp-tabs-size-md-tab-font-size` | `var(--mp-sys-font-size-md)` |
-| `--mp-tabs-size-lg-tab-height` | `var(--mp-sys-control-height-lg)` |
-| `--mp-tabs-size-lg-tab-padding` | `10px var(--mp-sys-space-7)` |
-| `--mp-tabs-size-lg-tab-font-size` | `var(--mp-sys-font-size-lg)` |
-| `--mp-tabs-size-xl-tab-height` | `var(--mp-sys-control-height-xl)` |
-| `--mp-tabs-size-xl-tab-padding` | `var(--mp-sys-space-5) var(--mp-sys-space-8)` |
-| `--mp-tabs-size-xl-tab-font-size` | `var(--mp-sys-font-size-xl)` |
+## CSS Variables
 
-## 独立同源与公开类型
+<!-- component-css-variables:start -->
 
-两端独立维护 Tabs、TabPane、TabsNavs、TabNav、TabsItems、TabItem 六件套，不跨库引用运行时，也不使用通用平台配置。size 的 xs/sm/md/lg/xl 五档均已实现。Cedar 继承 ConfigProvider 的 size/rtl；Maple 默认 md，支持 setPropsDefaults、显式 size 与 DOM dir。面板通过原生 hidden 显隐，InfiniteScroll 直接观察可见性，不再依赖旧面板注册。
+通过以下变量定制组件外观。默认值随表中注明的主题或选择器条件变化；变量仅在对应的尺寸、变体和交互状态下生效。
 
-公开类型包括 TabsEmits、TabsSlots、TabPaneSlots、TabsNavsSlots、TabNavSlots、TabsItemsSlots、TabItemSlots、TabsNavsExpose。自有实例方法仅 TabsNavs.resize()；其余成员没有自有命令式方法或通知事件，选择及编辑事件归属 Tabs。
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| 变量 | 默认值／条件 | 影响的样式 |
+| --- | --- | --- |
+| `--mp-tabs-active-font-weight` | `var(--mp-sys-font-weight-semibold)` | `font-weight` |
+| `--mp-tabs-active-shadow` | `none` | `box-shadow` |
+| `--mp-tabs-animation-duration` | `var(--mp-sys-motion-duration-standard)` | `animation` |
+| `--mp-tabs-background` | `var(--mp-sys-color-surface-default)` | `background` |
+| `--mp-tabs-border-color` | `var(--mp-sys-color-border-default)` | `background`, `border-color` |
+| `--mp-tabs-border-width` | `1px` | `border`, `bottom`, `height` |
+| `--mp-tabs-capsule-radius` | `12px` | `border-radius` |
+| `--mp-tabs-content-padding` | `var(--mp-sys-space-5)` | `padding-block`, `padding-inline-start` |
+| `--mp-tabs-control-height` | `var(--mp-sys-control-height-xs)` | `min-height`, `min-width` |
+| `--mp-tabs-focus-offset` | `-3px` | `outline-offset` |
+| `--mp-tabs-focus-width` | `2px` | `outline` |
+| `--mp-tabs-group-padding` | `var(--mp-sys-space-2)` | `padding` |
+| `--mp-tabs-header-padding` | `var(--mp-sys-space-4)` | `padding-inline` |
+| `--mp-tabs-hover-background` | `var(--mp-sys-color-state-hover)` | `background` |
+| `--mp-tabs-icon-gap` | `var(--mp-sys-space-3)` | `gap` |
+| `--mp-tabs-indicator-radius` | `1px` | `border-radius` |
+| `--mp-tabs-indicator-size` | `2px` | `height`, `width` |
+| `--mp-tabs-muted-background` | `var(--mp-sys-color-surface-muted)` | `background` |
+| `--mp-tabs-nav-gap` | `var(--mp-sys-space-2)` | `gap` |
+| `--mp-tabs-radius` | `var(--mp-sys-radius-md)` | `border-radius` |
+| `--mp-tabs-size-lg-tab-font-size` | `var(--mp-sys-font-size-lg)` | `font-size` |
+| `--mp-tabs-size-lg-tab-height` | `var(--mp-sys-control-height-lg)` | `min-height` |
+| `--mp-tabs-size-lg-tab-padding` | `10px var(--mp-sys-space-7)` | `padding` |
+| `--mp-tabs-size-md-tab-font-size` | `var(--mp-sys-font-size-md)` | `font-size` |
+| `--mp-tabs-size-md-tab-height` | `var(--mp-sys-control-height-md)` | `min-height` |
+| `--mp-tabs-size-md-tab-padding` | `var(--mp-sys-space-4) var(--mp-sys-space-6)` | `padding` |
+| `--mp-tabs-size-sm-tab-font-size` | `var(--mp-sys-font-size-sm)` | `font-size` |
+| `--mp-tabs-size-sm-tab-height` | `var(--mp-sys-control-height-sm)` | `min-height` |
+| `--mp-tabs-size-sm-tab-padding` | `var(--mp-sys-space-3) var(--mp-sys-space-5)` | `padding` |
+| `--mp-tabs-size-xl-tab-font-size` | `var(--mp-sys-font-size-xl)` | `font-size` |
+| `--mp-tabs-size-xl-tab-height` | `var(--mp-sys-control-height-xl)` | `min-height` |
+| `--mp-tabs-size-xl-tab-padding` | `var(--mp-sys-space-5) var(--mp-sys-space-8)` | `padding` |
+| `--mp-tabs-size-xs-tab-font-size` | `var(--mp-sys-font-size-xs)` | `font-size` |
+| `--mp-tabs-size-xs-tab-height` | `var(--mp-sys-control-height-xs)` | `min-height` |
+| `--mp-tabs-size-xs-tab-padding` | `var(--mp-sys-space-2) var(--mp-sys-space-4)` | `padding` |
+| `--mp-tabs-tab-gap` | `var(--mp-sys-space-2)` | `gap` |
+| `--mp-tabs-title-text-color` | `var(--mp-sys-color-content-secondary)` | `color` |
+| `--mp-tabs-title-text-color-active` | `var(--mp-sys-color-content-brand)` | `background`, `color`, `outline` |
+| `--mp-tabs-title-text-color-disabled` | `var(--mp-sys-color-content-disabled)` | `color` |
+| `--mp-tabs-touch-target` | `var(--mp-sys-control-touch-target)` | `min-height`, `min-width` |
+
+</div>
+
+将覆盖设置在组件实际根节点或弹层真实挂载祖先上。例如给该元素添加下列 class，再按需替换变量值：
+
+```css
+.component-theme {
+  --mp-tabs-background: var(--mp-sys-color-surface-default);
+}
+```
+
+显式行内样式及直接写入同一 CSS 属性的 Props 优先于样式表默认值。Teleport 后，普通 CSS 变量按实际挂载位置继承；使用 ThemeProvider 时，请遵循其局部主题与弹层配置规则。局部定制请直接覆盖组件变量；仅修改后代的 system 变量不会重新计算从根继承的组件别名。内部变量不属于公共 API。
+
+<!-- component-css-variables:end -->

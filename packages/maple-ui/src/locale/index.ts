@@ -9,6 +9,35 @@ import zhHK from './zh-HK'
 import zhTW from './zh-TW'
 
 export type Message = {
+  'numberKeyboard.label': string
+  'numberKeyboard.delete': string
+  'numberKeyboard.done': string
+  'imagePreview.prev': string
+  'imagePreview.next': string
+  'imagePreview.fullScreen': string
+  'imagePreview.rotateLeft': string
+  'imagePreview.rotateRight': string
+  'imagePreview.originalSize': string
+  'imagePreview.zoomOut': string
+  'imagePreview.zoomIn': string
+  'imagePreview.download': string
+  'imagePreview.close': string
+  'image.preview': string
+  'fab.actions': string
+  'indexBar.navigation': string
+  'common.close': string
+  'common.back'?: string
+  'splitButton.moreActions': string
+  'tabs.close': string
+  'tabs.add': string
+  'tabs.previous': string
+  'tabs.next': string
+  'breadcrumb.label': string
+  'breadcrumb.ellipsis': string
+  'loading.text': string
+  'table.scrollable': string
+  'peopleSelect.call': string
+  'peopleSelect.chat': string
   'fieldPresentation.selectionCount': string
   'fieldPresentation.selectionRemove': string
   'fieldPresentation.selectionBack': string

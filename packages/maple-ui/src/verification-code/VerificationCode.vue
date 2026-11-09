@@ -1,7 +1,9 @@
 <template>
   <div
+    v-bind="$attrs"
     ref="rootEl"
-    :class="classes(n(), n(`--size-${mergedSize}`), n(`--align-${align}`))"
+    :aria-describedby="describeError($attrs['aria-describedby'])"
+    :class="classes(n(), n(`--size-${mergedSize}`), n(`--align-${resolvedAlign}`))"
     :style="
       gutter === undefined
         ? undefined
@@ -34,7 +36,7 @@
             :blur-color="blurColor"
             :aria-label="ariaLabel ? `${ariaLabel} ${index + 1}/${lengthValue}` : undefined"
             :input-attrs="{
-              inputmode: type === 'digit' ? 'numeric' : 'text',
+              inputmode: resolvedType === 'digit' ? 'numeric' : 'text',
               autocomplete: 'off',
             }"
             @input="(value, event) => handleInput(index, value, event)"
@@ -63,6 +65,7 @@ import {
   useSlots,
   type ComponentPublicInstance,
 } from 'vue'
+import { provideFormErrorDescriptionBoundary, useFormErrorDescription } from '../form/error-description'
 import Input, { type InputInstance } from '../input'
 import { oneTimeCodeKey } from '../input/context'
 import { createNamespace } from '../utils/components'
@@ -70,7 +73,9 @@ import { useVerificationForm } from './form-adapter'
 import { verificationCodeProps } from './props'
 import type { VerificationCodeEmits, VerificationCodeSlots } from './types'
 
-defineOptions({ name: createNamespace('verification-code').name })
+defineOptions({ name: createNamespace('verification-code').name, inheritAttrs: false })
+const { describe: describeError } = useFormErrorDescription()
+provideFormErrorDescriptionBoundary()
 provide(oneTimeCodeKey, true)
 const props = defineProps(verificationCodeProps)
 const emit = defineEmits<VerificationCodeEmits>()
@@ -105,14 +110,16 @@ function afterRender(callback: () => void) {
   })
 }
 const lengthValue = computed(() => (Number.isInteger(props.length) && props.length > 0 ? props.length : 6))
+const resolvedType = computed(() => (['digit', 'text', 'alphanumeric'].includes(props.type) ? props.type : 'digit'))
+const resolvedAlign = computed(() => (['start', 'center', 'end'].includes(props.align) ? props.align : 'center'))
 const filter = (value: string) =>
-  props.type === 'digit'
+  resolvedType.value === 'digit'
     ? value.replace(/\D/g, '')
-    : props.type === 'alphanumeric'
+    : resolvedType.value === 'alphanumeric'
       ? value.replace(/[^a-z0-9]/gi, '')
       : value
 const value = computed(() =>
-  Array.from(filter(props.modelValue ?? inner.value))
+  Array.from(filter(props.modelValue === null ? '' : (props.modelValue ?? inner.value)))
     .slice(0, lengthValue.value)
     .join(''),
 )
@@ -136,6 +143,12 @@ const SeparatorValue = ({ index }: { index: number }) => {
 function setInputRef(el: Element | ComponentPublicInstance | null, index: number) {
   inputs.value[index] = el as InputInstance | null
 }
+function selectFocused(input: InputInstance | null | undefined) {
+  const element = input?.inputRef
+  if (element && element.ownerDocument.activeElement === element) {
+    input?.select()
+  }
+}
 function focus(index = Math.min(chars.value.length, lengthValue.value - 1)) {
   if (mergedDisabled.value || !alive) {
     return
@@ -144,7 +157,7 @@ function focus(index = Math.min(chars.value.length, lengthValue.value - 1)) {
   target?.focus()
   afterRender(() => {
     if (alive) {
-      target?.select()
+      selectFocused(target)
     }
   })
 }
@@ -278,7 +291,7 @@ function handleFocus(index: number, event: FocusEvent) {
   }
   afterRender(() => {
     if (alive) {
-      inputs.value[index]?.select()
+      selectFocused(inputs.value[index])
     }
   })
 }

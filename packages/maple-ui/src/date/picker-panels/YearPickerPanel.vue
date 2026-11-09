@@ -53,7 +53,9 @@ import {
 } from 'vue'
 import { toNumber } from '@maple-design/shared'
 import { onSmartMounted } from '@maple-design/use'
-import dayjs from 'dayjs/esm/index.js'
+import dayjs from 'dayjs'
+import isSameOrAfter from 'dayjs/plugin/isSameOrAfter.js'
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore.js'
 import { navigateTemporalGrid } from '../../_utils/temporal-keyboard'
 import MpAffix from '../../affix'
 import MpButton, { type ButtonVariant, type SemanticStatus } from '../../button'
@@ -62,6 +64,9 @@ import { type Choose, type ComponentProps, type PanelBtnDisabled } from '../pick
 import { isRangeHighlighted } from '../range-highlight'
 import { useCalendarRangeStyle } from '../use-calendar-range-style'
 import PanelHeader from './PanelHeader.vue'
+
+dayjs.extend(isSameOrBefore)
+dayjs.extend(isSameOrAfter)
 
 const { n, classes } = createNamespace('year-picker')
 const { n: nDate } = createNamespace('date-picker')

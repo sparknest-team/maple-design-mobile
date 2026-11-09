@@ -1,0 +1,3 @@
+- [x] Reproduce actual DateRange notifications and isolated common owner Form gap.
+- [x] Connect reference events without collecting listener promises or weakening blocked edits.
+- [x] Verify both owner branches, real components, Form, browsers, types and source gates.

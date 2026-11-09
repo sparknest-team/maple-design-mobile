@@ -3,7 +3,11 @@ import {
   defineComponent,
   getCurrentInstance,
   h,
+  inject,
   nextTick,
+  onActivated,
+  onBeforeUnmount,
+  onDeactivated,
   onMounted,
   provide,
   proxyRefs,
@@ -15,6 +19,7 @@ import {
   type VNodeChild,
 } from 'vue'
 import { provideOptionRequest, useOptionRequest } from '../../_hooks/use-option-request'
+import { inputGroupKey } from '../../input/context'
 import { provideEmptyValues, resolveEmptyValue, useEmptyValues } from '../../utils/empty-value'
 import { useSelectionSession } from '../selection-field/use-selection-session'
 import { fieldControlFormEvents, fieldEditorBoundary, invokeBeforeCommit, useFieldPresentation } from './context'
@@ -33,16 +38,33 @@ export interface FieldEditorContext {
   readonly: boolean
 }
 export interface FieldPresentationAdapter {
+  /** Pause selection mutations during loading while leaving search text editable. */
+  pauseSelectionWhileLoading?: boolean
+  /** Explicit completion notifications owned by final deferred acceptance. */
+  commitEvents?: Record<string, (args: readonly unknown[], value: unknown) => boolean>
+  /** Native input-family controls inherit Group state before Form fallback. */
+  inheritInputGroup?: boolean
+  /** Existing public methods available before a deferred editor mounts. */
+  methods?: readonly string[]
+  /** Pure return contract when no active control can perform the action. */
+  inactiveMethod?: (name: string, value: any, args: readonly unknown[]) => unknown
+  /** Explicit draft actions that open a deferred editor before forwarding. */
+  openMethods?: readonly string[]
   setup?: () => void
   reference?: (
-    context: FieldEditorContext & { open: boolean; setOpen: (open: boolean) => void; referenceRef: any },
+    context: FieldEditorContext & {
+      open: boolean
+      setOpen: (open: boolean) => void
+      referenceRef: any
+      clear: () => Promise<void>
+    },
   ) => VNodeChild
   defaultPresentation?: FieldPresentationMode
   intent?: 'input' | 'select'
   text?: (value: any, props: Record<string, any>) => string
   editor?: (context: FieldEditorContext) => VNodeChild
   valid?: (value: any, props: Record<string, any>) => boolean
-  changeArgs?: (value: any, props: Record<string, any>) => unknown[]
+  changeArgs?: (value: any, props: Record<string, any>, event?: Event) => unknown[]
   inlineProps?: (props: Record<string, any>) => Record<string, any>
 }
 /** Keep class instances (File, Blob, option identities) intact; isolate mutable value records. */
@@ -156,16 +178,21 @@ export function withFieldPresentation<T extends Component>(Base: T, adapter: Fie
           return emptyPolicy.emptyText.value
         },
       })
+
       // The public field owns presentation; nested controls only render its editor.
       provide(fieldEditorBoundary, true)
       provide(
         fieldControlFormEvents,
         computed(() => state.editMode.value === 'direct'),
       )
+      const inputGroup = adapter.inheritInputGroup ? inject(inputGroupKey, undefined) : undefined
       const form = usePresentationForm({
-        disabled: computed(() => (Array.isArray(props.disabled) ? props.disabled.every(Boolean) : props.disabled)),
-        readonly: computed(() => props.readonly),
-        size: computed(() => props.size),
+        disabled: computed(() => {
+          const disabled = props.disabled ?? inputGroup?.disabled.value
+          return Array.isArray(disabled) ? disabled.every(Boolean) : disabled
+        }),
+        readonly: computed(() => props.readonly ?? inputGroup?.readonly.value),
+        size: computed(() => props.size ?? inputGroup?.size.value),
       })
       const inner = shallowRef<ComponentPublicInstance & Record<string, any>>()
       const host = ref<InstanceType<typeof FieldPresentation>>()
@@ -187,7 +214,7 @@ export function withFieldPresentation<T extends Component>(Base: T, adapter: Fie
       const source = sourceKey
         ? useOptionRequest(
             () => props[sourceKey],
-            () => blocked.value,
+            () => form.mergedDisabled.value || state.readPretty.value,
             (error) => emit('load-error', error),
             // AutoComplete debounces here; Cascader already debounces its search events.
             () => (base.name.endsWith('AutoComplete') ? (props.searchDelay ?? 0) : 0),
@@ -199,6 +226,9 @@ export function withFieldPresentation<T extends Component>(Base: T, adapter: Fie
         provideOptionRequest(base.props, source)
       }
 
+      const selectionPaused = computed(() =>
+        Boolean(adapter.pauseSelectionWhileLoading && (props.loading || source?.loading.value)),
+      )
       const open = computed(() => !blocked.value && Boolean(props.open ?? localOpen.value))
       watch(open, (next) => {
         if (next && source?.remote.value) {
@@ -219,22 +249,70 @@ export function withFieldPresentation<T extends Component>(Base: T, adapter: Fie
         emit('update:open', next)
         emit('open-change', next)
       }
-      const publish = (next: unknown) => {
+      const commitNotifications = new Map<string, unknown[]>()
+      let completionActive = true
+      let completionGeneration = 0
+      if (adapter.commitEvents) {
+        const suspendCompletion = () => {
+          completionActive = false
+          completionGeneration++
+          commitNotifications.clear()
+        }
+        watch(open, () => commitNotifications.clear(), { flush: 'sync' })
+        watch(
+          blocked,
+          (value) => {
+            if (value) {
+              completionGeneration++
+              commitNotifications.clear()
+            }
+          },
+          { flush: 'sync' },
+        )
+        onBeforeUnmount(suspendCompletion)
+        onDeactivated(suspendCompletion)
+        onActivated(() => {
+          completionActive = true
+        })
+      }
+      const publish = (next: unknown, event?: Event) => {
+        const notifications = [...commitNotifications]
+        commitNotifications.clear()
         localValue.value = next
         emit('update:modelValue', next)
-        emit('change', ...(adapter.changeArgs?.(next, props) ?? [next]))
+        emit('change', ...(adapter.changeArgs?.(next, props, event) ?? [next]))
         if (!state.item?.validate) {
           form.eventHandlers.value?.onChange?.()
         }
+        if (notifications.length) {
+          const generation = completionGeneration
+          nextTick(() => {
+            if (
+              !completionActive ||
+              generation !== completionGeneration ||
+              blocked.value ||
+              !sameFieldValue(value.value, next)
+            ) {
+              return
+            }
+            for (const [name, args] of notifications) {
+              if (adapter.commitEvents?.[name]?.(args, next)) {
+                emit(name, ...args)
+              }
+            }
+          })
+        }
       }
+      const validDraft = (next: unknown) =>
+        (emptyPolicy.isEmpty(next) && !sameFieldValue(next, value.value)) || adapter.valid?.(next, props) !== false
       const session = useSelectionSession({
         value: () => value.value,
         open,
         deferred: () => true,
-        blocked: () => blocked.value,
+        blocked: () => blocked.value || selectionPaused.value,
         clone: cloneValue,
         same: sameFieldValue,
-        valid: (next) => adapter.valid?.(next, props) !== false,
+        valid: validDraft,
         publish,
         close: () => setOpen(false),
         cancelOnExternalChange: true,
@@ -246,7 +324,10 @@ export function withFieldPresentation<T extends Component>(Base: T, adapter: Fie
             return false
           }
           if (!sameFieldValue(next, value.value)) {
-            return invokeBeforeCommit(props.beforeCommit, next, { previousValue: value.value, signal })
+            return invokeBeforeCommit(props.beforeCommit, next, {
+              previousValue: value.value,
+              signal,
+            })
           }
         },
       })
@@ -255,6 +336,28 @@ export function withFieldPresentation<T extends Component>(Base: T, adapter: Fie
           session.update(next)
         }
       }
+      const clearDraft = () => {
+        if (!open.value || blocked.value || selectionPaused.value || session.pending.value) {
+          return
+        }
+        const fallback =
+          'uncheckedValue' in props
+            ? props.uncheckedValue
+            : typeof props.defaultValue === 'boolean'
+              ? false
+              : Array.isArray(value.value)
+                ? []
+                : props.defaultValue
+        session.update(resolveEmptyValue(props, fallback))
+      }
+      const clearReference = async () => {
+        if (blocked.value || selectionPaused.value || session.pending.value) {
+          return
+        }
+        setOpen(true)
+        await nextTick()
+        clearDraft()
+      }
       const cancel = () => {
         if (session.pending.value) {
           return
@@ -262,10 +365,10 @@ export function withFieldPresentation<T extends Component>(Base: T, adapter: Fie
         session.cancel()
         state.item?.resetValidation?.()
       }
-      const confirm = async () => {
+      const confirm = async (event?: Event) => {
         inner.value?.blur?.()
         await nextTick()
-        return session.commit()
+        return session.commit(event)
       }
       watch(
         [state.editMode, state.readPretty, blocked],
@@ -291,38 +394,161 @@ export function withFieldPresentation<T extends Component>(Base: T, adapter: Fie
       })
       const exposed: Record<string, any> = {}
       const bindings: Record<string, any> = {}
+      let methodEpoch = 0
+      let editorReady = false
+      let pendingMethod: (() => void) | undefined
+      let methodsActive = true
+      const retireMethods = () => {
+        methodsActive = false
+        pendingMethod = undefined
+        editorReady = false
+        methodEpoch++
+      }
+      onDeactivated(retireMethods)
+      onBeforeUnmount(retireMethods)
+      onActivated(() => {
+        methodsActive = true
+      })
+      watch(
+        open,
+        (next) => {
+          editorReady = false
+          if (!next) {
+            methodEpoch++
+            pendingMethod = undefined
+          }
+        },
+        { flush: 'sync' },
+      )
+      watch(
+        [state.editMode, state.readPretty],
+        () => {
+          methodEpoch++
+          pendingMethod = undefined
+          editorReady = false
+        },
+        { flush: 'sync' },
+      )
+      const onEditorReady = () => {
+        editorReady = true
+        const pending = pendingMethod
+        pendingMethod = undefined
+        pending?.()
+      }
+      const members = () => {
+        const child = inner.value
+        return child?.$.exposed ? proxyRefs(child.$.exposed) : child
+      }
+      const defineBinding = (key: string) => {
+        if (Object.prototype.hasOwnProperty.call(bindings, key)) {
+          return
+        }
+        Object.defineProperty(bindings, key, {
+          configurable: true,
+          enumerable: true,
+          get: () => exposed[key],
+          set: (next) => {
+            exposed[key] = next
+          },
+        })
+      }
+      const defineMethod = (key: string) => {
+        if (Object.prototype.hasOwnProperty.call(exposed, key)) {
+          return
+        }
+        defineBinding(key)
+        exposed[key] = (...args: any[]) => {
+          const inactive = () => adapter.inactiveMethod?.(key, value.value, args)
+          if (!methodsActive) {
+            return inactive()
+          }
+          const invoke = () => {
+            if (state.editMode.value !== 'direct' && open.value && adapter.editor) {
+              if (key === 'focus') {
+                return host.value?.focus()
+              }
+              if (key === 'blur') {
+                return host.value?.blur()
+              }
+            }
+            const method = members()?.[key]
+            if (typeof method === 'function') {
+              return method.apply(inner.value, args)
+            }
+            if (key === 'focus') {
+              host.value?.focus()
+            }
+            if (key === 'blur') {
+              return host.value?.blur()
+            }
+            return inactive()
+          }
+          if (state.editMode.value === 'direct' && !state.readPretty.value) {
+            return invoke()
+          }
+          if (key === 'blur') {
+            return invoke()
+          }
+          if (blocked.value || session.pending.value) {
+            return inactive()
+          }
+          if (key === 'focus' || adapter.openMethods?.includes(key)) {
+            if (!open.value) {
+              setOpen(true)
+            }
+            const epoch = ++methodEpoch
+            const run = () => {
+              if (methodsActive && epoch === methodEpoch && open.value && !blocked.value) {
+                invoke()
+              }
+            }
+            if (editorReady) {
+              run()
+            } else {
+              pendingMethod = run
+            }
+          } else if (open.value) {
+            return invoke()
+          } else {
+            return inactive()
+          }
+        }
+      }
+      for (const key of new Set([...Object.keys(base.methods ?? {}), ...(adapter.methods ?? [])])) {
+        defineMethod(key)
+      }
       if (source) {
-        bindings.refresh = source.refresh
+        exposed.refresh = source.refresh
+        defineBinding('refresh')
       }
       const syncExposed = () => {
         const child = inner.value
         if (!child) {
           return
         }
-        const members = proxyRefs(
-          child.$.exposed ?? (child.$ as unknown as { setupState: Record<string, any> }).setupState,
-        )
-        for (const key of Object.keys(members)) {
+        const keys = child.$.exposed
+          ? Object.keys(child.$.exposed)
+          : [
+              ...Object.keys((child.$ as unknown as { setupState: Record<string, any> }).setupState),
+              ...Object.keys(base.methods ?? {}),
+            ]
+        for (const key of keys) {
           if (key.startsWith('$') || key.startsWith('__')) {
             continue
           }
-          Object.defineProperty(bindings, key, {
-            configurable: true,
-            enumerable: true,
-            get: () => exposed[key],
-            set: (next) => {
-              exposed[key] = next
-            },
-          })
-          if (typeof members[key] === 'function') {
-            exposed[key] = members[key].bind(child)
-          } else {
+          if (typeof members()?.[key] === 'function') {
+            defineMethod(key)
+          } else if (!Object.prototype.hasOwnProperty.call(exposed, key)) {
+            defineBinding(key)
             Object.defineProperty(exposed, key, {
               configurable: true,
               enumerable: true,
-              get: () => members[key],
+              get: () => members()?.[key],
               set: (next) => {
-                members[key] = next
+                const current = members()
+                if (current) {
+                  current[key] = next
+                }
               },
             })
           }
@@ -353,6 +579,10 @@ export function withFieldPresentation<T extends Component>(Base: T, adapter: Fie
             (...args: any[]) => {
               if (event === 'update:modelValue') {
                 updateDraft(args[0])
+              } else if (adapter.commitEvents?.[event]) {
+                if (open.value && !blocked.value && !session.pending.value) {
+                  commitNotifications.set(event, args)
+                }
               } else if (event !== 'change' && event !== 'update:open' && event !== 'open-change') {
                 emit(event, ...args)
               }
@@ -393,7 +623,11 @@ export function withFieldPresentation<T extends Component>(Base: T, adapter: Fie
           FieldPresentation,
           {
             ...attrs,
-            ...(props.textAlign ? { style: [attrs.style, { '--mp-form-content-align': props.textAlign }] } : {}),
+            ...(props.textAlign
+              ? {
+                  style: [attrs.style, { '--mp-form-content-align': props.textAlign }],
+                }
+              : {}),
             ref: host,
             intent: adapter.intent,
             editMode: state.editMode.value,
@@ -409,26 +643,14 @@ export function withFieldPresentation<T extends Component>(Base: T, adapter: Fie
             disabled: form.mergedDisabled.value,
             readonly: form.mergedReadonly.value,
             needConfirm: true,
-            clearable: props.clearable,
-            onClear: () => {
-              if (!open.value || blocked.value || session.pending.value) {
-                return
-              }
-              const fallback =
-                'uncheckedValue' in props
-                  ? props.uncheckedValue
-                  : typeof props.defaultValue === 'boolean'
-                    ? false
-                    : Array.isArray(value.value)
-                      ? []
-                      : props.defaultValue
-              session.update(resolveEmptyValue(props, fallback))
-            },
-            loading: props.loading,
+            clearable: props.clearable && !selectionPaused.value,
+            onClear: clearDraft,
+            loading: Boolean(props.loading || (adapter.pauseSelectionWhileLoading && source?.loading.value)),
             pending: session.pending.value,
-            confirmDisabled: adapter.valid?.(session.draft.value, props) === false,
+            confirmDisabled: selectionPaused.value || !validDraft(session.draft.value),
             error: session.error.value || state.item?.message?.value,
             onOpen: setOpen,
+            onEditorReady,
             onCancel: cancel,
             commit: confirm,
             onConfirm: confirm,
@@ -442,13 +664,21 @@ export function withFieldPresentation<T extends Component>(Base: T, adapter: Fie
                     attrs,
                     value: value.value,
                     update: publish,
-                    emit,
+                    emit: (name, ...args) => {
+                      emit(name, ...args)
+                      if (name === 'focus') {
+                        form.eventHandlers.value?.onFocus?.()
+                      } else if (name === 'blur') {
+                        form.eventHandlers.value?.onBlur?.()
+                      }
+                    },
                     slots,
                     disabled: form.mergedDisabled.value || session.pending.value,
                     readonly: form.mergedReadonly.value,
                     open: open.value,
                     setOpen,
                     referenceRef: inner,
+                    clear: clearReference,
                   })
               : undefined,
             read: slots.read ? () => slots.read?.({ value: value.value, text }) : undefined,

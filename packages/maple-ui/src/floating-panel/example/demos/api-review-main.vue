@@ -16,7 +16,7 @@ const styleVars = ref({
 
 <template>
   <DemoApiReviewPanel v-slot="__apiReview" v-bind="defineReviewConfig(__apiReviewRawConfig)">
-    <mp-style-provider class="floating-panel-demo-surface" :style-vars="styleVars">
+    <mp-theme-provider class="floating-panel-demo-surface" :style-vars="styleVars">
       <mp-tabs v-model="active" style="margin-top: 14px">
         <mp-tabs-navs ref="tabsRef">
           <mp-tab-nav name="basic" title="基本使用" />
@@ -34,7 +34,13 @@ const styleVars = ref({
               v-on="__apiReview.listeners"
             >
               <mp-cell v-for="i in 26" :key="i" :title="String.fromCharCode(i + 64)" border />
-            </mp-floating-panel>
+              <template v-if="__apiReview.slotEnabled['header']" #header="__reviewSlot"
+                ><DemoReviewSlot
+                  name="header"
+                  :context="__reviewSlot"
+                  :controls="__apiReview.controls"
+                  :record="__apiReview.record" /></template
+            ></mp-floating-panel>
           </mp-tab-item>
           <mp-tab-item name="anchors">
             <mp-floating-panel
@@ -45,6 +51,25 @@ const styleVars = ref({
               v-bind="__apiReview.bindings"
               v-on="__apiReview.listeners"
             >
+              <template v-if="__apiReview.slotEnabled['header'] !== false" #header>
+                <div class="panel-height-controls">
+                  <button
+                    type="button"
+                    :disabled="anchor === 80"
+                    @click="anchor = anchors[Math.max(0, anchors.indexOf(anchor) - 1)]"
+                  >
+                    收起
+                  </button>
+                  <span aria-live="polite">{{ anchor }} px</span>
+                  <button
+                    type="button"
+                    :disabled="anchor === 320"
+                    @click="anchor = anchors[Math.min(anchors.length - 1, anchors.indexOf(anchor) + 1)]"
+                  >
+                    展开
+                  </button>
+                </div>
+              </template>
               <div style="text-align: center; padding: 5px 15px">
                 <p>面板锚点高度为 {{ Math.floor(anchor) }} px</p>
               </div>
@@ -60,15 +85,27 @@ const styleVars = ref({
               v-on="__apiReview.listeners"
             >
               <mp-cell v-for="i in 26" :key="i" :title="String.fromCharCode(i + 64)" border />
-            </mp-floating-panel>
+              <template v-if="__apiReview.slotEnabled['header']" #header="__reviewSlot"
+                ><DemoReviewSlot
+                  name="header"
+                  :context="__reviewSlot"
+                  :controls="__apiReview.controls"
+                  :record="__apiReview.record" /></template
+            ></mp-floating-panel>
           </mp-tab-item>
         </mp-tabs-items>
       </mp-tabs>
-    </mp-style-provider>
+    </mp-theme-provider>
   </DemoApiReviewPanel>
 </template>
 
 <style scoped>
+.panel-height-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  min-height: 40px;
+}
 .floating-panel-demo-surface {
   position: relative;
   height: 400px;

@@ -119,7 +119,7 @@ Customize the leading icon with the `icon` slot, and the close icon with `close-
 <!-- demo-config-notes:end -->
 
 
-The close button supports Space and Enter without bubbling into selection. Checkable tags support both keys; controlled checked values still require parent acceptance, while omitted checked uses local state. Loading blocks selection, rather than acting as a disabled API. Each library maintains independent state. These basic interactions do not certify held-key, asynchronous or physical-touch combinations.
+Close buttons support Space / Enter without selecting the tag. Selectable tags also support Space / Enter. Controlled checked is accepted by the parent; otherwise the component stores its state. Loading blocks selection.
 
 Show a close button with `closable`. Use `v-model:show` or manage a list yourself.
 
@@ -137,15 +137,18 @@ Show a loading state with `loading`.
 
 ## API
 
+
+Loading preserves the checked state and exposes disabled and busy semantics on checkable tags. If loading starts while the close control has focus, focus moves to the tag. Independent interactive controls in the content do not toggle the tag.
+
+The close button name defaults to the current locale’s close text and can be overridden with `close-button-aria-label`. The tag root remains single-line; `nowrap` mainly enables the inner truncation wrapper and does not control multiline wrapping.
+
 ### Value and default value
 
 Use ordinary `v-model`. `modelValue` is a selectable tag's boolean checked state. `defaultValue` initializes uncontrolled state once; later changes do not reset it. Explicit binding takes precedence, without initialization `update:modelValue`.
 
-### Props
+### Tag Props
 
-#### Tag Props
-
-| Arguments | Description | Type | Default |
+| Prop | Description | Type | Default |
 | --- | --- | --- | --- |
 | `status` | Theme color: `default` `primary` `secondary` `tertiary` `info` `success` `warning` `danger` | _string_ | `default` |
 | `variant` | Variant: `default` (filled) / `outline` | _string_ | `default` |
@@ -155,16 +158,15 @@ Use ordinary `v-model`. `modelValue` is a selectable tag's boolean checked state
 | `default-show` | Default visibility | _boolean_ | `true` |
 | `loading` | Loading state | _boolean_ | `false` |
 | `closable` | Whether closable | _boolean_ | `false` |
+| `close-button-aria-label` | Accessible name of the close button; defaults to the current locale | `string` | `—` |
 | `checkable` | Whether checkable | _boolean_ | `false` |
 | `model-value` | Checked state when checkable (v-model) | _boolean_ | `true` |
 | `default-value` | Default checked state when checkable | _boolean_ | `true` |
-| `nowrap` | Whether content is nowrap with ellipsis | _boolean_ | `false` |
+| `nowrap` | Whether to enable the content truncation wrapper; the root remains single-line | _boolean_ | `false` |
 | `color` | Custom background (border color when outline) | _string_ | `-` |
 | `text-color` | Custom text color | _string_ | `-` |
 
-### Events
-
-#### Tag Events
+### Tag Events
 
 | Event | Description | Arguments |
 | --- | --- | --- |
@@ -173,9 +175,7 @@ Use ordinary `v-model`. `modelValue` is a selectable tag's boolean checked state
 | `close` | Close button clicked | `(event: MouseEvent)` |
 | `check` | Checked state toggled (checkable) | `(checked: boolean, event: MouseEvent)` |
 
-### Slots
-
-#### Tag Slots
+### Tag Slots
 
 | Slot | Description |
 | --- | --- |
@@ -183,7 +183,7 @@ Use ordinary `v-model`. `modelValue` is a selectable tag's boolean checked state
 | `icon` | The prepend icon of alert |
 | `close-icon` | Custom close icon |
 
-### Type definitions
+## Types
 
 ```ts
 type TagStatus = 'default' | 'primary' | 'secondary' | 'tertiary' | 'info' | 'success' | 'warning' | 'danger'
@@ -191,160 +191,175 @@ type TagSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 type TagVariant = 'default' | 'outline'
 ```
 
-### Style variables
+## Usage notes
 
-The complete public contract is the `--mp-tag-*` set in `style/token.less`. Customize it with [StyleProvider](#/en-US/style-provider). Cedar uses the same logical names with a different brand prefix.
 
-## Shared implementation and platform boundaries
 
-Each platform maintains a complete local implementation. They do not import a common core or share component instances or reactive state. Changes must update both implementations. Component bodies, props, key styles and paired tests have read-only source consistency checks; theme tokens and installation entries remain local to each library.
-
-Both retain independent show/checked state, with controlled values updated by callers. Fade-out remains; class/style fall through explicitly to the actual tag. Size configuration, RTL context and icons are locally adapted. Mobile touch dimensions remain in tokens.
-
-### Complete variable defaults and boundaries
-
-Status text and outline borders use readable system content colors; colored fills use palette level 1. Unchecked stays neutral; checked status colors override generic hover. Neutral fills use fill-2 → fill-3. color overrides status; preset colors are outside this contrast guarantee. Callers must check custom backgrounds and set text-color if needed. Platform dimensions remain distinct. All public declarations are listed; 15 unused preset-icon hover-background/size variables, custom-icon-bg-hover and old InputTag references are removed without aliases.
-
-| Variable | Default |
-| --- | --- |
-| `--mp-tag-status-primary-bg-color` | `rgb(var(--mp-primary-1))` |
-| `--mp-tag-status-primary-text-color` | `var(--mp-sys-color-content-brand)` |
-| `--mp-tag-status-secondary-bg-color` | `rgb(var(--mp-gray-2))` |
-| `--mp-tag-status-secondary-text-color` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-tag-status-tertiary-bg-color` | `rgb(var(--mp-gray-1))` |
-| `--mp-tag-status-tertiary-text-color` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-tag-status-info-bg-color` | `rgb(var(--mp-blue-1))` |
-| `--mp-tag-status-info-text-color` | `var(--mp-sys-color-content-info)` |
-| `--mp-tag-status-success-bg-color` | `rgb(var(--mp-success-1))` |
-| `--mp-tag-status-success-text-color` | `var(--mp-sys-color-content-success)` |
-| `--mp-tag-status-warning-bg-color` | `rgb(var(--mp-warning-1))` |
-| `--mp-tag-status-warning-text-color` | `var(--mp-sys-color-content-warning)` |
-| `--mp-tag-status-danger-bg-color` | `rgb(var(--mp-danger-1))` |
-| `--mp-tag-status-danger-text-color` | `var(--mp-sys-color-content-danger)` |
-| `--mp-tag-variant-outline-status-primary-color` | `var(--mp-sys-color-content-brand)` |
-| `--mp-tag-variant-outline-status-secondary-color` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-tag-variant-outline-status-tertiary-color` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-tag-variant-outline-status-info-color` | `var(--mp-sys-color-content-info)` |
-| `--mp-tag-variant-outline-status-success-color` | `var(--mp-sys-color-content-success)` |
-| `--mp-tag-variant-outline-status-warning-color` | `var(--mp-sys-color-content-warning)` |
-| `--mp-tag-variant-outline-status-danger-color` | `var(--mp-sys-color-content-danger)` |
-| `--mp-tag-variant-outline-default-color` | `var(--mp-sys-color-content-primary)` |
-| `--mp-tag-variant-outline-default-border-color` | `var(--mp-sys-color-border-default)` |
-| `--mp-tag-border-width` | `1px` |
-| `--mp-tag-border-type` | `solid` |
-| `--mp-tag-padding-horizontal` | `10px` |
-| `--mp-tag-padding-vertical` | `0` |
-| `--mp-tag-icon-margin-right` | `var(--mp-sys-space-3)` |
-| `--mp-tag-text-font-weight` | `var(--mp-sys-font-weight-medium)` |
-| `--mp-tag-border-radius` | `var(--mp-sys-radius-md)` |
-| `--mp-tag-round-radius` | `100px` |
-| `--mp-tag-size-xs` | `24px` |
-| `--mp-tag-size-sm` | `28px` |
-| `--mp-tag-size-md` | `32px` |
-| `--mp-tag-size-lg` | `36px` |
-| `--mp-tag-size-xl` | `40px` |
-| `--mp-tag-size-xs-font-size` | `var(--mp-sys-font-size-xs)` |
-| `--mp-tag-size-sm-font-size` | `var(--mp-sys-font-size-xs)` |
-| `--mp-tag-size-md-font-size` | `var(--mp-sys-font-size-md)` |
-| `--mp-tag-size-lg-font-size` | `var(--mp-sys-font-size-md)` |
-| `--mp-tag-size-xl-font-size` | `var(--mp-sys-font-size-lg)` |
-| `--mp-tag-bg-not-checked-hover` | `var(--mp-sys-color-state-hover)` |
-| `--mp-tag-custom-text-color` | `var(--mp-sys-color-content-on-dark)` |
-| `--mp-tag-default-bg` | `var(--mp-sys-color-state-hover)` |
-| `--mp-tag-default-bg-hover` | `var(--mp-color-fill-3)` |
-| `--mp-tag-default-icon-color` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-tag-default-text-color` | `var(--mp-sys-color-content-primary)` |
-| `--mp-tag-default-border-color` | `transparent` |
-| `--mp-tag-default-border-color-hover` | `transparent` |
-| `--mp-tag-red-bg` | `rgb(var(--mp-red-1))` |
-| `--mp-tag-red-bg-hover` | `rgb(var(--mp-red-2))` |
-| `--mp-tag-red-border-color` | `transparent` |
-| `--mp-tag-red-border-color-hover` | `transparent` |
-| `--mp-tag-red-icon-color` | `rgb(var(--mp-red-9))` |
-| `--mp-tag-red-text-color` | `rgb(var(--mp-red-9))` |
-| `--mp-tag-orangered-bg` | `rgb(var(--mp-orangered-1))` |
-| `--mp-tag-orangered-bg-hover` | `rgb(var(--mp-orangered-2))` |
-| `--mp-tag-orangered-border-color` | `transparent` |
-| `--mp-tag-orangered-border-color-hover` | `transparent` |
-| `--mp-tag-orangered-icon-color` | `rgb(var(--mp-orangered-9))` |
-| `--mp-tag-orangered-text-color` | `rgb(var(--mp-orangered-9))` |
-| `--mp-tag-orange-bg` | `rgb(var(--mp-orange-1))` |
-| `--mp-tag-orange-bg-hover` | `rgb(var(--mp-orange-2))` |
-| `--mp-tag-orange-border-color` | `transparent` |
-| `--mp-tag-orange-border-color-hover` | `transparent` |
-| `--mp-tag-orange-icon-color` | `rgb(var(--mp-orange-9))` |
-| `--mp-tag-orange-text-color` | `rgb(var(--mp-orange-9))` |
-| `--mp-tag-gold-bg` | `rgb(var(--mp-gold-1))` |
-| `--mp-tag-gold-bg-hover` | `rgb(var(--mp-gold-2))` |
-| `--mp-tag-gold-border-color` | `transparent` |
-| `--mp-tag-gold-border-color-hover` | `transparent` |
-| `--mp-tag-gold-icon-color` | `rgb(var(--mp-gold-9))` |
-| `--mp-tag-gold-text-color` | `rgb(var(--mp-gold-9))` |
-| `--mp-tag-lime-bg` | `rgb(var(--mp-lime-1))` |
-| `--mp-tag-lime-bg-hover` | `rgb(var(--mp-lime-2))` |
-| `--mp-tag-lime-border-color` | `transparent` |
-| `--mp-tag-lime-border-color-hover` | `transparent` |
-| `--mp-tag-lime-icon-color` | `rgb(var(--mp-lime-9))` |
-| `--mp-tag-lime-text-color` | `rgb(var(--mp-lime-9))` |
-| `--mp-tag-green-bg` | `rgb(var(--mp-green-1))` |
-| `--mp-tag-green-bg-hover` | `rgb(var(--mp-green-2))` |
-| `--mp-tag-green-border-color` | `transparent` |
-| `--mp-tag-green-border-color-hover` | `transparent` |
-| `--mp-tag-green-icon-color` | `rgb(var(--mp-green-9))` |
-| `--mp-tag-green-text-color` | `rgb(var(--mp-green-9))` |
-| `--mp-tag-cyan-bg` | `rgb(var(--mp-cyan-1))` |
-| `--mp-tag-cyan-bg-hover` | `rgb(var(--mp-cyan-2))` |
-| `--mp-tag-cyan-border-color` | `transparent` |
-| `--mp-tag-cyan-border-color-hover` | `transparent` |
-| `--mp-tag-cyan-icon-color` | `rgb(var(--mp-cyan-9))` |
-| `--mp-tag-cyan-text-color` | `rgb(var(--mp-cyan-9))` |
-| `--mp-tag-blue-bg` | `rgb(var(--mp-blue-1))` |
-| `--mp-tag-blue-bg-hover` | `rgb(var(--mp-blue-2))` |
-| `--mp-tag-blue-border-color` | `transparent` |
-| `--mp-tag-blue-border-color-hover` | `transparent` |
-| `--mp-tag-blue-icon-color` | `rgb(var(--mp-blue-9))` |
-| `--mp-tag-blue-text-color` | `rgb(var(--mp-blue-9))` |
-| `--mp-tag-brand-bg` | `rgb(var(--mp-brand-1))` |
-| `--mp-tag-brand-bg-hover` | `rgb(var(--mp-brand-2))` |
-| `--mp-tag-brand-border-color` | `transparent` |
-| `--mp-tag-brand-border-color-hover` | `transparent` |
-| `--mp-tag-brand-icon-color` | `rgb(var(--mp-brand-9))` |
-| `--mp-tag-brand-text-color` | `rgb(var(--mp-brand-9))` |
-| `--mp-tag-purple-bg` | `rgb(var(--mp-purple-1))` |
-| `--mp-tag-purple-bg-hover` | `rgb(var(--mp-purple-2))` |
-| `--mp-tag-purple-border-color` | `transparent` |
-| `--mp-tag-purple-border-color-hover` | `transparent` |
-| `--mp-tag-purple-icon-color` | `rgb(var(--mp-purple-9))` |
-| `--mp-tag-purple-text-color` | `rgb(var(--mp-purple-9))` |
-| `--mp-tag-pinkpurple-bg` | `rgb(var(--mp-pinkpurple-1))` |
-| `--mp-tag-pinkpurple-bg-hover` | `rgb(var(--mp-pinkpurple-2))` |
-| `--mp-tag-pinkpurple-border-color` | `transparent` |
-| `--mp-tag-pinkpurple-border-color-hover` | `transparent` |
-| `--mp-tag-pinkpurple-icon-color` | `rgb(var(--mp-pinkpurple-9))` |
-| `--mp-tag-pinkpurple-text-color` | `rgb(var(--mp-pinkpurple-9))` |
-| `--mp-tag-magenta-bg` | `rgb(var(--mp-magenta-1))` |
-| `--mp-tag-magenta-bg-hover` | `rgb(var(--mp-magenta-2))` |
-| `--mp-tag-magenta-border-color` | `transparent` |
-| `--mp-tag-magenta-border-color-hover` | `transparent` |
-| `--mp-tag-magenta-icon-color` | `rgb(var(--mp-magenta-9))` |
-| `--mp-tag-magenta-text-color` | `rgb(var(--mp-magenta-9))` |
-| `--mp-tag-gray-bg` | `rgb(var(--mp-gray-2))` |
-| `--mp-tag-gray-bg-hover` | `rgb(var(--mp-gray-3))` |
-| `--mp-tag-gray-border-color` | `transparent` |
-| `--mp-tag-gray-border-color-hover` | `transparent` |
-| `--mp-tag-gray-icon-color` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-tag-gray-text-color` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-tag-close-margin-left` | `var(--mp-sys-space-3)` |
-| `--mp-tag-close-font-size` | `var(--mp-tag-size-md-font-size)` |
+The application updates controlled show / checked values. Hiding retains the fade-out effect; class / style apply to the actual tag. CSS variables customize mobile touch sizing.
 
 ### Color override boundaries
 
 Preset outline stays transparent; loading does not trigger preset fill hover. Dark backgrounds consume bg/bg-hover with instance overrides. Preset icon-color is separate from text-color. Unchecked presets remain neutral, while an explicit color still applies. Preset/custom colors do not guarantee contrast on arbitrary backgrounds.
 
-### Motion variables
+## CSS Variables
+
+The complete public contract is the `--mp-tag-*` set in `style/token.less`. Customize it with [ThemeProvider](#/en-US/theme-provider). Cedar uses the same logical names with a different brand prefix.
+
+Status text and outline borders use the corresponding theme semantic colors with light colored fills. Unselected tags remain neutral; selected status colors take precedence over hover. The neutral background switches between fill-2 and fill-3. color takes precedence over status. Keep text readable on custom backgrounds and set text-color when needed.
+
+<!-- component-css-variables:start -->
+
+Use these variables to customize the component. Defaults may vary by the selector condition shown. Each variable applies to the corresponding size, variant and interaction states.
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Default / condition | Affected styles |
+| --- | --- | --- |
+| `--mp-tag-bg-not-checked-hover` | `var(--mp-sys-color-state-hover)` | `background-color` |
+| `--mp-tag-blue-bg` | `rgb(var(--mp-blue-1))`<br>`rgba(var(--mp-blue-6), 0.2)` (`:root[maple-theme='dark']`) | `background-color` |
+| `--mp-tag-blue-bg-hover` | `rgb(var(--mp-blue-2))`<br>`rgba(var(--mp-blue-6), 0.35)` (`:root[maple-theme='dark']`) | `background-color` |
+| `--mp-tag-blue-border-color` | `transparent` | `border` |
+| `--mp-tag-blue-border-color-hover` | `transparent` | `border-color` |
+| `--mp-tag-blue-icon-color` | `rgb(var(--mp-blue-9))` | `color` |
+| `--mp-tag-blue-text-color` | `rgb(var(--mp-blue-9))` | `border-color`, `color` |
+| `--mp-tag-border-radius` | `var(--mp-sys-radius-md)` | `border-radius` |
+| `--mp-tag-border-type` | `solid` | `border` |
+| `--mp-tag-border-width` | `1px` | `border`, `line-height` |
+| `--mp-tag-brand-bg` | `rgb(var(--mp-brand-1))`<br>`rgba(var(--mp-brand-6), 0.2)` (`:root[maple-theme='dark']`) | `background-color` |
+| `--mp-tag-brand-bg-hover` | `rgb(var(--mp-brand-2))`<br>`rgba(var(--mp-brand-6), 0.35)` (`:root[maple-theme='dark']`) | `background-color` |
+| `--mp-tag-brand-border-color` | `transparent` | `border` |
+| `--mp-tag-brand-border-color-hover` | `transparent` | `border-color` |
+| `--mp-tag-brand-icon-color` | `rgb(var(--mp-brand-9))` | `color` |
+| `--mp-tag-brand-text-color` | `rgb(var(--mp-brand-9))` | `border-color`, `color` |
+| `--mp-tag-close-font-size` | `var(--mp-tag-size-md-font-size)` | `font-size` |
+| `--mp-tag-close-margin-left` | `var(--mp-sys-space-3)` | `margin-left`, `margin-right` |
+| `--mp-tag-custom-text-color` | `var(--mp-sys-color-content-on-dark)` | `color` |
+| `--mp-tag-cyan-bg` | `rgb(var(--mp-cyan-1))`<br>`rgba(var(--mp-cyan-6), 0.2)` (`:root[maple-theme='dark']`) | `background-color` |
+| `--mp-tag-cyan-bg-hover` | `rgb(var(--mp-cyan-2))`<br>`rgba(var(--mp-cyan-6), 0.35)` (`:root[maple-theme='dark']`) | `background-color` |
+| `--mp-tag-cyan-border-color` | `transparent` | `border` |
+| `--mp-tag-cyan-border-color-hover` | `transparent` | `border-color` |
+| `--mp-tag-cyan-icon-color` | `rgb(var(--mp-cyan-9))` | `color` |
+| `--mp-tag-cyan-text-color` | `rgb(var(--mp-cyan-9))` | `border-color`, `color` |
+| `--mp-tag-default-bg` | `var(--mp-sys-color-state-hover)` | `background-color` |
+| `--mp-tag-default-bg-hover` | `var(--mp-color-fill-3)` | `background-color` |
+| `--mp-tag-default-border-color` | `transparent` | `border-color` |
+| `--mp-tag-default-border-color-hover` | `transparent` | `border-color` |
+| `--mp-tag-default-icon-color` | `var(--mp-sys-color-content-secondary)` | `color` |
+| `--mp-tag-default-text-color` | `var(--mp-sys-color-content-primary)` | `color` |
+| `--mp-tag-fade-duration` | `var(--mp-sys-motion-duration-fast)` | `transition` |
+| `--mp-tag-gold-bg` | `rgb(var(--mp-gold-1))`<br>`rgba(var(--mp-gold-6), 0.2)` (`:root[maple-theme='dark']`) | `background-color` |
+| `--mp-tag-gold-bg-hover` | `rgb(var(--mp-gold-2))`<br>`rgba(var(--mp-gold-6), 0.35)` (`:root[maple-theme='dark']`) | `background-color` |
+| `--mp-tag-gold-border-color` | `transparent` | `border` |
+| `--mp-tag-gold-border-color-hover` | `transparent` | `border-color` |
+| `--mp-tag-gold-icon-color` | `rgb(var(--mp-gold-9))` | `color` |
+| `--mp-tag-gold-text-color` | `rgb(var(--mp-gold-9))` | `border-color`, `color` |
+| `--mp-tag-gray-bg` | `rgb(var(--mp-gray-2))`<br>`rgba(var(--mp-gray-6), 0.2)` (`:root[maple-theme='dark']`) | `background-color` |
+| `--mp-tag-gray-bg-hover` | `rgb(var(--mp-gray-3))`<br>`rgba(var(--mp-gray-6), 0.35)` (`:root[maple-theme='dark']`) | `background-color` |
+| `--mp-tag-gray-border-color` | `transparent` | `border` |
+| `--mp-tag-gray-border-color-hover` | `transparent` | `border-color` |
+| `--mp-tag-gray-icon-color` | `var(--mp-sys-color-content-secondary)` | `color` |
+| `--mp-tag-gray-text-color` | `var(--mp-sys-color-content-secondary)` | `border-color`, `color` |
+| `--mp-tag-green-bg` | `rgb(var(--mp-green-1))`<br>`rgba(var(--mp-green-6), 0.2)` (`:root[maple-theme='dark']`) | `background-color` |
+| `--mp-tag-green-bg-hover` | `rgb(var(--mp-green-2))`<br>`rgba(var(--mp-green-6), 0.35)` (`:root[maple-theme='dark']`) | `background-color` |
+| `--mp-tag-green-border-color` | `transparent` | `border` |
+| `--mp-tag-green-border-color-hover` | `transparent` | `border-color` |
+| `--mp-tag-green-icon-color` | `rgb(var(--mp-green-9))` | `color` |
+| `--mp-tag-green-text-color` | `rgb(var(--mp-green-9))` | `border-color`, `color` |
+| `--mp-tag-icon-margin-right` | `var(--mp-sys-space-3)` | `margin-left`, `margin-right` |
+| `--mp-tag-lime-bg` | `rgb(var(--mp-lime-1))`<br>`rgba(var(--mp-lime-6), 0.2)` (`:root[maple-theme='dark']`) | `background-color` |
+| `--mp-tag-lime-bg-hover` | `rgb(var(--mp-lime-2))`<br>`rgba(var(--mp-lime-6), 0.35)` (`:root[maple-theme='dark']`) | `background-color` |
+| `--mp-tag-lime-border-color` | `transparent` | `border` |
+| `--mp-tag-lime-border-color-hover` | `transparent` | `border-color` |
+| `--mp-tag-lime-icon-color` | `rgb(var(--mp-lime-9))` | `color` |
+| `--mp-tag-lime-text-color` | `rgb(var(--mp-lime-9))` | `border-color`, `color` |
+| `--mp-tag-magenta-bg` | `rgb(var(--mp-magenta-1))`<br>`rgba(var(--mp-magenta-6), 0.2)` (`:root[maple-theme='dark']`) | `background-color` |
+| `--mp-tag-magenta-bg-hover` | `rgb(var(--mp-magenta-2))`<br>`rgba(var(--mp-magenta-6), 0.35)` (`:root[maple-theme='dark']`) | `background-color` |
+| `--mp-tag-magenta-border-color` | `transparent` | `border` |
+| `--mp-tag-magenta-border-color-hover` | `transparent` | `border-color` |
+| `--mp-tag-magenta-icon-color` | `rgb(var(--mp-magenta-9))` | `color` |
+| `--mp-tag-magenta-text-color` | `rgb(var(--mp-magenta-9))` | `border-color`, `color` |
+| `--mp-tag-orange-bg` | `rgb(var(--mp-orange-1))`<br>`rgba(var(--mp-orange-6), 0.2)` (`:root[maple-theme='dark']`) | `background-color` |
+| `--mp-tag-orange-bg-hover` | `rgb(var(--mp-orange-2))`<br>`rgba(var(--mp-orange-6), 0.35)` (`:root[maple-theme='dark']`) | `background-color` |
+| `--mp-tag-orange-border-color` | `transparent` | `border` |
+| `--mp-tag-orange-border-color-hover` | `transparent` | `border-color` |
+| `--mp-tag-orange-icon-color` | `rgb(var(--mp-orange-9))` | `color` |
+| `--mp-tag-orange-text-color` | `rgb(var(--mp-orange-9))` | `border-color`, `color` |
+| `--mp-tag-orangered-bg` | `rgb(var(--mp-orangered-1))`<br>`rgba(var(--mp-orangered-6), 0.2)` (`:root[maple-theme='dark']`) | `background-color` |
+| `--mp-tag-orangered-bg-hover` | `rgb(var(--mp-orangered-2))`<br>`rgba(var(--mp-orangered-6), 0.35)` (`:root[maple-theme='dark']`) | `background-color` |
+| `--mp-tag-orangered-border-color` | `transparent` | `border` |
+| `--mp-tag-orangered-border-color-hover` | `transparent` | `border-color` |
+| `--mp-tag-orangered-icon-color` | `rgb(var(--mp-orangered-9))` | `color` |
+| `--mp-tag-orangered-text-color` | `rgb(var(--mp-orangered-9))` | `border-color`, `color` |
+| `--mp-tag-padding-horizontal` | `10px` | `padding` |
+| `--mp-tag-padding-vertical` | `0` | `line-height`, `padding` |
+| `--mp-tag-pinkpurple-bg` | `rgb(var(--mp-pinkpurple-1))`<br>`rgba(var(--mp-pinkpurple-6), 0.2)` (`:root[maple-theme='dark']`) | `background-color` |
+| `--mp-tag-pinkpurple-bg-hover` | `rgb(var(--mp-pinkpurple-2))`<br>`rgba(var(--mp-pinkpurple-6), 0.35)` (`:root[maple-theme='dark']`) | `background-color` |
+| `--mp-tag-pinkpurple-border-color` | `transparent` | `border` |
+| `--mp-tag-pinkpurple-border-color-hover` | `transparent` | `border-color` |
+| `--mp-tag-pinkpurple-icon-color` | `rgb(var(--mp-pinkpurple-9))` | `color` |
+| `--mp-tag-pinkpurple-text-color` | `rgb(var(--mp-pinkpurple-9))` | `border-color`, `color` |
+| `--mp-tag-purple-bg` | `rgb(var(--mp-purple-1))`<br>`rgba(var(--mp-purple-6), 0.2)` (`:root[maple-theme='dark']`) | `background-color` |
+| `--mp-tag-purple-bg-hover` | `rgb(var(--mp-purple-2))`<br>`rgba(var(--mp-purple-6), 0.35)` (`:root[maple-theme='dark']`) | `background-color` |
+| `--mp-tag-purple-border-color` | `transparent` | `border` |
+| `--mp-tag-purple-border-color-hover` | `transparent` | `border-color` |
+| `--mp-tag-purple-icon-color` | `rgb(var(--mp-purple-9))` | `color` |
+| `--mp-tag-purple-text-color` | `rgb(var(--mp-purple-9))` | `border-color`, `color` |
+| `--mp-tag-red-bg` | `rgb(var(--mp-red-1))`<br>`rgba(var(--mp-red-6), 0.2)` (`:root[maple-theme='dark']`) | `background-color` |
+| `--mp-tag-red-bg-hover` | `rgb(var(--mp-red-2))`<br>`rgba(var(--mp-red-6), 0.35)` (`:root[maple-theme='dark']`) | `background-color` |
+| `--mp-tag-red-border-color` | `transparent` | `border` |
+| `--mp-tag-red-border-color-hover` | `transparent` | `border-color` |
+| `--mp-tag-red-icon-color` | `rgb(var(--mp-red-9))` | `color` |
+| `--mp-tag-red-text-color` | `rgb(var(--mp-red-9))` | `border-color`, `color` |
+| `--mp-tag-round-radius` | `100px` | `border-radius` |
+| `--mp-tag-size-lg` | `36px` | `height`, `line-height` |
+| `--mp-tag-size-lg-font-size` | `var(--mp-sys-font-size-md)` | `font-size` |
+| `--mp-tag-size-md` | `32px` | `height`, `line-height` |
+| `--mp-tag-size-md-font-size` | `var(--mp-sys-font-size-md)` | `font-size` |
+| `--mp-tag-size-sm` | `28px` | `height`, `line-height` |
+| `--mp-tag-size-sm-font-size` | `var(--mp-sys-font-size-xs)` | `font-size` |
+| `--mp-tag-size-xl` | `40px` | `height`, `line-height` |
+| `--mp-tag-size-xl-font-size` | `var(--mp-sys-font-size-lg)` | `font-size` |
+| `--mp-tag-size-xs` | `24px` | `height`, `line-height` |
+| `--mp-tag-size-xs-font-size` | `var(--mp-sys-font-size-xs)` | `font-size` |
+| `--mp-tag-status-danger-bg-color` | `rgb(var(--mp-danger-1))` | `background-color` |
+| `--mp-tag-status-danger-text-color` | `var(--mp-sys-color-content-danger)` | `color` |
+| `--mp-tag-status-info-bg-color` | `rgb(var(--mp-blue-1))` | `background-color` |
+| `--mp-tag-status-info-text-color` | `var(--mp-sys-color-content-info)` | `color` |
+| `--mp-tag-status-primary-bg-color` | `rgb(var(--mp-primary-1))` | `background-color` |
+| `--mp-tag-status-primary-text-color` | `var(--mp-sys-color-content-brand)` | `color` |
+| `--mp-tag-status-secondary-bg-color` | `rgb(var(--mp-gray-2))` | `background-color` |
+| `--mp-tag-status-secondary-text-color` | `var(--mp-sys-color-content-secondary)` | `color` |
+| `--mp-tag-status-success-bg-color` | `rgb(var(--mp-success-1))` | `background-color` |
+| `--mp-tag-status-success-text-color` | `var(--mp-sys-color-content-success)` | `color` |
+| `--mp-tag-status-tertiary-bg-color` | `rgb(var(--mp-gray-1))` | `background-color` |
+| `--mp-tag-status-tertiary-text-color` | `var(--mp-sys-color-content-secondary)` | `color` |
+| `--mp-tag-status-warning-bg-color` | `rgb(var(--mp-warning-1))` | `background-color` |
+| `--mp-tag-status-warning-text-color` | `var(--mp-sys-color-content-warning)` | `color` |
+| `--mp-tag-text-font-weight` | `var(--mp-sys-font-weight-medium)` | `font-weight` |
+| `--mp-tag-variant-outline-default-border-color` | `var(--mp-sys-color-border-default)` | `border` |
+| `--mp-tag-variant-outline-default-color` | `var(--mp-sys-color-content-primary)` | `color` |
+| `--mp-tag-variant-outline-status-danger-color` | `var(--mp-sys-color-content-danger)` | `border`, `color` |
+| `--mp-tag-variant-outline-status-info-color` | `var(--mp-sys-color-content-info)` | `border`, `color` |
+| `--mp-tag-variant-outline-status-primary-color` | `var(--mp-sys-color-content-brand)` | `border`, `color` |
+| `--mp-tag-variant-outline-status-secondary-color` | `var(--mp-sys-color-content-secondary)` | `border`, `color` |
+| `--mp-tag-variant-outline-status-success-color` | `var(--mp-sys-color-content-success)` | `border`, `color` |
+| `--mp-tag-variant-outline-status-tertiary-color` | `var(--mp-sys-color-content-secondary)` | `border`, `color` |
+| `--mp-tag-variant-outline-status-warning-color` | `var(--mp-sys-color-content-warning)` | `border`, `color` |
+
+</div>
+
+Apply overrides to the rendered component root or the actual popup ancestor. For example, add the following class to that element and replace the value as needed:
+
+```css
+.component-theme {
+  --mp-tag-blue-border-color: transparent;
+}
+```
+
+Explicit inline styles and props that write the same CSS property take precedence over stylesheet defaults. After Teleport, ordinary CSS variables inherit from the actual mount location. When using ThemeProvider, follow its local-theme and popup configuration rules. Override the component variable directly for local styling; root-level aliases are not recalculated merely because a descendant system variable changes. Internal variables are not public APIs.
+
+<!-- component-css-variables:end -->
+
+### Motion
 
 Built-in motion follows `prefers-reduced-motion: reduce`. Reduced motion does not prevent loading-state or close-event updates.
-
-| Token | Default |
-| --- | --- |
-| `--mp-tag-fade-duration` | `var(--mp-sys-motion-duration-fast)` |

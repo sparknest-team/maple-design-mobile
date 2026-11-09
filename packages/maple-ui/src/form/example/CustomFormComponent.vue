@@ -1,6 +1,6 @@
 <script setup>
-import { computed } from 'vue'
-import { Form } from '@maple-design/ui'
+import { computed, useAttrs } from 'vue'
+import { Form, useFormErrorDescription } from '@maple-design/ui'
 
 const props = defineProps({
   modelValue: Boolean,
@@ -9,6 +9,8 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['update:modelValue'])
+const attrs = useAttrs()
+const { describe: describeError } = useFormErrorDescription()
 
 const { mergedDisabled, mergedReadonly, mergedError, eventHandlers } = Form.useFormItem({
   disabled: computed(() => props.disabled),
@@ -39,6 +41,7 @@ function handleClick(event) {
       class="mp-custom-form-component__container"
       :aria-checked="modelValue"
       :aria-readonly="mergedReadonly"
+      :aria-describedby="describeError(attrs['aria-describedby'])"
       :disabled="mergedDisabled"
       @click="handleClick"
       @focus="eventHandlers.onFocus?.($event)"

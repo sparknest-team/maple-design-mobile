@@ -87,10 +87,12 @@ export default defineComponent({
     estimatedSize: {
       type: Number,
       default: 30,
+      validator: (value: number) => Number.isFinite(value) && value > 0,
     },
     buffer: {
       type: Number,
       default: 10,
+      validator: (value: number) => Number.isInteger(value) && value >= 0,
     },
     component: {
       type: [String, Object],
@@ -134,6 +136,34 @@ export default defineComponent({
     const { dir } = useDirection(() => containerRef.value)
     let readingOffset = 0
     const contentRef = ref<HTMLElement>()
+    const viewportHeight = ref(typeof props.height === 'number' && props.height > 0 ? props.height : 200)
+    const scrollOffset = ref(0)
+    let viewportObserver: ResizeObserver | undefined
+    const updateViewport = () => {
+      const actual = containerRef.value?.clientHeight ?? 0
+      if (actual > 0) {
+        viewportHeight.value = actual
+      }
+    }
+    onMounted(() => {
+      updateViewport()
+      const element = containerRef.value
+      const Observer = element?.ownerDocument.defaultView?.ResizeObserver
+      if (element && Observer) {
+        viewportObserver = new Observer(updateViewport)
+        viewportObserver.observe(element)
+      }
+    })
+    onBeforeUnmount(() => viewportObserver?.disconnect())
+    watch(height, async () => {
+      await nextTick()
+      updateViewport()
+    })
+    onActivated(async () => {
+      await nextTick()
+      updateViewport()
+    })
+
     let scrollRequest = 0
     let commandedScroll: { top: number; correct: () => void } | undefined
     let mounted = false
@@ -202,7 +232,31 @@ export default defineComponent({
       fixedSize,
       estimatedSize,
       buffer,
+      viewportHeight,
+      scrollOffset,
     })
+
+    watch(
+      viewportHeight,
+      () => {
+        if (containerRef.value) {
+          setStart(getStartByScroll(containerRef.value.scrollTop))
+        }
+      },
+      { flush: 'post' },
+    )
+
+    watch(
+      [fixedSize, estimatedSize],
+      () => {
+        scrollRequest++
+        commandedScroll = undefined
+        if (containerRef.value) {
+          setStart(getStartByScroll(containerRef.value.scrollTop))
+        }
+      },
+      { flush: 'post' },
+    )
 
     const virtualEnabled = computed(() => !props.threshold || data.value.length > props.threshold)
     watch([dataKeys, virtualEnabled], () => {
@@ -315,6 +369,7 @@ export default defineComponent({
                   : current
               : top
         target.scrollTop = Math.max(0, next)
+        scrollOffset.value = target.scrollTop
         commandedScroll = { top: target.scrollTop, correct: apply }
       }
       if (virtualEnabled.value) {

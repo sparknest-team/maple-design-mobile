@@ -67,7 +67,7 @@ Text, icons and loading indicators scale together. The default size is `md`.
 
 Both platforms support hoverable (false by default). It adds padding and hover/active backgrounds without changing underline. Keyboard focus uses :focus-visible independently of hoverable.
 
-The implementation, Props, styles and tests are independently maintained copies. Only prefixes, local icons and theme tokens differ; no runtime core or instances are shared. Disabled/loading links remove href/target/rel, suppress click and leave the Tab order even with an explicit tabindex. Loading takes precedence over dynamic icon slots.
+Disabled or loading links remove href / target / rel, block click and leave the Tab order, including explicit tabindex. Loading takes precedence over the icon slot, which updates dynamically.
 
 ```demo
 ../example/demos/en-US/hoverable.vue
@@ -109,22 +109,22 @@ Primary, secondary and tertiary links use the same foreground roles as Button te
 
 ## API
 
-### Native links and controlled loading
+### Native links and manual loading
 
-Provide href for navigation. Disabled/loading links retain their link role when an href was provided, remove navigation attributes and leave the Tab order. Native download, hreflang, referrerpolicy and ARIA attributes pass through. Loading replaces the icon slot. click is a MouseEvent notification with Vue once semantics; returned promises do not manage loading. Use Button for operations without a navigation target.
+Supply href for navigation. Disabled/loading links that originally had href retain the link role, remove navigation attributes and leave the Tab order. Native download, hreflang, referrerpolicy and ARIA attributes are forwarded. loading takes precedence over the icon slot. click is a MouseEvent notification using Vue once semantics; returned Promises do not manage loading. Use Button for business actions without a navigation target.
 
-The loading example prepares a report on the first activation, then uses the browser's native download on the next activation. Preparation is canceled when unmounted.
+On first activation, business code prepares the report. Once ready, activation uses the browser's native download behavior. Unmounting cancels preparation.
 
 
-### Props
+### Link Props
 
-| Property | Description | Type | Default |
+| Prop | Description | Type | Default |
 | --- | --- | --- | --- |
 | `size` | Five text, icon and spinner sizes | 'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' | 'md' |
 | `href` | Native link destination | string | - |
 | `target` | Native target | string | - |
-| `rel` | Native rel | string | - |
-| `status` | Semantic status | SemanticStatus | 'default' |
+| `rel` | Native link relationship | string | - |
+| `status` | Semantic status | `SemanticStatus`<br>`'default' \| 'primary' \| 'secondary' \| 'tertiary' \| 'info' \| 'success' \| 'warning' \| 'danger'` | 'default' |
 | `underline` | Underline policy | 'always' \| 'hover' \| 'none' | 'none' |
 | `hoverable` | Padded hover/active backgrounds | boolean | false |
 | `icon` | Show the leading icon; icon slot takes priority | boolean | false |
@@ -132,56 +132,110 @@ The loading example prepares a report on the first activation, then uses the bro
 | `disabled` | Disable the link | boolean | false |
 
 
-### Events
+### Link Events
 
 | Event | Description | Arguments |
 | --- | ------------------------------------------------- | --- |
 | `click` | Triggered when the link is clicked | `event: MouseEvent` |
 
-### Slots
+### Link Slots
 
-| Slot | Description | Arguments |
+| Slot | Description | Prop |
 | --- | --- | --- |
 | `default` | Link content | `-` |
 | `icon` | Custom link icon | `-` |
 
-### Type definitions
+## Types
 
 ```ts
 import type { LinkProps, LinkSize, LinkUnderline, LinkInstance } from '@maple-design/ui'
 ```
 
-### Style variables
-The following CSS variables support customization with [StyleProvider](#/en-US/style-provider).
+## CSS Variables
 
-| Variable | Default |
-| --- | ------------------------------ |
-| `--mp-link-default-color` | `var(--mp-sys-color-content-primary)` |
-| `--mp-link-primary-color` | `var(--mp-sys-color-content-brand)` |
-| `--mp-link-danger-color` | `var(--mp-sys-color-content-danger)` |
-| `--mp-link-success-color` | `var(--mp-sys-color-content-success)` |
-| `--mp-link-warning-color` | `var(--mp-sys-color-content-warning)` |
-| `--mp-link-info-color` | `var(--mp-sys-color-content-info)` |
-| `--mp-link-disabled-color` | `var(--mp-sys-color-content-disabled)` |
-| `--mp-link-font-size` | `var(--mp-sys-font-size-md)` |
-| `--mp-link-icon-size` | `1em` |
-| `--mp-link-focus-opacity` | `0.8` |
+The following CSS variables support customization with [ThemeProvider](#/en-US/theme-provider).
 
-### Shared-source style rules
+<!-- component-css-variables:start -->
 
-Internal classes use `mp-link--status-*`, `mp-link--underline-*` and `mp-link__icon`. Migrate old selectors such as `mp-link--primary`; prefer CSS variables. Existing color/icon/focus variables are retained as aliases for the copied styles.
+Use these variables to customize the component. Defaults may vary by the selector condition shown. Each variable applies to the corresponding size, variant and interaction states.
 
-| Variable | Default |
-| --- | --- |
-| `--mp-link-bg-hover` | `var(--mp-color-fill-2)` |
-| `--mp-link-bg-active` | `var(--mp-color-fill-3)` |
-| `--mp-link-padding-horizontal` | `0.25em` |
-| `--mp-link-padding-vertical` | `1px` |
-| `--mp-link-focus-width` | `2px` |
-| `--mp-link-focus-offset` | `2px` |
-| `--mp-link-focus-color` | `currentColor` |
-| `--mp-link-spin-duration` | `1s` |
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
 
+| Variable | Default / condition | Affected styles |
+| --- | --- | --- |
+| `--mp-link-bg-active` | `var(--mp-color-fill-3)` | `background-color` |
+| `--mp-link-bg-hover` | `var(--mp-color-fill-2)` | `background-color` |
+| `--mp-link-border-radius` | `var(--mp-sys-radius-md)` | `border-radius` |
+| `--mp-link-danger-color` | `var(--mp-sys-color-content-danger)` | `color` |
+| `--mp-link-default-color` | `var(--mp-sys-color-content-primary)` | `color` |
+| `--mp-link-disabled-color` | `var(--mp-sys-color-content-disabled)` | `color` |
+| `--mp-link-focus-color` | `currentColor` | `outline` |
+| `--mp-link-focus-offset` | `2px` | `outline-offset` |
+| `--mp-link-focus-opacity` | `0.8` | `opacity` |
+| `--mp-link-focus-width` | `2px` | `outline` |
+| `--mp-link-font-size` | `var(--mp-sys-font-size-md)` | `font-size` |
+| `--mp-link-icon-size` | `1em` | `font-size` |
+| `--mp-link-info-color` | `var(--mp-sys-color-content-info)` | `color` |
+| `--mp-link-line-height` | `1.5` | `line-height` |
+| `--mp-link-margin-icon-right` | `0.25em` | `margin-inline-end` |
+| `--mp-link-padding-horizontal` | `0.25em` | `padding` |
+| `--mp-link-padding-vertical` | `1px` | `padding` |
+| `--mp-link-primary-color` | `var(--mp-sys-color-content-brand)` | `color` |
+| `--mp-link-secondary-color` | `var(--mp-sys-color-content-secondary)` | `color` |
+| `--mp-link-size-icon` | `var(--mp-link-icon-size)` | `font-size` |
+| `--mp-link-size-lg-font-size` | `var(--mp-sys-font-size-lg)` | `font-size` |
+| `--mp-link-size-md-font-size` | `var(--mp-link-font-size)` | `font-size` |
+| `--mp-link-size-sm-font-size` | `var(--mp-sys-font-size-sm)` | `font-size` |
+| `--mp-link-size-xl-font-size` | `var(--mp-sys-font-size-xl)` | `font-size` |
+| `--mp-link-size-xs-font-size` | `var(--mp-sys-font-size-xs)` | `font-size` |
+| `--mp-link-spin-duration` | `1s` | `animation` |
+| `--mp-link-success-color` | `var(--mp-sys-color-content-success)` | `color` |
+| `--mp-link-tertiary-color` | `var(--mp-sys-color-content-secondary)` | `color` |
+| `--mp-link-text-color` | `var(--mp-link-primary-color)` | `color` |
+| `--mp-link-text-color-active` | `var(--mp-link-text-color)` | `color` |
+| `--mp-link-text-color-default` | `var(--mp-link-default-color)` | `color` |
+| `--mp-link-text-color-disabled` | `var(--mp-link-disabled-color)` | `color` |
+| `--mp-link-text-color-error` | `var(--mp-link-danger-color)` | `color` |
+| `--mp-link-text-color-error-active` | `var(--mp-link-text-color-error)` | `color` |
+| `--mp-link-text-color-error-disabled` | `var(--mp-link-disabled-color)` | `color` |
+| `--mp-link-text-color-error-hover` | `var(--mp-link-text-color-error)` | `color` |
+| `--mp-link-text-color-error-loading` | `var(--mp-link-disabled-color)` | `color` |
+| `--mp-link-text-color-hover` | `var(--mp-link-text-color)` | `color` |
+| `--mp-link-text-color-info` | `var(--mp-link-info-color)` | `color` |
+| `--mp-link-text-color-loading` | `var(--mp-link-disabled-color)` | `color` |
+| `--mp-link-text-color-primary` | `var(--mp-link-primary-color)` | `color` |
+| `--mp-link-text-color-secondary` | `var(--mp-link-secondary-color)` | `color` |
+| `--mp-link-text-color-success` | `var(--mp-link-success-color)` | `color` |
+| `--mp-link-text-color-success-active` | `var(--mp-link-text-color-success)` | `color` |
+| `--mp-link-text-color-success-disabled` | `var(--mp-link-disabled-color)` | `color` |
+| `--mp-link-text-color-success-hover` | `var(--mp-link-text-color-success)` | `color` |
+| `--mp-link-text-color-success-loading` | `var(--mp-link-disabled-color)` | `color` |
+| `--mp-link-text-color-tertiary` | `var(--mp-link-tertiary-color)` | `color` |
+| `--mp-link-text-color-warning` | `var(--mp-link-warning-color)` | `color` |
+| `--mp-link-text-color-warning-active` | `var(--mp-link-text-color-warning)` | `color` |
+| `--mp-link-text-color-warning-disabled` | `var(--mp-link-disabled-color)` | `color` |
+| `--mp-link-text-color-warning-hover` | `var(--mp-link-text-color-warning)` | `color` |
+| `--mp-link-text-color-warning-loading` | `var(--mp-link-disabled-color)` | `color` |
+| `--mp-link-transition-duration` | `0.15s` | `transition` |
+| `--mp-link-warning-color` | `var(--mp-sys-color-content-warning)` | `color` |
+
+</div>
+
+Apply overrides to the rendered component root or the actual popup ancestor. For example, add the following class to that element and replace the value as needed:
+
+```css
+.component-theme {
+  --mp-link-border-radius: var(--mp-sys-radius-md);
+}
+```
+
+Explicit inline styles and props that write the same CSS property take precedence over stylesheet defaults. After Teleport, ordinary CSS variables inherit from the actual mount location. When using ThemeProvider, follow its local-theme and popup configuration rules. Override the component variable directly for local styling; root-level aliases are not recalculated merely because a descendant system variable changes. Internal variables are not public APIs.
+
+<!-- component-css-variables:end -->
+
+### Custom styling
+
+Customize colors, icons and focus appearance through `--mp-link-*` CSS variables.
 
 Text colors match Button text variants: default uses content-primary; secondary/tertiary use content-secondary; colored statuses use their semantic content colors; disabled/loading use content-disabled. Both brands inherit these in light/dark modes.
 

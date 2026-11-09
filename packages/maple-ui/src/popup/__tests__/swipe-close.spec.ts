@@ -70,3 +70,18 @@ test('disabling during a gesture (pending confirmation or closing) cancels it', 
     owner.unmount()
   }
 })
+
+test('vertical threshold uses vertical scale even when horizontal scale differs', async () => {
+  const { owner, close, drag } = setup()
+  try {
+    Object.defineProperty(owner.element, 'offsetWidth', { value: 100 })
+    Object.defineProperty(owner.element, 'offsetHeight', { value: 100 })
+    vi.spyOn(owner.element, 'getBoundingClientRect').mockReturnValue({ width: 100, height: 200 } as DOMRect)
+    await drag('span', 0, 60)
+    expect(close).not.toHaveBeenCalled()
+    await drag('span', 0, 90)
+    expect(close).toHaveBeenCalledTimes(1)
+  } finally {
+    owner.unmount()
+  }
+})

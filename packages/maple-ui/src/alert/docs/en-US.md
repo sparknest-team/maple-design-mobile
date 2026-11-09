@@ -126,12 +126,12 @@ Activate Close with a click, Space or Enter. The close event starts closing; clo
 
 ## API
 
-### Props
+### Alert Props
 
-| Arguments | Description | Type | Default |
+| Prop | Description | Type | Default |
 | ----------- | -------------------------------------------------------------------- | ------------------- | ---------- |
-| status | Type, optional values are `info`, `success`, `warning`, `danger`, `default` | _AlertStatus_ | `info` |
-| `variant` | Variant, optional values are `standard` `outline` `tonal` | _AlertVariant_ | `standard` |
+| status | Type, optional values are `info`, `success`, `warning`, `danger`, `default` | _AlertStatus_<br>`'default' \| 'success' \| 'info' \| 'warning' \| 'danger'` | `info` |
+| `variant` | Variant, optional values are `standard` `outline` `tonal` | _AlertVariant_<br>`'standard' \| 'outline' \| 'tonal'` | `standard` |
 | `color` | Background color | _string_ | `-` |
 | `title` | Title | _string_ | `-` |
 | `message` | Content | _string_ | `-` |
@@ -141,7 +141,7 @@ Activate Close with a click, Space or Enter. The close event starts closing; clo
 | `center` | Whether to center content | _boolean_ | `false` |
 | `elevation` | Elevation, optional values are `true`, `false`, and levels from `0-24` | _number \| boolean_ | `false` |
 
-### Slots
+### Alert Slots
 
 | Name | Description |
 | ------------ | ---------- |
@@ -151,127 +151,142 @@ Activate Close with a click, Space or Enter. The close event starts closing; clo
 | `action` | Right action |
 | `close-icon` | The close icon of alert |
 
-### Events
+### Alert Events
 
 | Event | Description | Callback arguments |
 | -------- | ------------------ | -------------- |
-| `close` | Triggered when the Close button is clicked and can only be used when the Close button is displayed | `event: Event` |
+| `close` | Triggered when the Close button is clicked and can only be used when the Close button is displayed | `event: MouseEvent` |
 | `closed` | Triggered after the leave transition completes | `-` |
 
-### Type definitions
+## Types
 
 ```ts
 import type { AlertInstance, AlertProps, AlertStatus, AlertVariant } from 'maple-ui'
 ```
 
-### Style variables
+## Usage notes
 
-See `--mp-alert-*` variables under `:root` in `style/token.less`. All use the `--mp-alert-` prefix and support customization through [StyleProvider](#/en-US/style-provider).
 
-## Migration notes (breaking changes)
 
-- `closeable` → `closable`
-- Adds `default` status and `show-icon` / `banner` / `center` / `closed` APIs
-- Removes `content` slot; its structure becomes `body`
+The close button supports keyboard activation. close fires once; closed fires after the leave transition finishes.
 
-## Shared implementation and platform boundaries
+### Close labels and elevation types
 
-Each platform maintains a complete local implementation. They do not import a common core or share component instances or reactive state. Changes must update both implementations. Component bodies, props, key styles and paired tests have read-only source consistency checks; theme tokens and installation entries remain local to each library.
+The close control uses the shared `common.close` locale key and updates reactively with its language scope. The `close-icon` slot replaces only the graphic. Customize `locale.common.close` through Cedar ConfigProvider, or the `'common.close'` message through Maple LocaleProvider.
 
-The close button supports keyboard activation. close fires once, and closed fires after the leave transition. Maple renamed its internal __close-icon class to __close-btn. Default icons are adapted locally in each library.
+`elevation` accepts only booleans or numbers. Use `:elevation="4"` for a numeric level; the string `elevation="4"` is outside the public type. Keyboard activation and clicks emit a MouseEvent; `closed` still fires after the leave transition.
 
-### Complete variable defaults
+## CSS Variables
+
+See `--mp-alert-*` variables under `:root` in `style/token.less`. All use the `--mp-alert-` prefix and support customization through [ThemeProvider](#/en-US/theme-provider).
 
 Colored titles, content, icons and outline borders use readable system content colors. standard and tonal share the same level-1 background; standard adds a subtle decorative border. Default titles use content-primary; body text and icons use content-secondary. The content variable also sets the root inherited color, used by close icons and actions without an explicit color. Maple dark mode inherits these colors while retaining its geometry overrides: 16px padding, 22px icons, 12px icon/close gaps and 1.5 body line height. color changes only the background; callers must also verify foreground contrast. The table lists :root defaults, not theme overrides.
 
-| Variable | Default |
-| --- | --- |
-| `--mp-alert-padding-vertical` | `var(--mp-sys-space-4)` |
-| `--mp-alert-padding-horizontal` | `var(--mp-sys-space-6)` |
-| `--mp-alert-padding-vertical-with-title` | `var(--mp-sys-space-6)` |
-| `--mp-alert-padding-horizontal-with-title` | `var(--mp-sys-space-6)` |
-| `--mp-alert-border-radius` | `var(--mp-sys-radius-md)` |
-| `--mp-alert-border-width` | `1px` |
-| `--mp-alert-font-size-content` | `var(--mp-sys-font-size-md)` |
-| `--mp-alert-font-size-title` | `var(--mp-sys-font-size-lg)` |
-| `--mp-alert-font-weight-title` | `var(--mp-sys-font-weight-medium)` |
-| `--mp-alert-line-height` | `1.5715` |
-| `--mp-alert-line-height-title` | `1.5` |
-| `--mp-alert-title-margin-bottom` | `var(--mp-sys-space-2)` |
-| `--mp-alert-icon-size` | `16px` |
-| `--mp-alert-icon-margin-right` | `var(--mp-sys-space-4)` |
-| `--mp-alert-action-margin-left` | `var(--mp-sys-space-5)` |
-| `--mp-alert-close-margin-left` | `var(--mp-sys-space-4)` |
-| `--mp-alert-standard-info-bg` | `rgb(var(--mp-blue-1))` |
-| `--mp-alert-standard-info-border` | `rgb(var(--mp-blue-3))` |
-| `--mp-alert-standard-info-title` | `var(--mp-sys-color-content-info)` |
-| `--mp-alert-standard-info-content` | `var(--mp-sys-color-content-info)` |
-| `--mp-alert-standard-info-icon` | `var(--mp-sys-color-content-info)` |
-| `--mp-alert-standard-success-bg` | `rgb(var(--mp-success-1))` |
-| `--mp-alert-standard-success-border` | `rgb(var(--mp-success-3))` |
-| `--mp-alert-standard-success-title` | `var(--mp-sys-color-content-success)` |
-| `--mp-alert-standard-success-content` | `var(--mp-sys-color-content-success)` |
-| `--mp-alert-standard-success-icon` | `var(--mp-sys-color-content-success)` |
-| `--mp-alert-standard-warning-bg` | `rgb(var(--mp-warning-1))` |
-| `--mp-alert-standard-warning-border` | `rgb(var(--mp-warning-3))` |
-| `--mp-alert-standard-warning-title` | `var(--mp-sys-color-content-warning)` |
-| `--mp-alert-standard-warning-content` | `var(--mp-sys-color-content-warning)` |
-| `--mp-alert-standard-warning-icon` | `var(--mp-sys-color-content-warning)` |
-| `--mp-alert-standard-danger-bg` | `rgb(var(--mp-danger-1))` |
-| `--mp-alert-standard-danger-border` | `rgb(var(--mp-danger-3))` |
-| `--mp-alert-standard-danger-title` | `var(--mp-sys-color-content-danger)` |
-| `--mp-alert-standard-danger-content` | `var(--mp-sys-color-content-danger)` |
-| `--mp-alert-standard-danger-icon` | `var(--mp-sys-color-content-danger)` |
-| `--mp-alert-standard-default-bg` | `var(--mp-color-fill-2)` |
-| `--mp-alert-standard-default-border` | `var(--mp-sys-color-border-default)` |
-| `--mp-alert-standard-default-title` | `var(--mp-sys-color-content-primary)` |
-| `--mp-alert-standard-default-content` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-alert-standard-default-icon` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-alert-tonal-info-bg` | `rgb(var(--mp-blue-1))` |
-| `--mp-alert-tonal-info-title` | `var(--mp-sys-color-content-info)` |
-| `--mp-alert-tonal-info-content` | `var(--mp-sys-color-content-info)` |
-| `--mp-alert-tonal-info-icon` | `var(--mp-sys-color-content-info)` |
-| `--mp-alert-tonal-success-bg` | `rgb(var(--mp-success-1))` |
-| `--mp-alert-tonal-success-title` | `var(--mp-sys-color-content-success)` |
-| `--mp-alert-tonal-success-content` | `var(--mp-sys-color-content-success)` |
-| `--mp-alert-tonal-success-icon` | `var(--mp-sys-color-content-success)` |
-| `--mp-alert-tonal-warning-bg` | `rgb(var(--mp-warning-1))` |
-| `--mp-alert-tonal-warning-title` | `var(--mp-sys-color-content-warning)` |
-| `--mp-alert-tonal-warning-content` | `var(--mp-sys-color-content-warning)` |
-| `--mp-alert-tonal-warning-icon` | `var(--mp-sys-color-content-warning)` |
-| `--mp-alert-tonal-danger-bg` | `rgb(var(--mp-danger-1))` |
-| `--mp-alert-tonal-danger-title` | `var(--mp-sys-color-content-danger)` |
-| `--mp-alert-tonal-danger-content` | `var(--mp-sys-color-content-danger)` |
-| `--mp-alert-tonal-danger-icon` | `var(--mp-sys-color-content-danger)` |
-| `--mp-alert-tonal-default-bg` | `var(--mp-color-fill-2)` |
-| `--mp-alert-tonal-default-title` | `var(--mp-sys-color-content-primary)` |
-| `--mp-alert-tonal-default-content` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-alert-tonal-default-icon` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-alert-outline-info-border` | `var(--mp-sys-color-content-info)` |
-| `--mp-alert-outline-info-title` | `var(--mp-sys-color-content-info)` |
-| `--mp-alert-outline-info-content` | `var(--mp-sys-color-content-info)` |
-| `--mp-alert-outline-info-icon` | `var(--mp-sys-color-content-info)` |
-| `--mp-alert-outline-success-border` | `var(--mp-sys-color-content-success)` |
-| `--mp-alert-outline-success-title` | `var(--mp-sys-color-content-success)` |
-| `--mp-alert-outline-success-content` | `var(--mp-sys-color-content-success)` |
-| `--mp-alert-outline-success-icon` | `var(--mp-sys-color-content-success)` |
-| `--mp-alert-outline-warning-border` | `var(--mp-sys-color-content-warning)` |
-| `--mp-alert-outline-warning-title` | `var(--mp-sys-color-content-warning)` |
-| `--mp-alert-outline-warning-content` | `var(--mp-sys-color-content-warning)` |
-| `--mp-alert-outline-warning-icon` | `var(--mp-sys-color-content-warning)` |
-| `--mp-alert-outline-danger-border` | `var(--mp-sys-color-content-danger)` |
-| `--mp-alert-outline-danger-title` | `var(--mp-sys-color-content-danger)` |
-| `--mp-alert-outline-danger-content` | `var(--mp-sys-color-content-danger)` |
-| `--mp-alert-outline-danger-icon` | `var(--mp-sys-color-content-danger)` |
-| `--mp-alert-outline-default-border` | `var(--mp-sys-color-border-default)` |
-| `--mp-alert-outline-default-title` | `var(--mp-sys-color-content-primary)` |
-| `--mp-alert-outline-default-content` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-alert-outline-default-icon` | `var(--mp-sys-color-content-secondary)` |
+<!-- component-css-variables:start -->
 
-### Motion variables
+Use these variables to customize the component. Defaults may vary by the selector condition shown. Each variable applies to the corresponding size, variant and interaction states.
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Default / condition | Affected styles |
+| --- | --- | --- |
+| `--mp-alert-action-margin-left` | `var(--mp-sys-space-5)` | `margin-inline-start` |
+| `--mp-alert-border-radius` | `var(--mp-sys-radius-md)` | `border-radius` |
+| `--mp-alert-border-width` | `1px` | `border` |
+| `--mp-alert-close-duration` | `var(--mp-sys-motion-duration-slow)` | `transition` |
+| `--mp-alert-close-margin-left` | `var(--mp-sys-space-4)` | `margin-inline-start` |
+| `--mp-alert-font-size-content` | `var(--mp-sys-font-size-md)` | `font-size` |
+| `--mp-alert-font-size-title` | `var(--mp-sys-font-size-lg)` | `font-size` |
+| `--mp-alert-font-weight-title` | `var(--mp-sys-font-weight-medium)` | `font-weight` |
+| `--mp-alert-icon-margin-right` | `var(--mp-sys-space-4)` | `margin-inline-end` |
+| `--mp-alert-icon-size` | `16px` | `font-size` |
+| `--mp-alert-line-height` | `1.5715` | `line-height` |
+| `--mp-alert-line-height-title` | `1.5` | `line-height` |
+| `--mp-alert-outline-danger-border` | `var(--mp-sys-color-content-danger)` | `border-color` |
+| `--mp-alert-outline-danger-content` | `var(--mp-sys-color-content-danger)` | `color` |
+| `--mp-alert-outline-danger-icon` | `var(--mp-sys-color-content-danger)` | `color` |
+| `--mp-alert-outline-danger-title` | `var(--mp-sys-color-content-danger)` | `color` |
+| `--mp-alert-outline-default-border` | `var(--mp-sys-color-border-default)` | `border-color` |
+| `--mp-alert-outline-default-content` | `var(--mp-sys-color-content-secondary)` | `color` |
+| `--mp-alert-outline-default-icon` | `var(--mp-sys-color-content-secondary)` | `color` |
+| `--mp-alert-outline-default-title` | `var(--mp-sys-color-content-primary)` | `color` |
+| `--mp-alert-outline-info-border` | `var(--mp-sys-color-content-info)` | `border-color` |
+| `--mp-alert-outline-info-content` | `var(--mp-sys-color-content-info)` | `color` |
+| `--mp-alert-outline-info-icon` | `var(--mp-sys-color-content-info)` | `color` |
+| `--mp-alert-outline-info-title` | `var(--mp-sys-color-content-info)` | `color` |
+| `--mp-alert-outline-success-border` | `var(--mp-sys-color-content-success)` | `border-color` |
+| `--mp-alert-outline-success-content` | `var(--mp-sys-color-content-success)` | `color` |
+| `--mp-alert-outline-success-icon` | `var(--mp-sys-color-content-success)` | `color` |
+| `--mp-alert-outline-success-title` | `var(--mp-sys-color-content-success)` | `color` |
+| `--mp-alert-outline-warning-border` | `var(--mp-sys-color-content-warning)` | `border-color` |
+| `--mp-alert-outline-warning-content` | `var(--mp-sys-color-content-warning)` | `color` |
+| `--mp-alert-outline-warning-icon` | `var(--mp-sys-color-content-warning)` | `color` |
+| `--mp-alert-outline-warning-title` | `var(--mp-sys-color-content-warning)` | `color` |
+| `--mp-alert-padding-horizontal` | `var(--mp-sys-space-6)` | `padding` |
+| `--mp-alert-padding-horizontal-with-title` | `var(--mp-sys-space-6)` | `padding` |
+| `--mp-alert-padding-vertical` | `var(--mp-sys-space-4)` | `padding` |
+| `--mp-alert-padding-vertical-with-title` | `var(--mp-sys-space-6)` | `padding` |
+| `--mp-alert-standard-danger-bg` | `rgb(var(--mp-danger-1))` | `background-color` |
+| `--mp-alert-standard-danger-border` | `rgb(var(--mp-danger-3))` | `border-color` |
+| `--mp-alert-standard-danger-content` | `var(--mp-sys-color-content-danger)` | `color` |
+| `--mp-alert-standard-danger-icon` | `var(--mp-sys-color-content-danger)` | `color` |
+| `--mp-alert-standard-danger-title` | `var(--mp-sys-color-content-danger)` | `color` |
+| `--mp-alert-standard-default-bg` | `var(--mp-color-fill-2)` | `background-color` |
+| `--mp-alert-standard-default-border` | `var(--mp-sys-color-border-default)` | `border-color` |
+| `--mp-alert-standard-default-content` | `var(--mp-sys-color-content-secondary)` | `color` |
+| `--mp-alert-standard-default-icon` | `var(--mp-sys-color-content-secondary)` | `color` |
+| `--mp-alert-standard-default-title` | `var(--mp-sys-color-content-primary)` | `color` |
+| `--mp-alert-standard-info-bg` | `rgb(var(--mp-blue-1))` | `background-color` |
+| `--mp-alert-standard-info-border` | `rgb(var(--mp-blue-3))` | `border-color` |
+| `--mp-alert-standard-info-content` | `var(--mp-sys-color-content-info)` | `color` |
+| `--mp-alert-standard-info-icon` | `var(--mp-sys-color-content-info)` | `color` |
+| `--mp-alert-standard-info-title` | `var(--mp-sys-color-content-info)` | `color` |
+| `--mp-alert-standard-success-bg` | `rgb(var(--mp-success-1))` | `background-color` |
+| `--mp-alert-standard-success-border` | `rgb(var(--mp-success-3))` | `border-color` |
+| `--mp-alert-standard-success-content` | `var(--mp-sys-color-content-success)` | `color` |
+| `--mp-alert-standard-success-icon` | `var(--mp-sys-color-content-success)` | `color` |
+| `--mp-alert-standard-success-title` | `var(--mp-sys-color-content-success)` | `color` |
+| `--mp-alert-standard-warning-bg` | `rgb(var(--mp-warning-1))` | `background-color` |
+| `--mp-alert-standard-warning-border` | `rgb(var(--mp-warning-3))` | `border-color` |
+| `--mp-alert-standard-warning-content` | `var(--mp-sys-color-content-warning)` | `color` |
+| `--mp-alert-standard-warning-icon` | `var(--mp-sys-color-content-warning)` | `color` |
+| `--mp-alert-standard-warning-title` | `var(--mp-sys-color-content-warning)` | `color` |
+| `--mp-alert-title-margin-bottom` | `var(--mp-sys-space-2)` | `margin-bottom` |
+| `--mp-alert-tonal-danger-bg` | `rgb(var(--mp-danger-1))` | `background-color` |
+| `--mp-alert-tonal-danger-content` | `var(--mp-sys-color-content-danger)` | `color` |
+| `--mp-alert-tonal-danger-icon` | `var(--mp-sys-color-content-danger)` | `color` |
+| `--mp-alert-tonal-danger-title` | `var(--mp-sys-color-content-danger)` | `color` |
+| `--mp-alert-tonal-default-bg` | `var(--mp-color-fill-2)` | `background-color` |
+| `--mp-alert-tonal-default-content` | `var(--mp-sys-color-content-secondary)` | `color` |
+| `--mp-alert-tonal-default-icon` | `var(--mp-sys-color-content-secondary)` | `color` |
+| `--mp-alert-tonal-default-title` | `var(--mp-sys-color-content-primary)` | `color` |
+| `--mp-alert-tonal-info-bg` | `rgb(var(--mp-blue-1))` | `background-color` |
+| `--mp-alert-tonal-info-content` | `var(--mp-sys-color-content-info)` | `color` |
+| `--mp-alert-tonal-info-icon` | `var(--mp-sys-color-content-info)` | `color` |
+| `--mp-alert-tonal-info-title` | `var(--mp-sys-color-content-info)` | `color` |
+| `--mp-alert-tonal-success-bg` | `rgb(var(--mp-success-1))` | `background-color` |
+| `--mp-alert-tonal-success-content` | `var(--mp-sys-color-content-success)` | `color` |
+| `--mp-alert-tonal-success-icon` | `var(--mp-sys-color-content-success)` | `color` |
+| `--mp-alert-tonal-success-title` | `var(--mp-sys-color-content-success)` | `color` |
+| `--mp-alert-tonal-warning-bg` | `rgb(var(--mp-warning-1))` | `background-color` |
+| `--mp-alert-tonal-warning-content` | `var(--mp-sys-color-content-warning)` | `color` |
+| `--mp-alert-tonal-warning-icon` | `var(--mp-sys-color-content-warning)` | `color` |
+| `--mp-alert-tonal-warning-title` | `var(--mp-sys-color-content-warning)` | `color` |
+
+</div>
+
+Apply overrides to the rendered component root or the actual popup ancestor. For example, add the following class to that element and replace the value as needed:
+
+```css
+.component-theme {
+  --mp-alert-border-radius: var(--mp-sys-radius-md);
+}
+```
+
+Explicit inline styles and props that write the same CSS property take precedence over stylesheet defaults. After Teleport, ordinary CSS variables inherit from the actual mount location. When using ThemeProvider, follow its local-theme and popup configuration rules. Override the component variable directly for local styling; root-level aliases are not recalculated merely because a descendant system variable changes. Internal variables are not public APIs.
+
+<!-- component-css-variables:end -->
+
+### Motion
 
 Built-in motion follows `prefers-reduced-motion: reduce`. Reduced motion does not prevent loading-state or close-event updates.
-
-| Token | Default |
-| --- | --- |
-| `--mp-alert-close-duration` | `var(--mp-sys-motion-duration-slow)` |

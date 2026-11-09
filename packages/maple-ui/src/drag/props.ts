@@ -1,5 +1,6 @@
-import { type PropType, type TeleportProps } from 'vue'
+import { type PropType } from 'vue'
 import { popupContainerProp } from '../utils/popup-container'
+import { isDragAxis, isDragBoundary } from './normalize'
 
 export type DragAxis = 'x' | 'y' | 'xy'
 
@@ -16,11 +17,13 @@ export const props = {
   axis: {
     type: String as PropType<DragAxis>,
     default: 'xy',
+    validator: isDragAxis,
   },
-  attraction: String as PropType<DragAttraction>,
+  attraction: { type: String as PropType<DragAttraction>, validator: isDragAxis },
   disabled: Boolean,
   boundary: {
     type: Object as PropType<DragBoundary>,
+    validator: isDragBoundary,
     default: () => ({
       top: 0,
       bottom: 0,

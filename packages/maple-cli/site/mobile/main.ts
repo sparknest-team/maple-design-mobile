@@ -1,7 +1,13 @@
-import { createApp, defineAsyncComponent } from 'vue'
+import { createApp, defineAsyncComponent, h } from 'vue'
 import config from '@config'
-import { getSavedLanguage, normalizeLanguage, saveLanguage } from '@maple-design/cli/client'
-import { Locale } from '@maple-design/ui'
+import {
+  currentStyleVars,
+  currentThemePreset,
+  getSavedLanguage,
+  normalizeLanguage,
+  saveLanguage,
+} from '@maple-design/cli/client'
+import { Locale, ThemeProvider } from '@maple-design/ui'
 import routes from '@mobile-routes'
 import { createRouter, createWebHashHistory } from 'vue-router'
 import { installRouteRecovery } from '../route-recovery'
@@ -73,7 +79,18 @@ router.afterEach((to, from, failure) => {
   }
 })
 
-createApp(App)
+createApp({
+  render: () =>
+    h(
+      ThemeProvider,
+      {
+        theme: currentThemePreset.value,
+        styleVars: currentStyleVars.value,
+        style: { minHeight: '100vh', background: 'var(--mp-color-body)', color: 'var(--mp-color-text)' },
+      },
+      () => h(App),
+    ),
+})
   .use(router)
   .component(
     'MpSiteDemoPreview',

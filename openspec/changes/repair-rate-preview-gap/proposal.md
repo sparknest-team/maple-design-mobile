@@ -1,0 +1,1 @@
+Correct stale hover preview after handled keyboard operations. Allow zero gap independently of positive icon size; retain existing CSS length grammar and style-token fallback. No new props. Both platforms share behavior.

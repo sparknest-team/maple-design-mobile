@@ -5,10 +5,14 @@
   box-sizing: border-box;
   width: 100%;
 }
-.mp-auto-complete__dropdown {
+.mp-auto-complete--native-editor {
+  flex-direction: column;
+  align-items: stretch;
+}
+.mp-select-dropdown.mp-auto-complete__dropdown {
   padding-block: var(--mp-auto-complete-popup-padding-vertical);
   background-color: var(--mp-auto-complete-popup-bg);
-  border-color: var(--mp-auto-complete-popup-border-color);
+  border: 1px solid var(--mp-auto-complete-popup-border-color);
   border-radius: var(--mp-auto-complete-popup-border-radius);
   box-shadow: var(--mp-auto-complete-popup-box-shadow);
 

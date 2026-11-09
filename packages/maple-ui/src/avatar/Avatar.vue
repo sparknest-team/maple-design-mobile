@@ -1,6 +1,10 @@
 <template>
   <div
     ref="itemRef"
+    v-bind="$attrs"
+    :role="attrs.role ?? (hasTriggerIcon && !triggerHasControl ? 'button' : undefined)"
+    :tabindex="attrs.tabindex ?? (hasTriggerIcon && !triggerHasControl ? 0 : undefined)"
+    :aria-label="attrs['aria-label'] ?? props.triggerAriaLabel"
     :class="
       classes(
         n(),
@@ -11,13 +15,21 @@
       )
     "
     :style="outerStyle"
+    @keydown="handleKeydown"
     @click="handleClick"
   >
     <span ref="contentRef" :class="n(showImage ? 'image' : 'text')" :style="contentStyle">
       <template v-if="props.imageUrl">
         <slot v-if="hasError" name="error">
           <img v-if="props.error" :src="props.error" role="img" :alt="props.alt" :style="imageStyle" />
-          <span v-else :class="n('image-icon')"><ImageErrorIcon /></span>
+          <span
+            v-else
+            :class="n('image-icon')"
+            :role="props.alt ? 'img' : undefined"
+            :aria-label="props.alt || undefined"
+            :aria-hidden="props.alt ? undefined : true"
+            ><ImageErrorIcon aria-hidden="true"
+          /></span>
         </slot>
         <template v-else>
           <img
@@ -40,20 +52,36 @@
       </template>
       <slot v-else />
     </span>
-    <span v-if="hasTriggerIcon" :class="n(`trigger-icon-${props.triggerType}`)" :style="mergedTriggerIconStyle">
+    <span
+      v-if="hasTriggerIcon"
+      ref="triggerRef"
+      :class="n(`trigger-icon-${props.triggerType}`)"
+      :style="mergedTriggerIconStyle"
+    >
       <slot name="trigger-icon" />
     </span>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, nextTick, onMounted, onUpdated, ref, useSlots, watch, type CSSProperties } from 'vue'
+import {
+  computed,
+  inject,
+  nextTick,
+  onMounted,
+  onUpdated,
+  ref,
+  useAttrs,
+  useSlots,
+  watch,
+  type CSSProperties,
+} from 'vue'
 import { createNamespace } from '../utils/components'
 import { avatarGroupInjectionKey } from './context'
 import { ImageErrorIcon, ImageLoadingIcon, toSizeUnit, useElementResize } from './platform'
 import { avatarProps } from './props'
 
-defineOptions({ name: createNamespace('avatar').name })
+defineOptions({ name: createNamespace('avatar').name, inheritAttrs: false })
 
 const props = defineProps(avatarProps)
 const emit = defineEmits<{
@@ -62,10 +90,17 @@ const emit = defineEmits<{
   error: []
 }>()
 const slots = useSlots()
+const attrs = useAttrs() as ReturnType<typeof useAttrs> & {
+  role?: string
+  tabindex?: string | number
+  'aria-label'?: string
+}
 const { n, classes } = createNamespace('avatar')
 const group = inject(avatarGroupInjectionKey, undefined)
 const itemRef = ref<HTMLElement>()
 const contentRef = ref<HTMLElement>()
+const triggerRef = ref<HTMLElement>()
+const triggerHasControl = ref(true)
 const scale = ref(1)
 const isLoaded = ref(false)
 const hasError = ref(false)
@@ -80,7 +115,7 @@ const showImage = computed(() => Boolean(props.imageUrl) || slottedImage.value)
 const outerStyle = computed<CSSProperties>(() => {
   const style: CSSProperties = {}
   const size = mergedSize.value
-  if (size != null && size !== '') {
+  if (size != null && size !== '' && (typeof size !== 'number' || (Number.isFinite(size) && size >= 0))) {
     const unit = toSizeUnit(size)
     style.width = unit
     style.height = unit
@@ -127,6 +162,23 @@ function updateScale() {
   })
 }
 
+function detectTriggerControl() {
+  triggerHasControl.value = Boolean(
+    triggerRef.value?.querySelector(
+      'button, a[href], input, select, textarea, [contenteditable]:not([contenteditable="false"]), [role="button"], [role="link"], [role="switch"], [role="checkbox"], [tabindex]:not([tabindex="-1"])',
+    ),
+  )
+}
+
+function handleKeydown(event: KeyboardEvent) {
+  const role = attrs.role ?? (hasTriggerIcon.value && !triggerHasControl.value ? 'button' : undefined)
+  if (event.target !== event.currentTarget || role !== 'button' || (event.key !== 'Enter' && event.key !== ' ')) {
+    return
+  }
+  event.preventDefault()
+  ;(event.currentTarget as HTMLElement).click()
+}
+
 function handleClick(event: MouseEvent) {
   emit('click', event)
 }
@@ -154,14 +206,38 @@ watch(
     updateScale()
   },
 )
+watch(
+  triggerRef,
+  (element, _previous, onCleanup) => {
+    detectTriggerControl()
+    const Observer = element?.ownerDocument.defaultView?.MutationObserver
+    if (!element || !Observer) {
+      return
+    }
+    const observer = new Observer(detectTriggerControl)
+    observer.observe(element, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ['role', 'tabindex', 'href', 'contenteditable'],
+    })
+    onCleanup(() => observer.disconnect())
+  },
+  { flush: 'post' },
+)
 watch([mergedSize, mergedAutoFixFontSize], updateScale)
-onUpdated(updateScale)
+onUpdated(() => {
+  detectTriggerControl()
+  detectSlottedImage()
+  updateScale()
+})
 useElementResize(
   () => [itemRef.value],
   () => mergedAutoFixFontSize.value && !showImage.value,
   () => updateScale(),
 )
 onMounted(() => {
+  detectTriggerControl()
   detectSlottedImage()
   updateScale()
 })

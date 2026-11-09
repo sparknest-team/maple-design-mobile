@@ -1,0 +1,3 @@
+- [x] Record named export and public listener type baselines
+- [x] Align entries and types with authored examples
+- [x] Verify both platforms and affected component suites

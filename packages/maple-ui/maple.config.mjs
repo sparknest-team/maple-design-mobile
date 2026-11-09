@@ -230,10 +230,10 @@ export default defineConfig({
       },
       {
         text: {
-          'zh-CN': 'StyleProvider',
-          'en-US': 'StyleProvider',
+          'zh-CN': 'ThemeProvider',
+          'en-US': 'ThemeProvider',
         },
-        doc: 'style-provider',
+        doc: 'theme-provider',
         type: 2,
       },
       {

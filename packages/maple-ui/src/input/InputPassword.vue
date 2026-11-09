@@ -1,6 +1,6 @@
 <template>
   <div :class="n()">
-    <Input ref="inputRef" v-bind="inputBindings" :type="mergedVisible ? 'text' : 'password'">
+    <Input ref="inputRef" v-bind="inputBindings" :type="mergedVisible ? 'text' : 'password'" v-on="inputListeners">
       <template v-for="slotName in forwardedSlots" #[slotName]="scope"
         ><slot :name="slotName" v-bind="scope"
       /></template>
@@ -31,11 +31,12 @@ import { useFieldLocale } from '../field-decorator/use-field-locale'
 import { createNamespace } from '../utils/components'
 import Input from './Input.vue'
 import { inputPasswordProps, inputProps } from './props'
+import type { InputEmits, InputPasswordEmits } from './types'
 import { useInputForm } from './use-input-form'
 
 defineOptions({ name: createNamespace('input-password').name, inheritAttrs: false })
 const props = defineProps(inputPasswordProps)
-const emit = defineEmits<{ 'visibility-change': [visible: boolean]; 'update:visibility': [visible: boolean] }>()
+const emit = defineEmits<InputPasswordEmits>()
 const { n } = createNamespace('input-password')
 const { t } = useFieldLocale()
 const attrs = useAttrs()
@@ -52,6 +53,19 @@ const inputBindings = computed(() => {
   }
   return { ...fields, ...attrs }
 })
+
+const inputListeners: { [Name in keyof InputEmits]: (...args: InputEmits[Name]) => void } = {
+  'update:open': (...args) => emit('update:open', ...args),
+  'update:modelValue': (...args) => emit('update:modelValue', ...args),
+  input: (...args) => emit('input', ...args),
+  change: (...args) => emit('change', ...args),
+  'press-enter': (...args) => emit('press-enter', ...args),
+  keydown: (...args) => emit('keydown', ...args),
+  clear: (...args) => emit('clear', ...args),
+  focus: (...args) => emit('focus', ...args),
+  blur: (...args) => emit('blur', ...args),
+  click: (...args) => emit('click', ...args),
+}
 
 function toggleVisibility() {
   if (mergedDisabled.value) {

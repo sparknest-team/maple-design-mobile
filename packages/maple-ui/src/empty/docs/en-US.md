@@ -82,9 +82,9 @@ Use the two buttons to toggle the image and description independently, then rest
 
 ## API
 
-### Props
+### Empty Props
 
-| Arguments | Description | Type | Default |
+| Prop | Description | Type | Default |
 | --- | --- | --- | --- |
 | `description` | Description; falls back to i18n | `string` | `-` |
 | `image-url` | Custom image URL | `string` | `-` |
@@ -93,13 +93,13 @@ Use the two buttons to toggle the image and description independently, then rest
 | `show-icon` | Whether to show the icon | `boolean` | `true` |
 | `show-description` | Whether to show the description | `boolean` | `true` |
 
-### Events
+### Empty Events
 
 | Event | Description | Arguments |
 | --- | --- | --- |
 | `click` | Click callback | `(event: MouseEvent)` |
 
-### Slots
+### Empty Slots
 
 | Slot | Description |
 | --- | --- |
@@ -107,27 +107,47 @@ Use the two buttons to toggle the image and description independently, then rest
 | `image` | Custom icon/image |
 | `extra` | Extra actions |
 
-### Type definitions
+## Types
 
 ```ts
 type EmptyImageSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | number | string
 ```
 
-### Style variables
-
-| Name | Default |
-| --- | --- |
-| `--mp-empty-padding` | `20px` |
-| `--mp-empty-image-margin-bottom` | `4px` |
-| `--mp-empty-description-font-size` | `14px` |
-| `--mp-empty-description-color` | `var(--mp-sys-color-content-tertiary)` |
-| `--mp-empty-description-line-height` | `1.5` |
-| `--mp-empty-icon-color` | `var(--mp-sys-color-content-decorative)` |
-| `--mp-empty-extra-margin-top` | `20px` |
-| `--mp-empty-size-xs` | `80px` |
-| `--mp-empty-size-sm` | `100px` |
-| `--mp-empty-size-md` | `120px` |
-| `--mp-empty-size-lg` | `140px` |
-| `--mp-empty-size-xl` | `160px` |
+## CSS Variables
 
 Descriptions use low-emphasis text semantics; decorative icons use `content-decorative`, which must not be used for readable text. Custom images or slots may supply their own colors and are not forcibly recolored by `icon-color`. Sizing and spacing may follow mobile density while same-name tokens keep Cedar's responsibilities.
+
+<!-- component-css-variables:start -->
+
+Use these variables to customize the component. Defaults may vary by the selector condition shown. Each variable applies to the corresponding size, variant and interaction states.
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Default / condition | Affected styles |
+| --- | --- | --- |
+| `--mp-empty-description-color` | `var(--mp-sys-color-content-tertiary)` | `color` |
+| `--mp-empty-description-font-size` | `14px` | `font-size` |
+| `--mp-empty-description-line-height` | `1.5` | `line-height` |
+| `--mp-empty-extra-margin-top` | `20px` | `margin-top` |
+| `--mp-empty-icon-color` | `var(--mp-sys-color-content-decorative)` | `color` |
+| `--mp-empty-image-margin-bottom` | `4px` | `margin-bottom` |
+| `--mp-empty-padding` | `20px` | `padding` |
+| `--mp-empty-size-lg` | `140px` | `font-size`, `height`, `width` |
+| `--mp-empty-size-md` | `120px` | `font-size`, `height`, `width` |
+| `--mp-empty-size-sm` | `100px` | `font-size`, `height`, `width` |
+| `--mp-empty-size-xl` | `160px` | `font-size`, `height`, `width` |
+| `--mp-empty-size-xs` | `80px` | `font-size`, `height`, `width` |
+
+</div>
+
+Apply overrides to the rendered component root or the actual popup ancestor. For example, add the following class to that element and replace the value as needed:
+
+```css
+.component-theme {
+  --mp-empty-description-color: var(--mp-sys-color-content-tertiary);
+}
+```
+
+Explicit inline styles and props that write the same CSS property take precedence over stylesheet defaults. After Teleport, ordinary CSS variables inherit from the actual mount location. When using ThemeProvider, follow its local-theme and popup configuration rules. Override the component variable directly for local styling; root-level aliases are not recalculated merely because a descendant system variable changes. Internal variables are not public APIs.
+
+<!-- component-css-variables:end -->

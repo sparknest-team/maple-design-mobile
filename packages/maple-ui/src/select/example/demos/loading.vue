@@ -3,6 +3,7 @@ import { ref } from 'vue'
 
 const busy = ref(true)
 const value = ref('beijing')
+const selected = ref(['beijing'])
 const options = [
   { label: '北京 / Beijing', value: 'beijing' },
   { label: '上海 / Shanghai', value: 'shanghai' },
@@ -19,10 +20,20 @@ const options = [
       <mp-form-item label="底部加载线 / Line"
         ><mp-select v-model="value" :loading="busy" :options="options" edit-mode="direct" loading-mode="line"
       /></mp-form-item>
+      <mp-form-item label="多选动作 / Multiple actions"
+        ><mp-select
+          v-model="selected"
+          :loading="busy"
+          :options="options"
+          multiple
+          clearable
+          filterable
+          edit-mode="direct"
+      /></mp-form-item>
     </mp-form>
     <p>
-      切换加载状态；加载期间保留已选值，暂停选择与确认，关闭加载后恢复。Loading preserves the selected value and pauses
-      selection.
+      加载时保留选择，暂停选择、清空和移除；搜索仍可输入，关闭加载后恢复。Loading pauses selection, clearing and removal
+      while search remains editable.
     </p>
   </mp-space>
 </template>

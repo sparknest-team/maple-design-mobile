@@ -12,7 +12,7 @@ test('floating-panel plugin', () => {
 
 describe('test floating-panel components props', () => {
   test('floating-panel anchor', async () => {
-    const onUpdateAnchor = vi.fn()
+    const onUpdateAnchor = vi.fn((height) => wrapper.setProps({ modelValue: height }))
     const root = document.createElement('div')
     const wrapper = mount(VarFloatingPanel, {
       props: {
@@ -73,7 +73,7 @@ describe('test floating-panel components props', () => {
     const root = document.createElement('div')
     const wrapper = mount(VarFloatingPanel, {
       props: {
-        modelValue: 100,
+        defaultValue: 100,
         anchors: [100, 200],
         contentDraggable: true,
         popupContainer: root,
@@ -184,7 +184,7 @@ describe('test floating-panel component events', () => {
     const root = document.createElement('div')
     const wrapper = mount(VarFloatingPanel, {
       props: {
-        modelValue: 100,
+        defaultValue: 100,
         anchors: [100, 200],
         popupContainer: root,
         onHeightChange,

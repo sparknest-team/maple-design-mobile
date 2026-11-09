@@ -11,22 +11,31 @@
     :esc-to-close="escToClose"
     :popup-container="popupContainer"
     :safe-area-inset-bottom="safeArea"
+    :safe-area-inset-left="safeArea"
+    :safe-area-inset-right="safeArea"
+    :aria-describedby="describeError($attrs['aria-describedby'])"
+    :aria-label="dialogLabel()"
+    :aria-labelledby="dialogLabelledby()"
     @open="$emit('open')"
     @opened="$emit('opened')"
     @close="handlePopupClose"
     @closed="$emit('closed')"
     @key-escape="$emit('key-escape')"
   >
-    <div :class="classes(n(), n(`--${theme}`), n('$--box'))" v-bind="$attrs">
-      <div v-if="title" :class="n('header')">{{ title }}</div>
+    <div :class="classes(n(), n(`--${theme}`), n('$--box'))" v-bind="contentAttrs()">
+      <div v-if="title" :id="titleId" :class="n('header')">{{ title }}</div>
 
       <div :class="n('body')">
         <div :class="n('keys')" dir="ltr">
           <div v-for="(row, rowIndex) in bodyKeys" :key="rowIndex" :class="n('row')">
-            <div
+            <button
               v-for="(key, keyIndex) in row"
               :key="keyIndex"
               v-ripple
+              type="button"
+              :disabled="key.type === 'blank'"
+              :aria-hidden="key.type === 'blank' ? true : undefined"
+              :aria-label="key.type === 'delete' && !deleteButtonText ? deleteLabel : undefined"
               :class="
                 classes(
                   n('key'),
@@ -35,8 +44,6 @@
                   [key.type === 'blank', n('key--blank')],
                 )
               "
-              role="button"
-              :tabindex="key.type === 'blank' ? -1 : 0"
               @click="handleKeyPress(key)"
             >
               <template v-if="key.type === 'delete'">
@@ -45,25 +52,31 @@
               </template>
               <template v-else-if="key.type === 'close'">{{ closeText }}</template>
               <template v-else-if="key.type !== 'blank'">{{ key.text }}</template>
-            </div>
+            </button>
           </div>
         </div>
 
         <div v-if="theme === 'custom'" :class="n('sidebar')">
-          <div
+          <button
             v-if="showDeleteKey"
             v-ripple
+            type="button"
+            :aria-label="!deleteButtonText ? deleteLabel : undefined"
             :class="classes(n('key'), n('key--delete'))"
-            role="button"
-            tabindex="0"
             @click="handleDelete"
           >
             <span v-if="deleteButtonText">{{ deleteButtonText }}</span>
             <mp-icon v-else :class="n('key-icon')"><MIconChevronLeft /></mp-icon>
-          </div>
-          <div v-ripple :class="classes(n('key'), n('key--close'))" role="button" tabindex="0" @click="handleClose">
+          </button>
+          <button
+            v-ripple
+            type="button"
+            :class="classes(n('key'), n('key--close'))"
+            :aria-label="closeText || closeLabel"
+            @click="handleClose"
+          >
             {{ closeText }}
-          </div>
+          </button>
         </div>
       </div>
     </div>
@@ -71,12 +84,14 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, type Ref } from 'vue'
+import { computed, defineComponent, useAttrs, useId, type Ref } from 'vue'
 import { IconChevronLeft as MIconChevronLeft } from '@maple-design/icons-vue'
 import { toNumber } from '@maple-design/shared'
 import { useVModel } from '@maple-design/use'
+import { useFormErrorDescription } from '../form/error-description'
 import MpIcon from '../icon'
 import { t } from '../locale'
+import { injectLocaleProvider } from '../locale-provider/provide'
 import MpPopup from '../popup'
 import Ripple from '../ripple'
 import { createNamespace } from '../utils/components'
@@ -126,6 +141,21 @@ export default defineComponent({
     'key-escape',
   ],
   setup(props, { emit }) {
+    const attrs = useAttrs()
+    const { describe: describeError } = useFormErrorDescription()
+    const { t: localT } = injectLocaleProvider()
+    const titleId = `number-keyboard-title-${useId()}`
+    const deleteLabel = computed(() => (localT || t)('numberKeyboard.delete') ?? 'Delete')
+    const closeLabel = computed(() => (localT || t)('numberKeyboard.done') ?? 'Done')
+    const dialogLabel = () =>
+      attrs['aria-label'] ??
+      (!attrs['aria-labelledby'] && !props.title
+        ? ((localT || t)('numberKeyboard.label') ?? 'Number keyboard')
+        : undefined)
+    const dialogLabelledby = () =>
+      attrs['aria-labelledby'] ?? (!attrs['aria-label'] && props.title ? titleId : undefined)
+    const contentAttrs = () =>
+      Object.fromEntries(Object.entries(attrs).filter(([key]) => key !== 'aria-label' && key !== 'aria-labelledby'))
     const open = useVModel(props, 'open', { emit, eventName: 'update:open', defaultValue: props.defaultOpen })
     const modelValue = useVModel(props, 'modelValue', {
       emit,
@@ -220,13 +250,14 @@ export default defineComponent({
         return Infinity
       }
 
-      return toNumber(maxLength)
+      const value = toNumber(maxLength)
+      return Number.isFinite(value) ? Math.max(0, Math.floor(value)) : 0
     }
 
     function handleInput(key: string) {
       const maxLength = getMaxLength()
 
-      if (modelValue.value.length >= maxLength) {
+      if (modelValue.value.length + key.length > maxLength) {
         return
       }
 
@@ -245,8 +276,6 @@ export default defineComponent({
 
     function handleClose() {
       open.value = false
-      emit('close')
-      emit('blur')
     }
 
     function handlePopupClose() {
@@ -275,7 +304,14 @@ export default defineComponent({
     }
 
     return {
+      describeError,
       open,
+      titleId,
+      contentAttrs,
+      dialogLabel,
+      dialogLabelledby,
+      deleteLabel,
+      closeLabel,
       n,
       classes,
       effectiveCloseOnClickOverlay,

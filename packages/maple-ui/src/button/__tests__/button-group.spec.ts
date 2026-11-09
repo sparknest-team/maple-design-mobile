@@ -70,6 +70,8 @@ describe('ButtonGroup composition contract', () => {
       expect(w.classes()).toContain('mp-elevation--8')
       await first.trigger('click')
       expect(blocked).toHaveBeenCalledTimes(1)
+      await w.setProps({ size: undefined })
+      expect(first.classes()).toContain('mp-button--size-md')
       expect(isReadonly(w.vm.buttonGroupProvider.elevation)).toBe(true)
       expect(w.vm.buttonGroupProvider.elevation.value).toBe(8)
     } finally {

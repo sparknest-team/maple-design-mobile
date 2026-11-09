@@ -1,0 +1,3 @@
+- [x] Reproduce single/range clear on both platforms.
+- [x] Limit mobile candidate initialization and align valid-empty adapter contract.
+- [x] Verify all time/range/picker consumers, browsers, types, specs, lint and source gates.

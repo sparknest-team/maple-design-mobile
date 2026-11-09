@@ -1,7 +1,8 @@
 import { onActivated, onBeforeUnmount, onDeactivated, onMounted, ref, watch } from 'vue'
-import type { BackTopEasing, BackTopProps } from './props'
+import type { ExtractPublicPropTypes } from 'vue'
+import type { BackTopEasing, backTopProps } from './props'
 
-export function useBackTop(props: BackTopProps) {
+export function useBackTop(props: ExtractPublicPropTypes<typeof backTopProps>) {
   const visible = ref(false)
   const mounted = ref(false)
   let active = false
@@ -209,7 +210,8 @@ function prefersReducedMotion(element: HTMLElement) {
 }
 export function ease(progress: number, easing: BackTopEasing) {
   if (typeof easing === 'function') {
-    return easing(progress)
+    const result = easing(progress)
+    return Number.isFinite(result) ? Math.min(1, Math.max(0, result)) : progress
   }
   if (easing === 'linear') {
     return progress

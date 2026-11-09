@@ -197,17 +197,17 @@ Click to observe ripple feedback and adjust elevation to compare depth. Disablin
 
 ## Reading direction
 
-Inherits the nearest `dir="ltr|rtl"`, including runtime changes and local overrides. Icons and content follow reading order; stacked content stays top to bottom and slot graphics are not mirrored. ButtonGroup owns horizontal joining edges and outer corners even when a child has a different text direction. A single child keeps all corners; vertical groups preserve top-to-bottom order. Native Tab, Enter and Space remain available; ordinary groups do not intercept horizontal arrows. Disabled and loading behavior stays unchanged.
+Inherits the nearest `dir="ltr|rtl"`, including runtime changes and local overrides. Icons and content follow reading order; stacked content remains top to bottom without mirroring custom graphics. ButtonGroup uses its direction for horizontal arrangement, joined borders and end radii; individual buttons may override text direction. Single buttons retain full radii, and vertical groups keep top-to-bottom order. Native Tab, Enter and Space remain available; ordinary groups do not intercept arrow keys. Disabled and loading behavior is unchanged.
 
 ## API
 
 <!-- same-source-api:start -->
 
-### Props
+### Button Props
 
 | Prop | Description | Type | Default |
 | ------------- | ------------------------------------------------------------------------------------------------ | ----------------------------------------- | -------------- |
-| status | Semantic color; inherits group, otherwise default | `SemanticStatus` | `undefined` |
+| status | Semantic color; inherits group, otherwise default | `SemanticStatus`<br>`'default' \| 'primary' \| 'secondary' \| 'tertiary' \| 'info' \| 'success' \| 'warning' \| 'danger'` | `undefined` |
 | variant | Appearance; inherits group, otherwise default | `default / text / outline / tonal` | `undefined` |
 | size | Size; inherits group, otherwise md | `xs / sm / md / lg / xl` | `undefined` |
 | html-type | Native button type | `button / submit / reset` | `button` |
@@ -217,7 +217,7 @@ Inherits the nearest `dir="ltr|rtl"`, including runtime changes and local overri
 | loading | Loading; blocks activation and navigation | `boolean` | `false` |
 | loading-type | Spinner animation; same as Loading.type; not used in line mode | `circle / wave / cube / rect / disappear` | `circle` |
 | loading-mode | Inline, covering, or bottom progress line; line only uses loading-color | `default / fill / line` | `default` |
-| loading-size | Indicator size; xs/sm/md/lg/xl map to 12/14/16/18/20px; numbers are px; follows button size when omitted; not used in line mode | `ComponentSize / number` | `undefined` |
+| loading-size | Indicator size; xs/sm/md/lg/xl map to 12/14/16/18/20px; numbers are px; follows button size when omitted; not used in line mode | `ComponentSize / number`<br>`ComponentSize: 'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `undefined` |
 | loading-color | Loading indicator color | `string` | `currentColor` |
 | disabled | Disabled; inherits group, explicit false overrides | `boolean` | `undefined` |
 | ripple | Click ripple | `boolean` | `true` |
@@ -228,134 +228,151 @@ Inherits the nearest `dir="ltr|rtl"`, including runtime changes and local overri
 | elevation | Default variant shadow; true=2, false=off, rounded/clamped 0–24; group owns grouped elevation | `boolean / number` | `true` |
 | stacked | Stack icon and text; inherits group when omitted | `boolean` | `undefined` |
 
-### Events
+### Button Events
 
 | Event | Arguments and behavior |
 | ---------- | ------------------------------------------- |
 | click | `(event: MouseEvent) => void` |
-| touchstart | `(event: TouchEvent) => void` |
 
-click is a normal emitted event and supports async handlers. Business state controls loading; restore it in finally. Listener Promises do not automatically drive loading. Disabled/loading links have no effective href.
+click is a notification and accepts async listeners. Business state controls loading; restore it in finally. Listener Promises do not automatically drive loading. Disabled/loading links remove their effective href.
 
-### Slots
+### Button Slots
 
-| Slot | Description | Arguments |
+| Slot | Description | Prop |
 | ------- | -------------------------------- | ---- |
 | default | Button label; retained while loading | — |
 | icon | Leading icon; above label when stacked | — |
 
-### Methods
+### Button Methods
 
 No custom public methods.
 <!-- same-source-api:end -->
-
-## ButtonGroup
 
 ### ButtonGroup Props
 
 | Prop | Description | Type | Default |
 | --- | --- | --- | --- |
-| status | Default semantic status; a child may override it | SemanticStatus | default |
-| size | Default button size; a child may override it | xs / sm / md / lg / xl | md |
-| variant | Default appearance; adjacent effective variants determine joining, including mixed variants | default / text / outline / tonal | default |
-| color | Default custom color; a child may override it | string | undefined |
-| text-color | Default text color; a child may override it | string | undefined |
+| status | Default semantic status for child buttons; individual buttons may override it | `SemanticStatus`<br>`'default' \| 'primary' \| 'secondary' \| 'tertiary' \| 'info' \| 'success' \| 'warning' \| 'danger'` | default |
+| size | Default child button size; individual buttons may override it | xs / sm / md / lg / xl | undefined |
+| variant | Default child appearance; adjacent buttons join using their effective variants, including mixed variants | default / text / outline / tonal | default |
+| color | Default custom child color; individual buttons may override it | string | undefined |
+| text-color | Default child text color; individual buttons may override it | string | undefined |
 | disabled | Default disabled state; an explicit child false overrides group true | boolean | false |
-| stacked | Default vertical icon/text layout; a child may explicitly override with false | boolean | false |
+| stacked | Stack child icon and text vertically by default; a child may explicitly override with false | boolean | false |
 | vertical | Vertical group layout, independent of button content stacking | boolean | false |
-| elevation | Group shadow; true means 2, numbers normalize to 0–24; applies only to an enabled default-variant group | boolean / number | true |
+| elevation | Group elevation; true means 2, numbers normalize to 0–24, and it applies only to an enabled group using the default variant | boolean / number | true |
 
 The root defaults to `role="group"`. Supply `aria-label` or `aria-labelledby` when the action group needs a name. Native attributes can override role. Ordinary groups retain native Tab / Enter / Space handling without arrow-key focus management.
 
-**Inheritance:** explicit child values win for status, size, variant, color, text-color, disabled and stacked. Elevation belongs to the group; a child's own elevation does not apply. Nested groups use their nearest group's settings and defaults rather than combining outer disabled states.
+**Inheritance:** explicit child status, size, variant, color, text-color, disabled and stacked values take precedence. The group always owns elevation; individual button elevation is ignored. Nested groups use their nearest group's configuration and defaults without automatically accumulating outer disabled state.
 
 ### ButtonGroup Events
 
-No custom events. `@click` falls through to the root DOM element and can receive descendant bubbling; listen to each Button for its action. The group does not collect listener Promises or own a task or selection model.
+No custom events. `@click` forwards a native root event and may receive descendant bubbling; listen to each Button's click for its action. The group does not collect event Promises or manage tasks or selection.
 
 ### ButtonGroup Slots
 
-| Slot | Description | Arguments |
+| Slot | Description | Prop |
 | --- | --- | --- |
 | default | Joined styling supports directly adjacent Button DOM nodes under the group root | — |
 
-**Composition:** extra DOM wrappers, prefix/suffix text and arbitrary controls are outside the joined-styling contract. Wrapped buttons may still inherit configuration without sharing the same joined edges. The group owns outer corners and does not preserve an individual round button's circular shape. Use Space for separated or arbitrary content. For narrow containers, the application chooses scrolling, shorter labels or vertical layout; groups do not wrap automatically.
+**Composition:** extra DOM wrappers, surrounding text and other controls are outside the joined appearance contract. Wrapped buttons may inherit configuration but do not receive the same joined styling. The group owns outer radii and does not preserve a standalone round button's circular appearance. Use Space for separate buttons or mixed content. In narrow areas, business code chooses scrolling, shorter labels or vertical layout; groups do not wrap automatically.
 
-### ButtonGroup Expose
+### ButtonGroup Methods
 
 | Name | Description |
 | --- | --- |
 | buttonGroupProvider | Reactive group configuration with readonly ComputedRef fields; elevation is boolean / number and other fields match the Props |
 
-There are no additional group action methods.
+No additional group action methods.
 
 ## Types
 
 ButtonProps、ButtonVariant、ButtonLoadingMode、ButtonInstance、ButtonGroupProps、ButtonGroupInstance。
 
-## CSS variable responsibilities and complete defaults
+## CSS Variables
 
 Button exposes 58 appearance tokens. `{status}-color` controls the solid background, `{status}-foreground-color` controls text/outline/tonal foreground, and `{status}-tonal-color` controls soft backgrounds. `solid-text-color` and `solid-state-layer-color` are shared by semantic statuses; default/tertiary foregrounds and primary/tertiary state layers retain theme-specific roles.
 
 Sizes use xs/sm/md/lg/xl. Font sizes, transition duration, focus width/offset and stacked-height increments reuse system variables. Button groups and stacked buttons share border-radius. Four state opacity variables preserve hover/active differences. loading-duration controls only the bottom progress line; Loading controls other loading animations. Internal variables and fixed animation geometry are not public customization points.
 
-| Variable | Default |
-| ---------------------------------------- | ------------------------------------------ |
-| `--mp-button-border-radius` | `var(--mp-sys-radius-md)` |
-| `--mp-button-content-gap` | `var(--mp-sys-space-3)` |
-| `--mp-button-danger-color` | `var(--mp-sys-color-status-danger)` |
-| `--mp-button-danger-disabled-color` | `rgb(var(--mp-danger-3))` |
-| `--mp-button-danger-foreground-color` | `var(--mp-sys-color-content-danger)` |
-| `--mp-button-danger-tonal-color` | `rgb(var(--mp-danger-1))` |
-| `--mp-button-default-color` | `var(--mp-sys-color-surface-default)` |
-| `--mp-button-default-foreground-color` | `var(--mp-sys-color-content-primary)` |
-| `--mp-button-default-tonal-color` | `var(--mp-sys-color-surface-muted)` |
-| `--mp-button-disabled-color` | `var(--mp-color-fill-2)` |
-| `--mp-button-disabled-solid-text-color` | `var(--mp-sys-color-content-on-dark)` |
-| `--mp-button-disabled-text-color` | `var(--mp-sys-color-content-disabled)` |
-| `--mp-button-focus-color` | `var(--mp-sys-color-content-brand)` |
-| `--mp-button-info-color` | `var(--mp-sys-color-status-info)` |
-| `--mp-button-info-disabled-color` | `rgb(var(--mp-blue-3))` |
-| `--mp-button-info-foreground-color` | `var(--mp-sys-color-content-info)` |
-| `--mp-button-info-tonal-color` | `rgb(var(--mp-blue-1))` |
-| `--mp-button-lg-height` | `56px` |
-| `--mp-button-lg-padding` | `0 var(--mp-sys-space-7)` |
-| `--mp-button-loading-duration` | `1s` |
-| `--mp-button-loading-line-height` | `3px` |
-| `--mp-button-md-height` | `48px` |
-| `--mp-button-md-padding` | `0 var(--mp-sys-space-6)` |
-| `--mp-button-plain-state-opacity-active` | `1` |
-| `--mp-button-plain-state-opacity-hover` | `0.5` |
-| `--mp-button-primary-color` | `var(--mp-sys-color-action-primary)` |
-| `--mp-button-primary-disabled-color` | `rgb(var(--mp-primary-3))` |
-| `--mp-button-primary-foreground-color` | `var(--mp-sys-color-content-brand)` |
-| `--mp-button-primary-state-layer-color` | `var(--mp-button-solid-state-layer-color)` |
-| `--mp-button-primary-tonal-color` | `rgb(var(--mp-primary-1))` |
-| `--mp-button-secondary-color` | `rgb(var(--mp-gray-6))` |
-| `--mp-button-secondary-foreground-color` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-button-secondary-tonal-color` | `rgb(var(--mp-gray-2))` |
-| `--mp-button-sm-height` | `40px` |
-| `--mp-button-sm-padding` | `0 var(--mp-sys-space-5)` |
-| `--mp-button-solid-state-layer-color` | `var(--mp-sys-color-content-on-dark)` |
-| `--mp-button-solid-text-color` | `var(--mp-sys-color-content-on-dark)` |
-| `--mp-button-stacked-gap` | `var(--mp-sys-space-2)` |
-| `--mp-button-state-layer-color` | `var(--mp-sys-color-surface-page)` |
-| `--mp-button-state-opacity-active` | `0.12` |
-| `--mp-button-state-opacity-hover` | `0.08` |
-| `--mp-button-success-color` | `var(--mp-sys-color-status-success)` |
-| `--mp-button-success-disabled-color` | `rgb(var(--mp-success-3))` |
-| `--mp-button-success-foreground-color` | `var(--mp-sys-color-content-success)` |
-| `--mp-button-success-tonal-color` | `rgb(var(--mp-success-1))` |
-| `--mp-button-tertiary-color` | `rgb(var(--mp-gray-7))` |
-| `--mp-button-tertiary-foreground-color` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-button-tertiary-state-layer-color` | `var(--mp-sys-color-content-on-bright)` |
-| `--mp-button-tertiary-text-color` | `var(--mp-sys-color-content-on-dark)` |
-| `--mp-button-tertiary-tonal-color` | `rgb(var(--mp-gray-1))` |
-| `--mp-button-warning-color` | `var(--mp-sys-color-status-warning)` |
-| `--mp-button-warning-disabled-color` | `rgb(var(--mp-warning-3))` |
-| `--mp-button-warning-foreground-color` | `var(--mp-sys-color-content-warning)` |
-| `--mp-button-warning-tonal-color` | `rgb(var(--mp-warning-1))` |
-| `--mp-button-xl-height` | `64px` |
-| `--mp-button-xl-padding` | `0 var(--mp-sys-space-8)` |
-| `--mp-button-xs-height` | `32px` |
-| `--mp-button-xs-padding` | `0 var(--mp-sys-space-4)` |
+<!-- component-css-variables:start -->
+
+Use these variables to customize the component. Defaults may vary by the selector condition shown. Each variable applies to the corresponding size, variant and interaction states.
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Default / condition | Affected styles |
+| --- | --- | --- |
+| `--mp-button-border-radius` | `var(--mp-sys-radius-md)` | `border-bottom-left-radius`, `border-bottom-right-radius`, `border-radius`, `border-top-left-radius`, `border-top-right-radius` |
+| `--mp-button-content-gap` | `var(--mp-sys-space-3)` | `gap` |
+| `--mp-button-danger-color` | `var(--mp-sys-color-status-danger)` | `background-color` |
+| `--mp-button-danger-disabled-color` | `rgb(var(--mp-danger-3))`<br>`rgba(var(--mp-danger-6), 0.5)` (`:root[maple-theme='dark']`) | `background-color`, `color` |
+| `--mp-button-danger-foreground-color` | `var(--mp-sys-color-content-danger)` | `color` |
+| `--mp-button-danger-tonal-color` | `rgb(var(--mp-danger-1))` | `background-color` |
+| `--mp-button-default-color` | `var(--mp-sys-color-surface-default)` | `background-color` |
+| `--mp-button-default-foreground-color` | `var(--mp-sys-color-content-primary)` | `background`, `background-color`, `color` |
+| `--mp-button-default-tonal-color` | `var(--mp-sys-color-surface-muted)` | `background-color` |
+| `--mp-button-disabled-color` | `var(--mp-color-fill-2)` | `background-color` |
+| `--mp-button-disabled-solid-text-color` | `var(--mp-sys-color-content-on-dark)`<br>`rgba(255, 255, 255, 0.3)` (`:root[maple-theme='dark']`) | `color` |
+| `--mp-button-disabled-text-color` | `var(--mp-sys-color-content-disabled)` | `color` |
+| `--mp-button-focus-color` | `var(--mp-sys-color-content-brand)` | `outline` |
+| `--mp-button-info-color` | `var(--mp-sys-color-status-info)` | `background-color` |
+| `--mp-button-info-disabled-color` | `rgb(var(--mp-blue-3))`<br>`rgba(var(--mp-blue-6), 0.5)` (`:root[maple-theme='dark']`) | `background-color`, `color` |
+| `--mp-button-info-foreground-color` | `var(--mp-sys-color-content-info)` | `color` |
+| `--mp-button-info-tonal-color` | `rgb(var(--mp-blue-1))` | `background-color` |
+| `--mp-button-lg-height` | `56px` | `height`, `min-width`, `width` |
+| `--mp-button-lg-padding` | `0 var(--mp-sys-space-7)` | `padding` |
+| `--mp-button-loading-duration` | `1s` | `animation` |
+| `--mp-button-loading-line-height` | `3px` | `height` |
+| `--mp-button-md-height` | `48px` | `height`, `min-width`, `width` |
+| `--mp-button-md-padding` | `0 var(--mp-sys-space-6)` | `padding` |
+| `--mp-button-plain-state-opacity-active` | `1` | `opacity` |
+| `--mp-button-plain-state-opacity-hover` | `0.5` | `opacity` |
+| `--mp-button-primary-color` | `var(--mp-sys-color-action-primary)` | `background-color` |
+| `--mp-button-primary-disabled-color` | `rgb(var(--mp-primary-3))`<br>`rgba(var(--mp-primary-6), 0.5)` (`:root[maple-theme='dark']`) | `background-color`, `color` |
+| `--mp-button-primary-foreground-color` | `var(--mp-sys-color-content-brand)` | `color` |
+| `--mp-button-primary-state-layer-color` | `var(--mp-button-solid-state-layer-color)` | `background-color` |
+| `--mp-button-primary-tonal-color` | `rgb(var(--mp-primary-1))` | `background-color` |
+| `--mp-button-secondary-color` | `rgb(var(--mp-gray-6))` | `background-color` |
+| `--mp-button-secondary-foreground-color` | `var(--mp-sys-color-content-secondary)` | `color` |
+| `--mp-button-secondary-tonal-color` | `rgb(var(--mp-gray-2))` | `background-color` |
+| `--mp-button-sm-height` | `40px` | `height`, `min-width`, `width` |
+| `--mp-button-sm-padding` | `0 var(--mp-sys-space-5)` | `padding` |
+| `--mp-button-solid-state-layer-color` | `var(--mp-sys-color-content-on-dark)` | `background-color` |
+| `--mp-button-solid-text-color` | `var(--mp-sys-color-content-on-dark)` | `color` |
+| `--mp-button-stacked-gap` | `var(--mp-sys-space-2)` | `gap`, `min-height`, `min-width` |
+| `--mp-button-state-layer-color` | `var(--mp-sys-color-surface-page)` | `background-color` |
+| `--mp-button-state-opacity-active` | `0.12` | `opacity` |
+| `--mp-button-state-opacity-hover` | `0.08` | `opacity` |
+| `--mp-button-success-color` | `var(--mp-sys-color-status-success)` | `background-color` |
+| `--mp-button-success-disabled-color` | `rgb(var(--mp-success-3))`<br>`rgba(var(--mp-success-6), 0.5)` (`:root[maple-theme='dark']`) | `background-color`, `color` |
+| `--mp-button-success-foreground-color` | `var(--mp-sys-color-content-success)` | `color` |
+| `--mp-button-success-tonal-color` | `rgb(var(--mp-success-1))` | `background-color` |
+| `--mp-button-tertiary-color` | `rgb(var(--mp-gray-7))` | `background-color` |
+| `--mp-button-tertiary-foreground-color` | `var(--mp-sys-color-content-secondary)` | `color` |
+| `--mp-button-tertiary-state-layer-color` | `var(--mp-sys-color-content-on-bright)`<br>`var(--mp-sys-color-content-on-dark)` (`:root[maple-theme='dark']`) | `background-color` |
+| `--mp-button-tertiary-text-color` | `var(--mp-sys-color-content-on-dark)`<br>`var(--mp-sys-color-content-on-bright)` (`:root[maple-theme='dark']`) | `color` |
+| `--mp-button-tertiary-tonal-color` | `rgb(var(--mp-gray-1))` | `background-color` |
+| `--mp-button-warning-color` | `var(--mp-sys-color-status-warning)` | `background-color` |
+| `--mp-button-warning-disabled-color` | `rgb(var(--mp-warning-3))`<br>`rgba(var(--mp-warning-6), 0.5)` (`:root[maple-theme='dark']`) | `background-color`, `color` |
+| `--mp-button-warning-foreground-color` | `var(--mp-sys-color-content-warning)` | `color` |
+| `--mp-button-warning-tonal-color` | `rgb(var(--mp-warning-1))` | `background-color` |
+| `--mp-button-xl-height` | `64px` | `height`, `min-width`, `width` |
+| `--mp-button-xl-padding` | `0 var(--mp-sys-space-8)` | `padding` |
+| `--mp-button-xs-height` | `32px` | `height`, `min-width`, `width` |
+| `--mp-button-xs-padding` | `0 var(--mp-sys-space-4)` | `padding` |
+
+</div>
+
+Apply overrides to the rendered component root or the actual popup ancestor. For example, add the following class to that element and replace the value as needed:
+
+```css
+.component-theme {
+  --mp-button-border-radius: var(--mp-sys-radius-md);
+}
+```
+
+Explicit inline styles and props that write the same CSS property take precedence over stylesheet defaults. After Teleport, ordinary CSS variables inherit from the actual mount location. When using ThemeProvider, follow its local-theme and popup configuration rules. Override the component variable directly for local styling; root-level aliases are not recalculated merely because a descendant system variable changes. Internal variables are not public APIs.
+
+<!-- component-css-variables:end -->

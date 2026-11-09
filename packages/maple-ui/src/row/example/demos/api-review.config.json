@@ -4,7 +4,7 @@
       "name": "gutter",
       "description": "间距：数值、响应式对象或 [水平, 垂直]",
       "type": "RowGutter",
-      "defaultValue": "0",
+      "defaultValue": "[16, 16]",
       "kind": "scenario"
     },
     {

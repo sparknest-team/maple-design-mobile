@@ -16,7 +16,7 @@ import {createApp,h,ref,nextTick} from 'vue'
 import DateDemo from '/src/date/example/demos/time-zone-views.vue'
 import RangeDemo from '/src/date-range/example/demos/zoned-range.vue'
 import Themes from '/src/themes/index.ts'
-import StyleProvider from '/src/style-provider/index.ts'
+import ThemeProvider from '/src/theme-provider/index.ts'
 import DateField from '/src/date/index.ts'
 import DateRange from '/src/date-range/index.ts'
 import Select from '/src/select/index.ts'
@@ -27,12 +27,13 @@ import '/src/date-range/style/index.ts'
 import '/src/select/style/index.ts'
 import '/src/space/style/index.ts'
 const open=ref(false), value=ref(['2026-10-01','2026-10-03']), surface=ref('direct'), interactionMode=ref('page'), showTime=ref(false), navigations=ref([])
-const app=createApp({render:()=>h('div',[
+const themeVars=ref(Themes.default.light)
+const app=createApp({render:()=>h(ThemeProvider,{theme:themeVars.value},()=>h('div',[
 h(DateRange,{modelValue:value.value,open:open.value,editMode:surface.value,interactiveMode:interactionMode.value,showTime:showTime.value,inputEditable:false,'aria-label':'Geometry range','onUpdate:open':v=>open.value=v,'onUpdate:modelValue':v=>value.value=v,'onUpdate:pickerValue':v=>navigations.value.push(v)}),
-h('div',{style:'margin-top:1000px'},[h(DateDemo),h(RangeDemo)])])})
+h('div',{style:'margin-top:1000px'},[h(DateDemo),h(RangeDemo)])]))})
 ;[DateField,DateRange,Select,Button,Space].forEach(c=>app.use(c))
 app.mount('#app')
-window.panelTest={setTheme:(brand,mode)=>StyleProvider.setStyleVars(Themes[brand][mode]),nextTick,open,value,surface,interactionMode,showTime,navigations}
+window.panelTest={setTheme:(brand,mode)=>themeVars.value=Themes[brand][mode],nextTick,open,value,surface,interactionMode,showTime,navigations}
 </script></body></html>`
 before(
   async () => {

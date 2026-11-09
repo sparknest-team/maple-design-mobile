@@ -86,3 +86,39 @@ describe('Card shared contract', () => {
     }
   })
 })
+
+test('collapsed floating content remains mounted but inert', async () => {
+  const wrapper = mount(Card, {
+    props: { floating: false },
+    slots: { 'floating-content': () => h('input', { 'aria-label': 'Draft' }) },
+  })
+  const area = wrapper.get('.mp-card__floating-content')
+  const input = area.get('input').element
+  expect(area.attributes('inert')).toBeDefined()
+  expect(area.attributes('aria-hidden')).toBe('true')
+  await wrapper.setProps({ floating: true })
+  expect(area.attributes('inert')).toBeUndefined()
+  expect(area.attributes('aria-hidden')).toBeUndefined()
+  await wrapper.setProps({ floating: false })
+  expect(area.get('input').element).toBe(input)
+  expect(area.attributes('inert')).toBeDefined()
+  wrapper.unmount()
+})
+
+test('invalid floating duration falls back and close name can be overridden', async () => {
+  const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+  const wrapper = mount(Card, {
+    props: { floating: true, floatingDuration: -1, closeButtonAriaLabel: 'Close details' },
+    slots: { 'floating-content': () => 'Details' },
+  })
+  const fallback = mount(Card, { props: { floating: true } })
+  expect(wrapper.get('.mp-card__floating-content').attributes('style')).toContain('500ms')
+  await new Promise((resolve) => setTimeout(resolve, 60))
+  await nextTick()
+  expect(wrapper.get('[aria-label="Close details"]').exists()).toBe(true)
+  expect(fallback.get('[aria-label="关闭"]').exists()).toBe(true)
+  expect(warn).toHaveBeenCalled()
+  wrapper.unmount()
+  fallback.unmount()
+  warn.mockRestore()
+})

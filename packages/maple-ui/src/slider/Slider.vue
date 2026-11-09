@@ -1,5 +1,6 @@
 <template>
   <div
+    ref="root"
     :class="
       classes(
         n(),
@@ -46,7 +47,16 @@
         :aria-disabled="isDisabled || undefined"
         :aria-readonly="mergedReadonly || undefined"
         :aria-invalid="mergedError || undefined"
-        :aria-describedby="tooltipVisible(index) ? `${tooltipId}-${index}` : undefined"
+        :aria-describedby="
+          describeError(
+            [
+              typeof $attrs['aria-describedby'] === 'string' ? $attrs['aria-describedby'] : '',
+              tooltipVisible(index) ? `${tooltipId}-${index}` : '',
+            ]
+              .filter(Boolean)
+              .join(' '),
+          )
+        "
         @pointerdown.stop="pointerDown($event, index)"
         @keydown="keydown($event, index)"
         @focus="onFocus(index)"
@@ -81,6 +91,7 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onDeactivated, ref, useId, watch } from 'vue'
 import { useDirection } from '../_utils/direction'
+import { useFormErrorDescription } from '../form/error-description'
 import { createNamespace } from '../utils/components'
 import { positiveLength } from '../utils/size-length'
 import { sliderBounds, sliderValues, snap, stepValue } from './model'
@@ -92,6 +103,7 @@ import { useSliderForm } from './use-slider-form'
 defineOptions({ name: createNamespace('slider').name })
 const { n, classes } = createNamespace('slider')
 const props = defineProps(sliderProps)
+const { describe: describeError } = useFormErrorDescription()
 const emit = defineEmits<SliderEmits>()
 defineSlots<SliderSlots>()
 const { mergedDisabled, mergedReadonly, mergedError, eventHandlers } = useSliderForm(props)
@@ -103,6 +115,7 @@ const values = computed(() =>
 const isDisabled = computed(() => mergedDisabled.value || bounds.value.min === bounds.value.max)
 const blocked = computed(() => isDisabled.value || mergedReadonly.value)
 const indices = computed(() => (props.range ? [0, 1] : [1]))
+const root = ref<HTMLElement>()
 const track = ref<HTMLElement>()
 const { isRtl } = useDirection(() => track.value)
 const hovered = ref(-1)
@@ -158,6 +171,8 @@ const customStyle = computed(() => ({
 }))
 const publicValue = (pair = values.value): SliderValue => (props.range ? ([...pair] as [number, number]) : pair[1])
 let lastProposal: SliderValue | undefined
+let gestureValue: SliderValue | undefined
+let gestureStarted = false
 function same(a: SliderValue | undefined, b: SliderValue) {
   return JSON.stringify(a) === JSON.stringify(b)
 }
@@ -169,6 +184,9 @@ function update(index: number, value: number) {
   pair[index] =
     index === 0 ? Math.min(snap(value, bounds.value), pair[1]) : Math.max(snap(value, bounds.value), pair[0])
   const next = publicValue(pair)
+  if (dragIndex.value >= 0) {
+    gestureValue = next
+  }
   if (same(next, publicValue())) {
     lastProposal = next
     return
@@ -196,7 +214,11 @@ function focus(index = 0) {
   track.value?.querySelectorAll<HTMLElement>('[role="slider"]')[index]?.focus()
 }
 function blur() {
-  track.value?.querySelectorAll<HTMLElement>('[role="slider"]').forEach((el) => el.blur())
+  const scope = root.value?.getRootNode() as Document | ShadowRoot | undefined
+  const active = scope?.activeElement as HTMLElement | null | undefined
+  if (active && root.value?.contains(active) && typeof active.blur === 'function') {
+    active.blur()
+  }
 }
 defineExpose<SliderExpose>({ focus, blur })
 
@@ -228,18 +250,33 @@ function nearest(value: number) {
   return Math.abs(value - values.value[0]) < Math.abs(value - values.value[1]) ? 0 : 1
 }
 function cleanup() {
+  const endValue = gestureValue
+  const shouldEnd = gestureStarted
+  const previousCapture = capture
+  const previousPointerId = pointerId
+  gestureStarted = false
   owner?.removeEventListener('pointermove', pointerMove)
   owner?.removeEventListener('pointerup', pointerEnd)
   owner?.removeEventListener('pointercancel', pointerEnd)
-  capture?.removeEventListener('lostpointercapture', pointerEnd)
-  if (pointerId !== undefined && capture?.hasPointerCapture?.(pointerId)) {
-    capture.releasePointerCapture(pointerId)
-  }
+  owner?.defaultView?.removeEventListener('blur', cleanup)
+  previousCapture?.removeEventListener('lostpointercapture', pointerEnd)
   owner = undefined
   capture = undefined
   pointerId = undefined
+  rect = undefined
   dragIndex.value = -1
+  gestureValue = undefined
   lastProposal = undefined
+  try {
+    if (previousPointerId !== undefined && previousCapture?.hasPointerCapture?.(previousPointerId)) {
+      previousCapture.releasePointerCapture(previousPointerId)
+    }
+  } catch {
+    // The browser may already have released a canceled or detached pointer.
+  }
+  if (shouldEnd && endValue !== undefined) {
+    emit('end', endValue)
+  }
 }
 function pointerMove(event: PointerEvent) {
   if (event.pointerId !== pointerId || blocked.value || dragIndex.value < 0) {
@@ -258,9 +295,7 @@ function pointerEnd(event: PointerEvent) {
   if (event.type === 'pointerup') {
     pointerMove(event)
   }
-  const value = lastProposal ?? publicValue()
   cleanup()
-  emit('end', value)
 }
 function pointerDown(event: PointerEvent, index?: number) {
   if (blocked.value || dragIndex.value >= 0 || event.button > 0 || event.isPrimary === false || !track.value) {
@@ -274,17 +309,28 @@ function pointerDown(event: PointerEvent, index?: number) {
   event.preventDefault()
   dragIndex.value = index ?? nearest(value)
   lastProposal = undefined
+  gestureValue = publicValue()
   pointerId = event.pointerId
   owner = track.value.ownerDocument
   capture = event.currentTarget as HTMLElement
-  capture.setPointerCapture?.(event.pointerId)
+  try {
+    capture.setPointerCapture?.(event.pointerId)
+  } catch {
+    // Document listeners still support a pointer that cannot be captured.
+  }
   capture.addEventListener('lostpointercapture', pointerEnd)
   owner.addEventListener('pointermove', pointerMove, { passive: false })
   owner.addEventListener('pointerup', pointerEnd)
   owner.addEventListener('pointercancel', pointerEnd)
+  owner.defaultView?.addEventListener('blur', cleanup)
   track.value.querySelectorAll<HTMLElement>('[role="slider"]')[props.range ? dragIndex.value : 0]?.focus()
+  if (pointerId !== event.pointerId || dragIndex.value < 0 || blocked.value) {
+    cleanup()
+    return
+  }
+  gestureStarted = true
   emit('start')
-  if (index === undefined) {
+  if (gestureStarted && pointerId === event.pointerId && index === undefined) {
     update(dragIndex.value, value)
   }
 }

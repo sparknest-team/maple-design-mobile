@@ -1,0 +1,3 @@
+- [x] Reproduce placeholder and readonly differences on both platforms.
+- [x] Repair the Maple native reference without weakening activation guards.
+- [x] Verify Date/DateRange, Form, real browsers, types, specification and source/docs checks.

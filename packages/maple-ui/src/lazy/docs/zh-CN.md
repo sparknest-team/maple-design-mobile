@@ -79,7 +79,7 @@ createApp().use(Lazy, {
 
 ## API
 
-### 插件选项
+### Lazy Options
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
@@ -95,3 +95,12 @@ createApp().use(Lazy, {
 资源地址、背景参数或 `lazy-loading` / `lazy-error` / `lazy-attempt` 改变时，旧任务失效并创建新任务；卸载取消排队帧、预加载监听器和全局待调度检查，已交付的旧回调也不能写入新任务或卸载节点。背景URL以CSS字符串转义，支持括号、空格、引号和data URL。
 
 插件默认配置、100项FIFO资源缓存和可见性调度为模块级共享，并非各应用隔离。再次安装更新后续任务的默认配置；已有任务保留创建时的资源选项，所有待加载节点的事件按新事件列表重新绑定，最后一个任务结束时解除全部注册。`events` 与 `throttleWait` 只支持插件配置，不支持 `lazy-throttle-wait` 属性。可见性按视口判断，滚动祖先监听负责触发检查，不承诺按每层裁剪区域预加载。
+## CSS Variables
+
+<!-- component-css-variables:start -->
+
+本组件未声明独立的公共 CSS 变量。请使用本页公开的配置与布局入口。
+
+内部自定义属性与测量中间值属于实现细节，不作为业务定制 API。
+
+<!-- component-css-variables:end -->

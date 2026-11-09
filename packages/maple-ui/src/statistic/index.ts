@@ -8,7 +8,7 @@ withPropsDefaultsSetter(Statistic, statisticProps)
 export { statisticProps }
 
 export type StatisticInstance = InstanceType<typeof Statistic>
-export type { StatisticProps } from './props'
+export type { StatisticProps, StatisticSlots } from './props'
 
 export const _StatisticComponent: typeof Statistic = Statistic
 

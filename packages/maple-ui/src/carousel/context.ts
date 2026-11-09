@@ -6,5 +6,6 @@ export interface CarouselContext {
   visible: ComputedRef<number[]>
   slideLabel: (index: number) => string
   itemStyle: (index: number) => CSSProperties
+  focusIfHidden: (element: HTMLElement | undefined) => void
 }
 export const carouselInjectionKey: InjectionKey<CarouselContext> = Symbol('Carousel')

@@ -1,5 +1,6 @@
-import type { App, AppContext, Component } from 'vue'
+import type { App, AppContext, VNodeChild } from 'vue'
 import type { PopupContainer } from '../utils/popup-container'
+import type MessageComponentSource from './Message.vue'
 
 export const messageStatuses = ['default', 'info', 'success', 'warning', 'danger', 'loading'] as const
 export type MessageStatus = (typeof messageStatuses)[number]
@@ -10,7 +11,7 @@ export type MessageVariant = (typeof messageVariants)[number]
 export const messagePositions = ['top', 'center', 'bottom'] as const
 export type MessagePosition = (typeof messagePositions)[number]
 
-export type MessageContent = string | number | boolean | null | undefined | object | (() => unknown)
+export type MessageContent = VNodeChild | (() => VNodeChild)
 
 export interface MessageOptions {
   id?: string | number
@@ -51,7 +52,7 @@ export interface MessageMethod {
   setDefaultOptions: (options: MessageOptions) => void
   resetDefaultOptions: () => void
   install: (app: App) => void
-  Component: Component
+  Component: typeof MessageComponentSource & { install: (app: App) => void }
 }
 
 export interface MessageItem extends MessageOptions {

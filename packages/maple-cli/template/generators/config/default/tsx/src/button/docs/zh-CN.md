@@ -20,19 +20,19 @@ import ModifyColor from '../example/ModifyColor'
 
 ## API
 
-### 属性
+### Button Props
 
 | 参数 | 说明 | 类型 | 默认值 | 
 | --- | --- | --- | --- | 
 | `color` | 按钮颜色 | _string_ | `default` |
 
-### 事件
+### Button Events
 
 | 事件名 | 说明 | 参数 |
 | --- | --- | --- |
 | `click` | 点击按钮时触发 | `event: Event` |
 
-### 插槽
+### Button Slots
 
 | 插槽名 | 说明 | 参数 |
 | --- | --- | --- |

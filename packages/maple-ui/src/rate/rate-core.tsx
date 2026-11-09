@@ -1,4 +1,15 @@
-import { computed, defineComponent, h, markRaw, ref, toRaw, watch, withDirectives, type Component } from 'vue'
+import {
+  computed,
+  defineComponent,
+  h,
+  markRaw,
+  mergeProps,
+  ref,
+  toRaw,
+  watch,
+  withDirectives,
+  type Component,
+} from 'vue'
 import {
   IconFaceFrownFill,
   IconFaceMehFill,
@@ -8,11 +19,13 @@ import {
   IconStarHalfFull,
 } from '@maple-design/icons-vue'
 import { useDirection } from '../_utils/direction'
+import { useFormErrorDescription } from '../form/error-description'
 import Icon from '../icon'
 import Ripple from '../ripple'
 import { createNamespace } from '../utils/components'
 import { resolveEmptyValue } from '../utils/empty-value'
-import { positiveLength } from '../utils/size-length'
+import { nonnegativeLength, positiveLength } from '../utils/size-length'
+import { normalizeRateCount } from './count'
 import { rateProps, type RateColor, type RateIcon as RateIconValue } from './props'
 import { useRateForm } from './use-rate-form'
 
@@ -29,8 +42,10 @@ const defaultIcons = {
 export default defineComponent({
   name: createNamespace('rate').name,
   props: rateProps,
+  inheritAttrs: false,
   emits: ['change', 'hover-change', 'update:modelValue'],
-  setup(props, { emit, slots, expose }) {
+  setup(props, { emit, slots, expose, attrs }) {
+    const { describe: describeError } = useFormErrorDescription()
     const root = ref<HTMLElement>()
     const { isRtl } = useDirection(() => root.value)
     expose({
@@ -40,13 +55,7 @@ export default defineComponent({
     const innerValue = ref<number | null>(props.defaultValue)
     const hoverValue = ref(0)
     const animation = ref(false)
-    const count = computed(() =>
-      props.grading
-        ? 5
-        : Number.isFinite(Number(props.count)) && Number(props.count) > 0
-          ? Math.max(1, Math.floor(Number(props.count)))
-          : 5,
-    )
+    const count = computed(() => (props.grading ? 5 : normalizeRateCount(props.count)))
     const value = computed(() => normalize((props.modelValue !== undefined ? props.modelValue : innerValue.value) ?? 0))
     const displayValue = computed(() => normalize(hoverValue.value || value.value))
     const { mergedDisabled, mergedReadonly, mergedError, eventHandlers } = useRateForm(props)
@@ -192,38 +201,43 @@ export default defineComponent({
       } else {
         return
       }
+      resetHover()
       event.preventDefault()
     }
 
     return () =>
       h(
         'div',
-        {
-          ref: root,
-          class: classes(
-            n(),
-            [mergedReadonly.value, n('--readonly')],
-            [mergedDisabled.value, n('--disabled')],
-            [mergedError.value, n('--error')],
-          ),
-          style: { fontSize: positiveLength(props.size, '') },
-          role: 'slider',
-          tabindex: mergedDisabled.value ? undefined : 0,
-          'aria-valuemin': 0,
-          'aria-valuemax': props.grading ? 5 : count.value,
-          'aria-valuenow': value.value,
-          'aria-disabled': mergedDisabled.value || undefined,
-          'aria-readonly': mergedReadonly.value || undefined,
-          'aria-invalid': mergedError.value || undefined,
-          'aria-label': props.ariaLabel || undefined,
-          onFocus: () => eventHandlers.value?.onFocus?.(),
-          onBlur: () => {
-            resetHover()
-            eventHandlers.value?.onBlur?.()
+        mergeProps(
+          {
+            ref: root,
+            class: classes(
+              n(),
+              [mergedReadonly.value, n('--readonly')],
+              [mergedDisabled.value, n('--disabled')],
+              [mergedError.value, n('--error')],
+            ),
+            style: { fontSize: positiveLength(props.size, '') },
+            role: 'slider',
+            tabindex: mergedDisabled.value ? undefined : 0,
+            'aria-valuemin': 0,
+            'aria-valuemax': props.grading ? 5 : count.value,
+            'aria-valuenow': value.value,
+            'aria-disabled': mergedDisabled.value || undefined,
+            'aria-readonly': mergedReadonly.value || undefined,
+            'aria-invalid': mergedError.value || undefined,
+            'aria-label': props.ariaLabel || undefined,
+            onFocus: () => eventHandlers.value?.onFocus?.(),
+            onBlur: () => {
+              resetHover()
+              eventHandlers.value?.onBlur?.()
+            },
+            onKeydown: keydown,
+            onMouseleave: resetHover,
           },
-          onKeydown: keydown,
-          onMouseleave: resetHover,
-        },
+          attrs,
+          { 'aria-describedby': describeError(attrs['aria-describedby']) },
+        ),
         Array.from({ length: props.grading ? 5 : count.value }, (_, offset) => {
           const index = offset + 1
           const half = props.allowHalf && index - 0.5 === displayValue.value
@@ -245,7 +259,7 @@ export default defineComponent({
                 ],
                 style: {
                   color: active || half ? selectedColor : emptyColor,
-                  marginInlineEnd: index < count.value ? positiveLength(props.gap, '') : undefined,
+                  marginInlineEnd: index < count.value ? nonnegativeLength(props.gap, '') : undefined,
                 },
                 onMousemove: (event: MouseEvent) => hover(index, event),
                 onClick: (event: MouseEvent) => {

@@ -9,11 +9,11 @@
       :style="{
         'z-index': zIndex,
       }"
-      v-bind="getAttrs()"
+      v-bind="mergeProps(themeScope, getAttrs())"
       @touchstart="handleTouchstart"
       @touchmove="handleTouchmove"
       @touchend="handleTouchend"
-      @touchcancel="handleTouchend"
+      @touchcancel="handleTouchcancel"
       @click="handleClick"
     >
       <slot />
@@ -22,13 +22,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref, watch } from 'vue'
+import { defineComponent, mergeProps, onActivated, onBeforeUnmount, onDeactivated, reactive, ref, watch } from 'vue'
 import { clamp, getRect, preventDefault } from '@maple-design/shared'
 import { onSmartMounted, onWindowResize, useTouch } from '@maple-design/use'
 import { useDirection } from '../_utils/direction'
+import { useThemeScope } from '../theme-provider/context'
 import { createNamespace, useTeleport } from '../utils/components'
-import { toPxNum } from '../utils/elements'
 import { usePopupContainer } from '../utils/popup-container'
+import { dragBoundaryValue, isDragAxis } from './normalize'
 import { props } from './props'
 
 const { name, n, classes } = createNamespace('drag')
@@ -37,10 +38,12 @@ export default defineComponent({
   name,
   inheritAttrs: false,
   props,
-  emits: ['click'],
+  emits: { click: (event: Event) => true },
   setup(props, { attrs, emit }) {
+    const themeScope = useThemeScope()
     const { dir: readingDirection } = useDirection(undefined, () => attrs.dir)
     const drag = ref<HTMLElement | null>(null)
+    let active = true
     const x = ref(0)
     const y = ref(0)
     const dragged = ref(false)
@@ -55,9 +58,36 @@ export default defineComponent({
       right: 0,
     })
 
-    watch(() => props.boundary, toPxBoundary)
+    watch(
+      () => props.boundary,
+      () => {
+        handleTouchcancel()
+        toPxBoundary()
+        if (dragged.value && drag.value) {
+          clampToBoundary()
+        }
+      },
+      { deep: true, flush: 'post' },
+    )
+    watch(() => [props.disabled, props.axis, props.attraction, props.popupContainer], handleTouchcancel, {
+      flush: 'sync',
+    })
+    onDeactivated(() => {
+      active = false
+      handleTouchcancel()
+    })
+    onActivated(() => {
+      active = true
+    })
+    onBeforeUnmount(() => {
+      active = false
+      handleTouchcancel()
+    })
 
-    onWindowResize(resize)
+    onWindowResize(() => {
+      toPxBoundary()
+      resize()
+    })
 
     onSmartMounted(() => {
       toPxBoundary()
@@ -65,7 +95,7 @@ export default defineComponent({
     })
 
     function handleTouchstart(event: TouchEvent) {
-      if (props.disabled) {
+      if (!active || props.disabled) {
         return
       }
 
@@ -74,7 +104,7 @@ export default defineComponent({
     }
 
     function handleTouchmove(event: TouchEvent) {
-      if (!touching.value || props.disabled) {
+      if (!active || !touching.value || props.disabled) {
         return
       }
 
@@ -83,11 +113,12 @@ export default defineComponent({
       enableTransition.value = false
       dragged.value = true
 
-      if (props.axis.includes('x')) {
+      const axis = isDragAxis(props.axis) ? props.axis : 'xy'
+      if (axis.includes('x')) {
         x.value += moveX.value
       }
 
-      if (props.axis.includes('y')) {
+      if (axis.includes('y')) {
         y.value += moveY.value
       }
 
@@ -95,17 +126,22 @@ export default defineComponent({
     }
 
     function handleTouchend() {
-      if (props.disabled) {
+      if (!active || props.disabled || !touching.value) {
+        handleTouchcancel()
         return
       }
-
       endTouch()
       enableTransition.value = true
       attract()
     }
 
+    function handleTouchcancel() {
+      resetTouch()
+      enableTransition.value = false
+    }
+
     function handleClick(event: Event) {
-      if (dragging.value) {
+      if (!active || dragging.value) {
         return
       }
 
@@ -167,7 +203,7 @@ export default defineComponent({
     }
 
     function attract() {
-      if (props.attraction == null) {
+      if (!isDragAxis(props.attraction)) {
         return
       }
 
@@ -198,12 +234,12 @@ export default defineComponent({
     }
 
     function toPxBoundary() {
-      const { top = 0, bottom = 0, left = 0, right = 0 } = props.boundary
+      const { top = 0, bottom = 0, left = 0, right = 0 } = props.boundary ?? {}
 
-      boundary.top = toPxNum(top)
-      boundary.bottom = toPxNum(bottom)
-      boundary.left = toPxNum(left)
-      boundary.right = toPxNum(right)
+      boundary.top = dragBoundaryValue(top)
+      boundary.bottom = dragBoundaryValue(bottom)
+      boundary.left = dragBoundaryValue(left)
+      boundary.right = dragBoundaryValue(right)
     }
 
     function getAttrs() {
@@ -225,7 +261,7 @@ export default defineComponent({
 
     // expose
     function resize() {
-      if (!dragged.value) {
+      if (!active || !dragged.value || !drag.value) {
         return
       }
 
@@ -243,6 +279,8 @@ export default defineComponent({
     }
 
     return {
+      themeScope,
+      mergeProps,
       readingDirection,
       drag,
       x,
@@ -257,6 +295,7 @@ export default defineComponent({
       handleTouchstart,
       handleTouchmove,
       handleTouchend,
+      handleTouchcancel,
       handleClick,
       resize,
       reset,

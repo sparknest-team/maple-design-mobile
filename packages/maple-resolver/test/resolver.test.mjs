@@ -186,7 +186,7 @@ test('resolves programmatic APIs and directives', () => {
     ['LoadingBar', 'loading-bar'],
     ['Message', 'message'],
     ['Picker', 'picker'],
-    ['StyleProvider', 'style-provider'],
+    ['ThemeProvider', 'theme-provider'],
   ]) {
     assert.equal(autoImports.resolve(name)?.name, name)
     assert.deepEqual(autoImports.resolve(name)?.sideEffects, [`@maple-design/ui/${style}/style`])
@@ -222,7 +222,7 @@ test('programmatic APIs are named exports of maple-ui', () => {
     'Locale',
     'Message',
     'Picker',
-    'StyleProvider',
+    'ThemeProvider',
   ]) {
     assert.ok(exported.has(name), `${name} should be exported from maple-ui`)
   }

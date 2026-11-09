@@ -1,6 +1,7 @@
 <template>
   <div
     :id="ctx.id(name, 'panel')"
+    ref="panel"
     role="tabpanel"
     :aria-labelledby="ctx.id(name, 'tab')"
     :hidden="!active"
@@ -12,7 +13,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed, inject, ref, watch } from 'vue'
+import { computed, inject, nextTick, ref, watch } from 'vue'
 import { createNamespace } from '../utils/components'
 import { tabsInjectionKey } from './context'
 import { tabItemProps } from './props'
@@ -26,6 +27,45 @@ const { n, classes } = createNamespace('tabs')
 const name = computed(() => props.name)
 const active = computed(() => ctx.active.value === name.value)
 const visited = ref(active.value)
+const panel = ref<HTMLElement>()
+let focusGeneration = 0
+watch(
+  active,
+  (value) => {
+    const generation = ++focusGeneration
+    if (value) {
+      return
+    }
+    const element = panel.value,
+      document = element?.ownerDocument,
+      origin = document?.activeElement
+    if (!element || !document || !origin || !element.contains(origin)) {
+      return
+    }
+    nextTick(() =>
+      nextTick(() => {
+        if (generation !== focusGeneration || active.value || !element.isConnected) {
+          return
+        }
+        const focus = document.activeElement
+        if (focus && focus !== document.body && focus !== origin && !element.contains(focus)) {
+          return
+        }
+        const selected = ctx.active.value
+        if (selected === undefined) {
+          return
+        }
+        const target = document.getElementById(ctx.id(selected, 'tab')) as HTMLButtonElement | null
+        if (!target || target.disabled) {
+          return
+        }
+        ctx.focused.value = selected
+        target.focus()
+      }),
+    )
+  },
+  { flush: 'sync' },
+)
 watch(active, (value) => {
   if (value) {
     visited.value = true

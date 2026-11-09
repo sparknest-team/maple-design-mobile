@@ -4,19 +4,23 @@ import { useResponsiveState } from '../grid/hook/use-responsive-state'
 import { createNamespace } from '../utils/components'
 import { ROW_CONTEXT_KEY } from './context'
 import { rowProps } from './props'
+import { normalizeRowGutter, rowAligns, rowJustifies } from './validation'
 
 defineOptions({ name: createNamespace('row').name })
 const props = defineProps(rowProps)
 const emit = defineEmits<{ (event: 'click', value: MouseEvent): void }>()
 const { n, classes } = createNamespace('row')
+const normalizedGutter = computed(() => normalizeRowGutter(props.gutter))
 const horizontal = useResponsiveState(
-  computed(() => (Array.isArray(props.gutter) ? props.gutter[0] : props.gutter)),
+  computed(() => normalizedGutter.value[0]),
   0,
 )
 const vertical = useResponsiveState(
-  computed(() => (Array.isArray(props.gutter) ? props.gutter[1] : 0)),
+  computed(() => normalizedGutter.value[1]),
   0,
 )
+const effectiveAlign = computed(() => (rowAligns.includes(props.align) ? props.align : 'start'))
+const effectiveJustify = computed(() => (rowJustifies.includes(props.justify) ? props.justify : 'start'))
 const gutter = computed<[number, number]>(() => [Math.max(0, horizontal.value), Math.max(0, vertical.value)])
 provide(ROW_CONTEXT_KEY, { gutter, div: computed(() => props.div) })
 const style = computed(() =>
@@ -36,8 +40,8 @@ const style = computed(() =>
       classes(
         [!div, n()],
         [!div && !wrap, n('--nowrap')],
-        [!div, n(`--align-${align}`)],
-        [!div, n(`--justify-${justify}`)],
+        [!div, n(`--align-${effectiveAlign}`)],
+        [!div, n(`--justify-${effectiveJustify}`)],
       )
     "
     :style="style"

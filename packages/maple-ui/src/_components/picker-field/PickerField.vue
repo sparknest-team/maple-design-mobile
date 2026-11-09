@@ -27,6 +27,7 @@
             :readonly="readonly || !editable"
             :aria-expanded="open"
             :aria-invalid="error || undefined"
+            :aria-describedby="describeError(splitInputAttrs($attrs).native['aria-describedby'])"
             :aria-haspopup="popupRole"
             role="combobox"
             autocomplete="off"
@@ -68,6 +69,7 @@ import { computed, nextTick, ref, useId, watch, type ComponentPublicInstance } f
 import { IconCalendar, IconClockCircle } from '@maple-design/icons-vue'
 import FieldDecorator from '../../field-decorator/FieldDecorator.vue'
 import { fieldDecoratorProps } from '../../field-decorator/props'
+import { useFormErrorDescription } from '../../form/error-description'
 import { splitInputAttrs } from '../../input/native-attrs'
 import { createNamespace } from '../../utils/components'
 import { useFieldTexts } from '../field-presentation/texts'
@@ -81,6 +83,7 @@ defineOptions({
 })
 const { select: selectText } = useFieldTexts()
 const props = defineProps(pickerFieldProps)
+const { describe: describeError } = useFormErrorDescription()
 const emit = defineEmits<{
   edit: [texts: string[], index: number]
   commit: [texts: string[], index: number, event: Event]

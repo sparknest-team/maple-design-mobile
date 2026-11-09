@@ -1,0 +1,1 @@
+Publish RateSlots/RateReadScope; document full-symbol active and nullable reading. Bound count allocation to <=1000 with developer warning and fallback5, preserving fractional normalization and grading5. Correct beforeCommit payload/done/context protocol.

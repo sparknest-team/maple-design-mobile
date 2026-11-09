@@ -1,0 +1,2 @@
+- [x] Verify select, autocomplete, cascader and field-presentation consumers on both platforms
+- [x] Verify both native browsers, source parity and full type checks

@@ -13,6 +13,7 @@ export interface MenuContext {
   modelValue?: Ref<MenuValue>
   /** Owned by the root so every level expands the same way. */
   submenuTrigger: Ref<MenuSubmenuTrigger>
+  closeMenu?: () => void
   onOptionClick: (value: MenuValue, option: MenuOptionInfo, ev: Event) => void
 }
 

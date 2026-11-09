@@ -1,7 +1,7 @@
-import { computed, defineComponent, getCurrentInstance, ref } from 'vue'
+import { computed, defineComponent, getCurrentInstance, ref, useId } from 'vue'
 import Menu, { MenuOption } from '../menu'
 import { createNamespace } from '../utils/components'
-import { IconDown, IconMore } from './platform'
+import { IconDown, IconMore, useBreadcrumbDropdownLabel, useBreadcrumbLabels } from './platform'
 import { breadcrumbItemProps } from './props'
 import { useBreadcrumb } from './provide'
 import type { BreadcrumbRoute } from './types'
@@ -26,7 +26,13 @@ export default defineComponent({
    */
   setup(props, { slots, attrs, emit }) {
     const { index, breadcrumb, bindBreadcrumb } = useBreadcrumb()
+    const dropdownLabel = useBreadcrumbDropdownLabel()
+    const labels = useBreadcrumbLabels()
+    const uid = useId()
+    const linkId = () => (typeof attrs.id === 'string' && attrs.id ? attrs.id : `breadcrumb-link-${uid}`)
+    const labelId = `breadcrumb-actions-${uid}`
     const dropdownVisible = ref(false)
+    const reference = ref<HTMLElement>()
     const pressed = ref(false)
     const instance = getCurrentInstance()!
 
@@ -82,10 +88,12 @@ export default defineComponent({
     const renderItem = () => {
       const hasClick = Boolean(instance.vnode.props?.onClick || instance.vnode.props?.onClickOnce)
       const interactive = !displayMore.value && Boolean(props.href || hasDropdown.value || hasClick)
+      const splitDropdown = Boolean(props.href && hasDropdown.value)
       const Tag = props.href && !displayMore.value ? 'a' : interactive ? 'button' : 'div'
       return (
-        <div class={classes(n(), [hasDropdown.value, n('--with-dropdown')])}>
+        <div class={classes(n(), [hasDropdown.value, n('--with-dropdown')], [splitDropdown, n('--split-dropdown')])}>
           <Tag
+            ref={splitDropdown ? undefined : reference}
             class={classes(n('content'), [pressed.value, n('--pressed')])}
             onPointerdown={(event: PointerEvent) => {
               if (interactive && event.pointerType !== 'mouse' && event.button === 0) {
@@ -108,19 +116,40 @@ export default defineComponent({
             href={Tag === 'a' ? props.href : undefined}
             aria-current={isLast.value ? 'page' : undefined}
             onClick={handleClick}
-            {...(displayMore.value ? { 'aria-label': 'ellipses of breadcrumb items' } : undefined)}
+            {...(displayMore.value ? { 'aria-label': labels.ellipsis.value } : undefined)}
             {...attrs}
+            id={splitDropdown ? linkId() : typeof attrs.id === 'string' ? attrs.id : undefined}
+            aria-haspopup={hasDropdown.value && !splitDropdown ? 'menu' : undefined}
+            aria-expanded={hasDropdown.value && !splitDropdown ? dropdownVisible.value : undefined}
           >
             {displayMore.value
               ? (breadcrumb?.slots?.['more-icon']?.(breadcrumb.moreSlotData.value) ?? <IconMore />)
               : slots.default?.()}
-            {hasDropdown.value && (
+            {hasDropdown.value && !splitDropdown && (
               <IconDown
                 aria-hidden="true"
                 class={classes(n('dropdown-icon'), [dropdownVisible.value, n('--dropdown-icon-active')])}
               />
             )}
           </Tag>
+          {splitDropdown && (
+            <button
+              ref={reference}
+              type="button"
+              class={n('dropdown-trigger')}
+              aria-labelledby={`${linkId()} ${labelId}`}
+              aria-haspopup="menu"
+              aria-expanded={dropdownVisible.value}
+            >
+              <span id={labelId} class={n('dropdown-label')}>
+                {dropdownLabel.value}
+              </span>
+              <IconDown
+                aria-hidden="true"
+                class={classes(n('dropdown-icon'), [dropdownVisible.value, n('--dropdown-icon-active')])}
+              />
+            </button>
+          )}
         </div>
       )
     }
@@ -131,6 +160,7 @@ export default defineComponent({
     const renderDropdown = () => (
       <Menu
         {...props.dropdownProps}
+        reference={props.dropdownProps?.reference ?? reference.value}
         v-slots={{ content: renderDropdownContent }}
         open={dropdownVisible.value}
         onUpdate:open={handleVisibleChange}

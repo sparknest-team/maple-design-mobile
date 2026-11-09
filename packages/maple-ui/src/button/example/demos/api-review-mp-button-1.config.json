@@ -197,8 +197,7 @@
   ],
   "methodNames": [],
   "events": [
-    "click",
-    "touchstart"
+    "click"
   ],
   "slotNames": [
     "icon"

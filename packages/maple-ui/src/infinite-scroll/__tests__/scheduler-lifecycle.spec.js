@@ -63,6 +63,7 @@ afterEach(() => {
 function targetNode() {
   const node = document.createElement('div')
   node.dataset.scroller = 'true'
+  Object.defineProperty(node, 'clientHeight', { value: 100 })
   document.body.appendChild(node)
   nodes.push(node)
   return node

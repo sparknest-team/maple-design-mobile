@@ -3,7 +3,7 @@ import { mountInstance } from '../utils/components'
 import LoadingBarComponent from './LoadingBar'
 import { props as loadingBarProps } from './props'
 
-interface LoadingBarOptions {
+export interface LoadingBarOptions {
   color?: string
   errorColor?: string
   height?: string | number

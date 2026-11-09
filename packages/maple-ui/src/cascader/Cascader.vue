@@ -19,7 +19,7 @@
         :readonly="mergedReadonly"
         :error="mergedError"
         :multiple="multiple"
-        :clearable="clearable"
+        :clearable="clearable && !loading"
         :searchable="filterable"
         :size="mergedSize"
         :variant="mergedVariant"
@@ -45,8 +45,8 @@
         <template v-if="$slots.selected" #selected><slot name="selected" /></template>
         <template v-if="$slots.suffix" #suffix><slot name="suffix" /></template>
         <template v-if="$slots['clear-icon']" #clear-icon="scope"><slot name="clear-icon" v-bind="scope" /></template>
-        <template v-if="$slots['arrow-icon']" #arrow-icon>
-          <slot name="arrow-icon" />
+        <template v-if="$slots['arrow-icon']" #arrow-icon="scope">
+          <slot name="arrow-icon" v-bind="scope" />
         </template>
         <template v-if="$slots['loading-icon']" #loading-icon>
           <slot name="loading-icon" />

@@ -151,6 +151,38 @@ describe('Card floating scheduler ownership', () => {
     expect(f.rect).toHaveBeenCalledTimes(1)
     expect(paints).toHaveLength(1)
   })
+  test('closing remeasures the current placeholder after its layout changes', async () => {
+    const f = await fixture()
+    await f.finish()
+    f.rect.mockReturnValue({
+      width: 180,
+      height: 90,
+      left: 34,
+      top: 56,
+      right: 214,
+      bottom: 146,
+      x: 34,
+      y: 56,
+      toJSON() {},
+    })
+    await f.drop()
+    expect(f.state.floaterWidth).toBe('180px')
+    expect(f.state.floaterHeight).toBe('90px')
+    expect(f.state.floaterLeft).toBe('34px')
+    expect(f.state.floaterTop).toBe('56px')
+  })
+  test('disposal during return measurement cannot publish stale geometry', async () => {
+    const f = await fixture()
+    await f.finish()
+    f.rect.mockImplementation(() => {
+      f.owner.unmount()
+      return { width: 180, height: 90, left: 34, top: 56, right: 214, bottom: 146, x: 34, y: 56, toJSON() {} }
+    })
+    await f.drop()
+    expect(f.state.floaterWidth).toBe('100vw')
+    expect(f.state.floaterTop).toBe('0')
+    expect(f.callbacks(250)).toHaveLength(0)
+  })
   test('old dropdown timer cannot reset a new floating phase', async () => {
     const f = await fixture()
     await f.finish()

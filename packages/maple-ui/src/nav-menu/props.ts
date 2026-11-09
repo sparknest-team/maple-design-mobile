@@ -9,7 +9,11 @@ export const navMenuProps = {
   /** 非受控的具名 NavMenu.Item 初始激活项。 */
   defaultActiveItem: { type: [String, Number] as PropType<NavMenuKey | null>, default: null },
   /** 移动端只支持横向筛选入口。 */
-  mode: { type: String as PropType<NavMenuMode>, default: 'horizontal' },
+  mode: {
+    type: String as PropType<NavMenuMode>,
+    default: 'horizontal',
+    validator: (value: NavMenuMode) => value === 'horizontal',
+  },
   /** 组件尺寸。 */
   size: {
     type: String as PropType<ComponentSize>,

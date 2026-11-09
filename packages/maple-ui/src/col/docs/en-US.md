@@ -65,13 +65,13 @@
 ## API
 
 <!-- same-source-api:start -->
-### Props
+### Col Props
 
 | Prop | Description | Type | Default |
 | --- | --- | --- | --- |
-| span | Column span; 0 hides | `number` | `24` |
-| offset | Offset; 0 resets | `number` | `undefined` |
-| order | Order; 0 resets | `number` | `undefined` |
+| span | Column span; integer 0–24, with zero hiding the column | `number` | `24` |
+| offset | Offset from the logical inline start; integer 0–24, with zero restoring it | `number` | `undefined` |
+| order | Visual order; finite integer, including negative values; zero restores it | `number` | `undefined` |
 | xs | Responsive span or object containing span, offset and order | `number / ColSizeDescriptor` | `undefined` |
 | sm | Responsive span or object containing span, offset and order | `number / ColSizeDescriptor` | `undefined` |
 | md | Responsive span or object containing span, offset and order | `number / ColSizeDescriptor` | `undefined` |
@@ -80,19 +80,19 @@
 | xxl | Responsive span or object containing span, offset and order | `number / ColSizeDescriptor` | `undefined` |
 | flex | Ratio, fixed length or CSS flex value | `number / string` | `undefined` |
 
-### Events
+### Col Events
 
 | Event | Description |
 | --- | --- |
 | click | Native MouseEvent, emitted once per click |
 
-### Slots
+### Col Slots
 
 | Slot | Description |
 | --- | --- |
 | default | Layout content |
 
-### Methods
+### Col Methods
 
 | Method | Description |
 | --- | --- |
@@ -102,8 +102,22 @@ The order example restores every column to `order: 0` when reverse is turned off
 
 ## Responsiveness and accessibility
 
-Breakpoints use the browser viewport: xs is the base; sm ≥576, md ≥768, lg ≥992, xl ≥1200 and xxl ≥1600px. Configured values resolve downward from the largest matching breakpoint. SSR starts with xs and responds to the viewport after mounting. Grid collapsing and dynamic ordering are calculated after mounting. These layout containers add no keyboard shortcuts; callers supply content semantics and focusable elements. There are no public methods or dedicated theme tokens.
+Row resolves responsive gutter with JavaScript matchMedia, using xs for SSR and synchronizing the viewport after mounting. Col uses CSS media queries: SSR already emits all configured classes without waiting for measurement. Breakpoints use viewport width: xs is the base; sm ≥576, md ≥768, lg ≥992, xl ≥1200 and xxl ≥1600px. Only configured fields override earlier values. Offset starts at the logical inline edge and mirrors in RTL. Order affects visual positioning while preserving DOM, keyboard and assistive technology reading order.
+
+Span, offset and their breakpoint fields accept integers from 0 through 24. A zero span hides the column; offset 24 shifts it by a full row width. Order accepts finite integers, including negative values and values above 24, subject to browser CSS order computation. Gutter accepts finite nonnegative numbers, six-breakpoint objects or exactly two entries [horizontal, vertical]. Development diagnostics report unknown breakpoints, invalid numbers and enum values. Invalid span falls back to 24; invalid offset/order is ignored; breakpoint objects retain valid fields; invalid gutter components fall back to zero.
 
 ## Imports
 
-Grid contains only Grid.Item. Row and Col are independent components with their own source, styles, navigation, documentation and demos. Grid.Row/Grid.Col, Row/Col re-exports from Grid and GridRowInstance/GridColInstance are removed. Import them from the library root or separate row/col entries. Installing Grid no longer registers Row/Col automatically.
+Grid contains only Grid.Item. Import the independent Row and Col components from the library root or their row/col subpaths; installing Grid does not register them. 
+
+`flex` overrides column width while preserving `offset`, `order` and responsive configuration. `span: 0`, including breakpoint values, still hides the column; a matching nonzero span restores visibility while `flex` controls width. Removing `flex` restores the span width. Visual ordering does not change DOM or keyboard navigation `order`.
+
+## CSS Variables
+
+<!-- component-css-variables:start -->
+
+This component declares no independent public CSS variables. Use the configuration and layout APIs documented on this page.
+
+Internal custom properties and measurement values are implementation details and are not customization APIs.
+
+<!-- component-css-variables:end -->

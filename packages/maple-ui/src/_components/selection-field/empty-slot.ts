@@ -1,6 +1,6 @@
-import type { Slot } from 'vue'
+import { computed, type Slot } from 'vue'
 
-/** Maple currently configures empty content through the component's empty slot. */
-export function useEmptySlot(): Slot | undefined {
-  return undefined
+/** Maple configures empty content through the component's local empty slot. */
+export function useEmptySlot() {
+  return computed<Slot | undefined>(() => undefined)
 }

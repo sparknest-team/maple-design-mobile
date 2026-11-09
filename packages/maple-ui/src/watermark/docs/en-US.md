@@ -36,7 +36,7 @@ The local Demo exposes dark surface, visibility, and synthetic text controls. It
 
 ### Image Watermark
 
-The image Demo uses only a synthetic SVG data URL. Fail local image selects an intentionally invalid data URL: native Image failure emits source=image and falls back to red FALLBACK 201 text. Enter on Restore image restores the original graphic, retains error history without appending, keeps one layer, and disables Restore again. This does not test external networking, CORS, Canvas faults, or image-load races.
+Local image failure uses an invalid data URL, emits a source=image error and falls back to FALLBACK 201 text. Activate Restore image with Enter to restore the image. Error history remains, with one watermark layer.
 
 ```demo
 ../example/demos/image-watermark.vue
@@ -44,7 +44,7 @@ The image Demo uses only a synthetic SVG data URL. Fail local image selects an i
 
 ### Fullscreen
 
-The fullscreen layer covers the viewport without intercepting pointer interaction. Turning fullscreen off restores the layer to its local container without moving default-slot content. Repeated toggles must not accumulate fullscreen layers, and unmounting removes that instance's layer. Libraries maintain independent instances; basic toggle evidence does not certify image failures, theme changes or anti-tamper combinations.
+The full-screen watermark covers the viewport without intercepting pointer input. Exiting returns it to the local container without moving default-slot content. Repeated toggling does not accumulate layers; unmounting removes that instance.
 
 ```demo
 ../example/demos/fullscreen.vue
@@ -72,11 +72,19 @@ Compare repetition gaps, origin offsets and rotation independently of image load
 ../example/demos/geometry-comparison.vue
 ```
 
+## Usage notes
+
+### Sizing and redraw
+
+- Supply two finite numbers for `gap` and `offset`; non-negative gaps are recommended. A negative gap is currently clamped to zero only for tile dimensions, while drawing and background offsets use the original value, so do not rely on negative gaps for overlap. Use finite positive values for `width`, `height`, `font.fontSize`, and `font.lineHeight`; rendered width and height are at least 1. `rotate` and `zIndex` should be finite. Invalid inputs are not guaranteed to be corrected; valid `alpha` values are finite and between 0 and 1.
+- The default `lineHeight` is `Math.round(fontSize * 1.4)`. Canvas parses the text color: `font.color` takes precedence over the computed color token. Supply a color supported by Canvas; CSS variable expressions are not guaranteed to resolve directly. Asynchronously loaded fonts do not trigger redraw automatically; call `redraw()` after they are ready.
+- Image load failures emit `error` and fall back to text when available; Canvas failures also emit `error`. `redraw()` returns a Promise and normally handles rendering failures internally. Older asynchronous results cannot overwrite the current layer or report errors after props change or unmount, but the underlying image request is not cancelled. The `default` slot is not drawn into the watermark image.
+
 ## API
 
-### Props
+### Watermark Props
 
-| Arguments | Description | Type | Default |
+| Prop | Description | Type | Default |
 | --- | --- | --- | --- |
 | `content` | One or more text lines; also used when an image fails | `string \| string[]` | `-` |
 | `image` | Image URL, preferred over text | `string` | `-` |
@@ -94,38 +102,62 @@ Compare repetition gaps, origin offsets and rotation independently of image load
 | `staggered` | Stagger repeated rows | `boolean` | `true` |
 | `fullscreen` | Cover the viewport | `boolean` | `false` |
 
+### WatermarkFont Events
+
+| Event | Description | Arguments |
+| --- | --- | --- |
+| `error` | Image loading or Canvas rendering failed | `{ source: 'image' \| 'canvas'; error: unknown }` |
+
+### WatermarkFont Methods
+
+| Method | Description | Returns |
+| --- | --- | --- |
+| `redraw` | Regenerate the watermark from current props | `Promise<void>` |
+
+### WatermarkFont Slots
+
+| Slot | Description |
+| --- | --- |
+| `default` | Page content covered by the watermark |
+
+## Types
+
 ### WatermarkFont
 
-| Arguments | Type | Default |
+| Prop | Type | Default |
 | --- | --- | --- |
 | `color` | `string` | `var(--mp-watermark-content-color)` |
 | `fontSize` | `number` | `16` |
 | `fontFamily` | `string` | `sans-serif` |
 | `fontStyle` | `'normal' \| 'italic' \| 'oblique'` | `normal` |
 | `fontWeight` | `string \| number` | `normal` |
-| `textAlign` | `CanvasTextAlign` | `center` |
-| `lineHeight` | `number` | `fontSize × 1.4` |
+| `textAlign` | `CanvasTextAlign`<br>`'center' \| 'end' \| 'left' \| 'right' \| 'start'` | `center` |
+| `lineHeight` | `number` | `Math.round(fontSize × 1.4)` |
 
-### Events
+## CSS Variables
 
-| Event | Description | Arguments |
+The watermark reads its color from the computed CSS variable and redraws when a `class` or `style` change on the component or its current ancestors changes that color. Call `redraw()` after changes that cannot be observed, such as CSSOM or media query changes, or after moving it to a new ancestor. `anti-tamper` restores removal and class/style changes to the managed layer; it is not a security boundary.
+
+<!-- component-css-variables:start -->
+
+Use these variables to customize the component. Defaults may vary by the selector condition shown. Each variable applies to the corresponding size, variant and interaction states.
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Default / condition | Affected styles |
 | --- | --- | --- |
-| `error` | Image loading or Canvas rendering failed | `{ source: 'image' \| 'canvas'; error: unknown }` |
+| `--mp-watermark-content-color` | `rgba(0, 0, 0, 0.15)` | Component styling |
 
-### Methods
+</div>
 
-| Method | Description | Returns |
-| --- | --- | --- |
-| `redraw` | Regenerate the watermark from current props | `Promise<void>` |
+Apply overrides to the rendered component root or the actual popup ancestor. For example, add the following class to that element and replace the value as needed:
 
-### Slots
+```css
+.component-theme {
+  --mp-watermark-content-color: rgba(0, 0, 0, 0.15);
+}
+```
 
-| Slot | Description |
-| --- | --- |
-| `default` | Page content covered by the watermark |
+Explicit inline styles and props that write the same CSS property take precedence over stylesheet defaults. After Teleport, ordinary CSS variables inherit from the actual mount location. When using ThemeProvider, follow its local-theme and popup configuration rules. Override the component variable directly for local styling; root-level aliases are not recalculated merely because a descendant system variable changes. Internal variables are not public APIs.
 
-### Style variables
-
-| Variable | Default |
-| --- | --- |
-| `--mp-watermark-content-color` | `rgba(0, 0, 0, 0.15)` |
+<!-- component-css-variables:end -->

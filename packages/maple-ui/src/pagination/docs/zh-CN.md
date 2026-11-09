@@ -130,12 +130,19 @@
 
 继承最近的 `dir="ltr|rtl"`，支持运行时切换与局部覆盖。页码与上一页/下一页含义保持不变，默认前后图形跟随阅读方向。输入页码、禁用边界和选择不因方向切换而改变；自定义图形插槽由业务决定方向。
 
+## 触发与定位
+
+### 弹层定位
+
+通过 `page-size-props.placement` 设置条数选择器的弹出方向，默认 `bottom-start`；空间不足时自动调整。这项配置不改变分页器自身的布局。
+
 ## API
 
 主值使用普通 `v-model`：`modelValue` 表示当前页码，从 1 开始；pageSize 仍独立控制每页条数。`defaultValue` 仅在创建时初始化非受控状态，之后修改不会重置当前值；初始化不触发 `update:modelValue`。提供 `modelValue` 时由父级控制，以受控值为准。
 
 <!-- same-source-api:start -->
-### Props
+
+### Pagination Props
 
 | 属性 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
@@ -163,7 +170,15 @@
 | compact-breakpoint | 简洁模式的最大容器宽度，单位 px | `number` | `480` |
 | auto-adjust | 条数变化时保留首条位置；总数减少时修正越界页码 | `boolean` | `true` |
 
-### Events
+分页总数、页码和每页条数使用 JavaScript 安全整数；超出安全范围的有限正数按最大安全整数处理，并在开发环境提示。为限制页码控件数量，base-size 最多按 201、buffer-size 最多按 100 处理，超出范围会在开发环境提示。
+
+响应式布局在完整和简洁模式之间切换时保留跳页草稿，不会自动提交；两种模式均显示跳页输入框时保留焦点。用户按 Enter 或主动离开输入框时才提交。
+
+键盘快跳后，如果原省略号按钮消失且目标页已生效，焦点移到当前页按钮；受控更新被拒绝或焦点已转移时不会抢焦点。
+
+auto-adjust 只在创建后的 total 或 page-size 变化时请求调整，初始化时不会按总页数夹取 default-value 或受控 model-value；受控父组件可以拒绝调整请求。
+
+### Pagination Events
 
 | Event | Description | Arguments |
 | --- | --- | --- |
@@ -172,7 +187,7 @@
 | update:page-size | 请求更新条数 | `number` |
 | page-size-change | 条数提交变化（与 update:page-size 成对） | `number` |
 
-### Slots
+### Pagination Slots
 
 | Slot | Description | Scope |
 | --- | --- | --- |
@@ -183,12 +198,18 @@
 | jumper-prepend | 独立跳转框前缀 | `—` |
 | jumper-append | 独立跳转框后缀 | `—` |
 
-### Methods
+### Pagination Methods
 
 | Method | Description |
 | --- | --- |
 
 <!-- same-source-api:end -->
+
+## Types
+
+```ts
+import type { PaginationProps, PaginationInstance, PaginationPageSizeProps } from '@maple-design/ui'
+```
 
 ## 行为说明
 
@@ -210,43 +231,52 @@
 
 此配置不再透传任意 SelectProps/MenuProps。分页值、选项和尺寸分别使用 page-size、page-size-options、size。
 
-## 类型定义
+## CSS Variables
 
-```ts
-import type { PaginationProps, PaginationInstance, PaginationPageSizeProps } from '@maple-design/ui'
+<!-- component-css-variables:start -->
+
+通过以下变量定制组件外观。默认值随表中注明的主题或选择器条件变化；变量仅在对应的尺寸、变体和交互状态下生效。
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| 变量 | 默认值／条件 | 影响的样式 |
+| --- | --- | --- |
+| `--mp-pagination-active-background` | `var(--mp-color-primary-light-1)` | `background` |
+| `--mp-pagination-active-color` | `var(--mp-sys-color-content-brand)` | `color` |
+| `--mp-pagination-disabled-background` | `var(--mp-color-fill-1)` | `background` |
+| `--mp-pagination-disabled-color` | `var(--mp-color-text-disabled)` | `color` |
+| `--mp-pagination-focus-color` | `var(--mp-sys-color-content-brand)` | `outline` |
+| `--mp-pagination-focus-offset` | `1px` | `outline-offset` |
+| `--mp-pagination-focus-space` | `3px` | `padding` |
+| `--mp-pagination-focus-width` | `2px` | `outline` |
+| `--mp-pagination-font-size` | `var(--mp-sys-font-size-md)` | `font-size` |
+| `--mp-pagination-gap` | `var(--mp-sys-space-5)` | `gap` |
+| `--mp-pagination-hover-background` | `var(--mp-color-fill-1)` | `background` |
+| `--mp-pagination-icon-size` | `16px` | `height`, `width` |
+| `--mp-pagination-input-width` | `32px` | `width` |
+| `--mp-pagination-item-background` | `transparent` | `background` |
+| `--mp-pagination-item-border-radius` | `var(--mp-sys-radius-md)` | `border-radius` |
+| `--mp-pagination-item-gap` | `var(--mp-sys-space-2)` | `gap`, `padding-inline-start` |
+| `--mp-pagination-item-padding` | `var(--mp-sys-space-4)` | `padding` |
+| `--mp-pagination-select-width` | `max-content` | `width` |
+| `--mp-pagination-size-lg` | `44px` | `height`, `min-height`, `min-width` |
+| `--mp-pagination-size-md` | `36px` | `height`, `min-height`, `min-width` |
+| `--mp-pagination-size-sm` | `28px` | `height`, `min-height`, `min-width` |
+| `--mp-pagination-size-xl` | `52px` | `height`, `min-height`, `min-width` |
+| `--mp-pagination-size-xs` | `24px` | `height`, `min-height`, `min-width` |
+| `--mp-pagination-text-color` | `var(--mp-color-text-1)` | `color` |
+| `--mp-pagination-touch-size` | `44px` | `min-height` |
+
+</div>
+
+将覆盖设置在组件实际根节点或弹层真实挂载祖先上。例如给该元素添加下列 class，再按需替换变量值：
+
+```css
+.component-theme {
+  --mp-pagination-active-background: var(--mp-color-primary-light-1);
+}
 ```
 
-## 样式变量
+显式行内样式及直接写入同一 CSS 属性的 Props 优先于样式表默认值。Teleport 后，普通 CSS 变量按实际挂载位置继承；使用 ThemeProvider 时，请遵循其局部主题与弹层配置规则。局部定制请直接覆盖组件变量；仅修改后代的 system 变量不会重新计算从根继承的组件别名。内部变量不属于公共 API。
 
-| Token | Default |
-| --- | --- |
-| `--mp-pagination-text-color` | `var(--mp-color-text-1)` |
-| `--mp-pagination-font-size` | `var(--mp-sys-font-size-md)` |
-| `--mp-pagination-gap` | `var(--mp-sys-space-5)` |
-| `--mp-pagination-item-gap` | `var(--mp-sys-space-2)` |
-| `--mp-pagination-focus-space` | `3px` |
-| `--mp-pagination-size-xs` | `24px` |
-| `--mp-pagination-size-sm` | `28px` |
-| `--mp-pagination-size-md` | `36px` |
-| `--mp-pagination-size-lg` | `44px` |
-| `--mp-pagination-size-xl` | `52px` |
-| `--mp-pagination-item-padding` | `var(--mp-sys-space-4)` |
-| `--mp-pagination-item-border-radius` | `var(--mp-sys-radius-md)` |
-| `--mp-pagination-icon-size` | `16px` |
-| `--mp-pagination-input-width` | `32px` |
-| `--mp-pagination-select-width` | `max-content` |
-| `--mp-pagination-touch-size` | `44px` |
-| `--mp-pagination-focus-width` | `2px` |
-| `--mp-pagination-focus-offset` | `1px` |
-| `--mp-pagination-focus-color` | `var(--mp-color-primary)` |
-| `--mp-pagination-item-background` | `transparent` |
-| `--mp-pagination-hover-background` | `var(--mp-color-fill-1)` |
-| `--mp-pagination-active-background` | `var(--mp-color-primary-light-1)` |
-| `--mp-pagination-active-color` | `var(--mp-color-primary)` |
-| `--mp-pagination-disabled-color` | `var(--mp-color-text-disabled)` |
-| `--mp-pagination-disabled-background` | `var(--mp-color-fill-1)` |
-
-
-### 方位语义与配置入口
-
-普通使用无需配置方位：默认 bottom-start，空间不足时底层 Trigger 自动翻转和约束。pageSizeProps.placement 仅是条数 Select 的受限覆盖入口，链路为 Pagination → Select.triggerProps.placement → Trigger；不是分页器自身位置。
+<!-- component-css-variables:end -->

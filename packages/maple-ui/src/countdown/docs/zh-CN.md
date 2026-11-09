@@ -84,7 +84,9 @@ Countdown 的 RAF 刷新业务剩余时间，不是视觉插值；CSS duration�
 
 ## API
 
-### 属性
+`time` 是持续时长而非绝对到期时间；暂停和 KeepAlive 停用时剩余时长冻结。默认插槽直接接收 days、hours、minutes、seconds、milliseconds 五个字段；`change` 在重置及动画帧更新时触发，可能高频调用。`auto-start` 在挂载或 reset 时读取，单独切换不会启动或暂停。格式中的重复 token 均会替换；省略较大单位时会累计到较小单位，因此单独使用 `SSS` 可超过三位。
+
+### Countdown Props
 
 | 参数 | 说明 | 类型 | 默认值 |
 | ----- | -------------- | -------- | ---------- |
@@ -104,14 +106,14 @@ Countdown 的 RAF 刷新业务剩余时间，不是视觉插值；CSS duration�
 | `SS` | 毫秒（2位） |
 | `SSS` | 毫秒（3位） |
 
-### 事件
+### Countdown Events
 
 | 事件名 | 说明 | 回调参数 |
 | ----- | -------------- | -------- |
 | `end` | 倒计时结束时触发| `-` |
 | `change` | 倒计时变化时触发| `timeData: TimeData` |
 
-### 插槽
+### Countdown Slots
 
 | 名称 | 说明 | 参数 |
 | ----- | -------------- | -------- |
@@ -127,7 +129,7 @@ Countdown 的 RAF 刷新业务剩余时间，不是视觉插值；CSS duration�
 | `seconds` | 剩余秒数 | `number` |
 | `milliseconds` | 剩余毫秒 | `number` |
 
-### 方法
+### Countdown Methods
 
 通过 ref 可以获取到 Countdown 实例并调用实例方法.
 
@@ -137,17 +139,37 @@ Countdown 的 RAF 刷新业务剩余时间，不是视觉插值；CSS duration�
 | `pause` | 暂停倒计时 | `-` | `-` |
 | `reset` | 重设倒计时，若 `auto-start` 为 `true`，重设后会自动开始倒计时 | `-` | `-` |
 
-### 样式变量
+## 使用说明
 
-以下为组件使用的 css 变量，可以使用 [StyleProvider 组件](#/zh-CN/style-provider) 进行样式定制。
 
-| 变量名                         | 默认值 |
-|-----------------------------| --- |
-| `--mp-countdown-text-color`     | `var(--mp-sys-color-content-primary)` |
-| `--mp-countdown-text-font-size` | `var(--mp-font-size-lg)` |
-
-## 同源实现与平台边界
-
-两端各自保存完整源码，不引用公共核心，不共享组件实例或响应式状态；修改时同步维护两份实现。主体、Props、关键样式及配对测试纳入只读源码一致性检查，主题 token 和安装入口各自维护。
 
 SSR 输出初始格式化时间。暂停时修改 format 会更新显示；结束事件每轮只触发一次，reset 后可开始新一轮；卸载清理动画帧。
+
+## CSS Variables
+
+以下为组件使用的 css 变量，可以使用 [ThemeProvider 组件](#/zh-CN/theme-provider) 进行样式定制。
+
+<!-- component-css-variables:start -->
+
+通过以下变量定制组件外观。默认值随表中注明的主题或选择器条件变化；变量仅在对应的尺寸、变体和交互状态下生效。
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| 变量 | 默认值／条件 | 影响的样式 |
+| --- | --- | --- |
+| `--mp-countdown-text-color` | `var(--mp-sys-color-content-primary)` | `color` |
+| `--mp-countdown-text-font-size` | `var(--mp-font-size-lg)` | `font-size` |
+
+</div>
+
+将覆盖设置在组件实际根节点或弹层真实挂载祖先上。例如给该元素添加下列 class，再按需替换变量值：
+
+```css
+.component-theme {
+  --mp-countdown-text-color: var(--mp-sys-color-content-primary);
+}
+```
+
+显式行内样式及直接写入同一 CSS 属性的 Props 优先于样式表默认值。Teleport 后，普通 CSS 变量按实际挂载位置继承；使用 ThemeProvider 时，请遵循其局部主题与弹层配置规则。局部定制请直接覆盖组件变量；仅修改后代的 system 变量不会重新计算从根继承的组件别名。内部变量不属于公共 API。
+
+<!-- component-css-variables:end -->

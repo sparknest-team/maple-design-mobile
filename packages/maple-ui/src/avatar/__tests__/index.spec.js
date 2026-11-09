@@ -11,6 +11,7 @@ const avatarPropNames = [
   'size',
   'autoFixFontSize',
   'triggerType',
+  'triggerAriaLabel',
   'triggerIconStyle',
   'objectFit',
   'color',

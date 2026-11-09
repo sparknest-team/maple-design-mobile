@@ -1,5 +1,14 @@
 <script setup>
+import { ref } from 'vue'
+import { watchLang } from '@maple-design/cli/client'
 import BasicDemo from './demos/basic.vue'
+import PausableEnglishDemo from './demos/en-US/pausable.vue'
+import PausableDemo from './demos/pausable.vue'
+
+const lang = ref('zh-CN')
+watchLang((value) => {
+  lang.value = value
+})
 </script>
 
 <template>
@@ -10,5 +19,10 @@ import BasicDemo from './demos/basic.vue'
 
   <section data-demo="basic">
     <BasicDemo />
+  </section>
+
+  <section data-demo="pausable">
+    <PausableEnglishDemo v-if="lang === 'en-US'" />
+    <PausableDemo v-else />
   </section>
 </template>

@@ -80,3 +80,68 @@ test('late measurements invalidate cached padding and agree with scroll offsets'
   expect(owner.element.style.paddingTop).toBe('1921px')
   owner.unmount()
 })
+
+test('updates measurement mode and bounds invalid estimates and scroll offsets', async () => {
+  const fixed = ref(true)
+  const estimate = ref(20)
+  let size
+  const owner = mount(
+    defineComponent({
+      setup() {
+        size = useSize({
+          dataKeys: ref([0, 1, 2]),
+          contentRef: ref(),
+          fixedSize: fixed,
+          estimatedSize: estimate,
+          buffer: ref(1),
+        })
+        return () => h('div')
+      },
+    }),
+  )
+  size.setItemSize(0, 50)
+  expect(size.getScrollOffset(1)).toBe(20)
+  fixed.value = false
+  await nextTick()
+  expect(size.getScrollOffset(1)).toBe(50)
+  fixed.value = true
+  estimate.value = 0
+  await nextTick()
+  expect(size.getScrollOffset(1)).toBe(30)
+  expect(Number.isFinite(size.getStartByScroll(Number.MAX_VALUE))).toBe(true)
+  size.setItemSize(1, 0)
+  fixed.value = false
+  await nextTick()
+  expect(size.getScrollOffset(2)).toBe(80)
+  owner.unmount()
+})
+
+test('covers the viewport with zero buffer and grows with viewport size', async () => {
+  const viewport = ref(240)
+  const offset = ref(0)
+  let size
+  const owner = mount(
+    defineComponent({
+      setup() {
+        size = useSize({
+          dataKeys: ref(Array.from({ length: 100 }, (_, i) => i)),
+          contentRef: ref(),
+          fixedSize: ref(true),
+          estimatedSize: ref(20),
+          buffer: ref(0),
+          viewportHeight: viewport,
+          scrollOffset: offset,
+        })
+        return () => h('div')
+      },
+    }),
+  )
+  expect(size.end.value - size.start.value).toBe(12)
+  size.setStart(size.getStartByScroll(101))
+  expect(size.start.value).toBe(5)
+  expect(size.end.value).toBe(18)
+  viewport.value = 400
+  await nextTick()
+  expect(size.end.value).toBe(26)
+  owner.unmount()
+})

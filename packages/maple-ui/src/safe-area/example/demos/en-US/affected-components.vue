@@ -3,7 +3,13 @@ import { computed, onBeforeUnmount, ref, watch } from 'vue'
 import { SafeArea } from '@maple-design/ui'
 
 const bottom = ref(34)
-const horizontal = ref(12)
+const left = ref(12)
+const right = ref(72)
+function preset(side: 'left' | 'right' | 'zero') {
+  left.value = side === 'left' ? 72 : side === 'right' ? 12 : 0
+  right.value = side === 'right' ? 72 : side === 'left' ? 12 : 0
+  bottom.value = side === 'zero' ? 0 : 34
+}
 const active = ref('popup')
 const open = ref(false)
 const host = ref<HTMLElement>()
@@ -18,7 +24,7 @@ const consumers = [
   'fab',
   'field-editor',
 ]
-const insets = computed(() => ({ top: 0, bottom: bottom.value, left: horizontal.value, right: horizontal.value }))
+const insets = computed(() => ({ top: 0, bottom: bottom.value, left: left.value, right: right.value }))
 watch(
   [host, insets],
   ([target, value], previous) => {
@@ -37,7 +43,7 @@ onBeforeUnmount(() => {
     SafeArea.setInsets(null, host.value)
   }
 })
-const measurements = ref<{ component: string; padding: string; bottom: string }[]>([])
+const measurements = ref<{ component: string; padding: string; margin: string; bottom: string }[]>([])
 function measure() {
   measurements.value = Array.from(
     host.value?.querySelectorAll<HTMLElement>(
@@ -45,14 +51,21 @@ function measure() {
     ) ?? [],
   ).map((element) => {
     const style = getComputedStyle(element)
-    return { component: active.value, padding: style.padding, bottom: style.bottom }
+    return { component: active.value, padding: style.padding, margin: style.margin, bottom: style.bottom }
   })
 }
 </script>
 <template>
   <mp-space direction="column" align="stretch">
     <div>Bottom px <mp-input-number v-model="bottom" :min="0" :max="80" /></div>
-    <div>Left + right px <mp-input-number v-model="horizontal" :min="0" :max="60" /></div>
+    <div>Left px <mp-input-number v-model="left" :min="0" :max="120" /></div>
+    <div>Right px <mp-input-number v-model="right" :min="0" :max="120" /></div>
+    <mp-space wrap>
+      <mp-button @click="preset('right')">Duo · Right</mp-button>
+      <mp-button @click="preset('left')">Duo · Left</mp-button>
+      <mp-button @click="preset('zero')">Zero</mp-button>
+    </mp-space>
+    <p>Duo asymmetric simulation; values are not device constants.</p>
     <mp-form-item layout="vertical" size="sm" label="active">
       <mp-select
         v-model="active"
@@ -70,6 +83,7 @@ function measure() {
               <tr>
                 <th>Component</th>
                 <th>Padding</th>
+                <th>Margin</th>
                 <th>Bottom</th>
               </tr>
             </thead>
@@ -77,6 +91,7 @@ function measure() {
               <tr v-for="(row, index) in measurements" :key="index">
                 <td>{{ row.component }}</td>
                 <td>{{ row.padding }}</td>
+                <td>{{ row.margin }}</td>
                 <td>{{ row.bottom }}</td>
               </tr>
             </tbody>
@@ -128,7 +143,7 @@ function measure() {
           <mp-tab-bar-item label="Home" /><mp-tab-bar-item label="Profile" />
         </mp-tab-bar>
         <mp-floating-panel v-if="active === 'floating-panel'" :anchors="[140, 240]" :popup-container="host" safe-area
-          ><p>Bottom padding</p></mp-floating-panel
+          ><p>Bottom, left and right padding</p></mp-floating-panel
         >
         <mp-fab v-if="active === 'fab'" :popup-container="host" safe-area />
         <mp-select

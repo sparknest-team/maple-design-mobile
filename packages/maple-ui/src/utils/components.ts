@@ -136,8 +136,11 @@ export function withInstall<T = Component, InstallOptions = unknown>(
   return componentWithInstall as ComponentWithInstall<T>
 }
 
-export function mount(component: Component): MountInstance {
+export function mount(component: Component, idPrefix?: string): MountInstance {
   const app = createApp(component)
+  if (idPrefix) {
+    app.config.idPrefix = idPrefix
+  }
   const host = document.createElement('div')
   document.body.appendChild(host)
 
@@ -156,6 +159,7 @@ export function mountInstance(
   component: any,
   props: Record<string, any> = {},
   eventListener: Record<string, any> = {},
+  idPrefix?: string,
 ): {
   unmountInstance: () => void
 } {
@@ -169,7 +173,7 @@ export function mountInstance(
     },
   }
 
-  const { unmount } = mount(Host)
+  const { unmount } = mount(Host, idPrefix)
   return { unmountInstance: unmount }
 }
 
@@ -202,14 +206,23 @@ export function isZodResult(result: unknown): result is SafeParseReturnType<any,
   return isPlainObject(result) && hasOwn(result, 'success')
 }
 
+/** Explicit validation rules; ordinary component events do not use this task protocol. */
+export type ValidationRule = ZodType | ((value: any, apis?: any) => unknown)
+
 export function useValidation() {
   const validation = createRequestGuard()
   onBeforeUnmount(() => validation.invalidate())
   const errorMessage: Ref<string> = ref('')
 
-  const validate = async (ruleOrRules: any | any[], value: any, apis?: any): Promise<boolean> => {
+  const validate = async (
+    ruleOrRules: ValidationRule | ValidationRule[] | undefined,
+    value: unknown,
+    apis?: unknown,
+  ): Promise<boolean> => {
     const isCurrent = validation.begin()
-    const rules = normalizeToArray(ruleOrRules).filter((rule) => isZodRule(rule) || isFunction(rule))
+    const rules = normalizeToArray(ruleOrRules).filter(
+      (rule): rule is ValidationRule => isZodRule(rule) || isFunction(rule),
+    )
 
     const results = await Promise.all(
       rules.map((rule) => (isZodRule(rule) ? rule.safeParseAsync(value) : rule(value, apis))),
@@ -240,7 +253,13 @@ export function useValidation() {
     errorMessage.value = ''
   }
 
-  const validateWithTrigger = async <T>(validateTrigger: T[], trigger: T, rules: any, value: any, apis?: any) => {
+  const validateWithTrigger = async <T>(
+    validateTrigger: T[],
+    trigger: T,
+    rules: ValidationRule | ValidationRule[] | undefined,
+    value: unknown,
+    apis?: unknown,
+  ) => {
     if (validateTrigger.includes(trigger)) {
       await validate(rules, value, apis)
     }

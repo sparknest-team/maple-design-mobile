@@ -1,7 +1,7 @@
-import type { ExtractPublicPropTypes, PropType } from 'vue'
+import type { ExtractPublicPropTypes } from 'vue'
 import { fieldPresentationProps } from '../_components/field-presentation/props'
-import type { Orientation } from '../utils/constants'
 import { emptyValueProp } from '../utils/empty-value'
+import { choiceIconSizeProp, choiceOrientationProp } from './choice-appearance-props'
 import { checkboxGroupValueProps, choiceOptionsProps } from './choice-group-props'
 import { checkboxValueProps } from './choice-value-props'
 
@@ -25,7 +25,7 @@ export const checkboxProps = {
   /** 实例未选中颜色，错误和禁用状态优先 */
   uncheckedColor: String,
   /** 图标尺寸；数字为 px，字符串为 CSS 长度 */
-  iconSize: [String, Number],
+  iconSize: choiceIconSizeProp,
   /** 是否启用点击波纹 */
   ripple: { type: Boolean, default: true },
   /** 原生表单字段名 */
@@ -39,7 +39,7 @@ export const checkboxGroupProps = {
   ...checkboxGroupValueProps,
   ...choiceOptionsProps,
   /** 组内排列方向 */
-  orientation: { type: String as PropType<Orientation>, default: 'horizontal' },
+  orientation: choiceOrientationProp,
   /** 是否禁用；未设置时继承表单 */
   disabled: { type: Boolean, default: undefined },
   /** 是否只读；未设置时继承表单 */

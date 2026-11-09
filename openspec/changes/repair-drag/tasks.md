@@ -1,0 +1,3 @@
+- [x] Reproduce interruption and dynamic boundary regressions
+- [x] Repair state, units and public contract
+- [x] Verify Drag/Fab consumers, types, native browser and gates

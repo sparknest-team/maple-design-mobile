@@ -140,8 +140,6 @@
 ../example/demos/scheduler-lifecycle.vue
 ```
 
-与 Cedar 使用相同场景、参数和交互顺序；示例源码仅替换组件前缀，主题与站点外壳各自保留。
-
 ## 阅读方向
 
 标题、内容和操作沿阅读顺序排列，默认浮动操作位于阅读终点，不镜像图片或自定义插槽。
@@ -149,7 +147,13 @@
 ## API
 
 <!-- same-source-api:start -->
-### Props
+`row-reverse` 反转横排封面与正文的顺序，阅读方向仍受容器方向影响。`floating-content` 收起时保留节点与内部状态，但会通过 inert 退出键盘和辅助技术交互；展开时恢复。浮层仅在 column 方向生效。
+
+当前浮层仍位于 Card 原有 DOM 位置。祖先的 transform 等属性可能改变 fixed 定位参照，祖先裁剪也可能遮挡浮层，因此不能保证覆盖整个视口。浮层目前不提供模态焦点管理或 Escape 关闭；需要模态交互时请使用 Dialog。
+
+默认关闭按钮使用当前语言的关闭文案，`close-button-aria-label` 可覆盖。`floating-duration` 为有限非负毫秒数，0 表示不延时；无效值回退为 250。
+
+### Card Props
 
 | 属性 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
@@ -172,15 +176,16 @@
 | ripple | 点击水波 | `boolean` | `false` |
 | floating | 全屏展开状态，支持 v-model:floating | `boolean` | `false` |
 | floating-duration | 全屏展开与关闭动画时长，单位 ms | `number` | `250` |
+| close-button-aria-label | 默认关闭按钮的可访问名称 | `string` | `—` |
 
-### Events
+### Card Events
 
 | 事件 | 参数与时机 |
 | --- | --- |
 | click | `(event: Event)`，点击卡片时触发 |
 | update:floating | `(value: boolean)`，内置关闭按钮请求关闭时发送 false；展开由父级设置 |
 
-### Slots
+### Card Slots
 
 | 插槽 | 说明 | 参数 |
 | --- | --- | --- |
@@ -195,69 +200,91 @@
 | floating-content | 全屏扩展内容，仅 column 布局渲染 | — |
 | close-button | 自定义关闭按钮；需自行更新 floating | — |
 
-### Methods
+### Card Methods
 
 无公开方法。
 
-### 跨端说明
+### 使用说明
 
 属性、事件参数及插槽契约一致。Cedar 省略 size 时继承全局尺寸（xs/sm 映射 sm，其余映射 md）；Maple 回退 md。需要一致密度时显式传入 size。主题和 CSS 前缀分别使用各端配置。
 Card 不再提供 loading 属性；加载遮罩使用 Loading 指令组合。
 <!-- same-source-api:end -->
 
-### 样式变量
+## CSS Variables
 
-| 变量名 | 默认值 |
-| --- | --- |
-| `--mp-card-hover-shadow` | `0 4px 12px rgb(0 0 0 / 12%)` |
-| `--mp-card-size-sm-title-font-size` | `16px` |
-| `--mp-card-size-sm-section-margin` | `8px 0 0` |
-| `--mp-card-size-sm-section-padding` | `0 12px` |
-| `--mp-card-padding` | `0 0 15px 0` |
-| `--mp-card-background` | `var(--mp-sys-color-surface-default)` |
-| `--mp-card-filled-background` | `var(--mp-sys-color-surface-muted)` |
-| `--mp-card-outline-color` | `var(--mp-sys-color-border-default)` |
-| `--mp-card-border-radius` | `4px` |
-| `--mp-card-image-width` | `100%` |
-| `--mp-card-row-image-width` | `140px` |
-| `--mp-card-image-height` | `200px` |
-| `--mp-card-row-height` | `140px` |
-| `--mp-card-title-color` | `var(--mp-sys-color-content-primary)` |
-| `--mp-card-title-font-size` | `20px` |
-| `--mp-card-title-padding` | `0 12px` |
-| `--mp-card-title-margin` | `15px 0 0 0` |
-| `--mp-card-title-row-margin` | `12px 0` |
-| `--mp-card-content-padding` | `0 16px` |
-| `--mp-card-content-margin` | `16px 0 0 0` |
-| `--mp-card-content-color` | `var(--mp-sys-color-content-tertiary)` |
-| `--mp-card-content-font-size` | `14px` |
-| `--mp-card-content-row-margin` | `16px 0 0 0` |
-| `--mp-card-subtitle-color` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-card-subtitle-font-size` | `14px` |
-| `--mp-card-subtitle-padding` | `0 12px` |
-| `--mp-card-subtitle-margin` | `10px 0 0 0` |
-| `--mp-card-subtitle-row-margin` | `-8px 0 0 0` |
-| `--mp-card-description-color` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-card-description-font-size` | `14px` |
-| `--mp-card-description-margin` | `20px 0 0 0` |
-| `--mp-card-description-padding` | `0 13px` |
-| `--mp-card-footer-padding` | `0 12px` |
-| `--mp-card-footer-right` | `13px` |
-| `--mp-card-footer-bottom` | `9px` |
-| `--mp-card-footer-margin` | `30px 0 0 0` |
-| `--mp-card-line-height` | `22px` |
-| `--mp-card-row-line-height` | `1.5` |
-| `--mp-card-floating-buttons-bottom` | `16px` |
-| `--mp-card-floating-buttons-right` | `16px` |
-| `--mp-card-floating-buttons-color` | `var(--mp-sys-color-content-primary)` |
-| `--mp-card-close-button-icon-size` | `24px` |
-| `--mp-card-close-button-size` | `56px` |
-| `--mp-card-close-button-background` | `#212121` |
-| `--mp-card-close-button-text-color` | `var(--mp-sys-color-content-on-dark)` |
-| `--mp-card-close-button-border-radius` | `50%` |
+普通背景、filled 背景和描边分别使用 `surface-default`、`surface-muted`、`border-default`；标题、正文和辅助文字分别使用 `content-primary`、`content-tertiary`、`content-secondary`。展开后的悬浮按钮使用 `content-primary`，深色关闭按钮上的文字和图标使用 `content-on-dark`。
 
-Card 主体颜色与 Cedar 共用 system 语义：普通背景、filled 背景和描边分别使用 `surface-default`、`surface-muted`、`border-default`；标题、正文、辅助文字分别使用 `content-primary`、`content-tertiary`、`content-secondary`。暗色主题沿用相同角色。展开后的悬浮按钮容器位于卡片表面，使用 `content-primary`；深色关闭按钮上的文字与图标使用 `content-on-dark`。关闭按钮背景 `#212121` 是 Card 专属值，并非全局主操作色。旧变量名的迁移关系见 Design Token 规范。
+<!-- component-css-variables:start -->
 
-### 变量消费约定
+通过以下变量定制组件外观。默认值随表中注明的主题或选择器条件变化；变量仅在对应的尺寸、变体和交互状态下生效。
 
-横向内容区独立消费 `--mp-card-content-row-margin`，不再误用标题间距。Card 的密度 API 明确只支持 sm/md，不套用表单控件五档。动效时长 `--mp-card-animation-duration` 默认为 `var(--mp-sys-motion-duration-slow)`，曲线 `--mp-card-animation-easing` 默认为 `var(--mp-sys-motion-easing-standard)`。reduced-motion 关闭所有 Card 动画分区的过渡。
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| 变量 | 默认值／条件 | 影响的样式 |
+| --- | --- | --- |
+| `--mp-card-animation-duration` | `var(--mp-sys-motion-duration-slow)` | `transition` |
+| `--mp-card-animation-easing` | `var(--mp-sys-motion-easing-standard)` | `transition-timing-function` |
+| `--mp-card-background` | `var(--mp-sys-color-surface-default)` | `background` |
+| `--mp-card-border-radius` | `4px` | `border-radius` |
+| `--mp-card-close-button-background` | `#212121` | `background-color` |
+| `--mp-card-close-button-border-radius` | `50%` | `border-radius` |
+| `--mp-card-close-button-icon-size` | `24px` | `font-size` |
+| `--mp-card-close-button-size` | `56px` | `height`, `width` |
+| `--mp-card-close-button-text-color` | `var(--mp-sys-color-content-on-dark)` | `color` |
+| `--mp-card-content-color` | `var(--mp-sys-color-content-tertiary)` | `color` |
+| `--mp-card-content-font-size` | `14px` | `font-size` |
+| `--mp-card-content-margin` | `16px 0 0 0` | `margin` |
+| `--mp-card-content-padding` | `0 16px` | `padding` |
+| `--mp-card-content-row-margin` | `16px 0 0 0` | `margin` |
+| `--mp-card-description-color` | `var(--mp-sys-color-content-secondary)` | `color` |
+| `--mp-card-description-font-size` | `14px` | `font-size` |
+| `--mp-card-description-margin` | `20px 0 0 0` | `margin` |
+| `--mp-card-description-padding` | `0 13px` | `padding` |
+| `--mp-card-filled-background` | `var(--mp-sys-color-surface-muted)` | `background-color` |
+| `--mp-card-floating-buttons-bottom` | `16px` | `bottom` |
+| `--mp-card-floating-buttons-color` | `var(--mp-sys-color-content-primary)` | `color` |
+| `--mp-card-floating-buttons-right` | `16px` | `inset-inline-end` |
+| `--mp-card-footer-bottom` | `9px` | `bottom` |
+| `--mp-card-footer-margin` | `30px 0 0 0` | `margin` |
+| `--mp-card-footer-padding` | `0 12px` | `padding` |
+| `--mp-card-footer-right` | `13px` | `inset-inline-end` |
+| `--mp-card-hover-shadow` | `0 4px 12px rgb(0 0 0%)` | `box-shadow` |
+| `--mp-card-image-height` | `200px` | `height` |
+| `--mp-card-image-width` | `100%` | `width` |
+| `--mp-card-line-height` | `22px` | `line-height` |
+| `--mp-card-outline-color` | `var(--mp-sys-color-border-default)` | `border` |
+| `--mp-card-padding` | `0 0 15px 0` | `padding` |
+| `--mp-card-row-height` | `140px` | `min-height` |
+| `--mp-card-row-image-width` | `140px` | `width` |
+| `--mp-card-row-line-height` | `1.5` | `line-height` |
+| `--mp-card-size-sm-section-margin` | `8px 0 0` | `margin` |
+| `--mp-card-size-sm-section-padding` | `0 12px` | `padding` |
+| `--mp-card-size-sm-title-font-size` | `16px` | `font-size` |
+| `--mp-card-subtitle-color` | `var(--mp-sys-color-content-secondary)` | `color` |
+| `--mp-card-subtitle-font-size` | `14px` | `font-size` |
+| `--mp-card-subtitle-margin` | `10px 0 0 0` | `margin` |
+| `--mp-card-subtitle-padding` | `0 12px` | `padding` |
+| `--mp-card-subtitle-row-margin` | `-8px 0 0 0` | `margin` |
+| `--mp-card-title-color` | `var(--mp-sys-color-content-primary)` | `color` |
+| `--mp-card-title-font-size` | `20px` | `font-size` |
+| `--mp-card-title-margin` | `15px 0 0 0` | `margin` |
+| `--mp-card-title-padding` | `0 12px` | `padding` |
+| `--mp-card-title-row-margin` | `12px 0` | `margin` |
+
+</div>
+
+将覆盖设置在组件实际根节点或弹层真实挂载祖先上。例如给该元素添加下列 class，再按需替换变量值：
+
+```css
+.component-theme {
+  --mp-card-background: var(--mp-sys-color-surface-default);
+}
+```
+
+显式行内样式及直接写入同一 CSS 属性的 Props 优先于样式表默认值。Teleport 后，普通 CSS 变量按实际挂载位置继承；使用 ThemeProvider 时，请遵循其局部主题与弹层配置规则。局部定制请直接覆盖组件变量；仅修改后代的 system 变量不会重新计算从根继承的组件别名。内部变量不属于公共 API。
+
+<!-- component-css-variables:end -->
+
+### 尺寸与动效
+
+横向内容区的间距由 `--mp-card-content-row-margin` 控制。Card 只支持 sm / md 两档尺寸。动效时长 `--mp-card-animation-duration` 默认为 `var(--mp-sys-motion-duration-slow)`，曲线 `--mp-card-animation-easing` 默认为 `var(--mp-sys-motion-easing-standard)`；启用减少动态效果时关闭 Card 的过渡。

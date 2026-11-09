@@ -16,7 +16,7 @@ Form 与 FormItem 的 content-align 支持 start、end、left、center、right�
 
 ### 布局切换与单项覆盖
 
-`edit-mode` 表示编辑模式：`direct` 始终显示控件；`popup` 打开移动编辑弹层。`readPretty` 是独立布尔属性。FormItem 和字段未设置时继承上层。字段旧 `presentation` 属性已移除，使用 `edit-mode` 配置编辑模式。`presentation="inline"` 迁移为 `edit-mode="direct"`，`layout="inline"` 不变。
+`edit-mode` 表示编辑模式：`direct` 始终显示控件；`popup` 打开移动编辑弹层。`readPretty` 是独立布尔属性。FormItem 和字段未设置时继承上层。
 
 组合切换 `vertical`、`horizontal`、`inline` 布局与 `direct / popup` 编辑方式及独立的 `readPretty` 阅读开关，对比标签、控件、字段值及长文字换行的对齐效果，已有数据保持不变。备注项可单独覆盖布局或恢复继承。`popup` 点击字段值进入弹层并确认保存；`readPretty` 通过 `read-pretty` 展示纯文字。
 
@@ -143,7 +143,7 @@ horizontal 默认标签占 5/24、内容占 19/24；Cedar 默认 horizontal，Ma
 
 <!-- demo-config-notes:end -->
 
-“暂停跨字段校验”将确认规则挂起到“返回跨字段结果”，返回时比较本次确认值与当前源代码（不是远端接口或提交开始时的源快照）。匹配值提交后等待中修改源代码，会返回依赖错误；修正确认值并Enter重试后通过。等待中原生重置会结清本地任务、清空模型与提交快照、保留历史计数，不产生迟到提交；停用/卸载也清理等待。不代表异步循环依赖或多请求顺序均已覆盖。
+“暂停跨字段校验”示例通过手动返回结果模拟异步校验。提交等待期间修改依赖字段、重置表单或卸载组件，会使该次提交失效；确认当前输入后可重新提交。
 
 未暂停时确认规则立即比较当前源代码。先匹配通过，再修改源代码，主动只校验确认值或重新提交会显示依赖错误；改正确认值后可按 Enter 或提交按钮提交。原生重置清空模型、反馈和上次提交值，提交次数累计不清零。依赖由业务主动复验，单纯编辑不保证已有成功态仍有效；本地示例不等于任意异步提交竞争或外部持久化。
 
@@ -216,6 +216,12 @@ Form 支持 `direct / popup`，未设置时保留字段各自的默认值；Form
 ../example/demos/field-panel-actions.vue
 ```
 
+### 确认事件来源
+
+```demo
+../example/demos/change-source.vue
+```
+
 ## 动态与异步字段
 
 ### 多字段异步聚合
@@ -233,11 +239,11 @@ Form 支持 `direct / popup`，未设置时保留字段各自的默认值；Form
 
 <!-- demo-config-notes:end -->
 
-显式调用validate()或validateField()会使等待中的旧原生submit失效：命令校验有自己的结果，不应让旧submit在完成后把旧错误或成功与当前模型混发。此后新的原生submit仍正常等待自己的字段校验并通知一次。该规则仅逻辑失效、不取消真实请求，不清空历史提交计数；既有方法签名不变，不保留旧的混发行为。仅编辑但未重新校验的快照协议仍未覆盖。
+显式调用validate()或validateField()会使等待中的旧原生submit失效：命令校验有自己的结果，不应让旧submit在完成后把旧错误或成功与当前模型混发。此后新的原生submit仍正常等待自己的字段校验并通知一次。该规则仅逻辑失效、不取消真实请求，不清空历史提交计数。等待中修改模型或规则也会使本次提交失效，需重新提交校验。
 
 “返回最新用户名结果 / 返回最新代码结果”优先结清对应字段最新任务，可让新submit先完成、旧结果最后返回。新成功后旧失败不追加提交或恢复错误；新失败后旧成功不追加提交或清除新错误。仍须等最新提交的两个字段都返回，单个字段返回不提交；默认“返回用户名/代码结果”继续返回最早任务。
 
-原生submit采用最新提交生效：旧提交仍等待时再次提交，使旧提交的submit/submit-success/submit-failed续体失效。用guest/bad提交后改为admin/1234再提交；先返回旧两个结果，原生提交计数应仍0，新提交仍等自己的两个结果。反向旧成功/新失败同理，旧成功不能提前报通过。这个规则不取消真实请求，也不处理仅编辑但没有再次提交的业务快照。
+原生submit采用最新提交生效：旧提交仍等待时再次提交，使旧提交的submit/submit-success/submit-failed续体失效。用guest/bad提交后改为admin/1234再提交；先返回旧两个结果，原生提交计数应仍0，新提交仍等自己的两个结果。反向旧成功/新失败同理，旧成功不能提前报通过。这个规则不取消真实请求；等待中修改模型或规则同样使旧提交失效。
 
 原生submit等待中调用resetFields（含原生reset）会使该提交失效；旧Promise结清后不得再发submit、submit-success或submit-failed。停用/卸载同样使旧提交失效，后续新提交仍正常校验。此为逻辑失效，不是取消远端请求；并发submit和跨字段异步依赖不在这个重置协议内。
 
@@ -285,6 +291,24 @@ Form 支持 `direct / popup`，未设置时保留字段各自的默认值；Form
 ../example/demos/field-range-boundaries.vue
 ```
 
+### 异步提交的输入归属
+
+原生提交只接受本次校验期间保持有效的响应式模型和规则。等待中修改任意模型字段（包括其他字段或改后恢复）、替换模型/规则、修改 FormItem 的规则/required/field，或增删已注册字段，会使本次提交失效。旧校验成功或失败都不再触发 submit、submit-success、submit-failed，也不触发自动错误滚动；需重新提交校验最新输入。这是逻辑失效，不取消请求、不自动重试，也不改变命令式 validate 的返回约定；已有提交历史保留。业务模型应使用响应式状态，让 Vue 能观察到输入变化。普通事件监听器返回的 Promise 不被收集。
+
+```demo
+../example/demos/submit-inputs.vue
+```
+
+### 动态字段与重置初值
+
+复用同一个 FormItem 时，field 变化会自动释放旧字段注册，并注册新的非空字段；清空 field 会取消注册。每个字段路径在该实例内保留首次可用初值，重访字段不会用当前编辑值覆盖初值。reset 按字段克隆初值，0、false、null 和缺失的 undefined 都保留。切换身份会取消旧编辑器、清理旧反馈，并使旧字段集合的校验回调失效；已经启动的命令式校验 Promise 仍独立结算，调用方管理自己的结果文案。
+
+已有模型对象中的缺失属性会记录为 undefined；替换模型或规则不重新建立已缓存初值。异步数据若应作为初值，可在数据就绪后绑定 field 或渲染 FormItem；重新创建实例会建立新的初值基线。
+
+```demo
+../example/demos/field-identity.vue
+```
+
 ## FormItem 表单项
 
 ### 介绍
@@ -294,7 +318,7 @@ Form 支持 `direct / popup`，未设置时保留字段各自的默认值；Form
 - 传入 `label`：外置标签布局，Input / Select 会自动关闭浮动 `hint`。
 - 不传 `label`：不渲染外置标签，控件继续使用浮动 placeholder。
 
-### 外置标签（推荐与 Cedar 对齐）
+### 外置标签
 
 传入 `label` 后使用外置标签，并可通过 `layout="vertical"` 纵向排列。
 
@@ -329,6 +353,8 @@ Form 支持 `direct / popup`，未设置时保留字段各自的默认值；Form
 ### 自定义表单控件
 
 自定义控件通过 `FormItem.useFormItem`（或 `Form.useFormItem`）接入错误态和校验触发器。
+
+在 `setup` 中调用 `useFormErrorDescription()`，将返回的 `describe(existingIds)` 绑定到实际交互元素的 `aria-describedby`，可保留已有描述并随 FormItem 错误显示或清除同步错误 ID。控件不在 FormItem 内时仅保留已有描述。
 
 示例使用原生按钮提供 Enter/Space 操作与 checkbox 语义，读取 `mergedDisabled` / `mergedReadonly` 继承 Form 和 FormItem 状态。未传的布尔配置使用 `undefined`，避免覆盖父级；点击切换值后通知 `eventHandlers.onChange`，焦点事件也交给表单。
 
@@ -376,7 +402,15 @@ Form 支持 `direct / popup`，未设置时保留字段各自的默认值；Form
 ../example/demos/empty-text.vue
 ```
 
+## 使用说明
+
+### 校验结果与异常
+
+函数规则返回 true 表示通过，返回错误文字或 false 表示业务校验不通过。意外 throw 或 Promise 拒绝仍会使公开 `validate()` 拒绝，调用方需要处理该异常；当前任务会释放 validating，不合成新的业务错误，之前已有的业务错误消息继续保留。旧任务异常不会清理更新任务的等待状态。
+
 ## API
+
+通过 edit-mode 设置编辑方式，通过 read-pretty 设置阅读状态。内部描述符名称 fieldEditModeProp 不是 Form 或 FormItem 的公开属性。
 
 ### 空值识别与阅读空文案
 
@@ -389,9 +423,7 @@ Form / FormItem 通过 `empty-values` 提供空值识别策略；字段自己的
 
 以上是字段展示层 API；纯面板不因此新增阅读模式。Form 与 FormItem 提供继承配置。empty-value 的现有类型与默认输出仍按该组件原 API 执行。
 
-### 属性
-
-#### Form Props
+### Form Props
 
 | 参数                       | 说明                                                                                                    | 类型                                     | 默认值                    |
 | -------------------------- | ------------------------------------------------------------------------------------------------------- | ---------------------------------------- | ------------------------- |
@@ -409,15 +441,13 @@ Form / FormItem 通过 `empty-values` 提供空值识别策略；字段自己的
 | `label-col-flex`           | 标签 flex；单位字符串为宽度，数字为伸缩比例                                                             | _number \| string_                       | `-`                       |
 | `auto-label-width`         | 对齐参与自动计算的横向标签最大自然宽度                                                                  | _boolean_                                | `false`                   |
 | `size`                     | 表单控件尺寸，由 FormItem 和控件继承                                                                    | _'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'_   | `-`                       |
-| `rules`                    | 按字段名配置的表单校验规则                                                                              | _Record<string, rule \| rule[]>_         | `-`                       |
+| `rules`                    | 按字段名配置的表单校验规则                                                                              | `FormRules`         | `-`                       |
 | `readonly`                 | 是否只读                                                                                                | _boolean_                                | `-`                       |
 | `disabled`                 | 是否禁用                                                                                                | _boolean_                                | `-`                       |
 | `scroll-to-error`          | 校验失败后滚动到页面顺序的第一个（`start`）或最后一个（`end`）错误字段；不是视口对齐方式                | _'start' \| 'end'_                       | `-`                       |
 | `scroll-to-error-offset-y` | 滚动到校验不通过的表单项的位置偏移量                                                                    | _number \| string_                       | `0`                       |
 
-### 方法
-
-#### Form Methods
+### Form Methods
 
 | 方法名          | 说明                                                            | 参数                                                       | 返回值                                                 |
 | --------------- | --------------------------------------------------------------- | ---------------------------------------------------------- | ------------------------------------------------------ |
@@ -428,9 +458,7 @@ Form / FormItem 通过 `empty-values` 提供空值识别策略；字段自己的
 | `setFields`     | 批量设置表单项的值或错误状态                                    | `Record<string, { value?; status?; message? }>`            | `-`                                                    |
 | `scrollToField` | 滚动到指定的表单项                                              | `field: string`                                            | `-`                                                    |
 
-### 事件
-
-#### Form Events
+### Form Events
 
 | 事件名           | 说明           | 参数                                       |
 | ---------------- | -------------- | ------------------------------------------ |
@@ -439,17 +467,13 @@ Form / FormItem 通过 `empty-values` 提供空值识别策略；字段自己的
 | `submit-failed`  | 校验失败时触发 | `data: { values; errors }`、`event: Event` |
 | `reset`          | 表单重置时触发 | `event: Event`                             |
 
-### 插槽
-
-#### Form Slots
+### Form Slots
 
 | 插槽名    | 说明     | 参数 |
 | --------- | -------- | ---- |
 | `default` | 表单内容 | `-`  |
 
-## FormItem API
-
-### 属性
+### FormItem Props
 
 | 参数                | 说明                                                                                                    | 类型                                                   | 默认值           |
 | ------------------- | ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------ | ---------------- |
@@ -485,16 +509,16 @@ Form / FormItem 通过 `empty-values` 提供空值识别策略；字段自己的
 | `readonly`          | 是否只读；未传时继承 Form                                                                               | _boolean_                                              | `-`              |
 | `size`              | 控件尺寸；未传时继承 Form                                                                               | _'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'_                 | `-`              |
 | `no-style`          | 去除标签与错误信息样式，仅保留校验能力                                                                  | _boolean_                                              | `false`          |
-| `rules`             | 校验规则（函数 / Zod / 数组）                                                                           | _any_                                                  | `-`              |
-| `validate-trigger`  | 触发校验的时机；`clear` 仅由控件清空动作触发，不等同于 `change`                                         | _FormItemValidateTrigger \| FormItemValidateTrigger[]_ | `'change'`       |
+| `rules`             | 校验规则（函数 / Zod / 数组）                                                                           | `FormRule \| FormRule[]`                                                  | `-`              |
+| `validate-trigger`  | 触发校验的时机；`clear` 仅由控件清空动作触发，不等同于 `change`                                         | _FormItemValidateTrigger \| FormItemValidateTrigger[]_<br>`FormItemValidateTrigger: 'input' \| 'change' \| 'focus' \| 'blur' \| 'clear'` | `'change'`       |
 
-### 事件
+### FormItem Events
 
 | 事件名     | 说明           | 参数             |
 | ---------- | -------------- | ---------------- |
 | `validate` | 校验完成时触发 | `valid: boolean` |
 
-### 插槽
+### FormItem Slots
 
 | 插槽名    | 说明           |
 | --------- | -------------- |
@@ -503,7 +527,7 @@ Form / FormItem 通过 `empty-values` 提供空值识别策略；字段自己的
 | `help`    | 自定义帮助信息 |
 | `extra`   | 自定义额外信息 |
 
-### 方法
+### FormItem Methods
 
 | 方法名          | 说明                         | 参数 | 返回值                                 |
 | --------------- | ---------------------------- | ---- | -------------------------------------- |
@@ -511,29 +535,88 @@ Form / FormItem 通过 `empty-values` 提供空值识别策略；字段自己的
 | `clearValidate` | 清空校验状态                 | `-`  | `-`                                    |
 | `resetField`    | 重置字段值到初始值并清空校验 | `-`  | `-`                                    |
 
-### 样式变量
-
-| 变量名                       | 默认值                            |
-| ---------------------------- | --------------------------------- |
-| `--mp-form-item-label-width` | `88px`（`inline` 布局下标签宽度） |
-| `--mp-form-item-label-gap`   | `12px`                            |
-
-### 类型定义
+## Types
 
 ```ts
 type FormItemValidateTrigger = 'change' | 'input' | 'focus' | 'blur' | 'clear'
-type FormItemLayout = 'vertical' | 'horizontal'
+type FormItemLayout = 'vertical' | 'horizontal' | 'inline'
 ```
 
 `read-pretty` 为独立布尔属性，与 `readonly`、`disabled` 同级；字段 > FormItem > Form 继承，显式 `false` 覆盖父级。默认 `false`。纯阅读不显示编辑器。
 
-### Brand appearance tokens
+### Maple 规则协议
 
-| CSS variable                  | Default |
-| ----------------------------- | ------- |
-| `--mp-form-label-min-height`  | `24px`  |
-| `--mp-form-label-padding-top` | `4px`   |
-| `--mp-form-label-line-height` | `1.4`   |
-| `--mp-form-help-line-height`  | `1.4`   |
+FormRules 是按字段名组织的 FormRule 或其数组。FormRule 支持函数或 Zod schema，不接受 Cedar FieldRule 规则对象；开发环境对不支持的规则结构给出属性诊断。必填校验和星号使用 FormItem.required，不使用只有装饰、没有实际校验的 rules.required 对象。函数接收 `(value, context)`，context 含当前 model 和 field；候选保存校验使用候选模型。正常返回 true 才表示通过，其他返回值按 String 转为错误文字；可返回 Promise。Zod 通过 safeParseAsync 运行，取首条 issue 的 message。
 
-函数规则返回 true 表示通过，返回错误文字或 false 表示业务校验不通过。意外 throw 或 Promise 拒绝仍会使公开 `validate()` 拒绝，调用方需要处理该异常；当前任务会释放 validating，不合成新的业务错误，之前已有的业务错误消息继续保留。旧任务异常不会清理更新任务的等待状态。
+意外 throw 或 Promise 拒绝会让公开 validate 拒绝，调用方用 try/catch 处理；最新任务会释放 validating，保留之前的业务错误，不转成业务失败通知。旧任务异常不会清除新任务的等待状态。FormItem 的 validate 事件仅通知最新正常结算的布尔结果，不承担任务执行。Form.useValidation、Form.useForm、Form.useFormItem 和 FormItem.useFormItem 保持现有组合扩展职责。
+
+```ts
+import type { FormRule, FormRules, FormRuleContext } from '@maple-design/ui'
+const nameRule: FormRule<string> = async (value, context) => {
+  await Promise.resolve()
+  return value.length > 0 || `${context.field} is required`
+}
+const rules: FormRules = { name: nameRule }
+```
+
+### 公开校验与通知合同
+
+Form 与 FormItem 的默认插槽没有作用域参数；FormItem 还提供 label、help、extra 插槽，均不通过参数操作模型。Form 使用 model 对象及字段路径管理状态，不以插槽参数替代业务模型。
+
+`validate(callback?)` 和 `validateField(fields, callback?)` 等待对应规则，成功返回 undefined，业务失败返回按字段聚合的错误对象；回调只通知当前有效任务。错误记录包含 field、message、label、value、type、isRequiredError。value 保留原字段值，不先转换成显示文字。
+
+submit-success 先于 submit 通知，业务校验失败时 submit-failed 先于 submit。编辑会话未完成的阻止分支只通知 submit-failed，其 errors.editing 只有 field="editing" 与 message，不伪造字段校验信息；公开类型 FormSubmitError 区分该提示与完整 ValidatedError。
+
+这些事件是通知，不等待监听器 Promise，也不自动执行请求或切换 loading。业务异步保存自行控制 loading。原生 reset 会阻止默认行为、执行 resetFields 后通知 reset；Form 的 resetFields 会写回 model，与 FilterForm 内部 Form 的职责不同。
+
+`beforeCommit` 属于支持编辑事务的字段组件，签名为 `(payload, done, context) => void | boolean | Promise<void | boolean>`；payload 含 value、previousValue，context 含 signal 和可选 event。返回 undefined 表示等待 done；返回布尔或 Promise 按结果结算。它不是 Form 的 submit 事件或通用加载入口。
+
+```ts
+import type {
+  FormProps, FormItemProps, FormInstance, FormItemInstance,
+  ValidatedError, FormValidateErrors, FieldData,
+  FormEmits, FormSlots, FormItemSlots, FormSubmitError,
+  BeforeFieldCommit,
+} from '@maple-design/ui'
+```
+
+## CSS Variables
+
+<!-- component-css-variables:start -->
+
+通过以下变量定制组件外观。默认值随表中注明的主题或选择器条件变化；变量仅在对应的尺寸、变体和交互状态下生效。
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| 变量 | 默认值／条件 | 影响的样式 |
+| --- | --- | --- |
+| `--mp-form-extra-margin-top` | `6px` | `margin-top` |
+| `--mp-form-extra-text-color` | `var(--mp-sys-color-content-secondary)` | `color` |
+| `--mp-form-extra-text-font-size` | `12px` | `font-size` |
+| `--mp-form-help-line-height` | `1.4` | `line-height` |
+| `--mp-form-item-asterisk-margin` | `4px` | `margin-inline-end`, `margin-inline-start` |
+| `--mp-form-item-label-gap` | `12px` | `margin-inline-end`, `padding-inline-end` |
+| `--mp-form-item-label-width` | `88px` | `flex`, `width` |
+| `--mp-form-label-line-height` | `1.4` | `line-height` |
+| `--mp-form-label-min-height` | `24px` | `min-height` |
+| `--mp-form-label-text-color` | `var(--mp-sys-color-content-primary)` | `color` |
+| `--mp-form-required-symbol-color` | `var(--mp-sys-color-content-danger)` | `color` |
+| `--mp-form-size-md-item-margin-bottom` | `16px` | `margin-bottom` |
+| `--mp-form-size-md-label-font-size` | `14px` | `font-size` |
+| `--mp-form-tooltip-margin-left` | `var(--mp-sys-space-2)` | `margin-inline-start` |
+| `--mp-form-tooltip-text-color` | `var(--mp-sys-color-content-secondary)` | `color` |
+| `--mp-form-vertical-label-margin-bottom` | `8px` | `margin-bottom` |
+
+</div>
+
+将覆盖设置在组件实际根节点或弹层真实挂载祖先上。例如给该元素添加下列 class，再按需替换变量值：
+
+```css
+.component-theme {
+  --mp-form-extra-text-color: var(--mp-sys-color-content-secondary);
+}
+```
+
+显式行内样式及直接写入同一 CSS 属性的 Props 优先于样式表默认值。Teleport 后，普通 CSS 变量按实际挂载位置继承；使用 ThemeProvider 时，请遵循其局部主题与弹层配置规则。局部定制请直接覆盖组件变量；仅修改后代的 system 变量不会重新计算从根继承的组件别名。内部变量不属于公共 API。
+
+<!-- component-css-variables:end -->

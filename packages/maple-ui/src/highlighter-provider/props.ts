@@ -6,7 +6,7 @@ export interface CodeToHtmlOptions {
 }
 
 export interface Highlighter {
-  codeToHtml: (code: string, options: CodeToHtmlOptions) => Promise<string>
+  codeToHtml: (code: string, options: CodeToHtmlOptions) => string | Promise<string>
 }
 
 export const props = {

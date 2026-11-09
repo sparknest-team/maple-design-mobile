@@ -1,0 +1,1 @@
+Align Time and TimeRange update/change event types with configured nullable/timestamp/Date clear outputs. Keep normal select formatted-string protocol and range partial selection. Export field emits/read/slot/expose types with existing Cedar-only custom trigger slot; do not invent mobile default/loading-icon support or panel capabilities.

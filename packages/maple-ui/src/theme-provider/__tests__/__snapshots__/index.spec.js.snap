@@ -1,0 +1,5 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`themeProvider component 1`] = `"<div class="mp-theme-provider" style="--mp-cell-font-size: 30px;"></div>"`;
+
+exports[`themeProvider tag 1`] = `"<span class="mp-theme-provider"></span>"`;

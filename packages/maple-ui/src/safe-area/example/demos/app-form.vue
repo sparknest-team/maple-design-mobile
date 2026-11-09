@@ -1,6 +1,7 @@
 <script setup>
 import { computed, nextTick, onBeforeUnmount, onMounted, reactive, ref, watch } from 'vue'
 import demoVideo from './assets/drive.webm?url'
+import { duoViewports } from './duo-presets'
 
 const form = ref(null)
 const disabled = ref(false)
@@ -151,13 +152,24 @@ function rejected(files) {
   result.value = files.map(({ reason }) => reasons[reason] || '附件未通过校验').join('；')
 }
 const orientation = ref('portrait')
+const viewportPreset = ref('portrait')
+const viewportHeightMode = ref('small')
+const duoViewport = computed(() => duoViewports[viewportPreset.value])
 const insets = reactive({ top: 24, right: 0, bottom: 34, left: 0 })
 const previewRoot = ref(null)
 const previewScroll = ref(null)
 const nativeSize = ref(false)
 const availableWidth = ref(390)
-const viewportWidth = computed(() => (orientation.value === 'landscape' ? 844 : 390))
-const viewportHeight = computed(() => (orientation.value === 'landscape' ? 390 : 720))
+const viewportWidth = computed(() => duoViewport.value?.width ?? (orientation.value === 'landscape' ? 844 : 390))
+const viewportHeight = computed(() =>
+  duoViewport.value
+    ? viewportHeightMode.value === 'large'
+      ? duoViewport.value.largeHeight
+      : duoViewport.value.smallHeight
+    : orientation.value === 'landscape'
+      ? 390
+      : 720,
+)
 const previewScale = computed(() => (nativeSize.value ? 1 : Math.min(1, availableWidth.value / viewportWidth.value)))
 const canvasStyle = computed(() => ({
   width: `${viewportWidth.value * previewScale.value}px`,
@@ -176,17 +188,34 @@ const previewStyle = computed(() => ({
   ...Object.fromEntries(
     Object.entries(effectiveInsets.value).map(([side, value]) => [`--mp-safe-area-${side}`, `${value}px`]),
   ),
-  '--mp-field-presentation-viewport-max-height': `${(orientation.value === 'landscape' ? 390 : 720) - effectiveInsets.value.top}px`,
+  '--mp-field-presentation-viewport-max-height': `${viewportHeight.value - effectiveInsets.value.top}px`,
 }))
 function preset(value) {
+  if (value === 'duo-right' || value === 'duo-left') {
+    if (!duoViewport.value) {
+      viewportPreset.value = 'duo-outer-portrait'
+    }
+    const selected = duoViewports[viewportPreset.value]
+    orientation.value = selected.width > selected.smallHeight ? 'landscape' : 'portrait'
+    Object.assign(insets, selected.insets, value === 'duo-right' ? { left: 12, right: 72 } : { left: 72, right: 12 })
+    return
+  }
+  if (duoViewports[value]) {
+    viewportPreset.value = value
+    const selected = duoViewports[value]
+    orientation.value = selected.width > selected.smallHeight ? 'landscape' : 'portrait'
+    Object.assign(insets, selected.insets)
+    return
+  }
+  if (value === 'zero') {
+    Object.assign(insets, { top: 0, right: 0, bottom: 0, left: 0 })
+    return
+  }
+  viewportPreset.value = value
   orientation.value = value === 'landscape' ? 'landscape' : 'portrait'
   Object.assign(
     insets,
-    value === 'landscape'
-      ? { top: 0, right: 44, bottom: 21, left: 44 }
-      : value === 'zero'
-        ? { top: 0, right: 0, bottom: 0, left: 0 }
-        : { top: 24, right: 0, bottom: 34, left: 0 },
+    value === 'landscape' ? { top: 0, right: 44, bottom: 21, left: 44 } : { top: 24, right: 0, bottom: 34, left: 0 },
   )
 }
 function measure() {
@@ -239,7 +268,7 @@ onMounted(() => {
   mutationObserver.observe(previewRoot.value, { attributes: true, childList: true, subtree: true })
   measure()
 })
-watch([effectiveInsets, orientation], async () => {
+watch([effectiveInsets, orientation, viewportWidth, viewportHeight], async () => {
   await nextTick()
   measure()
 })
@@ -254,6 +283,11 @@ defineExpose({
   insets,
   orientation,
   measurements,
+  preset,
+  viewportPreset,
+  viewportHeightMode,
+  viewportWidth,
+  viewportHeight,
   calendarMode,
   calendarZone,
   rangeLock,
@@ -274,10 +308,39 @@ defineExpose({
       <mp-space wrap>
         <mp-button @click="preset('portrait')">竖屏刘海</mp-button>
         <mp-button @click="preset('landscape')">横屏刘海</mp-button>
+        <mp-button @click="preset('duo-right')">Duo 右侧避让（模拟）</mp-button>
+        <mp-button @click="preset('duo-left')">Duo 左侧避让（模拟）</mp-button>
         <mp-button @click="preset('zero')">四边归零</mp-button>
       </mp-space>
+      <mp-space wrap aria-label="Duo 视口预设">
+        <mp-button
+          v-for="(device, key) in duoViewports"
+          :key="key"
+          :aria-pressed="viewportPreset === key"
+          @click="preset(key)"
+          >{{ device.label }}</mp-button
+        >
+      </mp-space>
+      <mp-radio-group
+        v-if="duoViewport"
+        v-model="viewportHeightMode"
+        aria-label="Safari 工具栏状态"
+        :options="[
+          { label: '工具栏展开（小视口）', value: 'small' },
+          { label: '工具栏收起（大视口）', value: 'large' },
+        ]"
+        variant="button"
+        size="sm"
+      />
+      <p>
+        切换 Duo 预设会同时更新视口和四边模拟值。尺寸参考 Safari 27.1 的 CSS
+        视口，安全区是独立的压力测试值，不代表对应姿态的实测值。Safari 已避让的系统侧栏不应再重复补偿。
+      </p>
       <mp-checkbox v-model="nativeSize">原尺寸查看（可横向滚动）</mp-checkbox>
-      <p>模拟 {{ viewportWidth }} × {{ viewportHeight }} CSS px · 显示 {{ Math.round(previewScale * 100) }}%</p>
+      <p>
+        {{ duoViewport?.label ?? (orientation === 'landscape' ? '普通横屏' : '普通竖屏') }} · {{ viewportWidth }} ×
+        {{ viewportHeight }} CSS px · 显示 {{ Math.round(previewScale * 100) }}%
+      </p>
       <div class="brand-form-insets">
         <div v-for="(label, side) in { top: '顶部', right: '右侧', bottom: '底部', left: '左侧' }" :key="side">
           <span>{{ label }} inset（px）</span>
@@ -486,6 +549,7 @@ defineExpose({
           class="brand-form-screen"
           :style="previewStyle"
           :data-orientation="orientation"
+          :data-viewport-preset="viewportPreset"
           aria-label="模拟 App 视口"
         >
           <mp-safe-area class="brand-form-shell" :edges="['top', 'right', 'left']">

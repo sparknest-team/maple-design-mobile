@@ -1,0 +1,3 @@
+- [x] Reproduce public consumer type failures.
+- [x] Publish model/event/field slot contracts and update actual component emits.
+- [x] Verify both platforms consumers, types, browser, specs, docs and source contracts.

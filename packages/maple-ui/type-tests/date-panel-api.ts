@@ -91,11 +91,11 @@ void [toolsPanel, navigate, shortcutEvent, badPosition]
 
 const currentPanel: DatePickerProps = { showCurrent: false, showNowButton: true }
 const currentOptions: DatePickerOptions = { showNowButton: false }
-const rangeInteraction: DateRangePickerProps = { exchangeTime: false, showCurrent: false }
+const rangeInteraction: DateRangePickerProps = { showCurrent: false, showNowButton: true }
 // @ts-expect-error Removed pre-release current action name.
 const oldNow: DatePickerProps = { showNowBtn: true }
-// @ts-expect-error Range panels do not offer single-current selection.
-const rangeNow: DateRangePickerProps = { showNowButton: true }
+// @ts-expect-error Maple range panels do not expose Cedar's exchange policy.
+const rangeNow: DateRangePickerProps = { exchangeTime: false }
 void [currentPanel, currentOptions, rangeInteraction, oldNow, rangeNow]
 
 // @ts-expect-error Range current highlighting is owned by the top-level panel.
@@ -123,12 +123,10 @@ const rootAppearance: import('@maple-design/ui').DateRangeCalendarOptions = { hi
 const subpathAppearance: import('@maple-design/ui/date-range').DateRangeCalendarOptions = rootAppearance
 void subpathAppearance
 
-const timeView: import('@maple-design/ui').DateTimePickerOptions = {
-  use12Hours: true,
-  step: { minute: 15 },
-  hideDisabledOptions: true,
-}
-const dateTimeView: DatePickerProps = { timePickerProps: timeView }
+// @ts-expect-error Maple does not expose Cedar's nested time-view options.
+type TimeView = import('@maple-design/ui').DateTimePickerOptions
+// @ts-expect-error Maple does not expose Cedar's nested time-view configuration.
+const dateTimeView: DatePickerProps = { timePickerProps: { use12Hours: true } }
 // @ts-expect-error Nested time options cannot override date precision.
 const nestedTimeFormat: DatePickerProps = { timePickerProps: { format: 'ss' } }
 // @ts-expect-error Date constraints belong to the date root.
@@ -147,10 +145,14 @@ const mobileFieldWheel: DateProps = { pickerProps: { optionCount: 4 } }
 const mobileRangeViews: DateRangeProps = { pickerProps: { optionHeight: 36 }, datePickerProps: { hint: '设备' } }
 void [mobileFieldWheel, mobileRangeViews]
 
-const rootFieldPresentation: DateProps = { presentation: 'calendar' }
-const rootRangePresentation: DateRangeProps = { presentation: 'calendar' }
-const rootPanelPresentation: DatePickerProps = { presentation: 'calendarClock' }
+const rootFieldPresentation: DateProps = { panelType: 'calendar' }
+const rootRangePresentation: DateRangeProps = { panelType: 'calendar' }
+const rootPanelPresentation: DatePickerProps = { presentation: 'calendarPicker' }
 const rootRangePanelPresentation: DateRangePickerProps = { presentation: 'picker' }
+// @ts-expect-error Fields use panelType, not the standalone panel's presentation prop.
+const oldFieldPresentation: DateProps = { presentation: 'calendar' }
+// @ts-expect-error Maple does not provide a calendarClock presentation.
+const unsupportedPanelPresentation: DatePickerProps = { presentation: 'calendarClock' }
 // @ts-expect-error Field root owns presentation; nested Options cannot change it.
 const nestedFieldPresentation: DatePickerOptions = { presentation: 'calendar' }
 // @ts-expect-error Range field root owns presentation.
@@ -162,6 +164,8 @@ const nestedRangeSubpathPresentation: import('@maple-design/ui/date-range').Date
   presentation: 'calendar',
 }
 void [
+  oldFieldPresentation,
+  unsupportedPanelPresentation,
   rootFieldPresentation,
   rootRangePresentation,
   rootPanelPresentation,

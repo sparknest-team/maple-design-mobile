@@ -14,6 +14,14 @@
     border-radius: inherit;
   }
 
+  &__image[role='button'] {
+    cursor: pointer;
+    &:focus-visible {
+      outline: 2px solid currentColor;
+      outline-offset: -2px;
+    }
+  }
+
   &__image {
     display: block;
     width: 100%;

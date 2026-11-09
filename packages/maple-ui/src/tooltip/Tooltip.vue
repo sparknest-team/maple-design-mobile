@@ -13,7 +13,7 @@
   >
     <slot />
     <template #content>
-      <div v-bind="contentBindings" :id="contentId" role="tooltip">
+      <div v-if="!hideEmpty || updateContent()" v-bind="contentBindings" :id="contentId" role="tooltip">
         <slot name="content">{{ content }}</slot>
       </div>
     </template>
@@ -21,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-import { useAttrs, useId } from 'vue'
+import { Comment, Fragment, ref, Text, useAttrs, useId, useSlots, type VNode } from 'vue'
 import Trigger from '../trigger'
 import type { TriggerReferenceAttrs } from '../trigger'
 import { useTriggerWrapper } from '../trigger/wrapper'
@@ -42,6 +42,37 @@ const emit = defineEmits<{
   'click-outside': [event: Event]
 }>()
 const attrs = useAttrs()
+const slots = useSlots()
+function slotState(nodes: VNode[]): { valid: boolean; meaningful: boolean } {
+  let valid = false
+  let meaningful = false
+  for (const node of nodes) {
+    if (typeof node === 'string' || typeof node === 'number') {
+      valid = true
+      meaningful ||= Boolean(String(node).trim())
+      continue
+    }
+    if (!node || node.type === Comment) {
+      continue
+    }
+    if (node.type === Fragment && Array.isArray(node.children)) {
+      const child = slotState(node.children as VNode[])
+      valid ||= child.valid
+      meaningful ||= child.meaningful
+    } else {
+      valid = true
+      meaningful ||= node.type !== Text || Boolean(String(node.children ?? '').trim())
+    }
+  }
+  return { valid, meaningful }
+}
+const contentAvailable = ref(false)
+function updateContent() {
+  const content = slotState(slots.content?.() ?? [])
+  const available = content.valid ? content.meaningful : Boolean(props.content?.trim())
+  contentAvailable.value = available
+  return available
+}
 const contentId = `${createNamespace('tooltip').n()}-${useId()}`
 const appearance = useAppearance(props)
 const controls = useTriggerWrapper(props, attrs, () => appearance.triggerBindings.value)
@@ -50,7 +81,12 @@ const { contentBindings } = appearance
 
 function semanticReferenceAttrs(open: boolean): TriggerReferenceAttrs {
   const custom = typeof props.referenceAttrs === 'function' ? props.referenceAttrs(open) : props.referenceAttrs
-  return { ...custom, 'aria-describedby': open ? contentId : undefined }
+  const explicit = custom?.['aria-describedby']
+  const ids = [
+    typeof explicit === 'string' ? explicit : '',
+    open && (!props.hideEmpty || contentAvailable.value) ? contentId : '',
+  ].filter(Boolean)
+  return { ...custom, 'aria-describedby': ids.join(' ') || undefined }
 }
 
 defineExpose({

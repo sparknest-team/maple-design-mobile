@@ -80,3 +80,32 @@ test('generic TypeScript arrows and TSX both parse while changed bodies remain s
   )
   assert.match(await normalizeTypeScript('const render = () => <div />'), /<div/)
 })
+
+test('Vue parity ignores optional braces but retains types, literals and execution changes', async () => {
+  const left = `<template><button @click="run">Save</button></template><script setup lang="ts">function run(value: number) { if (value) save('a b') }</script>`
+  const right = left.replace("if (value) save('a b')", "if (value) { save('a b') }")
+  assert.equal(await normalizeVueSource(left), await normalizeVueSource(right))
+  for (const changed of [
+    right.replace('number', 'string'),
+    right.replace('a b', 'ab'),
+    right.replace('if (value)', 'if (!value)'),
+    right.replace('click="run"', 'click="other"'),
+  ]) {
+    assert.notEqual(await normalizeVueSource(left), await normalizeVueSource(changed))
+  }
+})
+
+test('static ref formatting is equivalent while bound ref precedence and ref identity are retained', async () => {
+  const left = '<template><div ref="panel" :id="name" /></template>'
+  const right = '<template><div :id="name" ref="panel" /></template>'
+  assert.equal(await normalizeVueSource(left), await normalizeVueSource(right))
+  assert.notEqual(await normalizeVueSource(left), await normalizeVueSource(right.replace('ref="panel"', 'ref="other"')))
+  assert.notEqual(
+    await normalizeVueSource('<template><div ref="panel" v-bind="attrs" /></template>'),
+    await normalizeVueSource('<template><div v-bind="attrs" ref="panel" /></template>'),
+  )
+  assert.notEqual(
+    await normalizeVueSource('<template><div ref="panel" :[name]="value" /></template>'),
+    await normalizeVueSource('<template><div :[name]="value" ref="panel" /></template>'),
+  )
+})

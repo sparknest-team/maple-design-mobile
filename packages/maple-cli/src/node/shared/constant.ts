@@ -50,9 +50,9 @@ export const HL_EN_TITLE_SLOTS_RE = /###\s*(?:[A-Za-z][\w-]*[ \t]+)?Slots(?:\r\n
 export const HL_EN_MD = 'en-US.md'
 export const HL_EN_WEB_TYPES_JSON = resolve(HL_DIR, 'web-types.en-US.json')
 
-export const HL_ZH_TITLE_ATTRIBUTES_RE = /###\s*(?:[A-Za-z][\w-]*[ \t]+)?属性(?:\r\n|\n)+/
-export const HL_ZH_TITLE_EVENTS_RE = /###\s*(?:[A-Za-z][\w-]*[ \t]+)?事件(?:\r\n|\n)+/
-export const HL_ZH_TITLE_SLOTS_RE = /###\s*(?:[A-Za-z][\w-]*[ \t]+)?插槽(?:\r\n|\n)+/
+export const HL_ZH_TITLE_ATTRIBUTES_RE = /###\s*(?:[A-Za-z][\w-]*[ \t]+)?(?:Props|属性)(?:\r\n|\n)+/i
+export const HL_ZH_TITLE_EVENTS_RE = /###\s*(?:[A-Za-z][\w-]*[ \t]+)?(?:Events|事件)(?:\r\n|\n)+/i
+export const HL_ZH_TITLE_SLOTS_RE = /###\s*(?:[A-Za-z][\w-]*[ \t]+)?(?:Slots|插槽)(?:\r\n|\n)+/i
 export const HL_ZH_MD = 'zh-CN.md'
 export const HL_ZH_WEB_TYPES_JSON = resolve(HL_DIR, 'web-types.zh-CN.json')
 

@@ -14,7 +14,8 @@ export function useSwipeClose(options: {
   let startY = 0
   let lastY = 0
   let downward = false
-  let scale = 1
+  let scaleX = 1
+  let scaleY = 1
   function reset() {
     const id = pointer
     pointer = undefined
@@ -42,8 +43,11 @@ export function useSwipeClose(options: {
     pointer = event.pointerId
     startX = event.clientX
     startY = lastY = event.clientY
-    const ratio = root.offsetWidth ? root.getBoundingClientRect().width / root.offsetWidth : 1
-    scale = ratio > 0 ? ratio : 1
+    const rect = root.getBoundingClientRect()
+    const ratioX = root.offsetWidth ? rect.width / root.offsetWidth : 1
+    const ratioY = root.offsetHeight ? rect.height / root.offsetHeight : 1
+    scaleX = Number.isFinite(ratioX) && ratioX > 0 ? ratioX : 1
+    scaleY = Number.isFinite(ratioY) && ratioY > 0 ? ratioY : 1
     downward = false
     dragging.value = true
     root.setPointerCapture?.(pointer)
@@ -52,8 +56,8 @@ export function useSwipeClose(options: {
     if (event.pointerId !== pointer || !options.enabled()) {
       return
     }
-    const dx = Math.abs(event.clientX - startX)
-    const dy = event.clientY - startY
+    const dx = Math.abs(event.clientX - startX) / scaleX
+    const dy = (event.clientY - startY) / scaleY
     if (dx > Math.abs(dy) && dx > 8) {
       reset()
       return
@@ -62,7 +66,7 @@ export function useSwipeClose(options: {
       downward = event.clientY > lastY
     }
     lastY = event.clientY
-    offset.value = Math.max(0, dy / scale)
+    offset.value = Math.max(0, dy)
     if (offset.value) {
       event.preventDefault()
     }

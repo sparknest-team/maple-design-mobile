@@ -54,15 +54,16 @@
         :class="n('input')"
         type="text"
         role="spinbutton"
-        :value="text"
+        :value="composition.isComposing.value ? inputRef?.value : text"
         :disabled="mergedDisabled"
         :readonly="mergedReadonly || disableInput || commitPending"
         :placeholder="mergedHint ? undefined : placeholder"
-        :aria-valuemin="Number.isFinite(min) ? min : undefined"
-        :aria-valuemax="Number.isFinite(max) ? max : undefined"
+        :aria-valuemin="Number.isFinite(bounds.min) ? bounds.min : undefined"
+        :aria-valuemax="Number.isFinite(bounds.max) ? bounds.max : undefined"
         :aria-valuenow="number ?? undefined"
         :aria-valuetext="text || undefined"
         :aria-invalid="mergedError || nativeAttrs['aria-invalid'] || undefined"
+        :aria-describedby="describeError(nativeAttrs['aria-describedby'])"
         :inputmode="nativeAttrs.inputmode ?? 'decimal'"
         @input="handleInput"
         @focus="handleFocus"
@@ -119,6 +120,7 @@
 import { computed, nextTick, ref, useAttrs, useId, watch, type InputHTMLAttributes } from 'vue'
 import FieldDecorator, { fieldDecoratorProps } from '../field-decorator'
 import { useFieldLocale } from '../field-decorator/use-field-locale'
+import { useFormErrorDescription } from '../form/error-description'
 import InputFeedback from '../input/InputFeedback.vue'
 import { captureInputSelection, splitInputAttrs } from '../input/native-attrs'
 import { useInputForm } from '../input/use-input-form'
@@ -127,22 +129,15 @@ import { useInputComposition } from '../utils/input-composition'
 import InputNumberStep from './InputNumberStep.vue'
 import type { StepMethod } from './number-arithmetic'
 import { inputNumberProps } from './props'
+import type { InputNumberEmits, InputNumberSlots } from './types'
 import { useNumberValue } from './use-number-value'
 import { useStepRepeat } from './use-step-repeat'
 
 defineOptions({ name: createNamespace('input-number').name, inheritAttrs: false })
 const props = defineProps(inputNumberProps)
-const emit = defineEmits<{
-  'update:modelValue': [value: number | null | undefined]
-  input: [value: number | null | undefined, text: string, event: Event]
-  change: [value: number | null | undefined, event: Event]
-  clear: [event: Event]
-  focus: [event: FocusEvent]
-  blur: [event: FocusEvent]
-  keydown: [event: KeyboardEvent]
-  step: [value: number, direction: StepMethod, event: Event]
-  'commit-error': [error: unknown]
-}>()
+const { describe: describeError } = useFormErrorDescription()
+const emit = defineEmits<InputNumberEmits>()
+defineSlots<InputNumberSlots>()
 const { n, classes } = createNamespace('input-number')
 const { t } = useFieldLocale()
 const { group, mergedSize, mergedDisabled, mergedReadonly, mergedError, feedback, eventHandlers, hasOuterLabel } =
@@ -160,23 +155,27 @@ const nativeAttrs = computed(() => ({ ...splitAttrs.value.native, ...props.input
 const generatedId = useId()
 const inputId = computed(() => nativeAttrs.value.id ?? generatedId)
 const composition = useInputComposition()
-const { text, number, isMin, isMax, edit, commit, step, clear, commitPending } = useNumberValue(props, blocked, {
-  update: (value) => emit('update:modelValue', value),
-  input: (value, text, event) => {
-    emit('input', value, text, event)
-    eventHandlers.value?.onInput?.(event)
+const { bounds, text, number, isMin, isMax, edit, commit, step, clear, commitPending } = useNumberValue(
+  props,
+  blocked,
+  {
+    update: (value) => emit('update:modelValue', value),
+    input: (value, text, event) => {
+      emit('input', value, text, event)
+      eventHandlers.value?.onInput?.(event)
+    },
+    change: (value, event) => {
+      emit('change', value, event)
+      eventHandlers.value?.onChange?.(event)
+    },
+    step: (value, direction, event) => emit('step', value, direction, event),
+    commitError: (error) => emit('commit-error', error),
+    clear: (event) => {
+      emit('clear', event)
+      eventHandlers.value?.onClear?.(event)
+    },
   },
-  change: (value, event) => {
-    emit('change', value, event)
-    eventHandlers.value?.onChange?.(event)
-  },
-  step: (value, direction, event) => emit('step', value, direction, event),
-  commitError: (error) => emit('commit-error', error),
-  clear: (event) => {
-    emit('clear', event)
-    eventHandlers.value?.onClear?.(event)
-  },
-})
+)
 const effectiveLoading = computed(() => props.loading || commitPending.value)
 const { start, stop } = useStepRepeat()
 watch(
@@ -197,10 +196,12 @@ watch(
 function processInput(event: Event) {
   const input = event.target as HTMLInputElement
   const restoreSelection = captureInputSelection(input)
+  const isCurrent = composition.capture()
   edit(input.value, event)
   nextTick(() => {
-    restoreSelection(text.value)
-    input.value = text.value
+    if (isCurrent() && inputRef.value === input) {
+      restoreSelection(text.value)
+    }
   })
 }
 function handleInput(event: Event) {

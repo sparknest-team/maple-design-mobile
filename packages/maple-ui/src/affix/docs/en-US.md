@@ -61,7 +61,7 @@ Scroll each bordered area separately to compare top/bottom affixing and offsets 
 ## API
 
 <!-- same-source-api:start -->
-### Props
+### Affix Props
 
 | Prop | Description | Type | Default |
 | --- | --- | --- | --- |
@@ -73,27 +73,55 @@ Scroll each bordered area separately to compare top/bottom affixing and offsets 
 | disabled | Disable affixing | `boolean` | `false` |
 | css-mode | Use native position: sticky, subject to ancestor overflow and container boundaries | `boolean` | `false` |
 
-### Events
+### Affix Events
 
 | Event | Arguments and timing |
 | --- | --- |
 | change | `(fixed: boolean, offset: number)`, emitted when the fixed state changes. While fixed, offset is the affix threshold; otherwise it is the distance to the corresponding container edge. Disabling affixing reports 0. |
 
-### Slots
+### Affix Slots
 
-| Slot | Description | Arguments |
+| Slot | Description | Prop |
 | --- | --- | --- |
 | default | Content to affix | — |
 
-### Methods
+### Affix Methods
 
 | Method | Description | Arguments | Returns |
 | --- | --- | --- | --- |
 | updatePosition | Rebind scrollers and recalculate on the next animation frame | — | `Promise<void>` |
 
-### Platform notes
+### Usage notes
 
 Props, event arguments, slots and public methods match across platforms. CSS mode follows browser sticky rules; examples use independent scroll containers.
 <!-- same-source-api:end -->
 
-`change` reports state transitions, so remeasuring an already fixed item does not repeat `true`; disabling a fixed item reports `false, 0`. Viewport units are reevaluated during measurement. CSS mode passes valid lengths to native sticky positioning; JS mode resolves numbers, numeric strings, px, rem, vw, vh, vmin and vmax. The target controls observation and JS measurement; native sticky remains constrained by actual CSS ancestors. Pending `updatePosition()` work cannot rebind a deactivated or replaced activation generation.
+`change` only reports transitions in fixed state: repeated measurements while fixed do not repeat true, and disabling releases fixation with false and 0. Viewport units are reevaluated on measurement. CSS mode delegates valid lengths to native sticky; JS mode resolves numbers, numeric strings, px, rem, vw, vh, vmin and vmax. target controls listeners and JS measurement, while native sticky remains constrained by actual CSS ancestors. After deactivation, a pending `updatePosition()` cannot restore listeners from an older activation.
+
+
+### Imports and event types
+
+The subentry default component and the named components from the subentry and root are the same component. Props includes actual listener parameters. Events remain notifications and do not await returned Promises. Use only the documented instance methods.
+
+```ts
+import Affix, { Affix as NamedAffix } from '@maple-design/ui/affix'
+import { Affix as RootAffix } from '@maple-design/ui'
+import type { AffixProps, AffixInstance } from '@maple-design/ui'
+import type { AffixProps as SubAffixProps } from '@maple-design/ui/affix'
+const options: AffixProps = { onChange: (fixed: boolean, offset: number) => fixed && offset.toFixed() }
+```
+
+
+### Units and diagnostics
+
+JS mode parses only finite numbers, decimal/scientific numeric strings, and px, rem, vw, vh, vmin or vmax, including negative offsets. Unsupported JS lengths such as em, %, calc() and var() warn in development and measure as zero instead of treating a numeric prefix as pixels. CSS mode delegates to native sticky, converting numeric strings to px and leaving other valid CSS expressions to the browser. NaN/Infinity/blank values receive Vue prop validation warnings. Invalid CSS offsets are removed and JS measurement falls back to zero. target changes listeners and JS measurement, not the actual native sticky scroll ancestor or clipping boundary.
+
+## CSS Variables
+
+<!-- component-css-variables:start -->
+
+This component declares no independent public CSS variables. Use the configuration and layout APIs documented on this page.
+
+Internal custom properties and measurement values are implementation details and are not customization APIs.
+
+<!-- component-css-variables:end -->

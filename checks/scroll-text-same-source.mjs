@@ -11,9 +11,11 @@ const maple = resolve(workspace, 'maple-design-mobile/packages/maple-ui/src')
 const files = [
   'back-top/BackTop.vue',
   'back-top/props.ts',
+  'back-top/__tests__/numeric-contract.spec.js',
   'back-top/use-back-top.ts',
   'ellipsis/Ellipsis.vue',
   'ellipsis/props.ts',
+  'ellipsis/__tests__/numeric-contract.spec.js',
   'back-top/__tests__/contract.test.ts',
   'back-top/__tests__/ssr.test.ts',
   'ellipsis/__tests__/contract.test.ts',
@@ -31,7 +33,9 @@ const normalize = (text) =>
     .replaceAll('--c-', '--mp-')
     .replaceAll('.c-', '.mp-')
 const canonical = (source, file) =>
-  file.endsWith('.ts') ? normalizeTypeScript(normalize(source)) : normalizeBoundImports(normalize(source))
+  file.endsWith('.ts') || file.endsWith('.js')
+    ? normalizeTypeScript(normalize(source))
+    : normalizeBoundImports(normalize(source))
 for (const file of files) {
   assert.equal(
     await canonical(readFileSync(resolve(cedar, file), 'utf8'), file),

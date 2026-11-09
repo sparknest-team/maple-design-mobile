@@ -48,7 +48,7 @@ const viewport = ref(0)
 const measured = ref<number[]>([])
 const measuredGap = ref(0)
 const local = ref(props.defaultValue)
-const current = computed(() => normalizeIndex((props.modelValue ?? local.value) - 1, keys.value.length))
+const current = computed(() => normalizeIndex(Math.trunc(props.modelValue ?? local.value) - 1, keys.value.length))
 const vertical = computed(() => props.orientation === 'vertical')
 const layout = computed(() =>
   carouselLayout(
@@ -157,7 +157,7 @@ function schedule() {
   }, autoConfig.value.interval)
 }
 function to(slideNumber: number, options: CarouselToOptions = {}) {
-  toIndex(slideNumber - 1, options)
+  toIndex(Math.trunc(slideNumber) - 1, options)
 }
 function toIndex(index: number, options: CarouselToOptions = {}) {
   if (!active || disposed) {
@@ -210,6 +210,13 @@ provide(carouselInjectionKey, {
   visible,
   itemStyle,
   slideLabel: (index: number) => text.value.slide(index + 1, keys.value.length),
+  focusIfHidden: (element) => {
+    const host = root.value
+    const focusedElement = host?.ownerDocument.activeElement
+    if (active && !disposed && host?.isConnected && element && focusedElement && element.contains(focusedElement)) {
+      host.focus({ preventScroll: true })
+    }
+  },
 })
 function checkVisibility() {
   hidden = false
@@ -245,9 +252,14 @@ function resize() {
         height: vertical.value ? rawGap : '0',
       })
       viewportEl.value.appendChild(probe)
-      const rect = probe.getBoundingClientRect()
-      measuredGap.value = Math.max(0, vertical.value ? rect.height : rect.width)
-      probe.remove()
+      try {
+        // Computed dimensions are layout-space CSS pixels; a visual rect includes ancestor transforms.
+        const probeStyle = probe.ownerDocument.defaultView?.getComputedStyle(probe)
+        const resolved = vertical.value ? probeStyle?.height : probeStyle?.width
+        measuredGap.value = Math.max(0, parseFloat(resolved || '') || 0)
+      } finally {
+        probe.remove()
+      }
     } else {
       measuredGap.value = Math.max(0, parseFloat(rawGap) || 0)
     }
@@ -526,7 +538,13 @@ watch(
       }
       scheduled = true
       const raw = element && view?.getComputedStyle(element).transitionDuration
-      const duration = props.moveSpeed ?? (raw ? parseFloat(raw) * (raw.includes('ms') ? 1 : 1000) : 180)
+      const computedDuration = raw ? parseFloat(raw) * (raw.includes('ms') ? 1 : 1000) : NaN
+      const duration =
+        props.moveSpeed !== undefined && Number.isFinite(props.moveSpeed)
+          ? Math.max(0, props.moveSpeed)
+          : Number.isFinite(computedDuration)
+            ? Math.max(0, computedDuration)
+            : 180
       if (!valid()) {
         return
       }
@@ -654,7 +672,7 @@ const Render = () => {
       role: 'region',
       'aria-roledescription': 'carousel',
       'aria-label': props.ariaLabel ?? text.value.label,
-      tabindex: props.keyboard ? 0 : undefined,
+      tabindex: attrs.tabindex ?? (props.keyboard ? 0 : -1),
       class: [
         classes(
           n(),

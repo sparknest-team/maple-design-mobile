@@ -32,10 +32,11 @@
         :disabled="triggerDisabled"
         :aria-expanded="computedOpen"
         aria-haspopup="menu"
+        :aria-label="triggerLabel"
       >
         <template #icon>
           <slot name="icon" :open="computedOpen">
-            <IconMenuDown />
+            <IconMenuDown aria-hidden="true" />
           </slot>
         </template>
       </Button>
@@ -51,6 +52,8 @@
 import { computed, ref } from 'vue'
 import { IconMenuDown } from '@maple-design/icons-vue'
 import Button, { ButtonGroup } from '../button'
+import { t } from '../locale'
+import { injectLocaleProvider } from '../locale-provider/provide'
 import Menu, { type MenuInstance } from '../menu'
 import { createNamespace } from '../utils/components'
 import { splitButtonProps } from './props'
@@ -64,6 +67,17 @@ const emit = defineEmits(['update:open', 'open-change', 'select', 'click'])
 
 const { n } = createNamespace('split-button')
 const menuRef = ref<MenuInstance>()
+const { t: localize } = injectLocaleProvider()
+const triggerLabel = computed(() => {
+  const attrs = props.triggerButtonProps
+  if (attrs?.['aria-label'] != null) {
+    return String(attrs['aria-label'])
+  }
+  if (attrs?.['aria-labelledby'] != null) {
+    return undefined
+  }
+  return localize?.('splitButton.moreActions') ?? t('splitButton.moreActions') ?? 'More actions'
+})
 const actionDisabled = computed(() => !!(props.disabled || props.buttonProps?.disabled))
 const triggerDisabled = computed(() => !!(props.disabled || props.triggerButtonProps?.disabled))
 

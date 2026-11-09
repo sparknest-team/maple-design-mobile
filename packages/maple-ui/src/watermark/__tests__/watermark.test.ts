@@ -87,7 +87,88 @@ describe('watermark', () => {
     wrapper.unmount()
   })
 
+  it('restores managed styles and class without a redraw loop', async () => {
+    const wrapper = mount(Watermark, { props: { content: 'Confidential' } })
+    await settle()
+    const layer = wrapper.element.querySelector(`.${PREFIX}-watermark__layer`) as HTMLElement
+    const canvas = vi.mocked(HTMLCanvasElement.prototype.toDataURL)
+    layer.style.setProperty('display', 'none', 'important')
+    layer.style.opacity = '0'
+    layer.style.position = 'static'
+    layer.className = 'tampered'
+    await settle()
+    expect(layer.className).toBe(`${PREFIX}-watermark__layer`)
+    expect(layer.style.display).toBe('')
+    expect(layer.style.opacity).toBe('')
+    expect(layer.style.position).toBe('')
+    expect(layer.style.backgroundImage).toContain('data:image/png')
+    const calls = canvas.mock.calls.length
+    await settle()
+    expect(canvas).toHaveBeenCalledTimes(calls)
+    await wrapper.setProps({ fullscreen: true })
+    await settle()
+    layer.style.opacity = '0'
+    await settle()
+    expect(layer.style.opacity).toBe('')
+    expect(layer.classList.contains(`${PREFIX}-watermark__layer--fullscreen`)).toBe(true)
+    wrapper.unmount()
+  })
+
+  it('leaves external changes alone when antiTamper is disabled', async () => {
+    const wrapper = mount(Watermark, { props: { content: 'Confidential', antiTamper: false } })
+    await settle()
+    const layer = wrapper.element.querySelector(`.${PREFIX}-watermark__layer`) as HTMLElement
+    layer.style.display = 'none'
+    await settle()
+    expect(layer.style.display).toBe('none')
+    wrapper.unmount()
+  })
+
+  it('redraws when its color changes but ignores unrelated styles', async () => {
+    const host = document.createElement('div')
+    document.body.appendChild(host)
+    const wrapper = mount(Watermark, { attachTo: host, props: { content: 'Confidential' } })
+    await settle()
+    const canvas = vi.mocked(HTMLCanvasElement.prototype.toDataURL)
+    const calls = canvas.mock.calls.length
+    host.style.padding = '1px'
+    await settle()
+    expect(canvas).toHaveBeenCalledTimes(calls)
+    ;(wrapper.element as HTMLElement).style.setProperty('--mp-watermark-content-color', 'blue')
+    await settle()
+    expect(canvas.mock.calls.length).toBeGreaterThan(calls)
+    wrapper.unmount()
+  })
+
   it('is SSR safe', async () => {
     await expect(renderToString(h(Watermark, { content: 'Confidential' }))).resolves.toContain(`${PREFIX}-watermark`)
+  })
+
+  it('uses a rounded default line height and validates alpha', async () => {
+    const wrapper = mount(Watermark, { props: { content: ['One', 'Two'], font: { fontSize: 15 } } })
+    await settle()
+    const context = vi.mocked(HTMLCanvasElement.prototype.getContext).mock.results[0].value as CanvasRenderingContext2D
+    expect(context.fillText).toHaveBeenNthCalledWith(1, 'One', 12, 10.5)
+    expect(context.fillText).toHaveBeenNthCalledWith(2, 'Two', 12, 31.5)
+    expect(watermarkProps.alpha.validator(NaN)).toBe(false)
+    expect(watermarkProps.alpha.validator(Infinity)).toBe(false)
+    expect(watermarkProps.alpha.validator(0)).toBe(true)
+    expect(watermarkProps.alpha.validator(1)).toBe(true)
+    wrapper.unmount()
+  })
+
+  it('reports canvas failures and handles them in redraw', async () => {
+    const wrapper = mount(Watermark, { props: { content: 'Confidential' } })
+    await settle()
+    const cause = new Error('canvas failed')
+    vi.mocked(HTMLCanvasElement.prototype.toDataURL).mockImplementationOnce(() => {
+      throw cause
+    })
+    await expect((wrapper.vm as any).redraw()).resolves.toBeUndefined()
+    expect(wrapper.emitted('error')?.[0]?.[0]).toEqual({ source: 'canvas', error: cause })
+    expect((wrapper.element.querySelector(`.${PREFIX}-watermark__layer`) as HTMLElement).style.backgroundImage).toBe(
+      'none',
+    )
+    wrapper.unmount()
   })
 })

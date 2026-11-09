@@ -1,5 +1,6 @@
 import type { StyleValue, VNode } from 'vue'
 import { computed, defineComponent, inject, nextTick, ref, toRefs, useId, watch } from 'vue'
+import { fieldEditorPanel } from '../_components/field-presentation/context'
 import { selectionEditorSurface } from '../_components/selected-options/context'
 import VirtualList from '../_components/virtual-list-v2'
 import { useOptionRequest } from '../_hooks/use-option-request'
@@ -14,7 +15,7 @@ import type { FilterOption, SelectOptionData, SelectOptionGroupInfo, SelectOptio
 import { getKeyFromValue, isGroupOptionInfo } from '../select/utils'
 import Trigger from '../trigger'
 import { createNamespace, getPrefixCls } from '../utils/components'
-import { normalizeTextInputValue } from '../utils/text-input-value'
+import { normalizeTextInputValue, resolveTextInputMaxLength } from '../utils/text-input-value'
 import { autoCompleteEmits } from './emits'
 import { autoCompleteProps } from './props'
 import type { AutoCompleteOption, AutoCompleteOptionData, AutoCompleteOptionInfo } from './props'
@@ -29,11 +30,12 @@ export default defineComponent({
   setup(props, { emit, attrs, slots, expose }) {
     const prefixCls = getPrefixCls('auto-complete')
     const editor = inject(selectionEditorSurface, undefined)
+    const nativeFieldEditor = inject(fieldEditorPanel, false) && !editor
     const { modelValue, fieldNames, caseSensitive, searchFields } = toRefs(props)
     const { mergedSize, mergedDisabled, mergedReadonly, mergedError, eventHandlers, group } = useInputForm(props)
     const source = useOptionRequest<AutoCompleteOption | import('../select/types').SelectOptionGroup>(
       () => props.options,
-      () => mergedDisabled.value || mergedReadonly.value,
+      () => mergedDisabled.value,
       (error) => emit('load-error', error),
       () => props.searchDelay,
       autoCompleteProps,
@@ -155,10 +157,10 @@ export default defineComponent({
       }
 
       const option = getOptionInfo(item)
-      const limit = typeof props.maxLength === 'object' ? props.maxLength : { length: props.maxLength }
+      const limit = resolveTextInputMaxLength(props.maxLength)
       const value = normalizeTextInputValue(option.value, {
         maxLength: limit.length,
-        errorOnly: 'errorOnly' in limit && limit.errorOnly,
+        errorOnly: limit.errorOnly,
         wordLength: props.wordLength,
         wordSlice: props.wordSlice,
       })
@@ -193,8 +195,9 @@ export default defineComponent({
       clearEvent = undefined
     }
 
-    const handleChange = (value: string | null, ev: Event) => {
-      if (ev.defaultPrevented) {
+    const handleChange = (value: string | null, ev?: Event) => {
+      // This child is always direct; only native input commits are forwarded.
+      if (!ev || ev.defaultPrevented) {
         return
       }
       emitChange(value, ev)
@@ -228,7 +231,16 @@ export default defineComponent({
     const handleDropdownScroll = (ev: Event) => emit('dropdown-scroll', ev)
     const handleDropdownReachBottom = (ev: Event) => emit('dropdown-reach-bottom', ev)
 
-    const { validOptions, optionInfoMap, validOptionInfos, activeKey, handleKeyDown } = useSelect({
+    const {
+      validOptions,
+      optionInfoMap,
+      validOptionInfos,
+      enabledOptionKeys,
+      activeKey,
+      setActiveKey,
+      scrollIntoView,
+      handleKeyDown,
+    } = useSelect({
       options,
       loading,
       inputValue: computedValue,
@@ -250,6 +262,26 @@ export default defineComponent({
     optionsReady.value = true
 
     const handleInputKeydown = (ev: KeyboardEvent) => {
+      if (ev.defaultPrevented || ev.isComposing || ev.keyCode === 229 || !editable.value) {
+        return
+      }
+      if ((ev.key === 'ArrowDown' || ev.key === 'ArrowUp') && !computedOpen.value) {
+        openDropdown()
+        if (computedOpen.value) {
+          const keys = enabledOptionKeys.value
+          const key = ev.key === 'ArrowUp' ? keys[keys.length - 1] : keys[0]
+          setActiveKey(key)
+          if (key) {
+            nextTick(() => {
+              if (computedOpen.value && activeKey.value === key) {
+                scrollIntoView(key)
+              }
+            })
+          }
+          ev.preventDefault()
+        }
+        return
+      }
       if (ev.key === 'Tab') {
         closeDropdown()
         return
@@ -414,8 +446,13 @@ export default defineComponent({
           onUpdate:open={handleOpenChange}
           v-slots={{ content: renderDropdown }}
         >
-          <div class={[classes(n()), className]} style={style as StyleValue}>
+          <div class={[classes(n(), [nativeFieldEditor, n('--native-editor')]), className]} style={style as StyleValue}>
             {renderInput(restAttrs)}
+            {nativeFieldEditor &&
+              editable.value &&
+              !loading.value &&
+              validOptionInfos.value.length === 0 &&
+              slots.empty && <div class={classes(n('empty'))}>{slots.empty()}</div>}
           </div>
         </Trigger>
       )

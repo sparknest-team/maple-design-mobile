@@ -4,11 +4,13 @@ import { componentSizes, type ComponentSize } from '../utils/constants'
 import { emptyTextProp, emptyValuesProp } from '../utils/empty-value'
 import { formLayoutProps } from './layout-props'
 import type { FormLayout } from './layout-props'
+import { isFormRules } from './rule-validation'
+import type { FormRules } from './types'
 
 export type FormScrollToError = 'start' | 'end'
 
 export type { FormLayout, FormLabelAlign } from './layout-props'
-export type FormRules = Record<string, unknown | unknown[]>
+export type { FormRules } from './types'
 
 export const props = {
   /** 表单内字段的统一编辑模式；未设置时保留各字段默认值。 */
@@ -32,7 +34,7 @@ export const props = {
     type: String as PropType<ComponentSize>,
     validator: (value: ComponentSize) => componentSizes.includes(value),
   },
-  rules: Object as PropType<FormRules>,
+  rules: { type: Object as PropType<FormRules>, validator: isFormRules },
   scrollToError: String as PropType<FormScrollToError>,
   scrollToErrorOffsetY: {
     type: [String, Number],

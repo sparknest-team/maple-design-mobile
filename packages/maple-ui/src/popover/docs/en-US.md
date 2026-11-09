@@ -58,24 +58,36 @@ Open popovers one at a time to compare placement, offsets and trigger-width fitt
 ../example/demos/interactive.vue
 ```
 
+## Empty content
+
+With `hide-empty`, the panel is hidden when the title is empty and the body contains only comments or whitespace. The open state is unchanged and the panel appears when content becomes available. Component nodes count as content.
+
 ## Reading direction
 
-Inherits the nearest `dir="ltr|rtl"` and supports runtime and nested overrides. Content defaults to reading start and portals inherit their source direction. Logical start/end alignment follows direction, while explicit left/right placement remains physical.
+Inherits the nearest `dir="ltr|rtl"`, including runtime changes and local overrides. Content defaults to inline-start alignment and popovers inherit source direction. Logical start/end follow reading direction; explicit left/right placements remain physical.
+
+## Usage notes
+
+### Configuration
+
+These are actual :root defaults. Prefer component variables for business customization; internal positioning variables are not public API.
+
+With Teleport, variables must be in the actual popup scope, for example through `popup-style`. Trigger-button variables do not automatically inherit into popups.
 
 ## API
 
-Popover inherits Trigger positioning, containers, controlled state, close policies and public methods.
+Popover inherits Trigger positioning, container, controlled state and `close` policies. `auto-fit-transform-origin` defaults to true; an omitted `animation-name` uses the Popover animation. `content-class` and `content-style` apply to the content panel; `popup-class` and `popup-style` apply to the outer positioning node. The instance exposes seven methods: `open`, `close`, `resize`, `allowClose`, `getReference`, `focusReference`, and `setReference`. Focus remains on the trigger when opening. The panel is non-modal and Tab order depends on its actual DOM mount location; provide an accessible keyboard path for interactive content.
 
-### Props
+### Popover Props
 
-| Arguments | Description | Type | Default |
+| Prop | Description | Type | Default |
 | --- | --- | --- | --- |
 | v-model:open | Controlled open state | `boolean` | — |
 | default-open | Initial uncontrolled state | `boolean` | `false` |
 | title | Title | `string` | — |
 | content | Body | `string` | — |
-| trigger | Interaction | `TriggerEvent \| TriggerEvent[]` | `click` |
-| placement | Preferred popup side relative to the trigger, default bottom. With the default auto-fit-position enabled, Trigger may flip and constrain it to the viewport when space is limited; this is not a fixed final position | `TriggerPlacement` | `bottom` |
+| trigger | Interaction | `TriggerEvent \| TriggerEvent[]`<br>`TriggerEvent: 'manual' \| 'focus' \| 'hover' \| 'click' \| 'contextMenu'` | `click` |
+| placement | Preferred popup side relative to the trigger, default bottom. With the default auto-fit-position enabled, Trigger may flip and constrain it to the viewport when space is limited; this is not a fixed final position | `TriggerPlacement`<br>`'left' \| 'right' \| 'bottom' \| 'top' \| 'top-start' \| 'top-end' \| 'bottom-start' \| 'bottom-end' \| 'left-start' \| 'left-end' \| 'right-start' \| 'right-end'` | `bottom` |
 | show-arrow | Show the arrow | `boolean` | `true` |
 | popup-offset | Main-axis distance | `number` | `10` |
 | popup-translate | Additional screen-axis translation | `[number, number] \| Record` | — |
@@ -85,7 +97,7 @@ Popover inherits Trigger positioning, containers, controlled state, close polici
 | unmount-on-close | Unmount after close; false retains draft state | `boolean` | `false` |
 | close-on-click-reference | Close when the trigger is clicked again | `boolean` | `true` |
 
-### Events
+### Popover Events
 
 | Event | Description |
 | --- | --- |
@@ -97,7 +109,7 @@ Popover inherits Trigger positioning, containers, controlled state, close polici
 | closed | Leave transition completes |
 | click-outside | Clicked outside the popup |
 
-### Slots
+### Popover Slots
 
 | Slot | Description |
 | --- | --- |
@@ -105,35 +117,51 @@ Popover inherits Trigger positioning, containers, controlled state, close polici
 | title | Title; falls back to the `title` prop |
 | content | Body; falls back to the `content` prop |
 
-### Methods
+### Popover Methods
 
 `open()`、`close()`、`resize()`、`allowClose()`、`getReference()`、`setReference()`、`focusReference()`。
 
-The reference is connected to the panel with `aria-controls` and `aria-expanded`. Use Trigger for unstyled positioning. Popover has no `defaultStyle`, `popoverClass`, or `elevation`; customize with tokens, `content-class`, or `content-style`.
+The reference is connected to the panel with `aria-controls` and `aria-expanded`. The panel is a group and does not declare aria-haspopup by default. When setting an explicit popup type through reference-attrs, ensure it matches the actual content semantics. Use Trigger for unstyled positioning. Popover has no `defaultStyle`, `popoverClass`, or `elevation`; customize with tokens, `content-class`, or `content-style`.
 
-## Public CSS variables
-
-These are actual :root defaults. Prefer component variables for business customization; internal positioning variables are not public API.
-
-| Variable | Default | Meaning and use case |
-| --- | --- | --- |
-| `--mp-popover-background` | `var(--mp-sys-color-surface-overlay)` | Content and arrow background |
-| `--mp-popover-text-color` | `var(--mp-sys-color-content-secondary)` | Body foreground |
-| `--mp-popover-border-color` | `var(--mp-sys-color-border-default)` | Content and arrow border color |
-| `--mp-popover-border-width` | `1px` | Content and arrow border width |
-| `--mp-popover-border-radius` | `var(--mp-sys-radius-md)` | Content border radius |
-| `--mp-popover-box-shadow` | `0 3px 3px -2px var(--mp-shadow-key-umbra-opacity), 0 3px 4px 0 var(--mp-shadow-key-penumbra-opacity), 0 1px 8px 0 var(--mp-shadow-key-ambient-opacity)` | Content shadow; retains platform differences |
-| `--mp-popover-arrow-z-index` | `1` | Arrow stacking within the current popup |
-| `--mp-popover-padding-horizontal` | `var(--mp-sys-space-7)` | Horizontal content padding |
-| `--mp-popover-padding-vertical` | `var(--mp-sys-space-6)` | Vertical content padding |
-| `--mp-popover-font-size` | `var(--mp-sys-font-size-md)` | Content font size |
-| `--mp-popover-line-height` | `var(--mp-line-height)` | Content line height |
-| `--mp-popover-title-text-color` | `var(--mp-sys-color-content-primary)` | Title foreground |
-| `--mp-popover-title-font-size` | `var(--mp-sys-font-size-lg)` | Title font size |
-| `--mp-popover-title-font-weight` | `var(--mp-sys-font-weight-medium)` | Title font weight |
-| `--mp-popover-title-content-gap` | `var(--mp-sys-space-2)` | Title-to-body gap |
-| `--mp-popover-animation-duration` | `var(--mp-sys-motion-duration-standard)` | Enter/leave duration; reduced motion may override it |
+## CSS Variables
 
 Maple dark mode retains a 2px radius and platform-specific shadows. Content and arrows share background/border variables, independent of Trigger style-loading order.
 
-With Teleport, variables must be in the actual popup scope, for example through `popup-style`. Trigger-button variables do not automatically inherit into popups.
+<!-- component-css-variables:start -->
+
+Use these variables to customize the component. Defaults may vary by the selector condition shown. Each variable applies to the corresponding size, variant and interaction states.
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Default / condition | Affected styles |
+| --- | --- | --- |
+| `--mp-popover-animation-duration` | `var(--mp-sys-motion-duration-standard)` | `transition` |
+| `--mp-popover-arrow-z-index` | `1` | `z-index` |
+| `--mp-popover-background` | `var(--mp-sys-color-surface-overlay)` | `background-color` |
+| `--mp-popover-border-color` | `var(--mp-sys-color-border-default)` | `border` |
+| `--mp-popover-border-radius` | `var(--mp-sys-radius-md)` | `border-radius` |
+| `--mp-popover-border-width` | `1px` | `border` |
+| `--mp-popover-box-shadow` | `0 3px 3px -2px var(--mp-shadow-key-umbra-opacity), 0 3px 4px 0 var(--mp-shadow-key-penumbra-opacity),     0 1px 8px 0 var(--mp-shadow-key-ambient-opacity)` | `box-shadow` |
+| `--mp-popover-font-size` | `var(--mp-sys-font-size-md)` | `font-size` |
+| `--mp-popover-line-height` | `var(--mp-line-height)` | `line-height` |
+| `--mp-popover-padding-horizontal` | `var(--mp-sys-space-7)` | `padding` |
+| `--mp-popover-padding-vertical` | `var(--mp-sys-space-6)` | `padding` |
+| `--mp-popover-text-color` | `var(--mp-sys-color-content-secondary)` | `color` |
+| `--mp-popover-title-content-gap` | `var(--mp-sys-space-2)` | `margin-top` |
+| `--mp-popover-title-font-size` | `var(--mp-sys-font-size-lg)` | `font-size` |
+| `--mp-popover-title-font-weight` | `var(--mp-sys-font-weight-medium)` | `font-weight` |
+| `--mp-popover-title-text-color` | `var(--mp-sys-color-content-primary)` | `color` |
+
+</div>
+
+Apply overrides to the rendered component root or the actual popup ancestor. For example, add the following class to that element and replace the value as needed:
+
+```css
+.component-theme {
+  --mp-popover-background: var(--mp-sys-color-surface-overlay);
+}
+```
+
+Explicit inline styles and props that write the same CSS property take precedence over stylesheet defaults. After Teleport, ordinary CSS variables inherit from the actual mount location. When using ThemeProvider, follow its local-theme and popup configuration rules. Override the component variable directly for local styling; root-level aliases are not recalculated merely because a descendant system variable changes. Internal variables are not public APIs.
+
+<!-- component-css-variables:end -->

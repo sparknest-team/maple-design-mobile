@@ -2,7 +2,6 @@ import { computed, provide, reactive, ref, toRefs, watch, type ExtractPropTypes,
 import { useFieldSearch } from '../_components/field-presentation/use-field-search'
 import { useSelectionSession } from '../_components/selection-field/use-selection-session'
 import { useOptionRequest } from '../_hooks/use-option-request'
-import { resolveDirection } from '../_utils/direction'
 import { isArray, isFunction, isNull, isUndefined } from '../_utils/is'
 import { getKeyDownHandler, KEYBOARD_KEY } from '../_utils/keyboard'
 import type { BaseType, UnionType } from '../_utils/types'
@@ -40,7 +39,7 @@ export function useCascaderController(
     useInputForm(props)
   const source = useOptionRequest<CascaderOption>(
     () => props.options,
-    () => mergedDisabled.value || mergedReadonly.value || !!props.readPretty,
+    () => mergedDisabled.value || !!props.readPretty,
     (error) => emit('load-error', error),
     () => 0,
     cascaderProps,
@@ -126,7 +125,7 @@ export function useCascaderController(
   }
 
   watch(
-    [options, lazyLoadOptions, mergedFieldNames],
+    [options, lazyLoadOptions, mergedFieldNames, checkStrictly, () => props.loadMore],
     ([_options, _lazyLoadOptions, _fieldNames]) => {
       optionMap.clear()
       leafOptionMap.clear()
@@ -235,7 +234,14 @@ export function useCascaderController(
 
   const handleRemove = (itemKey: string | number | symbol) => {
     const key = String(itemKey)
-    if (mergedDisabled.value || mergedReadonly.value || leafOptionMap.get(key)?.disabled || !props.multiple) {
+    if (
+      mergedDisabled.value ||
+      mergedReadonly.value ||
+      loading.value ||
+      session.pending.value ||
+      leafOptionMap.get(key)?.disabled ||
+      !props.multiple
+    ) {
       return
     }
     const values = getValidValues(emptyPolicy.isEmpty(committedValue.value) ? undefined : committedValue.value, {
@@ -356,7 +362,7 @@ export function useCascaderController(
   })
 
   const clearSelection = (e: Event) => {
-    if (mergedDisabled.value || mergedReadonly.value) {
+    if (mergedDisabled.value || mergedReadonly.value || loading.value || session.pending.value) {
       return
     }
     e.stopPropagation()
@@ -395,13 +401,21 @@ export function useCascaderController(
     eventHandlers.value?.onBlur?.(e)
   }
 
-  const { activeKey, activeOption, selectedPath, displayColumns, setActiveKey, setSelectedPath, getNextActiveNode } =
-    useSelectedPath(optionInfos, {
-      optionMap,
-      filteredLeafOptions,
-      showSearchPanel,
-      expandChild,
-    })
+  const {
+    activeKey,
+    activeOption,
+    selectedPath,
+    displayColumns,
+    setActiveKey,
+    setSelectedPath,
+    getNextActiveNode,
+    navigateLevel,
+  } = useSelectedPath(optionInfos, {
+    optionMap,
+    filteredLeafOptions,
+    showSearchPanel,
+    expandChild,
+  })
 
   provide(
     cascaderInjectionKey,
@@ -416,30 +430,6 @@ export function useCascaderController(
       valueMap: computedValueMap,
     }),
   )
-
-  // Screen left/right keys map to logical child/parent navigation without
-  // rewriting the original keyboard event or changing path/value order.
-  const navigateLevel = (event: Event, physicalRight: boolean) => {
-    if (showSearchPanel.value) {
-      return
-    }
-    event.preventDefault()
-    const forward = physicalRight !== (resolveDirection(event.target as Element) === 'rtl')
-    const node = activeOption.value
-    if (!node || node.disabled) {
-      return
-    }
-    if (forward && node.children) {
-      setSelectedPath(node.key)
-      const child = node.children.find((option) => !option.disabled)
-      if (child) {
-        setActiveKey(child.key)
-      }
-    } else if (!forward && node.parent) {
-      setSelectedPath(node.parent.key)
-      setActiveKey(node.parent.key)
-    }
-  }
 
   const dispatchKeyDown = getKeyDownHandler(
     new Map([
@@ -530,7 +520,7 @@ export function useCascaderController(
           key,
           value,
           label: props.formatLabel?.(option.path.map((item) => item.raw)) ?? getOptionLabel(option),
-          closable: !option.disabled,
+          closable: !loading.value && !option.disabled,
           tagProps: option.tagProps,
         })
       } else if (props.fallbackOption) {
@@ -543,7 +533,7 @@ export function useCascaderController(
           key,
           value,
           label,
-          closable: true,
+          closable: !loading.value,
         })
       }
     })

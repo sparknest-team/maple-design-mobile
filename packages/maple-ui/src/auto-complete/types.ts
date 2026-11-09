@@ -7,14 +7,13 @@ export type AutoCompleteEmits = {
   [Event in keyof typeof autoCompleteEmits]: Parameters<(typeof autoCompleteEmits)[Event]>
 }
 export interface AutoCompleteSlots {
-  default?(): VNodeChild
-  option?(scope: { data: AutoCompleteOptionInfo }): VNodeChild
   empty?(): VNodeChild
+  option?(scope: { data: AutoCompleteOptionInfo }): VNodeChild
   footer?(): VNodeChild
   prefix?(): VNodeChild
   suffix?(): VNodeChild
   'clear-icon'?(scope: { clear(event?: Event): void }): VNodeChild
-  read?(scope: { value: string; text: string }): VNodeChild
+  read?(scope: { value: string | null; text: string }): VNodeChild
 }
 export interface AutoCompleteExpose {
   refresh(): Promise<void>

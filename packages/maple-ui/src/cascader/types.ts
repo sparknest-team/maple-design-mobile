@@ -72,7 +72,7 @@ export interface CascaderOptionInfo extends CascaderOptionWithTotal {
   valueKey: string
   level: number
   index: number
-  value: string | number
+  value: BaseType | Record<string, any>
   label: string
   disabled: boolean
   selectionDisabled: boolean
@@ -81,4 +81,30 @@ export interface CascaderOptionInfo extends CascaderOptionWithTotal {
   children?: CascaderOptionInfo[]
   path: CascaderOptionInfo[]
   pathValue: any[]
+}
+
+export interface CascaderReadScope {
+  value: CascaderBaseValue | undefined
+  text: string
+}
+export type CascaderEmits = {
+  [Event in keyof typeof import('./emits').cascaderEmits]: Parameters<(typeof import('./emits').cascaderEmits)[Event]>
+}
+export interface CascaderSlots {
+  read?(scope: CascaderReadScope): import('vue').VNodeChild
+  option?(scope: { data: CascaderOptionInfo }): import('vue').VNodeChild
+  label?(scope: { data: import('../_components/selection-field/props').SelectionFieldItem }): import('vue').VNodeChild
+  selected?(): import('vue').VNodeChild
+  prefix?(): import('vue').VNodeChild
+  suffix?(): import('vue').VNodeChild
+  empty?(): import('vue').VNodeChild
+  'clear-icon'?(scope: { clear(event?: Event): void }): import('vue').VNodeChild
+  'arrow-icon'?(scope: { focus: boolean; menuOpen: boolean }): import('vue').VNodeChild
+  'loading-icon'?(): import('vue').VNodeChild
+  'search-icon'?(): import('vue').VNodeChild
+}
+export interface CascaderExpose {
+  refresh(): Promise<void>
+  focus(): void
+  blur(): void
 }

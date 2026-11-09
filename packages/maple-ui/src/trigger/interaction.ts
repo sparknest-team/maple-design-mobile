@@ -55,7 +55,12 @@ function includes(element: Element | undefined, event: Event | Node): boolean {
     return false
   }
   if ('composedPath' in event) {
-    return event.composedPath().includes(element) || Boolean(event.target && element.contains(event.target as Node))
+    return (
+      event.composedPath().includes(element) ||
+      Boolean(
+        event.target && typeof (event.target as Node).nodeType === 'number' && element.contains(event.target as Node),
+      )
+    )
   }
   return element.contains(event)
 }
@@ -343,21 +348,58 @@ export function useTriggerInteraction(
       referenceInteractions.get(owner)?.delete(peer)
     }
   }
-  onActivated(registerReference)
-  onDeactivated(unregisterReference)
-  onMounted(() => {
-    owner = api.reference.value?.ownerDocument ?? document
-    registerReference()
-    view = owner.defaultView
-    // Evaluate the current top layer before another reference opens a new one.
-    owner.addEventListener('click', onOutside, true)
-    view?.addEventListener('keydown', onKeydown)
-  })
-  onBeforeUnmount(() => {
+  let popupOwner: Document | undefined
+  let mounted = false
+  let suspended = false
+  const onPopupKeydown = (event: KeyboardEvent) => {
+    if (includes(api.popup.value ?? undefined, event)) {
+      onKeydown(event)
+    }
+  }
+  const unbind = () => {
     unregisterReference()
-    parent?.children.delete(context)
     owner?.removeEventListener('click', onOutside, true)
     view?.removeEventListener('keydown', onKeydown)
+    popupOwner?.removeEventListener('click', onOutside, true)
+    popupOwner?.defaultView?.removeEventListener('keydown', onPopupKeydown)
+    owner = undefined
+    view = undefined
+    popupOwner = undefined
+  }
+  const bind = () => {
+    unbind()
+    if (!mounted || suspended) {
+      return
+    }
+    owner = api.reference.value?.ownerDocument ?? api.popup.value?.ownerDocument ?? document
+    registerReference()
+    view = owner.defaultView
+    owner.addEventListener('click', onOutside, true)
+    view?.addEventListener('keydown', onKeydown)
+    const popupDocument = api.popup.value?.ownerDocument
+    if (popupDocument && popupDocument !== owner) {
+      popupOwner = popupDocument
+      popupOwner.addEventListener('click', onOutside, true)
+      popupOwner.defaultView?.addEventListener('keydown', onPopupKeydown)
+    }
+  }
+  watch([api.reference, api.popup], bind, { flush: 'sync' })
+  onMounted(() => {
+    mounted = true
+    bind()
+  })
+  onActivated(() => {
+    suspended = false
+    bind()
+  })
+  onDeactivated(() => {
+    suspended = true
+    unbind()
+  })
+  onBeforeUnmount(() => {
+    mounted = false
+    unbind()
+    parent?.children.delete(context)
   })
   return {
     focusReference,

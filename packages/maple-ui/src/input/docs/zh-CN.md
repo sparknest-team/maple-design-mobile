@@ -86,7 +86,7 @@ FormItem 的 `feedback` 配合 `validate-status` 显示校验反馈。有外置 
 | --------------- | ---------------------------------------------------------- | -------------------------------------- |
 | `placeholder`   | 占位符，也可作为浮动提示文字                               | 字数限制、前缀和后缀、自定义清除图标   |
 | `clearable`     | 是否可清除；有值且可编辑时清除图标常驻显示                 | 字数限制、自定义清除图标、组合状态继承 |
-| `max-length`    | 最大输入长度；默认截断，`errorOnly` 时允许超出并显示错误   | 字数限制                               |
+| `max-length`    | 有限非负长度或 `{ length, errorOnly? }`；0 不限；非法值提示并回退不限 | 字数限制                               |
 | `hint`          | 是否将 placeholder 用作浮动提示文字                        | 输入框组合                             |
 | `default-value` | 非受控初始值，仅创建时读取；后续修改不重置输入，不回写父级 | 组合状态继承                           |
 | `disabled`      | 是否禁用                                                   | 组合状态继承                           |
@@ -96,6 +96,8 @@ FormItem 的 `feedback` 配合 `validate-status` 显示校验反馈。有外置 
 ```demo
 ../example/demos/max-length.vue
 ```
+
+`max-length` 为有限非负数或 `{ length, errorOnly? }`，`0` 表示不限。对象的 `length` 同样须为有限非负数，`errorOnly` 为可选布尔值；非法值沿 Vue Prop 校验提示并按不限长度回退，传入 null 按未设置处理。默认截断按 UTF-16 码元计算；自定义计数与裁剪请配套提供 `word-length / word-slice`。
 
 ### 密码输入框
 
@@ -124,6 +126,8 @@ FormItem 的 `feedback` 配合 `validate-status` 显示校验反馈。有外置 
 ```demo
 ../example/demos/group.vue
 ```
+
+`InputGroupLabel` 的根节点为 span，用于输入框外侧的附加内容。可见字段名与原生输入的关联由 FormItem、原生 label 的 for/id 或 `aria-label` 提供。
 
 ### 组合状态继承
 
@@ -173,6 +177,8 @@ FormItem 的 `feedback` 配合 `validate-status` 显示校验反馈。有外置 
 
 `modelValue` 是受控值，通过普通 `v-model` 绑定；父级提供的值优先，包括空字符串。`defaultValue` 是非受控初始值，仅在组件创建时读取；之后由组件内部保存用户输入。修改 `defaultValue` 不会重置现有文字，重新挂载才会重新读取，也不会在初始化时触发 `update:modelValue` 或写入父级表单。
 
+`v-model.trim` 遵循 Vue 模型事件规则：输入时的 `update:modelValue` 已去除首尾空白；`input` 仍通知经过长度归一化的原始文本。非受控输入可在编辑时保留空白，提交时归一化本地显示；提交不重复发布已通知的同一个模型值。受控显示始终由父级最终值决定，`change` 仍表示提交。
+
 需要表单默认值时，直接初始化绑定字段，例如 `const text = ref('北京')`，然后使用 `<mp-input v-model="text" />`。
 
 ```demo
@@ -212,7 +218,7 @@ FormItem 的 `feedback` 配合 `validate-status` 显示校验反馈。有外置 
 
 ### 主体与事件契约
 
-两端维护独立复制的主体。输入按 input → update:modelValue 通知；清空按 clear → input → update:modelValue → change 通知，各一次，Form 对应语义也各接收一次。只读、禁用和组合输入期间禁止清空。受控提议被拒绝后恢复原生内容，包括不支持光标 API 的输入类型。
+输入按 input → update:modelValue 通知；清空按 clear → input → update:modelValue → change 通知，各一次，Form 对应语义也各接收一次。只读、禁用和组合输入期间禁止清空。受控提议被拒绝后恢复原生内容，包括不支持光标 API 的输入类型。
 
 ```demo
 ../example/demos/event-pipeline.vue
@@ -226,7 +232,7 @@ FormItem 的 `feedback` 配合 `validate-status` 显示校验反馈。有外置 
 
 ### 提交前确认
 
-字段提交也支持 `beforeCommit({ value, previousValue }, done, context)`：保留第二个 context 参数，第三个 done 可决定允许或拒绝；Promise 和 boolean 写法继续支持。声明 done 的回调必须调用完成函数，或返回 boolean/Promise。
+字段提交也支持 `beforeCommit({ value, previousValue }, done, context)`：第二个参数 done 决定允许或拒绝，第三个参数 context 提供取消信号；Promise 和 boolean 写法继续支持。声明 done 的回调必须调用完成函数，或返回 boolean/Promise。
 
 守卫统一使用 `(payload, done, context)`：关闭 payload 为 `{ action }`，切换和提交为 `{ value, previousValue }`，Popup 为 `{ reason }`。context 提供 `signal` 和可选原始 `event`。返回 boolean/Promise，或调用 done()/done(false)；同步 void 等待 done，Promise&lt;void&gt; 放行。首次完成生效。等待期间自动管理 loading/disabled，取消后旧结果失效，不暴露内部按钮 refs。
 
@@ -246,6 +252,31 @@ FormItem 的 `feedback` 配合 `validate-status` 显示校验反馈。有外置 
 ../example/demos/loading.vue
 ```
 
+## 组合输入
+
+使用输入法组合文字时保留正在输入的文本，组合完成前外部模型更新不替换这段文本。组合结束后再按原有格式化和受控接受规则处理；旧输入的排队回填不会改写后续编辑或组合的文本与光标。长度限制和修饰符按组合结束后的既有输入/提交时机处理。
+
+## 使用说明
+
+### 表单展示继承
+
+支持 `edit-mode`：`direct / popup`。未设置时继承 FormItem/Form，独立使用时默认 direct；readPretty 以纯文本阅读，编辑弹层默认确认后更新 v-model。可选 before-commit 在候选校验通过后拦截保存。使用方式与对比 Demo 统一见 Form 文档。
+
+### 原生等待状态
+
+当内部没有 loading 或提交等待时，Input 保留原生 aria-busy 提示；内部等待优先于外部 false。仅设置 aria-busy 不会创建加载图标或异步任务。
+### 配置说明
+
+Input 自身提供以下变量；容器外观相关变量请参考 [FieldDecorator](#/zh-CN/field-decorator)。
+
+公开类型 / Public types: `InputEmits`, `InputSlots`, `InputExpose`, `InputGroupSlots`, `InputPasswordEmits`, `InputPasswordSlots`, `InputPasswordExpose`.
+
+### 输入光标主题
+
+延迟编辑的 `change` 在有来源时保留真实确认事件，例如保存按钮事件；程序触发的编辑器接力没有 DOM 事件，第二个参数可缺省。事件 target 可能是确认控件，不保证是输入元素。`change` 只通知，不等待监听器返回的 Promise；异步审批请使用 `before-commit`。
+
+InputPassword 透传 Input 的全部属性、事件和插槽。`open` 仅控制延迟编辑层；direct 模式没有编辑层。初始 open/default-open 不触发初始化关闭，后续修改 default-open 不会重新打开编辑器。
+
 ## API
 
 ### 空值识别与阅读空文案
@@ -259,20 +290,20 @@ FormItem 的 `feedback` 配合 `validate-status` 显示校验反馈。有外置 
 
 以上是字段展示层 API；纯面板不因此新增阅读模式。Form 与 FormItem 提供继承配置。empty-value 的现有类型与默认输出仍按该组件原 API 执行。
 
-### 属性
+### Input Props
 
 | 参数              | 说明                                                       | 类型                                       |   默认值    |
 | ----------------- | ---------------------------------------------------------- | ------------------------------------------ | :---------: |
 | `v-model`         | 受控绑定值                                                 | `string \| null`                           |     `-`     |
 | `model-modifiers` | `v-model` 修饰符，支持 `trim`                              | `object`                                   |    `{}`     |
 | `default-value`   | 非受控初始值，仅创建时读取；后续修改不重置输入，不回写父级 | `string`                                   |    `''`     |
-| `type`            | `text`、`password`、`number`、`tel` 或 `email`             | `InputType`                                |   `text`    |
+| `type`            | `text`、`password`、`number`、`tel` 或 `email`             | `InputType`<br>`'number' \| 'text' \| 'email' \| 'tel' \| 'password'` |   `text`    |
 | `placeholder`     | 占位符，也可作为浮动提示文字                               | `string`                                   |     `-`     |
-| `size`            | `xs`、`sm`、`md`、`lg` 或 `xl`                             | `ComponentSize`                            |    `md`     |
+| `size`            | `xs`、`sm`、`md`、`lg` 或 `xl`                             | `ComponentSize`<br>`'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` |    `md`     |
 | `variant`         | `filled`、`outline` 或 `standard`                          | `string`                                   |  `outline`  |
 | `hint`            | 是否将 placeholder 用作浮动提示文字                        | `boolean`                                  |   `true`    |
 | `line`            | 是否显示边框或底线                                         | `boolean`                                  |   `true`    |
-| `max-length`      | 最大输入长度；默认截断，`errorOnly` 时允许超出并显示错误   | `number \| object`                         |     `0`     |
+| `max-length`      | 有限非负长度或 `{ length, errorOnly? }`；0 不限；非法值提示并回退不限 | `number \| object`                         |     `0`     |
 | `show-word-limit` | 是否显示字数统计                                           | `boolean`                                  |   `false`   |
 | `word-length`     | 自定义字数计算方法                                         | `function`                                 |     `-`     |
 | `word-slice`      | 自定义超长截取方法                                         | `function`                                 |     `-`     |
@@ -288,12 +319,20 @@ FormItem 的 `feedback` 配合 `validate-status` 显示校验反馈。有外置 
 | `text-color`      | 文字颜色                                                   | `string`                                   |     `-`     |
 | `focus-color`     | 聚焦颜色                                                   | `string`                                   |     `-`     |
 | `blur-color`      | 失焦颜色                                                   | `string`                                   |     `-`     |
+| `edit-mode` | 编辑模式；继承 FormItem/Form | `direct / popup` | `undefined` |
+| `read-pretty` | 纯阅读展示；继承 FormItem/Form | `boolean` | `undefined` |
+| `open` | 延迟编辑层的受控打开状态 | `boolean` | `undefined` |
+| `default-open` | 非受控编辑层初始打开状态；仅创建时读取 | `boolean` | `false` |
+| `before-commit` | 延迟保存审批：(payload, done, context) | `BeforeFieldCommit` | `undefined` |
+| `popup-container` | 延迟编辑层挂载目标；false 原地渲染 | `PopupContainer` | `undefined` |
+| `loading` | 手动加载展示；保持可编辑 | `boolean` | `false` |
+| `loading-mode` | 加载呈现布局 | `default / line` | `default` |
 
 校验规则配置在 `mp-form-item` 上，详见 [Form 组件](#/zh-CN/form)。
 
 `size / disabled / readonly` 按子项 → InputGroup → FormItem/Form → 库默认值继承，五种尺寸均完整支持。`hint` 默认开启，有外置标签时关闭。`name / id / aria-* / data-*` 直接透传原生 input；`class / style` 留在外壳。`input-attrs` 不能覆盖受控值、类型、禁用、只读和长度策略。
 
-### 方法
+### Input Methods
 
 | 方法名   | 说明         | 参数 | 返回值 |
 | -------- | ------------ | ---- | ------ |
@@ -301,7 +340,7 @@ FormItem 的 `feedback` 配合 `validate-status` 显示校验反馈。有外置 
 | `blur`   | 失焦         | `-`  | `-`    |
 | `select` | 选中输入内容 | `-`  | `-`    |
 
-### 事件
+### Input Events
 
 | 事件名        | 说明                            | 参数                          |
 | ------------- | ------------------------------- | ----------------------------- |
@@ -309,19 +348,23 @@ FormItem 的 `feedback` 配合 `validate-status` 显示校验反馈。有外置 
 | `blur`        | 失焦时触发                      | `event: FocusEvent`           |
 | `clear`       | 清除时触发                      | `event: Event`                |
 | `input`       | 输入时触发                      | `value: string, event: Event` |
-| `change`      | 仅在失焦或按下 Enter 时提交变更 | `value: string, event: Event` |
+| `change`      | 仅在失焦或按下 Enter 时提交变更 | `value: string \| null, event?: Event` |
 | `press-enter` | 按下 Enter 时触发               | `event: KeyboardEvent`        |
 | `keydown`     | 按键时触发                      | `event: KeyboardEvent`        |
+| `update:modelValue` | 模型更新提议，包含显式 null | `value: string \| null` |
+| `update:open` | 编辑层打开状态请求 | `open: boolean` |
+| `click` | 原生输入点击通知 | `event: MouseEvent` |
 
-超过 `max-length` 时，`update:model-value` 和 `input` 传出截断后的值。清空按 `clear → input → update:model-value → change` 通知，随后失焦不会补发 `change`。
+`errorOnly: true` 保留超限文本并显示错误；其余长度限制会截断，`input` 通知归一化文本，模型通知遵循 Vue 修饰符。清空按 `clear → input → update:model-value → change` 通知，随后失焦不会补发 `change`。
 
-### 插槽
+### Input Slots
 
 | 插槽名       | 说明           | 参数                |
 | ------------ | -------------- | ------------------- |
 | `prefix`     | 前缀内容       | `-`                 |
 | `suffix`     | 后缀内容       | `-`                 |
-| `clear-icon` | 清除图标或按钮 | `clear: () => void` |
+| `clear-icon` | 清除图标或按钮 | `clear: (event?: Event) => void` |
+| `read` | 自定义阅读内容 | `{ value: string \| null }` |
 
 ### InputPassword 与 InputGroup
 
@@ -332,34 +375,43 @@ FormItem 的 `feedback` 配合 `validate-status` 显示校验反馈。有外置 
 | `mp-input-group`       | `size`, `variant`, `disabled`, `readonly`, `hint`       | 子 Input/Password 默认继承；`variant` 默认为 `filled` |
 | `mp-input-group-label` | 默认插槽                                                | 组合输入框的文字附加项                                |
 
-### 样式变量
+## CSS Variables
 
-Input 自身提供以下变量；容器外观相关变量请参考 [FieldDecorator](#/zh-CN/field-decorator)。
+<!-- component-css-variables:start -->
 
-| 变量名                                  | 默认值                                |
-| --------------------------------------- | ------------------------------------- |
-| `--mp-input-control-height`             | `auto`                                |
-| `--mp-input-control-font-size`          | `inherit`                             |
-| `--mp-input-control-line-height`        | `inherit`                             |
-| `--mp-input-control-padding-horizontal` | `0`                                   |
-| `--mp-input-counter-color`              | `--mp-field-suffix-text-color`        |
-| `--mp-input-counter-font-size`          | `12px`                                |
-| `--mp-input-feedback-success-color`     | `var(--mp-sys-color-content-success)` |
-| `--mp-input-feedback-warning-color`     | `var(--mp-sys-color-content-warning)` |
-| `--mp-input-feedback-error-color`       | `var(--mp-sys-color-content-danger)`  |
-| `--mp-input-feedback-validating-color`  | `var(--mp-sys-color-content-brand)`   |
-| `--mp-input-feedback-duration`          | `1s`                                  |
+通过以下变量定制组件外观。默认值随表中注明的主题或选择器条件变化；变量仅在对应的尺寸、变体和交互状态下生效。
 
-公开类型 / Public types: `InputEmits`, `InputSlots`, `InputExpose`, `InputGroupSlots`, `InputPasswordEmits`, `InputPasswordSlots`, `InputPasswordExpose`.
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
 
-### 表单展示继承
+| 变量 | 默认值／条件 | 影响的样式 |
+| --- | --- | --- |
+| `--mp-input-caret-color` | `var(--mp-field-caret-color)` | `caret-color` |
+| `--mp-input-control-font-size` | `inherit` | `font-size` |
+| `--mp-input-control-height` | `auto` | `height` |
+| `--mp-input-control-line-height` | `inherit` | `line-height` |
+| `--mp-input-control-padding-horizontal` | `0` | `padding` |
+| `--mp-input-counter-color` | `var(--mp-field-suffix-text-color)` | `color` |
+| `--mp-input-counter-font-size` | `12px` | `font-size` |
+| `--mp-input-feedback-duration` | `1s` | `animation` |
+| `--mp-input-feedback-error-color` | `var(--mp-sys-color-content-danger)` | `color` |
+| `--mp-input-feedback-success-color` | `var(--mp-sys-color-content-success)` | `color` |
+| `--mp-input-feedback-validating-color` | `var(--mp-sys-color-content-brand)` | `color` |
+| `--mp-input-feedback-warning-color` | `var(--mp-sys-color-content-warning)` | `color` |
 
-支持 `edit-mode`：`direct / popup`。未设置时继承 FormItem/Form，独立使用时默认 direct；readPretty 以纯文本阅读，编辑弹层默认确认后更新 v-model。可选 before-commit 在候选校验通过后拦截保存。使用方式与对比 Demo 统一见 Form 文档。
+</div>
+
+将覆盖设置在组件实际根节点或弹层真实挂载祖先上。例如给该元素添加下列 class，再按需替换变量值：
+
+```css
+.component-theme {
+  --mp-input-caret-color: var(--mp-field-caret-color);
+}
+```
+
+显式行内样式及直接写入同一 CSS 属性的 Props 优先于样式表默认值。Teleport 后，普通 CSS 变量按实际挂载位置继承；使用 ThemeProvider 时，请遵循其局部主题与弹层配置规则。局部定制请直接覆盖组件变量；仅修改后代的 system 变量不会重新计算从根继承的组件别名。内部变量不属于公共 API。
+
+<!-- component-css-variables:end -->
 
 ### 输入光标主题
-
-| CSS 变量                 | 默认值                        | 说明                             |
-| ------------------------ | ----------------------------- | -------------------------------- |
-| `--mp-input-caret-color` | `var(--mp-field-caret-color)` | 输入光标颜色，可独立于文字色覆盖 |
 
 统一光标色通过 `--mp-field-caret-color` 设置（默认 `currentColor`）；本组件可用 `--mp-input-caret-color` 单独覆盖，默认 `var(--mp-field-caret-color)`。

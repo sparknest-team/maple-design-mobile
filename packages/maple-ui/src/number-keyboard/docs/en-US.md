@@ -14,7 +14,15 @@ A bottom popup virtual keyboard for numeric or password input flows.
 
 ## Reading direction
 
-Inherits the nearest `dir="ltr|rtl"` and supports runtime and nested overrides. Headers and actions inherit reading direction while the numeric keypad retains LTR digit order. RTL does not reverse digits or entered values. Safe-area insets stay tied to physical device edges.
+Inherits the nearest `dir="ltr|rtl"`, including runtime changes and local overrides. Header and actions inherit reading direction. The numeric keypad retains LTR digit order; RTL does not reverse digits or entered values. Safe areas still use physical device edges.
+
+Keys are native buttons supporting Tab, Enter and Space. The icon-only delete button has a localized name. The visible `title` names the dialog by default; component `aria-label` or `aria-labelledby` can provide an explicit dialog name.
+
+Within FormItem, the dialog merges the caller’s `aria-describedby` with the current form error; clearing the error preserves the caller’s description.
+
+Input and visibility use local passive state and emit updates; parents should accept and synchronize them, since refusing an update alone does not guarantee that the panel remains open. `hide-on-click-outside` controls backdrop closing, not arbitrary outside mouse clicks.
+
+`max-length` uses JavaScript UTF-16 length. Finite values are floored and clamped to zero; `Infinity` or the exact string `"Infinity"` is unlimited. Extra keys may contain multiple characters: an addition that exceeds the limit is rejected in full and emits no `input`. Delete removes one UTF-16 code unit. There are no public business methods or slots; ordinary event promises do not control input or visibility.
 
 ## API
 
@@ -26,10 +34,12 @@ Use ordinary `v-model`. `modelValue` is input text; `defaultValue` initializes u
 
 The keyboard panel uses an independent `open/defaultOpen` model with `update:open`. Text and panel opening are separate states.
 
-### Props
+### NumberKeyboard Props
 
-| Arguments | Description | Type | Default |
+| Prop | Description | Type | Default |
 | ----------------------- | -------------------------- | --------------------------- | ---------- |
+| `default-value` | Initial uncontrolled input value, read once | `string` | `''` |
+| `default-open` | Initial uncontrolled visibility, read once | `boolean` | `false` |
 | `v-model` | Current value | `string` | `''` |
 | `v-model:open` | Whether keyboard is visible | `boolean` | `false` |
 | `title` | Keyboard title | `string` | `-` |
@@ -44,15 +54,18 @@ The keyboard panel uses an independent `open/defaultOpen` model with `update:ope
 | `overlay` | Show overlay | `boolean` | `true` |
 | `overlay-class` | Overlay class | `string` | `-` |
 | `overlay-style` | Overlay style | `object` | `-` |
+| `overlay-closable` | Allow backdrop close, subject to hide-on-click-outside | `boolean` | `true` |
 | `lock-scroll` | Lock background scroll | `boolean` | `true` |
 | `esc-to-close` | Close on Escape | `boolean` | `true` |
 | `popup-container` | Teleport target | `string \| HTMLElement \| false` | `body` |
-| `safe-area` | Enable bottom safe area | `boolean` | `true` |
+| `safe-area` | Whether to enable the bottom, left and right safe areas | `boolean` | `true` |
 
-### Events
+### NumberKeyboard Events
 
 | Event | Description | Arguments |
 | ------------ | ---------------------- | ------------- |
+| `update:modelValue` | Input value update | `value: string` |
+| `update:open` | Visibility update | `open: boolean` |
 | `input` | Emitted on key press | `key: string` |
 | `delete` | Emitted on delete | `-` |
 | `close` | Emitted on close | `-` |
@@ -61,3 +74,43 @@ The keyboard panel uses an independent `open/defaultOpen` model with `update:ope
 | `opened` | Emitted after open transition | `-` |
 | `closed` | Emitted after close transition | `-` |
 | `key-escape` | Emitted on Escape | `-` |
+
+## CSS Variables
+
+<!-- component-css-variables:start -->
+
+Use these variables to customize the component. Defaults may vary by the selector condition shown. Each variable applies to the corresponding size, variant and interaction states.
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Default / condition | Affected styles |
+| --- | --- | --- |
+| `--mp-number-keyboard-background` | `var(--mp-color-bg-1)` | `background` |
+| `--mp-number-keyboard-close-color` | `var(--mp-sys-color-content-brand)` | `color` |
+| `--mp-number-keyboard-close-font-size` | `var(--mp-font-size-lg, 16px)` | `font-size` |
+| `--mp-number-keyboard-delete-icon-size` | `22px` | `font-size` |
+| `--mp-number-keyboard-header-color` | `var(--mp-color-text-3)` | `color` |
+| `--mp-number-keyboard-header-font-size` | `var(--mp-font-size-md, 14px)` | `font-size` |
+| `--mp-number-keyboard-header-height` | `34px` | `height` |
+| `--mp-number-keyboard-key-active-color` | `var(--mp-color-text-1)` | `color` |
+| `--mp-number-keyboard-key-background` | `var(--mp-color-fill-3)` | `background` |
+| `--mp-number-keyboard-key-color` | `var(--mp-color-text-1)` | `color` |
+| `--mp-number-keyboard-key-font-size` | `22px` | `font-size` |
+| `--mp-number-keyboard-key-gap` | `6px` | `gap` |
+| `--mp-number-keyboard-key-height` | `48px` | `height`, `min-height` |
+| `--mp-number-keyboard-padding` | `6px` | `padding` |
+| `--mp-number-keyboard-sidebar-width` | `25%` | `width` |
+
+</div>
+
+Apply overrides to the rendered component root or the actual popup ancestor. For example, add the following class to that element and replace the value as needed:
+
+```css
+.component-theme {
+  --mp-number-keyboard-background: var(--mp-color-bg-1);
+}
+```
+
+Explicit inline styles and props that write the same CSS property take precedence over stylesheet defaults. After Teleport, ordinary CSS variables inherit from the actual mount location. When using ThemeProvider, follow its local-theme and popup configuration rules. Override the component variable directly for local styling; root-level aliases are not recalculated merely because a descendant system variable changes. Internal variables are not public APIs.
+
+<!-- component-css-variables:end -->

@@ -1,15 +1,37 @@
-import { createApp } from 'vue'
+import { createApp, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { beforeAll, expect, test, vi } from 'vitest'
+import { afterAll, beforeAll, expect, test, vi } from 'vitest'
 import Signature from '..'
-import { trigger } from '../../utils/test'
 import VarSignature from '../Signature.vue'
+
+const originalContext = HTMLCanvasElement.prototype.getContext
+const originalDataUrl = HTMLCanvasElement.prototype.toDataURL
+afterAll(() => {
+  HTMLCanvasElement.prototype.getContext = originalContext
+  HTMLCanvasElement.prototype.toDataURL = originalDataUrl
+})
+// A continuous touch gesture keeps one identifier; the shared helper creates a new one per event.
+function trigger(wrapper, type) {
+  const point = { identifier: 1, clientX: 0, clientY: 0 }
+  const touches = type === 'touchend' || type === 'touchcancel' ? [] : [point]
+  const event = new Event(type, { bubbles: true, cancelable: true })
+  Object.defineProperties(event, {
+    touches: { value: touches },
+    changedTouches: { value: [point] },
+    targetTouches: { value: touches },
+  })
+  wrapper.element.dispatchEvent(event)
+  return nextTick()
+}
 
 beforeAll(() => {
   HTMLCanvasElement.prototype.getContext = vi.fn(() => ({
     clearRect: vi.fn(),
     closePath: vi.fn(),
     beginPath: vi.fn(),
+    moveTo: vi.fn(),
+    arc: vi.fn(),
+    fill: vi.fn(),
     lineTo: vi.fn(),
     stroke: vi.fn(),
   }))
@@ -80,4 +102,5 @@ test('signature methods', async () => {
   })
 
   expect(wrapper.vm.confirm()).toBe('')
+  wrapper.unmount()
 })

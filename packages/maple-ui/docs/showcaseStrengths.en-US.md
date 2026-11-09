@@ -29,7 +29,7 @@ Maple 的特点既体现在单个组件，也体现在跨组件的约定和业�
 
 演示方法：切换品牌和亮暗，再比较默认按钮与局部覆盖按钮，随后打开字段弹层。
 
-[打开对应示例](#/en-US/themes) · 相关组件：[StyleProvider](#/en-US/style-provider)、[Button 按钮](#/en-US/button)、[FieldDecorator 字段外壳](#/en-US/field-decorator)
+[打开对应示例](#/en-US/themes) · 相关组件：[ThemeProvider](#/en-US/theme-provider)、[Button 按钮](#/en-US/button)、[FieldDecorator 字段外壳](#/en-US/field-decorator)
 
 ### 跨控件保持字段外观与几何一致
 

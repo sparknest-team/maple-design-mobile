@@ -6,6 +6,8 @@ export const pageHeaderProps = {
    * @en Whether to show the back button
    */
   showBack: Boolean,
+  /** 返回按钮的可访问名称，默认使用当前语言。 */
+  backButtonAriaLabel: String,
   /**
    * @zh 页头的主标题
    * @en Main title

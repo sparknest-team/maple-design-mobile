@@ -86,9 +86,7 @@ function switchLocale() {
 
 ## API
 
-### 属性
-
-#### LocaleProvider Props
+### LocaleProvider Props
 
 | 参数         | 说明   | 类型                     | 默认值 | 
 |--------------|---------------|--------------------------|---------| 
@@ -96,10 +94,24 @@ function switchLocale() {
 | `messages`    | 语言包      | _Record<string, Record<string, string>>_                 | `-`   |
 | `tag`    | 自定义标签名      | _string_                 | `div`   |
 
-### 插槽
-
-#### LocaleProvider Slots
+### LocaleProvider Slots
 
 | 插槽名 | 说明 | 参数 |
 | --- | --- | --- |
 | `default` | 组件内容 | `-` |
+
+### 全局对象与独立实例
+
+根入口的 `Locale` 是全局单例；默认只注册并启用 `zh-CN`。使用其他内置语言前先调用 `Locale.add`，再调用 `Locale.use`。日语通过 `Locale.jaJP` 取得；`locale` 子入口没有单独的 `jaJP` 命名导出。`Locale.useLocale()`（或从 `@maple-design/ui/locale` 命名导入 `useLocale`）创建独立实例，它与 Cedar 的同名全局切换函数含义不同。
+
+`add(lang, message)` 会把 `lang` 写入传入对象；替换当前语言的数据后需再次 `use` 才会更新当前引用。`merge(lang, partial)` 浅合并并切换到该语言。`t` 以完整键查找，缺失返回 `undefined`，不负责通用插值或嵌套路径解析。语言切换不会自动改变阅读方向。
+
+## CSS Variables
+
+<!-- component-css-variables:start -->
+
+本组件未声明独立的公共 CSS 变量。请使用本页公开的配置与布局入口。
+
+内部自定义属性与测量中间值属于实现细节，不作为业务定制 API。
+
+<!-- component-css-variables:end -->

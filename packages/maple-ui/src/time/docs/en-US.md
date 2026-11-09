@@ -6,7 +6,7 @@ While expanded, the native combobox uses `aria-controls` to identify its own nam
 
 In clock and wheel modes, min/max are inclusive same-day bounds. A minute stays selectable when some of its seconds are available. Second constraints compare the complete clock value, not seconds from a different hour. Use TimeRange show-next-day for overnight ranges, rather than reversed min/max.
 
-> Source is merged into `time/`. Installing the parent also registers it. Static member: `Time.Picker`.
+Installing Time also registers TimePicker, which is available through the static member `Time.Picker`.
 
 ## Basic examples
 
@@ -24,16 +24,17 @@ In clock and wheel modes, min/max are inclusive same-day bounds. A minute stays 
 
 #### Configuration reference for this comparison
 
-| Configuration | Purpose                                                              | Related examples                                                                                   |
-| ------------- | -------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
-| `format`      | String parse, display and output format                              | Field appearance and nested options, Time formats and 12-hour clocks, Visible wheel fields         |
-| `placeholder` | Placeholder                                                          | Form control size comparison, Field appearance and nested options, Time formats and 12-hour clocks |
-| `variant`     | Variant: `filled` `standard` `outline`                               | Form control size comparison, Field appearance and nested options                                  |
-| `use12-hours` | Twelve-hour panel; defaults to hh:mm:ss a without an explicit format | Time formats and 12-hour clocks, AM / PM                                                           |
-| `disabled`    | Whether disabled                                                     | Form control size comparison                                                                       |
-| `readonly`    | Whether readonly                                                     | Form control size comparison                                                                       |
+| Configuration | Purpose | Related examples |
+| ------------- | ------------------------------------------- | ---------------------------------------------------------- |
+| `format` | String parse, display and output format | Field appearance and nested options, Time formats and 12-hour clocks, Visible wheel fields |
+| `placeholder` | Placeholder | Form control size comparison, Field appearance and nested options, Time formats and 12-hour clocks |
+| `variant` | Variant: `filled` `standard` `outline` | Form control size comparison, Field appearance and nested options |
+| `use12-hours` | Twelve-hour panel; defaults to hh:mm:ss a without an explicit format | Time formats and 12-hour clocks, AM / PM |
+| `disabled` | Whether disabled | Form control size comparison |
+| `readonly` | Whether readonly | Form control size comparison |
 
 <!-- demo-config-notes:end -->
+
 
 Compare Input, Button, Select, date/time fields and other single-line controls at the same size. Field variants share the height scale; Button uses outline here. DatePicker/TimePicker are panels; this example uses Date/Time fields. The example includes selected and clearable values, removable tags and long multiple selections. Select/Cascader keep the same size height with tag-nowrap. Long tag text uses ellipsis while removal icons remain available; tags scroll horizontally while clear and arrow controls stay outside the scrolling area. Hover, focus or tap truncated tag text to read its full content; dismiss with an outside click or Escape without changing the selected value. Restore values after clearing to repeat the comparison. Multiline text and wrapping multiple selections can grow with content.
 
@@ -69,9 +70,9 @@ Compare minute, second and 12-hour displays. Distinguish midnight (12 AM) from n
 
 `time-fields` controls time columns and their order on fields and standalone panels. Range endpoints share the configuration.
 
-| Prop          | Type                       | Default                      | Description                                                  |
+| Prop | Type | Default | Description |
 | ------------- | -------------------------- | ---------------------------- | ------------------------------------------------------------ |
-| `time-fields` | readonly TimePickerField[] | According to the time format | Controls time wheels, including those embedded in calendars. |
+| `time-fields` | readonly TimePickerField[]<br>`TimePickerField: 'hour' \| 'minute' \| 'second'` | According to the time format | Controls time wheels, including those embedded in calendars. |
 
 Lists must be nonempty and unique. Explicit lists determine columns and order; only omitted props use defaults. Date and time fields cannot be mixed. Edits preserve hidden units in the full draft. Changing fields does not submit the model. Nested presentation props cannot override root field configuration.
 
@@ -95,16 +96,17 @@ Time format retains its string parsing/display/output protocol. time-fields chan
 
 #### Configuration reference for this comparison
 
-| Configuration    | Purpose                                                              | Related examples                                                |
-| ---------------- | -------------------------------------------------------------------- | --------------------------------------------------------------- |
-| `format`         | String parse, display and output format                              | Model types and literals, Hour/minute/second steps, Time bounds |
-| `disabled-hours` | Disabled hours (0–23)                                                | Hour/minute/second steps, Wheel constraints                     |
-| `min`            | Minimum selectable time                                              | Time bounds, Wheel constraints                                  |
-| `max`            | Maximum selectable time                                              | Time bounds, Wheel constraints                                  |
-| `use12-hours`    | Twelve-hour panel; defaults to hh:mm:ss a without an explicit format | Hour/minute/second steps                                        |
-| `step`           | Candidate steps anchored at midnight; invalid values use 1           | Hour/minute/second steps                                        |
+| Configuration | Purpose | Related examples |
+| ---------------- | ------------------------------------------- | ------------------------------------------ |
+| `format` | String parse, display and output format | Model types and literals, Hour/minute/second steps, Time bounds |
+| `disabled-hours` | Disabled hours (0–23) | Hour/minute/second steps, Wheel constraints |
+| `min` | Minimum selectable time | Time bounds, Wheel constraints |
+| `max` | Maximum selectable time | Time bounds, Wheel constraints |
+| `use12-hours` | Twelve-hour panel; defaults to hh:mm:ss a without an explicit format | Hour/minute/second steps |
+| `step` | Candidate steps anchored at midnight; invalid values use 1 | Hour/minute/second steps |
 
 <!-- demo-config-notes:end -->
+
 
 ```demo
 ../example/demos/en-US/format-model.vue
@@ -120,7 +122,7 @@ With 12-hour display and a 5-hour step, hours remain anchored to midnight: 0/5/1
 
 ### Time bounds
 
-In the single-value Demo, tightening the minimum to 10:30:40 retains committed 10:30:38 and prevents confirmation. Moving the wheel to minute 31 aligns draft seconds to valid candidates. Explicitly select second 02 and confirm to commit the inclusive maximum 10:31:02. Changing the field popup draft to second 00 and canceling retains second 02. Candidate alignment is not an external model commit; mouse/keyboard evidence is not physical-touch inertia testing.
+After tightening the minimum to 10:30:40, the field retains 10:30:38 but the panel cannot confirm it. Selecting and confirming the inclusive maximum 10:31:02 updates the model. Editing seconds to 00 and canceling keeps seconds 02.
 
 `min` / `max` are optional strings, with no bound by default. Use 24-hour `HH:mm` or `HH:mm:ss`, independently of format/use12Hours. Both endpoints are inclusive; omitted seconds mean 00. Range endpoints are validated individually; showNextDay does not make the bounds wrap across midnight. Reversed bounds allow no commit; unparseable bounds are treated as unset.
 
@@ -198,16 +200,17 @@ Use inclusive min/max bounds together with the three disabled callbacks in both 
 
 #### Configuration reference for this comparison
 
-| Configuration    | Purpose                                             | Related examples                                                                |
-| ---------------- | --------------------------------------------------- | ------------------------------------------------------------------------------- |
-| `format`         | String parse, display and output format             | Interaction state comparison, Text entry, Default and controlled values         |
-| `clearable`      | Whether the value can be cleared                    | Text entry, Default and controlled values, Selection and commit                 |
-| `readonly`       | Whether readonly                                    | Interaction state comparison, Selection and commit, Multiple independent fields |
-| `disabled`       | Whether disabled                                    | Interaction state comparison, Selection and commit                              |
-| `input-editable` | Allow text entry; panel selection remains available | Text entry, Copying and editing                                                 |
-| `placeholder`    | Placeholder                                         | Multiple independent fields, With FormItem                                      |
+| Configuration | Purpose | Related examples |
+| ---------------- | -------------------------------- | -------------------------------------------- |
+| `format` | String parse, display and output format | Interaction state comparison, Text entry, Default and controlled values |
+| `clearable` | Whether the value can be cleared | Text entry, Default and controlled values, Selection and commit |
+| `readonly` | Whether readonly | Interaction state comparison, Selection and commit, Multiple independent fields |
+| `disabled` | Whether disabled | Interaction state comparison, Selection and commit |
+| `input-editable` | Allow text entry; panel selection remains available | Text entry, Copying and editing |
+| `placeholder` | Placeholder | Multiple independent fields, With FormItem |
 
 <!-- demo-config-notes:end -->
+
 
 Toggle disabled, read-only and error states, then interact with the same instance. Recovery controls remain outside the target; error appearance alone does not validate data.
 
@@ -270,7 +273,7 @@ The example displays each field's model separately. Cancel discards only the cur
 ../example/demos/en-US/multiple-fields.vue
 ```
 
-`format` now has the same meaning as Cedar: it parses string models and controls display and emitted strings. The default is `HH:mm:ss`; with `use12-hours` and no explicit format it is `hh:mm:ss a`. Use `HH:mm` to serialize minutes, and time-fields to hide wheel seconds, `hh:mm A` for uppercase AM/PM, and `[Time] HH:mm` for literal text. Models accept formatted strings, local Date objects, or millisecond timestamps; output is always a formatted string (an array for ranges). Invalid input is not normalized or written back. `min`/`max` remain 24-hour `HH:mm[:ss]` strings, and disabled callbacks always receive actual hours 0–23. The old Time `use-seconds` and format enum have been removed, without aliases.
+`format` it parses string models and controls display and emitted strings. The default is `HH:mm:ss`; with `use12-hours` and no explicit format it is `hh:mm:ss a`. Use `HH:mm` to serialize minutes, and time-fields to hide wheel seconds, `hh:mm A` for uppercase AM/PM, and `[Time] HH:mm` for literal text. Models accept formatted strings, local Date objects, or millisecond timestamps; output is always a formatted string (an array for ranges). Invalid input is not normalized or written back. `min`/`max` remain 24-hour `HH:mm[:ss]` strings, and disabled callbacks always receive actual hours 0–23.
 
 ### With FormItem
 
@@ -278,7 +281,7 @@ The example displays each field's model separately. Cancel discards only the cur
 ../example/demos/en-US/with-form-item.vue
 ```
 
-Disabled callbacks match Cedar: disabled-hours, disabled-minutes and disabled-seconds; the old disabled-time prop is removed. Both views respect inclusive same-day min/max. Overnight ranges use show-next-day. Hidden seconds are evaluated as zero. Opening a field aligns its draft to a valid candidate without writing the external model; confirmation validates again. Empty or invalid drafts cannot be confirmed after rules change.
+Disabled callbacks match Cedar: disabled-hours, disabled-minutes and disabled-seconds. Both views respect inclusive same-day min/max. Overnight ranges use show-next-day. Hidden seconds are evaluated as zero. Opening a field aligns its draft to a valid candidate without writing the external model; confirmation validates again. Empty or invalid drafts cannot be confirmed after rules change.
 
 ### Copying and editing
 
@@ -298,22 +301,76 @@ Form field: [`Time`](/en-US/time). Time range field: [`TimeRange`](/en-US/time-r
 
 ## Reading direction
 
-Inherits the nearest `dir="ltr|rtl"`. Direction changes neither change the time nor commit drafts. Time columns follow reading order; Left/Right moves focus visually between columns. Cedar Up/Down and Home/End move focus within a column, skipping disabled options; Enter/Space selects. Maple wheels retain their existing Up/Down and Home/End selection behavior. Existing confirmation settings control submission. Popovers inherit their source direction.
+Inherits the nearest `dir="ltr|rtl"`; direction changes do not modify time or commit drafts. Hour, minute and second columns follow reading order, with Left/Right moving focus visually between columns. Cedar Up/Down and Home/End move focus within the current column, Enter/Space selects, and disabled options are skipped. Maple wheels retain Up/Down and Home/End selection behavior. Existing confirmation configuration determines immediate commits. Popovers inherit source field direction.
+
+## Usage notes
+
+### Editing and confirmation
+
+This component supports `edit-mode` with field > FormItem > Form precedence. When unset, it defaults to `popup` and opens an editor when the value area is clicked. Supported values: `direct / popup`. Non-direct modes open the editor through the field value trigger and keep one draft; v-model updates only after confirmation. Cancel, reset or enabling readPretty discards the draft.
+
+Maple uses edit-mode="popup" to open the editor when the value area is clicked; direct edits immediately. readPretty is a reading-only setting, independent of readonly and disabled.
+
+`before-commit(payload, done, context)` can guard saving the editor. FormItem validates the candidate first; invalid candidates keep the editor open. `open / default-open / update:open` control the editor. `#read="{ value, text }"` customizes read content. See the unified field presentation examples in Form.
+
+Inline date/time fields retain existing confirmation policies. In popover/popup, pure panels hide confirmation tools and the editor provides one confirm/cancel pair. Standalone DatePicker/DateRangePicker/TimePicker/TimeRangePicker retain panel APIs/confirmation without inheriting Form field presentation.
+
+Mobile date fields use `panel-type` to select calendar/wheel content; `edit-mode` controls only field editing. Standalone panel content follows each panel API and is not controlled by the field `edit-mode`.
+
+`read-pretty` is an independent boolean alongside `readonly` and `disabled`. It inherits from field to FormItem to Form; explicit `false` overrides the parent. The default is `false`. Reading mode renders no editor.
+
+### Panel actions
+
+Mobile wheels use a rounded selection band. Single-time panels show no top summary. Field popups and independent panels share appearance.
+
+Single-time Now sits left of confirmation tools and updates the draft under format/step/disabling rules without committing/closing. Even with `disable-confirm`, Now and later wheel edits still require confirmation; cancel discards them. Hide it with `:show-now-button="false"`. Custom `actions` can use `selectNow()`/`nowDisabled`.
+
+Wheel headers follow actual hour/minute/second format, adding AM/PM in 12-hour mode, matching the range panel.
+
+Panel style variables:
+
+
+### Forwarded configuration boundaries
+
+The time field manages open/defaultOpen, disabled, trigger, closeOnClickReference, preventFocus and visibility updates. An explicit top-level popup-container takes precedence over nested configuration; popupClass is merged. Inline presentation fixes popupOffset=4, and Maple also fixes unmountOnClose=true, so those nested fields may not control the final values.
+
+Public focus/blur methods are callable from initial mount. Focus opens an editable deferred editor and targets it after readiness; disabled, readonly, or reading fields do not open. Blur only blurs the current target without reopening. Stored methods never bind an old editor; closure, mode changes, deactivation, or unmount cancel queued calls.
+
+During deferred editing, clearing retains the configured valid empty-value and confirmation submits that empty value; null is not replaced by midnight. A newly created empty wheel panel may initialize a visible candidate without selecting or committing a model. Later explicit empty drafts in that panel are not automatically refilled. Reopening and cancelling does not publish another value.
+
+### Defaults and format
+
+Inherited, format-derived and effective-step defaults describe resolved behavior; raw Props may be undefined. Without format, the default is HH:mm:ss, or hh:mm:ss a with use12Hours=true. Bounds use 24-hour clock times, separate from Date-family valueFormat/time-zone rules.
+
+### Explicit save guard
+
+beforeCommit(payload, done, context) belongs to field saving. payload contains value/previousValue; context has signal and optional event. Returning undefined waits for done, while boolean/Promise results settle by their result. FormItem validates candidates first; failure retains draft. Ordinary select/change/confirm/click listener returns do not use this task protocol.
 
 ## API
 
+### Panel Events
+
+Pure-panel business events are update:modelValue, change, select and confirm. select reports candidates; valid confirmation notifies confirm, while update:modelValue/change only occur for an actual value change. Field opening, clearing and focus events do not belong to pure panels.
+
+Complete panel actions scope below; extra has no arguments.
+
+```ts
+import type { TimeValue } from '@maple-design/ui'
+type PanelActionsScope = { confirm: () => boolean; canConfirm: boolean; value: TimeValue | undefined; selectNow: () => boolean; nowDisabled: boolean }
+```
+
 ### Empty values and reading placeholders
 
-`empty-values` recognizes empty data; `empty-value` keeps existing clear output. `empty-text` defaults to `'-'` under `read-pretty`, with Field > FormItem > Form precedence and custom read slots first. With explicit empty-values, built-in required uses the policy; custom validators receive original data. See the [shared guide](#/en-US/emptyValues).
+`empty-values` recognizes empty data; `empty-value` keeps existing clear output. `empty-text` defaults to `'-'` under `read-pretty`, with Field > FormItem > Form precedence and custom read slots first. With explicit `empty-values`, built-in required uses the policy; custom validators receive original data. See the [shared guide](#/en-US/emptyValues).
 
-| Prop         | Type               | Default and scope                                                           |
-| ------------ | ------------------ | --------------------------------------------------------------------------- |
+| Prop | Type | Default and scope |
+| ------------ | ------------------ | ----------------------------------------------------- |
 | empty-values | readonly unknown[] | Field > FormItem > Form > component-family default; replaces the whole list |
-| empty-text   | string             | Field > FormItem > Form > '-'; explicit '' is valid                         |
+| empty-text | string | Field > FormItem > Form > '-'; explicit '' is valid |
 
 These props belong to field presentation; pure panels do not gain reading mode. Form and FormItem provide inherited settings. The existing empty-value type and clear fallback remain component-specific.
 
-`popup-props` configures the anchored Trigger popover on both platforms. It cannot replace field open/disabled/trigger ownership. Top-level popup-container, including false, takes precedence. Panel and popup options are separate. `click(event)` fires once for an enabled field; readonly fields notify but do not open. Use `open-change(false)` for close requests, not proof that a controlled state changed. The field close event has been removed without an alias.
+`popup-props` configures the anchored Trigger popover on both platforms. It cannot replace field open/disabled/trigger ownership. Top-level popup-container, including false, takes precedence. Panel and popup options are separate. `click(event)` fires once for an enabled field; readonly fields notify but do not open. Use `open-change(false)` for close requests, not proof that a controlled state changed. 
 
 `suffix-icon` receives `focus: boolean` and `popupOpen: boolean`, replacing arrow-icon. `focus(index = 0)` focuses an endpoint without committing; `blur()` removes focus and requests closing.
 
@@ -327,111 +384,101 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 - `extra`: additional explanatory content.
 - `actions({ confirm, canConfirm, value })`: replace default tools. `value` is the draft; call `confirm()` to commit and disable buttons according to `canConfirm`.
 
-Single-time events carry formatted strings and Date objects; range events carry corresponding arrays. Pure panels no longer emit `open-change`, `update:open` or `clear`.
+Single-time events carry formatted strings and Date objects; range events carry corresponding arrays. Use field `open-change` and `update:open` to manage the popup, and field `clear` for clearing the value.
 
-Fields use independently copied PickerField → FieldDecorator. Panels edit drafts and write back only on confirmation; cancel/close do not write back. Clearing commits empty and closes immediately. Mobile fields do not open the software keyboard. See Date's unified field/commit example for all four fields.
+Panels edit a draft and commit on confirmation. Cancellation or closing does not commit, while clearing commits an empty value and closes immediately. Mobile time fields do not open the software keyboard. See the combined field examples in the Date documentation.
 
-### Props
+### Time Props
 
-| Arguments               | Description                                                                                                                                                                                 | Type                                                  | Default                             |
-| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------- | ----------------------------------- |
-| `v-model`               | Bound value                                                                                                                                                                                 | _TimeValue_                                           | `-`                                 |
-| `default-value`         | Initial uncontrolled value                                                                                                                                                                  | _TimeValue_                                           | `-`                                 |
-| `hide-disabled-options` | Hide disabled time options; clock tick positions remain                                                                                                                                     | _boolean_                                             | `false`                             |
-| `open`                  | Controlled popup visibility                                                                                                                                                                 | _boolean_                                             | `-`                                 |
-| `default-open`          | Initial visibility                                                                                                                                                                          | _boolean_                                             | `false`                             |
-| `open-trigger-target`   | Pointer opening area: field includes the whole field; icon uses only the suffix trigger. Clear/remove actions are excluded; explicit keyboard opening and controlled open remain available. | `'field' \| 'icon'`                                   | `'field'`                           |
-| `disable-confirm`       | Valid selection commits immediately and requests closing                                                                                                                                    | _boolean_                                             | `false`                             |
-| `show-now-button`       | Show Now; stage the current time until confirmation                                                                                                                                         | _boolean_                                             | `true`                              |
-| `format`                | String parse, display and output format                                                                                                                                                     | _string_                                              | `HH:mm:ss`                          |
-| `use12-hours`           | Twelve-hour panel; defaults to hh:mm:ss a without an explicit format                                                                                                                        | _boolean_                                             | `false`                             |
-| `step`                  | Candidate steps anchored at midnight; invalid values use 1                                                                                                                                  | `{ hour?: number; minute?: number; second?: number }` | `{ hour: 1, minute: 1, second: 1 }` |
-| `min`                   | Minimum selectable time                                                                                                                                                                     | _string_                                              | `-`                                 |
-| `max`                   | Maximum selectable time                                                                                                                                                                     | _string_                                              | `-`                                 |
-| `disabled-hours`        | Disabled hours (0–23)                                                                                                                                                                       | `() => number[]`                                      | `-`                                 |
-| `disabled-minutes`      | Disabled minutes for the hour                                                                                                                                                               | `(hour?: number) => number[]`                         | `-`                                 |
-| `disabled-seconds`      | Disabled seconds for the hour and minute                                                                                                                                                    | `(hour?: number, minute?: number) => number[]`        | `-`                                 |
-| `time-picker-props`     | Props passed to `mp-time-picker`                                                                                                                                                            | _Partial\<TimePickerProps\>_                          | `{}`                                |
-| `picker-props`          | Props forwarded to `mp-picker`                                                                                                                                                              | _Partial\<PickerProps\>_                              | `{}`                                |
-| `popup-props`           | Props passed to popup                                                                                                                                                                       | _Partial\<TriggerProps\>_                             | `{}`                                |
-| `input-editable`        | Allow text entry; panel selection remains available                                                                                                                                         | _boolean_                                             | `false`                             |
-| `placeholder`           | Placeholder                                                                                                                                                                                 | _string_                                              | `-`                                 |
-| `clearable`             | Whether the value can be cleared                                                                                                                                                            | _boolean_                                             | `false`                             |
-| `disabled`              | Whether disabled                                                                                                                                                                            | _boolean_                                             | `false`                             |
-| `readonly`              | Whether readonly                                                                                                                                                                            | _boolean_                                             | `false`                             |
-| `size`                  | Size: `xs` `sm` `md` `lg` `xl`                                                                                                                                                              | _ComponentSize_                                       | `md`                                |
-| `variant`               | Variant: `filled` `standard` `outline`                                                                                                                                                      | _string_                                              | `standard`                          |
+| Prop | Description | Type | Default behavior |
+| --- | --- | --- | --- |
+| `before-commit` | Explicit field-save guard using payload, done and context | `BeforeFieldCommit` | `undefined` |
+| `blur-color` | Color while unfocused | `string` | Theme default |
+| `clearable` | Allow clearing with disabled, readonly and pending guards | `boolean` | `false` |
+| `default-open` | Initial uncontrolled opening, read only at creation | `boolean` | `false` |
+| `default-value` | Initial uncontrolled value, read only at creation | `TimeValue` | `undefined` |
+| `disable-confirm` | Commit a valid selection immediately; fields also request closing | `boolean` | `false` |
+| `disabled` | Disable interaction; fields inherit FormItem/Form when unset | `boolean` | Inherited, finally false |
+| `disabled-hours` | Return disabled hours in the 0–23 clock | `() => number[]` | `undefined` |
+| `disabled-minutes` | Return disabled minutes for the selected hour | `(hour?: number) => number[]` | `undefined` |
+| `disabled-seconds` | Return disabled seconds for the selected hour and minute | `(hour?: number, minute?: number) => number[]` | `undefined` |
+| `edit-mode` | Field editing mode, inherited from FormItem/Form when unset | `FieldEditMode`<br>`'direct' \| 'popup'` | Inherited, finally popup |
+| `empty-text` | Empty text in read-pretty mode | `string` | Inherited, finally '-' |
+| `empty-value` | Clear output or factory, independent of empty-value recognition | `TimeValue \| null \| (() => TimeValue \| null \| undefined)` | `undefined` |
+| `empty-values` | Empty-value recognition list, replaced rather than merged | `readonly unknown[]` | Inherited/family default |
+| `error` | Field error presentation, inherited when unset | `boolean` | Inherited, finally false |
+| `focus-color` | Color while focused | `string` | Theme default |
+| `format` | String parsing, display and output format; 12-hour defaults include a | `string` | From use12Hours |
+| `hide-disabled-options` | Hide disabled time options; clocks retain tick positions | `boolean` | `false` |
+| `hint` | Floating placeholder hint, suppressed by an outer Form label | `boolean` | `true` |
+| `input-editable` | Allow text input without removing panel selection | `boolean` | `false` |
+| `line` | Show the field border or underline | `boolean` | `true` |
+| `loading` | Manual loading feedback, independent of event return values | `boolean` | `false` |
+| `loading-mode` | Field loading presentation mode | `default \| line` | `default` |
+| `max` | Maximum inclusive clock time in HH:mm or HH:mm:ss | `string` | `undefined` |
+| `min` | Minimum inclusive clock time in HH:mm or HH:mm:ss | `string` | `undefined` |
+| `model-value` | External value; numbers and Dates retain their input kind, while normal commits output formatted strings | `TimeModelValue` | `undefined` |
+| `open` | Controlled field editor opening | `boolean` | `undefined` |
+| `open-trigger-target` | Open by field or icon click, without restricting keyboard opening | `field \| icon` | `field` |
+| `picker-props` | Wheel presentation options, excluding owner model and rules | `TimeWheelPresentationProps` | `{}` |
+| `placeholder` | Placeholder text; ranges also accept start/end arrays | `string` | `undefined` |
+| `popup-container` | Editor container; false renders in place | `PopupContainer` | Shared container default |
+| `popup-props` | Popup presentation options, excluding model, state and owned events | `TimePopupPresentationProps` | `{}` |
+| `read-pretty` | Read-pretty presentation without an editor, independent of readonly | `boolean` | Inherited, finally false |
+| `readonly` | Readonly; fields allow focus/copy without value changes or opening editing | `boolean` | Inherited, finally false |
+| `show-now-button` | Show the now action, changing only draft and requiring confirmation | `boolean` | `true` |
+| `size` | Five sizes, following field Form inheritance | `ComponentSize`<br>`'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | Inherited, finally md |
+| `step` | Hour/minute/second steps from midnight; invalid steps fall back to 1 | `TimeStep` | Effective steps are all 1 |
+| `text-color` | Content text color | `string` | Theme default |
+| `time-fields` | Wheel columns and order; an explicit list controls visibility without changing format or model | `readonly TimePickerField[]`<br>`TimePickerField: 'hour' \| 'minute' \| 'second'` | Derived from format |
+| `time-picker-props` | Time-panel presentation options; model, rules and state remain owned by the field | `TimePanelPresentationProps` | `{}` |
+| `use12-hours` | 12-hour panel; disabled-hour callbacks still use 0–23 | `boolean` | `false` |
+| `variant` | Field appearance | `filled \| outline \| standard` | `standard` |
 
-### Events
+### Time Events
 
-| Event         | Description                              | Arguments                                             |
-| ------------- | ---------------------------------------- | ----------------------------------------------------- |
-| `focus`       | Focused                                  | `-`                                                   |
-| `blur`        | Blur                                     | `-`                                                   |
-| `change`      | Committed value                          | _value: string \| undefined, date: Date \| undefined_ |
-| `select`      | User draft selection                     | _value: string, date: Date_                           |
-| `clear`       | Clear the selection                      | `-`                                                   |
-| `open-change` | Visibility request                       | _open: boolean_                                       |
-| `click`       | Enabled field click (including readonly) | `event: Event`                                        |
-
-## Configuring the cleared value
-
-`empty-value` / `emptyValue` sets the model value produced by clearing. It accepts a value in the component model type or a zero-argument factory. Omission preserves the existing default; use `() => undefined` to distinguish omission from returning undefined. Arrays are shallow-copied on every clear; selected items that cannot be cleared remain. It does not redefine emptiness, alter Form reset defaults or treat 0/false as universally empty.
-
-## TimePicker API
+See the complete field events and slots section on this page for all field notifications.
 
 Pure-panel `disable-confirm: boolean = false` skips confirmation and commits immediately. Custom `actions` must call slot `confirm()` and disable invalid submissions according to `canConfirm`.
 
-### Props
+### TimePicker Props
 
-| Arguments               | Description                                                          | Type                                                  | Default                             |
-| ----------------------- | -------------------------------------------------------------------- | ----------------------------------------------------- | ----------------------------------- |
-| `v-model`               | Bound value                                                          | _TimeValue_                                           | `-`                                 |
-| `default-value`         | Initial uncontrolled value                                           | _TimeValue_                                           | `-`                                 |
-| `hide-disabled-options` | Hide disabled time options; clock tick positions remain              | _boolean_                                             | `false`                             |
-| `disabled`              | Disable panel editing                                                | _boolean_                                             | `false`                             |
-| `disable-confirm`       | Hide confirmation; valid selections commit immediately               | _boolean_                                             | `false`                             |
-| `show-now-button`       | Show Now; stage the current time until confirmation                  | _boolean_                                             | `true`                              |
-| `picker-props`          | Props forwarded to `Picker` in column-wheel mode                     | _object_                                              | `-`                                 |
-| `format`                | String parse, display and output format                              | _string_                                              | `HH:mm:ss`                          |
-| `elevation`             | Elevation level, options `true` `false` and level of `0-24`          | _number \| boolean_                                   | `false`                             |
-| `min`                   | Minimum time in ISO 8601 format                                      | _string_                                              | `-`                                 |
-| `max`                   | Maximum time in ISO 8601 format                                      | _string_                                              | `-`                                 |
-| `disabled-hours`        | Disabled hours (0–23)                                                | `() => number[]`                                      | `-`                                 |
-| `disabled-minutes`      | Disabled minutes for the hour                                        | `(hour?: number) => number[]`                         | `-`                                 |
-| `disabled-seconds`      | Disabled seconds for the hour and minute                             | `(hour?: number, minute?: number) => number[]`        | `-`                                 |
-| `readonly`              | Whether readonly                                                     | _boolean_                                             | `false`                             |
-| `use12-hours`           | Twelve-hour panel; defaults to hh:mm:ss a without an explicit format | _boolean_                                             | `false`                             |
-| `step`                  | Candidate steps anchored at midnight; invalid values use 1           | `{ hour?: number; minute?: number; second?: number }` | `{ hour: 1, minute: 1, second: 1 }` |
+| Prop | Description | Type | Default behavior |
+| --- | --- | --- | --- |
+| `default-value` | Initial uncontrolled value, read only at creation | `TimeValue` | `undefined` |
+| `disable-confirm` | Commit a valid selection immediately; fields also request closing | `boolean` | `false` |
+| `disabled` | Disable panel selection and confirmation | `boolean` | `false` |
+| `disabled-hours` | Return disabled hours in the 0–23 clock | `() => number[]` | `undefined` |
+| `disabled-minutes` | Return disabled minutes for the selected hour | `(hour?: number) => number[]` | `undefined` |
+| `disabled-seconds` | Return disabled seconds for the selected hour and minute | `(hour?: number, minute?: number) => number[]` | `undefined` |
+| `elevation` | Panel elevation; false disables its shadow | `boolean \| number` | `false` |
+| `format` | String parsing, display and output format; 12-hour defaults include a | `string` | From use12Hours |
+| `hide-disabled-options` | Hide disabled time options; clocks retain tick positions | `boolean` | `false` |
+| `max` | Maximum inclusive clock time in HH:mm or HH:mm:ss | `string` | `undefined` |
+| `min` | Minimum inclusive clock time in HH:mm or HH:mm:ss | `string` | `undefined` |
+| `model-value` | Panel external value, seeding draft and accepting later changes | `TimeValue` | `undefined` |
+| `picker-props` | Wheel presentation options, excluding owner model and rules | `TimeWheelPresentationProps` | `undefined` |
+| `readonly` | Readonly panel without draft changes or confirmation | `boolean` | `false` |
+| `show-now-button` | Show the now action, changing only draft and requiring confirmation | `boolean` | `true` |
+| `step` | Hour/minute/second steps from midnight; invalid steps fall back to 1 | `TimeStep` | Effective steps are all 1 |
+| `time-fields` | Wheel columns and order; an explicit list controls visibility without changing format or model | `readonly TimePickerField[]`<br>`TimePickerField: 'hour' \| 'minute' \| 'second'` | Derived from format |
+| `use12-hours` | 12-hour panel; disabled-hour callbacks still use 0–23 | `boolean` | `false` |
 
 ### Disabling rules
 
 Clock/wheels share three callbacks returning disabled-value arrays; hours always use 0–23. Hours/minutes without valid descendants are omitted from wheels.
 
-### Events
+### TimePicker Events
 
-| Event    | Description          | Callback arguments                                    |
-| -------- | -------------------- | ----------------------------------------------------- |
-| `change` | Committed value      | _value: string \| undefined, date: Date \| undefined_ |
-| `select` | User draft selection | _value: string, date: Date_                           |
+See the complete pure-panel events section on this page for all panel business notifications.
 
-### Slots
+### TimePicker Slots
 
-| Name      | Description           | Arguments                                                                                             |
-| --------- | --------------------- | ----------------------------------------------------------------------------------------------------- |
-| `actions` | Replace panel actions | _{ confirm: () => void, canConfirm: boolean, value, selectNow: () => boolean, nowDisabled: boolean }_ |
+| Name | Description | Prop |
+| --------- | -------------- | ----------------------------------------------------------------------------------------------------- |
+| `actions` | Replace panel actions | _{ confirm: () => boolean, canConfirm: boolean, value, selectNow: () => boolean, nowDisabled: boolean }_ |
 
-### Style variables
-
-The following CSS variables support customization with [StyleProvider](#/en-US/style-provider).
-
-| Variable                        | Default               |
-| ------------------------------- | --------------------- |
-| `--time-picker-border-radius`   | `4px`                 |
-| `--time-picker-font-size`       | `var(--font-size-md)` |
-| `--time-picker-min-width`       | `290px`               |
-| `--time-picker-body-background` | `#fff`                |
-| `--time-picker-actions-padding` | `0 8px 12px 8px`      |
+## Types
 
 ### Value types
 
@@ -439,43 +486,102 @@ The following CSS variables support customization with [StyleProvider](#/en-US/s
 export type TimeValue = string | number | Date
 ```
 
-### Form field presentation and confirmation
+### Field notifications and public types
 
-This component supports `edit-mode` with field > FormItem > Form precedence. When unset, it defaults to `popup` and opens an editor when the value area is clicked. Supported values: `direct / popup`. Non-direct modes open the editor through the field value trigger and keep one draft; v-model updates only after confirmation. Cancel, reset or enabling readPretty discards the draft.
+Field update:modelValue/change use TimeModelValue (TimeRangeModelValue for ranges). Normal selections commit formatted strings; explicit clears retain configured null, timestamps, Date objects or range arrays accepted by the property. Auxiliary dates may be undefined; clearing a range to an empty array also yields an empty auxiliary array. Clear does not emit select. Select remains a formatted user draft, which may be incomplete for a range.
 
-Maple uses edit-mode="popup" to open the editor when the value area is clicked; direct edits immediately. readPretty is a reading-only setting, independent of readonly and disabled.
+Exports TimeEmits, TimeModelValue, TimeReadScope, TimeSuffixIconScope, TimeSlots, TimeActionsScope and TimeExpose, plus TimeRangeEmits, TimeRangeModelValue, TimeRangeReadScope, TimeRangeSlots, TimeRangeActionsScope and TimeRangeExpose. Import each from the root or its component entry. Instances include the public Expose contract.
 
-`before-commit(value, { previousValue, signal })` can reject an overlay save. FormItem validates the candidate first and keeps the editor open on failure. `open / default-open / update:open` control the editor. Use `#read="{ value, text }"` to customize display. See the full field comparison in Form.
+Field read receives { value, text } with a nullable model; suffix-icon receives { focus, popupOpen }; clear-icon receives a guarded clear(event?). Range fields also support separator. Cedar direct mode supports a default custom trigger, while Maple does not. Neither platform currently forwards field loading-icon, so types do not promise it. actions/extra operate on panel drafts: Cedar forwards them in direct mode; Maple forwards them during deferred editing, not direct mode. Inner confirm is not the outer final-save entry.
 
-Inline date/time fields retain existing confirmation policies. In popover/popup, pure panels hide confirmation tools and the editor provides one confirm/cancel pair. Standalone DatePicker/DateRangePicker/TimePicker/TimeRangePicker retain panel APIs/confirmation without inheriting Form field presentation.
 
-Mobile date fields use `panel-type` to select calendar/wheel content; `edit-mode` controls only field editing. Standalone panel content follows each panel API and is not controlled by the field `edit-mode`.
+<!-- time-contract:start -->
 
-`read-pretty` is an independent boolean alongside `readonly` and `disabled`. It inherits from field to FormItem to Form; explicit `false` overrides the parent. The default is `false`. Reading mode renders no editor.
+### Field event and slot parameter types
 
-### Unified mobile panels
+Events notify only; listener Promises are not collected. update:modelValue and change include null, 0, Date or range arrays allowed by the clearing policy. select reports formatted draft rather than saving. Field update:open/open-change are opening requests; initialization does not notify automatically.
 
-Mobile wheels use a rounded selection band. Single-time panels show no top summary. Field popups and independent panels share appearance.
+| Event | Arguments |
+| --- | --- |
+| `update:modelValue` | `TimeModelValue` |
+| `change` | `TimeModelValue, Date \| undefined` |
+| `select` | `string \| undefined, Date \| undefined` |
+| `clear` | `()` |
+| `click` | `Event` |
+| `focus` | `()` |
+| `blur` | `()` |
+| `update:open` | `boolean` |
+| `open-change` | `boolean` |
 
-Single-time Now sits left of confirmation tools and updates the draft under format/step/disabling rules without committing/closing. Even with `disable-confirm`, Now and later wheel edits still require confirmation; cancel discards them. Hide it with `:show-now-button="false"`. Custom `actions` can use `selectNow()`/`nowDisabled`.
+Field focus(index?)/blur() target the actual input or trigger without changing model. read receives value/text, suffix-icon receives focus/popupOpen, and clear-icon receives guarded clear(event?). prefix, selected, suffix and extra are unscoped; ranges also have separator. Cedar direct mode has a custom default trigger slot; Maple does not.
 
-Wheel headers follow actual hour/minute/second format, adding AM/PM in 12-hour mode, matching the range panel.
+actions/extra belong to panel draft: Cedar direct forwards them, Maple direct does not, and deferred editing forwards them. Panel confirm() is not the outer field final-save entry point. Pure panels have actions/extra, without field read/clear-icon/loading-icon slots. Standalone panels expose no ref.confirm() method; custom confirmation uses actions.confirm.
 
-Panel style variables:
+### Panel event parameter types
 
-| Token                                        | Default                                                       |
-| -------------------------------------------- | ------------------------------------------------------------- |
-| `--mp-temporal-panel-inset`                  | `12px`                                                        |
-| `--mp-temporal-panel-column-label-height`    | `36px`                                                        |
-| `--mp-temporal-panel-column-label-font-size` | `13px`                                                        |
-| `--mp-temporal-panel-radius`                 | `12px`                                                        |
-| `--mp-time-picker-column-label-height`       | `var(--mp-temporal-panel-column-label-height)`                |
-| `--mp-temporal-panel-group-gap`              | `24px`                                                        |
-| `--mp-temporal-panel-touch-height`           | `44px`                                                        |
-| `--mp-temporal-panel-summary-background`     | `var(--mp-color-fill-1)`                                      |
-| `--mp-temporal-panel-selection-background`   | `var(--mp-color-fill-2)`                                      |
-| `--mp-temporal-panel-active-background`      | `color-mix(in srgb, var(--mp-color-primary) 8%, transparent)` |
+Arguments are tuples from the corresponding public event type. Date arguments are parsed from formatted clock times and do not promise to preserve an input Date calendar day.
 
-### Forwarded configuration boundaries (F07)
+| Event | Arguments |
+| --- | --- |
+| `update:modelValue` | `TimePickerEmits['update:modelValue']` |
+| `change` | `TimePickerEmits['change']` |
+| `select` | `TimePickerEmits['select']` |
+| `confirm` | `TimePickerEmits['confirm']` |
 
-Existing TimePopupPresentationProps and runtime filtering remain. Fields own open/defaultOpen, disabled, trigger, closeOnClickReference, preventFocus and expansion updates. Explicit top-level popup-container takes precedence, otherwise nested configuration is used. popupClass merges internal classes. Inline popupOffset stays 4; Maple also fixes unmountOnClose=true. Such fields in old types are not guaranteed to control final values. Existing Time types/runtime behavior are not narrowed here.
+### Type imports
+
+```ts
+import { Time, TimePicker, type TimeProps, type TimeEmits,
+  type TimeSlots, type TimeInstance, type TimePickerProps,
+  type TimePickerEmits, type TimePickerSlots } from '@maple-design/ui'
+```
+
+<!-- time-contract:end -->
+
+## Configuring the cleared value
+
+`empty-value` defines the output of an existing clear action. Omission preserves the component fallback; supported types remain component-specific. It does not change empty-values recognition or Form reset defaults.
+
+## CSS Variables
+
+The following CSS variables support customization with [ThemeProvider](#/en-US/theme-provider).
+
+<!-- component-css-variables:start -->
+
+Use these variables to customize the component. Defaults may vary by the selector condition shown. Each variable applies to the corresponding size, variant and interaction states.
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Default / condition | Affected styles |
+| --- | --- | --- |
+| `--mp-time-panel-actions-padding` | `8px` | `padding` |
+| `--mp-time-panel-background` | `var(--mp-sys-color-surface-overlay)` | `background` |
+| `--mp-time-panel-border` | `var(--mp-color-border-2)` | `border`, `border-top` |
+| `--mp-time-panel-radius` | `8px` | `border-radius` |
+| `--mp-time-picker-actions-padding` | `0 8px 12px 8px` | `padding` |
+| `--mp-time-picker-body-background` | `#fff` | `background` |
+| `--mp-time-picker-border-radius` | `4px` | `border-radius` |
+| `--mp-time-picker-column-label-height` | `var(--mp-internal-temporal-panel-column-label-height)` | `height` |
+| `--mp-time-picker-font-size` | `var(--mp-font-size-md)` | `font-size` |
+| `--mp-time-picker-min-width` | `290px` | `min-width` |
+| `--mp-time-popover-gap` | `32px` | `max-height`, `max-width` |
+| `--mp-time-popover-max-height` | `calc(50dvh - var(--mp-time-popover-gap))` | `max-height` |
+| `--mp-time-popover-width` | `320px` | `width` |
+| `--mp-time-title-font-size` | `var(--mp-picker-title-font-size, 16px)` | `font-size` |
+| `--mp-time-title-text-color` | `var(--mp-picker-title-text-color, #555)` | `color` |
+| `--mp-time-toolbar-height` | `var(--mp-picker-toolbar-height, 44px)` | `height` |
+| `--mp-time-toolbar-padding` | `var(--mp-picker-toolbar-padding, 0 4px)` | `padding` |
+
+</div>
+
+Apply overrides to the rendered component root or the actual popup ancestor. For example, add the following class to that element and replace the value as needed:
+
+```css
+.component-theme {
+  --mp-time-panel-actions-padding: 8px;
+}
+```
+
+Explicit inline styles and props that write the same CSS property take precedence over stylesheet defaults. After Teleport, ordinary CSS variables inherit from the actual mount location. When using ThemeProvider, follow its local-theme and popup configuration rules. Override the component variable directly for local styling; root-level aliases are not recalculated merely because a descendant system variable changes. Internal variables are not public APIs.
+
+<!-- component-css-variables:end -->

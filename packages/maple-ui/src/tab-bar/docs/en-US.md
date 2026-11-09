@@ -111,7 +111,7 @@ Use the same stable identifier for `key` (node identity) and `name` (selection).
 | --- | --- | --- | --- |
 | `loading` | Explicit business loading state | `boolean` | `false` |
 
-External loading blocks close/switch requests; internal before-hook waiting is merged for display.
+External loading blocks tab switching; internal before-hook waiting is merged for display.
 
 
 Set loading explicitly to display feedback. Ordinary event return values do not drive loading. Before hooks retain their documented pending behavior.
@@ -122,26 +122,35 @@ Set loading explicitly to display feedback. Ordinary event return values do not 
 
 ## Reading direction
 
-Inherits the nearest `dir="ltr|rtl"` and supports runtime and nested overrides. Items follow reading direction without changing their values or data order. Implicit floating-action spacing follows reading end; centered actions stay centered. Explicitly named badge positions remain physical corners.
+Inherits the nearest `dir="ltr|rtl"`, including runtime changes and local overrides. Navigation items follow reading order without changing selection values or item order. Automatic space for a floating button is at inline end; a center button remains centered. Explicit Badge placements remain physical corners.
 
 ## API
+
+`default`/`icon` slot active indicates whether this item's name matches modelValue; focus/hover do not change it. activeColor/inactiveColor control current/noncurrent colors.
+
+#### Async operation feedback
+Awaited before-* hooks show loading feedback and aria-busy. Rejection/failure restores interaction; repeated input does not restart the same operation. Ordinary event return Promises do not participate. Switching to a different target retains the latest-request-wins rule.
+
+#### guard-error
+Emitted once after a switching guard fails, with `(error, value)`.
+
+TabBar uses a group of buttons for state selection, with aria-pressed on the selected item. Give the root an aria-label when needed. Applications handle routing; ordinary events do not await return values.
 
 ### Value and default value
 
 Use ordinary `v-model`. `modelValue` is the selected child name; unnamed positional mode uses zero-based indices. `defaultValue` initializes uncontrolled state once without later resets. Explicit binding wins, without initialization `update:modelValue`.
 
-### Props
+### TabBar Props
 
-#### TabBar Props
-
-| Arguments | Description | Type | Default |
+| Prop | Description | Type | Default |
 | ------------------ | ----------------- | ---- | ---- |
 | `v-model` | Selected name or index; controlled when provided | _number \| string_ | `undefined` |
+| `loading` | Externally controlled loading state; switching is blocked while active | _boolean_ | `false` |
 | `default-value` | Initial uncontrolled selection; read once | _number \| string_ | `0` |
-| `before-change` | Guard selection; truthy permits, falsy/throw/rejection cancels. Only the latest request may commit | _(active: number \| string) => boolean \| Promise&lt;boolean&gt;_ | `-` |
+| `before-change` | Guard selection; truthy permits, falsy/throw/rejection cancels. Only the latest request may commit | `TabBarBeforeChange`: `(active: number \| string) => unknown`; may return a Promise; arrays of functions are supported | `-` |
 | `fixed` | Whether to fixed bottom | _boolean_ | `false` |
 | `border` | Whether to show border | _boolean_ | `false` |
-| `safe-area` | Whether to enable bottom safety zone adaptation | _boolean_ | `false` |
+| `safe-area` | Whether to adapt to the bottom, left and right safe areas | _boolean_ | `false` |
 | `z-index` | Z-index; an explicit prop overrides the CSS variable | _number \| string_ | `undefined`; CSS defaults to `1` |
 | `active-color` | Color of active tab item | _string_ | `-` |
 | `inactive-color` | Color of inactive tab item | _string_ | `-` |
@@ -149,89 +158,93 @@ Use ordinary `v-model`. `modelValue` is the selected child name; unnamed positio
 | `fab-props` | Fab button props | _ButtonProps_ | `{ status: 'primary' }` |
 | `variant` | Appearance | _TabBarVariant_：`standard` / `pill` | `standard` |
 
-Without active, selection is managed internally. Providing active only notifies callers. Removing active resumes from the last controlled value. Numeric names take precedence over unnamed indices; named children do not match by index.
+When model-value is omitted the component manages selection; when provided it only requests updates. Releasing control retains the last controlled value. Numeric names take precedence over unnamed item indices; named items do not match by index.
 
-#### TabBarItem Props
+### TabBarItem Props
 
-| Arguments | Description | Type | Default |
+| Prop | Description | Type | Default |
 | ---- | ---- | ---- | ---- |
 | `name` | Identifier | _number \| string_ | `-` |
 | `icon` | Icon name, matching Icon [name](#/en-US/icon) | _string_ | `-` |
 | `label` | Label text content | _string_ | - |
 | `badge` | Logo in the upper right corner of the icon | _boolean \| BadgeProps_ | `false` |
 
-### Events
-
-#### TabBar Events
-
-| Event | Description | Callback arguments |
-| ---- | ---- | ---- |
-| `change` | Triggered when switching labels | `active: number \| string` |
-| `fab-click` | Triggered when clicking fab button | `-` |
-
-#### TabBarItem Events
+### TabBarItem Events
 
 | Event | Description | Callback arguments |
 | ---- | ---- | ---- |
 | `click` | Triggered when the cell is clicked | `active: number \| string` |
 
-### Slots
+### TabBar Events
 
-#### TabBar Slots
+| Event | Description | Callback arguments |
+| ---- | ---- | ---- |
+| `update:modelValue` | Request a selected-value update | `active: number \| string` |
+| `change` | Triggered when switching labels | `active: number \| string` |
+| `guard-error` | Emitted when the guard throws or its Promise rejects | `error: unknown, value: number \| string` |
+| `fab-click` | Triggered when clicking fab button | `-` |
 
-| Name | Description | Arguments |
-| ---- | ----------------------- | ---- |
-| `default` | Bottom-navigation content | `-` |
-| `fab` | Support for inserting a custom Fab button into a component | `-` |
+### TabBarItem Slots
 
-#### TabBarItem Slots
-
-| Name | Description | Arguments |
+| Name | Description | Prop |
 | ---- | ---- | ---- |
 | `default` | Custom `label` content; overrides `label` | `active: boolean` |
 | `icon` | Custom icon | `active: boolean` |
 
-### Style variables
+### TabBar Slots
 
-The following CSS variables support customization with [StyleProvider](#/en-US/style-provider).
+| Name | Description | Prop |
+| ---- | ----------------------- | ---- |
+| `default` | Bottom-navigation content | `-` |
+| `fab` | Support for inserting a custom Fab button into a component | `-` |
 
-#### TabBar Variables
+## CSS Variables
+
+The following CSS variables support customization with [ThemeProvider](#/en-US/theme-provider).
 
 When `z-index` is omitted, the component consumes `--mp-tab-bar-z-index`. An explicit number or CSS string takes precedence. The visual default remains `1`; the prop itself no longer defaults to `1`.
 
-| Variable | Default |
-| --- | --- |
-| `--mp-tab-bar-height` | `50px` |
-| `--mp-tab-bar-variant-height` | `66px` |
-| `--mp-tab-bar-z-index` | `1` |
-| `--mp-tab-bar-background-color` | `var(--mp-color-bg-2)` |
-| `--mp-tab-bar-border-color` | `var(--color-border-2)` |
-| `--mp-tab-bar-fab-offset` | `4px` |
+<!-- component-css-variables:start -->
 
-#### TabBarItem Variables
+Use these variables to customize the component. Defaults may vary by the selector condition shown. Each variable applies to the corresponding size, variant and interaction states.
 
-| Variable | Default |
-| --- | --- |
-| `--mp-tab-bar-item-font-size` | `var(--font-size-sm)` |
-| `--mp-tab-bar-item-inactive-color` | `var(--mp-color-text-2)` |
-| `--mp-tab-bar-item-active-color` | `var(--color-primary)` |
-| `--mp-tab-bar-item-active-background-color` | `transparent` |
-| `--mp-tab-bar-item-line-height` | `1` |
-| `--mp-tab-bar-item-icon-size` | `22px` |
-| `--mp-tab-bar-item-icon-margin-bottom` | `5px` |
-| `--mp-tab-bar-fab-border-radius` | `50%` ` |
-| `--mp-tab-bar-item-variant-icon-container-height` | `30px` |
-| `--mp-tab-bar-item-variant-icon-container-border-radius` | `100px` |
-| `--mp-tab-bar-item-variant-icon-container-max-width` | `58px` |
-| `--mp-tab-bar-item-variant-active-background-color` | `color-mix(in srgb, var(--mp-color-primary) 14%, var(--mp-tab-bar-background-color))` |
-| `--mp-tab-bar-item-variant-active-color` | `var(--mp-color-primary)` |
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
 
-`default`/`icon` slot active indicates whether this item's name matches modelValue; focus/hover do not change it. activeColor/inactiveColor control current/noncurrent colors.
+| Variable | Default / condition | Affected styles |
+| --- | --- | --- |
+| `--mp-tab-bar-background-color` | `var(--mp-color-bg-2)` | `background-color` |
+| `--mp-tab-bar-border-color` | `var(--mp-color-border-2)` | `border-top` |
+| `--mp-tab-bar-fab-border-radius` | `50%` | `border-radius` |
+| `--mp-tab-bar-fab-offset` | `4px` | `inset-inline-end`, `margin-inline-end` |
+| `--mp-tab-bar-height` | `50px` | `height`, `inset-inline-end`, `margin-inline-end`, `margin-inline-start`, `width` |
+| `--mp-tab-bar-item-active-background-color` | `transparent` | `background-color` |
+| `--mp-tab-bar-item-active-color` | `var(--mp-sys-color-content-brand)` | `color` |
+| `--mp-tab-bar-item-focus-color` | `currentColor` | `outline` |
+| `--mp-tab-bar-item-focus-offset` | `-2px` | `outline-offset` |
+| `--mp-tab-bar-item-focus-width` | `2px` | `outline` |
+| `--mp-tab-bar-item-font-size` | `var(--mp-font-size-sm)` | `font-size` |
+| `--mp-tab-bar-item-icon-margin-bottom` | `5px` | `margin-top` |
+| `--mp-tab-bar-item-icon-size` | `22px` | `font-size` |
+| `--mp-tab-bar-item-inactive-color` | `var(--mp-color-text-2)` | `color` |
+| `--mp-tab-bar-item-line-height` | `1` | `line-height` |
+| `--mp-tab-bar-item-variant-active-background-color` | `color-mix(in srgb, var(--mp-color-primary) 14%, var(--mp-tab-bar-background-color))` | `background-color` |
+| `--mp-tab-bar-item-variant-active-color` | `var(--mp-sys-color-content-brand)` | `color` |
+| `--mp-tab-bar-item-variant-icon-container-border-radius` | `100px` | `border-radius` |
+| `--mp-tab-bar-item-variant-icon-container-height` | `30px` | `height` |
+| `--mp-tab-bar-item-variant-icon-container-max-width` | `58px` | `max-width` |
+| `--mp-tab-bar-variant-height` | `66px` | `height` |
+| `--mp-tab-bar-z-index` | `1` | Component styling |
 
-### Before-hook waiting feedback
+</div>
 
-Before-hook waits show visible feedback and aria-busy. Rejected or failed operations recover; duplicate submissions do not start another copy. Notification event Promises never drive loading. Different tab targets keep the latest request.
+Apply overrides to the rendered component root or the actual popup ancestor. For example, add the following class to that element and replace the value as needed:
 
-### guard-error
+```css
+.component-theme {
+  --mp-tab-bar-background-color: var(--mp-color-bg-2);
+}
+```
 
-Emitted once with `(error, value)` after a change hook fails.
+Explicit inline styles and props that write the same CSS property take precedence over stylesheet defaults. After Teleport, ordinary CSS variables inherit from the actual mount location. When using ThemeProvider, follow its local-theme and popup configuration rules. Override the component variable directly for local styling; root-level aliases are not recalculated merely because a descendant system variable changes. Internal variables are not public APIs.
+
+<!-- component-css-variables:end -->

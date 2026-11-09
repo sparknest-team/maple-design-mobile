@@ -1142,10 +1142,10 @@ Custom-property references resolve before inheritance. A child's system override
 
 | Scenario | Supported customization |
 | --- | --- |
-| Global theme | Use this library's global StyleProvider method at the document root |
+| Global theme | Use this library's global ThemeProvider method at the document root |
 | Local component | Override its actual public component variables; changing only palette/system roles is not a complete scoped-theme rebuild |
 | Local semantic mapping | Redeclare the required component aliases on the same local host |
-| Body Teleport | Inherits body/html, not the calling provider or reference element |
+| Body Teleport | Library declarative portals inherit their owning ThemeProvider through Vue context; third-party portals and services created outside a provider need an explicit host boundary |
 | Custom popup-container | Put variables on the existing destination host or actual panel |
 | popup-container=false | Retains caller DOM inheritance, with its ancestor clipping, transforms and stacking constraints |
 | Iframe HTMLElement | Accepted from its own realm; load CSS and provide variables in the destination document. Selector strings query the caller document only |
@@ -1157,3 +1157,5 @@ Panels and overlays are siblings: panel variables cannot reach the overlay throu
 `check:portal-scope` verifies real Teleport destinations, state preservation while moving hosts, old-host lock release, foreign-document validation/event ownership and cleanup. It is not a browser rendering test. A local CSS audit must not reevaluate inherited raw root aliases against descendant overrides. Narrow screens, 200% browser zoom, long content and cross-document focus still require browser acceptance.
 
 When an open modal changes destination documents, its event listeners, focus trap, layer registry and scroll locks must follow the actual destination. DOM adoption changes ownerDocument without necessarily changing the Vue element ref: internal rebinding must track the reactive destination too. Moving back and unmounting must clean up old listeners. This adds no public CSS variables; native iframe focus and CSS inheritance still require browser acceptance.
+
+Explicit ThemeProvider `theme="light/dark"` boundaries re-declare palette, system and loaded component aliases through CSS, support nested modes, and carry user overrides to library popup roots. They do not mutate the document theme or scan computed styles. A provider without theme retains its original variable-only override semantics.

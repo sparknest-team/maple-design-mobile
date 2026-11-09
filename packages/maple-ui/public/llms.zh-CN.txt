@@ -121,7 +121,6 @@ Documentation language: zh-CN.
 - [SplitButton 分裂按钮](./llms/zh-CN/split-button.md): /zh-CN/split-button
 - [统计数值](./llms/zh-CN/statistic.md): /zh-CN/statistic
 - [步骤条](./llms/zh-CN/steps.md): /zh-CN/steps
-- [StyleProvider 样式定制](./llms/zh-CN/style-provider.md): /zh-CN/style-provider
 - [海拔 Elevation](./llms/zh-CN/style.md): /zh-CN/style
 - [滑动单元格](./llms/zh-CN/swipe-cell.md): /zh-CN/swipe-cell
 - [Switch](./llms/zh-CN/switch.md): /zh-CN/switch
@@ -130,6 +129,7 @@ Documentation language: zh-CN.
 - [Tabs 标签页](./llms/zh-CN/tabs.md): /zh-CN/tabs
 - [标签](./llms/zh-CN/tag.md): /zh-CN/tag
 - [文本域](./llms/zh-CN/textarea.md): /zh-CN/textarea
+- [ThemeProvider 主题](./llms/zh-CN/theme-provider.md): /zh-CN/theme-provider
 - [主题定制](./llms/zh-CN/themes.md): /zh-CN/themes
 - [TimeRange 时间范围](./llms/zh-CN/time-range.md): /zh-CN/time-range
 - [Time 时间](./llms/zh-CN/time.md): /zh-CN/time

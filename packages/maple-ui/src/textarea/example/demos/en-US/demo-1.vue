@@ -11,7 +11,7 @@ const trimmed = ref('')
     <mp-textarea default-value="An uncontrolled initial value" aria-label="非Controlled text" />
     <mp-textarea
       v-model.trim="trimmed"
-      placeholder="Enter surrounding whitespace, then blur"
+      placeholder="Enter surrounding whitespace and inspect the model"
       aria-label="Trimmed text"
     />
     <p role="status">Trimmed value: {{ JSON.stringify(trimmed) }}</p>

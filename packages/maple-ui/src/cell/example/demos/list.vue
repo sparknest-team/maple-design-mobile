@@ -29,6 +29,7 @@ const handleClick = (item) => {
       v-for="(item, index) in items"
       :key="item.name"
       ripple
+      :action-aria-label="`查看${item.name}`"
       :border="index !== items.length - 1"
       :border-offset="0"
       @click="handleClick(item)"

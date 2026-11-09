@@ -2,7 +2,7 @@
 
 The back button only emits `back`; it does not navigate or call browser history. The demos show a Message notification. Handle the destination in your application. The native button supports click, Enter and Space.
 
-Displays the current page title, context, and related actions. The API follows Naive UI. Fixed positioning, safe areas, and visual backgrounds belong in application-level `class` / `style` rules.
+Displays the current page title, context and related actions. Use application-level `class` / `style` for fixed positioning, safe areas and visual backgrounds.
 
 ## Basic examples
 
@@ -47,26 +47,35 @@ Compose the header with Card, Space, Cell, Grid, Statistic and Divider without c
 
 ## Reading direction
 
-Inherits the nearest `dir="ltr|rtl"` and supports runtime and nested overrides. The back action sits at reading start and its default icon points right in RTL. Titles and extras follow reading order. Custom back slots are not automatically mirrored.
+Inherits the nearest `dir="ltr|rtl"`, including runtime changes and local overrides. The back button sits at inline start; its default icon points right in RTL. Title, subtitle and extra content follow reading order. Custom back slots are not mirrored automatically.
+
+## Usage notes
+
+### Configuration
+
+The back button shows circular feedback for hover-capable mouse pointers and keyboard focus. The feedback circle does not affect title layout.
 
 ## API
 
-### Props
+The back button uses the current locale’s back text by default. Use `back-button-aria-label` for a more specific name. The title slot can contain a heading at the level appropriate for the page. The back event is a notification and does not navigate automatically.
 
-| Arguments | Description | Type | Default |
+### PageHeader Props
+
+| Prop | Description | Type | Default |
 | ---------- | ---------------- | --------- | ------- |
 | `show-back` | Whether to show back | _boolean_ | `false` |
+| back-button-aria-label | Accessible name of the back button | `string` | Current locale back text |
 | `title` | Main title | _string_ | `-` |
 | `subtitle` | Subtitle | _string_ | `-` |
 | `extra` | Extra content on the right | _string_ | `-` |
 
-### Events
+### PageHeader Events
 
-| Name | Description | Arguments |
+| Name | Description | Prop |
 | ------ | -------------------------------------------- | ------------ |
 | `back` | Emitted when the back button is clicked | `MouseEvent` |
 
-### Slots
+### PageHeader Slots
 
 | Name | Description |
 | ---------- | ---------------------------- |
@@ -79,12 +88,40 @@ Inherits the nearest `dir="ltr|rtl"` and supports runtime and nested overrides. 
 | `default` | Main page-header content |
 | `footer` | Footer content |
 
-## Shared implementation and platform boundaries
+## CSS Variables
 
-Each platform maintains a complete local implementation. They do not import a common core or share component instances or reactive state. Changes must update both implementations. Component bodies, props, key styles and paired tests have read-only source consistency checks; theme tokens and installation entries remain local to each library.
+<!-- component-css-variables:start -->
 
-The back control is a native button with keyboard activation and back(MouseEvent). Cedar classes change from c-page-header-xxx to c-page-header__xxx. Icons remain locally supplied.
+Use these variables to customize the component. Defaults may vary by the selector condition shown. Each variable applies to the corresponding size, variant and interaction states.
 
-### Back-interaction variables
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
 
-`--mp-page-header-back-hover-size` (30px) controls the feedback circle without moving the title; `--mp-page-header-back-hover-bg` (`var(--mp-sys-color-state-hover)`) supplies its background. Hover feedback only applies to fine pointers supporting hover; keyboard focus-visible remains available for all input modes.
+| Variable | Default / condition | Affected styles |
+| --- | --- | --- |
+| `--mp-page-header-back-color` | `var(--mp-color-text-2)` | `color` |
+| `--mp-page-header-back-hover-bg` | `var(--mp-sys-color-state-hover)` | `background` |
+| `--mp-page-header-back-hover-size` | `30px` | `height`, `width` |
+| `--mp-page-header-back-size` | `22px` | `font-size` |
+| `--mp-page-header-content-margin-top` | `16px` | `margin-top` |
+| `--mp-page-header-font-size` | `var(--mp-font-size-md)` | `font-size` |
+| `--mp-page-header-footer-margin-top` | `16px` | `margin-top` |
+| `--mp-page-header-item-gap` | `12px` | `margin-inline-start` |
+| `--mp-page-header-row-gap` | `12px` | `margin-bottom` |
+| `--mp-page-header-subtitle-color` | `var(--mp-color-text-3)` | `color` |
+| `--mp-page-header-title-color` | `var(--mp-color-text-1)` | `color` |
+| `--mp-page-header-title-font-size` | `var(--mp-font-size-lg)` | `font-size` |
+| `--mp-page-header-title-font-weight` | `600` | `font-weight` |
+
+</div>
+
+Apply overrides to the rendered component root or the actual popup ancestor. For example, add the following class to that element and replace the value as needed:
+
+```css
+.component-theme {
+  --mp-page-header-back-color: var(--mp-color-text-2);
+}
+```
+
+Explicit inline styles and props that write the same CSS property take precedence over stylesheet defaults. After Teleport, ordinary CSS variables inherit from the actual mount location. When using ThemeProvider, follow its local-theme and popup configuration rules. Override the component variable directly for local styling; root-level aliases are not recalculated merely because a descendant system variable changes. Internal variables are not public APIs.
+
+<!-- component-css-variables:end -->

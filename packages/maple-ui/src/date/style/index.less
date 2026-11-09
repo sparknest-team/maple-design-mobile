@@ -172,14 +172,14 @@
 
 .mp-date-panel__layout--standalone.mp-date-panel__layout--time:not(.mp-date-panel__layout--range) {
   --mp-date-picker-panel-preferred-width: calc(
-    var(--mp-date-picker-panel-date-width) + var(--mp-temporal-panel-quick-time-width) +
-      var(--mp-temporal-panel-inset) + var(--mp-sys-space-2)
+    var(--mp-date-picker-panel-date-width) + var(--mp-internal-temporal-panel-quick-time-width) +
+      var(--mp-internal-temporal-panel-inset) + var(--mp-sys-space-2)
   );
 }
 .mp-date-field-popover .mp-date-field-panel:has(.mp-date-picker--with-time) {
   width: calc(
-    var(--mp-date-picker-panel-date-width) + var(--mp-temporal-panel-quick-time-width) +
-      var(--mp-temporal-panel-inset) + var(--mp-sys-space-2)
+    var(--mp-date-picker-panel-date-width) + var(--mp-internal-temporal-panel-quick-time-width) +
+      var(--mp-internal-temporal-panel-inset) + var(--mp-sys-space-2)
   );
 }
 
@@ -207,7 +207,7 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--mp-sys-space-2);
-  padding: var(--mp-temporal-panel-inset);
+  padding: var(--mp-internal-temporal-panel-inset);
   min-height: 280px;
   align-content: center;
   &__item {
@@ -314,7 +314,7 @@
         align-items: center;
         justify-content: center;
         flex-shrink: 0;
-        min-height: var(--mp-temporal-panel-touch-height);
+        min-height: var(--mp-internal-temporal-panel-touch-height);
         color: var(--mp-date-picker-header-color);
       }
     }

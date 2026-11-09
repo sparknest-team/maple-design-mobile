@@ -77,6 +77,25 @@
     outline: none;
     -webkit-tap-highlight-color: transparent;
 
+    &-heading {
+      flex: 1;
+      min-width: 0;
+    }
+
+    &-button {
+      display: flex;
+      align-items: center;
+      gap: var(--mp-collapse-expand-icon-spacing-text);
+      width: 100%;
+      min-width: 0;
+      outline: none;
+
+      &:focus-visible {
+        outline: var(--mp-collapse-focus-width) solid var(--mp-collapse-focus-color);
+        outline-offset: var(--mp-collapse-focus-offset);
+      }
+    }
+
     &-title {
       flex: 1;
       min-width: 0;
@@ -141,9 +160,9 @@
   }
 }
 
-.mp-collapse-item__header--icon-left:dir(rtl) > .mp-collapse-item__expand-icon-wrap {
+.mp-collapse-item__header--icon-left:dir(rtl) .mp-collapse-item__expand-icon-wrap {
   order: 2;
 }
-.mp-collapse-item__header--icon-right:dir(rtl) > .mp-collapse-item__expand-icon-wrap {
+.mp-collapse-item__header--icon-right:dir(rtl) .mp-collapse-item__expand-icon-wrap {
   order: -1;
 }

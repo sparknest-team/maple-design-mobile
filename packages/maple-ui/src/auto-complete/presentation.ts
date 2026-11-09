@@ -5,6 +5,7 @@ import SelectionEditor from '../_components/selected-options/SelectionEditor.vue
 import Base from './auto-complete'
 
 export default withFieldPresentation(Base, {
+  methods: ['focus', 'blur', 'refresh'],
   defaultPresentation: defaultSelectionPresentation,
   intent: 'input',
   editor: ({ props, attrs, value, update, emit, slots, disabled, readonly }) =>

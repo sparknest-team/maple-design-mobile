@@ -66,6 +66,7 @@
         :aria-label="typeof $attrs['aria-label'] === 'string' ? $attrs['aria-label'] : placeholder"
         :aria-expanded="open"
         :aria-invalid="error || undefined"
+        :aria-describedby="describeError($attrs['aria-describedby'])"
         :aria-busy="loading || undefined"
         :aria-autocomplete="searchable ? 'list' : 'none'"
         role="combobox"
@@ -88,11 +89,12 @@
         :disabled="disabled || readonly"
         :aria-label="placeholder || selectText"
         :aria-expanded="open"
-        aria-haspopup="listbox"
+        :aria-haspopup="($attrs['aria-haspopup'] as AriaAttributes['aria-haspopup']) ?? 'listbox'"
+        :aria-controls="typeof $attrs['aria-controls'] === 'string' ? $attrs['aria-controls'] : undefined"
         :class="classes(n('icon'), [open && !searchable, n('icon--open')])"
       >
         <slot v-if="searchable && open" name="search-icon"><IconSearch /></slot>
-        <slot v-else name="arrow-icon" :focus="active" :menu-open="open"><IconDown /></slot>
+        <slot v-else name="arrow-icon" v-bind="{ focus: active, menuOpen: open }"><IconDown /></slot>
       </button>
       <slot name="suffix" />
     </template>
@@ -100,10 +102,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, useId, watch, type VNodeChild } from 'vue'
+import { computed, ref, useId, watch, type AriaAttributes, type VNodeChild } from 'vue'
 import { IconDown, IconSearch } from '@maple-design/icons-vue'
 import FieldDecorator from '../../field-decorator/FieldDecorator.vue'
 import { fieldDecoratorProps } from '../../field-decorator/props'
+import { useFormErrorDescription } from '../../form/error-description'
 import Tag from '../../tag'
 import { createNamespace } from '../../utils/components'
 import { useFieldTexts } from '../field-presentation/texts'
@@ -114,6 +117,7 @@ import SelectionTagLabel from './SelectionTagLabel.vue'
 defineOptions({ name: createNamespace('selection-field').name, inheritAttrs: false })
 const { select: selectText } = useFieldTexts()
 const props = defineProps(selectionFieldProps)
+const { describe: describeError } = useFormErrorDescription()
 const emit = defineEmits<{
   'update:inputValue': [value: string]
   remove: [key: SelectionFieldItem['key']]

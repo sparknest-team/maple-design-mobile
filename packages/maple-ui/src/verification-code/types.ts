@@ -1,9 +1,11 @@
 import type { VNodeChild } from 'vue'
 
 export interface VerificationCodeEmits {
-  'update:modelValue': [value: string]
+  'update:open': [open: boolean]
+  'open-change': [open: boolean]
+  'update:modelValue': [value: string | null]
   input: [character: string, index: number, event: Event]
-  change: [value: string]
+  change: [value: string | null]
   finish: [value: string]
   paste: [value: string, event: ClipboardEvent]
   click: [event: MouseEvent]
@@ -11,6 +13,7 @@ export interface VerificationCodeEmits {
   blur: [event: FocusEvent]
 }
 export interface VerificationCodeSlots {
+  read?: (scope: { value: string | null; text: string }) => VNodeChild
   separator?: (scope: { index: number; character: string }) => VNodeChild
 }
 export interface VerificationCodeExpose {

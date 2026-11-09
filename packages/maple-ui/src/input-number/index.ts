@@ -15,8 +15,10 @@ export type {
   InputNumberFormatter,
   InputNumberParser,
 } from './props'
-export { inputNumberProps }
+export { InputNumber, inputNumberProps }
 
 export const _InputNumberComponent: typeof InputNumber = InputNumber
 
 export default InputNumber
+
+export type { InputNumberEmits, InputNumberSlots, InputNumberExpose } from './types'

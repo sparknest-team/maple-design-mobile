@@ -22,22 +22,13 @@
 import { ref } from 'vue'
 import { createNamespace } from '../utils/components'
 import { props as timeProps } from './props'
+import type { TimeEmits } from './public-types'
 import TimeField from './TimeField.vue'
 
 const { n } = createNamespace('time')
 defineOptions({ name: createNamespace('time').name, inheritAttrs: false })
 const props = defineProps(timeProps)
-const emit = defineEmits<{
-  'update:modelValue': [value: string | undefined]
-  'update:open': [open: boolean]
-  change: [value: string | undefined, date: Date | undefined]
-  select: [value: string | undefined, date: Date | undefined]
-  clear: []
-  click: [event: Event]
-  focus: []
-  blur: []
-  'open-change': [open: boolean]
-}>()
+const emit = defineEmits<TimeEmits>()
 const field = ref<InstanceType<typeof TimeField>>()
 defineExpose({
   focus: (index = 0) => field.value?.focus(index),

@@ -12,6 +12,7 @@ interface MenuKeyboardOptions {
   close: () => void
   escape?: () => void
   restoreFocus?: () => void
+  tab?: () => void
 }
 
 export function useMenuKeyboard(options: MenuKeyboardOptions) {
@@ -46,10 +47,13 @@ export function useMenuKeyboard(options: MenuKeyboardOptions) {
     const key = event.key
     const reference = options.reference()
     const active = reference?.ownerDocument.activeElement
+    const within = !!active && (!!reference?.contains(active) || !!options.panel()?.contains(active))
+    const editable = !!active?.closest('input, textarea, [contenteditable="true"], [role="textbox"]')
     if (!options.visible()) {
       const openKeyPressed = options.openKey
-        ? key === (resolveDirection(reference) === 'rtl' ? 'ArrowLeft' : options.openKey)
-        : key === 'ArrowDown' || key === 'ArrowUp'
+        ? key === (resolveDirection(reference) === 'rtl' ? 'ArrowLeft' : options.openKey) ||
+          (!editable && (key === 'Enter' || key === ' '))
+        : key === 'ArrowDown' || key === 'ArrowUp' || (!editable && (key === 'Enter' || key === ' '))
       if (options.open && openKeyPressed && (active === reference || !!reference?.contains(active ?? null))) {
         event.preventDefault()
         options.open()
@@ -63,11 +67,15 @@ export function useMenuKeyboard(options: MenuKeyboardOptions) {
     if (!options.isTopLayer(event)) {
       return
     }
+    if (key !== 'Escape' && !within) {
+      return
+    }
+    if (key === 'Tab') {
+      options.tab?.()
+      return
+    }
     // Menu-backed inputs keep native caret navigation and text entry.
-    if (
-      active?.closest('input, textarea, [contenteditable="true"], [role="textbox"]') &&
-      ['Home', 'End', 'Enter', ' '].includes(key)
-    ) {
+    if (editable && ['Home', 'End', 'Enter', ' '].includes(key)) {
       return
     }
     if (
@@ -80,7 +88,7 @@ export function useMenuKeyboard(options: MenuKeyboardOptions) {
         options.escape?.()
       }
       await nextTick()
-      if (!disposed && !options.visible()) {
+      if (!disposed && !options.visible() && within) {
         if (options.restoreFocus) {
           options.restoreFocus()
         } else {
@@ -92,6 +100,9 @@ export function useMenuKeyboard(options: MenuKeyboardOptions) {
       focus(key)
     } else if (key === 'Enter') {
       const item = items().find((item) => item === active)
+      if (item?.getAttribute('aria-haspopup') === 'menu') {
+        return
+      }
       if (item) {
         event.preventDefault()
         item.click()

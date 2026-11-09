@@ -41,6 +41,11 @@ export {
 export type ImagePreviewActionInstance = InstanceType<typeof _ImagePreviewAction>
 
 export type {
+  ImageSlots,
+  ImagePreviewImageSlotProps,
+  ImagePreviewSlots,
+  ImagePreviewGroupSlots,
+  ImagePreviewActionSlots,
   ImageFit,
   ImageProps,
   ImageInteraction,

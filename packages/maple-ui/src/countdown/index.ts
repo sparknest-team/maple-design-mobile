@@ -8,7 +8,7 @@ withPropsDefaultsSetter(Countdown, countdownProps)
 export { countdownProps }
 
 export type CountdownInstance = InstanceType<typeof Countdown>
-export type { CountdownProps, TimeData } from './props'
+export type { CountdownProps, TimeData, CountdownSlots, CountdownEvents, CountdownExpose } from './props'
 export const _CountdownComponent: typeof Countdown = Countdown
 
 export default Countdown

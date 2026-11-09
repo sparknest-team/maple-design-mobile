@@ -1,6 +1,6 @@
-import { onMounted, onUnmounted } from 'vue'
+import { onMounted, onUnmounted, shallowRef } from 'vue'
 import config from '@config'
-import { StyleProvider, Themes } from '@maple-design/ui'
+import { ThemeProvider, Themes } from '@maple-design/ui'
 import AppType from './appType'
 import { resolveDemoLanguage } from './language'
 import { currentTheme, observeTheme } from './theme-state'
@@ -140,6 +140,10 @@ export function useRouteListener(cb: () => void) {
   })
 }
 
+export const currentThemePreset = shallowRef<StyleVars>(Themes.default.light)
+export const currentStyleVars = shallowRef<Record<string, string>>({})
+export { currentTheme } from './theme-state'
+
 const themeMap = {
   lightTheme: Themes.default.light,
   darkTheme: Themes.default.dark,
@@ -161,8 +165,8 @@ export function setTheme(theme: Theme) {
           : {}) ||
       {},
   )
-  const styleVars = { ...siteStyleVars, ...(themeMap[theme] ?? {}) }
-  StyleProvider.setStyleVars(styleVars)
+  currentThemePreset.value = themeMap[theme] ?? Themes.default.light
+  currentStyleVars.value = siteStyleVars
   setColorScheme(theme)
   currentTheme.value = theme
 }
@@ -224,6 +228,6 @@ export function getMobileIndex() {
   return isCf ? './mobile' : './mobile.html'
 }
 
-export { AppType, StyleProvider }
+export { AppType, ThemeProvider }
 
 export { normalizeLanguage, getSavedLanguage, saveLanguage, createDemoMessages } from './language'

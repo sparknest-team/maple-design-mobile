@@ -12,3 +12,5 @@ export { TAG_COLORS, tagProps, tagVariants }
 export const _TagComponent: typeof _Tag = _Tag
 
 export default _Tag
+
+export type { TagSlots, TagEmits } from './types'

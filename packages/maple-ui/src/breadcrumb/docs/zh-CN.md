@@ -2,7 +2,9 @@
 
 当前位置（最后一级）默认使用主文字色，不额外加粗，并标记 `aria-current="page"`。纯文本无点击反馈；配置 `href` 的链接、绑定 `@click` 的操作和下拉入口显示品牌色、手型及悬停 / 按下反馈，键盘聚焦时显示焦点轮廓。`@click` 操作支持 Enter 和空格。最后一级通常保持纯文本；显式提供链接或操作时仍可交互。
 
-触屏设备上，可点击项的触摸区域至少为 44 × 44px；按下显示底色和下划线，松手后恢复，不保留鼠标悬停效果。省略图标支持点击查看隐藏路径。
+触屏设备上，可点击项的触摸区域至少为 44 × 44px；按下显示底色和下划线，松手后恢复，不保留鼠标悬停效果。默认省略图标仅用于提示；如需查看隐藏路径，可通过 more-icon 插槽提供可聚焦的按钮并组合 Tooltip。
+
+默认导航区域和省略提示的无障碍名称随当前语言变化；可通过根组件的 aria-label 自定义导航区域名称。
 
 ### 介绍
 
@@ -45,7 +47,7 @@
 
 通过 `max-count` 限制展示数量，超出部分折叠为省略号；可用 `#more-icon` 自定义省略图标。
 
-Tooltip 支持 SVG 图标直接作为触发节点；触屏点击显示可设置 `trigger="click"`。
+示例在 Tooltip 内使用可聚焦的按钮，支持键盘聚焦及触屏点击。
 
 ```demo
 ../example/demos/max-count.vue
@@ -75,11 +77,11 @@ Tooltip 支持 SVG 图标直接作为触发节点；触屏点击显示可设置 
 ../example/demos/custom-icon.vue
 ```
 
+routes 中含 children 的项目保留父路径链接，并提供独立的下拉按钮；选择子项时根组件派发 select(route, event)，由业务决定是否导航。手写 BreadcrumbItem 的 select 仍由该项监听。
+
 ## API
 
-### 属性
-
-#### Breadcrumb Props
+### Breadcrumb Props
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
@@ -87,27 +89,39 @@ Tooltip 支持 SVG 图标直接作为触发节点；触屏点击显示可设置 
 | `max-count` | 最多展示的正常面包屑项数量，不包含 more；`0` 表示不限制 | _number_ | `0` |
 | `routes` | 路径数据（非空时优先；为空时使用默认插槽） | _BreadcrumbRoute[]_ | `-` |
 
-#### BreadcrumbItem Props
+### Breadcrumb Events
+
+| 事件名 | 说明 | 参数 |
+| --- | --- | --- |
+| select | routes 模式选择内置下拉子项时触发 | `route: BreadcrumbRoute, event?: Event` |
+
+`more-icon` 的 omittedItems 仅在 routes 模式提供被省略的路径数据；默认插槽组合模式下为空数组，count、start 和 end 仍描述省略范围。
+
+### BreadcrumbItem Props
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
 | `separator` | 分隔符（覆盖父级） | _string \| number_ | `-` |
 | `href` | 跳转链接 | _string_ | `-` |
 | `droplist` | 下拉菜单内容 | _BreadcrumbRoute['children']_ | `-` |
-| `dropdown-props` | 下拉菜单属性 | _MenuProps_ | `-` |
+| `dropdown-props` | 下拉菜单属性；open、onUpdate:open 和 onSelect 由组件管理 | _MenuProps_ | `-` |
 
-### 事件
-
-#### BreadcrumbItem Events
+### BreadcrumbItem Events
 
 | 事件名 | 说明 | 参数 |
 | --- | --- | --- |
 | `click` | 点击时触发（省略项不触发） | `event: MouseEvent` |
 | `select` | 选择内置下拉项时触发 | `route: BreadcrumbRoute, event?: Event` |
 
-### 插槽
+### BreadcrumbItem Slots
 
-#### Breadcrumb Slots
+| 插槽名 | 说明 | 参数 |
+| --- | --- | --- |
+| `default` | 面包屑内容 | `-` |
+| `separator` | 自定义分隔符（优先于父级） | `-` |
+| `droplist` | 自定义下拉菜单 | `-` |
+
+### Breadcrumb Slots
 
 | 插槽名 | 说明 | 参数 |
 | --- | --- | --- |
@@ -116,15 +130,7 @@ Tooltip 支持 SVG 图标直接作为触发节点；触屏点击显示可设置 
 | `item-render` | `routes` 模式下自定义渲染 | `route` `routes` `paths` |
 | `more-icon` | 自定义省略图标 | `omittedItems` `count` `start` `end` |
 
-#### BreadcrumbItem Slots
-
-| 插槽名 | 说明 | 参数 |
-| --- | --- | --- |
-| `default` | 面包屑内容 | `-` |
-| `separator` | 自定义分隔符（优先于父级） | `-` |
-| `droplist` | 自定义下拉菜单 | `-` |
-
-### 类型定义
+## Types
 
 ```ts
 interface BreadcrumbRoute {
@@ -134,57 +140,63 @@ interface BreadcrumbRoute {
 }
 ```
 
-### 样式变量
-
-以下为组件使用的 CSS 变量，可使用 [StyleProvider 组件](#/zh-CN/style-provider) 进行样式定制。
-
-#### BreadcrumbItem Variables
-
-| 变量名 | 默认值 |
-| --- | --- |
-| `--mp-breadcrumb-item-active-color` | `rgb(var(--mp-primary-8))` |
-| `--mp-breadcrumb-item-inactive-color` | `var(--mp-color-text-2)` |
-| `--mp-breadcrumb-item-separator-margin` | `0 10px` |
-| `--mp-breadcrumb-item-separator-font-size` | `14px` |
-| `--mp-breadcrumb-touch-target-size` | `44px` |
-
-## BreadcrumbItem
-
-见 [Breadcrumb 面包屑](#/zh-CN/breadcrumb)。
-
-### API
-
-### 属性
-
-| 参数 | 说明 | 类型 | 默认值 |
-| --- | --- | --- | --- |
-| `separator` | 分隔符（覆盖父级） | _string \| number_ | `-` |
-| `href` | 跳转链接 | _string_ | `-` |
-| `droplist` | 下拉菜单内容 | _BreadcrumbRoute[]_ | `-` |
-| `dropdown-props` | 下拉菜单属性 | _MenuProps_ | `-` |
-
-### 事件
-
-| 事件名 | 说明 | 参数 |
-| --- | --- | --- |
-| `click` | 点击时触发（省略项不触发） | `event: MouseEvent` |
-| `select` | 选择内置下拉项时触发 | `route: BreadcrumbRoute, event?: Event` |
-
-### 插槽
-
-| 插槽名 | 说明 |
-| --- | --- |
-| `default` | 面包屑内容 |
-| `separator` | 自定义分隔符 |
-| `droplist` | 自定义下拉菜单 |
+## 使用说明
 
 
-## 同源实现与平台边界
-
-Breadcrumb 与 BreadcrumbItem 在 Cedar / Maple 中独立复制维护，主体、Props、上下文、类型、关键样式及配对测试纳入 `design-ui/bin/copied-components-check.mjs`。图标、安装入口、菜单实现和主题 token 由各库本地提供。
 
 - 非空 `routes` 优先于默认插槽；空数组回退到插槽。默认路由渲染仅前面的项目带链接，最后一项标记 `aria-current="page"`；`item-render` 自行控制链接。
 - 分隔符优先级：子项插槽 → 子项属性 → 父级插槽 → 父级属性；支持 `0` 和空字符串。
-- `max-count` 沿用现有边界：总数大于 `max-count + 1` 才折叠；保留首项和尾部项目，省略位置不触发原项的点击、链接或下拉菜单。
+- `max-count` 为非负整数，0 表示不限制；设置 1 时按 2 处理，以保留首项和当前位置。正数小数向下取整后至少按 2 处理，负数或非有限数按 0 处理；无效值会在开发环境提示。总数大于有效数量加 1 才折叠，省略位置不触发原项的点击、链接或下拉菜单。
 - 内置下拉选择派发 `select(route, event)`。动态增删、重排及 SSR 会同步计算索引和分隔符。
-- Cedar 项内容新增 `__content` 包装，属性透传到该内容节点；Maple 原有主题变量继续通过 token 映射生效。
+- 自定义属性作用于面包屑项的内容节点。
+
+## CSS Variables
+
+以下为组件使用的 CSS 变量，可使用 [ThemeProvider 组件](#/zh-CN/theme-provider) 进行样式定制。
+
+<!-- component-css-variables:start -->
+
+通过以下变量定制组件外观。默认值随表中注明的主题或选择器条件变化；变量仅在对应的尺寸、变体和交互状态下生效。
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| 变量 | 默认值／条件 | 影响的样式 |
+| --- | --- | --- |
+| `--mp-breadcrumb-bg` | `transparent` | `background-color` |
+| `--mp-breadcrumb-bg-hover` | `var(--mp-color-fill-2)` | `background-color` |
+| `--mp-breadcrumb-dropdown-icon` | `var(--mp-breadcrumb-item-inactive-color)` | `color` |
+| `--mp-breadcrumb-font-weight-active` | `400` | `font-weight` |
+| `--mp-breadcrumb-icon-color` | `var(--mp-breadcrumb-item-inactive-color)` | `color` |
+| `--mp-breadcrumb-item-active-color` | `rgb(var(--mp-primary-8))` | `color` |
+| `--mp-breadcrumb-item-inactive-color` | `var(--mp-color-text-2)` | `color` |
+| `--mp-breadcrumb-item-separator-font-size` | `14px` | `font-size` |
+| `--mp-breadcrumb-item-separator-margin` | `0 var(--mp-breadcrumb-margin-separator-horizontal)` | `margin` |
+| `--mp-breadcrumb-link-text-color` | `var(--mp-breadcrumb-item-active-color)` | `color` |
+| `--mp-breadcrumb-link-text-color-hover` | `rgb(var(--mp-primary-9))` | `color` |
+| `--mp-breadcrumb-margin-dropdown-icon-left` | `4px` | `margin-inline-start` |
+| `--mp-breadcrumb-margin-separator-horizontal` | `10px` | `margin` |
+| `--mp-breadcrumb-padding-text-horizontal` | `0px` | `margin`, `padding` |
+| `--mp-breadcrumb-separator-color` | `var(--mp-breadcrumb-item-inactive-color)` | `color` |
+| `--mp-breadcrumb-separator-font-size` | `var(--mp-breadcrumb-item-separator-font-size)` | `font-size` |
+| `--mp-breadcrumb-separator-margin` | `var(--mp-breadcrumb-item-separator-margin)` | `margin` |
+| `--mp-breadcrumb-size-dropdown-icon` | `12px` | `font-size` |
+| `--mp-breadcrumb-size-font-size` | `14px` | `font-size` |
+| `--mp-breadcrumb-size-text-height` | `24px` | `line-height` |
+| `--mp-breadcrumb-text-border-radius-hover` | `var(--mp-sys-radius-sm)` | `border-radius` |
+| `--mp-breadcrumb-text-color` | `var(--mp-breadcrumb-item-inactive-color)` | `color` |
+| `--mp-breadcrumb-text-color-active` | `var(--mp-color-text-1)` | `color` |
+| `--mp-breadcrumb-touch-target-size` | `44px` | `min-height`, `min-width` |
+
+</div>
+
+将覆盖设置在组件实际根节点或弹层真实挂载祖先上。例如给该元素添加下列 class，再按需替换变量值：
+
+```css
+.component-theme {
+  --mp-breadcrumb-icon-color: var(--mp-breadcrumb-item-inactive-color);
+}
+```
+
+显式行内样式及直接写入同一 CSS 属性的 Props 优先于样式表默认值。Teleport 后，普通 CSS 变量按实际挂载位置继承；使用 ThemeProvider 时，请遵循其局部主题与弹层配置规则。局部定制请直接覆盖组件变量；仅修改后代的 system 变量不会重新计算从根继承的组件别名。内部变量不属于公共 API。
+
+<!-- component-css-variables:end -->

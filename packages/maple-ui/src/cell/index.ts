@@ -12,3 +12,5 @@ export const _CellComponent: typeof Cell = Cell
 
 export default Cell
 export type CellProps = import('vue').ExtractPublicPropTypes<typeof import('./props').props>
+
+export type { CellSlots, CellEmits } from './props'

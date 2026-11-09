@@ -18,7 +18,7 @@ const mapleFunctions = [
   'ActionSheet',
   'Dialog',
   'Locale',
-  'StyleProvider',
+  'ThemeProvider',
   'SafeArea',
   'LoadingBar',
 ]
@@ -140,7 +140,7 @@ const mapleComponents = new Set([
   'Step',
   'Steps',
   'Affix',
-  'StyleProvider',
+  'ThemeProvider',
   'SafeArea',
   'SwipeCell',
   'Switch',

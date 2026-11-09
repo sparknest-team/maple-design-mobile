@@ -3,6 +3,7 @@ import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maple-design/cli/client'
 import AsyncFieldsDemo from './demos/async-fields.vue'
 import AsyncRaceDemo from './demos/async-race.vue'
+import ChangeSourceDemo from './demos/change-source.vue'
 import ClearTriggerDemo from './demos/clear-trigger.vue'
 import ControllerDemo from './demos/controller.vue'
 import CrossFieldDemo from './demos/cross-field.vue'
@@ -32,6 +33,7 @@ import ExampleDemo from './demos/example.vue'
 import DemoFieldChoice from './demos/field-choice.vue'
 import DemoFieldComponents from './demos/field-components.vue'
 import DemoFieldDate from './demos/field-date.vue'
+import FieldIdentityDemo from './demos/field-identity.vue'
 import DemoFieldPanelActions from './demos/field-panel-actions.vue'
 import FieldPresentationDemo from './demos/field-presentation.vue'
 import OrganizedFieldRangeBoundaries from './demos/field-range-boundaries.vue'
@@ -50,6 +52,7 @@ import PresentationState from './demos/presentation-state.vue'
 import PresentationStatusDemo from './demos/presentation-status.vue'
 import SelectionSummaryDemo from './demos/selection-summary.vue'
 import OrganizedStateLab from './demos/state-lab.vue'
+import SubmitInputsDemo from './demos/submit-inputs.vue'
 import ScenarioDemo from './demos/task-workflow.vue'
 import VerticalLabelDemo from './demos/vertical-label.vue'
 
@@ -251,6 +254,11 @@ onThemeChange()
     ><DemoFieldPanelActions />
   </section>
 
+  <section data-demo="change-source">
+    <app-type>{{ english ? 'Confirmation event source' : '确认事件来源' }}</app-type
+    ><ChangeSourceDemo />
+  </section>
+
   <h2 class="mobile-demo-group-heading" data-demo-group="dynamic-and-async-fields">
     <span lang="zh-CN">动态与异步字段</span>
     <span lang="en-US">Dynamic and async fields</span>
@@ -274,6 +282,16 @@ onThemeChange()
   <section data-demo="field-range-boundaries">
     <app-type>{{ english ? 'Cross-page range boundaries' : '日期范围的跨页边界' }}</app-type>
     <OrganizedFieldRangeBoundaries />
+  </section>
+
+  <section data-demo="submit-inputs">
+    <app-type>{{ english ? 'Async submit input ownership' : '异步提交的输入归属' }}</app-type>
+    <SubmitInputsDemo />
+  </section>
+
+  <section data-demo="field-identity">
+    <app-type>{{ english ? 'Dynamic field identity and reset' : '动态字段与重置初值' }}</app-type>
+    <FieldIdentityDemo />
   </section>
 
   <h2 class="mobile-demo-group-heading" data-demo-group="business-workflows">

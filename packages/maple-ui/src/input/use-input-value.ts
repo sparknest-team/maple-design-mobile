@@ -1,6 +1,6 @@
 import { computed, ref, watch } from 'vue'
 import { resolveEmptyValue, useEmptyValues } from '../utils/empty-value'
-import { normalizeTextInputValue } from '../utils/text-input-value'
+import { normalizeTextInputValue, resolveTextInputMaxLength, type TextInputMaxLength } from '../utils/text-input-value'
 
 interface InputValueProps {
   emptyValues?: readonly unknown[]
@@ -9,14 +9,14 @@ interface InputValueProps {
   defaultValue: string
   modelModifiers: { trim?: boolean }
   type: string
-  maxLength: number | { length: number; errorOnly?: boolean }
+  maxLength: TextInputMaxLength
   wordLength?: (value: string) => number
   wordSlice?: (value: string, maxLength: number) => string
 }
 
 export function useInputValue(
   props: Readonly<InputValueProps>,
-  emitUpdate: (value: string | null) => void,
+  emitUpdate: (value: string | null, notifyModel?: boolean) => void,
   emitChange: (value: string | null, ev: Event) => void,
 ) {
   const localValue = ref(props.defaultValue)
@@ -26,13 +26,15 @@ export function useInputValue(
     return emptyPolicy.isEmpty(raw) ? '' : (raw ?? '')
   })
   const focused = ref(false)
-  const maxLength = computed(() => (typeof props.maxLength === 'object' ? props.maxLength.length : props.maxLength))
-  const errorOnly = computed(() => typeof props.maxLength === 'object' && Boolean(props.maxLength.errorOnly))
+  const limit = computed(() => resolveTextInputMaxLength(props.maxLength))
+  const maxLength = computed(() => limit.value.length)
+  const errorOnly = computed(() => limit.value.errorOnly)
   const getValueLength = (text: string) => props.wordLength?.(text) ?? text.length
   const valueLength = computed(() => getValueLength(value.value))
   let previousValue: string | null = value.value
   let pendingCommittedValue: string | null | undefined
   let requestedValue: string | undefined
+  let lastModelProposal: string | null | undefined
 
   watch(
     () => props.modelValue,
@@ -59,6 +61,7 @@ export function useInputValue(
       requestedValue = undefined
       return
     }
+    lastModelProposal = undefined
     previousValue = nextValue
   })
 
@@ -73,6 +76,7 @@ export function useInputValue(
     beforeUpdate?.(nextValue)
     requestedValue = nextValue
     localValue.value = nextValue
+    lastModelProposal = props.modelModifiers.trim ? nextValue.trim() : nextValue
     emitUpdate(nextValue)
     return nextValue
   }
@@ -82,7 +86,10 @@ export function useInputValue(
     if (nextValue !== value.value) {
       pendingCommittedValue = nextValue
       localValue.value = nextValue
-      emitUpdate(nextValue)
+      // Vue already trims model listeners during input; only a new proposal is needed.
+      const notifyModel = nextValue !== lastModelProposal
+      lastModelProposal = nextValue
+      emitUpdate(nextValue, notifyModel)
     }
     if (nextValue !== previousValue) {
       previousValue = nextValue
@@ -97,6 +104,7 @@ export function useInputValue(
     const next = cleared
     beforeUpdate?.(next)
     localValue.value = next ?? ''
+    lastModelProposal = typeof next === 'string' && props.modelModifiers.trim ? next.trim() : next
     emitUpdate(next)
     previousValue = props.modelValue !== undefined ? value.value : next
     if (previous !== next) {
@@ -104,5 +112,15 @@ export function useInputValue(
     }
   }
 
-  return { value, focused, maxLength, errorOnly, valueLength, getValueLength, updateValue, commitValue, clearValue }
+  return {
+    value,
+    focused,
+    maxLength,
+    errorOnly,
+    valueLength,
+    getValueLength,
+    updateValue,
+    commitValue,
+    clearValue,
+  }
 }

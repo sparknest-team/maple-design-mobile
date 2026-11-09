@@ -5,7 +5,7 @@ import { verificationCodeProps } from './props'
 withInstall(VerificationCode)
 withPropsDefaultsSetter(VerificationCode, verificationCodeProps)
 
-export { verificationCodeProps }
+export { VerificationCode, verificationCodeProps }
 export type {
   VerificationCodeAlign,
   VerificationCodeVariant,
@@ -16,7 +16,7 @@ export type {
 } from './props'
 export type { VerificationCodeEmits, VerificationCodeSlots, VerificationCodeExpose } from './types'
 
-export type VerificationCodeInstance = InstanceType<typeof VerificationCode>
+export type VerificationCodeInstance = InstanceType<typeof VerificationCode> & import('./types').VerificationCodeExpose
 export const _VerificationCodeComponent: typeof VerificationCode = VerificationCode
 
 export default VerificationCode

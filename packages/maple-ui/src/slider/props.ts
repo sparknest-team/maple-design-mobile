@@ -23,7 +23,11 @@ export const sliderProps = {
   /** 位置到文字的映射 */
   marks: Object as PropType<Record<number, string>>,
   /** 整体朝向 */
-  orientation: { type: String as PropType<SliderOrientation>, default: 'horizontal' },
+  orientation: {
+    type: String as PropType<SliderOrientation>,
+    default: 'horizontal',
+    validator: (value: string) => ['horizontal', 'vertical'].includes(value),
+  },
   /** 未传时继承表单禁用状态 */
   disabled: { type: Boolean, default: undefined },
   /** 未传时继承表单只读状态 */
@@ -39,7 +43,11 @@ export const sliderProps = {
   /** 提示和 aria-valuetext 的格式化 */
   formatTooltip: Function as PropType<SliderTooltipFormatter>,
   /** true 在悬浮/聚焦/拖动时显示；false 隐藏；always 常驻 */
-  showTooltip: { type: [Boolean, String] as PropType<SliderTooltipVisibility>, default: true },
+  showTooltip: {
+    type: [Boolean, String] as PropType<SliderTooltipVisibility>,
+    default: true,
+    validator: (value: unknown) => typeof value === 'boolean' || value === 'always',
+  },
   /** 单滑块名称；范围可传两个名称 */
   ariaLabel: [String, Array] as PropType<string | [string, string]>,
   /** 已选轨道颜色 */
@@ -66,9 +74,12 @@ export interface SliderEmits {
   end: [value: SliderValue]
 }
 export interface SliderSlots {
+  read?: (scope: { value: SliderValue | null | undefined; text: string }) => VNodeChild
   button?: (props: { currentValue: number; index: number }) => VNodeChild
 }
 export interface SliderExpose {
+  /** Focus the displayed thumb at index; defaults to the first thumb. */
   focus: (index?: number) => void
+  /** Blur the currently focused owned element, including numeric inputs. */
   blur: () => void
 }

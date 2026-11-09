@@ -1,6 +1,7 @@
 <template>
   <div
     ref="tabBarDom"
+    role="group"
     :aria-busy="busy || undefined"
     :class="
       classes(

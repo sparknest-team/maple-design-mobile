@@ -21,6 +21,11 @@
     color 250ms,
     margin 250ms;
 
+  &:focus-visible:not(:disabled) {
+    outline: var(--mp-tab-bar-item-focus-width) solid var(--mp-tab-bar-item-focus-color);
+    outline-offset: var(--mp-tab-bar-item-focus-offset);
+  }
+
   &--variant-padding {
     padding-bottom: 6px;
   }

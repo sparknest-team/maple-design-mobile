@@ -19,6 +19,14 @@ const files = [
   'cascader/CascaderEditor.vue',
   'cascader/CascaderEditorPanel.vue',
   '_components/field-presentation/with-field-presentation.ts',
+  '_components/field-presentation/__tests__/reference-events.spec.js',
+  'date-range/__tests__/reference-events.spec.js',
+  'checkbox/group-presentation.ts',
+  'checkbox/__tests__/group-instance-return.spec.ts',
+  '_components/field-presentation/__tests__/instance-methods.spec.ts',
+  '_components/field-presentation/__tests__/instance-activation.spec.ts',
+  '_components/field-presentation/__tests__/instance-consumers.spec.ts',
+  '_components/field-presentation/__tests__/instance-refresh.spec.ts',
   '_components/field-presentation/use-field-search.ts',
   '_components/field-presentation/option-labels.ts',
   'auto-complete/auto-complete.tsx',
@@ -28,10 +36,24 @@ const files = [
   'select/utils.ts',
   'select/SelectMenu.tsx',
   'select/use-select-controller.ts',
+  'select/__tests__/controller-props.spec.ts',
+  'select/native-editor-owner.ts',
+  'select/__tests__/native-owner.spec.ts',
+  'select/__tests__/accessible-relations.spec.ts',
+  'select/__tests__/diagnostics.spec.ts',
+  '_utils/selection-validation.ts',
   'select/hooks/use-options.ts',
   'select/SelectDropdown.vue',
   'cascader/types.ts',
   'select/select.tsx',
+  'select/__tests__/instance-targets.spec.ts',
+  'select/__tests__/loading-actions.spec.ts',
+  'people-select/people-select.tsx',
+  'people-select/PeopleSelect.ts',
+  'people-select/Person.vue',
+  'people-select/types.ts',
+  'people-select/emits.ts',
+  'people-select/__tests__/public-contract.spec.ts',
   'select/hooks/use-select.ts',
   'cascader/cascader-search-panel.tsx',
   'select/emits.ts',
@@ -39,6 +61,8 @@ const files = [
   'cascader/use-cascader-controller.ts',
   'cascader/use-lazy-options.ts',
   'cascader/__tests__/lazy-lifecycle.spec.ts',
+  'cascader/__tests__/reactive-index.spec.ts',
+  'cascader/__tests__/panel-direction.spec.ts',
   'cascader/cascader-column.tsx',
   'cascader/CascaderMenu.vue',
   'cascader/Cascader.vue',
@@ -61,6 +85,9 @@ const files = [
 ]
 const toMaple = (source) =>
   source
+    .replaceAll('../_hooks/use-form-item', '../form/item-provide')
+    .replaceAll('@cedar-design/use', '@maple-design/use')
+    .replaceAll('./checkbox-group.vue', './CheckboxGroup.vue')
     .replaceAll('@cedar-design/icons-vue/icon-right', '@maple-design/icons-vue')
     .replaceAll('@cedar-design/icons-vue/icon-loading', '@maple-design/icons-vue')
     .replaceAll('@cedar-design/icons-vue', '@maple-design/icons-vue')

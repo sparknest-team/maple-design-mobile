@@ -2,12 +2,20 @@
 
 使用内置主题统一页面外观，再按需要覆盖少量 CSS 变量。主题控制配色、圆角和字体；设备边缘留白请使用 [SafeArea](#/zh-CN/safe-area)。
 
+应用根部和局部区域统一使用 ThemeProvider。根部示例：
+
+```vue
+<mp-theme-provider :theme="mode" :style-vars="currentStyleVars"><App /></mp-theme-provider>
+```
+
+mode 为 light/dark，currentStyleVars 是响应式的 Themes 预设或自定义变量。Provider 不设置 html 属性，不提供静态文档主题修改方法。
+
 ## 如何选择
 
 | 需求                     | 推荐方式                                            |
 | ------------------------ | --------------------------------------------------- |
-| 整个应用使用一种品牌风格 | `StyleProvider.setStyleVars(Themes.maple.light)` 等 |
-| 只修改一个区域或组件     | `<mp-style-provider :style-vars="…">`               |
+| 整个应用使用一种品牌风格 | `currentStyleVars.value = Themes.maple.light` 等 |
+| 只修改一个区域或组件     | `<mp-theme-provider :style-vars="…">`               |
 | 查找可覆盖的变量         | 本页变量说明及各组件文档的样式变量表                |
 
 ## 基础示例
@@ -62,11 +70,11 @@
 Alps / Firefly 亮色基于品牌样式，暗色为 Maple 适配版。品牌字体文件由业务自行加载；未加载时使用系统字体回退。
 
 ```ts
-import { StyleProvider, Themes } from '@maple-design/ui'
+import { ThemeProvider, Themes } from '@maple-design/ui'
 
 // 在应用挂载前设置，也可以在用户切换主题时再次调用。
-StyleProvider.setStyleVars(Themes.maple.light)
-StyleProvider.setStyleVars(Themes.maple.dark)
+currentStyleVars.value = Themes.maple.light
+currentStyleVars.value = Themes.maple.dark
 ```
 
 亮色对象移除 `html[maple-theme="dark"]`，暗色对象设置该属性。**每次调用替换上次注入的变量，不会累计合并。**
@@ -104,14 +112,26 @@ body {
 
 基于现有主题扩展，切换亮暗模式时分别使用对应基础对象。下面只调整按钮圆角：
 
-```ts
-StyleProvider.setStyleVars({
-  ...Themes.maple.light,
-  '--mp-button-border-radius': '16px',
-})
+```vue
+<script setup>
+import { ref } from 'vue'
+import { Themes } from '@maple-design/ui'
+const mode = ref('dark')
+</script>
+<template>
+  <mp-theme-provider :theme="mode" :style-vars="Themes.maple[mode]">
+    <App />
+  </mp-theme-provider>
+</template>
 ```
 
-局部定制优先覆盖实际组件变量。仅在局部修改色阶变量，不会重新计算从根节点继承的组件别名；完整规则见 [StyleProvider](#/zh-CN/style-provider)。传送到 body 的弹层需在实际挂载宿主上配置变量。
+局部定制优先覆盖实际组件变量。仅在局部修改色阶变量，不会重新计算从根节点继承的组件别名；完整规则见 [ThemeProvider](#/zh-CN/theme-provider)。传送到 body 的弹层需在实际挂载宿主上配置变量。
+
+## 尺寸单位转换
+
+`Themes.toRem(theme, { rootFontSize, unitPrecision })` 和 `Themes.toViewport(theme, { viewportWidth, viewportUnit, unitPrecision })` 返回新对象，默认分别以 16px 和 375px 为基准，精度为 6，视口单位为 `vmin`。基准必须是有限正数，精度必须是 0–100 的整数，视口单位必须是 CSS 视口单位；无效选项抛出 `RangeError`。
+
+`Themes.convert(theme, converter)` 对值中的 `px` 数字进行文本替换，回调收到带符号的数字字符串，返回替换文本。它不是 CSS 解析器，字符串和 URL 中匹配的文本也会替换；请仅传入适合转换的尺寸变量。
 
 ## 变量怎么找
 
@@ -124,3 +144,13 @@ StyleProvider.setStyleVars({
 RGB 通道通过 `rgb(var(--mp-primary-6))` 使用；颜色成品值和尺寸按组件变量表填写。字体入口为 `--mp-sys-font-family`，字体文件由应用自行提供。
 
 更多变量见 [Design Token 分层](#/zh-CN/design-tokens) 和各组件文档底部的样式变量表；表单交互见 [Form](#/zh-CN/form)。
+
+## CSS Variables
+
+<!-- component-css-variables:start -->
+
+本组件未声明独立的公共 CSS 变量。请使用本页公开的配置与布局入口。
+
+内部自定义属性与测量中间值属于实现细节，不作为业务定制 API。
+
+<!-- component-css-variables:end -->

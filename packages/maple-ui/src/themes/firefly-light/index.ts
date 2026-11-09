@@ -1,4 +1,4 @@
-import type { StyleVars } from '../../style-provider'
+import type { StyleVars } from '../../theme-provider'
 
 // Captured Skyline H5 brand roles; provenance and mappings live in design-ui/audits.
 const fireflyLight: StyleVars = {
@@ -244,7 +244,6 @@ const fireflyLight: StyleVars = {
   '--mp-date-picker-header-color': 'var(--mp-sys-color-content-secondary)',
   '--mp-day-picker-head-item-color': 'var(--mp-sys-color-content-tertiary)',
   '--mp-date-picker-body-background-color': 'var(--mp-sys-color-surface-overlay)',
-  '--mp-temporal-panel-summary-active-color': 'var(--mp-sys-color-content-primary)',
   '--mp-time-picker-body-background': 'var(--mp-sys-color-surface-overlay)',
 }
 

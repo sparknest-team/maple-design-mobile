@@ -25,6 +25,7 @@ const slots = defineSlots<MenuOptionSlots>()
 const renderLevel = inject(menuRenderLevelKey, undefined)
 const root = ref<HTMLElement>()
 const isFocusing = ref(false)
+let pressedSpace = false
 const selection = props.uninjectContext ? undefined : inject(menuSelectionKey, undefined)
 const level = inject(menuLevelKey, undefined)
 const context = props.uninjectContext ? undefined : inject(menuInjectionKey, undefined)
@@ -85,6 +86,14 @@ function handleKeydown(event: KeyboardEvent) {
     }
     return
   }
+  if (props.childrenTrigger && (event.key === 'Enter' || event.key === ' ')) {
+    event.preventDefault()
+    emit('key-arrow-x', resolveDirection(root.value) === 'rtl' ? 'ArrowLeft' : 'ArrowRight')
+    return
+  }
+  if (event.key === ' ') {
+    pressedSpace = true
+  }
   if (event.key === ' ' || event.key === 'Enter') {
     event.preventDefault()
   }
@@ -93,7 +102,12 @@ function handleKeydown(event: KeyboardEvent) {
   }
 }
 function handleKeyup(event: KeyboardEvent) {
-  if (!event.defaultPrevented && !disabled.value && isFocusing.value && event.key === ' ') {
+  if (event.key !== ' ') {
+    return
+  }
+  const activate = pressedSpace
+  pressedSpace = false
+  if (activate && !event.defaultPrevented && !disabled.value && !props.childrenTrigger && isFocusing.value) {
     event.preventDefault()
     root.value?.click()
   }
@@ -113,6 +127,7 @@ const viewOptions = computed(() => ({
   },
   onBlur: () => {
     isFocusing.value = false
+    pressedSpace = false
   },
 }))
 defineExpose({ root, isFocusing, optionSelected, handleClick, handleSelect })

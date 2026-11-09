@@ -1,5 +1,0 @@
-// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
-
-exports[`styleProvider component 1`] = `"<div class="mp-style-provider" style="--mp-cell-font-size: 30px;"></div>"`;
-
-exports[`styleProvider tag 1`] = `"<span class="mp-style-provider"></span>"`;

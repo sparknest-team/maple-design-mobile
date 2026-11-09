@@ -34,11 +34,13 @@ const appWrapperCode = `\
 import App from './${stripSrcPrefix(appFile)}'
 import { installMapleUI } from './${stripSrcPrefix(mapleReplPlugin)}'
 
-installMapleUI()
+const themeState = installMapleUI()
 </script>
 
 <template>
-  <App />
+  <mp-theme-provider :theme="themeState.theme.value">
+    <App />
+  </mp-theme-provider>
 </template>
 `
 
@@ -76,7 +78,7 @@ function getMapleReplPluginCode(version: string | 'latest' | 'preview') {
 
   return `\
 import MapleUI from '@maple-design/ui'
-import { getCurrentInstance } from 'vue'
+import { computed, getCurrentInstance, onBeforeUnmount, shallowRef } from 'vue'
 
 const mapleCss = '${mapleCss}'
 const mapleTouchEmulator = '${mapleTouchEmulator}'
@@ -117,17 +119,13 @@ export function installMapleUI() {
     fireflyDarkTheme: MapleUI.Themes.firefly.dark,
   }
 
-  const theme = parent.document.documentElement.getAttribute('theme')
-
-  if (theme) {
-    MapleUI.StyleProvider.setStyleVars(themeMap[theme] || themeMap.defaultDarkTheme)
+  const themeName = shallowRef(parent.document.documentElement.getAttribute('theme') || 'defaultDarkTheme')
+  const theme = computed(() => themeMap[themeName.value] || themeMap.defaultDarkTheme)
+  const onThemeMessage = ({ data }) => {
+    if (data.action === 'theme-change') themeName.value = data.value
   }
-
-  window.addEventListener('message', ({ data }) => {
-    if (data.action === 'theme-change') {
-      MapleUI.StyleProvider.setStyleVars(themeMap[data.value] || themeMap.defaultDarkTheme)
-    }
-  })
+  window.addEventListener('message', onThemeMessage)
+  onBeforeUnmount(() => window.removeEventListener('message', onThemeMessage))
 
   document.addEventListener('click', () => {
     window.parent.document.dispatchEvent(new Event('click'))
@@ -135,6 +133,7 @@ export function installMapleUI() {
 
   const instance = getCurrentInstance()
   instance.appContext.app.use(MapleUI)
+  return { theme }
 }
 
 export function appendStyle() {

@@ -21,8 +21,9 @@ export function useMobileRangePanel(
   select: (value: TimeValue[], immediate?: boolean) => boolean,
   initialize: (value: string[]) => void,
 ) {
+  let initializationComplete = false
   function initializeDraft() {
-    if (props.disabled || props.readonly) {
+    if (initializationComplete || props.disabled || props.readonly) {
       return
     }
     const values = draft.value
@@ -31,6 +32,7 @@ export function useMobileRangePanel(
     }
     const empty = (value: TimeValue | undefined) => value == null || value === ''
     if (values?.length === 2 && values.every((value) => !empty(value))) {
+      initializationComplete = true
       return
     }
     const next = [0, 1].map((index) =>
@@ -39,6 +41,7 @@ export function useMobileRangePanel(
         : formatTimeValue(values?.[index], props),
     )
     if (next.every((value): value is string => value !== undefined)) {
+      initializationComplete = true
       initialize(next)
     }
   }

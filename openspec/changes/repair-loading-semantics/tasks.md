@@ -1,0 +1,3 @@
+- [x] Reproduce missing status/host busy/decorative semantics
+- [x] Repair localized standalone text and owned busy/placeholder visibility
+- [x] Clarify sizing/docs and verify both platforms/all actual consumers

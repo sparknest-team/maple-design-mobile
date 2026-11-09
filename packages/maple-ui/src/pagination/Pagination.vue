@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, nextTick, ref, watch } from 'vue'
 import { createNamespace } from '../utils/components'
 import PageItem from './PageItem.vue'
 import PageItemEllipsis from './PageItemEllipsis.vue'
@@ -25,6 +25,83 @@ const compact = useCompact(root, props)
 const simpleMode = computed(() => props.simple || compact.value)
 const { current, pageSize, total, pages, buffer, pageList, changeCurrent, changePageSize } = usePagination(props, emit)
 const text = usePaginationLocale()
+let quickJumpGeneration = 0
+function quickJump(page: number) {
+  const element = root.value
+  const document = element?.ownerDocument
+  const original = document?.activeElement
+  const ownsFocus = !!original && !!element?.contains(original) && original.classList.contains(n('item-ellipsis'))
+  const generation = ++quickJumpGeneration
+  changeCurrent(page)
+  if (!ownsFocus) {
+    return
+  }
+  nextTick(() =>
+    nextTick(() => {
+      if (
+        generation !== quickJumpGeneration ||
+        !element?.isConnected ||
+        !document ||
+        current.value !== page ||
+        original?.isConnected
+      ) {
+        return
+      }
+      const focused = document.activeElement
+      if (focused && focused !== document.body && focused !== original) {
+        return
+      }
+      element.querySelector<HTMLButtonElement>(`button.${n('item')}[aria-current="page"]:not(:disabled)`)?.focus()
+    }),
+  )
+}
+const jumperDraft = ref(String(current.value))
+watch(current, (value) => {
+  jumperDraft.value = String(value)
+})
+const migratingJumper = ref(false)
+let migrationGeneration = 0
+const isJumperMigrating = () => migratingJumper.value
+watch(
+  simpleMode,
+  () => {
+    const element = root.value
+    const document = element?.ownerDocument
+    const active = document?.activeElement
+    const input =
+      active?.tagName === 'INPUT' && active.closest(`.${n('jumper')}`) && element?.contains(active)
+        ? (active as HTMLInputElement)
+        : undefined
+    const start = input?.selectionStart,
+      end = input?.selectionEnd
+    const generation = ++migrationGeneration
+    migratingJumper.value = !!input
+    nextTick(() =>
+      nextTick(() => {
+        if (generation !== migrationGeneration) {
+          return
+        }
+        migratingJumper.value = false
+        if (!input || !element?.isConnected || !document) {
+          return
+        }
+        const focused = document.activeElement
+        if (focused && focused !== document.body && focused !== input) {
+          return
+        }
+        const replacement = element.querySelector<HTMLInputElement>(`.${n('jumper')} input`)
+        if (!replacement || replacement.disabled) {
+          return
+        }
+        replacement.focus()
+        if (start != null && end != null) {
+          replacement.setSelectionRange(start, end)
+        }
+      }),
+    )
+  },
+  { flush: 'sync' },
+)
 </script>
 
 <template>
@@ -58,7 +135,16 @@ const text = usePaginationLocale()
           ><slot name="page-item-step" v-bind="slotProps"
         /></template>
       </PageItemStep>
-      <PageJumper :current="current" :pages="pages" :disabled="disabled" :size="size" simple @change="changeCurrent" />
+      <PageJumper
+        v-model="jumperDraft"
+        :is-migrating="isJumperMigrating"
+        :current="current"
+        :pages="pages"
+        :disabled="disabled"
+        :size="size"
+        simple
+        @change="changeCurrent"
+      />
       <PageItemStep
         type="next"
         :current="current"
@@ -95,7 +181,7 @@ const text = usePaginationLocale()
           :pages="pages"
           :disabled="disabled"
           :elevation="elevation"
-          @click="changeCurrent"
+          @click="quickJump"
         >
           <slot v-if="$slots['page-item-ellipsis']" name="page-item-ellipsis" />
         </PageItemEllipsis>
@@ -121,7 +207,7 @@ const text = usePaginationLocale()
           :pages="pages"
           :disabled="disabled"
           :elevation="elevation"
-          @click="changeCurrent"
+          @click="quickJump"
         >
           <slot v-if="$slots['page-item-ellipsis']" name="page-item-ellipsis" />
         </PageItemEllipsis>
@@ -153,6 +239,8 @@ const text = usePaginationLocale()
       />
       <PageJumper
         v-if="!simpleMode && showJumper"
+        v-model="jumperDraft"
+        :is-migrating="isJumperMigrating"
         :current="current"
         :pages="pages"
         :disabled="disabled"

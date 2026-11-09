@@ -43,6 +43,11 @@ describe('tag copied implementation contract', () => {
     const b = mount(Component, { props: { checkable: true, defaultValue: false } })
     await a.find('[role="checkbox"]').trigger('click')
     await b.find('[role="checkbox"]').trigger('click')
+    expect(a.get('[role="checkbox"]').attributes()).toMatchObject({
+      'aria-busy': 'true',
+      'aria-disabled': 'true',
+      'aria-checked': 'false',
+    })
     expect(a.emitted('check')).toBeUndefined()
     expect(b.emitted('check')[0][0]).toBe(true)
     a.unmount()
@@ -59,4 +64,26 @@ describe('tag copied implementation contract', () => {
     expect(tag.element.style.maxWidth).toBe('160px')
     w.unmount()
   })
+})
+
+it('does not intercept or toggle for nested interactive controls', async () => {
+  const action = vi.fn()
+  const wrapper = mount(Component, {
+    props: { checkable: true, defaultValue: false },
+    slots: { default: () => [h('button', { onClick: action }, 'Action'), h('input')] },
+  })
+  const root = wrapper.get('[role="checkbox"]')
+  const button = wrapper.get('button')
+  const event = new KeyboardEvent('keydown', { key: 'Enter', bubbles: true, cancelable: true })
+  button.element.dispatchEvent(event)
+  expect(event.defaultPrevented).toBe(false)
+  await button.trigger('click')
+  expect(action).toHaveBeenCalledOnce()
+  expect(root.attributes('aria-checked')).toBe('false')
+  const space = new KeyboardEvent('keydown', { key: ' ', bubbles: true, cancelable: true })
+  wrapper.get('input').element.dispatchEvent(space)
+  expect(space.defaultPrevented).toBe(false)
+  await root.trigger('keydown', { key: ' ' })
+  expect(root.attributes('aria-checked')).toBe('true')
+  wrapper.unmount()
 })

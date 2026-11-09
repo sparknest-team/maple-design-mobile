@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import ts from 'typescript'
+import { normalizeTypeScript, normalizeVueSource } from './normalize-source.mjs'
 
 const workspace = fileURLToPath(new URL('../../', import.meta.url))
 const cedar = resolve(workspace, 'cedar-design-web/packages/cedar-ui/src')
@@ -23,6 +24,8 @@ const sourcePairs = [
   ['time/time-format.ts', 'time/time-format.ts'],
   ['time/time-value.ts', 'time/time-value.ts'],
   ['time/time-events.ts', 'time/time-events.ts'],
+  ['time/public-types.ts', 'time/public-types.ts'],
+  ['time/__tests__/clear-event-shapes.spec.js', 'time/__tests__/clear-event-shapes.spec.js'],
   ['time/use-time-panel.ts', 'time/use-time-panel.ts'],
   ['time/time-commit.ts', 'time/time-commit.ts'],
   ['time/use-time-field-transaction.ts', 'time/use-time-field-transaction.ts'],
@@ -57,11 +60,10 @@ for (const [left, right] of sourcePairs) {
       .replaceAll('../../time-range/presentation/TimePanelContent.vue', '../presentation/TimePanelContent.vue')
       .replaceAll('dayjs/esm/index.js', 'dayjs')
       .replaceAll('dayjs/esm/plugin/customParseFormat/index.js', 'dayjs/plugin/customParseFormat.js')
-      .replace(/\s+/g, ' ')
-      .trim()
+  const canonical = left.endsWith('.vue') ? normalizeVueSource : normalizeTypeScript
   assert.equal(
-    normalize(readFileSync(resolve(cedar, left), 'utf8')),
-    normalize(readFileSync(resolve(maple, right), 'utf8')),
+    await canonical(normalize(readFileSync(resolve(cedar, left), 'utf8'))),
+    await canonical(normalize(readFileSync(resolve(maple, right), 'utf8'))),
     left,
   )
 }

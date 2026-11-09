@@ -79,7 +79,7 @@ Border and shadow are independent. An explicit radius overrides round. The inner
 
 ## API
 
-### Props
+### Paper Props
 
 | Prop | Description | Type | Default |
 | --- | --- | --- | --- |
@@ -94,40 +94,67 @@ Border and shadow are independent. An explicit radius overrides round. The inner
 
 Numbers and numeric strings for radius/width/height use px. Other strings pass through as CSS lengths, such as 1rem, 50% and calc(100% - 8px). Classes, native attributes and styles fall through to the root.
 
-### Events
+elevation=false adds no elevation class, true uses level 2, and numeric values are rounded to the nearest integer then clamped to 0–24. NaN/Infinity produce Vue prop validation warnings in development and fall back to 2 at runtime. Numeric radius/width/height values must be finite and nonnegative; invalid numbers remove that inline dimension instead of retaining its previous value, while zero remains valid. Decimal and scientific-notation numeric strings use px. Other CSS strings are parsed by the browser; expressions unsupported by the browser are not promised.
+
+### Paper Events
 
 | Event | Description | Arguments |
 | --- | --- | --- |
 | click | Triggered when the paper is clicked | MouseEvent |
 
-### Slots
+click only notifies with the original MouseEvent, including bubbling clicks from children. @click.once follows standard Vue event semantics without awaiting listener Promises. PaperProps includes this listener and is consistent between root and subentry. PaperInstance has no additional business execution methods.
+
+### Paper Slots
 
 | Slot | Description |
 | --- | --- |
 | default | Paper content |
 
-### Style variables
+## Types
 
-| Variable | Default |
-| --- | --- |
-| --mp-paper-background | `var(--mp-sys-color-surface-default)` |
-| --mp-paper-border-radius | `4px` |
-| --mp-paper-border-width | `1px` |
-| --mp-paper-border-color | `var(--mp-sys-color-border-default)` |
-| --mp-paper-transition-duration | `var(--mp-sys-motion-duration-slow)` |
+```ts
+import Paper, { Paper as NamedPaper } from '@maple-design/ui/paper'
+import type { PaperProps, PaperInstance } from '@maple-design/ui'
+import type { PaperProps as SubPaperProps } from '@maple-design/ui/paper'
+const surface: PaperProps = { onClick: (event: MouseEvent) => event.preventDefault() }
+```
+
+## Usage notes
+
+
+
+The default background uses the theme surface color without a pointer cursor. Customize appearance through size, radius, elevation and ripple props.
+
+Built-in motion respects `prefers-reduced-motion: reduce`, keeping content and state feedback while disabling decorative animations. Adapt custom animations to that preference in your application.
+
+## CSS Variables
 
 Built-in themes can override backgrounds/radii. bordered=false reserves no border space; enabled borders use border-box and count within fixed dimensions. Background, border and shadow are independent.
 
-### Types
+<!-- component-css-variables:start -->
 
-```ts
-import type { PaperProps, PaperInstance } from '@maple-design/ui'
+Use these variables to customize the component. Defaults may vary by the selector condition shown. Each variable applies to the corresponding size, variant and interaction states.
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Default / condition | Affected styles |
+| --- | --- | --- |
+| `--mp-paper-background` | `var(--mp-sys-color-surface-default)` | `background` |
+| `--mp-paper-border-color` | `var(--mp-sys-color-border-default)` | `border` |
+| `--mp-paper-border-radius` | `var(--mp-sys-radius-md)` | `border-radius` |
+| `--mp-paper-border-width` | `1px` | `border` |
+| `--mp-paper-transition-duration` | `var(--mp-sys-motion-duration-slow)` | `transition` |
+
+</div>
+
+Apply overrides to the rendered component root or the actual popup ancestor. For example, add the following class to that element and replace the value as needed:
+
+```css
+.component-theme {
+  --mp-paper-background: var(--mp-sys-color-surface-default);
+}
 ```
 
-## Independent source copies
+Explicit inline styles and props that write the same CSS property take precedence over stylesheet defaults. After Teleport, ordinary CSS variables inherit from the actual mount location. When using ThemeProvider, follow its local-theme and popup configuration rules. Override the component variable directly for local styling; root-level aliases are not recalculated merely because a descendant system variable changes. Internal variables are not public APIs.
 
-Each platform maintains its own component body, props, styles, tokens and contract tests, adapting prefixes/local imports without a cross-library core or shared instances/state.
-
-Maple migration: the default background becomes the theme surface, and the default pointer cursor is removed. The inline class becomes mp-paper--inline. Existing dimensions, radii, elevation and ripple APIs remain.
-
-Built-in motion follows prefers-reduced-motion: reduce, preserving content/state feedback while disabling decorative spinning, shimmer and ripples. Icon name changes skip waiting and cancel unfinished transitions. Ripple duration variables affect only CSS; the 250ms lifecycle timer remains unchanged, so each visual stage should not exceed 250ms. Callers must adapt custom animation classes.
+<!-- component-css-variables:end -->

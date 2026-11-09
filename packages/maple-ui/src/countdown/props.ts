@@ -33,3 +33,13 @@ export const countdownProps = {
 }
 
 export type CountdownProps = import('vue').ExtractPublicPropTypes<typeof countdownProps>
+
+export interface CountdownSlots {
+  default?: (scope: TimeData) => import('vue').VNodeChild
+}
+export type CountdownEvents = { change: [time: TimeData]; end: [] }
+export interface CountdownExpose {
+  start: () => void
+  pause: () => void
+  reset: () => void
+}

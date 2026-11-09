@@ -35,7 +35,7 @@ import { computed, onActivated, onDeactivated, onMounted, onUnmounted, useSlots,
 import { useMotion } from '@maple-design/use'
 import dayjs from 'dayjs'
 import { createNamespace } from '../utils/components'
-import { statisticProps } from './props'
+import { statisticProps, type StatisticSlots } from './props'
 
 defineOptions({
   name: createNamespace('statistic').name,
@@ -43,10 +43,11 @@ defineOptions({
 
 const { n, classes } = createNamespace('statistic')
 const props = defineProps(statisticProps)
+defineSlots<StatisticSlots>()
 const slots = useSlots()
 
 function isNumber(value: unknown): value is number {
-  return typeof value === 'number' && !Number.isNaN(value)
+  return typeof value === 'number' && Number.isFinite(value)
 }
 
 function isDate(value: unknown): value is Date {
@@ -55,8 +56,20 @@ function isDate(value: unknown): value is Date {
 
 function roundTo(value: number, precision: number) {
   const factor = 10 ** precision
-  return (Math.round(value * factor) / factor).toFixed(precision)
+  const scaled = value * factor
+  return (Number.isFinite(scaled) ? Math.round(scaled) / factor : value).toFixed(precision)
 }
+
+const safeFrom = computed(() => (isNumber(props.valueFrom) ? props.valueFrom : 0))
+const safeDuration = computed(() =>
+  isNumber(props.animationDuration) && props.animationDuration >= 0 ? props.animationDuration : 0,
+)
+const safePrecision = computed(() =>
+  Number.isInteger(props.precision) && props.precision >= 0 && props.precision <= 100 ? props.precision : 0,
+)
+const canAnimate = computed(
+  () => props.animation && isNumber(props.value) && Number.isFinite(props.value - safeFrom.value),
+)
 
 const {
   value: motionValue,
@@ -65,9 +78,9 @@ const {
   start: startMotion,
   pause: pauseMotion,
 } = useMotion({
-  from: () => props.valueFrom ?? 0,
+  from: () => safeFrom.value,
   to: () => (isNumber(props.value) ? props.value : 0),
-  duration: () => props.animationDuration,
+  duration: () => safeDuration.value,
 })
 
 const showPlaceholder = () => props.value === undefined && !slots.default
@@ -75,7 +88,7 @@ const renderDefaultSlot = () => props.value === undefined && Boolean(slots.defau
 const valueClass = computed(() => classes(n('value'), [props.tabularNums, n('value--tabular-nums')]))
 
 const innerValue = computed(() => {
-  if (props.animation && isNumber(props.value)) {
+  if (canAnimate.value) {
     return motionValue.value
   }
   return props.value
@@ -95,7 +108,7 @@ function formatInteger(value: string) {
 const formatValue = computed(() => {
   const current = innerValue.value
   if (isNumber(current)) {
-    const formatted = isNumber(props.precision) ? roundTo(current, props.precision) : String(current)
+    const formatted = roundTo(current, safePrecision.value)
     const [integer, decimal] = formatted.split('.')
     return {
       isNumber: true as const,
@@ -116,48 +129,62 @@ const formatValue = computed(() => {
 })
 
 function play() {
-  if (!props.animation || !isNumber(props.value)) {
+  if (!canAnimate.value) {
     return
   }
   resetMotion()
   startMotion()
 }
 
-onMounted(() => {
-  if (props.start) {
-    play()
-  }
-})
+let active = true
+let resumeOnActivate = false
+let synchronizeOnActivate = false
+let prepareOnActivate = false
 
+function synchronize(prepare = false) {
+  resumeOnActivate = false
+  if (!canAnimate.value) {
+    pauseMotion()
+  } else if (props.start) {
+    play()
+  } else if (prepare) {
+    resetMotion()
+  } else {
+    pauseMotion()
+  }
+}
+
+onMounted(() => synchronize(true))
 watch(
-  () => props.start,
-  (started) => {
-    if (started) {
-      play()
+  () => [props.animation, props.start, props.value, props.valueFrom, props.animationDuration] as const,
+  (next, previous) => {
+    const prepare = next.some((value, index) => index !== 1 && !Object.is(value, previous[index]))
+    if (!active) {
+      synchronizeOnActivate = true
+      prepareOnActivate = prepareOnActivate || prepare
       return
     }
-    pauseMotion()
+    synchronize(prepare)
   },
 )
-
-watch(
-  () => props.value,
-  () => {
-    if (props.animation && props.start) {
-      play()
-    }
-  },
-)
-let resumeOnActivate = false
 onDeactivated(() => {
+  active = false
   resumeOnActivate = motionState.value === 'running'
   pauseMotion()
 })
 onActivated(() => {
-  if (resumeOnActivate && props.start && props.animation) {
-    resumeOnActivate = false
+  active = true
+  if (synchronizeOnActivate) {
+    synchronize(prepareOnActivate)
+  } else if (resumeOnActivate && props.start && canAnimate.value) {
     startMotion()
   }
+  resumeOnActivate = false
+  synchronizeOnActivate = false
+  prepareOnActivate = false
 })
-onUnmounted(pauseMotion)
+onUnmounted(() => {
+  active = false
+  pauseMotion()
+})
 </script>

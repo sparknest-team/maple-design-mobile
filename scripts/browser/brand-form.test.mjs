@@ -24,7 +24,7 @@ main{max-width:480px;margin:0 auto;padding:24px 20px}h1{margin:0;font-size:24px}
 import { createApp, h, ref, nextTick } from 'vue'
 import BrandForm from '/src/safe-area/example/demos/app-form.vue'
 import Themes from '/src/themes/index.ts'
-import StyleProvider from '/src/style-provider/index.ts'
+import ThemeProvider from '/src/theme-provider/index.ts'
 import SafeArea from '/src/safe-area/index.ts'
 import Button from '/src/button/index.ts'
 import Collapse from '/src/collapse/index.ts'
@@ -44,15 +44,15 @@ import TimeField from '/src/time/index.ts'
 import Upload from '/src/upload/index.ts'
 import Popup from '/src/popup/index.ts'
 ${['collapse', 'button', 'cascader', 'checkbox', 'date', 'date-range', 'form', 'input', 'input-number', 'radio', 'safe-area', 'select', 'space', 'switch', 'textarea', 'time', 'upload', 'popup'].map((name) => `import '/src/${name}/style/index.ts'`).join('\n')}
-const form = ref(null)
-const app = createApp({render:()=>h(BrandForm,{ref:form})})
+const form = ref(null), themeVars = ref(Themes.default.light)
+const app = createApp({render:()=>h(ThemeProvider,{theme:themeVars.value},()=>h(BrandForm,{ref:form}))})
 ;[Collapse, Button, Cascader, Checkbox, DateField, DateRange, Form, Input, InputNumber, Radio, Select, Space, Switch, Textarea, TimeField, Upload, SafeArea, Popup].forEach(component => app.use(component))
 app.mount('#app')
 document.querySelector('.brand-form-options [aria-expanded]').click()
-const setTheme=(brand, mode='light')=>{StyleProvider.setStyleVars(Themes[brand][mode]);document.getElementById('brand-name').textContent=brand==='alps'?'ALPS 乐道':'firefly 萤火虫'}
+const setTheme=(brand, mode='light')=>{themeVars.value=Themes[brand][mode];document.getElementById('brand-name').textContent=brand==='alps'?'ALPS 乐道':'firefly 萤火虫'}
 SafeArea.setInsets({bottom:34})
 setTheme(new URLSearchParams(location.search).get('brand')||'alps', new URLSearchParams(location.search).get('mode')||'light')
-window.brandTest={form,setTheme,nextTick,Themes,StyleProvider}
+window.brandTest={form,setTheme,nextTick,Themes,ThemeProvider}
 </script></body></html>`
 
 before(
@@ -194,8 +194,8 @@ for (const brand of ['alps', 'firefly']) {
       await page.setViewportSize({ width: 844, height: 390 })
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false)
       await page.evaluate(() => {
-        const { Themes, StyleProvider } = window.brandTest
-        StyleProvider.setStyleVars(Themes.maple.dark)
+        const { setTheme } = window.brandTest
+        setTheme('maple', 'dark')
       })
       assert.equal(await page.locator('html').getAttribute('maple-theme'), 'dark')
       assert.equal(
@@ -838,3 +838,71 @@ for (const brand of ['alps', 'firefly']) {
     })
   }
 }
+
+test('Duo presets update viewport, inset consumption and popup constraints together', { timeout: 90000 }, async () => {
+  const page = await browser.newPage({ viewport: { width: 1100, height: 950 }, reducedMotion: 'reduce' })
+  const pageErrors = []
+  page.on('pageerror', (error) => pageErrors.push(error.message))
+  try {
+    await page.goto(`http://127.0.0.1:${server.httpServer.address().port}/__brand-form?brand=alps`)
+    const presets = [
+      ['Duo 外屏竖屏', 'duo-outer-portrait', 382, 580, 618, 12, 72, 34],
+      ['Duo 外屏横屏', 'duo-outer-landscape', 594, 368, 406, 72, 12, 21],
+      ['Duo 内屏竖屏', 'duo-inner-portrait', 669, 867, 902, 12, 72, 20],
+      ['Duo 内屏横屏', 'duo-inner-landscape', 951, 585, 620, 12, 72, 20],
+      ['Duo 分屏左窗', 'duo-split-left', 385, 571, 609, 0, 72, 20],
+      ['Duo 分屏右窗', 'duo-split-right', 385, 571, 609, 72, 0, 20],
+    ]
+    for (const [label, id, width, small, large, left, right, bottom] of presets) {
+      await page.getByRole('button', { name: label, exact: true }).click()
+      await page.waitForFunction(
+        (id) => document.querySelector('.brand-form-screen')?.dataset.viewportPreset === id,
+        id,
+      )
+      for (const [heightMode, height] of [
+        ['small', small],
+        ['large', large],
+      ]) {
+        await page.evaluate(async (mode) => {
+          window.brandTest.form.value.viewportHeightMode = mode
+          await window.brandTest.nextTick()
+        }, heightMode)
+        const actual = await page.locator('.brand-form-screen').evaluate((screen) => {
+          const style = getComputedStyle(screen)
+          const shell = getComputedStyle(screen.querySelector('.brand-form-shell'))
+          return {
+            width: screen.style.width,
+            height: screen.style.height,
+            maxHeight: style.getPropertyValue('--mp-field-presentation-viewport-max-height').trim(),
+            left: shell.paddingLeft,
+            right: shell.paddingRight,
+            bottom: getComputedStyle(screen.querySelector('.brand-form-footer')).paddingBottom,
+            nested: getComputedStyle(screen.querySelector('.brand-form-footer-nested')).paddingBottom,
+          }
+        })
+        assert.deepEqual(
+          actual,
+          {
+            width: `${width}px`,
+            height: `${height}px`,
+            maxHeight: `${height}px`,
+            left: `${left}px`,
+            right: `${right}px`,
+            bottom: `${bottom}px`,
+            nested: '0px',
+          },
+          `${label} ${heightMode}`,
+        )
+      }
+    }
+    await page.getByRole('button', { name: 'Duo 左侧避让（模拟）', exact: true }).click()
+    assert.equal(await page.locator('.brand-form-screen').evaluate((el) => el.style.width), '385px')
+    await page.getByRole('button', { name: '四边归零', exact: true }).click()
+    assert.equal(await page.locator('.brand-form-screen').evaluate((el) => el.style.width), '385px')
+    await page.getByRole('button', { name: 'Duo 内屏横屏', exact: true }).click()
+    await page.screenshot({ path: `${output}/duo-inner-landscape.png`, fullPage: true })
+    assert.deepEqual(pageErrors, [])
+  } finally {
+    await page.close()
+  }
+})

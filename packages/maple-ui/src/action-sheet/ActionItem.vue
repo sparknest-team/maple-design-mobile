@@ -1,7 +1,9 @@
 <template>
-  <div
+  <button
     v-ripple="{ disabled }"
     v-hover:desktop="handleHovering"
+    type="button"
+    :disabled="disabled"
     :class="classes(n('action-item'), className, [disabled, n('--disabled')])"
     :style="{ color }"
   >
@@ -9,7 +11,7 @@
     <div :class="n('action-name')">{{ name }}</div>
 
     <mp-hover-overlay :hovering="disabled ? false : hovering" />
-  </div>
+  </button>
 </template>
 
 <script lang="ts">

@@ -151,12 +151,18 @@ The same scenarios, parameters and interactions as Cedar. Only component prefixe
 
 ## Reading direction
 
-Headings, content and actions follow reading order. Default floating actions sit at reading end without mirroring images or custom slots.
+Title, content and actions follow reading order. Default floating actions sit at inline end; images and custom slots are not mirrored.
 
 ## API
 
 <!-- same-source-api:start -->
-### Props
+`row-reverse` reverses the horizontal cover and body order, with reading direction still following the container. Collapsed `floating-content` keeps its nodes and state but is inert to keyboard and assistive technology; it becomes interactive when expanded. Floating is available only in column direction.
+
+The floating layer remains at the Card’s original DOM location. An ancestor’s transform or similar property may change the fixed-position containing block, and ancestor clipping may obscure the layer, so viewport coverage is not guaranteed. The layer does not currently provide modal focus management or Escape-to-close; use Dialog when modal interaction is required.
+
+The default close button uses the current locale’s close text and can be overridden with `close-button-aria-label`. `floating-duration` is a finite nonnegative duration in milliseconds; 0 means no delay and invalid values fall back to 250.
+
+### Card Props
 
 | Prop | Description | Type | Default |
 | --- | --- | --- | --- |
@@ -179,17 +185,18 @@ Headings, content and actions follow reading order. Default floating actions sit
 | ripple | Click ripple | `boolean` | `false` |
 | floating | Fullscreen state; supports v-model:floating | `boolean` | `false` |
 | floating-duration | Fullscreen transition duration in ms | `number` | `250` |
+| close-button-aria-label | Accessible name of the default close button | `string` | `—` |
 
-### Events
+### Card Events
 
 | Event | Arguments and timing |
 | --- | --- |
 | click | `(event: Event)`, emitted when the card is clicked |
 | update:floating | `(value: boolean)`, emits false when the built-in close button requests closing; expansion is controlled by the parent |
 
-### Slots
+### Card Slots
 
-| Slot | Description | Arguments |
+| Slot | Description | Prop |
 | --- | --- | --- |
 | default | Body | — |
 | cover | Cover; overrides src | — |
@@ -202,69 +209,91 @@ Headings, content and actions follow reading order. Default floating actions sit
 | floating-content | Expanded content; column layout only | — |
 | close-button | Custom close button; update floating yourself | — |
 
-### Methods
+### Card Methods
 
 No public methods.
 
-### Platform notes
+### Usage notes
 
 Props, event arguments and slots match. Cedar inherits the global size when size is omitted: xs/sm map to sm, all others to md. Maple falls back to md. Pass size explicitly for identical density. Themes and CSS prefixes remain platform-specific.
 Card no longer has a loading prop. Compose a loading overlay with the Loading directive.
 <!-- same-source-api:end -->
 
-### Style variables
+## CSS Variables
 
-| Variable | Default |
-| --- | --- |
-| `--mp-card-hover-shadow` | `0 4px 12px rgb(0 0 0 / 12%)` |
-| `--mp-card-size-sm-title-font-size` | `16px` |
-| `--mp-card-size-sm-section-margin` | `8px 0 0` |
-| `--mp-card-size-sm-section-padding` | `0 12px` |
-| `--mp-card-padding` | `0 0 15px 0` |
-| `--mp-card-background` | `var(--mp-sys-color-surface-default)` |
-| `--mp-card-filled-background` | `var(--mp-sys-color-surface-muted)` |
-| `--mp-card-outline-color` | `var(--mp-sys-color-border-default)` |
-| `--mp-card-border-radius` | `4px` |
-| `--mp-card-image-width` | `100%` |
-| `--mp-card-row-image-width` | `140px` |
-| `--mp-card-image-height` | `200px` |
-| `--mp-card-row-height` | `140px` |
-| `--mp-card-title-color` | `var(--mp-sys-color-content-primary)` |
-| `--mp-card-title-font-size` | `20px` |
-| `--mp-card-title-padding` | `0 12px` |
-| `--mp-card-title-margin` | `15px 0 0 0` |
-| `--mp-card-title-row-margin` | `12px 0` |
-| `--mp-card-content-padding` | `0 16px` |
-| `--mp-card-content-margin` | `16px 0 0 0` |
-| `--mp-card-content-color` | `var(--mp-sys-color-content-tertiary)` |
-| `--mp-card-content-font-size` | `14px` |
-| `--mp-card-content-row-margin` | `16px 0 0 0` |
-| `--mp-card-subtitle-color` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-card-subtitle-font-size` | `14px` |
-| `--mp-card-subtitle-padding` | `0 12px` |
-| `--mp-card-subtitle-margin` | `10px 0 0 0` |
-| `--mp-card-subtitle-row-margin` | `-8px 0 0 0` |
-| `--mp-card-description-color` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-card-description-font-size` | `14px` |
-| `--mp-card-description-margin` | `20px 0 0 0` |
-| `--mp-card-description-padding` | `0 13px` |
-| `--mp-card-footer-padding` | `0 12px` |
-| `--mp-card-footer-right` | `13px` |
-| `--mp-card-footer-bottom` | `9px` |
-| `--mp-card-footer-margin` | `30px 0 0 0` |
-| `--mp-card-line-height` | `22px` |
-| `--mp-card-row-line-height` | `1.5` |
-| `--mp-card-floating-buttons-bottom` | `16px` |
-| `--mp-card-floating-buttons-right` | `16px` |
-| `--mp-card-floating-buttons-color` | `var(--mp-sys-color-content-primary)` |
-| `--mp-card-close-button-icon-size` | `24px` |
-| `--mp-card-close-button-size` | `56px` |
-| `--mp-card-close-button-background` | `#212121` |
-| `--mp-card-close-button-text-color` | `var(--mp-sys-color-content-on-dark)` |
-| `--mp-card-close-button-border-radius` | `50%` |
+Regular/filled backgrounds and borders use `surface-default`, `surface-muted` and `border-default`. Titles, body and secondary text use `content-primary`, `content-tertiary` and `content-secondary`. Expanded floating buttons use `content-primary`; text and icons on dark close buttons use `content-on-dark`.
 
-Card colors share Cedar's system semantics: regular/filled backgrounds and borders use `surface-default`/`surface-muted`/`border-default`; titles/body/secondary text use `content-primary`/`content-tertiary`/`content-secondary`, including dark themes. Expanded floating-button containers use `content-primary` on the card surface; dark close-button text/icons use `content-on-dark`. `#212121` close-button backgrounds are Card-specific, not global primary-action colors. See Design Token migration mappings.
+<!-- component-css-variables:start -->
 
-### Variable consumption rules
+Use these variables to customize the component. Defaults may vary by the selector condition shown. Each variable applies to the corresponding size, variant and interaction states.
 
-Row content consumes `--mp-card-content-row-margin`, independently from the title margin. Card intentionally exposes only sm/md density, not all five control sizes. Motion uses `--mp-card-animation-duration` (`var(--mp-sys-motion-duration-slow)`) and `--mp-card-animation-easing` (`var(--mp-sys-motion-easing-standard)`). Reduced motion disables transitions on every animated Card section.
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Default / condition | Affected styles |
+| --- | --- | --- |
+| `--mp-card-animation-duration` | `var(--mp-sys-motion-duration-slow)` | `transition` |
+| `--mp-card-animation-easing` | `var(--mp-sys-motion-easing-standard)` | `transition-timing-function` |
+| `--mp-card-background` | `var(--mp-sys-color-surface-default)` | `background` |
+| `--mp-card-border-radius` | `4px` | `border-radius` |
+| `--mp-card-close-button-background` | `#212121` | `background-color` |
+| `--mp-card-close-button-border-radius` | `50%` | `border-radius` |
+| `--mp-card-close-button-icon-size` | `24px` | `font-size` |
+| `--mp-card-close-button-size` | `56px` | `height`, `width` |
+| `--mp-card-close-button-text-color` | `var(--mp-sys-color-content-on-dark)` | `color` |
+| `--mp-card-content-color` | `var(--mp-sys-color-content-tertiary)` | `color` |
+| `--mp-card-content-font-size` | `14px` | `font-size` |
+| `--mp-card-content-margin` | `16px 0 0 0` | `margin` |
+| `--mp-card-content-padding` | `0 16px` | `padding` |
+| `--mp-card-content-row-margin` | `16px 0 0 0` | `margin` |
+| `--mp-card-description-color` | `var(--mp-sys-color-content-secondary)` | `color` |
+| `--mp-card-description-font-size` | `14px` | `font-size` |
+| `--mp-card-description-margin` | `20px 0 0 0` | `margin` |
+| `--mp-card-description-padding` | `0 13px` | `padding` |
+| `--mp-card-filled-background` | `var(--mp-sys-color-surface-muted)` | `background-color` |
+| `--mp-card-floating-buttons-bottom` | `16px` | `bottom` |
+| `--mp-card-floating-buttons-color` | `var(--mp-sys-color-content-primary)` | `color` |
+| `--mp-card-floating-buttons-right` | `16px` | `inset-inline-end` |
+| `--mp-card-footer-bottom` | `9px` | `bottom` |
+| `--mp-card-footer-margin` | `30px 0 0 0` | `margin` |
+| `--mp-card-footer-padding` | `0 12px` | `padding` |
+| `--mp-card-footer-right` | `13px` | `inset-inline-end` |
+| `--mp-card-hover-shadow` | `0 4px 12px rgb(0 0 0%)` | `box-shadow` |
+| `--mp-card-image-height` | `200px` | `height` |
+| `--mp-card-image-width` | `100%` | `width` |
+| `--mp-card-line-height` | `22px` | `line-height` |
+| `--mp-card-outline-color` | `var(--mp-sys-color-border-default)` | `border` |
+| `--mp-card-padding` | `0 0 15px 0` | `padding` |
+| `--mp-card-row-height` | `140px` | `min-height` |
+| `--mp-card-row-image-width` | `140px` | `width` |
+| `--mp-card-row-line-height` | `1.5` | `line-height` |
+| `--mp-card-size-sm-section-margin` | `8px 0 0` | `margin` |
+| `--mp-card-size-sm-section-padding` | `0 12px` | `padding` |
+| `--mp-card-size-sm-title-font-size` | `16px` | `font-size` |
+| `--mp-card-subtitle-color` | `var(--mp-sys-color-content-secondary)` | `color` |
+| `--mp-card-subtitle-font-size` | `14px` | `font-size` |
+| `--mp-card-subtitle-margin` | `10px 0 0 0` | `margin` |
+| `--mp-card-subtitle-padding` | `0 12px` | `padding` |
+| `--mp-card-subtitle-row-margin` | `-8px 0 0 0` | `margin` |
+| `--mp-card-title-color` | `var(--mp-sys-color-content-primary)` | `color` |
+| `--mp-card-title-font-size` | `20px` | `font-size` |
+| `--mp-card-title-margin` | `15px 0 0 0` | `margin` |
+| `--mp-card-title-padding` | `0 12px` | `padding` |
+| `--mp-card-title-row-margin` | `12px 0` | `margin` |
+
+</div>
+
+Apply overrides to the rendered component root or the actual popup ancestor. For example, add the following class to that element and replace the value as needed:
+
+```css
+.component-theme {
+  --mp-card-background: var(--mp-sys-color-surface-default);
+}
+```
+
+Explicit inline styles and props that write the same CSS property take precedence over stylesheet defaults. After Teleport, ordinary CSS variables inherit from the actual mount location. When using ThemeProvider, follow its local-theme and popup configuration rules. Override the component variable directly for local styling; root-level aliases are not recalculated merely because a descendant system variable changes. Internal variables are not public APIs.
+
+<!-- component-css-variables:end -->
+
+### Sizing and motion
+
+Use `--mp-card-content-row-margin` for horizontal content spacing. Card supports only sm / md sizes. `--mp-card-animation-duration` defaults to `var(--mp-sys-motion-duration-slow)` and `--mp-card-animation-easing` to `var(--mp-sys-motion-easing-standard)`. Reduced motion disables Card transitions.

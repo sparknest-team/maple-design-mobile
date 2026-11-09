@@ -7,10 +7,6 @@
   border-radius: var(--mp-date-range-picker-border-radius);
   background: var(--mp-date-range-picker-background);
 
-  &--with-time {
-    --mp-date-range-picker-values-height: 56px;
-  }
-
   &--calendar,
   &--calendar-time {
     .mp-date-picker__title {
@@ -19,7 +15,7 @@
   }
 
   &__datetime-picker {
-    padding-inline: var(--mp-temporal-panel-inset);
+    padding-inline: var(--mp-internal-temporal-panel-inset);
   }
 
   &__summaries {
@@ -29,7 +25,7 @@
 
   &__summary {
     .temporal-range-summary();
-    min-height: ~'max(var(--mp-date-range-picker-summary-touch-height), calc(var(--mp-temporal-panel-summary-height) - var(--mp-sys-space-2) * 2))';
+    min-height: ~'max(var(--mp-date-range-picker-summary-touch-height), calc(var(--mp-internal-temporal-panel-summary-height) - var(--mp-sys-space-2) * 2))';
     background: transparent;
     border: 0;
     color: var(--mp-color-text-2);
@@ -76,7 +72,7 @@
       background: var(--mp-date-range-picker-summary-active-background);
     }
     &:focus-visible {
-      outline: var(--mp-temporal-panel-summary-separator-stroke) solid var(--mp-color-primary);
+      outline: var(--mp-internal-temporal-panel-summary-separator-stroke) solid var(--mp-color-primary);
       outline-offset: var(--mp-sys-space-1);
     }
   }
@@ -95,7 +91,7 @@
       .temporal-inset();
     }
     > .mp-date-range-picker__column-labels {
-      margin-inline: var(--mp-temporal-panel-inset);
+      margin-inline: var(--mp-internal-temporal-panel-inset);
     }
   }
   &__date-content--with-time .mp-date-picker-header {
@@ -108,8 +104,8 @@
   &__quick-time {
     flex: 0 0 var(--mp-date-range-picker-quick-time-width);
     min-width: 0;
-    margin-inline-end: var(--mp-temporal-panel-inset);
-    border-radius: var(--mp-temporal-panel-radius);
+    margin-inline-end: var(--mp-internal-temporal-panel-inset);
+    border-radius: var(--mp-internal-temporal-panel-radius);
     overflow: hidden;
   }
   &__quick-time--fields {
@@ -129,13 +125,13 @@
 .mp-date-panel__layout--standalone.mp-date-panel__layout--range.mp-date-panel__layout--time {
   --mp-date-picker-panel-preferred-width: calc(
     var(--mp-date-picker-panel-date-width) + var(--mp-date-range-picker-quick-time-width) +
-      var(--mp-temporal-panel-inset) + var(--mp-sys-space-2)
+      var(--mp-internal-temporal-panel-inset) + var(--mp-sys-space-2)
   );
 }
 .mp-date-field-popover .mp-date-field-panel:has(.mp-date-range-picker--with-time) {
   width: calc(
     var(--mp-date-picker-panel-date-width) + var(--mp-date-range-picker-quick-time-width) +
-      var(--mp-temporal-panel-inset) + var(--mp-sys-space-2)
+      var(--mp-internal-temporal-panel-inset) + var(--mp-sys-space-2)
   );
 }
 

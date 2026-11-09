@@ -9,6 +9,7 @@ import {
   type PropType,
   type VNodeRef,
 } from 'vue'
+import { useThemeScope } from '../theme-provider/context'
 import { createNamespace } from '../utils/components'
 import type { TriggerPlacement } from './contract'
 
@@ -41,6 +42,7 @@ export default defineComponent({
   inheritAttrs: false,
   props: { options: { type: Object as PropType<TriggerPopupOptions>, required: true } },
   setup(props, { slots }) {
+    const themeScope = useThemeScope()
     return () => {
       const o = props.options
       if (!o.rendered) {
@@ -49,6 +51,7 @@ export default defineComponent({
       return h(
         'div',
         mergeProps(
+          themeScope.value,
           o.attrs ?? {},
           {
             ref: o.setPopup,

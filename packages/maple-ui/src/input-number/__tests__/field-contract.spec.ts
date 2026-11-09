@@ -85,7 +85,7 @@ describe('InputNumber field contract', () => {
     })
     await wrapper.get('[aria-label="清空"]').trigger('click')
     await wrapper.get('input').trigger('blur')
-    expect(order).toEqual(['input', 'update', 'change', 'clear'])
+    expect(order).toEqual(['clear', 'input', 'update', 'change'])
   })
 
   test('commits a trailing dot but restores lone signs and invalid text', async () => {

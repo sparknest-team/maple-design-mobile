@@ -32,7 +32,7 @@
         zIndex: floated ? zIndex : undefined,
         background: variant === 'outline' && !floated ? 'transparent' : undefined,
         transition: floated
-          ? `background-color ${floatingDuration}ms, color ${floatingDuration}ms, width ${floatingDuration}ms, height ${floatingDuration}ms, top ${floatingDuration}ms, left ${floatingDuration}ms`
+          ? `background-color ${duration}ms, color ${duration}ms, width ${duration}ms, height ${duration}ms, top ${duration}ms, left ${duration}ms`
           : undefined,
       }"
     >
@@ -76,10 +76,12 @@
         <div
           v-if="$slots['floating-content'] && !isRow"
           :class="n('floating-content')"
+          :inert="!props.floating ? true : undefined"
+          :aria-hidden="!props.floating ? true : undefined"
           :style="{
             height: contentHeight,
             opacity,
-            transition: `opacity ${floatingDuration * 2}ms`,
+            transition: `opacity ${duration * 2}ms`,
           }"
         >
           <slot name="floating-content" />
@@ -89,17 +91,19 @@
       <div
         v-if="showFloatingButtons"
         :class="classes(n('floating-buttons'), n('$--box'))"
+        :inert="!props.floating ? true : undefined"
+        :aria-hidden="!props.floating ? true : undefined"
         :style="{
           zIndex,
           opacity,
-          transition: `opacity ${floatingDuration * 2}ms`,
+          transition: `opacity ${duration * 2}ms`,
         }"
       >
         <slot name="close-button">
           <BaseButton
             data-card-cover
             :class="classes(n('close-button'), n('$-elevation--6'))"
-            aria-label="Close"
+            :aria-label="props.closeButtonAriaLabel ?? closeLabel"
             @click.stop="close"
           >
             <BaseIcon data-card-cover :class="n('close-button-icon')"><MIconClose /></BaseIcon>
@@ -130,7 +134,7 @@ import BaseIcon from '../icon'
 import vRipple from '../ripple'
 import { createNamespace, formatElevation } from '../utils/components'
 import { toSizeUnit } from '../utils/elements'
-import { useCardSize } from './platform'
+import { useCardCloseLabel, useCardSize } from './platform'
 import { cardProps } from './props'
 
 defineOptions({ name: createNamespace('card').name })
@@ -138,6 +142,10 @@ const { n, classes } = createNamespace('card')
 const props = defineProps(cardProps)
 const emit = defineEmits<{ click: [event: Event]; 'update:floating': [value: boolean] }>()
 const mergedSize = useCardSize(() => props.size)
+const closeLabel = useCardCloseLabel()
+const duration = computed(() =>
+  Number.isFinite(props.floatingDuration) && props.floatingDuration >= 0 ? props.floatingDuration : 250,
+)
 const RIPPLE_DELAY = 500
 const card = ref<null | HTMLElement>(null)
 const cardFloater = ref<null | HTMLElement>(null)
@@ -256,6 +264,16 @@ function dropdown() {
   clearTimeout(dropper)
   clearTimeout(floater.value ?? undefined)
   floater.value = null
+  if (element && floaterPosition.value === 'fixed') {
+    const { width, height, left, top } = getRect(element)
+    if (!current(token, element) || wantsFloating()) {
+      return
+    }
+    holderWidth.value = toSizeUnit(width)!
+    holderHeight.value = toSizeUnit(height)!
+    dropdownFloaterTop = toSizeUnit(top)!
+    dropdownFloaterLeft = toSizeUnit(left)!
+  }
   floaterWidth.value = holderWidth.value
   floaterHeight.value = holderHeight.value
   floaterTop.value = dropdownFloaterTop
@@ -280,7 +298,7 @@ function dropdown() {
     floaterOverflow.value = 'hidden'
     floaterPosition.value = undefined
     floated.value = false
-  }, props.floatingDuration)
+  }, duration.value)
 }
 function close() {
   if (available()) {

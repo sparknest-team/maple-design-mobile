@@ -26,5 +26,5 @@ export const props = {
   },
   disabled: Boolean,
   stopPropagation: Boolean,
-  beforeClose: Function as PropType<(args: SwipeCellBeforeCloseArgs) => boolean | Promise<boolean>>,
+  beforeClose: Function as PropType<(args: SwipeCellBeforeCloseArgs) => boolean | void | Promise<boolean | void>>,
 }

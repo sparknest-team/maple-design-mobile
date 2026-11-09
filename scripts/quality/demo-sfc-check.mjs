@@ -16,13 +16,14 @@ const programmaticApis = new Set([
   'ActionSheet',
   'Dialog',
   'Locale',
-  'StyleProvider',
+  'ThemeProvider',
   // Preset configuration is a script API, not a component rendered by the template.
   'Themes',
   'SafeArea',
   'LoadingBar',
   'Form',
   'useFormItem',
+  'useFormErrorDescription',
   'useUploader',
 ])
 const singleSourceDemoComponents = new Set([

@@ -196,8 +196,7 @@
     }
   ],
   "events": [
-    "click",
-    "touchstart"
+    "click"
   ],
   "scenarios": [
     {

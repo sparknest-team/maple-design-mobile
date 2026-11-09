@@ -1,7 +1,5 @@
 # Badge
 
-与 Cedar 使用相同场景、参数和交互顺序；示例源码仅替换组件前缀，主题与站点外壳各自保留。
-
 ## 基础示例
 
 ### 基础用法
@@ -128,10 +126,18 @@
 ../example/demos/content.vue
 ```
 
+## 使用说明
+
+### 配置说明
+
+以下是全部公开 Badge 变量及默认值：
+
 ## API
 
 <!-- same-source-api:start -->
-### Props
+数字内容支持有限非负数；零仅在 `show-zero` 为真时显示，点状和 `content` 插槽也遵循此规则。字符串原样显示，包括字符串 `0`。负数和非有限数字不显示。`max=0` 表示不截断，无效上限回退为 99；偏移支持有限负数，无效偏移按 0 处理。浮动模式下正偏移从锚边向内，中点位置的正纵向偏移向下；内联模式忽略横向偏移，纵向偏移按 start/end 使用不同的块方向边距。默认插槽存在即视为有宿主，即使插槽内容为空；`content` 插槽优先于默认徽标，但仍受 `show` 和数字零值规则约束。
+
+### Badge Props
 
 | 参数名          | 描述                                                                               | 类型                                                           |   默认值    |
 | --------------- | ---------------------------------------------------------------------------------- | -------------------------------------------------------------- | :---------: |
@@ -147,32 +153,32 @@
 | position        | 浮动徽标在宿主盒子中的物理角落或左右中点，默认 top-right；只在 floating 模式生效，RTL 不反转 | `'top-right' \| 'top-left' \| 'bottom-right' \| 'bottom-left' \| 'left' \| 'right'` | `top-right` |
 | inline-position | 内联徽标位于宿主内容的逻辑 start 或 end，默认 end；仅 inline 模式生效 | `'start' \| 'end'`                                             |    `end`    |
 | size            | 徽标的尺寸                                                                         | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'`                         |    `md`     |
-| status          | 徽标的状态                                                                         | `SemanticStatus`                                               |  `danger`   |
+| status          | 徽标的状态                                                                         | `SemanticStatus`<br>`'default' \| 'primary' \| 'secondary' \| 'tertiary' \| 'info' \| 'success' \| 'warning' \| 'danger'` |  `danger`   |
 | show            | 是否显示徽标                                                                       | `boolean`                                                      |   `true`    |
 | show-zero       | 徽标为0时是否显示                                                                  | `boolean`                                                      |   `false`   |
 | variant         | 徽标的变体                                                                         | `'outline' \| 'default'`                                       |  `default`  |
 
-### Events
+### Badge Events
 
 无组件自定义事件。
 
-### Slots
+### Badge Slots
 
 | 插槽名  | 说明             | 参数 |
 | ------- | ---------------- | ---- |
 | default | 徽标的描述文本   | -    |
 | content | 徽标中显示的内容 | -    |
 
-### Methods
+### Badge Methods
 
 无公开方法。
 
-### 跨端说明
+### 使用说明
 
 属性和插槽契约一致。没有 default 插槽且 description 为空时自动独立内联展示；未提供 content 时显示圆点。两端分别通过各自配置读取文字方向，主题颜色和 CSS 前缀由各端提供。
 <!-- same-source-api:end -->
 
-## 类型定义
+## Types
 
 ```ts
 type SemanticStatus = 'default' | 'success' | 'warning' | 'danger' | 'info' | 'primary' | 'secondary' | 'tertiary'
@@ -183,94 +189,112 @@ type BadgeInlinePosition = 'start' | 'end'
 type BadgeSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 ```
 
-## 样式变量
-
-以下是全部公开 Badge 变量及默认值：
-
-| 变量 | 默认值 |
-| --- | --- |
-| `--mp-badge-font-weight` | `var(--mp-sys-font-weight-medium)` |
-| `--mp-badge-description-size-xs-font-size` | `var(--mp-sys-font-size-xs)` |
-| `--mp-badge-description-size-sm-font-size` | `var(--mp-sys-font-size-xs)` |
-| `--mp-badge-description-size-md-font-size` | `var(--mp-sys-font-size-md)` |
-| `--mp-badge-description-size-lg-font-size` | `var(--mp-sys-font-size-lg)` |
-| `--mp-badge-description-size-xl-font-size` | `var(--mp-sys-font-size-xl)` |
-| `--mp-badge-description-text-color` | `var(--mp-sys-color-content-primary)` |
-| `--mp-badge-size-xs-font-size` | `var(--mp-sys-font-size-xs)` |
-| `--mp-badge-size-sm-font-size` | `var(--mp-sys-font-size-xs)` |
-| `--mp-badge-size-md-font-size` | `var(--mp-sys-font-size-xs)` |
-| `--mp-badge-size-lg-font-size` | `var(--mp-sys-font-size-md)` |
-| `--mp-badge-size-xl-font-size` | `var(--mp-sys-font-size-lg)` |
-| `--mp-badge-size-xs-scale` | `0.6667` |
-| `--mp-badge-size-sm-scale` | `0.8333` |
-| `--mp-badge-size-md-scale` | `1` |
-| `--mp-badge-size-lg-scale` | `1` |
-| `--mp-badge-size-xl-scale` | `1` |
-| `--mp-badge-size-xs-dot-width` | `4px` |
-| `--mp-badge-size-sm-dot-width` | `5px` |
-| `--mp-badge-size-md-dot-width` | `6px` |
-| `--mp-badge-size-lg-dot-width` | `7px` |
-| `--mp-badge-size-xl-dot-width` | `8px` |
-| `--mp-badge-size-xs-dot-height` | `4px` |
-| `--mp-badge-size-sm-dot-height` | `5px` |
-| `--mp-badge-size-md-dot-height` | `6px` |
-| `--mp-badge-size-lg-dot-height` | `7px` |
-| `--mp-badge-size-xl-dot-height` | `8px` |
-| `--mp-badge-size-xs-space` | `0px` |
-| `--mp-badge-size-sm-space` | `var(--mp-sys-space-1)` |
-| `--mp-badge-size-md-space` | `var(--mp-sys-space-3)` |
-| `--mp-badge-size-lg-space` | `var(--mp-sys-space-3)` |
-| `--mp-badge-size-xl-space` | `var(--mp-sys-space-4)` |
-| `--mp-badge-size-xs-padding` | `0 var(--mp-sys-space-3)` |
-| `--mp-badge-size-sm-padding` | `0 var(--mp-sys-space-3)` |
-| `--mp-badge-size-md-padding` | `0 var(--mp-sys-space-4)` |
-| `--mp-badge-size-lg-padding` | `0 var(--mp-sys-space-4)` |
-| `--mp-badge-size-xl-padding` | `0 10px` |
-| `--mp-badge-size-xs-height` | `20px` |
-| `--mp-badge-size-sm-height` | `20px` |
-| `--mp-badge-size-md-height` | `24px` |
-| `--mp-badge-size-lg-height` | `28px` |
-| `--mp-badge-size-xl-height` | `32px` |
-| `--mp-badge-size-xs-border-radius` | `20px` |
-| `--mp-badge-size-sm-border-radius` | `20px` |
-| `--mp-badge-size-md-border-radius` | `24px` |
-| `--mp-badge-size-lg-border-radius` | `28px` |
-| `--mp-badge-size-xl-border-radius` | `32px` |
-| `--mp-badge-bg-color` | `rgb(var(--mp-danger-7))` |
-| `--mp-badge-text-color` | `var(--mp-sys-color-content-on-dark)` |
-| `--mp-badge-status-default-bg-color` | `#e0e0e0` |
-| `--mp-badge-status-default-text-color` | `var(--mp-sys-color-content-on-bright)` |
-| `--mp-badge-status-info-bg-color` | `var(--mp-sys-color-status-info)` |
-| `--mp-badge-status-info-text-color` | `var(--mp-sys-color-content-on-dark)` |
-| `--mp-badge-status-success-bg-color` | `var(--mp-sys-color-status-success)` |
-| `--mp-badge-status-success-text-color` | `var(--mp-sys-color-content-on-dark)` |
-| `--mp-badge-status-warning-bg-color` | `var(--mp-sys-color-status-warning)` |
-| `--mp-badge-status-warning-text-color` | `var(--mp-sys-color-content-on-dark)` |
-| `--mp-badge-status-danger-bg-color` | `rgb(var(--mp-danger-7))` |
-| `--mp-badge-status-danger-text-color` | `var(--mp-sys-color-content-on-dark)` |
-| `--mp-badge-status-primary-bg-color` | `var(--mp-sys-color-action-primary)` |
-| `--mp-badge-status-primary-text-color` | `var(--mp-sys-color-content-on-dark)` |
-| `--mp-badge-status-secondary-bg-color` | `rgb(var(--mp-gray-6))` |
-| `--mp-badge-status-secondary-text-color` | `var(--mp-sys-color-content-on-dark)` |
-| `--mp-badge-status-tertiary-bg-color` | `rgb(var(--mp-gray-7))` |
-| `--mp-badge-status-tertiary-text-color` | `var(--mp-sys-color-content-on-dark)` |
-| `--mp-badge-variant-outline-bg-color` | `transparent` |
-| `--mp-badge-variant-outline-text-color` | `var(--mp-sys-color-content-danger)` |
-| `--mp-badge-variant-outline-status-info-text-color` | `var(--mp-sys-color-content-info)` |
-| `--mp-badge-variant-outline-status-success-text-color` | `var(--mp-sys-color-content-success)` |
-| `--mp-badge-variant-outline-status-warning-text-color` | `var(--mp-sys-color-content-warning)` |
-| `--mp-badge-variant-outline-status-danger-text-color` | `var(--mp-sys-color-content-danger)` |
-| `--mp-badge-variant-outline-status-primary-text-color` | `var(--mp-sys-color-content-brand)` |
-| `--mp-badge-variant-outline-status-default-text-color` | `var(--mp-sys-color-content-primary)` |
-| `--mp-badge-variant-outline-status-secondary-text-color` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-badge-variant-outline-status-tertiary-text-color` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-badge-border-color` | `var(--mp-sys-color-surface-default)` |
-| `--mp-badge-offset` | `2px` |
-| `--mp-badge-ring-width` | `2px` |
+## CSS Variables
 
 填充徽标的文字配色以 Button 为准：primary、info、success、warning、danger、secondary 使用 `content-on-dark`；tertiary 在亮色使用 `content-on-dark`，暗色使用 `content-on-bright`。默认通知徽标使用红底白字，中性背景 `#e0e0e0` 为固定浅灰色。
 
 彩色轮廓文字和描边与 Button 一致，使用对应的 `content-brand` / `content-info` / `content-success` / `content-warning` / `content-danger` 语义色；secondary 与 tertiary 轮廓均使用 `content-secondary` 保持可读性。`variant-outline-bg-color` 对所有状态均生效，默认透明。`color` 属性覆盖轮廓文字和描边，`text-color` 进一步覆盖文字；二者均保留背景变量的控制权。自定义前景或背景后须重新验证对比度。
+
+<!-- component-css-variables:start -->
+
+通过以下变量定制组件外观。默认值随表中注明的主题或选择器条件变化；变量仅在对应的尺寸、变体和交互状态下生效。
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| 变量 | 默认值／条件 | 影响的样式 |
+| --- | --- | --- |
+| `--mp-badge-bg-color` | `rgb(var(--mp-danger-7))` | `background-color` |
+| `--mp-badge-border-color` | `var(--mp-sys-color-surface-default)` | `background-color`, `box-shadow` |
+| `--mp-badge-description-size-lg-font-size` | `var(--mp-sys-font-size-lg)` | `font-size` |
+| `--mp-badge-description-size-md-font-size` | `var(--mp-sys-font-size-md)` | `font-size` |
+| `--mp-badge-description-size-sm-font-size` | `var(--mp-sys-font-size-xs)` | `font-size` |
+| `--mp-badge-description-size-xl-font-size` | `var(--mp-sys-font-size-xl)` | `font-size` |
+| `--mp-badge-description-size-xs-font-size` | `var(--mp-sys-font-size-xs)` | `font-size` |
+| `--mp-badge-description-text-color` | `var(--mp-sys-color-content-primary)` | `color` |
+| `--mp-badge-font-weight` | `var(--mp-sys-font-weight-medium)` | `font-weight` |
+| `--mp-badge-offset` | `2px` | `bottom`, `left`, `right`, `top` |
+| `--mp-badge-ring-width` | `2px` | `box-shadow`, `line-height` |
+| `--mp-badge-size-lg-border-radius` | `28px` | `border-radius` |
+| `--mp-badge-size-lg-dot-height` | `7px` | `height` |
+| `--mp-badge-size-lg-dot-width` | `7px` | `width` |
+| `--mp-badge-size-lg-font-size` | `var(--mp-sys-font-size-md)` | `font-size` |
+| `--mp-badge-size-lg-height` | `28px` | `line-height`, `min-width` |
+| `--mp-badge-size-lg-padding` | `0 var(--mp-sys-space-4)` | `padding` |
+| `--mp-badge-size-lg-scale` | `1` | `transform` |
+| `--mp-badge-size-lg-space` | `var(--mp-sys-space-3)` | `margin-inline` |
+| `--mp-badge-size-md-border-radius` | `24px` | `border-radius` |
+| `--mp-badge-size-md-dot-height` | `6px` | `height` |
+| `--mp-badge-size-md-dot-width` | `6px` | `width` |
+| `--mp-badge-size-md-font-size` | `var(--mp-sys-font-size-xs)` | `font-size` |
+| `--mp-badge-size-md-height` | `24px` | `line-height`, `min-width` |
+| `--mp-badge-size-md-padding` | `0 var(--mp-sys-space-4)` | `padding` |
+| `--mp-badge-size-md-scale` | `1` | `transform` |
+| `--mp-badge-size-md-space` | `var(--mp-sys-space-3)` | `margin-inline` |
+| `--mp-badge-size-sm-border-radius` | `20px` | `border-radius` |
+| `--mp-badge-size-sm-dot-height` | `5px` | `height` |
+| `--mp-badge-size-sm-dot-width` | `5px` | `width` |
+| `--mp-badge-size-sm-font-size` | `var(--mp-sys-font-size-xs)` | `font-size` |
+| `--mp-badge-size-sm-height` | `20px` | `line-height`, `min-width` |
+| `--mp-badge-size-sm-padding` | `0 var(--mp-sys-space-3)` | `padding` |
+| `--mp-badge-size-sm-scale` | `0.8333` | `transform` |
+| `--mp-badge-size-sm-space` | `var(--mp-sys-space-1)` | `margin-inline` |
+| `--mp-badge-size-xl-border-radius` | `32px` | `border-radius` |
+| `--mp-badge-size-xl-dot-height` | `8px` | `height` |
+| `--mp-badge-size-xl-dot-width` | `8px` | `width` |
+| `--mp-badge-size-xl-font-size` | `var(--mp-sys-font-size-lg)` | `font-size` |
+| `--mp-badge-size-xl-height` | `32px` | `line-height`, `min-width` |
+| `--mp-badge-size-xl-padding` | `0 10px` | `padding` |
+| `--mp-badge-size-xl-scale` | `1` | `transform` |
+| `--mp-badge-size-xl-space` | `var(--mp-sys-space-4)` | `margin-inline` |
+| `--mp-badge-size-xs-border-radius` | `20px` | `border-radius` |
+| `--mp-badge-size-xs-dot-height` | `4px` | `height` |
+| `--mp-badge-size-xs-dot-width` | `4px` | `width` |
+| `--mp-badge-size-xs-font-size` | `var(--mp-sys-font-size-xs)` | `font-size` |
+| `--mp-badge-size-xs-height` | `20px` | `line-height`, `min-width` |
+| `--mp-badge-size-xs-padding` | `0 var(--mp-sys-space-3)` | `padding` |
+| `--mp-badge-size-xs-scale` | `0.6667` | `transform` |
+| `--mp-badge-size-xs-space` | `0px` | `margin-inline` |
+| `--mp-badge-status-danger-bg-color` | `rgb(var(--mp-danger-7))` | `background-color` |
+| `--mp-badge-status-danger-text-color` | `var(--mp-sys-color-content-on-dark)` | `color` |
+| `--mp-badge-status-default-bg-color` | `#e0e0e0` | `background-color` |
+| `--mp-badge-status-default-text-color` | `var(--mp-sys-color-content-on-bright)` | `color` |
+| `--mp-badge-status-info-bg-color` | `var(--mp-sys-color-status-info)` | `background-color` |
+| `--mp-badge-status-info-text-color` | `var(--mp-sys-color-content-on-dark)` | `color` |
+| `--mp-badge-status-primary-bg-color` | `var(--mp-sys-color-action-primary)` | `background-color` |
+| `--mp-badge-status-primary-text-color` | `var(--mp-sys-color-content-on-dark)` | `color` |
+| `--mp-badge-status-secondary-bg-color` | `rgb(var(--mp-gray-6))` | `background-color` |
+| `--mp-badge-status-secondary-text-color` | `var(--mp-sys-color-content-on-dark)` | `color` |
+| `--mp-badge-status-success-bg-color` | `var(--mp-sys-color-status-success)` | `background-color` |
+| `--mp-badge-status-success-text-color` | `var(--mp-sys-color-content-on-dark)` | `color` |
+| `--mp-badge-status-tertiary-bg-color` | `rgb(var(--mp-gray-7))` | `background-color` |
+| `--mp-badge-status-tertiary-text-color` | `var(--mp-sys-color-content-on-dark)` | `color` |
+| `--mp-badge-status-warning-bg-color` | `var(--mp-sys-color-status-warning)` | `background-color` |
+| `--mp-badge-status-warning-text-color` | `var(--mp-sys-color-content-on-dark)` | `color` |
+| `--mp-badge-text-color` | `var(--mp-sys-color-content-on-dark)` | `color` |
+| `--mp-badge-variant-outline-bg-color` | `transparent` | `background-color` |
+| `--mp-badge-variant-outline-status-danger-text-color` | `var(--mp-sys-color-content-danger)` | `border`, `color` |
+| `--mp-badge-variant-outline-status-default-text-color` | `var(--mp-sys-color-content-primary)` | `border`, `color` |
+| `--mp-badge-variant-outline-status-info-text-color` | `var(--mp-sys-color-content-info)` | `border`, `color` |
+| `--mp-badge-variant-outline-status-primary-text-color` | `var(--mp-sys-color-content-brand)` | `border`, `color` |
+| `--mp-badge-variant-outline-status-secondary-text-color` | `var(--mp-sys-color-content-secondary)` | `border`, `color` |
+| `--mp-badge-variant-outline-status-success-text-color` | `var(--mp-sys-color-content-success)` | `border`, `color` |
+| `--mp-badge-variant-outline-status-tertiary-text-color` | `var(--mp-sys-color-content-secondary)` | `border`, `color` |
+| `--mp-badge-variant-outline-status-warning-text-color` | `var(--mp-sys-color-content-warning)` | `border`, `color` |
+| `--mp-badge-variant-outline-text-color` | `var(--mp-sys-color-content-danger)` | `border`, `color` |
+
+</div>
+
+将覆盖设置在组件实际根节点或弹层真实挂载祖先上。例如给该元素添加下列 class，再按需替换变量值：
+
+```css
+.component-theme {
+  --mp-badge-bg-color: rgb(var(--mp-danger-7));
+}
+```
+
+显式行内样式及直接写入同一 CSS 属性的 Props 优先于样式表默认值。Teleport 后，普通 CSS 变量按实际挂载位置继承；使用 ThemeProvider 时，请遵循其局部主题与弹层配置规则。局部定制请直接覆盖组件变量；仅修改后代的 system 变量不会重新计算从根继承的组件别名。内部变量不属于公共 API。
+
+<!-- component-css-variables:end -->
 
 ### 颜色覆盖边界
 

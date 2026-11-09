@@ -1,0 +1,3 @@
+- [x] Reproduce numeric/enum boundary behavior on both copies
+- [x] Implement guarded unit/animation/trigger rules and documentation
+- [x] Verify all affected consumers, types, gates and native browser

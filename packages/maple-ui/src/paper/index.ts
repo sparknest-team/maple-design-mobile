@@ -5,7 +5,7 @@ import { paperProps } from './props'
 withInstall(Paper)
 withPropsDefaultsSetter(Paper, paperProps)
 
-export { paperProps }
+export { Paper, paperProps }
 
 export type PaperInstance = InstanceType<typeof Paper>
 export const _PaperComponent: typeof Paper = Paper

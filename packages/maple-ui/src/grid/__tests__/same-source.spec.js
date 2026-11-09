@@ -93,7 +93,7 @@ it('div mode removes every layout class and style including flex and responsive 
 })
 it('keeps a base span and emits explicit zero responsive overrides', () => {
   const w = render(Col, { props: { span: 8, offset: 3, order: 2, xs: 0, md: { span: 12, offset: 0, order: 0 } } })
-  for (const name of ['span-8', 'span-xs-0', 'span-md-12', 'offset-md-0', 'order-md-0']) {
+  for (const name of ['span-8', 'span-xs-0', 'span-md-12', 'offset-md-0', 'order-md']) {
     expect(w.classes()).toContain(`mp-col--${name}`)
   }
 })
@@ -106,7 +106,7 @@ it.each([
 ])('supports flex %s', (flex, expected) => {
   const w = render(Col, { props: { flex } })
   expect(w.element.style.flex).toBe(expected)
-  expect(w.classes()).toEqual(['mp-col'])
+  expect(w.classes()).toEqual(['mp-col', 'mp-col--span-24'])
 })
 it('forwards click once on each Row and Col', async () => {
   const rowClick = vi.fn(),
@@ -156,7 +156,7 @@ it('keeps nested row gutters isolated', () => {
 it('renders span and offset styles without waiting for DOM measurement', () => {
   const w = render(GridItem, { props: { span: 2, offset: 1 } })
   expect(w.element.style.gridColumn).toBe('span 3 / span 3')
-  expect(w.element.style.marginLeft).toContain('calc')
+  expect(w.element.style.marginInlineStart).toContain('calc')
   expect(w.element.style.display).not.toBe('none')
 })
 it('collapses whole rows and reserves a suffix with overflow state', async () => {

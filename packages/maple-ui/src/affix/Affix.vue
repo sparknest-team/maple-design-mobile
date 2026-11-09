@@ -4,8 +4,8 @@
     :class="classes(n(), [enableCSSMode, n('--css-mode')])"
     :style="{
       zIndex: toNumber(zIndex),
-      top: enableCSSMode && offsetBottom == null ? toSizeUnit(offsetTop) : undefined,
-      bottom: enableCSSMode && offsetBottom != null ? toSizeUnit(offsetBottom) : undefined,
+      top: enableCSSMode && offsetBottom == null ? toCssAffixOffset(offsetTop) : undefined,
+      bottom: enableCSSMode && offsetBottom != null ? toCssAffixOffset(offsetBottom) : undefined,
       width: enableFixedMode ? fixedWidth : undefined,
       height: enableFixedMode ? fixedHeight : undefined,
     }"
@@ -32,7 +32,8 @@ import { computed, ref, watch } from 'vue'
 import { doubleRaf, getRect, raf, toNumber } from '@maple-design/shared'
 import { onSmartMounted, onSmartUnmounted, onWindowResize, useEventListener } from '@maple-design/use'
 import { createNamespace } from '../utils/components'
-import { getParentScroller, getTarget, toPxNum, toSizeUnit } from '../utils/elements'
+import { getParentScroller, getTarget } from '../utils/elements'
+import { isAffixOffset, isJsAffixOffset, readAffixOffset, toCssAffixOffset } from './offset'
 import { affixProps } from './props'
 
 defineOptions({ name: createNamespace('affix').name })
@@ -41,6 +42,23 @@ const props = defineProps(affixProps)
 const emit = defineEmits<{ change: [fixed: boolean, offset: number] }>()
 const affixEl = ref<HTMLElement | null>(null)
 const wrapperEl = ref<HTMLElement | null>(null)
+watch(
+  () => [props.cssMode, props.offsetTop, props.offsetBottom],
+  () => {
+    if (process.env.NODE_ENV === 'production' || props.cssMode) {
+      return
+    }
+    for (const [name, value] of [
+      ['offset-top', props.offsetTop],
+      ['offset-bottom', props.offsetBottom],
+    ] as const) {
+      if (typeof value === 'string' && isAffixOffset(value) && !isJsAffixOffset(value)) {
+        console.warn(`[Affix] ${name}: JS mode supports numbers, px, rem and viewport units; falling back to 0:`, value)
+      }
+    }
+  },
+  { immediate: true },
+)
 const isFixed = ref(false)
 const fixedTop = ref('0px')
 const fixedLeft = ref('0px')
@@ -112,8 +130,8 @@ function computeFixedParams() {
   if (!active || !affixEl.value || !wrapperEl.value) {
     return
   }
-  const offsetTop = toPxNum(props.offsetTop)
-  const offsetBottom = props.offsetBottom == null ? undefined : toPxNum(props.offsetBottom)
+  const offsetTop = readAffixOffset(props.offsetTop)
+  const offsetBottom = props.offsetBottom == null ? undefined : readAffixOffset(props.offsetBottom)
   const { cssMode, disabled } = props
 
   if (disabled) {

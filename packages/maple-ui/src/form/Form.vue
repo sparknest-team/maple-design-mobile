@@ -5,6 +5,7 @@
 </template>
 
 <script lang="ts">
+import type { SlotsType } from 'vue'
 import { computed, defineComponent, onActivated, onBeforeUnmount, onDeactivated, onMounted, ref, watch } from 'vue'
 import { getScrollLeft, getScrollTop, preventDefault } from '@maple-design/shared'
 import { provideFormPresentation } from '../_components/field-presentation/context'
@@ -12,10 +13,11 @@ import { createNamespace } from '../utils/components'
 import { getParentScroller, getTop, toPxNum } from '../utils/elements'
 import { provideEmptyValues } from '../utils/empty-value'
 import { linear } from '../utils/shared'
-import { createFormController, type FormFieldController, type FormValidateErrors } from './form-controller'
+import { createFormController, type FormFieldController } from './form-controller'
 import { props, type FormScrollToError } from './props'
 import { provideForm, type FormProvider } from './provide'
 import { waitForFormDetails } from './scroll-completion'
+import type { FieldData, FormEmits, FormSlots, FormValidateErrors, ValidatedError } from './types'
 import { useFormLabelWidths } from './use-form-label-width'
 
 const { name, n } = createNamespace('form')
@@ -23,7 +25,13 @@ const { name, n } = createNamespace('form')
 export default defineComponent({
   name,
   props,
-  emits: ['submit', 'submit-success', 'submit-failed', 'reset'],
+  slots: Object as SlotsType<FormSlots>,
+  emits: {
+    submit: (..._args: FormEmits['submit']) => true,
+    'submit-success': (..._args: FormEmits['submit-success']) => true,
+    'submit-failed': (..._args: FormEmits['submit-failed']) => true,
+    reset: (..._args: FormEmits['reset']) => true,
+  },
   setup(props, { emit }) {
     provideEmptyValues(props)
     const presentationState = provideFormPresentation(
@@ -187,7 +195,10 @@ export default defineComponent({
       })
     }
 
-    function scrollToInvalid(errors: NonNullable<FormValidateErrors>, items: FormFieldController[]) {
+    function scrollToInvalid(
+      errors: NonNullable<FormValidateErrors>,
+      items: FormFieldController<ValidatedError, FieldData>[],
+    ) {
       const context = invalidScrollContext
       invalidScrollContext = undefined
       if (
@@ -221,7 +232,7 @@ export default defineComponent({
       }
     }
 
-    const controller = createFormController({ onInvalid: scrollToInvalid })
+    const controller = createFormController<ValidatedError, FieldData>({ onInvalid: scrollToInvalid })
     const validateForScroll = controller.validate
     controller.validate = (fields, callback) => {
       invalidateAutomaticScroll()
@@ -246,19 +257,44 @@ export default defineComponent({
       layoutOptions,
       setLabelWidth: labelWidths.setLabelWidth,
       removeLabelWidth: labelWidths.removeLabelWidth,
-      registerField: controller.registerField,
+      registerField: (field) => {
+        if (field.field) {
+          invalidateSubmitInputs()
+        }
+        const unregister = controller.registerField(field)
+        return () => {
+          if (controller.fields.includes(field)) {
+            invalidateSubmitInputs()
+          }
+          unregister()
+        }
+      },
+      invalidateSubmitInputs,
     }
     provideForm(formProvider)
 
     let submitEpoch = 0
+    let pendingSubmitEpoch: number | undefined
     const invalidateSubmit = () => {
       submitEpoch++
+      pendingSubmitEpoch = undefined
     }
+    function invalidateSubmitInputs() {
+      if (pendingSubmitEpoch === undefined) {
+        return
+      }
+      invalidateSubmit()
+      controller.invalidate()
+      invalidateAutomaticScroll()
+    }
+    watch([() => props.model, () => props.rules], invalidateSubmitInputs, { deep: true, flush: 'sync' })
     onBeforeUnmount(invalidateSubmit)
     onDeactivated(invalidateSubmit)
 
     async function handleSubmit(event: Event) {
       preventDefault(event)
+      invalidateSubmitInputs()
+      invalidateSubmit()
       if (presentationState.blocked()) {
         emit(
           'submit-failed',
@@ -268,17 +304,25 @@ export default defineComponent({
         return
       }
       const epoch = ++submitEpoch
-      const errors = await controller.validate()
-      if (epoch !== submitEpoch) {
-        return
+      pendingSubmitEpoch = epoch
+      try {
+        const errors = await controller.validate()
+        if (epoch !== submitEpoch) {
+          return
+        }
+        pendingSubmitEpoch = undefined
+        const values = model.value ?? {}
+        if (errors) {
+          emit('submit-failed', { values, errors }, event)
+        } else {
+          emit('submit-success', values, event)
+        }
+        emit('submit', { values, errors }, event)
+      } finally {
+        if (pendingSubmitEpoch === epoch) {
+          pendingSubmitEpoch = undefined
+        }
       }
-      const values = model.value ?? {}
-      if (errors) {
-        emit('submit-failed', { values, errors }, event)
-      } else {
-        emit('submit-success', values, event)
-      }
-      emit('submit', { values, errors }, event)
     }
 
     function handleReset(event: Event) {
@@ -313,7 +357,7 @@ export default defineComponent({
       controller.clearValidate(field)
     }
 
-    function setFields(data: Record<string, unknown>) {
+    function setFields(data: Record<string, FieldData>) {
       invalidateSubmit()
       invalidateAutomaticScroll()
       controller.setFields(data)

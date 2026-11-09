@@ -8,7 +8,7 @@ const AutoComplete = withInstall(_AutoComplete, Object.assign(_AutoComplete, {})
 
 export * from './props'
 
-export type AutoCompleteInstance = InstanceType<typeof _AutoComplete> & { focus: () => void; blur: () => void }
+export type AutoCompleteInstance = InstanceType<typeof _AutoComplete> & import('./types').AutoCompleteExpose
 
 export { AutoComplete, autoCompleteProps }
 

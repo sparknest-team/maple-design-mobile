@@ -119,6 +119,8 @@ export function getDevConfig(mapleConfig: Required<MapleConfig>): InlineConfig {
   return {
     configFile: false,
     root: SITE_DIR,
+    // Browser fixtures use the package-level Vite cache; keep docs prebundles independent.
+    cacheDir: resolve(SITE_DIR, '../cache/vite-docs'),
 
     resolve: {
       dedupe: ['vue'],

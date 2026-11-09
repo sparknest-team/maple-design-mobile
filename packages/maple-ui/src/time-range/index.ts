@@ -15,9 +15,9 @@ const TimeRange = withInstall(
 withPropsDefaultsSetter(TimeRange, timeRangeProps)
 withPropsDefaultsSetter(TimeRangePicker, timeRangePickerProps)
 
-export { timeRangeProps, timeRangePickerProps, TimeRangePicker }
+export { timeRangeProps, timeRangePickerProps, TimeRangePicker, TimeRange }
 
-export type TimeRangeInstance = InstanceType<typeof _TimeRange>
+export type TimeRangeInstance = InstanceType<typeof _TimeRange> & import('../time/public-types').TimeRangeExpose
 export type TimeRangePickerInstance = InstanceType<typeof TimeRangePicker>
 export type { TimeRangeProps, TimeRangeEditMode } from './props'
 export type { TimeRangePickerProps, TimeRangePickerPresentation } from './picker-props'
@@ -28,3 +28,14 @@ export const _TimeRangePickerComponent: typeof TimeRangePicker = TimeRangePicker
 export default TimeRange
 
 export type { TimePickerField } from '../_components/picker-field/fields'
+
+export type {
+  TimeRangeModelValue,
+  TimeRangeEmits,
+  TimeRangeReadScope,
+  TimeRangeActionsScope,
+  TimeRangeExpose,
+} from '../time/public-types'
+export type { TimeRangeSlots } from './slots'
+
+export type { TimeRangePickerEmits, TimeRangePickerSlots } from '../time/picker-contract'

@@ -13,12 +13,18 @@ export function useMobileTimePanel(
   select: (value: TimeValue, immediate?: boolean) => boolean,
   initialize: (value: string) => void,
 ) {
+  let initializationComplete = false
   function initializeDraft() {
-    if (props.disabled || props.readonly || (draft.value != null && draft.value !== '')) {
+    if (initializationComplete || props.disabled || props.readonly) {
+      return
+    }
+    if (draft.value != null && draft.value !== '') {
+      initializationComplete = true
       return
     }
     const value = getFormattedTimeChoices(undefined, props).value
     if (value !== undefined) {
+      initializationComplete = true
       initialize(value)
     }
   }

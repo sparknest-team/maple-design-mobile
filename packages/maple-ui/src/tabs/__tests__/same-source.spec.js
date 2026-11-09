@@ -204,7 +204,7 @@ describe('Tabs shared behavior', () => {
   })
   test('delete requests do not select or remove tabs', async () => {
     const w = setup({ editable: true })
-    await w.find('button[aria-label="Close b"]').trigger('click')
+    await w.findAll('.mp-tabs__close')[1].trigger('click')
     expect(w.emitted('delete')[0][0]).toBe('b')
     expect(w.emitted('change')).toBeUndefined()
     expect(w.findAll('[role="tab"]')).toHaveLength(3)
@@ -216,7 +216,7 @@ describe('Tabs shared behavior', () => {
       props: { editable: true, showAddButton: true, autoSwitch: true, onAdd: () => keys.value.push('b') },
       slots: { default: () => content(keys.value) },
     })
-    await w.find('[aria-label="Add tab"]').trigger('click')
+    await w.find('.mp-tabs__add').trigger('click')
     await nextTick()
     await nextTick()
     expect(selected(w)).toEqual(['b'])
@@ -299,9 +299,9 @@ describe('Tabs shared behavior', () => {
     w.findComponent(TabsNavs).vm.resize()
     expect(list.scrollLeft).toBe(350)
     await nextTick()
-    expect(w.find('[aria-label="Next tabs"]').exists()).toBe(true)
+    expect(w.find('[aria-label="下一组标签"]').exists()).toBe(true)
     await w.setProps({ scrollButtons: false })
-    expect(w.find('[aria-label="Next tabs"]').exists()).toBe(false)
+    expect(w.find('[aria-label="下一组标签"]').exists()).toBe(false)
     w.unmount()
   })
   test('vertical mouse wheel scrolls horizontal overflow', async () => {
@@ -361,6 +361,7 @@ describe('Tabs shared behavior', () => {
       },
       slots: { default: () => content(keys.value) },
     })
+    w.find('[role="tab"]').element.focus()
     await w.find('[role="tab"]').trigger('keydown', { key: 'Delete' })
     await nextTick()
     expect(w.emitted('delete')[0][0]).toBe('a')

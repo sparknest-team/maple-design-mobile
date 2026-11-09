@@ -2,12 +2,14 @@
 
 Start with a built-in theme, then override the CSS variables you need. Themes control colors, corners and fonts. Use [SafeArea](#/en-US/safe-area) for device-edge spacing.
 
+Use ThemeProvider at the application root or around any subtree: `<mp-theme-provider :theme="mode" :style-vars="currentStyleVars"><App /></mp-theme-provider>`. mode is light/dark; currentStyleVars is a reactive preset or override object. No document attribute mutation or static theme setter is involved.
+
 ## Choose an approach
 
 | Goal | Recommended approach |
 | ------------------------------- | ------------------------------------------------------------------ |
-| One brand across the app | `StyleProvider.setStyleVars()` with a built-in light or dark theme |
-| Customize a region or component | `<mp-style-provider :style-vars="…">` |
+| One brand across the app | `ThemeProvider 的 theme/style-vars Props()` with a built-in light or dark theme |
+| Customize a region or component | `<mp-theme-provider :style-vars="…">` |
 | Find supported overrides | The variable guide below and each component's CSS variable table |
 
 ## Basic examples
@@ -62,11 +64,11 @@ Expand a group when you need to compare field variants, sizes, disabled, readonl
 Alps/Firefly light themes follow brand styling; dark themes are Maple adaptations. Business code loads brand fonts; system fallback applies otherwise.
 
 ```ts
-import { StyleProvider, Themes } from '@maple-design/ui'
+import { ThemeProvider, Themes } from '@maple-design/ui'
 
 // Set before mounting, or call again when users change themes.
-StyleProvider.setStyleVars(Themes.maple.light)
-StyleProvider.setStyleVars(Themes.maple.dark)
+currentStyleVars.value = Themes.maple.light
+currentStyleVars.value = Themes.maple.dark
 ```
 
 Light objects remove `html[maple-theme="dark"]`; dark objects set it. Every call replaces injected variables rather than merging cumulatively.
@@ -104,14 +106,26 @@ body {
 
 Extend an existing theme, using corresponding bases for light/dark. The following adjusts only button corners:
 
-```ts
-StyleProvider.setStyleVars({
-  ...Themes.maple.light,
-  '--mp-button-border-radius': '16px',
-})
+```vue
+<script setup>
+import { ref } from 'vue'
+import { Themes } from '@maple-design/ui'
+const mode = ref('dark')
+</script>
+<template>
+  <mp-theme-provider :theme="mode" :style-vars="Themes.maple[mode]">
+    <App />
+  </mp-theme-provider>
+</template>
 ```
 
-Prefer actual component variables for local customization. Locally changing palette steps does not recompute aliases inherited from the root. See [StyleProvider](#/en-US/style-provider). Body-teleported popups need variables on their actual mount host.
+Prefer actual component variables for local customization. Locally changing palette steps does not recompute aliases inherited from the root. See [ThemeProvider](#/en-US/theme-provider). Body-teleported popups need variables on their actual mount host.
+
+## Unit conversion
+
+`Themes.toRem(theme, { rootFontSize, unitPrecision })` and `Themes.toViewport(theme, { viewportWidth, viewportUnit, unitPrecision })` return new objects. The defaults are 16px and 375px respectively, precision 6, and viewport unit `vmin`. The reference size must be finite and positive, precision an integer from 0 to 100, and the unit a CSS viewport unit. Invalid options throw `RangeError`.
+
+`Themes.convert(theme, converter)` replaces `px` numbers in values as text. The callback receives a signed numeric string and returns the replacement. This is not a CSS parser: matching text in strings and URLs is also replaced, so pass only dimension variables suitable for conversion.
 
 ## Finding variables
 
@@ -124,3 +138,13 @@ Prefer actual component variables for local customization. Locally changing pale
 Use RGB channels through `rgb(var(--mp-primary-6))`. Use complete color/dimension values as documented. `--mp-sys-font-family` is the font entry; applications supply font files.
 
 See [Design Token layers](#/en-US/design-tokens) and component style-variable tables. For form interaction, see [Form](#/en-US/form).
+
+## CSS Variables
+
+<!-- component-css-variables:start -->
+
+This component declares no independent public CSS variables. Use the configuration and layout APIs documented on this page.
+
+Internal custom properties and measurement values are implementation details and are not customization APIs.
+
+<!-- component-css-variables:end -->

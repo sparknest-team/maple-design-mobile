@@ -15,6 +15,8 @@
             popupContainer,
             open: mergedOpen,
             safeAreaInsetBottom: safeArea,
+            safeAreaInsetLeft: safeArea,
+            safeAreaInsetRight: safeArea,
             closeOnRouteChange: true,
             'onUpdate:open': handlePopupUpdateShow,
             placement: 'bottom',
@@ -59,6 +61,7 @@
           :key="columnIndex"
           :class="n('column')"
           role="listbox"
+          :aria-describedby="describeError($attrs['aria-describedby'])"
           :tabindex="!disabled && c.column.some((option) => !isOptionDisabled(option)) ? 0 : -1"
           :aria-label="`${title ?? (pt ? pt : t)('pickerTitle')} ${columnIndex + 1}`"
           :aria-disabled="disabled || c.column.every(isOptionDisabled) || undefined"
@@ -132,15 +135,18 @@ import {
   onMounted,
   onScopeDispose,
   ref,
+  toRaw,
   Transition,
   useId,
   watch,
   type ComponentPublicInstance,
+  type SlotsType,
 } from 'vue'
 import { IconCheck as MIconCheck } from '@maple-design/icons-vue'
 import { call, clamp, clampArrayRange, toNumber } from '@maple-design/shared'
 import { useTouch } from '@maple-design/use'
 import MpButton from '../button'
+import { useFormErrorDescription } from '../form/error-description'
 import MpIcon from '../icon'
 import { t } from '../locale'
 import { injectLocaleProvider } from '../locale-provider/provide'
@@ -149,6 +155,7 @@ import { createNamespace } from '../utils/components'
 import { getTranslateY, toPxNum } from '../utils/elements'
 import { useFieldNames } from '../utils/options'
 import { props, type PickerColumnOption } from './props'
+import type { PickerEmits, PickerSlots } from './types'
 
 export interface ScrollColumn {
   id: number
@@ -182,20 +189,22 @@ export default defineComponent({
   },
   inheritAttrs: false,
   props,
-  emits: [
-    'confirm',
-    'cancel',
-    'update:open',
-    'update:modelValue',
-    'change',
-    'open',
-    'opened',
-    'close',
-    'closed',
-    'click-overlay',
-    'key-escape',
-  ],
+  slots: Object as SlotsType<PickerSlots>,
+  emits: {
+    confirm: (..._args: PickerEmits['confirm']) => true,
+    cancel: (..._args: PickerEmits['cancel']) => true,
+    change: (..._args: PickerEmits['change']) => true,
+    'update:open': (..._args: PickerEmits['update:open']) => true,
+    'update:modelValue': (..._args: PickerEmits['update:modelValue']) => true,
+    open: () => true,
+    opened: () => true,
+    close: () => true,
+    closed: () => true,
+    'click-overlay': (..._args: PickerEmits['click-overlay']) => true,
+    'key-escape': (..._args: PickerEmits['key-escape']) => true,
+  },
   setup(props, { emit }) {
+    const { describe: describeError } = useFormErrorDescription()
     const localOpen = ref(props.defaultOpen)
     const mergedOpen = computed(() => props.open ?? localOpen.value)
     const controlId = useId()
@@ -306,6 +315,17 @@ export default defineComponent({
     initScrollColumns()
 
     watch(() => props.columns, initScrollColumns, { deep: true })
+    watch([visibleColumnsCount, () => props.columnsCount != null], reconcileVisibleColumns)
+    watch([optionHeight, optionCount], () => {
+      motionEpoch++
+      endTouch()
+      for (const column of scrollColumns.value) {
+        column.touching = false
+        column.scrolling = false
+        scrollTo(column)
+      }
+      setPrevIndexes(getPicked().indexes)
+    })
 
     watch(() => modelValue.value, initScrollColumns)
     watch(
@@ -364,7 +384,7 @@ export default defineComponent({
       prevIndexes = [...indexes]
     }
 
-    function normalizeNormalMode(columns: PickerColumnOption[][]) {
+    function normalizeNormalMode(columns: PickerColumnOption[][], values = modelValue.value) {
       const visibleColumns = props.columnsCount != null ? columns.slice(0, visibleColumnsCount.value) : columns
       return visibleColumns.map((column, idx) => {
         const scrollColumn: ScrollColumn = {
@@ -380,7 +400,7 @@ export default defineComponent({
           scrollEl: null,
           scrolling: false,
         }
-        const value = modelValue.value[idx]
+        const value = values[idx]
         const index = scrollColumn.column.findIndex((option) => value === getValue(option))
         scrollColumn.index = index === -1 ? 0 : index
         scrollTo(scrollColumn)
@@ -388,10 +408,10 @@ export default defineComponent({
       })
     }
 
-    function normalizeCascadeMode(column: PickerColumnOption[]) {
+    function normalizeCascadeMode(column: PickerColumnOption[], values = modelValue.value) {
       const scrollColumns: ScrollColumn[] = []
 
-      createChildren(scrollColumns, column)
+      createChildren(scrollColumns, column, true, 1, values)
 
       return scrollColumns
     }
@@ -401,6 +421,7 @@ export default defineComponent({
       children: PickerColumnOption[],
       syncModelValue = true,
       depth = 1,
+      values = modelValue.value,
     ) {
       if (children.length && (props.columnsCount == null || depth <= visibleColumnsCount.value)) {
         const scrollColumn: ScrollColumn = {
@@ -420,7 +441,7 @@ export default defineComponent({
         scrollColumns.push(scrollColumn)
 
         if (syncModelValue) {
-          const value = modelValue.value[scrollColumns.length - 1]
+          const value = values[scrollColumns.length - 1]
           const index = children.findIndex((option) => value === getValue(option))
           scrollColumn.index = index === -1 ? 0 : index
         }
@@ -431,6 +452,7 @@ export default defineComponent({
           scrollColumn.column[scrollColumn.index][getOptionKey('children')] ?? [],
           syncModelValue,
           depth + 1,
+          values,
         )
       }
     }
@@ -443,6 +465,30 @@ export default defineComponent({
         false,
         scrollColumns.value.length + 1,
       )
+    }
+
+    function reconcileVisibleColumns() {
+      motionEpoch++
+      endTouch()
+      const previous = scrollColumns.value
+      const values = [...modelValue.value]
+      getPicked().values.forEach((value, index) => {
+        values[index] = value
+      })
+      const next = props.cascade
+        ? normalizeCascadeMode(props.columns as PickerColumnOption[], values)
+        : normalizeNormalMode(props.columns as PickerColumnOption[][], values)
+      scrollColumns.value = next.map((column, index) => {
+        const retained = previous[index]
+        if (!retained || toRaw(retained.column) !== toRaw(column.column)) {
+          return column
+        }
+        retained.touching = false
+        retained.scrolling = false
+        scrollTo(retained)
+        return retained
+      })
+      setPrevIndexes(getPicked().indexes)
     }
 
     function initScrollColumns() {
@@ -743,6 +789,7 @@ export default defineComponent({
     }
 
     return {
+      describeError,
       mergedOpen,
       controlId,
       handleColumnKeydown,
@@ -753,6 +800,7 @@ export default defineComponent({
       center,
       confirmButtonDisabled,
       Transition,
+      toRaw,
       pt,
       t,
       n,

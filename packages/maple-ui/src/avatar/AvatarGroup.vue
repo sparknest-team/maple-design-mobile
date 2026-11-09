@@ -21,8 +21,9 @@ export default defineComponent({
 
     return () => {
       const children = getAllElements(slots.default?.() ?? [])
-      const visible = props.maxCount > 0 ? children.slice(0, props.maxCount) : children
-      const hidden = props.maxCount > 0 ? children.slice(props.maxCount) : []
+      const maxCount = Number.isInteger(props.maxCount) && props.maxCount >= 0 ? props.maxCount : 0
+      const visible = maxCount > 0 ? children.slice(0, maxCount) : children
+      const hidden = maxCount > 0 ? children.slice(maxCount) : []
       const layerCount = visible.length + (hidden.length ? 1 : 0)
       const rendered = visible.map((child, index) =>
         cloneVNode(child, {
@@ -33,7 +34,12 @@ export default defineComponent({
       if (hidden.length) {
         const summary = h(
           Avatar,
-          { class: n('max-count-avatar'), style: props.maxStyle },
+          {
+            class: n('max-count-avatar'),
+            role: 'button',
+            tabindex: 0,
+            style: [props.maxStyle, { zIndex: props.zIndexAscend ? layerCount : 1 }],
+          },
           { default: () => `+${hidden.length}` },
         )
         rendered.push(
@@ -44,7 +50,10 @@ export default defineComponent({
         )
       }
 
-      const style = props.offset == null ? undefined : { '--mp-avatar-group-offset': toSizeUnit(props.offset) }
+      const style =
+        props.offset == null || (typeof props.offset === 'number' && !Number.isFinite(props.offset))
+          ? undefined
+          : { '--mp-avatar-group-offset': toSizeUnit(props.offset) }
 
       return h('div', { class: classes(n(), [props.vertical, n('--vertical')]), style }, rendered)
     }

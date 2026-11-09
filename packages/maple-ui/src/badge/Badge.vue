@@ -10,7 +10,15 @@ const slots = useSlots()
 const computedMode = computed(() => (!slots.default && !props.description ? 'inline' : props.mode))
 const dotComputed = computed(() => props.content === undefined || props.dot)
 const countValue = computed(() => (typeof props.content === 'number' ? props.content : null))
-const showValue = computed(() => props.show && (countValue.value === null || props.showZero || countValue.value > 0))
+const showValue = computed(
+  () =>
+    props.show &&
+    (countValue.value === null ||
+      (Number.isFinite(countValue.value) && (countValue.value > 0 || (countValue.value === 0 && props.showZero)))),
+)
+const maxValue = computed(() => (Number.isFinite(props.max) && props.max >= 0 ? props.max : 99))
+const offsetX = computed(() => (Number.isFinite(props.offsetX) ? props.offsetX : 0))
+const offsetY = computed(() => (Number.isFinite(props.offsetY) ? props.offsetY : 0))
 const wrapperClass = computed(() =>
   classes(
     n(),
@@ -28,24 +36,24 @@ const contentWrapperStyle = computed<CSSProperties>(() => {
   if (computedMode.value === 'floating') {
     // position denotes a physical corner; logical margins would reverse offsets in RTL.
     const pos = props.position
-    if (props.offsetX) {
+    if (offsetX.value) {
       if (pos.includes('left')) {
-        style.marginLeft = `${props.offsetX}px`
+        style.marginLeft = `${offsetX.value}px`
       } else {
-        style.marginRight = `${props.offsetX}px`
+        style.marginRight = `${offsetX.value}px`
       }
     }
-    if (props.offsetY) {
+    if (offsetY.value) {
       if (pos.startsWith('top')) {
-        style.marginTop = `${props.offsetY}px`
+        style.marginTop = `${offsetY.value}px`
       } else if (pos.startsWith('bottom')) {
-        style.marginBottom = `${props.offsetY}px`
+        style.marginBottom = `${offsetY.value}px`
       } else {
-        style.marginTop = `${props.offsetY}px`
+        style.marginTop = `${offsetY.value}px`
       }
     }
-  } else if (props.offsetY) {
-    style[props.inlinePosition === 'start' ? 'marginBlockStart' : 'marginBlockEnd'] = `${props.offsetY}px`
+  } else if (offsetY.value) {
+    style[props.inlinePosition === 'start' ? 'marginBlockStart' : 'marginBlockEnd'] = `${offsetY.value}px`
   }
   return style
 })
@@ -68,8 +76,8 @@ const renderedContent = computed(() => {
   if (typeof props.content === 'string') {
     return props.content
   }
-  if (props.max && countValue.value !== null && countValue.value > props.max) {
-    return `${props.max}+`
+  if (maxValue.value > 0 && countValue.value !== null && countValue.value > maxValue.value) {
+    return `${maxValue.value}+`
   }
   return countValue.value
 })

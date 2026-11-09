@@ -8,7 +8,7 @@ withPropsDefaultsSetter(CountTo, countToProps)
 export { countToProps }
 
 export type CountToInstance = InstanceType<typeof CountTo>
-export type { CountToProps } from './props'
+export type { CountToProps, CountToSlots, CountToEmits, CountToExpose } from './props'
 export const _CountToComponent: typeof CountTo = CountTo
 
 export default CountTo

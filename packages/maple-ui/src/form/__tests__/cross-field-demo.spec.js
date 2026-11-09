@@ -9,7 +9,7 @@ import Demo from '../example/demos/cross-field.vue'
 
 useDemoControls()
 
-test('paused cross-field submit compares the source at completion, retries and cleans pending reset', async () => {
+test('editing a paused cross-field submission invalidates its native outcome, then retry and reset work', async () => {
   const wrapper = mount(Demo, {
     global: { components: { MpForm: Form, MpFormItem: FormItem, MpInput: Input, MpButton: Button, MpSpace: Space } },
   })
@@ -26,21 +26,21 @@ test('paused cross-field submit compares the source at completion, retries and c
     await wrapper.findAll('input')[0].setValue('beta203')
     await button('返回跨字段结果').trigger('click')
     await flushPromises()
-    expect(status()).toBe('结果：未通过；提交次数：1')
+    expect(status()).toBe('结果：尚未提交；提交次数：0')
     expect(wrapper.text()).toContain('两次代码须相同且不能为空')
     await wrapper.findAll('input')[1].setValue('beta203')
     await wrapper.get('form').trigger('submit')
     await flushPromises()
     await button('返回跨字段结果').trigger('click')
     await flushPromises()
-    expect(status()).toBe('结果：通过；提交次数：2')
+    expect(status()).toBe('结果：通过；提交次数：1')
     expect(wrapper.text()).not.toContain('两次代码须相同且不能为空')
     await wrapper.get('form').trigger('submit')
     await flushPromises()
     expect(wrapper.get('.cross-field-pending').text()).toBe('等待：1')
     await wrapper.get('form').trigger('reset')
     await flushPromises()
-    expect(status()).toBe('结果：已重置；提交次数：2')
+    expect(status()).toBe('结果：已重置；提交次数：1')
     expect(wrapper.get('.cross-field-pending').text()).toBe('等待：0')
     expect(button('返回跨字段结果').element.disabled).toBe(true)
     expect(wrapper.findAll('input').map((input) => input.element.value)).toEqual(['', ''])

@@ -1,0 +1,2 @@
+- [x] Preserve local Empty slots and single click boundary
+- [x] Verify Maple Empty,Loading,LocaleProvider and StyleProvider

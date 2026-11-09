@@ -1,4 +1,5 @@
 import { computed, ComputedRef, Ref, ref, watch } from 'vue'
+import { resolveDirection } from '../../_utils/direction'
 import { CascaderOptionInfo } from '../types'
 
 export const useSelectedPath = (
@@ -94,6 +95,29 @@ export const useSelectedPath = (
     return enabledOptions.value?.[0]
   }
 
+  // Physical arrow direction follows the target's current writing direction.
+  const navigateLevel = (event: Event, physicalRight: boolean) => {
+    if (showSearchPanel?.value) {
+      return
+    }
+    event.preventDefault()
+    const forward = physicalRight !== (resolveDirection(event.target as Element) === 'rtl')
+    const node = activeOption.value
+    if (!node || node.disabled) {
+      return
+    }
+    if (forward && node.children) {
+      setSelectedPath(node.key)
+      const child = node.children.find((option) => !option.disabled)
+      if (child) {
+        setActiveKey(child.key)
+      }
+    } else if (!forward && node.parent) {
+      setSelectedPath(node.parent.key)
+      setActiveKey(node.parent.key)
+    }
+  }
+
   return {
     activeKey,
     activeOption,
@@ -102,5 +126,6 @@ export const useSelectedPath = (
     setActiveKey,
     setSelectedPath,
     getNextActiveNode,
+    navigateLevel,
   }
 }

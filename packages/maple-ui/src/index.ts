@@ -81,7 +81,6 @@ export {
   SplitButton,
   Statistic,
   Steps,
-  StyleProvider,
   SwipeCell,
   Switch,
   TabBar,
@@ -89,6 +88,7 @@ export {
   Tabs,
   Tag,
   Textarea,
+  ThemeProvider,
   Themes,
   Time,
   TimeRange,
@@ -200,7 +200,6 @@ export { _SpaceComponent } from './space'
 export { _SplitButtonComponent } from './split-button'
 export { _StatisticComponent } from './statistic'
 export { Step, _StepsComponent, _StepComponent } from './steps'
-export { _StyleProviderComponent } from './style-provider'
 export { _SwipeCellComponent } from './swipe-cell'
 export { _SwitchComponent } from './switch'
 export { TabBarItem, _TabBarComponent, _TabBarItemComponent } from './tab-bar'
@@ -220,6 +219,7 @@ export {
 } from './tabs'
 export { TAG_COLORS, _TagComponent } from './tag'
 export { _TextareaComponent } from './textarea'
+export { _ThemeProviderComponent } from './theme-provider'
 export { _ThemesComponent } from './themes'
 export { TimePicker, _TimeComponent, _TimePickerComponent } from './time'
 export { TimeRangePicker, _TimeRangeComponent, _TimeRangePickerComponent } from './time-range'
@@ -232,6 +232,8 @@ export { vLoading } from './loading'
 export type { LoadingDirectiveOptions } from './loading'
 export { imagePreview } from './image'
 export { useUploader } from './upload'
+export { useHoverOverlay } from './hover'
+export { fieldLoadingModes } from './field-decorator'
 export { actionSheetProps } from './action-sheet'
 export type {
   ActionSheetActions,
@@ -325,9 +327,15 @@ export type {
   CascaderProps,
   CascaderEditMode,
   CascaderTriggerOptions,
+  CascaderBaseValue,
+  CascaderOptionInfo,
+  CascaderReadScope,
+  CascaderEmits,
+  CascaderSlots,
+  CascaderExpose,
 } from './cascader'
 export { cellProps } from './cell'
-export type { CellInstance, CellProps } from './cell'
+export type { CellInstance, CellProps, CellSlots, CellEmits } from './cell'
 export { checkboxProps, checkboxGroupProps } from './checkbox'
 export type {
   CheckboxInstance,
@@ -340,6 +348,8 @@ export type {
   CheckboxOption,
   ChoiceFieldNames,
   CheckboxGroupMethods,
+  CheckboxSlots,
+  CheckboxGroupSlots,
 } from './checkbox'
 export { codeProps } from './code'
 export type { CodeInstance, CodeProps } from './code'
@@ -360,9 +370,16 @@ export type {
   ExpandIconPosition,
 } from './collapse'
 export { countToProps } from './count-to'
-export type { CountToInstance, CountToProps } from './count-to'
+export type { CountToInstance, CountToProps, CountToSlots, CountToEmits, CountToExpose } from './count-to'
 export { countdownProps } from './countdown'
-export type { CountdownInstance, CountdownProps, TimeData } from './countdown'
+export type {
+  CountdownInstance,
+  CountdownProps,
+  TimeData,
+  CountdownSlots,
+  CountdownEvents,
+  CountdownExpose,
+} from './countdown'
 export { dateProps, datePickerProps } from './date'
 export type {
   DateInstance,
@@ -442,7 +459,7 @@ export type { EllipsisProps, EllipsisExpandTrigger, EllipsisInstance } from './e
 export { emptyProps } from './empty'
 export type { EmptyInstance, EmptyImageSize, EmptyProps } from './empty'
 export { fabProps } from './fab'
-export type { FabInstance, FabProps, FabPlacement, FabPosition, FabTrigger, FabDrag } from './fab'
+export type { FabInstance, FabProps, FabPlacement, FabPosition, FabTrigger, FabDrag, FabTriggerProps } from './fab'
 export { fieldDecoratorProps, fieldLoadingProps } from './field-decorator'
 export type {
   FieldDecoratorInstance,
@@ -459,6 +476,15 @@ export { formProps, formItemProps } from './form'
 export type {
   ValidatedError,
   FormValidateErrors,
+  FormRule,
+  FormRules,
+  FormRuleContext,
+  FieldData,
+  FormEmits,
+  FormSlots,
+  FormItemSlots,
+  FormEditingError,
+  FormSubmitError,
   FormInstance,
   FormItemInstance,
   FormProps,
@@ -478,14 +504,24 @@ export type { FormDetailsInstance, FormDetailsProps } from './form-details'
 export { gridProps, gridItemProps } from './grid'
 export type { GridProps, GridItemProps, ResponsiveValue, GridItemData, GridInstance, GridItemInstance } from './grid'
 export { highlighterProviderProps } from './highlighter-provider'
-export type { HighlighterProviderInstance, HighlighterProviderProps } from './highlighter-provider'
+export type {
+  HighlighterProviderInstance,
+  CodeToHtmlOptions,
+  Highlighter,
+  HighlighterProviderProps,
+} from './highlighter-provider'
 export { hoverOverlayProps } from './hover'
 export type { HoverValue, HoverHTMLElement, HoverOverlayInstance, HoverInstance, HoverOverlayProps } from './hover'
 export { iconProps } from './icon'
-export type { IconProps, IconInstance } from './icon'
+export type { IconInstance, IconProps } from './icon'
 export { imageProps, imagePreviewProps, imagePreviewGroupProps } from './image'
 export type {
   ImagePreviewActionInstance,
+  ImageSlots,
+  ImagePreviewImageSlotProps,
+  ImagePreviewSlots,
+  ImagePreviewGroupSlots,
+  ImagePreviewActionSlots,
   ImageFit,
   ImageProps,
   ImageInteraction,
@@ -500,7 +536,13 @@ export type {
   UserImagePreviewOptions,
 } from './image'
 export { indexBarProps, indexAnchorProps } from './index-bar'
-export type { IndexBarInstance, IndexAnchorInstance, IndexBarProps, IndexAnchorProps } from './index-bar'
+export type {
+  IndexBarScrollToOptions,
+  IndexBarInstance,
+  IndexAnchorInstance,
+  IndexBarProps,
+  IndexAnchorProps,
+} from './index-bar'
 export { infiniteScrollProps } from './infinite-scroll'
 export type {
   InfiniteScrollProps,
@@ -540,8 +582,11 @@ export type {
   InputNumberVariant,
   InputNumberFormatter,
   InputNumberParser,
+  InputNumberEmits,
+  InputNumberSlots,
+  InputNumberExpose,
 } from './input-number'
-export type { LazyHTMLElement, LazyInstance, LazyOptions, LazyContext, LazyState } from './lazy'
+export type { LazyOptions, LazyState, LazyContext, LazyHTMLElement, LazyInstance } from './lazy'
 export { linkProps } from './link'
 export type { LinkProps, LinkUnderline, LinkSize, LinkInstance } from './link'
 export { listProps } from './list'
@@ -559,7 +604,7 @@ export type {
 export { loadingProps } from './loading'
 export type { LoadingInstance, LoadingProps, LoadingSize, LoadingType } from './loading'
 export { loadingBarProps } from './loading-bar'
-export type { LoadingBarInstance, LoadingBarProps } from './loading-bar'
+export type { LoadingBarOptions, LoadingBarInstance, LoadingBarProps } from './loading-bar'
 export { localeProviderProps } from './locale-provider'
 export type { LocaleProviderInstance, LocaleProviderProps } from './locale-provider'
 export { menuProps, menuOptionProps } from './menu'
@@ -630,6 +675,10 @@ export { peopleSelectProps } from './people-select'
 export type {
   PeopleSelectInstance,
   PeopleSelectProps,
+  PeopleSelectReadScope,
+  PeopleSelectSlots,
+  PeopleSelectEmits,
+  PeopleSelectExpose,
   PeopleSelectOption,
   PeopleSelectOptionsLoader,
   PeopleSelectAction,
@@ -638,7 +687,17 @@ export type {
   PeopleSelectActionScope,
 } from './people-select'
 export { pickerProps } from './picker'
-export type { PickerInstance, PickerProps } from './picker'
+export type {
+  PickerOptions,
+  PickerResolvedState,
+  PickerResolvedData,
+  PickerColumnOption,
+  PickerEmits,
+  PickerSlots,
+  PickerSelection,
+  PickerInstance,
+  PickerProps,
+} from './picker'
 export { popoverProps } from './popover'
 export type { PopoverInstance, PopoverPlacement, PopoverProps, PopoverTrigger } from './popover'
 export { popupProps } from './popup'
@@ -686,11 +745,13 @@ export type {
   RateExpose,
   RateEmits,
   RateCharacterSlotProps,
+  RateSlots,
+  RateReadScope,
   RateInstance,
 } from './rate'
 export { resultProps } from './result'
 export type { ResultProps, ResultStatus, ResultInstance } from './result'
-export type { RippleInstance } from './ripple'
+export type { RippleDirectiveValue, RippleInstance } from './ripple'
 export { rowProps } from './row'
 export type { RowProps, RowGutter, RowAlign, RowJustify, RowInstance } from './row'
 export { safeAreaProps } from './safe-area'
@@ -768,9 +829,9 @@ export type {
   SpaceSize,
 } from './space'
 export { splitButtonProps } from './split-button'
-export type { SplitButtonInstance, SplitButtonProps } from './split-button'
+export type { SplitButtonInstance, SplitButtonButtonProps, SplitButtonProps } from './split-button'
 export { statisticProps } from './statistic'
-export type { StatisticInstance, StatisticProps } from './statistic'
+export type { StatisticInstance, StatisticProps, StatisticSlots } from './statistic'
 export { stepsProps, stepProps } from './steps'
 export type {
   StepsInstance,
@@ -783,14 +844,6 @@ export type {
   StepsSize,
   StepsContentPlacement,
 } from './steps'
-export { styleProviderProps } from './style-provider'
-export type {
-  StyleProviderInstance,
-  StyleProviderProps,
-  StyleProviderDefaults,
-  StyleVarName,
-  StyleVars,
-} from './style-provider'
 export { swipeCellProps } from './swipe-cell'
 export type {
   SwipeCellBeforeCloseArgs,
@@ -802,7 +855,14 @@ export type {
 export { switchProps } from './switch'
 export type { SwitchVariant, SwitchSize, SwitchValue, SwitchBeforeChange, SwitchInstance, SwitchProps } from './switch'
 export { tabBarProps, tabBarItemProps } from './tab-bar'
-export type { TabBarInstance, TabBarItemInstance, TabBarProps, TabBarItemProps, TabBarVariant } from './tab-bar'
+export type {
+  TabBarInstance,
+  TabBarItemInstance,
+  TabBarProps,
+  TabBarItemProps,
+  TabBarVariant,
+  TabBarBeforeChange,
+} from './tab-bar'
 export { tableProps } from './table'
 export type { TableInstance, TableProps } from './table'
 export { tabsProps, tabNavProps, tabItemProps, tabPaneProps, tabsNavsProps, tabsItemsProps } from './tabs'
@@ -835,7 +895,7 @@ export type {
   TabsItemsProps,
 } from './tabs'
 export { tagProps } from './tag'
-export type { TagInstance, TagColor, TagProps, TagVariant } from './tag'
+export type { TagInstance, TagColor, TagProps, TagVariant, TagSlots, TagEmits } from './tag'
 export { textareaProps } from './textarea'
 export type {
   TextareaInstance,
@@ -847,6 +907,16 @@ export type {
   TextareaSlots,
   TextareaExpose,
 } from './textarea'
+export { themeProviderProps } from './theme-provider'
+export type {
+  ThemeProviderInstance,
+  ThemeProviderProps,
+  ThemeProviderDefaults,
+  StyleVarName,
+  StyleVars,
+  ThemeProviderTheme,
+  ThemeProviderMode,
+} from './theme-provider'
 export { timeProps, timePickerProps } from './time'
 export type {
   TimeInstance,
@@ -860,6 +930,15 @@ export type {
   TimeDisabledRules,
   TimeStep,
   TimePickerField,
+  TimeModelValue,
+  TimeEmits,
+  TimeReadScope,
+  TimeSuffixIconScope,
+  TimeActionsScope,
+  TimeExpose,
+  TimeSlots,
+  TimePickerEmits,
+  TimePickerSlots,
 } from './time'
 export { timeRangeProps, timeRangePickerProps } from './time-range'
 export type {
@@ -869,6 +948,14 @@ export type {
   TimeRangeEditMode,
   TimeRangePickerProps,
   TimeRangePickerPresentation,
+  TimeRangeModelValue,
+  TimeRangeEmits,
+  TimeRangeReadScope,
+  TimeRangeActionsScope,
+  TimeRangeExpose,
+  TimeRangeSlots,
+  TimeRangePickerEmits,
+  TimeRangePickerSlots,
 } from './time-range'
 export { tooltipProps } from './tooltip'
 export type { TooltipInstance, TooltipProps, TooltipSize, TooltipStatus } from './tooltip'

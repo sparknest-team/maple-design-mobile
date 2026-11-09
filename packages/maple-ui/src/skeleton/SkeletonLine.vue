@@ -1,5 +1,5 @@
 <template>
-  <ul :class="n()">
+  <ul :class="n()" aria-hidden="true">
     <li v-for="(style, index) in lines" :key="index" :class="n('row')" :style="style" />
   </ul>
 </template>
@@ -15,7 +15,7 @@ defineOptions({ name: createNamespace('skeleton-line').name })
 const { n } = createNamespace('skeleton-line')
 const props = defineProps(skeletonLineProps)
 const lines = computed<CSSProperties[]>(() =>
-  Array.from({ length: Math.max(0, props.rows) }, (_, index) => ({
+  Array.from({ length: Number.isFinite(props.rows) ? Math.max(0, Math.floor(props.rows)) : 0 }, (_, index) => ({
     width: toSizeUnit(props.widths[index]),
     height: toSizeUnit(props.lineHeight),
     marginTop: index > 0 ? toSizeUnit(props.lineSpacing) : undefined,

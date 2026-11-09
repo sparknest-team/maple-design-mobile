@@ -130,22 +130,24 @@ Place a custom SVG in the default slot. The Icon wrapper controls its size and c
 
 ## API
 
-### Standalone styles and usage boundaries
+### Standalone icon styles and usage boundaries
 
-The resolver includes lightweight icon motion styles unless `importStyle: false`. The UI Icon style entry includes them too. For manually imported standalone SVG components using `spin`, import this once:
+Resolver auto-imports include the lightweight rotation styles for standalone icons. With `importStyle: false`, applications must import those styles. The UI Icon style entry also includes them; loading every icon is unnecessary.
+
+When manually importing standalone SVG components, import this stylesheet once in your application entry when using `spin`:
 
 ```ts
 import '@maple-design/icons-vue/style.css'
 ```
 
-`rotate` composes with `spin`; built-in motion respects reduced motion. `transition` accepts milliseconds as a number or numeric string (`200` / `"200"`), not CSS duration strings. Default slot content suppresses name transitions; removing the slot reveals the latest name immediately. Custom animation classes must avoid overriding the spinning transform and handle reduced motion themselves.
+`rotate` and `spin` can be combined; built-in rotation respects reduced motion. `transition` controls registered-name changes only, using milliseconds as a number or numeric string, such as `200` / `"200"`; it does not parse `"200ms"` / `"1s"`. The default slot owns content and skips name-`transition` animation. Removing it immediately shows the latest name. Custom `animation-class` should avoid overriding the `transform` used for continuous rotation and should implement reduced-motion behavior.
 
-`name` resolves icons explicitly registered in the current app before rendering. It does not fetch resources or react to later registrations. A container title is not forwarded into SVG: set `title` on the standalone icon. Use a Button with an accessible name for actions. `click` is a notification with Vue `.once` semantics; returned promises do not drive loading. Stroke properties only affect stroked graphics.
+`name` only resolves icons explicitly registered in the current application before rendering; it does not download resources. Registration after mount does not refresh an existing icon automatically. The container's native `title` is not forwarded to its SVG. Set `title` on standalone icons for image naming, and use an accessibly named Button for actions. `click` is a notification supporting Vue `.once`; listener Promises do not manage waiting. `stroke-*` affects strokes only; filled or fixed multicolor artwork may not respond.
 
 
-### Props
+### Icon Props
 
-| Arguments | Description | Type | Default |
+| Prop | Description | Type | Default |
 | ----------------- | ---------------------------- | ------------------ | ------- |
 | `name` | icon name | _string_ | `-` |
 | `size` | `inherit` | _string \| number_ | `-` |
@@ -157,7 +159,7 @@ import '@maple-design/icons-vue/style.css'
 
 ### Standalone SVG icon props
 
-| Arguments | Description | Type | Default |
+| Prop | Description | Type | Default |
 | ----------------- | ---------- | -------------------------------------------- | --------- |
 | `size` | `inherit` | _string \| number_ | `-` |
 | `color` | Icon color | _string_ | `-` |
@@ -168,44 +170,61 @@ import '@maple-design/icons-vue/style.css'
 | `stroke-linecap` | Stroke line cap | _'butt' \| 'round' \| 'square'_ | `'butt'` |
 | `stroke-linejoin` | Stroke line join | _'bevel' \| 'inherit' \| 'miter' \| 'round'_ | `'miter'` |
 
-### Events
+### Icon Events
 
 | Event | Description | Arguments |
 | ------- | -------------- | -------------- |
 | `click` | Triggered when you click on the icon | `event: MouseEvent` |
 
-### Slots
+### Icon Slots
 
 | Slot | Description |
 | --- | --- |
 | `default` | Custom content; takes precedence over name |
 
-### Types
+## Types
 
 ```ts
 import type { IconProps, IconInstance } from '@maple-design/ui'
 ```
 
-### Style variables
+## Usage notes
 
-The following CSS variables support customization with [StyleProvider](#/en-US/style-provider).
 
-| Variable | Default |
-| ------------- | ------ |
-| `--mp-icon-size` | `inherit` |
 
-## Shared implementation and platform boundaries
-
-Each platform maintains a complete local implementation. They do not import a common core or share component instances or reactive state. Changes must update both implementations. Component bodies, props, key styles and paired tests have read-only source consistency checks; theme tokens and installation entries remain local to each library.
-
-Only icons registered in the current application are resolved. Repeated name changes cancel stale timers; no changes run after unmount. Each library locally adapts its registration prefix and legacy spin class; icon resources are not imported across libraries.
+Only resolves icons registered in the current application. Repeated name changes display the latest requested icon, and unmounting stops pending switches.
 
 Icons inherit the host font size on both platforms. For a fixed 20px icon, set size="20" or icon-size explicitly. The size prop overrides the variable; color inherits from the host by default.
 
-### Motion variables
+## CSS Variables
 
-| Token | Default |
-| ------------------------- | ------- |
-| `--mp-icon-spin-duration` | `1s` |
+The following CSS variables support customization with [ThemeProvider](#/en-US/theme-provider).
+
+<!-- component-css-variables:start -->
+
+Use these variables to customize the component. Defaults may vary by the selector condition shown. Each variable applies to the corresponding size, variant and interaction states.
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Default / condition | Affected styles |
+| --- | --- | --- |
+| `--mp-icon-size` | `inherit` | `font-size` |
+| `--mp-icon-spin-duration` | `1s` | `animation` |
+
+</div>
+
+Apply overrides to the rendered component root or the actual popup ancestor. For example, add the following class to that element and replace the value as needed:
+
+```css
+.component-theme {
+  --mp-icon-size: inherit;
+}
+```
+
+Explicit inline styles and props that write the same CSS property take precedence over stylesheet defaults. After Teleport, ordinary CSS variables inherit from the actual mount location. When using ThemeProvider, follow its local-theme and popup configuration rules. Override the component variable directly for local styling; root-level aliases are not recalculated merely because a descendant system variable changes. Internal variables are not public APIs.
+
+<!-- component-css-variables:end -->
+
+### Motion
 
 Built-in motion follows prefers-reduced-motion: reduce: content and state feedback remain, while decorative spinning, shimmer and ripples stop. Icon name changes display the latest value immediately and cancel unfinished phases, keeping CSS and JS durations aligned. Callers must adapt custom animation classes. Ripple duration/cleanup follows Ripple documentation; its historical 250ms rule is not an Icon duration limit.

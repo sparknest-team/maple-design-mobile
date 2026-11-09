@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, test, vi } from 'vitest'
 import Badge from '../Badge.vue'
 
 describe('Badge aligned contract', () => {
@@ -44,4 +44,47 @@ describe('Badge aligned contract', () => {
     custom.unmount()
     outline.unmount()
   })
+})
+
+test('normalizes invalid numbers while preserving zero and string contracts', async () => {
+  const warnings = vi.spyOn(console, 'warn').mockImplementation(() => {})
+  const wrapper = mount(Badge, { props: { content: 120, max: 0 } })
+  const value = () => wrapper.find('.mp-badge__content')
+  expect(value().text()).toBe('120')
+  await wrapper.setProps({ max: -1 })
+  expect(value().text()).toBe('99+')
+  await wrapper.setProps({ max: Infinity })
+  expect(value().text()).toBe('99+')
+  await wrapper.setProps({ content: 0, dot: true, showZero: false })
+  expect(wrapper.find('.mp-badge__dot-content').exists()).toBe(false)
+  await wrapper.setProps({ showZero: true })
+  expect(wrapper.find('.mp-badge__dot-content').exists()).toBe(true)
+  await wrapper.setProps({ content: -1, showZero: true })
+  expect(wrapper.find('.mp-badge__dot-content').exists()).toBe(false)
+  await wrapper.setProps({ content: NaN })
+  expect(wrapper.find('.mp-badge__dot-content').exists()).toBe(false)
+  await wrapper.setProps({ content: '0', dot: false, showZero: false })
+  expect(value().text()).toBe('0')
+  expect(warnings).toHaveBeenCalled()
+  wrapper.unmount()
+  warnings.mockRestore()
+})
+
+test('keeps custom content gated by zero and supports finite negative offsets', async () => {
+  const warnings = vi.spyOn(console, 'warn').mockImplementation(() => {})
+  const hidden = mount(Badge, { props: { content: 0 }, slots: { content: 'Custom', default: 'Host' } })
+  expect(hidden.find('.mp-badge__content-wrapper').exists()).toBe(false)
+  const shown = mount(Badge, {
+    props: { content: 0, showZero: true, offsetX: -3, offsetY: -4 },
+    slots: { content: 'Custom', default: 'Host' },
+  })
+  expect(shown.get('.mp-badge__content-wrapper').text()).toBe('Custom')
+  expect(shown.get('.mp-badge__content-wrapper').attributes('style')).toContain('-3px')
+  expect(shown.get('.mp-badge__content-wrapper').attributes('style')).toContain('-4px')
+  await shown.setProps({ offsetX: Infinity, offsetY: -Infinity })
+  expect(shown.get('.mp-badge__content-wrapper').attributes('style') || '').not.toContain('Infinity')
+  expect(warnings).toHaveBeenCalled()
+  hidden.unmount()
+  shown.unmount()
+  warnings.mockRestore()
 })

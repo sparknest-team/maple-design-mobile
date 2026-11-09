@@ -20,19 +20,19 @@ import ModifyColor from '../example/ModifyColor'
 
 ## API
 
-### Props
+### Button Props
 
 | Prop  | Description | Type | Default |
 | --- | --- | --- | --- | 
 | `color` | Button background color | _string_ | `default` |
 
-### Events
+### Button Events
 
 | Event | Description | Arguments |
 | --- | --- | --- |
 | `click` | Triggered when the button is clicked | `event: Event` |
 
-### Slots
+### Button Slots
 
 | Slot      | Description | Arguments |
 |-----------| --- | --- |

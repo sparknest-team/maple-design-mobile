@@ -39,6 +39,7 @@ export const cardProps = {
   elevation: { type: [Boolean, Number] as PropType<boolean | number>, default: true },
   ripple: Boolean,
   floating: Boolean,
-  floatingDuration: { type: Number, default: 250 },
+  floatingDuration: { type: Number, default: 250, validator: (value: number) => Number.isFinite(value) && value >= 0 },
+  closeButtonAriaLabel: String,
 }
 export type CardProps = ExtractPublicPropTypes<typeof cardProps>

@@ -1,13 +1,16 @@
-import { nextTick, reactive, type Component, type TeleportProps } from 'vue'
+import { nextTick, reactive } from 'vue'
 import { call, isArray } from '@maple-design/shared'
 import { mountInstance, withInstall, withPropsDefaultsSetter } from '../utils/components'
+import type { PopupContainer } from '../utils/popup-container'
 import VarPicker from './Picker.vue'
 import { props as pickerProps, type PickerColumnOption } from './props'
 
-interface PickerOptions {
+export interface PickerOptions {
   modelValue?: (string | number)[]
+  defaultValue?: (string | number)[]
+  disabled?: boolean
+  selectedValues?: (string | number)[]
   columns?: PickerColumnOption[] | PickerColumnOption[][]
-  open?: boolean
   title?: string
   fieldNames?: { label?: string; value?: string; children?: string }
   toolbar?: boolean
@@ -22,8 +25,7 @@ interface PickerOptions {
   safeArea?: boolean
   overlayClosable?: boolean
   escToClose?: boolean
-  popupContainer?: TeleportProps['to']
-  dynamic?: boolean
+  popupContainer?: PopupContainer
   onClickOverlay?: (event: MouseEvent) => void
   onOpen?: () => void
   onOpened?: () => void
@@ -35,25 +37,28 @@ interface PickerOptions {
   onKeyEscape?: (event: KeyboardEvent) => void
 }
 
-type PickerResolvedState = 'confirm' | 'cancel' | 'close'
+export type PickerResolvedState = 'confirm' | 'cancel' | 'close'
 
-interface PickerResolvedData {
+export interface PickerResolvedData {
   state: PickerResolvedState
   values?: (string | number)[]
   indexes?: number[]
   options?: PickerColumnOption[]
 }
 
-let singletonOptions: PickerOptions | null
+type PickerServiceOptions = PickerOptions & { open?: boolean; dynamic: boolean }
+let singletonOptions: PickerServiceOptions | null
 
 function Picker(options: PickerOptions | PickerColumnOption[] | PickerColumnOption[][]): Promise<PickerResolvedData> {
   return new Promise((resolve) => {
     Picker.close()
 
     const pickerOptions: PickerOptions = isArray(options) ? { columns: options } : options
-    const reactivePickerOptions: PickerOptions = reactive(pickerOptions)
-    reactivePickerOptions.dynamic = true
-    reactivePickerOptions.popupContainer = 'body'
+    const reactivePickerOptions: PickerServiceOptions = reactive({
+      ...pickerOptions,
+      dynamic: true,
+      popupContainer: pickerOptions.popupContainer ?? 'body',
+    })
     singletonOptions = reactivePickerOptions
 
     function resetSingletonOptions() {
@@ -119,15 +124,16 @@ Picker.close = function () {
   })
 }
 
-Picker.Component = VarPicker as Component
-withInstall(VarPicker)
-withInstall(VarPicker, Picker)
+Picker.Component = withInstall(VarPicker)
+const InstalledPicker = withInstall(VarPicker, Picker)
 withPropsDefaultsSetter(Picker, pickerProps)
 
 export { pickerProps }
+export type { PickerColumnOption } from './props'
+export type { PickerEmits, PickerSlots, PickerSelection } from './types'
 
 export type PickerInstance = InstanceType<typeof VarPicker>
 export const _PickerComponent: typeof VarPicker = VarPicker
 
-export default Picker
+export default InstalledPicker
 export type PickerProps = import('vue').ExtractPublicPropTypes<typeof import('./props').props>

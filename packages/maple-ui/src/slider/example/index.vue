@@ -5,6 +5,7 @@ import BasicUsageDemo from './demos/basic-usage.vue'
 import ControlledRangeDemo from './demos/controlled-range.vue'
 import CustomStyleDemo from './demos/custom-style.vue'
 import DualThumbDemo from './demos/dual-thumb.vue'
+import InteractionSessionDemo from './demos/interaction-session.vue'
 import KeyboardInputDemo from './demos/keyboard-input.vue'
 import RangeDemo from './demos/range.vue'
 import SliderSizeDemo from './demos/slider-size.vue'
@@ -106,5 +107,10 @@ onThemeChange()
   <section data-demo="range">
     <app-type>{{ english ? 'range' : '自定义边界' }}</app-type>
     <RangeDemo />
+  </section>
+
+  <section data-demo="interaction-session">
+    <app-type>{{ english ? 'Canceled pointer interactions' : '指针交互取消收尾' }}</app-type>
+    <InteractionSessionDemo />
   </section>
 </template>

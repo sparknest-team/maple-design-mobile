@@ -1,0 +1,3 @@
+- [x] Reproduce missing disabled link role
+- [x] Match existing link semantic contract without enabling navigation
+- [x] Verify both Upload/link consumers,readonly and native keyboard

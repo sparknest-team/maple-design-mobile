@@ -69,7 +69,7 @@
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { IconChevronLeft, IconChevronRight } from '@maple-design/icons-vue'
 import dayjs, { type Dayjs } from 'dayjs'
-import utc from 'dayjs/plugin/utc'
+import utc from 'dayjs/plugin/utc.js'
 import { t } from '../../locale'
 import { injectLocaleProvider } from '../../locale-provider/provide'
 import { createNamespace } from '../../utils/components'

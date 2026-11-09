@@ -9,6 +9,7 @@ export const breadcrumbProps = {
   maxCount: {
     type: Number,
     default: 0,
+    validator: (value: number) => Number.isFinite(value) && Number.isInteger(value) && value >= 0,
   },
   /**
    * 通过路径数据渲染面包屑

@@ -20,7 +20,7 @@ export const checkboxGroupValueProps = {
   /** 非受控初始值 */
   defaultValue: { type: Array as PropType<ChoiceValue[]>, default: () => [] },
   /** 最多可选数量 */
-  max: Number,
+  max: { type: Number, validator: (value: number) => Number.isFinite(value) && Number.isInteger(value) && value >= 0 },
 }
 
 export const radioGroupValueProps = {

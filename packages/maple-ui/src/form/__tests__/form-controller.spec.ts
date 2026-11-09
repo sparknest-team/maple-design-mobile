@@ -69,6 +69,26 @@ describe('form controller', () => {
     expect(onInvalid).not.toHaveBeenCalled()
   })
 
+  for (const operation of ['register', 'unregister']) {
+    it(`${operation} invalidates callbacks from a previous field set`, async () => {
+      const result = deferred<{ field: string; message: string } | undefined>()
+      const callback = vi.fn()
+      const onInvalid = vi.fn()
+      const controller = createFormController({ onInvalid })
+      const remove = controller.registerField({ ...createField('name'), validate: () => result.promise })
+      const pending = controller.validate(undefined, callback)
+      if (operation === 'register') {
+        controller.registerField(createField('other'))
+      } else {
+        remove()
+      }
+      result.resolve({ field: 'name', message: 'Old error' })
+      await pending
+      expect(callback).not.toHaveBeenCalled()
+      expect(onInvalid).not.toHaveBeenCalled()
+    })
+  }
+
   it('targets reset, clear and set operations without skipping falsy data', () => {
     const controller = createFormController<never, number>()
     const name = createField('name') as FormFieldController<never, number>

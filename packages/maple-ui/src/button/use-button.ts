@@ -1,15 +1,14 @@
 import { computed, onActivated, onBeforeUnmount, onDeactivated, type CSSProperties } from 'vue'
 import { createNamespace } from '../utils/components'
+import { useButtonDefaultSize } from './platform'
 import type { ButtonProps } from './props'
 import { useButtonGroup } from './provide'
 
 /** Shared state and event contract; group registration stays platform-local. */
-export function useButton(
-  props: Readonly<ButtonProps>,
-  emit: { (event: 'click', value: MouseEvent): void; (event: 'touchstart', value: TouchEvent): void },
-) {
+export function useButton(props: Readonly<ButtonProps>, emit: { (event: 'click', value: MouseEvent): void }) {
   const { n } = createNamespace('button')
   const { buttonGroup: group } = useButtonGroup()
+  const defaultSize = useButtonDefaultSize()
   let active = true
   let invoking = false
   onBeforeUnmount(() => {
@@ -24,7 +23,7 @@ export function useButton(
   const states = computed(() => ({
     status: props.status ?? group?.status.value ?? 'default',
     variant: props.variant ?? group?.variant.value ?? 'default',
-    size: props.size ?? group?.size.value ?? 'md',
+    size: props.size ?? group?.size.value ?? defaultSize.value,
     color: props.color ?? group?.color.value,
     textColor: props.textColor ?? group?.textColor.value,
     disabled: props.disabled ?? group?.disabled.value ?? false,
@@ -69,11 +68,6 @@ export function useButton(
       invoking = false
     }
   }
-  function handleTouchstart(event: TouchEvent) {
-    if (!blocked.value && active) {
-      emit('touchstart', event)
-    }
-  }
 
   return {
     states,
@@ -81,6 +75,5 @@ export function useButton(
     blocked,
     computedStyle,
     handleClick,
-    handleTouchstart,
   }
 }

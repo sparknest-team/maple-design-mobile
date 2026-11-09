@@ -1,23 +1,35 @@
-import { computed, defineComponent, ref, Transition, watch } from 'vue'
+import { computed, defineComponent, ref, Transition, useId, watch, type SlotsType, type VNodeChild } from 'vue'
 import { IconClose, IconPlus } from '@maple-design/icons-vue'
 import { call, isBoolean } from '@maple-design/shared'
 import { useClickOutside } from '@maple-design/use'
 import Button from '../button'
 import Drag from '../drag'
 import Icon from '../icon'
+import { t } from '../locale'
+import { injectLocaleProvider } from '../locale-provider/provide'
 import { createNamespace, flatFragment } from '../utils/components'
 import { toSizeUnit } from '../utils/elements'
 import { resolvePopupContainer } from '../utils/popup-container'
-import { props } from './props'
-import './style'
+import { props, type FabTriggerProps } from './props'
 
 const { name, classes, n } = createNamespace('fab')
 
 export default defineComponent({
   name,
   inheritAttrs: false,
+  slots: Object as SlotsType<{
+    trigger: (scope: { open: boolean; triggerProps: FabTriggerProps }) => VNodeChild
+    default: () => VNodeChild
+  }>,
   props,
-  emits: ['click', 'close', 'open', 'opened', 'closed', 'update:open'],
+  emits: {
+    click: (_open: boolean, _event: Event) => true,
+    close: () => true,
+    open: () => true,
+    opened: (_element: Element) => true,
+    closed: (_element: Element) => true,
+    'update:open': (_value: boolean) => true,
+  },
   setup(props, { slots, attrs, emit }) {
     const localOpen = ref(props.defaultOpen)
     const isOpen = computed({
@@ -34,6 +46,11 @@ export default defineComponent({
     })
     const popupContainer = computed(() => resolvePopupContainer(props.popupContainer))
     const host = ref<null | HTMLElement>(null)
+    const actions = ref<null | HTMLElement>(null)
+    const actionsId = `fab-actions-${useId()}`
+    const { t: localT } = injectLocaleProvider()
+    let pointerInside = false
+    let lastTrigger: HTMLElement | null = null
     const dragRef = ref<InstanceType<typeof Drag> | null>(null)
 
     watch(
@@ -62,7 +79,7 @@ export default defineComponent({
     function handleClick(e: Event, value: boolean, childrenLength: number) {
       e.stopPropagation()
 
-      if (!props.visible || props.trigger !== 'click' || props.disabled) {
+      if (!props.visible || (props.trigger !== 'click' && !('detail' in e && e.detail === 0)) || props.disabled) {
         return
       }
 
@@ -73,16 +90,20 @@ export default defineComponent({
 
       isOpen.value = value
       emit('click', value, e)
-      call(value ? (...args: any[]) => emit('open', ...args) : (...args: any[]) => emit('close', ...args))
+      value ? emit('open') : emit('close')
     }
 
     function handleMouse(value: boolean, childrenLength: number) {
+      pointerInside = value
+      if (!value && host.value?.contains(host.value.ownerDocument.activeElement)) {
+        return
+      }
       if (!props.visible || props.trigger !== 'hover' || props.disabled || childrenLength === 0) {
         return
       }
 
       isOpen.value = value
-      call(value ? (...args: any[]) => emit('open', ...args) : (...args: any[]) => emit('close', ...args))
+      value ? emit('open') : emit('close')
     }
 
     function handleClickOutside() {
@@ -96,9 +117,16 @@ export default defineComponent({
       }
     }
 
-    function renderTrigger() {
+    function renderTrigger(childrenLength: number) {
+      const explicitLabel = attrs['aria-label']
+      const labelledby = attrs['aria-labelledby']
+      const triggerProps: FabTriggerProps = {
+        ...(typeof explicitLabel === 'string' ? { 'aria-label': explicitLabel } : {}),
+        ...(typeof labelledby === 'string' ? { 'aria-labelledby': labelledby } : {}),
+        ...(childrenLength ? { 'aria-expanded': isOpen.value, 'aria-controls': actionsId } : {}),
+      }
       if (slots.trigger) {
-        return slots.trigger({ open: isOpen.value })
+        return slots.trigger({ open: isOpen.value, triggerProps })
       }
 
       const iconName = isOpen.value ? props.openIcon : props.closedIcon
@@ -107,6 +135,14 @@ export default defineComponent({
       return (
         <Button
           mp-fab-cover
+          {...triggerProps}
+          aria-label={
+            typeof explicitLabel === 'string'
+              ? explicitLabel
+              : labelledby == null
+                ? ((localT || t)('fab.actions') ?? 'Actions')
+                : undefined
+          }
           class={n('trigger')}
           status={props.status}
           color={props.color}
@@ -142,6 +178,7 @@ export default defineComponent({
     return () => {
       const children = flatFragment(call(slots.default) ?? [])
       const dragProps = isBoolean(props.drag) ? {} : props.drag
+      const { 'aria-label': _label, 'aria-labelledby': _labelledby, ...dragAttrs } = attrs
 
       return (
         <Drag
@@ -160,7 +197,7 @@ export default defineComponent({
           attraction={dragProps.attraction}
           boundary={dragProps.boundary}
           onClick={(e: Event) => handleClick(e, !isOpen.value, children.length)}
-          {...attrs}
+          {...dragAttrs}
         >
           <div
             class={classes(n(), n(`--direction-${props.placement}`), [props.safeArea, n('--safe-area')])}
@@ -168,15 +205,47 @@ export default defineComponent({
             v-show={props.visible}
             onMouseleave={() => handleMouse(false, children.length)}
             onMouseenter={() => handleMouse(true, children.length)}
+            onFocusin={(event: FocusEvent) => {
+              const target = event.target
+              if (target instanceof HTMLElement && !actions.value?.contains(target)) {
+                lastTrigger = target
+              }
+            }}
+            onFocusout={(event: FocusEvent) => {
+              const next = event.relatedTarget
+              if (
+                props.visible &&
+                !props.disabled &&
+                props.trigger === 'hover' &&
+                !pointerInside &&
+                isOpen.value &&
+                !(next instanceof Node && host.value?.contains(next))
+              ) {
+                isOpen.value = false
+                emit('close')
+              }
+            }}
+            onKeydown={(event: KeyboardEvent) => {
+              if (event.key === 'Escape' && isOpen.value && props.visible && !props.disabled) {
+                event.stopPropagation()
+                isOpen.value = false
+                emit('close')
+                if (actions.value?.contains(event.target as Node)) {
+                  lastTrigger?.focus({ preventScroll: true })
+                }
+              }
+            }}
           >
-            <Transition name={n(`--active-transition`)}>{renderTrigger()}</Transition>
+            <Transition name={n(`--active-transition`)}>{renderTrigger(children.length)}</Transition>
 
             <Transition
               name={n(`--actions-transition-${props.placement}`)}
-              onAfterEnter={(...args: any[]) => emit('opened', ...args)}
-              onAfterLeave={(...args: any[]) => emit('closed', ...args)}
+              onAfterEnter={(element: Element) => emit('opened', element)}
+              onAfterLeave={(element: Element) => emit('closed', element)}
             >
               <div
+                ref={actions}
+                id={actionsId}
                 class={n('actions')}
                 role="presentation"
                 v-show={isOpen.value && children.length}

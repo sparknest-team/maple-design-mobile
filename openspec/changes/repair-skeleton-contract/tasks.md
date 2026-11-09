@@ -1,0 +1,3 @@
+- [x] Reproduce non-finite Line failure on both platforms
+- [x] Normalize rows and reconcile actual public docs
+- [x] Validate both platforms, consumers, types and native layout

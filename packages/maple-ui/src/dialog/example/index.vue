@@ -8,9 +8,11 @@ import BasicUsageDemo from './demos/basic-usage.vue'
 import ConfirmBoxDemo from './demos/confirm-box.vue'
 import CustomButtonTextDemo from './demos/custom-button-text.vue'
 import CustomFooterDemo from './demos/custom-footer.vue'
+import DraggableDemo from './demos/draggable.vue'
 import FormDialogDemo from './demos/form-dialog.vue'
 import FunctionCallDemo from './demos/function-call.vue'
 import GuardProtocolDemo from './demos/guard-protocol.vue'
+import ServiceContainerDemo from './demos/service-container.vue'
 import ContentSizeComparison from './demos/size-comparison.vue'
 import TypeIconDemo from './demos/type-icon.vue'
 
@@ -64,6 +66,11 @@ onThemeChange()
     <FormDialogDemo />
   </section>
 
+  <section data-demo="service-container">
+    <app-type>{{ english ? 'Service popup containers' : '函数调用的挂载目标' }}</app-type>
+    <ServiceContainerDemo />
+  </section>
+
   <h2 class="mobile-demo-group-heading" data-demo-group="sizing-and-layout">
     <span lang="zh-CN">尺寸与布局</span>
     <span lang="en-US">Sizing and layout</span>
@@ -80,6 +87,11 @@ onThemeChange()
     <span lang="zh-CN">交互与定制</span>
     <span lang="en-US">Interaction and customization</span>
   </h2>
+
+  <section data-demo="draggable">
+    <app-type>{{ english ? 'Drag lifecycle' : '拖动生命周期' }}</app-type>
+    <DraggableDemo />
+  </section>
 
   <section data-demo="custom-footer">
     <app-type>{{ english ? 'Custom Footer' : 'custom footer' }}</app-type>

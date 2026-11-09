@@ -1,7 +1,7 @@
 import { createApp, h } from 'vue'
 import { IconFire } from '@maple-design/icons-vue'
 import { mount } from '@vue/test-utils'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, test, vi } from 'vitest'
 import Cell from '..'
 import MpIcon from '../../icon/Icon'
 import { createRegisteredIconComponents } from '../../utils/test'
@@ -221,4 +221,53 @@ test('cells without icons do not reserve an icon container', () => {
   const wrapper = mount(Cell, { props: { title: 'Title' } })
   expect(wrapper.find('.mp-cell__icon').exists()).toBe(false)
   wrapper.unmount()
+})
+
+test('exposes an explicit keyboard action while keeping extra controls separate', async () => {
+  const wrapper = mount(VarCell, {
+    props: { clickable: true, title: 'Account' },
+    slots: { extra: () => h('button', 'Other') },
+  })
+  const action = wrapper.get('[role="button"]')
+  expect(action.attributes('tabindex')).toBe('0')
+  expect(action.find('button').exists()).toBe(false)
+  await action.trigger('keydown', { key: 'Enter' })
+  await action.trigger('keydown', { key: ' ' })
+  expect(wrapper.emitted('click')).toHaveLength(2)
+  const key = new KeyboardEvent('keydown', { key: ' ', bubbles: true, cancelable: true })
+  wrapper.get('button').element.dispatchEvent(key)
+  expect(key.defaultPrevented).toBe(false)
+  wrapper.unmount()
+})
+
+test('preserves display semantics and supports explicit root button attributes', async () => {
+  const plain = mount(VarCell, { props: { title: 'Plain' } })
+  expect(plain.find('[role="button"]').exists()).toBe(false)
+  expect(plain.classes()).not.toContain('mp-cell--cursor')
+  const root = mount(VarCell, { attrs: { role: 'button', tabindex: 0 } })
+  await root.trigger('keydown', { key: 'Enter' })
+  expect(root.emitted('click')).toHaveLength(1)
+  plain.unmount()
+  root.unmount()
+})
+
+test('supports a named action and safely ignores non-finite border offsets', () => {
+  const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+  const wrapper = mount(VarCell, {
+    props: { clickable: true, actionAriaLabel: 'Open details', borderOffset: Infinity },
+  })
+  expect(wrapper.get('[role="button"]').attributes('aria-label')).toBe('Open details')
+  expect(wrapper.attributes('style') || '').not.toContain('Infinity')
+  expect(warn).toHaveBeenCalled()
+  wrapper.unmount()
+  warn.mockRestore()
+})
+
+test('ripple implies an action unless explicitly disabled and root label names it', () => {
+  const active = mount(VarCell, { props: { ripple: true }, attrs: { 'aria-label': 'Open profile' } })
+  expect(active.get('[role="button"]').attributes('aria-label')).toBe('Open profile')
+  const display = mount(VarCell, { props: { ripple: true, clickable: false } })
+  expect(display.find('[role="button"]').exists()).toBe(false)
+  active.unmount()
+  display.unmount()
 })

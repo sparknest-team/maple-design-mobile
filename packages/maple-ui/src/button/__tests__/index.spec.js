@@ -51,7 +51,6 @@ describe('test button component props', () => {
 
   test('button loading', async () => {
     const onClick = vi.fn()
-    const onTouchstart = vi.fn()
 
     const wrapper = mount(VarButton, {
       props: {
@@ -60,10 +59,8 @@ describe('test button component props', () => {
     })
 
     await trigger(wrapper, 'click')
-    await trigger(wrapper, 'touchstart')
     expect(wrapper.find('.mp-loading').exists()).toBeTruthy()
     expect(onClick).toHaveBeenCalledTimes(0)
-    expect(onTouchstart).toHaveBeenCalledTimes(0)
     wrapper.unmount()
   })
 
@@ -71,7 +68,6 @@ describe('test button component props', () => {
     for (const type of ['circle', 'wave', 'cube', 'rect', 'disappear']) {
       const wrapper = mount(VarButton, { props: { loading: true, loadingType: type } })
       await trigger(wrapper, 'click')
-      await trigger(wrapper, 'touchstart')
       expect(wrapper.find('.mp-loading__' + type).exists()).toBe(true)
       wrapper.unmount()
     }
@@ -82,7 +78,6 @@ describe('test button component props', () => {
       for (const type of ['circle', 'wave', 'cube', 'rect', 'disappear']) {
         const wrapper = mount(VarButton, { props: { loading: true, loadingSize: size, loadingType: type } })
         await trigger(wrapper, 'click')
-        await trigger(wrapper, 'touchstart')
         const pixels = { xs: 12, sm: 14, md: 16, lg: 18, xl: 20 }[size]
         expect(wrapper.findComponent({ name: 'MpLoading' }).props('size')).toBe(pixels)
         wrapper.unmount()
@@ -90,21 +85,19 @@ describe('test button component props', () => {
     }
   })
 
-  test('async click and touch handlers do not automatically set loading', async () => {
+  test('async click handlers do not automatically set loading', async () => {
     const onClick = () =>
       new Promise((resolve) => {
         setTimeout(resolve, 100)
       })
 
-    const onTouchstart = () =>
-      new Promise((resolve) => {
-        setTimeout(resolve, 100)
-      })
+    new Promise((resolve) => {
+      setTimeout(resolve, 100)
+    })
 
     const wrapper = mount(VarButton, {
       props: {
         onClick,
-        onTouchstart,
         ripple: false,
       },
     })
@@ -114,7 +107,6 @@ describe('test button component props', () => {
     await delay(100)
     expect(wrapper.find('.mp-loading').exists()).toBeFalsy()
 
-    await trigger(wrapper, 'touchstart')
     expect(wrapper.find('.mp-loading').exists()).toBeFalsy()
     await delay(100)
     expect(wrapper.find('.mp-loading').exists()).toBeFalsy()
@@ -176,26 +168,21 @@ describe('test button component props', () => {
 
   test('button disabled', async () => {
     const onClick = vi.fn()
-    const onTouchstart = vi.fn()
 
     const wrapper = mount(VarButton, {
       props: {
         disabled: true,
         onClick,
-        onTouchstart,
       },
     })
 
     await trigger(wrapper, 'click')
-    await trigger(wrapper, 'touchstart')
     expect(wrapper.classes()).toContain('mp-button--disabled')
     expect(onClick).toHaveBeenCalledTimes(0)
-    expect(onTouchstart).toHaveBeenCalledTimes(0)
     wrapper.unmount()
   })
 
   test('button ripple', async () => {
-    const onTouchstart = vi.fn()
     const wrapper = mount(VarButton, {
       props: {
         ripple: true,
@@ -207,13 +194,10 @@ describe('test button component props', () => {
     await trigger(document, 'touchend')
     await delay(500)
     expect(wrapper.find('.mp-ripple').exists()).toBe(false)
-    expect(onTouchstart).toHaveBeenCalledTimes(0)
 
     await wrapper.setProps({ ripple: false })
-    await trigger(wrapper, 'touchstart')
     await delay(500)
     expect(wrapper.find('.mp-ripple').exists()).toBe(false)
-    expect(onTouchstart).toHaveBeenCalledTimes(0)
 
     wrapper.unmount()
   })
@@ -261,33 +245,12 @@ describe('test button component props', () => {
 })
 
 describe('test button component events', () => {
-  test('button onClick & onTouchstart null callback', async () => {
+  test('click notifies once and does not expose a touchstart component event', async () => {
     const onClick = vi.fn()
-    const onTouchstart = vi.fn()
-
-    const wrapper = mount(VarButton)
+    const wrapper = mount(VarButton, { props: { onClick } })
     await trigger(wrapper, 'click')
-    await trigger(wrapper, 'touchstart')
-    expect(onClick).toHaveBeenCalledTimes(0)
-    expect(onTouchstart).toHaveBeenCalledTimes(0)
-    wrapper.unmount()
-  })
-
-  test('button onClick & onTouchstart', async () => {
-    const onClick = vi.fn()
-    const onTouchstart = vi.fn()
-
-    const wrapper = mount(VarButton, {
-      props: {
-        onClick,
-        onTouchstart,
-      },
-    })
-
-    await trigger(wrapper, 'click')
-    await trigger(wrapper, 'touchstart')
     expect(onClick).toHaveBeenCalledTimes(1)
-    expect(onTouchstart).toHaveBeenCalledTimes(1)
+    expect(VarButton.emits).not.toHaveProperty('touchstart')
     wrapper.unmount()
   })
 })

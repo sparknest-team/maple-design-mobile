@@ -8,7 +8,7 @@
 
 纯面板不接收 open/default-open、popup-container、placement、trigger-props、placeholder、variant、clearable。确认区由 disable-confirm 控制；actions 插槽提供 { confirm, disabled }。DatePicker/DateRangePicker 可以单独 app.use 安装，根入口和 date/date-range 子路径导出组件、Props、Instance、Type、Options、Emits；没有独立 date-picker/date-range-picker npm 子路径。
 
-> 源码已并入 `date/`，安装父组件时一并注册。静态成员：`Date.Picker`。
+安装 Date 时会一并注册 DatePicker，也可通过静态成员 `Date.Picker` 使用。
 
 ## 基础示例
 
@@ -53,7 +53,7 @@
 
 ### 日期值格式
 
-两端使用独立复制的值、校验和提交逻辑。年、月、日模型默认格式为 `YYYY`、`YYYY-MM`、`YYYY-MM-DD`，日期时间默认包含秒；分钟精度设置 `time-fields="['hour', 'minute']"`。`format` 控制显示，`value-format` 控制模型，支持自定义格式、`Date` 与 `timestamp`。Maple 展示支持年/月/日及移动端日历和滚轮；周/季度面板仍是 Cedar 的展示能力。
+年、月、日模型默认格式为 `YYYY`、`YYYY-MM`、`YYYY-MM-DD`，日期时间默认包含秒；分钟精度设置 `time-fields="['hour', 'minute']"`。`format` 控制显示，`value-format` 控制模型，支持自定义格式、`Date` 与 `timestamp`。Maple 提供年/月/日面板和移动端日历、滚轮；周/季度面板仅由 Cedar 提供。
 
 ### 介绍
 
@@ -77,11 +77,11 @@
 
 ### 语言与嵌套日历参数
 
-日期标签、标题和动作接入各库的全局 Locale 与既有 Provider。Cedar 删除日期组件级 `locale`，不保留覆盖字典或兼容别名。切换语言不会选择或提交日期。
+日期标签、标题和操作按钮的语言由全局 Locale 和 Provider 配置。切换语言不会选择或提交日期。
 
 ### 日期语言的实例隔离
 
-日期所有者读取本库全局 Locale/Provider，周起始日由各实例 `day-start-of-week` 管理。不切换宿主 Dayjs 默认语言，也不覆盖宿主基础语言配置；只在各库命名空间下注册日期语言元数据，组件实例与源码不跨库共享。
+日期组件使用当前库的 Locale/Provider 配置，周起始日由各实例的 `day-start-of-week` 控制，不会修改应用中 Dayjs 的默认语言或基础语言配置。
 
 `value-format` 是稳定英文日期协议（包括月份名称 token），`format` 的显示及手输文本使用界面语言。切换语言不会改写模型，也不会令英文月份名称模型失效。默认数字协议、Date 对象、时间戳不变。中文核心语言与 Maple 内置语言数据已接入；其他日期格式优先使用已注册 Dayjs 语言数据，未加载的语言安全回退英文。
 
@@ -91,7 +91,7 @@
 
 ### 手输格式的边界
 
-公共日期解析器按展示 `format` 严格解析，再以 `value-format` 序列化并执行原有禁用/范围校验。日期单值/范围字段已接入真实原生输入；默认允许手输，点击输入只编辑，日历按钮或 ArrowDown 打开面板，Enter/失焦提交。设置 `input-editable=false` 可仅使用面板；multiple 和函数 format 不提供文本逆解析，输入保持 readonly。`format` 为函数没有逆解析协议，应关闭 `input-editable` 并使用选择面板。Maple 暂无周/季度展示模式，不为保持解析逻辑同源而暴露无效类型。
+日期输入按 `format` 严格解析，再按 `value-format` 输出，并校验禁用规则及范围。默认允许手输，点击输入编辑，日历按钮或 ArrowDown 打开面板，Enter / 失焦提交。设置 `input-editable=false` 可仅通过面板选择。multiple 模式或函数 format 不支持文本逆解析，输入保持只读；函数 format 应配合关闭 `input-editable` 使用。Maple 不提供周/季度展示模式。
 
 ## 时间与选择规则
 
@@ -120,7 +120,7 @@
 
 ### 真实端侧能力
 
-Cedar 不公开 `Date.pickerProps`、`DateRange.pickerProps` 或 `DateRange.datePickerProps`：PC 字段不渲染移动滚轮或范围内部的移动日历插件，原无效参数已删除且无兼容别名。Maple 保留这些真实扩展，使用 DateWheelOptions 与 DateRangeCalendarOptions。两端通过 `Date.datePickerProps` / `DateRange.dateRangePickerProps` 配置完整面板，`timePickerProps` 配置内嵌时间展示。初始日期时间放在顶层 `defaultValue`，不要放在 `timePickerProps.defaultValue` 中。
+Cedar 字段使用桌面日历，通过 `date-picker-props` 或 `date-range-picker-props` 配置面板。Maple 使用 DateWheelOptions 与 DateRangeCalendarOptions 配置滚轮和范围内嵌日历。两端通过 `Date.datePickerProps` / `DateRange.dateRangePickerProps` 配置完整面板；Cedar 使用 `timePickerProps` 配置内嵌时间展示，Maple 使用 `pickerProps` 配置滚轮。初始日期时间放在顶层 `defaultValue`。
 
 ### 时区、夏令时与三种日历视图
 
@@ -204,7 +204,7 @@ DatePicker / DateRangePicker 独立使用时自带表面背景和操作区；act
 
 `read-pretty` 为独立布尔属性，与 `readonly`、`disabled` 同级；字段 > FormItem > Form 继承，显式 `false` 覆盖父级。默认 `false`。纯阅读不显示编辑器。
 
-### 移动端统一面板
+### 面板操作
 
 单值面板不显示顶部摘要；范围摘要保留浅灰底槽和白色当前项，点击起止摘要切换编辑对象。
 
@@ -285,7 +285,7 @@ DatePicker / DateRangePicker 独立使用时自带表面背景和操作区；act
 | `show-current`    | 日历中高亮当前日/月/年，不产生选择或提交 | true   |
 | `show-now-button` | 显示此刻按钮；多选不显示，范围更新当前端 | true   |
 
-“此刻”按面板 type、时间精度与 value-format 生成候选，遵守 disabled/readonly、min/max、日期和时间禁用规则。点击只更新草稿，即使开启 disable-confirm，后续调整也需确认才提交；取消会丢弃草稿。日期、日期时间及其范围的独立面板与弹层行为一致，范围仅更新当前端，不交换。挂载或改变高亮均不写模型。旧 showNowBtn 名称已删除，不保留别名。
+“此刻”按面板 type、时间精度与 value-format 生成候选，遵守 disabled/readonly、min/max、日期和时间禁用规则。点击只更新草稿，即使开启 disable-confirm，后续调整也需确认才提交；取消会丢弃草稿。日期、日期时间及其范围的独立面板与弹层行为一致，范围仅更新当前端，不交换。挂载或改变高亮均不写模型。
 
 actions 插槽提供 `{ confirm, disabled, selectNow, nowDisabled }`。自定义按钮应调用这两个受保护动作，不应直接写模型。
 
@@ -410,7 +410,7 @@ actions 插槽提供 `{ confirm, disabled, selectNow, nowDisabled }`。自定义
 
 ### 展示模式只在根设置
 
-`Date` / `DateRange` 字段通过根 `panel-type` 选择内容，独立日期面板通过根 `presentation` 选择内容；独立面板内容默认 `calendarPicker`，不带时间时显示日历；字段的 popup 内容默认 `calendar`。字段的 `DatePickerOptions` / `DateRangePickerOptions` 已移除由根拥有的 `presentation`，JS 运行时也过滤，不能通过嵌套对象覆盖根模式。周起始、视口、快捷项和合法外观仍可嵌套配置。单值根支持 picker/calendar/calendarPicker，范围根支持 picker/calendar/calendarPicker；Cedar 只有桌面日历，不提供这些空模式。
+`Date` / `DateRange` 字段通过根 `panel-type` 选择内容，独立日期面板通过根 `presentation` 选择内容；独立面板内容默认 `calendarPicker`，不带时间时显示日历；字段的 popup 内容默认 `calendar`。`DatePickerOptions` / `DateRangePickerOptions` 不能覆盖根组件选择的面板模式。周起始、视口、快捷项和合法外观仍可嵌套配置。单值根支持 picker/calendar/calendarPicker，范围根支持 picker/calendar/calendarPicker；Cedar 只有桌面日历，不提供这些空模式。
 
 ### 周起始日的响应式展示
 
@@ -420,13 +420,13 @@ actions 插槽提供 `{ confirm, disabled, selectNow, nowDisabled }`。自定义
 
 更新或移除 `min` / `max` 只影响可选日期，不自动修改已有模型或草稿。日历的日/月/年导航状态根据当前视口和两端限制派生；移除一端限制只恢复对应方向，不释放另一端，也不触发选择或提交。
 
-### Form 字段展示与确认
+### 编辑与确认
 
 本组件支持 `edit-mode`，字段 > FormItem > Form 逐层继承；未指定时为 `popup`，点击值区域打开编辑面板。支持值：`direct / popup`。非 direct 编辑模式通过字段值入口打开编辑面板，并维护单份草稿；确认后才更新 v-model，取消、重置或启用 readPretty 时丢弃草稿。
 
 Maple 使用 edit-mode="popup" 点击值区域打开编辑面板；direct 直接编辑。 readPretty 为纯阅读属性，与 readonly、disabled 独立。
 
-`before-commit(value, { previousValue, signal })` 可拦截弹层保存；FormItem 先校验候选值，失败保持编辑。`open / default-open / update:open` 控制编辑层。`#read="{ value, text }"` 可自定义阅读内容。集中示例见 Form 的“各类字段统一展示”。
+`before-commit(payload, done, context)` 可拦截弹层保存；FormItem 先校验候选值，失败保持编辑。`open / default-open / update:open` 控制编辑层。`#read="{ value, text }"` 可自定义阅读内容。集中示例见 Form 的“各类字段统一展示”。
 
 日期／时间字段在 inline 下沿用原确认策略；在 popover/popup 中，内部纯面板隐藏确认工具栏，由编辑层提供唯一一组确认／取消。独立 DatePicker、DateRangePicker、TimePicker、TimeRangePicker 保留原有面板 API 和确认行为，不继承 Form 的字段展示。
 
@@ -434,7 +434,7 @@ Maple 使用 edit-mode="popup" 点击值区域打开编辑面板；direct 直接
 
 ### 统一字段与提交
 
-Date / DateRange / Time / TimeRange 使用同源的 PickerField → FieldDecorator 字段层。Date/DateRange 默认允许手输（可关闭）；Time 是否手输由其 inputEditable 控制。面板编辑草稿，确认才写回，取消或外部关闭不改变值。清除立即写入空值并关闭面板，不恢复旧草稿。日期和时间范围显示两个独立输入位置，跨日时间保留“次日”提示。
+Date / DateRange 默认允许手输，可通过 input-editable 关闭；Time 是否手输由 inputEditable 控制。面板编辑草稿，确认才写回，取消或外部关闭不改变值。清除立即提交空值并关闭面板。日期和时间范围分别显示两个输入位置，跨日时间保留“次日”提示。
 
 ```demo
 ../example/demos/field-protocol.vue
@@ -458,9 +458,9 @@ Date / DateRange / Time / TimeRange 使用同源的 PickerField → FieldDecorat
 
 ### 透传配置边界与优先级
 
-建议使用 `DatePopupOptions` 声明 popup-props；仅用于 inline 锚定弹层的允许展示/定位配置。open/defaultOpen、disabled/readonly、modelValue、值格式、日期规则及通知监听由字段管理，已有 datePresentationOptions 会过滤托管字段和 onXxx 监听。popup-container 顶层明确传入时优先（包括 false），否则回退 popupProps.popupContainer；popupClass 与内部类合并。trigger、closeOnClickReference、preventFocus、popupOffset 由字段展示层固定（偏移当前为 4）；Maple 还固定 unmountOnClose=true。新类型为两端共同的安全子集，不能设置这些固定项；Cedar 旧配置可透传的 unmountOnClose 不受本次影响。可使用 popupTranslate 定制附加平移。其他有效展示字段保持原透传。
+使用 `DatePopupOptions` 配置 `popup-props`，调整锚定弹层的外观和定位。open/defaultOpen、disabled/readonly、modelValue、值格式、日期规则及通知监听由字段管理，组件会过滤由字段管理的配置和通知监听器。popup-container 顶层明确传入时优先（包括 false），否则回退 popupProps.popupContainer；popupClass 与内部类合并。trigger、closeOnClickReference、preventFocus、popupOffset 由字段展示层固定（偏移当前为 4）；Maple 还固定 unmountOnClose=true。这些固定项由字段管理；Cedar 的 `unmountOnClose` 可通过现有浮层配置设置。可使用 popupTranslate 定制附加平移。其他有效展示字段保持原透传。
 
-本次仅新增可主动选用的专用类型，不收窄已发布的宽属性类型，不增加运行时过滤、不改变覆盖顺序；旧业务写法继续可编译。若直接使用旧宽属性，内部托管字段仍可能通过类型检查，但不代表能控制内部状态。
+建议使用本页列出的专用配置类型；展开状态、模型和事件由组件管理，不能通过嵌套配置接管。
 
 ```ts
 import type { DatePopupOptions } from '@maple-design/ui'
@@ -488,6 +488,51 @@ import type { DatePopupOptions } from '@maple-design/ui'
 
 组件继承最近的 `dir="ltr|rtl"`，支持运行时切换与局部方向覆盖。日历日期、月份、年份按阅读顺序排列，前后翻页图形随方向调整，日期值与起止顺序保持原义。分页网格中左右键按视觉方向移动焦点，上下键移动一行，Home/End 移至当前行首尾并跳过禁用项；焦点移动不提交，Enter/Space 沿用选值行为，边界停留在当前显示网格。快捷区 `shortcuts-position="left|right"` 保持物理侧，底部使用 `bottom`。弹层继承字段来源方向。
 
+## 触发与定位
+
+### 弹层定位
+
+Date 字段默认从输入框下方 bottom-start 打开。需要时通过 popupProps.placement 覆盖首选方位，由底层 Trigger 定位；不是透传给 Popup 或 Popover。DatePicker 是独立日期面板，没有输入框锚点；弹层位置通过 Date 字段配置。
+
+公共 focus/blur 从首次挂载即可调用。focus 会打开可编辑的延迟编辑器，等待其就绪后定位；禁用、只读或纯阅读时不因此打开。blur 只失焦当前目标，不重新打开。保存的方法不会绑定旧编辑器，关闭、切换模式、停用或卸载会取消排队调用。
+
+## 使用说明
+
+### 面板配置
+
+DatePicker 与 DateRangePicker 用于独立日期选择。通过 `show-current` 控制当前日期高亮，使用 `picker-value` 或 `default-picker-value` 设置面板显示的日期。
+
+控制当前日期高亮使用 showCurrent，选择当前按钮使用 showNowButton；定位面板视口使用 pickerValue 或 defaultPickerValue，约束可选值使用 min、max 和 disabledDate。已有的列字段、缩写、滚轮配置、外观和真实面板功能继续保留。loading-icon 没有接通到该面板或日期字段的公共插槽，不列为可用能力。
+
+
+<!-- date-contract:start -->
+
+### 值与格式
+
+DateValue 为 string、number 或原生 Date。数值按时间戳处理，0 不按空值处理；modelValue=null 是显式空值。范围使用宽数组并允许不完整端点，不把现有协议强制改成二元组；提交仍校验完整性与合法性。Maple 通用 DatePicker/Date 的多选能力不扩展到 Cedar 单值 Props。
+
+属性表列出实际公开集合；继承及按精度说明表示有效缺省，原始 Props 可为 undefined。format 控制显示与手输，valueFormat 控制模型协议。week/quarter 的显示标签与模型格式不同；函数 format 无反向解析，不能据此开启手输。
+
+min/max 包含端点；非法的已提供边界阻止确认，不静默当作未设置。动态收紧规则不清空已有业务模型。disabledDate/disabledTime 是明确校验回调，不是异步事件任务，时间禁用回调返回 DateDisabledTime 的禁用列表。
+
+### Date Slots / Methods
+
+字段 default 可替换触发区；prefix/selected/suffix 替换相应内容，范围还支持 separator。替换原生控件时保留名称、起止区别及键盘入口。read 接收 { value, text }，suffix-icon 接收 { focus, popupOpen }，clear-icon 接收受保护的 clear(event?)；不直接绕过 emptyValue 或禁用/只读守卫。
+
+actions 的参数为 { confirm, disabled, selectNow, nowDisabled }，两个动作返回 void；没有时间面板的 canConfirm/value 参数。disabled=true 时不能确认。独立面板可以替换整块操作区；托管编辑的最终保存由外层编辑壳负责，面板只贡献辅助操作，不把其 confirm 当作外层保存方法。
+
+此刻能力按面板定义：Cedar 单值面板支持，Cedar 范围面板没有此刻入口；Maple 范围面板对当前端暂存此刻，另一端保留并仍需确认。不要只因 scope 中存在 selectNow 就假定所有模式都支持此刻。
+
+Cedar cell 定制日历格，参数含 date，范围另含 type=start/end；extra 是附加内容。Maple Date/DatePicker 在 page 日历摘要中支持 year({year})、month({year,month})、date({week,year,month,date})、range({choose})、multiple({choose})；后两者按实际模式使用。Maple DateRange/DateRangePicker 不转发这些单值摘要槽，scroll/line 视口也不承诺摘要槽。
+
+loading-icon 尚未接通到日期字段或纯面板，不因底层装饰器支持而列为可用槽。字段 focus(index?)、blur() 委托真实控件；Cedar/直接字段 blur 会关闭字段浮层，Maple 范围持久 reference 的 blur 只清其焦点，不冒充外层 Drawer 关闭。纯面板没有公开 focus/blur 方法。
+
+### 展示配置与日期范围
+
+datePickerProps/dateRangePickerProps 只配置展示，不能覆盖根模型、规则、类型或控制事件；Maple 范围内部 datePickerProps 另用日历白名单。popupProps 保留宽字典入口，推荐公开 DatePopupOptions/DateRangePopupOptions，运行时仍过滤所有者字段。Cedar timePickerProps 只配置内嵌时间展示；Maple 使用 pickerProps 配置滚轮。
+
+范围 placeholder 字符串重复用于两端，数组分别指定起止且缺项为空；readonly 与 disabled 分开，未设置字段值时继承表单。Cedar 范围面板 exchangeTime 只处理交互候选反序：true 连时间交换，false 保留端点时间；不会重排外部模型、手输或快捷值。Maple 未公开该属性。
+
 ## API
 
 ### 空值识别与阅读空文案
@@ -501,62 +546,74 @@ import type { DatePopupOptions } from '@maple-design/ui'
 
 以上是字段展示层 API；纯面板不因此新增阅读模式。Form 与 FormItem 提供继承配置。empty-value 的现有类型与默认输出仍按该组件原 API 执行。
 
-### 同源规则与事件
+### 值与事件
 
 `DateValue = Date | string | number`。无效日期、不完整或逆序范围不能提交。min/max 包含边界，字符串按 value-format 解析，也可直接传 Date 或时间戳。确认时重新校验规则。`disabledTime` 返回 `disabledHours()`、`disabledMinutes(hour)`、`disabledSeconds(hour, minute)` 数字列表。纯面板通过校验后触发 `confirm(value, date(s), text(s))`；字段展开使用 `update:open` / `open-change`，不再使用 close。嵌套面板和弹层 props 只配置展示，不能覆盖顶层模型、规则与状态事件。范围 disabled 支持 `[起点禁用, 终点禁用]`，锁定端点不能被清除或修改。
 
-### 属性
+### Date Props
 
-| 参数                  | 说明                                                                                                                                           | 类型                                               | 默认值                |
-| --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------- | --------------------- |
-| `model-value`         | 受控值                                                                                                                                         | DateValue / DateValue[] (multiple/range)           | `undefined`           |
-| `default-value`       | 非受控初始值，仅初始化读取                                                                                                                     | DateValue / DateValue[] (multiple/range)           | `undefined`           |
-| `input-editable`      | 是否允许手输；默认 true，函数 format/multiple 保持只读                                                                                         | boolean                                            | true                  |
-| `open-trigger-target` | 打开面板的点击区域：field 为整个字段，icon 仅右侧选择按钮。清除、移除等独立操作除外；不影响键盘展开和受控 open。                               | `'field' \| 'icon'`                                | `'field'`             |
-| `format`              | 展示格式或格式化函数                                                                                                                           | string / (date: Date) => string                    | —                     |
-| `value-format`        | 模型格式、Date 或 timestamp                                                                                                                    | string                                             | —                     |
-| `disable-confirm`     | 选择后立即提交                                                                                                                                 | boolean                                            | 字段 false；面板 true |
-| `open`                | 弹层显隐受控                                                                                                                                   | _boolean_                                          | `-`                   |
-| `default-open`        | 非受控初始展开                                                                                                                                 | boolean                                            | false                 |
-| `popup-container`     | 浮层挂载目标，顶层优先且支持 false                                                                                                             | string / HTMLElement / (() => HTMLElement) / false | —                     |
-| `panel-type`          | 面板模式，可选值 `picker` `calendar` `calendarPicker`                                                                                          | _string_                                           | `calendar`            |
-| `type`                | 选择类型，可选值 `year` `month` `date`                                                                                                         | _string_                                           | `date`                |
-| `show-time`           | 是否选择时间                                                                                                                                   | _boolean_                                          | `false`               |
-| `multiple`            | 是否多选                                                                                                                                       | _boolean_                                          | `false`               |
-| `min`                 | 可选最小日期                                                                                                                                   | DateValue                                          | `-`                   |
-| `max`                 | 可选最大日期                                                                                                                                   | DateValue                                          | `-`                   |
-| `disabled-date`       | true 为禁用；side 为 start 或 end                                                                                                              | (date: Date, side: DateSide) => boolean            | —                     |
-| `disabled-time`       | 当前日期和端点的禁用时分秒列表                                                                                                                 | (date: Date, side: DateSide) => DateDisabledTime   | —                     |
-| `separator`           | 多选展示分隔符                                                                                                                                 | _string_                                           | `, `                  |
-| `date-picker-props`   | 透传给 `mp-date-picker` 的属性                                                                                                                 | _DatePickerOptions_                                | `{}`                  |
-| `popup-props`         | 可选的字段浮层展示配置，placement 默认 bottom-start；交给底层 Trigger 自动定位，可覆盖首选方位；不增加顶层 placement，不允许覆盖字段状态和规则 | _Partial\<PopupProps\>_                            | `{}`                  |
-| `placeholder`         | 占位符                                                                                                                                         | _string_                                           | `-`                   |
-| `clearable`           | 是否可清除                                                                                                                                     | _boolean_                                          | `true`                |
-| `disabled`            | 是否禁用                                                                                                                                       | _boolean_                                          | `false`               |
-| `readonly`            | 是否只读                                                                                                                                       | _boolean_                                          | `false`               |
-| `size`                | 尺寸，可选值 `xs` `sm` `md` `lg` `xl`                                                                                                          | _ComponentSize_                                    | `md`                  |
-| `variant`             | 风格，可选值 `filled` `standard` `outline`                                                                                                     | _string_                                           | `standard`            |
+| 参数 | 说明 | 类型 | 缺省说明 |
+| --- | --- | --- | --- |
+| `before-commit` | 显式字段保存守卫，使用 payload、done、context | `BeforeFieldCommit` | `undefined` |
+| `blur-color` | 失焦时的颜色 | `string` | 主题缺省 |
+| `clearable` | 允许清除；不会绕过禁用、只读或等待状态 | `boolean` | `true` |
+| `date-fields` | 日期滚轮列及顺序；显式列表决定可见列 | `readonly DatePickerField[]`<br>`DatePickerField: 'month' \| 'year' \| 'day'` | 按精度推导 |
+| `date-picker-props` | 日期面板展示选项，根拥有模型、规则和类型 | `DatePickerOptions` | `{}` |
+| `default-open` | 非受控初始开关，仅创建时读取 | `boolean` | `false` |
+| `default-value` | 非受控初始值，仅创建时读取 | `DateValue \| DateValue[]` | `undefined` |
+| `disable-confirm` | 选择后立即提交；false 保留草稿待确认 | `boolean` | `false` |
+| `disabled` | 禁用交互；字段未设时继承 FormItem/Form | `boolean` | 继承，最终 false |
+| `disabled-date` | 返回 true 禁用当前日期，side 为 start/end | `(date: Date, side: DateSide) => boolean`<br>`DateSide: 'end' \| 'start'` | `undefined` |
+| `disabled-time` | 按日期与端点返回禁用小时、分钟、秒列表 | `(date: Date, side: DateSide) => DateDisabledTime`<br>`DateSide: 'end' \| 'start'` | `undefined` |
+| `edit-mode` | 字段编辑模式；未设时继承 FormItem/Form | `FieldEditMode`<br>`'direct' \| 'popup'` | 继承，最终 popup |
+| `empty-text` | 纯阅读模式的空内容文字 | `string` | 继承，最终 '-' |
+| `empty-value` | 清空输出或同步工厂，不改变 emptyValues 识别 | `DateValue \| null \| (() => DateValue \| null \| undefined)` | `undefined` |
+| `empty-values` | 空值识别列表，覆盖而不合并 | `readonly unknown[]` | 继承/组件族默认 |
+| `error` | 字段错误展示；未设时继承 | `boolean` | 继承，最终 false |
+| `focus-color` | 聚焦时的颜色 | `string` | 主题缺省 |
+| `format` | 显示与手输格式；函数只展示，无反向手输解析 | `string \| ((date: Date) => string)` | 按精度/时间配置 |
+| `hint` | 浮动占位提示；存在 Form 外置标签时不浮动 | `boolean` | `true` |
+| `input-editable` | 允许手输；不影响面板选择入口 | `boolean` | `true` |
+| `interactive-mode` | Maple 日历视口模式；不是字段编辑模式 | `page \| scroll \| line` | `page` |
+| `line` | 显示外壳边框或底线 | `boolean` | `true` |
+| `loading` | 手动加载反馈，不从事件返回值推导 | `boolean` | `false` |
+| `loading-mode` | 字段加载展示模式 | `default \| line` | default |
+| `max` | 包含上界，非法的已提供边界不会被静默忽略 | `DateValue` | `undefined` |
+| `min` | 包含下界，非法的已提供边界不会被静默忽略 | `DateValue` | `undefined` |
+| `model-value` | 外部日期值；undefined 为非受控，null 为显式空值 | `DateValue \| DateValue[] \| null` | `undefined` |
+| `multiple` | Maple 多选；避免同时开启范围模式 | `boolean` | `false` |
+| `open` | 受控编辑层开关 | `boolean` | `undefined` |
+| `open-trigger-target` | 点击整个字段或仅图标打开；不限制键盘打开 | `field \| icon` | field |
+| `panel-type` | Maple 字段面板形态，独立于 editMode | `calendar \| picker \| calendarPicker` | `calendar` |
+| `picker-props` | Maple 日期/时间滚轮展示配置，不接管根模型与规则 | `DateWheelOptions` | `{}` |
+| `placeholder` | 字段占位文字，未设跟随 Locale | `string` | `undefined` |
+| `popup-container` | 编辑层挂载容器，false 保持原位 | `PopupContainer` | 共享容器缺省 |
+| `popup-props` | Trigger 展示配置；运行时过滤根状态、模型、规则和控制监听器 | `Record<string, unknown>` | `{}` |
+| `read-pretty` | 纯阅读展示，不渲染编辑器；独立于 readonly | `boolean` | 继承，最终 false |
+| `readonly` | 只读；字段可聚焦复制，不改值或展开编辑 | `boolean` | 继承，最终 false |
+| `separator` | 内容拼接或起止显示的分隔文字，允许空串 | `string` | `, ` |
+| `show-time` | 启用时刻精度和时间选择，可见精度由格式决定 | `boolean` | `false` |
+| `size` | 五档尺寸；字段遵循表单继承 | `ComponentSize`<br>`'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | 继承，最终 md |
+| `text-color` | 内容文字颜色 | `string` | 主题缺省 |
+| `time-fields` | 滚轮列及顺序；显式列表决定可见列，不改格式或模型 | `readonly TimePickerField[]`<br>`TimePickerField: 'hour' \| 'minute' \| 'second'` | 按格式推导 |
+| `time-zone` | IANA 时区；无效时区不会回退成有效可选值 | `string` | 系统本地时区 |
+| `type` | 日期精度；Cedar 支持周/季度，Maple 支持日期/月/年 | `date \| month \| year` | `date` |
+| `use-virtual-scroll` | Maple scroll 视口使用虚拟渲染 | `boolean` | `true` |
+| `value-format` | 序列化模型格式，支持 Date、timestamp 或格式字符串；独立于 format | `string` | 按精度/时间配置 |
+| `variant` | 字段外观 | `filled \| outline \| standard` | `standard` |
 
-### 事件
+### Date Events
 
-| 事件名        | 说明                                   | 参数                              |
-| ------------- | -------------------------------------- | --------------------------------- |
-| `focus`       | 聚焦时触发                             | `-`                               |
-| `blur`        | 失焦时触发                             | `-`                               |
-| `click`       | 点击时触发                             | `event: Event`                    |
-| `clear`       | 清除：单值为 undefined，多选/范围为 [] | —                                 |
-| `open-change` | 展开状态改变                           | open: boolean                     |
-| `change`      | 通过校验并正式提交                     | value, date(s), formatted text(s) |
-| `select`      | 选择草稿，不代表已提交                 | value, date(s), formatted text(s) |
+字段与面板的完整事件分别见本页对应完整列表。
 
-### 方法
+### Date Methods
 
 | 方法名  | 说明 | 参数 | 返回值 |
 | ------- | ---- | ---- | ------ |
 | `focus` | 聚焦 | `-`  | `-`    |
 | `blur`  | 失焦 | `-`  | `-`    |
 
-### 插槽
+### Date Slots
 
 | 插槽名        | 说明         | 参数                                 |
 | ------------- | ------------ | ------------------------------------ |
@@ -566,62 +623,54 @@ import type { DatePopupOptions } from '@maple-design/ui'
 | `suffix`      | 后缀         | `-`                                  |
 | `suffix-icon` | 箭头图标     | `focus: boolean, popupOpen: boolean` |
 
-## 配置清空后的值
+### DatePicker Props
 
-`empty-value` 指定当前组件已有清空动作的输出；省略时采用该组件默认返回。具体类型以组件 API 为准。它不改变 empty-values 的识别规则，也不改变 Form reset 的初始值。
+| 参数 | 说明 | 类型 | 缺省说明 |
+| --- | --- | --- | --- |
+| `abbreviation` | 月份网格使用缩写，false 使用完整月份名 | `boolean` | `true` |
+| `button-elevation` | Maple 内部日历按钮阴影 | `boolean \| number` | `true` |
+| `color` | Maple 日历主题色 | `string` | 主题缺省 |
+| `date-fields` | 日期滚轮列及顺序；显式列表决定可见列 | `readonly DatePickerField[]`<br>`DatePickerField: 'month' \| 'year' \| 'day'` | 按精度推导 |
+| `day-start-of-week` | 每周第一天，仅日历展示，整数 0～6 | `DateWeekStart` | `0` |
+| `default-picker-value` | 初始日历视口，仅初始化读取；优先已选值，再用当前日期 | `DateSelection` | `undefined` |
+| `default-value` | 非受控初始值，仅创建时读取 | `DateValue \| DateValue[]` | `undefined` |
+| `disable-confirm` | 选择后立即提交；false 保留草稿待确认 | `boolean` | `true` |
+| `disabled` | 禁用面板选择和提交 | `boolean` | `false` |
+| `disabled-date` | 返回 true 禁用当前日期，side 为 start/end | `(date: Date, side: DateSide) => boolean`<br>`DateSide: 'end' \| 'start'` | `undefined` |
+| `disabled-time` | 按日期与端点返回禁用小时、分钟、秒列表 | `(date: Date, side: DateSide) => DateDisabledTime`<br>`DateSide: 'end' \| 'start'` | `undefined` |
+| `elevation` | 面板阴影等级，false 关闭 | `boolean \| number` | `false` |
+| `empty-value` | 清空输出或同步工厂，不改变 emptyValues 识别 | `DateValue \| null \| (() => DateValue \| null \| undefined)` | `undefined` |
+| `format` | 显示与手输格式；函数只展示，无反向手输解析 | `string \| ((date: Date) => string)` | 按精度/时间配置 |
+| `hint` | Maple 摘要提示，摘要区域显示时生效 | `string` | `Locale` |
+| `interactive-mode` | Maple 日历视口模式；不是字段编辑模式 | `page \| scroll \| line` | `page` |
+| `max` | 包含上界，非法的已提供边界不会被静默忽略 | `DateValue` | `undefined` |
+| `min` | 包含下界，非法的已提供边界不会被静默忽略 | `DateValue` | `undefined` |
+| `model-value` | 外部日期值；undefined 为非受控，null 为显式空值 | `DateValue \| DateValue[] \| null` | `undefined` |
+| `multiple` | Maple 多选；避免同时开启范围模式 | `boolean` | `false` |
+| `picker-props` | Maple 日期/时间滚轮展示配置，不接管根模型与规则 | `DateWheelOptions` | `{}` |
+| `picker-value` | 受控日历视口，不是选中值；范围视口含两个日期 | `DateSelection` | `undefined` |
+| `presentation` | Maple 独立面板展示方式 | `calendar \| picker \| calendarPicker` | `calendarPicker` |
+| `preview-shortcut` | 悬停/聚焦快捷项时预览，不提交 | `boolean` | `true` |
+| `range` | Maple 通用独立面板的范围模式 | `boolean` | `false` |
+| `readonly` | 只读面板，不改变候选或提交 | `boolean` | `false` |
+| `shortcuts` | 快捷项；值或按需执行的同步值工厂，可含 format/disabled | `DateShortcut[]` | `[]` |
+| `shortcuts-position` | 快捷项位置 | `left \| bottom \| right` | `bottom` |
+| `show-current` | 仅高亮当前日期，不改变选择或模型 | `boolean` | `true` |
+| `show-now-button` | 显示此刻操作；范围能力按各端实际面板定义 | `boolean` | `true` |
+| `show-time` | 启用时刻精度和时间选择，可见精度由格式决定 | `boolean` | `false` |
+| `time-fields` | 滚轮列及顺序；显式列表决定可见列，不改格式或模型 | `readonly TimePickerField[]`<br>`TimePickerField: 'hour' \| 'minute' \| 'second'` | 按格式推导 |
+| `time-zone` | IANA 时区；无效时区不会回退成有效可选值 | `string` | 系统本地时区 |
+| `title-color` | Maple 摘要标题背景色，优先于 color | `string` | 主题缺省 |
+| `touchable` | Maple 日历的触摸翻页；仍受视口模式和只读约束 | `boolean` | `true` |
+| `type` | 日期精度；Cedar 支持周/季度，Maple 支持日期/月/年 | `date \| month \| year` | `date` |
+| `use-virtual-scroll` | Maple scroll 视口使用虚拟渲染 | `boolean` | `true` |
+| `value-format` | 序列化模型格式，支持 Date、timestamp 或格式字符串；独立于 format | `string` | 按精度/时间配置 |
 
-## 滚轮可见字段
+### DatePicker Events
 
-`date-fields` 与 `time-fields` 分别控制日期、时间滚轮列的显隐及顺序，两组不会交错排列。范围起止两端共用配置，字段与独立面板使用相同属性。
+字段与面板的完整事件分别见本页对应完整列表。
 
-| 属性          | 类型                       | 默认值                   | 说明                                                        |
-| ------------- | -------------------------- | ------------------------ | ----------------------------------------------------------- |
-| `date-fields` | readonly DatePickerField[] | 按 type 生成年、月、日列 | 可选 year、month、day；只影响列式日期选择，不改变日历网格。 |
-| `time-fields` | readonly TimePickerField[] | 时、分、秒               | 可选 hour、minute、second；也控制日历内的时间滚轮。         |
-
-数组需非空、无重复，显式数组严格决定可见列与顺序；未传属性时采用默认列。两组字段各自校验，不能混用。隐藏字段保留已有值，编辑合并回完整草稿；更改字段配置不会提交主值。嵌套展示配置不能覆盖根属性。
-
-Date/DateRange 的时间区域仅在 show-time 开启时生效。`format` 控制输入显示，`value-format` 控制保存格式，均不决定面板列。未指定格式时日期时间默认保存到秒；只需分钟字符串时，另行设置 format 与 value-format。隐藏年份仍使用完整草稿中的年份；仅保存 MM-DD 无法表达跨年范围，闰年和跨年业务应保存完整日期。
-
-## DatePicker API
-
-### 属性
-
-| 参数                | 说明                                                    | 类型                                             | 默认值                |
-| ------------------- | ------------------------------------------------------- | ------------------------------------------------ | --------------------- |
-| `model-value`       | 受控值                                                  | DateValue / DateValue[] (multiple/range)         | `undefined`           |
-| `default-value`     | 非受控初始值，仅初始化读取                              | DateValue / DateValue[] (multiple/range)         | `undefined`           |
-| `format`            | 展示格式或格式化函数                                    | string / (date: Date) => string                  | —                     |
-| `value-format`      | 模型格式、Date 或 timestamp                             | string                                           | —                     |
-| `disable-confirm`   | 选择后立即提交                                          | boolean                                          | 字段 false；面板 true |
-| `type`              | 选择器类型，可选值为 `date month year`                  | _string_                                         | `date`                |
-| `presentation`      | 面板形态：`calendar` `picker` `calendarPicker`          | _string_                                         | `calendarPicker`      |
-| `show-time`         | 是否选择时间                                            | _boolean_                                        | `false`               |
-| `disabled-date`     | true 为禁用；side 为 start 或 end                       | (date: Date, side: DateSide) => boolean          | —                     |
-| `disabled-time`     | 当前日期和端点的禁用时分秒列表                          | (date: Date, side: DateSide) => DateDisabledTime | —                     |
-| `color`             | 选择器的颜色                                            | _string_                                         | `-`                   |
-| `title-color`       | 标题背景色。如果未指定，将使用 `color` 属性或默认颜色。 | _string_                                         | `-`                   |
-| `hint`              | 选择器提示语                                            | _string_                                         | `选择日期`            |
-| `elevation`         | 海拔高度，可选值为 `true` `false` 和 `0-24` 的等级      | _number \| boolean_                              | `false`               |
-| `button-elevation`  | Button 的海拔高度                                       | _string \| number \| boolean_                    | `true`                |
-| `day-start-of-week` | 设置一周的第一天，从周日的 0 开始。                     | _DateWeekStart_                                  | `0`                   |
-| `min`               | 允许的最小日期/月份（ISO 8601格式）                     | DateValue                                        | `-`                   |
-| `max`               | 允许的最大日期/月份（ISO 8601格式）                     | DateValue                                        | `-`                   |
-| `show-current`      | 是否显示当前日期                                        | _boolean_                                        | `true`                |
-| `readonly`          | 是否只读                                                | _boolean_                                        | `false`               |
-| `multiple`          | 是否支持选择多个日期                                    | _boolean_                                        | `false`               |
-| `range`             | 是否支持选择一个范围                                    | _boolean_                                        | `false`               |
-| `touchable`         | 是否支持拖动切换面板                                    | _boolean_                                        | `true`                |
-
-### 事件
-
-| 事件名    | 说明                   | 回调参数                                              |
-| --------- | ---------------------- | ----------------------------------------------------- |
-| `preview` | 日期切换时触发         | `year: number` <br>`month: number` <br>`day?: number` |
-| `change`  | 通过校验并正式提交     | value, date(s), formatted text(s)                     |
-| `select`  | 选择草稿，不代表已提交 | value, date(s), formatted text(s)                     |
-
-### 插槽
+### DatePicker Slots
 
 `weekIndex` 表示一周的第 `n` 天，从周末的 `0` 开始
 
@@ -634,57 +683,165 @@ Date/DateRange 的时间区域仅在 show-time 开启时生效。`format` 控制
 | `multiple` | 自定义标题中的多选 | `choose: ['YYYY-MM-DD' \| 'YYYY-MM']`                                |
 | `actions`  | 自定义确认操作     | `{ confirm, disabled }`                                              |
 
-### 样式变量
+## 配置清空后的值
 
-以下为组件使用的 css 变量，可以使用 [StyleProvider 组件](#/zh-CN/style-provider) 进行样式定制。
+`empty-value` 指定当前组件已有清空动作的输出；省略时采用该组件默认返回。具体类型以组件 API 为准。它不改变 empty-values 的识别规则，也不改变 Form reset 的初始值。
 
-| 变量名                                          | 默认值                                        |
-| ----------------------------------------------- | --------------------------------------------- |
-| `--mp-date-picker-border-radius`                | `4px`                                         |
-| `--mp-date-picker-font-size`                    | `var(--mp-font-size-md)`                      |
-| `--mp-date-picker-min-width`                    | `290px`                                       |
-| `--mp-date-picker-main-color`                   | `rgba(0, 0, 0, .87)`                          |
-| `--mp-date-picker-title-hint-color`             | `var(--mp-color-text-3)`                      |
-| `--mp-date-picker-title-hint-font-size`         | `var(--mp-font-size-md)`                      |
-| `--mp-date-picker-title-height`                 | `105px`                                       |
-| `--mp-date-picker-title-padding`                | `16px`                                        |
-| `--mp-date-picker-title-background`             | `var(--mp-date-picker-body-background-color)` |
-| `--mp-date-picker-title-color`                  | `var(--mp-color-text-1)`                      |
-| `--mp-date-picker-title-year-font-size`         | `var(--mp-font-size-md)`                      |
-| `--mp-date-picker-title-year-font-weight`       | `500`                                         |
-| `--mp-date-picker-title-year-margin-bottom`     | `8px`                                         |
-| `--mp-date-picker-title-year-min-height`        | `21px`                                        |
-| `--mp-date-picker-title-date-height`            | `48px`                                        |
-| `--mp-date-picker-title-date-font-size`         | `34px`                                        |
-| `--mp-date-picker-title-date-font-weight`       | `500`                                         |
-| `--mp-date-picker-title-date-range-font-size`   | `20px`                                        |
-| `--mp-date-picker-title-date-justify-content`   | `normal`                                      |
-| `--mp-date-picker-header-arrow-filter`          | `opacity(0.54)`                               |
-| `--mp-date-picker-body-background-color`        | `#fff`                                        |
-| `--mp-date-picker-body-height`                  | `280px`                                       |
-| `--mp-date-picker-body-padding`                 | `0`                                           |
-| `--mp-date-picker-header-padding`               | `4px 16px`                                    |
-| `--mp-date-picker-actions-padding`              | `0 8px 12px 8px`                              |
-| `--mp-date-picker-header-color`                 | `#555`                                        |
-| `--mp-month-picker-padding`                     | `0 12px`                                      |
-| `--mp-month-picker-item-width`                  | `33%`                                         |
-| `--mp-month-picker-item-height`                 | `56px`                                        |
-| `--mp-month-picker-item-button-max-width`       | `140px`                                       |
-| `--mp-year-picker-padding`                      | `0 12px`                                      |
-| `--mp-year-picker-item-width`                   | `33%`                                         |
-| `--mp-year-picker-item-height`                  | `56px`                                        |
-| `--mp-year-picker-item-button-max-width`        | `140px`                                       |
-| `--mp-day-picker-content-item-width`            | `14.28%`                                      |
-| `--mp-day-picker-content-item-min-height`       | `21px`                                        |
-| `--mp-day-picker-content-item-font-size`        | `var(--mp-font-size-sm)`                      |
-| `--mp-day-picker-content-item-padding`          | `2px 0`                                       |
-| `--mp-day-picker-content-item-button-width`     | `32px`                                        |
-| `--mp-day-picker-content-item-button-height`    | `32px`                                        |
-| `--mp-day-picker-content-item-button-font-size` | `var(--mp-font-size-sm)`                      |
-| `--mp-day-picker-head-item-color`               | `rgba(0, 0, 0, 0.38)`                         |
-| `--mp-day-picker-head-item-padding`             | `8px 0`                                       |
-| `--mp-day-picker-head-item-font-weight`         | `600`                                         |
+## 滚轮可见字段
 
-### 方位语义与配置入口
+`date-fields` 与 `time-fields` 分别控制日期、时间滚轮列的显隐及顺序，两组不会交错排列。范围起止两端共用配置，字段与独立面板使用相同属性。
 
-Date 字段默认从输入框下方 bottom-start 打开。需要时通过 popupProps.placement 覆盖首选方位，由底层 Trigger 定位；不是透传给 Popup 或 Popover。DatePicker 是独立日期面板，没有输入框锚点，不能把旧 date/picker 目录中的 placement 当成当前 DatePicker 的公开属性。
+| 属性          | 类型                       | 默认值                   | 说明                                                        |
+| ------------- | -------------------------- | ------------------------ | ----------------------------------------------------------- |
+| `date-fields` | readonly DatePickerField[]<br>`DatePickerField: 'month' \| 'year' \| 'day'` | 按 type 生成年、月、日列 | 可选 year、month、day；只影响列式日期选择，不改变日历网格。 |
+| `time-fields` | readonly TimePickerField[]<br>`TimePickerField: 'hour' \| 'minute' \| 'second'` | 时、分、秒               | 可选 hour、minute、second；也控制日历内的时间滚轮。         |
+
+数组需非空、无重复，显式数组严格决定可见列与顺序；未传属性时采用默认列。两组字段各自校验，不能混用。隐藏字段保留已有值，编辑合并回完整草稿；更改字段配置不会提交主值。嵌套展示配置不能覆盖根属性。
+
+Date/DateRange 的时间区域仅在 show-time 开启时生效。`format` 控制输入显示，`value-format` 控制保存格式，均不决定面板列。未指定格式时日期时间默认保存到秒；只需分钟字符串时，另行设置 format 与 value-format。隐藏年份仍使用完整草稿中的年份；仅保存 MM-DD 无法表达跨年范围，闰年和跨年业务应保存完整日期。
+
+## Types
+
+### 字段事件参数类型
+
+| 事件 | 参数 |
+| --- | --- |
+| `update:modelValue` | `DateEmits['update:modelValue']` |
+| `change` | `DateEmits['change']` |
+| `select` | `DateEmits['select']` |
+| `clear` | `DateEmits['clear']` |
+| `click` | `DateEmits['click']` |
+| `focus` | `DateEmits['focus']` |
+| `blur` | `DateEmits['blur']` |
+| `update:open` | `DateEmits['update:open']` |
+| `open-change` | `DateEmits['open-change']` |
+| `update:pickerValue` | `DateEmits['update:pickerValue']` |
+| `picker-value-change` | `DateEmits['picker-value-change']` |
+| `select-shortcut` | `DateEmits['select-shortcut']` |
+
+字段值及视口通知参数使用对应公开 Emits 元组；DateChangeArgs 包含 value、date(s)、text(s)。普通监听器 Promise 不被等待，不驱动 loading。beforeCommit 使用 payload、done、context，payload 含 value/previousValue，context 含 signal/可选 event；返回 undefined 等待 done。
+
+### 面板事件参数类型
+
+独立面板只有下表七类事件，没有旧 preview 事件；导航使用 picker-value-change 和 update:pickerValue。导航、悬停/聚焦快捷预览不等于选中或提交。确认只有通过校验时才通知，选中草稿 select 与正式 change 分开。
+
+| 事件 | 参数 |
+| --- | --- |
+| `update:modelValue` | `DatePickerEmits['update:modelValue']` |
+| `change` | `DatePickerEmits['change']` |
+| `select` | `DatePickerEmits['select']` |
+| `confirm` | `DatePickerEmits['confirm']` |
+| `update:pickerValue` | `DatePickerEmits['update:pickerValue']` |
+| `picker-value-change` | `DatePickerEmits['picker-value-change']` |
+| `select-shortcut` | `DatePickerEmits['select-shortcut']` |
+
+### 类型导入
+
+```ts
+import { Date as DateField, DatePicker, type DateProps, type DatePickerProps,
+  type DateEmits, type DatePickerEmits, type DateValue, type DateSelection,
+  type DateChangeArgs, type DateRules, type DateShortcut } from '@maple-design/ui'
+```
+
+<!-- date-contract:end -->
+
+## CSS Variables
+
+以下为组件使用的 css 变量，可以使用 [ThemeProvider 组件](#/zh-CN/theme-provider) 进行样式定制。
+
+<!-- component-css-variables:start -->
+
+通过以下变量定制组件外观。默认值随表中注明的主题或选择器条件变化；变量仅在对应的尺寸、变体和交互状态下生效。
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| 变量 | 默认值／条件 | 影响的样式 |
+| --- | --- | --- |
+| `--mp-date-calendar-disabled-opacity` | `0.4` | `opacity` |
+| `--mp-date-calendar-line-height` | `60px` | `grid-auto-rows` |
+| `--mp-date-calendar-month-height` | `320px` | `height` |
+| `--mp-date-calendar-row-height` | `38px` | `grid-auto-rows`, `line-height` |
+| `--mp-date-calendar-scroll-height` | `320px` | `height` |
+| `--mp-date-calendar-selected-background` | `var(--mp-sys-color-action-primary)` | `background` |
+| `--mp-date-calendar-selected-color` | `var(--mp-button-solid-text-color)` | `color` |
+| `--mp-date-calendar-today-color` | `var(--mp-button-default-foreground-color)` | `background`, `color` |
+| `--mp-date-input-trigger-outline-color` | `var(--mp-sys-color-content-brand)` | `outline` |
+| `--mp-date-input-trigger-outline-offset` | `var(--mp-sys-space-1)` | `outline-offset` |
+| `--mp-date-input-trigger-outline-width` | `var(--mp-sys-space-1)` | `outline` |
+| `--mp-date-input-trigger-padding` | `0` | `padding` |
+| `--mp-date-picker-actions-padding` | `0 8px 12px 8px` | `padding` |
+| `--mp-date-picker-body-background-color` | `#fff` | `background`, `background-color` |
+| `--mp-date-picker-body-height` | `280px` | `height`, `min-height` |
+| `--mp-date-picker-body-padding` | `0` | `padding` |
+| `--mp-date-picker-border-radius` | `4px` | `border-radius` |
+| `--mp-date-picker-font-size` | `var(--mp-font-size-md)` | `font-size` |
+| `--mp-date-picker-header-arrow-filter` | `opacity(0.54)` | `filter` |
+| `--mp-date-picker-header-color` | `#555` | `color` |
+| `--mp-date-picker-header-padding` | `4px 16px` | `padding` |
+| `--mp-date-picker-main-color` | `rgba(0, 0, 0, 0.87)` | `color` |
+| `--mp-date-picker-min-width` | `290px` | `flex`, `min-width` |
+| `--mp-date-picker-panel-background` | `var(--mp-sys-color-surface-overlay)` | `background` |
+| `--mp-date-picker-panel-border` | `var(--mp-color-border-2)` | `border` |
+| `--mp-date-picker-panel-date-width` | `265px` | `flex`, `min-width`, `width` |
+| `--mp-date-picker-panel-preferred-width` | `var(--mp-date-picker-popover-width)` | `flex`, `width` |
+| `--mp-date-picker-panel-radius` | `8px` | `border-radius` |
+| `--mp-date-picker-popover-gap` | `32px` | `max-height`, `max-width` |
+| `--mp-date-picker-popover-max-height` | `calc(100dvh - var(--mp-date-picker-popover-gap))` | `max-height` |
+| `--mp-date-picker-popover-width` | `calc(var(--mp-date-picker-panel-date-width) + 2px)` | `flex`, `width` |
+| `--mp-date-picker-range-background` | `var(--mp-color-primary-light-1)` | `background` |
+| `--mp-date-picker-range-disabled-background` | `var(--mp-color-fill-1)` | `background` |
+| `--mp-date-picker-range-preview-background` | `var(--mp-color-fill-2)` | `background` |
+| `--mp-date-picker-range-preview-outline` | `1px dashed var(--mp-color-primary)` | `outline` |
+| `--mp-date-picker-shortcuts-column-width` | `128px` | `flex`, `width` |
+| `--mp-date-picker-title-background` | `var(--mp-date-picker-body-background-color)` | `background` |
+| `--mp-date-picker-title-color` | `var(--mp-color-text-1)` | `color` |
+| `--mp-date-picker-title-date-font-size` | `34px` | `font-size` |
+| `--mp-date-picker-title-date-font-weight` | `500` | `font-weight` |
+| `--mp-date-picker-title-date-height` | `48px` | `min-height` |
+| `--mp-date-picker-title-date-justify-content` | `normal` | `justify-content` |
+| `--mp-date-picker-title-date-range-font-size` | `20px` | `font-size` |
+| `--mp-date-picker-title-height` | `105px` | `min-height` |
+| `--mp-date-picker-title-hint-color` | `var(--mp-color-text-3)` | `color` |
+| `--mp-date-picker-title-hint-font-size` | `var(--mp-font-size-md)` | `font-size` |
+| `--mp-date-picker-title-padding` | `16px` | `padding` |
+| `--mp-date-picker-title-year-font-size` | `var(--mp-font-size-md)` | `font-size` |
+| `--mp-date-picker-title-year-font-weight` | `500` | `font-weight` |
+| `--mp-date-picker-title-year-margin-bottom` | `8px` | `margin-bottom` |
+| `--mp-date-picker-title-year-min-height` | `21px` | `min-height` |
+| `--mp-date-picker-wheel-font-size` | `5cqi` | `font-size` |
+| `--mp-date-title-font-size` | `var(--mp-picker-title-font-size, 16px)` | `font-size` |
+| `--mp-date-title-text-color` | `var(--mp-picker-title-text-color, #555)` | `color` |
+| `--mp-date-toolbar-height` | `var(--mp-picker-toolbar-height, 44px)` | `height` |
+| `--mp-date-toolbar-padding` | `var(--mp-picker-toolbar-padding, 0 4px)` | `padding` |
+| `--mp-day-picker-content-item-button-font-size` | `var(--mp-font-size-sm)` | `font-size` |
+| `--mp-day-picker-content-item-button-height` | `32px` | `height` |
+| `--mp-day-picker-content-item-button-width` | `32px` | `width` |
+| `--mp-day-picker-content-item-font-size` | `var(--mp-font-size-sm)` | `font-size` |
+| `--mp-day-picker-content-item-min-height` | `21px` | `min-height` |
+| `--mp-day-picker-content-item-padding` | `2px 0` | `padding` |
+| `--mp-day-picker-content-item-width` | `14.28%` | `width` |
+| `--mp-day-picker-head-item-color` | `rgba(0, 0, 0, 0.38)` | `color` |
+| `--mp-day-picker-head-item-font-weight` | `600` | `font-weight` |
+| `--mp-day-picker-head-item-padding` | `8px 0` | `padding` |
+| `--mp-month-picker-item-button-max-width` | `140px` | `max-width` |
+| `--mp-month-picker-item-height` | `56px` | `height` |
+| `--mp-month-picker-item-width` | `33%` | `width` |
+| `--mp-month-picker-padding` | `0 12px` | `padding` |
+| `--mp-year-picker-item-button-max-width` | `140px` | `max-width` |
+| `--mp-year-picker-item-height` | `56px` | `height` |
+| `--mp-year-picker-item-width` | `33%` | `width` |
+| `--mp-year-picker-padding` | `0 12px` | `padding` |
+
+</div>
+
+将覆盖设置在组件实际根节点或弹层真实挂载祖先上。例如给该元素添加下列 class，再按需替换变量值：
+
+```css
+.component-theme {
+  --mp-date-calendar-selected-background: var(--mp-sys-color-action-primary);
+}
+```
+
+显式行内样式及直接写入同一 CSS 属性的 Props 优先于样式表默认值。Teleport 后，普通 CSS 变量按实际挂载位置继承；使用 ThemeProvider 时，请遵循其局部主题与弹层配置规则。局部定制请直接覆盖组件变量；仅修改后代的 system 变量不会重新计算从根继承的组件别名。内部变量不属于公共 API。
+
+<!-- component-css-variables:end -->

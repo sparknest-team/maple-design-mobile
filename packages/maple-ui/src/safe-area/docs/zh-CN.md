@@ -25,7 +25,7 @@
 
 ### App 页面模拟
 
-选择竖屏、横屏或四边归零，观察滚动内容、固定提交栏和字段弹层。四边可独立输入 0–120 CSS px；横屏默认缩放到可用宽度，也可切换原尺寸查看。
+选择竖屏、横屏、Duo 左右不对称模拟或四边归零，观察滚动内容、固定提交栏和字段弹层。四边可独立输入 0–120 CSS px；横屏默认缩放到可用宽度，也可切换原尺寸查看。
 
 页面避让上、左、右，提交栏只避让底部；嵌套容器不重复增加留白。测量区显示实际 padding，弹层数值包含其原有内容间距。表单状态、上传和日期等附加控制放在“更多表单选项”中。
 
@@ -35,11 +35,21 @@
 
 ### 组件联动
 
-选择一个贴边组件，调整底部及左右留白，再打开或操作它。需要核对具体数值时，展开测量结果。所有模拟值只作用于当前示例。
+选择一个贴边组件，独立调整底部、左侧和右侧留白，再打开或操作它。需要核对具体数值时，展开测量结果。所有模拟值只作用于当前示例。
 
 ```demo
 ../example/demos/affected-components.vue
 ```
+
+### Duo 不对称安全区
+
+Duo 外屏横竖屏、内屏横竖屏和左右分屏预设会同时切换视口与四边模拟值；工具栏展开 / 收起切换小 / 大视口高度。左右避让按钮可在当前视口上交换不对称边距，归零只清空安全区。
+
+尺寸采用 WebKit 公布的 Safari 27.1 CSS 视口：外屏竖屏 382 × 580/618，外屏横屏 594 × 368/406，内屏竖屏 669 × 867/902，内屏横屏 951 × 585/620，分屏每窗 385 × 571/609。它们不是设备物理屏幕尺寸。安全区值仅用于独立压力测试，不是这些视口对应的实测 inset；Safari 已避让的侧栏不要重复补偿。四边必须独立读取；宿主在折叠、展开、旋转、分屏及安全区变化后更新相对 WebView 内容视口的剩余边距，已经避让的边传 `0`。
+
+Safari 与原生 App 的可用视口可能不同，不要把原生侧边栏宽度直接补到网页上。保留浏览器 `env()` 默认行为，宿主有准确数据时才覆盖。屏幕中间的折叠区域需要单独的分段布局，不能用四边 inset 表达。
+
+参考：[WebKit 网页适配说明](https://webkit.org/blog/18486/webkit-features-for-safari-27-1/)、[苹果安全区适配说明](https://developer.apple.com/videos/play/tech-talks/111461/)。
 
 ## 在应用中使用
 
@@ -96,9 +106,9 @@ SafeArea.setInsets(null) // 移除覆盖，恢复浏览器或继承值
 | 组件                                  | 开启方式                                | 行为                                 |
 | ------------------------------------- | --------------------------------------- | ------------------------------------ |
 | Popup                                 | `safe-area-inset-top/right/bottom/left` | 对指定边增加 padding                 |
-| Picker / ActionSheet / NumberKeyboard | `safe-area`                             | 底部留白转交给 Popup                 |
-| TabBar / FloatingPanel                | `safe-area`                             | 增加底部 padding                     |
-| Fab                                   | `safe-area`                             | 调整自身底部位置                     |
+| Picker / ActionSheet / NumberKeyboard | `safe-area`                             | 底部及左右留白转交给 Popup                 |
+| TabBar / FloatingPanel                | `safe-area`                             | 增加底部及左右 padding                     |
+| Fab                                   | `safe-area`                             | 按 position 避让所在角落的上下及左右安全区                     |
 | 表单 popup 编辑层                     | 自动处理底部与左右边距                  | 继承实际弹层宿主，不改变草稿确认流程 |
 
 ## 常见问题
@@ -111,9 +121,11 @@ SafeArea.setInsets(null) // 移除覆盖，恢复浏览器或继承值
 
 ## API
 
+### SafeArea Props
+
 | 属性    | 类型           | 默认值    | 说明                                 |
 | ------- | -------------- | --------- | ------------------------------------ |
-| edges   | 需要安全区留白的物理边，默认四边全部启用；不是位置或展开方向 | 四边      | 当前容器需要补偿的边；[] 不补偿      |
+| edges | `SafeAreaEdge[]`<br>`SafeAreaEdge: 'left' \| 'right' \| 'bottom' \| 'top'` | `['top', 'right', 'bottom', 'left']` | 需要留白的物理边；[] 不补偿，不表示位置或展开方向 |
 | insets  | SafeAreaInsets | undefined | 局部 CSS px 覆盖，0 有效，省略边继承 |
 | consume | boolean        | true      | 对后代清除已消费的边                 |
 | tag     | string         | div       | 容器标签                             |
@@ -122,20 +134,45 @@ SafeArea.setInsets(null) // 移除覆盖，恢复浏览器或继承值
 
 `SafeArea.setInsets(insets, target?)`：insets 为 SafeAreaInsets 或 null；target 默认为当前 document.documentElement。替换该目标四边覆盖，保留目标其他 CSS；不隐式注册原生监听。SSR 无 document 时安全返回；组件 insets 可以在 SSR 中输出，避免把请求相关数据写入全局模块。数值必须有限且非负，否则抛 TypeError，并在校验全部通过前不修改 DOM。
 
-## 类型定义
+## Types
 
 ```ts
-type SafeAreaEdge = 'top' | 'right' | 'bottom' | 'left'
-type SafeAreaInsets = Partial<Record<SafeAreaEdge, number>>
+import SafeArea from '@maple-design/ui/safe-area'
+import type { SafeAreaProps, SafeAreaInstance, SafeAreaEdge, SafeAreaInsets } from '@maple-design/ui'
+import type { SafeAreaProps as SubSafeAreaProps } from '@maple-design/ui/safe-area'
+const options: SafeAreaProps = { edges: ['bottom'], insets: { bottom: 0 } }
+SafeArea.setInsets({ bottom: 0 })
 ```
 
-## 样式变量
+SafeAreaEdge 是 top/right/bottom/left 的联合类型，SafeAreaInsets 是这些边到 number 的可选映射。SafeAreaInstance 表示组件实例，没有 setInsets 实例方法；setInsets 是组件对象上的静态方法，模板 ref 上不要调用。
 
-| 变量                  | 默认值                           |
-| --------------------- | -------------------------------- |
-| --mp-safe-area-top    | env(safe-area-inset-top, 0px)    |
-| --mp-safe-area-right  | env(safe-area-inset-right, 0px)  |
-| --mp-safe-area-bottom | env(safe-area-inset-bottom, 0px) |
-| --mp-safe-area-left   | env(safe-area-inset-left, 0px)   |
+## CSS Variables
 
-这些是运行环境值，不要把它们写入 Alps/Firefly 品牌主题。品牌切换使用 StyleProvider；App 适配使用 SafeArea，两者不互相清空。
+这些是运行环境值，不要把它们写入 Alps/Firefly 品牌主题。品牌切换使用 ThemeProvider；App 适配使用 SafeArea，两者不互相清空。
+
+<!-- component-css-variables:start -->
+
+通过以下变量定制组件外观。默认值随表中注明的主题或选择器条件变化；变量仅在对应的尺寸、变体和交互状态下生效。
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| 变量 | 默认值／条件 | 影响的样式 |
+| --- | --- | --- |
+| `--mp-safe-area-bottom` | `env(safe-area-inset-bottom, 0px)` | `margin-bottom`, `padding-bottom` |
+| `--mp-safe-area-left` | `env(safe-area-inset-left, 0px)` | `inset-inline-end`, `margin-left`, `padding-left`, `width` |
+| `--mp-safe-area-right` | `env(safe-area-inset-right, 0px)` | `inset-inline-end`, `margin-right`, `padding-right`, `width` |
+| `--mp-safe-area-top` | `env(safe-area-inset-top, 0px)` | `margin-top`, `padding-top` |
+
+</div>
+
+将覆盖设置在组件实际根节点或弹层真实挂载祖先上。例如给该元素添加下列 class，再按需替换变量值：
+
+```css
+.component-theme {
+  --mp-safe-area-bottom: env(safe-area-inset-bottom, 0px);
+}
+```
+
+显式行内样式及直接写入同一 CSS 属性的 Props 优先于样式表默认值。Teleport 后，普通 CSS 变量按实际挂载位置继承；使用 ThemeProvider 时，请遵循其局部主题与弹层配置规则。局部定制请直接覆盖组件变量；仅修改后代的 system 变量不会重新计算从根继承的组件别名。内部变量不属于公共 API。
+
+<!-- component-css-variables:end -->

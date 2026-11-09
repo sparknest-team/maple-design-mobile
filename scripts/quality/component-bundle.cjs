@@ -101,6 +101,7 @@ const plugin = {
     alias: {
       '@maple-design/shared': path.join(sourceRoot, 'packages/maple-shared/src/index.ts'),
       '@maple-design/use': path.join(sourceRoot, 'packages/maple-use/src/index.ts'),
+      '@maple-design/icons-vue/style.css': path.join(sourceRoot, 'packages/maple-icons-vue/style.css'),
       '@maple-design/icons-vue': path.join(sourceRoot, 'packages/maple-icons-vue/src/index.ts'),
     },
     loader: {

@@ -1,3 +1,30 @@
+export type TextInputMaxLength = number | { length: number; errorOnly?: boolean }
+
+export function isValidTextInputMaxLength(value: unknown): value is TextInputMaxLength {
+  if (typeof value === 'number') {
+    return Number.isFinite(value) && value >= 0
+  }
+  if (!value || typeof value !== 'object' || Array.isArray(value)) {
+    return false
+  }
+  const limit = value as { length?: unknown; errorOnly?: unknown }
+  return (
+    typeof limit.length === 'number' &&
+    Number.isFinite(limit.length) &&
+    limit.length >= 0 &&
+    (limit.errorOnly === undefined || typeof limit.errorOnly === 'boolean')
+  )
+}
+
+export function resolveTextInputMaxLength(value: unknown): { length: number; errorOnly: boolean } {
+  if (!isValidTextInputMaxLength(value)) {
+    return { length: 0, errorOnly: false }
+  }
+  return typeof value === 'number'
+    ? { length: value, errorOnly: false }
+    : { length: value.length, errorOnly: value.errorOnly ?? false }
+}
+
 export interface TextInputValueOptions {
   numeric?: boolean
   maxLength?: number
@@ -22,7 +49,7 @@ export function formatNumericText(value: string): string {
 export function normalizeTextInputValue(value: string, options: TextInputValueOptions): string {
   const normalized = options.numeric ? formatNumericText(value) : value
   const limit = options.maxLength
-  if (!limit || options.errorOnly) {
+  if (typeof limit !== 'number' || !Number.isFinite(limit) || limit <= 0 || options.errorOnly) {
     return normalized
   }
 

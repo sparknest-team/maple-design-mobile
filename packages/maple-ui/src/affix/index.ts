@@ -5,7 +5,7 @@ import { affixProps } from './props'
 withInstall(Affix)
 withPropsDefaultsSetter(Affix, affixProps)
 
-export { affixProps }
+export { Affix, affixProps }
 
 export type AffixInstance = InstanceType<typeof Affix>
 export const _AffixComponent: typeof Affix = Affix

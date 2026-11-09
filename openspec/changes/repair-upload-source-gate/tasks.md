@@ -1,0 +1,3 @@
+- [x] Reproduce source drift and inspect actual caption contrast
+- [x] Repair justified style differences and strict checker normalization
+- [x] Verify both Upload consumers,styles,types and native desktop/touch cards

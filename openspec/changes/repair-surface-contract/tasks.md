@@ -1,0 +1,3 @@
+- [x] Reproduce export, listener and numeric-size issues
+- [x] Align public contracts, safe numeric dimensions and documentation
+- [x] Verify both platforms, consumers, types and native browser

@@ -310,8 +310,7 @@
       "kind": "建议做组合验收",
       "priority": "P1",
       "components": [
-        "config-provider",
-        "style-provider"
+        "theme-provider"
       ],
       "reason": "主题切换应连同移到其他容器的浮层一起展示。",
       "acceptance": "同时打开弹层并切换品牌和亮暗；检查局部覆盖、禁用和错误状态。",
@@ -710,8 +709,8 @@
           "anchor": ""
         },
         {
-          "title": "同步、异步与失败恢复",
-          "source": "src/button/example/demos/auto-loading.vue",
+          "title": "受控加载与失败恢复",
+          "source": "src/button/example/demos/controlled-loading.vue",
           "anchor": ""
         }
       ],
@@ -922,6 +921,19 @@
               "url": "https://github.com/chakra-ui/chakra-ui/blob/065f71ceaf0bb1aab818abe29d7f6a205c82f2aa/apps/compositions/src/examples/button-with-disabled-link.tsx"
             }
           ]
+        },
+        {
+          "id": "controlled",
+          "label": "受控值与默认值",
+          "status": "demo",
+          "demos": [
+            {
+              "title": "受控加载与失败恢复",
+              "source": "src/button/example/demos/controlled-loading.vue",
+              "anchor": ""
+            }
+          ],
+          "evidence": []
         },
         {
           "id": "keyboard",
@@ -1148,8 +1160,8 @@
           "status": "demo",
           "demos": [
             {
-              "title": "同步、异步与失败恢复",
-              "source": "src/button/example/demos/auto-loading.vue",
+              "title": "受控加载与失败恢复",
+              "source": "src/button/example/demos/controlled-loading.vue",
               "anchor": ""
             }
           ],
@@ -2072,7 +2084,7 @@
               "anchor": ""
             }
           ],
-          "documentation": "| `disabled`   | 禁用状态                                                            | _boolean_ | `false`  |",
+          "documentation": "| `disabled` | 禁用链接 | boolean | false |",
           "evidence": [
             {
               "library": "element-plus",
@@ -3373,6 +3385,11 @@
           "title": "本组配置对照",
           "source": "src/space/example/demos/interactive-layout.vue",
           "anchor": ""
+        },
+        {
+          "title": "分隔换行与内容状态",
+          "source": "src/space/example/demos/split-wrapping.vue",
+          "anchor": ""
         }
       ],
       "featurePoints": [
@@ -3428,6 +3445,11 @@
             {
               "title": "显式换行",
               "source": "src/space/example/demos/wrap.vue",
+              "anchor": ""
+            },
+            {
+              "title": "分隔换行与内容状态",
+              "source": "src/space/example/demos/split-wrapping.vue",
               "anchor": ""
             }
           ],
@@ -3787,6 +3809,11 @@
         {
           "title": "本组配置对照",
           "source": "src/divider/example/demos/live-properties.vue",
+          "anchor": ""
+        },
+        {
+          "title": "内容占位与最小线宽",
+          "source": "src/divider/example/demos/content-flow.vue",
           "anchor": ""
         }
       ],
@@ -6153,6 +6180,11 @@
           "title": "异步切换与拦截",
           "source": "src/tab-bar/example/demos/async-change.vue",
           "anchor": ""
+        },
+        {
+          "title": "受控加载",
+          "source": "src/tab-bar/example/demos/loading.vue",
+          "anchor": ""
         }
       ],
       "featurePoints": [
@@ -6250,6 +6282,11 @@
             {
               "title": "非受控初始选中",
               "source": "src/tab-bar/example/demos/uncontrolled.vue",
+              "anchor": ""
+            },
+            {
+              "title": "受控加载",
+              "source": "src/tab-bar/example/demos/loading.vue",
               "anchor": ""
             }
           ],
@@ -6689,6 +6726,493 @@
               "title": "tabs-with-variants",
               "file": "apps/compositions/src/examples/tabs-with-variants.tsx",
               "url": "https://github.com/chakra-ui/chakra-ui/blob/065f71ceaf0bb1aab818abe29d7f6a205c82f2aa/apps/compositions/src/examples/tabs-with-variants.tsx"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "coreStrengths": [],
+      "id": "nav-menu",
+      "group": "navigation",
+      "route": "/components/nav-menu/",
+      "name": "NavMenu 导航菜单",
+      "feature": "options 驱动层级导航，横向溢出收纳与独立入口。",
+      "members": [],
+      "topics": [],
+      "demos": [
+        {
+          "title": "横向筛选栏",
+          "source": "src/nav-menu/example/demos/basic.vue",
+          "anchor": ""
+        },
+        {
+          "title": "长内容与固定操作区",
+          "source": "src/nav-menu/example/demos/long-content.vue",
+          "anchor": ""
+        },
+        {
+          "title": "受控状态与禁用",
+          "source": "src/nav-menu/example/demos/controlled.vue",
+          "anchor": ""
+        },
+        {
+          "title": "面板状态与关闭",
+          "source": "src/nav-menu/example/demos/panel-state.vue",
+          "anchor": ""
+        }
+      ],
+      "featurePoints": [
+        {
+          "id": "size",
+          "label": "尺寸与密度",
+          "status": "candidate",
+          "demos": [],
+          "evidence": [
+            {
+              "library": "arco-design-vue",
+              "name": "Arco Design Vue",
+              "title": "不同大小菜单",
+              "file": "packages/web-vue/components/menu/__demo__/size.md",
+              "url": "https://github.com/arco-design/arco-design-vue/blob/ee158dd75e81f636f34d1929fd3b19b5a6f0e32a/packages/web-vue/components/menu/__demo__/size.md"
+            }
+          ]
+        },
+        {
+          "id": "variant",
+          "label": "变体与视觉层次",
+          "status": "candidate",
+          "demos": [],
+          "evidence": [
+            {
+              "library": "vuetify",
+              "name": "Vuetify",
+              "title": "prop-rail-variant",
+              "file": "packages/docs/src/examples/v-navigation-drawer/prop-rail-variant.vue",
+              "url": "https://github.com/vuetifyjs/vuetify/blob/54a2b6a7dcb84a9894368f2ebd8bf52c3108f266/packages/docs/src/examples/v-navigation-drawer/prop-rail-variant.vue"
+            }
+          ]
+        },
+        {
+          "id": "disabled",
+          "label": "禁用与只读",
+          "status": "demo",
+          "demos": [
+            {
+              "title": "受控状态与禁用",
+              "source": "src/nav-menu/example/demos/controlled.vue",
+              "anchor": ""
+            }
+          ],
+          "documentation": "| disabled                          | 禁用所有入口                                                                             | false            |",
+          "evidence": []
+        },
+        {
+          "id": "controlled",
+          "label": "受控值与默认值",
+          "status": "demo",
+          "demos": [
+            {
+              "title": "受控状态与禁用",
+              "source": "src/nav-menu/example/demos/controlled.vue",
+              "anchor": ""
+            }
+          ],
+          "documentation": "| model-value / default-value   | 受控 / 初始选中 key，支持字符串、数字和 null                                                                                 | undefined / null  |",
+          "evidence": [
+            {
+              "library": "chakra-ui",
+              "name": "Chakra UI",
+              "title": "menu-controlled",
+              "file": "apps/compositions/src/examples/menu-controlled.tsx",
+              "url": "https://github.com/chakra-ui/chakra-ui/blob/065f71ceaf0bb1aab818abe29d7f6a205c82f2aa/apps/compositions/src/examples/menu-controlled.tsx"
+            }
+          ]
+        },
+        {
+          "id": "custom",
+          "label": "插槽与自定义内容",
+          "status": "candidate",
+          "demos": [],
+          "evidence": [
+            {
+              "library": "naive-ui",
+              "name": "Naive UI",
+              "title": "自定义字段",
+              "file": "src/menu/demos/zhCN/customize-field.demo.vue",
+              "url": "https://github.com/tusen-ai/naive-ui/blob/fe69c62663f7648c249a9786dea3565979526a38/src/menu/demos/zhCN/customize-field.demo.vue"
+            },
+            {
+              "library": "primeng",
+              "name": "PrimeNG",
+              "title": "template",
+              "file": "apps/showcase/doc/menu/template-doc.ts",
+              "url": "https://github.com/primefaces/primeng/blob/3875a0163d1387abb5d4e54f218807294e9a2797/apps/showcase/doc/menu/template-doc.ts"
+            }
+          ]
+        },
+        {
+          "id": "icons",
+          "label": "图标与图文组合",
+          "status": "candidate",
+          "demos": [],
+          "evidence": [
+            {
+              "library": "shadcn-vue",
+              "name": "shadcn-vue",
+              "title": "MenubarWithIcons",
+              "file": "apps/v4/registry/bases/reka/examples/menubar/MenubarWithIcons.vue",
+              "url": "https://github.com/unovue/shadcn-vue/blob/dd3ff4ccbb46a15081e841570e51a5a2ace095cf/apps/v4/registry/bases/reka/examples/menubar/MenubarWithIcons.vue"
+            },
+            {
+              "library": "chakra-ui",
+              "name": "Chakra UI",
+              "title": "menu-with-icon-and-command",
+              "file": "apps/compositions/src/examples/menu-with-icon-and-command.tsx",
+              "url": "https://github.com/chakra-ui/chakra-ui/blob/065f71ceaf0bb1aab818abe29d7f6a205c82f2aa/apps/compositions/src/examples/menu-with-icon-and-command.tsx"
+            }
+          ]
+        },
+        {
+          "id": "responsive",
+          "label": "响应式布局与换行",
+          "status": "candidate",
+          "demos": [],
+          "evidence": [
+            {
+              "library": "arco-design-vue",
+              "name": "Arco Design Vue",
+              "title": "响应式收缩",
+              "file": "packages/web-vue/components/menu/__demo__/breakpoint.md",
+              "url": "https://github.com/arco-design/arco-design-vue/blob/ee158dd75e81f636f34d1929fd3b19b5a6f0e32a/packages/web-vue/components/menu/__demo__/breakpoint.md"
+            }
+          ]
+        },
+        {
+          "id": "overflow",
+          "label": "空间不足与内容收纳",
+          "status": "candidate",
+          "demos": [],
+          "evidence": [
+            {
+              "library": "element-plus",
+              "name": "Element Plus",
+              "title": "collapse",
+              "file": "docs/examples/menu/collapse.vue",
+              "url": "https://github.com/element-plus/element-plus/blob/a3e4ce505d7abc373e29702aaebc19a33a9e41b0/docs/examples/menu/collapse.vue"
+            },
+            {
+              "library": "naive-ui",
+              "name": "Naive UI",
+              "title": "压缩菜单",
+              "file": "src/menu/demos/zhCN/collapse.demo.vue",
+              "url": "https://github.com/tusen-ai/naive-ui/blob/fe69c62663f7648c249a9786dea3565979526a38/src/menu/demos/zhCN/collapse.demo.vue"
+            },
+            {
+              "library": "arco-design-vue",
+              "name": "Arco Design Vue",
+              "title": "缩起内嵌菜单",
+              "file": "packages/web-vue/components/menu/__demo__/collapse-control.md",
+              "url": "https://github.com/arco-design/arco-design-vue/blob/ee158dd75e81f636f34d1929fd3b19b5a6f0e32a/packages/web-vue/components/menu/__demo__/collapse-control.md"
+            },
+            {
+              "library": "chakra-ui",
+              "name": "Chakra UI",
+              "title": "menu-with-overflow",
+              "file": "apps/compositions/src/examples/menu-with-overflow.tsx",
+              "url": "https://github.com/chakra-ui/chakra-ui/blob/065f71ceaf0bb1aab818abe29d7f6a205c82f2aa/apps/compositions/src/examples/menu-with-overflow.tsx"
+            }
+          ]
+        },
+        {
+          "id": "navigation-hierarchy",
+          "label": "层级、面包屑与路径",
+          "status": "candidate",
+          "demos": [],
+          "evidence": [
+            {
+              "library": "naive-ui",
+              "name": "Naive UI",
+              "title": "使用 vue-router",
+              "file": "src/menu/demos/zhCN/router-link.demo.vue",
+              "url": "https://github.com/tusen-ai/naive-ui/blob/fe69c62663f7648c249a9786dea3565979526a38/src/menu/demos/zhCN/router-link.demo.vue"
+            },
+            {
+              "library": "shadcn-vue",
+              "name": "shadcn-vue",
+              "title": "MenubarWithSubmenu",
+              "file": "apps/v4/registry/bases/reka/examples/menubar/MenubarWithSubmenu.vue",
+              "url": "https://github.com/unovue/shadcn-vue/blob/dd3ff4ccbb46a15081e841570e51a5a2ace095cf/apps/v4/registry/bases/reka/examples/menubar/MenubarWithSubmenu.vue"
+            },
+            {
+              "library": "primeng",
+              "name": "PrimeNG",
+              "title": "router",
+              "file": "apps/showcase/doc/menu/router-doc.ts",
+              "url": "https://github.com/primefaces/primeng/blob/3875a0163d1387abb5d4e54f218807294e9a2797/apps/showcase/doc/menu/router-doc.ts"
+            },
+            {
+              "library": "chakra-ui",
+              "name": "Chakra UI",
+              "title": "menu-with-submenu-dynamic",
+              "file": "apps/compositions/src/examples/menu-with-submenu-dynamic.tsx",
+              "url": "https://github.com/chakra-ui/chakra-ui/blob/065f71ceaf0bb1aab818abe29d7f6a205c82f2aa/apps/compositions/src/examples/menu-with-submenu-dynamic.tsx"
+            }
+          ]
+        }
+      ],
+      "references": [
+        {
+          "library": "element-plus",
+          "name": "Element Plus",
+          "type": "Vue 桌面",
+          "relation": "同类组件",
+          "exampleCount": 5,
+          "readBytes": 9977,
+          "topics": [],
+          "url": "https://github.com/element-plus/element-plus/tree/a3e4ce505d7abc373e29702aaebc19a33a9e41b0/docs/en-US/component/menu.md",
+          "samples": [
+            {
+              "title": "basic",
+              "file": "docs/examples/menu/basic.vue",
+              "url": "https://github.com/element-plus/element-plus/blob/a3e4ce505d7abc373e29702aaebc19a33a9e41b0/docs/examples/menu/basic.vue"
+            },
+            {
+              "title": "collapse",
+              "file": "docs/examples/menu/collapse.vue",
+              "url": "https://github.com/element-plus/element-plus/blob/a3e4ce505d7abc373e29702aaebc19a33a9e41b0/docs/examples/menu/collapse.vue"
+            },
+            {
+              "title": "left-and-right",
+              "file": "docs/examples/menu/left-and-right.vue",
+              "url": "https://github.com/element-plus/element-plus/blob/a3e4ce505d7abc373e29702aaebc19a33a9e41b0/docs/examples/menu/left-and-right.vue"
+            },
+            {
+              "title": "popper-offset",
+              "file": "docs/examples/menu/popper-offset.vue",
+              "url": "https://github.com/element-plus/element-plus/blob/a3e4ce505d7abc373e29702aaebc19a33a9e41b0/docs/examples/menu/popper-offset.vue"
+            }
+          ]
+        },
+        {
+          "library": "naive-ui",
+          "name": "Naive UI",
+          "type": "Vue 桌面",
+          "relation": "同类组件",
+          "exampleCount": 15,
+          "readBytes": 31987,
+          "topics": [
+            "定制与组合"
+          ],
+          "url": "https://github.com/tusen-ai/naive-ui/tree/fe69c62663f7648c249a9786dea3565979526a38/src/menu/demos/zhCN/index.demo-entry.md",
+          "samples": [
+            {
+              "title": "展开子菜单",
+              "file": "src/menu/demos/zhCN/default-expanded-keys.demo.vue",
+              "url": "https://github.com/tusen-ai/naive-ui/blob/fe69c62663f7648c249a9786dea3565979526a38/src/menu/demos/zhCN/default-expanded-keys.demo.vue"
+            },
+            {
+              "title": "手风琴",
+              "file": "src/menu/demos/zhCN/accordion.demo.vue",
+              "url": "https://github.com/tusen-ai/naive-ui/blob/fe69c62663f7648c249a9786dea3565979526a38/src/menu/demos/zhCN/accordion.demo.vue"
+            },
+            {
+              "title": "压缩菜单",
+              "file": "src/menu/demos/zhCN/collapse.demo.vue",
+              "url": "https://github.com/tusen-ai/naive-ui/blob/fe69c62663f7648c249a9786dea3565979526a38/src/menu/demos/zhCN/collapse.demo.vue"
+            },
+            {
+              "title": "自定义字段",
+              "file": "src/menu/demos/zhCN/customize-field.demo.vue",
+              "url": "https://github.com/tusen-ai/naive-ui/blob/fe69c62663f7648c249a9786dea3565979526a38/src/menu/demos/zhCN/customize-field.demo.vue"
+            }
+          ]
+        },
+        {
+          "library": "arco-design-vue",
+          "name": "Arco Design Vue",
+          "type": "Vue 桌面",
+          "relation": "同类组件",
+          "exampleCount": 8,
+          "readBytes": 16542,
+          "topics": [
+            "尺寸",
+            "布局与响应式"
+          ],
+          "url": "https://github.com/arco-design/arco-design-vue/tree/ee158dd75e81f636f34d1929fd3b19b5a6f0e32a/packages/web-vue/components/menu/README.zh-CN.md",
+          "samples": [
+            {
+              "title": "不同大小菜单",
+              "file": "packages/web-vue/components/menu/__demo__/size.md",
+              "url": "https://github.com/arco-design/arco-design-vue/blob/ee158dd75e81f636f34d1929fd3b19b5a6f0e32a/packages/web-vue/components/menu/__demo__/size.md"
+            },
+            {
+              "title": "响应式收缩",
+              "file": "packages/web-vue/components/menu/__demo__/breakpoint.md",
+              "url": "https://github.com/arco-design/arco-design-vue/blob/ee158dd75e81f636f34d1929fd3b19b5a6f0e32a/packages/web-vue/components/menu/__demo__/breakpoint.md"
+            },
+            {
+              "title": "缩起内嵌菜单",
+              "file": "packages/web-vue/components/menu/__demo__/collapse-control.md",
+              "url": "https://github.com/arco-design/arco-design-vue/blob/ee158dd75e81f636f34d1929fd3b19b5a6f0e32a/packages/web-vue/components/menu/__demo__/collapse-control.md"
+            },
+            {
+              "title": "深色模式导航",
+              "file": "packages/web-vue/components/menu/__demo__/dark-horizontal.md",
+              "url": "https://github.com/arco-design/arco-design-vue/blob/ee158dd75e81f636f34d1929fd3b19b5a6f0e32a/packages/web-vue/components/menu/__demo__/dark-horizontal.md"
+            }
+          ]
+        },
+        {
+          "library": "vuetify",
+          "name": "Vuetify",
+          "type": "Vue 多端",
+          "relation": "同类组件",
+          "exampleCount": 10,
+          "readBytes": 12941,
+          "topics": [
+            "变体与外观"
+          ],
+          "url": "https://github.com/vuetifyjs/vuetify/tree/54a2b6a7dcb84a9894368f2ebd8bf52c3108f266/packages/docs/src/examples/v-navigation-drawer",
+          "samples": [
+            {
+              "title": "usage",
+              "file": "packages/docs/src/examples/v-navigation-drawer/usage.vue",
+              "url": "https://github.com/vuetifyjs/vuetify/blob/54a2b6a7dcb84a9894368f2ebd8bf52c3108f266/packages/docs/src/examples/v-navigation-drawer/usage.vue"
+            },
+            {
+              "title": "prop-rail-variant",
+              "file": "packages/docs/src/examples/v-navigation-drawer/prop-rail-variant.vue",
+              "url": "https://github.com/vuetifyjs/vuetify/blob/54a2b6a7dcb84a9894368f2ebd8bf52c3108f266/packages/docs/src/examples/v-navigation-drawer/prop-rail-variant.vue"
+            },
+            {
+              "title": "misc-colored",
+              "file": "packages/docs/src/examples/v-navigation-drawer/misc-colored.vue",
+              "url": "https://github.com/vuetifyjs/vuetify/blob/54a2b6a7dcb84a9894368f2ebd8bf52c3108f266/packages/docs/src/examples/v-navigation-drawer/misc-colored.vue"
+            },
+            {
+              "title": "misc-combined",
+              "file": "packages/docs/src/examples/v-navigation-drawer/misc-combined.vue",
+              "url": "https://github.com/vuetifyjs/vuetify/blob/54a2b6a7dcb84a9894368f2ebd8bf52c3108f266/packages/docs/src/examples/v-navigation-drawer/misc-combined.vue"
+            }
+          ]
+        },
+        {
+          "library": "shadcn-vue",
+          "name": "shadcn-vue",
+          "type": "Vue 组合式",
+          "relation": "同类组件",
+          "exampleCount": 8,
+          "readBytes": 19283,
+          "topics": [],
+          "url": "https://github.com/unovue/shadcn-vue/tree/dd3ff4ccbb46a15081e841570e51a5a2ace095cf/apps/v4/registry/bases/reka/examples/menubar",
+          "samples": [
+            {
+              "title": "MenubarBasic",
+              "file": "apps/v4/registry/bases/reka/examples/menubar/MenubarBasic.vue",
+              "url": "https://github.com/unovue/shadcn-vue/blob/dd3ff4ccbb46a15081e841570e51a5a2ace095cf/apps/v4/registry/bases/reka/examples/menubar/MenubarBasic.vue"
+            },
+            {
+              "title": "MenubarWithIcons",
+              "file": "apps/v4/registry/bases/reka/examples/menubar/MenubarWithIcons.vue",
+              "url": "https://github.com/unovue/shadcn-vue/blob/dd3ff4ccbb46a15081e841570e51a5a2ace095cf/apps/v4/registry/bases/reka/examples/menubar/MenubarWithIcons.vue"
+            },
+            {
+              "title": "MenubarExample",
+              "file": "apps/v4/registry/bases/reka/examples/menubar/MenubarExample.vue",
+              "url": "https://github.com/unovue/shadcn-vue/blob/dd3ff4ccbb46a15081e841570e51a5a2ace095cf/apps/v4/registry/bases/reka/examples/menubar/MenubarExample.vue"
+            },
+            {
+              "title": "MenubarWithCheckboxes",
+              "file": "apps/v4/registry/bases/reka/examples/menubar/MenubarWithCheckboxes.vue",
+              "url": "https://github.com/unovue/shadcn-vue/blob/dd3ff4ccbb46a15081e841570e51a5a2ace095cf/apps/v4/registry/bases/reka/examples/menubar/MenubarWithCheckboxes.vue"
+            }
+          ]
+        },
+        {
+          "library": "primeng",
+          "name": "PrimeNG",
+          "type": "Angular 交互参考",
+          "relation": "同类组件",
+          "exampleCount": 14,
+          "readBytes": 33798,
+          "topics": [
+            "定制与组合"
+          ],
+          "url": "https://github.com/primefaces/primeng/tree/3875a0163d1387abb5d4e54f218807294e9a2797/apps/showcase/doc/menu",
+          "samples": [
+            {
+              "title": "basic",
+              "file": "apps/showcase/doc/menu/basic-doc.ts",
+              "url": "https://github.com/primefaces/primeng/blob/3875a0163d1387abb5d4e54f218807294e9a2797/apps/showcase/doc/menu/basic-doc.ts"
+            },
+            {
+              "title": "command",
+              "file": "apps/showcase/doc/menu/command-doc.ts",
+              "url": "https://github.com/primefaces/primeng/blob/3875a0163d1387abb5d4e54f218807294e9a2797/apps/showcase/doc/menu/command-doc.ts"
+            },
+            {
+              "title": "group",
+              "file": "apps/showcase/doc/menu/group-doc.ts",
+              "url": "https://github.com/primefaces/primeng/blob/3875a0163d1387abb5d4e54f218807294e9a2797/apps/showcase/doc/menu/group-doc.ts"
+            },
+            {
+              "title": "popup",
+              "file": "apps/showcase/doc/menu/popup-doc.ts",
+              "url": "https://github.com/primefaces/primeng/blob/3875a0163d1387abb5d4e54f218807294e9a2797/apps/showcase/doc/menu/popup-doc.ts"
+            }
+          ]
+        },
+        {
+          "library": "varlet",
+          "name": "Varlet",
+          "type": "Vue 移动",
+          "relation": "同类组件",
+          "exampleCount": 1,
+          "readBytes": 4243,
+          "topics": [],
+          "url": "https://github.com/varletjs/varlet/tree/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/menu/docs/zh-CN.md",
+          "samples": [
+            {
+              "title": "index",
+              "file": "packages/varlet-ui/src/menu/example/index.vue",
+              "url": "https://github.com/varletjs/varlet/blob/b31b00035bc4162a80f59c156d65c0b50a5b2fbc/packages/varlet-ui/src/menu/example/index.vue"
+            }
+          ]
+        },
+        {
+          "library": "chakra-ui",
+          "name": "Chakra UI",
+          "type": "React 组合参考",
+          "relation": "同类组件",
+          "exampleCount": 22,
+          "readBytes": 24068,
+          "topics": [
+            "受控值",
+            "布局与响应式",
+            "定制与组合"
+          ],
+          "url": "https://github.com/chakra-ui/chakra-ui/tree/065f71ceaf0bb1aab818abe29d7f6a205c82f2aa/apps/compositions/src/examples/.",
+          "samples": [
+            {
+              "title": "menu-basic",
+              "file": "apps/compositions/src/examples/menu-basic.tsx",
+              "url": "https://github.com/chakra-ui/chakra-ui/blob/065f71ceaf0bb1aab818abe29d7f6a205c82f2aa/apps/compositions/src/examples/menu-basic.tsx"
+            },
+            {
+              "title": "menu-with-icon-and-command",
+              "file": "apps/compositions/src/examples/menu-with-icon-and-command.tsx",
+              "url": "https://github.com/chakra-ui/chakra-ui/blob/065f71ceaf0bb1aab818abe29d7f6a205c82f2aa/apps/compositions/src/examples/menu-with-icon-and-command.tsx"
+            },
+            {
+              "title": "menu-controlled",
+              "file": "apps/compositions/src/examples/menu-controlled.tsx",
+              "url": "https://github.com/chakra-ui/chakra-ui/blob/065f71ceaf0bb1aab818abe29d7f6a205c82f2aa/apps/compositions/src/examples/menu-controlled.tsx"
+            },
+            {
+              "title": "menu-explorer-demo",
+              "file": "apps/compositions/src/examples/menu-explorer-demo.tsx",
+              "url": "https://github.com/chakra-ui/chakra-ui/blob/065f71ceaf0bb1aab818abe29d7f6a205c82f2aa/apps/compositions/src/examples/menu-explorer-demo.tsx"
             }
           ]
         }
@@ -10326,7 +10850,7 @@
           "label": "受控值与默认值",
           "status": "documented",
           "demos": [],
-          "documentation": "| `v-model`               | 当前输入值                 | `string`                    | `''`       |",
+          "documentation": "| `default-value`         | 非受控初始输入值，仅创建时读取 | `string` | `''` |",
           "evidence": [
             {
               "library": "quasar",
@@ -11036,6 +11560,11 @@
           "title": "自定义样式",
           "source": "src/signature/example/demos/custom-style.vue",
           "anchor": ""
+        },
+        {
+          "title": "书写会话取消",
+          "source": "src/signature/example/demos/session-lifecycle.vue",
+          "anchor": ""
         }
       ],
       "featurePoints": [
@@ -11192,6 +11721,11 @@
           "anchor": ""
         },
         {
+          "title": "清空按钮与手动删空",
+          "source": "src/input/example/demos/empty-value.vue",
+          "anchor": ""
+        },
+        {
           "title": "输入修饰符",
           "source": "src/input/example/demos/model-modifier.vue",
           "anchor": ""
@@ -11209,6 +11743,11 @@
         {
           "title": "原生属性",
           "source": "src/input/example/demos/native-attrs.vue",
+          "anchor": ""
+        },
+        {
+          "title": "加载状态",
+          "source": "src/input/example/demos/loading.vue",
           "anchor": ""
         }
       ],
@@ -11316,7 +11855,7 @@
           "label": "禁用与只读",
           "status": "documented",
           "demos": [],
-          "documentation": "| `disabled` | 是否禁用 | 组合状态继承 |",
+          "documentation": "| `disabled`      | 是否禁用                                                   | 组合状态继承                           |",
           "evidence": [
             {
               "library": "element-plus",
@@ -11378,7 +11917,7 @@
               "anchor": ""
             }
           ],
-          "documentation": "| `default-value` | 非受控初始值，仅创建时读取；后续修改不重置输入，不回写父级 | 组合状态继承 |",
+          "documentation": "| `default-value` | 非受控初始值，仅创建时读取；后续修改不重置输入，不回写父级 | 组合状态继承                           |",
           "evidence": [
             {
               "library": "quasar",
@@ -11470,8 +12009,14 @@
         {
           "id": "loading",
           "label": "加载状态与重复操作",
-          "status": "candidate",
-          "demos": [],
+          "status": "demo",
+          "demos": [
+            {
+              "title": "加载状态",
+              "source": "src/input/example/demos/loading.vue",
+              "anchor": ""
+            }
+          ],
           "evidence": [
             {
               "library": "naive-ui",
@@ -12099,8 +12644,18 @@
           "anchor": ""
         },
         {
+          "title": "自动高度",
+          "source": "src/textarea/example/demos/auto-size.vue",
+          "anchor": ""
+        },
+        {
           "title": "主体与事件契约",
           "source": "src/textarea/example/demos/body-contract.vue",
+          "anchor": ""
+        },
+        {
+          "title": "动态清空策略",
+          "source": "src/textarea/example/demos/empty-policy.vue",
           "anchor": ""
         }
       ],
@@ -12113,6 +12668,11 @@
             {
               "title": "尺寸",
               "source": "src/textarea/example/demos/demo-4.vue",
+              "anchor": ""
+            },
+            {
+              "title": "自动高度",
+              "source": "src/textarea/example/demos/auto-size.vue",
               "anchor": ""
             }
           ],
@@ -12201,7 +12761,7 @@
           "label": "禁用与只读",
           "status": "documented",
           "demos": [],
-          "documentation": "| `readonly` | 是否只读 | 状态 |",
+          "documentation": "| `readonly`    | 是否只读                                 | 状态             |",
           "evidence": [
             {
               "library": "element-plus",
@@ -12251,7 +12811,7 @@
               "anchor": ""
             }
           ],
-          "documentation": "| `v-model`         | 受控绑定值                         | _string_                                            | `-`        |",
+          "documentation": "| model-value | 受控绑定值 | `string \\| null` | `-` |",
           "evidence": [
             {
               "library": "quasar",
@@ -12395,8 +12955,14 @@
         {
           "id": "input-clear",
           "label": "清空、前后缀与计数",
-          "status": "candidate",
-          "demos": [],
+          "status": "demo",
+          "demos": [
+            {
+              "title": "动态清空策略",
+              "source": "src/textarea/example/demos/empty-policy.vue",
+              "anchor": ""
+            }
+          ],
           "evidence": [
             {
               "library": "element-plus",
@@ -12927,6 +13493,11 @@
           "anchor": ""
         },
         {
+          "title": "空值标记与有效的 0",
+          "source": "src/input-number/example/demos/empty-value.vue",
+          "anchor": ""
+        },
+        {
           "title": "本组配置对照",
           "source": "src/input-number/example/demos/state-lab.vue",
           "anchor": ""
@@ -13049,7 +13620,7 @@
           "label": "禁用与只读",
           "status": "documented",
           "demos": [],
-          "documentation": "| `disabled` | 禁用；未设置时继承 | 表单控件尺寸对照 |",
+          "documentation": "| `disabled`    | 禁用；未设置时继承          | 表单控件尺寸对照                     |",
           "evidence": [
             {
               "library": "element-plus",
@@ -13099,7 +13670,7 @@
               "anchor": ""
             }
           ],
-          "documentation": "| model-value   | 受控值；undefined 表示空值/非受控            | `number`                        | —                |",
+          "documentation": "| model-value | 受控业务数值，包含 null；未设置时使用内部状态 | `number \\| null` | `undefined` |",
           "evidence": [
             {
               "library": "element-plus",
@@ -13830,7 +14401,7 @@
               "anchor": ""
             }
           ],
-          "documentation": "| `disabled / readonly / error` | `状态，显式值优先于 Form` | `boolean` | `undefined` |",
+          "documentation": "| empty-values | readonly unknown[] | 字段 > FormItem > Form > 组件族默认；完整覆盖，不合并 |",
           "evidence": [
             {
               "library": "element-plus",
@@ -13846,7 +14417,7 @@
           "label": "受控值与默认值",
           "status": "documented",
           "demos": [],
-          "documentation": "| `default-value` | `非受控初值` | 变体与掩码、只读、禁用和错误 |",
+          "documentation": "| `default-value` | `非受控初值`                    | 变体与掩码、只读、禁用和错误 |",
           "evidence": [
             {
               "library": "chakra-ui",
@@ -14374,7 +14945,7 @@
           "label": "禁用与只读",
           "status": "documented",
           "demos": [],
-          "documentation": "| `disabled` | 禁用；未设置时继承，显式 false 覆盖 | 交互状态对比 |",
+          "documentation": "| `disabled`    | 禁用；未设置时继承，显式 false 覆盖          | 交互状态对比               |",
           "evidence": [
             {
               "library": "quasar",
@@ -14404,7 +14975,7 @@
           "label": "受控值与默认值",
           "status": "documented",
           "demos": [],
-          "documentation": "| `model-value` | 受控文本值 | `string` | `—` |",
+          "documentation": "| `model-value`        | 受控文本值                                          | `string \\| null`                                                                                 | `—`                          |",
           "evidence": [
             {
               "library": "quasar",
@@ -15038,6 +15609,11 @@
           "title": "状态",
           "source": "src/search/example/demos/state.vue",
           "anchor": ""
+        },
+        {
+          "title": "原生表单与弹层身份",
+          "source": "src/search/example/demos/native-form.vue",
+          "anchor": ""
         }
       ],
       "featurePoints": [
@@ -15155,7 +15731,7 @@
           "label": "受控值与默认值",
           "status": "documented",
           "demos": [],
-          "documentation": "| `v-model`                  | 搜索关键词                                      | _string_                  | `-`        |",
+          "documentation": "| `v-model` | 搜索关键词 | `string \\| null` | `-` |",
           "evidence": []
         },
         {
@@ -15299,8 +15875,14 @@
         {
           "id": "input-compose",
           "label": "输入法与原生事件",
-          "status": "candidate",
-          "demos": [],
+          "status": "demo",
+          "demos": [
+            {
+              "title": "原生表单与弹层身份",
+              "source": "src/search/example/demos/native-form.vue",
+              "anchor": ""
+            }
+          ],
           "evidence": [
             {
               "library": "naive-ui",
@@ -15791,7 +16373,7 @@
           "label": "受控值与默认值",
           "status": "documented",
           "demos": [],
-          "documentation": "| `v-model`                    | 绑定的值                                          | _(string \\| number)[]_                           | `[]`     |",
+          "documentation": "| `model-value` (v-model) | 外部列值数组；初始化及外部变化同步候选 | `(string \\| number)[]` | `undefined` |",
           "evidence": [
             {
               "library": "quasar",
@@ -16621,7 +17203,7 @@
           "anchor": ""
         },
         {
-          "title": "配置清空后的值",
+          "title": "空值识别与清空输出",
           "source": "src/select/example/demos/empty-value.vue",
           "anchor": ""
         },
@@ -16633,6 +17215,11 @@
         {
           "title": "交互状态切换",
           "source": "src/select/example/demos/state-lab.vue",
+          "anchor": ""
+        },
+        {
+          "title": "加载状态",
+          "source": "src/select/example/demos/loading.vue",
           "anchor": ""
         },
         {
@@ -16773,7 +17360,7 @@
           "label": "禁用与只读",
           "status": "documented",
           "demos": [],
-          "documentation": "| `disabled` | 禁止选择与移除 | 表单控件尺寸对照 |",
+          "documentation": "| `disabled`  | 禁止选择与移除                                      | 表单控件尺寸对照               |",
           "evidence": [
             {
               "library": "element-plus",
@@ -16935,8 +17522,14 @@
         {
           "id": "loading",
           "label": "加载状态与重复操作",
-          "status": "candidate",
-          "demos": [],
+          "status": "demo",
+          "demos": [
+            {
+              "title": "加载状态",
+              "source": "src/select/example/demos/loading.vue",
+              "anchor": ""
+            }
+          ],
           "evidence": [
             {
               "library": "element-plus",
@@ -17016,7 +17609,7 @@
           "status": "demo",
           "demos": [
             {
-              "title": "配置清空后的值",
+              "title": "空值识别与清空输出",
               "source": "src/select/example/demos/empty-value.vue",
               "anchor": ""
             },
@@ -17967,7 +18560,7 @@
           "label": "禁用与只读",
           "status": "documented",
           "demos": [],
-          "documentation": "| disabled / readonly | 省略继承表单状态 | — |",
+          "documentation": "| empty-values | readonly unknown[] | 字段 > FormItem > Form > 组件族默认；完整覆盖，不合并 |",
           "evidence": [
             {
               "library": "element-plus",
@@ -18018,7 +18611,7 @@
           "label": "受控值与默认值",
           "status": "documented",
           "demos": [],
-          "documentation": "| v-model / default-value | 字符串 ID，null 表示显式清空 | — / '' |",
+          "documentation": "| model-value / v-model | string / null | undefined | 受控人员标识；显式 null 保持为空。 |",
           "evidence": [
             {
               "library": "quasar",
@@ -18880,6 +19473,11 @@
           "anchor": ""
         },
         {
+          "title": "回调懒加载",
+          "source": "src/cascader/example/demos/load-more.vue",
+          "anchor": ""
+        },
+        {
           "title": "本组配置对照",
           "source": "src/cascader/example/demos/async-devices.vue",
           "anchor": ""
@@ -18925,7 +19523,7 @@
           "label": "禁用与只读",
           "status": "documented",
           "demos": [],
-          "documentation": "| `disabled / readonly / error` | 未设置时继承表单；显式 false 可覆盖 | `boolean` | `undefined` |",
+          "documentation": "| empty-values | readonly unknown[] | 字段 > FormItem > Form > 组件族默认；完整覆盖，不合并 |",
           "evidence": [
             {
               "library": "arco-design-vue",
@@ -18941,7 +19539,7 @@
           "label": "受控值与默认值",
           "status": "documented",
           "demos": [],
-          "documentation": "| `model-value / default-value` | 受控值 / 非受控初始值 | `Value` | `单选 ''，多选 []` |",
+          "documentation": "| `model-value / default-value` | 受控值 / 非受控初始值 | `CascaderBaseValue` | `单选 ''，多选 []` |",
           "evidence": [
             {
               "library": "naive-ui",
@@ -19006,8 +19604,14 @@
         {
           "id": "loading",
           "label": "加载状态与重复操作",
-          "status": "candidate",
-          "demos": [],
+          "status": "demo",
+          "demos": [
+            {
+              "title": "回调懒加载",
+              "source": "src/cascader/example/demos/load-more.vue",
+              "anchor": ""
+            }
+          ],
           "evidence": [
             {
               "library": "element-plus",
@@ -19205,8 +19809,14 @@
         {
           "id": "lazy",
           "label": "懒加载与分页加载",
-          "status": "candidate",
-          "demos": [],
+          "status": "demo",
+          "demos": [
+            {
+              "title": "回调懒加载",
+              "source": "src/cascader/example/demos/load-more.vue",
+              "anchor": ""
+            }
+          ],
           "evidence": [
             {
               "library": "element-plus",
@@ -19607,7 +20217,7 @@
               "anchor": ""
             }
           ],
-          "documentation": "| `readonly` | 只读，未设置时继承表单 | 独立值模型与方法 |",
+          "documentation": "| `readonly`      | 只读，未设置时继承表单 | 独立值模型与方法             |",
           "evidence": [
             {
               "library": "element-plus",
@@ -19651,7 +20261,7 @@
           "label": "受控值与默认值",
           "status": "documented",
           "demos": [],
-          "documentation": "| `default-value` | 非受控初始值 | 独立值模型与方法 |",
+          "documentation": "| `default-value` | 非受控初始值           | 独立值模型与方法             |",
           "evidence": [
             {
               "library": "naive-ui",
@@ -20350,7 +20960,7 @@
               "anchor": ""
             }
           ],
-          "documentation": "| `disabled` | 禁用，未设置时继承表单 | 禁用 |",
+          "documentation": "| `disabled` | 禁用，未设置时继承表单 | 禁用     |",
           "evidence": [
             {
               "library": "element-plus",
@@ -20387,7 +20997,7 @@
           "label": "受控值与默认值",
           "status": "documented",
           "demos": [],
-          "documentation": "| `default-value` | 非受控初始值 | 独立值模型与方法 |",
+          "documentation": "| `default-value` | 非受控初始值           | 独立值模型与方法             |",
           "evidence": [
             {
               "library": "naive-ui",
@@ -21057,7 +21667,7 @@
           "label": "禁用与只读",
           "status": "documented",
           "demos": [],
-          "documentation": "| `disabled` | 禁用；表单禁用也阻止交互 | 交互状态对比 |",
+          "documentation": "| `disabled`      | 禁用；表单禁用也阻止交互                                  | 交互状态对比   |",
           "evidence": [
             {
               "library": "element-plus",
@@ -21114,7 +21724,7 @@
               "anchor": ""
             }
           ],
-          "documentation": "| `default-value` | 非受控初始实际值，仅创建时读取；省略时使用 uncheckedValue | 加载中 |",
+          "documentation": "| `default-value` | 非受控初始实际值，仅创建时读取；省略时使用 uncheckedValue | 加载中         |",
           "evidence": [
             {
               "library": "material-ui",
@@ -21695,6 +22305,11 @@
           "title": "自定义边界",
           "source": "src/slider/example/demos/range.vue",
           "anchor": ""
+        },
+        {
+          "title": "指针交互的取消收尾",
+          "source": "src/slider/example/demos/interaction-session.vue",
+          "anchor": ""
         }
       ],
       "featurePoints": [
@@ -21765,7 +22380,7 @@
           "label": "禁用与只读",
           "status": "documented",
           "demos": [],
-          "documentation": "| disabled / readonly / error | 未传时继承FormItem/Form适用状态；只读可聚焦但不可改值 | `boolean` | 继承 |",
+          "documentation": "| empty-values | readonly unknown[] | 字段 > FormItem > Form > 组件族默认；完整覆盖，不合并 |",
           "evidence": [
             {
               "library": "naive-ui",
@@ -21815,7 +22430,7 @@
               "anchor": ""
             }
           ],
-          "documentation": "| model-value | 受控值；range 使用二元组 | `SliderValue` | — |",
+          "documentation": "| model-value | SliderValue / null | undefined | 受控数值或范围二元组；null 为显式空值。 |",
           "evidence": [
             {
               "library": "shadcn-vue",
@@ -22497,7 +23112,7 @@
           "label": "受控值与默认值",
           "status": "documented",
           "demos": [],
-          "documentation": "| `default-value` | 非受控初值，只初始化一次 | 尺寸与符号 |",
+          "documentation": "| `default-value` | 非受控初值，只初始化一次                          | 尺寸与符号                           |",
           "evidence": [
             {
               "library": "chakra-ui",
@@ -23184,7 +23799,7 @@
           "label": "禁用与只读",
           "status": "documented",
           "demos": [],
-          "documentation": "| `disabled` | 是否禁用 | 表单控件尺寸对照 |",
+          "documentation": "| `disabled`     | 是否禁用                                       | 表单控件尺寸对照             |",
           "evidence": [
             {
               "library": "naive-ui",
@@ -23241,7 +23856,7 @@
               "anchor": ""
             }
           ],
-          "documentation": "| `model-value`       | 受控值                                                 | DateValue / DateValue[] (multiple/range)           | `undefined`           |",
+          "documentation": "| `default-value` | 非受控初始值，仅创建时读取 | `DateValue \\| DateValue[]` | `undefined` |",
           "evidence": [
             {
               "library": "element-plus",
@@ -24050,6 +24665,11 @@
           "title": "复制与编辑",
           "source": "src/date-range/example/demos/open-trigger-target.vue",
           "anchor": ""
+        },
+        {
+          "title": "编辑草稿中的清空",
+          "source": "src/date-range/example/demos/reference-clear.vue",
+          "anchor": ""
         }
       ],
       "featurePoints": [
@@ -24185,7 +24805,7 @@
               "anchor": ""
             }
           ],
-          "documentation": "| `model-value`             | 受控值                                                 | DateValue[]                                        | `undefined`           |",
+          "documentation": "| `default-value` | 非受控初始值，仅创建时读取 | `(DateValue \\| undefined)[]` | `undefined` |",
           "evidence": [
             {
               "library": "element-plus",
@@ -24284,8 +24904,14 @@
         {
           "id": "input-clear",
           "label": "清空、前后缀与计数",
-          "status": "candidate",
-          "demos": [],
+          "status": "demo",
+          "demos": [
+            {
+              "title": "编辑草稿中的清空",
+              "source": "src/date-range/example/demos/reference-clear.vue",
+              "anchor": ""
+            }
+          ],
           "evidence": [
             {
               "library": "element-plus",
@@ -24490,6 +25116,11 @@
             {
               "title": "复制与编辑",
               "source": "src/date-range/example/demos/open-trigger-target.vue",
+              "anchor": ""
+            },
+            {
+              "title": "编辑草稿中的清空",
+              "source": "src/date-range/example/demos/reference-clear.vue",
               "anchor": ""
             }
           ],
@@ -25011,7 +25642,7 @@
               "anchor": ""
             }
           ],
-          "documentation": "| `disabled` | 是否禁用 | 表单控件尺寸对照 |",
+          "documentation": "| `disabled`    | 是否禁用                                    | 表单控件尺寸对照                                           |",
           "evidence": [
             {
               "library": "naive-ui",
@@ -25059,7 +25690,7 @@
               "anchor": ""
             }
           ],
-          "documentation": "| `v-model`               | 绑定值                                      | _TimeValue_                                           | `-`                                 |",
+          "documentation": "| `default-value` | 非受控初始值，仅创建时读取 | `TimeValue` | `undefined` |",
           "evidence": [
             {
               "library": "arco-design-vue",
@@ -25624,7 +26255,7 @@
               "anchor": ""
             }
           ],
-          "documentation": "| `disabled` | 是否禁用 | 交互状态对比、选择与提交 |",
+          "documentation": "| `disabled`       | 是否禁用                         | 交互状态对比、选择与提交                     |",
           "evidence": [
             {
               "library": "naive-ui",
@@ -25672,7 +26303,7 @@
               "anchor": ""
             }
           ],
-          "documentation": "| `v-model`                 | 绑定值                                                                             | _TimeValue[]_                                         | `-`                                 |",
+          "documentation": "| `default-value` | 非受控初始值，仅创建时读取 | `TimeValue[]` | `undefined` |",
           "evidence": [
             {
               "library": "arco-design-vue",
@@ -26158,8 +26789,9 @@
         {
           "id": "disabled",
           "label": "禁用与只读",
-          "status": "candidate",
+          "status": "documented",
           "demos": [],
+          "documentation": "| empty-values | readonly unknown[] | 字段 > FormItem > Form > 组件族默认；完整覆盖，不合并 |",
           "evidence": [
             {
               "library": "naive-ui",
@@ -27023,6 +27655,11 @@
           "anchor": ""
         },
         {
+          "title": "布局切换与单项覆盖",
+          "source": "src/form/example/demos/layout-comparison.vue",
+          "anchor": ""
+        },
+        {
           "title": "本组配置对照",
           "source": "src/form/example/demos/decoration.vue",
           "anchor": ""
@@ -27048,7 +27685,7 @@
           "anchor": ""
         },
         {
-          "title": "Inline／Popup 已选区域对照",
+          "title": "直接／弹窗编辑的已选区域对照",
           "source": "src/form/example/demos/selection-summary.vue",
           "anchor": ""
         },
@@ -27108,6 +27745,11 @@
           "anchor": ""
         },
         {
+          "title": "确认事件来源",
+          "source": "src/form/example/demos/change-source.vue",
+          "anchor": ""
+        },
+        {
           "title": "本组配置对照",
           "source": "src/form/example/demos/async-fields.vue",
           "anchor": ""
@@ -27128,7 +27770,17 @@
           "anchor": ""
         },
         {
-          "title": "外置标签（推荐与 Cedar 对齐）",
+          "title": "异步提交的输入归属",
+          "source": "src/form/example/demos/submit-inputs.vue",
+          "anchor": ""
+        },
+        {
+          "title": "动态字段与重置初值",
+          "source": "src/form/example/demos/field-identity.vue",
+          "anchor": ""
+        },
+        {
+          "title": "外置标签",
           "source": "src/form/example/demos/vertical-label.vue",
           "anchor": ""
         },
@@ -27166,6 +27818,16 @@
           "title": "巡检任务完整流程",
           "source": "src/form/example/demos/task-workflow.vue",
           "anchor": ""
+        },
+        {
+          "title": "空值标记与必填校验",
+          "source": "src/form/example/demos/empty-values-validation.vue",
+          "anchor": ""
+        },
+        {
+          "title": "阅读空文案与配置继承",
+          "source": "src/form/example/demos/empty-text.vue",
+          "anchor": ""
         }
       ],
       "featurePoints": [
@@ -27195,7 +27857,7 @@
               "anchor": ""
             }
           ],
-          "documentation": "| `disabled` | 是否禁用 | 表单控制 |",
+          "documentation": "| `disabled` | 是否禁用                                                 | 表单控制                                   |",
           "evidence": [
             {
               "library": "naive-ui",
@@ -27319,6 +27981,11 @@
               "title": "本组配置对照",
               "source": "src/form/example/demos/cross-field.vue",
               "anchor": ""
+            },
+            {
+              "title": "动态字段与重置初值",
+              "source": "src/form/example/demos/field-identity.vue",
+              "anchor": ""
             }
           ],
           "evidence": [
@@ -27344,13 +28011,13 @@
           "status": "demo",
           "demos": [
             {
-              "title": "响应式标签栅格",
-              "source": "src/form/example/demos/label-width-comparison.vue",
+              "title": "布局切换与单项覆盖",
+              "source": "src/form/example/demos/layout-comparison.vue",
               "anchor": ""
             },
             {
-              "title": "外置标签（推荐与 Cedar 对齐）",
-              "source": "src/form/example/demos/vertical-label.vue",
+              "title": "响应式标签栅格",
+              "source": "src/form/example/demos/label-width-comparison.vue",
               "anchor": ""
             }
           ],
@@ -27377,13 +28044,13 @@
           "status": "demo",
           "demos": [
             {
-              "title": "校验展示状态",
-              "source": "src/form/example/demos/presentation-status.vue",
+              "title": "直接／弹窗编辑的已选区域对照",
+              "source": "src/form/example/demos/selection-summary.vue",
               "anchor": ""
             },
             {
-              "title": "禁用、只读与异步确认",
-              "source": "src/form/example/demos/presentation-state.vue",
+              "title": "校验展示状态",
+              "source": "src/form/example/demos/presentation-status.vue",
               "anchor": ""
             }
           ],
@@ -27743,7 +28410,7 @@
               "anchor": ""
             }
           ],
-          "documentation": "| disabled / readonly | boolean | undefined，继承Form，显式false优先 |",
+          "documentation": "| empty-values | readonly unknown[] | 字段 > FormItem > Form > 组件族默认；完整覆盖，不合并 |",
           "evidence": [
             {
               "library": "quasar",
@@ -27759,7 +28426,7 @@
           "label": "受控值与默认值",
           "status": "documented",
           "demos": [],
-          "documentation": "| model-value / default-value | UploadFileItem[] | 受控值 / 非受控初值[] |",
+          "documentation": "| model-value / default-value                                  | UploadFileItem[]                                         | 受控值 / 非受控初值[]                             |",
           "evidence": [
             {
               "library": "naive-ui",
@@ -27857,7 +28524,7 @@
               "anchor": ""
             }
           ],
-          "documentation": "| multiple / directory / draggable | boolean | false |",
+          "documentation": "| multiple / directory / draggable                             | boolean                                                  | false                                             |",
           "evidence": [
             {
               "library": "element-plus",
@@ -27914,7 +28581,7 @@
               "anchor": ""
             }
           ],
-          "documentation": "| multiple / directory / draggable | boolean | false |",
+          "documentation": "| multiple / directory / draggable                             | boolean                                                  | false                                             |",
           "evidence": [
             {
               "library": "element-plus",
@@ -27970,7 +28637,7 @@
               "anchor": ""
             }
           ],
-          "documentation": "| accept / capture | string / 原生capture | 未指定 |",
+          "documentation": "| accept / capture                                             | `string / UploadCapture`<br>`UploadCapture: boolean \\| 'user' \\| 'environment' \\| undefined` | 未指定                                            |",
           "evidence": [
             {
               "library": "element-plus",
@@ -28419,6 +29086,11 @@
           "title": "基本使用",
           "source": "src/notice-bar/example/demos/basic.vue",
           "anchor": ""
+        },
+        {
+          "title": "暂停滚动",
+          "source": "src/notice-bar/example/demos/pausable.vue",
+          "anchor": ""
         }
       ],
       "featurePoints": [
@@ -28853,6 +29525,11 @@
           "title": "关闭前确认",
           "source": "src/swipe-cell/example/demos/before-close.vue",
           "anchor": ""
+        },
+        {
+          "title": "受控加载",
+          "source": "src/swipe-cell/example/demos/loading.vue",
+          "anchor": ""
         }
       ],
       "featurePoints": [
@@ -28862,6 +29539,19 @@
           "status": "documented",
           "demos": [],
           "documentation": "| `disabled` | 禁用滑动 | `boolean` | `false` |",
+          "evidence": []
+        },
+        {
+          "id": "controlled",
+          "label": "受控值与默认值",
+          "status": "demo",
+          "demos": [
+            {
+              "title": "受控加载",
+              "source": "src/swipe-cell/example/demos/loading.vue",
+              "anchor": ""
+            }
+          ],
           "evidence": []
         },
         {
@@ -28919,6 +29609,11 @@
           "title": "任务筛选与数据联动",
           "source": "src/table/example/demos/task-workbench.vue",
           "anchor": ""
+        },
+        {
+          "title": "受控加载",
+          "source": "src/table/example/demos/loading.vue",
+          "anchor": ""
         }
       ],
       "featurePoints": [
@@ -28969,8 +29664,14 @@
         {
           "id": "controlled",
           "label": "受控值与默认值",
-          "status": "candidate",
-          "demos": [],
+          "status": "demo",
+          "demos": [
+            {
+              "title": "受控加载",
+              "source": "src/table/example/demos/loading.vue",
+              "anchor": ""
+            }
+          ],
           "evidence": [
             {
               "library": "element-plus",
@@ -33765,7 +34466,7 @@
               "anchor": ""
             }
           ],
-          "documentation": "| `v-model:open` | 受控预览状态                                                                                                                        | _boolean_                        | `-`       |",
+          "documentation": "| model-value / v-model | number | - | 受控图片序号，从 1 开始 |",
           "evidence": []
         },
         {
@@ -34321,6 +35022,21 @@
           "title": "本组配置对照",
           "source": "src/count-to/example/demos/manual-control.vue",
           "anchor": ""
+        },
+        {
+          "title": "科学计数与十进制取整",
+          "source": "src/count-to/example/demos/decimal-floor.vue",
+          "anchor": ""
+        },
+        {
+          "title": "零时长与重新播放",
+          "source": "src/count-to/example/demos/zero-duration.vue",
+          "anchor": ""
+        },
+        {
+          "title": "更换曲线与重播",
+          "source": "src/count-to/example/demos/easing-replay.vue",
+          "anchor": ""
         }
       ],
       "featurePoints": [
@@ -34760,7 +35476,7 @@
           "label": "受控值与默认值",
           "status": "documented",
           "demos": [],
-          "documentation": "| `v-model:open`          | 是否显示动作面板                                       | _boolean_                      | `false`  |",
+          "documentation": "| `v-model:open` | 受控显示状态 | _boolean_ | `-` |",
           "evidence": [
             {
               "library": "quasar",
@@ -36487,8 +37203,13 @@
           "anchor": ""
         },
         {
-          "title": "API",
+          "title": "动效时长",
           "source": "src/popup/example/demos/motion-token.vue",
+          "anchor": ""
+        },
+        {
+          "title": "受控加载",
+          "source": "src/popup/example/demos/loading.vue",
           "anchor": ""
         }
       ],
@@ -36533,8 +37254,14 @@
         {
           "id": "controlled",
           "label": "受控值与默认值",
-          "status": "documented",
-          "demos": [],
+          "status": "demo",
+          "demos": [
+            {
+              "title": "受控加载",
+              "source": "src/popup/example/demos/loading.vue",
+              "anchor": ""
+            }
+          ],
           "documentation": "| `v-model:open` | 是否显示 | `boolean` | - |",
           "evidence": [
             {
@@ -36617,6 +37344,19 @@
               "url": "https://github.com/chakra-ui/chakra-ui/blob/065f71ceaf0bb1aab818abe29d7f6a205c82f2aa/apps/compositions/src/examples/drawer-with-custom-container.tsx"
             }
           ]
+        },
+        {
+          "id": "loading",
+          "label": "加载状态与重复操作",
+          "status": "demo",
+          "demos": [
+            {
+              "title": "受控加载",
+              "source": "src/popup/example/demos/loading.vue",
+              "anchor": ""
+            }
+          ],
+          "evidence": []
         },
         {
           "id": "overlay-placement",
@@ -41712,8 +42452,18 @@
           "anchor": ""
         },
         {
+          "title": "函数调用的挂载目标",
+          "source": "src/dialog/example/demos/service-container.vue",
+          "anchor": ""
+        },
+        {
           "title": "本组配置对照",
           "source": "src/dialog/example/demos/size-comparison.vue",
+          "anchor": ""
+        },
+        {
+          "title": "拖动会话",
+          "source": "src/dialog/example/demos/draggable.vue",
           "anchor": ""
         },
         {
@@ -41737,7 +42487,7 @@
           "anchor": ""
         },
         {
-          "title": "before 钩子与 done 兼容",
+          "title": "关闭守卫",
           "source": "src/dialog/example/demos/guard-protocol.vue",
           "anchor": ""
         }
@@ -41976,6 +42726,11 @@
             {
               "title": "本组配置对照",
               "source": "src/dialog/example/demos/function-call.vue",
+              "anchor": ""
+            },
+            {
+              "title": "函数调用的挂载目标",
+              "source": "src/dialog/example/demos/service-container.vue",
               "anchor": ""
             }
           ],
@@ -42849,17 +43604,22 @@
           "title": "主题从品牌延伸到组件与局部覆盖"
         }
       ],
-      "id": "style-provider",
+      "id": "theme-provider",
       "group": "foundation",
-      "route": "/components/style-provider/",
-      "name": "StyleProvider",
-      "feature": "全局主题变量、默认值与主题包切换。",
+      "route": "/components/theme-provider/",
+      "name": "ThemeProvider",
+      "feature": "应用根部与局部主题、嵌套、品牌预设、变量覆盖和弹层继承。",
       "members": [],
       "topics": [],
       "demos": [
         {
-          "title": "basic",
-          "source": "src/style-provider/example/demos/basic.vue",
+          "title": "变量覆盖",
+          "source": "src/theme-provider/example/demos/basic.vue",
+          "anchor": ""
+        },
+        {
+          "title": "根部与嵌套",
+          "source": "src/theme-provider/example/demos/local-theme.vue",
           "anchor": ""
         }
       ],
@@ -42927,8 +43687,19 @@
         {
           "id": "theme",
           "label": "主题切换与局部覆盖",
-          "status": "candidate",
-          "demos": [],
+          "status": "demo",
+          "demos": [
+            {
+              "title": "变量覆盖",
+              "source": "src/theme-provider/example/demos/basic.vue",
+              "anchor": ""
+            },
+            {
+              "title": "根部与嵌套",
+              "source": "src/theme-provider/example/demos/local-theme.vue",
+              "anchor": ""
+            }
+          ],
           "evidence": [
             {
               "library": "vuetify",
@@ -43026,6 +43797,11 @@
         {
           "title": "表单控件尺寸对照",
           "source": "src/field-decorator/example/demos/control-sizes.vue",
+          "anchor": ""
+        },
+        {
+          "title": "共享字段加载",
+          "source": "src/field-decorator/example/demos/loading.vue",
           "anchor": ""
         }
       ],
@@ -44101,7 +44877,7 @@
               "anchor": ""
             }
           ],
-          "documentation": "| `disabled` | 禁用状态 | _boolean_ | `false` |",
+          "documentation": "| `disabled` | 是否禁用波纹装饰 | _boolean_ | `false` |",
           "evidence": []
         },
         {

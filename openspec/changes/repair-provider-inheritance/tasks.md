@@ -1,0 +1,3 @@
+- [x] Adapt private empty-slot computed contract and all shared consumers
+- [x] Verify Select,Cascader,provider counterparts,types and native fallback/local override
+- [x] Preserve ButtonGroup effective md fallback through the shared platform adapter and verify override removal

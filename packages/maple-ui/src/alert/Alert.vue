@@ -42,7 +42,7 @@
         v-if="closable"
         tabindex="0"
         role="button"
-        aria-label="Close"
+        :aria-label="closeLabel"
         :class="n('close-btn')"
         @click="handleClose"
         @keydown.enter.prevent="handleKeyboardClose"
@@ -68,6 +68,7 @@ import {
   IconExclamationCircleFill,
   IconInfoCircleFill,
   transitionName,
+  useAlertLocale,
 } from './platform'
 import { alertProps } from './props'
 
@@ -82,6 +83,7 @@ const emit = defineEmits<{
   (event: 'closed'): void
 }>()
 const slots = useSlots()
+const closeLabel = useAlertLocale()
 
 const visible = ref(true)
 

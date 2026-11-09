@@ -4,6 +4,7 @@ import { fieldLoadingProps } from '../field-decorator/props'
 import { inputProps, type InputVariant } from '../input/props'
 import type { ComponentSize } from '../utils/constants'
 import { emptyValueProp } from '../utils/empty-value'
+import { isValidNumberMax, isValidNumberMin } from './number-value'
 
 export const inputNumberModes = ['embed', 'button', 'input'] as const
 export const inputNumberModelEvents = ['change', 'input'] as const
@@ -48,9 +49,19 @@ export const inputNumberProps = {
   /** 未设置时继承 FormItem。 */
   error: inputProps.error,
   /** 最大值。 */
-  max: { type: Number, default: Infinity },
+  max: {
+    type: Number,
+    default: Infinity,
+    validator: (value: number, props: Readonly<{ min?: unknown }> = {}) =>
+      isValidNumberMax(value) && (!isValidNumberMin(props.min) || props.min <= value),
+  },
   /** 最小值。 */
-  min: { type: Number, default: -Infinity },
+  min: {
+    type: Number,
+    default: -Infinity,
+    validator: (value: number, props: Readonly<{ max?: unknown }> = {}) =>
+      isValidNumberMin(value) && (!isValidNumberMax(props.max) || value <= props.max),
+  },
   /** 格式化展示文本，不改变业务数字。 */
   formatter: Function as PropType<InputNumberFormatter>,
   /** 每次编辑只解析一次原始文本。 */

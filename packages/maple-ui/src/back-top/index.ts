@@ -4,7 +4,7 @@ import { backTopProps } from './props'
 
 withInstall(BackTop)
 withPropsDefaultsSetter(BackTop, backTopProps)
-export { backTopProps }
+export { BackTop, backTopProps }
 export type { BackTopProps, BackTopTarget, BackTopEasing } from './props'
 export type BackTopInstance = InstanceType<typeof BackTop>
 export const _BackTopComponent = BackTop

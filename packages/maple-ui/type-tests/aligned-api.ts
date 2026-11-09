@@ -50,7 +50,11 @@ void [
 
 // Switch and Progress use the same public types on both platforms.
 const fractionalProgress: ProgressProps = { percent: '12.5' }
-const tonalSwitch: SwitchProps = { variant: 'tonal', readonly: true, beforeChange: async (next) => next !== 'blocked' }
+const tonalSwitch: SwitchProps = {
+  variant: 'tonal',
+  readonly: true,
+  beforeChange: async ({ value }) => value !== 'blocked',
+}
 // @ts-expect-error Removed Maple alias; use line.
 const oldVariant: SwitchProps = { variant: 'standard' }
 // @ts-expect-error The callback completes with a boolean, not a payload object.

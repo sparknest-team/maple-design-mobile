@@ -9,6 +9,13 @@ export type FabPosition = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-rig
 
 export type FabTrigger = 'click' | 'hover'
 
+export interface FabTriggerProps {
+  'aria-label'?: string
+  'aria-labelledby'?: string
+  'aria-expanded'?: boolean
+  'aria-controls'?: string
+}
+
 export type FabPlacement = 'top' | 'right' | 'bottom' | 'left'
 
 export type FabDrag = Pick<ExtractPublicPropTypes<typeof dragProps>, 'axis' | 'attraction' | 'boundary'> | boolean

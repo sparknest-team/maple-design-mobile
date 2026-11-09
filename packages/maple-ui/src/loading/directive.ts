@@ -57,8 +57,9 @@ interface LoadingElement extends HTMLElement {
     container: HTMLElement
     options: LoadingRenderOptions
     restorePosition: boolean
-    releaseLock?: () => void
+    releaseBodyLock?: () => void
     fullscreen: boolean
+    previousBusy: string | null
   }
 }
 
@@ -126,7 +127,7 @@ function mountLoading(el: LoadingElement, binding: DirectiveBinding<boolean | Lo
   vnode.appContext = getAppContext(binding.instance) as typeof vnode.appContext
   render(vnode, container)
 
-  const releaseLock = fullscreen ? acquireBodyLock(document) : undefined
+  const releaseBodyLock = fullscreen ? acquireBodyLock(document) : undefined
   if (fullscreen) {
     document.body.appendChild(container)
   } else {
@@ -136,7 +137,9 @@ function mountLoading(el: LoadingElement, binding: DirectiveBinding<boolean | Lo
     el.appendChild(container)
   }
 
-  el[INSTANCE_KEY] = { container, options, restorePosition, releaseLock, fullscreen }
+  const previousBusy = el.getAttribute('aria-busy')
+  el.setAttribute('aria-busy', 'true')
+  el[INSTANCE_KEY] = { container, options, restorePosition, releaseBodyLock, fullscreen, previousBusy }
 }
 
 function unmountLoading(el: LoadingElement) {
@@ -150,7 +153,14 @@ function unmountLoading(el: LoadingElement) {
   if (state.restorePosition) {
     el.classList.remove('mp-loading-parent--relative')
   }
-  state.releaseLock?.()
+  state.releaseBodyLock?.()
+  if (el.getAttribute('aria-busy') === 'true') {
+    if (state.previousBusy === null) {
+      el.removeAttribute('aria-busy')
+    } else {
+      el.setAttribute('aria-busy', state.previousBusy)
+    }
+  }
   el[INSTANCE_KEY] = undefined
 }
 

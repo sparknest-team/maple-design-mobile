@@ -1448,10 +1448,11 @@ Input、Textarea、InputNumber 的实际原生控件使用 `caret-color: current
 
 | 场景 | 正确入口 |
 | --- | --- |
-| 全局切换主题 | 在文档根作用域通过本库 StyleProvider 全局方法切换；根层依赖链一起重算 |
-| 定制局部组件 | 覆盖实际消费的公开 component 变量；只改 palette/system 不等于完整的局部主题重建 |
+| 全局切换主题 | 在应用根部放置 ThemeProvider，响应式更新 theme；不修改文档根节点 |
+| 局部亮暗主题 | 使用 ThemeProvider 的 theme="light/dark"；显式边界重新声明 palette/system/component 别名，支持嵌套 |
+| 定制局部组件 | style-vars 覆盖主题默认值；未指定 theme 时，只改 palette/system 不等于完整的局部主题重建 |
 | 局部 system 到 component 映射 | 在同一局部宿主显式重新声明需要的组件别名，不依赖根层旧映射 |
-| Teleport 到 body | 继承 body/html；触发器、调用处 Provider 的局部变量不自动复制过去 |
+| Teleport 到 body | 库内声明式弹层通过 Vue 上下文继承所属 ThemeProvider；第三方 Teleport 和脱离 Provider 的命令式服务需要显式设置宿主 |
 | 指定 popup-container | 宿主必须已经存在；变量放在目标宿主或真正面板上 |
 | popup-container=false | 保留调用位置的 DOM 继承；同时承担祖先 overflow、transform、定位和层叠的约束 |
 | iframe 宿主元素 | 允许来自另一文档的 HTMLElement；对方文档必须自行加载样式并提供变量，字符串选择器只查调用方文档 |
@@ -1474,7 +1475,7 @@ Input、Textarea、InputNumber 的实际原生控件使用 `caret-color: current
 
 若需要联动局部 system 色，在该宿主同时声明对应组件变量，例如 `--mp-popup-content-background-color: var(--mp-sys-color-surface-raised)`；只在宿主设置 surface-raised 不足以重算根上已经声明的别名。面板与遮罩是兄弟节点，面板变量不会向上或横向传给遮罩；共同覆盖放在共同宿主，或分别使用各组件现有的面板／overlay 样式属性。
 
-不自动复制触发器 computed style、不批量重写 root 默认值，也不为另一端不存在的组件制造变量。本条明确现有定制范围，不新增 Token、不承诺局部 StyleProvider 会自动重建全部主题依赖链。自定义前景和背景需配对检查，本文的示例不是任意插槽配色保证。
+ThemeProvider 的显式 theme 边界通过按需 CSS 重建主题依赖链，库内弹层传递主题上下文与用户变量。实现不扫描 computed style、不逐个改写后代，也不修改文档根主题；未指定 theme 时仍保留原有局部变量覆盖语义。自定义前景和背景需配对检查，本文的示例不是任意插槽配色保证。
 
 `check:portal-scope` 使用真实 Teleport，检查 body／选择器／元素／inline 挂载、宿主切换后的实例状态、旧宿主滚动锁释放、跨文档参数与事件归属及卸载清理。DOM 和生命周期测试不计算浏览器像素；CSS 检查器验证局部覆盖时不能把根层的原始别名表达式带到子节点后重新求值。窄屏、200% 浏览器缩放、长文本、跨文档焦点和浏览器实际继承仍需独立实测。
 

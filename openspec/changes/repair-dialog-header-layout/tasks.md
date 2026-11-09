@@ -1,0 +1,3 @@
+- [x] Verify current interactive exclusion and reproduce zero-top difference
+- [x] Repair minimal top condition and document actual header behavior
+- [x] Validate both Dialog platforms,drag consumers and native focus/geometry

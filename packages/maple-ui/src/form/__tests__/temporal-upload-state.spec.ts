@@ -113,13 +113,22 @@ function fixture(entry: any[], editMode: string, beforeCommit?: any, rules?: any
   const action = async (confirm = true) => {
     await panel()
       .findAll('button')
-      .find((button) => (confirm ? ['确认', '确定'].includes(button.text()) : button.text() === '×'))!
+      .find((button) =>
+        confirm ? ['确认', '确定'].includes(buttonLabelText(button)) : buttonLabelText(button) === '×',
+      )!
       .trigger('click')
     await flushPromises()
   }
   const isOpen = () => wrapper.get('[aria-haspopup=dialog]').attributes('aria-expanded') === 'true'
   return { wrapper, model, state, panel, editor, open, choose, draft, blocked, action, isOpen, initial, next, fixed }
 }
+function buttonLabelText(button: { element: Element }) {
+  // Decorative aria-hidden loading/icon content is not the action label.
+  const clone = button.element.cloneNode(true) as Element
+  clone.querySelectorAll('[aria-hidden="true"]').forEach((node) => node.remove())
+  return clone.textContent?.trim() || button.element.textContent?.trim() || ''
+}
+
 describe('temporal and upload presentation transactions', () => {
   for (const entry of cases) {
     const [name] = entry
@@ -141,7 +150,7 @@ describe('temporal and upload presentation transactions', () => {
             f
               .panel()
               .findAll('button')
-              .filter((button) => ['确认', '确定', '×'].includes(button.text())),
+              .filter((button) => ['确认', '确定', '×'].includes(buttonLabelText(button))),
           ).toHaveLength(2)
           await f.choose(f.fixed)
           f.panel().vm.$emit('confirm')

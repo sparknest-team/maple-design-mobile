@@ -13,20 +13,20 @@
   &__column-labels {
     .temporal-column-labels();
     height: var(--mp-time-range-picker-column-label-height);
-    margin-inline: var(--mp-temporal-panel-inset);
+    margin-inline: var(--mp-internal-temporal-panel-inset);
 
     &[data-temporal-split='1'] > :nth-child(1),
     &[data-temporal-split='2'] > :nth-child(2),
     &[data-temporal-split='3'] > :nth-child(3),
     &[data-temporal-split='4'] > :nth-child(4) {
-      margin-inline-end: var(--mp-temporal-panel-group-gap);
+      margin-inline-end: var(--mp-internal-temporal-panel-group-gap);
     }
   }
   &__column-label {
     .temporal-column-label();
   }
   &__next-day {
-    margin: var(--mp-sys-space-2) var(--mp-temporal-panel-inset);
+    margin: var(--mp-sys-space-2) var(--mp-internal-temporal-panel-inset);
     text-align: end;
     font-size: 12px;
     font-weight: 400;
@@ -46,7 +46,7 @@
   }
   &__order-error {
     margin: 0;
-    padding: var(--mp-sys-space-2) var(--mp-temporal-panel-inset);
+    padding: var(--mp-sys-space-2) var(--mp-internal-temporal-panel-inset);
     color: var(--mp-color-danger);
     font-size: var(--mp-font-size-sm);
     line-height: 1.5;

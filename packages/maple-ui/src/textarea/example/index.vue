@@ -2,12 +2,14 @@
 import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maple-design/cli/client'
 import OrganizedAppearanceLab from './demos/appearance-lab.vue'
+import AutoSizeDemo from './demos/auto-size.vue'
 import BodyDemo from './demos/body-contract.vue'
 import Demo1 from './demos/demo-1.vue'
 import Demo3 from './demos/demo-3.vue'
 import Demo4 from './demos/demo-4.vue'
 import Demo5 from './demos/demo-5.vue'
 import Demo6 from './demos/demo-6.vue'
+import EmptyPolicyDemo from './demos/empty-policy.vue'
 import EnBodyDemo from './demos/en-US/body-contract.vue'
 import EnDemo1 from './demos/en-US/demo-1.vue'
 import EnDemo3 from './demos/en-US/demo-3.vue'
@@ -81,8 +83,20 @@ onThemeChange()
     <OrganizedStateLab />
   </section>
 
+  <section data-demo="auto-size"><app-type>自动高度 / Auto Size</app-type><AutoSizeDemo /></section>
+
   <section data-demo="body-contract">
     <app-type>{{ english ? 'Body and event contract' : '主体与事件契约' }}</app-type
     ><EnBodyDemo v-if="english" /><BodyDemo v-else />
+  </section>
+
+  <h2 class="mobile-demo-group-heading" data-demo-group="value-model-and-interaction">
+    <span lang="zh-CN">值模型与交互</span>
+    <span lang="en-US">Value model and interaction</span>
+  </h2>
+
+  <section data-demo="empty-policy">
+    <h3>动态清空策略 / Dynamic empty values</h3>
+    <EmptyPolicyDemo />
   </section>
 </template>

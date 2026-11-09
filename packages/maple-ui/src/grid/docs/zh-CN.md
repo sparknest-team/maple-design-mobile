@@ -81,7 +81,8 @@ CSS Grid 布局：列数、跨列、间距、折叠与后缀。24 栏 Flex 布�
 ## API
 
 <!-- same-source-api:start -->
-### Props
+
+### Grid Props
 
 | 属性 | 说明 | Type | Default |
 | --- | --- | --- | --- |
@@ -91,37 +92,52 @@ CSS Grid 布局：列数、跨列、间距、折叠与后缀。24 栏 Flex 布�
 | collapsed | 折叠超出的行 | `boolean` | `false` |
 | collapsed-rows | 折叠时保留行数，最少为 1 | `number` | `1` |
 
-### Events
+### Grid Events
 
 | Event | Description |
 | --- | --- |
 
-### Slots
+### Grid Slots
 
 | Slot | Description |
 | --- | --- |
 | default | 布局内容 |
 
-### Methods
+### Grid Methods
 
 | Method | Description |
 | --- | --- |
 <!-- same-source-api:end -->
 
-## 响应式与可访问性
-
-断点基于浏览器视口：xs 为基础值，sm ≥576、md ≥768、lg ≥992、xl ≥1200、xxl ≥1600px；从最大匹配断点向下取已配置值。SSR 首屏使用 xs，挂载后响应视口；Grid 折叠和动态排序在挂载后计算。组件为布局容器，不增加键盘快捷键；内容语义及可聚焦元素由调用者提供。没有公开方法和专用主题 Token。
-
-## GridItem
+### GridItem Props
 
 | Prop | Description | Type | Default |
 | --- | --- | --- | --- |
 | span | 跨越格数 | number / ResponsiveValue | 1 |
-| offset | 左侧留空格数 | number / ResponsiveValue | 0 |
+| offset | 逻辑行内起点留空格数 | number / ResponsiveValue | 0 |
 | suffix | 行末后缀 | boolean | false |
 
-默认插槽参数 `{ overflow: boolean }` 表示折叠是否隐藏了内容；没有自定义事件或公开方法。
+默认插槽参数 `{ overflow: boolean }` 表示父 Grid 是否因折叠隐藏了普通项，所有 GridItem（含后缀）读取同一个整体状态，并非当前项自身溢出；展开时为 false。SSR 和挂载前先显示全部项，挂载后再计算折叠，首屏可能出现布局变化。offset 从逻辑行内起点留空，RTL 自动镜像；span 表示内容跨列数，offset 另计入轨道预算。没有自定义事件或公开方法。
+
+## 响应式与可访问性
+
+断点基于浏览器视口：xs 为基础值，sm ≥576、md ≥768、lg ≥992、xl ≥1200、xxl ≥1600px；从最大匹配断点向下取已配置值。SSR 首屏使用 xs，挂载后响应视口；Grid 折叠和动态排序在挂载后计算。组件为布局容器，不增加键盘快捷键；内容语义及可聚焦元素由调用者提供。没有公开方法和专用主题 Token。
 
 ## 导入
 
-Grid 仅包含 Grid.Item；Row、Col 是独立组件，拥有独立源码、样式、菜单、文档和 Demo。已移除 Grid.Row/Grid.Col、Grid 入口的 Row/Col 转导出以及 GridRowInstance/GridColInstance。请从库根入口或独立 row/col 入口导入；安装 Grid 不再自动注册 Row/Col。
+Grid 仅包含 Grid.Item。Row、Col 是独立组件，请从库根入口或对应的 row/col 子入口导入；安装 Grid 不会注册 Row 或 Col。旧 Grid.Row/Grid.Col 以及 GridRowInstance/GridColInstance 不再提供。
+
+## 数值和折叠预算
+
+数值输入必须有限；保留既有有限数值的取整和归零规则：cols 向下取整且至少 1，collapsed-rows 至少 1 行，负间距和负 offset 归零，span 非正数隐藏。非有限或畸形输入按各属性默认值回退：cols=24、collapsed-rows=1、span=1，间距及 offset=0。响应式对象仅接受六个断点，保留有效字段；undefined 视为省略。开发环境使用统一的 Vue 属性校验提示。
+
+折叠预算按实际 DOM 顺序计算，后缀可位于开头、中间或末尾，不会为计算而移动内容节点。后缀仍定位在所在行的逻辑末端，因此其后的普通项可能换行。普通项保留能容纳的连续前缀；所有后缀始终保留。若后缀自身已超出行数预算，保留后缀优先于限制总行数。视觉布局不改变 DOM、键盘或辅助技术阅读顺序。
+## CSS Variables
+
+<!-- component-css-variables:start -->
+
+本组件未声明独立的公共 CSS 变量。请使用本页公开的配置与布局入口。
+
+内部自定义属性与测量中间值属于实现细节，不作为业务定制 API。
+
+<!-- component-css-variables:end -->

@@ -1,33 +1,40 @@
 <template>
   <div :class="itemClass">
-    <div
-      :id="`${idBase}-header`"
-      role="button"
-      :tabindex="disabled ? -1 : 0"
-      :aria-disabled="disabled"
-      :aria-expanded="isExpanded"
-      :aria-controls="`${idBase}-panel`"
-      :class="headerClass"
-      @click="handleClick"
-      @keydown="handleKeydown"
-    >
-      <div v-if="mergedShowExpandIcon && expandIconPosition === 'left'" :class="n('expand-icon-wrap')">
-        <slot name="expand-icon" v-bind="expandIconSlotProps">
-          <ParentExpandIcon v-if="hasParentExpandIcon" />
-          <DefaultExpandIcon v-else v-bind="expandIconSlotProps" />
-        </slot>
-      </div>
-      <div v-if="$slots.title || title" :class="n('header-title')">
-        <slot name="title">{{ title }}</slot>
+    <div :class="headerClass" @click="handleClick">
+      <div
+        :class="n('header-heading')"
+        :role="validHeadingLevel ? 'heading' : undefined"
+        :aria-level="validHeadingLevel"
+      >
+        <div
+          :id="`${idBase}-header`"
+          role="button"
+          :tabindex="disabled ? -1 : 0"
+          :aria-disabled="disabled"
+          :aria-expanded="isExpanded"
+          :aria-controls="`${idBase}-panel`"
+          :class="n('header-button')"
+          @keydown="handleKeydown"
+        >
+          <div v-if="mergedShowExpandIcon && expandIconPosition === 'left'" :class="n('expand-icon-wrap')">
+            <slot name="expand-icon" v-bind="expandIconSlotProps">
+              <ParentExpandIcon v-if="hasParentExpandIcon" />
+              <DefaultExpandIcon v-else v-bind="expandIconSlotProps" />
+            </slot>
+          </div>
+          <div v-if="$slots.title || title" :class="n('header-title')">
+            <slot name="title">{{ title }}</slot>
+          </div>
+          <div v-if="mergedShowExpandIcon && expandIconPosition === 'right'" :class="n('expand-icon-wrap')">
+            <slot name="expand-icon" v-bind="expandIconSlotProps">
+              <ParentExpandIcon v-if="hasParentExpandIcon" />
+              <DefaultExpandIcon v-else v-bind="expandIconSlotProps" />
+            </slot>
+          </div>
+        </div>
       </div>
       <div v-if="$slots.extra" :class="n('header-extra')" @click.stop>
         <slot name="extra" />
-      </div>
-      <div v-if="mergedShowExpandIcon && expandIconPosition === 'right'" :class="n('expand-icon-wrap')">
-        <slot name="expand-icon" v-bind="expandIconSlotProps">
-          <ParentExpandIcon v-if="hasParentExpandIcon" />
-          <DefaultExpandIcon v-else v-bind="expandIconSlotProps" />
-        </slot>
       </div>
     </div>
     <Transition
@@ -37,12 +44,13 @@
       @before-leave="onBeforeLeave"
       @leave="onLeave"
       @after-leave="onAfterLeave"
+      @leave-cancelled="onLeaveCancelled"
     >
       <div
         v-show="isExpanded"
         :id="`${idBase}-panel`"
-        role="region"
-        :aria-labelledby="`${idBase}-header`"
+        :role="region ? 'region' : undefined"
+        :aria-labelledby="region ? `${idBase}-header` : undefined"
         :class="n('content')"
       >
         <div v-if="contentMounted" :class="n('content-box')">
@@ -67,6 +75,11 @@ defineSlots<CollapseItemSlots>()
 const { n, classes } = createNamespace('collapse-item')
 const collapseCtx = inject(collapseKey)
 const itemName = computed(() => props.name as CollapseName)
+const validHeadingLevel = computed(() =>
+  Number.isInteger(props.headingLevel) && props.headingLevel! >= 1 && props.headingLevel! <= 6
+    ? props.headingLevel
+    : undefined,
+)
 const disabledRef = computed(() => props.disabled)
 const isExpanded = computed(() => collapseCtx?.expandedNames.includes(itemName.value) ?? false)
 const mergedDestroyOnHide = computed(() => Boolean(collapseCtx?.destroyOnHide || props.destroyOnHide))
@@ -111,8 +124,13 @@ watch(itemName, (nextName, prevName) => {
   })
 })
 
-watch([isExpanded, mergedDestroyOnHide], ([expanded, destroy]) => {
-  contentMounted.value = expanded || !destroy
+let leaving = false
+watch([isExpanded, mergedDestroyOnHide], ([expanded, destroy], [wasExpanded]) => {
+  if (expanded || !destroy) {
+    contentMounted.value = true
+  } else if (!wasExpanded && !leaving) {
+    contentMounted.value = false
+  }
 })
 
 function handleClick(e: Event) {
@@ -140,6 +158,7 @@ function onAfterEnter(el: Element) {
 }
 
 function onBeforeLeave(el: Element) {
+  leaving = true
   ;(el as HTMLElement).style.height = `${el.scrollHeight}px`
 }
 
@@ -147,8 +166,13 @@ function onLeave(el: Element) {
   ;(el as HTMLElement).style.height = '0'
 }
 
+function onLeaveCancelled() {
+  leaving = false
+}
+
 function onAfterLeave() {
-  if (mergedDestroyOnHide.value) {
+  leaving = false
+  if (!isExpanded.value && mergedDestroyOnHide.value) {
     contentMounted.value = false
   }
 }

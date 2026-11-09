@@ -284,132 +284,172 @@ export default defineConfig({
 
 继承最近的 `dir="ltr|rtl"`，支持运行时切换与局部覆盖。预览集合的上一张/下一张、水平键与滑动沿阅读方向工作，值数组不反转。方向切换取消尚未完成的手势并保持当前图片、缩放与旋转；图片本身和放大后的拖拽坐标不自动镜像。图片序号保持 LTR 数值显示。
 
+## 使用说明
+
+### 图片预览组序号
+
+`modelValue/defaultValue` 从 **1** 开始，`1` 表示第 1 张。`open(imageNumber = 1)`、`to(imageNumber)` 接收相同序号，无效或非整数序号会被忽略。`prev()/next()` 在循环边界也回传同一规则的序号。模型事件为 `update:modelValue(imageNumber)`，切换通知为 `change(imageNumber, previousImageNumber)`；外部赋值不补发切换通知。长按通知为 `long-press(imageNumber)`，指示器插槽参数为 `{ imageNumber, length }`。内部数组下标仍从 0 开始。
+
+根节点 `class`、`style` 与 Image 容器样式合并；内部图片样式通过 `img-props.class/style` 设置。预览的 `open-change` 是 Vue 通知事件：每次状态切换只发送一次，`.once` 遵循 Vue 事件语义，返回 Promise 不控制 loading。类型中的 `onOpenChange` 监听器也走同一事件入口。
+
 ## API
 
 图片预览组使用 `v-model` 绑定从 1 开始的图片序号，`defaultValue` 提供非受控初始图片序号；面板开关独立使用 `v-model:open` 与 `defaultOpen`。函数式预览配置同步使用 modelValue/defaultValue 和 onUpdate:modelValue。
 
-### 属性
+### Image Props
 
-| 参数                   | 说明                                                                                                                                | 类型                             | 默认值    |
-| ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | -------------------------------- | --------- |
-| `src`                  | 图片地址                                                                                                                            | _string_                         | `-`       |
-| `object-fit`           | 填充模式, 可选值为 `fill contain cover none scale-down`                                                                             | _string_                         | `fill`    |
-| `object-position`      | 沿用 CSS object-position，控制图像内容在图片盒内的对齐，默认 50% 50%；不是组件坐标 | _string_                         | `50% 50%` |
-| `alt`                  | 替代文本                                                                                                                            | _string_                         | `-`       |
-| `title`                | 图片描述，透传给 `img` 的 `title` 属性                                                                                              | _string_                         | `-`       |
-| `description`          | 图片描述，`alt` 未设置时作为替代文本，也用于默认错误状态                                                                            | _string_                         | `-`       |
-| `hide-footer`          | 是否隐藏底部内容；设为 `never` 时错误状态仍显示                                                                                     | _boolean \| 'never'_             | `false`   |
-| `footer-position`      | 说明区位于图片内部 inner 或外部 outer，默认 inner；不是四边浮层方位 | _string_                         | `inner`   |
-| `footer-class`         | 底部内容类名                                                                                                                        | _string \| array \| object_      | `-`       |
-| `referrer-policy`      | 指示在获取资源时使用的来源地址。该属性需注意浏览器兼容性，参见 [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img) | _string_                         | `-`       |
-| `width`                | 图片宽度                                                                                                                            | _string \| number_               | `-`       |
-| `height`               | 图片高度                                                                                                                            | _string \| number_               | `-`       |
-| `radius`               | 图片圆角                                                                                                                            | _string \| number_               | `0`       |
-| `lazy`                 | 是否开启懒加载                                                                                                                      | _boolean_                        | `false`   |
-| `show-loader`          | 当开启懒加载时，加载中显示的图片                                                                                                    | _string_                         | `-`       |
-| `fallback-src`         | 当开启懒加载时，加载失败显示的图片                                                                                                  | _string_                         | `-`       |
-| `show-loader`          | 是否显示默认加载状态                                                                                                                | _boolean_                        | `false`   |
-| `ripple`               | 是否开启水波                                                                                                                        | _boolean_                        | `false`   |
-| `block`                | 是否是块级元素                                                                                                                      | _boolean_                        | `true`    |
-| `preview-disabled`     | 是否禁用点击预览                                                                                                                    | _boolean_                        | `false`   |
-| `preview-src`          | 预览大图地址，默认与 `src` 相同                                                                                                     | _string_                         | `-`       |
-| `v-model:open` | 受控预览状态                                                                                                                        | _boolean_                        | `-`       |
-| `default-open` | 默认预览打开状态                                                                                                                    | _boolean_                        | `false`   |
-| `preview-props`        | 透传给 `ImagePreview` 的配置                                                                                                        | _object_                         | `-`       |
-| `popup-container`      | 预览挂载位置，设为 `false` 时禁用 Teleport                                                                                          | _string \| HTMLElement \| false_ | `body`    |
+| 属性 | 类型 | 默认值 | 说明 |
+| --- | --- | --- | --- |
+| src | string | - | 缩略图地址 |
+| preview-src | string | - | 预览地址，回退到 src |
+| fallback-src | string | - | 失败后尝试一次备用地址 |
+| width | string \| number | - | 根元素宽度，数字为 px |
+| height | string \| number | - | 根元素高度，数字为 px |
+| object-fit | ImageFit | fill | 图片填充方式 |
+| object-position | string | 50% 50% | 图片内容位置 |
+| radius | string \| number | 0 | 根元素圆角 |
+| alt | string | - | 图片替代文本，保留空字符串 |
+| title | string | - | 图片及页脚标题 |
+| description | string | - | 页脚说明及 alt 后备 |
+| load-description | string | - | 最后的 alt 后备 |
+| hide-footer | boolean \| 'never' | false | 隐藏页脚，或在所有加载状态显示 |
+| footer-position | 'inner' \| 'outer' | inner | 页脚位置 |
+| footer-class | string \| array \| object | - | 页脚类名 |
+| lazy | boolean | false | 浏览器原生懒加载 |
+| img-props | ImgHTMLAttributes | - | 缩略图原生属性 |
+| previewed-img-props | ImgHTMLAttributes | - | 单图预览的原生图片属性 |
+| show-loader | boolean | false | 加载时显示默认指示器 |
+| ripple | boolean | false | 启用水波 |
+| block | boolean | true | 块级布局 |
+| preview-disabled | boolean | false | 禁用预览 |
+| open / v-model:open | boolean | - | 单图受控预览状态 |
+| default-open | boolean | false | 单图非受控初始状态 |
+| preview-props | `Partial<ImagePreviewProps>` | - | 单图预览配置 |
+| popup-container | string \| HTMLElement \| false | body | 预览挂载目标 |
 
-### 事件
+### Image Events
 
-| 事件名                | 说明                                                                               | 参数            |
-| --------------------- | ---------------------------------------------------------------------------------- | --------------- |
-| `click`               | 点击图片时触发                                                                     | `event: Event`  |
-| `load`                | 图片成功加载时触发(懒加载模式下失败时会多次尝试加载图片，只会在成功加载时触发)     | `event: Event`  |
-| `error`               | 图片失败加载时触发(懒加载模式下失败时会多次尝试加载图片，只会在尝试次数结束时触发) | `event: Event`  |
-| `open-change` | 预览打开/关闭时触发                                                                | `open: boolean` |
-| `update:open` | `open` 模型更新                                                            | `open: boolean` |
+| 事件 | 说明 | 参数 |
+| --- | --- | --- |
+| update:open | 预览状态请求 | open: boolean |
+| open-change | 预览状态请求 | open: boolean |
+| click | 图片激活 | event: Event |
+| load | 图片加载成功 | event: Event |
+| error | 图片加载失败 | event: Event |
 
-### 插槽
+### Image Slots
 
-| 插槽名            | 说明                   | 参数 |
-| ----------------- | ---------------------- | ---- |
-| `error`           | 加载失败插槽           | `-`  |
-| `error-icon`      | 自定义默认错误状态图标 | `-`  |
-| `loader`          | 自定义加载状态         | `-`  |
-| `extra`           | 底部额外内容           | `-`  |
-| `preview-actions` | 自定义预览操作内容     | `-`  |
+| 插槽 | 说明 | 作用域 |
+| --- | --- | --- |
+| extra | 页脚额外内容 | - |
+| placeholder | 加载占位，优先于 loader | - |
+| loader | 自定义加载指示器 | - |
+| error | 错误内容 | - |
+| error-icon | 默认错误图标替换内容 | - |
+| preview-actions | 单图预览工具栏额外动作 | - |
 
 ### 命令式预览
 
 `imagePreview(url | url[] | options)` 返回统一控制句柄，提供 `open / close / prev / next / to / reset / zoomTo / zoomIn / zoomOut / rotateLeft / rotateRight / toggleFullscreen`。
 
-## ImagePreview API
+### ImagePreview Props
 
-### 属性
+| 属性 | 类型 | 默认值 | 说明 |
+| --- | --- | --- | --- |
+| src | string | - | 预览图片地址 |
+| open / v-model:open | boolean | - | 受控预览状态 |
+| default-open | boolean | false | 非受控初始状态 |
+| interaction | 'auto' \| 'desktop' \| 'touch' | auto | 交互模式 |
+| popup-container | string \| HTMLElement \| false | body | 预览挂载目标 |
+| lock-scroll | boolean | true | 锁定背景滚动 |
+| closable | boolean | true | 显示独立关闭按钮 |
+| overlay-closable | boolean | true | 允许点击背景关闭 |
+| esc-to-close | boolean | true | 允许 Escape 关闭 |
+| image-prevent-default | boolean | false | 阻止图片右键菜单 |
+| default-scale | number | 1 | 初始及重置缩放比例 |
+| min-scale | number | 0.5 | 缩放下限 |
+| max-scale | number | 8 | 缩放上限 |
+| scale-step | number | 0.5 | 每次缩放步长 |
+| wheel-zoom | boolean | desktop | 滚轮缩放，省略时按交互模式决定 |
+| keyboard | boolean | desktop | 启用预览快捷键 |
+| draggable | boolean | true | 启用指针手势 |
+| keep-drag-offset | boolean | false | 缩放回 1 或更小时保留位移 |
+| show-toolbar | boolean | true | 显示工具栏及 actions 插槽 |
+| actions-layout | ImagePreviewActionName[] | desktop defaults / touch [] | 工具栏动作顺序 |
+| previewed-img-props | ImgHTMLAttributes | - | 预览图片原生属性 |
 
-| 参数                    | 说明                                             | 类型                             | 默认值  |
-| ----------------------- | ------------------------------------------------ | -------------------------------- | ------- |
-| `v-model:open`          | 是否显示                                         | _boolean_                        | `false` |
-| `default-open`          | 非受控模式的默认打开状态                         | _boolean_                        | `false` |
-| `src`                   | 单图预览地址                                     | _string_                         | `-`     |
-| `scale-step`            | 每次缩放增量                                     | _number_                         | `0.5`   |
-| `closable`              | 是否显示关闭按钮                                 | _boolean_                        | `true`  |
-| `overlay-closable`      | 点击图片外的背景层是否关闭预览，点击图片不会关闭 | _boolean_                        | `true`  |
-| `lock-scroll`           | 锁定滚动                                         | _boolean_                        | `true`  |
-| `esc-to-close`          | 是否支持键盘 ESC 关闭                            | _boolean_                        | `true`  |
-| `popup-container`       | 弹出层挂载的位置                                 | _string \| HTMLElement \| false_ | `body`  |
-| `image-prevent-default` | 是否禁止图片默认行为                             | _boolean_                        | `false` |
+`images` 未提供或为 `undefined` 时收集可预览的子 Image，并随实际 DOM 顺序变化；子图片地址更新不会改变其身份或顺序。显式提供数组时只使用数组，`[]` 表示空集合；切回 `undefined` 后恢复子图片模式。数组模式下请使用组的 `open` / `to` 方法选择图片，子图片不负责映射数组索引。
 
-### ImagePreviewGroup 属性
+索引对外从 1 开始。数据减少时显示索引会限制在有效范围内；子图片重排时保留当前图片身份。受控 `modelValue` 需要调整时会发出更新请求，父级可自行接受或拒绝；无图片时不显示预览内容，既有 open 状态保留，数据再次出现时可能恢复显示。
 
-| 参数               | 说明                                         | 类型                             | 默认值  |
-| ------------------ | -------------------------------------------- | -------------------------------- | ------- |
-| `images`           | 图片 URL 列表（设置后不再收集子 Image）      | _string[]_                       | `[]`    |
-| `v-model:open`     | 是否打开预览                                 | _boolean_                        | `false` |
-| `default-open`     | 非受控默认打开状态                           | _boolean_                        | `false` |
-| `v-model`  | 当前图片序号                                 | _number_                         | `-`     |
-| `default-value`  | 非受控模式的默认图片序号                     | _number_                         | `1`     |
-| `loop`             | 是否循环切换                                 | _boolean_                        | `false` |
-| `closable`         | 是否显示关闭按钮                             | _boolean_                        | `true`  |
-| `overlay-closable` | 点击图片外的背景层是否关闭，点击图片不会关闭 | _boolean_                        | `true`  |
-| `esc-to-close`     | 是否支持键盘 ESC 关闭                        | _boolean_                        | `true`  |
-| `popup-container`  | 弹出层挂载位置                               | _string \| HTMLElement \| false_ | `body`  |
+可预览的图片提供具名按钮语义，支持 Tab、Enter 和 Space；预览关闭时，如果焦点仍在预览内或已回到页面主体，会尝试返回打开预览前的焦点。关闭预览功能或图片加载失败时不提供该入口。显式 `alt=""` 保持为空；可预览的装饰图仍通过独立的预览操作名称提供可访问入口。`alt` 未提供时依次使用 `imgProps.alt`、`description` 和 `loadDescription`。
 
-### 事件
+开启键盘快捷键时，仅顶层预览处理方向键与空格；输入框、可编辑区域和其他交互控件保留自身按键行为。
 
-| 事件名        | 说明                                     | 回调参数                 |
-| ------------- | ---------------------------------------- | ------------------------ |
-| `change`      | 切换图片时的回调函数，回调参数为当前图片序号（从 1 开始） | `imageNumber: number, previousImageNumber: number` 图片序号 |
-| `open`        | 打开 image-preview 时触发                | `-`                      |
-| `opened`      | 打开 image-preview 动画结束时触发        | `-`                      |
-| `open-change` | 打开状态变化时触发                       | `open: boolean`          |
-| `close`       | 关闭 image-preview 时触发                | `-`                      |
-| `closed`      | 关闭 image-preview 动画结束时触发        | `-`                      |
-| `long-press`  | 长按图片时的回调函数，回调参数为当前图片序号（从 1 开始） | `imageNumber: number` 图片序号 |
-| `key-escape`  | 点击键盘 ESC 时触发                      | `-`                      |
+### ImagePreviewGroup Props
 
-### 方法
+| 属性 | 类型 | 默认值 | 说明 |
+| --- | --- | --- | --- |
+| open / v-model:open | boolean | - | 受控预览状态 |
+| default-open | boolean | false | 非受控初始状态 |
+| interaction | 'auto' \| 'desktop' \| 'touch' | auto | 交互模式 |
+| popup-container | string \| HTMLElement \| false | body | 预览挂载目标 |
+| lock-scroll | boolean | true | 锁定背景滚动 |
+| closable | boolean | true | 显示独立关闭按钮 |
+| overlay-closable | boolean | true | 允许点击背景关闭 |
+| esc-to-close | boolean | true | 允许 Escape 关闭 |
+| image-prevent-default | boolean | false | 阻止图片右键菜单 |
+| default-scale | number | 1 | 初始及重置缩放比例 |
+| min-scale | number | 0.5 | 缩放下限 |
+| max-scale | number | 8 | 缩放上限 |
+| scale-step | number | 0.5 | 每次缩放步长 |
+| wheel-zoom | boolean | desktop | 滚轮缩放，省略时按交互模式决定 |
+| keyboard | boolean | desktop | 启用预览快捷键 |
+| draggable | boolean | true | 启用指针手势 |
+| keep-drag-offset | boolean | false | 缩放回 1 或更小时保留位移 |
+| show-toolbar | boolean | true | 显示工具栏及 actions 插槽 |
+| actions-layout | ImagePreviewActionName[] | desktop defaults / touch [] | 工具栏动作顺序 |
+| images | string[] | - | 显式图片数组；undefined 收集子项，[] 为空 |
+| model-value / v-model | number | - | 受控图片序号，从 1 开始 |
+| default-value | number | 1 | 初始图片序号，从 1 开始 |
+| loop | boolean | false | 切换时循环 |
 
-| 方法名                             | 说明               | 参数                            | 返回值 |
-| ---------------------------------- | ------------------ | ------------------------------- | ------ |
-| `imagePreview`                     | 显示 image-preview | _options \| string \| string[]_ | `-`    |
-| `imagePreview.close`               | 关闭 image-preview | _-_                             | `-`    |
-| `imagePreview.setDefaultOptions`   | 设置默认的选项配置 | _options_                       | `-`    |
-| `imagePreview.resetDefaultOptions` | 重置默认的选项配置 | _-_                             | `-`    |
-| `prev` / `next`                    | 切换图片           | `-`                             | `-`    |
-| `to`                               | 跳转到指定图片序号（从 1 开始）     | `imageNumber: number`                 | `-`    |
-| `zoomTo`                           | 设置缩放比例       | `scale: number`                 | `-`    |
-| `zoomIn` / `zoomOut`               | 放大或缩小         | `-`                             | `-`    |
-| `rotateLeft` / `rotateRight`       | 旋转图片           | `-`                             | `-`    |
-| `reset` / `toggleFullscreen`       | 重置或切换全屏     | `-`                             | `-`    |
+### ImagePreviewGroup Events
 
-### 插槽
+| 事件 | 说明 | 参数 |
+| --- | --- | --- |
+| update:open | 预览状态请求 | open: boolean |
+| open-change | 预览状态请求 | open: boolean |
+| update:modelValue | 图片序号更新请求 | imageNumber: number |
+| change | 图片序号变更请求 | imageNumber: number, previousImageNumber: number |
+| open / opened | 打开动画开始或结束 | - |
+| close / closed | 关闭动画开始或结束 | - |
+| key-escape | Escape 通知 | - |
+| long-press | 长按通知 | imageNumber: number |
 
-| 插槽名       | 说明             | 参数                                                    |
-| ------------ | ---------------- | ------------------------------------------------------- |
-| `indicator`  | 分页指示器       | `imageNumber: number` 图片序号 <br> `length: number` 图片总数 |
-| `close-icon` | 关闭按钮         | `-`                                                     |
-| `extra`      | 额外插槽         | `-`                                                     |
-| `actions`    | 自定义预览操作区 | `-`                                                     |
+### ImagePreviewGroup Methods
+
+| 方法 | 说明 |
+| --- | --- |
+| open(imageNumber = 1) | 按从 1 开始的序号请求打开 |
+| close() | 请求关闭 |
+| prev() / next() | 切换上一张或下一张 |
+| to(imageNumber) | 切换到从 1 开始的序号 |
+| reset() | 重置当前预览变换 |
+| zoomTo(scale) | 设置有限缩放值并限制在范围内 |
+| zoomIn() / zoomOut() | 按 scale-step 调整缩放 |
+| rotateLeft() / rotateRight() | 旋转 90 度 |
+| toggleFullscreen() | 切换浏览器全屏，返回浏览器 Promise；不支持时返回 undefined |
+
+### ImagePreviewGroup Slots
+
+| 插槽 | 说明 | 作用域 |
+| --- | --- | --- |
+| default | 子图片 | - |
+| close-icon | 独立关闭按钮图标 | - |
+| indicator | 图片数量指示 | { imageNumber, length } |
+| extra | 额外预览内容 | { url } |
+| actions | 工具栏额外动作 | { url } |
 
 ### ImagePreview Options
 
@@ -431,24 +471,87 @@ export default defineConfig({
 | `onLongPress`         | 长按图片时的回调函数，回调参数为当前图片序号（从 1 开始）  | _(imageNumber: number) => void_ | `-`     |
 | `onKeyEscape`         | 点击键盘 ESC 时触发                       | _() => void_              | `-`     |
 
-### 样式变量
+### ImagePreview Events
 
-以下为组件使用的 css 变量，可以使用 [StyleProvider 组件](#/zh-CN/style-provider) 进行样式定制。
+| 事件 | 说明 | 参数 |
+| --- | --- | --- |
+| update:open | 预览状态请求 | open: boolean |
+| open-change | 预览状态请求 | open: boolean |
+| open / opened | 打开动画开始或结束 | - |
+| close / closed | 关闭动画开始或结束 | - |
+| key-escape | Escape 通知 | - |
+| long-press | 长按通知 | - |
+| prev / next | 切换请求 | - |
 
-| 变量名                                        | 默认值   |
-| --------------------------------------------- | -------- |
-| `--image-preview-swipe-indicators-text-color` | `#ddd`   |
-| `--image-preview-swipe-indicators-padding`    | `16px 0` |
-| `--image-preview-zoom-container-background`   | `#000`   |
-| `--image-preview-close-icon-top`              | `14px`   |
-| `--image-preview-close-icon-right`            | `14px`   |
-| `--image-preview-close-icon-size`             | `22px`   |
-| `--image-preview-close-icon-color`            | `#fff`   |
-| `--image-preview-extra-top`                   | `14px`   |
-| `--image-preview-extra-left`                  | `14px`   |
+### ImagePreview Slots
 
-### 图片预览组序号
+| 插槽 | 说明 | 作用域 |
+| --- | --- | --- |
+| image | 自定义预览图内容 | { src, scale, rotate, translateX, translateY, moving, previewedImgProps } |
+| actions | 工具栏额外动作 | - |
+| close-icon | 独立关闭按钮图标 | - |
+| overlay | 预览覆盖内容 | - |
+| extra | 额外预览内容 | - |
 
-`modelValue/defaultValue` 从 **1** 开始，`1` 表示第 1 张。`open(imageNumber = 1)`、`to(imageNumber)` 接收相同序号，无效或非整数序号会被忽略。`prev()/next()` 在循环边界也回传同一规则的序号。模型事件为 `update:modelValue(imageNumber)`，切换通知为 `change(imageNumber, previousImageNumber)`；外部赋值不补发切换通知。长按通知为 `long-press(imageNumber)`，指示器插槽参数为 `{ imageNumber, length }`。内部数组下标仍从 0 开始。
+### ImagePreview Methods
 
-根节点 `class`、`style` 与 Image 容器样式合并；内部图片样式通过 `img-props.class/style` 设置。预览的 `open-change` 是 Vue 通知事件：每次状态切换只发送一次，`.once` 遵循 Vue 事件语义，返回 Promise 不控制 loading。类型中的 `onOpenChange` 监听器也走同一事件入口。
+| 方法 | 说明 |
+| --- | --- |
+| open() | 请求打开 |
+| close() | 请求关闭 |
+| reset() | 重置缩放、旋转和位移 |
+| zoomTo(scale) | 设置有限缩放值并限制在范围内 |
+| zoomIn() / zoomOut() | 按 scale-step 调整缩放 |
+| rotateLeft() / rotateRight() | 旋转 90 度 |
+| toggleFullscreen() | 切换浏览器全屏，返回浏览器 Promise；不支持时返回 undefined |
+
+`Image.showPreview()` 请求打开当前可预览图片；服务 `imagePreview`、`previewImage` 和 `ImagePreviewFn` 接受 URL、URL 数组或配置对象，返回 `ImagePreviewHandle | undefined`（例如 SSR）。返回的 handle 提供 Group 的 12 项能力，单图中不适用的翻页调用无效果。服务还提供 `close()`、`setDefaultOptions()` 和 `resetDefaultOptions()`。原生 `lazy` 由浏览器调度，不承诺自动重试。
+
+缩放参数必须为有限正数；无效的 min/max/default/step 分别回退 0.5/8/1/0.5，若 max 小于 min 则按 min 处理。初始与重置缩放限制在区间内；边界变化会夹紧当前值，`zoomTo` 忽略非有限值。`actionsLayout` 中的 `close` 是工具栏关闭动作，与 `closable` 控制的独立关闭按钮分别配置。
+
+### Image Methods
+
+| 方法 | 说明 |
+| --- | --- |
+| showPreview() | 请求预览当前图片；不可预览时无操作 |
+
+### ImagePreviewAction Slots
+
+| 插槽 | 说明 | 作用域 |
+| --- | --- | --- |
+| default | 动作按钮内容 | - |
+
+## CSS Variables
+
+以下为组件使用的 css 变量，可以使用 [ThemeProvider 组件](#/zh-CN/theme-provider) 进行样式定制。
+
+<!-- component-css-variables:start -->
+
+通过以下变量定制组件外观。默认值随表中注明的主题或选择器条件变化；变量仅在对应的尺寸、变体和交互状态下生效。
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| 变量 | 默认值／条件 | 影响的样式 |
+| --- | --- | --- |
+| `--mp-image-preview-arrow-background` | `rgb(38 38 0.41304348%)` | `background-color` |
+| `--mp-image-preview-arrow-background-hover` | `rgb(56 56 0.58333333%)` | `background-color` |
+| `--mp-image-preview-arrow-color` | `#fff` | `color` |
+| `--mp-image-preview-close-icon-right` | `14px` | `inset-inline-end` |
+| `--mp-image-preview-close-icon-top` | `14px` | `top` |
+| `--mp-image-preview-swipe-indicators-padding` | `16px 0` | `padding` |
+| `--mp-image-preview-swipe-indicators-text-color` | `#ddd` | `color` |
+| `--mp-image-preview-zoom-container-background` | `#000` | `background-color` |
+
+</div>
+
+将覆盖设置在组件实际根节点或弹层真实挂载祖先上。例如给该元素添加下列 class，再按需替换变量值：
+
+```css
+.component-theme {
+  --mp-image-preview-arrow-background: rgb(38 38 0.41304348%);
+}
+```
+
+显式行内样式及直接写入同一 CSS 属性的 Props 优先于样式表默认值。Teleport 后，普通 CSS 变量按实际挂载位置继承；使用 ThemeProvider 时，请遵循其局部主题与弹层配置规则。局部定制请直接覆盖组件变量；仅修改后代的 system 变量不会重新计算从根继承的组件别名。内部变量不属于公共 API。
+
+<!-- component-css-variables:end -->

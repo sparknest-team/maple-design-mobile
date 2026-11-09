@@ -34,7 +34,6 @@ function createDialogMethod(defaultMethodConfig: Partial<DialogConfig> = {}) {
       titleAlign: 'start',
       ...config,
       open: true,
-      popupContainer: false,
       unmountOnClose: true,
     })
     const host = document.createElement('div')

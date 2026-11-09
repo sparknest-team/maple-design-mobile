@@ -3,7 +3,7 @@
 ### Intro
 
 An action sheet pops up to give the user the ability to select options.
-`ActionSheet` Functional and component use methods are provided, and there is no essential difference between the two effects and parameters.
+`ActionSheet` supports service and component calls. The service uses a separate application and mounts to body; the component uses its host application context and `popup-container`.
 The function returns a `Promise`, on selection return `action`. Click modal close to return `close`.
 
 ## Basic examples
@@ -244,7 +244,7 @@ Options accept style configuration; see the Action data structure for all fields
 
 <template>
   <mp-button status="warning" block @click="show = true">Basic usage</mp-button>
-  <mp-action-sheet :actions="actions" v-model:open="open" @select="handleSelect" />
+  <mp-action-sheet :actions="actions" v-model:open="show" @select="handleSelect" />
 </template>
 ```
 
@@ -278,7 +278,7 @@ Options accept style configuration; see the Action data structure for all fields
 
 <template>
   <mp-button status="warning" block @click="show = true">Custom title</mp-button>
-  <mp-action-sheet title="Choose an option" :actions="actions" v-model:open="open" @select="handleSelect" />
+  <mp-action-sheet title="Choose an option" :actions="actions" v-model:open="show" @select="handleSelect" />
 </template>
 ```
 
@@ -313,7 +313,7 @@ Options accept style configuration; see the Action data structure for all fields
 
 <template>
   <mp-button status="warning" block @click="show = true">Disabled options</mp-button>
-  <mp-action-sheet :actions="actions" v-model:open="open" @select="handleSelect" />
+  <mp-action-sheet :actions="actions" v-model:open="show" @select="handleSelect" />
 </template>
 ```
 
@@ -347,7 +347,7 @@ Options accept style configuration; see the Action data structure for all fields
 
 <template>
   <mp-button status="warning" block @click="show = true">Keep actions open</mp-button>
-  <mp-action-sheet :close-on-click-action="false" :actions="actions" v-model:open="open" @select="handleSelect" />
+  <mp-action-sheet :close-on-click-action="false" :actions="actions" v-model:open="show" @select="handleSelect" />
 </template>
 ```
 
@@ -384,19 +384,38 @@ Options accept style configuration; see the Action data structure for all fields
 
 <template>
   <mp-button status="warning" block @click="show = true">Custom option styles</mp-button>
-  <mp-action-sheet :actions="actions" v-model:open="open" @select="handleSelect" />
+  <mp-action-sheet :actions="actions" v-model:open="show" @select="handleSelect" />
 </template>
 ```
+
+## Keyboard and dialog name
+
+Default actions use native buttons; disabled actions cannot be focused or selected. The title or title slot names the dialog, unless an explicit `aria-label` or `aria-labelledby` overrides it. The visible cancel button requests closure through the close guard.
+
+## Controlled state
+
+When an action is selected, `close-on-click-action` requests an `open` update. A controlled parent that keeps `open=true` keeps the sheet `open`. Without `open`, `default-open` initializes internal state.
+
+## Usage notes
+
+### Closing from the title dropdown
+
+`swipe-to-close` defaults to false. When enabled, the header can be dragged down to close; `swipe-threshold` defaults to 40 CSS px. Custom title slots use the surrounding header handle. Body options and header buttons do not initiate dragging. See Popup for gesture details.
+`before-close` forwards to Popup. Overlay, Esc, route, dropdown and post-action `open` changes may be rejected asynchronously. Exceptions emit `close-error(error, reason)`. An action `select` event does not mean closing was approved.
 
 ## API
 
 `open/defaultOpen` control current/initial uncontrolled panel visibility. Use `v-model:open` for two-way binding. defaultOpen is read once without initialization writeback.
 
-### Props
+### ActionSheet Props
 
-| Arguments | Description | Type | Default |
+| Prop | Description | Type | Default |
 | ----------------------- | ------------------------------------------------------ | ------------------------------ | -------- |
-| `v-model:open` | Whether to display the action sheet | _boolean_ | `false` |
+| `v-model:open` | Controlled visibility | _boolean_ | `-` |
+| `default-open` | Initial uncontrolled visibility | _boolean_ | `false` |
+| `before-close` | Close guard | _PopupBeforeClose_ | `-` |
+| `swipe-to-close` | Enable downward swipe in the header | _boolean_ | `false` |
+| `swipe-threshold` | Downward close threshold (CSS px) | _number_ | `40` |
 | `actions` | Action list | _Actions_ | `[]` |
 | `title` | Action sheet title | _string_ | `请选择` |
 | `overlay` | Show overlay | _boolean_ | `true` |
@@ -406,13 +425,15 @@ Options accept style configuration; see the Action data structure for all fields
 | `close-on-click-action` | Whether to close the actions sheet when clicking action | _boolean_ | `true` |
 | `overlay-closable` | Whether to click the overlay to close the action sheet | _boolean_ | `true` |
 | `esc-to-close` | Whether to support keyboard ESC to close the action sheet | _boolean_ | `true` |
-| `safe-area` | Whether to enable bottom safety zone adaptation | _boolean_ | `false` |
+| `safe-area` | Whether to adapt to the bottom, left and right safe areas | _boolean_ | `false` |
 | `popup-container` | The location of the action sheet to mount | _TeleportProps['to'] \| false_ | `body` |
 
-### Events
+### ActionSheet Events
 
 | Event | Description | Arguments |
 | --------------- | -------------------------- | ---------------- |
+| `update:open` | Request an update to visibility | `boolean` |
+| `close-error` | Close guard error | `error: unknown, reason: PopupCloseReason` |
 | `select` | Triggered when selecting an action sheet | `action: Action` |
 | `open` | Triggered when opening an action sheet | `-` |
 | `opened` | Triggered when an action sheet open-animation ends | `-` |
@@ -421,21 +442,25 @@ Options accept style configuration; see the Action data structure for all fields
 | `click-overlay` | Triggered when clicking the overlay | `MouseEvent` |
 | `key-escape` | Triggered when pressing ESC | `KeyboardEvent` |
 
-### Methods
+### ActionSheet Methods
 
 | Method | Description | Arguments | Returns |
 | --------------------------------- | ------------------ | --------- | ------ |
-| `ActionSheet` | Show action sheet | _options_ | `-` |
+| `ActionSheet` | Show action sheet | _options_ | `Promise<ActionSheetActions \| void>` |
 | `ActionSheet.close` | Close action sheet | _-_ | `-` |
 | `ActionSheet.setDefaultOptions` | Set default option configuration | _options_ | `-` |
 | `ActionSheet.resetDefaultOptions` | Reset default option configuration | _-_ | `-` |
 
-### ActionSheet Options
+### FunctionCall Options
 
-#### Function-call options
+The service sets `open=true` after creation and forces body as its mount target; its `open` and `popupContainer` options do not control initial visibility or mount location.
 
-| Arguments | Description | Type | Default |
+| Prop | Description | Type | Default |
 | -------------------- | ------------------------------------------------------ | ----------------------------- | -------- |
+| `beforeClose` | Close guard | _PopupBeforeClose_ | `-` |
+| `swipeToClose` | Enable downward swipe in the header | _boolean_ | `false` |
+| `swipeThreshold` | Downward close threshold (CSS px) | _number_ | `40` |
+| `onCloseError` | Close guard error notification | _(error: unknown, reason: PopupCloseReason) => void_ | `-` |
 | `actions` | Action list | _Actions_ | `[]` |
 | `title` | Action sheet title | _string_ | `请选择` |
 | `overlay` | Show overlay | _boolean_ | `true` |
@@ -445,67 +470,82 @@ Options accept style configuration; see the Action data structure for all fields
 | `closeOnClickAction` | Whether to close the actions sheet when clicking action | _boolean_ | `true` |
 | `overlayClosable` | Whether to click the overlay to close the action sheet | _boolean_ | `true` |
 | `escToClose` | Whether to support keyboard ESC to close the action sheet | _boolean_ | `true` |
-| `safe-area` | Whether to enable bottom safety zone adaptation | _boolean_ | `false` |
+| `safeArea` | Whether to adapt to the bottom, left and right safe areas | _boolean_ | `false` |
 | `onOpen` | Action sheet open callback | _() => void_ | `-` |
 | `onOpened` | Action sheet open-animation ends callback | _() => void_ | `-` |
 | `onClose` | Action sheet close callback | _() => void_ | `-` |
 | `onClosed` | Action sheet close-animation ends callback | _() => void_ | `-` |
 | `onSelect` | Action sheet click action callback | _(action: Action) => void_ | `-` |
 | `onClickOverlay` | Click overlay callback | _(event: MouseEvent) => void_ | `-` |
-| `onKeyEscape` | Triggered when click keyboard ESC | _() => void_ | `-` |
+| `onKeyEscape` | Triggered when click keyboard ESC | _(event: KeyboardEvent) => void_ | `-` |
 
 ### ActionSheet Action
 
-| Arguments | Description | Type | Default |
+| Prop | Description | Type | Default |
 | ----------- | --------------------------- | --------- | ------- |
 | `name` | Action name | _string_ | `-` |
 | `color` | Action text color | _string_ | `-` |
-| `icon` | Icon, support network image address | _string_ | `-` |
-| `iconSize` | Icon size | _string_ | `-` |
-| `namespace` | Icon namespace | _string_ | `-` |
+| `icon` | Registered icon name | _string_ | `-` |
+| `iconSize` | Icon size | _string \| number_ | `-` |
+| `namespace` | Compatibility field; not used by current icon rendering | _string_ | `-` |
 | `className` | Class name | _string_ | `-` |
 | `disabled` | Disable or not option | _boolean_ | `false` |
 
-### Slots
+### ActionSheet Slots
 
-| Slot | Description | Arguments |
+| Slot | Description | Prop |
 | --------- | ------------ | ---- |
 | `actions` | Action list | `-` |
 | `title` | Action sheet title | `-` |
 
-### Style variables
+## Close guards
 
-The following CSS variables support customization with [StyleProvider](#/en-US/style-provider).
+The guard signature is `beforeClose({ reason }, done, { signal, event })`.
 
-| Variable | Default |
-| ------------------------------------------- | ---------------------------- |
-| `--action-sheet-border-radius` | `2px` |
-| `--action-sheet-border-top` | `none` |
-| `--action-sheet-background` | `#fff` |
-| `--action-sheet-title-color` | `#888` |
-| `--action-sheet-title-padding` | `10px 16px` |
-| `--action-sheet-title-font-size` | `14px` |
-| `--action-sheet-action-item-height` | `48px` |
-| `--action-sheet-action-item-padding` | `0px 18px` |
-| `--action-sheet-action-item-color` | `#333` |
-| `--action-sheet-action-item-disabled-color` | `var(--color-text-disabled)` |
-| `--action-sheet-icon-margin` | `0 0 20px 0` |
-| `--action-sheet-icon-size` | `24px` |
-
-### Closing from the title dropdown
-
-For bottom placement, opt in with `swipe-to-close` and mark a noninteractive header with `data-popup-swipe-handle`. `swipe-threshold` defaults to 40 layout CSS px and accounts for ancestor scaling. A sufficient downward gesture requests update:open(false) and emits swipe-close(PointerEvent). Short/upward/horizontal gestures, pointer cancellation, body scrolling and interactive header controls do not dismiss. Controlled refusal keeps the sheet open. Field editors opt in and cancel unconfirmed drafts; pending confirmation disables dismissal. ActionSheet forwards both props; custom title slots must mark their handle.
-`before-close` forwards to Popup. Overlay, Esc, route, dropdown and post-action `open` changes may be rejected asynchronously. Exceptions emit `close-error(error, reason)`. An action `select` event does not mean closing was approved.
-
-## before hooks and done compatibility
-
-`beforeClose(reason, done)` is the common entry; no alternate naming is added.
-
-Return true/false or `Promise<boolean>`. A normally completed async function returning void allows closing. Callback style uses done() to allow or done(false) to reject. Synchronous void waits for done, which may be asynchronous. If both return values and done are used, first completion wins. Pending requests deduplicate; exceptions retain the popup and restore temporary button state. done also carries signal/event. Dialog/Drawer retain their original third refs argument. Closing, unmounting or replacing hooks invalidates stale results.
+Return true/false or `Promise<boolean>`; a normally resolved async void result allows closing. Call done() to allow or done(false) to reject; synchronous void waits for done. The first result wins. Pending requests are deduplicated; errors retain the sheet and restore temporary button state. The third context argument supplies `signal` and the optional original `event`. Closing, unmounting or replacing the hook invalidates stale results.
 
 Synchronous logging-only hooks must explicitly return true; synchronous undefined means awaiting a callback. Earlier `Promise<void>` hooks without done now allow closing when their Promise resolves.
 
-Popup reasons: overlay, escape, route, swipe, close, api, model. Rejecting external open=false requests update:open(true). Direct destruction cannot await hooks; await requestClose() first.
+Popup reasons are overlay, escape, route, swipe, close, api and model. Rejecting an external open=false requests update:open(true). The component does not expose `requestClose()`; use an existing guarded close entry. Direct destruction does not wait for the hook.
 
-Service notification callbacks do not control task completion. The selected/closed result is settled independently of callback errors, and closing completion always releases the owned host. Callback errors still propagate through the calling/Vue error path; returned Promises do not control loading or closing.
-`ActionSheet.close()` requests closing and respects `beforeClose`; a veto retains the service owner so closing can be requested again. A new function invocation replaces the previous singleton: it disposes the previous host and settles its result as `close`, without waiting for its close guard or synthesizing lifecycle notifications.
+Programmatic notification callbacks do not control task completion. Service selection/closing results settle independently of callback errors, and closing completion always releases the owned host. Exceptions still propagate through the caller or Vue error channel; returned Promises do not control loading or closing.
+`ActionSheet.close()` requests closing and respects `beforeClose`. A veto retains the service owner so closing can be requested again. A new programmatic invocation replaces the previous singleton: it disposes the previous host and settles its result as `close`, without waiting for that `close` guard or synthesizing lifecycle notifications.
+
+## CSS Variables
+
+The following CSS variables support customization with [ThemeProvider](#/en-US/theme-provider).
+
+<!-- component-css-variables:start -->
+
+Use these variables to customize the component. Defaults may vary by the selector condition shown. Each variable applies to the corresponding size, variant and interaction states.
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Default / condition | Affected styles |
+| --- | --- | --- |
+| `--mp-action-sheet-action-item-color` | `#333` | `color` |
+| `--mp-action-sheet-action-item-disabled-color` | `var(--mp-color-text-disabled)` | `color` |
+| `--mp-action-sheet-action-item-height` | `48px` | `height`, `max-height` |
+| `--mp-action-sheet-action-item-padding` | `0 18px` | `padding` |
+| `--mp-action-sheet-background` | `#fff` | `background` |
+| `--mp-action-sheet-border-radius` | `2px` | `border-radius` |
+| `--mp-action-sheet-border-top` | `none` | `border-top` |
+| `--mp-action-sheet-icon-margin` | `0 20px 0 0` | `margin` |
+| `--mp-action-sheet-icon-size` | `24px` | `font-size`, `height`, `width` |
+| `--mp-action-sheet-title-color` | `#888` | `color` |
+| `--mp-action-sheet-title-font-size` | `14px` | `font-size` |
+| `--mp-action-sheet-title-padding` | `10px 16px` | `padding` |
+
+</div>
+
+Apply overrides to the rendered component root or the actual popup ancestor. For example, add the following class to that element and replace the value as needed:
+
+```css
+.component-theme {
+  --mp-action-sheet-action-item-color: #333;
+}
+```
+
+Explicit inline styles and props that write the same CSS property take precedence over stylesheet defaults. After Teleport, ordinary CSS variables inherit from the actual mount location. When using ThemeProvider, follow its local-theme and popup configuration rules. Override the component variable directly for local styling; root-level aliases are not recalculated merely because a descendant system variable changes. Internal variables are not public APIs.
+
+<!-- component-css-variables:end -->

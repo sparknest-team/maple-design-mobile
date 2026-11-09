@@ -4,6 +4,7 @@
       <div
         v-if="!unmountOnClose || transition.shouldRender.value"
         v-show="mergedOpen"
+        v-bind="themeScope"
         ref="popupRoot"
         :dir="readingDirection"
         :class="classes(n('$--box'), n(), [!overlay, n('--pointer-events-none')])"
@@ -45,16 +46,19 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onDeactivated, ref, watch } from 'vue'
+import { computed, mergeProps, onDeactivated, ref, watch } from 'vue'
 import PendingFeedback from '../_components/pending-feedback/PendingFeedback.vue'
 import { invokeBeforeHook, useActionGuard } from '../_hooks/use-action-guard'
 import { useDirection } from '../_utils/direction'
+import { useThemeScope } from '../theme-provider/context'
 import { createNamespace } from '../utils/components'
 import { useModalSurface } from '../utils/modal-surface'
 import type { PopupCloseReason } from './props'
 import { popupProps } from './props'
 import { usePopupItems } from './provide'
 import { useSwipeClose } from './use-swipe-close'
+
+const themeScope = useThemeScope()
 
 defineOptions({
   name: createNamespace('popup').name,
@@ -123,6 +127,8 @@ async function requestClose(reason: PopupCloseReason = 'close', event?: Event): 
       }
       return false
     }
+  }
+  if (props.beforeClose || props.open === undefined) {
     visible.value = false
   }
   mergedOpen.value = false
@@ -133,7 +139,7 @@ async function requestClose(reason: PopupCloseReason = 'close', event?: Event): 
 }
 defineExpose({ close: (event?: Event) => requestClose('api', event), requestClose, pending })
 const surface = useModalSurface({
-  open: () => (props.beforeClose ? visible.value : props.open),
+  open: () => visible.value,
   defaultOpen: () => props.defaultOpen,
   unmountOnClose: () => props.unmountOnClose,
   lockScroll: () => props.lockScroll,

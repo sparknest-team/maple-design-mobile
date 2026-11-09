@@ -5,18 +5,25 @@ import { ChoiceLabel } from '../checkbox/choice-label'
 import { normalizeChoiceOptions } from '../checkbox/choice-options'
 import { useChoiceState } from '../checkbox/choice-state'
 import type { RadioModel } from '../checkbox/choice-value-props'
+import { useFormErrorDescription } from '../form/error-description'
 import { createNamespace } from '../utils/components'
 import { radioGroupKey } from './context'
 import { useRadioForm } from './form-adapter'
 import Radio from './presentation'
 import { radioGroupProps } from './props'
+import type { RadioGroupSlots } from './types'
 import { useRadioNavigation } from './use-radio-navigation'
 
-defineOptions({ name: createNamespace('radio-group').name })
+defineOptions({ name: createNamespace('radio-group').name, inheritAttrs: false })
 const { n, classes } = createNamespace('radio-group')
 const props = defineProps(radioGroupProps)
+const { errorId, describe: describeError } = useFormErrorDescription()
+const resolvedOrientation = computed(() => (props.orientation === 'vertical' ? 'vertical' : 'horizontal'))
 const slots = useSlots()
+defineSlots<RadioGroupSlots>()
 const emit = defineEmits<{
+  'update:open': [open: boolean]
+  'open-change': [open: boolean]
   'load-error': [error: unknown]
   'update:modelValue': [value: RadioModel]
   change: [value: RadioModel, event?: Event]
@@ -52,6 +59,7 @@ provide(
     disabled: mergedDisabled,
     readonly: mergedReadonly,
     error: mergedError,
+    formErrorId: errorId,
     slots,
     handleChange: commit,
   }),
@@ -59,12 +67,17 @@ provide(
 </script>
 <template>
   <div
+    v-bind="$attrs"
+    :aria-describedby="describeError($attrs['aria-describedby'])"
+    :aria-busy="source.loading.value || undefined"
     role="radiogroup"
     :aria-label="ariaLabel"
     :aria-disabled="mergedDisabled || undefined"
     :aria-readonly="mergedReadonly || undefined"
     :aria-invalid="mergedError || undefined"
-    :class="classes(n(), n(`--${orientation}`), n(`--size-${mergedSize}`), [variant === 'button', n('--button')])"
+    :class="
+      classes(n(), n(`--${resolvedOrientation}`), n(`--size-${mergedSize}`), [variant === 'button', n('--button')])
+    "
     @keydown="navigation.keydown"
   >
     <template v-if="props.options !== undefined">

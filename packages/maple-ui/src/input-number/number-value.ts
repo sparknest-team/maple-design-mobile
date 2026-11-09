@@ -1,3 +1,15 @@
+export function isValidNumberMin(value: unknown): value is number {
+  return typeof value === 'number' && (Number.isFinite(value) || value === -Infinity)
+}
+export function isValidNumberMax(value: unknown): value is number {
+  return typeof value === 'number' && (Number.isFinite(value) || value === Infinity)
+}
+export function resolveNumberBounds(min: unknown, max: unknown): { min: number; max: number } {
+  const lower = isValidNumberMin(min) ? min : -Infinity
+  const upper = isValidNumberMax(max) ? max : Infinity
+  return lower <= upper ? { min: lower, max: upper } : { min: -Infinity, max: Infinity }
+}
+
 /** Numeric text is parsed once, before formatting the display value. */
 export function isIntermediateValue(value: string) {
   return value === '' || value === '-' || value === '.' || value === '-.' || /^-?\d+\.$/.test(value)
@@ -28,7 +40,8 @@ export function clampNumber(value: number | null | undefined, min: number, max: 
   if (value == null || !Number.isFinite(value)) {
     return undefined
   }
-  return Math.min(max, Math.max(min, value))
+  const bounds = resolveNumberBounds(min, max)
+  return Math.min(bounds.max, Math.max(bounds.min, value))
 }
 
 /** Never show a rounded string that disagrees with a clamped business value. */

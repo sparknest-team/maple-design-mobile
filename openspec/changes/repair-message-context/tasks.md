@@ -1,0 +1,3 @@
+- [x] Reproduce app injections/components/globals/errors being shared incorrectly
+- [x] Preserve each invocation context within the existing visual queue
+- [x] Verify same-id updates,full lifecycle/timer suites and both native stack layouts

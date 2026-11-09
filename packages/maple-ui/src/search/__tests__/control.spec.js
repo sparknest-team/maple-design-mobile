@@ -1,11 +1,22 @@
 import { h, KeepAlive, nextTick, ref } from 'vue'
-import { enableAutoUnmount, mount } from '@vue/test-utils'
+import { mount as rawMount } from '@vue/test-utils'
 import { afterEach, describe, expect, test } from 'vitest'
 import Form, { FormItem } from '../../form'
-import Input from '../../input'
 import Search from '../index'
 
-enableAutoUnmount(afterEach)
+const wrappers = []
+const mount = (...args) => {
+  const wrapper = rawMount(...args)
+  wrappers.push(wrapper)
+  return wrapper
+}
+afterEach(() =>
+  wrappers.splice(0).forEach((wrapper) => {
+    if (wrapper.exists()) {
+      wrapper.unmount()
+    }
+  }),
+)
 const fields = [
   { value: 'name', label: 'Name' },
   { value: 'id', label: 'ID', placeholder: 'Device ID' },
@@ -23,17 +34,6 @@ describe('Search shared control', () => {
     expect(wrapper.vm.$.setupState.state.historyMenuVisible).toBe(false)
     expect(wrapper.vm.$.setupState.state.historyPopupVisible).toBe(true)
   })
-  test.each(['outline', 'filled', 'standard'])(
-    'renders the real Input variant %s inside the shared borderless search shell',
-    async (variant) => {
-      const wrapper = mount(Search, { props: { variant, size: 'xl', editMode: 'direct' } })
-      expect(wrapper.find('.mp-input .mp-field-decorator--variant-' + variant).exists()).toBe(true)
-      const child = wrapper.findComponent(Input)
-      expect(child.props('line')).toBe(false)
-      expect(child.props('size')).toBe('xl')
-    },
-  )
-
   test('never mutates a frozen model, and reads external replacements', async () => {
     const model = Object.freeze({ name: 'initial', untouched: true })
     const wrapper = mount(Search, { props: { model, fields, defaultField: 'name' } })

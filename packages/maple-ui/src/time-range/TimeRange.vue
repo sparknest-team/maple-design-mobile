@@ -21,6 +21,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import type { TimeRangeEmits } from '../time/public-types'
 import TimeField from '../time/TimeField.vue'
 import { createNamespace } from '../utils/components'
 import { props as timeRangeProps } from './props'
@@ -31,17 +32,7 @@ defineOptions({
   inheritAttrs: false,
 })
 const props = defineProps(timeRangeProps)
-const emit = defineEmits<{
-  'update:modelValue': [value: Array<string | undefined> | undefined]
-  'update:open': [open: boolean]
-  change: [value: Array<string | undefined> | undefined, date: Array<Date | undefined> | undefined]
-  select: [value: Array<string | undefined> | undefined, date: Array<Date | undefined> | undefined]
-  clear: []
-  click: [event: Event]
-  focus: []
-  blur: []
-  'open-change': [open: boolean]
-}>()
+const emit = defineEmits<TimeRangeEmits>()
 const field = ref<InstanceType<typeof TimeField>>()
 defineExpose({
   focus: (index = 0) => field.value?.focus(index),

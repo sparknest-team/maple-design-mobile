@@ -25,7 +25,7 @@ Stripes show safe-area padding. Change the inset, set it to zero, or disable nes
 
 ### App page simulation
 
-Choose portrait, landscape or zero insets. Inspect a scrolling page, fixed actions and field popups. Each edge accepts 0–120 CSS px. Landscape fits the available width; native-size viewing is optional.
+Choose portrait, landscape, asymmetric Duo simulations or zero insets. Inspect a scrolling page, fixed actions and field popups. Each edge accepts 0–120 CSS px. Landscape fits the available width; native-size viewing is optional.
 
 The page consumes top/left/right; the footer consumes bottom once. Measurements show real padding, including normal popup content spacing. Additional form, upload and date controls appear under More form options. This complete fixture currently uses Chinese labels.
 
@@ -35,11 +35,21 @@ The page consumes top/left/right; the footer consumes bottom once. Measurements 
 
 ### Component integration
 
-Choose an edge-aligned component, adjust bottom/horizontal insets and open it. Expand the measurements when you need exact values. Simulation stays local to this example.
+Choose an edge-aligned component, adjust bottom, left and right insets independently and open it. Expand the measurements when you need exact values. Simulation stays local to this example.
 
 ```demo
 ../example/demos/en-US/affected-components.vue
 ```
+
+### Asymmetric safe areas on Duo
+
+Duo outer and inner displays in both orientations, plus left and right Split View windows, update the viewport and simulated insets together. Expanded / collapsed toolbar controls select small / large viewport heights. Left / right avoidance swaps asymmetric insets on the current viewport; zero only clears the insets.
+
+WebKit Safari 27.1 CSS viewport sizes (width × small/large height): outer portrait 382 × 580/618, outer landscape 594 × 368/406, inner portrait 669 × 867/902, inner landscape 951 × 585/620, each split window 385 × 571/609. These are not physical display dimensions. Insets are independent stress-test values, not measured insets for those viewports; do not compensate again for a side rail Safari already excludes. Read each edge independently. The host must update the remaining insets relative to the WebView content viewport after folding, unfolding, rotation, Split View or safe-area changes; pass `0` for edges already handled by the host.
+
+Safari and native apps may expose different usable viewports. Keep browser `env()` defaults unless the host supplies accurate remaining insets. Do not copy native side-rail widths into a webpage. A fold inside the screen requires separate segmented layout and cannot be represented by four edge insets.
+
+References: [WebKit web adaptation](https://webkit.org/blog/18486/webkit-features-for-safari-27-1/) and [Apple safe-area guidance](https://developer.apple.com/videos/play/tech-talks/111461/).
 
 ## Application usage
 
@@ -96,9 +106,9 @@ Choose one avoidance layer per content path. If a bottom bar uses `safe-area`, d
 | Component | Enable through | Behavior |
 | ------------------------------------- | --------------------------------------- | ------------------------------------ |
 | Popup | `safe-area-inset-top/right/bottom/left` | Add padding to specified edges |
-| Picker / ActionSheet / NumberKeyboard | `safe-area` | Delegate bottom spacing to Popup |
-| TabBar / FloatingPanel | `safe-area` | Add bottom padding |
-| Fab | `safe-area` | Adjust own bottom position |
+| Picker / ActionSheet / NumberKeyboard | `safe-area` | Delegate bottom, left and right spacing to Popup |
+| TabBar / FloatingPanel | `safe-area` | Add bottom, left and right padding |
+| Fab | `safe-area` | Respect the vertical and horizontal safe areas at the corner selected by position |
 | Form popup editor | Automatically handle bottom/left/right insets | Inherit the actual popup host without changing draft confirmation |
 
 ## Common questions
@@ -111,9 +121,11 @@ Choose one avoidance layer per content path. If a bottom bar uses `safe-area`, d
 
 ## API
 
+### SafeArea Props
+
 | Prop | Type | Default | Description |
 | ------- | -------------- | --------- | ------------------------------------ |
-| edges | Physical edges receiving safe-area spacing, all four by default; not position or expansion direction | All four edges | Edges compensated by this container; [] compensates none |
+| edges | `SafeAreaEdge[]`<br>`SafeAreaEdge: 'left' \| 'right' \| 'bottom' \| 'top'` | `['top', 'right', 'bottom', 'left']` | Physical edges receiving spacing; [] compensates none and does not represent position or expansion direction |
 | insets | SafeAreaInsets | undefined | Local CSS-px overrides; 0 is valid, omitted edges inherit |
 | consume | boolean | true | Clear already-consumed edges for descendants |
 | tag | string | div | Container element |
@@ -122,20 +134,45 @@ Default slot is content; no new events.
 
 `SafeArea.setInsets(insets, target?)`: insets is SafeAreaInsets or null; target defaults to document.documentElement. Replaces four-edge overrides while retaining other target CSS, without registering native listeners. Safely returns during SSR without document. Component insets can render in SSR without writing request data into global modules. Values must be finite/nonnegative or throw TypeError; DOM stays unchanged until every value validates.
 
-## Type definitions
+## Types
 
 ```ts
-type SafeAreaEdge = 'top' | 'right' | 'bottom' | 'left'
-type SafeAreaInsets = Partial<Record<SafeAreaEdge, number>>
+import SafeArea from '@maple-design/ui/safe-area'
+import type { SafeAreaProps, SafeAreaInstance, SafeAreaEdge, SafeAreaInsets } from '@maple-design/ui'
+import type { SafeAreaProps as SubSafeAreaProps } from '@maple-design/ui/safe-area'
+const options: SafeAreaProps = { edges: ['bottom'], insets: { bottom: 0 } }
+SafeArea.setInsets({ bottom: 0 })
 ```
 
-## Style variables
+SafeAreaEdge is the top/right/bottom/left union, and SafeAreaInsets maps those edges optionally to numbers. SafeAreaInstance represents a component instance without a setInsets method. setInsets is static on the component object; do not call it on a template ref.
 
-| Variable | Default |
-| --------------------- | -------------------------------- |
-| --mp-safe-area-top | env(safe-area-inset-top, 0px) |
-| --mp-safe-area-right | env(safe-area-inset-right, 0px) |
-| --mp-safe-area-bottom | env(safe-area-inset-bottom, 0px) |
-| --mp-safe-area-left | env(safe-area-inset-left, 0px) |
+## CSS Variables
 
-These are runtime-environment values, not Alps/Firefly brand-theme values. Use StyleProvider for brands and SafeArea for app adaptation; neither clears the other.
+These are runtime-environment values, not Alps/Firefly brand-theme values. Use ThemeProvider for brands and SafeArea for app adaptation; neither clears the other.
+
+<!-- component-css-variables:start -->
+
+Use these variables to customize the component. Defaults may vary by the selector condition shown. Each variable applies to the corresponding size, variant and interaction states.
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Default / condition | Affected styles |
+| --- | --- | --- |
+| `--mp-safe-area-bottom` | `env(safe-area-inset-bottom, 0px)` | `margin-bottom`, `padding-bottom` |
+| `--mp-safe-area-left` | `env(safe-area-inset-left, 0px)` | `inset-inline-end`, `margin-left`, `padding-left`, `width` |
+| `--mp-safe-area-right` | `env(safe-area-inset-right, 0px)` | `inset-inline-end`, `margin-right`, `padding-right`, `width` |
+| `--mp-safe-area-top` | `env(safe-area-inset-top, 0px)` | `margin-top`, `padding-top` |
+
+</div>
+
+Apply overrides to the rendered component root or the actual popup ancestor. For example, add the following class to that element and replace the value as needed:
+
+```css
+.component-theme {
+  --mp-safe-area-bottom: env(safe-area-inset-bottom, 0px);
+}
+```
+
+Explicit inline styles and props that write the same CSS property take precedence over stylesheet defaults. After Teleport, ordinary CSS variables inherit from the actual mount location. When using ThemeProvider, follow its local-theme and popup configuration rules. Override the component variable directly for local styling; root-level aliases are not recalculated merely because a descendant system variable changes. Internal variables are not public APIs.
+
+<!-- component-css-variables:end -->

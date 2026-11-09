@@ -1,4 +1,4 @@
-import type { StyleVars } from '../../style-provider'
+import type { StyleVars } from '../../theme-provider'
 
 // Captured Skyline H5 brand roles; provenance and mappings live in design-ui/audits.
 const alpsLight: StyleVars = {

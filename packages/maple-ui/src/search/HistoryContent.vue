@@ -10,9 +10,13 @@
         :class="n('select')"
         @change="state.handleFieldChange"
       />
-      <div v-else-if="settings.label || $slots.label" :class="n('label')">
+      <label
+        v-else-if="settings.label || $slots.label"
+        :for="String((inputAttrs ?? settings.inputAttrs)?.id ?? '')"
+        :class="n('label')"
+      >
         <slot name="label">{{ settings.label }}</slot>
-      </div>
+      </label>
       <SearchInput
         ref="inputRef"
         :loading="settings.loading && settings.loadingMode === 'line'"
@@ -21,7 +25,7 @@
         v-bind="inputOptions"
         :model-value="state.computedValue"
         :empty-value="settings.emptyValue"
-        :input-attrs="settings.inputAttrs"
+        :input-attrs="inputAttrs ?? settings.inputAttrs"
         :error="settings.error"
         :placeholder="state.searchPlaceholder"
         :class="n('input')"
@@ -70,7 +74,11 @@ import type { SearchResolvedProps } from './props'
 import type { SearchSlots } from './types'
 import type { SearchControl } from './use-search-control'
 
-const props = defineProps<{ settings: SearchResolvedProps; state: UnwrapNestedRefs<SearchControl> }>()
+const props = defineProps<{
+  inputAttrs?: Record<string, unknown>
+  settings: SearchResolvedProps
+  state: UnwrapNestedRefs<SearchControl>
+}>()
 const slots = defineSlots<SearchSlots>()
 const { n } = createNamespace('search')
 const inputRef = ref<InstanceType<typeof SearchInput>>()
@@ -90,10 +98,12 @@ const inputOptions = computed(() => {
     variant,
     clearable,
   } = props.settings
+  const label =
+    ariaLabel ?? props.inputAttrs?.['aria-label'] ?? props.settings.inputAttrs?.['aria-label'] ?? props.settings.label
   return {
     modelModifiers,
     type,
-    ariaLabel,
+    ariaLabel: label == null ? undefined : String(label),
     maxLength,
     readonly: props.state.mergedReadonly,
     disabled: props.state.mergedDisabled,

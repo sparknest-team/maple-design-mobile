@@ -1,14 +1,14 @@
 <template>
   <TimePanelContent v-bind="$attrs" :options="options" :state="content">
-    <template v-for="(_, slotName) in $slots" #[slotName]="scope">
-      <slot :name="slotName" v-bind="scope || {}" />
-    </template>
+    <template v-if="$slots.extra" #extra><slot name="extra" /></template>
+    <template v-if="$slots.actions" #actions="scope"><slot name="actions" v-bind="scope" /></template>
   </TimePanelContent>
 </template>
 
 <script setup lang="ts">
 import { createNamespace } from '../utils/components'
 import { timeSinglePanelEmits as timePanelEmits } from './panel-emits'
+import type { TimePickerSlots } from './picker-contract'
 import { props as panelProps } from './picker-props'
 import TimePanelContent from './presentation/TimePanelContent.vue'
 import { useMobileTimePanel } from './presentation/use-mobile-time-panel'
@@ -18,6 +18,7 @@ import { useTimePanel } from './use-time-panel'
 defineOptions({ name: createNamespace('time-picker').name, inheritAttrs: false })
 const options = defineProps(panelProps)
 const emit = defineEmits(timePanelEmits)
+defineSlots<TimePickerSlots>()
 const panel = useTimePanel<TimeValue>(
   options,
   {

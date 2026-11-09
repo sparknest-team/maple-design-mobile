@@ -11,8 +11,10 @@ import type { VirtualListProps } from '../_components/virtual-list-v2/interface'
 import type { OptionsLoader } from '../_hooks/use-option-request'
 import { componentSizes } from '../_utils/constant'
 import type { ComponentSize } from '../_utils/constant'
+import { validSearchDelay, validSelectionCount } from '../_utils/selection-validation'
 import { fieldDecoratorProps, fieldLoadingProps, fieldVariants } from '../field-decorator/props'
 import type { FieldDecoratorVariant } from '../field-decorator/props'
+import type { TagProps } from '../tag'
 import type { TriggerProps } from '../trigger'
 import { emptyTextProp, emptyValuesProp } from '../utils/empty-value'
 import type { OptionSearchField } from '../utils/option-data'
@@ -177,6 +179,7 @@ export const selectProps = {
    */
   maxTagCount: {
     type: Number,
+    validator: validSelectionCount,
     default: 0,
   },
   /**
@@ -281,6 +284,7 @@ export const selectProps = {
    */
   searchDelay: {
     type: Number,
+    validator: validSearchDelay,
     default: 500,
   },
   /**
@@ -289,6 +293,7 @@ export const selectProps = {
    */
   limit: {
     type: Number,
+    validator: validSelectionCount,
     default: 0,
   },
   /**
@@ -333,3 +338,38 @@ export const selectProps = {
 }
 
 export type SelectProps = import('vue').ExtractPublicPropTypes<typeof selectProps>
+
+export const optionProps = {
+  /**
+   * @zh 选项值（如不填，会从内容中获取）
+   * @en Option value (if not filled, it will be obtained from the content)
+   */
+  value: {
+    type: [String, Number, Boolean, Object],
+    default: undefined,
+  },
+  /**
+   * @zh 选项标签（如不填，会从内容中获取）
+   * @en Option label (if not filled, it will be obtained from the content)
+   */
+  label: String,
+  /**
+   * @zh 是否禁用
+   * @en Whether to disable
+   */
+  disabled: Boolean,
+  /**
+   * @zh 展示的标签属性
+   * @en Displayed tag attributes
+   */
+  tagProps: {
+    type: Object as PropType<TagProps>,
+  },
+  /**
+   * @zh 用于手动指定选项的 index
+   * @en index for manually specifying option
+   */
+  index: {
+    type: Number,
+  },
+}

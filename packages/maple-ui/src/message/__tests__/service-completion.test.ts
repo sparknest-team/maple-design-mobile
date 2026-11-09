@@ -112,3 +112,31 @@ it('rejected closed notifications reach Vue errors after owned cleanup', async (
   expect(report.mock.calls[0][0]).toBe(cause)
   expect(document.body.children.length).toBe(before)
 })
+
+it('an unused old handle cannot close a new lifetime reusing the same id', async () => {
+  Message({ id: 'keeper', duration: 0, content: 'keeper' })
+  const old = Message({ id: 'reused', duration: 0, content: 'old' })
+  const sameLifetime = Message({ id: 'reused', duration: 0, content: 'updated' })
+  await nextTick()
+  sameLifetime.close()
+  await nextTick()
+  document.querySelector<HTMLButtonElement>('[data-motion-owner="leaving"]')!.click()
+  await nextTick()
+  Message({ id: 'reused', duration: 0, content: 'new lifetime' })
+  await nextTick()
+  old.close()
+  await nextTick()
+  const current = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-motion-owner]')).find(
+    (node) => node.textContent === 'new lifetime',
+  )!
+  expect(current.dataset.motionOwner).toBe('open')
+})
+it('an original handle still closes the same item after an ordinary id update', async () => {
+  const original = Message({ id: 'updated', duration: 0, content: 'first' })
+  await nextTick()
+  Message({ id: 'updated', duration: 0, content: 'updated content' })
+  await nextTick()
+  original.close()
+  await nextTick()
+  expect(document.querySelector('[data-motion-owner="leaving"]')?.textContent).toBe('updated content')
+})

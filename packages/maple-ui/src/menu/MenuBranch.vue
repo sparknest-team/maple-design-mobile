@@ -53,6 +53,7 @@ const keyboard = useMenuKeyboard({
   openKey: 'ArrowRight',
   open,
   close,
+  tab: () => menu?.closeMenu?.(),
 })
 // Under click, hovering must not collapse a sibling the user opened on purpose.
 function handleMouseenter() {
@@ -96,6 +97,7 @@ const viewOptions = computed(() => {
       unmountOnClose: true,
       disabled: disabled.value,
       escToClose: false,
+      referenceAttrs: { 'aria-haspopup': 'menu', 'aria-expanded': computedOpen.value },
       onOpenChange: (open: boolean) => {
         if (open) {
           activate()

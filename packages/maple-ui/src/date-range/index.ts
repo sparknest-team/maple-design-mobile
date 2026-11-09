@@ -17,7 +17,7 @@ const DateRange = withInstall(
 withPropsDefaultsSetter(DateRange, dateRangeProps)
 withPropsDefaultsSetter(DateRangePicker, dateRangePickerProps)
 
-export { dateRangeProps, dateRangePickerProps, DateRangePicker }
+export { dateRangeProps, dateRangePickerProps, DateRangePicker, DateRange }
 
 export type DateRangeInstance = InstanceType<typeof _DateRange>
 export type DateRangePickerInstance = InstanceType<typeof DateRangePicker>

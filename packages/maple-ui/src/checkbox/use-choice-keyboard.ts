@@ -7,7 +7,7 @@ export function useChoiceKeyboard(activate: () => void, blocked: () => boolean) 
     spacePressed = false
   }
   function keydown(event: KeyboardEvent) {
-    if (blocked() || event.altKey || event.ctrlKey || event.metaKey) {
+    if (event.defaultPrevented || blocked() || event.altKey || event.ctrlKey || event.metaKey) {
       reset()
       return
     }
@@ -23,6 +23,10 @@ export function useChoiceKeyboard(activate: () => void, blocked: () => boolean) 
   }
   function keyup(event: KeyboardEvent) {
     if (event.key !== ' ') {
+      return
+    }
+    if (event.defaultPrevented) {
+      reset()
       return
     }
     event.preventDefault()

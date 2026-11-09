@@ -1,5 +1,5 @@
 import { ref, watch } from 'vue'
-import dayjs from 'dayjs/esm/index.js'
+import dayjs from 'dayjs'
 
 export function useCalendarRangeStyle(options: {
   endpoints: () => string[]

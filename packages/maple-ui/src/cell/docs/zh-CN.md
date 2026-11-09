@@ -59,7 +59,9 @@
 
 ## API
 
-### 属性
+`clickable` 开启主内容的按钮语义、焦点和 Enter/Space；未设置时跟随 `ripple`，显式 false 不生成主操作语义。图标或内容不足以命名操作时可设置 `action-aria-label`。`extra` 与主操作分开，可放独立控件；子控件点击默认冒泡，独立操作可使用 `.stop`。可操作行的主内容不应再嵌套交互控件。`title-class` 和 `description-class` 仅作用于对应默认节点，插槽自行设置样式。数字 `border-offset` 必须有限，负数和 0 有效；无效数字使用默认边距。
+
+### Cell Props
 
 | 参数 | 说明 | 类型 | 默认值 |
 | ----- | -------------- | -------- | ---------- |
@@ -73,14 +75,16 @@
 | `description-class` | 描述额外类名 | _string_ | `-` |
 | `extra-class` | 右侧内容额外类名 | _string_ | `-` |
 | `ripple` | 是否启用水波效果 | _boolean_ | `false` |
+| `clickable` | 是否启用主操作；未传时跟随 ripple | `boolean` | `—` |
+| `action-aria-label` | 主操作的可访问名称 | `string` | `—` |
 
-### 事件
+### Cell Events
 
 | 事件名 | 说明 | 参数 |
 | --- | --- | --- |
 | `click` | 点击时触发 | `event: Event` |
 
-### 插槽
+### Cell Slots
 
 | 名称 | 说明 | 参数 |
 | ----- | -------------- | -------- |
@@ -89,20 +93,41 @@
 | `description` | 描述的内容 | `-` |
 | `extra` | 自定义右侧区域内容 | `-` |
 
-### 样式变量
+## CSS Variables
 
-以下为组件使用的 css 变量，可以使用 [StyleProvider 组件](#/zh-CN/style-provider) 进行样式定制.
+以下为组件使用的 css 变量，可以使用 [ThemeProvider 组件](#/zh-CN/theme-provider) 进行样式定制.
 
-| 变量名             | 默认值 |
-|-----------------| --- |
-| `--cell-color`  | `var(--color-text)` |
-| `--cell-font-size` | `var(--font-size-md)` |
-| `--cell-description-font-size` | `var(--font-size-sm)` |
-| `--cell-description-color` | `rgba(0, 0, 0, 0.6)` |
-| `--cell-padding` | `10px 12px` |
-| `--cell-min-height` | `40px` |
-| `--cell-border-color` | `var(--color-border-2)` |
-| `--cell-border-left` | `12px` |
-| `--cell-border-right` | `12px` |
-| `--cell-icon-right` | `8px` |
-| `--cell-extra-left` | `8px` |
+<!-- component-css-variables:start -->
+
+通过以下变量定制组件外观。默认值随表中注明的主题或选择器条件变化；变量仅在对应的尺寸、变体和交互状态下生效。
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| 变量 | 默认值／条件 | 影响的样式 |
+| --- | --- | --- |
+| `--mp-cell-border-color` | `var(--mp-color-border-2)` | `border-bottom` |
+| `--mp-cell-border-left` | `12px` | `left` |
+| `--mp-cell-border-right` | `12px` | `right` |
+| `--mp-cell-color` | `var(--mp-color-text)` | `color` |
+| `--mp-cell-description-color` | `rgba(0, 0, 0, 0.6)` | `color` |
+| `--mp-cell-description-font-size` | `var(--mp-font-size-sm)` | `font-size` |
+| `--mp-cell-description-margin-top` | `4px` | `margin-top` |
+| `--mp-cell-extra-left` | `8px` | `margin-inline-start` |
+| `--mp-cell-font-size` | `var(--mp-font-size-md)` | `font-size` |
+| `--mp-cell-icon-right` | `8px` | `margin-inline-end` |
+| `--mp-cell-min-height` | `40px` | `min-height` |
+| `--mp-cell-padding` | `10px 12px` | `padding` |
+
+</div>
+
+将覆盖设置在组件实际根节点或弹层真实挂载祖先上。例如给该元素添加下列 class，再按需替换变量值：
+
+```css
+.component-theme {
+  --mp-cell-border-color: var(--mp-color-border-2);
+}
+```
+
+显式行内样式及直接写入同一 CSS 属性的 Props 优先于样式表默认值。Teleport 后，普通 CSS 变量按实际挂载位置继承；使用 ThemeProvider 时，请遵循其局部主题与弹层配置规则。局部定制请直接覆盖组件变量；仅修改后代的 system 变量不会重新计算从根继承的组件别名。内部变量不属于公共 API。
+
+<!-- component-css-variables:end -->

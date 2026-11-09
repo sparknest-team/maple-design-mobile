@@ -272,8 +272,8 @@ export const componentsMap: Record<string, ComponentDescriptor> = {
     path: '/divider',
     closeSelf: true,
   },
-  'style-provider': {
-    path: '/style-provider',
+  'theme-provider': {
+    path: '/theme-provider',
     attrs: [':style-vars=""'],
     characterDelta: -2,
   },

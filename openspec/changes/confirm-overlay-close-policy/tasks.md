@@ -1,0 +1,3 @@
+- [x] Verify Drawer instance/service/UI/controlled close and stale guard ownership
+- [x] Clarify Drawer/Dialog/Popup policy and authored recovery demo
+- [x] Verify both affected overlay families/types and real browsers

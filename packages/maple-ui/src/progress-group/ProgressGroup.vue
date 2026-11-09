@@ -1,6 +1,7 @@
 <template>
   <div
-    :class="classes(n(), n(`--${mode}`), n(`--${orientation}`), n(`--${size}`))"
+    ref="groupEl"
+    :class="classes(n(), n(`--${mode}`), n(`--${mode === 'line' ? orientation : 'horizontal'}`), n(`--${size}`))"
     role="group"
     :aria-label="ariaLabel"
     :data-orientation="mode === 'line' ? orientation : undefined"
@@ -24,7 +25,7 @@
           :tabindex="tooltip && item.displayPercent > 0 ? 0 : undefined"
           :aria-describedby="tooltip && !dismissed && activeIndex === index ? tooltipId : undefined"
           @mouseenter="activateHover(index)"
-          @mouseleave="hoveredIndex = -1"
+          @mouseleave="scheduleHoverLeave"
           @focus="activateFocus(index)"
           @blur="focusedIndex = -1"
         ></div>
@@ -36,6 +37,8 @@
         :class="n('tooltip')"
         :style="lineTooltipStyle"
         role="tooltip"
+        @mouseenter="cancelHoverLeave"
+        @mouseleave="scheduleHoverLeave"
       >
         <slot name="tooltip" :item="activeLineItem" :index="activeIndex" :percent="activeLineItem.percent">{{
           getTip(activeLineItem)
@@ -78,7 +81,7 @@
           @focus="activateFocus(index)"
           @blur="focusedIndex = -1"
           @mouseenter="activateHover(index)"
-          @mouseleave="hoveredIndex = -1"
+          @mouseleave="scheduleHoverLeave"
         />
         <circle
           v-if="activeCircleItem"
@@ -104,6 +107,8 @@
         :id="tooltipId"
         :class="classes(n('tooltip'), n('circle-tooltip'))"
         role="tooltip"
+        @mouseenter="cancelHoverLeave"
+        @mouseleave="scheduleHoverLeave"
       >
         <slot name="tooltip" :item="activeCircleItem" :index="activeIndex" :percent="activeCircleItem.percent">{{
           getTip(activeCircleItem)
@@ -147,7 +152,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, useId, useSlots } from 'vue'
+import { computed, onActivated, onBeforeUnmount, onDeactivated, onMounted, ref, useId, useSlots, watch } from 'vue'
 import { positiveLength } from '../progress/size'
 import { createNamespace } from '../utils/components'
 import { progressGroupProps } from './props'
@@ -156,11 +161,65 @@ defineOptions({ name: createNamespace('progress-group').name })
 const { n, classes } = createNamespace('progress-group')
 const props = defineProps(progressGroupProps)
 const slots = useSlots()
+const groupEl = ref<HTMLElement>()
 const hoveredIndex = ref(-1)
 const focusedIndex = ref(-1)
 const dismissed = ref(false)
+let hoverTimer: ReturnType<typeof setTimeout> | undefined
+function cancelHoverLeave() {
+  if (hoverTimer !== undefined) {
+    clearTimeout(hoverTimer)
+  }
+  hoverTimer = undefined
+}
+function scheduleHoverLeave() {
+  cancelHoverLeave()
+  hoverTimer = setTimeout(() => {
+    hoverTimer = undefined
+    hoveredIndex.value = -1
+  }, 250)
+}
+function clearHover() {
+  cancelHoverLeave()
+  hoveredIndex.value = -1
+}
+let owner: Document | undefined
+function onDocumentKeydown(event: KeyboardEvent) {
+  if (event.key === 'Escape' && props.tooltip && activeIndex.value >= 0) {
+    dismissed.value = true
+  }
+}
+function attach() {
+  const doc = groupEl.value?.ownerDocument
+  if (!doc || owner === doc) {
+    return
+  }
+  owner?.removeEventListener('keydown', onDocumentKeydown)
+  owner = doc
+  owner.addEventListener('keydown', onDocumentKeydown)
+}
+function detach() {
+  owner?.removeEventListener('keydown', onDocumentKeydown)
+  owner = undefined
+  clearHover()
+  focusedIndex.value = -1
+  dismissed.value = false
+}
+onMounted(attach)
+onActivated(attach)
+onDeactivated(detach)
+onBeforeUnmount(detach)
+watch(
+  () => props.tooltip,
+  (enabled) => {
+    if (!enabled) {
+      clearHover()
+    }
+  },
+)
 const activeIndex = computed(() => (hoveredIndex.value >= 0 ? hoveredIndex.value : focusedIndex.value))
 function activateHover(index: number) {
+  cancelHoverLeave()
   hoveredIndex.value = index
   dismissed.value = false
 }

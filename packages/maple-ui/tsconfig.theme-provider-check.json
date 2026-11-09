@@ -1,0 +1,1 @@
+{"extends":"./tsconfig.json","compilerOptions":{"rootDir":"."},"include":["src/theme-provider/index.ts","src/theme-provider/props.ts","src/theme-provider/*.vue"],"exclude":[]}

@@ -1,5 +1,7 @@
 <template>
-  <component :is="ConfigEmptyNodes" v-if="configEmpty" :nodes="configEmpty" />
+  <div v-if="configEmpty" style="display: contents" @click="handleClick">
+    <component :is="ConfigEmptyNodes" :nodes="configEmpty" />
+  </div>
   <div v-else :class="n()" @click="handleClick">
     <div v-if="showIcon" :class="imageClass" :style="imageStyle">
       <slot name="image">
@@ -17,7 +19,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, defineComponent, useSlots, type CSSProperties } from 'vue'
+import { computed, defineComponent, onBeforeUpdate, ref, useSlots, type CSSProperties } from 'vue'
 import { createNamespace } from '../utils/components'
 import { DefaultEmptyIcon, provideSkipConfigEmpty, useConfigEmpty, useDefaultDescription } from './platform'
 import { emptyProps, isEmptyNamedSize } from './props'
@@ -38,7 +40,13 @@ const imageStyle = computed<CSSProperties>(() => {
   const size = typeof props.imageSize === 'number' ? `${props.imageSize}px` : props.imageSize
   return { width: size, height: size, fontSize: size }
 })
-const hasCustomContent = computed(() => Boolean(slots.image || props.imageUrl || props.description))
+// Slot presence is not reactive; refresh before renders as local slot branches change.
+const hasCustomContent = ref(false)
+function updateCustomContent() {
+  hasCustomContent.value = Boolean(slots.default || slots.image || slots.extra || props.imageUrl || props.description)
+}
+updateCustomContent()
+onBeforeUpdate(updateCustomContent)
 const configEmpty = useConfigEmpty(hasCustomContent)
 const ConfigEmptyNodes = defineComponent({
   name: 'ConfigEmptyNodes',

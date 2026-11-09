@@ -12,7 +12,7 @@ export interface TabsContext {
   active: ComputedRef<TabsName | undefined>
   focused: { value: TabsName | undefined }
   rtl: ComputedRef<boolean>
-  id: (key: TabsName, part: 'tab' | 'panel') => string
+  id: (key: TabsName, part: 'tab' | 'panel' | 'title' | 'close') => string
   select: (key: TabsName) => void
   click: (key: TabsName, event: Event) => void
   add: (event: Event) => void

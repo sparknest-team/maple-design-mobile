@@ -43,6 +43,12 @@ onThemeChange()
     </h3>
     <Controlled />
   </section>
+
+  <h2 class="mobile-demo-group-heading" data-demo-group="interaction-and-control">
+    <span lang="zh-CN">交互与控制</span>
+    <span lang="en-US">Interaction and control</span>
+  </h2>
+
   <section data-demo="panel-state">
     <h3 class="mobile-demo-case-heading">
       <span lang="zh-CN">面板状态与关闭</span><span lang="en-US">Panel state and closing</span>

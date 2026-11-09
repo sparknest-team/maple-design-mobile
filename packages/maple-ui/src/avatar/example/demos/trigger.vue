@@ -1,14 +1,21 @@
 <template>
   <mp-space align="flex-end" :size="32" wrap>
     <mp-space direction="column" align="center" :size="8">
-      <mp-avatar image-url="/cat.jpg" alt="编辑头像" :size="56" @click="onClick('button')">
+      <mp-avatar image-url="/cat.jpg" alt="头像" trigger-aria-label="编辑头像" :size="56" @click="onClick('button')">
         <template #trigger-icon>+</template>
       </mp-avatar>
       <span class="label">{{ last === 'button' ? 'click · button' : 'trigger-type="button"' }}</span>
     </mp-space>
 
     <mp-space direction="column" align="center" :size="8">
-      <mp-avatar image-url="/cat2.jpg" alt="更换头像" :size="56" trigger-type="overlay" @click="onClick('overlay')">
+      <mp-avatar
+        image-url="/cat2.jpg"
+        alt="头像"
+        trigger-aria-label="更换头像"
+        :size="56"
+        trigger-type="overlay"
+        @click="onClick('overlay')"
+      >
         <template #trigger-icon>+</template>
       </mp-avatar>
       <span class="label">{{ last === 'overlay' ? 'click · overlay' : 'trigger-type="overlay"' }}</span>

@@ -1,5 +1,5 @@
 import { computed, inject, provide, ref, type ComputedRef, type InjectionKey, type Ref } from 'vue'
-import dayjs from 'dayjs/esm/index.js'
+import dayjs from 'dayjs'
 import { outputDateValue, parseDateValue, type DateSelection } from './date-value'
 import type { DatePanelOptions } from './panel-state'
 import type { DateShortcut } from './panel-tools-props'

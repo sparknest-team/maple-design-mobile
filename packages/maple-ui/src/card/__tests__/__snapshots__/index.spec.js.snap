@@ -51,7 +51,7 @@ exports[`test card component slots > card floating-content slot 1`] = `
       <!--v-if-->
       <!--v-if-->
       <!--v-if-->
-      <div class="mp-card__floating-content" style="height: 0px; opacity: 0; transition: opacity 500ms;"><span>floating-content</span></div>
+      <div class="mp-card__floating-content" inert="true" aria-hidden="true" style="height: 0px; opacity: 0; transition: opacity 500ms;"><span>floating-content</span></div>
     </div>
     <!--v-if-->
   </div>

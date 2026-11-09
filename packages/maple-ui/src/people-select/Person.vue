@@ -16,7 +16,7 @@
           size="xs"
           variant="text"
           :disabled="disabled || !call"
-          aria-label="Call"
+          :aria-label="texts.call"
           :loading="pending.call"
           @click="run('call')"
         >
@@ -35,7 +35,7 @@
           size="xs"
           variant="text"
           :disabled="disabled || !chat"
-          aria-label="Chat"
+          :aria-label="texts.chat"
           :loading="pending.chat"
           @click="run('chat')"
         >
@@ -59,6 +59,7 @@ import { reactive } from 'vue'
 import Button from '../button'
 import { createNamespace } from '../utils/components'
 import type { PeopleSelectAction, PeopleSelectOption } from './types'
+import { usePeopleTexts } from './use-people-texts'
 
 defineOptions({ name: createNamespace('person').name })
 const props = defineProps<{
@@ -71,6 +72,7 @@ const props = defineProps<{
   chat?: PeopleSelectAction
 }>()
 const emit = defineEmits<{ actionError: [error: unknown, action: 'call' | 'chat'] }>()
+const texts = reactive(usePeopleTexts())
 const pending = reactive({ call: false, chat: false })
 async function run(action: 'call' | 'chat') {
   if (props.disabled || pending[action] || !props[action]) {

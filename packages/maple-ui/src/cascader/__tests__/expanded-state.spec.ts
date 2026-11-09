@@ -1,0 +1,97 @@
+import { nextTick } from 'vue'
+import { flushPromises, mount } from '@vue/test-utils'
+import { expect, test } from 'vitest'
+import Column from '../cascader-column'
+import Option from '../cascader-option'
+import Panel from '../CascaderPanel.vue'
+
+test('focus alone does not announce a branch as expanded', async () => {
+  const wrapper = mount(Panel, {
+    attachTo: document.body,
+    props: { options: [{ value: 'a', label: 'Alpha', children: [{ value: 'a1', label: 'Child' }] }] },
+  })
+  try {
+    const branch = wrapper.get('[role="menuitem"]')
+    ;(branch.element as HTMLElement).focus()
+    await nextTick()
+    expect(branch.attributes('aria-expanded')).toBe('false')
+    await branch.trigger('keydown', { key: 'ArrowRight' })
+    await nextTick()
+    expect(branch.attributes('aria-expanded')).toBe('true')
+    expect(wrapper.findAll('[role="menuitem"]')).toHaveLength(2)
+    expect(wrapper.findAll('[role="menuitem"]')[1]!.attributes('aria-expanded')).toBeUndefined()
+  } finally {
+    wrapper.unmount()
+  }
+})
+
+test.each([false, true])('expanded state follows visible columns in virtual=%s mode', async (virtual) => {
+  const wrapper = mount(Column, {
+    props: {
+      column: [
+        { key: 'a', label: 'Alpha', value: 'a', isLeaf: false, path: [] },
+        { key: 'b', label: 'Beta', value: 'b', isLeaf: false, path: [] },
+      ] as any,
+      activeKey: 'b',
+      selectedPath: ['a'],
+      level: 0,
+      totalLevel: 4,
+      displayedLevels: 2,
+      virtualListProps: virtual ? { height: 120 } : undefined,
+    },
+  })
+  try {
+    const branches = wrapper.findAll('[role="menuitem"]')
+    expect(branches.map((item) => item.attributes('aria-expanded'))).toEqual(['true', 'false'])
+    await wrapper.setProps({ displayedLevels: 1 })
+    expect(wrapper.findAll('[role="menuitem"]').map((item) => item.attributes('aria-expanded'))).toEqual([
+      'false',
+      'false',
+    ])
+  } finally {
+    wrapper.unmount()
+  }
+})
+
+test('search results and leaf options do not advertise a submenu', () => {
+  const option = { key: 'a', label: 'Alpha', value: 'a', isLeaf: false, path: [] } as any
+  const wrapper = mount(Option, { props: { option, searchOption: true } })
+  try {
+    expect(wrapper.attributes('aria-haspopup')).toBeUndefined()
+    expect(wrapper.attributes('aria-expanded')).toBeUndefined()
+  } finally {
+    wrapper.unmount()
+  }
+  const leaf = mount(Option, { props: { option: { ...option, isLeaf: true } } })
+  try {
+    expect(leaf.attributes('aria-haspopup')).toBeUndefined()
+    expect(leaf.attributes('aria-expanded')).toBeUndefined()
+  } finally {
+    leaf.unmount()
+  }
+})
+
+test('lazy branch remains collapsed until a child column exists', async () => {
+  let done!: (items?: any[]) => void
+  const wrapper = mount(Panel, {
+    attachTo: document.body,
+    props: {
+      options: [{ value: 'a', label: 'Alpha', isLeaf: false }],
+      loadMore: (_item: unknown, callback: (items?: any[]) => void) => {
+        done = callback
+      },
+    },
+  })
+  try {
+    const branch = wrapper.get('[role="menuitem"]')
+    expect(branch.attributes('aria-expanded')).toBe('false')
+    await branch.trigger('click')
+    expect(branch.attributes('aria-expanded')).toBe('false')
+    done([{ value: 'a1', label: 'Child', isLeaf: true }])
+    await flushPromises()
+    expect(wrapper.findAll('[role="menuitem"]')).toHaveLength(2)
+    expect(branch.attributes('aria-expanded')).toBe('true')
+  } finally {
+    wrapper.unmount()
+  }
+})

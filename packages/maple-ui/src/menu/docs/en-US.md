@@ -2,7 +2,7 @@
 
 Collects transient commands for the current object, such as overflow actions, context menus and the extra actions of a button. Use [Select](#/en-US/select) to pick form data and [Cascader](#/en-US/cascader) to pick hierarchical data.
 
-The popup is built on the unstyled [Trigger](#/en-US/trigger). It uses the shared twelve placements and the separate `cover` mode, defaulting to `bottom`. Use `auto-fit-popup-width` and `popup-max-height` for width matching and height limits.
+Use `placement` to choose the popup direction, defaulting to `bottom`; `cover` controls overlap with the trigger. Use `auto-fit-popup-width` to match trigger width and `popup-max-height` to limit menu height.
 
 ## Basic examples
 
@@ -72,6 +72,10 @@ Prefer passing `icon`, `extra` or a VNode directly on the option; all three also
 ../example/demos/active-rendering.vue
 ```
 
+### Option values
+
+Give each command a stable, unique `value` when adding, removing or reordering options. Numeric `0`, string `'0'` and boolean `false` are different values.
+
 ## Triggers and positioning
 
 ### Context Menu
@@ -107,6 +111,7 @@ Right click inside the target area. Set both `trigger="contextMenu"` and `align-
 ```
 
 ### Placement
+Use `placement` to choose the preferred popup position relative to the trigger. See Menu Props for the available values. Automatic fitting can change the final position when space is limited.
 
 ```demo
 ../example/demos/placement.vue
@@ -125,6 +130,10 @@ Both root and nested menus use the same reactive `strategy` (`absolute` by defau
 ```demo
 ../example/demos/popup-max-height.vue
 ```
+
+### Switching triggers
+
+Clicking another hover-open sibling trigger closes the previous menu. Clicking inside a submenu keeps its parent open.
 
 ## State and content customization
 
@@ -150,7 +159,11 @@ Use `v-model` to keep the active value. Activating a command emits `update:model
 
 ## Reading direction
 
-Inherits the nearest `dir="ltr|rtl"` and supports runtime and nested overrides. Submenus and horizontal parent/child navigation follow the current reading direction. Vertical and boundary navigation keeps item order and skips disabled items. Portals inherit their source direction; switching direction preserves selection.
+Inherits the nearest `dir="ltr|rtl"`, including runtime changes and local overrides. Submenus expand in reading order; enter/return horizontal keys follow the current direction, while Up/Down and boundary navigation preserve order and skip disabled options. Menus mounted externally inherit the source direction. Direction changes do not change selection.
+
+## Keyboard interaction
+
+Enter, Space or an arrow key opens the menu from its trigger. Up/Down and Home/End move between enabled options; Enter or Space activates an option. The forward key enters a submenu and the backward key returns, following the reading direction. Escape requests closing the topmost menu; focus returns to its trigger after closing. Tab requests close and continues browser focus navigation. Editable inputs retain their text-editing keys.
 
 ## API
 
@@ -158,7 +171,7 @@ Inherits the nearest `dir="ltr|rtl"` and supports runtime and nested overrides. 
 
 Use ordinary `v-model`. `modelValue` is the selected option value; `defaultValue` initializes uncontrolled state once, and later changes do not reset it. Explicit binding takes precedence. Initialization emits no `update:modelValue`.
 
-### Props
+### Menu Props
 
 | Parameter | Description | Type | Default |
 | --- | --- | --- | --- |
@@ -170,7 +183,7 @@ Use ordinary `v-model`. `modelValue` is the selected option value; `defaultValue
 | `size` | Option size | _'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'_ | `'md'` |
 | `trigger` | Root menu trigger | _'click' \| 'hover' \| 'focus' \| 'contextMenu'_ | `'click'` |
 | `submenu-trigger` | How every submenu level expands | _'click' \| 'hover'_ | `'click'` |
-| `placement` | Preferred popup side relative to the trigger, default bottom. With the default auto-fit-position enabled, Trigger may flip and constrain it to the viewport when space is limited; this is not a fixed final position | _MenuPosition_ | `'bottom'` |
+| `placement` | Preferred popup side relative to the trigger, default bottom. With the default auto-fit-position enabled, Trigger may flip and constrain it to the viewport when space is limited; this is not a fixed final position | `MenuPlacement`<br>`'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end' \| 'left' \| 'left-start' \| 'left-end' \| 'right' \| 'right-start' \| 'right-end'` | `'bottom'` |
 | `strategy` | Positioning strategy inherited by every submenu | _'absolute' \| 'fixed'_ | `'absolute'` |
 | `reference` | External trigger element | _string \| HTMLElement_ | `-` |
 | `popup-container` | Popup mount container | _string \| HTMLElement \| false_ | `-` |
@@ -189,6 +202,56 @@ Use ordinary `v-model`. `modelValue` is the selected option value; `defaultValue
 | `disabled` | Disable the menu | _boolean_ | `false` |
 | `elevation` | Popup shadow level | _boolean \| number_ | `true` |
 
+### Menu Events
+
+| Event | Description | Arguments |
+| --- | --- | --- |
+| `update:model-value` | Active value update request | `value: MenuValue` |
+| `select` | A menu item was activated | `value, option, event` |
+| `open-change` | Visibility update request | `open: boolean` |
+| `open` / `opened` | Popup starts opening / finished opening | `-` |
+| `close` / `closed` | Popup starts closing / finished closing | `-` |
+| `click-outside` | Clicked outside the popup | `event: Event` |
+| `key-escape` | Escape was pressed | `-` |
+
+### Menu Methods
+
+| Method | Description | Arguments |
+| --- | --- | --- |
+| `open` | Open the popup | `-` |
+| `close` | Close the popup | `-` |
+| `resize` | Recalculate the popup position | `-` |
+| `setReference` | Set the external trigger element | `reference?: HTMLElement` |
+
+### Menu Slots
+
+| Slot | Description | Prop |
+| --- | --- | --- |
+| `default` | Trigger element | `-` |
+| `content` | Hand-written content, pairs with `MenuOption` | `-` |
+| `footer` | Footer | `-` |
+| `option-label` | Render every option's main content | `{ option, active, level }` |
+| `option-icon` | Render every option's icon | `{ option, active, level }` |
+| `option-extra` | Render every option's trailing content | `{ option, active, level }` |
+
+### MenuOption Props
+
+Kept for SplitButton and hand-written `content`. Groups and submenus are described through `options` only; there are no `MenuGroup` or `MenuSubmenu` components.
+
+| Parameter | Description | Type | Default |
+| --- | --- | --- | --- |
+| `label` | Main content or render function | _MenuContent_ | `-` |
+| `value` | Value passed to events on activation | _any_ | `-` |
+| `disabled` | Disable interaction | _boolean_ | `false` |
+| `ripple` | Whether to show the click ripple | _boolean_ | `true` |
+| `highlight` | Visual emphasis without changing selection | _boolean_ | `false` |
+
+### MenuOption Events / Slots
+
+`click` fires when the option is not disabled. The `default`, `icon` and `suffix` slots and the `label` render function receive the same `{ option, active, level }` context.
+
+## Types
+
 ### MenuOptionData
 
 | Field | Description | Type |
@@ -206,60 +269,6 @@ Use ordinary `v-model`. `modelValue` is the selected option value; `defaultValue
 
 The render context is `{ option, active, level }`. `type: 'group'` is visual only and does not add a level; `type: 'divider'` is neither focusable nor activatable.
 
-### Events
-
-| Event | Description | Arguments |
-| --- | --- | --- |
-| `update:model-value` | Active value update request | `value: MenuValue` |
-| `select` | A menu item was activated | `value, option, event` |
-| `open-change` | Visibility update request | `open: boolean` |
-| `open` / `opened` | Popup starts opening / finished opening | `-` |
-| `close` / `closed` | Popup starts closing / finished closing | `-` |
-| `click-outside` | Clicked outside the popup | `event: Event` |
-| `key-escape` | Escape was pressed | `-` |
-
-### Methods
-
-| Method | Description | Arguments |
-| --- | --- | --- |
-| `open` | Open the popup | `-` |
-| `close` | Close the popup | `-` |
-| `resize` | Recalculate the popup position | `-` |
-| `setReference` | Set the external trigger element | `reference?: HTMLElement` |
-
-### Slots
-
-| Slot | Description | Arguments |
-| --- | --- | --- |
-| `default` | Trigger element | `-` |
-| `content` | Hand-written content, pairs with `MenuOption` | `-` |
-| `footer` | Footer | `-` |
-| `option-label` | Render every option's main content | `{ option, active, level }` |
-| `option-icon` | Render every option's icon | `{ option, active, level }` |
-| `option-extra` | Render every option's trailing content | `{ option, active, level }` |
-
-### MenuOption props
-
-Kept for SplitButton and hand-written `content`. Groups and submenus are described through `options` only; there are no `MenuGroup` or `MenuSubmenu` components.
-
-| Parameter | Description | Type | Default |
-| --- | --- | --- | --- |
-| `label` | Main content or render function | _MenuContent_ | `-` |
-| `value` | Value passed to events on activation | _any_ | `-` |
-| `disabled` | Disable interaction | _boolean_ | `false` |
-| `ripple` | Whether to show the click ripple | _boolean_ | `true` |
-| `highlight` | Visual emphasis without changing selection | _boolean_ | `false` |
-
-### MenuOption events and slots
-
-`click` fires when the option is not disabled. The `default`, `icon` and `suffix` slots and the `label` render function receive the same `{ option, active, level }` context.
-
-### Keyboard interaction
-
-Root menus support Up/Down, Home/End and Enter. Right enters submenus; Left/Escape returns. Each Escape closes only the topmost popup and restores focus.
-
-## Type definitions
-
 ```ts
 import type {
   MenuFieldNames,
@@ -276,58 +285,67 @@ import type {
 } from '@maple-design/ui'
 ```
 
-## Style variables
+## CSS Variables
 
-Group titles align left with options, using 20px line height plus 4px top/bottom padding, total 28px. Adjacent groups add 8px; the first does not. Titles grow with content without line-height/padding overlap.
+<!-- component-css-variables:start -->
 
+Use these variables to customize the component. Defaults may vary by the selector condition shown. Each variable applies to the corresponding size, variant and interaction states.
 
-| Variable | Default |
-| --- | --- |
-| `--mp-menu-max-height` | `278px` |
-| `--mp-menu-padding` | `4px 0` |
-| `--mp-menu-padding-vertical` | `4px` |
-| `--mp-menu-border-radius` | `2px` |
-| `--mp-menu-border-color` | `var(--mp-color-fill-3)` |
-| `--mp-menu-background-color` | `var(--mp-sys-color-surface-overlay)` |
-| `--mp-menu-option-xs-height` | `24px` |
-| `--mp-menu-option-sm-height` | `30px` |
-| `--mp-menu-option-md-height` | `38px` |
-| `--mp-menu-option-lg-height` | `46px` |
-| `--mp-menu-option-xl-height` | `54px` |
-| `--mp-menu-option-padding` | `0 12px` |
-| `--mp-menu-option-xs-font-size` | `var(--mp-font-size-xs)` |
-| `--mp-menu-option-sm-font-size` | `var(--mp-font-size-sm)` |
-| `--mp-menu-option-md-font-size` | `var(--mp-font-size-md)` |
-| `--mp-menu-option-lg-font-size` | `var(--mp-font-size-lg)` |
-| `--mp-menu-option-xl-font-size` | `var(--mp-font-size-lg)` |
-| `--mp-menu-option-text-color` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-menu-option-selected-background` | `var(--mp-sys-color-state-hover)` |
-| `--mp-menu-option-selected-text-color` | `var(--mp-sys-color-content-primary)` |
-| `--mp-menu-option-bg-hover` | `var(--mp-sys-color-state-hover)` |
-| `--mp-menu-option-disabled-color` | `var(--mp-color-text-disabled)` |
-| `--mp-menu-option-icon-margin-right` | `8px` |
-| `--mp-menu-option-suffix-margin-left` | `16px` |
-| `--mp-menu-option-arrow-padding` | `0 6px 0 8px` |
-| `--mp-menu-option-arrow-icon-size` | `18px` |
-| `--mp-menu-group-title-height` | `20px` |
-| `--mp-menu-group-title-padding` | `4px 12px` |
-| `--mp-menu-group-title-font-size` | `var(--mp-font-size-sm)` |
-| `--mp-menu-group-title-text-color` | `var(--mp-color-text-3)` |
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
 
-### State and duration variables
+| Variable | Default / condition | Affected styles |
+| --- | --- | --- |
+| `--mp-menu-background-color` | `var(--mp-sys-color-surface-overlay)` | `background-color` |
+| `--mp-menu-border-color` | `var(--mp-color-fill-3)` | `background-color`, `border`, `border-top` |
+| `--mp-menu-border-radius` | `2px` | `border-radius` |
+| `--mp-menu-group-title-font-size` | `var(--mp-font-size-sm)` | `font-size` |
+| `--mp-menu-group-title-height` | `20px` | `line-height` |
+| `--mp-menu-group-title-padding` | `4px 12px` | `padding` |
+| `--mp-menu-group-title-text-color` | `var(--mp-color-text-3)` | `color` |
+| `--mp-menu-max-height` | `278px` | `max-height` |
+| `--mp-menu-option-arrow-icon-size` | `18px` | `font-size` |
+| `--mp-menu-option-arrow-padding` | `0 6px 0 8px` | `padding` |
+| `--mp-menu-option-bg-disabled` | `transparent` | `background` |
+| `--mp-menu-option-bg-hover` | `var(--mp-sys-color-state-hover)` | `background-color` |
+| `--mp-menu-option-bg-selected-hover` | `var(--mp-menu-option-selected-background)` | `background-color` |
+| `--mp-menu-option-disabled-color` | `var(--mp-color-text-disabled)` | `color` |
+| `--mp-menu-option-icon-margin-right` | `8px` | `margin-inline-end` |
+| `--mp-menu-option-lg-font-size` | `var(--mp-font-size-lg)` | `font-size` |
+| `--mp-menu-option-lg-height` | `46px` | `height` |
+| `--mp-menu-option-md-font-size` | `var(--mp-font-size-md)` | `font-size` |
+| `--mp-menu-option-md-height` | `38px` | `height` |
+| `--mp-menu-option-padding` | `0 12px` | `padding` |
+| `--mp-menu-option-selected-background` | `var(--mp-sys-color-state-hover)` | `background-color` |
+| `--mp-menu-option-selected-text-color` | `var(--mp-sys-color-content-primary)` | `color` |
+| `--mp-menu-option-sm-font-size` | `var(--mp-font-size-sm)` | `font-size` |
+| `--mp-menu-option-sm-height` | `30px` | `height` |
+| `--mp-menu-option-suffix-margin-left` | `16px` | `margin-inline-start` |
+| `--mp-menu-option-text-color` | `var(--mp-sys-color-content-secondary)` | `color` |
+| `--mp-menu-option-xl-font-size` | `var(--mp-font-size-lg)` | `font-size` |
+| `--mp-menu-option-xl-height` | `54px` | `height` |
+| `--mp-menu-option-xs-font-size` | `var(--mp-font-size-xs)` | `font-size` |
+| `--mp-menu-option-xs-height` | `24px` | `height` |
+| `--mp-menu-padding` | `4px 0` | `margin`, `padding` |
+| `--mp-menu-padding-vertical` | `4px` | `margin-top` |
 
-Disabled overrides selection, pointer hover and keyboard focus. Selected hover has a separate role inheriting selection background by default and may be overridden. Selected backgrounds paint directly on options, matching Cedar.
+</div>
 
-| Token | Default |
-| --- | --- |
-| `--mp-menu-option-bg-selected-hover` | `var(--mp-menu-option-selected-background)` |
-| `--mp-menu-option-bg-disabled` | `transparent` |
+Apply overrides to the rendered component root or the actual popup ancestor. For example, add the following class to that element and replace the value as needed:
 
-### Data identity and trigger switching
+```css
+.component-theme {
+  --mp-menu-background-color: var(--mp-sys-color-surface-overlay);
+}
+```
 
-Reorderable items should provide stable unique values; internal Vue keys derive from business values. Numeric `0`, string `'0'` and boolean `false` remain distinct. Groups, separators and display items without values retain identity through their original option objects; no public key alias is added. Clicking another sibling trigger that is already hover-open closes the previous menu. Clicking inside a submenu does not incorrectly close its parent.
+Explicit inline styles and props that write the same CSS property take precedence over stylesheet defaults. After Teleport, ordinary CSS variables inherit from the actual mount location. When using ThemeProvider, follow its local-theme and popup configuration rules. Override the component variable directly for local styling; root-level aliases are not recalculated merely because a descendant system variable changes. Internal variables are not public APIs.
 
+<!-- component-css-variables:end -->
 
-### Placement semantics and configuration
+### Option state colors
 
-MenuPlacement uses the twelve-value TriggerPlacement domain. Both prop and type describe the preferred popup side relative to its trigger. The old MenuPosition export has been removed.
+Use `--mp-menu-option-selected-background` for selected rows and `--mp-menu-option-bg-selected-hover` for their hover background. Disabled colors take precedence over selected, hover and focus styles.
+
+### Group styles
+
+Use `--mp-menu-group-title-height` for group-title line height and the component’s group-title padding variables for spacing. The first group has no extra group gap.

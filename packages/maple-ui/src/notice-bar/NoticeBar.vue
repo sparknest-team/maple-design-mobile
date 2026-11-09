@@ -30,7 +30,7 @@
           role="button"
           tabindex="0"
           :class="n('close')"
-          :aria-label="'close'"
+          :aria-label="closeLabel"
           @click="handleClose"
           @keydown.enter.space.prevent="handleClose"
           ><MIconClose
@@ -41,11 +41,23 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, nextTick, onMounted, ref, watch } from 'vue'
+import {
+  computed,
+  defineComponent,
+  nextTick,
+  onActivated,
+  onBeforeUnmount,
+  onMounted,
+  onUpdated,
+  ref,
+  watch,
+} from 'vue'
 import { IconClose as MIconClose } from '@maple-design/icons-vue'
 import { toNumber } from '@maple-design/shared'
 import MpIcon from '../icon'
 import MpRegisteredIcon from '../icon/RegisteredIcon.vue'
+import { t } from '../locale'
+import { injectLocaleProvider } from '../locale-provider/provide'
 import { createNamespace } from '../utils/components'
 import { props } from './props'
 
@@ -61,18 +73,23 @@ export default defineComponent({
   props,
   emits: ['close', 'replay'],
   setup(props, { emit }) {
+    const { t: translate } = injectLocaleProvider()
+    const closeLabel = computed(() => String(translate?.('common.close') ?? t('common.close') ?? 'Close'))
     const visible = ref(true)
     const contentRef = ref<HTMLElement | null>(null)
     const textRef = ref<HTMLElement | null>(null)
     const duration = ref(0)
+    let resizeObserver: ResizeObserver | undefined
 
     const textStyle = computed(() => {
       if (!props.scrollable) {
         return undefined
       }
+      const delay = toNumber(props.delay)
       return {
         animationDuration: `${duration.value}s`,
-        animationDelay: `${toNumber(props.delay)}s`,
+        animationDelay: `${Number.isFinite(delay) ? delay : 0}s`,
+        animationPlayState: props.paused ? 'paused' : 'running',
       }
     })
 
@@ -90,6 +107,24 @@ export default defineComponent({
 
     onMounted(() => {
       nextTick(updateDuration)
+      if (typeof ResizeObserver !== 'undefined') {
+        resizeObserver = new ResizeObserver(updateDuration)
+        if (contentRef.value) {
+          resizeObserver.observe(contentRef.value)
+        }
+        if (textRef.value) {
+          resizeObserver.observe(textRef.value)
+        }
+      }
+      window.addEventListener('resize', updateDuration)
+    })
+    onActivated(() => {
+      nextTick(updateDuration)
+    })
+    onUpdated(updateDuration)
+    onBeforeUnmount(() => {
+      resizeObserver?.disconnect()
+      window.removeEventListener('resize', updateDuration)
     })
 
     function updateDuration() {
@@ -97,8 +132,9 @@ export default defineComponent({
         duration.value = 0
         return
       }
-      const distance = textRef.value.offsetWidth + contentRef.value.offsetWidth
-      const speed = Math.max(toNumber(props.speed), 1)
+      const distance = textRef.value.offsetWidth
+      const requestedSpeed = toNumber(props.speed)
+      const speed = Number.isFinite(requestedSpeed) ? Math.max(requestedSpeed, 1) : 1
       duration.value = distance / speed
     }
 
@@ -117,6 +153,7 @@ export default defineComponent({
       textRef,
       textStyle,
       rootStyle,
+      closeLabel,
       n,
       classes,
       handleClose,

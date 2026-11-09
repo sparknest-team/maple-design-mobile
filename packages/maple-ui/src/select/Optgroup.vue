@@ -1,14 +1,16 @@
 <template>
-  <li :class="`${prefixCls}-title`">
-    <slot name="label">
-      {{ label }}
-    </slot>
+  <li :class="prefixCls" role="group" :aria-labelledby="titleId">
+    <div :id="titleId" :class="`${prefixCls}-title`" role="presentation">
+      <slot name="label">{{ label }}</slot>
+    </div>
+    <ul :class="`${prefixCls}-options`" role="presentation">
+      <slot />
+    </ul>
   </li>
-  <slot />
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, useId } from 'vue'
 import { createNamespace, getPrefixCls } from '../utils/components'
 
 const { name, n, classes } = createNamespace('optgroup')
@@ -33,6 +35,7 @@ export default defineComponent({
 
     return {
       prefixCls,
+      titleId: `select-group-${useId()}`,
     }
   },
 })

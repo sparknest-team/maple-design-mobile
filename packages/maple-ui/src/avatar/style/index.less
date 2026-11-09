@@ -106,10 +106,17 @@
     transition: opacity var(~'--mp-avatar-motion-duration') var(~'--mp-bezier');
   }
 
+  &[role='button']:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+  }
+
   &--with-trigger {
     cursor: pointer;
   }
 
+  &--with-trigger:focus-visible &__trigger-icon-overlay,
+  &--with-trigger:focus-within &__trigger-icon-overlay,
   &--with-trigger:hover &__trigger-icon-overlay {
     z-index: var(~'--mp-avatar-z-index-overlay-hover');
     opacity: 1;

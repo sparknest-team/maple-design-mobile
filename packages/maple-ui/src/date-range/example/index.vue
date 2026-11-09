@@ -34,6 +34,7 @@ import PickerCalendarDemo from './demos/picker-calendar.vue'
 import PickerDateTimeDemo from './demos/picker-date-time.vue'
 import PickerReadonlyDemo from './demos/picker-readonly.vue'
 import PickerTypeDemo from './demos/picker-type.vue'
+import ReferenceClearDemo from './demos/reference-clear.vue'
 import RejectedCloseDemo from './demos/rejected-close.vue'
 import SeparatorDemo from './demos/separator.vue'
 import OrganizedStateLab from './demos/state-lab.vue'
@@ -220,5 +221,10 @@ onThemeChange()
       <span lang="zh-CN">复制与编辑</span><span lang="en-US">Copying and editing</span>
     </h3>
     <GroupedOpenTriggerTargetDemo />
+  </section>
+
+  <section data-demo="reference-clear">
+    <app-type>{{ english ? 'Clear, review and confirm' : '清空、检查草稿与确认' }}</app-type>
+    <ReferenceClearDemo />
   </section>
 </template>

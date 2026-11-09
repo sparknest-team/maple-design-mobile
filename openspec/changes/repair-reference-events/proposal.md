@@ -1,0 +1,1 @@
+Connect native reference notifications through public emit and the owning Form focus/blur bridge. Preserve whole-input-pair focus cycles, native Vue Once handling, disabled-click guards and readonly notification without opening. Only current reference adapter is Maple DateRange; Cedar common owner unit and existing direct DateRange remain verified separately.

@@ -14,6 +14,7 @@
     <slot />
     <template #content>
       <div
+        v-if="!hideEmpty || hasContent()"
         v-bind="contentBindings"
         :id="contentId"
         role="group"
@@ -31,7 +32,7 @@
 </template>
 
 <script setup lang="ts">
-import { useAttrs, useId } from 'vue'
+import { Comment, Fragment, Text, useAttrs, useId, useSlots, type VNode } from 'vue'
 import Trigger from '../trigger'
 import type { TriggerReferenceAttrs } from '../trigger'
 import { useTriggerWrapper } from '../trigger/wrapper'
@@ -52,6 +53,41 @@ const emit = defineEmits<{
   'click-outside': [event: Event]
 }>()
 const attrs = useAttrs()
+const slots = useSlots()
+
+// Keep Vue's slot fallback semantics: comment-only slots fall back to props,
+// while whitespace text is a valid slot but does not make an empty panel useful.
+function slotState(nodes: VNode[]): { valid: boolean; meaningful: boolean } {
+  let valid = false
+  let meaningful = false
+  for (const node of nodes) {
+    if (typeof node === 'string' || typeof node === 'number') {
+      valid = true
+      meaningful ||= Boolean(String(node).trim())
+      continue
+    }
+    if (!node || node.type === Comment) {
+      continue
+    }
+    if (node.type === Fragment && Array.isArray(node.children)) {
+      const child = slotState(node.children as VNode[])
+      valid ||= child.valid
+      meaningful ||= child.meaningful
+    } else {
+      valid = true
+      meaningful ||= node.type !== Text || Boolean(String(node.children ?? '').trim())
+    }
+  }
+  return { valid, meaningful }
+}
+function hasContent() {
+  const title = slotState(slots.title?.() ?? [])
+  const body = slotState(slots.content?.() ?? [])
+  return (
+    (title.valid ? title.meaningful : Boolean(props.title?.trim())) ||
+    (body.valid ? body.meaningful : Boolean(props.content?.trim()))
+  )
+}
 const uid = useId()
 const contentId = `${createNamespace('popover').n()}-${uid}`
 const titleId = `${contentId}-title`
@@ -66,7 +102,6 @@ function semanticReferenceAttrs(open: boolean): TriggerReferenceAttrs {
     ...custom,
     'aria-controls': contentId,
     'aria-expanded': open,
-    'aria-haspopup': 'true',
   }
 }
 

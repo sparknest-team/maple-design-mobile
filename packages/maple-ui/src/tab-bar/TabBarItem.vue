@@ -2,6 +2,7 @@
   <button
     v-ripple
     type="button"
+    :aria-pressed="isActive"
     :disabled="tabBar.loading.value"
     :class="
       classes(

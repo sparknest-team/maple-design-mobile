@@ -81,6 +81,8 @@ const SelectMenu: DefineComponent<SelectMenuProps> = defineComponent({
         <>
           {controller.props.virtualListProps && <div hidden>{slots.default?.()}</div>}
           <SelectDropdown
+            listboxId={controller.listboxId}
+            multiple={controller.props.multiple}
             ref={(el) => {
               controller.dropdownRef = el as ComponentPublicInstance
             }}

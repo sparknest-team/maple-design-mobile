@@ -4,6 +4,8 @@ import type { FieldPresentationAdapter } from '../_components/field-presentation
 import CascaderEditor from './CascaderEditor.vue'
 
 export const cascaderFieldAdapter: FieldPresentationAdapter = {
+  pauseSelectionWhileLoading: true,
+  methods: ['focus', 'blur', 'refresh'],
   defaultPresentation: 'popup',
   text: (value, props) => optionValueText(value, { ...props, showPathLabel: true }),
   editor: ({ props, value, update, emit, slots, disabled, readonly }) =>

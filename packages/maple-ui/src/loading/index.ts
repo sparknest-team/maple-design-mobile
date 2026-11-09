@@ -10,7 +10,7 @@ withInstall(Loading, undefined, {
 })
 withPropsDefaultsSetter(Loading, loadingProps)
 
-export { loadingProps, vLoading }
+export { Loading, loadingProps, vLoading }
 export type { LoadingDirectiveOptions } from './directive'
 
 export type LoadingInstance = InstanceType<typeof Loading>

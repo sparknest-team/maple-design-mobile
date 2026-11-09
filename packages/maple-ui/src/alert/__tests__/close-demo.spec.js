@@ -1,3 +1,4 @@
+import { IconClose } from '@maple-design/icons-vue'
 import { flushPromises, mount } from '@vue/test-utils'
 import { expect, test, vi } from 'vitest'
 import Alert from '..'
@@ -7,13 +8,14 @@ import Demo from '../example/demos/dismiss-comparison.vue'
 test('close Demo counts completed transitions and reopens independent instances', async () => {
   vi.useFakeTimers()
   const wrapper = mount(Demo, {
-    global: { components: { MpAlert: Alert, MpButton: Button }, stubs: { transition: false } },
+    global: { components: { MpAlert: Alert, MpButton: Button, MIconClose: IconClose }, stubs: { transition: false } },
   })
   try {
     const scene = () => wrapper.get('[data-comparison-scene="allow-to-close"]')
     expect(scene().get('.mp-button').attributes('disabled')).toBeDefined()
     for (const [index, key] of ['Enter', ' ', null].entries()) {
-      const close = scene().get('[role=button][aria-label=Close]')
+      const close = scene().get('.mp-alert__close-btn[role=button]')
+      expect(close.attributes('aria-label')).toBe('关闭')
       if (key) {
         await close.trigger('keydown', { key })
       } else {

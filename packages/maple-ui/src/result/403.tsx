@@ -1,11 +1,15 @@
-import { defineComponent } from 'vue'
+import { defineComponent, useId } from 'vue'
 import { createNamespace } from '../utils/components'
 
 const { name } = createNamespace('result-forbidden')
 
 export default defineComponent({
   name,
+  setup() {
+    return { svgPrefix: `result-${useId()}` }
+  },
   render() {
+    const id = (name: string) => `${this.svgPrefix}-${name}`
     return (
       <svg
         viewBox="0 0 213 213"
@@ -313,7 +317,7 @@ export default defineComponent({
                   <g transform="matrix(1,0,0,1,235.984,-39.1315)">
                     <path
                       d="M1164.02,805.247C1164.05,802.517 1165.64,799.379 1167.67,798.118L1169.67,799.272C1167.58,800.648 1166.09,803.702 1166.02,806.402L1164.02,805.247Z"
-                      style={{ fill: 'url(#_Linear1)' }}
+                      style={{ fill: `url(#${id('_Linear1')})` }}
                     />
                   </g>
                   <g transform="matrix(0.396683,0,0,0.396683,1000.22,516.921)">
@@ -390,7 +394,7 @@ export default defineComponent({
         </g>
         <defs>
           <linearGradient
-            id="_Linear1"
+            id={id('_Linear1')}
             x1="0"
             y1="0"
             x2="1"

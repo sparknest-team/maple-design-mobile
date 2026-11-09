@@ -65,8 +65,8 @@ describe('FormItem decoration and presentation contract', () => {
     wrapper.unmount()
   })
 
-  it('shows required markers from rules and respects hideAsterisk', async () => {
-    const wrapper = mount(FormItem, { props: { editMode: 'direct', label: 'Name', rules: { required: true } } })
+  it('shows required markers from the required prop and respects hideAsterisk', async () => {
+    const wrapper = mount(FormItem, { props: { editMode: 'direct', label: 'Name', required: true } })
     expect(wrapper.find('strong').exists()).toBe(true)
     await wrapper.setProps({ hideAsterisk: true })
     expect(wrapper.find('strong').exists()).toBe(false)

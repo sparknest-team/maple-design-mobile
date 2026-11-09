@@ -2,7 +2,7 @@
 
 用于收纳针对当前对象的临时命令，例如更多操作、右键菜单和按钮的附加操作。选择表单数据请使用 [Select](#/zh-CN/select)；选择层级数据请使用 [Cascader](#/zh-CN/cascader)。
 
-弹出层基于无视觉样式的 [Trigger](#/zh-CN/trigger) 实现，使用统一十二方位和 `cover` 覆盖模式，默认 `bottom`。同宽、高度限制分别使用 `auto-fit-popup-width`、`popup-max-height`。
+使用 `placement` 设置弹出方向，默认 `bottom`；`cover` 控制是否覆盖触发元素。通过 `auto-fit-popup-width` 使菜单与触发元素同宽，`popup-max-height` 限制菜单高度。
 
 ## 基础示例
 
@@ -71,6 +71,10 @@
 ../example/demos/active-rendering.vue
 ```
 
+### 选项值
+
+动态增删或调整选项顺序时，为每个命令设置稳定且唯一的 `value`。数字 `0`、字符串 `'0'` 和布尔值 `false` 是不同的选项值。
+
 ## 触发与定位
 
 ### 右键菜单
@@ -105,6 +109,7 @@
 ```
 
 ### 弹出方向
+使用 `placement` 设置菜单相对触发元素的首选方位，可选值见 Menu Props。空间不足时允许自动调整，最终位置可能与首选方位不同。
 
 ```demo
 ../example/demos/placement.vue
@@ -123,6 +128,10 @@
 ```demo
 ../example/demos/popup-max-height.vue
 ```
+
+### 切换触发元素
+
+点击另一个由悬停打开的同级触发元素时，会关闭原菜单；点击子菜单内部不会关闭父菜单。
 
 ## 状态与内容定制
 
@@ -150,13 +159,17 @@
 
 继承最近的 `dir="ltr|rtl"`，支持运行时切换与局部覆盖。子级沿阅读方向展开；进入子级与返回父级的左右键跟随当前方向，上下键与首尾定位保持顺序并跳过禁用项。挂载到外部容器的菜单继承来源方向，切换方向不改变选中值。
 
+## 键盘操作
+
+在触发元素上按 Enter、Space 或方向键进入菜单。菜单内使用上下键、Home/End 在可用选项间移动，Enter 或 Space 激活选项。前进方向键进入子菜单，后退方向键返回，方向随阅读方向变化。Escape 请求关闭最上层菜单，关闭后焦点返回触发元素。Tab 请求关闭并继续浏览器焦点导航；可编辑输入保留文本编辑按键。
+
 ## API
 
 ### 主值与默认值
 
 使用普通 `v-model`。`modelValue` 表示选中选项的 value；`defaultValue` 仅在创建时初始化非受控值，后续修改不会重置当前状态。显式绑定值优先，初始化不发出 `update:modelValue`。
 
-### 属性
+### Menu Props
 
 | 参数名 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
@@ -168,7 +181,7 @@
 | `size` | 选项尺寸 | _'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'_ | `'md'` |
 | `trigger` | 根菜单触发方式 | _'click' \| 'hover' \| 'focus' \| 'contextMenu'_ | `'click'` |
 | `submenu-trigger` | 各级子菜单的展开方式，对所有层级统一生效 | _'click' \| 'hover'_ | `'click'` |
-| `placement` | 浮层相对触发元素的首选方位，默认 bottom；启用默认的 auto-fit-position 时，空间不足会自动翻转并约束到可视区域，不保证最终停在该侧 | _MenuPosition_ | `'bottom'` |
+| `placement` | 浮层相对触发元素的首选方位，默认 bottom；启用默认的 auto-fit-position 时，空间不足会自动翻转并约束到可视区域，不保证最终停在该侧 | `MenuPlacement`<br>`'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end' \| 'left' \| 'left-start' \| 'left-end' \| 'right' \| 'right-start' \| 'right-end'` | `'bottom'` |
 | `strategy` | 根菜单及全部子菜单的定位策略 | _'absolute' \| 'fixed'_ | `'absolute'` |
 | `reference` | 外部触发元素 | _string \| HTMLElement_ | `-` |
 | `popup-container` | 浮层挂载容器 | _string \| HTMLElement \| false_ | `-` |
@@ -187,6 +200,56 @@
 | `disabled` | 禁用菜单 | _boolean_ | `false` |
 | `elevation` | 浮层阴影层级 | _boolean \| number_ | `true` |
 
+### Menu Events
+
+| 事件名 | 说明 | 参数 |
+| --- | --- | --- |
+| `update:model-value` | 当前选中值更新请求 | `value: MenuValue` |
+| `select` | 用户激活菜单项 | `value, option, event` |
+| `open-change` | 浮层显示状态更新请求 | `open: boolean` |
+| `open` / `opened` | 浮层开始打开 / 打开完成 | `-` |
+| `close` / `closed` | 浮层开始关闭 / 关闭完成 | `-` |
+| `click-outside` | 点击浮层外部 | `event: Event` |
+| `key-escape` | 按下 Escape | `-` |
+
+### Menu Methods
+
+| 方法名 | 说明 | 参数 |
+| --- | --- | --- |
+| `open` | 打开浮层 | `-` |
+| `close` | 关闭浮层 | `-` |
+| `resize` | 重新计算浮层位置 | `-` |
+| `setReference` | 设置外部触发元素 | `reference?: HTMLElement` |
+
+### Menu Slots
+
+| 插槽名 | 说明 | 参数 |
+| --- | --- | --- |
+| `default` | 触发元素 | `-` |
+| `content` | 追加手写内容，适合与 `MenuOption` 组合 | `-` |
+| `footer` | 页脚 | `-` |
+| `option-label` | 统一渲染选项主内容 | `{ option, active, level }` |
+| `option-icon` | 统一渲染选项图标 | `{ option, active, level }` |
+| `option-extra` | 统一渲染选项右侧内容 | `{ option, active, level }` |
+
+### MenuOption Props
+
+保留给 SplitButton 和手写 `content` 场景。分组和子菜单只通过 `options` 描述，不提供 `MenuGroup`、`MenuSubmenu` 组件。
+
+| 参数名 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| `label` | 主内容或渲染函数 | _MenuContent_ | `-` |
+| `value` | 激活时传给事件的值 | _any_ | `-` |
+| `disabled` | 禁用 | _boolean_ | `false` |
+| `ripple` | 是否显示点击波纹 | _boolean_ | `true` |
+| `highlight` | 视觉强调，不改变选中值 | _boolean_ | `false` |
+
+### MenuOption Events / Slots
+
+`click` 事件在未禁用时触发；`default`、`icon`、`suffix` 插槽统一接收 `{ option, active, level }`。`label` 渲染函数也接收同一对象。
+
+## Types
+
 ### MenuOptionData
 
 | 字段 | 说明 | 类型 |
@@ -204,60 +267,6 @@
 
 渲染上下文为 `{ option, active, level }`。`type: 'group'` 只负责视觉分组，不增加子项层级；`type: 'divider'` 不可聚焦或激活。
 
-### 事件
-
-| 事件名 | 说明 | 参数 |
-| --- | --- | --- |
-| `update:model-value` | 当前选中值更新请求 | `value: MenuValue` |
-| `select` | 用户激活菜单项 | `value, option, event` |
-| `open-change` | 浮层显示状态更新请求 | `open: boolean` |
-| `open` / `opened` | 浮层开始打开 / 打开完成 | `-` |
-| `close` / `closed` | 浮层开始关闭 / 关闭完成 | `-` |
-| `click-outside` | 点击浮层外部 | `event: Event` |
-| `key-escape` | 按下 Escape | `-` |
-
-### 方法
-
-| 方法名 | 说明 | 参数 |
-| --- | --- | --- |
-| `open` | 打开浮层 | `-` |
-| `close` | 关闭浮层 | `-` |
-| `resize` | 重新计算浮层位置 | `-` |
-| `setReference` | 设置外部触发元素 | `reference?: HTMLElement` |
-
-### 插槽
-
-| 插槽名 | 说明 | 参数 |
-| --- | --- | --- |
-| `default` | 触发元素 | `-` |
-| `content` | 追加手写内容，适合与 `MenuOption` 组合 | `-` |
-| `footer` | 页脚 | `-` |
-| `option-label` | 统一渲染选项主内容 | `{ option, active, level }` |
-| `option-icon` | 统一渲染选项图标 | `{ option, active, level }` |
-| `option-extra` | 统一渲染选项右侧内容 | `{ option, active, level }` |
-
-### MenuOption 属性
-
-保留给 SplitButton 和手写 `content` 场景。分组和子菜单只通过 `options` 描述，不提供 `MenuGroup`、`MenuSubmenu` 组件。
-
-| 参数名 | 说明 | 类型 | 默认值 |
-| --- | --- | --- | --- |
-| `label` | 主内容或渲染函数 | _MenuContent_ | `-` |
-| `value` | 激活时传给事件的值 | _any_ | `-` |
-| `disabled` | 禁用 | _boolean_ | `false` |
-| `ripple` | 是否显示点击波纹 | _boolean_ | `true` |
-| `highlight` | 视觉强调，不改变选中值 | _boolean_ | `false` |
-
-### MenuOption 事件与插槽
-
-`click` 事件在未禁用时触发；`default`、`icon`、`suffix` 插槽统一接收 `{ option, active, level }`。`label` 渲染函数也接收同一对象，替代旧的双参数签名。
-
-### 键盘交互
-
-根菜单支持上下键、Home/End、Enter；子菜单通过右键进入、左键或 Escape 返回，Escape 每次只关闭最上层并恢复焦点。
-
-## 类型定义
-
 ```ts
 import type {
   MenuFieldNames,
@@ -274,58 +283,67 @@ import type {
 } from '@maple-design/ui'
 ```
 
-## 样式变量
+## CSS Variables
 
-分组标题与选项左对齐，标题行高 20px、上下各 4px 留白（总高 28px）；相邻分组额外间隔 8px，首组不添加组间距。标题高度随内容自然撑开，避免行高与 padding 挤压重叠。
+<!-- component-css-variables:start -->
 
+通过以下变量定制组件外观。默认值随表中注明的主题或选择器条件变化；变量仅在对应的尺寸、变体和交互状态下生效。
 
-| 变量名 | 默认值 |
-| --- | --- |
-| `--mp-menu-max-height` | `278px` |
-| `--mp-menu-padding` | `4px 0` |
-| `--mp-menu-padding-vertical` | `4px` |
-| `--mp-menu-border-radius` | `2px` |
-| `--mp-menu-border-color` | `var(--mp-color-fill-3)` |
-| `--mp-menu-background-color` | `var(--mp-sys-color-surface-overlay)` |
-| `--mp-menu-option-xs-height` | `24px` |
-| `--mp-menu-option-sm-height` | `30px` |
-| `--mp-menu-option-md-height` | `38px` |
-| `--mp-menu-option-lg-height` | `46px` |
-| `--mp-menu-option-xl-height` | `54px` |
-| `--mp-menu-option-padding` | `0 12px` |
-| `--mp-menu-option-xs-font-size` | `var(--mp-font-size-xs)` |
-| `--mp-menu-option-sm-font-size` | `var(--mp-font-size-sm)` |
-| `--mp-menu-option-md-font-size` | `var(--mp-font-size-md)` |
-| `--mp-menu-option-lg-font-size` | `var(--mp-font-size-lg)` |
-| `--mp-menu-option-xl-font-size` | `var(--mp-font-size-lg)` |
-| `--mp-menu-option-text-color` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-menu-option-selected-background` | `var(--mp-sys-color-state-hover)` |
-| `--mp-menu-option-selected-text-color` | `var(--mp-sys-color-content-primary)` |
-| `--mp-menu-option-bg-hover` | `var(--mp-sys-color-state-hover)` |
-| `--mp-menu-option-disabled-color` | `var(--mp-color-text-disabled)` |
-| `--mp-menu-option-icon-margin-right` | `8px` |
-| `--mp-menu-option-suffix-margin-left` | `16px` |
-| `--mp-menu-option-arrow-padding` | `0 6px 0 8px` |
-| `--mp-menu-option-arrow-icon-size` | `18px` |
-| `--mp-menu-group-title-height` | `20px` |
-| `--mp-menu-group-title-padding` | `4px 12px` |
-| `--mp-menu-group-title-font-size` | `var(--mp-font-size-sm)` |
-| `--mp-menu-group-title-text-color` | `var(--mp-color-text-3)` |
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
 
-### 状态与时长变量
+| 变量 | 默认值／条件 | 影响的样式 |
+| --- | --- | --- |
+| `--mp-menu-background-color` | `var(--mp-sys-color-surface-overlay)` | `background-color` |
+| `--mp-menu-border-color` | `var(--mp-color-fill-3)` | `background-color`, `border`, `border-top` |
+| `--mp-menu-border-radius` | `2px` | `border-radius` |
+| `--mp-menu-group-title-font-size` | `var(--mp-font-size-sm)` | `font-size` |
+| `--mp-menu-group-title-height` | `20px` | `line-height` |
+| `--mp-menu-group-title-padding` | `4px 12px` | `padding` |
+| `--mp-menu-group-title-text-color` | `var(--mp-color-text-3)` | `color` |
+| `--mp-menu-max-height` | `278px` | `max-height` |
+| `--mp-menu-option-arrow-icon-size` | `18px` | `font-size` |
+| `--mp-menu-option-arrow-padding` | `0 6px 0 8px` | `padding` |
+| `--mp-menu-option-bg-disabled` | `transparent` | `background` |
+| `--mp-menu-option-bg-hover` | `var(--mp-sys-color-state-hover)` | `background-color` |
+| `--mp-menu-option-bg-selected-hover` | `var(--mp-menu-option-selected-background)` | `background-color` |
+| `--mp-menu-option-disabled-color` | `var(--mp-color-text-disabled)` | `color` |
+| `--mp-menu-option-icon-margin-right` | `8px` | `margin-inline-end` |
+| `--mp-menu-option-lg-font-size` | `var(--mp-font-size-lg)` | `font-size` |
+| `--mp-menu-option-lg-height` | `46px` | `height` |
+| `--mp-menu-option-md-font-size` | `var(--mp-font-size-md)` | `font-size` |
+| `--mp-menu-option-md-height` | `38px` | `height` |
+| `--mp-menu-option-padding` | `0 12px` | `padding` |
+| `--mp-menu-option-selected-background` | `var(--mp-sys-color-state-hover)` | `background-color` |
+| `--mp-menu-option-selected-text-color` | `var(--mp-sys-color-content-primary)` | `color` |
+| `--mp-menu-option-sm-font-size` | `var(--mp-font-size-sm)` | `font-size` |
+| `--mp-menu-option-sm-height` | `30px` | `height` |
+| `--mp-menu-option-suffix-margin-left` | `16px` | `margin-inline-start` |
+| `--mp-menu-option-text-color` | `var(--mp-sys-color-content-secondary)` | `color` |
+| `--mp-menu-option-xl-font-size` | `var(--mp-font-size-lg)` | `font-size` |
+| `--mp-menu-option-xl-height` | `54px` | `height` |
+| `--mp-menu-option-xs-font-size` | `var(--mp-font-size-xs)` | `font-size` |
+| `--mp-menu-option-xs-height` | `24px` | `height` |
+| `--mp-menu-padding` | `4px 0` | `margin`, `padding` |
+| `--mp-menu-padding-vertical` | `4px` | `margin-top` |
 
-禁用优先于选中、指针 hover 和键盘焦点。选中后的 hover 使用独立角色，默认继承选中背景；可单独覆盖以增加 hover 反馈。选中背景直接绘制在选项上，与 Cedar 一致。
+</div>
 
-| Token | Default |
-| --- | --- |
-| `--mp-menu-option-bg-selected-hover` | `var(--mp-menu-option-selected-background)` |
-| `--mp-menu-option-bg-disabled` | `transparent` |
+将覆盖设置在组件实际根节点或弹层真实挂载祖先上。例如给该元素添加下列 class，再按需替换变量值：
 
-### 数据身份与触发器切换
+```css
+.component-theme {
+  --mp-menu-background-color: var(--mp-sys-color-surface-overlay);
+}
+```
 
-可重排的数据项应提供稳定、唯一的 `value`，内部 Vue key 由业务值生成；数字 `0`、字符串 `'0'`、布尔值 `false` 保持不同身份。没有显式 value 的分组、分隔符或展示项按原始选项对象维持渲染身份，不新增公开 key 别名。点击另一个已经因 hover 打开的同级触发按钮，会关闭原先的菜单；点击子菜单内部不会误关父级。
+显式行内样式及直接写入同一 CSS 属性的 Props 优先于样式表默认值。Teleport 后，普通 CSS 变量按实际挂载位置继承；使用 ThemeProvider 时，请遵循其局部主题与弹层配置规则。局部定制请直接覆盖组件变量；仅修改后代的 system 变量不会重新计算从根继承的组件别名。内部变量不属于公共 API。
 
+<!-- component-css-variables:end -->
 
-### 方位语义与配置入口
+### 选项状态颜色
 
-MenuPlacement 复用 TriggerPlacement 的十二方位值域；属性和类型均表达浮层相对触发器的首选方位。旧 MenuPosition 已删除。
+通过 `--mp-menu-option-selected-background` 设置选中背景，`--mp-menu-option-bg-selected-hover` 设置选中后的悬停背景。禁用样式优先于选中、悬停和聚焦样式。
+
+### 分组样式
+
+通过 `--mp-menu-group-title-height` 调整分组标题行高，通过组件的 group-title padding 变量调整留白；首组不增加额外组间距。

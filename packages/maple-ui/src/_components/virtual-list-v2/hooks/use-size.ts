@@ -6,12 +6,16 @@ export const useSize = ({
   fixedSize,
   estimatedSize,
   buffer,
+  viewportHeight,
+  scrollOffset,
 }: {
   dataKeys: Ref<(string | number)[]>
   contentRef: Ref<HTMLElement | undefined>
   fixedSize: Ref<boolean>
   estimatedSize: Ref<number | undefined>
   buffer: Ref<number>
+  viewportHeight?: Ref<number>
+  scrollOffset?: Ref<number>
 }) => {
   const firstRangeAverageSize = ref(0)
   // Measurements must invalidate padding as well as imperative offsets.
@@ -19,22 +23,36 @@ export const useSize = ({
 
   const total = computed(() => dataKeys.value.length)
   const start = ref(0)
+  const safeBuffer = computed(() => (Number.isFinite(buffer.value) && buffer.value >= 0 ? Math.floor(buffer.value) : 0))
   const end = computed(() => {
-    const _end = start.value + buffer.value * 3
-    if (_end > total.value) {
-      return total.value
+    if (!viewportHeight || !scrollOffset) {
+      return Math.min(total.value, start.value + safeBuffer.value * 3)
     }
-    return _end
+    const viewHeight = Number.isFinite(viewportHeight.value) && viewportHeight.value > 0 ? viewportHeight.value : 1
+    let offset = getOffset(0, start.value)
+    const target = Math.max(offset, scrollOffset.value) + viewHeight
+    let index = start.value
+    while (index < total.value && offset < target) {
+      offset += getItemSize(index)
+      index++
+    }
+    return Math.min(total.value, index + safeBuffer.value)
   })
   const maxStart = computed(() => {
-    const max = total.value - buffer.value * 3
-    if (max < 0) {
-      return 0
+    if (!viewportHeight) {
+      return Math.max(0, total.value - safeBuffer.value * 3)
     }
-    return max
+    let remaining = Number.isFinite(viewportHeight.value) && viewportHeight.value > 0 ? viewportHeight.value : 1
+    let index = total.value
+    while (index > 0 && remaining > 0) {
+      index--
+      remaining -= getItemSize(index)
+    }
+    return Math.max(0, index - safeBuffer.value)
   })
 
   const setStart = (index: number) => {
+    index = Number.isFinite(index) ? Math.floor(index) : 0
     if (index < 0) {
       start.value = 0
     } else if (index > maxStart.value) {
@@ -44,16 +62,22 @@ export const useSize = ({
     }
   }
 
-  const isFixed = ref(fixedSize.value)
+  const isFixed = fixedSize
   const _estimatedSize = computed(() => {
-    if (estimatedSize.value !== 30) {
-      return estimatedSize.value ?? 30
+    const estimate = estimatedSize.value
+    if (typeof estimate !== 'number' || !Number.isFinite(estimate) || estimate <= 0) {
+      return 30
+    }
+    if (estimate !== 30) {
+      return estimate
     }
     return firstRangeAverageSize.value || estimatedSize.value || 30
   })
 
   const setItemSize = (key: string | number, size: number) => {
-    sizeMap.set(key, size)
+    if (Number.isFinite(size) && size > 0) {
+      sizeMap.set(key, size)
+    }
   }
 
   const getItemSize = (index: number) => {
@@ -84,6 +108,9 @@ export const useSize = ({
   }
 
   const getOffset = (start: number, end: number) => {
+    if (isFixed.value) {
+      return (end - start) * _estimatedSize.value
+    }
     let offset = 0
 
     for (let i = start; i < end; i++) {
@@ -100,28 +127,22 @@ export const useSize = ({
     return getOffset(0, start.value)
   })
 
-  const getOffsetIndex = (scrollOffset: number) => {
-    const isForward = scrollOffset >= frontPadding.value
-    let offset = Math.abs(scrollOffset - frontPadding.value)
-    const _start = isForward ? start.value : start.value - 1
-    let offsetIndex = 0
-    while (offset > 0) {
-      offset -= getItemSize(_start + offsetIndex)
-      isForward ? offsetIndex++ : offsetIndex--
+  const getStartByScroll = (offset: number) => {
+    const target = Number.isFinite(offset) ? Math.max(0, offset) : 0
+    if (scrollOffset) {
+      scrollOffset.value = target
     }
-    return offsetIndex
-  }
-
-  const getStartByScroll = (scrollOffset: number) => {
-    const offsetIndex = getOffsetIndex(scrollOffset)
-    const _start = start.value + offsetIndex - buffer.value
-    if (_start < 0) {
-      return 0
+    let index = 0
+    if (isFixed.value) {
+      index = Math.floor(target / _estimatedSize.value)
+    } else {
+      let remaining = target
+      while (index < total.value && remaining >= getItemSize(index)) {
+        remaining -= getItemSize(index)
+        index++
+      }
     }
-    if (_start > maxStart.value) {
-      return maxStart.value
-    }
-    return _start
+    return Math.min(maxStart.value, Math.max(0, index - safeBuffer.value))
   }
 
   const behindPadding = computed(() => {

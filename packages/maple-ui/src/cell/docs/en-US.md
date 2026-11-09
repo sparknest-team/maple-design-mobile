@@ -56,13 +56,15 @@ The leading icon, title/description text block, and trailing content are vertica
 
 ## Reading direction
 
-Inherits the nearest `dir="ltr|rtl"` and supports runtime and nested overrides. Icons, labels, values and extras follow reading order with logical gaps. Explicit physical placement and device safe-area semantics remain unchanged.
+Inherits the nearest `dir="ltr|rtl"`, including runtime changes and local overrides. Icons, labels, values and extra content follow reading order, with logical start/end spacing. Explicit device safe-area and physical-position contracts do not reverse.
 
 ## API
 
-### Props
+`clickable` gives the main content button semantics, focus and Enter/Space activation. When omitted it follows `ripple`; explicit false omits the main action semantics. Use `action-aria-label` when the content does not name the action. `extra` is separate and can contain independent controls; their clicks bubble by default, so use `.stop` for independent actions. Do not nest interactive controls in the main content of an actionable cell. `title-class` and `description-class` affect only their default nodes; slot content owns its styles. Numeric `border-offset` must be finite; negative values and zero are valid, while invalid numbers use default spacing.
 
-| Arguments | Description | Type | Default |
+### Cell Props
+
+| Prop | Description | Type | Default |
 | ----- | -------------- | -------- | ---------- |
 | `title` | Main title; overridden by the default slot | _string_ | `-` |
 | `icon` | Registered left-icon name | _string_ | `-` |
@@ -74,36 +76,59 @@ Inherits the nearest `dir="ltr|rtl"` and supports runtime and nested overrides. 
 | `description-class` | Description className | _string_ | `-` |
 | `extra-class` | Extra className | _string_ | `-` |
 | `ripple` | Whether to enable the water wave effect | _boolean_ | `false` |
+| `clickable` | Enable the main action; follows ripple when omitted | `boolean` | `—` |
+| `action-aria-label` | Accessible name of the main action | `string` | `—` |
 
-### Events
+### Cell Events
 
 | Event | Description | Arguments |
 | --- | --- | --- |
 | `click` | Triggered when the cell is clicked | `event: Event` |
 
-### Slots
+### Cell Slots
 
-| Name | Description | Arguments |
+| Name | Description | Prop |
 | ----- | -------------- | -------- |
 | `default` | Main content; overrides title | `-` |
 | `icon` | Custom left-icon area | `-` |
 | `description` | Description content | `-` |
 | `extra` | Extra of cell | `-` |
 
-### Style variables
+## CSS Variables
 
-Customize these CSS variables through [StyleProvider](#/en-US/style-provider).
+Customize these CSS variables through [ThemeProvider](#/en-US/theme-provider).
 
-| Variable | Default |
-| ----------------- | --- |
-| `--cell-color` | `var(--color-text)` |
-| `--cell-font-size` | `var(--font-size-md)` |
-| `--cell-description-font-size` | `var(--font-size-sm)` |
-| `--cell-description-color` | `rgba(0, 0, 0, 0.6)` |
-| `--cell-padding` | `10px 12px` |
-| `--cell-min-height` | `40px` |
-| `--cell-border-color` | `var(--color-border-2)` |
-| `--cell-border-left` | `12px` |
-| `--cell-border-right` | `12px` |
-| `--cell-icon-right` | `8px` |
-| `--cell-extra-left` | `8px` |
+<!-- component-css-variables:start -->
+
+Use these variables to customize the component. Defaults may vary by the selector condition shown. Each variable applies to the corresponding size, variant and interaction states.
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Default / condition | Affected styles |
+| --- | --- | --- |
+| `--mp-cell-border-color` | `var(--mp-color-border-2)` | `border-bottom` |
+| `--mp-cell-border-left` | `12px` | `left` |
+| `--mp-cell-border-right` | `12px` | `right` |
+| `--mp-cell-color` | `var(--mp-color-text)` | `color` |
+| `--mp-cell-description-color` | `rgba(0, 0, 0, 0.6)` | `color` |
+| `--mp-cell-description-font-size` | `var(--mp-font-size-sm)` | `font-size` |
+| `--mp-cell-description-margin-top` | `4px` | `margin-top` |
+| `--mp-cell-extra-left` | `8px` | `margin-inline-start` |
+| `--mp-cell-font-size` | `var(--mp-font-size-md)` | `font-size` |
+| `--mp-cell-icon-right` | `8px` | `margin-inline-end` |
+| `--mp-cell-min-height` | `40px` | `min-height` |
+| `--mp-cell-padding` | `10px 12px` | `padding` |
+
+</div>
+
+Apply overrides to the rendered component root or the actual popup ancestor. For example, add the following class to that element and replace the value as needed:
+
+```css
+.component-theme {
+  --mp-cell-border-color: var(--mp-color-border-2);
+}
+```
+
+Explicit inline styles and props that write the same CSS property take precedence over stylesheet defaults. After Teleport, ordinary CSS variables inherit from the actual mount location. When using ThemeProvider, follow its local-theme and popup configuration rules. Override the component variable directly for local styling; root-level aliases are not recalculated merely because a descendant system variable changes. Internal variables are not public APIs.
+
+<!-- component-css-variables:end -->

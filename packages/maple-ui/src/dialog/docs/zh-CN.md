@@ -1,5 +1,7 @@
 # 对话框
 
+`draggable` 开启时，标题中的 input、textarea、button、带 href 的链接和可编辑内容保留原生指针行为，不启动拖动；普通标题区域仍可拖动。非居中模式支持数字 `top=0`，与字符串 `0px` 一样表示距顶部零像素。
+
 ### 介绍
 
 弹出对话框承载确认、提示和自定义交互。组件式 `<mp-dialog>` 与函数式 `Dialog.*` 共享同一套配置；函数式调用统一使用显式方法，不支持 `Dialog(...)`。
@@ -198,6 +200,12 @@ Dialog.error({ title: '错误提示', message: '操作失败' })
 <mp-dialog v-model:open="unmountOpen" unmount-on-close />
 ```
 
+### 函数调用的挂载目标
+
+```demo
+../example/demos/service-container.vue
+```
+
 ## 尺寸与布局
 
 ### 长内容
@@ -228,6 +236,12 @@ Dialog.error({ title: '错误提示', message: '操作失败' })
 ```
 
 ## 交互与定制
+
+### 拖动会话
+
+```demo
+../example/demos/draggable.vue
+```
 
 ### custom footer
 
@@ -278,9 +292,9 @@ Dialog.error({ title: '错误提示', message: '操作失败' })
 ../example/demos/async-close.vue
 ```
 
-### before 钩子与 done 兼容
+### 关闭守卫
 
-`beforeClose({ action }, done, context)` 为统一入口，不新增另一套命名。
+`beforeClose({ action }, done, context)` 用于拦截关闭操作。
 
 
 只记录日志的同步钩子应显式 return true；同步 undefined 表示仍在等待回调。注意：以前返回 `Promise<void>` 却不调用 done 的异步钩子，现在会在 Promise 完成后放行。
@@ -300,9 +314,22 @@ Promise 与 done 共用一次完成状态：`false` / `done(false)` 阻止，`tr
 
 继承最近的 `dir="ltr|rtl"`，支持运行时切换与局部覆盖。内容、标题与动作间距使用逻辑起止位置；外部弹层继承来源方向。关闭、确认、取消和未提交状态不因方向切换改变。
 
+## 使用说明
+
+### 异步操作反馈
+before-* 等待期间显示加载反馈并标记 aria-busy；拒绝或失败后恢复，重复提交不再启动同一操作。普通事件返回的 Promise 不参与加载。
+
+函数调用的通知回调不控制任务完成。服务的选择或关闭结果独立于回调异常结算，关闭完成时仍会清理所属宿主。异常继续通过调用方或 Vue 错误通道传递；回调返回 Promise 不控制 loading 或关闭。
+
+### 拖动与取消
+标题拖动只由发起手势的主指针控制。停用 `draggable`、关闭、进入全屏、丢失指针捕获或所属窗口失焦、停用以及卸载都会结束当前手势并释放监听和捕获。重新启用后需发起新手势，不会接续旧指针；停用保留当前偏移，全屏和原有关闭结束后的重置恢复默认位置。监听归属标题元素所在文档。
+
+### 函数调用的挂载目标
+函数调用保留显式配置或 `setDefaultOptions` 中的 `popupContainer`，复用组件的选择器/HTMLElement 解析；缺失或非法选择器按组件规则回退 body。默认挂载 body，`false` 则在服务自己创建的 body 宿主内原地渲染。`handle.update({ popupContainer })` 迁移同一个对话框，保留内容状态和应用上下文；关闭后清理目标中的内容及服务宿主，不等待普通通知回调。自定义容器控制 DOM 挂载位置，视觉布局仍遵守 Dialog 定位和容纳块规则。
+
 ## API
 
-### Props
+### Dialog Props
 
 | 参数                                                 | 说明                            | 类型                                          | 默认值            |
 | ---------------------------------------------------- | ------------------------------- | --------------------------------------------- | ----------------- |
@@ -344,7 +371,7 @@ Promise 与 done 共用一次完成状态：`false` / `done(false)` 阻止，`tr
 | `z-index`                                            | 层级                            | `number`                                      | 自动分配          |
 | `before-close` | 返回 boolean/Promise 或调用 done；首次完成生效 | `DialogBeforeClose` | — |
 
-### Events
+### Dialog Events
 
 | 事件名             | 说明                    | 参数            |
 | ------------------ | ----------------------- | --------------- |
@@ -358,7 +385,9 @@ Promise 与 done 共用一次完成状态：`false` / `done(false)` 阻止，`tr
 
 关闭按钮、背景层、ESC 和 `close()` 的 action 都是 `close`，不会额外触发 `cancel`。
 
-### Slots 与实例方法
+内置按钮、遮罩、Esc、footer 插槽方法及实例 confirm()/cancel() 发起 beforeClose 守卫请求。实例 close()、函数返回句柄 close()、Dialog.close() 和父级 open=false 为直接关闭命令，不经过守卫；受控实例仍由父级决定是否接受 update:open(false)。直接关闭会退役等待中的守卫，旧结果不能关闭重开的实例。close 不代表离场结束，使用 closed/onClosed 观察完成。Maple Popup 的 close()/requestClose() 则是返回 `Promise<boolean>` 的守卫请求，不能混作直接关闭命令。
+
+### Dialog Slots / Methods
 
 | 插槽名    | 说明       | 参数                         |
 | --------- | ---------- | ---------------------------- |
@@ -368,7 +397,7 @@ Promise 与 done 共用一次完成状态：`false` / `done(false)` 阻止，`tr
 
 组件实例暴露 `confirm()`、`cancel()`、`close()`。
 
-### 函数式方法
+### Dialog Methods
 
 所有打开方法都接受 `DialogConfig | string`，返回 `Promise<DialogAction | void> & DialogReturn`。
 所有函数式 Dialog 默认使用简洁布局（`simple: true`）并隐藏右上角关闭按钮（`closable: false`），仍可通过传入参数或全局默认配置显式覆盖。
@@ -392,61 +421,73 @@ type DialogAction = 'confirm' | 'cancel' | 'close'
 type DialogType = 'info' | 'success' | 'warning' | 'error'
 ```
 
-### 样式变量
+## CSS Variables
 
 变量均以 `--mp-` 开头，例如 `--mp-dialog-width`、`--mp-dialog-background`、`--mp-dialog-border-radius`、`--mp-dialog-simple-width`、`--mp-dialog-fullscreen-width` 和 `--mp-dialog-close-button-color`。
 
 与 Cedar 一致的颜色语义：`--mp-dialog-background` 使用浮层背景（`surface-raised`），`--mp-dialog-overlay-background` 控制遮罩，标题与正文使用主要内容色，关闭按钮使用次要内容色；`--mp-dialog-status-{info|success|warning|danger}-color` 对应可读状态内容色（content-info/success/warning/danger），不是状态填充色。业务主题优先覆盖组件变量，跨组件主题覆盖对应 system 变量。移动端无边框、尺寸与布局差异保持独立。
 
-#### 完整变量默认值
-
 遮罩通过 Dialog 组件变量消费 `sys-color-scrim`；Maple 不再借用 Popup 的遮罩颜色。实例遮罩变量可放在 `overlay-style` 上；放在面板 `dialog-style` 上的变量不会继承给兄弟遮罩节点。显式 `overlay-style.backgroundColor` 优先。Teleport 场景需要在实际 DOM 祖先作用域设置变量。暗色主题继承同一套颜色语义；几何保留平台差异。状态图标改用可读的 content 状态色。
 
 变量按用途分组：background／overlay-background 是面板与遮罩；border-* 是面板或分隔线边框；title-* 是标题排版；content-* 是正文排版；actions-* 是操作区；close-button-* 是关闭按钮；status-* 是语义图标；simple-*／fullscreen-* 是对应模式的尺寸；animation-* 是入退场动效。width／margin-top 控制常规面板布局。内部拖动与定位变量不构成公开定制入口。
 
-| 变量 | 默认值 |
-| --- | --- |
-| `--mp-dialog-background` | `var(--mp-sys-color-surface-raised)` |
-| `--mp-dialog-overlay-background` | `var(--mp-sys-color-scrim)` |
-| `--mp-dialog-border-color` | `transparent` |
-| `--mp-dialog-border-width` | `0` |
-| `--mp-dialog-border-radius` | `3px` |
-| `--mp-dialog-width` | `280px` |
-| `--mp-dialog-margin-top` | `0` |
-| `--mp-dialog-title-text-color` | `var(--mp-sys-color-content-primary)` |
-| `--mp-dialog-title-font-size` | `var(--mp-sys-font-size-lg)` |
-| `--mp-dialog-title-font-weight` | `var(--mp-sys-font-weight-regular)` |
-| `--mp-dialog-title-padding` | `20px 20px 0` |
-| `--mp-dialog-title-min-height` | `0` |
-| `--mp-dialog-title-justify` | `space-between` |
-| `--mp-dialog-content-text-color` | `var(--mp-sys-color-content-primary)` |
-| `--mp-dialog-content-font-size` | `var(--mp-sys-font-size-md)` |
-| `--mp-dialog-content-line-height` | `24px` |
-| `--mp-dialog-content-padding` | `12px 20px` |
-| `--mp-dialog-actions-padding` | `0 12px 12px` |
-| `--mp-dialog-actions-button-gap` | `var(--mp-sys-space-3)` |
-| `--mp-dialog-close-button-size` | `40px` |
-| `--mp-dialog-close-button-color` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-dialog-close-button-font-size` | `20px` |
-| `--mp-dialog-close-button-inset-inline-end` | `0` |
-| `--mp-dialog-status-icon-size` | `18px` |
-| `--mp-dialog-status-icon-gap` | `var(--mp-sys-space-3)` |
-| `--mp-dialog-status-info-color` | `var(--mp-sys-color-content-info)` |
-| `--mp-dialog-status-success-color` | `var(--mp-sys-color-content-success)` |
-| `--mp-dialog-status-warning-color` | `var(--mp-sys-color-content-warning)` |
-| `--mp-dialog-status-danger-color` | `var(--mp-sys-color-content-danger)` |
-| `--mp-dialog-simple-width` | `280px` |
-| `--mp-dialog-simple-border-radius` | `var(--mp-sys-radius-lg)` |
-| `--mp-dialog-simple-padding` | `20px` |
-| `--mp-dialog-simple-content-gap` | `0` |
-| `--mp-dialog-simple-actions-gap` | `0` |
-| `--mp-dialog-fullscreen-width` | `100vw` |
-| `--mp-dialog-fullscreen-height` | `100vh` |
-| `--mp-dialog-animation-duration` | `var(--mp-sys-motion-duration-slow)` |
-| `--mp-dialog-animation-easing` | `var(--mp-sys-motion-easing-standard)` |
+<!-- component-css-variables:start -->
 
-### 守卫等待反馈
+通过以下变量定制组件外观。默认值随表中注明的主题或选择器条件变化；变量仅在对应的尺寸、变体和交互状态下生效。
 
-before-* 等待期间显示加载反馈并标记 aria-busy；拒绝或失败后恢复，重复提交不再启动同一操作。普通事件返回的 Promise 不参与加载。
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
 
-函数调用的通知回调不控制任务完成。服务的选择或关闭结果独立于回调异常结算，关闭完成时仍会清理所属宿主。异常继续通过调用方或 Vue 错误通道传递；回调返回 Promise 不控制 loading 或关闭。
+| 变量 | 默认值／条件 | 影响的样式 |
+| --- | --- | --- |
+| `--mp-dialog-actions-button-gap` | `var(--mp-sys-space-3)` | `margin-inline-start` |
+| `--mp-dialog-actions-padding` | `0 12px 12px` | `padding` |
+| `--mp-dialog-animation-duration` | `var(--mp-sys-motion-duration-slow)` | `transition` |
+| `--mp-dialog-animation-easing` | `var(--mp-sys-motion-easing-standard)` | `transition` |
+| `--mp-dialog-background` | `var(--mp-sys-color-surface-raised)` | `background` |
+| `--mp-dialog-border-color` | `transparent` | `border` |
+| `--mp-dialog-border-radius` | `3px` | `border-radius` |
+| `--mp-dialog-border-width` | `0` | `border` |
+| `--mp-dialog-close-button-color` | `var(--mp-sys-color-content-secondary)` | `color` |
+| `--mp-dialog-close-button-font-size` | `20px` | `font-size` |
+| `--mp-dialog-close-button-inset-inline-end` | `0` | `margin-inline-end` |
+| `--mp-dialog-close-button-size` | `40px` | `height`, `width` |
+| `--mp-dialog-content-font-size` | `var(--mp-sys-font-size-md)` | `font-size` |
+| `--mp-dialog-content-line-height` | `24px` | `line-height` |
+| `--mp-dialog-content-padding` | `12px 20px` | `padding` |
+| `--mp-dialog-content-text-color` | `var(--mp-sys-color-content-primary)` | `color` |
+| `--mp-dialog-fullscreen-height` | `100vh` | `height` |
+| `--mp-dialog-fullscreen-width` | `100vw` | `width` |
+| `--mp-dialog-margin-top` | `0` | `margin-top` |
+| `--mp-dialog-overlay-background` | `var(--mp-sys-color-scrim)` | `background-color` |
+| `--mp-dialog-simple-actions-gap` | `0` | `margin-top` |
+| `--mp-dialog-simple-border-radius` | `var(--mp-sys-radius-lg)` | `border-radius` |
+| `--mp-dialog-simple-content-gap` | `0` | `margin-top` |
+| `--mp-dialog-simple-padding` | `20px` | `padding` |
+| `--mp-dialog-simple-width` | `280px` | `width` |
+| `--mp-dialog-status-danger-color` | `var(--mp-sys-color-content-danger)` | `color` |
+| `--mp-dialog-status-icon-gap` | `var(--mp-sys-space-3)` | `margin-inline-end` |
+| `--mp-dialog-status-icon-size` | `18px` | `font-size` |
+| `--mp-dialog-status-info-color` | `var(--mp-sys-color-content-info)` | `color` |
+| `--mp-dialog-status-success-color` | `var(--mp-sys-color-content-success)` | `color` |
+| `--mp-dialog-status-warning-color` | `var(--mp-sys-color-content-warning)` | `color` |
+| `--mp-dialog-title-font-size` | `var(--mp-sys-font-size-lg)` | `font-size` |
+| `--mp-dialog-title-font-weight` | `var(--mp-sys-font-weight-regular)` | `font-weight` |
+| `--mp-dialog-title-justify` | `space-between` | `justify-content` |
+| `--mp-dialog-title-min-height` | `0` | `min-height` |
+| `--mp-dialog-title-padding` | `20px 20px 0` | `padding` |
+| `--mp-dialog-title-text-color` | `var(--mp-sys-color-content-primary)` | `color` |
+| `--mp-dialog-width` | `280px` | `width` |
+
+</div>
+
+将覆盖设置在组件实际根节点或弹层真实挂载祖先上。例如给该元素添加下列 class，再按需替换变量值：
+
+```css
+.component-theme {
+  --mp-dialog-actions-button-gap: var(--mp-sys-space-3);
+}
+```
+
+显式行内样式及直接写入同一 CSS 属性的 Props 优先于样式表默认值。Teleport 后，普通 CSS 变量按实际挂载位置继承；使用 ThemeProvider 时，请遵循其局部主题与弹层配置规则。局部定制请直接覆盖组件变量；仅修改后代的 system 变量不会重新计算从根继承的组件别名。内部变量不属于公共 API。
+
+<!-- component-css-variables:end -->

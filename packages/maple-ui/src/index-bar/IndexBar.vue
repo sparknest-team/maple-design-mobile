@@ -1,28 +1,36 @@
 <template>
   <div ref="barEl" :class="n()">
-    <div :class="n('anchor-list-container')" :style="{ zIndex: toNumber(zIndex) + 2 }">
+    <nav :class="n('anchor-list-container')" :style="{ zIndex: toNumber(zIndex) + 2 }" :aria-label="navigationLabel">
       <ul :class="n('anchor-list')" :style="{ display: hideList ? 'none' : 'block' }">
         <li
-          v-for="anchorName in anchorNameList"
-          :key="anchorName"
-          :class="classes(n('anchor-item'), [active === anchorName, n('anchor-item--active')])"
-          :style="{ color: active === anchorName && highlightColor ? highlightColor : undefined }"
-          @click="anchorClick({ anchorName, manualCall: true })"
+          v-for="entry in anchorNameList"
+          :key="entry.key"
+          :class="classes(n('anchor-item'), [active === entry.name, n('anchor-item--active')])"
+          :style="{ color: active === entry.name && highlightColor ? highlightColor : undefined }"
         >
-          <slot name="anchor-name" :anchor-name="anchorName">
-            {{ anchorName }}
-          </slot>
+          <button
+            type="button"
+            :class="n('anchor-button')"
+            :aria-current="active === entry.name ? 'location' : undefined"
+            @click="anchorClick({ anchorName: entry.name, manualCall: true })"
+          >
+            <slot name="anchor-name" :anchor-name="entry.name">
+              {{ entry.name }}
+            </slot>
+          </button>
         </li>
       </ul>
-    </div>
+    </nav>
     <slot />
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onActivated, onBeforeUnmount, onDeactivated, ref, watch } from 'vue'
+import { computed, defineComponent, nextTick, onActivated, onBeforeUnmount, onDeactivated, ref, watch } from 'vue'
 import { getRect, getScrollLeft, getScrollTop, isPlainObject, toNumber } from '@maple-design/shared'
 import { onSmartMounted } from '@maple-design/use'
+import { t } from '../locale'
+import { injectLocaleProvider } from '../locale-provider/provide'
 import { createNamespace } from '../utils/components'
 import { getParentScroller, toPxNum } from '../utils/elements'
 import { type IndexAnchorProvider } from './anchor-provide'
@@ -37,18 +45,24 @@ export default defineComponent({
   props,
   emits: ['change', 'click'],
   setup(props, { emit }) {
-    const clickedName = ref<string | number>('')
+    const clickedName = ref<string | number | undefined>()
     const barEl = ref<HTMLElement | null>(null)
-    const anchorNameList = ref<(number | string)[]>([])
+    const anchorNameList = ref<Array<{ key: number; name: number | string }>>([])
     const active = ref<number | string | undefined>()
     const sticky = computed(() => props.sticky)
     const cssMode = computed(() => props.stickyCssMode)
     const stickyOffsetTop = computed(() => toPxNum(props.stickyOffsetTop))
     const zIndex = computed(() => props.zIndex)
     const { length, indexAnchors, bindIndexAnchors } = useIndexAnchors()
+    const { t: localT } = injectLocaleProvider()
+    const navigationLabel = computed(() => (localT || t)('indexBar.navigation') ?? 'Index navigation')
+    const anchorKeys = new WeakMap<IndexAnchorProvider, number>()
+    let nextAnchorKey = 0
+    let previousAnchors: Array<{ anchor: IndexAnchorProvider; name: string | number | undefined }> = []
 
     let scroller: HTMLElement | Window | null = null
     let isDeactivated = false
+    let restoring = false
     let disposed = false
     type ScrollTask = ReturnType<typeof createIndexScrollTask>
     let scrollTask: ScrollTask | undefined
@@ -61,7 +75,45 @@ export default defineComponent({
       zIndex,
     }
 
-    watch(() => length.value, refreshAnchorNames, { flush: 'post' })
+    watch(
+      () => {
+        void length.value
+        const entries = indexAnchors.map((anchor) => ({ anchor, name: anchor.name.value, index: anchor.index?.value }))
+        return { entries }
+      },
+      ({ entries }) => {
+        if (isDeactivated) {
+          return
+        }
+        if (
+          entries.length === previousAnchors.length &&
+          entries.every(
+            (entry, index) =>
+              entry.anchor === previousAnchors[index].anchor && entry.name === previousAnchors[index].name,
+          )
+        ) {
+          return
+        }
+        const oldActive =
+          active.value === undefined ? undefined : previousAnchors.find((entry) => entry.name === active.value)
+        if (oldActive) {
+          const replacement = entries.find((entry) => entry.anchor === oldActive.anchor)
+          active.value =
+            replacement?.name ??
+            (restoring && entries.some((entry) => entry.name === active.value) ? active.value : undefined)
+        }
+        previousAnchors = entries
+        if (restoring) {
+          refreshAnchorNames()
+          return
+        }
+        scrollTask?.cancel()
+        scrollTask = undefined
+        clickedName.value = undefined
+        refreshAnchorNames()
+      },
+      { flush: 'post' },
+    )
 
     onSmartMounted(setupScroller)
 
@@ -82,6 +134,10 @@ export default defineComponent({
         return
       }
       isDeactivated = false
+      restoring = true
+      nextTick(() => {
+        restoring = false
+      })
       refreshAnchorNames()
       if (active.value !== undefined) {
         scheduleScroll(active.value, { event: false }, true)
@@ -94,7 +150,7 @@ export default defineComponent({
       scrollTask?.cancel()
       listTask?.cancel()
       scrollTask = listTask = undefined
-      clickedName.value = ''
+      clickedName.value = undefined
     }
 
     function beginScroll() {
@@ -103,7 +159,7 @@ export default defineComponent({
         return
       }
       scrollTask?.cancel()
-      clickedName.value = ''
+      clickedName.value = undefined
       const task: ScrollTask = createIndexScrollTask(view, () => !disposed && !isDeactivated && scrollTask === task)
       scrollTask = task
       return task
@@ -120,9 +176,15 @@ export default defineComponent({
       if (!(await task.frames(2)) || !task.valid()) {
         return
       }
-      anchorNameList.value = indexAnchors
-        .filter(({ name }) => name.value != null)
-        .map(({ name }) => name.value) as Array<string | number>
+      anchorNameList.value = indexAnchors.flatMap((anchor) => {
+        if (anchor.name.value == null) {
+          return []
+        }
+        if (!anchorKeys.has(anchor)) {
+          anchorKeys.set(anchor, nextAnchorKey++)
+        }
+        return [{ key: anchorKeys.get(anchor)!, name: anchor.name.value }]
+      })
     }
 
     function emitEvent(anchor: IndexAnchorProvider | number | string, options?: IndexBarScrollToOptions) {
@@ -163,7 +225,7 @@ export default defineComponent({
 
         anchor.setDisabled(true)
 
-        if (top >= 0 && top < distance && clickedName.value === '') {
+        if (top >= 0 && top < distance && clickedName.value === undefined) {
           anchor.setDisabled(false)
           emitEvent(anchor)
         }
@@ -185,7 +247,7 @@ export default defineComponent({
       if (disposed || isDeactivated || scrollTask !== previousTask || (supplied && !supplied.valid())) {
         return
       }
-      if (anchorName === active.value && clickedName.value === '' && !force && !supplied) {
+      if (anchorName === active.value && clickedName.value === undefined && !force && !supplied) {
         return
       }
 
@@ -212,7 +274,7 @@ export default defineComponent({
       if (!(await task.frames(2)) || !task.valid()) {
         return
       }
-      clickedName.value = ''
+      clickedName.value = undefined
     }
 
     function setupScroller() {
@@ -252,6 +314,7 @@ export default defineComponent({
 
     return {
       barEl,
+      navigationLabel,
       active,
       zIndex,
       anchorNameList,

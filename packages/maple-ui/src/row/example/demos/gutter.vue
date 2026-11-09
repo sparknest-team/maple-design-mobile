@@ -5,7 +5,7 @@ const gap = ref(16)
 const vertical = ref(true)
 </script>
 <template>
-  <div>
+  <div class="row-demo">
     <div class="controls">
       <mp-radio-group v-model="gap"
         ><mp-radio v-for="value in [0, 8, 16, 24]" :key="value" :value="value">{{ value }}px</mp-radio></mp-radio-group
@@ -27,6 +27,11 @@ const vertical = ref(true)
 </template>
 
 <style scoped>
+.row-demo {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
 .controls {
   display: flex;
   flex-wrap: wrap;

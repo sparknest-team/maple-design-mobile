@@ -2,6 +2,7 @@ import { inject, provide, type ComputedRef, type InjectionKey } from 'vue'
 import { type ComponentSize } from '../utils/constants'
 import { type FormFieldController } from './form-controller'
 import { type FormLayout, type FormRules } from './props'
+import type { FieldData, ValidatedError } from './types'
 import type { FormLayoutOptions } from './use-form-item-layout'
 import type { FormLabelRegistry } from './use-form-label-width'
 
@@ -14,7 +15,8 @@ export interface FormProvider extends FormLabelRegistry {
   rules: ComputedRef<FormRules | undefined>
   model: ComputedRef<Record<string, any> | undefined>
   layout: ComputedRef<FormLayout>
-  registerField: (field: FormFieldController) => () => void
+  invalidateSubmitInputs?: () => void
+  registerField: (field: FormFieldController<ValidatedError, FieldData>) => () => void
 }
 
 export const FORM_CONTEXT_KEY: InjectionKey<FormProvider> = Symbol('MpFormContext')

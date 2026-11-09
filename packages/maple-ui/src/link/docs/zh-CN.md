@@ -67,7 +67,7 @@
 两端均支持 hoverable（默认 false），开启后增加内边距与悬浮/按下底色；不影响 underline。键盘聚焦通过 :focus-visible 显示焦点轮廓，无需开启 hoverable。
 
 
-主体、Props、主样式和测试为两份独立维护的同源复制，仅前缀、本地图标和主题 token 不同，不共享核心或实例。禁用/加载时移除 href/target/rel、阻止 click，并退出 Tab 顺序（包括显式 tabindex）。loading 优先于图标插槽，动态图标插槽实时更新。
+禁用或加载时移除 href / target / rel，阻止 click 并退出 Tab 顺序（包括显式 tabindex）。loading 优先于图标插槽，动态图标插槽实时更新。
 
 ```demo
 ../example/demos/hoverable.vue
@@ -115,7 +115,7 @@ primary、secondary、tertiary 链接使用与同状态 Button 的 text/outline 
 加载示例首次激活时由业务准备报告，完成后再次激活交给浏览器原生下载；卸载时取消准备任务。
 
 
-### 属性
+### Link Props
 
 | 属性 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
@@ -123,7 +123,7 @@ primary、secondary、tertiary 链接使用与同状态 Button 的 text/outline 
 | `href` | 原生链接地址 | string | - |
 | `target` | 原生打开目标 | string | - |
 | `rel` | 原生链接关系 | string | - |
-| `status` | 链接语义状态 | SemanticStatus | 'default' |
+| `status` | 链接语义状态 | `SemanticStatus`<br>`'default' \| 'primary' \| 'secondary' \| 'tertiary' \| 'info' \| 'success' \| 'warning' \| 'danger'` | 'default' |
 | `underline` | 下划线策略 | 'always' \| 'hover' \| 'none' | 'none' |
 | `hoverable` | 显示带内边距的悬浮/按下底色 | boolean | false |
 | `icon` | 显示默认前置图标；icon 插槽优先 | boolean | false |
@@ -131,56 +131,110 @@ primary、secondary、tertiary 链接使用与同状态 Button 的 text/outline 
 | `disabled` | 禁用链接 | boolean | false |
 
 
-### 事件
+### Link Events
 
 | 事件名 | 说明                                              | 参数 |
 | --- |-------------------------------------------------| --- |
 | `click` | 点击链接时触发 | `event: MouseEvent` |
 
-### 插槽
+### Link Slots
 
 | 插槽名 | 说明 | 参数 |
 | --- | --- | --- |
 | `default` | 链接内容 | `-` |
 | `icon` | 自定义链接图标 | `-` |
 
-### 类型定义
+## Types
 
 ```ts
 import type { LinkProps, LinkSize, LinkUnderline, LinkInstance } from '@maple-design/ui'
 ```
 
-### 样式变量
-以下为组件使用的 css 变量，可以使用 [StyleProvider 组件](#/zh-CN/style-provider) 进行样式定制。
+## CSS Variables
 
-| 变量名 | 默认值                          |
-| --- |------------------------------|
-| `--mp-link-default-color` | `var(--mp-sys-color-content-primary)`                       |
-| `--mp-link-primary-color` | `var(--mp-sys-color-content-brand)`       |
-| `--mp-link-danger-color` | `var(--mp-sys-color-content-danger)`        |
-| `--mp-link-success-color` | `var(--mp-sys-color-content-success)`       |
-| `--mp-link-warning-color` | `var(--mp-sys-color-content-warning)`       |
-| `--mp-link-info-color` | `var(--mp-sys-color-content-info)`          |
-| `--mp-link-disabled-color` | `var(--mp-sys-color-content-disabled)` |
-| `--mp-link-font-size` | `var(--mp-sys-font-size-md)` |
-| `--mp-link-icon-size` | `1em` |
-| `--mp-link-focus-opacity` | `0.8` |
+以下为组件使用的 css 变量，可以使用 [ThemeProvider 组件](#/zh-CN/theme-provider) 进行样式定制。
 
-### 同源样式约定
+<!-- component-css-variables:start -->
 
-内部类名统一为 `mp-link--status-*`、`mp-link--underline-*` 和 `mp-link__icon`；请使用 CSS 变量定制，迁移旧的 `mp-link--primary` 等选择器。原有颜色/icon/focus CSS 变量继续保留，并映射至同源主样式。
+通过以下变量定制组件外观。默认值随表中注明的主题或选择器条件变化；变量仅在对应的尺寸、变体和交互状态下生效。
 
-| 变量名 | 默认值 |
-| --- | --- |
-| `--mp-link-bg-hover` | `var(--mp-color-fill-2)` |
-| `--mp-link-bg-active` | `var(--mp-color-fill-3)` |
-| `--mp-link-padding-horizontal` | `0.25em` |
-| `--mp-link-padding-vertical` | `1px` |
-| `--mp-link-focus-width` | `2px` |
-| `--mp-link-focus-offset` | `2px` |
-| `--mp-link-focus-color` | `currentColor` |
-| `--mp-link-spin-duration` | `1s` |
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
 
+| 变量 | 默认值／条件 | 影响的样式 |
+| --- | --- | --- |
+| `--mp-link-bg-active` | `var(--mp-color-fill-3)` | `background-color` |
+| `--mp-link-bg-hover` | `var(--mp-color-fill-2)` | `background-color` |
+| `--mp-link-border-radius` | `var(--mp-sys-radius-md)` | `border-radius` |
+| `--mp-link-danger-color` | `var(--mp-sys-color-content-danger)` | `color` |
+| `--mp-link-default-color` | `var(--mp-sys-color-content-primary)` | `color` |
+| `--mp-link-disabled-color` | `var(--mp-sys-color-content-disabled)` | `color` |
+| `--mp-link-focus-color` | `currentColor` | `outline` |
+| `--mp-link-focus-offset` | `2px` | `outline-offset` |
+| `--mp-link-focus-opacity` | `0.8` | `opacity` |
+| `--mp-link-focus-width` | `2px` | `outline` |
+| `--mp-link-font-size` | `var(--mp-sys-font-size-md)` | `font-size` |
+| `--mp-link-icon-size` | `1em` | `font-size` |
+| `--mp-link-info-color` | `var(--mp-sys-color-content-info)` | `color` |
+| `--mp-link-line-height` | `1.5` | `line-height` |
+| `--mp-link-margin-icon-right` | `0.25em` | `margin-inline-end` |
+| `--mp-link-padding-horizontal` | `0.25em` | `padding` |
+| `--mp-link-padding-vertical` | `1px` | `padding` |
+| `--mp-link-primary-color` | `var(--mp-sys-color-content-brand)` | `color` |
+| `--mp-link-secondary-color` | `var(--mp-sys-color-content-secondary)` | `color` |
+| `--mp-link-size-icon` | `var(--mp-link-icon-size)` | `font-size` |
+| `--mp-link-size-lg-font-size` | `var(--mp-sys-font-size-lg)` | `font-size` |
+| `--mp-link-size-md-font-size` | `var(--mp-link-font-size)` | `font-size` |
+| `--mp-link-size-sm-font-size` | `var(--mp-sys-font-size-sm)` | `font-size` |
+| `--mp-link-size-xl-font-size` | `var(--mp-sys-font-size-xl)` | `font-size` |
+| `--mp-link-size-xs-font-size` | `var(--mp-sys-font-size-xs)` | `font-size` |
+| `--mp-link-spin-duration` | `1s` | `animation` |
+| `--mp-link-success-color` | `var(--mp-sys-color-content-success)` | `color` |
+| `--mp-link-tertiary-color` | `var(--mp-sys-color-content-secondary)` | `color` |
+| `--mp-link-text-color` | `var(--mp-link-primary-color)` | `color` |
+| `--mp-link-text-color-active` | `var(--mp-link-text-color)` | `color` |
+| `--mp-link-text-color-default` | `var(--mp-link-default-color)` | `color` |
+| `--mp-link-text-color-disabled` | `var(--mp-link-disabled-color)` | `color` |
+| `--mp-link-text-color-error` | `var(--mp-link-danger-color)` | `color` |
+| `--mp-link-text-color-error-active` | `var(--mp-link-text-color-error)` | `color` |
+| `--mp-link-text-color-error-disabled` | `var(--mp-link-disabled-color)` | `color` |
+| `--mp-link-text-color-error-hover` | `var(--mp-link-text-color-error)` | `color` |
+| `--mp-link-text-color-error-loading` | `var(--mp-link-disabled-color)` | `color` |
+| `--mp-link-text-color-hover` | `var(--mp-link-text-color)` | `color` |
+| `--mp-link-text-color-info` | `var(--mp-link-info-color)` | `color` |
+| `--mp-link-text-color-loading` | `var(--mp-link-disabled-color)` | `color` |
+| `--mp-link-text-color-primary` | `var(--mp-link-primary-color)` | `color` |
+| `--mp-link-text-color-secondary` | `var(--mp-link-secondary-color)` | `color` |
+| `--mp-link-text-color-success` | `var(--mp-link-success-color)` | `color` |
+| `--mp-link-text-color-success-active` | `var(--mp-link-text-color-success)` | `color` |
+| `--mp-link-text-color-success-disabled` | `var(--mp-link-disabled-color)` | `color` |
+| `--mp-link-text-color-success-hover` | `var(--mp-link-text-color-success)` | `color` |
+| `--mp-link-text-color-success-loading` | `var(--mp-link-disabled-color)` | `color` |
+| `--mp-link-text-color-tertiary` | `var(--mp-link-tertiary-color)` | `color` |
+| `--mp-link-text-color-warning` | `var(--mp-link-warning-color)` | `color` |
+| `--mp-link-text-color-warning-active` | `var(--mp-link-text-color-warning)` | `color` |
+| `--mp-link-text-color-warning-disabled` | `var(--mp-link-disabled-color)` | `color` |
+| `--mp-link-text-color-warning-hover` | `var(--mp-link-text-color-warning)` | `color` |
+| `--mp-link-text-color-warning-loading` | `var(--mp-link-disabled-color)` | `color` |
+| `--mp-link-transition-duration` | `0.15s` | `transition` |
+| `--mp-link-warning-color` | `var(--mp-sys-color-content-warning)` | `color` |
+
+</div>
+
+将覆盖设置在组件实际根节点或弹层真实挂载祖先上。例如给该元素添加下列 class，再按需替换变量值：
+
+```css
+.component-theme {
+  --mp-link-border-radius: var(--mp-sys-radius-md);
+}
+```
+
+显式行内样式及直接写入同一 CSS 属性的 Props 优先于样式表默认值。Teleport 后，普通 CSS 变量按实际挂载位置继承；使用 ThemeProvider 时，请遵循其局部主题与弹层配置规则。局部定制请直接覆盖组件变量；仅修改后代的 system 变量不会重新计算从根继承的组件别名。内部变量不属于公共 API。
+
+<!-- component-css-variables:end -->
+
+### 样式定制
+
+请使用 `--mp-link-*` CSS 变量定制颜色、图标和焦点样式。
 
 文字配色与 Button 的 text 变体一致：default 使用 content-primary，secondary / tertiary 使用 content-secondary，彩色状态使用对应 content 语义色，禁用和加载使用 content-disabled。两品牌明暗模式均继承这些规则。
 

@@ -84,7 +84,7 @@ export function useRadioNavigation(hasSelection: () => boolean): RadioNavigation
             ? 0
             : -1,
     keydown(event) {
-      if (disposed || event.altKey || event.ctrlKey || event.metaKey || event.repeat) {
+      if (event.defaultPrevented || disposed || event.altKey || event.ctrlKey || event.metaKey || event.repeat) {
         return
       }
       if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'].includes(event.key)) {

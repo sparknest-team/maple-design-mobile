@@ -21,3 +21,27 @@ export interface PeopleSelectActionScope {
 export type PeopleSelectRenderActions = (scope: PeopleSelectActionScope) => import('vue').VNodeChild
 
 export type PeopleSelectAction = (person: PeopleSelectOption) => void | Promise<unknown>
+
+export interface PeopleSelectExpose {
+  refresh(): Promise<void>
+  focus(): void
+  blur(): void
+}
+
+/** Shared read scope across component reading and field reading presentations. */
+export interface PeopleSelectReadScope {
+  value: string | null
+  text: string
+  person: PeopleSelectOption
+}
+export type PeopleSelectEmits = {
+  [Event in keyof typeof import('./emits').peopleSelectEmits]: Parameters<
+    (typeof import('./emits').peopleSelectEmits)[Event]
+  >
+}
+export interface PeopleSelectSlots extends Omit<import('../select/types').SelectSlots, 'read' | 'option' | 'label'> {
+  read?(scope: PeopleSelectReadScope): import('vue').VNodeChild
+  actions?(scope: PeopleSelectActionScope): import('vue').VNodeChild
+  option?(scope: { data: PeopleSelectOption }): import('vue').VNodeChild
+  label?(scope: { data: PeopleSelectOption }): import('vue').VNodeChild
+}

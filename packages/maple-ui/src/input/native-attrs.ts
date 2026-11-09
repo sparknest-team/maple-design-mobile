@@ -38,8 +38,12 @@ export function splitInputAttrs(attrs: Record<string, unknown>, extraNativeKeys:
   const native: Record<string, unknown> = {}
   const root: Record<string, unknown> = {}
   for (const [key, value] of Object.entries(attrs)) {
+    const eventKey = key.startsWith('on') ? key.replace(/(?:Once|Capture|Passive)+$/, '') : key
     const target =
-      nativeKeys.has(key) || extraNativeKeys.includes(key) || key.startsWith('aria-') || key.startsWith('data-')
+      nativeKeys.has(eventKey) ||
+      extraNativeKeys.includes(eventKey) ||
+      key.startsWith('aria-') ||
+      key.startsWith('data-')
         ? native
         : root
     target[key] = value

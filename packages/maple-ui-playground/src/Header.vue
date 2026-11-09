@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { nextTick, onMounted, ref, watch } from 'vue'
-import { Message, StyleProvider } from '@maple-design/ui'
+import { Message } from '@maple-design/ui'
 import { downloadProject } from './download/download'
 import Close from './icons/Close.vue'
 import Download from './icons/Download.vue'
 import GitHub from './icons/GitHub.vue'
 import Palette from './icons/Palette.vue'
 import Share from './icons/Share.vue'
-import { normalizeTheme, themeMap } from './themes'
+import { normalizeTheme } from './themes'
 import { usePreviewVersion } from './utils/env'
 
 const props = defineProps(['store', 'theme'])
@@ -105,7 +105,6 @@ function getInitialTheme() {
 
 function syncTheme() {
   localStorage.setItem('maple-ui-playground-theme', props.theme)
-  StyleProvider.setStyleVars(themeMap[props.theme as keyof typeof themeMap])
 
   props.theme.toLowerCase().includes('dark')
     ? document.documentElement.classList.add('dark')

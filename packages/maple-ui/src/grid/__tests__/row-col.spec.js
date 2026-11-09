@@ -113,7 +113,8 @@ describe('test row and col component props', () => {
       },
     })
 
-    expect(wrapper.find('.mp-col').classes()).toContain('mp-col--order-2')
+    expect(wrapper.find('.mp-col').classes()).toContain('mp-col--order')
+    expect(wrapper.find('.mp-col').element.style.getPropertyValue('--mp-col-order')).toBe('2')
     wrapper.unmount()
   })
 

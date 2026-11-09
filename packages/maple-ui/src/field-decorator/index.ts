@@ -5,7 +5,7 @@ import { fieldDecoratorProps } from './props'
 withInstall(FieldDecorator)
 withPropsDefaultsSetter(FieldDecorator, fieldDecoratorProps)
 
-export { fieldDecoratorProps }
+export { FieldDecorator, fieldDecoratorProps }
 
 export type FieldDecoratorInstance = InstanceType<typeof FieldDecorator>
 export const _FieldDecoratorComponent: typeof FieldDecorator = FieldDecorator

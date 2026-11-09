@@ -46,9 +46,9 @@ The demo restores content after two seconds using its own timer. Skeleton neithe
 
 ## API
 
-### Props
+### Skeleton Props
 
-| Arguments | Description | Type | Default |
+| Prop | Description | Type | Default |
 | --- | --- | --- | --- |
 | `loading` | Loading Status Set to `true` to turn on the skeleton | _boolean_ | `true` |
 | `animation` | Whether to enable the shimmer animation | _boolean_ | `true` |
@@ -57,76 +57,101 @@ The demo restores content after two seconds using its own timer. Skeleton neithe
 | `avatar` | Whether to display the avatar | _boolean_ | `false` |
 | `fullscreen` | Whether to enable fullscreen mode | _boolean_ | `false` |
 | `fullscreen-z-index` | Fullscreen mode z-index | _string \| number_ | `100` |
-| `title-width` | `50%` | _string \| number_ | `-` |
-| `card-height` | `160px` | _string \| number_ | `-` |
-| `avatar-size` | `34px` | _string \| number_ | `-` |
+| `title-width` | Title placeholder width; falls back to the theme variable, `50%` by default | _string \| number_ | `-` |
+| `card-height` | Card placeholder height; falls back to the theme variable, `160px` by default | _string \| number_ | `-` |
+| `avatar-size` | Avatar placeholder size; falls back to the theme variable, `34px` by default | _string \| number_ | `-` |
 | `rows` | The paragraph number of rows | _string \| number_ | `3` |
-| `rows-width` | The width of each line of a paragraph | _number[] \| string[]_ | `[]` |
+| `rows-width` | The width of each line of a paragraph | _Array<number \| string>_ | `[]` |
 
-### Slots
+### Skeleton Slots
 
-| Slot | Description | Arguments |
+| Slot | Description | Prop |
 | --- | -- | --- |
 | `default` | Content not loaded | `-` |
 | `template` | Custom loading placeholder | `-` |
 
 The package also exports `SkeletonLine` and `SkeletonShape`, available as `Skeleton.Line` and `Skeleton.Shape` for custom templates.
 
-### Style variables
 
-The following CSS variables support customization with [StyleProvider](#/en-US/style-provider).
+### SkeletonLine Props
 
-| Variable | Default |
-| --- | --- |
-| `--mp-skeleton-content-padding` | `var(--mp-sys-space-6)` |
-| `--skeleton-card-height` | `160px` |
-| `--skeleton-card-border-radius` | `4px` |
-| `--skeleton-card-margin-bottom` | `16px` |
-| `--skeleton-card-background-color` | `rgba(0, 0, 0, 0.12)` |
-| `--skeleton-animation-background` | `linear-gradient(90deg, hsla(0, 0%, 100%, 0), hsla(0, 0%, 100%, 0.3), hsla(0, 0%, 100%, 0))` |
-| `--skeleton-avatar-size` | `34px` |
-| `--skeleton-avatar-border-radius` | `50%` |
-| `--skeleton-avatar-margin-right` | `16px` |
-| `--skeleton-avatar-background-color` | `rgba(0, 0, 0, 0.12)` |
-| `--skeleton-title-width` | `50%` |
-| `--skeleton-title-border-radius` | `10px` |
-| `--skeleton-title-background-color` | `rgba(0, 0, 0, 0.12)` |
-| `--skeleton-row-height` | `12px` |
-| `--skeleton-row-border-radius` | `10px` |
-| `--skeleton-row-margin-top` | `10px` |
+| Prop | Description | Type | Default |
+| --- | --- | --- | --- |
+| `rows` | Row count; non-finite and negative values become zero, fractions are rounded down | _number_ | `1` |
+| `widths` | Individual row widths; numbers are pixels | _Array<number \| string>_ | `[]` |
+| `line-height` | Line height in pixels | _number_ | `20` |
+| `line-spacing` | Line spacing in pixels | _number_ | `15` |
 
-## Shared implementation and platform boundaries
+### SkeletonShape Props
 
-Each platform maintains a complete local implementation. They do not import a common core or share component instances or reactive state. Changes must update both implementations. Component bodies, props, key styles and paired tests have read-only source consistency checks; theme tokens and installation entries remain local to each library.
+| Prop | Description | Type | Default |
+| --- | --- | --- | --- |
+| `shape` | Placeholder shape | _'square' \| 'circle'_ | `square` |
+| `size` | Placeholder size, controlled by theme variables | _'sm' \| 'md' \| 'lg'_ | `md` |
 
-Skeleton, SkeletonLine and SkeletonShape use independently copied source. Each library maintains its skeleton theme and size tokens.
+Line and Shape have no dedicated events, slots or instance methods; native attributes fall through. The main component has no dedicated instance methods.
 
-### Managed defaults
+## Usage notes
 
-| Token | Default |
-| --- | --- |
-| `--mp-skeleton-card-border-radius` | `var(--mp-sys-radius-md)` |
-| `--mp-skeleton-card-margin-bottom` | `var(--mp-sys-space-6)` |
-| `--mp-skeleton-card-background-color` | `var(--mp-sys-color-state-hover)` |
-| `--mp-skeleton-animation-background` | `linear-gradient(90deg, transparent, var(--mp-sys-color-surface-default), transparent)` |
-| `--mp-skeleton-avatar-border-radius` | `50%` |
-| `--mp-skeleton-avatar-margin-right` | `var(--mp-sys-space-6)` |
-| `--mp-skeleton-avatar-background-color` | `var(--mp-sys-color-state-hover)` |
-| `--mp-skeleton-title-border-radius` | `10px` |
-| `--mp-skeleton-title-background-color` | `var(--mp-sys-color-state-hover)` |
-| `--mp-skeleton-row-height` | `12px` |
-| `--mp-skeleton-row-border-radius` | `10px` |
-| `--mp-skeleton-row-margin-top` | `10px` |
-| `--mp-skeleton-shape-size-sm` | `36px` |
-| `--mp-skeleton-shape-size-md` | `48px` |
-| `--mp-skeleton-shape-size-lg` | `60px` |
-| `--mp-skeleton-shape-border-radius` | `var(--mp-sys-radius-md)` |
 
-### Motion variables
 
-| Token | Default |
-| --- | --- |
-| `--mp-skeleton-animation-duration` | `1s` |
-| `--mp-skeleton-transition-duration` | `var(--mp-sys-motion-duration-slow)` |
 
-Built-in motion follows prefers-reduced-motion: reduce, preserving content/state feedback while disabling decorative spinning, shimmer and ripples. Icon name changes skip waiting and cancel unfinished transitions. Ripple duration variables affect only CSS; the 250ms lifecycle timer remains unchanged, so each visual stage should not exceed 250ms. Callers must adapt custom animation classes.
+
+Built-in motion respects `prefers-reduced-motion: reduce`, keeping content and state feedback while disabling decorative animations. Adapt custom animations to that preference in your application.
+
+Built-in Skeleton placeholders and standalone Line/Shape primitives default to `aria-hidden="true"`. The root exposes waiting through `aria-busy`. Custom `template` content and the loaded default content remain accessible and can supply business status messages.
+
+### Fullscreen coverage
+
+`fullscreen` renders an inline `position: fixed` placeholder without automatically teleporting to body. It covers the viewport when no ancestor establishes a fixed positioning containing block. An ancestor with `transform`, a relevant `will-change`, or `contain` may limit coverage to that ancestor. To cover the viewport, place Skeleton outside those ancestors or arrange its position with Vue Teleport in the application. This loading placeholder does not manage modal focus. See [CSS Positioned Layout fixed containing blocks](https://www.w3.org/TR/css-position-3/#fixed-cb).
+
+Omitted size props use their theme tokens. A `-` in the table means there is no Prop default, rather than no placeholder size. Both Line and the main component normalize non-finite and negative row counts to zero and round fractions down.
+
+## CSS Variables
+
+The following CSS variables support customization with [ThemeProvider](#/en-US/theme-provider).
+
+<!-- component-css-variables:start -->
+
+Use these variables to customize the component. Defaults may vary by the selector condition shown. Each variable applies to the corresponding size, variant and interaction states.
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Default / condition | Affected styles |
+| --- | --- | --- |
+| `--mp-skeleton-animation-background` | `linear-gradient(90deg, transparent, var(--mp-sys-color-surface-default), transparent)` | `background` |
+| `--mp-skeleton-animation-duration` | `1s` | `animation` |
+| `--mp-skeleton-avatar-background-color` | `var(--mp-sys-color-state-hover)` | `background-color` |
+| `--mp-skeleton-avatar-border-radius` | `50%` | `border-radius` |
+| `--mp-skeleton-avatar-margin-right` | `var(--mp-sys-space-6)` | `margin-inline-end` |
+| `--mp-skeleton-avatar-size` | `34px` | `height`, `width` |
+| `--mp-skeleton-card-background-color` | `var(--mp-sys-color-state-hover)` | `background-color` |
+| `--mp-skeleton-card-border-radius` | `var(--mp-sys-radius-md)` | `border-radius` |
+| `--mp-skeleton-card-height` | `160px` | `height` |
+| `--mp-skeleton-card-margin-bottom` | `var(--mp-sys-space-6)` | `margin-bottom` |
+| `--mp-skeleton-content-padding` | `var(--mp-sys-space-6)` | `padding` |
+| `--mp-skeleton-row-border-radius` | `10px` | `border-radius` |
+| `--mp-skeleton-row-height` | `12px` | `height` |
+| `--mp-skeleton-row-margin-top` | `10px` | `margin-top` |
+| `--mp-skeleton-shape-border-radius` | `var(--mp-sys-radius-md)` | `border-radius` |
+| `--mp-skeleton-shape-size-lg` | `60px` | `height`, `width` |
+| `--mp-skeleton-shape-size-md` | `48px` | `height`, `width` |
+| `--mp-skeleton-shape-size-sm` | `36px` | `height`, `width` |
+| `--mp-skeleton-title-background-color` | `var(--mp-sys-color-state-hover)` | `background-color` |
+| `--mp-skeleton-title-border-radius` | `10px` | `border-radius` |
+| `--mp-skeleton-title-width` | `50%` | `width` |
+| `--mp-skeleton-transition-duration` | `var(--mp-sys-motion-duration-slow)` | `transition` |
+
+</div>
+
+Apply overrides to the rendered component root or the actual popup ancestor. For example, add the following class to that element and replace the value as needed:
+
+```css
+.component-theme {
+  --mp-skeleton-animation-background: linear-gradient(90deg, transparent, var(--mp-sys-color-surface-default), transparent);
+}
+```
+
+Explicit inline styles and props that write the same CSS property take precedence over stylesheet defaults. After Teleport, ordinary CSS variables inherit from the actual mount location. When using ThemeProvider, follow its local-theme and popup configuration rules. Override the component variable directly for local styling; root-level aliases are not recalculated merely because a descendant system variable changes. Internal variables are not public APIs.
+
+<!-- component-css-variables:end -->

@@ -4,7 +4,9 @@ import { ref } from 'vue'
 export function useInputComposition() {
   const isComposing = ref(false)
   let committed: string | undefined
+  let revision = 0
   function start() {
+    revision++
     isComposing.value = true
     committed = undefined
   }
@@ -12,6 +14,7 @@ export function useInputComposition() {
     if (!isComposing.value) {
       return false
     }
+    revision++
     isComposing.value = false
     committed = (event.target as HTMLInputElement).value
     return true
@@ -25,7 +28,17 @@ export function useInputComposition() {
       return false
     }
     committed = undefined
+    revision++
     return true
   }
-  return { isComposing, start, end, accepts }
+  function cancel() {
+    revision++
+    isComposing.value = false
+    committed = undefined
+  }
+  function capture() {
+    const version = revision
+    return () => version === revision && !isComposing.value
+  }
+  return { isComposing, start, end, accepts, cancel, capture }
 }

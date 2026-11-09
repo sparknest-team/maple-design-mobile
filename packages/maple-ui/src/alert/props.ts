@@ -72,7 +72,7 @@ export const alertProps = {
    * 投影层级
    */
   elevation: {
-    type: [Boolean, Number] as PropType<boolean | string | number>,
+    type: [Boolean, Number] as PropType<boolean | number>,
     default: false,
   },
 }

@@ -17,6 +17,8 @@ withPropsDefaultsSetter(IndexAnchor, indexAnchorProps)
 
 export { indexBarProps, indexAnchorProps, IndexBar, IndexAnchor }
 
+export type { IndexBarScrollToOptions } from './props'
+
 export type IndexBarInstance = InstanceType<typeof _IndexBar>
 export type IndexAnchorInstance = InstanceType<typeof IndexAnchor>
 export const _IndexBarComponent: typeof IndexBar = IndexBar

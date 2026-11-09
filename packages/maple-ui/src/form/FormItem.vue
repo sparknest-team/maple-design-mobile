@@ -48,6 +48,7 @@
 
       <mp-form-details
         v-if="!noStyle"
+        data-form-item-feedback
         :error-message="presentationState.readPretty.value ? '' : displayErrorMessage"
         :extra-message="extra"
       >
@@ -64,8 +65,8 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, nextTick, onBeforeUnmount, onMounted, ref, useSlots } from 'vue'
-import type { ComponentPublicInstance } from 'vue'
+import type { ComponentPublicInstance, SlotsType } from 'vue'
+import { computed, defineComponent, nextTick, onBeforeUnmount, onMounted, ref, useSlots, watch } from 'vue'
 import { cloneDeep, normalizeToArray } from '@maple-design/shared'
 import { provideItemPresentation } from '../_components/field-presentation/context'
 import Col from '../col'
@@ -74,12 +75,15 @@ import Row from '../row'
 import { createRequestGuard } from '../utils/async-request'
 import { createNamespace, useValidation } from '../utils/components'
 import { provideEmptyValues } from '../utils/empty-value'
+import { provideFormErrorDescription } from './error-description'
 import { getFormElementId } from './form-id'
 import FormItemLabel from './FormItemLabel.vue'
 import { resolveFormItemStatus, type FormItemValidateStatus } from './item-decoration'
 import { props, type FormItemValidateTrigger } from './item-props'
 import { bindFormItem, useFormItem, type FormItemEventHandlers, type FormItemProvider } from './item-provide'
 import { useForm } from './provide'
+import { isFormRule } from './rule-validation'
+import type { FormItemSlots } from './types'
 import { useFormContentHeight } from './use-form-content-height'
 import { useFormItemLayout } from './use-form-item-layout'
 import { getValueByPath, setValueByPath } from './utils'
@@ -96,7 +100,8 @@ export default defineComponent({
     MpCol: Col,
   },
   props,
-  emits: ['validate'],
+  slots: Object as SlotsType<FormItemSlots>,
+  emits: { validate: (_valid: boolean) => true },
   setup(props, { emit }) {
     const slots = useSlots()
     const { form } = useForm()
@@ -104,7 +109,9 @@ export default defineComponent({
     const validationTask = createRequestGuard()
     const validationStatus = ref<FormItemValidateStatus>()
     const initialValue = ref<any>()
-    const hasCapturedInitial = ref(false)
+    const initialValues = new Map<string, any>()
+    let fieldMounted = false
+    let fieldVersion = 0
     const formItemRef = ref<HTMLElement>()
 
     const fieldValue = computed(() => getValueByPath(form?.model.value, props.field))
@@ -122,7 +129,7 @@ export default defineComponent({
     const { hasOuterLabel: parentHasOuterLabel } = useFormItem()
     const showLabel = computed(() => !props.noStyle && !props.hideLabel && (!!props.label || !!slots.label))
     const hasOuterLabel = computed(() => (props.noStyle ? parentHasOuterLabel.value : showLabel.value))
-    const showAsterisk = computed(() => (props.required || hasRequiredRule(mergedRules.value)) && !props.hideAsterisk)
+    const showAsterisk = computed(() => props.required && !props.hideAsterisk)
     const resolvedLayout = useFormItemLayout(
       () => ({ ...props, hideLabel: !showLabel.value }),
       () => form?.layoutOptions.value ?? {},
@@ -164,9 +171,9 @@ export default defineComponent({
     const mergedSize = computed(() => props.size ?? form?.size.value)
     const mergedRules = computed(() => {
       const source = props.rules ?? form?.rules.value?.[props.field]
-      const rules = normalizeToArray(source).filter(Boolean)
+      const rules = normalizeToArray(source).filter(isFormRule)
 
-      if (props.required && !hasRequiredRule(rules)) {
+      if (props.required) {
         return [
           (value: any) => !emptyPolicy.isEmpty(value) || `${props.label || props.field || '该项'}不能为空`,
           ...rules,
@@ -175,6 +182,7 @@ export default defineComponent({
 
       return rules
     })
+    watch([() => props.field, mergedRules], () => form?.invalidateSubmitInputs?.(), { deep: true, flush: 'sync' })
     const eventHandlers = computed<FormItemEventHandlers>(() => ({
       onChange: () => validateWithTrigger('change'),
       onInput: () => validateWithTrigger('input'),
@@ -184,11 +192,17 @@ export default defineComponent({
     }))
 
     onMounted(() => {
+      fieldMounted = true
       captureInitialValue()
+      registerCurrentField()
     })
 
     const displayStatus = computed(() => resolveFormItemStatus(props.validateStatus, validationStatus.value))
     const displayErrorMessage = computed(() => (displayStatus.value === 'error' ? errorMessage.value : ''))
+    provideFormErrorDescription(
+      () => !presentationState.readPretty.value && Boolean(displayErrorMessage.value),
+      () => props.noStyle,
+    )
     const formItemProvider: FormItemProvider = {
       error: computed(() => displayStatus.value === 'error'),
       errorMessage: displayErrorMessage,
@@ -204,31 +218,26 @@ export default defineComponent({
     bindFormItem(formItemProvider)
 
     function captureInitialValue() {
-      if (hasCapturedInitial.value || !props.field || !form?.model.value) {
+      const name = props.field
+      if (!name) {
+        initialValue.value = undefined
         return
       }
-
-      initialValue.value = cloneDeep(getValueByPath(form.model.value, props.field))
-      hasCapturedInitial.value = true
+      if (!initialValues.has(name) && form?.model.value) {
+        initialValues.set(name, cloneDeep(getValueByPath(form.model.value, name)))
+      }
+      initialValue.value = initialValues.get(name)
     }
-
-    function hasRequiredRule(rules: any[]) {
-      return rules.some((rule) => {
-        if (typeof rule === 'object' && rule && !(typeof rule.safeParseAsync === 'function') && 'required' in rule) {
-          return !!rule.required
-        }
-
-        return false
-      })
-    }
+    watch(() => form?.model.value, captureInitialValue, { flush: 'sync' })
 
     let active = true
     function validateWithTrigger(trigger: FormItemValidateTrigger) {
       if (!hasValidateTrigger(props.validateTrigger, trigger)) {
         return
       }
+      const version = fieldVersion
       nextTick(() => {
-        if (active && hasValidateTrigger(props.validateTrigger, trigger)) {
+        if (active && version === fieldVersion && hasValidateTrigger(props.validateTrigger, trigger)) {
           runValidation()
         }
       })
@@ -270,8 +279,7 @@ export default defineComponent({
             label: props.label || '',
             value: fieldValue.value,
             type: 'validator',
-            isRequiredError:
-              emptyPolicy.isEmpty(fieldValue.value) && (props.required || hasRequiredRule(mergedRules.value)),
+            isRequiredError: emptyPolicy.isEmpty(fieldValue.value) && props.required,
             message: errorMessage.value,
           }
     }
@@ -309,7 +317,7 @@ export default defineComponent({
       }
     }
 
-    const unregisterField = form?.registerField({
+    const fieldController = {
       get field() {
         return props.field
       },
@@ -318,11 +326,37 @@ export default defineComponent({
       resetField,
       setField,
       getElement: () => formItemRef.value,
-    })
+    }
+    let unregisterField: (() => void) | undefined
+    function registerCurrentField() {
+      if (props.field) {
+        unregisterField = form?.registerField(fieldController)
+      }
+    }
+    function unregisterCurrentField() {
+      unregisterField?.()
+      unregisterField = undefined
+    }
+    watch(
+      () => props.field,
+      () => {
+        if (!fieldMounted) {
+          return
+        }
+        fieldVersion++
+        unregisterCurrentField()
+        presentationState.cancel()
+        clearValidate()
+        captureInitialValue()
+        registerCurrentField()
+      },
+      { flush: 'sync' },
+    )
     onBeforeUnmount(() => {
       active = false
+      fieldMounted = false
       validationTask.invalidate()
-      unregisterField?.()
+      unregisterCurrentField()
     })
 
     return {

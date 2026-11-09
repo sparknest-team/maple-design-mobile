@@ -2,7 +2,7 @@
 
 Single and grouped previews default to body-mounted viewport overlays. Only explicit `:popup-container="false"` renders inline and requires a positioned, sized parent. Only the active image's load/error settles its loading indicator; returning to a cached image does not leave the spinner visible.
 
-Track scheduling is now independently reviewed (earlier pending notes are historical): close/image/loop changes, deactivation and disposal invalidate work; callbacks consume once, activation only canonicalizes current coordinates, retained commands never replay. Double RAF is settlement even at zero duration; triplicated looping remains. Both tracks consume system slow/standard (currently240ms), replacing Maple's fixed280ms. Recenter reads actual transform duration+delay;400ms is only unresolved-style fallback. Scoped27 each/full Image Cedar62/Maple114 and32 Less cascade cases are controlled evidence, not native browser acceptance.
+Closing the preview, changing the image or changing looping cancels pending movement. Deactivation or unmounting stops movement; reactivation uses the current image.
 
 ## Basic examples
 
@@ -289,138 +289,178 @@ Display images with captions, loading fallback and preview. Example groups match
 
 ## Reading direction
 
-Inherits the nearest `dir="ltr|rtl"` and supports runtime and nested overrides. Preview collection navigation, horizontal keys and swipes follow reading direction without reversing the image array. Direction changes cancel pending gestures while preserving the current image, scale and rotation. Images and zoomed pan coordinates are not mirrored. Numerical indicators remain LTR.
+Inherits the nearest `dir="ltr|rtl"`, including runtime changes and local overrides. Previous/next preview navigation, horizontal keys and swipes follow reading direction without reversing the value array. Direction changes cancel unfinished gestures while preserving the current image, zoom and rotation. Images and zoomed drag coordinates are not mirrored automatically. Image indices retain LTR numeric display.
+
+## Usage notes
+
+### Image-preview group numbering
+
+`modelValue/defaultValue` start at `1`. `open(imageNumber = 1)` and `to(imageNumber)` use the same numbering; invalid/noninteger values are ignored. `prev()/next()` retain this numbering at loop boundaries. Model events are `update:modelValue(imageNumber)`; navigation emits `change(imageNumber, previousImageNumber)`, while external assignments do not. Long press emits `long-press(imageNumber)`; the indicator slot receives `{ imageNumber, length }`. Internal array indices remain zero-based.
+
+Root `class` and `style` merge with the Image wrapper. Use `img-props.class/style` to `style` the inner image. Preview `open-change` is a Vue notification event: each state transition emits once, `.once` uses Vue event semantics, and returned Promises do not control loading. The typed `onOpenChange` listener uses this same event path.
 
 ## API
 
 ImagePreviewGroup binds a one-based image number through ordinary `v-model`; `defaultValue` initializes the uncontrolled index. Panel opening uses `v-model:open` and `defaultOpen` independently. Programmatic preview options also use modelValue/`defaultValue` and onUpdate:modelValue.
 
-### Props
+### Image Props
 
-| Arguments | Description | Type | Default |
-| ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | -------------------------------- | --------- |
-| `src` | Image URL | _string_ | `-` |
-| `object-fit` | Fit: fill/contain/cover/none/scale-down | _string_ | `fill` |
-| `object-position` | CSS object-position for alignment of image content within its box, default 50% 50%; not component coordinates | _string_ | `50% 50%` |
-| `alt` | Image alt text, the same as the native attribute of the `img` tag | _string_ | `-` |
-| `title` | Image `title` text, the same as with the native attributes of the `img` tag | _string_ | `-` |
-| `description` | Image description; used as fallback `alt` text and in the default error state | _string_ | `-` |
-| `hide-footer` | Whether to hide the footer; `never` keeps it visible on errors | _boolean \| 'never'_ | `false` |
-| `footer-position` | Footer region inside (inner) or outside (outer) the image, default inner; not four-side popup placement | _string_ | `inner` |
-| `footer-class` | Footer class name | _string \| array \| object_ | `-` |
-| `referrer-policy` | Indicate which referrer to use when fetching the resource. This attribute requires attention to browser compatibility, see [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img) | _string_ | `-` |
-| `width` | Image width | _string \| number_ | `-` |
-| `height` | Image height | _string \| number_ | `-` |
-| `radius` | Image radius | _string \| number_ | `0` |
-| `lazy` | Whether to enable lazy loading | _boolean_ | `false` |
-| `show-loader` | Image displayed while lazy loading | _string_ | `-` |
-| `fallback-src` | When lazy loading is enabled, the image displayed after an error | _string_ | `-` |
-| `show-loader` | Whether to show the default loading state | _boolean_ | `false` |
-| `ripple` | Whether to enable ripple | _boolean_ | `false` |
-| `block` | Whether it is a block element | _boolean_ | `true` |
-| `preview-disabled` | Whether click preview is disabled | _boolean_ | `false` |
-| `preview-src` | Preview image URL, defaults to `src` | _string_ | `-` |
-| `v-model:open` | Controlled preview state | _boolean_ | `-` |
-| `default-open` | Default preview open state | _boolean_ | `false` |
-| `preview-props` | Props passed to `ImagePreview` | _object_ | `-` |
-| `popup-container` | Preview mount target; `false` disables Teleport | _string \| HTMLElement \| false_ | `body` |
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| src | string | - | Thumbnail source |
+| preview-src | string | - | Preview URL, falling back to src |
+| fallback-src | string | - | One fallback after a source error |
+| width | string \| number | - | Root width; numbers are px |
+| height | string \| number | - | Root height; numbers are px |
+| object-fit | ImageFit | fill | Image fitting mode |
+| object-position | string | 50% 50% | Native object position |
+| radius | string \| number | 0 | Root border radius |
+| alt | string | - | Image alternative text; empty is preserved |
+| title | string | - | Image title and footer title |
+| description | string | - | Footer text and alt fallback |
+| load-description | string | - | Last alt fallback |
+| hide-footer | boolean \| 'never' | false | Hide footer, or show it in every load state |
+| footer-position | 'inner' \| 'outer' | inner | Footer position |
+| footer-class | string \| array \| object | - | Footer classes |
+| lazy | boolean | false | Use native image lazy loading |
+| img-props | ImgHTMLAttributes | - | Thumbnail element attributes |
+| previewed-img-props | ImgHTMLAttributes | - | Single preview image attributes |
+| show-loader | boolean | false | Show default loader while loading |
+| ripple | boolean | false | Enable ripple |
+| block | boolean | true | Render block layout |
+| preview-disabled | boolean | false | Disable image preview |
+| open / v-model:open | boolean | - | Controlled standalone preview state |
+| default-open | boolean | false | Initial uncontrolled preview state |
+| preview-props | `Partial<ImagePreviewProps>` | - | Standalone preview options |
+| popup-container | string \| HTMLElement \| false | body | Preview mount target |
 
-### Events
+### Image Events
 
 | Event | Description | Arguments |
-| --------------------- | ---------------------------------------------------------------------------------- | --------------- |
-| `click` | Triggered when you click on Image | `event: Event` |
-| `load` | Triggered when the image is successfully loaded (when the image fails in lazy loading mode, it will only be triggered when the image is successfully loaded) | `event: Event` |
-| `error` | Emitted on image loading failure. Lazy loading retries and emits only after all attempts fail | `event: Event` |
-| `open-change` | Emitted when preview opens/closes | `open: boolean` |
-| `update:open` | Updates the `open` model | `open: boolean` |
+| --- | --- | --- |
+| update:open | Preview state request | open: boolean |
+| open-change | Preview state request | open: boolean |
+| click | Image activation | event: Event |
+| load | Image resource loaded | event: Event |
+| error | Image resource failed | event: Event |
 
-### Slots
+### Image Slots
 
-| Slot | Description | Arguments |
-| ----------------- | ---------------------- | ---- |
-| `error` | Loading-failure slot | `-` |
-| `error-icon` | Custom icon for the default error state | `-` |
-| `loader` | Custom loading state | `-` |
-| `extra` | Additional footer content | `-` |
-| `preview-actions` | Custom preview action content | `-` |
+| Slot | Description | Scope |
+| --- | --- | --- |
+| extra | Footer content | - |
+| placeholder | Loading placeholder; takes precedence over loader | - |
+| loader | Custom loading indicator | - |
+| error | Error content | - |
+| error-icon | Default error icon replacement | - |
+| preview-actions | Standalone preview toolbar extra actions | - |
 
 ### Imperative preview
 
 `imagePreview(url | url[] | options)` returns a unified handle exposing open/close/prev/next/to/reset/zoomTo/zoomIn/zoomOut/rotateLeft/rotateRight/toggleFullscreen.
 
-## ImagePreview API
+### ImagePreview Props
 
-### Props
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| src | string | - | Preview image URL |
+| open / v-model:open | boolean | - | Controlled preview state |
+| default-open | boolean | false | Initial uncontrolled state |
+| interaction | 'auto' \| 'desktop' \| 'touch' | auto | Interaction mode |
+| popup-container | string \| HTMLElement \| false | body | Preview mount target |
+| lock-scroll | boolean | true | Lock background scrolling |
+| closable | boolean | true | Show separate close button |
+| overlay-closable | boolean | true | Allow backdrop to close |
+| esc-to-close | boolean | true | Allow Escape to close |
+| image-prevent-default | boolean | false | Prevent image context menu |
+| default-scale | number | 1 | Initial and reset scale |
+| min-scale | number | 0.5 | Lower scale bound |
+| max-scale | number | 8 | Upper scale bound |
+| scale-step | number | 0.5 | Zoom increment |
+| wheel-zoom | boolean | desktop | Enable wheel zoom; automatic when omitted |
+| keyboard | boolean | desktop | Enable preview keyboard shortcuts |
+| draggable | boolean | true | Enable pointer gestures |
+| keep-drag-offset | boolean | false | Keep offset when scale returns to 1 or less |
+| show-toolbar | boolean | true | Show toolbar and its actions slot |
+| actions-layout | ImagePreviewActionName[] | desktop defaults / touch [] | Ordered toolbar actions |
+| previewed-img-props | ImgHTMLAttributes | - | Preview image element attributes |
 
-| Arguments | Description | Type | Default |
-| ----------------------- | ------------------------------------------------ | -------------------------------- | ------- |
-| `v-model:open` | Visible state | _boolean_ | `false` |
-| `default-open` | Default uncontrolled open state | _boolean_ | `false` |
-| `src` | Single-image preview URL | _string_ | `-` |
-| `scale-step` | Scale increment per action | _number_ | `0.5` |
-| `closable` | Show the close button | _boolean_ | `true` |
-| `overlay-closable` | Close on backdrop click; clicking the image keeps it open | _boolean_ | `true` |
-| `lock-scroll` | Lock scroll | _boolean_ | `true` |
-| `esc-to-close` | Whether keyboard ESC closes | _boolean_ | `true` |
-| `popup-container` | The location of the ejector layer mount | _string \| HTMLElement \| false_ | `body` |
-| `image-prevent-default` | Whether to disable the default behavior of images | _boolean_ | `false` |
+When `images` is omitted or `undefined`, the group collects previewable child Images in DOM order; updating a child URL preserves its identity and position. An explicitly supplied array is the source, and `[]` means no images. Set it back to `undefined` to resume child collection. In array mode use the group `open` / `to` methods to select an image; child Images do not map themselves to array indices.
 
-### ImagePreviewGroup props
+Public indices start at 1. The displayed index is clamped when data shrinks, and child reordering preserves the selected image identity. A controlled `modelValue` receives an update request when adjustment is needed; its owner can accept or reject it. No preview content is shown when the list is empty; the open state remains, so content may reappear when images return.
 
-| Arguments | Description | Type | Default |
-| ------------------ | -------------------------------------------- | -------------------------------- | ------- |
-| `images` | Image URL list; overrides child Image collection | _string[]_ | `[]` |
-| `v-model:open` | Whether preview is open | _boolean_ | `false` |
-| `default-open` | Default uncontrolled open state | _boolean_ | `false` |
-| `v-model` | Current image number (starts at 1) | _number_ | `-` |
-| `default-value` | Initial image number (starts at 1) in uncontrolled mode | _number_ | `1` |
-| `loop` | Whether to loop | _boolean_ | `false` |
-| `closable` | Show the close button | _boolean_ | `true` |
-| `overlay-closable` | Close on backdrop click; clicking the image keeps it open | _boolean_ | `true` |
-| `esc-to-close` | Whether keyboard ESC closes | _boolean_ | `true` |
-| `popup-container` | Popup mount target | _string \| HTMLElement \| false_ | `body` |
+A previewable image exposes a named button action supporting Tab, Enter and Space. When preview closes, focus is restored to its opener when possible if focus is still in the preview or has fallen to the document body. The action is absent when preview is disabled or the image has failed. Explicit `alt=""` stays empty; a previewable decorative image still has a separately named preview action. When `alt` is omitted, `imgProps.alt`, `description`, then `loadDescription` supply the fallback.
 
-### Events
+When keyboard shortcuts are enabled, only the topmost preview handles arrow keys and Space. Inputs, editable regions and other interactive controls retain their own key behavior.
 
-| Event | Description | Callback arguments |
-| ------------- | ---------------------------------------- | ------------------------ |
-| `change` | The callback function when switching images, the callback parameter is the current index | `imageNumber: number, previousImageNumber: number`; image numbers |
-| `open` | Triggered when Image-Preview is turned on | `-` |
-| `opened` | Triggered at the end of the open image-preview animation | `-` |
-| `open-change` | Emitted when open state changes | `open: boolean` |
-| `close` | Triggered when Image-Preview is off | `-` |
-| `closed` | Triggered when the animation that closes the image-preview ends | `-` |
-| `long-press` | The callback function when long pressing an image, the callback parameter is the current index | `imageNumber: number`; image number |
-| `key-escape` | Triggered when click keyboard ESC | `-` |
+### ImagePreviewGroup Props
 
-### Methods
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| open / v-model:open | boolean | - | Controlled preview state |
+| default-open | boolean | false | Initial uncontrolled state |
+| interaction | 'auto' \| 'desktop' \| 'touch' | auto | Interaction mode |
+| popup-container | string \| HTMLElement \| false | body | Preview mount target |
+| lock-scroll | boolean | true | Lock background scrolling |
+| closable | boolean | true | Show separate close button |
+| overlay-closable | boolean | true | Allow backdrop to close |
+| esc-to-close | boolean | true | Allow Escape to close |
+| image-prevent-default | boolean | false | Prevent image context menu |
+| default-scale | number | 1 | Initial and reset scale |
+| min-scale | number | 0.5 | Lower scale bound |
+| max-scale | number | 8 | Upper scale bound |
+| scale-step | number | 0.5 | Zoom increment |
+| wheel-zoom | boolean | desktop | Enable wheel zoom; automatic when omitted |
+| keyboard | boolean | desktop | Enable preview keyboard shortcuts |
+| draggable | boolean | true | Enable pointer gestures |
+| keep-drag-offset | boolean | false | Keep offset when scale returns to 1 or less |
+| show-toolbar | boolean | true | Show toolbar and its actions slot |
+| actions-layout | ImagePreviewActionName[] | desktop defaults / touch [] | Ordered toolbar actions |
+| images | string[] | - | Explicit images; undefined collects children, [] is empty |
+| model-value / v-model | number | - | Controlled image number, starting at 1 |
+| default-value | number | 1 | Initial image number, starting at 1 |
+| loop | boolean | false | Wrap when navigating |
 
-| Method | Description | Arguments | Returns |
-| ---------------------------------- | ------------------ | ------------------------------- | ------ |
-| `imagePreview` | Open image-preview | _options \| string \| string[]_ | `-` |
-| `imagePreview.close` | Close image-preview | _-_ | `-` |
-| `imagePreview.setDefaultOptions` | Set default option configuration | _options_ | `-` |
-| `imagePreview.resetDefaultOptions` | Reset default option configuration | _-_ | `-` |
-| `prev` / `next` | Switch image | `-` | `-` |
-| `to` | Go to an image number (starts at 1) | `imageNumber: number` | `-` |
-| `zoomTo` | Set scale | `scale: number` | `-` |
-| `zoomIn` / `zoomOut` | Zoom in or out | `-` | `-` |
-| `rotateLeft` / `rotateRight` | Rotate image | `-` | `-` |
-| `reset` / `toggleFullscreen` | Reset or toggle fullscreen | `-` | `-` |
+### ImagePreviewGroup Events
 
-### Slots
+| Event | Description | Arguments |
+| --- | --- | --- |
+| update:open | Preview state request | open: boolean |
+| open-change | Preview state request | open: boolean |
+| update:modelValue | Image number request | imageNumber: number |
+| change | Image number change request | imageNumber: number, previousImageNumber: number |
+| open / opened | Open transition start / end | - |
+| close / closed | Close transition start / end | - |
+| key-escape | Escape notification | - |
+| long-press | Long press notification | imageNumber: number |
 
-| Slot | Description | Arguments |
-| ------------ | ---------------- | ------------------------------------------------------- |
-| `indicator` | Paging indicator | `imageNumber: number`; image index <br> `length: number`; total images |
-| `close-icon` | Close button | `-` |
-| `extra` | Additional slot | `-` |
-| `actions` | Custom preview action area | `-` |
+### ImagePreviewGroup Methods
+
+| Method | Description |
+| --- | --- |
+| open(imageNumber = 1) | Request open at a 1-based image number |
+| close() | Request close |
+| prev() / next() | Navigate one image |
+| to(imageNumber) | Navigate to a 1-based image number |
+| reset() | Reset current preview transforms |
+| zoomTo(scale) | Set finite scale within bounds |
+| zoomIn() / zoomOut() | Change scale by scale-step |
+| rotateLeft() / rotateRight() | Rotate by 90 degrees |
+| toggleFullscreen() | Toggle fullscreen; returns the browser Promise or undefined when unsupported |
+
+### ImagePreviewGroup Slots
+
+| Slot | Description | Scope |
+| --- | --- | --- |
+| default | Child images | - |
+| close-icon | Separate close button icon | - |
+| indicator | Image count display | { imageNumber, length } |
+| extra | Extra preview content | { url } |
+| actions | Additional toolbar actions | { url } |
 
 ### ImagePreview Options
 
-| Arguments | Description | Type | Default |
+| Prop | Description | Type | Default |
 | --------------------- | ----------------------------------------- | ------------------------- | ------- |
 | `images` | Preview image URL array or one image URL | _string[] \| string_ | `[]` |
 | `model-value` | Index from which the image preview starts | _number_ | `1` |
@@ -438,24 +478,87 @@ ImagePreviewGroup binds a one-based image number through ordinary `v-model`; `de
 | `onLongPress` | The callback function when long pressing an image, the callback parameter is the current index | _(imageNumber: number) => void_ | `-` |
 | `onKeyEscape` | Triggered when click keyboard ESC | _() => void_ | `-` |
 
-### Style variables
+### ImagePreview Events
 
-The following CSS variables support customization with [StyleProvider](#/en-US/style-provider).
+| Event | Description | Arguments |
+| --- | --- | --- |
+| update:open | Preview state request | open: boolean |
+| open-change | Preview state request | open: boolean |
+| open / opened | Open transition start / end | - |
+| close / closed | Close transition start / end | - |
+| key-escape | Escape notification | - |
+| long-press | Long press notification | - |
+| prev / next | Navigation requests | - |
 
-| Variable | Default |
-| --------------------------------------------- | -------- |
-| `--image-preview-swipe-indicators-text-color` | `#ddd` |
-| `--image-preview-swipe-indicators-padding` | `16px 0` |
-| `--image-preview-zoom-container-background` | `#000` |
-| `--image-preview-close-icon-top` | `14px` |
-| `--image-preview-close-icon-right` | `14px` |
-| `--image-preview-close-icon-size` | `22px` |
-| `--image-preview-close-icon-color` | `#fff` |
-| `--image-preview-extra-top` | `14px` |
-| `--image-preview-extra-left` | `14px` |
+### ImagePreview Slots
 
-### Image-preview group numbering
+| Slot | Description | Scope |
+| --- | --- | --- |
+| image | Replace the preview image | { src, scale, rotate, translateX, translateY, moving, previewedImgProps } |
+| actions | Additional toolbar actions | - |
+| close-icon | Separate close button icon | - |
+| overlay | Preview overlay content | - |
+| extra | Extra preview content | - |
 
-`modelValue/defaultValue` start at `1`. `open(imageNumber = 1)` and `to(imageNumber)` use the same numbering; invalid/noninteger values are ignored. `prev()/next()` retain this numbering at loop boundaries. Model events are `update:modelValue(imageNumber)`; navigation emits `change(imageNumber, previousImageNumber)`, while external assignments do not. Long press emits `long-press(imageNumber)`; the indicator slot receives `{ imageNumber, length }`. Internal array indices remain zero-based.
+### ImagePreview Methods
 
-Root `class` and `style` merge with the Image wrapper. Use `img-props.class/style` to style the inner image. Preview `open-change` is a Vue notification event: each state transition emits once, `.once` uses Vue event semantics, and returned Promises do not control loading. The typed `onOpenChange` listener uses this same event path.
+| Method | Description |
+| --- | --- |
+| open() | Request open |
+| close() | Request close |
+| reset() | Reset scale, rotation and offset |
+| zoomTo(scale) | Set finite scale within bounds |
+| zoomIn() / zoomOut() | Change scale by scale-step |
+| rotateLeft() / rotateRight() | Rotate by 90 degrees |
+| toggleFullscreen() | Toggle fullscreen; returns the browser Promise or undefined when unsupported |
+
+`Image.showPreview()` requests the current image preview. The `imagePreview`, `previewImage`, and `ImagePreviewFn` service accepts a URL, URL array, or options and returns `ImagePreviewHandle | undefined` (for example during SSR). Its handle offers the 12 Group operations; paging operations have no effect for a single image. The service also exposes `close()`, `setDefaultOptions()`, and `resetDefaultOptions()`. Native `lazy` is browser-scheduled and does not promise automatic retries.
+
+Scale parameters must be finite and positive; invalid min/max/default/step values fall back to 0.5/8/1/0.5. If max is below min it resolves to min. Initial and reset scales are clamped, changes to bounds clamp the current value, and `zoomTo` ignores nonfinite input. `close` in `actionsLayout` is a toolbar action, independent of the separate button controlled by `closable`.
+
+### Image Methods
+
+| Method | Description |
+| --- | --- |
+| showPreview() | Request the current image preview when available |
+
+### ImagePreviewAction Slots
+
+| Slot | Description | Scope |
+| --- | --- | --- |
+| default | Action button content | - |
+
+## CSS Variables
+
+The following CSS variables support customization with [ThemeProvider](#/en-US/theme-provider).
+
+<!-- component-css-variables:start -->
+
+Use these variables to customize the component. Defaults may vary by the selector condition shown. Each variable applies to the corresponding size, variant and interaction states.
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Default / condition | Affected styles |
+| --- | --- | --- |
+| `--mp-image-preview-arrow-background` | `rgb(38 38 0.41304348%)` | `background-color` |
+| `--mp-image-preview-arrow-background-hover` | `rgb(56 56 0.58333333%)` | `background-color` |
+| `--mp-image-preview-arrow-color` | `#fff` | `color` |
+| `--mp-image-preview-close-icon-right` | `14px` | `inset-inline-end` |
+| `--mp-image-preview-close-icon-top` | `14px` | `top` |
+| `--mp-image-preview-swipe-indicators-padding` | `16px 0` | `padding` |
+| `--mp-image-preview-swipe-indicators-text-color` | `#ddd` | `color` |
+| `--mp-image-preview-zoom-container-background` | `#000` | `background-color` |
+
+</div>
+
+Apply overrides to the rendered component root or the actual popup ancestor. For example, add the following class to that element and replace the value as needed:
+
+```css
+.component-theme {
+  --mp-image-preview-arrow-background: rgb(38 38 0.41304348%);
+}
+```
+
+Explicit inline styles and props that write the same CSS property take precedence over stylesheet defaults. After Teleport, ordinary CSS variables inherit from the actual mount location. When using ThemeProvider, follow its local-theme and popup configuration rules. Override the component variable directly for local styling; root-level aliases are not recalculated merely because a descendant system variable changes. Internal variables are not public APIs.
+
+<!-- component-css-variables:end -->

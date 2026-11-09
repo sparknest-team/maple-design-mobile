@@ -17,7 +17,7 @@ export const buttonGroupProps = {
    */
   size: {
     type: String as PropType<ComponentSize>,
-    default: 'md',
+    default: undefined,
     validator: (value: ComponentSize) => componentSizes.includes(value),
   },
   /**

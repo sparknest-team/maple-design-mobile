@@ -1,5 +1,6 @@
 <template>
   <div
+    ref="imageRoot"
     v-ripple="{ disabled: !ripple }"
     :class="
       classes(
@@ -21,13 +22,18 @@
     <div :class="n('content')">
       <img
         v-bind="mergedImgProps"
-        role="img"
+        :role="canPreview ? 'button' : mergedImgProps.role"
+        :tabindex="canPreview ? (mergedImgProps.tabindex ?? 0) : mergedImgProps.tabindex"
+        :aria-label="previewLabel"
         :class="n('image')"
         :src="displaySrc"
         :loading="lazy ? 'lazy' : undefined"
-        :alt="alt || description || loadDescription"
+        :alt="resolvedAlt"
         :title="title"
         :style="[mergedImgProps.style, { objectFit, objectPosition }]"
+        @keydown="handlePreviewKeydown"
+        @keyup="handlePreviewKeyup"
+        @blur="cancelPreviewKey"
         @load="handleLoad"
         @error="handleError"
         @click="handleClick"
@@ -87,14 +93,15 @@
 </template>
 
 <script lang="ts">
-import type { HTMLAttributes } from 'vue'
-import { computed, defineComponent, inject, ref, watch, watchEffect } from 'vue'
+import type { HTMLAttributes, SlotsType } from 'vue'
+import { computed, defineComponent, inject, onBeforeUnmount, onMounted, onUpdated, ref, watch } from 'vue'
 import Ripple from '../ripple'
 import { createNamespace } from '../utils/components'
+import type { ImageSlots } from './api'
 import { PreviewGroupInjectionKey } from './context'
 import ImageFooter from './ImageFooter.vue'
 import ImagePreview from './ImagePreview.vue'
-import { DefaultLoader, ImageErrorIcon, toSizeUnit } from './platform'
+import { DefaultLoader, ImageErrorIcon, toSizeUnit, useImagePreviewLabel } from './platform'
 import { imageProps } from './props'
 
 const { name, n, classes } = createNamespace('image')
@@ -103,6 +110,7 @@ let imageId = 0
 
 export default defineComponent({
   name,
+  slots: Object as SlotsType<ImageSlots>,
   components: {
     ImagePreview,
     ImageFooter,
@@ -158,6 +166,66 @@ export default defineComponent({
     })
 
     const previewEnabled = computed(() => !props.previewDisabled)
+    const resolvedAlt = computed(
+      () => props.alt ?? props.imgProps?.alt ?? props.description ?? props.loadDescription ?? '',
+    )
+    const basePreviewLabel = useImagePreviewLabel()
+    const canPreview = computed(
+      () => previewEnabled.value && !!previewUrl.value && !isError.value && (groupContext?.canPreviewImage?.() ?? true),
+    )
+    const previewLabel = computed(() => {
+      const explicit = mergedImgProps.value['aria-label']
+      if (!canPreview.value || explicit != null || mergedImgProps.value['aria-labelledby']) {
+        return explicit
+      }
+      return resolvedAlt.value ? `${basePreviewLabel.value}: ${resolvedAlt.value}` : basePreviewLabel.value
+    })
+    let spacePressed = false
+    function cancelPreviewKey() {
+      spacePressed = false
+    }
+    watch(canPreview, (enabled) => {
+      if (!enabled) {
+        cancelPreviewKey()
+      }
+    })
+    function handlePreviewKeydown(event: KeyboardEvent) {
+      if (
+        !canPreview.value ||
+        event.defaultPrevented ||
+        event.isComposing ||
+        event.altKey ||
+        event.ctrlKey ||
+        event.metaKey
+      ) {
+        return
+      }
+      if (event.key === 'Enter' && !event.repeat) {
+        event.preventDefault()
+        ;(event.currentTarget as HTMLElement).click()
+      } else if (event.key === ' ') {
+        event.preventDefault()
+        if (!event.repeat) {
+          spacePressed = true
+        }
+      }
+    }
+    function handlePreviewKeyup(event: KeyboardEvent) {
+      if (event.key !== ' ' || !spacePressed) {
+        return
+      }
+      spacePressed = false
+      if (event.defaultPrevented || event.isComposing) {
+        return
+      }
+      event.preventDefault()
+      if (
+        canPreview.value &&
+        event.currentTarget === (event.currentTarget as HTMLElement).ownerDocument.activeElement
+      ) {
+        ;(event.currentTarget as HTMLElement).click()
+      }
+    }
     const showStandalonePreview = computed(() => previewEnabled.value && !groupContext && !!previewUrl.value)
 
     watch(
@@ -168,15 +236,15 @@ export default defineComponent({
       },
     )
 
-    watchEffect((onInvalidate) => {
-      if (!groupContext) {
-        return
-      }
-      const unregister = groupContext.registerImageUrl(currentImageId, previewUrl.value, previewEnabled.value)
-      onInvalidate(() => {
-        unregister?.()
-      })
+    const imageRoot = ref<HTMLElement | null>(null)
+    const element = () => imageRoot.value
+    const unregister = groupContext?.registerImageUrl(currentImageId, previewUrl.value, previewEnabled.value, element)
+    watch([previewUrl, previewEnabled], ([url, enabled]) => {
+      groupContext?.registerImageUrl(currentImageId, url, enabled, element)
     })
+    onMounted(() => groupContext?.refreshOrder?.())
+    onUpdated(() => groupContext?.refreshOrder?.())
+    onBeforeUnmount(() => unregister?.())
 
     function handleError(e: Event) {
       if (!usingFallback.value && props.fallbackSrc && props.fallbackSrc !== props.src) {
@@ -218,6 +286,13 @@ export default defineComponent({
     }
 
     return {
+      imageRoot,
+      canPreview,
+      resolvedAlt,
+      previewLabel,
+      handlePreviewKeydown,
+      handlePreviewKeyup,
+      cancelPreviewKey,
       n,
       classes,
       toSizeUnit,

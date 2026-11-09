@@ -80,3 +80,23 @@ describe('count-to copied implementation contract', () => {
     }
   })
 })
+
+it('normalizes non-finite endpoints and retains parseFloat string compatibility', async () => {
+  const warning = vi.spyOn(console, 'warn').mockImplementation(() => {})
+  const w = mount(Component, { props: { from: Infinity, to: 'bad', autoStart: false } })
+  expect(w.text()).toBe('0')
+  expect(warning).toHaveBeenCalled()
+  await w.setProps({ from: '10px', to: 20 })
+  expect(w.text()).toBe('10')
+  w.unmount()
+  warning.mockRestore()
+})
+
+it('completes overflowing finite endpoint distance on the next frame', async () => {
+  const done = vi.fn()
+  const w = mount(Component, { props: { from: -1e308, to: 1e308, duration: 1000, onEnd: done } })
+  await new Promise((resolve) => setTimeout(resolve, 100))
+  expect(w.text()).toContain('e+308')
+  expect(done).toHaveBeenCalledTimes(1)
+  w.unmount()
+})

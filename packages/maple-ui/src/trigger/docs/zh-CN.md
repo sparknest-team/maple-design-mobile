@@ -1,10 +1,10 @@
 # Trigger
 
-真实IAB default/light完成两端延迟取消／KeepAlive测量四组，包含重新挂载正向计时对照，最终面板节点0。入口按钮原生点击但mouseenter由夹具脚本发出，不称原生hover、跨窗口视觉或OS验收。
 
-更换或清空popup ref、watcher刷新前卸载时，scroll监听在实际原绑定窗口解绑，不依赖当前ref反查。此模拟回归不涵盖同节点跨document adopt或真实浏览器视觉／OS验收。
 
-定位／滚动关闭 RAF 在事件元素或浮层的所属窗口申请，并在原申请窗口取消。关闭／解绑后已出队旧帧不消费新的滚动任务。RAF是必要测量调度，不是CSS动效时长；旧监听原窗口解绑已完成后续模拟回归，同节点adopt与真实浏览器仍需单独验收。
+更换或清空浮层引用，以及卸载组件时，会移除旧窗口的滚动监听。
+
+关闭或解绑后，尚未执行的定位和滚动关闭任务不会影响后续打开的浮层。
 
 mouse-enter-delay／mouse-leave-delay 是交互请求延迟，独立于CSS进出时长。取消、替换、KeepAlive停用或卸载后，旧已出队回调不会提交；停用或卸载后保留的请求方法不再调度。重新激活接受新请求、不重放旧延迟，受控open仍由调用方决定。
 
@@ -64,18 +64,36 @@ mouse-enter-delay／mouse-leave-delay 是交互请求延迟，独立于CSS进出
 ../example/demos/controlled.vue
 ```
 
+## 触发与定位
+
+### 弹层定位
+
+placement 是首选方位，auto-fit-position 默认 true 时最终方位可能变化；它不是 position 坐标。top-start 与 top-left 不是同一种枚举：前者是锚点方位及沿边对齐，后者是容器角落。top/bottom 的 start/end 随阅读方向镜像；left/right 仍是物理方位，纵向 start/end 维持上下语义。
+
+## 使用说明
+
+### 配置说明
+
+以下为实际 :root 默认值。业务定制优先使用组件变量；内部定位变量不属于公开 API。
+
+使用 Teleport 时，变量需放在实际 popup 的作用域中（例如通过 `popup-style`）；触发按钮上的变量不会自动继承到浮层。
+
+### 减少动态效果
+
+`allowClose()` 只恢复内部关闭门控；没有公开的对应禁用方法，也不能用它阻止关闭。
+
 ## API
 
-### 属性
+### Trigger Props
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
 | `v-model:open` | 受控打开状态 | _boolean_ | `-` |
 | `default-open` | 非受控初始状态 | _boolean_ | `false` |
-| `trigger` | `hover/click/focus/contextMenu/manual`，可传数组 | _TriggerEvent \| TriggerEvent[]_ | `hover` |
+| `trigger` | `hover/click/focus/contextMenu/manual`，可传数组 | _TriggerEvent \| TriggerEvent[]_<br>`TriggerEvent: 'manual' \| 'focus' \| 'hover' \| 'click' \| 'contextMenu'` | `hover` |
 | `disabled` | 禁止打开 | _boolean_ | `false` |
 | `reference` | 外部参考元素 | _string \| HTMLElement \| SVGElement_ | `-` |
-| `placement` | 浮层相对触发元素的首选方位，默认 bottom；启用默认的 auto-fit-position 时，空间不足会自动翻转并约束到可视区域，不保证最终停在该侧 | _TriggerPlacement_ | `bottom` |
+| `placement` | 浮层相对触发元素的首选方位，默认 bottom；启用默认的 auto-fit-position 时，空间不足会自动翻转并约束到可视区域，不保证最终停在该侧 | _TriggerPlacement_<br>`'left' \| 'right' \| 'bottom' \| 'top' \| 'top-start' \| 'top-end' \| 'bottom-start' \| 'bottom-end' \| 'left-start' \| 'left-end' \| 'right-start' \| 'right-end'` | `bottom` |
 | `strategy` | 定位策略 | _absolute \| fixed_ | `absolute` |
 | `cover` | 沿主轴覆盖参考元素 | _boolean_ | `false` |
 | `popup-offset` | 主轴向外距离 | _number_ | `0` |
@@ -85,7 +103,7 @@ mouse-enter-delay／mouse-leave-delay 是交互请求延迟，独立于CSS进出
 | `auto-fit-position` | 自动翻转并限制到可视区域 | _boolean_ | `true` |
 | `auto-fit-popup-width` | 宽度跟随参考元素 | _boolean_ | `false` |
 | `auto-fit-popup-min-width` | 最小宽度跟随参考元素 | _boolean_ | `false` |
-| `auto-fix-position` | 尺寸变化时重新定位 | _boolean_ | `true` |
+| `auto-fix-position` | 是否观察触发元素的尺寸变化；禁用该选项后仍观察浮层和定位父级，并响应窗口变化 | _boolean_ | `true` |
 | `update-at-scroll` | 滚动时重新定位 | _boolean_ | `false` |
 | `scroll-to-close` | 滚动超过阈值关闭 | _boolean_ | `false` |
 | `scroll-to-close-distance` | 滚动关闭阈值 | _number_ | `0` |
@@ -96,18 +114,19 @@ mouse-enter-delay／mouse-leave-delay 是交互请求延迟，独立于CSS进出
 | `animation-name` | Vue Transition 名称 | _string_ | `trigger-fade` |
 | `duration` | 动画时长 | _number \| object_ | `-` |
 | `auto-fit-transform-origin` | 根据最终方位设置动画原点 | _boolean_ | `false` |
-| `opened-class` | 打开时的参考节点类名 | _string \| array \| object_ | `-` |
+| `opened-class` | 打开时合并给默认插槽的首个节点；外部 reference 不添加该类 | _string \| array \| object_ | `-` |
+| `reference-attrs` | 写入实际参考元素的属性，或接收 open 的函数；属性撤销、引用替换或卸载时恢复原属性 | _TriggerReferenceAttrs \| ((open: boolean) => TriggerReferenceAttrs)_ | `-` |
 | `popup-class` / `popup-style` | 定位层类名 / 样式 | _ClassName / CSSProperties_ | `-` |
 | `content-class` / `content-style` | 内容层类名 / 样式 | _ClassName / CSSProperties_ | `-` |
 | `arrow-class` / `arrow-style` | 箭头类名 / 样式 | _ClassName / CSSProperties_ | `-` |
 
 交互延迟和关闭策略还包括 `mouse-enter-delay`、`mouse-leave-delay`、`focus-delay`、`popup-hover-stay`、`blur-to-close`、`close-on-click-reference`、`click-outside-to-close`、`esc-to-close`、`restore-focus`。
 
-### 事件
+### Trigger Events
 
 `update:open`、`open-change`、`open`、`opened`、`close`、`closed`、`click-outside`、`resize`。
 
-### 插槽与方法
+### Trigger Slots / Methods
 
 默认插槽提供参考节点，`content` 提供浮层内容。Expose：`open()`、`close()`、`resize()`、`allowClose()`、`getReference()`、`setReference()`、`focusReference()`、`isTopLayer()`。
 
@@ -115,31 +134,46 @@ mouse-enter-delay／mouse-leave-delay 是交互请求延迟，独立于CSS进出
 
 `trigger="focus"` 支持键盘聚焦，Escape 只关闭最上层浮层。Trigger 不自行决定业务 `role` 和 aria 关系，上层语义组件负责补充。
 
-## 公开 CSS 变量
+## 参考元素的原生事件修饰符
 
-以下为实际 :root 默认值。业务定制优先使用组件变量；内部定位变量不属于公开 API。
+`click`、`mouseenter`、`mouseleave`、`focusin`、`focusout`、`contextmenu` 的原生监听器和 `.once`、`.capture`、`.passive` 均绑定到实际参考元素，不会落到浮层。`.once` 按原生元素的监听生命周期执行；更新回调不重新启用已消费的监听，换参考元素或移除后重加监听才开始新的周期。停用和卸载会解绑。普通监听器只通知，返回 Promise 不驱动打开或加载，异常进入 Vue 的事件错误处理链。
 
-| 变量 | 默认值 | 意义与场景 |
-| --- | --- | --- |
-| `--mp-trigger-arrow-background` | `var(--mp-sys-color-surface-overlay)` | 独立 Trigger 箭头背景；包装组件用自己的变量 |
-| `--mp-trigger-arrow-size` | `var(--mp-sys-space-4)` | 箭头正方形尺寸 |
-| `--mp-trigger-arrow-radius` | `var(--mp-sys-radius-sm)` | 箭头圆角 |
-| `--mp-trigger-transition-duration` | `var(--mp-sys-motion-duration-fast)` | 默认 Trigger 淡入淡出时长 |
-| `--mp-trigger-transition-easing` | `var(--mp-sys-motion-easing-standard)` | 默认 Trigger 缓动曲线 |
+`reference-attrs` 的 `aria-describedby` 与参考元素已有描述 ID 合并去重；清理或更换引用时恢复原始属性。
+
+`fixed` 定位会识别 transform、filter、perspective 等形成的固定定位包含块，并处理轴向缩放；不保证旋转或倾斜坐标系精确。可访问的同源 iframe 引用与弹层之间会换算坐标并绑定各自文档事件；不支持跨源或无共同祖先的浏览上下文。启用 `update-at-scroll` 时，两端文档及可滚动祖先的滚动都会更新位置。
+
+## CSS Variables
 
 Tooltip 与 Popover 自行定义箭头外观；应覆盖其组件变量，而不是 Trigger arrow-background。
 
-使用 Teleport 时，变量需放在实际 popup 的作用域中（例如通过 `popup-style`）；触发按钮上的变量不会自动继承到浮层。
+<!-- component-css-variables:start -->
+
+通过以下变量定制组件外观。默认值随表中注明的主题或选择器条件变化；变量仅在对应的尺寸、变体和交互状态下生效。
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| 变量 | 默认值／条件 | 影响的样式 |
+| --- | --- | --- |
+| `--mp-trigger-arrow-background` | `var(--mp-sys-color-surface-overlay)` | `background-color` |
+| `--mp-trigger-arrow-radius` | `var(--mp-sys-radius-sm)` | `border-radius` |
+| `--mp-trigger-arrow-size` | `var(--mp-sys-space-4)` | `height`, `width` |
+| `--mp-trigger-transition-duration` | `var(--mp-sys-motion-duration-fast)` | `transition` |
+| `--mp-trigger-transition-easing` | `var(--mp-sys-motion-easing-standard)` | `transition` |
+
+</div>
+
+将覆盖设置在组件实际根节点或弹层真实挂载祖先上。例如给该元素添加下列 class，再按需替换变量值：
+
+```css
+.component-theme {
+  --mp-trigger-arrow-background: var(--mp-sys-color-surface-overlay);
+}
+```
+
+显式行内样式及直接写入同一 CSS 属性的 Props 优先于样式表默认值。Teleport 后，普通 CSS 变量按实际挂载位置继承；使用 ThemeProvider 时，请遵循其局部主题与弹层配置规则。局部定制请直接覆盖组件变量；仅修改后代的 system 变量不会重新计算从根继承的组件别名。内部变量不属于公共 API。
+
+<!-- component-css-variables:end -->
 
 ### 减少动态效果
 
 内置 CSS 过渡遵循 `prefers-reduced-motion: reduce`。关闭过渡不改变最终显隐、选中／展开状态及事件语义；插槽内自定义动画由应用自行控制。
-
-
-### 方位语义与配置入口
-
-placement 是首选方位，auto-fit-position 默认 true 时最终方位可能变化；它不是 position 坐标。top-start 与 top-left 不是同一种枚举：前者是锚点方位及沿边对齐，后者是容器角落。当前 Trigger 的 start/end 由物理交叉轴几何解释，尚不应承诺 RTL 自动镜像。
-
-## 参考元素的原生事件修饰符
-
-`click`、`mouseenter`、`mouseleave`、`focusin`、`focusout`、`contextmenu` 的原生监听器和 `.once`、`.capture`、`.passive` 均绑定到实际参考元素，不会落到浮层。`.once` 按原生元素的监听生命周期执行；更新回调不重新启用已消费的监听，换参考元素或移除后重加监听才开始新的周期。停用和卸载会解绑。普通监听器只通知，返回 Promise 不驱动打开或加载，异常进入 Vue 的事件错误处理链。

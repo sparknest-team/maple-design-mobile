@@ -28,11 +28,17 @@ Create an overlay layer to emphasize specific page elements.
 ../example/demos/click-event.vue
 ```
 
+## Usage notes
+
+### Configuration
+
+These are actual :root defaults. Prefer component variables for business customization; internal positioning variables are not public API.
+
 ## API
 
-### Props
+### Overlay Props
 
-| Arguments | Description | Type | Default |
+| Prop | Description | Type | Default |
 | ------------------ | ------------------------------------------------------ | ------------------------------ | -------- |
 | `v-model:open` | Show overlay | _boolean_ | `false` |
 | `default-open` | Whether to display by default in uncontrolled mode | _boolean_ | `false` |
@@ -43,7 +49,7 @@ Create an overlay layer to emphasize specific page elements.
 | `esc-to-close` | Whether to support keyboard ESC to close the overlay | _boolean_ | `true` |
 | `z-index` | Custom z-index | _number_ | `-` |
 
-### Events
+### Overlay Events
 
 | Event | Description | Arguments |
 | ------------ | ------------------- | --------------- |
@@ -55,21 +61,39 @@ Create an overlay layer to emphasize specific page elements.
 | `close` | Triggered when closing starts | `-` |
 | `closed` | Triggered after closing transition | `-` |
 
-### Slots
+### Overlay Slots
 
-| Slot | Description | Arguments |
+| Slot | Description | Prop |
 | --------- | ---------- | ---- |
 | `default` | Default slot | `-` |
 
-## Public CSS variables
+## CSS Variables
 
-These are actual :root defaults. Prefer component variables for business customization; internal positioning variables are not public API.
+<!-- component-css-variables:start -->
 
-| Variable | Default | Meaning and use case |
+Use these variables to customize the component. Defaults may vary by the selector condition shown. Each variable applies to the corresponding size, variant and interaction states.
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Default / condition | Affected styles |
 | --- | --- | --- |
-| `--mp-overlay-background-color` | `var(--mp-sys-color-scrim)` | Scrim background only; does not change foreground-content opacity |
-| `--mp-overlay-animation-duration` | `var(--mp-sys-motion-duration-slow)` | Enter/leave duration; reduced motion may override it |
-| `--mp-overlay-content-z-index` | `var(--mp-sys-layer-raised)` | Local stacking level of content above the scrim |
+| `--mp-overlay-animation-duration` | `var(--mp-sys-motion-duration-slow)` | `transition` |
+| `--mp-overlay-background-color` | `var(--mp-sys-color-scrim)` | `background-color` |
+| `--mp-overlay-content-z-index` | `var(--mp-sys-layer-raised)` | `z-index` |
+
+</div>
+
+Apply overrides to the rendered component root or the actual popup ancestor. For example, add the following class to that element and replace the value as needed:
+
+```css
+.component-theme {
+  --mp-overlay-background-color: var(--mp-sys-color-scrim);
+}
+```
+
+Explicit inline styles and props that write the same CSS property take precedence over stylesheet defaults. After Teleport, ordinary CSS variables inherit from the actual mount location. When using ThemeProvider, follow its local-theme and popup configuration rules. Override the component variable directly for local styling; root-level aliases are not recalculated merely because a descendant system variable changes. Internal variables are not public APIs.
+
+<!-- component-css-variables:end -->
 
 ### Reduced motion
 

@@ -6,7 +6,7 @@ import Menu from '../../menu'
 import Select from '../select'
 import SelectMenu from '../SelectMenu'
 
-test('SelectMenu exposes flat group headings to first-child spacing selectors', () => {
+test('SelectMenu exposes named groups with first-group spacing', () => {
   const wrapper = mount(Select, {
     props: {
       defaultOpen: true,
@@ -20,11 +20,13 @@ test('SelectMenu exposes flat group headings to first-child spacing selectors', 
     const menu = wrapper.findComponent(SelectMenu)
     const titles = menu.findAll('.mp-select-group-title')
     expect(titles.map((node) => node.text())).toEqual(['First', 'Second'])
-    expect(titles[0].element.matches(':first-child')).toBe(true)
-    expect(titles[1].element.matches(':first-child')).toBe(false)
-    expect(titles[0].element.parentElement).toBe(titles[1].element.parentElement)
-    expect(titles[0].element.nextElementSibling?.getAttribute('role')).toBe('option')
-    expect(menu.find('.mp-select-group').exists()).toBe(false)
+    const groups = menu.findAll('[role="group"]')
+    expect(groups).toHaveLength(2)
+    expect(groups[0].attributes('aria-labelledby')).toBe(titles[0].attributes('id'))
+    expect(groups[1].attributes('aria-labelledby')).toBe(titles[1].attributes('id'))
+    expect(groups[0].element.matches(':first-child')).toBe(true)
+    expect(groups[1].element.matches(':first-child')).toBe(false)
+    expect(groups[0].findAll('[role="option"]')).toHaveLength(1)
   } finally {
     wrapper.unmount()
   }

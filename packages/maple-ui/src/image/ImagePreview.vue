@@ -1,5 +1,6 @@
 <template>
   <Overlay
+    ref="overlayRef"
     v-model:open="mergedOpen"
     :class="n()"
     :style="wrapperStyles"
@@ -39,7 +40,7 @@
               v-bind="previewedImgProps"
               data-image-preview-image
               :src="src"
-              :alt="previewedImgProps?.alt || src"
+              :alt="previewedImgProps?.alt ?? src"
               :draggable="false"
               :class="[
                 previewedImgProps?.class,
@@ -68,7 +69,7 @@
       <button
         v-if="closable"
         type="button"
-        aria-label="Close image preview"
+        :aria-label="labels.close"
         :class="n('close-btn')"
         data-image-preview-close
         data-image-preview-interactive
@@ -83,12 +84,12 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, toRefs, watch, type CSSProperties } from 'vue'
+import { computed, defineComponent, nextTick, ref, toRefs, watch, type CSSProperties, type SlotsType } from 'vue'
 import { useDirection } from '../_utils/direction'
 import Overlay from '../overlay'
 import { createNamespace } from '../utils/components'
 import { usePopupContainer } from '../utils/popup-container'
-import type { ImagePreviewActionName } from './api'
+import type { ImagePreviewActionName, ImagePreviewSlots } from './api'
 import { usePreviewController } from './composables/usePreviewController'
 import PreviewToolbar, { type ActionType } from './ImagePreviewToolbar.vue'
 import {
@@ -111,6 +112,7 @@ const { name, n } = createNamespace('image-preview')
 
 export default defineComponent({
   name,
+  slots: Object as SlotsType<ImagePreviewSlots>,
   components: { Overlay, PreviewToolbar, ImageLoadingIcon, PreviewCloseIcon },
   inheritAttrs: false,
   props: imagePreviewProps,
@@ -129,8 +131,11 @@ export default defineComponent({
   setup(props, { emit }) {
     const refs = toRefs(props)
     const refWrapper = ref<HTMLElement>()
+    const overlayRef = ref<{ _isTopLayer: (event?: Event) => boolean }>()
+    let focusBeforeOpen: HTMLElement | null = null
     const { isRtl } = useDirection(() => refWrapper.value)
     const controller = usePreviewController({
+      canHandleKeyboard: (event) => overlayRef.value?._isTopLayer(event) ?? false,
       isRtl,
       open: refs.open,
       defaultOpen: props.defaultOpen,
@@ -153,6 +158,33 @@ export default defineComponent({
       onPrev: () => emit('prev'),
       onNext: () => emit('next'),
     })
+    watch(
+      controller.mergedOpen,
+      (open, previous) => {
+        const owner = refWrapper.value?.ownerDocument ?? (typeof document !== 'undefined' ? document : undefined)
+        if (open) {
+          focusBeforeOpen =
+            owner?.activeElement && 'focus' in owner.activeElement ? (owner.activeElement as HTMLElement) : null
+        } else if (previous && owner) {
+          const target = focusBeforeOpen
+          const active = owner.activeElement
+          if (target?.isConnected && (active === owner.body || refWrapper.value?.contains(active))) {
+            nextTick(() => {
+              if (
+                !controller.mergedOpen.value &&
+                target.isConnected &&
+                (owner.activeElement === active || owner.activeElement === owner.body)
+              ) {
+                target.focus({ preventScroll: true })
+              }
+            })
+          }
+          focusBeforeOpen = null
+        }
+      },
+      { flush: 'sync', immediate: true },
+    )
+
     const isPreviewLoading = ref(Boolean(props.src))
     function handlePreviewSettled(event: Event) {
       const image = event.target as HTMLImageElement
@@ -180,8 +212,14 @@ export default defineComponent({
       'download',
     ]
     const mergedActions = computed(() => props.actionsLayout ?? (controller.isDesktop.value ? desktopActions : []))
-    const toggleFullscreen = () =>
-      document.fullscreenElement ? document.exitFullscreen() : refWrapper.value?.requestFullscreen()
+    const toggleFullscreen = () => {
+      const element = refWrapper.value
+      const owner = element?.ownerDocument
+      if (!element || !owner) {
+        return undefined
+      }
+      return owner.fullscreenElement ? owner.exitFullscreen?.() : element.requestFullscreen?.()
+    }
     const download = () => {
       if (!props.src) {
         return
@@ -201,6 +239,7 @@ export default defineComponent({
       { key: 'zoomOut', name: labels.value.zoomOut, content: IconZoomOut, onClick: controller.zoomOut },
       { key: 'zoomIn', name: labels.value.zoomIn, content: IconZoomIn, onClick: controller.zoomIn },
       { key: 'download', name: labels.value.download, content: IconDownload, onClick: download },
+      { key: 'close', name: labels.value.close, content: PreviewCloseIcon, onClick: controller.close },
     ])
 
     watch(
@@ -220,10 +259,12 @@ export default defineComponent({
       ...controller,
       n,
       refWrapper,
+      overlayRef,
       wrapperStyles,
       isPreviewLoading,
       handlePreviewSettled,
       mergedActions,
+      labels,
       actions,
       toggleFullscreen,
     }

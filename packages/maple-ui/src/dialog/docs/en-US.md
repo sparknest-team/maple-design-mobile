@@ -1,5 +1,7 @@
 # Dialog
 
+With `draggable` enabled, title inputs, textareas, buttons, links with href and editable content retain native pointer behavior and do not start a drag. The ordinary title area remains draggable. In non-centered mode, numeric `top=0` is supported just like the string `0px`.
+
 ### Description
 
 Use `<mp-dialog>` for component usage and explicit `Dialog.*` methods for functional usage. Both forms share one configuration model. Callable `Dialog(...)` is not supported.
@@ -66,6 +68,12 @@ Use a component dialog for complex forms and validate from `before-close`.
 ../example/demos/form-dialog.vue
 ```
 
+### Programmatic dialog target
+
+```demo
+../example/demos/service-container.vue
+```
+
 ## Sizing and layout
 
 ### Dialog sizing and long content
@@ -100,6 +108,12 @@ The preview demonstrates custom width, simple, draggable, and fullscreen dialogs
 ```
 
 ## Interaction and customization
+
+### Dragging sessions
+
+```demo
+../example/demos/draggable.vue
+```
 
 ### Custom Footer
 
@@ -146,7 +160,7 @@ The preview demonstrates hidden footer, hidden title, custom body, and unmount-o
 
 | Configuration | Purpose | Related examples |
 | --- | --- | --- |
-| `before-close` | Return a boolean/Promise or call done; the first completion wins | Async Close, Before hooks and callback compatibility |
+| `before-close` | Return a boolean/Promise or call done; the first completion wins | Async close, before hooks and callback compatibility |
 | `title` | Title | async close |
 | `message` | Message content; the default slot is also supported | async close |
 <!-- demo-config-notes:end -->
@@ -180,13 +194,26 @@ Cancellable hooks use `(payload, done, context)`: closure payloads contain `{ ac
 
 ## Reading direction
 
-Inherits the nearest `dir="ltr|rtl"` and supports runtime and nested overrides. Content, headings and action gaps use logical edges. Portals inherit their source direction. Direction changes preserve close, confirm, cancel and pending-state semantics.
+Inherits the nearest `dir="ltr|rtl"`, including runtime changes and local overrides. Content, titles and action spacing use logical start/end. External popovers inherit their source direction. Closing, confirmation, cancellation and uncommitted state are unchanged by direction switches.
+
+## Usage notes
+
+### Async operation feedback
+Awaited before-* hooks show loading feedback and aria-busy. Rejection or failure restores interaction; repeated input does not start the same operation again. Ordinary event return Promises do not participate in loading.
+
+Programmatic notification callbacks do not control task completion. Service selection/closing results settle independently of callback errors, and closing completion always releases the owned host. Exceptions still propagate through the caller or Vue error channel; returned Promises do not control loading or closing.
+
+### Dragging and cancellation
+Title dragging is controlled only by the initiating primary pointer. Disabling `draggable`, closing, entering fullscreen, losing pointer capture or owner-window focus, deactivation and unmount all end the gesture and release listeners and capture. Reenabling requires a new gesture; the previous pointer cannot resume it. Disabling preserves the current offset; fullscreen and the existing post-close reset restore defaults. Listeners belong to the title element's document.
+
+### Programmatic dialog mount targets
+Function calls honor `popupContainer` from explicit configuration or `setDefaultOptions`, using the component's selector/HTMLElement resolution and missing/invalid-selector fallback to body. The default targets body; `false` renders inline in the service's own body host. `handle.update({ popupContainer })` moves the same dialog and preserves content state and app context. Closing removes teleported content and its service host, independently of notification callback results. A custom container controls DOM attachment; layout still follows Dialog positioning and its containing block.
 
 ## API
 
-### Props
+### Dialog Props
 
-| Arguments | Description | Type | Default |
+| Prop | Description | Type | Default |
 | ---------------------------------------------------- | ------------------------------- | --------------------------------------------- | ----------------- |
 | dir | Reading direction; inherits the source scope when omitted. Physical left/right placements keep their meaning. | `ReadingDirection` (`ltr` / `rtl`) | — |
 | `open` **(v-model)** | Visible state | `boolean` | `-` |
@@ -226,7 +253,7 @@ Inherits the nearest `dir="ltr|rtl"` and supports runtime and nested overrides. 
 | `z-index` | Stack level | `number` | Automatically distributed |
 | `before-close` | Return a boolean/Promise or call done; the first completion wins | `DialogBeforeClose` | — |
 
-### Events
+### Dialog Events
 
 | Event | Description | Arguments |
 | ------------------ | ----------------------- | --------------- |
@@ -240,9 +267,11 @@ Inherits the nearest `dir="ltr|rtl"` and supports runtime and nested overrides. 
 
 The `close` button, overlay, ESC and `close()` all use action `close` without an additional `cancel` event.
 
-### Slots and instance methods
+Built-in buttons, overlay, Escape, footer methods and instance confirm()/cancel() request beforeClose. Instance close(), returned handle close(), Dialog.close() and parent open=false are direct commands that bypass guards; a controlled parent still decides whether to accept update:open(false). Direct closing retires pending guards so late results cannot close a reopened instance. close does not mean leave completion; observe closed/onClosed. Maple Popup close()/requestClose() instead return `Promise<boolean>` for guarded requests.
 
-| Slot | Description | Arguments |
+### Dialog Slots / Methods
+
+| Slot | Description | Prop |
 | --------- | ---------- | ---------------------------- |
 | `default` | Content | `-` |
 | `title` | Title | `-` |
@@ -250,7 +279,7 @@ The `close` button, overlay, ESC and `close()` all use action `close` without an
 
 Instances expose `confirm()`, `cancel()` and `close()`.
 
-### Function methods
+### Dialog Methods
 
 All open methods accept `DialogConfig | string` and return `Promise<DialogAction | void> & DialogReturn`.
 Function-based Dialog calls default to simple layout (`simple: true`) with the top-right close button hidden (`closable: false`). Explicit options or global defaults can override both.
@@ -274,61 +303,73 @@ type DialogAction = 'confirm' | 'cancel' | 'close'
 type DialogType = 'info' | 'success' | 'warning' | 'error'
 ```
 
-### Style variables
+## CSS Variables
 
 Variables use `--mp-`, e.g. `--mp-dialog-width`, `--mp-dialog-background`, `--mp-dialog-border-radius`, `--mp-dialog-simple-width`, `--mp-dialog-fullscreen-width` and `--mp-dialog-close-button-color`.
 
 Color semantics match Cedar: `--mp-dialog-background` uses `surface-raised`; `--mp-dialog-overlay-background` controls scrim; titles/body use primary content and close controls secondary content. `--mp-dialog-status-{info|success|warning|danger}-color` uses readable content-info/success/warning/danger, not status fill. Business themes should override component variables; shared themes override system variables. Mobile borderless geometry/layout remain independent.
 
-#### Complete variable defaults
-
 The backdrop consumes `sys-color-scrim` through the Dialog component variable. Maple no longer uses Popup colors for Dialog. Set a per-instance backdrop variable via `overlay-style`; a variable on the panel (`dialog-style`) does not inherit to its sibling backdrop. Explicit `overlay-style.backgroundColor` wins. Teleported content needs variables on its actual DOM ancestors. Dark themes inherit the same semantic colors; geometry remains platform-specific. Status icons use readable content colors.
 
 Variables are grouped by purpose: background/overlay-background for panel/scrim; border-* for panel/divider borders; title-* for title typography; content-* for body typography; actions-* for actions; close-button-* for the close button; status-* for semantic icons; simple-*/fullscreen-* for mode dimensions; animation-* for enter/leave motion. width/margin-top control ordinary panel layout. Internal drag/position variables are not public customization points.
 
-| Variable | Default |
-| --- | --- |
-| `--mp-dialog-background` | `var(--mp-sys-color-surface-raised)` |
-| `--mp-dialog-overlay-background` | `var(--mp-sys-color-scrim)` |
-| `--mp-dialog-border-color` | `transparent` |
-| `--mp-dialog-border-width` | `0` |
-| `--mp-dialog-border-radius` | `3px` |
-| `--mp-dialog-width` | `280px` |
-| `--mp-dialog-margin-top` | `0` |
-| `--mp-dialog-title-text-color` | `var(--mp-sys-color-content-primary)` |
-| `--mp-dialog-title-font-size` | `var(--mp-sys-font-size-lg)` |
-| `--mp-dialog-title-font-weight` | `var(--mp-sys-font-weight-regular)` |
-| `--mp-dialog-title-padding` | `20px 20px 0` |
-| `--mp-dialog-title-min-height` | `0` |
-| `--mp-dialog-title-justify` | `space-between` |
-| `--mp-dialog-content-text-color` | `var(--mp-sys-color-content-primary)` |
-| `--mp-dialog-content-font-size` | `var(--mp-sys-font-size-md)` |
-| `--mp-dialog-content-line-height` | `24px` |
-| `--mp-dialog-content-padding` | `12px 20px` |
-| `--mp-dialog-actions-padding` | `0 12px 12px` |
-| `--mp-dialog-actions-button-gap` | `var(--mp-sys-space-3)` |
-| `--mp-dialog-close-button-size` | `40px` |
-| `--mp-dialog-close-button-color` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-dialog-close-button-font-size` | `20px` |
-| `--mp-dialog-close-button-inset-inline-end` | `0` |
-| `--mp-dialog-status-icon-size` | `18px` |
-| `--mp-dialog-status-icon-gap` | `var(--mp-sys-space-3)` |
-| `--mp-dialog-status-info-color` | `var(--mp-sys-color-content-info)` |
-| `--mp-dialog-status-success-color` | `var(--mp-sys-color-content-success)` |
-| `--mp-dialog-status-warning-color` | `var(--mp-sys-color-content-warning)` |
-| `--mp-dialog-status-danger-color` | `var(--mp-sys-color-content-danger)` |
-| `--mp-dialog-simple-width` | `280px` |
-| `--mp-dialog-simple-border-radius` | `var(--mp-sys-radius-lg)` |
-| `--mp-dialog-simple-padding` | `20px` |
-| `--mp-dialog-simple-content-gap` | `0` |
-| `--mp-dialog-simple-actions-gap` | `0` |
-| `--mp-dialog-fullscreen-width` | `100vw` |
-| `--mp-dialog-fullscreen-height` | `100vh` |
-| `--mp-dialog-animation-duration` | `var(--mp-sys-motion-duration-slow)` |
-| `--mp-dialog-animation-easing` | `var(--mp-sys-motion-easing-standard)` |
+<!-- component-css-variables:start -->
 
-### Before-hook waiting feedback
+Use these variables to customize the component. Defaults may vary by the selector condition shown. Each variable applies to the corresponding size, variant and interaction states.
 
-Before-hook waits show visible feedback and aria-busy. Rejected or failed operations recover; duplicate submissions do not start another copy. Notification event Promises never drive loading.
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
 
-Service notification callbacks do not control task completion. The selected/closed result is settled independently of callback errors, and closing completion always releases the owned host. Callback errors still propagate through the calling/Vue error path; returned Promises do not control loading or closing.
+| Variable | Default / condition | Affected styles |
+| --- | --- | --- |
+| `--mp-dialog-actions-button-gap` | `var(--mp-sys-space-3)` | `margin-inline-start` |
+| `--mp-dialog-actions-padding` | `0 12px 12px` | `padding` |
+| `--mp-dialog-animation-duration` | `var(--mp-sys-motion-duration-slow)` | `transition` |
+| `--mp-dialog-animation-easing` | `var(--mp-sys-motion-easing-standard)` | `transition` |
+| `--mp-dialog-background` | `var(--mp-sys-color-surface-raised)` | `background` |
+| `--mp-dialog-border-color` | `transparent` | `border` |
+| `--mp-dialog-border-radius` | `3px` | `border-radius` |
+| `--mp-dialog-border-width` | `0` | `border` |
+| `--mp-dialog-close-button-color` | `var(--mp-sys-color-content-secondary)` | `color` |
+| `--mp-dialog-close-button-font-size` | `20px` | `font-size` |
+| `--mp-dialog-close-button-inset-inline-end` | `0` | `margin-inline-end` |
+| `--mp-dialog-close-button-size` | `40px` | `height`, `width` |
+| `--mp-dialog-content-font-size` | `var(--mp-sys-font-size-md)` | `font-size` |
+| `--mp-dialog-content-line-height` | `24px` | `line-height` |
+| `--mp-dialog-content-padding` | `12px 20px` | `padding` |
+| `--mp-dialog-content-text-color` | `var(--mp-sys-color-content-primary)` | `color` |
+| `--mp-dialog-fullscreen-height` | `100vh` | `height` |
+| `--mp-dialog-fullscreen-width` | `100vw` | `width` |
+| `--mp-dialog-margin-top` | `0` | `margin-top` |
+| `--mp-dialog-overlay-background` | `var(--mp-sys-color-scrim)` | `background-color` |
+| `--mp-dialog-simple-actions-gap` | `0` | `margin-top` |
+| `--mp-dialog-simple-border-radius` | `var(--mp-sys-radius-lg)` | `border-radius` |
+| `--mp-dialog-simple-content-gap` | `0` | `margin-top` |
+| `--mp-dialog-simple-padding` | `20px` | `padding` |
+| `--mp-dialog-simple-width` | `280px` | `width` |
+| `--mp-dialog-status-danger-color` | `var(--mp-sys-color-content-danger)` | `color` |
+| `--mp-dialog-status-icon-gap` | `var(--mp-sys-space-3)` | `margin-inline-end` |
+| `--mp-dialog-status-icon-size` | `18px` | `font-size` |
+| `--mp-dialog-status-info-color` | `var(--mp-sys-color-content-info)` | `color` |
+| `--mp-dialog-status-success-color` | `var(--mp-sys-color-content-success)` | `color` |
+| `--mp-dialog-status-warning-color` | `var(--mp-sys-color-content-warning)` | `color` |
+| `--mp-dialog-title-font-size` | `var(--mp-sys-font-size-lg)` | `font-size` |
+| `--mp-dialog-title-font-weight` | `var(--mp-sys-font-weight-regular)` | `font-weight` |
+| `--mp-dialog-title-justify` | `space-between` | `justify-content` |
+| `--mp-dialog-title-min-height` | `0` | `min-height` |
+| `--mp-dialog-title-padding` | `20px 20px 0` | `padding` |
+| `--mp-dialog-title-text-color` | `var(--mp-sys-color-content-primary)` | `color` |
+| `--mp-dialog-width` | `280px` | `width` |
+
+</div>
+
+Apply overrides to the rendered component root or the actual popup ancestor. For example, add the following class to that element and replace the value as needed:
+
+```css
+.component-theme {
+  --mp-dialog-actions-button-gap: var(--mp-sys-space-3);
+}
+```
+
+Explicit inline styles and props that write the same CSS property take precedence over stylesheet defaults. After Teleport, ordinary CSS variables inherit from the actual mount location. When using ThemeProvider, follow its local-theme and popup configuration rules. Override the component variable directly for local styling; root-level aliases are not recalculated merely because a descendant system variable changes. Internal variables are not public APIs.
+
+<!-- component-css-variables:end -->

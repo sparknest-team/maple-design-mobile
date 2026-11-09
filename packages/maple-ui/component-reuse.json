@@ -219,7 +219,7 @@
     "en": "Logic copies (verified)",
     "reason": "2026-09-21 完成逻辑同源。两端 Dialog 直接消费同源 modal-surface，不再嵌套 Popup 或维护端侧弹层状态机；use-dialog、use-dialog-drag、service 三份核心均为独立复制并纳入门禁，统一 beforeClose 竞态、拖拽、Promise/update/close、默认配置、宿主销毁及 app context。PC 与移动端保留各自 DOM、图标和样式。"
   },
-  "style-provider": {
+  "theme-provider": {
     "label": "已同源",
     "en": "Same source (verified)",
     "reason": "主体、Props、函数注入、安装、默认值设置及配对测试已独立同源；仅前缀与本地导入不同，不共享运行时代码或状态。"

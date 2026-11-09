@@ -1,0 +1,3 @@
+- [x] Reproduce stale handle closing a new same-id message
+- [x] Repair lifetime ownership and public/runtime content typing
+- [x] Verify both Message/service/timers/types and real native lifecycle

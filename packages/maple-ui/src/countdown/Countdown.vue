@@ -6,7 +6,7 @@
 
 <script lang="ts" setup>
 import { createNamespace } from '../utils/components'
-import { countdownProps, type TimeData } from './props'
+import { countdownProps, type CountdownEvents, type CountdownExpose, type CountdownSlots } from './props'
 import { useCountdown } from './use-countdown'
 
 defineOptions({
@@ -15,14 +15,12 @@ defineOptions({
 
 const { n } = createNamespace('countdown')
 const props = defineProps(countdownProps)
-const emit = defineEmits<{
-  (event: 'change', time: TimeData): void
-  (event: 'end'): void
-}>()
+const emit = defineEmits<CountdownEvents>()
+defineSlots<CountdownSlots>()
 
 const { showTime, timeData, start, pause, reset } = useCountdown(props, emit)
 
-defineExpose({
+defineExpose<CountdownExpose>({
   start,
   pause,
   reset,

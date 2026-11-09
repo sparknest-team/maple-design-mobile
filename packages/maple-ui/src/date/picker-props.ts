@@ -1,4 +1,5 @@
 import type { PropType } from 'vue'
+import { pickProps } from '../utils/components'
 import { dateRuleProps, dateSingleValueProps } from './core-props'
 import { dateNowProps } from './date-current'
 import type { DateValue } from './date-value'
@@ -17,12 +18,26 @@ export type {
 } from './presentation-props'
 export { MONTH_LIST, WEEK_HEADER } from './presentation-props'
 export const props = {
-  ...presentationProps,
+  // Explicit public view capabilities; renderer glue must not become API by spreading.
+  ...pickProps(presentationProps, [
+    'dateFields',
+    'timeFields',
+    'pickerProps',
+    'abbreviation',
+    'hint',
+    'color',
+    'titleColor',
+    'elevation',
+    'buttonElevation',
+    'multiple',
+    'range',
+    'touchable',
+  ]),
   presentation: { ...presentationProps.presentation, default: 'calendarPicker' as const },
   ...datePanelProps,
   ...dateNowProps,
   ...dateSingleValueProps,
-  modelValue: [String, Number, Date, Array] as PropType<DateValue | DateValue[]>,
+  modelValue: [String, Number, Date, Array] as PropType<DateValue | DateValue[] | null>,
   defaultValue: [String, Number, Date, Array] as PropType<DateValue | DateValue[]>,
   type: presentationProps.type,
   disabled: { type: Boolean, default: undefined },

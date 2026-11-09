@@ -142,7 +142,7 @@ export type SpaceProps = ExtractPropTypes<typeof spaceProps>
 - TypeScript 中的多词 prop 和事件键使用 camelCase；Vue 模板与文档 Props / Events 表中的属性名和事件名必须展示为 kebab-case（如 `maxLength` 对应 `max-length`，`update:modelValue` 对应 `update:model-value`）。命令式配置对象、类型字段和 JavaScript/TypeScript 示例仍使用 camelCase。
 - 普通通知事件不进入 props，统一在组件的 `emits` 中声明并通过 `emit` 触发，例如 `click`、`change`、`open`、`closed`、`update:modelValue`。
 - 只有返回值、Promise 或 `done` 回调会控制组件后续行为的控制回调，才允许使用 `defineListenerProp<...>()`，并采用 `beforeXxx` / `request` 等控制语义名称；不使用 `onBeforeXxx`。
-- Button/SplitButton 的 click/touchstart 使用普通 Emits 通知，支持 async 监听器，但不使用监听器返回值驱动加载。业务通过 loading（SplitButton 通过 buttonProps.loading）控制等待，并在 finally 中恢复；错误处理使用正常的 Vue 事件错误链。基础 Button 不提供 action 或 autoLoading 任务入口。
+- Button/SplitButton 的 click 使用普通 Emits 通知，支持 async 监听器，但不使用监听器返回值驱动加载。业务通过 loading（SplitButton 通过 buttonProps.loading）控制等待，并在 finally 中恢复；错误处理使用正常的 Vue 事件错误链。基础 Button 不提供 action 或 autoLoading 任务入口。
 - `ComponentSize` / `SemanticStatus` / `Orientation` 从 `utils/constants.ts` 复用，禁止组件重复声明。
 - 通用 prop 必须保持统一语义：`size` / `block` / `disabled` / `loading` / `direction` / `align` / `justify` / `wrap` 等，详见 `space` / `button` 实现。
 - 父子继承的布尔 prop（如 `disabled`）默认值用 `default: undefined`。
@@ -285,6 +285,8 @@ export default {
 ---
 
 ## 9. 文档（docs/zh-CN.md）
+
+API 标题遵守共享 [组件结构规范](../../../design-ui/standards/component-anatomy.md#api-文档标题)，中英文均采用 `ComponentName Props / Events / Slots / Methods`，组件名不加尖括号或反引号；类型与样式章节使用 `Types`、`CSS Variables`。每页只保留一个 API 入口，子组件分类平级排列；共享属性按实际组件完整展示，配置类型归入 Types。
 
 示例分组遵守 `design-ui/standards/demo-design.md`：同类功能放在一起，每张案例最多组合三个相关维度，基础案例在前，功能调试在后；两端同步案例名称、说明和源码引用。
 

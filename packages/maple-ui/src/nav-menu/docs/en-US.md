@@ -1,6 +1,6 @@
 # NavMenu
 
-Migrated from Cedar NavMenu.Item, retaining component names, key/label options, independent v-model selection, title fallback, named activation, slot contexts and controlled open state. Maple provides horizontal filter entries only.
+NavMenu provides horizontal filter entries with key/label options, independent selection, title fallback, scoped slots and controlled open state.
 
 ## Basic examples
 
@@ -30,6 +30,8 @@ Long lists scroll inside the available panel height. A full panel keeps its acti
 ../example/demos/controlled.vue
 ```
 
+## Interaction and control
+
 ### Panel state and closing
 
 ```demo
@@ -37,6 +39,8 @@ Long lists scroll inside the available panel height. A full panel keeps its acti
 ```
 
 ### Cross-platform contract
+
+When using the content slot, the custom panel takes its accessible name from the entry. Set aria-label or aria-labelledby on the entry when needed. Ensure custom entries have a meaningful name.
 
 Both libraries create panel content on first open and retain it when closed or switched, including local drafts and expanded branches. With `unmount-on-close`, content is destroyed after the closing transition and recreated on the next open; the Item's own selected value remains intact. Applications own draft submission, resets and filter application.
 
@@ -58,7 +62,7 @@ Each library exports `NavMenuPopupLayout` with its supported values. Maple's `Na
 
 ## API
 
-### NavMenu
+### NavMenu Props
 
 | Prop | Description | Default |
 | --------------------------------- | ---------------------------------------------------------------------------------------- | ---------------- |
@@ -76,7 +80,7 @@ Each library exports `NavMenuPopupLayout` with its supported values. Maple's `Na
 
 Event: update:active-item. Methods: close(), resize(), setActiveItem(key). The default slot contains mp-nav-menu-item; NavMenu.Item is also available.
 
-### NavMenuItem
+### NavMenuItem Props
 
 | Prop | Description | Default |
 | ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ----------------- |
@@ -100,32 +104,51 @@ Events: update:model-value, update:open, select(key, option, event), click(event
 
 Slots: default (entry contents), label, icon, content (replaces the default options panel), option-label, option-icon and option-extra. Entry/content slots receive `{ modelValue, selectedOption, active, open, select, close }`; option slots receive `{ option, active, expanded, level }`.
 
-## Type definitions
+## Types
 
 NavMenuKey is string | number. NavMenuOption uses key, label, icon, extra, children, disabled, show and props, with type item/group/divider. label/icon/extra accept VNodes or context render functions. Numeric 0 and empty strings are valid keys; missing or duplicate item keys throw. Disabled state is inherited by descendants; hidden items and their subtrees are omitted. All types are exported from @maple-design/ui.
 
-## Style variables
-
-| Variable | Default |
-| --------------------------------- | ----------------------------------- |
-| --mp-nav-menu-background | var(--mp-sys-color-surface-overlay) |
-| --mp-nav-menu-color | var(--mp-sys-color-content-primary) |
-| --mp-nav-menu-active-color | var(--mp-sys-color-content-brand) |
-| --mp-nav-menu-disabled-color | var(--mp-color-text-disabled) |
-| --mp-nav-menu-border-color | var(--mp-sys-color-border-default) |
-| --mp-nav-menu-height | 48px |
-| --mp-nav-menu-size-xs-height | 32px |
-| --mp-nav-menu-size-sm-height | 40px |
-| --mp-nav-menu-size-lg-height | 56px |
-| --mp-nav-menu-size-xl-height | 64px |
-| --mp-nav-menu-font-size | var(--mp-font-size-md) |
-| --mp-nav-menu-padding | 12px 16px |
-| --mp-nav-menu-gap | 8px |
-| --mp-nav-menu-arrow-size | 6px |
-| --mp-nav-menu-panel-padding | 12px |
-| --mp-nav-menu-transition-duration | 200ms |
-
-
 ## Reading direction and keyboard interaction
 
-NavMenu mirrors horizontal keyboard navigation and supports native nested direction scopes. Down opens the option panel; Escape returns focus. Teleported panels retain their Item direction and update live without clearing filters or selection.
+NavMenu inherits the nearest native `dir`, including runtime changes and local overrides. Left/Right moves navigation focus in reading direction; Home/End focuses available boundary entries. Down opens the option panel; Escape closes and returns trigger focus. Horizontal panel keys follow direction while Up/Down keeps existing order. Teleported panels inherit trigger direction. Direction changes do not clear filters or selections.
+
+## CSS Variables
+
+<!-- component-css-variables:start -->
+
+Use these variables to customize the component. Defaults may vary by the selector condition shown. Each variable applies to the corresponding size, variant and interaction states.
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Default / condition | Affected styles |
+| --- | --- | --- |
+| `--mp-nav-menu-active-color` | `var(--mp-sys-color-content-brand)` | `color`, `outline` |
+| `--mp-nav-menu-arrow-size` | `6px` | `height`, `width` |
+| `--mp-nav-menu-background` | `var(--mp-sys-color-surface-overlay)` | `background` |
+| `--mp-nav-menu-border-color` | `var(--mp-sys-color-border-default)` | `border-top` |
+| `--mp-nav-menu-color` | `var(--mp-sys-color-content-primary)` | `color` |
+| `--mp-nav-menu-disabled-color` | `var(--mp-color-text-disabled)` | `color` |
+| `--mp-nav-menu-font-size` | `var(--mp-font-size-md)` | `font-size` |
+| `--mp-nav-menu-gap` | `8px` | `gap` |
+| `--mp-nav-menu-height` | `48px` | `min-height` |
+| `--mp-nav-menu-padding` | `12px 16px` | `padding` |
+| `--mp-nav-menu-panel-padding` | `12px` | `padding`, `padding-bottom` |
+| `--mp-nav-menu-size-lg-height` | `56px` | `min-height` |
+| `--mp-nav-menu-size-sm-height` | `40px` | `min-height` |
+| `--mp-nav-menu-size-xl-height` | `64px` | `min-height` |
+| `--mp-nav-menu-size-xs-height` | `32px` | `min-height` |
+| `--mp-nav-menu-transition-duration` | `200ms` | `transition` |
+
+</div>
+
+Apply overrides to the rendered component root or the actual popup ancestor. For example, add the following class to that element and replace the value as needed:
+
+```css
+.component-theme {
+  --mp-nav-menu-active-color: var(--mp-sys-color-content-brand);
+}
+```
+
+Explicit inline styles and props that write the same CSS property take precedence over stylesheet defaults. After Teleport, ordinary CSS variables inherit from the actual mount location. When using ThemeProvider, follow its local-theme and popup configuration rules. Override the component variable directly for local styling; root-level aliases are not recalculated merely because a descendant system variable changes. Internal variables are not public APIs.
+
+<!-- component-css-variables:end -->

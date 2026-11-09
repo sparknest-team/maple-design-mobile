@@ -1,9 +1,10 @@
 import type { ExtractPublicPropTypes, InputHTMLAttributes, PropType } from 'vue'
 import { fieldPresentationProps } from '../_components/field-presentation/props'
+import { choiceIconSizeProp, choiceOrientationProp } from '../checkbox/choice-appearance-props'
 import { choiceOptionsProps, radioGroupValueProps } from '../checkbox/choice-group-props'
 import { radioValueProps } from '../checkbox/choice-value-props'
 import { componentSizes } from '../utils/constants'
-import type { ComponentSize, Orientation } from '../utils/constants'
+import type { ComponentSize } from '../utils/constants'
 import { emptyValueProp } from '../utils/empty-value'
 import { radioVariantProp } from './variant'
 
@@ -21,7 +22,7 @@ export const radioProps = {
   /** 实例颜色及图标长度，number 为 px。 */
   checkedColor: String,
   uncheckedColor: String,
-  iconSize: [String, Number],
+  iconSize: choiceIconSizeProp,
   /** 触控水波纹。 */
   ripple: { type: Boolean, default: true },
   /** 原生表单字段名；缺省继承分组。 */
@@ -45,7 +46,7 @@ export const radioGroupProps = {
     type: String as PropType<ComponentSize>,
     validator: (value: unknown) => componentSizes.includes(value as ComponentSize),
   },
-  orientation: { type: String as PropType<Orientation>, default: 'horizontal' },
+  orientation: choiceOrientationProp,
   disabled: { type: Boolean, default: undefined },
   readonly: { type: Boolean, default: undefined },
   error: { type: Boolean, default: undefined },
@@ -59,25 +60,4 @@ export interface RadioMethods {
 }
 export type { RadioModel } from '../checkbox/choice-value-props'
 
-export type RadioEmits = {
-  'update:modelValue': [value: RadioValue]
-  change: [value: RadioValue, event?: Event]
-  click: [event: MouseEvent]
-  focus: [event: FocusEvent]
-  blur: [event: FocusEvent]
-}
-export type RadioGroupEmits = {
-  'update:modelValue': [value: import('../checkbox/choice-value-props').RadioModel]
-  change: [value: import('../checkbox/choice-value-props').RadioModel, event?: Event]
-}
-export interface RadioSlots {
-  default?: (state: { checked: boolean; disabled: boolean }) => import('vue').VNodeChild
-  radio?: (state: { checked: boolean; disabled: boolean }) => import('vue').VNodeChild
-  'checked-icon'?: () => import('vue').VNodeChild
-  'unchecked-icon'?: () => import('vue').VNodeChild
-}
-export interface RadioGroupSlots {
-  default?: () => import('vue').VNodeChild
-  label?: (state: { data: import('./types').RadioOption; checked: boolean }) => import('vue').VNodeChild
-  radio?: RadioSlots['radio']
-}
+export type { RadioEmits, RadioGroupEmits, RadioSlots, RadioGroupSlots } from './types'

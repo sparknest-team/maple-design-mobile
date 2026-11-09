@@ -2,6 +2,8 @@
 
 用于分隔列表或布局中的内容区域。
 
+继承最近的 `dir="ltr|rtl"`。水平文字 start/end 随阅读方向对齐，垂直文字 start/end 仍表示上/下。inset 表示沿线两端缩进，spacing 表示线外间距：水平线 inset 和垂直线 spacing 的成对数值按逻辑起止解释。竖线边框绘制在逻辑起点，hairline、线型与 aria-orientation 保持原义，方向切换不重建内容。
+
 ## 基础示例
 
 ### 基础用法
@@ -123,9 +125,7 @@
 ../example/demos/live-properties.vue
 ```
 
-## 阅读方向
-
-继承最近的 `dir="ltr|rtl"`。水平文字 start/end 随阅读方向对齐，垂直文字 start/end 仍表示上/下。inset 表示沿线两端缩进，spacing 表示线外间距：水平线 inset 和垂直线 spacing 的成对数值按逻辑起止解释。竖线边框绘制在逻辑起点，hairline、线型与 aria-orientation 保持原义，方向切换不重建内容。
+## 内容与布局
 
 ### 内容占位与最小线宽
 
@@ -137,9 +137,15 @@
 ../example/demos/content-flow.vue
 ```
 
+## 使用说明
+
+### 配置说明
+
+预设值读取当前平台主题；文字留白在桌面端为 16px，移动端为 8px。
+
 ## API
 
-### 属性
+### Divider Props
 
 | 属性 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
@@ -170,46 +176,64 @@
 
 开发环境会检查 orientation、text-align、type、间距结构、thickness 和 opacity。非法枚举使用默认值；非法 inset 不缩进，非法 spacing 回退 md，非法 opacity 不覆盖样式。opacity 必须为 0–1 的有限数。数组只允许一元或二元长度，数组项不使用预设名。仍支持有限负 margin 和 CSS var/calc 表达式，具体 CSS 语法由浏览器解析。
 
-### 插槽
+### Divider Slots
 
 | 插槽名 | 说明 |
 | --- | --- |
 | `default` | 自定义分割线内容，优先于 description |
 
-## 类型定义
+## Types
 
 ```ts
 import type { DividerProps, DividerInstance, DividerSize, DividerSizePreset, DividerOrientation, DividerTextAlign, DividerType } from '@maple-design/ui'
 ```
 
-### 样式变量
+## CSS Variables
 
-| 变量名 | 默认值 |
-| --- | --- |
-| `--mp-divider-color` | `var(--mp-sys-color-border-default)` |
-| `--mp-divider-text-color` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-divider-border-width` | `1px` |
-| `--mp-divider-text-padding` | `8px` |
-| `--mp-divider-text-align-inset` | `24px` |
-| `--mp-divider-orientation-vertical-inset-xs` | `2px` |
-| `--mp-divider-orientation-horizontal-inset-xs` | `12px` |
-| `--mp-divider-orientation-vertical-spacing-xs` | `4px` |
-| `--mp-divider-orientation-horizontal-spacing-xs` | `8px` |
-| `--mp-divider-orientation-vertical-inset-sm` | `4px` |
-| `--mp-divider-orientation-horizontal-inset-sm` | `16px` |
-| `--mp-divider-orientation-vertical-spacing-sm` | `8px` |
-| `--mp-divider-orientation-horizontal-spacing-sm` | `12px` |
-| `--mp-divider-orientation-vertical-inset-md` | `6px` |
-| `--mp-divider-orientation-horizontal-inset-md` | `24px` |
-| `--mp-divider-orientation-vertical-spacing-md` | `12px` |
-| `--mp-divider-orientation-horizontal-spacing-md` | `16px` |
-| `--mp-divider-orientation-vertical-inset-lg` | `8px` |
-| `--mp-divider-orientation-horizontal-inset-lg` | `32px` |
-| `--mp-divider-orientation-vertical-spacing-lg` | `16px` |
-| `--mp-divider-orientation-horizontal-spacing-lg` | `24px` |
-| `--mp-divider-orientation-vertical-inset-xl` | `12px` |
-| `--mp-divider-orientation-horizontal-inset-xl` | `40px` |
-| `--mp-divider-orientation-vertical-spacing-xl` | `24px` |
-| `--mp-divider-orientation-horizontal-spacing-xl` | `32px` |
+<!-- component-css-variables:start -->
 
-预设值读取当前平台主题；文字留白在桌面端为 16px，移动端为 8px。
+通过以下变量定制组件外观。默认值随表中注明的主题或选择器条件变化；变量仅在对应的尺寸、变体和交互状态下生效。
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| 变量 | 默认值／条件 | 影响的样式 |
+| --- | --- | --- |
+| `--mp-divider-border-width` | `1px` | `border-inline-start-width`, `border-top-width` |
+| `--mp-divider-color` | `var(--mp-sys-color-border-default)` | `border-inline-start-color`, `border-top-color` |
+| `--mp-divider-orientation-horizontal-inset-lg` | `32px` | `margin-inline-end`, `margin-inline-start`, `max-width` |
+| `--mp-divider-orientation-horizontal-inset-md` | `24px` | `margin-inline-end`, `margin-inline-start`, `max-width` |
+| `--mp-divider-orientation-horizontal-inset-sm` | `16px` | `margin-inline-end`, `margin-inline-start`, `max-width` |
+| `--mp-divider-orientation-horizontal-inset-xl` | `40px` | `margin-inline-end`, `margin-inline-start`, `max-width` |
+| `--mp-divider-orientation-horizontal-inset-xs` | `12px` | `margin-inline-end`, `margin-inline-start`, `max-width` |
+| `--mp-divider-orientation-horizontal-spacing-lg` | `24px` | `margin-block-end`, `margin-block-start` |
+| `--mp-divider-orientation-horizontal-spacing-md` | `16px` | `margin-block-end`, `margin-block-start` |
+| `--mp-divider-orientation-horizontal-spacing-sm` | `12px` | `margin-block-end`, `margin-block-start` |
+| `--mp-divider-orientation-horizontal-spacing-xl` | `32px` | `margin-block-end`, `margin-block-start` |
+| `--mp-divider-orientation-horizontal-spacing-xs` | `8px` | `margin-block-end`, `margin-block-start` |
+| `--mp-divider-orientation-vertical-inset-lg` | `8px` | `margin-block-end`, `margin-block-start`, `max-height` |
+| `--mp-divider-orientation-vertical-inset-md` | `6px` | `margin-block-end`, `margin-block-start`, `max-height` |
+| `--mp-divider-orientation-vertical-inset-sm` | `4px` | `margin-block-end`, `margin-block-start`, `max-height` |
+| `--mp-divider-orientation-vertical-inset-xl` | `12px` | `margin-block-end`, `margin-block-start`, `max-height` |
+| `--mp-divider-orientation-vertical-inset-xs` | `2px` | `margin-block-end`, `margin-block-start`, `max-height` |
+| `--mp-divider-orientation-vertical-spacing-lg` | `16px` | `margin-inline-end`, `margin-inline-start` |
+| `--mp-divider-orientation-vertical-spacing-md` | `12px` | `margin-inline-end`, `margin-inline-start` |
+| `--mp-divider-orientation-vertical-spacing-sm` | `8px` | `margin-inline-end`, `margin-inline-start` |
+| `--mp-divider-orientation-vertical-spacing-xl` | `24px` | `margin-inline-end`, `margin-inline-start` |
+| `--mp-divider-orientation-vertical-spacing-xs` | `4px` | `margin-inline-end`, `margin-inline-start` |
+| `--mp-divider-text-align-inset` | `24px` | `height`, `width` |
+| `--mp-divider-text-color` | `var(--mp-sys-color-content-secondary)` | `color` |
+| `--mp-divider-text-padding` | `8px` | `padding` |
+
+</div>
+
+将覆盖设置在组件实际根节点或弹层真实挂载祖先上。例如给该元素添加下列 class，再按需替换变量值：
+
+```css
+.component-theme {
+  --mp-divider-color: var(--mp-sys-color-border-default);
+}
+```
+
+显式行内样式及直接写入同一 CSS 属性的 Props 优先于样式表默认值。Teleport 后，普通 CSS 变量按实际挂载位置继承；使用 ThemeProvider 时，请遵循其局部主题与弹层配置规则。局部定制请直接覆盖组件变量；仅修改后代的 system 变量不会重新计算从根继承的组件别名。内部变量不属于公共 API。
+
+<!-- component-css-variables:end -->

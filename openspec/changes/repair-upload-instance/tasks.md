@@ -1,0 +1,3 @@
+- [x] Reproduce missing methods before editor mount
+- [x] Reuse shared inactive method adapter and align types/slots/exports
+- [x] Validate both Upload lifecycles and every shared adapter consumer

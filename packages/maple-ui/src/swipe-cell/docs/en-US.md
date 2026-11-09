@@ -49,28 +49,56 @@ Set loading explicitly to display feedback. Ordinary event return values do not 
 ../example/demos/loading.vue
 ```
 
+Left and right are physical sides. Widths accept `auto`, finite numbers, or numeric strings in pixels; negative or invalid values resolve to zero. Automatic widths are remeasured before opening and observed while supported. An outside touch requests close; an outside mouse click does not. `click` reports cell, left, or right; `outside` is a close reason.
+
+Hidden action regions are inert and excluded from the accessibility tree. When closing while focus is in the actions, focus returns to the opener or to the cell container. Provide a native button outside the cell to call `open('right')`, and handle Escape on a containing element by calling `close()`. The close request still passes through `before-close`. Give each action an accessible name.
+
+`close()` returns `Promise<void>` after the guard settles; the return value does not indicate whether the cell closed. Guard exceptions and rejections emit `guard-error(error, position)`.
+
+Keyboard-accessible composition:
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue'
+import type { SwipeCellInstance } from '@maple-design/ui'
+
+const cell = ref<SwipeCellInstance>()
+</script>
+
+<template>
+  <div @keydown.esc="cell?.close()">
+    <button type="button" @click="cell?.open('right')">Show actions</button>
+    <mp-swipe-cell ref="cell">
+      <div>Order</div>
+      <template #right><button type="button">Archive</button></template>
+    </mp-swipe-cell>
+  </div>
+</template>
+```
+
 ## API
 
-### Props
+### SwipeCell Props
 
-| Arguments | Description | Type | Default |
+| Prop | Description | Type | Default |
 | --- | --- | --- | --- |
 | `name` | Item identity returned by open, close, and before-close; does not render text | `string \| number` | `''` |
 | `left-width` | Left action-area width; `auto` measures content | `number \| string` | `auto` |
 | `right-width` | Right action width | `number \| string` | `auto` |
-| `before-close` | Before-close hook; `false` prevents closing | `(args) => boolean \| Promise<boolean>` | `-` |
+| `before-close` | Before-close hook; `false` prevents closing | `(args) => boolean \| void \| Promise<boolean \| void>` | `-` |
 | `disabled` | Disable swipe | `boolean` | `false` |
 | `stop-propagation` | Stop `touchmove` bubbling | `boolean` | `false` |
 
-### Events
+### SwipeCell Events
 
 | Event | Description | Arguments |
 | --- | --- | --- |
-| `click` | Triggered when the cell is clicked | `position: left \| right \| cell \| outside` |
+| `click` | Triggered when the cell is clicked | `position: left \| right \| cell` |
 | `open` | Emitted on open | `{ name, position }` |
 | `close` | Emitted on close | `{ name, position }` |
+| `guard-error` | A close guard throws or rejects | `(error, position)` |
 
-### Slots
+### SwipeCell Slots
 
 | Name | Description |
 | --- | --- |
@@ -78,17 +106,44 @@ Set loading explicitly to display feedback. Ordinary event return values do not 
 | `left` | Left actions |
 | `right` | Right action |
 
-### Methods
+### SwipeCell Methods
 
 | Method | Description | Arguments |
 | --- | --- | --- |
 | `open` | Open the sidebar | `left \| right` |
-| `close` | Collapse | `-` |
+| `close` | Request close through the guard; resolves `Promise<void>` without indicating whether the cell closed | `-` |
 
-### Before-hook waiting feedback
+### Async operation feedback
 
-Before-hook waits show visible feedback and aria-busy. Rejected or failed operations recover; duplicate submissions do not start another copy. Notification event Promises never drive loading. Hook failures emit guard-error; close() resolves without closing. A new gesture cancels the old close request.
+Awaited before-* hooks show loading feedback and aria-busy. Rejection/failure restores interaction; repeated input does not restart the same operation. Ordinary event return Promises do not participate. Guard failure emits guard-error. close() ends waiting and leaves the cell open instead of rejecting its caller. A new gesture can cancel an earlier close request.
 
 ### guard-error
 
-Emitted once with `(error, position)` after a close hook fails.
+Emitted once after a closing guard fails, with `(error, position)`.
+
+## CSS Variables
+
+<!-- component-css-variables:start -->
+
+Use these variables to customize the component. Defaults may vary by the selector condition shown. Each variable applies to the corresponding size, variant and interaction states.
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Default / condition | Affected styles |
+| --- | --- | --- |
+| `--mp-swipe-cell-background` | `transparent` | `background` |
+| `--mp-swipe-cell-transition` | `transform 0.2s ease` | `transition` |
+
+</div>
+
+Apply overrides to the rendered component root or the actual popup ancestor. For example, add the following class to that element and replace the value as needed:
+
+```css
+.component-theme {
+  --mp-swipe-cell-background: transparent;
+}
+```
+
+Explicit inline styles and props that write the same CSS property take precedence over stylesheet defaults. After Teleport, ordinary CSS variables inherit from the actual mount location. When using ThemeProvider, follow its local-theme and popup configuration rules. Override the component variable directly for local styling; root-level aliases are not recalculated merely because a descendant system variable changes. Internal variables are not public APIs.
+
+<!-- component-css-variables:end -->

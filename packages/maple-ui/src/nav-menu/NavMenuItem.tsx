@@ -17,6 +17,7 @@ import {
   withDirectives,
 } from 'vue'
 import { useDirection } from '@maple-design/use'
+import { useThemeScope } from '../theme-provider/context'
 import { createNamespace } from '../utils/components'
 import { navMenuItemProps, type NavMenuItemSlotContext } from './item-props'
 import NavMenuOptions from './NavMenuOptions'
@@ -38,9 +39,16 @@ export default defineComponent({
     click: (_event: MouseEvent) => true,
   },
   setup(props, { slots, emit, attrs, expose }) {
+    const themeScope = useThemeScope()
     const parent = inject(navMenuKey, undefined)
     const uid = useId()
     const panelId = `${n()}-${uid}`
+    const generatedEntryId = `${n()}-entry-${uid}`
+    const entryId = () => (typeof attrs.id === 'string' && attrs.id ? attrs.id : generatedEntryId)
+    const panelLabelledBy = () =>
+      typeof attrs['aria-labelledby'] === 'string' && attrs['aria-labelledby'].trim()
+        ? attrs['aria-labelledby']
+        : entryId()
     const suspendedState = ref(false)
     const rendered = ref(false)
     const hasOpened = ref(false)
@@ -291,13 +299,14 @@ export default defineComponent({
               h(
                 'div',
                 {
+                  ...themeScope.value,
                   ref: panel,
                   dir: dir.value,
                   id: panelId,
                   inert: open.value ? undefined : '',
                   'aria-hidden': open.value ? undefined : 'true',
                   role: slots.content ? 'group' : undefined,
-                  'aria-label': typeof props.label === 'string' ? props.label : undefined,
+                  'aria-labelledby': slots.content ? panelLabelledBy() : undefined,
                   class: [
                     n('popup'),
                     n(`--${parent?.props.size ?? 'md'}`),
@@ -305,7 +314,11 @@ export default defineComponent({
                     props.popupClass ?? parent?.props.popupClass,
                     { [n('panel--custom')]: !!slots.content },
                   ],
-                  style: [props.popupStyle, !open.value ? { pointerEvents: 'none' } : undefined],
+                  style: [
+                    themeScope.value.style,
+                    props.popupStyle,
+                    !open.value ? { pointerEvents: 'none' } : undefined,
+                  ],
                 },
                 slots.content?.(context()) ?? [
                   h(
@@ -332,6 +345,7 @@ export default defineComponent({
           'button',
           mergeProps(attrs, {
             ref: reference,
+            id: slots.content ? entryId() : attrs.id,
             type: 'button',
             disabled: disabled.value,
             'data-nav-item': '',

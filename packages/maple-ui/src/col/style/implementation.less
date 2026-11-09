@@ -22,11 +22,8 @@
   .create-offset(@i - 1);
 }
 
-.create-order(@i) when (@i >= 0) {
-  .mp-col--order-@{i} {
-    order: @i;
-  }
-  .create-order(@i - 1);
+.mp-col--order {
+  order: var(--mp-col-order);
 }
 
 .create-responsive(@mode, @i) when (@i >= 0) {
@@ -48,47 +45,45 @@
   .create-responsive-offset(@mode, @i - 1);
 }
 
-.create-responsive-order(@mode, @i) when (@i >= 0) {
-  .mp-col--order-@{mode}-@{i} {
-    order: @i;
+.create-responsive-order(@mode) {
+  .mp-col--order-@{mode} {
+    order: var(~'--mp-col-order-@{mode}');
   }
-  .create-responsive-order(@mode, @i - 1);
 }
 
 .create-span(24);
-.create-offset(23);
-.create-order(24);
+.create-offset(24);
 
 .create-responsive(xs, 24);
-.create-responsive-offset(xs, 23);
-.create-responsive-order(xs, 24);
+.create-responsive-offset(xs, 24);
+.create-responsive-order(xs);
 
 @media (min-width: 576px) {
   .create-responsive(sm, 24);
-  .create-responsive-offset(sm, 23);
-  .create-responsive-order(sm, 24);
+  .create-responsive-offset(sm, 24);
+  .create-responsive-order(sm);
 }
 
 @media (min-width: 768px) {
   .create-responsive(md, 24);
-  .create-responsive-offset(md, 23);
-  .create-responsive-order(md, 24);
+  .create-responsive-offset(md, 24);
+  .create-responsive-order(md);
 }
 
 @media (min-width: 992px) {
   .create-responsive(lg, 24);
-  .create-responsive-offset(lg, 23);
-  .create-responsive-order(lg, 24);
+  .create-responsive-offset(lg, 24);
+  .create-responsive-order(lg);
 }
 
 @media (min-width: 1200px) {
   .create-responsive(xl, 24);
-  .create-responsive-offset(xl, 23);
-  .create-responsive-order(xl, 24);
+  .create-responsive-offset(xl, 24);
+  .create-responsive-order(xl);
 }
 
 @media (min-width: 1600px) {
   .create-responsive(xxl, 24);
-  .create-responsive-offset(xxl, 23);
-  .create-responsive-order(xxl, 24);
+  .create-responsive-offset(xxl, 24);
+  .create-responsive-order(xxl);
 }

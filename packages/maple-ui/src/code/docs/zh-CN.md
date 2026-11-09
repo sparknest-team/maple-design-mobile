@@ -43,21 +43,25 @@
 ../example/demos/word-wrap.vue
 ```
 
+## 使用说明
+
+### 配置说明
+
+没有着色器或着色失败时显示经过转义的原始代码；异步转换只采用最新结果。转换器返回的 HTML 会直接渲染，请确保其输出可信。`word-wrap` 控制代码溢出时换行；组件不提供业务事件、插槽或公开方法。
+
 ## API
 
-### 属性
-
-#### Code Props
+### Code Props
 
 | 参数        | 说明                             | 类型      | 默认值  |
 | ----------- | -------------------------------- | --------- | ------- |
-| `code`      | 代码片段                         | _string_  | `-`     |
+| `code`      | 代码片段                         | _string_  | `''`     |
 | `language`  | 语言                             | _string_  | `-`     |
 | `theme`     | 主题                             | _string_  | `-`     |
 | `word-wrap` | 是否开启在代码溢出时自动换行     | _boolean_ | `false` |
 | `trim`      | 是否移除代码开头和结尾的空白字符 | _boolean_ | `true`  |
 
-#### HighlighterProvider Props
+### HighlighterProvider Props
 
 | 参数          | 说明         | 类型          | 默认值 |
 | ------------- | ------------ | ------------- | ------ |
@@ -65,24 +69,46 @@
 | `theme`       | 主题         | _string_      | `-`    |
 | `tag`         | 自定义标签名 | _string_      | `div`  |
 
-#### Highlighter
+## Types
+
+### Highlighter
 
 | 参数         | 说明                                 | 类型                                                            | 默认值 |
 | ------------ | ------------------------------------ | --------------------------------------------------------------- | ------ |
-| `codeToHtml` | 着色函数，组件的着色器必须实现该函数 | `(code: string, options: CodeToHtmlOptions) => Promise<string>` | `-`    |
+| `codeToHtml` | 着色函数，组件的着色器必须实现该函数 | `(code: string, options: CodeToHtmlOptions) => string \| Promise<string>` | `-`    |
 
-#### CodeToHtmlOptions
+### CodeToHtmlOptions
 
 | 参数    | 说明 | 类型     | 默认值 |
 | ------- | ---- | -------- | ------ |
 | `lang`  | 语言 | _string_ | `-`    |
 | `theme` | 主题 | _string_ | `-`    |
 
-### 样式变量
+## CSS Variables
 
-以下为组件使用的 css 变量，可以使用 [StyleProvider 组件](#/zh-CN/style-provider) 进行样式定制。
+以下为组件使用的 css 变量，可以使用 [ThemeProvider 组件](#/zh-CN/theme-provider) 进行样式定制。
 
-| 变量名                  | 默认值 |
-| ----------------------- | ------ |
-| `--mp-code-line-height` | `1.7`  |
-| `--mp-code-font-size`   | `14px` |
+<!-- component-css-variables:start -->
+
+通过以下变量定制组件外观。默认值随表中注明的主题或选择器条件变化；变量仅在对应的尺寸、变体和交互状态下生效。
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| 变量 | 默认值／条件 | 影响的样式 |
+| --- | --- | --- |
+| `--mp-code-font-size` | `14px` | `font-size` |
+| `--mp-code-line-height` | `1.7` | `line-height` |
+
+</div>
+
+将覆盖设置在组件实际根节点或弹层真实挂载祖先上。例如给该元素添加下列 class，再按需替换变量值：
+
+```css
+.component-theme {
+  --mp-code-font-size: 14px;
+}
+```
+
+显式行内样式及直接写入同一 CSS 属性的 Props 优先于样式表默认值。Teleport 后，普通 CSS 变量按实际挂载位置继承；使用 ThemeProvider 时，请遵循其局部主题与弹层配置规则。局部定制请直接覆盖组件变量；仅修改后代的 system 变量不会重新计算从根继承的组件别名。内部变量不属于公共 API。
+
+<!-- component-css-variables:end -->

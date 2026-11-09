@@ -1,3 +1,4 @@
+@import '../../style/theme/local-scope.less';
 :root {
   --mp-date-calendar-scroll-height: 320px;
   --mp-date-calendar-month-height: 320px;
@@ -6,11 +7,7 @@
   --mp-date-calendar-disabled-opacity: 0.4;
 
   --mp-date-picker-panel-date-width: 265px;
-  --mp-date-picker-time-panel-min-width: 160px;
   --mp-date-picker-popover-width: calc(var(--mp-date-picker-panel-date-width) + 2px);
-  --mp-date-picker-datetime-popover-width: calc(
-    var(--mp-date-picker-panel-date-width) + var(--mp-date-picker-time-panel-min-width) + 2px
-  );
   --mp-date-picker-panel-preferred-width: var(--mp-date-picker-popover-width);
   --mp-date-picker-shortcuts-column-width: 128px;
   --mp-date-picker-popover-gap: 32px;

@@ -3,12 +3,12 @@
     <div
       v-bind="$attrs"
       :class="
-        classes(n(), [clamp, n('--clamp'), n('--line')], [expandTrigger, n('--cursor')], [expanding, n('--expand')])
+        classes(n(), [clamp, n('--clamp'), n('--line')], [expandEnabled, n('--cursor')], [expanding, n('--expand')])
       "
       :style="rootStyles"
-      :role="expandTrigger ? 'button' : undefined"
-      :tabindex="expandTrigger || tooltip !== false ? 0 : undefined"
-      :aria-expanded="expandTrigger ? expanding : undefined"
+      :role="expandEnabled ? 'button' : undefined"
+      :tabindex="expandEnabled || tooltip !== false ? 0 : undefined"
+      :aria-expanded="expandEnabled ? expanding : undefined"
       @click="toggle"
       @keydown="handleKeydown"
     >
@@ -33,11 +33,12 @@ defineOptions({ name: createNamespace('ellipsis').name, inheritAttrs: false })
 const props = defineProps(ellipsisProps)
 const emit = defineEmits<{ 'update:expand': [expand: boolean] }>()
 const { n, classes } = createNamespace('ellipsis')
+const expandEnabled = computed(() => props.expandTrigger === 'click')
 const innerExpand = ref(props.defaultExpand)
 const expanding = computed(() => props.expand ?? innerExpand.value)
 const clamp = computed(() => {
   const value = Number(props.lineClamp)
-  return Number.isFinite(value) && value > 0 ? Math.floor(value) : undefined
+  return Number.isFinite(value) && value >= 1 ? Math.floor(value) : undefined
 })
 const rootStyles = computed<CSSProperties>(() => ({
   WebkitLineClamp: expanding.value ? undefined : clamp.value,
@@ -46,7 +47,7 @@ const tooltipBindings = computed<TooltipProps>(() =>
   props.tooltip === false ? { disabled: true, open: false } : props.tooltip === true ? {} : { ...props.tooltip },
 )
 function toggle() {
-  if (!props.expandTrigger) {
+  if (!expandEnabled.value) {
     return
   }
   const value = !expanding.value
@@ -56,7 +57,7 @@ function toggle() {
   emit('update:expand', value)
 }
 function handleKeydown(event: KeyboardEvent) {
-  if (!props.expandTrigger || event.target !== event.currentTarget || !['Enter', ' '].includes(event.key)) {
+  if (!expandEnabled.value || event.target !== event.currentTarget || !['Enter', ' '].includes(event.key)) {
     return
   }
   event.preventDefault()

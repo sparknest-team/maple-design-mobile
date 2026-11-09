@@ -32,3 +32,5 @@ export type { CheckboxOption } from './types'
 export type { ChoiceFieldNames } from './choice-options'
 
 export type { CheckboxGroupMethods } from './use-checkbox-group-methods'
+
+export type { CheckboxSlots, CheckboxGroupSlots } from './types'

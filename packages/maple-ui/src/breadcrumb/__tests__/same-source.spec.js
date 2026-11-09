@@ -37,7 +37,7 @@ describe('Breadcrumb same source', () => {
       props: { routes: routes.map((route) => ({ ...route, children: [routes[0]] })), maxCount: 2 },
       slots: { 'more-icon': (data) => h('b', { 'data-count': data.count }, 'more') },
     })
-    const more = wrapper.find('[aria-label="ellipses of breadcrumb items"]')
+    const more = wrapper.find('[aria-label="省略的路径"]')
     expect(more.find('.mp-breadcrumb-item__dropdown-icon').exists()).toBe(false)
     expect(more.attributes('href')).toBeUndefined()
     expect(more.find('b').attributes('data-count')).toBe('3')
@@ -152,7 +152,7 @@ describe('Breadcrumb interaction semantics', () => {
     expect(wrapper.find('.mp-breadcrumb-item__content').element.tagName).toBe('BUTTON')
     wrapper.unmount()
     const collapsed = mount(Breadcrumb, { props: { routes, maxCount: 2 } })
-    expect(collapsed.find('[aria-label="ellipses of breadcrumb items"]').element.tagName).toBe('DIV')
+    expect(collapsed.find('[aria-label="省略的路径"]').element.tagName).toBe('DIV')
     collapsed.unmount()
   })
 })

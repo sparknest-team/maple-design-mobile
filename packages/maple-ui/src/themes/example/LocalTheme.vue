@@ -21,10 +21,10 @@ const styleVars = computed(() => ({
         <p>跟随页面 / Page theme</p>
         <mp-button status="primary">默认按钮 / Default</mp-button>
       </div>
-      <mp-style-provider :style-vars="styleVars">
+      <mp-theme-provider :style-vars="styleVars">
         <p>局部覆盖 / Local override</p>
         <mp-button status="primary">定制按钮 / Custom</mp-button>
-      </mp-style-provider>
+      </mp-theme-provider>
     </div>
   </section>
 </template>

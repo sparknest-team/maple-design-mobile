@@ -7,21 +7,21 @@ export const paginationProps = {
   total: {
     type: Number,
     required: true as const,
-    validator: (value: number) => Number.isInteger(value) && value >= 0,
+    validator: (value: number) => Number.isSafeInteger(value) && value >= 0,
   },
   /** 当前页码，从 1 开始；通过 v-model 绑定。 */
-  modelValue: Number,
+  modelValue: { type: Number, validator: (value: number) => Number.isSafeInteger(value) && value >= 1 },
   /** 非受控初始值，仅创建时读取；后续修改不重置当前状态。 */
   defaultValue: {
     type: Number,
     default: 1,
-    validator: (value: number) => Number.isInteger(value) && value >= 1,
+    validator: (value: number) => Number.isSafeInteger(value) && value >= 1,
   },
-  pageSize: Number,
+  pageSize: { type: Number, validator: (value: number) => Number.isSafeInteger(value) && value > 0 },
   defaultPageSize: {
     type: Number,
     default: 10,
-    validator: (value: number) => Number.isInteger(value) && value > 0,
+    validator: (value: number) => Number.isSafeInteger(value) && value > 0,
   },
   disabled: Boolean,
   hideOnSinglePage: Boolean,
@@ -33,7 +33,7 @@ export const paginationProps = {
   pageSizeOptions: {
     type: Array as PropType<number[]>,
     default: () => [10, 20, 30, 40, 50],
-    validator: (value: number[]) => value.length > 0 && value.every((item) => Number.isInteger(item) && item > 0),
+    validator: (value: number[]) => value.length > 0 && value.every((item) => Number.isSafeInteger(item) && item > 0),
   },
   /** 可选的条数 Select 受限配置；placement 默认 bottom-start，经 Select.triggerProps 交给 Trigger 自动定位；不能覆盖分页值、选项和尺寸 */
   pageSizeProps: Object as PropType<PaginationPageSizeProps>,
@@ -48,12 +48,12 @@ export const paginationProps = {
   baseSize: {
     type: Number,
     default: 6,
-    validator: (value: number) => Number.isInteger(value) && value > 0,
+    validator: (value: number) => Number.isSafeInteger(value) && value > 0 && value <= 201,
   },
   bufferSize: {
     type: Number,
     default: 2,
-    validator: (value: number) => Number.isInteger(value) && value >= 0,
+    validator: (value: number) => Number.isSafeInteger(value) && value >= 0 && value <= 100,
   },
   /** 页码按钮的阴影等级。 */
   elevation: { type: [Boolean, Number], default: false },
@@ -63,7 +63,7 @@ export const paginationProps = {
   compactBreakpoint: {
     type: Number,
     default: 480,
-    validator: (value: number) => Number.isFinite(value) && Number.isInteger(value) && value > 0,
+    validator: (value: number) => Number.isFinite(value) && Number.isSafeInteger(value) && value > 0,
   },
   autoAdjust: {
     type: Boolean,

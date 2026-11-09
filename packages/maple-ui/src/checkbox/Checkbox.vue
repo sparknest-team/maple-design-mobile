@@ -1,5 +1,6 @@
 <template>
   <label
+    v-bind="rootAttrs"
     :class="
       classes(
         n(),
@@ -16,6 +17,7 @@
   >
     <input
       ref="input"
+      v-bind="nativeAttrs"
       :class="n('input')"
       type="checkbox"
       autocomplete="off"
@@ -24,10 +26,15 @@
       :checked="checked"
       :indeterminate="indeterminate"
       :disabled="mergedDisabled"
-      :aria-label="ariaLabel"
+      :aria-label="ariaLabel ?? nativeAttrs['aria-label']"
       :aria-checked="indeterminate ? 'mixed' : checked"
       :aria-readonly="mergedReadonly || undefined"
-      :aria-invalid="mergedError || undefined"
+      :aria-describedby="
+        group?.formErrorId === errorId
+          ? nativeAttrs['aria-describedby']
+          : describeError(nativeAttrs['aria-describedby'])
+      "
+      :aria-invalid="mergedError || nativeAttrs['aria-invalid'] || undefined"
       @change="handleChange"
       @keydown="keyboard.keydown"
       @keyup="keyboard.keyup"
@@ -63,21 +70,28 @@
 
 <script setup lang="ts">
 import { computed, inject, nextTick, ref, useSlots, watch, type CSSProperties } from 'vue'
+import { useFormErrorDescription } from '../form/error-description'
 import vRipple from '../ripple'
 import { createNamespace } from '../utils/components'
+import { positiveLength } from '../utils/size-length'
 import { ChoiceLabel } from './choice-label'
 import type { CheckboxModel } from './choice-value-props'
 import { checkboxGroupKey } from './context'
 import { checkboxProps } from './props'
+import type { CheckboxSlots } from './types'
 import { useChoiceRegistration } from './use-checkbox-group-methods'
 import { useCheckboxControl } from './use-choice-control'
 import { useChoiceForm } from './use-choice-form'
 import { useChoiceKeyboard } from './use-choice-keyboard'
+import { useChoiceNativeAttrs } from './use-choice-native-attrs'
 
-defineOptions({ name: createNamespace('checkbox').name })
+defineOptions({ name: createNamespace('checkbox').name, inheritAttrs: false })
 const { n, classes } = createNamespace('checkbox')
 const props = defineProps(checkboxProps)
+defineSlots<CheckboxSlots>()
 const emit = defineEmits<{
+  'update:open': [open: boolean]
+  'open-change': [open: boolean]
   'update:modelValue': [value: CheckboxModel]
   change: [value: CheckboxModel, event?: Event]
   click: [event: MouseEvent]
@@ -86,7 +100,9 @@ const emit = defineEmits<{
 }>()
 const slots = useSlots()
 const group = !props.uninjectGroupContext ? inject(checkboxGroupKey, undefined) : undefined
+const { errorId, describe: describeError } = useFormErrorDescription()
 const input = ref<HTMLInputElement>()
+const { nativeAttrs, rootAttrs } = useChoiceNativeAttrs()
 const state = useChoiceForm({
   get disabled() {
     return props.disabled ?? group?.disabled
@@ -123,7 +139,7 @@ const customControl = computed(() => slots.checkbox ?? group?.slots.checkbox)
 const controlStyle = computed<CSSProperties>(() => ({
   '--mp-internal-checkbox-instance-checked-color': props.checkedColor,
   '--mp-internal-checkbox-instance-unchecked-color': props.uncheckedColor,
-  '--mp-internal-checkbox-instance-size': typeof props.iconSize === 'number' ? `${props.iconSize}px` : props.iconSize,
+  '--mp-internal-checkbox-instance-size': positiveLength(props.iconSize, '') || undefined,
 }))
 const keyboard = useChoiceKeyboard(
   () => input.value?.click(),

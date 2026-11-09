@@ -6,7 +6,7 @@
 
 ### 文字水印
 
-局部示例提供深色底、显示开关及合成文字输入；显式font.color在深色底用白色0.4透明度、浅色底用黑色0.25透明度。改变文字/颜色会重新生成PNG；水印层pointer-events:none，内容按钮支持点击和Enter。隐藏卸载该实例，恢复后只保留一层并保留示例计数。这是局部显式配色与清理验收，不代表默认主题Token、全站暗色或防篡改已验收，不提供正文文字对比度合规保证。
+示例支持切换深浅背景、显示状态和水印文字；font.color 在深色底使用半透明白色，在浅色底使用半透明黑色。修改文字或颜色会重新生成水印。水印不拦截指针操作，内容按钮支持点击和 Enter；隐藏后重新显示只保留一层水印。
 
 ```demo
 ../example/demos/text-watermark.vue
@@ -35,7 +35,7 @@
 
 ### 图片水印
 
-图片示例只使用合成SVG data URL。“本地图片失败”切换为故意无效的data URL，原生Image错误通知source=image，并回退红色FALLBACK 201文字。聚焦“恢复图片”按Enter后恢复原图，错误历史保留但不追加、覆盖层仍一层；恢复按钮再次禁用。这不是外部网络、CORS、Canvas故障或图片加载竞争验收。
+“本地图片失败”使用无效的 data URL，触发 source=image 错误通知并回退为 FALLBACK 201 文字。按 Enter 激活“恢复图片”后恢复原图，错误记录保留，水印层仍只有一层。
 
 ```demo
 ../example/demos/image-watermark.vue
@@ -43,7 +43,7 @@
 
 ### 全屏
 
-全屏水印层固定覆盖视口且不拦截指针操作；退出后回到原局部容器，默认插槽内容不搬走。反复开启/退出不应累积全屏层，卸载移除该实例的层。两端各自维护实例；基本开关记录不等于图片失败、主题与防篡改组合均已浏览器验收。
+全屏水印固定覆盖视口，不拦截指针操作；退出后回到局部容器，默认插槽内容保持原位。重复切换不会累积水印层，卸载会移除该实例的水印。
 
 ```demo
 ../example/demos/fullscreen.vue
@@ -70,9 +70,17 @@
 ../example/demos/geometry-comparison.vue
 ```
 
+## 使用说明
+
+### 尺寸与重绘
+
+- `gap` 和 `offset` 应为包含两个有限数的数组；建议 `gap` 非负。当前负间距仅在计算平铺尺寸时按 0 处理，绘制和背景偏移仍使用原值，因此不要依赖负间距实现重叠。`width`、`height` 和 `font.fontSize`、`font.lineHeight` 应为有限正数；宽高实际至少为 1。`rotate` 应为有限角度，`zIndex` 应为有限数。非法输入不保证自动纠正；`alpha` 的合法范围为有限的 0 到 1。
+- `lineHeight` 未指定时为 `Math.round(fontSize * 1.4)`。文字颜色由 Canvas 解析：优先使用 `font.color`，否则使用计算后的颜色变量；应传 Canvas 支持的颜色值，不保证直接解析 CSS 变量表达式。异步字体就绪后不会自动重绘，可调用 `redraw()`。
+- 图片加载失败通过 `error` 通知；有文字时尝试回退文字，Canvas 失败也通过 `error` 通知。`redraw()` 返回 Promise，正常情况下内部渲染失败会被处理；较早的异步结果在属性更新或卸载后不会覆盖最新图层或再报告错误，但底层图片请求不会因此取消。`default` 内容不会被绘入水印图片。
+
 ## API
 
-### Props
+### Watermark Props
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
@@ -92,6 +100,26 @@
 | `staggered` | 重复时是否错列 | `boolean` | `true` |
 | `fullscreen` | 是否固定覆盖整个视口 | `boolean` | `false` |
 
+### WatermarkFont Events
+
+| 事件名 | 说明 | 参数 |
+| --- | --- | --- |
+| `error` | 图片加载或 Canvas 渲染失败 | `{ source: 'image' \| 'canvas'; error: unknown }` |
+
+### WatermarkFont Methods
+
+| 方法名 | 说明 | 返回值 |
+| --- | --- | --- |
+| `redraw` | 按当前属性重新生成水印 | `Promise<void>` |
+
+### WatermarkFont Slots
+
+| 插槽名 | 说明 |
+| --- | --- |
+| `default` | 被水印覆盖的页面内容 |
+
+## Types
+
 ### WatermarkFont
 
 | 参数 | 类型 | 默认值 |
@@ -101,29 +129,33 @@
 | `fontFamily` | `string` | `sans-serif` |
 | `fontStyle` | `'normal' \| 'italic' \| 'oblique'` | `normal` |
 | `fontWeight` | `string \| number` | `normal` |
-| `textAlign` | `CanvasTextAlign` | `center` |
-| `lineHeight` | `number` | `fontSize × 1.4` |
+| `textAlign` | `CanvasTextAlign`<br>`'center' \| 'end' \| 'left' \| 'right' \| 'start'` | `center` |
+| `lineHeight` | `number` | `Math.round(fontSize × 1.4)` |
 
-### 事件
+## CSS Variables
 
-| 事件名 | 说明 | 参数 |
+水印颜色取自组件计算后的 CSS 变量；组件及其当前祖先的 `class` 或 `style` 改变导致颜色变化时会自动重绘。通过 CSSOM、媒体查询等无法观察到的变化，以及移动到新祖先后，可调用 `redraw()` 更新。`anti-tamper` 仅恢复受管水印层的移除及 class/style 修改，不能作为安全防护。
+
+<!-- component-css-variables:start -->
+
+通过以下变量定制组件外观。默认值随表中注明的主题或选择器条件变化；变量仅在对应的尺寸、变体和交互状态下生效。
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| 变量 | 默认值／条件 | 影响的样式 |
 | --- | --- | --- |
-| `error` | 图片加载或 Canvas 渲染失败 | `{ source: 'image' \| 'canvas'; error: unknown }` |
+| `--mp-watermark-content-color` | `rgba(0, 0, 0, 0.15)` | 组件样式 |
 
-### 方法
+</div>
 
-| 方法名 | 说明 | 返回值 |
-| --- | --- | --- |
-| `redraw` | 按当前属性重新生成水印 | `Promise<void>` |
+将覆盖设置在组件实际根节点或弹层真实挂载祖先上。例如给该元素添加下列 class，再按需替换变量值：
 
-### 插槽
+```css
+.component-theme {
+  --mp-watermark-content-color: rgba(0, 0, 0, 0.15);
+}
+```
 
-| 插槽名 | 说明 |
-| --- | --- |
-| `default` | 被水印覆盖的页面内容 |
+显式行内样式及直接写入同一 CSS 属性的 Props 优先于样式表默认值。Teleport 后，普通 CSS 变量按实际挂载位置继承；使用 ThemeProvider 时，请遵循其局部主题与弹层配置规则。局部定制请直接覆盖组件变量；仅修改后代的 system 变量不会重新计算从根继承的组件别名。内部变量不属于公共 API。
 
-### 样式变量
-
-| 变量名 | 默认值 |
-| --- | --- |
-| `--mp-watermark-content-color` | `rgba(0, 0, 0, 0.15)` |
+<!-- component-css-variables:end -->

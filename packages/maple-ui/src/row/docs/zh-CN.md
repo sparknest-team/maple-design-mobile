@@ -8,6 +8,8 @@
 > - Row + Col：适合 24 栏 Flex 布局，需要水平/垂直对齐、控制换行、固定宽度与自适应宽度组合，或响应式排序时使用。Row 控制整行，Col 控制列宽、偏移和排序。
 > - Space：适合按钮、标签、文字等简单排列，只需要间距、方向和对齐时使用；更自由的宽度分配可使用原生 Flex。
 
+默认水平与垂直间距均为 16px（`gutter=[16, 16]`）。显式传入数值或响应式对象仅设置水平间距；需要双向间距时使用二元数组，`gutter=0` 可关闭间距。
+
 ## 基础示例
 
 ### 24 栏基础布局
@@ -66,29 +68,29 @@
 ## API
 
 <!-- same-source-api:start -->
-### Props
+### Row Props
 
 | 属性 | 说明 | Type | Default |
 | --- | --- | --- | --- |
-| gutter | 间距：数值、响应式对象或 [水平, 垂直] | `RowGutter` | `0` |
+| gutter | 间距：数值、响应式对象或 [水平, 垂直] | `RowGutter` | `[16, 16]` |
 | justify | 水平对齐 | `start / center / end / space-around / space-between` | `start` |
 | align | 垂直对齐 | `start / center / end / stretch` | `start` |
 | wrap | 是否换行 | `boolean` | `true` |
 | div | Row 与 Col 均作为普通容器，移除全部布局样式 | `boolean` | `false` |
 
-### Events
+### Row Events
 
 | Event | Description |
 | --- | --- |
 | click | 原生 MouseEvent，每次点击一次 |
 
-### Slots
+### Row Slots
 
 | Slot | Description |
 | --- | --- |
 | default | 布局内容 |
 
-### Methods
+### Row Methods
 
 | Method | Description |
 | --- | --- |
@@ -98,8 +100,20 @@
 
 ## 响应式与可访问性
 
-断点基于浏览器视口：xs 为基础值，sm ≥576、md ≥768、lg ≥992、xl ≥1200、xxl ≥1600px；从最大匹配断点向下取已配置值。SSR 首屏使用 xs，挂载后响应视口；Grid 折叠和动态排序在挂载后计算。组件为布局容器，不增加键盘快捷键；内容语义及可聚焦元素由调用者提供。没有公开方法和专用主题 Token。
+Row 的响应式 gutter 通过 JavaScript matchMedia 计算，SSR 使用 xs，挂载后同步视口。Col 的断点由 CSS 媒体查询实现，SSR 已输出所有配置类，不依赖挂载后测量。断点依据视口：xs 为基础，sm ≥576、md ≥768、lg ≥992、xl ≥1200、xxl ≥1600px；仅覆盖已配置字段。offset 从逻辑行内起点偏移，RTL 自动镜像。order 只改变视觉顺序，不改变 DOM、键盘或辅助技术阅读顺序。
+
+span、offset 及断点中的对应字段接受 0–24 整数；span=0 隐藏，offset=24 偏移整行。order 接受有限整数，支持负数和大于 24 的排序值，最终按浏览器 CSS order 规则计算。gutter 接受有限非负数、六断点对象或恰好两个成员的 [水平, 垂直] 数组。开发环境诊断未知断点、无效数值及枚举；无效 span 回退 24，无效 offset/order 忽略，断点对象保留有效字段，无效 gutter 分量按 0 处理。
 
 ## 导入
 
-Grid 仅包含 Grid.Item；Row、Col 是独立组件，拥有独立源码、样式、菜单、文档和 Demo。已移除 Grid.Row/Grid.Col、Grid 入口的 Row/Col 转导出以及 GridRowInstance/GridColInstance。请从库根入口或独立 row/col 入口导入；安装 Grid 不再自动注册 Row/Col。
+Grid 仅包含 Grid.Item。Row、Col 是独立组件，请从库根入口或对应的 row/col 子入口导入；安装 Grid 不会注册 Row 或 Col。旧 Grid.Row/Grid.Col 以及 GridRowInstance/GridColInstance 不再提供。
+
+## CSS Variables
+
+<!-- component-css-variables:start -->
+
+本组件未声明独立的公共 CSS 变量。请使用本页公开的配置与布局入口。
+
+内部自定义属性与测量中间值属于实现细节，不作为业务定制 API。
+
+<!-- component-css-variables:end -->

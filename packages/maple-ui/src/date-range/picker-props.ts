@@ -2,6 +2,7 @@ import type { PropType } from 'vue'
 import { dateRangeValueProps, dateRuleProps } from '../date/core-props'
 import { dateNowProps } from '../date/date-current'
 import { datePanelProps } from '../date/panel-props'
+import { pickProps } from '../utils/components'
 import type { DateRangeCalendarOptions } from './calendar-options'
 import { props as presentationProps } from './presentation-props'
 
@@ -10,7 +11,8 @@ export type { DateRangeCalendarOptions } from './calendar-options'
 export type { DateRangePickerPresentation } from './presentation-props'
 
 export const props = {
-  ...presentationProps,
+  // Explicit public view capabilities; renderer glue must not become API by spreading.
+  ...pickProps(presentationProps, ['dateFields', 'timeFields', 'abbreviation', 'pickerProps', 'elevation']),
   presentation: { ...presentationProps.presentation, default: 'calendarPicker' as const },
   ...datePanelProps,
   ...dateNowProps,

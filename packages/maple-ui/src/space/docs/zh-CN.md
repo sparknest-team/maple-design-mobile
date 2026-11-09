@@ -4,7 +4,7 @@
 
 组件库提供了 `<mp-space>` 布局的组件，使您更有效率的进行 flex 布局。
 
-两端各自保存完整源码，不引用公共核心，不共享组件实例或响应式状态；修改时同步维护两份实现。主体、Props、子节点展开、主样式、尺寸 token 和配对测试纳入只读一致性检查。仅安装入口与命名空间各自适配。
+
 
 两端默认均为 `size="md"`、`wrap=false`、`block=true`、`direction="row"`。未传 align 时，row 为 center、column 为 stretch。Maple 原来依赖默认换行的用法请显式添加 `wrap`。
 
@@ -89,14 +89,6 @@
 ../example/demos/layout-lab.vue
 ```
 
-### 分隔换行与内容状态
-
-输入草稿后切换换行、方向或顺序。分隔符跟随前一项，可出现在行尾，不会独占一行。
-
-```demo
-../example/demos/split-wrapping.vue
-```
-
 ## 交互与控制
 
 ### 动态布局
@@ -117,6 +109,16 @@
 ../example/demos/interactive-layout.vue
 ```
 
+## 分隔与换行
+
+### 分隔换行与内容状态
+
+输入草稿后切换换行、方向或顺序。分隔符跟随前一项，可出现在行尾，不会独占一行。
+
+```demo
+../example/demos/split-wrapping.vue
+```
+
 ## 阅读方向
 
 继承最近的 `dir="ltr|rtl"`。`direction="row"` 沿阅读顺序排列，`column` 保持从上到下；justify/align 的 flex-start、flex-end 跟随对应 flex 轴。`size=[rowGap,columnGap]` 始终分别表示行间距、列间距，不因 RTL 交换。换行与 split 插槽沿内容顺序排列，方向切换不反转数据或重建有稳定 key 的子节点。
@@ -134,7 +136,7 @@ block 将容器切换为 flex / inline-flex；align=stretch 拉伸内部 item �
 非法 size 结构、负数/非有限数字、非二元组数组会回退 md，并在开发环境提示。数组项为长度，不接受预设名。仍支持 CSS var/calc 表达式，具体 CSS 语法与解析值由浏览器处理。
 
 
-### 属性
+### Space Props
 
 | 参数          | 说明                                                                                                  | 类型                                                       | 默认值        |
 |-------------|-----------------------------------------------------------------------------------------------------|----------------------------------------------------------|------------|
@@ -145,30 +147,50 @@ block 将容器切换为 flex / inline-flex；align=stretch 拉伸内部 item �
 | `wrap`      | 是否超出换行                                                                                              | _boolean_                                                | `false`     |
 | `block`     | 是否撑满父容器宽度                                                                                           | _boolean_                                                | `true`     |
 
-### 插槽
+### Space Slots
 
 | 插槽名       | 说明       | 参数  |
 |-----------|----------|-----|
 | `default` | Space 内容 | `-` |
 | `split`   | 分隔符     | `-` |
 
-### 类型定义
+## Types
 
 ```ts
 import type { SpaceProps, SpaceSize, SpaceDirection, SpaceAlign, SpaceJustify, SpaceInternalSize, SpaceInstance } from '@maple-design/ui'
 ```
 
-### 样式变量
+## CSS Variables
 
-| 变量名 | 默认值 |
-| --- | --- |
-| `--mp-space-size-xs-row-gap` | `var(--mp-sys-space-2)` |
-| `--mp-space-size-xs-column-gap` | `var(--mp-sys-space-2)` |
-| `--mp-space-size-sm-row-gap` | `var(--mp-sys-space-4)` |
-| `--mp-space-size-sm-column-gap` | `var(--mp-sys-space-3)` |
-| `--mp-space-size-md-row-gap` | `var(--mp-sys-space-5)` |
-| `--mp-space-size-md-column-gap` | `var(--mp-sys-space-4)` |
-| `--mp-space-size-lg-row-gap` | `var(--mp-sys-space-6)` |
-| `--mp-space-size-lg-column-gap` | `var(--mp-sys-space-5)` |
-| `--mp-space-size-xl-row-gap` | `var(--mp-sys-space-8)` |
-| `--mp-space-size-xl-column-gap` | `var(--mp-sys-space-6)` |
+<!-- component-css-variables:start -->
+
+通过以下变量定制组件外观。默认值随表中注明的主题或选择器条件变化；变量仅在对应的尺寸、变体和交互状态下生效。
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| 变量 | 默认值／条件 | 影响的样式 |
+| --- | --- | --- |
+| `--mp-space-size-lg-column-gap` | `var(--mp-sys-space-5)` | 组件样式 |
+| `--mp-space-size-lg-row-gap` | `var(--mp-sys-space-6)` | 组件样式 |
+| `--mp-space-size-md-column-gap` | `var(--mp-sys-space-4)` | 组件样式 |
+| `--mp-space-size-md-row-gap` | `var(--mp-sys-space-5)` | 组件样式 |
+| `--mp-space-size-sm-column-gap` | `var(--mp-sys-space-3)` | 组件样式 |
+| `--mp-space-size-sm-row-gap` | `var(--mp-sys-space-4)` | 组件样式 |
+| `--mp-space-size-xl-column-gap` | `var(--mp-sys-space-6)` | 组件样式 |
+| `--mp-space-size-xl-row-gap` | `var(--mp-sys-space-8)` | 组件样式 |
+| `--mp-space-size-xs-column-gap` | `var(--mp-sys-space-2)` | 组件样式 |
+| `--mp-space-size-xs-row-gap` | `var(--mp-sys-space-2)` | 组件样式 |
+
+</div>
+
+将覆盖设置在组件实际根节点或弹层真实挂载祖先上。例如给该元素添加下列 class，再按需替换变量值：
+
+```css
+.component-theme {
+  --mp-space-size-lg-column-gap: var(--mp-sys-space-5);
+}
+```
+
+显式行内样式及直接写入同一 CSS 属性的 Props 优先于样式表默认值。Teleport 后，普通 CSS 变量按实际挂载位置继承；使用 ThemeProvider 时，请遵循其局部主题与弹层配置规则。局部定制请直接覆盖组件变量；仅修改后代的 system 变量不会重新计算从根继承的组件别名。内部变量不属于公共 API。
+
+<!-- component-css-variables:end -->

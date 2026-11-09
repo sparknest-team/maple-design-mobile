@@ -1,0 +1,3 @@
+- [x] Reproduce duplicate activation and nested trigger entry
+- [x] Repair single chooser ownership and dynamic semantic/lifetime handling
+- [x] Verify both Upload,requestChoose,keyboard,custom components and native file chooser

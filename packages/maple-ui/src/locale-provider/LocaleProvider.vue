@@ -2,10 +2,10 @@
 import { computed, defineComponent, h, inject } from 'vue'
 import { call, hasOwn } from '@maple-design/shared'
 import { provideDirection, readingDirectionKey } from '@maple-design/use'
-import { type Message } from '../locale'
+import { t as globalTranslate, type Message } from '../locale'
 import { createNamespace } from '../utils/components'
 import { props } from './props'
-import { provideLocaleProvider } from './provide'
+import { injectLocaleProvider, provideLocaleProvider } from './provide'
 
 const { name, n } = createNamespace('locale-provider')
 
@@ -13,6 +13,7 @@ export default defineComponent({
   name,
   props,
   setup(props, { slots }) {
+    const parentLocale = injectLocaleProvider()
     const parentDirection = inject(readingDirectionKey, undefined)
     const direction = computed(() => props.dir ?? parentDirection?.value)
     provideDirection(direction)
@@ -34,8 +35,12 @@ export default defineComponent({
 
     function t(id: string) {
       if (hasOwn(messages.value, props.locale) && hasOwn(messages.value[props.locale], id)) {
-        return messages.value[props.locale][id]
+        const value = messages.value[props.locale][id]
+        if (value != null) {
+          return value
+        }
       }
+      return parentLocale.t?.(id) ?? globalTranslate(id)
     }
 
     return () =>

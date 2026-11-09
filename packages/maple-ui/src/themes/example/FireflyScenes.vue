@@ -69,7 +69,7 @@ const contact = ref('')
         size="sm"
       />
     </mp-form-item>
-    <mp-style-provider :style-vars="cardVars" class="firefly-button-scenes__panel" :data-surface="background">
+    <mp-theme-provider :style-vars="cardVars" class="firefly-button-scenes__panel" :data-surface="background">
       <div v-for="role in roles" :key="role.status" class="firefly-button-scenes__family">
         <p>{{ english ? role.labelEn : role.label }} / {{ role.status }}</p>
         <mp-space wrap>
@@ -85,8 +85,8 @@ const contact = ref('')
           >
         </mp-space>
       </div>
-    </mp-style-provider>
-    <mp-style-provider :style-vars="interactionVars" class="firefly-interactions">
+    </mp-theme-provider>
+    <mp-theme-provider :style-vars="interactionVars" class="firefly-interactions">
       <h3>{{ english ? 'Violet selection and focus' : '紫色选择与焦点反馈' }}</h3>
       <mp-space direction="column" block align="stretch" :size="16">
         <mp-radio-group v-model="service" :aria-label="english ? 'Service selection' : '体验项目选择'">
@@ -103,7 +103,7 @@ const contact = ref('')
         />
         <mp-link status="primary">{{ english ? 'View service details' : '查看服务详情' }}</mp-link>
       </mp-space>
-    </mp-style-provider>
+    </mp-theme-provider>
   </section>
 </template>
 

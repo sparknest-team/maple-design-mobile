@@ -1,0 +1,2 @@
+- [x] Preserve and verify shallow props/raw option identity and replacement
+- [x] Complete selection/transitive consumers, full types and same-source gates

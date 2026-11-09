@@ -16,7 +16,9 @@ export function useCheckboxControl(
 ) {
   const state = useChoiceState(() => props.modelValue, props.defaultValue, notify, blocked)
   const value = computed(() => (group ? group.value() : state.value.value))
-  const checked = computed(() => (Array.isArray(value.value) ? value.value.includes(props.value) : value.value))
+  const checked = computed(() =>
+    Array.isArray(value.value) ? value.value.includes(props.value) : Boolean(value.value),
+  )
   function toggle(next = !checked.value, event?: Event) {
     if (blocked()) {
       return

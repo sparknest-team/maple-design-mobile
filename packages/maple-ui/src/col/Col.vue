@@ -2,7 +2,8 @@
 import { computed, inject } from 'vue'
 import { ROW_CONTEXT_KEY } from '../row/context'
 import { createNamespace } from '../utils/components'
-import { colProps, type ColBreakpoint } from './props'
+import { colProps } from './props'
+import { colBreakpoints, formatColOrder, isColCount, isColFlex, isColOrder, normalizeColBreakpoint } from './validation'
 
 defineOptions({ name: createNamespace('col').name })
 const props = defineProps(colProps)
@@ -11,51 +12,61 @@ const { n } = createNamespace('col')
 const row = inject(ROW_CONTEXT_KEY, undefined)
 const isDiv = computed(() => row?.div.value ?? false)
 const flex = computed(() => {
-  if (props.flex === undefined) {
+  if (!isColFlex(props.flex)) {
     return undefined
   }
   if (typeof props.flex === 'number') {
-    return Number.isFinite(props.flex) ? `${props.flex} 1 0%` : undefined
+    return `${props.flex} 1 0%`
   }
-  if (/^\d*\.?\d+(px|em|rem|%|vw|vh)$/.test(props.flex)) {
-    return `0 0 ${props.flex}`
-  }
-  // CSS validates keywords, flex shorthand, calc() and variable expressions.
-  return props.flex
+  const value = props.flex as string
+  return /^\d*\.?\d+(px|em|rem|%|vw|vh)$/.test(value) ? `0 0 ${value}` : value
 })
 const classNames = computed(() => {
   if (isDiv.value) {
     return []
   }
-  const result = [n()]
-  if (flex.value !== undefined) {
-    return result
-  }
-  result.push(n(`--span-${props.span}`))
-  if (props.offset !== undefined) {
+  const result = [n(), n(`--span-${isColCount(props.span) ? props.span : 24}`)]
+  if (isColCount(props.offset)) {
     result.push(n(`--offset-${props.offset}`))
   }
-  if (props.order !== undefined) {
-    result.push(n(`--order-${props.order}`))
+  if (isColOrder(props.order)) {
+    result.push(n('--order'))
   }
-  for (const point of ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'] as const) {
-    const value: ColBreakpoint | undefined = props[point]
-    const config = typeof value === 'number' ? { span: value } : value
-    for (const key of ['span', 'offset', 'order'] as const) {
-      if (config?.[key] !== undefined) {
-        result.push(n(`--${key}-${point}-${config[key]}`))
-      }
+  for (const point of colBreakpoints) {
+    const config = normalizeColBreakpoint(props[point])
+    if (config.span !== undefined) {
+      result.push(n(`--span-${point}-${config.span}`))
+    }
+    if (config.offset !== undefined) {
+      result.push(n(`--offset-${point}-${config.offset}`))
+    }
+    if (config.order !== undefined) {
+      result.push(n(`--order-${point}`))
     }
   }
   return result
 })
+
 const style = computed(() => {
   if (isDiv.value) {
     return undefined
   }
   const [x, y] = row?.gutter.value ?? [0, 0]
+  // Per-instance order values are runtime layout bindings, not theme tokens.
+  const orders: Record<string, string> = {}
+  if (isColOrder(props.order)) {
+    orders[`--${n()}-order`] = formatColOrder(props.order)
+  }
+  for (const point of colBreakpoints) {
+    const config = normalizeColBreakpoint(props[point])
+    if (config.order !== undefined) {
+      orders[`--${n()}-order-${point}`] = formatColOrder(config.order)
+    }
+  }
   return {
+    ...orders,
     flex: flex.value,
+    width: flex.value !== undefined ? 'auto' : undefined,
     paddingLeft: x ? `${x / 2}px` : undefined,
     paddingRight: x ? `${x / 2}px` : undefined,
     paddingTop: y ? `${y / 2}px` : undefined,

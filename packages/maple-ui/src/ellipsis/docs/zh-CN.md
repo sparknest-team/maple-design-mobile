@@ -61,9 +61,15 @@
 ../example/demos/expand.vue
 ```
 
+## 使用说明
+
+### 行数与内容边界
+
+expand-trigger 仅支持 click；非法值在开发环境由 Vue 属性校验提示，运行时不启用按钮角色、点击或键盘展开。line-clamp 接受有限数字或数字字符串，至少 1 行，向下取整；不足 1、非有限或非法字符串提示后回退普通单行，清除旧多行样式。推荐正文使用纯文本或无独立交互的行内内容；默认 Tooltip 仍不检测是否实际溢出，开启时可通过 Tab 聚焦，自定义提示与展开的受控协议保持不变。
+
 ## API
 
-### Props
+### Ellipsis Props
 
 | 属性 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
@@ -75,23 +81,55 @@
 
 传入 `expand` 后只通知父级，不擅自修改受控值；省略时由内部状态管理，`default-expand` 仅用于初始化。Tooltip 遵循自身默认宽度及触发方式，不以实际测量是否溢出作为显示条件；触控场景可显式设置 `tooltip.trigger` 包含 `click`。外部 class/style/width 直接作用于文本节点。
 
-### 事件与插槽
+### Ellipsis Events / Slots
 
 - `update:expand(expand: boolean)`：用户操作请求的新状态；外部更新不触发。
 - `default`：正文。
 - `tooltip-content`：提示内容；未提供时优先 tooltip.content，否则使用正文，不重复拼接。
 - 键盘：可展开文本支持 Enter / Space；启用 Tooltip 的文本可通过 Tab 聚焦。无公开实例方法。
 
-### 类型
+## Types
 
 ```ts
 import type { EllipsisProps, EllipsisInstance, EllipsisExpandTrigger } from '@maple-design/ui'
 ```
 
-### 样式变量
+### 导入与事件类型
 
-| Token | 默认值 |
-| --- | --- |
-| `--mp-ellipsis-focus-color` | `var(--mp-sys-color-content-brand)` |
-| `--mp-ellipsis-focus-width` | `2px` |
-| `--mp-ellipsis-focus-offset` | `2px` |
+子入口的默认组件与子入口、根入口的命名组件是同一组件。Props 类型包含实际事件监听参数；事件仍是通知，不等待监听器返回的 Promise。仅使用文档列出的实例方法。
+
+```ts
+import Ellipsis, { Ellipsis as NamedEllipsis } from '@maple-design/ui/ellipsis'
+import { Ellipsis as RootEllipsis } from '@maple-design/ui'
+import type { EllipsisProps, EllipsisInstance } from '@maple-design/ui'
+import type { EllipsisProps as SubEllipsisProps } from '@maple-design/ui/ellipsis'
+const options: EllipsisProps = { 'onUpdate:expand': (expanded: boolean) => String(expanded) }
+```
+
+## CSS Variables
+
+<!-- component-css-variables:start -->
+
+通过以下变量定制组件外观。默认值随表中注明的主题或选择器条件变化；变量仅在对应的尺寸、变体和交互状态下生效。
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| 变量 | 默认值／条件 | 影响的样式 |
+| --- | --- | --- |
+| `--mp-ellipsis-focus-color` | `var(--mp-sys-color-content-brand)` | `outline` |
+| `--mp-ellipsis-focus-offset` | `2px` | `outline-offset` |
+| `--mp-ellipsis-focus-width` | `2px` | `outline` |
+
+</div>
+
+将覆盖设置在组件实际根节点或弹层真实挂载祖先上。例如给该元素添加下列 class，再按需替换变量值：
+
+```css
+.component-theme {
+  --mp-ellipsis-focus-color: var(--mp-sys-color-content-brand);
+}
+```
+
+显式行内样式及直接写入同一 CSS 属性的 Props 优先于样式表默认值。Teleport 后，普通 CSS 变量按实际挂载位置继承；使用 ThemeProvider 时，请遵循其局部主题与弹层配置规则。局部定制请直接覆盖组件变量；仅修改后代的 system 变量不会重新计算从根继承的组件别名。内部变量不属于公共 API。
+
+<!-- component-css-variables:end -->

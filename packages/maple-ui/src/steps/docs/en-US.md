@@ -93,15 +93,19 @@ All four types share one current-step and status model. Click a step or select 1
 ../example/demos/changeable.vue
 ```
 
+## Triggers and positioning
+
+### Popup placement
+
+content-placement shares side vocabulary and spelling, not an identical set across all components. Steps implements only right/bottom; dot and navigation variants have derived rules. Unsupported sides are not added for naming uniformity.
+
 ## API
 
 Use ordinary `v-model`. `modelValue` is the current step, starting at 1. `defaultValue` initializes uncontrolled state once; later changes do not reset it. Initialization emits no `update:modelValue`. When supplied, `modelValue` is controlled by the parent.
 
-### Props
+### Steps Props
 
-#### Steps Props
-
-| Arguments | Description | Type | Default |
+| Prop | Description | Type | Default |
 | ------------------- | --------------------------- | ----------------------------------------------- | ------------ |
 | `model-value` | Current step (controlled, 1-based) | _number_ | `-` |
 | `default-value` | Default current step (uncontrolled) | _number_ | `1` |
@@ -113,37 +117,37 @@ Use ordinary `v-model`. `modelValue` is the current step, starting at 1. `defaul
 | `show-line` | Whether to show connectors | _boolean_ | `true` |
 | `changeable` | Whether steps can be switched by click | _boolean_ | `false` |
 
-#### Step Props
+### Step Props
 
-| Arguments | Description | Type | Default |
+| Prop | Description | Type | Default |
 | ------------- | ------------------------ | -------------------------------------------- | ------- |
 | `title` | Step title | _string_ | `-` |
 | `description` | Step description | _string_ | `-` |
 | `status` | Step status; overrides automatic inference | _'wait' \| 'process' \| 'finish' \| 'error'_ | `-` |
 | `disabled` | Whether disabled | _boolean_ | `false` |
 
-### Events
+### Step Events
 
-#### Steps Events
+Step values are nonnegative safe integers: 0 gives every step an automatic waiting status, and values beyond the step count give every step an automatic finished status; an individual status can override it. Invalid values warn in development and render as 1. The node slot is not rendered for arrow type, and the icon slot is not rendered for dot type. Text and native decorations in the default slot do not consume step indices.
+
+### Steps Events
 
 | Event | Description | Callback arguments |
 | ---------------- | ------------------------------------- | ---------------------------------------------- |
 | `change` | Triggered when step changes (`changeable` required) | `current: number, previous: number, ev: Event` |
 | `update:modelValue` | `v-model` sync | `step: number` |
 
-### Slots
+### Steps Slots
 
-#### Steps Slots
-
-| Name | Description | Arguments |
+| Name | Description | Prop |
 | ------------- | ------------ | ---- |
 | `default` | Steps content | `-` |
 | `finish-icon` | Finished status icon | `-` |
 | `error-icon` | Error status icon | `-` |
 
-#### Step Slots
+### Step Slots
 
-| Name | Description | Arguments |
+| Name | Description | Prop |
 | ------------- | -------------------------- | --------------------------------------- |
 | `default` | Step `title`; overrides `title` | `index`、`status`、`active`、`disabled` |
 | `title` | Step title | `index`、`status`、`active`、`disabled` |
@@ -151,142 +155,158 @@ Use ordinary `v-model`. `modelValue` is the current step, starting at 1. `defaul
 | `icon` | Custom node icon | `index`、`status`、`active`、`disabled` |
 | `description` | Step description | `index`、`status`、`active`、`disabled` |
 
-### Style variables
+## Usage notes
 
-Override these variables through StyleProvider or CSS.
 
-| Variable | Default |
-| ---------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `--mp-steps-size-md` | `28px` |
-| `--mp-steps-size-sm` | `24px` |
-| `--mp-steps-size-md-arrow` | `72px` |
-| `--mp-steps-size-sm-arrow` | `40px` |
-| `--mp-steps-size-md-icon-font-size` | `16px` |
-| `--mp-steps-size-md-title-font-size` | `var(~'--mp-font-size-lg')` |
-| `--mp-steps-size-md-description-font-size` | `var(~'--mp-font-size-sm')` |
-| `--mp-steps-size-sm-icon-font-size` | `var(--mp-sys-font-size-md)` |
-| `--mp-steps-size-sm-title-font-size` | `var(--mp-sys-font-size-md)` |
-| `--mp-steps-size-sm-description-font-size` | `var(~'--mp-font-size-sm')` |
-| `--mp-steps-label-vertical-content-width` | `100%` |
-| `--mp-steps-direction-horizontal-description-width` | `140px` |
-| `--mp-steps-circle-item-tail-size` | `1px` |
-| `--mp-steps-circle-item-icon-gap` | `12px` |
-| `--mp-steps-circle-item-title-font-weight-active` | `500` |
-| `--mp-steps-circle-item-icon-border-radius` | `50%` |
-| `--mp-steps-circle-horizontal-item-description-margin-top` | `2px` |
-| `--mp-steps-circle-vertical-item-description-margin-top` | `2px` |
-| `--mp-steps-circle-item-bg-wait` | `var(--mp-sys-color-surface-muted)` |
-| `--mp-steps-circle-item-border-color-wait` | `transparent` |
-| `--mp-steps-circle-item-icon-text-color-wait` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-steps-circle-item-tail-color-wait` | `var(--mp-sys-color-border-default)` |
-| `--mp-steps-circle-item-title-color-wait` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-steps-circle-item-description-color-wait` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-steps-circle-item-bg-process` | `var(--mp-sys-color-content-brand)` |
-| `--mp-steps-circle-item-border-color-process` | `transparent` |
-| `--mp-steps-circle-item-icon-text-color-process` | `var(--mp-sys-color-surface-default)` |
-| `--mp-steps-circle-item-tail-color-process` | `var(--mp-sys-color-content-brand)` |
-| `--mp-steps-circle-item-title-color-process` | `var(--mp-sys-color-content-primary)` |
-| `--mp-steps-circle-item-description-color-process` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-steps-circle-item-bg-finish` | `var(--mp-sys-color-state-selected)` |
-| `--mp-steps-circle-item-border-color-finish` | `transparent` |
-| `--mp-steps-circle-item-icon-text-color-finish` | `var(--mp-sys-color-content-brand)` |
-| `--mp-steps-circle-item-title-color-finish` | `var(--mp-sys-color-content-primary)` |
-| `--mp-steps-circle-item-description-color-finish` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-steps-circle-item-bg-error` | `var(--mp-sys-color-content-danger)` |
-| `--mp-steps-circle-item-border-color-error` | `transparent` |
-| `--mp-steps-circle-item-icon-text-color-error` | `var(--mp-sys-color-surface-default)` |
-| `--mp-steps-circle-item-tail-color-error` | `var(--mp-sys-color-content-danger)` |
-| `--mp-steps-circle-item-title-color-error` | `var(--mp-sys-color-content-primary)` |
-| `--mp-steps-circle-item-description-color-error` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-steps-size-md-item-icon-margin-left` | `calc((var(~'--mp-steps-label-vertical-content-width') - var(~'--mp-steps-size-md')) / 2)` |
-| `--mp-steps-size-sm-item-icon-margin-left` | `calc((var(~'--mp-steps-label-vertical-content-width') - var(~'--mp-steps-size-sm')) / 2)` |
-| `--mp-steps-dot-horizontal-item-title-margin-top` | `4px` |
-| `--mp-steps-dot-horizontal-item-description-margin-top` | `4px` |
-| `--mp-steps-dot-vertical-item-description-margin-top` | `4px` |
-| `--mp-steps-dot-item-icon-size` | `8px` |
-| `--mp-steps-dot-item-icon-size-active` | `10px` |
-| `--mp-steps-dot-item-icon-gap` | `4px` |
-| `--mp-steps-dot-item-tail-size` | `1px` |
-| `--mp-steps-dot-vertical-item-icon-margin-right` | `16px` |
-| `--mp-steps-dot-item-title-font-weight-active` | `500` |
-| `--mp-steps-dot-item-icon-border-radius` | `50%` |
-| `--mp-steps-dot-item-bg-wait` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-steps-dot-item-border-color-wait` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-steps-dot-item-tail-color-wait` | `var(--mp-sys-color-border-default)` |
-| `--mp-steps-dot-item-title-color-wait` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-steps-dot-item-description-color-wait` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-steps-dot-item-bg-process` | `var(--mp-sys-color-content-brand)` |
-| `--mp-steps-dot-item-border-color-process` | `var(--mp-sys-color-content-brand)` |
-| `--mp-steps-dot-item-tail-color-process` | `var(--mp-sys-color-content-brand)` |
-| `--mp-steps-dot-item-title-color-process` | `var(--mp-sys-color-content-primary)` |
-| `--mp-steps-dot-item-description-color-process` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-steps-dot-item-bg-finish` | `var(--mp-sys-color-content-brand)` |
-| `--mp-steps-dot-item-border-color-finish` | `var(--mp-sys-color-content-brand)` |
-| `--mp-steps-dot-item-title-color-finish` | `var(--mp-sys-color-content-primary)` |
-| `--mp-steps-dot-item-description-color-finish` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-steps-dot-item-bg-error` | `var(--mp-sys-color-content-danger)` |
-| `--mp-steps-dot-item-border-color-error` | `var(--mp-sys-color-content-danger)` |
-| `--mp-steps-dot-item-tail-color-error` | `var(--mp-sys-color-content-danger)` |
-| `--mp-steps-dot-item-title-color-error` | `var(--mp-sys-color-content-primary)` |
-| `--mp-steps-dot-item-description-color-error` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-steps-dot-item-icon-margin-left` | `calc((var(~'--mp-steps-label-vertical-content-width') - var(~'--mp-steps-dot-item-icon-size')) / 2)` |
-| `--mp-steps-dot-vertical-item-dot-margin-top` | `8px` |
-| `--mp-steps-dot-vertical-item-dot-margin-top-active` | `calc(var(~'--mp-steps-dot-vertical-item-dot-margin-top') - (var(~'--mp-steps-dot-item-icon-size-active') - var(~'--mp-steps-dot-item-icon-size')))` |
-| `--mp-steps-arrow-item-gap` | `4px` |
-| `--mp-steps-arrow-size-md-title-padding-left` | `16px` |
-| `--mp-steps-arrow-size-sm-title-padding-left` | `20px` |
-| `--mp-steps-arrow-item-description-margin-top` | `0` |
-| `--mp-steps-arrow-item-title-font-weight-active` | `500` |
-| `--mp-steps-arrow-item-bg-wait` | `var(--mp-sys-color-surface-muted)` |
-| `--mp-steps-arrow-item-title-color-wait` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-steps-arrow-item-description-color-wait` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-steps-arrow-item-bg-process` | `var(--mp-sys-color-content-brand)` |
-| `--mp-steps-arrow-item-title-color-process` | `var(--mp-sys-color-surface-default)` |
-| `--mp-steps-arrow-item-description-color-process` | `var(--mp-sys-color-surface-default)` |
-| `--mp-steps-arrow-item-bg-finish` | `var(--mp-sys-color-state-selected)` |
-| `--mp-steps-arrow-item-title-color-finish` | `var(--mp-sys-color-content-primary)` |
-| `--mp-steps-arrow-item-description-color-finish` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-steps-arrow-item-bg-error` | `var(--mp-sys-color-content-danger)` |
-| `--mp-steps-arrow-item-title-color-error` | `var(--mp-sys-color-surface-default)` |
-| `--mp-steps-arrow-item-description-color-error` | `var(--mp-sys-color-surface-default)` |
-| `--mp-steps-navigation-arrow-color` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-steps-navigation-arrow-size` | `6px` |
-| `--mp-steps-navigation-arrow-line-width` | `2px` |
-| `--mp-steps-navigation-arrow-top` | `10px` |
-| `--mp-steps-navigation-padding-left` | `20px` |
-| `--mp-steps-navigation-margin-right` | `32px` |
-| `--mp-steps-navigation-arrow-spacing-right` | `10px` |
-| `--mp-steps-navigation-ink-spacing-left` | `0` |
-| `--mp-steps-navigation-ink-spacing-right` | `30px` |
-| `--mp-steps-navigation-ink-bg` | `var(--mp-sys-color-content-brand)` |
-| `--mp-steps-changeable-hover-text-color` | `var(--mp-sys-color-content-brand)` |
-| `--mp-steps-node-font-weight` | `500` |
-| `--mp-steps-transition-duration-1` | `0.1s` |
-| `--mp-steps-transition-timing-function-linear` | `cubic-bezier(0, 0, 1, 1)` |
-| `--mp-steps-vertical-item-min-height` | `90px` |
-| `--mp-steps-circle-tail-hack-width` | `5000px` |
-| `--mp-steps-circle-vertical-tail-padding-extra` | `6px` |
-| `--mp-steps-dot-vertical-tail-padding-top-extra` | `4px` |
-| `--mp-steps-dot-vertical-tail-padding-bottom` | `2px` |
-| `--mp-steps-navigation-content-margin-bottom` | `20px` |
-| `--mp-steps-navigation-description-padding-right` | `20px` |
-| `--mp-steps-navigation-ink-height` | `2px` |
-| `--mp-steps-navigation-arrow-right` | `30px` |
 
-## Shared implementation and platform boundaries
 
-Each platform maintains a complete local implementation. They do not import a common core or share component instances or reactive state. Changes must update both implementations. Component bodies, props, key styles and paired tests have read-only source consistency checks; theme tokens and installation entries remain local to each library.
-
-Steps/Step bodies, props, context protocol and styles are source copies. Injection Symbols are defined separately per library, not shared. The four types and existing status/event contracts remain.
 
 `active` indicates only whether the current one-based step index matches modelValue, independently of wait/process/finish/error status. A current error step remains `active`. Focus/hover do not change `active`.
 
-
-### Placement semantics and configuration
-
-content-placement shares side vocabulary and spelling, not an identical set across all components. Steps implements only right/bottom; dot and navigation variants have derived rules. Unsupported sides are not added for naming uniformity.
-
-
 ## Reading direction and keyboard interaction
 
-Steps inherits the nearest native `dir` and supports live changes. Horizontal layout and directional geometry follow reading order; vertical progression stays top to bottom. With `changeable`, arrow keys move focus, Home/End reach the first/last enabled step, and Enter/Space activate it. Focus navigation and direction changes do not update progress.
+Steps inherits the nearest `dir="ltr"` or `dir="rtl"`, including runtime changes. Horizontal steps, connectors and arrows follow reading direction; vertical steps remain top to bottom. Step numbers, progress values and custom icon content keep their meaning.
+
+With `changeable`, Left/Right moves focus according to reading direction, or Up/Down vertically. Home/End focuses the first/last available step, skipping disabled items. Enter/Space confirms. Moving focus or changing reading direction does not update progress.
+
+## CSS Variables
+
+Override these variables through ThemeProvider or CSS.
+
+<!-- component-css-variables:start -->
+
+Use these variables to customize the component. Defaults may vary by the selector condition shown. Each variable applies to the corresponding size, variant and interaction states.
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Default / condition | Affected styles |
+| --- | --- | --- |
+| `--mp-steps-arrow-item-bg-error` | `var(--mp-sys-color-content-danger)` | `background-color`, `border-inline-start` |
+| `--mp-steps-arrow-item-bg-finish` | `var(--mp-sys-color-state-selected)` | `background-color`, `border-inline-start` |
+| `--mp-steps-arrow-item-bg-process` | `var(--mp-sys-color-content-brand)` | `background-color`, `border-inline-start` |
+| `--mp-steps-arrow-item-bg-wait` | `var(--mp-sys-color-surface-muted)` | `background-color`, `border-inline-start` |
+| `--mp-steps-arrow-item-description-color-error` | `var(--mp-sys-color-surface-default)` | `color` |
+| `--mp-steps-arrow-item-description-color-finish` | `var(--mp-sys-color-content-secondary)` | `color` |
+| `--mp-steps-arrow-item-description-color-process` | `var(--mp-sys-color-surface-default)` | `color` |
+| `--mp-steps-arrow-item-description-color-wait` | `var(--mp-sys-color-content-secondary)` | `color` |
+| `--mp-steps-arrow-item-description-margin-top` | `0` | `margin-top` |
+| `--mp-steps-arrow-item-gap` | `4px` | `margin-inline-end` |
+| `--mp-steps-arrow-item-title-color-error` | `var(--mp-sys-color-surface-default)` | `color` |
+| `--mp-steps-arrow-item-title-color-finish` | `var(--mp-sys-color-content-primary)` | `color` |
+| `--mp-steps-arrow-item-title-color-process` | `var(--mp-sys-color-surface-default)` | `color` |
+| `--mp-steps-arrow-item-title-color-wait` | `var(--mp-sys-color-content-secondary)` | `color` |
+| `--mp-steps-arrow-item-title-font-weight-active` | `500` | `font-weight` |
+| `--mp-steps-arrow-size-md-title-padding-left` | `16px` | `padding-inline-start` |
+| `--mp-steps-arrow-size-sm-title-padding-left` | `20px` | `padding-inline-start` |
+| `--mp-steps-changeable-hover-text-color` | `var(--mp-sys-color-content-brand)` | `color` |
+| `--mp-steps-circle-horizontal-item-description-margin-top` | `2px` | `margin-top` |
+| `--mp-steps-circle-item-bg-error` | `var(--mp-sys-color-content-danger)` | `background-color` |
+| `--mp-steps-circle-item-bg-finish` | `var(--mp-sys-color-state-selected)` | `background-color` |
+| `--mp-steps-circle-item-bg-process` | `var(--mp-sys-color-content-brand)` | `background-color` |
+| `--mp-steps-circle-item-bg-wait` | `var(--mp-sys-color-surface-muted)` | `background-color` |
+| `--mp-steps-circle-item-border-color-error` | `transparent` | `border` |
+| `--mp-steps-circle-item-border-color-finish` | `transparent` | `border` |
+| `--mp-steps-circle-item-border-color-process` | `transparent` | `border` |
+| `--mp-steps-circle-item-border-color-wait` | `transparent` | `border` |
+| `--mp-steps-circle-item-description-color-error` | `var(--mp-sys-color-content-secondary)` | `color` |
+| `--mp-steps-circle-item-description-color-finish` | `var(--mp-sys-color-content-secondary)` | `color` |
+| `--mp-steps-circle-item-description-color-process` | `var(--mp-sys-color-content-secondary)` | `color` |
+| `--mp-steps-circle-item-description-color-wait` | `var(--mp-sys-color-content-secondary)` | `color` |
+| `--mp-steps-circle-item-icon-border-radius` | `50%` | `border-radius` |
+| `--mp-steps-circle-item-icon-gap` | `12px` | `inset-inline-start`, `margin-inline-end`, `padding-inline-end` |
+| `--mp-steps-circle-item-icon-text-color-error` | `var(--mp-sys-color-surface-default)` | `color` |
+| `--mp-steps-circle-item-icon-text-color-finish` | `var(--mp-sys-color-content-brand)` | `color` |
+| `--mp-steps-circle-item-icon-text-color-process` | `var(--mp-sys-color-surface-default)` | `color` |
+| `--mp-steps-circle-item-icon-text-color-wait` | `var(--mp-sys-color-content-secondary)` | `color` |
+| `--mp-steps-circle-item-tail-color-error` | `var(--mp-sys-color-content-danger)` | `background-color` |
+| `--mp-steps-circle-item-tail-color-process` | `var(--mp-sys-color-content-brand)` | `background-color` |
+| `--mp-steps-circle-item-tail-color-wait` | `var(--mp-sys-color-border-default)` | `background-color` |
+| `--mp-steps-circle-item-tail-size` | `1px` | `height`, `inset-inline-start`, `top`, `width` |
+| `--mp-steps-circle-item-title-color-error` | `var(--mp-sys-color-content-primary)` | `color` |
+| `--mp-steps-circle-item-title-color-finish` | `var(--mp-sys-color-content-primary)` | `color` |
+| `--mp-steps-circle-item-title-color-process` | `var(--mp-sys-color-content-primary)` | `color` |
+| `--mp-steps-circle-item-title-color-wait` | `var(--mp-sys-color-content-secondary)` | `color` |
+| `--mp-steps-circle-item-title-font-weight-active` | `500` | `font-weight` |
+| `--mp-steps-circle-tail-hack-width` | `5000px` | `width` |
+| `--mp-steps-circle-vertical-item-description-margin-top` | `2px` | `margin-top` |
+| `--mp-steps-circle-vertical-tail-padding-extra` | `6px` | `padding` |
+| `--mp-steps-direction-horizontal-description-width` | `140px` | `max-width` |
+| `--mp-steps-dot-horizontal-item-description-margin-top` | `4px` | `margin-top` |
+| `--mp-steps-dot-horizontal-item-title-margin-top` | `4px` | `margin-top` |
+| `--mp-steps-dot-item-bg-error` | `var(--mp-sys-color-content-danger)` | `background-color` |
+| `--mp-steps-dot-item-bg-finish` | `var(--mp-sys-color-content-brand)` | `background-color` |
+| `--mp-steps-dot-item-bg-process` | `var(--mp-sys-color-content-brand)` | `background-color` |
+| `--mp-steps-dot-item-bg-wait` | `var(--mp-sys-color-content-secondary)` | `background-color` |
+| `--mp-steps-dot-item-border-color-error` | `var(--mp-sys-color-content-danger)` | `border-color` |
+| `--mp-steps-dot-item-border-color-finish` | `var(--mp-sys-color-content-brand)` | `border-color` |
+| `--mp-steps-dot-item-border-color-process` | `var(--mp-sys-color-content-brand)` | `border-color` |
+| `--mp-steps-dot-item-border-color-wait` | `var(--mp-sys-color-content-secondary)` | `border-color` |
+| `--mp-steps-dot-item-description-color-error` | `var(--mp-sys-color-content-secondary)` | `color` |
+| `--mp-steps-dot-item-description-color-finish` | `var(--mp-sys-color-content-secondary)` | `color` |
+| `--mp-steps-dot-item-description-color-process` | `var(--mp-sys-color-content-secondary)` | `color` |
+| `--mp-steps-dot-item-description-color-wait` | `var(--mp-sys-color-content-secondary)` | `color` |
+| `--mp-steps-dot-item-icon-border-radius` | `50%` | `border-radius` |
+| `--mp-steps-dot-item-icon-gap` | `4px` | `inset-inline-start`, `margin-inline-end`, `padding-top` |
+| `--mp-steps-dot-item-icon-margin-left` | `calc((var(--mp-steps-label-vertical-content-width) - var(--mp-steps-dot-item-icon-size)) / 2)` | `inset-inline-start`, `margin-inline-start` |
+| `--mp-steps-dot-item-icon-size` | `8px` | `height`, `inset-inline-start`, `margin-inline-end`, `margin-inline-start`, `margin-top`, `padding-top`, `top`, `width` |
+| `--mp-steps-dot-item-icon-size-active` | `10px` | `height`, `margin-inline-start`, `margin-top`, `width` |
+| `--mp-steps-dot-item-tail-color-error` | `var(--mp-sys-color-content-danger)` | `background-color` |
+| `--mp-steps-dot-item-tail-color-process` | `var(--mp-sys-color-content-brand)` | `background-color` |
+| `--mp-steps-dot-item-tail-color-wait` | `var(--mp-sys-color-border-default)` | `background-color` |
+| `--mp-steps-dot-item-tail-size` | `1px` | `height`, `top` |
+| `--mp-steps-dot-item-title-color-error` | `var(--mp-sys-color-content-primary)` | `color` |
+| `--mp-steps-dot-item-title-color-finish` | `var(--mp-sys-color-content-primary)` | `color` |
+| `--mp-steps-dot-item-title-color-process` | `var(--mp-sys-color-content-primary)` | `color` |
+| `--mp-steps-dot-item-title-color-wait` | `var(--mp-sys-color-content-secondary)` | `color` |
+| `--mp-steps-dot-item-title-font-weight-active` | `500` | `font-weight` |
+| `--mp-steps-dot-vertical-item-description-margin-top` | `4px` | `margin-top` |
+| `--mp-steps-dot-vertical-item-dot-margin-top` | `8px` | `margin-top` |
+| `--mp-steps-dot-vertical-item-dot-margin-top-active` | `calc(var(--mp-steps-dot-vertical-item-dot-margin-top) - (var(--mp-steps-dot-item-icon-size-active) - var(--mp-steps-dot-item-icon-size)))` | `margin-top` |
+| `--mp-steps-dot-vertical-item-icon-margin-right` | `16px` | `margin-inline-end` |
+| `--mp-steps-dot-vertical-tail-padding-bottom` | `2px` | `padding-bottom` |
+| `--mp-steps-dot-vertical-tail-padding-top-extra` | `4px` | `padding-top` |
+| `--mp-steps-label-vertical-content-width` | `100%` | `inset-inline-start`, `margin-inline-start` |
+| `--mp-steps-navigation-arrow-color` | `var(--mp-sys-color-content-secondary)` | `border` |
+| `--mp-steps-navigation-arrow-line-width` | `2px` | `border` |
+| `--mp-steps-navigation-arrow-right` | `30px` | `inset-inline-end` |
+| `--mp-steps-navigation-arrow-size` | `6px` | `height`, `width` |
+| `--mp-steps-navigation-arrow-spacing-right` | `10px` | `padding-inline-end` |
+| `--mp-steps-navigation-arrow-top` | `10px` | `top` |
+| `--mp-steps-navigation-content-margin-bottom` | `20px` | `margin-bottom` |
+| `--mp-steps-navigation-description-padding-right` | `20px` | `padding-inline-end` |
+| `--mp-steps-navigation-ink-bg` | `var(--mp-sys-color-content-brand)` | `background-color` |
+| `--mp-steps-navigation-ink-height` | `2px` | `height` |
+| `--mp-steps-navigation-ink-spacing-left` | `0` | `inset-inline-start` |
+| `--mp-steps-navigation-ink-spacing-right` | `30px` | `inset-inline-end` |
+| `--mp-steps-navigation-margin-right` | `32px` | `margin-inline-end` |
+| `--mp-steps-navigation-padding-left` | `20px` | `padding-inline-start` |
+| `--mp-steps-node-font-weight` | `500` | `font-weight` |
+| `--mp-steps-size-md` | `28px` | `height`, `inset-inline-start`, `line-height`, `margin-inline-start`, `margin-top`, `padding`, `padding-inline-end`, `top`, `width` |
+| `--mp-steps-size-md-arrow` | `72px` | `border-bottom`, `border-inline-start`, `border-top`, `height`, `inset-inline-end`, `padding-inline-start` |
+| `--mp-steps-size-md-description-font-size` | `var(--mp-font-size-sm)` | `font-size` |
+| `--mp-steps-size-md-icon-font-size` | `16px` | `font-size` |
+| `--mp-steps-size-md-item-icon-margin-left` | `calc((var(--mp-steps-label-vertical-content-width) - var(--mp-steps-size-md)) / 2)` | `inset-inline-start`, `margin-inline-start` |
+| `--mp-steps-size-md-title-font-size` | `var(--mp-font-size-lg)` | `font-size` |
+| `--mp-steps-size-sm` | `24px` | `height`, `inset-inline-start`, `line-height`, `margin-inline-start`, `padding`, `padding-inline-end`, `top`, `width` |
+| `--mp-steps-size-sm-arrow` | `40px` | `border-bottom`, `border-inline-start`, `border-top`, `height`, `inset-inline-end`, `padding-inline-start` |
+| `--mp-steps-size-sm-description-font-size` | `var(--mp-font-size-sm)` | `font-size` |
+| `--mp-steps-size-sm-icon-font-size` | `var(--mp-sys-font-size-md)` | `font-size` |
+| `--mp-steps-size-sm-item-icon-margin-left` | `calc((var(--mp-steps-label-vertical-content-width) - var(--mp-steps-size-sm)) / 2)` | `inset-inline-start`, `margin-inline-start` |
+| `--mp-steps-size-sm-title-font-size` | `var(--mp-sys-font-size-md)` | `font-size` |
+| `--mp-steps-transition-duration-1` | `0.1s` | `transition` |
+| `--mp-steps-transition-timing-function-linear` | `cubic-bezier(0, 0, 1, 1)` | `transition` |
+| `--mp-steps-vertical-item-min-height` | `90px` | `min-height` |
+
+</div>
+
+Apply overrides to the rendered component root or the actual popup ancestor. For example, add the following class to that element and replace the value as needed:
+
+```css
+.component-theme {
+  --mp-steps-arrow-item-description-color-error: var(--mp-sys-color-surface-default);
+}
+```
+
+Explicit inline styles and props that write the same CSS property take precedence over stylesheet defaults. After Teleport, ordinary CSS variables inherit from the actual mount location. When using ThemeProvider, follow its local-theme and popup configuration rules. Override the component variable directly for local styling; root-level aliases are not recalculated merely because a descendant system variable changes. Internal variables are not public APIs.
+
+<!-- component-css-variables:end -->

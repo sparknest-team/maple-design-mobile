@@ -81,7 +81,7 @@ Paper 是承载内容的底层表面：背景、圆角、可选边框与阴影�
 
 ## API
 
-### Props
+### Paper Props
 
 | 属性 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
@@ -96,40 +96,67 @@ Paper 是承载内容的底层表面：背景、圆角、可选边框与阴影�
 
 radius、width、height 的数字和数字字符串使用 px，其他字符串按 CSS 长度传递，例如 1rem、50%、calc(100% - 8px)。类名、原生属性和自定义样式透传到根容器。
 
-### Events
+elevation=false 不生成阴影等级类，true 使用 2；数字先四舍五入，再夹取到 0–24。NaN/Infinity 在开发环境产生 Vue 属性校验提示，运行时回退为 2。radius/width/height 的数字必须有限且非负；非法数字会移除该内联尺寸，不保留上一次尺寸，0 仍有效。十进制及科学计数法数字字符串按 px 处理；其他 CSS 字符串交给浏览器解析，不承诺支持浏览器本身不接受的表达式。
+
+### Paper Events
 
 | 事件 | 说明 | 参数 |
 | --- | --- | --- |
 | click | 点击时触发一次 | MouseEvent |
 
-### Slots
+click 只通知并传递原始 MouseEvent，包含冒泡的子元素点击；@click.once 使用标准 Vue 事件语义，不等待监听器 Promise。PaperProps 包含该监听参数，根入口与子入口一致；PaperInstance 没有额外的业务执行方法。
+
+### Paper Slots
 
 | 插槽 | 说明 |
 | --- | --- |
 | default | 表面内部内容 |
 
-### 样式变量
+## Types
 
-| 变量 | 默认值 |
-| --- | --- |
-| --mp-paper-background | `var(--mp-sys-color-surface-default)` |
-| --mp-paper-border-radius | `4px` |
-| --mp-paper-border-width | `1px` |
-| --mp-paper-border-color | `var(--mp-sys-color-border-default)` |
-| --mp-paper-transition-duration | `var(--mp-sys-motion-duration-slow)` |
+```ts
+import Paper, { Paper as NamedPaper } from '@maple-design/ui/paper'
+import type { PaperProps, PaperInstance } from '@maple-design/ui'
+import type { PaperProps as SubPaperProps } from '@maple-design/ui/paper'
+const surface: PaperProps = { onClick: (event: MouseEvent) => event.preventDefault() }
+```
+
+## 使用说明
+
+
+
+默认背景使用主题表面色，默认不显示手形光标；通过尺寸、圆角、阴影和水波属性定制外观。
+
+内置动效遵循 `prefers-reduced-motion: reduce`：保留内容与状态反馈，关闭装饰性动画。自定义动画需由调用方适配该偏好。
+
+## CSS Variables
 
 内置主题可覆盖背景和圆角。bordered=false 不占边框空间，开启后使用 border-box；固定宽高包含边框。背景、边框和阴影彼此独立。
 
-### 类型
+<!-- component-css-variables:start -->
 
-```ts
-import type { PaperProps, PaperInstance } from '@maple-design/ui'
+通过以下变量定制组件外观。默认值随表中注明的主题或选择器条件变化；变量仅在对应的尺寸、变体和交互状态下生效。
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| 变量 | 默认值／条件 | 影响的样式 |
+| --- | --- | --- |
+| `--mp-paper-background` | `var(--mp-sys-color-surface-default)` | `background` |
+| `--mp-paper-border-color` | `var(--mp-sys-color-border-default)` | `border` |
+| `--mp-paper-border-radius` | `var(--mp-sys-radius-md)` | `border-radius` |
+| `--mp-paper-border-width` | `1px` | `border` |
+| `--mp-paper-transition-duration` | `var(--mp-sys-motion-duration-slow)` | `transition` |
+
+</div>
+
+将覆盖设置在组件实际根节点或弹层真实挂载祖先上。例如给该元素添加下列 class，再按需替换变量值：
+
+```css
+.component-theme {
+  --mp-paper-background: var(--mp-sys-color-surface-default);
+}
 ```
 
-## 独立同源维护
+显式行内样式及直接写入同一 CSS 属性的 Props 优先于样式表默认值。Teleport 后，普通 CSS 变量按实际挂载位置继承；使用 ThemeProvider 时，请遵循其局部主题与弹层配置规则。局部定制请直接覆盖组件变量；仅修改后代的 system 变量不会重新计算从根继承的组件别名。内部变量不属于公共 API。
 
-两端分别保存主体、Props、样式、token 和契约测试，只调整前缀及本地导入；不引用跨库核心，不共享组件实例或状态。
-
-Maple 迁移说明：默认背景改为主题表面色，默认不再显示手形光标；inline 内部类改为 mp-paper--inline。原有尺寸、圆角、阴影与水波 API 保留。
-
-内置动效遵循 prefers-reduced-motion: reduce：保留内容与状态反馈，关闭装饰性旋转、扫光和波纹。Icon 名称切换跳过等待，并取消尚未结束的切换。Ripple 时长变量只控制 CSS，250ms 生命周期计时未改变，每段视觉时长应不超过 250ms；自定义动画类由调用方负责适配。
+<!-- component-css-variables:end -->

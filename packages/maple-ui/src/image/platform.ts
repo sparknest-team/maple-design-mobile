@@ -1,5 +1,7 @@
 import { computed, defineComponent, h } from 'vue'
 import { IconCloseCircleFill as PreviewCloseIcon } from '@maple-design/icons-vue'
+import { t } from '../locale'
+import { injectLocaleProvider } from '../locale-provider/provide'
 import { createNamespace } from '../utils/components'
 import { toSizeUnit } from '../utils/elements'
 import type { ImagePreviewActionName } from './api'
@@ -35,16 +37,23 @@ export const DefaultLoader = defineComponent({
 })
 
 export function useActionLabels() {
+  const { t: localT } = injectLocaleProvider()
+  const label = (key: string, fallback: string) => (localT || t)(`imagePreview.${key}`) ?? fallback
   return computed<Record<ImagePreviewActionName, string>>(() => ({
-    prev: '‹',
-    next: '›',
-    fullScreen: 'Fullscreen',
-    rotateLeft: 'Rotate left',
-    rotateRight: 'Rotate right',
-    originalSize: 'Original size',
-    zoomOut: 'Zoom out',
-    zoomIn: 'Zoom in',
-    download: 'Download',
-    close: 'Close',
+    prev: label('prev', 'Previous image'),
+    next: label('next', 'Next image'),
+    fullScreen: label('fullScreen', 'Fullscreen'),
+    rotateLeft: label('rotateLeft', 'Rotate left'),
+    rotateRight: label('rotateRight', 'Rotate right'),
+    originalSize: label('originalSize', 'Original size'),
+    zoomOut: label('zoomOut', 'Zoom out'),
+    zoomIn: label('zoomIn', 'Zoom in'),
+    download: label('download', 'Download image'),
+    close: label('close', 'Close image preview'),
   }))
+}
+
+export function useImagePreviewLabel() {
+  const { t: localT } = injectLocaleProvider()
+  return computed(() => (localT || t)('image.preview') ?? 'Preview image')
 }

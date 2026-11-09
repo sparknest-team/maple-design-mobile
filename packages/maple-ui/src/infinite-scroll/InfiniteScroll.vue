@@ -291,10 +291,12 @@ function isReachBottom() {
     }
     return scroller.scrollHeight - scroller.scrollTop - scroller.clientHeight <= bottomOffset
   }
-  const scrollerBottom =
-    scroller instanceof HTMLElement
-      ? scroller.getBoundingClientRect().bottom
-      : window.innerHeight || document.documentElement.clientHeight
+  let scrollerBottom = window.innerHeight || document.documentElement.clientHeight
+  if (scroller instanceof HTMLElement) {
+    const bounds = scroller.getBoundingClientRect()
+    const scale = scroller.offsetHeight > 0 ? bounds.height / scroller.offsetHeight : 1
+    scrollerBottom = bounds.top + (scroller.clientTop + scroller.clientHeight) * scale
+  }
   return detector.getBoundingClientRect().bottom - scrollerBottom <= bottomOffset
 }
 

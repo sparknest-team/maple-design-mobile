@@ -4,6 +4,8 @@
 
 A minimal table, when you need to display some data in the form of a table, you may use it.
 
+The scrollable region name follows the active language and can be overridden locally with the `table.scrollable` LocaleProvider message.
+
 ## Basic examples
 
 ### Basic Usage
@@ -59,53 +61,74 @@ Set loading explicitly to display feedback. Ordinary event return values do not 
 ../example/demos/loading.vue
 ```
 
+## Usage notes
+
+### Table data and slots
+
+Use table slots to compose headers, rows and cells. Table has no `data`, `columns`, sorting or filtering configuration.
+
 ## API
 
-### Props
+### Table Props
 
-| Arguments | Description | Type | Default |
+| Prop | Description | Type | Default |
 | -------------- | -------------- | -------- | ---------- |
+| `loading` | Explicit loading state; an object requires `loading: true` | _boolean \| `Partial<LoadingProps>`_ | `false` |
 | `full-width` | The width of the `table` (including the scrollable part) | _string \| number_ | `100%` |
 | `elevation` | Elevation level, options `true` `false` and level of `0-24` | _number \| boolean_ | `true` |
 | `scroller-height` ***3.2.0*** | The height of the scroll container, which can be used to implement functions such as longitudinal partial scrolling and fixed table headers. | _string \| number_ | `-` |
 
-### Slots
+### Table Slots
 
-| Name | Description | Arguments |
+| Name | Description | Prop |
 | ----- | -------------- | -------- |
 | `default` | Content of `table` | `-` |
 | `footer` | Footer of `table` | `-` |
 
-### Style variables
-
-The following CSS variables support customization with [StyleProvider](#/en-US/style-provider).
-
-| Variable | Default |
-| --- | --- |
-| `--mp-table-background` | `#fff` |
-| `--mp-table-border-radius` | `2px` |
-| `--mp-table-thead-border-bottom` | `thin solid var(--color-border-2)` |
-| `--mp-table-thead-th-text-color` | `rgba(0, 0, 0, 0.6)` |
-| `--mp-table-thead-th-text-align` | `start` |
-| `--mp-table-thead-th-font-size` | `14px` |
-| `--mp-table-thead-tr-border-bottom` | `thin solid var(--color-border-2)` |
-| `--mp-table-tbody-tr-hover-background` | `#eee` |
-| `--mp-table-tbody-tr-border-bottom` | `thin solid var(--color-border-2)` |
-| `--mp-table-tbody-td-text-color` | `#555` |
-| `--mp-table-tbody-td-font-size` | `16px` |
-| `--mp-table-tbody-td-text-align` | `start` |
-| `--mp-table-row-height` | `46px` |
-| `--mp-table-row-padding` | `0 16px` |
-| `--mp-table-footer-border-top` | `thin solid var(--color-border-2)` |
-
-
-### Boundary with Cedar Table's typed configuration
-
-Maple Table keeps its native-table slot API without data/columns. Cedar `defineTableConfig<Row>` applies only to its data table. F08-A adds no Maple data-column/sorting/filtering APIs; slots and dimensions/scrolling/elevation remain.
-
-
 ## Reading direction and scrolling
 
-The native table inherits reading direction and defaults to start alignment. Its focusable viewport supports arrows and Home/End; live direction changes preserve normalized inline scroll distance. Custom alignment tokens may still use physical left/right. This slot-based table does not add Cedar data-column, freezing or resizing APIs.
+Table inherits native reading direction, with headers/cells defaulting to inline-start alignment. Custom alignment tokens may still specify physical left/right. The native scroll viewport is focusable: Left/Right scrolls visually, and Home/End reaches reading boundaries. Direction changes preserve the distance from inline start, clamped to the new range. Maple Table is a native slotted table and does not add Cedar data-column freezing, column resizing or grouped-header APIs.
 
-For object loading options, set `{ loading: true, size: 24 }` explicitly; an object without loading does not activate the indicator.
+Object syntax must explicitly include `{ loading: true, size: 24 }`. A configuration object without loading does not enable it, matching Cedar Table.
+
+## CSS Variables
+
+The following CSS variables support customization with [ThemeProvider](#/en-US/theme-provider).
+
+<!-- component-css-variables:start -->
+
+Use these variables to customize the component. Defaults may vary by the selector condition shown. Each variable applies to the corresponding size, variant and interaction states.
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Default / condition | Affected styles |
+| --- | --- | --- |
+| `--mp-table-background` | `#fff` | `background` |
+| `--mp-table-border-radius` | `2px` | `border-radius` |
+| `--mp-table-footer-border-top` | `thin solid var(--mp-color-border-2)` | `border-top` |
+| `--mp-table-row-height` | `46px` | `height`, `min-height` |
+| `--mp-table-row-padding` | `0 16px` | `padding` |
+| `--mp-table-tbody-td-font-size` | `16px` | `font-size` |
+| `--mp-table-tbody-td-text-align` | `start` | `text-align` |
+| `--mp-table-tbody-td-text-color` | `#555` | `color` |
+| `--mp-table-tbody-tr-border-bottom` | `thin solid var(--mp-color-border-2)` | `border-bottom` |
+| `--mp-table-tbody-tr-hover-background` | `#eee` | `background` |
+| `--mp-table-thead-border-bottom` | `thin solid var(--mp-color-border-2)` | `border-bottom` |
+| `--mp-table-thead-th-font-size` | `14px` | `font-size` |
+| `--mp-table-thead-th-text-align` | `start` | `text-align` |
+| `--mp-table-thead-th-text-color` | `rgba(0, 0, 0, 0.6)` | `color` |
+| `--mp-table-thead-tr-border-bottom` | `thin solid var(--mp-color-border-2)` | `border-bottom` |
+
+</div>
+
+Apply overrides to the rendered component root or the actual popup ancestor. For example, add the following class to that element and replace the value as needed:
+
+```css
+.component-theme {
+  --mp-table-background: #fff;
+}
+```
+
+Explicit inline styles and props that write the same CSS property take precedence over stylesheet defaults. After Teleport, ordinary CSS variables inherit from the actual mount location. When using ThemeProvider, follow its local-theme and popup configuration rules. Override the component variable directly for local styling; root-level aliases are not recalculated merely because a descendant system variable changes. Internal variables are not public APIs.
+
+<!-- component-css-variables:end -->

@@ -1,4 +1,4 @@
-import { StyleVars } from '../../style-provider'
+import { StyleVars } from '../../theme-provider'
 import actionSheet from './actionSheet'
 import alert from './alert'
 import avatar from './avatar'

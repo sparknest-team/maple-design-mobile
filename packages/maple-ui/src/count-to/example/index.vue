@@ -3,8 +3,11 @@ import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maple-design/cli/client'
 import BasicUsageDemo from './demos/basic-usage.vue'
 import CustomStyleDemo from './demos/custom-style.vue'
+import DecimalFloorDemo from './demos/decimal-floor.vue'
+import EasingReplayDemo from './demos/easing-replay.vue'
 import ManualControlDemo from './demos/manual-control.vue'
 import ContentNumberFormatComparison from './demos/number-format-comparison.vue'
+import ZeroDurationDemo from './demos/zero-duration.vue'
 
 const language = ref('zh-CN')
 const english = computed(() => language.value === 'en-US')
@@ -56,5 +59,25 @@ onThemeChange()
   <section data-demo="manual-control">
     <app-type>{{ english ? 'Manual Control' : '手动控制' }}</app-type>
     <ManualControlDemo />
+  </section>
+
+  <h2 class="mobile-demo-group-heading" data-demo-group="numeric-and-animation-boundaries">
+    <span lang="zh-CN">数值与动画边界</span>
+    <span lang="en-US">Numeric and animation boundaries</span>
+  </h2>
+
+  <section data-demo="decimal-floor">
+    <app-type>{{ english ? 'Scientific notation and decimal floor' : '科学计数与十进制取整' }}</app-type>
+    <DecimalFloorDemo />
+  </section>
+
+  <section data-demo="zero-duration">
+    <app-type>{{ english ? 'Zero duration and replay' : '零时长与重新播放' }}</app-type>
+    <ZeroDurationDemo />
+  </section>
+
+  <section data-demo="easing-replay">
+    <app-type>{{ english ? 'Change easing and replay' : '更换曲线与重播' }}</app-type>
+    <EasingReplayDemo />
   </section>
 </template>

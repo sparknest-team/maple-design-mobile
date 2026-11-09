@@ -169,7 +169,11 @@
 ## API
 
 <!-- same-source-api:start -->
-### Props
+默认图片加载失败图标会保留非空 `alt` 的辅助名称；空 `alt` 表示装饰内容。自定义 `error` 插槽由业务提供相应语义。默认插槽可在图片和文字之间动态切换；插槽图片的加载事件与样式由业务负责。
+
+当 `trigger-icon` 不含交互控件时，头像提供按钮语义并支持 Enter 和 Space；请通过 `trigger-aria-label` 或根元素 `aria-label` 描述操作。插槽自带按钮等交互控件时由该控件负责键盘操作。头像组默认点击触发的汇总入口可通过键盘打开，Escape 关闭后返回焦点。
+
+### Avatar Props
 
 | 属性 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
@@ -179,6 +183,7 @@
 | size | 头像宽高；数字为 px，字符串为 CSS 长度 | `number / string` | `-` |
 | auto-fix-font-size | 是否自动缩放过长的文字内容 | `boolean` | `true` |
 | trigger-type | 交互图标展示方式 | `button / overlay` | `button` |
+| trigger-aria-label | 交互入口的可访问名称 | `string` | `—` |
 | trigger-icon-style | 交互图标的自定义样式 | `CSSProperties` | `-` |
 | object-fit | 图片填充方式 | `fill / contain / cover / none / scale-down` | `cover` |
 | color | 头像背景色 | `string` | `-` |
@@ -189,7 +194,7 @@
 | lazy | 是否懒加载图片 | `boolean` | `false` |
 | hoverable | 是否开启悬停放大效果 | `boolean` | `false` |
 
-### Events
+### Avatar Events
 
 | 事件 | 说明 | 参数 |
 | --- | --- | --- |
@@ -197,7 +202,7 @@
 | load | 图片加载成功触发 | `() => void` |
 | error | 图片加载失败触发 | `() => void` |
 
-### Slots
+### Avatar Slots
 
 | 插槽 | 说明 |
 | --- | --- |
@@ -205,10 +210,12 @@
 | error | 图片加载失败时的回退内容 |
 | trigger-icon | 头像上的交互图标 |
 
-### Methods
+### Avatar Methods
 
 无自定义公开方法。
 <!-- same-source-api:end -->
+
+组级 `shape` 和 `auto-fix-font-size` 优先于子头像，组级 `size` 有值时优先。`max-count` 为非负整数，0 表示不限制，无效值回退为 0；数值 `size` 为有限非负数，无效数值使用默认尺寸，字符串按 CSS 长度处理。`offset` 接受有限负数或 CSS 长度字符串，无效数值使用默认间距。汇总头像参与组内层级排序，`max-style` 的 z-index 由组排序覆盖。
 
 ### AvatarGroup Props
 
@@ -230,7 +237,7 @@
 | --- | --- |
 | default | 头像列表 |
 
-### 类型定义
+## Types
 
 ```ts
 import type {
@@ -244,44 +251,64 @@ import type {
 } from '@maple-design/ui';
 ```
 
-### 样式变量
-
-| 变量 | 默认值 |
-| --- | --- |
-| `--mp-avatar-size-default` | `40px` |
-| `--mp-avatar-font-size-text` | `20px` |
-| `--mp-avatar-text-color` | `var(--mp-sys-color-content-primary)` |
-| `--mp-avatar-text-padding-inline` | `4px` |
-| `--mp-avatar-bg` | `var(--mp-color-fill-4)` |
-| `--mp-avatar-border-width` | `2px` |
-| `--mp-avatar-border-color` | `var(--mp-sys-color-surface-default)` |
-| `--mp-avatar-group-item-border` | `var(--mp-sys-color-surface-default)` |
-| `--mp-avatar-group-item-border-width` | `2px` |
-| `--mp-avatar-group-offset` | `-10px` |
-| `--mp-avatar-group-popover-item-spacing` | `8px` |
-| `--mp-avatar-font-weight-text` | `500` |
-| `--mp-avatar-circle-border-radius` | `50%` |
-| `--mp-avatar-square-border-radius` | `4px` |
-| `--mp-avatar-size-trigger-button` | `20px` |
-| `--mp-avatar-trigger-button-bg` | `var(--mp-color-fill-2)` |
-| `--mp-avatar-trigger-button-bg-hover` | `var(--mp-color-fill-3)` |
-| `--mp-avatar-trigger-overlay-icon` | `var(--mp-sys-color-content-on-dark)` |
-| `--mp-avatar-trigger-overlay-bg` | `color-mix(in srgb, var(--mp-color-black) 60%, transparent)` |
-| `--mp-avatar-trigger-icon-button` | `var(--mp-sys-color-content-primary)` |
-| `--mp-avatar-spacing-trigger-button-right` | `4px` |
-| `--mp-avatar-spacing-trigger-button-bottom` | `4px` |
-| `--mp-avatar-size-trigger-icon` | `12px` |
-| `--mp-avatar-trigger-button-border-radius` | `50%` |
-| `--mp-avatar-font-size-max-count` | `20px` |
-| `--mp-avatar-max-count-text-color` | `var(--mp-sys-color-content-primary)` |
-| `--mp-avatar-trigger-overlay-font-size` | `16px` |
-| `--mp-avatar-hover-transform` | `scale(1.1)` |
-| `--mp-avatar-motion-duration` | `0.2s` |
-| `--mp-avatar-z-index-trigger` | `1` |
-| `--mp-avatar-z-index-overlay` | `0` |
-| `--mp-avatar-z-index-overlay-hover` | `2` |
+## CSS Variables
 
 文字、汇总数量和按钮式触发图标默认使用主要内容色；描边跟随容器表面；只有深色交互遮罩上的图标使用 `content-on-dark`。头像背景的 `fill-4`、按钮背景与 hover 阶梯、黑色半透明遮罩保留为组件视觉值。使用 `color` 属性覆盖头像背景时，应同步检查文字对比度，必要时覆盖 `text-color`。Maple 暗色主题背景仍采用组件专属的 `#303030`。
+
+<!-- component-css-variables:start -->
+
+通过以下变量定制组件外观。默认值随表中注明的主题或选择器条件变化；变量仅在对应的尺寸、变体和交互状态下生效。
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| 变量 | 默认值／条件 | 影响的样式 |
+| --- | --- | --- |
+| `--mp-avatar-bg` | `var(--mp-color-fill-4)` | `background-color` |
+| `--mp-avatar-border-color` | `var(--mp-sys-color-surface-default)` | `border` |
+| `--mp-avatar-border-width` | `2px` | `border` |
+| `--mp-avatar-circle-border-radius` | `50%` | `border-radius` |
+| `--mp-avatar-font-size-max-count` | `20px` | `font-size` |
+| `--mp-avatar-font-size-text` | `20px` | `font-size` |
+| `--mp-avatar-font-weight-text` | `500` | `font-weight` |
+| `--mp-avatar-group-item-border` | `var(--mp-sys-color-surface-default)` | `border` |
+| `--mp-avatar-group-item-border-width` | `2px` | `border` |
+| `--mp-avatar-group-offset` | `-10px` | `margin-block-start`, `margin-inline-start` |
+| `--mp-avatar-group-popover-item-spacing` | `8px` | `gap` |
+| `--mp-avatar-hover-transform` | `scale(1.1)` | `transform` |
+| `--mp-avatar-max-count-text-color` | `var(--mp-sys-color-content-primary)` | `color` |
+| `--mp-avatar-motion-duration` | `0.2s` | `transition` |
+| `--mp-avatar-size-default` | `40px` | `height`, `width` |
+| `--mp-avatar-size-trigger-button` | `20px` | `height`, `width` |
+| `--mp-avatar-size-trigger-icon` | `12px` | `font-size` |
+| `--mp-avatar-spacing-trigger-button-bottom` | `4px` | `bottom` |
+| `--mp-avatar-spacing-trigger-button-right` | `4px` | `inset-inline-end` |
+| `--mp-avatar-square-border-radius` | `4px` | `border-radius` |
+| `--mp-avatar-text-color` | `var(--mp-sys-color-content-primary)` | `color` |
+| `--mp-avatar-text-padding-inline` | `4px` | `padding-inline` |
+| `--mp-avatar-trigger-button-bg` | `var(--mp-color-fill-2)` | `background-color` |
+| `--mp-avatar-trigger-button-bg-hover` | `var(--mp-color-fill-3)` | `background-color` |
+| `--mp-avatar-trigger-button-border-radius` | `50%` | `border-radius` |
+| `--mp-avatar-trigger-icon-button` | `var(--mp-sys-color-content-primary)` | `color` |
+| `--mp-avatar-trigger-overlay-bg` | `color-mix(in srgb, var(--mp-color-black) 60%, transparent)` | `background-color` |
+| `--mp-avatar-trigger-overlay-font-size` | `16px` | `font-size` |
+| `--mp-avatar-trigger-overlay-icon` | `var(--mp-sys-color-content-on-dark)` | `color` |
+| `--mp-avatar-z-index-overlay` | `0` | `z-index` |
+| `--mp-avatar-z-index-overlay-hover` | `2` | `z-index` |
+| `--mp-avatar-z-index-trigger` | `1` | `z-index` |
+
+</div>
+
+将覆盖设置在组件实际根节点或弹层真实挂载祖先上。例如给该元素添加下列 class，再按需替换变量值：
+
+```css
+.component-theme {
+  --mp-avatar-border-color: var(--mp-sys-color-surface-default);
+}
+```
+
+显式行内样式及直接写入同一 CSS 属性的 Props 优先于样式表默认值。Teleport 后，普通 CSS 变量按实际挂载位置继承；使用 ThemeProvider 时，请遵循其局部主题与弹层配置规则。局部定制请直接覆盖组件变量；仅修改后代的 system 变量不会重新计算从根继承的组件别名。内部变量不属于公共 API。
+
+<!-- component-css-variables:end -->
 
 ### 减少动态效果
 

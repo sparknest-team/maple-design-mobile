@@ -1,5 +1,5 @@
 import type { VNode } from 'vue'
-import { cloneVNode, Comment, computed, defineComponent, h, isVNode, provide, ref } from 'vue'
+import { cloneVNode, computed, defineComponent, h, isVNode, provide, ref, shallowRef } from 'vue'
 import { useDirection } from '@maple-design/use'
 import { createNamespace } from '../utils/components'
 import { flatChildren as flatFragment } from './children'
@@ -19,6 +19,7 @@ export default defineComponent({
     const root = ref<HTMLElement>()
     const { isRtl } = useDirection(() => root.value)
     const focusedStep = ref<number>()
+    const icons = shallowRef({ finish: slots['finish-icon'], error: slots['error-icon'] })
     function onKeydown(event: KeyboardEvent) {
       if (!props.changeable || event.defaultPrevented) {
         return
@@ -49,7 +50,10 @@ export default defineComponent({
       items[position]?.focus()
     }
     const uncontrolledCurrent = ref(props.defaultValue)
-    const current = computed(() => props.modelValue ?? uncontrolledCurrent.value)
+    const current = computed(() => {
+      const value = props.modelValue ?? uncontrolledCurrent.value
+      return Number.isSafeInteger(value) && value >= 0 ? value : 1
+    })
     const orientation = computed(() =>
       ['arrow', 'navigation'].includes(props.type) ? 'horizontal' : props.orientation,
     )
@@ -98,34 +102,42 @@ export default defineComponent({
       type,
       showLine,
       changeable,
-      slots,
+      icons,
       getStatus,
       select,
     })
 
     return () => {
-      const children = (flatFragment(slots.default?.() ?? []) as VNode[]).filter(
-        (child) => isVNode(child) && child.type !== Comment,
-      )
+      icons.value = { finish: slots['finish-icon'], error: slots['error-icon'] }
+      const nodes = flatFragment(slots.default?.() ?? []) as VNode[]
+      // Component wrappers may forward the injected step props; text and native decorations never consume an index.
+      const isStepCandidate = (child: VNode) =>
+        isVNode(child) && (typeof child.type === 'object' || typeof child.type === 'function')
+      const children = nodes.filter(isStepCandidate)
       const enabled = children
         .map((child, index) => (child.props?.disabled !== true && child.props?.disabled !== '' ? index + 1 : -1))
         .filter((index) => index > 0)
       const tabStop =
         [focusedStep.value, current.value].find((index) => index !== undefined && enabled.includes(index)) ?? enabled[0]
-      const steps = children.map((child, index) =>
-        cloneVNode(child, {
-          internalIndex: index + 1,
-          'data-step-index': index + 1,
-          tabindex: changeable.value && tabStop === index + 1 ? 0 : -1,
+      let index = 0
+      const steps = nodes.map((child) => {
+        if (!isStepCandidate(child)) {
+          return child
+        }
+        const currentIndex = index++
+        return cloneVNode(child, {
+          internalIndex: currentIndex + 1,
+          'data-step-index': currentIndex + 1,
+          tabindex: changeable.value && tabStop === currentIndex + 1 ? 0 : -1,
           onFocus: () => {
-            focusedStep.value = index + 1
+            focusedStep.value = currentIndex + 1
           },
           internalNextStatus:
-            index < children.length - 1
-              ? getStatus(index + 2, children[index + 1].props?.status as StepStatus | undefined)
+            currentIndex < children.length - 1
+              ? getStatus(currentIndex + 2, children[currentIndex + 1].props?.status as StepStatus | undefined)
               : undefined,
-        }),
-      )
+        })
+      })
       const labelPlacement = contentPlacement.value === 'bottom' ? 'vertical' : 'horizontal'
 
       return h(

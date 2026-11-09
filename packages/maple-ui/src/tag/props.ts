@@ -17,6 +17,7 @@ export const tagProps = {
   defaultShow: { type: Boolean, default: true },
   loading: { type: Boolean, default: false },
   closable: { type: Boolean, default: false },
+  closeButtonAriaLabel: String,
   checkable: { type: Boolean, default: false },
   modelValue: { type: Boolean, default: undefined },
   defaultValue: { type: Boolean, default: true },

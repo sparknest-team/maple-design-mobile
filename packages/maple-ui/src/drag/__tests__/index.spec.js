@@ -20,11 +20,11 @@ test('drag direction', async () => {
   await triggerDrag(container.childNodes[1], 10, 10)
   expect(container.innerHTML).toMatchSnapshot()
 
-  wrapper.setProps({ axis: 'x' })
+  await wrapper.setProps({ axis: 'x' })
   await triggerDrag(container.childNodes[1], 10, 10)
   expect(container.innerHTML).toMatchSnapshot()
 
-  wrapper.setProps({ axis: 'y' })
+  await wrapper.setProps({ axis: 'y' })
   await triggerDrag(container.childNodes[1], 10, 10)
   expect(container.innerHTML).toMatchSnapshot()
 
@@ -42,11 +42,11 @@ test('drag attraction', async () => {
   await triggerDrag(container.childNodes[1], 10, 10)
   expect(container.innerHTML).toMatchSnapshot()
 
-  wrapper.setProps({ attraction: 'y' })
+  await wrapper.setProps({ attraction: 'y' })
   await triggerDrag(container.childNodes[1], 10, 10)
   expect(container.innerHTML).toMatchSnapshot()
 
-  wrapper.setProps({ attraction: 'xy' })
+  await wrapper.setProps({ attraction: 'xy' })
   await triggerDrag(container.childNodes[1], 10, 10)
   expect(container.innerHTML).toMatchSnapshot()
 

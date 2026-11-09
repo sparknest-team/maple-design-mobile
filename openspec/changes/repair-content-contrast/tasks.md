@@ -1,0 +1,3 @@
+- [x] Reproduce both existing contrast gates and inventory consumers
+- [x] Correct semantic defaults with both-platform parity
+- [x] Verify compiled theme gates, browser,types/spec/style and affected components

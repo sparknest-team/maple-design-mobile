@@ -3,7 +3,6 @@ import context from '../context'
 import { createNamespace } from '../utils/components'
 import { toSizeUnit } from '../utils/elements'
 import { props } from './props'
-import './style'
 
 const { name, classes, n } = createNamespace('loading-bar')
 

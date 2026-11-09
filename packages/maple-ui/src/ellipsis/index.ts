@@ -3,7 +3,7 @@ import Ellipsis from './Ellipsis.vue'
 import { ellipsisProps } from './props'
 
 withInstall(Ellipsis)
-export { ellipsisProps }
+export { Ellipsis, ellipsisProps }
 export type { EllipsisProps, EllipsisExpandTrigger } from './props'
 export type EllipsisInstance = InstanceType<typeof Ellipsis>
 export const _EllipsisComponent = Ellipsis

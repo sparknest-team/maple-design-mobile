@@ -40,3 +40,16 @@ test('a new invocation disposes a vetoed previous owner and settles its result',
   await delay(350)
   expect(await next).toBe('close')
 })
+
+test('close guard failures reach the service error callback and preserve the sheet', async () => {
+  const cause = new Error('guard failed')
+  const onCloseError = vi.fn()
+  const guard = vi.fn(() => Promise.reject(cause))
+  ActionSheet({ actions: [], beforeClose: guard, onCloseError, swipeToClose: true, swipeThreshold: 50 })
+  await delay(40)
+  ActionSheet.close()
+  await delay(40)
+  expect(onCloseError).toHaveBeenCalledWith(cause, 'model')
+  expect(document.querySelector('.mp-popup')).not.toBeNull()
+  guard.mockResolvedValue(true)
+})

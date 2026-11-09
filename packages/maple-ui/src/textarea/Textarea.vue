@@ -1,5 +1,9 @@
 <template>
-  <div v-bind="splitAttrs.root" :class="classes(n(), [mergedDisabled, n('--disabled')])" @mousedown="handleMousedown">
+  <div
+    v-bind="splitAttrs.root"
+    :class="classes(n(), [mergedDisabled, n('--disabled')], [resolvedAutoSize, n('--auto-size')])"
+    @mousedown="handleMousedown"
+  >
     <FieldDecorator
       :id="textareaId"
       :loading="loading"
@@ -23,7 +27,7 @@
       @clear="handleClear"
     >
       <template v-if="$slots.prefix" #prefix><slot name="prefix" /></template>
-      <div v-if="autoSize" ref="mirrorRef" :class="n('mirror')" :style="mirrorStyle" aria-hidden="true">
+      <div v-if="resolvedAutoSize" ref="mirrorRef" :class="n('mirror')" :style="mirrorStyle" aria-hidden="true">
         {{ `${value}\n` }}
       </div>
       <textarea
@@ -34,13 +38,14 @@
         autocomplete="off"
         :class="n('inner')"
         :style="textareaStyle"
-        :value="value"
+        :value="composition.isComposing.value ? textareaRef?.value : value"
         :disabled="mergedDisabled"
         :readonly="mergedReadonly"
-        :rows="rows"
+        :rows="nativeRows"
         :maxlength="undefined"
         :placeholder="mergedHint ? undefined : placeholder"
         :aria-label="ariaLabel ?? nativeAttrs['aria-label']"
+        :aria-describedby="describeError(nativeAttrs['aria-describedby'])"
         :aria-invalid="mergedError || nativeAttrs['aria-invalid'] || undefined"
         :autofocus="autofocus"
         :enterkeyhint="enterkeyhint"
@@ -65,13 +70,16 @@ import {
   computed,
   nextTick,
   onMounted,
+  reactive,
   ref,
+  toRefs,
   useAttrs,
   useId,
   type CSSProperties,
   type TextareaHTMLAttributes,
 } from 'vue'
 import FieldDecorator, { fieldDecoratorProps } from '../field-decorator'
+import { useFormErrorDescription } from '../form/error-description'
 import InputFeedback from '../input/InputFeedback.vue'
 import { captureInputSelection, splitInputAttrs } from '../input/native-attrs'
 import { useInputForm } from '../input/use-input-form'
@@ -81,11 +89,14 @@ import { useInputComposition } from '../utils/input-composition'
 import { textareaProps } from './props'
 import type { TextareaEmits, TextareaSlots } from './types'
 import { useTextareaAutoSize } from './use-textarea-auto-size'
-import { getNativeTextareaAttrs } from './utils'
+import { getNativeTextareaAttrs, resolveTextareaAutoSize, resolveTextareaRows } from './utils'
 
 defineOptions({ name: createNamespace('textarea').name, inheritAttrs: false })
 const { n, classes } = createNamespace('textarea')
 const props = defineProps(textareaProps)
+const { describe: describeError } = useFormErrorDescription()
+const resolvedAutoSize = computed(() => resolveTextareaAutoSize(props.autoSize))
+const nativeRows = computed(() => resolveTextareaRows(props.rows))
 const emit = defineEmits<TextareaEmits>()
 defineSlots<TextareaSlots>()
 const attrs = useAttrs()
@@ -115,26 +126,12 @@ const mergedHint = computed(
 )
 const composition = useInputComposition()
 const { value, focused, maxLength, errorOnly, valueLength, updateValue, commitValue, clearValue } = useInputValue(
-  {
-    ...props,
-    get modelValue() {
-      return props.modelValue
-    },
-    get modelModifiers() {
-      return props.modelModifiers
-    },
-    get maxLength() {
-      return props.maxLength
-    },
-    get wordLength() {
-      return props.wordLength
-    },
-    get wordSlice() {
-      return props.wordSlice
-    },
-    type: 'text',
+  reactive({ ...toRefs(props), type: 'text' }),
+  (nextValue, notifyModel = true) => {
+    if (notifyModel) {
+      emit('update:modelValue', nextValue)
+    }
   },
-  (nextValue) => emit('update:modelValue', nextValue),
   (nextValue, event) => {
     emit('change', nextValue, event)
     eventHandlers.value?.onChange?.(event)
@@ -143,9 +140,9 @@ const { value, focused, maxLength, errorOnly, valueLength, updateValue, commitVa
 const mergedError = computed(
   () => formError.value || Boolean(errorOnly.value && maxLength.value > 0 && valueLength.value > maxLength.value),
 )
-const { mirrorStyle, autoSizeStyle } = useTextareaAutoSize(textareaRef, mirrorRef, value, () => props.autoSize)
+const { mirrorStyle, autoSizeStyle } = useTextareaAutoSize(textareaRef, mirrorRef, value, () => resolvedAutoSize.value)
 const textareaStyle = computed<CSSProperties>(() => ({
-  resize: props.autoSize ? 'none' : props.resize ? 'vertical' : 'none',
+  resize: resolvedAutoSize.value ? 'none' : props.resize ? 'vertical' : 'none',
   ...autoSizeStyle.value,
   '--mp-textarea-placeholder-color':
     !mergedHint.value && !mergedDisabled.value && !mergedError.value
@@ -160,11 +157,16 @@ function processInput(event: Event) {
   }
   const input = event.target as HTMLTextAreaElement
   const restore = captureInputSelection(input)
+  const isCurrent = composition.capture()
   updateValue(input.value, (nextValue) => {
     emit('input', nextValue ?? '', event)
     eventHandlers.value?.onInput?.(event)
   })
-  void nextTick(() => restore(value.value))
+  void nextTick(() => {
+    if (isCurrent() && textareaRef.value === input) {
+      restore(value.value)
+    }
+  })
 }
 function handleInput(event: Event) {
   if (composition.accepts(event)) {

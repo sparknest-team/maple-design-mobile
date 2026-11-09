@@ -1,19 +1,34 @@
 <template>
   <div
     ref="root"
+    tabindex="-1"
     :class="classes(n(), n('$--box'))"
     :aria-busy="busy || undefined"
     @click="handleClick('cell', $event)"
   >
     <PendingFeedback :loading="busy" />
     <div ref="wrapper" :class="n('wrapper')" :style="wrapperStyle">
-      <div v-if="$slots.left" ref="leftRef" :class="n('left')" @click.stop="handleClick('left', $event)">
+      <div
+        v-if="$slots.left"
+        ref="leftRef"
+        :class="n('left')"
+        :inert="leftAvailable ? undefined : true"
+        :aria-hidden="!leftAvailable || undefined"
+        @click.stop="handleClick('left', $event)"
+      >
         <slot name="left" />
       </div>
       <div :class="n('content')">
         <slot />
       </div>
-      <div v-if="$slots.right" ref="rightRef" :class="n('right')" @click.stop="handleClick('right', $event)">
+      <div
+        v-if="$slots.right"
+        ref="rightRef"
+        :class="n('right')"
+        :inert="rightAvailable ? undefined : true"
+        :aria-hidden="!rightAvailable || undefined"
+        @click.stop="handleClick('right', $event)"
+      >
         <slot name="right" />
       </div>
     </div>
@@ -32,7 +47,7 @@ import {
   ref,
   watch,
 } from 'vue'
-import { call, getRect, preventDefault, toNumber } from '@maple-design/shared'
+import { call, getRect, preventDefault } from '@maple-design/shared'
 import { useTouch } from '@maple-design/use'
 import PendingFeedback from '../_components/pending-feedback/PendingFeedback.vue'
 import { useActionGuard } from '../_hooks/use-action-guard'
@@ -58,6 +73,10 @@ export default defineComponent({
     const opened = ref(false)
     const openedSide = ref<SwipeCellSide | null>(null)
     const measureTick = ref(0)
+    const leftAvailable = computed(() => openedSide.value === 'left' && offset.value > 0)
+    const rightAvailable = computed(() => openedSide.value === 'right' && offset.value < 0)
+    let returnFocus: HTMLElement | null = null
+    let sideObserver: ResizeObserver | undefined
     const { deltaX, offsetX, offsetY, direction, startTouch, moveTouch, endTouch, resetTouch } = useTouch()
 
     let startOffset = 0
@@ -78,6 +97,9 @@ export default defineComponent({
       () => {
         guard.cancel()
         commandGeneration += 1
+        if (props.loading) {
+          cancelGesture()
+        }
       },
       { flush: 'sync' },
     )
@@ -90,6 +112,27 @@ export default defineComponent({
       void measureTick.value
       return getSideWidth('right')
     })
+
+    watch(
+      [leftAvailable, rightAvailable],
+      ([left, right]) => {
+        const activeElement = root.value?.ownerDocument.activeElement
+        const hidden =
+          (!left && leftRef.value?.contains(activeElement ?? null)) ||
+          (!right && rightRef.value?.contains(activeElement ?? null))
+        if (hidden) {
+          const target =
+            returnFocus?.isConnected && !leftRef.value?.contains(returnFocus) && !rightRef.value?.contains(returnFocus)
+              ? returnFocus
+              : root.value
+          target?.focus({ preventScroll: true })
+          if (root.value?.ownerDocument.activeElement === activeElement) {
+            root.value?.focus({ preventScroll: true })
+          }
+        }
+      },
+      { flush: 'sync' },
+    )
 
     const wrapperStyle = computed(() => ({
       transform: `translate3d(${offset.value}px, 0, 0)`,
@@ -165,23 +208,50 @@ export default defineComponent({
       { flush: 'sync' },
     )
 
+    function observeSides() {
+      sideObserver?.disconnect()
+      sideObserver = undefined
+      const Observer = root.value?.ownerDocument.defaultView?.ResizeObserver
+      if (!available() || !Observer) {
+        return
+      }
+      sideObserver = new Observer(() => reconcileSides())
+      if (leftRef.value) {
+        sideObserver.observe(leftRef.value)
+      }
+      if (rightRef.value) {
+        sideObserver.observe(rightRef.value)
+      }
+    }
+
+    watch([leftRef, rightRef], observeSides, { flush: 'post' })
+    watch(
+      () => [props.leftWidth, props.rightWidth],
+      () => reconcileSides(),
+      { flush: 'post' },
+    )
     onMounted(() => {
       bindListeners()
-      nextTick(measureSides)
+      observeSides()
+      nextTick(reconcileSides)
     })
 
     onActivated(() => {
       active = true
       bindListeners()
+      observeSides()
+      nextTick(reconcileSides)
     })
     onDeactivated(() => {
       active = false
+      sideObserver?.disconnect()
       commandGeneration += 1
       cancelGesture()
       clearBindings()
     })
     onBeforeUnmount(() => {
       disposed = true
+      sideObserver?.disconnect()
       commandGeneration += 1
       cancelGesture()
       clearBindings()
@@ -210,7 +280,8 @@ export default defineComponent({
     function getSideWidth(side: SwipeCellSide) {
       const configured = side === 'left' ? props.leftWidth : props.rightWidth
       if (configured !== 'auto' && configured != null && configured !== '') {
-        return Math.max(toNumber(configured), 0)
+        const numeric = Number(configured)
+        return Number.isFinite(numeric) ? Math.max(numeric, 0) : 0
       }
       const el = side === 'left' ? leftRef.value : rightRef.value
       return el ? getRect(el).width : 0
@@ -222,6 +293,16 @@ export default defineComponent({
       }
       // invalidate cached side widths so DOM sizes are re-read
       measureTick.value += 1
+    }
+
+    function reconcileSides() {
+      if (!available()) {
+        return
+      }
+      measureSides()
+      if (!hasTouch && openedSide.value) {
+        offset.value = openedSide.value === 'left' ? leftWidth.value : -rightWidth.value
+      }
     }
 
     function clampOffset(value: number) {
@@ -237,9 +318,14 @@ export default defineComponent({
         cancelGesture()
       }
       const generation = ++commandGeneration
+      measureSides()
       const next = side === 'left' ? leftWidth.value : -rightWidth.value
       if (!available() || props.disabled || generation !== commandGeneration || !next) {
         return
+      }
+      const focused = root.value?.ownerDocument.activeElement
+      if (focused instanceof HTMLElement && !leftRef.value?.contains(focused) && !rightRef.value?.contains(focused)) {
+        returnFocus = focused
       }
       offset.value = next
       if (!opened.value || openedSide.value !== side) {
@@ -309,7 +395,7 @@ export default defineComponent({
     }
 
     function handleTouchmove(event: TouchEvent) {
-      if (!available() || props.disabled || !hasTouch) {
+      if (!available() || props.disabled || props.loading || !hasTouch) {
         return
       }
       moveTouch(event)
@@ -339,7 +425,7 @@ export default defineComponent({
     }
 
     function handleTouchend() {
-      if (!available() || props.disabled || !hasTouch) {
+      if (!available() || props.disabled || props.loading || !hasTouch) {
         return
       }
       const generation = gestureGeneration
@@ -413,6 +499,8 @@ export default defineComponent({
     return {
       ...publicApi,
       busy,
+      leftAvailable,
+      rightAvailable,
       root,
       wrapper,
       leftRef,

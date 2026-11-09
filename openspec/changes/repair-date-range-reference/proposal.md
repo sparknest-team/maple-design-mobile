@@ -1,0 +1,1 @@
+Align mobile deferred DateRange native reference placeholders with its direct string/array contract. Preserve readonly focus/copy while blocking opening/clearing; keep true disabled and endpoint disabled precedence. Cedar existing direct native behavior is a verified control, not a claim of identical deferred reference rendering.

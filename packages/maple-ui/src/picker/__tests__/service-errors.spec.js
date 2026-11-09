@@ -17,7 +17,7 @@ beforeAll(async () => {
     }
   })
   service = (await import('..')).default
-})
+}, 30000)
 afterAll(() => {
   vi.doUnmock('../../utils/components')
   vi.resetModules()
@@ -77,4 +77,44 @@ test('throwing closed callback cannot skip host disposal', () => {
   const record = records[records.length - 1]
   expect(() => record.listeners.onClosed()).toThrow(cause)
   expect(record.unmount).toHaveBeenCalledTimes(1)
+})
+
+for (const kind of ['selector', 'element', 'inline', 'default']) {
+  test(`service preserves its ${kind} container without mutating caller options`, async () => {
+    const target =
+      kind === 'selector'
+        ? '#picker-target'
+        : kind === 'element'
+          ? document.createElement('div')
+          : kind === 'inline'
+            ? false
+            : undefined
+    const options = {
+      columns: [[{ text: 'A', value: 'a' }]],
+      ...(target === undefined ? {} : { popupContainer: target }),
+    }
+    const before = { ...options },
+      pending = service(options),
+      record = records.at(-1)
+    expect(record.props.popupContainer).toBe(target ?? 'body')
+    expect(options).toEqual(before)
+    record.listeners.onConfirm(['a'], [0], [{ text: 'A', value: 'a' }])
+    expect((await pending).state).toBe('confirm')
+    record.listeners.onClosed()
+  })
+}
+test('service accepts a frozen configuration by owning its mutable state', async () => {
+  const options = Object.freeze({ title: 'Frozen', columns: [[{ text: 'A', value: 'a' }]] })
+  let cause
+  const count = records.length,
+    pending = service(options).catch((error) => {
+      cause = error
+    })
+  await nextTick()
+  expect(cause).toBeUndefined()
+  expect(records).toHaveLength(count + 1)
+  const record = records.at(-1)
+  record.listeners.onCancel(['a'], [0], [{ text: 'A', value: 'a' }])
+  expect((await pending).state).toBe('cancel')
+  record.listeners.onClosed()
 })

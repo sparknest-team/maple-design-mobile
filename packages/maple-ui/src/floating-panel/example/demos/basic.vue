@@ -11,7 +11,7 @@ const styleVars = ref({
 </script>
 
 <template>
-  <mp-style-provider class="floating-panel-demo-surface" :style-vars="styleVars">
+  <mp-theme-provider class="floating-panel-demo-surface" :style-vars="styleVars">
     <mp-tabs v-model="active" style="margin-top: 14px">
       <mp-tabs-navs ref="tabsRef">
         <mp-tab-nav name="basic" title="基本使用" />
@@ -27,6 +27,25 @@ const styleVars = ref({
         </mp-tab-item>
         <mp-tab-item name="anchors">
           <mp-floating-panel v-if="active === 'anchors'" v-model="anchor" :anchors="anchors" :popup-container="false">
+            <template #header>
+              <div class="panel-height-controls">
+                <button
+                  type="button"
+                  :disabled="anchor === 80"
+                  @click="anchor = anchors[Math.max(0, anchors.indexOf(anchor) - 1)]"
+                >
+                  收起
+                </button>
+                <span aria-live="polite">{{ anchor }} px</span>
+                <button
+                  type="button"
+                  :disabled="anchor === 320"
+                  @click="anchor = anchors[Math.min(anchors.length - 1, anchors.indexOf(anchor) + 1)]"
+                >
+                  展开
+                </button>
+              </div>
+            </template>
             <div style="text-align: center; padding: 5px 15px">
               <p>面板锚点高度为 {{ Math.floor(anchor) }} px</p>
             </div>
@@ -44,10 +63,16 @@ const styleVars = ref({
         </mp-tab-item>
       </mp-tabs-items>
     </mp-tabs>
-  </mp-style-provider>
+  </mp-theme-provider>
 </template>
 
 <style scoped>
+.panel-height-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  min-height: 40px;
+}
 .floating-panel-demo-surface {
   position: relative;
   height: 400px;

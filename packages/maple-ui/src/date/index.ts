@@ -17,7 +17,7 @@ const Date = withInstall(
 withPropsDefaultsSetter(Date, dateProps)
 withPropsDefaultsSetter(DatePicker, datePickerProps)
 
-export { dateProps, datePickerProps, DatePicker }
+export { dateProps, datePickerProps, DatePicker, Date }
 
 export type DateInstance = InstanceType<typeof _Date>
 export type DatePickerInstance = InstanceType<typeof DatePicker>

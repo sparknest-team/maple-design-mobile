@@ -1,0 +1,3 @@
+- [x] Reproduce preview ownership and zero gaps on both platforms.
+- [x] Repair keyboard preview reset and nonnegative gap resolution.
+- [x] Verify Rate and length consumers, browsers, types, specifications, documentation and source gates.

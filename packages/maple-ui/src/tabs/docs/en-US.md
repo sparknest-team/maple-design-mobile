@@ -161,8 +161,9 @@ Use ordinary `v-model`. `modelValue` is the selected tab name. `defaultValue` in
 | default-value | `string / number` | `undefined` | Initial uncontrolled value; defaults to the first available item |
 | variant | `line / card / outline / plain / capsule / enclosed` | `line` | Visual variant |
 | size | `xs / sm / md / lg / xl` | Global value or md | Size |
-| orientation | Horizontal/vertical axis of tab navigation, default horizontal; affects navigation layout and arrow-key behavior | `horizontal` | Navigation orientation |
-| indicator-position | Indicator on the navigation side facing the content (normal) or the opposite side (reverse), default normal; does not use four-side values | `normal` | Indicator on the content side or opposite side |
+| tab-list-aria-label | `string` | `undefined` | Accessible name for the tab list; explicit aria-label or aria-labelledby on TabsNavs takes precedence |
+| orientation | `Orientation`<br>`'horizontal' \| 'vertical'` | `horizontal` | Navigation orientation |
+| indicator-position | `TabsIndicatorPosition`<br>`'normal' \| 'reverse'` | `normal` | Indicator on the content side or opposite side |
 | editable | `boolean` | `false` | Allow closing tabs |
 | show-add-button | `boolean` | `false` | Show the add button in editable mode |
 | auto-switch | `boolean` | `false` | Switch to the last available tab after adding |
@@ -178,7 +179,7 @@ Use ordinary `v-model`. `modelValue` is the selected tab name. `defaultValue` in
 | tab-style | `StyleValue` | `undefined` | Outer navigation-label style; supports string, object or array |
 | hide-content | `boolean` | `false` | Hide the content area |
 | trigger | `click / hover` | `click` | Mouse trigger mode; touch always uses click |
-| scroll-position | Target position or numeric offset of the selected tab within the navigation scroll viewport, default auto; not popup placement | `auto` | Selected-tab scroll position; numbers are start offsets |
+| scroll-position | `TabsScrollPosition`<br>`'start' \| 'end' \| 'center' \| 'auto' \| number` | `auto` | Selected-tab scroll position; numbers are start offsets |
 | scroll-buttons | `boolean / auto` | `auto` | Show arrows on overflow; auto hides them on touch devices |
 | activation-mode | `automatic / manual` | `automatic` | Whether arrow keys immediately select |
 | swipeable | `boolean` | `false` | Horizontal swipe between content panels; no looping |
@@ -227,7 +228,7 @@ TabNav/TabItem associate through the same `name`. Names are unique within a grou
 
 Inactive panels always have hidden. The above props determine whether internal state survives. destroy-on-hide overrides lazy-load; active content remains mounted. TabsNavs/TabsItems have no business props.
 
-### Slots
+### TabItem Slots
 
 | Component | Slot | Description |
 | --- | --- | --- |
@@ -239,7 +240,7 @@ Inactive panels always have hidden. The above props determine whether internal s
 | TabsItems | default | TabItem list |
 | TabItem | default | Panel content |
 
-### Expose
+### TabItem Methods
 
 `TabsNavs.resize(): void` remeasures overflow and scrolls the selected tab into view. ResizeObserver watches size changes automatically.
 
@@ -247,59 +248,84 @@ Inactive panels always have hidden. The above props determine whether internal s
 
 Arrow keys skip disabled items and wrap; Home/End reach first/last. Delete requests closing editable tabs. Horizontal uses Left/Right, vertical uses Up/Down. Manual mode moves focus only; Enter/Space activates the native button. `dir="rtl"` supports right-to-left layout. Give TabsNavs an `aria-label` to name navigation.
 
-### Types
+After a close request, if the focused tab is removed, focus moves to an adjacent enabled tab unless the user has already moved focus elsewhere. When changing panels, focus moves to the new tab only if it was inside the panel being hidden. Horizontal start, end and numeric scroll offsets follow reading direction; the start is on the right in RTL.
+
+In TabPane mode, use tab-list-aria-label to name the tab list. In advanced mode, TabsNavs accepts aria-label or aria-labelledby directly. When using navigation without TabItem, the application is responsible for associating and making external panels accessible.
+
+## Types
 
 Exports TabsName, TabsVariant, TabsTrigger, TabsIndicatorPosition, TabsScrollPosition, TabsActivationMode and Props/Instance/runtime props/`_XxxComponent` for all six components. Both platforms use the same prop definitions.
 
-## Style variables
+## Usage notes
+
+Supports xs / sm / md / lg / xl sizes. Cedar inherits ConfigProvider size / rtl. Maple defaults to md and supports setPropsDefaults, explicit size and DOM dir. Inactive panels are hidden, and InfiniteScroll follows panel visibility.
+
+Public types include TabsEmits, TabsSlots, TabPaneSlots, TabsNavsSlots, TabNavSlots, TabsItemsSlots, TabItemSlots and TabsNavsExpose. Only TabsNavs has its own method, resize(). Other members have no own imperative methods/notification events; selection/editing events belong to Tabs.
+### Configuration
 
 Matching token suffixes have matching meanings on both platforms, with platform-specific defaults. The variables and their defaults are listed below.
 
-| Variable | Default |
-| --- | --- |
-| `--mp-tabs-background` | `var(--mp-sys-color-surface-default)` |
-| `--mp-tabs-title-text-color` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-tabs-title-text-color-active` | `var(--mp-sys-color-content-brand)` |
-| `--mp-tabs-title-text-color-disabled` | `var(--mp-sys-color-content-disabled)` |
-| `--mp-tabs-muted-background` | `var(--mp-sys-color-surface-muted)` |
-| `--mp-tabs-border-color` | `var(--mp-sys-color-border-default)` |
-| `--mp-tabs-hover-background` | `var(--mp-sys-color-state-hover)` |
-| `--mp-tabs-nav-gap` | `var(--mp-sys-space-2)` |
-| `--mp-tabs-tab-gap` | `var(--mp-sys-space-2)` |
-| `--mp-tabs-header-padding` | `var(--mp-sys-space-4)` |
-| `--mp-tabs-control-height` | `var(--mp-sys-control-height-xs)` |
-| `--mp-tabs-touch-target` | `var(--mp-sys-control-touch-target)` |
-| `--mp-tabs-border-width` | `1px` |
-| `--mp-tabs-focus-width` | `2px` |
-| `--mp-tabs-focus-offset` | `-3px` |
-| `--mp-tabs-radius` | `var(--mp-sys-radius-md)` |
-| `--mp-tabs-icon-gap` | `var(--mp-sys-space-3)` |
-| `--mp-tabs-content-padding` | `var(--mp-sys-space-5)` |
-| `--mp-tabs-indicator-size` | `2px` |
-| `--mp-tabs-indicator-radius` | `1px` |
-| `--mp-tabs-animation-duration` | `var(--mp-sys-motion-duration-standard)` |
-| `--mp-tabs-active-font-weight` | `var(--mp-sys-font-weight-semibold)` |
-| `--mp-tabs-group-padding` | `var(--mp-sys-space-2)` |
-| `--mp-tabs-capsule-radius` | `12px` |
-| `--mp-tabs-active-shadow` | `none` |
-| `--mp-tabs-size-xs-tab-height` | `var(--mp-sys-control-height-xs)` |
-| `--mp-tabs-size-xs-tab-padding` | `var(--mp-sys-space-2) var(--mp-sys-space-4)` |
-| `--mp-tabs-size-xs-tab-font-size` | `var(--mp-sys-font-size-xs)` |
-| `--mp-tabs-size-sm-tab-height` | `var(--mp-sys-control-height-sm)` |
-| `--mp-tabs-size-sm-tab-padding` | `var(--mp-sys-space-3) var(--mp-sys-space-5)` |
-| `--mp-tabs-size-sm-tab-font-size` | `var(--mp-sys-font-size-sm)` |
-| `--mp-tabs-size-md-tab-height` | `var(--mp-sys-control-height-md)` |
-| `--mp-tabs-size-md-tab-padding` | `var(--mp-sys-space-4) var(--mp-sys-space-6)` |
-| `--mp-tabs-size-md-tab-font-size` | `var(--mp-sys-font-size-md)` |
-| `--mp-tabs-size-lg-tab-height` | `var(--mp-sys-control-height-lg)` |
-| `--mp-tabs-size-lg-tab-padding` | `10px var(--mp-sys-space-7)` |
-| `--mp-tabs-size-lg-tab-font-size` | `var(--mp-sys-font-size-lg)` |
-| `--mp-tabs-size-xl-tab-height` | `var(--mp-sys-control-height-xl)` |
-| `--mp-tabs-size-xl-tab-padding` | `var(--mp-sys-space-5) var(--mp-sys-space-8)` |
-| `--mp-tabs-size-xl-tab-font-size` | `var(--mp-sys-font-size-xl)` |
+## CSS Variables
 
-## Independent source copies and public types
+<!-- component-css-variables:start -->
 
-Both platforms independently maintain Tabs, TabPane, TabsNavs, TabNav, TabsItems and TabItem without cross-library runtimes or generic platform configuration. All xs/sm/md/lg/xl sizes are implemented. Cedar inherits ConfigProvider size/rtl. Maple defaults to md and supports setPropsDefaults, explicit size and DOM dir. Panels use native hidden; InfiniteScroll observes visibility directly rather than old panel registration.
+Use these variables to customize the component. Defaults may vary by the selector condition shown. Each variable applies to the corresponding size, variant and interaction states.
 
-Public types include TabsEmits, TabsSlots, TabPaneSlots, TabsNavsSlots, TabNavSlots, TabsItemsSlots, TabItemSlots and TabsNavsExpose. Only TabsNavs has its own method, resize(). Other members have no own imperative methods/notification events; selection/editing events belong to Tabs.
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Default / condition | Affected styles |
+| --- | --- | --- |
+| `--mp-tabs-active-font-weight` | `var(--mp-sys-font-weight-semibold)` | `font-weight` |
+| `--mp-tabs-active-shadow` | `none` | `box-shadow` |
+| `--mp-tabs-animation-duration` | `var(--mp-sys-motion-duration-standard)` | `animation` |
+| `--mp-tabs-background` | `var(--mp-sys-color-surface-default)` | `background` |
+| `--mp-tabs-border-color` | `var(--mp-sys-color-border-default)` | `background`, `border-color` |
+| `--mp-tabs-border-width` | `1px` | `border`, `bottom`, `height` |
+| `--mp-tabs-capsule-radius` | `12px` | `border-radius` |
+| `--mp-tabs-content-padding` | `var(--mp-sys-space-5)` | `padding-block`, `padding-inline-start` |
+| `--mp-tabs-control-height` | `var(--mp-sys-control-height-xs)` | `min-height`, `min-width` |
+| `--mp-tabs-focus-offset` | `-3px` | `outline-offset` |
+| `--mp-tabs-focus-width` | `2px` | `outline` |
+| `--mp-tabs-group-padding` | `var(--mp-sys-space-2)` | `padding` |
+| `--mp-tabs-header-padding` | `var(--mp-sys-space-4)` | `padding-inline` |
+| `--mp-tabs-hover-background` | `var(--mp-sys-color-state-hover)` | `background` |
+| `--mp-tabs-icon-gap` | `var(--mp-sys-space-3)` | `gap` |
+| `--mp-tabs-indicator-radius` | `1px` | `border-radius` |
+| `--mp-tabs-indicator-size` | `2px` | `height`, `width` |
+| `--mp-tabs-muted-background` | `var(--mp-sys-color-surface-muted)` | `background` |
+| `--mp-tabs-nav-gap` | `var(--mp-sys-space-2)` | `gap` |
+| `--mp-tabs-radius` | `var(--mp-sys-radius-md)` | `border-radius` |
+| `--mp-tabs-size-lg-tab-font-size` | `var(--mp-sys-font-size-lg)` | `font-size` |
+| `--mp-tabs-size-lg-tab-height` | `var(--mp-sys-control-height-lg)` | `min-height` |
+| `--mp-tabs-size-lg-tab-padding` | `10px var(--mp-sys-space-7)` | `padding` |
+| `--mp-tabs-size-md-tab-font-size` | `var(--mp-sys-font-size-md)` | `font-size` |
+| `--mp-tabs-size-md-tab-height` | `var(--mp-sys-control-height-md)` | `min-height` |
+| `--mp-tabs-size-md-tab-padding` | `var(--mp-sys-space-4) var(--mp-sys-space-6)` | `padding` |
+| `--mp-tabs-size-sm-tab-font-size` | `var(--mp-sys-font-size-sm)` | `font-size` |
+| `--mp-tabs-size-sm-tab-height` | `var(--mp-sys-control-height-sm)` | `min-height` |
+| `--mp-tabs-size-sm-tab-padding` | `var(--mp-sys-space-3) var(--mp-sys-space-5)` | `padding` |
+| `--mp-tabs-size-xl-tab-font-size` | `var(--mp-sys-font-size-xl)` | `font-size` |
+| `--mp-tabs-size-xl-tab-height` | `var(--mp-sys-control-height-xl)` | `min-height` |
+| `--mp-tabs-size-xl-tab-padding` | `var(--mp-sys-space-5) var(--mp-sys-space-8)` | `padding` |
+| `--mp-tabs-size-xs-tab-font-size` | `var(--mp-sys-font-size-xs)` | `font-size` |
+| `--mp-tabs-size-xs-tab-height` | `var(--mp-sys-control-height-xs)` | `min-height` |
+| `--mp-tabs-size-xs-tab-padding` | `var(--mp-sys-space-2) var(--mp-sys-space-4)` | `padding` |
+| `--mp-tabs-tab-gap` | `var(--mp-sys-space-2)` | `gap` |
+| `--mp-tabs-title-text-color` | `var(--mp-sys-color-content-secondary)` | `color` |
+| `--mp-tabs-title-text-color-active` | `var(--mp-sys-color-content-brand)` | `background`, `color`, `outline` |
+| `--mp-tabs-title-text-color-disabled` | `var(--mp-sys-color-content-disabled)` | `color` |
+| `--mp-tabs-touch-target` | `var(--mp-sys-control-touch-target)` | `min-height`, `min-width` |
+
+</div>
+
+Apply overrides to the rendered component root or the actual popup ancestor. For example, add the following class to that element and replace the value as needed:
+
+```css
+.component-theme {
+  --mp-tabs-background: var(--mp-sys-color-surface-default);
+}
+```
+
+Explicit inline styles and props that write the same CSS property take precedence over stylesheet defaults. After Teleport, ordinary CSS variables inherit from the actual mount location. When using ThemeProvider, follow its local-theme and popup configuration rules. Override the component variable directly for local styling; root-level aliases are not recalculated merely because a descendant system variable changes. Internal variables are not public APIs.
+
+<!-- component-css-variables:end -->

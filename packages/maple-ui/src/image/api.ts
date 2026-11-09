@@ -84,6 +84,7 @@ export interface ImageProps {
   open?: boolean
   defaultOpen?: boolean
   previewProps?: Partial<ImagePreviewProps>
+  /** @deprecated Slots are described by ImageSlots and are not runtime props. */
   extra?: Slot
   placeholder?: Slot
   loader?: Slot
@@ -97,6 +98,42 @@ export interface ImageProps {
   onError?: (event: Event) => void
 }
 
+export interface ImageSlots {
+  extra?: Slot
+  placeholder?: Slot
+  loader?: Slot
+  error?: Slot
+  'error-icon'?: Slot
+  'preview-actions'?: Slot
+}
+
+export interface ImagePreviewImageSlotProps {
+  src?: string
+  scale: number
+  rotate: number
+  translateX: number
+  translateY: number
+  moving: boolean
+  previewedImgProps?: ImgHTMLAttributes
+}
+export interface ImagePreviewSlots {
+  image?: Slot<ImagePreviewImageSlotProps>
+  actions?: Slot
+  'close-icon'?: Slot
+  overlay?: Slot
+  extra?: Slot
+}
+export interface ImagePreviewGroupSlots {
+  default?: Slot
+  'close-icon'?: Slot
+  indicator?: Slot<{ imageNumber: number; length: number }>
+  extra?: Slot<{ url: string | undefined }>
+  actions?: Slot<{ url: string | undefined }>
+}
+export interface ImagePreviewActionSlots {
+  default?: Slot
+}
+
 export interface ImageInstance {
   showPreview: () => void
 }
@@ -107,7 +144,14 @@ export interface ImageUrlRecord {
 }
 
 export interface PreviewGroupContext {
-  registerImageUrl: (id: number, url: string, canPreview: boolean) => () => void
+  registerImageUrl: (
+    id: number,
+    url: string,
+    canPreview: boolean,
+    element?: () => HTMLElement | null | undefined,
+  ) => () => void
+  refreshOrder?: () => void
+  canPreviewImage?: () => boolean
   preview: (imageId: number) => void
 }
 
@@ -120,7 +164,7 @@ export interface ImagePreviewInstance {
   zoomOut: () => void
   rotateLeft: () => void
   rotateRight: () => void
-  toggleFullscreen: () => void
+  toggleFullscreen: () => Promise<void> | undefined
 }
 
 export interface ImagePreviewGroupInstance extends Omit<ImagePreviewInstance, 'open'> {
@@ -144,7 +188,7 @@ export interface ImagePreviewHandle {
   zoomOut: () => void
   rotateLeft: () => void
   rotateRight: () => void
-  toggleFullscreen: () => void
+  toggleFullscreen: () => Promise<void> | undefined
 }
 
 export interface ImagePreviewOptions extends ImagePreviewProps {

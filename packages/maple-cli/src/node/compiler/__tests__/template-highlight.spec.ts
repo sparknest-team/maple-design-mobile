@@ -7,6 +7,8 @@ import {
   HL_EN_TITLE_EVENTS_RE,
   HL_EN_TITLE_SLOTS_RE,
   HL_ZH_TITLE_ATTRIBUTES_RE,
+  HL_ZH_TITLE_EVENTS_RE,
+  HL_ZH_TITLE_SLOTS_RE,
 } from '../../shared/constant.js'
 import { compileMD, compileTable, compileWebTypes, parseTable } from '../compileTemplateHighlight.js'
 
@@ -49,9 +51,17 @@ describe('template highlight API tables', () => {
     })
   })
 
+  it('reads canonical English category titles on Chinese pages', () => {
+    const md =
+      '## API\n### Grid Props\n| Name | Type |\n| --- | --- |\n| cols | number |\n### Grid Events\n| Event | Description |\n| --- | --- |\n### Grid Slots\n| Slot | Description |\n| --- | --- |\n| default | Layout content |\n'
+    expect(parseTable(compileTable(md, HL_ZH_TITLE_ATTRIBUTES_RE))).toEqual([['cols', 'number']])
+    expect(parseTable(compileTable(md, HL_ZH_TITLE_EVENTS_RE))).toEqual([])
+    expect(parseTable(compileTable(md, HL_ZH_TITLE_SLOTS_RE))).toEqual([['default', 'Layout content']])
+  })
+
   it('compiles the real Grid docs without manufacturing events from section headings', () => {
     const path = resolve('../maple-ui/src/grid/docs/en-US.md')
-    expect(readFileSync(path, 'utf8')).toContain('### Events')
+    expect(readFileSync(path, 'utf8')).toContain('### Grid Events')
     const webTypes = { contributions: { html: { tags: [] as any[] } } }
     compileMD(path, webTypes, { namespace: 'mp' } as Required<MapleConfig>, {
       md: 'en-US.md',
@@ -72,6 +82,7 @@ it('recognizes component-prefixed attribute headings and keeps the opening targe
   for (const [title, expression] of [
     ['Select props', HL_EN_TITLE_ATTRIBUTES_RE],
     ['Cascader 属性', HL_ZH_TITLE_ATTRIBUTES_RE],
+    ['Cascader Props', HL_ZH_TITLE_ATTRIBUTES_RE],
   ] as const) {
     const md =
       '## API\n### ' +

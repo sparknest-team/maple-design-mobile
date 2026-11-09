@@ -78,9 +78,9 @@ createApp().use(Lazy, {
 
 ## API
 
-### Plugin options
+### Lazy Options
 
-| Arguments | Description | Type | Default |
+| Prop | Description | Type | Default |
 | --- | --- | --- | --- |
 | `loading` | Loading images, if possible, select images that load quickly | _string_ | 1-pixel transparent image |
 | `error` | Load failed to display the picture | _string_ | 1-pixel transparent image |
@@ -94,3 +94,12 @@ createApp().use(Lazy, {
 Changing the source, background argument or inline `lazy-loading`, `lazy-error`, `lazy-attempt` options invalidates the previous job. Unmount cancels queued frames and preload listeners; already-delivered stale callbacks cannot update a replacement job or detached node. Background URLs use quoted CSS escaping.
 
 Default configuration, the 100-entry FIFO cache and visibility scheduling are module-wide. Reinstall updates defaults for future jobs and rebinds pending elements to the new event list; existing jobs retain their resource options. Final teardown releases registrations and scheduled checks. `events` and `throttleWait` are plugin options, not inline `lazy-throttle-wait` attributes. Visibility uses the viewport; ancestor scrolling triggers checks without promising clipping-aware preloading.
+## CSS Variables
+
+<!-- component-css-variables:start -->
+
+This component declares no independent public CSS variables. Use the configuration and layout APIs documented on this page.
+
+Internal custom properties and measurement values are implementation details and are not customization APIs.
+
+<!-- component-css-variables:end -->

@@ -3,6 +3,7 @@
     v-if="readPretty"
     edit-mode="direct"
     :read-pretty="true"
+    :loading="loading"
     :empty="emptyPolicy.isEmpty(computedValue)"
     :empty-text="emptyPolicy.emptyText.value"
     :text="computedValue ?? ''"
@@ -13,6 +14,7 @@
   </FieldPresentation>
   <div
     v-else
+    :aria-busy="loading || undefined"
     :class="classes(n(), n('$--box'), n(`--${shape}`), [mergedDisabled, n('--disabled')])"
     :style="{ background }"
   >
@@ -59,22 +61,27 @@
         @change="handleFieldChange"
       />
 
-      <div v-else-if="label || $slots.label" :class="n('label')">
+      <label
+        v-else-if="label || $slots.label"
+        :for="getReferenceId()"
+        :aria-hidden="popupActive || undefined"
+        :class="n('label')"
+      >
         <slot name="label">{{ label }}</slot>
-      </div>
+      </label>
 
       <mp-input
         ref="input"
         edit-mode="direct"
         :model-value="computedValue"
         :model-modifiers="modelModifiers"
-        :input-attrs="inputAttrs"
+        :input-attrs="getReferenceAttrs()"
         :error="error"
         :type="type"
-        :aria-label="ariaLabel"
+        :aria-label="getLabel()"
         :placeholder="searchPlaceholder"
         :max-length="maxLength"
-        :readonly="mergedReadonly"
+        :readonly="mergedReadonly || popupActive"
         :disabled="mergedDisabled"
         :autofocus="autofocus"
         :enterkeyhint="enterkeyhint || 'search'"
@@ -159,7 +166,7 @@
       @update:open="handlePopupVisibleChange"
       @closed="handleHistoryPopupClosed"
     >
-      <history-content :settings="props" :state="control">
+      <history-content :settings="props" :state="control" :input-attrs="getPopupAttrs()">
         <template v-if="slots.prefix" #prefix><slot name="prefix" /></template>
         <template v-if="slots.suffix" #suffix><slot name="suffix" /></template>
         <template v-if="slots.label" #label><slot name="label" /></template>
@@ -170,7 +177,7 @@
 </template>
 
 <script setup lang="ts">
-import { nextTick, reactive, ref, shallowRef, watch } from 'vue'
+import { computed, nextTick, reactive, ref, shallowRef, watch } from 'vue'
 import { IconSearch } from '@maple-design/icons-vue'
 import { useFieldPresentation } from '../_components/field-presentation/context'
 import FieldPresentation from '../_components/field-presentation/FieldPresentation.vue'
@@ -188,6 +195,7 @@ import HistoryContent from './HistoryContent.vue'
 import { searchProps } from './props'
 import type { SearchExpose, SearchSlots } from './types'
 import { searchEmits, useSearchControl } from './use-search-control'
+import { useSearchInput } from './use-search-input'
 
 defineOptions({ name: createNamespace('search').name })
 const props = defineProps(searchProps)
@@ -198,16 +206,28 @@ const input = shallowRef<{ focus(): void; blur(): void } | null>(null)
 const select = shallowRef<{ focus(): void; blur(): void } | null>(null)
 const historyMenu = shallowRef<{ resize(): void; setReference(element: HTMLElement): void } | null>(null)
 const fieldRef = ref<InstanceType<typeof MpFieldDecorator>>()
-const core = useSearchControl(props, emit, input)
-const editMode = core.editMode
 const presentationState = useFieldPresentation(
   () => undefined,
   () => props.readPretty,
 )
 const readPretty = presentationState.readPretty
+const core = useSearchControl(props, emit, input, () => readPretty.value)
+const editMode = core.editMode
 const emptyPolicy = useEmptyValues(props, undefined, Boolean(presentationState.item))
 const control = reactive(core)
 const state = control
+const popupActive = computed(() => state.historyPopupVisible)
+const { getReferenceId, getLabel, getReferenceAttrs, getPopupAttrs } = useSearchInput(props, () => popupActive.value)
+watch(
+  readPretty,
+  (reading) => {
+    if (reading) {
+      core.resetHistory()
+    }
+  },
+  { flush: 'sync' },
+)
+
 const {
   searchText,
   cancelText,

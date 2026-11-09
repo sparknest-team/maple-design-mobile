@@ -130,25 +130,35 @@ click 是普通事件通知，支持 async 回调；loading 由业务状态控�
 
 主按钮位于阅读起点，菜单按钮位于阅读终点；LTR/RTL 切换不交换业务动作或额外触发选择。Enter/Space 保留原生按钮行为，菜单按钮支持上下键打开菜单并跳过禁用项，Home/End 定位首尾，Enter 选择，Escape 关闭并归还焦点。弹层继承触发按钮来源方向，start/end 对齐随方向变化，显式 left/right 保持物理侧。自定义向下图形不额外镜像。
 
+## 菜单按钮名称
+
+菜单触发按钮默认使用本地化的“更多操作”名称；可通过 `trigger-button-props` 提供 `aria-label` 或 `aria-labelledby` 覆盖。
+
+## 触发与定位
+
+### 弹层定位
+
+通过 `placement` 设置附加菜单的弹出方向，可选值见 `MenuPlacement`。
+
 ## API
 
-### 属性
+### SplitButton Props
 
 | 参数                   | 说明                                 | 类型                             | 默认值      |
 | ---------------------- | ------------------------------------ | -------------------------------- | ----------- |
 | `open`                 | 菜单是否打开，支持 `v-model:open`    | _boolean_                        | `undefined` |
 | `default-open`         | 菜单默认是否打开                     | _boolean_                        | `false`     |
 | `disabled`             | 是否禁用整个分裂按钮                 | _boolean_                        | `false`     |
-| `status`               | 按钮组主题色                         | _SemanticStatus_                 | `default`   |
-| `variant`              | 按钮组变体                           | _ButtonVariant_                  | `default`   |
-| `size`                 | 按钮组尺寸                           | _ComponentSize_                  | `md`        |
-| `color`                | 自定义背景色                         | _string_                         | `''`        |
+| `status`               | 按钮组主题色                         | `SemanticStatus`<br>`'default' \| 'primary' \| 'secondary' \| 'tertiary' \| 'info' \| 'success' \| 'warning' \| 'danger'` | `default`   |
+| `variant`              | 按钮组变体                           | _ButtonVariant_<br>`'text' \| 'default' \| 'outline' \| 'tonal'` | `default`   |
+| `size`                 | 按钮组尺寸，不影响菜单项尺寸         | _ComponentSize_<br>`'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `md`        |
+| `color`                | 自定义背景色                         | _string_                         | `undefined`        |
 | `text-color`           | 自定义文字色                         | _string_                         | `''`        |
 | `elevation`            | 按钮组海拔阴影                       | _boolean \| number_              | `true`      |
-| `button-props`         | 主按钮属性                           | `Partial<ButtonProps>`           | `undefined` |
-| `trigger-button-props` | 菜单触发按钮属性                     | `Partial<ButtonProps>`           | `undefined` |
-| `trigger`              | 菜单触发方式                         | _TriggerEvent \| TriggerEvent[]_ | `click`     |
-| `placement`            | 浮层相对触发元素的首选方位，默认 bottom；启用默认的 auto-fit-position 时，空间不足会自动翻转并约束到可视区域，不保证最终停在该侧 | _MenuPosition_               | `bottom`    |
+| `button-props`         | 主按钮属性，支持原生属性及事件       | `SplitButtonButtonProps`           | `undefined` |
+| `trigger-button-props` | 菜单触发按钮属性，支持原生属性及事件 | `SplitButtonButtonProps`           | `undefined` |
+| `trigger`              | 菜单触发方式                         | _TriggerEvent \| TriggerEvent[]_<br>`TriggerEvent: 'manual' \| 'focus' \| 'hover' \| 'click' \| 'contextMenu'` | `click`     |
+| `placement`            | 浮层相对触发元素的首选方位，默认 bottom；启用默认的 auto-fit-position 时，空间不足会自动翻转并约束到可视区域，不保证最终停在该侧 | `MenuPlacement`<br>`'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end' \| 'left' \| 'left-start' \| 'left-end' \| 'right' \| 'right-start' \| 'right-end'`               | `bottom`    |
 | `popup-container`      | 菜单挂载容器                         | _PopupContainer_                 | `body`      |
 | `popup-max-height`     | 菜单最大高度                         | _boolean \| number_              | `true`      |
 | `popup-class`          | 菜单浮层类名                         | _string \| array \| object_      | `undefined` |
@@ -156,16 +166,16 @@ click 是普通事件通知，支持 async 回调；loading 由业务状态控�
 | `offset-y`             | 菜单纵向偏移                         | _string \| number_               | `0`         |
 | `hide-on-select`       | 选择菜单项后是否关闭菜单             | _boolean_                        | `true`      |
 
-### 事件
+### SplitButton Events
 
 | 事件名        | 说明                       | 回调参数               |
 | ------------- | -------------------------- | ---------------------- |
 | `update:open` | 菜单打开状态请求更新时触发 | `open: boolean`        |
-| `open-change` | 菜单打开状态变化时触发     | `open: boolean`        |
+| `open-change` | 菜单打开状态请求更新时触发     | `open: boolean`        |
 | `click`       | 点击主按钮时触发           | `event: Event`         |
 | `select`      | 选择菜单项时触发           | `value, option, event` |
 
-### 插槽
+### SplitButton Slots
 
 | 插槽名    | 说明             | 参数            |
 | --------- | ---------------- | --------------- |
@@ -199,7 +209,7 @@ const publish = async () => {
 
 `click` 是普通 Emits 事件；主按钮正常冒泡，不打开菜单；整体 disabled 优先于两个按钮的 disabled 配置。
 
-### 实例方法
+### SplitButton Methods
 
 | 方法     | 说明                       |
 | -------- | -------------------------- |
@@ -209,9 +219,12 @@ const publish = async () => {
 
 受控 open 只请求更新，需由调用方更新绑定值。offset-x / offset-y 表示屏幕 X/Y 轴，数字单位为 px，长度字符串按现有长度工具转换。
 
-两端主体、Props、样式依赖入口和契约测试为独立同源副本；底层 Menu 保留平台适配，不共享实例。
+## CSS Variables
 
+<!-- component-css-variables:start -->
 
-### 方位语义与配置入口
+本组件未声明独立的公共 CSS 变量。请使用本页公开的配置与布局入口。 组合控件的外观复用 `button`、`menu` 的公共变量；共享变量可能同时影响同一 DOM 子树中的其他控件。
 
-菜单方位通过内部 Menu 的 placement 传递给 Trigger，使用 MenuPlacement 类型，不新增第二个定位入口。
+内部自定义属性与测量中间值属于实现细节，不作为业务定制 API。
+
+<!-- component-css-variables:end -->

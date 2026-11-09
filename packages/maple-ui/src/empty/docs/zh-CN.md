@@ -80,7 +80,7 @@ Reload 只更新本地刷新次数和描述，不请求服务；真实业务请�
 
 ## API
 
-### Props
+### Empty Props
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
@@ -91,13 +91,13 @@ Reload 只更新本地刷新次数和描述，不请求服务；真实业务请�
 | `show-icon` | 是否显示图标 | `boolean` | `true` |
 | `show-description` | 是否显示描述 | `boolean` | `true` |
 
-### Events
+### Empty Events
 
 | 事件名 | 说明 | 参数 |
 | --- | --- | --- |
 | `click` | 点击回调 | `(event: MouseEvent)` |
 
-### Slots
+### Empty Slots
 
 | 插槽名 | 说明 |
 | --- | --- |
@@ -105,27 +105,47 @@ Reload 只更新本地刷新次数和描述，不请求服务；真实业务请�
 | `image` | 自定义图标/图片 |
 | `extra` | 额外操作 |
 
-### 类型定义
+## Types
 
 ```ts
 type EmptyImageSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | number | string
 ```
 
-### 样式变量
-
-| 名称 | 默认值 |
-| --- | --- |
-| `--mp-empty-padding` | `20px` |
-| `--mp-empty-image-margin-bottom` | `4px` |
-| `--mp-empty-description-font-size` | `14px` |
-| `--mp-empty-description-color` | `var(--mp-sys-color-content-tertiary)` |
-| `--mp-empty-description-line-height` | `1.5` |
-| `--mp-empty-icon-color` | `var(--mp-sys-color-content-decorative)` |
-| `--mp-empty-extra-margin-top` | `20px` |
-| `--mp-empty-size-xs` | `80px` |
-| `--mp-empty-size-sm` | `100px` |
-| `--mp-empty-size-md` | `120px` |
-| `--mp-empty-size-lg` | `140px` |
-| `--mp-empty-size-xl` | `160px` |
+## CSS Variables
 
 描述使用低强调文字语义，装饰图标使用 `content-decorative`；后者不用于需要阅读的文字。自定义图片或插槽可能有自己的颜色，不会被 `icon-color` 强制重染。尺寸与间距允许遵循移动端密度，但同名变量职责与 Cedar 一致。
+
+<!-- component-css-variables:start -->
+
+通过以下变量定制组件外观。默认值随表中注明的主题或选择器条件变化；变量仅在对应的尺寸、变体和交互状态下生效。
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| 变量 | 默认值／条件 | 影响的样式 |
+| --- | --- | --- |
+| `--mp-empty-description-color` | `var(--mp-sys-color-content-tertiary)` | `color` |
+| `--mp-empty-description-font-size` | `14px` | `font-size` |
+| `--mp-empty-description-line-height` | `1.5` | `line-height` |
+| `--mp-empty-extra-margin-top` | `20px` | `margin-top` |
+| `--mp-empty-icon-color` | `var(--mp-sys-color-content-decorative)` | `color` |
+| `--mp-empty-image-margin-bottom` | `4px` | `margin-bottom` |
+| `--mp-empty-padding` | `20px` | `padding` |
+| `--mp-empty-size-lg` | `140px` | `font-size`, `height`, `width` |
+| `--mp-empty-size-md` | `120px` | `font-size`, `height`, `width` |
+| `--mp-empty-size-sm` | `100px` | `font-size`, `height`, `width` |
+| `--mp-empty-size-xl` | `160px` | `font-size`, `height`, `width` |
+| `--mp-empty-size-xs` | `80px` | `font-size`, `height`, `width` |
+
+</div>
+
+将覆盖设置在组件实际根节点或弹层真实挂载祖先上。例如给该元素添加下列 class，再按需替换变量值：
+
+```css
+.component-theme {
+  --mp-empty-description-color: var(--mp-sys-color-content-tertiary);
+}
+```
+
+显式行内样式及直接写入同一 CSS 属性的 Props 优先于样式表默认值。Teleport 后，普通 CSS 变量按实际挂载位置继承；使用 ThemeProvider 时，请遵循其局部主题与弹层配置规则。局部定制请直接覆盖组件变量；仅修改后代的 system 变量不会重新计算从根继承的组件别名。内部变量不属于公共 API。
+
+<!-- component-css-variables:end -->

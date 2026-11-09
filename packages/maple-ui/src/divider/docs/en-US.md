@@ -2,6 +2,8 @@
 
 Separate content sections in lists and layouts.
 
+Inherits the nearest `dir="ltr|rtl"`. Horizontal text start/end follows reading order; vertical start/end remains top/bottom. Inset controls along-line indentation and spacing controls perpendicular margins. Paired horizontal inset and vertical spacing uses logical start/end. Vertical borders use inline start; hairline, border type and aria-orientation retain their meaning. Direction changes preserve content nodes.
+
 ## Basic examples
 
 ### Basic Usage
@@ -115,7 +117,7 @@ The default slot takes priority over `description`. Provide padding for custom c
 | `orientation` | Horizontal/vertical orientation of the divider itself, default horizontal; does not control text alignment | Live Properties |
 | `opacity` | Opacity of the entire divider, including text, from 0 to 1; zero preserves layout | Live Properties |
 | `hairline` | Scale the theme line width by half; 0.5px with the default theme | Live Properties |
-| `thickness` | Line width in px; theme defaults to 1px; hairline takes priority | Live Properties |
+| `thickness` | Finite line width of at least 1px; omission uses the 1px theme default; hairline takes precedence | Live Properties |
 | `inset` | Inset along the line: left/right horizontally, top/bottom vertically | Live Properties |
 | `spacing` | Outer spacing across the line: top/bottom horizontally, left/right vertically | Live Properties |
 <!-- demo-config-notes:end -->
@@ -127,9 +129,7 @@ Toggle orientation, default slot text, opacity and hairline to inspect updates a
 ../example/demos/live-properties.vue
 ```
 
-## Reading direction
-
-Inherits the nearest `dir="ltr|rtl"`. Horizontal text start/end follows reading order; vertical start/end remains top/bottom. Inset controls along-line indentation and spacing controls perpendicular margins. Paired horizontal inset and vertical spacing uses logical start/end. Vertical borders use inline start; hairline, border type and aria-orientation retain their meaning. Direction changes preserve content nodes.
+## Content and layout
 
 ### Content height and minimum thickness
 
@@ -141,9 +141,15 @@ Multiline descriptions and custom content occupy their full height, including sp
 ../example/demos/content-flow.vue
 ```
 
+## Usage notes
+
+### Configuration
+
+Presets read the active platform theme. Text spacing is 16px on desktop and 8px on mobile.
+
 ## API
 
-### Props
+### Divider Props
 
 | Prop | Description | Type | Default |
 | --- | --- | --- | --- |
@@ -153,7 +159,7 @@ Multiline descriptions and custom content occupy their full height, including sp
 | `description` | Description text; the default slot takes priority | `string` | — |
 | `inset` | Inset along the line: left/right horizontally, top/bottom vertically | `DividerSize` | — |
 | `spacing` | Outer spacing across the line: top/bottom horizontally, left/right vertically | `DividerSize` | `md` |
-| `thickness` | Line width in px; theme defaults to 1px; hairline takes priority | `number` | — |
+| `thickness` | Finite line width of at least 1px; omission uses the 1px theme default; hairline takes precedence | `number` | — |
 | `hairline` | Scale the theme line width by half; 0.5px with the default theme | `boolean` | `false` |
 | `color` | Line color; defaults to the theme border color | `string` | — |
 | `opacity` | Opacity of the entire divider, including text, from 0 to 1; zero preserves layout | `number` | — |
@@ -169,51 +175,69 @@ Multiline descriptions and custom content occupy their full height, including sp
 | horizontal | Inline start/end inset; right/left in RTL | Top/bottom margin |
 | vertical | Top/bottom inset | Inline start/end margin; right/left in RTL |
 
-`inset` has no `inset` by default; `spacing` defaults to the platform’s `md` `spacing`. Presets use platform theme tokens, so pixel values may differ.
+`inset` has no inset by default; `spacing` defaults to the platform’s `md` spacing. Presets use platform theme tokens, so pixel values may differ.
 
 
-Development builds diagnose invalid orientation, text-align, type, size structure, thickness and opacity. Invalid enums use their defaults; invalid inset is omitted, invalid spacing uses md, and invalid opacity is omitted. Opacity must be finite and within [0,1]. Size arrays contain one or two lengths, without preset names inside arrays. Finite negative margins and CSS var/calc expressions remain supported; the browser parses CSS expressions.
+Development checks cover orientation, text-align, type, spacing shape, thickness and opacity. Invalid enums use defaults; invalid inset produces no indentation, invalid spacing falls back to md, and invalid opacity does not override styles. opacity must be finite and within 0–1. Arrays accept one or two lengths and no preset names. Finite negative margins and CSS var/calc expressions remain supported; browsers parse their CSS syntax.
 
-### Slots
+### Divider Slots
 
 | Slot | Description |
 | --- | --- |
 | `default` | Custom divider content; overrides description |
 
-## Type definitions
+## Types
 
 ```ts
 import type { DividerProps, DividerInstance, DividerSize, DividerSizePreset, DividerOrientation, DividerTextAlign, DividerType } from '@maple-design/ui'
 ```
 
-### Style variables
+## CSS Variables
 
-| Variable | Default |
-| --- | --- |
-| `--mp-divider-color` | `var(--mp-sys-color-border-default)` |
-| `--mp-divider-text-color` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-divider-border-width` | `1px` |
-| `--mp-divider-text-padding` | `8px` |
-| `--mp-divider-text-align-inset` | `24px` |
-| `--mp-divider-orientation-vertical-inset-xs` | `2px` |
-| `--mp-divider-orientation-horizontal-inset-xs` | `12px` |
-| `--mp-divider-orientation-vertical-spacing-xs` | `4px` |
-| `--mp-divider-orientation-horizontal-spacing-xs` | `8px` |
-| `--mp-divider-orientation-vertical-inset-sm` | `4px` |
-| `--mp-divider-orientation-horizontal-inset-sm` | `16px` |
-| `--mp-divider-orientation-vertical-spacing-sm` | `8px` |
-| `--mp-divider-orientation-horizontal-spacing-sm` | `12px` |
-| `--mp-divider-orientation-vertical-inset-md` | `6px` |
-| `--mp-divider-orientation-horizontal-inset-md` | `24px` |
-| `--mp-divider-orientation-vertical-spacing-md` | `12px` |
-| `--mp-divider-orientation-horizontal-spacing-md` | `16px` |
-| `--mp-divider-orientation-vertical-inset-lg` | `8px` |
-| `--mp-divider-orientation-horizontal-inset-lg` | `32px` |
-| `--mp-divider-orientation-vertical-spacing-lg` | `16px` |
-| `--mp-divider-orientation-horizontal-spacing-lg` | `24px` |
-| `--mp-divider-orientation-vertical-inset-xl` | `12px` |
-| `--mp-divider-orientation-horizontal-inset-xl` | `40px` |
-| `--mp-divider-orientation-vertical-spacing-xl` | `24px` |
-| `--mp-divider-orientation-horizontal-spacing-xl` | `32px` |
+<!-- component-css-variables:start -->
 
-Presets read the active platform theme. Text spacing is 16px on desktop and 8px on mobile.
+Use these variables to customize the component. Defaults may vary by the selector condition shown. Each variable applies to the corresponding size, variant and interaction states.
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Default / condition | Affected styles |
+| --- | --- | --- |
+| `--mp-divider-border-width` | `1px` | `border-inline-start-width`, `border-top-width` |
+| `--mp-divider-color` | `var(--mp-sys-color-border-default)` | `border-inline-start-color`, `border-top-color` |
+| `--mp-divider-orientation-horizontal-inset-lg` | `32px` | `margin-inline-end`, `margin-inline-start`, `max-width` |
+| `--mp-divider-orientation-horizontal-inset-md` | `24px` | `margin-inline-end`, `margin-inline-start`, `max-width` |
+| `--mp-divider-orientation-horizontal-inset-sm` | `16px` | `margin-inline-end`, `margin-inline-start`, `max-width` |
+| `--mp-divider-orientation-horizontal-inset-xl` | `40px` | `margin-inline-end`, `margin-inline-start`, `max-width` |
+| `--mp-divider-orientation-horizontal-inset-xs` | `12px` | `margin-inline-end`, `margin-inline-start`, `max-width` |
+| `--mp-divider-orientation-horizontal-spacing-lg` | `24px` | `margin-block-end`, `margin-block-start` |
+| `--mp-divider-orientation-horizontal-spacing-md` | `16px` | `margin-block-end`, `margin-block-start` |
+| `--mp-divider-orientation-horizontal-spacing-sm` | `12px` | `margin-block-end`, `margin-block-start` |
+| `--mp-divider-orientation-horizontal-spacing-xl` | `32px` | `margin-block-end`, `margin-block-start` |
+| `--mp-divider-orientation-horizontal-spacing-xs` | `8px` | `margin-block-end`, `margin-block-start` |
+| `--mp-divider-orientation-vertical-inset-lg` | `8px` | `margin-block-end`, `margin-block-start`, `max-height` |
+| `--mp-divider-orientation-vertical-inset-md` | `6px` | `margin-block-end`, `margin-block-start`, `max-height` |
+| `--mp-divider-orientation-vertical-inset-sm` | `4px` | `margin-block-end`, `margin-block-start`, `max-height` |
+| `--mp-divider-orientation-vertical-inset-xl` | `12px` | `margin-block-end`, `margin-block-start`, `max-height` |
+| `--mp-divider-orientation-vertical-inset-xs` | `2px` | `margin-block-end`, `margin-block-start`, `max-height` |
+| `--mp-divider-orientation-vertical-spacing-lg` | `16px` | `margin-inline-end`, `margin-inline-start` |
+| `--mp-divider-orientation-vertical-spacing-md` | `12px` | `margin-inline-end`, `margin-inline-start` |
+| `--mp-divider-orientation-vertical-spacing-sm` | `8px` | `margin-inline-end`, `margin-inline-start` |
+| `--mp-divider-orientation-vertical-spacing-xl` | `24px` | `margin-inline-end`, `margin-inline-start` |
+| `--mp-divider-orientation-vertical-spacing-xs` | `4px` | `margin-inline-end`, `margin-inline-start` |
+| `--mp-divider-text-align-inset` | `24px` | `height`, `width` |
+| `--mp-divider-text-color` | `var(--mp-sys-color-content-secondary)` | `color` |
+| `--mp-divider-text-padding` | `8px` | `padding` |
+
+</div>
+
+Apply overrides to the rendered component root or the actual popup ancestor. For example, add the following class to that element and replace the value as needed:
+
+```css
+.component-theme {
+  --mp-divider-color: var(--mp-sys-color-border-default);
+}
+```
+
+Explicit inline styles and props that write the same CSS property take precedence over stylesheet defaults. After Teleport, ordinary CSS variables inherit from the actual mount location. When using ThemeProvider, follow its local-theme and popup configuration rules. Override the component variable directly for local styling; root-level aliases are not recalculated merely because a descendant system variable changes. Internal variables are not public APIs.
+
+<!-- component-css-variables:end -->

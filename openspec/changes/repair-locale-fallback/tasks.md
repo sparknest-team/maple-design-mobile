@@ -1,0 +1,3 @@
+- [x] Reproduce empty/partial/nested fallback loss
+- [x] Repair provider fallback and documentation
+- [x] Verify Maple consumers and Cedar equivalent scope

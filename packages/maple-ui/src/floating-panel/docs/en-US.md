@@ -13,56 +13,93 @@ The demo is confined to a 400px container using `popup-container=false` and a lo
 ../example/demos/basic.vue
 ```
 
+## Usage notes
+
+### Configuration
+
+Native `id`, `aria-*`, class, style and event listeners apply to the actual panel root. Internal transforms merge with business styles.
+
 ## API
 
 ### Value and default value
 
-Use ordinary `v-model`. `modelValue` is current docking height in px. `defaultValue` initializes uncontrolled state once without later resets. Explicit binding wins, with no initialization `update:modelValue`.
+Use normal `v-model`. `modelValue` is the strictly controlled docked height in px. `defaultValue` initializes uncontrolled state once and later changes do not reset it. An explicit binding takes precedence; initialization does not emit `update:modelValue`. Dragging shows a temporary height. Ending notifies the candidate anchor; a refusing parent restores the effective bound anchor. `touchcancel`, deactivation, or model/anchor changes during dragging cancel without committing.
 
-### Props
+### FloatingPanel Props
 
-| Arguments | Description | Type | Default |
+| Prop | Description | Type | Default |
 | ------------------ | ----------------------------------------------------------------- | ---------- | ---------------- |
 | `v-model` | Current settled height in pixels; updated after dragging and snapping | _number_ | `-` |
 | `default-value` | Initial uncontrolled height, read only at creation | _number_ | `100` |
-| `anchors` | Custom anchors which unit is `px` | _number[]_ | `[100, window.innerHeight * 0.6]` |
+| `anchors` | Finite nonnegative anchors in px. Invalid entries are filtered and duplicates removed; empty or entirely invalid arrays use defaults. Sorting is unnecessary; ties prefer the earlier supplied entry. | _number[]_ | `[100, window.innerHeight * 0.6]` |
 | `content-draggable` | Whether to allow to drag panel content area | _boolean_ | `true` |
-| `duration` | Transition duration which unit is `ms` | _number \| string_ | `300` |
+| `duration` | Finite nonnegative animation duration in ms. Numeric strings are supported; invalid values fall back to 300 and 0 disables transform animation. | _number \| string_ | `300` |
 | `elevation` | Elevation level, options `true` `false` and level of `0-24` | _number \| boolean_ | `true` |
-| `popup-container` | Mount target: body when omitted, false for inline; selector or HTMLElement | _string \| HTMLElement \| false_ | `body` |
-| `safe-area` | Whether to enable bottom safety zone adaptation | _boolean_ | `false` |
+| `popup-container` | Mount target: defaults to body; false renders in place. Supports a selector or HTMLElement. | _PopupContainer_ | `body` |
+| `safe-area` | Whether to adapt to the bottom, left and right safe areas | _boolean_ | `false` |
 
 Omitting `popup-container` mounts to `body`; `false` renders inline. Missing or invalid selectors fall back to `body` with a development warning. Targets can change at runtime, and SSR does not query browser DOM.
 
-### Events
+### FloatingPanel Events
 
 | Event | Description | Arguments |
 | --- | --- | --- |
 | `update:model-value` | Height after dragging and snapping; not emitted during initialization | `height: number` |
-| `height-change` | Triggered after moving to an anchor | `height: number` |
+| `height-change` | Notifies a changed candidate anchor on drag end; parent acceptance is not guaranteed. | `height: number` |
 
-### Slots
+### FloatingPanel Slots
 
-| Slot | Description | Arguments |
+| Slot | Description | Prop |
 | --- | --- | --- |
 | `default` | Custom panel content | `-` |
-| `header` ***3.2.12*** | Custom panel header | `-` |
+| `header` | Custom panel header | `-` |
 
-### Style variables
+### Keyboard and types
 
-The following CSS variables support customization with [StyleProvider](#/en-US/style-provider).
+The custom-anchor example uses native Collapse and Expand buttons in the header slot. Enter/Space adjusts the same v-model. The default drag handle supports touch only. The panel root does not automatically declare a dialog or button role; provide region names and interaction semantics for the content.
 
-| Variable | Default |
-| --- | --- |
-| `--floating-panel-z-index` | `999` |
-| `--floating-panel-border-top` | `none` |
-| `--floating-panel-border-radius` | `0` |
-| `--mp-floating-panel-background` | `var(--mp-sys-color-surface-overlay)` |
-| `--floating-panel-header-height` | `40px` |
-| `--floating-panel-toolbar-width` | `20px` |
-| `--floating-panel-toolbar-height` | `3px` |
-| `--floating-panel-toolbar-border-radius` | `10px` |
-| `--floating-panel-toolbar-background` | `#ddd` |
-| `--floating-panel-transition-timing-function` | `cubic-bezier(0.18, 0.89, 0.32, 1.28)` |
+Heights and initial values must be finite and nonnegative; invalid values display the minimum effective anchor. Dynamic anchors rematch the nearest value without writing back. External changes do not emit user commit events. Events are notifications; Promises are not awaited and do not drive loading. `content-draggable=false` preserves native content scrolling.
 
-Native id, aria attributes, class, style and event listeners apply to the actual panel root; business styles merge with the built-in transform.
+```ts
+import { FloatingPanel } from '@maple-design/ui/floating-panel'
+import type { FloatingPanelProps, FloatingPanelInstance, PopupContainer } from '@maple-design/ui'
+```
+
+No custom public instance methods. Eight props, two events and two unscoped slots. PopupContainer accepts HTMLElement, selectors and false; the shared type is authoritative.
+
+## CSS Variables
+
+The following CSS variables support customization with [ThemeProvider](#/en-US/theme-provider).
+
+<!-- component-css-variables:start -->
+
+Use these variables to customize the component. Defaults may vary by the selector condition shown. Each variable applies to the corresponding size, variant and interaction states.
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Default / condition | Affected styles |
+| --- | --- | --- |
+| `--mp-floating-panel-background` | `var(--mp-sys-color-surface-overlay)` | `background-color`, `box-shadow` |
+| `--mp-floating-panel-border-radius` | `0` | `border-top-left-radius`, `border-top-right-radius` |
+| `--mp-floating-panel-border-top` | `none` | `border-top` |
+| `--mp-floating-panel-header-height` | `30px` | `height` |
+| `--mp-floating-panel-toolbar-background` | `#ddd` | `background` |
+| `--mp-floating-panel-toolbar-border-radius` | `10px` | `border-radius` |
+| `--mp-floating-panel-toolbar-height` | `3px` | `height` |
+| `--mp-floating-panel-toolbar-width` | `20px` | `width` |
+| `--mp-floating-panel-transition-timing-function` | `cubic-bezier(0.18, 0.89, 0.32, 1.28)` | Component styling |
+| `--mp-floating-panel-z-index` | `999` | `z-index` |
+
+</div>
+
+Apply overrides to the rendered component root or the actual popup ancestor. For example, add the following class to that element and replace the value as needed:
+
+```css
+.component-theme {
+  --mp-floating-panel-background: var(--mp-sys-color-surface-overlay);
+}
+```
+
+Explicit inline styles and props that write the same CSS property take precedence over stylesheet defaults. After Teleport, ordinary CSS variables inherit from the actual mount location. When using ThemeProvider, follow its local-theme and popup configuration rules. Override the component variable directly for local styling; root-level aliases are not recalculated merely because a descendant system variable changes. Internal variables are not public APIs.
+
+<!-- component-css-variables:end -->

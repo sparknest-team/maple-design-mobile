@@ -92,13 +92,6 @@ onThemeChange()
     <OrganizedLayoutLab />
   </section>
 
-  <section data-demo="split-wrapping">
-    <h3 class="mobile-demo-case-heading">
-      <span lang="zh-CN">分隔换行与内容状态</span><span lang="en-US">Split wrapping and content state</span>
-    </h3>
-    <SplitWrappingDemo />
-  </section>
-
   <h2 class="mobile-demo-group-heading" data-demo-group="interaction-and-control">
     <span lang="zh-CN">交互与控制</span>
     <span lang="en-US">Interaction and control</span>
@@ -107,5 +100,17 @@ onThemeChange()
   <section data-demo="interactive-layout">
     <app-type>{{ english ? 'Interactive layout' : '动态布局' }}</app-type>
     <InteractiveLayoutDemo />
+  </section>
+
+  <h2 class="mobile-demo-group-heading" data-demo-group="separators-and-wrapping">
+    <span lang="zh-CN">分隔与换行</span>
+    <span lang="en-US">Separators and wrapping</span>
+  </h2>
+
+  <section data-demo="split-wrapping">
+    <h3 class="mobile-demo-case-heading">
+      <span lang="zh-CN">分隔换行与内容状态</span><span lang="en-US">Split wrapping and content state</span>
+    </h3>
+    <SplitWrappingDemo />
   </section>
 </template>

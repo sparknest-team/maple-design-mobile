@@ -15,9 +15,9 @@ const Time = withInstall(
 withPropsDefaultsSetter(Time, timeProps)
 withPropsDefaultsSetter(TimePicker, timePickerProps)
 
-export { timeProps, timePickerProps, TimePicker }
+export { timeProps, timePickerProps, TimePicker, Time }
 
-export type TimeInstance = InstanceType<typeof _Time>
+export type TimeInstance = InstanceType<typeof _Time> & import('./public-types').TimeExpose
 export type TimePickerInstance = InstanceType<typeof TimePicker>
 export type { TimeProps } from './props'
 export type { TimeValue } from './time-value'
@@ -35,3 +35,15 @@ export type TimePickerProps = import('vue').ExtractPublicPropTypes<typeof import
 export type { TimeDisabledRules, TimeStep } from './time-rules'
 
 export type { TimePickerField } from '../_components/picker-field/fields'
+
+export type {
+  TimeModelValue,
+  TimeEmits,
+  TimeReadScope,
+  TimeSuffixIconScope,
+  TimeActionsScope,
+  TimeExpose,
+} from './public-types'
+export type { TimeSlots } from './slots'
+
+export type { TimePickerEmits, TimePickerSlots } from './picker-contract'

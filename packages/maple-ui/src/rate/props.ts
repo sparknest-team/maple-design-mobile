@@ -1,6 +1,7 @@
-import type { Component, PropType } from 'vue'
+import type { Component, PropType, VNodeChild } from 'vue'
 import { fieldPresentationProps } from '../_components/field-presentation/props'
 import { emptyValueProp } from '../utils/empty-value'
+import { validRateCount } from './count'
 
 export type RateColor = string | Record<string, string>
 export type RateIcon = string | Component
@@ -14,11 +15,11 @@ export const rateProps = {
   modelValue: { type: Number as PropType<number | null>, default: undefined },
   /** 非受控初始评分。 */
   defaultValue: { type: Number, default: 0 },
-  /** 评分总数，正有限数向下取整。 */
+  /** 评分总数，0 < count <= 1000，向下取整且至少一颗；非法值回退 5。 */
   count: {
     type: [String, Number],
     default: 5,
-    validator: (value: unknown) => Number.isFinite(Number(value)) && Number(value) > 0,
+    validator: validRateCount,
   },
   /** 选中颜色或按分值阈值分段的颜色。 */
   color: [String, Object] as PropType<RateColor>,
@@ -32,7 +33,7 @@ export const rateProps = {
   emptyColor: String,
   /** 图标尺寸，数字为 px，字符串为 CSS 长度；不支持尺寸档位。 */
   size: [String, Number],
-  /** 图标间距，数字为 px，字符串为 CSS 长度。 */
+  /** 图标间距，允许零；数字为 px，字符串为 CSS 长度。 */
   gap: [String, Number],
   /** 允许半分。 */
   allowHalf: Boolean,
@@ -61,6 +62,7 @@ export interface RateExpose {
 export interface RateCharacterSlotProps {
   index: number
   value: number
+  /** True only for a fully selected symbol; partial selection uses the half wrapper class. */
   active: boolean
 }
 
@@ -68,4 +70,13 @@ export interface RateEmits {
   'update:modelValue': (value: number | null) => void
   change: (value: number | null) => void
   'hover-change': (value: number | null) => void
+}
+
+export interface RateReadScope {
+  value: number | null | undefined
+  text: string
+}
+export interface RateSlots {
+  character?: (scope: RateCharacterSlotProps) => VNodeChild
+  read?: (scope: RateReadScope) => VNodeChild
 }

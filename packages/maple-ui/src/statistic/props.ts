@@ -10,6 +10,7 @@ export const statisticProps = {
    */
   value: {
     type: [Number, String, Object] as PropType<number | string | Date>,
+    validator: (value: number | string | Date) => typeof value !== 'number' || Number.isFinite(value),
   },
   /**
    * 数值显示的格式，日期模式使用（dayjs）
@@ -43,6 +44,7 @@ export const statisticProps = {
   precision: {
     type: Number,
     default: 0,
+    validator: (value: number) => Number.isInteger(value) && value >= 0 && value <= 100,
   },
   /**
    * 进位分隔符（数字模式使用）
@@ -75,6 +77,7 @@ export const statisticProps = {
   animationDuration: {
     type: Number,
     default: 2000,
+    validator: (value: number) => Number.isFinite(value) && value >= 0,
   },
   /**
    * 动画的起始值
@@ -82,6 +85,7 @@ export const statisticProps = {
   valueFrom: {
     type: Number,
     default: undefined,
+    validator: (value: number) => Number.isFinite(value),
   },
   /**
    * 提示文字（当 value 为 undefined 且未使用默认插槽时显示）
@@ -96,3 +100,11 @@ export const statisticProps = {
 }
 
 export type StatisticProps = import('vue').ExtractPublicPropTypes<typeof statisticProps>
+
+export interface StatisticSlots {
+  default?: () => import('vue').VNodeChild
+  title?: () => import('vue').VNodeChild
+  prefix?: () => import('vue').VNodeChild
+  suffix?: () => import('vue').VNodeChild
+  extra?: () => import('vue').VNodeChild
+}

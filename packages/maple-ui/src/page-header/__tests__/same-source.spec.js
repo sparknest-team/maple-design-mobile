@@ -18,7 +18,7 @@ describe('page-header copied implementation contract', () => {
     expect(w.attributes('id')).toBe('heading')
     const button = w.find('button')
     expect(button.attributes('type')).toBe('button')
-    expect(button.attributes('aria-label')).toBe('Back')
+    expect(button.attributes('aria-label')).toBe('返回')
     await button.trigger('click')
     expect(w.emitted('back')).toHaveLength(1)
     expect(w.emitted('back')[0][0]).toBeInstanceOf(MouseEvent)

@@ -132,10 +132,18 @@ Use this example for notification counts and markers. Adjust variant, status, si
 ../example/demos/content.vue
 ```
 
+## Usage notes
+
+### Configuration
+
+All public Badge variables and defaults:
+
 ## API
 
 <!-- same-source-api:start -->
-### Props
+Numeric `content` supports finite nonnegative values. Zero appears only when `show-zero` is true; dot mode and the `content` slot follow the same rule. Strings are displayed verbatim, including `0`. Negative and non-finite numbers are hidden. `max=0` disables truncation and an invalid maximum falls back to 99. Offsets accept finite negative values; invalid offsets fall back to `0`. In floating mode positive offsets move inward from the anchored edge, while positive vertical offsets at side midpoints move downward. Inline mode ignores horizontal offset and applies vertical offset as a block margin selected by start/end. A provided default slot counts as a host even when empty. The `content` slot overrides the default badge but remains subject to `show` and numeric zero visibility.
+
+### Badge Props
 
 | Parameter | Description | Type | Default |
 | --------------- | ---------------------------------------------------------------------------------- | -------------------------------------------------------------- | :---------: |
@@ -151,32 +159,32 @@ Use this example for notification counts and markers. Adjust variant, status, si
 | position | Physical corner or left/right midpoint inside the host box, default top-right. Only used in floating mode; RTL does not mirror it | `'top-right' \| 'top-left' \| 'bottom-right' \| 'bottom-left' \| 'left' \| 'right'` | `top-right` |
 | inline-position | Inline badge at the logical start or end of the host content, default end. Only used in inline mode | `'start' \| 'end'` | `end` |
 | size | Size | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `md` |
-| status | Semantic status | `SemanticStatus` | `danger` |
+| status | Semantic status | `SemanticStatus`<br>`'default' \| 'primary' \| 'secondary' \| 'tertiary' \| 'info' \| 'success' \| 'warning' \| 'danger'` | `danger` |
 | show | Show the badge | `boolean` | `true` |
 | show-zero | Show numeric zero | `boolean` | `false` |
 | variant | Appearance | `'outline' \| 'default'` | `default` |
 
-### Events
+### Badge Events
 
 No component-specific events.
 
-### Slots
+### Badge Slots
 
-| Slot | Description | Arguments |
+| Slot | Description | Prop |
 | ------- | ---------------- | ---- |
 | default | Fallback description text | - |
 | content | Content displayed inside the badge | - |
 
-### Methods
+### Badge Methods
 
 No public methods.
 
-### Platform notes
+### Usage notes
 
 Props and slots match across platforms. Without a default slot and with an empty description, the badge renders independently inline. Omitting content displays a dot. Each library reads text direction from its own configuration and supplies its own theme colors and CSS prefix.
 <!-- same-source-api:end -->
 
-## Type definitions
+## Types
 
 ```ts
 type SemanticStatus = 'default' | 'success' | 'warning' | 'danger' | 'info' | 'primary' | 'secondary' | 'tertiary'
@@ -187,94 +195,112 @@ type BadgeInlinePosition = 'start' | 'end'
 type BadgeSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 ```
 
-## Style variables
-
-All public Badge variables and defaults:
-
-| Variable | Default |
-| --- | --- |
-| `--mp-badge-font-weight` | `var(--mp-sys-font-weight-medium)` |
-| `--mp-badge-description-size-xs-font-size` | `var(--mp-sys-font-size-xs)` |
-| `--mp-badge-description-size-sm-font-size` | `var(--mp-sys-font-size-xs)` |
-| `--mp-badge-description-size-md-font-size` | `var(--mp-sys-font-size-md)` |
-| `--mp-badge-description-size-lg-font-size` | `var(--mp-sys-font-size-lg)` |
-| `--mp-badge-description-size-xl-font-size` | `var(--mp-sys-font-size-xl)` |
-| `--mp-badge-description-text-color` | `var(--mp-sys-color-content-primary)` |
-| `--mp-badge-size-xs-font-size` | `var(--mp-sys-font-size-xs)` |
-| `--mp-badge-size-sm-font-size` | `var(--mp-sys-font-size-xs)` |
-| `--mp-badge-size-md-font-size` | `var(--mp-sys-font-size-xs)` |
-| `--mp-badge-size-lg-font-size` | `var(--mp-sys-font-size-md)` |
-| `--mp-badge-size-xl-font-size` | `var(--mp-sys-font-size-lg)` |
-| `--mp-badge-size-xs-scale` | `0.6667` |
-| `--mp-badge-size-sm-scale` | `0.8333` |
-| `--mp-badge-size-md-scale` | `1` |
-| `--mp-badge-size-lg-scale` | `1` |
-| `--mp-badge-size-xl-scale` | `1` |
-| `--mp-badge-size-xs-dot-width` | `4px` |
-| `--mp-badge-size-sm-dot-width` | `5px` |
-| `--mp-badge-size-md-dot-width` | `6px` |
-| `--mp-badge-size-lg-dot-width` | `7px` |
-| `--mp-badge-size-xl-dot-width` | `8px` |
-| `--mp-badge-size-xs-dot-height` | `4px` |
-| `--mp-badge-size-sm-dot-height` | `5px` |
-| `--mp-badge-size-md-dot-height` | `6px` |
-| `--mp-badge-size-lg-dot-height` | `7px` |
-| `--mp-badge-size-xl-dot-height` | `8px` |
-| `--mp-badge-size-xs-space` | `0px` |
-| `--mp-badge-size-sm-space` | `var(--mp-sys-space-1)` |
-| `--mp-badge-size-md-space` | `var(--mp-sys-space-3)` |
-| `--mp-badge-size-lg-space` | `var(--mp-sys-space-3)` |
-| `--mp-badge-size-xl-space` | `var(--mp-sys-space-4)` |
-| `--mp-badge-size-xs-padding` | `0 var(--mp-sys-space-3)` |
-| `--mp-badge-size-sm-padding` | `0 var(--mp-sys-space-3)` |
-| `--mp-badge-size-md-padding` | `0 var(--mp-sys-space-4)` |
-| `--mp-badge-size-lg-padding` | `0 var(--mp-sys-space-4)` |
-| `--mp-badge-size-xl-padding` | `0 10px` |
-| `--mp-badge-size-xs-height` | `20px` |
-| `--mp-badge-size-sm-height` | `20px` |
-| `--mp-badge-size-md-height` | `24px` |
-| `--mp-badge-size-lg-height` | `28px` |
-| `--mp-badge-size-xl-height` | `32px` |
-| `--mp-badge-size-xs-border-radius` | `20px` |
-| `--mp-badge-size-sm-border-radius` | `20px` |
-| `--mp-badge-size-md-border-radius` | `24px` |
-| `--mp-badge-size-lg-border-radius` | `28px` |
-| `--mp-badge-size-xl-border-radius` | `32px` |
-| `--mp-badge-bg-color` | `rgb(var(--mp-danger-7))` |
-| `--mp-badge-text-color` | `var(--mp-sys-color-content-on-dark)` |
-| `--mp-badge-status-default-bg-color` | `#e0e0e0` |
-| `--mp-badge-status-default-text-color` | `var(--mp-sys-color-content-on-bright)` |
-| `--mp-badge-status-info-bg-color` | `var(--mp-sys-color-status-info)` |
-| `--mp-badge-status-info-text-color` | `var(--mp-sys-color-content-on-dark)` |
-| `--mp-badge-status-success-bg-color` | `var(--mp-sys-color-status-success)` |
-| `--mp-badge-status-success-text-color` | `var(--mp-sys-color-content-on-dark)` |
-| `--mp-badge-status-warning-bg-color` | `var(--mp-sys-color-status-warning)` |
-| `--mp-badge-status-warning-text-color` | `var(--mp-sys-color-content-on-dark)` |
-| `--mp-badge-status-danger-bg-color` | `rgb(var(--mp-danger-7))` |
-| `--mp-badge-status-danger-text-color` | `var(--mp-sys-color-content-on-dark)` |
-| `--mp-badge-status-primary-bg-color` | `var(--mp-sys-color-action-primary)` |
-| `--mp-badge-status-primary-text-color` | `var(--mp-sys-color-content-on-dark)` |
-| `--mp-badge-status-secondary-bg-color` | `rgb(var(--mp-gray-6))` |
-| `--mp-badge-status-secondary-text-color` | `var(--mp-sys-color-content-on-dark)` |
-| `--mp-badge-status-tertiary-bg-color` | `rgb(var(--mp-gray-7))` |
-| `--mp-badge-status-tertiary-text-color` | `var(--mp-sys-color-content-on-dark)` |
-| `--mp-badge-variant-outline-bg-color` | `transparent` |
-| `--mp-badge-variant-outline-text-color` | `var(--mp-sys-color-content-danger)` |
-| `--mp-badge-variant-outline-status-info-text-color` | `var(--mp-sys-color-content-info)` |
-| `--mp-badge-variant-outline-status-success-text-color` | `var(--mp-sys-color-content-success)` |
-| `--mp-badge-variant-outline-status-warning-text-color` | `var(--mp-sys-color-content-warning)` |
-| `--mp-badge-variant-outline-status-danger-text-color` | `var(--mp-sys-color-content-danger)` |
-| `--mp-badge-variant-outline-status-primary-text-color` | `var(--mp-sys-color-content-brand)` |
-| `--mp-badge-variant-outline-status-default-text-color` | `var(--mp-sys-color-content-primary)` |
-| `--mp-badge-variant-outline-status-secondary-text-color` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-badge-variant-outline-status-tertiary-text-color` | `var(--mp-sys-color-content-secondary)` |
-| `--mp-badge-border-color` | `var(--mp-sys-color-surface-default)` |
-| `--mp-badge-offset` | `2px` |
-| `--mp-badge-ring-width` | `2px` |
+## CSS Variables
 
 Filled badge text follows Button: primary, info, success, warning, danger and secondary use `content-on-dark`; tertiary uses `content-on-dark` in light mode and `content-on-bright` in dark mode. Default notification badges use red backgrounds and white text; the neutral background remains `#e0e0e0`.
 
 Colored outline text and borders follow Button, using the matching `content-brand`, `content-info`, `content-success`, `content-warning` and `content-danger` semantic roles; secondary and tertiary outlines use `content-secondary` for readability. `variant-outline-bg-color` works for every status and defaults to transparent. The `color` prop overrides outline text and border; `text-color` overrides text further. Both preserve control through the background variable. Recheck contrast after customizing foreground or background.
+
+<!-- component-css-variables:start -->
+
+Use these variables to customize the component. Defaults may vary by the selector condition shown. Each variable applies to the corresponding size, variant and interaction states.
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Default / condition | Affected styles |
+| --- | --- | --- |
+| `--mp-badge-bg-color` | `rgb(var(--mp-danger-7))` | `background-color` |
+| `--mp-badge-border-color` | `var(--mp-sys-color-surface-default)` | `background-color`, `box-shadow` |
+| `--mp-badge-description-size-lg-font-size` | `var(--mp-sys-font-size-lg)` | `font-size` |
+| `--mp-badge-description-size-md-font-size` | `var(--mp-sys-font-size-md)` | `font-size` |
+| `--mp-badge-description-size-sm-font-size` | `var(--mp-sys-font-size-xs)` | `font-size` |
+| `--mp-badge-description-size-xl-font-size` | `var(--mp-sys-font-size-xl)` | `font-size` |
+| `--mp-badge-description-size-xs-font-size` | `var(--mp-sys-font-size-xs)` | `font-size` |
+| `--mp-badge-description-text-color` | `var(--mp-sys-color-content-primary)` | `color` |
+| `--mp-badge-font-weight` | `var(--mp-sys-font-weight-medium)` | `font-weight` |
+| `--mp-badge-offset` | `2px` | `bottom`, `left`, `right`, `top` |
+| `--mp-badge-ring-width` | `2px` | `box-shadow`, `line-height` |
+| `--mp-badge-size-lg-border-radius` | `28px` | `border-radius` |
+| `--mp-badge-size-lg-dot-height` | `7px` | `height` |
+| `--mp-badge-size-lg-dot-width` | `7px` | `width` |
+| `--mp-badge-size-lg-font-size` | `var(--mp-sys-font-size-md)` | `font-size` |
+| `--mp-badge-size-lg-height` | `28px` | `line-height`, `min-width` |
+| `--mp-badge-size-lg-padding` | `0 var(--mp-sys-space-4)` | `padding` |
+| `--mp-badge-size-lg-scale` | `1` | `transform` |
+| `--mp-badge-size-lg-space` | `var(--mp-sys-space-3)` | `margin-inline` |
+| `--mp-badge-size-md-border-radius` | `24px` | `border-radius` |
+| `--mp-badge-size-md-dot-height` | `6px` | `height` |
+| `--mp-badge-size-md-dot-width` | `6px` | `width` |
+| `--mp-badge-size-md-font-size` | `var(--mp-sys-font-size-xs)` | `font-size` |
+| `--mp-badge-size-md-height` | `24px` | `line-height`, `min-width` |
+| `--mp-badge-size-md-padding` | `0 var(--mp-sys-space-4)` | `padding` |
+| `--mp-badge-size-md-scale` | `1` | `transform` |
+| `--mp-badge-size-md-space` | `var(--mp-sys-space-3)` | `margin-inline` |
+| `--mp-badge-size-sm-border-radius` | `20px` | `border-radius` |
+| `--mp-badge-size-sm-dot-height` | `5px` | `height` |
+| `--mp-badge-size-sm-dot-width` | `5px` | `width` |
+| `--mp-badge-size-sm-font-size` | `var(--mp-sys-font-size-xs)` | `font-size` |
+| `--mp-badge-size-sm-height` | `20px` | `line-height`, `min-width` |
+| `--mp-badge-size-sm-padding` | `0 var(--mp-sys-space-3)` | `padding` |
+| `--mp-badge-size-sm-scale` | `0.8333` | `transform` |
+| `--mp-badge-size-sm-space` | `var(--mp-sys-space-1)` | `margin-inline` |
+| `--mp-badge-size-xl-border-radius` | `32px` | `border-radius` |
+| `--mp-badge-size-xl-dot-height` | `8px` | `height` |
+| `--mp-badge-size-xl-dot-width` | `8px` | `width` |
+| `--mp-badge-size-xl-font-size` | `var(--mp-sys-font-size-lg)` | `font-size` |
+| `--mp-badge-size-xl-height` | `32px` | `line-height`, `min-width` |
+| `--mp-badge-size-xl-padding` | `0 10px` | `padding` |
+| `--mp-badge-size-xl-scale` | `1` | `transform` |
+| `--mp-badge-size-xl-space` | `var(--mp-sys-space-4)` | `margin-inline` |
+| `--mp-badge-size-xs-border-radius` | `20px` | `border-radius` |
+| `--mp-badge-size-xs-dot-height` | `4px` | `height` |
+| `--mp-badge-size-xs-dot-width` | `4px` | `width` |
+| `--mp-badge-size-xs-font-size` | `var(--mp-sys-font-size-xs)` | `font-size` |
+| `--mp-badge-size-xs-height` | `20px` | `line-height`, `min-width` |
+| `--mp-badge-size-xs-padding` | `0 var(--mp-sys-space-3)` | `padding` |
+| `--mp-badge-size-xs-scale` | `0.6667` | `transform` |
+| `--mp-badge-size-xs-space` | `0px` | `margin-inline` |
+| `--mp-badge-status-danger-bg-color` | `rgb(var(--mp-danger-7))` | `background-color` |
+| `--mp-badge-status-danger-text-color` | `var(--mp-sys-color-content-on-dark)` | `color` |
+| `--mp-badge-status-default-bg-color` | `#e0e0e0` | `background-color` |
+| `--mp-badge-status-default-text-color` | `var(--mp-sys-color-content-on-bright)` | `color` |
+| `--mp-badge-status-info-bg-color` | `var(--mp-sys-color-status-info)` | `background-color` |
+| `--mp-badge-status-info-text-color` | `var(--mp-sys-color-content-on-dark)` | `color` |
+| `--mp-badge-status-primary-bg-color` | `var(--mp-sys-color-action-primary)` | `background-color` |
+| `--mp-badge-status-primary-text-color` | `var(--mp-sys-color-content-on-dark)` | `color` |
+| `--mp-badge-status-secondary-bg-color` | `rgb(var(--mp-gray-6))` | `background-color` |
+| `--mp-badge-status-secondary-text-color` | `var(--mp-sys-color-content-on-dark)` | `color` |
+| `--mp-badge-status-success-bg-color` | `var(--mp-sys-color-status-success)` | `background-color` |
+| `--mp-badge-status-success-text-color` | `var(--mp-sys-color-content-on-dark)` | `color` |
+| `--mp-badge-status-tertiary-bg-color` | `rgb(var(--mp-gray-7))` | `background-color` |
+| `--mp-badge-status-tertiary-text-color` | `var(--mp-sys-color-content-on-dark)` | `color` |
+| `--mp-badge-status-warning-bg-color` | `var(--mp-sys-color-status-warning)` | `background-color` |
+| `--mp-badge-status-warning-text-color` | `var(--mp-sys-color-content-on-dark)` | `color` |
+| `--mp-badge-text-color` | `var(--mp-sys-color-content-on-dark)` | `color` |
+| `--mp-badge-variant-outline-bg-color` | `transparent` | `background-color` |
+| `--mp-badge-variant-outline-status-danger-text-color` | `var(--mp-sys-color-content-danger)` | `border`, `color` |
+| `--mp-badge-variant-outline-status-default-text-color` | `var(--mp-sys-color-content-primary)` | `border`, `color` |
+| `--mp-badge-variant-outline-status-info-text-color` | `var(--mp-sys-color-content-info)` | `border`, `color` |
+| `--mp-badge-variant-outline-status-primary-text-color` | `var(--mp-sys-color-content-brand)` | `border`, `color` |
+| `--mp-badge-variant-outline-status-secondary-text-color` | `var(--mp-sys-color-content-secondary)` | `border`, `color` |
+| `--mp-badge-variant-outline-status-success-text-color` | `var(--mp-sys-color-content-success)` | `border`, `color` |
+| `--mp-badge-variant-outline-status-tertiary-text-color` | `var(--mp-sys-color-content-secondary)` | `border`, `color` |
+| `--mp-badge-variant-outline-status-warning-text-color` | `var(--mp-sys-color-content-warning)` | `border`, `color` |
+| `--mp-badge-variant-outline-text-color` | `var(--mp-sys-color-content-danger)` | `border`, `color` |
+
+</div>
+
+Apply overrides to the rendered component root or the actual popup ancestor. For example, add the following class to that element and replace the value as needed:
+
+```css
+.component-theme {
+  --mp-badge-bg-color: rgb(var(--mp-danger-7));
+}
+```
+
+Explicit inline styles and props that write the same CSS property take precedence over stylesheet defaults. After Teleport, ordinary CSS variables inherit from the actual mount location. When using ThemeProvider, follow its local-theme and popup configuration rules. Override the component variable directly for local styling; root-level aliases are not recalculated merely because a descendant system variable changes. Internal variables are not public APIs.
+
+<!-- component-css-variables:end -->
 
 ### Color override boundaries
 

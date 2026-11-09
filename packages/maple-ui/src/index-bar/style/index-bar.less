@@ -17,6 +17,25 @@
     background-color: transparent;
   }
 
+  &__anchor-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: 2px solid currentColor;
+      outline-offset: 1px;
+    }
+  }
+
   &__anchor-item {
     font-size: var(--mp-index-bar-list-item-font-size);
     display: flex;

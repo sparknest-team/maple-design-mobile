@@ -1,7 +1,7 @@
 import { computed, defineComponent, inject, ref } from 'vue'
 import { selectionEditorSurface } from '../_components/selected-options/context'
 import { useFormItem } from '../form/item-provide'
-import Select from '../select'
+import Select, { type SelectInstance } from '../select'
 import { createNamespace } from '../utils/components'
 import { peopleSelectProps } from './props'
 
@@ -17,7 +17,9 @@ export default defineComponent({
     clear: () => true,
     search: (query: string) => typeof query === 'string',
   },
-  setup(props, { emit, attrs, slots }) {
+  setup(props, { emit, attrs, slots, expose }) {
+    const select = ref<SelectInstance>()
+    expose({ focus: () => select.value?.focus(), blur: () => select.value?.blur() })
     const localValue = ref<string | null>(props.defaultValue)
     const value = computed(() => (props.modelValue !== undefined ? props.modelValue : localValue.value))
     const editor = inject(selectionEditorSurface, undefined)
@@ -51,6 +53,7 @@ export default defineComponent({
         <div>{label.value}</div>
       ) : (
         <Select
+          ref={select}
           {...attrs}
           {...{ name: props.name }}
           placeholder={props.placeholder}

@@ -8,6 +8,9 @@
 > - Row + Col: Use for 24-column Flex layouts that need horizontal/vertical alignment, wrapping control, fixed and flexible widths together, or responsive ordering. Row controls the row; Col controls width, offset and order.
 > - Space: Use for simple groups of buttons, tags or text that only need spacing, direction and alignment. Use native Flex for more flexible width allocation.
 
+
+Horizontal and vertical gutters both default to 16px (`gutter=[16, 16]`). An explicit number or responsive object sets only the horizontal gutter. Use a tuple for both axes, or `gutter=0` to remove spacing.
+
 ## Basic examples
 
 ### 24-column layout
@@ -67,29 +70,29 @@ Use this example for row. Adjust cross-axis alignment, main-axis distribution an
 ## API
 
 <!-- same-source-api:start -->
-### Props
+### Row Props
 
 | Prop | Description | Type | Default |
 | --- | --- | --- | --- |
-| gutter | Gutter: number, responsive object or [horizontal, vertical] | `RowGutter` | `0` |
+| gutter | Gutter: number, responsive object or [horizontal, vertical] | `RowGutter` | `[16, 16]` |
 | justify | Horizontal alignment | `start / center / end / space-around / space-between` | `start` |
 | align | Vertical alignment | `start / center / end / stretch` | `start` |
 | wrap | Wrap columns | `boolean` | `true` |
 | div | Use Row and Col as plain divs without layout styles | `boolean` | `false` |
 
-### Events
+### Row Events
 
 | Event | Description |
 | --- | --- |
 | click | Native MouseEvent, emitted once per click |
 
-### Slots
+### Row Slots
 
 | Slot | Description |
 | --- | --- |
 | default | Layout content |
 
-### Methods
+### Row Methods
 
 | Method | Description |
 | --- | --- |
@@ -99,8 +102,20 @@ Wrapping examples compare wrapped and ordinary `div` modes. Ordinary mode remove
 
 ## Responsiveness and accessibility
 
-Breakpoints use the browser viewport: xs is the base; sm ≥576, md ≥768, lg ≥992, xl ≥1200 and xxl ≥1600px. Configured values resolve downward from the largest matching breakpoint. SSR starts with xs and responds to the viewport after mounting. Grid collapsing and dynamic ordering are calculated after mounting. These layout containers add no keyboard shortcuts; callers supply content semantics and focusable elements. There are no public methods or dedicated theme tokens.
+Row resolves responsive gutter with JavaScript matchMedia, using xs for SSR and synchronizing the viewport after mounting. Col uses CSS media queries: SSR already emits all configured classes without waiting for measurement. Breakpoints use viewport width: xs is the base; sm ≥576, md ≥768, lg ≥992, xl ≥1200 and xxl ≥1600px. Only configured fields override earlier values. Offset starts at the logical inline edge and mirrors in RTL. Order affects visual positioning while preserving DOM, keyboard and assistive technology reading order.
+
+Span, offset and their breakpoint fields accept integers from 0 through 24. A zero span hides the column; offset 24 shifts it by a full row width. Order accepts finite integers, including negative values and values above 24, subject to browser CSS order computation. Gutter accepts finite nonnegative numbers, six-breakpoint objects or exactly two entries [horizontal, vertical]. Development diagnostics report unknown breakpoints, invalid numbers and enum values. Invalid span falls back to 24; invalid offset/order is ignored; breakpoint objects retain valid fields; invalid gutter components fall back to zero.
 
 ## Imports
 
-Grid contains only Grid.Item. Row and Col are independent components with their own source, styles, navigation, documentation and demos. Grid.Row/Grid.Col, Row/Col re-exports from Grid and GridRowInstance/GridColInstance are removed. Import them from the library root or separate row/col entries. Installing Grid no longer registers Row/Col automatically.
+Grid contains only Grid.Item. Import the independent Row and Col components from the library root or their row/col subpaths; installing Grid does not register them.
+
+## CSS Variables
+
+<!-- component-css-variables:start -->
+
+This component declares no independent public CSS variables. Use the configuration and layout APIs documented on this page.
+
+Internal custom properties and measurement values are implementation details and are not customization APIs.
+
+<!-- component-css-variables:end -->

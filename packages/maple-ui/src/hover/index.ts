@@ -1,5 +1,5 @@
 import { ref, type App, type Directive, type DirectiveBinding, type Plugin } from 'vue'
-import { camelize, inMobile, isFunction } from '@maple-design/shared'
+import { inMobile, isFunction } from '@maple-design/shared'
 import { withPropsDefaultsSetter } from '../utils/components'
 import HoverOverlay from './HoverOverlay.vue'
 import { props as hoverOverlayProps } from './overlay-props'
@@ -22,152 +22,119 @@ function shouldDisabled(arg?: string) {
   return false
 }
 
-export type HoverHTMLElement = HTMLElement & {
-  _hover: {
-    value: HoverValue
-    hovering: boolean
-    rawStyle: Record<string, any>
+type SavedStyle = { value: string; priority: string }
+type HoverState = { value: HoverValue; hovering: boolean; rawStyle: Record<string, SavedStyle> }
+export type HoverHTMLElement = HTMLElement & { _hover?: HoverState }
+
+function cssName(name: string) {
+  if (name.startsWith('--')) {
+    return name
   }
-}
-
-function getStyle(element: HoverHTMLElement) {
-  const style = element.getAttribute('style')
-
-  if (!style) {
-    return {}
-  }
-
-  return style
-    .split(';')
-    .filter(Boolean)
-    .reduce(
-      (style, item) => {
-        const [key, value] = item.split(':').map((item) => item.trim())
-
-        style[camelize(key)] = value
-
-        return style
-      },
-      {} as Record<string, any>,
-    )
-}
-
-function updateRawStyle(element: HoverHTMLElement) {
-  const { value } = element._hover
-
-  const style = getStyle(element)
-
-  Object.keys(value as Record<string, any>).forEach((key) => {
-    const camelizedKey = camelize(key)
-
-    const styleValue = (value as Record<string, any>)[camelizedKey]
-
-    if (styleValue != null && style[camelizedKey]) {
-      element._hover.rawStyle[camelizedKey] = style[camelizedKey]
-    }
-  })
-}
-
-function updateStyle(element: HoverHTMLElement, styleValue: Record<string, any>) {
-  Object.keys(styleValue).forEach((key) => {
-    const value = styleValue[key]
-
-    if (value != null) {
-      element.style[key as any] = value
-    }
-  })
-}
-
-function clearStyle(element: HoverHTMLElement) {
-  Object.keys(element._hover.value as Record<string, any>).forEach((key) => {
-    const value = (element._hover.value as Record<string, any>)[key]
-
-    if (value != null) {
-      element.style[key as any] = ''
-    }
-  })
+  const result = name.replace(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`)
+  return result.startsWith('ms-') ? `-${result}` : result
 }
 
 function restoreStyle(element: HoverHTMLElement) {
-  if (element?._hover == null) {
+  const state = element._hover
+  if (!state) {
     return
   }
+  for (const [name, original] of Object.entries(state.rawStyle)) {
+    if (original.value) {
+      element.style.setProperty(name, original.value, original.priority)
+    } else {
+      element.style.removeProperty(name)
+    }
+  }
+  state.rawStyle = {}
+}
 
-  clearStyle(element)
-  updateStyle(element, element._hover.rawStyle)
+function applyStyle(element: HoverHTMLElement) {
+  const state = element._hover
+  if (!state || isFunction(state.value)) {
+    return
+  }
+  for (const [key, value] of Object.entries(state.value ?? {})) {
+    if (value == null) {
+      continue
+    }
+    const name = cssName(key)
+    state.rawStyle[name] = {
+      value: element.style.getPropertyValue(name),
+      priority: element.style.getPropertyPriority(name),
+    }
+    element.style.setProperty(name, String(value))
+  }
 }
 
 function createHover(this: HoverHTMLElement) {
-  const { value } = this._hover
-  this._hover.hovering = true
-
-  if (isFunction(value)) {
-    value(this._hover.hovering)
+  const state = this._hover
+  if (!state || state.hovering) {
     return
   }
-
-  updateStyle(this, value)
+  state.hovering = true
+  if (isFunction(state.value)) {
+    state.value(true)
+  } else {
+    applyStyle(this)
+  }
 }
 
 function removeHover(this: HoverHTMLElement) {
-  this._hover.hovering = false
-
-  if (isFunction(this._hover.value)) {
-    this._hover.value(this._hover.hovering)
+  const state = this._hover
+  if (!state || !state.hovering) {
     return
   }
-
-  restoreStyle(this)
+  state.hovering = false
+  if (isFunction(state.value)) {
+    state.value(false)
+  } else {
+    restoreStyle(this)
+  }
 }
 
-function mounted(element: HoverHTMLElement, binding: DirectiveBinding<HoverValue>) {
-  const { arg, value } = binding
-
-  if (shouldDisabled(arg)) {
-    return
-  }
-
-  element._hover = {
-    value,
-    hovering: element._hover?.hovering ?? false,
-    rawStyle: {},
-  }
-
-  updateRawStyle(element)
-
-  element.addEventListener('mouseenter', createHover)
-  element.addEventListener('mouseleave', removeHover)
-}
-
-function unmounted(element: HoverHTMLElement, binding: DirectiveBinding<HoverValue>) {
+function bind(element: HoverHTMLElement, binding: DirectiveBinding<HoverValue>, hovering = false) {
   if (shouldDisabled(binding.arg)) {
     return
   }
+  element._hover = { value: binding.value, hovering, rawStyle: {} }
+  element.addEventListener('mouseenter', createHover)
+  element.addEventListener('mouseleave', removeHover)
+  if (hovering) {
+    applyStyle(element)
+  }
+}
 
+function unbind(element: HoverHTMLElement) {
+  if (!element._hover) {
+    return
+  }
   restoreStyle(element)
   element.removeEventListener('mouseenter', createHover)
   element.removeEventListener('mouseleave', removeHover)
+  delete element._hover
 }
 
-function beforeUpdate(element: HoverHTMLElement, binding: DirectiveBinding<HoverValue>) {
-  if (!element._hover) {
-    // issue #942
-    return
-  }
-
-  unmounted(element, binding)
+function mounted(element: HoverHTMLElement, binding: DirectiveBinding<HoverValue>) {
+  bind(element, binding)
 }
 
-function shouldUpdateStyle(element: HoverHTMLElement, binding: DirectiveBinding<HoverValue>) {
-  return !isFunction(binding.value) && element._hover.hovering
+function unmounted(element: HoverHTMLElement) {
+  unbind(element)
 }
 
+function beforeUpdate(element: HoverHTMLElement) {
+  const hovering = element._hover?.hovering ?? false
+  unbind(element)
+  // Preserve hover state across Vue's DOM patch; disabled arguments discard it.
+  pendingHover.set(element, hovering)
+}
+
+const pendingHover = new WeakMap<HoverHTMLElement, boolean>()
 function updated(element: HoverHTMLElement, binding: DirectiveBinding<HoverValue>) {
-  mounted(element, binding)
-
-  if (shouldUpdateStyle(element, binding)) {
-    updateStyle(element, binding.value as Record<string, any>)
-  }
+  const hovering = pendingHover.get(element) ?? false
+  pendingHover.delete(element)
+  bind(element, binding, hovering)
 }
 
 const HoverDirective: Directive & Plugin = {

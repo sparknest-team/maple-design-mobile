@@ -1,7 +1,7 @@
 import { withInstall } from '../utils/components'
 import OptgroupComponent from './Optgroup.vue'
 import OptionComponent from './Option.vue'
-import { selectProps } from './props'
+import { optionProps, selectProps } from './props'
 import SelectComponent from './select'
 
 const Select = withInstall(
@@ -11,8 +11,8 @@ const Select = withInstall(
 )
 const Option = withInstall(OptionComponent)
 const Optgroup = withInstall(OptgroupComponent)
-export { Select, Option, Optgroup, selectProps }
-export const optionProps = OptionComponent.props
+export { Select, Option, Optgroup, selectProps, optionProps }
+
 export const optgroupProps = OptgroupComponent.props
 export type OptgroupInstance = InstanceType<typeof OptgroupComponent>
 export type OptgroupProps = import('vue').ExtractPublicPropTypes<typeof OptgroupComponent.props>
@@ -28,9 +28,9 @@ export type {
   SelectFieldNames,
   FilterOption,
 } from './types'
-export type SelectInstance = InstanceType<typeof SelectComponent>
+export type SelectInstance = InstanceType<typeof SelectComponent> & import('./types').SelectExpose
 export type OptionInstance = InstanceType<typeof OptionComponent>
-export type OptionProps = import('vue').ExtractPublicPropTypes<typeof OptionComponent.props>
+export type OptionProps = import('vue').ExtractPublicPropTypes<typeof optionProps>
 export const _SelectComponent = Select
 export const _OptionComponent = Option
 export const _OptgroupComponent = Optgroup

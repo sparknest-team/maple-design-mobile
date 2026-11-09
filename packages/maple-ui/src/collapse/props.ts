@@ -47,6 +47,16 @@ export const collapseItemProps = {
     required: true as const,
   },
   title: String,
+  /** 标题层级；未设置时不添加标题角色。 */
+  headingLevel: {
+    type: Number,
+    validator: (value: number) => Number.isInteger(value) && value >= 1 && value <= 6,
+  },
+  /** 是否将内容声明为区域地标。 */
+  region: {
+    type: Boolean,
+    default: true,
+  },
   disabled: Boolean,
   showExpandIcon: {
     type: Boolean,

@@ -14,6 +14,10 @@
     :esc-to-close="escToClose"
     :popup-container="popupContainer"
     :safe-area-inset-bottom="safeArea"
+    :safe-area-inset-left="safeArea"
+    :safe-area-inset-right="safeArea"
+    :aria-label="dialogLabel"
+    :aria-labelledby="dialogLabelledby"
     close-on-route-change
     @close-error="(error, reason) => $emit('close-error', error, reason)"
     @open="$emit('open')"
@@ -23,34 +27,41 @@
     @key-escape="$emit('key-escape', $event)"
     @click-overlay="$emit('click-overlay', $event)"
   >
-    <div :class="classes(n(), n('$--box'))" v-bind="$attrs">
-      <div data-popup-swipe-handle>
-        <slot name="title">
-          <div :class="n('title')">{{ title ?? (pt ? pt : t)('actionSheetTitle') }}</div>
+    <template #default="{ close, pending }">
+      <div :class="classes(n(), n('$--box'))" v-bind="contentAttrs">
+        <div data-popup-swipe-handle :class="n('header')">
+          <div :id="titleId">
+            <slot name="title">
+              <div :class="n('title')">{{ title ?? (pt ? pt : t)('actionSheetTitle') }}</div>
+            </slot>
+          </div>
+          <button type="button" :class="n('close')" :disabled="pending" @click="close('close', $event)">
+            {{ (pt ? pt : t)('dialogCancelButtonText') }}
+          </button>
+        </div>
+
+        <slot name="actions">
+          <mp-action-item
+            v-for="action in actions"
+            :key="action.name"
+            :name="action.name"
+            :namespace="action.namespace"
+            :icon="action.icon"
+            :icon-size="action.iconSize"
+            :class-name="action.className"
+            :color="action.color"
+            :disabled="action.disabled"
+            @click="handleSelect(action)"
+          />
         </slot>
       </div>
-
-      <slot name="actions">
-        <mp-action-item
-          v-for="action in actions"
-          :key="action.name"
-          :name="action.name"
-          :namespace="action.namespace"
-          :icon="action.icon"
-          :icon-size="action.iconSize"
-          :class-name="action.className"
-          :color="action.color"
-          @click="handleSelect(action)"
-        />
-      </slot>
-    </div>
+    </template>
   </mp-popup>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { computed, defineComponent, ref, useId, watch } from 'vue'
 import { call } from '@maple-design/shared'
-import { useVModel } from '@maple-design/use'
 import { t } from '../locale'
 import { injectLocaleProvider } from '../locale-provider/provide'
 import MpPopup from '../popup'
@@ -72,8 +83,32 @@ export default defineComponent({
   inheritAttrs: false,
   props,
   emits: ['select', 'update:open', 'open', 'opened', 'close', 'closed', 'key-escape', 'click-overlay', 'close-error'],
-  setup(props, { emit }) {
-    const open = useVModel(props, 'open', { emit, eventName: 'update:open', defaultValue: props.defaultOpen })
+  setup(props, { attrs, emit }) {
+    const titleId = `mp-action-sheet-title-${useId()}`
+    const dialogLabel = computed(() => attrs['aria-label'])
+    const dialogLabelledby = computed(() => attrs['aria-labelledby'] ?? (dialogLabel.value ? undefined : titleId))
+    const contentAttrs = computed(() =>
+      Object.fromEntries(Object.entries(attrs).filter(([key]) => key !== 'aria-label' && key !== 'aria-labelledby')),
+    )
+    const internalOpen = ref(props.open ?? props.defaultOpen)
+    watch(
+      () => props.open,
+      (value) => {
+        if (value !== undefined) {
+          internalOpen.value = value
+        }
+      },
+      { flush: 'sync' },
+    )
+    const open = computed({
+      get: () => props.open ?? internalOpen.value,
+      set: (value: boolean) => {
+        if (props.open === undefined) {
+          internalOpen.value = value
+        }
+        emit('update:open', value)
+      },
+    })
     const { t: pt } = injectLocaleProvider()
 
     function handleSelect(action: ActionItem) {
@@ -91,6 +126,10 @@ export default defineComponent({
 
     return {
       open,
+      titleId,
+      dialogLabel,
+      dialogLabelledby,
+      contentAttrs,
       pt,
       t,
       n,

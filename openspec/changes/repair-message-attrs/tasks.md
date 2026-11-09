@@ -1,0 +1,3 @@
+- [x] Reproduce dropped attrs and Teleport warnings
+- [x] Route attrs to one actual semantic node
+- [x] Verify both platform services,timers,types and native DOM

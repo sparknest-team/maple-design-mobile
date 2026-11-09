@@ -6,6 +6,8 @@ import { emptyTextProp, emptyValuesProp } from '../utils/empty-value'
 import { formItemDecorationProps, type FormItemValidateStatus } from './item-decoration'
 import { formItemLayoutProps } from './layout-props'
 import { type FormLayout } from './props'
+import { isFormRuleList } from './rule-validation'
+import type { FormRule } from './types'
 import type { ValidateTrigger as FormItemValidateTrigger } from './validate-trigger'
 
 export type { ValidateTrigger as FormItemValidateTrigger } from './validate-trigger'
@@ -49,7 +51,7 @@ export const props = {
     validator: (value: ComponentSize) => componentSizes.includes(value),
   },
   noStyle: Boolean,
-  rules: [Array, Function, Object] as PropType<any>,
+  rules: { type: [Array, Function, Object] as PropType<FormRule | FormRule[]>, validator: isFormRuleList },
   validateTrigger: {
     type: [String, Array] as PropType<FormItemValidateTrigger | FormItemValidateTrigger[]>,
     default: 'change',

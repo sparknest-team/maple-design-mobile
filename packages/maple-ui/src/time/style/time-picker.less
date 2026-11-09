@@ -1,7 +1,7 @@
 @import '../../_components/picker-field/style/temporal-mixins.less';
 .mp-time-picker {
   width: 100%;
-  min-width: min(100%, var(--mp-time-picker-min-width));
+  min-width: ~'min(100%, var(--mp-time-picker-min-width))';
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -30,7 +30,7 @@
   &__column-labels {
     .temporal-column-labels();
     height: var(--mp-time-picker-column-label-height);
-    margin-inline: var(--mp-temporal-panel-inset);
+    margin-inline: var(--mp-internal-temporal-panel-inset);
   }
   &__column-label {
     .temporal-column-label();

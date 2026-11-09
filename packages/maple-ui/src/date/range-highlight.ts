@@ -1,4 +1,4 @@
-import dayjs from 'dayjs/esm/index.js'
+import dayjs from 'dayjs'
 
 /** Empty endpoints must not be parsed as today when drawing a partial range. */
 export function isRangeHighlighted(value: string, endpoints: string[], unit: 'day' | 'month' | 'year') {

@@ -200,11 +200,11 @@ Button 的禁用配色按变体区分：彩色实心使用淡化状态背景；t
 
 <!-- same-source-api:start -->
 
-### Props
+### Button Props
 
 | 属性          | 说明                                                                                             | 类型                                      | 默认值         |
 | ------------- | ------------------------------------------------------------------------------------------------ | ----------------------------------------- | -------------- |
-| status        | 主题色；省略时继承按钮组，否则 default                                                           | `SemanticStatus`                          | `undefined`    |
+| status        | 主题色；省略时继承按钮组，否则 default                                                           | `SemanticStatus`<br>`'default' \| 'primary' \| 'secondary' \| 'tertiary' \| 'info' \| 'success' \| 'warning' \| 'danger'` | `undefined`    |
 | variant       | 外观；省略时继承按钮组，否则 default                                                             | `default / text / outline / tonal`        | `undefined`    |
 | size          | 尺寸；省略时继承按钮组，否则 md                                                                  | `xs / sm / md / lg / xl`                  | `undefined`    |
 | html-type     | 原生按钮类型                                                                                     | `button / submit / reset`                 | `button`       |
@@ -214,7 +214,7 @@ Button 的禁用配色按变体区分：彩色实心使用淡化状态背景；t
 | loading       | 加载状态，禁止点击和链接跳转                                                                     | `boolean`                                 | `false`        |
 | loading-type  | 加载动画；与 Loading 的 type 相同，line 模式不适用                                               | `circle / wave / cube / rect / disappear` | `circle`       |
 | loading-mode  | 行内、覆盖或底部进度线；line 只使用 loading-color                                                | `default / fill / line`                   | `default`      |
-| loading-size  | 指示器尺寸；xs/sm/md/lg/xl 对应 12/14/16/18/20px，数字为 px；省略时跟随按钮尺寸，line 模式不适用 | `ComponentSize / number`                  | `undefined`    |
+| loading-size  | 指示器尺寸；xs/sm/md/lg/xl 对应 12/14/16/18/20px，数字为 px；省略时跟随按钮尺寸，line 模式不适用 | `ComponentSize / number`<br>`ComponentSize: 'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `undefined`    |
 | loading-color | 加载指示器颜色                                                                                   | `string`                                  | `currentColor` |
 | disabled      | 禁用；省略时继承按钮组，显式 false 可覆盖                                                        | `boolean`                                 | `undefined`    |
 | ripple        | 点击水波                                                                                         | `boolean`                                 | `true`         |
@@ -225,35 +225,32 @@ Button 的禁用配色按变体区分：彩色实心使用淡化状态背景；t
 | elevation     | default 变体阴影；true 为 2，false 关闭，数字四舍五入并限制 0～24；组内由组控制                  | `boolean / number`                        | `true`         |
 | stacked       | 图标文字纵向排列；省略时继承按钮组                                                               | `boolean`                                 | `undefined`    |
 
-### Events
+### Button Events
 
 | 事件       | 参数与行为                                  |
 | ---------- | ------------------------------------------- |
 | click      | `(event: MouseEvent) => void` |
-| touchstart | `(event: TouchEvent) => void` |
 
 click 是普通事件通知，支持 async 回调；loading 由业务状态控制，建议在 finally 中恢复。事件监听器的 Promise 不会自动驱动加载。禁用／加载链接移除有效 href。
 
-### Slots
+### Button Slots
 
 | 插槽    | 说明                             | 参数 |
 | ------- | -------------------------------- | ---- |
 | default | 按钮内容；加载时保留             | —    |
 | icon    | 前置图标；stacked 时位于文字上方 | —    |
 
-### Methods
+### Button Methods
 
 无自定义公开方法。
 <!-- same-source-api:end -->
-
-## ButtonGroup
 
 ### ButtonGroup Props
 
 | 属性 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
-| status | 子按钮默认语义状态；子按钮可覆盖 | SemanticStatus | default |
-| size | 子按钮默认尺寸；子按钮可覆盖 | xs / sm / md / lg / xl | md |
+| status | 子按钮默认语义状态；子按钮可覆盖 | `SemanticStatus`<br>`'default' \| 'primary' \| 'secondary' \| 'tertiary' \| 'info' \| 'success' \| 'warning' \| 'danger'` | default |
+| size | 子按钮默认尺寸；子按钮可覆盖 | xs / sm / md / lg / xl | undefined |
 | variant | 子按钮默认外观；相邻按钮按生效变体拼接，允许混合 | default / text / outline / tonal | default |
 | color | 子按钮默认自定义色；子按钮可覆盖 | string | undefined |
 | text-color | 子按钮默认文字色；子按钮可覆盖 | string | undefined |
@@ -278,7 +275,7 @@ click 是普通事件通知，支持 async 回调；loading 由业务状态控�
 
 **组合边界：** 额外的 DOM 包装层、前后文本和其他控件不属于连体外观契约。包装层内的按钮仍可能继承配置，但不会获得相同拼接效果。组接管首尾圆角，不保留独立 round 按钮的圆形外观。需要分离排列或任意内容混排时组合 Space；较窄区域由业务选择滚动、缩短文案或切换纵向，不自动换行。
 
-### ButtonGroup Expose
+### ButtonGroup Methods
 
 | 名称 | 说明 |
 | --- | --- |
@@ -286,73 +283,93 @@ click 是普通事件通知，支持 async 回调；loading 由业务状态控�
 
 无额外的组级动作方法。
 
-## 类型
+## Types
 
 ButtonProps、ButtonVariant、ButtonLoadingMode、ButtonInstance、ButtonGroupProps、ButtonGroupInstance。
 
-## CSS 变量职责与完整默认值
+## CSS Variables
 
 Button 保留 58 个外观变量。`{status}-color` 控制实心背景，`{status}-foreground-color` 控制 text/outline/tonal 的文字和图标，`{status}-tonal-color` 控制浅色背景。语义状态共用 `solid-text-color` 和 `solid-state-layer-color`；default/tertiary 前景与 primary/tertiary 状态层保留必要的主题差异。
 
 尺寸统一使用 xs/sm/md/lg/xl。字号、过渡时长、焦点宽度与偏移、堆叠高度增量直接复用系统变量；按钮组与堆叠圆角共用 border-radius。四个状态透明度变量保留 hover/active 的差异。loading-duration 仅控制底部进度线；其他加载动画由 Loading 负责。内部变量与固定动画几何细节不再作为公共定制项。
 
-| 变量名                                   | 默认值                                     |
-| ---------------------------------------- | ------------------------------------------ |
-| `--mp-button-border-radius`              | `var(--mp-sys-radius-md)`                  |
-| `--mp-button-content-gap`                | `var(--mp-sys-space-3)`                    |
-| `--mp-button-danger-color`               | `var(--mp-sys-color-status-danger)`        |
-| `--mp-button-danger-disabled-color`      | `rgb(var(--mp-danger-3))`                  |
-| `--mp-button-danger-foreground-color`    | `var(--mp-sys-color-content-danger)`       |
-| `--mp-button-danger-tonal-color`         | `rgb(var(--mp-danger-1))`                  |
-| `--mp-button-default-color`              | `var(--mp-sys-color-surface-default)`      |
-| `--mp-button-default-foreground-color`   | `var(--mp-sys-color-content-primary)`      |
-| `--mp-button-default-tonal-color`        | `var(--mp-sys-color-surface-muted)`        |
-| `--mp-button-disabled-color`             | `var(--mp-color-fill-2)`                   |
-| `--mp-button-disabled-solid-text-color`  | `var(--mp-sys-color-content-on-dark)`      |
-| `--mp-button-disabled-text-color`        | `var(--mp-sys-color-content-disabled)`     |
-| `--mp-button-focus-color`                | `var(--mp-sys-color-content-brand)`        |
-| `--mp-button-info-color`                 | `var(--mp-sys-color-status-info)`          |
-| `--mp-button-info-disabled-color`        | `rgb(var(--mp-blue-3))`                    |
-| `--mp-button-info-foreground-color`      | `var(--mp-sys-color-content-info)`         |
-| `--mp-button-info-tonal-color`           | `rgb(var(--mp-blue-1))`                    |
-| `--mp-button-lg-height`                  | `56px`                                     |
-| `--mp-button-lg-padding`                 | `0 var(--mp-sys-space-7)`                  |
-| `--mp-button-loading-duration`           | `1s`                                       |
-| `--mp-button-loading-line-height`        | `3px`                                      |
-| `--mp-button-md-height`                  | `48px`                                     |
-| `--mp-button-md-padding`                 | `0 var(--mp-sys-space-6)`                  |
-| `--mp-button-plain-state-opacity-active` | `1`                                        |
-| `--mp-button-plain-state-opacity-hover`  | `0.5`                                      |
-| `--mp-button-primary-color`              | `var(--mp-sys-color-action-primary)`       |
-| `--mp-button-primary-disabled-color`     | `rgb(var(--mp-primary-3))`                 |
-| `--mp-button-primary-foreground-color`   | `var(--mp-sys-color-content-brand)`        |
-| `--mp-button-primary-state-layer-color`  | `var(--mp-button-solid-state-layer-color)` |
-| `--mp-button-primary-tonal-color`        | `rgb(var(--mp-primary-1))`                 |
-| `--mp-button-secondary-color`            | `rgb(var(--mp-gray-6))`                    |
-| `--mp-button-secondary-foreground-color` | `var(--mp-sys-color-content-secondary)`    |
-| `--mp-button-secondary-tonal-color`      | `rgb(var(--mp-gray-2))`                    |
-| `--mp-button-sm-height`                  | `40px`                                     |
-| `--mp-button-sm-padding`                 | `0 var(--mp-sys-space-5)`                  |
-| `--mp-button-solid-state-layer-color`    | `var(--mp-sys-color-content-on-dark)`      |
-| `--mp-button-solid-text-color`           | `var(--mp-sys-color-content-on-dark)`      |
-| `--mp-button-stacked-gap`                | `var(--mp-sys-space-2)`                    |
-| `--mp-button-state-layer-color`          | `var(--mp-sys-color-surface-page)`         |
-| `--mp-button-state-opacity-active`       | `0.12`                                     |
-| `--mp-button-state-opacity-hover`        | `0.08`                                     |
-| `--mp-button-success-color`              | `var(--mp-sys-color-status-success)`       |
-| `--mp-button-success-disabled-color`     | `rgb(var(--mp-success-3))`                 |
-| `--mp-button-success-foreground-color`   | `var(--mp-sys-color-content-success)`      |
-| `--mp-button-success-tonal-color`        | `rgb(var(--mp-success-1))`                 |
-| `--mp-button-tertiary-color`             | `rgb(var(--mp-gray-7))`                    |
-| `--mp-button-tertiary-foreground-color`  | `var(--mp-sys-color-content-secondary)`    |
-| `--mp-button-tertiary-state-layer-color` | `var(--mp-sys-color-content-on-bright)`    |
-| `--mp-button-tertiary-text-color`        | `var(--mp-sys-color-content-on-dark)`      |
-| `--mp-button-tertiary-tonal-color`       | `rgb(var(--mp-gray-1))`                    |
-| `--mp-button-warning-color`              | `var(--mp-sys-color-status-warning)`       |
-| `--mp-button-warning-disabled-color`     | `rgb(var(--mp-warning-3))`                 |
-| `--mp-button-warning-foreground-color`   | `var(--mp-sys-color-content-warning)`      |
-| `--mp-button-warning-tonal-color`        | `rgb(var(--mp-warning-1))`                 |
-| `--mp-button-xl-height`                  | `64px`                                     |
-| `--mp-button-xl-padding`                 | `0 var(--mp-sys-space-8)`                  |
-| `--mp-button-xs-height`                  | `32px`                                     |
-| `--mp-button-xs-padding`                 | `0 var(--mp-sys-space-4)`                  |
+<!-- component-css-variables:start -->
+
+通过以下变量定制组件外观。默认值随表中注明的主题或选择器条件变化；变量仅在对应的尺寸、变体和交互状态下生效。
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| 变量 | 默认值／条件 | 影响的样式 |
+| --- | --- | --- |
+| `--mp-button-border-radius` | `var(--mp-sys-radius-md)` | `border-bottom-left-radius`, `border-bottom-right-radius`, `border-radius`, `border-top-left-radius`, `border-top-right-radius` |
+| `--mp-button-content-gap` | `var(--mp-sys-space-3)` | `gap` |
+| `--mp-button-danger-color` | `var(--mp-sys-color-status-danger)` | `background-color` |
+| `--mp-button-danger-disabled-color` | `rgb(var(--mp-danger-3))`<br>`rgba(var(--mp-danger-6), 0.5)` (`:root[maple-theme='dark']`) | `background-color`, `color` |
+| `--mp-button-danger-foreground-color` | `var(--mp-sys-color-content-danger)` | `color` |
+| `--mp-button-danger-tonal-color` | `rgb(var(--mp-danger-1))` | `background-color` |
+| `--mp-button-default-color` | `var(--mp-sys-color-surface-default)` | `background-color` |
+| `--mp-button-default-foreground-color` | `var(--mp-sys-color-content-primary)` | `background`, `background-color`, `color` |
+| `--mp-button-default-tonal-color` | `var(--mp-sys-color-surface-muted)` | `background-color` |
+| `--mp-button-disabled-color` | `var(--mp-color-fill-2)` | `background-color` |
+| `--mp-button-disabled-solid-text-color` | `var(--mp-sys-color-content-on-dark)`<br>`rgba(255, 255, 255, 0.3)` (`:root[maple-theme='dark']`) | `color` |
+| `--mp-button-disabled-text-color` | `var(--mp-sys-color-content-disabled)` | `color` |
+| `--mp-button-focus-color` | `var(--mp-sys-color-content-brand)` | `outline` |
+| `--mp-button-info-color` | `var(--mp-sys-color-status-info)` | `background-color` |
+| `--mp-button-info-disabled-color` | `rgb(var(--mp-blue-3))`<br>`rgba(var(--mp-blue-6), 0.5)` (`:root[maple-theme='dark']`) | `background-color`, `color` |
+| `--mp-button-info-foreground-color` | `var(--mp-sys-color-content-info)` | `color` |
+| `--mp-button-info-tonal-color` | `rgb(var(--mp-blue-1))` | `background-color` |
+| `--mp-button-lg-height` | `56px` | `height`, `min-width`, `width` |
+| `--mp-button-lg-padding` | `0 var(--mp-sys-space-7)` | `padding` |
+| `--mp-button-loading-duration` | `1s` | `animation` |
+| `--mp-button-loading-line-height` | `3px` | `height` |
+| `--mp-button-md-height` | `48px` | `height`, `min-width`, `width` |
+| `--mp-button-md-padding` | `0 var(--mp-sys-space-6)` | `padding` |
+| `--mp-button-plain-state-opacity-active` | `1` | `opacity` |
+| `--mp-button-plain-state-opacity-hover` | `0.5` | `opacity` |
+| `--mp-button-primary-color` | `var(--mp-sys-color-action-primary)` | `background-color` |
+| `--mp-button-primary-disabled-color` | `rgb(var(--mp-primary-3))`<br>`rgba(var(--mp-primary-6), 0.5)` (`:root[maple-theme='dark']`) | `background-color`, `color` |
+| `--mp-button-primary-foreground-color` | `var(--mp-sys-color-content-brand)` | `color` |
+| `--mp-button-primary-state-layer-color` | `var(--mp-button-solid-state-layer-color)` | `background-color` |
+| `--mp-button-primary-tonal-color` | `rgb(var(--mp-primary-1))` | `background-color` |
+| `--mp-button-secondary-color` | `rgb(var(--mp-gray-6))` | `background-color` |
+| `--mp-button-secondary-foreground-color` | `var(--mp-sys-color-content-secondary)` | `color` |
+| `--mp-button-secondary-tonal-color` | `rgb(var(--mp-gray-2))` | `background-color` |
+| `--mp-button-sm-height` | `40px` | `height`, `min-width`, `width` |
+| `--mp-button-sm-padding` | `0 var(--mp-sys-space-5)` | `padding` |
+| `--mp-button-solid-state-layer-color` | `var(--mp-sys-color-content-on-dark)` | `background-color` |
+| `--mp-button-solid-text-color` | `var(--mp-sys-color-content-on-dark)` | `color` |
+| `--mp-button-stacked-gap` | `var(--mp-sys-space-2)` | `gap`, `min-height`, `min-width` |
+| `--mp-button-state-layer-color` | `var(--mp-sys-color-surface-page)` | `background-color` |
+| `--mp-button-state-opacity-active` | `0.12` | `opacity` |
+| `--mp-button-state-opacity-hover` | `0.08` | `opacity` |
+| `--mp-button-success-color` | `var(--mp-sys-color-status-success)` | `background-color` |
+| `--mp-button-success-disabled-color` | `rgb(var(--mp-success-3))`<br>`rgba(var(--mp-success-6), 0.5)` (`:root[maple-theme='dark']`) | `background-color`, `color` |
+| `--mp-button-success-foreground-color` | `var(--mp-sys-color-content-success)` | `color` |
+| `--mp-button-success-tonal-color` | `rgb(var(--mp-success-1))` | `background-color` |
+| `--mp-button-tertiary-color` | `rgb(var(--mp-gray-7))` | `background-color` |
+| `--mp-button-tertiary-foreground-color` | `var(--mp-sys-color-content-secondary)` | `color` |
+| `--mp-button-tertiary-state-layer-color` | `var(--mp-sys-color-content-on-bright)`<br>`var(--mp-sys-color-content-on-dark)` (`:root[maple-theme='dark']`) | `background-color` |
+| `--mp-button-tertiary-text-color` | `var(--mp-sys-color-content-on-dark)`<br>`var(--mp-sys-color-content-on-bright)` (`:root[maple-theme='dark']`) | `color` |
+| `--mp-button-tertiary-tonal-color` | `rgb(var(--mp-gray-1))` | `background-color` |
+| `--mp-button-warning-color` | `var(--mp-sys-color-status-warning)` | `background-color` |
+| `--mp-button-warning-disabled-color` | `rgb(var(--mp-warning-3))`<br>`rgba(var(--mp-warning-6), 0.5)` (`:root[maple-theme='dark']`) | `background-color`, `color` |
+| `--mp-button-warning-foreground-color` | `var(--mp-sys-color-content-warning)` | `color` |
+| `--mp-button-warning-tonal-color` | `rgb(var(--mp-warning-1))` | `background-color` |
+| `--mp-button-xl-height` | `64px` | `height`, `min-width`, `width` |
+| `--mp-button-xl-padding` | `0 var(--mp-sys-space-8)` | `padding` |
+| `--mp-button-xs-height` | `32px` | `height`, `min-width`, `width` |
+| `--mp-button-xs-padding` | `0 var(--mp-sys-space-4)` | `padding` |
+
+</div>
+
+将覆盖设置在组件实际根节点或弹层真实挂载祖先上。例如给该元素添加下列 class，再按需替换变量值：
+
+```css
+.component-theme {
+  --mp-button-border-radius: var(--mp-sys-radius-md);
+}
+```
+
+显式行内样式及直接写入同一 CSS 属性的 Props 优先于样式表默认值。Teleport 后，普通 CSS 变量按实际挂载位置继承；使用 ThemeProvider 时，请遵循其局部主题与弹层配置规则。局部定制请直接覆盖组件变量；仅修改后代的 system 变量不会重新计算从根继承的组件别名。内部变量不属于公共 API。
+
+<!-- component-css-variables:end -->

@@ -6,6 +6,7 @@ import Code from '../Code.vue'
 
 test('without a highlighter, code stays readable and HTML is escaped', () => {
   const wrapper = mount(Code, { props: { code: ' <img src=x onerror=alert(1)> ' } })
+  expect(wrapper.attributes('dir')).toBe('ltr')
   expect(wrapper.find('pre code').text()).toBe('<img src=x onerror=alert(1)>')
   expect(wrapper.find('img').exists()).toBe(false)
   wrapper.unmount()
@@ -38,5 +39,15 @@ test('a rejected optional highlighter leaves safe source visible', async () => {
   })
   await flushPromises()
   expect(wrapper.find('code').text()).toBe('<safe>')
+  wrapper.unmount()
+})
+
+test('a synchronous highlighter renders its HTML', async () => {
+  const wrapper = mount(Provider, {
+    props: { highlighter: { codeToHtml: () => '<pre><code>highlighted</code></pre>' } },
+    slots: { default: () => h(Code, { code: 'source' }) },
+  })
+  await flushPromises()
+  expect(wrapper.find('code').text()).toBe('highlighted')
   wrapper.unmount()
 })

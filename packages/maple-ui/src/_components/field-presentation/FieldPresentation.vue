@@ -8,6 +8,7 @@
     <slot name="reference"
       ><FieldReference
         v-bind="$attrs"
+        :id="open ? undefined : ($attrs.id as string | undefined)"
         ref="reference"
         :label="label || placeholder"
         :text="text"
@@ -34,7 +35,7 @@
         :clearable="clearable"
         v-bind="panelProps"
         @clear="$emit('clear')"
-        @confirm="$emit('confirm')"
+        @confirm="confirm"
         @cancel="$emit('cancel')"
         ><slot
       /></EditorPanel>
@@ -54,7 +55,7 @@ import FieldReference from './FieldReference.vue'
 defineOptions({ name: createNamespace('field-presentation').name, inheritAttrs: false })
 const props = defineProps<{
   clearable?: boolean
-  commit?: () => unknown | Promise<unknown>
+  commit?: (event?: Event) => unknown | Promise<unknown>
   referenceFocus?: () => void
   openTriggerTarget?: 'field' | 'icon'
   editMode: FieldEditMode
@@ -77,17 +78,28 @@ const props = defineProps<{
   count?: number
   limit?: number
 }>()
-const emit = defineEmits<{ open: [value: boolean]; confirm: []; cancel: []; clear: [] }>()
+const emit = defineEmits<{
+  open: [value: boolean]
+  confirm: [event?: Event]
+  cancel: []
+  clear: []
+  'editor-ready': []
+}>()
+function confirm(event?: Event) {
+  return props.commit ? props.commit(event) : emit('confirm', event)
+}
 const { n } = createNamespace('field-presentation')
 const reference = ref<InstanceType<typeof FieldReference>>()
 const panel = ref<InstanceType<typeof EditorPanel>>()
 let active = true
 let disposed = false
 let focusGeneration = 0
+let readinessGeneration = 0
 const canFocus = () => active && !disposed
 onActivated(() => {
   if (!disposed) {
     active = true
+    void notifyEditorReady()
   }
 })
 onDeactivated(() => {
@@ -141,16 +153,47 @@ watch(
   },
   { flush: 'sync' },
 )
+async function notifyEditorReady() {
+  const request = ++readinessGeneration
+  if (!props.open || props.editMode === 'direct') {
+    return
+  }
+  const generation = focusGeneration
+  await nextTick()
+  if (
+    request === readinessGeneration &&
+    canFocus() &&
+    generation === focusGeneration &&
+    props.open &&
+    !props.readPretty &&
+    !props.disabled &&
+    !props.readonly
+  ) {
+    panel.value?.focus()
+    emit('editor-ready')
+  }
+}
+watch(
+  [() => props.open, () => props.editMode],
+  () => {
+    void notifyEditorReady()
+  },
+  { flush: 'post', immediate: true },
+)
 defineExpose({
   focus: () => {
-    if (canFocus()) {
-      if (props.referenceFocus) {
-        props.referenceFocus()
-      } else {
-        reference.value?.focus()
-      }
+    if (!canFocus()) {
+      return
+    }
+    if (props.open) {
+      panel.value?.focus()
+    } else if (props.referenceFocus) {
+      props.referenceFocus()
+    } else {
+      reference.value?.focus()
     }
   },
+  blur: () => panel.value?.blur(),
 })
 void emit
 </script>

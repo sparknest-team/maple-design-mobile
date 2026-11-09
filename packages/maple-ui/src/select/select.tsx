@@ -12,6 +12,7 @@ import Input from '../input'
 import InputFeedback from '../input/InputFeedback.vue'
 import { createNamespace } from '../utils/components'
 import { selectEmits } from './emits'
+import NativeEditorOwner from './native-editor-owner'
 import { selectProps } from './props'
 import SelectMenu from './SelectMenu'
 import { useSelectController } from './use-select-controller'
@@ -39,7 +40,7 @@ const Select = defineComponent({
     expose({
       refresh: () => controller.refresh(),
       focus: () => (controller.editMode === 'direct' ? fieldRef.value?.focus() : presentationRef.value?.focus()),
-      blur: () => fieldRef.value?.blur(),
+      blur: () => (controller.editMode === 'direct' ? fieldRef.value?.blur() : presentationRef.value?.blur()),
     })
     const renderLabel = ({ data }: { data: SelectionFieldItem }) => {
       if ((slots.label || isFunction(props.formatLabel)) && data) {
@@ -61,7 +62,9 @@ const Select = defineComponent({
           text: String(item.label),
           label: renderLabel({ data: item }),
         }))}
-        disabled={controller.mergedDisabled || controller.mergedReadonly || controller.session.pending}
+        disabled={
+          controller.mergedDisabled || controller.mergedReadonly || controller.session.pending || controller.loading
+        }
         limit={props.limit}
         onRemove={(key) => controller.handleRemove(String(key))}
         onClear={controller.clearSelection}
@@ -74,6 +77,14 @@ const Select = defineComponent({
             variant="outline"
             disabled={controller.mergedDisabled || controller.session.pending}
             readonly={controller.mergedReadonly}
+            inputAttrs={{
+              role: 'combobox',
+              'aria-haspopup': 'listbox',
+              'aria-expanded': controller.computedOpen,
+              'aria-controls': controller.computedOpen ? controller.listboxId : undefined,
+              'aria-activedescendant': controller.activeDescendant,
+              'aria-autocomplete': 'list',
+            }}
             ariaLabel={texts.search}
             placeholder={texts.search}
             clearable
@@ -130,25 +141,30 @@ const Select = defineComponent({
               read: slots.read ? () => slots.read?.({ value: controller.committedValue, text }) : undefined,
               default: () =>
                 controller.nativeEditor ? (
-                  controller.computedOpen &&
-                  h(
-                    Select,
-                    {
-                      ...props,
-                      ...attrs,
-                      editMode: 'direct',
-                      readPretty: false,
-                      beforeCommit: undefined,
-                      open: undefined,
-                      defaultOpen: true,
-                      modelValue: controller.session.value,
-                      disabled: controller.mergedDisabled || controller.session.pending,
-                      readonly: controller.mergedReadonly,
-                      'onUpdate:modelValue': controller.session.update,
-                      onSearch: (...args: any[]) => (emit as any)('search', ...args),
-                      onChange: () => {},
-                    },
-                    slots,
+                  controller.computedOpen && (
+                    <NativeEditorOwner install={controller.provideNativeEditorOwner}>
+                      {() =>
+                        h(
+                          Select,
+                          {
+                            ...props,
+                            ...attrs,
+                            editMode: 'direct',
+                            readPretty: false,
+                            beforeCommit: undefined,
+                            open: undefined,
+                            defaultOpen: true,
+                            modelValue: controller.session.value,
+                            disabled: controller.mergedDisabled || controller.session.pending,
+                            readonly: controller.mergedReadonly,
+                            'onUpdate:modelValue': controller.session.update,
+                            onSearch: (...args: any[]) => (emit as any)('search', ...args),
+                            onChange: () => {},
+                          },
+                          slots,
+                        )
+                      }
+                    </NativeEditorOwner>
                   )
                 ) : (
                   <SelectionEditor kind="select">{renderEditor()}</SelectionEditor>
@@ -170,7 +186,12 @@ const Select = defineComponent({
                   text: String(item.label),
                   label: renderLabel({ data: item }),
                 }))}
-                disabled={controller.mergedDisabled || controller.mergedReadonly || controller.session.pending}
+                disabled={
+                  controller.mergedDisabled ||
+                  controller.mergedReadonly ||
+                  controller.session.pending ||
+                  controller.loading
+                }
                 limit={props.limit}
                 onRemove={(key) => controller.handleRemove(String(key))}
                 onClear={controller.clearSelection}
@@ -212,7 +233,7 @@ const Select = defineComponent({
                     error={controller.mergedError}
                     loading={controller.loading || controller.session.pending}
                     loadingMode={props.loadingMode}
-                    clearable={props.clearable}
+                    clearable={props.clearable && !controller.loading}
                     searchable={Boolean(props.filterable || props.creatable)}
                     open={controller.computedOpen}
                     maxTagCount={props.maxTagCount}
@@ -225,6 +246,8 @@ const Select = defineComponent({
                     onClear={controller.handleClear}
                     onKeydown={controller.handleKeyDown}
                     {...restAttrs}
+                    aria-controls={controller.computedOpen ? controller.listboxId : undefined}
+                    aria-activedescendant={controller.activeDescendant}
                     onFocus={(event) => {
                       emit('focus', event)
                       controller.eventHandlers?.onFocus?.(event)

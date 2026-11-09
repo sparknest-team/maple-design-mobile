@@ -1,0 +1,3 @@
+- [x] Reproduce controlled/cancel/numeric failures
+- [x] Repair state and public contract
+- [x] Verify component/touch dependencies, types, native browser and gates

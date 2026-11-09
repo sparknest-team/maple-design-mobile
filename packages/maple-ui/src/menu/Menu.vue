@@ -51,6 +51,12 @@ function open() {
 function close() {
   state.request(false)
 }
+function closeForTab() {
+  close()
+  if (!computedOpen.value) {
+    menu.value?.focusReference?.()
+  }
+}
 function resize() {
   menu.value?.resize?.()
 }
@@ -75,6 +81,7 @@ provide(menuInjectionKey, {
   popupMaxHeight: computed(() => props.popupMaxHeight),
   modelValue: selection.modelValue,
   submenuTrigger: computed(() => props.submenuTrigger),
+  closeMenu: closeForTab,
   onOptionClick: selection.select,
 })
 useMenuKeyboard({
@@ -86,6 +93,7 @@ useMenuKeyboard({
   restoreFocus: () => menu.value?.focusReference?.(),
   open,
   close,
+  tab: closeForTab,
   escape: () => emit('key-escape'),
 })
 watch(
@@ -107,6 +115,7 @@ const viewOptions = computed(() => ({
     trigger: props.trigger,
     unmountOnClose: props.unmountOnClose,
     escToClose: false,
+    referenceAttrs: { 'aria-haspopup': 'menu', 'aria-expanded': computedOpen.value },
     onOpenChange: state.request,
     onOpen: () => emit('open'),
     onOpened: () => emit('opened'),

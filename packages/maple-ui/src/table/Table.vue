@@ -5,7 +5,7 @@
       ref="viewport"
       tabindex="0"
       role="region"
-      aria-label="Scrollable table"
+      :aria-label="regionLabel"
       :class="n('main')"
       :style="{ 'max-height': toSizeUnit(scrollerHeight) }"
       @scroll="onScroll"
@@ -25,6 +25,8 @@
 import { computed, defineComponent, ref, watch } from 'vue'
 import { inlineScrollLeft, setInlineScrollLeft, useDirection } from '../_utils/direction'
 import Loading from '../loading/Loading.vue'
+import { t } from '../locale'
+import { injectLocaleProvider } from '../locale-provider/provide'
 import { createNamespace, formatElevation } from '../utils/components'
 import { toSizeUnit } from '../utils/elements'
 import { props } from './props'
@@ -36,6 +38,10 @@ export default defineComponent({
   props,
   components: { Loading },
   setup(props) {
+    const { t: translate } = injectLocaleProvider()
+    const regionLabel = computed(() =>
+      String(translate?.('table.scrollable') ?? t('table.scrollable') ?? 'Scrollable table'),
+    )
     const mergedLoading = computed(() =>
       typeof props.loading === 'object' && props.loading ? Boolean(props.loading.loading) : Boolean(props.loading),
     )
@@ -80,7 +86,7 @@ export default defineComponent({
             : inlineScrollLeft(element) + (event.key === grow ? 40 : -40),
       )
     }
-    return { mergedLoading, viewport, onScroll, onKeydown, toSizeUnit, n, classes, formatElevation }
+    return { mergedLoading, viewport, onScroll, onKeydown, toSizeUnit, n, classes, formatElevation, regionLabel }
   },
 })
 </script>

@@ -5,7 +5,7 @@ import Search from './Search.vue'
 withInstall(Search)
 withPropsDefaultsSetter(Search, searchProps)
 
-export { searchProps }
+export { Search, searchProps }
 export type { SearchEditMode, SearchActionType, SearchField, SearchProps, SearchShape } from './props'
 export type { SearchResult } from './result'
 

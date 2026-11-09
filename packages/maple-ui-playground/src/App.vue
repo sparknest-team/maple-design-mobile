@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { ref, watchEffect } from 'vue'
+import { ThemeProvider } from '@maple-design/ui'
 import { Repl } from '@vue/repl'
 import Monaco from '@vue/repl/monaco-editor'
 import Header from './Header.vue'
 import { ReplStore } from './store'
-import { normalizeTheme } from './themes'
+import { normalizeTheme, themeMap } from './themes'
 
 const store = new ReplStore({
   serializedState: location.hash.slice(1),
@@ -23,17 +24,19 @@ watchEffect(() => history.replaceState({}, '', store.serialize()))
 </script>
 
 <template>
-  <Header v-model:theme="theme" :store="store" />
-  <Repl
-    :editor="Monaco"
-    :store="store"
-    :theme="theme?.toLowerCase().includes('dark') ? 'dark' : 'light'"
-    :show-compile-output="true"
-    :auto-resize="true"
-    :clear-console="false"
-    @keydown.ctrl.s.prevent
-    @keydown.meta.s.prevent
-  />
+  <ThemeProvider :theme="themeMap[theme]">
+    <Header v-model:theme="theme" :store="store" />
+    <Repl
+      :editor="Monaco"
+      :store="store"
+      :theme="theme?.toLowerCase().includes('dark') ? 'dark' : 'light'"
+      :show-compile-output="true"
+      :auto-resize="true"
+      :clear-console="false"
+      @keydown.ctrl.s.prevent
+      @keydown.meta.s.prevent
+    />
+  </ThemeProvider>
 </template>
 
 <style>

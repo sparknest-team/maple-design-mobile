@@ -16,9 +16,13 @@ export function usePagination(props: Readonly<ExtractPropTypes<typeof pagination
   const innerPageSize = ref(positiveInteger(props.defaultPageSize, 10))
   const current = computed(() => positiveInteger(props.modelValue ?? innerCurrent.value, 1))
   const pageSize = computed(() => positiveInteger(props.pageSize ?? innerPageSize.value, 10))
-  const total = computed(() => (Number.isFinite(props.total) ? Math.max(0, Math.trunc(props.total)) : 0))
+  const total = computed(() =>
+    Number.isFinite(props.total) ? Math.min(Number.MAX_SAFE_INTEGER, Math.max(0, Math.trunc(props.total))) : 0,
+  )
   const pages = computed(() => Math.ceil(total.value / pageSize.value))
-  const buffer = computed(() => (Number.isFinite(props.bufferSize) ? Math.max(0, Math.trunc(props.bufferSize)) : 2))
+  const buffer = computed(() =>
+    Number.isFinite(props.bufferSize) ? Math.min(100, Math.max(0, Math.trunc(props.bufferSize))) : 2,
+  )
   const notifyCurrent = (page: number) => {
     if (page === current.value) {
       return
@@ -63,7 +67,7 @@ export function usePagination(props: Readonly<ExtractPropTypes<typeof pagination
   const pageList = computed(() => {
     const list: PageListItem[] = []
     const b = buffer.value
-    if (pages.value < positiveInteger(props.baseSize, 6) + b * 2) {
+    if (pages.value < Math.min(201, positiveInteger(props.baseSize, 6)) + b * 2) {
       for (let page = 1; page <= pages.value; page++) {
         list.push({ type: 'page', key: page, pageNumber: page })
       }

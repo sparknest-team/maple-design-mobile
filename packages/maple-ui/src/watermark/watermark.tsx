@@ -7,7 +7,6 @@ import type { WatermarkError } from './types'
 const THEME_ATTRIBUTE = 'maple-theme'
 const STYLE_ELEMENT_ID = 'maple-style-vars'
 const TOKEN_NAME = '--mp-watermark-content-color'
-const PROVIDER_CLASS = 'mp-style-provider'
 const DEFAULT_COLOR = 'rgba(0, 0, 0, 0.15)'
 const { name, n } = createNamespace('watermark')
 
@@ -23,6 +22,7 @@ export default defineComponent({
     let layer: HTMLDivElement | undefined
     let active = false
     let generation = 0
+    let lastColor = ''
     let hostObserver: MutationObserver | undefined
     let layerObserver: MutationObserver | undefined
     const themeObservers: MutationObserver[] = []
@@ -77,6 +77,7 @@ export default defineComponent({
     const applyLayer = (dataUrl?: string, size?: [number, number]) => {
       const currentLayer = ensureLayer()
       layerObserver?.disconnect()
+      currentLayer.removeAttribute('style')
       currentLayer.className = [n('layer'), props.fullscreen && n('layer--fullscreen')].filter(Boolean).join(' ')
       currentLayer.style.zIndex = String(props.zIndex)
       currentLayer.style.backgroundRepeat = props.repeat ? 'repeat' : 'no-repeat'
@@ -101,6 +102,7 @@ export default defineComponent({
       const version = ++generation
       ensureLayer()
       const color = getComputedStyle(wrapper.value).getPropertyValue(TOKEN_NAME).trim() || DEFAULT_COLOR
+      lastColor = color
       const options = {
         content: props.content,
         image: props.image,
@@ -158,10 +160,23 @@ export default defineComponent({
         attributeFilter: [THEME_ATTRIBUTE, 'class', 'style'],
       })
       observe(document.head, { childList: true, subtree: true, characterData: true })
-      const provider = wrapper.value.closest(`.${PROVIDER_CLASS}`)
-      if (provider) {
-        observe(provider, { attributes: true, attributeFilter: ['class', 'style'] })
+      const ancestors = new MutationObserver(() => {
+        if (!wrapper.value) {
+          return
+        }
+        const color = getComputedStyle(wrapper.value).getPropertyValue(TOKEN_NAME).trim() || DEFAULT_COLOR
+        if (color !== lastColor) {
+          void redraw()
+        }
+      })
+      for (
+        let node: HTMLElement | null = wrapper.value;
+        node && node !== document.documentElement;
+        node = node.parentElement
+      ) {
+        ancestors.observe(node, { attributes: true, attributeFilter: ['class', 'style'] })
       }
+      themeObservers.push(ancestors)
       const styleElement = document.getElementById(STYLE_ELEMENT_ID)
       if (styleElement) {
         observe(styleElement, { childList: true, subtree: true, characterData: true })

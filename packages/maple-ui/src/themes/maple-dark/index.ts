@@ -1,4 +1,4 @@
-import type { StyleVars } from '../../style-provider'
+import type { StyleVars } from '../../theme-provider'
 import defaultDark from '../dark'
 
 const mapleDark: StyleVars = {

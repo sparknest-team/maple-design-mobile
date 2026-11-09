@@ -4,7 +4,7 @@ export interface InputEmits {
   'update:open': [value: boolean]
   'update:modelValue': [value: string | null]
   input: [value: string, event: Event]
-  change: [value: string | null, event: Event]
+  change: [value: string | null, event?: Event]
   'press-enter': [event: KeyboardEvent]
   keydown: [event: KeyboardEvent]
   clear: [event: Event]

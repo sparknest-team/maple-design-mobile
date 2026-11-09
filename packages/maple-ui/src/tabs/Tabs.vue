@@ -1,7 +1,7 @@
 <template><Render /></template>
 
 <script setup lang="ts">
-import { computed, h, nextTick, provide, ref, useAttrs, useId, type VNode } from 'vue'
+import { computed, h, nextTick, onBeforeUnmount, provide, ref, useAttrs, useId, watch, type VNode } from 'vue'
 import { useDirection } from '../_utils/direction'
 import { createNamespace } from '../utils/components'
 import { flatten, tabsInjectionKey, type TabEntry } from './context'
@@ -62,6 +62,68 @@ async function add(event: Event) {
     }
   }
 }
+type PendingClose = { key: TabsName; index: number; origin: Element; document: Document; cleanup: () => void }
+let pendingClose: PendingClose | undefined
+function clearPendingClose() {
+  pendingClose?.cleanup()
+  pendingClose = undefined
+}
+function remove(key: TabsName, event: Event) {
+  clearPendingClose()
+  const source = event.currentTarget as HTMLElement | null
+  const document = source?.ownerDocument
+  const origin = document?.activeElement
+  const enabled = entries.value.filter((tab) => !tab.disabled)
+  const index = enabled.findIndex((tab) => tab.name === key)
+  if (source && document && origin && source.parentElement?.contains(origin) && index >= 0) {
+    const cancelOnFocus = (next: FocusEvent) => {
+      if (next.target !== origin) {
+        clearPendingClose()
+      }
+    }
+    const cancelOnPointer = () => clearPendingClose()
+    document.addEventListener('focusin', cancelOnFocus, true)
+    document.addEventListener('pointerdown', cancelOnPointer, true)
+    pendingClose = {
+      key,
+      index,
+      origin,
+      document,
+      cleanup: () => {
+        document.removeEventListener('focusin', cancelOnFocus, true)
+        document.removeEventListener('pointerdown', cancelOnPointer, true)
+      },
+    }
+  }
+  emit('delete', key, event)
+}
+watch(
+  entries,
+  () => {
+    const pending = pendingClose
+    if (!pending || entries.value.some((tab) => tab.name === pending.key)) {
+      return
+    }
+    nextTick(() => {
+      if (pendingClose !== pending) {
+        return
+      }
+      const { document, origin, index } = pending
+      const activeElement = document.activeElement
+      const enabled = entries.value.filter((tab) => !tab.disabled)
+      const target = enabled[Math.min(index, enabled.length - 1)]
+      clearPendingClose()
+      if (!target || (activeElement && activeElement !== document.body && activeElement !== origin)) {
+        return
+      }
+      focused.value = target.name
+      document.getElementById(`${uid}-tab-${typeof target.name}-${encodeURIComponent(String(target.name))}`)?.focus()
+    })
+  },
+  { flush: 'post' },
+)
+onBeforeUnmount(clearPendingClose)
+
 provide(tabsInjectionKey, {
   props,
   entries,
@@ -71,7 +133,7 @@ provide(tabsInjectionKey, {
   select,
   click,
   add,
-  remove: (key, event) => emit('delete', key, event),
+  remove,
   id: (key, part) => `${uid}-${part}-${typeof key}-${encodeURIComponent(String(key))}`,
 })
 

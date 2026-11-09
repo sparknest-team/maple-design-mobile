@@ -12,13 +12,14 @@ import { dateFieldPanelOptions } from './field-panel-options'
 
 export function dateFieldAdapter(range: boolean): FieldPresentationAdapter {
   return {
+    methods: ['focus', 'blur'],
     setup: range
       ? () => {
           provideRangeField()
         }
       : undefined,
     reference: range
-      ? ({ props, attrs, value, update, emit, slots, disabled, readonly, open, setOpen, referenceRef }) =>
+      ? ({ props, attrs, value, clear, emit, slots, disabled, readonly, open, setOpen, referenceRef }) =>
           h(
             PickerField,
             {
@@ -27,15 +28,19 @@ export function dateFieldAdapter(range: boolean): FieldPresentationAdapter {
               ref: referenceRef,
               class: ['mp-date-range', attrs.class],
               texts: [0, 1].map((index) => formatDateValue(value?.[index], props)),
+              placeholder: Array.isArray(props.placeholder) ? props.placeholder[0] : props.placeholder,
               placeholders: Array.isArray(props.placeholder)
                 ? props.placeholder
-                : [t('dateRangeStart'), t('dateRangeEnd')],
+                : typeof props.placeholder === 'string'
+                  ? [props.placeholder, props.placeholder]
+                  : [t('dateRangeStart'), t('dateRangeEnd')],
               range: true,
               openTriggerTarget: props.openTriggerTarget,
               separator: props.separator,
               editable: false,
               open,
-              disabled: disabled || readonly,
+              disabled,
+              readonly,
               clearable: Boolean(
                 props.clearable &&
                 !disabled &&
@@ -43,14 +48,26 @@ export function dateFieldAdapter(range: boolean): FieldPresentationAdapter {
                 !(Array.isArray(props.disabled) && props.disabled.some(Boolean)),
               ),
               disabledParts: [0, 1].map((index) =>
-                Boolean(disabled || readonly || (Array.isArray(props.disabled) && props.disabled[index])),
+                Boolean(disabled || (Array.isArray(props.disabled) && props.disabled[index])),
               ),
+              onFocus: () => emit('focus'),
+              onBlur: () => emit('blur'),
               onClick: (event: MouseEvent) => {
+                if (disabled) {
+                  return
+                }
+                emit('click', event)
+                if (readonly) {
+                  return
+                }
                 if (isFieldOpenClick(event, props.openTriggerTarget)) {
                   setOpen(true)
                 }
               },
               onKeydown: (event: KeyboardEvent) => {
+                if (disabled || readonly) {
+                  return
+                }
                 if (['Enter', ' ', 'ArrowDown'].includes(event.key)) {
                   event.preventDefault()
                   setOpen(true)
@@ -60,9 +77,7 @@ export function dateFieldAdapter(range: boolean): FieldPresentationAdapter {
                 if (disabled || readonly || (Array.isArray(props.disabled) && props.disabled.some(Boolean))) {
                   return
                 }
-                update([])
-                emit('clear')
-                setOpen(false)
+                return clear().then(() => emit('clear'))
               },
             },
             slots,

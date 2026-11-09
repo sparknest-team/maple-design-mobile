@@ -1,5 +1,10 @@
 import { describe, expect, it } from 'vitest'
-import { formatNumericText, normalizeTextInputValue } from '../../utils/text-input-value'
+import {
+  formatNumericText,
+  isValidTextInputMaxLength,
+  normalizeTextInputValue,
+  resolveTextInputMaxLength,
+} from '../../utils/text-input-value'
 
 describe('text input value', () => {
   it('normalizes numeric text without changing a leading minus or first decimal point', () => {
@@ -26,4 +31,33 @@ describe('text input value', () => {
     expect(normalizeTextInputValue('😀Z', { maxLength: 1, errorOnly: true })).toBe('😀Z')
     expect(normalizeTextInputValue('😀Z', { maxLength: 1, wordSlice: () => 'custom' })).toBe('custom')
   })
+})
+
+it('validates number/object length policies and supplies one safe unlimited fallback', () => {
+  for (const value of [
+    -1,
+    NaN,
+    Infinity,
+    -Infinity,
+    null,
+    undefined,
+    {},
+    [],
+    { length: -1 },
+    { length: NaN },
+    { length: Infinity },
+    { length: '2' },
+    { length: 2, errorOnly: 'yes' },
+  ]) {
+    expect(isValidTextInputMaxLength(value)).toBe(false)
+    expect(resolveTextInputMaxLength(value)).toEqual({ length: 0, errorOnly: false })
+  }
+  for (const value of [0, 2, 2.5, { length: 0 }, { length: 2, errorOnly: false }, { length: 2, errorOnly: true }]) {
+    expect(isValidTextInputMaxLength(value)).toBe(true)
+  }
+  expect(resolveTextInputMaxLength({ length: 2, errorOnly: true })).toEqual({ length: 2, errorOnly: true })
+  expect(resolveTextInputMaxLength(2)).toEqual({ length: 2, errorOnly: false })
+  for (const maxLength of [-1, NaN, Infinity, -Infinity]) {
+    expect(normalizeTextInputValue('1a2b3', { maxLength, numeric: true })).toBe('123')
+  }
 })

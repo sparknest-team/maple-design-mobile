@@ -19,6 +19,7 @@ const groups = {
     '__tests__/selection-field.spec.ts',
     '__tests__/selection-tag-label.spec.ts',
     '__tests__/selection-key.spec.ts',
+    '__tests__/popup-role.spec.ts',
   ],
   'picker-field': [
     'open-trigger.ts',
@@ -80,5 +81,5 @@ for (const component of ['date/picker/Picker.vue', 'date/picker/DateRangePicker.
   assert.doesNotMatch(source, /useFormItem|<Trigger|<DateInput|<DateRangeInput/)
 }
 console.log(
-  'Field layers: 25 independent source pairs, four Less outputs and Cedar ownership boundaries verified. Select/Cascader also have a separate presentation source check.',
+  'Field layers: 26 independent source pairs, four Less outputs and Cedar ownership boundaries verified. Select/Cascader also have a separate presentation source check.',
 )

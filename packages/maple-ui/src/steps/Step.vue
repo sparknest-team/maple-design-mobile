@@ -106,8 +106,8 @@ export default defineComponent({
       type: computed(() => steps?.type.value ?? 'default'),
       showTail,
       slotScope,
-      finishIcon: steps?.slots['finish-icon'],
-      errorIcon: steps?.slots['error-icon'],
+      finishIcon: computed(() => steps?.icons.value.finish),
+      errorIcon: computed(() => steps?.icons.value.error),
       handleClick,
     }
   },

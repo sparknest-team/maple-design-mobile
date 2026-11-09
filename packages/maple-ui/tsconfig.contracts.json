@@ -19,6 +19,12 @@
     "type-tests/form-layout.ts",
     "type-tests/date-panel-api.ts",
     "type-tests/p1-api.ts",
-    "type-tests/p2-api.ts"
+    "type-tests/p2-api.ts",
+    "type-tests/image-slots-contract.ts",
+    "type-tests/ripple-contract.ts",
+    "type-tests/themes-contract.ts",
+    "type-tests/index-bar-contract.ts",
+    "type-tests/fab-trigger-contract.ts",
+    "type-tests/highlighter-contract.ts"
   ]
 }

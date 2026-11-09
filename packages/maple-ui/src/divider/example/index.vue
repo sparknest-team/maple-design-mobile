@@ -66,11 +66,6 @@ onThemeChange()
     <CustomDemo />
   </section>
 
-  <section data-demo="content-flow">
-    <app-type>{{ english ? 'Content height and minimum thickness' : '内容占位与最小线宽' }}</app-type>
-    <ContentFlowDemo />
-  </section>
-
   <h2 class="mobile-demo-group-heading" data-demo-group="interaction-and-control">
     <span lang="zh-CN">交互与控制</span>
     <span lang="en-US">Interaction and control</span>
@@ -79,5 +74,15 @@ onThemeChange()
   <section data-demo="live-properties">
     <app-type>{{ english ? 'Live Properties' : '动态属性' }}</app-type>
     <LivePropertiesDemo />
+  </section>
+
+  <h2 class="mobile-demo-group-heading" data-demo-group="content-and-layout">
+    <span lang="zh-CN">内容与布局</span>
+    <span lang="en-US">Content and layout</span>
+  </h2>
+
+  <section data-demo="content-flow">
+    <app-type>{{ english ? 'Content height and minimum thickness' : '内容占位与最小线宽' }}</app-type>
+    <ContentFlowDemo />
   </section>
 </template>

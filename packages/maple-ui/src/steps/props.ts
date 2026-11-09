@@ -22,6 +22,7 @@ export const stepsProps = {
   orientation: {
     type: String as PropType<Orientation>,
     default: 'horizontal' as Orientation,
+    validator: (value: Orientation) => value === 'horizontal' || value === 'vertical',
   },
   /** 内容相对节点的位置 */
   /** 正文相对步骤节点的方位，可选 right 或 bottom，默认 right；dot 类型按横纵轴推导，navigation 固定 right */
@@ -32,9 +33,9 @@ export const stepsProps = {
       STEPS_CONTENT_PLACEMENTS.includes(value as StepsContentPlacement),
   },
   /** 当前步骤，从 1 开始 */
-  modelValue: Number,
+  modelValue: { type: Number, validator: (value: number) => Number.isSafeInteger(value) && value >= 0 },
   /** 非受控模式的初始步骤，仅创建时读取 */
-  defaultValue: { type: Number, default: 1 },
+  defaultValue: { type: Number, default: 1, validator: (value: number) => Number.isSafeInteger(value) && value >= 0 },
   /** 当前步骤状态 */
   status: {
     type: String as PropType<StepStatus>,

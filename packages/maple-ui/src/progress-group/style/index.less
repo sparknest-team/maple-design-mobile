@@ -77,8 +77,23 @@
     background: var(~'--mp-progress-group-tooltip-bg');
     font-size: var(--mp-progress-group-tooltip-font-size);
     line-height: var(--mp-progress-group-tooltip-line-height);
-    pointer-events: none;
+    pointer-events: auto;
     animation: mp-progress-group-tooltip-in var(--mp-progress-group-tooltip-duration) ease-out;
+  }
+  &--horizontal &__track-wrap > &__tooltip::before,
+  &__circle-tooltip::before {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    top: 100%;
+    height: calc(var(--mp-progress-group-tooltip-offset) + 1px);
+  }
+  &--vertical &__track-wrap > &__tooltip::before {
+    content: '';
+    position: absolute;
+    inset-block: 0;
+    inset-inline-end: 100%;
+    width: calc(var(--mp-progress-group-tooltip-offset) + 1px);
   }
   &--horizontal &__track-wrap > &__tooltip {
     bottom: calc(100% + var(--mp-progress-group-tooltip-offset));

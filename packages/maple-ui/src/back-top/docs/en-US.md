@@ -84,9 +84,15 @@ The examples use isolated local containers. Omit `target-container` to listen to
 ../example/demos/en-US/scheduler-lifecycle.vue
 ```
 
+## Usage notes
+
+### Easing and errors
+
+duration must be finite, nonnegative milliseconds; zero scrolls immediately. Invalid durations produce Vue prop validation warnings in development and retain the immediate-completion runtime fallback. The easing presets are linear, quartOut and easeInOutCubic; invalid names warn and fall back to quartOut. A custom function receives progress from 0 to 1: finite results are clamped to 0–1, while nonfinite or nonnumeric results use the current linear progress. Promises are not awaited. Thrown errors propagate unchanged to the calling environment; that frame schedules no further animation, and scrollToTop can retry. No click success or extra error event is fabricated.
+
 ## API
 
-### Props
+### BackTop Props
 
 | Prop | Description | Type | Default |
 | --- | --- | --- | --- |
@@ -102,35 +108,65 @@ The examples use isolated local containers. Omit `target-container` to listen to
 
 When `popup-container=false`, the button is positioned absolutely; give its containing block `position: relative`. Repeated clicks replace the previous animation; changing target, deactivation and unmount cancel queued work. Reduced-motion preference skips animation. Horizontal scroll position is preserved.
 
-### Events / slots / methods
+### BackTop Events / Slots / Methods
 
 - `click(event: MouseEvent)`: emitted once per activation.
 - Default slot: noninteractive text or icons. The root is already a native button; do not nest another Button or link.
 - `scrollToTop()`: scrolls the current target without emitting an additional click.
 - Keyboard: Tab focuses the visible button; Enter / Space activates it. Hidden buttons are not focusable.
 
-### Types
+## Types
 
 ```ts
 import type { BackTopProps, BackTopInstance, BackTopTarget, BackTopEasing } from '@maple-design/ui'
 ```
 
-### Style variables
+### Imports and event types
 
-| Token | Default |
-| --- | --- |
-| `--mp-back-top-right` | `40px` |
-| `--mp-back-top-bottom` | `40px` |
-| `--mp-back-top-button-size` | `var(--mp-sys-control-touch-target)` |
-| `--mp-back-top-button-border-radius` | `50%` |
-| `--mp-back-top-font-size` | `var(--mp-sys-font-size-md)` |
-| `--mp-back-top-icon-size` | `20px` |
-| `--mp-back-top-background` | `var(--mp-sys-color-surface-raised)` |
-| `--mp-back-top-text-color` | `var(--mp-sys-color-content-brand)` |
-| `--mp-back-top-hover-background` | `var(--mp-sys-color-state-hover)` |
-| `--mp-back-top-focus-color` | `var(--mp-sys-color-content-brand)` |
-| `--mp-back-top-focus-width` | `2px` |
-| `--mp-back-top-focus-offset` | `2px` |
-| `--mp-back-top-z-index` | `var(--mp-z-index-local-sticky)` |
+The subentry default component and the named components from the subentry and root are the same component. Props includes actual listener parameters. Events remain notifications and do not await returned Promises. Use only the documented instance methods.
 
-Pre-release migration: Cedar `margin-right/bottom` → `right/bottom`, `button-size-width` → `button-size`, `button-size-font/icon` → `font-size/icon-size`, `button-bg/bg-hover/text-color` → `background/hover-background/text-color` (all with the component prefix). Maple duration is now 200ms; default target is the page. Legacy arbitrary BTween curve names are replaced with the documented presets or a function. No aliases remain.
+```ts
+import BackTop, { BackTop as NamedBackTop } from '@maple-design/ui/back-top'
+import { BackTop as RootBackTop } from '@maple-design/ui'
+import type { BackTopProps, BackTopInstance } from '@maple-design/ui'
+import type { BackTopProps as SubBackTopProps } from '@maple-design/ui/back-top'
+const options: BackTopProps = { onClick: (event: MouseEvent) => event.preventDefault() }
+```
+
+## CSS Variables
+
+<!-- component-css-variables:start -->
+
+Use these variables to customize the component. Defaults may vary by the selector condition shown. Each variable applies to the corresponding size, variant and interaction states.
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Default / condition | Affected styles |
+| --- | --- | --- |
+| `--mp-back-top-background` | `var(--mp-sys-color-surface-raised)` | `background` |
+| `--mp-back-top-bottom` | `40px` | `bottom` |
+| `--mp-back-top-button-border-radius` | `50%` | `border-radius` |
+| `--mp-back-top-button-size` | `var(--mp-sys-control-touch-target)` | `height`, `width` |
+| `--mp-back-top-focus-color` | `var(--mp-sys-color-content-brand)` | `outline` |
+| `--mp-back-top-focus-offset` | `2px` | `outline-offset` |
+| `--mp-back-top-focus-width` | `2px` | `outline` |
+| `--mp-back-top-font-size` | `var(--mp-sys-font-size-md)` | `font-size` |
+| `--mp-back-top-hover-background` | `var(--mp-sys-color-state-hover)` | `background` |
+| `--mp-back-top-icon-size` | `20px` | `height`, `width` |
+| `--mp-back-top-right` | `40px` | `right` |
+| `--mp-back-top-text-color` | `var(--mp-sys-color-content-brand)` | `color` |
+| `--mp-back-top-z-index` | `var(--mp-z-index-local-sticky)` | `z-index` |
+
+</div>
+
+Apply overrides to the rendered component root or the actual popup ancestor. For example, add the following class to that element and replace the value as needed:
+
+```css
+.component-theme {
+  --mp-back-top-background: var(--mp-sys-color-surface-raised);
+}
+```
+
+Explicit inline styles and props that write the same CSS property take precedence over stylesheet defaults. After Teleport, ordinary CSS variables inherit from the actual mount location. When using ThemeProvider, follow its local-theme and popup configuration rules. Override the component variable directly for local styling; root-level aliases are not recalculated merely because a descendant system variable changes. Internal variables are not public APIs.
+
+<!-- component-css-variables:end -->

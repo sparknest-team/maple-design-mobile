@@ -1,6 +1,6 @@
 # 列表 List
 
-`scrollIntoView` 仅在虚拟模式向内部 VirtualList 的 `scrollTo` 转发 options，不是直接 DOM `scrollIntoView`，没有本地动效计时器。原生滚动、减少动效和保留命令生命周期须独立审查 VirtualList；方法名／调用线索不等于视觉验收。本轮分类不改 List API／实现。
+`scrollIntoView` 仅在虚拟模式可用，参数与内部 VirtualList 的 `scrollTo` 一致，不等同于原生 DOM 的 `scrollIntoView`。
 
 纯展示型列表。分页加载请组合使用 `InfiniteScroll`。
 
@@ -111,6 +111,8 @@
 
 ## API
 
+虚拟列表先覆盖视口，再按 `buffer` 在前后预渲染；`buffer=0` 合法，`estimatedSize` 必须是有限正数（包括小于 1 的值），无效值回退 30px。`fixedSize` 可动态切换；可变高度使用已测量值和估计值，行在挂载及卸载时测量，已挂载行异步高度变化不会持续监听。`item` 插槽接收原始索引和 unknown 数据，应返回单个可测量根节点并提供稳定的 `itemKey`。需要向辅助技术表达完整集合时，可在业务行上按实际数据提供 `aria-setsize` 和 `aria-posinset`。
+
 ### List Props
 
 | 属性 | 说明 | 类型 | 默认值 |
@@ -130,56 +132,76 @@ ListVirtualListProps 支持 height、threshold、fixedSize、estimatedSize、buf
 
 ListScrollbarProps 支持 type: 'track'|'embed'、outerClass、outerStyle、hide、disableHorizontal、disableVertical。属性作为 JavaScript 对象字段使用 camelCase。
 
-### Events / Methods
+### List Events / Methods
 
 - scroll(event: Event)：真实滚动事件，一次滚动通知一次。
 - scrollIntoView({ index?, key?, align })：虚拟列表定位，index 优先；align 为 top/bottom/auto。auto 在项目已完整可见时不滚动，否则最小滚动使其可见。无效目标、非虚拟模式不操作。
 
-### Slots
+### List Slots
 
 List：default（优先于data）、item({ item, index })、header、footer、empty。空态仅无默认插槽、无数据、非加载时渲染。ListItem：prefix、default、suffix，保持列表项语义，不管理按钮/业务交互。
 
-### 类型
+## Types
 
 ListProps、ListSize、ListVirtualListProps、ListScrollbarProps、ListExpose、ListSlots、ListEmits、ListInstance、ListItemInstance。
 
 List 与 InfiniteScroll 分工独立：List管理展示与可选虚拟视口；无限分页应组合 InfiniteScroll 的 status/target 交互，不在 List 中重复维护加载状态机。
 
-## 样式变量
+## CSS Variables
 
-| Token | Default |
-| --- | --- |
-| `--mp-list-background` | `var(--mp-color-bg-1)` |
-| `--mp-list-empty-padding` | `24px 16px` |
-| `--mp-list-empty-color` | `var(--mp-color-text-3)` |
-| `--mp-list-loading-padding` | `16px` |
-| `--mp-list-border-width` | `1px` |
-| `--mp-list-border-color` | `var(--mp-color-border-2)` |
-| `--mp-list-border-radius` | `4px` |
-| `--mp-list-text-color` | `var(--mp-color-text-1)` |
-| `--mp-list-font-size` | `var(--mp-sys-font-size-md)` |
-| `--mp-list-line-height` | `1.5` |
-| `--mp-list-text-color-header` | `var(--mp-color-text-1)` |
-| `--mp-list-font-size-header` | `var(--mp-sys-font-size-md)` |
-| `--mp-list-font-weight-header` | `500` |
-| `--mp-list-line-height-header` | `1.5` |
-| `--mp-list-item-prefix-margin-right` | `12px` |
-| `--mp-list-item-suffix-margin-left` | `12px` |
-| `--mp-list-size-sm-padding-vertical-header` | `12px` |
-| `--mp-list-size-sm-padding-horizontal-header` | `16px` |
-| `--mp-list-size-sm-padding-vertical-footer` | `12px` |
-| `--mp-list-size-sm-padding-horizontal-footer` | `16px` |
-| `--mp-list-size-sm-padding-vertical-item` | `8px` |
-| `--mp-list-size-sm-padding-horizontal-item` | `12px` |
-| `--mp-list-size-md-padding-vertical-header` | `12px` |
-| `--mp-list-size-md-padding-horizontal-header` | `16px` |
-| `--mp-list-size-md-padding-vertical-footer` | `12px` |
-| `--mp-list-size-md-padding-horizontal-footer` | `16px` |
-| `--mp-list-size-md-padding-vertical-item` | `12px` |
-| `--mp-list-size-md-padding-horizontal-item` | `16px` |
-| `--mp-list-size-lg-padding-vertical-header` | `12px` |
-| `--mp-list-size-lg-padding-horizontal-header` | `16px` |
-| `--mp-list-size-lg-padding-vertical-footer` | `12px` |
-| `--mp-list-size-lg-padding-horizontal-footer` | `16px` |
-| `--mp-list-size-lg-padding-vertical-item` | `16px` |
-| `--mp-list-size-lg-padding-horizontal-item` | `20px` |
+<!-- component-css-variables:start -->
+
+通过以下变量定制组件外观。默认值随表中注明的主题或选择器条件变化；变量仅在对应的尺寸、变体和交互状态下生效。
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| 变量 | 默认值／条件 | 影响的样式 |
+| --- | --- | --- |
+| `--mp-list-background` | `var(--mp-color-bg-1)` | `background` |
+| `--mp-list-border-color` | `var(--mp-color-border-2)` | `border`, `border-bottom`, `border-top` |
+| `--mp-list-border-radius` | `4px` | `border-radius` |
+| `--mp-list-border-width` | `1px` | `border`, `border-bottom`, `border-top` |
+| `--mp-list-empty-color` | `var(--mp-color-text-3)` | `color` |
+| `--mp-list-empty-padding` | `24px 16px` | `padding` |
+| `--mp-list-font-size` | `var(--mp-sys-font-size-md)` | `font-size` |
+| `--mp-list-font-size-header` | `var(--mp-sys-font-size-md)` | `font-size` |
+| `--mp-list-font-weight-header` | `500` | `font-weight` |
+| `--mp-list-item-prefix-margin-right` | `12px` | `margin-inline-end` |
+| `--mp-list-item-suffix-margin-left` | `12px` | `margin-inline-start` |
+| `--mp-list-line-height` | `1.5` | `line-height` |
+| `--mp-list-line-height-header` | `1.5` | `line-height` |
+| `--mp-list-loading-padding` | `16px` | `padding` |
+| `--mp-list-size-lg-padding-horizontal-footer` | `16px` | `padding` |
+| `--mp-list-size-lg-padding-horizontal-header` | `16px` | `padding` |
+| `--mp-list-size-lg-padding-horizontal-item` | `20px` | `padding` |
+| `--mp-list-size-lg-padding-vertical-footer` | `12px` | `padding` |
+| `--mp-list-size-lg-padding-vertical-header` | `12px` | `padding` |
+| `--mp-list-size-lg-padding-vertical-item` | `16px` | `padding` |
+| `--mp-list-size-md-padding-horizontal-footer` | `16px` | `padding` |
+| `--mp-list-size-md-padding-horizontal-header` | `16px` | `padding` |
+| `--mp-list-size-md-padding-horizontal-item` | `16px` | `padding` |
+| `--mp-list-size-md-padding-vertical-footer` | `12px` | `padding` |
+| `--mp-list-size-md-padding-vertical-header` | `12px` | `padding` |
+| `--mp-list-size-md-padding-vertical-item` | `12px` | `padding` |
+| `--mp-list-size-sm-padding-horizontal-footer` | `16px` | `padding` |
+| `--mp-list-size-sm-padding-horizontal-header` | `16px` | `padding` |
+| `--mp-list-size-sm-padding-horizontal-item` | `12px` | `padding` |
+| `--mp-list-size-sm-padding-vertical-footer` | `12px` | `padding` |
+| `--mp-list-size-sm-padding-vertical-header` | `12px` | `padding` |
+| `--mp-list-size-sm-padding-vertical-item` | `8px` | `padding` |
+| `--mp-list-text-color` | `var(--mp-color-text-1)` | `color` |
+| `--mp-list-text-color-header` | `var(--mp-color-text-1)` | `color` |
+
+</div>
+
+将覆盖设置在组件实际根节点或弹层真实挂载祖先上。例如给该元素添加下列 class，再按需替换变量值：
+
+```css
+.component-theme {
+  --mp-list-background: var(--mp-color-bg-1);
+}
+```
+
+显式行内样式及直接写入同一 CSS 属性的 Props 优先于样式表默认值。Teleport 后，普通 CSS 变量按实际挂载位置继承；使用 ThemeProvider 时，请遵循其局部主题与弹层配置规则。局部定制请直接覆盖组件变量；仅修改后代的 system 变量不会重新计算从根继承的组件别名。内部变量不属于公共 API。
+
+<!-- component-css-variables:end -->

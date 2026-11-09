@@ -77,7 +77,7 @@ copied-components-check.mjs 覆盖完整同源主体；copied-foundations-check.
 | image | image | 已同源 | 2026-09-15 完成独立源码复制；Image/Preview/PreviewGroup 主体 SFC、加载回退、预览控制器与命令式 API 纳入一致性检查。去掉 platform.config；懒加载用原生 loading、图标/默认加载器/默认值由各库 platform 与 setPropsDefaults 适配。 |
 | overlay | overlay | 已同源 | 2026-09-21 完成独立同源：主体 SFC、Props 和结构样式已复制并纳入门禁；统一 popup-layer/z-index、容器滚动锁、真实 Teleport Document、背景 pointer 序列、最上层 ESC、受控状态、KeepAlive 和过渡生命周期。 |
 | dialog | dialog | 逻辑已同源 | 2026-09-21 完成逻辑同源。两端 Dialog 直接消费同源 modal-surface，不再嵌套 Popup 或维护端侧弹层状态机；use-dialog、use-dialog-drag、service 三份核心均为独立复制并纳入门禁，统一 beforeClose 竞态、拖拽、Promise/update/close、默认配置、宿主销毁及 app context。PC 与移动端保留各自 DOM、图标和样式。 |
-| style-provider | style-provider | 已同源 | 主体、Props、函数注入、安装、默认值设置及配对测试已独立同源；仅前缀与本地导入不同，不共享运行时代码或状态。 |
+| theme-provider | theme-provider | 已同源 | 主体、Props、函数注入、安装、默认值设置及配对测试已独立同源；仅前缀与本地导入不同，不共享运行时代码或状态。 |
 | select | select | 已同源 | 主体、控制器、选项与搜索/虚拟列表算法、Menu 及语义样式已独立复制并纳入 check:selection-presentations；Cedar 仅 menu，Maple 通过静态扩展文件提供 list/picker 和移动触摸样式。公共 API 以 Cedar 为准；本地 Form/空状态接入独立，无跨库运行时、共享实例或 platform 配置。 第二十五批：公共源码保留严格主体比较，仅规范本地绑定导入的排序；Select/Checkbox BEM 同步原生同源控件，移动 presentation 扩展独立。 |
 | cascader | cascader | 已同源 | 主体、控制器、树/路径/搜索/懒加载算法、CascaderPanel、Menu 与语义样式已独立复制；草稿会话由控制器统一持有。Cedar 仅 menu，Maple 的 list/picker 位于独立静态扩展文件；公共源码纳入 check:selection-presentations，保留本地系统接入与移动触摸样式差异，不共享运行时代码。 第二十五批：公共源码、路径算法与样式完成复制收口，移除旧 Checkbox/Radio hover 类名，使用 --状态与 __control；list/picker 仍为本地扩展。 |
 | auto-complete | auto-complete | 已同源 | 2026-09-23 主体、Props、类型出口、Menu 样式和配对交互/SSR 测试完成独立同源复制；两端直接消费本地 Input、Trigger、Select 选项算法。统一 shouldOpen/过滤、分组、异步候选、虚拟列表、长度规则、Form 继承及焦点事件，补齐 hint/颜色/键盘提示；无跨库运行时或 platform 配置，AutoComplete 不提供滚轮 presentation。 第二十五批：主体、Props、配对44项交互测试及样式复制收口；绑定导入按本地路径排序，不忽略主体、模板或副作用导入顺序。 |
@@ -209,7 +209,7 @@ Cedar：129 个 Props 导出；Maple：119 个；同名可比较：97 个。
 | statisticProps | 16 / 16 | — | — |
 | stepProps | 6 / 6 | — | — |
 | stepsProps | 9 / 9 | — | — |
-| styleProviderProps | 2 / 2 | — | — |
+| themeProviderProps | 2 / 2 | — | — |
 | switchProps | 17 / 17 | — | — |
 | tabItemProps | 2 / 2 | — | — |
 | tabNavProps | 4 / 4 | — | — |

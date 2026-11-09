@@ -20,6 +20,10 @@ export const props = {
     type: Boolean,
     default: false,
   },
+  paused: {
+    type: Boolean,
+    default: false,
+  },
   speed: {
     type: [Number, String],
     default: 50,

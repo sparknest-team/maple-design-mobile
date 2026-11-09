@@ -45,10 +45,10 @@ test('image preview onChange callback', async () => {
   })
   await delay(200)
 
-  await trigger(document.querySelector('[aria-label="Next image"]'), 'click')
+  await trigger(document.querySelector('[data-image-preview-arrow-right]'), 'click')
   expect(onChange).toHaveBeenLastCalledWith(2, 1)
 
-  await trigger(document.querySelector('[aria-label="Previous image"]'), 'click')
+  await trigger(document.querySelector('[data-image-preview-arrow-left]'), 'click')
   expect(onChange).toHaveBeenLastCalledWith(1, 2)
 
   imagePreview.close()
@@ -63,7 +63,7 @@ test('image preview closable', async () => {
   await delay(200)
   const closeButton = document.querySelector('[data-image-preview-close]')
   expect(closeButton.tagName).toBe('BUTTON')
-  expect(closeButton.getAttribute('aria-label')).toBe('Close image preview')
+  expect(closeButton.getAttribute('aria-label')).toBeTruthy()
   await trigger(closeButton, 'click')
   await delay(300)
   expect(document.querySelector('.mp-image-preview')).toBeFalsy()

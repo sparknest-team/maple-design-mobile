@@ -27,6 +27,8 @@
 
   &__error-message {
     flex-grow: 1;
+    min-width: 0;
+    overflow-wrap: anywhere;
     color: var(--mp-form-details-error-message-color);
     margin-inline-end: var(--mp-form-details-message-margin-right);
     user-select: none;
@@ -34,7 +36,8 @@
   }
 
   &__extra-message {
-    flex-shrink: 0;
+    min-width: 0;
+    overflow-wrap: anywhere;
     color: var(--mp-form-details-extra-message-color);
     user-select: none;
     text-align: end;

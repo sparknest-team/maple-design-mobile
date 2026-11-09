@@ -1,5 +1,5 @@
 import { toNumber } from '@maple-design/shared'
-import dayjs from 'dayjs/esm/index.js'
+import dayjs from 'dayjs'
 import type { PickerColumnOption } from '../picker/props'
 import { calendarMonthDays, unitSequence } from '../utils/picker-data'
 import { padStart } from '../utils/shared'

@@ -1,0 +1,1 @@
+Preserve explicit clear intent in deferred Time and TimeRange fields. Mobile wheel candidate initialization is bounded to a new panel lifetime; an established panel never overwrites subsequent empty drafts. Match Cedar valid-empty adapter behavior, preserving standalone panel selection validation and initial empty candidate staging.

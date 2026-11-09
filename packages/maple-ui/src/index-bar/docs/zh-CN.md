@@ -1,13 +1,5 @@
 # 索引栏
 
-### 生命周期与滚动任务
-
-新命令替换旧滚动；停用／卸载取消入口、插值及两帧稳定等待，保留命令不再写入／通知。激活等子锚点登记后恢复active位置，event:false不重复change。取消不跳旧目标，公开scrollTo仍返回void，duration默认0、正值cubic easing不变。组件私有任务替代原通用工具调用，不新增公共取消API／CSS变量。减少动效跳插值，但不跳列表／clickedName的必要两帧状态稳定。
-
-消费者11＋私有任务4＋既有9共24测试通过，真实IAB四组4/4（替换、两帧状态、卸载、KeepAlive），节点0、无warn/error。范围仅default/light父文档，入口原生点击而内部命令／scroll事件由夹具脚本发出；原生手势、其他主题／窗口及OS仍独立待验。下文共享工具结果为历史工具证据，不替代本批消费者回归。
-
-此前工具各端10项和真实IAB8组为独立工具证据。IndexBar当前由私有可取消任务管理零／非正／非有限时长、owner偏好及稳定帧；通用工具不新增取消参数，Form不受本批影响。零时长仍有入口／两帧等待，CSS动效Token不替代duration。
-
 ### 介绍
 
 用于跳转到页面指定位置。
@@ -34,11 +26,13 @@
 
 默认索引列表位于阅读终点，字母/条目顺序及纵向滚动坐标不反转；安全区和 sticky 顶部偏移仍保持物理含义。
 
+首次挂载不会自动选中索引；用户滚动或调用 `scrollTo` 后更新高亮。导航项使用原生按钮，支持 Tab、Enter 和 Space。`anchor-name` 插槽应提供按钮内可读内容，不应嵌套交互控件。
+
+锚点标识按严格相等匹配，数字 `0` 与字符串 `"0"` 不同；未提供 index 的锚点不显示在导航中，空字符串是有效标识。应为每个锚点提供唯一标识；重复标识时程序跳转选择首个匹配项。`duration` 按毫秒读取数字或数字字符串，非正值及非有限值即时定位；`sticky-offset-top` 使用现有长度换算并始终按物理顶部定位。新滚动命令会替换旧命令，停用或卸载会取消待执行的滚动。
+
 ## API
 
-### 属性
-
-#### IndexBar Props
+### IndexBar Props
 
 | 参数                | 说明                       | 类型               | 默认值  |
 | ------------------- | -------------------------- | ------------------ | ------- |
@@ -50,37 +44,33 @@
 | `highlight-color`   | 索引字符高亮颜色           | _string_           | `-`     |
 | `duration`          | 动画持续时间               | _string \| number_ | `0`     |
 
-#### IndexAnchor Props
+### IndexAnchor Props
 
 | 参数    | 说明     | 类型               | 默认值 |
 | ------- | -------- | ------------------ | ------ |
 | `index` | 索引字符 | _number \| string_ | `-`    |
 
-### 事件
-
-#### IndexBar Events
+### IndexBar Events
 
 | 事件名   | 说明                         | 回调参数                  |
 | -------- | ---------------------------- | ------------------------- |
 | `click`  | 点击索引栏的字符时触发       | `index: number \| string` |
 | `change` | 当前高亮的索引字符变化时触发 | `index: number \| string` |
 
-### 插槽
-
-#### IndexBar Slots
+### IndexBar Slots
 
 | 名称      | 说明       | 参数 |
 | --------- | ---------- | ---- |
 | `default` | 索引栏内容 | `-`  |
+| `anchor-name` | 导航按钮内容，建议只放非交互内容 | `{ anchorName: number \| string }` |
 
-#### IndexAnchor Slots
+### IndexAnchor Slots
 
 | 名称          | 说明           | 参数                          |
 | ------------- | -------------- | ----------------------------- |
 | `default`     | 自定义索引字符 | `-`                           |
-| `anchor-name` | 自定义锚点内容 | `anchorName: string` 锚点内容 |
 
-### 方法
+### IndexBar Methods
 
 通过 ref 可以获取到 IndexBar 实例并调用实例方法
 
@@ -88,39 +78,47 @@
 | ---------- | -------------- | ------------------------------------------------------------ | ------ |
 | `scrollTo` | 滚动到指定锚点 | `index: number \| string, options?: IndexBarScrollToOptions` | `-`    |
 
-#### IndexBarScrollToOptions
+## Types
+
+### IndexBarScrollToOptions
 
 | 参数    | 说明                                  | 类型      | 默认值 |
 | ------- | ------------------------------------- | --------- | ------ |
 | `event` | 值为 `false` 时阻止触发 `change` 事件 | _boolean_ | `-`    |
 
-### 样式变量
+## CSS Variables
 
-以下为组件使用的 css 变量，可以使用 [StyleProvider 组件](#/zh-CN/style-provider) 进行样式定制。
+以下为组件使用的 css 变量，可以使用 [ThemeProvider 组件](#/zh-CN/theme-provider) 进行样式定制。
 
-| 变量名                                  | 默认值                    |
-| --------------------------------------- | ------------------------- |
-| `--mp-index-bar-list-right`             | `0`                       |
-| `--mp-index-bar-list-top`               | `50%`                     |
-| `--mp-index-bar-list-left`              | `auto`                    |
-| `--mp-index-bar-list-bottom`            | `auto`                    |
-| `--mp-index-bar-list-transform`         | `translate(0, -50%)`      |
-| `--mp-index-bar-list-item-font-size`    | `var(--mp-font-size-xs)`  |
-| `--mp-index-bar-list-item-color`        | `var(--mp-color-primary)` |
-| `--mp-index-bar-list-item-active-color` | `var(--mp-color-danger)`  |
-| `--mp-index-bar-list-item-height`       | `14px`                    |
-| `--mp-index-bar-list-item-padding`      | `0 10px`                  |
+<!-- component-css-variables:start -->
 
-### API
+通过以下变量定制组件外观。默认值随表中注明的主题或选择器条件变化；变量仅在对应的尺寸、变体和交互状态下生效。
 
-### 属性
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
 
-| 参数    | 说明     | 类型                 | 默认值 |
-| ------- | -------- | -------------------- | ------ |
-| `index` | 索引字符 | _number_ \| _string_ | -      |
+| 变量 | 默认值／条件 | 影响的样式 |
+| --- | --- | --- |
+| `--mp-index-bar-list-bottom` | `auto` | `bottom` |
+| `--mp-index-bar-list-item-active-color` | `var(--mp-sys-color-content-danger)` | `color` |
+| `--mp-index-bar-list-item-color` | `var(--mp-sys-color-content-brand)` | `color` |
+| `--mp-index-bar-list-item-font-size` | `var(--mp-font-size-xs)` | `font-size` |
+| `--mp-index-bar-list-item-height` | `14px` | `height` |
+| `--mp-index-bar-list-item-padding` | `0 10px` | `padding` |
+| `--mp-index-bar-list-left` | `auto` | `inset-inline-start` |
+| `--mp-index-bar-list-right` | `0` | `inset-inline-end` |
+| `--mp-index-bar-list-top` | `50%` | `top` |
+| `--mp-index-bar-list-transform` | `translate(0, -50%)` | `transform` |
 
-### 插槽
+</div>
 
-| 名称      | 说明           | 参数 |
-| --------- | -------------- | ---- |
-| `default` | 自定义索引字符 | -    |
+将覆盖设置在组件实际根节点或弹层真实挂载祖先上。例如给该元素添加下列 class，再按需替换变量值：
+
+```css
+.component-theme {
+  --mp-index-bar-list-item-active-color: var(--mp-sys-color-content-danger);
+}
+```
+
+显式行内样式及直接写入同一 CSS 属性的 Props 优先于样式表默认值。Teleport 后，普通 CSS 变量按实际挂载位置继承；使用 ThemeProvider 时，请遵循其局部主题与弹层配置规则。局部定制请直接覆盖组件变量；仅修改后代的 system 变量不会重新计算从根继承的组件别名。内部变量不属于公共 API。
+
+<!-- component-css-variables:end -->

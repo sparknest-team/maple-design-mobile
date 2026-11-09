@@ -34,7 +34,7 @@ Autoplay interval is business playback cadence (business-clock), not CSS duratio
 
 ### Multiple Slides Per View
 
-This 2.5-slide example exposes mouse dragging, controlled acceptance and looping. Current is the parent's accepted one-based slide number; Proposal records the request and Changes counts change events. Rejection can still emit a proposal and change event without updating the accepted model. Accept changes to drag both ways or wrap backward from the first item to the last. With looping off, dragging beyond the last item does not navigate or duplicate notifications. This mouse combination does not certify physical touch, centered or auto-width combinations.
+The demo shows 2.5 items and lets you drag or toggle acceptance and looping. Current is the parent-accepted page index starting at 1, Proposal records requests, and Changes counts change notifications. When updates are rejected, a request or change does not mean the model changed. Accepted updates allow dragging in either direction; disabling looping prevents crossing the ends.
 
 ```demo
 ../example/demos/multi-slides.vue
@@ -60,7 +60,7 @@ Extra card appends a 200px fifth item without changing a valid current index or 
 
 Drag to the last item, then enable Wider cards (80px added per item) and the 300px viewport. Resizing does not change the model or increment Changes: the current 340px card recenters, and a left drag can wrap to the first item. Restoring both switches recenters again. This paragraph describes ResizeObserver updates after a completed gesture, not resizing while holding a drag.
 
-The centered auto-width example uses four independent items (140/220/180/260px), with a 12px gap. Dragging advances one item at a time and wraps at either boundary. Current displays the accepted one-based model and Changes counts change events; the current item stays centered even when its width differs. This example does not certify physical touch, resizing during a gesture or dynamic item insertion.
+Items have different widths. Dragging keeps the current item centered and can loop across either end. Current shows the accepted page index starting at 1; Changes counts change notifications.
 
 ```demo
 ../example/demos/auto-sized.vue
@@ -227,7 +227,7 @@ The current index and change count expose the controlled model. Arrow/Home/End k
 <!-- demo-config-notes:end -->
 
 
-Loop nextTick waits for rendering; the settlement timer is visual-completion and two RAFs are state-settlement. Request/track/window checks and per-phase consumption prevent old timers clearing newer offsets, duplicate first-frame forks and old second frames releasing newer noMotion. Cancel held timers and RAF through their original frame window; already-dequeued callbacks still require ownership checks. Content/config render measurements are binding-generation scoped. Playback cadence and motion settlement are distinct, never a forced shared CSS duration.
+Changing content, restarting navigation or unmounting cancels pending slide movement. Autoplay timing is independent of CSS transitions.
 
 ```demo
 ../example/demos/en-US/scheduler-lifecycle.vue
@@ -236,6 +236,22 @@ Loop nextTick waits for rendering; the settlement timer is visual-completion and
 ### Intro
 
 Displays a collection of items that can be scrolled and swiped. Demos match Cedar Design Web; `effect` and `centered-slides` are shared.
+
+## Usage notes
+
+### Looping and autoplay
+
+Each slide always has one component instance. Ordinary previous/next navigation recycles positions after the departing slide exits. Multi-slide or centered jumps that would require one slide in two positions settle immediately without animation, cloning interactive content or queuing unlimited transitions. Fewer items than visible slides are not cloned to fill space. Accessible names follow global Locale; explicit label props take precedence.
+
+Native root listeners such as `keydown`, `mouseenter`, `mouseleave`, `focusin` and `focusout` run alongside internal navigation and autoplay pause handling. Native `.once` listeners fire once for the root element lifetime.
+
+`space-between` also accepts valid CSS lengths such as percentages and `calc()`. Multi-slide layout uses unscaled CSS pixels, so ancestor scaling does not change the gap-to-slide proportion.
+
+If a focused slide becomes inaccessible through navigation or removal, focus moves to the carousel container. Focus in a still-visible slide or outside the carousel is preserved. The container is programmatically focusable but is not in the Tab order unless `keyboard` is enabled; an explicit `tabindex` remains under caller control.
+
+The autoplay example sets `auto-play=false` on focus entry and provides an external switch for an explicit restart. The component itself only pauses temporarily while focus is inside; playback resumes on blur. This differs from the WAI-ARIA APG recommendation to stop on focus until the user explicitly restarts, and is not a claim of full APG conformance; applications requiring that behavior should control playback state. Reduced motion disables transitions but does not by itself stop automatic navigation.
+
+Slide numbers start at 1; finite fractions are truncated toward zero and then wrapped or clamped according to `loop`. Finite `move-speed` values use non-negative milliseconds; non-finite values use the CSS transition duration. The root is a named region and default indicator buttons have localized slide names and current state; their container has no separate group name. `line` and `slider` share the same default bar dimensions; `slider` can grow into available container space and is not draggable.
 
 ## API
 
@@ -282,19 +298,19 @@ loop moves existing children across boundaries without cloning component instanc
 
 auto-play=true uses 3000ms and pauses on hover; a number sets milliseconds without hover pausing; an object configures interval/hoverToPause. Focus within, dragging, hidden documents/ancestors and KeepAlive deactivation always pause playback. Reduced-motion preferences are respected. Interactive children such as inputs/buttons keep native behavior; mark custom interactive areas with data-carousel-no-drag. show-arrow=hover also shows arrows on keyboard focus.
 
-### Events
+### Carousel Events
 | Event | Arguments |
 | --- | --- |
 | update:model-value | slideNumber: number |
 | change | slideNumber: number, previousSlideNumber: number, isManual: boolean |
 
-### Slots
-| Slot | Arguments |
+### Carousel Slots
+| Slot | Prop |
 | --- | --- |
 | default | CarouselItem |
 | prev / next / indicator | { slideNumber, length, hovering, prev, next, to, resize } |
 
-### Methods
+### Carousel Methods
 | Method | Signature |
 | --- | --- |
 | prev / next | (options?: CarouselToOptions) => void |
@@ -303,42 +319,56 @@ auto-play=true uses 3000ms and pauses on hover; a number sets milliseconds witho
 
 CarouselItem has no own props, events or methods. Its default slot supplies slide content.
 
-### Types
+## Types
 CarouselProps, CarouselItemProps, CarouselInstance, CarouselItemInstance, CarouselEmits, CarouselSlots, CarouselItemSlots, CarouselExpose, CarouselSlotScope, CarouselToOptions, CarouselChangeData, CarouselOrientation, CarouselEffect, CarouselAutoPlayConfig, CarouselArrowType, CarouselIndicatorType, CarouselIndicatorPosition, CarouselTriggerEvent.
 
-### Style variables
+## CSS Variables
 
-| Token | Default |
-| --- | --- |
-| `--mp-carousel-indicator-dot-size` | `8px` |
-| `--mp-carousel-indicator-position` | `var(--mp-sys-space-4)` |
-| `--mp-carousel-indicator-gap` | `var(--mp-sys-space-3)` |
-| `--mp-carousel-indicator-color-default` | `rgb(255 255 255 / 35%)` |
-| `--mp-carousel-indicator-color-active` | `var(--mp-sys-color-content-on-dark)` |
-| `--mp-carousel-indicator-outer-margin-bottom` | `var(--mp-sys-space-8)` |
-| `--mp-carousel-indicator-line-width` | `20px` |
-| `--mp-carousel-indicator-line-height` | `3px` |
-| `--mp-carousel-indicator-line-border-radius` | `var(--mp-sys-radius-sm)` |
-| `--mp-carousel-arrow-size` | `var(--mp-sys-control-height-md)` |
-| `--mp-carousel-arrow-font-size` | `var(--mp-sys-font-size-xl)` |
-| `--mp-carousel-arrow-margin` | `var(--mp-sys-space-4)` |
-| `--mp-carousel-arrow-color` | `var(--mp-sys-color-content-on-dark)` |
-| `--mp-carousel-arrow-background` | `rgb(0 0 0 / 35%)` |
-| `--mp-carousel-arrow-background-hover` | `rgb(0 0 0 / 55%)` |
-| `--mp-carousel-arrow-disabled-opacity` | `0.4` |
-| `--mp-carousel-navigation-z-index` | `10` |
-| `--mp-carousel-transition-duration` | `var(--mp-sys-motion-duration-standard)` |
-| `--mp-carousel-transition-timing-function` | `ease` |
-| `--mp-carousel-fade-duration` | `var(--mp-sys-motion-duration-standard)` |
-| `--mp-carousel-card-duration` | `var(--mp-sys-motion-duration-standard)` |
-| `--mp-carousel-card-scale` | `0.85` |
-| `--mp-carousel-card-opacity` | `0.6` |
-| `--mp-carousel-focus-width` | `2px` |
-| `--mp-carousel-focus-offset` | `2px` |
-| `--mp-carousel-focus-color` | `var(--mp-sys-color-content-brand)` |
+<!-- component-css-variables:start -->
 
-### Loop transition boundaries
+Use these variables to customize the component. Defaults may vary by the selector condition shown. Each variable applies to the corresponding size, variant and interaction states.
 
-Each slide always has one component instance. Ordinary previous/next navigation recycles positions after the departing slide exits. Multi-slide or centered jumps that would require one slide in two positions settle immediately without animation, cloning interactive content or queuing unlimited transitions. Fewer items than visible slides are not cloned to fill space. Accessible names follow global Locale; explicit label props take precedence.
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
 
-Native root listeners such as `keydown`, `mouseenter`, `mouseleave`, `focusin` and `focusout` run alongside internal navigation and autoplay pause handling. Native `.once` listeners fire once for the root element lifetime.
+| Variable | Default / condition | Affected styles |
+| --- | --- | --- |
+| `--mp-carousel-arrow-background` | `rgb(0 0 0 / 35%)` | `background` |
+| `--mp-carousel-arrow-background-hover` | `rgb(0 0 0 / 55%)` | `background` |
+| `--mp-carousel-arrow-color` | `var(--mp-sys-color-content-on-dark)` | `color` |
+| `--mp-carousel-arrow-disabled-opacity` | `0.4` | `opacity` |
+| `--mp-carousel-arrow-font-size` | `var(--mp-sys-font-size-xl)` | `font-size` |
+| `--mp-carousel-arrow-margin` | `var(--mp-sys-space-4)` | `bottom`, `left`, `right`, `top` |
+| `--mp-carousel-arrow-size` | `var(--mp-sys-control-height-md)` | `height`, `width` |
+| `--mp-carousel-card-duration` | `var(--mp-sys-motion-duration-standard)` | `transition` |
+| `--mp-carousel-card-opacity` | `0.6` | `opacity` |
+| `--mp-carousel-card-scale` | `0.85` | `transform` |
+| `--mp-carousel-fade-duration` | `var(--mp-sys-motion-duration-standard)` | `transition` |
+| `--mp-carousel-focus-color` | `var(--mp-sys-color-content-brand)` | `outline` |
+| `--mp-carousel-focus-offset` | `2px` | `outline-offset` |
+| `--mp-carousel-focus-width` | `2px` | `outline` |
+| `--mp-carousel-indicator-color-active` | `var(--mp-sys-color-content-on-dark)` | `background` |
+| `--mp-carousel-indicator-color-default` | `rgb(255 255 255 / 35%)` | `background` |
+| `--mp-carousel-indicator-dot-size` | `8px` | `height`, `width` |
+| `--mp-carousel-indicator-gap` | `var(--mp-sys-space-3)` | `gap` |
+| `--mp-carousel-indicator-line-border-radius` | `var(--mp-sys-radius-sm)` | `border-radius` |
+| `--mp-carousel-indicator-line-height` | `3px` | `height` |
+| `--mp-carousel-indicator-line-width` | `20px` | `width` |
+| `--mp-carousel-indicator-outer-margin-bottom` | `var(--mp-sys-space-8)` | `padding-bottom` |
+| `--mp-carousel-indicator-position` | `var(--mp-sys-space-4)` | `bottom`, `left`, `right`, `top` |
+| `--mp-carousel-navigation-z-index` | `10` | `z-index` |
+| `--mp-carousel-transition-duration` | `var(--mp-sys-motion-duration-standard)` | `transition` |
+| `--mp-carousel-transition-timing-function` | `ease` | `transition` |
+
+</div>
+
+Apply overrides to the rendered component root or the actual popup ancestor. For example, add the following class to that element and replace the value as needed:
+
+```css
+.component-theme {
+  --mp-carousel-arrow-background: rgb(0 0 0 / 35%);
+}
+```
+
+Explicit inline styles and props that write the same CSS property take precedence over stylesheet defaults. After Teleport, ordinary CSS variables inherit from the actual mount location. When using ThemeProvider, follow its local-theme and popup configuration rules. Override the component variable directly for local styling; root-level aliases are not recalculated merely because a descendant system variable changes. Internal variables are not public APIs.
+
+<!-- component-css-variables:end -->

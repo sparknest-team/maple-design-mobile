@@ -4,7 +4,9 @@
     :aria-busy="$slots.default && loading ? 'true' : undefined"
     :role="!$slots.default ? 'status' : undefined"
     :aria-live="!$slots.default ? 'polite' : undefined"
+    :aria-atomic="!$slots.default ? 'true' : undefined"
   >
+    <span v-if="!$slots.default && !$slots.tip && !tip" :class="n('sr-only')">{{ loadingText }}</span>
     <div v-if="$slots.default" :class="classes(n('content'), [loading, n('content--active')])">
       <slot />
       <div v-if="loading" :class="n('content-overlay')" />
@@ -64,7 +66,7 @@ defineOptions({
 const props = defineProps(loadingProps)
 const slots = useSlots()
 const { n, classes } = createNamespace('loading')
-const { customLoading } = useLoadingPlatform()
+const { customLoading, loadingText } = useLoadingPlatform()
 const isShow = computed(() => !slots.default || props.loading)
 const showBody = computed(() => isShow.value && (!props.hideIcon || Boolean(slots.tip || props.tip)))
 const loadingTypeDict = { wave: 5, cube: 4, rect: 8, disappear: 3 } as const

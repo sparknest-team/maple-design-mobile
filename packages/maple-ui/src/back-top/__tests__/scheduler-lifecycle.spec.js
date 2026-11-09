@@ -259,3 +259,28 @@ describe('BackTop scheduler lifecycle', () => {
     expect(frames).toHaveLength(0)
   })
 })
+
+test('a throwing custom easing ends that frame and a later command can retry', async () => {
+  const failure = new Error('custom easing failure')
+  let first = true
+  const f = fixture({
+    easing: (progress) => {
+      if (first) {
+        first = false
+        throw failure
+      }
+      return progress
+    },
+  })
+  await flush()
+  f.command.scrollToTop()
+  const count = frames.length
+  expect(() => frames[frames.length - 1](500)).toThrow(failure)
+  expect(frames).toHaveLength(count)
+  expect(f.element.value.scrollTop).toBe(400)
+  f.command.scrollToTop()
+  frames[frames.length - 1](500)
+  expect(f.element.value.scrollTop).toBe(200)
+  frames[frames.length - 1](1000)
+  expect(f.element.value.scrollTop).toBe(0)
+})

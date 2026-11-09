@@ -10,6 +10,12 @@
   -webkit-tap-highlight-color: transparent;
 
   &--safe-area {
+    width: calc(
+      100% - var(--mp-safe-area-left, env(safe-area-inset-left, 0px)) -
+        var(--mp-safe-area-right, env(safe-area-inset-right, 0px))
+    );
+    padding-left: var(--mp-safe-area-left, env(safe-area-inset-left, 0px));
+    padding-right: var(--mp-safe-area-right, env(safe-area-inset-right, 0px));
     padding-bottom: constant(safe-area-inset-bottom); // iOS < 11.2
     padding-bottom: var(--mp-safe-area-bottom, env(safe-area-inset-bottom, 0px)); // iOS >= 11.2
     box-sizing: content-box !important;
@@ -49,6 +55,38 @@
   }
 }
 
-.mp-tab-bar--safe-area > * {
+.mp-tab-bar--safe-area > :not(.mp-tab-bar__fab),
+.mp-tab-bar--safe-area > .mp-tab-bar__fab > * {
+  --mp-safe-area-left: 0px;
+  --mp-safe-area-right: 0px;
   --mp-safe-area-bottom: 0px;
+}
+
+.mp-tab-bar--safe-area {
+  > .mp-tab-bar--fab-center {
+    inset-inline-end: calc(
+      50% +
+        (
+          var(--mp-safe-area-right, env(safe-area-inset-right, 0px)) -
+            var(--mp-safe-area-left, env(safe-area-inset-left, 0px))
+        ) /
+        2 - var(--mp-tab-bar-height) / 2
+    );
+  }
+  > .mp-tab-bar--fab-right {
+    inset-inline-end: calc(var(--mp-tab-bar-fab-offset) + var(--mp-safe-area-right, env(safe-area-inset-right, 0px)));
+  }
+  &:dir(rtl) > .mp-tab-bar--fab-center {
+    inset-inline-end: calc(
+      50% +
+        (
+          var(--mp-safe-area-left, env(safe-area-inset-left, 0px)) -
+            var(--mp-safe-area-right, env(safe-area-inset-right, 0px))
+        ) /
+        2 - var(--mp-tab-bar-height) / 2
+    );
+  }
+  &:dir(rtl) > .mp-tab-bar--fab-right {
+    inset-inline-end: calc(var(--mp-tab-bar-fab-offset) + var(--mp-safe-area-left, env(safe-area-inset-left, 0px)));
+  }
 }

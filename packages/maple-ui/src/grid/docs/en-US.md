@@ -84,7 +84,8 @@ Buttons only update this demo's array. Removing all items disables Remove first 
 ## API
 
 <!-- same-source-api:start -->
-### Props
+
+### Grid Props
 
 | Prop | Description | Type | Default |
 | --- | --- | --- | --- |
@@ -94,37 +95,53 @@ Buttons only update this demo's array. Removing all items disables Remove first 
 | collapsed | Collapse overflowing rows | `boolean` | `false` |
 | collapsed-rows | Visible rows while collapsed, minimum 1 | `number` | `1` |
 
-### Events
+### Grid Events
 
 | Event | Description |
 | --- | --- |
 
-### Slots
+### Grid Slots
 
 | Slot | Description |
 | --- | --- |
 | default | Layout content |
 
-### Methods
+### Grid Methods
 
 | Method | Description |
 | --- | --- |
 <!-- same-source-api:end -->
 
-## Responsiveness and accessibility
-
-Breakpoints use the browser viewport: xs is the base; sm ≥576, md ≥768, lg ≥992, xl ≥1200 and xxl ≥1600px. Configured values resolve downward from the largest matching breakpoint. SSR starts with xs and responds to the viewport after mounting. Grid collapsing and dynamic ordering are calculated after mounting. These layout containers add no keyboard shortcuts; callers supply content semantics and focusable elements. There are no public methods or dedicated theme tokens.
-
-## GridItem
+### GridItem Props
 
 | Prop | Description | Type | Default |
 | --- | --- | --- | --- |
 | span | Grid span | number / ResponsiveValue | 1 |
-| offset | Empty tracks before the item | number / ResponsiveValue | 0 |
+| offset | Empty tracks from the logical inline start | number / ResponsiveValue | 0 |
 | suffix | Suffix at the end of the row | boolean | false |
 
-The default slot receives `{ overflow: boolean }`, indicating whether collapsing hides content. No custom events or public methods.
+The default slot receives `{ overflow: boolean }`, indicating whether the parent Grid hides ordinary items due to collapse. Every GridItem, including suffix items, reads this shared state; it does not describe that item’s own overflow. It is false when expanded. SSR and the initial pre-mount render show every item; collapse is computed after mounting, which can change the initial layout. Offset reserves space from the logical inline start and mirrors in RTL. Span counts content tracks, while offset is included separately in the track budget. There are no custom events or public methods.
+
+## Responsiveness and accessibility
+
+Breakpoints use the browser viewport: xs is the base; sm ≥576, md ≥768, lg ≥992, xl ≥1200 and xxl ≥1600px. Configured values resolve downward from the largest matching breakpoint. SSR starts with xs and responds to the viewport after mounting. Grid collapsing and dynamic ordering are calculated after mounting. These layout containers add no keyboard shortcuts; callers supply content semantics and focusable elements. There are no public methods or dedicated theme tokens.
 
 ## Imports
 
-Grid contains only Grid.Item. Row and Col are independent components with their own source, styles, navigation, documentation and demos. Grid.Row/Grid.Col, Row/Col re-exports from Grid and GridRowInstance/GridColInstance are removed. Import them from the library root or separate row/col entries. Installing Grid no longer registers Row/Col automatically.
+Grid contains only Grid.Item. Import the independent Row and Col components from the library root or their row/col subpaths; installing Grid does not register them.
+
+## Numeric values and collapse budgeting
+
+Numeric inputs must be finite. Existing finite-value rules remain: cols is rounded down with a minimum of 1; collapsed-rows has a minimum of 1; negative gaps and offsets become zero; nonpositive spans are hidden. Non-finite or malformed inputs fall back to the property default: cols=24, collapsed-rows=1, span=1, and gaps/offset=0. Responsive objects accept only the six breakpoints and retain valid fields; undefined is omitted. Development diagnostics use standard Vue prop validation.
+
+Collapse budgeting follows actual DOM order. Suffix items may appear first, in the middle or last; budgeting never moves content nodes. A suffix occupies the logical end of its row, so later ordinary items may wrap. Ordinary items retain the fitting continuous prefix, while every suffix remains visible. If suffix items alone exceed the row budget, keeping them visible takes precedence over limiting total rows. Layout does not change DOM, keyboard or assistive technology reading order.
+
+## CSS Variables
+
+<!-- component-css-variables:start -->
+
+This component declares no independent public CSS variables. Use the configuration and layout APIs documented on this page.
+
+Internal custom properties and measurement values are implementation details and are not customization APIs.
+
+<!-- component-css-variables:end -->

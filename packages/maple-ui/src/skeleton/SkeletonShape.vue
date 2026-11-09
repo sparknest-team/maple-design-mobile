@@ -1,5 +1,5 @@
 <template>
-  <div :class="classes(n(), n(`--${shape}`), n(`--${size}`))" />
+  <div :class="classes(n(), n(`--${shape}`), n(`--${size}`))" aria-hidden="true" />
 </template>
 
 <script lang="ts" setup>

@@ -157,14 +157,43 @@ export function calculatePopupPosition(
 
 export function getScrollElements(element: HTMLElement | SVGElement | undefined) {
   const result: HTMLElement[] = []
-  let current = element?.parentElement ?? undefined
-  while (current && current !== current.ownerDocument.documentElement) {
-    const style = current.ownerDocument.defaultView?.getComputedStyle(current)
-    const overflow = `${style?.overflow ?? ''}${style?.overflowX ?? ''}${style?.overflowY ?? ''}`
-    if (/(auto|scroll|overlay)/.test(overflow)) {
-      result.push(current)
+  let root: Element | undefined = element
+  const visited = new Set<Document>()
+  while (root && !visited.has(root.ownerDocument)) {
+    visited.add(root.ownerDocument)
+    let current = root.parentElement
+    while (current && current !== current.ownerDocument.documentElement) {
+      const style = current.ownerDocument.defaultView?.getComputedStyle(current)
+      const overflow = `${style?.overflow ?? ''}${style?.overflowX ?? ''}${style?.overflowY ?? ''}`
+      if (/(auto|scroll|overlay)/.test(overflow)) {
+        result.push(current)
+      }
+      current = current.parentElement
     }
-    current = current.parentElement ?? undefined
+    try {
+      root = root.ownerDocument.defaultView?.frameElement ?? undefined
+    } catch {
+      root = undefined
+    }
+  }
+  return result
+}
+
+export function getScrollViews(element: Element | undefined) {
+  const result: Window[] = []
+  let document = element?.ownerDocument
+  const visited = new Set<Document>()
+  while (document && !visited.has(document)) {
+    visited.add(document)
+    const view = document.defaultView
+    if (view) {
+      result.push(view)
+    }
+    try {
+      document = view?.frameElement?.ownerDocument
+    } catch {
+      break
+    }
   }
   return result
 }

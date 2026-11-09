@@ -121,7 +121,6 @@ Documentation language: en-US.
 - [SplitButton](./llms/en-US/split-button.md): /en-US/split-button
 - [Statistic](./llms/en-US/statistic.md): /en-US/statistic
 - [Steps](./llms/en-US/steps.md): /en-US/steps
-- [StyleProvider](./llms/en-US/style-provider.md): /en-US/style-provider
 - [Elevation](./llms/en-US/style.md): /en-US/style
 - [SwipeCell](./llms/en-US/swipe-cell.md): /en-US/swipe-cell
 - [Switch](./llms/en-US/switch.md): /en-US/switch
@@ -130,6 +129,7 @@ Documentation language: en-US.
 - [Tabs](./llms/en-US/tabs.md): /en-US/tabs
 - [Tag](./llms/en-US/tag.md): /en-US/tag
 - [Textarea](./llms/en-US/textarea.md): /en-US/textarea
+- [ThemeProvider](./llms/en-US/theme-provider.md): /en-US/theme-provider
 - [Theme Customization](./llms/en-US/themes.md): /en-US/themes
 - [TimeRange](./llms/en-US/time-range.md): /en-US/time-range
 - [Time](./llms/en-US/time.md): /en-US/time

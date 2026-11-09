@@ -21,6 +21,8 @@ export function motion(options: MotionOptions) {
     timingFunction = (value) => value,
     onStateChange = () => {},
   } = options
+  // Invalid durations have the same bounded, next-frame completion as zero.
+  const safeDuration = Number.isFinite(duration) && duration >= 0 ? duration : 0
   let state: MotionState = 'pending'
   let value = from
   const distance = to - from
@@ -47,7 +49,7 @@ export function motion(options: MotionOptions) {
     function tick() {
       ticker = requestFrame(() => {
         const elapsed = performance.now() - startTime! - sleepTime
-        const progress = clamp(elapsed / duration, 0, 1)
+        const progress = safeDuration === 0 ? 1 : clamp(elapsed / safeDuration, 0, 1)
         value = distance * timingFunction(progress) + from
         if (progress >= 1) {
           setState('finished')

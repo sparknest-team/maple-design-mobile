@@ -119,7 +119,7 @@ Standalone SVG icons are not globally registered by the UI package. Import them 
 Every component provides `setPropsDefaults` for changing the defaults of declarative instances created afterward. Call it before mounting the application:
 
 ```ts
-import { Button, StyleProvider } from '@maple-design/ui'
+import { Button, ThemeProvider } from '@maple-design/ui'
 
 Button.setPropsDefaults({
   status: 'primary',
@@ -128,7 +128,7 @@ Button.setPropsDefaults({
 })
 
 // Other components use the same API
-StyleProvider.setPropsDefaults({
+ThemeProvider.setPropsDefaults({
   tag: 'section',
 })
 ```
@@ -148,3 +148,9 @@ The resolver imports component styles by default. Disable this when the full sty
 ```ts
 MapleResolver({ importStyle: false })
 ```
+
+## Global Context
+
+Import `Context` from `@maple-design/ui`, or default-import the same reactive object from `@maple-design/ui/context`. It has `zIndex` (default 2000) and `enableRipple` (default true). Changing `zIndex` affects later allocations, not already open layers. Disabling ripple prevents new waves without disabling host interactions.
+
+This is a module singleton shared by applications and server requests using the same module instance; do not mutate it for per-request SSR isolation. SSR starts at 2000 and allocates from the current value after mounting. The test environment does not increment allocations, and separate bundled copies have separate state. It is not a component and has no props, events, slots, or instance methods.

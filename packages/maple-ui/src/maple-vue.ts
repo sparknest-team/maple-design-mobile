@@ -78,7 +78,6 @@ import Space from './space'
 import SplitButton from './split-button'
 import Statistic from './statistic'
 import Steps from './steps'
-import StyleProvider from './style-provider'
 import SwipeCell from './swipe-cell'
 import Switch from './switch'
 import TabBar from './tab-bar'
@@ -86,6 +85,7 @@ import Table from './table'
 import Tabs from './tabs'
 import Tag from './tag'
 import Textarea from './textarea'
+import ThemeProvider from './theme-provider'
 import Themes from './themes'
 import Time from './time'
 import TimeRange from './time-range'
@@ -178,7 +178,6 @@ function install(app: App) {
     SplitButton,
     Statistic,
     Steps,
-    StyleProvider,
     SwipeCell,
     Switch,
     TabBar,
@@ -186,6 +185,7 @@ function install(app: App) {
     Tabs,
     Tag,
     Textarea,
+    ThemeProvider,
     Themes,
     Time,
     TimeRange,
@@ -283,7 +283,6 @@ export {
   SplitButton,
   Statistic,
   Steps,
-  StyleProvider,
   SwipeCell,
   Switch,
   TabBar,
@@ -291,6 +290,7 @@ export {
   Tabs,
   Tag,
   Textarea,
+  ThemeProvider,
   Themes,
   Time,
   TimeRange,
@@ -383,7 +383,6 @@ export interface MapleLibrary {
   SplitButton: typeof SplitButton
   Statistic: typeof Statistic
   Steps: typeof Steps
-  StyleProvider: typeof StyleProvider
   SwipeCell: typeof SwipeCell
   Switch: typeof Switch
   TabBar: typeof TabBar
@@ -391,6 +390,7 @@ export interface MapleLibrary {
   Tabs: typeof Tabs
   Tag: typeof Tag
   Textarea: typeof Textarea
+  ThemeProvider: typeof ThemeProvider
   Themes: typeof Themes
   Time: typeof Time
   TimeRange: typeof TimeRange
@@ -642,9 +642,6 @@ const library: MapleLibrary = {
   get Steps() {
     return Steps
   },
-  get StyleProvider() {
-    return StyleProvider
-  },
   get SwipeCell() {
     return SwipeCell
   },
@@ -665,6 +662,9 @@ const library: MapleLibrary = {
   },
   get Textarea() {
     return Textarea
+  },
+  get ThemeProvider() {
+    return ThemeProvider
   },
   get Themes() {
     return Themes

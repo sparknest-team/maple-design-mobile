@@ -1,0 +1,11 @@
+// Re-evaluate token aliases at explicit theme boundaries, including Teleport roots.
+:where([data-mp-theme]) {
+  &:extend(:root);
+}
+:where([data-mp-theme='dark']) {
+  &:extend(:root[maple-theme='dark']);
+}
+
+:where([data-mp-theme]) {
+  color-scheme: var(--mp-color-scheme);
+}

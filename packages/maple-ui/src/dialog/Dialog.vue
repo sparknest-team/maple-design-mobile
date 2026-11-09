@@ -3,6 +3,7 @@
     <div
       v-if="!unmountOnClose || transition.shouldRender.value"
       v-show="mergedOpen || transition.leaving.value"
+      v-bind="themeScope"
       ref="dialogRoot"
       :dir="readingDirection"
       :class="classes(n('$--box'), popupN(), n('popup'), [!overlay, popupN('--pointer-events-none')])"
@@ -103,7 +104,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, toRef, useSlots, type CSSProperties } from 'vue'
+import { computed, mergeProps, ref, toRef, useSlots, type CSSProperties } from 'vue'
 import {
   IconCheckboxMarkedCircleFill as MIconCheckboxMarkedCircleFill,
   IconClose as MIconClose,
@@ -117,6 +118,7 @@ import MpButton from '../button'
 import MpIcon from '../icon'
 import { t } from '../locale'
 import { injectLocaleProvider } from '../locale-provider/provide'
+import { useThemeScope } from '../theme-provider/context'
 import { createNamespace } from '../utils/components'
 import { toSizeUnit } from '../utils/elements'
 import { useModalSurface, type ModalSurfaceCloseRequest } from '../utils/modal-surface'
@@ -124,6 +126,8 @@ import { dialogProps } from './props'
 import type { DialogAction } from './types'
 import { useDialog } from './use-dialog'
 import { useDialogDrag } from './use-dialog-drag'
+
+const themeScope = useThemeScope()
 
 defineOptions({ name: createNamespace('dialog').name, inheritAttrs: false })
 
@@ -200,7 +204,10 @@ const {
 } = dialog
 
 const draggable = computed(() => props.draggable && !props.fullscreen)
-const drag = useDialogDrag({ enabled: draggable, fullscreen: toRef(props, 'fullscreen') })
+const drag = useDialogDrag({
+  enabled: computed(() => draggable.value && mergedOpen.value),
+  fullscreen: toRef(props, 'fullscreen'),
+})
 const showFooter = computed(() => props.footer && (props.confirmButton || props.cancelButton || Boolean(slots.footer)))
 const dialogClasses = computed(() =>
   classes(

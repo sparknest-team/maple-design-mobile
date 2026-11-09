@@ -140,7 +140,7 @@ import '@maple-design/icons-vue/style.css'
 `name` 只查找当前应用在渲染前显式注册的图标，不自动下载资源；挂载后补注册不会自动刷新。容器的原生 `title` 不会传给内部 SVG，需要图像名称时在独立图标上设置 `title`；作为操作入口时使用带可访问名称的 Button。`click` 是普通通知事件，支持 Vue 的 `.once`，不会根据监听器返回的 Promise 管理等待状态。`stroke-*` 只作用于描边，填充或固定多色资源不保证随这些属性变化。
 
 
-### 属性
+### Icon Props
 
 | 参数              | 说明                         | 类型               | 默认值  |
 | ----------------- | ---------------------------- | ------------------ | ------- |
@@ -165,44 +165,61 @@ import '@maple-design/icons-vue/style.css'
 | `stroke-linecap`  | 端点类型   | _'butt' \| 'round' \| 'square'_              | `'butt'`  |
 | `stroke-linejoin` | 拐角类型   | _'bevel' \| 'inherit' \| 'miter' \| 'round'_ | `'miter'` |
 
-### 事件
+### Icon Events
 
 | 事件名  | 说明           | 参数           |
 | ------- | -------------- | -------------- |
 | `click` | 点击图标时触发 | `event: MouseEvent` |
 
-### 插槽
+### Icon Slots
 
 | 插槽名 | 说明 |
 | --- | --- |
 | `default` | 自定义内容，优先于 name |
 
-### 类型定义
+## Types
 
 ```ts
 import type { IconProps, IconInstance } from '@maple-design/ui'
 ```
 
-### 样式变量
+## 使用说明
 
-以下为组件使用的 css 变量，可以使用 [StyleProvider 组件](#/zh-CN/style-provider) 进行样式定制。
 
-| 变量名        | 默认值 |
-| ------------- | ------ |
-| `--mp-icon-size` | `inherit` |
 
-## 同源实现与平台边界
-
-两端各自保存完整源码，不引用公共核心，不共享组件实例或响应式状态；修改时同步维护两份实现。主体、Props、关键样式及配对测试纳入只读源码一致性检查，主题 token 和安装入口各自维护。
-
-只解析本应用已注册的图标；连续切换 name 会取消过期定时器，卸载后不再执行切换。各库注册前缀和历史 spin 类由本地适配保留，图标资源不跨库引用。
+只解析当前应用已注册的图标。连续切换 name 时只展示最新请求的图标，卸载后停止切换。
 
 两端 Icon 默认继承宿主字号。需要固定 20px 的场景请显式设置 size="20" 或 icon-size 变量；size 属性优先于变量，颜色默认继承宿主。
 
-### 动效变量
+## CSS Variables
 
-| Token                     | Default |
-| ------------------------- | ------- |
-| `--mp-icon-spin-duration` | `1s`    |
+以下为组件使用的 css 变量，可以使用 [ThemeProvider 组件](#/zh-CN/theme-provider) 进行样式定制。
 
-内置动效遵循 prefers-reduced-motion: reduce：保留内容与状态反馈，关闭装饰性旋转、扫光和波纹。Icon 名称切换直接显示最新值并取消未结束阶段，CSS与JS时长保持一致；自定义动画类由调用方负责适配。Ripple的时长与清理策略以Ripple组件文档为准，不将其历史250ms规则当作Icon的时长上限。
+<!-- component-css-variables:start -->
+
+通过以下变量定制组件外观。默认值随表中注明的主题或选择器条件变化；变量仅在对应的尺寸、变体和交互状态下生效。
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| 变量 | 默认值／条件 | 影响的样式 |
+| --- | --- | --- |
+| `--mp-icon-size` | `inherit` | `font-size` |
+| `--mp-icon-spin-duration` | `1s` | `animation` |
+
+</div>
+
+将覆盖设置在组件实际根节点或弹层真实挂载祖先上。例如给该元素添加下列 class，再按需替换变量值：
+
+```css
+.component-theme {
+  --mp-icon-size: inherit;
+}
+```
+
+显式行内样式及直接写入同一 CSS 属性的 Props 优先于样式表默认值。Teleport 后，普通 CSS 变量按实际挂载位置继承；使用 ThemeProvider 时，请遵循其局部主题与弹层配置规则。局部定制请直接覆盖组件变量；仅修改后代的 system 变量不会重新计算从根继承的组件别名。内部变量不属于公共 API。
+
+<!-- component-css-variables:end -->
+
+### 动效
+
+内置动效遵循 prefers-reduced-motion: reduce：保留内容与状态反馈，关闭装饰性旋转、扫光和波纹。Icon 名称切换直接显示最新值并取消未结束阶段，CSS与JS时长保持一致；自定义动画类由调用方负责适配。自定义动画应遵循用户的减少动态效果偏好。

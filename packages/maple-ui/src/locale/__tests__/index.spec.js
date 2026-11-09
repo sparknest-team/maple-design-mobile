@@ -39,3 +39,17 @@ test('merge lang', () => {
 
   mockRestore()
 })
+
+test('instances are independent and merging another language selects it', () => {
+  const first = useLocale()
+  const second = useLocale()
+  const input = { title: 'English' }
+  first.add('en', input)
+  first.add('zh', { title: '中文' })
+  expect(input.lang).toBe('en')
+  first.use('en')
+  first.merge('zh', { title: '更新' })
+  expect(first.t('title')).toBe('更新')
+  expect(first.t('missing')).toBeUndefined()
+  expect(second.t('title')).toBeUndefined()
+})

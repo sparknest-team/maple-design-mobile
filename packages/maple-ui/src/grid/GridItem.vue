@@ -5,6 +5,7 @@ import { GRID_CONTEXT_KEY } from './context'
 import { useResponsiveState } from './hook/use-responsive-state'
 import { gridItemProps } from './item-props'
 import { resolveItemData } from './utils'
+import { normalizeGridResponsive } from './validation'
 
 defineOptions({ name: createNamespace('grid-item').name })
 const props = defineProps(gridItemProps)
@@ -13,11 +14,11 @@ const grid = inject(GRID_CONTEXT_KEY, undefined)
 const element = ref<HTMLElement>()
 const id = Symbol('grid-item')
 const span = useResponsiveState(
-  computed(() => props.span),
+  computed(() => normalizeGridResponsive(props.span, 1)),
   1,
 )
 const offset = useResponsiveState(
-  computed(() => props.offset),
+  computed(() => normalizeGridResponsive(props.offset, 0)),
   0,
 )
 const data = computed(() =>
@@ -33,7 +34,7 @@ const style = computed(() => {
     gap = grid?.colGap.value ?? 0
   return {
     gridColumn: span === 0 ? undefined : `${suffix ? cols - span + 1 : `span ${span}`} / span ${span}`,
-    marginLeft:
+    marginInlineStart:
       offset && span ? `calc(((100% - ${gap * (span - 1)}px) / ${span} * ${offset}) + ${gap * offset}px)` : undefined,
     display: span === 0 || (grid && !grid.visible(id)) ? 'none' : undefined,
   }

@@ -15,13 +15,16 @@ export type BadgeVariant = (typeof badgeVariants)[number]
 export const badgeProps = {
   description: String,
   dot: Boolean,
-  max: { type: Number, default: 99 },
+  max: { type: Number, default: 99, validator: (value: number) => Number.isFinite(value) && value >= 0 },
   show: { type: Boolean, default: true },
   showZero: { type: Boolean, default: false },
-  offsetX: { type: Number, default: 0 },
-  offsetY: { type: Number, default: 0 },
+  offsetX: { type: Number, default: 0, validator: (value: number) => Number.isFinite(value) },
+  offsetY: { type: Number, default: 0, validator: (value: number) => Number.isFinite(value) },
   color: String,
-  content: [Number, String] as PropType<number | string>,
+  content: {
+    type: [Number, String] as PropType<number | string>,
+    validator: (value: number | string) => typeof value === 'string' || (Number.isFinite(value) && value >= 0),
+  },
   textColor: String,
   mode: {
     type: String as PropType<BadgeMode>,

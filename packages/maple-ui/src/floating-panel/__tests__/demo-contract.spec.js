@@ -10,7 +10,7 @@ test('all floating panel demo modes remain local and use container-sized anchors
     global: {
       components: { MpFloatingPanel: FloatingPanel },
       stubs: {
-        MpStyleProvider: slotStub,
+        MpThemeProvider: slotStub,
         MpTabs: slotStub,
         MpTabsNavs: slotStub,
         MpTabNav: true,

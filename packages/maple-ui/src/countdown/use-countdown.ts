@@ -25,20 +25,14 @@ export function parseFormat(format: string, time: TimeData): string {
     if (!format.includes(scannedFormat)) {
       scannedTimes[index + 1] += scannedTimes[index] * padValues[index]
     } else {
-      format = format.replace(scannedFormat, String(scannedTimes[index]).padStart(2, '0'))
+      format = format.replaceAll(scannedFormat, String(scannedTimes[index]).padStart(2, '0'))
     }
   })
 
   if (format.includes('S')) {
     const ms = String(scannedTimes[scannedTimes.length - 1]).padStart(3, '0')
 
-    if (format.includes('SSS')) {
-      format = format.replace('SSS', ms)
-    } else if (format.includes('SS')) {
-      format = format.replace('SS', ms.slice(0, 2))
-    } else {
-      format = format.replace('S', ms.slice(0, 1))
-    }
+    format = format.replace(/SSS|SS|S/g, (token) => (token === 'SSS' ? ms : ms.slice(0, token.length)))
   }
 
   return format

@@ -2,7 +2,7 @@
 import { onBeforeUnmount, ref, shallowRef } from 'vue'
 
 const props = defineProps<{ english?: boolean }>()
-const value = ref<number | undefined>(2)
+const value = ref<number | null | undefined>(2)
 const disableInput = ref(true)
 const disableIncrement = ref(false)
 const disableDecrement = ref(false)
@@ -13,7 +13,7 @@ const lastStep = ref('—')
 function handleStep(next: number, direction: string) {
   lastStep.value = `${direction}: ${next}`
 }
-const approved = ref<number | undefined>(2)
+const approved = ref<number | null | undefined>(2)
 const blocked = ref(false)
 const pending = ref(false)
 const status = ref('—')

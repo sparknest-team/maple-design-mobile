@@ -32,6 +32,7 @@ export function useSearchControl(
   props: SearchResolvedProps,
   emit: SetupContext<typeof searchEmits>['emit'],
   input: { value: { focus(): void; blur(): void } | null | undefined },
+  reading: () => boolean = () => false,
 ) {
   const { searchText, cancelText } = useSearchLocale()
   const instance = getCurrentInstance()
@@ -72,7 +73,9 @@ export function useSearchControl(
   const searchPlaceholder = computed(
     () => props.fields.find((item) => item.value === computedField.value)?.placeholder ?? props.placeholder,
   )
-  const searchDisabled = computed(() => Boolean(mergedDisabled.value || mergedReadonly.value || props.loading))
+  const searchDisabled = computed(() =>
+    Boolean(mergedDisabled.value || mergedReadonly.value || props.loading || reading()),
+  )
   const effectiveShowAction = computed(() => props.showAction || props.searchButton)
   const effectiveActionType = computed(() => (props.searchButton ? 'search' : props.actionType))
   const effectiveActionText = computed(() =>
@@ -123,6 +126,12 @@ export function useSearchControl(
     }
   }
 
+  function resetHistory() {
+    historyMenuVisible.value = false
+    historyPopupVisible.value = false
+    historyPopupClosing.value = false
+    activeInput.value = undefined
+  }
   function closeHistoryMenu() {
     historyMenuVisible.value = false
   }
@@ -170,7 +179,12 @@ export function useSearchControl(
     emit('input', nextValue, event)
     openHistory()
   }
-  function handleChange(nextValue: string | null, event: Event) {
+  function handleChange(nextValue: string | null, event?: Event) {
+    // Search renders direct Input children, whose commits have native sources.
+    if (!event) {
+      return
+    }
+
     emit('change', nextValue, event)
   }
   function handleClear(event: Event) {
@@ -303,6 +317,7 @@ export function useSearchControl(
     openHistory,
     closeHistoryPopup,
     closeHistoryMenu,
+    resetHistory,
     focus,
     blur,
   }

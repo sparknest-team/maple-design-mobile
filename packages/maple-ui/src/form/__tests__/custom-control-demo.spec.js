@@ -7,7 +7,10 @@ import Space from '../../space'
 import ChineseDemo from '../example/demos/custom-control.vue'
 import EnglishDemo from '../example/demos/en-US/custom-control.vue'
 
-vi.mock('@maple-design/ui', async () => ({ Form: (await import('..')).default }))
+vi.mock('@maple-design/ui', async () => {
+  const form = await import('..')
+  return { Form: form.default, useFormErrorDescription: form.useFormErrorDescription }
+})
 
 test.each([ChineseDemo, EnglishDemo])(
   'custom control demo inherits form disabled and item readonly, validates and resets',
@@ -29,6 +32,9 @@ test.each([ChineseDemo, EnglishDemo])(
       await control.trigger('click')
       await flushPromises()
       expect(wrapper.text()).toMatch(/请先确认|Please confirm/)
+      const errorId = control.attributes('aria-describedby')
+      expect(errorId).toBeTruthy()
+      expect(wrapper.find(`[id="${errorId}"]`).text()).toMatch(/请先确认|Please confirm/)
       const settings = wrapper.findAll('input[type=checkbox]')
       await settings[0].setValue(true)
       expect(control.element.disabled).toBe(true)

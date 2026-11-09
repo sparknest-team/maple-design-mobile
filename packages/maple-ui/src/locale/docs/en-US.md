@@ -84,20 +84,32 @@ function switchLocale() {
 
 ## API
 
-### Props
+### LocaleProvider Props
 
-#### LocaleProvider Props
-
-| Arguments | Description | Type | Default |
+| Prop | Description | Type | Default |
 | -------------- | --------------- | -------------------------- | --------- |
 | `locale` | Current locale | _string_ | `zh-CN` |
 | `messages` | Language messages | _Record<string, Record<string, string>>_ | `-` |
 | `tag` | Custom tag name | _string_ | `div` |
 
-### Slots
+### LocaleProvider Slots
 
-#### LocaleProvider Slots
-
-| Slot | Description | Arguments |
+| Slot | Description | Prop |
 | --- | --- | --- |
 | `default` | Component content | `-` |
+
+### Global and independent instances
+
+The root `Locale` is a global singleton with only `zh-CN` registered and active by default. Add another built-in language with `Locale.add` before selecting it with `Locale.use`. Japanese is available as `Locale.jaJP`; the `locale` entry has no separate named `jaJP` export. `Locale.useLocale()` (or the named `useLocale` export from `@maple-design/ui/locale`) creates an independent instance; it differs from Cedar's global language-switching function of the same name.
+
+`add(lang, message)` writes `lang` to the supplied object. After replacing the current language's data, call `use` again to update the current reference. `merge(lang, partial)` shallow-merges and selects that language. `t` looks up a complete key, returns `undefined` for missing keys, and does not provide generic interpolation or nested-path lookup. Changing language does not automatically change reading direction.
+
+## CSS Variables
+
+<!-- component-css-variables:start -->
+
+This component declares no independent public CSS variables. Use the configuration and layout APIs documented on this page.
+
+Internal custom properties and measurement values are implementation details and are not customization APIs.
+
+<!-- component-css-variables:end -->

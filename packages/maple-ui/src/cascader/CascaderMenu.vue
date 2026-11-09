@@ -3,7 +3,9 @@
     :open="controller.computedOpen"
     :multiple="multiple"
     :items="controller.fieldItems"
-    :disabled="controller.mergedDisabled || controller.mergedReadonly"
+    :disabled="
+      controller.mergedDisabled || controller.mergedReadonly || controller.loading || controller.session.pending
+    "
     @remove="controller.handleRemove"
     @clear="controller.clearSelection"
   >

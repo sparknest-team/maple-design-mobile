@@ -8,10 +8,10 @@ const handleCreate = () => Message.info('点击创建任务')
 
 <template>
   <mp-card variant="outline" size="sm">
-    <mp-page-header show-back @back="handleBack">
+    <mp-page-header show-back back-button-aria-label="返回项目列表" @back="handleBack">
       <template #title>
         <mp-space direction="column" :size="0">
-          <span>设计系统</span>
+          <h2 style="margin: 0; font: inherit">设计系统</h2>
           <small>项目概览</small>
         </mp-space>
       </template>

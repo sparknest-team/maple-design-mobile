@@ -21,7 +21,10 @@ export const avatarProps = {
   /** 图片替代文本 */
   alt: { type: String, default: '' },
   /** 头像宽高；数字为 px，字符串为 CSS 长度 */
-  size: [Number, String] as PropType<number | string>,
+  size: {
+    type: [Number, String] as PropType<number | string>,
+    validator: (value: number | string) => typeof value === 'string' || (Number.isFinite(value) && value >= 0),
+  },
   /** 是否自动缩放过长的文字 */
   autoFixFontSize: { type: Boolean, default: true },
   /** 交互图标展示方式 */
@@ -30,6 +33,8 @@ export const avatarProps = {
     default: 'button',
     validator: (value: unknown): value is AvatarTriggerType => avatarTriggerTypes.includes(value as AvatarTriggerType),
   },
+  /** 交互入口的可访问名称。 */
+  triggerAriaLabel: String,
   /** 交互图标自定义样式 */
   triggerIconStyle: Object as PropType<CSSProperties>,
   /** 图片填充方式 */
@@ -58,11 +63,11 @@ export const avatarGroupProps = {
   /** 子头像形状 */
   shape: avatarProps.shape,
   /** 子头像宽高；数字为 px，字符串为 CSS 长度 */
-  size: [Number, String] as PropType<number | string>,
+  size: avatarProps.size,
   /** 是否自动缩放子头像中的文字 */
   autoFixFontSize: avatarProps.autoFixFontSize,
   /** 最多直接展示的头像数，0 表示不限 */
-  maxCount: { type: Number, default: 0 },
+  maxCount: { type: Number, default: 0, validator: (value: number) => Number.isInteger(value) && value >= 0 },
   /** 头像层级是否按顺序递增 */
   zIndexAscend: { type: Boolean, default: false },
   /** 数量汇总头像的自定义样式 */
@@ -70,7 +75,10 @@ export const avatarGroupProps = {
   /** 汇总 Popover 的属性 */
   maxPopoverProps: Object as PropType<PopoverProps>,
   /** 组内头像的重叠偏移量 */
-  offset: [Number, String] as PropType<number | string>,
+  offset: {
+    type: [Number, String] as PropType<number | string>,
+    validator: (value: number | string) => typeof value === 'string' || Number.isFinite(value),
+  },
   /** 是否纵向堆叠 */
   vertical: Boolean,
 }

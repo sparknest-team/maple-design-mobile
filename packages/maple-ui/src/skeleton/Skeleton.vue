@@ -1,11 +1,16 @@
 <template>
   <div :class="classes(n(), [animation, n('--animation')])" :aria-busy="loading">
     <template v-if="loading">
-      <div v-if="fullscreen" :class="n('fullscreen')" :style="{ zIndex: toNumber(fullscreenZIndex) }">
+      <div
+        v-if="fullscreen"
+        :class="n('fullscreen')"
+        aria-hidden="true"
+        :style="{ zIndex: toNumber(fullscreenZIndex) }"
+      >
         <span :class="n('shimmer')" />
       </div>
       <slot v-else name="template">
-        <div :class="n('content')">
+        <div :class="n('content')" aria-hidden="true">
           <div v-if="card" :class="n('card')" :style="{ height: toSizeUnit(cardHeight) }">
             <span :class="n('shimmer')" />
           </div>

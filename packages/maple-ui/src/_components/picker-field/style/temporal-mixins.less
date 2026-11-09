@@ -1,4 +1,4 @@
-.temporal-wheel(@radius: var(--mp-temporal-panel-radius), @selection-background: var(--mp-temporal-panel-selection-background)) {
+.temporal-wheel(@radius: var(--mp-internal-temporal-panel-radius), @selection-background: var(--mp-internal-temporal-panel-selection-background)) {
   .mp-picker__column {
     position: relative;
     z-index: 1;
@@ -24,14 +24,14 @@
 .temporal-column-labels() {
   display: flex;
   align-items: center;
-  height: var(--mp-temporal-panel-column-label-height);
+  height: var(--mp-internal-temporal-panel-column-label-height);
   padding: 0;
 }
 .temporal-column-label() {
   flex: 1;
   min-width: 0;
   text-align: center;
-  font-size: var(--mp-temporal-panel-column-label-font-size);
+  font-size: var(--mp-internal-temporal-panel-column-label-font-size);
   line-height: 1.25;
   overflow-wrap: anywhere;
   color: var(--mp-color-text-3);
@@ -40,11 +40,11 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   align-items: stretch;
-  gap: var(--mp-temporal-panel-summary-separator-width);
-  margin: var(--mp-temporal-panel-inset);
+  gap: var(--mp-internal-temporal-panel-summary-separator-width);
+  margin: var(--mp-internal-temporal-panel-inset);
   padding: var(--mp-sys-space-2);
-  background: var(--mp-temporal-panel-summary-background);
-  border-radius: var(--mp-temporal-panel-radius);
+  background: var(--mp-internal-temporal-panel-summary-background);
+  border-radius: var(--mp-internal-temporal-panel-radius);
 }
 .temporal-range-summary() {
   box-sizing: border-box;
@@ -54,7 +54,7 @@
   justify-content: center;
   gap: var(--mp-sys-space-2);
   min-width: 0;
-  min-height: calc(var(--mp-temporal-panel-summary-height) - var(--mp-sys-space-2) * 2);
+  min-height: calc(var(--mp-internal-temporal-panel-summary-height) - var(--mp-sys-space-2) * 2);
   padding: var(--mp-sys-space-2);
   background: transparent;
   color: var(--mp-color-text-2);
@@ -62,8 +62,8 @@
   text-align: center;
 }
 .temporal-summary-active() {
-  background: var(--mp-temporal-panel-summary-active-background);
-  color: var(--mp-temporal-panel-summary-active-color);
+  background: var(--mp-internal-temporal-panel-summary-active-background);
+  color: var(--mp-internal-temporal-panel-summary-active-color);
 }
 .temporal-range-summary-value() {
   .temporal-summary-value();
@@ -72,10 +72,10 @@
   background: transparent;
 }
 .temporal-inset() {
-  width: calc(100% - var(--mp-temporal-panel-inset) - var(--mp-temporal-panel-inset));
-  margin-inline: var(--mp-temporal-panel-inset);
+  width: calc(100% - var(--mp-internal-temporal-panel-inset) - var(--mp-internal-temporal-panel-inset));
+  margin-inline: var(--mp-internal-temporal-panel-inset);
 }
-.temporal-paired-wheel(@group-gap: var(--mp-temporal-panel-group-gap), @radius: var(--mp-temporal-panel-radius), @selection-background: var(--mp-temporal-panel-selection-background)) {
+.temporal-paired-wheel(@group-gap: var(--mp-internal-temporal-panel-group-gap), @radius: var(--mp-internal-temporal-panel-radius), @selection-background: var(--mp-internal-temporal-panel-selection-background)) {
   .temporal-wheel(@radius, @selection-background);
   position: relative;
   &::after {

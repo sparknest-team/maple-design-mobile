@@ -1,0 +1,3 @@
+- [x] Reproduce missing localized close name
+- [x] Align runtime/public type and localized naming
+- [x] Validate both platforms, actual consumers, docs and native keyboard

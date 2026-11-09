@@ -3,7 +3,13 @@ import { invokeBeforeCommit } from '../_components/field-presentation/context'
 import { useActionGuard } from '../_hooks/use-action-guard'
 import { resolveEmptyValue, useEmptyValues } from '../utils/empty-value'
 import { roundNumber, stepNumber, type StepMethod } from './number-arithmetic'
-import { clampNumber, formatNumberValue, getNumberPrecision, parseNumberInput } from './number-value'
+import {
+  clampNumber,
+  formatNumberValue,
+  getNumberPrecision,
+  parseNumberInput,
+  resolveNumberBounds,
+} from './number-value'
 import type { InputNumberProps } from './props'
 
 export interface NumberEvents {
@@ -17,6 +23,7 @@ export interface NumberEvents {
 
 export function useNumberValue(props: Readonly<InputNumberProps>, blocked: Ref<boolean>, events: NumberEvents) {
   const guard = useActionGuard()
+  const bounds = computed(() => resolveNumberBounds(props.min, props.max))
   let queuedCommit: Event | undefined
   let requestGeneration = 0
   const finite = (value: number | null | undefined): number | null | undefined =>
@@ -64,10 +71,10 @@ export function useNumberValue(props: Readonly<InputNumberProps>, blocked: Ref<b
     })
   }
   function legal(value: number | null | undefined) {
-    const clamped = clampNumber(value ?? undefined, props.min ?? -Infinity, props.max ?? Infinity)
+    const clamped = clampNumber(value ?? undefined, bounds.value.min, bounds.value.max)
     return clamped === undefined
       ? undefined
-      : clampNumber(roundNumber(clamped, precision.value), props.min ?? -Infinity, props.max ?? Infinity)
+      : clampNumber(roundNumber(clamped, precision.value), bounds.value.min, bounds.value.max)
   }
   function edit(value: string, event: Event) {
     if (blocked.value || props.disableInput || guard.pending.value) {
@@ -176,8 +183,8 @@ export function useNumberValue(props: Readonly<InputNumberProps>, blocked: Ref<b
     const candidate = legal(value)
     request(candidate, event, () => submit(candidate, event))
   }
-  const isMin = computed(() => number.value != null && number.value <= (props.min ?? -Infinity))
-  const isMax = computed(() => number.value != null && number.value >= (props.max ?? Infinity))
+  const isMin = computed(() => number.value != null && number.value <= bounds.value.min)
+  const isMax = computed(() => number.value != null && number.value >= bounds.value.max)
   function step(method: StepMethod, event: Event) {
     const amount = props.step ?? 1
     const unavailable =
@@ -197,7 +204,7 @@ export function useNumberValue(props: Readonly<InputNumberProps>, blocked: Ref<b
     const start = emptyPolicy.isEmpty(number.value) ? undefined : number.value
     const candidate =
       start == null
-        ? legal(props.min === undefined || props.min === -Infinity ? 0 : props.min)
+        ? legal(bounds.value.min === -Infinity ? 0 : bounds.value.min)
         : legal(stepNumber(start, amount, method))
     if (candidate === undefined) {
       return false
@@ -216,6 +223,8 @@ export function useNumberValue(props: Readonly<InputNumberProps>, blocked: Ref<b
     }
     const cleared = resolveEmptyValue(props, undefined)
     request(cleared, event, () => {
+      events.clear(event)
+      const changed = !Object.is(cleared, model.value)
       revision += 1
       dirty = false
       raw = cleared === undefined ? '' : String(cleared)
@@ -223,9 +232,10 @@ export function useNumberValue(props: Readonly<InputNumberProps>, blocked: Ref<b
       number.value = cleared
       events.input(cleared, text.value, event)
       update(cleared)
-      events.change(cleared, event)
+      if (changed) {
+        events.change(cleared, event)
+      }
       lastCommitted = cleared
-      events.clear(event)
       restoreAfterCommit()
       return true
     })
@@ -290,5 +300,5 @@ export function useNumberValue(props: Readonly<InputNumberProps>, blocked: Ref<b
     },
     { flush: 'sync' },
   )
-  return { text, number, isMin, isMax, edit, commit, step, clear, commitPending: guard.pending }
+  return { bounds, text, number, isMin, isMax, edit, commit, step, clear, commitPending: guard.pending }
 }

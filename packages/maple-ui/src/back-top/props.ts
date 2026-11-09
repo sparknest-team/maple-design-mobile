@@ -1,7 +1,8 @@
-import type { ExtractPublicPropTypes, PropType } from 'vue'
+import type { PropType } from 'vue'
 import { popupContainerProp } from '../utils/popup-container'
 
-export type BackTopEasing = 'linear' | 'quartOut' | 'easeInOutCubic' | ((progress: number) => number)
+const easingNames = ['linear', 'quartOut', 'easeInOutCubic'] as const
+export type BackTopEasing = (typeof easingNames)[number] | ((progress: number) => number)
 export type BackTopTarget = string | HTMLElement | (() => HTMLElement | null | undefined)
 
 export const backTopProps = {
@@ -12,9 +13,14 @@ export const backTopProps = {
   /** 滚动容器；省略时监听页面，支持动态 getter。 */
   targetContainer: [String, Object, Function] as PropType<BackTopTarget>,
   /** 动画缓动函数或内置曲线。 */
-  easing: { type: [String, Function] as PropType<BackTopEasing>, default: 'quartOut' },
+  easing: {
+    type: [String, Function] as PropType<BackTopEasing>,
+    default: 'quartOut',
+    validator: (value: unknown) =>
+      typeof value === 'function' || easingNames.includes(value as (typeof easingNames)[number]),
+  },
   /** 动画时长（ms），0 表示立即回顶。 */
-  duration: { type: Number, default: 200, validator: (value: number) => value >= 0 },
+  duration: { type: Number, default: 200, validator: (value: number) => Number.isFinite(value) && value >= 0 },
   /** 距离定位容器右侧的距离；数字以 px 为单位。 */
   right: [Number, String],
   /** 距离定位容器底部的距离；数字以 px 为单位。 */
@@ -24,4 +30,4 @@ export const backTopProps = {
   /** 图标按钮的无障碍名称。 */
   ariaLabel: { type: String, default: 'Back to top' },
 }
-export type BackTopProps = ExtractPublicPropTypes<typeof backTopProps>
+export type BackTopProps = InstanceType<(typeof import('./BackTop.vue'))['default']>['$props']

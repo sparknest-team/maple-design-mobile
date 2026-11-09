@@ -166,7 +166,7 @@ describe('test index-bar component props', () => {
     const wrapper = mount(Wrapper2, { attachTo: document.body })
 
     await delay(100)
-    await wrapper.find('.mp-index-bar__anchor-item').trigger('click')
+    await wrapper.find('.mp-index-bar__anchor-item button').trigger('click')
     expect(wrapper.find('.mp-index-bar__anchor-item--active').attributes('style')).toContain('color: purple')
 
     wrapper.unmount()
@@ -183,7 +183,7 @@ describe('test index-bar component events', () => {
 
     const anchorItems = wrapper.findAll('.mp-index-bar__anchor-item')
 
-    await anchorItems[0].trigger('click')
+    await anchorItems[0].find('button').trigger('click')
     await delay(100)
 
     expect(anchorItems[0].classes()).toContain('mp-index-bar__anchor-item--active')

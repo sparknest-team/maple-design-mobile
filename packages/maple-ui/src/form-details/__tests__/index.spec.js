@@ -9,6 +9,17 @@ test('form details plugin', () => {
 })
 
 describe('test form details component props', () => {
+  test('announces errors without treating ordinary guidance as an alert', async () => {
+    const wrapper = mount(FormDetails, { props: { extraMessage: 'Guidance' } })
+    expect(wrapper.find('[role="alert"]').exists()).toBe(false)
+    await wrapper.setProps({ errorMessage: 'Account unavailable' })
+    expect(wrapper.get('[role="alert"]').text()).toBe('Account unavailable')
+    expect(wrapper.get('.mp-form-details__extra-message').attributes('role')).toBeUndefined()
+    await wrapper.setProps({ errorMessage: '' })
+    expect(wrapper.find('[role="alert"]').exists()).toBe(false)
+    wrapper.unmount()
+  })
+
   test('form details errorMessage', async () => {
     const wrapper = mount(FormDetails, {
       props: {

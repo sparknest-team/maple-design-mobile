@@ -1,4 +1,4 @@
-import type { StyleVars } from '../../style-provider'
+import type { StyleVars } from '../../theme-provider'
 
 const mapleLight: StyleVars = {
   '--mp-color-scheme': 'light',

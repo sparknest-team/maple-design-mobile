@@ -1,9 +1,9 @@
 <template>
   <transition :name="n()">
     <div v-if="errorMessage || extraMessage || $slots['extra-message']" :class="n()">
-      <div :class="n('error-message')">
+      <div :id="errorId" :class="n('error-message')">
         <transition :name="n('message')">
-          <div v-if="errorMessage">
+          <div v-if="errorMessage" role="alert">
             {{ errorMessage }}
           </div>
         </transition>
@@ -22,7 +22,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { computed, defineComponent } from 'vue'
+import { useFormErrorDescription } from '../form/error-description'
 import { createNamespace } from '../utils/components'
 import { props } from './props'
 
@@ -31,6 +32,9 @@ const { name, n } = createNamespace('form-details')
 export default defineComponent({
   name,
   props,
-  setup: () => ({ n }),
+  setup(_props, { attrs }) {
+    const { errorId } = useFormErrorDescription()
+    return { n, errorId: computed(() => (attrs['data-form-item-feedback'] !== undefined ? errorId?.value : undefined)) }
+  },
 })
 </script>

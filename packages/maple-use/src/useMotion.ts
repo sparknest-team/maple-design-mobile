@@ -39,7 +39,7 @@ export function useMotion(options: UseMotionOptions) {
     return motion({
       from: getter(options.from),
       to: getter(options.to),
-      duration: options.duration ? getter(options.duration) : 300,
+      duration: options.duration === undefined ? 300 : getter(options.duration),
       timingFunction: options.timingFunction,
       onStateChange(newState) {
         state.value = newState

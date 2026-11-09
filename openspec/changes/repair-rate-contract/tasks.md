@@ -1,0 +1,3 @@
+- [x] Reproduce missing count diagnostics and preserve slot semantics.
+- [x] Update count guard, public types and complete documentation.
+- [x] Validate both affected components, browser, mandatory consumers and documentation/source checks.

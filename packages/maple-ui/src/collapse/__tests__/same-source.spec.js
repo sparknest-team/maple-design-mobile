@@ -8,8 +8,9 @@ import { createNamespace } from '../../utils/components'
 const { n } = createNamespace('collapse')
 const item = createNamespace('collapse-item')
 
-function mountCollapse(props = {}, panels = [{ name: '1', title: 'One', content: 'A' }]) {
+function mountCollapse(props = {}, panels = [{ name: '1', title: 'One', content: 'A' }], options = {}) {
   return mount(Collapse, {
+    ...options,
     props,
     slots: {
       default: () =>
@@ -67,6 +68,35 @@ describe('Collapse same source', () => {
     expect(panel.attributes('aria-labelledby')).toBe(header.attributes('id'))
     await header.trigger('keydown', { key: 'Enter' })
     expect(header.attributes('aria-expanded')).toBe('true')
+    wrapper.unmount()
+  })
+
+  test('supports heading levels and optional region without nesting extra controls', async () => {
+    const action = vi.fn()
+    const wrapper = mount(Collapse, {
+      slots: {
+        default: () =>
+          h(
+            CollapseItem,
+            { name: '1', title: 'Title', headingLevel: 2, region: false },
+            {
+              default: () => 'Content',
+              extra: () => h('button', { onClick: action }, 'Action'),
+            },
+          ),
+      },
+    })
+    const heading = wrapper.get('[role="heading"]')
+    const toggle = heading.get('[role="button"]')
+    expect(heading.attributes('aria-level')).toBe('2')
+    expect(toggle.find('button').exists()).toBe(false)
+    expect(heading.find('button').exists()).toBe(false)
+    expect(wrapper.find('[role="region"]').exists()).toBe(false)
+    await wrapper.get('button').trigger('click')
+    expect(action).toHaveBeenCalledOnce()
+    expect(toggle.attributes('aria-expanded')).toBe('false')
+    await toggle.trigger('keydown', { key: 'Enter' })
+    expect(toggle.attributes('aria-expanded')).toBe('true')
     wrapper.unmount()
   })
 
@@ -143,12 +173,14 @@ describe('Collapse same source', () => {
   })
 
   test('destroyOnHide removes content after collapse', async () => {
-    const wrapper = mountCollapse({ defaultValue: ['1'], destroyOnHide: true }, [
-      { name: '1', title: 'One', content: 'Secret' },
-    ])
+    const wrapper = mountCollapse(
+      { defaultValue: ['1'], destroyOnHide: true },
+      [{ name: '1', title: 'One', content: 'Secret' }],
+      { global: { stubs: { transition: false } } },
+    )
     expect(wrapper.text()).toContain('Secret')
     await wrapper.get('[role="button"]').trigger('click')
-    await nextTick()
+    await new Promise((resolve) => setTimeout(resolve, 100))
     expect(wrapper.text()).not.toContain('Secret')
     wrapper.unmount()
   })

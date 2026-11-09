@@ -8,7 +8,7 @@ export type UploadInstance = InstanceType<typeof Upload>
 export type * from './interfaces'
 export type { UploadProps } from './props'
 export type { UseUploaderOptions } from './composables/use-uploader'
-export { uploadProps }
+export { Upload, uploadProps }
 export { useUploader } from './composables/use-uploader'
 export const _UploadComponent = Upload
 export default Upload

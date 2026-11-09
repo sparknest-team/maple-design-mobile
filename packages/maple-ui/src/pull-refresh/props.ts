@@ -1,5 +1,13 @@
 import { type ExtractPropTypes, type PropType } from 'vue'
 
+const isDuration = (value: number | string) => {
+  if (typeof value === 'string' && !value.trim()) {
+    return false
+  }
+  const duration = Number(value)
+  return Number.isFinite(duration) && duration >= 0
+}
+
 export type PullRefreshStatus = 'default' | 'pulling' | 'loosing' | 'loading' | 'success'
 
 export const pullRefreshProps = {
@@ -19,6 +27,7 @@ export const pullRefreshProps = {
   animationDuration: {
     type: [Number, String] as PropType<number | string>,
     default: 300,
+    validator: isDuration,
   },
   /**
    * 成功状态展示时长（ms）
@@ -26,6 +35,7 @@ export const pullRefreshProps = {
   successDuration: {
     type: [Number, String] as PropType<number | string>,
     default: 2000,
+    validator: isDuration,
   },
   /**
    * 指示器背景色

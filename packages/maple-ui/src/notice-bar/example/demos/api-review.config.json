@@ -62,6 +62,13 @@
       "kind": "boolean"
     },
     {
+      "name": "paused",
+      "description": "暂停滚动动画",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
       "name": "speed",
       "description": "滚动速度（px/s）",
       "type": "number | string",

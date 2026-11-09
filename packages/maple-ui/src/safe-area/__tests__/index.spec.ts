@@ -4,24 +4,23 @@ import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import SafeArea from '..'
 import Popup from '../../popup'
-import StyleProvider from '../../style-provider'
+import ThemeProvider from '../../theme-provider'
 import { formatSafeAreaInsets } from '../insets'
 
 afterEach(() => {
   SafeArea.setInsets(null)
-  StyleProvider.setStyleVars(null)
 })
 
 describe('SafeArea native adapter', () => {
   it('replaces only its four properties, keeps 0 and does not erase theme variables', () => {
-    StyleProvider.setStyleVars({ '--mp-primary-6': '1, 2, 3' })
+    const theme = mount(ThemeProvider, { props: { theme: 'dark', styleVars: { '--mp-primary-6': '1, 2, 3' } } })
     SafeArea.setInsets({ top: 20, bottom: 34 })
     SafeArea.setInsets({ bottom: 0 })
     const style = document.documentElement.style
     expect(style.getPropertyValue('--mp-safe-area-top')).toBe('')
     expect(style.getPropertyValue('--mp-safe-area-bottom')).toBe('0px')
-    expect(document.querySelector('#maple-style-vars')?.textContent).toContain('1, 2, 3')
-    StyleProvider.setStyleVars(null)
+    expect(theme.element.style.getPropertyValue('--mp-primary-6')).toBe('1, 2, 3')
+    theme.unmount()
     expect(style.getPropertyValue('--mp-safe-area-bottom')).toBe('0px')
     SafeArea.setInsets(null)
     expect(style.getPropertyValue('--mp-safe-area-bottom')).toBe('')

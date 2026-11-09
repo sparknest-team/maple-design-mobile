@@ -8,7 +8,7 @@ Floating panels use the visual viewport instead of a half-screen cap. A full cal
 
 Pure panels do not accept open/default-open, popup-container, placement, trigger-props, placeholder, variant or clearable. disable-confirm controls confirmation; actions receives { confirm, disabled }. Panels support independent app.use installation. Root and date/date-range subpaths export components, Props, Instance, Type, Options and Emits; no standalone date-picker/date-range-picker npm subpath exists.
 
-> Source is merged into `date/`. Installing the parent also registers it. Static member: `Date.Picker`.
+Installing Date also registers DatePicker, which is available through the static member `Date.Picker`.
 
 ## Basic examples
 
@@ -26,16 +26,17 @@ Pure panels do not accept open/default-open, popup-container, placement, trigger
 
 #### Configuration reference for this comparison
 
-| Configuration  | Purpose                                          | Related examples                                   |
-| -------------- | ------------------------------------------------ | -------------------------------------------------- |
-| `value-format` | Model format, Date or timestamp                  | Appearance combinations, Instance locale isolation |
-| `placeholder`  | Placeholder                                      | Form control size comparison, Type                 |
-| `disabled`     | Whether disabled                                 | Form control size comparison                       |
-| `readonly`     | Whether readonly                                 | Form control size comparison                       |
-| `presentation` | Panel mode: `calendar` `picker` `calendarPicker` | Form control size comparison                       |
-| `size`         | Size: `xs` `sm` `md` `lg` `xl`                   | Form control size comparison                       |
+| Configuration | Purpose | Related examples |
+| -------------- | ---------------------------------------------- | ---------------------------- |
+| `value-format` | Model format, Date or timestamp | Appearance combinations, Instance locale isolation |
+| `placeholder` | Placeholder | Form control size comparison, Type |
+| `disabled` | Whether disabled | Form control size comparison |
+| `readonly` | Whether readonly | Form control size comparison |
+| `presentation` | Panel mode: `calendar` `picker` `calendarPicker` | Form control size comparison |
+| `size` | Size: `xs` `sm` `md` `lg` `xl` | Form control size comparison |
 
 <!-- demo-config-notes:end -->
+
 
 Use this example for selecting a date. Adjust variant, size and compare the component with the same data. Keep the content unchanged while comparing the available settings.
 
@@ -53,7 +54,7 @@ Compare Input, Button, Select, date/time fields and other single-line controls a
 
 ### Date value formats
 
-Both libraries independently copy the same value, validation and transaction logic. Year/month/date model formats default to `YYYY`, `YYYY-MM`, `YYYY-MM-DD`; date-time defaults to seconds. Use time-fields to hide wheel seconds; set format and value-format explicitly when minute strings are required. `format` controls labels; `value-format` controls models, supporting custom formats, `Date` and `timestamp`. Maple provides year/month/date calendar, wheel presentations; week/quarter remain Cedar presentation capabilities.
+Year/month/day model formats default to `YYYY`, `YYYY-MM` and `YYYY-MM-DD`. Date-time values include seconds by default; use `time-fields="['hour', 'minute']"` for minute precision. `format` controls display and `value-format` controls models, supporting custom formats, `Date` and `timestamp`. Maple provides year/month/day panels and mobile calendars and wheels; week/quarter panels are only available in Cedar.
 
 ### Intro
 
@@ -77,7 +78,7 @@ Fields configure panel options through `datePickerProps` / `dateRangePickerProps
 
 ### Locale and nested calendar options
 
-Date labels, headers and actions use the library's global Locale/LocaleProvider. Cedar no longer accepts a component-level `locale`; no compatibility alias is retained. Changing language does not select or submit a value.
+Date labels, headers and actions use the global Locale and Provider settings. Changing language does not select or submit a value.
 
 ### Instance locale isolation
 
@@ -91,7 +92,7 @@ Date owners read the library's global Locale/Provider and keep `dayStartOfWeek` 
 
 ### Typed format boundaries
 
-The copied date parser strictly uses display `format`, serializes through `value-format`, and checks the existing disabled/range rules. Single/range date fields now wire real native input. Editing is enabled by default: input clicks only edit; the calendar button or ArrowDown opens the panel, and Enter/blur commits. Set `input-editable=false` for panel-only selection. Multiple/function-formatted display has no inverse text protocol and stays readonly. A function `format` has no inverse parsing protocol: disable `input-editable` and use the selection panel. Maple has no week/quarter presentation; copied parsing logic does not introduce unsupported component types.
+Date input is parsed strictly according to `format`, serialized according to `value-format`, and checked against disabled rules and bounds. Manual entry is enabled by default. Clicking edits the input; the calendar button or ArrowDown opens the panel; Enter / blur commits. Set `input-editable=false` for panel-only selection. Multiple mode and function format do not support reverse parsing and keep the input readonly; disable `input-editable` with function format. Maple does not provide week/quarter presentation modes.
 
 ## Time and selection rules
 
@@ -101,18 +102,17 @@ The copied date parser strictly uses display `format`, serializes through `value
 
 #### Configuration reference for this comparison
 
-| Configuration    | Purpose                                                   | Related examples                              |
-| ---------------- | --------------------------------------------------------- | --------------------------------------------- |
-| `value-format`   | Model format, Date or timestamp                           | Time zones, DST and calendar views, Date Time |
-| `show-time`      | Enable time selection                                     | Time zones, DST and calendar views, Date Time |
-| `clearable`      | Whether the value can be cleared                          | Multiple, Date Time                           |
-| `input-editable` | Allow text entry; function format/multiple stays readonly | Time zones, DST and calendar views            |
-| `presentation`   | Panel mode: `calendar` `picker` `calendarPicker`          | Time zones, DST and calendar views            |
-| `min`            | Minimum date                                              | Time zones, DST and calendar views            |
+| Configuration | Purpose | Related examples |
+| ---------------- | ------------------------------------------------------ | ------------------------------------ |
+| `value-format` | Model format, Date or timestamp | Time zones, DST and calendar views, Date Time |
+| `show-time` | Enable time selection | Time zones, DST and calendar views, Date Time |
+| `clearable` | Whether the value can be cleared | Multiple, Date Time |
+| `input-editable` | Allow text entry; function format/multiple stays readonly | Time zones, DST and calendar views |
+| `presentation` | Panel mode: `calendar` `picker` `calendarPicker` | Time zones, DST and calendar views |
+| `min` | Minimum date | Time zones, DST and calendar views |
 
 <!-- demo-config-notes:end -->
 
-`timePickerProps` uses `DateTimePickerOptions`: `use12Hours`, `step`, `hideDisabledOptions`, `class`, `style`. It customizes the time view only; date model, precision/format, validation and confirmation remain owned by the date component. `step` samples the view and does not silently round external values. Unknown keys and listeners are not forwarded.
 
 `pickerProps` uses `DateWheelOptions`: `optionHeight`, `optionCount`, `class`, `style`. It applies to date and time wheels in single/range panels. Generated columns, model, toolbar, field mapping and popup state cannot be overridden. explicitly displays a clock when the time tab is opened.
 
@@ -122,7 +122,7 @@ The copied date parser strictly uses display `format`, serializes through `value
 
 ### Real platform capabilities
 
-Cedar does not expose `Date.pickerProps`, `DateRange.pickerProps` or `DateRange.datePickerProps`: desktop fields do not render mobile wheels or a mobile inner-calendar plugin. Maple retains these real extensions, using DateWheelOptions and DateRangeCalendarOptions. Both libraries use `Date.datePickerProps` / `DateRange.dateRangePickerProps` to configure their full panel, and `timePickerProps` for the nested time view. Initial date/time values belong to top-level `defaultValue`, not `timePickerProps.defaultValue`.
+Cedar does not expose `Date.pickerProps`, `DateRange.pickerProps` or `DateRange.datePickerProps`: desktop fields do not render mobile wheels or a mobile inner-calendar plugin. Maple retains these extensions using DateWheelOptions and DateRangeCalendarOptions. Both libraries use `Date.datePickerProps` / `DateRange.dateRangePickerProps` to configure their full panel; Cedar uses `timePickerProps` for its time view, while Maple uses `pickerProps` for wheels. Initial date/time values belong to top-level `defaultValue`.
 
 ### Time zones, DST and calendar views
 
@@ -150,16 +150,17 @@ Cedar does not expose `Date.pickerProps`, `DateRange.pickerProps` or `DateRange.
 
 #### Configuration reference for this comparison
 
-| Configuration    | Purpose                                                   | Related examples                                                                                           |
-| ---------------- | --------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| `format`         | Display format or formatter                               | Model and display formats, String models: date, month and month/day ranges, Text entry and panel selection |
-| `value-format`   | Model format, Date or timestamp                           | Model and display formats, String models: date, month and month/day ranges                                 |
-| `type`           | Selection type: `year`/`month`/`date`                     | String models: date, month and month/day ranges                                                            |
-| `min`            | Minimum date                                              | Text entry and panel selection                                                                             |
-| `max`            | Maximum date                                              | Text entry and panel selection                                                                             |
-| `input-editable` | Allow text entry; function format/multiple stays readonly | Text entry and panel selection                                                                             |
+| Configuration | Purpose | Related examples |
+| ---------------- | ------------------------------------------------------ | ---------------------------------------------------------------------- |
+| `format` | Display format or formatter | Model and display formats, String models: date, month and month/day ranges, Text entry and panel selection |
+| `value-format` | Model format, Date or timestamp | Model and display formats, String models: date, month and month/day ranges |
+| `type` | Selection type: `year`/`month`/`date` | String models: date, month and month/day ranges |
+| `min` | Minimum date | Text entry and panel selection |
+| `max` | Maximum date | Text entry and panel selection |
+| `input-editable` | Allow text entry; function format/multiple stays readonly | Text entry and panel selection |
 
 <!-- demo-config-notes:end -->
+
 
 ```demo
 ../example/demos/en-US/value-formats.vue
@@ -181,12 +182,12 @@ Cedar does not expose `Date.pickerProps`, `DateRange.pickerProps` or `DateRange.
 
 The mobile calendar button has these local extension variables:
 
-| Variable                                 | Default                             |
+| Variable | Default |
 | ---------------------------------------- | ----------------------------------- |
-| `--mp-date-input-trigger-padding`        | `0`                                 |
-| `--mp-date-input-trigger-outline-width`  | `var(--mp-sys-space-1)`             |
-| `--mp-date-input-trigger-outline-color`  | `var(--mp-sys-color-content-brand)` |
-| `--mp-date-input-trigger-outline-offset` | `var(--mp-sys-space-1)`             |
+| `--mp-date-input-trigger-padding` | `0` |
+| `--mp-date-input-trigger-outline-width` | `var(--mp-sys-space-1)` |
+| `--mp-date-input-trigger-outline-color` | `var(--mp-sys-color-content-brand)` |
+| `--mp-date-input-trigger-outline-offset` | `var(--mp-sys-space-1)` |
 
 ## Layout and arrangement
 
@@ -206,13 +207,14 @@ Resize the preview container to compare calendar panel layouts at different widt
 
 #### Configuration reference for this comparison
 
-| Configuration | Purpose                                          | Related examples             |
-| ------------- | ------------------------------------------------ | ---------------------------- |
-| `placeholder` | Placeholder                                      | Calendar Mode, With FormItem |
-| `clearable`   | Whether the value can be cleared                 | Calendar Mode, With FormItem |
-| `panel-type`  | Panel mode: `picker` `calendar` `calendarPicker` | Calendar Mode                |
+| Configuration | Purpose | Related examples |
+| ------------- | ----------------------------------------------------- | ----------------------- |
+| `placeholder` | Placeholder | Calendar Mode, With FormItem |
+| `clearable` | Whether the value can be cleared | Calendar Mode, With FormItem |
+| `panel-type` | Panel mode: `picker` `calendar` `calendarPicker` | Calendar Mode |
 
 <!-- demo-config-notes:end -->
+
 
 ```demo
 ../example/demos/en-US/calendar-mode.vue
@@ -240,12 +242,12 @@ Both libraries export `DateShortcut` and `DateShortcutsPosition`. A shortcut has
 ../example/demos/en-US/current-range.vue
 ```
 
-| Prop              | Meaning                                                                                   | Default |
+| Prop | Meaning | Default |
 | ----------------- | ----------------------------------------------------------------------------------------- | ------- |
-| `show-current`    | Highlight the current day/month/year in calendar presentations; does not select or commit | true    |
-| `show-now-button` | Show Now; hidden for multiple selection, updates the active range endpoint                | true    |
+| `show-current` | Highlight the current day/month/year in calendar presentations; does not select or commit | true |
+| `show-now-button` | Show Now; hidden for multiple selection, updates the active range endpoint | true |
 
-Now uses the panel's type, time precision and value-format and follows disabled/readonly, min/max and date/time rules. It only updates the draft. Even with disable-confirm enabled, Now and subsequent edits require confirmation; cancelling discards the draft. Date and date-time panels and ranges behave consistently in standalone panels and field editors; ranges update only the active endpoint without swapping. Neither mounting nor changing highlighting writes to the model. The removed showNowBtn name has no alias.
+Now uses the panel's type, time precision and value-format and follows disabled/readonly, min/max and date/time rules. It only updates the draft. Even with disable-confirm enabled, Now and subsequent edits require confirmation; cancelling discards the draft. Date and date-time panels and ranges behave consistently in standalone panels and field editors; ranges update only the active endpoint without swapping. Neither mounting nor changing highlighting writes to the model. 
 
 The actions slot provides `{ confirm, disabled, selectNow, nowDisabled }`. Custom UI must call these protected functions; it must not write directly to the model.
 
@@ -322,16 +324,17 @@ The active button is highlighted. Date-only and time-only panels do not show the
 
 #### Configuration reference for this comparison
 
-| Configuration       | Purpose                                                   | Related examples                                                                        |
-| ------------------- | --------------------------------------------------------- | --------------------------------------------------------------------------------------- |
-| `panel-type`        | Panel mode: `picker` `calendar` `calendarPicker`          | Rejected controlled close, Field viewport and shortcut events, Field and embedded panel |
-| `disabled`          | Whether disabled                                          | Interaction state comparison, Shared field and commit protocol                          |
-| `open`              | Controlled popup visibility                               | Rejected controlled close, Typed passthrough configuration                              |
-| `input-editable`    | Allow text entry; function format/multiple stays readonly | Field viewport and shortcut events, Copying and editing                                 |
-| `date-picker-props` | Props passed to `mp-date-picker`                          | Field viewport and shortcut events, Field and embedded panel                            |
-| `placeholder`       | Placeholder                                               | Shared field and commit protocol, Field and embedded panel                              |
+| Configuration | Purpose | Related examples |
+| ------------------- | ------------------------------------------------------ | ------------------------------------------------------ |
+| `panel-type` | Panel mode: `picker` `calendar` `calendarPicker` | Rejected controlled close, Field viewport and shortcut events, Field and embedded panel |
+| `disabled` | Whether disabled | Interaction state comparison, Shared field and commit protocol |
+| `open` | Controlled popup visibility | Rejected controlled close, Typed passthrough configuration |
+| `input-editable` | Allow text entry; function format/multiple stays readonly | Field viewport and shortcut events, Copying and editing |
+| `date-picker-props` | Props passed to `mp-date-picker` | Field viewport and shortcut events, Field and embedded panel |
+| `placeholder` | Placeholder | Shared field and commit protocol, Field and embedded panel |
 
 <!-- demo-config-notes:end -->
+
 
 Toggle disabled, read-only and error states, then interact with the same instance. Recovery controls remain outside the target; error appearance alone does not validate data.
 
@@ -360,11 +363,11 @@ The parent may reject `update:open(false)` and keep the panel open. An equal con
 
 Configure `pickerValue`, `defaultPickerValue` and shortcuts through nested `datePickerProps` / `dateRangePickerProps`; listeners inside nested objects are filtered. Listen on the field and update the nested viewport. Controlled rejection keeps the previous month; navigation does not select or commit. A valid shortcut chooses a draft under the existing confirmation policy.
 
-| Event                 | Description                            | Parameters                        |
+| Event | Description | Parameters |
 | --------------------- | -------------------------------------- | --------------------------------- |
-| `update:picker-value` | Request calendar viewport update       | value: DateSelection              |
+| `update:picker-value` | Request calendar viewport update | value: DateSelection |
 | `picker-value-change` | Viewport request and formatted payload | value, date(s), formatted text(s) |
-| `select-shortcut`     | Accepted shortcut object               | shortcut: DateShortcut            |
+| `select-shortcut` | Accepted shortcut object | shortcut: DateShortcut |
 
 ```demo
 ../example/demos/en-US/field-panel-tools.vue
@@ -382,7 +385,7 @@ Configure `pickerValue`, `defaultPickerValue` and shortcuts through nested `date
 
 Updating or removing `min` / `max` changes selectable dates, not the existing model or draft. In Maple calendar views, day/month/year navigation availability is derived from the current viewport and both limits; removing one limit restores only that side. A released bound does not trigger selection or submission.
 
-### Form field presentation and confirmation
+### Editing and confirmation
 
 `edit-mode` inherits from field > FormItem > Form and defaults to `popup`. Supported values are `direct / popup`. Inline keeps the existing control behavior. Overlay editing uses a Cell reference and an isolated draft; only confirmation updates v-model. Cancel, reset and enabling readPretty discard the draft.
 
@@ -404,19 +407,19 @@ The hint and selected year are no longer repeated below the summary. The calenda
 
 Shared style variables:
 
-| Token                                        | Default                                                       |
+| Token | Default |
 | -------------------------------------------- | ------------------------------------------------------------- |
-| `--mp-temporal-panel-inset`                  | `12px`                                                        |
-| `--mp-temporal-panel-column-label-height`    | `36px`                                                        |
-| `--mp-temporal-panel-column-label-font-size` | `13px`                                                        |
-| `--mp-temporal-panel-radius`                 | `12px`                                                        |
-| `--mp-temporal-panel-group-gap`              | `24px`                                                        |
-| `--mp-temporal-panel-touch-height`           | `44px`                                                        |
-| `--mp-temporal-panel-summary-background`     | `var(--mp-color-fill-1)`                                      |
-| `--mp-temporal-panel-summary-height`         | `56px`                                                        |
-| `--mp-temporal-panel-quick-time-width`       | `84px`                                                        |
-| `--mp-temporal-panel-selection-background`   | `var(--mp-color-fill-2)`                                      |
-| `--mp-temporal-panel-active-background`      | `color-mix(in srgb, var(--mp-color-primary) 8%, transparent)` |
+| `--mp-temporal-panel-inset` | `12px` |
+| `--mp-temporal-panel-column-label-height` | `36px` |
+| `--mp-temporal-panel-column-label-font-size` | `13px` |
+| `--mp-temporal-panel-radius` | `12px` |
+| `--mp-temporal-panel-group-gap` | `24px` |
+| `--mp-temporal-panel-touch-height` | `44px` |
+| `--mp-temporal-panel-summary-background` | `var(--mp-color-fill-1)` |
+| `--mp-temporal-panel-summary-height` | `56px` |
+| `--mp-temporal-panel-quick-time-width` | `84px` |
+| `--mp-temporal-panel-selection-background` | `var(--mp-color-fill-2)` |
+| `--mp-temporal-panel-active-background` | `color-mix(in srgb, var(--mp-color-primary) 8%, transparent)` |
 
 # Time zones and calendar views
 
@@ -428,7 +431,7 @@ Virtual months have equal height and six week rows. Customize `--mp-date-calenda
 
 ### Shared field and commit protocol
 
-Date, DateRange, Time and TimeRange use independent same-source copies of PickerField and FieldDecorator. Date/DateRange enable text entry by default (it can be disabled); Time uses its own inputEditable setting. Panels edit a draft, Confirm commits it, and Cancel or dismissal discards it. Clear commits an empty value and closes the panel. Range fields retain separate start/end values and overnight hints.
+Date / DateRange allow manual entry by default; input-editable can disable it. Time manual entry is controlled by inputEditable. Panels edit a draft and commit on confirmation; cancellation or external closing leaves the value unchanged. Clearing commits an empty value immediately and closes the panel. Date and time ranges display two inputs, retaining a next-day indicator for overnight time ranges.
 
 ```demo
 ../example/demos/en-US/field-protocol.vue
@@ -476,203 +479,360 @@ Use open-trigger-target to control pointer opening independently. In icon mode, 
 
 Inherits the nearest `dir="ltr|rtl"`, including runtime changes and local overrides. Calendar dates, months and years follow reading order; navigation icons mirror, while date values keep their meaning. In paged grids, Left/Right moves focus visually, Up/Down moves one row, and Home/End moves to the row boundary, skipping disabled items. Focus navigation does not select; Enter/Space keeps the existing selection behavior. Navigation is bounded by the displayed grid. Explicit `shortcuts-position="left|right"` remains physical; `bottom` stays below. Field popovers inherit their source direction.
 
+## Triggers and positioning
+
+### Popup placement
+
+The Date field prefers bottom-start below its input. Override the preferred side through popupProps.placement only when needed; the underlying Trigger positions it, not Popup or Popover. DatePicker is a standalone date panel with no input anchor. Configure popup placement on the Date field.
+
+Public focus/blur methods are callable from initial mount. Focus opens an editable deferred editor and targets it after readiness; disabled, readonly, or reading fields do not open. Blur only blurs the current target without reopening. Stored methods never bind an old editor; closure, mode changes, deactivation, or unmount cancel queued calls.
+
+## Usage notes
+
+### Panel configuration
+
+DatePicker and DateRangePicker provide standalone date selection. Use `show-current` for current-date highlighting and `picker-value` or `default-picker-value` for the displayed date.
+
+Use showCurrent for current-date highlighting, showNowButton for selecting now, pickerValue/defaultPickerValue for the viewport, and min/max/disabledDate for selectable-value constraints. Existing field lists, abbreviation, wheel settings, appearance and actual panel capabilities remain available. loading-icon is not wired to a public panel or date-field slot and is not an available capability.
+
+
+<!-- date-contract:start -->
+
+### Values and formats
+
+DateValue is string, number or native Date. Numbers are timestamps and 0 is not empty; modelValue=null is explicitly empty. Ranges retain broad arrays and incomplete endpoints rather than forcing a tuple; commits still validate completeness and validity. Maple general DatePicker/Date multiple selection does not widen Cedar single-value Props.
+
+Tables list actual public properties. Inherited/precision-derived defaults describe resolved behavior; raw Props can be undefined. format controls display/text input and valueFormat controls the model protocol. Week/quarter display labels differ from model formats; function format has no reverse parser for text input.
+
+Bounds are inclusive. Invalid supplied bounds block confirmation instead of being treated as omitted. Tightening rules does not clear the business model. disabledDate/disabledTime are explicit validation callbacks rather than asynchronous event tasks; time callbacks return disabled lists through DateDisabledTime.
+
+### Date Slots / Methods
+
+Field default replaces the trigger; prefix/selected/suffix replace content, and ranges also support separator. Preserve names, endpoint distinctions and keyboard access when replacing native controls. read receives value/text, suffix-icon receives focus/popupOpen, and clear-icon receives guarded clear(event?), respecting emptyValue and disabled/readonly guards.
+
+actions receives confirm/disabled/selectNow/nowDisabled, with both actions returning void. It has no Time-panel canConfirm/value arguments. disabled=true prevents confirmation. Standalone panels can replace the action region; the outer editing shell owns final saving in hosted editing, while the panel contributes auxiliary actions. Panel confirm is not the outer-save method.
+
+Now capabilities follow the actual panel: Cedar single panels support it, while Cedar range panels have no now action. Maple range panels stage now for the active endpoint, preserve the other endpoint and still require confirmation. The presence of selectNow in scope does not imply every mode supports the action.
+
+Cedar cell customizes a calendar cell with date and, for ranges, type=start/end; extra adds content. Maple Date/DatePicker page-calendar summaries support year({year}), month({year,month}), date({week,year,month,date}), range({choose}) and multiple({choose}) according to mode. Maple DateRange/DateRangePicker do not forward these single-panel summary slots, nor do scroll/line viewports promise them.
+
+loading-icon is not wired to date fields or pure panels and is not available merely because the underlying decorator supports it. Field focus(index?)/blur() delegate to real controls. Cedar/direct-field blur closes the field popup; Maple range persistent-reference blur only clears its focus, without pretending to close the outer Drawer. Pure panels expose no focus/blur methods.
+
+### Presentation configuration and ranges
+
+datePickerProps/dateRangePickerProps configure presentation without overriding owned model/rules/type/control events; Maple internal range datePickerProps uses a calendar allowlist. popupProps retains a broad dictionary, with public DatePopupOptions/DateRangePopupOptions recommended and owner keys still filtered at runtime. Cedar timePickerProps configures embedded time presentation; Maple pickerProps configures wheels.
+
+A range placeholder string applies to both endpoints; arrays configure each and missing entries are empty. readonly is separate from disabled; unset field state inherits Form. Cedar range-panel exchangeTime only handles reversed interactive candidates: true swaps their times, false retains endpoint times. It does not reorder external model/text/shortcut values. Maple does not expose this property.
+
 ## API
 
 ### Empty values and reading placeholders
 
-`empty-values` recognizes empty data; `empty-value` keeps existing clear output. `empty-text` defaults to `'-'` under `read-pretty`, with Field > FormItem > Form precedence and custom read slots first. With explicit empty-values, built-in required uses the policy; custom validators receive original data. See the [shared guide](#/en-US/emptyValues).
+`empty-values` recognizes empty data; `empty-value` keeps existing clear output. `empty-text` defaults to `'-'` under `read-pretty`, with Field > FormItem > Form precedence and custom read slots first. With explicit `empty-values`, built-in required uses the policy; custom validators receive original data. See the [shared guide](#/en-US/emptyValues).
 
-| Prop         | Type               | Default and scope                                                           |
-| ------------ | ------------------ | --------------------------------------------------------------------------- |
+| Prop | Type | Default and scope |
+| ------------ | ------------------ | ----------------------------------------------------- |
 | empty-values | readonly unknown[] | Field > FormItem > Form > component-family default; replaces the whole list |
-| empty-text   | string             | Field > FormItem > Form > '-'; explicit '' is valid                         |
+| empty-text | string | Field > FormItem > Form > '-'; explicit '' is valid |
 
 These props belong to field presentation; pure panels do not gain reading mode. Form and FormItem provide inherited settings. The existing empty-value type and clear fallback remain component-specific.
 
-### Shared rules and events
+### Values and events
 
 `DateValue = Date | string | number`. Invalid dates and incomplete/reversed ranges cannot commit. min/max are inclusive; strings follow value-format, while Date/timestamps are also accepted. Confirmation revalidates rules. `disabledTime` returns numeric lists from `disabledHours()`, `disabledMinutes(hour)`, `disabledSeconds(hour, minute)`. Valid pure panels emit `confirm(value, date(s), text(s))`; fields use `update:open`/`open-change`, not close. Nested panel/popup props configure presentation only, not top-level models/rules/state events. Range disabled accepts [startDisabled, endDisabled]; locked endpoints cannot be cleared/modified.
 
-### Props
+### Date Props
 
-| Arguments             | Description                                                                                                                                                                                                                                             | Type                                               | Default                     |
-| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------- | --------------------------- |
-| `model-value`         | Controlled value                                                                                                                                                                                                                                        | DateValue / DateValue[] (multiple/range)           | `undefined`                 |
-| `default-value`       | Uncontrolled initial value, read once                                                                                                                                                                                                                   | DateValue / DateValue[] (multiple/range)           | `undefined`                 |
-| `input-editable`      | Allow text entry; function format/multiple stays readonly                                                                                                                                                                                               | boolean                                            | true                        |
-| `open-trigger-target` | Pointer opening area: field includes the whole field; icon uses only the suffix trigger. Clear/remove actions are excluded; explicit keyboard opening and controlled open remain available.                                                             | `'field' \| 'icon'`                                | `'field'`                   |
-| `format`              | Display format or formatter                                                                                                                                                                                                                             | string / (date: Date) => string                    | —                           |
-| `value-format`        | Model format, Date or timestamp                                                                                                                                                                                                                         | string                                             | —                           |
-| `disable-confirm`     | Commit immediately                                                                                                                                                                                                                                      | boolean                                            | Fields: false; panels: true |
-| `open`                | Controlled popup visibility                                                                                                                                                                                                                             | _boolean_                                          | `-`                         |
-| `default-open`        | Uncontrolled initial open state                                                                                                                                                                                                                         | boolean                                            | false                       |
-| `popup-container`     | Popup mount target                                                                                                                                                                                                                                      | string / HTMLElement / (() => HTMLElement) / false | —                           |
-| `panel-type`          | Panel mode: `picker` `calendar` `calendarPicker`                                                                                                                                                                                                        | _string_                                           | `calendar`                  |
-| `type`                | Selection type: `year`/`month`/`date`                                                                                                                                                                                                                   | _string_                                           | `date`                      |
-| `show-time`           | Enable time selection                                                                                                                                                                                                                                   | _boolean_                                          | `false`                     |
-| `multiple`            | Whether multiple selection is enabled                                                                                                                                                                                                                   | _boolean_                                          | `false`                     |
-| `min`                 | Minimum date                                                                                                                                                                                                                                            | DateValue                                          | `-`                         |
-| `max`                 | Maximum date                                                                                                                                                                                                                                            | DateValue                                          | `-`                         |
-| `disabled-date`       | true disables; side is start or end                                                                                                                                                                                                                     | (date: Date, side: DateSide) => boolean            | —                           |
-| `disabled-time`       | Disabled time lists for this date and endpoint                                                                                                                                                                                                          | (date: Date, side: DateSide) => DateDisabledTime   | —                           |
-| `separator`           | Display separator for multiple                                                                                                                                                                                                                          | _string_                                           | `, `                        |
-| `date-picker-props`   | Props passed to `mp-date-picker`                                                                                                                                                                                                                        | _DatePickerOptions_                                | `{}`                        |
-| `popup-props`         | Optional field-popup presentation settings. Placement defaults to bottom-start and is positioned automatically by the underlying Trigger; the preferred side can be overridden. No top-level placement prop; field state and rules cannot be overridden | _Partial\<PopupProps\>_                            | `{}`                        |
-| `placeholder`         | Placeholder                                                                                                                                                                                                                                             | _string_                                           | `-`                         |
-| `clearable`           | Whether the value can be cleared                                                                                                                                                                                                                        | _boolean_                                          | `true`                      |
-| `disabled`            | Whether disabled                                                                                                                                                                                                                                        | _boolean_                                          | `false`                     |
-| `readonly`            | Whether readonly                                                                                                                                                                                                                                        | _boolean_                                          | `false`                     |
-| `size`                | Size: `xs` `sm` `md` `lg` `xl`                                                                                                                                                                                                                          | _ComponentSize_                                    | `md`                        |
-| `variant`             | Variant: `filled` `standard` `outline`                                                                                                                                                                                                                  | _string_                                           | `standard`                  |
+| Prop | Description | Type | Default behavior |
+| --- | --- | --- | --- |
+| `before-commit` | Explicit field-save guard using payload, done and context | `BeforeFieldCommit` | `undefined` |
+| `blur-color` | Color while unfocused | `string` | Theme default |
+| `clearable` | Allow clearing with disabled, readonly and pending guards | `boolean` | `true` |
+| `date-fields` | Date wheel columns and order; an explicit list controls visibility | `readonly DatePickerField[]`<br>`DatePickerField: 'month' \| 'year' \| 'day'` | Derived from precision |
+| `date-picker-props` | Date-panel presentation options, with model/rules/type owned by the field | `DatePickerOptions` | `{}` |
+| `default-open` | Initial uncontrolled opening, read only at creation | `boolean` | `false` |
+| `default-value` | Initial uncontrolled value, read only at creation | `DateValue \| DateValue[]` | `undefined` |
+| `disable-confirm` | Commit on selection; false retains draft for confirmation | `boolean` | `false` |
+| `disabled` | Disable interaction; fields inherit FormItem/Form when unset | `boolean` | Inherited, finally false |
+| `disabled-date` | Return true to disable the date; side is start/end | `(date: Date, side: DateSide) => boolean`<br>`DateSide: 'end' \| 'start'` | `undefined` |
+| `disabled-time` | Return disabled hour/minute/second lists for a date and endpoint | `(date: Date, side: DateSide) => DateDisabledTime`<br>`DateSide: 'end' \| 'start'` | `undefined` |
+| `edit-mode` | Field editing mode, inherited from FormItem/Form when unset | `FieldEditMode`<br>`'direct' \| 'popup'` | Inherited, finally popup |
+| `empty-text` | Empty text in read-pretty mode | `string` | Inherited, finally '-' |
+| `empty-value` | Clear output or synchronous factory, independent of emptyValues recognition | `DateValue \| null \| (() => DateValue \| null \| undefined)` | `undefined` |
+| `empty-values` | Empty-value recognition list, replaced rather than merged | `readonly unknown[]` | Inherited/family default |
+| `error` | Field error presentation, inherited when unset | `boolean` | Inherited, finally false |
+| `focus-color` | Color while focused | `string` | Theme default |
+| `format` | Display/text-input format; a function only formats without reverse text parsing | `string \| ((date: Date) => string)` | From precision/time settings |
+| `hint` | Floating placeholder hint, suppressed by an outer Form label | `boolean` | `true` |
+| `input-editable` | Allow text input without removing panel selection | `boolean` | `true` |
+| `interactive-mode` | Maple calendar viewport mode, independent of field editing mode | `page \| scroll \| line` | `page` |
+| `line` | Show the field border or underline | `boolean` | `true` |
+| `loading` | Manual loading feedback, independent of event return values | `boolean` | `false` |
+| `loading-mode` | Field loading presentation mode | `default \| line` | default |
+| `max` | Inclusive maximum; a supplied invalid boundary is not silently ignored | `DateValue` | `undefined` |
+| `min` | Inclusive minimum; a supplied invalid boundary is not silently ignored | `DateValue` | `undefined` |
+| `model-value` | External date value; undefined is uncontrolled, null is explicitly empty | `DateValue \| DateValue[] \| null` | `undefined` |
+| `multiple` | Maple multiple selection; avoid enabling range mode at the same time | `boolean` | `false` |
+| `open` | Controlled field editor opening | `boolean` | `undefined` |
+| `open-trigger-target` | Open by field or icon click, without restricting keyboard opening | `field \| icon` | field |
+| `panel-type` | Maple field panel presentation, independent of editMode | `calendar \| picker \| calendarPicker` | `calendar` |
+| `picker-props` | Maple date/time wheel presentation options, excluding the root model/rules | `DateWheelOptions` | `{}` |
+| `placeholder` | Field placeholder, following Locale when omitted | `string` | `undefined` |
+| `popup-container` | Editor container; false renders in place | `PopupContainer` | Shared container default |
+| `popup-props` | Trigger presentation options, filtering owned state/model/rules/control listeners at runtime | `Record<string, unknown>` | `{}` |
+| `read-pretty` | Read-pretty presentation without an editor, independent of readonly | `boolean` | Inherited, finally false |
+| `readonly` | Readonly; fields allow focus/copy without value changes or opening editing | `boolean` | Inherited, finally false |
+| `separator` | Separator text for joined/range display, including an empty string | `string` | `, ` |
+| `show-time` | Enable time precision/selection, with visible precision controlled by format | `boolean` | `false` |
+| `size` | Five sizes, following field Form inheritance | `ComponentSize`<br>`'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | Inherited, finally md |
+| `text-color` | Content text color | `string` | Theme default |
+| `time-fields` | Wheel columns and order; an explicit list controls visibility without changing format or model | `readonly TimePickerField[]`<br>`TimePickerField: 'hour' \| 'minute' \| 'second'` | Derived from format |
+| `time-zone` | IANA time zone; an invalid zone does not fall back to a valid selectable value | `string` | System local time zone |
+| `type` | Date precision; Cedar includes week/quarter, while Maple supports date/month/year | `date \| month \| year` | `date` |
+| `use-virtual-scroll` | Use virtual rendering for the Maple scroll viewport | `boolean` | `true` |
+| `value-format` | Serialized model format: Date, timestamp or format tokens, independent of display format | `string` | From precision/time settings |
+| `variant` | Field appearance | `filled \| outline \| standard` | `standard` |
 
-### Events
+### Date Events
 
-| Event         | Description                                          | Arguments                         |
-| ------------- | ---------------------------------------------------- | --------------------------------- |
-| `focus`       | Emitted on focus                                     | `-`                               |
-| `blur`        | Emitted on blur                                      | `-`                               |
-| `click`       | Triggered when the cell is clicked                   | `event: Event`                    |
-| `clear`       | Cleared: undefined for single, [] for multiple/range | —                                 |
-| `open-change` | Popup visibility changes                             | open: boolean                     |
-| `change`      | Validated value committed                            | value, date(s), formatted text(s) |
-| `select`      | Draft selected, not necessarily committed            | value, date(s), formatted text(s) |
+See the complete field and panel event lists on this page.
 
-### Methods
+### Date Methods
 
-| Method  | Description | Arguments | Returns |
-| ------- | ----------- | --------- | ------- |
-| `focus` | Focus       | `-`       | `-`     |
-| `blur`  | Blur        | `-`       | `-`     |
+| Method | Description | Arguments | Returns |
+| ------- | ---- | ---- | ------ |
+| `focus` | Focus | `-` | `-` |
+| `blur` | Blur | `-` | `-` |
 
-### Slots
+### Date Slots
 
-| Slot          | Description               | Arguments                            |
-| ------------- | ------------------------- | ------------------------------------ |
-| `selected`    | Selected content          | `-`                                  |
-| `prefix`      | The prepend icon of alert | `-`                                  |
-| `clear-icon`  | Clear icon                | `clear: (e: Event) => void`          |
-| `suffix`      | Suffix                    | `-`                                  |
-| `suffix-icon` | Arrow icon                | `focus: boolean, popupOpen: boolean` |
+| Slot | Description | Prop |
+| ------------- | ------------ | ------------------------------------ |
+| `selected` | Selected content | `-` |
+| `prefix` | The prepend icon of alert | `-` |
+| `clear-icon` | Clear icon | `clear: (e: Event) => void` |
+| `suffix` | Suffix | `-` |
+| `suffix-icon` | Arrow icon | `focus: boolean, popupOpen: boolean` |
+
+### DatePicker Props
+
+| Prop | Description | Type | Default behavior |
+| --- | --- | --- | --- |
+| `abbreviation` | Use abbreviated month-grid names; false uses full month names | `boolean` | `true` |
+| `button-elevation` | Elevation of Maple internal calendar buttons | `boolean \| number` | `true` |
+| `color` | Maple calendar color | `string` | Theme default |
+| `date-fields` | Date wheel columns and order; an explicit list controls visibility | `readonly DatePickerField[]`<br>`DatePickerField: 'month' \| 'year' \| 'day'` | Derived from precision |
+| `day-start-of-week` | First day of week for calendars, an integer from 0 to 6 | `DateWeekStart` | `0` |
+| `default-picker-value` | Initial calendar viewport, read once; selected values take precedence over the current date | `DateSelection` | `undefined` |
+| `default-value` | Initial uncontrolled value, read only at creation | `DateValue \| DateValue[]` | `undefined` |
+| `disable-confirm` | Commit on selection; false retains draft for confirmation | `boolean` | `true` |
+| `disabled` | Disable panel selection and commit | `boolean` | `false` |
+| `disabled-date` | Return true to disable the date; side is start/end | `(date: Date, side: DateSide) => boolean`<br>`DateSide: 'end' \| 'start'` | `undefined` |
+| `disabled-time` | Return disabled hour/minute/second lists for a date and endpoint | `(date: Date, side: DateSide) => DateDisabledTime`<br>`DateSide: 'end' \| 'start'` | `undefined` |
+| `elevation` | Panel elevation; false disables its shadow | `boolean \| number` | `false` |
+| `empty-value` | Clear output or synchronous factory, independent of emptyValues recognition | `DateValue \| null \| (() => DateValue \| null \| undefined)` | `undefined` |
+| `format` | Display/text-input format; a function only formats without reverse text parsing | `string \| ((date: Date) => string)` | From precision/time settings |
+| `hint` | Maple summary hint, effective when the summary region is displayed | `string` | `Locale` |
+| `interactive-mode` | Maple calendar viewport mode, independent of field editing mode | `page \| scroll \| line` | `page` |
+| `max` | Inclusive maximum; a supplied invalid boundary is not silently ignored | `DateValue` | `undefined` |
+| `min` | Inclusive minimum; a supplied invalid boundary is not silently ignored | `DateValue` | `undefined` |
+| `model-value` | External date value; undefined is uncontrolled, null is explicitly empty | `DateValue \| DateValue[] \| null` | `undefined` |
+| `multiple` | Maple multiple selection; avoid enabling range mode at the same time | `boolean` | `false` |
+| `picker-props` | Maple date/time wheel presentation options, excluding the root model/rules | `DateWheelOptions` | `{}` |
+| `picker-value` | Controlled calendar viewport, separate from selection; range viewports contain two dates | `DateSelection` | `undefined` |
+| `presentation` | Maple standalone-panel presentation | `calendar \| picker \| calendarPicker` | `calendarPicker` |
+| `preview-shortcut` | Preview shortcuts on hover/focus without committing | `boolean` | `true` |
+| `range` | Range mode of the Maple general standalone panel | `boolean` | `false` |
+| `readonly` | Readonly panel without candidate changes or commits | `boolean` | `false` |
+| `shortcuts` | Shortcuts with values or on-demand synchronous value factories, optional format/disabled | `DateShortcut[]` | `[]` |
+| `shortcuts-position` | Shortcut position | `left \| bottom \| right` | `bottom` |
+| `show-current` | Highlight the current date without changing selection or model | `boolean` | `true` |
+| `show-now-button` | Show the now action according to the actual panel range capabilities | `boolean` | `true` |
+| `show-time` | Enable time precision/selection, with visible precision controlled by format | `boolean` | `false` |
+| `time-fields` | Wheel columns and order; an explicit list controls visibility without changing format or model | `readonly TimePickerField[]`<br>`TimePickerField: 'hour' \| 'minute' \| 'second'` | Derived from format |
+| `time-zone` | IANA time zone; an invalid zone does not fall back to a valid selectable value | `string` | System local time zone |
+| `title-color` | Maple summary-title background, taking precedence over color | `string` | Theme default |
+| `touchable` | Maple calendar touch paging, subject to viewport mode and readonly rules | `boolean` | `true` |
+| `type` | Date precision; Cedar includes week/quarter, while Maple supports date/month/year | `date \| month \| year` | `date` |
+| `use-virtual-scroll` | Use virtual rendering for the Maple scroll viewport | `boolean` | `true` |
+| `value-format` | Serialized model format: Date, timestamp or format tokens, independent of display format | `string` | From precision/time settings |
+
+### DatePicker Events
+
+See the complete field and panel event lists on this page.
+
+### DatePicker Slots
+
+`weekIndex` is the nth day of the week, starting at `0` on the weekend
+
+| Name | Description | Prop |
+| ---------- | ------------------ | -------------------------------------------------------------------- |
+| `year` | Custom the year in the title | `year: YYYY` |
+| `month` | Custom the month in the title | `year: YYYY` <br> `month: MM` |
+| `date` | Custom the date in the title | `year: YYYY` <br> `month: MM` <br> `date: DD` <br> `week: weekIndex` |
+| `range` | Custom range in the title | `choose: [startData, endDate]` |
+| `multiple` | Custom multiple selection in the title | `choose: ['YYYY-MM-DD' \| 'YYYY-MM']` |
+| `actions` | Custom the views in the action panel | `{ confirm, disabled }` |
 
 ## Configuring the cleared value
 
-`empty-value` / `emptyValue` sets the model value produced by clearing. It accepts a value in the component model type or a zero-argument factory. Omission preserves the existing default; use `() => undefined` to distinguish omission from returning undefined. Arrays are shallow-copied on every clear; selected items that cannot be cleared remain. It does not redefine emptiness, alter Form reset defaults or treat 0/false as universally empty.
+`empty-value` defines the output of an existing clear action. Omission preserves the component fallback; supported types remain component-specific. It does not change empty-values recognition or Form reset defaults.
 
 ## Visible wheel fields
 
 `date-fields` and `time-fields` independently control date and time columns and their order. The two groups do not interleave. Fields and standalone panels share the same props; range endpoints share the configuration.
 
-| Prop          | Type                       | Default                                   | Description                                                                      |
-| ------------- | -------------------------- | ----------------------------------------- | -------------------------------------------------------------------------------- |
-| `date-fields` | readonly DatePickerField[] | Generate year/month/day columns from type | year, month, day. Only date wheels are affected; the calendar grid is unchanged. |
-| `time-fields` | readonly TimePickerField[] | Hour/minute/second                        | Controls time wheels, including those embedded in calendars.                     |
+| Prop | Type | Default | Description |
+| ------------- | -------------------------- | ------------------------ | ----------------------------------------------------------- |
+| `date-fields` | readonly DatePickerField[]<br>`DatePickerField: 'month' \| 'year' \| 'day'` | Generate year/month/day columns from type | year, month, day. Only date wheels are affected; the calendar grid is unchanged. |
+| `time-fields` | readonly TimePickerField[]<br>`TimePickerField: 'hour' \| 'minute' \| 'second'` | Hour/minute/second | Controls time wheels, including those embedded in calendars. |
 
 Arrays must be nonempty and unique; explicit arrays strictly determine column visibility/order. Omission uses defaults. Date/time field groups validate separately and cannot mix. Hidden units retain existing values and merge back into the complete draft. Changing field configuration does not commit the model. Nested display options cannot override root props.
 
 Date/DateRange time areas apply only with show-time. `format` controls input text; `value-format` controls saved representation; neither determines panel columns. Unspecified datetime formats save seconds by default. For minute strings, configure both formats explicitly. Hiding year still uses the complete draft year. MM-DD alone cannot represent cross-year ranges; save complete dates for leap-year/cross-year workflows.
 
-## DatePicker API
+## Types
 
-### Props
+### Field event parameter types
 
-| Arguments           | Description                                                                                     | Type                                             | Default                     |
-| ------------------- | ----------------------------------------------------------------------------------------------- | ------------------------------------------------ | --------------------------- |
-| `model-value`       | Controlled value                                                                                | DateValue / DateValue[] (multiple/range)         | `undefined`                 |
-| `default-value`     | Uncontrolled initial value, read once                                                           | DateValue / DateValue[] (multiple/range)         | `undefined`                 |
-| `format`            | Display format or formatter                                                                     | string / (date: Date) => string                  | —                           |
-| `value-format`      | Model format, Date or timestamp                                                                 | string                                           | —                           |
-| `disable-confirm`   | Commit immediately                                                                              | boolean                                          | Fields: false; panels: true |
-| `type`              | Picker type: date/month/year                                                                    | _string_                                         | `date`                      |
-| `presentation`      | Panel mode: `calendar` `picker` `calendarPicker`                                                | _string_                                         | `calendarPicker`            |
-| `show-time`         | Enable time selection                                                                           | _boolean_                                        | `false`                     |
-| `disabled-date`     | true disables; side is start or end                                                             | (date: Date, side: DateSide) => boolean          | —                           |
-| `disabled-time`     | Disabled time lists for this date and endpoint                                                  | (date: Date, side: DateSide) => DateDisabledTime | —                           |
-| `color`             | Picker color                                                                                    | _string_                                         | `-`                         |
-| `title-color`       | Color of picker title. If not specified it will use `color` prop or the default picker `color`. | _string_                                         | `-`                         |
-| `hint`              | Picker hint                                                                                     | _string_                                         | `选择日期`                  |
-| `elevation`         | Elevation level, options `true` `false` and level of `0-24`                                     | _number \| boolean_                              | `false`                     |
-| `button-elevation`  | Elevation level of Button                                                                       | _string \| number \| boolean_                    | `true`                      |
-| `day-start-of-week` | Sets the first day of the week, starting with 0 for Sunday.                                     | _DateWeekStart_                                  | `0`                         |
-| `min`               | Minimum date/month in ISO 8601 format                                                           | DateValue                                        | `-`                         |
-| `max`               | Maximum date/month in ISO 8601 format                                                           | DateValue                                        | `-`                         |
-| `show-current`      | Whether to display the current date                                                             | _boolean_                                        | `true`                      |
-| `readonly`          | Whether readonly                                                                                | _boolean_                                        | `false`                     |
-| `multiple`          | Whether multiple dates can be selected                                                          | _boolean_                                        | `false`                     |
-| `range`             | Whether a range can be selected                                                                 | _boolean_                                        | `false`                     |
-| `touchable`         | Allow switch panel by touch                                                                     | _boolean_                                        | `true`                      |
+| Event | Arguments |
+| --- | --- |
+| `update:modelValue` | `DateEmits['update:modelValue']` |
+| `change` | `DateEmits['change']` |
+| `select` | `DateEmits['select']` |
+| `clear` | `DateEmits['clear']` |
+| `click` | `DateEmits['click']` |
+| `focus` | `DateEmits['focus']` |
+| `blur` | `DateEmits['blur']` |
+| `update:open` | `DateEmits['update:open']` |
+| `open-change` | `DateEmits['open-change']` |
+| `update:pickerValue` | `DateEmits['update:pickerValue']` |
+| `picker-value-change` | `DateEmits['picker-value-change']` |
+| `select-shortcut` | `DateEmits['select-shortcut']` |
 
-### Events
+Field value/viewport notifications use the corresponding public Emits tuples; DateChangeArgs contains value, date(s) and text(s). Listener Promises are not awaited and do not drive loading. beforeCommit uses payload/done/context, with value/previousValue in payload and signal/optional event in context; undefined waits for done.
 
-| Event     | Description                               | Callback arguments                                    |
-| --------- | ----------------------------------------- | ----------------------------------------------------- |
-| `preview` | Emitted after date switched               | `year: number` <br>`month: number` <br>`day?: number` |
-| `change`  | Validated value committed                 | value, date(s), formatted text(s)                     |
-| `select`  | Draft selected, not necessarily committed | value, date(s), formatted text(s)                     |
+### Panel event parameter types
 
-### Slots
+Standalone panels have the seven events below, without the old preview event. Navigation uses picker-value-change and update:pickerValue. Navigation/shortcut hover-focus preview does not imply selection or commit. Confirmation only notifies when valid; select draft is separate from committed change.
 
-`weekIndex` is the nth day of the week, starting at `0` on the weekend
+| Event | Arguments |
+| --- | --- |
+| `update:modelValue` | `DatePickerEmits['update:modelValue']` |
+| `change` | `DatePickerEmits['change']` |
+| `select` | `DatePickerEmits['select']` |
+| `confirm` | `DatePickerEmits['confirm']` |
+| `update:pickerValue` | `DatePickerEmits['update:pickerValue']` |
+| `picker-value-change` | `DatePickerEmits['picker-value-change']` |
+| `select-shortcut` | `DatePickerEmits['select-shortcut']` |
 
-| Name       | Description                            | Arguments                                                            |
-| ---------- | -------------------------------------- | -------------------------------------------------------------------- |
-| `year`     | Custom the year in the title           | `year: YYYY`                                                         |
-| `month`    | Custom the month in the title          | `year: YYYY` <br> `month: MM`                                        |
-| `date`     | Custom the date in the title           | `year: YYYY` <br> `month: MM` <br> `date: DD` <br> `week: weekIndex` |
-| `range`    | Custom range in the title              | `choose: [startData, endDate]`                                       |
-| `multiple` | Custom multiple selection in the title | `choose: ['YYYY-MM-DD' \| 'YYYY-MM']`                                |
-| `actions`  | Custom the views in the action panel   | `{ confirm, disabled }`                                              |
+### Type imports
 
-### Style variables
+```ts
+import { Date as DateField, DatePicker, type DateProps, type DatePickerProps,
+  type DateEmits, type DatePickerEmits, type DateValue, type DateSelection,
+  type DateChangeArgs, type DateRules, type DateShortcut } from '@maple-design/ui'
+```
 
-The following CSS variables support customization with [StyleProvider](#/en-US/style-provider).
+<!-- date-contract:end -->
 
-| Variable                                        | Default                                       |
-| ----------------------------------------------- | --------------------------------------------- |
-| `--mp-date-picker-border-radius`                | `4px`                                         |
-| `--mp-date-picker-font-size`                    | `var(--mp-font-size-md)`                      |
-| `--mp-date-picker-min-width`                    | `290px`                                       |
-| `--mp-date-picker-main-color`                   | `rgba(0, 0, 0, .87)`                          |
-| `--mp-date-picker-title-hint-color`             | `var(--mp-color-text-3)`                      |
-| `--mp-date-picker-title-hint-font-size`         | `var(--mp-font-size-md)`                      |
-| `--mp-date-picker-title-height`                 | `105px`                                       |
-| `--mp-date-picker-title-padding`                | `16px`                                        |
-| `--mp-date-picker-title-background`             | `var(--mp-date-picker-body-background-color)` |
-| `--mp-date-picker-title-color`                  | `var(--mp-color-text-1)`                      |
-| `--mp-date-picker-title-year-font-size`         | `var(--mp-font-size-md)`                      |
-| `--mp-date-picker-title-year-font-weight`       | `500`                                         |
-| `--mp-date-picker-title-year-margin-bottom`     | `8px`                                         |
-| `--mp-date-picker-title-year-min-height`        | `21px`                                        |
-| `--mp-date-picker-title-date-height`            | `48px`                                        |
-| `--mp-date-picker-title-date-font-size`         | `34px`                                        |
-| `--mp-date-picker-title-date-font-weight`       | `500`                                         |
-| `--mp-date-picker-title-date-range-font-size`   | `20px`                                        |
-| `--mp-date-picker-title-date-justify-content`   | `normal`                                      |
-| `--mp-date-picker-header-arrow-filter`          | `opacity(0.54)`                               |
-| `--mp-date-picker-body-background-color`        | `#fff`                                        |
-| `--mp-date-picker-body-height`                  | `280px`                                       |
-| `--mp-date-picker-body-padding`                 | `0`                                           |
-| `--mp-date-picker-header-padding`               | `4px 16px`                                    |
-| `--mp-date-picker-actions-padding`              | `0 8px 12px 8px`                              |
-| `--mp-date-picker-header-color`                 | `#555`                                        |
-| `--mp-month-picker-padding`                     | `0 12px`                                      |
-| `--mp-month-picker-item-width`                  | `33%`                                         |
-| `--mp-month-picker-item-height`                 | `56px`                                        |
-| `--mp-month-picker-item-button-max-width`       | `140px`                                       |
-| `--mp-year-picker-padding`                      | `0 12px`                                      |
-| `--mp-year-picker-item-width`                   | `33%`                                         |
-| `--mp-year-picker-item-height`                  | `56px`                                        |
-| `--mp-year-picker-item-button-max-width`        | `140px`                                       |
-| `--mp-day-picker-content-item-width`            | `14.28%`                                      |
-| `--mp-day-picker-content-item-min-height`       | `21px`                                        |
-| `--mp-day-picker-content-item-font-size`        | `var(--mp-font-size-sm)`                      |
-| `--mp-day-picker-content-item-padding`          | `2px 0`                                       |
-| `--mp-day-picker-content-item-button-width`     | `32px`                                        |
-| `--mp-day-picker-content-item-button-height`    | `32px`                                        |
-| `--mp-day-picker-content-item-button-font-size` | `var(--mp-font-size-sm)`                      |
-| `--mp-day-picker-head-item-color`               | `rgba(0, 0, 0, 0.38)`                         |
-| `--mp-day-picker-head-item-padding`             | `8px 0`                                       |
-| `--mp-day-picker-head-item-font-weight`         | `600`                                         |
+## CSS Variables
 
-### Placement semantics and configuration
+The following CSS variables support customization with [ThemeProvider](#/en-US/theme-provider).
 
-The Date field prefers bottom-start below its input. Override the preferred side through popupProps.placement only when needed; the underlying Trigger positions it, not Popup or Popover. DatePicker is a standalone date panel with no input anchor; placement in the legacy date/picker directory is not a current public DatePicker prop.
+<!-- component-css-variables:start -->
+
+Use these variables to customize the component. Defaults may vary by the selector condition shown. Each variable applies to the corresponding size, variant and interaction states.
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Default / condition | Affected styles |
+| --- | --- | --- |
+| `--mp-date-calendar-disabled-opacity` | `0.4` | `opacity` |
+| `--mp-date-calendar-line-height` | `60px` | `grid-auto-rows` |
+| `--mp-date-calendar-month-height` | `320px` | `height` |
+| `--mp-date-calendar-row-height` | `38px` | `grid-auto-rows`, `line-height` |
+| `--mp-date-calendar-scroll-height` | `320px` | `height` |
+| `--mp-date-calendar-selected-background` | `var(--mp-sys-color-action-primary)` | `background` |
+| `--mp-date-calendar-selected-color` | `var(--mp-button-solid-text-color)` | `color` |
+| `--mp-date-calendar-today-color` | `var(--mp-button-default-foreground-color)` | `background`, `color` |
+| `--mp-date-input-trigger-outline-color` | `var(--mp-sys-color-content-brand)` | `outline` |
+| `--mp-date-input-trigger-outline-offset` | `var(--mp-sys-space-1)` | `outline-offset` |
+| `--mp-date-input-trigger-outline-width` | `var(--mp-sys-space-1)` | `outline` |
+| `--mp-date-input-trigger-padding` | `0` | `padding` |
+| `--mp-date-picker-actions-padding` | `0 8px 12px 8px` | `padding` |
+| `--mp-date-picker-body-background-color` | `#fff` | `background`, `background-color` |
+| `--mp-date-picker-body-height` | `280px` | `height`, `min-height` |
+| `--mp-date-picker-body-padding` | `0` | `padding` |
+| `--mp-date-picker-border-radius` | `4px` | `border-radius` |
+| `--mp-date-picker-font-size` | `var(--mp-font-size-md)` | `font-size` |
+| `--mp-date-picker-header-arrow-filter` | `opacity(0.54)` | `filter` |
+| `--mp-date-picker-header-color` | `#555` | `color` |
+| `--mp-date-picker-header-padding` | `4px 16px` | `padding` |
+| `--mp-date-picker-main-color` | `rgba(0, 0, 0, 0.87)` | `color` |
+| `--mp-date-picker-min-width` | `290px` | `flex`, `min-width` |
+| `--mp-date-picker-panel-background` | `var(--mp-sys-color-surface-overlay)` | `background` |
+| `--mp-date-picker-panel-border` | `var(--mp-color-border-2)` | `border` |
+| `--mp-date-picker-panel-date-width` | `265px` | `flex`, `min-width`, `width` |
+| `--mp-date-picker-panel-preferred-width` | `var(--mp-date-picker-popover-width)` | `flex`, `width` |
+| `--mp-date-picker-panel-radius` | `8px` | `border-radius` |
+| `--mp-date-picker-popover-gap` | `32px` | `max-height`, `max-width` |
+| `--mp-date-picker-popover-max-height` | `calc(100dvh - var(--mp-date-picker-popover-gap))` | `max-height` |
+| `--mp-date-picker-popover-width` | `calc(var(--mp-date-picker-panel-date-width) + 2px)` | `flex`, `width` |
+| `--mp-date-picker-range-background` | `var(--mp-color-primary-light-1)` | `background` |
+| `--mp-date-picker-range-disabled-background` | `var(--mp-color-fill-1)` | `background` |
+| `--mp-date-picker-range-preview-background` | `var(--mp-color-fill-2)` | `background` |
+| `--mp-date-picker-range-preview-outline` | `1px dashed var(--mp-color-primary)` | `outline` |
+| `--mp-date-picker-shortcuts-column-width` | `128px` | `flex`, `width` |
+| `--mp-date-picker-title-background` | `var(--mp-date-picker-body-background-color)` | `background` |
+| `--mp-date-picker-title-color` | `var(--mp-color-text-1)` | `color` |
+| `--mp-date-picker-title-date-font-size` | `34px` | `font-size` |
+| `--mp-date-picker-title-date-font-weight` | `500` | `font-weight` |
+| `--mp-date-picker-title-date-height` | `48px` | `min-height` |
+| `--mp-date-picker-title-date-justify-content` | `normal` | `justify-content` |
+| `--mp-date-picker-title-date-range-font-size` | `20px` | `font-size` |
+| `--mp-date-picker-title-height` | `105px` | `min-height` |
+| `--mp-date-picker-title-hint-color` | `var(--mp-color-text-3)` | `color` |
+| `--mp-date-picker-title-hint-font-size` | `var(--mp-font-size-md)` | `font-size` |
+| `--mp-date-picker-title-padding` | `16px` | `padding` |
+| `--mp-date-picker-title-year-font-size` | `var(--mp-font-size-md)` | `font-size` |
+| `--mp-date-picker-title-year-font-weight` | `500` | `font-weight` |
+| `--mp-date-picker-title-year-margin-bottom` | `8px` | `margin-bottom` |
+| `--mp-date-picker-title-year-min-height` | `21px` | `min-height` |
+| `--mp-date-picker-wheel-font-size` | `5cqi` | `font-size` |
+| `--mp-date-title-font-size` | `var(--mp-picker-title-font-size, 16px)` | `font-size` |
+| `--mp-date-title-text-color` | `var(--mp-picker-title-text-color, #555)` | `color` |
+| `--mp-date-toolbar-height` | `var(--mp-picker-toolbar-height, 44px)` | `height` |
+| `--mp-date-toolbar-padding` | `var(--mp-picker-toolbar-padding, 0 4px)` | `padding` |
+| `--mp-day-picker-content-item-button-font-size` | `var(--mp-font-size-sm)` | `font-size` |
+| `--mp-day-picker-content-item-button-height` | `32px` | `height` |
+| `--mp-day-picker-content-item-button-width` | `32px` | `width` |
+| `--mp-day-picker-content-item-font-size` | `var(--mp-font-size-sm)` | `font-size` |
+| `--mp-day-picker-content-item-min-height` | `21px` | `min-height` |
+| `--mp-day-picker-content-item-padding` | `2px 0` | `padding` |
+| `--mp-day-picker-content-item-width` | `14.28%` | `width` |
+| `--mp-day-picker-head-item-color` | `rgba(0, 0, 0, 0.38)` | `color` |
+| `--mp-day-picker-head-item-font-weight` | `600` | `font-weight` |
+| `--mp-day-picker-head-item-padding` | `8px 0` | `padding` |
+| `--mp-month-picker-item-button-max-width` | `140px` | `max-width` |
+| `--mp-month-picker-item-height` | `56px` | `height` |
+| `--mp-month-picker-item-width` | `33%` | `width` |
+| `--mp-month-picker-padding` | `0 12px` | `padding` |
+| `--mp-year-picker-item-button-max-width` | `140px` | `max-width` |
+| `--mp-year-picker-item-height` | `56px` | `height` |
+| `--mp-year-picker-item-width` | `33%` | `width` |
+| `--mp-year-picker-padding` | `0 12px` | `padding` |
+
+</div>
+
+Apply overrides to the rendered component root or the actual popup ancestor. For example, add the following class to that element and replace the value as needed:
+
+```css
+.component-theme {
+  --mp-date-calendar-selected-background: var(--mp-sys-color-action-primary);
+}
+```
+
+Explicit inline styles and props that write the same CSS property take precedence over stylesheet defaults. After Teleport, ordinary CSS variables inherit from the actual mount location. When using ThemeProvider, follow its local-theme and popup configuration rules. Override the component variable directly for local styling; root-level aliases are not recalculated merely because a descendant system variable changes. Internal variables are not public APIs.
+
+<!-- component-css-variables:end -->

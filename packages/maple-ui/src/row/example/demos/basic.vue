@@ -1,16 +1,21 @@
 <template>
-  <div>
-    <mp-row :gutter="12"
+  <div class="row-demo">
+    <mp-row
       ><mp-col :span="12"><div class="cell">12</div></mp-col
       ><mp-col :span="12"><div class="cell soft">12</div></mp-col></mp-row
     >
-    <mp-row :gutter="12"
+    <mp-row
       ><mp-col v-for="i in 3" :key="i" :span="8"><div class="cell">8</div></mp-col></mp-row
     >
   </div>
 </template>
 
 <style scoped>
+.row-demo {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
 .controls {
   display: flex;
   flex-wrap: wrap;

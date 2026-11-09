@@ -88,6 +88,8 @@ Navigation uses rendered row bounds when available and updates virtual padding a
 
 ## API
 
+The virtual list covers the viewport first and renders `buffer` items beyond it on each side. `buffer=0` is valid. `estimatedSize` must be finite and positive, including values below 1; invalid values fall back to 30px. `fixedSize` can change dynamically. Variable-height mode uses measured and estimated heights; rows are measured on mount and unmount, not continuously after asynchronous size changes. The `item` slot receives the original index and unknown data; return a single measurable root and provide a stable `itemKey`. To convey the complete collection to assistive technology, provide `aria-setsize` and `aria-posinset` on application rows as appropriate.
+
 ### List Props
 
 | Prop | Description | Type | Default |
@@ -103,60 +105,80 @@ Navigation uses rendered row bounds when available and updates virtual padding a
 
 Virtual lists use a dedicated viewport without nesting a custom scrollbar. virtualListProps.height overrides maxHeight; with neither, height defaults to 200px. Numeric and unit-bearing CSS lengths are accepted. Invalid/nonpositive max-height does not constrain height.
 
-ListVirtualListProps supports height, threshold, fixedSize, estimatedSize, buffer, itemKey and component. Removed isStaticItemHeight is unsupported; List.data supplies data. Counts at or below threshold render all items. Variable heights use measurements and estimatedSize; buffer controls overscan rows.
+ListVirtualListProps supports height, threshold, fixedSize, estimatedSize, buffer, itemKey and component. List.data supplies data. Counts at or below threshold render all items. Variable heights use measurements and estimatedSize; buffer controls overscan rows.
 
 ListScrollbarProps supports type: 'track'|'embed', outerClass, outerStyle, hide, disableHorizontal and disableVertical. JavaScript object fields use camelCase.
 
-### Events / Methods
+### List Events / Methods
 
 - scroll(event: Event): one notification per real scroll event.
 - scrollIntoView({ index?, key?, align }): virtual-list positioning. index overrides key; align is top/bottom/auto. auto does nothing for a fully visible item, otherwise scrolls the minimum distance required. Invalid targets or nonvirtual mode do nothing.
 
-### Slots
+### List Slots
 
 List slots: default (overrides data), item({ item, index }), header, footer, empty. Empty state appears only without a default slot/data and while not loading. ListItem prefix/default/suffix retain list-item semantics without managing buttons/business interactions.
 
-### Types
+## Types
 
 ListProps、ListSize、ListVirtualListProps、ListScrollbarProps、ListExpose、ListSlots、ListEmits、ListInstance、ListItemInstance。
 
 List handles display and an optional virtual viewport. Compose InfiniteScroll status/target behavior for pagination rather than duplicating its loading state machine inside List.
 
-## Style variables
+## CSS Variables
 
-| Token | Default |
-| --- | --- |
-| `--mp-list-background` | `var(--mp-color-bg-1)` |
-| `--mp-list-empty-padding` | `24px 16px` |
-| `--mp-list-empty-color` | `var(--mp-color-text-3)` |
-| `--mp-list-loading-padding` | `16px` |
-| `--mp-list-border-width` | `1px` |
-| `--mp-list-border-color` | `var(--mp-color-border-2)` |
-| `--mp-list-border-radius` | `4px` |
-| `--mp-list-text-color` | `var(--mp-color-text-1)` |
-| `--mp-list-font-size` | `var(--mp-sys-font-size-md)` |
-| `--mp-list-line-height` | `1.5` |
-| `--mp-list-text-color-header` | `var(--mp-color-text-1)` |
-| `--mp-list-font-size-header` | `var(--mp-sys-font-size-md)` |
-| `--mp-list-font-weight-header` | `500` |
-| `--mp-list-line-height-header` | `1.5` |
-| `--mp-list-item-prefix-margin-right` | `12px` |
-| `--mp-list-item-suffix-margin-left` | `12px` |
-| `--mp-list-size-sm-padding-vertical-header` | `12px` |
-| `--mp-list-size-sm-padding-horizontal-header` | `16px` |
-| `--mp-list-size-sm-padding-vertical-footer` | `12px` |
-| `--mp-list-size-sm-padding-horizontal-footer` | `16px` |
-| `--mp-list-size-sm-padding-vertical-item` | `8px` |
-| `--mp-list-size-sm-padding-horizontal-item` | `12px` |
-| `--mp-list-size-md-padding-vertical-header` | `12px` |
-| `--mp-list-size-md-padding-horizontal-header` | `16px` |
-| `--mp-list-size-md-padding-vertical-footer` | `12px` |
-| `--mp-list-size-md-padding-horizontal-footer` | `16px` |
-| `--mp-list-size-md-padding-vertical-item` | `12px` |
-| `--mp-list-size-md-padding-horizontal-item` | `16px` |
-| `--mp-list-size-lg-padding-vertical-header` | `12px` |
-| `--mp-list-size-lg-padding-horizontal-header` | `16px` |
-| `--mp-list-size-lg-padding-vertical-footer` | `12px` |
-| `--mp-list-size-lg-padding-horizontal-footer` | `16px` |
-| `--mp-list-size-lg-padding-vertical-item` | `16px` |
-| `--mp-list-size-lg-padding-horizontal-item` | `20px` |
+<!-- component-css-variables:start -->
+
+Use these variables to customize the component. Defaults may vary by the selector condition shown. Each variable applies to the corresponding size, variant and interaction states.
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Default / condition | Affected styles |
+| --- | --- | --- |
+| `--mp-list-background` | `var(--mp-color-bg-1)` | `background` |
+| `--mp-list-border-color` | `var(--mp-color-border-2)` | `border`, `border-bottom`, `border-top` |
+| `--mp-list-border-radius` | `4px` | `border-radius` |
+| `--mp-list-border-width` | `1px` | `border`, `border-bottom`, `border-top` |
+| `--mp-list-empty-color` | `var(--mp-color-text-3)` | `color` |
+| `--mp-list-empty-padding` | `24px 16px` | `padding` |
+| `--mp-list-font-size` | `var(--mp-sys-font-size-md)` | `font-size` |
+| `--mp-list-font-size-header` | `var(--mp-sys-font-size-md)` | `font-size` |
+| `--mp-list-font-weight-header` | `500` | `font-weight` |
+| `--mp-list-item-prefix-margin-right` | `12px` | `margin-inline-end` |
+| `--mp-list-item-suffix-margin-left` | `12px` | `margin-inline-start` |
+| `--mp-list-line-height` | `1.5` | `line-height` |
+| `--mp-list-line-height-header` | `1.5` | `line-height` |
+| `--mp-list-loading-padding` | `16px` | `padding` |
+| `--mp-list-size-lg-padding-horizontal-footer` | `16px` | `padding` |
+| `--mp-list-size-lg-padding-horizontal-header` | `16px` | `padding` |
+| `--mp-list-size-lg-padding-horizontal-item` | `20px` | `padding` |
+| `--mp-list-size-lg-padding-vertical-footer` | `12px` | `padding` |
+| `--mp-list-size-lg-padding-vertical-header` | `12px` | `padding` |
+| `--mp-list-size-lg-padding-vertical-item` | `16px` | `padding` |
+| `--mp-list-size-md-padding-horizontal-footer` | `16px` | `padding` |
+| `--mp-list-size-md-padding-horizontal-header` | `16px` | `padding` |
+| `--mp-list-size-md-padding-horizontal-item` | `16px` | `padding` |
+| `--mp-list-size-md-padding-vertical-footer` | `12px` | `padding` |
+| `--mp-list-size-md-padding-vertical-header` | `12px` | `padding` |
+| `--mp-list-size-md-padding-vertical-item` | `12px` | `padding` |
+| `--mp-list-size-sm-padding-horizontal-footer` | `16px` | `padding` |
+| `--mp-list-size-sm-padding-horizontal-header` | `16px` | `padding` |
+| `--mp-list-size-sm-padding-horizontal-item` | `12px` | `padding` |
+| `--mp-list-size-sm-padding-vertical-footer` | `12px` | `padding` |
+| `--mp-list-size-sm-padding-vertical-header` | `12px` | `padding` |
+| `--mp-list-size-sm-padding-vertical-item` | `8px` | `padding` |
+| `--mp-list-text-color` | `var(--mp-color-text-1)` | `color` |
+| `--mp-list-text-color-header` | `var(--mp-color-text-1)` | `color` |
+
+</div>
+
+Apply overrides to the rendered component root or the actual popup ancestor. For example, add the following class to that element and replace the value as needed:
+
+```css
+.component-theme {
+  --mp-list-background: var(--mp-color-bg-1);
+}
+```
+
+Explicit inline styles and props that write the same CSS property take precedence over stylesheet defaults. After Teleport, ordinary CSS variables inherit from the actual mount location. When using ThemeProvider, follow its local-theme and popup configuration rules. Override the component variable directly for local styling; root-level aliases are not recalculated merely because a descendant system variable changes. Internal variables are not public APIs.
+
+<!-- component-css-variables:end -->

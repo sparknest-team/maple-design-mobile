@@ -2,6 +2,7 @@
   <component
     :is="component"
     v-show="isValid"
+    :id="optionId"
     ref="itemRef"
     :class="[cls, { [`${prefixCls}-has-suffix`]: Boolean($slots.suffix) }]"
     role="option"
@@ -25,7 +26,6 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from 'vue'
 import {
   computed,
   defineComponent,
@@ -41,9 +41,9 @@ import {
 } from 'vue'
 import { IconCheck } from '@maple-design/icons-vue'
 import { isEqual } from '../_utils/is-equal'
-import type { TagProps } from '../tag'
 import { createNamespace, getPrefixCls } from '../utils/components'
 import { selectInjectionKey } from './context'
+import { optionProps } from './props'
 import { getKeyFromValue, isValidOption } from './utils'
 
 const { name, n, classes } = createNamespace('option')
@@ -52,49 +52,7 @@ export default defineComponent({
   components: {
     IconCheck,
   },
-  props: {
-    /**
-     * @zh 选项值（如不填，会从内容中获取）
-     * @en Option value (if not filled, it will be obtained from the content)
-     */
-    value: {
-      type: [String, Number, Boolean, Object],
-      default: undefined,
-    },
-    /**
-     * @zh 选项标签（如不填，会从内容中获取）
-     * @en Option label (if not filled, it will be obtained from the content)
-     */
-    label: String,
-    /**
-     * @zh 是否禁用
-     * @en Whether to disable
-     */
-    disabled: Boolean,
-    /**
-     * @zh 展示的标签属性
-     * @en Displayed tag attributes
-     */
-    tagProps: {
-      type: Object as PropType<TagProps>,
-    },
-    /**
-     * @zh 额外数据。2.18.0 版本废弃，可使用对象形式的 value 扩展数据
-     * @en Extra data
-     */
-    extra: {
-      type: Object,
-    },
-    /**
-     * @zh 用于手动指定选项的 index
-     * @en index for manually specifying option
-     */
-    index: {
-      type: Number,
-    },
-    // private
-    internal: Boolean,
-  },
+  props: { ...optionProps, internal: Boolean },
   setup(props) {
     const { disabled, tagProps: _tagProps, index } = toRefs(props)
     const prefixCls = getPrefixCls('select-option')
@@ -129,6 +87,9 @@ export default defineComponent({
     onUpdated(() => setTextContent())
 
     const isSelected = computed(() => selectCtx?.valueKeys.includes(key.value) ?? false)
+    const optionId = computed(() =>
+      props.internal || selectCtx?.component !== 'div' ? selectCtx?.getOptionId?.(key.value) : undefined,
+    )
     const isActive = computed(() => selectCtx?.activeKey === key.value)
 
     const optionInfo = reactive({
@@ -200,6 +161,7 @@ export default defineComponent({
     ])
 
     return {
+      optionId,
       prefixCls,
       cls,
       selectCtx,

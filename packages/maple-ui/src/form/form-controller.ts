@@ -39,6 +39,7 @@ export function createFormController<Error extends FormFieldError = FormFieldErr
       return () => undefined
     }
     fields.push(field)
+    validationRun += 1
 
     let registered = true
     return () => {
@@ -49,6 +50,7 @@ export function createFormController<Error extends FormFieldError = FormFieldErr
       const index = fields.indexOf(field)
       if (index >= 0) {
         fields.splice(index, 1)
+        validationRun += 1
       }
     }
   }

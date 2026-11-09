@@ -37,6 +37,7 @@ export const useSelect = ({
   onOpenChange,
   enterToOpen = true,
   defaultActiveFirstOption,
+  getOptionId,
 }: {
   multiple?: Ref<boolean>
   options?: Ref<SelectOption[]>
@@ -57,6 +58,7 @@ export const useSelect = ({
   onSelect: (key: string, ev: Event) => void
   onOpenChange: (open: boolean) => void
   enterToOpen?: boolean
+  getOptionId?: (key: string) => string
   defaultActiveFirstOption?: Ref<boolean>
 }) => {
   const mergedFieldNames = computed(() => ({
@@ -289,6 +291,7 @@ export const useSelect = ({
       component,
       valueKeys,
       activeKey,
+      getOptionId,
       setActiveKey,
       onSelect: (key: string, event: Event) => {
         if (available() && open.value) {

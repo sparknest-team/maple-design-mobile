@@ -6,6 +6,12 @@
 
 继承来源 dir；子列沿阅读方向展开，展开图标及列分隔线随方向变化。左右键按可见方向进入已加载子级或返回父级，并跳过禁用子项；上下键保持逻辑顺序。搜索状态保留原生左右光标编辑，不反转路径或多选数组。关闭状态清空最后值后，重开从根级恢复导航。
 
+`empty-value` 指定当前组件已有清空动作的输出；省略时采用该组件默认返回。具体类型以组件 API 为准。它不改变 empty-values 的识别规则，也不改变 Form reset 的初始值。
+
+`empty-value` 可显式设为 `null`（或 `() => null`），清空时原样提交 null；省略时保留组件原默认值。界面把 null 显示为空，不会把普通输入的空字符串自动转成 null。支持弹出编辑的字段中，清空先修改草稿，确认后提交，取消则保留原值。
+
+候选属性 `options` 支持数组或 `(query, { signal }) => 数组/Promise`。加载、取消、过期结果隔离由组件内部处理，失败触发 load-error。单选/多选分组初始化以空字符串查询，搜索型字段在查询变化时调用；树形字段根数据与原有 load-more 子节点懒加载独立。
+
 ## 基础示例
 
 ### 请选择地区
@@ -180,7 +186,7 @@ inline 即选即提交；popup、dialog 单选和多选都编辑草稿，外层�
 
 建议使用 `CascaderTriggerOptions` 声明 trigger-props。open/defaultOpen、disabled 和展开更新归 Cascader 管理。popup-container 顶层明确传入时优先（包括 false），否则回退 triggerProps.popupContainer。Trigger 的普通配置保留原顺序，嵌套 unmountOnClose 仍可覆盖顶层 unmount-on-close；默认的定位/交互配置也仍可被有效嵌套字段覆盖。内部展开监听继续执行，通知使用 Cascader 事件。
 
-本次仅新增可主动选用的专用类型，不收窄已发布的宽属性类型，不增加运行时过滤、不改变覆盖顺序；旧业务写法继续可编译。若直接使用旧宽属性，内部托管字段仍可能通过类型检查，但不代表能控制内部状态。
+建议使用本页列出的专用配置类型；展开状态、模型和事件由组件管理，不能通过嵌套配置接管。
 
 ```ts
 import type { CascaderTriggerOptions } from '@maple-design/ui'
@@ -199,6 +205,12 @@ import type { CascaderTriggerOptions } from '@maple-design/ui'
 ```
 
 ## 异步加载与回显
+
+### 回调懒加载
+
+```demo
+../example/demos/load-more.vue
+```
 
 ### 异步设备与 ID 回显
 
@@ -231,7 +243,47 @@ import type { CascaderTriggerOptions } from '@maple-design/ui'
 
 `loading` 控制共享字段加载状态；`loading-mode` 为 `default`（指示器）或 `line`（底部不定进度线），默认 `default`。渲染统一由 FieldDecorator 负责，不隐式改变 disabled/readonly；需要禁止编辑时单独设置。
 
+### 懒加载结束与异常
+
+字段和独立 Panel 的 `loadMore(option, done)` 均保留回调协议：`done(children)` 接收子项，`done()` 结束等待并允许重试。只接受首次回调；返回值（包括已完成的 Promise）不替代 `done`。加载函数同步抛错时结束等待，并进入 Vue 的 `errorCaptured` / 应用 `errorHandler`。`load-error` 仍仅报告 `options` 候选数据源错误，不重复报告 `loadMore` 异常。业务中的异步请求失败需自行处理并调用 `done()`。
+
+替换选项（包括嵌套原地修改）、字段映射或加载函数会使旧请求和懒加载缓存失效。卸载、停用会取消待处理回调；旧结果不能写入替换后的节点或清除新请求的等待。
+
+## 使用说明
+
+### 编辑方式
+通过 `edit-mode` 选择直接编辑或移动端编辑面板。
+
+### 编辑与确认
+本组件支持 `edit-mode`，字段 > FormItem > Form 逐层继承；未指定时为 `popup`，点击值区域打开编辑面板。支持值：`direct / popup`。非 direct 编辑模式通过字段值入口打开编辑面板，并维护单份草稿；确认后才更新 v-model，取消、重置或启用 readPretty 时丢弃草稿。
+
+Maple 使用 edit-mode="popup" 点击值区域打开编辑面板；direct 直接编辑。 readPretty 为纯阅读属性，与 readonly、disabled 独立。
+
+`before-commit({ value, previousValue }, done, { signal })` 可拦截弹层保存；FormItem 先校验候选值，失败保持编辑。`open / default-open / update:open` 控制编辑层。`#read="{ value, text }"` 可自定义阅读内容。集中示例见 Form 的“各类字段统一展示”。
+
+字段编辑统一使用 edit-mode：Cedar 支持 direct/click/dblclick，Maple 支持 direct/popup；不保留 menu/list/picker 这些旧编辑枚举。弹层复用原选项索引、搜索、异步加载与虚拟列表算法。
+
+`read-pretty` 为独立布尔属性，与 `readonly`、`disabled` 同级；字段 > FormItem > Form 继承，显式 `false` 覆盖父级。默认 `false`。纯阅读不显示编辑器。
+
+### 搜索字段
+`searchFields` / `search-fields` 是只读 `('label' | 'value')[]`，默认 `['label']`；多字段为 OR 匹配，大小写默认不敏感。配置 `['value', 'label']` 可同时搜索编码和名称，fieldNames 将语义字段映射到业务字段；空数组对非空查询不匹配任何项。value 采用字符串比较，不做对象深层搜索，对象值或拼音等复杂规则仍用自定义回调。自定义回调优先并自行决定大小写；远程结果使用原有关闭本地过滤协议。Cascader 保留路径语义，会检查路径各节点的配置字段。
+
+公共 focus/blur 从首次挂载即可调用。focus 会打开可编辑的延迟编辑器，等待其就绪后定位；禁用、只读或纯阅读时不因此打开。blur 只失焦当前目标，不重新打开。保存的方法不会绑定旧编辑器，关闭、切换模式、停用或卸载会取消排队调用。
+
+refresh 可在编辑器未打开时重试组件自有的异步选项读取，沿用既有 AbortSignal、loading 和 load-error 协议，不自动打开编辑器；静态数组不产生额外请求。
+
+### 加载期间的选择动作
+手动 loading 或当前候选请求处于加载状态时，纯选择字段保留已有值，暂停新选择、清空与标签移除。被阻止的动作不发送业务通知，也不提交模型。字段搜索仍可输入，disabled/readonly 不因此改写；需要禁止搜索时单独设置。
+
+延迟编辑层的清空和确认在此期间不可用，仍可取消或关闭。手动标记和当前请求都结束后，操作按正常规则恢复，并继续尊重禁用选项。Input、AutoComplete 等自由文本字段的 loading 继续允许文本编辑与清空，不套用选择值的暂停规则。
+
+option({ data }) 接收规范化 CascaderOptionInfo，data.raw 是原始选项，data.path 是根到当前的规范化路径；label({ data }) 接收字段展示项 key/value/label/closable/tagProps。arrow-icon({ focus, menuOpen }) 接收真实字段的聚焦和展开状态。read({ value, text }) 的 value 保留 null/undefined 及原模型形状。
+
+公开类型包含 CascaderBaseValue、CascaderOptionInfo、CascaderReadScope、CascaderEmits、CascaderSlots、CascaderExpose，可从根入口及 cascader 子入口导入。纯 CascaderPanel 只接收选项数组，不接管根候选加载函数。
+
 ## API
+
+面板分支的 `aria-expanded` 表示其子列是否实际显示；聚焦或悬停尚未打开子列时不会标记为已展开。叶节点没有 `aria-expanded`。 搜索结果不会声明其未显示的子菜单。
 
 ### 空值识别与阅读空文案
 
@@ -244,58 +296,64 @@ import type { CascaderTriggerOptions } from '@maple-design/ui'
 
 以上是字段展示层 API；纯面板不因此新增阅读模式。Form 与 FormItem 提供继承配置。empty-value 的现有类型与默认输出仍按该组件原 API 执行。
 
-### Cascader 属性
+### Cascader Props
 
 分别使用 `v-model`、`v-model:open` 和 `v-model:input-value` 控制选中值、展开状态和搜索词。单选清空为 `''`，多选为 `[]`；Select 存在真实空字符串选项时，清空值为 `undefined`。
 
-| 属性                                    | 说明                                                                                                             | 类型                                                          | 默认值                   |
+| 属性 | 说明 | 类型 | 默认值 |
 | --------------------------------------- | ---------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------ |
-| `model-value / default-value`           | 受控值 / 非受控初始值                                                                                            | `Value`                                                       | `单选 ''，多选 []`       |
-| `open / default-open`                   | 受控展开 / 默认展开                                                                                              | `boolean`                                                     | `undefined / false`      |
-| `open-trigger-target`                   | 打开面板的点击区域：field 为整个字段，icon 仅右侧选择按钮。清除、移除等独立操作除外；不影响键盘展开和受控 open。 | `'field' \| 'icon'`                                           | `'field'`                |
-| `input-value / default-input-value`     | 搜索文本，独立于选中值                                                                                           | `string`                                                      | `undefined / ''`         |
-| `multiple`                              | 多选；默认启用搜索                                                                                               | `boolean`                                                     | `false`                  |
-| `size`                                  | 完整支持 xs、sm、md、lg、xl，未设置时继承分组与表单                                                              | `ComponentSize`                                               | `md`                     |
-| `variant`                               | filled、outline、standard；未设置时继承 InputGroup                                                               | `FormControlVariant`                                          | `filled`                 |
-| `disabled / readonly / error`           | 未设置时继承表单；显式 false 可覆盖                                                                              | `boolean`                                                     | `undefined`              |
-| `placeholder`                           | 占位文本                                                                                                         | `string`                                                      | `—`                      |
-| `hint / line`                           | 浮动提示 / standard 变体下划线                                                                                   | `boolean`                                                     | `true`                   |
-| `text-color / focus-color / blur-color` | 字段颜色                                                                                                         | `string`                                                      | `—`                      |
-| `loading`                               | 加载状态；禁止选择和确认                                                                                         | `boolean`                                                     | `false`                  |
-| `show-tags`                             | 多选值以标签展示；false 改用分隔文本                                                                             | `boolean`                                                     | `true`                   |
-| `separator`                             | show-tags=false 时的多选分隔符                                                                                   | `string`                                                      | `,`                      |
-| `text-align`                            | 文字对齐 left / center / right；未设置时继承 FormItem 的 content-align，独立使用默认阅读起点 start                        | `'left' \| 'center' \| 'right'`                               | `-`                      |
-| `max-tag-count`                         | 标签数量上限，0 不限制                                                                                           | `number`                                                      | `0`                      |
-| `tag-nowrap`                            | 标签单行显示；长文字省略、删除图标保留，标签行可横向滚动；悬停、聚焦或点按省略正文查看全文                       | `boolean`                                                     | `false`                  |
-| `popup-container`                       | 选择器、元素、返回元素的函数或 false（原地渲染）                                                                 | `PopupContainer`                                              | `—`                      |
-| `trigger-props`                         | Menu 的 Trigger 属性；展开状态由字段控制                                                                         | `TriggerProps`                                                | `—`                      |
-| `virtual-list-props`                    | Menu / List 的虚拟列表参数                                                                                       | `VirtualListProps`                                            | `—`                      |
-| `search-delay`                          | search 事件防抖时长（毫秒）                                                                                      | `number`                                                      | `500`                    |
-| `format-label`                          | 格式化已选标签；VNode 使用 label 插槽                                                                            | `function`                                                    | `—`                      |
-| `clearable`                             | 允许清除，保留禁用的已选项                                                                                       | `boolean`                                                     | `false`                  |
-| `options`                               | 树形选项；叶值模式要求叶值唯一，路径模式可区分不同分支                                                           | `CascaderOption[]` / `(query, { signal }) => Array / Promise` | `undefined`              |
-| `field-names`                           | value、label、disabled、children、isLeaf、tagProps、render 的字段映射                                            | `CascaderFieldNames`                                          | `—`                      |
-| `path-mode`                             | true 返回完整路径；false 返回选中节点的值                                                                        | `boolean`                                                     | `false`                  |
-| `check-strictly`                        | 允许选中父节点；多选不关联父子节点                                                                               | `boolean`                                                     | `false`                  |
-| `filterable`                            | 开启搜索                                                                                                         | `boolean`                                                     | `单选 false / 多选 true` |
-| case-sensitive                          | 内置本地过滤是否区分大小写，自定义过滤函数优先                                                                   | boolean                                                       | false                    |
-| `filter-option`                         | 接收搜索词和原始节点                                                                                             | `(input, option) => boolean`                                  | `—`                      |
-| `expand-trigger`                        | Menu / List 的展开交互：click 或 hover                                                                           | `string`                                                      | `click`                  |
-| `expand-child`                          | 展开到首个子节点                                                                                                 | `boolean`                                                     | `false`                  |
-| `load-more`                             | 异步加载子节点；完成后调用 done(children)，失败调用 done() 以允许重试                                            | `(option, done) => void`                                      | `—`                      |
-| `fallback-option`                       | 尚未加载的值如何反显                                                                                             | `boolean 或 (value) => string`                                | `true`                   |
-| `search-option-only-label`              | 搜索结果仅显示节点标签，不显示路径                                                                               | `boolean`                                                     | `false`                  |
-| `auto-fit-popup-width`                  | Menu 是否与字段等宽                                                                                              | `boolean`                                                     | `false`                  |
-| `edit-mode`                             | 字段展示；未指定时继承 FormItem / Form                                                                           | `direct / popup`                                              | `popup`                  |
-| `popup-props`                           | 弹层外观；展开状态、底部位置和挂载时机由扩展接管                                                                 | `PopupProps`                                                  | `{}`                     |
+| `model-value / default-value` | 受控值 / 非受控初始值 | `CascaderBaseValue` | `单选 ''，多选 []` |
+| `open / default-open` | 受控展开 / 默认展开 | `boolean` | `undefined / false` |
+| `open-trigger-target` | 打开面板的点击区域：field 为整个字段，icon 仅右侧选择按钮。清除、移除等独立操作除外；不影响键盘展开和受控 open。 | `'field' \| 'icon'` | `'field'` |
+| `input-value / default-input-value` | 搜索文本，独立于选中值 | `string` | `undefined / ''` |
+| `multiple` | 多选；默认启用搜索 | `boolean` | `false` |
+| `size` | 完整支持 xs、sm、md、lg、xl，未设置时继承分组与表单 | `ComponentSize`<br>`'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `md` |
+| `variant` | filled、outline、standard；未设置时继承 InputGroup | `FieldDecoratorVariant`<br>`'filled' \| 'outline' \| 'standard'` | `filled` |
+| `disabled / readonly / error` | 未设置时继承表单；显式 false 可覆盖 | `boolean` | `undefined` |
+| `placeholder` | 占位文本 | `string` | `—` |
+| `hint / line` | 浮动提示 / standard 变体下划线 | `boolean` | `true` |
+| `text-color / focus-color / blur-color` | 字段颜色 | `string` | `—` |
+| `loading` | 加载时暂停选择、清空、标签移除与确认；保留已有值，搜索和关闭仍可用。 | `boolean` | `false` |
+| `loading-mode` | 字段加载展示：默认指示器或底部不定进度线。 | `default / line` | `default` |
+| `search-fields` | 内置路径搜索字段，默认 label；自定义过滤回调优先。 | `readonly OptionSearchField[]`<br>`OptionSearchField: 'label' \| 'value'` | `['label']` |
+| `read-pretty` | 统一纯阅读状态，省略时继承 FormItem / Form；独立于只读和禁用。 | `boolean` | `undefined` |
+| `empty-value` | 清空输出覆盖，不改变空值识别策略。 | `CascaderProps['emptyValue']` | `undefined` |
+| `before-commit` | 确认前调用 ({ value, previousValue }, done, { signal })；布尔、Promise 或 done 完成，同步 undefined 等待 done。 | `BeforeFieldCommit` | `undefined` |
+| `show-tags` | 多选值以标签展示；false 改用分隔文本 | `boolean` | `true` |
+| `separator` | show-tags=false 时的多选分隔符 | `string` | `,` |
+| `text-align` | 文字对齐 left / center / right；未设置时继承 FormItem 的 content-align，独立使用默认阅读起点 start | `'left' \| 'center' \| 'right'` | `-` |
+| `max-tag-count` | 有限非负整数；0 不限制标签展示数量。 | `number` | `0` |
+| `tag-nowrap` | 标签单行显示；长文字省略、删除图标保留，标签行可横向滚动；悬停、聚焦或点按省略正文查看全文 | `boolean` | `false` |
+| `popup-container` | 选择器、元素、返回元素的函数或 false（原地渲染） | `PopupContainer` | `—` |
+| `trigger-props` | Menu 的 Trigger 属性；展开状态由字段控制 | `TriggerProps` | `—` |
+| `virtual-list-props` | Menu / List 的虚拟列表参数 | `VirtualListProps` | `—` |
+| `search-delay` | 有限非负搜索防抖毫秒数。 | `number` | `500` |
+| `format-label` | 格式化已选标签；VNode 使用 label 插槽 | `function` | `—` |
+| `clearable` | 允许清除，保留禁用的已选项 | `boolean` | `false` |
+| `options` | 树形选项；叶值模式要求叶值唯一，路径模式可区分不同分支 | `CascaderOption[]` / `(query, { signal }) => Array / Promise` | `undefined` |
+| `field-names` | value、label、disabled、children、isLeaf、tagProps、render 的字段映射 | `CascaderFieldNames` | `—` |
+| `path-mode` | true 返回完整路径；false 返回选中节点的值 | `boolean` | `false` |
+| `check-strictly` | 允许选中父节点；多选不关联父子节点 | `boolean` | `false` |
+| `filterable` | 开启搜索 | `boolean` | `单选 false / 多选 true` |
+| case-sensitive | 内置本地过滤是否区分大小写，自定义过滤函数优先 | boolean | false |
+| `filter-option` | 接收搜索词和原始节点 | `(input, option) => boolean` | `—` |
+| `expand-trigger` | Menu / List 的展开交互：click 或 hover | `string` | `click` |
+| `expand-child` | 展开到首个子节点 | `boolean` | `false` |
+| `load-more` | 异步加载子节点；完成后调用 done(children)，失败调用 done() 以允许重试 | `(option, done) => void` | `—` |
+| `fallback-option` | 尚未加载的值如何反显 | `boolean 或 (value) => string` | `true` |
+| `search-option-only-label` | 搜索结果仅显示节点标签，不显示路径 | `boolean` | `false` |
+| `auto-fit-popup-width` | Menu 是否与字段等宽 | `boolean` | `false` |
+| `edit-mode` | 字段展示；未指定时继承 FormItem / Form | `direct / popup` | `popup` |
+| `popup-props` | 弹层外观；展开状态、底部位置和挂载时机由扩展接管 | `PopupProps` | `{}` |
 
-### 事件与方法
+### Cascader Events / Methods
 
 - `update:modelValue`、`change(value)`：提交时触发，编辑草稿不触发。
 - `update:open`、`open-change(open)`：请求改变展开状态。
 - `update:inputValue`、`input-value-change(text)`、`search(text)`：搜索状态。
 - `focus(event)`、`blur(event)`、`clear(event)`：原生字段事件；只有字段所有者通知 Form。
-- 方法：`focus()`、`blur()`。
+- `load-error(error)`：当前 options 候选源失败通知，不收集监听器 Promise。
+- 方法：`focus()`、`blur()`、`refresh(): Promise<void>`；refresh 不自动打开编辑器。
 
 ### 插槽与选项数据
 
@@ -303,80 +361,30 @@ import type { CascaderTriggerOptions } from '@maple-design/ui'
 
 选项 `label` 是用于搜索的纯文本；自定义选项内容使用 `render` 或 `option` 插槽，自定义反显使用 `format-label` 或 `label` 插槽。以 value 而非 label 识别选项。选项的 `disabled` 禁止选择和删除，`tagProps` 可定制已选标签。
 
-### CSS 变量
-
-| Token                                           | Default                                 |
-| ----------------------------------------------- | --------------------------------------- |
-| `--mp-cascader-popup-max-height`                | `200px`                                 |
-| `--mp-cascader-popup-border-radius`             | `var(--mp-sys-radius-md)`               |
-| `--mp-cascader-popup-padding-vertical`          | `var(--mp-sys-space-2)`                 |
-| `--mp-cascader-popup-color-border`              | `var(--mp-color-fill-3)`                |
-| `--mp-cascader-popup-box-shadow`                | `0 4px 10px rgb(0 0 0 / 10%)`           |
-| `--mp-cascader-size-item-height`                | `36px`                                  |
-| `--mp-cascader-font-item-size`                  | `var(--mp-sys-font-size-md)`            |
-| `--mp-cascader-margin-item-icon-left`           | `var(--mp-sys-space-5)`                 |
-| `--mp-cascader-item-text-color`                 | `var(--mp-sys-color-content-primary)`   |
-| `--mp-cascader-item-icon-color`                 | `var(--mp-sys-color-content-secondary)` |
-| `--mp-cascader-padding-item-left`               | `var(--mp-sys-space-5)`                 |
-| `--mp-cascader-padding-item-right`              | `var(--mp-sys-space-5)`                 |
-| `--mp-cascader-size-item-icon`                  | `12px`                                  |
-| `--mp-cascader-item-text-color-hover`           | `var(--mp-cascader-item-text-color)`    |
-| `--mp-cascader-item-text-color-active`          | `var(--mp-cascader-item-text-color)`    |
-| `--mp-cascader-item-text-color-disabled`        | `var(--mp-sys-color-content-disabled)`  |
-| `--mp-cascader-item-text-color-disabled-active` | `var(--mp-sys-color-content-disabled)`  |
-| `--mp-cascader-item-bg-active`                  | `var(--mp-color-fill-2)`                |
-| `--mp-cascader-item-bg-hover`                   | `var(--mp-cascader-item-bg-active)`     |
-| `--mp-cascader-item-bg-disabled`                | `transparent`                           |
-| `--mp-cascader-item-bg-disabled-active`         | `var(--mp-color-fill-2)`                |
-| `--mp-cascader-checkbox-bg-hover`               | `var(--mp-color-fill-3)`                |
-| `--mp-cascader-margin-checkbox-right`           | `var(--mp-sys-space-4)`                 |
-| `--mp-cascader-panel-column-min-width`          | `120px`                                 |
-| `--mp-cascader-panel-column-max-height`         | `200px`                                 |
-| `--mp-cascader-option-min-width`                | `100px`                                 |
-| `--mp-cascader-slide-margin`                    | `120px`                                 |
-
-### CascaderPanel
-
 也可以独立使用 `CascaderPanel`（`mp-cascader-panel`），或 `Cascader.CascaderPanel`。这是无输入框、无弹层的 Menu 面板；支持 options、modelValue/defaultValue、multiple、pathMode、checkStrictly、fieldNames、loadMore、disabled、expandTrigger 和 expandChild。事件为 update:modelValue、change；empty 插槽自定义空状态。
 
-### 字段与移动展示的样式边界
+### CascaderPanel Props
 
-字段外壳与菜单 Token 保持两端同源；popup / dialog 的容器和工具栏统一复用内部 FieldEditMode。
-
-### Form 字段展示与确认
-
-本组件支持 `edit-mode`，字段 > FormItem > Form 逐层继承；未指定时为 `popup`，点击值区域打开编辑面板。支持值：`direct / popup`。非 direct 编辑模式通过字段值入口打开编辑面板，并维护单份草稿；确认后才更新 v-model，取消、重置或启用 readPretty 时丢弃草稿。
-
-Maple 使用 edit-mode="popup" 点击值区域打开编辑面板；direct 直接编辑。 readPretty 为纯阅读属性，与 readonly、disabled 独立。
-
-`before-commit(value, { previousValue, signal })` 可拦截弹层保存；FormItem 先校验候选值，失败保持编辑。`open / default-open / update:open` 控制编辑层。`#read="{ value, text }"` 可自定义阅读内容。集中示例见 Form 的“各类字段统一展示”。
-
-字段编辑统一使用 edit-mode：Cedar 支持 direct/click/dblclick，Maple 支持 direct/popup；不保留 menu/list/picker 这些旧编辑枚举。弹层复用原选项索引、搜索、异步加载与虚拟列表算法。
-
-`read-pretty` 为独立布尔属性，与 `readonly`、`disabled` 同级；字段 > FormItem > Form 继承，显式 `false` 覆盖父级。默认 `false`。纯阅读不显示编辑器。
-
-### `<CascaderPanel>` Props
-
-| 参数名                    | 描述                                                                              | 类型                                                                                                                                                               |         默认值          |
+| 参数名 | 描述 | 类型 | 默认值 |
 | ------------------------- | --------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :---------------------: |
-| path-mode                 | 绑定值是否为路径                                                                  | `boolean`                                                                                                                                                          |         `false`         |
-| multiple                  | 是否为多选状态（多选模式默认开启搜索）                                            | `boolean`                                                                                                                                                          |         `false`         |
-| model-value **(v-model)** | 绑定值                                                                            | `string\| number\| Record<string, any>\| (    \| string    \| number    \| Record<string, any>    \| (string \| number \| Record<string, any>)[]  )[]\| undefined` |           `-`           |
-| default-value             | 默认值（非受控状态）                                                              | `string\| number\| Record<string, any>\| (    \| string    \| number    \| Record<string, any>    \| (string \| number \| Record<string, any>)[]  )[]\| undefined` | `'' \| undefined \| []` |
-| options                   | 级联选择器的选项                                                                  | `CascaderOption[]` / `(query, { signal }) => Array / Promise`                                                                                                      |       `undefined`       |
-| expand-trigger            | 展开下一级的触发方式                                                              | `string`                                                                                                                                                           |        `'click'`        |
-| check-strictly            | 是否开启严格选择模式                                                              | `boolean`                                                                                                                                                          |         `false`         |
-| load-more                 | 数据懒加载函数，传入时开启懒加载功能                                              | `(  option: CascaderOption,  done: (children?: CascaderOption[]) => void) => void`                                                                                 |           `-`           |
-| field-names               | 自定义 `CascaderOption` 中的字段；当选项值为对象时，也用其中的 `value` 作为键属性 | `CascaderFieldNames`                                                                                                                                               |           `-`           |
-| expand-child              | 是否展开子菜单                                                                    | `boolean`                                                                                                                                                          |         `false`         |
+| path-mode | 绑定值是否为路径 | `boolean` | `false` |
+| multiple | 是否为多选状态（多选模式默认开启搜索） | `boolean` | `false` |
+| model-value **(v-model)** | 绑定值 | `string\| number\| Record<string, any>\| (    \| string    \| number    \| Record<string, any>    \| (string \| number \| Record<string, any>)[]  )[]\| undefined` | `-` |
+| default-value | 默认值（非受控状态） | `string\| number\| Record<string, any>\| (    \| string    \| number    \| Record<string, any>    \| (string \| number \| Record<string, any>)[]  )[]\| undefined` | `'' \| undefined \| []` |
+| options | 级联选择器的选项 | `CascaderOption[]` | `[]` |
+| expand-trigger | 展开下一级的触发方式 | `string` | `'click'` |
+| check-strictly | 是否开启严格选择模式 | `boolean` | `false` |
+| load-more | 数据懒加载函数，传入时开启懒加载功能 | `(  option: CascaderOption,  done: (children?: CascaderOption[]) => void) => void` | `-` |
+| field-names | 自定义 `CascaderOption` 中的字段；当选项值为对象时，也用其中的 `value` 作为键属性 | `CascaderFieldNames` | `-` |
+| expand-child | 是否展开子菜单 | `boolean` | `false` |
 
-### `<CascaderPanel>` Events
+### CascaderPanel Events
 
 | 事件名 | 描述             | 参数                                                                                   |
 | ------ | ---------------- | -------------------------------------------------------------------------------------- |
 | change | 选中值改变时触发 | value: `string \| number \| (string \| number \| (string \| number)[])[] \| undefined` |
 
-### `<CascaderPanel>` Slots
+### CascaderPanel Slots
 
 | 插槽名 |         描述         | 参数 |
 | ------ | :------------------: | ---- |
@@ -384,27 +392,56 @@ Maple 使用 edit-mode="popup" 点击值区域打开编辑面板；direct 直接
 
 异步搜索时应在新请求开始时清除旧候选，并只采纳当前搜索词的最后一次响应。可使用 `update:input-value` 立即响应输入，通过 `loading` 和 `filter-option` 展示远程过滤结果。popup 内方向键与 Enter 只操作当前候选，保存由底部确认按钮完成。校验失败保留草稿；确认期间锁定编辑和关闭，表单重置会关闭 popup 并中止提交。请求归属应在关闭和重置时失效，完整示例见 Form 的“各类字段统一展示”。
 
-### 单选对勾样式变量
+## CSS Variables
 
-| 变量                             | 默认值                               |
-| -------------------------------- | ------------------------------------ |
-| `--mp-cascader-item-check-color` | `var(--mp-sys-color-action-primary)` |
-| `--mp-cascader-item-check-size`  | `var(--mp-sys-font-size-md)`         |
+<!-- component-css-variables:start -->
 
-### 内置搜索字段配置
+通过以下变量定制组件外观。默认值随表中注明的主题或选择器条件变化；变量仅在对应的尺寸、变体和交互状态下生效。
 
-`searchFields` / `search-fields` 是只读 `('label' | 'value')[]`，默认 `['label']`；多字段为 OR 匹配，大小写默认不敏感。配置 `['value', 'label']` 可同时搜索编码和名称，fieldNames 将语义字段映射到业务字段；空数组对非空查询不匹配任何项。value 采用字符串比较，不做对象深层搜索，对象值或拼音等复杂规则仍用自定义回调。自定义回调优先并自行决定大小写；远程结果使用原有关闭本地过滤协议。Cascader 保留路径语义，会检查路径各节点的配置字段。
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
 
-## 配置清空后的值
+| 变量 | 默认值／条件 | 影响的样式 |
+| --- | --- | --- |
+| `--mp-cascader-checkbox-bg-hover` | `var(--mp-color-fill-3)` | `background-color` |
+| `--mp-cascader-font-item-size` | `var(--mp-sys-font-size-md)` | `font-size` |
+| `--mp-cascader-item-bg-active` | `var(--mp-color-fill-2)` | `background-color` |
+| `--mp-cascader-item-bg-disabled` | `transparent` | `background-color` |
+| `--mp-cascader-item-bg-disabled-active` | `var(--mp-color-fill-2)` | `background-color` |
+| `--mp-cascader-item-bg-hover` | `var(--mp-cascader-item-bg-active)` | `background-color` |
+| `--mp-cascader-item-check-color` | `var(--mp-sys-color-content-primary)` | `color` |
+| `--mp-cascader-item-check-size` | `var(--mp-sys-font-size-md)` | `height`, `width` |
+| `--mp-cascader-item-icon-color` | `var(--mp-sys-color-content-secondary)` | `color` |
+| `--mp-cascader-item-text-color` | `var(--mp-sys-color-content-primary)` | `color` |
+| `--mp-cascader-item-text-color-active` | `var(--mp-cascader-item-text-color)` | `color` |
+| `--mp-cascader-item-text-color-disabled` | `var(--mp-sys-color-content-disabled)` | `color` |
+| `--mp-cascader-item-text-color-disabled-active` | `var(--mp-sys-color-content-disabled)` | `color` |
+| `--mp-cascader-item-text-color-hover` | `var(--mp-cascader-item-text-color)` | `color` |
+| `--mp-cascader-margin-checkbox-right` | `var(--mp-sys-space-4)` | `margin-inline-end` |
+| `--mp-cascader-margin-item-icon-left` | `var(--mp-sys-space-5)` | `margin-inline-start` |
+| `--mp-cascader-option-min-width` | `100px` | `min-width` |
+| `--mp-cascader-padding-item-left` | `var(--mp-sys-space-5)` | `padding-inline-end`, `padding-inline-start` |
+| `--mp-cascader-padding-item-right` | `var(--mp-sys-space-5)` | `margin-inline-end`, `padding-inline-end` |
+| `--mp-cascader-panel-column-max-height` | `200px` | `max-height` |
+| `--mp-cascader-panel-column-min-width` | `120px` | `min-width` |
+| `--mp-cascader-popup-border-radius` | `var(--mp-sys-radius-md)` | `border-radius` |
+| `--mp-cascader-popup-box-shadow` | `0 4px 10px rgb(0 0 0%)` | `box-shadow` |
+| `--mp-cascader-popup-color-border` | `var(--mp-color-fill-3)` | `border`, `border-inline-end`, `border-top` |
+| `--mp-cascader-popup-max-height` | `200px` | `height` |
+| `--mp-cascader-popup-padding-vertical` | `var(--mp-sys-space-2)` | `padding` |
+| `--mp-cascader-size-item-height` | `36px` | `height`, `line-height` |
+| `--mp-cascader-size-item-icon` | `12px` | `height`, `width` |
+| `--mp-cascader-slide-margin` | `120px` | `margin-inline-start` |
 
-`empty-value` 指定当前组件已有清空动作的输出；省略时采用该组件默认返回。具体类型以组件 API 为准。它不改变 empty-values 的识别规则，也不改变 Form reset 的初始值。
+</div>
 
-`empty-value` 可显式设为 `null`（或 `() => null`），清空时原样提交 null；省略时保留组件原默认值。界面把 null 显示为空，不会把普通输入的空字符串自动转成 null。支持弹出编辑的字段中，清空先修改草稿，确认后提交，取消则保留原值。
+将覆盖设置在组件实际根节点或弹层真实挂载祖先上。例如给该元素添加下列 class，再按需替换变量值：
 
-候选属性 `options` 支持数组或 `(query, { signal }) => 数组/Promise`。加载、取消、过期结果隔离由组件内部处理，失败触发 load-error。单选/多选分组初始化以空字符串查询，搜索型字段在查询变化时调用；树形字段根数据与原有 load-more 子节点懒加载独立。
+```css
+.component-theme {
+  --mp-cascader-font-item-size: var(--mp-sys-font-size-md);
+}
+```
 
-### 懒加载结束与异常
+显式行内样式及直接写入同一 CSS 属性的 Props 优先于样式表默认值。Teleport 后，普通 CSS 变量按实际挂载位置继承；使用 ThemeProvider 时，请遵循其局部主题与弹层配置规则。局部定制请直接覆盖组件变量；仅修改后代的 system 变量不会重新计算从根继承的组件别名。内部变量不属于公共 API。
 
-字段和独立 Panel 的 `loadMore(option, done)` 均保留回调协议：`done(children)` 接收子项，`done()` 结束等待并允许重试。只接受首次回调；返回值（包括已完成的 Promise）不替代 `done`。加载函数同步抛错时结束等待，并进入 Vue 的 `errorCaptured` / 应用 `errorHandler`。`load-error` 仍仅报告 `options` 候选数据源错误，不重复报告 `loadMore` 异常。业务中的异步请求失败需自行处理并调用 `done()`。
-
-替换选项（包括嵌套原地修改）、字段映射或加载函数会使旧请求和懒加载缓存失效。卸载、停用会取消待处理回调；旧结果不能写入替换后的节点或清除新请求的等待。
+<!-- component-css-variables:end -->

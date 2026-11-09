@@ -1,29 +1,43 @@
 import { useValidation, withInstall, withPropsDefaultsSetter } from '../utils/components'
 import _Form from './Form.vue'
-import FormItem from './FormItem.vue'
+import _FormItem from './FormItem.vue'
 import { props as formItemProps } from './item-props'
 import { useFormItem } from './item-provide'
 import { props as formProps } from './props'
 import { useForm } from './provide'
 
+const FormItem = Object.assign(_FormItem, { useFormItem })
+
 const Form = withInstall(
   _Form,
   Object.assign(_Form, {
     Item: FormItem,
+    useValidation,
+    useForm,
+    useFormItem,
   }),
   { components: [_Form, FormItem] },
 )
 
-Form.useValidation = useValidation
-Form.useForm = useForm
-Form.useFormItem = useFormItem
-FormItem.useFormItem = useFormItem
 withPropsDefaultsSetter(Form, formProps)
 withPropsDefaultsSetter(FormItem, formItemProps)
 
 export { formProps, formItemProps, Form, FormItem }
 export { useFormItem } from './item-provide'
-export type { FormFieldError as ValidatedError, FormValidateErrors } from './form-controller'
+export { useFormErrorDescription } from './error-description'
+export type {
+  ValidatedError,
+  FormValidateErrors,
+  FormRule,
+  FormRules,
+  FormRuleContext,
+  FieldData,
+  FormEmits,
+  FormSlots,
+  FormItemSlots,
+  FormEditingError,
+  FormSubmitError,
+} from './types'
 
 export type FormInstance = InstanceType<typeof _Form>
 export type FormItemInstance = InstanceType<typeof FormItem>

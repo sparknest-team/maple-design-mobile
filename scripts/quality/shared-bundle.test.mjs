@@ -311,6 +311,46 @@ test('local shared utilities: published runtime, types, behavior and bundle size
       })
     }
 
+    for (const [format, api] of [
+      ['ESM', esm],
+      ['CJS', cjs],
+    ]) {
+      await t.test(`${format}: decimal floor handles existing exponents and invalid precision`, () => {
+        for (const [value, precision, expected] of [
+          [12.359, 2, 12.35],
+          [-12.351, 2, -12.36],
+          [1e-7, 8, 1e-7],
+          [-9.99, 1, -10],
+          [-999, -2, -1000],
+          [1000, -3, 1000],
+          [1.234e-7, 9, 1.23e-7],
+          [-1.234e-7, 9, -1.24e-7],
+          [1.234e24, -23, 1.2e24],
+          [-1.234e24, -23, -1.3e24],
+          [1e308, 292, 1e308],
+          [-1e308, 292, -1e308],
+          [Number.MIN_VALUE, 292, 0],
+          [-Number.MIN_VALUE, 292, -1e-292],
+          [1e-100, -292, 0],
+          [-1e-100, -292, -1e292],
+          [12.359, 1.5, 12],
+          [-12.359, -1.5, -13],
+          [12.359, NaN, 12],
+          [12.359, Infinity, 12],
+          [12.359, -Infinity, 12],
+          [1e-100, 293, 1e-100],
+          [-1e-100, -293, -1e292],
+          [Infinity, 2, Infinity],
+          [-Infinity, 2, -Infinity],
+          [-0, 2, -0],
+        ]) {
+          assert.equal(Object.is(api.floor(value, precision), expected), true, `${value}, precision=${precision}`)
+        }
+        assert.equal(Number.isNaN(api.floor(NaN, 2)), true)
+        assert.equal(api.floor(12.359), 12)
+      })
+    }
+
     await t.test('motion pause/resume/reset, easing and frame completion', async () => {
       let now = 100
       let sequence = 0
@@ -376,6 +416,47 @@ test('local shared utilities: published runtime, types, behavior and bundle size
         },
       )
     })
+
+    for (const [format, api] of [
+      ['ESM', esm],
+      ['CJS', cjs],
+    ]) {
+      await t.test(`${format}: zero and invalid motion durations finish once without a frame loop`, async () => {
+        const frames = new Map()
+        let sequence = 0
+        await withGlobals(
+          {
+            performance: { now: () => 100 },
+            requestAnimationFrame: (callback) => {
+              frames.set(++sequence, callback)
+              return sequence
+            },
+            cancelAnimationFrame: (id) => frames.delete(id),
+          },
+          async () => {
+            for (const duration of [0, -1, NaN, Infinity, -Infinity]) {
+              const values = []
+              const animation = api.motion({ from: 2, to: 7, duration, frame: (value) => values.push(value) })
+              animation.start()
+              assert.equal(frames.size, 1)
+              const pending = [...frames.values()]
+              frames.clear()
+              pending.forEach((callback) => callback(100))
+              assert.deepEqual(values, [{ value: 7, done: true }], `duration=${duration}`)
+              assert.equal(animation.getState(), 'finished')
+              assert.equal(frames.size, 0)
+              animation.start()
+              assert.equal(values.length, 1)
+              animation.reset()
+              animation.start()
+              animation.pause()
+              assert.equal(frames.size, 0)
+              assert.equal(values.length, 1)
+            }
+          },
+        )
+      })
+    }
 
     await t.test('throttle preserves receiver, trailing arguments and timer fallback for RAF', async () => {
       let now = 1000

@@ -13,6 +13,7 @@ import EnShapeDemo from './demos/en-US/shape.vue'
 import EnStateDemo from './demos/en-US/state.vue'
 import FieldsDemo from './demos/fields.vue'
 import HistoryDemo from './demos/history.vue'
+import NativeFormDemo from './demos/native-form.vue'
 import PresentationDemo from './demos/presentation.vue'
 import SearchButtonDemo from './demos/search-button.vue'
 import ShapeDemo from './demos/shape.vue'
@@ -110,5 +111,10 @@ onThemeChange()
     <app-type>{{ english ? 'States' : '状态' }}</app-type>
     <EnStateDemo v-if="english" />
     <StateDemo v-else />
+  </section>
+
+  <section data-demo="native-form">
+    <app-type>{{ english ? 'Native form and popup ownership' : '原生表单与弹层身份' }}</app-type
+    ><NativeFormDemo />
   </section>
 </template>

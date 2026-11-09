@@ -1,6 +1,7 @@
 <template>
   <span
     v-if="openTriggerTarget === 'icon'"
+    v-bind="$attrs"
     :aria-busy="loading || undefined"
     :class="[n('reference'), n('reference--icon')]"
   >
@@ -12,6 +13,7 @@
       type="button"
       :disabled="disabled"
       :aria-label="label || placeholder || t('pickerTitle')"
+      :aria-describedby="describeError($attrs['aria-describedby'])"
       :aria-expanded="open"
       aria-haspopup="dialog"
       @click="$emit('open')"
@@ -21,6 +23,7 @@
   </span>
   <button
     v-else
+    v-bind="$attrs"
     :id="id"
     ref="button"
     type="button"
@@ -28,6 +31,7 @@
     :class="n('reference')"
     :disabled="disabled"
     :aria-label="label"
+    :aria-describedby="describeError($attrs['aria-describedby'])"
     :aria-expanded="open"
     aria-haspopup="dialog"
     @click="$emit('open')"
@@ -38,11 +42,13 @@
 </template>
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useFormErrorDescription } from '../../form/error-description'
 import { t } from '../../locale'
 import { createNamespace } from '../../utils/components'
 import PendingFeedback from '../pending-feedback/PendingFeedback.vue'
 
-defineOptions({ name: createNamespace('field-reference').name })
+defineOptions({ name: createNamespace('field-reference').name, inheritAttrs: false })
+const { describe: describeError } = useFormErrorDescription()
 defineProps<{
   openTriggerTarget?: 'field' | 'icon'
   id?: string

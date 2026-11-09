@@ -3,6 +3,8 @@ import { buttonProps } from '../button'
 import { defineListenerProp, type ExtractPublicPropTypes } from '../utils/components'
 
 export type TabBarVariant = 'standard' | 'pill'
+/** Truthy results allow the switch; falsy results cancel it. */
+export type TabBarBeforeChange = (active: number | string) => unknown
 
 export const props = {
   /** 外部加载状态；加载期间不能切换。 */
@@ -34,5 +36,5 @@ export const props = {
   inactiveColor: String,
   placeholder: Boolean,
   fabProps: Object as PropType<ExtractPublicPropTypes<typeof buttonProps>>,
-  beforeChange: defineListenerProp<(active: number | string) => any | Promise<any>>(),
+  beforeChange: defineListenerProp<TabBarBeforeChange>(),
 }

@@ -12,15 +12,29 @@ Display temporary system notices or campaign messages.
 ../example/demos/basic.vue
 ```
 
+### Pause scrolling
+
+Use `paused` with an action button to let readers pause and resume. When the system requests reduced motion, content wraps without animation.
+
+`speed` is measured in CSS pixels per second. The cycle is recalculated when the container, text, or slot content changes size; animation progress is retained, so the visible position may shift. Provide a pause button in `action` as shown below, or use `closeable` to let readers dismiss continuous motion.
+
+```demo
+../example/demos/en-US/pausable.vue
+```
+
 ## Reading direction
 
-Inherits the nearest `dir="ltr|rtl"` and supports runtime and nested overrides. Icons, text and close actions follow reading order. Scrolling text travels from reading end toward reading start; RTL reverses motion without mirroring text or changing close/replay semantics.
+Inherits the nearest `dir="ltr|rtl"`, including runtime changes and local overrides. Icons, text and close actions follow reading order. Scrolling text moves from inline end toward start, reversing motion in RTL without mirroring text or changing close/replay event meanings.
+
+Icon and close spacing use `--mp-notice-bar-icon-margin` and `--mp-notice-bar-close-margin`; RTL uses `--mp-notice-bar-icon-margin-rtl` and `--mp-notice-bar-close-margin-rtl`. The close control uses the nearest LocaleProvider, falling back to the global language.
+
+String `speed` and `delay` values are parsed by their numeric prefix. Nonfinite speeds and speeds below 1 use 1 px/s; invalid or nonfinite delays use 0 seconds, while negative delays retain CSS animation semantics. Closing hides the component without unmounting it; remount it from the parent to show it again. Internal instance state and handlers are not public reopen or pause methods; use `paused` to pause.
 
 ## API
 
-### Props
+### NoticeBar Props
 
-| Arguments | Description | Type | Default |
+| Prop | Description | Type | Default |
 | --- | --- | --- | --- |
 | `text` | Notice text | `string` | `-` |
 | `type` | Type | `info \| success \| warning \| danger` | `warning` |
@@ -29,20 +43,62 @@ Inherits the nearest `dir="ltr|rtl"` and supports runtime and nested overrides. 
 | `color` | Text color | `string` | `-` |
 | `background` | Background color | `string` | `-` |
 | `scrollable` | Enable marquee | `boolean` | `false` |
+| `paused` | Pause the scrolling animation; resume from the current position when disabled | `boolean` | `false` |
 | `speed` | Scroll speed (px/s) | `number \| string` | `50` |
 | `delay` | Delay before scroll (s) | `number \| string` | `1` |
 
-### Events
+### NoticeBar Events
 
 | Event | Description | Arguments |
 | --- | --- | --- |
 | `close` | Emitted on close | `event` |
 | `replay` | Emitted after one scroll loop | `-` |
 
-### Slots
+### NoticeBar Slots
 
 | Name | Description |
 | --- | --- |
 | `default` | Content |
 | `icon` | Left icon |
 | `action` | Right action |
+
+## CSS Variables
+
+<!-- component-css-variables:start -->
+
+Use these variables to customize the component. Defaults may vary by the selector condition shown. Each variable applies to the corresponding size, variant and interaction states.
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Default / condition | Affected styles |
+| --- | --- | --- |
+| `--mp-notice-bar-close-margin` | `0 0 0 8px` | `margin` |
+| `--mp-notice-bar-close-margin-rtl` | `0 8px 0 0` | `margin` |
+| `--mp-notice-bar-danger-background` | `var(--mp-color-danger)` | `background` |
+| `--mp-notice-bar-danger-color` | `var(--mp-color-white)` | `color` |
+| `--mp-notice-bar-font-size` | `var(--mp-font-size-md)` | `font-size` |
+| `--mp-notice-bar-height` | `40px` | `min-height` |
+| `--mp-notice-bar-icon-margin` | `0 8px 0 0` | `margin` |
+| `--mp-notice-bar-icon-margin-rtl` | `0 0 0 8px` | `margin` |
+| `--mp-notice-bar-icon-size` | `18px` | `font-size` |
+| `--mp-notice-bar-info-background` | `var(--mp-color-info)` | `background` |
+| `--mp-notice-bar-info-color` | `var(--mp-color-white)` | `color` |
+| `--mp-notice-bar-padding` | `0 12px` | `padding` |
+| `--mp-notice-bar-success-background` | `var(--mp-color-success)` | `background` |
+| `--mp-notice-bar-success-color` | `var(--mp-color-white)` | `color` |
+| `--mp-notice-bar-warning-background` | `var(--mp-color-warning)` | `background` |
+| `--mp-notice-bar-warning-color` | `var(--mp-color-white)` | `color` |
+
+</div>
+
+Apply overrides to the rendered component root or the actual popup ancestor. For example, add the following class to that element and replace the value as needed:
+
+```css
+.component-theme {
+  --mp-notice-bar-danger-background: var(--mp-color-danger);
+}
+```
+
+Explicit inline styles and props that write the same CSS property take precedence over stylesheet defaults. After Teleport, ordinary CSS variables inherit from the actual mount location. When using ThemeProvider, follow its local-theme and popup configuration rules. Override the component variable directly for local styling; root-level aliases are not recalculated merely because a descendant system variable changes. Internal variables are not public APIs.
+
+<!-- component-css-variables:end -->

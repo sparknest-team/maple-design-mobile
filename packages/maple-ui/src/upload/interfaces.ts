@@ -99,11 +99,11 @@ export type UploadRenderFile = (file: UploadFileItem, index: number) => VNodeChi
 
 export interface UploadPublicMethods {
   replace: (file: UploadFileItem, replacement?: File) => Promise<void>
-  chooseFile: () => void
-  submit: (file?: UploadFileItem) => void
+  chooseFile: () => Promise<void>
+  submit: (file?: UploadFileItem) => Promise<void>
   abort: (file?: UploadFileItem) => void
-  retry: (file: UploadFileItem) => void
-  remove: (file: UploadFileItem) => void
+  retry: (file: UploadFileItem) => Promise<void>
+  remove: (file: UploadFileItem) => Promise<void>
   reset: () => void
   clearSuccess: () => void
   clearError: () => void
@@ -111,7 +111,7 @@ export interface UploadPublicMethods {
 }
 
 export interface UploadTriggerSlotProps {
-  chooseFile: () => void
+  chooseFile: () => Promise<void>
   dragOver: boolean
   disabled: boolean
 }
@@ -119,10 +119,10 @@ export interface UploadTriggerSlotProps {
 export interface UploadItemSlotProps {
   file: UploadFileItem
   index: number
-  remove: () => void
-  retry: () => void
+  remove: () => Promise<void>
+  retry: () => Promise<void>
   abort: () => void
-  replace: () => void
+  replace: () => Promise<void>
 }
 
 export interface UploadStyleProps {
@@ -135,7 +135,7 @@ export interface UploadPreviewEvent {
   preventDefault: () => void
   originalEvent?: MouseEvent
 }
-export type UploadRequestChoose = (chooseFile: () => void, event: Event) => void | Promise<void>
+export type UploadRequestChoose = (chooseFile: () => Promise<void>, event: Event) => void | Promise<void>
 export interface UploadEmits {
   'update:modelValue': [files: UploadFileItem[] | null]
   read: [file: UploadFileItem]
@@ -150,6 +150,7 @@ export interface UploadEmits {
   preview: [file: UploadFileItem, event: UploadPreviewEvent]
 }
 export interface UploadSlots {
+  read?: (scope: { value: UploadFileItem[] | null; text: string }) => VNodeChild
   trigger?: (scope: UploadTriggerSlotProps) => VNodeChild
   item?: (scope: UploadItemSlotProps) => VNodeChild
   'remove-button'?: (scope: UploadItemSlotProps) => VNodeChild

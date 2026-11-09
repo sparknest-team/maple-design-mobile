@@ -27,6 +27,11 @@ const { name, n, classes } = createNamespace('pull-refresh')
 
 const ICON_TRANSITION = 150
 
+function safeDuration(value: number | string, fallback: number) {
+  const duration = typeof value === 'string' && !value.trim() ? NaN : Number(value)
+  return Number.isFinite(duration) && duration >= 0 ? duration : fallback
+}
+
 type PullRefreshIconName = 'arrow-down' | 'refresh' | 'checkbox-marked-circle-fill'
 
 export default defineComponent({
@@ -51,6 +56,8 @@ export default defineComponent({
     const refreshStatus = ref<PullRefreshStatus>('default')
     const isEnd = ref(false)
     const maxDistance = computed(() => Math.abs(2 * controlPosition.value))
+    const animationDuration = computed(() => safeDuration(props.animationDuration, 300))
+    const successDuration = computed(() => safeDuration(props.successDuration, 2000))
     const isSuccess = computed(() => refreshStatus.value === 'success')
     const isTouchable = computed(
       () => refreshStatus.value !== 'loading' && refreshStatus.value !== 'success' && !props.disabled,
@@ -59,11 +66,11 @@ export default defineComponent({
       transform: `translate3d(0px, ${
         isString(distance.value) ? distance.value : `${distance.value}px`
       }, 0px) translate(-50%, 0)`,
-      transition: isEnd.value ? `transform ${props.animationDuration}ms` : undefined,
+      transition: isEnd.value ? `transform ${animationDuration.value}ms` : undefined,
       background: isSuccess.value ? props.successBgColor : props.bgColor,
       color: isSuccess.value ? props.successColor : props.color,
     }))
-    const { startTouch, moveTouch, endTouch, isReachTop, resetTouch } = useTouch()
+    const { startTouch, moveTouch, endTouch, isReachTop, resetTouch, direction, deltaY } = useTouch()
 
     let scroller: HTMLElement | Window
     let eventTargetScroller: HTMLElement | Window | null
@@ -177,6 +184,8 @@ export default defineComponent({
       stopGesture()
       clearBindings()
       if (available() && freshNode.value) {
+        measureControl()
+        settleCurrentModel()
         setScroller()
         bindListeners()
       }
@@ -186,7 +195,27 @@ export default defineComponent({
       refreshStatus.value = loading.value ? 'loading' : 'default'
       iconName.value = loading.value ? 'refresh' : 'arrow-down'
       isEnd.value = loading.value
-      distance.value = loading.value ? maxDistance.value * 0.3 : controlPosition.value
+      distance.value = loading.value ? maxDistance.value * 0.3 : controlPosition.value || '-125%'
+    }
+
+    function measureControl() {
+      const node = controlNode.value
+      if (!available() || !node) {
+        return
+      }
+      const width = getRect(node).width
+      if (!Number.isFinite(width) || width <= 0) {
+        return
+      }
+      const previous = controlPosition.value
+      controlPosition.value = -width * 1.25
+      if (refreshStatus.value === 'loading' || refreshStatus.value === 'success') {
+        distance.value = maxDistance.value * 0.3
+      } else if (touching && typeof distance.value === 'number') {
+        distance.value += controlPosition.value - previous
+      } else {
+        distance.value = controlPosition.value
+      }
     }
 
     onDeactivated(() => {
@@ -251,7 +280,7 @@ export default defineComponent({
               distance.value = controlPosition.value
               reset(version)
             },
-            toNumber(props.successDuration),
+            successDuration.value,
             version,
           )
         }
@@ -259,7 +288,17 @@ export default defineComponent({
       { flush: 'sync' },
     )
 
-    onMounted(refreshBinding)
+    let controlObserver: ResizeObserver | undefined
+    onMounted(() => {
+      refreshBinding()
+      const node = controlNode.value
+      const Observer = node?.ownerDocument.defaultView?.ResizeObserver
+      if (node && Observer) {
+        controlObserver = new Observer(measureControl)
+        controlObserver.observe(node)
+      }
+    })
+    onBeforeUnmount(() => controlObserver?.disconnect())
     watch(freshNode, refreshBinding, { flush: 'sync' })
     watch(() => props.target, refreshBinding, { flush: 'sync' })
 
@@ -328,11 +367,10 @@ export default defineComponent({
       startTouch(event)
 
       if (controlPosition.value === 0) {
-        const { width } = getRect(control as HTMLElement)
+        measureControl()
         if (!eligible()) {
           return
         }
-        controlPosition.value = -(width + width * 0.25)
       }
 
       const target = event.target as HTMLElement
@@ -363,6 +401,9 @@ export default defineComponent({
         freshNode.value === root
       moveTouch(event)
 
+      if (direction.value !== 'vertical' || deltaY.value <= 0) {
+        return
+      }
       if (!isTouchable.value || !eventTargetScroller) {
         return
       }
@@ -409,6 +450,10 @@ export default defineComponent({
       if (!available() || !isTouchable.value || !touching) {
         return
       }
+      if (refreshStatus.value !== 'pulling') {
+        stopGesture()
+        return
+      }
       touching = false
       cancelWork()
       const version = generation
@@ -451,7 +496,7 @@ export default defineComponent({
             isEnd.value = false
             lockEvent('remove')
           },
-          toNumber(props.animationDuration),
+          animationDuration.value,
           version,
         )
       }
@@ -483,7 +528,7 @@ export default defineComponent({
           iconName.value = 'arrow-down'
           isEnd.value = false
         },
-        toNumber(props.animationDuration),
+        animationDuration.value,
         version,
       )
     }

@@ -51,3 +51,11 @@ test('empty searchFields match no nonempty query while empty query retains all o
   await owner.setProps({ inputValue: '' })
   expect(controller().filteredLeafOptions).toHaveLength(1)
 })
+
+test('strict search results do not announce a submenu that is not displayed', async () => {
+  const { owner } = setup({ checkStrictly: true, inputValue: 'Apple', popupContainer: false })
+  await flushPromises()
+  const result = owner.getComponent(CascaderMenu).get('[role="menuitem"][title="Apple"]')
+  expect(result.attributes('aria-haspopup')).toBeUndefined()
+  expect(result.attributes('aria-expanded')).toBeUndefined()
+})

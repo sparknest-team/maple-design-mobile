@@ -33,7 +33,7 @@ export default defineComponent({
       if (props.options.length === 0) {
         return (
           <div class={`${prefixCls}-list-empty`}>
-            {slots.empty?.() ?? emptySlot?.({ component: 'cascader' }) ?? <Empty />}
+            {slots.empty?.() ?? emptySlot.value?.({ component: 'cascader' }) ?? <Empty />}
           </div>
         )
       }

@@ -162,7 +162,7 @@ test('breadcrumb max-count', async () => {
 
   await delay(0)
   expect(wrapper.findAll('.mp-breadcrumb-item').length).toBe(4)
-  expect(wrapper.find('[aria-label="ellipses of breadcrumb items"]').exists()).toBe(true)
+  expect(wrapper.find('[aria-label="省略的路径"]').exists()).toBe(true)
   expect(wrapper.find('.custom-more').exists()).toBe(true)
   expect(moreSlotData).toMatchObject({ count: 3, start: 1, end: 3, omittedItems: [] })
   wrapper.unmount()

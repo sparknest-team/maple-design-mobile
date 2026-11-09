@@ -58,7 +58,7 @@ A behavioral infinite loader. It handles bottom detection and pagination status 
 ../example/demos/scheduler-lifecycle.vue
 ```
 
-## Usage
+## Usage notes
 
 ```html
 <script setup lang="ts">
@@ -128,11 +128,13 @@ async function refresh() {
 
 Hidden tabs do not load; reactivation checks automatically. Business activation callbacks may also call `check()`.
 
+When `target` is a selector, its element must exist when binding occurs. `check()` uses the current binding and does not resolve the selector again; pass the element or change `target` to rebind. Accept the emitted `loading` via `v-model:status`, then set `idle`, `error`, or `finished` when the request settles; assigning the original `idle` alone does not release the request lock. A negative numeric offset requires scrolling past the bottom. String offsets are resolved as CSS widths: negative lengths fall back to zero, and percentages use the measurement element’s CSS containing-block width.
+
 ## API
 
-### Props
+### InfiniteScroll Props
 
-| Arguments | Description | Type | Default |
+| Prop | Description | Type | Default |
 | ---------------- | --------------------- | ---------------------------------------------- | -------- |
 | `v-model:status` | Pagination status | `'idle' \| 'loading' \| 'error' \| 'finished'` | `'idle'` |
 | `bottom-offset` | Bottom threshold | `string \| number` | `0` |
@@ -140,7 +142,7 @@ Hidden tabs do not load; reactivation checks automatically. Business activation 
 | `disabled` | Pause loading and retry | `boolean` | `false` |
 | `target` | Scroll container or CSS selector | `string \| HTMLElement` | `-` |
 
-### Events
+### InfiniteScroll Events
 
 | Event | Description | Arguments |
 | --------------- | ---------------- | ---------- |
@@ -148,29 +150,49 @@ Hidden tabs do not load; reactivation checks automatically. Business activation 
 | `load` | Requests the next page at the threshold | `-` |
 | `retry` | Retries from the error state | `-` |
 
-### Slots
+### InfiniteScroll Slots
 
-| Name | Description | Arguments |
+| Name | Description | Prop |
 | ---------- | -------- | ----------- |
 | `default` | Content | `-` |
 | `loading` | Loading state | `-` |
 | `error` | Error state | `{ retry }` |
 | `finished` | Finished state | `-` |
 
-### Methods
+### InfiniteScroll Methods
 
 | Method | Description |
 | --------- | -------------------- |
 | `check()` | Checks the current threshold |
 | `retry()` | Retries while in the error state |
 
-## Style variables
+## CSS Variables
 
-| Variable | Default |
-| ----------------------------------------- | ------------------------ |
-| `--mp-infinite-scroll-status-min-height` | `50px` |
-| `--mp-infinite-scroll-status-padding` | `12px 0` |
-| `--mp-infinite-scroll-status-color` | `var(--mp-color-text-3)` |
-| `--mp-infinite-scroll-status-font-size` | `var(--mp-font-size-md)` |
-| `--mp-infinite-scroll-loading-gap` | `8px` |
-| `--mp-infinite-scroll-error-color` | `var(--mp-color-danger)` |
+<!-- component-css-variables:start -->
+
+Use these variables to customize the component. Defaults may vary by the selector condition shown. Each variable applies to the corresponding size, variant and interaction states.
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Default / condition | Affected styles |
+| --- | --- | --- |
+| `--mp-infinite-scroll-error-color` | `var(--mp-sys-color-content-danger)` | `color` |
+| `--mp-infinite-scroll-loading-gap` | `8px` | `gap` |
+| `--mp-infinite-scroll-status-color` | `var(--mp-color-text-3)` | `color` |
+| `--mp-infinite-scroll-status-font-size` | `var(--mp-font-size-md)` | `font-size` |
+| `--mp-infinite-scroll-status-min-height` | `50px` | `min-height` |
+| `--mp-infinite-scroll-status-padding` | `12px 0` | `padding` |
+
+</div>
+
+Apply overrides to the rendered component root or the actual popup ancestor. For example, add the following class to that element and replace the value as needed:
+
+```css
+.component-theme {
+  --mp-infinite-scroll-error-color: var(--mp-sys-color-content-danger);
+}
+```
+
+Explicit inline styles and props that write the same CSS property take precedence over stylesheet defaults. After Teleport, ordinary CSS variables inherit from the actual mount location. When using ThemeProvider, follow its local-theme and popup configuration rules. Override the component variable directly for local styling; root-level aliases are not recalculated merely because a descendant system variable changes. Internal variables are not public APIs.
+
+<!-- component-css-variables:end -->

@@ -4,6 +4,7 @@ import { openTriggerTargetProp } from '../_components/picker-field/open-trigger'
 import type { VirtualListProps } from '../_components/virtual-list-v2/interface'
 import type { OptionsLoader } from '../_hooks/use-option-request'
 import type { ComponentSize } from '../_utils/constant'
+import { validSearchDelay, validSelectionCount } from '../_utils/selection-validation'
 import type { Data } from '../_utils/types'
 import {
   fieldDecoratorProps,
@@ -204,6 +205,7 @@ export const cascaderProps = {
    */
   maxTagCount: {
     type: Number,
+    validator: validSelectionCount,
     default: 0,
   },
   /**
@@ -250,6 +252,7 @@ export const cascaderProps = {
    */
   searchDelay: {
     type: Number,
+    validator: validSearchDelay,
     default: 500,
   },
   /**
