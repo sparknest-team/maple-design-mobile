@@ -2,13 +2,14 @@ import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { expect, test } from 'vitest'
 import FloatingPanel from '..'
+import Button from '../../button'
 import BasicDemo from '../example/demos/basic.vue'
 
 test('all floating panel demo modes remain local and use container-sized anchors', async () => {
   const slotStub = { template: '<div><slot /></div>' }
   const wrapper = mount(BasicDemo, {
     global: {
-      components: { MpFloatingPanel: FloatingPanel },
+      components: { MpFloatingPanel: FloatingPanel, MpButton: Button },
       stubs: {
         MpThemeProvider: slotStub,
         MpTabs: slotStub,
@@ -29,6 +30,14 @@ test('all floating panel demo modes remain local and use container-sized anchors
       expect(Math.max(...panel.props('anchors'))).toBe(320)
       expect(panel.props('contentDraggable')).toBe(mode !== 'head')
       expect(wrapper.find('.mp-floating-panel').exists()).toBe(true)
+      if (mode === 'anchors') {
+        const buttons = wrapper.findAllComponents(Button)
+        expect(buttons[0].props('disabled')).toBe(true)
+        await buttons[1].trigger('click')
+        expect(wrapper.vm.anchor).toBe(180)
+        await buttons[0].trigger('click')
+        expect(wrapper.vm.anchor).toBe(80)
+      }
     }
   } finally {
     wrapper.unmount()

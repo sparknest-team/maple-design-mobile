@@ -635,7 +635,10 @@ export function withFieldPresentation<T extends Component>(Base: T, adapter: Fie
             readPretty: state.readPretty.value,
             empty: emptyPolicy.isEmpty(value.value),
             emptyText: emptyPolicy.emptyText.value,
-            label: state.label.value ?? props.ariaLabel,
+            label:
+              state.label.value ??
+              props.ariaLabel ??
+              (typeof attrs['aria-label'] === 'string' ? attrs['aria-label'] : undefined),
             text,
             placeholder: typeof props.placeholder === 'string' ? props.placeholder : undefined,
             popupContainer: props.popupContainer,

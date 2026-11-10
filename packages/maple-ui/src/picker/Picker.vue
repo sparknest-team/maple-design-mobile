@@ -62,6 +62,7 @@
           :class="n('column')"
           role="listbox"
           :aria-describedby="describeError($attrs['aria-describedby'])"
+          :aria-invalid="mergedError ? true : ($attrs['aria-invalid'] as HTMLAttributes['aria-invalid'])"
           :tabindex="!disabled && c.column.some((option) => !isOptionDisabled(option)) ? 0 : -1"
           :aria-label="`${title ?? (pt ? pt : t)('pickerTitle')} ${columnIndex + 1}`"
           :aria-disabled="disabled || c.column.every(isOptionDisabled) || undefined"
@@ -140,6 +141,7 @@ import {
   useId,
   watch,
   type ComponentPublicInstance,
+  type HTMLAttributes,
   type SlotsType,
 } from 'vue'
 import { IconCheck as MIconCheck } from '@maple-design/icons-vue'
@@ -147,6 +149,7 @@ import { call, clamp, clampArrayRange, toNumber } from '@maple-design/shared'
 import { useTouch } from '@maple-design/use'
 import MpButton from '../button'
 import { useFormErrorDescription } from '../form/error-description'
+import { useFormItem } from '../form/item-provide'
 import MpIcon from '../icon'
 import { t } from '../locale'
 import { injectLocaleProvider } from '../locale-provider/provide'
@@ -205,6 +208,7 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     const { describe: describeError } = useFormErrorDescription()
+    const { mergedError } = useFormItem()
     const localOpen = ref(props.defaultOpen)
     const mergedOpen = computed(() => props.open ?? localOpen.value)
     const controlId = useId()
@@ -596,7 +600,14 @@ export default defineComponent({
       if (!isCurrentColumn(column) || props.disabled) {
         return
       }
-      if (event.altKey || event.ctrlKey || event.metaKey || event.isComposing) {
+      if (
+        event.defaultPrevented ||
+        event.altKey ||
+        event.ctrlKey ||
+        event.metaKey ||
+        event.isComposing ||
+        event.keyCode === 229
+      ) {
         return
       }
       if (!['ArrowUp', 'ArrowDown', 'Home', 'End'].includes(event.key)) {
@@ -790,6 +801,7 @@ export default defineComponent({
 
     return {
       describeError,
+      mergedError,
       mergedOpen,
       controlId,
       handleColumnKeydown,

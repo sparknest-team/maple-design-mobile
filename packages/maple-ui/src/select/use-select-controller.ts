@@ -521,7 +521,15 @@ export function useSelectController(
     emit('dropdown-reach-bottom', e)
   }
 
-  const { validOptions, optionInfoMap, validOptionInfos, enabledOptionKeys, activeKey, handleKeyDown } = useSelect({
+  const {
+    validOptions,
+    optionInfoMap,
+    validOptionInfos,
+    enabledOptionKeys,
+    activeKey,
+    handleKeyDown,
+    cancelPendingInitialScroll,
+  } = useSelect({
     getOptionId,
     multiple,
     options,
@@ -637,6 +645,7 @@ export function useSelectController(
     handleClear,
     handleInputValueChange,
     handleKeyDown,
+    cancelPendingInitialScroll,
     handleDropdownScroll,
     handleDropdownReachBottom,
     session,

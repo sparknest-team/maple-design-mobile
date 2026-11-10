@@ -230,14 +230,6 @@ export default defineConfig({
       },
       {
         text: {
-          'zh-CN': 'ThemeProvider',
-          'en-US': 'ThemeProvider',
-        },
-        doc: 'theme-provider',
-        type: 2,
-      },
-      {
-        text: {
           'zh-CN': '色板 Palette',
           'en-US': 'Palette',
         },

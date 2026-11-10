@@ -128,6 +128,46 @@ const plugin = {
       continue
     }
     const inc = Object.entries(output.inputs).filter(([, x]) => x.bytesInOutput > 0)
+    if (
+      [
+        'alert',
+        'loading',
+        'card',
+        'tag',
+        'empty',
+        'page-header',
+        'breadcrumb',
+        'index-bar',
+        'image',
+        'split-button',
+        'infinite-scroll',
+        'field-decorator',
+        'input',
+        'input-number',
+        'textarea',
+        'select',
+        'cascader',
+        'checkbox',
+        'radio',
+        'pagination',
+        'search',
+        'people-select',
+        'table',
+        'dialog',
+      ].includes(name)
+    ) {
+      assert.equal(
+        inc.some(([filename]) => /[/\\]locale[/\\]index\.ts$/.test(filename)),
+        false,
+        `${name} must not pull in the public locale module for its default text`,
+      )
+    }
+    const loadingDirective = inc.some(([filename]) => /[/\\]loading[/\\]directive\.ts$/.test(filename))
+    if (name === 'button') {
+      assert.equal(loadingDirective, false, 'Button must not bundle the standalone Loading directive')
+    } else if (name === 'loading') {
+      assert.equal(loadingDirective, true, 'The public Loading entry must retain its directive')
+    }
     if (['trigger', 'tooltip', 'popover', 'ellipsis'].includes(name)) {
       assert.deepEqual(
         inc.filter(([filename]) => filename.includes('node_modules/')).map(([filename]) => filename),

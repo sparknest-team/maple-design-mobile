@@ -250,7 +250,7 @@ Function calls honor `popupContainer` from explicit configuration or `setDefault
 | `dialog-animation-name` | Dialog animation name | `string` | `'mp-pop-center'` |
 | `aria-label` | Accessible name without a visible title | `string` | `-` |
 | `close-button-aria-label` | Close button label | `string` | `'Close dialog'` |
-| `z-index` | Stack level | `number` | Automatically distributed |
+| `z-index` | Outer stacking level | `number` | Automatically distributed |
 | `before-close` | Return a boolean/Promise or call done; the first completion wins | `DialogBeforeClose` | — |
 
 ### Dialog Events
@@ -309,7 +309,7 @@ Variables use `--mp-`, e.g. `--mp-dialog-width`, `--mp-dialog-background`, `--mp
 
 Color semantics match Cedar: `--mp-dialog-background` uses `surface-raised`; `--mp-dialog-overlay-background` controls scrim; titles/body use primary content and close controls secondary content. `--mp-dialog-status-{info|success|warning|danger}-color` uses readable content-info/success/warning/danger, not status fill. Business themes should override component variables; shared themes override system variables. Mobile borderless geometry/layout remain independent.
 
-The backdrop consumes `sys-color-scrim` through the Dialog component variable. Maple no longer uses Popup colors for Dialog. Set a per-instance backdrop variable via `overlay-style`; a variable on the panel (`dialog-style`) does not inherit to its sibling backdrop. Explicit `overlay-style.backgroundColor` wins. Teleported content needs variables on its actual DOM ancestors. Dark themes inherit the same semantic colors; geometry remains platform-specific. Status icons use readable content colors.
+The backdrop consumes `sys-color-scrim` through the Dialog component variable. Dialog uses its own backdrop variables. Set a per-instance backdrop variable via `overlay-style`; a variable on the panel (`dialog-style`) does not inherit to its sibling backdrop. Explicit `overlay-style.backgroundColor` wins. Teleported content needs variables on its actual DOM ancestors. Dark themes inherit the same semantic colors; geometry remains platform-specific. Status icons use readable content colors.
 
 Variables are grouped by purpose: background/overlay-background for panel/scrim; border-* for panel/divider borders; title-* for title typography; content-* for body typography; actions-* for actions; close-button-* for the close button; status-* for semantic icons; simple-*/fullscreen-* for mode dimensions; animation-* for enter/leave motion. width/margin-top control ordinary panel layout. Internal drag/position variables are not public customization points.
 

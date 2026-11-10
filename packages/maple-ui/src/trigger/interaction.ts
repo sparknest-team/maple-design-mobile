@@ -315,7 +315,15 @@ export function useTriggerInteraction(
     }
   }
   const onKeydown = (event: KeyboardEvent) => {
-    if (event.key !== 'Escape' || !api.visible.value || options.escToClose === false || !api.isTopLayer(event)) {
+    if (
+      event.key !== 'Escape' ||
+      event.defaultPrevented ||
+      event.isComposing ||
+      event.keyCode === 229 ||
+      !api.visible.value ||
+      options.escToClose === false ||
+      !api.isTopLayer(event)
+    ) {
       return false
     }
     event.preventDefault()

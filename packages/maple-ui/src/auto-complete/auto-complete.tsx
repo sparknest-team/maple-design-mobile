@@ -240,6 +240,7 @@ export default defineComponent({
       setActiveKey,
       scrollIntoView,
       handleKeyDown,
+      cancelPendingInitialScroll,
     } = useSelect({
       options,
       loading,
@@ -262,7 +263,11 @@ export default defineComponent({
     optionsReady.value = true
 
     const handleInputKeydown = (ev: KeyboardEvent) => {
+      emit('keydown', ev)
       if (ev.defaultPrevented || ev.isComposing || ev.keyCode === 229 || !editable.value) {
+        return
+      }
+      if (editor && ev.key === 'Escape') {
         return
       }
       if ((ev.key === 'ArrowDown' || ev.key === 'ArrowUp') && !computedOpen.value) {
@@ -313,6 +318,8 @@ export default defineComponent({
           ref={(instance: any) => {
             if (instance?.$el) {
               optionRefs.value[item.key] = instance.$el
+            } else if (!instance) {
+              delete optionRefs.value[item.key]
             }
           }}
           key={item.key}
@@ -333,6 +340,7 @@ export default defineComponent({
 
     const renderDropdown = () => (
       <SelectDropdown
+        onUserInteraction={cancelPendingInitialScroll}
         ref={dropdownRef}
         loading={loading.value}
         empty={Boolean(editor) && !computedOpen.value}
@@ -365,8 +373,15 @@ export default defineComponent({
       'aria-autocomplete': 'list',
       'aria-busy': loading.value || undefined,
       'aria-expanded': computedOpen.value,
-      'aria-controls': listboxId,
-      'aria-activedescendant': computedOpen.value && activeKey.value ? getOptionId(activeKey.value) : undefined,
+      'aria-controls': computedOpen.value ? listboxId : undefined,
+      'aria-activedescendant':
+        computedOpen.value &&
+        !loading.value &&
+        activeKey.value &&
+        enabledOptionKeys.value.includes(activeKey.value) &&
+        optionRefs.value[activeKey.value]
+          ? getOptionId(activeKey.value)
+          : undefined,
       autocomplete: 'off',
     }))
 

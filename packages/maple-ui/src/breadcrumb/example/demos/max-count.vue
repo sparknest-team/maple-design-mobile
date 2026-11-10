@@ -11,9 +11,9 @@
     <mp-breadcrumb :routes="maxRoutes" :max-count="3" @click.prevent>
       <template #more-icon="{ omittedItems }">
         <mp-tooltip :trigger="['hover', 'focus', 'click']" :content="omittedLabel(omittedItems)">
-          <button type="button" class="more-trigger" aria-label="查看隐藏路径">
+          <mp-button html-type="button" variant="text" class="more-trigger" aria-label="查看隐藏路径">
             <m-icon-more aria-hidden="true" />
-          </button>
+          </mp-button>
         </mp-tooltip>
       </template>
     </mp-breadcrumb>

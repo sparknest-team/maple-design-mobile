@@ -91,6 +91,34 @@ test('unmount cancels queued work and ignores already-delivered old callbacks', 
   expect(active._lazy.state).toBe('pending')
   expect(images).toHaveLength(1)
 })
+test('replayed frame callbacks cannot schedule a second viewport check', () => {
+  host('/replay.svg')
+  const first = frames.shift()
+  first()
+  expect(frames).toHaveLength(1)
+  first()
+  expect(frames).toHaveLength(1)
+  const second = frames.shift()
+  second()
+  expect(images).toHaveLength(1)
+  second()
+  expect(images).toHaveLength(1)
+})
+test('a superseded throttle callback cannot schedule work', async () => {
+  vi.spyOn(performance, 'now').mockReturnValue(-100000)
+  const callbacks = []
+  vi.spyOn(globalThis, 'setTimeout').mockImplementation((fn) => {
+    callbacks.push(fn)
+    return 123456
+  })
+  host('/throttle.svg')
+  await tickFrames()
+  window.dispatchEvent(new Event('scroll'))
+  window.dispatchEvent(new Event('scroll'))
+  expect(callbacks).toHaveLength(2)
+  callbacks[0]()
+  expect(frames).toHaveLength(0)
+})
 test.each([
   ['not-number', 3],
   ['Infinity', 3],

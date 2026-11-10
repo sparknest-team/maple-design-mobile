@@ -61,7 +61,8 @@ describe('PickerField', () => {
       props: { texts: ['2026-09-22'], placeholders: ['开始'], hint: true },
     })
     expect(wrapper.get('input').element.value).toBe('2026-09-22')
-    expect(wrapper.get('label').attributes('for')).toBe(wrapper.get('input').attributes('id'))
+    expect(wrapper.find('[aria-hidden="true"].mp-field-decorator__placeholder').exists()).toBe(true)
+    expect(wrapper.get('input').attributes('placeholder')).toBeTruthy()
     await wrapper.setProps({
       range: true,
       texts: ['09:00', '10:00'],

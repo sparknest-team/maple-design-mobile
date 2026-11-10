@@ -129,7 +129,7 @@ Documentation language: zh-CN.
 - [Tabs 标签页](./llms/zh-CN/tabs.md): /zh-CN/tabs
 - [标签](./llms/zh-CN/tag.md): /zh-CN/tag
 - [文本域](./llms/zh-CN/textarea.md): /zh-CN/textarea
-- [ThemeProvider 主题](./llms/zh-CN/theme-provider.md): /zh-CN/theme-provider
+- [ThemeProvider](./llms/zh-CN/theme-provider.md): /zh-CN/theme-provider
 - [主题定制](./llms/zh-CN/themes.md): /zh-CN/themes
 - [TimeRange 时间范围](./llms/zh-CN/time-range.md): /zh-CN/time-range
 - [Time 时间](./llms/zh-CN/time.md): /zh-CN/time

@@ -14,6 +14,7 @@ test('each picker column preserves its description and tracks its form error', a
           h(Picker, {
             columns: [[{ text: 'A', value: 'a' }], [{ text: 'B', value: 'b' }]],
             'aria-describedby': 'external',
+            'aria-invalid': false,
           }),
         ),
     },
@@ -22,16 +23,19 @@ test('each picker column preserves its description and tracks its form error', a
     const columns = () => wrapper.findAll('[role="listbox"]')
     expect(columns()).toHaveLength(2)
     expect(columns().map((column) => column.attributes('aria-describedby'))).toEqual(['external', 'external'])
+    expect(columns().map((column) => column.attributes('aria-invalid'))).toEqual(['false', 'false'])
     ;(wrapper.vm as any).setFields({ value: { message: 'Invalid selection' } })
     await nextTick()
     const id = wrapper.get('.mp-form-details__error-message').attributes('id')
     for (const column of columns()) {
       expect(column.attributes('aria-describedby')?.split(/\s+/)).toEqual(['external', id])
+      expect(column.attributes('aria-invalid')).toBe('true')
     }
     ;(wrapper.vm as any).clearValidate()
     await nextTick()
     for (const column of columns()) {
       expect(column.attributes('aria-describedby')).toBe('external')
+      expect(column.attributes('aria-invalid')).toBe('false')
     }
   } finally {
     wrapper.unmount()

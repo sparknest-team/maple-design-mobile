@@ -1,4 +1,4 @@
-import { nextTick } from 'vue'
+import { h, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { expect, test } from 'vitest'
 import Panel from '../CascaderPanel.vue'
@@ -125,5 +125,109 @@ test('another panel cannot adopt the focused option from a different panel', asy
   } finally {
     first.unmount()
     second.unmount()
+  }
+})
+
+test('Enter on a disabled focused option does not select a previously active option', async () => {
+  const wrapper = mount(Panel, {
+    attachTo: document.body,
+    props: {
+      options: [
+        { value: 'a', label: 'Alpha' },
+        { value: 'b', label: 'Beta', disabled: true },
+      ],
+    },
+  })
+  try {
+    const [enabled, disabled] = wrapper.findAll('[role="menuitem"]')
+    ;(enabled!.element as HTMLElement).focus()
+    ;(disabled!.element as HTMLElement).focus()
+    await disabled!.trigger('keydown', { key: 'Enter' })
+    expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+  } finally {
+    wrapper.unmount()
+  }
+})
+
+test.each([
+  ['ltr', 'ArrowRight'],
+  ['rtl', 'ArrowLeft'],
+])('disabled option does not expand an old branch in %s', async (dir, key) => {
+  const wrapper = mount(Panel, {
+    attachTo: document.body,
+    attrs: { dir },
+    props: {
+      options: [
+        { value: 'a', label: 'Alpha', children: [{ value: 'a1', label: 'Child' }] },
+        { value: 'b', label: 'Beta', disabled: true },
+      ],
+    },
+  })
+  try {
+    const [enabled, disabled] = wrapper.findAll('[role="menuitem"]')
+    ;(enabled!.element as HTMLElement).focus()
+    ;(disabled!.element as HTMLElement).focus()
+    await disabled!.trigger('keydown', { key })
+    expect(wrapper.findAll('[role="menuitem"]')).toHaveLength(2)
+    expect(enabled!.attributes('aria-expanded')).toBe('false')
+  } finally {
+    wrapper.unmount()
+  }
+})
+
+test.each([
+  ['ArrowDown', 3, 2],
+  ['ArrowUp', 0, 0],
+])('vertical %s starts from disabled focused position', async (key, previous, expected) => {
+  const wrapper = mount(Panel, {
+    attachTo: document.body,
+    props: {
+      options: [
+        { value: 'a', label: 'Alpha' },
+        { value: 'b', label: 'Beta', disabled: true },
+        { value: 'c', label: 'Gamma' },
+        { value: 'd', label: 'Delta' },
+      ],
+    },
+  })
+  try {
+    const items = wrapper.findAll('[role="menuitem"]')
+    ;(items[previous]!.element as HTMLElement).focus()
+    ;(items[1]!.element as HTMLElement).focus()
+    await items[1]!.trigger('keydown', { key })
+    await nextTick()
+    expect(document.activeElement).toBe(items[expected]!.element)
+  } finally {
+    wrapper.unmount()
+  }
+})
+
+test('panel navigation does not focus a matching option in a nested panel', async () => {
+  const wrapper = mount(Panel, {
+    attachTo: document.body,
+    props: {
+      options: [
+        { value: 'a', label: 'Alpha' },
+        { value: 'b', label: 'Outer Beta' },
+      ],
+    },
+    slots: {
+      option: ({ data }: any) =>
+        data.value === 'a'
+          ? h('div', [data.label, h(Panel, { options: [{ value: 'b', label: 'Inner Beta' }] })])
+          : data.label,
+    },
+  })
+  try {
+    const alpha = wrapper.get('[role="menuitem"][title="Alpha"]')
+    const inner = wrapper.get('[role="menuitem"][title="Inner Beta"]')
+    const outer = wrapper.get('[role="menuitem"][title="Outer Beta"]')
+    ;(alpha.element as HTMLElement).focus()
+    await alpha.trigger('keydown', { key: 'ArrowDown' })
+    await nextTick()
+    expect(document.activeElement).toBe(outer.element)
+    expect(document.activeElement).not.toBe(inner.element)
+  } finally {
+    wrapper.unmount()
   }
 })

@@ -18,18 +18,23 @@
       :hint="false"
       :variant="editor ? 'outline' : undefined"
       :aria-label="texts.search.value"
+      :aria-controls="optionsId"
       :placeholder="texts.search.value"
       clearable
       @update:model-value="controller.handleInputValueChange"
     />
     <cascader-search-panel
       v-if="showSearchPanel"
+      :id="optionsId"
       :options="filteredLeafOptions"
       :active-key="activeKey"
       :multiple="multiple"
       :check-strictly="checkStrictly"
       :loading="loading"
       :path-label="!searchOptionOnlyLabel"
+      :listbox-id="listboxId"
+      :listbox-label="texts.search.value"
+      v-on="keyboardHandler ? { keydown: keyboardHandler } : {}"
     >
       <template v-if="$slots.empty" #empty>
         <slot name="empty" />
@@ -38,6 +43,7 @@
     <component
       :is="editor ? CascaderEditorPanel : BaseCascaderPanel"
       v-else
+      :id="optionsId"
       :display-columns="displayColumns"
       :selected-path="selectedPath"
       :active-key="activeKey"
@@ -47,6 +53,7 @@
       :loading="loading"
       :virtual-list-props="virtualListProps"
       dropdown
+      v-on="keyboardHandler ? { keydown: keyboardHandler } : {}"
     >
       <template v-if="$slots.empty" #empty>
         <slot name="empty" />
@@ -55,10 +62,12 @@
   </SelectedOptions>
 </template>
 <script setup lang="ts">
-import { inject, toRefs, type UnwrapNestedRefs } from 'vue'
+import { inject, toRefs, useId, type UnwrapNestedRefs } from 'vue'
+import { isolateEditorForm } from '../_components/field-presentation/form-bridge'
 import { useFieldTexts } from '../_components/field-presentation/texts'
 import { selectionEditorSurface } from '../_components/selected-options/context'
 import SelectedOptions from '../_components/selected-options/SelectedOptions.vue'
+import { provideFormErrorDescriptionBoundary } from '../form/error-description'
 import Input from '../input'
 import { createNamespace } from '../utils/components'
 import BaseCascaderPanel from './base-cascader-panel'
@@ -67,9 +76,17 @@ import CascaderEditorPanel from './CascaderEditorPanel.vue'
 import type { CascaderController } from './use-cascader-controller'
 
 defineOptions({ name: createNamespace('cascader-menu').name })
+isolateEditorForm()
+provideFormErrorDescriptionBoundary()
 const texts = useFieldTexts()
+const optionsId = `cascader-editor-options-${useId()}`
 const editor = inject(selectionEditorSurface, undefined)
-const { controller } = defineProps<{ controller: UnwrapNestedRefs<CascaderController>; searchable?: boolean }>()
+const { controller, keyboardHandler, listboxId } = defineProps<{
+  controller: UnwrapNestedRefs<CascaderController>
+  listboxId?: string
+  searchable?: boolean
+  keyboardHandler?: (event: KeyboardEvent) => void | Promise<void>
+}>()
 const { loading, showSearchPanel, filteredLeafOptions, activeKey, displayColumns, selectedPath, totalLevel } =
   toRefs(controller)
 const { multiple, checkStrictly, searchOptionOnlyLabel, virtualListProps } = toRefs(controller.props)

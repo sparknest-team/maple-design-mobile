@@ -8,11 +8,6 @@
       </svg>
     </strong>
     <slot />
-    <Tooltip v-if="tooltip" :content="tooltip" :trigger="['hover', 'focus', 'click']">
-      <button type="button" :class="`${labelClass}-tooltip`" :aria-label="tooltip" @click.stop>
-        <IconQuestionCircle />
-      </button>
-    </Tooltip>
     <strong v-if="required && asteriskPosition === 'end'" :class="`${labelClass}-required-symbol`">
       <svg fill="currentColor" viewBox="0 0 1024 1024" width="1em" height="1em">
         <path
@@ -22,6 +17,11 @@
     </strong>
     {{ showColon ? ':' : '' }}
   </component>
+  <Tooltip v-if="tooltip" :content="tooltip" :trigger="['hover', 'focus', 'click']">
+    <button ref="tooltipRef" type="button" :class="`${labelClass}-tooltip`" :aria-label="tooltip" @click.stop>
+      <IconQuestionCircle />
+    </button>
+  </Tooltip>
 </template>
 
 <script setup lang="ts">
@@ -45,5 +45,6 @@ const props = defineProps({
   attrs: formItemDecorationProps.labelAttrs,
 })
 const labelRef = ref<HTMLElement>()
-useFormLabelMeasurement(labelRef, () => props.measureWidth, props.registry)
+const tooltipRef = ref<HTMLElement>()
+useFormLabelMeasurement(labelRef, () => props.measureWidth, props.registry, tooltipRef)
 </script>

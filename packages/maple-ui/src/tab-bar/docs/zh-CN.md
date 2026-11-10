@@ -201,7 +201,7 @@ TabBar 使用按钮组表达状态选择，选中项通过 aria-pressed 标记�
 
 以下为组件使用的 css 变量，可以使用 [ThemeProvider 组件](#/zh-CN/theme-provider) 进行样式定制。
 
-未传 `z-index` 时消费 `--mp-tab-bar-z-index`，因此局部主题覆盖可以生效；显式数值或 CSS 字符串属性优先。默认视觉层级仍为 `1`，但属性默认值不再固定为 `1`。
+未传 `z-index` 时消费 `--mp-tab-bar-z-index`，因此局部主题覆盖可以生效；显式数值或 CSS 字符串属性优先。默认视觉层级为 `1`。
 
 <!-- component-css-variables:start -->
 

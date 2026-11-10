@@ -1,6 +1,5 @@
 import {
   callWithAsyncErrorHandling,
-  ErrorCodes,
   getCurrentInstance,
   onActivated,
   onBeforeUnmount,
@@ -13,6 +12,8 @@ import type { TriggerElement } from './reference'
 
 const referenceListener =
   /^(onClick|onMouseenter|onMouseleave|onFocusin|onFocusout|onContextmenu)((?:Once|Capture|Passive)*)$/
+// Vue 3.2 does not export ErrorCodes; 5 denotes native event handlers in both supported runtimes.
+const nativeEventHandlerErrorCode = 5
 
 export function isTriggerReferenceListener(key: string): boolean {
   return referenceListener.test(key)
@@ -77,7 +78,7 @@ export function useTriggerReferenceListeners(
             current.consumed = true
             current.attached = false
           }
-          callWithAsyncErrorHandling(current.value, instance, ErrorCodes.NATIVE_EVENT_HANDLER, [event])
+          callWithAsyncErrorHandling(current.value, instance, nativeEventHandlerErrorCode, [event])
         }
         listeners.set(key, current)
       }

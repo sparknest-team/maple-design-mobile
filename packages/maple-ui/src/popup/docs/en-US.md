@@ -125,7 +125,7 @@ Popup close()/requestClose() and external open=false are guarded. Dialog on both
 | `safe-area-inset-top` | Apply the top safe-area inset | `boolean` | `false` |
 | `safe-area-inset-right` | Apply the right safe-area inset | `boolean` | `false` |
 | `safe-area-inset-left` | Apply the left safe-area inset | `boolean` | `false` |
-| `z-index` | Custom z-index | `number` | Automatically distributed |
+| `z-index` | Outer stacking level | `number` | Automatically distributed |
 
 ### Popup Events
 

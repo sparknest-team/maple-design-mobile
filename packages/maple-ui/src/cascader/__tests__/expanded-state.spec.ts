@@ -95,3 +95,44 @@ test('lazy branch remains collapsed until a child column exists', async () => {
     wrapper.unmount()
   }
 })
+
+test.each([false, true])('editor announces an existing child column in virtual=%s mode', async (virtual) => {
+  const EditorPanel = (await import('../CascaderEditorPanel.vue')).default
+  const branch = { key: 'a', label: 'Alpha', value: 'a', isLeaf: false, path: [] }
+  const leaf = { key: 'a1', label: 'Child', value: 'a1', isLeaf: true, path: [] }
+  const wrapper = mount(EditorPanel, {
+    props: {
+      displayColumns: [[branch], [leaf]] as any,
+      selectedPath: ['a'],
+      totalLevel: 2,
+      virtualListProps: virtual ? { height: 120 } : undefined,
+    },
+  })
+  try {
+    expect(wrapper.findAll('[role="menuitem"]')[0]!.attributes('aria-expanded')).toBe('true')
+    await wrapper.setProps({ displayColumns: [[branch]] as any })
+    expect(wrapper.findAll('[role="menuitem"]')[0]!.attributes('aria-expanded')).toBe('false')
+  } finally {
+    wrapper.unmount()
+  }
+})
+
+test('mobile editor does not announce a hidden child column as expanded', async () => {
+  const EditorPanel = (await import('../CascaderEditorPanel.vue')).default
+  const { selectionEditorSurface } = await import('../../_components/selected-options/context')
+  const branch = { key: 'a', label: 'Alpha', value: 'a', isLeaf: false, path: [] }
+  const leaf = { key: 'a1', label: 'Child', value: 'a1', isLeaf: true, path: [] }
+  const wrapper = mount(EditorPanel, {
+    props: { displayColumns: [[branch], [leaf]] as any, selectedPath: ['a'], totalLevel: 2 },
+    global: { provide: { [selectionEditorSurface as symbol]: { mobile: true } } },
+  })
+  try {
+    await wrapper.findAll('nav button')[0]!.trigger('click')
+    const parent = wrapper.findAll('[role="menuitem"]')[0]!
+    expect(parent.isVisible()).toBe(true)
+    expect(parent.attributes('aria-expanded')).toBe('false')
+    expect(wrapper.findAll('[role="menuitem"]')[1]!.isVisible()).toBe(false)
+  } finally {
+    wrapper.unmount()
+  }
+})

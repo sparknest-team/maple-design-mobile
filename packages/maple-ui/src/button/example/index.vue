@@ -134,7 +134,7 @@ onThemeChange()
   </section>
 
   <section data-demo="controlled-loading">
-    <app-type>{{ english ? 'Sync, async and rejection recovery' : '受控加载与失败恢复' }}</app-type>
+    <app-type>{{ english ? 'Controlled loading and failure recovery' : '受控加载与失败恢复' }}</app-type>
     <DemoControlledLoading />
   </section>
 </template>

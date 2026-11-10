@@ -29,8 +29,9 @@
 import { computed, defineComponent, nextTick, onActivated, onBeforeUnmount, onDeactivated, ref, watch } from 'vue'
 import { getRect, getScrollLeft, getScrollTop, isPlainObject, toNumber } from '@maple-design/shared'
 import { onSmartMounted } from '@maple-design/use'
-import { t } from '../locale'
 import { injectLocaleProvider } from '../locale-provider/provide'
+import { defaultLocaleReady, t } from '../locale/state'
+import { defaultIndexNavigation } from '../locale/zh-CN'
 import { createNamespace } from '../utils/components'
 import { getParentScroller, toPxNum } from '../utils/elements'
 import { type IndexAnchorProvider } from './anchor-provide'
@@ -55,7 +56,10 @@ export default defineComponent({
     const zIndex = computed(() => props.zIndex)
     const { length, indexAnchors, bindIndexAnchors } = useIndexAnchors()
     const { t: localT } = injectLocaleProvider()
-    const navigationLabel = computed(() => (localT || t)('indexBar.navigation') ?? 'Index navigation')
+    const navigationLabel = computed(() => {
+      const label = localT ? localT('indexBar.navigation') : t('indexBar.navigation')
+      return label ?? (!localT && !defaultLocaleReady.value ? defaultIndexNavigation : 'Index navigation')
+    })
     const anchorKeys = new WeakMap<IndexAnchorProvider, number>()
     let nextAnchorKey = 0
     let previousAnchors: Array<{ anchor: IndexAnchorProvider; name: string | number | undefined }> = []

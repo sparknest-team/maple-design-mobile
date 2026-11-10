@@ -213,6 +213,28 @@ describe('selection', () => {
     f.vm.scrollTo(options)
     expect(f.scroll.mock.calls).toEqual([[options]])
   })
+  test('horizontal conversion cannot scroll an element disposed during geometry access', async () => {
+    const f = await fixture(Component)
+    Object.defineProperty(f.container, 'scrollWidth', {
+      configurable: true,
+      get: () => {
+        f.owner.unmount()
+        return 500
+      },
+    })
+    f.vm.handleHorizontalScroll(10)
+    expect(f.scroll).not.toHaveBeenCalled()
+  })
+  test('RTL thumb measurement and native scrolling use opposite coordinate systems', async () => {
+    const f = await fixture(Component)
+    f.container.setAttribute('dir', 'rtl')
+    f.geometry.scrollLeft = -100
+    f.vm.handleResize()
+    const ratio = f.vm.horizontalData.ratio
+    expect(f.offsets.horizontal).toHaveBeenCalledWith(Math.round(300 / ratio))
+    f.vm.handleHorizontalScroll(10)
+    expect(f.scroll).toHaveBeenCalledWith({ left: 10 * ratio - 400 })
+  })
   test('horizontal measurement uses its own axis ratio', async () => {
     const f = await fixture(Component)
     f.geometry.scrollLeft = 100

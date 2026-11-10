@@ -43,9 +43,9 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useFormErrorDescription } from '../../form/error-description'
-import { t } from '../../locale'
 import { createNamespace } from '../../utils/components'
 import PendingFeedback from '../pending-feedback/PendingFeedback.vue'
+import { fieldGlobalText as t } from './default-texts'
 
 defineOptions({ name: createNamespace('field-reference').name, inheritAttrs: false })
 const { describe: describeError } = useFormErrorDescription()

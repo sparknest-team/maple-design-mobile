@@ -1,26 +1,31 @@
 <template>
+  <!-- Keep an inline Teleport inside a fragment for Vue 3.2 hydration. -->
+  <template v-if="false" />
   <teleport :to="popupContainerTarget" :disabled="popupContainer === false || teleportDisabled">
-    <transition :name="n('--fade')" @after-enter="transition.opened" @after-leave="transition.closed">
-      <div
-        v-if="shouldRender"
-        v-show="mergedOpen"
-        ref="overlayRoot"
-        :dir="readingDirection"
-        :class="n()"
-        :style="{ zIndex: mergedZIndex }"
-        v-bind="mergeProps(themeScope, $attrs)"
-      >
+    <template v-if="true">
+      <transition :name="n('--fade')" @after-enter="transition.opened" @after-leave="transition.closed">
         <div
-          :class="n('backdrop')"
-          role="presentation"
-          @pointerdown="handleBackdropPointerDown"
-          @click="handleBackdropClick"
-        />
-        <div :class="n('content')">
-          <slot />
+          v-if="shouldRender"
+          v-show="mergedOpen"
+          ref="overlayRoot"
+          :dir="readingDirection"
+          :class="n()"
+          :style="{ zIndex: mergedZIndex }"
+          v-bind="mergeProps(themeScope, $attrs)"
+        >
+          <div
+            :class="n('backdrop')"
+            role="presentation"
+            @pointerdown="handleBackdropPointerDown"
+            @click="handleBackdropClick"
+          />
+          <div :class="n('content')">
+            <slot />
+          </div>
         </div>
-      </div>
-    </transition>
+      </transition>
+      <template v-if="false" />
+    </template>
   </teleport>
 </template>
 

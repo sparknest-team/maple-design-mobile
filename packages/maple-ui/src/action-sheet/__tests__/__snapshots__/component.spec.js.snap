@@ -1,9 +1,12 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`action-sheet styles 1`] = `
-"<!--teleport start-->
+"<!-- Keep an inline Teleport inside a fragment for Vue 3.2 hydration. -->
+<!--v-if-->
+<!--teleport start-->
+
 <transition-stub name="mp-fade" appear="false" persisted="false" css="true">
-  <div dir="ltr" class="mp--box mp-popup" style="z-index: 1998;">
+  <div dir="ltr" class="mp--box mp-popup" style="z-index: 2000;">
     <div class="mp-popup__overlay" style="z-index: 1999;" role="presentation"></div>
     <transition-stub name="mp-pop-bottom" appear="false" persisted="true" css="true">
       <div data-modal-focus-root="" class="mp-popup__content mp-popup--bottom mp-popup--content-background-color mp-elevation--3 mp-popup--safe-area-inset-bottom mp-popup--safe-area-inset-right mp-popup--safe-area-inset-left mp-action-sheet__popup-radius" style="z-index: 2000;" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="mp-action-sheet-title-v-0">
@@ -13,10 +16,10 @@ exports[`action-sheet styles 1`] = `
             <div id="mp-action-sheet-title-v-0">
               <div class="mp-action-sheet__title">请选择</div>
             </div><button type="button" class="mp-action-sheet__close">取消</button>
-          </div><button type="button" class="mp-action-sheet__action-item customClass" style="color: rgb(76, 175, 80);"><span class="mp-icon mp-action-sheet__action-icon" style="font-size: 30px; transition-duration: 0ms;" mp-action-sheet-cover=""></span>
+          </div><button type="button" class="mp-action-sheet__action-item customClass" style="color: rgb(76, 175, 80);"><span class="mp-icon mp-action-sheet__action-icon" style="font-size: 30px;" mp-action-sheet-cover=""></span>
             <div class="mp-action-sheet__action-name">Item 01</div>
             <div class="mp-hover-overlay"></div>
-          </button><button type="button" disabled="" class="mp-action-sheet__action-item mp-action-sheet--disabled"><span class="mp-icon mp-action-sheet__action-icon" style="transition-duration: 0ms;" mp-action-sheet-cover=""></span>
+          </button><button type="button" disabled="" class="mp-action-sheet__action-item mp-action-sheet--disabled"><span class="mp-icon mp-action-sheet__action-icon" mp-action-sheet-cover=""></span>
             <div class="mp-action-sheet__action-name">Item 02</div>
             <div class="mp-hover-overlay"></div>
           </button>
@@ -25,5 +28,7 @@ exports[`action-sheet styles 1`] = `
     </transition-stub>
   </div>
 </transition-stub>
+<!--v-if-->
+
 <!--teleport end-->"
 `;

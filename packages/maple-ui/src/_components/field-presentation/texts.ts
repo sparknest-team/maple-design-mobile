@@ -1,6 +1,6 @@
 import { computed } from 'vue'
-import { t } from '../../locale'
 import { injectLocaleProvider } from '../../locale-provider/provide'
+import { fieldGlobalText as t } from './default-texts'
 
 export function useFieldTexts() {
   const { t: translate } = injectLocaleProvider()

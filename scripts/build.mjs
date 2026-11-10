@@ -49,11 +49,12 @@ export async function runTaskQueue() {
   const start = performance.now()
 
   await runTask('shared & touch-emulator', () => Promise.all([buildShared(), buildToucheEmulator()]))
+  // Resolver declarations import the icon registry, so its types must exist first.
+  await runTask('icons', buildIcons)
   await runTask('preset-unocss & preset-tailwindcss & resolver & use & vite-plugins', () =>
     Promise.all([buildPresetUnocss(), buildPresetTailwindcss(), buildResolver(), buildUse(), buildVitePlugins()]),
   )
   await runTask('cli node', buildCliNode)
-  await runTask('icons', buildIcons)
   await runTask('ui', buildUI)
   await runTask('cli', buildCli)
 

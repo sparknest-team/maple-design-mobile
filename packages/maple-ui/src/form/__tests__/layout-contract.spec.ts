@@ -206,6 +206,7 @@ describe('Form layout contract', () => {
     state.label = 'Short'
     await nextTick()
     observers.filter((record) => !record.disconnected).forEach((record) => record.callback())
+    await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()))
     await nextTick()
     expect(cols()[0].props('flex')).toBe('40px')
     state.showLong = false

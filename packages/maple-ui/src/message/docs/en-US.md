@@ -124,7 +124,7 @@ Function options additionally accept `onOpen / onOpened / onClose / onClosed`. C
 
 ### Message Events
 
-`update:open`, `open`, `opened`, `close`, and `closed`, emitted once per visibility cycle.
+`update:open`, `open`, `opened`, `close`, and `closed`, emitted once per visibility cycle. When an initially open message hydrates, it skips the initial enter animation and emits `opened` after `open` on mount.
 
 ### Message Methods
 

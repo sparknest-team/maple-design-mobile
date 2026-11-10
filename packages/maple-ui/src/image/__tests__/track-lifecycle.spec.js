@@ -126,6 +126,22 @@ async function fixture(config = {}) {
   return { owner, child, vm, active, images, loop, track, settle, wrap, index, event, timerCallback }
 }
 describe('PreviewGroup track scheduler ownership', () => {
+  test('unmount during transition measurement does not schedule a recenter timer', async () => {
+    const f = await fixture()
+    const view = f.track().ownerDocument.defaultView
+    f.vm.next()
+    f.vm.next()
+    await flush()
+    const timer = vi.spyOn(view, 'setTimeout')
+    timer.mockClear()
+    vi.spyOn(view, 'getComputedStyle').mockImplementation(() => {
+      f.owner.unmount()
+      return { transitionProperty: 'transform', transitionDuration: '0.24s', transitionDelay: '0s' }
+    })
+    deliverTicks()
+    expect(timer).not.toHaveBeenCalled()
+  })
+
   test('current instant mode releases on the second frame', async () => {
     const f = await fixture()
     deliverTicks()

@@ -1,6 +1,8 @@
 import type { AutoCompleteOptionInfo } from './props'
 
 export const autoCompleteEmits = {
+  /** @zh 字段按键事件 @en Field keyboard event */
+  keydown: (_event: KeyboardEvent) => true,
   'load-error': (error: unknown) => true,
   'update:modelValue': (value: string | null) => true,
   input: (value: string, ev: Event) => true,

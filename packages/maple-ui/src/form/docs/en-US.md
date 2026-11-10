@@ -1,5 +1,9 @@
 # Form
 
+## Field names
+
+In direct edit mode, for a visible label on a single field, match FormItem `label-attrs.for` to the control `id`. The native inputs in selection, date and time fields do not let their placeholder override an associated label. An explicit `aria-label` or `aria-labelledby` retains its native accessible-name precedence. Placeholder is only a fallback when no label is supplied; provide clear labels. Date and time range fields in FormItem associate the form label with their group; use `input-attrs` to give the endpoints distinct names. If `label-attrs.for` targets another control, the label is not associated with the range group. The `tooltip` button is independently focusable and its name is not added to the field label.
+
 ## Reading direction
 
 Form and FormItem accept start/end/left/center/right for content-align and start/end/left/right for label-align. Content defaults to start and labels to end: default LTR placement stays the same while RTL follows reading order. Explicit left/right remain physical. Item overrides and explicit label-column styles retain precedence. Direction changes preserve values, validation and disabled/readonly state.

@@ -1,9 +1,12 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`popup show 1`] = `
-"<!--teleport start-->
+"<!-- Keep an inline Teleport inside a fragment for Vue 3.2 hydration. -->
+<!--v-if-->
+<!--teleport start-->
+
 <transition-stub name="mp-fade" appear="false" persisted="false" css="true">
-  <div dir="ltr" class="mp--box mp-popup" style="z-index: 1998; display: none;">
+  <div dir="ltr" class="mp--box mp-popup" style="z-index: 2000; display: none;">
     <div class="mp-popup__overlay" style="z-index: 1999;" role="presentation"></div>
     <transition-stub name="mp-pop-center" appear="false" persisted="true" css="true">
       <div data-modal-focus-root="" class="mp-popup__content mp-popup--center mp-popup--content-background-color mp-elevation--3" style="z-index: 2000; display: none;" tabindex="-1" role="dialog" aria-modal="true">
@@ -12,13 +15,18 @@ exports[`popup show 1`] = `
     </transition-stub>
   </div>
 </transition-stub>
+<!--v-if-->
+
 <!--teleport end-->"
 `;
 
 exports[`popup show 2`] = `
-"<!--teleport start-->
+"<!-- Keep an inline Teleport inside a fragment for Vue 3.2 hydration. -->
+<!--v-if-->
+<!--teleport start-->
+
 <transition-stub name="mp-fade" appear="false" persisted="false" css="true">
-  <div dir="ltr" class="mp--box mp-popup" style="z-index: 1998;">
+  <div dir="ltr" class="mp--box mp-popup" style="z-index: 2000;">
     <div class="mp-popup__overlay" style="z-index: 1999;" role="presentation"></div>
     <transition-stub name="mp-pop-center" appear="false" persisted="true" css="true">
       <div data-modal-focus-root="" class="mp-popup__content mp-popup--center mp-popup--content-background-color mp-elevation--3" style="z-index: 2000;" tabindex="-1" role="dialog" aria-modal="true">
@@ -27,13 +35,18 @@ exports[`popup show 2`] = `
     </transition-stub>
   </div>
 </transition-stub>
+<!--v-if-->
+
 <!--teleport end-->"
 `;
 
 exports[`popup show 3`] = `
-"<!--teleport start-->
+"<!-- Keep an inline Teleport inside a fragment for Vue 3.2 hydration. -->
+<!--v-if-->
+<!--teleport start-->
+
 <transition-stub name="mp-fade" appear="false" persisted="false" css="true">
-  <div dir="ltr" class="mp--box mp-popup" style="z-index: 1998; display: none;">
+  <div dir="ltr" class="mp--box mp-popup" style="z-index: 2000; display: none;">
     <div class="mp-popup__overlay" style="z-index: 1999;" role="presentation"></div>
     <transition-stub name="mp-pop-center" appear="false" persisted="true" css="true">
       <div data-modal-focus-root="" class="mp-popup__content mp-popup--center mp-popup--content-background-color mp-elevation--3" style="z-index: 2000; display: none;" tabindex="-1" role="dialog" aria-modal="true">
@@ -42,5 +55,7 @@ exports[`popup show 3`] = `
     </transition-stub>
   </div>
 </transition-stub>
+<!--v-if-->
+
 <!--teleport end-->"
 `;

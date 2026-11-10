@@ -6,10 +6,11 @@ import Select from '../../select'
 import FieldSelect from '../FieldSelect.vue'
 import Search from '../index'
 
-enableAutoUnmount(afterEach)
 afterEach(() => {
   document.body.innerHTML = ''
 })
+// Vitest runs cleanup hooks in reverse order; unmount before clearing Teleport anchors.
+enableAutoUnmount(afterEach)
 function formContext(onChange) {
   return {
     [FORM_ITEM_BIND_CONTROL_KEY]: {

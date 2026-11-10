@@ -42,3 +42,5 @@ export type { DateWheelOptions } from '../date/wheel-options'
 export type { DateRangePopupOptions } from './popup-options'
 
 export type { DatePickerField } from '../_components/picker-field/fields'
+
+export type { RangeInputAttributes } from '../_components/picker-field/props'

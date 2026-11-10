@@ -1,6 +1,7 @@
 import { mount } from '@vue/test-utils'
 import { expect, test } from 'vitest'
 import Button from '..'
+import Checkbox from '../../checkbox'
 import Form, { FormItem } from '../../form'
 import { RadioGroup } from '../../radio'
 import Space from '../../space'
@@ -9,7 +10,14 @@ import LoadingDemo from '../example/demos/loading.vue'
 test('loading demo exposes its few options and disables only the inapplicable size control', async () => {
   const wrapper = mount(LoadingDemo, {
     global: {
-      components: { MpForm: Form, MpFormItem: FormItem, MpRadioGroup: RadioGroup, MpSpace: Space, MpButton: Button },
+      components: {
+        MpForm: Form,
+        MpFormItem: FormItem,
+        MpRadioGroup: RadioGroup,
+        MpCheckbox: Checkbox,
+        MpSpace: Space,
+        MpButton: Button,
+      },
     },
   })
   try {
@@ -27,6 +35,8 @@ test('loading demo exposes its few options and disables only the inapplicable si
       expect(button.props('loadingMode')).toBe('fill')
       expect(button.props('loadingSize')).toBe('xl')
     }
+    await wrapper.get('input[type="checkbox"]').setValue(true)
+    expect(wrapper.findAllComponents(Button).every((button) => button.props('stacked'))).toBe(true)
   } finally {
     wrapper.unmount()
   }

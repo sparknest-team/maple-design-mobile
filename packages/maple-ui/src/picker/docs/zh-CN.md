@@ -497,7 +497,7 @@
 ### 键盘与减少动效
 每个可操作列为一个 listbox，可用 Tab 聚焦；方向键上下移动，Home/End 到首尾可用项，跳过禁用项。aria-selected 表达当前滚轮项；selected-values 只表达额外勾选标记，两者职责不同。空列和全禁用列不进入 Tab 顺序。
 
-在 FormItem 内，每个滚轮列会合并调用方的 `aria-describedby` 和当前表单错误；清除错误后只保留调用方的描述。
+在 FormItem 内，每个滚轮列会合并调用方的 `aria-describedby` 和当前表单错误；表单错误时各列的 `aria-invalid` 为 `true`，清除错误后恢复调用方的值和描述。
 
 减少动效偏好下，选择立即提交且不等待 transitionend；偏好动态切换时收束待提交滚动，卸载时移除监听。
 

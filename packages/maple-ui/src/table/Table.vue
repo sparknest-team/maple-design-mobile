@@ -25,8 +25,9 @@
 import { computed, defineComponent, ref, watch } from 'vue'
 import { inlineScrollLeft, setInlineScrollLeft, useDirection } from '../_utils/direction'
 import Loading from '../loading/Loading.vue'
-import { t } from '../locale'
 import { injectLocaleProvider } from '../locale-provider/provide'
+import { defaultLocaleReady, t } from '../locale/state'
+import { defaultTableScrollable } from '../locale/zh-CN'
 import { createNamespace, formatElevation } from '../utils/components'
 import { toSizeUnit } from '../utils/elements'
 import { props } from './props'
@@ -40,7 +41,11 @@ export default defineComponent({
   setup(props) {
     const { t: translate } = injectLocaleProvider()
     const regionLabel = computed(() =>
-      String(translate?.('table.scrollable') ?? t('table.scrollable') ?? 'Scrollable table'),
+      String(
+        translate?.('table.scrollable') ??
+          t('table.scrollable') ??
+          (defaultLocaleReady.value ? 'Scrollable table' : defaultTableScrollable),
+      ),
     )
     const mergedLoading = computed(() =>
       typeof props.loading === 'object' && props.loading ? Boolean(props.loading.loading) : Boolean(props.loading),

@@ -1,5 +1,5 @@
 <template>
-  <SelectionEditor kind="cascader" @keydown="controller.handleKeyDown">
+  <SelectionEditor kind="cascader" @keydown="handleEditorKeydown">
     <CascaderMenu :controller="controller" :searchable="options.filterable || options.multiple"
       ><template v-for="(_, key) in $slots" #[key]="scope"><slot :name="key" v-bind="scope || {}" /></template
     ></CascaderMenu>
@@ -21,6 +21,7 @@ const emit = defineEmits<{
   'update:inputValue': [query: string]
   search: [query: string]
   'input-value-change': [query: string]
+  keydown: [event: KeyboardEvent]
 }>()
 const slots = useSlots()
 const editorProps = reactive({
@@ -46,6 +47,17 @@ const forward = ((event: string, ...args: any[]) => {
 const controller = reactive(
   useCascaderController(editorProps as Readonly<ExtractPropTypes<typeof cascaderProps>>, { emit: forward, slots }),
 )
+// The editor is always open; Escape belongs to its containing presentation.
+function handleEditorKeydown(event: KeyboardEvent) {
+  emit('keydown', event)
+  if (event.key === 'Escape') {
+    if (event.isComposing || event.keyCode === 229 || event.defaultPrevented) {
+      event.stopPropagation()
+    }
+    return
+  }
+  return controller.handleKeyDown(event)
+}
 watch(
   () => [...controller.computedValueMap.keys()],
   (keys) => {

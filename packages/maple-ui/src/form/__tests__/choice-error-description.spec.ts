@@ -134,8 +134,16 @@ test('a group error is not repeated on each option', async () => {
     await nextTick()
     const errorId = wrapper.get('[role=alert]').element.closest('[id]')!.id
     expect(wrapper.get('[role=group]').attributes('aria-describedby')?.split(/\s+/)).toContain(errorId)
-    for (const input of wrapper.findAll('input[type=checkbox]')) {
+    const inputs = wrapper.findAll('input[type=checkbox]')
+    expect(inputs).toHaveLength(2)
+    for (const input of inputs) {
       expect(input.attributes('aria-describedby')?.split(/\s+/) ?? []).not.toContain(errorId)
+      expect(input.attributes('aria-invalid')).toBe('true')
+    }
+    ;(wrapper.vm as any).clearValidate()
+    await nextTick()
+    for (const input of inputs) {
+      expect(input.attributes('aria-invalid')).toBeUndefined()
     }
   } finally {
     wrapper.unmount()
@@ -165,6 +173,108 @@ test('deferred choice reference keeps both caller and error descriptions', async
       .find((node) => node.attributes('aria-describedby')?.split(/\s+/).includes(errorId))
     expect(button).toBeTruthy()
     expect(button!.attributes('aria-describedby')?.split(/\s+/)).toContain('external')
+  } finally {
+    wrapper.unmount()
+  }
+})
+
+test.each([false, true])(
+  'slider with numeric inputs associates and clears errors on all interactive controls: range=%s',
+  async (range) => {
+    const wrapper = mount(Form, {
+      props: { editMode: 'direct', model: { value: range ? [20, 60] : 20 } },
+      slots: {
+        default: () =>
+          h(FormItem, { field: 'value', label: 'Value' }, () =>
+            h(Slider, { range, showInput: true, editMode: 'direct', 'aria-describedby': 'external' }),
+          ),
+      },
+    })
+    try {
+      ;(wrapper.vm as any).setFields({ value: { message: 'Invalid value' } })
+      await nextTick()
+      const errorId = wrapper.get('[role=alert]').element.closest('[id]')!.id
+      const thumbs = wrapper.findAll('[role=slider]')
+      const inputs = wrapper.findAll('input')
+      expect(thumbs).toHaveLength(range ? 2 : 1)
+      expect(inputs).toHaveLength(range ? 2 : 1)
+      for (const target of [...thumbs, ...inputs]) {
+        expect(target.attributes('aria-describedby')?.split(/\s+/)).toContain(errorId)
+      }
+      ;(wrapper.vm as any).clearValidate()
+      await nextTick()
+      for (const target of [...thumbs, ...inputs]) {
+        expect(target.attributes('aria-describedby')?.split(/\s+/) ?? []).not.toContain(errorId)
+      }
+      for (const thumb of thumbs) {
+        expect(thumb.attributes('aria-describedby')?.split(/\s+/)).toContain('external')
+      }
+    } finally {
+      wrapper.unmount()
+    }
+  },
+)
+
+test.each([
+  ['radio group', RadioGroup, '[role=radiogroup]'],
+  ['rate', Rate, '[role=slider]'],
+] as const)('%s preserves caller invalid state unless the form has an error', async (_name, component, selector) => {
+  const wrapper = mount(Form, {
+    props: { editMode: 'direct', model: { value: null } },
+    slots: {
+      default: () =>
+        h(FormItem, { field: 'value', label: 'Value' }, () =>
+          h(component as any, { editMode: 'direct', 'aria-invalid': 'grammar' }),
+        ),
+    },
+  })
+  try {
+    expect(wrapper.get(selector).attributes('aria-invalid')).toBe('grammar')
+    ;(wrapper.vm as any).setFields({ value: { message: 'Invalid value' } })
+    await nextTick()
+    expect(wrapper.get(selector).attributes('aria-invalid')).toBe('true')
+    ;(wrapper.vm as any).clearValidate()
+    await nextTick()
+    expect(wrapper.get(selector).attributes('aria-invalid')).toBe('grammar')
+  } finally {
+    wrapper.unmount()
+  }
+})
+
+test.each([false, true])(
+  'slider preserves caller invalid state on all interactive controls: range=%s',
+  async (range) => {
+    const wrapper = mount(Form, {
+      props: { editMode: 'direct', model: { value: range ? [20, 60] : 20 } },
+      slots: {
+        default: () =>
+          h(FormItem, { field: 'value', label: 'Value' }, () =>
+            h(Slider, { range, showInput: true, 'aria-invalid': 'grammar' }),
+          ),
+      },
+    })
+    try {
+      const targets = () => wrapper.findAll('[role=slider], input')
+      expect(targets()).toHaveLength(range ? 4 : 2)
+      targets().forEach((target) => expect(target.attributes('aria-invalid')).toBe('grammar'))
+      ;(wrapper.vm as any).setFields({ value: { message: 'Invalid value' } })
+      await nextTick()
+      targets().forEach((target) => expect(target.attributes('aria-invalid')).toBe('true'))
+      ;(wrapper.vm as any).clearValidate()
+      await nextTick()
+      targets().forEach((target) => expect(target.attributes('aria-invalid')).toBe('grammar'))
+    } finally {
+      wrapper.unmount()
+    }
+  },
+)
+
+test('slider preserves an explicit false invalid state on its thumb and numeric input', () => {
+  const wrapper = mount(Slider, { attrs: { 'aria-invalid': false }, props: { showInput: true } })
+  try {
+    const targets = wrapper.findAll('[role=slider], input')
+    expect(targets).toHaveLength(2)
+    targets.forEach((target) => expect(target.attributes('aria-invalid')).toBe('false'))
   } finally {
     wrapper.unmount()
   }

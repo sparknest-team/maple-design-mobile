@@ -171,43 +171,46 @@ export default defineComponent({
         <>
           {referenceNodes}
           <Teleport to={popupTarget.value} disabled={props.popupContainer === false}>
-            <TriggerPopup
-              options={{
-                rendered: renderState.rendered.value && !hiddenByEmpty,
-                displayed: renderState.displayed.value,
-                visible: visible.value,
-                animating: renderState.animating.value,
-                placement: positioner.actualPlacement.value,
-                setPopup: (element: any) => {
-                  popup.value = element ?? undefined
-                },
-                popupClass: [n('popup'), n(`--placement-${positioner.actualPlacement.value}`), props.popupClass],
-                wrapperClass: n('popup-wrapper'),
-                contentClass: [n('content'), props.contentClass],
-                arrowClass: [n('arrow'), props.arrowClass],
-                popupStyle: { ...positioner.popupStyle.value, zIndex: platform.zIndex.value },
-                wrapperStyle: positioner.wrapperStyle.value,
-                contentStyle: props.contentStyle,
-                arrowStyle: positioner.arrowStyle.value,
-                showArrow: props.showArrow,
-                animationName: props.animationName,
-                duration: props.duration,
-                hooks: renderState.hooks,
-                attrs: popupAttrs.value,
-                handlers: {
-                  onMouseenter: interaction.popupEnter,
-                  onMouseleave: interaction.popupLeave,
-                  onFocusin: interaction.popupFocus,
-                  onFocusout: interaction.popupBlur,
-                  onMousedown: (event: MouseEvent) => {
-                    if (props.preventFocus) {
-                      event.preventDefault()
-                    }
+            {/* Keep the Teleport child boundary stable during Vue 3.2 hydration. */}
+            <>
+              <TriggerPopup
+                options={{
+                  rendered: renderState.rendered.value && !hiddenByEmpty,
+                  displayed: renderState.displayed.value,
+                  visible: visible.value,
+                  animating: renderState.animating.value,
+                  placement: positioner.actualPlacement.value,
+                  setPopup: (element: any) => {
+                    popup.value = element ?? undefined
                   },
-                },
-              }}
-              v-slots={{ content: () => contentNodes }}
-            />
+                  popupClass: [n('popup'), n(`--placement-${positioner.actualPlacement.value}`), props.popupClass],
+                  wrapperClass: n('popup-wrapper'),
+                  contentClass: [n('content'), props.contentClass],
+                  arrowClass: [n('arrow'), props.arrowClass],
+                  popupStyle: { ...positioner.popupStyle.value, zIndex: platform.zIndex.value },
+                  wrapperStyle: positioner.wrapperStyle.value,
+                  contentStyle: props.contentStyle,
+                  arrowStyle: positioner.arrowStyle.value,
+                  showArrow: props.showArrow,
+                  animationName: props.animationName,
+                  duration: props.duration,
+                  hooks: renderState.hooks,
+                  attrs: popupAttrs.value,
+                  handlers: {
+                    onMouseenter: interaction.popupEnter,
+                    onMouseleave: interaction.popupLeave,
+                    onFocusin: interaction.popupFocus,
+                    onFocusout: interaction.popupBlur,
+                    onMousedown: (event: MouseEvent) => {
+                      if (props.preventFocus) {
+                        event.preventDefault()
+                      }
+                    },
+                  },
+                }}
+                v-slots={{ content: () => contentNodes }}
+              />
+            </>
           </Teleport>
         </>
       )

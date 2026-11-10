@@ -330,28 +330,47 @@ export default defineComponent({
           return
         }
         scheduled = true
+        const duration = transitionTime(track) ?? 400
+        if (
+          !available() ||
+          !group.mergedOpen.value ||
+          generation !== recenterGeneration ||
+          trackRef.value !== track ||
+          track.ownerDocument.defaultView !== view ||
+          !needsRecenter()
+        ) {
+          return
+        }
+        const started = recenterStarted ?? view.performance.now()
+        if (
+          !available() ||
+          !group.mergedOpen.value ||
+          generation !== recenterGeneration ||
+          trackRef.value !== track ||
+          track.ownerDocument.defaultView !== view ||
+          !needsRecenter()
+        ) {
+          return
+        }
         recenterNode = track
-        recenterStarted ??= view.performance.now()
+        recenterStarted = started
         timerOwner = view
         // 400ms is only an unavailable/unresolved-style fallback, not a duration cap.
-        recenterTimer = view.setTimeout(
-          () => {
-            if (
-              !available() ||
-              !group.mergedOpen.value ||
-              generation !== recenterGeneration ||
-              trackRef.value !== track ||
-              track.ownerDocument.defaultView !== view
-            ) {
-              return
-            }
-            recenterGeneration++
-            recenterTimer = undefined
-            timerOwner = undefined
-            recenterIfNeeded()
-          },
-          transitionTime(track) ?? 400,
-        )
+        recenterTimer = view.setTimeout(() => {
+          if (
+            !available() ||
+            !group.mergedOpen.value ||
+            generation !== recenterGeneration ||
+            trackRef.value !== track ||
+            track.ownerDocument.defaultView !== view
+          ) {
+            return
+          }
+          recenterGeneration++
+          recenterTimer = undefined
+          timerOwner = undefined
+          recenterIfNeeded()
+        }, duration)
       })
     }
     function handleTrackTransitionEnd(event: TransitionEvent) {

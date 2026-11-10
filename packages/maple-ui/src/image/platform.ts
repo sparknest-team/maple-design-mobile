@@ -1,10 +1,37 @@
 import { computed, defineComponent, h } from 'vue'
 import { IconCloseCircleFill as PreviewCloseIcon } from '@maple-design/icons-vue'
-import { t } from '../locale'
 import { injectLocaleProvider } from '../locale-provider/provide'
+import { defaultLocaleReady, t } from '../locale/state'
+import {
+  defaultImageImagePreview,
+  defaultImageImagePreviewClose,
+  defaultImageImagePreviewDownload,
+  defaultImageImagePreviewFullScreen,
+  defaultImageImagePreviewNext,
+  defaultImageImagePreviewOriginalSize,
+  defaultImageImagePreviewPrev,
+  defaultImageImagePreviewRotateLeft,
+  defaultImageImagePreviewRotateRight,
+  defaultImageImagePreviewZoomIn,
+  defaultImageImagePreviewZoomOut,
+} from '../locale/zh-CN'
 import { createNamespace } from '../utils/components'
 import { toSizeUnit } from '../utils/elements'
 import type { ImagePreviewActionName } from './api'
+
+const defaultImageTexts = {
+  'imagePreview.prev': defaultImageImagePreviewPrev,
+  'imagePreview.next': defaultImageImagePreviewNext,
+  'imagePreview.fullScreen': defaultImageImagePreviewFullScreen,
+  'imagePreview.rotateLeft': defaultImageImagePreviewRotateLeft,
+  'imagePreview.rotateRight': defaultImageImagePreviewRotateRight,
+  'imagePreview.originalSize': defaultImageImagePreviewOriginalSize,
+  'imagePreview.zoomOut': defaultImageImagePreviewZoomOut,
+  'imagePreview.zoomIn': defaultImageImagePreviewZoomIn,
+  'imagePreview.download': defaultImageImagePreviewDownload,
+  'imagePreview.close': defaultImageImagePreviewClose,
+  'image.preview': defaultImageImagePreview,
+} as const
 
 function glyph(char: string) {
   return defineComponent({ setup: () => () => h('span', char) })
@@ -38,7 +65,11 @@ export const DefaultLoader = defineComponent({
 
 export function useActionLabels() {
   const { t: localT } = injectLocaleProvider()
-  const label = (key: string, fallback: string) => (localT || t)(`imagePreview.${key}`) ?? fallback
+  const label = (key: ImagePreviewActionName, fallback: string) => {
+    const localeKey = `imagePreview.${key}` as keyof typeof defaultImageTexts
+    const value = localT ? localT(localeKey) : t(localeKey)
+    return value ?? (!localT && !defaultLocaleReady.value ? defaultImageTexts[localeKey] : fallback)
+  }
   return computed<Record<ImagePreviewActionName, string>>(() => ({
     prev: label('prev', 'Previous image'),
     next: label('next', 'Next image'),
@@ -55,5 +86,8 @@ export function useActionLabels() {
 
 export function useImagePreviewLabel() {
   const { t: localT } = injectLocaleProvider()
-  return computed(() => (localT || t)('image.preview') ?? 'Preview image')
+  return computed(() => {
+    const value = localT ? localT('image.preview') : t('image.preview')
+    return value ?? (!localT && !defaultLocaleReady.value ? defaultImageTexts['image.preview'] : 'Preview image')
+  })
 }

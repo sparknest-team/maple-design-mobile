@@ -1,4 +1,6 @@
 <template>
+  <!-- Keep an inline Teleport inside a fragment for Vue 3.2 hydration. -->
+  <template v-if="false" />
   <Teleport :to="teleportTarget" :disabled="teleportDisabled || popupContainer === false">
     <div
       v-bind="mergeProps(themeScope, $attrs)"

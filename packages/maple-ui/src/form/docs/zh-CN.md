@@ -1,5 +1,9 @@
 # 表单
 
+## 字段名称
+
+直接编辑模式下，为单个字段设置可见标签时，可将 FormItem 的 `label-attrs` 中的 `for` 与控件的 `id` 对应；选择、日期和时间字段的原生输入不会用 placeholder 覆盖已关联的标签。显式 `aria-label` 或 `aria-labelledby` 仍按原生无障碍名称规则优先。placeholder 只是未提供标签时的回退，不能替代清晰的字段标签。日期和时间范围字段在 FormItem 中会将表单标签关联到范围分组；仍需通过 `input-attrs` 分别提供能够区分起止端点的名称。若 `label-attrs.for` 指向其他控件，不会将该标签误关联到范围分组。 `tooltip` 提示按钮可单独聚焦，其名称不会合并到字段标签中。
+
 ## 阅读方向
 
 Form 与 FormItem 的 content-align 支持 start、end、left、center、right，label-align 支持 start、end、left、right；默认内容 start、标签 end。默认 LTR 位置保持不变，RTL 按阅读方向排列；显式 left/right 均为物理对齐。字段覆盖优先于 Form，逐实例标签列样式保持最高优先级。切换方向不重置业务值、校验结果或只读/禁用状态。

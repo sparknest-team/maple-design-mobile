@@ -3,10 +3,10 @@ import { useScrollLock } from '../utils/scroll-lock'
 
 const { n } = createNamespace('')
 
-export function useLock(source: () => boolean, useSource: () => boolean = () => true) {
-  useScrollLock(
-    () => (typeof document === 'undefined' ? undefined : document.body),
-    () => source() && useSource(),
-    { className: n('$--lock'), reserveScrollBar: true },
-  )
+export function useLock(
+  source: () => boolean,
+  useSource: () => boolean = () => true,
+  target: () => HTMLElement | undefined = () => (typeof document === 'undefined' ? undefined : document.body),
+) {
+  useScrollLock(target, () => source() && useSource(), { className: n('$--lock'), reserveScrollBar: true })
 }

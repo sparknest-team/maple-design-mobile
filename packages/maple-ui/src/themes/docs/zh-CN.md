@@ -2,19 +2,13 @@
 
 使用内置主题统一页面外观，再按需要覆盖少量 CSS 变量。主题控制配色、圆角和字体；设备边缘留白请使用 [SafeArea](#/zh-CN/safe-area)。
 
-应用根部和局部区域统一使用 ThemeProvider。根部示例：
-
-```vue
-<mp-theme-provider :theme="mode" :style-vars="currentStyleVars"><App /></mp-theme-provider>
-```
-
-mode 为 light/dark，currentStyleVars 是响应式的 Themes 预设或自定义变量。Provider 不设置 html 属性，不提供静态文档主题修改方法。
+统一管理主题与 CSS 变量。包裹整个应用时是应用全局主题，包裹子树时是局部主题；两者使用相同的继承规则，不修改 html，也不会影响其他应用根节点。
 
 ## 如何选择
 
 | 需求                     | 推荐方式                                            |
 | ------------------------ | --------------------------------------------------- |
-| 整个应用使用一种品牌风格 | `currentStyleVars.value = Themes.maple.light` 等 |
+| 整个应用使用一种品牌风格 | `<mp-theme-provider :theme="Themes.maple[mode]">` |
 | 只修改一个区域或组件     | `<mp-theme-provider :style-vars="…">`               |
 | 查找可覆盖的变量         | 本页变量说明及各组件文档的样式变量表                |
 
@@ -56,6 +50,35 @@ mode 为 light/dark，currentStyleVars 是响应式的 Themes 预设或自定义
 ../example/ThemeDetails.vue
 ```
 
+## ThemeProvider 示例
+
+### 变量覆盖
+
+```demo
+../../theme-provider/example/demos/basic.vue
+```
+
+### 根部与嵌套
+
+```demo
+../../theme-provider/example/demos/local-theme.vue
+```
+
+```vue
+<template>
+  <mp-theme-provider :theme="mode">
+    <App />
+    <mp-theme-provider theme="light">
+      <Preview />
+    </mp-theme-provider>
+  </mp-theme-provider>
+</template>
+```
+
+`theme` 支持 light/dark 或 Themes 预设对象；省略时继承外层。显式主题替换继承的预设，style-vars 定制仍向内继承。`style-vars` 覆盖主题默认变量，内层同名变量优先，null 清除本层覆盖。显式主题边界会重新计算已加载组件的变量别名。Provider 保留真实包裹元素，可通过 tag 修改；放入已有 Flex/Grid 布局时，可选择合适容器或设置 display: contents。
+
+库内声明式菜单、对话框和浮动内容通过 Vue 上下文继承所属 Provider，挂到 body、自定义 popup-container 或行内都适用。脱离 Provider 创建的命令式服务需要将 popup-container 指向主题区域；第三方 Teleport 需要自行放置主题宿主。跨文档目标需加载该库样式。
+
 ## 在应用中使用
 
 ### 1. 选择内置主题
@@ -69,15 +92,6 @@ mode 为 light/dark，currentStyleVars 是响应式的 Themes 预设或自定义
 
 Alps / Firefly 亮色基于品牌样式，暗色为 Maple 适配版。品牌字体文件由业务自行加载；未加载时使用系统字体回退。
 
-```ts
-import { ThemeProvider, Themes } from '@maple-design/ui'
-
-// 在应用挂载前设置，也可以在用户切换主题时再次调用。
-currentStyleVars.value = Themes.maple.light
-currentStyleVars.value = Themes.maple.dark
-```
-
-亮色对象移除 `html[maple-theme="dark"]`，暗色对象设置该属性。**每次调用替换上次注入的变量，不会累计合并。**
 
 #### Firefly 的颜色角色与现有 API
 
@@ -94,14 +108,12 @@ currentStyleVars.value = Themes.maple.dark
 
 选择、焦点、滑块、日期范围与强调链接使用辅助紫色；正文和普通页面强调保留深色文字的可读性适配。tonal 和暗色是 Maple 在现有 API 上的扩展，不声称是 Horo 原始暗色样本。
 
-本次仅覆盖 Firefly 主题变量；默认、Maple、Alps 的亮暗色板保持原值。
-
 ### 2. 设置页面背景和文字
 
-组件主题与业务页面背景需要一起设置。将以下样式加入应用的全局样式：
+组件主题与业务页面背景需要一起设置。将以下样式应用于 ThemeProvider 内包裹页面的元素：
 
 ```css
-body {
+.app-page {
   color: var(--mp-color-text);
   background-color: var(--mp-color-body);
   color-scheme: var(--mp-color-scheme);
@@ -119,13 +131,11 @@ import { Themes } from '@maple-design/ui'
 const mode = ref('dark')
 </script>
 <template>
-  <mp-theme-provider :theme="mode" :style-vars="Themes.maple[mode]">
+  <mp-theme-provider :theme="Themes.maple[mode]" :style-vars="{ '--mp-button-border-radius': '12px' }">
     <App />
   </mp-theme-provider>
 </template>
 ```
-
-局部定制优先覆盖实际组件变量。仅在局部修改色阶变量，不会重新计算从根节点继承的组件别名；完整规则见 [ThemeProvider](#/zh-CN/theme-provider)。传送到 body 的弹层需在实际挂载宿主上配置变量。
 
 ## 尺寸单位转换
 
@@ -144,6 +154,32 @@ const mode = ref('dark')
 RGB 通道通过 `rgb(var(--mp-primary-6))` 使用；颜色成品值和尺寸按组件变量表填写。字体入口为 `--mp-sys-font-family`，字体文件由应用自行提供。
 
 更多变量见 [Design Token 分层](#/zh-CN/design-tokens) 和各组件文档底部的样式变量表；表单交互见 [Form](#/zh-CN/form)。
+
+## 安装与默认值
+
+```ts
+import { ThemeProvider } from '@maple-design/ui'
+app.use(ThemeProvider)
+ThemeProvider.setPropsDefaults({ theme: 'light', tag: 'section', styleVars: () => ({}) })
+```
+
+默认值用于之后创建的实例，显式 Props 优先。对象变量为每个实例复制；SSR 输出与客户端相同的主题边界，不持有跨请求的主题状态。
+
+## API
+
+### ThemeProvider Props
+
+| 属性 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| theme | 亮暗模式或主题预设，省略时继承 | `ThemeProviderTheme` | — |
+| style-vars | 本层 CSS 变量，null 清空覆盖 | `StyleVars \| null` | `{}` |
+| tag | 包裹元素标签 | `string` | `'div'` |
+
+默认插槽为组件内容，无事件。
+
+## Types
+
+导出 ThemeProvider、themeProviderProps、ThemeProviderProps、ThemeProviderInstance、ThemeProviderDefaults、ThemeProviderTheme、ThemeProviderMode、StyleVarName、StyleVars。变量支持完整 --mp- 名称及库前缀驼峰名称；值为 CSS 字符串，尺寸需要单位。
 
 ## CSS Variables
 

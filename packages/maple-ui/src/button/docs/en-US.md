@@ -189,7 +189,7 @@ Click to observe ripple feedback and adjust elevation to compare depth. Disablin
 ../example/demos/feedback.vue
 ```
 
-### Sync, async and rejection recovery
+### Controlled loading and failure recovery
 
 ```demo
 ../example/demos/controlled-loading.vue

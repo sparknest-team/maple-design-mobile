@@ -213,7 +213,7 @@ import type { PaginationProps, PaginationInstance, PaginationPageSizeProps } fro
 
 ## 行为说明
 
-容器宽度不超过 `compact-breakpoint` 时自动使用简洁模式；桌面侧栏与移动端规则相同。保留总数和条数选择器，辅助控件换行，上一页、下一页按钮跟随 size，不再在窄屏强制放大（默认 36px）。设置 `responsive=false` 保留完整页码，极窄时仅页码列表横向滚动，不撑宽页面。
+容器宽度不超过 `compact-breakpoint` 时自动使用简洁模式；桌面侧栏与移动端规则相同。保留总数和条数选择器，辅助控件换行，上一页、下一页按钮跟随 size。设置 `responsive=false` 保留完整页码，极窄时仅页码列表横向滚动，不撑宽页面。
 
 简洁模式的当前页输入框承担跳转功能，不重复展示独立 jumper。`page-item`、`page-item-ellipsis`、`jumper-prepend`、`jumper-append` 仅在完整模式的对应控件中渲染。
 
@@ -229,7 +229,7 @@ import type { PaginationProps, PaginationInstance, PaginationPageSizeProps } fro
 
 两端支持相同配置：`disabled?: boolean`、`placement?: 'top' | 'top-start' | 'top-end' | 'bottom' | 'bottom-start' | 'bottom-end'`、`popupContainer?: string | HTMLElement | false`、`class?: string`、`style?: CSSProperties`。外层 disabled 优先。默认 placement 为 bottom-start。
 
-此配置不再透传任意 SelectProps/MenuProps。分页值、选项和尺寸分别使用 page-size、page-size-options、size。
+请使用下方列出的配置属性。分页值、选项和尺寸分别使用 page-size、page-size-options、size。
 
 ## CSS Variables
 

@@ -96,7 +96,7 @@ describe('SelectionField', () => {
     wrapper.unmount()
   })
 
-  test('exposes an actual focusable combobox and associates the floating label', async () => {
+  test('exposes a focusable combobox and a decorative floating hint', async () => {
     const wrapper = mount(SelectionField, {
       attachTo: document.body,
       props: { hint: true, placeholder: '设备', open: true },
@@ -105,7 +105,8 @@ describe('SelectionField', () => {
     expect(document.activeElement).toBe(wrapper.get('input').element)
     expect(wrapper.get('input').attributes('role')).toBe('combobox')
     expect(wrapper.get('input').attributes('aria-expanded')).toBe('true')
-    expect(wrapper.get('label').attributes('for')).toBe(wrapper.get('input').attributes('id'))
+    expect(wrapper.find('[aria-hidden="true"].mp-field-decorator__placeholder').exists()).toBe(true)
+    expect(wrapper.get('input').attributes('placeholder')).toBeTruthy()
     expect(wrapper.emitted('focus')).toHaveLength(1)
     wrapper.vm.blur()
     expect(wrapper.emitted('blur')).toHaveLength(1)

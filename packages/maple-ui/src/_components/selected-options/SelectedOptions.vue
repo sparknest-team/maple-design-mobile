@@ -86,7 +86,7 @@ watch(
 )
 const countText = computed(
   () =>
-    texts.selectionCount.value.replace('{count}', String(props.items.length)) +
+    (texts.selectionCount.value ?? '{count}').replace('{count}', String(props.items.length)) +
     (props.limit ? ` / ${props.limit}` : ''),
 )
 const removable = computed(() => props.items.some((item) => item.closable !== false))

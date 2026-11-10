@@ -163,7 +163,37 @@ describe('AutoComplete', () => {
       'aria-expanded': 'false',
       autocomplete: 'off',
     })
-    expect(input.attributes('aria-controls')).toContain('mp-auto-complete-listbox-')
+    expect(input.attributes('aria-controls')).toBeUndefined()
+  })
+
+  test('only references the listbox while suggestions are expanded', async () => {
+    const wrapper = mountAutoComplete({ props: { options, filterOption: false } })
+    const input = wrapper.get('input.mp-input__inner')
+    expect(input.attributes('aria-controls')).toBeUndefined()
+    await input.trigger('focus')
+    await flushPromises()
+    const id = input.attributes('aria-controls')
+    expect(input.attributes('aria-expanded')).toBe('true')
+    expect(id).toBeTruthy()
+    expect(document.getElementById(id!)?.getAttribute('role')).toBe('listbox')
+    await input.trigger('keydown', { key: 'Escape' })
+    await flushPromises()
+    expect(input.attributes('aria-expanded')).toBe('false')
+    expect(input.attributes('aria-controls')).toBeUndefined()
+  })
+
+  test('clears the active option reference while loading and restores it afterward', async () => {
+    const wrapper = mountAutoComplete({ props: { options, filterOption: false } })
+    const input = wrapper.get('input.mp-input__inner')
+    await input.trigger('focus')
+    await flushPromises()
+    expect(document.getElementById(input.attributes('aria-activedescendant')!)).toBeTruthy()
+    await wrapper.setProps({ loading: true })
+    await flushPromises()
+    expect(input.attributes('aria-activedescendant')).toBeUndefined()
+    await wrapper.setProps({ loading: false })
+    await flushPromises()
+    expect(document.getElementById(input.attributes('aria-activedescendant')!)).toBeTruthy()
   })
 
   test('separates live input and search from committed change', async () => {

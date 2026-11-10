@@ -4,6 +4,7 @@ import { CascaderOption, CascaderOptionInfo } from './types'
 
 export interface CascaderContext {
   expandOption: (option: CascaderOptionInfo) => Promise<void>
+  isOptionLoading?: (key: string) => boolean
   onClickOption: (option: CascaderOptionInfo, checked?: boolean) => void
   setActiveKey: (key?: string) => void
   setSelectedPath: (key?: string) => void

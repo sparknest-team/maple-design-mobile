@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { normalizeTagSizeAssertions } from '../../design-ui/bin/selection-field-class-normalization.mjs'
 
 const workspace = fileURLToPath(new URL('../../', import.meta.url))
 const cedar = resolve(workspace, 'cedar-design-web/packages/cedar-ui')
@@ -41,14 +42,13 @@ const groups = {
 }
 groups['picker-field'].push('use-field-focus.ts', '__tests__/focus.spec.ts')
 const normalize = (source) =>
-  source
+  normalizeTagSizeAssertions(source)
     // Less import quote style is formatter-owned, not a runtime difference.
     .replace(/@import "([^"]+)";/g, "@import '$1';")
     .replaceAll('@cedar-design/icons-vue', '@maple-design/icons-vue')
     .replaceAll('_utils/global-config', 'utils/components')
     .replaceAll('--c-', '--mp-')
     .replaceAll('.c-', '.mp-')
-    .replace(/(['"])c-/g, '$1mp-')
     .replaceAll('c-selection-field-spin', 'mp-selection-field-spin')
     .replace(/\s+/g, ' ')
     .trim()
@@ -81,5 +81,5 @@ for (const component of ['date/picker/Picker.vue', 'date/picker/DateRangePicker.
   assert.doesNotMatch(source, /useFormItem|<Trigger|<DateInput|<DateRangeInput/)
 }
 console.log(
-  'Field layers: 26 independent source pairs, four Less outputs and Cedar ownership boundaries verified. Select/Cascader also have a separate presentation source check.',
+  `Field layers: ${Object.values(groups).reduce((sum, files) => sum + files.length, 0)} independent source pairs, four Less outputs and Cedar ownership boundaries verified. Select/Cascader also have a separate presentation source check.`,
 )

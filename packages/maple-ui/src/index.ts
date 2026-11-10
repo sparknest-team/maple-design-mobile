@@ -233,6 +233,7 @@ export type { LoadingDirectiveOptions } from './loading'
 export { imagePreview } from './image'
 export { useUploader } from './upload'
 export { useHoverOverlay } from './hover'
+export { useFormItem, useFormErrorDescription } from './form'
 export { fieldLoadingModes } from './field-decorator'
 export { actionSheetProps } from './action-sheet'
 export type {
@@ -423,6 +424,7 @@ export type {
   DateRangePickerEmits,
   DateRangeCalendarOptions,
   DateRangePopupOptions,
+  RangeInputAttributes,
 } from './date-range'
 export { dialogProps } from './dialog'
 export type {

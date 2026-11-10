@@ -11,7 +11,7 @@
     "
     role="group"
     :aria-label="ariaLabel"
-    :aria-invalid="mergedError || undefined"
+    :aria-invalid="mergedError ? true : ($attrs['aria-invalid'] as AriaAttributes['aria-invalid'])"
     @paste="handlePaste"
     @click="handleClick"
     @compositionstart="composing = true"
@@ -63,6 +63,7 @@ import {
   provide,
   ref,
   useSlots,
+  type AriaAttributes,
   type ComponentPublicInstance,
 } from 'vue'
 import { provideFormErrorDescriptionBoundary, useFormErrorDescription } from '../form/error-description'

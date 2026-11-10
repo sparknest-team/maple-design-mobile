@@ -4,6 +4,11 @@ export const selectEmits = {
   'load-error': (error: unknown) => true,
   focus: (event: FocusEvent) => true,
   blur: (event: FocusEvent) => true,
+  /**
+   * @zh 字段按键事件，可调用 preventDefault 阻止内部键盘操作
+   * @en Field key event; call preventDefault to suppress internal keyboard handling
+   */
+  keydown: (event: KeyboardEvent) => true,
   'update:modelValue': (value: SelectValue) => true,
   'update:inputValue': (inputValue: string) => true,
   'update:open': (visible: boolean) => true,

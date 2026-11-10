@@ -106,3 +106,39 @@ test('KeepAlive deactivation cancels pending hover and clears stale focus', asyn
     vi.useRealTimers()
   }
 })
+
+test('a cancelled hover timeout cannot hide a newer tooltip', async () => {
+  const callbacks: Array<() => void> = []
+  const original = globalThis.setTimeout
+  const schedule = vi.spyOn(globalThis, 'setTimeout').mockImplementation(((
+    callback: TimerHandler,
+    delay?: number,
+    ...args: unknown[]
+  ) => {
+    if (delay === 250) {
+      callbacks.push(callback as () => void)
+    }
+    return original(callback, delay, ...args)
+  }) as typeof setTimeout)
+  const wrapper = mount(ProgressGroup, {
+    props: {
+      items: [
+        { label: 'A', value: 30 },
+        { label: 'B', value: 30 },
+      ],
+    },
+  })
+  try {
+    const segments = wrapper.findAll('[role="progressbar"]')
+    await segments[0].trigger('mouseenter')
+    await segments[0].trigger('mouseleave')
+    expect(callbacks).toHaveLength(1)
+    await segments[1].trigger('mouseenter')
+    callbacks[0]()
+    await nextTick()
+    expect(wrapper.get('[role="tooltip"]').text()).toContain('B:')
+  } finally {
+    wrapper.unmount()
+    schedule.mockRestore()
+  }
+})

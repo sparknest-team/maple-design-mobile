@@ -2,7 +2,7 @@
 
 Endpoint locks are provided reactively by the local mobile presentation adapter to calendars and wheels. Inherited and current locks are merged and remain intact when switching views or unlocking the other endpoint. The shared draft/confirmation owner has no mobile injection dependency; external model updates and confirm/cancel behavior are unchanged.
 
-Floating panels use the visual viewport instead of a half-screen cap. A full calendar is visible when space permits; short windows scroll content while keeping actions visible. Override `--mp-date-picker-popover-max-height` to cap the panel (default `100dvh - 32px`). Switching back to default/Maple removes brand overrides.
+Floating panel height follows the visual viewport. A full calendar is visible when space permits; short windows scroll content while keeping actions visible. Override `--mp-date-picker-popover-max-height` to cap the panel (default `100dvh - 32px`). Switching back to default/Maple removes brand overrides.
 
 The embedded example calls `confirm` from the `actions` slot and binds its `disabled` state to the submit button. Selecting a draft does not update the committed value until confirmation. Tightening bounds does not clear the existing model, but an invalid draft cannot be submitted; choose valid endpoints to submit again.
 Pure panels do not accept open/default-open, popup-container, placement, trigger-props, placeholder, variant or clearable. disable-confirm controls confirmation; actions receives { confirm, disabled }. Panels support independent app.use installation. Root and date/date-range subpaths export components, Props, Instance, Type, Options and Emits; no standalone date-picker/date-range-picker npm subpath exists.
@@ -393,7 +393,7 @@ Date labels, titles and actions use each library's global Locale/Provider. Cedar
 
 `DateRangePicker.datePickerProps` and `DateRange.datePickerProps` accept only `DateRangeCalendarOptions`: `hint`, `color`, `titleColor`, `buttonElevation`, `touchable`. Model, validation, viewport, presentation, elevation, abbreviation and action control stay at the range root. Unknown keys and event listeners are not forwarded. The calendar branches explicitly use calendar presentation.
 
-Field appearance merges with `dateRangePickerProps.datePickerProps`. Empty default objects no longer override nested settings; explicitly supplied field keys take precedence.
+Field appearance merges with `dateRangePickerProps.datePickerProps`. Empty default objects preserve nested settings; explicitly supplied field keys take precedence.
 
 ### Actual platform capabilities
 
@@ -493,6 +493,8 @@ Panels edit a draft and commit on confirmation. Cancellation or closing does not
 
 ### DateRange Props
 
+`input-attrs` applies to the two direct input elements. For example, `:input-attrs="[{ 'aria-label': 'Departure' }, { 'aria-label': 'Return' }]"` names each endpoint. The field owns its value, disabled, readonly, placeholder, role and popup state; shared descriptions, per-input descriptions and form errors are merged for each input. Component errors take precedence; otherwise each input retains its `aria-invalid`. `RangeInputAttributes` is exported from the component and root entries and includes native attributes and `Once` event types.
+
 | Prop | Description | Type | Default behavior |
 | --- | --- | --- | --- |
 | `before-commit` | Explicit field-save guard using payload, done and context | `BeforeFieldCommit` | `undefined` |
@@ -516,6 +518,7 @@ Panels edit a draft and commit on confirmation. Cancellation or closing does not
 | `format` | Display/text-input format; a function only formats without reverse text parsing | `string \| ((date: Date) => string)` | From precision/time settings |
 | `hint` | Floating placeholder hint, suppressed by an outer Form label | `boolean` | `true` |
 | `input-editable` | Allow text input without removing panel selection | `boolean` | `true` |
+| `input-attrs` | Native attributes for the start and end inputs, in order; per-input names override shared names | `RangeInputAttributes[]` | `undefined` |
 | `interactive-mode` | Maple calendar viewport mode, independent of field editing mode | `page \| scroll \| line` | `page` |
 | `line` | Show the field border or underline | `boolean` | `true` |
 | `loading` | Manual loading feedback, independent of event return values | `boolean` | `false` |

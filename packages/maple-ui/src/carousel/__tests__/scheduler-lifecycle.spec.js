@@ -116,6 +116,43 @@ async function fixture(moveSpeed = 7) {
   return { owner, child, state, active, autoPlay, start, navigate, callbacks }
 }
 describe('Carousel scheduler ownership', () => {
+  test('newer reentrant resize retains its measurements', async () => {
+    const f = await fixture()
+    const viewport = f.child.find('[class$="__viewport"]').element
+    let width = 100
+    Object.defineProperty(viewport, 'clientWidth', { configurable: true, get: () => width })
+    const view = document.defaultView
+    const original = view.getComputedStyle.bind(view)
+    let invoked = false
+    patch(view, 'getComputedStyle', (element) => {
+      const style = original(element)
+      if (!invoked) {
+        invoked = true
+        width = 500
+        f.child.vm.resize()
+        width = 100
+      }
+      return style
+    })
+    f.child.vm.resize()
+    expect(f.state.viewport).toBe(500)
+  })
+  test('resize stops if visibility measurement unmounts the carousel', async () => {
+    const f = await fixture()
+    const view = document.defaultView
+    const original = view.getComputedStyle.bind(view)
+    let invoked = false
+    patch(view, 'getComputedStyle', (element) => {
+      const style = original(element)
+      if (!invoked) {
+        invoked = true
+        f.owner.unmount()
+      }
+      return style
+    })
+    expect(() => f.child.vm.resize()).not.toThrow()
+  })
+
   test('current autoplay waits the configured interval', async () => {
     const f = await fixture()
     await f.start()

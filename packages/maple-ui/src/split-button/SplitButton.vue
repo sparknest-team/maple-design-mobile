@@ -52,8 +52,9 @@
 import { computed, ref } from 'vue'
 import { IconMenuDown } from '@maple-design/icons-vue'
 import Button, { ButtonGroup } from '../button'
-import { t } from '../locale'
 import { injectLocaleProvider } from '../locale-provider/provide'
+import { defaultLocaleReady, t } from '../locale/state'
+import { defaultMoreActions } from '../locale/zh-CN'
 import Menu, { type MenuInstance } from '../menu'
 import { createNamespace } from '../utils/components'
 import { splitButtonProps } from './props'
@@ -76,7 +77,11 @@ const triggerLabel = computed(() => {
   if (attrs?.['aria-labelledby'] != null) {
     return undefined
   }
-  return localize?.('splitButton.moreActions') ?? t('splitButton.moreActions') ?? 'More actions'
+  return (
+    localize?.('splitButton.moreActions') ??
+    t('splitButton.moreActions') ??
+    (defaultLocaleReady.value ? 'More actions' : defaultMoreActions)
+  )
 })
 const actionDisabled = computed(() => !!(props.disabled || props.buttonProps?.disabled))
 const triggerDisabled = computed(() => !!(props.disabled || props.triggerButtonProps?.disabled))

@@ -1,8 +1,8 @@
-import { defineComponent, inject, PropType, TransitionGroup } from 'vue'
+import { defineComponent, inject, PropType, TransitionGroup, useId } from 'vue'
 import { useEmptySlot } from '../_components/selection-field/empty-slot'
 import { VirtualListProps } from '../_components/virtual-list-v2/interface'
 import Empty from '../empty'
-import Loading from '../loading'
+import Loading from '../loading/Loading.vue'
 import { createNamespace, getPrefixCls } from '../utils/components'
 import CascaderColumn from './cascader-column'
 import { CascaderOptionInfo } from './types'
@@ -35,6 +35,8 @@ export default defineComponent({
   },
   setup(props, { slots }) {
     const prefixCls = getPrefixCls('cascader')
+    const menuBaseId = `cascader-menu-${useId()}`
+    const menuId = (index: number) => `${menuBaseId}-${index}`
     const emptySlot = useEmptySlot()
 
     const renderEmpty = () => {
@@ -64,10 +66,12 @@ export default defineComponent({
           key={`column-${index}`}
           column={column}
           level={index}
+          menuId={menuId(index)}
+          nextMenuId={props.displayColumns[index + 1]?.length ? menuId(index + 1) : undefined}
           selectedPath={props.selectedPath}
           activeKey={props.activeKey}
           totalLevel={props.totalLevel}
-          displayedLevels={props.displayColumns.length}
+          displayedLevels={props.displayColumns[index + 1]?.length ? props.displayColumns.length : index + 1}
           multiple={props.multiple}
           checkStrictly={props.checkStrictly}
           virtualListProps={props.virtualListProps}

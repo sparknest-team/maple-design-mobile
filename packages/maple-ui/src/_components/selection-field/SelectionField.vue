@@ -1,6 +1,7 @@
 <template>
   <FieldDecorator
     v-bind="decoration"
+    decorative-hint
     :class="
       classes(
         n(),
@@ -58,14 +59,19 @@
         v-bind="$attrs"
         :id="controlId"
         ref="inputRef"
-        :class="classes(n('input'), [items.length > 0 && !hideSelection, n('input--with-value')])"
+        :class="
+          classes(
+            n('input'),
+            [items.length > 0 && !hideSelection, n('input--with-value')],
+            [Boolean(placeholder) && (hint || items.length > 0), n('input--hide-placeholder')],
+          )
+        "
         :value="inputValue"
-        :placeholder="!hint && !items.length ? placeholder : undefined"
+        :placeholder="placeholder"
         :disabled="disabled"
         :readonly="!searchable || readonly"
-        :aria-label="typeof $attrs['aria-label'] === 'string' ? $attrs['aria-label'] : placeholder"
         :aria-expanded="open"
-        :aria-invalid="error || undefined"
+        :aria-invalid="error ? true : ($attrs['aria-invalid'] as AriaAttributes['aria-invalid'])"
         :aria-describedby="describeError($attrs['aria-describedby'])"
         :aria-busy="loading || undefined"
         :aria-autocomplete="searchable ? 'list' : 'none'"
@@ -86,6 +92,7 @@
         v-if="!loading || loadingMode === 'line'"
         type="button"
         data-field-open-trigger
+        :tabindex="openTriggerTabIndex"
         :disabled="disabled || readonly"
         :aria-label="placeholder || selectText"
         :aria-expanded="open"

@@ -245,6 +245,8 @@ import type { CascaderTriggerOptions } from '@maple-design/ui'
 
 ### 懒加载结束与异常
 
+聚焦尚未加载子项的可展开选项时，按 Enter、空格或展开方向键会触发懒加载；等待期间选项会显示加载状态。方向键仅在焦点仍停留在按键触发的输入框或选项上时进入子级。搜索结果不触发子项展开。
+
 字段和独立 Panel 的 `loadMore(option, done)` 均保留回调协议：`done(children)` 接收子项，`done()` 结束等待并允许重试。只接受首次回调；返回值（包括已完成的 Promise）不替代 `done`。加载函数同步抛错时结束等待，并进入 Vue 的 `errorCaptured` / 应用 `errorHandler`。`load-error` 仍仅报告 `options` 候选数据源错误，不重复报告 `loadMore` 异常。业务中的异步请求失败需自行处理并调用 `done()`。
 
 替换选项（包括嵌套原地修改）、字段映射或加载函数会使旧请求和懒加载缓存失效。卸载、停用会取消待处理回调；旧结果不能写入替换后的节点或清除新请求的等待。
@@ -283,7 +285,7 @@ option({ data }) 接收规范化 CascaderOptionInfo，data.raw 是原始选项�
 
 ## API
 
-面板分支的 `aria-expanded` 表示其子列是否实际显示；聚焦或悬停尚未打开子列时不会标记为已展开。叶节点没有 `aria-expanded`。 搜索结果不会声明其未显示的子菜单。
+面板分支的 `aria-expanded` 表示其子列是否实际显示；聚焦或悬停尚未打开子列时不会标记为已展开。叶节点没有 `aria-expanded`。 搜索结果不会声明其未显示的子菜单。 直接模式的单选搜索使用 `listbox` 和 `option`，输入框关联弹层与活动项；编辑器单选搜索使用 `menuitemradio` 和 `aria-checked`，菜单内保留一个 Tab 入口。多选搜索保留复选框。 直接单选搜索时，弹层图标不占用额外 Tab 停靠点；可点击图标或在输入框按方向下键展开。
 
 ### 空值识别与阅读空文案
 
@@ -347,6 +349,12 @@ option({ data }) 接收规范化 CascaderOptionInfo，data.raw 是原始选项�
 | `popup-props` | 弹层外观；展开状态、底部位置和挂载时机由扩展接管 | `PopupProps` | `{}` |
 
 ### Cascader Events / Methods
+
+直接编辑模式下，字段关闭时按方向下键请求展开；展开后若焦点仍在字段且没有活动项，会激活首个可用选项；选项异步到达时也适用。等待期间失焦、关闭或再次操作会取消本次激活。受控 `open` 仅在父组件接受请求后改变。
+
+菜单选项获得焦点时，按 Enter 或空格可操作该选项；搜索输入框和选项内复选框保留各自的键盘行为。
+
+- `keydown(event)`：字段、候选菜单或编辑面板按键事件；调用 `preventDefault()` 可阻止内部键盘处理。
 
 - `update:modelValue`、`change(value)`：提交时触发，编辑草稿不触发。
 - `update:open`、`open-change(open)`：请求改变展开状态。

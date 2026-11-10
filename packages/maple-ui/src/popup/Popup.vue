@@ -1,47 +1,52 @@
 <template>
+  <!-- Keep an inline Teleport inside a fragment for Vue 3.2 hydration. -->
+  <template v-if="false" />
   <teleport :to="popupContainerTarget" :disabled="popupContainer === false || teleportDisabled">
-    <transition :name="overlayAnimationName || n('$-fade')" @after-enter="opened" @after-leave="closed">
-      <div
-        v-if="!unmountOnClose || transition.shouldRender.value"
-        v-show="mergedOpen"
-        v-bind="themeScope"
-        ref="popupRoot"
-        :dir="readingDirection"
-        :class="classes(n('$--box'), n(), [!overlay, n('--pointer-events-none')])"
-        :style="{ zIndex: mergedZIndex - 2 }"
-      >
+    <template v-if="true">
+      <transition :name="overlayAnimationName || n('$-fade')" @after-enter="opened" @after-leave="closed">
         <div
-          v-if="overlay"
-          :class="classes(n('overlay'), overlayClass)"
-          :style="{ zIndex: mergedZIndex - 1, ...overlayStyle }"
-          role="presentation"
-          @pointerdown="handleOverlayPointerDown"
-          @click="handleOverlayClick"
-        />
-        <transition :name="transitionName">
+          v-if="!unmountOnClose || transition.shouldRender.value"
+          v-show="mergedOpen"
+          v-bind="themeScope"
+          ref="popupRoot"
+          :dir="readingDirection"
+          :class="classes(n('$--box'), n(), [!overlay, n('--pointer-events-none')])"
+          :style="{ zIndex: mergedZIndex }"
+        >
           <div
-            v-show="mergedOpen"
-            ref="contentRef"
-            data-modal-focus-root
-            :class="contentClasses"
-            :style="{
-              zIndex: mergedZIndex,
-              transform: swipeOffset ? `translateY(${swipeOffset}px)` : undefined,
-              transitionDuration: swiping ? '0ms' : undefined,
-            }"
-            tabindex="-1"
-            role="dialog"
-            :aria-busy="pending || undefined"
-            aria-modal="true"
-            v-bind="$attrs"
-            v-on="swipeHandlers"
-          >
-            <PendingFeedback :loading="pending" />
-            <slot :close="requestClose" :pending="pending" />
-          </div>
-        </transition>
-      </div>
-    </transition>
+            v-if="overlay"
+            :class="classes(n('overlay'), overlayClass)"
+            :style="{ zIndex: mergedZIndex - 1, ...overlayStyle }"
+            role="presentation"
+            @pointerdown="handleOverlayPointerDown"
+            @click="handleOverlayClick"
+          />
+          <transition :name="transitionName">
+            <div
+              v-show="mergedOpen"
+              ref="contentRef"
+              data-modal-focus-root
+              :class="contentClasses"
+              :style="{
+                zIndex: mergedZIndex,
+                transform: swipeOffset ? `translateY(${swipeOffset}px)` : undefined,
+                transitionDuration: swiping ? '0ms' : undefined,
+              }"
+              tabindex="-1"
+              role="dialog"
+              :aria-busy="pending || undefined"
+              aria-modal="true"
+              v-bind="$attrs"
+              v-on="swipeHandlers"
+            >
+              <PendingFeedback :loading="pending" />
+              <slot :close="requestClose" :pending="pending" />
+            </div>
+          </transition>
+        </div>
+      </transition>
+      <template v-if="false" />
+    </template>
   </teleport>
 </template>
 

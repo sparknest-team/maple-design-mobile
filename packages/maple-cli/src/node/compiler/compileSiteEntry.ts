@@ -15,9 +15,9 @@ import {
   SRC_DIR,
 } from '../shared/constant.js'
 import { glob, isDir, outputFileSyncOnChange } from '../shared/fsUtils.js'
-import { joinSiteRoutes } from './siteRoutes.js'
+import { documentationRedirect, joinSiteRoutes } from './siteRoutes.js'
 
-const { copy } = fse
+const { copy, readFileSync } = fse
 
 const ROOT_DOCS_RE = /\/docs\/([-\w]+)\.([-\w]+)(?:.draft)?\.md/
 const PAGE_LOCALE_RE = /\/pages\/([-\w]+)\/locale\/([-\w]+)\.ts/
@@ -178,14 +178,18 @@ export async function buildPcSiteRoutes(draftMode: boolean) {
 `,
   )
 
-  const componentDocsRoutes = componentDocs.map(
-    (componentDoc) => `
+  const componentDocsRoutes = componentDocs.map((componentDoc) => {
+    const redirect = documentationRedirect(readFileSync(componentDoc, 'utf8'))
+    if (redirect) {
+      return `{ path: '${getComponentDocRoutePath(componentDoc)}', redirect: '${redirect}' }`
+    }
+    return `
       {
         path: '${getComponentDocRoutePath(componentDoc)}',
         // @ts-ignore
         component: () => import('${componentDoc}')
-      }`,
-  )
+      }`
+  })
 
   const rootDocsRoutes = rootDocs.map(
     (rootDoc) => `

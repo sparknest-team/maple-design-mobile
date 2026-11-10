@@ -129,6 +129,7 @@ export type { LoadingDirectiveOptions } from './loading'
 export { imagePreview } from './image'
 export { useUploader } from './upload'
 export { useHoverOverlay } from './hover'
+export { useFormItem, useFormErrorDescription } from './form'
 export { fieldLoadingModes } from './field-decorator'
 ${publicContractExports(publicDirs).join('\n')}
 export type { PopupContainer } from './utils/popup-container'

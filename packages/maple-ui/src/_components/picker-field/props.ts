@@ -1,8 +1,15 @@
-import type { PropType } from 'vue'
+import type { InputHTMLAttributes, PropType } from 'vue'
 import { fieldDecoratorProps } from '../../field-decorator/props'
 import { openTriggerTargetProp } from './open-trigger'
 
+export type RangeInputAttributes = InputHTMLAttributes & {
+  [Key in keyof InputHTMLAttributes as Key extends `on${string}` ? `${Key}Once` : never]?: InputHTMLAttributes[Key]
+}
+
+export const rangeInputAttrsProp = { type: Array as PropType<RangeInputAttributes[]>, default: undefined }
+
 export const pickerFieldProps = {
+  inputAttrs: rangeInputAttrsProp,
   openTriggerTarget: openTriggerTargetProp,
   ...fieldDecoratorProps,
   texts: { type: Array as PropType<string[]>, default: () => [] },

@@ -4,7 +4,7 @@
     :class="n('panel')"
     :aria-label="label"
     :aria-busy="pending || undefined"
-    @keydown.esc.stop="!pending && $emit('cancel')"
+    @keydown="handleKeydown"
   >
     <header :class="n('toolbar')" data-popup-swipe-handle>
       <span role="heading" aria-level="2">{{
@@ -45,16 +45,17 @@
 <script setup lang="ts">
 import { computed, provide, ref, shallowRef } from 'vue'
 import Button from '../../button'
-import { t } from '../../locale'
 import { injectLocaleProvider } from '../../locale-provider/provide'
 import { createNamespace } from '../../utils/components'
 import { fieldEditorBoundary, fieldEditorPanel } from './context'
+import { fieldGlobalText as t } from './default-texts'
 import { editorAuxiliaryActions, editorAuxiliaryFeedback } from './editor-actions'
 import { isolateEditorForm } from './form-bridge'
 import { useFieldTexts } from './texts'
 
 const props = defineProps<{
   clearable?: boolean
+  deferEscape?: boolean
   title?: string
   intent?: 'input' | 'select'
   label?: string
@@ -65,7 +66,21 @@ const props = defineProps<{
   count?: number
   limit?: number
 }>()
-defineEmits<{ confirm: [event?: Event]; cancel: []; clear: [] }>()
+const emit = defineEmits<{ confirm: [event?: Event]; cancel: []; clear: [] }>()
+function handleKeydown(event: KeyboardEvent) {
+  if (event.key !== 'Escape') {
+    return
+  }
+  if (event.defaultPrevented || event.isComposing || event.keyCode === 229 || props.pending) {
+    event.stopPropagation()
+    return
+  }
+  if (props.deferEscape) {
+    return
+  }
+  event.stopPropagation()
+  emit('cancel')
+}
 defineOptions({ name: createNamespace('field-editor-panel').name })
 const { n } = createNamespace('field-presentation')
 const auxiliaryActions = shallowRef<() => import('vue').VNodeChild>()

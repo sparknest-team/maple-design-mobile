@@ -1,5 +1,6 @@
 import type {
   ActionSheetOptions,
+  DateRangeProps,
   LoadingBarOptions,
   NoticeBarProps,
   PopoverInstance as PopoverRootInstance,
@@ -8,18 +9,22 @@ import type {
   PopupCloseReason,
   PopupInstance,
   PopupProps,
+  RangeInputAttributes,
   ResultProps as ResultRootProps,
   ResultStatus as ResultRootStatus,
   SelectInstance,
   SelectProps,
   SelectValue,
+  TimeRangeProps,
 } from '@maple-design/ui'
 import { hoverOverlayProps, useHoverOverlay } from '@maple-design/ui'
+import type { RangeInputAttributes as DateRangeInputAttributes } from '@maple-design/ui/date-range'
 import type { HoverOverlayProps } from '@maple-design/ui/hover'
 import type { LoadingBarOptions as LoadingBarSubOptions } from '@maple-design/ui/loading-bar'
 import type { NoticeBarProps as NoticeBarSubProps } from '@maple-design/ui/notice-bar'
 import type { PopoverInstance as PopoverSubInstance } from '@maple-design/ui/popover'
 import type { ResultProps as ResultSubProps, ResultStatus as ResultSubStatus } from '@maple-design/ui/result'
+import type { RangeInputAttributes as TimeRangeInputAttributes } from '@maple-design/ui/time-range'
 
 const pausedNotice: NoticeBarProps = { scrollable: true, paused: true }
 const subpathNotice: NoticeBarSubProps = pausedNotice
@@ -99,3 +104,12 @@ const sheetOptions: ActionSheetOptions = {
 // @ts-expect-error Swipe threshold is numeric.
 const invalidSheetOptions: ActionSheetOptions = { swipeThreshold: 'large' }
 void [sheetOptions, invalidSheetOptions]
+const rangeInput: RangeInputAttributes = {
+  'aria-label': 'Start',
+  onKeydownOnce: (event: KeyboardEvent) => event.preventDefault(),
+}
+const dateRangeInput: DateRangeInputAttributes = rangeInput
+const timeRangeInput: TimeRangeInputAttributes = rangeInput
+const dateRangeProps: DateRangeProps = { inputAttrs: [dateRangeInput] }
+const timeRangeProps: TimeRangeProps = { inputAttrs: [timeRangeInput] }
+void [dateRangeProps, timeRangeProps]

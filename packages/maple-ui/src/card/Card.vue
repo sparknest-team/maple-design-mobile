@@ -35,6 +35,7 @@
           ? `background-color ${duration}ms, color ${duration}ms, width ${duration}ms, height ${duration}ms, top ${duration}ms, left ${duration}ms`
           : undefined,
       }"
+      @keydown="handleFloatingKeydown"
     >
       <slot name="cover">
         <img
@@ -134,6 +135,7 @@ import BaseIcon from '../icon'
 import vRipple from '../ripple'
 import { createNamespace, formatElevation } from '../utils/components'
 import { toSizeUnit } from '../utils/elements'
+import { usePopupLayer } from '../utils/popup-layer'
 import { useCardCloseLabel, useCardSize } from './platform'
 import { cardProps } from './props'
 
@@ -175,9 +177,31 @@ const floater = shallowRef<ReturnType<typeof setTimeout> | null>(null)
 useLock(
   () => props.floating,
   () => !isRow.value,
+  () => card.value?.ownerDocument.body,
 )
 
+let returnFocus: HTMLElement | null = null
+function updateReturnFocus(open: boolean) {
+  const document =
+    card.value?.ownerDocument ?? (typeof globalThis.document === 'undefined' ? undefined : globalThis.document)
+  if (!document) {
+    return
+  }
+  const focused = document.activeElement as HTMLElement | null
+  if (open) {
+    returnFocus = focused && focused !== document.body && focused !== document.documentElement ? focused : null
+    return
+  }
+  const target = returnFocus
+  returnFocus = null
+  const hiddenArea = focused?.closest(`.${n('floating-content')}, .${n('floating-buttons')}`)
+  if (hiddenArea && cardFloater.value?.contains(hiddenArea) && target?.isConnected && !target.closest('[inert]')) {
+    target.focus({ preventScroll: true })
+  }
+}
+
 const wantsFloating = () => props.floating && !isRow.value
+const { onStackTop } = usePopupLayer(wantsFloating, zIndex, () => card.value?.ownerDocument, true)
 const available = () => active && !disposed
 function current(token: number, element: HTMLElement | null) {
   return available() && token === generation && card.value === element
@@ -187,6 +211,7 @@ watch(
   wantsFloating,
   (value) => {
     const token = ++generation
+    updateReturnFocus(value)
     let consumed = false
     nextTick(() => {
       if (!available() || token !== generation || consumed || value !== wantsFloating()) {
@@ -299,6 +324,22 @@ function dropdown() {
     floaterPosition.value = undefined
     floated.value = false
   }, duration.value)
+}
+function handleFloatingKeydown(event: KeyboardEvent) {
+  if (
+    !available() ||
+    !wantsFloating() ||
+    event.key !== 'Escape' ||
+    event.isComposing ||
+    event.keyCode === 229 ||
+    event.defaultPrevented ||
+    !onStackTop(event)
+  ) {
+    return
+  }
+  event.preventDefault()
+  event.stopPropagation()
+  close()
 }
 function close() {
   if (available()) {

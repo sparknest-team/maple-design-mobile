@@ -91,3 +91,39 @@ describe('Picker keyboard and reduced-motion', () => {
     wrapper.unmount()
   })
 })
+
+it('leaves composition and already prevented navigation untouched', async () => {
+  const wrapper = mount(Picker, { props: { columns: [[{ text: 'A' }, { text: 'B' }]], modelValue: ['A'] } })
+  try {
+    const column = wrapper.get('[role="listbox"]').element
+    const composition = new KeyboardEvent('keydown', {
+      key: 'ArrowDown',
+      keyCode: 229,
+      bubbles: true,
+      cancelable: true,
+    })
+    column.dispatchEvent(composition)
+    expect(composition.defaultPrevented).toBe(false)
+    expect(wrapper.emitted('change')).toBeUndefined()
+    const consumed = new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true, cancelable: true })
+    consumed.preventDefault()
+    column.dispatchEvent(consumed)
+    expect(wrapper.emitted('change')).toBeUndefined()
+    column.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true, cancelable: true }))
+    expect(wrapper.emitted('change')).toHaveLength(1)
+  } finally {
+    wrapper.unmount()
+  }
+})
+
+it('does not navigate on an already prevented key', () => {
+  const wrapper = mount(Picker, { props: { columns: [[{ text: 'A' }, { text: 'B' }]], modelValue: ['A'] } })
+  try {
+    const event = new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true, cancelable: true })
+    event.preventDefault()
+    wrapper.get('[role="listbox"]').element.dispatchEvent(event)
+    expect(wrapper.emitted('change')).toBeUndefined()
+  } finally {
+    wrapper.unmount()
+  }
+})

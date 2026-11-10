@@ -68,8 +68,8 @@ function targetNode() {
   nodes.push(node)
   return node
 }
-function fixture() {
-  const target = shallowRef(targetNode())
+function fixture(initialTarget = targetNode()) {
+  const target = shallowRef(initialTarget)
   const active = ref(true)
   const status = ref('idle')
   const load = vi.fn()
@@ -86,6 +86,29 @@ function fixture() {
   return { target, active, status, load, command }
 }
 describe('InfiniteScroll measurement scheduler ownership', () => {
+  test('unmount during target geometry prevents loading and stale access', () => {
+    const f = fixture()
+    vi.spyOn(f.target.value, 'getBoundingClientRect').mockImplementation(() => {
+      owners[0].unmount()
+      return { top: 0, bottom: 100, left: 0, right: 100, width: 100, height: 100 }
+    })
+    expect(() => f.command.check()).not.toThrow()
+    expect(f.load).not.toHaveBeenCalled()
+  })
+
+  test('retained old scroll listener cannot schedule against a replacement target', async () => {
+    const first = targetNode()
+    const add = vi.spyOn(first, 'addEventListener')
+    const f = fixture(first)
+    const old = add.mock.calls.find(([type]) => type === 'scroll')[1]
+    f.target.value = targetNode()
+    await flush()
+    frames[0](0)
+    expect(frames).toHaveLength(1)
+    old.call(first, new Event('scroll'))
+    expect(frames).toHaveLength(1)
+  })
+
   test('coalesces active scroll events and current delivery loads once', () => {
     const f = fixture()
     f.target.value.dispatchEvent(new Event('scroll'))

@@ -338,6 +338,8 @@ open/defaultOpen、disabled、trigger、closeOnClickReference、preventFocus 和
 
 ### TimeRange Props
 
+`input-attrs` 作用于两个直接输入框。例如 `:input-attrs="[{ 'aria-label': '出发' }, { 'aria-label': '返回' }]"` 可分别命名起止输入。值、禁用、只读、占位符、角色和弹层状态由组件管理；公共描述、单项描述和表单错误会合并到对应输入中；组件报错时优先标记无效，否则保留单项 `aria-invalid`。`RangeInputAttributes` 从组件子入口及库根入口导出，包含原生属性和 `Once` 事件类型。
+
 | 参数 | 说明 | 类型 | 缺省说明 |
 | --- | --- | --- | --- |
 | `before-commit` | 显式字段保存守卫，使用 payload、done、context | `BeforeFieldCommit` | `undefined` |
@@ -360,6 +362,7 @@ open/defaultOpen、disabled、trigger、closeOnClickReference、preventFocus 和
 | `hide-disabled-options` | 隐藏禁用时间选项；时钟保留刻度位置 | `boolean` | `false` |
 | `hint` | 浮动占位提示；存在 Form 外置标签时不浮动 | `boolean` | `true` |
 | `input-editable` | 允许手输；不影响面板选择入口 | `boolean` | `false` |
+| `input-attrs` | 按顺序设置起点、终点原生输入属性；单项名称优先于公共名称 | `RangeInputAttributes[]` | `undefined` |
 | `line` | 显示外壳边框或底线 | `boolean` | `true` |
 | `loading` | 手动加载反馈，不从事件返回值推导 | `boolean` | `false` |
 | `loading-mode` | 字段加载展示模式 | `default \| line` | `default` |

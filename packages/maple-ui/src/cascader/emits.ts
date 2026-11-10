@@ -1,4 +1,6 @@
 export const cascaderEmits = {
+  /** @zh 字段或编辑面板按键事件 @en Keyboard event from the field or editor panel */
+  keydown: (_event: KeyboardEvent) => true,
   'load-error': (error: unknown) => true,
   'update:modelValue': (
     value:

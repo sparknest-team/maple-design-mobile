@@ -39,18 +39,38 @@ export function useFormLabelMeasurement(
   element: Ref<HTMLElement | undefined>,
   enabled: () => boolean,
   registry?: FormLabelRegistry,
+  trailingElement?: Ref<HTMLElement | undefined>,
 ) {
   const key = Symbol('form-label')
   const mounted = ref(false)
   const active = ref(true)
   let observer: ResizeObserver | undefined
   let listening = false
+  let frame: number | undefined
   function measure() {
     if (mounted.value && active.value && enabled() && element.value) {
-      registry?.setLabelWidth(element.value.offsetWidth, key)
+      const trailing = trailingElement?.value
+      const trailingStyle = trailing ? window.getComputedStyle(trailing) : undefined
+      const margins = trailingStyle
+        ? (parseFloat(trailingStyle.marginLeft) || 0) + (parseFloat(trailingStyle.marginRight) || 0)
+        : 0
+      registry?.setLabelWidth(element.value.offsetWidth + (trailing?.offsetWidth ?? 0) + margins, key)
     }
   }
+  function scheduleMeasure() {
+    if (!mounted.value || !active.value || !enabled() || frame !== undefined) {
+      return
+    }
+    frame = window.requestAnimationFrame(() => {
+      frame = undefined
+      measure()
+    })
+  }
   function disconnect() {
+    if (frame !== undefined) {
+      window.cancelAnimationFrame(frame)
+      frame = undefined
+    }
     observer?.disconnect()
     observer = undefined
     if (listening) {
@@ -66,14 +86,18 @@ export function useFormLabelMeasurement(
     }
     measure()
     if (typeof ResizeObserver !== 'undefined') {
-      observer = new ResizeObserver(measure)
+      observer = new ResizeObserver(scheduleMeasure)
       observer.observe(element.value)
+      if (trailingElement?.value) {
+        // The tooltip gap is padding; content-box observations do not report padding changes.
+        observer.observe(trailingElement.value, { box: 'border-box' })
+      }
     } else if (typeof window !== 'undefined') {
       window.addEventListener('resize', measure)
       listening = true
     }
   }
-  watch(() => [enabled(), element.value], connect, { flush: 'post' })
+  watch(() => [enabled(), element.value, trailingElement?.value], connect, { flush: 'post' })
   onMounted(() => {
     mounted.value = true
     connect()
@@ -87,5 +111,8 @@ export function useFormLabelMeasurement(
     active.value = true
     connect()
   })
-  onBeforeUnmount(disconnect)
+  onBeforeUnmount(() => {
+    mounted.value = false
+    disconnect()
+  })
 }

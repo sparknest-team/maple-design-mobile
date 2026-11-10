@@ -213,7 +213,7 @@ export function scrollTo(
   const scrollTop = getScrollTop(element)
   const scrollLeft = getScrollLeft(element)
 
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     let completed = false
     let generation = 0
     const finish = () => {
@@ -227,7 +227,15 @@ export function scrollTo(
     }
     const schedule = () => {
       const currentGeneration = ++generation
-      view!.requestAnimationFrame(() => frame(currentGeneration))
+      view!.requestAnimationFrame(() => {
+        try {
+          frame(currentGeneration)
+        } catch (error) {
+          completed = true
+          generation += 1
+          reject(error)
+        }
+      })
     }
     const frame = (currentGeneration: number) => {
       if (completed || currentGeneration !== generation) {
@@ -239,8 +247,9 @@ export function scrollTo(
         finish()
         return
       }
-      const nextTop = scrollTop + (top - scrollTop) * animation(progress)
-      const nextLeft = scrollLeft + (left - scrollLeft) * animation(progress)
+      const eased = animation(progress)
+      const nextTop = scrollTop + (top - scrollTop) * eased
+      const nextLeft = scrollLeft + (left - scrollLeft) * eased
       element.scrollTo(nextLeft, nextTop)
       schedule()
     }

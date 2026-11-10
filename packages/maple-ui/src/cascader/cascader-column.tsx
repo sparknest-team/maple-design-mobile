@@ -21,6 +21,8 @@ export default defineComponent({
       type: Number,
       default: 0,
     },
+    menuId: String,
+    nextMenuId: String,
     selectedPath: {
       type: Array as PropType<string[]>,
       required: true,
@@ -78,6 +80,7 @@ export default defineComponent({
               component={{ container: props.virtualListProps?.component ?? 'div', content: 'ul' }}
               contentAttrs={{
                 role: 'menu',
+                id: props.menuId,
                 class: [
                   `${prefixCls}-list`,
                   {
@@ -94,6 +97,7 @@ export default defineComponent({
                       option={item}
                       active={props.selectedPath.includes(item.key) || item.key === props.activeKey}
                       expanded={props.selectedPath.includes(item.key) && props.displayedLevels > props.level + 1}
+                      childMenuId={props.nextMenuId}
                       multiple={props.multiple}
                       checkStrictly={props.checkStrictly}
                     />
@@ -105,6 +109,7 @@ export default defineComponent({
             <Scrollbar class={`${prefixCls}-column-content`}>
               <ul
                 role="menu"
+                id={props.menuId}
                 class={[
                   `${prefixCls}-list`,
                   {
@@ -120,6 +125,7 @@ export default defineComponent({
                       option={item}
                       active={props.selectedPath.includes(item.key) || item.key === props.activeKey}
                       expanded={props.selectedPath.includes(item.key) && props.displayedLevels > props.level + 1}
+                      childMenuId={props.nextMenuId}
                       multiple={props.multiple}
                       checkStrictly={props.checkStrictly}
                     />

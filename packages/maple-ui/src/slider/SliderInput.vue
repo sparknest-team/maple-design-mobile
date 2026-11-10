@@ -10,7 +10,7 @@
       :disabled="disabled"
       :readonly="readonly"
       :error="error"
-      :input-attrs="{ 'aria-label': label(0) }"
+      :input-attrs="{ 'aria-label': label(0), 'aria-invalid': ariaInvalid }"
       @change="(value) => emit('change', 0, value ?? undefined)"
       @focus="emit('focus')"
       @blur="emit('blur')"
@@ -24,7 +24,7 @@
       :disabled="disabled"
       :readonly="readonly"
       :error="error"
-      :input-attrs="{ 'aria-label': label(1) }"
+      :input-attrs="{ 'aria-label': label(1), 'aria-invalid': ariaInvalid }"
       @change="(value) => emit('change', 1, value ?? undefined)"
       @focus="emit('focus')"
       @blur="emit('blur')"
@@ -32,7 +32,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import type { PropType } from 'vue'
+import type { HTMLAttributes, PropType } from 'vue'
 import InputNumber from '../input-number'
 import { createNamespace } from '../utils/components'
 import { useSliderInputForm } from './use-slider-input-form'
@@ -49,6 +49,7 @@ const props = defineProps({
   readonly: Boolean,
   error: Boolean,
   ariaLabel: [String, Array] as PropType<string | [string, string]>,
+  ariaInvalid: { type: [String, Boolean] as PropType<HTMLAttributes['aria-invalid']>, default: undefined },
 })
 const emit = defineEmits<{ change: [index: number, value?: number]; focus: []; blur: [] }>()
 const label = (index: number) => (Array.isArray(props.ariaLabel) ? props.ariaLabel[index] : props.ariaLabel)

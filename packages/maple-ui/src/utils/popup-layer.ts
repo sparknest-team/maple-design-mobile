@@ -15,6 +15,8 @@ interface Layer {
   zIndex: Readonly<Ref<number>>
   order: number
   depth: number
+  ancestors: readonly symbol[]
+  yieldToDescendants: boolean
 }
 interface Registry {
   layers: Map<symbol, Layer>
@@ -22,6 +24,7 @@ interface Registry {
   sequence: number
 }
 const depthKey = Symbol('popup-layer-depth')
+const ancestryKey = Symbol('popup-layer-ancestry')
 const registries = new WeakMap<Document, Registry>()
 
 function registryFor(document: Document) {
@@ -38,11 +41,14 @@ export function usePopupLayer(
   active: () => boolean,
   zIndex: Readonly<Ref<number>>,
   ownerDocument?: () => Document | undefined,
+  yieldToDescendants = false,
 ) {
   const instance = getCurrentInstance()
   const id = Symbol('popup-layer')
   const depth = inject(depthKey, 0) + 1
+  const ancestors = inject<readonly symbol[]>(ancestryKey, [])
   provide(depthKey, depth)
+  provide(ancestryKey, [...ancestors, id])
   let registry: Registry | undefined
   let mounted = false
   let suspended = false
@@ -68,7 +74,7 @@ export function usePopupLayer(
     if (!active()) {
       registry.layers.delete(id)
     } else if (!registry.layers.has(id)) {
-      registry.layers.set(id, { id, zIndex, depth, order: ++registry.sequence })
+      registry.layers.set(id, { id, zIndex, depth, ancestors, yieldToDescendants, order: ++registry.sequence })
     }
   }
   watch(active, sync, { flush: 'sync' })
@@ -99,8 +105,10 @@ export function usePopupLayer(
     if (event && registry.events.has(event)) {
       return registry.events.get(event) === id
     }
+    const layers = [...registry.layers.values()]
     const top =
-      [...registry.layers.values()]
+      layers
+        .filter((layer) => !layer.yieldToDescendants || !layers.some((other) => other.ancestors.includes(layer.id)))
         .sort((a, b) => a.zIndex.value - b.zIndex.value || a.depth - b.depth || a.order - b.order)
         .at(-1)?.id ?? null
     // Snapshot the recipient for the whole dispatch, even if it synchronously unmounts.

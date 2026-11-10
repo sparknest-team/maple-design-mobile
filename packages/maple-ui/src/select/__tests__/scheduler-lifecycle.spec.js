@@ -88,9 +88,38 @@ function fixture() {
   )
   owners.push(owner)
   const key = (name) => api.handleKeyDown(new KeyboardEvent('keydown', { key: name, cancelable: true }))
-  return { options, api, open, active, owner, key, virtualScroll, domScroll, select, change, a, b, dropdownRef }
+  return {
+    options,
+    valueKeys,
+    api,
+    open,
+    active,
+    owner,
+    key,
+    virtualScroll,
+    domScroll,
+    select,
+    change,
+    a,
+    b,
+    dropdownRef,
+    virtualListRef,
+  }
 }
 describe('Select interaction scheduling ownership', () => {
+  test('closing during native geometry measurement prevents stale scrolling', async () => {
+    const f = fixture()
+    f.open.value = true
+    await flush()
+    const wrapper = f.dropdownRef.value.wrapperRef
+    vi.mocked(wrapper.getBoundingClientRect).mockImplementation(() => {
+      f.open.value = false
+      return { top: 100, bottom: 200, left: 0, right: 100, width: 100, height: 100 }
+    })
+    f.api.scrollIntoView(f.a)
+    expect(f.domScroll).not.toHaveBeenCalled()
+  })
+
   test('current open delivers once after render and preserves native/delegated route', async () => {
     const f = fixture()
     f.open.value = true
@@ -215,6 +244,136 @@ describe('Select interaction scheduling ownership', () => {
     ticks[0]()
     expect(f.virtualScroll).toHaveBeenCalledTimes(1)
     expect(f.domScroll).toHaveBeenCalledTimes(1)
+  })
+  test('initial selection is positioned when its option arrives', async () => {
+    const f = fixture()
+    f.options.value = []
+    f.valueKeys.value = [f.b]
+    await flush()
+    f.open.value = true
+    await flush()
+    ticks[0]()
+    f.options.value = ['a', 'b']
+    await flush()
+    ticks[ticks.length - 1]()
+    ticks[ticks.length - 1]()
+    expect(f.api.activeKey.value).toBe(f.b)
+    expect(f.virtualScroll).toHaveBeenCalledWith({ key: f.b })
+    expect(f.virtualScroll).toHaveBeenCalledTimes(1)
+  })
+  test.each(['keyboard', 'scroll', 'close'])('%s cancels deferred initial selection', async (interaction) => {
+    const f = fixture()
+    f.options.value = ['a']
+    f.valueKeys.value = [f.b]
+    await flush()
+    f.open.value = true
+    await flush()
+    ticks[0]()
+    f.virtualScroll.mockClear()
+    if (interaction === 'keyboard') {
+      f.key('ArrowDown')
+    }
+    if (interaction === 'scroll') {
+      f.api.cancelPendingInitialScroll()
+    }
+    if (interaction === 'close') {
+      f.open.value = false
+    }
+    f.virtualScroll.mockClear()
+    f.options.value = ['a', 'b']
+    await flush()
+    ticks.slice(1).forEach((tick) => tick())
+    expect(f.virtualScroll).not.toHaveBeenCalled()
+  })
+  test.each(['keyboard', 'scroll', 'close'])('%s cancels a queued deferred selection', async (interaction) => {
+    const f = fixture()
+    f.options.value = []
+    f.valueKeys.value = [f.b]
+    await flush()
+    f.open.value = true
+    await flush()
+    ticks[0]()
+    f.options.value = ['a', 'b']
+    await flush()
+    const queued = ticks[ticks.length - 1]
+    if (interaction === 'keyboard') {
+      f.key('ArrowDown')
+    }
+    if (interaction === 'scroll') {
+      f.api.cancelPendingInitialScroll()
+    }
+    if (interaction === 'close') {
+      f.open.value = false
+    }
+    f.virtualScroll.mockClear()
+    queued()
+    expect(f.virtualScroll).not.toHaveBeenCalled()
+  })
+  test.each(['complete', 'keyboard', 'scroll', 'close', 'deactivate'])('group correction: %s', async (interaction) => {
+    const f = fixture()
+    f.options.value = [{ isGroup: true, label: 'Group', options: ['a', 'b'] }]
+    f.valueKeys.value = [f.b]
+    const viewport = f.dropdownRef.value.wrapperRef
+    Object.defineProperty(viewport, 'clientHeight', { configurable: true, value: 100 })
+    Object.assign(f.virtualListRef.value, { containerRef: viewport })
+    await flush()
+    f.open.value = true
+    await flush()
+    ticks[0]()
+    ticks[ticks.length - 1]()
+    expect(f.virtualScroll).toHaveBeenCalledWith({ index: 0 })
+    const correction = ticks[ticks.length - 1]
+    if (interaction === 'keyboard') {
+      f.key('ArrowDown')
+    }
+    if (interaction === 'scroll') {
+      f.api.cancelPendingInitialScroll()
+    }
+    if (interaction === 'close') {
+      f.open.value = false
+    }
+    if (interaction === 'deactivate') {
+      f.active.value = false
+      await flush()
+    }
+    f.virtualScroll.mockClear()
+    correction()
+    if (interaction === 'complete') {
+      expect(f.virtualScroll).toHaveBeenCalledWith(-50)
+    } else {
+      expect(f.virtualScroll).not.toHaveBeenCalled()
+    }
+  })
+  test.each(['keyboard', 'scroll', 'close'])('%s cancels a queued group scroll', async (interaction) => {
+    const f = fixture()
+    f.options.value = [{ isGroup: true, label: 'Group', options: ['a', 'b'] }]
+    f.valueKeys.value = [f.b]
+    await flush()
+    f.open.value = true
+    await flush()
+    ticks[0]()
+    const queued = ticks[ticks.length - 1]
+    if (interaction === 'keyboard') {
+      f.key('ArrowDown')
+    }
+    if (interaction === 'scroll') {
+      f.api.cancelPendingInitialScroll()
+    }
+    if (interaction === 'close') {
+      f.open.value = false
+    }
+    f.virtualScroll.mockClear()
+    queued()
+    expect(f.virtualScroll).not.toHaveBeenCalled()
+  })
+  test('custom virtual keys scroll the selected option by its data position', async () => {
+    const f = fixture()
+    Object.assign(f.virtualListRef.value, { itemKey: () => 'custom', data: [{ key: f.a }, { key: f.b }] })
+    f.valueKeys.value = [f.b]
+    f.open.value = true
+    await flush()
+    ticks[0]()
+    expect(f.virtualScroll).toHaveBeenCalledWith({ index: 1 })
   })
   test('empty open callback is consumed even before options arrive', async () => {
     const f = fixture()

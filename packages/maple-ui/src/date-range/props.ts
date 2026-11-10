@@ -2,6 +2,7 @@ import type { PropType } from 'vue'
 import { fieldPresentationProps } from '../_components/field-presentation/props'
 import { datePickerFieldsProp, timePickerFieldsProp } from '../_components/picker-field/fields'
 import { openTriggerTargetProp } from '../_components/picker-field/open-trigger'
+import { rangeInputAttrsProp } from '../_components/picker-field/props'
 import { calendarViewportProps } from '../date/calendar-viewport-props'
 import { dateRangeValueProps, dateRuleProps } from '../date/core-props'
 import type { DateValue } from '../date/date-value'
@@ -14,6 +15,7 @@ import { props as panelProps } from './picker-props'
 
 export const props = {
   ...fieldLoadingProps,
+  inputAttrs: rangeInputAttrsProp,
   openTriggerTarget: openTriggerTargetProp,
   dateFields: datePickerFieldsProp,
   timeFields: timePickerFieldsProp,

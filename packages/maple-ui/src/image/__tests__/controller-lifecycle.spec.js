@@ -96,6 +96,31 @@ function fixture() {
   return { api, isRtl, open, src, interaction, active, owner, longPress, next, down, tap, event, callback, release }
 }
 describe('ImagePreview controller interaction lifecycle', () => {
+  test('reentrant replacement owns the only long press timer', () => {
+    const f = fixture()
+    const element = f.event().currentTarget
+    let entered = false
+    element.setPointerCapture = () => {
+      if (!entered) {
+        entered = true
+        f.down()
+      }
+    }
+    const timer = vi.spyOn(globalThis, 'setTimeout')
+    timer.mockClear()
+    f.down()
+    expect(timer.mock.calls.filter((call) => call[1] === 500)).toHaveLength(1)
+  })
+  test('unmount during pointer capture does not create long press work', () => {
+    const f = fixture()
+    const element = f.event().currentTarget
+    element.setPointerCapture = () => f.owner.unmount()
+    const timer = vi.spyOn(globalThis, 'setTimeout')
+    timer.mockClear()
+    f.down()
+    expect(timer).not.toHaveBeenCalled()
+  })
+
   test('current long press fires at500ms not499ms', () => {
     const f = fixture()
     f.down()

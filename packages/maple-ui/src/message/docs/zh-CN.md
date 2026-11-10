@@ -124,7 +124,7 @@ close/closed 通知回调抛错不会保留已关闭项目或空管理器宿主�
 
 ### Message Events
 
-`update:open`、`open`、`opened`、`close`、`closed`；每次开关周期各触发一次。
+`update:open`、`open`、`opened`、`close`、`closed`；每次开关周期各触发一次。 服务端渲染的消息初始为打开时，激活阶段跳过首次入场动画，并在挂载时按 `open`、`opened` 的顺序触发事件。
 
 ### Message Methods
 

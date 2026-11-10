@@ -26,6 +26,10 @@ for (const editMode of ['popup'] as FieldEditMode[]) {
     it('keeps AutoComplete search, empty state and candidates in the standard list surface', async () => {
       const wrapper = mount(AutoComplete, {
         props: { editMode, options: ['Alpha', 'Beta'] },
+        attrs: {
+          class: 'compact-field',
+          style: `width: 140px; max-width: 140px; --${p}-auto-complete-option-height: 40px`,
+        },
         slots: { empty: () => 'No matching candidates' },
         global,
       })
@@ -33,6 +37,13 @@ for (const editMode of ['popup'] as FieldEditMode[]) {
         await wrapper.get('[aria-haspopup=dialog]').trigger('click')
         await flushPromises()
         const editor = wrapper.get(`.${p}-selection-editor--auto-complete`)
+        expect(wrapper.get('[aria-haspopup=dialog]').classes()).toContain('compact-field')
+        expect(wrapper.get('[aria-haspopup=dialog]').attributes('style')).toContain('max-width: 140px')
+        expect(editor.find('.compact-field').exists()).toBe(false)
+        expect(editor.get(`.${p}-auto-complete`).attributes('style') ?? '').not.toContain('140px')
+        expect(editor.get(`.${p}-auto-complete`).attributes('style')).toContain(
+          `--${p}-auto-complete-option-height: 40px`,
+        )
         expect(editor.findAll('input')).toHaveLength(1)
         expect(editor.get(`.${p}-select-dropdown-empty`).text()).toContain('No matching candidates')
         await editor.get('input').setValue('Be')

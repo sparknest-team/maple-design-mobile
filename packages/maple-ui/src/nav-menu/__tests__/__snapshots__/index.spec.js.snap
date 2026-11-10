@@ -13,11 +13,13 @@ exports[`migrated NavMenu filtering > renders the horizontal entry structure 1`]
       </button>
       <!---->
     </div>
-  </div>
+  </div><!-- Keep an inline Teleport inside a fragment for Vue 3.2 hydration. -->
+  <!--v-if-->
   <!--teleport start-->
   <transition-stub name="mp-overlay--fade" appear="false" persisted="false" css="true">
     <!--v-if-->
   </transition-stub>
+  <!--v-if-->
   <!--teleport end-->
 </div>"
 `;

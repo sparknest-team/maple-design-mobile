@@ -4,7 +4,7 @@ The year panel aligns the selected year, falling back to the current year, only 
 
 While expanded, the native combobox uses `aria-controls` to identify its own named popup. Closing updates the state and removes the link. `aria-label` and `aria-describedby` reach the native input. Custom selected/trigger slots must preserve accessible names, keyboard operation and state associations.
 
-Floating panels use the visual viewport instead of a half-screen cap. A full calendar is visible when space permits; short windows scroll content while keeping actions visible. Override `--mp-date-picker-popover-max-height` to cap the panel (default `100dvh - 32px`). Switching back to default/Maple removes brand overrides.
+Floating panel height follows the visual viewport. A full calendar is visible when space permits; short windows scroll content while keeping actions visible. Override `--mp-date-picker-popover-max-height` to cap the panel (default `100dvh - 32px`). Switching back to default/Maple removes brand overrides.
 
 Pure panels do not accept open/default-open, popup-container, placement, trigger-props, placeholder, variant or clearable. disable-confirm controls confirmation; actions receives { confirm, disabled }. Panels support independent app.use installation. Root and date/date-range subpaths export components, Props, Instance, Type, Options and Emits; no standalone date-picker/date-range-picker npm subpath exists.
 
@@ -403,23 +403,8 @@ Standalone, inline and popup editors share the same layout. The calendar has a p
 
 Single date, date-time and time panels omit the top summary in standalone panels and field editors. Date-time editors retain the current date/time and view switch at the bottom. Range summaries remain visible and highlight the active endpoint.
 
-The hint and selected year are no longer repeated below the summary. The calendar's central heading is a keyboard-accessible button with a dropdown indicator: activate it to choose months, then years. Use the footer calendar button to return to the date view without committing a value.
+The calendar's central heading is a keyboard-accessible button with a dropdown indicator: activate it to choose months, then years. Use the footer calendar button to return to the date view without committing a value.
 
-Shared style variables:
-
-| Token | Default |
-| -------------------------------------------- | ------------------------------------------------------------- |
-| `--mp-temporal-panel-inset` | `12px` |
-| `--mp-temporal-panel-column-label-height` | `36px` |
-| `--mp-temporal-panel-column-label-font-size` | `13px` |
-| `--mp-temporal-panel-radius` | `12px` |
-| `--mp-temporal-panel-group-gap` | `24px` |
-| `--mp-temporal-panel-touch-height` | `44px` |
-| `--mp-temporal-panel-summary-background` | `var(--mp-color-fill-1)` |
-| `--mp-temporal-panel-summary-height` | `56px` |
-| `--mp-temporal-panel-quick-time-width` | `84px` |
-| `--mp-temporal-panel-selection-background` | `var(--mp-color-fill-2)` |
-| `--mp-temporal-panel-active-background` | `color-mix(in srgb, var(--mp-color-primary) 8%, transparent)` |
 
 # Time zones and calendar views
 

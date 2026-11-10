@@ -63,6 +63,44 @@ function harness(iframe = false, windowTarget = false) {
 }
 
 describe('shared visual scroll execution boundaries', () => {
+  test('each frame evaluates easing once for both axes', async () => {
+    const p = harness()
+    try {
+      const easing = vi.fn().mockReturnValueOnce(0.25).mockReturnValueOnce(0.75)
+      const done = scrollTo(p.target, { top: 100, left: 100, duration: 100, animation: easing })
+      p.setClock(50)
+      p.ownerFrames[0](50)
+      expect(easing).toHaveBeenCalledTimes(1)
+      expect(p.scroll).toHaveBeenLastCalledWith(25, 25)
+      p.setClock(100)
+      p.ownerFrames[1](100)
+      await done
+    } finally {
+      p.cleanup()
+    }
+  })
+
+  test('an easing error rejects the scroll promise without scheduling another frame', async () => {
+    const p = harness()
+    try {
+      const error = new Error('easing failed')
+      const done = scrollTo(p.target, {
+        top: 100,
+        duration: 100,
+        animation: () => {
+          throw error
+        },
+      })
+      const rejection = done.catch((reason) => reason)
+      p.setClock(50)
+      expect(() => p.ownerFrames[0](50)).not.toThrow()
+      expect(await rejection).toBe(error)
+      expect(p.ownerFrames).toHaveLength(1)
+    } finally {
+      p.cleanup()
+    }
+  })
+
   for (const duration of [0, -1, NaN, Infinity]) {
     test(`duration ${duration} reaches target without a queued frame`, async () => {
       const p = harness()

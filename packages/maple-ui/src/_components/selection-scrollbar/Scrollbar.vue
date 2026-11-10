@@ -195,10 +195,15 @@ export default defineComponent({
       const epoch = binding.value
       return (offset: number) => {
         if (available() && epoch === binding.value && !props.hide && hasHorizontalScrollbar.value) {
-          operation++
-          containerRef.value?.scrollTo({
-            left: nativeScrollLeft(containerRef.value, offset * (horizontalData.value?.ratio ?? 1)),
-          })
+          const token = ++operation
+          const element = containerRef.value
+          if (!element) {
+            return
+          }
+          const left = nativeScrollLeft(element, offset * (horizontalData.value?.ratio ?? 1))
+          if (current(token, element)) {
+            element.scrollTo({ left })
+          }
         }
       }
     })

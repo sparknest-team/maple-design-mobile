@@ -34,7 +34,7 @@
 
 - 操作区按钮应自带可读文本或 `aria-label`。
 - 禁用时设置 `disabled`，组件不再响应滑动。收起或另一侧展开时，隐藏操作区不可聚焦；收起时若焦点在操作区，会回到展开时的焦点，无法回到原位置时落到单元格容器。
-- 可在单元格外放置原生按钮，通过实例 `open('right')` 展开；在包含单元格的元素上监听 Escape 并调用 `close()`。关闭仍受 `before-close` 控制，业务应为动作本身提供可读名称。
+- 可在单元格外放置 Button，通过实例 `open('right')` 展开；在包含单元格的元素上监听 Escape 并调用 `close()`。关闭仍受 `before-close` 控制，业务应为动作本身提供可读名称。
 
 键盘操作组合示例：
 
@@ -48,10 +48,10 @@ const cell = ref<SwipeCellInstance>()
 
 <template>
   <div @keydown.esc="cell?.close()">
-    <button type="button" @click="cell?.open('right')">Show actions</button>
+    <mp-button html-type="button" @click="cell?.open('right')">Show actions</mp-button>
     <mp-swipe-cell ref="cell">
       <div>Order</div>
-      <template #right><button type="button">Archive</button></template>
+      <template #right><mp-button html-type="button">Archive</mp-button></template>
     </mp-swipe-cell>
   </div>
 </template>

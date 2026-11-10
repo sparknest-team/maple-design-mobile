@@ -499,7 +499,7 @@ Columns follow reading order, and selection indicators sit at logical end. Up/Do
 ### Keyboard and reduced motion
 Each interactive column is a Tab-focusable listbox. Arrows move, Home/End reach first/last enabled items, skipping disabled options. aria-selected indicates the current wheel item; selected-values indicates separate checkmarks. Empty/all-disabled columns leave the Tab sequence.
 
-Within FormItem, each wheel column merges the caller’s `aria-describedby` with the current form error; clearing the error preserves the caller’s description.
+Within FormItem, each wheel column merges the caller’s `aria-describedby` with the current form error. A form error sets each column’s `aria-invalid` to `true`; clearing it restores the caller’s value and description.
 
 Reduced motion commits selection immediately without waiting for transitionend. Preference changes settle pending scrolling; unmount removes listeners.
 

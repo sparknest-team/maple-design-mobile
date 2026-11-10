@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onActivated, onBeforeUnmount, onDeactivated, onMounted, ref, watch } from 'vue'
-import Loading from '../loading'
+import Loading from '../loading/Loading.vue'
 import { createNamespace } from '../utils/components'
 import { getParentScroller, isDisplayNoneElement } from '../utils/elements'
 import { useInfiniteScrollLocale } from './locale'
@@ -27,6 +27,7 @@ let locked = props.status === 'loading'
 let acceptedLoading = locked
 let lockOriginStatus: InfiniteScrollStatus | undefined = locked ? 'loading' : undefined
 let scroller: HTMLElement | Window | null = null
+let boundScrollListener: (() => void) | null = null
 let resizeObserver: ResizeObserver | null = null
 let contentObserver: MutationObserver | null = null
 let visibilityObserver: MutationObserver | null = null
@@ -152,7 +153,8 @@ function bindScroller(initial = false) {
     }
   }
 
-  scroller.addEventListener('scroll', scheduleCheck, { passive: true })
+  boundScrollListener = scheduleBoundCheck
+  scroller.addEventListener('scroll', boundScrollListener, { passive: true })
   window.addEventListener('resize', scheduleCheck, { passive: true })
   document.addEventListener('visibilitychange', handleVisibilityChange)
 
@@ -195,7 +197,10 @@ function bindScroller(initial = false) {
 function cleanupBindings() {
   bindingGeneration++
   cancelScheduledCheck()
-  scroller?.removeEventListener('scroll', scheduleCheck)
+  if (boundScrollListener) {
+    scroller?.removeEventListener('scroll', boundScrollListener)
+  }
+  boundScrollListener = null
   if (typeof window !== 'undefined') {
     window.removeEventListener('resize', scheduleCheck)
   }
@@ -281,21 +286,22 @@ function isMeasurable() {
 function isReachBottom() {
   const root = rootEl.value
   const detector = detectorEl.value
-  if (!root || !detector || !scroller || !isMeasurable()) {
+  const target = scroller
+  if (!root || !detector || !target || !isMeasurable()) {
     return false
   }
   const bottomOffset = getBottomOffsetPx()
-  if (scroller instanceof HTMLElement && root.contains(scroller)) {
-    if (scroller.clientHeight <= 0) {
+  if (target instanceof HTMLElement && root.contains(target)) {
+    if (target.clientHeight <= 0) {
       return false
     }
-    return scroller.scrollHeight - scroller.scrollTop - scroller.clientHeight <= bottomOffset
+    return target.scrollHeight - target.scrollTop - target.clientHeight <= bottomOffset
   }
   let scrollerBottom = window.innerHeight || document.documentElement.clientHeight
-  if (scroller instanceof HTMLElement) {
-    const bounds = scroller.getBoundingClientRect()
-    const scale = scroller.offsetHeight > 0 ? bounds.height / scroller.offsetHeight : 1
-    scrollerBottom = bounds.top + (scroller.clientTop + scroller.clientHeight) * scale
+  if (target instanceof HTMLElement) {
+    const bounds = target.getBoundingClientRect()
+    const scale = target.offsetHeight > 0 ? bounds.height / target.offsetHeight : 1
+    scrollerBottom = bounds.top + (target.clientTop + target.clientHeight) * scale
   }
   return detector.getBoundingClientRect().bottom - scrollerBottom <= bottomOffset
 }
@@ -309,7 +315,22 @@ function startRequest(event: 'load' | 'retry') {
   emit(event)
 }
 function check() {
-  if (!mounted || !active || props.disabled || locked || internalStatus.value !== 'idle' || !isReachBottom()) {
+  if (!mounted || !active || props.disabled || locked || internalStatus.value !== 'idle') {
+    return
+  }
+  const generation = bindingGeneration
+  const target = scroller
+  const reached = isReachBottom()
+  if (
+    !reached ||
+    !mounted ||
+    !active ||
+    props.disabled ||
+    locked ||
+    internalStatus.value !== 'idle' ||
+    generation !== bindingGeneration ||
+    scroller !== target
+  ) {
     return
   }
   startRequest('load')

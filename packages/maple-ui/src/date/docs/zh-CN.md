@@ -4,7 +4,7 @@
 
 展开时，原生 combobox 通过 `aria-controls` 关联当前实例的命名弹层；关闭后同步更新状态并移除关联。`aria-label`、`aria-describedby` 可传递给原生控件。自定义 selected/触发插槽需自行保留可访问名称、键盘操作和状态关联。
 
-浮动面板按可视视口限制高度，不再固定为半屏。正常高度完整展示日历；横屏或矮窗口仅在内容确实放不下时滚动，确认操作保持可见。可用 `--mp-date-picker-popover-max-height` 限制面板最大高度（默认 `100dvh - 32px`）。品牌样式通过主题变量注入，切回默认／Maple 时移除品牌覆盖。
+浮动面板按可视视口限制高度。正常高度完整展示日历；横屏或矮窗口仅在内容确实放不下时滚动，确认操作保持可见。可用 `--mp-date-picker-popover-max-height` 限制面板最大高度（默认 `100dvh - 32px`）。品牌样式通过主题变量注入，切回默认／Maple 时移除品牌覆盖。
 
 纯面板不接收 open/default-open、popup-container、placement、trigger-props、placeholder、variant、clearable。确认区由 disable-confirm 控制；actions 插槽提供 { confirm, disabled }。DatePicker/DateRangePicker 可以单独 app.use 安装，根入口和 date/date-range 子路径导出组件、Props、Instance、Type、Options、Emits；没有独立 date-picker/date-range-picker npm 子路径。
 
@@ -208,23 +208,8 @@ DatePicker / DateRangePicker 独立使用时自带表面背景和操作区；act
 
 单值面板不显示顶部摘要；范围摘要保留浅灰底槽和白色当前项，点击起止摘要切换编辑对象。
 
-摘要下方不再重复显示提示和年份。点击日历中间带下拉图标的年月标题，依次进入月份、年份选择；通过底部日历按钮返回日期面板。年月标题和底部按钮支持键盘操作，切换视图不会提交值。
+点击日历中间带下拉图标的年月标题，依次进入月份、年份选择；通过底部日历按钮返回日期面板。年月标题和底部按钮支持键盘操作，切换视图不会提交值。
 
-共享样式变量：
-
-| Token                                        | Default                                                       |
-| -------------------------------------------- | ------------------------------------------------------------- |
-| `--mp-temporal-panel-inset`                  | `12px`                                                        |
-| `--mp-temporal-panel-column-label-height`    | `36px`                                                        |
-| `--mp-temporal-panel-column-label-font-size` | `13px`                                                        |
-| `--mp-temporal-panel-radius`                 | `12px`                                                        |
-| `--mp-temporal-panel-group-gap`              | `24px`                                                        |
-| `--mp-temporal-panel-touch-height`           | `44px`                                                        |
-| `--mp-temporal-panel-summary-background`     | `var(--mp-color-fill-1)`                                      |
-| `--mp-temporal-panel-summary-height`         | `56px`                                                        |
-| `--mp-temporal-panel-quick-time-width`       | `84px`                                                        |
-| `--mp-temporal-panel-selection-background`   | `var(--mp-color-fill-2)`                                      |
-| `--mp-temporal-panel-active-background`      | `color-mix(in srgb, var(--mp-color-primary) 8%, transparent)` |
 
 单日期、单日期时间面板在独立面板、字段浮层和弹层中均不显示顶部摘要；日期时间的当前日期、时间和时钟／日历切换保留在底部。范围组件仍通过顶部摘要切换起止端。
 
@@ -548,7 +533,7 @@ datePickerProps/dateRangePickerProps 只配置展示，不能覆盖根模型、�
 
 ### 值与事件
 
-`DateValue = Date | string | number`。无效日期、不完整或逆序范围不能提交。min/max 包含边界，字符串按 value-format 解析，也可直接传 Date 或时间戳。确认时重新校验规则。`disabledTime` 返回 `disabledHours()`、`disabledMinutes(hour)`、`disabledSeconds(hour, minute)` 数字列表。纯面板通过校验后触发 `confirm(value, date(s), text(s))`；字段展开使用 `update:open` / `open-change`，不再使用 close。嵌套面板和弹层 props 只配置展示，不能覆盖顶层模型、规则与状态事件。范围 disabled 支持 `[起点禁用, 终点禁用]`，锁定端点不能被清除或修改。
+`DateValue = Date | string | number`。无效日期、不完整或逆序范围不能提交。min/max 包含边界，字符串按 value-format 解析，也可直接传 Date 或时间戳。确认时重新校验规则。`disabledTime` 返回 `disabledHours()`、`disabledMinutes(hour)`、`disabledSeconds(hour, minute)` 数字列表。纯面板通过校验后触发 `confirm(value, date(s), text(s))`；字段展开使用 `update:open` / `open-change`。嵌套面板和弹层 props 只配置展示，不能覆盖顶层模型、规则与状态事件。范围 disabled 支持 `[起点禁用, 终点禁用]`，锁定端点不能被清除或修改。
 
 ### Date Props
 

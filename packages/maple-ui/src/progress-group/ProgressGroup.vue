@@ -166,7 +166,9 @@ const hoveredIndex = ref(-1)
 const focusedIndex = ref(-1)
 const dismissed = ref(false)
 let hoverTimer: ReturnType<typeof setTimeout> | undefined
+let hoverGeneration = 0
 function cancelHoverLeave() {
+  hoverGeneration++
   if (hoverTimer !== undefined) {
     clearTimeout(hoverTimer)
   }
@@ -174,7 +176,12 @@ function cancelHoverLeave() {
 }
 function scheduleHoverLeave() {
   cancelHoverLeave()
+  const generation = hoverGeneration
   hoverTimer = setTimeout(() => {
+    if (generation !== hoverGeneration) {
+      return
+    }
+    hoverGeneration++
     hoverTimer = undefined
     hoveredIndex.value = -1
   }, 250)

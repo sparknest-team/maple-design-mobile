@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, useAttrs } from 'vue'
 import vHover, { HoverOverlay as BaseHoverOverlay, useHoverOverlay } from '../hover'
-import BaseLoading from '../loading'
+import BaseLoading from '../loading/Loading.vue'
 import vRipple from '../ripple'
 import { createNamespace } from '../utils/components'
 import { buttonProps } from './props'

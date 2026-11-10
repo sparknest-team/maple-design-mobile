@@ -51,7 +51,7 @@ Set loading explicitly to display feedback. Ordinary event return values do not 
 
 Left and right are physical sides. Widths accept `auto`, finite numbers, or numeric strings in pixels; negative or invalid values resolve to zero. Automatic widths are remeasured before opening and observed while supported. An outside touch requests close; an outside mouse click does not. `click` reports cell, left, or right; `outside` is a close reason.
 
-Hidden action regions are inert and excluded from the accessibility tree. When closing while focus is in the actions, focus returns to the opener or to the cell container. Provide a native button outside the cell to call `open('right')`, and handle Escape on a containing element by calling `close()`. The close request still passes through `before-close`. Give each action an accessible name.
+Hidden action regions are inert and excluded from the accessibility tree. When closing while focus is in the actions, focus returns to the opener or to the cell container. Place a Button outside the cell to call `open('right')`, and handle Escape on a containing element by calling `close()`. The close request still passes through `before-close`. Give each action an accessible name.
 
 `close()` returns `Promise<void>` after the guard settles; the return value does not indicate whether the cell closed. Guard exceptions and rejections emit `guard-error(error, position)`.
 
@@ -67,10 +67,10 @@ const cell = ref<SwipeCellInstance>()
 
 <template>
   <div @keydown.esc="cell?.close()">
-    <button type="button" @click="cell?.open('right')">Show actions</button>
+    <mp-button html-type="button" @click="cell?.open('right')">Show actions</mp-button>
     <mp-swipe-cell ref="cell">
       <div>Order</div>
-      <template #right><button type="button">Archive</button></template>
+      <template #right><mp-button html-type="button">Archive</mp-button></template>
     </mp-swipe-cell>
   </div>
 </template>

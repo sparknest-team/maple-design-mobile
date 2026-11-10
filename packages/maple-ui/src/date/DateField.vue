@@ -146,6 +146,7 @@ const controlProps = computed<DateFieldControlProps>(() => {
   return {
     kind: 'date',
     openTriggerTarget: options.openTriggerTarget,
+    inputAttrs: 'inputAttrs' in options ? options.inputAttrs : undefined,
     editable:
       options.inputEditable !== false &&
       typeof options.format !== 'function' &&

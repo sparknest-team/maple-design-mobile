@@ -1,6 +1,7 @@
 import { computed } from 'vue'
-import { t } from '../locale'
 import { injectLocaleProvider } from '../locale-provider/provide'
+import { defaultLocaleReady, t } from '../locale/state'
+import { defaultCloseText } from '../locale/zh-CN'
 
 export {
   IconClose,
@@ -13,5 +14,7 @@ export const transitionName = 'mp-alert-leave'
 
 export function useAlertLocale() {
   const { t: translate } = injectLocaleProvider()
-  return computed(() => String(translate?.('common.close') ?? t('common.close') ?? 'Close'))
+  return computed(() =>
+    String(translate?.('common.close') ?? t('common.close') ?? (defaultLocaleReady.value ? 'Close' : defaultCloseText)),
+  )
 }

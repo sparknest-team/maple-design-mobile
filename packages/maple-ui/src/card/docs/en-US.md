@@ -158,7 +158,9 @@ Title, content and actions follow reading order. Default floating actions sit at
 <!-- same-source-api:start -->
 `row-reverse` reverses the horizontal cover and body order, with reading direction still following the container. Collapsed `floating-content` keeps its nodes and state but is inert to keyboard and assistive technology; it becomes interactive when expanded. Floating is available only in column direction.
 
-The floating layer remains at the Card’s original DOM location. An ancestor’s transform or similar property may change the fixed-position containing block, and ancestor clipping may obscure the layer, so viewport coverage is not guaranteed. The layer does not currently provide modal focus management or Escape-to-close; use Dialog when modal interaction is required.
+The floating layer remains at the Card’s original DOM location. An ancestor’s transform or similar property may change the fixed-position containing block, and ancestor clipping may obscure the layer, so viewport coverage is not guaranteed. When focus is inside an expanded Card, Escape requests closing unless an inner control has already handled the key; a nested topmost popup handles Escape first. The layer does not provide modal focus management; use Dialog when modal interaction is required.
+
+When focus is still inside the floating content or close controls, closing attempts to return focus to the element focused before expansion. If focus has moved elsewhere, it is left unchanged.
 
 The default close button uses the current locale’s close text and can be overridden with `close-button-aria-label`. `floating-duration` is a finite nonnegative duration in milliseconds; 0 means no delay and invalid values fall back to 250.
 
@@ -192,7 +194,7 @@ The default close button uses the current locale’s close text and can be overr
 | Event | Arguments and timing |
 | --- | --- |
 | click | `(event: Event)`, emitted when the card is clicked |
-| update:floating | `(value: boolean)`, emits false when the built-in close button requests closing; expansion is controlled by the parent |
+| update:floating | `(value: boolean)`, emits false when the built-in close button or Escape requests closing; expansion is controlled by the parent |
 
 ### Card Slots
 
@@ -216,7 +218,7 @@ No public methods.
 ### Usage notes
 
 Props, event arguments and slots match. Cedar inherits the global size when size is omitted: xs/sm map to sm, all others to md. Maple falls back to md. Pass size explicitly for identical density. Themes and CSS prefixes remain platform-specific.
-Card no longer has a loading prop. Compose a loading overlay with the Loading directive.
+Use the Loading directive to compose a loading overlay on Card.
 <!-- same-source-api:end -->
 
 ## CSS Variables

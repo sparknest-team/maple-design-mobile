@@ -109,6 +109,12 @@ async function deliver() {
   await nextTick()
 }
 describe('VirtualList deferred correction ownership', () => {
+  test('numeric scroll renders the target range without waiting for a native scroll event', async () => {
+    const p = await harness()
+    p.command.scrollTo(700)
+    await nextTick()
+    expect(p.element.textContent).toContain('35')
+  })
   test('old scroll-event correction cannot overwrite a newer numeric command', async () => {
     const p = await harness()
     p.event(150)
@@ -189,6 +195,15 @@ describe('VirtualList deferred correction ownership', () => {
     p.clear()
     await deliver()
     expect(p.writes).toEqual([])
+  })
+  test('equivalent keys retain pending index correction', async () => {
+    const p = await harness()
+    p.command.scrollTo({ index: 10 })
+    p.data.value = p.data.value.map(({ key }) => ({ key }))
+    await nextTick()
+    p.clear()
+    await deliver()
+    expect(p.writes).toEqual([200])
   })
   test('normal alignment writes are synchronous plus current correction, with no RAF', async () => {
     const p = await harness()

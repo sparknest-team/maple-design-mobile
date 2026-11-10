@@ -1,5 +1,5 @@
 <template>
-  <div :class="cls">
+  <div :class="cls" @wheel="onUserInteraction" @pointerdown="onUserInteraction" @touchstart="onUserInteraction">
     <div v-if="$slots.header && (!empty || showHeaderOnEmpty)" :class="`${prefixCls}-header`">
       <slot name="header" />
     </div>
@@ -20,10 +20,16 @@
     <component
       :is="displayScrollbar ? 'ScrollbarComponent' : 'div'"
       v-if="!virtualList"
-      v-show="!loading && !empty"
       ref="wrapperComRef"
       :class="`${prefixCls}-list-wrapper`"
-      v-bind="scrollbarProps"
+      v-bind="
+        displayScrollbar
+          ? {
+              ...scrollbarProps,
+              outerStyle: [scrollbarProps?.outerStyle, !loading && !empty ? undefined : { display: 'none' }],
+            }
+          : { style: !loading && !empty ? undefined : { display: 'none' } }
+      "
       @scroll="handleScroll"
     >
       <ul
@@ -50,7 +56,7 @@ import { useComponentRef } from '../_hooks/use-component-ref'
 import { useScrollbar } from '../_hooks/use-scrollbar'
 import type { EmitType } from '../_utils/types'
 import Empty from '../empty'
-import Loading from '../loading'
+import Loading from '../loading/Loading.vue'
 import { createNamespace, getPrefixCls } from '../utils/components'
 
 const { name, n, classes } = createNamespace('select-dropdown')
@@ -63,6 +69,7 @@ export default defineComponent({
     Loading,
   },
   props: {
+    onUserInteraction: Function as PropType<() => void>,
     listboxId: String,
     multiple: Boolean,
     loading: Boolean,

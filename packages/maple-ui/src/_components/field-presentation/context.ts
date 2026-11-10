@@ -62,6 +62,8 @@ const itemKey: InjectionKey<PresentationContext> = Symbol('form-item-presentatio
 export const fieldEditorBoundary: InjectionKey<boolean> = Symbol('field-editor-boundary')
 /** Physical editor panel presence, distinct from form-event ownership boundaries. */
 export const fieldEditorPanel: InjectionKey<boolean> = Symbol('field-editor-panel')
+/** Whether Enter without an open child popup belongs to the editor. */
+export const fieldEditorEnterSubmits: InjectionKey<ComputedRef<boolean>> = Symbol('field-editor-enter-submits')
 /** Only the wrapped control owns inline Form notifications; its nested inputs do not. */
 export const fieldControlFormEvents: InjectionKey<ComputedRef<boolean>> = Symbol('field-control-form-events')
 export function provideFormPresentation(

@@ -35,6 +35,9 @@ const nativeKeys = new Set([
 ])
 
 export function splitInputAttrs(attrs: Record<string, unknown>, extraNativeKeys: readonly string[] = []) {
+  // Vue tracks property reads on its attrs proxy; Object.entries reads nothing when it is empty.
+  // Subscribe even in that state so later fallthrough attributes invalidate computed splits.
+  void attrs.id
   const native: Record<string, unknown> = {}
   const root: Record<string, unknown> = {}
   for (const [key, value] of Object.entries(attrs)) {

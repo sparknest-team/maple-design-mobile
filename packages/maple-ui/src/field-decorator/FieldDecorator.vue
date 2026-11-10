@@ -23,7 +23,8 @@
   >
     <span v-if="$slots.prefix" :class="n('prefix')"><slot name="prefix" /></span>
     <span ref="middleRef" :class="n('middle')"><slot /></span>
-    <label v-if="hasHint" :for="id" :class="n('placeholder')">{{ placeholder }}</label>
+    <span v-if="hasHint && decorativeHint" :class="n('placeholder')" aria-hidden="true">{{ placeholder }}</span>
+    <label v-else-if="hasHint" :for="id" :class="n('placeholder')">{{ placeholder }}</label>
     <span v-if="showClear || $slots.suffix || (loading && loadingMode === 'default')" :class="n('suffix')">
       <slot v-if="showClear" name="clear-icon" :clear="handleClear">
         <button
@@ -79,7 +80,7 @@ import { useFieldGeometry } from './use-field-geometry'
 import { useFieldLocale } from './use-field-locale'
 
 defineOptions({ name: createNamespace('field-decorator').name })
-const props = defineProps(fieldDecoratorProps)
+const props = defineProps({ ...fieldDecoratorProps, decorativeHint: Boolean })
 const indicatorSize = computed(() => ({ xs: 12, sm: 14, md: 16, lg: 18, xl: 20 })[props.size])
 const emit = defineEmits<{ clear: [event: Event]; mousedown: [event: MouseEvent] }>()
 const { n, classes } = createNamespace('field-decorator')

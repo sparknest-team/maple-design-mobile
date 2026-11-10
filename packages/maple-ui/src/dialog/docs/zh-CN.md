@@ -368,7 +368,7 @@ before-* 等待期间显示加载反馈并标记 aria-busy；拒绝或失败后�
 | `dialog-animation-name`                              | 对话框动画名                    | `string`                                      | `'mp-pop-center'` |
 | `aria-label`                                         | 无可见标题时的无障碍名称        | `string`                                      | `-`               |
 | `close-button-aria-label`                            | 关闭按钮无障碍名称              | `string`                                      | `'Close dialog'`  |
-| `z-index`                                            | 层级                            | `number`                                      | 自动分配          |
+| `z-index`                                            | 最外层层级                            | `number`                                      | 自动分配          |
 | `before-close` | 返回 boolean/Promise 或调用 done；首次完成生效 | `DialogBeforeClose` | — |
 
 ### Dialog Events
@@ -427,7 +427,7 @@ type DialogType = 'info' | 'success' | 'warning' | 'error'
 
 与 Cedar 一致的颜色语义：`--mp-dialog-background` 使用浮层背景（`surface-raised`），`--mp-dialog-overlay-background` 控制遮罩，标题与正文使用主要内容色，关闭按钮使用次要内容色；`--mp-dialog-status-{info|success|warning|danger}-color` 对应可读状态内容色（content-info/success/warning/danger），不是状态填充色。业务主题优先覆盖组件变量，跨组件主题覆盖对应 system 变量。移动端无边框、尺寸与布局差异保持独立。
 
-遮罩通过 Dialog 组件变量消费 `sys-color-scrim`；Maple 不再借用 Popup 的遮罩颜色。实例遮罩变量可放在 `overlay-style` 上；放在面板 `dialog-style` 上的变量不会继承给兄弟遮罩节点。显式 `overlay-style.backgroundColor` 优先。Teleport 场景需要在实际 DOM 祖先作用域设置变量。暗色主题继承同一套颜色语义；几何保留平台差异。状态图标改用可读的 content 状态色。
+遮罩通过 Dialog 组件变量消费 `sys-color-scrim`；Dialog 的遮罩颜色由自身变量控制。实例遮罩变量可放在 `overlay-style` 上；放在面板 `dialog-style` 上的变量不会继承给兄弟遮罩节点。显式 `overlay-style.backgroundColor` 优先。Teleport 场景需要在实际 DOM 祖先作用域设置变量。暗色主题继承同一套颜色语义；几何保留平台差异。状态图标使用可读的 content 状态色。
 
 变量按用途分组：background／overlay-background 是面板与遮罩；border-* 是面板或分隔线边框；title-* 是标题排版；content-* 是正文排版；actions-* 是操作区；close-button-* 是关闭按钮；status-* 是语义图标；simple-*／fullscreen-* 是对应模式的尺寸；animation-* 是入退场动效。width／margin-top 控制常规面板布局。内部拖动与定位变量不构成公开定制入口。
 

@@ -3061,6 +3061,7 @@ Maple 使用 edit-mode="popup" 点击值区域打开编辑面板；direct 直接
 
 | 事件 | 参数 |
 | --- | --- |
+| keydown | event: KeyboardEvent |
 | update:modelValue | value: string \| null |
 | input | value: string, event: Event |
 | search | value: string, event: Event |
@@ -3071,6 +3072,9 @@ Maple 使用 edit-mode="popup" 点击值区域打开编辑面板；direct 直接
 | dropdown-scroll / dropdown-reach-bottom | event: Event |
 | load-error | error: unknown |
 | update:open / open-change | open: boolean |
+
+`keydown` 在内部键盘操作前通知；调用 `preventDefault()` 可阻止内部操作。
+候选列表内嵌在编辑器中时，Escape 关闭编辑器；候选列表为独立弹层时，Escape 先关闭候选弹层。
 
 输入顺序：`input → update:modelValue → search`；选择：`update:modelValue → select → change`；清除：`clear → input → update:modelValue → change`。同值选择只发 select。change 表示失焦、Enter 或候选选择产生的提交。Input 负责输入、焦点与清除的 Form 通知，AutoComplete 仅对候选提交通知一次。选择也遵守 maxLength；select 的 value 是最终提交字符串，option.value 保留原始候选。clear 参数为事件，不再是字符串。
 
@@ -3097,7 +3101,7 @@ default 不提供输入替换。option 定制候选内容，read 定制阅读内
 | blur | - | void |
 | refresh | - | `Promise<void>` |
 
-方向键可在 Escape 关闭后重新展开：ArrowDown 定位首个可用候选，ArrowUp 定位末个可用候选，不提交模型；Enter 选择。组合输入、取消的键盘事件、readonly/disabled 和 should-open 条件仍受尊重；Tab 保持原生焦点导航。使用 Vue useId 保证 SSR 标识稳定。
+方向键可在 Escape 关闭后重新展开：ArrowDown 定位首个可用候选，ArrowUp 定位末个可用候选，不提交模型；Enter 选择。组合输入、取消的键盘事件、readonly/disabled 和 should-open 条件仍受尊重；Tab 保持原生焦点导航。使用 Vue useId 保证 SSR 标识稳定。 候选展开时输入框通过 aria-controls 关联列表，关闭时移除该引用。 虚拟滚动使活动项卸载时，暂时移除活动项引用，重新挂载后恢复。
 
 ## Types
 
@@ -5155,9 +5159,9 @@ Example source: src/breadcrumb/example/demos/max-count.vue
     <mp-breadcrumb :routes="maxRoutes" :max-count="3" @click.prevent>
       <template #more-icon="{ omittedItems }">
         <mp-tooltip :trigger="['hover', 'focus', 'click']" :content="omittedLabel(omittedItems)">
-          <button type="button" class="more-trigger" aria-label="查看隐藏路径">
+          <mp-button html-type="button" variant="text" class="more-trigger" aria-label="查看隐藏路径">
             <m-icon-more aria-hidden="true" />
-          </button>
+          </mp-button>
         </mp-tooltip>
       </template>
     </mp-breadcrumb>
@@ -7117,7 +7121,9 @@ const duration = ref(250)
 <!-- same-source-api:start -->
 `row-reverse` 反转横排封面与正文的顺序，阅读方向仍受容器方向影响。`floating-content` 收起时保留节点与内部状态，但会通过 inert 退出键盘和辅助技术交互；展开时恢复。浮层仅在 column 方向生效。
 
-当前浮层仍位于 Card 原有 DOM 位置。祖先的 transform 等属性可能改变 fixed 定位参照，祖先裁剪也可能遮挡浮层，因此不能保证覆盖整个视口。浮层目前不提供模态焦点管理或 Escape 关闭；需要模态交互时请使用 Dialog。
+当前浮层仍位于 Card 原有 DOM 位置。祖先的 transform 等属性可能改变 fixed 定位参照，祖先裁剪也可能遮挡浮层，因此不能保证覆盖整个视口。焦点在展开的 Card 内时，按 Escape 会请求关闭；内部控件已处理的 Escape 不会关闭 Card；内嵌弹层处于最上层时优先处理 Escape。浮层不提供模态焦点管理，需要模态交互时请使用 Dialog。
+
+当展开内容或关闭按钮内仍有焦点时，关闭会尝试将焦点返回展开前的控件；如果焦点已经移到其他位置，则不会抢回焦点。
 
 默认关闭按钮使用当前语言的关闭文案，`close-button-aria-label` 可覆盖。`floating-duration` 为有限非负毫秒数，0 表示不延时；无效值回退为 250。
 
@@ -7151,7 +7157,7 @@ const duration = ref(250)
 | 事件 | 参数与时机 |
 | --- | --- |
 | click | `(event: Event)`，点击卡片时触发 |
-| update:floating | `(value: boolean)`，内置关闭按钮请求关闭时发送 false；展开由父级设置 |
+| update:floating | `(value: boolean)`，内置关闭按钮或 Escape 请求关闭时发送 false；展开由父级设置 |
 
 ### Card Slots
 
@@ -7175,7 +7181,7 @@ const duration = ref(250)
 ### 使用说明
 
 属性、事件参数及插槽契约一致。Cedar 省略 size 时继承全局尺寸（xs/sm 映射 sm，其余映射 md）；Maple 回退 md。需要一致密度时显式传入 size。主题和 CSS 前缀分别使用各端配置。
-Card 不再提供 loading 属性；加载遮罩使用 Loading 指令组合。
+Card 通过 Loading 指令组合加载遮罩。
 <!-- same-source-api:end -->
 
 ## CSS Variables
@@ -10360,6 +10366,8 @@ async function load() {
 
 ### 懒加载结束与异常
 
+聚焦尚未加载子项的可展开选项时，按 Enter、空格或展开方向键会触发懒加载；等待期间选项会显示加载状态。方向键仅在焦点仍停留在按键触发的输入框或选项上时进入子级。搜索结果不触发子项展开。
+
 字段和独立 Panel 的 `loadMore(option, done)` 均保留回调协议：`done(children)` 接收子项，`done()` 结束等待并允许重试。只接受首次回调；返回值（包括已完成的 Promise）不替代 `done`。加载函数同步抛错时结束等待，并进入 Vue 的 `errorCaptured` / 应用 `errorHandler`。`load-error` 仍仅报告 `options` 候选数据源错误，不重复报告 `loadMore` 异常。业务中的异步请求失败需自行处理并调用 `done()`。
 
 替换选项（包括嵌套原地修改）、字段映射或加载函数会使旧请求和懒加载缓存失效。卸载、停用会取消待处理回调；旧结果不能写入替换后的节点或清除新请求的等待。
@@ -10398,7 +10406,7 @@ option({ data }) 接收规范化 CascaderOptionInfo，data.raw 是原始选项�
 
 ## API
 
-面板分支的 `aria-expanded` 表示其子列是否实际显示；聚焦或悬停尚未打开子列时不会标记为已展开。叶节点没有 `aria-expanded`。 搜索结果不会声明其未显示的子菜单。
+面板分支的 `aria-expanded` 表示其子列是否实际显示；聚焦或悬停尚未打开子列时不会标记为已展开。叶节点没有 `aria-expanded`。 搜索结果不会声明其未显示的子菜单。 直接模式的单选搜索使用 `listbox` 和 `option`，输入框关联弹层与活动项；编辑器单选搜索使用 `menuitemradio` 和 `aria-checked`，菜单内保留一个 Tab 入口。多选搜索保留复选框。 直接单选搜索时，弹层图标不占用额外 Tab 停靠点；可点击图标或在输入框按方向下键展开。
 
 ### 空值识别与阅读空文案
 
@@ -10462,6 +10470,12 @@ option({ data }) 接收规范化 CascaderOptionInfo，data.raw 是原始选项�
 | `popup-props` | 弹层外观；展开状态、底部位置和挂载时机由扩展接管 | `PopupProps` | `{}` |
 
 ### Cascader Events / Methods
+
+直接编辑模式下，字段关闭时按方向下键请求展开；展开后若焦点仍在字段且没有活动项，会激活首个可用选项；选项异步到达时也适用。等待期间失焦、关闭或再次操作会取消本次激活。受控 `open` 仅在父组件接受请求后改变。
+
+菜单选项获得焦点时，按 Enter 或空格可操作该选项；搜索输入框和选项内复选框保留各自的键盘行为。
+
+- `keydown(event)`：字段、候选菜单或编辑面板按键事件；调用 `preventDefault()` 可阻止内部键盘处理。
 
 - `update:modelValue`、`change(value)`：提交时触发，编辑草稿不触发。
 - `update:open`、`open-change(open)`：请求改变展开状态。
@@ -15199,7 +15213,7 @@ Document: llms/zh-CN/date-range.md
 
 端点锁定由本地移动展示适配层响应式传给日历和滚轮；嵌套锁定与当前锁定合并，不会因切换展示或解锁另一端而丢失。共享草稿/确认所有者不依赖移动端注入，外部模型更新和确认/取消语义不变。
 
-浮动面板按可视视口限制高度，不再固定为半屏。正常高度完整展示日历；横屏或矮窗口仅在内容确实放不下时滚动，确认操作保持可见。可用 `--mp-date-picker-popover-max-height` 限制面板最大高度（默认 `100dvh - 32px`）。品牌样式通过主题变量注入，切回默认／Maple 时移除品牌覆盖。
+浮动面板按可视视口限制高度。正常高度完整展示日历；横屏或矮窗口仅在内容确实放不下时滚动，确认操作保持可见。可用 `--mp-date-picker-popover-max-height` 限制面板最大高度（默认 `100dvh - 32px`）。品牌样式通过主题变量注入，切回默认／Maple 时移除品牌覆盖。
 
 纯面板不接收 open/default-open、popup-container、placement、trigger-props、placeholder、variant、clearable。确认区由 disable-confirm 控制；actions 插槽提供 { confirm, disabled }。DatePicker/DateRangePicker 可以单独 app.use 安装，根入口和 date/date-range 子路径导出组件、Props、Instance、Type、Options、Emits；没有独立 date-picker/date-range-picker npm 子路径。
 
@@ -16420,7 +16434,7 @@ show-current 仅控制高亮。范围默认提供“此刻”，通过顶层 `sh
 
 `DateRangePicker.datePickerProps` 与 `DateRange.datePickerProps` 仅接受 `DateRangeCalendarOptions`：`hint`、`color`、`titleColor`、`buttonElevation`、`touchable`。值、校验、视口、presentation、elevation、abbreviation 和动作由范围顶层管理；运行时未知键及监听函数不向内部日历转发。日历分支明确使用日历展示。
 
-字段外观与 `dateRangePickerProps.datePickerProps` 合并；空默认对象不再覆盖嵌套设置，字段显式传入的键优先。
+字段外观与 `dateRangePickerProps.datePickerProps` 合并；空默认对象保留嵌套设置，字段显式传入的键优先。
 
 ### 真实端侧能力
 
@@ -16639,11 +16653,13 @@ function beforeCommit(
 
 ### 值与事件
 
-`DateValue = Date | string | number`。无效日期、不完整或逆序范围不能提交。min/max 包含边界，字符串按 value-format 解析，也可直接传 Date 或时间戳。确认时重新校验规则。`disabledTime` 返回 `disabledHours()`、`disabledMinutes(hour)`、`disabledSeconds(hour, minute)` 数字列表。纯面板通过校验后触发 `confirm(value, date(s), text(s))`；字段展开使用 `update:open` / `open-change`，不再使用 close。嵌套面板和弹层 props 只配置展示，不能覆盖顶层模型、规则与状态事件。范围 disabled 支持 `[起点禁用, 终点禁用]`，锁定端点不能被清除或修改。
+`DateValue = Date | string | number`。无效日期、不完整或逆序范围不能提交。min/max 包含边界，字符串按 value-format 解析，也可直接传 Date 或时间戳。确认时重新校验规则。`disabledTime` 返回 `disabledHours()`、`disabledMinutes(hour)`、`disabledSeconds(hour, minute)` 数字列表。纯面板通过校验后触发 `confirm(value, date(s), text(s))`；字段展开使用 `update:open` / `open-change`。嵌套面板和弹层 props 只配置展示，不能覆盖顶层模型、规则与状态事件。范围 disabled 支持 `[起点禁用, 终点禁用]`，锁定端点不能被清除或修改。
 
 面板编辑草稿，确认才写回；取消或关闭不写回，清除立即提交空值并关闭。DateRange 默认允许手输，设置 `input-editable=false` 可只通过面板选择。四类字段的组合示例见 Date 文档“统一字段与提交”。
 
 ### DateRange Props
+
+`input-attrs` 作用于两个直接输入框。例如 `:input-attrs="[{ 'aria-label': '出发' }, { 'aria-label': '返回' }]"` 可分别命名起止输入。值、禁用、只读、占位符、角色和弹层状态由组件管理；公共描述、单项描述和表单错误会合并到对应输入中；组件报错时优先标记无效，否则保留单项 `aria-invalid`。`RangeInputAttributes` 从组件子入口及库根入口导出，包含原生属性和 `Once` 事件类型。
 
 | 参数 | 说明 | 类型 | 缺省说明 |
 | --- | --- | --- | --- |
@@ -16668,6 +16684,7 @@ function beforeCommit(
 | `format` | 显示与手输格式；函数只展示，无反向手输解析 | `string \| ((date: Date) => string)` | 按精度/时间配置 |
 | `hint` | 浮动占位提示；存在 Form 外置标签时不浮动 | `boolean` | `true` |
 | `input-editable` | 允许手输；不影响面板选择入口 | `boolean` | `true` |
+| `input-attrs` | 按顺序设置起点、终点原生输入属性；单项名称优先于公共名称 | `RangeInputAttributes[]` | `undefined` |
 | `interactive-mode` | Maple 日历视口模式；不是字段编辑模式 | `page \| scroll \| line` | `page` |
 | `line` | 显示外壳边框或底线 | `boolean` | `true` |
 | `loading` | 手动加载反馈，不从事件返回值推导 | `boolean` | `false` |
@@ -16865,7 +16882,7 @@ Document: llms/zh-CN/date.md
 
 展开时，原生 combobox 通过 `aria-controls` 关联当前实例的命名弹层；关闭后同步更新状态并移除关联。`aria-label`、`aria-describedby` 可传递给原生控件。自定义 selected/触发插槽需自行保留可访问名称、键盘操作和状态关联。
 
-浮动面板按可视视口限制高度，不再固定为半屏。正常高度完整展示日历；横屏或矮窗口仅在内容确实放不下时滚动，确认操作保持可见。可用 `--mp-date-picker-popover-max-height` 限制面板最大高度（默认 `100dvh - 32px`）。品牌样式通过主题变量注入，切回默认／Maple 时移除品牌覆盖。
+浮动面板按可视视口限制高度。正常高度完整展示日历；横屏或矮窗口仅在内容确实放不下时滚动，确认操作保持可见。可用 `--mp-date-picker-popover-max-height` 限制面板最大高度（默认 `100dvh - 32px`）。品牌样式通过主题变量注入，切回默认／Maple 时移除品牌覆盖。
 
 纯面板不接收 open/default-open、popup-container、placement、trigger-props、placeholder、variant、clearable。确认区由 disable-confirm 控制；actions 插槽提供 { confirm, disabled }。DatePicker/DateRangePicker 可以单独 app.use 安装，根入口和 date/date-range 子路径导出组件、Props、Instance、Type、Options、Emits；没有独立 date-picker/date-range-picker npm 子路径。
 
@@ -17871,23 +17888,8 @@ DatePicker / DateRangePicker 独立使用时自带表面背景和操作区；act
 
 单值面板不显示顶部摘要；范围摘要保留浅灰底槽和白色当前项，点击起止摘要切换编辑对象。
 
-摘要下方不再重复显示提示和年份。点击日历中间带下拉图标的年月标题，依次进入月份、年份选择；通过底部日历按钮返回日期面板。年月标题和底部按钮支持键盘操作，切换视图不会提交值。
+点击日历中间带下拉图标的年月标题，依次进入月份、年份选择；通过底部日历按钮返回日期面板。年月标题和底部按钮支持键盘操作，切换视图不会提交值。
 
-共享样式变量：
-
-| Token                                        | Default                                                       |
-| -------------------------------------------- | ------------------------------------------------------------- |
-| `--mp-temporal-panel-inset`                  | `12px`                                                        |
-| `--mp-temporal-panel-column-label-height`    | `36px`                                                        |
-| `--mp-temporal-panel-column-label-font-size` | `13px`                                                        |
-| `--mp-temporal-panel-radius`                 | `12px`                                                        |
-| `--mp-temporal-panel-group-gap`              | `24px`                                                        |
-| `--mp-temporal-panel-touch-height`           | `44px`                                                        |
-| `--mp-temporal-panel-summary-background`     | `var(--mp-color-fill-1)`                                      |
-| `--mp-temporal-panel-summary-height`         | `56px`                                                        |
-| `--mp-temporal-panel-quick-time-width`       | `84px`                                                        |
-| `--mp-temporal-panel-selection-background`   | `var(--mp-color-fill-2)`                                      |
-| `--mp-temporal-panel-active-background`      | `color-mix(in srgb, var(--mp-color-primary) 8%, transparent)` |
 
 单日期、单日期时间面板在独立面板、字段浮层和弹层中均不显示顶部摘要；日期时间的当前日期、时间和时钟／日历切换保留在底部。范围组件仍通过顶部摘要切换起止端。
 
@@ -18627,7 +18629,7 @@ datePickerProps/dateRangePickerProps 只配置展示，不能覆盖根模型、�
 
 ### 值与事件
 
-`DateValue = Date | string | number`。无效日期、不完整或逆序范围不能提交。min/max 包含边界，字符串按 value-format 解析，也可直接传 Date 或时间戳。确认时重新校验规则。`disabledTime` 返回 `disabledHours()`、`disabledMinutes(hour)`、`disabledSeconds(hour, minute)` 数字列表。纯面板通过校验后触发 `confirm(value, date(s), text(s))`；字段展开使用 `update:open` / `open-change`，不再使用 close。嵌套面板和弹层 props 只配置展示，不能覆盖顶层模型、规则与状态事件。范围 disabled 支持 `[起点禁用, 终点禁用]`，锁定端点不能被清除或修改。
+`DateValue = Date | string | number`。无效日期、不完整或逆序范围不能提交。min/max 包含边界，字符串按 value-format 解析，也可直接传 Date 或时间戳。确认时重新校验规则。`disabledTime` 返回 `disabledHours()`、`disabledMinutes(hour)`、`disabledSeconds(hour, minute)` 数字列表。纯面板通过校验后触发 `confirm(value, date(s), text(s))`；字段展开使用 `update:open` / `open-change`。嵌套面板和弹层 props 只配置展示，不能覆盖顶层模型、规则与状态事件。范围 disabled 支持 `[起点禁用, 终点禁用]`，锁定端点不能被清除或修改。
 
 ### Date Props
 
@@ -24691,7 +24693,7 @@ before-* 等待期间显示加载反馈并标记 aria-busy；拒绝或失败后�
 | `dialog-animation-name`                              | 对话框动画名                    | `string`                                      | `'mp-pop-center'` |
 | `aria-label`                                         | 无可见标题时的无障碍名称        | `string`                                      | `-`               |
 | `close-button-aria-label`                            | 关闭按钮无障碍名称              | `string`                                      | `'Close dialog'`  |
-| `z-index`                                            | 层级                            | `number`                                      | 自动分配          |
+| `z-index`                                            | 最外层层级                            | `number`                                      | 自动分配          |
 | `before-close` | 返回 boolean/Promise 或调用 done；首次完成生效 | `DialogBeforeClose` | — |
 
 ### Dialog Events
@@ -24750,7 +24752,7 @@ type DialogType = 'info' | 'success' | 'warning' | 'error'
 
 与 Cedar 一致的颜色语义：`--mp-dialog-background` 使用浮层背景（`surface-raised`），`--mp-dialog-overlay-background` 控制遮罩，标题与正文使用主要内容色，关闭按钮使用次要内容色；`--mp-dialog-status-{info|success|warning|danger}-color` 对应可读状态内容色（content-info/success/warning/danger），不是状态填充色。业务主题优先覆盖组件变量，跨组件主题覆盖对应 system 变量。移动端无边框、尺寸与布局差异保持独立。
 
-遮罩通过 Dialog 组件变量消费 `sys-color-scrim`；Maple 不再借用 Popup 的遮罩颜色。实例遮罩变量可放在 `overlay-style` 上；放在面板 `dialog-style` 上的变量不会继承给兄弟遮罩节点。显式 `overlay-style.backgroundColor` 优先。Teleport 场景需要在实际 DOM 祖先作用域设置变量。暗色主题继承同一套颜色语义；几何保留平台差异。状态图标改用可读的 content 状态色。
+遮罩通过 Dialog 组件变量消费 `sys-color-scrim`；Dialog 的遮罩颜色由自身变量控制。实例遮罩变量可放在 `overlay-style` 上；放在面板 `dialog-style` 上的变量不会继承给兄弟遮罩节点。显式 `overlay-style.backgroundColor` 优先。Teleport 场景需要在实际 DOM 祖先作用域设置变量。暗色主题继承同一套颜色语义；几何保留平台差异。状态图标使用可读的 content 状态色。
 
 变量按用途分组：background／overlay-background 是面板与遮罩；border-* 是面板或分隔线边框；title-* 是标题排版；content-* 是正文排版；actions-* 是操作区；close-button-* 是关闭按钮；status-* 是语义图标；simple-*／fullscreen-* 是对应模式的尺寸；animation-* 是入退场动效。width／margin-top 控制常规面板布局。内部拖动与定位变量不构成公开定制入口。
 
@@ -27708,21 +27710,21 @@ const styleVars = ref({
           <mp-floating-panel v-if="active === 'anchors'" v-model="anchor" :anchors="anchors" :popup-container="false">
             <template #header>
               <div class="panel-height-controls">
-                <button
-                  type="button"
+                <mp-button
+                  html-type="button"
                   :disabled="anchor === 80"
                   @click="anchor = anchors[Math.max(0, anchors.indexOf(anchor) - 1)]"
                 >
                   收起
-                </button>
+                </mp-button>
                 <span aria-live="polite">{{ anchor }} px</span>
-                <button
-                  type="button"
+                <mp-button
+                  html-type="button"
                   :disabled="anchor === 320"
                   @click="anchor = anchors[Math.min(anchors.length - 1, anchors.indexOf(anchor) + 1)]"
                 >
                   展开
-                </button>
+                </mp-button>
               </div>
             </template>
             <div style="text-align: center; padding: 5px 15px">
@@ -27951,6 +27953,10 @@ Document: llms/zh-CN/form.md
 <!-- Source: src/form/docs/zh-CN.md; locale: zh-CN; page: /zh-CN/form -->
 
 # 表单
+
+## 字段名称
+
+直接编辑模式下，为单个字段设置可见标签时，可将 FormItem 的 `label-attrs` 中的 `for` 与控件的 `id` 对应；选择、日期和时间字段的原生输入不会用 placeholder 覆盖已关联的标签。显式 `aria-label` 或 `aria-labelledby` 仍按原生无障碍名称规则优先。placeholder 只是未提供标签时的回退，不能替代清晰的字段标签。日期和时间范围字段在 FormItem 中会将表单标签关联到范围分组；仍需通过 `input-attrs` 分别提供能够区分起止端点的名称。若 `label-attrs.for` 指向其他控件，不会将该标签误关联到范围分组。 `tooltip` 提示按钮可单独聚焦，其名称不会合并到字段标签中。
 
 ## 阅读方向
 
@@ -28260,8 +28266,9 @@ Example source: src/form/example/demos/decoration.vue
 
 ```vue
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive, useId } from 'vue'
 
+const demoId = useId()
 const model = reactive({ name: '', notes: '' })
 </script>
 
@@ -28273,18 +28280,19 @@ const model = reactive({ name: '', notes: '' })
       required
       show-colon
       tooltip="名称将展示在个人主页。"
-      :label-attrs="{ for: 'decorated-name' }"
+      :label-attrs="{ for: `${demoId}-name` }"
     >
-      <mp-input id="decorated-name" v-model="model.name" placeholder="输入公开名称" />
+      <mp-input :id="`${demoId}-name`" v-model="model.name" placeholder="输入公开名称" />
     </mp-form-item>
     <mp-form-item
       field="notes"
       label="备注"
       label-component="div"
+      :label-attrs="{ id: `${demoId}-notes-label` }"
       :content-flex="false"
       content-class="decoration-grid"
     >
-      <mp-input v-model="model.notes" placeholder="支持自定义内容布局" />
+      <mp-input v-model="model.notes" :aria-labelledby="`${demoId}-notes-label`" placeholder="支持自定义内容布局" />
       <small>content-flex=false 后由业务自行布局。</small>
     </mp-form-item>
   </mp-form>
@@ -35786,7 +35794,7 @@ Example source: src/input/example/demos/group.vue
 </template>
 ```
 
-`InputGroupLabel` 的根节点为 span，用于输入框外侧的附加内容。可见字段名与原生输入的关联由 FormItem、原生 label 的 for/id 或 `aria-label` 提供。
+`InputGroupLabel` 的根节点为 span，用于输入框外侧的附加内容。可使用 FormItem 的 `label-attrs.for` 对应 Input 的 `id`，或使用原生 label 的 for/id 关联可见字段名；也可显式提供 `aria-label`。
 
 ### 组合状态继承
 
@@ -39436,7 +39444,7 @@ close/closed 通知回调抛错不会保留已关闭项目或空管理器宿主�
 
 ### Message Events
 
-`update:open`、`open`、`opened`、`close`、`closed`；每次开关周期各触发一次。
+`update:open`、`open`、`opened`、`close`、`closed`；每次开关周期各触发一次。 服务端渲染的消息初始为打开时，激活阶段跳过首次入场动画，并在挂载时按 `open`、`opened` 的顺序触发事件。
 
 ### Message Methods
 
@@ -39989,9 +39997,9 @@ Example source: src/notice-bar/example/demos/pausable.vue
 <template>
   <mp-notice-bar scrollable :paused="paused" text="这是一条较长的通知，您可以暂停滚动后继续阅读。">
     <template #action>
-      <button type="button" :aria-pressed="paused" @click="paused = !paused">
+      <mp-button html-type="button" variant="text" :aria-pressed="paused" @click="paused = !paused">
         {{ paused ? '继续滚动' : '暂停滚动' }}
-      </button>
+      </mp-button>
     </template>
   </mp-notice-bar>
 </template>
@@ -41280,7 +41288,7 @@ import type { PaginationProps, PaginationInstance, PaginationPageSizeProps } fro
 
 ## 行为说明
 
-容器宽度不超过 `compact-breakpoint` 时自动使用简洁模式；桌面侧栏与移动端规则相同。保留总数和条数选择器，辅助控件换行，上一页、下一页按钮跟随 size，不再在窄屏强制放大（默认 36px）。设置 `responsive=false` 保留完整页码，极窄时仅页码列表横向滚动，不撑宽页面。
+容器宽度不超过 `compact-breakpoint` 时自动使用简洁模式；桌面侧栏与移动端规则相同。保留总数和条数选择器，辅助控件换行，上一页、下一页按钮跟随 size。设置 `responsive=false` 保留完整页码，极窄时仅页码列表横向滚动，不撑宽页面。
 
 简洁模式的当前页输入框承担跳转功能，不重复展示独立 jumper。`page-item`、`page-item-ellipsis`、`jumper-prepend`、`jumper-append` 仅在完整模式的对应控件中渲染。
 
@@ -41296,7 +41304,7 @@ import type { PaginationProps, PaginationInstance, PaginationPageSizeProps } fro
 
 两端支持相同配置：`disabled?: boolean`、`placement?: 'top' | 'top-start' | 'top-end' | 'bottom' | 'bottom-start' | 'bottom-end'`、`popupContainer?: string | HTMLElement | false`、`class?: string`、`style?: CSSProperties`。外层 disabled 优先。默认 placement 为 bottom-start。
 
-此配置不再透传任意 SelectProps/MenuProps。分页值、选项和尺寸分别使用 page-size、page-size-options、size。
+请使用下方列出的配置属性。分页值、选项和尺寸分别使用 page-size、page-size-options、size。
 
 ## CSS Variables
 
@@ -42965,7 +42973,7 @@ async function picker6() {
 ### 键盘与减少动效
 每个可操作列为一个 listbox，可用 Tab 聚焦；方向键上下移动，Home/End 到首尾可用项，跳过禁用项。aria-selected 表达当前滚轮项；selected-values 只表达额外勾选标记，两者职责不同。空列和全禁用列不进入 Tab 顺序。
 
-在 FormItem 内，每个滚轮列会合并调用方的 `aria-describedby` 和当前表单错误；清除错误后只保留调用方的描述。
+在 FormItem 内，每个滚轮列会合并调用方的 `aria-describedby` 和当前表单错误；表单错误时各列的 `aria-invalid` 为 `true`，清除错误后恢复调用方的值和描述。
 
 减少动效偏好下，选择立即提交且不等待 transitionend；偏好动态切换时收束待提交滚动，卸载时移除监听。
 
@@ -43984,7 +43992,7 @@ Popup 的 close()/requestClose() 和外部 open=false 会经过守卫；两端 D
 | `safe-area-inset-top` | 是否适配顶部安全区 | `boolean` | `false` |
 | `safe-area-inset-right` | 是否适配右侧安全区 | `boolean` | `false` |
 | `safe-area-inset-left` | 是否适配左侧安全区 | `boolean` | `false` |
-| `z-index` | 自定义层级 | `number` | 自动分配 |
+| `z-index` | 最外层层级 | `number` | 自动分配 |
 
 ### Popup Events
 
@@ -53432,6 +53440,7 @@ Select 还支持 `header`、`footer`、`trigger` 和默认插槽中的 `Option /
 | search                | 搜索通知     | text         |
 | focus                 | 字段获得焦点 | event        |
 | blur                  | 字段失去焦点 | event        |
+| keydown               | 字段或编辑器搜索按键；`preventDefault()` 阻止内部键盘处理 | event: KeyboardEvent |
 | clear                 | 清空选择     | event        |
 | remove                | 移除已选项   | value        |
 | exceed-limit          | 超过多选上限 | value, event |
@@ -57629,7 +57638,7 @@ const items = ref(['A', 'B', 'C'])
       <template v-for="item in items" :key="item">
         <label class="space-split-field">
           <span>Item {{ item }}</span>
-          <input :aria-label="'Draft ' + item" placeholder="草稿 / Draft" />
+          <mp-input edit-mode="direct" :aria-label="'Draft ' + item" placeholder="草稿 / Draft" />
         </label>
       </template>
       <template #split><span aria-hidden="true">/</span></template>
@@ -57644,7 +57653,7 @@ const items = ref(['A', 'B', 'C'])
   gap: 4px;
   width: 110px;
 }
-.space-split-field input {
+.space-split-field :deep(input) {
   min-width: 0;
   width: 100%;
   box-sizing: border-box;
@@ -59561,7 +59570,7 @@ async function beforeClose({ position }) {
 
 - 操作区按钮应自带可读文本或 `aria-label`。
 - 禁用时设置 `disabled`，组件不再响应滑动。收起或另一侧展开时，隐藏操作区不可聚焦；收起时若焦点在操作区，会回到展开时的焦点，无法回到原位置时落到单元格容器。
-- 可在单元格外放置原生按钮，通过实例 `open('right')` 展开；在包含单元格的元素上监听 Escape 并调用 `close()`。关闭仍受 `before-close` 控制，业务应为动作本身提供可读名称。
+- 可在单元格外放置 Button，通过实例 `open('right')` 展开；在包含单元格的元素上监听 Escape 并调用 `close()`。关闭仍受 `before-close` 控制，业务应为动作本身提供可读名称。
 
 键盘操作组合示例：
 
@@ -59575,10 +59584,10 @@ const cell = ref<SwipeCellInstance>()
 
 <template>
   <div @keydown.esc="cell?.close()">
-    <button type="button" @click="cell?.open('right')">Show actions</button>
+    <mp-button html-type="button" @click="cell?.open('right')">Show actions</mp-button>
     <mp-swipe-cell ref="cell">
       <div>Order</div>
-      <template #right><button type="button">Archive</button></template>
+      <template #right><mp-button html-type="button">Archive</mp-button></template>
     </mp-swipe-cell>
   </div>
 </template>
@@ -60928,7 +60937,7 @@ TabBar 使用按钮组表达状态选择，选中项通过 aria-pressed 标记�
 
 以下为组件使用的 css 变量，可以使用 [ThemeProvider 组件](#/zh-CN/theme-provider) 进行样式定制。
 
-未传 `z-index` 时消费 `--mp-tab-bar-z-index`，因此局部主题覆盖可以生效；显式数值或 CSS 字符串属性优先。默认视觉层级仍为 `1`，但属性默认值不再固定为 `1`。
+未传 `z-index` 时消费 `--mp-tab-bar-z-index`，因此局部主题覆盖可以生效；显式数值或 CSS 字符串属性优先。默认视觉层级为 `1`。
 
 <!-- component-css-variables:start -->
 
@@ -63488,125 +63497,9 @@ Document: llms/zh-CN/theme-provider.md
 
 <!-- Source: src/theme-provider/docs/zh-CN.md; locale: zh-CN; page: /zh-CN/theme-provider -->
 
-# ThemeProvider 主题
+# ThemeProvider
 
-统一管理主题与 CSS 变量。包裹整个应用时是应用全局主题，包裹子树时是局部主题；两者使用相同的继承规则，不修改 html，也不会影响其他应用根节点。
-
-## 基础示例
-
-### 变量覆盖
-
-Example source: src/theme-provider/example/demos/basic.vue
-
-```vue
-<script setup lang="ts">
-import { ref } from 'vue'
-
-const active = ref(true)
-</script>
-
-<template>
-  <div>
-    <mp-button variant="outline" @click="active = !active">切换局部变量 / Toggle local variables</mp-button>
-    <mp-theme-provider tag="section" :style-vars="active ? { '--mp-demo-color': 'teal' } : null">
-      <p style="color: var(--mp-demo-color, currentColor)">局部颜色 / Local color</p>
-      <mp-theme-provider :style-vars="{ '--mp-demo-color': 'coral' }">
-        <p style="color: var(--mp-demo-color)">嵌套覆盖 / Nested override</p>
-      </mp-theme-provider>
-    </mp-theme-provider>
-    <p>外部不受影响 / Outside remains unchanged</p>
-  </div>
-</template>
-```
-
-## 局部主题
-
-### 根部与嵌套
-
-Example source: src/theme-provider/example/demos/local-theme.vue
-
-```vue
-<script setup lang="ts">
-import { ref } from 'vue'
-
-const theme = ref<'light' | 'dark'>('dark')
-</script>
-<template>
-  <div>
-    <mp-button @click="theme = theme === 'dark' ? 'light' : 'dark'">切换局部主题 / Toggle local theme</mp-button>
-    <mp-theme-provider :theme="theme" class="theme-region">
-      <p>外层主题 / Outer: {{ theme }}</p>
-      <mp-button status="primary">主题按钮 / Themed button</mp-button>
-      <mp-select :options="[{ label: 'Body popup inherits theme', value: 1 }]" placeholder="打开弹层 / Open popup" />
-      <mp-theme-provider theme="light" class="theme-region">
-        <p>嵌套亮色 / Nested light</p>
-        <mp-button variant="outline">亮色按钮 / Light button</mp-button>
-      </mp-theme-provider>
-    </mp-theme-provider>
-    <p>外部保持原主题 / Outside is unchanged</p>
-  </div>
-</template>
-<style scoped>
-.theme-region {
-  margin-top: 16px;
-  padding: 16px;
-  color: var(--mp-color-text-1);
-  background: var(--mp-color-bg-2);
-  border: 1px solid var(--mp-color-border-2);
-}
-</style>
-```
-
-```vue
-<template>
-  <mp-theme-provider :theme="mode">
-    <App />
-    <mp-theme-provider theme="light">
-      <Preview />
-    </mp-theme-provider>
-  </mp-theme-provider>
-</template>
-```
-
-`theme` 支持 light/dark 或 Themes 预设对象；省略时继承外层。显式主题替换继承的预设，style-vars 定制仍向内继承。`style-vars` 覆盖主题默认变量，内层同名变量优先，null 清除本层覆盖。显式主题边界会重新计算已加载组件的变量别名。Provider 保留真实包裹元素，可通过 tag 修改；放入已有 Flex/Grid 布局时，可选择合适容器或设置 display: contents。
-
-库内声明式菜单、对话框和浮动内容通过 Vue 上下文继承所属 Provider，挂到 body、自定义 popup-container 或行内都适用。脱离 Provider 创建的命令式服务需要将 popup-container 指向主题区域；第三方 Teleport 需要自行放置主题宿主。跨文档目标需加载该库样式。
-
-## 主题预设
-
-```vue
-<mp-theme-provider :theme="Themes.maple.dark">
-  <App />
-</mp-theme-provider>
-```
-
-从库根入口导入 Themes。预设和自定义变量通过响应式 Props 更新，不提供直接修改文档根节点的静态方法。显式 style-vars 的优先级高于主题默认值，固定颜色覆盖也会向内继承。
-
-## 安装与默认值
-
-```ts
-import { ThemeProvider } from '@maple-design/ui'
-app.use(ThemeProvider)
-ThemeProvider.setPropsDefaults({ theme: 'light', tag: 'section', styleVars: () => ({}) })
-```
-
-默认值用于之后创建的实例，显式 Props 优先。对象变量为每个实例复制；SSR 输出与客户端相同的主题边界，不持有跨请求的主题状态。
-
-## API
-
-### ThemeProvider Props
-
-| 属性 | 说明 | 类型 | 默认值 |
-| --- | --- | --- | --- |
-| theme | 亮暗主题，省略时继承 | `ThemeProviderTheme` | — |
-| style-vars | 本层 CSS 变量，null 清空覆盖 | `StyleVars \| null` | `{}` |
-| tag | 包裹元素标签 | `string` | `'div'` |
-
-默认插槽为组件内容，无事件。
-
-## Types
-
-导出 ThemeProvider、themeProviderProps、ThemeProviderProps、ThemeProviderInstance、ThemeProviderDefaults、ThemeProviderTheme、ThemeProviderMode、StyleVarName、StyleVars。变量支持完整 --mp- 名称及库前缀驼峰名称；值为 CSS 字符串，尺寸需要单位。
+预设、局部主题、弹层继承与完整 ThemeProvider API 统一见[主题定制](#/zh-CN/themes)。
 
 ## CSS Variables
 
@@ -63628,19 +63521,13 @@ Document: llms/zh-CN/themes.md
 
 使用内置主题统一页面外观，再按需要覆盖少量 CSS 变量。主题控制配色、圆角和字体；设备边缘留白请使用 [SafeArea](#/zh-CN/safe-area)。
 
-应用根部和局部区域统一使用 ThemeProvider。根部示例：
-
-```vue
-<mp-theme-provider :theme="mode" :style-vars="currentStyleVars"><App /></mp-theme-provider>
-```
-
-mode 为 light/dark，currentStyleVars 是响应式的 Themes 预设或自定义变量。Provider 不设置 html 属性，不提供静态文档主题修改方法。
+统一管理主题与 CSS 变量。包裹整个应用时是应用全局主题，包裹子树时是局部主题；两者使用相同的继承规则，不修改 html，也不会影响其他应用根节点。
 
 ## 如何选择
 
 | 需求                     | 推荐方式                                            |
 | ------------------------ | --------------------------------------------------- |
-| 整个应用使用一种品牌风格 | `currentStyleVars.value = Themes.maple.light` 等 |
+| 整个应用使用一种品牌风格 | `<mp-theme-provider :theme="Themes.maple[mode]">` |
 | 只修改一个区域或组件     | `<mp-theme-provider :style-vars="…">`               |
 | 查找可覆盖的变量         | 本页变量说明及各组件文档的样式变量表                |
 
@@ -63920,6 +63807,84 @@ import FormStates from './FormStates.vue'
 </template>
 ```
 
+## ThemeProvider 示例
+
+### 变量覆盖
+
+Example source: src/theme-provider/example/demos/basic.vue
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const active = ref(true)
+</script>
+
+<template>
+  <div>
+    <mp-button variant="outline" @click="active = !active">切换局部变量 / Toggle local variables</mp-button>
+    <mp-theme-provider tag="section" :style-vars="active ? { '--mp-demo-color': 'teal' } : null">
+      <p style="color: var(--mp-demo-color, currentColor)">局部颜色 / Local color</p>
+      <mp-theme-provider :style-vars="{ '--mp-demo-color': 'coral' }">
+        <p style="color: var(--mp-demo-color)">嵌套覆盖 / Nested override</p>
+      </mp-theme-provider>
+    </mp-theme-provider>
+    <p>外部不受影响 / Outside remains unchanged</p>
+  </div>
+</template>
+```
+
+### 根部与嵌套
+
+Example source: src/theme-provider/example/demos/local-theme.vue
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const theme = ref<'light' | 'dark'>('dark')
+</script>
+<template>
+  <div>
+    <mp-button @click="theme = theme === 'dark' ? 'light' : 'dark'">切换局部主题 / Toggle local theme</mp-button>
+    <mp-theme-provider :theme="theme" class="theme-region">
+      <p>外层主题 / Outer: {{ theme }}</p>
+      <mp-button status="primary">主题按钮 / Themed button</mp-button>
+      <mp-select :options="[{ label: 'Body popup inherits theme', value: 1 }]" placeholder="打开弹层 / Open popup" />
+      <mp-theme-provider theme="light" class="theme-region">
+        <p>嵌套亮色 / Nested light</p>
+        <mp-button variant="outline">亮色按钮 / Light button</mp-button>
+      </mp-theme-provider>
+    </mp-theme-provider>
+    <p>外部保持原主题 / Outside is unchanged</p>
+  </div>
+</template>
+<style scoped>
+.theme-region {
+  margin-top: 16px;
+  padding: 16px;
+  color: var(--mp-color-text-1);
+  background: var(--mp-color-bg-2);
+  border: 1px solid var(--mp-color-border-2);
+}
+</style>
+```
+
+```vue
+<template>
+  <mp-theme-provider :theme="mode">
+    <App />
+    <mp-theme-provider theme="light">
+      <Preview />
+    </mp-theme-provider>
+  </mp-theme-provider>
+</template>
+```
+
+`theme` 支持 light/dark 或 Themes 预设对象；省略时继承外层。显式主题替换继承的预设，style-vars 定制仍向内继承。`style-vars` 覆盖主题默认变量，内层同名变量优先，null 清除本层覆盖。显式主题边界会重新计算已加载组件的变量别名。Provider 保留真实包裹元素，可通过 tag 修改；放入已有 Flex/Grid 布局时，可选择合适容器或设置 display: contents。
+
+库内声明式菜单、对话框和浮动内容通过 Vue 上下文继承所属 Provider，挂到 body、自定义 popup-container 或行内都适用。脱离 Provider 创建的命令式服务需要将 popup-container 指向主题区域；第三方 Teleport 需要自行放置主题宿主。跨文档目标需加载该库样式。
+
 ## 在应用中使用
 
 ### 1. 选择内置主题
@@ -63933,15 +63898,6 @@ import FormStates from './FormStates.vue'
 
 Alps / Firefly 亮色基于品牌样式，暗色为 Maple 适配版。品牌字体文件由业务自行加载；未加载时使用系统字体回退。
 
-```ts
-import { ThemeProvider, Themes } from '@maple-design/ui'
-
-// 在应用挂载前设置，也可以在用户切换主题时再次调用。
-currentStyleVars.value = Themes.maple.light
-currentStyleVars.value = Themes.maple.dark
-```
-
-亮色对象移除 `html[maple-theme="dark"]`，暗色对象设置该属性。**每次调用替换上次注入的变量，不会累计合并。**
 
 #### Firefly 的颜色角色与现有 API
 
@@ -63958,14 +63914,12 @@ currentStyleVars.value = Themes.maple.dark
 
 选择、焦点、滑块、日期范围与强调链接使用辅助紫色；正文和普通页面强调保留深色文字的可读性适配。tonal 和暗色是 Maple 在现有 API 上的扩展，不声称是 Horo 原始暗色样本。
 
-本次仅覆盖 Firefly 主题变量；默认、Maple、Alps 的亮暗色板保持原值。
-
 ### 2. 设置页面背景和文字
 
-组件主题与业务页面背景需要一起设置。将以下样式加入应用的全局样式：
+组件主题与业务页面背景需要一起设置。将以下样式应用于 ThemeProvider 内包裹页面的元素：
 
 ```css
-body {
+.app-page {
   color: var(--mp-color-text);
   background-color: var(--mp-color-body);
   color-scheme: var(--mp-color-scheme);
@@ -63983,13 +63937,11 @@ import { Themes } from '@maple-design/ui'
 const mode = ref('dark')
 </script>
 <template>
-  <mp-theme-provider :theme="mode" :style-vars="Themes.maple[mode]">
+  <mp-theme-provider :theme="Themes.maple[mode]" :style-vars="{ '--mp-button-border-radius': '12px' }">
     <App />
   </mp-theme-provider>
 </template>
 ```
-
-局部定制优先覆盖实际组件变量。仅在局部修改色阶变量，不会重新计算从根节点继承的组件别名；完整规则见 [ThemeProvider](#/zh-CN/theme-provider)。传送到 body 的弹层需在实际挂载宿主上配置变量。
 
 ## 尺寸单位转换
 
@@ -64008,6 +63960,32 @@ const mode = ref('dark')
 RGB 通道通过 `rgb(var(--mp-primary-6))` 使用；颜色成品值和尺寸按组件变量表填写。字体入口为 `--mp-sys-font-family`，字体文件由应用自行提供。
 
 更多变量见 [Design Token 分层](#/zh-CN/design-tokens) 和各组件文档底部的样式变量表；表单交互见 [Form](#/zh-CN/form)。
+
+## 安装与默认值
+
+```ts
+import { ThemeProvider } from '@maple-design/ui'
+app.use(ThemeProvider)
+ThemeProvider.setPropsDefaults({ theme: 'light', tag: 'section', styleVars: () => ({}) })
+```
+
+默认值用于之后创建的实例，显式 Props 优先。对象变量为每个实例复制；SSR 输出与客户端相同的主题边界，不持有跨请求的主题状态。
+
+## API
+
+### ThemeProvider Props
+
+| 属性 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| theme | 亮暗模式或主题预设，省略时继承 | `ThemeProviderTheme` | — |
+| style-vars | 本层 CSS 变量，null 清空覆盖 | `StyleVars \| null` | `{}` |
+| tag | 包裹元素标签 | `string` | `'div'` |
+
+默认插槽为组件内容，无事件。
+
+## Types
+
+导出 ThemeProvider、themeProviderProps、ThemeProviderProps、ThemeProviderInstance、ThemeProviderDefaults、ThemeProviderTheme、ThemeProviderMode、StyleVarName、StyleVars。变量支持完整 --mp- 名称及库前缀驼峰名称；值为 CSS 字符串，尺寸需要单位。
 
 ## CSS Variables
 
@@ -64869,6 +64847,8 @@ open/defaultOpen、disabled、trigger、closeOnClickReference、preventFocus 和
 
 ### TimeRange Props
 
+`input-attrs` 作用于两个直接输入框。例如 `:input-attrs="[{ 'aria-label': '出发' }, { 'aria-label': '返回' }]"` 可分别命名起止输入。值、禁用、只读、占位符、角色和弹层状态由组件管理；公共描述、单项描述和表单错误会合并到对应输入中；组件报错时优先标记无效，否则保留单项 `aria-invalid`。`RangeInputAttributes` 从组件子入口及库根入口导出，包含原生属性和 `Once` 事件类型。
+
 | 参数 | 说明 | 类型 | 缺省说明 |
 | --- | --- | --- | --- |
 | `before-commit` | 显式字段保存守卫，使用 payload、done、context | `BeforeFieldCommit` | `undefined` |
@@ -64891,6 +64871,7 @@ open/defaultOpen、disabled、trigger、closeOnClickReference、preventFocus 和
 | `hide-disabled-options` | 隐藏禁用时间选项；时钟保留刻度位置 | `boolean` | `false` |
 | `hint` | 浮动占位提示；存在 Form 外置标签时不浮动 | `boolean` | `true` |
 | `input-editable` | 允许手输；不影响面板选择入口 | `boolean` | `false` |
+| `input-attrs` | 按顺序设置起点、终点原生输入属性；单项名称优先于公共名称 | `RangeInputAttributes[]` | `undefined` |
 | `line` | 显示外壳边框或底线 | `boolean` | `true` |
 | `loading` | 手动加载反馈，不从事件返回值推导 | `boolean` | `false` |
 | `loading-mode` | 字段加载展示模式 | `default \| line` | `default` |

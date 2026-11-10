@@ -202,7 +202,7 @@ When model-value is omitted the component manages selection; when provided it on
 
 The following CSS variables support customization with [ThemeProvider](#/en-US/theme-provider).
 
-When `z-index` is omitted, the component consumes `--mp-tab-bar-z-index`. An explicit number or CSS string takes precedence. The visual default remains `1`; the prop itself no longer defaults to `1`.
+When `z-index` is omitted, the component consumes `--mp-tab-bar-z-index`. An explicit number or CSS string takes precedence. The default visual stacking level is `1`.
 
 <!-- component-css-variables:start -->
 

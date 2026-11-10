@@ -84,3 +84,9 @@
     background: var(--mp-table-background);
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .mp-table__main > table tbody tr:hover {
+    transition: none;
+  }
+}

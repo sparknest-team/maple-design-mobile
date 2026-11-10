@@ -2,6 +2,7 @@
   <button
     v-bind="$attrs"
     :aria-describedby="describeError($attrs['aria-describedby'])"
+    :aria-invalid="platform.error.value ? true : ($attrs['aria-invalid'] as HTMLAttributes['aria-invalid'])"
     type="button"
     role="switch"
     :class="
@@ -44,7 +45,16 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onActivated, onBeforeUnmount, onDeactivated, ref, watch, type CSSProperties } from 'vue'
+import {
+  computed,
+  onActivated,
+  onBeforeUnmount,
+  onDeactivated,
+  ref,
+  watch,
+  type CSSProperties,
+  type HTMLAttributes,
+} from 'vue'
 import { invokeBeforeHook } from '../_hooks/use-action-guard'
 import { useFormErrorDescription } from '../form/error-description'
 import { createNamespace } from '../utils/components'

@@ -1,4 +1,6 @@
 <template>
+  <!-- Keep an inline Teleport inside a fragment for Vue 3.2 hydration. -->
+  <template v-if="false" />
   <Teleport :to="popupTarget" :disabled="!mounted || popupContainer === false">
     <button
       v-show="visible"

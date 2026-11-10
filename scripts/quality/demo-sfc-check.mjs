@@ -7,7 +7,23 @@ import { demoFilesForLanguage } from './demo-language-files.mjs'
 const root = fileURLToPath(new URL('../../', import.meta.url))
 const require = createRequire(resolve(root, 'packages/maple-ui/package.json'))
 const { parse, compileScript, compileTemplate } = require('vue/compiler-sfc')
+const ts = require('typescript')
 const source = resolve(root, 'packages/maple-ui/src')
+const rootEntry = ts.createSourceFile(
+  'index.ts',
+  readFileSync(join(source, 'index.ts'), 'utf8'),
+  ts.ScriptTarget.Latest,
+)
+const publicRuntimeExports = new Set(
+  rootEntry.statements.flatMap((statement) =>
+    ts.isExportDeclaration(statement) &&
+    !statement.isTypeOnly &&
+    statement.exportClause &&
+    ts.isNamedExports(statement.exportClause)
+      ? statement.exportClause.elements.filter((item) => !item.isTypeOnly).map((item) => item.name.text)
+      : [],
+  ),
+)
 const programmaticApis = new Set([
   'ImagePreview',
   'imagePreview',
@@ -93,6 +109,9 @@ function checkResolverImports(filename, code) {
     }
     if (from === '@maple-design/ui') {
       for (const name of importedNames(match[2])) {
+        if (!publicRuntimeExports.has(name)) {
+          issues.push(`"${name}" is not exported by the public library entry`)
+        }
         if (!programmaticApis.has(name)) {
           issues.push(`do not import template component "${name}"; use MapleResolver`)
         }
@@ -232,8 +251,16 @@ function checkDemoDocs(component, examples) {
       continue
     }
 
-    const code = readFileSync(filename, 'utf8')
-    const references = [...code.matchAll(/\.\.\/example\/demos\/([^\s]+\.vue)/g)].map((match) => match[1])
+    let documentFile = filename
+    let code = readFileSync(documentFile, 'utf8')
+    const redirected = code.match(/^---\n[\s\S]*?^redirectTo:\s*\/(zh-CN|en-US)\/([\w-]+)\s*$[\s\S]*?\n---/m)
+    if (redirected) {
+      documentFile = join(source, redirected[2], 'docs', `${redirected[1]}.md`)
+      code = readFileSync(documentFile, 'utf8')
+    }
+    const references = [...code.matchAll(/```demo\s*\n([^\n]+\.vue)\s*\n```|<demo\b[^>]*src="([^"]+\.vue)"/g)]
+      .map((match) => relative(demos, resolve(dirname(documentFile), (match[1] ?? match[2]).trim())))
+      .filter((file) => !file.startsWith('..'))
     const uniqueReferences = [...new Set(references)].sort()
     // Internal API review fixtures compile above but are intentionally not public demos.
     const expectedFiles = demoFilesForLanguage(demoFiles, language).filter(

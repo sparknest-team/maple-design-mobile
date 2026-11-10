@@ -152,3 +152,48 @@ test('closing preview does not steal focus moved to an unrelated control', async
   await nextTick()
   expect(document.activeElement).toBe(outside)
 })
+
+test('composition keyCode does not activate the image on Enter', async () => {
+  const owner = setup({ alt: 'example' })
+  const image = owner.get('img')
+  image.element.focus()
+  await image.trigger('keydown', { key: 'Enter', keyCode: 229 })
+  await image.trigger('keydown', { key: 'Enter', isComposing: true })
+  expect(owner.emitted('click')).toBeUndefined()
+  await image.trigger('keydown', { key: 'Enter' })
+  expect(owner.emitted('click')).toHaveLength(1)
+})
+
+test('composition keyCode cancels a pending Space activation', async () => {
+  const owner = setup({ alt: 'example' })
+  const image = owner.get('img')
+  image.element.focus()
+  await image.trigger('keydown', { key: ' ' })
+  await image.trigger('keyup', { key: ' ', keyCode: 229 })
+  expect(owner.emitted('click')).toBeUndefined()
+  await image.trigger('keydown', { key: ' ' })
+  await image.trigger('keydown', { key: 'Enter', keyCode: 229 })
+  await image.trigger('keyup', { key: ' ' })
+  expect(owner.emitted('click')).toBeUndefined()
+  await image.trigger('keydown', { key: ' ' })
+  await image.trigger('keyup', { key: ' ' })
+  expect(owner.emitted('click')).toHaveLength(1)
+})
+
+test('composition keyCode does not change preview zoom', async () => {
+  const owner = mount(ImagePreview, {
+    attachTo: document.body,
+    props: { src: 'a.jpg', defaultOpen: true, keyboard: true, popupContainer: false },
+  })
+  owners.push(owner)
+  await nextTick()
+  document.dispatchEvent(
+    new KeyboardEvent('keydown', { key: 'ArrowUp', keyCode: 229, bubbles: true, cancelable: true }),
+  )
+  document.dispatchEvent(
+    new KeyboardEvent('keydown', { key: 'ArrowUp', isComposing: true, bubbles: true, cancelable: true }),
+  )
+  expect((owner.vm as any).scale).toBe(1)
+  document.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowUp', bubbles: true, cancelable: true }))
+  expect((owner.vm as any).scale).toBeGreaterThan(1)
+})

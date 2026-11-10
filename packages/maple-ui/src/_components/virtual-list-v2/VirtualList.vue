@@ -12,6 +12,7 @@
           : {}
       "
     >
+      <slot name="list-prefix" />
       <Component
         :is="mergedComponent.content"
         ref="contentRef"
@@ -259,7 +260,14 @@ export default defineComponent({
     )
 
     const virtualEnabled = computed(() => !props.threshold || data.value.length > props.threshold)
-    watch([dataKeys, virtualEnabled], () => {
+    watch([dataKeys, virtualEnabled], ([keys, enabled], [previousKeys, previousEnabled]) => {
+      if (
+        enabled === previousEnabled &&
+        keys.length === previousKeys.length &&
+        keys.every((key, index) => key === previousKeys[index])
+      ) {
+        return
+      }
       scrollRequest++
       commandedScroll = undefined
       setStart(start.value)
@@ -324,6 +332,9 @@ export default defineComponent({
       if (isNumber(options)) {
         if (Number.isFinite(options)) {
           element.scrollTop = Math.max(0, options)
+          if (virtualEnabled.value) {
+            setStart(getStartByScroll(element.scrollTop))
+          }
         }
         return
       }

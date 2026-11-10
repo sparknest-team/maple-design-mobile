@@ -12,19 +12,42 @@ export function useFieldGeometry(root: Ref<HTMLElement | undefined>, middle: Ref
   let frame: number | undefined
   let mounted = false
   let generation = 0
+  let frameGeneration = 0
+  let measurementGeneration = 0
 
   const measure = (cycle = generation) => {
-    if (cycle !== generation) {
+    const rootElement = root.value
+    const middleElement = middle.value
+    const measurement = ++measurementGeneration
+    const current = () =>
+      mounted &&
+      cycle === generation &&
+      measurement === measurementGeneration &&
+      root.value === rootElement &&
+      middle.value === middleElement
+    if (!current() || !rootElement || !middleElement) {
       return
     }
-    frame = undefined
-    if (!mounted || !root.value || !middle.value || !root.value.clientWidth) {
+    const rootWidth = rootElement.clientWidth
+    if (!current() || !rootWidth) {
       return
     }
-    offset.value = isRtl.value
-      ? root.value.clientWidth - middle.value.offsetLeft - middle.value.offsetWidth
-      : middle.value.offsetLeft
-    width.value = middle.value.offsetWidth
+    const left = middleElement.offsetLeft
+    if (!current()) {
+      return
+    }
+    const contentWidth = middleElement.offsetWidth
+    if (!current()) {
+      return
+    }
+    const nextOffset = isRtl.value ? rootWidth - left - contentWidth : left
+    if (!current()) {
+      return
+    }
+    offset.value = nextOffset
+    if (current()) {
+      width.value = contentWidth
+    }
   }
   const schedule = () => {
     if (!mounted || frame !== undefined) {
@@ -32,7 +55,16 @@ export function useFieldGeometry(root: Ref<HTMLElement | undefined>, middle: Ref
     }
     const cycle = generation
     if (typeof requestAnimationFrame === 'function') {
-      frame = requestAnimationFrame(() => measure(cycle))
+      const ticket = ++frameGeneration
+      let consumed = false
+      frame = requestAnimationFrame(() => {
+        if (consumed || cycle !== generation || ticket !== frameGeneration || !mounted) {
+          return
+        }
+        consumed = true
+        frame = undefined
+        measure(cycle)
+      })
     } else {
       measure(cycle)
     }
@@ -72,6 +104,9 @@ export function useFieldGeometry(root: Ref<HTMLElement | undefined>, middle: Ref
     mounted = true
     const cycle = ++generation
     measure(cycle)
+    if (!mounted || cycle !== generation) {
+      return
+    }
     if (typeof ResizeObserver !== 'undefined') {
       observer = new ResizeObserver(() => {
         if (mounted && cycle === generation) {
@@ -89,6 +124,8 @@ export function useFieldGeometry(root: Ref<HTMLElement | undefined>, middle: Ref
   const stop = () => {
     mounted = false
     generation++
+    frameGeneration++
+    measurementGeneration++
     observer?.disconnect()
     observer = undefined
     observedRoot = undefined

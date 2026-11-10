@@ -175,11 +175,11 @@ test('rebinds when target changes and removes the old listener', async () => {
 
   expect(firstAdd).toHaveBeenCalledWith('scroll', expect.any(Function), { passive: true })
   await wrapper.setProps({ target: second })
-  expect(firstRemove).toHaveBeenCalledWith('scroll', expect.any(Function))
+  expect(firstRemove).toHaveBeenCalledWith('scroll', firstAdd.mock.calls.find(([type]) => type === 'scroll')[1])
   expect(secondAdd).toHaveBeenCalledWith('scroll', expect.any(Function), { passive: true })
 
   wrapper.unmount()
-  expect(secondRemove).toHaveBeenCalledWith('scroll', expect.any(Function))
+  expect(secondRemove).toHaveBeenCalledWith('scroll', secondAdd.mock.calls.find(([type]) => type === 'scroll')[1])
   first.remove()
   second.remove()
 })

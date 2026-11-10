@@ -1,6 +1,8 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { AppType, onThemeChange, watchLang } from '@maple-design/cli/client'
+import ProviderBasicDemo from '../../theme-provider/example/demos/basic.vue'
+import ProviderLocalDemo from '../../theme-provider/example/demos/local-theme.vue'
 import BrandForm from './BrandForm.vue'
 import FireflyScenes from './FireflyScenes.vue'
 import LocalTheme from './LocalTheme.vue'
@@ -68,6 +70,12 @@ function setTheme(theme) {
     <FireflyScenes />
     <ThemeDetails />
   </section>
+  <h2 class="mobile-demo-group-heading" data-demo-group="theme-provider-examples">
+    <span lang="zh-CN">ThemeProvider 示例</span>
+    <span lang="en-US">ThemeProvider examples</span>
+  </h2>
+  <section data-demo="basic"><ProviderBasicDemo /></section>
+  <section data-demo="local-theme"><ProviderLocalDemo /></section>
 </template>
 
 <style scoped>

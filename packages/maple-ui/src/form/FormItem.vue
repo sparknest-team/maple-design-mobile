@@ -30,7 +30,7 @@
         :show-colon="showColon"
         :asterisk-position="asteriskPosition"
         :component="labelComponent"
-        :attrs="presentationState.readPretty.value ? { ...labelAttrs, for: undefined } : labelAttrs"
+        :attrs="resolvedLabelAttrs"
         :tooltip="tooltip"
       >
         <slot name="label">{{ label }}</slot>
@@ -81,6 +81,7 @@ import FormItemLabel from './FormItemLabel.vue'
 import { resolveFormItemStatus, type FormItemValidateStatus } from './item-decoration'
 import { props, type FormItemValidateTrigger } from './item-props'
 import { bindFormItem, useFormItem, type FormItemEventHandlers, type FormItemProvider } from './item-provide'
+import { provideFormItemLabel } from './label-context'
 import { useForm } from './provide'
 import { isFormRule } from './rule-validation'
 import type { FormItemSlots } from './types'
@@ -199,10 +200,22 @@ export default defineComponent({
 
     const displayStatus = computed(() => resolveFormItemStatus(props.validateStatus, validationStatus.value))
     const displayErrorMessage = computed(() => (displayStatus.value === 'error' ? errorMessage.value : ''))
-    provideFormErrorDescription(
+    const { labelId } = provideFormErrorDescription(
       () => !presentationState.readPretty.value && Boolean(displayErrorMessage.value),
       () => props.noStyle,
     )
+    const labelContext = provideFormItemLabel({
+      generated: labelId,
+      noStyle: () => props.noStyle,
+      visible: () => showLabel.value,
+      attributes: () => props.labelAttrs,
+    })
+    const resolvedLabelAttrs = computed(() => ({
+      ...props.labelAttrs,
+      ...(labelContext.ownId.value ? { id: labelContext.ownId.value } : {}),
+      ...(presentationState.readPretty.value ? { for: undefined } : {}),
+    }))
+
     const formItemProvider: FormItemProvider = {
       error: computed(() => displayStatus.value === 'error'),
       errorMessage: displayErrorMessage,
@@ -361,6 +374,7 @@ export default defineComponent({
 
     return {
       presentationState,
+      resolvedLabelAttrs,
       n,
       classes,
       formItemRef,

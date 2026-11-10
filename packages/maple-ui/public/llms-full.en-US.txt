@@ -2970,6 +2970,7 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 
 | Event | Arguments |
 | --- | --- |
+| keydown | event: KeyboardEvent |
 | update:modelValue | value: string \| null |
 | input | value: string, event: Event |
 | search | value: string, event: Event |
@@ -2980,6 +2981,9 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 | dropdown-scroll / dropdown-reach-bottom | event: Event |
 | load-error | error: unknown |
 | update:open / open-change | open: boolean |
+
+`keydown` notifies before the internal keyboard action; call `preventDefault()` to suppress it.
+When suggestions are embedded in the editor, Escape closes the editor. When suggestions are a separate popup, Escape closes that popup first.
 
 Typing: `input → update:modelValue → search`; selection: `update:modelValue → select → change`; clear: `clear → input → update:modelValue → change`. Selecting the same value emits only select. change is a commit on blur, Enter or selection. Input owns typing/focus/clear Form notifications; AutoComplete notifies Form once for suggestion commits. Selection applies maxLength; select.value is the committed string, while option.value retains the original suggestion. clear receives an event, not a string.
 
@@ -3006,7 +3010,7 @@ default does not replace the input. option customizes candidates, read customize
 | blur | - | void |
 | refresh | - | `Promise<void>` |
 
-Arrow keys reopen after Escape: ArrowDown activates the first enabled candidate and ArrowUp the last, without submitting a model; Enter selects. Composition, canceled keyboard events, readonly/disabled and should-open remain respected. Tab retains native focus navigation. Vue useId keeps SSR identifiers stable.
+Arrow keys reopen after Escape: ArrowDown activates the first enabled candidate and ArrowUp the last, without submitting a model; Enter selects. Composition, canceled keyboard events, readonly/disabled and should-open remain respected. Tab retains native focus navigation. Vue useId keeps SSR identifiers stable. The input references the listbox through aria-controls while suggestions are open; the reference is removed when closed. When virtualization unmounts the active option, its active-descendant reference is removed until it mounts again.
 
 ## Types
 
@@ -5078,9 +5082,9 @@ Example source: src/breadcrumb/example/demos/max-count.vue
     <mp-breadcrumb :routes="maxRoutes" :max-count="3" @click.prevent>
       <template #more-icon="{ omittedItems }">
         <mp-tooltip :trigger="['hover', 'focus', 'click']" :content="omittedLabel(omittedItems)">
-          <button type="button" class="more-trigger" aria-label="查看隐藏路径">
+          <mp-button html-type="button" variant="text" class="more-trigger" aria-label="查看隐藏路径">
             <m-icon-more aria-hidden="true" />
-          </button>
+          </mp-button>
         </mp-tooltip>
       </template>
     </mp-breadcrumb>
@@ -6383,7 +6387,7 @@ const elevation = ref(2)
 </template>
 ```
 
-### Sync, async and rejection recovery
+### Controlled loading and failure recovery
 
 Example source: src/button/example/demos/controlled-loading.vue
 
@@ -7053,7 +7057,9 @@ Title, content and actions follow reading order. Default floating actions sit at
 <!-- same-source-api:start -->
 `row-reverse` reverses the horizontal cover and body order, with reading direction still following the container. Collapsed `floating-content` keeps its nodes and state but is inert to keyboard and assistive technology; it becomes interactive when expanded. Floating is available only in column direction.
 
-The floating layer remains at the Card’s original DOM location. An ancestor’s transform or similar property may change the fixed-position containing block, and ancestor clipping may obscure the layer, so viewport coverage is not guaranteed. The layer does not currently provide modal focus management or Escape-to-close; use Dialog when modal interaction is required.
+The floating layer remains at the Card’s original DOM location. An ancestor’s transform or similar property may change the fixed-position containing block, and ancestor clipping may obscure the layer, so viewport coverage is not guaranteed. When focus is inside an expanded Card, Escape requests closing unless an inner control has already handled the key; a nested topmost popup handles Escape first. The layer does not provide modal focus management; use Dialog when modal interaction is required.
+
+When focus is still inside the floating content or close controls, closing attempts to return focus to the element focused before expansion. If focus has moved elsewhere, it is left unchanged.
 
 The default close button uses the current locale’s close text and can be overridden with `close-button-aria-label`. `floating-duration` is a finite nonnegative duration in milliseconds; 0 means no delay and invalid values fall back to 250.
 
@@ -7087,7 +7093,7 @@ The default close button uses the current locale’s close text and can be overr
 | Event | Arguments and timing |
 | --- | --- |
 | click | `(event: Event)`, emitted when the card is clicked |
-| update:floating | `(value: boolean)`, emits false when the built-in close button requests closing; expansion is controlled by the parent |
+| update:floating | `(value: boolean)`, emits false when the built-in close button or Escape requests closing; expansion is controlled by the parent |
 
 ### Card Slots
 
@@ -7111,7 +7117,7 @@ No public methods.
 ### Usage notes
 
 Props, event arguments and slots match. Cedar inherits the global size when size is omitted: xs/sm map to sm, all others to md. Maple falls back to md. Pass size explicitly for identical density. Themes and CSS prefixes remain platform-specific.
-Card no longer has a loading prop. Compose a loading overlay with the Loading directive.
+Use the Loading directive to compose a loading overlay on Card.
 <!-- same-source-api:end -->
 
 ## CSS Variables
@@ -10304,6 +10310,8 @@ Single selection uses the built-in check icon on the right. Multiple selection u
 
 ### Lazy-loading completion and errors
 
+When an expandable option has unloaded children, Enter, Space, or the forward arrow starts lazy loading and displays its pending state. The forward arrow moves into children only if focus remains on the input or option that received the key. Search results do not expand children.
+
 `loadMore(option, done)` keeps a callback-only contract in the field and standalone panel. Call `done(children)` to accept children or `done()` to end waiting and allow retry. Only the first callback is accepted; return values, including a resolved Promise, do not replace `done`. A synchronous loader exception releases waiting and reaches Vue's `errorCaptured` / application `errorHandler`. The `load-error` event remains specific to the `options` data source; it does not report `loadMore` exceptions. Handle asynchronous callback-based request failures in business code and call `done()`.
 
 Replacing options (including nested mutations), field names, or the loader invalidates old work and cached lazy children. Unmount/deactivation invalidates pending callbacks; an old result cannot change a replacement node or clear a newer wait.
@@ -10342,7 +10350,7 @@ Public types include CascaderBaseValue, CascaderOptionInfo, CascaderReadScope, C
 
 ## API
 
-A panel branch’s `aria-expanded` indicates whether its child column is actually visible; focus or hover does not mark it expanded before that column opens. Leaf options have no `aria-expanded`. Search results do not advertise submenus that are not displayed.
+A panel branch’s `aria-expanded` indicates whether its child column is actually visible; focus or hover does not mark it expanded before that column opens. Leaf options have no `aria-expanded`. Search results do not advertise submenus that are not displayed. Direct single-select search uses a `listbox` with `option` elements, and the input references the popup and active option. Editor single-select search uses `menuitemradio` with `aria-checked` and one Tab stop. Multiple-select search retains its checkboxes. In direct single-select search, the popup icon is excluded from the Tab sequence; click the icon or press Arrow Down in the input to open it.
 
 ### Empty values and reading placeholders
 
@@ -10406,6 +10414,12 @@ Use `v-model`, `v-model:open` and `v-model:input-value` for controlled state. Cl
 | `popup-props` | Popup appearance; open state, bottom placement and mounting are owned by the extension | `PopupProps` | `{}` |
 
 ### Cascader Events / Methods
+
+In direct mode, Arrow Down requests opening when the field is closed. Once opened, the first enabled option becomes active if no option is already active and focus remains in the field, including when options arrive asynchronously. Losing focus, closing, or interacting again cancels the pending activation. A controlled `open` changes only when the parent accepts the request.
+
+When a menu option has focus, Enter or Space activates it. Search inputs and nested checkboxes keep their own keyboard behavior.
+
+- `keydown(event)`: keyboard event from the field, candidate menu, or editor panel; `preventDefault()` suppresses internal keyboard handling.
 
 - `update:modelValue`, `change(value)`: emitted on commit, not while editing a draft.
 - `update:open`, `open-change(open)`: request an expanded-state change.
@@ -15164,7 +15178,7 @@ Document: llms/en-US/date-range.md
 
 Endpoint locks are provided reactively by the local mobile presentation adapter to calendars and wheels. Inherited and current locks are merged and remain intact when switching views or unlocking the other endpoint. The shared draft/confirmation owner has no mobile injection dependency; external model updates and confirm/cancel behavior are unchanged.
 
-Floating panels use the visual viewport instead of a half-screen cap. A full calendar is visible when space permits; short windows scroll content while keeping actions visible. Override `--mp-date-picker-popover-max-height` to cap the panel (default `100dvh - 32px`). Switching back to default/Maple removes brand overrides.
+Floating panel height follows the visual viewport. A full calendar is visible when space permits; short windows scroll content while keeping actions visible. Override `--mp-date-picker-popover-max-height` to cap the panel (default `100dvh - 32px`). Switching back to default/Maple removes brand overrides.
 
 The embedded example calls `confirm` from the `actions` slot and binds its `disabled` state to the submit button. Selecting a draft does not update the committed value until confirmation. Tightening bounds does not clear the existing model, but an invalid draft cannot be submitted; choose valid endpoints to submit again.
 Pure panels do not accept open/default-open, popup-container, placement, trigger-props, placeholder, variant or clearable. disable-confirm controls confirmation; actions receives { confirm, disabled }. Panels support independent app.use installation. Root and date/date-range subpaths export components, Props, Instance, Type, Options and Emits; no standalone date-picker/date-range-picker npm subpath exists.
@@ -16282,7 +16296,7 @@ Date labels, titles and actions use each library's global Locale/Provider. Cedar
 
 `DateRangePicker.datePickerProps` and `DateRange.datePickerProps` accept only `DateRangeCalendarOptions`: `hint`, `color`, `titleColor`, `buttonElevation`, `touchable`. Model, validation, viewport, presentation, elevation, abbreviation and action control stay at the range root. Unknown keys and event listeners are not forwarded. The calendar branches explicitly use calendar presentation.
 
-Field appearance merges with `dateRangePickerProps.datePickerProps`. Empty default objects no longer override nested settings; explicitly supplied field keys take precedence.
+Field appearance merges with `dateRangePickerProps.datePickerProps`. Empty default objects preserve nested settings; explicitly supplied field keys take precedence.
 
 ### Actual platform capabilities
 
@@ -16438,6 +16452,8 @@ Panels edit a draft and commit on confirmation. Cancellation or closing does not
 
 ### DateRange Props
 
+`input-attrs` applies to the two direct input elements. For example, `:input-attrs="[{ 'aria-label': 'Departure' }, { 'aria-label': 'Return' }]"` names each endpoint. The field owns its value, disabled, readonly, placeholder, role and popup state; shared descriptions, per-input descriptions and form errors are merged for each input. Component errors take precedence; otherwise each input retains its `aria-invalid`. `RangeInputAttributes` is exported from the component and root entries and includes native attributes and `Once` event types.
+
 | Prop | Description | Type | Default behavior |
 | --- | --- | --- | --- |
 | `before-commit` | Explicit field-save guard using payload, done and context | `BeforeFieldCommit` | `undefined` |
@@ -16461,6 +16477,7 @@ Panels edit a draft and commit on confirmation. Cancellation or closing does not
 | `format` | Display/text-input format; a function only formats without reverse text parsing | `string \| ((date: Date) => string)` | From precision/time settings |
 | `hint` | Floating placeholder hint, suppressed by an outer Form label | `boolean` | `true` |
 | `input-editable` | Allow text input without removing panel selection | `boolean` | `true` |
+| `input-attrs` | Native attributes for the start and end inputs, in order; per-input names override shared names | `RangeInputAttributes[]` | `undefined` |
 | `interactive-mode` | Maple calendar viewport mode, independent of field editing mode | `page \| scroll \| line` | `page` |
 | `line` | Show the field border or underline | `boolean` | `true` |
 | `loading` | Manual loading feedback, independent of event return values | `boolean` | `false` |
@@ -16658,7 +16675,7 @@ The year panel aligns the selected year, falling back to the current year, only 
 
 While expanded, the native combobox uses `aria-controls` to identify its own named popup. Closing updates the state and removes the link. `aria-label` and `aria-describedby` reach the native input. Custom selected/trigger slots must preserve accessible names, keyboard operation and state associations.
 
-Floating panels use the visual viewport instead of a half-screen cap. A full calendar is visible when space permits; short windows scroll content while keeping actions visible. Override `--mp-date-picker-popover-max-height` to cap the panel (default `100dvh - 32px`). Switching back to default/Maple removes brand overrides.
+Floating panel height follows the visual viewport. A full calendar is visible when space permits; short windows scroll content while keeping actions visible. Override `--mp-date-picker-popover-max-height` to cap the panel (default `100dvh - 32px`). Switching back to default/Maple removes brand overrides.
 
 Pure panels do not accept open/default-open, popup-container, placement, trigger-props, placeholder, variant or clearable. disable-confirm controls confirmation; actions receives { confirm, disabled }. Panels support independent app.use installation. Root and date/date-range subpaths export components, Props, Instance, Type, Options and Emits; no standalone date-picker/date-range-picker npm subpath exists.
 
@@ -18041,23 +18058,8 @@ Standalone, inline and popup editors share the same layout. The calendar has a p
 
 Single date, date-time and time panels omit the top summary in standalone panels and field editors. Date-time editors retain the current date/time and view switch at the bottom. Range summaries remain visible and highlight the active endpoint.
 
-The hint and selected year are no longer repeated below the summary. The calendar's central heading is a keyboard-accessible button with a dropdown indicator: activate it to choose months, then years. Use the footer calendar button to return to the date view without committing a value.
+The calendar's central heading is a keyboard-accessible button with a dropdown indicator: activate it to choose months, then years. Use the footer calendar button to return to the date view without committing a value.
 
-Shared style variables:
-
-| Token | Default |
-| -------------------------------------------- | ------------------------------------------------------------- |
-| `--mp-temporal-panel-inset` | `12px` |
-| `--mp-temporal-panel-column-label-height` | `36px` |
-| `--mp-temporal-panel-column-label-font-size` | `13px` |
-| `--mp-temporal-panel-radius` | `12px` |
-| `--mp-temporal-panel-group-gap` | `24px` |
-| `--mp-temporal-panel-touch-height` | `44px` |
-| `--mp-temporal-panel-summary-background` | `var(--mp-color-fill-1)` |
-| `--mp-temporal-panel-summary-height` | `56px` |
-| `--mp-temporal-panel-quick-time-width` | `84px` |
-| `--mp-temporal-panel-selection-background` | `var(--mp-color-fill-2)` |
-| `--mp-temporal-panel-active-background` | `color-mix(in srgb, var(--mp-color-primary) 8%, transparent)` |
 
 # Time zones and calendar views
 
@@ -23932,7 +23934,7 @@ Function calls honor `popupContainer` from explicit configuration or `setDefault
 | `dialog-animation-name` | Dialog animation name | `string` | `'mp-pop-center'` |
 | `aria-label` | Accessible name without a visible title | `string` | `-` |
 | `close-button-aria-label` | Close button label | `string` | `'Close dialog'` |
-| `z-index` | Stack level | `number` | Automatically distributed |
+| `z-index` | Outer stacking level | `number` | Automatically distributed |
 | `before-close` | Return a boolean/Promise or call done; the first completion wins | `DialogBeforeClose` | — |
 
 ### Dialog Events
@@ -23991,7 +23993,7 @@ Variables use `--mp-`, e.g. `--mp-dialog-width`, `--mp-dialog-background`, `--mp
 
 Color semantics match Cedar: `--mp-dialog-background` uses `surface-raised`; `--mp-dialog-overlay-background` controls scrim; titles/body use primary content and close controls secondary content. `--mp-dialog-status-{info|success|warning|danger}-color` uses readable content-info/success/warning/danger, not status fill. Business themes should override component variables; shared themes override system variables. Mobile borderless geometry/layout remain independent.
 
-The backdrop consumes `sys-color-scrim` through the Dialog component variable. Maple no longer uses Popup colors for Dialog. Set a per-instance backdrop variable via `overlay-style`; a variable on the panel (`dialog-style`) does not inherit to its sibling backdrop. Explicit `overlay-style.backgroundColor` wins. Teleported content needs variables on its actual DOM ancestors. Dark themes inherit the same semantic colors; geometry remains platform-specific. Status icons use readable content colors.
+The backdrop consumes `sys-color-scrim` through the Dialog component variable. Dialog uses its own backdrop variables. Set a per-instance backdrop variable via `overlay-style`; a variable on the panel (`dialog-style`) does not inherit to its sibling backdrop. Explicit `overlay-style.backgroundColor` wins. Teleported content needs variables on its actual DOM ancestors. Dark themes inherit the same semantic colors; geometry remains platform-specific. Status icons use readable content colors.
 
 Variables are grouped by purpose: background/overlay-background for panel/scrim; border-* for panel/divider borders; title-* for title typography; content-* for body typography; actions-* for actions; close-button-* for the close button; status-* for semantic icons; simple-*/fullscreen-* for mode dimensions; animation-* for enter/leave motion. width/margin-top control ordinary panel layout. Internal drag/position variables are not public customization points.
 
@@ -26955,21 +26957,21 @@ const styleVars = ref({
           <mp-floating-panel v-if="active === 'anchors'" v-model="anchor" :anchors="anchors" :popup-container="false">
             <template #header>
               <div class="panel-height-controls">
-                <button
-                  type="button"
+                <mp-button
+                  html-type="button"
                   :disabled="anchor === 80"
                   @click="anchor = anchors[Math.max(0, anchors.indexOf(anchor) - 1)]"
                 >
                   收起
-                </button>
+                </mp-button>
                 <span aria-live="polite">{{ anchor }} px</span>
-                <button
-                  type="button"
+                <mp-button
+                  html-type="button"
                   :disabled="anchor === 320"
                   @click="anchor = anchors[Math.min(anchors.length - 1, anchors.indexOf(anchor) + 1)]"
                 >
                   展开
-                </button>
+                </mp-button>
               </div>
             </template>
             <div style="text-align: center; padding: 5px 15px">
@@ -27199,6 +27201,10 @@ Document: llms/en-US/form.md
 
 # Form
 
+## Field names
+
+In direct edit mode, for a visible label on a single field, match FormItem `label-attrs.for` to the control `id`. The native inputs in selection, date and time fields do not let their placeholder override an associated label. An explicit `aria-label` or `aria-labelledby` retains its native accessible-name precedence. Placeholder is only a fallback when no label is supplied; provide clear labels. Date and time range fields in FormItem associate the form label with their group; use `input-attrs` to give the endpoints distinct names. If `label-attrs.for` targets another control, the label is not associated with the range group. The `tooltip` button is independently focusable and its name is not added to the field label.
+
 ## Reading direction
 
 Form and FormItem accept start/end/left/center/right for content-align and start/end/left/right for label-align. Content defaults to start and labels to end: default LTR placement stays the same while RTL follows reading order. Explicit left/right remain physical. Item overrides and explicit label-column styles retain precedence. Direction changes preserve values, validation and disabled/readonly state.
@@ -27281,8 +27287,9 @@ Example source: src/form/example/demos/en-US/decoration.vue
 
 ```vue
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive, useId } from 'vue'
 
+const demoId = useId()
 const model = reactive({ name: '', notes: '' })
 </script>
 
@@ -27294,18 +27301,19 @@ const model = reactive({ name: '', notes: '' })
       required
       show-colon
       tooltip="Shown on your profile."
-      :label-attrs="{ for: 'decorated-name' }"
+      :label-attrs="{ for: `${demoId}-name` }"
     >
-      <mp-input id="decorated-name" v-model="model.name" placeholder="Enter a public name" />
+      <mp-input :id="`${demoId}-name`" v-model="model.name" placeholder="Enter a public name" />
     </mp-form-item>
     <mp-form-item
       field="notes"
       label="Notes"
       label-component="div"
+      :label-attrs="{ id: `${demoId}-notes-label` }"
       :content-flex="false"
       content-class="decoration-grid"
     >
-      <mp-input v-model="model.notes" placeholder="Custom content layout" />
+      <mp-input v-model="model.notes" :aria-labelledby="`${demoId}-notes-label`" placeholder="Custom content layout" />
       <small>Use content-flex=false to own the layout.</small>
     </mp-form-item>
   </mp-form>
@@ -34662,7 +34670,7 @@ Example source: src/input/example/demos/en-US/group.vue
 </template>
 ```
 
-`InputGroupLabel` renders a span for content attached outside the input. Associate a visible field name with the native input through FormItem, a native label with for/id, or `aria-label`.
+`InputGroupLabel` renders a span for content attached outside the input. Associate a visible name by matching FormItem `label-attrs.for` to the Input `id`, or use a native label with for/id. You can also provide `aria-label` explicitly.
 
 ### Group State Inheritance
 
@@ -38228,7 +38236,7 @@ Function options additionally accept `onOpen / onOpened / onClose / onClosed`. C
 
 ### Message Events
 
-`update:open`, `open`, `opened`, `close`, and `closed`, emitted once per visibility cycle.
+`update:open`, `open`, `opened`, `close`, and `closed`, emitted once per visibility cycle. When an initially open message hydrates, it skips the initial enter animation and emits `opened` after `open` on mount.
 
 ### Message Methods
 
@@ -38777,9 +38785,9 @@ Example source: src/notice-bar/example/demos/en-US/pausable.vue
 <template>
   <mp-notice-bar scrollable :paused="paused" text="This notice can be paused so you can continue reading.">
     <template #action>
-      <button type="button" :aria-pressed="paused" @click="paused = !paused">
+      <mp-button html-type="button" variant="text" :aria-pressed="paused" @click="paused = !paused">
         {{ paused ? 'Resume scrolling' : 'Pause scrolling' }}
-      </button>
+      </mp-button>
     </template>
   </mp-notice-bar>
 </template>
@@ -40070,7 +40078,7 @@ import type { PaginationProps, PaginationInstance, PaginationPageSizeProps } fro
 
 ## Behavior
 
-Containers at or below `compact-breakpoint` automatically use compact mode, consistently in desktop sidebars and mobile. Totals/page-size selectors remain; auxiliary controls wrap. Previous/next sizes follow size without forced narrow-screen enlargement (formerly 36px). `responsive=false` retains full page numbers; extremely narrow page lists scroll internally without widening the page.
+Containers at or below `compact-breakpoint` automatically use compact mode, consistently in desktop sidebars and mobile. Totals/page-size selectors remain; auxiliary controls wrap. Previous and next buttons follow the configured size. `responsive=false` retains full page numbers; extremely narrow page lists scroll internally without widening the page.
 
 The compact current-page input also serves as the jumper, so no duplicate jumper appears. `page-item`, `page-item-ellipsis`, `jumper-prepend` and `jumper-append` render only in their full-mode controls.
 
@@ -41742,7 +41750,7 @@ Columns follow reading order, and selection indicators sit at logical end. Up/Do
 ### Keyboard and reduced motion
 Each interactive column is a Tab-focusable listbox. Arrows move, Home/End reach first/last enabled items, skipping disabled options. aria-selected indicates the current wheel item; selected-values indicates separate checkmarks. Empty/all-disabled columns leave the Tab sequence.
 
-Within FormItem, each wheel column merges the caller’s `aria-describedby` with the current form error; clearing the error preserves the caller’s description.
+Within FormItem, each wheel column merges the caller’s `aria-describedby` with the current form error. A form error sets each column’s `aria-invalid` to `true`; clearing it restores the caller’s value and description.
 
 Reduced motion commits selection immediately without waiting for transitionend. Preference changes settle pending scrolling; unmount removes listeners.
 
@@ -42761,7 +42769,7 @@ Popup close()/requestClose() and external open=false are guarded. Dialog on both
 | `safe-area-inset-top` | Apply the top safe-area inset | `boolean` | `false` |
 | `safe-area-inset-right` | Apply the right safe-area inset | `boolean` | `false` |
 | `safe-area-inset-left` | Apply the left safe-area inset | `boolean` | `false` |
-| `z-index` | Custom z-index | `number` | Automatically distributed |
+| `z-index` | Outer stacking level | `number` | Automatically distributed |
 
 ### Popup Events
 
@@ -52060,6 +52068,7 @@ Select additionally supports `header`, `footer`, `trigger`, and default `Option 
 | search | Triggered when the user searches | text |
 | focus | Field gains focus | event |
 | blur | Field loses focus | event |
+| keydown | Field or editor search key; `preventDefault()` suppresses internal keyboard handling | event: KeyboardEvent |
 | clear | Triggered when the value of the input changes | event |
 | remove | Triggered when the delete button of the label is clicked | value |
 | exceed-limit | Selection would exceed the multiple-selection limit | value, event |
@@ -56276,7 +56285,7 @@ const items = ref(['A', 'B', 'C'])
       <template v-for="item in items" :key="item">
         <label class="space-split-field">
           <span>Item {{ item }}</span>
-          <input :aria-label="'Draft ' + item" placeholder="草稿 / Draft" />
+          <mp-input edit-mode="direct" :aria-label="'Draft ' + item" placeholder="草稿 / Draft" />
         </label>
       </template>
       <template #split><span aria-hidden="true">/</span></template>
@@ -56291,7 +56300,7 @@ const items = ref(['A', 'B', 'C'])
   gap: 4px;
   width: 110px;
 }
-.space-split-field input {
+.space-split-field :deep(input) {
   min-width: 0;
   width: 100%;
   box-sizing: border-box;
@@ -58256,7 +58265,7 @@ const beforeWait = () => new Promise<boolean>((resolve) => setTimeout(() => reso
 
 Left and right are physical sides. Widths accept `auto`, finite numbers, or numeric strings in pixels; negative or invalid values resolve to zero. Automatic widths are remeasured before opening and observed while supported. An outside touch requests close; an outside mouse click does not. `click` reports cell, left, or right; `outside` is a close reason.
 
-Hidden action regions are inert and excluded from the accessibility tree. When closing while focus is in the actions, focus returns to the opener or to the cell container. Provide a native button outside the cell to call `open('right')`, and handle Escape on a containing element by calling `close()`. The close request still passes through `before-close`. Give each action an accessible name.
+Hidden action regions are inert and excluded from the accessibility tree. When closing while focus is in the actions, focus returns to the opener or to the cell container. Place a Button outside the cell to call `open('right')`, and handle Escape on a containing element by calling `close()`. The close request still passes through `before-close`. Give each action an accessible name.
 
 `close()` returns `Promise<void>` after the guard settles; the return value does not indicate whether the cell closed. Guard exceptions and rejections emit `guard-error(error, position)`.
 
@@ -58272,10 +58281,10 @@ const cell = ref<SwipeCellInstance>()
 
 <template>
   <div @keydown.esc="cell?.close()">
-    <button type="button" @click="cell?.open('right')">Show actions</button>
+    <mp-button html-type="button" @click="cell?.open('right')">Show actions</mp-button>
     <mp-swipe-cell ref="cell">
       <div>Order</div>
-      <template #right><button type="button">Archive</button></template>
+      <template #right><mp-button html-type="button">Archive</mp-button></template>
     </mp-swipe-cell>
   </div>
 </template>
@@ -59589,7 +59598,7 @@ When model-value is omitted the component manages selection; when provided it on
 
 The following CSS variables support customization with [ThemeProvider](#/en-US/theme-provider).
 
-When `z-index` is omitted, the component consumes `--mp-tab-bar-z-index`. An explicit number or CSS string takes precedence. The visual default remains `1`; the prop itself no longer defaults to `1`.
+When `z-index` is omitted, the component consumes `--mp-tab-bar-z-index`. An explicit number or CSS string takes precedence. The default visual stacking level is `1`.
 
 <!-- component-css-variables:start -->
 
@@ -62151,119 +62160,7 @@ Document: llms/en-US/theme-provider.md
 
 # ThemeProvider
 
-One theme boundary for the entire application or a subtree. A provider around the application is its global theme; nesting creates local overrides with the same rules. Providers never mutate html or other application roots.
-
-## Basic examples
-
-### Variable overrides
-
-Example source: src/theme-provider/example/demos/basic.vue
-
-```vue
-<script setup lang="ts">
-import { ref } from 'vue'
-
-const active = ref(true)
-</script>
-
-<template>
-  <div>
-    <mp-button variant="outline" @click="active = !active">切换局部变量 / Toggle local variables</mp-button>
-    <mp-theme-provider tag="section" :style-vars="active ? { '--mp-demo-color': 'teal' } : null">
-      <p style="color: var(--mp-demo-color, currentColor)">局部颜色 / Local color</p>
-      <mp-theme-provider :style-vars="{ '--mp-demo-color': 'coral' }">
-        <p style="color: var(--mp-demo-color)">嵌套覆盖 / Nested override</p>
-      </mp-theme-provider>
-    </mp-theme-provider>
-    <p>外部不受影响 / Outside remains unchanged</p>
-  </div>
-</template>
-```
-
-## Local themes
-
-### Application roots and nesting
-
-Example source: src/theme-provider/example/demos/local-theme.vue
-
-```vue
-<script setup lang="ts">
-import { ref } from 'vue'
-
-const theme = ref<'light' | 'dark'>('dark')
-</script>
-<template>
-  <div>
-    <mp-button @click="theme = theme === 'dark' ? 'light' : 'dark'">切换局部主题 / Toggle local theme</mp-button>
-    <mp-theme-provider :theme="theme" class="theme-region">
-      <p>外层主题 / Outer: {{ theme }}</p>
-      <mp-button status="primary">主题按钮 / Themed button</mp-button>
-      <mp-select :options="[{ label: 'Body popup inherits theme', value: 1 }]" placeholder="打开弹层 / Open popup" />
-      <mp-theme-provider theme="light" class="theme-region">
-        <p>嵌套亮色 / Nested light</p>
-        <mp-button variant="outline">亮色按钮 / Light button</mp-button>
-      </mp-theme-provider>
-    </mp-theme-provider>
-    <p>外部保持原主题 / Outside is unchanged</p>
-  </div>
-</template>
-<style scoped>
-.theme-region {
-  margin-top: 16px;
-  padding: 16px;
-  color: var(--mp-color-text-1);
-  background: var(--mp-color-bg-2);
-  border: 1px solid var(--mp-color-border-2);
-}
-</style>
-```
-
-```vue
-<mp-theme-provider :theme="mode">
-  <App />
-  <mp-theme-provider theme="light"><Preview /></mp-theme-provider>
-</mp-theme-provider>
-```
-
-Omit theme to inherit. Use light/dark or a Themes preset object for an explicit boundary. Explicit themes replace inherited presets while style-vars overrides continue to inherit. style-vars overrides defaults, inner keys win, and null clears this layer. Explicit boundaries re-evaluate loaded component aliases. tag changes the wrapper; use a suitable layout host or display: contents where necessary.
-
-Library declarative popups inherit their owning Vue provider with body, custom popup-container and inline targets. Services created outside a provider need a popup-container inside the themed region. Third-party Teleports need an explicit theme host; foreign documents must load the library styles.
-
-## Theme presets
-
-```vue
-<mp-theme-provider :theme="Themes.maple.dark">
-  <App />
-</mp-theme-provider>
-```
-
-Import Themes from the library root. Update presets and custom variables through reactive props; no static method mutates the document root. Explicit style-vars take precedence over theme defaults, and fixed color overrides are inherited by descendants.
-
-## Installation and defaults
-
-```ts
-import { ThemeProvider } from '@maple-design/ui'
-app.use(ThemeProvider)
-ThemeProvider.setPropsDefaults({ theme: 'light', tag: 'section', styleVars: () => ({}) })
-```
-
-Defaults apply to subsequently created instances; explicit props take precedence. Variable objects are copied for each instance. SSR renders the same theme boundary as the client, without retaining theme state across requests.
-
-## API
-
-### ThemeProvider Props
-
-| Prop | Description | Type | Default |
-| --- | --- | --- | --- |
-| theme | Light or dark theme; inherit when omitted | `ThemeProviderTheme` | — |
-| style-vars | CSS variables for this boundary; null clears the overrides | `StyleVars \| null` | `{}` |
-| tag | Wrapper element tag | `string` | `'div'` |
-
-The default slot supplies component content. No events.
-
-## Types
-
-Exports ThemeProvider, themeProviderProps, ThemeProviderProps, ThemeProviderInstance, ThemeProviderDefaults, ThemeProviderTheme, ThemeProviderMode, StyleVarName and StyleVars. Variables accept full --mp- names or camelCase names with the library prefix; values are CSS strings and dimensions require units.
+See [Theme Customization](#/en-US/themes) for presets, local themes, popup inheritance and the complete ThemeProvider API.
 
 ## CSS Variables
 
@@ -62285,13 +62182,13 @@ Document: llms/en-US/themes.md
 
 Start with a built-in theme, then override the CSS variables you need. Themes control colors, corners and fonts. Use [SafeArea](#/en-US/safe-area) for device-edge spacing.
 
-Use ThemeProvider at the application root or around any subtree: `<mp-theme-provider :theme="mode" :style-vars="currentStyleVars"><App /></mp-theme-provider>`. mode is light/dark; currentStyleVars is a reactive preset or override object. No document attribute mutation or static theme setter is involved.
+One theme boundary for the entire application or a subtree. A provider around the application is its global theme; nesting creates local overrides with the same rules. Providers never mutate html or other application roots.
 
 ## Choose an approach
 
 | Goal | Recommended approach |
 | ------------------------------- | ------------------------------------------------------------------ |
-| One brand across the app | `ThemeProvider 的 theme/style-vars Props()` with a built-in light or dark theme |
+| One brand across the app | `<mp-theme-provider :theme="Themes.maple[mode]">` |
 | Customize a region or component | `<mp-theme-provider :style-vars="…">` |
 | Find supported overrides | The variable guide below and each component's CSS variable table |
 
@@ -62571,6 +62468,80 @@ import FormStates from './FormStates.vue'
 </template>
 ```
 
+## ThemeProvider examples
+
+### Variable overrides
+
+Example source: src/theme-provider/example/demos/basic.vue
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const active = ref(true)
+</script>
+
+<template>
+  <div>
+    <mp-button variant="outline" @click="active = !active">切换局部变量 / Toggle local variables</mp-button>
+    <mp-theme-provider tag="section" :style-vars="active ? { '--mp-demo-color': 'teal' } : null">
+      <p style="color: var(--mp-demo-color, currentColor)">局部颜色 / Local color</p>
+      <mp-theme-provider :style-vars="{ '--mp-demo-color': 'coral' }">
+        <p style="color: var(--mp-demo-color)">嵌套覆盖 / Nested override</p>
+      </mp-theme-provider>
+    </mp-theme-provider>
+    <p>外部不受影响 / Outside remains unchanged</p>
+  </div>
+</template>
+```
+
+### Application roots and nesting
+
+Example source: src/theme-provider/example/demos/local-theme.vue
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const theme = ref<'light' | 'dark'>('dark')
+</script>
+<template>
+  <div>
+    <mp-button @click="theme = theme === 'dark' ? 'light' : 'dark'">切换局部主题 / Toggle local theme</mp-button>
+    <mp-theme-provider :theme="theme" class="theme-region">
+      <p>外层主题 / Outer: {{ theme }}</p>
+      <mp-button status="primary">主题按钮 / Themed button</mp-button>
+      <mp-select :options="[{ label: 'Body popup inherits theme', value: 1 }]" placeholder="打开弹层 / Open popup" />
+      <mp-theme-provider theme="light" class="theme-region">
+        <p>嵌套亮色 / Nested light</p>
+        <mp-button variant="outline">亮色按钮 / Light button</mp-button>
+      </mp-theme-provider>
+    </mp-theme-provider>
+    <p>外部保持原主题 / Outside is unchanged</p>
+  </div>
+</template>
+<style scoped>
+.theme-region {
+  margin-top: 16px;
+  padding: 16px;
+  color: var(--mp-color-text-1);
+  background: var(--mp-color-bg-2);
+  border: 1px solid var(--mp-color-border-2);
+}
+</style>
+```
+
+```vue
+<mp-theme-provider :theme="mode">
+  <App />
+  <mp-theme-provider theme="light"><Preview /></mp-theme-provider>
+</mp-theme-provider>
+```
+
+Omit theme to inherit. Use light/dark or a Themes preset object for an explicit boundary. Explicit themes replace inherited presets while style-vars overrides continue to inherit. style-vars overrides defaults, inner keys win, and null clears this layer. Explicit boundaries re-evaluate loaded component aliases. tag changes the wrapper; use a suitable layout host or display: contents where necessary.
+
+Library declarative popups inherit their owning Vue provider with body, custom popup-container and inline targets. Services created outside a provider need a popup-container inside the themed region. Third-party Teleports need an explicit theme host; foreign documents must load the library styles.
+
 ## Application usage
 
 ### 1. Choose a built-in theme
@@ -62584,15 +62555,6 @@ import FormStates from './FormStates.vue'
 
 Alps/Firefly light themes follow brand styling; dark themes are Maple adaptations. Business code loads brand fonts; system fallback applies otherwise.
 
-```ts
-import { ThemeProvider, Themes } from '@maple-design/ui'
-
-// Set before mounting, or call again when users change themes.
-currentStyleVars.value = Themes.maple.light
-currentStyleVars.value = Themes.maple.dark
-```
-
-Light objects remove `html[maple-theme="dark"]`; dark objects set it. Every call replaces injected variables rather than merging cumulatively.
 
 #### Firefly color roles and existing APIs
 
@@ -62609,14 +62571,12 @@ Yellow primary stays `#EAFF68`. Auxiliary purple fill uses `#CFC7FF`; light-mode
 
 Selection, focus, sliders, date ranges and emphasized links use auxiliary purple. Body/general emphasis retain readable dark text adaptation. tonal/dark are Maple extensions of existing APIs, not claims of original Horo dark samples.
 
-This change covers Firefly variables only; default/Maple/Alps light/dark palettes remain unchanged.
-
 ### 2. Set page background/text
 
-Configure component themes together with business page backgrounds. Add these global application styles:
+Configure component themes together with business page backgrounds. Apply these styles to the element inside ThemeProvider that wraps the page:
 
 ```css
-body {
+.app-page {
   color: var(--mp-color-text);
   background-color: var(--mp-color-body);
   color-scheme: var(--mp-color-scheme);
@@ -62634,13 +62594,11 @@ import { Themes } from '@maple-design/ui'
 const mode = ref('dark')
 </script>
 <template>
-  <mp-theme-provider :theme="mode" :style-vars="Themes.maple[mode]">
+  <mp-theme-provider :theme="Themes.maple[mode]" :style-vars="{ '--mp-button-border-radius': '12px' }">
     <App />
   </mp-theme-provider>
 </template>
 ```
-
-Prefer actual component variables for local customization. Locally changing palette steps does not recompute aliases inherited from the root. See [ThemeProvider](#/en-US/theme-provider). Body-teleported popups need variables on their actual mount host.
 
 ## Unit conversion
 
@@ -62659,6 +62617,32 @@ Prefer actual component variables for local customization. Locally changing pale
 Use RGB channels through `rgb(var(--mp-primary-6))`. Use complete color/dimension values as documented. `--mp-sys-font-family` is the font entry; applications supply font files.
 
 See [Design Token layers](#/en-US/design-tokens) and component style-variable tables. For form interaction, see [Form](#/en-US/form).
+
+## Installation and defaults
+
+```ts
+import { ThemeProvider } from '@maple-design/ui'
+app.use(ThemeProvider)
+ThemeProvider.setPropsDefaults({ theme: 'light', tag: 'section', styleVars: () => ({}) })
+```
+
+Defaults apply to subsequently created instances; explicit props take precedence. Variable objects are copied for each instance. SSR renders the same theme boundary as the client, without retaining theme state across requests.
+
+## API
+
+### ThemeProvider Props
+
+| Prop | Description | Type | Default |
+| --- | --- | --- | --- |
+| theme | Light/dark mode or preset; inherit when omitted | `ThemeProviderTheme` | — |
+| style-vars | CSS variables for this boundary; null clears the overrides | `StyleVars \| null` | `{}` |
+| tag | Wrapper element tag | `string` | `'div'` |
+
+The default slot supplies component content. No events.
+
+## Types
+
+Exports ThemeProvider, themeProviderProps, ThemeProviderProps, ThemeProviderInstance, ThemeProviderDefaults, ThemeProviderTheme, ThemeProviderMode, StyleVarName and StyleVars. Variables accept full --mp- names or camelCase names with the library prefix; values are CSS strings and dimensions require units.
 
 ## CSS Variables
 
@@ -63560,6 +63544,8 @@ Panels edit a draft and commit on confirmation. Cancellation or closing does not
 
 ### TimeRange Props
 
+`input-attrs` applies to the two direct input elements. For example, `:input-attrs="[{ 'aria-label': 'Departure' }, { 'aria-label': 'Return' }]"` names each endpoint. The field owns its value, disabled, readonly, placeholder, role and popup state; shared descriptions, per-input descriptions and form errors are merged for each input. Component errors take precedence; otherwise each input retains its `aria-invalid`. `RangeInputAttributes` is exported from the component and root entries and includes native attributes and `Once` event types.
+
 | Prop | Description | Type | Default behavior |
 | --- | --- | --- | --- |
 | `before-commit` | Explicit field-save guard using payload, done and context | `BeforeFieldCommit` | `undefined` |
@@ -63582,6 +63568,7 @@ Panels edit a draft and commit on confirmation. Cancellation or closing does not
 | `hide-disabled-options` | Hide disabled time options; clocks retain tick positions | `boolean` | `false` |
 | `hint` | Floating placeholder hint, suppressed by an outer Form label | `boolean` | `true` |
 | `input-editable` | Allow text input without removing panel selection | `boolean` | `false` |
+| `input-attrs` | Native attributes for the start and end inputs, in order; per-input names override shared names | `RangeInputAttributes[]` | `undefined` |
 | `line` | Show the field border or underline | `boolean` | `true` |
 | `loading` | Manual loading feedback, independent of event return values | `boolean` | `false` |
 | `loading-mode` | Field loading presentation mode | `default \| line` | `default` |

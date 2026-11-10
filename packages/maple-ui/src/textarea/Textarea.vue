@@ -46,7 +46,7 @@
         :placeholder="mergedHint ? undefined : placeholder"
         :aria-label="ariaLabel ?? nativeAttrs['aria-label']"
         :aria-describedby="describeError(nativeAttrs['aria-describedby'])"
-        :aria-invalid="mergedError || nativeAttrs['aria-invalid'] || undefined"
+        :aria-invalid="mergedError ? true : nativeAttrs['aria-invalid']"
         :autofocus="autofocus"
         :enterkeyhint="enterkeyhint"
         @input="handleInput"

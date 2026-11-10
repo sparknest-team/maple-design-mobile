@@ -1,18 +1,75 @@
-import { Message } from './index'
+import type { Message } from './index'
+
+export const defaultCloseText = '关闭'
+export const defaultLoadingText = '加载中'
+export const defaultEmptyDescription = '暂无数据'
+export const defaultBackText = '返回'
+export const defaultBreadcrumbLabel = '面包屑导航'
+export const defaultBreadcrumbEllipsis = '省略的路径'
+export const defaultMoreActions = '更多操作'
+export const defaultIndexNavigation = '索引导航'
+export const defaultTableScrollable = '可滚动表格'
+export const defaultDialogConfirm = '确认'
+export const defaultDialogCancel = '取消'
+export const defaultInfiniteFinishedText = '没有更多了'
+export const defaultInfiniteErrorText = '加载失败，点击重试'
+
+export const defaultImageImagePreviewPrev = '上一张图片'
+export const defaultImageImagePreviewNext = '下一张图片'
+export const defaultImageImagePreviewFullScreen = '全屏'
+export const defaultImageImagePreviewRotateLeft = '向左旋转'
+export const defaultImageImagePreviewRotateRight = '向右旋转'
+export const defaultImageImagePreviewOriginalSize = '原始尺寸'
+export const defaultImageImagePreviewZoomOut = '缩小'
+export const defaultImageImagePreviewZoomIn = '放大'
+export const defaultImageImagePreviewDownload = '下载图片'
+export const defaultImageImagePreviewClose = '关闭图片预览'
+export const defaultImageImagePreview = '预览图片'
+
+export const defaultFieldFieldPresentationInput = '请输入'
+export const defaultFieldFieldPresentationSelectionCount = '已选 {count} 个'
+export const defaultFieldFieldPresentationSelectionRemove = '移除'
+export const defaultFieldFieldPresentationSelectionBack = '返回可选项'
+export const defaultFieldFieldPresentationSelectionEmpty = '暂无已选项'
+export const defaultFieldFieldPresentationEdit = '编辑'
+export const defaultFieldFieldPresentationClose = '关闭'
+export const defaultFieldFieldPresentationSearch = '搜索选项'
+export const defaultFieldFieldPresentationSelected = '已选择'
+export const defaultFieldFieldPresentationLimit = '最多选择'
+export const defaultFieldCommonIncrease = '增加数值'
+export const defaultFieldCommonDecrease = '减少数值'
+export const defaultFieldCommonClear = '清空'
+export const defaultFieldCommonShowPassword = '显示密码'
+export const defaultFieldCommonHidePassword = '隐藏密码'
+export const defaultFieldPickerTitle = '请选择'
+export const defaultFieldPickerConfirmButtonText = '确认'
+
+export const defaultPaginationItem = '条'
+export const defaultPaginationPage = '页'
+export const defaultPaginationNavigation = '分页'
+export const defaultPaginationPrevious = '上一页'
+export const defaultPaginationNext = '下一页'
+export const defaultPaginationJump = '前往'
+export const defaultPaginationTotal = '共 {0} 条'
+
+export const defaultPeopleSelectCall = '拨打电话'
+export const defaultPeopleSelectChat = '聊天'
+export const defaultSearchSearch = '搜索'
+export const defaultSearchCancel = '取消'
+export const defaultSearchHistory = '搜索历史'
 
 export default {
-  'imagePreview.prev': '上一张图片',
-  'imagePreview.next': '下一张图片',
-  'imagePreview.fullScreen': '全屏',
-  'imagePreview.rotateLeft': '向左旋转',
-  'imagePreview.rotateRight': '向右旋转',
-  'imagePreview.originalSize': '原始尺寸',
-  'imagePreview.zoomOut': '缩小',
-  'imagePreview.zoomIn': '放大',
-  'imagePreview.download': '下载图片',
-  'imagePreview.close': '关闭图片预览',
-
-  'image.preview': '预览图片',
+  'imagePreview.prev': defaultImageImagePreviewPrev,
+  'imagePreview.next': defaultImageImagePreviewNext,
+  'imagePreview.fullScreen': defaultImageImagePreviewFullScreen,
+  'imagePreview.rotateLeft': defaultImageImagePreviewRotateLeft,
+  'imagePreview.rotateRight': defaultImageImagePreviewRotateRight,
+  'imagePreview.originalSize': defaultImageImagePreviewOriginalSize,
+  'imagePreview.zoomOut': defaultImageImagePreviewZoomOut,
+  'imagePreview.zoomIn': defaultImageImagePreviewZoomIn,
+  'imagePreview.download': defaultImageImagePreviewDownload,
+  'imagePreview.close': defaultImageImagePreviewClose,
+  'image.preview': defaultImageImagePreview,
   'fab.actions': '操作',
   'numberKeyboard.label': '数字键盘',
   'numberKeyboard.delete': '删除',
@@ -22,26 +79,26 @@ export default {
   'tabs.add': '新增标签',
   'tabs.previous': '上一组标签',
   'tabs.next': '下一组标签',
-  'breadcrumb.label': '面包屑导航',
-  'breadcrumb.ellipsis': '省略的路径',
-  'splitButton.moreActions': '更多操作',
-  'common.back': '返回',
-  'indexBar.navigation': '索引导航',
-  'common.close': '关闭',
-  'loading.text': '加载中',
-  'table.scrollable': '可滚动表格',
-  'peopleSelect.call': '拨打电话',
-  'peopleSelect.chat': '聊天',
-  'fieldPresentation.input': '请输入',
-  'fieldPresentation.selectionCount': '已选 {count} 个',
-  'fieldPresentation.selectionRemove': '移除',
-  'fieldPresentation.selectionBack': '返回可选项',
-  'fieldPresentation.selectionEmpty': '暂无已选项',
-  'fieldPresentation.edit': '编辑',
-  'fieldPresentation.close': '关闭',
-  'fieldPresentation.search': '搜索选项',
-  'fieldPresentation.selected': '已选择',
-  'fieldPresentation.limit': '最多选择',
+  'breadcrumb.label': defaultBreadcrumbLabel,
+  'breadcrumb.ellipsis': defaultBreadcrumbEllipsis,
+  'splitButton.moreActions': defaultMoreActions,
+  'common.back': defaultBackText,
+  'indexBar.navigation': defaultIndexNavigation,
+  'common.close': defaultCloseText,
+  'loading.text': defaultLoadingText,
+  'table.scrollable': defaultTableScrollable,
+  'peopleSelect.call': defaultPeopleSelectCall,
+  'peopleSelect.chat': defaultPeopleSelectChat,
+  'fieldPresentation.input': defaultFieldFieldPresentationInput,
+  'fieldPresentation.selectionCount': defaultFieldFieldPresentationSelectionCount,
+  'fieldPresentation.selectionRemove': defaultFieldFieldPresentationSelectionRemove,
+  'fieldPresentation.selectionBack': defaultFieldFieldPresentationSelectionBack,
+  'fieldPresentation.selectionEmpty': defaultFieldFieldPresentationSelectionEmpty,
+  'fieldPresentation.edit': defaultFieldFieldPresentationEdit,
+  'fieldPresentation.close': defaultFieldFieldPresentationClose,
+  'fieldPresentation.search': defaultFieldFieldPresentationSearch,
+  'fieldPresentation.selected': defaultFieldFieldPresentationSelected,
+  'fieldPresentation.limit': defaultFieldFieldPresentationLimit,
 
   datePickerPreviousWeek: '上一周',
   datePickerNextWeek: '下一周',
@@ -66,29 +123,29 @@ export default {
   'upload.retry': '重试',
   'upload.delete': '删除',
   'upload.close': '关闭',
-  'search.history': '搜索历史',
-  'search.search': '搜索',
-  'search.cancel': '取消',
-  'common.increase': '增加数值',
-  'common.decrease': '减少数值',
-  'common.clear': '清空',
-  'common.showPassword': '显示密码',
-  'common.hidePassword': '隐藏密码',
+  'search.history': defaultSearchHistory,
+  'search.search': defaultSearchSearch,
+  'search.cancel': defaultSearchCancel,
+  'common.increase': defaultFieldCommonIncrease,
+  'common.decrease': defaultFieldCommonDecrease,
+  'common.clear': defaultFieldCommonClear,
+  'common.showPassword': defaultFieldCommonShowPassword,
+  'common.hidePassword': defaultFieldCommonHidePassword,
   // Dialog
   dialogTitle: '提示',
-  dialogConfirmButtonText: '确认',
-  dialogCancelButtonText: '取消',
+  dialogConfirmButtonText: defaultDialogConfirm,
+  dialogCancelButtonText: defaultDialogCancel,
   // ActionSheet
   actionSheetTitle: '请选择',
   // Empty
-  emptyDescription: '暂无数据',
+  emptyDescription: defaultEmptyDescription,
   // InfiniteScroll
-  infiniteScrollLoadingText: '加载中',
-  infiniteScrollFinishedText: '没有更多了',
-  infiniteScrollErrorText: '加载失败，点击重试',
+  infiniteScrollLoadingText: defaultLoadingText,
+  infiniteScrollFinishedText: defaultInfiniteFinishedText,
+  infiniteScrollErrorText: defaultInfiniteErrorText,
   // Picker
-  pickerTitle: '请选择',
-  pickerConfirmButtonText: '确认',
+  pickerTitle: defaultFieldPickerTitle,
+  pickerConfirmButtonText: defaultFieldPickerConfirmButtonText,
   pickerCancelButtonText: '取消',
   // Cascader
   cascaderPickerAddButtonText: '添加',
@@ -187,13 +244,13 @@ export default {
   datePickerColumnMinute: '分',
   datePickerColumnSecond: '秒',
   // pagination
-  paginationItem: '条',
-  paginationPage: '页',
-  paginationNavigation: '分页',
-  paginationPrevious: '上一页',
-  paginationNext: '下一页',
-  paginationJump: '前往',
-  paginationTotal: '共 {0} 条',
+  paginationItem: defaultPaginationItem,
+  paginationPage: defaultPaginationPage,
+  paginationNavigation: defaultPaginationNavigation,
+  paginationPrevious: defaultPaginationPrevious,
+  paginationNext: defaultPaginationNext,
+  paginationJump: defaultPaginationJump,
+  paginationTotal: defaultPaginationTotal,
   // time-picker
   timePickerHint: '选择时间',
   // time-range

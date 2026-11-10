@@ -29,7 +29,7 @@
     "size": "Five sizes",
     "disabled": "Disabled buttons and links",
     "loading": "Loading animations, layouts and sizes",
-    "controlled-loading": "Controlled loading and recovery",
+    "controlled-loading": "Controlled loading and failure recovery",
     "block": "Block buttons",
     "custom-color": "Custom colors",
     "button-group": "Group inheritance and overrides",

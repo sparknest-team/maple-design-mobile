@@ -2,7 +2,7 @@
 
 端点锁定由本地移动展示适配层响应式传给日历和滚轮；嵌套锁定与当前锁定合并，不会因切换展示或解锁另一端而丢失。共享草稿/确认所有者不依赖移动端注入，外部模型更新和确认/取消语义不变。
 
-浮动面板按可视视口限制高度，不再固定为半屏。正常高度完整展示日历；横屏或矮窗口仅在内容确实放不下时滚动，确认操作保持可见。可用 `--mp-date-picker-popover-max-height` 限制面板最大高度（默认 `100dvh - 32px`）。品牌样式通过主题变量注入，切回默认／Maple 时移除品牌覆盖。
+浮动面板按可视视口限制高度。正常高度完整展示日历；横屏或矮窗口仅在内容确实放不下时滚动，确认操作保持可见。可用 `--mp-date-picker-popover-max-height` 限制面板最大高度（默认 `100dvh - 32px`）。品牌样式通过主题变量注入，切回默认／Maple 时移除品牌覆盖。
 
 纯面板不接收 open/default-open、popup-container、placement、trigger-props、placeholder、variant、clearable。确认区由 disable-confirm 控制；actions 插槽提供 { confirm, disabled }。DatePicker/DateRangePicker 可以单独 app.use 安装，根入口和 date/date-range 子路径导出组件、Props、Instance、Type、Options、Emits；没有独立 date-picker/date-range-picker npm 子路径。
 
@@ -379,7 +379,7 @@ show-current 仅控制高亮。范围默认提供“此刻”，通过顶层 `sh
 
 `DateRangePicker.datePickerProps` 与 `DateRange.datePickerProps` 仅接受 `DateRangeCalendarOptions`：`hint`、`color`、`titleColor`、`buttonElevation`、`touchable`。值、校验、视口、presentation、elevation、abbreviation 和动作由范围顶层管理；运行时未知键及监听函数不向内部日历转发。日历分支明确使用日历展示。
 
-字段外观与 `dateRangePickerProps.datePickerProps` 合并；空默认对象不再覆盖嵌套设置，字段显式传入的键优先。
+字段外观与 `dateRangePickerProps.datePickerProps` 合并；空默认对象保留嵌套设置，字段显式传入的键优先。
 
 ### 真实端侧能力
 
@@ -499,11 +499,13 @@ import type { DateRangePopupOptions } from '@maple-design/ui'
 
 ### 值与事件
 
-`DateValue = Date | string | number`。无效日期、不完整或逆序范围不能提交。min/max 包含边界，字符串按 value-format 解析，也可直接传 Date 或时间戳。确认时重新校验规则。`disabledTime` 返回 `disabledHours()`、`disabledMinutes(hour)`、`disabledSeconds(hour, minute)` 数字列表。纯面板通过校验后触发 `confirm(value, date(s), text(s))`；字段展开使用 `update:open` / `open-change`，不再使用 close。嵌套面板和弹层 props 只配置展示，不能覆盖顶层模型、规则与状态事件。范围 disabled 支持 `[起点禁用, 终点禁用]`，锁定端点不能被清除或修改。
+`DateValue = Date | string | number`。无效日期、不完整或逆序范围不能提交。min/max 包含边界，字符串按 value-format 解析，也可直接传 Date 或时间戳。确认时重新校验规则。`disabledTime` 返回 `disabledHours()`、`disabledMinutes(hour)`、`disabledSeconds(hour, minute)` 数字列表。纯面板通过校验后触发 `confirm(value, date(s), text(s))`；字段展开使用 `update:open` / `open-change`。嵌套面板和弹层 props 只配置展示，不能覆盖顶层模型、规则与状态事件。范围 disabled 支持 `[起点禁用, 终点禁用]`，锁定端点不能被清除或修改。
 
 面板编辑草稿，确认才写回；取消或关闭不写回，清除立即提交空值并关闭。DateRange 默认允许手输，设置 `input-editable=false` 可只通过面板选择。四类字段的组合示例见 Date 文档“统一字段与提交”。
 
 ### DateRange Props
+
+`input-attrs` 作用于两个直接输入框。例如 `:input-attrs="[{ 'aria-label': '出发' }, { 'aria-label': '返回' }]"` 可分别命名起止输入。值、禁用、只读、占位符、角色和弹层状态由组件管理；公共描述、单项描述和表单错误会合并到对应输入中；组件报错时优先标记无效，否则保留单项 `aria-invalid`。`RangeInputAttributes` 从组件子入口及库根入口导出，包含原生属性和 `Once` 事件类型。
 
 | 参数 | 说明 | 类型 | 缺省说明 |
 | --- | --- | --- | --- |
@@ -528,6 +530,7 @@ import type { DateRangePopupOptions } from '@maple-design/ui'
 | `format` | 显示与手输格式；函数只展示，无反向手输解析 | `string \| ((date: Date) => string)` | 按精度/时间配置 |
 | `hint` | 浮动占位提示；存在 Form 外置标签时不浮动 | `boolean` | `true` |
 | `input-editable` | 允许手输；不影响面板选择入口 | `boolean` | `true` |
+| `input-attrs` | 按顺序设置起点、终点原生输入属性；单项名称优先于公共名称 | `RangeInputAttributes[]` | `undefined` |
 | `interactive-mode` | Maple 日历视口模式；不是字段编辑模式 | `page \| scroll \| line` | `page` |
 | `line` | 显示外壳边框或底线 | `boolean` | `true` |
 | `loading` | 手动加载反馈，不从事件返回值推导 | `boolean` | `false` |

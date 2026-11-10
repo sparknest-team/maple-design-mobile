@@ -104,6 +104,7 @@ export function useTriggerPositioner(options: PositionerOptions, context: Positi
   const arrowStyle = ref<CSSProperties>({})
   const referenceSize = ref({ width: 0, height: 0 })
   let suspended = false
+  let positionGeneration = 0
   let scrollElements: HTMLElement[] = []
   let scrollPositions = new WeakMap<Element, [number, number]>()
   let windowPositions = new WeakMap<Document, [number, number]>()
@@ -116,6 +117,17 @@ export function useTriggerPositioner(options: PositionerOptions, context: Positi
       return
     }
 
+    const generation = ++positionGeneration
+    const referenceDocument = reference.ownerDocument
+    const popupDocument = popup.ownerDocument
+    const current = () =>
+      !suspended &&
+      generation === positionGeneration &&
+      context.visible.value &&
+      context.reference.value === reference &&
+      context.popup.value === popup &&
+      reference.ownerDocument === referenceDocument &&
+      popup.ownerDocument === popupDocument
     const view = popup.ownerDocument.defaultView
     const space = getPositioningSpace(popup, options.strategy)
     const point = context.point.value
@@ -127,12 +139,18 @@ export function useTriggerPositioner(options: PositionerOptions, context: Positi
       reference.ownerDocument,
       popup.ownerDocument,
     )
-    if (!translatedReference) {
+    if (!translatedReference || !current()) {
       return
     }
     const relativeReference = getRelativeRect(translatedReference, space)
     const relativePopup = getRelativeRect(popup.getBoundingClientRect(), space)
+    if (!current()) {
+      return
+    }
     referenceSize.value = { width: relativeReference.width, height: relativeReference.height }
+    if (!current()) {
+      return
+    }
     if (options.autoFitPopupMinWidth) {
       relativePopup.width = Math.max(relativePopup.width, relativeReference.width)
     } else if (options.autoFitPopupWidth) {
@@ -158,11 +176,20 @@ export function useTriggerPositioner(options: PositionerOptions, context: Positi
       customStyle: options.popupStyle,
       view,
     })
+    if (!current()) {
+      return
+    }
     actualPlacement.value = result.placement
+    if (!current()) {
+      return
+    }
     popupStyle.value = {
       ...result.style,
       ...(options.autoFitPopupMinWidth ? { minWidth: `${relativeReference.width}px` } : {}),
       ...(options.autoFitPopupWidth ? { width: `${relativeReference.width}px` } : {}),
+    }
+    if (!current()) {
+      return
     }
     wrapperStyle.value = options.autoFitTransformOrigin
       ? { transformOrigin: getTransformOrigin(result.placement, context.direction?.value) }
@@ -170,12 +197,15 @@ export function useTriggerPositioner(options: PositionerOptions, context: Positi
 
     if (options.showArrow) {
       nextTick(() => {
-        if (!context.popup.value || !context.reference.value || !context.visible.value) {
+        if (!current()) {
           return
         }
-        const currentSpace = getPositioningSpace(context.popup.value, options.strategy)
+        const currentSpace = getPositioningSpace(popup, options.strategy)
         const currentReference = getRelativeRect(translatedReference, currentSpace)
-        const currentPopup = getRelativeRect(context.popup.value.getBoundingClientRect(), currentSpace)
+        const currentPopup = getRelativeRect(popup.getBoundingClientRect(), currentSpace)
+        if (!current()) {
+          return
+        }
         arrowStyle.value = getArrowStyle(actualPlacement.value, currentReference, currentPopup, {
           customStyle: options.arrowStyle,
         })
@@ -278,6 +308,14 @@ export function useTriggerPositioner(options: PositionerOptions, context: Positi
   }
 
   watch(
+    () => [context.visible.value, context.reference.value, context.popup.value],
+    () => {
+      positionGeneration++
+    },
+    { flush: 'sync' },
+  )
+
+  watch(
     () => [
       context.visible.value,
       context.reference.value,
@@ -338,9 +376,14 @@ export function useTriggerPositioner(options: PositionerOptions, context: Positi
   })
   onDeactivated(() => {
     suspended = true
+    positionGeneration++
     unbindScroll()
   })
-  onBeforeUnmount(unbindScroll)
+  onBeforeUnmount(() => {
+    suspended = true
+    positionGeneration++
+    unbindScroll()
+  })
 
   return { actualPlacement, popupStyle, wrapperStyle, arrowStyle, referenceSize, update }
 }

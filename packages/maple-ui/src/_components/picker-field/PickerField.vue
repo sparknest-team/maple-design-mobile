@@ -1,12 +1,17 @@
 <template>
   <FieldDecorator
     v-bind="{ ...splitInputAttrs($attrs).root, ...decoration }"
+    decorative-hint
     :class="n()"
     @clear="emit('clear', $event)"
     @click="handleClick"
   >
     <template v-if="$slots.prefix" #prefix><slot name="prefix" /></template>
-    <span :class="n('controls')">
+    <span
+      :class="n('controls')"
+      :role="range && groupLabelId && !$slots.selected ? 'group' : undefined"
+      :aria-labelledby="range && !$slots.selected ? groupLabelId : undefined"
+    >
       <slot name="selected">
         <template v-for="(_, index) in values" :key="index">
           <span v-if="index > 0" :class="n('separator')"
@@ -14,20 +19,17 @@
           >
           <span v-if="index === 1 && endHint" :class="n('end-hint')">{{ endHint }}</span>
           <input
-            v-bind="splitInputAttrs($attrs).native"
-            :id="index === 0 ? controlId : controlId + '-' + index"
+            v-bind="inputAttributes(index)"
+            :id="props.inputAttrs?.[index]?.id ?? (index === 0 ? controlId : controlId + '-' + index)"
             :ref="(element) => setInput(element, index)"
-            :class="n('input')"
+            :class="[n('input'), (hint || !placeholders[index]) && n('input--hide-placeholder')]"
             :value="editing[index] ?? ''"
-            :placeholder="hint ? undefined : placeholders[index]"
-            :aria-label="
-              $attrs['aria-label'] == null ? placeholders[index] || placeholder : String($attrs['aria-label'])
-            "
+            :placeholder="placeholders[index] || placeholder"
             :disabled="disabled || disabledParts[index]"
             :readonly="readonly || !editable"
             :aria-expanded="open"
-            :aria-invalid="error || undefined"
-            :aria-describedby="describeError(splitInputAttrs($attrs).native['aria-describedby'])"
+            :aria-invalid="error ? true : inputAttributes(index)['aria-invalid']"
+            :aria-describedby="describeError(inputAttributes(index)['aria-describedby'])"
             :aria-haspopup="popupRole"
             role="combobox"
             autocomplete="off"
@@ -65,11 +67,22 @@
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick, ref, useId, watch, type ComponentPublicInstance } from 'vue'
+import {
+  computed,
+  mergeProps,
+  nextTick,
+  ref,
+  useAttrs,
+  useId,
+  watch,
+  type ComponentPublicInstance,
+  type InputHTMLAttributes,
+} from 'vue'
 import { IconCalendar, IconClockCircle } from '@maple-design/icons-vue'
 import FieldDecorator from '../../field-decorator/FieldDecorator.vue'
 import { fieldDecoratorProps } from '../../field-decorator/props'
 import { useFormErrorDescription } from '../../form/error-description'
+import { useFormItemLabel } from '../../form/label-context'
 import { splitInputAttrs } from '../../input/native-attrs'
 import { createNamespace } from '../../utils/components'
 import { useFieldTexts } from '../field-presentation/texts'
@@ -82,7 +95,27 @@ defineOptions({
   inheritAttrs: false,
 })
 const { select: selectText } = useFieldTexts()
+const formLabel = useFormItemLabel()
 const props = defineProps(pickerFieldProps)
+const attrs = useAttrs()
+function inputAttributes(index: number): InputHTMLAttributes & Record<string, unknown> {
+  const part = props.inputAttrs?.[index] ?? {}
+  const common = splitInputAttrs(attrs).native
+  const merged = mergeProps(common, part as Record<string, unknown>)
+  const descriptions = [common['aria-describedby'], part['aria-describedby']].flatMap((value) =>
+    typeof value === 'string' ? value.split(/\s+/).filter(Boolean) : [],
+  )
+  if (descriptions.length) {
+    merged['aria-describedby'] = [...new Set(descriptions)].join(' ')
+  }
+  if ('aria-label' in part && !('aria-labelledby' in part)) {
+    delete merged['aria-labelledby']
+  }
+  if ('aria-labelledby' in part && !('aria-label' in part)) {
+    delete merged['aria-label']
+  }
+  return merged as InputHTMLAttributes & Record<string, unknown>
+}
 const { describe: describeError } = useFormErrorDescription()
 const emit = defineEmits<{
   edit: [texts: string[], index: number]
@@ -102,6 +135,14 @@ function handleClick(event: MouseEvent) {
 }
 const generatedId = useId()
 const controlId = computed(() => props.id ?? generatedId)
+const groupLabelId = computed(() => {
+  const label = formLabel?.value
+  if (!label) {
+    return undefined
+  }
+  const ids = [props.inputAttrs?.[0]?.id ?? controlId.value, props.inputAttrs?.[1]?.id ?? `${controlId.value}-1`]
+  return !label.target || ids.includes(label.target) ? label.id : undefined
+})
 const inputs: (HTMLInputElement | undefined)[] = []
 const activeIndex = useRangeFieldIndex(() => props.disabledParts)
 const active = ref(false)
@@ -213,7 +254,7 @@ function handleCompositionEnd(event: CompositionEvent, index: number) {
   handleInput(event, index)
 }
 function handleKeydown(event: KeyboardEvent, index: number) {
-  if (composing.value || event.isComposing || event.keyCode === 229) {
+  if (event.defaultPrevented || composing.value || event.isComposing || event.keyCode === 229) {
     return
   }
   if (event.key === 'Enter') {

@@ -797,6 +797,10 @@
           ],
           "events": [
             {
+              "name": "keydown",
+              "description": "event: KeyboardEvent"
+            },
+            {
               "name": "update:modelValue",
               "description": "value: string | null"
             },
@@ -1733,7 +1737,7 @@
             },
             {
               "name": "update:floating",
-              "description": "`(value: boolean)`, emits false when the built-in close button requests closing; expansion is controlled by the parent"
+              "description": "`(value: boolean)`, emits false when the built-in close button or Escape requests closing; expansion is controlled by the parent"
             }
           ],
           "slots": [
@@ -4322,7 +4326,7 @@
             },
             {
               "name": "z-index",
-              "description": "Stack level",
+              "description": "Outer stacking level",
               "default": "Automatically distributed",
               "value": {
                 "type": "`number`",
@@ -9557,7 +9561,7 @@
             },
             {
               "name": "z-index",
-              "description": "Custom z-index",
+              "description": "Outer stacking level",
               "default": "Automatically distributed",
               "value": {
                 "type": "`number`",
@@ -11516,6 +11520,10 @@
             {
               "name": "blur",
               "description": "Field loses focus"
+            },
+            {
+              "name": "keydown",
+              "description": "Field or editor search key; `preventDefault()` suppresses internal keyboard handling"
             },
             {
               "name": "clear",
@@ -14638,6 +14646,15 @@
               "default": "false",
               "value": {
                 "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "input-attrs",
+              "description": "Native attributes for the start and end inputs, in order; per-input names override shared names",
+              "default": "undefined",
+              "value": {
+                "type": "`RangeInputAttributes[]`",
                 "kind": "expression"
               }
             },

@@ -9,6 +9,7 @@
       :id="inputId"
       ref="presentationRef"
       :aria-describedby="nativeAttrs['aria-describedby']"
+      :aria-labelledby="typeof nativeAttrs['aria-labelledby'] === 'string' ? nativeAttrs['aria-labelledby'] : undefined"
       :loading="loading"
       intent="input"
       :edit-mode="editMode"
@@ -18,7 +19,11 @@
       :popup-container="popupContainer"
       :text="type === 'password' && committedValue ? '••••••' : (committedValue ?? '')"
       :placeholder="placeholder"
-      :label="presentationLabel"
+      :label="
+        presentationLabel ||
+        ariaLabel ||
+        (typeof nativeAttrs['aria-label'] === 'string' ? nativeAttrs['aria-label'] : undefined)
+      "
       :open="editorOpen"
       :disabled="mergedDisabled"
       :readonly="mergedReadonly"
@@ -69,7 +74,7 @@
           :placeholder="mergedHint ? undefined : placeholder"
           :aria-label="ariaLabel ?? nativeAttrs['aria-label']"
           :aria-describedby="describeError(nativeAttrs['aria-describedby'])"
-          :aria-invalid="mergedError || nativeAttrs['aria-invalid'] || undefined"
+          :aria-invalid="mergedError ? true : nativeAttrs['aria-invalid']"
           :autofocus="autofocus"
           :enterkeyhint="enterkeyhint"
           :inputmode="type === 'number' ? 'decimal' : nativeAttrs.inputmode"

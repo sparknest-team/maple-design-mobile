@@ -50,7 +50,9 @@ export const defaultLazyOptions: LazyOptions = {
 }
 let timer: ReturnType<typeof setTimeout> | undefined
 let lastCheck = 0
+let checkGeneration = 0
 function cancelScheduledCheck() {
+  checkGeneration++
   if (timer !== undefined) {
     clearTimeout(timer)
   }
@@ -68,7 +70,12 @@ function scheduleCheck() {
     lastCheck = performance.now()
     checkAll()
   } else {
+    const generation = checkGeneration
     timer = setTimeout(() => {
+      if (generation !== checkGeneration) {
+        return
+      }
+      checkGeneration++
       timer = undefined
       lastCheck = performance.now()
       checkAll()
@@ -184,14 +191,18 @@ function check(el: LazyHTMLElement) {
     return
   }
   job.queued = true
+  let firstPending = true
   job.frame = view.requestAnimationFrame(() => {
-    if (!owns(el, job)) {
+    if (!firstPending || !owns(el, job)) {
       return
     }
+    firstPending = false
+    let secondPending = true
     job.frame = view.requestAnimationFrame(() => {
-      if (!owns(el, job)) {
+      if (!secondPending || !owns(el, job)) {
         return
       }
+      secondPending = false
       job.frame = undefined
       job.queued = false
       if (inViewport(el)) {

@@ -2,6 +2,7 @@ import { type ExtractPropTypes, type PropType } from 'vue'
 import { fieldPresentationProps } from '../_components/field-presentation/props'
 import { timePickerFieldsProp } from '../_components/picker-field/fields'
 import { openTriggerTargetProp } from '../_components/picker-field/open-trigger'
+import { rangeInputAttrsProp } from '../_components/picker-field/props'
 import { fieldDecoratorProps } from '../field-decorator'
 import { fieldLoadingProps } from '../field-decorator/props'
 import { pickerProps as pickerPropsSource } from '../picker'
@@ -24,6 +25,7 @@ export type TimeRangeEditMode = import('../_components/field-presentation/contex
 
 export const props = {
   ...fieldLoadingProps,
+  inputAttrs: rangeInputAttrsProp,
   openTriggerTarget: openTriggerTargetProp,
   timeFields: timePickerFieldsProp,
   /** 清空动作产生的模型值；省略保留原默认值。 */

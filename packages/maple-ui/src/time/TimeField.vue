@@ -103,6 +103,7 @@ const controlProps = computed<TimeFieldControlProps>(() => {
   return {
     kind: 'time',
     openTriggerTarget: options.openTriggerTarget,
+    inputAttrs: 'inputAttrs' in options ? options.inputAttrs : undefined,
     range: props.range,
     texts: values.map((part) => formatTimeValue(part, options) ?? ''),
     placeholders,

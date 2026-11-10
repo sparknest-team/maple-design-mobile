@@ -2,13 +2,13 @@
 
 Start with a built-in theme, then override the CSS variables you need. Themes control colors, corners and fonts. Use [SafeArea](#/en-US/safe-area) for device-edge spacing.
 
-Use ThemeProvider at the application root or around any subtree: `<mp-theme-provider :theme="mode" :style-vars="currentStyleVars"><App /></mp-theme-provider>`. mode is light/dark; currentStyleVars is a reactive preset or override object. No document attribute mutation or static theme setter is involved.
+One theme boundary for the entire application or a subtree. A provider around the application is its global theme; nesting creates local overrides with the same rules. Providers never mutate html or other application roots.
 
 ## Choose an approach
 
 | Goal | Recommended approach |
 | ------------------------------- | ------------------------------------------------------------------ |
-| One brand across the app | `ThemeProvider 的 theme/style-vars Props()` with a built-in light or dark theme |
+| One brand across the app | `<mp-theme-provider :theme="Themes.maple[mode]">` |
 | Customize a region or component | `<mp-theme-provider :style-vars="…">` |
 | Find supported overrides | The variable guide below and each component's CSS variable table |
 
@@ -50,6 +50,31 @@ Expand a group when you need to compare field variants, sizes, disabled, readonl
 ../example/ThemeDetails.vue
 ```
 
+## ThemeProvider examples
+
+### Variable overrides
+
+```demo
+../../theme-provider/example/demos/basic.vue
+```
+
+### Application roots and nesting
+
+```demo
+../../theme-provider/example/demos/local-theme.vue
+```
+
+```vue
+<mp-theme-provider :theme="mode">
+  <App />
+  <mp-theme-provider theme="light"><Preview /></mp-theme-provider>
+</mp-theme-provider>
+```
+
+Omit theme to inherit. Use light/dark or a Themes preset object for an explicit boundary. Explicit themes replace inherited presets while style-vars overrides continue to inherit. style-vars overrides defaults, inner keys win, and null clears this layer. Explicit boundaries re-evaluate loaded component aliases. tag changes the wrapper; use a suitable layout host or display: contents where necessary.
+
+Library declarative popups inherit their owning Vue provider with body, custom popup-container and inline targets. Services created outside a provider need a popup-container inside the themed region. Third-party Teleports need an explicit theme host; foreign documents must load the library styles.
+
 ## Application usage
 
 ### 1. Choose a built-in theme
@@ -63,15 +88,6 @@ Expand a group when you need to compare field variants, sizes, disabled, readonl
 
 Alps/Firefly light themes follow brand styling; dark themes are Maple adaptations. Business code loads brand fonts; system fallback applies otherwise.
 
-```ts
-import { ThemeProvider, Themes } from '@maple-design/ui'
-
-// Set before mounting, or call again when users change themes.
-currentStyleVars.value = Themes.maple.light
-currentStyleVars.value = Themes.maple.dark
-```
-
-Light objects remove `html[maple-theme="dark"]`; dark objects set it. Every call replaces injected variables rather than merging cumulatively.
 
 #### Firefly color roles and existing APIs
 
@@ -88,14 +104,12 @@ Yellow primary stays `#EAFF68`. Auxiliary purple fill uses `#CFC7FF`; light-mode
 
 Selection, focus, sliders, date ranges and emphasized links use auxiliary purple. Body/general emphasis retain readable dark text adaptation. tonal/dark are Maple extensions of existing APIs, not claims of original Horo dark samples.
 
-This change covers Firefly variables only; default/Maple/Alps light/dark palettes remain unchanged.
-
 ### 2. Set page background/text
 
-Configure component themes together with business page backgrounds. Add these global application styles:
+Configure component themes together with business page backgrounds. Apply these styles to the element inside ThemeProvider that wraps the page:
 
 ```css
-body {
+.app-page {
   color: var(--mp-color-text);
   background-color: var(--mp-color-body);
   color-scheme: var(--mp-color-scheme);
@@ -113,13 +127,11 @@ import { Themes } from '@maple-design/ui'
 const mode = ref('dark')
 </script>
 <template>
-  <mp-theme-provider :theme="mode" :style-vars="Themes.maple[mode]">
+  <mp-theme-provider :theme="Themes.maple[mode]" :style-vars="{ '--mp-button-border-radius': '12px' }">
     <App />
   </mp-theme-provider>
 </template>
 ```
-
-Prefer actual component variables for local customization. Locally changing palette steps does not recompute aliases inherited from the root. See [ThemeProvider](#/en-US/theme-provider). Body-teleported popups need variables on their actual mount host.
 
 ## Unit conversion
 
@@ -138,6 +150,32 @@ Prefer actual component variables for local customization. Locally changing pale
 Use RGB channels through `rgb(var(--mp-primary-6))`. Use complete color/dimension values as documented. `--mp-sys-font-family` is the font entry; applications supply font files.
 
 See [Design Token layers](#/en-US/design-tokens) and component style-variable tables. For form interaction, see [Form](#/en-US/form).
+
+## Installation and defaults
+
+```ts
+import { ThemeProvider } from '@maple-design/ui'
+app.use(ThemeProvider)
+ThemeProvider.setPropsDefaults({ theme: 'light', tag: 'section', styleVars: () => ({}) })
+```
+
+Defaults apply to subsequently created instances; explicit props take precedence. Variable objects are copied for each instance. SSR renders the same theme boundary as the client, without retaining theme state across requests.
+
+## API
+
+### ThemeProvider Props
+
+| Prop | Description | Type | Default |
+| --- | --- | --- | --- |
+| theme | Light/dark mode or preset; inherit when omitted | `ThemeProviderTheme` | — |
+| style-vars | CSS variables for this boundary; null clears the overrides | `StyleVars \| null` | `{}` |
+| tag | Wrapper element tag | `string` | `'div'` |
+
+The default slot supplies component content. No events.
+
+## Types
+
+Exports ThemeProvider, themeProviderProps, ThemeProviderProps, ThemeProviderInstance, ThemeProviderDefaults, ThemeProviderTheme, ThemeProviderMode, StyleVarName and StyleVars. Variables accept full --mp- names or camelCase names with the library prefix; values are CSS strings and dimensions require units.
 
 ## CSS Variables
 

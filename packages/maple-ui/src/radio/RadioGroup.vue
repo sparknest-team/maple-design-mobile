@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, provide, reactive, useSlots } from 'vue'
+import { computed, provide, reactive, useSlots, type HTMLAttributes } from 'vue'
 import { useOptionRequest } from '../_hooks/use-option-request'
 import { ChoiceLabel } from '../checkbox/choice-label'
 import { normalizeChoiceOptions } from '../checkbox/choice-options'
@@ -74,7 +74,7 @@ provide(
     :aria-label="ariaLabel"
     :aria-disabled="mergedDisabled || undefined"
     :aria-readonly="mergedReadonly || undefined"
-    :aria-invalid="mergedError || undefined"
+    :aria-invalid="mergedError ? true : ($attrs['aria-invalid'] as HTMLAttributes['aria-invalid'])"
     :class="
       classes(n(), n(`--${resolvedOrientation}`), n(`--size-${mergedSize}`), [variant === 'button', n('--button')])
     "

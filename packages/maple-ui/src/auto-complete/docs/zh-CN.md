@@ -286,6 +286,7 @@ Maple 使用 edit-mode="popup" 点击值区域打开编辑面板；direct 直接
 
 | 事件 | 参数 |
 | --- | --- |
+| keydown | event: KeyboardEvent |
 | update:modelValue | value: string \| null |
 | input | value: string, event: Event |
 | search | value: string, event: Event |
@@ -296,6 +297,9 @@ Maple 使用 edit-mode="popup" 点击值区域打开编辑面板；direct 直接
 | dropdown-scroll / dropdown-reach-bottom | event: Event |
 | load-error | error: unknown |
 | update:open / open-change | open: boolean |
+
+`keydown` 在内部键盘操作前通知；调用 `preventDefault()` 可阻止内部操作。
+候选列表内嵌在编辑器中时，Escape 关闭编辑器；候选列表为独立弹层时，Escape 先关闭候选弹层。
 
 输入顺序：`input → update:modelValue → search`；选择：`update:modelValue → select → change`；清除：`clear → input → update:modelValue → change`。同值选择只发 select。change 表示失焦、Enter 或候选选择产生的提交。Input 负责输入、焦点与清除的 Form 通知，AutoComplete 仅对候选提交通知一次。选择也遵守 maxLength；select 的 value 是最终提交字符串，option.value 保留原始候选。clear 参数为事件，不再是字符串。
 
@@ -322,7 +326,7 @@ default 不提供输入替换。option 定制候选内容，read 定制阅读内
 | blur | - | void |
 | refresh | - | `Promise<void>` |
 
-方向键可在 Escape 关闭后重新展开：ArrowDown 定位首个可用候选，ArrowUp 定位末个可用候选，不提交模型；Enter 选择。组合输入、取消的键盘事件、readonly/disabled 和 should-open 条件仍受尊重；Tab 保持原生焦点导航。使用 Vue useId 保证 SSR 标识稳定。
+方向键可在 Escape 关闭后重新展开：ArrowDown 定位首个可用候选，ArrowUp 定位末个可用候选，不提交模型；Enter 选择。组合输入、取消的键盘事件、readonly/disabled 和 should-open 条件仍受尊重；Tab 保持原生焦点导航。使用 Vue useId 保证 SSR 标识稳定。 候选展开时输入框通过 aria-controls 关联列表，关闭时移除该引用。 虚拟滚动使活动项卸载时，暂时移除活动项引用，重新挂载后恢复。
 
 ## Types
 

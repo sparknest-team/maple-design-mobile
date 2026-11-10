@@ -2,6 +2,7 @@ import { h, KeepAlive, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, expect, test, vi } from 'vitest'
 import Field from '../FieldDecorator.vue'
+import { useFieldGeometry } from '../use-field-geometry'
 
 const previous = {
   ResizeObserver: globalThis.ResizeObserver,
@@ -105,4 +106,59 @@ test('a delivered old frame cannot mutate geometry after a KeepAlive cycle', asy
   await tick()
   await tick()
   expect(root.style.getPropertyValue('--mp-internal-field-content-width')).toBe('350px')
+})
+
+test('unmount during measurement cannot publish a stale width', async () => {
+  const root = document.createElement('div')
+  const middle = document.createElement('div')
+  root.appendChild(middle)
+  Object.defineProperty(root, 'clientWidth', { configurable: true, value: 500 })
+  Object.defineProperty(middle, 'offsetLeft', { configurable: true, value: 10 })
+  Object.defineProperty(middle, 'offsetWidth', { configurable: true, value: 200 })
+  const add = vi.spyOn(window, 'addEventListener')
+  let geometry
+  const owner = mount({
+    setup() {
+      geometry = useFieldGeometry(ref(root), ref(middle))
+      return () => h('div')
+    },
+  })
+  owners.push(owner)
+  const resize = add.mock.calls.find(([type]) => type === 'resize')[1]
+  expect(geometry.value['--mp-internal-field-content-width']).toBe('200px')
+  Object.defineProperty(middle, 'offsetWidth', {
+    configurable: true,
+    get() {
+      owner.unmount()
+      return 350
+    },
+  })
+  frames.length = 0
+  resize(new Event('resize'))
+  frames.shift()()
+  expect(geometry.value['--mp-internal-field-content-width']).toBe('200px')
+})
+
+test('a consumed frame cannot release a newer scheduled measurement', () => {
+  const root = document.createElement('div')
+  const middle = document.createElement('div')
+  Object.defineProperty(root, 'clientWidth', { value: 500 })
+  const add = vi.spyOn(window, 'addEventListener')
+  const owner = mount({
+    setup() {
+      useFieldGeometry(ref(root), ref(middle))
+      return () => h('div')
+    },
+  })
+  owners.push(owner)
+  const resize = add.mock.calls.find(([type]) => type === 'resize')[1]
+  frames.length = 0
+  resize(new Event('resize'))
+  const old = frames[0]
+  old()
+  resize(new Event('resize'))
+  expect(frames).toHaveLength(2)
+  old()
+  resize(new Event('resize'))
+  expect(frames).toHaveLength(2)
 })

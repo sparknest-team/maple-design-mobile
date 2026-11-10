@@ -1,5 +1,5 @@
 import type { PropType } from 'vue'
-import { computed, defineComponent, inject, onBeforeUnmount, onDeactivated, ref } from 'vue'
+import { computed, defineComponent, inject, onBeforeUnmount, onDeactivated, ref, useId } from 'vue'
 import { IconCheck, IconLoading, IconRight } from '@maple-design/icons-vue'
 import { isolateEditorForm } from '../_components/field-presentation/form-bridge'
 import { isFunction } from '../_utils/is'
@@ -20,17 +20,24 @@ export default defineComponent({
     },
     active: Boolean,
     expanded: Boolean,
+    childMenuId: String,
     multiple: Boolean,
     checkStrictly: Boolean,
     searchOption: Boolean,
     pathLabel: Boolean,
+    listboxOption: Boolean,
+    listboxSelected: Boolean,
+    optionId: String,
+    tabIndex: { type: Number, default: 0 },
   },
   setup(props) {
     const prefixCls = getPrefixCls('cascader-option')
     const cascaderCtx = inject<Partial<CascaderContext>>(cascaderInjectionKey, {})
+    const labelId = `${prefixCls}-${useId()}`
 
     isolateEditorForm()
     const isLoading = ref(false)
+    const isBusy = computed(() => isLoading.value || Boolean(cascaderCtx.isOptionLoading?.(props.option.key)))
     let request = 0
     const invalidate = () => {
       request++
@@ -39,7 +46,7 @@ export default defineComponent({
     onDeactivated(invalidate)
     onBeforeUnmount(invalidate)
     const handlePathChange = (_event: Event) => {
-      if (props.option.disabled || isLoading.value) {
+      if (props.option.disabled || isBusy.value) {
         return
       }
       const task = cascaderCtx.expandOption?.(props.option)
@@ -133,7 +140,7 @@ export default defineComponent({
     }
 
     const renderIcon = () => {
-      if (isLoading.value) {
+      if (isBusy.value) {
         return <IconLoading class={`${prefixCls}-loading-icon`} />
       }
       if (!props.searchOption && !props.option.isLeaf) {
@@ -144,12 +151,21 @@ export default defineComponent({
 
     return () => (
       <li
-        tabindex="0"
-        role="menuitem"
+        tabindex={props.tabIndex}
+        id={props.optionId}
+        role={props.listboxOption ? 'option' : props.searchOption && !props.multiple ? 'menuitemradio' : 'menuitem'}
+        aria-selected={props.listboxOption ? props.listboxSelected : undefined}
+        aria-checked={
+          !props.listboxOption && props.searchOption && !props.multiple
+            ? Boolean(checkedStatus.value.checked)
+            : undefined
+        }
         data-cascader-key={props.option.key}
+        aria-busy={isBusy.value || undefined}
         aria-disabled={props.option.disabled}
         aria-haspopup={!props.option.isLeaf && !props.searchOption ? 'menu' : undefined}
         aria-expanded={!props.option.isLeaf && !props.searchOption ? props.expanded : undefined}
+        aria-controls={!props.option.isLeaf && !props.searchOption && props.expanded ? props.childMenuId : undefined}
         title={props.option.label}
         class={cls.value}
         {...events}
@@ -163,6 +179,7 @@ export default defineComponent({
               indeterminate={checkedStatus.value.indeterminate}
               disabled={props.option.disabled || props.option.selectionDisabled}
               ariaLabel={props.option.label}
+              aria-labelledby={labelId}
               onUpdate:modelValue={(checked: unknown) => {
                 if (props.option.disabled || props.option.selectionDisabled) {
                   return
@@ -175,7 +192,9 @@ export default defineComponent({
           </span>
         )}
         <div class={`${prefixCls}-label`}>
-          <span class={`${prefixCls}-label-content`}>{renderLabelContent()}</span>
+          <span id={props.multiple ? labelId : undefined} class={`${prefixCls}-label-content`}>
+            {renderLabelContent()}
+          </span>
           {renderIcon()}
         </div>
         {!props.multiple && checkedStatus.value.checked && (

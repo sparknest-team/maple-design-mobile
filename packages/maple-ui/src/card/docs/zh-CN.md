@@ -149,7 +149,9 @@
 <!-- same-source-api:start -->
 `row-reverse` 反转横排封面与正文的顺序，阅读方向仍受容器方向影响。`floating-content` 收起时保留节点与内部状态，但会通过 inert 退出键盘和辅助技术交互；展开时恢复。浮层仅在 column 方向生效。
 
-当前浮层仍位于 Card 原有 DOM 位置。祖先的 transform 等属性可能改变 fixed 定位参照，祖先裁剪也可能遮挡浮层，因此不能保证覆盖整个视口。浮层目前不提供模态焦点管理或 Escape 关闭；需要模态交互时请使用 Dialog。
+当前浮层仍位于 Card 原有 DOM 位置。祖先的 transform 等属性可能改变 fixed 定位参照，祖先裁剪也可能遮挡浮层，因此不能保证覆盖整个视口。焦点在展开的 Card 内时，按 Escape 会请求关闭；内部控件已处理的 Escape 不会关闭 Card；内嵌弹层处于最上层时优先处理 Escape。浮层不提供模态焦点管理，需要模态交互时请使用 Dialog。
+
+当展开内容或关闭按钮内仍有焦点时，关闭会尝试将焦点返回展开前的控件；如果焦点已经移到其他位置，则不会抢回焦点。
 
 默认关闭按钮使用当前语言的关闭文案，`close-button-aria-label` 可覆盖。`floating-duration` 为有限非负毫秒数，0 表示不延时；无效值回退为 250。
 
@@ -183,7 +185,7 @@
 | 事件 | 参数与时机 |
 | --- | --- |
 | click | `(event: Event)`，点击卡片时触发 |
-| update:floating | `(value: boolean)`，内置关闭按钮请求关闭时发送 false；展开由父级设置 |
+| update:floating | `(value: boolean)`，内置关闭按钮或 Escape 请求关闭时发送 false；展开由父级设置 |
 
 ### Card Slots
 
@@ -207,7 +209,7 @@
 ### 使用说明
 
 属性、事件参数及插槽契约一致。Cedar 省略 size 时继承全局尺寸（xs/sm 映射 sm，其余映射 md）；Maple 回退 md。需要一致密度时显式传入 size。主题和 CSS 前缀分别使用各端配置。
-Card 不再提供 loading 属性；加载遮罩使用 Loading 指令组合。
+Card 通过 Loading 指令组合加载遮罩。
 <!-- same-source-api:end -->
 
 ## CSS Variables

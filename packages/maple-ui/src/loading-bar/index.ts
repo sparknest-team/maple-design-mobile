@@ -35,6 +35,7 @@ const OPACITY_DELAY = 200
 const timers = new Set<number>()
 let generation = 0
 let finishPending = false
+let instanceVersion = 0
 let unmountInstance: (() => void) | undefined
 let element: HTMLElement | undefined
 let internalOptions: LoadingBarOptions = {}
@@ -64,9 +65,12 @@ const resetDefaultOptions = () => {
 
 const mount = () => {
   if (!unmountInstance) {
+    const version = ++instanceVersion
     unmountInstance = mountInstance(LoadingBarComponent, ctx, {
       ref: (instance: ComponentPublicInstance | null) => {
-        element = instance?.$el as HTMLElement | undefined
+        if (version === instanceVersion) {
+          element = instance?.$el as HTMLElement | undefined
+        }
       },
     }).unmountInstance
   }
@@ -151,10 +155,12 @@ const finishTask = () => {
           schedule(
             () => {
               ctx.error = false
-              unmountInstance?.()
+              const unmount = unmountInstance
+              instanceVersion += 1
               unmountInstance = undefined
               element = undefined
               finishPending = false
+              unmount?.()
             },
             Math.max(250, transitionTime('opacity')),
             version,

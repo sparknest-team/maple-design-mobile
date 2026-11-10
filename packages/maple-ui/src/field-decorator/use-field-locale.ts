@@ -1,4 +1,4 @@
-import { t as globalTranslate } from '../locale'
+import { fieldGlobalText as globalTranslate } from '../_components/field-presentation/default-texts'
 import { injectLocaleProvider } from '../locale-provider/provide'
 
 // Field controls use the application's global / LocaleProvider locale.

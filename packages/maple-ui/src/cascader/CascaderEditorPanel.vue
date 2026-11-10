@@ -25,9 +25,12 @@
           :key="index"
           :column="column"
           :level="index"
+          :menu-id="menuId(index)"
+          :next-menu-id="!mobile && displayColumns[index + 1]?.length ? menuId(index + 1) : undefined"
           :selected-path="selectedPath"
           :active-key="activeKey"
           :total-level="totalLevel"
+          :displayed-levels="mobile || !displayColumns[index + 1]?.length ? index + 1 : displayColumns.length"
           :multiple="multiple"
           :check-strictly="checkStrictly"
           :virtual-list-props="virtualListProps"
@@ -39,12 +42,12 @@
   </div>
 </template>
 <script setup lang="ts">
-import { inject, ref, watch } from 'vue'
+import { inject, ref, useId, watch } from 'vue'
 import { useFieldTexts } from '../_components/field-presentation/texts'
 import { selectionEditorSurface } from '../_components/selected-options/context'
 import type { VirtualListProps } from '../_components/virtual-list-v2/interface'
 import Empty from '../empty'
-import Loading from '../loading'
+import Loading from '../loading/Loading.vue'
 import { createNamespace } from '../utils/components'
 import CascaderColumn from './cascader-column'
 import type { CascaderOptionInfo } from './types'
@@ -61,6 +64,8 @@ const props = defineProps<{
   virtualListProps?: VirtualListProps
 }>()
 const { n, classes } = createNamespace('cascader-editor-panel')
+const menuBaseId = `cascader-menu-${useId()}`
+const menuId = (index: number) => `${menuBaseId}-${index}`
 const { mobile } = inject(selectionEditorSurface, { mobile: false })
 const texts = useFieldTexts()
 const activeLevel = ref(0)

@@ -1,4 +1,6 @@
 <template>
+  <!-- Keep an inline Teleport inside a fragment for Vue 3.2 hydration. -->
+  <template v-if="false" />
   <teleport :to="popupContainerTarget" :disabled="popupContainer === false || teleportDisabled">
     <div
       v-if="!unmountOnClose || transition.shouldRender.value"
@@ -7,9 +9,9 @@
       ref="dialogRoot"
       :dir="readingDirection"
       :class="classes(n('$--box'), popupN(), n('popup'), [!overlay, popupN('--pointer-events-none')])"
-      :style="{ zIndex: mergedZIndex - 2 }"
+      :style="{ zIndex: mergedZIndex }"
     >
-      <transition :name="overlayAnimationName" appear>
+      <component :is="Transition" :name="overlayAnimationName" :appear="!hydrating">
         <div
           v-if="overlay"
           v-show="mergedOpen"
@@ -19,8 +21,15 @@
           @pointerdown="handleOverlayPointerDown"
           @click="handleOverlayClick"
         />
-      </transition>
-      <transition :name="dialogAnimationName" appear @after-enter="opened" @after-leave="handleClosed">
+      </component>
+      <component
+        :is="Transition"
+        :name="dialogAnimationName"
+        appear
+        persisted
+        @after-enter="opened"
+        @after-leave="handleClosed"
+      >
         <div
           v-show="mergedOpen"
           ref="dialogRef"
@@ -79,7 +88,7 @@
                 mp-dialog-cover
                 @click="handleCancel"
               >
-                {{ cancelButtonText ?? (pt ? pt : t)('dialogCancelButtonText') }}
+                {{ cancelButtonText ?? dialogText('dialogCancelButtonText', defaultDialogCancel) }}
               </mp-button>
               <mp-button
                 v-if="confirmButton"
@@ -93,18 +102,18 @@
                 mp-dialog-cover
                 @click="handleConfirm"
               >
-                {{ confirmButtonText ?? (pt ? pt : t)('dialogConfirmButtonText') }}
+                {{ confirmButtonText ?? dialogText('dialogConfirmButtonText', defaultDialogConfirm) }}
               </mp-button>
             </div>
           </slot>
         </div>
-      </transition>
+      </component>
     </div>
   </teleport>
 </template>
 
 <script lang="ts" setup>
-import { computed, mergeProps, ref, toRef, useSlots, type CSSProperties } from 'vue'
+import { computed, getCurrentInstance, mergeProps, ref, toRef, Transition, useSlots, type CSSProperties } from 'vue'
 import {
   IconCheckboxMarkedCircleFill as MIconCheckboxMarkedCircleFill,
   IconClose as MIconClose,
@@ -116,8 +125,9 @@ import PendingFeedback from '../_components/pending-feedback/PendingFeedback.vue
 import { useDirection } from '../_utils/direction'
 import MpButton from '../button'
 import MpIcon from '../icon'
-import { t } from '../locale'
 import { injectLocaleProvider } from '../locale-provider/provide'
+import { defaultLocaleReady, t } from '../locale/state'
+import { defaultDialogCancel, defaultDialogConfirm } from '../locale/zh-CN'
 import { useThemeScope } from '../theme-provider/context'
 import { createNamespace } from '../utils/components'
 import { toSizeUnit } from '../utils/elements'
@@ -127,6 +137,9 @@ import type { DialogAction } from './types'
 import { useDialog } from './use-dialog'
 import { useDialogDrag } from './use-dialog-drag'
 
+// An existing host node indicates hydration; its visible overlay must not
+// receive appear classes before Vue has checked the server-rendered class.
+const hydrating = !!getCurrentInstance()?.vnode.el
 const themeScope = useThemeScope()
 
 defineOptions({ name: createNamespace('dialog').name, inheritAttrs: false })
@@ -145,6 +158,9 @@ const emit = defineEmits<{
 }>()
 const slots = useSlots()
 const { t: pt } = injectLocaleProvider()
+function dialogText(key: 'dialogCancelButtonText' | 'dialogConfirmButtonText', initial: string) {
+  return (pt ? pt(key) : t(key)) ?? (defaultLocaleReady.value ? undefined : initial)
+}
 const dialogRoot = ref<HTMLElement>()
 const dialogRef = ref<HTMLElement>()
 

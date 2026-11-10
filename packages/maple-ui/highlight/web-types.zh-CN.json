@@ -797,6 +797,10 @@
           ],
           "events": [
             {
+              "name": "keydown",
+              "description": "event: KeyboardEvent"
+            },
+            {
               "name": "update:modelValue",
               "description": "value: string | null"
             },
@@ -1733,7 +1737,7 @@
             },
             {
               "name": "update:floating",
-              "description": "`(value: boolean)`，内置关闭按钮请求关闭时发送 false；展开由父级设置"
+              "description": "`(value: boolean)`，内置关闭按钮或 Escape 请求关闭时发送 false；展开由父级设置"
             }
           ],
           "slots": [
@@ -4322,7 +4326,7 @@
             },
             {
               "name": "z-index",
-              "description": "层级",
+              "description": "最外层层级",
               "default": "自动分配",
               "value": {
                 "type": "`number`",
@@ -9557,7 +9561,7 @@
             },
             {
               "name": "z-index",
-              "description": "自定义层级",
+              "description": "最外层层级",
               "default": "自动分配",
               "value": {
                 "type": "`number`",
@@ -11516,6 +11520,10 @@
             {
               "name": "blur",
               "description": "字段失去焦点"
+            },
+            {
+              "name": "keydown",
+              "description": "字段或编辑器搜索按键；`preventDefault()` 阻止内部键盘处理"
             },
             {
               "name": "clear",
@@ -14638,6 +14646,15 @@
               "default": "false",
               "value": {
                 "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "input-attrs",
+              "description": "按顺序设置起点、终点原生输入属性；单项名称优先于公共名称",
+              "default": "undefined",
+              "value": {
+                "type": "`RangeInputAttributes[]`",
                 "kind": "expression"
               }
             },

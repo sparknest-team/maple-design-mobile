@@ -81,7 +81,24 @@ export const useSelectedPath = (
     return target
   }
 
-  const getNextActiveNode = (direction: 'next' | 'preview') => {
+  const getNextActiveNode = (direction: 'next' | 'preview', focusedKey?: string) => {
+    if (focusedKey) {
+      const origin = optionMap.get(focusedKey)
+      const candidates = showSearchPanel?.value
+        ? filteredLeafOptions.value
+        : (origin?.parent?.children ?? options.value)
+      const index = candidates.findIndex((item) => item.key === focusedKey)
+      if (index >= 0) {
+        const step = direction === 'next' ? 1 : -1
+        for (let offset = 1; offset <= candidates.length; offset++) {
+          const candidate = candidates[(index + step * offset + candidates.length) % candidates.length]
+          if (!candidate.disabled) {
+            return candidate
+          }
+        }
+        return undefined
+      }
+    }
     const _length = enabledOptions.value?.length ?? 0
 
     if (activeKey.value) {

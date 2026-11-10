@@ -101,6 +101,7 @@ let disposed = false
 let autoGeneration = 0
 let bindingGeneration = 0
 let renderGeneration = 0
+let resizeGeneration = 0
 let frameOwner: Window | undefined
 let bindingResize: (() => void) | undefined
 let bindingWheel: ((event: WheelEvent) => void) | undefined
@@ -219,7 +220,6 @@ provide(carouselInjectionKey, {
   },
 })
 function checkVisibility() {
-  hidden = false
   for (let el: HTMLElement | null | undefined = root.value; el; el = el.parentElement) {
     const style = el.ownerDocument.defaultView?.getComputedStyle(el)
     if (
@@ -228,22 +228,48 @@ function checkVisibility() {
       style?.display === 'none' ||
       style?.visibility === 'hidden'
     ) {
-      hidden = true
-      break
+      return true
     }
   }
+  return false
 }
 function resize() {
-  if (!active || !viewportEl.value) {
+  const viewportElement = viewportEl.value
+  const trackElement = track.value
+  const host = root.value
+  if (!active || disposed || !viewportElement) {
     return
   }
-  checkVisibility()
-  viewport.value = vertical.value ? viewportEl.value.clientHeight : viewportEl.value.clientWidth
-  if (track.value) {
-    const style = track.value.ownerDocument.defaultView?.getComputedStyle(track.value)
+  const generation = ++resizeGeneration
+  const valid = () =>
+    active &&
+    !disposed &&
+    generation === resizeGeneration &&
+    viewportEl.value === viewportElement &&
+    track.value === trackElement &&
+    root.value === host
+  const isHidden = checkVisibility()
+  if (!valid()) {
+    return
+  }
+  const size = vertical.value ? viewportElement.clientHeight : viewportElement.clientWidth
+  if (!valid()) {
+    return
+  }
+  hidden = isHidden
+  viewport.value = size
+  if (!valid()) {
+    return
+  }
+  if (trackElement) {
+    const style = trackElement.ownerDocument.defaultView?.getComputedStyle(trackElement)
+    if (!valid()) {
+      return
+    }
     const rawGap = vertical.value ? (style?.rowGap ?? '') : (style?.columnGap ?? '')
+    let gap: number
     if (rawGap.includes('%') || rawGap.includes('calc(')) {
-      const probe = viewportEl.value.ownerDocument.createElement('div')
+      const probe = viewportElement.ownerDocument.createElement('div')
       Object.assign(probe.style, {
         position: 'absolute',
         visibility: 'hidden',
@@ -251,29 +277,45 @@ function resize() {
         width: vertical.value ? '0' : rawGap,
         height: vertical.value ? rawGap : '0',
       })
-      viewportEl.value.appendChild(probe)
+      viewportElement.appendChild(probe)
       try {
-        // Computed dimensions are layout-space CSS pixels; a visual rect includes ancestor transforms.
         const probeStyle = probe.ownerDocument.defaultView?.getComputedStyle(probe)
         const resolved = vertical.value ? probeStyle?.height : probeStyle?.width
-        measuredGap.value = Math.max(0, parseFloat(resolved || '') || 0)
+        gap = Math.max(0, parseFloat(resolved || '') || 0)
       } finally {
         probe.remove()
       }
     } else {
-      measuredGap.value = Math.max(0, parseFloat(rawGap) || 0)
+      gap = Math.max(0, parseFloat(rawGap) || 0)
     }
-    const next = Array.from(track.value.children).map((el) => {
+    if (!valid()) {
+      return
+    }
+    const next: number[] = []
+    for (const el of Array.from(trackElement.children)) {
       const box = el.getBoundingClientRect()
-      return vertical.value
+      if (!valid()) {
+        return
+      }
+      const length = vertical.value
         ? (el as HTMLElement).offsetHeight || box.height
         : (el as HTMLElement).offsetWidth || box.width
-    })
+      if (!valid()) {
+        return
+      }
+      next.push(length)
+    }
+    measuredGap.value = gap
+    if (!valid()) {
+      return
+    }
     if (JSON.stringify(next) !== JSON.stringify(measured.value)) {
       measured.value = next
     }
   }
-  schedule()
+  if (valid()) {
+    schedule()
+  }
 }
 function editable(target: EventTarget | null) {
   return !!(target as Element | null)?.closest?.(
@@ -454,6 +496,7 @@ function cancelMotion() {
   frameOwner = undefined
 }
 function detach() {
+  resizeGeneration++
   active = false
   bindingGeneration++
   renderGeneration++

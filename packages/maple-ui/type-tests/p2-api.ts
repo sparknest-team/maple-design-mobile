@@ -22,6 +22,7 @@ import type {
   SelectSlots,
 } from '@maple-design/ui'
 import { PeopleSelect } from '@maple-design/ui'
+import type { SelectEmits as SelectEntryEmits } from '@maple-design/ui/select'
 
 const search: AutoCompleteEmits['search'] = ['apple', new Event('input')]
 const clear: SelectEmits['change'] = [undefined]
@@ -91,3 +92,23 @@ const nullableSlider: NullableSliderProps = { modelValue: null, emptyValue: null
 // @ts-expect-error Candidate loading is an options function; there is no standalone request prop.
 const separateRequest: SelectProps = { request: async () => [] }
 void [nullableInput, nullableSelect, nullableSwitch, nullableCheckbox, nullableUpload, nullableSlider, separateRequest]
+
+const selectKeyboard: SelectEmits['keydown'] = [new KeyboardEvent('keydown')]
+const selectEntryKeyboard: SelectEntryEmits['keydown'] = selectKeyboard
+// @ts-expect-error Keydown listeners receive a KeyboardEvent, not a key string.
+const invalidSelectKeyboard: SelectEmits['keydown'] = ['Enter']
+void [selectKeyboard, selectEntryKeyboard, invalidSelectKeyboard]
+
+const cascaderKeyboard: import('@maple-design/ui/cascader').CascaderEmits['keydown'] = [new KeyboardEvent('keydown')]
+// @ts-expect-error keydown emits the original keyboard event
+const invalidCascaderKeyboard: import('@maple-design/ui/cascader').CascaderEmits['keydown'] = ['Enter']
+void [cascaderKeyboard, invalidCascaderKeyboard]
+const cascaderRootKeyboard: import('@maple-design/ui').CascaderEmits['keydown'] = [new KeyboardEvent('keydown')]
+void cascaderRootKeyboard
+const autoCompleteKeyboard: import('@maple-design/ui/auto-complete').AutoCompleteEmits['keydown'] = [
+  new KeyboardEvent('keydown'),
+]
+const autoCompleteRootKeyboard: import('@maple-design/ui').AutoCompleteEmits['keydown'] = [new KeyboardEvent('keydown')]
+// @ts-expect-error keydown emits the original keyboard event
+const invalidAutoCompleteKeyboard: import('@maple-design/ui').AutoCompleteEmits['keydown'] = ['ArrowDown']
+void [autoCompleteKeyboard, autoCompleteRootKeyboard, invalidAutoCompleteKeyboard]

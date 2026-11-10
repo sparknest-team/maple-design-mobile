@@ -126,7 +126,7 @@ Popup 的 close()/requestClose() 和外部 open=false 会经过守卫；两端 D
 | `safe-area-inset-top` | 是否适配顶部安全区 | `boolean` | `false` |
 | `safe-area-inset-right` | 是否适配右侧安全区 | `boolean` | `false` |
 | `safe-area-inset-left` | 是否适配左侧安全区 | `boolean` | `false` |
-| `z-index` | 自定义层级 | `number` | 自动分配 |
+| `z-index` | 最外层层级 | `number` | 自动分配 |
 
 ### Popup Events
 

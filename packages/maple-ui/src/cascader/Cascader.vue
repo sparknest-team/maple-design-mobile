@@ -5,6 +5,7 @@
         ref="fieldRef"
         :loading-mode="loadingMode"
         :open-trigger-target="openTriggerTarget"
+        :open-trigger-tab-index="searchListMode ? -1 : undefined"
         :show-tags="showTags"
         :separator="separator"
         :text-align="textAlign"
@@ -28,13 +29,16 @@
         :loading="loading"
         :max-tag-count="maxTagCount"
         :tag-nowrap="tagNowrap"
+        :aria-controls="searchListVisible && allowAutomaticOwnership ? searchListId : undefined"
+        :aria-haspopup="searchListVisible ? 'listbox' : undefined"
+        :aria-activedescendant="searchActiveId"
         v-bind="$attrs"
         @update:input-value="handleInputValueChange"
         @clear="handleClear"
         @focus="handleFocus"
         @blur="handleBlur"
         @remove="handleRemove"
-        @keydown="handleKeyDown"
+        @keydown="handleFieldKeydown"
       >
         <template v-if="$slots.label" #label="data">
           <slot name="label" v-bind="data" />
@@ -56,7 +60,11 @@
         </template>
       </SelectionField>
     </template>
-    <CascaderMenu :controller="controller">
+    <CascaderMenu
+      :controller="controller"
+      :keyboard-handler="handleFieldKeydown"
+      :listbox-id="searchListMode ? searchListId : undefined"
+    >
       <template v-for="(_, slotName) in $slots" #[slotName]="scope"
         ><slot :name="slotName" v-bind="scope || {}"
       /></template>
@@ -64,7 +72,7 @@
   </component>
 </template>
 <script setup lang="ts">
-import { reactive, ref, toRefs, useSlots } from 'vue'
+import { computed, nextTick, reactive, ref, toRefs, useAttrs, useId, useSlots } from 'vue'
 import SelectionField from '../_components/selection-field/SelectionField.vue'
 import { createNamespace } from '../utils/components'
 import CascaderMenu from './CascaderMenu.vue'
@@ -88,6 +96,9 @@ const {
   mergedVariant,
   mergedHint,
   computedOpen,
+  showSearchPanel,
+  filteredLeafOptions,
+  activeKey,
   handleInputValueChange,
   handleClear,
   handleFocus,
@@ -95,6 +106,50 @@ const {
   handleRemove,
   handleKeyDown,
 } = toRefs(controller)
+const attrs = useAttrs()
+const searchListId = `cascader-search-list-${useId()}`
+const searchListMode = computed(() => !props.multiple && showSearchPanel.value)
+const searchListVisible = computed(() => searchListMode.value && computedOpen.value)
+const allowAutomaticOwnership = computed(() => attrs['aria-haspopup'] == null || attrs['aria-haspopup'] === 'listbox')
+const searchActiveId = computed(() => {
+  if (!searchListVisible.value || loading.value) {
+    return undefined
+  }
+  if (Object.prototype.hasOwnProperty.call(attrs, 'aria-controls') && attrs['aria-controls'] !== searchListId) {
+    return undefined
+  }
+  if (!allowAutomaticOwnership.value) {
+    return undefined
+  }
+  const index = filteredLeafOptions.value.findIndex((item) => item.key === activeKey.value && !item.disabled)
+  return index < 0 ? undefined : `${searchListId}-option-${index}`
+})
+const handleFieldKeydown = (event: KeyboardEvent) => {
+  emit('keydown', event)
+  if (!event.defaultPrevented) {
+    const target = event.target as HTMLElement | null
+    const restore =
+      event.key === 'Escape' &&
+      !event.isComposing &&
+      event.keyCode !== 229 &&
+      computedOpen.value &&
+      target?.matches('[data-cascader-key]') &&
+      target.ownerDocument.activeElement === target
+    const task = handleKeyDown.value(event)
+    if (restore && target) {
+      nextTick(() => {
+        const active = target.ownerDocument.activeElement
+        if (
+          !computedOpen.value &&
+          (active === target || (!target.isConnected && active === target.ownerDocument.body))
+        ) {
+          fieldRef.value?.focus()
+        }
+      })
+    }
+    return task
+  }
+}
 const fieldRef = ref<InstanceType<typeof SelectionField>>()
 defineExpose({ refresh: controller.refresh, focus: () => fieldRef.value?.focus(), blur: () => fieldRef.value?.blur() })
 </script>

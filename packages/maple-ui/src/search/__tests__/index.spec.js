@@ -4,8 +4,6 @@ import { afterEach, describe, expect, test } from 'vitest'
 import Search from '..'
 import MpSearch from '../Search'
 
-enableAutoUnmount(afterEach)
-
 function nextFrame() {
   return new Promise((resolve) => requestAnimationFrame(resolve))
 }
@@ -13,6 +11,8 @@ function nextFrame() {
 afterEach(() => {
   document.body.innerHTML = ''
 })
+// Vitest runs cleanup hooks in reverse order; unmount before clearing Teleport anchors.
+enableAutoUnmount(afterEach)
 
 describe('Search', () => {
   test('installs as a plugin', () => {

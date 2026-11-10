@@ -81,6 +81,7 @@ const SelectMenu: DefineComponent<SelectMenuProps> = defineComponent({
         <>
           {controller.props.virtualListProps && <div hidden>{slots.default?.()}</div>}
           <SelectDropdown
+            onUserInteraction={controller.cancelPendingInitialScroll}
             listboxId={controller.listboxId}
             multiple={controller.props.multiple}
             ref={(el) => {
@@ -91,6 +92,8 @@ const SelectMenu: DefineComponent<SelectMenuProps> = defineComponent({
               'virtual-list': () => (
                 <VirtualList
                   {...controller.props.virtualListProps}
+                  onScroll={controller.handleDropdownScroll}
+                  onReach-bottom={controller.handleDropdownReachBottom}
                   ref={(el) => {
                     controller.virtualListRef = el
                   }}

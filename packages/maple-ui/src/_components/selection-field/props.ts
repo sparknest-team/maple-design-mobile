@@ -14,6 +14,7 @@ export interface SelectionFieldItem {
 
 export const selectionFieldProps = {
   openTriggerTarget: openTriggerTargetProp,
+  openTriggerTabIndex: Number,
   ...fieldDecoratorProps,
   items: { type: Array as PropType<SelectionFieldItem[]>, default: () => [] },
   multiple: Boolean,

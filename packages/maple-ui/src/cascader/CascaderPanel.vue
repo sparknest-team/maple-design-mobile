@@ -16,15 +16,17 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, nextTick, PropType, provide, reactive, ref, toRefs, watch } from 'vue'
+import { computed, defineComponent, PropType, provide, reactive, ref, toRefs, watch } from 'vue'
 import { isNull, isUndefined } from '../_utils/is'
 import { getKeyDownHandler, KEYBOARD_KEY } from '../_utils/keyboard'
 import { BaseType, Data, UnionType } from '../_utils/types'
-import { createNamespace } from '../utils/components'
+import { createNamespace, getPrefixCls } from '../utils/components'
 import BaseCascaderPanel from './base-cascader-panel'
 import { cascaderInjectionKey } from './context'
 import { useSelectedPath } from './hooks/use-selected-path'
 import { CascaderBaseValue, CascaderFieldNames, CascaderOption, CascaderOptionInfo } from './types'
+import { useCascaderFocus } from './use-cascader-focus'
+import { startKeyboardLazy } from './use-keyboard-lazy'
 import { useLazyOptions } from './use-lazy-options'
 import {
   getCheckedStatus,
@@ -285,7 +287,11 @@ export default defineComponent({
     }
 
     const handleClickOption = (option: CascaderOptionInfo, checked?: boolean) => {
-      if (option.disabled || (!props.multiple && !props.checkStrictly && !option.isLeaf)) {
+      if (
+        option.disabled ||
+        (props.multiple && option.selectionDisabled) ||
+        (!props.multiple && !props.checkStrictly && !option.isLeaf)
+      ) {
         return
       }
       if (props.multiple) {
@@ -332,34 +338,45 @@ export default defineComponent({
         setActiveKey,
         setSelectedPath,
         expandOption,
+        isOptionLoading: loadLazyOption.isPending,
         slots,
         valueMap: computedValueMap,
         expandTrigger,
       }),
     )
 
+    const activateKeyDown = () => {
+      if (activeOption.value) {
+        let checked: boolean
+        if (props.checkStrictly || activeOption.value.isLeaf) {
+          checked = !computedValueMap.value.has(activeOption.value.key)
+        } else {
+          checked = !getCheckedStatus(activeOption.value, computedValueMap.value).checked
+        }
+        setSelectedPath(activeOption.value.key)
+        handleClickOption(activeOption.value, checked)
+      }
+    }
+
     const dispatchKeyDown = getKeyDownHandler(
       new Map([
+        [KEYBOARD_KEY.ENTER, activateKeyDown],
         [
-          KEYBOARD_KEY.ENTER,
+          KEYBOARD_KEY.SPACE,
           (ev: Event) => {
-            if (activeOption.value) {
-              let checked: boolean
-              if (props.checkStrictly || activeOption.value.isLeaf) {
-                checked = !computedValueMap.value.has(activeOption.value.key)
-              } else {
-                checked = !getCheckedStatus(activeOption.value, computedValueMap.value).checked
-              }
-              setSelectedPath(activeOption.value.key)
-              handleClickOption(activeOption.value, checked)
-            }
+            ev.preventDefault()
+            activateKeyDown()
           },
         ],
         [
           KEYBOARD_KEY.ARROW_DOWN,
           (ev: Event) => {
             ev.preventDefault()
-            const activeNode = getNextActiveNode('next')
+            const activeNode = getNextActiveNode(
+              'next',
+              (ev.target as Element | null)?.closest?.('[data-cascader-key]')?.getAttribute('data-cascader-key') ??
+                undefined,
+            )
             setActiveKey(activeNode?.key)
           },
         ],
@@ -367,7 +384,11 @@ export default defineComponent({
           KEYBOARD_KEY.ARROW_UP,
           (ev: Event) => {
             ev.preventDefault()
-            const activeNode = getNextActiveNode('preview')
+            const activeNode = getNextActiveNode(
+              'preview',
+              (ev.target as Element | null)?.closest?.('[data-cascader-key]')?.getAttribute('data-cascader-key') ??
+                undefined,
+            )
             setActiveKey(activeNode?.key)
           },
         ],
@@ -377,31 +398,52 @@ export default defineComponent({
     )
 
     const panelRef = ref<{ $el: HTMLElement }>()
+    const focusOption = useCascaderFocus(activeKey)
     const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.defaultPrevented || event.isComposing || event.keyCode === 229) {
+        return
+      }
       const target = event.target as Element | null
-      const option = target?.closest?.('[role="menuitem"]')
+      const option = target?.closest?.('[role="menuitem"], [role="menuitemradio"], [role="option"][data-cascader-key]')
+      if (event.key === ' ' && !option) {
+        return
+      }
+      const panelSelector = `.${getPrefixCls('cascader')}-panel, .${getPrefixCls('cascader')}-editor-panel`
+      const originPanel = option?.closest(panelSelector)
+      if (option && originPanel !== event.currentTarget) {
+        return
+      }
       // Nested inputs and buttons own their own keyboard interaction.
+      if (
+        option?.getAttribute('aria-disabled') === 'true' &&
+        ['Enter', ' ', 'ArrowLeft', 'ArrowRight'].includes(event.key)
+      ) {
+        event.preventDefault()
+        return
+      }
       if (option && target !== option) {
         return
       }
+      const root = panelRef.value?.$el
+      const lazyTask = startKeyboardLazy(
+        event,
+        activeOption.value,
+        Boolean(props.loadMore),
+        false,
+        expandOption,
+        (key) => activeKey.value === key && selectedPath.value.includes(key),
+        navigateLevel,
+        () => {
+          if (root && option) {
+            focusOption(root, option, originPanel, panelSelector)
+          }
+        },
+      )
       dispatchKeyDown(event)
-      if (!option || !['ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight'].includes(event.key)) {
-        return
+      if (option && ['ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight'].includes(event.key) && root) {
+        focusOption(root, option, originPanel, panelSelector)
       }
-      const key = activeKey.value
-      if (!key) {
-        return
-      }
-      nextTick(() => {
-        const root = panelRef.value?.$el
-        if (!root || root.ownerDocument.activeElement !== option || activeKey.value !== key) {
-          return
-        }
-        const next = Array.from(root.querySelectorAll<HTMLElement>('[data-cascader-key]')).find(
-          (element) => element.dataset.cascaderKey === key,
-        )
-        next?.focus()
-      })
+      return lazyTask
     }
 
     return {

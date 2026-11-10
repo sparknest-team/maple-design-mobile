@@ -1,5 +1,6 @@
 import { mount } from '@vue/test-utils'
 import { afterEach, expect, test, vi } from 'vitest'
+import Button from '../../button'
 import PauseDemo from '../example/demos/pausable.vue'
 import NoticeBar from '../NoticeBar.vue'
 
@@ -76,7 +77,7 @@ test('invalid speeds fall back to one pixel per second and nonfinite delay to ze
 })
 
 test('pause demo lets a reader pause and resume the notice', async () => {
-  const owner = mount(PauseDemo, { global: { components: { MpNoticeBar: NoticeBar } } })
+  const owner = mount(PauseDemo, { global: { components: { MpNoticeBar: NoticeBar, MpButton: Button } } })
   try {
     const button = owner.get('button')
     expect(button.attributes('aria-pressed')).toBe('false')

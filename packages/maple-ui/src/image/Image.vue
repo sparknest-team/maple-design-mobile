@@ -190,14 +190,11 @@ export default defineComponent({
       }
     })
     function handlePreviewKeydown(event: KeyboardEvent) {
-      if (
-        !canPreview.value ||
-        event.defaultPrevented ||
-        event.isComposing ||
-        event.altKey ||
-        event.ctrlKey ||
-        event.metaKey
-      ) {
+      if (event.isComposing || event.keyCode === 229) {
+        cancelPreviewKey()
+        return
+      }
+      if (!canPreview.value || event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey) {
         return
       }
       if (event.key === 'Enter' && !event.repeat) {
@@ -215,7 +212,7 @@ export default defineComponent({
         return
       }
       spacePressed = false
-      if (event.defaultPrevented || event.isComposing) {
+      if (event.defaultPrevented || event.isComposing || event.keyCode === 229) {
         return
       }
       event.preventDefault()

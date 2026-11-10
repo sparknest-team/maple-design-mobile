@@ -17,6 +17,7 @@ export const cascaderFieldAdapter: FieldPresentationAdapter = {
         'onUpdate:modelValue': update,
         'onUpdate:inputValue': (query: string) => emit('update:inputValue', query),
         onSearch: (query: string) => emit('search', query),
+        onKeydown: (event: KeyboardEvent) => emit('keydown', event),
         onInputValueChange: (query: string) => emit('input-value-change', query),
       },
       slots,

@@ -21,7 +21,8 @@
     /></slot>
     <Popup
       v-if="editMode === 'popup'"
-      :aria-label="label || placeholder"
+      :aria-label="dialogLabel"
+      :aria-labelledby="typeof $attrs['aria-labelledby'] === 'string' ? $attrs['aria-labelledby'] : undefined"
       :open="open"
       :popup-container="popupContainer"
       placement="bottom"
@@ -51,6 +52,7 @@ import PendingFeedback from '../pending-feedback/PendingFeedback.vue'
 import type { FieldEditMode } from './context'
 import EditorPanel from './EditorPanel.vue'
 import FieldReference from './FieldReference.vue'
+import { useFieldTexts } from './texts'
 
 defineOptions({ name: createNamespace('field-presentation').name, inheritAttrs: false })
 const props = defineProps<{
@@ -89,6 +91,12 @@ function confirm(event?: Event) {
   return props.commit ? props.commit(event) : emit('confirm', event)
 }
 const { n } = createNamespace('field-presentation')
+const texts = useFieldTexts()
+const dialogLabel = computed(() =>
+  [props.label, props.placeholder, props.intent === 'input' ? texts.input.value : texts.select.value, 'Edit'].find(
+    (value) => typeof value === 'string' && value.trim(),
+  ),
+)
 const reference = ref<InstanceType<typeof FieldReference>>()
 const panel = ref<InstanceType<typeof EditorPanel>>()
 let active = true

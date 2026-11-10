@@ -140,7 +140,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, useId, watch, type PropType } from 'vue'
+import { computed, defineComponent, ref, shallowRef, useId, watch, type PropType } from 'vue'
 import dayjs from 'dayjs'
 import { mergePickerFields, pickerFieldIndexes, timeFields } from '../../_components/picker-field/fields'
 import { useRangeDisabledParts, useRangeFieldIndex } from '../../_components/picker-field/mobile-range-field-context'
@@ -174,6 +174,7 @@ import { dateRangeCalendarOptions } from '../calendar-options'
 import { props } from '../presentation-props'
 
 const { name, n, classes } = createNamespace('date-range-picker')
+type CalendarSummary = Pick<InstanceType<typeof CalendarContent>, 'showDateSummary'>
 export default defineComponent({
   name,
   components: { MpPicker, CalendarContent, CalendarViewport, TemporalCurrent, DateRangeQuickPanel },
@@ -202,7 +203,7 @@ export default defineComponent({
         }
       },
     )
-    const calendar = ref<InstanceType<typeof CalendarContent>>()
+    const calendar = shallowRef<CalendarSummary>()
     const summaryId = useId()
     const resolvedPresentation = computed(() => (props.presentation === 'picker' ? 'picker' : 'calendar'))
     const fallbackValue = () => (props.showTime ? defaultDateTime(true) : defaultDate(props.type))

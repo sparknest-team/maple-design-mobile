@@ -1,4 +1,4 @@
-import { h } from 'vue'
+import { h, normalizeStyle, type StyleValue } from 'vue'
 import { defaultSelectionPresentation } from '../_components/field-presentation/context'
 import { withFieldPresentation } from '../_components/field-presentation/with-field-presentation'
 import SelectionEditor from '../_components/selected-options/SelectionEditor.vue'
@@ -8,18 +8,25 @@ export default withFieldPresentation(Base, {
   methods: ['focus', 'blur', 'refresh'],
   defaultPresentation: defaultSelectionPresentation,
   intent: 'input',
-  editor: ({ props, attrs, value, update, emit, slots, disabled, readonly }) =>
-    h(SelectionEditor, { kind: 'auto-complete' }, () =>
+  editor: ({ props, attrs, value, update, emit, slots, disabled, readonly }) => {
+    // Preserve token overrides without copying field layout into the popup.
+    const style = Object.fromEntries(
+      Object.entries(normalizeStyle([attrs.style as StyleValue]) ?? {}).filter(([key]) => key.startsWith('--')),
+    )
+    const editorAttrs: Record<string, unknown> = { ...attrs, style }
+    delete editorAttrs.class
+    return h(SelectionEditor, { kind: 'auto-complete' }, () =>
       h(
         Base,
         {
-          ...attrs,
+          ...editorAttrs,
           ...props,
           modelValue: value,
           editMode: 'direct',
           disabled,
           readonly,
           'onUpdate:modelValue': update,
+          onKeydown: (event: KeyboardEvent) => emit('keydown', event),
           onSearch: (...args: any[]) => emit('search', ...args),
           onInput: (...args: any[]) => emit('input', ...args),
           onSelect: (...args: any[]) => emit('select', ...args),
@@ -31,5 +38,6 @@ export default withFieldPresentation(Base, {
         },
         slots,
       ),
-    ),
+    )
+  },
 })

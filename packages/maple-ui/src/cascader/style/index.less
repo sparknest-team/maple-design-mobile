@@ -249,3 +249,11 @@
 .mp-cascader-option-expand-icon:dir(rtl) {
   transform: rotate(180deg);
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .mp-cascader-option-active,
+  .mp-cascader-slide-enter-active,
+  .mp-cascader-slide-leave-active {
+    transition: none;
+  }
+}

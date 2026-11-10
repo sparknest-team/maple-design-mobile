@@ -285,6 +285,7 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 
 | Event | Arguments |
 | --- | --- |
+| keydown | event: KeyboardEvent |
 | update:modelValue | value: string \| null |
 | input | value: string, event: Event |
 | search | value: string, event: Event |
@@ -295,6 +296,9 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 | dropdown-scroll / dropdown-reach-bottom | event: Event |
 | load-error | error: unknown |
 | update:open / open-change | open: boolean |
+
+`keydown` notifies before the internal keyboard action; call `preventDefault()` to suppress it.
+When suggestions are embedded in the editor, Escape closes the editor. When suggestions are a separate popup, Escape closes that popup first.
 
 Typing: `input → update:modelValue → search`; selection: `update:modelValue → select → change`; clear: `clear → input → update:modelValue → change`. Selecting the same value emits only select. change is a commit on blur, Enter or selection. Input owns typing/focus/clear Form notifications; AutoComplete notifies Form once for suggestion commits. Selection applies maxLength; select.value is the committed string, while option.value retains the original suggestion. clear receives an event, not a string.
 
@@ -321,7 +325,7 @@ default does not replace the input. option customizes candidates, read customize
 | blur | - | void |
 | refresh | - | `Promise<void>` |
 
-Arrow keys reopen after Escape: ArrowDown activates the first enabled candidate and ArrowUp the last, without submitting a model; Enter selects. Composition, canceled keyboard events, readonly/disabled and should-open remain respected. Tab retains native focus navigation. Vue useId keeps SSR identifiers stable.
+Arrow keys reopen after Escape: ArrowDown activates the first enabled candidate and ArrowUp the last, without submitting a model; Enter selects. Composition, canceled keyboard events, readonly/disabled and should-open remain respected. Tab retains native focus navigation. Vue useId keeps SSR identifiers stable. The input references the listbox through aria-controls while suggestions are open; the reference is removed when closed. When virtualization unmounts the active option, its active-descendant reference is removed until it mounts again.
 
 ## Types
 

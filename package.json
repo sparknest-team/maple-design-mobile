@@ -45,7 +45,7 @@
     "check:ripple": "node checks/ripple-same-source.mjs",
     "check:lightweight-feedback": "node checks/lightweight-feedback-same-source.mjs",
     "check:input": "node checks/input-same-source.mjs",
-    "check:selection-field": "node checks/selection-field-same-source.mjs",
+    "check:selection-field": "node --test ../design-ui/bin/selection-field-class-normalization.test.mjs && node checks/selection-field-same-source.mjs",
     "check:selection-presentations": "node checks/selection-presentations-same-source.mjs",
     "check:auto-complete": "node checks/auto-complete-same-source.mjs",
     "check:time-rules": "node checks/time-rules-same-source.mjs",

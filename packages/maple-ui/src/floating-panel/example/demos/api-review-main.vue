@@ -53,21 +53,21 @@ const styleVars = ref({
             >
               <template v-if="__apiReview.slotEnabled['header'] !== false" #header>
                 <div class="panel-height-controls">
-                  <button
-                    type="button"
+                  <mp-button
+                    html-type="button"
                     :disabled="anchor === 80"
                     @click="anchor = anchors[Math.max(0, anchors.indexOf(anchor) - 1)]"
                   >
                     收起
-                  </button>
+                  </mp-button>
                   <span aria-live="polite">{{ anchor }} px</span>
-                  <button
-                    type="button"
+                  <mp-button
+                    html-type="button"
                     :disabled="anchor === 320"
                     @click="anchor = anchors[Math.min(anchors.length - 1, anchors.indexOf(anchor) + 1)]"
                   >
                     展开
-                  </button>
+                  </mp-button>
                 </div>
               </template>
               <div style="text-align: center; padding: 5px 15px">

@@ -99,7 +99,7 @@ test('popup zIndex', async () => {
   })
 
   await wrapper.setData({ open: true })
-  expect(wrapper.find('.mp-popup').attributes('style')).toContain('z-index: 38')
+  expect(wrapper.find('.mp-popup').attributes('style')).toContain('z-index: 40')
   expect(wrapper.find('.mp-popup__overlay').attributes('style')).toContain('z-index: 39')
   expect(wrapper.find('.mp-popup__content').attributes('style')).toContain('z-index: 40')
 

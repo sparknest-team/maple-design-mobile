@@ -62,7 +62,7 @@
         :aria-valuemax="Number.isFinite(bounds.max) ? bounds.max : undefined"
         :aria-valuenow="number ?? undefined"
         :aria-valuetext="text || undefined"
-        :aria-invalid="mergedError || nativeAttrs['aria-invalid'] || undefined"
+        :aria-invalid="mergedError ? true : nativeAttrs['aria-invalid']"
         :aria-describedby="describeError(nativeAttrs['aria-describedby'])"
         :inputmode="nativeAttrs.inputmode ?? 'decimal'"
         @input="handleInput"

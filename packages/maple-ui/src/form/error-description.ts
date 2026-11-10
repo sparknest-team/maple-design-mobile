@@ -4,10 +4,11 @@ const errorDescriptionKey: InjectionKey<ComputedRef<string | undefined>> = Symbo
 
 export function provideFormErrorDescription(visible: () => boolean, noStyle: () => boolean) {
   const parent = inject(errorDescriptionKey, undefined)
-  const id = `mp-form-error-${useId()}`
+  const uniqueId = useId()
+  const id = `mp-form-error-${uniqueId}`
   const current = computed(() => (noStyle() ? parent?.value : visible() ? id : undefined))
   provide(errorDescriptionKey, current)
-  return current
+  return { current, labelId: `mp-form-label-${uniqueId}` }
 }
 
 export function provideFormErrorDescriptionBoundary() {

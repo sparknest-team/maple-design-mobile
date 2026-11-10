@@ -25,7 +25,7 @@ const items = ref(['A', 'B', 'C'])
       <template v-for="item in items" :key="item">
         <label class="space-split-field">
           <span>Item {{ item }}</span>
-          <input :aria-label="'Draft ' + item" placeholder="草稿 / Draft" />
+          <mp-input edit-mode="direct" :aria-label="'Draft ' + item" placeholder="草稿 / Draft" />
         </label>
       </template>
       <template #split><span aria-hidden="true">/</span></template>
@@ -40,7 +40,7 @@ const items = ref(['A', 'B', 'C'])
   gap: 4px;
   width: 110px;
 }
-.space-split-field input {
+.space-split-field :deep(input) {
   min-width: 0;
   width: 100%;
   box-sizing: border-box;

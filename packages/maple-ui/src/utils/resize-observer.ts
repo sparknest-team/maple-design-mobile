@@ -11,6 +11,8 @@ export function useElementResize(
   let suspended = false
   let observer: ResizeObserver | undefined
   let view: Window | null | undefined
+  let boundViewport: VisualViewport | null | undefined
+  let onResize: (() => void) | undefined
   let frame: number | undefined
   let observed: Element[] = []
   const currentTargets = () => [...new Set(targets().filter((element): element is Element => !!element))]
@@ -39,16 +41,19 @@ export function useElementResize(
       }
     })
   }
-  const onResize = () => schedule()
   const clear = () => {
     bindingGeneration++
     frameGeneration++
     observer?.disconnect()
     observer = undefined
     observed = []
-    view?.removeEventListener('resize', onResize)
-    view?.visualViewport?.removeEventListener('resize', onResize)
-    view?.visualViewport?.removeEventListener('scroll', onResize)
+    if (onResize) {
+      view?.removeEventListener('resize', onResize)
+      boundViewport?.removeEventListener('resize', onResize)
+      boundViewport?.removeEventListener('scroll', onResize)
+    }
+    onResize = undefined
+    boundViewport = undefined
     if (frame !== undefined) {
       view?.cancelAnimationFrame(frame)
     }
@@ -65,16 +70,18 @@ export function useElementResize(
     observed = elements
     view = elements[0]?.ownerDocument.defaultView
     const Observer = (view as (Window & { ResizeObserver?: typeof ResizeObserver }) | undefined)?.ResizeObserver
+    const binding = bindingGeneration
+    onResize = () => schedule([], binding)
+    boundViewport = view?.visualViewport
     if (Observer) {
-      const binding = bindingGeneration
       observer = new Observer((entries) => schedule(entries, binding))
       for (const element of elements) {
         observer.observe(element, { box: 'border-box' })
       }
     }
     view?.addEventListener('resize', onResize, { passive: true })
-    view?.visualViewport?.addEventListener('resize', onResize, { passive: true })
-    view?.visualViewport?.addEventListener('scroll', onResize, { passive: true })
+    boundViewport?.addEventListener('resize', onResize, { passive: true })
+    boundViewport?.addEventListener('scroll', onResize, { passive: true })
     if (immediate) {
       schedule()
     }

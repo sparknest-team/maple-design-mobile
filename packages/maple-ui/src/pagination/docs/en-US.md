@@ -217,7 +217,7 @@ import type { PaginationProps, PaginationInstance, PaginationPageSizeProps } fro
 
 ## Behavior
 
-Containers at or below `compact-breakpoint` automatically use compact mode, consistently in desktop sidebars and mobile. Totals/page-size selectors remain; auxiliary controls wrap. Previous/next sizes follow size without forced narrow-screen enlargement (formerly 36px). `responsive=false` retains full page numbers; extremely narrow page lists scroll internally without widening the page.
+Containers at or below `compact-breakpoint` automatically use compact mode, consistently in desktop sidebars and mobile. Totals/page-size selectors remain; auxiliary controls wrap. Previous and next buttons follow the configured size. `responsive=false` retains full page numbers; extremely narrow page lists scroll internally without widening the page.
 
 The compact current-page input also serves as the jumper, so no duplicate jumper appears. `page-item`, `page-item-ellipsis`, `jumper-prepend` and `jumper-append` render only in their full-mode controls.
 

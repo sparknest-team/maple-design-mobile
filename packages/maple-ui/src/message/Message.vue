@@ -1,57 +1,68 @@
 <template>
+  <!-- Keep an inline Teleport inside a fragment for Vue 3.2 hydration. -->
+  <template v-if="false" />
   <Teleport :to="popupTarget" :disabled="popupContainer === false">
-    <Transition :name="`${n()}-fade`" appear @after-enter="emit('opened')" @after-leave="emit('closed')">
-      <div
-        v-if="open"
-        v-bind="themeScope"
-        :dir="readingDirection"
-        :class="[n(), { [n('standalone')]: popupContainer !== false }, n(`standalone-${position}`)]"
-        @mouseenter="pause"
-        @mouseleave="resume"
+    <template v-if="true">
+      <component
+        :is="Transition"
+        :name="`${n()}-fade`"
+        :appear="!hydrating"
+        @after-enter="emit('opened')"
+        @after-leave="emit('closed')"
       >
         <div
-          v-bind="regionAttrs()"
-          role="alert"
-          :class="[
-            n('wrapper'),
-            n(`--variant-${variant}`),
-            n(`wrapper-${status}`),
-            { [n('wrapper--closable')]: closable },
-          ]"
+          v-if="open"
+          v-bind="themeScope"
+          :dir="readingDirection"
+          :class="[n(), { [n('standalone')]: popupContainer !== false }, n(`standalone-${position}`)]"
+          @mouseenter="pause"
+          @mouseleave="resume"
         >
-          <span v-if="showIcon && (status !== 'default' || $slots.icon || icon)" :class="n('icon')">
-            <slot name="icon">
-              <dynamic-content v-if="icon" :value="icon" />
-              <m-icon-info-circle-fill v-else-if="status === 'info'" />
-              <m-icon-checkbox-marked-circle-fill v-else-if="status === 'success'" />
-              <m-icon-warning v-else-if="status === 'warning'" />
-              <m-icon-error v-else-if="status === 'danger'" />
-              <m-icon-loading v-else-if="status === 'loading'" />
-            </slot>
-          </span>
-          <span :class="n('content')"
-            ><slot><dynamic-content :value="content" /></slot
-          ></span>
-          <span v-if="$slots.action || action" :class="n('action')"
-            ><slot name="action"><dynamic-content :value="action" /></slot
-          ></span>
-          <button
-            v-if="closable"
-            type="button"
-            :aria-label="closeButtonAriaLabel"
-            :class="n('close')"
-            @click="requestClose"
+          <div
+            v-bind="regionAttrs()"
+            role="alert"
+            :class="[
+              n('wrapper'),
+              n(`--variant-${variant}`),
+              n(`wrapper-${status}`),
+              { [n('wrapper--closable')]: closable },
+            ]"
           >
-            <m-icon-close />
-          </button>
+            <span v-if="showIcon && (status !== 'default' || $slots.icon || icon)" :class="n('icon')">
+              <slot name="icon">
+                <dynamic-content v-if="icon" :value="icon" />
+                <m-icon-info-circle-fill v-else-if="status === 'info'" />
+                <m-icon-checkbox-marked-circle-fill v-else-if="status === 'success'" />
+                <m-icon-warning v-else-if="status === 'warning'" />
+                <m-icon-error v-else-if="status === 'danger'" />
+                <m-icon-loading v-else-if="status === 'loading'" />
+              </slot>
+            </span>
+            <span :class="n('content')"
+              ><slot><dynamic-content :value="content" /></slot
+            ></span>
+            <span v-if="$slots.action || action" :class="n('action')"
+              ><slot name="action"><dynamic-content :value="action" /></slot
+            ></span>
+            <button
+              v-if="closable"
+              type="button"
+              :aria-label="closeButtonAriaLabel"
+              :class="n('close')"
+              @click="requestClose"
+            >
+              <m-icon-close />
+            </button>
+          </div>
         </div>
-      </div>
-    </Transition>
+      </component>
+      <template v-if="false" />
+    </template>
   </Teleport>
 </template>
 
 <script setup lang="ts">
-import { defineComponent, onMounted, useAttrs, watch, type PropType } from 'vue'
+import { defineComponent, getCurrentInstance, onMounted, Transition, useAttrs, watch, type PropType } from 'vue'
 import {
   IconCheckboxMarkedCircleFill as MIconCheckboxMarkedCircleFill,
   IconClose as MIconClose,
@@ -69,6 +80,7 @@ import type { MessageContent } from './types'
 import { useMessageTimer } from './use-message-timer'
 
 const themeScope = useThemeScope()
+const hydrating = !!getCurrentInstance()?.vnode.el
 
 const { n } = createNamespace('message')
 defineOptions({ name: createNamespace('message').name, inheritAttrs: false })
@@ -98,6 +110,9 @@ defineExpose({ restartTimer: restart })
 onMounted(() => {
   if (props.open) {
     emit('open')
+    if (hydrating) {
+      emit('opened')
+    }
   }
 })
 watch(

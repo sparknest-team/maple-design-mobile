@@ -535,6 +535,7 @@ Select 还支持 `header`、`footer`、`trigger` 和默认插槽中的 `Option /
 | search                | 搜索通知     | text         |
 | focus                 | 字段获得焦点 | event        |
 | blur                  | 字段失去焦点 | event        |
+| keydown               | 字段或编辑器搜索按键；`preventDefault()` 阻止内部键盘处理 | event: KeyboardEvent |
 | clear                 | 清空选择     | event        |
 | remove                | 移除已选项   | value        |
 | exceed-limit          | 超过多选上限 | value, event |
