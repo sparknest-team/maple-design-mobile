@@ -6,8 +6,8 @@ import { normalizeBoundImports } from './normalize-bound-imports.mjs'
 import { normalizeTypeScript } from './normalize-source.mjs'
 
 const workspace = fileURLToPath(new URL('../../', import.meta.url))
-const cedar = resolve(workspace, 'cedar-design-web/packages/cedar-ui/src')
-const maple = resolve(workspace, 'maple-design-mobile/packages/maple-ui/src')
+const cedar = resolve(workspace, 'cedar-design-web/packages/ui/src')
+const maple = resolve(workspace, 'maple-design-mobile/packages/ui/src')
 const files = [
   'back-top/BackTop.vue',
   'back-top/props.ts',

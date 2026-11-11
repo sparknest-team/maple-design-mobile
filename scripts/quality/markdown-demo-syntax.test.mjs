@@ -4,13 +4,13 @@ import { createRequire } from 'node:module'
 import { dirname, resolve } from 'node:path'
 import test from 'node:test'
 import { fileURLToPath } from 'node:url'
-import { markdown } from '../../packages/maple-vite-plugins/lib/index.js'
+import { markdown } from '../../packages/vite-plugins/lib/index.js'
 
 const root = fileURLToPath(new URL('../../', import.meta.url))
-const source = resolve(root, 'packages/maple-ui/src')
-const require = createRequire(resolve(root, 'packages/maple-ui/package.json'))
+const source = resolve(root, 'packages/ui/src')
+const require = createRequire(resolve(root, 'packages/ui/package.json'))
 const { parse, compileTemplate, compileScript } = require('vue/compiler-sfc')
-const pluginRequire = createRequire(resolve(root, 'packages/maple-vite-plugins/package.json'))
+const pluginRequire = createRequire(resolve(root, 'packages/vite-plugins/package.json'))
 const markdownIt = pluginRequire('markdown-it')
 
 function countAuthoredDemos(content) {
@@ -234,7 +234,7 @@ test('disclosure headings remain within their example card', () => {
 })
 
 test('ordinary Vue snippets with named imports remain static code and produce valid page scripts', () => {
-  const id = resolve(root, 'packages/maple-ui/docs/controlledUncontrolled.en-US.md')
+  const id = resolve(root, 'packages/ui/docs/controlledUncontrolled.en-US.md')
   const content = readFileSync(id, 'utf8')
   const { result } = render(content, id)
   const { descriptor } = parse(result)

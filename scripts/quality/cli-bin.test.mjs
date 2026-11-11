@@ -7,11 +7,11 @@ import { resolve } from 'node:path'
 import test from 'node:test'
 import { fileURLToPath } from 'node:url'
 
-const cliRoot = fileURLToPath(new URL('../../packages/maple-cli/', import.meta.url))
+const cliRoot = fileURLToPath(new URL('../../packages/cli/', import.meta.url))
 
 test('clean workspace links the real CLI bootstrap before generated lib exists', async () => {
   const manifest = JSON.parse(await readFile(resolve(cliRoot, 'package.json'), 'utf8'))
-  assert.equal(manifest.bin['maple-cli'], './bin/maple-cli.mjs')
+  assert.equal(manifest.bin['maple-cli'], './bin/cli.mjs')
   assert.ok(manifest.files.includes('bin'), 'published package must retain the bootstrap')
   const bootstrap = await readFile(resolve(cliRoot, manifest.bin['maple-cli']), 'utf8')
   const directory = await mkdtemp(resolve(tmpdir(), 'maple-cli-clean-bin-'))
@@ -36,7 +36,7 @@ test('clean workspace links the real CLI bootstrap before generated lib exists',
       resolve(directory, 'packages/cli/package.json'),
       JSON.stringify({ name: manifest.name, version: manifest.version, type: 'module', bin: manifest.bin }),
     )
-    await writeFile(resolve(directory, 'packages/cli/bin/maple-cli.mjs'), bootstrap)
+    await writeFile(resolve(directory, 'packages/cli/bin/cli.mjs'), bootstrap)
     await writeFile(
       resolve(directory, 'packages/consumer/package.json'),
       JSON.stringify({ name: 'consumer', private: true, dependencies: { [manifest.name]: 'workspace:*' } }),

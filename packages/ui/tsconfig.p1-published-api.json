@@ -1,0 +1,18 @@
+{
+  "extends": "./tsconfig.contracts.json",
+  "include": [
+    "type-tests/p1-api.ts",
+    "type-tests/p2-api.ts",
+    "type-tests/f07-api.ts"
+  ],
+  "compilerOptions": {
+    "paths": {
+      "@maple-design/ui-vue": [
+        "./types-generated/index.d.ts"
+      ],
+      "@maple-design/ui-vue/*": [
+        "./types-generated/*/index.d.ts"
+      ]
+    }
+  }
+}

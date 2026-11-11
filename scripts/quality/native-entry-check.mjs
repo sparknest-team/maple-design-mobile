@@ -3,7 +3,7 @@ import { createRequire } from 'node:module'
 import { resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 
-const packageRoot = resolve(process.argv[2] ?? 'packages/maple-ui')
+const packageRoot = resolve(process.argv[2] ?? 'packages/ui')
 const esm = await import(pathToFileURL(resolve(packageRoot, 'es/index.mjs')).href)
 const cjs = createRequire(import.meta.url)(resolve(packageRoot, 'lib/index.js'))
 for (const entry of [esm, cjs]) {

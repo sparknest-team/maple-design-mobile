@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url'
 import { gzipSync } from 'node:zlib'
 
 const root = fileURLToPath(new URL('../../', import.meta.url))
-const require = createRequire(resolve(root, 'packages/maple-cli/package.json'))
+const require = createRequire(resolve(root, 'packages/cli/package.json'))
 const esbuild = require('esbuild')
 const { parse, compileScript } = require('@vue/compiler-sfc')
 
@@ -36,7 +36,7 @@ for (const [entry, budget] of Object.entries(budgets)) {
   test(`Icon on-demand bundle: ${entry}`, async () => {
     const result = await esbuild.build({
       absWorkingDir: root,
-      entryPoints: [`packages/maple-ui/src/icon/${entry}`],
+      entryPoints: [`packages/ui/src/icon/${entry}`],
       bundle: true,
       write: false,
       minify: true,
@@ -45,8 +45,8 @@ for (const [entry, budget] of Object.entries(budgets)) {
       metafile: true,
       logLevel: 'silent',
       alias: {
-        '@maple-design/shared': resolve(root, 'packages/maple-shared/src/index.ts'),
-        '@maple-design/use': resolve(root, 'packages/maple-use/src/index.ts'),
+        '@maple-design/shared-vue': resolve(root, 'packages/shared/src/index.ts'),
+        '@maple-design/use-vue': resolve(root, 'packages/use/src/index.ts'),
       },
       plugins: [vueSfc],
     })
@@ -75,7 +75,7 @@ for (const [entry, budget] of Object.entries(budgets)) {
       'Icon must not retain unrelated focus selectors',
     )
     assert.equal(
-      included.some((path) => /maple-shared\/src\/(?:object|motion|dom|function|number|array)\.ts$/.test(path)),
+      included.some((path) => /shared\/src\/(?:object|motion|dom|function|number|array)\.ts$/.test(path)),
       false,
       'Icon must only retain the shared utilities it uses',
     )

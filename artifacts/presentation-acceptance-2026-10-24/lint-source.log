@@ -3,7 +3,7 @@
 > eslint . --max-warnings 0 "--ignore-pattern" "artifacts/**"
 
 
-/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/input-number/example/demos/en-US/field-basic.vue
+/Users/shuaimeng/github_web/maple-design-mobile/packages/ui/src/input-number/example/demos/en-US/field-basic.vue
   13:42  warning  Attribute "v-model" should go before "presentation"  vue/attributes-order
   14:42  warning  Attribute "v-model" should go before "presentation"  vue/attributes-order
   15:42  warning  Attribute "v-model" should go before "presentation"  vue/attributes-order

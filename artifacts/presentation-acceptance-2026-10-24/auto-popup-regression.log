@@ -1,5 +1,5 @@
 
- RUN  v3.0.6 /Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui
+ RUN  v3.0.6 /Users/shuaimeng/github_web/maple-design-mobile/packages/ui
 
  ❯ src/_components/selected-options/__tests__/editor.spec.ts (3 tests | 1 failed) 126ms
    × selection editor popup > keeps AutoComplete search, empty state and candidates in the standard list surface 37ms

@@ -9,9 +9,11 @@ import { fileURLToPath } from 'node:url'
 import { gzipSync } from 'node:zlib'
 
 const root = fileURLToPath(new URL('../../', import.meta.url))
-const isCedar = existsSync(resolve(root, 'packages/cedar-shared/package.json'))
-const sharedDirectory = isCedar ? 'cedar-shared' : 'maple-shared'
-const uiDirectory = isCedar ? 'cedar-ui' : 'maple-ui'
+const isCedar = JSON.parse(readFileSync(resolve(root, 'packages/shared/package.json'), 'utf8')).name.startsWith(
+  '@cedar-design/',
+)
+const sharedDirectory = 'shared'
+const uiDirectory = 'ui'
 const brand = isCedar ? 'Cedar' : 'Maple'
 const sharedRoot = resolve(root, 'packages', sharedDirectory)
 const require = createRequire(resolve(sharedRoot, 'package.json'))

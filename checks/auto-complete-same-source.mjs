@@ -6,8 +6,8 @@ import { fileURLToPath } from 'node:url'
 import { normalizeLessSource, normalizeTypeScript } from './normalize-source.mjs'
 
 const workspace = fileURLToPath(new URL('../../', import.meta.url))
-const cedar = resolve(workspace, 'cedar-design-web/packages/cedar-ui')
-const maple = resolve(workspace, 'maple-design-mobile/packages/maple-ui')
+const cedar = resolve(workspace, 'cedar-design-web/packages/ui')
+const maple = resolve(workspace, 'maple-design-mobile/packages/ui')
 const files = [
   '../_hooks/use-option-request.ts',
   'auto-complete.tsx',
@@ -25,7 +25,7 @@ const files = [
 ]
 const normalize = (source) =>
   source
-    .replaceAll('@cedar-design/use', '@maple-design/use')
+    .replaceAll('@cedar-design/use-vue', '@maple-design/use-vue')
     .replaceAll('_utils/empty-value', 'utils/empty-value')
     .replaceAll('_utils/global-config', 'utils/components')
     .replaceAll('_utils/popup-container', 'utils/popup-container')
@@ -44,7 +44,7 @@ for (const file of files) {
 }
 for (const [root, compiler] of [
   [cedar, 'node_modules/less/package.json'],
-  [maple, '../maple-cli/node_modules/less/package.json'],
+  [maple, '../cli/node_modules/less/package.json'],
 ]) {
   const less = createRequire(resolve(root, compiler))('./')
   const filename = resolve(root, 'src/auto-complete/style/index.less')

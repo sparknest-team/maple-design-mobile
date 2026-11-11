@@ -6,8 +6,8 @@ import { fileURLToPath } from 'node:url'
 import { normalizeLessSource, normalizeTypeScript, normalizeVueSource } from './normalize-source.mjs'
 
 const workspace = fileURLToPath(new URL('../../', import.meta.url))
-const cedar = resolve(workspace, 'cedar-design-web/packages/cedar-ui/src')
-const maple = resolve(workspace, 'maple-design-mobile/packages/maple-ui/src')
+const cedar = resolve(workspace, 'cedar-design-web/packages/ui/src')
+const maple = resolve(workspace, 'maple-design-mobile/packages/ui/src')
 const pairs = [
   ['field-decorator/FieldDecorator.vue', 'field-decorator/FieldDecorator.vue'],
   ['field-decorator/props.ts', 'field-decorator/props.ts'],
@@ -74,7 +74,7 @@ console.log(
 /** Source parity alone cannot catch differences between the two Less compilers. */
 for (const [root, prefix, compilerPackage] of [
   [cedar, 'c', '../node_modules/less/package.json'],
-  [maple, 'mp', '../../maple-cli/node_modules/less/package.json'],
+  [maple, 'mp', '../../cli/node_modules/less/package.json'],
 ]) {
   const requireLess = createRequire(resolve(root, compilerPackage))
   const less = requireLess('./')

@@ -4,7 +4,7 @@ import { resolve } from 'node:path'
 import test from 'node:test'
 import { fileURLToPath } from 'node:url'
 
-const cliRoot = fileURLToPath(new URL('../../packages/maple-cli/', import.meta.url))
+const cliRoot = fileURLToPath(new URL('../../packages/cli/', import.meta.url))
 const require = createRequire(resolve(cliRoot, 'package.json'))
 const ts = require('typescript')
 
@@ -17,7 +17,7 @@ function compileWithoutUIArtifacts(configName, emit = false) {
   const options = { ...parsed.options, noEmit: !emit }
   const host = ts.createCompilerHost(options)
   const isUIArtifact = (file) =>
-    /\/(?:maple-ui|@maple-design\/ui)\/(?:types-generated|types|es|lib)(?:\/|$)/.test(file.replaceAll('\\', '/'))
+    /\/(?:ui|@maple-design\/ui-vue)\/(?:types-generated|types|es|lib)(?:\/|$)/.test(file.replaceAll('\\', '/'))
   // Model an installed workspace before its UI package has been built, without
   // renaming or deleting artifacts used by other tasks in the shared workspace.
   for (const method of ['fileExists', 'directoryExists', 'readFile']) {
@@ -52,19 +52,19 @@ test('Node CLI compiles and emits its public entry before UI artifacts exist', (
   )
   assert.ok(outputs.has(resolve(cliRoot, 'lib/node/bin.js')))
   assert.ok(outputs.has(resolve(cliRoot, 'lib/node/index.d.ts')))
-  assert.ok(!program.getSourceFiles().some((file) => file.fileName.includes('/maple-cli/src/client/')))
+  assert.ok(!program.getSourceFiles().some((file) => file.fileName.includes('/cli/src/client/')))
   assert.ok(![...outputs.keys()].some((file) => file.includes('/lib/client/')))
 })
 
 test('full CLI build still type-checks the browser client against real UI declarations', () => {
   const { program, diagnostics } = compileWithoutUIArtifacts('tsconfig.json')
-  assert.ok(program.getSourceFiles().some((file) => file.fileName.endsWith('/maple-cli/src/client/index.ts')))
+  assert.ok(program.getSourceFiles().some((file) => file.fileName.endsWith('/cli/src/client/index.ts')))
   assert.ok(
     diagnostics.some(
       (diagnostic) =>
         diagnostic.code === 2307 &&
-        diagnostic.file?.fileName.endsWith('/maple-cli/src/client/index.ts') &&
-        ts.flattenDiagnosticMessageText(diagnostic.messageText, '\n').includes('@maple-design/ui'),
+        diagnostic.file?.fileName.endsWith('/cli/src/client/index.ts') &&
+        ts.flattenDiagnosticMessageText(diagnostic.messageText, '\n').includes('@maple-design/ui-vue'),
     ),
     'the full build must require the real UI declarations instead of an ambient any shim',
   )

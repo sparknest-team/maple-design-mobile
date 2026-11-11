@@ -6,9 +6,9 @@ import test from 'node:test'
 import { fileURLToPath } from 'node:url'
 
 const root = fileURLToPath(new URL('../../', import.meta.url))
-const require = createRequire(resolve(root, 'packages/maple-cli/package.json'))
+const require = createRequire(resolve(root, 'packages/cli/package.json'))
 const { build } = require('esbuild')
-const source = resolve(root, 'packages/maple-cli/src/node/commands/dev.ts')
+const source = resolve(root, 'packages/cli/src/node/commands/dev.ts')
 let sequence = 0
 
 async function harness() {
@@ -82,7 +82,7 @@ async function harness() {
   globalThis[Symbol.for(key)] = state
   const prefix = `const state = globalThis[Symbol.for(${JSON.stringify(key)})];\n`
   const mocks = {
-    '@maple-design/shared': 'export const kebabCase = value => value;',
+    '@maple-design/shared-vue': 'export const kebabCase = value => value;',
     chokidar: 'export default { watch: state.watch };',
     'fs-extra': 'export default state.fs;',
     vite: 'export const createServer = state.createServer;',
@@ -91,7 +91,7 @@ async function harness() {
     '../compiler/compileSiteEntry.js': 'export async function buildSiteEntry() { state.generated++; }',
     '../config/maple.config.js': "export async function getMapleConfig() { return { name: 'maple' }; }",
     '../config/vite.config.js':
-      "export const getDevConfig = () => ({ resolve: { alias: [{ find: '@maple-design/ui', replacement: '/fixture/src/index.ts' }] } });",
+      "export const getDevConfig = () => ({ resolve: { alias: [{ find: '@maple-design/ui-vue', replacement: '/fixture/src/index.ts' }] } });",
     '../shared/constant.js':
       "export const COMPONENT_REUSE_JSON = '/fixture/component-reuse.json', ES_DIR = '/fixture/es', MAPLE_CONFIG = '/fixture/maple.config.mjs', SITE = '/cli/site', SITE_DIR = '/fixture/.maple/site', SRC = 'src', SRC_DIR = '/fixture/src';",
     '../shared/fsUtils.js': 'export const getPublicDirs = async () => [];',
@@ -115,7 +115,7 @@ async function harness() {
               return { path: 'node:path', external: true }
             }
             if (args.path === '../shared/serial-task.js') {
-              return { path: resolve(root, 'packages/maple-cli/src/node/shared/serial-task.ts') }
+              return { path: resolve(root, 'packages/cli/src/node/shared/serial-task.ts') }
             }
             assert.ok(args.path in mocks, `Unexpected dev dependency: ${args.path}`)
             return { path: args.path, namespace: 'fixture' }
@@ -199,15 +199,12 @@ for (const changed of ['maple.config.mjs', 'component-reuse.json']) {
 }
 
 test('docs and playground do not need development stubs in the published directory', async () => {
-  const vite = await readFile(resolve(root, 'packages/maple-cli/src/node/config/vite.config.ts'), 'utf8')
+  const vite = await readFile(resolve(root, 'packages/cli/src/node/config/vite.config.ts'), 'utf8')
   const dev = vite.slice(vite.indexOf('export function getDevConfig'), vite.indexOf('export function getBuildConfig'))
   assert.match(dev, /replacement: resolve\(SRC_DIR, 'index\.ts'\)/)
   assert.match(dev, /replacement: resolve\(SRC_DIR, '\$1\/style'\)/)
   assert.doesNotMatch(dev, /ES_DIR/)
-  const preview = await readFile(
-    resolve(root, 'packages/maple-cli/site/pc/components/demo-preview/DemoPreview.vue'),
-    'utf8',
-  )
+  const preview = await readFile(resolve(root, 'packages/cli/site/pc/components/demo-preview/DemoPreview.vue'), 'utf8')
   assert.match(preview, /config\?\.pc\?\.header\?\.playground/)
   assert.match(preview, /'App\.vue': source/)
   assert.doesNotMatch(preview, /ES_DIR|maple\.esm\.js/)

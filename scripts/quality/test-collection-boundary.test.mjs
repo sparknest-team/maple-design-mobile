@@ -7,7 +7,7 @@ import test from 'node:test'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 
 const root = fileURLToPath(new URL('../../', import.meta.url))
-const require = createRequire(resolve(root, 'packages/maple-cli/package.json'))
+const require = createRequire(resolve(root, 'packages/cli/package.json'))
 const { createVitest } = await import(pathToFileURL(require.resolve('vitest/node')).href)
 
 test('library test discovery includes authored tests and excludes copied documentation tests', async () => {
@@ -27,7 +27,7 @@ test('library test discovery includes authored tests and excludes copied documen
     // process or workers merely to list files.
     vitest = await createVitest('test', {
       root: directory,
-      config: resolve(root, 'packages/maple-cli/lib/node/config/vitest.config.js'),
+      config: resolve(root, 'packages/cli/lib/node/config/vitest.config.js'),
       watch: false,
     })
     const files = (await vitest.globTestSpecifications()).map((spec) => relative(directory, spec.moduleId)).sort()

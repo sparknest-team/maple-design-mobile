@@ -1,7 +1,7 @@
 import { createRequire } from 'node:module'
 import { normalizeBoundImports } from './normalize-bound-imports.mjs'
 
-const require = createRequire(new URL('../packages/maple-ui/package.json', import.meta.url))
+const require = createRequire(new URL('../packages/ui/package.json', import.meta.url))
 const ts = require('typescript')
 const prettier = require('prettier')
 const { parse } = require('vue/compiler-sfc')

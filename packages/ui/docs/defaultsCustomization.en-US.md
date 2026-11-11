@@ -1,0 +1,39 @@
+# Defaults Customization
+
+### Intro
+
+The component library provides the ability to customize the default values of component props.
+
+### Basic Usage
+
+Customize the component's property definition through the mp-static method `setPropsDefaults` provided by the component. It should be noted that attribute customization only takes effect for declarative components, and the customized behavior should be before the component is initialized.
+
+```js
+// playground-ignore
+// main.ts
+import { Button } from '@maple-design/ui-vue'
+
+Button.setPropsDefaults({
+  status: 'primary',
+  variant: 'tonal',
+  elevation: 10
+})
+```
+
+After customization, the following two writing methods will be equivalent.
+
+```html
+<!-- playground-ignore -->
+<!-- App.vue -->
+<template>
+  <mp-button>Hello</mp-button>
+</template>
+```
+
+```html
+<!-- playground-ignore -->
+<!-- App.vue -->
+<template>
+  <mp-button status="primary" variant="tonal" :elevation="10">Hello</mp-button>
+</template>
+```

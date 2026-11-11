@@ -4,8 +4,8 @@ import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const workspace = fileURLToPath(new URL('../../', import.meta.url))
-const cedar = resolve(workspace, 'cedar-design-web/packages/cedar-ui/src')
-const maple = resolve(workspace, 'maple-design-mobile/packages/maple-ui/src')
+const cedar = resolve(workspace, 'cedar-design-web/packages/ui/src')
+const maple = resolve(workspace, 'maple-design-mobile/packages/ui/src')
 // Public presentation props and endpoint gestures differ across mobile and desktop.
 // Mobile DatePanel footer/quick-view composition also differs; selection and value owners remain paired.
 // Their entry/session suites run independently; keep shared selection transactions and value rules identical.

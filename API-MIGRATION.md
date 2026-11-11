@@ -152,7 +152,7 @@ Cedar 内部样式改为 BEM：`c-col-12` → `c-col--span-12`，`c-col-md-12` �
 | bottomNavigationProps / bottomNavigationItemProps | tabBarProps / tabBarItemProps |
 | --mp-bottom-navigation-* | --mp-tab-bar-* |
 
-根入口使用 `import { TabBar } from '@maple-design/ui'`；子项可使用 `TabBar.Item`，或从 `@maple-design/ui/tab-bar` 导入 `TabBarItem`。按需样式使用 `@maple-design/ui/tab-bar/style`。自动解析器、IDE 元数据和主题导出已同步更新。
+根入口使用 `import { TabBar } from '@maple-design/ui-vue'`；子项可使用 `TabBar.Item`，或从 `@maple-design/ui-vue/tab-bar` 导入 `TabBarItem`。按需样式使用 `@maple-design/ui-vue/tab-bar/style`。自动解析器、IDE 元数据和主题导出已同步更新。
 
 ### TabBar 选中状态补充
 

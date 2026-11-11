@@ -1,9 +1,9 @@
 
 > @1.0.0 build:doc /Users/shuaimeng/github_web/maple-design-mobile
-> pnpm --filter @maple-design/vite-plugins build && pnpm --filter @maple-design/cli exec tsc && pnpm --dir ./packages/maple-ui build:doc
+> pnpm --filter @maple-design/vite-plugins-vue build && pnpm --filter @maple-design/cli-vue exec tsc && pnpm --dir ./packages/ui build:doc
 
 
-> @maple-design/vite-plugins@1.0.0 build /Users/shuaimeng/github_web/maple-design-mobile/packages/maple-vite-plugins
+> @maple-design/vite-plugins-vue@1.0.0 build /Users/shuaimeng/github_web/maple-design-mobile/packages/vite-plugins
 > tsup src/index.ts --format esm --out-dir=lib --dts --clean
 
 CLI Building entry: src/index.ts
@@ -18,7 +18,7 @@ DTS Build start
 DTS ⚡️ Build success in 2135ms
 DTS lib/index.d.ts 752.00 B
 
-> @maple-design/ui@1.0.0 build:doc /Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui
+> @maple-design/ui-vue@1.0.0 build:doc /Users/shuaimeng/github_web/maple-design-mobile/packages/ui
 > node ../../scripts/quality/demo-sfc-check.mjs && maple-cli build
 
 Checked 1474 demo SFCs; 0 failures

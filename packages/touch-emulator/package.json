@@ -1,0 +1,37 @@
+{
+  "name": "@maple-design/touch-emulator-vue",
+  "version": "1.1.0",
+  "description": "touch-emulator",
+  "keywords": [
+    "emulator",
+    "maple"
+  ],
+  "homepage": "https://github.com/loca-spirit/maple-design-mobile#readme",
+  "bugs": {
+    "url": "https://github.com/loca-spirit/maple-design-mobile/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/loca-spirit/maple-design-mobile.git",
+    "directory": "packages/touch-emulator"
+  },
+  "license": "MIT",
+  "author": "BeADre <beadre_wang@163.com>",
+  "type": "module",
+  "main": "index.js",
+  "module": "index.js",
+  "files": [
+    "iife.js",
+    "index.js"
+  ],
+  "scripts": {
+    "build": "tsup index.js --format iife --out-dir=. --globalName=MapleTouchEmulator && node build.js"
+  },
+  "devDependencies": {
+    "tsup": "catalog:"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
+}

@@ -3,8 +3,8 @@ import { createRequire } from 'node:module'
 import test from 'node:test'
 import { fileURLToPath } from 'node:url'
 
-const uiRoot = fileURLToPath(new URL('../../packages/maple-ui/', import.meta.url))
-const require = createRequire(new URL('../../packages/maple-cli/package.json', import.meta.url))
+const uiRoot = fileURLToPath(new URL('../../packages/ui/', import.meta.url))
+const require = createRequire(new URL('../../packages/cli/package.json', import.meta.url))
 const { resolveConfig } = require('vite')
 
 test('docs and package browser fixtures resolve to independent dependency caches', async () => {
@@ -12,7 +12,7 @@ test('docs and package browser fixtures resolve to independent dependency caches
   let getDevConfig
   try {
     process.chdir(uiRoot)
-    ;({ getDevConfig } = await import('../../packages/maple-cli/lib/node/config/vite.config.js'))
+    ;({ getDevConfig } = await import('../../packages/cli/lib/node/config/vite.config.js'))
   } finally {
     process.chdir(previousCwd)
   }

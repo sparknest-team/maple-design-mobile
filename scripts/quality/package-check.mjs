@@ -12,7 +12,7 @@ if (!tool) {
   process.exitCode = 2
 } else {
   process.exitCode =
-    spawnSync(process.execPath, [tool, '--package', 'packages/maple-ui', '--max-kb', '20000'], {
+    spawnSync(process.execPath, [tool, '--package', 'packages/ui', '--max-kb', '20000'], {
       cwd: root,
       stdio: 'inherit',
     }).status ?? 1

@@ -3,9 +3,9 @@ import { mkdir, writeFile } from 'node:fs/promises'
 import { after, before, test } from 'node:test'
 import { fileURLToPath } from 'node:url'
 import { chromium } from 'playwright'
-import { createServer, jsx, vue } from '../../packages/maple-cli/test-utils/browser-vite.mjs'
+import { createServer, jsx, vue } from '../../packages/cli/test-utils/browser-vite.mjs'
 
-const root = fileURLToPath(new URL('../../packages/maple-ui/', import.meta.url))
+const root = fileURLToPath(new URL('../../packages/ui/', import.meta.url))
 const output = fileURLToPath(new URL('../../artifacts/date-panels/', import.meta.url))
 let server
 let browser

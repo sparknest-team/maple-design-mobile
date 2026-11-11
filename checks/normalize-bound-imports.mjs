@@ -1,6 +1,6 @@
 import { createRequire } from 'node:module'
 
-const ts = createRequire(new URL('../packages/maple-ui/package.json', import.meta.url))('typescript')
+const ts = createRequire(new URL('../packages/ui/package.json', import.meta.url))('typescript')
 
 /** Compare local bound-import aliases independent of formatter ordering.
  * Side-effect imports and every non-import source statement remain strict.

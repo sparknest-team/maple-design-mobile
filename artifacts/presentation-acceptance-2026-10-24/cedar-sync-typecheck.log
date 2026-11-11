@@ -1,8 +1,8 @@
 
 > cedar-design-web-monorepo@1.0.0 typecheck /Users/shuaimeng/github_web/cedar-design-web
-> pnpm --filter @cedar-design/ui typecheck
+> pnpm --filter @cedar-design/ui-vue typecheck
 
 
-> @cedar-design/ui@1.0.0 typecheck /Users/shuaimeng/github_web/cedar-design-web/packages/cedar-ui
+> @cedar-design/ui-vue@1.0.0 typecheck /Users/shuaimeng/github_web/cedar-design-web/packages/ui
 > vue-tsc -p tsconfig.declaration.json --noEmit
 

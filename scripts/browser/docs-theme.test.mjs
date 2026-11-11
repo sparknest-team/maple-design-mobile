@@ -100,11 +100,11 @@ describe('phone-width documentation theme regression', { timeout: 600_000 }, () 
 
   before(
     async () => {
-      await readFile(resolve(root, 'packages/maple-ui/site/mobile.html')).catch(() => {
+      await readFile(resolve(root, 'packages/ui/site/mobile.html')).catch(() => {
         throw new Error('Build the production docs first: pnpm build:doc')
       })
       directory = await mkdtemp(resolve(tmpdir(), 'maple-docs-theme-'))
-      await copyProductionSnapshot(resolve(root, 'packages/maple-ui/site'), directory)
+      await copyProductionSnapshot(resolve(root, 'packages/ui/site'), directory)
       server = createServer(async (request, response) => {
         const pathname = decodeURIComponent(new URL(request.url, 'http://localhost').pathname)
         const file = resolve(directory, `.${pathname.endsWith('/') ? `${pathname}index.html` : pathname}`)

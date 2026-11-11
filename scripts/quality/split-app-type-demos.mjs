@@ -5,7 +5,7 @@ import { basename, dirname, relative, resolve } from 'node:path'
 import process from 'node:process'
 
 const root = resolve(import.meta.dirname, '../..')
-const require = createRequire(resolve(root, 'packages/maple-cli/package.json'))
+const require = createRequire(resolve(root, 'packages/cli/package.json'))
 const { parse } = require('@vue/compiler-sfc')
 const babel = require('@babel/core')
 
@@ -17,7 +17,7 @@ const pageDemo = process.argv.includes('--page')
 const requested = process.argv
   .slice(2)
   .filter((argument) => !['--write', '--prune', '--repair-index', '--repair-styles', '--page'].includes(argument))
-const sourceRoot = resolve(root, 'packages/maple-ui/src')
+const sourceRoot = resolve(root, 'packages/ui/src')
 
 function words(source) {
   return new Set(source.match(/[A-Za-z_$][\w$]*/g) ?? [])
@@ -367,7 +367,7 @@ function splitComponent(name) {
     )
     .join('\n\n')
   const aggregate =
-    `<script setup>\nimport { AppType, onThemeChange, watchLang } from '@maple-design/cli/client'\n${imports}\nimport { t, use } from './locale'\n\nwatchLang(use)\n` +
+    `<script setup>\nimport { AppType, onThemeChange, watchLang } from '@maple-design/cli-vue/client'\n${imports}\nimport { t, use } from './locale'\n\nwatchLang(use)\n` +
     `onThemeChange()\n</script>\n\n<template>\n${sections}\n</template>\n`
 
   if (write) {

@@ -1,6 +1,6 @@
 [33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
 
- RUN  v0.22.1 /Users/shuaimeng/github_web/cedar-design-web/packages/cedar-ui
+ RUN  v0.22.1 /Users/shuaimeng/github_web/cedar-design-web/packages/ui
 
  ✓ src/auto-complete/__tests__/auto-complete.test.tsx  (45 tests) 666ms
 

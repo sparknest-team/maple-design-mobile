@@ -6,7 +6,7 @@ node:internal/modules/run_main:128
     triggerUncaughtException(
     ^
 
-AssertionError [ERR_ASSERTION]: Component tokens differ from @sparknest/theme-contract
+AssertionError [ERR_ASSERTION]: Component tokens differ from @sparknest/theme-contract-vue
 + actual - expected ... Lines skipped
 
   {

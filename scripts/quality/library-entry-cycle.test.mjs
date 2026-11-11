@@ -6,7 +6,7 @@ import test from 'node:test'
 import { pathToFileURL } from 'node:url'
 
 test('Upload preview dependencies do not evaluate the Image public component barrel', async () => {
-  for (const path of ['../../packages/maple-ui/src/upload/Upload.vue']) {
+  for (const path of ['../../packages/ui/src/upload/Upload.vue']) {
     const source = await readFile(new URL(path, import.meta.url), 'utf8')
     assert.doesNotMatch(source, /from ['"]\.\.\/image['"]/, path)
     assert.match(source, /import \{ previewImage \} from ['"]\.\.\/image\/preview(?:-api)?['"]/, path)
@@ -15,9 +15,9 @@ test('Upload preview dependencies do not evaluate the Image public component bar
 })
 
 test('aggregate component properties preserve live bindings during circular entry evaluation', async () => {
-  const entry = await readFile(new URL('../../packages/maple-ui/src/maple-vue.ts', import.meta.url), 'utf8')
+  const entry = await readFile(new URL('../../packages/ui/src/maple-vue.ts', import.meta.url), 'utf8')
   const generator = await readFile(
-    new URL('../../packages/maple-cli/src/node/compiler/generateLibraryEntry.ts', import.meta.url),
+    new URL('../../packages/cli/src/node/compiler/generateLibraryEntry.ts', import.meta.url),
     'utf8',
   )
   assert.match(generator, /get \$\{name\}\(\) \{ return \$\{name\} \}/)

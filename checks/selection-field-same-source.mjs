@@ -6,8 +6,8 @@ import { fileURLToPath } from 'node:url'
 import { normalizeTagSizeAssertions } from '../../design-ui/bin/selection-field-class-normalization.mjs'
 
 const workspace = fileURLToPath(new URL('../../', import.meta.url))
-const cedar = resolve(workspace, 'cedar-design-web/packages/cedar-ui')
-const maple = resolve(workspace, 'maple-design-mobile/packages/maple-ui')
+const cedar = resolve(workspace, 'cedar-design-web/packages/ui')
+const maple = resolve(workspace, 'maple-design-mobile/packages/ui')
 const groups = {
   'selection-field': [
     'SelectionField.vue',
@@ -64,7 +64,7 @@ for (const [group, files] of Object.entries(groups)) {
 }
 for (const [root, compiler] of [
   [cedar, 'node_modules/less/package.json'],
-  [maple, '../maple-cli/node_modules/less/package.json'],
+  [maple, '../cli/node_modules/less/package.json'],
 ]) {
   const less = createRequire(resolve(root, compiler))('./')
   for (const group of Object.keys(groups)) {

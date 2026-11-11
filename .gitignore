@@ -7,11 +7,11 @@ lib
 umd
 types
 # generated type declarations (built by `pnpm compile` / icons `build`)
-packages/maple-ui/types
-packages/maple-icons-vue/types
+packages/ui/types
+packages/icons/types
 # docs site build output (static assets live in public/)
-packages/maple-ui/site
-packages/maple-ui-playground/site
+packages/ui/site
+packages/ui-playground/site
 node_modules/
 artifacts/docs-components/
 storybook-static/
@@ -24,9 +24,9 @@ pnpm-debug.log
 
 package-lock.json
 yarn.lock
-packages/maple-ui/types-generated/
+packages/ui/types-generated/
 
 # Generated LLM documentation
-packages/maple-ui/public/llms/
-packages/maple-ui/public/llms.txt
-packages/maple-ui/public/llms-full.txt
+packages/ui/public/llms/
+packages/ui/public/llms.txt
+packages/ui/public/llms-full.txt

@@ -3,7 +3,7 @@ import { dirname, resolve } from 'node:path'
 
 const write = process.argv.includes('--write')
 const components = process.argv.slice(2).filter((argument) => argument !== '--write')
-const sourceRoot = resolve('packages/maple-ui/src')
+const sourceRoot = resolve('packages/ui/src')
 
 if (!components.length) {
   throw new Error('Pass one or more component directory names.')

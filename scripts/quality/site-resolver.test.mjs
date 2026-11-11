@@ -9,14 +9,14 @@ import {
   createSiteResolver,
   getSiteComponentExcludes,
   getWorkspaceSourceAliases,
-} from '../../packages/maple-cli/lib/node/config/site-resolver.js'
+} from '../../packages/cli/lib/node/config/site-resolver.js'
 
 const root = fileURLToPath(new URL('../../', import.meta.url))
-const source = resolve(root, 'packages/maple-ui/src')
+const source = resolve(root, 'packages/ui/src')
 const [components, directives] = createSiteResolver(source)
 
 test('production field style imports retain the shared presentation surface', async () => {
-  const require = createRequire(resolve(root, 'packages/maple-cli/package.json'))
+  const require = createRequire(resolve(root, 'packages/cli/package.json'))
   const { build } = require('vite')
   const result = await build({
     configFile: false,
@@ -59,10 +59,7 @@ test('internal implementation imports stay explicit without intercepting Vue HMR
   assert.equal(excluded(resolve(source, 'upload/example/basic.vue')), false)
   const plugin = createSiteImportPlugin(source)
   assert.equal(plugin.handleHotUpdate, undefined)
-  const config = readFileSync(
-    new URL('../../packages/maple-cli/src/node/config/vite.config.ts', import.meta.url),
-    'utf8',
-  )
+  const config = readFileSync(new URL('../../packages/cli/src/node/config/vite.config.ts', import.meta.url), 'utf8')
   for (const name of ['Components', 'AutoImport']) {
     assert.match(config, new RegExp(`${name}\\(\\{[^}]*exclude: getSiteComponentExcludes\\(SRC_DIR\\)`))
   }
@@ -71,9 +68,9 @@ test('internal implementation imports stay explicit without intercepting Vue HMR
 test('workspace browser dependencies use source without changing standalone projects', () => {
   const aliases = getWorkspaceSourceAliases(source)
   for (const [name, file] of [
-    ['@maple-design/shared', 'maple-shared/src/index.ts'],
-    ['@maple-design/use', 'maple-use/src/index.ts'],
-    ['@maple-design/cli/client', 'maple-cli/src/client/index.ts'],
+    ['@maple-design/shared-vue', 'shared/src/index.ts'],
+    ['@maple-design/use-vue', 'use/src/index.ts'],
+    ['@maple-design/cli-vue/client', 'cli/src/client/index.ts'],
   ]) {
     assert.equal(aliases.find((alias) => alias.find.test(name))?.replacement, resolve(root, 'packages', file))
   }
@@ -110,7 +107,7 @@ test('documentation component imports bypass the root barrel, preserving styles'
   ]) {
     const result = components.resolve(name)
     assert.equal(result.from, resolve(source, directory))
-    assert.deepEqual(result.sideEffects, [`@maple-design/ui/${directory}/style`])
+    assert.deepEqual(result.sideEffects, [`@maple-design/ui-vue/${directory}/style`])
   }
 })
 
@@ -138,11 +135,11 @@ test('explicit root function imports resolve directly without changing authored 
   const plugin = createSiteImportPlugin(source)
   const transform = plugin.transform
   const original =
-    "import { imagePreview as preview } from '@maple-design/ui';\nimport '@maple-design/ui/image/style';\npreview('/cat.jpg');"
+    "import { imagePreview as preview } from '@maple-design/ui-vue';\nimport '@maple-design/ui-vue/image/style';\npreview('/cat.jpg');"
   const result = transform.call({}, original, '/demo.vue')
   assert.ok(result.code.includes(`from ${JSON.stringify(resolve(source, 'image'))}`))
   assert.ok(result.code.includes('imagePreview as preview'))
-  assert.ok(result.code.includes("import '@maple-design/ui/image/style'"))
+  assert.ok(result.code.includes("import '@maple-design/ui-vue/image/style'"))
   assert.ok(result.code.endsWith("preview('/cat.jpg');"))
 })
 
@@ -150,22 +147,22 @@ test('primary exports and mixed direct imports preserve local names without load
   const transform = createSiteImportPlugin(source).transform
   const result = transform.call(
     {},
-    "import { Locale, Context as ctx, imagePreview } from '@maple-design/ui';",
+    "import { Locale, Context as ctx, imagePreview } from '@maple-design/ui-vue';",
     '/main.ts',
   )
   assert.ok(result.code.includes(`import { default as Locale } from ${JSON.stringify(resolve(source, 'locale'))}`))
   assert.ok(result.code.includes(`import { default as ctx } from ${JSON.stringify(resolve(source, 'context'))}`))
   assert.ok(result.code.includes(`import { imagePreview } from ${JSON.stringify(resolve(source, 'image'))}`))
-  assert.ok(!result.code.includes("from '@maple-design/ui'"))
+  assert.ok(!result.code.includes("from '@maple-design/ui-vue'"))
 })
 
 test('namespaces, unknown exports and type-only imports retain the root barrel', () => {
   const transform = createSiteImportPlugin(source).transform
   for (const code of [
-    "import { missingExport } from '@maple-design/ui';",
-    "import * as Maple from '@maple-design/ui';",
-    "import type { ImageProps } from '@maple-design/ui';",
-    "import '@maple-design/ui/image/style';",
+    "import { missingExport } from '@maple-design/ui-vue';",
+    "import * as Maple from '@maple-design/ui-vue';",
+    "import type { ImageProps } from '@maple-design/ui-vue';",
+    "import '@maple-design/ui-vue/image/style';",
   ]) {
     assert.equal(transform.call({}, code, '/demo.ts'), undefined)
   }

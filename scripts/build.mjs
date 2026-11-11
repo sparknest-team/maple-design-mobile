@@ -21,29 +21,29 @@ export async function runTask(taskName, task) {
   }
 }
 
-export const buildCli = createTask(resolve(CWD, './packages/maple-cli'))
+export const buildCli = createTask(resolve(CWD, './packages/cli'))
 
 // The UI compiler needs the Node CLI before UI declarations exist. The browser
 // client imports UI types and must be checked only after the UI build finishes.
-export const buildCliNode = createTask(resolve(CWD, './packages/maple-cli'), 'build:node')
+export const buildCliNode = createTask(resolve(CWD, './packages/cli'), 'build:node')
 
-export const buildVitePlugins = createTask(resolve(CWD, './packages/maple-vite-plugins'))
+export const buildVitePlugins = createTask(resolve(CWD, './packages/vite-plugins'))
 
-export const buildPresetUnocss = createTask(resolve(CWD, './packages/maple-preset-unocss'))
+export const buildPresetUnocss = createTask(resolve(CWD, './packages/preset-unocss'))
 
-export const buildShared = createTask(resolve(CWD, './packages/maple-shared'))
+export const buildShared = createTask(resolve(CWD, './packages/shared'))
 
-export const buildPresetTailwindcss = createTask(resolve(CWD, './packages/maple-preset-tailwindcss'))
+export const buildPresetTailwindcss = createTask(resolve(CWD, './packages/preset-tailwindcss'))
 
-export const buildResolver = createTask(resolve(CWD, './packages/maple-resolver'))
+export const buildResolver = createTask(resolve(CWD, './packages/resolver'))
 
-export const buildUse = createTask(resolve(CWD, './packages/maple-use'))
+export const buildUse = createTask(resolve(CWD, './packages/use'))
 
-export const buildIcons = createTask(resolve(CWD, './packages/maple-icons-vue'))
+export const buildIcons = createTask(resolve(CWD, './packages/icons'))
 
-export const buildToucheEmulator = createTask(resolve(CWD, './packages/maple-touch-emulator'))
+export const buildToucheEmulator = createTask(resolve(CWD, './packages/touch-emulator'))
 
-export const buildUI = createTask(resolve(CWD, './packages/maple-ui'), 'build:lib')
+export const buildUI = createTask(resolve(CWD, './packages/ui'), 'build:lib')
 
 export async function runTaskQueue() {
   const start = performance.now()

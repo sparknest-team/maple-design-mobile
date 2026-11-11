@@ -1,0 +1,30 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "declaration": false,
+    "paths": {
+      "@maple-design/ui-vue": [
+        "./types-generated/index.d.ts"
+      ]
+    },
+    "rootDir": ".",
+    "moduleResolution": "Bundler",
+    "module": "ESNext"
+  },
+  "include": [
+    "type-tests/aligned-api.ts",
+    "type-tests/foundation-api.ts",
+    "type-tests/time-text-entry.ts",
+    "type-tests/form-layout.ts",
+    "type-tests/date-panel-api.ts",
+    "type-tests/p1-api.ts",
+    "type-tests/p2-api.ts",
+    "type-tests/image-slots-contract.ts",
+    "type-tests/ripple-contract.ts",
+    "type-tests/themes-contract.ts",
+    "type-tests/index-bar-contract.ts",
+    "type-tests/fab-trigger-contract.ts",
+    "type-tests/highlighter-contract.ts"
+  ]
+}

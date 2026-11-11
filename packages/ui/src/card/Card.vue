@@ -1,0 +1,481 @@
+<template>
+  <div
+    ref="card"
+    v-ripple="{ disabled: !ripple || floater }"
+    :class="
+      classes(
+        n(),
+        [isRow, n('--direction-row')],
+        [direction === 'row-reverse', n('--direction-row-reverse')],
+        n(`--size-${mergedSize}`),
+        n(`--variant-${variant}`),
+        [hoverable, n('--hoverable')],
+
+        [variant === 'default', formatElevation(elevation, 1)],
+      )
+    "
+    :style="{
+      zIndex: floated ? zIndex : undefined,
+    }"
+    @click="handleClick"
+  >
+    <div
+      ref="cardFloater"
+      :class="n('floater')"
+      :style="{
+        width: floaterWidth,
+        height: floaterHeight,
+        top: floaterTop,
+        left: floaterLeft,
+        overflow: floaterOverflow,
+        position: floaterPosition,
+        zIndex: floated ? zIndex : undefined,
+        background: variant === 'outline' && !floated ? 'transparent' : undefined,
+        transition: floated
+          ? `background-color ${duration}ms, color ${duration}ms, width ${duration}ms, height ${duration}ms, top ${duration}ms, left ${duration}ms`
+          : undefined,
+      }"
+      @keydown="handleFloatingKeydown"
+    >
+      <slot name="cover">
+        <img
+          v-if="src"
+          :class="n('image')"
+          :style="{
+            objectFit: fit,
+            height: toSizeUnit(imageHeight),
+            width: toSizeUnit(imageWidth),
+          }"
+          :src="src"
+          :alt="alt"
+        />
+      </slot>
+
+      <div :class="n('container')">
+        <slot name="header">
+          <div v-if="title || $slots.title || $slots['title-action']" :class="n('title')" :style="titleStyle">
+            <slot name="title" :slot-class="n('title-text')">
+              <span v-if="title" :class="n('title-text')">{{ title }}</span>
+            </slot>
+            <span v-if="$slots['title-action']" :class="n('title-action')"><slot name="title-action" /></span>
+          </div>
+          <slot name="subtitle" :slot-class="n('subtitle')">
+            <div v-if="subtitle" :class="n('subtitle')">{{ subtitle }}</div>
+          </slot>
+        </slot>
+        <BaseDivider v-if="topDivider" :class="n('divider')" />
+        <div v-if="$slots.default" :class="n('content')">
+          <slot />
+        </div>
+        <slot name="description" :slot-class="n('description')">
+          <div v-if="description" :class="n('description')">{{ description }}</div>
+        </slot>
+        <BaseDivider v-if="bottomDivider" :class="n('divider')" />
+        <div v-if="$slots.footer" :class="n('footer')">
+          <slot name="footer" />
+        </div>
+        <div
+          v-if="$slots['floating-content'] && !isRow"
+          :class="n('floating-content')"
+          :inert="!props.floating ? true : undefined"
+          :aria-hidden="!props.floating ? true : undefined"
+          :style="{
+            height: contentHeight,
+            opacity,
+            transition: `opacity ${duration * 2}ms`,
+          }"
+        >
+          <slot name="floating-content" />
+        </div>
+      </div>
+
+      <div
+        v-if="showFloatingButtons"
+        :class="classes(n('floating-buttons'), n('$--box'))"
+        :inert="!props.floating ? true : undefined"
+        :aria-hidden="!props.floating ? true : undefined"
+        :style="{
+          zIndex,
+          opacity,
+          transition: `opacity ${duration * 2}ms`,
+        }"
+      >
+        <slot name="close-button">
+          <BaseButton
+            data-card-cover
+            :class="classes(n('close-button'), n('$-elevation--6'))"
+            :aria-label="props.closeButtonAriaLabel ?? closeLabel"
+            @click.stop="close"
+          >
+            <BaseIcon data-card-cover :class="n('close-button-icon')"><MIconClose /></BaseIcon>
+          </BaseButton>
+        </slot>
+      </div>
+    </div>
+
+    <div
+      :class="n('holder')"
+      :style="{
+        width: holderWidth,
+        height: holderHeight,
+      }"
+    ></div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { computed, nextTick, onActivated, onBeforeUnmount, onDeactivated, ref, shallowRef, watch } from 'vue'
+import { IconClose as MIconClose } from '@maple-design/icons-vue'
+import { doubleRaf, getRect } from '@maple-design/shared-vue'
+import BaseButton from '../button'
+import { useLock } from '../context/lock'
+import { useZIndex } from '../context/zIndex'
+import BaseDivider from '../divider'
+import BaseIcon from '../icon'
+import vRipple from '../ripple'
+import { createNamespace, formatElevation } from '../utils/components'
+import { toSizeUnit } from '../utils/elements'
+import { usePopupLayer } from '../utils/popup-layer'
+import { useCardCloseLabel, useCardSize } from './platform'
+import { cardProps } from './props'
+
+defineOptions({ name: createNamespace('card').name })
+const { n, classes } = createNamespace('card')
+const props = defineProps(cardProps)
+const emit = defineEmits<{ click: [event: Event]; 'update:floating': [value: boolean] }>()
+const mergedSize = useCardSize(() => props.size)
+const closeLabel = useCardCloseLabel()
+const duration = computed(() =>
+  Number.isFinite(props.floatingDuration) && props.floatingDuration >= 0 ? props.floatingDuration : 250,
+)
+const RIPPLE_DELAY = 500
+const card = ref<null | HTMLElement>(null)
+const cardFloater = ref<null | HTMLElement>(null)
+const holderWidth = ref('auto')
+const holderHeight = ref('auto')
+const floaterWidth = ref('100%')
+const floaterHeight = ref('100%')
+const floaterTop = ref('auto')
+const floaterLeft = ref('auto')
+const floaterPosition = ref<'static' | 'absolute' | 'fixed' | 'relative' | 'sticky' | undefined>(undefined)
+const floaterOverflow = ref('hidden')
+const contentHeight = ref('0px')
+const opacity = ref('0')
+const isRow = computed(() => props.direction !== 'column')
+const showFloatingButtons = ref(false)
+const floated = ref(false)
+const { zIndex } = useZIndex(() => props.floating && !isRow.value, 1)
+
+let generation = 0
+let active = true
+let disposed = false
+let dropdownFloaterTop = 'auto'
+let dropdownFloaterLeft = 'auto'
+let dropper: ReturnType<typeof setTimeout> | undefined
+const floater = shallowRef<ReturnType<typeof setTimeout> | null>(null)
+
+useLock(
+  () => props.floating,
+  () => !isRow.value,
+  () => card.value?.ownerDocument.body,
+)
+
+let returnFocus: HTMLElement | null = null
+let stopInactiveFocusTracking: (() => void) | undefined
+function trackInactiveFocus() {
+  stopInactiveFocusTracking?.()
+  const document = card.value?.ownerDocument
+  if (!document) {
+    return
+  }
+  const remember = (target: EventTarget | null) => {
+    const element = target as HTMLElement | null
+    if (
+      element &&
+      typeof element.focus === 'function' &&
+      !card.value?.contains(element) &&
+      element !== document.body &&
+      element !== document.documentElement
+    ) {
+      returnFocus = element
+    }
+  }
+  remember(document.activeElement)
+  const onFocus = (event: FocusEvent) => remember(event.target)
+  document.addEventListener('focusin', onFocus, true)
+  stopInactiveFocusTracking = () => document.removeEventListener('focusin', onFocus, true)
+}
+function updateReturnFocus(open: boolean) {
+  const document = card.value?.ownerDocument
+  if (!document) {
+    return
+  }
+  const focused = document.activeElement as HTMLElement | null
+  if (open) {
+    returnFocus = focused && focused !== document.body && focused !== document.documentElement ? focused : null
+    return
+  }
+  const target = returnFocus
+  returnFocus = null
+  const hiddenArea = focused?.closest(`.${n('floating-content')}, .${n('floating-buttons')}`)
+  if (hiddenArea && cardFloater.value?.contains(hiddenArea) && target?.isConnected && !target.closest('[inert]')) {
+    target.focus({ preventScroll: true })
+  }
+}
+
+const wantsFloating = () => props.floating && !isRow.value
+const { onStackTop } = usePopupLayer(wantsFloating, zIndex, () => card.value?.ownerDocument, true)
+const available = () => active && !disposed
+let openingWaiting = false
+let reducedMotion = false
+let stopMotionTracking: (() => void) | undefined
+function trackMotion(element: HTMLElement | null) {
+  stopMotionTracking?.()
+  stopMotionTracking = undefined
+  reducedMotion = false
+  const view = element?.ownerDocument.defaultView
+  if (!view || typeof view.matchMedia !== 'function') {
+    return
+  }
+  const query = view.matchMedia('(prefers-reduced-motion: reduce)')
+  reducedMotion = query.matches
+  const change = (event: MediaQueryListEvent) => {
+    reducedMotion = event.matches
+    if (!reducedMotion || !available()) {
+      return
+    }
+    if (wantsFloating() && openingWaiting) {
+      floating()
+    } else if (!wantsFloating() && dropper !== undefined) {
+      dropdown()
+    }
+  }
+  if (typeof query.addEventListener === 'function') {
+    query.addEventListener('change', change)
+    stopMotionTracking = () => query.removeEventListener('change', change)
+  } else if (typeof query.addListener === 'function') {
+    query.addListener(change)
+    stopMotionTracking = () => query.removeListener(change)
+  }
+}
+watch(
+  card,
+  (element) => {
+    if (available()) {
+      trackMotion(element)
+    }
+    if (element && wantsFloating() && available()) {
+      updateReturnFocus(true)
+    }
+  },
+  { flush: 'sync' },
+)
+function current(token: number, element: HTMLElement | null) {
+  return available() && token === generation && card.value === element
+}
+
+watch(
+  wantsFloating,
+  (value) => {
+    const token = ++generation
+    if (!active) {
+      if (!disposed && value) {
+        trackInactiveFocus()
+      } else {
+        stopInactiveFocusTracking?.()
+        stopInactiveFocusTracking = undefined
+        returnFocus = null
+      }
+      return
+    }
+    updateReturnFocus(value)
+    let consumed = false
+    nextTick(() => {
+      if (!available() || token !== generation || consumed || value !== wantsFloating()) {
+        return
+      }
+      consumed = true
+      if (value) {
+        floating()
+      } else if (floater.value !== null || floated.value || floaterPosition.value !== undefined) {
+        dropdown()
+      }
+    })
+  },
+  { immediate: true, flush: 'sync' },
+)
+
+function floating() {
+  if (!available() || !wantsFloating()) {
+    return
+  }
+  const token = ++generation
+  const element = card.value
+  let consumed = false
+  clearTimeout(floater.value ?? undefined)
+  clearTimeout(dropper)
+  dropper = undefined
+  openingWaiting = true
+  floater.value = setTimeout(
+    async () => {
+      if (!element || !current(token, element) || !wantsFloating() || consumed) {
+        return
+      }
+      consumed = true
+      const { width, height, left, top } = getRect(element)
+      // Measurement can invoke application-provided geometry hooks.
+      if (!current(token, element) || !wantsFloating()) {
+        return
+      }
+      holderWidth.value = toSizeUnit(width)!
+      holderHeight.value = toSizeUnit(height)!
+      floaterWidth.value = holderWidth.value
+      floaterHeight.value = holderHeight.value
+      floaterTop.value = toSizeUnit(top)!
+      floaterLeft.value = toSizeUnit(left)!
+      floaterPosition.value = 'fixed'
+      dropdownFloaterTop = floaterTop.value
+      dropdownFloaterLeft = floaterLeft.value
+      showFloatingButtons.value = true
+
+      // The existing non-abortable helper still settles; only this continuation
+      // owns permission to expand. It is not a CSS animation-duration timer.
+      if (!reducedMotion) {
+        await doubleRaf()
+      }
+      if (!current(token, element) || !wantsFloating()) {
+        return
+      }
+      openingWaiting = false
+      floaterTop.value = '0'
+      floaterLeft.value = '0'
+      floaterWidth.value = '100vw'
+      floaterHeight.value = '100vh'
+      contentHeight.value = 'auto'
+      opacity.value = '1'
+      floaterOverflow.value = 'auto'
+      floated.value = true
+    },
+    props.ripple && !reducedMotion ? RIPPLE_DELAY : 0,
+  )
+}
+
+function dropdown() {
+  if (!available() || wantsFloating()) {
+    return
+  }
+  const token = ++generation
+  const element = card.value
+  let consumed = false
+  clearTimeout(dropper)
+  clearTimeout(floater.value ?? undefined)
+  openingWaiting = false
+  floater.value = null
+  if (element && floaterPosition.value === 'fixed') {
+    const { width, height, left, top } = getRect(element)
+    if (!current(token, element) || wantsFloating()) {
+      return
+    }
+    holderWidth.value = toSizeUnit(width)!
+    holderHeight.value = toSizeUnit(height)!
+    dropdownFloaterTop = toSizeUnit(top)!
+    dropdownFloaterLeft = toSizeUnit(left)!
+  }
+  floaterWidth.value = holderWidth.value
+  floaterHeight.value = holderHeight.value
+  floaterTop.value = dropdownFloaterTop
+  floaterLeft.value = dropdownFloaterLeft
+  contentHeight.value = '0px'
+  opacity.value = '0'
+  showFloatingButtons.value = false
+  dropper = setTimeout(
+    () => {
+      if (!current(token, element) || wantsFloating() || consumed) {
+        return
+      }
+      consumed = true
+      dropper = undefined
+      holderWidth.value = 'auto'
+      holderHeight.value = 'auto'
+      floaterWidth.value = '100%'
+      floaterHeight.value = '100%'
+      floaterTop.value = 'auto'
+      floaterLeft.value = 'auto'
+      dropdownFloaterTop = 'auto'
+      dropdownFloaterLeft = 'auto'
+      floaterOverflow.value = 'hidden'
+      floaterPosition.value = undefined
+      floated.value = false
+    },
+    reducedMotion ? 0 : duration.value,
+  )
+}
+function handleFloatingKeydown(event: KeyboardEvent) {
+  if (
+    !available() ||
+    !wantsFloating() ||
+    event.key !== 'Escape' ||
+    event.isComposing ||
+    event.keyCode === 229 ||
+    event.defaultPrevented ||
+    !onStackTop(event)
+  ) {
+    return
+  }
+  event.preventDefault()
+  event.stopPropagation()
+  close()
+}
+function close() {
+  if (available()) {
+    emit('update:floating', false)
+  }
+}
+function handleClick(e: Event) {
+  if (available()) {
+    emit('click', e)
+  }
+}
+onBeforeUnmount(() => {
+  disposed = true
+  stopMotionTracking?.()
+  stopMotionTracking = undefined
+  stopInactiveFocusTracking?.()
+  stopInactiveFocusTracking = undefined
+  cleanup()
+})
+onDeactivated(() => {
+  stopMotionTracking?.()
+  stopMotionTracking = undefined
+  cleanup()
+  if (!disposed && wantsFloating()) {
+    trackInactiveFocus()
+  }
+})
+onActivated(() => {
+  if (disposed || active) {
+    return
+  }
+  active = true
+  trackMotion(card.value)
+  stopInactiveFocusTracking?.()
+  stopInactiveFocusTracking = undefined
+  if (wantsFloating()) {
+    if (!card.value?.contains(card.value.ownerDocument.activeElement)) {
+      updateReturnFocus(true)
+    }
+    floating()
+  } else if (floaterPosition.value !== undefined || floated.value) {
+    dropdown()
+  }
+})
+function cleanup() {
+  openingWaiting = false
+  active = false
+  generation++
+  clearTimeout(floater.value ?? undefined)
+  clearTimeout(dropper)
+  floater.value = null
+  dropper = undefined
+}
+</script>

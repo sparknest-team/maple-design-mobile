@@ -1,6 +1,6 @@
 # These files are owned by the icon generator/build, not by hand formatting.
-packages/maple-icons-vue/src/**
-packages/maple-icons-vue/es/**
-packages/maple-icons-vue/lib/**
-packages/maple-icons-vue/types/**
-packages/maple-ui/types-generated/**
+packages/icons/src/**
+packages/icons/es/**
+packages/icons/lib/**
+packages/icons/types/**
+packages/ui/types-generated/**

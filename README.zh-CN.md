@@ -19,18 +19,18 @@ Maple Design Mobile 是基于 Vue 3、TypeScript 和 Less 的移动端组件库�
 ## 安装
 
 ```shell
-pnpm add @maple-design/ui
+pnpm add @maple-design/ui-vue
 ```
 
 ## 项目配套
 
 | 包 | 用途 |
 | --- | --- |
-| `@maple-design/cli` | 组件开发、文档与构建工具 |
+| `@maple-design/cli-vue` | 组件开发、文档与构建工具 |
 | `@maple-design/icons-vue` | SVG Vue 图标组件 |
-| `@maple-design/resolver` | 组件与图标的按需引入 |
-| `@maple-design/preset-unocss` | UnoCSS 预设 |
-| `@maple-design/preset-tailwindcss` | Tailwind CSS 预设 |
+| `@maple-design/resolver-vue` | 组件与图标的按需引入 |
+| `@maple-design/preset-unocss-vue` | UnoCSS 预设 |
+| `@maple-design/preset-tailwindcss-vue` | Tailwind CSS 预设 |
 
 ## 贡献者
 

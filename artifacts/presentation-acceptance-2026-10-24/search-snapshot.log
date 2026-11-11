@@ -1,5 +1,5 @@
 
- RUN  v3.0.6 /Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui
+ RUN  v3.0.6 /Users/shuaimeng/github_web/maple-design-mobile/packages/ui
 
  ✓ src/search/__tests__/index.spec.js (11 tests) 236ms
 

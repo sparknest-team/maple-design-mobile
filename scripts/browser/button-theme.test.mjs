@@ -16,7 +16,7 @@ let origin
 before(
   async () => {
     directory = await mkdtemp(resolve(tmpdir(), 'maple-button-theme-'))
-    await copyProductionSnapshot(resolve(root, 'packages/maple-ui/site'), directory)
+    await copyProductionSnapshot(resolve(root, 'packages/ui/site'), directory)
     server = createServer(async (req, res) => {
       const pathname = decodeURIComponent(new URL(req.url, 'http://localhost').pathname)
       const file = resolve(directory, `.${pathname === '/' ? '/index.html' : pathname}`)

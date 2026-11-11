@@ -1,5 +1,5 @@
 
- RUN  v3.0.6 /Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui
+ RUN  v3.0.6 /Users/shuaimeng/github_web/maple-design-mobile/packages/ui
 
  ✓ src/auto-complete/__tests__/auto-complete.test.tsx (44 tests) 705ms
  ✓ src/form/__tests__/async-fields-demo.spec.js (10 tests) 943ms

@@ -30,7 +30,7 @@
       "surface": "documentation",
       "theme": "lightTheme",
       "kind": "interaction",
-      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/nav-menu/example/demos/basic.vue",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/ui/src/nav-menu/example/demos/basic.vue",
       "checkedSources": 3,
       "result": "nav-menu-filter",
       "passed": true
@@ -40,7 +40,7 @@
       "surface": "documentation",
       "theme": "darkTheme",
       "kind": "interaction",
-      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/nav-menu/example/demos/basic.vue",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/ui/src/nav-menu/example/demos/basic.vue",
       "checkedSources": 1,
       "result": "nav-menu-filter",
       "passed": true
@@ -50,7 +50,7 @@
       "surface": "mobile",
       "theme": "lightTheme",
       "kind": "interaction",
-      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/nav-menu/example/demos/basic.vue",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/ui/src/nav-menu/example/demos/basic.vue",
       "checkedSources": 0,
       "result": "nav-menu-filter",
       "passed": true
@@ -60,7 +60,7 @@
       "surface": "mobile",
       "theme": "darkTheme",
       "kind": "interaction",
-      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui/src/nav-menu/example/demos/basic.vue",
+      "source": "/Users/shuaimeng/github_web/maple-design-mobile/packages/ui/src/nav-menu/example/demos/basic.vue",
       "checkedSources": 0,
       "result": "nav-menu-filter",
       "passed": true

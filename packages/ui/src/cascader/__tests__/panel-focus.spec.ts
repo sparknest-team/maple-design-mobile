@@ -1,0 +1,263 @@
+import { h, nextTick } from 'vue'
+import { mount } from '@vue/test-utils'
+import { expect, test } from 'vitest'
+import Panel from '../CascaderPanel.vue'
+
+test('a focused option remains active when the pointer leaves and Enter selects it', async () => {
+  const wrapper = mount(Panel, {
+    attachTo: document.body,
+    props: {
+      options: [
+        { value: 'a', label: 'Alpha' },
+        { value: 'b', label: 'Beta' },
+      ],
+    },
+  })
+  try {
+    const option = wrapper.findAll(':is([role="menuitem"],[role="menuitemradio"])')[1]!
+    ;(option.element as HTMLElement).focus()
+    await option.trigger('mouseleave')
+    await option.trigger('keydown', { key: 'Enter' })
+    expect(wrapper.emitted('update:modelValue')?.at(-1)).toEqual(['b'])
+  } finally {
+    wrapper.unmount()
+  }
+})
+
+test('arrow navigation moves DOM focus and Enter selects the new option', async () => {
+  const wrapper = mount(Panel, {
+    attachTo: document.body,
+    props: {
+      options: [
+        { value: 'a', label: 'Alpha' },
+        { value: 'b', label: 'Beta' },
+      ],
+    },
+  })
+  try {
+    const [first, second] = wrapper.findAll(':is([role="menuitem"],[role="menuitemradio"])')
+    ;(first!.element as HTMLElement).focus()
+    await first!.trigger('keydown', { key: 'ArrowDown' })
+    await nextTick()
+    expect(document.activeElement).toBe(second!.element)
+    await second!.trigger('keydown', { key: 'Enter' })
+    expect(wrapper.emitted('update:modelValue')?.at(-1)).toEqual(['b'])
+  } finally {
+    wrapper.unmount()
+  }
+})
+
+test('nested checkbox retains keyboard ownership', async () => {
+  const wrapper = mount(Panel, {
+    attachTo: document.body,
+    props: { multiple: true, options: [{ value: 'a', label: 'Alpha' }] },
+  })
+  try {
+    const input = wrapper.get('input[type="checkbox"]')
+    ;(input.element as HTMLElement).focus()
+    await input.trigger('keydown', { key: 'Enter' })
+    expect(wrapper.emitted('update:modelValue')).toEqual([[['a']]])
+  } finally {
+    wrapper.unmount()
+  }
+})
+
+test('pending arrow update never steals focus moved outside the panel', async () => {
+  const outside = document.createElement('button')
+  document.body.append(outside)
+  const wrapper = mount(Panel, {
+    attachTo: document.body,
+    props: {
+      options: [
+        { value: 'a', label: 'Alpha' },
+        { value: 'b', label: 'Beta' },
+      ],
+    },
+  })
+  try {
+    const first = wrapper.get(':is([role="menuitem"],[role="menuitemradio"])')
+    ;(first.element as HTMLElement).focus()
+    first.element.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }))
+    outside.focus()
+    await nextTick()
+    expect(document.activeElement).toBe(outside)
+  } finally {
+    wrapper.unmount()
+    outside.remove()
+  }
+})
+
+test('pointer leaving another option restores the option that still owns focus', async () => {
+  const wrapper = mount(Panel, {
+    attachTo: document.body,
+    props: {
+      options: [
+        { value: 'a', label: 'Alpha' },
+        { value: 'b', label: 'Beta' },
+      ],
+    },
+  })
+  try {
+    const [first, second] = wrapper.findAll(':is([role="menuitem"],[role="menuitemradio"])')
+    ;(first!.element as HTMLElement).focus()
+    await second!.trigger('mouseenter')
+    await second!.trigger('mouseleave')
+    await first!.trigger('keydown', { key: 'Enter' })
+    expect(wrapper.emitted('update:modelValue')?.at(-1)).toEqual(['a'])
+  } finally {
+    wrapper.unmount()
+  }
+})
+
+test('another panel cannot adopt the focused option from a different panel', async () => {
+  const first = mount(Panel, { attachTo: document.body, props: { options: [{ value: 'a', label: 'Alpha' }] } })
+  const second = mount(Panel, { attachTo: document.body, props: { options: [{ value: 'b', label: 'Beta' }] } })
+  try {
+    const focused = first.get(':is([role="menuitem"],[role="menuitemradio"])')
+    const hovered = second.get(':is([role="menuitem"],[role="menuitemradio"])')
+    ;(focused.element as HTMLElement).focus()
+    await hovered.trigger('mouseenter')
+    await hovered.trigger('mouseleave')
+    await second.trigger('keydown', { key: 'Enter' })
+    expect(second.emitted('update:modelValue')).toBeUndefined()
+    await focused.trigger('keydown', { key: 'Enter' })
+    expect(first.emitted('update:modelValue')?.at(-1)).toEqual(['a'])
+  } finally {
+    first.unmount()
+    second.unmount()
+  }
+})
+
+test('Enter on a disabled focused option does not select a previously active option', async () => {
+  const wrapper = mount(Panel, {
+    attachTo: document.body,
+    props: {
+      options: [
+        { value: 'a', label: 'Alpha' },
+        { value: 'b', label: 'Beta', disabled: true },
+      ],
+    },
+  })
+  try {
+    const [enabled, disabled] = wrapper.findAll(':is([role="menuitem"],[role="menuitemradio"])')
+    ;(enabled!.element as HTMLElement).focus()
+    ;(disabled!.element as HTMLElement).focus()
+    await disabled!.trigger('keydown', { key: 'Enter' })
+    expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+  } finally {
+    wrapper.unmount()
+  }
+})
+
+test.each([
+  ['ltr', 'ArrowRight'],
+  ['rtl', 'ArrowLeft'],
+])('disabled option does not expand an old branch in %s', async (dir, key) => {
+  const wrapper = mount(Panel, {
+    attachTo: document.body,
+    attrs: { dir },
+    props: {
+      options: [
+        { value: 'a', label: 'Alpha', children: [{ value: 'a1', label: 'Child' }] },
+        { value: 'b', label: 'Beta', disabled: true },
+      ],
+    },
+  })
+  try {
+    const [enabled, disabled] = wrapper.findAll(':is([role="menuitem"],[role="menuitemradio"])')
+    ;(enabled!.element as HTMLElement).focus()
+    ;(disabled!.element as HTMLElement).focus()
+    await disabled!.trigger('keydown', { key })
+    expect(wrapper.findAll(':is([role="menuitem"],[role="menuitemradio"])')).toHaveLength(2)
+    expect(enabled!.attributes('aria-expanded')).toBe('false')
+  } finally {
+    wrapper.unmount()
+  }
+})
+
+test.each([
+  ['ArrowDown', 3, 2],
+  ['ArrowUp', 0, 0],
+])('vertical %s starts from disabled focused position', async (key, previous, expected) => {
+  const wrapper = mount(Panel, {
+    attachTo: document.body,
+    props: {
+      options: [
+        { value: 'a', label: 'Alpha' },
+        { value: 'b', label: 'Beta', disabled: true },
+        { value: 'c', label: 'Gamma' },
+        { value: 'd', label: 'Delta' },
+      ],
+    },
+  })
+  try {
+    const items = wrapper.findAll(':is([role="menuitem"],[role="menuitemradio"])')
+    ;(items[previous]!.element as HTMLElement).focus()
+    ;(items[1]!.element as HTMLElement).focus()
+    await items[1]!.trigger('keydown', { key })
+    await nextTick()
+    expect(document.activeElement).toBe(items[expected]!.element)
+  } finally {
+    wrapper.unmount()
+  }
+})
+
+test('panel navigation does not focus a matching option in a nested panel', async () => {
+  const wrapper = mount(Panel, {
+    attachTo: document.body,
+    props: {
+      options: [
+        { value: 'a', label: 'Alpha' },
+        { value: 'b', label: 'Outer Beta' },
+      ],
+    },
+    slots: {
+      option: ({ data }: any) =>
+        data.value === 'a'
+          ? h('div', [data.label, h(Panel, { options: [{ value: 'b', label: 'Inner Beta' }] })])
+          : data.label,
+    },
+  })
+  try {
+    const alpha = wrapper.get(':is([role="menuitem"],[role="menuitemradio"])[title="Alpha"]')
+    const inner = wrapper.get(':is([role="menuitem"],[role="menuitemradio"])[title="Inner Beta"]')
+    const outer = wrapper.get(':is([role="menuitem"],[role="menuitemradio"])[title="Outer Beta"]')
+    ;(alpha.element as HTMLElement).focus()
+    await alpha.trigger('keydown', { key: 'ArrowDown' })
+    await nextTick()
+    expect(document.activeElement).toBe(outer.element)
+    expect(document.activeElement).not.toBe(inner.element)
+  } finally {
+    wrapper.unmount()
+  }
+})
+
+test('pointer leave restores the outer option that contains the focused nested panel', async () => {
+  const wrapper = mount(Panel, {
+    attachTo: document.body,
+    props: {
+      options: [
+        { value: 'a', label: 'Outer Alpha' },
+        { value: 'b', label: 'Outer Beta' },
+      ],
+    },
+    slots: {
+      option: ({ data }: any) =>
+        data.value === 'a'
+          ? h('div', [data.label, h(Panel, { options: [{ value: 'b', label: 'Inner Beta' }] })])
+          : data.label,
+    },
+  })
+  try {
+    const alpha = wrapper.get('[title="Outer Alpha"]')
+    const beta = wrapper.get('[title="Outer Beta"]')
+    const inner = wrapper.get('[title="Inner Beta"]')
+    ;(inner.element as HTMLElement).focus()
+    await beta.trigger('mouseenter')
+    await beta.trigger('mouseleave')
+    expect(alpha.classes().some((name) => name.endsWith('-active'))).toBe(true)
+    expect(beta.classes().some((name) => name.endsWith('-active'))).toBe(false)
+  } finally {
+    wrapper.unmount()
+  }
+})

@@ -2,7 +2,7 @@ import assert from 'node:assert/strict'
 import { mkdir, readFile } from 'node:fs/promises'
 import { test } from 'node:test'
 import { chromium } from 'playwright'
-import { MapleResolver } from '../../packages/maple-resolver/lib/index.js'
+import { MapleResolver } from '../../packages/resolver/lib/index.js'
 
 const output = new URL('../../artifacts/input-number-quantity/', import.meta.url).pathname
 const themes = [
@@ -21,7 +21,7 @@ test('Counter has no source export or resolver compatibility alias', async () =>
   assert.equal(resolver.resolve('Counter'), undefined)
   assert.ok(resolver.resolve('MpInputNumber'))
   for (const file of ['index.mjs', 'maple.css']) {
-    const text = await readFile(new URL(`../../packages/maple-ui/es/${file}`, import.meta.url), 'utf8')
+    const text = await readFile(new URL(`../../packages/ui/es/${file}`, import.meta.url), 'utf8')
     assert.doesNotMatch(
       text,
       file.endsWith('.css') ? /--mp-counter-|\.mp-counter(?:\b|__)/ : /\bCounter\b|counterProps|\/counter\//,

@@ -4,9 +4,9 @@ import { after, before, test } from 'node:test'
 import { fileURLToPath } from 'node:url'
 import { chromium } from 'playwright'
 import { chooseDemoOption } from '../../../design-ui/browser/demo-control.mjs'
-import { createServer, jsx, vue } from '../../packages/maple-cli/test-utils/browser-vite.mjs'
+import { createServer, jsx, vue } from '../../packages/cli/test-utils/browser-vite.mjs'
 
-const root = fileURLToPath(new URL('../../packages/maple-ui/', import.meta.url))
+const root = fileURLToPath(new URL('../../packages/ui/', import.meta.url))
 const output = fileURLToPath(new URL('../../artifacts/brand-form/', import.meta.url))
 const evidence = JSON.parse(
   await readFile(
@@ -480,9 +480,7 @@ for (const brand of ['alps', 'firefly']) {
         await upload
           .locator('input[type="file"]')
           .setInputFiles(
-            fileURLToPath(
-              new URL('../../packages/maple-ui/src/safe-area/example/demos/assets/drive.webm', import.meta.url),
-            ),
+            fileURLToPath(new URL('../../packages/ui/src/safe-area/example/demos/assets/drive.webm', import.meta.url)),
           )
         await page.waitForFunction(
           () =>

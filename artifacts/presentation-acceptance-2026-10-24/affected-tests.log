@@ -1,5 +1,5 @@
 
- RUN  v3.0.6 /Users/shuaimeng/github_web/maple-design-mobile/packages/maple-ui
+ RUN  v3.0.6 /Users/shuaimeng/github_web/maple-design-mobile/packages/ui
 
  ✓ src/input-number/__tests__/field-contract.spec.ts (17 tests) 348ms
  ✓ src/picker/__tests__/component.spec.js (10 tests) 2748ms

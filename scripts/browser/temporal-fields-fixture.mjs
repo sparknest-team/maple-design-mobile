@@ -1,7 +1,7 @@
 import { fileURLToPath } from 'node:url'
-import { createServer, jsx, vue } from '../../packages/maple-cli/test-utils/browser-vite.mjs'
+import { createServer, jsx, vue } from '../../packages/cli/test-utils/browser-vite.mjs'
 
-const root = fileURLToPath(new URL('../../packages/maple-ui/', import.meta.url))
+const root = fileURLToPath(new URL('../../packages/ui/', import.meta.url))
 const html = `<!doctype html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>日期时间字段浏览器验收</title><style>
 body{margin:0;background:var(--mp-color-body);color:var(--mp-color-text);font:14px/1.5 sans-serif}main{max-width:780px;margin:auto;padding:20px}h1{font-size:20px}label{display:inline-flex;gap:8px;align-items:center;margin:6px 14px 6px 0}select,button{font:inherit;padding:6px}section{padding:16px 0;border-top:1px solid #ccc}output{display:block;overflow-wrap:anywhere;margin:8px 0}.controls{display:flex;flex-wrap:wrap}.controls button{margin:6px}code{font-size:12px}
 </style></head><body><main id="app"></main><script type="module">

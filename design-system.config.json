@@ -1,7 +1,7 @@
 {
   "name": "maple",
   "repositoryRoot": ".",
-  "componentRoot": "packages/maple-ui/src",
+  "componentRoot": "packages/ui/src",
   "componentPrefix": "Mp",
   "classPrefix": "mp",
   "tokenPrefix": "--mp-",

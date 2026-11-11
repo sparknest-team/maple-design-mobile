@@ -5,10 +5,10 @@ import { fileURLToPath } from 'node:url'
 import { demoFilesForLanguage } from './demo-language-files.mjs'
 
 const root = fileURLToPath(new URL('../../', import.meta.url))
-const require = createRequire(resolve(root, 'packages/maple-ui/package.json'))
+const require = createRequire(resolve(root, 'packages/ui/package.json'))
 const { parse, compileScript, compileTemplate } = require('vue/compiler-sfc')
 const ts = require('typescript')
-const source = resolve(root, 'packages/maple-ui/src')
+const source = resolve(root, 'packages/ui/src')
 const rootEntry = ts.createSourceFile(
   'index.ts',
   readFileSync(join(source, 'index.ts'), 'utf8'),
@@ -107,7 +107,7 @@ function checkResolverImports(filename, code) {
     if (isType) {
       continue
     }
-    if (from === '@maple-design/ui') {
+    if (from === '@maple-design/ui-vue') {
       for (const name of importedNames(match[2])) {
         if (!publicRuntimeExports.has(name)) {
           issues.push(`"${name}" is not exported by the public library entry`)
@@ -118,7 +118,7 @@ function checkResolverImports(filename, code) {
       }
       continue
     }
-    if (from.startsWith('@maple-design/ui/')) {
+    if (from.startsWith('@maple-design/ui-vue/')) {
       issues.push(`do not deep-import "${from}"; use MapleResolver`)
       continue
     }

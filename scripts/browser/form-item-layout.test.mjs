@@ -4,9 +4,9 @@ import { createRequire } from 'node:module'
 import { test } from 'node:test'
 import { chromium } from 'playwright'
 
-const require = createRequire(new URL('../../packages/maple-cli/package.json', import.meta.url))
+const require = createRequire(new URL('../../packages/cli/package.json', import.meta.url))
 const less = require('less')
-const source = new URL('../../packages/maple-ui/src/', import.meta.url)
+const source = new URL('../../packages/ui/src/', import.meta.url)
 
 test('presentation preserves form columns and labels center on content rather than feedback', async () => {
   const styles = await Promise.all(

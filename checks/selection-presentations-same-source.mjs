@@ -7,8 +7,8 @@ import { normalizeBoundImports } from './normalize-bound-imports.mjs'
 import { normalizeTypeScript, normalizeVueSource } from './normalize-source.mjs'
 
 const workspace = fileURLToPath(new URL('../../', import.meta.url))
-const cedar = resolve(workspace, 'cedar-design-web/packages/cedar-ui/src')
-const maple = resolve(workspace, 'maple-design-mobile/packages/maple-ui/src')
+const cedar = resolve(workspace, 'cedar-design-web/packages/ui/src')
+const maple = resolve(workspace, 'maple-design-mobile/packages/ui/src')
 const files = [
   'trigger/interaction.ts',
   'trigger/reference-click.ts',
@@ -88,7 +88,7 @@ const files = [
 const toMaple = (source) =>
   source
     .replaceAll('../_hooks/use-form-item', '../form/item-provide')
-    .replaceAll('@cedar-design/use', '@maple-design/use')
+    .replaceAll('@cedar-design/use-vue', '@maple-design/use-vue')
     .replaceAll('./checkbox-group.vue', './CheckboxGroup.vue')
     .replaceAll('@cedar-design/icons-vue/icon-right', '@maple-design/icons-vue')
     .replaceAll('@cedar-design/icons-vue/icon-loading', '@maple-design/icons-vue')
@@ -114,11 +114,11 @@ for (const file of files) {
     await canonical(m, file),
     file + ' differs: copy Cedar and adjust local imports/prefixes',
   )
-  assert.doesNotMatch(m, /from ['"][^'"]*(?:cedar-design|@cedar-design\/ui|platform)/)
+  assert.doesNotMatch(m, /from ['"][^'"]*(?:cedar-design|@cedar-design\/ui-vue|platform)/)
 }
 for (const [root, compiler] of [
   [cedar, '../node_modules/less/package.json'],
-  [maple, '../../maple-cli/node_modules/less/package.json'],
+  [maple, '../../cli/node_modules/less/package.json'],
 ]) {
   const less = createRequire(resolve(root, compiler))('./')
   for (const component of ['select', 'cascader', '_components/selected-options']) {

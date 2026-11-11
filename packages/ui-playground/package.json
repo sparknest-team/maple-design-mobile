@@ -1,0 +1,34 @@
+{
+  "name": "@maple-design/ui-playground-vue",
+  "version": "1.0.0",
+  "private": true,
+  "description": "maple ui playground",
+  "keywords": [
+    "maple ui",
+    "playground",
+    "repl"
+  ],
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "build": "maple-cli build:vite",
+    "dev": "maple-cli dev:vite",
+    "preview": "maple-cli preview"
+  },
+  "dependencies": {
+    "@maple-design/touch-emulator-vue": "workspace:*",
+    "@maple-design/ui-vue": "workspace:*",
+    "@vue/repl": "^2.9.0",
+    "file-saver": "^2.0.5",
+    "jszip": "^3.10.1",
+    "vue": "catalog:"
+  },
+  "devDependencies": {
+    "@types/file-saver": "^2.0.7",
+    "@types/node": "catalog:",
+    "@maple-design/cli-vue": "workspace:*",
+    "live-server": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:"
+  }
+}

@@ -3,13 +3,13 @@ const fs = require('node:fs'),
   { createRequire } = require('node:module'),
   { gzipSync } = require('node:zlib')
 const root = path.resolve(__dirname, '../..')
-const req = createRequire(path.join(root, 'packages/maple-cli/package.json'))
+const req = createRequire(path.join(root, 'packages/cli/package.json'))
 const esbuild = req('esbuild'),
   vue = req('@vue/compiler-sfc'),
   babel = req('@babel/core')
 const assert = require('node:assert/strict')
 const sourceRoot = fs.realpathSync(process.env.MAPLE_BUNDLE_SOURCE_ROOT || root)
-const src = path.join(sourceRoot, 'packages/maple-ui/src')
+const src = path.join(sourceRoot, 'packages/ui/src')
 const entries = Object.fromEntries(
   fs
     .readdirSync(src, { withFileTypes: true })
@@ -99,10 +99,10 @@ const plugin = {
     metafile: true,
     logLevel: 'silent',
     alias: {
-      '@maple-design/shared': path.join(sourceRoot, 'packages/maple-shared/src/index.ts'),
-      '@maple-design/use': path.join(sourceRoot, 'packages/maple-use/src/index.ts'),
-      '@maple-design/icons-vue/style.css': path.join(sourceRoot, 'packages/maple-icons-vue/style.css'),
-      '@maple-design/icons-vue': path.join(sourceRoot, 'packages/maple-icons-vue/src/index.ts'),
+      '@maple-design/shared-vue': path.join(sourceRoot, 'packages/shared/src/index.ts'),
+      '@maple-design/use-vue': path.join(sourceRoot, 'packages/use/src/index.ts'),
+      '@maple-design/icons-vue/style.css': path.join(sourceRoot, 'packages/icons/style.css'),
+      '@maple-design/icons-vue': path.join(sourceRoot, 'packages/icons/src/index.ts'),
     },
     loader: {
       '.less': 'empty',

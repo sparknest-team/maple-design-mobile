@@ -13,12 +13,18 @@ permissions:
 jobs:
   release:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: maple-design-mobile
     steps:
       - uses: actions/checkout@v4
+        with:
+          path: maple-design-mobile
       - uses: actions/checkout@v4
         with:
           repository: loca-spirit/design-ui
-          path: .design-ui
+          path: design-ui
+          token: ${{ secrets.DESIGN_UI_TOKEN || github.token }}
       - uses: pnpm/action-setup@v4
         with:
           version: 9.6.0
@@ -26,7 +32,12 @@ jobs:
         with:
           node-version: 20
           cache: pnpm
+          cache-dependency-path: |
+            maple-design-mobile/pnpm-lock.yaml
+            design-ui/pnpm-lock.yaml
           registry-url: https://registry.npmjs.org
+      - run: corepack pnpm install --frozen-lockfile
+        working-directory: design-ui
       - run: pnpm install --frozen-lockfile
       - run: pnpm spec:check
       - run: pnpm lint:check
@@ -36,6 +47,7 @@ jobs:
       - run: pnpm package:check
       - uses: changesets/action@v1
         with:
+          cwd: maple-design-mobile
           version: pnpm version-packages
           publish: pnpm -r publish --access public --no-git-checks
         env:

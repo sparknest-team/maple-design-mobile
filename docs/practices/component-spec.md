@@ -1,6 +1,6 @@
 # Maple Design Mobile 组件开发规范
 
-> 适用范围：`packages/maple-ui/src/<component>/` 下所有新增 / 重构组件。
+> 适用范围：`packages/ui/src/<component>/` 下所有新增 / 重构组件。
 > 本规范以 `space` / `button` / `breadcrumb` 三个组件为参考实现，从 Cedar Design Web 规范迁移而来，针对移动端做了相应调整。
 > **凡是新组件 PR，必须按本规范落实；若有偏离，需在 PR 描述中说明原因。**
 >
@@ -14,7 +14,7 @@
 ## 1. 项目定位
 
 Maple Design Mobile 是基于 Vue 3 + TypeScript + Less 的移动端组件库。
-所有组件位于 `packages/maple-ui/src/<component>/`，并以 `Mp` 为默认注册前缀（`MpButton`、`MpSpace` 等），CSS 类前缀为 `mp-`。
+所有组件位于 `packages/ui/src/<component>/`，并以 `Mp` 为默认注册前缀（`MpButton`、`MpSpace` 等），CSS 类前缀为 `mp-`。
 
 ---
 
@@ -23,7 +23,7 @@ Maple Design Mobile 是基于 Vue 3 + TypeScript + Less 的移动端组件库。
 每个组件遵循同一骨架（不需要的文件可省略，但**已列出的文件名不得改名**）：
 
 ```
-packages/maple-ui/src/<component>/
+packages/ui/src/<component>/
   <Component>.vue            # 主组件，PascalCase 文件名（必备）
   <Component>.tsx            # 或 .tsx（如 Space.tsx）
   index.ts                   # 入口：聚合 install + 类型 + 默认导出
@@ -151,7 +151,7 @@ export type SpaceProps = ExtractPropTypes<typeof spaceProps>
 
 ## 5. 父子组件通信
 
-使用 `@maple-design/use` 的 `useChildren` / `useParent`，文件 `provide.ts` 内导出 `XXX_BIND_KEY` Symbol 与 `useXxxs()` / `useXxxGroup()` 封装。子组件读取 group 配置必须 `??` 兜底：`props.size ?? group.size.value`。
+使用 `@maple-design/use-vue` 的 `useChildren` / `useParent`，文件 `provide.ts` 内导出 `XXX_BIND_KEY` Symbol 与 `useXxxs()` / `useXxxGroup()` 封装。子组件读取 group 配置必须 `??` 兜底：`props.size ?? group.size.value`。
 
 ---
 
@@ -301,8 +301,8 @@ API 标题遵守共享 [组件结构规范](../../../design-ui/standards/compone
 - 跑测试：
 
 ```bash
-cd packages/maple-ui
-npx vitest run --config /path/to/maple-cli/lib/node/config/vitest.config.js
+cd packages/ui
+npx vitest run --config /path/to/cli/lib/node/config/vitest.config.js
 # 或在 monorepo 根目录通过 pnpm 脚本
 ```
 
@@ -325,7 +325,7 @@ npx vitest run --config /path/to/maple-cli/lib/node/config/vitest.config.js
 - ❌ 将 `click` / `change` / `open` / `update:*` 等普通事件声明为 `onXxx` prop
 - ❌ 同一事件同时通过 props 回调和 `emit` 分发
 - ❌ 残留 `console.log`
-- ❌ 示例里 `import { Button } from '@maple-design/ui'` 或 `import Button from '../../button'` 再注册到模板（应用 resolver）
+- ❌ 示例里 `import { Button } from '@maple-design/ui-vue'` 或 `import Button from '../../button'` 再注册到模板（应用 resolver）
 
 ---
 
@@ -333,7 +333,7 @@ npx vitest run --config /path/to/maple-cli/lib/node/config/vitest.config.js
 
 实现新组件时，按以下顺序：
 
-1. 创建 `packages/maple-ui/src/<component>/` 目录及 `__tests__/`、`docs/`、`example/`。
+1. 创建 `packages/ui/src/<component>/` 目录及 `__tests__/`、`docs/`、`example/`。
 2. 写 `props.ts`，定义类型与 `xxxProps`，同步 `export const props = xxxProps`。
 3. 写 `<Component>.vue` 或 `<Component>.tsx`（`createNamespace(...).name` 用于 `defineComponent.name`）。
 4. 如有子组件，写 `provide.ts` 与 `<Component>Sub.vue`。
@@ -394,3 +394,7 @@ PC 侧 OpenSpec change：`cedar-design-web/openspec/changes/align-steps-spec/`�
 主值采用 modelValue/update:modelValue，非受控初始值采用 defaultValue。Tabs、Collapse、Pagination、Steps 支持普通 v-model；Collapse 仍为 name 数组，Pagination 与 Steps 仍从 1 开始。defaultValue 仅创建时读取，不监听后续更新，也不在初始化时回写父级。Pagination 的 pageSize、选择器的 inputValue/open 保留独立具名模型。选项对象默认使用 value/label（树形使用 children），不与组件主值混淆。
 
 主值命名审查范围见 design-ui/audits/primary-model-naming.md：Carousel/TabBar、可选 Tag、图片预览组采用 modelValue/defaultValue；Carousel 与图片预览组公开序号从 1 开始，FloatingPanel 停靠高度采用 modelValue/defaultValue 与普通 v-model；Image 内嵌预览统一 open/defaultOpen。声明式子项 name 不替代选项数据 value/label 或原生表单 name。
+
+## 包目录与框架边界
+
+包名、私有包后缀和 Vue/React 独立性遵循 [包目录与框架边界](../../../design-ui/standards/package-layout.md)。

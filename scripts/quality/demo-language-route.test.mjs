@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import { resolveDemoLanguage } from '../../packages/maple-cli/lib/client/language.js'
+import { resolveDemoLanguage } from '../../packages/cli/lib/client/language.js'
 
 test('standalone middle demos read desktop language on initial load and route changes', () => {
   assert.equal(resolveDemoLanguage('#/en-US/split-button'), 'en-US')

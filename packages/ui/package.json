@@ -1,0 +1,114 @@
+{
+  "name": "@maple-design/ui-vue",
+  "version": "1.1.0",
+  "description": "A Vue3 component library based on semantic tokens and brand themes, supporting mobile and desktop.",
+  "keywords": [
+    "Vue3",
+    "Mobile",
+    "Material Design",
+    "UI",
+    "Components"
+  ],
+  "homepage": "https://maplejs.org",
+  "bugs": {
+    "url": "https://github.com/loca-spirit/maple-design-mobile/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/loca-spirit/maple-design-mobile.git",
+    "directory": "packages/ui"
+  },
+  "license": "MIT",
+  "author": "shuai.meng",
+  "sideEffects": [
+    "src/**/style/*",
+    "es/**/style/*",
+    "lib/**/style/*",
+    "es/style.mjs",
+    "lib/style.js",
+    "*.css",
+    "*.less"
+  ],
+  "main": "lib/index.js",
+  "jsdelivr": "umd/maple.js",
+  "unpkg": "umd/maple.js",
+  "module": "es/index.mjs",
+  "typings": "types-generated/index.d.ts",
+  "style": "es/maple.css",
+  "exports": {
+    ".": {
+      "types": "./types-generated/index.d.ts",
+      "import": "./es/index.mjs",
+      "require": "./lib/index.js"
+    },
+    "./style": "./es/maple.css",
+    "./package.json": "./package.json",
+    "./*": {
+      "types": "./types-generated/*/index.d.ts",
+      "import": "./es/*/index.mjs",
+      "require": "./lib/*/index.js"
+    },
+    "./*/style": {
+      "import": "./es/*/style/index.mjs",
+      "require": "./lib/*/style/index.js"
+    },
+    "./json/*": "./json/*",
+    "./highlight/*": "./highlight/*"
+  },
+  "files": [
+    "json",
+    "lib",
+    "es",
+    "umd",
+    "highlight",
+    "types",
+    "types-generated"
+  ],
+  "scripts": {
+    "typecheck": "vue-tsc -p tsconfig.declaration.json --emitDeclarationOnly false --noEmit",
+    "typecheck:contracts": "tsc -p tsconfig.contracts.json",
+    "build": "pnpm build:lib && pnpm build:doc",
+    "build:lib": "maple-cli compile",
+    "build:doc": "pnpm docs:llms && node ../../scripts/quality/demo-sfc-check.mjs && maple-cli build",
+    "compile:style-vars": "maple-cli compile:style-vars",
+    "create": "maple-cli create -i",
+    "dev": "pnpm docs:llms && maple-cli dev",
+    "preview": "maple-cli preview",
+    "test": "maple-cli test",
+    "test:coverage": "maple-cli test -cov",
+    "test:watch": "maple-cli test -w -cov",
+    "docs:llms": "node ../../../design-ui/bin/llms-docs.mjs maple . public"
+  },
+  "dependencies": {
+    "@maple-design/shared-vue": "workspace:*",
+    "@maple-design/use-vue": "workspace:*",
+    "@maple-design/icons-vue": "workspace:*",
+    "dayjs": "^1.11.13",
+    "decimal.js": "^10.6.0"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "@maple-design/cli-vue": "workspace:*",
+    "@maple-design/touch-emulator-vue": "workspace:*",
+    "@vitest/coverage-istanbul": "catalog:",
+    "@vue/runtime-core": "catalog:",
+    "@vue/test-utils": "catalog:",
+    "clipboard": "^2.0.11",
+    "jsdom": "catalog:",
+    "live-server": "catalog:",
+    "shiki": "^1.29.2",
+    "typescript": "5.6.3",
+    "vitest": "catalog:",
+    "vue": "catalog:",
+    "vue-router": "catalog:",
+    "zod": "^3.25.76"
+  },
+  "peerDependencies": {
+    "vue": "^3.2.0"
+  },
+  "web-types": "highlight/web-types.en-US.json",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
+}

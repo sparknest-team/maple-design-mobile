@@ -19,18 +19,18 @@ Use [Cedar Design Web](https://cedar.show) for desktop applications and [Maple D
 ## Installation
 
 ```shell
-pnpm add @maple-design/ui
+pnpm add @maple-design/ui-vue
 ```
 
 ## Project Packages
 
 | Package | Purpose |
 | --- | --- |
-| `@maple-design/cli` | Component development, documentation and build tools |
+| `@maple-design/cli-vue` | Component development, documentation and build tools |
 | `@maple-design/icons-vue` | SVG Vue icon components |
-| `@maple-design/resolver` | On-demand component and icon imports |
-| `@maple-design/preset-unocss` | UnoCSS preset |
-| `@maple-design/preset-tailwindcss` | Tailwind CSS preset |
+| `@maple-design/resolver-vue` | On-demand component and icon imports |
+| `@maple-design/preset-unocss-vue` | UnoCSS preset |
+| `@maple-design/preset-tailwindcss-vue` | Tailwind CSS preset |
 
 ## Contributors
 
@@ -44,3 +44,5 @@ MIT.
 ## Local Development
 
 See the [build guide](./BUILDING.md) for development and build commands.
+
+包名与目录规则、全量包清单见[包目录与框架边界](../design-ui/standards/package-layout.md)。

@@ -8,7 +8,7 @@
 
 ## 必读文档（按优先级）
 
-1. **[docs/practices/component-spec.md](docs/practices/component-spec.md)** —— 组件开发规范（移动端版），所有 `packages/maple-ui/src/<component>/` 下的修改必须先读。
+1. **[docs/practices/component-spec.md](docs/practices/component-spec.md)** —— 组件开发规范（移动端版），所有 `packages/ui/src/<component>/` 下的修改必须先读。
 2. **[.github/copilot-instructions.md](.github/copilot-instructions.md)** —— GitHub Copilot Chat 自动加载的精简规范。
 3. **[docs/practices/ai-collaboration.md](docs/practices/ai-collaboration.md)** —— AI 协作 / 入口文件机制说明（什么时候该更新哪个文件）。
 4. **[CHECKLIST.md](CHECKLIST.md)** —— 组件清单。
@@ -17,7 +17,7 @@
 
 ```
 packages/
-  maple-ui/                  # 主组件库
+  ui/                  # 主组件库
     src/
       <component>/
         <Component>.vue      # 主组件，PascalCase 文件名
@@ -31,14 +31,14 @@ packages/
       themes/                # 主题色板
       utils/                 # createNamespace / 工具
       style/                 # 全局 foundation（tokens / common / elevation）
-  maple-cli/                 # CLI / build / vitest 配置
-  maple-icons-vue/           # 独立 SVG Vue 图标包（不使用 iconfont）
-  maple-shared/              # createNamespaceFn 等基础工具
-  maple-use/                 # composables
-  maple-resolver/            # 组件、图标、指令与样式 resolver
-  maple-vite-plugins/        # vite 插件
-  maple-vscode-extension/    # vscode 扩展
-  maple-ui-playground/       # playground
+  cli/                 # CLI / build / vitest 配置
+  icons/           # 独立 SVG Vue 图标包（不使用 iconfont）
+  shared/              # createNamespaceFn 等基础工具
+  use/                 # composables
+  resolver/            # 组件、图标、指令与样式 resolver
+  vite-plugins/        # vite 插件
+  vscode-extension/    # vscode 扩展
+  ui-playground/       # playground
 ```
 
 ## 关键约束（高频踩坑）
@@ -70,7 +70,7 @@ packages/
 | 全库运行时依赖与 HMR 兜底门禁 | `pnpm check:runtime-dependencies`（公共契约见 `design-ui/standards/component-anatomy.md`） |
 | shared 发布运行时、类型和体积回归 | `pnpm check:shared`（公共契约见 `design-ui/standards/shared-foundation.md`） |
 | 开发流程不覆盖发布产物的回归 | `pnpm check:dev-boundary` |
-| 跑指定包单测 | `pnpm --dir packages/maple-ui exec vitest run --config ../maple-cli/lib/node/config/vitest.config.js` |
+| 跑指定包单测 | `pnpm --dir packages/ui exec vitest run --config ../cli/lib/node/config/vitest.config.js` |
 | 跑指定组件 | `... vitest run src/<component>` |
 | CLI 文档站与编译器回归 | `pnpm check:cli` |
 | 手机宽度文档与示例主题回归（先构建文档，首次运行需 `pnpm exec playwright install chromium`） | `pnpm check:docs-theme` |
@@ -114,7 +114,7 @@ PC 端见 `/Users/shuaimeng/github/cedar-design-web/AGENTS.md`。
 - 测试文件显式从 `vitest` 导入 `describe` / `it` / `test` / `expect` / `vi` / 生命周期函数；Vitest 的 `globals: true` 不代表 ESLint 识别这些全局变量。
 - AI 交付前必须运行 `pnpm lint:check` 和受影响的测试；涉及类型时再运行 `pnpm typecheck`。报告实际结果，未运行或失败不能声称验证通过；不要通过跳过 Git hooks 或关闭规则规避错误。
 - 预存在失败：`result/imageSize`、`form/zod`（与本人改动无关）。
-- vitest 必须显式指定 `--config` 指向 `maple-cli/lib/node/config/vitest.config.js`，否则没有默认配置。
+- vitest 必须显式指定 `--config` 指向 `cli/lib/node/config/vitest.config.js`，否则没有默认配置。
 - 组件单测只收集 `src/`，生成目录 `.maple/` 中的文档站副本不能进入组件测试。CLI 源码的站点与编译器测试通过 `pnpm check:cli` 独立执行。
 
 更多细节见 [docs/practices/component-spec.md](docs/practices/component-spec.md)。
@@ -129,3 +129,7 @@ PC 端见 `/Users/shuaimeng/github/cedar-design-web/AGENTS.md`。
 ## 浏览器兼容性
 
 构建后执行 `pnpm check:compatibility`，运行三引擎完整生产回归。原生版本和移动真机发布验收见 `design-ui/standards/browser-compatibility.md`（同级仓库）。使用 `pnpm compatibility:native:init` 创建待验收报告，`pnpm check:compatibility:release` 核对最终发布产物与原生证据。模拟手机不等于真机通过。
+
+## 包名与框架边界
+
+包目录使用职责名，所有内部包（含私有包）以 -vue 结尾；与 React 的源码、CSS、token、preset、shared 和构建依赖完全独立。`pnpm check:packages` 验证目录、名称和直接依赖边界。

@@ -7,8 +7,8 @@ import { fileURLToPath } from 'node:url'
 import { promisify } from 'node:util'
 import vm from 'node:vm'
 
-const uiDirectory = fileURLToPath(new URL('../../packages/maple-ui/', import.meta.url))
-const generator = new URL('../../packages/maple-cli/lib/node/compiler/generateLibraryEntry.js', import.meta.url).href
+const uiDirectory = fileURLToPath(new URL('../../packages/ui/', import.meta.url))
+const generator = new URL('../../packages/cli/lib/node/compiler/generateLibraryEntry.js', import.meta.url).href
 
 test('regenerating library exports retains the named NavMenuItem and both resolver aliases', async () => {
   const { stdout } = await promisify(execFile)(
@@ -53,7 +53,7 @@ test('published ESM and CJS NavMenu entries retain their public contracts', asyn
 })
 
 test('browser UMD exposes NavMenu and Item without Node globals', async () => {
-  const require = createRequire(new URL('../../packages/maple-ui/package.json', import.meta.url))
+  const require = createRequire(new URL('../../packages/ui/package.json', import.meta.url))
   const { JSDOM } = require('jsdom')
   const dom = new JSDOM('<!doctype html><body></body>', { runScripts: 'outside-only', pretendToBeVisual: true })
   let app
@@ -65,7 +65,7 @@ test('browser UMD exposes NavMenu and Item without Node globals', async () => {
       { timeout: 5000 },
     )
     vm.runInContext(
-      await readFile(new URL('../../packages/maple-ui/umd/maple.js', import.meta.url), 'utf8'),
+      await readFile(new URL('../../packages/ui/umd/maple.js', import.meta.url), 'utf8'),
       dom.getInternalVMContext(),
       { timeout: 5000 },
     )
