@@ -146,6 +146,10 @@ Native `click`, `mouseenter`, `mouseleave`, `focusin`, `focusout`, `contextmenu`
 
 Fixed positioning uses the actual `fixed` containing block when an ancestor has a transform, filter, perspective, or containing CSS property. Axis-aligned scaling is accounted for; rotated or skewed coordinate systems are not guaranteed. For accessible same-origin iframe references, the reference and popup documents share coordinate conversion and event handling; cross-origin or unrelated browsing contexts are not supported. With `update-at-scroll`, scrolling either document or a scrollable ancestor updates the popup.
 
+When a reference is slotted into a scroll container inside a closed ShadowRoot, the external Trigger cannot access that slot or container and cannot listen to its scrolling automatically. The closed component can call the Trigger instance's `resize()` on internal scroll or slot changes. To close on scroll, it can apply its own threshold and call `close()`, cleaning up its listeners on unmount.
+
+A popup mounted inside an iframe remains clipped by that iframe's viewport. Content outside the viewport is not visible even when the cross-document coordinates are correct.
+
 ## CSS Variables
 
 Tooltip/Popover define arrow appearance themselves. Override their component variables rather than Trigger arrow-background.

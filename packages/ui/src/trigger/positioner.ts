@@ -13,7 +13,7 @@ import type { ReadingDirection } from '../_utils/direction'
 import { getArrowStyle } from './arrow'
 import type { TriggerPlacement } from './contract'
 import { getPositioningSpace, getRelativeRect, getTransformOrigin, translateRectBetweenDocuments } from './geometry'
-import { calculatePopupPosition, getScrollElements, getScrollViews } from './position'
+import { calculatePopupPosition, getScrollElements, getScrollViews, getSlotChangeRoots } from './position'
 import { useTriggerResize } from './resize'
 import type { TriggerPopupTranslate, TriggerStrategy } from './types'
 
@@ -58,13 +58,18 @@ export interface TriggerPositioner {
   update(): void
 }
 
-function rafThrottle(callback: (event?: Event) => void, ownerView: () => Window | null | undefined) {
+function rafThrottle(
+  callback: (event?: Event, target?: EventTarget | null) => void,
+  ownerView: () => Window | null | undefined,
+) {
   let frame: number | undefined
   let frameView: Window | undefined
   let latest: Event | undefined
+  let latestTarget: EventTarget | null | undefined
   let generation = 0
   const run = (event?: Event) => {
     latest = event
+    latestTarget = event?.currentTarget ?? event?.target
     if (frame !== undefined) {
       return
     }
@@ -82,8 +87,10 @@ function rafThrottle(callback: (event?: Event) => void, ownerView: () => Window 
       frame = undefined
       frameView = undefined
       const currentEvent = latest
+      const currentTarget = latestTarget
       latest = undefined
-      callback(currentEvent)
+      latestTarget = undefined
+      callback(currentEvent, currentTarget)
     })
   }
   run.cancel = () => {
@@ -94,6 +101,7 @@ function rafThrottle(callback: (event?: Event) => void, ownerView: () => Window 
     frame = undefined
     frameView = undefined
     latest = undefined
+    latestTarget = undefined
   }
   return run
 }
@@ -110,6 +118,7 @@ export function useTriggerPositioner(options: PositionerOptions, context: Positi
   let scrollPositions = new WeakMap<Element, [number, number]>()
   let windowPositions = new WeakMap<Document, [number, number]>()
   let scrollViews: Window[] = []
+  let slotRoots: ShadowRoot[] = []
 
   function update() {
     const reference = context.reference.value
@@ -217,10 +226,10 @@ export function useTriggerPositioner(options: PositionerOptions, context: Positi
   }
 
   const scrolling = rafThrottle(
-    (event) => {
+    (_event, eventTarget) => {
       const shouldClose = options.scrollToClose || context.globalScrollToClose.value
-      if (shouldClose && event?.target) {
-        const target = event.target as HTMLElement
+      if (shouldClose && eventTarget) {
+        const target = eventTarget as HTMLElement
         const previous = scrollPositions.get(target) ?? [target.scrollTop, target.scrollLeft]
         scrollPositions.set(target, previous)
         if (
@@ -277,10 +286,30 @@ export function useTriggerPositioner(options: PositionerOptions, context: Positi
     for (const view of scrollViews) {
       view.removeEventListener('scroll', onWindowScroll)
     }
+    for (const slot of slotRoots) {
+      slot.removeEventListener('slotchange', onSlotChange)
+    }
+    slotRoots = []
     scrollViews = []
     scrollElements = []
     scrollPositions = new WeakMap()
     windowPositions = new WeakMap()
+  }
+
+  function onSlotChange() {
+    positionGeneration++
+    const reference = context.reference.value
+    const popup = context.popup.value
+    const nextElements = [...new Set([...getScrollElements(reference), ...getScrollElements(popup)])]
+    const nextViews = [...new Set([...getScrollViews(reference), ...getScrollViews(popup)])]
+    const nextRoots = [...new Set([...getSlotChangeRoots(reference), ...getSlotChangeRoots(popup)])]
+    function changed<T>(before: T[], after: T[]) {
+      return before.length !== after.length || before.some((item, index) => item !== after[index])
+    }
+    if (changed(scrollElements, nextElements) || changed(scrollViews, nextViews) || changed(slotRoots, nextRoots)) {
+      bindScroll()
+    }
+    nextTick(update)
   }
 
   function bindScroll() {
@@ -294,6 +323,10 @@ export function useTriggerPositioner(options: PositionerOptions, context: Positi
       context.globalScrollToClose.value
     if (!active || !reference || !popup || !context.visible.value || suspended) {
       return
+    }
+    slotRoots = [...new Set([...getSlotChangeRoots(reference), ...getSlotChangeRoots(popup)])]
+    for (const slot of slotRoots) {
+      slot.addEventListener('slotchange', onSlotChange)
     }
     scrollElements = [...new Set([...getScrollElements(reference), ...getScrollElements(popup)])]
     for (const element of scrollElements) {
