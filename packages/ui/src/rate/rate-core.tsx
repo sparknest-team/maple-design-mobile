@@ -20,6 +20,7 @@ import {
 } from '@maple-design/icons-vue'
 import { useDirection } from '../_utils/direction'
 import { useFormErrorDescription } from '../form/error-description'
+import { useFormItemLabel } from '../form/label-context'
 import Icon from '../icon'
 import Ripple from '../ripple'
 import { createNamespace } from '../utils/components'
@@ -46,6 +47,22 @@ export default defineComponent({
   emits: ['change', 'hover-change', 'update:modelValue'],
   setup(props, { emit, slots, expose, attrs }) {
     const { describe: describeError } = useFormErrorDescription()
+    const formLabel = useFormItemLabel()
+    const labelledBy = computed(() => {
+      if (attrs['aria-labelledby'] != null) {
+        return attrs['aria-labelledby']
+      }
+      const label = formLabel?.value
+      if (
+        props.ariaLabel != null ||
+        !label?.target ||
+        label.target !== attrs.id ||
+        (attrs.role && attrs.role !== 'slider')
+      ) {
+        return undefined
+      }
+      return label.id
+    })
     const root = ref<HTMLElement>()
     const { isRtl } = useDirection(() => root.value)
     expose({
@@ -236,6 +253,7 @@ export default defineComponent({
           },
           attrs,
           {
+            'aria-labelledby': labelledBy.value,
             'aria-describedby': describeError(attrs['aria-describedby']),
             'aria-invalid': mergedError.value ? true : attrs['aria-invalid'],
           },
