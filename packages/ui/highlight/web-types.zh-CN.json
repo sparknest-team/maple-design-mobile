@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json",
   "framework": "vue",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "name": "Maple Design Mobile",
   "contributions": {
     "html": {
@@ -425,6 +425,15 @@
         {
           "name": "mp-auto-complete",
           "attributes": [
+            {
+              "name": "need-confirm",
+              "description": "仅弹出编辑模式生效。默认选中候选项即提交并关闭，设为 true 时先编辑草稿、再点确认。提交仍执行表单校验和 before-commit，拒绝时不关闭。AutoComplete 输入文字不会自动提交；文字草稿改变时可点击确认，选中候选项则立即提交。",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
             {
               "name": "model-value",
               "description": "受控文本值",
@@ -2055,18 +2064,45 @@
           "name": "mp-cascader",
           "attributes": [
             {
-              "name": "model-value / default-value",
-              "description": "受控值 / 非受控初始值",
-              "default": "单选 ''，多选 []",
+              "name": "need-confirm",
+              "description": "仅弹出编辑模式生效。单选默认点选即提交并关闭，设为 true 时先编辑草稿、再点确认；多选默认保留确认。提交仍执行表单校验和 before-commit，拒绝时不关闭。",
+              "default": "单选 false；多选 true",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "model-value",
+              "description": "受控选中值，支持 v-model",
+              "default": "undefined",
               "value": {
                 "type": "`CascaderBaseValue`",
                 "kind": "expression"
               }
             },
             {
-              "name": "open / default-open",
-              "description": "受控展开 / 默认展开",
-              "default": "undefined / false",
+              "name": "default-value",
+              "description": "非受控初始选中值，仅初始化时读取",
+              "default": "单选：path-mode 时为 undefined，否则为 ''；多选：[]",
+              "value": {
+                "type": "`CascaderBaseValue`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "open",
+              "description": "受控展开状态，支持 v-model:open",
+              "default": "undefined",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-open",
+              "description": "非受控初始展开状态，仅初始化时读取",
+              "default": "false",
               "value": {
                 "type": "`boolean`",
                 "kind": "expression"
@@ -2082,9 +2118,18 @@
               }
             },
             {
-              "name": "input-value / default-input-value",
-              "description": "搜索文本，独立于选中值",
-              "default": "undefined / ''",
+              "name": "input-value",
+              "description": "受控搜索文本，独立于选中值，支持 v-model:input-value",
+              "default": "undefined",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-input-value",
+              "description": "非受控初始搜索文本，独立于选中值，仅初始化时读取",
+              "default": "''",
               "value": {
                 "type": "`string`",
                 "kind": "expression"
@@ -2118,8 +2163,26 @@
               }
             },
             {
-              "name": "disabled / readonly / error",
-              "description": "未设置时继承表单；显式 false 可覆盖",
+              "name": "disabled",
+              "description": "禁用状态；显式值优先于继承的 Form / Group 状态",
+              "default": "undefined",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "readonly",
+              "description": "只读状态；显式值优先于继承的 Form / Group 状态",
+              "default": "undefined",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "error",
+              "description": "错误状态；显式值优先于继承的 Form / Group 状态",
               "default": "undefined",
               "value": {
                 "type": "`boolean`",
@@ -2136,8 +2199,8 @@
               }
             },
             {
-              "name": "hint / line",
-              "description": "浮动提示 / standard 变体下划线",
+              "name": "hint",
+              "description": "是否启用浮动提示",
               "default": "true",
               "value": {
                 "type": "`boolean`",
@@ -2145,8 +2208,35 @@
               }
             },
             {
-              "name": "text-color / focus-color / blur-color",
-              "description": "字段颜色",
+              "name": "line",
+              "description": "是否显示 standard 变体的下划线",
+              "default": "true",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "text-color",
+              "description": "逐实例自定义文字颜色；静态主题优先使用 token",
+              "default": "—",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "focus-color",
+              "description": "逐实例自定义聚焦颜色；静态主题优先使用 token",
+              "default": "—",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "blur-color",
+              "description": "逐实例自定义未聚焦颜色；静态主题优先使用 token",
               "default": "—",
               "value": {
                 "type": "`string`",
@@ -4127,8 +4217,17 @@
               }
             },
             {
-              "name": "confirm-button / cancel-button",
-              "description": "显示操作按钮",
+              "name": "confirm-button",
+              "description": "是否显示确认按钮",
+              "default": "true",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "cancel-button",
+              "description": "是否显示取消按钮",
               "default": "true",
               "value": {
                 "type": "`boolean`",
@@ -4145,8 +4244,8 @@
               }
             },
             {
-              "name": "confirm-button-text / cancel-button-text",
-              "description": "按钮文案",
+              "name": "confirm-button-text",
+              "description": "确认按钮的文字",
               "default": "本地化文案",
               "value": {
                 "type": "`string`",
@@ -4154,8 +4253,17 @@
               }
             },
             {
-              "name": "confirm-button-props / cancel-button-props",
-              "description": "按钮配置，颜色等也从这里传",
+              "name": "cancel-button-text",
+              "description": "取消按钮的文字",
+              "default": "本地化文案",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "confirm-button-props",
+              "description": "确认按钮的属性配置",
               "default": "-",
               "value": {
                 "type": "`ButtonProps`",
@@ -4163,8 +4271,17 @@
               }
             },
             {
-              "name": "confirm-button-loading / cancel-button-loading",
-              "description": "按钮 loading",
+              "name": "cancel-button-props",
+              "description": "取消按钮的属性配置",
+              "default": "-",
+              "value": {
+                "type": "`ButtonProps`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "confirm-button-loading",
+              "description": "确认按钮的加载状态",
               "default": "false",
               "value": {
                 "type": "`boolean`",
@@ -4172,8 +4289,26 @@
               }
             },
             {
-              "name": "confirm-button-disabled / cancel-button-disabled",
-              "description": "禁用按钮",
+              "name": "cancel-button-loading",
+              "description": "取消按钮的加载状态",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "confirm-button-disabled",
+              "description": "确认按钮的禁用状态",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "cancel-button-disabled",
+              "description": "取消按钮的禁用状态",
               "default": "false",
               "value": {
                 "type": "`boolean`",
@@ -4190,8 +4325,8 @@
               }
             },
             {
-              "name": "overlay-class / dialog-class / body-class",
-              "description": "自定义 class",
+              "name": "overlay-class",
+              "description": "遮罩的自定义类名",
               "default": "-",
               "value": {
                 "type": "`string | any[]`",
@@ -4199,8 +4334,44 @@
               }
             },
             {
-              "name": "overlay-style / dialog-style / body-style",
-              "description": "自定义 style",
+              "name": "dialog-class",
+              "description": "对话框面板的自定义类名",
+              "default": "-",
+              "value": {
+                "type": "`string | any[]`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "body-class",
+              "description": "内容区的自定义类名",
+              "default": "-",
+              "value": {
+                "type": "`string | any[]`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "overlay-style",
+              "description": "遮罩的自定义样式",
+              "default": "-",
+              "value": {
+                "type": "`StyleValue`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "dialog-style",
+              "description": "对话框面板的自定义样式",
+              "default": "-",
+              "value": {
+                "type": "`StyleValue`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "body-style",
+              "description": "内容区的自定义样式",
               "default": "-",
               "value": {
                 "type": "`StyleValue`",
@@ -5053,11 +5224,29 @@
               }
             },
             {
-              "name": "disabled / readonly / error",
+              "name": "disabled",
               "description": "`boolean`",
               "default": "",
               "value": {
-                "type": "消费者合并 Form / Group 后传入",
+                "type": "消费者合并 Form / Group 后传入的禁用状态",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "readonly",
+              "description": "`boolean`",
+              "default": "",
+              "value": {
+                "type": "消费者合并 Form / Group 后传入的只读状态",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "error",
+              "description": "`boolean`",
+              "default": "",
+              "value": {
+                "type": "消费者合并 Form / Group 后传入的错误状态",
                 "kind": "expression"
               }
             },
@@ -5071,11 +5260,29 @@
               }
             },
             {
-              "name": "text-color / focus-color / blur-color",
+              "name": "text-color",
               "description": "`string`",
               "default": "",
               "value": {
-                "type": "自定义文字、焦点和非焦点颜色",
+                "type": "逐实例自定义文字颜色；静态主题优先使用 token",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "focus-color",
+              "description": "`string`",
+              "default": "",
+              "value": {
+                "type": "逐实例自定义聚焦颜色；静态主题优先使用 token",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "blur-color",
+              "description": "`string`",
+              "default": "",
+              "value": {
+                "type": "逐实例自定义未聚焦颜色；静态主题优先使用 token",
                 "kind": "expression"
               }
             },
@@ -5803,11 +6010,11 @@
               }
             },
             {
-              "name": "open / v-model:open",
+              "name": "open",
               "description": "boolean",
-              "default": "单图受控预览状态",
+              "default": "单图受控预览状态 支持 v-model:open。",
               "value": {
-                "type": "-",
+                "type": "`-`",
                 "kind": "expression"
               }
             },
@@ -7515,11 +7722,20 @@
               }
             },
             {
-              "name": "active-item / default-active-item",
-              "description": "具名入口的受控 / 初始激活项",
+              "name": "active-item",
+              "description": "具名入口的受控激活项，支持 v-model:active-item",
               "default": "",
               "value": {
-                "type": "undefined / null",
+                "type": "`undefined`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-active-item",
+              "description": "具名入口的非受控初始激活项",
+              "default": "",
+              "value": {
+                "type": "`null`",
                 "kind": "expression"
               }
             },
@@ -8522,20 +8738,38 @@
           "name": "mp-people-select",
           "attributes": [
             {
-              "name": "model-value / v-model",
-              "description": "string / null",
-              "default": "受控人员标识；显式 null 保持为空。",
+              "name": "need-confirm",
+              "description": "`boolean`",
+              "default": "仅弹出编辑模式生效。单选默认点选即提交并关闭，设为 true 时先编辑草稿、再点确认；多选默认保留确认。提交仍执行表单校验和 before-commit，拒绝时不关闭。",
               "value": {
-                "type": "undefined",
+                "type": "单选 `false`；多选 `true`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "multiple",
+              "description": "boolean",
+              "default": "启用人员多选，使用 string[] 模型。",
+              "value": {
+                "type": "false",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "model-value",
+              "description": "PeopleSelectValue",
+              "default": "单选为人员 ID，多选为 ID 数组；显式 null 保持为空。 支持 v-model。",
+              "value": {
+                "type": "`undefined`",
                 "kind": "expression"
               }
             },
             {
               "name": "default-value",
-              "description": "string",
+              "description": "string / string[]",
               "default": "仅创建时读取的非受控初始标识。",
               "value": {
-                "type": "''",
+                "type": "'' / []",
                 "kind": "expression"
               }
             },
@@ -8740,7 +8974,7 @@
             {
               "name": "clearable",
               "description": "boolean",
-              "default": "允许可编辑字段清空；延迟模式先清草稿，确认后提交。",
+              "default": "允许可编辑字段清空；确认模式先清草稿再提交；无需确认时清空直接提交。",
               "value": {
                 "type": "false",
                 "kind": "expression"
@@ -8748,10 +8982,10 @@
             },
             {
               "name": "empty-value",
-              "description": "string / null / function",
-              "default": "清空提交值；显式 null 原样保留，省略时使用空字符串。",
+              "description": "string / string[] / null / function",
+              "default": "清空提交值；单选默认 ''，多选默认 []，显式 null 原样保留。",
               "value": {
-                "type": "''",
+                "type": "'' / []",
                 "kind": "expression"
               }
             },
@@ -8831,11 +9065,11 @@
           "events": [
             {
               "name": "update:model-value",
-              "description": "value: string / null"
+              "description": "value: PeopleSelectValue"
             },
             {
               "name": "change",
-              "description": "value: string / null"
+              "description": "value: PeopleSelectValue"
             },
             {
               "name": "update:open / open-change",
@@ -11115,18 +11349,45 @@
           "name": "mp-select",
           "attributes": [
             {
-              "name": "model-value / default-value",
-              "description": "受控值 / 非受控初始值",
-              "default": "单选 ''，多选 []",
+              "name": "need-confirm",
+              "description": "仅弹出编辑模式生效。单选默认点选即提交并关闭，设为 true 时先编辑草稿、再点确认；多选默认保留确认。提交仍执行表单校验和 before-commit，拒绝时不关闭。",
+              "default": "单选 false；多选 true",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "model-value",
+              "description": "受控选中值，支持 v-model",
+              "default": "undefined",
+              "value": {
+                "type": "`Value | null`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-value",
+              "description": "非受控初始选中值，仅初始化时读取",
+              "default": "单选：''；多选：[]",
               "value": {
                 "type": "`Value`",
                 "kind": "expression"
               }
             },
             {
-              "name": "open / default-open",
-              "description": "受控展开 / 默认展开",
-              "default": "undefined / false",
+              "name": "open",
+              "description": "受控展开状态，支持 v-model:open",
+              "default": "undefined",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-open",
+              "description": "非受控初始展开状态，仅初始化时读取",
+              "default": "false",
               "value": {
                 "type": "`boolean`",
                 "kind": "expression"
@@ -11142,9 +11403,18 @@
               }
             },
             {
-              "name": "input-value / default-input-value",
-              "description": "搜索文本，独立于选中值",
-              "default": "undefined / ''",
+              "name": "input-value",
+              "description": "受控搜索文本，独立于选中值，支持 v-model:input-value",
+              "default": "undefined",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-input-value",
+              "description": "非受控初始搜索文本，独立于选中值，仅初始化时读取",
+              "default": "''",
               "value": {
                 "type": "`string`",
                 "kind": "expression"
@@ -11178,8 +11448,26 @@
               }
             },
             {
-              "name": "disabled / readonly / error",
-              "description": "未设置时继承表单；显式 false 可覆盖",
+              "name": "disabled",
+              "description": "禁用状态；显式值优先于继承的 Form / Group 状态",
+              "default": "undefined",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "readonly",
+              "description": "只读状态；显式值优先于继承的 Form / Group 状态",
+              "default": "undefined",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "error",
+              "description": "错误状态；显式值优先于继承的 Form / Group 状态",
               "default": "undefined",
               "value": {
                 "type": "`boolean`",
@@ -11196,8 +11484,8 @@
               }
             },
             {
-              "name": "hint / line",
-              "description": "浮动提示 / standard 变体下划线",
+              "name": "hint",
+              "description": "是否启用浮动提示",
               "default": "true",
               "value": {
                 "type": "`boolean`",
@@ -11205,8 +11493,35 @@
               }
             },
             {
-              "name": "text-color / focus-color / blur-color",
-              "description": "字段颜色",
+              "name": "line",
+              "description": "是否显示 standard 变体的下划线",
+              "default": "true",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "text-color",
+              "description": "逐实例自定义文字颜色；静态主题优先使用 token",
+              "default": "—",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "focus-color",
+              "description": "逐实例自定义聚焦颜色；静态主题优先使用 token",
+              "default": "—",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "blur-color",
+              "description": "逐实例自定义未聚焦颜色；静态主题优先使用 token",
               "default": "—",
               "value": {
                 "type": "`string`",
@@ -11457,8 +11772,17 @@
               }
             },
             {
-              "name": "show-header-on-empty / show-footer-on-empty",
-              "description": "空状态仍展示 header / footer",
+              "name": "show-header-on-empty",
+              "description": "空状态下仍显示 header",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show-footer-on-empty",
+              "description": "空状态下仍显示 footer",
               "default": "false",
               "value": {
                 "type": "`boolean`",
@@ -11846,7 +12170,7 @@
             {
               "name": "show-input",
               "description": "boolean",
-              "default": "显示附带 InputNumber；范围模式显示两个。",
+              "default": "显示附带 InputNumber；范围模式显示两个。滑块的 aria-describedby 也用于数字输入，并与表单错误说明合并。",
               "value": {
                 "type": "false",
                 "kind": "expression"
@@ -15266,7 +15590,7 @@
             },
             {
               "name": "hide-empty",
-              "description": "内容为空时不渲染",
+              "description": "content 插槽直接返回空内容时不渲染；组件节点即使最终渲染为空也视为非空",
               "default": "false",
               "value": {
                 "type": "boolean",
@@ -15337,29 +15661,56 @@
               }
             },
             {
-              "name": "popup-class / popup-style",
-              "description": "定位层类名 / 样式",
+              "name": "popup-class",
+              "description": "定位层自定义类名",
               "default": "-",
               "value": {
-                "type": "ClassName / CSSProperties",
+                "type": "`ClassName`",
                 "kind": "expression"
               }
             },
             {
-              "name": "content-class / content-style",
-              "description": "内容层类名 / 样式",
+              "name": "popup-style",
+              "description": "定位层的自定义样式",
               "default": "-",
               "value": {
-                "type": "ClassName / CSSProperties",
+                "type": "`CSSProperties`",
                 "kind": "expression"
               }
             },
             {
-              "name": "arrow-class / arrow-style",
-              "description": "箭头类名 / 样式",
+              "name": "content-class",
+              "description": "内容层的自定义类名",
               "default": "-",
               "value": {
-                "type": "ClassName / CSSProperties",
+                "type": "`ClassName`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "content-style",
+              "description": "内容层的自定义样式",
+              "default": "-",
+              "value": {
+                "type": "`CSSProperties`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "arrow-class",
+              "description": "箭头的自定义类名",
+              "default": "-",
+              "value": {
+                "type": "`ClassName`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "arrow-style",
+              "description": "箭头的自定义样式",
+              "default": "-",
+              "value": {
+                "type": "`CSSProperties`",
                 "kind": "expression"
               }
             }
@@ -15377,236 +15728,371 @@
           "name": "mp-upload",
           "attributes": [
             {
-              "name": "model-value / default-value",
-              "description": "UploadFileItem[]",
-              "default": "",
+              "name": "model-value",
+              "description": "`UploadFileItem[] | null`",
+              "default": "受控文件列表，配合 v-model 使用",
               "value": {
-                "type": "受控值 / 非受控初值[]",
+                "type": "`undefined`",
                 "kind": "expression"
               }
             },
             {
-              "name": "accept / capture",
-              "description": "`string / UploadCapture`<br>`UploadCapture: boolean | 'user' | 'environment' | undefined`",
-              "default": "",
+              "name": "default-value",
+              "description": "`UploadFileItem[]`",
+              "default": "非受控文件列表的初始值",
               "value": {
-                "type": "未指定",
+                "type": "`[]`",
                 "kind": "expression"
               }
             },
             {
-              "name": "multiple / directory / draggable",
-              "description": "boolean",
-              "default": "",
+              "name": "accept",
+              "description": "`string`",
+              "default": "允许选择的文件类型，例如 image/*",
               "value": {
-                "type": "false",
+                "type": "`undefined`",
                 "kind": "expression"
               }
             },
             {
-              "name": "disabled / readonly",
-              "description": "boolean",
-              "default": "",
+              "name": "capture",
+              "description": "`boolean | 'user' | 'environment'`",
+              "default": "false 或未设置时保留相册选择；true 启用采集，user / environment 指定前 / 后摄像头，具体支持由设备和浏览器决定",
               "value": {
-                "type": "undefined，继承Form，显式false优先",
+                "type": "`false`",
                 "kind": "expression"
               }
             },
             {
-              "name": "action / method",
-              "description": "string",
-              "default": "",
+              "name": "multiple",
+              "description": "`boolean`",
+              "default": "允许多选文件",
               "value": {
-                "type": "无 / post",
+                "type": "`false`",
                 "kind": "expression"
               }
             },
             {
-              "name": "headers / data",
-              "description": "object 或 async(file) => object",
-              "default": "",
+              "name": "reupload",
+              "description": "`boolean`",
+              "default": "允许替换已选择的文件",
               "value": {
-                "type": "请求准备阶段仍可取消",
+                "type": "`false`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "directory",
+              "description": "`boolean`",
+              "default": "选择文件夹；不支持的设备可使用 multiple 作为回退",
+              "value": {
+                "type": "`false`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "draggable",
+              "description": "`boolean`",
+              "default": "启用拖拽上传",
+              "value": {
+                "type": "`false`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "disabled",
+              "description": "`boolean`",
+              "default": "禁用交互；继承 Form，显式 false 优先",
+              "value": {
+                "type": "`undefined`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "readonly",
+              "description": "`boolean`",
+              "default": "只读；继承 Form，显式 false 优先",
+              "value": {
+                "type": "`undefined`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "action",
+              "description": "`string`",
+              "default": "上传请求地址",
+              "value": {
+                "type": "`undefined`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "method",
+              "description": "`string`",
+              "default": "上传请求方法",
+              "value": {
+                "type": "`'post'`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "headers",
+              "description": "`UploadHeaders`",
+              "default": "请求头对象或异步函数；请求准备阶段仍可取消",
+              "value": {
+                "type": "`undefined`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "data",
+              "description": "`UploadData`",
+              "default": "附加请求数据对象或异步函数；请求准备阶段仍可取消",
+              "value": {
+                "type": "`undefined`",
                 "kind": "expression"
               }
             },
             {
               "name": "name",
-              "description": "string / (file) => string",
-              "default": "",
+              "description": "`string | ((file: UploadFileItem) => string)`",
+              "default": "上传文件的表单字段名",
               "value": {
-                "type": "file",
+                "type": "`'file'`",
                 "kind": "expression"
               }
             },
             {
               "name": "with-credentials",
-              "description": "boolean",
-              "default": "",
+              "description": "`boolean`",
+              "default": "跨域请求是否携带凭据",
               "value": {
-                "type": "false",
+                "type": "`false`",
                 "kind": "expression"
               }
             },
             {
               "name": "custom-request",
-              "description": "(UploadRequestOptions) => UploadRequest / Promise / void",
-              "default": "",
+              "description": "`UploadCustomRequest`",
+              "default": "自定义上传请求，可返回含 abort 的对象",
               "value": {
-                "type": "自定义transport，可返回abort",
+                "type": "`undefined`",
                 "kind": "expression"
               }
             },
             {
               "name": "auto-upload",
-              "description": "boolean",
-              "default": "",
+              "description": "`boolean`",
+              "default": "选取后自动上传；必须同时配置 action 或 custom-request",
               "value": {
-                "type": "true；必须同时有action或custom-request才启动",
+                "type": "`true`",
                 "kind": "expression"
               }
             },
             {
-              "name": "max-files / max-file-size / max-total-size",
-              "description": "number",
-              "default": "",
+              "name": "max-files",
+              "description": "`number`",
+              "default": "最多文件数量；大于 0 时生效",
               "value": {
-                "type": "未指定；大小单位字节，max-files>0生效",
+                "type": "`undefined`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "max-file-size",
+              "description": "`number`",
+              "default": "单个文件的大小上限，单位字节",
+              "value": {
+                "type": "`undefined`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "max-total-size",
+              "description": "`number`",
+              "default": "文件总大小上限，单位字节",
+              "value": {
+                "type": "`undefined`",
                 "kind": "expression"
               }
             },
             {
               "name": "resolve-type",
-              "description": "file / data-url / object-url",
-              "default": "",
+              "description": "`'file' | 'data-url' | 'object-url'`",
+              "default": "文件读取方式；object-url 为文件生成 url，为图片生成 thumbnailUrl",
               "value": {
-                "type": "object-url；所有文件生成url，图片生成thumbnailUrl",
+                "type": "`'object-url'`",
                 "kind": "expression"
               }
             },
             {
               "name": "create-thumbnail-url",
-              "description": "(options) => string / Promise",
-              "default": "",
+              "description": "`UploadCreateThumbnailUrl`",
+              "default": "自定义缩略图地址；URL 归调用方所有，组件不自动回收",
               "value": {
-                "type": "自定义URL归调用方所有，不自动回收",
+                "type": "`undefined`",
                 "kind": "expression"
               }
             },
             {
               "name": "before-add",
-              "description": "async(files) => File[]",
-              "default": "",
+              "description": "`(files: File[]) => File[] | Promise<File[]>`",
+              "default": "批次筛选或替换待添加文件",
               "value": {
-                "type": "批次筛选/替换",
+                "type": "`undefined`",
                 "kind": "expression"
               }
             },
             {
               "name": "before-read",
-              "description": "async(file) => boolean / File",
-              "default": "",
+              "description": "`UploadBeforeRead`",
+              "default": "读取前校验；false / reject 拒绝，替换后重新校验",
               "value": {
-                "type": "false/reject拒绝；替换后重新校验",
+                "type": "`undefined`",
                 "kind": "expression"
               }
             },
             {
               "name": "before-upload",
-              "description": "async(item) => boolean / File / Blob",
-              "default": "",
+              "description": "`UploadBeforeUpload`",
+              "default": "上传前校验；false 保留 ready，抛错 / reject 进入 error，替换后重新校验",
               "value": {
-                "type": "false 保留 ready；抛错/reject 进入 error；替换后重新校验",
+                "type": "`undefined`",
                 "kind": "expression"
               }
             },
             {
               "name": "before-remove",
-              "description": "async(item,list) => boolean",
-              "default": "",
+              "description": "`UploadBeforeRemove`",
+              "default": "删除前校验；false / reject 阻止删除",
               "value": {
-                "type": "false/reject不删除",
+                "type": "`undefined`",
                 "kind": "expression"
               }
             },
             {
               "name": "is-success-response",
-              "description": "(xhr,item) => boolean",
-              "default": "",
+              "description": "`UploadIsSuccessResponse`",
+              "default": "自定义响应成功判断；默认 HTTP 2xx 为成功",
               "value": {
-                "type": "默认HTTP2xx",
+                "type": "`undefined`",
                 "kind": "expression"
               }
             },
             {
               "name": "request-choose",
-              "description": "(chooseFile,event) => void / Promise",
-              "default": "",
+              "description": "`UploadRequestChoose`",
+              "default": "接管选择入口；异常不会自动打开文件框",
               "value": {
-                "type": "接管选择入口，异常不会自动打开文件框",
+                "type": "`undefined`",
                 "kind": "expression"
               }
             },
             {
               "name": "list-type",
-              "description": "text / picture / picture-card",
-              "default": "",
+              "description": "`'text' | 'picture' | 'picture-card'`",
+              "default": "文件列表展示方式；两端均支持",
               "value": {
-                "type": "text，两端均支持",
+                "type": "`'text'`",
                 "kind": "expression"
               }
             },
             {
               "name": "image-fit",
-              "description": "fill / contain / cover / none / scale-down",
-              "default": "",
+              "description": "`'fill' | 'contain' | 'cover' | 'none' | 'scale-down'`",
+              "default": "缩略图填充方式；文件项 fit 优先",
               "value": {
-                "type": "cover；item.fit优先",
+                "type": "`'cover'`",
                 "kind": "expression"
               }
             },
             {
               "name": "preview",
-              "description": "boolean",
-              "default": "",
+              "description": "`boolean`",
+              "default": "启用内建图片 / 视频预览",
               "value": {
-                "type": "true",
+                "type": "`true`",
                 "kind": "expression"
               }
             },
             {
-              "name": "show-file-list / show-upload-button / show-remove-button",
-              "description": "boolean",
-              "default": "",
+              "name": "show-file-list",
+              "description": "`boolean`",
+              "default": "显示文件列表",
               "value": {
-                "type": "true",
+                "type": "`true`",
                 "kind": "expression"
               }
             },
             {
-              "name": "show-retry-button / show-cancel-button / show-preview-button",
-              "description": "boolean",
-              "default": "",
+              "name": "show-upload-button",
+              "description": "`boolean`",
+              "default": "显示文件选择按钮",
               "value": {
-                "type": "true",
+                "type": "`true`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show-remove-button",
+              "description": "`boolean`",
+              "default": "显示删除按钮",
+              "value": {
+                "type": "`true`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show-retry-button",
+              "description": "`boolean`",
+              "default": "显示重试按钮",
+              "value": {
+                "type": "`true`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show-cancel-button",
+              "description": "`boolean`",
+              "default": "显示取消按钮",
+              "value": {
+                "type": "`true`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show-preview-button",
+              "description": "`boolean`",
+              "default": "显示预览按钮",
+              "value": {
+                "type": "`true`",
                 "kind": "expression"
               }
             },
             {
               "name": "show-download-button",
-              "description": "boolean",
-              "default": "",
+              "description": "`boolean`",
+              "default": "显示下载按钮；禁用时不可操作",
               "value": {
-                "type": "false；禁用时不可操作",
+                "type": "`false`",
                 "kind": "expression"
               }
             },
             {
-              "name": "elevation / ripple",
-              "description": "boolean或number / boolean",
-              "default": "",
+              "name": "elevation",
+              "description": "`boolean | number`",
+              "default": "上传入口的阴影层级",
               "value": {
-                "type": "false / true",
+                "type": "`false`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "ripple",
+              "description": "`boolean`",
+              "default": "启用上传入口的涟漪效果",
+              "value": {
+                "type": "`true`",
                 "kind": "expression"
               }
             }
@@ -15678,8 +16164,26 @@
               }
             },
             {
-              "name": "disabled / readonly / error",
-              "description": "`状态，显式值优先于 Form`",
+              "name": "disabled",
+              "description": "禁用状态；显式值优先于继承的 Form / Group 状态",
+              "default": "undefined",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "readonly",
+              "description": "只读状态；显式值优先于继承的 Form / Group 状态",
+              "default": "undefined",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "error",
+              "description": "错误状态；显式值优先于继承的 Form / Group 状态",
               "default": "undefined",
               "value": {
                 "type": "`boolean`",
@@ -15777,8 +16281,26 @@
               }
             },
             {
-              "name": "text-color / focus-color / blur-color",
-              "description": "`逐实例动态颜色，静态主题优先 token`",
+              "name": "text-color",
+              "description": "逐实例自定义文字颜色；静态主题优先使用 token",
+              "default": "undefined",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "focus-color",
+              "description": "逐实例自定义聚焦颜色；静态主题优先使用 token",
+              "default": "undefined",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "blur-color",
+              "description": "逐实例自定义未聚焦颜色；静态主题优先使用 token",
               "default": "undefined",
               "value": {
                 "type": "`string`",

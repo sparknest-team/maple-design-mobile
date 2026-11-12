@@ -668,9 +668,9 @@ export { paperProps } from './paper'
 export type { PaperInstance, PaperProps } from './paper'
 export { peopleSelectProps } from './people-select'
 export type {
-  PeopleSelectValue,
   PeopleSelectInstance,
   PeopleSelectProps,
+  PeopleSelectValue,
   PeopleSelectReadScope,
   PeopleSelectSlots,
   PeopleSelectEmits,
