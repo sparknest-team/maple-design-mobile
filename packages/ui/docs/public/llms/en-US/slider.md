@@ -759,7 +759,7 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 | error | boolean | undefined | Error appearance, inherited from the form when omitted. |
 | marks | Record<number, string> | undefined | Text marks at positions within the range. |
 | show-ticks | boolean | false | Display step ticks, capped at 1000. |
-| show-input | boolean | false | Show attached InputNumber controls, two in range mode. |
+| show-input | boolean | false | Show attached InputNumber controls, two in range mode. The slider aria-describedby is also applied to the numeric inputs and combined with form error descriptions. |
 | show-tooltip | boolean / 'always' | true | True shows on hover, focus or drag; false hides; always remains visible. |
 | format-tooltip | SliderTooltipFormatter | undefined | Format tooltips and aria-valuetext without changing the model. |
 | aria-label | string / [string, string] | undefined | Single-thumb name or names for the two range thumbs. |
@@ -780,6 +780,8 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 | empty-value | SliderProps['emptyValue'] | undefined | Published clear override, including explicit null. |
 | empty-values | readonly unknown[] | undefined | Empty-value recognition inherited through field, FormItem and Form. |
 | empty-text | string | undefined | Default empty reading text; defaults to a dash after inheritance. |
+
+In range mode, `aria-labelledby` names the range group; an `aria-label` array still names the two thumbs. An explicit `role` takes precedence.
 
 ### Behavior and keyboard
 
@@ -814,7 +816,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 
 | Variable | Default / condition | Affected styles |
 | --- | --- | --- |
-| `--mp-slider-active-color` | `var(--mp-sys-color-content-brand)` | `background`, `outline` |
+| `--mp-slider-active-color` | `var(--mp-sys-color-action-primary)` | `background`, `outline` |
 | `--mp-slider-control-height` | `var(--mp-sys-control-height-md)` | `height`, `min-height`, `padding-bottom`, `padding-inline-end`, `width` |
 | `--mp-slider-disabled-color` | `var(--mp-sys-color-content-disabled)` | `background`, `border-color` |
 | `--mp-slider-error-color` | `var(--mp-sys-color-content-danger)` | `background`, `border-color` |
@@ -823,7 +825,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-slider-input-width` | `80px` | `width` |
 | `--mp-slider-radius` | `var(--mp-sys-radius-md)` | `border-radius` |
 | `--mp-slider-text-color` | `var(--mp-sys-color-content-secondary)` | `color` |
-| `--mp-slider-thumb-border-color` | `var(--mp-sys-color-content-brand)` | `border` |
+| `--mp-slider-thumb-border-color` | `var(--mp-sys-color-action-primary)` | `border` |
 | `--mp-slider-thumb-color` | `var(--mp-sys-color-surface-default)` | `background` |
 | `--mp-slider-thumb-size` | `16px` | `height`, `width` |
 | `--mp-slider-tooltip-background` | `var(--mp-sys-color-surface-tooltip)` | `background` |
@@ -838,7 +840,7 @@ Apply overrides to the rendered component root or the actual popup ancestor. For
 
 ```css
 .component-theme {
-  --mp-slider-active-color: var(--mp-sys-color-content-brand);
+  --mp-slider-active-color: var(--mp-sys-color-action-primary);
 }
 ```
 

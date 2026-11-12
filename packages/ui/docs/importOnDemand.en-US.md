@@ -1,72 +1,107 @@
-# Import On Demand
+# Import on demand
 
-### Intro
+This page covers automatic, manual and full imports, plus icons, directives, function APIs, types and styles. Start with [Quick start](#/quickstart?language=en-US) if you have not installed the library.
 
-On-demand import avoids the full import of components, which can effectively reduce the size of the release package.
+## Automatic On-Demand Imports (Recommended)
 
-### Automatic Import
-
-via plugin
-[unplugin-vue-components](https://github.com/antfu/unplugin-vue-components) and
-[unplugin-auto-import](https://github.com/antfu/unplugin-auto-import)
-Implement components to automatically import on demand, This is our most recommended way.
-
-#### Install Plugin
+Maple maintains `@maple-design/resolver-vue`. With `unplugin-vue-components`, components, standalone SVG icons, and component styles are imported on demand at build time.
 
 ```shell
-# playground-ignore
-# npm
-npm i @maple-design/resolver-vue unplugin-vue-components unplugin-auto-import -D
-
-# yarn
-yarn add @maple-design/resolver-vue unplugin-vue-components unplugin-auto-import -D
-
-# pnpm
-pnpm add @maple-design/resolver-vue unplugin-vue-components unplugin-auto-import -D
+npm i @maple-design/resolver-vue unplugin-auto-import unplugin-vue-components -D
 ```
 
-Install the standalone SVG icon package as an application dependency:
-
-```shell
-pnpm add @maple-design/icons-vue
-```
-
-#### Vite
-
-```js
-// playground-ignore
-// vite.config.js
-import vue from '@vitejs/plugin-vue'
-import components from 'unplugin-vue-components/vite'
-import autoImport from 'unplugin-auto-import/vite'
+```ts
+// vite.config.ts
 import { MapleResolver } from '@maple-design/resolver-vue'
+import vue from '@vitejs/plugin-vue'
+import AutoImport from 'unplugin-auto-import/vite'
+import Components from 'unplugin-vue-components/vite'
 import { defineConfig } from 'vite'
 
 export default defineConfig({
   plugins: [
     vue(),
-    components({
-      resolvers: [MapleResolver()]
+    AutoImport({
+      resolvers: [MapleResolver()],
     }),
-    autoImport({
-      resolvers: [MapleResolver()]
-    })
-  ]
+    Components({
+      resolvers: [MapleResolver()],
+    }),
+  ],
 })
 ```
 
-The same resolver selects the UI or icon package from the component name; no second resolver is required:
+Components can then be used without local imports:
 
-```vue
+```html
 <template>
-  <mp-button>Confirm</mp-button>
-  <mp-icon-info-circle-fill :size="32" />
+  <mp-button status="primary">Confirm</mp-button>
+  <mp-icon size="40" color="red">
+    <m-icon-info-circle-fill />
+  </mp-icon>
 </template>
 ```
 
-`MpButton` is imported from `@maple-design/ui-vue`, while `MpIconInfoCircleFill` is imported from `@maple-design/icons-vue`. `MpIcon` remains the wrapper component for dynamic names and icon transitions.
+The resolver generates equivalent on-demand imports:
 
-#### Vue CLI
+```ts
+import { IconInfoCircleFill } from '@maple-design/icons-vue/icon-info-circle-fill'
+import { _ButtonComponent, _IconComponent } from '@maple-design/ui-vue'
+import '@maple-design/ui-vue/button/style'
+import '@maple-design/ui-vue/icon/style'
+```
+
+Standalone SVG icons inherit the wrapper color through `currentColor` and need no additional CSS. The `mp-icon` wrapper itself requires `@maple-design/ui-vue/icon/style`.
+
+### Dynamic icon names
+
+`<mp-icon name="info-circle-fill" />` only looks up icons explicitly registered on the Vue application. Register the icons needed for dynamic names before mounting:
+
+```ts
+import { createApp } from 'vue'
+import { IconInfoCircleFill, IconWarning } from '@maple-design/icons-vue'
+import App from './App.vue'
+
+const app = createApp(App)
+app.component('IconInfoCircleFill', IconInfoCircleFill)
+app.component('IconWarning', IconWarning)
+app.mount('#app')
+```
+
+Registering the entire icon collection with a namespace import loads all icons. Prefer explicit registration or static icon components for on-demand loading.
+
+### Use SVG Icons Directly
+
+Every SVG icon from `@maple-design/icons-vue` is an independent Vue component and can be rendered without the `mp-icon` wrapper:
+
+```html
+<script setup lang="ts">
+  import { IconDelete, IconPlus, IconSearch, IconShareFill } from '@maple-design/icons-vue'
+</script>
+
+<template>
+  <!-- Direct SVG icons do not include application layout styles. -->
+  <!-- Provide width, height, and spacing for the usage context. -->
+  <IconPlus style="width: 1em; height: 1em; margin-right: 8px" />
+  <IconShareFill style="width: 1em; height: 1em; margin-right: 8px" />
+  <IconDelete style="width: 1em; height: 1em; margin-right: 8px" />
+  <IconSearch style="width: 1em; height: 1em; margin-right: 8px" />
+</template>
+```
+
+“Layout styles” means application-level `width`, `height`, and `margin`; icon components still support `size`, `color`, `rotate`, and `spin`. Direct usage is also tree-shakable. Use the `mp-icon` wrapper when size, color, animation, layout, or the interaction area should be controlled consistently.
+
+### Programmatic APIs
+
+The same `MapleResolver()` shown above resolves APIs such as `Message`, `Dialog`, and `ImagePreview` for `unplugin-auto-import`.
+
+`importStyle` controls style imports for template components, the Icon wrapper, and programmatic APIs consistently. Set `MapleResolver({ autoImport: false })` only when programmatic API resolution should be disabled.
+
+### Directives
+
+The same `MapleResolver()` also resolves `v-ripple`, `v-lazy`, `v-hover`, and `v-mp-loading`. The loading directive uses the `mp-` prefix to avoid collisions with directives from other component libraries. Set `directives: false` to disable directive resolution.
+
+### Vue CLI
 ```js
 // playground-ignore
 // vue.config.js
@@ -88,79 +123,48 @@ module.exports = {
 }
 ```
 
-#### Typescript configuration note
+## Manual On-Demand Imports
 
-In order to get good IDE syntax highlighting, 
-please make sure that the type declaration files generated by the above two plugins are include by `typescript`,
-which can be configured as follows in `tsconfig.json`:
+```html
+<script setup lang="ts">
+  import { IconInfoCircleFill } from '@maple-design/icons-vue/icon-info-circle-fill'
+  import { Button } from '@maple-design/ui-vue'
+  import '@maple-design/ui-vue/button/style'
+</script>
+
+<template>
+  <Button status="primary">Confirm</Button>
+  <IconInfoCircleFill :size="24" />
+</template>
+```
+
+## Full Import
+
+```ts
+import { createApp } from 'vue'
+import Maple from '@maple-design/ui-vue'
+import '@maple-design/ui-vue/style'
+import App from './App.vue'
+
+createApp(App).use(Maple).mount('#app')
+```
+
+Standalone SVG icons are not globally registered by the UI package. Import them explicitly or use `MapleResolver()`.
+
+## TypeScript
 
 ```json
-// playground-ignore
 {
-  "include": ["auto-imports.d.ts", "components.d.ts"]
+  "include": ["src", "components.d.ts", "auto-imports.d.ts"]
 }
 ```
 
-### Manual import
+Keep the existing entries in your TypeScript `include`; the plugins generate these declaration files from actual usage.
 
-Each component is a `Vue plugin` and consists of `component logic` and `style files`, which are manually imported and used as follows.
+## Style imports
 
-```js
-// playground-ignore
-import App from './App.vue'
-import { createApp } from 'vue'
-import { Button } from '@maple-design/ui-vue'
-import '@maple-design/ui-vue/button/style'
+The resolver imports component styles by default. Disable this when the full stylesheet is already loaded:
 
-createApp(App).use(Button)
-```
-
-OR
-
-```html
-// playground-ignore
-<script setup>
-import { Button as VarButton } from '@maple-design/ui-vue'
-import '@maple-design/ui-vue/button/style'
-</script>
-
-<template>
-  <mp-button>Say Hello</mp-button>
-</template>
-```
-
-### Manual import and automatic import comparison
-
-Manual import
-
-```html
-// playground-ignore
-<script setup>
-import { Button as VarButton, Message } from '@maple-design/ui-vue'
-import '@maple-design/ui-vue/button/style'
-import '@maple-design/ui-vue/message/style'
-
-function handleClick() {
-  Message('Hello!')
-}
-</script>
-
-<template>
-  <mp-button @click="handleClick">Say Hello</mp-button>
-</template>
-```
-
-Automatic import
-
-```html
-// playground-ignore
-<script setup>
-function handleClick() {
-  Message('Hello!')
-}
-</script>
-
-<template>
-  <mp-button @click="handleClick">Say Hello</mp-button>
-</template>
+```ts
+MapleResolver({ importStyle: false })
 ```

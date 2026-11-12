@@ -808,7 +808,7 @@ ImagePreviewGroup binds a one-based image number through ordinary `v-model`; `de
 | ripple | boolean | false | Enable ripple |
 | block | boolean | true | Render block layout |
 | preview-disabled | boolean | false | Disable image preview |
-| open / v-model:open | boolean | - | Controlled standalone preview state |
+| open | boolean | `-` | Controlled standalone preview state Supports `v-model:open`. |
 | default-open | boolean | false | Initial uncontrolled preview state |
 | preview-props | `Partial<ImagePreviewProps>` | - | Standalone preview options |
 | popup-container | string \| HTMLElement \| false | body | Preview mount target |
@@ -843,7 +843,7 @@ ImagePreviewGroup binds a one-based image number through ordinary `v-model`; `de
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | src | string | - | Preview image URL |
-| open / v-model:open | boolean | - | Controlled preview state |
+| open | boolean | `-` | Controlled preview state Supports `v-model:open`. |
 | default-open | boolean | false | Initial uncontrolled state |
 | interaction | 'auto' \| 'desktop' \| 'touch' | auto | Interaction mode |
 | popup-container | string \| HTMLElement \| false | body | Preview mount target |
@@ -876,7 +876,7 @@ When keyboard shortcuts are enabled, only the topmost preview handles arrow keys
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| open / v-model:open | boolean | - | Controlled preview state |
+| open | boolean | `-` | Controlled preview state Supports `v-model:open`. |
 | default-open | boolean | false | Initial uncontrolled state |
 | interaction | 'auto' \| 'desktop' \| 'touch' | auto | Interaction mode |
 | popup-container | string \| HTMLElement \| false | body | Preview mount target |
@@ -896,7 +896,7 @@ When keyboard shortcuts are enabled, only the topmost preview handles arrow keys
 | show-toolbar | boolean | true | Show toolbar and its actions slot |
 | actions-layout | ImagePreviewActionName[] | desktop defaults / touch [] | Ordered toolbar actions |
 | images | string[] | - | Explicit images; undefined collects children, [] is empty |
-| model-value / v-model | number | - | Controlled image number, starting at 1 |
+| model-value | number | `-` | Controlled image number, starting at 1 Supports `v-model`. |
 | default-value | number | 1 | Initial image number, starting at 1 |
 | loop | boolean | false | Wrap when navigating |
 

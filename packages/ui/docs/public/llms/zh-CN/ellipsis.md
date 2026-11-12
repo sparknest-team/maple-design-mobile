@@ -239,7 +239,7 @@ const options: EllipsisProps = { 'onUpdate:expand': (expanded: boolean) => Strin
 
 | 变量 | 默认值／条件 | 影响的样式 |
 | --- | --- | --- |
-| `--mp-ellipsis-focus-color` | `var(--mp-sys-color-content-brand)` | `outline` |
+| `--mp-ellipsis-focus-color` | `var(--mp-sys-color-action-primary)` | `outline` |
 | `--mp-ellipsis-focus-offset` | `2px` | `outline-offset` |
 | `--mp-ellipsis-focus-width` | `2px` | `outline` |
 
@@ -249,7 +249,7 @@ const options: EllipsisProps = { 'onUpdate:expand': (expanded: boolean) => Strin
 
 ```css
 .component-theme {
-  --mp-ellipsis-focus-color: var(--mp-sys-color-content-brand);
+  --mp-ellipsis-focus-color: var(--mp-sys-color-action-primary);
 }
 ```
 

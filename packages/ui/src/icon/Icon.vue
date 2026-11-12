@@ -29,8 +29,8 @@ defineOptions({
 
 const props = defineProps(iconProps)
 const emit = defineEmits<{ click: [event: MouseEvent] }>()
-const instance = getCurrentInstance()
-const slots = instance!.slots
+const instance = getCurrentInstance()!
+const slots = instance.slots
 let hasDefaultSlot = Boolean(slots.default)
 onBeforeUpdate(() => {
   if (hasDefaultSlot !== Boolean(slots.default)) {
@@ -110,13 +110,15 @@ const iconComponent = computed(() => {
   if (!nextName.value) {
     return undefined
   }
-  const componentName = `Icon${nextName.value
-    .split('-')
-    .filter(Boolean)
-    .map((part) => `${part.charAt(0).toUpperCase()}${part.slice(1)}`)
-    .join('')}`
-  const components = instance?.appContext.components
-  return components?.[componentName] ?? components?.[`${registeredPrefix}${componentName}`]
+  const componentName =
+    'Icon' +
+    nextName.value
+      .split('-')
+      .filter(Boolean)
+      .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+      .join('')
+  const components = instance.appContext.components
+  return components[componentName] ?? components[`${registeredPrefix}${componentName}`]
 })
 
 const innerStyle = computed(() => {

@@ -363,5 +363,15 @@
     "label": "逻辑已迁移",
     "en": "Logic migrated",
     "reason": "从 Cedar 独立复制选项树、Item 选择/标题/受控状态/插槽与焦点逻辑和入口互斥协调；Maple 仅横向筛选栏，使用共用 Overlay 与可视视口布局适配；无跨库运行时依赖。"
+  },
+  "mention": {
+    "label": "已同源",
+    "en": "Same source (verified)",
+    "reason": "两端独立源码的组件主体、Props、类型、核心逻辑与样式纳入规范化一致性检查；安装入口、命名空间和移动端编辑模式保留平台适配。"
+  },
+  "input-tag": {
+    "label": "已同源",
+    "en": "Same source (verified)",
+    "reason": "两端独立源码的组件主体、Props、类型、核心逻辑与样式纳入规范化一致性检查；安装入口、命名空间和移动端编辑模式保留平台适配。"
   }
 }

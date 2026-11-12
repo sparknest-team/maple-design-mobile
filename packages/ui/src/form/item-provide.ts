@@ -24,7 +24,7 @@ export interface FormItemProvider {
   validateWithTrigger: (trigger: FormItemValidateTrigger) => void
 }
 
-export const FORM_ITEM_BIND_CONTROL_KEY: InjectionKey<FormItemProvider> = Symbol('FORM_ITEM_BIND_CONTROL_KEY')
+export const FORM_ITEM_BIND_CONTROL_KEY: InjectionKey<FormItemProvider | null> = Symbol('FORM_ITEM_BIND_CONTROL_KEY')
 
 export function useFormItem(
   options: {
@@ -35,10 +35,13 @@ export function useFormItem(
     formDisabled?: Ref<boolean | undefined> | ComputedRef<boolean | undefined>
     formReadonly?: Ref<boolean | undefined> | ComputedRef<boolean | undefined>
     formSize?: Ref<ComponentSize | undefined> | ComputedRef<ComponentSize | undefined>
+    uninject?: boolean
   } = {},
 ) {
-  const { form } = useForm()
-  const formItem = inject(FORM_ITEM_BIND_CONTROL_KEY, null)
+  const context = useForm()
+  const injectedItem = inject(FORM_ITEM_BIND_CONTROL_KEY, null)
+  const form = options.uninject ? undefined : context.form
+  const formItem = options.uninject ? null : injectedItem
 
   const mergedDisabled = computed(() =>
     resolveFormControlState(

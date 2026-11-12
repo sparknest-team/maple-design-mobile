@@ -1,0 +1,153 @@
+@import './token.less';
+
+// 壳层由 FieldDecorator（.mp-field-decorator）提供；此处只写 InputTag 内容态
+.input-tag-style(@cls) {
+  .@{cls}-zoom-enter-from {
+    transform: scale(0.5, 0.5);
+    opacity: 0;
+  }
+
+  .@{cls}-zoom-enter-to {
+    transform: scale(1, 1);
+    opacity: 1;
+  }
+
+  .@{cls}-zoom-enter-active {
+    transition: all var(~'--mp-sys-motion-duration-standard') var(~'--mp-sys-motion-easing-standard');
+  }
+
+  .@{cls}-zoom-leave-from {
+    transform: scale(1, 1);
+    opacity: 1;
+  }
+
+  .@{cls}-zoom-leave-to {
+    transform: scale(0.5, 0.5);
+    opacity: 0;
+  }
+
+  .@{cls}-zoom-leave-active {
+    position: absolute;
+    transition: all var(~'--mp-sys-motion-duration-standard') var(~'--mp-sys-motion-easing-standard');
+  }
+
+  .@{cls}-zoom-move {
+    transition: all var(~'--mp-sys-motion-duration-standard') var(~'--mp-sys-motion-easing-standard');
+  }
+
+  &.@{cls}--has-tag {
+    padding-inline-end: var(~'--mp-input-tag-padding-x');
+    padding-inline-start: var(~'--mp-input-tag-padding-x');
+  }
+
+  &.@{cls}--has-prefix {
+    padding-inline-start: var(~'--mp-field-padding-horizontal');
+  }
+
+  &.@{cls}--has-suffix {
+    padding-inline-end: var(~'--mp-field-padding-horizontal');
+  }
+
+  .@{cls}__inner {
+    flex: 1;
+    overflow: hidden;
+    line-height: 0;
+
+    &.@{cls}--nowrap {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .@{cls}__tag {
+      display: inline-flex;
+      align-items: center;
+      margin-inline-end: var(~'--mp-input-tag-tag-margin-right');
+      font-size: var(~'--mp-input-tag-tag-font-size');
+      white-space: pre-wrap;
+      word-break: break-word;
+
+      // 仅未通过 tagProps 指定颜色/状态/变体时，使用输入框内 Tag 的默认皮肤
+      &.mp-tag--status-default.mp-tag--variant-default:not(.mp-tag--custom-color) {
+        color: var(~'--mp-input-tag-color-text-default');
+        background-color: var(~'--mp-input-tag-tag-color-bg');
+        border-color: var(~'--mp-input-tag-tag-color-border');
+      }
+
+      &.mp-tag--nowrap {
+        min-width: 0;
+        overflow: hidden;
+      }
+    }
+
+    .@{cls}__input {
+      .field-decorator-native-style();
+
+      box-sizing: border-box;
+    }
+  }
+
+  .@{cls}__mirror {
+    position: absolute;
+    top: 0;
+    left: 0;
+    white-space: pre;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  &.mp-field-decorator--focus:not(.mp-field-decorator--disabled) {
+    .@{cls}__tag.mp-tag--status-default.mp-tag--variant-default:not(.mp-tag--custom-color) {
+      background-color: var(~'--mp-input-tag-tag-color-bg-focus');
+      border-color: var(~'--mp-input-tag-tag-color-border-focus');
+    }
+  }
+
+  &.mp-field-decorator--disabled {
+    .@{cls}__tag.mp-tag--status-default.mp-tag--variant-default:not(.mp-tag--custom-color) {
+      color: var(~'--mp-input-tag-color-text-disabled');
+      background-color: var(~'--mp-input-tag-tag-color-bg-disabled');
+      border-color: var(~'--mp-input-tag-tag-color-border-disabled');
+    }
+  }
+
+  &.@{cls}--readonly,
+  &.@{cls}--disabled-input {
+    cursor: default;
+  }
+
+  .size(@size) {
+    &.mp-field-decorator--size-@{size} {
+      @font-size: var(~'--mp-input-tag-size-@{size}-font-size');
+      @tag-height: var(~'--mp-input-tag-size-@{size}-tag-height');
+      @margin-vertical: var(~'--mp-input-tag-tag-margin-y');
+
+      font-size: @font-size;
+
+      .@{cls}__inner {
+        padding-top: var(~'--mp-input-tag-size-@{size}-padding-y');
+        padding-bottom: var(~'--mp-input-tag-size-@{size}-padding-y');
+      }
+
+      .@{cls}__tag,
+      .@{cls}__input {
+        margin-top: calc((@margin-vertical / 2));
+        margin-bottom: calc((@margin-vertical / 2));
+        line-height: calc(@tag-height - 2px);
+        vertical-align: middle;
+      }
+
+      .@{cls}__tag,
+      .@{cls}__input {
+        height: auto;
+        min-height: @tag-height;
+      }
+    }
+  }
+
+  .size(xs);
+  .size(sm);
+  .size(md);
+  .size(lg);
+  .size(xl);
+}
+@import '../../field-decorator/style/mixins.less';

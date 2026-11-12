@@ -6,10 +6,13 @@ import { inputGroupKey } from './context'
 import type { InputProps } from './props'
 
 /** Connect field controls to Maple's existing Form system. */
-export function useInputForm(props: Readonly<Pick<InputProps, 'size' | 'disabled' | 'readonly' | 'error'>>) {
+export function useInputForm(
+  props: Readonly<Pick<InputProps, 'size' | 'disabled' | 'readonly' | 'error'>>,
+  options: { uninject?: boolean } = {},
+) {
   const boundary = inject(fieldEditorBoundary, false)
   const ownFormEvents = inject(fieldControlFormEvents, undefined)
-  const notifyForm = computed(() => !boundary || ownFormEvents?.value === true)
+  const notifyForm = computed(() => !options.uninject && (!boundary || ownFormEvents?.value === true))
   provide(
     fieldControlFormEvents,
     computed(() => false),
@@ -21,9 +24,10 @@ export function useInputForm(props: Readonly<Pick<InputProps, 'size' | 'disabled
     disabled: computed(() => props.disabled ?? group?.disabled.value),
     readonly: computed(() => props.readonly ?? group?.readonly.value),
     error: toRef(props, 'error'),
-    formSize: form?.size,
-    formDisabled: form?.disabled,
-    formReadonly: form?.readonly,
+    formSize: options.uninject ? undefined : form?.size,
+    formDisabled: options.uninject ? undefined : form?.disabled,
+    formReadonly: options.uninject ? undefined : form?.readonly,
+    uninject: options.uninject,
   })
   return {
     ...state,

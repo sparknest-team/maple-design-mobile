@@ -436,7 +436,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | --- | --- | --- |
 | `--mp-steps-arrow-item-bg-error` | `var(--mp-sys-color-content-danger)` | `background-color`, `border-inline-start` |
 | `--mp-steps-arrow-item-bg-finish` | `var(--mp-sys-color-state-selected)` | `background-color`, `border-inline-start` |
-| `--mp-steps-arrow-item-bg-process` | `var(--mp-sys-color-content-brand)` | `background-color`, `border-inline-start` |
+| `--mp-steps-arrow-item-bg-process` | `var(--mp-sys-color-action-primary)` | `background-color`, `border-inline-start` |
 | `--mp-steps-arrow-item-bg-wait` | `var(--mp-sys-color-surface-muted)` | `background-color`, `border-inline-start` |
 | `--mp-steps-arrow-item-description-color-error` | `var(--mp-sys-color-surface-default)` | `color` |
 | `--mp-steps-arrow-item-description-color-finish` | `var(--mp-sys-color-content-secondary)` | `color` |
@@ -455,7 +455,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-steps-circle-horizontal-item-description-margin-top` | `2px` | `margin-top` |
 | `--mp-steps-circle-item-bg-error` | `var(--mp-sys-color-content-danger)` | `background-color` |
 | `--mp-steps-circle-item-bg-finish` | `var(--mp-sys-color-state-selected)` | `background-color` |
-| `--mp-steps-circle-item-bg-process` | `var(--mp-sys-color-content-brand)` | `background-color` |
+| `--mp-steps-circle-item-bg-process` | `var(--mp-sys-color-action-primary)` | `background-color` |
 | `--mp-steps-circle-item-bg-wait` | `var(--mp-sys-color-surface-muted)` | `background-color` |
 | `--mp-steps-circle-item-border-color-error` | `transparent` | `border` |
 | `--mp-steps-circle-item-border-color-finish` | `transparent` | `border` |
@@ -468,11 +468,11 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-steps-circle-item-icon-border-radius` | `50%` | `border-radius` |
 | `--mp-steps-circle-item-icon-gap` | `12px` | `inset-inline-start`, `margin-inline-end`, `padding-inline-end` |
 | `--mp-steps-circle-item-icon-text-color-error` | `var(--mp-sys-color-surface-default)` | `color` |
-| `--mp-steps-circle-item-icon-text-color-finish` | `var(--mp-sys-color-content-brand)` | `color` |
+| `--mp-steps-circle-item-icon-text-color-finish` | `var(--mp-sys-color-action-primary)` | `color` |
 | `--mp-steps-circle-item-icon-text-color-process` | `var(--mp-sys-color-surface-default)` | `color` |
 | `--mp-steps-circle-item-icon-text-color-wait` | `var(--mp-sys-color-content-secondary)` | `color` |
 | `--mp-steps-circle-item-tail-color-error` | `var(--mp-sys-color-content-danger)` | `background-color` |
-| `--mp-steps-circle-item-tail-color-process` | `var(--mp-sys-color-content-brand)` | `background-color` |
+| `--mp-steps-circle-item-tail-color-process` | `var(--mp-sys-color-action-primary)` | `background-color` |
 | `--mp-steps-circle-item-tail-color-wait` | `var(--mp-sys-color-border-default)` | `background-color` |
 | `--mp-steps-circle-item-tail-size` | `1px` | `height`, `inset-inline-start`, `top`, `width` |
 | `--mp-steps-circle-item-title-color-error` | `var(--mp-sys-color-content-primary)` | `color` |
@@ -487,12 +487,12 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-steps-dot-horizontal-item-description-margin-top` | `4px` | `margin-top` |
 | `--mp-steps-dot-horizontal-item-title-margin-top` | `4px` | `margin-top` |
 | `--mp-steps-dot-item-bg-error` | `var(--mp-sys-color-content-danger)` | `background-color` |
-| `--mp-steps-dot-item-bg-finish` | `var(--mp-sys-color-content-brand)` | `background-color` |
-| `--mp-steps-dot-item-bg-process` | `var(--mp-sys-color-content-brand)` | `background-color` |
+| `--mp-steps-dot-item-bg-finish` | `var(--mp-sys-color-action-primary)` | `background-color` |
+| `--mp-steps-dot-item-bg-process` | `var(--mp-sys-color-action-primary)` | `background-color` |
 | `--mp-steps-dot-item-bg-wait` | `var(--mp-sys-color-content-secondary)` | `background-color` |
 | `--mp-steps-dot-item-border-color-error` | `var(--mp-sys-color-content-danger)` | `border-color` |
-| `--mp-steps-dot-item-border-color-finish` | `var(--mp-sys-color-content-brand)` | `border-color` |
-| `--mp-steps-dot-item-border-color-process` | `var(--mp-sys-color-content-brand)` | `border-color` |
+| `--mp-steps-dot-item-border-color-finish` | `var(--mp-sys-color-action-primary)` | `border-color` |
+| `--mp-steps-dot-item-border-color-process` | `var(--mp-sys-color-action-primary)` | `border-color` |
 | `--mp-steps-dot-item-border-color-wait` | `var(--mp-sys-color-content-secondary)` | `border-color` |
 | `--mp-steps-dot-item-description-color-error` | `var(--mp-sys-color-content-secondary)` | `color` |
 | `--mp-steps-dot-item-description-color-finish` | `var(--mp-sys-color-content-secondary)` | `color` |
@@ -504,7 +504,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-steps-dot-item-icon-size` | `8px` | `height`, `inset-inline-start`, `margin-inline-end`, `margin-inline-start`, `margin-top`, `padding-top`, `top`, `width` |
 | `--mp-steps-dot-item-icon-size-active` | `10px` | `height`, `margin-inline-start`, `margin-top`, `width` |
 | `--mp-steps-dot-item-tail-color-error` | `var(--mp-sys-color-content-danger)` | `background-color` |
-| `--mp-steps-dot-item-tail-color-process` | `var(--mp-sys-color-content-brand)` | `background-color` |
+| `--mp-steps-dot-item-tail-color-process` | `var(--mp-sys-color-action-primary)` | `background-color` |
 | `--mp-steps-dot-item-tail-color-wait` | `var(--mp-sys-color-border-default)` | `background-color` |
 | `--mp-steps-dot-item-tail-size` | `1px` | `height`, `top` |
 | `--mp-steps-dot-item-title-color-error` | `var(--mp-sys-color-content-primary)` | `color` |
@@ -527,7 +527,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-steps-navigation-arrow-top` | `10px` | `top` |
 | `--mp-steps-navigation-content-margin-bottom` | `20px` | `margin-bottom` |
 | `--mp-steps-navigation-description-padding-right` | `20px` | `padding-inline-end` |
-| `--mp-steps-navigation-ink-bg` | `var(--mp-sys-color-content-brand)` | `background-color` |
+| `--mp-steps-navigation-ink-bg` | `var(--mp-sys-color-action-primary)` | `background-color` |
 | `--mp-steps-navigation-ink-height` | `2px` | `height` |
 | `--mp-steps-navigation-ink-spacing-left` | `0` | `inset-inline-start` |
 | `--mp-steps-navigation-ink-spacing-right` | `30px` | `inset-inline-end` |

@@ -205,6 +205,11 @@
     "gzip": 45099
   },
   {
+    "name": "input-tag",
+    "bytes": 105559,
+    "gzip": 34777
+  },
+  {
     "name": "lazy",
     "bytes": 3941,
     "gzip": 1765
@@ -238,6 +243,11 @@
     "name": "locale-provider",
     "bytes": 2425,
     "gzip": 1207
+  },
+  {
+    "name": "mention",
+    "bytes": 189203,
+    "gzip": 62093
   },
   {
     "name": "menu",

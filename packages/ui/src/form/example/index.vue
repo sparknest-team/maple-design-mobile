@@ -47,6 +47,7 @@ import HelpExtraDemo from './demos/help-extra.vue'
 import HorizontalLayoutDemo from './demos/horizontal-layout.vue'
 import ContentLabelWidthComparison from './demos/label-width-comparison.vue'
 import LayoutComparison from './demos/layout-comparison.vue'
+import MixedFieldLabel from './demos/mixed-field-label.vue'
 import PlatformPresentationDemo from './demos/platform-presentation.vue'
 import PresentationState from './demos/presentation-state.vue'
 import PresentationStatusDemo from './demos/presentation-status.vue'
@@ -115,6 +116,11 @@ onThemeChange()
     <span lang="zh-CN">字段与数据模型</span>
     <span lang="en-US">Fields and data model</span>
   </h2>
+
+  <section data-demo="mixed-field-label">
+    <app-type>{{ english ? 'Multiple controls under one label' : '同一标签下的多个控件' }}</app-type>
+    <MixedFieldLabel />
+  </section>
 
   <section data-demo="field-components">
     <app-type>{{ english ? 'Text and numeric fields' : '文本与数值字段' }}</app-type

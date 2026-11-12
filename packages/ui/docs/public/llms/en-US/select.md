@@ -568,6 +568,33 @@ const outlineValue10 = ref([])
 </template>
 ```
 
+### Single-selection confirmation
+
+Applies only to overlay editing. Single selection commits and closes on choice by default; true keeps a draft until confirmation. Multiple selection defaults to confirmation. Submission still runs form validation and before-commit; rejection keeps the editor open.
+
+Example source: src/select/example/demos/en-US/confirmation.vue
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const immediate = ref('a')
+const confirmed = ref('a')
+const options = [
+  { value: 'a', label: 'Alpha' },
+  { value: 'b', label: 'Beta' },
+]
+</script>
+<template>
+  <mp-space direction="column">
+    <p>Choose and apply: {{ immediate }}</p>
+    <mp-select v-model="immediate" :options="options" edit-mode="popup" />
+    <p>Confirm before applying: {{ confirmed }}</p>
+    <mp-select v-model="confirmed" :options="options" edit-mode="popup" need-confirm />
+  </mp-space>
+</template>
+```
+
 ### Identical labels, distinct values
 
 Labels may repeat, but values must be unique. Removing the second selected tag removes only its value, in all three presentations.
@@ -1142,7 +1169,7 @@ const options = computed(() => [
 
 ### Presentation and commit rules
 
-Inline commits immediately by default. Popup confirms a draft. Confirm publishes once; cancel, overlay dismissal, Escape and presentation changes discard edits. External model replacements win over drafts. Cedar supports direct / click/dblclick; Maple supports direct / popup. No shared runtime or state.
+Inline commits immediately by default. Popup single selection commits on choice by default; multiple selection or an explicit need-confirm uses a draft. Confirm publishes it; cancel, overlay dismissal, Escape and presentation changes discard uncommitted edits. External model replacements win over drafts. Cedar supports direct / click/dblclick; Maple supports direct / popup. No shared runtime or state.
 
 ### Selection and popup slots
 
@@ -1852,17 +1879,26 @@ Use `v-model`, `v-model:open` and `v-model:input-value` for controlled state. Cl
 
 | Prop | Description | Type | Default |
 | --------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- | ---------------------------- |
-| `model-value / default-value` | Controlled value / uncontrolled initial value | `Value` | `Single: ''; multiple: []` |
-| `open / default-open` | Controlled / initial open state | `boolean` | `undefined / false` |
+| need-confirm | Applies only to overlay editing. Single selection commits and closes on choice by default; true keeps a draft until confirmation. Multiple selection defaults to confirmation. Submission still runs form validation and before-commit; rejection keeps the editor open. | `boolean` | Single `false`; multiple `true` |
+| `model-value` | Controlled selected value; supports v-model | `Value \| null` | `undefined` |
+| `default-value` | Initial uncontrolled selection; read once | `Value` | Single: `''`; multiple: `[]` |
+| `open` | Controlled open state; supports v-model:open | `boolean` | `undefined` |
+| `default-open` | Initial uncontrolled open state; read only at initialization | `boolean` | `false` |
 | `open-trigger-target` | Pointer opening area: field includes the whole field; icon uses only the suffix trigger. Clear/remove actions are excluded; explicit keyboard opening and controlled open remain available. | `'field' \| 'icon'` | `'field'` |
-| `input-value / default-input-value` | Search text, independent of selected values | `string` | `undefined / ''` |
+| `input-value` | Controlled search text, independent of selection; supports v-model:input-value | `string` | `undefined` |
+| `default-input-value` | Initial uncontrolled search text, independent of selection; read only at initialization | `string` | `''` |
 | `multiple` | Multiple selection; enables search by default | `boolean` | `false` |
 | `size` | Supports all five sizes; inherits group/form settings | `ComponentSize`<br>`'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `md` |
 | `variant` | filled, outline, standard; inherits InputGroup | `FieldDecoratorVariant`<br>`'filled' \| 'outline' \| 'standard'` | `filled` |
-| `disabled / readonly / error` | Inherits form state unless explicitly overridden | `boolean` | `undefined` |
+| `disabled` | Disabled state; explicit values override inherited Form / Group state | `boolean` | `undefined` |
+| `readonly` | Read-only state; explicit values override inherited Form / Group state | `boolean` | `undefined` |
+| `error` | Error state; explicit values override inherited Form / Group state | `boolean` | `undefined` |
 | `placeholder` | Placeholder | `string` | `—` |
-| `hint / line` | Floating hint / standard variant underline | `boolean` | `true` |
-| `text-color / focus-color / blur-color` | Field colors | `string` | `—` |
+| `hint` | Enable the floating hint | `boolean` | `true` |
+| `line` | Show the underline in the standard variant | `boolean` | `true` |
+| `text-color` | Custom per-instance text color; prefer tokens for static themes | `string` | `—` |
+| `focus-color` | Custom per-instance focused color; prefer tokens for static themes | `string` | `—` |
+| `blur-color` | Custom per-instance unfocused color; prefer tokens for static themes | `string` | `—` |
 | `loading` | Loading pauses selection, clearing, tag removal and confirmation; retains values while search and closing remain available. | `boolean` | `false` |
 | `loading-mode` | Loading layout: default indicator or bottom line | `default / line` | `default` |
 | `show-tags` | Show tags; false displays separated text | `boolean` | `true` |
@@ -1890,7 +1926,8 @@ Use `v-model`, `v-model:open` and `v-model:input-value` for controlled state. Cl
 | `default-active-first-option` | On opening, activate the first enabled candidate if no valid selected option exists. Highlighting does not update modelValue or emit change; an existing valid selection takes priority | `boolean` | `true` |
 | `unmount-on-close` | Unmount Menu content when closed | `boolean` | `false` |
 | `scrollbar` | option panels scrollbar settings | `boolean or ScrollbarProps` | `true` |
-| `show-header-on-empty / show-footer-on-empty` | Display header/footer in empty state | `boolean` | `false` |
+| `show-header-on-empty` | Show the header in the empty state | `boolean` | `false` |
+| `show-footer-on-empty` | Show the footer in the empty state | `boolean` | `false` |
 | `edit-mode` | Field presentation; inherits FormItem/Form when omitted | `direct / popup` | `popup` |
 | `before-commit` | Before confirmation, calls ({ value, previousValue }, done, { signal }); complete with a boolean, Promise or done; synchronous undefined waits for done. | `BeforeFieldCommit` | — |
 
@@ -1990,7 +2027,7 @@ Select additionally supports `header`, `footer`, `trigger`, and default `Option 
 | focus | Focus the actual field | - |
 | blur | Blur the actual field | - |
 
-Async search should clear old candidates when requests start and accept only the latest current-query response. Combine remote results with `loading`, `:filter-option="false"` and `show-extra-options="false"` to avoid treating ID display fallbacks as search results. Popup arrows/Enter operate current candidates only; bottom confirmation saves. Failed validation preserves drafts. Pending confirmation locks editing/closing; reset closes Popup and aborts submission. Closing/reset invalidates request ownership. See Form's unified field-presentation examples.
+Async search should clear old candidates when requests start and accept only the latest current-query response. Combine remote results with `loading`, `:filter-option="false"` and `show-extra-options="false"` to avoid treating ID display fallbacks as search results. Popup arrows/Enter operate current candidates; confirmation mode saves with the bottom button, while immediate single selection commits on choice. Failed validation in confirmation mode preserves drafts. Pending confirmation locks editing/closing; reset closes Popup and aborts submission. Closing/reset invalidates request ownership. See Form’s unified field-presentation examples.
 
 ## Types
 
@@ -2007,7 +2044,7 @@ filterable enables entering a search query. filterOption controls only local mat
 <mp-select v-model="value" :options="loadOptions" filterable />
 ```
 
-`empty-value` accepts explicit `null` (or `() => null`). Clearing publishes `null` unchanged; omitted values preserve the existing default. Editors render `null` as blank without converting ordinary empty-string input to `null`. In popup editing, clearing changes the draft; confirm commits it and cancel preserves the original model.
+`empty-value` accepts explicit `null` (or `() => null`). Clearing publishes `null` unchanged; omission preserves the existing default. The UI displays null as blank without converting ordinary empty-string input to null. In confirmation mode, clearing changes the draft and confirm commits it; without confirmation, clearing commits directly.
 
 Cancellable hooks use `(payload, done, context)`: closure payloads contain `{ action }`, change/commit payloads contain `{ value, previousValue }`, and Popup uses `{ reason }`. Context provides `signal` and an optional original `event`. Return a boolean/Promise, or call done()/done(false). Synchronous void waits for done; Promise&lt;void&gt; allows the operation. First completion wins. Pending state controls loading/disabled automatically. Cancellation invalidates stale results. Button refs are not exposed.
 
@@ -2038,9 +2075,9 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | Variable | Default / condition | Affected styles |
 | --- | --- | --- |
 | `--mp-select-popup-bg` | `var(--mp-sys-color-surface-overlay)` | `background-color` |
-| `--mp-select-popup-border-color` | `var(--mp-sys-color-border-default)` | `border`, `border-bottom`, `border-top` |
-| `--mp-select-popup-border-radius` | `var(--mp-sys-radius-md)` | `border-radius` |
-| `--mp-select-popup-box-shadow` | `0 4px 10px rgb(0 0 0%)` | `box-shadow` |
+| `--mp-select-popup-border-color` | `var(--mp-sys-color-border-subtle)` | `border`, `border-bottom`, `border-top` |
+| `--mp-select-popup-border-radius` | `var(--mp-sys-radius-lg)` | `border-radius` |
+| `--mp-select-popup-box-shadow` | `0 8px 24px rgba(0, 0, 0, 0.08)` | `box-shadow` |
 | `--mp-select-popup-font-size` | `var(--mp-sys-font-size-md)` | `font-size` |
 | `--mp-select-popup-group-title-font-size` | `var(--mp-sys-font-size-xs)` | `font-size` |
 | `--mp-select-popup-group-title-height` | `20px` | `line-height` |
@@ -2049,22 +2086,25 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-select-popup-group-title-text-color` | `var(--mp-sys-color-content-secondary)` | `color` |
 | `--mp-select-popup-loading-min-height` | `50px` | `min-height` |
 | `--mp-select-popup-max-height` | `200px` | `max-height` |
-| `--mp-select-popup-option-bg` | `var(--mp-sys-color-surface-overlay)` | `background-color` |
-| `--mp-select-popup-option-bg-disabled` | `var(--mp-sys-color-surface-overlay)` | `background-color` |
-| `--mp-select-popup-option-bg-hover` | `var(--mp-sys-color-state-hover)` | `background-color` |
-| `--mp-select-popup-option-bg-selected` | `var(--mp-sys-color-surface-overlay)` | `background-color` |
-| `--mp-select-popup-option-check-color` | `var(--mp-sys-color-content-primary)` | `color` |
+| `--mp-select-popup-option-bg` | `transparent` | `background-color` |
+| `--mp-select-popup-option-bg-disabled` | `transparent` | `background-color` |
+| `--mp-select-popup-option-bg-hover` | `var(--mp-sys-color-state-hover)` | `background`, `background-color` |
+| `--mp-select-popup-option-bg-selected` | `transparent` | `background`, `background-color` |
+| `--mp-select-popup-option-bg-selected-hover` | `var(--mp-select-popup-option-bg-hover)` | `background`, `background-color` |
+| `--mp-select-popup-option-border-radius` | `var(--mp-sys-radius-lg)` | `border-radius` |
+| `--mp-select-popup-option-check-color` | `var(--mp-sys-color-action-primary)` | `color` |
 | `--mp-select-popup-option-check-gap` | `var(--mp-sys-space-4)` | `margin-inline-start` |
 | `--mp-select-popup-option-check-size` | `var(--mp-sys-font-size-md)` | `height`, `width` |
 | `--mp-select-popup-option-font-weight-selected` | `var(--mp-sys-font-weight-medium)` | `font-weight` |
 | `--mp-select-popup-option-height` | `36px` | `line-height` |
 | `--mp-select-popup-option-icon-margin-right` | `var(--mp-sys-space-4)` | `margin-inline-end` |
-| `--mp-select-popup-option-padding-horizontal` | `var(--mp-sys-space-5)` | `padding`, `padding-inline` |
+| `--mp-select-popup-option-padding-horizontal` | `var(--mp-sys-space-4)` | `padding`, `padding-inline` |
 | `--mp-select-popup-option-suffix-icon-margin-left` | `var(--mp-sys-space-5)` | `margin-inline-start` |
 | `--mp-select-popup-option-text-color` | `var(--mp-sys-color-content-primary)` | `color` |
 | `--mp-select-popup-option-text-color-disabled` | `var(--mp-sys-color-content-disabled)` | `color` |
 | `--mp-select-popup-option-text-color-hover` | `var(--mp-sys-color-content-primary)` | `color` |
-| `--mp-select-popup-option-text-color-selected` | `var(--mp-sys-color-content-primary)` | `color` |
+| `--mp-select-popup-option-text-color-selected` | `var(--mp-sys-color-action-primary)` | `color` |
+| `--mp-select-popup-padding-horizontal` | `var(--mp-sys-space-3)` | `padding-inline` |
 | `--mp-select-popup-padding-vertical` | `var(--mp-sys-space-2)` | `padding`, `padding-block` |
 
 </div>
@@ -2073,7 +2113,7 @@ Apply overrides to the rendered component root or the actual popup ancestor. For
 
 ```css
 .component-theme {
-  --mp-select-popup-border-color: var(--mp-sys-color-border-default);
+  --mp-select-popup-border-color: var(--mp-sys-color-border-subtle);
 }
 ```
 

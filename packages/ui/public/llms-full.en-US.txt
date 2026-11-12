@@ -7085,6 +7085,8 @@ The floating layer remains at the Card’s original DOM location. An ancestor’
 
 When focus is still inside the floating content or close controls, closing attempts to return focus to the element focused before expansion. If focus has moved elsewhere, it is left unchanged.
 
+If the opener is inside an external closed Shadow Root, Card cannot access the internal control directly. The host must delegate focus or the application must restore focus. `delegatesFocus` can forward host focus into the root, but does not guarantee the original control when several controls are present.
+
 The default close button uses the current locale's close label; override it with `close-button-aria-label`. `floating-duration` is a finite nonnegative number of milliseconds; 0 disables the delay and invalid values fall back to 250. With reduced motion enabled, opening and closing do not wait for ripple or transition animations; changing the preference during an animation also takes effect.
 
 ### Card Props
@@ -10446,7 +10448,7 @@ Use `v-model`, `v-model:open` and `v-model:input-value` for controlled state. Cl
 | `expand-trigger` | Menu / List expansion: click or hover | `string` | `click` |
 | `expand-child` | Expand to first child | `boolean` | `false` |
 | `load-more` | Load children asynchronously; call done(children), or done() to allow retry | `(option, done) => void` | `—` |
-| `fallback-option` | Display unresolved values | `boolean or (value) => string` | `true` |
+| `fallback-option` | Display unresolved values | `boolean or (value) => { value, label }` | `true` |
 | `search-option-only-label` | Show node label only in search results | `boolean` | `false` |
 | `auto-fit-popup-width` | Match Menu width to field | `boolean` | `false` |
 | `edit-mode` | Field presentation; inherits FormItem / Form when omitted. | `direct / popup` | `popup` |
@@ -18658,45 +18660,34 @@ Document: llms/en-US/defaultsCustomization.md
 
 <!-- Source: docs/defaultsCustomization.en-US.md; locale: en-US; page: /en-US/defaultsCustomization -->
 
-# Defaults Customization
+# Defaults and global configuration
 
-### Intro
+## Set Global Component Defaults
 
-The component library provides the ability to customize the default values of component props.
+Every component provides `setPropsDefaults` for changing the defaults of declarative instances created afterward. Call it before mounting the application:
 
-### Basic Usage
-
-Customize the component's property definition through the mp-static method `setPropsDefaults` provided by the component. It should be noted that attribute customization only takes effect for declarative components, and the customized behavior should be before the component is initialized.
-
-```js
-// playground-ignore
-// main.ts
-import { Button } from '@maple-design/ui-vue'
+```ts
+import { Button, ThemeProvider } from '@maple-design/ui-vue'
 
 Button.setPropsDefaults({
   status: 'primary',
   variant: 'tonal',
-  elevation: 10
+  size: 'lg',
+})
+
+// Other components use the same API
+ThemeProvider.setPropsDefaults({
+  tag: 'section',
 })
 ```
 
-After customization, the following two writing methods will be equivalent.
+Explicit component props take precedence. Existing mounted instances are not updated; object and array defaults are copied per instance.
 
-```html
-<!-- playground-ignore -->
-<!-- App.vue -->
-<template>
-  <mp-button>Hello</mp-button>
-</template>
-```
+## Global Context
 
-```html
-<!-- playground-ignore -->
-<!-- App.vue -->
-<template>
-  <mp-button status="primary" variant="tonal" :elevation="10">Hello</mp-button>
-</template>
-```
+Import `Context` from `@maple-design/ui-vue`, or default-import the same reactive object from `@maple-design/ui-vue/context`. It has `zIndex` (default 2000) and `enableRipple` (default true). Changing `zIndex` affects later allocations, not already open layers. Disabling ripple prevents new waves without disabling host interactions.
+
+This is a module singleton shared by applications and server requests using the same module instance; do not mutate it for per-request SSR isolation. SSR starts at 2000 and allocates from the current value after mounting. The test environment does not increment allocations, and separate bundled copies have separate state. It is not a component and has no props, events, slots, or instance methods.
 
 ---
 
@@ -27265,23 +27256,6 @@ For a deferred Slider inside Shadow DOM, a popup teleported to `body` may not re
 
 In direct edit mode, for a visible label on a single field, match FormItem `label-attrs.for` to the control `id`. The native inputs in selection, date and time fields do not let their placeholder override an associated label. An explicit `aria-label` or `aria-labelledby` retains its native accessible-name precedence. Placeholder is only a fallback when no label is supplied; provide clear labels. Date and time range fields in FormItem associate the form label with their group; use `input-attrs` to give the endpoints distinct names. If `label-attrs.for` targets another control, the label is not associated with the range group. Without `for`, the range currently references the nearest FormItem label even when that item contains other controls. For mixed fields, put the range in a separate styled FormItem with its own name, or explicitly target the intended control with `for` and name the other controls separately. When `for` matches a single-value Slider’s `id`, its thumb and optional numeric input use the label; clicking the default native label focuses the enabled thumb; preventing the label click default cancels that focus. When `for` matches a range Slider’s `id`, the form label names the group; use an `aria-label` array to name the endpoints separately. The `tooltip` button is independently focusable and its name is not added to the field label.
 
-### Multiple controls under one label
-
-For mixed controls, give the visible label a unique ID and explicitly name a group with it. Give each control its own name as well. Use a unique ID for each FormItem instance.
-
-Example source: src/form/example/demos/mixed-field-label.vue
-
-```vue
-<template>
-  <mp-form-item label="Contact" label-component="span" :label-attrs="{ id: 'contact-label' }">
-    <div role="group" aria-labelledby="contact-label">
-      <mp-input aria-label="Email" />
-      <input aria-label="Phone" />
-    </div>
-  </mp-form-item>
-</template>
-```
-
 ## Reading direction
 
 Form and FormItem accept start/end/left/center/right for content-align and start/end/left/right for label-align. Content defaults to start and labels to end: default LTR placement stays the same while RTL follows reading order. Explicit left/right remain physical. Item overrides and explicit label-column styles retain precedence. Direction changes preserve values, validation and disabled/readonly state.
@@ -27427,6 +27401,23 @@ import Comparison from '../label-width-comparison.vue'
 ```
 
 ## Fields and data model
+
+### Multiple controls under one label
+
+For mixed controls, give the visible label a unique ID and explicitly name a group with it. Give each control its own name as well. Use a unique ID for each FormItem instance.
+
+Example source: src/form/example/demos/mixed-field-label.vue
+
+```vue
+<template>
+  <mp-form-item label="Contact" label-component="span" :label-attrs="{ id: 'contact-label' }">
+    <div role="group" aria-labelledby="contact-label">
+      <mp-input aria-label="Email" />
+      <input aria-label="Phone" />
+    </div>
+  </mp-form-item>
+</template>
+```
 
 ### Text and numeric fields
 
@@ -32009,75 +32000,110 @@ Document: llms/en-US/importOnDemand.md
 
 <!-- Source: docs/importOnDemand.en-US.md; locale: en-US; page: /en-US/importOnDemand -->
 
-# Import On Demand
+# Import on demand
 
-### Intro
+This page covers automatic, manual and full imports, plus icons, directives, function APIs, types and styles. Start with [Quick start](#/quickstart?language=en-US) if you have not installed the library.
 
-On-demand import avoids the full import of components, which can effectively reduce the size of the release package.
+## Automatic On-Demand Imports (Recommended)
 
-### Automatic Import
-
-via plugin
-[unplugin-vue-components](https://github.com/antfu/unplugin-vue-components) and
-[unplugin-auto-import](https://github.com/antfu/unplugin-auto-import)
-Implement components to automatically import on demand, This is our most recommended way.
-
-#### Install Plugin
+Maple maintains `@maple-design/resolver-vue`. With `unplugin-vue-components`, components, standalone SVG icons, and component styles are imported on demand at build time.
 
 ```shell
-# playground-ignore
-# npm
-npm i @maple-design/resolver-vue unplugin-vue-components unplugin-auto-import -D
-
-# yarn
-yarn add @maple-design/resolver-vue unplugin-vue-components unplugin-auto-import -D
-
-# pnpm
-pnpm add @maple-design/resolver-vue unplugin-vue-components unplugin-auto-import -D
+npm i @maple-design/resolver-vue unplugin-auto-import unplugin-vue-components -D
 ```
 
-Install the standalone SVG icon package as an application dependency:
-
-```shell
-pnpm add @maple-design/icons-vue
-```
-
-#### Vite
-
-```js
-// playground-ignore
-// vite.config.js
-import vue from '@vitejs/plugin-vue'
-import components from 'unplugin-vue-components/vite'
-import autoImport from 'unplugin-auto-import/vite'
+```ts
+// vite.config.ts
 import { MapleResolver } from '@maple-design/resolver-vue'
+import vue from '@vitejs/plugin-vue'
+import AutoImport from 'unplugin-auto-import/vite'
+import Components from 'unplugin-vue-components/vite'
 import { defineConfig } from 'vite'
 
 export default defineConfig({
   plugins: [
     vue(),
-    components({
-      resolvers: [MapleResolver()]
+    AutoImport({
+      resolvers: [MapleResolver()],
     }),
-    autoImport({
-      resolvers: [MapleResolver()]
-    })
-  ]
+    Components({
+      resolvers: [MapleResolver()],
+    }),
+  ],
 })
 ```
 
-The same resolver selects the UI or icon package from the component name; no second resolver is required:
+Components can then be used without local imports:
 
-```vue
+```html
 <template>
-  <mp-button>Confirm</mp-button>
-  <mp-icon-info-circle-fill :size="32" />
+  <mp-button status="primary">Confirm</mp-button>
+  <mp-icon size="40" color="red">
+    <m-icon-info-circle-fill />
+  </mp-icon>
 </template>
 ```
 
-`MpButton` is imported from `@maple-design/ui-vue`, while `MpIconInfoCircleFill` is imported from `@maple-design/icons-vue`. `MpIcon` remains the wrapper component for dynamic names and icon transitions.
+The resolver generates equivalent on-demand imports:
 
-#### Vue CLI
+```ts
+import { IconInfoCircleFill } from '@maple-design/icons-vue/icon-info-circle-fill'
+import { _ButtonComponent, _IconComponent } from '@maple-design/ui-vue'
+import '@maple-design/ui-vue/button/style'
+import '@maple-design/ui-vue/icon/style'
+```
+
+Standalone SVG icons inherit the wrapper color through `currentColor` and need no additional CSS. The `mp-icon` wrapper itself requires `@maple-design/ui-vue/icon/style`.
+
+### Dynamic icon names
+
+`<mp-icon name="info-circle-fill" />` only looks up icons explicitly registered on the Vue application. Register the icons needed for dynamic names before mounting:
+
+```ts
+import { createApp } from 'vue'
+import { IconInfoCircleFill, IconWarning } from '@maple-design/icons-vue'
+import App from './App.vue'
+
+const app = createApp(App)
+app.component('IconInfoCircleFill', IconInfoCircleFill)
+app.component('IconWarning', IconWarning)
+app.mount('#app')
+```
+
+Registering the entire icon collection with a namespace import loads all icons. Prefer explicit registration or static icon components for on-demand loading.
+
+### Use SVG Icons Directly
+
+Every SVG icon from `@maple-design/icons-vue` is an independent Vue component and can be rendered without the `mp-icon` wrapper:
+
+```html
+<script setup lang="ts">
+  import { IconDelete, IconPlus, IconSearch, IconShareFill } from '@maple-design/icons-vue'
+</script>
+
+<template>
+  <!-- Direct SVG icons do not include application layout styles. -->
+  <!-- Provide width, height, and spacing for the usage context. -->
+  <IconPlus style="width: 1em; height: 1em; margin-right: 8px" />
+  <IconShareFill style="width: 1em; height: 1em; margin-right: 8px" />
+  <IconDelete style="width: 1em; height: 1em; margin-right: 8px" />
+  <IconSearch style="width: 1em; height: 1em; margin-right: 8px" />
+</template>
+```
+
+“Layout styles” means application-level `width`, `height`, and `margin`; icon components still support `size`, `color`, `rotate`, and `spin`. Direct usage is also tree-shakable. Use the `mp-icon` wrapper when size, color, animation, layout, or the interaction area should be controlled consistently.
+
+### Programmatic APIs
+
+The same `MapleResolver()` shown above resolves APIs such as `Message`, `Dialog`, and `ImagePreview` for `unplugin-auto-import`.
+
+`importStyle` controls style imports for template components, the Icon wrapper, and programmatic APIs consistently. Set `MapleResolver({ autoImport: false })` only when programmatic API resolution should be disabled.
+
+### Directives
+
+The same `MapleResolver()` also resolves `v-ripple`, `v-lazy`, `v-hover`, and `v-mp-loading`. The loading directive uses the `mp-` prefix to avoid collisions with directives from other component libraries. Set `directives: false` to disable directive resolution.
+
+### Vue CLI
 ```js
 // playground-ignore
 // vue.config.js
@@ -32099,81 +32125,50 @@ module.exports = {
 }
 ```
 
-#### Typescript configuration note
+## Manual On-Demand Imports
 
-In order to get good IDE syntax highlighting, 
-please make sure that the type declaration files generated by the above two plugins are include by `typescript`,
-which can be configured as follows in `tsconfig.json`:
+```html
+<script setup lang="ts">
+  import { IconInfoCircleFill } from '@maple-design/icons-vue/icon-info-circle-fill'
+  import { Button } from '@maple-design/ui-vue'
+  import '@maple-design/ui-vue/button/style'
+</script>
+
+<template>
+  <Button status="primary">Confirm</Button>
+  <IconInfoCircleFill :size="24" />
+</template>
+```
+
+## Full Import
+
+```ts
+import { createApp } from 'vue'
+import Maple from '@maple-design/ui-vue'
+import '@maple-design/ui-vue/style'
+import App from './App.vue'
+
+createApp(App).use(Maple).mount('#app')
+```
+
+Standalone SVG icons are not globally registered by the UI package. Import them explicitly or use `MapleResolver()`.
+
+## TypeScript
 
 ```json
-// playground-ignore
 {
-  "include": ["auto-imports.d.ts", "components.d.ts"]
+  "include": ["src", "components.d.ts", "auto-imports.d.ts"]
 }
 ```
 
-### Manual import
+Keep the existing entries in your TypeScript `include`; the plugins generate these declaration files from actual usage.
 
-Each component is a `Vue plugin` and consists of `component logic` and `style files`, which are manually imported and used as follows.
+## Style imports
 
-```js
-// playground-ignore
-import App from './App.vue'
-import { createApp } from 'vue'
-import { Button } from '@maple-design/ui-vue'
-import '@maple-design/ui-vue/button/style'
+The resolver imports component styles by default. Disable this when the full stylesheet is already loaded:
 
-createApp(App).use(Button)
-```
-
-OR
-
-```html
-// playground-ignore
-<script setup>
-import { Button as VarButton } from '@maple-design/ui-vue'
-import '@maple-design/ui-vue/button/style'
-</script>
-
-<template>
-  <mp-button>Say Hello</mp-button>
-</template>
-```
-
-### Manual import and automatic import comparison
-
-Manual import
-
-```html
-// playground-ignore
-<script setup>
-import { Button as VarButton, Message } from '@maple-design/ui-vue'
-import '@maple-design/ui-vue/button/style'
-import '@maple-design/ui-vue/message/style'
-
-function handleClick() {
-  Message('Hello!')
-}
-</script>
-
-<template>
-  <mp-button @click="handleClick">Say Hello</mp-button>
-</template>
-```
-
-Automatic import
-
-```html
-// playground-ignore
-<script setup>
-function handleClick() {
-  Message('Hello!')
-}
-</script>
-
-<template>
-  <mp-button @click="handleClick">Say Hello</mp-button>
-</template>
+```ts
+MapleResolver({ importStyle: false })
 ```
 
 ---
@@ -33966,6 +33961,595 @@ Apply overrides to the rendered component root or the actual popup ancestor. For
 ```css
 .component-theme {
   --mp-input-number-addon-background: var(--mp-sys-color-surface-muted);
+}
+```
+
+Explicit inline styles and props that write the same CSS property take precedence over stylesheet defaults. After Teleport, ordinary CSS variables inherit from the actual mount location. When using ThemeProvider, follow its local-theme and popup configuration rules. Override the component variable directly for local styling; root-level aliases are not recalculated merely because a descendant system variable changes. Internal variables are not public APIs.
+
+<!-- component-css-variables:end -->
+
+---
+
+Document: llms/en-US/input-tag.md
+
+<!-- Source: src/input-tag/docs/en-US.md; locale: en-US; page: /en-US/input-tag -->
+
+# InputTag
+
+Editable tag values with controlled array models. FormItem error messages are associated with the input alongside any existing `aria-describedby`.
+
+## Reading direction
+
+Tags follow reading order while their source array stays unchanged. With empty input, Backspace removes the last closable value; Enter adds a tag. Composition does not submit or delete tags.
+
+## Basic examples
+
+### Basic usage
+
+Example source: src/input-tag/example/demos/basic.vue
+
+```vue
+<script setup>
+import MpInputTag from '../../index'
+import '../../style'
+</script>
+<template>
+  <mp-input-tag :default-value="['test']" placeholder="Please Enter" clearable />
+</template>
+```
+
+## Appearance and states
+
+### Tag input size and state
+
+<!-- demo-config-notes:start -->
+
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --------------- | -------------------- | ------------------ |
+| `default-value` | Default value (uncontrolled state) | Tag input size and state |
+| `placeholder` | Placeholder | Tag input size and state |
+| `size` | The size of the input | Tag input size and state |
+| `clearable` | Enables the clear action | Tag input size and state |
+| `disabled` | Whether disabled | Tag input size and state |
+| `readonly` | Whether it is read-only mode | Tag input size and state |
+
+<!-- demo-config-notes:end -->
+
+
+Compare sizes and disabled, read-only or error appearance while keeping the empty-value protocol separate.
+
+Example source: src/input-tag/example/demos/appearance-state-comparison.vue
+
+```vue
+<script setup lang="ts">
+import MpInputTag from '../../index'
+import '../../style'
+import { proxyRefs as demoProxyRefs, ref } from 'vue'
+
+const scene1 = demoProxyRefs(
+  (() => {
+    const size = ref<'xs' | 'sm' | 'md' | 'lg' | 'xl'>('md')
+    return { size }
+  })(),
+)
+</script>
+
+<template>
+  <div class="demo-comparison">
+    <section class="demo-comparison-case demo-comparison-case--1" data-comparison-scene="size">
+      <h4><span lang="zh-CN">输入框尺寸</span><span lang="en-US">size</span></h4>
+      <mp-space direction="column" size="lg">
+        <mp-radio-group v-model="scene1.size" type="button">
+          <mp-radio value="xs">xs</mp-radio>
+          <mp-radio value="sm">sm</mp-radio>
+          <mp-radio value="md">md</mp-radio>
+          <mp-radio value="lg">lg</mp-radio>
+          <mp-radio value="xl">xl</mp-radio>
+        </mp-radio-group>
+        <mp-input-tag :default-value="['one']" placeholder="Please enter something" :size="scene1.size" clearable />
+      </mp-space>
+    </section>
+
+    <section class="demo-comparison-case demo-comparison-case--2" data-comparison-scene="status">
+      <h4><span lang="zh-CN">输入框状态</span><span lang="en-US">status</span></h4>
+      <mp-space direction="column" size="lg">
+        <mp-input-tag :default-value="['test']" placeholder="Please Enter" disabled />
+        <mp-input-tag :default-value="['test']" placeholder="Please Enter" readonly />
+        <mp-input-tag :default-value="['test']" placeholder="Please Enter" error />
+      </mp-space>
+    </section>
+  </div>
+</template>
+
+<style scoped lang="less">
+.demo-comparison {
+  display: grid;
+  gap: 24px;
+  min-width: 0;
+  max-width: 100%;
+}
+.demo-comparison-case {
+  min-width: 0;
+  max-width: 100%;
+}
+.demo-comparison-case > h4 {
+  margin: 0 0 12px;
+  font-size: 14px;
+}
+html:not([lang='en-US']) .demo-comparison-case > h4 > [lang='en-US'],
+html[lang='en-US'] .demo-comparison-case > h4 > [lang='zh-CN'] {
+  display: none;
+}
+</style>
+```
+
+## Content and presentation
+
+### Max
+
+<!-- demo-config-notes:start -->
+
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --------------- | ---------------------------------- | ---------------- |
+| `default-value` | Default value (uncontrolled state) | Max |
+| `placeholder` | Placeholder | Max |
+| `max-tag-count` | The maximum number of tags displayed, `0` means unlimited | Max |
+| `clearable` | Enables the clear action | Max |
+
+<!-- demo-config-notes:end -->
+
+
+- `default-value`: Default value (uncontrolled state)
+- `placeholder`: Placeholder
+- `max-tag-count`: The maximum number of tags displayed, `0` means unlimited
+- `clearable`: Whether to allow clear
+
+Example source: src/input-tag/example/demos/max.vue
+
+```vue
+<script setup>
+import MpInputTag from '../../index'
+import '../../style'
+</script>
+<template>
+  <mp-input-tag
+    :default-value="['one', 'two', 'three', 'four']"
+    placeholder="Please Enter"
+    :max-tag-count="3"
+    clearable
+  />
+</template>
+```
+
+## Loading and waiting
+
+### Controlled loading
+
+| Prop | Description | Type | Default |
+| --- | --- | --- | --- |
+| `loading` | Explicit business loading state | `boolean` | `false` |
+
+
+Set loading explicitly to display feedback. Ordinary event return values do not drive loading. Before hooks retain their documented pending behavior.
+
+Example source: src/input-tag/example/demos/loading.vue
+
+```vue
+<script setup lang="ts">
+import MpInputTag from '../../index'
+import '../../style'
+import { ref } from 'vue'
+
+const loading = ref(true)
+</script>
+<template>
+  <mp-space direction="column" style="width: 100%" :size="16">
+    <mp-form layout="vertical"
+      ><mp-form-item label="加载状态 / Loading"><mp-switch v-model="loading" /></mp-form-item
+    ></mp-form>
+    <mp-input-tag :loading="loading" :default-value="['示例 / Example']" />
+    <p>通过 loading 显式控制等待展示，普通事件返回 Promise 不会自动加载。Loading is controlled by business state.</p>
+  </mp-space>
+</template>
+```
+
+### Paste a link and fetch its title
+
+Paste a URL or type one and press Enter to simulate fetching its title. The input displays a loading state while waiting. The model contains only URLs; `fallback-option` reads titles from reactive application data. Submit displays the URL data without sending a request.
+
+Example source: src/input-tag/example/demos/link-title.vue
+
+```vue
+<script setup lang="ts">
+import MpInputTag from '../../index'
+import '../../style'
+import { reactive, ref } from 'vue'
+
+const links = ref<string[]>([])
+const titles = reactive<Record<string, string>>({})
+const fallbackOption = (value: string | number) => ({ value, label: titles[String(value)] ?? String(value) })
+const inputValue = ref('')
+const loading = ref(false)
+const error = ref('')
+const submitted = ref<string[] | null>(null)
+
+// 模拟接口：延迟返回标题，实际使用时替换为业务请求。
+function fetchTitle(url: string): Promise<string> {
+  const titles: Record<string, string> = {
+    'vuejs.org': 'Vue.js',
+    'github.com': 'GitHub',
+  }
+  return new Promise((resolve) => {
+    setTimeout(() => resolve(titles[new URL(url).hostname] || new URL(url).hostname), 1200)
+  })
+}
+
+async function handlePaste(event: ClipboardEvent) {
+  const url = event.clipboardData?.getData('text/plain').trim()
+  if (url) {
+    await addLink(url)
+  }
+}
+
+function handleKeydown(event: KeyboardEvent) {
+  if (event.key !== 'Enter' || event.isComposing || event.keyCode === 229) {
+    return
+  }
+  event.preventDefault()
+  void addLink(inputValue.value.trim())
+}
+
+async function addLink(url: string) {
+  if (loading.value || !url) {
+    return
+  }
+  error.value = ''
+  try {
+    const parsed = new URL(url)
+    if (!['http:', 'https:'].includes(parsed.protocol)) {
+      throw new Error()
+    }
+  } catch {
+    error.value = '请粘贴完整的 http 或 https 链接 / Paste a valid http or https URL.'
+    return
+  }
+  if (links.value.includes(url)) {
+    error.value = '链接已添加 / This URL has already been added.'
+    return
+  }
+  loading.value = true
+  try {
+    const title = await fetchTitle(url)
+    titles[url] = title
+    links.value.push(url)
+    inputValue.value = ''
+  } catch {
+    error.value = '获取标题失败，请重试 / Could not fetch the title. Try again.'
+  } finally {
+    loading.value = false
+  }
+}
+
+function submit() {
+  submitted.value = [...links.value]
+}
+</script>
+
+<template>
+  <mp-space direction="column" style="width: 100%" :size="12">
+    <p>粘贴链接，或输入链接后按回车，例如 https://vuejs.org / Paste a URL or type one and press Enter.</p>
+    <div @paste.capture.prevent="handlePaste" @keydown.capture="handleKeydown">
+      <mp-input-tag
+        v-model="links"
+        v-model:input-value="inputValue"
+        :fallback-option="fallbackOption"
+        :retain-input-value="true"
+        :loading="loading"
+        :disabled="loading"
+        placeholder="粘贴或输入链接 / Paste or type a URL"
+        aria-label="粘贴或输入链接 / Paste or type a URL"
+        clearable
+      />
+    </div>
+    <p v-if="error" role="alert">{{ error }}</p>
+    <mp-button :disabled="loading || !links.length" @click="submit">提交 / Submit</mp-button>
+    <pre v-if="submitted !== null" aria-live="polite">{{ JSON.stringify({ links: submitted }, null, 2) }}</pre>
+  </mp-space>
+</template>
+```
+
+### Field state and native input
+
+Unset disabled, readonly and error inherit from FormItem / Form. InputGroup supplies disabled, readonly, size and variant; explicit field values, including false, take precedence. The standalone variant remains filled. Deferred editors follow the same state and discard their draft when disabled or readonly.
+
+Native id, name, aria/data attributes, constraints and keyboard listeners belong to the actual input; class/style stay on the shell. The name submits the separate input draft, not the tag array. Controlled input drafts restore the accepted value. Composition publishes once and canceled sessions cannot publish later.
+
+Manual loading supports loading-mode="default" (default) or "line" and keeps the input editable. The default clear control is a named native button. The clear-icon slot receives clear(event?) for a custom control. Clearing tags preserves the separate input draft and retains the update:modelValue, change, clear notification order. The clear event accepts Event, including custom control events; a programmatic deferred change may omit its source event.
+
+### Display labels for primitive values
+
+Use `fallback-option` to synchronously read application-managed display data. The model contains only URLs; clicking the button simulates labels arriving without changing the model.
+
+Example source: src/input-tag/example/demos/fallback-option.vue
+
+```vue
+<script setup lang="ts">
+import MpInputTag from '../../index'
+import '../../style'
+import { reactive, ref } from 'vue'
+
+const urls = ref(['https://vuejs.org', 'https://github.com'])
+const titles = reactive<Record<string, string>>({})
+const fallbackOption = (value: string | number) => ({ value, label: titles[String(value)] ?? String(value) })
+
+function loadTitles() {
+  // 实际应用由业务请求并更新映射；组件不发起请求。
+  titles['https://vuejs.org'] = 'Vue.js'
+  titles['https://github.com'] = 'GitHub'
+}
+</script>
+
+<template>
+  <mp-space direction="column" style="width: 100%" :size="12">
+    <mp-input-tag v-model="urls" :fallback-option="fallbackOption" />
+    <mp-button @click="loadTitles">模拟获取标题 / Load mock titles</mp-button>
+    <pre>{{ JSON.stringify(urls, null, 2) }}</pre>
+  </mp-space>
+</template>
+```
+
+### Restore saved values asynchronously
+
+This example simulates saving the ID array in memory, remounts the component, then loads names asynchronously. IDs appear while loading; the synchronous `fallback-option` resolves names when data arrives without changing the saved values. Applications own persistence and fetching display data by ID.
+
+Example source: src/input-tag/example/demos/async-fallback-restore.vue
+
+```vue
+<script setup lang="ts">
+import MpInputTag from '../../index'
+import '../../style'
+import { onBeforeUnmount, ref } from 'vue'
+
+const values = ref(['shuai.meng', 'xiaoming', 'lisi'])
+const saved = ref([...values.value])
+const names = ref<Record<string, string>>({ 'shuai.meng': '孟帅', xiaoming: '小明', lisi: '李四' })
+const generation = ref(0)
+const readPretty = ref(false)
+const loading = ref(false)
+let timer: ReturnType<typeof setTimeout> | undefined
+
+// fallback 只同步读取业务数据，未找到时返回 undefined。
+const fallbackOption = (value: string | number) => {
+  const label = names.value[String(value)]
+  return label === undefined ? undefined : { value, label }
+}
+
+function saveAndReload() {
+  // 用内存模拟数据库保存；实际业务应保存 values.value，再按 ID 请求姓名。
+  saved.value = [...values.value]
+  if (timer) {
+    clearTimeout(timer)
+  }
+  names.value = {}
+  values.value = [...saved.value]
+  generation.value++ // 重新挂载组件，模拟打开已保存的数据。
+  loading.value = true
+  timer = setTimeout(() => {
+    names.value = { 'shuai.meng': '孟帅', xiaoming: '小明', lisi: '李四' }
+    loading.value = false
+  }, 1500)
+}
+
+onBeforeUnmount(() => {
+  if (timer) {
+    clearTimeout(timer)
+  }
+})
+</script>
+
+<template>
+  <mp-space direction="column" style="width: 100%" :size="12" data-demo="input-tag-async-fallback-restore">
+    <p>
+      模拟保存后重新初始化：请求期间先显示 ID，姓名返回后自动更新。 / Save and reload to resolve names asynchronously.
+    </p>
+    <mp-input-tag :key="generation" v-model="values" :fallback-option="fallbackOption" :read-pretty="readPretty" />
+    <mp-space wrap>
+      <mp-button @click="saveAndReload">模拟保存并重新加载 / Save and reload</mp-button>
+      <mp-button @click="readPretty = !readPretty">{{
+        readPretty ? '切换到编辑态 / Edit' : '切换到阅读态 / Read'
+      }}</mp-button>
+    </mp-space>
+    <div role="status">{{ loading ? '正在加载姓名… / Loading names…' : '姓名已加载 / Names loaded' }}</div>
+    <div>
+      模拟保存值 / Saved values：<code data-saved-value>{{ JSON.stringify(saved) }}</code>
+    </div>
+  </mp-space>
+</template>
+```
+
+## API
+
+### Empty values and reading placeholders
+
+`empty-values` recognizes empty data; `empty-value` keeps existing clear output. `empty-text` defaults to `'-'` under `read-pretty`, with Field > FormItem > Form precedence and custom read slots first. With explicit `empty-values`, built-in required uses the policy; custom validators receive original data. See the [shared guide](en/guide/empty-values).
+
+| Prop | Type | Default and scope |
+| ------------ | ------------------ | ----------------------------------------------------- |
+| empty-values | readonly unknown[] | Field > FormItem > Form > component-family default; replaces the whole list |
+| empty-text | string | Field > FormItem > Form > '-'; explicit '' is valid |
+
+These props belong to field presentation; pure panels do not gain reading mode. Form and FormItem provide inherited settings. The existing empty-value type and clear fallback remain component-specific.
+
+`unique-value` compares normalized object and string tag values using the merged `field-names.value` mapping. Numeric `1` and string `"1"` are distinct. Duplicates remain legal by default, with a stable private identity per occurrence and a separate overflow key. Folding affects display only; it does not truncate the model.
+
+Public Props exclude the internal composition controls `baseCls`, `focused`, `disabledInput` and `uninjectFormItemContext`. A synchronous undefined return from before-commit waits for done; ordinary change / press-enter listeners do not await Promises. A deferred change may omit its source DOM event. Clearing defaults to [], while explicit empty-value=null preserves null.
+
+### InputTag Props
+
+| Parameter | Description | Type | Default |
+| ------------------------- | ---------------------------------- | ------------------------------------------------- | :--------: |
+| model-value **(v-model)** | Bound value | `(string \| number \| TagData)[] \| null` | `-` |
+| default-value | Default value (uncontrolled state) | `(string \| number \| TagData)[]` | `[]` |
+| input-value **(v-model)** | The value of the input | `string` | `-` |
+| default-input-value | The default value of the input (uncontrolled state) | `string` | `''` |
+| placeholder | Placeholder | `string` | `-` |
+| disabled | Whether disabled | `boolean` | `-` |
+| error | Whether it is an error state | `boolean` | `-` |
+| readonly | Whether it is read-only mode | `boolean` | `-` |
+| clearable | Enables the clear action | `boolean` | `false` |
+| size | The size of the input | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
+| variant | The variant of the input | `'filled' \| 'outline' \| 'standard'` | `'filled'` |
+| max-tag-count | Finite nonnegative integer; 0 is unlimited, invalid values diagnose and fall back to unlimited display | `number` | `0` |
+| retain-input-value | Whether to keep the content of the input box | `boolean \| { create?: boolean; blur?: boolean }` | `false` |
+| format-tag | Format tag content | `(data: TagData) => string` | `-` |
+| fallback-option | Synchronously resolve display data for primitive values; show the value when unresolved | `(value: string \| number) => TagData \| null \| undefined` | `-` |
+| unique-value | Whether to create only unique values | `boolean` | `false` |
+| field-names | Customize fields in `TagData` | `InputTagFieldNames` | `-` |
+| tag-nowrap | Tag content does not wrap | `boolean` | `false` |
+
+| loading | Business-controlled loading state; does not block input | `boolean` | `false` |
+| loading-mode | Shared field feedback appearance, independent of Loading animation types | `'default' \| 'line'` | `'default'` |
+| empty-value | Clear output; defaults to an empty array and accepts explicit null | `InputTagValue \| (() => InputTagValue)` | `[]` |
+| empty-values | Empty-value recognition; field takes precedence over FormItem and Form | `readonly unknown[]` | `-` |
+| empty-text | Read empty text; an explicit empty string is valid | `string` | `'-'` |
+| edit-mode | Editing mode; field takes precedence over FormItem and Form | `'direct' \| 'popup'` | `'direct'` |
+| read-pretty | Independent read presentation; explicit false overrides the parent | `boolean` | `false` |
+| before-commit | Guard before saving a deferred edit; return a boolean or Promise, or complete via done | `(payload: { value: unknown; previousValue: unknown }, done: (allow?: boolean) => void, context: { signal: AbortSignal; event?: Event }) => void \| boolean \| Promise<void \| boolean>` | `-` |
+| open | Controlled editor visibility, separate from native input focus | `boolean` | `-` |
+| default-open | Initial visibility of an uncontrolled editor | `boolean` | `false` |
+| popup-container | Editor mount container | `string \| HTMLElement \| false` | `-` |
+
+### InputTag Events
+
+| Event | Description | Arguments |
+| ------------------ | ------------------------ | ------------------------------------------------------- |
+| update:modelValue | Tag model update proposal; deferred mode notifies after saving | value: `InputTagValue` |
+| update:inputValue | Separate input draft update proposal | inputValue: `string` |
+| update:open | Controlled editor visibility update | open: `boolean` |
+| open-change | Actual editor visibility change | open: `boolean` |
+| change | Emitted when the value changes | value: `InputTagValue`<br>ev?: `Event` |
+| input-value-change | Emitted when the input value changes | inputValue: `string`<br>ev: `Event` |
+| press-enter | Emitted when Enter is pressed | inputValue: `string`<br>ev: `KeyboardEvent` |
+| remove | Emitted when a tag's remove button is clicked | removed: `string \| number`<br>ev: `Event` |
+| clear | Emitted when the clear action is invoked | ev: `Event` |
+| focus | Emitted when the input gains focus | ev: `FocusEvent` |
+| blur | Emitted when the input loses focus | ev: `FocusEvent` |
+
+### InputTag Methods
+
+| Method | Description | Arguments | Returns |
+| ------ | ---------------- | ---- | ------ |
+| focus | Focus the current editor; deferred mode first opens an editable panel | - | - |
+| blur | Blur the current input | - | - |
+
+Public methods remain callable from initial component mount. Stored methods resolve the current editor on every call and never use an old input after closure, reopening, or mode changes. Native input references are undefined while no editor is mounted.
+
+### InputTag Slots
+
+| Slot | Description | Prop |
+| ------ | :------------------: | --------------- |
+| tag | Displayed input-tag content | data: `TagData` |
+| prefix | Prefix content | - |
+| suffix | Suffix content | - |
+| clear-icon | Custom clear control | clear: `(event?: Event) => void` |
+| read | Custom read content, taking precedence over empty-text | value: `InputTagValue`<br>text: `string` |
+
+## Types
+
+### TagData
+
+| Parameter | Description | Type | Default |
+| -------- | ---------- | ------------------ | :-----: |
+| value | Tag value | `string \| number` | `-` |
+| label | Tag content | `string` | `-` |
+| closable | Whether closable | `boolean` | `false` |
+| tagProps | Tag props | `TagProps` | `-` |
+
+The component exports the following types
+
+```ts
+import type { InputTagProps, InputTagValue, InputTagEmits, InputTagSlots, InputTagExpose, InputTagInstance, InputTagFieldNames, TagData } from "@maple-design/ui-vue";
+```
+
+## Tags and close buttons
+
+Tag controls tag and close-button appearance. Disabled, readonly and nonclosable tags cannot be removed with the close button.
+
+## InputTag wrapper and content responsibilities
+
+InputTag uses FieldDecorator variables for its outline, filled and standard appearance. The filled backgrounds use fill-1, fill-2 and fill-3 for default, hover and focus. Form manages validation messages.
+
+input-tag-* controls content density, default tag backgrounds and disabled text. Disabled styles take precedence over focus. Sizes xs/sm/md/lg/xl are supported. xl uses 32px tags, 16px input text and 4px vertical padding.
+
+Use field-variant-{variant}-background for field backgrounds, field-border-radius for corners, field-placeholder-text-color for placeholders, and field-clear-icon-color / field-clear-icon-size for clear icons. Prefer `size` for dimensions and InputTag variables for tag content.
+
+Default text, disabled text, tag backgrounds and focus backgrounds use the corresponding system semantic colors. Disabled state does not override explicit color / status; keep text readable when supplying custom colors. Parent disabled / readonly takes precedence over tagProps.closable / checkable. Loading or explicitly nonclosable tags cannot be removed with Backspace.
+
+### Editing and confirmation
+
+This component supports `edit-mode` with field > FormItem > Form precedence. When unset, it defaults to `direct` and preserves `direct` editing. Supported values: `direct / popup`. Non-direct modes open the editor through the field value trigger and keep one draft; v-model updates only after confirmation. Cancel, reset or enabling readPretty discards the draft.
+
+Maple uses edit-mode="popup" to open an editor popup near the field. Enter/F2 also opens it; cancel/Escape discards the draft, and confirmation commits it. readPretty is an independent reading setting, separate from readonly and disabled.
+
+`before-commit(payload, done, context)` can guard saving the editor. FormItem validates the candidate first; invalid candidates keep the editor open. `open / default-open / update:open` control the editor. `#read="{ value, text }"` customizes read content. See the unified field presentation examples in Form.
+
+`read-pretty` is an independent boolean alongside `readonly` and `disabled`. It inherits from field to FormItem to Form; explicit `false` overrides the parent. The default is `false`. Reading mode renders no editor.
+
+## Configuring the cleared value
+
+`empty-value` defines the output of an existing clear action. Omission preserves the component fallback; supported types remain component-specific. It does not change empty-values recognition or Form reset defaults.
+
+`empty-value` accepts explicit `null` (or `() => null`). Clearing publishes `null` unchanged; omitted values preserve the existing default. Editors render `null` as blank without converting ordinary empty-string input to `null`. In popup editing, clearing changes the draft; confirm commits it and cancel preserves the original model.
+
+## CSS Variables
+
+<!-- component-css-variables:start -->
+
+Use these variables to customize the component. Defaults may vary by the selector condition shown. Each variable applies to the corresponding size, variant and interaction states.
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Default / condition | Affected styles |
+| --- | --- | --- |
+| `--mp-input-tag-color-text-default` | `var(--mp-sys-color-content-primary)` | `color` |
+| `--mp-input-tag-color-text-disabled` | `var(--mp-sys-color-content-disabled)` | `color` |
+| `--mp-input-tag-padding-x` | `4px` | `padding-inline-end`, `padding-inline-start` |
+| `--mp-input-tag-size-lg-font-size` | `14px` | `font-size` |
+| `--mp-input-tag-size-lg-padding-y` | `2px` | `padding-bottom`, `padding-top` |
+| `--mp-input-tag-size-lg-tag-height` | `28px` | `line-height`, `min-height` |
+| `--mp-input-tag-size-md-font-size` | `14px` | `font-size` |
+| `--mp-input-tag-size-md-padding-y` | `2px` | `padding-bottom`, `padding-top` |
+| `--mp-input-tag-size-md-tag-height` | `24px` | `line-height`, `min-height` |
+| `--mp-input-tag-size-sm-font-size` | `14px` | `font-size` |
+| `--mp-input-tag-size-sm-padding-y` | `2px` | `padding-bottom`, `padding-top` |
+| `--mp-input-tag-size-sm-tag-height` | `20px` | `line-height`, `min-height` |
+| `--mp-input-tag-size-xl-font-size` | `16px` | `font-size` |
+| `--mp-input-tag-size-xl-padding-y` | `4px` | `padding-bottom`, `padding-top` |
+| `--mp-input-tag-size-xl-tag-height` | `32px` | `line-height`, `min-height` |
+| `--mp-input-tag-size-xs-font-size` | `12px` | `font-size` |
+| `--mp-input-tag-size-xs-padding-y` | `0px` | `padding-bottom`, `padding-top` |
+| `--mp-input-tag-size-xs-tag-height` | `20px` | `line-height`, `min-height` |
+| `--mp-input-tag-tag-color-bg` | `var(--mp-sys-color-surface-default)` | `background-color` |
+| `--mp-input-tag-tag-color-bg-disabled` | `var(--mp-sys-color-state-hover)` | `background-color` |
+| `--mp-input-tag-tag-color-bg-focus` | `var(--mp-sys-color-state-hover)` | `background-color` |
+| `--mp-input-tag-tag-color-border` | `var(--mp-color-fill-3)` | `border-color` |
+| `--mp-input-tag-tag-color-border-disabled` | `var(--mp-color-fill-3)` | `border-color` |
+| `--mp-input-tag-tag-color-border-focus` | `var(--mp-sys-color-state-hover)` | `border-color` |
+| `--mp-input-tag-tag-font-size` | `12px` | `font-size` |
+| `--mp-input-tag-tag-margin-right` | `4px` | `margin-inline-end` |
+| `--mp-input-tag-tag-margin-y` | `2px` | `margin-bottom`, `margin-top` |
+
+</div>
+
+Apply overrides to the rendered component root or the actual popup ancestor. For example, add the following class to that element and replace the value as needed:
+
+```css
+.component-theme {
+  --mp-input-tag-color-text-default: var(--mp-sys-color-content-primary);
 }
 ```
 
@@ -36044,8 +36628,6 @@ const items = [
 
 ### Lifecycle
 
-On KeepAlive reactivation, the virtual list restores its last recorded vertical and horizontal scroll positions within the current scrollable range. A new scroll command issued during reactivation takes precedence.
-
 <!-- demo-config-notes:start -->
 #### Configuration reference for this comparison
 
@@ -36054,6 +36636,8 @@ On KeepAlive reactivation, the virtual list restores its last recorded vertical 
 | `data` | Data consumed by item slot | Lifecycle |
 | `virtual-list-props` | Data virtualization; ignored when default slot exists | Lifecycle |
 <!-- demo-config-notes:end -->
+
+On KeepAlive reactivation, the virtual list restores its last recorded vertical and horizontal scroll positions within the current scrollable range. A new scroll command issued during reactivation takes precedence.
 
 
 Example source: src/list/example/demos/en-US/virtual-lifecycle.vue
@@ -36957,6 +37541,606 @@ The root `Locale` is a global singleton with only `zh-CN` registered and active 
 This component declares no independent public CSS variables. Use the configuration and layout APIs documented on this page.
 
 Internal custom properties and measurement values are implementation details and are not customization APIs.
+
+<!-- component-css-variables:end -->
+
+---
+
+Document: llms/en-US/mention.md
+
+<!-- Source: src/mention/docs/en-US.md; locale: en-US; page: /en-US/mention -->
+
+# Mention
+
+Text input with mention suggestions supplied by the application.
+
+## Basic examples
+
+### Basic usage
+
+Example source: src/mention/example/demos/basic.vue
+
+```vue
+<template>
+  <mp-space direction="column" size="lg" style="width: 100%">
+    <mp-mention v-model="value" :options="['Bytedance', 'Bytedesign', 'Bytenumner']" placeholder="enter something" />
+    <mp-mention
+      v-model="text"
+      :options="['Bytedance', 'Bytedesign', 'Bytenumner']"
+      type="textarea"
+      placeholder="enter something"
+    />
+  </mp-space>
+</template>
+
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const value = ref('')
+const text = ref('')
+</script>
+```
+
+### Atomic mentions and display fallback
+
+With `atomic`, selected mentions are edited and deleted as units. The model stores identity as `@[encoded ID]`. Supply unresolved names synchronously through `fallback-option`; the component does not request display data. Atomic values support strings, finite numbers and booleans with their types preserved; object values are unsupported. Literal `@[` and backslashes are escaped. `atomic` is off by default, so existing plain text is not automatically reinterpreted.
+
+For example, string ID `shuai.meng` is stored as `@[shuai.meng]`; numeric `0` is `@[!n:0]`, distinct from string `@[0]`. A non-`@` prefix is encoded as well: a `##` mention of `topic` is `@[%23%23|topic]`. Labels resolve from current options, then `fallback-option`, then the component's selected-item cache, and finally the original value. The per-instance cache is shared by editing and read-pretty presentations, and entries are removed when mentions are removed. Applications must still supply names for unresolved initial values and own data requests and persistent storage.
+
+Local candidates are matched case-insensitively against both `value` and `label`. For example, typing `@xiaoming` or `@小明` finds the same candidate; choosing it displays `@小明` and stores `@[xiaoming]`. In atomic mode, when there are no candidates, Enter also creates a mention if `fallback-option` returns an object for the typed ID. Unconfirmed text is not converted. Remote loaders receive the query and their results are not filtered again locally. During requests the field and suggestion dropdown show loading feedback; stale responses cannot replace the latest results.
+
+Example source: src/mention/example/demos/atomic-mention.vue
+
+```vue
+<script setup lang="ts">
+import MpMention from '../../index'
+import '../../style'
+import { reactive, ref } from 'vue'
+
+const content = ref('请联系 @[shuai.meng] 跟进')
+const fallbackContent = ref('')
+const people = [{ value: 'xiaoming', label: '小明' }]
+const names = reactive<Record<string, string>>({ 'shuai.meng': '孟帅', xiaoming: '小明' })
+const fallbackOption = (value: string | number | boolean) => ({ value, label: names[String(value)] ?? String(value) })
+</script>
+
+<template>
+  <mp-space direction="column" style="width: 100%" :size="12">
+    <p>
+      输入 @ 选择人员；在提及旁按 Backspace 可整体删除。 / Type @ to select a person; Backspace removes a whole mention.
+    </p>
+    <mp-mention
+      v-model="content"
+      atomic
+      type="textarea"
+      :options="people"
+      :fallback-option="fallbackOption"
+      aria-label="原子提及 / Atomic mentions"
+    />
+    <mp-button @click="names['shuai.meng'] = '孟帅（已更新）'">模拟更新姓名 / Update mock name</mp-button>
+    <pre>{{ content }}</pre>
+    <p>
+      无候选项时输入 @xiaoming 并按回车，通过 fallback 解析姓名。 / Without options, type @xiaoming and press Enter to
+      resolve the name.
+    </p>
+    <mp-mention
+      v-model="fallbackContent"
+      atomic
+      :options="[]"
+      :fallback-option="fallbackOption"
+      aria-label="仅回退 / Fallback only"
+    />
+    <pre>{{ fallbackContent }}</pre>
+  </mp-space>
+</template>
+```
+
+After confirming a mention, a space is added unless whitespace already follows; the space is part of the saved value. Mention text uses the primary brand foreground without a background.
+
+## Data and options
+
+### Filtering and async search
+
+With a local array, type `@小` or `@xiaoming` to match a name or ID. The async example passes the query to application code and shows loading in the dropdown. Quickly change `@x` to `@lisi` to see only the latest result. It uses mock data; a real loader can pass `signal` to `fetch`.
+
+Example source: src/mention/example/demos/search-options.vue
+
+```vue
+<script setup lang="ts">
+import MpMention from '../../index'
+import '../../style'
+import { ref } from 'vue'
+import type { OptionsLoader } from '../../../_hooks/use-option-request'
+
+const localValue = ref('')
+const remoteValue = ref('')
+const people = [
+  { value: 'xiaoming', label: '小明' },
+  { value: 'xiaohong', label: '小红' },
+  { value: 'lisi', label: '李四' },
+]
+
+// 实际业务可以在这里调用接口，并将 signal 传给 fetch。
+const searchPeople: OptionsLoader<(typeof people)[number]> = (query, { signal }) =>
+  new Promise((resolve) => {
+    const finish = () => {
+      signal.removeEventListener('abort', cancel)
+      const keyword = query.toLowerCase()
+      resolve(people.filter((person) => person.value.includes(keyword) || person.label.includes(query)))
+    }
+    // 模拟不同网络耗时，方便快速改词时观察 loading 和最新结果。
+    const timer = setTimeout(finish, query.toLowerCase().startsWith('x') ? 1400 : 450)
+    const cancel = () => {
+      clearTimeout(timer)
+      resolve([])
+    }
+    if (signal.aborted) {
+      cancel()
+    } else {
+      signal.addEventListener('abort', cancel, { once: true })
+    }
+  })
+</script>
+
+<template>
+  <mp-space direction="column" style="width: 100%" :size="12" data-demo="mention-search-options">
+    <p>本地候选按账号或姓名筛选；异步搜索时可快速从 @x 改为 @lisi，观察下拉加载和最新结果。</p>
+    <p>
+      Local options match ID or name. For remote search, quickly change @x to @lisi to see loading and the latest
+      results.
+    </p>
+    <mp-mention v-model="localValue" atomic :options="people" aria-label="本地人员搜索 / Local people search" />
+    <mp-mention v-model="remoteValue" atomic :options="searchPeople" aria-label="异步人员搜索 / Remote people search" />
+    <div>
+      本地保存值 / Local value：<code data-local-value>{{ localValue }}</code>
+    </div>
+    <div>
+      异步保存值 / Remote value：<code data-remote-value>{{ remoteValue }}</code>
+    </div>
+  </mp-space>
+</template>
+```
+
+### Async search and read-pretty display
+
+Type `@xiaoming` and select the person, then search for `@lisi`. The selected name remains visible in read-pretty mode and when returning to the editor; the model retains its ID. This example uses a mock request for candidates and `fallback-option` for the initial ID.
+
+Example source: src/mention/example/demos/async-read-pretty.vue
+
+```vue
+<script setup lang="ts">
+import MpMention from '../../index'
+import '../../style'
+import { ref } from 'vue'
+
+const content = ref('请联系 @[shuai.meng]')
+const readPretty = ref(false)
+const people = [
+  { value: 'xiaoming', label: '小明' },
+  { value: 'lisi', label: '李四' },
+]
+
+// 初始化 ID 的名称由业务提供；搜索并选中的名称由组件在当前实例中缓存。
+const fallbackOption = (value: string | number | boolean) =>
+  value === 'shuai.meng' ? { value, label: '孟帅' } : undefined
+
+const searchPeople = (query: string, { signal }: { signal: AbortSignal }) =>
+  new Promise<typeof people>((resolve) => {
+    const finish = () => {
+      signal.removeEventListener('abort', cancel)
+      const keyword = query.toLowerCase()
+      resolve(people.filter((person) => person.value.includes(keyword) || person.label.includes(query)))
+    }
+    const timer = setTimeout(finish, 500)
+    const cancel = () => {
+      clearTimeout(timer)
+      resolve([])
+    }
+    if (signal.aborted) {
+      cancel()
+    } else {
+      signal.addEventListener('abort', cancel, { once: true })
+    }
+  })
+</script>
+
+<template>
+  <mp-space direction="column" style="width: 100%" :size="12" data-demo="async-read-pretty">
+    <p>
+      输入 @xiaoming 并选择小明，再输入 @lisi 搜索其他人员，然后切换阅读态查看反显。 / Select @xiaoming, search @lisi,
+      then switch to reading mode.
+    </p>
+    <mp-mention
+      v-model="content"
+      atomic
+      type="textarea"
+      :options="searchPeople"
+      :fallback-option="fallbackOption"
+      :read-pretty="readPretty"
+      aria-label="异步人员提及"
+    />
+    <mp-button @click="readPretty = !readPretty">{{
+      readPretty ? '切换到编辑态 / Edit' : '切换到阅读态 / Read'
+    }}</mp-button>
+    <div>
+      保存值 / Model：<code data-mention-model>{{ content }}</code>
+    </div>
+  </mp-space>
+</template>
+```
+
+### Restore saved values asynchronously
+
+This example simulates saving the model in memory, remounts the component, then loads names asynchronously. IDs appear while loading; the synchronous `fallback-option` resolves names when data arrives without changing the saved value. Applications own persistence and fetching display data by ID.
+
+Example source: src/mention/example/demos/async-fallback-restore.vue
+
+```vue
+<script setup lang="ts">
+import MpMention from '../../index'
+import '../../style'
+import { onBeforeUnmount, ref } from 'vue'
+
+const content = ref('请联系 @[shuai.meng]、@[xiaoming]、@[lisi]')
+const saved = ref(content.value)
+const names = ref<Record<string, string>>({ 'shuai.meng': '孟帅', xiaoming: '小明', lisi: '李四' })
+const generation = ref(0)
+const readPretty = ref(false)
+const loading = ref(false)
+let timer: ReturnType<typeof setTimeout> | undefined
+
+// fallback 只同步读取业务数据，未找到时返回 undefined。
+const fallbackOption = (value: string | number | boolean) => {
+  const label = names.value[String(value)]
+  return label === undefined ? undefined : { value, label }
+}
+
+function saveAndReload() {
+  // 用内存模拟数据库保存；实际业务应保存 content.value，再按 ID 请求姓名。
+  saved.value = content.value
+  if (timer) {
+    clearTimeout(timer)
+  }
+  names.value = {}
+  content.value = saved.value
+  generation.value++ // 重新挂载组件，模拟打开已保存的数据。
+  loading.value = true
+  timer = setTimeout(() => {
+    names.value = { 'shuai.meng': '孟帅', xiaoming: '小明', lisi: '李四' }
+    loading.value = false
+  }, 1500)
+}
+
+onBeforeUnmount(() => {
+  if (timer) {
+    clearTimeout(timer)
+  }
+})
+</script>
+
+<template>
+  <mp-space direction="column" style="width: 100%" :size="12" data-demo="mention-async-fallback-restore">
+    <p>
+      模拟保存后重新初始化：请求期间先显示 ID，姓名返回后自动更新。 / Save and reload to resolve names asynchronously.
+    </p>
+    <mp-mention
+      :key="generation"
+      v-model="content"
+      atomic
+      type="textarea"
+      :options="[]"
+      :fallback-option="fallbackOption"
+      :read-pretty="readPretty"
+      aria-label="重新初始化的人员提及"
+    />
+    <mp-space wrap>
+      <mp-button @click="saveAndReload">模拟保存并重新加载 / Save and reload</mp-button>
+      <mp-button @click="readPretty = !readPretty">{{
+        readPretty ? '切换到编辑态 / Edit' : '切换到阅读态 / Read'
+      }}</mp-button>
+    </mp-space>
+    <div role="status">{{ loading ? '正在加载姓名… / Loading names…' : '姓名已加载 / Names loaded' }}</div>
+    <div>
+      模拟保存值 / Saved value：<code data-saved-value>{{ saved }}</code>
+    </div>
+  </mp-space>
+</template>
+```
+
+## Customization and slots
+
+### Prefix
+
+<!-- demo-config-notes:start -->
+
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| -------- | -------------------- | -------------- |
+| `options` | Data for automatic completion | Prefix |
+| `prefix` | Keywords that trigger auto-completion | Prefix |
+
+<!-- demo-config-notes:end -->
+
+
+- `options`: Data for automatic completion
+- `prefix`: Keywords that trigger auto-completion
+
+Example source: src/mention/example/demos/prefix.vue
+
+```vue
+<template>
+  <mp-space direction="column" size="lg" style="width: 100%">
+    <mp-mention :options="['Bytedance', 'Bytedesign', 'Bytenumner']" placeholder="input @" />
+    <mp-mention :options="['Bytedance', 'Bytedesign', 'Bytenumner']" prefix="#" placeholder="input #" />
+    <mp-mention :options="['Bytedance', 'Bytedesign', 'Bytenumner']" prefix="$" placeholder="input $" />
+  </mp-space>
+</template>
+
+<script lang="ts" setup></script>
+```
+
+## Lifecycle and edge cases
+
+### Mirror Lifecycle
+
+Example source: src/mention/example/demos/mirror-lifecycle.vue
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue'
+import Mention from '../../index'
+
+const active = ref(true)
+const mounted = ref(true)
+const disabled = ref(false)
+const searches = ref(0)
+const value = ref('第一行\n第二行\n第三行\n@al')
+</script>
+
+<template>
+  <div>
+    <mp-button html-type="button" @click="active = !active">切换 KeepAlive</mp-button>
+    <mp-button html-type="button" @click="mounted = !mounted">卸载／挂载</mp-button>
+    <mp-button html-type="button" @click="disabled = !disabled">切换禁用</mp-button>
+    <p>搜索通知：{{ searches }}。在文本域滚动后输入 @al，停用再激活，继续输入检查镜像定位。</p>
+    <KeepAlive v-if="mounted">
+      <Mention
+        v-if="active"
+        v-model="value"
+        type="textarea"
+        :disabled="disabled"
+        :options="['alice', 'alex']"
+        :rows="3"
+        @search="searches++"
+      />
+    </KeepAlive>
+  </div>
+</template>
+```
+
+## Loading and waiting
+
+### Controlled loading
+
+| Prop | Description | Type | Default |
+| --- | --- | --- | --- |
+| `loading` | Explicit business loading state | `boolean` | `false` |
+
+
+Set loading explicitly to display feedback. Ordinary event return values do not drive loading. Before hooks retain their documented pending behavior.
+
+Example source: src/mention/example/demos/loading.vue
+
+```vue
+<script setup lang="ts">
+import MpMention from '../../index'
+import '../../style'
+import { onBeforeUnmount, ref } from 'vue'
+import type { OptionsLoader } from '../../../_hooks/use-option-request'
+
+const loading = ref(true)
+const requests = new Set<(failed?: boolean) => void>()
+const pending = ref(0)
+const status = ref('等待数据 / Waiting for data')
+const load: OptionsLoader<string> = (query, { signal }) =>
+  new Promise((resolve, reject) => {
+    const finish = (failed = false) => {
+      requests.delete(finish)
+      pending.value = requests.size
+      signal.removeEventListener('abort', cancel)
+      if (failed) {
+        reject(new Error('Candidate request failed'))
+      } else {
+        resolve(['Alice', 'Bob'].filter((name) => name.toLowerCase().includes(query.toLowerCase())))
+      }
+    }
+    const cancel = () => finish()
+    requests.add(finish)
+    pending.value = requests.size
+    signal.addEventListener('abort', cancel, { once: true })
+  })
+function settle(failed = false) {
+  status.value = failed ? '请求失败，可继续输入重试 / Failed; type to retry' : '数据已返回 / Data received'
+  ;[...requests].forEach((finish) => finish(failed))
+}
+onBeforeUnmount(() => settle())
+</script>
+<template>
+  <mp-space direction="column" style="width: 100%" :size="16">
+    <h4>业务控制 / Manual loading</h4>
+    <mp-switch v-model="loading" aria-label="业务加载状态 / Manual loading" />
+    <mp-mention
+      edit-mode="direct"
+      :loading="loading"
+      :options="['Alice', 'Bob']"
+      placeholder="单行输入 @ / Single line"
+    />
+    <mp-mention
+      edit-mode="direct"
+      type="textarea"
+      :loading="loading"
+      :options="['Alice', 'Bob']"
+      placeholder="多行输入 @ / Multiple lines"
+    />
+    <p>
+      loading 只控制显示，两种输入框均可继续编辑。普通事件返回 Promise 不会触发等待。Loading does not disable editing or
+      await notification handlers.
+    </p>
+    <h4>数据源等待 / Remote candidates</h4>
+    <mp-mention
+      edit-mode="direct"
+      :options="load"
+      placeholder="输入 @a，手动返回候选数据 / Type @a"
+      @load-error="() => {}"
+    />
+    <mp-space>
+      <mp-button :disabled="!pending" @click="settle()">返回数据 / Resolve</mp-button>
+      <mp-button :disabled="!pending" @click="settle(true)">模拟失败 / Reject</mp-button>
+    </mp-space>
+    <p role="status">{{ pending ? '请求中，仍可输入 / Pending; editing remains available' : status }}</p>
+  </mp-space>
+</template>
+```
+
+## API
+
+### Empty values and reading placeholders
+
+`empty-values` recognizes empty data; `empty-value` keeps existing clear output. `empty-text` defaults to `'-'` under `read-pretty`, with Field > FormItem > Form precedence and custom read slots first. With explicit `empty-values`, built-in required uses the policy; custom validators receive original data. See the [shared guide](en/guide/empty-values).
+
+| Prop | Type | Default and scope |
+| ------------ | ------------------ | ----------------------------------------------------- |
+| empty-values | readonly unknown[] | Field > FormItem > Form > component-family default; replaces the whole list |
+| empty-text | string | Field > FormItem > Form > '-'; explicit '' is valid |
+
+These props belong to field presentation; pure panels do not gain reading mode. Form and FormItem provide inherited settings. The existing empty-value type and clear fallback remain component-specific.
+
+### Mention Props
+
+| Prop | Description | Type | Default |
+| --- | --- | --- | --- |
+| model-value (v-model) | Controlled text; null displays as empty | string \| null | undefined |
+| atomic | Enable encoded, indivisible mentions | boolean | false |
+| fallback-option | Synchronously resolve an unmatched ID for display | `(value: string \| number \| boolean) => SelectOptionData \| null \| undefined` | undefined |
+| default-value | Initial uncontrolled text | string | '' |
+| options | Candidate array or explicit loader, including nested groups | readonly (string \| number \| SelectOptionData \| SelectOptionGroup)[] \| ((query: string, context: { signal: AbortSignal }) => Array \| `Promise<Array>`) | undefined |
+| prefix | Trigger prefix; supports multiple characters and multiple prefixes | string \| string[] | '@' |
+| split | Separator before and after a mention | string | ' ' |
+| type | Input presentation | input \| textarea | input |
+| disabled | Inherit Form when omitted; explicit false overrides it | boolean | undefined |
+| readonly | Inherit Form when omitted; explicit false overrides it | boolean | undefined |
+| clearable | Allow clearing text or the editor draft | boolean | false |
+| loading | Manual waiting feedback; does not implicitly disable text editing | boolean | false |
+| edit-mode | Editing mode, inherited from FormItem and Form | `'direct' \| 'popup'` | `'direct'` |
+| read-pretty | Independent read presentation; explicit false overrides the parent | `boolean` | `false` |
+| empty-value | Clear output; explicit null is submitted unchanged | `string \| null \| (() => string \| null)` | `''` |
+| empty-values | Empty-value recognition; field takes precedence over FormItem and Form | `readonly unknown[]` | `-` |
+| empty-text | Read empty text; an explicit empty string is valid | `string` | `'-'` |
+| before-commit | Guard before saving a deferred edit; return a boolean or Promise, or complete via done | `(payload: { value: unknown; previousValue: unknown }, done: (allow?: boolean) => void, context: { signal: AbortSignal; event?: Event }) => void \| boolean \| Promise<void \| boolean>` | `-` |
+| open | Controlled editor visibility, separate from native input focus | `boolean` | `-` |
+| default-open | Initial visibility of an uncontrolled editor | `boolean` | `false` |
+| popup-container | Editor mount container | `string \| HTMLElement \| false` | `-` |
+
+### Mention Events
+
+| Event | Description and arguments |
+| --- | --- |
+| update:modelValue | value: string \| null |
+| change | value: string \| null; no native Event argument |
+| search | query: string, prefix: string |
+| select | value: SelectOptionValue \| undefined; from the actual leaf candidate |
+| clear | event: Event |
+| focus / blur | event: FocusEvent |
+| load-error | error: unknown; preserves the original loader error |
+| update:open / open-change | open: boolean; field editor only |
+
+options is an explicit loader. search, change, select and load-error only notify; listener Promises are not collected. Direct input emits update:modelValue / change, and selection emits select / update:modelValue / change. Deferred editing updates a draft and submits the final model on confirmation.
+
+### Mention Methods
+
+| Method | Description | Returns |
+| --- | --- | --- |
+| focus | Focus the current target; deferred mode follows the field editing protocol | void |
+| blur | Blur the current target without opening the editor | void |
+| refresh | Retry the current options query with cancellation and failure handling, without opening the editor; static arrays issue no request | `Promise<void>` |
+
+### Mention Slots
+
+| Slot | Description and arguments |
+| --- | --- |
+| option | Candidates in both input presentations; data: SelectOptionInfo, including key, raw, value and label |
+| read | Reading content in both input presentations; value: string \| null, text: string |
+| prefix / suffix | Input prefix and suffix for type=input only |
+| clear-icon | Clear node in both input presentations; clear(event?: Event): void |
+
+clear-icon replaces the entire clear node. A custom node must call clear and provide an accessible button. There is no default input replacement, empty or loader-error slot; option does not replace the field input.
+
+## Types
+
+The component exports the following types
+
+```ts
+import type { MentionProps, MentionInstance, MentionEmits, MentionSlots, MentionExpose } from "@maple-design/ui-vue";
+```
+
+Mention reuses Input/Textarea typography and spacing; its measurement mirror copies computed native input styles. Override the corresponding input variables. 
+
+### Editing and confirmation
+
+Maple uses edit-mode="popup" to open an editor popup near the field. Enter/F2 also opens it; cancel/Escape discards the draft, and confirmation commits it. readPretty is an independent reading setting, separate from readonly and disabled.
+
+## Configuring the cleared value
+
+`empty-value` defines the output of an existing clear action. Omission preserves the component fallback; supported types remain component-specific. It does not change empty-values recognition or Form reset defaults.
+
+`empty-value` accepts explicit `null` (or `() => null`). Clearing publishes `null` unchanged; omitted values preserve the existing default. Editors render `null` as blank without converting ordinary empty-string input to `null`. In popup editing, clearing changes the draft; confirm commits it and cancel preserves the original model.
+
+The `options` prop accepts an array or `(query, { signal }) => array/Promise`. The component manages loading, cancellation and stale-result isolation; failures emit load-error. Single/multiple groups initialize with an empty-string query, searchable fields reload when the query changes, and root loading for tree fields remains independent of existing load-more child loading.
+
+Both input and textarea show manual loading and waiting for the current explicit options loader. Displaying waiting does not disable editing. A search notification's returned Promise does not start a task. An old options request cannot clear a newer request's indicator, and load-error preserves the original error.
+
+Public focus/blur methods are callable from initial mount. Focus opens an editable deferred editor and targets it after readiness; disabled, readonly, or reading fields do not open. Blur only blurs the current target without reopening. Stored methods never bind an old editor; closure, mode changes, deactivation, or unmount cancel queued calls.
+
+### Mention ranges and grouped options
+
+prefix accepts single characters, multiple characters and arrays of strings. Selection replaces only the matched prefix and query before the caret, preserving the trailing text; the textarea mirror uses the matched prefix. Nested option groups render nonselectable titles and only leaves may be selected; disabled leaves do not submit. The option slot receives normalized candidates, including the valid identities zero and empty string.
+
+### Candidate feedback and instance boundaries
+
+Explicit options loading appears in the current Input/Textarea field, whose native input announces aria-busy. Manual loading combines with request loading and text remains editable. With no available candidates the mention menu stays closed. Failure ends current waiting and emits the original load-error; business code chooses error presentation. Error strings are not inserted into candidates or text. refresh waits for one read attempt; failures notify through load-error without awaiting error-listener Promises.
+
+disabled/readonly pause requests; deactivation, unmount and stale responses cannot update data. refresh may read while the field editor is closed without opening it. The candidate menu belongs to the internal input; public open/default-open controls only the deferred field editor. MentionProps, MentionEmits, MentionSlots and MentionExpose are exported consistently from root and mention subentries; MeasureInfo remains internal measurement state.
+
+Mention is available in both Cedar and Maple.
+
+### Input and candidate relationships
+
+input uses combobox, while textarea retains a multiline textbox. Both link to the actual listbox and active candidate with aria-autocomplete, aria-controls and aria-activedescendant. Closing suggestions or making the field readonly removes active references; arrow navigation keeps DOM focus in the native input.
+
+## CSS Variables
+
+<!-- component-css-variables:start -->
+
+Use these variables to customize the component. Defaults may vary by the selector condition shown. Each variable applies to the corresponding size, variant and interaction states.
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Default / condition | Affected styles |
+| --- | --- | --- |
+| `--mp-mention-token-color` | `var(--mp-sys-color-content-brand)` | `color` |
+
+</div>
+
+Apply overrides to the rendered component root or the actual popup ancestor. For example, add the following class to that element and replace the value as needed:
+
+```css
+.component-theme {
+  --mp-mention-token-color: var(--mp-sys-color-content-brand);
+}
+```
+
+Explicit inline styles and props that write the same CSS property take precedence over stylesheet defaults. After Teleport, ordinary CSS variables inherit from the actual mount location. When using ThemeProvider, follow its local-theme and popup configuration rules. Override the component variable directly for local styling; root-level aliases are not recalculated merely because a descendant system variable changes. Internal variables are not public APIs.
 
 <!-- component-css-variables:end -->
 
@@ -45552,162 +46736,41 @@ Document: llms/en-US/quickstart.md
 
 <!-- Source: docs/quickstart.en-US.md; locale: en-US; page: /en-US/quickstart -->
 
-# Quick Start
+# Quick start
 
-### Installation
+Start with an existing Vue 3 + Vite project and render a button with explicit imports. See [Import on demand](#/importOnDemand?language=en-US) for automatic imports and other integration options.
+
+## 1. Install
 
 ```shell
+# npm
 npm i @maple-design/ui-vue @maple-design/icons-vue
+
+# pnpm
+pnpm add @maple-design/ui-vue @maple-design/icons-vue
 ```
 
-### Automatic On-Demand Imports (Recommended)
+## 2. Render a component
 
-Maple maintains `@maple-design/resolver-vue`. With `unplugin-vue-components`, components, standalone SVG icons, and component styles are imported on demand at build time.
+Import the button and its styles in `App.vue`:
 
-```shell
-npm i @maple-design/resolver-vue unplugin-auto-import unplugin-vue-components -D
-```
-
-```ts
-// vite.config.ts
-import { MapleResolver } from '@maple-design/resolver-vue'
-import vue from '@vitejs/plugin-vue'
-import AutoImport from 'unplugin-auto-import/vite'
-import Components from 'unplugin-vue-components/vite'
-import { defineConfig } from 'vite'
-
-export default defineConfig({
-  plugins: [
-    vue(),
-    AutoImport({
-      resolvers: [MapleResolver()],
-    }),
-    Components({
-      resolvers: [MapleResolver()],
-    }),
-  ],
-})
-```
-
-Components can then be used without local imports:
-
-```html
-<template>
-  <mp-button status="primary">Confirm</mp-button>
-  <mp-icon size="40" color="red">
-    <m-icon-info-circle-fill />
-  </mp-icon>
-</template>
-```
-
-The resolver generates equivalent on-demand imports:
-
-```ts
-import { IconInfoCircleFill } from '@maple-design/icons-vue/icon-info-circle-fill'
-import { _ButtonComponent, _IconComponent } from '@maple-design/ui-vue'
+```vue
+<script setup lang="ts">
+import { Button } from '@maple-design/ui-vue'
 import '@maple-design/ui-vue/button/style'
-import '@maple-design/ui-vue/icon/style'
-```
-
-Standalone SVG icons inherit the wrapper color through `currentColor` and need no additional CSS. The `mp-icon` wrapper itself requires `@maple-design/ui-vue/icon/style`.
-
-#### Use SVG Icons Directly
-
-Every SVG icon from `@maple-design/icons-vue` is an independent Vue component and can be rendered without the `mp-icon` wrapper:
-
-```html
-<script setup lang="ts">
-  import { IconDelete, IconPlus, IconSearch, IconShareFill } from '@maple-design/icons-vue'
 </script>
 
 <template>
-  <!-- Direct SVG icons do not include application layout styles. -->
-  <!-- Provide width, height, and spacing for the usage context. -->
-  <IconPlus style="width: 1em; height: 1em; margin-right: 8px" />
-  <IconShareFill style="width: 1em; height: 1em; margin-right: 8px" />
-  <IconDelete style="width: 1em; height: 1em; margin-right: 8px" />
-  <IconSearch style="width: 1em; height: 1em; margin-right: 8px" />
+  <Button status="primary">Confirm</Button>
 </template>
 ```
 
-“Layout styles” means application-level `width`, `height`, and `margin`; icon components still support `size`, `color`, `rotate`, and `spin`. Direct usage is also tree-shakable. Use the `mp-icon` wrapper when size, color, animation, layout, or the interaction area should be controlled consistently.
+The component style entry includes the required foundation styles. Run your project’s development command to see the button.
 
-#### Programmatic APIs
+## Next steps
 
-The same `MapleResolver()` shown above resolves APIs such as `Message`, `Dialog`, and `ImagePreview` for `unplugin-auto-import`.
-
-`importStyle` controls style imports for template components, the Icon wrapper, and programmatic APIs consistently. Set `MapleResolver({ autoImport: false })` only when programmatic API resolution should be disabled.
-
-The same `MapleResolver()` also resolves `v-ripple`, `v-lazy`, `v-hover`, and `v-mp-loading`. The loading directive uses the `mp-` prefix to avoid collisions with directives from other component libraries. Set `directives: false` to disable directive resolution.
-
-### Manual On-Demand Imports
-
-```html
-<script setup lang="ts">
-  import { IconInfoCircleFill } from '@maple-design/icons-vue/icon-info-circle-fill'
-  import { Button } from '@maple-design/ui-vue'
-  import '@maple-design/ui-vue/button/style'
-</script>
-
-<template>
-  <button status="primary">Confirm</button>
-  <IconInfoCircleFill :size="24" />
-</template>
-```
-
-### Full Import
-
-```ts
-import { createApp } from 'vue'
-import Maple from '@maple-design/ui-vue'
-import '@maple-design/ui-vue/style'
-import App from './App.vue'
-
-createApp(App).use(Maple).mount('#app')
-```
-
-Standalone SVG icons are not globally registered by the UI package. Import them explicitly or use `MapleResolver()`.
-
-### Set Global Component Defaults
-
-Every component provides `setPropsDefaults` for changing the defaults of declarative instances created afterward. Call it before mounting the application:
-
-```ts
-import { Button, ThemeProvider } from '@maple-design/ui-vue'
-
-Button.setPropsDefaults({
-  status: 'primary',
-  variant: 'tonal',
-  size: 'lg',
-})
-
-// Other components use the same API
-ThemeProvider.setPropsDefaults({
-  tag: 'section',
-})
-```
-
-Explicit component props take precedence. Existing mounted instances are not updated; object and array defaults are copied per instance.
-
-### TypeScript
-
-```json
-{
-  "include": ["src", "components.d.ts", "auto-imports.d.ts"]
-}
-```
-
-The resolver imports component styles by default. Disable this when the full stylesheet is already loaded:
-
-```ts
-MapleResolver({ importStyle: false })
-```
-
-## Global Context
-
-Import `Context` from `@maple-design/ui-vue`, or default-import the same reactive object from `@maple-design/ui-vue/context`. It has `zIndex` (default 2000) and `enableRipple` (default true). Changing `zIndex` affects later allocations, not already open layers. Disabling ripple prevents new waves without disabling host interactions.
-
-This is a module singleton shared by applications and server requests using the same module instance; do not mutate it for per-request SSR isolation. SSR starts at 2000 and allocates from the current value after mounting. The test environment does not increment allocations, and separate bundled copies have separate state. It is not a component and has no props, events, slots, or instance methods.
+- [Import on demand](#/importOnDemand?language=en-US): configure automatic imports, manual imports or full registration.
+- [Defaults and global configuration](#/defaultsCustomization?language=en-US): configure component defaults, overlay z-index and ripple behavior.
 
 ---
 

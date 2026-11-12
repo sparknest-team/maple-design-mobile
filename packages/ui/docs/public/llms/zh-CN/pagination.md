@@ -635,10 +635,10 @@ import type { PaginationProps, PaginationInstance, PaginationPageSizeProps } fro
 | 变量 | 默认值／条件 | 影响的样式 |
 | --- | --- | --- |
 | `--mp-pagination-active-background` | `var(--mp-color-primary-light-1)` | `background` |
-| `--mp-pagination-active-color` | `var(--mp-sys-color-content-brand)` | `color` |
+| `--mp-pagination-active-color` | `var(--mp-sys-color-action-primary)` | `color` |
 | `--mp-pagination-disabled-background` | `var(--mp-color-fill-1)` | `background` |
 | `--mp-pagination-disabled-color` | `var(--mp-color-text-disabled)` | `color` |
-| `--mp-pagination-focus-color` | `var(--mp-sys-color-content-brand)` | `outline` |
+| `--mp-pagination-focus-color` | `var(--mp-sys-color-action-primary)` | `outline` |
 | `--mp-pagination-focus-offset` | `1px` | `outline-offset` |
 | `--mp-pagination-focus-space` | `3px` | `padding` |
 | `--mp-pagination-focus-width` | `2px` | `outline` |

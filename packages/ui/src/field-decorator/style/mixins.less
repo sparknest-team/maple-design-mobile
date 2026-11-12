@@ -1,0 +1,27 @@
+// 原生 input / textarea 内容区共用
+.field-decorator-native-style() {
+  width: 100%;
+  padding-inline-end: 0;
+  padding-inline-start: 0;
+  color: inherit;
+  line-height: var(~'--mp-field-line-height');
+  background: none;
+  border: none;
+  border-radius: 0;
+  outline: none;
+  cursor: inherit;
+  -webkit-appearance: none;
+  -webkit-tap-highlight-color: transparent;
+
+  &::placeholder {
+    color: var(~'--mp-field-placeholder-text-color');
+  }
+
+  &[disabled]::placeholder {
+    color: var(~'--mp-field-control-text-color-disabled');
+  }
+
+  &[disabled] {
+    -webkit-text-fill-color: var(~'--mp-field-control-text-color-disabled');
+  }
+}

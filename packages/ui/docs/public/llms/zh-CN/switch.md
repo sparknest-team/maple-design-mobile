@@ -439,7 +439,7 @@ async function reject() {
 | ripple           | 点击波纹                                                     | boolean                                                              | true      |
 | handle-elevation | 滑块阴影，true 等级 2，数字取整数并限制 0～24                | boolean / number                                                     | true      |
 
-before-change 使用 (payload, done, context)。返回 true、调用 done() 或 Promise 兑现为非 false 结果时允许切换；返回 false、done(false)、抛错、Promise 兑现为 false 或拒绝均取消。同步 void 等待 done，`Promise<void>` 正常完成允许。等待期间自动 loading，重复输入被阻止；异常按许可取消处理，不新增报错事件。
+before-change 使用 (payload, done, context)。返回 true、调用 done() 或 Promise 兑现为非 false 结果时允许切换；返回 false、done(false)、抛错、Promise 兑现为 false 或拒绝均取消。同步 void 等待 done，`Promise<void>` 正常完成允许。等待期间自动 loading，重复输入被阻止；延迟编辑模式下确认按钮也会禁用，仍可关闭编辑器取消操作。异常按许可取消处理，不新增报错事件。
 等待期间卸载、KeepAlive 停用、值被外部更新、禁用/只读/loading 状态改变时，旧结果失效。
 受控模式仅发送更新请求；父级更新 model-value 后才改变选中状态。省略 model-value 时使用内部状态。
 
@@ -542,7 +542,7 @@ before-* 等待期间显示加载反馈并标记 aria-busy；拒绝或失败后�
 | `--mp-switch-tonal-text-color` | `var(--mp-sys-color-content-secondary)` | `color` |
 | `--mp-switch-tonal-track-background` | `var(--mp-sys-color-surface-muted)` | `background` |
 | `--mp-switch-tonal-width` | `52px` | `min-width` |
-| `--mp-switch-track-active-background` | `var(--mp-sys-color-content-brand)` | `background`, `outline` |
+| `--mp-switch-track-active-background` | `var(--mp-sys-color-action-primary)` | `background`, `outline` |
 | `--mp-switch-track-background` | `var(--mp-sys-color-content-secondary)` | `background` |
 | `--mp-switch-track-error-background` | `var(--mp-sys-color-content-danger)` | `background`, `border-color` |
 | `--mp-switch-width` | `40px` | `min-width` |

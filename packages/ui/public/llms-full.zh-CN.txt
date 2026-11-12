@@ -7149,6 +7149,8 @@ const duration = ref(250)
 
 当展开内容或关闭按钮内仍有焦点时，关闭会尝试将焦点返回展开前的控件；如果焦点已经移到其他位置，则不会抢回焦点。
 
+若打开控件位于外部的封闭 Shadow Root，Card 无法直接取得内部控件；宿主需自行提供焦点委托或由应用处理焦点恢复。`delegatesFocus` 可将宿主焦点委托给内部控件，但不保证在有多个控件时返回原控件。
+
 默认关闭按钮使用当前语言的关闭文案，`close-button-aria-label` 可覆盖。`floating-duration` 为有限非负毫秒数，0 表示不延时；无效值回退为 250。 系统启用减少动态效果时，展开和收起不等待波纹或过渡动画，运行中切换也会生效。
 
 ### Card Props
@@ -10502,7 +10504,7 @@ option({ data }) 接收规范化 CascaderOptionInfo，data.raw 是原始选项�
 | `expand-trigger` | Menu / List 的展开交互：click 或 hover | `string` | `click` |
 | `expand-child` | 展开到首个子节点 | `boolean` | `false` |
 | `load-more` | 异步加载子节点；完成后调用 done(children)，失败调用 done() 以允许重试 | `(option, done) => void` | `—` |
-| `fallback-option` | 尚未加载的值如何反显 | `boolean 或 (value) => string` | `true` |
+| `fallback-option` | 尚未加载的值如何反显 | `boolean or (value) => { value, label }` | `true` |
 | `search-option-only-label` | 搜索结果仅显示节点标签，不显示路径 | `boolean` | `false` |
 | `auto-fit-popup-width` | Menu 是否与字段等宽 | `boolean` | `false` |
 | `edit-mode` | 字段展示；未指定时继承 FormItem / Form | `direct / popup` | `popup` |
@@ -18978,45 +18980,34 @@ Document: llms/zh-CN/defaultsCustomization.md
 
 <!-- Source: docs/defaultsCustomization.zh-CN.md; locale: zh-CN; page: /zh-CN/defaultsCustomization -->
 
-# 默认值定制
+# 默认值与全局配置
 
-### 介绍
+## 全局设置组件默认值
 
-组件库提供对组件属性的默认值进行定制的能力。
+每个组件都提供 `setPropsDefaults`，用于统一修改之后创建的声明式组件默认值。请在应用挂载前调用：
 
-### 基本用法
-
-通过组件提供的静态方法 `setPropsDefaults` 对组件的属性定义进行定制。需要注意的是，属性定制只对声明式组件生效，并且定制行为应在组件初始化之前。
-
-```js
-// playground-ignore
-// main.ts
-import { Button } from '@maple-design/ui-vue'
+```ts
+import { Button, ThemeProvider } from '@maple-design/ui-vue'
 
 Button.setPropsDefaults({
   status: 'primary',
   variant: 'tonal',
-  elevation: 10
+  size: 'lg',
+})
+
+// 其他组件使用相同方式
+ThemeProvider.setPropsDefaults({
+  tag: 'section',
 })
 ```
 
-定制之后，下面两种写法将会是等价的。
+组件上显式传入的属性优先级更高。设置不会追溯更新已经挂载的实例；对象和数组默认值会按实例创建副本。
 
-```html
-<!-- playground-ignore -->
-<!-- App.vue -->
-<template>
-  <mp-button>Hello</mp-button>
-</template>
-```
+## 全局 Context
 
-```html
-<!-- playground-ignore -->
-<!-- App.vue -->
-<template>
-  <mp-button status="primary" variant="tonal" :elevation="10">Hello</mp-button>
-</template>
-```
+从 `@maple-design/ui-vue` 命名导入 `Context`，或从 `@maple-design/ui-vue/context` 默认导入同一响应式对象。对象包含 `zIndex`（默认 2000）和 `enableRipple`（默认 true）。调整 `zIndex` 影响之后分配的层级，不改变已经打开的层；关闭波纹只阻止创建新波纹，不禁用宿主交互。
+
+该对象是模块单例，同一模块实例的多个应用和服务端请求共享；不要在 SSR 请求中直接修改它来实现请求隔离。SSR 首次渲染层级使用 2000，挂载后才按当前配置分配；test 环境不递增层级，不同打包副本各自独立。它不是组件，没有 Props、事件、插槽或实例方法。
 
 ---
 
@@ -28018,23 +28009,6 @@ Document: llms/zh-CN/form.md
 
 直接编辑模式下，为单个字段设置可见标签时，可将 FormItem 的 `label-attrs` 中的 `for` 与控件的 `id` 对应；选择、日期和时间字段的原生输入不会用 placeholder 覆盖已关联的标签。显式 `aria-label` 或 `aria-labelledby` 仍按原生无障碍名称规则优先。placeholder 只是未提供标签时的回退，不能替代清晰的字段标签。日期和时间范围字段在 FormItem 中会将表单标签关联到范围分组；仍需通过 `input-attrs` 分别提供能够区分起止端点的名称。若 `label-attrs.for` 指向其他控件，不会将该标签误关联到范围分组。 当前未设置 `for` 时，范围控件会引用最近的 FormItem 标签，即使同一表单项还有其他控件。混合字段请将范围控件放在独立的有样式 FormItem 中并分别命名，或通过明确的 `for` 指向实际目标并为其他控件提供独立名称。单值 Slider 在 `for` 匹配组件 `id` 时为滑块及可选数字输入关联该标签；点击默认原生标签可聚焦未禁用的滑块；阻止标签点击默认行为可取消该聚焦。范围 Slider 的 `id` 与 `for` 匹配时，表单标签命名整个分组；仍应使用 `aria-label` 数组分别命名两个端点。 `tooltip` 提示按钮可单独聚焦，其名称不会合并到字段标签中。
 
-### 同一标签下的多个控件
-
-混合使用多个控件时，为可见标签设置唯一 ID，并用它显式命名分组；每个控件也需要自己的名称。每个 FormItem 实例应使用不同的 ID。
-
-Example source: src/form/example/demos/mixed-field-label.vue
-
-```vue
-<template>
-  <mp-form-item label="Contact" label-component="span" :label-attrs="{ id: 'contact-label' }">
-    <div role="group" aria-labelledby="contact-label">
-      <mp-input aria-label="Email" />
-      <input aria-label="Phone" />
-    </div>
-  </mp-form-item>
-</template>
-```
-
 ## 阅读方向
 
 Form 与 FormItem 的 content-align 支持 start、end、left、center、right，label-align 支持 start、end、left、right；默认内容 start、标签 end。默认 LTR 位置保持不变，RTL 按阅读方向排列；显式 left/right 均为物理对齐。字段覆盖优先于 Form，逐实例标签列样式保持最高优先级。切换方向不重置业务值、校验结果或只读/禁用状态。
@@ -28481,6 +28455,23 @@ p {
 ```
 
 ## 字段与数据模型
+
+### 同一标签下的多个控件
+
+混合使用多个控件时，为可见标签设置唯一 ID，并用它显式命名分组；每个控件也需要自己的名称。每个 FormItem 实例应使用不同的 ID。
+
+Example source: src/form/example/demos/mixed-field-label.vue
+
+```vue
+<template>
+  <mp-form-item label="Contact" label-component="span" :label-attrs="{ id: 'contact-label' }">
+    <div role="group" aria-labelledby="contact-label">
+      <mp-input aria-label="Email" />
+      <input aria-label="Phone" />
+    </div>
+  </mp-form-item>
+</template>
+```
 
 ### 文本与数值字段
 
@@ -33035,73 +33026,123 @@ Document: llms/zh-CN/importOnDemand.md
 
 # 按需引入
 
-### 介绍
+本页集中说明自动按需、手动按需和完整引入，以及图标、指令、函数 API 与样式的配置。尚未安装组件库时，请先阅读[快速开始](#/quickstart?language=zh-CN)。
 
-按需引入避免了组件的全量导入，可以有效的减少发布包的大小。
+## 自动按需引入（推荐）
 
-### 自动引入
-
-通过插件
-[unplugin-vue-components](https://github.com/antfu/unplugin-vue-components) 和 
-[unplugin-auto-import](https://github.com/antfu/unplugin-auto-import)
-实现组件自动按需导入，这也是我们最推荐的方式。
-
-#### 安装插件
+Maple 提供内部维护的 `@maple-design/resolver-vue`。配合 `unplugin-vue-components`，模板中使用到的组件、独立 SVG 图标及其样式会在编译时自动按需引入。
 
 ```shell
-# playground-ignore
-# npm
-npm i @maple-design/resolver-vue unplugin-vue-components unplugin-auto-import -D
-
-# yarn
-yarn add @maple-design/resolver-vue unplugin-vue-components unplugin-auto-import -D
-
-# pnpm
-pnpm add @maple-design/resolver-vue unplugin-vue-components unplugin-auto-import -D
+npm i @maple-design/resolver-vue unplugin-auto-import unplugin-vue-components -D
 ```
 
-独立 SVG 图标由 `@maple-design/icons-vue` 提供，请将其安装为项目依赖：
+### Vite
 
-```shell
-pnpm add @maple-design/icons-vue
-```
-
-#### Vite
-
-```js
-// playground-ignore
-// vite.config.js
-import vue from '@vitejs/plugin-vue'
-import components from 'unplugin-vue-components/vite'
-import autoImport from 'unplugin-auto-import/vite'
+```ts
+// vite.config.ts
 import { MapleResolver } from '@maple-design/resolver-vue'
+import vue from '@vitejs/plugin-vue'
+import AutoImport from 'unplugin-auto-import/vite'
+import Components from 'unplugin-vue-components/vite'
 import { defineConfig } from 'vite'
 
 export default defineConfig({
   plugins: [
     vue(),
-    components({
-      resolvers: [MapleResolver()]
+    AutoImport({
+      resolvers: [MapleResolver()],
     }),
-    autoImport({
-      resolvers: [MapleResolver()]
-    })
-  ]
+    Components({
+      resolvers: [MapleResolver()],
+    }),
+  ],
 })
 ```
 
-同一个 Resolver 会根据组件名自动选择 UI 包或图标包，无需配置第二个 Resolver：
+配置后可直接使用，无需在组件中手动导入：
 
-```vue
+```html
 <template>
-  <mp-button>确认</mp-button>
-  <mp-icon-info-circle-fill :size="32" />
+  <mp-button status="primary">确认</mp-button>
+  <mp-icon size="40" color="red">
+    <m-icon-info-circle-fill />
+  </mp-icon>
 </template>
 ```
 
-`MpButton` 从 `@maple-design/ui-vue` 引入，`MpIconInfoCircleFill` 从 `@maple-design/icons-vue` 引入；`MpIcon` 本身仍是支持动态名称和切换动画的包装组件。
+Resolver 会分别生成：
 
-#### Vue CLI
+```ts
+import { IconInfoCircleFill } from '@maple-design/icons-vue/icon-info-circle-fill'
+import { _ButtonComponent, _IconComponent } from '@maple-design/ui-vue'
+import '@maple-design/ui-vue/button/style'
+import '@maple-design/ui-vue/icon/style'
+```
+
+独立 SVG 图标通过 `currentColor` 继承容器颜色，因此图标子包不需要额外 CSS；`mp-icon` 容器自身需要加载 `@maple-design/ui-vue/icon/style`。
+
+### 动态名称与显式注册
+
+`<mp-icon name="info-circle-fill" />` 只会查询显式注册到 Vue 应用的图标，不会在内部导入图标全集。建议只注册动态场景实际需要的图标：
+
+```ts
+// main.ts
+import { createApp } from 'vue'
+import { IconInfoCircleFill, IconWarning } from '@maple-design/icons-vue'
+import App from './App.vue'
+
+const app = createApp(App)
+app.component('IconInfoCircleFill', IconInfoCircleFill)
+app.component('IconWarning', IconWarning)
+app.mount('#app')
+```
+
+如果业务确定需要通过任意名称使用全部图标，也可以主动批量注册；这种写法会加载完整图标集合：
+
+```ts
+import * as MapleIconsVue from '@maple-design/icons-vue'
+
+for (const [name, component] of Object.entries(MapleIconsVue)) {
+  if (name.startsWith('Icon')) app.component(name, component)
+}
+```
+
+### 直接使用 SVG 图标
+
+`@maple-design/icons-vue` 中的每个 SVG 图标都是独立的 Vue 组件，也可以不使用 `mp-icon` 容器直接渲染：
+
+```html
+<script setup lang="ts">
+  import { IconDelete, IconPlus, IconSearch, IconShareFill } from '@maple-design/icons-vue'
+</script>
+
+<template>
+  <!-- 直接使用 SVG 图标时不会自动提供业务布局属性 -->
+  <!-- 请根据使用场景设置宽高、间距等属性 -->
+  <IconPlus style="width: 1em; height: 1em; margin-right: 8px" />
+  <IconShareFill style="width: 1em; height: 1em; margin-right: 8px" />
+  <IconDelete style="width: 1em; height: 1em; margin-right: 8px" />
+  <IconSearch style="width: 1em; height: 1em; margin-right: 8px" />
+</template>
+```
+
+这里的“布局属性”是指 `width`、`height`、`margin` 等业务样式；图标组件自身仍支持 `size`、`color`、`rotate` 和 `spin`。直接使用同样支持 Tree Shaking。需要统一控制布局、尺寸、颜色、动画或交互区域时，推荐再使用 `mp-icon` 包裹。
+
+### 自动引入函数 API
+
+上面的同一个 `MapleResolver()` 也会为 `unplugin-auto-import` 解析 `Message`、`Dialog`、`ImagePreview` 等函数 API：
+
+```ts
+Message.success('保存成功')
+```
+
+`importStyle` 会统一控制模板组件、Icon 容器和函数 API 的样式导入。只有明确不希望解析函数 API 时，才需要设置 `MapleResolver({ autoImport: false })`。
+
+### 自动引入指令
+
+同一个 `MapleResolver()` 也支持 `v-ripple`、`v-lazy`、`v-hover` 和 `v-mp-loading`，无需额外 Resolver。加载指令使用 `mp-` 前缀，避免与其他组件库的同名指令冲突。可通过 `MapleResolver({ directives: false })` 关闭。
+
+### Vue CLI
 ```js
 // playground-ignore
 // vue.config.js
@@ -33123,79 +33164,54 @@ module.exports = {
 }
 ```
 
-#### Typescript 配置注意
+## 手动按需引入
 
-为了得到良好的 IDE 语法高亮，请确保上述两个插件生成的类型声明文件被 `typescript` 识别，可在 `tsconfig.json` 中进行如下配置:
+不使用自动导入插件时，可手动导入组件和样式：
+
+```html
+<script setup lang="ts">
+  import { IconInfoCircleFill } from '@maple-design/icons-vue/icon-info-circle-fill'
+  import { Button } from '@maple-design/ui-vue'
+  import '@maple-design/ui-vue/button/style'
+</script>
+
+<template>
+  <Button status="primary">确认</Button>
+  <IconInfoCircleFill :size="24" />
+</template>
+```
+
+## 完整引入
+
+完整引入会注册全部 Maple 组件和指令，并加载全部样式，适合原型或对包体积不敏感的项目：
+
+```ts
+import { createApp } from 'vue'
+import Maple from '@maple-design/ui-vue'
+import '@maple-design/ui-vue/style'
+import App from './App.vue'
+
+createApp(App).use(Maple).mount('#app')
+```
+
+独立 SVG 图标不会随 UI 包全部注册；请继续显式导入，或使用 `MapleResolver()` 自动按需引入。
+
+## TypeScript 配置
+
+确保自动生成的声明文件被 TypeScript 包含：
 
 ```json
-// playground-ignore
 {
-  "include": ["auto-imports.d.ts", "components.d.ts"]
+  "include": ["src", "components.d.ts", "auto-imports.d.ts"]
 }
 ```
 
-### 手动引入
+## 样式控制
 
-每一个组件都是一个 `Vue插件`，并由 `组件逻辑` 和 `样式文件` 组成，手动引入的使用方式如下。
+Resolver 默认自动引入组件样式。如项目已全量引入 `maple.css`，可关闭重复的按需样式：
 
-```js
-// playground-ignore
-import App from './App.vue'
-import { createApp } from 'vue'
-import { Button } from '@maple-design/ui-vue'
-import '@maple-design/ui-vue/button/style'
-
-createApp(App).use(Button)
-```
-
-或
-
-```html
-// playground-ignore
-<script setup>
-import { Button as VarButton } from '@maple-design/ui-vue'
-import '@maple-design/ui-vue/button/style'
-</script>
-
-<template>
-  <mp-button>说你好</mp-button>
-</template>
-```
-
-### 手动引入和自动引入对比
-
-#### 手动引入
-
-```html
-// playground-ignore
-<script setup>
-import { Button as VarButton, Message } from '@maple-design/ui-vue'
-import '@maple-design/ui-vue/button/style'
-import '@maple-design/ui-vue/message/style'
-
-function handleClick() {
-  Message('你好!')
-}
-</script>
-
-<template>
-  <mp-button @click="handleClick">说你好</mp-button>
-</template>
-```
-
-#### 自动引入
-
-```html
-// playground-ignore
-<script setup>
-function handleClick() {
-  Message('你好!')
-}
-</script>
-
-<template>
-  <mp-button @click="handleClick">说你好</mp-button>
-</template>
+```ts
+MapleResolver({ importStyle: false })
 ```
 
 ---
@@ -35094,6 +35110,607 @@ import type {
 ```css
 .component-theme {
   --mp-input-number-addon-background: var(--mp-sys-color-surface-muted);
+}
+```
+
+显式行内样式及直接写入同一 CSS 属性的 Props 优先于样式表默认值。Teleport 后，普通 CSS 变量按实际挂载位置继承；使用 ThemeProvider 时，请遵循其局部主题与弹层配置规则。局部定制请直接覆盖组件变量；仅修改后代的 system 变量不会重新计算从根继承的组件别名。内部变量不属于公共 API。
+
+<!-- component-css-variables:end -->
+
+---
+
+Document: llms/zh-CN/input-tag.md
+
+<!-- Source: src/input-tag/docs/zh-CN.md; locale: zh-CN; page: /zh-CN/input-tag -->
+
+# InputTag
+
+用来输入标签。FormItem 有错误消息时，输入框会关联错误描述，并保留已有的 `aria-describedby`。
+
+## 阅读方向
+
+标签按阅读顺序排列，标签值的数组顺序保持不变。空输入时 Backspace 删除业务数组中最后一个可关闭标签；Enter 添加标签，输入法组合期间不触发标签提交或删除。
+
+## 基础示例
+
+### 基础用法
+
+标签输入框的基本用法。
+
+Example source: src/input-tag/example/demos/basic.vue
+
+```vue
+<script setup>
+import MpInputTag from '../../index'
+import '../../style'
+</script>
+<template>
+  <mp-input-tag :default-value="['test']" placeholder="Please Enter" clearable />
+</template>
+```
+
+## 外观与状态
+
+### 标签输入尺寸与状态
+
+<!-- demo-config-notes:start -->
+
+#### 本组配置对照
+
+| 配置            | 作用                 | 相关示例           |
+| --------------- | -------------------- | ------------------ |
+| `default-value` | 默认值（非受控状态） | 标签输入尺寸与状态 |
+| `placeholder`   | 占位符               | 标签输入尺寸与状态 |
+| `size`          | 输入框的大小         | 标签输入尺寸与状态 |
+| `clearable`     | 是否允许清空         | 标签输入尺寸与状态 |
+| `disabled`      | 是否禁用             | 标签输入尺寸与状态 |
+| `readonly`      | 是否为只读模式       | 标签输入尺寸与状态 |
+
+<!-- demo-config-notes:end -->
+
+比较尺寸和禁用/只读/错误外观，操作可编辑实例观察标签布局；空值协议保持独立。
+
+<details>
+<summary>配置说明与使用限制</summary>
+
+#### 输入框状态
+
+输入框有禁用、只读和错误三种状态。
+
+#### 输入框尺寸
+
+输入框分为 `xs`、`sm`、`md`、`lg`、`xl` 五种尺寸。
+
+</details>
+
+Example source: src/input-tag/example/demos/appearance-state-comparison.vue
+
+```vue
+<script setup lang="ts">
+import MpInputTag from '../../index'
+import '../../style'
+import { proxyRefs as demoProxyRefs, ref } from 'vue'
+
+const scene1 = demoProxyRefs(
+  (() => {
+    const size = ref<'xs' | 'sm' | 'md' | 'lg' | 'xl'>('md')
+    return { size }
+  })(),
+)
+</script>
+
+<template>
+  <div class="demo-comparison">
+    <section class="demo-comparison-case demo-comparison-case--1" data-comparison-scene="size">
+      <h4><span lang="zh-CN">输入框尺寸</span><span lang="en-US">size</span></h4>
+      <mp-space direction="column" size="lg">
+        <mp-radio-group v-model="scene1.size" type="button">
+          <mp-radio value="xs">xs</mp-radio>
+          <mp-radio value="sm">sm</mp-radio>
+          <mp-radio value="md">md</mp-radio>
+          <mp-radio value="lg">lg</mp-radio>
+          <mp-radio value="xl">xl</mp-radio>
+        </mp-radio-group>
+        <mp-input-tag :default-value="['one']" placeholder="Please enter something" :size="scene1.size" clearable />
+      </mp-space>
+    </section>
+
+    <section class="demo-comparison-case demo-comparison-case--2" data-comparison-scene="status">
+      <h4><span lang="zh-CN">输入框状态</span><span lang="en-US">status</span></h4>
+      <mp-space direction="column" size="lg">
+        <mp-input-tag :default-value="['test']" placeholder="Please Enter" disabled />
+        <mp-input-tag :default-value="['test']" placeholder="Please Enter" readonly />
+        <mp-input-tag :default-value="['test']" placeholder="Please Enter" error />
+      </mp-space>
+    </section>
+  </div>
+</template>
+
+<style scoped lang="less">
+.demo-comparison {
+  display: grid;
+  gap: 24px;
+  min-width: 0;
+  max-width: 100%;
+}
+.demo-comparison-case {
+  min-width: 0;
+  max-width: 100%;
+}
+.demo-comparison-case > h4 {
+  margin: 0 0 12px;
+  font-size: 14px;
+}
+html:not([lang='en-US']) .demo-comparison-case > h4 > [lang='en-US'],
+html[lang='en-US'] .demo-comparison-case > h4 > [lang='zh-CN'] {
+  display: none;
+}
+</style>
+```
+
+## 内容与展示
+
+### 最多展示标签数量
+
+<!-- demo-config-notes:start -->
+
+#### 本组配置对照
+
+| 配置            | 作用                               | 相关示例         |
+| --------------- | ---------------------------------- | ---------------- |
+| `default-value` | 默认值（非受控状态）               | 最多展示标签数量 |
+| `placeholder`   | 占位符                             | 最多展示标签数量 |
+| `max-tag-count` | 最多展示的标签个数，`0` 表示不限制 | 最多展示标签数量 |
+| `clearable`     | 是否允许清空                       | 最多展示标签数量 |
+
+<!-- demo-config-notes:end -->
+
+设置最多展示标签数量。
+
+Example source: src/input-tag/example/demos/max.vue
+
+```vue
+<script setup>
+import MpInputTag from '../../index'
+import '../../style'
+</script>
+<template>
+  <mp-input-tag
+    :default-value="['one', 'two', 'three', 'four']"
+    placeholder="Please Enter"
+    :max-tag-count="3"
+    clearable
+  />
+</template>
+```
+
+## 加载与等待
+
+### 受控加载
+
+| 属性 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| `loading` | 业务显式控制的加载状态 | `boolean` | `false` |
+
+
+通过 loading 显式展示等待；普通事件返回值不参与加载。before-* 守卫按其契约管理内部等待状态。
+
+Example source: src/input-tag/example/demos/loading.vue
+
+```vue
+<script setup lang="ts">
+import MpInputTag from '../../index'
+import '../../style'
+import { ref } from 'vue'
+
+const loading = ref(true)
+</script>
+<template>
+  <mp-space direction="column" style="width: 100%" :size="16">
+    <mp-form layout="vertical"
+      ><mp-form-item label="加载状态 / Loading"><mp-switch v-model="loading" /></mp-form-item
+    ></mp-form>
+    <mp-input-tag :loading="loading" :default-value="['示例 / Example']" />
+    <p>通过 loading 显式控制等待展示，普通事件返回 Promise 不会自动加载。Loading is controlled by business state.</p>
+  </mp-space>
+</template>
+```
+
+### 粘贴链接并获取标题
+
+粘贴链接或输入链接后按回车，模拟异步获取标题，等待期间展示加载状态。模型只保存原始链接；`fallback-option` 从业务维护的响应式数据中读取标题。点击提交可查看链接数据，示例不发送请求。
+
+Example source: src/input-tag/example/demos/link-title.vue
+
+```vue
+<script setup lang="ts">
+import MpInputTag from '../../index'
+import '../../style'
+import { reactive, ref } from 'vue'
+
+const links = ref<string[]>([])
+const titles = reactive<Record<string, string>>({})
+const fallbackOption = (value: string | number) => ({ value, label: titles[String(value)] ?? String(value) })
+const inputValue = ref('')
+const loading = ref(false)
+const error = ref('')
+const submitted = ref<string[] | null>(null)
+
+// 模拟接口：延迟返回标题，实际使用时替换为业务请求。
+function fetchTitle(url: string): Promise<string> {
+  const titles: Record<string, string> = {
+    'vuejs.org': 'Vue.js',
+    'github.com': 'GitHub',
+  }
+  return new Promise((resolve) => {
+    setTimeout(() => resolve(titles[new URL(url).hostname] || new URL(url).hostname), 1200)
+  })
+}
+
+async function handlePaste(event: ClipboardEvent) {
+  const url = event.clipboardData?.getData('text/plain').trim()
+  if (url) {
+    await addLink(url)
+  }
+}
+
+function handleKeydown(event: KeyboardEvent) {
+  if (event.key !== 'Enter' || event.isComposing || event.keyCode === 229) {
+    return
+  }
+  event.preventDefault()
+  void addLink(inputValue.value.trim())
+}
+
+async function addLink(url: string) {
+  if (loading.value || !url) {
+    return
+  }
+  error.value = ''
+  try {
+    const parsed = new URL(url)
+    if (!['http:', 'https:'].includes(parsed.protocol)) {
+      throw new Error()
+    }
+  } catch {
+    error.value = '请粘贴完整的 http 或 https 链接 / Paste a valid http or https URL.'
+    return
+  }
+  if (links.value.includes(url)) {
+    error.value = '链接已添加 / This URL has already been added.'
+    return
+  }
+  loading.value = true
+  try {
+    const title = await fetchTitle(url)
+    titles[url] = title
+    links.value.push(url)
+    inputValue.value = ''
+  } catch {
+    error.value = '获取标题失败，请重试 / Could not fetch the title. Try again.'
+  } finally {
+    loading.value = false
+  }
+}
+
+function submit() {
+  submitted.value = [...links.value]
+}
+</script>
+
+<template>
+  <mp-space direction="column" style="width: 100%" :size="12">
+    <p>粘贴链接，或输入链接后按回车，例如 https://vuejs.org / Paste a URL or type one and press Enter.</p>
+    <div @paste.capture.prevent="handlePaste" @keydown.capture="handleKeydown">
+      <mp-input-tag
+        v-model="links"
+        v-model:input-value="inputValue"
+        :fallback-option="fallbackOption"
+        :retain-input-value="true"
+        :loading="loading"
+        :disabled="loading"
+        placeholder="粘贴或输入链接 / Paste or type a URL"
+        aria-label="粘贴或输入链接 / Paste or type a URL"
+        clearable
+      />
+    </div>
+    <p v-if="error" role="alert">{{ error }}</p>
+    <mp-button :disabled="loading || !links.length" @click="submit">提交 / Submit</mp-button>
+    <pre v-if="submitted !== null" aria-live="polite">{{ JSON.stringify({ links: submitted }, null, 2) }}</pre>
+  </mp-space>
+</template>
+```
+
+### 字段状态与原生输入
+
+`disabled`、`readonly`、`error` 未设置时继承 FormItem / Form；InputGroup 可提供禁用、只读、尺寸和变体，字段显式值优先，`false` 可覆盖父级。独立使用时默认变体仍为 `filled`。延迟编辑器遵守相同状态，编辑中禁用或只读会取消草稿。
+
+`id`、`name`、`aria-*`、`data-*`、原生约束和键盘监听器传给实际 input，`class` / `style` 保留在外壳。`name` 提交的是独立的输入草稿，不会序列化标签数组。`input-value` 控制输入草稿；与标签的 `model-value` 分开。组合输入只通知一次；被禁用、只读或关闭取消的组合输入不会在稍后提交。
+
+`loading` 由业务控制；`loading-mode="default"`（默认）或 `"line"` 只调整反馈形态，不禁止输入。默认清空入口为 `type="button"` 的命名按钮，支持 Tab / Enter / Space；`#clear-icon="{ clear }"` 可定制入口并调用原有清空动作。清空保留独立输入草稿，并按原有顺序通知 `update:modelValue`、`change`、`clear`。
+
+### 原始值反显
+
+使用 `fallback-option` 同步读取业务维护的展示数据。初始值只包含链接，点击按钮模拟业务数据到达；标题更新不会修改模型。
+
+Example source: src/input-tag/example/demos/fallback-option.vue
+
+```vue
+<script setup lang="ts">
+import MpInputTag from '../../index'
+import '../../style'
+import { reactive, ref } from 'vue'
+
+const urls = ref(['https://vuejs.org', 'https://github.com'])
+const titles = reactive<Record<string, string>>({})
+const fallbackOption = (value: string | number) => ({ value, label: titles[String(value)] ?? String(value) })
+
+function loadTitles() {
+  // 实际应用由业务请求并更新映射；组件不发起请求。
+  titles['https://vuejs.org'] = 'Vue.js'
+  titles['https://github.com'] = 'GitHub'
+}
+</script>
+
+<template>
+  <mp-space direction="column" style="width: 100%" :size="12">
+    <mp-input-tag v-model="urls" :fallback-option="fallbackOption" />
+    <mp-button @click="loadTitles">模拟获取标题 / Load mock titles</mp-button>
+    <pre>{{ JSON.stringify(urls, null, 2) }}</pre>
+  </mp-space>
+</template>
+```
+
+### 保存后异步反显
+
+示例在内存中模拟保存 ID 数组，重新挂载组件后异步获取姓名。加载期间显示 ID，数据返回后通过同步 `fallback-option` 反显姓名，保存值不变。实际业务需要自行保存数组并根据 ID 请求展示数据。
+
+Example source: src/input-tag/example/demos/async-fallback-restore.vue
+
+```vue
+<script setup lang="ts">
+import MpInputTag from '../../index'
+import '../../style'
+import { onBeforeUnmount, ref } from 'vue'
+
+const values = ref(['shuai.meng', 'xiaoming', 'lisi'])
+const saved = ref([...values.value])
+const names = ref<Record<string, string>>({ 'shuai.meng': '孟帅', xiaoming: '小明', lisi: '李四' })
+const generation = ref(0)
+const readPretty = ref(false)
+const loading = ref(false)
+let timer: ReturnType<typeof setTimeout> | undefined
+
+// fallback 只同步读取业务数据，未找到时返回 undefined。
+const fallbackOption = (value: string | number) => {
+  const label = names.value[String(value)]
+  return label === undefined ? undefined : { value, label }
+}
+
+function saveAndReload() {
+  // 用内存模拟数据库保存；实际业务应保存 values.value，再按 ID 请求姓名。
+  saved.value = [...values.value]
+  if (timer) {
+    clearTimeout(timer)
+  }
+  names.value = {}
+  values.value = [...saved.value]
+  generation.value++ // 重新挂载组件，模拟打开已保存的数据。
+  loading.value = true
+  timer = setTimeout(() => {
+    names.value = { 'shuai.meng': '孟帅', xiaoming: '小明', lisi: '李四' }
+    loading.value = false
+  }, 1500)
+}
+
+onBeforeUnmount(() => {
+  if (timer) {
+    clearTimeout(timer)
+  }
+})
+</script>
+
+<template>
+  <mp-space direction="column" style="width: 100%" :size="12" data-demo="input-tag-async-fallback-restore">
+    <p>
+      模拟保存后重新初始化：请求期间先显示 ID，姓名返回后自动更新。 / Save and reload to resolve names asynchronously.
+    </p>
+    <mp-input-tag :key="generation" v-model="values" :fallback-option="fallbackOption" :read-pretty="readPretty" />
+    <mp-space wrap>
+      <mp-button @click="saveAndReload">模拟保存并重新加载 / Save and reload</mp-button>
+      <mp-button @click="readPretty = !readPretty">{{
+        readPretty ? '切换到编辑态 / Edit' : '切换到阅读态 / Read'
+      }}</mp-button>
+    </mp-space>
+    <div role="status">{{ loading ? '正在加载姓名… / Loading names…' : '姓名已加载 / Names loaded' }}</div>
+    <div>
+      模拟保存值 / Saved values：<code data-saved-value>{{ JSON.stringify(saved) }}</code>
+    </div>
+  </mp-space>
+</template>
+```
+
+## API
+
+### 空值识别与阅读空文案
+
+`empty-values` 用于空值识别，`empty-value` 保留原清空输出；`empty-text` 仅在 `read-pretty` 空内容下展示，默认 `'-'`，字段 > FormItem > Form，自定义 read 插槽优先。显式配置 empty-values 后，内置 required 接入该策略，自定义校验仍收到原值。详见[统一说明](guide/empty-values)。
+
+| 参数         | 类型               | 缺省与范围                                            |
+| ------------ | ------------------ | ----------------------------------------------------- |
+| empty-values | readonly unknown[] | 字段 > FormItem > Form > 组件族默认；完整覆盖，不合并 |
+| empty-text   | string             | 字段 > FormItem > Form > '-'；显式 '' 有效            |
+
+以上是字段展示层 API；纯面板不因此新增阅读模式。Form 与 FormItem 提供继承配置。empty-value 的现有类型与默认输出仍按该组件原 API 执行。
+
+`unique-value` 按合并后的 `field-names.value` 判断对象与字符串标签的唯一性；数字 `1` 和字符串 `"1"` 不同。默认允许重复，每个出现项拥有独立稳定节点，折叠占位不占用任何业务值。数量限制只控制展示，不截断模型。
+
+公开 Props 不包含 `baseCls`、`focused`、`disabledInput`、`uninjectFormItemContext`；这些是内部组合入口。before-commit 同步返回 undefined 时等待 done；普通 change / press-enter 等事件不等待 Promise。延迟模式的 change 事件可没有原始 DOM 事件。清空默认输出 []，显式 empty-value=null 时保留 null。
+
+### InputTag Props
+
+| 参数名                    | 描述                               | 类型                                              |   默认值   |
+| ------------------------- | ---------------------------------- | ------------------------------------------------- | :--------: |
+| model-value **(v-model)** | 绑定值                             | `(string \| number \| TagData)[] \| null`         |    `-`     |
+| default-value             | 默认值（非受控状态）               | `(string \| number \| TagData)[]`                 |    `[]`    |
+| input-value **(v-model)** | 输入框的值                         | `string`                                          |    `-`     |
+| default-input-value       | 输入框的默认值（非受控状态）       | `string`                                          |    `''`    |
+| placeholder               | 占位符                             | `string`                                          |    `-`     |
+| disabled                  | 是否禁用                           | `boolean`                                         |  `-`   |
+| error                     | 是否为错误状态                     | `boolean`                                         |  `-`   |
+| readonly                  | 是否为只读模式                     | `boolean`                                         |  `-`   |
+| clearable                 | 是否允许清空                       | `boolean`                                         |  `false`   |
+| size                      | 输入框的大小                       | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'`            |   `'md'`   |
+| variant                   | 输入框的变体                       | `'filled' \| 'outline' \| 'standard'`             | `'filled'` |
+| max-tag-count             | 有限非负整数；0 不限，非法值诊断后按不限展示 | `number`                                          |    `0`     |
+| retain-input-value        | 是否保留输入框的内容               | `boolean \| { create?: boolean; blur?: boolean }` |  `false`   |
+| format-tag                | 格式化标签内容                     | `(data: TagData) => string`                       |    `-`     |
+| fallback-option | 同步解析原始值的展示数据；不返回结果时显示原始值 | `(value: string \| number) => TagData \| null \| undefined` | `-` |
+| unique-value              | 是否仅创建唯一的值                 | `boolean`                                         |  `false`   |
+| field-names               | 自定义 `TagData` 中的字段          | `InputTagFieldNames`                              |    `-`     |
+| tag-nowrap                | 标签内容不换行                     | `boolean`                                         |  `false`   |
+
+| loading | 业务控制的加载状态，不禁止输入 | `boolean` | `false` |
+| loading-mode | 共享字段反馈形态，不是 Loading 动画类型 | `'default' \| 'line'` | `'default'` |
+| empty-value | 清空输出；默认空数组，可显式配置 null | `InputTagValue \| (() => InputTagValue)` | `[]` |
+| empty-values | 空值识别策略，字段优先于 FormItem 和 Form | `readonly unknown[]` | `-` |
+| empty-text | 阅读空文案，显式空字符串有效 | `string` | `'-'` |
+| edit-mode | 编辑模式；字段优先于 FormItem 和 Form | `'direct' \| 'popup'` | `'direct'` |
+| read-pretty | 独立阅读状态，显式 false 覆盖父级 | `boolean` | `false` |
+| before-commit | 延迟编辑保存前守卫；返回布尔值、Promise 或通过 done 完成 | `(payload: { value: unknown; previousValue: unknown }, done: (allow?: boolean) => void, context: { signal: AbortSignal; event?: Event }) => void \| boolean \| Promise<void \| boolean>` | `-` |
+| open | 受控编辑层开关，不是内部原生输入焦点 | `boolean` | `-` |
+| default-open | 非受控编辑层初始开关 | `boolean` | `false` |
+| popup-container | 编辑层挂载容器 | `string \| HTMLElement \| false` | `-` |
+
+### InputTag Events
+
+| 事件名             | 描述                     | 参数                                                    |
+| ------------------ | ------------------------ | ------------------------------------------------------- |
+| update:modelValue | 标签模型更新提案，确认模式在保存后通知 | value: `InputTagValue` |
+| update:inputValue | 独立输入草稿更新提案 | inputValue: `string` |
+| update:open | 编辑层受控开关更新 | open: `boolean` |
+| open-change | 编辑层实际开关变化 | open: `boolean` |
+| change             | 值发生改变时触发         | value: `InputTagValue`<br>ev?: `Event` |
+| input-value-change | 输入值发生改变时触发     | inputValue: `string`<br>ev: `Event`                     |
+| press-enter        | 按下回车键时触发         | inputValue: `string`<br>ev: `KeyboardEvent`             |
+| remove             | 点击标签的删除按钮时触发 | removed: `string \| number`<br>ev: `Event`              |
+| clear              | 调用清除动作时触发       | ev: `Event`                                        |
+| focus              | 输入框获取焦点时触发     | ev: `FocusEvent`                                        |
+| blur               | 输入框失去焦点时触发     | ev: `FocusEvent`                                        |
+
+### InputTag Methods
+
+| 方法名 | 描述             | 参数 | 返回值 |
+| ------ | ---------------- | ---- | ------ |
+| focus  | 使当前编辑器获取焦点；延迟模式先打开允许编辑的面板 | -    | -      |
+| blur   | 使当前输入框失去焦点 | -    | -      |
+
+公开方法从组件首次挂载起保持可调用；保存下来的方法每次查找当前编辑器，关闭、重开、切换模式后不会操作旧输入。尚未挂载或已经关闭的原生输入引用为 undefined。
+
+### InputTag Slots
+
+| 插槽名 |         描述         | 参数            |
+| ------ | :------------------: | --------------- |
+| tag    | 输入框标签的显示内容 | data: `TagData` |
+| prefix |       前缀元素       | -               |
+| suffix |       后缀元素       | -               |
+| clear-icon | 自定义清空入口 | clear: `(event?: Event) => void` |
+| read | 自定义阅读内容，优先于 empty-text | value: `InputTagValue`<br>text: `string` |
+
+## Types
+
+### TagData
+
+| 参数名   | 描述       | 类型               | 默认值  |
+| -------- | ---------- | ------------------ | :-----: |
+| value    | 标签值     | `string \| number` |   `-`   |
+| label    | 标签内容   | `string`           |   `-`   |
+| closable | 是否可关闭 | `boolean`          | `false` |
+| tagProps | 标签属性   | `TagProps`         |   `-`   |
+
+组件导出以下类型定义
+
+```ts
+import type { InputTagProps, InputTagValue, InputTagEmits, InputTagSlots, InputTagExpose, InputTagInstance, InputTagFieldNames, TagData } from "@maple-design/ui-vue";
+```
+
+## 标签与关闭按钮
+
+标签和关闭按钮的外观由 Tag 控制；禁用、只读及不可关闭的标签不能通过关闭按钮移除。
+
+## InputTag 外壳与内容职责
+
+InputTag 的 outline / filled / standard 外观使用 FieldDecorator 的变量。filled 的默认、悬停和聚焦背景分别使用 fill-1、fill-2、fill-3。Form 负责校验提示。
+
+InputTag 的内容密度、默认标签底色和禁用文字由 input-tag-* 控制。禁用样式优先于聚焦样式。支持 xs / sm / md / lg / xl 五档尺寸；xl 的标签高度为 32px、输入文字为 16px、垂直内边距为 4px。
+
+移除 33 项没有实际 CSS 消费的旧外壳变量：size-{xs,sm,md,lg}-height；color-text-error；color-placeholder、color-icon-clear、color-icon-clear-bg-hover；color-border-{default,error,disabled}（及其 -hover / -focus）；color-bg-{default,error}（及其 -hover / -focus）、color-bg-disabled（及 -hover）；color-shadow-{default,error}-focus、size-shadow-{default,error}-focus；border-radius、border-width、size-icon-clear、size-icon-clear-hover。以上后缀均属于 --mp-input-tag-。没有兼容别名。
+
+外壳背景通过 field-variant-{variant}-background 定制，圆角使用 field-border-radius，占位文字使用 field-placeholder-text-color，清除图标使用 field-clear-icon-color 和 field-clear-icon-size。尺寸优先通过 `size` 设置，标签内容使用 InputTag 自身变量。
+
+默认文字、禁用文字、标签底色与焦点底色分别使用对应的系统语义色。禁用状态不会覆盖显式设置的 color / status；自定义颜色时需保证文字可读性。父级 disabled / readonly 优先于 tagProps.closable / checkable，loading 或显式不可关闭的标签不能用 Backspace 删除。
+
+### 编辑与确认
+
+通过 `edit-mode` 配置编辑方式；未指定时依次继承 FormItem、Form，默认 `direct`。支持值：`direct / popup`。非 direct 编辑模式通过字段值入口打开编辑面板，并维护单份草稿；确认后才更新 v-model，取消、重置或启用 readPretty 时丢弃草稿。
+
+Maple 使用 edit-mode="popup" 在字段附近打开编辑浮层，Enter/F2 也可进入；取消/Escape 丢弃草稿，确认后提交。readPretty 为独立阅读属性，与 readonly、disabled 分开。
+
+`before-commit(payload, done, context)` 可拦截弹层保存；FormItem 先校验候选值，失败保持编辑。`open / default-open / update:open` 控制编辑层。`#read="{ value, text }"` 可自定义阅读内容。集中示例见 Form 的“各类字段统一展示”。
+
+`read-pretty` 为独立布尔属性，与 `readonly`、`disabled` 同级；字段 > FormItem > Form 继承，显式 `false` 覆盖父级。默认 `false`。纯阅读不显示编辑器。
+
+## 配置清空后的值
+
+`empty-value` 指定当前组件已有清空动作的输出；省略时采用该组件默认返回。具体类型以组件 API 为准。它不改变 empty-values 的识别规则，也不改变 Form reset 的初始值。
+
+`empty-value` 可显式设为 `null`（或 `() => null`），清空时原样提交 null；省略时保留组件原默认值。界面把 null 显示为空，不会把普通输入的空字符串自动转成 null。支持弹出编辑的字段中，清空先修改草稿，确认后提交，取消则保留原值。
+
+## CSS Variables
+
+<!-- component-css-variables:start -->
+
+通过以下变量定制组件外观。默认值随表中注明的主题或选择器条件变化；变量仅在对应的尺寸、变体和交互状态下生效。
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| 变量 | 默认值／条件 | 影响的样式 |
+| --- | --- | --- |
+| `--mp-input-tag-color-text-default` | `var(--mp-sys-color-content-primary)` | `color` |
+| `--mp-input-tag-color-text-disabled` | `var(--mp-sys-color-content-disabled)` | `color` |
+| `--mp-input-tag-padding-x` | `4px` | `padding-inline-end`, `padding-inline-start` |
+| `--mp-input-tag-size-lg-font-size` | `14px` | `font-size` |
+| `--mp-input-tag-size-lg-padding-y` | `2px` | `padding-bottom`, `padding-top` |
+| `--mp-input-tag-size-lg-tag-height` | `28px` | `line-height`, `min-height` |
+| `--mp-input-tag-size-md-font-size` | `14px` | `font-size` |
+| `--mp-input-tag-size-md-padding-y` | `2px` | `padding-bottom`, `padding-top` |
+| `--mp-input-tag-size-md-tag-height` | `24px` | `line-height`, `min-height` |
+| `--mp-input-tag-size-sm-font-size` | `14px` | `font-size` |
+| `--mp-input-tag-size-sm-padding-y` | `2px` | `padding-bottom`, `padding-top` |
+| `--mp-input-tag-size-sm-tag-height` | `20px` | `line-height`, `min-height` |
+| `--mp-input-tag-size-xl-font-size` | `16px` | `font-size` |
+| `--mp-input-tag-size-xl-padding-y` | `4px` | `padding-bottom`, `padding-top` |
+| `--mp-input-tag-size-xl-tag-height` | `32px` | `line-height`, `min-height` |
+| `--mp-input-tag-size-xs-font-size` | `12px` | `font-size` |
+| `--mp-input-tag-size-xs-padding-y` | `0px` | `padding-bottom`, `padding-top` |
+| `--mp-input-tag-size-xs-tag-height` | `20px` | `line-height`, `min-height` |
+| `--mp-input-tag-tag-color-bg` | `var(--mp-sys-color-surface-default)` | `background-color` |
+| `--mp-input-tag-tag-color-bg-disabled` | `var(--mp-sys-color-state-hover)` | `background-color` |
+| `--mp-input-tag-tag-color-bg-focus` | `var(--mp-sys-color-state-hover)` | `background-color` |
+| `--mp-input-tag-tag-color-border` | `var(--mp-color-fill-3)` | `border-color` |
+| `--mp-input-tag-tag-color-border-disabled` | `var(--mp-color-fill-3)` | `border-color` |
+| `--mp-input-tag-tag-color-border-focus` | `var(--mp-sys-color-state-hover)` | `border-color` |
+| `--mp-input-tag-tag-font-size` | `12px` | `font-size` |
+| `--mp-input-tag-tag-margin-right` | `4px` | `margin-inline-end` |
+| `--mp-input-tag-tag-margin-y` | `2px` | `margin-bottom`, `margin-top` |
+
+</div>
+
+将覆盖设置在组件实际根节点或弹层真实挂载祖先上。例如给该元素添加下列 class，再按需替换变量值：
+
+```css
+.component-theme {
+  --mp-input-tag-color-text-default: var(--mp-sys-color-content-primary);
 }
 ```
 
@@ -38171,6 +38788,608 @@ const activeMessages = computed(() =>
 本组件未声明独立的公共 CSS 变量。请使用本页公开的配置与布局入口。
 
 内部自定义属性与测量中间值属于实现细节，不作为业务定制 API。
+
+<!-- component-css-variables:end -->
+
+---
+
+Document: llms/zh-CN/mention.md
+
+<!-- Source: src/mention/docs/zh-CN.md; locale: zh-CN; page: /zh-CN/mention -->
+
+# Mention
+
+用于在输入中提及某人或某事，常用于发布、聊天或评论功能。
+
+## 基础示例
+
+### 基础用法
+
+用于在输入中提及某人或某事，常用于发布、聊天或评论功能。
+
+Example source: src/mention/example/demos/basic.vue
+
+```vue
+<template>
+  <mp-space direction="column" size="lg" style="width: 100%">
+    <mp-mention v-model="value" :options="['Bytedance', 'Bytedesign', 'Bytenumner']" placeholder="enter something" />
+    <mp-mention
+      v-model="text"
+      :options="['Bytedance', 'Bytedesign', 'Bytenumner']"
+      type="textarea"
+      placeholder="enter something"
+    />
+  </mp-space>
+</template>
+
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const value = ref('')
+const text = ref('')
+</script>
+```
+
+### 原子提及与值反显
+
+启用 `atomic` 后，选中的提及作为整体编辑和删除。模型使用 `@[编码后的 ID]` 保存身份，业务通过同步 `fallback-option` 提供未出现在当前候选项中的名称；组件不发起反显请求。原子项的 value 支持字符串、有限数字和布尔值，保留类型；对象值不支持。普通文本中的 `@[` 和反斜线会转义；`atomic` 默认关闭，现有普通文本不会自动解析为实体。
+
+例如字符串 ID `shuai.meng` 保存为 `@[shuai.meng]`；数字 `0` 保存为 `@[!n:0]`，与字符串 `@[0]` 区分。非 `@` 前缀也会编码，例如 `##` 提及 `topic` 保存为 `@[%23%23|topic]`。展示依次使用当前 `options`、`fallback-option`、组件内已选项缓存，最后显示原值。缓存由当前组件实例维护，编辑态与阅读态共用，移除提及后清除；初始化时尚未取得名称的数据仍需业务通过候选或 fallback 提供。业务负责请求和持久化数据。
+
+本地候选同时匹配 `value` 和 `label`，大小写不敏感。例如输入 `@xiaoming` 或 `@小明` 都能找到同一候选；选择后显示 `@小明`，模型保存 `@[xiaoming]`。原子模式下没有候选时，如果 `fallback-option` 对输入的 ID 返回对象，按回车也可以创建提及；未确认的普通文字不会自动转换。远程候选由业务根据输入查询，组件不会对返回结果重复执行本地过滤；请求期间输入框和候选下拉均显示加载状态，过期结果不会覆盖最新结果。
+
+Example source: src/mention/example/demos/atomic-mention.vue
+
+```vue
+<script setup lang="ts">
+import MpMention from '../../index'
+import '../../style'
+import { reactive, ref } from 'vue'
+
+const content = ref('请联系 @[shuai.meng] 跟进')
+const fallbackContent = ref('')
+const people = [{ value: 'xiaoming', label: '小明' }]
+const names = reactive<Record<string, string>>({ 'shuai.meng': '孟帅', xiaoming: '小明' })
+const fallbackOption = (value: string | number | boolean) => ({ value, label: names[String(value)] ?? String(value) })
+</script>
+
+<template>
+  <mp-space direction="column" style="width: 100%" :size="12">
+    <p>
+      输入 @ 选择人员；在提及旁按 Backspace 可整体删除。 / Type @ to select a person; Backspace removes a whole mention.
+    </p>
+    <mp-mention
+      v-model="content"
+      atomic
+      type="textarea"
+      :options="people"
+      :fallback-option="fallbackOption"
+      aria-label="原子提及 / Atomic mentions"
+    />
+    <mp-button @click="names['shuai.meng'] = '孟帅（已更新）'">模拟更新姓名 / Update mock name</mp-button>
+    <pre>{{ content }}</pre>
+    <p>
+      无候选项时输入 @xiaoming 并按回车，通过 fallback 解析姓名。 / Without options, type @xiaoming and press Enter to
+      resolve the name.
+    </p>
+    <mp-mention
+      v-model="fallbackContent"
+      atomic
+      :options="[]"
+      :fallback-option="fallbackOption"
+      aria-label="仅回退 / Fallback only"
+    />
+    <pre>{{ fallbackContent }}</pre>
+  </mp-space>
+</template>
+```
+
+确认提及后会自动添加空格；后面已有空白字符时不会重复添加。空格会保存在 value 中。提及文字使用主色文字色，不显示背景。
+
+## 数据与选项
+
+### 候选筛选与异步搜索
+
+本地传入数组时，输入 `@小` 或 `@xiaoming` 会按姓名或账号筛选。异步示例把关键词交给业务函数查询，请求期间下拉显示 loading；快速将 `@x` 改为 `@lisi`，只显示最新关键词的结果。示例使用模拟数据，实际接口可将 `signal` 传给 `fetch`。
+
+Example source: src/mention/example/demos/search-options.vue
+
+```vue
+<script setup lang="ts">
+import MpMention from '../../index'
+import '../../style'
+import { ref } from 'vue'
+import type { OptionsLoader } from '../../../_hooks/use-option-request'
+
+const localValue = ref('')
+const remoteValue = ref('')
+const people = [
+  { value: 'xiaoming', label: '小明' },
+  { value: 'xiaohong', label: '小红' },
+  { value: 'lisi', label: '李四' },
+]
+
+// 实际业务可以在这里调用接口，并将 signal 传给 fetch。
+const searchPeople: OptionsLoader<(typeof people)[number]> = (query, { signal }) =>
+  new Promise((resolve) => {
+    const finish = () => {
+      signal.removeEventListener('abort', cancel)
+      const keyword = query.toLowerCase()
+      resolve(people.filter((person) => person.value.includes(keyword) || person.label.includes(query)))
+    }
+    // 模拟不同网络耗时，方便快速改词时观察 loading 和最新结果。
+    const timer = setTimeout(finish, query.toLowerCase().startsWith('x') ? 1400 : 450)
+    const cancel = () => {
+      clearTimeout(timer)
+      resolve([])
+    }
+    if (signal.aborted) {
+      cancel()
+    } else {
+      signal.addEventListener('abort', cancel, { once: true })
+    }
+  })
+</script>
+
+<template>
+  <mp-space direction="column" style="width: 100%" :size="12" data-demo="mention-search-options">
+    <p>本地候选按账号或姓名筛选；异步搜索时可快速从 @x 改为 @lisi，观察下拉加载和最新结果。</p>
+    <p>
+      Local options match ID or name. For remote search, quickly change @x to @lisi to see loading and the latest
+      results.
+    </p>
+    <mp-mention v-model="localValue" atomic :options="people" aria-label="本地人员搜索 / Local people search" />
+    <mp-mention v-model="remoteValue" atomic :options="searchPeople" aria-label="异步人员搜索 / Remote people search" />
+    <div>
+      本地保存值 / Local value：<code data-local-value>{{ localValue }}</code>
+    </div>
+    <div>
+      异步保存值 / Remote value：<code data-remote-value>{{ remoteValue }}</code>
+    </div>
+  </mp-space>
+</template>
+```
+
+### 异步搜索与阅读态反显
+
+输入 `@xiaoming` 并选择小明，再搜索 `@lisi`。切换阅读态后，已选人员的姓名仍然可见；再次切回编辑态，模型中的 ID 保持不变。示例用模拟请求提供候选，并用 `fallback-option` 反显初始化的 ID。
+
+Example source: src/mention/example/demos/async-read-pretty.vue
+
+```vue
+<script setup lang="ts">
+import MpMention from '../../index'
+import '../../style'
+import { ref } from 'vue'
+
+const content = ref('请联系 @[shuai.meng]')
+const readPretty = ref(false)
+const people = [
+  { value: 'xiaoming', label: '小明' },
+  { value: 'lisi', label: '李四' },
+]
+
+// 初始化 ID 的名称由业务提供；搜索并选中的名称由组件在当前实例中缓存。
+const fallbackOption = (value: string | number | boolean) =>
+  value === 'shuai.meng' ? { value, label: '孟帅' } : undefined
+
+const searchPeople = (query: string, { signal }: { signal: AbortSignal }) =>
+  new Promise<typeof people>((resolve) => {
+    const finish = () => {
+      signal.removeEventListener('abort', cancel)
+      const keyword = query.toLowerCase()
+      resolve(people.filter((person) => person.value.includes(keyword) || person.label.includes(query)))
+    }
+    const timer = setTimeout(finish, 500)
+    const cancel = () => {
+      clearTimeout(timer)
+      resolve([])
+    }
+    if (signal.aborted) {
+      cancel()
+    } else {
+      signal.addEventListener('abort', cancel, { once: true })
+    }
+  })
+</script>
+
+<template>
+  <mp-space direction="column" style="width: 100%" :size="12" data-demo="async-read-pretty">
+    <p>
+      输入 @xiaoming 并选择小明，再输入 @lisi 搜索其他人员，然后切换阅读态查看反显。 / Select @xiaoming, search @lisi,
+      then switch to reading mode.
+    </p>
+    <mp-mention
+      v-model="content"
+      atomic
+      type="textarea"
+      :options="searchPeople"
+      :fallback-option="fallbackOption"
+      :read-pretty="readPretty"
+      aria-label="异步人员提及"
+    />
+    <mp-button @click="readPretty = !readPretty">{{
+      readPretty ? '切换到编辑态 / Edit' : '切换到阅读态 / Read'
+    }}</mp-button>
+    <div>
+      保存值 / Model：<code data-mention-model>{{ content }}</code>
+    </div>
+  </mp-space>
+</template>
+```
+
+### 保存后异步反显
+
+示例在内存中模拟保存模型，重新挂载组件后异步获取姓名。加载期间显示 ID，数据返回后通过同步 `fallback-option` 反显姓名，保存值不变。实际业务需要自行保存模型并根据 ID 请求展示数据。
+
+Example source: src/mention/example/demos/async-fallback-restore.vue
+
+```vue
+<script setup lang="ts">
+import MpMention from '../../index'
+import '../../style'
+import { onBeforeUnmount, ref } from 'vue'
+
+const content = ref('请联系 @[shuai.meng]、@[xiaoming]、@[lisi]')
+const saved = ref(content.value)
+const names = ref<Record<string, string>>({ 'shuai.meng': '孟帅', xiaoming: '小明', lisi: '李四' })
+const generation = ref(0)
+const readPretty = ref(false)
+const loading = ref(false)
+let timer: ReturnType<typeof setTimeout> | undefined
+
+// fallback 只同步读取业务数据，未找到时返回 undefined。
+const fallbackOption = (value: string | number | boolean) => {
+  const label = names.value[String(value)]
+  return label === undefined ? undefined : { value, label }
+}
+
+function saveAndReload() {
+  // 用内存模拟数据库保存；实际业务应保存 content.value，再按 ID 请求姓名。
+  saved.value = content.value
+  if (timer) {
+    clearTimeout(timer)
+  }
+  names.value = {}
+  content.value = saved.value
+  generation.value++ // 重新挂载组件，模拟打开已保存的数据。
+  loading.value = true
+  timer = setTimeout(() => {
+    names.value = { 'shuai.meng': '孟帅', xiaoming: '小明', lisi: '李四' }
+    loading.value = false
+  }, 1500)
+}
+
+onBeforeUnmount(() => {
+  if (timer) {
+    clearTimeout(timer)
+  }
+})
+</script>
+
+<template>
+  <mp-space direction="column" style="width: 100%" :size="12" data-demo="mention-async-fallback-restore">
+    <p>
+      模拟保存后重新初始化：请求期间先显示 ID，姓名返回后自动更新。 / Save and reload to resolve names asynchronously.
+    </p>
+    <mp-mention
+      :key="generation"
+      v-model="content"
+      atomic
+      type="textarea"
+      :options="[]"
+      :fallback-option="fallbackOption"
+      :read-pretty="readPretty"
+      aria-label="重新初始化的人员提及"
+    />
+    <mp-space wrap>
+      <mp-button @click="saveAndReload">模拟保存并重新加载 / Save and reload</mp-button>
+      <mp-button @click="readPretty = !readPretty">{{
+        readPretty ? '切换到编辑态 / Edit' : '切换到阅读态 / Read'
+      }}</mp-button>
+    </mp-space>
+    <div role="status">{{ loading ? '正在加载姓名… / Loading names…' : '姓名已加载 / Names loaded' }}</div>
+    <div>
+      模拟保存值 / Saved value：<code data-saved-value>{{ saved }}</code>
+    </div>
+  </mp-space>
+</template>
+```
+
+## 自定义与插槽
+
+### 自定义触发字符
+
+<!-- demo-config-notes:start -->
+
+#### 本组配置对照
+
+| 配置     | 作用                 | 相关示例       |
+| -------- | -------------------- | -------------- |
+| `options`   | 用于自动补全的数据   | 自定义触发字符 |
+| `prefix` | 触发自动补全的关键字 | 自定义触发字符 |
+
+<!-- demo-config-notes:end -->
+
+指定 `prefix` 来自定义触发字符。默认为 `@`，可以自定义为任意字符。
+
+Example source: src/mention/example/demos/prefix.vue
+
+```vue
+<template>
+  <mp-space direction="column" size="lg" style="width: 100%">
+    <mp-mention :options="['Bytedance', 'Bytedesign', 'Bytenumner']" placeholder="input @" />
+    <mp-mention :options="['Bytedance', 'Bytedesign', 'Bytenumner']" prefix="#" placeholder="input #" />
+    <mp-mention :options="['Bytedance', 'Bytedesign', 'Bytenumner']" prefix="$" placeholder="input $" />
+  </mp-space>
+</template>
+
+<script lang="ts" setup></script>
+```
+
+## 生命周期与边界
+
+### 镜像重定位生命周期
+
+Example source: src/mention/example/demos/mirror-lifecycle.vue
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue'
+import Mention from '../../index'
+
+const active = ref(true)
+const mounted = ref(true)
+const disabled = ref(false)
+const searches = ref(0)
+const value = ref('第一行\n第二行\n第三行\n@al')
+</script>
+
+<template>
+  <div>
+    <mp-button html-type="button" @click="active = !active">切换 KeepAlive</mp-button>
+    <mp-button html-type="button" @click="mounted = !mounted">卸载／挂载</mp-button>
+    <mp-button html-type="button" @click="disabled = !disabled">切换禁用</mp-button>
+    <p>搜索通知：{{ searches }}。在文本域滚动后输入 @al，停用再激活，继续输入检查镜像定位。</p>
+    <KeepAlive v-if="mounted">
+      <Mention
+        v-if="active"
+        v-model="value"
+        type="textarea"
+        :disabled="disabled"
+        :options="['alice', 'alex']"
+        :rows="3"
+        @search="searches++"
+      />
+    </KeepAlive>
+  </div>
+</template>
+```
+
+停用或卸载 Mention 后，保留的输入、弹层事件及 focus / blur 调用不再生效；重新激活后会重新测量输入位置。禁用时不接受输入或 focus，活动实例仍允许调用 blur。
+
+## 加载与等待
+
+### 受控加载
+
+| 属性 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| `loading` | 业务显式控制的加载状态 | `boolean` | `false` |
+
+
+通过 loading 显式展示等待；普通事件返回值不参与加载。before-* 守卫按其契约管理内部等待状态。
+
+Example source: src/mention/example/demos/loading.vue
+
+```vue
+<script setup lang="ts">
+import MpMention from '../../index'
+import '../../style'
+import { onBeforeUnmount, ref } from 'vue'
+import type { OptionsLoader } from '../../../_hooks/use-option-request'
+
+const loading = ref(true)
+const requests = new Set<(failed?: boolean) => void>()
+const pending = ref(0)
+const status = ref('等待数据 / Waiting for data')
+const load: OptionsLoader<string> = (query, { signal }) =>
+  new Promise((resolve, reject) => {
+    const finish = (failed = false) => {
+      requests.delete(finish)
+      pending.value = requests.size
+      signal.removeEventListener('abort', cancel)
+      if (failed) {
+        reject(new Error('Candidate request failed'))
+      } else {
+        resolve(['Alice', 'Bob'].filter((name) => name.toLowerCase().includes(query.toLowerCase())))
+      }
+    }
+    const cancel = () => finish()
+    requests.add(finish)
+    pending.value = requests.size
+    signal.addEventListener('abort', cancel, { once: true })
+  })
+function settle(failed = false) {
+  status.value = failed ? '请求失败，可继续输入重试 / Failed; type to retry' : '数据已返回 / Data received'
+  ;[...requests].forEach((finish) => finish(failed))
+}
+onBeforeUnmount(() => settle())
+</script>
+<template>
+  <mp-space direction="column" style="width: 100%" :size="16">
+    <h4>业务控制 / Manual loading</h4>
+    <mp-switch v-model="loading" aria-label="业务加载状态 / Manual loading" />
+    <mp-mention
+      edit-mode="direct"
+      :loading="loading"
+      :options="['Alice', 'Bob']"
+      placeholder="单行输入 @ / Single line"
+    />
+    <mp-mention
+      edit-mode="direct"
+      type="textarea"
+      :loading="loading"
+      :options="['Alice', 'Bob']"
+      placeholder="多行输入 @ / Multiple lines"
+    />
+    <p>
+      loading 只控制显示，两种输入框均可继续编辑。普通事件返回 Promise 不会触发等待。Loading does not disable editing or
+      await notification handlers.
+    </p>
+    <h4>数据源等待 / Remote candidates</h4>
+    <mp-mention
+      edit-mode="direct"
+      :options="load"
+      placeholder="输入 @a，手动返回候选数据 / Type @a"
+      @load-error="() => {}"
+    />
+    <mp-space>
+      <mp-button :disabled="!pending" @click="settle()">返回数据 / Resolve</mp-button>
+      <mp-button :disabled="!pending" @click="settle(true)">模拟失败 / Reject</mp-button>
+    </mp-space>
+    <p role="status">{{ pending ? '请求中，仍可输入 / Pending; editing remains available' : status }}</p>
+  </mp-space>
+</template>
+```
+
+## API
+
+### 空值识别与阅读空文案
+
+`empty-values` 用于空值识别，`empty-value` 保留原清空输出；`empty-text` 仅在 `read-pretty` 空内容下展示，默认 `'-'`，字段 > FormItem > Form，自定义 read 插槽优先。显式配置 empty-values 后，内置 required 接入该策略，自定义校验仍收到原值。详见[统一说明](guide/empty-values)。
+
+| 参数         | 类型               | 缺省与范围                                            |
+| ------------ | ------------------ | ----------------------------------------------------- |
+| empty-values | readonly unknown[] | 字段 > FormItem > Form > 组件族默认；完整覆盖，不合并 |
+| empty-text   | string             | 字段 > FormItem > Form > '-'；显式 '' 有效            |
+
+以上是字段展示层 API；纯面板不因此新增阅读模式。Form 与 FormItem 提供继承配置。empty-value 的现有类型与默认输出仍按该组件原 API 执行。
+
+### Mention Props
+
+| 属性 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| model-value (v-model) | 受控文本；null 显示为空 | string \| null | undefined |
+| atomic | 启用编码存储和整体编辑的提及项 | boolean | false |
+| fallback-option | 同步返回未匹配 ID 的展示选项 | `(value: string \| number \| boolean) => SelectOptionData \| null \| undefined` | undefined |
+| default-value | 非受控初始文本 | string | '' |
+| options | 候选数组或显式加载函数，支持嵌套分组 | readonly (string \| number \| SelectOptionData \| SelectOptionGroup)[] \| ((query: string, context: { signal: AbortSignal }) => Array \| `Promise<Array>`) | undefined |
+| prefix | 触发前缀；支持多字符和多个前缀 | string \| string[] | '@' |
+| split | 提及前后的分隔符 | string | ' ' |
+| type | 输入形态 | input \| textarea | input |
+| disabled | 未设置时继承 Form，显式 false 覆盖 | boolean | undefined |
+| readonly | 未设置时继承 Form，显式 false 覆盖 | boolean | undefined |
+| clearable | 允许清空文本或编辑草稿 | boolean | false |
+| loading | 手动等待反馈，不隐式禁用文本编辑 | boolean | false |
+| edit-mode | 编辑模式，继承 FormItem 和 Form | `'direct' \| 'popup'` | `'direct'` |
+| read-pretty | 独立阅读状态，显式 false 覆盖父级 | `boolean` | `false` |
+| empty-value | 清空输出；显式 null 原样提交 | `string \| null \| (() => string \| null)` | `''` |
+| empty-values | 空值识别策略，字段优先于 FormItem 和 Form | `readonly unknown[]` | `-` |
+| empty-text | 阅读空文案，显式空字符串有效 | `string` | `'-'` |
+| before-commit | 延迟编辑保存前守卫；返回布尔值、Promise 或通过 done 完成 | `(payload: { value: unknown; previousValue: unknown }, done: (allow?: boolean) => void, context: { signal: AbortSignal; event?: Event }) => void \| boolean \| Promise<void \| boolean>` | `-` |
+| open | 受控编辑层开关，不是内部原生输入焦点 | `boolean` | `-` |
+| default-open | 非受控编辑层初始开关 | `boolean` | `false` |
+| popup-container | 编辑层挂载容器 | `string \| HTMLElement \| false` | `-` |
+
+### Mention Events
+
+| 事件 | 说明与参数 |
+| --- | --- |
+| update:modelValue | value: string \| null |
+| change | value: string \| null；不附带原生 Event |
+| search | query: string, prefix: string |
+| select | value: SelectOptionValue \| undefined；来自实际叶子候选 |
+| clear | event: Event |
+| focus / blur | event: FocusEvent |
+| load-error | error: unknown；保留加载源原始错误 |
+| update:open / open-change | open: boolean；仅字段编辑层 |
+
+options 是显式数据加载入口；search、change、select 和 load-error 都是通知，不采集监听器返回的 Promise。直接输入按 update:modelValue / change 通知，选择按 select / update:modelValue / change 通知；延迟编辑中先修改草稿，确认后才提交最终模型。
+
+### Mention Methods
+
+| 方法 | 说明 | 返回值 |
+| --- | --- | --- |
+| focus | 聚焦当前目标；延迟模式按字段编辑协议打开 | void |
+| blur | 失焦当前目标，不打开编辑器 | void |
+| refresh | 重试当前 options 查询，沿用取消与失败协议，不打开编辑器；静态数组不发请求 | `Promise<void>` |
+
+### Mention Slots
+
+| 插槽 | 说明与参数 |
+| --- | --- |
+| option | 两种输入形态的候选内容；data: SelectOptionInfo，含 key、raw、value、label |
+| read | 两种输入形态的阅读内容；value: string \| null, text: string |
+| prefix / suffix | 仅 type=input 的输入框前后缀 |
+| clear-icon | 两种输入形态的清空节点；clear(event?: Event): void |
+
+clear-icon 替换整个清空节点，自定义节点需要调用 clear，并自行提供可访问的按钮。没有 default 输入替换、empty 或加载错误专用插槽；option 不替换字段输入本体。
+
+## Types
+
+组件导出以下类型定义
+
+```ts
+import type { MentionProps, MentionInstance, MentionEmits, MentionSlots, MentionExpose } from "@maple-design/ui-vue";
+```
+
+Mention 复用 Input／Textarea 的排版和间距，测量镜像复制原生输入框计算样式。自定义请覆盖对应输入组件变量；不再提供无效的 mention-font-size、mention-line-height 或 mention-padding-*。
+
+### 编辑与确认
+
+Maple 使用 edit-mode="popup" 在字段附近打开编辑浮层，Enter/F2 也可进入；取消/Escape 丢弃草稿，确认后提交。readPretty 为独立阅读属性，与 readonly、disabled 分开。
+
+## 配置清空后的值
+
+`empty-value` 指定当前组件已有清空动作的输出；省略时采用该组件默认返回。具体类型以组件 API 为准。它不改变 empty-values 的识别规则，也不改变 Form reset 的初始值。
+
+`empty-value` 可显式设为 `null`（或 `() => null`），清空时原样提交 null；省略时保留组件原默认值。界面把 null 显示为空，不会把普通输入的空字符串自动转成 null。支持弹出编辑的字段中，清空先修改草稿，确认后提交，取消则保留原值。
+
+候选属性 `options` 支持数组或 `(query, { signal }) => 数组/Promise`。加载、取消、过期结果隔离由组件内部处理，失败触发 load-error。单选/多选分组初始化以空字符串查询，搜索型字段在查询变化时调用；树形字段根数据与原有 load-more 子节点懒加载独立。
+
+input 与 textarea 都显示手动 loading 和当前显式 options 加载函数的等待。等待显示不会隐式禁用编辑；search 通知返回 Promise 不启动任务。旧数据请求不会清理新请求的指示器，load-error 保留原始错误。
+
+公共 focus/blur 从首次挂载即可调用。focus 会打开可编辑的延迟编辑器，等待其就绪后定位；禁用、只读或纯阅读时不因此打开。blur 只失焦当前目标，不重新打开。保存的方法不会绑定旧编辑器，关闭、切换模式、停用或卸载会取消排队调用。
+
+### 提及范围与分组选项
+
+prefix 支持单字符、多字符及字符串数组。选择时只替换光标前已匹配的前缀和查询文本，保留光标后内容；textarea 镜像使用实际命中的前缀。options 中的嵌套分组只展示标题，只有叶子选项可选；禁用叶子不提交。option 插槽接收规范化候选，数值 0 和空字符串也是有效身份，不跳过定制。
+
+### 候选反馈与实例边界
+
+显式 options 加载的等待统一显示在当前 Input/Textarea 字段，原生输入声明 aria-busy；手动 loading 与数据请求的等待合并，文本仍可编辑。没有可用候选时不打开提及菜单。失败结束当前等待并通知原始 load-error，业务决定错误展示；不会把异常字符串自动插进候选或文本。refresh 等待一次读取结束，失败通过 load-error 通知，不等待错误监听器的 Promise。
+
+disabled/readonly 会暂停数据请求，停用、卸载和过期响应不能继续更新；refresh 在关闭的编辑层也可读取数据而不自动打开。候选菜单仍属于内部输入，公开 open/default-open 只控制延迟字段编辑层。MentionProps、MentionEmits、MentionSlots、MentionExpose 在根入口和 mention 子入口一致导出；MeasureInfo 为内部测量状态。
+
+Mention 同时在 Cedar 和 Maple 提供。
+
+### 输入与候选关联
+
+input 使用 combobox，textarea 保留支持多行的 textbox；两者都以 aria-autocomplete、aria-controls 和 aria-activedescendant 关联实际 listbox 与活动候选。候选关闭或字段只读后撤下活动关联；方向键移动候选时原生输入保留 DOM 焦点。这里验证的是 DOM 关系和键盘行为，不代表已完成所有读屏软件和真机组合的认证。
+
+## CSS Variables
+
+<!-- component-css-variables:start -->
+
+通过以下变量定制组件外观。默认值随表中注明的主题或选择器条件变化；变量仅在对应的尺寸、变体和交互状态下生效。
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| 变量 | 默认值／条件 | 影响的样式 |
+| --- | --- | --- |
+| `--mp-mention-token-color` | `var(--mp-sys-color-content-brand)` | `color` |
+
+</div>
+
+将覆盖设置在组件实际根节点或弹层真实挂载祖先上。例如给该元素添加下列 class，再按需替换变量值：
+
+```css
+.component-theme {
+  --mp-mention-token-color: var(--mp-sys-color-content-brand);
+}
+```
+
+显式行内样式及直接写入同一 CSS 属性的 Props 优先于样式表默认值。Teleport 后，普通 CSS 变量按实际挂载位置继承；使用 ThemeProvider 时，请遵循其局部主题与弹层配置规则。局部定制请直接覆盖组件变量；仅修改后代的 system 变量不会重新计算从根继承的组件别名。内部变量不属于公共 API。
 
 <!-- component-css-variables:end -->
 
@@ -46771,7 +47990,9 @@ Document: llms/zh-CN/quickstart.md
 
 # 快速开始
 
-### 安装
+本页以已有的 Vue 3 + Vite 项目为起点，先通过显式导入运行一个按钮。自动按需引入等完整配置统一放在[按需引入](#/importOnDemand?language=zh-CN)。
+
+## 1. 安装
 
 ```shell
 # npm
@@ -46781,196 +48002,27 @@ npm i @maple-design/ui-vue @maple-design/icons-vue
 pnpm add @maple-design/ui-vue @maple-design/icons-vue
 ```
 
-### 自动按需引入（推荐）
+## 2. 使用第一个组件
 
-Maple 提供内部维护的 `@maple-design/resolver-vue`。配合 `unplugin-vue-components`，模板中使用到的组件、独立 SVG 图标及其样式会在编译时自动按需引入。
+在 `App.vue` 中导入按钮及其样式：
 
-```shell
-npm i @maple-design/resolver-vue unplugin-auto-import unplugin-vue-components -D
-```
-
-#### Vite
-
-```ts
-// vite.config.ts
-import { MapleResolver } from '@maple-design/resolver-vue'
-import vue from '@vitejs/plugin-vue'
-import AutoImport from 'unplugin-auto-import/vite'
-import Components from 'unplugin-vue-components/vite'
-import { defineConfig } from 'vite'
-
-export default defineConfig({
-  plugins: [
-    vue(),
-    AutoImport({
-      resolvers: [MapleResolver()],
-    }),
-    Components({
-      resolvers: [MapleResolver()],
-    }),
-  ],
-})
-```
-
-配置后可直接使用，无需在组件中手动导入：
-
-```html
-<template>
-  <mp-button status="primary">确认</mp-button>
-  <mp-icon size="40" color="red">
-    <m-icon-info-circle-fill />
-  </mp-icon>
-</template>
-```
-
-Resolver 会分别生成：
-
-```ts
-import { IconInfoCircleFill } from '@maple-design/icons-vue/icon-info-circle-fill'
-import { _ButtonComponent, _IconComponent } from '@maple-design/ui-vue'
+```vue
+<script setup lang="ts">
+import { Button } from '@maple-design/ui-vue'
 import '@maple-design/ui-vue/button/style'
-import '@maple-design/ui-vue/icon/style'
-```
-
-独立 SVG 图标通过 `currentColor` 继承容器颜色，因此图标子包不需要额外 CSS；`mp-icon` 容器自身需要加载 `@maple-design/ui-vue/icon/style`。
-
-#### 动态名称与显式注册
-
-`<mp-icon name="info-circle-fill" />` 只会查询显式注册到 Vue 应用的图标，不会在内部导入图标全集。建议只注册动态场景实际需要的图标：
-
-```ts
-// main.ts
-import { createApp } from 'vue'
-import { IconInfoCircleFill, IconWarning } from '@maple-design/icons-vue'
-import App from './App.vue'
-
-const app = createApp(App)
-app.component('IconInfoCircleFill', IconInfoCircleFill)
-app.component('IconWarning', IconWarning)
-app.mount('#app')
-```
-
-如果业务确定需要通过任意名称使用全部图标，也可以主动批量注册；这种写法会加载完整图标集合：
-
-```ts
-import * as MapleIconsVue from '@maple-design/icons-vue'
-
-for (const [name, component] of Object.entries(MapleIconsVue)) {
-  if (name.startsWith('Icon')) app.component(name, component)
-}
-```
-
-#### 直接使用 SVG 图标
-
-`@maple-design/icons-vue` 中的每个 SVG 图标都是独立的 Vue 组件，也可以不使用 `mp-icon` 容器直接渲染：
-
-```html
-<script setup lang="ts">
-  import { IconDelete, IconPlus, IconSearch, IconShareFill } from '@maple-design/icons-vue'
 </script>
 
 <template>
-  <!-- 直接使用 SVG 图标时不会自动提供业务布局属性 -->
-  <!-- 请根据使用场景设置宽高、间距等属性 -->
-  <IconPlus style="width: 1em; height: 1em; margin-right: 8px" />
-  <IconShareFill style="width: 1em; height: 1em; margin-right: 8px" />
-  <IconDelete style="width: 1em; height: 1em; margin-right: 8px" />
-  <IconSearch style="width: 1em; height: 1em; margin-right: 8px" />
+  <Button status="primary">确认</Button>
 </template>
 ```
 
-这里的“布局属性”是指 `width`、`height`、`margin` 等业务样式；图标组件自身仍支持 `size`、`color`、`rotate` 和 `spin`。直接使用同样支持 Tree Shaking。需要统一控制布局、尺寸、颜色、动画或交互区域时，推荐再使用 `mp-icon` 包裹。
+组件样式入口会带入所需的基础样式。启动项目已有的开发命令，即可看到按钮。
 
-#### 自动引入函数 API
+## 下一步
 
-上面的同一个 `MapleResolver()` 也会为 `unplugin-auto-import` 解析 `Message`、`Dialog`、`ImagePreview` 等函数 API：
-
-```ts
-Message.success('保存成功')
-```
-
-`importStyle` 会统一控制模板组件、Icon 容器和函数 API 的样式导入。只有明确不希望解析函数 API 时，才需要设置 `MapleResolver({ autoImport: false })`。
-
-#### 自动引入指令
-
-同一个 `MapleResolver()` 也支持 `v-ripple`、`v-lazy`、`v-hover` 和 `v-mp-loading`，无需额外 Resolver。加载指令使用 `mp-` 前缀，避免与其他组件库的同名指令冲突。可通过 `MapleResolver({ directives: false })` 关闭。
-
-### 手动按需引入
-
-不使用自动导入插件时，可手动导入组件和样式：
-
-```html
-<script setup lang="ts">
-  import { IconInfoCircleFill } from '@maple-design/icons-vue/icon-info-circle-fill'
-  import { Button } from '@maple-design/ui-vue'
-  import '@maple-design/ui-vue/button/style'
-</script>
-
-<template>
-  <button status="primary">确认</button>
-  <IconInfoCircleFill :size="24" />
-</template>
-```
-
-### 完整引入
-
-完整引入会注册全部 Maple 组件和指令，并加载全部样式，适合原型或对包体积不敏感的项目：
-
-```ts
-import { createApp } from 'vue'
-import Maple from '@maple-design/ui-vue'
-import '@maple-design/ui-vue/style'
-import App from './App.vue'
-
-createApp(App).use(Maple).mount('#app')
-```
-
-独立 SVG 图标不会随 UI 包全部注册；请继续显式导入，或使用 `MapleResolver()` 自动按需引入。
-
-### 全局设置组件默认值
-
-每个组件都提供 `setPropsDefaults`，用于统一修改之后创建的声明式组件默认值。请在应用挂载前调用：
-
-```ts
-import { Button, ThemeProvider } from '@maple-design/ui-vue'
-
-Button.setPropsDefaults({
-  status: 'primary',
-  variant: 'tonal',
-  size: 'lg',
-})
-
-// 其他组件使用相同方式
-ThemeProvider.setPropsDefaults({
-  tag: 'section',
-})
-```
-
-组件上显式传入的属性优先级更高。设置不会追溯更新已经挂载的实例；对象和数组默认值会按实例创建副本。
-
-### TypeScript 配置
-
-确保自动生成的声明文件被 TypeScript 包含：
-
-```json
-{
-  "include": ["src", "components.d.ts", "auto-imports.d.ts"]
-}
-```
-
-### 样式控制
-
-Resolver 默认自动引入组件样式。如项目已全量引入 `maple.css`，可关闭重复的按需样式：
-
-```ts
-MapleResolver({ importStyle: false })
-```
-
-## 全局 Context
-
-从 `@maple-design/ui-vue` 命名导入 `Context`，或从 `@maple-design/ui-vue/context` 默认导入同一响应式对象。对象包含 `zIndex`（默认 2000）和 `enableRipple`（默认 true）。调整 `zIndex` 影响之后分配的层级，不改变已经打开的层；关闭波纹只阻止创建新波纹，不禁用宿主交互。
-
-该对象是模块单例，同一模块实例的多个应用和服务端请求共享；不要在 SSR 请求中直接修改它来实现请求隔离。SSR 首次渲染层级使用 2000，挂载后才按当前配置分配；test 环境不递增层级，不同打包副本各自独立。它不是组件，没有 Props、事件、插槽或实例方法。
+- [按需引入](#/importOnDemand?language=zh-CN)：配置推荐的自动导入，或选择手动、完整引入。
+- [默认值与全局配置](#/defaultsCustomization?language=zh-CN)：统一组件默认值、浮层起始层级和波纹开关。
 
 ---
 

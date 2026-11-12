@@ -6,6 +6,8 @@
 
 Countdown RAF refreshes business time, not visual interpolation; CSS duration/reduced motion must not alter the clock. Pause and KeepAlive deactivation freeze remaining duration; activation resumes that value without charging inactive time. Inactive time updates/reset may update data and emit change but schedule no RAF; auto-start is deferred to activation, and explicit pause cancels pending resume. Direct inactive start is ignored; disposed start/reset emit and schedule nothing.
 
+Pause and deactivation synchronize the displayed and slot values with the frozen remaining time without emitting another `change`. If the deadline has passed before the next frame, pausing displays zero and resuming emits `end` once.
+
 Pausing or resetting cancels pending countdown updates. A newer start or reset takes precedence over an earlier update. end fires once per round; reset permits a new completion.
 
 ### Intro

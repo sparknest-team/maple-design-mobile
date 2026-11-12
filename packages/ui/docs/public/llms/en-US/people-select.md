@@ -43,6 +43,101 @@ Priority: actions slot → render-actions → built-in phone/chat buttons. Actio
 
 ## Basic examples
 
+### Single and multiple selection
+
+Single selection uses `string | null`. Set `multiple` for an ordered `string[]`; omitted `default-value` and clearing default to `[]` in multiple mode. `empty-value` may override clearing (including `null`). Each selected person retains its name across remote searches. Use `fallback-option(id)` for missing identities; `label` is a single-selection fallback.
+
+Example source: src/people-select/example/demos/en-US/multiple.vue
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue'
+import type { PeopleSelectOption, PeopleSelectOptionsLoader } from '@maple-design/ui-vue'
+
+const personId = ref<string | null>('alice')
+const personIds = ref<string[]>(['alice', 'bob'])
+const people: readonly PeopleSelectOption[] = [
+  { value: 'alice', label: 'Alice' },
+  { value: 'bob', label: 'Bob' },
+  { value: 'carol', label: 'Carol' },
+  { value: 'david', label: 'David', disabled: true },
+]
+const loadPeople: PeopleSelectOptionsLoader = async (query, { signal }) => {
+  await new Promise<void>((resolve) => setTimeout(resolve, 200))
+  if (signal.aborted) {
+    return []
+  }
+  return people.filter((person) => person.label.toLowerCase().includes(query.toLowerCase()))
+}
+</script>
+
+<template>
+  <mp-space direction="column">
+    <p>Single person</p>
+    <mp-people-select v-model="personId" :options="people" clearable :empty-value="null" />
+    <p>Multiple people (async search)</p>
+    <mp-people-select v-model="personIds" :options="loadPeople" multiple clearable />
+    <p role="status">IDs: {{ personIds.join(', ') || '—' }}</p>
+    <mp-people-select v-model="personIds" :options="people" multiple read-pretty />
+  </mp-space>
+</template>
+```
+
+## Async data
+
+### Load candidates through options
+
+Pass a typed loader to `:options="loadPeople"`. This example simulates a request without a backend; type Alice or Bob to search. Loading is managed by the component.
+
+Example source: src/people-select/example/demos/en-US/options-loader.vue
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue'
+import type { PeopleSelectOption, PeopleSelectOptionsLoader } from '@maple-design/ui-vue'
+
+const personId = ref<string | null>(null)
+const errorText = ref('')
+const people: readonly PeopleSelectOption[] = [
+  { value: 'alice', label: 'Alice', mobile: '13800000000' },
+  { value: 'bob', label: 'Bob', mobile: '13900000000' },
+  { value: 'carol', label: 'Carol', disabled: true },
+]
+
+// Simulate a request; pass signal to fetch in a real service.
+const loadPeople: PeopleSelectOptionsLoader = async (query, { signal }) => {
+  errorText.value = ''
+  await new Promise<void>((resolve) => setTimeout(resolve, 400))
+  if (signal.aborted) {
+    return []
+  }
+  return people.filter((person) => person.label.toLowerCase().includes(query.toLowerCase()))
+}
+
+function onLoadError(error: unknown) {
+  errorText.value = error instanceof Error ? error.message : String(error)
+}
+</script>
+
+<template>
+  <mp-space direction="column">
+    <mp-people-select
+      v-model="personId"
+      :options="loadPeople"
+      :search-delay="300"
+      placeholder="Alice / Bob"
+      clearable
+      :empty-value="null"
+      @load-error="onLoadError"
+    />
+    <p role="status">ID: {{ personId ?? '—' }}</p>
+    <p v-if="errorText" role="alert">{{ errorText }}</p>
+  </mp-space>
+</template>
+```
+
+## Business composition
+
 ### Complete example
 
 Example source: src/people-select/example/demos/en-US/injected-services.vue
@@ -125,8 +220,10 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| model-value / v-model | string / null | undefined | Controlled person identity; explicit null remains empty. |
-| default-value | string | '' | Uncontrolled initial identity, read only at creation. |
+| need-confirm | `boolean` | Single `false`; multiple `true` | Applies only to overlay editing. Single selection commits and closes on choice by default; true keeps a draft until confirmation. Multiple selection defaults to confirmation. Submission still runs form validation and before-commit; rejection keeps the editor open. |
+| multiple | boolean | false | Enable multiple person selection using a string[] model. |
+| model-value | PeopleSelectValue | `undefined` | A person ID in single mode or an ID array in multiple mode; explicit null remains empty. Supports `v-model`. |
+| default-value | string / string[] | '' / [] | Uncontrolled initial identity, read only at creation. |
 | options | readonly PeopleSelectOption[] / PeopleSelectOptionsLoader | undefined | Candidate array or (query, { signal }) loader; explicit arrays take precedence. |
 | fallback-option | PeopleSelectFallbackOption | true | Synchronous display fallback; may return a person object; false hides unmatched values. |
 | label | string | '' | Reactive display name when the candidate is absent. |
@@ -149,8 +246,8 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 | case-sensitive | boolean | false | Use case-sensitive built-in local search. |
 | search-fields | readonly OptionSearchField[]<br>`OptionSearchField: 'label' \| 'value'` | ['label'] | Candidate fields used by built-in local search; defaults to label. |
 | search-delay | number | 500 | Debounce delay in milliseconds for search notifications and requests. |
-| clearable | boolean | false | Allow clearing an editable field; deferred modes clear the draft and publish after confirmation. |
-| empty-value | string / null / function | '' | Published clear value; explicit null is retained; omission uses an empty string. |
+| clearable | boolean | false | Allow clearing an editable field; confirmation mode clears the draft and publishes after confirmation; immediate mode clears and commits directly. |
+| empty-value | string / string[] / null / function | '' / [] | Value emitted when clearing; defaults to '' in single mode and [] in multiple mode. Explicit null is preserved. |
 | empty-values | readonly unknown[] | undefined | Empty-value recognition, inherited through field, FormItem and Form. |
 | empty-text | string | undefined | Empty reading text; defaults to a dash after inheritance. |
 | loading | boolean | false | Manual waiting feedback for the editor field; pauses selection and clearing without covering person reading content. |
@@ -160,19 +257,51 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 | default-open | boolean | false | Initial uncontrolled open state of the deferred editor. |
 | popup-container | PopupContainer | undefined | Editor popup mount target: selector, HTMLElement or false. |
 
+### PeopleSelectValue / PeopleSelectOptionsLoader types
+
+```ts
+import type { AsyncDataContext } from '@maple-design/use-vue'
+
+// The UI package exports these types; do not redefine them in business code.
+interface PeopleSelectOption {
+  value: string
+  label: string
+  avatar?: string
+  mobile?: string
+  disabled?: boolean
+}
+
+type PeopleSelectValue = string | string[] | null
+
+type PeopleSelectOptionsLoader = (
+  query: string,
+  context: AsyncDataContext, // { signal: AbortSignal }
+) => readonly PeopleSelectOption[] | Promise<readonly PeopleSelectOption[]>
+```
+
+- `query` is the search text. Initial mounting, replacing the loader and `refresh()` use an empty string `''`; search is debounced by `search-delay`, which defaults to 500 milliseconds.
+- Return an array synchronously or a Promise of an array. Map service fields to `value` (person ID) and `label` (name), and return `[]` when nothing matches. Do not pass a Promise directly to `options`.
+- Forward `context.signal` to the request library. A new request, loader replacement or unmount cancels the previous task. Even if cancellation is ignored by the request, stale results cannot overwrite current results.
+- The component manages loading automatically. A current request failure emits `load-error(error, 'options')`. Loader results are not filtered locally by default; there is no need to send a duplicate request through `@search`.
+- `is-label` / `read-pretty` does not invoke the loader. Use `label`, `fallback-option` or an array for read-mode display. A local array, including `[]`, overrides a global default loader.
+
+Import `PeopleSelectOption` and `PeopleSelectOptionsLoader` from the UI package root or the `people-select` entry; import `AsyncDataContext` from the use package.
+
 ### PeopleSelect Events
 
 | Event | Arguments | Description |
 | --- | --- | --- |
-| update:model-value | value: string / null | Publish the person identity without collecting listener return values. |
-| change | value: string / null | Person value change notification. |
+| update:model-value | value: PeopleSelectValue | Publish the person identity without collecting listener return values. |
+| change | value: PeopleSelectValue | Person value change notification. |
 | update:open / open-change | open: boolean | Deferred editor open-state notifications. |
-| clear | — | Clear action notification; deferred modes still require draft confirmation. |
+| clear | — | Clear action notification; confirmation mode updates the draft; immediate mode commits directly. |
 | search | query: string | Search notification; options explicitly supplies the loader. |
 | load-error | error: unknown, source: 'options' | Current candidate read failure notification. |
 | action-error | error: unknown, action: 'call' / 'chat' | Explicit phone or chat task failure notification; error listeners are not awaited. |
 
 ### PeopleSelect Slots
+
+In multiple mode, the `read` slot also receives `people` in model order; `person` is the first person. Default read content displays all selected people. `actions` / `render-actions` and phone/chat operations apply to each person individually.
 
 | Slot | Prop | Description |
 | --- | --- | --- |
@@ -200,7 +329,7 @@ Optionally pass signal to fetch to cancel stale requests. It is not an HTTP para
 
 Public types include PeopleSelectReadScope, PeopleSelectSlots, PeopleSelectEmits and existing data, task and instance types, available from the root and people-select entry points.
 
-`empty-value` accepts explicit `null` (or `() => null`). Clearing publishes `null` unchanged; omitted values preserve the existing default. Editors render `null` as blank without converting ordinary empty-string input to `null`. In popup editing, clearing changes the draft; confirm commits it and cancel preserves the original model.
+`empty-value` accepts explicit `null` (or `() => null`). Clearing publishes `null` unchanged; omission preserves the existing default. The UI displays null as blank without converting ordinary empty-string input to null. In confirmation mode, clearing changes the draft and confirm commits it; without confirmation, clearing commits directly.
 
 `fallback-option` is independent of options, returns no Promise and sends no requests. Display prefers a current option, then fallback; false disables display of unmatched values.
 

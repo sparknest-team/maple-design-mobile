@@ -428,9 +428,13 @@ const text = ref('加载时仍可编辑')
 | `line` | `boolean` | `true`，是否显示边框或底线 |
 | `focused` | `boolean` | 消费者传入焦点状态 |
 | `composing` | `boolean` | 输入法组合期间保持标签浮起 |
-| `disabled` / `readonly` / `error` | `boolean` | 消费者合并 Form / Group 后传入 |
+| `disabled` | `boolean` | 消费者合并 Form / Group 后传入的禁用状态 |
+| `readonly` | `boolean` | 消费者合并 Form / Group 后传入的只读状态 |
+| `error` | `boolean` | 消费者合并 Form / Group 后传入的错误状态 |
 | `clearable` | `boolean` | `false`，是否允许清除 |
-| `text-color` / `focus-color` / `blur-color` | `string` | 自定义文字、焦点和非焦点颜色 |
+| `text-color` | `string` | 逐实例自定义文字颜色；静态主题优先使用 token |
+| `focus-color` | `string` | 逐实例自定义聚焦颜色；静态主题优先使用 token |
+| `blur-color` | `string` | 逐实例自定义未聚焦颜色；静态主题优先使用 token |
 | `cursor` | `string` | 自定义光标 |
 
 ### FieldDecorator Slots / Events

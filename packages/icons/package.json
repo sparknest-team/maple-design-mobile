@@ -7,6 +7,11 @@
   "main": "./lib/index.cjs",
   "module": "./es/index.mjs",
   "types": "./types/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "icon-*": ["types/icon-*/index.d.ts"]
+    }
+  },
   "sideEffects": [
     "./style.css"
   ],

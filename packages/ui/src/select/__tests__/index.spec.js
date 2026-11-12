@@ -1,4 +1,4 @@
-import { createApp, h, nextTick } from 'vue'
+import { createApp, h, nextTick, reactive } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test, vi } from 'vitest'
 import Select, { Option } from '..'
@@ -31,6 +31,23 @@ const controller = (wrapper) => wrapper.findComponent(SelectMenu).props('control
 const choose = (wrapper, value) => controller(wrapper).handleSelect(getKeyFromValue(value), new Event('click'))
 
 describe('Select public contract', () => {
+  test('reactive fallback overrides the cached label after the option disappears', async () => {
+    const labels = reactive({ name: 'Fallback' })
+    const wrapper = mountSelect({
+      options: [{ value: 'a', label: 'Option' }],
+      fallbackOption: (value) => ({ value, label: labels.name }),
+    })
+    await settle()
+    choose(wrapper, 'a')
+    await settle()
+    await wrapper.setProps({ options: [] })
+    await settle()
+    expect(wrapper.text()).toContain('Fallback')
+    labels.name = 'Updated'
+    await settle()
+    expect(wrapper.text()).toContain('Updated')
+    expect(wrapper.emitted('update:modelValue')).toEqual([['a']])
+  })
   test('keeps slot options registered in virtual mode', async () => {
     const wrapper = mountSelect(
       { options: [], virtualListProps: { height: 160 } },

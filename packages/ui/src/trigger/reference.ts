@@ -111,7 +111,7 @@ export function useTriggerReferenceAttrs(
         const original = nextElement.getAttribute(name)
         originals.set(name, original)
         if (name === 'aria-describedby') {
-          const ids = `${original ?? ''} ${String(value)}`.trim().split(/\s+/).filter(Boolean)
+          const ids = `${original ?? ''} ${String(value)}`.split(/[ \t\n\f\r]+/).filter(Boolean)
           nextElement.setAttribute(name, [...new Set(ids)].join(' '))
         } else {
           nextElement.setAttribute(name, String(value))

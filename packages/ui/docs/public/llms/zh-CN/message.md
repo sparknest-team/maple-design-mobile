@@ -424,7 +424,7 @@ close/closed 通知回调抛错不会保留已关闭项目或空管理器宿主�
 
 | 参数                    | 说明                               | 类型                                                         | 默认值          |
 | ----------------------- | ---------------------------------- | ------------------------------------------------------------ | --------------- |
-| `open` / `v-model:open` | 是否显示（组件）                   | `boolean`                                                    | `false`         |
+| `open` | 是否显示（组件） 支持 `v-model:open`。 | `boolean` | `false` |
 | `id`                    | 队列内唯一标识                     | `string \| number`                                           | 自动生成        |
 | `status`                | 语义状态                           | `default \| info \| success \| warning \| danger \| loading` | `default`       |
 | variant | 视觉强调层级 | `neutral \| tonal \| solid` | `neutral` |

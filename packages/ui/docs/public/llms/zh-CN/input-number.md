@@ -625,8 +625,10 @@ const variants = ['outline', 'filled', 'standard'] as const
 | Prop                                      | Type      | Default |
 | ----------------------------------------- | --------- | ------- |
 | `disable-input`                           | `boolean` | `false` |
-| `disable-increment` / `disable-decrement` | `boolean` | `false` |
-| `increment-button` / `decrement-button`   | `boolean` | `true`  |
+| `disable-increment` | `boolean` | `false` |
+| `disable-decrement` | `boolean` | `false` |
+| `increment-button` | `boolean` | `true` |
+| `decrement-button` | `boolean` | `true` |
 | `press`                                   | `boolean` | `true`  |
 
 Example source: src/input-number/example/demos/quantity-controls.vue

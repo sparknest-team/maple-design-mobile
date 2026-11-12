@@ -337,7 +337,9 @@ In deferred mode input / paste describe editing, while finish describes the fina
 | `type` | Character set | `digit / text / alphanumeric` | `digit` |
 | `size` | Five wrapper sizes | `xs / sm / md / lg / xl` | Inherited / md |
 | `variant` | Input variant | `filled / outline / standard` | Inherited / outline |
-| `disabled / readonly / error` | State; explicit values override Form | `boolean` | `undefined` |
+| `disabled` | Disabled state; explicit values override inherited Form / Group state | `boolean` | `undefined` |
+| `readonly` | Read-only state; explicit values override inherited Form / Group state | `boolean` | `undefined` |
+| `error` | Error state; explicit values override inherited Form / Group state | `boolean` | `undefined` |
 | `masked` | Visual character masking only, not encryption | `boolean` | `false` |
 | `mask-symbol` | Use the first Unicode code point | `string` | `•` |
 | `autofocus` | Focus the first empty cell after mounting | `boolean` | `false` |
@@ -348,7 +350,9 @@ In deferred mode input / paste describe editing, while finish describes the fina
 | `formatter` | Per-character formatting: false rejects; true/undefined retains. A returned string contributes its first valid code point | `(character, index, value) => string / boolean` | `undefined` |
 | `separator` | Separator after each nonfinal cell | `(index, character) => VNodeChild` | `undefined` |
 | `aria-label` | Group name and numbered cell labels | `string` | `undefined` |
-| `text-color / focus-color / blur-color` | Dynamic instance colors; prefer tokens for static themes | `string` | `undefined` |
+| `text-color` | Custom per-instance text color; prefer tokens for static themes | `string` | `undefined` |
+| `focus-color` | Custom per-instance focused color; prefer tokens for static themes | `string` | `undefined` |
+| `blur-color` | Custom per-instance unfocused color; prefer tokens for static themes | `string` | `undefined` |
 
 | `empty-value` | Presentation clear output; defaults to an empty string and accepts explicit null | `string \| null \| (() => string \| null)` | `''` |
 | `clearable` | Deferred editor clearing; does not change individual input cells | `boolean` | `false` |
@@ -398,7 +402,7 @@ Public methods remain callable from initial component mount. Stored methods reso
 
 Left/Right move cells. Backspace removes the current character, or the previous one when empty. Delete removes the current character; following characters shift forward. IME composition does not trim/delete/move focus. Each native input has an SSR-stable id, and all cells use autocomplete=off. Provide aria-label.
 
-Caller-provided `aria-invalid` is forwarded to every input. A component or form error marks the inputs invalid, and clearing the error restores the caller value. The group preserves explicitly provided attributes without adding an automatic invalid state.
+A supplied `aria-invalid` is forwarded to each input. Component or form errors take precedence and mark inputs invalid; when errors clear, the supplied value is restored. The group retains explicit caller attributes and does not add an error state automatically.
 
 InputGroup/Form state is inherited, with explicit disabled/readonly/error/size taking precedence. Internal cell Inputs do not duplicate Form notifications; the complete control notifies input/change once per edit. Both platforms implement three variants/five sizes using local FieldDecorator tokens.
 

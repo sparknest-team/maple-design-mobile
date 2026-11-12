@@ -35,7 +35,7 @@ Documentation language: en-US.
 - [Countdown](./llms/en-US/countdown.md): /en-US/countdown
 - [DateRange](./llms/en-US/date-range.md): /en-US/date-range
 - [Date](./llms/en-US/date.md): /en-US/date
-- [Defaults Customization](./llms/en-US/defaultsCustomization.md): /en-US/defaultsCustomization
+- [Defaults and global configuration](./llms/en-US/defaultsCustomization.md): /en-US/defaultsCustomization
 - [Design Resources](./llms/en-US/designResources.md): /en-US/designResources
 - [Maple Component CSS Variable Reference](./llms/en-US/designTokenReference.md): /en-US/designTokenReference
 - [Design Tokens and CSS Variable Layers](./llms/en-US/designTokens.md): /en-US/designTokens
@@ -57,10 +57,11 @@ Documentation language: en-US.
 - [Hover](./llms/en-US/hover.md): /en-US/hover
 - [Icon](./llms/en-US/icon.md): /en-US/icon
 - [Image](./llms/en-US/image.md): /en-US/image
-- [Import On Demand](./llms/en-US/importOnDemand.md): /en-US/importOnDemand
+- [Import on demand](./llms/en-US/importOnDemand.md): /en-US/importOnDemand
 - [IndexBar](./llms/en-US/index-bar.md): /en-US/index-bar
 - [InfiniteScroll](./llms/en-US/infinite-scroll.md): /en-US/infinite-scroll
 - [InputNumber](./llms/en-US/input-number.md): /en-US/input-number
+- [InputTag](./llms/en-US/input-tag.md): /en-US/input-tag
 - [Input](./llms/en-US/input.md): /en-US/input
 - [Lazy](./llms/en-US/lazy.md): /en-US/lazy
 - [Link](./llms/en-US/link.md): /en-US/link
@@ -70,6 +71,7 @@ Documentation language: en-US.
 - [Loading](./llms/en-US/loading.md): /en-US/loading
 - [LocaleProvider](./llms/en-US/locale-provider.md): /en-US/locale-provider
 - [Locale](./llms/en-US/locale.md): /en-US/locale
+- [Mention](./llms/en-US/mention.md): /en-US/mention
 - [Menu](./llms/en-US/menu.md): /en-US/menu
 - [Message](./llms/en-US/message.md): /en-US/message
 - [NavMenu](./llms/en-US/nav-menu.md): /en-US/nav-menu
@@ -93,7 +95,7 @@ Documentation language: en-US.
 - [ProgressGroup](./llms/en-US/progress-group.md): /en-US/progress-group
 - [Progress](./llms/en-US/progress.md): /en-US/progress
 - [PullRefresh](./llms/en-US/pull-refresh.md): /en-US/pull-refresh
-- [Quick Start](./llms/en-US/quickstart.md): /en-US/quickstart
+- [Quick start](./llms/en-US/quickstart.md): /en-US/quickstart
 - [Radio](./llms/en-US/radio.md): /en-US/radio
 - [Rate](./llms/en-US/rate.md): /en-US/rate
 - [Result](./llms/en-US/result.md): /en-US/result

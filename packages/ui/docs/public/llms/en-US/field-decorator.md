@@ -417,9 +417,13 @@ The floating hint leaves a gap in the outline, aligned with the content column. 
 | `line` | `boolean` | `true`; whether to show a border or underline |
 | `focused` | `boolean` | Consumer-supplied focus state |
 | `composing` | `boolean` | Keep the label floated during IME composition |
-| `disabled` / `readonly` / `error` | `boolean` | Provided by the consumer after merging Form / Group state |
+| `disabled` | `boolean` | Consumer-supplied disabled state after merging Form / Group state |
+| `readonly` | `boolean` | Consumer-supplied read-only state after merging Form / Group state |
+| `error` | `boolean` | Consumer-supplied error state after merging Form / Group state |
 | `clearable` | `boolean` | `false`; whether clearing is allowed |
-| `text-color` / `focus-color` / `blur-color` | `string` | Custom text, focused and unfocused colors |
+| `text-color` | `string` | Custom per-instance text color; prefer tokens for static themes |
+| `focus-color` | `string` | Custom per-instance focused color; prefer tokens for static themes |
+| `blur-color` | `string` | Custom per-instance unfocused color; prefer tokens for static themes |
 | `cursor` | `string` | Custom caret |
 
 ### FieldDecorator Slots / Events

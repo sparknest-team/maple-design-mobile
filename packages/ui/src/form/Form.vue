@@ -6,14 +6,28 @@
 
 <script lang="ts">
 import type { SlotsType } from 'vue'
-import { computed, defineComponent, onActivated, onBeforeUnmount, onDeactivated, onMounted, ref, watch } from 'vue'
+import {
+  computed,
+  defineComponent,
+  onActivated,
+  onBeforeUnmount,
+  onDeactivated,
+  onMounted,
+  provide,
+  ref,
+  watch,
+} from 'vue'
 import { getScrollLeft, getScrollTop, preventDefault } from '@maple-design/shared-vue'
 import { provideFormPresentation } from '../_components/field-presentation/context'
 import { createNamespace } from '../utils/components'
 import { getParentScroller, getTop, toPxNum } from '../utils/elements'
 import { provideEmptyValues } from '../utils/empty-value'
 import { linear } from '../utils/shared'
+import { provideFormErrorDescriptionBoundary } from './error-description'
 import { createFormController, type FormFieldController } from './form-controller'
+import { FORM_ITEM_BIND_CONTROL_KEY } from './item-provide'
+import { isolateFormItemLabel } from './label-context'
+import { nestedFeedbackKey } from './nested-feedback'
 import { props, type FormScrollToError } from './props'
 import { provideForm, type FormProvider } from './provide'
 import { waitForFormDetails } from './scroll-completion'
@@ -34,6 +48,10 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     provideEmptyValues(props)
+    provideFormErrorDescriptionBoundary()
+    isolateFormItemLabel()
+    provide(FORM_ITEM_BIND_CONTROL_KEY, null)
+    provide(nestedFeedbackKey, new Map())
     const presentationState = provideFormPresentation(
       () => props.editMode,
       () => props.readPretty,

@@ -1,3 +1,5 @@
+import { isEditable } from '../_utils/is-editable'
+
 /** Native labels do not activate ARIA sliders, which are not labelable elements. */
 export function focusExplicitSlider(event: MouseEvent) {
   if (event.defaultPrevented || event.button !== 0) {
@@ -11,9 +13,16 @@ export function focusExplicitSlider(event: MouseEvent) {
   const interactive =
     origin?.nodeType === 1
       ? origin.closest(
-          'a[href],button,input,select,textarea,[contenteditable]:not([contenteditable="false"]),[role="button"],[role="link"],[role="checkbox"],[role="radio"],[role="switch"],[role="textbox"],[role="combobox"],[role="slider"]',
+          'a[href],button,input,select,textarea,[role="button"],[role="link"],[role="checkbox"],[role="radio"],[role="switch"],[role="textbox"],[role="combobox"],[role="slider"]',
         )
       : null
+  let editable = origin?.nodeType === 1 ? origin : null
+  while (editable && editable !== label) {
+    if (editable.hasAttribute('contenteditable') && isEditable(editable as HTMLElement)) {
+      return
+    }
+    editable = editable.parentElement
+  }
   if (interactive && interactive !== label && label.contains(interactive)) {
     return
   }

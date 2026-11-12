@@ -62,11 +62,11 @@ export default defineConfig({
 ```vue
 <template>
   <mp-button>确认</mp-button>
-  <mp-icon-info-circle-fill :size="32" />
+  <m-icon-info-circle-fill :size="32" />
 </template>
 ```
 
-`MpButton` 从 `@maple-design/ui-vue` 引入，`MpIconInfoCircleFill` 从 `@maple-design/icons-vue` 引入；`MpIcon` 本身仍是支持动态名称和切换动画的包装组件。
+`MpButton` 从 `@maple-design/ui-vue` 引入，`MIconInfoCircleFill` 从 `@maple-design/icons-vue` 引入；`MpIcon` 本身仍是支持动态名称和切换动画的包装组件。
 
 #### Vue CLI
 ```js
@@ -90,9 +90,9 @@ module.exports = {
 }
 ```
 
-#### Typescript 配置注意
+#### TypeScript 配置注意
 
-为了得到良好的 IDE 语法高亮，请确保上述两个插件生成的类型声明文件被 `typescript` 识别，可在 `tsconfig.json` 中进行如下配置:
+为了获得 IDE 类型提示，请确保 TypeScript 包含上述两个插件生成的 `auto-imports.d.ts` 和 `components.d.ts`：
 
 ```json
 // playground-ignore
@@ -100,6 +100,8 @@ module.exports = {
   "include": ["auto-imports.d.ts", "components.d.ts"]
 }
 ```
+
+将这两个声明文件合并到项目现有的 `include` 中，保留已有条目。这些文件由插件根据项目实际使用的 API 和组件生成；图标包已提供子路径类型兼容映射，无需额外配置 `paths`。
 
 ### 手动引入
 

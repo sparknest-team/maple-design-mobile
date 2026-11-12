@@ -322,7 +322,9 @@ export function useSelectController(
       let optionInfo = getFallBackOption(obj.value)
       const extraOptionRawInfo = _selectedOption.value?.[obj.key]
       if (!isUndefined(extraOptionRawInfo) && !isEmptyObject(extraOptionRawInfo)) {
-        optionInfo = { ...optionInfo, ...extraOptionRawInfo }
+        optionInfo = isFunction(props.fallbackOption)
+          ? { ...extraOptionRawInfo, ...optionInfo }
+          : { ...optionInfo, ...extraOptionRawInfo }
       }
       return optionInfo
     }),

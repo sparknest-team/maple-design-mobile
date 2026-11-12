@@ -242,7 +242,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 
 | Variable | Default / condition | Affected styles |
 | --- | --- | --- |
-| `--mp-ellipsis-focus-color` | `var(--mp-sys-color-content-brand)` | `outline` |
+| `--mp-ellipsis-focus-color` | `var(--mp-sys-color-action-primary)` | `outline` |
 | `--mp-ellipsis-focus-offset` | `2px` | `outline-offset` |
 | `--mp-ellipsis-focus-width` | `2px` | `outline` |
 
@@ -252,7 +252,7 @@ Apply overrides to the rendered component root or the actual popup ancestor. For
 
 ```css
 .component-theme {
-  --mp-ellipsis-focus-color: var(--mp-sys-color-content-brand);
+  --mp-ellipsis-focus-color: var(--mp-sys-color-action-primary);
 }
 ```
 

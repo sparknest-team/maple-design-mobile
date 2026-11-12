@@ -756,7 +756,7 @@ Maple 使用 edit-mode="popup" 点击值区域打开编辑面板；direct 直接
 | error | boolean | undefined | 错误外观，省略时继承表单。 |
 | marks | Record<number, string> | undefined | 范围内位置的文字标记。 |
 | show-ticks | boolean | false | 显示步长刻度，最多 1000 个。 |
-| show-input | boolean | false | 显示附带 InputNumber；范围模式显示两个。 |
+| show-input | boolean | false | 显示附带 InputNumber；范围模式显示两个。滑块的 aria-describedby 也用于数字输入，并与表单错误说明合并。 |
 | show-tooltip | boolean / 'always' | true | true 在悬浮、聚焦、拖动时显示；false 隐藏；always 常驻。 |
 | format-tooltip | SliderTooltipFormatter | undefined | 格式化提示及 aria-valuetext，不改变模型。 |
 | aria-label | string / [string, string] | undefined | 单拇指名称或范围两个拇指的名称。 |
@@ -777,6 +777,8 @@ Maple 使用 edit-mode="popup" 点击值区域打开编辑面板；direct 直接
 | empty-value | SliderProps['emptyValue'] | undefined | 清空提交覆盖值，可显式返回 null。 |
 | empty-values | readonly unknown[] | undefined | 空值识别策略，按字段、FormItem、Form 继承。 |
 | empty-text | string | undefined | 默认纯阅读空文案，继承后缺省为短横线。 |
+
+范围模式可通过 `aria-labelledby` 指向范围组名称；`aria-label` 的数组仍分别命名两个滑块。显式设置的 `role` 优先。
 
 ### 行为与键盘
 
@@ -811,7 +813,7 @@ button 插槽接收 { currentValue, index }；自定义内容保留键盘、ARIA
 
 | 变量 | 默认值／条件 | 影响的样式 |
 | --- | --- | --- |
-| `--mp-slider-active-color` | `var(--mp-sys-color-content-brand)` | `background`, `outline` |
+| `--mp-slider-active-color` | `var(--mp-sys-color-action-primary)` | `background`, `outline` |
 | `--mp-slider-control-height` | `var(--mp-sys-control-height-md)` | `height`, `min-height`, `padding-bottom`, `padding-inline-end`, `width` |
 | `--mp-slider-disabled-color` | `var(--mp-sys-color-content-disabled)` | `background`, `border-color` |
 | `--mp-slider-error-color` | `var(--mp-sys-color-content-danger)` | `background`, `border-color` |
@@ -820,7 +822,7 @@ button 插槽接收 { currentValue, index }；自定义内容保留键盘、ARIA
 | `--mp-slider-input-width` | `80px` | `width` |
 | `--mp-slider-radius` | `var(--mp-sys-radius-md)` | `border-radius` |
 | `--mp-slider-text-color` | `var(--mp-sys-color-content-secondary)` | `color` |
-| `--mp-slider-thumb-border-color` | `var(--mp-sys-color-content-brand)` | `border` |
+| `--mp-slider-thumb-border-color` | `var(--mp-sys-color-action-primary)` | `border` |
 | `--mp-slider-thumb-color` | `var(--mp-sys-color-surface-default)` | `background` |
 | `--mp-slider-thumb-size` | `16px` | `height`, `width` |
 | `--mp-slider-tooltip-background` | `var(--mp-sys-color-surface-tooltip)` | `background` |
@@ -835,7 +837,7 @@ button 插槽接收 { currentValue, index }；自定义内容保留键盘、ARIA
 
 ```css
 .component-theme {
-  --mp-slider-active-color: var(--mp-sys-color-content-brand);
+  --mp-slider-active-color: var(--mp-sys-color-action-primary);
 }
 ```
 

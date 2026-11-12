@@ -626,7 +626,7 @@ export function useCascaderController(
         })
       } else if (props.fallbackOption) {
         const label = isFunction(props.fallbackOption)
-          ? props.fallbackOption(value)
+          ? props.fallbackOption(value).label
           : isArray(value)
             ? value.join(' / ')
             : String(value)

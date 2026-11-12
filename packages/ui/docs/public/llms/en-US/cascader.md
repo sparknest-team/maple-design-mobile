@@ -6,13 +6,15 @@ In multiple mode, the inline dropdown contains options only; the field owns sele
 
 When cascading multiple selections, toggling a parent affects only selectable descendants; already selected disabled descendants are retained.
 
+Clicking a checkbox only toggles selection; clicking the option label or expansion arrow opens the next level. Multiple selection uses the Checkbox component. In cascading mode, a parent displays the indeterminate state when some selectable descendants are selected.
+
 ## Reading direction
 
 Inherits source dir. Child columns, expansion icons and separators follow reading direction. Horizontal keys enter loaded children or return to the parent in the visible direction, skipping disabled children; vertical keys retain logical order. Search preserves native horizontal caret editing. Path and multiple-value arrays are not reversed. Clearing the last value while closed resets navigation before reopening.
 
 `empty-value` / `emptyValue` sets the model value produced by clearing. It accepts a value in the component model type or a zero-argument factory. Omission preserves the existing default; use `() => undefined` to distinguish omission from returning undefined. Arrays are shallow-copied on every clear; selected items that cannot be cleared remain. It does not redefine emptiness, alter Form reset defaults or treat 0/false as universally empty.
 
-`empty-value` accepts explicit `null` (or `() => null`). Clearing publishes `null` unchanged; omitted values preserve the existing default. Editors render `null` as blank without converting ordinary empty-string input to `null`. In popup editing, clearing changes the draft; confirm commits it and cancel preserves the original model.
+`empty-value` accepts explicit `null` (or `() => null`). Clearing publishes `null` unchanged; omitted values preserve the existing default. Editors render `null` as blank without converting ordinary empty-string input to `null`. In confirmation mode, clearing changes the draft; confirm commits it and cancel preserves the original model. Without confirmation, clearing commits directly.
 
 The `options` prop accepts an array or `(query, { signal }) => array/Promise`. The component manages loading, cancellation and stale-result isolation; failures emit load-error. Single/multiple groups initialize with an empty-string query, searchable fields reload when the query changes, and root loading for tree fields remains independent of existing load-more child loading.
 
@@ -1256,7 +1258,7 @@ async function load() {
 
 Cascading selection via dropdown menu or bottom popup picker.
 
-Single selection uses the built-in check icon on the right. Multiple selection uses Checkbox controls: no checked descendants is unchecked, some is indeterminate, and all selectable leaf descendants is checked. Disabled leaves are excluded from select-all. With checkStrictly, parent and child selections are independent. Panel selections remain drafts until confirmation.
+Single selection uses the built-in check icon on the right. Multiple selection uses Checkbox controls: no checked descendants is unchecked, some is indeterminate, and all selectable leaf descendants is checked. Disabled leaves are excluded from select-all. With checkStrictly, parent and child selections are independent. Selections in confirmation editors remain drafts until confirmation.
 
 ### Shared field loading
 
@@ -1276,7 +1278,7 @@ Replacing options (including nested mutations), field names, or the loader inval
 Use `edit-mode` to choose direct editing or a mobile editor panel.
 
 ### Editing and confirmation
-This component supports `edit-mode` with field > FormItem > Form precedence. When unset, it defaults to `popup` and opens an editor when the value area is clicked. Supported values: `direct / popup`. Non-direct modes open the editor through the field value trigger and keep one draft; v-model updates only after confirmation. Cancel, reset or enabling readPretty discards the draft.
+This component supports `edit-mode` with field > FormItem > Form precedence. When unset, it defaults to `popup` and opens an editor when the value area is clicked. Supported values: `direct / popup`. Non-direct modes open an editor through the field value trigger. Single selection commits on choice by default; need-confirm enables a draft and confirmation. Multiple selection defaults to confirmation. Cancel, reset or enabling readPretty discards an uncommitted draft.
 
 Maple uses edit-mode="popup" to open the editor when the value area is clicked; direct edits immediately. readPretty is a reading-only setting, independent of readonly and disabled.
 
@@ -1304,9 +1306,9 @@ Public types include CascaderBaseValue, CascaderOptionInfo, CascaderReadScope, C
 
 ## API
 
-A panel branch’s `aria-expanded` indicates whether its child column is actually visible; focus or hover does not mark it expanded before that column opens. Leaf options have no `aria-expanded`. In hierarchical single-select menus, selectable leaves and selectable strict-mode branches use `menuitemradio` with `aria-checked`; expansion-only branches remain `menuitem`, and multiple selection continues to use checkboxes. Hierarchical single-select panels provide one Tab entry across their menu items; arrow keys navigate options and columns, while Tab or Shift+Tab leaves the menu. With virtual scrolling the entry stays among rendered options; interactive controls in custom option slots manage their own focus. Search results do not advertise submenus that are not displayed. Direct single-select search uses a `listbox` with `option` elements, and the input references the popup and active option. Editor single-select search uses `menuitemradio` with `aria-checked` and one Tab stop; hovering another option does not move that entry while an option has focus. Multiple-select search retains its checkboxes. In direct single-select search, the popup icon is excluded from the Tab sequence; click the icon or press Arrow Down in the input to open it.
+A panel branch's `aria-expanded` reflects whether its child column is actually displayed; focus or hover alone does not mark it expanded. Leaves have no `aria-expanded`. Selectable leaves and selectable strict-mode branches in a single-select hierarchical menu use `menuitemradio` and `aria-checked`; expansion-only branches remain `menuitem`, and multiple selection retains checkboxes. Single-select hierarchical panels have one Tab entry; arrow keys move between columns and options, while Tab or Shift+Tab leaves the menu. With virtualization, the entry remains among rendered options; custom interactive controls in option slots manage their own focus. Search results do not declare hidden submenus. Direct single-select search uses `listbox` and `option`, with the input referencing the popup and active item; editor single-select search uses `menuitemradio` and `aria-checked`, with one Tab entry. Hovering another option does not move that entry while an option owns focus. Multiple-select search retains checkboxes. In direct single-select search, the popup icon adds no Tab stop; click it or press ArrowDown in the input to open.
 
-In a virtual column, appending or removing other options at the end preserves the nodes and focus of options that remain rendered; switching parent does not reuse the previous column’s scroll position. Options may unmount when removed or scrolled out of the virtual window, so keep persistent slot input state in application data.
+When options are added or removed at the end of a virtual column, options still within the rendered range retain their nodes and focus. Switching parents does not reuse the previous column's scroll position. Options can unmount when removed or outside the virtual window; business code should retain any long-lived input state used by slots.
 
 ### Empty values and reading placeholders
 
@@ -1325,17 +1327,26 @@ Use `v-model`, `v-model:open` and `v-model:input-value` for controlled state. Cl
 
 | Prop | Description | Type | Default |
 | --------------------------------------- | ---------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------ |
-| `model-value / default-value` | Controlled value / uncontrolled initial value | `CascaderBaseValue` | `Single: ''; multiple: []` |
-| `open / default-open` | Controlled / initial open state | `boolean` | `undefined / false` |
+| need-confirm | Applies only to overlay editing. Single selection commits and closes on choice by default; true keeps a draft until confirmation. Multiple selection defaults to confirmation. Submission still runs form validation and before-commit; rejection keeps the editor open. | `boolean` | Single `false`; multiple `true` |
+| `model-value` | Controlled selected value; supports v-model | `CascaderBaseValue` | `undefined` |
+| `default-value` | Initial uncontrolled selection; read once | `CascaderBaseValue` | Single: `undefined` with path-mode, otherwise `''`; multiple: `[]` |
+| `open` | Controlled open state; supports v-model:open | `boolean` | `undefined` |
+| `default-open` | Initial uncontrolled open state; read only at initialization | `boolean` | `false` |
 | `open-trigger-target` | Pointer opening area: field includes the whole field; icon uses only the suffix trigger. Clear/remove actions are excluded; explicit keyboard opening and controlled open remain available. | `'field' \| 'icon'` | `'field'` |
-| `input-value / default-input-value` | Search text, independent of selected values | `string` | `undefined / ''` |
+| `input-value` | Controlled search text, independent of selection; supports v-model:input-value | `string` | `undefined` |
+| `default-input-value` | Initial uncontrolled search text, independent of selection; read only at initialization | `string` | `''` |
 | `multiple` | Multiple selection; enables search by default | `boolean` | `false` |
 | `size` | Supports all five sizes; inherits group/form settings | `ComponentSize`<br>`'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `md` |
 | `variant` | filled, outline, standard; inherits InputGroup | `FieldDecoratorVariant`<br>`'filled' \| 'outline' \| 'standard'` | `filled` |
-| `disabled / readonly / error` | Inherits form state unless explicitly overridden | `boolean` | `undefined` |
+| `disabled` | Disabled state; explicit values override inherited Form / Group state | `boolean` | `undefined` |
+| `readonly` | Read-only state; explicit values override inherited Form / Group state | `boolean` | `undefined` |
+| `error` | Error state; explicit values override inherited Form / Group state | `boolean` | `undefined` |
 | `placeholder` | Placeholder | `string` | `—` |
-| `hint / line` | Floating hint / standard variant underline | `boolean` | `true` |
-| `text-color / focus-color / blur-color` | Field colors | `string` | `—` |
+| `hint` | Enable the floating hint | `boolean` | `true` |
+| `line` | Show the underline in the standard variant | `boolean` | `true` |
+| `text-color` | Custom per-instance text color; prefer tokens for static themes | `string` | `—` |
+| `focus-color` | Custom per-instance focused color; prefer tokens for static themes | `string` | `—` |
+| `blur-color` | Custom per-instance unfocused color; prefer tokens for static themes | `string` | `—` |
 | `loading` | Loading pauses selection, clearing, tag removal and confirmation; retains values while search and closing remain available. | `boolean` | `false` |
 | `loading-mode` | Field loading presentation: default indicator or bottom indeterminate line. | `default / line` | `default` |
 | `search-fields` | Fields used by built-in path search; defaults to label; custom filtering callbacks take precedence. | `readonly OptionSearchField[]`<br>`OptionSearchField: 'label' \| 'value'` | `['label']` |
@@ -1363,7 +1374,7 @@ Use `v-model`, `v-model:open` and `v-model:input-value` for controlled state. Cl
 | `expand-trigger` | Menu / List expansion: click or hover | `string` | `click` |
 | `expand-child` | Expand to first child | `boolean` | `false` |
 | `load-more` | Load children asynchronously; call done(children), or done() to allow retry | `(option, done) => void` | `—` |
-| `fallback-option` | Display unresolved values | `boolean or (value) => string` | `true` |
+| `fallback-option` | Display unresolved values | `boolean or (value) => { value, label }` | `true` |
 | `search-option-only-label` | Show node label only in search results | `boolean` | `false` |
 | `auto-fit-popup-width` | Match Menu width to field | `boolean` | `false` |
 | `edit-mode` | Field presentation; inherits FormItem / Form when omitted. | `direct / popup` | `popup` |
@@ -1390,7 +1401,7 @@ Use `label({ data })` for custom `selected` labels; `selected` replaces the whol
 
 Option `label` is searchable plain text. Use `render` or the `option` slot for custom `option` content, and `format-label` or `label` slot for selected content. Values identify selections; labels never do. `disabled` blocks selection/removal, and `tagProps` customizes selected tags.
 
-Buttons, links, inputs, list options, tree items, grid cells, and nested Cascaders inside custom option content own their clicks without selecting the outer option; ordinary content still selects it. A click canceled with `preventDefault` does not activate the option, and events continue to bubble normally.
+Buttons, links, input controls, list options, tree nodes, grid cells, elements with non-negative tabindex, audio/video with controls and nested Cascaders inside custom options manage their own clicks without selecting the outer option; ordinary content remains selectable. When `role` contains multiple tokens, the first role supported by the component determines click ownership. A standalone panel inside Shadow DOM moves option focus within its own root when using arrow keys. A click canceled with `preventDefault` does not trigger an option action, and continues to bubble according to DOM rules.
 
 `CascaderPanel` (`mp-cascader-panel`), also `Cascader.CascaderPanel`, works independently as a Menu panel without input/popup. Supports options, modelValue/defaultValue, multiple, pathMode, checkStrictly, fieldNames, loadMore, disabled, expandTrigger and expandChild. Events are update:modelValue/change; empty customizes empty state.
 
@@ -1421,7 +1432,7 @@ Buttons, links, inputs, list options, tree items, grid cells, and nested Cascade
 | ------ | :------------------: | ---- |
 | empty | Content displayed when no options are available | - |
 
-Async search should clear old candidates when requests start and accept only the latest current-query response. `update:input-value` can react immediately; `loading`/`filter-option` can display remote results. Popup arrows/Enter operate current candidates only; bottom confirmation saves. Validation failure preserves drafts, confirmation locks editing/closing, and Form reset closes Popup and aborts submission. Closing/reset invalidates request ownership. See Form's unified field-presentation examples.
+Async search should clear old candidates when requests start and accept only the latest current-query response. `update:input-value` can react immediately; `loading` and `filter-option` can display remote results. Popup arrows/Enter operate current candidates; confirmation mode saves with the bottom button, while immediate single selection commits on choice. Validation failure in confirmation mode preserves drafts, confirmation locks editing/closing, and Form reset closes Popup and aborts submission. Closing/reset invalidates request ownership. See Form’s unified field-presentation examples.
 
 ## CSS Variables
 
@@ -1435,15 +1446,15 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | --- | --- | --- |
 | `--mp-cascader-checkbox-bg-hover` | `var(--mp-color-fill-3)` | `background-color` |
 | `--mp-cascader-font-item-size` | `var(--mp-sys-font-size-md)` | `font-size` |
-| `--mp-cascader-item-bg-active` | `var(--mp-color-fill-2)` | `background-color` |
+| `--mp-cascader-item-bg-active` | `transparent` | `background`, `background-color` |
 | `--mp-cascader-item-bg-disabled` | `transparent` | `background-color` |
 | `--mp-cascader-item-bg-disabled-active` | `var(--mp-color-fill-2)` | `background-color` |
-| `--mp-cascader-item-bg-hover` | `var(--mp-cascader-item-bg-active)` | `background-color` |
-| `--mp-cascader-item-check-color` | `var(--mp-sys-color-content-primary)` | `color` |
+| `--mp-cascader-item-bg-hover` | `var(--mp-color-fill-2)` | `background`, `background-color` |
+| `--mp-cascader-item-check-color` | `var(--mp-sys-color-action-primary)` | `color` |
 | `--mp-cascader-item-check-size` | `var(--mp-sys-font-size-md)` | `height`, `width` |
 | `--mp-cascader-item-icon-color` | `var(--mp-sys-color-content-secondary)` | `color` |
 | `--mp-cascader-item-text-color` | `var(--mp-sys-color-content-primary)` | `color` |
-| `--mp-cascader-item-text-color-active` | `var(--mp-cascader-item-text-color)` | `color` |
+| `--mp-cascader-item-text-color-active` | `var(--mp-sys-color-action-primary)` | `color` |
 | `--mp-cascader-item-text-color-disabled` | `var(--mp-sys-color-content-disabled)` | `color` |
 | `--mp-cascader-item-text-color-disabled-active` | `var(--mp-sys-color-content-disabled)` | `color` |
 | `--mp-cascader-item-text-color-hover` | `var(--mp-cascader-item-text-color)` | `color` |

@@ -1,9 +1,11 @@
-import { createApp } from 'vue'
+import { createApp, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { describe, expect, test, vi } from 'vitest'
+import { afterEach, describe, expect, test, vi } from 'vitest'
 import Countdown from '..'
 import { delay } from '../../utils/test'
 import VarCountdown from '../Countdown'
+
+afterEach(() => vi.restoreAllMocks())
 
 test('countdown plugin', () => {
   const app = createApp({}).use(Countdown)
@@ -128,6 +130,7 @@ describe('test countdown methods', () => {
     await delay(50)
 
     wrapper.vm.$refs.countdown.pause()
+    await nextTick()
     const text = wrapper.text()
 
     await delay(50)

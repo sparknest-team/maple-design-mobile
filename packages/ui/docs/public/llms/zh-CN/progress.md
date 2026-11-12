@@ -356,11 +356,11 @@ Example source: src/progress/example/demos/indeterminate-progress.vue
 | --- | --- | --- |
 | `--mp-progress-animation-duration` | `1.5s` | `animation`, `animation-delay` |
 | `--mp-progress-danger-color` | `var(--mp-sys-color-content-danger)` | `color` |
-| `--mp-progress-default-color` | `var(--mp-sys-color-content-brand)` | `color` |
+| `--mp-progress-default-color` | `var(--mp-sys-color-action-primary)` | `color` |
 | `--mp-progress-font-size` | `var(--mp-sys-font-size-sm)` | `font-size` |
 | `--mp-progress-info-color` | `var(--mp-sys-color-content-info)` | `color` |
 | `--mp-progress-line-border-radius` | `9999px` | `border-radius` |
-| `--mp-progress-primary-color` | `var(--mp-sys-color-content-brand)` | `color` |
+| `--mp-progress-primary-color` | `var(--mp-sys-color-action-primary)` | `color` |
 | `--mp-progress-secondary-color` | `var(--mp-sys-color-content-secondary)` | `color` |
 | `--mp-progress-steps-gap` | `var(--mp-sys-space-2)` | `gap` |
 | `--mp-progress-success-color` | `var(--mp-sys-color-content-success)` | `color` |

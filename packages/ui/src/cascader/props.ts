@@ -271,7 +271,10 @@ export const cascaderProps = {
   fallbackOption: {
     type: [Boolean, Function] as PropType<
       | boolean
-      | ((value: string | number | Record<string, unknown> | (string | number | Record<string, unknown>)[]) => string)
+      | ((value: string | number | Record<string, unknown> | (string | number | Record<string, unknown>)[]) => {
+          value: unknown
+          label: string
+        })
     >,
     default: true,
   },

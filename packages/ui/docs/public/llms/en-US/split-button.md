@@ -607,7 +607,7 @@ Use `placement` to position the extra-actions menu. See `MenuPlacement` for the 
 
 ### Asynchronous actions and click semantics
 
-`click` is a notification event. The component does not process listener return values or automatically change its loading state. Business code controls `button-props.loading`; for asynchronous operations, reset it in `finally`. Disabled or loading links have no effective `href`.
+`click` is a notification event. The component does not process listener return values or switch loading automatically. Business code controls `button-props.loading` and should restore it in `finally` after asynchronous work. Disabled or loading links have their effective `href` removed.
 
 ```html
 <script setup>

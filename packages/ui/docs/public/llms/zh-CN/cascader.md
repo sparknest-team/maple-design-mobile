@@ -6,13 +6,15 @@
 
 关联多选时，切换父项只影响可选择的后代；已选中的禁用后代会保留。
 
+点击复选框只切换选中状态，点击选项文字或展开箭头进入下一级。多选复用 Checkbox 组件；关联多选中，部分可选子项被选中时，父项显示半选状态。
+
 ## 阅读方向
 
 继承来源 dir；子列沿阅读方向展开，展开图标及列分隔线随方向变化。左右键按可见方向进入已加载子级或返回父级，并跳过禁用子项；上下键保持逻辑顺序。搜索状态保留原生左右光标编辑，不反转路径或多选数组。关闭状态清空最后值后，重开从根级恢复导航。
 
 `empty-value` 指定当前组件已有清空动作的输出；省略时采用该组件默认返回。具体类型以组件 API 为准。它不改变 empty-values 的识别规则，也不改变 Form reset 的初始值。
 
-`empty-value` 可显式设为 `null`（或 `() => null`），清空时原样提交 null；省略时保留组件原默认值。界面把 null 显示为空，不会把普通输入的空字符串自动转成 null。支持弹出编辑的字段中，清空先修改草稿，确认后提交，取消则保留原值。
+`empty-value` 可显式设为 `null`（或 `() => null`），清空时原样提交 null；省略时保留组件原默认值。界面把 null 显示为空，不会把普通输入的空字符串自动转成 null。确认式弹出编辑中，清空先修改草稿并在确认后提交；无需确认时清空会直接提交。
 
 候选属性 `options` 支持数组或 `(query, { signal }) => 数组/Promise`。加载、取消、过期结果隔离由组件内部处理，失败触发 load-error。单选/多选分组初始化以空字符串查询，搜索型字段在查询变化时调用；树形字段根数据与原有 load-more 子节点懒加载独立。
 
@@ -720,7 +722,7 @@ const options = computed(() => [
 
 ### 展示与提交规则
 
-inline 即选即提交；popup、dialog 单选和多选都编辑草稿，外层确认一次后提交。取消、遮罩关闭、Escape、切换展示方式都丢弃草稿；外部 modelValue 更新优先。搜索在弹层内，沿用本地过滤、search 事件和 loadMore 异步加载。
+inline 即选即提交；弹层单选默认即选即提交，多选或显式开启 need-confirm 时先编辑草稿再确认。取消、遮罩关闭、Escape、切换展示方式都丢弃草稿；外部 modelValue 更新优先。搜索在弹层内，沿用本地过滤、search 事件和 loadMore 异步加载。
 
 ### 管理已选项
 
@@ -1274,7 +1276,7 @@ async function load() {
 通过 `edit-mode` 选择直接编辑或移动端编辑面板。
 
 ### 编辑与确认
-本组件支持 `edit-mode`，字段 > FormItem > Form 逐层继承；未指定时为 `popup`，点击值区域打开编辑面板。支持值：`direct / popup`。非 direct 编辑模式通过字段值入口打开编辑面板，并维护单份草稿；确认后才更新 v-model，取消、重置或启用 readPretty 时丢弃草稿。
+本组件支持 `edit-mode`，字段 > FormItem > Form 逐层继承；未指定时为 `popup`，点击值区域打开编辑面板。支持值：`direct / popup`。非 direct 编辑模式通过字段值入口打开编辑面板。单选默认选中即提交；设置 need-confirm 时先编辑草稿并确认，多选默认需要确认。取消、重置或启用 readPretty 时丢弃未提交的草稿。
 
 Maple 使用 edit-mode="popup" 点击值区域打开编辑面板；direct 直接编辑。 readPretty 为纯阅读属性，与 readonly、disabled 独立。
 
@@ -1323,17 +1325,26 @@ option({ data }) 接收规范化 CascaderOptionInfo，data.raw 是原始选项�
 
 | 属性 | 说明 | 类型 | 默认值 |
 | --------------------------------------- | ---------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------ |
-| `model-value / default-value` | 受控值 / 非受控初始值 | `CascaderBaseValue` | `单选 ''，多选 []` |
-| `open / default-open` | 受控展开 / 默认展开 | `boolean` | `undefined / false` |
+| need-confirm | 仅弹出编辑模式生效。单选默认点选即提交并关闭，设为 true 时先编辑草稿、再点确认；多选默认保留确认。提交仍执行表单校验和 before-commit，拒绝时不关闭。 | `boolean` | 单选 `false`；多选 `true` |
+| `model-value` | 受控选中值，支持 v-model | `CascaderBaseValue` | `undefined` |
+| `default-value` | 非受控初始选中值，仅初始化时读取 | `CascaderBaseValue` | 单选：path-mode 时为 `undefined`，否则为 `''`；多选：`[]` |
+| `open` | 受控展开状态，支持 v-model:open | `boolean` | `undefined` |
+| `default-open` | 非受控初始展开状态，仅初始化时读取 | `boolean` | `false` |
 | `open-trigger-target` | 打开面板的点击区域：field 为整个字段，icon 仅右侧选择按钮。清除、移除等独立操作除外；不影响键盘展开和受控 open。 | `'field' \| 'icon'` | `'field'` |
-| `input-value / default-input-value` | 搜索文本，独立于选中值 | `string` | `undefined / ''` |
+| `input-value` | 受控搜索文本，独立于选中值，支持 v-model:input-value | `string` | `undefined` |
+| `default-input-value` | 非受控初始搜索文本，独立于选中值，仅初始化时读取 | `string` | `''` |
 | `multiple` | 多选；默认启用搜索 | `boolean` | `false` |
 | `size` | 完整支持 xs、sm、md、lg、xl，未设置时继承分组与表单 | `ComponentSize`<br>`'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `md` |
 | `variant` | filled、outline、standard；未设置时继承 InputGroup | `FieldDecoratorVariant`<br>`'filled' \| 'outline' \| 'standard'` | `filled` |
-| `disabled / readonly / error` | 未设置时继承表单；显式 false 可覆盖 | `boolean` | `undefined` |
+| `disabled` | 禁用状态；显式值优先于继承的 Form / Group 状态 | `boolean` | `undefined` |
+| `readonly` | 只读状态；显式值优先于继承的 Form / Group 状态 | `boolean` | `undefined` |
+| `error` | 错误状态；显式值优先于继承的 Form / Group 状态 | `boolean` | `undefined` |
 | `placeholder` | 占位文本 | `string` | `—` |
-| `hint / line` | 浮动提示 / standard 变体下划线 | `boolean` | `true` |
-| `text-color / focus-color / blur-color` | 字段颜色 | `string` | `—` |
+| `hint` | 是否启用浮动提示 | `boolean` | `true` |
+| `line` | 是否显示 standard 变体的下划线 | `boolean` | `true` |
+| `text-color` | 逐实例自定义文字颜色；静态主题优先使用 token | `string` | `—` |
+| `focus-color` | 逐实例自定义聚焦颜色；静态主题优先使用 token | `string` | `—` |
+| `blur-color` | 逐实例自定义未聚焦颜色；静态主题优先使用 token | `string` | `—` |
 | `loading` | 加载时暂停选择、清空、标签移除与确认；保留已有值，搜索和关闭仍可用。 | `boolean` | `false` |
 | `loading-mode` | 字段加载展示：默认指示器或底部不定进度线。 | `default / line` | `default` |
 | `search-fields` | 内置路径搜索字段，默认 label；自定义过滤回调优先。 | `readonly OptionSearchField[]`<br>`OptionSearchField: 'label' \| 'value'` | `['label']` |
@@ -1361,7 +1372,7 @@ option({ data }) 接收规范化 CascaderOptionInfo，data.raw 是原始选项�
 | `expand-trigger` | Menu / List 的展开交互：click 或 hover | `string` | `click` |
 | `expand-child` | 展开到首个子节点 | `boolean` | `false` |
 | `load-more` | 异步加载子节点；完成后调用 done(children)，失败调用 done() 以允许重试 | `(option, done) => void` | `—` |
-| `fallback-option` | 尚未加载的值如何反显 | `boolean 或 (value) => string` | `true` |
+| `fallback-option` | 尚未加载的值如何反显 | `boolean or (value) => { value, label }` | `true` |
 | `search-option-only-label` | 搜索结果仅显示节点标签，不显示路径 | `boolean` | `false` |
 | `auto-fit-popup-width` | Menu 是否与字段等宽 | `boolean` | `false` |
 | `edit-mode` | 字段展示；未指定时继承 FormItem / Form | `direct / popup` | `popup` |
@@ -1388,7 +1399,7 @@ option({ data }) 接收规范化 CascaderOptionInfo，data.raw 是原始选项�
 
 选项 `label` 是用于搜索的纯文本；自定义选项内容使用 `render` 或 `option` 插槽，自定义反显使用 `format-label` 或 `label` 插槽。以 value 而非 label 识别选项。选项的 `disabled` 禁止选择和删除，`tagProps` 可定制已选标签。
 
-自定义选项中的按钮、链接、输入控件、列表选项、树节点、网格单元格和嵌套 Cascader 管理各自的点击，不会选择外层选项；普通内容仍可点击选择。已调用 `preventDefault` 的点击不会触发选项动作，事件继续按 DOM 规则冒泡。
+自定义选项中的按钮、链接、输入控件、列表选项、树节点、网格单元格、非负 tabindex 元素、带 controls 的音视频和嵌套 Cascader 管理各自的点击，不会选择外层选项；普通内容仍可点击选择。多个 `role` 词元按组件支持的首个有效角色判断。 独立面板放在 Shadow DOM 内时，方向键按面板所在根节点移动选项焦点。已调用 `preventDefault` 的点击不会触发选项动作，事件继续按 DOM 规则冒泡。
 
 也可以独立使用 `CascaderPanel`（`mp-cascader-panel`），或 `Cascader.CascaderPanel`。这是无输入框、无弹层的 Menu 面板；支持 options、modelValue/defaultValue、multiple、pathMode、checkStrictly、fieldNames、loadMore、disabled、expandTrigger 和 expandChild。事件为 update:modelValue、change；empty 插槽自定义空状态。
 
@@ -1419,7 +1430,7 @@ option({ data }) 接收规范化 CascaderOptionInfo，data.raw 是原始选项�
 | ------ | :------------------: | ---- |
 | empty  | 选项为空时的显示内容 | -    |
 
-异步搜索时应在新请求开始时清除旧候选，并只采纳当前搜索词的最后一次响应。可使用 `update:input-value` 立即响应输入，通过 `loading` 和 `filter-option` 展示远程过滤结果。popup 内方向键与 Enter 只操作当前候选，保存由底部确认按钮完成。校验失败保留草稿；确认期间锁定编辑和关闭，表单重置会关闭 popup 并中止提交。请求归属应在关闭和重置时失效，完整示例见 Form 的“各类字段统一展示”。
+异步搜索时应在新请求开始时清除旧候选，并只采纳当前搜索词的最后一次响应。可使用 `update:input-value` 立即响应输入，通过 `loading` 和 `filter-option` 展示远程过滤结果。popup 内方向键与 Enter 操作当前候选；确认模式通过底部按钮提交，单选即时模式选中即提交。确认模式校验失败保留草稿；确认期间锁定编辑和关闭，表单重置会关闭 popup 并中止提交。请求归属应在关闭和重置时失效，完整示例见 Form 的“各类字段统一展示”。
 
 ## CSS Variables
 
@@ -1433,15 +1444,15 @@ option({ data }) 接收规范化 CascaderOptionInfo，data.raw 是原始选项�
 | --- | --- | --- |
 | `--mp-cascader-checkbox-bg-hover` | `var(--mp-color-fill-3)` | `background-color` |
 | `--mp-cascader-font-item-size` | `var(--mp-sys-font-size-md)` | `font-size` |
-| `--mp-cascader-item-bg-active` | `var(--mp-color-fill-2)` | `background-color` |
+| `--mp-cascader-item-bg-active` | `transparent` | `background`, `background-color` |
 | `--mp-cascader-item-bg-disabled` | `transparent` | `background-color` |
 | `--mp-cascader-item-bg-disabled-active` | `var(--mp-color-fill-2)` | `background-color` |
-| `--mp-cascader-item-bg-hover` | `var(--mp-cascader-item-bg-active)` | `background-color` |
-| `--mp-cascader-item-check-color` | `var(--mp-sys-color-content-primary)` | `color` |
+| `--mp-cascader-item-bg-hover` | `var(--mp-color-fill-2)` | `background`, `background-color` |
+| `--mp-cascader-item-check-color` | `var(--mp-sys-color-action-primary)` | `color` |
 | `--mp-cascader-item-check-size` | `var(--mp-sys-font-size-md)` | `height`, `width` |
 | `--mp-cascader-item-icon-color` | `var(--mp-sys-color-content-secondary)` | `color` |
 | `--mp-cascader-item-text-color` | `var(--mp-sys-color-content-primary)` | `color` |
-| `--mp-cascader-item-text-color-active` | `var(--mp-cascader-item-text-color)` | `color` |
+| `--mp-cascader-item-text-color-active` | `var(--mp-sys-color-action-primary)` | `color` |
 | `--mp-cascader-item-text-color-disabled` | `var(--mp-sys-color-content-disabled)` | `color` |
 | `--mp-cascader-item-text-color-disabled-active` | `var(--mp-sys-color-content-disabled)` | `color` |
 | `--mp-cascader-item-text-color-hover` | `var(--mp-cascader-item-text-color)` | `color` |

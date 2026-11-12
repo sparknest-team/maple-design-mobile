@@ -16,6 +16,7 @@ import {
   watch,
   type Component,
   type ComponentPublicInstance,
+  type ComputedRef,
   type VNodeChild,
 } from 'vue'
 import { provideOptionRequest, useOptionRequest } from '../../_hooks/use-option-request'
@@ -53,7 +54,13 @@ export interface FieldPresentationAdapter {
   inactiveMethod?: (name: string, value: any, args: readonly unknown[]) => unknown
   /** Explicit draft actions that open a deferred editor before forwarding. */
   openMethods?: readonly string[]
-  setup?: () => void
+  setup?: (context: {
+    props: Record<string, any>
+    value: ComputedRef<any>
+    options: ComputedRef<unknown[]>
+    editorActive: ComputedRef<boolean>
+    draftActive: ComputedRef<boolean>
+  }) => unknown
   reference?: (
     context: FieldEditorContext & {
       open: boolean
@@ -64,7 +71,7 @@ export interface FieldPresentationAdapter {
   ) => VNodeChild
   defaultPresentation?: FieldPresentationMode
   intent?: 'input' | 'select'
-  text?: (value: any, props: Record<string, any>) => string
+  text?: (value: any, props: Record<string, any>, state?: any) => string
   editor?: (context: FieldEditorContext) => VNodeChild
   valid?: (value: any, props: Record<string, any>) => boolean
   changeArgs?: (value: any, props: Record<string, any>, event?: Event) => unknown[]
@@ -177,7 +184,6 @@ export function withFieldPresentation<T extends Component>(Base: T, adapter: Fie
     props: base.props,
     emits: [...new Set([...events, 'update:open', 'open-change'])],
     setup(props: Record<string, any>, { attrs, slots, emit, expose }) {
-      adapter.setup?.()
       const instance = getCurrentInstance()!
       const state = useFieldPresentation(
         () => props.editMode,
@@ -247,6 +253,13 @@ export function withFieldPresentation<T extends Component>(Base: T, adapter: Fie
         Boolean(adapter.pauseSelectionWhileLoading && (props.loading || source?.loading.value)),
       )
       const open = computed(() => !blocked.value && Boolean(props.open ?? localOpen.value))
+      const adapterState = adapter.setup?.({
+        props,
+        value,
+        options: computed(() => source?.options.value ?? []),
+        editorActive: computed(() => !state.readPretty.value && (state.editMode.value === 'direct' || open.value)),
+        draftActive: computed(() => !state.readPretty.value && state.editMode.value !== 'direct' && open.value),
+      })
       watch(open, (next) => {
         if (next && source?.remote.value) {
           const query = props.inputValue ?? props.defaultInputValue ?? ''
@@ -668,7 +681,7 @@ export function withFieldPresentation<T extends Component>(Base: T, adapter: Fie
           return rendered
         }
         const textProps = source && sourceKey ? { ...props, [sourceKey]: source.options.value } : props
-        const text = (adapter.text ?? formatFieldValue)(value.value, textProps)
+        const text = adapter.text ? adapter.text(value.value, textProps, adapterState) : formatFieldValue(value.value)
         return h(
           FieldPresentation,
           {

@@ -1022,7 +1022,7 @@ Native `id`, `form`, `required`, constraints, aria/data attributes and keyboard 
 
 Once / Capture / Passive native listener modifiers stay on the input rather than firing from interactive slot children. Native preventDefault can veto Enter / Space activation and RadioGroup arrow navigation; canceled Space leaves no delayed release action. Checked, disabled, input type and group Tab navigation remain component-managed.
 
-input-attrs remains a native alias and takes precedence over overlapping top-level native attrs, while managed state remains authoritative. Radio uses the native `checked` state and ignores a supplied `aria-checked`; tabindex stays component-managed, and groups keep their single Tab entry.
+input-attrs preserves native attribute aliases. An alias overrides a matching top-level native attribute, but cannot override component-managed state. Radio's checked state is managed through native `checked`; supplied `aria-checked` does not override it. The component still manages tabindex, retaining one Tab entry per RadioGroup.
 
 ## Usage notes
 
@@ -1213,7 +1213,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-radio-action-padding` | `6px` | `padding` |
 | `--mp-radio-animation-duration` | `var(--mp-sys-motion-duration-standard)` | `transition` |
 | `--mp-radio-control-color` | `var(--mp-sys-color-content-secondary)` | `color` |
-| `--mp-radio-control-color-checked` | `var(--mp-sys-color-content-brand)` | `color`, `outline` |
+| `--mp-radio-control-color-checked` | `var(--mp-sys-color-action-primary)` | `color`, `outline` |
 | `--mp-radio-control-color-disabled` | `var(--mp-sys-color-content-disabled)` | `color` |
 | `--mp-radio-control-color-error` | `var(--mp-sys-color-content-danger)` | `box-shadow`, `color` |
 | `--mp-radio-control-size` | `24px` | `font-size`, `height`, `width` |

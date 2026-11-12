@@ -43,6 +43,7 @@ export {
   InfiniteScroll,
   Input,
   InputNumber,
+  InputTag,
   Lazy,
   Link,
   List,
@@ -51,6 +52,7 @@ export {
   Locale,
   LocaleProvider,
   Menu,
+  Mention,
   Message,
   NavMenu,
   NoticeBar,
@@ -98,6 +100,27 @@ export {
   VerificationCode,
   Watermark,
 } from './maple-vue'
+
+export { inputTagProps, _InputTagComponent } from './input-tag'
+export type {
+  InputTagInstance,
+  InputTagProps,
+  InputTagValue,
+  InputTagEmits,
+  InputTagSlots,
+  InputTagExpose,
+  InputTagFieldNames,
+  TagData,
+} from './input-tag'
+export { mentionProps, _MentionComponent } from './mention'
+export type {
+  MentionInstance,
+  MentionProps,
+  MentionTokenValue,
+  MentionEmits,
+  MentionSlots,
+  MentionExpose,
+} from './mention'
 export { _ActionSheetComponent } from './action-sheet'
 export { _AffixComponent } from './affix'
 export { _AlertComponent } from './alert'

@@ -23,7 +23,7 @@ export function useFormErrorDescription() {
   return {
     errorId,
     describe(value: unknown) {
-      const ids = typeof value === 'string' ? value.split(/\s+/).filter(Boolean) : []
+      const ids = typeof value === 'string' ? value.split(/[ \t\n\f\r]+/).filter(Boolean) : []
       if (errorId?.value && !ids.includes(errorId.value)) {
         ids.push(errorId.value)
       }

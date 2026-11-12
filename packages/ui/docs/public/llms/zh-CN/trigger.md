@@ -2,6 +2,8 @@
 
 # Trigger
 
+SSR 限制：触发插槽或 `content` 插槽内的同一节点同时使用 `v-for` 和 `v-memo` 时，服务端渲染可能报错。触发插槽即使在浮层关闭时也可能报错；`content` 插槽在浮层打开或设置 `unmount-on-close=false` 时可能报错。服务端渲染时请移除该插槽节点上的 `v-memo`；普通 `v-for` 仍可使用。 在 Vue 3.5.13 中，触发插槽内单独使用动态 `v-memo` 也可能报错。
+
 
 
 更换或清空浮层引用，以及卸载组件时，会移除旧窗口的滚动监听。
@@ -213,7 +215,7 @@ placement 是首选方位，auto-fit-position 默认 true 时最终方位可能�
 | `popup-offset` | 主轴向外距离 | _number_ | `0` |
 | `popup-translate` | 屏幕轴平移或按方位配置 | _[number, number] \| Record_ | `-` |
 | `align-point` | 以鼠标坐标定位 | _boolean_ | `false` |
-| `popup-container` | 挂载容器；false 原地渲染 | _string \| HTMLElement \| false_ | `body` |
+| `popup-container` | 挂载容器；false 原地渲染。同文档或可访问的同源 iframe 之间切换时，会尝试恢复未转移的原生输入、按钮等焦点，包括开放 Shadow DOM 中的同类元素；可能承载封闭 Shadow DOM 的不透明宿主不会自动恢复。 | _string \| HTMLElement \| false_ | `body` |
 | `auto-fit-position` | 自动翻转并限制到可视区域 | _boolean_ | `true` |
 | `auto-fit-popup-width` | 宽度跟随参考元素 | _boolean_ | `false` |
 | `auto-fit-popup-min-width` | 最小宽度跟随参考元素 | _boolean_ | `false` |
@@ -222,7 +224,7 @@ placement 是首选方位，auto-fit-position 默认 true 时最终方位可能�
 | `scroll-to-close` | 滚动超过阈值关闭 | _boolean_ | `false` |
 | `scroll-to-close-distance` | 滚动关闭阈值 | _number_ | `0` |
 | `show-arrow` | 显示箭头 | _boolean_ | `false` |
-| `hide-empty` | 内容为空时不渲染 | _boolean_ | `false` |
+| `hide-empty` | content 插槽直接返回空内容时不渲染；组件节点即使最终渲染为空也视为非空 | _boolean_ | `false` |
 | `prevent-focus` | 阻止定位层抢占焦点 | _boolean_ | `false` |
 | `unmount-on-close` | 离场后卸载内容 | _boolean_ | `true` |
 | `animation-name` | Vue Transition 名称 | _string_ | `trigger-fade` |
@@ -230,9 +232,12 @@ placement 是首选方位，auto-fit-position 默认 true 时最终方位可能�
 | `auto-fit-transform-origin` | 根据最终方位设置动画原点 | _boolean_ | `false` |
 | `opened-class` | 打开时合并给默认插槽的首个节点；外部 reference 不添加该类 | _string \| array \| object_ | `-` |
 | `reference-attrs` | 写入实际参考元素的属性，或接收 open 的函数；属性撤销、引用替换或卸载时恢复原属性 | _TriggerReferenceAttrs \| ((open: boolean) => TriggerReferenceAttrs)_ | `-` |
-| `popup-class` / `popup-style` | 定位层类名 / 样式 | _ClassName / CSSProperties_ | `-` |
-| `content-class` / `content-style` | 内容层类名 / 样式 | _ClassName / CSSProperties_ | `-` |
-| `arrow-class` / `arrow-style` | 箭头类名 / 样式 | _ClassName / CSSProperties_ | `-` |
+| `popup-class` | 定位层自定义类名 | `ClassName` | `-` |
+| `popup-style` | 定位层的自定义样式 | `CSSProperties` | `-` |
+| `content-class` | 内容层的自定义类名 | `ClassName` | `-` |
+| `content-style` | 内容层的自定义样式 | `CSSProperties` | `-` |
+| `arrow-class` | 箭头的自定义类名 | `ClassName` | `-` |
+| `arrow-style` | 箭头的自定义样式 | `CSSProperties` | `-` |
 
 交互延迟和关闭策略还包括 `mouse-enter-delay`、`mouse-leave-delay`、`focus-delay`、`popup-hover-stay`、`blur-to-close`、`close-on-click-reference`、`click-outside-to-close`、`esc-to-close`、`restore-focus`。
 
@@ -255,6 +260,10 @@ placement 是首选方位，auto-fit-position 默认 true 时最终方位可能�
 `reference-attrs` 的 `aria-describedby` 与参考元素已有描述 ID 合并去重；清理或更换引用时恢复原始属性。
 
 `fixed` 定位会识别 transform、filter、perspective 等形成的固定定位包含块，并处理轴向缩放；不保证旋转或倾斜坐标系精确。可访问的同源 iframe 引用与弹层之间会换算坐标并绑定各自文档事件；不支持跨源或无共同祖先的浏览上下文。启用 `update-at-scroll` 时，两端文档及可滚动祖先的滚动都会更新位置。
+
+当引用通过插槽进入封闭 ShadowRoot 内的滚动容器时，外部 Trigger 无法访问该插槽及容器，不能自动监听其滚动。封闭组件可在内部滚动或插槽变化时调用 Trigger 实例的 `resize()`；需要滚动关闭时，可在内部按业务阈值调用 `close()`，并在卸载时清理监听。
+
+弹层挂载到 iframe 内时，显示区域仍受该 iframe 视口裁剪；即使跨文档坐标换算正确，iframe 范围外的弹层内容也不可见。
 
 ## CSS Variables
 

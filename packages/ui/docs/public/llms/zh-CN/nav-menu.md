@@ -252,7 +252,8 @@ Item 的选中值、展开状态、事件、插槽上下文及 `select/close/set
 | 属性                              | 说明                                                                                     | 默认值           |
 | --------------------------------- | ---------------------------------------------------------------------------------------- | ---------------- |
 | mode                              | 移动端仅 horizontal                                                                      | horizontal       |
-| active-item / default-active-item | 具名入口的受控 / 初始激活项                                                              | undefined / null |
+| active-item | 具名入口的受控激活项，支持 v-model:active-item | `undefined` |
+| default-active-item | 具名入口的非受控初始激活项 | `null` |
 | size                              | xs / sm / md / lg / xl                                                                   | md               |
 | disabled                          | 禁用所有入口                                                                             | false            |
 | popup-container                   | 浮层挂载容器；false 原地渲染；不改变视口布局参照，祖先 transform 可能改变 fixed 定位基准 | body             |
@@ -271,16 +272,20 @@ Item 的选中值、展开状态、事件、插槽上下文及 `select/close/set
 | ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ----------------- |
 | name                          | 根级业务激活项的唯一标识；省略时各筛选独立高亮                                                                               | —                 |
 | label                         | 未匹配选项时的入口标题                                                                                                       | —                 |
-| options / field-names         | Cedar 选项结构与字段映射                                                                                                     | [] / —            |
-| model-value / default-value   | 受控 / 初始选中 key，支持字符串、数字和 null                                                                                 | undefined / null  |
-| open / default-open           | 受控 / 初始展开状态                                                                                                          | undefined / false |
+| options | 菜单选项，结构与 NavMenu 一致 | `[]` |
+| field-names | 选项字段映射，与 NavMenu 一致 | `undefined` |
+| model-value | 受控选中 key，支持字符串、数字和 null，支持 v-model | `undefined` |
+| default-value | 非受控初始选中 key，支持字符串、数字和 null，仅初始化时读取 | `null` |
+| open | 受控展开状态，支持 v-model:open | `undefined` |
+| default-open | 非受控初始展开状态，仅初始化时读取 | `false` |
 | highlight                     | 视觉强调覆盖，省略时跟随业务 active                                                                                          | undefined         |
 | disabled                      | 禁用入口，同时遵循父菜单                                                                                                     | undefined             |
 | hide-on-select                | 调用 select 后关闭面板                                                                                                       | true              |
 | unmount-on-close | 关闭过渡结束后卸载面板；默认保留首次展开后的内容 | false |
 | popup-layout                  | full-width：通栏，内容自适应高度；full：宽高占满筛选栏下方可视区域。均从整个筛选栏底边向下展开，不自动翻转，宽度不随入口变化 | full-width        |
 | popup-style                   | 自定义面板样式                                                                                                               | —                 |
-| popup-container / popup-class | 覆盖父菜单的挂载位置 / 面板类名                                                                                              | 跟随父菜单        |
+| popup-container | 浮层挂载容器；省略时跟随父菜单 | 跟随父菜单 |
+| popup-class | 浮层附加类名；省略时跟随父菜单 | 跟随父菜单 |
 | options-mode                  | 面板内选项的 vertical / horizontal 排列                                                                                      | vertical          |
 
 独立使用 NavMenuItem 时，以自身底边作为面板起点。触发固定为点击，入口不足时横向滚动。移动端不提供 placement/trigger、dropdown 或侧向 full-height 布局。
@@ -307,7 +312,7 @@ NavMenu 继承最近的原生 `dir`，支持动态切换和局部覆盖。导航
 
 | 变量 | 默认值／条件 | 影响的样式 |
 | --- | --- | --- |
-| `--mp-nav-menu-active-color` | `var(--mp-sys-color-content-brand)` | `color`, `outline` |
+| `--mp-nav-menu-active-color` | `var(--mp-sys-color-action-primary)` | `color`, `outline` |
 | `--mp-nav-menu-arrow-size` | `6px` | `height`, `width` |
 | `--mp-nav-menu-background` | `var(--mp-sys-color-surface-overlay)` | `background` |
 | `--mp-nav-menu-border-color` | `var(--mp-sys-color-border-default)` | `border-top` |
@@ -330,7 +335,7 @@ NavMenu 继承最近的原生 `dir`，支持动态切换和局部覆盖。导航
 
 ```css
 .component-theme {
-  --mp-nav-menu-active-color: var(--mp-sys-color-content-brand);
+  --mp-nav-menu-active-color: var(--mp-sys-color-action-primary);
 }
 ```
 

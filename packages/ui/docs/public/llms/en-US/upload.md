@@ -2,6 +2,8 @@
 
 # Upload
 
+For photos, set `accept="image/*"`. Leaving `capture` unset or setting `:capture="false"` keeps the system file/photo picker available. Only set `capture` to `true`, `'user'` or `'environment'` when camera capture is intended. Available choices depend on the device and browser.
+
 Disabled downloads match Link/Button link mode: remove href while retaining the link role, `aria-disabled` and `tabindex=-1`, and cancel the default click action. `readonly` still allows downloading. Re-enabling restores the original file URL and download filename.
 
 Without action / custom-request, the component only reads files; the application manages progress and results.
@@ -1452,6 +1454,10 @@ Awaited before-* hooks show loading feedback and aria-busy. Rejection/failure re
 
 `useUploader()` exposes readonly `guardPending`, aggregating currently awaited before hooks. It does not represent upload progress.
 
+Calling `reset()` while disabled or readonly is a no-op and does not clear the pending state of an unfinished hook. A late `beforeAdd` error from work cancelled by reset, deactivation, or unmount does not emit a rejection; an error settling while disabled or readonly also does not emit one. If a `rejected` or `exceed` callback synchronously resets the uploader, prepared files from that batch are not committed. If a list update, change, or read callback resets synchronously, superseded notifications from that operation are stopped.
+
+In field confirmation mode, confirmation waits for file preparation and before hooks; closing the editor still cancels the current edit.
+
 ### Preparation vetoes and exceptions
 
 `beforeUpload` returning `false` or resolving to `false` is a business veto: no transport starts, the item stays `ready`, and neither `error` nor `rejected` is emitted. Throwing or rejecting is a preparation failure: no transport starts, the item becomes `error`, and the existing `error(item)` event reports the original cause as `item.error` exactly once. This event covers preparation and transport failures; it does not imply an HTTP request was sent. Both outcomes permit a later submission with a valid hook result. Notification return Promises do not hold the preparation task open. Obsolete or canceled attempts cannot report a new `error`.
@@ -1474,34 +1480,49 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 
 ### Upload Props
 
-| Prop | Type | Default / description |
-| ------------------------------------------------------------ | -------------------------------------------------------- | ------------------------------------------------- |
-| model-value / default-value | UploadFileItem[] | Controlled value / uncontrolled initial [] |
-| accept / capture | `string / UploadCapture`<br>`UploadCapture: boolean \| 'user' \| 'environment' \| undefined` | Unspecified |
-| multiple / directory / draggable | boolean | false |
-| disabled / readonly | boolean | undefined inherits Form; explicit false overrides |
-| action / method | string | None / post |
-| headers / data | object or async(file) => object | Cancelable during request preparation |
-| name | string / (file) => string | file |
-| with-credentials | boolean | false |
-| custom-request | (UploadRequestOptions) => UploadRequest / Promise / void | Custom transport; may return abort |
-| auto-upload | boolean | true; requires action or custom-request to start |
-| max-files / max-file-size / max-total-size | number | Unspecified; sizes use bytes, max-files applies when >0 |
-| resolve-type | file / data-url / object-url | object-url; all files get url, images also get thumbnailUrl |
-| create-thumbnail-url | (options) => string / Promise | Custom URLs belong to callers and are not automatically revoked |
-| before-add | async(files) => File[] | Batch filtering/replacement |
-| before-read | async(file) => boolean / File | false/rejection rejects; replacements are revalidated |
-| before-upload | async(item) => boolean / File / Blob | false keeps ready; throw/rejection reports error; replacements are revalidated |
-| before-remove | async(item,list) => boolean | false/rejection prevents removal |
-| is-success-response | (xhr,item) => boolean | HTTP 2xx by default |
-| request-choose | (chooseFile,event) => void / Promise | Own the selection entry; exceptions do not automatically open a file chooser |
-| list-type | text / picture / picture-card | text; supported on both platforms |
-| image-fit | fill / contain / cover / none / scale-down | cover; item.fit overrides |
-| preview | boolean | true |
-| show-file-list / show-upload-button / show-remove-button | boolean | true |
-| show-retry-button / show-cancel-button / show-preview-button | boolean | true |
-| show-download-button | boolean | false; disabled prevents interaction |
-| elevation / ripple | boolean or number / boolean | false / true |
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| model-value | `UploadFileItem[] \| null` | `undefined` | Controlled file list; use with v-model |
+| default-value | `UploadFileItem[]` | `[]` | Initial uncontrolled file list |
+| accept | `string` | `undefined` | Accepted file types, e.g. image/* |
+| capture | `boolean \| 'user' \| 'environment'` | `false` | False or omitted preserves photo selection; true requests capture, user / environment requests the front / rear camera; device and browser support varies |
+| multiple | `boolean` | `false` | Allow multiple files |
+| reupload | `boolean` | `false` | Allow replacing a selected file |
+| directory | `boolean` | `false` | Select a directory; multiple provides an alternative on unsupported devices |
+| draggable | `boolean` | `false` | Enable drag and drop |
+| disabled | `boolean` | `undefined` | Disable interaction; inherits Form, explicit false overrides |
+| readonly | `boolean` | `undefined` | Read-only; inherits Form, explicit false overrides |
+| action | `string` | `undefined` | Upload request URL |
+| method | `string` | `'post'` | Upload request method |
+| headers | `UploadHeaders` | `undefined` | Request headers object or async function; preparation remains cancelable |
+| data | `UploadData` | `undefined` | Additional request data object or async function; preparation remains cancelable |
+| name | `string \| ((file: UploadFileItem) => string)` | `'file'` | Form field name for the uploaded file |
+| with-credentials | `boolean` | `false` | Include credentials in cross-origin requests |
+| custom-request | `UploadCustomRequest` | `undefined` | Custom transport; may return an object with abort |
+| auto-upload | `boolean` | `true` | Upload automatically after selection; requires action or custom-request |
+| max-files | `number` | `undefined` | Maximum file count; applies when greater than 0 |
+| max-file-size | `number` | `undefined` | Maximum size per file in bytes |
+| max-total-size | `number` | `undefined` | Maximum total file size in bytes |
+| resolve-type | `'file' \| 'data-url' \| 'object-url'` | `'object-url'` | File reading mode; object-url generates url for files and thumbnailUrl for images |
+| create-thumbnail-url | `UploadCreateThumbnailUrl` | `undefined` | Custom thumbnail URL; caller owns the URL and its cleanup |
+| before-add | `(files: File[]) => File[] \| Promise<File[]>` | `undefined` | Filter or replace a batch of incoming files |
+| before-read | `UploadBeforeRead` | `undefined` | Validate before reading; false / rejection rejects, replacements are revalidated |
+| before-upload | `UploadBeforeUpload` | `undefined` | Validate before upload; false keeps ready, throw / rejection reports error, replacements are revalidated |
+| before-remove | `UploadBeforeRemove` | `undefined` | Validate before removal; false / rejection prevents removal |
+| is-success-response | `UploadIsSuccessResponse` | `undefined` | Custom success predicate; defaults to HTTP 2xx |
+| request-choose | `UploadRequestChoose` | `undefined` | Own the selection entry; exceptions do not automatically open a file chooser |
+| list-type | `'text' \| 'picture' \| 'picture-card'` | `'text'` | File list appearance; supported on both platforms |
+| image-fit | `'fill' \| 'contain' \| 'cover' \| 'none' \| 'scale-down'` | `'cover'` | Thumbnail fit; item.fit overrides |
+| preview | `boolean` | `true` | Enable built-in image / video preview |
+| show-file-list | `boolean` | `true` | Show the file list |
+| show-upload-button | `boolean` | `true` | Show the file selection button |
+| show-remove-button | `boolean` | `true` | Show the remove button |
+| show-retry-button | `boolean` | `true` | Show the retry button |
+| show-cancel-button | `boolean` | `true` | Show the cancel button |
+| show-preview-button | `boolean` | `true` | Show the preview button |
+| show-download-button | `boolean` | `false` | Show the download button; disabled prevents interaction |
+| elevation | `boolean \| number` | `false` | Elevation of the upload trigger |
+| ripple | `boolean` | `true` | Enable the upload trigger ripple |
 
 UploadFileItem requires uid, status and percent. name/size/type/file/url/thumbnailUrl/fit/response/error are optional. status is ready/reading/uploading/success/error/canceled/removed.
 
@@ -1519,15 +1540,17 @@ UploadFileItem requires uid, status and percent. name/size/type/file/url/thumbna
 
 - trigger({chooseFile,dragOver,disabled,describedBy}): custom selection entry.
 
-Display-only content uses the wrapper button role and Enter/Space entry. Interactive custom content owns its keyboard behavior; the wrapper adds no button role or Tab stop. Bind the slot disabled value to your button. To associate the button itself with form errors and Upload’s aria-describedby, bind the slot’s describedBy to the button’s aria-describedby; it updates as errors appear and clear. Calling chooseFile directly needs no .stop: bubbling does not choose again or also invoke requestChoose. Custom buttons relying on bubbling can still use requestChoose.
+During SSR, interactive elements inside the trigger slot are not detected until hydration. If the slot contains a button, its outer wrapper is initially also a focusable button. To avoid nested interactive semantics in the initial HTML, use decorative slot content and let the wrapper open the file picker. After hydration, the component detects interactive content and adjusts the wrapper role.
+
+Display-only content uses the wrapper button role and Enter/Space entry. Interactive custom content owns its keyboard behavior; the wrapper adds no button role or Tab stop. Bind the slot disabled value to your button. To associate the button itself with form errors and Upload's aria-describedby, bind the slot's describedBy to the button's aria-describedby; it updates as errors appear and clear. Calling chooseFile directly needs no .stop: bubbling does not choose again or also invoke requestChoose. Custom buttons relying on bubbling can still use requestChoose.
 
 ```vue
 <mp-upload aria-describedby="upload-hint">
   <template #trigger="{ chooseFile, disabled, describedBy }">
-    <button type="button" :disabled="disabled" :aria-describedby="describedBy" @click="chooseFile">Choose file</button>
+    <button type="button" :disabled="disabled" :aria-describedby="describedBy" @click="chooseFile">Choose files</button>
   </template>
 </mp-upload>
-<p id="upload-hint">Choose a file</p>
+<p id="upload-hint">Choose files</p>
 ```
 
 Use requestChoose for asynchronous decisions, or synchronously call event.preventDefault() before awaiting and invoking chooseFile yourself. Click listener Promises are not collected. Each requestChoose callback selects at most once and expires on unmount or KeepAlive deactivation, even after reopening.

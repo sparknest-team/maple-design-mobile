@@ -82,22 +82,11 @@ export default defineConfig({
       { text: { 'zh-CN': '加载与等待', 'en-US': 'Loading and waiting' }, doc: 'showcaseLoading', type: 3 },
       { text: { 'zh-CN': '数据与文件', 'en-US': 'Data and files' }, doc: 'showcaseData', type: 3 },
       { text: { 'zh-CN': '移动触控体验', 'en-US': 'Mobile touch interactions' }, doc: 'showcaseTouch', type: 3 },
-      {
-        text: {
-          'zh-CN': '开发指南',
-          'en-US': 'Developer Guide',
-        },
-        type: 1,
-      },
-      {
-        text: { 'zh-CN': '跨端复用标记说明', 'en-US': 'Cross-platform reuse guide' },
-        doc: 'componentReuse',
-        type: 3,
-      },
+      { text: { 'zh-CN': '开发指南', 'en-US': 'Developer Guide' }, type: 1 },
       {
         text: {
           'zh-CN': '基本介绍',
-          'en-US': 'Basic Introduce',
+          'en-US': 'Introduction',
         },
         doc: 'home',
         type: 3,
@@ -111,21 +100,6 @@ export default defineConfig({
         type: 3,
       },
       {
-        text: { 'zh-CN': '空值与阅读空文案', 'en-US': 'Empty values and reading placeholders' },
-        doc: 'emptyValues',
-        type: 3,
-      },
-      {
-        text: { 'zh-CN': '受控与非受控', 'en-US': 'Controlled and uncontrolled' },
-        doc: 'controlledUncontrolled',
-        type: 3,
-      },
-      {
-        text: { 'zh-CN': 'LLM 文档', 'en-US': 'LLM documentation' },
-        doc: 'llms',
-        type: 3,
-      },
-      {
         text: {
           'zh-CN': '按需引入',
           'en-US': 'Import On Demand',
@@ -134,11 +108,27 @@ export default defineConfig({
         type: 3,
       },
       {
+        text: { 'zh-CN': '跨端复用标记说明', 'en-US': 'Cross-platform reuse guide' },
+        doc: 'componentReuse',
+        type: 3,
+      },
+      { text: { 'zh-CN': '配置与约定', 'en-US': 'Configuration and conventions' }, type: 1 },
+      {
         text: {
-          'zh-CN': '浏览器适配',
-          'en-US': 'Browser Adaptation',
+          'zh-CN': '默认值与全局配置',
+          'en-US': 'Defaults and global configuration',
         },
-        doc: 'browserAdaptation',
+        doc: 'defaultsCustomization',
+        type: 3,
+      },
+      {
+        text: { 'zh-CN': '受控与非受控', 'en-US': 'Controlled and uncontrolled' },
+        doc: 'controlledUncontrolled',
+        type: 3,
+      },
+      {
+        text: { 'zh-CN': '空值与阅读空文案', 'en-US': 'Empty values and reading placeholders' },
+        doc: 'emptyValues',
         type: 3,
       },
       {
@@ -151,6 +141,23 @@ export default defineConfig({
       },
       {
         text: {
+          'zh-CN': 'Zod 验证',
+          'en-US': 'Zod Validation',
+        },
+        doc: 'zodValidation',
+        type: 3,
+      },
+      { text: { 'zh-CN': '工程与工具', 'en-US': 'Engineering and tools' }, type: 1 },
+      {
+        text: {
+          'zh-CN': '浏览器适配',
+          'en-US': 'Browser Adaptation',
+        },
+        doc: 'browserAdaptation',
+        type: 3,
+      },
+      {
+        text: {
           'zh-CN': '服务端渲染',
           'en-US': 'Server-Side Rendering',
         },
@@ -158,11 +165,8 @@ export default defineConfig({
         type: 3,
       },
       {
-        text: {
-          'zh-CN': 'Zod 验证',
-          'en-US': 'Zod Validation',
-        },
-        doc: 'zodValidation',
+        text: { 'zh-CN': 'LLM 文档', 'en-US': 'LLM documentation' },
+        doc: 'llms',
         type: 3,
       },
       {
@@ -175,10 +179,10 @@ export default defineConfig({
       },
       {
         text: {
-          'zh-CN': '默认值定制',
-          'en-US': 'Defaults Customization',
+          'zh-CN': '组件库快速成型工具',
+          'en-US': 'Components Library Tools',
         },
-        doc: 'defaultsCustomization',
+        doc: 'cli',
         type: 3,
       },
       {
@@ -187,14 +191,6 @@ export default defineConfig({
           'en-US': 'Design Resources',
         },
         doc: 'designResources',
-        type: 3,
-      },
-      {
-        text: {
-          'zh-CN': '组件库快速成型工具',
-          'en-US': 'Components Library Tools',
-        },
-        doc: 'cli',
         type: 3,
       },
       {
@@ -512,6 +508,8 @@ export default defineConfig({
         doc: 'verification-code',
         type: 2,
       },
+      { text: { 'zh-CN': 'InputTag 标签输入', 'en-US': 'InputTag' }, doc: 'input-tag', type: 2 },
+      { text: { 'zh-CN': 'Mention 提及', 'en-US': 'Mention' }, doc: 'mention', type: 2 },
       {
         text: {
           'zh-CN': 'AutoComplete 自动补全',

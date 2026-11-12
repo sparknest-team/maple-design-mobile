@@ -40,6 +40,7 @@ import IndexBar from './index-bar'
 import InfiniteScroll from './infinite-scroll'
 import Input from './input'
 import InputNumber from './input-number'
+import InputTag from './input-tag'
 import Lazy from './lazy'
 import Link from './link'
 import List from './list'
@@ -47,6 +48,7 @@ import Loading from './loading'
 import LoadingBar from './loading-bar'
 import Locale from './locale'
 import LocaleProvider from './locale-provider'
+import Mention from './mention'
 import Menu from './menu'
 import Message from './message'
 import NavMenu from './nav-menu'
@@ -140,6 +142,7 @@ function install(app: App) {
     InfiniteScroll,
     Input,
     InputNumber,
+    InputTag,
     Lazy,
     Link,
     List,
@@ -148,6 +151,7 @@ function install(app: App) {
     Locale,
     LocaleProvider,
     Menu,
+    Mention,
     Message,
     NavMenu,
     NoticeBar,
@@ -245,6 +249,7 @@ export {
   InfiniteScroll,
   Input,
   InputNumber,
+  InputTag,
   Lazy,
   Link,
   List,
@@ -253,6 +258,7 @@ export {
   Locale,
   LocaleProvider,
   Menu,
+  Mention,
   Message,
   NavMenu,
   NoticeBar,

@@ -357,7 +357,7 @@ option({ data }) 接收规范化 CascaderOptionInfo，data.raw 是原始选项�
 | `expand-trigger` | Menu / List 的展开交互：click 或 hover | `string` | `click` |
 | `expand-child` | 展开到首个子节点 | `boolean` | `false` |
 | `load-more` | 异步加载子节点；完成后调用 done(children)，失败调用 done() 以允许重试 | `(option, done) => void` | `—` |
-| `fallback-option` | 尚未加载的值如何反显 | `boolean 或 (value) => string` | `true` |
+| `fallback-option` | 尚未加载的值如何反显 | `boolean or (value) => { value, label }` | `true` |
 | `search-option-only-label` | 搜索结果仅显示节点标签，不显示路径 | `boolean` | `false` |
 | `auto-fit-popup-width` | Menu 是否与字段等宽 | `boolean` | `false` |
 | `edit-mode` | 字段展示；未指定时继承 FormItem / Form | `direct / popup` | `popup` |

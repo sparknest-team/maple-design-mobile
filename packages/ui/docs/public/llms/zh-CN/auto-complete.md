@@ -41,6 +41,29 @@ const options = [
 </script>
 ```
 
+### 自定义文本提交
+
+选择候选项立即提交；输入自定义文本后点击确认。
+
+Example source: src/auto-complete/example/demos/zh-CN/custom-draft.vue
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const value = ref('')
+const options = ['Design', 'Engineering', 'Operations']
+</script>
+
+<template>
+  <div>
+    <p>选择候选项会立即提交；输入自定义内容后点击确认。</p>
+    <mp-auto-complete v-model="value" edit-mode="popup" :options="options" />
+    <p>已提交: {{ value || '—' }}</p>
+  </div>
+</template>
+```
+
 ## 外观与状态
 
 ### 外观配置对比
@@ -578,7 +601,7 @@ const options = [
 
 ### 编辑与确认
 
-本组件支持 `edit-mode`，字段 > FormItem > Form 逐层继承；未指定时为 `popup`，点击值区域打开编辑面板。支持值：`direct / popup`。非 direct 编辑模式通过字段值入口打开编辑面板，并维护单份草稿；确认后才更新 v-model，取消、重置或启用 readPretty 时丢弃草稿。
+本组件支持 `edit-mode`，字段 > FormItem > Form 逐层继承；未指定时为 `popup`，点击值区域打开编辑面板。支持值：`direct / popup`。非 direct 编辑模式通过字段值入口打开编辑面板。默认选中候选项即提交；自定义文本通过确认提交。设置 need-confirm 时选择也先编辑草稿并确认。取消、重置或启用 readPretty 时丢弃未提交的草稿。
 
 Maple 使用 edit-mode="popup" 点击值区域打开编辑面板；direct 直接编辑。 readPretty 为纯阅读属性，与 readonly、disabled 独立。
 
@@ -586,7 +609,7 @@ Maple 使用 edit-mode="popup" 点击值区域打开编辑面板；direct 直接
 
 `read-pretty` 为独立布尔属性，与 `readonly`、`disabled` 同级；字段 > FormItem > Form 继承，显式 `false` 覆盖父级。默认 `false`。纯阅读不显示编辑器。
 
-异步搜索时应在新请求开始时清除旧候选，并只采纳当前搜索词的最后一次响应。popup 内方向键与 Enter 只操作当前候选，保存由底部确认按钮完成。校验失败保留草稿；确认期间锁定编辑和关闭，表单重置会关闭 popup 并中止提交。请求归属应在关闭和重置时失效，完整示例见 Form 的“各类字段统一展示”。
+异步搜索时应在新请求开始时清除旧候选，并只采纳当前搜索词的最后一次响应。popup 内方向键与 Enter 操作当前候选；确认模式通过底部按钮提交，单选即时模式选中即提交。确认模式校验失败保留草稿；确认期间锁定编辑和关闭，表单重置会关闭 popup 并中止提交。请求归属应在关闭和重置时失效，完整示例见 Form 的“各类字段统一展示”。
 
 候选列表与 Select 统一使用分组、选中、禁用样式，AutoComplete 样式变量默认跟随对应的 Select 变量。direct 模式的候选列表默认在输入框下方展开，随滚动更新位置；可通过 trigger-props 调整方向或开启自动翻转。延迟编辑层由字段展示层管理，候选列表仍由内部输入管理；两端保留各自公开 edit-mode 值。
 
@@ -615,6 +638,7 @@ Maple 使用 edit-mode="popup" 点击值区域打开编辑面板；direct 直接
 
 | 属性                 | 说明                                                | 类型                                                                                     | 默认值                       |
 | -------------------- | --------------------------------------------------- | ---------------------------------------------------------------------------------------- | ---------------------------- |
+| need-confirm | 仅弹出编辑模式生效。默认选中候选项即提交并关闭，设为 true 时先编辑草稿、再点确认。提交仍执行表单校验和 before-commit，拒绝时不关闭。AutoComplete 输入文字不会自动提交；文字草稿改变时可点击确认，选中候选项则立即提交。 | `boolean` | `false` |
 | `model-value`        | 受控文本值                                          | `string \| null`                                                                                 | `—`                          |
 | `default-value`      | 非受控初始文本                                      | `string`                                                                                 | `''`                         |
 | `options`            | 候选；支持分组，value 唯一，选择后转为字符串        | `(AutoCompleteOption \| SelectOptionGroup)[]` / `(query, { signal }) => Array / Promise` | `undefined`                  |
@@ -737,7 +761,7 @@ AutoComplete 的文本输入始终可搜索；filter-option 只控制本地候�
 <mp-auto-complete v-model="text" :options="loadSuggestions" />
 ```
 
-`empty-value` 可显式设为 `null`（或 `() => null`），清空时原样提交 null；省略时保留组件原默认值。界面把 null 显示为空，不会把普通输入的空字符串自动转成 null。支持弹出编辑的字段中，清空先修改草稿，确认后提交，取消则保留原值。
+`empty-value` 可显式设为 `null`（或 `() => null`），清空时原样提交 null；省略时保留组件原默认值。界面把 null 显示为空，不会把普通输入的空字符串自动转成 null。确认式弹出编辑中，清空先修改草稿并在确认后提交；无需确认时清空会直接提交。
 
 公共 focus/blur 从首次挂载即可调用。focus 会打开可编辑的延迟编辑器，等待其就绪后定位；禁用、只读或纯阅读时不因此打开。blur 只失焦当前目标，不重新打开。保存的方法不会绑定旧编辑器，关闭、切换模式、停用或卸载会取消排队调用。
 

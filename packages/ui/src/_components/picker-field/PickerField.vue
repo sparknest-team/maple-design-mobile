@@ -110,7 +110,7 @@ function inputAttributes(index: number): InputHTMLAttributes & Record<string, un
   const common = splitInputAttrs(attrs).native
   const merged = mergeProps(common, part as Record<string, unknown>)
   const descriptions = [common['aria-describedby'], part['aria-describedby']].flatMap((value) =>
-    typeof value === 'string' ? value.split(/\s+/).filter(Boolean) : [],
+    typeof value === 'string' ? value.split(/[ \t\n\f\r]+/).filter(Boolean) : [],
   )
   if (descriptions.length) {
     merged['aria-describedby'] = [...new Set(descriptions)].join(' ')

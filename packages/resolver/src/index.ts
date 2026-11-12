@@ -38,6 +38,8 @@ const mapleComponents = new Set([
   'Alert',
   'PageHeader',
   'AutoComplete',
+  'InputTag',
+  'Mention',
   'PeopleSelect',
   'Avatar',
   'AvatarGroup',

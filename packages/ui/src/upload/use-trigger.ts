@@ -1,8 +1,9 @@
 import { onActivated, onBeforeUnmount, onDeactivated, ref, watch } from 'vue'
+import { isInteractiveAriaRole } from '../_utils/aria-role'
+import { isEditable } from '../_utils/is-editable'
 
 // Inspect rendered descendants so custom components and local slot updates work too.
-const interactive =
-  'button,input:not([type="hidden"]),textarea,select,a[href],summary,[contenteditable]:not([contenteditable="false"]),[role="button"],[role="link"],[role="checkbox"],[role="radio"],[role="switch"],[role="textbox"],[role="combobox"],[role="listbox"],[role="slider"],[role="spinbutton"]'
+const interactive = 'button,input:not([type="hidden"]),textarea,select,a[href],summary'
 
 export function useUploadTrigger() {
   const triggerRef = ref<HTMLElement>()
@@ -27,9 +28,37 @@ export function useUploadTrigger() {
       if (!active || triggerRef.value !== root) {
         return
       }
-      hasInteractiveTrigger.value =
-        Boolean(root.querySelector(interactive)) ||
-        Array.from(root.querySelectorAll<HTMLElement>('[tabindex]')).some((node) => node.tabIndex >= 0)
+      hasInteractiveTrigger.value = Array.from(
+        root.querySelectorAll<HTMLElement>(`${interactive},[contenteditable],[tabindex],[role]`),
+      ).some((node) => {
+        if (node.tagName === 'INPUT' && (node as HTMLInputElement).type === 'hidden') {
+          return false
+        }
+        if (
+          !node.matches(interactive) &&
+          !isEditable(node) &&
+          node.tabIndex < 0 &&
+          !isInteractiveAriaRole(node.getAttribute('role'))
+        ) {
+          return false
+        }
+        const view = root.ownerDocument.defaultView
+        const visibility = view?.getComputedStyle(node).visibility
+        if (visibility === 'hidden' || visibility === 'collapse') {
+          return false
+        }
+        let ancestor: Element | null = node
+        while (ancestor && ancestor !== root) {
+          if (ancestor.hasAttribute('hidden') || ancestor.hasAttribute('inert')) {
+            return false
+          }
+          if (view?.getComputedStyle(ancestor).display === 'none') {
+            return false
+          }
+          ancestor = ancestor.parentElement
+        }
+        return true
+      })
     }
     update()
     const Observer = root.ownerDocument.defaultView?.MutationObserver
@@ -39,7 +68,7 @@ export function useUploadTrigger() {
         childList: true,
         subtree: true,
         attributes: true,
-        attributeFilter: ['role', 'tabindex', 'href', 'type', 'contenteditable'],
+        attributeFilter: ['role', 'tabindex', 'href', 'type', 'contenteditable', 'hidden', 'inert', 'class', 'style'],
       })
     }
   }

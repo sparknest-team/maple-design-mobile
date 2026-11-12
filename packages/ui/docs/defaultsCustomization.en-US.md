@@ -1,39 +1,28 @@
-# Defaults Customization
+# Defaults and global configuration
 
-### Intro
+## Set Global Component Defaults
 
-The component library provides the ability to customize the default values of component props.
+Every component provides `setPropsDefaults` for changing the defaults of declarative instances created afterward. Call it before mounting the application:
 
-### Basic Usage
-
-Customize the component's property definition through the mp-static method `setPropsDefaults` provided by the component. It should be noted that attribute customization only takes effect for declarative components, and the customized behavior should be before the component is initialized.
-
-```js
-// playground-ignore
-// main.ts
-import { Button } from '@maple-design/ui-vue'
+```ts
+import { Button, ThemeProvider } from '@maple-design/ui-vue'
 
 Button.setPropsDefaults({
   status: 'primary',
   variant: 'tonal',
-  elevation: 10
+  size: 'lg',
+})
+
+// Other components use the same API
+ThemeProvider.setPropsDefaults({
+  tag: 'section',
 })
 ```
 
-After customization, the following two writing methods will be equivalent.
+Explicit component props take precedence. Existing mounted instances are not updated; object and array defaults are copied per instance.
 
-```html
-<!-- playground-ignore -->
-<!-- App.vue -->
-<template>
-  <mp-button>Hello</mp-button>
-</template>
-```
+## Global Context
 
-```html
-<!-- playground-ignore -->
-<!-- App.vue -->
-<template>
-  <mp-button status="primary" variant="tonal" :elevation="10">Hello</mp-button>
-</template>
-```
+Import `Context` from `@maple-design/ui-vue`, or default-import the same reactive object from `@maple-design/ui-vue/context`. It has `zIndex` (default 2000) and `enableRipple` (default true). Changing `zIndex` affects later allocations, not already open layers. Disabling ripple prevents new waves without disabling host interactions.
+
+This is a module singleton shared by applications and server requests using the same module instance; do not mutate it for per-request SSR isolation. SSR starts at 2000 and allocates from the current value after mounting. The test environment does not increment allocations, and separate bundled copies have separate state. It is not a component and has no props, events, slots, or instance methods.

@@ -1,6 +1,7 @@
 import { nextTick, onActivated, onBeforeUnmount, onDeactivated, onMounted, watch } from 'vue'
+import { isEditable } from '../_utils/is-editable'
 
-const selector = 'a[href],button,input,select,textarea,[tabindex], [contenteditable="true"]'
+const selector = 'a[href],button,input,select,textarea,[tabindex], [contenteditable]'
 const focusOrigins = new WeakMap<HTMLElement, HTMLElement[]>()
 function restorable(element: HTMLElement) {
   if (
@@ -20,7 +21,15 @@ function restorable(element: HTMLElement) {
   return true
 }
 function available(element: HTMLElement) {
-  return element.tabIndex >= 0 && restorable(element)
+  const parent = element.parentElement
+  const tabIndexAttribute = element.getAttribute('tabindex')
+  const hasValidTabIndex = tabIndexAttribute !== null && /^[ \t\n\f\r]*[+-]?\d/.test(tabIndexAttribute)
+  const editableHost =
+    element.hasAttribute('contenteditable') &&
+    !hasValidTabIndex &&
+    isEditable(element) &&
+    (!parent || !isEditable(parent))
+  return (element.tabIndex >= 0 || editableHost) && restorable(element)
 }
 
 /** Modal ownership follows the popup stack, including teleported child Triggers. */
@@ -142,6 +151,12 @@ export function useModalFocus(
       return
     }
     const items = Array.from(target.querySelectorAll<HTMLElement>(selector)).filter(available)
+    // Positive tabindex precedes the natural/zero order; equal values retain DOM order.
+    items.sort((left, right) => {
+      const a = left.tabIndex > 0 ? left.tabIndex : 0
+      const b = right.tabIndex > 0 ? right.tabIndex : 0
+      return a && b ? a - b : a ? -1 : b ? 1 : 0
+    })
     const focused = target.ownerDocument.activeElement
     const first = items[0],
       last = items[items.length - 1]

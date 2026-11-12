@@ -2491,7 +2491,7 @@
               "description": "尚未加载的值如何反显",
               "default": "true",
               "value": {
-                "type": "`boolean 或 (value) => string`",
+                "type": "`boolean or (value) => { value, label }`",
                 "kind": "expression"
               }
             },
@@ -7037,6 +7037,241 @@
           ]
         },
         {
+          "name": "mp-input-tag",
+          "attributes": [
+            {
+              "name": "model-value **(v-model)**",
+              "description": "绑定值",
+              "default": "-",
+              "value": {
+                "type": "`(string | number | TagData)[] | null`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-value",
+              "description": "默认值（非受控状态）",
+              "default": "[]",
+              "value": {
+                "type": "`(string | number | TagData)[]`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "input-value **(v-model)**",
+              "description": "输入框的值",
+              "default": "-",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-input-value",
+              "description": "输入框的默认值（非受控状态）",
+              "default": "''",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "placeholder",
+              "description": "占位符",
+              "default": "-",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "disabled",
+              "description": "是否禁用",
+              "default": "-",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "error",
+              "description": "是否为错误状态",
+              "default": "-",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "readonly",
+              "description": "是否为只读模式",
+              "default": "-",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "clearable",
+              "description": "是否允许清空",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "size",
+              "description": "输入框的大小",
+              "default": "'md'",
+              "value": {
+                "type": "`'xs' | 'sm' | 'md' | 'lg' | 'xl'`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "variant",
+              "description": "输入框的变体",
+              "default": "'filled'",
+              "value": {
+                "type": "`'filled' | 'outline' | 'standard'`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "max-tag-count",
+              "description": "有限非负整数；0 不限，非法值诊断后按不限展示",
+              "default": "0",
+              "value": {
+                "type": "`number`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "retain-input-value",
+              "description": "是否保留输入框的内容",
+              "default": "false",
+              "value": {
+                "type": "`boolean | { create?: boolean; blur?: boolean }`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "format-tag",
+              "description": "格式化标签内容",
+              "default": "-",
+              "value": {
+                "type": "`(data: TagData) => string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "fallback-option",
+              "description": "同步解析原始值的展示数据；不返回结果时显示原始值",
+              "default": "-",
+              "value": {
+                "type": "`(value: string | number) => TagData | null | undefined`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "unique-value",
+              "description": "是否仅创建唯一的值",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "field-names",
+              "description": "自定义 `TagData` 中的字段",
+              "default": "-",
+              "value": {
+                "type": "`InputTagFieldNames`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "tag-nowrap",
+              "description": "标签内容不换行",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "update:modelValue",
+              "description": "标签模型更新提案，确认模式在保存后通知"
+            },
+            {
+              "name": "update:inputValue",
+              "description": "独立输入草稿更新提案"
+            },
+            {
+              "name": "update:open",
+              "description": "编辑层受控开关更新"
+            },
+            {
+              "name": "open-change",
+              "description": "编辑层实际开关变化"
+            },
+            {
+              "name": "change",
+              "description": "值发生改变时触发"
+            },
+            {
+              "name": "input-value-change",
+              "description": "输入值发生改变时触发"
+            },
+            {
+              "name": "press-enter",
+              "description": "按下回车键时触发"
+            },
+            {
+              "name": "remove",
+              "description": "点击标签的删除按钮时触发"
+            },
+            {
+              "name": "clear",
+              "description": "调用清除动作时触发"
+            },
+            {
+              "name": "focus",
+              "description": "输入框获取焦点时触发"
+            },
+            {
+              "name": "blur",
+              "description": "输入框失去焦点时触发"
+            }
+          ],
+          "slots": [
+            {
+              "name": "tag",
+              "description": "输入框标签的显示内容"
+            },
+            {
+              "name": "prefix",
+              "description": "前缀元素"
+            },
+            {
+              "name": "suffix",
+              "description": "后缀元素"
+            },
+            {
+              "name": "clear-icon",
+              "description": "自定义清空入口"
+            },
+            {
+              "name": "read",
+              "description": "自定义阅读内容，优先于 empty-text"
+            }
+          ]
+        },
+        {
           "name": "mp-lazy",
           "attributes": [],
           "events": [],
@@ -7405,6 +7640,252 @@
             {
               "name": "default",
               "description": "组件内容"
+            }
+          ]
+        },
+        {
+          "name": "mp-mention",
+          "attributes": [
+            {
+              "name": "model-value (v-model)",
+              "description": "受控文本；null 显示为空",
+              "default": "undefined",
+              "value": {
+                "type": "string | null",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "atomic",
+              "description": "启用编码存储和整体编辑的提及项",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "fallback-option",
+              "description": "同步返回未匹配 ID 的展示选项",
+              "default": "undefined",
+              "value": {
+                "type": "`(value: string | number | boolean) => SelectOptionData | null | undefined`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-value",
+              "description": "非受控初始文本",
+              "default": "''",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "options",
+              "description": "候选数组或显式加载函数，支持嵌套分组",
+              "default": "undefined",
+              "value": {
+                "type": "readonly (string | number | SelectOptionData | SelectOptionGroup)[] | ((query: string, context: { signal: AbortSignal }) => Array | `Promise<Array>`)",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "prefix",
+              "description": "触发前缀；支持多字符和多个前缀",
+              "default": "'@'",
+              "value": {
+                "type": "string | string[]",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "split",
+              "description": "提及前后的分隔符",
+              "default": "' '",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "type",
+              "description": "输入形态",
+              "default": "input",
+              "value": {
+                "type": "input | textarea",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "disabled",
+              "description": "未设置时继承 Form，显式 false 覆盖",
+              "default": "undefined",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "readonly",
+              "description": "未设置时继承 Form，显式 false 覆盖",
+              "default": "undefined",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "clearable",
+              "description": "允许清空文本或编辑草稿",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "loading",
+              "description": "手动等待反馈，不隐式禁用文本编辑",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "edit-mode",
+              "description": "编辑模式，继承 FormItem 和 Form",
+              "default": "'direct'",
+              "value": {
+                "type": "`'direct' | 'popup'`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "read-pretty",
+              "description": "独立阅读状态，显式 false 覆盖父级",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "empty-value",
+              "description": "清空输出；显式 null 原样提交",
+              "default": "''",
+              "value": {
+                "type": "`string | null | (() => string | null)`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "empty-values",
+              "description": "空值识别策略，字段优先于 FormItem 和 Form",
+              "default": "-",
+              "value": {
+                "type": "`readonly unknown[]`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "empty-text",
+              "description": "阅读空文案，显式空字符串有效",
+              "default": "'-'",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "before-commit",
+              "description": "延迟编辑保存前守卫；返回布尔值、Promise 或通过 done 完成",
+              "default": "-",
+              "value": {
+                "type": "`(payload: { value: unknown; previousValue: unknown }, done: (allow?: boolean) => void, context: { signal: AbortSignal; event?: Event }) => void | boolean | Promise<void | boolean>`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "open",
+              "description": "受控编辑层开关，不是内部原生输入焦点",
+              "default": "-",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-open",
+              "description": "非受控编辑层初始开关",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "popup-container",
+              "description": "编辑层挂载容器",
+              "default": "-",
+              "value": {
+                "type": "`string | HTMLElement | false`",
+                "kind": "expression"
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "update:modelValue",
+              "description": "value: string | null"
+            },
+            {
+              "name": "change",
+              "description": "value: string | null；不附带原生 Event"
+            },
+            {
+              "name": "search",
+              "description": "query: string, prefix: string"
+            },
+            {
+              "name": "select",
+              "description": "value: SelectOptionValue | undefined；来自实际叶子候选"
+            },
+            {
+              "name": "clear",
+              "description": "event: Event"
+            },
+            {
+              "name": "focus / blur",
+              "description": "event: FocusEvent"
+            },
+            {
+              "name": "load-error",
+              "description": "error: unknown；保留加载源原始错误"
+            },
+            {
+              "name": "update:open / open-change",
+              "description": "open: boolean；仅字段编辑层"
+            }
+          ],
+          "slots": [
+            {
+              "name": "option",
+              "description": "两种输入形态的候选内容；data: SelectOptionInfo，含 key、raw、value、label"
+            },
+            {
+              "name": "read",
+              "description": "两种输入形态的阅读内容；value: string | null, text: string"
+            },
+            {
+              "name": "prefix / suffix",
+              "description": "仅 type=input 的输入框前后缀"
+            },
+            {
+              "name": "clear-icon",
+              "description": "两种输入形态的清空节点；clear(event?: Event): void"
             }
           ]
         },

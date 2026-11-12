@@ -279,14 +279,22 @@ const plugin = {
     const baselinePath = process.env.MAPLE_BUNDLE_BASELINE || path.join(__dirname, 'component-bundle.baseline.json')
     const baseline = JSON.parse(fs.readFileSync(baselinePath, 'utf8'))
     const limits = new Map(baseline.map((row) => [row.name, row]))
+    const missing = []
     const regressions = rows.flatMap((row) => {
       const limit = limits.get(row.name)
-      assert.ok(limit, `Missing on-demand size baseline: ${row.name}`)
+      if (!limit) {
+        missing.push(row.name)
+        return []
+      }
       return row.bytes > limit.bytes || row.gzip > limit.gzip
         ? [{ name: row.name, bytes: row.bytes - limit.bytes, gzip: row.gzip - limit.gzip }]
         : []
     })
-    assert.deepEqual(regressions, [], 'On-demand JS size exceeded the supplied baseline')
+    assert.deepEqual(
+      { missing, regressions },
+      { missing: [], regressions: [] },
+      'On-demand JS size baseline is incomplete or exceeded',
+    )
   }
   console.log(
     JSON.stringify(

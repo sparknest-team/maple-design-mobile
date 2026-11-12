@@ -49,7 +49,7 @@
       <mp-form-details
         v-if="!noStyle"
         data-form-item-feedback
-        :error-message="presentationState.readPretty.value ? '' : displayErrorMessage"
+        :error-message="presentationState.readPretty.value ? '' : visibleErrorMessage"
         :extra-message="extra"
       >
         <template v-if="$slots.extra" #extra-message>
@@ -57,7 +57,7 @@
         </template>
       </mp-form-details>
 
-      <div v-if="!noStyle && !displayErrorMessage && (help || $slots.help)" :class="n('help')">
+      <div v-if="!noStyle && !visibleErrorMessage && (help || $slots.help)" :class="n('help')">
         <slot name="help">{{ help }}</slot>
       </div>
     </mp-col>
@@ -66,7 +66,19 @@
 
 <script lang="ts">
 import type { ComponentPublicInstance, SlotsType } from 'vue'
-import { computed, defineComponent, nextTick, onBeforeUnmount, onMounted, ref, useSlots, watch } from 'vue'
+import {
+  computed,
+  defineComponent,
+  inject,
+  nextTick,
+  onBeforeUnmount,
+  onMounted,
+  provide,
+  reactive,
+  ref,
+  useSlots,
+  watch,
+} from 'vue'
 import { cloneDeep, normalizeToArray } from '@maple-design/shared-vue'
 import { provideItemPresentation } from '../_components/field-presentation/context'
 import Col from '../col'
@@ -82,6 +94,7 @@ import { resolveFormItemStatus, type FormItemValidateStatus } from './item-decor
 import { props, type FormItemValidateTrigger } from './item-props'
 import { bindFormItem, useFormItem, type FormItemEventHandlers, type FormItemProvider } from './item-provide'
 import { provideFormItemLabel } from './label-context'
+import { nestedFeedbackKey, type NestedFeedback } from './nested-feedback'
 import { useForm } from './provide'
 import { isFormRule } from './rule-validation'
 import type { FormItemSlots } from './types'
@@ -200,8 +213,26 @@ export default defineComponent({
 
     const displayStatus = computed(() => resolveFormItemStatus(props.validateStatus, validationStatus.value))
     const displayErrorMessage = computed(() => (displayStatus.value === 'error' ? errorMessage.value : ''))
+    const parentFeedback = inject(nestedFeedbackKey, undefined)
+    const nestedFeedback: NestedFeedback = reactive(new Map<symbol, string>())
+    const feedbackSource = Symbol('form-item-feedback-source')
+    provide(nestedFeedbackKey, nestedFeedback)
+    const visibleErrorMessage = computed(() =>
+      [...new Set([displayErrorMessage.value, ...nestedFeedback.values()].filter(Boolean))].join('；'),
+    )
+    watch(
+      [() => props.noStyle, visibleErrorMessage, presentationState.readPretty],
+      ([noStyle, message, readPretty]) => {
+        if (noStyle && message && !readPretty) {
+          parentFeedback?.set(feedbackSource, message)
+        } else {
+          parentFeedback?.delete(feedbackSource)
+        }
+      },
+      { immediate: true, flush: 'sync' },
+    )
     const { labelId } = provideFormErrorDescription(
-      () => !presentationState.readPretty.value && Boolean(displayErrorMessage.value),
+      () => !presentationState.readPretty.value && Boolean(visibleErrorMessage.value),
       () => props.noStyle,
     )
     const labelContext = provideFormItemLabel({
@@ -366,6 +397,7 @@ export default defineComponent({
       { flush: 'sync' },
     )
     onBeforeUnmount(() => {
+      parentFeedback?.delete(feedbackSource)
       active = false
       fieldMounted = false
       validationTask.invalidate()
@@ -395,6 +427,7 @@ export default defineComponent({
       showAsterisk,
       mergedLayout,
       displayErrorMessage,
+      visibleErrorMessage,
       validate,
       clearValidate,
       resetField,

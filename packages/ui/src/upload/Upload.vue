@@ -257,9 +257,9 @@ const uploader = useUploader({
   onError: (file) => emit('error', file),
   onReplace: (file, previous) => emit('replace', file, previous),
   onRemove: (file) => emit('remove', file),
-  onPreview: (file, event) => {
+  onPreview: (file, event, isCurrent) => {
     emit('preview', file, event)
-    if (event.defaultPrevented || !props.preview) {
+    if (event.defaultPrevented || !props.preview || !isCurrent()) {
       return
     }
     closePreview()

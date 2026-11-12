@@ -35,7 +35,7 @@ Documentation language: zh-CN.
 - [倒计时](./llms/zh-CN/countdown.md): /zh-CN/countdown
 - [DateRange 日期范围](./llms/zh-CN/date-range.md): /zh-CN/date-range
 - [Date 日期](./llms/zh-CN/date.md): /zh-CN/date
-- [默认值定制](./llms/zh-CN/defaultsCustomization.md): /zh-CN/defaultsCustomization
+- [默认值与全局配置](./llms/zh-CN/defaultsCustomization.md): /zh-CN/defaultsCustomization
 - [设计资源](./llms/zh-CN/designResources.md): /zh-CN/designResources
 - [Maple 组件 CSS 变量参考](./llms/zh-CN/designTokenReference.md): /zh-CN/designTokenReference
 - [Design Token 与 CSS 变量分层](./llms/zh-CN/designTokens.md): /zh-CN/designTokens
@@ -61,6 +61,7 @@ Documentation language: zh-CN.
 - [索引栏](./llms/zh-CN/index-bar.md): /zh-CN/index-bar
 - [无限滚动 InfiniteScroll](./llms/zh-CN/infinite-scroll.md): /zh-CN/infinite-scroll
 - [InputNumber](./llms/zh-CN/input-number.md): /zh-CN/input-number
+- [InputTag](./llms/zh-CN/input-tag.md): /zh-CN/input-tag
 - [输入框](./llms/zh-CN/input.md): /zh-CN/input
 - [图片懒加载](./llms/zh-CN/lazy.md): /zh-CN/lazy
 - [链接](./llms/zh-CN/link.md): /zh-CN/link
@@ -70,6 +71,7 @@ Documentation language: zh-CN.
 - [加载](./llms/zh-CN/loading.md): /zh-CN/loading
 - [LocaleProvider](./llms/zh-CN/locale-provider.md): /zh-CN/locale-provider
 - [国际化](./llms/zh-CN/locale.md): /zh-CN/locale
+- [Mention](./llms/zh-CN/mention.md): /zh-CN/mention
 - [Menu 菜单](./llms/zh-CN/menu.md): /zh-CN/menu
 - [全局提示](./llms/zh-CN/message.md): /zh-CN/message
 - [NavMenu 导航菜单](./llms/zh-CN/nav-menu.md): /zh-CN/nav-menu

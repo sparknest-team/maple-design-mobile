@@ -74,7 +74,7 @@
 <script setup lang="ts">
 import { computed, nextTick, reactive, ref, toRefs, useAttrs, useId, useSlots } from 'vue'
 import SelectionField from '../_components/selection-field/SelectionField.vue'
-import { createNamespace } from '../utils/components'
+import { createNamespace, getPrefixCls } from '../utils/components'
 import CascaderMenu from './CascaderMenu.vue'
 import { cascaderEmits } from './emits'
 import { presentations } from './presentations'
@@ -128,24 +128,42 @@ const handleFieldKeydown = (event: KeyboardEvent) => {
   emit('keydown', event)
   if (!event.defaultPrevented) {
     const target = event.target as HTMLElement | null
+    const root = target?.getRootNode()
+    const focusRoot = root && 'activeElement' in root ? (root as Document | ShadowRoot) : target?.ownerDocument
+    const option = target?.closest('[data-cascader-key]')
+    const internalCheckbox =
+      target?.matches('input[type="checkbox"]') &&
+      option &&
+      Array.from(option.children).some(
+        (child) => child.classList.contains(`${getPrefixCls('cascader-option')}-checkbox`) && child.contains(target),
+      )
     const restore =
       event.key === 'Escape' &&
       !event.isComposing &&
       event.keyCode !== 229 &&
       computedOpen.value &&
-      target?.matches('[data-cascader-key]') &&
-      target.ownerDocument.activeElement === target
+      (target === option || internalCheckbox) &&
+      focusRoot?.activeElement === target
     const task = handleKeyDown.value(event)
     if (restore && target) {
-      nextTick(() => {
-        const active = target.ownerDocument.activeElement
-        if (
-          !computedOpen.value &&
-          (active === target || (!target.isConnected && active === target.ownerDocument.body))
-        ) {
-          fieldRef.value?.focus()
-        }
-      })
+      const restoreFocus = () =>
+        nextTick(() => {
+          const active = focusRoot?.activeElement
+          const document = target.ownerDocument
+          const lostToRemoval =
+            !target.isConnected &&
+            (active === null || active === document.body || active === document.documentElement) &&
+            (document.activeElement === document.body || document.activeElement === document.documentElement)
+          if (!computedOpen.value && (active === target || lostToRemoval)) {
+            fieldRef.value?.focus()
+          }
+        })
+      // The trigger's document-level Escape listener closes the popup later in the same event.
+      if (internalCheckbox && target.ownerDocument.defaultView) {
+        target.ownerDocument.defaultView.setTimeout(restoreFocus, 0)
+      } else {
+        void restoreFocus()
+      }
     }
     return task
   }

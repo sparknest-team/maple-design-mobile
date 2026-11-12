@@ -359,7 +359,7 @@ Use `v-model`, `v-model:open` and `v-model:input-value` for controlled state. Cl
 | `expand-trigger` | Menu / List expansion: click or hover | `string` | `click` |
 | `expand-child` | Expand to first child | `boolean` | `false` |
 | `load-more` | Load children asynchronously; call done(children), or done() to allow retry | `(option, done) => void` | `—` |
-| `fallback-option` | Display unresolved values | `boolean or (value) => string` | `true` |
+| `fallback-option` | Display unresolved values | `boolean or (value) => { value, label }` | `true` |
 | `search-option-only-label` | Show node label only in search results | `boolean` | `false` |
 | `auto-fit-popup-width` | Match Menu width to field | `boolean` | `false` |
 | `edit-mode` | Field presentation; inherits FormItem / Form when omitted. | `direct / popup` | `popup` |

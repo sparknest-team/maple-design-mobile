@@ -248,7 +248,8 @@ Each library exports `NavMenuPopupLayout` with its supported values. Maple's `Na
 | Prop | Description | Default |
 | --------------------------------- | ---------------------------------------------------------------------------------------- | ---------------- |
 | mode | Horizontal only on mobile | horizontal |
-| active-item / default-active-item | Controlled / initial active named entry | undefined / null |
+| active-item | Controlled active named entry; supports v-model:active-item | `undefined` |
+| default-active-item | Initial uncontrolled active named entry | `null` |
 | size | xs / sm / md / lg / xl | md |
 | disabled | Disable all entries | false |
 | popup-container | Popup mount container; false renders in place. Does not change viewport layout references; transformed ancestors may change the fixed-position containing block | body |
@@ -267,16 +268,20 @@ Event: update:active-item. Methods: close(), resize(), setActiveItem(key). The d
 | ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ----------------- |
 | name | Unique root-level business activation key; omitted entries highlight their selections independently | — |
 | label | Entry title when no option matches | — |
-| options / field-names | Cedar-compatible options and field mapping | [] / — |
-| model-value / default-value | Controlled / initial selected key; supports strings, numbers and null | undefined / null |
-| open / default-open | Controlled / initial open state | undefined / false |
+| options | Menu options, using the same structure as NavMenu | `[]` |
+| field-names | Option field mapping, consistent with NavMenu | `undefined` |
+| model-value | Controlled selected key (string, number or null); supports v-model | `undefined` |
+| default-value | Initial uncontrolled selected key (string, number or null); read only at initialization | `null` |
+| open | Controlled open state; supports v-model:open | `undefined` |
+| default-open | Initial uncontrolled open state; read only at initialization | `false` |
 | highlight | Visual highlight override; follows business active state when omitted | undefined |
 | disabled | Disable the entry, also respecting the parent menu | undefined |
 | hide-on-select | Close the panel after select | true |
 | unmount-on-close | Destroy panel content after the closing transition; retain it by default | false |
 | popup-layout | full-width spans the viewport width with content-driven height; full fills the visible area below the filter bar in both dimensions. Both open below the entire filter bar without automatic flipping; width does not depend on the entry | full-width |
 | popup-style | Custom panel styles | — |
-| popup-container / popup-class | Override the parent menu mount container / panel class | Follow parent menu |
+| popup-container | Popup mount container; inherits the parent menu when omitted | Follow parent menu |
+| popup-class | Additional popup classes; inherits the parent menu when omitted | Follow parent menu |
 | options-mode | Vertical / horizontal arrangement of options within the panel | vertical |
 
 A standalone NavMenuItem uses its own bottom edge as the panel origin. Triggering is fixed to click; overflowing entries scroll horizontally. Mobile does not expose placement/trigger, dropdown, or side full-height layouts.
@@ -303,7 +308,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 
 | Variable | Default / condition | Affected styles |
 | --- | --- | --- |
-| `--mp-nav-menu-active-color` | `var(--mp-sys-color-content-brand)` | `color`, `outline` |
+| `--mp-nav-menu-active-color` | `var(--mp-sys-color-action-primary)` | `color`, `outline` |
 | `--mp-nav-menu-arrow-size` | `6px` | `height`, `width` |
 | `--mp-nav-menu-background` | `var(--mp-sys-color-surface-overlay)` | `background` |
 | `--mp-nav-menu-border-color` | `var(--mp-sys-color-border-default)` | `border-top` |
@@ -326,7 +331,7 @@ Apply overrides to the rendered component root or the actual popup ancestor. For
 
 ```css
 .component-theme {
-  --mp-nav-menu-active-color: var(--mp-sys-color-content-brand);
+  --mp-nav-menu-active-color: var(--mp-sys-color-action-primary);
 }
 ```
 

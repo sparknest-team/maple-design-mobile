@@ -17,6 +17,7 @@
     :style="{
       zIndex: floated ? zIndex : undefined,
     }"
+    @focusin="onCardFocus"
     @click="handleClick"
   >
     <div
@@ -124,7 +125,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick, onActivated, onBeforeUnmount, onDeactivated, ref, shallowRef, watch } from 'vue'
+import { computed, nextTick, onActivated, onBeforeUnmount, onDeactivated, onMounted, ref, shallowRef, watch } from 'vue'
 import { IconClose as MIconClose } from '@maple-design/icons-vue'
 import { doubleRaf, getRect } from '@maple-design/shared-vue'
 import BaseButton from '../button/base'
@@ -180,7 +181,75 @@ useLock(
   () => card.value?.ownerDocument.body,
 )
 
+let previousFocusRoot: Document | ShadowRoot | undefined
+function focusedCardContext(): Element | null {
+  const element = card.value
+  if (!element) {
+    return null
+  }
+  const root = element.getRootNode()
+  if ('activeElement' in root) {
+    previousFocusRoot = root as Document | ShadowRoot
+  }
+  if (
+    previousFocusRoot &&
+    previousFocusRoot !== element.ownerDocument &&
+    previousFocusRoot.ownerDocument !== element.ownerDocument
+  ) {
+    previousFocusRoot = undefined
+  }
+  let focused = (previousFocusRoot?.activeElement ?? element.ownerDocument.activeElement) as Element | null
+  while (focused?.shadowRoot?.activeElement) {
+    focused = focused.shadowRoot.activeElement
+  }
+  return focused
+}
+function closestAcrossRoots(element: Element | null, selector: string): Element | null {
+  while (element) {
+    const match = element.closest(selector)
+    if (match) {
+      return match
+    }
+    const root = element.getRootNode()
+    element = 'host' in root ? (root as ShadowRoot).host : null
+  }
+  return null
+}
+function composedContains(container: Element | null, element: Element | null): boolean {
+  while (container && element) {
+    if (container.contains(element)) {
+      return true
+    }
+    const root = element.getRootNode()
+    element = 'host' in root ? (root as ShadowRoot).host : null
+  }
+  return false
+}
+
+onMounted(() => {
+  focusedCardContext()
+  if (wantsFloating()) {
+    trackFocusRoot()
+  }
+})
+
 let returnFocus: HTMLElement | null = null
+function onCardFocus(event: FocusEvent) {
+  const related = event.relatedTarget as HTMLElement | null
+  const document = card.value?.ownerDocument
+  if (
+    !active &&
+    wantsFloating() &&
+    related &&
+    typeof related.focus === 'function' &&
+    !composedContains(card.value, related) &&
+    related !== document?.body &&
+    related !== document?.documentElement
+  ) {
+    returnFocus = related
+  }
+  focusedCardContext()
+}
 let stopInactiveFocusTracking: (() => void) | undefined
 function trackInactiveFocus() {
   stopInactiveFocusTracking?.()
@@ -193,15 +262,15 @@ function trackInactiveFocus() {
     if (
       element &&
       typeof element.focus === 'function' &&
-      !card.value?.contains(element) &&
+      !composedContains(card.value, element) &&
       element !== document.body &&
       element !== document.documentElement
     ) {
       returnFocus = element
     }
   }
-  remember(document.activeElement)
-  const onFocus = (event: FocusEvent) => remember(event.target)
+  remember(focusedCardContext())
+  const onFocus = () => remember(focusedCardContext())
   document.addEventListener('focusin', onFocus, true)
   stopInactiveFocusTracking = () => document.removeEventListener('focusin', onFocus, true)
 }
@@ -210,15 +279,20 @@ function updateReturnFocus(open: boolean) {
   if (!document) {
     return
   }
-  const focused = document.activeElement as HTMLElement | null
+  const focused = focusedCardContext() as HTMLElement | null
   if (open) {
     returnFocus = focused && focused !== document.body && focused !== document.documentElement ? focused : null
     return
   }
   const target = returnFocus
   returnFocus = null
-  const hiddenArea = focused?.closest(`.${n('floating-content')}, .${n('floating-buttons')}`)
-  if (hiddenArea && cardFloater.value?.contains(hiddenArea) && target?.isConnected && !target.closest('[inert]')) {
+  const hiddenArea = closestAcrossRoots(focused, `.${n('floating-content')}, .${n('floating-buttons')}`)
+  if (
+    hiddenArea &&
+    cardFloater.value?.contains(hiddenArea) &&
+    target?.isConnected &&
+    !closestAcrossRoots(target, '[inert]')
+  ) {
     target.focus({ preventScroll: true })
   }
 }
@@ -226,6 +300,45 @@ function updateReturnFocus(open: boolean) {
 const wantsFloating = () => props.floating && !isRow.value
 const { onStackTop } = usePopupLayer(wantsFloating, zIndex, () => card.value?.ownerDocument, true)
 const available = () => active && !disposed
+let focusRootObserver: MutationObserver | undefined
+function stopFocusRootTracking() {
+  focusRootObserver?.disconnect()
+  focusRootObserver = undefined
+}
+function trackFocusRoot() {
+  stopFocusRootTracking()
+  const element = card.value
+  const Observer = element?.ownerDocument.defaultView?.MutationObserver
+  if (!element || !Observer || !available() || !wantsFloating()) {
+    return
+  }
+  let ancestors: Node[] = []
+  const update = () => {
+    if (!available() || !wantsFloating() || card.value !== element) {
+      return
+    }
+    const root = element.getRootNode()
+    if ('activeElement' in root) {
+      previousFocusRoot = root as Document | ShadowRoot
+    }
+    const next: Node[] = []
+    let node: Node | null = element.parentNode
+    while (node) {
+      next.push(node)
+      node = node.parentNode ?? ('host' in node ? (node as ShadowRoot).host : null)
+    }
+    if (next.length === ancestors.length && next.every((entry, index) => entry === ancestors[index])) {
+      return
+    }
+    focusRootObserver?.disconnect()
+    ancestors = next
+    for (const ancestor of ancestors) {
+      focusRootObserver?.observe(ancestor, { childList: true })
+    }
+  }
+  focusRootObserver = new Observer(update)
+  update()
+}
 let openingWaiting = false
 let cancelOpeningFrames: (() => void) | undefined
 function waitForOwnerFrames(view: Window): Promise<boolean> {
@@ -297,6 +410,7 @@ watch(
     }
     if (element && wantsFloating() && available()) {
       updateReturnFocus(true)
+      trackFocusRoot()
     }
   },
   { flush: 'sync' },
@@ -321,6 +435,11 @@ watch(
       return
     }
     updateReturnFocus(value)
+    if (value) {
+      trackFocusRoot()
+    } else {
+      stopFocusRootTracking()
+    }
     let consumed = false
     nextTick(() => {
       if (!available() || token !== generation || consumed || value !== wantsFloating()) {
@@ -483,6 +602,7 @@ function handleClick(e: Event) {
   }
 }
 onBeforeUnmount(() => {
+  stopFocusRootTracking()
   disposed = true
   stopMotionTracking?.()
   stopMotionTracking = undefined
@@ -491,6 +611,7 @@ onBeforeUnmount(() => {
   cleanup()
 })
 onDeactivated(() => {
+  stopFocusRootTracking()
   stopMotionTracking?.()
   stopMotionTracking = undefined
   cleanup()
@@ -507,7 +628,8 @@ onActivated(() => {
   stopInactiveFocusTracking?.()
   stopInactiveFocusTracking = undefined
   if (wantsFloating()) {
-    if (!card.value?.contains(card.value.ownerDocument.activeElement)) {
+    trackFocusRoot()
+    if (!composedContains(card.value, focusedCardContext())) {
       updateReturnFocus(true)
     }
     floating()

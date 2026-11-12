@@ -2491,7 +2491,7 @@
               "description": "Display unresolved values",
               "default": "true",
               "value": {
-                "type": "`boolean or (value) => string`",
+                "type": "`boolean or (value) => { value, label }`",
                 "kind": "expression"
               }
             },
@@ -7037,6 +7037,241 @@
           ]
         },
         {
+          "name": "mp-input-tag",
+          "attributes": [
+            {
+              "name": "model-value **(v-model)**",
+              "description": "Bound value",
+              "default": "-",
+              "value": {
+                "type": "`(string | number | TagData)[] | null`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-value",
+              "description": "Default value (uncontrolled state)",
+              "default": "[]",
+              "value": {
+                "type": "`(string | number | TagData)[]`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "input-value **(v-model)**",
+              "description": "The value of the input",
+              "default": "-",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-input-value",
+              "description": "The default value of the input (uncontrolled state)",
+              "default": "''",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "placeholder",
+              "description": "Placeholder",
+              "default": "-",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "disabled",
+              "description": "Whether disabled",
+              "default": "-",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "error",
+              "description": "Whether it is an error state",
+              "default": "-",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "readonly",
+              "description": "Whether it is read-only mode",
+              "default": "-",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "clearable",
+              "description": "Enables the clear action",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "size",
+              "description": "The size of the input",
+              "default": "'md'",
+              "value": {
+                "type": "`'xs' | 'sm' | 'md' | 'lg' | 'xl'`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "variant",
+              "description": "The variant of the input",
+              "default": "'filled'",
+              "value": {
+                "type": "`'filled' | 'outline' | 'standard'`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "max-tag-count",
+              "description": "Finite nonnegative integer; 0 is unlimited, invalid values diagnose and fall back to unlimited display",
+              "default": "0",
+              "value": {
+                "type": "`number`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "retain-input-value",
+              "description": "Whether to keep the content of the input box",
+              "default": "false",
+              "value": {
+                "type": "`boolean | { create?: boolean; blur?: boolean }`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "format-tag",
+              "description": "Format tag content",
+              "default": "-",
+              "value": {
+                "type": "`(data: TagData) => string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "fallback-option",
+              "description": "Synchronously resolve display data for primitive values; show the value when unresolved",
+              "default": "-",
+              "value": {
+                "type": "`(value: string | number) => TagData | null | undefined`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "unique-value",
+              "description": "Whether to create only unique values",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "field-names",
+              "description": "Customize fields in `TagData`",
+              "default": "-",
+              "value": {
+                "type": "`InputTagFieldNames`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "tag-nowrap",
+              "description": "Tag content does not wrap",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "update:modelValue",
+              "description": "Tag model update proposal; deferred mode notifies after saving"
+            },
+            {
+              "name": "update:inputValue",
+              "description": "Separate input draft update proposal"
+            },
+            {
+              "name": "update:open",
+              "description": "Controlled editor visibility update"
+            },
+            {
+              "name": "open-change",
+              "description": "Actual editor visibility change"
+            },
+            {
+              "name": "change",
+              "description": "Emitted when the value changes"
+            },
+            {
+              "name": "input-value-change",
+              "description": "Emitted when the input value changes"
+            },
+            {
+              "name": "press-enter",
+              "description": "Emitted when Enter is pressed"
+            },
+            {
+              "name": "remove",
+              "description": "Emitted when a tag's remove button is clicked"
+            },
+            {
+              "name": "clear",
+              "description": "Emitted when the clear action is invoked"
+            },
+            {
+              "name": "focus",
+              "description": "Emitted when the input gains focus"
+            },
+            {
+              "name": "blur",
+              "description": "Emitted when the input loses focus"
+            }
+          ],
+          "slots": [
+            {
+              "name": "tag",
+              "description": "Displayed input-tag content"
+            },
+            {
+              "name": "prefix",
+              "description": "Prefix content"
+            },
+            {
+              "name": "suffix",
+              "description": "Suffix content"
+            },
+            {
+              "name": "clear-icon",
+              "description": "Custom clear control"
+            },
+            {
+              "name": "read",
+              "description": "Custom read content, taking precedence over empty-text"
+            }
+          ]
+        },
+        {
           "name": "mp-lazy",
           "attributes": [],
           "events": [],
@@ -7405,6 +7640,252 @@
             {
               "name": "default",
               "description": "Component content"
+            }
+          ]
+        },
+        {
+          "name": "mp-mention",
+          "attributes": [
+            {
+              "name": "model-value (v-model)",
+              "description": "Controlled text; null displays as empty",
+              "default": "undefined",
+              "value": {
+                "type": "string | null",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "atomic",
+              "description": "Enable encoded, indivisible mentions",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "fallback-option",
+              "description": "Synchronously resolve an unmatched ID for display",
+              "default": "undefined",
+              "value": {
+                "type": "`(value: string | number | boolean) => SelectOptionData | null | undefined`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-value",
+              "description": "Initial uncontrolled text",
+              "default": "''",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "options",
+              "description": "Candidate array or explicit loader, including nested groups",
+              "default": "undefined",
+              "value": {
+                "type": "readonly (string | number | SelectOptionData | SelectOptionGroup)[] | ((query: string, context: { signal: AbortSignal }) => Array | `Promise<Array>`)",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "prefix",
+              "description": "Trigger prefix; supports multiple characters and multiple prefixes",
+              "default": "'@'",
+              "value": {
+                "type": "string | string[]",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "split",
+              "description": "Separator before and after a mention",
+              "default": "' '",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "type",
+              "description": "Input presentation",
+              "default": "input",
+              "value": {
+                "type": "input | textarea",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "disabled",
+              "description": "Inherit Form when omitted; explicit false overrides it",
+              "default": "undefined",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "readonly",
+              "description": "Inherit Form when omitted; explicit false overrides it",
+              "default": "undefined",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "clearable",
+              "description": "Allow clearing text or the editor draft",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "loading",
+              "description": "Manual waiting feedback; does not implicitly disable text editing",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "edit-mode",
+              "description": "Editing mode, inherited from FormItem and Form",
+              "default": "'direct'",
+              "value": {
+                "type": "`'direct' | 'popup'`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "read-pretty",
+              "description": "Independent read presentation; explicit false overrides the parent",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "empty-value",
+              "description": "Clear output; explicit null is submitted unchanged",
+              "default": "''",
+              "value": {
+                "type": "`string | null | (() => string | null)`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "empty-values",
+              "description": "Empty-value recognition; field takes precedence over FormItem and Form",
+              "default": "-",
+              "value": {
+                "type": "`readonly unknown[]`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "empty-text",
+              "description": "Read empty text; an explicit empty string is valid",
+              "default": "'-'",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "before-commit",
+              "description": "Guard before saving a deferred edit; return a boolean or Promise, or complete via done",
+              "default": "-",
+              "value": {
+                "type": "`(payload: { value: unknown; previousValue: unknown }, done: (allow?: boolean) => void, context: { signal: AbortSignal; event?: Event }) => void | boolean | Promise<void | boolean>`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "open",
+              "description": "Controlled editor visibility, separate from native input focus",
+              "default": "-",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-open",
+              "description": "Initial visibility of an uncontrolled editor",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "popup-container",
+              "description": "Editor mount container",
+              "default": "-",
+              "value": {
+                "type": "`string | HTMLElement | false`",
+                "kind": "expression"
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "update:modelValue",
+              "description": "value: string | null"
+            },
+            {
+              "name": "change",
+              "description": "value: string | null; no native Event argument"
+            },
+            {
+              "name": "search",
+              "description": "query: string, prefix: string"
+            },
+            {
+              "name": "select",
+              "description": "value: SelectOptionValue | undefined; from the actual leaf candidate"
+            },
+            {
+              "name": "clear",
+              "description": "event: Event"
+            },
+            {
+              "name": "focus / blur",
+              "description": "event: FocusEvent"
+            },
+            {
+              "name": "load-error",
+              "description": "error: unknown; preserves the original loader error"
+            },
+            {
+              "name": "update:open / open-change",
+              "description": "open: boolean; field editor only"
+            }
+          ],
+          "slots": [
+            {
+              "name": "option",
+              "description": "Candidates in both input presentations; data: SelectOptionInfo, including key, raw, value and label"
+            },
+            {
+              "name": "read",
+              "description": "Reading content in both input presentations; value: string | null, text: string"
+            },
+            {
+              "name": "prefix / suffix",
+              "description": "Input prefix and suffix for type=input only"
+            },
+            {
+              "name": "clear-icon",
+              "description": "Clear node in both input presentations; clear(event?: Event): void"
             }
           ]
         },

@@ -4,7 +4,9 @@
 
 ## Field names
 
-In direct edit mode, for a visible label on a single field, match FormItem `label-attrs.for` to the control `id`. The native inputs in selection, date and time fields do not let their placeholder override an associated label. An explicit `aria-label` or `aria-labelledby` retains its native accessible-name precedence. Placeholder is only a fallback when no label is supplied; provide clear labels. Date and time range fields in FormItem associate the form label with their group; use `input-attrs` to give the endpoints distinct names. If `label-attrs.for` targets another control, the label is not associated with the range group. The `tooltip` button is independently focusable and its name is not added to the field label.
+For a deferred Slider inside Shadow DOM, a popup teleported to `body` may not resolve ID references to hints or errors inside the shadow root. Set `:popup-container="false"` to keep the popup in the same root, and provide clear control names.
+
+In direct edit mode, for a visible label on a single field, match FormItem `label-attrs.for` to the control `id`. The native inputs in selection, date and time fields do not let their placeholder override an associated label. An explicit `aria-label` or `aria-labelledby` retains its native accessible-name precedence. Placeholder is only a fallback when no label is supplied; provide clear labels. Date and time range fields in FormItem associate the form label with their group; use `input-attrs` to give the endpoints distinct names. If `label-attrs.for` targets another control, the label is not associated with the range group. Without `for`, the range currently references the nearest FormItem label even when that item contains other controls. For mixed fields, put the range in a separate styled FormItem with its own name, or explicitly target the intended control with `for` and name the other controls separately. When `for` matches a single-value Slider’s `id`, its thumb and optional numeric input use the label; clicking the default native label focuses the enabled thumb; preventing the label click default cancels that focus. When `for` matches a range Slider’s `id`, the form label names the group; use an `aria-label` array to name the endpoints separately. The `tooltip` button is independently focusable and its name is not added to the field label.
 
 ## Reading direction
 
@@ -151,6 +153,23 @@ import Comparison from '../label-width-comparison.vue'
 ```
 
 ## Fields and data model
+
+### Multiple controls under one label
+
+For mixed controls, give the visible label a unique ID and explicitly name a group with it. Give each control its own name as well. Use a unique ID for each FormItem instance.
+
+Example source: src/form/example/demos/mixed-field-label.vue
+
+```vue
+<template>
+  <mp-form-item label="Contact" label-component="span" :label-attrs="{ id: 'contact-label' }">
+    <div role="group" aria-labelledby="contact-label">
+      <mp-input aria-label="Email" />
+      <input aria-label="Phone" />
+    </div>
+  </mp-form-item>
+</template>
+```
 
 ### Text and numeric fields
 
@@ -897,7 +916,7 @@ const handleReset = () => {
 <!-- demo-config-notes:end -->
 
 
-Form, FormItem, Input and Select inherit presentation from field > FormItem > Form. When omitted, each field retains its own default. Maple supports direct / popup. Popup edits commit after confirmation by default; readPretty displays reading content only. Ordinary v-model/default slots remain. Select, Cascader, AutoComplete, Date/DateRange and Time/TimeRange default to popup; other fields default to direct.
+Form, FormItem, Input and Select inherit presentation from field > FormItem > Form. When omitted, each field retains its own default. Maple supports direct / popup. Selection fields commit single choices immediately by default and multiple choices on confirmation; other fields retain their own confirmation behavior; readPretty displays reading content only. Ordinary v-model/default slots remain. Select, Cascader, AutoComplete, Date/DateRange and Time/TimeRange default to popup; other fields default to direct.
 
 `edit-mode` only controls field editing and preserves `layout`, label widths and grid proportions. In non-vertical layouts, labels are vertically centered against the field content; errors and help text do not affect alignment.
 
@@ -2423,7 +2442,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-form-required-symbol-color` | `var(--mp-sys-color-content-danger)` | `color` |
 | `--mp-form-size-md-item-margin-bottom` | `16px` | `margin-bottom` |
 | `--mp-form-size-md-label-font-size` | `14px` | `font-size` |
-| `--mp-form-tooltip-margin-left` | `var(--mp-sys-space-2)` | `margin-inline-start` |
+| `--mp-form-tooltip-margin-left` | `var(--mp-sys-space-2)` | `padding-inline-start` |
 | `--mp-form-tooltip-text-color` | `var(--mp-sys-color-content-secondary)` | `color` |
 | `--mp-form-vertical-label-margin-bottom` | `8px` | `margin-bottom` |
 

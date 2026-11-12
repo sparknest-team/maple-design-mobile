@@ -1,0 +1,65 @@
+@import './token.less';
+
+.mp-mention {
+  position: relative;
+  display: inline-block;
+  box-sizing: border-box;
+  width: 100%;
+
+  &-measure {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow: auto;
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+.mp-mention-atomic {
+  position: relative;
+  width: 100%;
+
+  &--overlay {
+    .mp-input__inner,
+    .mp-textarea__inner {
+      color: transparent !important;
+      caret-color: var(--mp-sys-color-content-primary);
+    }
+  }
+
+  &-overlay {
+    position: absolute;
+    box-sizing: border-box;
+    overflow: hidden;
+    pointer-events: none;
+    color: var(--mp-sys-color-content-primary);
+    overflow-wrap: break-word;
+  }
+
+  &-token {
+    color: var(--mp-mention-token-color);
+  }
+
+  &--disabled &-overlay {
+    color: var(--mp-sys-color-content-disabled);
+  }
+
+  &--disabled &-token {
+    opacity: 0.6;
+  }
+}
+
+@media (forced-colors: active) {
+  .mp-mention-atomic--overlay {
+    .mp-input__inner,
+    .mp-textarea__inner {
+      color: CanvasText !important;
+    }
+    .mp-mention-atomic-overlay {
+      display: none;
+    }
+  }
+}

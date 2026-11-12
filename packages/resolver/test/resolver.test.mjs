@@ -32,6 +32,19 @@ test('resolves the input family through the input style module', () => {
   }
 })
 
+test('resolves Mention and InputTag with their styles', () => {
+  for (const [component, path] of [
+    ['Mention', 'mention'],
+    ['InputTag', 'input-tag'],
+  ]) {
+    assert.deepEqual(components.resolve(`Mp${component}`), {
+      from: '@maple-design/ui-vue',
+      name: `_${component}Component`,
+      sideEffects: [`@maple-design/ui-vue/${path}/style`],
+    })
+  }
+})
+
 test('resolves UI components with their styles', () => {
   assert.deepEqual(components.resolve('MpPageHeader'), {
     from: '@maple-design/ui-vue',

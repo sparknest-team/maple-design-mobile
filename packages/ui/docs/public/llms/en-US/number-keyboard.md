@@ -6,6 +6,8 @@
 
 A bottom popup virtual keyboard for numeric or password input flows.
 
+The default completion-button text uses the nearest LocaleProvider and falls back to the global locale; an explicit `close-button-text` takes precedence.
+
 ## Basic examples
 
 ### Basic Usage
