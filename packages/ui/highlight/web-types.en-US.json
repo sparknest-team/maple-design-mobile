@@ -15185,7 +15185,7 @@
             },
             {
               "name": "popup-container",
-              "description": "Render target; false renders locally",
+              "description": "Render target; false renders locally. Moves within a document or between accessible same-origin frames attempt to restore unchanged focus on native inputs, buttons and similar elements, including inside open shadow roots; opaque potential closed-shadow hosts are not refocused.",
               "default": "body",
               "value": {
                 "type": "string | HTMLElement | false",

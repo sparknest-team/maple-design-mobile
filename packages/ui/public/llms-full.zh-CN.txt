@@ -10494,7 +10494,7 @@ option({ data }) 接收规范化 CascaderOptionInfo，data.raw 是原始选项�
 
 选项 `label` 是用于搜索的纯文本；自定义选项内容使用 `render` 或 `option` 插槽，自定义反显使用 `format-label` 或 `label` 插槽。以 value 而非 label 识别选项。选项的 `disabled` 禁止选择和删除，`tagProps` 可定制已选标签。
 
-自定义选项中的按钮、链接、输入控件、列表选项、树节点、网格单元格和嵌套 Cascader 管理各自的点击，不会选择外层选项；普通内容仍可点击选择。已调用 `preventDefault` 的点击不会触发选项动作，事件继续按 DOM 规则冒泡。
+自定义选项中的按钮、链接、输入控件、列表选项、树节点、网格单元格和嵌套 Cascader 管理各自的点击，不会选择外层选项；普通内容仍可点击选择。多个 `role` 词元按组件支持的首个有效角色判断。 独立面板放在 Shadow DOM 内时，方向键按面板所在根节点移动选项焦点。已调用 `preventDefault` 的点击不会触发选项动作，事件继续按 DOM 规则冒泡。
 
 也可以独立使用 `CascaderPanel`（`mp-cascader-panel`），或 `Cascader.CascaderPanel`。这是无输入框、无弹层的 Menu 面板；支持 options、modelValue/defaultValue、multiple、pathMode、checkStrictly、fieldNames、loadMore、disabled、expandTrigger 和 expandChild。事件为 update:modelValue、change；empty 插槽自定义空状态。
 
@@ -48436,6 +48436,8 @@ Maple 使用 edit-mode="popup" 点击值区域打开编辑面板；direct 直接
 
 `read-pretty` 为独立布尔属性，与 `readonly`、`disabled` 同级；字段 > FormItem > Form 继承，显式 `false` 覆盖父级。默认 `false`。纯阅读不显示编辑器。
 
+在 FormItem 中，`label-attrs.for` 与 Rate 的 `id` 匹配时，评分控件会使用表单标签作为无障碍名称；显式 `aria-label` 或 `aria-labelledby` 优先。Rate 不是原生表单控件，点击标签不会自动聚焦评分控件。
+
 ## API
 
 ### 空值识别与阅读空文案
@@ -57204,7 +57206,7 @@ Maple 使用 edit-mode="popup" 点击值区域打开编辑面板；direct 直接
 | error | boolean | undefined | 错误外观，省略时继承表单。 |
 | marks | Record<number, string> | undefined | 范围内位置的文字标记。 |
 | show-ticks | boolean | false | 显示步长刻度，最多 1000 个。 |
-| show-input | boolean | false | 显示附带 InputNumber；范围模式显示两个。 |
+| show-input | boolean | false | 显示附带 InputNumber；范围模式显示两个。滑块的 aria-describedby 也用于数字输入，并与表单错误说明合并。 |
 | show-tooltip | boolean / 'always' | true | true 在悬浮、聚焦、拖动时显示；false 隐藏；always 常驻。 |
 | format-tooltip | SliderTooltipFormatter | undefined | 格式化提示及 aria-valuetext，不改变模型。 |
 | aria-label | string / [string, string] | undefined | 单拇指名称或范围两个拇指的名称。 |
@@ -67437,7 +67439,7 @@ placement 是首选方位，auto-fit-position 默认 true 时最终方位可能�
 | `popup-offset` | 主轴向外距离 | _number_ | `0` |
 | `popup-translate` | 屏幕轴平移或按方位配置 | _[number, number] \| Record_ | `-` |
 | `align-point` | 以鼠标坐标定位 | _boolean_ | `false` |
-| `popup-container` | 挂载容器；false 原地渲染 | _string \| HTMLElement \| false_ | `body` |
+| `popup-container` | 挂载容器；false 原地渲染。同文档或可访问的同源 iframe 之间切换时，会尝试恢复未转移的原生输入、按钮等焦点，包括开放 Shadow DOM 中的同类元素；可能承载封闭 Shadow DOM 的不透明宿主不会自动恢复。 | _string \| HTMLElement \| false_ | `body` |
 | `auto-fit-position` | 自动翻转并限制到可视区域 | _boolean_ | `true` |
 | `auto-fit-popup-width` | 宽度跟随参考元素 | _boolean_ | `false` |
 | `auto-fit-popup-min-width` | 最小宽度跟随参考元素 | _boolean_ | `false` |
@@ -67479,6 +67481,10 @@ placement 是首选方位，auto-fit-position 默认 true 时最终方位可能�
 `reference-attrs` 的 `aria-describedby` 与参考元素已有描述 ID 合并去重；清理或更换引用时恢复原始属性。
 
 `fixed` 定位会识别 transform、filter、perspective 等形成的固定定位包含块，并处理轴向缩放；不保证旋转或倾斜坐标系精确。可访问的同源 iframe 引用与弹层之间会换算坐标并绑定各自文档事件；不支持跨源或无共同祖先的浏览上下文。启用 `update-at-scroll` 时，两端文档及可滚动祖先的滚动都会更新位置。
+
+当引用通过插槽进入封闭 ShadowRoot 内的滚动容器时，外部 Trigger 无法访问该插槽及容器，不能自动监听其滚动。封闭组件可在内部滚动或插槽变化时调用 Trigger 实例的 `resize()`；需要滚动关闭时，可在内部按业务阈值调用 `close()`，并在卸载时清理监听。
+
+弹层挂载到 iframe 内时，显示区域仍受该 iframe 视口裁剪；即使跨文档坐标换算正确，iframe 范围外的弹层内容也不可见。
 
 ## CSS Variables
 

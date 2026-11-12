@@ -15185,7 +15185,7 @@
             },
             {
               "name": "popup-container",
-              "description": "挂载容器；false 原地渲染",
+              "description": "挂载容器；false 原地渲染。同文档或可访问的同源 iframe 之间切换时，会尝试恢复未转移的原生输入、按钮等焦点，包括开放 Shadow DOM 中的同类元素；可能承载封闭 Shadow DOM 的不透明宿主不会自动恢复。",
               "default": "body",
               "value": {
                 "type": "string | HTMLElement | false",

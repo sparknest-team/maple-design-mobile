@@ -127,7 +127,7 @@
 import { computed, nextTick, onActivated, onBeforeUnmount, onDeactivated, ref, shallowRef, watch } from 'vue'
 import { IconClose as MIconClose } from '@maple-design/icons-vue'
 import { doubleRaf, getRect } from '@maple-design/shared-vue'
-import BaseButton from '../button'
+import BaseButton from '../button/base'
 import { useLock } from '../context/lock'
 import { useZIndex } from '../context/zIndex'
 import BaseDivider from '../divider'
@@ -227,6 +227,37 @@ const wantsFloating = () => props.floating && !isRow.value
 const { onStackTop } = usePopupLayer(wantsFloating, zIndex, () => card.value?.ownerDocument, true)
 const available = () => active && !disposed
 let openingWaiting = false
+let cancelOpeningFrames: (() => void) | undefined
+function waitForOwnerFrames(view: Window): Promise<boolean> {
+  cancelOpeningFrames?.()
+  return new Promise((resolve) => {
+    let handle: number | undefined
+    let settled = false
+    const finish = (completed: boolean) => {
+      if (settled) {
+        return
+      }
+      settled = true
+      if (cancelOpeningFrames === cancel) {
+        cancelOpeningFrames = undefined
+      }
+      resolve(completed)
+    }
+    const cancel = () => {
+      if (handle !== undefined) {
+        view.cancelAnimationFrame?.(handle)
+      }
+      finish(false)
+    }
+    cancelOpeningFrames = cancel
+    handle = view.requestAnimationFrame(() => {
+      if (settled) {
+        return
+      }
+      handle = view.requestAnimationFrame(() => finish(true))
+    })
+  })
+}
 let reducedMotion = false
 let stopMotionTracking: (() => void) | undefined
 function trackMotion(element: HTMLElement | null) {
@@ -278,6 +309,7 @@ watch(
   wantsFloating,
   (value) => {
     const token = ++generation
+    cancelOpeningFrames?.()
     if (!active) {
       if (!disposed && value) {
         trackInactiveFocus()
@@ -310,6 +342,7 @@ function floating() {
     return
   }
   const token = ++generation
+  cancelOpeningFrames?.()
   const element = card.value
   let consumed = false
   clearTimeout(floater.value ?? undefined)
@@ -341,7 +374,19 @@ function floating() {
       // The existing non-abortable helper still settles; only this continuation
       // owns permission to expand. It is not a CSS animation-duration timer.
       if (!reducedMotion) {
-        await doubleRaf()
+        const view = element.ownerDocument.defaultView
+        if (
+          view &&
+          typeof document !== 'undefined' &&
+          element.ownerDocument !== document &&
+          typeof view.requestAnimationFrame === 'function'
+        ) {
+          if (!(await waitForOwnerFrames(view))) {
+            return
+          }
+        } else {
+          await doubleRaf()
+        }
       }
       if (!current(token, element) || !wantsFloating()) {
         return
@@ -365,6 +410,7 @@ function dropdown() {
     return
   }
   const token = ++generation
+  cancelOpeningFrames?.()
   const element = card.value
   let consumed = false
   clearTimeout(dropper)
@@ -470,6 +516,7 @@ onActivated(() => {
   }
 })
 function cleanup() {
+  cancelOpeningFrames?.()
   openingWaiting = false
   active = false
   generation++

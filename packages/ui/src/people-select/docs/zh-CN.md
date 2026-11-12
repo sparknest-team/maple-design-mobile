@@ -43,6 +43,22 @@ setPropsDefaults 在挂载前配置一次，修改组件定义的默认属性；
 
 ## 基础示例
 
+### 单选与多选
+
+默认单选，值为 `string | null`；设置 `multiple` 后使用按选择顺序排列的 `string[]`。多选未设置 `default-value` 时初始为 `[]`，默认清空也提交 `[]`，可用 `empty-value` 覆盖（包括 `null`）。异步搜索保留已选人员姓名；缺失人员可用 `fallback-option(id)` 逐人补全，`label` 仅用于单选回显。
+
+<demo src="../example/demos/multiple.vue"></demo>
+
+## 异步数据
+
+### options 加载函数
+
+通过 `:options="loadPeople"` 传入带类型的加载函数。下面模拟异步请求，无需后端即可运行；输入 Alice 或 Bob 可搜索，组件自动管理 loading。
+
+<demo src="../example/demos/options-loader.vue"></demo>
+
+## 业务组合
+
 ### 完整业务示例
 
 <demo src="../example/demos/injected-services.vue"></demo>
@@ -64,8 +80,10 @@ setPropsDefaults 在挂载前配置一次，修改组件定义的默认属性；
 
 | 属性 | 类型 | 默认值 | 说明 |
 | --- | --- | --- | --- |
-| model-value / v-model | string / null | undefined | 受控人员标识；显式 null 保持为空。 |
-| default-value | string | '' | 仅创建时读取的非受控初始标识。 |
+| need-confirm | `boolean` | 单选 `false`；多选 `true` | 仅弹出编辑模式生效。单选默认点选即提交并关闭，设为 true 时先编辑草稿、再点确认；多选默认保留确认。提交仍执行表单校验和 before-commit，拒绝时不关闭。 |
+| multiple | boolean | false | 启用人员多选，使用 string[] 模型。 |
+| model-value | PeopleSelectValue | `undefined` | 单选为人员 ID，多选为 ID 数组；显式 null 保持为空。 支持 `v-model`。 |
+| default-value | string / string[] | '' / [] | 仅创建时读取的非受控初始标识。 |
 | options | readonly PeopleSelectOption[] / PeopleSelectOptionsLoader | undefined | 候选数组或 (query, { signal }) 加载函数；显式数组优先。 |
 | fallback-option | PeopleSelectFallbackOption | true | 同步回显回退；可返回人员对象，false 关闭未匹配回显。 |
 | label | string | '' | 候选缺失时的响应式回显姓名。 |
@@ -88,8 +106,8 @@ setPropsDefaults 在挂载前配置一次，修改组件定义的默认属性；
 | case-sensitive | boolean | false | 内置本地搜索区分大小写。 |
 | search-fields | readonly OptionSearchField[]<br>`OptionSearchField: 'label' \| 'value'` | ['label'] | 内置本地搜索使用的候选字段，默认 label。 |
 | search-delay | number | 500 | 搜索通知与请求的防抖毫秒数。 |
-| clearable | boolean | false | 允许可编辑字段清空；延迟模式先清草稿，确认后提交。 |
-| empty-value | string / null / function | '' | 清空提交值；显式 null 原样保留，省略时使用空字符串。 |
+| clearable | boolean | false | 允许可编辑字段清空；确认模式先清草稿再提交；无需确认时清空直接提交。 |
+| empty-value | string / string[] / null / function | '' / [] | 清空提交值；单选默认 ''，多选默认 []，显式 null 原样保留。 |
 | empty-values | readonly unknown[] | undefined | 空值识别策略；字段、FormItem、Form 逐级继承。 |
 | empty-text | string | undefined | 纯阅读空文案，继承后缺省为短横线。 |
 | loading | boolean | false | 编辑字段的手动等待展示，暂停选择与清空；不覆盖人员阅读内容。 |
@@ -99,19 +117,51 @@ setPropsDefaults 在挂载前配置一次，修改组件定义的默认属性；
 | default-open | boolean | false | 非受控延迟编辑层初始打开状态。 |
 | popup-container | PopupContainer | undefined | 编辑弹层挂载目标；选择器、HTMLElement 或 false。 |
 
+### PeopleSelectValue / PeopleSelectOptionsLoader 类型说明
+
+```ts
+import type { AsyncDataContext } from '@maple-design/use-vue'
+
+// UI 包已导出以下类型，无需在业务中重复定义。
+interface PeopleSelectOption {
+  value: string
+  label: string
+  avatar?: string
+  mobile?: string
+  disabled?: boolean
+}
+
+type PeopleSelectValue = string | string[] | null
+
+type PeopleSelectOptionsLoader = (
+  query: string,
+  context: AsyncDataContext, // { signal: AbortSignal }
+) => readonly PeopleSelectOption[] | Promise<readonly PeopleSelectOption[]>
+```
+
+- `query` 为搜索文本。初次挂载、更换加载函数及 `refresh()` 均使用空字符串 `''`；搜索按 `search-delay` 防抖，默认 500 毫秒。
+- 可同步返回数组，也可返回数组的 Promise。业务接口字段应映射为 `value`（人员 ID）和 `label`（姓名），无匹配项返回 `[]`；不能直接把 Promise 传给 `options`。
+- 将 `context.signal` 透传给请求库。新请求、更换加载函数及卸载会取消旧任务；即使请求未响应取消，旧结果也不会覆盖当前结果。
+- 组件自动管理 loading，当前请求失败触发 `load-error(error, 'options')`。函数结果默认不再本地过滤，无需另用 `@search` 重复发请求。
+- `is-label` / `read-pretty` 不调用加载函数，阅读回显可使用 `label`、`fallback-option` 或数组。局部数组（包括 `[]`）覆盖全局默认加载函数。
+
+`PeopleSelectOption`、`PeopleSelectOptionsLoader` 可从 UI 包根入口或 `people-select` 子入口导入；`AsyncDataContext` 从 use 包导入。
+
 ### PeopleSelect Events
 
 | 事件 | 参数 | 说明 |
 | --- | --- | --- |
-| update:model-value | value: string / null | 提交人员标识，不收集监听器返回值。 |
-| change | value: string / null | 人员值变更通知。 |
+| update:model-value | value: PeopleSelectValue | 提交人员标识，不收集监听器返回值。 |
+| change | value: PeopleSelectValue | 人员值变更通知。 |
 | update:open / open-change | open: boolean | 延迟编辑层打开状态通知。 |
-| clear | — | 清空动作通知；延迟模式仍需确认草稿。 |
+| clear | — | 清空动作通知；确认模式先更新草稿；无需确认时直接提交。 |
 | search | query: string | 搜索通知；请求由 options 显式函数管理。 |
 | load-error | error: unknown, source: 'options' | 当前候选读取失败通知。 |
 | action-error | error: unknown, action: 'call' / 'chat' | 显式电话或聊天任务失败通知，不等待错误监听器。 |
 
 ### PeopleSelect Slots
+
+多选时，`read` 插槽还会收到按模型顺序排列的 `people`，`person` 为首位人员。默认阅读内容展示所有已选人员，`actions` / `render-actions` 及电话、聊天操作按人员分别生效。
 
 | 插槽 | 参数 | 说明 |
 | --- | --- | --- |
@@ -139,7 +189,7 @@ signal 可选地传给 fetch 取消过期请求；不是 HTTP 参数，也不会
 
 公开类型包含 PeopleSelectReadScope、PeopleSelectSlots、PeopleSelectEmits 及既有数据、任务和实例类型，可从根入口及 people-select 子入口导入。
 
-`empty-value` 可显式设为 `null`（或 `() => null`），清空时原样提交 null；省略时保留组件原默认值。界面把 null 显示为空，不会把普通输入的空字符串自动转成 null。支持弹出编辑的字段中，清空先修改草稿，确认后提交，取消则保留原值。
+`empty-value` 可显式设为 `null`（或 `() => null`），清空时原样提交 null；省略时保留组件原默认值。界面把 null 显示为空，不会把普通输入的空字符串自动转成 null。确认式弹出编辑中，清空先修改草稿并在确认后提交；无需确认时清空会直接提交。
 
 `fallback-option` 与候选 options 独立，不返回 Promise、不主动发请求。回显优先使用当前候选项，不存在时读取 fallback；传入 false 关闭未匹配值的回显。
 

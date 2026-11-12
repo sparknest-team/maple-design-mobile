@@ -155,6 +155,7 @@ export function useSelectController(
 
   const committedValue = computed<SelectValue>(() => (props.modelValue !== undefined ? props.modelValue : _value.value))
   const deferred = computed(() => editMode.value !== 'direct')
+  const needConfirm = computed(() => props.needConfirm ?? props.multiple)
   const publish = (value: SelectValue) => {
     _value.value = value
     emit('update:modelValue', value)
@@ -405,6 +406,10 @@ export function useSelectController(
         handleOpenChange(false)
       }
     }
+    nativeOwner?.onSelect?.(ev)
+    if (deferred.value && !needConfirm.value) {
+      void session.commit(ev)
+    }
   }
 
   const handleSearch = useFieldSearch(
@@ -460,6 +465,9 @@ export function useSelectController(
     }
     const newKeys = computedValueObjects.value.map((item) => item.key).filter((_key) => _key !== key)
     session.update(getValueFromValueKeys(newKeys))
+    if (deferred.value && !needConfirm.value) {
+      void session.commit()
+    }
     emit('remove', optionInfo?.value)
   }
 
@@ -489,6 +497,9 @@ export function useSelectController(
       clearedValue = []
     }
     session.update(clearedValue)
+    if (deferred.value && !needConfirm.value) {
+      void session.commit()
+    }
     updateInputValue('')
     if (!deferred.value) {
       eventHandlers.value?.onClear?.()
@@ -604,7 +615,16 @@ export function useSelectController(
         ? getOptionId(activeKey.value)
         : undefined,
     ),
-    provideNativeEditorOwner: () => provide(selectNativeEditorOwner, { source, selectedOptions: _selectedOption }),
+    provideNativeEditorOwner: () =>
+      provide(selectNativeEditorOwner, {
+        source,
+        selectedOptions: _selectedOption,
+        onSelect: (event: Event) => {
+          if (!needConfirm.value) {
+            void session.commit(event)
+          }
+        },
+      }),
     loading,
     refresh: source.refresh,
     registerPresentation: presentationState.register,
@@ -651,6 +671,7 @@ export function useSelectController(
     session,
     deferred,
     canConfirm,
+    needConfirm,
   }
 }
 export type SelectController = ReturnType<typeof useSelectController>

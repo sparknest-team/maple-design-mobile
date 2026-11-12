@@ -69,6 +69,7 @@ const files = [
   'cascader/CascaderMenu.vue',
   'cascader/Cascader.vue',
   'cascader/cascader-option.tsx',
+  'cascader/__tests__/checkbox-expansion.spec.ts',
   'cascader/context.ts',
   'cascader/hooks/use-selected-path.ts',
   'cascader/emits.ts',
@@ -98,6 +99,8 @@ const toMaple = (source) =>
     .replaceAll('_utils/text-input-value', 'utils/text-input-value')
     .replaceAll('_utils/empty-value', 'utils/empty-value')
     .replaceAll('../scrollbar', '../_components/selection-scrollbar')
+    .replaceAll("'c-people-select-people'", "'mp-people-select-people'")
+    .replaceAll('"c-people-select-people"', '"mp-people-select-people"')
     .replaceAll('--c-', '--mp-')
     .replaceAll('.c-', '.mp-')
 const canonical = (source, file) =>
@@ -105,7 +108,8 @@ const canonical = (source, file) =>
     ? normalizeTypeScript(source)
     : file.endsWith('.vue')
       ? normalizeVueSource(source)
-      : normalizeBoundImports(source)
+      : // Less import quote style is formatting, not a runtime contract.
+        normalizeBoundImports(source).replace(/(@import\s+)(['"])([^'"]+)\2/g, '$1"$3"')
 for (const file of files) {
   const c = readFileSync(resolve(cedar, file), 'utf8')
   const m = readFileSync(resolve(maple, file), 'utf8')

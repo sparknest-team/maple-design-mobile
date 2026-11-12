@@ -36,6 +36,41 @@ describe.each([
       wrapper.unmount()
     }
   })
+  it('retargets an explicit label between a native sibling and a range endpoint', async () => {
+    const wrapper = mount(FormItem, {
+      props: { label: 'Period', labelAttrs: { id: 'period-label', for: 'other' } },
+      slots: {
+        default: () => [
+          h('input', { id: 'other' }),
+          h(Component as any, { editMode: 'direct', inputAttrs: [{ id: 'start' }, { id: 'end' }] }),
+        ],
+      },
+    })
+    try {
+      expect(
+        wrapper
+          .findComponent(Component as any)
+          .find('[role="group"]')
+          .exists(),
+      ).toBe(false)
+      await wrapper.setProps({ labelAttrs: { id: 'period-label', for: 'start' } })
+      expect(
+        wrapper
+          .findComponent(Component as any)
+          .get('[role="group"]')
+          .attributes('aria-labelledby'),
+      ).toBe('period-label')
+      await wrapper.setProps({ labelAttrs: { id: 'period-label', for: 'other' } })
+      expect(
+        wrapper
+          .findComponent(Component as any)
+          .find('[role="group"]')
+          .exists(),
+      ).toBe(false)
+    } finally {
+      wrapper.unmount()
+    }
+  })
 })
 
 it('uses a stable generated label and updates when the label or visibility changes', async () => {

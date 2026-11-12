@@ -168,7 +168,7 @@ export default defineComponent({
         slots.default?.() ?? [],
         visible.value ? props.openedClass : undefined,
       )
-      const contentNodes = slots.content?.() ?? []
+      const contentNodes = renderState.rendered.value ? (slots.content?.() ?? []) : []
       const hiddenByEmpty = props.hideEmpty && isEmptyContent(contentNodes)
       nodes.value = referenceNodes
 

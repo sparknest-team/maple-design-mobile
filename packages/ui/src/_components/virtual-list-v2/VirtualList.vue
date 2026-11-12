@@ -165,6 +165,8 @@ export default defineComponent({
       updateViewport()
     })
 
+    let retainedInlineOffset: number | undefined
+    let retainedScrollTop: number | undefined
     let scrollRequest = 0
     let commandedScroll: { top: number; correct: () => void } | undefined
     let mounted = false
@@ -176,12 +178,31 @@ export default defineComponent({
     onMounted(() => {
       mounted = true
     })
-    onActivated(() => {
-      if (!disposed) {
-        active = true
+    onActivated(async () => {
+      if (disposed) {
+        return
+      }
+      active = true
+      const element = containerRef.value
+      const request = scrollRequest
+      const retained = retainedScrollTop
+      const retainedInline = retainedInlineOffset
+      retainedScrollTop = undefined
+      retainedInlineOffset = undefined
+      if (element && retainedInline !== undefined && isCurrent(request, element) && inlineScrollLeft(element) === 0) {
+        setInlineScrollLeft(element, retainedInline)
+      }
+      await nextTick()
+      if (element && retained !== undefined && isCurrent(request, element) && element.scrollTop === 0) {
+        element.scrollTop = retained
+        if (virtualEnabled.value) {
+          setStart(getStartByScroll(element.scrollTop))
+        }
       }
     })
     onDeactivated(() => {
+      retainedScrollTop = scrollOffset.value
+      retainedInlineOffset = readingOffset
       active = false
       scrollRequest++
       commandedScroll = undefined
@@ -332,6 +353,7 @@ export default defineComponent({
       if (isNumber(options)) {
         if (Number.isFinite(options)) {
           element.scrollTop = Math.max(0, options)
+          scrollOffset.value = element.scrollTop
           if (virtualEnabled.value) {
             setStart(getStartByScroll(element.scrollTop))
           }

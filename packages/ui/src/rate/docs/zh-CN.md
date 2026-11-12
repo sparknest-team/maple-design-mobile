@@ -172,7 +172,7 @@ Maple 使用 edit-mode="popup" 点击值区域打开编辑面板；direct 直接
 
 `read-pretty` 为独立布尔属性，与 `readonly`、`disabled` 同级；字段 > FormItem > Form 继承，显式 `false` 覆盖父级。默认 `false`。纯阅读不显示编辑器。
 
-在 FormItem 中，`label-attrs.for` 与 Rate 的 `id` 匹配时，评分控件会使用表单标签作为无障碍名称；显式 `aria-label` 或 `aria-labelledby` 优先。Rate 不是原生表单控件，点击标签不会自动聚焦评分控件。
+在 FormItem 中，`label-attrs.for` 与 Rate 的 `id` 匹配时，评分控件会使用表单标签作为无障碍名称；显式 `aria-label` 或 `aria-labelledby` 优先。默认的原生标签可在点击后聚焦未禁用的评分控件；阻止标签点击默认行为可取消该聚焦。
 
 ## API
 
@@ -266,12 +266,12 @@ Cedar 默认使用金色星形与紧凑间距；Maple 默认使用主题主色�
 | 变量 | 默认值／条件 | 影响的样式 |
 | --- | --- | --- |
 | `--mp-rate-action-padding` | `4px` | `padding` |
-| `--mp-rate-active-color` | `var(--mp-sys-color-content-brand)` | `color` |
+| `--mp-rate-active-color` | `var(--mp-sys-color-action-primary)` | `color` |
 | `--mp-rate-active-scale` | `1.2` | `transform` |
 | `--mp-rate-disabled-color` | `var(--mp-sys-color-content-disabled)` | `color` |
 | `--mp-rate-empty-color` | `var(--mp-color-text)` | `color` |
 | `--mp-rate-error-color` | `var(--mp-sys-color-content-danger)` | `color` |
-| `--mp-rate-focus-color` | `var(--mp-sys-color-content-brand)` | `outline` |
+| `--mp-rate-focus-color` | `var(--mp-sys-color-action-primary)` | `outline` |
 | `--mp-rate-focus-offset` | `2px` | `outline-offset` |
 | `--mp-rate-focus-width` | `2px` | `outline` |
 | `--mp-rate-gap` | `0px` | `margin-inline-end` |

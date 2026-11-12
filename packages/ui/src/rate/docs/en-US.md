@@ -176,7 +176,7 @@ Maple uses edit-mode="popup" to open the editor when the value area is clicked; 
 
 `read-pretty` is an independent boolean alongside `readonly` and `disabled`. It inherits from field to FormItem to Form; explicit `false` overrides the parent. The default is `false`. Reading mode renders no editor.
 
-In FormItem, when `label-attrs.for` matches the Rate `id`, the form label supplies its accessible name. Explicit `aria-label` or `aria-labelledby` takes precedence. Rate is not a native form control, so clicking the label does not automatically focus it.
+Inside FormItem, when `label-attrs.for` matches Rate's `id`, the rating control uses the form label as its accessible name; explicit `aria-label` or `aria-labelledby` takes precedence. Clicking the default native label focuses an enabled rating control; preventing the label click default cancels that focus.
 
 ## API
 
@@ -270,12 +270,12 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | Variable | Default / condition | Affected styles |
 | --- | --- | --- |
 | `--mp-rate-action-padding` | `4px` | `padding` |
-| `--mp-rate-active-color` | `var(--mp-sys-color-content-brand)` | `color` |
+| `--mp-rate-active-color` | `var(--mp-sys-color-action-primary)` | `color` |
 | `--mp-rate-active-scale` | `1.2` | `transform` |
 | `--mp-rate-disabled-color` | `var(--mp-sys-color-content-disabled)` | `color` |
 | `--mp-rate-empty-color` | `var(--mp-color-text)` | `color` |
 | `--mp-rate-error-color` | `var(--mp-sys-color-content-danger)` | `color` |
-| `--mp-rate-focus-color` | `var(--mp-sys-color-content-brand)` | `outline` |
+| `--mp-rate-focus-color` | `var(--mp-sys-color-action-primary)` | `outline` |
 | `--mp-rate-focus-offset` | `2px` | `outline-offset` |
 | `--mp-rate-focus-width` | `2px` | `outline` |
 | `--mp-rate-gap` | `0px` | `margin-inline-end` |

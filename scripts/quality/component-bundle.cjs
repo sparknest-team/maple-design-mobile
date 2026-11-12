@@ -86,6 +86,14 @@ const plugin = {
 }
 ;(async () => {
   console.log('Checking on-demand bundles:', Object.keys(entries).length)
+  const runtime = {
+    node: process.version,
+    zlib: process.versions.zlib,
+    esbuild: esbuild.version,
+    platform: process.platform,
+    arch: process.arch,
+  }
+  console.log('Bundle runtime:', JSON.stringify(runtime))
   const result = await esbuild.build({
     absWorkingDir: root,
     entryPoints: entries,
@@ -139,6 +147,7 @@ const plugin = {
         'breadcrumb',
         'index-bar',
         'image',
+        'upload',
         'split-button',
         'infinite-scroll',
         'field-decorator',
@@ -152,8 +161,19 @@ const plugin = {
         'pagination',
         'search',
         'people-select',
+        'picker',
+        'time',
+        'time-range',
+        'date',
+        'date-range',
         'table',
         'dialog',
+        'carousel',
+        'action-sheet',
+        'fab',
+        'notice-bar',
+        'number-keyboard',
+        'tabs',
       ].includes(name)
     ) {
       assert.equal(
@@ -163,6 +183,58 @@ const plugin = {
       )
     }
     const loadingDirective = inc.some(([filename]) => /[/\\]loading[/\\]directive\.ts$/.test(filename))
+    if (['auto-complete', 'cascader', 'pagination', 'people-select', 'search', 'select'].includes(name)) {
+      assert.equal(
+        inc.some(([filename]) => /[/\\]input[/\\]index\.ts$/.test(filename)),
+        false,
+        `${name} must not bundle the public Input entry and its unrelated subcomponents`,
+      )
+    }
+    if (
+      [
+        'cascader',
+        'select',
+        'picker',
+        'time',
+        'time-range',
+        'date',
+        'date-range',
+        'search',
+        'people-select',
+        'card',
+        'dialog',
+        'fab',
+        'tab-bar',
+      ].includes(name)
+    ) {
+      assert.equal(
+        inc.some(([filename]) => /[/\\]button[/\\]index\.ts$/.test(filename)),
+        false,
+        `${name} must not bundle the public Button entry and its group`,
+      )
+    }
+    if (name === 'cascader') {
+      assert.equal(
+        inc.some(([filename]) => /[/\\]checkbox[/\\]index\.ts$/.test(filename)),
+        false,
+        'Cascader must not bundle the public Checkbox entry and its group',
+      )
+    }
+    if (['time', 'time-range', 'date', 'date-range'].includes(name)) {
+      assert.equal(
+        inc.some(([filename]) => /[/\\]picker[/\\]index\.ts$/.test(filename)),
+        false,
+        `${name} must not bundle the imperative Picker service`,
+      )
+    }
+    if (name === 'button' || name === 'checkbox') {
+      const group = name === 'button' ? 'ButtonGroup.vue' : 'CheckboxGroup.vue'
+      assert.equal(
+        inc.some(([filename]) => filename.replace(/\\/g, '/').endsWith(`/${group}`)),
+        true,
+        `The public ${name} entry must retain its group`,
+      )
+    }
     if (name === 'button') {
       assert.equal(loadingDirective, false, 'Button must not bundle the standalone Loading directive')
     } else if (name === 'loading') {
@@ -199,6 +271,7 @@ const plugin = {
   if (process.env.MAPLE_BUNDLE_REPORT) {
     fs.writeFileSync(process.env.MAPLE_BUNDLE_REPORT, JSON.stringify(rows, null, 2) + '\n')
     fs.writeFileSync(process.env.MAPLE_BUNDLE_REPORT + '.inputs.json', JSON.stringify(retainedInputs, null, 2) + '\n')
+    fs.writeFileSync(process.env.MAPLE_BUNDLE_REPORT + '.runtime.json', JSON.stringify(runtime, null, 2) + '\n')
   }
   // Entry caps cover shared-tool consolidation and floating-entry slimming; Vue is external and CSS excluded.
   // Override the file to compare a separately captured MAPLE_BUNDLE_REPORT.

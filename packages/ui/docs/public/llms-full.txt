@@ -10493,7 +10493,7 @@ option({ data }) 接收规范化 CascaderOptionInfo，data.raw 是原始选项�
 
 选项 `label` 是用于搜索的纯文本；自定义选项内容使用 `render` 或 `option` 插槽，自定义反显使用 `format-label` 或 `label` 插槽。以 value 而非 label 识别选项。选项的 `disabled` 禁止选择和删除，`tagProps` 可定制已选标签。
 
-自定义选项中的按钮、链接、输入控件、列表选项、树节点、网格单元格和嵌套 Cascader 管理各自的点击，不会选择外层选项；普通内容仍可点击选择。已调用 `preventDefault` 的点击不会触发选项动作，事件继续按 DOM 规则冒泡。
+自定义选项中的按钮、链接、输入控件、列表选项、树节点、网格单元格和嵌套 Cascader 管理各自的点击，不会选择外层选项；普通内容仍可点击选择。多个 `role` 词元按组件支持的首个有效角色判断。 独立面板放在 Shadow DOM 内时，方向键按面板所在根节点移动选项焦点。已调用 `preventDefault` 的点击不会触发选项动作，事件继续按 DOM 规则冒泡。
 
 也可以独立使用 `CascaderPanel`（`mp-cascader-panel`），或 `Cascader.CascaderPanel`。这是无输入框、无弹层的 Menu 面板；支持 options、modelValue/defaultValue、multiple、pathMode、checkStrictly、fieldNames、loadMore、disabled、expandTrigger 和 expandChild。事件为 update:modelValue、change；empty 插槽自定义空状态。
 
@@ -57203,7 +57203,7 @@ Maple 使用 edit-mode="popup" 点击值区域打开编辑面板；direct 直接
 | error | boolean | undefined | 错误外观，省略时继承表单。 |
 | marks | Record<number, string> | undefined | 范围内位置的文字标记。 |
 | show-ticks | boolean | false | 显示步长刻度，最多 1000 个。 |
-| show-input | boolean | false | 显示附带 InputNumber；范围模式显示两个。 |
+| show-input | boolean | false | 显示附带 InputNumber；范围模式显示两个。滑块的 aria-describedby 也用于数字输入，并与表单错误说明合并。 |
 | show-tooltip | boolean / 'always' | true | true 在悬浮、聚焦、拖动时显示；false 隐藏；always 常驻。 |
 | format-tooltip | SliderTooltipFormatter | undefined | 格式化提示及 aria-valuetext，不改变模型。 |
 | aria-label | string / [string, string] | undefined | 单拇指名称或范围两个拇指的名称。 |
@@ -126023,7 +126023,7 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 | error | boolean | undefined | Error appearance, inherited from the form when omitted. |
 | marks | Record<number, string> | undefined | Text marks at positions within the range. |
 | show-ticks | boolean | false | Display step ticks, capped at 1000. |
-| show-input | boolean | false | Show attached InputNumber controls, two in range mode. |
+| show-input | boolean | false | Show attached InputNumber controls, two in range mode. The slider aria-describedby is also applied to the numeric inputs and combined with form error descriptions. |
 | show-tooltip | boolean / 'always' | true | True shows on hover, focus or drag; false hides; always remains visible. |
 | format-tooltip | SliderTooltipFormatter | undefined | Format tooltips and aria-valuetext without changing the model. |
 | aria-label | string / [string, string] | undefined | Single-thumb name or names for the two range thumbs. |

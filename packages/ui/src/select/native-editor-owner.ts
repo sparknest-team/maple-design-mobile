@@ -5,6 +5,7 @@ import type { SelectOption, SelectOptionInfo } from './types'
 
 export const selectNativeEditorOwner: InjectionKey<
   | {
+      onSelect?: (event: Event) => void
       source: OptionRequestState<SelectOption>
       selectedOptions: Ref<Record<string, SelectOptionInfo | undefined> | undefined>
     }

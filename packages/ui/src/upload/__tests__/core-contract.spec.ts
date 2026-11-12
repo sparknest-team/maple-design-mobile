@@ -687,3 +687,298 @@ describe('atomic file replacement', () => {
     expect(result.api.getFiles()[0].uid).toBe(previous.uid)
   })
 })
+
+test.each([
+  ['remove', 'disabled'],
+  ['upload', 'disabled'],
+  ['remove', 'readonly'],
+  ['upload', 'readonly'],
+] as const)('%s guard survives reset while %s', async (kind, restriction) => {
+  const disabled = ref(false)
+  const gate = deferred<boolean>()
+  const file = item('pending')
+  const request = vi.fn(() => ({}))
+  const result = host({
+    disabled: () => restriction === 'disabled' && disabled.value,
+    readonly: () => restriction === 'readonly' && disabled.value,
+    defaultValue: () => [file],
+    beforeRemove: () => () => gate.promise,
+    beforeUpload: () => () => gate.promise,
+    customRequest: () => request,
+  })
+  const work = kind === 'remove' ? result.api.remove(file) : result.api.submit()
+  await flushPromises()
+  expect(result.api.guardPending.value).toBe(true)
+  disabled.value = true
+  result.api.reset()
+  expect(result.api.guardPending.value).toBe(true)
+  disabled.value = false
+  expect(result.api.editorPending.value).toBe(true)
+  gate.resolve(true)
+  await work
+  await flushPromises()
+  expect(result.api.guardPending.value).toBe(false)
+  if (kind === 'remove') {
+    expect(result.api.getFiles()).toEqual([])
+  } else {
+    expect(request).toHaveBeenCalledTimes(1)
+  }
+})
+
+test.each([
+  ['add', 'disabled'],
+  ['read', 'disabled'],
+  ['add', 'readonly'],
+  ['read', 'readonly'],
+] as const)('%s preparation survives reset while %s', async (kind, restriction) => {
+  const blocked = ref(false)
+  const addGate = deferred<File[]>()
+  const readGate = deferred<boolean>()
+  const file = new File(['x'], 'pending.txt', { type: 'text/plain' })
+  const result = host({
+    disabled: () => restriction === 'disabled' && blocked.value,
+    readonly: () => restriction === 'readonly' && blocked.value,
+    autoUpload: () => false,
+    beforeAdd: kind === 'add' ? () => addGate.promise : undefined,
+    beforeRead: kind === 'read' ? () => () => readGate.promise : undefined,
+  })
+  const work = result.api.addFiles([file])
+  await flushPromises()
+  expect(result.api.guardPending.value).toBe(true)
+  blocked.value = true
+  result.api.reset()
+  expect(result.api.guardPending.value).toBe(true)
+  blocked.value = false
+  expect(result.api.editorPending.value).toBe(true)
+  if (kind === 'add') {
+    addGate.resolve([file])
+  } else {
+    readGate.resolve(true)
+  }
+  await work
+  await flushPromises()
+  expect(result.api.guardPending.value).toBe(false)
+  expect(result.api.getFiles().map((item) => item.name)).toEqual(['pending.txt'])
+})
+
+test.each(['reset', 'disabled', 'readonly'] as const)(
+  'late beforeAdd rejection is ignored after %s',
+  async (interruption) => {
+    const blocked = ref(false)
+    const gate = deferred<File[]>()
+    const rejected = vi.fn()
+    const result = host({
+      disabled: () => interruption === 'disabled' && blocked.value,
+      readonly: () => interruption === 'readonly' && blocked.value,
+      beforeAdd: () => gate.promise,
+      onRejected: rejected,
+    })
+    const work = result.api.addFiles([new File(['x'], 'pending.txt', { type: 'text/plain' })])
+    await flushPromises()
+    expect(result.api.guardPending.value).toBe(true)
+    if (interruption === 'reset') {
+      result.api.reset()
+    } else {
+      blocked.value = true
+    }
+    gate.reject(new Error('late failure'))
+    await work
+    await flushPromises()
+    expect(rejected).not.toHaveBeenCalled()
+    expect(result.api.getFiles()).toEqual([])
+    expect(result.api.guardPending.value).toBe(false)
+  },
+)
+
+test('active beforeAdd rejection still reports before-add exactly once', async () => {
+  const gate = deferred<File[]>()
+  const rejected = vi.fn()
+  const result = host({ beforeAdd: () => gate.promise, onRejected: rejected })
+  const file = new File(['x'], 'pending.txt', { type: 'text/plain' })
+  const work = result.api.addFiles([file])
+  await flushPromises()
+  gate.reject(new Error('active failure'))
+  await work
+  await flushPromises()
+  expect(rejected).toHaveBeenCalledTimes(1)
+  expect(rejected.mock.calls[0][0]).toEqual([{ file, reason: 'before-add' }])
+  expect(result.api.guardPending.value).toBe(false)
+})
+
+test('a stale beforeAdd rejection does not notify or clear a newer pending operation', async () => {
+  const first = deferred<File[]>()
+  const second = deferred<File[]>()
+  const rejected = vi.fn()
+  let calls = 0
+  const result = host({
+    beforeAdd: () => (++calls === 1 ? first.promise : second.promise),
+    onRejected: rejected,
+    autoUpload: () => false,
+  })
+  const oldWork = result.api.addFiles([new File(['x'], 'old.txt', { type: 'text/plain' })])
+  await flushPromises()
+  result.api.reset()
+  const newFile = new File(['x'], 'new.txt', { type: 'text/plain' })
+  const newWork = result.api.addFiles([newFile])
+  await flushPromises()
+  expect(result.api.guardPending.value).toBe(true)
+  first.reject(new Error('stale'))
+  await oldWork
+  await flushPromises()
+  expect(rejected).not.toHaveBeenCalled()
+  expect(result.api.guardPending.value).toBe(true)
+  second.resolve([newFile])
+  await newWork
+  await flushPromises()
+  expect(result.api.guardPending.value).toBe(false)
+  expect(result.api.getFiles().map((item) => item.name)).toEqual(['new.txt'])
+})
+
+test.each(['reactivated', 'unmounted'] as const)(
+  'a beforeAdd rejection after %s does not notify',
+  async (lifecycle) => {
+    const shown = ref(true)
+    const gate = deferred<File[]>()
+    const rejected = vi.fn()
+    let api!: ReturnType<typeof useUploader>
+    const Child = defineComponent({
+      setup() {
+        api = useUploader({ beforeAdd: () => gate.promise, onRejected: rejected })
+        return () => h('div')
+      },
+    })
+    const wrapper = mount({ render: () => h(KeepAlive, null, () => (shown.value ? h(Child) : null)) })
+    wrappers.push(wrapper)
+    const work = api.addFiles([new File(['x'], 'pending.txt')])
+    await flushPromises()
+    expect(api.guardPending.value).toBe(true)
+    if (lifecycle === 'unmounted') {
+      wrapper.unmount()
+    } else {
+      shown.value = false
+      await nextTick()
+      shown.value = true
+      await nextTick()
+    }
+    gate.reject(new Error('late'))
+    await work
+    await flushPromises()
+    expect(rejected).not.toHaveBeenCalled()
+    expect(api.guardPending.value).toBe(false)
+  },
+)
+
+test.each(['rejected', 'exceed'] as const)('reset from %s stops the old mixed preparation', async (callback) => {
+  const read = vi.fn()
+  const exceeded = vi.fn(() => {
+    if (callback === 'exceed') {
+      result.api.reset()
+    }
+  })
+  const rejected = vi.fn(() => {
+    if (callback === 'rejected') {
+      result.api.reset()
+    }
+  })
+  const result = host({
+    maxFiles: () => 1,
+    autoUpload: () => false,
+    onRejected: rejected,
+    onExceed: exceeded,
+    onRead: read,
+  })
+  const files = [new File(['a'], 'a.txt'), new File(['b'], 'b.txt')]
+  await result.api.addFiles(files)
+  await flushPromises()
+  expect(rejected).toHaveBeenCalledTimes(1)
+  expect(exceeded).toHaveBeenCalledTimes(callback === 'rejected' ? 0 : 1)
+  expect(read).not.toHaveBeenCalled()
+  expect(result.api.getFiles()).toEqual([])
+  expect(URL.revokeObjectURL).toHaveBeenCalledTimes(1)
+})
+
+test.each(['update', 'change'] as const)('reset from %s stops stale queue notifications and read', async (callback) => {
+  const changes: number[] = []
+  const read = vi.fn()
+  const result = host({
+    autoUpload: () => false,
+    onUpdateModelValue: (files) => {
+      if (callback === 'update' && files.length) {
+        result.api.reset()
+      }
+    },
+    onChange: (files) => {
+      changes.push(files.length)
+      if (callback === 'change' && files.length) {
+        result.api.reset()
+      }
+    },
+    onRead: read,
+  })
+  await result.api.addFiles([new File(['a'], 'a.txt')])
+  await flushPromises()
+  expect(result.api.getFiles()).toEqual([])
+  expect(changes).toEqual(callback === 'update' ? [0] : [1, 0])
+  expect(read).not.toHaveBeenCalled()
+})
+
+test('reset during the first read stops notifications for the rest of the batch', async () => {
+  const read = vi.fn(() => result.api.reset())
+  const result = host({ autoUpload: () => false, onRead: read })
+  await result.api.addFiles([new File(['a'], 'a.txt'), new File(['b'], 'b.txt')])
+  await flushPromises()
+  expect(read).toHaveBeenCalledTimes(1)
+  expect(result.api.getFiles()).toEqual([])
+})
+
+test('reset during an unaccepted controlled proposal suppresses its old change', async () => {
+  const change = vi.fn()
+  const read = vi.fn()
+  const result = host(
+    {
+      autoUpload: () => false,
+      onUpdateModelValue: (files) => {
+        if (files.length) {
+          result.api.reset()
+        }
+      },
+      onChange: change,
+      onRead: read,
+    },
+    [],
+  )
+  await result.api.addFiles([new File(['a'], 'a.txt')])
+  await flushPromises()
+  expect(result.api.getFiles()).toEqual([])
+  expect(change).not.toHaveBeenCalled()
+  expect(read).not.toHaveBeenCalled()
+})
+
+test.each(['disabled', 'unmounted'] as const)(
+  'update callback %s preserves committed change unless unmounted',
+  async (lifecycle) => {
+    const disabled = ref(false)
+    const change = vi.fn()
+    const read = vi.fn()
+    const result = host({
+      autoUpload: () => false,
+      disabled: () => disabled.value,
+      onUpdateModelValue: (files) => {
+        if (!files.length) {
+          return
+        }
+        if (lifecycle === 'disabled') {
+          disabled.value = true
+        } else {
+          result.wrapper.unmount()
+        }
+      },
+      onChange: change,
+      onRead: read,
+    })
+    await result.api.addFiles([new File(['a'], 'a.txt')])
+    await flushPromises()
+    expect(change).toHaveBeenCalledTimes(lifecycle === 'disabled' ? 1 : 0)
+    expect(read).not.toHaveBeenCalled()
+  },
+)

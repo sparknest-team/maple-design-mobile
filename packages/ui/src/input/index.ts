@@ -1,5 +1,5 @@
 import { withInstall, withPropsDefaultsSetter } from '../utils/components'
-import _Input from './Input.vue'
+import _Input from './base'
 import _InputGroup from './InputGroup.vue'
 import _InputGroupLabel from './InputGroupLabel.vue'
 import _InputPassword from './InputPassword.vue'

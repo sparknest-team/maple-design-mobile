@@ -6,13 +6,17 @@ export function useUploadQueue(options: {
   defaultValue?: () => UploadFileItem[] | undefined
   onChange?: (files: UploadFileItem[], file?: UploadFileItem) => void
   onUpdateModelValue?: (files: UploadFileItem[]) => void
+  isActive?: () => boolean
 }) {
   const inner = ref<UploadFileItem[]>((options.defaultValue?.() ?? []).map((file) => ({ ...file })))
   const fileList = computed(() => options.modelValue?.() ?? inner.value)
+  let revision = 0
   let pending: UploadFileItem[] | undefined
   let pendingBase: UploadFileItem[] | undefined
   const mutationList = () => (pending && fileList.value === pendingBase ? pending : fileList.value)
   function commit(next: UploadFileItem[], changed?: UploadFileItem) {
+    const currentRevision = ++revision
+    const startedActive = options.isActive?.() ?? true
     pendingBase = fileList.value
     pending = next
     if (options.modelValue?.() === undefined) {
@@ -25,7 +29,9 @@ export function useUploadQueue(options: {
       }
     })
     options.onUpdateModelValue?.(next)
-    options.onChange?.(next, changed)
+    if (revision === currentRevision && (!startedActive || (options.isActive?.() ?? true))) {
+      options.onChange?.(next, changed)
+    }
   }
   function append(files: UploadFileItem[]) {
     if (files.length) {
@@ -71,6 +77,10 @@ export function useUploadQueue(options: {
   function reset() {
     if (fileList.value.length) {
       commit([])
+    } else {
+      revision++
+      pending = undefined
+      pendingBase = undefined
     }
   }
   return {

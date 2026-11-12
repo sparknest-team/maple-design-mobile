@@ -3,13 +3,13 @@ import RadioGroup from './group-presentation'
 import _Radio from './presentation'
 import { radioGroupProps, radioProps } from './props'
 
-const Radio: typeof _Radio & { Group: typeof RadioGroup; install?: (app: import('vue').App) => void } = withInstall(
+const Radio = withInstall(
   _Radio,
   Object.assign(_Radio, {
     Group: RadioGroup,
   }),
   { components: [_Radio, RadioGroup] },
-)
+) as typeof _Radio & { Group: typeof RadioGroup; install: (app: import('vue').App) => void }
 
 withPropsDefaultsSetter(Radio, radioProps)
 withPropsDefaultsSetter(RadioGroup, radioGroupProps)

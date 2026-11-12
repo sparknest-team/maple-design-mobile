@@ -97,8 +97,10 @@ InputNumber 用于编辑和提交业务数字。
 | Prop                                      | Type      | Default |
 | ----------------------------------------- | --------- | ------- |
 | `disable-input`                           | `boolean` | `false` |
-| `disable-increment` / `disable-decrement` | `boolean` | `false` |
-| `increment-button` / `decrement-button`   | `boolean` | `true`  |
+| `disable-increment` | `boolean` | `false` |
+| `disable-decrement` | `boolean` | `false` |
+| `increment-button` | `boolean` | `true` |
+| `decrement-button` | `boolean` | `true` |
 | `press`                                   | `boolean` | `true`  |
 
 ```demo

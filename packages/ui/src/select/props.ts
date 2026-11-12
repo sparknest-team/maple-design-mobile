@@ -31,6 +31,8 @@ import type {
 export type SelectEditMode = FieldEditMode
 export const selectProps = {
   ...fieldLoadingProps,
+  /** 弹出编辑是否需要确认；未设置时单选即提交，多选保留确认。 */
+  needConfirm: { type: Boolean, default: undefined },
   openTriggerTarget: openTriggerTargetProp,
   /** 异步候选加载器；显式 options 优先，组件管理加载和请求取消。 */
   /** 内置本地过滤是否区分大小写；自定义过滤函数优先。 */

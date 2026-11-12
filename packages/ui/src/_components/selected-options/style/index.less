@@ -28,7 +28,7 @@
       cursor: default;
     }
     &:focus-visible {
-      outline: 2px solid var(--mp-sys-color-content-brand);
+      outline: 2px solid var(--mp-sys-color-action-primary);
       outline-offset: 1px;
     }
   }
@@ -168,10 +168,14 @@
     overflow-wrap: anywhere;
   }
 
-  .mp-select-option.mp-select-option-selected,
-  .mp-select-option.mp-select-option-selected:hover {
-    background: var(--mp-selection-editor-selected-background);
-    color: var(--mp-selection-editor-accent);
+  .mp-select-option.mp-select-option-selected:not(.mp-select-option-disabled) {
+    background: var(--mp-select-popup-option-bg-selected);
+    color: var(--mp-select-popup-option-text-color-selected);
+
+    &:hover,
+    &.mp-select-option-active {
+      background: var(--mp-select-popup-option-bg-selected-hover);
+    }
   }
   .mp-select-option-disabled {
     opacity: var(--mp-selected-options-disabled-opacity);
@@ -199,9 +203,14 @@
     white-space: normal;
     overflow-wrap: anywhere;
   }
-  .mp-cascader-option > span:first-child {
-    order: 2;
-    margin-inline-start: var(--mp-selection-editor-gap);
+  .mp-cascader-option .mp-cascader-option-checkbox {
+    order: -1;
+    flex: none;
+    margin-inline-end: var(--mp-selection-editor-gap);
+
+    .mp-checkbox {
+      margin-inline-end: 0;
+    }
   }
   .mp-selection-indicator {
     margin: 0;
@@ -209,11 +218,14 @@
     height: var(--mp-selection-editor-check-size);
     border-radius: var(--mp-selection-editor-radius);
   }
-  .mp-cascader-option.mp-cascader-option-selected,
-  .mp-cascader-option.mp-cascader-option-selected:hover,
-  .mp-cascader-option-active {
-    background: var(--mp-selection-editor-selected-background);
-    color: var(--mp-selection-editor-accent);
+  .mp-cascader-option.mp-cascader-option-selected:not(.mp-cascader-option-disabled) {
+    background: var(--mp-cascader-item-bg-active);
+    color: var(--mp-cascader-item-text-color-active);
+
+    &:hover,
+    &.mp-cascader-option-active {
+      background: var(--mp-cascader-item-bg-hover);
+    }
   }
   &--mobile {
     width: 100%;
@@ -227,8 +239,6 @@
     .mp-select-dropdown .mp-select-option,
     .mp-cascader-option {
       min-height: var(--mp-selection-editor-touch-height);
-      border-radius: 0;
-      border-bottom: 1px solid var(--mp-selection-editor-border);
       font-size: var(--mp-selection-editor-touch-font-size);
     }
     .mp-selection-indicator {
@@ -359,5 +369,17 @@
   }
   &--mobile .mp-tree-node {
     min-height: var(--mp-selection-editor-touch-height);
+  }
+}
+
+.mp-selection-editor--select,
+.mp-selection-editor--auto-complete,
+.mp-selection-editor--people-select {
+  .mp-select-dropdown .mp-select-dropdown-list-wrapper {
+    padding-inline: var(--mp-select-popup-padding-horizontal);
+  }
+  &.mp-selection-editor--mobile .mp-select-dropdown .mp-select-option {
+    border-radius: var(--mp-select-popup-option-border-radius);
+    border-bottom: 0;
   }
 }

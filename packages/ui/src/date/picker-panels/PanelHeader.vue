@@ -45,10 +45,10 @@ import {
   IconChevronRight as MIconChevronRight,
 } from '@maple-design/icons-vue'
 import { toNumber } from '@maple-design/shared-vue'
-import MpButton from '../../button'
+import MpButton from '../../button/base'
 import MpIcon from '../../icon'
-import { t } from '../../locale'
 import { injectLocaleProvider } from '../../locale-provider/provide'
+import { dateText as t } from '../../locale/date-text'
 import { createNamespace } from '../../utils/components'
 import type { PanelBtnDisabled, Preview } from '../picker-props'
 

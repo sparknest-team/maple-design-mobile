@@ -1,6 +1,6 @@
 import { computed } from 'vue'
-import { t } from '../../locale'
 import { injectLocaleProvider } from '../../locale-provider/provide'
+import { dateText as t } from '../../locale/date-text'
 
 export function usePanelActionsLocale() {
   const { t: provided } = injectLocaleProvider()

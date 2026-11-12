@@ -90,8 +90,8 @@ import { toNumber } from '@maple-design/shared-vue'
 import { useVModel } from '@maple-design/use-vue'
 import { useFormErrorDescription } from '../form/error-description'
 import MpIcon from '../icon'
-import { t } from '../locale'
 import { injectLocaleProvider } from '../locale-provider/provide'
+import { miscText as t } from '../locale/misc-text'
 import MpPopup from '../popup'
 import Ripple from '../ripple'
 import { createNamespace } from '../utils/components'
@@ -171,7 +171,7 @@ export default defineComponent({
       return props.overlayClosable ?? true
     })
 
-    const closeText = computed(() => props.closeButtonText ?? t('cascaderPickerDoneButtonText'))
+    const closeText = computed(() => props.closeButtonText ?? (localT || t)('cascaderPickerDoneButtonText'))
 
     const extraKeys = computed(() => {
       const { extraKey } = props

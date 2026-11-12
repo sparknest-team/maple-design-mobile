@@ -5,6 +5,7 @@ import OrganizedAppearanceLab from './demos/appearance-lab.vue'
 import EnglishDemo9 from './demos/en-US/accessibility.vue'
 import EnglishDemo0 from './demos/en-US/basic.vue'
 import EnglishDemo2 from './demos/en-US/case-sensitive.vue'
+import EnglishCustomDraft from './demos/en-US/custom-draft.vue'
 import EnglishDemo8 from './demos/en-US/decorator.vue'
 import EnglishDemo4 from './demos/en-US/footer.vue'
 import EnglishDemo1 from './demos/en-US/opening-policy.vue'
@@ -15,6 +16,7 @@ import OrganizedStateLab from './demos/state-lab.vue'
 import Demo9 from './demos/zh-CN/accessibility.vue'
 import Demo0 from './demos/zh-CN/basic.vue'
 import Demo2 from './demos/zh-CN/case-sensitive.vue'
+import CustomDraft from './demos/zh-CN/custom-draft.vue'
 import Demo8 from './demos/zh-CN/decorator.vue'
 import Demo4 from './demos/zh-CN/footer.vue'
 import GroupSpacingDemo from './demos/zh-CN/group-spacing.vue'
@@ -37,6 +39,11 @@ watchLang((value) => {
   <section data-demo="basic">
     <app-type>{{ english ? 'Input and selection' : '基础输入与选择' }}</app-type>
     <EnglishDemo0 v-if="english" /><Demo0 v-else />
+  </section>
+
+  <section data-demo="custom-draft">
+    <app-type>{{ english ? 'Custom text submission' : '自定义文本提交' }}</app-type>
+    <EnglishCustomDraft v-if="english" /><CustomDraft v-else />
   </section>
 
   <h2 class="mobile-demo-group-heading" data-demo-group="appearance-and-states">

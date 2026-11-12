@@ -1,5 +1,5 @@
 import type { PropType } from 'vue'
-import { buttonProps } from '../button'
+import { buttonProps } from '../button/props'
 import { defineListenerProp, type ExtractPublicPropTypes } from '../utils/components'
 
 export type TabBarVariant = 'standard' | 'pill'

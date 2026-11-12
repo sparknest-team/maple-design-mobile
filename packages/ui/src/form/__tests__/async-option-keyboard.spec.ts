@@ -41,6 +41,7 @@ for (const [name, Field] of [
           h(FormItem, { field: 'value', label: name, rules }, () =>
             h(Field as any, {
               ...state,
+              needConfirm: true,
               ...extra,
               filterable: true,
               showExtraOptions: false,

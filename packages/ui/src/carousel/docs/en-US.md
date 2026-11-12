@@ -343,7 +343,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-carousel-card-opacity` | `0.6` | `opacity` |
 | `--mp-carousel-card-scale` | `0.85` | `transform` |
 | `--mp-carousel-fade-duration` | `var(--mp-sys-motion-duration-standard)` | `transition` |
-| `--mp-carousel-focus-color` | `var(--mp-sys-color-content-brand)` | `outline` |
+| `--mp-carousel-focus-color` | `var(--mp-sys-color-action-primary)` | `outline` |
 | `--mp-carousel-focus-offset` | `2px` | `outline-offset` |
 | `--mp-carousel-focus-width` | `2px` | `outline` |
 | `--mp-carousel-indicator-color-active` | `var(--mp-sys-color-content-on-dark)` | `background` |

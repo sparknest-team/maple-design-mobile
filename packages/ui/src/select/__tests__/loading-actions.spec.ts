@@ -129,6 +129,7 @@ test('Cascader deferred footer cannot clear a loading draft through a retained c
 test('manual loading does not pause free-text AutoComplete draft clearing', async () => {
   const owner = mount(AutoComplete as any, {
     props: {
+      needConfirm: true,
       editMode: deferredMode,
       open: true,
       defaultValue: 'text',

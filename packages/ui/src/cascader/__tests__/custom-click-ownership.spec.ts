@@ -122,6 +122,60 @@ describe('custom option click ownership', () => {
       wrapper.unmount()
     }
   })
+  it.each([0, 2])('keeps a custom focusable element with tabindex %s from selecting the option', async (tabindex) => {
+    const action = vi.fn()
+    const wrapper = mount(Panel, {
+      props: { options: [{ value: 'a', label: 'Alpha' }] },
+      slots: {
+        option: () => h('div', { tabindex, onClick: action }, [h('span', { 'data-child': '' }, 'Custom action')]),
+      },
+    })
+    try {
+      await wrapper.get('[data-child]').trigger('click')
+      expect(action).toHaveBeenCalledOnce()
+      expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+    } finally {
+      wrapper.unmount()
+    }
+  })
+  it('continues selecting content with a negative tabindex', async () => {
+    const wrapper = mount(Panel, {
+      props: { options: [{ value: 'a', label: 'Alpha' }] },
+      slots: { option: () => h('span', { tabindex: -1, 'data-child': '' }, 'Alpha') },
+    })
+    try {
+      await wrapper.get('[data-child]').trigger('click')
+      expect(wrapper.emitted('update:modelValue')?.at(-1)).toEqual(['a'])
+    } finally {
+      wrapper.unmount()
+    }
+  })
+  it.each(['audio', 'video'])('keeps native %s controls from selecting the option', async (tag) => {
+    const action = vi.fn()
+    const wrapper = mount(Panel, {
+      props: { options: [{ value: 'a', label: 'Alpha' }] },
+      slots: { option: () => h(tag, { controls: true, 'data-media': '', onClick: action }) },
+    })
+    try {
+      await wrapper.get('[data-media]').trigger('click')
+      expect(action).toHaveBeenCalledOnce()
+      expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+    } finally {
+      wrapper.unmount()
+    }
+  })
+  it('continues selecting a video without controls', async () => {
+    const wrapper = mount(Panel, {
+      props: { options: [{ value: 'a', label: 'Alpha' }] },
+      slots: { option: () => h('video', { 'data-media': '' }) },
+    })
+    try {
+      await wrapper.get('[data-media]').trigger('click')
+      expect(wrapper.emitted('update:modelValue')?.at(-1)).toEqual(['a'])
+    } finally {
+      wrapper.unmount()
+    }
+  })
   it('still selects when ordinary option text is clicked', async () => {
     const wrapper = mount(Panel, {
       props: { options: [{ value: 'a', label: 'Alpha' }] },
@@ -135,3 +189,85 @@ describe('custom option click ownership', () => {
     }
   })
 })
+
+it('keeps a custom control with an interactive primary role from selecting its outer option', async () => {
+  const action = vi.fn()
+  const wrapper = mount(Panel, {
+    props: { options: [{ value: 'a', label: 'Alpha' }] },
+    slots: {
+      option: () =>
+        h('span', { role: 'button presentation', tabindex: -1, onClick: action }, [
+          h('span', { 'data-child': '' }, 'Action'),
+        ]),
+    },
+  })
+  try {
+    await wrapper.get('[data-child]').trigger('click')
+    expect(action).toHaveBeenCalledOnce()
+    expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+  } finally {
+    wrapper.unmount()
+  }
+})
+
+it('selects ordinary content with a presentational primary role', async () => {
+  const wrapper = mount(Panel, {
+    props: { options: [{ value: 'a', label: 'Alpha' }] },
+    slots: { option: () => h('span', { role: 'presentation button', tabindex: -1, 'data-child': '' }, 'Alpha') },
+  })
+  try {
+    await wrapper.get('[data-child]').trigger('click')
+    expect(wrapper.emitted('update:modelValue')?.at(-1)).toEqual(['a'])
+  } finally {
+    wrapper.unmount()
+  }
+})
+
+it.each(['unsupported-widget button', 'widget button', 'unknown-role treeitem'])(
+  'keeps a recognized interactive fallback role: %s',
+  async (role) => {
+    const action = vi.fn()
+    const wrapper = mount(Panel, {
+      props: { options: [{ value: 'a', label: 'Alpha' }] },
+      slots: {
+        option: () => h('span', { role, tabindex: -1, onClick: action }, [h('span', { 'data-child': '' }, 'Action')]),
+      },
+    })
+    try {
+      await wrapper.get('[data-child]').trigger('click')
+      expect(action).toHaveBeenCalledOnce()
+      expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+    } finally {
+      wrapper.unmount()
+    }
+  },
+)
+
+it('keeps a recognized noninteractive role ahead of a fallback button selectable', async () => {
+  const wrapper = mount(Panel, {
+    props: { options: [{ value: 'a', label: 'Alpha' }] },
+    slots: { option: () => h('span', { role: 'note button', tabindex: -1, 'data-child': '' }, 'Alpha') },
+  })
+  try {
+    await wrapper.get('[data-child]').trigger('click')
+    expect(wrapper.emitted('update:modelValue')?.at(-1)).toEqual(['a'])
+  } finally {
+    wrapper.unmount()
+  }
+})
+
+it.each(['image', 'comment', 'mark', 'suggestion', 'sectionfooter', 'sectionheader'])(
+  'keeps recognized %s ahead of fallback button as selectable content',
+  async (role) => {
+    const wrapper = mount(Panel, {
+      props: { options: [{ value: 'a', label: 'Alpha' }] },
+      slots: { option: () => h('span', { role: `${role} button`, tabindex: -1, 'data-child': '' }, 'Alpha') },
+    })
+    try {
+      await wrapper.get('[data-child]').trigger('click')
+      expect(wrapper.emitted('update:modelValue')?.at(-1)).toEqual(['a'])
+    } finally {
+      wrapper.unmount()
+    }
+  },
+)

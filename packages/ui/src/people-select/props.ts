@@ -9,12 +9,15 @@ import type {
   PeopleSelectOption,
   PeopleSelectOptionsLoader,
   PeopleSelectRenderActions,
+  PeopleSelectValue,
 } from './types'
 
 export const peopleSelectProps = {
   ...fieldLoadingProps,
+  /** 弹出编辑是否需要确认；未设置时单选即提交，多选保留确认。 */
+  needConfirm: { type: Boolean, default: undefined },
   ...fieldPresentationProps,
-  emptyValue: emptyValueProp<string>(),
+  emptyValue: emptyValueProp<string | string[]>(),
   /** Reactive display data for a selected value absent from options. */
   fallbackOption: {
     type: [Boolean, Function] as PropType<PeopleSelectFallbackOption>,
@@ -50,9 +53,13 @@ export const peopleSelectProps = {
     type: String,
     default: '-',
   },
-  modelValue: { type: String as PropType<string | null>, default: undefined },
-  /** 非受控初始选中人员标识，仅创建时读取。 */
-  defaultValue: { type: String, default: '' },
+  multiple: selectProps.multiple,
+  modelValue: { type: [String, Array] as PropType<PeopleSelectValue>, default: undefined },
+  /** 非受控初始选中人员 ID 或 ID 数组，仅创建时读取。 */
+  defaultValue: {
+    type: [String, Array] as PropType<string | string[]>,
+    default: (props: { multiple?: boolean }) => (props.multiple ? [] : ''),
+  },
   isLabel: {
     type: Boolean,
     default: false,

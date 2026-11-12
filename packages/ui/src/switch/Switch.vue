@@ -47,6 +47,7 @@
 <script setup lang="ts">
 import {
   computed,
+  inject,
   onActivated,
   onBeforeUnmount,
   onDeactivated,
@@ -55,6 +56,7 @@ import {
   type CSSProperties,
   type HTMLAttributes,
 } from 'vue'
+import { fieldEditorControlPending } from '../_components/field-presentation/editor-pending'
 import { invokeBeforeHook } from '../_hooks/use-action-guard'
 import { useFormErrorDescription } from '../form/error-description'
 import { createNamespace } from '../utils/components'
@@ -76,6 +78,16 @@ const internal = ref<SwitchValue>(props.defaultValue !== undefined ? props.defau
 const current = computed(() => (props.modelValue === undefined ? internal.value : props.modelValue))
 const checked = computed(() => current.value === props.checkedValue)
 const pending = ref(false)
+const editorPending = inject(fieldEditorControlPending, undefined)
+watch(
+  pending,
+  (value) => {
+    if (editorPending) {
+      editorPending.value = value
+    }
+  },
+  { flush: 'sync' },
+)
 const busy = computed(() => props.loading || pending.value)
 const rippleKey = ref(0)
 let active = true

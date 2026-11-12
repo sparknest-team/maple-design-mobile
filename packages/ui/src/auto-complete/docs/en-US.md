@@ -16,6 +16,14 @@ The editor and suggestion popup inherit source dir, including in custom containe
 ../example/demos/en-US/basic.vue
 ```
 
+### Custom text submission
+
+Choose a suggestion to commit immediately, or confirm custom text.
+
+```demo
+../example/demos/en-US/custom-draft.vue
+```
+
 ## Appearance and states
 
 ### Appearance configuration comparison
@@ -202,7 +210,7 @@ AutoCompleteTriggerOptions is an opt-in configuration subset that excludes inter
 
 ### Editing and confirmation
 
-This component supports `edit-mode` with field > FormItem > Form precedence. When unset, it defaults to `popup` and opens an editor when the value area is clicked. Supported values: `direct / popup`. Non-direct modes open the editor through the field value trigger and keep one draft; v-model updates only after confirmation. Cancel, reset or enabling readPretty discards the draft.
+This component supports `edit-mode` with field > FormItem > Form precedence. When unset, it defaults to `popup` and opens an editor when the value area is clicked. Supported values: `direct / popup`. Non-direct modes open an editor through the field value trigger. Choosing a suggestion commits immediately by default; custom text uses confirmation. need-confirm also requires confirmation for suggestions. Cancel, reset or enabling readPretty discards an uncommitted draft.
 
 Maple uses edit-mode="popup" to open the editor when the value area is clicked; direct edits immediately. readPretty is a reading-only setting, independent of readonly and disabled.
 
@@ -210,7 +218,7 @@ Maple uses edit-mode="popup" to open the editor when the value area is clicked; 
 
 `read-pretty` is an independent boolean alongside `readonly` and `disabled`. It inherits from field to FormItem to Form; explicit `false` overrides the parent. The default is `false`. Reading mode renders no editor.
 
-Asynchronous search should clear old candidates when requests start and accept only the latest response for the current query. Popup arrows/Enter operate only current candidates; the bottom confirm button saves. Failed validation preserves drafts. Confirmation locks editing/closing; Form reset closes Popup and aborts submission. Closing/reset invalidates request ownership. See Form's unified field-presentation examples.
+Asynchronous search should clear old candidates when requests start and accept only the latest response for the current query. Popup arrows/Enter operate current candidates; confirmation mode saves with the bottom button, while immediate single selection commits on choice. Failed validation in confirmation mode preserves drafts. Confirmation locks editing/closing; Form reset closes Popup and aborts submission. Closing/reset invalidates request ownership. See Form’s unified field-presentation examples.
 
 The candidate list shares group, selected and disabled styling with Select, and AutoComplete variables follow their Select counterparts by default. In direct mode the list opens below the input and updates while scrolling; trigger-props can change placement or enable automatic flipping. The field presentation owns the deferred editor while the internal input owns suggestions; each platform retains its public edit-mode values.
 
@@ -239,6 +247,7 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 
 | Prop | Description | Type | Default |
 | -------------------- | --------------------------------------------------- | ---------------------------------------------------------------------------------------- | ---------------------------- |
+| need-confirm | Applies only to overlay editing. Choosing a suggestion commits and closes by default; true keeps a draft until confirmation. Submission still runs form validation and before-commit; rejection keeps the editor open. AutoComplete typing does not auto-submit; a changed text draft provides a confirmation button, while choosing a suggestion completes selection immediately. | `boolean` | `false` |
 | `model-value` | Controlled text | `string \| null` | `—` |
 | `default-value` | Initial uncontrolled text | `string` | `''` |
 | `options` | Suggestions, including groups; unique values become strings on selection | `(AutoCompleteOption \| SelectOptionGroup)[]` / `(query, { signal }) => Array / Promise` | `undefined` |
@@ -325,7 +334,7 @@ default does not replace the input. option customizes candidates, read customize
 | blur | - | void |
 | refresh | - | `Promise<void>` |
 
-Arrow keys reopen after Escape: ArrowDown activates the first enabled candidate and ArrowUp the last, without submitting a model; Enter selects. Composition, canceled keyboard events, readonly/disabled and should-open remain respected. Tab retains native focus navigation. Vue useId keeps SSR identifiers stable. The input references the listbox through aria-controls while suggestions are open; the reference is removed when closed. When virtualization unmounts the active option, its active-descendant reference is removed until it mounts again.
+Arrow keys reopen the popup after Escape closes it: ArrowDown activates the first enabled candidate and ArrowUp the last, without committing the model; Enter selects. Composition, canceled keyboard events, readonly/disabled and should-open conditions are respected; Tab retains native focus navigation. Vue useId provides stable SSR identifiers. While candidates are open, aria-controls links the input to the list; the reference is removed on close. When virtualization unmounts the active item, its reference is temporarily removed and restored after remounting.
 
 ## Types
 
@@ -361,7 +370,7 @@ AutoComplete text input always supports searching; filter-option only controls l
 <mp-auto-complete v-model="text" :options="loadSuggestions" />
 ```
 
-`empty-value` accepts explicit `null` (or `() => null`). Clearing publishes `null` unchanged; omitted values preserve the existing default. Editors render `null` as blank without converting ordinary empty-string input to `null`. In popup editing, clearing changes the draft; confirm commits it and cancel preserves the original model.
+`empty-value` accepts explicit `null` (or `() => null`). Clearing publishes `null` unchanged; omission preserves the existing default. The UI displays null as blank without converting ordinary empty-string input to null. In confirmation mode, clearing changes the draft and confirm commits it; without confirmation, clearing commits directly.
 
 Public focus/blur methods are callable from initial mount. Focus opens an editable deferred editor and targets it after readiness; disabled, readonly, or reading fields do not open. Blur only blurs the current target without reopening. Stored methods never bind an old editor; closure, mode changes, deactivation, or unmount cancel queued calls.
 

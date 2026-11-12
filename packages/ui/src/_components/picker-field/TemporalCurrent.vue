@@ -23,8 +23,8 @@
 <script setup lang="ts">
 import { computed, type PropType } from 'vue'
 import { IconCalendar, IconClockCircle } from '@maple-design/icons-vue'
-import { t } from '../../locale'
 import { injectLocaleProvider } from '../../locale-provider/provide'
+import { dateText as t } from '../../locale/date-text'
 import { createNamespace } from '../../utils/components'
 
 defineOptions({ name: createNamespace('temporal-current').name })

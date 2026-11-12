@@ -1,5 +1,35 @@
 import type { Message } from './index'
 
+export const defaultKeyboardLabel = '数字键盘'
+export const defaultKeyboardDelete = '删除'
+export const defaultKeyboardDone = '完成'
+export const defaultFabActions = '操作'
+export const defaultTabsClose = '关闭'
+export const defaultTabsAdd = '新增标签'
+export const defaultTabsPrevious = '上一组标签'
+export const defaultTabsNext = '下一组标签'
+export const defaultActionSheetTitle = '请选择'
+export const defaultCascaderDone = '完成'
+
+export const defaultTemporalPickerCancel = '取消'
+export const defaultTemporalOrderError = '结束时间不能早于开始时间，请调整起止时间'
+export const defaultTemporalNow = '此刻'
+export const defaultTemporalHour = '时'
+export const defaultTemporalMinute = '分'
+export const defaultTemporalSecond = '秒'
+export const defaultTemporalNextDay = '次日'
+
+export const defaultUploadReplace = '替换'
+export const defaultUploadDuration = '视频时长'
+export const defaultUploadButtonText = '上传'
+export const defaultUploadDrag = '将文件拖拽到此处'
+export const defaultUploadPreview = '预览'
+export const defaultUploadDownload = '下载'
+export const defaultUploadCancel = '取消'
+export const defaultUploadRetry = '重试'
+export const defaultUploadDelete = '删除'
+export const defaultUploadClose = '关闭'
+
 export const defaultCloseText = '关闭'
 export const defaultLoadingText = '加载中'
 export const defaultEmptyDescription = '暂无数据'
@@ -13,6 +43,11 @@ export const defaultDialogConfirm = '确认'
 export const defaultDialogCancel = '取消'
 export const defaultInfiniteFinishedText = '没有更多了'
 export const defaultInfiniteErrorText = '加载失败，点击重试'
+export const defaultCarouselLabel = '轮播'
+export const defaultCarouselPrevious = '上一页'
+export const defaultCarouselNext = '下一页'
+export const defaultCarouselSlide = '第 {index} 页，共 {total} 页'
+export const defaultCarouselGoto = '切换到第 {index} 页'
 
 export const defaultImageImagePreviewPrev = '上一张图片'
 export const defaultImageImagePreviewNext = '下一张图片'
@@ -64,6 +99,105 @@ export const defaultSearchSearch = '搜索'
 export const defaultSearchCancel = '取消'
 export const defaultSearchHistory = '搜索历史'
 
+export const defaultDateTextDatePickerPreviousWeek = '上一周'
+export const defaultDateTextDatePickerNextWeek = '下一周'
+export const defaultDateTextDatePickerPreviousMonth = '上一月'
+export const defaultDateTextDatePickerNextMonth = '下一月'
+export const defaultDateTextDatePickerPreviousYear = '上一年'
+export const defaultDateTextDatePickerNextYear = '下一年'
+export const defaultDateTextDatePickerPreviousPeriod = '上一组年份'
+export const defaultDateTextDatePickerNextPeriod = '下一组年份'
+export const defaultDateTextDatePickerSelected = '个被选择'
+export const defaultDateTextDateRangeOrderError = '结束日期不能早于开始日期，请调整起止日期'
+export const defaultDateTextDateTimeRangeOrderError = '结束时间不能早于开始时间，请调整起止时间'
+export const defaultDateTextDatePickerHint = '选择日期'
+export const defaultDateTextDatePickerColumnYear = '年'
+export const defaultDateTextDatePickerColumnMonth = '月'
+export const defaultDateTextDatePickerColumnDay = '日'
+export const defaultDateTextTimePickerHint = '选择时间'
+export const defaultDateTextRangeStartPlaceholder = '选择开始'
+export const defaultDateTextRangeEndPlaceholder = '选择结束'
+export const defaultDateTextDatePickerMonthDict = {
+  '01': {
+    name: '一月',
+    abbr: '一月',
+  },
+  '02': {
+    name: '二月',
+    abbr: '二月',
+  },
+  '03': {
+    name: '三月',
+    abbr: '三月',
+  },
+  '04': {
+    name: '四月',
+    abbr: '四月',
+  },
+  '05': {
+    name: '五月',
+    abbr: '五月',
+  },
+  '06': {
+    name: '六月',
+    abbr: '六月',
+  },
+  '07': {
+    name: '七月',
+    abbr: '七月',
+  },
+  '08': {
+    name: '八月',
+    abbr: '八月',
+  },
+  '09': {
+    name: '九月',
+    abbr: '九月',
+  },
+  '10': {
+    name: '十月',
+    abbr: '十月',
+  },
+  '11': {
+    name: '十一月',
+    abbr: '十一月',
+  },
+  '12': {
+    name: '十二月',
+    abbr: '十二月',
+  },
+}
+export const defaultDateTextDatePickerWeekDict = {
+  '0': {
+    name: '星期日',
+    abbr: '日',
+  },
+  '1': {
+    name: '星期一',
+    abbr: '一',
+  },
+  '2': {
+    name: '星期二',
+    abbr: '二',
+  },
+  '3': {
+    name: '星期三',
+    abbr: '三',
+  },
+  '4': {
+    name: '星期四',
+    abbr: '四',
+  },
+  '5': {
+    name: '星期五',
+    abbr: '五',
+  },
+  '6': {
+    name: '星期六',
+    abbr: '六',
+  },
+}
+
 export default {
   'imagePreview.prev': defaultImageImagePreviewPrev,
   'imagePreview.next': defaultImageImagePreviewNext,
@@ -76,15 +210,15 @@ export default {
   'imagePreview.download': defaultImageImagePreviewDownload,
   'imagePreview.close': defaultImageImagePreviewClose,
   'image.preview': defaultImageImagePreview,
-  'fab.actions': '操作',
-  'numberKeyboard.label': '数字键盘',
-  'numberKeyboard.delete': '删除',
-  'numberKeyboard.done': '完成',
+  'fab.actions': defaultFabActions,
+  'numberKeyboard.label': defaultKeyboardLabel,
+  'numberKeyboard.delete': defaultKeyboardDelete,
+  'numberKeyboard.done': defaultKeyboardDone,
 
-  'tabs.close': '关闭',
-  'tabs.add': '新增标签',
-  'tabs.previous': '上一组标签',
-  'tabs.next': '下一组标签',
+  'tabs.close': defaultTabsClose,
+  'tabs.add': defaultTabsAdd,
+  'tabs.previous': defaultTabsPrevious,
+  'tabs.next': defaultTabsNext,
   'breadcrumb.label': defaultBreadcrumbLabel,
   'breadcrumb.ellipsis': defaultBreadcrumbEllipsis,
   'splitButton.moreActions': defaultMoreActions,
@@ -108,29 +242,29 @@ export default {
   'fieldPresentation.selected': defaultFieldFieldPresentationSelected,
   'fieldPresentation.limit': defaultFieldFieldPresentationLimit,
 
-  datePickerPreviousWeek: '上一周',
-  datePickerNextWeek: '下一周',
-  datePickerPreviousMonth: '上一月',
-  datePickerNextMonth: '下一月',
-  datePickerPreviousYear: '上一年',
-  datePickerNextYear: '下一年',
-  datePickerPreviousPeriod: '上一组年份',
-  datePickerNextPeriod: '下一组年份',
-  'carousel.label': '轮播',
-  'carousel.previous': '上一页',
-  'carousel.next': '下一页',
-  'carousel.slide': '第 {index} 页，共 {total} 页',
-  'carousel.goto': '切换到第 {index} 页',
-  'upload.replace': '替换',
-  'upload.duration': '视频时长',
-  'upload.buttonText': '上传',
-  'upload.drag': '将文件拖拽到此处',
-  'upload.preview': '预览',
-  'upload.download': '下载',
-  'upload.cancel': '取消',
-  'upload.retry': '重试',
-  'upload.delete': '删除',
-  'upload.close': '关闭',
+  datePickerPreviousWeek: defaultDateTextDatePickerPreviousWeek,
+  datePickerNextWeek: defaultDateTextDatePickerNextWeek,
+  datePickerPreviousMonth: defaultDateTextDatePickerPreviousMonth,
+  datePickerNextMonth: defaultDateTextDatePickerNextMonth,
+  datePickerPreviousYear: defaultDateTextDatePickerPreviousYear,
+  datePickerNextYear: defaultDateTextDatePickerNextYear,
+  datePickerPreviousPeriod: defaultDateTextDatePickerPreviousPeriod,
+  datePickerNextPeriod: defaultDateTextDatePickerNextPeriod,
+  'carousel.label': defaultCarouselLabel,
+  'carousel.previous': defaultCarouselPrevious,
+  'carousel.next': defaultCarouselNext,
+  'carousel.slide': defaultCarouselSlide,
+  'carousel.goto': defaultCarouselGoto,
+  'upload.replace': defaultUploadReplace,
+  'upload.duration': defaultUploadDuration,
+  'upload.buttonText': defaultUploadButtonText,
+  'upload.drag': defaultUploadDrag,
+  'upload.preview': defaultUploadPreview,
+  'upload.download': defaultUploadDownload,
+  'upload.cancel': defaultUploadCancel,
+  'upload.retry': defaultUploadRetry,
+  'upload.delete': defaultUploadDelete,
+  'upload.close': defaultUploadClose,
   'search.history': defaultSearchHistory,
   'search.search': defaultSearchSearch,
   'search.cancel': defaultSearchCancel,
@@ -144,7 +278,7 @@ export default {
   dialogConfirmButtonText: defaultDialogConfirm,
   dialogCancelButtonText: defaultDialogCancel,
   // ActionSheet
-  actionSheetTitle: '请选择',
+  actionSheetTitle: defaultActionSheetTitle,
   // Empty
   emptyDescription: defaultEmptyDescription,
   // InfiniteScroll
@@ -154,103 +288,25 @@ export default {
   // Picker
   pickerTitle: defaultFieldPickerTitle,
   pickerConfirmButtonText: defaultFieldPickerConfirmButtonText,
-  pickerCancelButtonText: '取消',
+  pickerCancelButtonText: defaultTemporalPickerCancel,
   // Cascader
   cascaderPickerAddButtonText: '添加',
-  cascaderPickerDoneButtonText: '完成',
+  cascaderPickerDoneButtonText: defaultCascaderDone,
   // date-picker
-  datePickerMonthDict: {
-    '01': {
-      name: '一月',
-      abbr: '一月',
-    },
-    '02': {
-      name: '二月',
-      abbr: '二月',
-    },
-    '03': {
-      name: '三月',
-      abbr: '三月',
-    },
-    '04': {
-      name: '四月',
-      abbr: '四月',
-    },
-    '05': {
-      name: '五月',
-      abbr: '五月',
-    },
-    '06': {
-      name: '六月',
-      abbr: '六月',
-    },
-    '07': {
-      name: '七月',
-      abbr: '七月',
-    },
-    '08': {
-      name: '八月',
-      abbr: '八月',
-    },
-    '09': {
-      name: '九月',
-      abbr: '九月',
-    },
-    '10': {
-      name: '十月',
-      abbr: '十月',
-    },
-    '11': {
-      name: '十一月',
-      abbr: '十一月',
-    },
-    '12': {
-      name: '十二月',
-      abbr: '十二月',
-    },
-  },
-  datePickerWeekDict: {
-    '0': {
-      name: '星期日',
-      abbr: '日',
-    },
-    '1': {
-      name: '星期一',
-      abbr: '一',
-    },
-    '2': {
-      name: '星期二',
-      abbr: '二',
-    },
-    '3': {
-      name: '星期三',
-      abbr: '三',
-    },
-    '4': {
-      name: '星期四',
-      abbr: '四',
-    },
-    '5': {
-      name: '星期五',
-      abbr: '五',
-    },
-    '6': {
-      name: '星期六',
-      abbr: '六',
-    },
-  },
-  datePickerSelected: '个被选择',
-  dateRangeOrderError: '结束日期不能早于开始日期，请调整起止日期',
-  dateTimeRangeOrderError: '结束时间不能早于开始时间，请调整起止时间',
-  timeRangeOrderError: '结束时间不能早于开始时间，请调整起止时间',
-  datePickerNowButtonText: '此刻',
-  datePickerHint: '选择日期',
-  datePickerColumnYear: '年',
-  datePickerColumnMonth: '月',
-  datePickerColumnDay: '日',
-  datePickerColumnHour: '时',
-  datePickerColumnMinute: '分',
-  datePickerColumnSecond: '秒',
+  datePickerMonthDict: defaultDateTextDatePickerMonthDict,
+  datePickerWeekDict: defaultDateTextDatePickerWeekDict,
+  datePickerSelected: defaultDateTextDatePickerSelected,
+  dateRangeOrderError: defaultDateTextDateRangeOrderError,
+  dateTimeRangeOrderError: defaultDateTextDateTimeRangeOrderError,
+  timeRangeOrderError: defaultTemporalOrderError,
+  datePickerNowButtonText: defaultTemporalNow,
+  datePickerHint: defaultDateTextDatePickerHint,
+  datePickerColumnYear: defaultDateTextDatePickerColumnYear,
+  datePickerColumnMonth: defaultDateTextDatePickerColumnMonth,
+  datePickerColumnDay: defaultDateTextDatePickerColumnDay,
+  datePickerColumnHour: defaultTemporalHour,
+  datePickerColumnMinute: defaultTemporalMinute,
+  datePickerColumnSecond: defaultTemporalSecond,
   // pagination
   paginationItem: defaultPaginationItem,
   paginationPage: defaultPaginationPage,
@@ -260,13 +316,13 @@ export default {
   paginationJump: defaultPaginationJump,
   paginationTotal: defaultPaginationTotal,
   // time-picker
-  timePickerHint: '选择时间',
+  timePickerHint: defaultDateTextTimePickerHint,
   // time-range
-  rangeStartPlaceholder: '选择开始',
-  rangeEndPlaceholder: '选择结束',
+  rangeStartPlaceholder: defaultDateTextRangeStartPlaceholder,
+  rangeEndPlaceholder: defaultDateTextRangeEndPlaceholder,
   timeRangeStart: defaultFieldTimeRangeStart,
   dateRangeStart: defaultFieldDateRangeStart,
   dateRangeEnd: defaultFieldDateRangeEnd,
   timeRangeEnd: defaultFieldTimeRangeEnd,
-  timeRangeNextDay: '次日',
+  timeRangeNextDay: defaultTemporalNextDay,
 } satisfies Message

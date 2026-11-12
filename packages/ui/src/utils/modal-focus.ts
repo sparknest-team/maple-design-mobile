@@ -87,6 +87,19 @@ export function useModalFocus(
       target.focus({ preventScroll: true })
     }
   }
+  function focusAfterEnter() {
+    const doc = root()?.ownerDocument
+    const current = doc?.activeElement
+    // The user may move focus while the opening transition is running.
+    if (
+      !current ||
+      current === doc?.body ||
+      current === doc?.documentElement ||
+      previous.includes(current as HTMLElement)
+    ) {
+      focus()
+    }
+  }
   function restore() {
     const focused = owner?.activeElement
     const target = previous.find(restorable)
@@ -202,7 +215,7 @@ export function useModalFocus(
         unbind()
         bind()
       }
-      if (value) {
+      if (value && (!captured || root() !== element)) {
         capture()
       }
     },
@@ -233,5 +246,5 @@ export function useModalFocus(
     unbind()
     restore()
   })
-  return { focus, restore, trap }
+  return { focus, focusAfterEnter, restore, trap }
 }

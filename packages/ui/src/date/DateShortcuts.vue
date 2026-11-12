@@ -17,7 +17,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import Button from '../button'
+import Button from '../button/base'
 import { createNamespace } from '../utils/components'
 import type { DateShortcut, DateShortcutsPosition } from './panel-tools-props'
 

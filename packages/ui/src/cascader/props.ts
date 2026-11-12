@@ -21,6 +21,8 @@ import type { CascaderFieldNames, CascaderOption } from './types'
 export type CascaderEditMode = import('../_components/field-presentation/context').FieldEditMode
 export const cascaderProps = {
   ...fieldLoadingProps,
+  /** 弹出编辑是否需要确认；未设置时单选即提交，多选保留确认。 */
+  needConfirm: { type: Boolean, default: undefined },
   openTriggerTarget: openTriggerTargetProp,
   /** 清空动作产生的模型值；省略保留原默认值。 */
   /** 内置本地过滤是否区分大小写；自定义过滤函数优先。 */

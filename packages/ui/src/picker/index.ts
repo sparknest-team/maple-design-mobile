@@ -2,7 +2,7 @@ import { nextTick, reactive } from 'vue'
 import { call, isArray } from '@maple-design/shared-vue'
 import { mountInstance, withInstall, withPropsDefaultsSetter } from '../utils/components'
 import type { PopupContainer } from '../utils/popup-container'
-import VarPicker from './Picker.vue'
+import VarPicker from './base'
 import { props as pickerProps, type PickerColumnOption } from './props'
 
 export interface PickerOptions {

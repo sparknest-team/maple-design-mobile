@@ -322,7 +322,7 @@ export default defineConfig({
 | ripple | boolean | false | 启用水波 |
 | block | boolean | true | 块级布局 |
 | preview-disabled | boolean | false | 禁用预览 |
-| open / v-model:open | boolean | - | 单图受控预览状态 |
+| open | boolean | `-` | 单图受控预览状态 支持 `v-model:open`。 |
 | default-open | boolean | false | 单图非受控初始状态 |
 | preview-props | `Partial<ImagePreviewProps>` | - | 单图预览配置 |
 | popup-container | string \| HTMLElement \| false | body | 预览挂载目标 |
@@ -357,7 +357,7 @@ export default defineConfig({
 | 属性 | 类型 | 默认值 | 说明 |
 | --- | --- | --- | --- |
 | src | string | - | 预览图片地址 |
-| open / v-model:open | boolean | - | 受控预览状态 |
+| open | boolean | `-` | 受控预览状态 支持 `v-model:open`。 |
 | default-open | boolean | false | 非受控初始状态 |
 | interaction | 'auto' \| 'desktop' \| 'touch' | auto | 交互模式 |
 | popup-container | string \| HTMLElement \| false | body | 预览挂载目标 |
@@ -390,7 +390,7 @@ export default defineConfig({
 
 | 属性 | 类型 | 默认值 | 说明 |
 | --- | --- | --- | --- |
-| open / v-model:open | boolean | - | 受控预览状态 |
+| open | boolean | `-` | 受控预览状态 支持 `v-model:open`。 |
 | default-open | boolean | false | 非受控初始状态 |
 | interaction | 'auto' \| 'desktop' \| 'touch' | auto | 交互模式 |
 | popup-container | string \| HTMLElement \| false | body | 预览挂载目标 |
@@ -410,7 +410,7 @@ export default defineConfig({
 | show-toolbar | boolean | true | 显示工具栏及 actions 插槽 |
 | actions-layout | ImagePreviewActionName[] | desktop defaults / touch [] | 工具栏动作顺序 |
 | images | string[] | - | 显式图片数组；undefined 收集子项，[] 为空 |
-| model-value / v-model | number | - | 受控图片序号，从 1 开始 |
+| model-value | number | `-` | 受控图片序号，从 1 开始 支持 `v-model`。 |
 | default-value | number | 1 | 初始图片序号，从 1 开始 |
 | loop | boolean | false | 切换时循环 |
 

@@ -70,6 +70,8 @@ Navigation uses rendered row bounds when available and updates virtual padding a
 
 ### Lifecycle
 
+On KeepAlive reactivation, the virtual list restores its last recorded vertical and horizontal scroll positions within the current scrollable range. A new scroll command issued during reactivation takes precedence.
+
 <!-- demo-config-notes:start -->
 #### Configuration reference for this comparison
 
@@ -88,9 +90,9 @@ Navigation uses rendered row bounds when available and updates virtual padding a
 
 ## API
 
-The virtual list covers the viewport first and renders `buffer` items beyond it on each side. `buffer=0` is valid. `estimatedSize` must be finite and positive, including values below 1; invalid values fall back to 30px. `fixedSize` can change dynamically. Variable-height mode uses measured and estimated heights and observes mounted measurable roots when `ResizeObserver` is available. The `item` slot receives the original index and unknown data; it may return multiple measurable roots, whose combined bounds are measured as one item. Provide a stable `itemKey`. To convey the complete collection to assistive technology, provide `aria-setsize` and `aria-posinset` on application rows as appropriate.
+The virtual list covers the viewport before prerendering additional items on either side according to `buffer`; `buffer=0` is valid. `estimatedSize` must be finite and positive, including values below 1; invalid values fall back to 30px. `fixedSize` can change dynamically. Variable-height mode uses measured and estimated sizes and, when available, `ResizeObserver` to watch measurable mounted roots. The `item` slot receives the original index and unknown data, may return multiple measurable root nodes, and should provide a stable `itemKey`; measurement uses the combined root bounds for each item. To expose the complete collection to assistive technology, business rows can supply `aria-setsize` and `aria-posinset` using the actual data.
 
-Server rendering currently fails when `v-for` and `v-memo` occur on the same node inside the `default`, `header`, `footer`, `empty` or `item` slot, with or without virtualization in data mode. As a temporary workaround, remove `v-memo` from that node and verify the update behavior.
+Server rendering currently fails when the same node combines `v-for` and `v-memo` inside the `default`, `header`, `footer`, `empty` or `item` slot. Data mode is affected with or without virtualization. Temporarily remove `v-memo` from that node and verify update behavior.
 
 ### List Props
 

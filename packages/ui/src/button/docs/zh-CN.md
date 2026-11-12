@@ -313,7 +313,7 @@ Button 保留 58 个外观变量。`{status}-color` 控制实心背景，`{statu
 | `--mp-button-disabled-color` | `var(--mp-color-fill-2)` | `background-color` |
 | `--mp-button-disabled-solid-text-color` | `var(--mp-sys-color-content-on-dark)`<br>`rgba(255, 255, 255, 0.3)` (`:root[maple-theme='dark']`) | `color` |
 | `--mp-button-disabled-text-color` | `var(--mp-sys-color-content-disabled)` | `color` |
-| `--mp-button-focus-color` | `var(--mp-sys-color-content-brand)` | `outline` |
+| `--mp-button-focus-color` | `var(--mp-sys-color-action-primary)` | `outline` |
 | `--mp-button-info-color` | `var(--mp-sys-color-status-info)` | `background-color` |
 | `--mp-button-info-disabled-color` | `rgb(var(--mp-blue-3))`<br>`rgba(var(--mp-blue-6), 0.5)` (`:root[maple-theme='dark']`) | `background-color`, `color` |
 | `--mp-button-info-foreground-color` | `var(--mp-sys-color-content-info)` | `color` |

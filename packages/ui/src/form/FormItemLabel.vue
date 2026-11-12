@@ -1,5 +1,5 @@
 <template>
-  <component :is="component" ref="labelRef" :class="labelClass" v-bind="attrs">
+  <component :is="component" ref="labelRef" :class="labelClass" v-bind="attrs" @click="focusExplicitSlider">
     <strong v-if="required && asteriskPosition === 'start'" :class="`${labelClass}-required-symbol`">
       <svg fill="currentColor" viewBox="0 0 1024 1024" width="1em" height="1em">
         <path
@@ -29,6 +29,7 @@ import { ref } from 'vue'
 import type { PropType } from 'vue'
 import { IconQuestionCircle } from '@maple-design/icons-vue'
 import Tooltip from '../tooltip'
+import { focusExplicitSlider } from './focus-explicit-label'
 import { formItemDecorationProps } from './item-decoration'
 import { useFormLabelMeasurement } from './use-form-label-width'
 import type { FormLabelRegistry } from './use-form-label-width'

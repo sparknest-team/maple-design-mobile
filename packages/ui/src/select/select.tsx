@@ -8,7 +8,7 @@ import MenuPresentation from '../_components/selection-field/MenuPresentation.vu
 import type { SelectionFieldItem } from '../_components/selection-field/props'
 import SelectionField from '../_components/selection-field/SelectionField.vue'
 import { isFunction } from '../_utils/is'
-import Input from '../input'
+import Input from '../input/base'
 import InputFeedback from '../input/InputFeedback.vue'
 import { createNamespace } from '../utils/components'
 import { selectEmits } from './emits'
@@ -141,7 +141,7 @@ const Select = defineComponent({
             disabled={controller.mergedDisabled}
             readonly={controller.mergedReadonly}
             limit={props.limit}
-            needConfirm={controller.deferred}
+            needConfirm={controller.deferred && controller.needConfirm}
             pending={controller.session.pending}
             error={controller.session.error || controller.presentationError}
             onOpen={controller.handleOpenChange}
@@ -163,7 +163,7 @@ const Select = defineComponent({
                             editMode: 'direct',
                             readPretty: false,
                             beforeCommit: undefined,
-                            open: undefined,
+                            open: controller.needConfirm ? undefined : true,
                             defaultOpen: true,
                             modelValue: controller.session.value,
                             disabled: controller.mergedDisabled || controller.session.pending,
@@ -172,6 +172,16 @@ const Select = defineComponent({
                             onKeydown: (event: KeyboardEvent) => emit('keydown', event),
                             onSearch: (...args: any[]) => (emit as any)('search', ...args),
                             onChange: () => {},
+                            onClear: () => {
+                              if (!controller.needConfirm) {
+                                void controller.session.commit()
+                              }
+                            },
+                            onRemove: () => {
+                              if (!controller.needConfirm) {
+                                void controller.session.commit()
+                              }
+                            },
                           },
                           slots,
                         )

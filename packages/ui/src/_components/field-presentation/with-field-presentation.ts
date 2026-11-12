@@ -24,6 +24,7 @@ import { provideEmptyValues, resolveEmptyValue, useEmptyValues } from '../../uti
 import { useSelectionSession } from '../selection-field/use-selection-session'
 import { fieldControlFormEvents, fieldEditorBoundary, invokeBeforeCommit, useFieldPresentation } from './context'
 import type { FieldEditMode as FieldPresentationMode } from './context'
+import { fieldEditorControlPending } from './editor-pending'
 import FieldPresentation from './FieldPresentation.vue'
 import { usePresentationForm } from './form-bridge'
 
@@ -38,6 +39,8 @@ export interface FieldEditorContext {
   readonly: boolean
 }
 export interface FieldPresentationAdapter {
+  /** Selection editors commit on a completed choice when confirmation is disabled. */
+  selectionConfirmation?: 'update' | 'select'
   /** Pause selection mutations during loading while leaving search text editable. */
   pauseSelectionWhileLoading?: boolean
   /** Explicit completion notifications owned by final deferred acceptance. */
@@ -89,7 +92,12 @@ function cloneValue(value: any, seen = new WeakMap<object, any>()): any {
   }
   return result
 }
-function sameFieldValue(left: any, right: any, seen = new WeakMap<object, object>()): boolean {
+function sameFieldValue(
+  left: any,
+  right: any,
+  seen = new WeakMap<object, object>(),
+  reverse = new WeakMap<object, object>(),
+): boolean {
   if (Object.is(left, right)) {
     return true
   }
@@ -105,15 +113,22 @@ function sameFieldValue(left: any, right: any, seen = new WeakMap<object, object
   if (!Array.isArray(left) && Object.getPrototypeOf(left) !== Object.prototype) {
     return false
   }
-  if (seen.get(left) === right) {
-    return true
+  // Track the active path in both directions so unequal cycles terminate.
+  // Removing pairs below keeps shared acyclic values equal to copies.
+  if (seen.has(left) || reverse.has(right)) {
+    return seen.get(left) === right && reverse.get(right) === left
   }
   seen.set(left, right)
+  reverse.set(right, left)
   const keys = Object.keys(left)
-  return (
+  const result =
     keys.length === Object.keys(right).length &&
-    keys.every((key) => Object.prototype.hasOwnProperty.call(right, key) && sameFieldValue(left[key], right[key], seen))
-  )
+    keys.every(
+      (key) => Object.prototype.hasOwnProperty.call(right, key) && sameFieldValue(left[key], right[key], seen, reverse),
+    )
+  seen.delete(left)
+  reverse.delete(right)
+  return result
 }
 export function formatFieldValue(value: any): string {
   if (value == null || value === '') {
@@ -194,6 +209,8 @@ export function withFieldPresentation<T extends Component>(Base: T, adapter: Fie
         readonly: computed(() => props.readonly ?? inputGroup?.readonly.value),
         size: computed(() => props.size ?? inputGroup?.size.value),
       })
+      const editorControlPending = ref(false)
+      provide(fieldEditorControlPending, editorControlPending)
       const inner = shallowRef<ComponentPublicInstance & Record<string, any>>()
       const host = ref<InstanceType<typeof FieldPresentation>>()
       const localValue = shallowRef(props.defaultValue ?? props.modelValue)
@@ -331,9 +348,30 @@ export function withFieldPresentation<T extends Component>(Base: T, adapter: Fie
           }
         },
       })
+      const needConfirm = computed(
+        () => !adapter.selectionConfirmation || (props.needConfirm ?? Boolean(props.multiple)),
+      )
+      // Free text has no selection event to complete it. Keep an explicit
+      // submission path while retaining immediate completion for suggestions.
+      const showConfirm = computed(
+        () =>
+          needConfirm.value ||
+          (adapter.selectionConfirmation === 'select' && !sameFieldValue(session.draft.value, value.value)),
+      )
+      const completeSelection = () => {
+        const candidate = cloneValue(session.draft.value)
+        void Promise.resolve(session.commit()).then((accepted) => {
+          if (!accepted && open.value && !session.pending.value && sameFieldValue(session.draft.value, candidate)) {
+            session.update(value.value)
+          }
+        })
+      }
       const updateDraft = (next: unknown) => {
         if (open.value && !blocked.value) {
           session.update(next)
+          if (adapter.selectionConfirmation === 'update' && !needConfirm.value) {
+            completeSelection()
+          }
         }
       }
       const clearDraft = () => {
@@ -349,6 +387,9 @@ export function withFieldPresentation<T extends Component>(Base: T, adapter: Fie
                 ? []
                 : props.defaultValue
         session.update(resolveEmptyValue(props, fallback))
+        if (!needConfirm.value) {
+          void session.commit()
+        }
       }
       const clearReference = async () => {
         if (blocked.value || selectionPaused.value || session.pending.value) {
@@ -366,8 +407,14 @@ export function withFieldPresentation<T extends Component>(Base: T, adapter: Fie
         state.item?.resetValidation?.()
       }
       const confirm = async (event?: Event) => {
+        if (editorControlPending.value) {
+          return false
+        }
         inner.value?.blur?.()
         await nextTick()
+        if (editorControlPending.value) {
+          return false
+        }
         return session.commit(event)
       }
       watch(
@@ -579,6 +626,9 @@ export function withFieldPresentation<T extends Component>(Base: T, adapter: Fie
             (...args: any[]) => {
               if (event === 'update:modelValue') {
                 updateDraft(args[0])
+              } else if (event === 'select' && adapter.selectionConfirmation === 'select' && !needConfirm.value) {
+                emit(event, ...args)
+                void session.commit()
               } else if (adapter.commitEvents?.[event]) {
                 if (open.value && !blocked.value && !session.pending.value) {
                   commitNotifications.set(event, args)
@@ -645,12 +695,12 @@ export function withFieldPresentation<T extends Component>(Base: T, adapter: Fie
             open: open.value,
             disabled: form.mergedDisabled.value,
             readonly: form.mergedReadonly.value,
-            needConfirm: true,
+            needConfirm: showConfirm.value,
             clearable: props.clearable && !selectionPaused.value,
             onClear: clearDraft,
             loading: Boolean(props.loading || (adapter.pauseSelectionWhileLoading && source?.loading.value)),
             pending: session.pending.value,
-            confirmDisabled: selectionPaused.value || !validDraft(session.draft.value),
+            confirmDisabled: editorControlPending.value || selectionPaused.value || !validDraft(session.draft.value),
             error: session.error.value || state.item?.message?.value,
             onOpen: setOpen,
             onEditorReady,
@@ -694,7 +744,12 @@ export function withFieldPresentation<T extends Component>(Base: T, adapter: Fie
                       attrs,
                       value: session.value.value,
                       update: updateDraft,
-                      emit,
+                      emit: (name, ...args) => {
+                        emit(name, ...args)
+                        if (name === 'select' && adapter.selectionConfirmation === 'select' && !needConfirm.value) {
+                          void session.commit()
+                        }
+                      },
                       slots,
                       disabled: form.mergedDisabled.value || session.pending.value,
                       readonly: form.mergedReadonly.value,

@@ -18,6 +18,7 @@ test('Cascader field keeps its error description without assigning it to option 
       default: () =>
         h(FormItem, { field: 'value', label: 'Value' }, () =>
           h(Cascader, {
+            needConfirm: true,
             multiple: true,
             editMode: 'direct',
             defaultOpen: true,
@@ -56,6 +57,7 @@ test('editor field keeps the error while option checkboxes do not inherit it', a
       default: () =>
         h(FormItem, { field: 'value', label: 'Value' }, () =>
           h(Cascader, {
+            needConfirm: true,
             multiple: true,
             editMode: 'popup',
             popupContainer: false,
@@ -99,7 +101,14 @@ test('an independently nested FormItem inside an option keeps its own error', as
         h(FormItem, { field: 'value', label: 'Value' }, () =>
           h(
             Cascader,
-            { multiple: true, editMode: 'direct', defaultOpen: true, popupContainer: false, options: [options[0]] },
+            {
+              needConfirm: true,
+              multiple: true,
+              editMode: 'direct',
+              defaultOpen: true,
+              popupContainer: false,
+              options: [options[0]],
+            },
             {
               option: () => h(FormItem, { field: 'child', label: 'Child' }, () => h(Input, { 'aria-label': 'Inner' })),
             },

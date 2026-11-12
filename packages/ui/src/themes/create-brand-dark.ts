@@ -183,5 +183,24 @@ export function createBrandDark(light: StyleVars, brand: Brand): StyleVars {
     }
   }
   set('primary-7', rgb(pressed).join(', '))
+  // Primary selection and focus follow the primary Button action in every brand.
+  aliases(
+    [
+      'checkbox-control-color-checked',
+      'radio-control-color-checked',
+      'switch-track-active-background',
+      'slider-active-color',
+      'slider-thumb-border-color',
+      'field-focus-color',
+      'field-variant-outline-border-color-focus',
+      'field-variant-standard-line-color-focus',
+      'date-calendar-selected-background',
+      'date-calendar-today-color',
+      'temporal-panel-summary-active-color',
+      'upload-active-color',
+    ],
+    'var(--mp-sys-color-action-primary)',
+  )
+  set('date-calendar-selected-color', 'var(--mp-button-solid-text-color)')
   return dark
 }

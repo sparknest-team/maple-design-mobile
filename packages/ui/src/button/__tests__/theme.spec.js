@@ -26,7 +26,8 @@ test('Firefly separates yellow primary, neutral secondary and violet tertiary ro
   expect(dark['--mp-button-secondary-color']).toBe(dark['--mp-sys-color-content-secondary'])
   expect(dark['--mp-button-secondary-foreground-color']).toBe(dark['--mp-sys-color-content-primary'])
   expect(dark['--mp-button-tertiary-color']).toBe('#CFC7FF')
-  expect(dark['--mp-button-tertiary-foreground-color']).toBe(dark['--mp-sys-color-content-brand'])
+  expect(dark['--mp-button-tertiary-foreground-color']).toBe('#C5B8FF')
+  expect(dark['--mp-button-tertiary-foreground-color']).not.toBe(dark['--mp-sys-color-action-primary'])
   for (const theme of [light, dark]) {
     expect(theme['--mp-button-tertiary-color']).not.toBe(theme['--mp-button-secondary-color'])
     expect(Number(theme['--mp-button-state-opacity-active'] ?? 0.12)).toBeLessThanOrEqual(0.12)

@@ -218,7 +218,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-tab-bar-fab-offset` | `4px` | `inset-inline-end`, `margin-inline-end` |
 | `--mp-tab-bar-height` | `50px` | `height`, `inset-inline-end`, `margin-inline-end`, `margin-inline-start`, `width` |
 | `--mp-tab-bar-item-active-background-color` | `transparent` | `background-color` |
-| `--mp-tab-bar-item-active-color` | `var(--mp-sys-color-content-brand)` | `color` |
+| `--mp-tab-bar-item-active-color` | `var(--mp-sys-color-action-primary)` | `color` |
 | `--mp-tab-bar-item-focus-color` | `currentColor` | `outline` |
 | `--mp-tab-bar-item-focus-offset` | `-2px` | `outline-offset` |
 | `--mp-tab-bar-item-focus-width` | `2px` | `outline` |
@@ -228,7 +228,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-tab-bar-item-inactive-color` | `var(--mp-color-text-2)` | `color` |
 | `--mp-tab-bar-item-line-height` | `1` | `line-height` |
 | `--mp-tab-bar-item-variant-active-background-color` | `color-mix(in srgb, var(--mp-color-primary) 14%, var(--mp-tab-bar-background-color))` | `background-color` |
-| `--mp-tab-bar-item-variant-active-color` | `var(--mp-sys-color-content-brand)` | `color` |
+| `--mp-tab-bar-item-variant-active-color` | `var(--mp-sys-color-action-primary)` | `color` |
 | `--mp-tab-bar-item-variant-icon-container-border-radius` | `100px` | `border-radius` |
 | `--mp-tab-bar-item-variant-icon-container-height` | `30px` | `height` |
 | `--mp-tab-bar-item-variant-icon-container-max-width` | `58px` | `max-width` |

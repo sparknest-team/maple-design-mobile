@@ -346,15 +346,24 @@ before-* 等待期间显示加载反馈并标记 aria-busy；拒绝或失败后�
 | `message-align`                                      | 内容对齐                        | `'left' \| 'center' \| 'right'`               | `'left'`          |
 | `align-center`                                       | 垂直水平居中                    | `boolean`                                     | `true`            |
 | `footer`                                             | 是否展示底部操作区              | `boolean`                                     | `true`            |
-| `confirm-button` / `cancel-button`                   | 显示操作按钮                    | `boolean`                                     | `true`            |
+| `confirm-button` | 是否显示确认按钮 | `boolean` | `true` |
+| `cancel-button` | 是否显示取消按钮 | `boolean` | `true` |
 | `closable`                                           | 显示右上角关闭按钮              | `boolean`                                     | `true`            |
-| `confirm-button-text` / `cancel-button-text`         | 按钮文案                        | `string`                                      | 本地化文案        |
-| `confirm-button-props` / `cancel-button-props`       | 按钮配置，颜色等也从这里传      | `ButtonProps`                                 | `-`               |
-| `confirm-button-loading` / `cancel-button-loading`   | 按钮 loading                    | `boolean`                                     | `false`           |
-| `confirm-button-disabled` / `cancel-button-disabled` | 禁用按钮                        | `boolean`                                     | `false`           |
+| `confirm-button-text` | 确认按钮的文字 | `string` | 本地化文案 |
+| `cancel-button-text` | 取消按钮的文字 | `string` | 本地化文案 |
+| `confirm-button-props` | 确认按钮的属性配置 | `ButtonProps` | `-` |
+| `cancel-button-props` | 取消按钮的属性配置 | `ButtonProps` | `-` |
+| `confirm-button-loading` | 确认按钮的加载状态 | `boolean` | `false` |
+| `cancel-button-loading` | 取消按钮的加载状态 | `boolean` | `false` |
+| `confirm-button-disabled` | 确认按钮的禁用状态 | `boolean` | `false` |
+| `cancel-button-disabled` | 取消按钮的禁用状态 | `boolean` | `false` |
 | `overlay`                                            | 是否显示背景层                  | `boolean`                                     | `true`            |
-| `overlay-class` / `dialog-class` / `body-class`      | 自定义 class                    | `string \| any[]`                             | `-`               |
-| `overlay-style` / `dialog-style` / `body-style`      | 自定义 style                    | `StyleValue`                                  | `-`               |
+| `overlay-class` | 遮罩的自定义类名 | `string \| any[]` | `-` |
+| `dialog-class` | 对话框面板的自定义类名 | `string \| any[]` | `-` |
+| `body-class` | 内容区的自定义类名 | `string \| any[]` | `-` |
+| `overlay-style` | 遮罩的自定义样式 | `StyleValue` | `-` |
+| `dialog-style` | 对话框面板的自定义样式 | `StyleValue` | `-` |
+| `body-style` | 内容区的自定义样式 | `StyleValue` | `-` |
 | `overlay-closable`                                   | 点击背景层关闭                  | `boolean`                                     | `true`            |
 | `esc-to-close`                                       | ESC 关闭                        | `boolean`                                     | `true`            |
 | `lock-scroll`                                        | 打开时锁定背景滚动              | `boolean`                                     | `true`            |

@@ -8,6 +8,9 @@ export interface PeopleSelectOption {
   mobile?: string
   disabled?: boolean
 }
+/** Single identity, ordered multiple identities, or an explicitly empty value. */
+export type PeopleSelectValue = string | string[] | null
+
 export type PeopleSelectOptionsLoader = (
   query: string,
   context: AsyncDataContext,
@@ -30,7 +33,9 @@ export interface PeopleSelectExpose {
 
 /** Shared read scope across component reading and field reading presentations. */
 export interface PeopleSelectReadScope {
-  value: string | null
+  value: PeopleSelectValue
+  /** All resolved people in multiple mode; person remains the first person. */
+  people?: readonly PeopleSelectOption[]
   text: string
   person: PeopleSelectOption
 }

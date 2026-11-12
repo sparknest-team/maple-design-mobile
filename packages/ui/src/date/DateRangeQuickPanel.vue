@@ -14,7 +14,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import Button from '../button'
+import Button from '../button/base'
 import { createNamespace } from '../utils/components'
 import { useRangeQuickPanel } from './range-quick-selection'
 

@@ -6,7 +6,7 @@
       :class="n('input')"
       type="file"
       :accept="accept"
-      :capture="capture"
+      :capture="(capture === false ? undefined : capture === true ? '' : capture) as UploadCapture"
       :multiple="!replacementTarget && (multiple || directory)"
       :disabled="disabledState"
       :webkitdirectory="(!replacementTarget && directory) || undefined"
@@ -169,8 +169,9 @@
   </div>
 </template>
 <script setup lang="ts">
-import { onBeforeUnmount, ref, watch } from 'vue'
+import { inject, onBeforeUnmount, ref, watch } from 'vue'
 import { IconClose, IconDownload, IconEye, IconRefresh } from '@maple-design/icons-vue'
+import { fieldEditorControlPending } from '../_components/field-presentation/editor-pending'
 import PendingFeedback from '../_components/pending-feedback/PendingFeedback.vue'
 import { useFormErrorDescription } from '../form/error-description'
 // Keep preview types erased from runtime dependencies.
@@ -181,7 +182,8 @@ import Ripple from '../ripple'
 import { createNamespace, formatElevation } from '../utils/components'
 import { useUploader } from './composables/use-uploader'
 import { useUploadForm } from './form-adapter'
-import type { UploadEmits, UploadExpose, UploadFileItem, UploadSlots } from './interfaces'
+// Vue's input type omits the empty-attribute form used for capture=true.
+import type { UploadCapture, UploadEmits, UploadExpose, UploadFileItem, UploadSlots } from './interfaces'
 import PreviewPresentation from './preview-presentation.vue'
 import { uploadProps } from './props'
 import { useUploadTrigger } from './use-trigger'
@@ -286,6 +288,21 @@ const uploader = useUploader({
       }
     }
   },
+})
+const editorPending = inject(fieldEditorControlPending, undefined)
+watch(
+  uploader.editorPending,
+  (value) => {
+    if (editorPending) {
+      editorPending.value = value
+    }
+  },
+  { flush: 'sync' },
+)
+onBeforeUnmount(() => {
+  if (editorPending) {
+    editorPending.value = false
+  }
 })
 const {
   fileList,

@@ -1,5 +1,5 @@
-import { t } from '../../locale'
 import { injectLocaleProvider } from '../../locale-provider/provide'
+import { temporalText as t } from '../../locale/temporal-text'
 
 export function useTimeFieldLocale() {
   const { t: provided } = injectLocaleProvider()

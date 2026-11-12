@@ -1,5 +1,7 @@
 # Upload 上传
 
+选择照片时设置 `accept="image/*"`，不设置 `capture` 或设置 `:capture="false"`，保留系统文件 / 相册选择入口。仅在需要直接拍照时设置 `capture` 为 `true`、`'user'` 或 `'environment'`。具体可选入口由设备和浏览器决定。
+
 禁用下载与 Link/Button 的链接模式一致：移除 href，同时保留链接角色、`aria-disabled` 和 `tabindex=-1`，点击不执行默认下载。`readonly` 不禁用下载；恢复非禁用状态后保留原文件地址及下载文件名。
 
 未配置 action / custom-request 时，组件仅读取文件，进度和结果由业务管理。
@@ -246,6 +248,10 @@ before-* 等待期间显示加载反馈并标记 aria-busy；拒绝或失败后�
 
 `useUploader()` 提供只读 `guardPending`，汇总当前 before 钩子的等待状态；它不代表文件上传进度。
 
+禁用或只读状态下调用 `reset()` 不执行重置，也不会清除仍未完成的钩子等待状态。 已被 reset、停用或卸载取消的 `beforeAdd` 迟到异常不会再发出拒绝通知；若异常在禁用或只读期间返回，也不会发出拒绝通知。 若 `rejected` 或 `exceed` 回调同步重置，当前批次不再继续提交已准备的文件。 若列表更新、change 或 read 回调同步重置，已失效操作的后续通知将停止。
+
+使用字段确认模式时，文件准备或 before 钩子尚未完成期间不能确认；关闭编辑器仍可取消当前编辑。
+
 ### 准备否决与异常
 
 `beforeUpload` 返回 `false` 或兑现为 `false` 属于业务否决：不发起请求，文件保持 `ready`，不触发 `error` 或 `rejected`。同步抛错或 Promise 拒绝属于准备异常：不发起请求，文件变为 `error`，通过已有 `error(item)` 事件报告一次，原始原因保存在 `item.error`。该事件覆盖准备和传输失败，并不代表已经发送 HTTP 请求。两种结果都允许后续以合法守卫结果重新提交；普通通知返回的 Promise 不延长准备任务，旧尝试或取消后的异常不得报告为新错误。
@@ -268,34 +274,49 @@ before-* 等待期间显示加载反馈并标记 aria-busy；拒绝或失败后�
 
 ### Upload Props
 
-| 属性                                                         | 类型                                                     | 默认值/说明                                       |
-| ------------------------------------------------------------ | -------------------------------------------------------- | ------------------------------------------------- |
-| model-value / default-value                                  | UploadFileItem[]                                         | 受控值 / 非受控初值[]                             |
-| accept / capture                                             | `string / UploadCapture`<br>`UploadCapture: boolean \| 'user' \| 'environment' \| undefined` | 未指定                                            |
-| multiple / directory / draggable                             | boolean                                                  | false                                             |
-| disabled / readonly                                          | boolean                                                  | undefined，继承Form，显式false优先                |
-| action / method                                              | string                                                   | 无 / post                                         |
-| headers / data                                               | object 或 async(file) => object                          | 请求准备阶段仍可取消                              |
-| name                                                         | string / (file) => string                                | file                                              |
-| with-credentials                                             | boolean                                                  | false                                             |
-| custom-request                                               | (UploadRequestOptions) => UploadRequest / Promise / void | 自定义transport，可返回abort                      |
-| auto-upload                                                  | boolean                                                  | true；必须同时有action或custom-request才启动      |
-| max-files / max-file-size / max-total-size                   | number                                                   | 未指定；大小单位字节，max-files>0生效             |
-| resolve-type                                                 | file / data-url / object-url                             | object-url；所有文件生成url，图片生成thumbnailUrl |
-| create-thumbnail-url                                         | (options) => string / Promise                            | 自定义URL归调用方所有，不自动回收                 |
-| before-add                                                   | async(files) => File[]                                   | 批次筛选/替换                                     |
-| before-read                                                  | async(file) => boolean / File                            | false/reject拒绝；替换后重新校验                  |
-| before-upload                                                | async(item) => boolean / File / Blob                     | false 保留 ready；抛错/reject 进入 error；替换后重新校验              |
-| before-remove                                                | async(item,list) => boolean                              | false/reject不删除                                |
-| is-success-response                                          | (xhr,item) => boolean                                    | 默认HTTP2xx                                       |
-| request-choose                                               | (chooseFile,event) => void / Promise                     | 接管选择入口，异常不会自动打开文件框              |
-| list-type                                                    | text / picture / picture-card                            | text，两端均支持                                  |
-| image-fit                                                    | fill / contain / cover / none / scale-down               | cover；item.fit优先                               |
-| preview                                                      | boolean                                                  | true                                              |
-| show-file-list / show-upload-button / show-remove-button     | boolean                                                  | true                                              |
-| show-retry-button / show-cancel-button / show-preview-button | boolean                                                  | true                                              |
-| show-download-button                                         | boolean                                                  | false；禁用时不可操作                             |
-| elevation / ripple                                           | boolean或number / boolean                                | false / true                                      |
+| 属性 | 类型 | 默认值 | 说明 |
+| --- | --- | --- | --- |
+| model-value | `UploadFileItem[] \| null` | `undefined` | 受控文件列表，配合 v-model 使用 |
+| default-value | `UploadFileItem[]` | `[]` | 非受控文件列表的初始值 |
+| accept | `string` | `undefined` | 允许选择的文件类型，例如 image/* |
+| capture | `boolean \| 'user' \| 'environment'` | `false` | false 或未设置时保留相册选择；true 启用采集，user / environment 指定前 / 后摄像头，具体支持由设备和浏览器决定 |
+| multiple | `boolean` | `false` | 允许多选文件 |
+| reupload | `boolean` | `false` | 允许替换已选择的文件 |
+| directory | `boolean` | `false` | 选择文件夹；不支持的设备可使用 multiple 作为回退 |
+| draggable | `boolean` | `false` | 启用拖拽上传 |
+| disabled | `boolean` | `undefined` | 禁用交互；继承 Form，显式 false 优先 |
+| readonly | `boolean` | `undefined` | 只读；继承 Form，显式 false 优先 |
+| action | `string` | `undefined` | 上传请求地址 |
+| method | `string` | `'post'` | 上传请求方法 |
+| headers | `UploadHeaders` | `undefined` | 请求头对象或异步函数；请求准备阶段仍可取消 |
+| data | `UploadData` | `undefined` | 附加请求数据对象或异步函数；请求准备阶段仍可取消 |
+| name | `string \| ((file: UploadFileItem) => string)` | `'file'` | 上传文件的表单字段名 |
+| with-credentials | `boolean` | `false` | 跨域请求是否携带凭据 |
+| custom-request | `UploadCustomRequest` | `undefined` | 自定义上传请求，可返回含 abort 的对象 |
+| auto-upload | `boolean` | `true` | 选取后自动上传；必须同时配置 action 或 custom-request |
+| max-files | `number` | `undefined` | 最多文件数量；大于 0 时生效 |
+| max-file-size | `number` | `undefined` | 单个文件的大小上限，单位字节 |
+| max-total-size | `number` | `undefined` | 文件总大小上限，单位字节 |
+| resolve-type | `'file' \| 'data-url' \| 'object-url'` | `'object-url'` | 文件读取方式；object-url 为文件生成 url，为图片生成 thumbnailUrl |
+| create-thumbnail-url | `UploadCreateThumbnailUrl` | `undefined` | 自定义缩略图地址；URL 归调用方所有，组件不自动回收 |
+| before-add | `(files: File[]) => File[] \| Promise<File[]>` | `undefined` | 批次筛选或替换待添加文件 |
+| before-read | `UploadBeforeRead` | `undefined` | 读取前校验；false / reject 拒绝，替换后重新校验 |
+| before-upload | `UploadBeforeUpload` | `undefined` | 上传前校验；false 保留 ready，抛错 / reject 进入 error，替换后重新校验 |
+| before-remove | `UploadBeforeRemove` | `undefined` | 删除前校验；false / reject 阻止删除 |
+| is-success-response | `UploadIsSuccessResponse` | `undefined` | 自定义响应成功判断；默认 HTTP 2xx 为成功 |
+| request-choose | `UploadRequestChoose` | `undefined` | 接管选择入口；异常不会自动打开文件框 |
+| list-type | `'text' \| 'picture' \| 'picture-card'` | `'text'` | 文件列表展示方式；两端均支持 |
+| image-fit | `'fill' \| 'contain' \| 'cover' \| 'none' \| 'scale-down'` | `'cover'` | 缩略图填充方式；文件项 fit 优先 |
+| preview | `boolean` | `true` | 启用内建图片 / 视频预览 |
+| show-file-list | `boolean` | `true` | 显示文件列表 |
+| show-upload-button | `boolean` | `true` | 显示文件选择按钮 |
+| show-remove-button | `boolean` | `true` | 显示删除按钮 |
+| show-retry-button | `boolean` | `true` | 显示重试按钮 |
+| show-cancel-button | `boolean` | `true` | 显示取消按钮 |
+| show-preview-button | `boolean` | `true` | 显示预览按钮 |
+| show-download-button | `boolean` | `false` | 显示下载按钮；禁用时不可操作 |
+| elevation | `boolean \| number` | `false` | 上传入口的阴影层级 |
+| ripple | `boolean` | `true` | 启用上传入口的涟漪效果 |
 
 UploadFileItem 的 uid、status、percent 必填，name/size/type/file/url/thumbnailUrl/fit/response/error 可选。status为ready/reading/uploading/success/error/canceled/removed。
 
@@ -312,6 +333,8 @@ UploadFileItem 的 uid、status、percent 必填，name/size/type/file/url/thumb
 ### Upload Slots
 
 - trigger({chooseFile,dragOver,disabled,describedBy})：自定义选择入口。
+
+SSR 首屏暂不能识别插槽内的交互元素：若插槽包含按钮，接管前外层仍会作为可聚焦按钮。需要避免首屏嵌套交互语义时，可使用纯展示内容作为插槽，让外层承担选择操作；接管后组件会识别交互式内容并调整外层角色。
 
 纯展示内容由外层提供按钮角色和 Enter/Space 入口；包含按钮、链接等交互内容时，外层不再增加按钮角色或 Tab 停靠点。自定义按钮应绑定插槽的 disabled，并负责自己的键盘行为。 需要将表单错误及 Upload 的 aria-describedby 关联到该按钮时，可将插槽的 describedBy 绑定到按钮的 aria-describedby；它随错误出现和清除更新。点击时直接调用 chooseFile 即可，无需 .stop；同次点击的冒泡不会再次选择，也不会额外调用 requestChoose。依赖默认冒泡的自定义按钮仍可使用 requestChoose。
 

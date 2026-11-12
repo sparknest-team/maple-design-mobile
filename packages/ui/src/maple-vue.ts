@@ -197,7 +197,7 @@ function install(app: App) {
   ]
   for (const plugin of plugins) {
     if (plugin && typeof (plugin as { install?: unknown }).install === 'function') {
-      app.use(plugin as { install: (app: App) => void })
+      app.use(plugin as unknown as { install: (app: App) => void })
     }
   }
 }

@@ -9,11 +9,13 @@ export function useCascaderFocus(activeKey: Readonly<Ref<string | undefined>>) {
 
   return (root: HTMLElement, option: Element, originPanel: Element | null | undefined, panelSelector: string) => {
     const key = activeKey.value
-    if (!key || !root.contains(option) || root.ownerDocument.activeElement !== option) {
+    const document = root.ownerDocument
+    const nodeRoot = root.getRootNode()
+    const focusRoot = 'activeElement' in nodeRoot ? (nodeRoot as Document | ShadowRoot) : document
+    if (!key || !root.contains(option) || focusRoot.activeElement !== option) {
       return
     }
     cancelPendingFocus?.()
-    const document = root.ownerDocument
     const view = document.defaultView
     if (!view) {
       return
@@ -37,7 +39,7 @@ export function useCascaderFocus(activeKey: Readonly<Ref<string | undefined>>) {
       }
     }
     const onFocus = (next: FocusEvent) => {
-      if (next.target !== option) {
+      if (next.target !== option && !next.composedPath().includes(option)) {
         cleanup()
       }
     }
@@ -45,9 +47,18 @@ export function useCascaderFocus(activeKey: Readonly<Ref<string | undefined>>) {
       if (done) {
         return
       }
-      const focused = document.activeElement
-      const lostToRemoval = !option.isConnected && (focused === document.body || focused === document.documentElement)
-      if (!root.isConnected || activeKey.value !== key || (focused !== option && !lostToRemoval)) {
+      const focused = focusRoot.activeElement
+      const docFocus = document.activeElement
+      const lostToRemoval =
+        !option.isConnected &&
+        (docFocus === document.body || docFocus === document.documentElement) &&
+        (focused === null || focused === document.body || focused === document.documentElement)
+      if (
+        !root.isConnected ||
+        root.getRootNode() !== nodeRoot ||
+        activeKey.value !== key ||
+        (focused !== option && !lostToRemoval)
+      ) {
         cleanup()
         return
       }

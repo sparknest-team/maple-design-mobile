@@ -85,14 +85,12 @@ import { fieldDecoratorProps } from '../../field-decorator/props'
 import { useFormErrorDescription } from '../../form/error-description'
 import { useFormItemLabel } from '../../form/label-context'
 import { splitInputAttrs } from '../../input/native-attrs'
-import { injectLocaleProvider } from '../../locale-provider/provide'
-import { t as globalLocaleText } from '../../locale/state'
-import { defaultFieldRangeEnd, defaultFieldRangeStart } from '../../locale/zh-CN'
 import { createNamespace } from '../../utils/components'
 import { useFieldTexts } from '../field-presentation/texts'
 import { blockFieldOpenClick, isFieldOpenClick } from '../picker-field/open-trigger'
 import { pickerFieldProps } from './props'
 import { useRangeFieldIndex } from './range-field-context'
+import { usePickerRangeLabels } from './range-labels'
 
 defineOptions({
   name: createNamespace('picker-field').name,
@@ -161,20 +159,7 @@ const groupLabelId = computed(() => {
 })
 const explicitRangeLabel = computed(() => (props.range && formLabel?.value?.target ? groupLabelId.value : undefined))
 const endpointLabelId = (index: number) => `${generatedId}-range-endpoint-${index}`
-const { t: translateEndpoint } = injectLocaleProvider()
-const endpointLabels = computed(() => {
-  const keys = ['fieldPresentation.rangeStart', 'fieldPresentation.rangeEnd']
-  const legacyKeys = props.kind === 'time' ? ['timeRangeStart', 'timeRangeEnd'] : ['dateRangeStart', 'dateRangeEnd']
-  const fallback = [defaultFieldRangeStart, defaultFieldRangeEnd]
-  return keys.map(
-    (key, index) =>
-      translateEndpoint?.(key) ??
-      translateEndpoint?.(legacyKeys[index]) ??
-      globalLocaleText(key) ??
-      globalLocaleText(legacyKeys[index]) ??
-      fallback[index],
-  )
-})
+const endpointLabels = usePickerRangeLabels(() => props.kind)
 const inputs: (HTMLInputElement | undefined)[] = []
 const activeIndex = useRangeFieldIndex(() => props.disabledParts)
 const active = ref(false)

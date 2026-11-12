@@ -70,7 +70,7 @@ export function useModalSurface(options: ModalSurfaceOptions) {
   const { zIndex } = useZIndex(layerActive, 3)
   const mergedZIndex = computed(() => options.zIndex() ?? zIndex.value)
   const { onStackTop } = usePopupLayer(layerActive, mergedZIndex, modalDocument)
-  const { focus, restore } = useModalFocus(
+  const { focus, focusAfterEnter, restore } = useModalFocus(
     () => options.root.value?.querySelector<HTMLElement>('[data-modal-focus-root]') ?? options.root.value,
     () => mergedOpen.value,
     onStackTop,
@@ -79,12 +79,18 @@ export function useModalSurface(options: ModalSurfaceOptions) {
   )
 
   // Same-document Teleport moves keep the root ref and ownerDocument, but the
-  // browser can blur the moved control. Refocus after the DOM move without
-  // recapturing the original outside trigger or stealing from a higher layer.
+  // browser can blur the moved control. Restore focus only when no control
+  // retained it, including teleported children outside the modal DOM subtree.
   watch(
     [popupContainerTarget, () => options.popupContainer() === false],
     () => {
-      nextTick(focus)
+      nextTick(() => {
+        const doc = modalDocument()
+        const current = doc?.activeElement
+        if (!current || current === doc?.body || current === doc?.documentElement) {
+          focus()
+        }
+      })
     },
     { flush: 'post' },
   )
@@ -168,7 +174,7 @@ export function useModalSurface(options: ModalSurfaceOptions) {
 
   function opened() {
     if (mergedOpen.value) {
-      focus()
+      focusAfterEnter()
       transition.opened()
     }
   }

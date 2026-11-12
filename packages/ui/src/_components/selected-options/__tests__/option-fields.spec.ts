@@ -26,7 +26,7 @@ for (const editMode of ['popup'] as FieldEditMode[]) {
       document.body.append(host)
       const wrapper = mount(AutoComplete, {
         attachTo: host,
-        props: { editMode, shouldOpen: () => true, options: ['Alpha', 'Beta'] },
+        props: { needConfirm: true, editMode, shouldOpen: () => true, options: ['Alpha', 'Beta'] },
         global,
       })
       try {
@@ -62,7 +62,7 @@ for (const editMode of ['popup'] as FieldEditMode[]) {
       document.body.append(host)
       const wrapper = mount(AutoComplete, {
         attachTo: host,
-        props: { editMode, shouldOpen: () => true, filterOption: false, options: [] },
+        props: { needConfirm: true, editMode, shouldOpen: () => true, filterOption: false, options: [] },
         global,
       })
       try {

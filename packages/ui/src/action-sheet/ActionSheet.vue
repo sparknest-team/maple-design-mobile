@@ -62,8 +62,8 @@
 <script lang="ts">
 import { computed, defineComponent, ref, useId, watch } from 'vue'
 import { call } from '@maple-design/shared-vue'
-import { t } from '../locale'
 import { injectLocaleProvider } from '../locale-provider/provide'
+import { miscText as t } from '../locale/misc-text'
 import MpPopup from '../popup'
 import Ripple from '../ripple'
 import { createNamespace } from '../utils/components'

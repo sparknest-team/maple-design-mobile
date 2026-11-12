@@ -56,7 +56,7 @@
 </template>
 <script setup lang="ts">
 import { reactive } from 'vue'
-import Button from '../button'
+import Button from '../button/base'
 import { createNamespace } from '../utils/components'
 import type { PeopleSelectAction, PeopleSelectOption } from './types'
 import { usePeopleTexts } from './use-people-texts'

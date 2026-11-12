@@ -1,6 +1,7 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test } from 'vitest'
+import Checkbox from '../../checkbox'
 import CascaderOption from '../cascader-option'
 import CascaderMenu from '../CascaderMenu.vue'
 import Cascader from '../index'
@@ -33,6 +34,28 @@ function row(wrapper: ReturnType<typeof mount>, value: string) {
 }
 
 describe('Cascader selection indicators', () => {
+  for (const checkStrictly of [false, true]) {
+    test(`checkbox toggles selection without opening the child menu (${checkStrictly})`, async () => {
+      const wrapper = create({ multiple: true, checkStrictly })
+      await nextTick()
+      const parent = row(wrapper, 'group')
+      expect(parent.findComponent(Checkbox).exists()).toBe(true)
+      const checkbox = parent.get('input[type="checkbox"]')
+      ;(checkbox.element as HTMLInputElement).click()
+      await nextTick()
+      expect(wrapper.emitted('update:modelValue')?.at(-1)).toEqual([checkStrictly ? ['group'] : ['a', 'b']])
+      expect(parent.attributes('aria-expanded')).toBe('false')
+      expect(wrapper.findAll('.mp-cascader-panel-column')).toHaveLength(1)
+      ;(checkbox.element as HTMLInputElement).click()
+      await nextTick()
+      expect(wrapper.emitted('update:modelValue')?.at(-1)).toEqual([[]])
+      expect(wrapper.findAll('.mp-cascader-panel-column')).toHaveLength(1)
+      await parent.get('.mp-cascader-option-label').trigger('click')
+      expect(parent.attributes('aria-expanded')).toBe('true')
+      expect(wrapper.findAll('.mp-cascader-panel-column')).toHaveLength(2)
+    })
+  }
+
   test('multiple parent is unchecked, mixed, then checked; disabled leaves do not block select-all', async () => {
     const wrapper = create({ multiple: true, modelValue: [] })
     await nextTick()
@@ -41,7 +64,8 @@ describe('Cascader selection indicators', () => {
     expect((input().element as HTMLInputElement).checked).toBe(false)
     await wrapper.setProps({ modelValue: ['a'] })
     expect((input().element as HTMLInputElement).indeterminate).toBe(true)
-    expect((input().element as HTMLInputElement).indeterminate).toBe(true)
+    expect(parent.getComponent(Checkbox).props('indeterminate')).toBe(true)
+    expect(parent.find('.mp-checkbox--indeterminate .mp-checkbox__mark').exists()).toBe(true)
     await wrapper.setProps({ modelValue: ['a', 'b'] })
     expect((input().element as HTMLInputElement).checked).toBe(true)
     expect((input().element as HTMLInputElement).checked).toBe(true)

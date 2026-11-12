@@ -1,0 +1,4 @@
+- [x] Implement scalar/array selection, selected cache, reading and public types in both platforms.
+- [x] Add single/multiple async examples and bilingual API docs.
+- [x] Soften direct and mobile editor option surfaces through component tokens.
+- [x] Run interaction, type, lint and browser checks; record passing checks and workspace blockers in verification.md.

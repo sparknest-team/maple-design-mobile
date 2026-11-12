@@ -66,8 +66,8 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, ref, watch } from 'vue'
 import type { UnwrapNestedRefs } from 'vue'
-import SearchButton from '../button'
-import SearchInput from '../input'
+import SearchButton from '../button/base'
+import SearchInput from '../input/base'
 import { createNamespace } from '../utils/components'
 import SearchSelect from './FieldSelect.vue'
 import type { SearchResolvedProps } from './props'

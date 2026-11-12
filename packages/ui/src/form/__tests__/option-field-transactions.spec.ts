@@ -52,6 +52,7 @@ function fixture(
           () =>
             h(Field, {
               ...props,
+              needConfirm: true,
               ...extra,
               editMode,
               disabled: state.fieldDisabled,

@@ -228,13 +228,6 @@ export { _TriggerComponent } from './trigger'
 export { _UploadComponent } from './upload'
 export { _VerificationCodeComponent } from './verification-code'
 export { _WatermarkComponent } from './watermark'
-export { vLoading } from './loading'
-export type { LoadingDirectiveOptions } from './loading'
-export { imagePreview } from './image'
-export { useUploader } from './upload'
-export { useHoverOverlay } from './hover'
-export { useFormItem, useFormErrorDescription } from './form'
-export { fieldLoadingModes } from './field-decorator'
 export { actionSheetProps } from './action-sheet'
 export type {
   ActionSheetActions,
@@ -675,6 +668,7 @@ export { paperProps } from './paper'
 export type { PaperInstance, PaperProps } from './paper'
 export { peopleSelectProps } from './people-select'
 export type {
+  PeopleSelectValue,
   PeopleSelectInstance,
   PeopleSelectProps,
   PeopleSelectReadScope,
@@ -1023,4 +1017,11 @@ export type {
 } from './verification-code'
 export { watermarkProps } from './watermark'
 export type { WatermarkInstance, WatermarkProps, WatermarkError, WatermarkExposed, WatermarkFont } from './watermark'
+export { vLoading } from './loading'
+export type { LoadingDirectiveOptions } from './loading'
+export { imagePreview } from './image'
+export { useUploader } from './upload'
+export { useHoverOverlay } from './hover'
+export { useFormItem, useFormErrorDescription } from './form'
+export { fieldLoadingModes } from './field-decorator'
 export type { PopupContainer } from './utils/popup-container'

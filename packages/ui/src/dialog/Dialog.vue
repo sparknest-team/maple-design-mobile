@@ -123,7 +123,7 @@ import {
 } from '@maple-design/icons-vue'
 import PendingFeedback from '../_components/pending-feedback/PendingFeedback.vue'
 import { useDirection } from '../_utils/direction'
-import MpButton from '../button'
+import MpButton from '../button/base'
 import MpIcon from '../icon'
 import { injectLocaleProvider } from '../locale-provider/provide'
 import { defaultLocaleReady, t } from '../locale/state'

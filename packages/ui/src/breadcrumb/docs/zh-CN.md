@@ -167,7 +167,7 @@ interface BreadcrumbRoute {
 | `--mp-breadcrumb-dropdown-icon` | `var(--mp-breadcrumb-item-inactive-color)` | `color` |
 | `--mp-breadcrumb-font-weight-active` | `400` | `font-weight` |
 | `--mp-breadcrumb-icon-color` | `var(--mp-breadcrumb-item-inactive-color)` | `color` |
-| `--mp-breadcrumb-item-active-color` | `rgb(var(--mp-primary-8))` | `color` |
+| `--mp-breadcrumb-item-active-color` | `var(--mp-sys-color-action-primary)` | `color` |
 | `--mp-breadcrumb-item-inactive-color` | `var(--mp-color-text-2)` | `color` |
 | `--mp-breadcrumb-item-separator-font-size` | `14px` | `font-size` |
 | `--mp-breadcrumb-item-separator-margin` | `0 var(--mp-breadcrumb-margin-separator-horizontal)` | `margin` |

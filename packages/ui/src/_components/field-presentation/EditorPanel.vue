@@ -44,7 +44,7 @@
 </template>
 <script setup lang="ts">
 import { computed, provide, ref, shallowRef } from 'vue'
-import Button from '../../button'
+import Button from '../../button/base'
 import { injectLocaleProvider } from '../../locale-provider/provide'
 import { createNamespace } from '../../utils/components'
 import { fieldEditorBoundary, fieldEditorPanel } from './context'

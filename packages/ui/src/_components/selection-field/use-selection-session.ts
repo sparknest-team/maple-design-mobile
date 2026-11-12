@@ -99,6 +99,7 @@ export function useSelectionSession<T>(options: {
     ) {
       return false
     }
+    error.value = ''
     const next = options.clone(draft.value)
     const run = ++epoch
     const finish = (allowed?: void | boolean) => {

@@ -70,11 +70,14 @@ function setTheme(theme) {
     <FireflyScenes />
     <ThemeDetails />
   </section>
-  <h2 class="mobile-demo-group-heading" data-demo-group="theme-provider-examples">
+
+  <h2 class="mobile-demo-group-heading" data-demo-group="themeprovider-examples">
     <span lang="zh-CN">ThemeProvider 示例</span>
     <span lang="en-US">ThemeProvider examples</span>
   </h2>
+
   <section data-demo="basic"><ProviderBasicDemo /></section>
+
   <section data-demo="local-theme"><ProviderLocalDemo /></section>
 </template>
 

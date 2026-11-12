@@ -1,5 +1,7 @@
 # Trigger
 
+SSR limitation: a trigger or `content` slot node using both `v-for` and `v-memo` can make server rendering fail. The trigger slot can fail even while the popup is closed; the `content` slot can fail when the popup is open or `unmount-on-close=false`. Remove `v-memo` from that slot node when rendering on the server; ordinary `v-for` remains supported. In Vue 3.5.13, a standalone dynamic `v-memo` can also fail in the trigger slot.
+
 
 
 
@@ -103,7 +105,7 @@ With Teleport, variables must be in the actual popup scope, for example through 
 | `popup-offset` | Outward main-axis distance | _number_ | `0` |
 | `popup-translate` | Screen-axis translation or placement map | _[number, number] \| Record_ | `-` |
 | `align-point` | Position at the pointer | _boolean_ | `false` |
-| `popup-container` | Render target; false renders locally. Moves within a document or between accessible same-origin frames attempt to restore unchanged focus on native inputs, buttons and similar elements, including inside open shadow roots; opaque potential closed-shadow hosts are not refocused. | _string \| HTMLElement \| false_ | `body` |
+| `popup-container` | Mount container; false renders in place. When switching within a document or between accessible same-origin iframes, focus restoration is attempted for native inputs and buttons that have not been transferred, including equivalent elements in open Shadow DOM. Opaque hosts that may contain closed Shadow DOM are not restored automatically. | _string \| HTMLElement \| false_ | `body` |
 | `auto-fit-position` | Flip and shift into the viewport | _boolean_ | `true` |
 | `auto-fit-popup-width` | Match reference width | _boolean_ | `false` |
 | `auto-fit-popup-min-width` | Match reference minimum width | _boolean_ | `false` |
@@ -112,7 +114,7 @@ With Teleport, variables must be in the actual popup scope, for example through 
 | `scroll-to-close` | Close after the scroll threshold | _boolean_ | `false` |
 | `scroll-to-close-distance` | Close threshold | _number_ | `0` |
 | `show-arrow` | Render the decorative arrow | _boolean_ | `false` |
-| `hide-empty` | Skip an empty content slot | _boolean_ | `false` |
+| `hide-empty` | Skip a directly empty content slot; a component node counts as nonempty even if it renders nothing | _boolean_ | `false` |
 | `prevent-focus` | Prevent positioning-layer mousedown from stealing focus | _boolean_ | `false` |
 | `unmount-on-close` | Unmount after leave | _boolean_ | `true` |
 | `animation-name` | Vue Transition name | _string_ | `trigger-fade` |
@@ -120,9 +122,12 @@ With Teleport, variables must be in the actual popup scope, for example through 
 | `auto-fit-transform-origin` | Derive transform origin from final placement | _boolean_ | `false` |
 | `opened-class` | Merge into the first default-slot node when open; external references do not receive this class | _string \| array \| object_ | `-` |
 | `reference-attrs` | Attributes applied to the actual reference or a function of open; original attributes are restored when removed, replaced or unmounted | _TriggerReferenceAttrs \| ((open: boolean) => TriggerReferenceAttrs)_ | `-` |
-| `popup-class` / `popup-style` | Positioning-layer class/style | _ClassName / CSSProperties_ | `-` |
-| `content-class` / `content-style` | Content-layer class/style | _ClassName / CSSProperties_ | `-` |
-| `arrow-class` / `arrow-style` | Arrow class/style | _ClassName / CSSProperties_ | `-` |
+| `popup-class` | Custom positioning-layer classes | `ClassName` | `-` |
+| `popup-style` | Custom positioning layer styles | `CSSProperties` | `-` |
+| `content-class` | Custom content layer classes | `ClassName` | `-` |
+| `content-style` | Custom content layer styles | `CSSProperties` | `-` |
+| `arrow-class` | Custom arrow classes | `ClassName` | `-` |
+| `arrow-style` | Custom arrow styles | `CSSProperties` | `-` |
 
 Interaction timing and dismissal props also include `mouse-enter-delay`, `mouse-leave-delay`, `focus-delay`, `popup-hover-stay`, `blur-to-close`, `close-on-click-reference`, `click-outside-to-close`, `esc-to-close`, and `restore-focus`.
 
@@ -146,9 +151,9 @@ Native `click`, `mouseenter`, `mouseleave`, `focusin`, `focusout`, `contextmenu`
 
 Fixed positioning uses the actual `fixed` containing block when an ancestor has a transform, filter, perspective, or containing CSS property. Axis-aligned scaling is accounted for; rotated or skewed coordinate systems are not guaranteed. For accessible same-origin iframe references, the reference and popup documents share coordinate conversion and event handling; cross-origin or unrelated browsing contexts are not supported. With `update-at-scroll`, scrolling either document or a scrollable ancestor updates the popup.
 
-When a reference is slotted into a scroll container inside a closed ShadowRoot, the external Trigger cannot access that slot or container and cannot listen to its scrolling automatically. The closed component can call the Trigger instance's `resize()` on internal scroll or slot changes. To close on scroll, it can apply its own threshold and call `close()`, cleaning up its listeners on unmount.
+When a reference is slotted into a scroll container inside a closed ShadowRoot, the outer Trigger cannot access the slot or container and cannot listen to its scrolling automatically. The closed component can call the Trigger instance's `resize()` on internal scroll or slot changes. For scroll-to-close behavior, call `close()` internally using an application-specific threshold, and remove listeners on unmount.
 
-A popup mounted inside an iframe remains clipped by that iframe's viewport. Content outside the viewport is not visible even when the cross-document coordinates are correct.
+A popup mounted inside an iframe remains clipped by that iframe's viewport. Content outside the iframe is invisible even when cross-document coordinate conversion is correct.
 
 ## CSS Variables
 

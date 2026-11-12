@@ -1,4 +1,7 @@
-const identity = (value: string | null) => value === null || typeof value === 'string'
+import type { PeopleSelectValue } from './types'
+
+const identity = (value: PeopleSelectValue) =>
+  value === null || typeof value === 'string' || (Array.isArray(value) && value.every((id) => typeof id === 'string'))
 export const peopleSelectEmits = {
   'update:modelValue': identity,
   'update:open': (open: boolean) => typeof open === 'boolean',

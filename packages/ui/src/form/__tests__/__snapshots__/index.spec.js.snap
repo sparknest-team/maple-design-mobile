@@ -852,7 +852,7 @@ exports[`form with upload 1`] = `
     <!--v-if-->
     <div class="mp-form-item__wrapper">
       <div style="--mp-form-content-align: start; --mp-form-content-justify: flex-start; text-align: start; justify-content: flex-start;" class="mp-form-item__content mp-form-item__content--flex">
-        <div class="mp-upload mp-upload--text"><input class="mp-upload__input" type="file" capture="false" disabled="">
+        <div class="mp-upload mp-upload--text"><input class="mp-upload__input" type="file" disabled="">
           <div class="mp-upload__content">
             <!--v-if-->
             <div class="mp-upload__trigger" role="button" aria-disabled="true"><span aria-hidden="true">＋</span><span>上传</span></div>
@@ -878,7 +878,7 @@ exports[`form with upload 2`] = `
     <!--v-if-->
     <div class="mp-form-item__wrapper">
       <div style="--mp-form-content-align: start; --mp-form-content-justify: flex-start; text-align: start; justify-content: flex-start;" class="mp-form-item__content mp-form-item__content--flex">
-        <div class="mp-upload mp-upload--text"><input class="mp-upload__input" type="file" capture="false" disabled="">
+        <div class="mp-upload mp-upload--text"><input class="mp-upload__input" type="file" disabled="">
           <div class="mp-upload__content">
             <!--v-if-->
             <div class="mp-upload__trigger" role="button" aria-disabled="true"><span aria-hidden="true">＋</span><span>上传</span></div>
@@ -904,7 +904,7 @@ exports[`form with upload 3`] = `
     <!--v-if-->
     <div class="mp-form-item__wrapper">
       <div style="--mp-form-content-align: start; --mp-form-content-justify: flex-start; text-align: start; justify-content: flex-start;" class="mp-form-item__content mp-form-item__content--flex">
-        <div class="mp-upload mp-upload--text"><input class="mp-upload__input" type="file" capture="false" disabled="" aria-describedby="mp-form-error-v-0">
+        <div class="mp-upload mp-upload--text"><input class="mp-upload__input" type="file" disabled="" aria-describedby="mp-form-error-v-0">
           <div class="mp-upload__content">
             <!--v-if-->
             <div class="mp-upload__trigger" role="button" aria-disabled="true" aria-describedby="mp-form-error-v-0"><span aria-hidden="true">＋</span><span>上传</span></div>
@@ -941,7 +941,7 @@ exports[`form with upload 4`] = `
     <!--v-if-->
     <div class="mp-form-item__wrapper">
       <div style="--mp-form-content-align: start; --mp-form-content-justify: flex-start; text-align: start; justify-content: flex-start;" class="mp-form-item__content mp-form-item__content--flex">
-        <div class="mp-upload mp-upload--text"><input class="mp-upload__input" type="file" capture="false" disabled="">
+        <div class="mp-upload mp-upload--text"><input class="mp-upload__input" type="file" disabled="">
           <div class="mp-upload__content">
             <!--v-if-->
             <div class="mp-upload__trigger" role="button" aria-disabled="true"><span aria-hidden="true">＋</span><span>上传</span></div>

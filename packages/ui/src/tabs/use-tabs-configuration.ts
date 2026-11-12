@@ -1,6 +1,6 @@
 import { computed, type ComputedRef } from 'vue'
-import { t } from '../locale'
 import { injectLocaleProvider } from '../locale-provider/provide'
+import { miscText as t } from '../locale/misc-text'
 import type { ComponentSize } from '../utils/constants'
 
 // Maple has no global size/RTL provider. Explicit size/default setters and DOM dir remain supported.

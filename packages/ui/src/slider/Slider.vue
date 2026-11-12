@@ -1,6 +1,7 @@
 <template>
   <div
     ref="root"
+    v-bind="$attrs"
     :class="
       classes(
         n(),
@@ -12,6 +13,13 @@
       )
     "
     :style="customStyle"
+    :role="
+      ($attrs.role as HTMLAttributes['role']) ??
+      (range && (rangeGroupLabel || (typeof $attrs['aria-labelledby'] === 'string' && $attrs['aria-labelledby'].trim()))
+        ? 'group'
+        : undefined)
+    "
+    :aria-labelledby="($attrs['aria-labelledby'] as HTMLAttributes['aria-labelledby']) ?? rangeGroupLabel"
   >
     <div ref="track" :class="n('track')" @pointerdown="pointerDown($event)" @click="clickTrack">
       <div :class="n('rail')"></div>
@@ -39,6 +47,7 @@
         role="slider"
         :tabindex="isDisabled ? undefined : 0"
         :aria-label="thumbLabel(index)"
+        :aria-labelledby="singleLabelledBy"
         :aria-valuemin="index === 1 && range ? values[0] : bounds.min"
         :aria-valuemax="index === 0 ? values[1] : bounds.max"
         :aria-valuenow="values[index]"
@@ -81,6 +90,8 @@
       :readonly="mergedReadonly"
       :error="mergedError"
       :aria-label="ariaLabel"
+      :aria-labelledby="singleLabelledBy"
+      :aria-describedby="$attrs['aria-describedby'] as HTMLAttributes['aria-describedby']"
       :aria-invalid="$attrs['aria-invalid'] as HTMLAttributes['aria-invalid']"
       @change="inputChange"
       @focus="eventHandlers?.onFocus?.()"
@@ -90,9 +101,10 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onDeactivated, ref, useId, watch, type HTMLAttributes } from 'vue'
+import { computed, onBeforeUnmount, onDeactivated, ref, useAttrs, useId, watch, type HTMLAttributes } from 'vue'
 import { useDirection } from '../_utils/direction'
 import { useFormErrorDescription } from '../form/error-description'
+import { useFormItemLabel } from '../form/label-context'
 import { createNamespace } from '../utils/components'
 import { positiveLength } from '../utils/size-length'
 import { sliderBounds, sliderValues, snap, stepValue } from './model'
@@ -101,9 +113,31 @@ import type { SliderEmits, SliderExpose, SliderSlots, SliderValue } from './prop
 import SliderInput from './SliderInput.vue'
 import { useSliderForm } from './use-slider-form'
 
-defineOptions({ name: createNamespace('slider').name })
+defineOptions({ name: createNamespace('slider').name, inheritAttrs: false })
 const { n, classes } = createNamespace('slider')
 const props = defineProps(sliderProps)
+const attrs = useAttrs()
+const formLabel = useFormItemLabel()
+const rangeGroupLabel = computed(() => {
+  const label = formLabel?.value
+  return props.range &&
+    attrs.role == null &&
+    attrs['aria-labelledby'] == null &&
+    label?.target &&
+    label.target === attrs.id
+    ? label.id
+    : undefined
+})
+const singleLabelledBy = computed(() => {
+  if (props.range) {
+    return undefined
+  }
+  if (attrs['aria-labelledby'] != null) {
+    return attrs['aria-labelledby'] as string
+  }
+  const label = formLabel?.value
+  return props.ariaLabel == null && label?.target && label.target === attrs.id ? label.id : undefined
+})
 const { describe: describeError } = useFormErrorDescription()
 const emit = defineEmits<SliderEmits>()
 defineSlots<SliderSlots>()

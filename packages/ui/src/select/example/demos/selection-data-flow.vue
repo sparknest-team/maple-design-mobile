@@ -90,6 +90,7 @@ function reset() {
           :key="`panel-${generation}`"
           v-model="form.panelCity"
           edit-mode="popup"
+          need-confirm
           :options="options"
           :default-active-first-option="autoFirst"
           :placeholder="english ? 'Choose a city, then confirm' : '选择城市后确认'"

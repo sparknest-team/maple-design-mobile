@@ -28,7 +28,7 @@
 </template>
 <script setup lang="ts">
 import { IconThunderbolt } from '@maple-design/icons-vue'
-import Button from '../button'
+import Button from '../button/base'
 import { createNamespace } from '../utils/components'
 import { usePanelActionsLocale } from './presentation/use-panel-actions-locale'
 

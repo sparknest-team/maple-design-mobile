@@ -55,6 +55,7 @@
     "type-tests/time-public-events.ts",
     "type-tests/form-contract.ts",
     "type-tests/picker-contract.ts",
+    "type-tests/install-contract.ts",
     "type-tests/date-panel-boundary.ts",
     "type-tests/time-named-exports.ts",
     "type-tests/time-panel-contract.ts",

@@ -2,7 +2,17 @@
 
 ## 字段名称
 
-直接编辑模式下，为单个字段设置可见标签时，可将 FormItem 的 `label-attrs` 中的 `for` 与控件的 `id` 对应；选择、日期和时间字段的原生输入不会用 placeholder 覆盖已关联的标签。显式 `aria-label` 或 `aria-labelledby` 仍按原生无障碍名称规则优先。placeholder 只是未提供标签时的回退，不能替代清晰的字段标签。日期和时间范围字段在 FormItem 中会将表单标签关联到范围分组；仍需通过 `input-attrs` 分别提供能够区分起止端点的名称。若 `label-attrs.for` 指向其他控件，不会将该标签误关联到范围分组。 `tooltip` 提示按钮可单独聚焦，其名称不会合并到字段标签中。
+在 Shadow DOM 中使用延迟编辑 Slider 时，若弹层传送到 `body`，浏览器可能无法通过 ID 将弹层内控件与 Shadow DOM 中的提示或错误关联。可设置 `:popup-container="false"`，使弹层留在同一根节点；仍需为控件提供清晰名称。
+
+直接编辑模式下，为单个字段设置可见标签时，可将 FormItem 的 `label-attrs` 中的 `for` 与控件的 `id` 对应；选择、日期和时间字段的原生输入不会用 placeholder 覆盖已关联的标签。显式 `aria-label` 或 `aria-labelledby` 仍按原生无障碍名称规则优先。placeholder 只是未提供标签时的回退，不能替代清晰的字段标签。日期和时间范围字段在 FormItem 中会将表单标签关联到范围分组；仍需通过 `input-attrs` 分别提供能够区分起止端点的名称。若 `label-attrs.for` 指向其他控件，不会将该标签误关联到范围分组。 当前未设置 `for` 时，范围控件会引用最近的 FormItem 标签，即使同一表单项还有其他控件。混合字段请将范围控件放在独立的有样式 FormItem 中并分别命名，或通过明确的 `for` 指向实际目标并为其他控件提供独立名称。单值 Slider 在 `for` 匹配组件 `id` 时为滑块及可选数字输入关联该标签；点击默认原生标签可聚焦未禁用的滑块；阻止标签点击默认行为可取消该聚焦。范围 Slider 的 `id` 与 `for` 匹配时，表单标签命名整个分组；仍应使用 `aria-label` 数组分别命名两个端点。 `tooltip` 提示按钮可单独聚焦，其名称不会合并到字段标签中。
+
+### 同一标签下的多个控件
+
+混合使用多个控件时，为可见标签设置唯一 ID，并用它显式命名分组；每个控件也需要自己的名称。每个 FormItem 实例应使用不同的 ID。
+
+```demo
+../example/demos/mixed-field-label.vue
+```
 
 ## 阅读方向
 
@@ -196,7 +206,7 @@ Button 使用 `html-type="submit"` / `html-type="reset"` 触发原生表单事�
 
 <!-- demo-config-notes:end -->
 
-Form、FormItem、Input、Select 支持 edit-mode 继承：字段 > FormItem > Form。未设置时保留字段各自的默认值；Maple 支持 direct / popup。弹层默认确认后提交，readPretty 只阅读。普通 v-model 和默认插槽保持不变。Select、Cascader、AutoComplete、Date／DateRange、Time／TimeRange 默认 popup，其余字段默认 direct。
+Form、FormItem、Input、Select 支持 edit-mode 继承：字段 > FormItem > Form。未设置时保留字段各自的默认值；Maple 支持 direct / popup。选择字段单选默认即选即提交、多选默认确认；其他字段保留各自确认方式，readPretty 只阅读。普通 v-model 和默认插槽保持不变。Select、Cascader、AutoComplete、Date／DateRange、Time／TimeRange 默认 popup，其余字段默认 direct。
 
 `edit-mode` 只控制字段编辑方式，不改变 `layout`、标签宽度或栅格比例。非 `vertical` 布局中，标签与右侧字段内容垂直居中，错误提示和帮助文字不参与居中。
 
@@ -607,7 +617,7 @@ import type {
 | `--mp-form-required-symbol-color` | `var(--mp-sys-color-content-danger)` | `color` |
 | `--mp-form-size-md-item-margin-bottom` | `16px` | `margin-bottom` |
 | `--mp-form-size-md-label-font-size` | `14px` | `font-size` |
-| `--mp-form-tooltip-margin-left` | `var(--mp-sys-space-2)` | `margin-inline-start` |
+| `--mp-form-tooltip-margin-left` | `var(--mp-sys-space-2)` | `padding-inline-start` |
 | `--mp-form-tooltip-text-color` | `var(--mp-sys-color-content-secondary)` | `color` |
 | `--mp-form-vertical-label-margin-bottom` | `8px` | `margin-bottom` |
 

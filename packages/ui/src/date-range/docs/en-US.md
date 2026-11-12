@@ -495,7 +495,7 @@ Panels edit a draft and commit on confirmation. Cancellation or closing does not
 
 `input-attrs` applies to the two direct input elements. For example, `:input-attrs="[{ 'aria-label': 'Departure' }, { 'aria-label': 'Return' }]"` names each endpoint. The field owns its value, disabled, readonly, placeholder, role and popup state; shared descriptions, per-input descriptions and form errors are merged for each input. Component errors take precedence; otherwise each input retains its `aria-invalid`. `RangeInputAttributes` is exported from the component and root entries and includes native attributes and `Once` event types.
 
-When FormItem `label-attrs.for` explicitly targets one endpoint, each otherwise unnamed endpoint uses the form label and a localized start or end name. Explicit accessible names on `input-attrs` or the field take precedence. Older custom locales can provide `fieldPresentation.rangeStart` and `fieldPresentation.rangeEnd`; otherwise the existing date or time endpoint text is used.
+When FormItem's `label-attrs.for` explicitly targets one input, unnamed range endpoints use the form label together with localized start/end names. Explicit accessible names supplied through `input-attrs` or the field take precedence. Older custom locales can provide `fieldPresentation.rangeStart` and `fieldPresentation.rangeEnd`; when absent, the existing date or time start/end labels are used.
 
 | Prop | Description | Type | Default behavior |
 | --- | --- | --- | --- |

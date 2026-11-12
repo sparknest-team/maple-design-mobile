@@ -6,7 +6,8 @@ import Themes from '..'
 test('selection dark themes use current component tokens and semantic roles', () => {
   for (const theme of [Themes.default.dark, Themes.maple.dark]) {
     expect(theme['--mp-cascader-item-text-color']).toBe('var(--mp-sys-color-content-primary)')
-    expect(theme['--mp-cascader-item-bg-active']).toBe('var(--mp-sys-color-state-selected)')
+    expect(theme).not.toHaveProperty('--mp-cascader-item-bg-active')
+    expect(theme['--mp-cascader-item-bg-hover']).toBe('var(--mp-sys-color-state-selected)')
     expect(theme).not.toHaveProperty('--mp-cascader-option-text-color')
     // Select resolves these roles from token.less in every theme, like Cedar.
     expect(theme).not.toHaveProperty('--mp-select-popup-bg')
@@ -326,7 +327,7 @@ test('current themes and tab colors use the shared contract', () => {
 
 test('dark breadcrumb themes keep the documented semantic text and brand roles', () => {
   for (const theme of [Themes.default.dark, Themes.maple.dark]) {
-    expect(theme['--mp-breadcrumb-item-active-color']).toBe('rgb(var(--mp-primary-8))')
+    expect(theme['--mp-breadcrumb-item-active-color']).toBe('var(--mp-sys-color-action-primary)')
     expect(theme['--mp-breadcrumb-item-inactive-color']).toBe('var(--mp-color-text-2)')
   }
 })
@@ -346,7 +347,7 @@ test('brand forms separate action backgrounds from readable content colors', () 
       expect(theme['--mp-selection-editor-accent']).toBe('var(--mp-sys-color-content-primary)')
       expect(theme['--mp-selection-editor-selected-background']).toBe('var(--mp-sys-color-state-selected)')
       expect(theme['--mp-selected-options-clear-color']).toBe('var(--mp-sys-color-content-primary)')
-      expect(theme['--mp-select-popup-option-check-color']).toBe('var(--mp-sys-color-content-primary)')
+      expect(theme).not.toHaveProperty('--mp-select-popup-option-check-color')
     }
   }
 })
@@ -402,25 +403,27 @@ test('Firefly light foreground roles stay readable on their actual soft surfaces
   expect(theme['--mp-sys-color-action-primary']).toBe('rgb(234, 255, 104)')
 })
 
-test('Firefly selection and focus use auxiliary violet instead of yellow actions', () => {
-  const light = Themes.firefly.light
-  const dark = Themes.firefly.dark
-  expect(light['--mp-radio-control-color-checked']).toBe('rgb(207, 199, 255)')
-  expect(light['--mp-checkbox-control-color-checked']).toBe('rgb(207, 199, 255)')
-  expect(light['--mp-slider-active-color']).toBe('rgb(207, 199, 255)')
-  expect(light['--mp-field-focus-color']).toBe('var(--mp-sys-color-content-brand)')
-  expect(light['--mp-date-picker-range-background']).toBe('rgba(207, 199, 255, 0.24)')
-  expect(light['--mp-checkbox-mark-color']).toBe('rgb(23, 34, 75)')
-  for (const suffix of [
-    'radio-control-color-checked',
-    'checkbox-control-color-checked',
-    'slider-active-color',
-    'date-calendar-selected-background',
-  ]) {
-    expect(dark[`--mp-${suffix}`]).toBe('#CFC7FF')
+test('brand selection and focus follow the primary Button action in light and dark modes', () => {
+  for (const brand of ['alps', 'firefly']) {
+    for (const mode of ['light', 'dark']) {
+      const theme = Themes[brand][mode]
+      for (const suffix of [
+        'radio-control-color-checked',
+        'checkbox-control-color-checked',
+        'switch-track-active-background',
+        'field-focus-color',
+        'field-variant-outline-border-color-focus',
+        'date-calendar-selected-background',
+        'date-calendar-today-color',
+        'upload-active-color',
+      ]) {
+        expect(theme[`--mp-${suffix}`], `${brand}/${mode}/${suffix}`).toBe('var(--mp-sys-color-action-primary)')
+      }
+      expect(theme['--mp-date-calendar-selected-color']).toBe('var(--mp-button-solid-text-color)')
+    }
   }
-  expect(dark['--mp-switch-track-active-background']).toBe('#B6A8FB')
-  expect(dark['--mp-date-picker-range-background']).toBe('#322D49')
+  expect(Themes.firefly.light['--mp-slider-active-color']).toBe('var(--mp-sys-color-action-primary)')
+  expect(Themes.firefly.dark['--mp-slider-active-color']).toBe('var(--mp-sys-color-action-primary)')
 })
 
 // Compare resolved roles, including inherited dark overrides and Cedar token conversion.

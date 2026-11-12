@@ -3,11 +3,38 @@ import { computed, defineComponent, inject, onBeforeUnmount, onDeactivated, ref,
 import { IconCheck, IconLoading, IconRight } from '@maple-design/icons-vue'
 import { isolateEditorForm } from '../_components/field-presentation/form-bridge'
 import { isFunction } from '../_utils/is'
-import Checkbox from '../checkbox'
+import Checkbox from '../checkbox/base'
 import { createNamespace, getPrefixCls } from '../utils/components'
 import { CascaderContext, cascaderInjectionKey } from './context'
 import type { CascaderOptionInfo } from './types'
 import { getCheckedStatus, getOptionLabel } from './utils'
+
+const INTERACTIVE_ROLES = new Set([
+  'button',
+  'link',
+  'checkbox',
+  'radio',
+  'switch',
+  'textbox',
+  'combobox',
+  'menuitem',
+  'menuitemcheckbox',
+  'menuitemradio',
+  'option',
+  'treeitem',
+  'gridcell',
+  'slider',
+  'spinbutton',
+  'tab',
+])
+
+// Recognized concrete ARIA, Digital Publishing and Graphics roles stop role fallback.
+// Unknown or abstract tokens are skipped; keep this list in sync with supported roles.
+const CONCRETE_ROLES = new Set(
+  'alert alertdialog application article banner blockquote button caption cell checkbox code columnheader combobox comment complementary contentinfo definition deletion directory document emphasis feed figure form generic grid gridcell group heading image img insertion link list listbox listitem log main mark marquee math menu menubar menuitem menuitemcheckbox menuitemradio meter navigation none note option paragraph presentation progressbar radio radiogroup region row rowgroup rowheader scrollbar search searchbox sectionfooter sectionheader separator slider spinbutton status strong suggestion subscript superscript switch tab table tablist tabpanel term textbox time timer toolbar tooltip tree treegrid treeitem doc-abstract doc-acknowledgments doc-afterword doc-appendix doc-backlink doc-biblioentry doc-bibliography doc-biblioref doc-chapter doc-colophon doc-conclusion doc-cover doc-credit doc-credits doc-dedication doc-endnote doc-endnotes doc-epigraph doc-epilogue doc-errata doc-example doc-footnote doc-foreword doc-glossary doc-glossref doc-index doc-introduction doc-noteref doc-notice doc-pagebreak doc-pagefooter doc-pageheader doc-pagelist doc-part doc-preface doc-prologue doc-pullquote doc-qna doc-subtitle doc-tip doc-toc graphics-document graphics-object graphics-symbol'.split(
+    ' ',
+  ),
+)
 
 // Nested controls and nested cascaders own their click; ordinary option content does not.
 function ownsOptionClick(event: Event): boolean {
@@ -35,9 +62,20 @@ function ownsOptionClick(event: Event): boolean {
     if (element?.nodeType !== 1 || typeof element.matches !== 'function') {
       continue
     }
+    const primaryRole = element
+      .getAttribute('role')
+      ?.trim()
+      .split(/\s+/)
+      .find((role) => CONCRETE_ROLES.has(role))
+    if (primaryRole && INTERACTIVE_ROLES.has(primaryRole)) {
+      return false
+    }
+    if (element.hasAttribute('tabindex') && (element as HTMLElement).tabIndex >= 0) {
+      return false
+    }
     if (
       element.matches(
-        'li[data-cascader-key], button, a[href], input, select, textarea, summary, [contenteditable]:not([contenteditable="false"]), [role="button"], [role="link"], [role="checkbox"], [role="radio"], [role="switch"], [role="textbox"], [role="combobox"], [role="menuitem"], [role="menuitemcheckbox"], [role="menuitemradio"], [role="option"], [role="treeitem"], [role="gridcell"], [role="slider"], [role="spinbutton"], [role="tab"]',
+        'li[data-cascader-key], button, a[href], input, select, textarea, summary, audio[controls], video[controls], [contenteditable]:not([contenteditable="false"])',
       )
     ) {
       return false
@@ -121,7 +159,9 @@ export default defineComponent({
       },
       onMouseleave: (event: MouseEvent) => {
         const element = event.currentTarget as HTMLElement
-        const focused = element.ownerDocument.activeElement
+        const nodeRoot = element.getRootNode()
+        const focusRoot = 'activeElement' in nodeRoot ? (nodeRoot as Document | ShadowRoot) : element.ownerDocument
+        const focused = focusRoot.activeElement
         let focusedOption = focused?.closest<HTMLElement>('[data-cascader-key]')
         const panelSelector = `.${getPrefixCls('cascader')}-panel, .${getPrefixCls('cascader')}-editor-panel`
         const panel = element.closest(panelSelector)
@@ -234,9 +274,7 @@ export default defineComponent({
                 if (props.option.disabled || props.option.selectionDisabled) {
                   return
                 }
-                const task = handlePathChange(new Event('change'))
                 cascaderCtx.onClickOption?.(props.option, Boolean(checked))
-                return task
               }}
             />
           </span>

@@ -193,7 +193,7 @@ Use ordinary `v-model`. `modelValue` is the actual switch value and matches chec
 | ripple | Click ripple | boolean | true |
 | handle-elevation | Thumb elevation: true means level 2; numbers are integer-clamped to 0–24 | boolean / number | true |
 
-before-change uses (payload, done, context). Return true, call done(), or fulfill a Promise with a non-false result to allow switching. Return false, call done(false), throw, fulfill with false or reject to cancel. Synchronous void waits for done; fulfilled `Promise<void>` allows. Waiting automatically shows loading and blocks duplicate input. Exceptions cancel permission without adding an error event.
+before-change uses (payload, done, context). Return true, call done(), or fulfill a Promise with a non-false result to allow switching. Return false, call done(false), throw, fulfill with false or reject to cancel. Synchronous void waits for done; fulfilled `Promise<void>` allows. Waiting automatically shows loading and blocks duplicate input. In deferred editing, confirmation is disabled while waiting; closing the editor still cancels the operation. Exceptions cancel permission without adding an error event.
 Pending results become stale after unmount, KeepAlive deactivation, external value updates or changes to disabled/readonly/loading.
 Controlled mode only requests updates. Selection changes after the parent updates model-value. Without model-value, internal state is used.
 
@@ -296,7 +296,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-switch-tonal-text-color` | `var(--mp-sys-color-content-secondary)` | `color` |
 | `--mp-switch-tonal-track-background` | `var(--mp-sys-color-surface-muted)` | `background` |
 | `--mp-switch-tonal-width` | `52px` | `min-width` |
-| `--mp-switch-track-active-background` | `var(--mp-sys-color-content-brand)` | `background`, `outline` |
+| `--mp-switch-track-active-background` | `var(--mp-sys-color-action-primary)` | `background`, `outline` |
 | `--mp-switch-track-background` | `var(--mp-sys-color-content-secondary)` | `background` |
 | `--mp-switch-track-error-background` | `var(--mp-sys-color-content-danger)` | `background`, `border-color` |
 | `--mp-switch-width` | `40px` | `min-width` |

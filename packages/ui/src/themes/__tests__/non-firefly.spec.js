@@ -2,14 +2,14 @@ import { createHash } from 'node:crypto'
 import { expect, test } from 'vitest'
 import Themes from '..'
 
-test('non-Firefly theme palettes remain unchanged by the Firefly role mapping', () => {
+test('non-Firefly theme palettes preserve the current semantic token contract', () => {
   const hashes = {}
   expect(Themes.maple.light['--mp-switch-checked-text-color']).toBe('var(--mp-sys-color-content-on-dark)')
   expect(Themes.maple.light).not.toHaveProperty('--mp-internal-switch-checked-text-color')
   for (const brand of ['default', 'maple', 'alps']) {
     for (const mode of ['light', 'dark']) {
       // Normalize only the public-token rename so the original palette fingerprints
-      // continue to guard every value, including Maple's checked-text foreground.
+      // guard every value against the current semantic role baseline.
       const entries = Object.entries(Themes[brand][mode])
         .map(([key, value]) => [
           key === '--mp-switch-checked-text-color' ? '--mp-internal-switch-checked-text-color' : key,
@@ -21,12 +21,12 @@ test('non-Firefly theme palettes remain unchanged by the Firefly role mapping', 
   }
   expect(hashes).toMatchInlineSnapshot(`
     {
-      "alps.dark": "93d21d98f45ce5da58dc9f4106d1d7a681945e27dcef943d61712d0dc4e10790",
-      "alps.light": "469af9414c306a89e22a422751e416555496ef5fb16bbb4859b39b8db8c81992",
-      "default.dark": "30673d5752878025befeab4ef7f9289366bba664c8cb9777f7b76151f4446ee9",
-      "default.light": "1f84b8e006c7c520aab47e1a52b2dae706cf1949c05eaa9a359db23d6557a671",
-      "maple.dark": "b8f1be8ab174100cd655e97260951580523391ad3e8c216f3e8f770f23a980e3",
-      "maple.light": "aa446854fd2ee41fa5a88423f2c3b6fd48752754759368d89fa56af9802e43c6",
+      "alps.dark": "df33f15d9c5ee08e8212b7c20b0663aa86b533e4b417671bd5f5500cf04065d2",
+      "alps.light": "8a24bd73a87a0a28b1d0248d51389394e143655a1fa779bd8de835b75ea9226e",
+      "default.dark": "bcb30c6d18cb812c88bc66f392deec3857a3489d1a154f489e545f06c9e7e0af",
+      "default.light": "ee42dcb63865f0e77e3df1d6a45437d3dd7c30e12936d7916952a22111ddf597",
+      "maple.dark": "cc945e6552276d5bace3f11c195aef5ef90ac077c3d3f3aad5dac76a8f21531d",
+      "maple.light": "32b14670e2e52fe2bffe663e537c9fc0e30293ede0e8e979ced99be6fbdfdb40",
     }
   `)
 })

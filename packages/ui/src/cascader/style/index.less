@@ -211,20 +211,31 @@
     }
   }
 
-  &-option {
+  &-option,
+  &-search-option {
     &-active {
+      color: var(~'--mp-cascader-item-text-color-hover');
+      background-color: var(~'--mp-cascader-item-bg-hover');
+      transition: all var(~'--mp-sys-motion-duration-standard') var(~'--mp-sys-motion-easing-standard');
+    }
+
+    &-selected {
       color: var(~'--mp-cascader-item-text-color-active');
       background-color: var(~'--mp-cascader-item-bg-active');
-      transition: all var(~'--mp-sys-motion-duration-standard') var(~'--mp-sys-motion-easing-standard');
 
-      &:hover {
+      &:hover,
+      &.mp-cascader-option-active,
+      &.mp-cascader-search-option-active,
+      &.mp-cascader-search-option-hover {
         color: var(~'--mp-cascader-item-text-color-active');
-        background-color: var(~'--mp-cascader-item-bg-active');
+        background-color: var(~'--mp-cascader-item-bg-hover');
       }
     }
 
     &-active&-disabled,
-    &-active&-disabled:hover {
+    &-active&-disabled:hover,
+    &-selected&-disabled,
+    &-selected&-disabled:hover {
       color: var(~'--mp-cascader-item-text-color-disabled-active');
       background-color: var(~'--mp-cascader-item-bg-disabled-active');
     }

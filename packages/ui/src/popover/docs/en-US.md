@@ -1,5 +1,7 @@
 # Popover
 
+SSR limitation: a trigger slot node using both `v-for` and `v-memo` can make server rendering fail. Remove `v-memo` from that slot node when rendering on the server; ordinary `v-for` remains supported. In Vue 3.5.13, a standalone dynamic `v-memo` can also fail in this slot. The same limitation can affect the `content` slot; remove `v-memo` there for server rendering.
+
 Shows structured, interactive content after the reference is clicked. Use Tooltip for a short, non-interactive description.
 
 ## Basic examples

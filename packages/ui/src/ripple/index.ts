@@ -23,6 +23,7 @@ interface RippleOptions {
   timers: Set<number>
   keyboardActive: boolean
   keyboardKey?: string
+  migrationObserver?: MutationObserver
   lastTouchAt?: number
   color?: string
   disabled?: boolean
@@ -40,6 +41,13 @@ const waves = new WeakMap<HTMLElement, { expandUntil: number; released: boolean 
 
 function ownedRipples(element: HTMLElement) {
   return Array.from(element.children).filter((child): child is HTMLElement => waves.has(child as HTMLElement))
+}
+
+function stopObserverIfIdle(element: RippleHTMLElement, state: RippleOptions) {
+  if (!state.tasker && !ownedRipples(element).length) {
+    state.migrationObserver?.disconnect()
+    state.migrationObserver = undefined
+  }
 }
 
 function transitionTime(element: HTMLElement, property: string) {
@@ -83,6 +91,8 @@ function clearTasks(element: RippleHTMLElement) {
   if (!state) {
     return
   }
+  state.migrationObserver?.disconnect()
+  state.migrationObserver = undefined
   state.timers.forEach((timer) => window.clearTimeout(timer))
   state.timers.clear()
   state.tasker = null
@@ -171,21 +181,30 @@ function createRipple(this: RippleHTMLElement, event: TouchEvent | KeyboardEvent
   if (!_ripple) {
     return
   }
+  syncOwnerDocument(this)
   _ripple.removeRipple()
 
   if (_ripple.disabled || _ripple.tasker || !context.enableRipple) {
     return
   }
+  watchOwnerDuringGesture(this, _ripple)
 
   const task = () => {
     const current = () => this._ripple === _ripple && !_ripple.disabled && context.enableRipple
     if (!current()) {
+      if (this._ripple === _ripple) {
+        _ripple.tasker = null
+        stopObserverIfIdle(this, _ripple)
+      }
       return
     }
     _ripple.tasker = null
 
     const { x, y, centerX, centerY, size }: RippleStyles = computeRippleStyles(this, event)
     if (!current()) {
+      if (this._ripple === _ripple) {
+        clearTasks(this)
+      }
       return
     }
     const ripple: RippleHTMLElement = this.ownerDocument.createElement('div')
@@ -199,6 +218,9 @@ function createRipple(this: RippleHTMLElement, event: TouchEvent | KeyboardEvent
 
     setStyles(this)
     if (!current()) {
+      if (this._ripple === _ripple) {
+        clearTasks(this)
+      }
       return
     }
 
@@ -207,6 +229,9 @@ function createRipple(this: RippleHTMLElement, event: TouchEvent | KeyboardEvent
     waves.set(ripple, wave)
     const expansion = transitionTime(ripple, 'transform')
     if (!current() || waves.get(ripple) !== wave) {
+      if (!current() && this._ripple === _ripple) {
+        clearTasks(this)
+      }
       return
     }
     wave.expandUntil += expansion
@@ -216,10 +241,16 @@ function createRipple(this: RippleHTMLElement, event: TouchEvent | KeyboardEvent
       () => {
         const wave = waves.get(ripple)
         if (!wave || !current()) {
+          if (!current() && this._ripple === _ripple) {
+            clearTasks(this)
+          }
           return
         }
         const expansion = transitionTime(ripple, 'transform')
         if (!current() || waves.get(ripple) !== wave) {
+          if (!current() && this._ripple === _ripple) {
+            clearTasks(this)
+          }
           return
         }
         wave.expandUntil = performance.now() + expansion
@@ -242,6 +273,7 @@ function removeRipple(this: RippleHTMLElement) {
   const task = () => {
     const ripples = ownedRipples(this)
     if (!ripples.length) {
+      stopObserverIfIdle(this, _ripple)
       return
     }
 
@@ -271,6 +303,7 @@ function removeRipple(this: RippleHTMLElement) {
           lastRipple.remove()
           if (!ownedRipples(this).length) {
             restoreStyles(this)
+            stopObserverIfIdle(this, _ripple)
           }
         },
         Math.max(MINIMUM_REMOVAL_DELAY, transitionTime(lastRipple, 'opacity')),
@@ -293,6 +326,7 @@ function forbidRippleTask(this: RippleHTMLElement) {
     _ripple.timers.delete(_ripple.tasker)
   }
   _ripple.tasker = null
+  stopObserverIfIdle(this, _ripple)
 }
 
 function createTouchRipple(this: RippleHTMLElement, event: TouchEvent) {
@@ -348,6 +382,12 @@ function removeKeyboardRipple(this: RippleHTMLElement, event: Event) {
 const releaseGroups = new WeakMap<Document, { hosts: Set<RippleHTMLElement>; release: () => void }>()
 const releaseEvents = ['touchend', 'mouseup', 'touchcancel', 'dragend'] as const
 
+function releaseOnMovedHost(this: RippleHTMLElement) {
+  if (this._ripple && this._ripple.document !== this.ownerDocument) {
+    syncOwnerDocument(this)
+  }
+}
+
 function bindListeners(el: RippleHTMLElement) {
   const state = el._ripple
   if (!state || state.listening || state.disabled) {
@@ -357,6 +397,9 @@ function bindListeners(el: RippleHTMLElement) {
   el.addEventListener('touchstart', createTouchRipple, { passive: true })
   el.addEventListener('mousedown', createMouseRipple, { passive: true })
   el.addEventListener('touchmove', forbidRippleTask, { passive: true })
+  el.addEventListener('mouseup', releaseOnMovedHost)
+  el.addEventListener('touchend', releaseOnMovedHost)
+  el.addEventListener('touchcancel', releaseOnMovedHost)
   el.addEventListener('dragstart', removeRipple, { passive: true })
   el.addEventListener('keydown', createKeyboardRipple)
   el.addEventListener('keyup', removeKeyboardRipple)
@@ -392,6 +435,9 @@ function unbindListeners(el: RippleHTMLElement) {
   el.removeEventListener('touchstart', createTouchRipple)
   el.removeEventListener('mousedown', createMouseRipple)
   el.removeEventListener('touchmove', forbidRippleTask)
+  el.removeEventListener('mouseup', releaseOnMovedHost)
+  el.removeEventListener('touchend', releaseOnMovedHost)
+  el.removeEventListener('touchcancel', releaseOnMovedHost)
   el.removeEventListener('dragstart', removeRipple)
 
   const group = releaseGroups.get(state.document)
@@ -402,6 +448,42 @@ function unbindListeners(el: RippleHTMLElement) {
     state.document.defaultView?.removeEventListener('blur', group.release)
     releaseGroups.delete(state.document)
   }
+}
+
+function syncOwnerDocument(el: RippleHTMLElement) {
+  const state = el._ripple
+  if (!state || state.document === el.ownerDocument) {
+    return
+  }
+  clearTasks(el)
+  unbindListeners(el)
+  state.document = el.ownerDocument
+  bindListeners(el)
+}
+
+function watchOwnerDuringGesture(el: RippleHTMLElement, state: RippleOptions) {
+  if (state.migrationObserver || typeof MutationObserver === 'undefined') {
+    return
+  }
+  let connected = el.isConnected
+  const observer = new MutationObserver(() => {
+    if (el._ripple !== state) {
+      return
+    }
+    if (state.document !== el.ownerDocument) {
+      syncOwnerDocument(el)
+    } else if (connected && !el.isConnected) {
+      clearTasks(el)
+    } else if (el.isConnected) {
+      connected = true
+    }
+  })
+  const root = el.getRootNode()
+  observer.observe(root, { childList: true, subtree: true })
+  if (root !== state.document) {
+    observer.observe(state.document, { childList: true, subtree: true })
+  }
+  state.migrationObserver = observer
 }
 
 function mounted(el: RippleHTMLElement, binding: DirectiveBinding<RippleDirectiveValue | undefined>) {
@@ -425,6 +507,7 @@ function unmounted(el: RippleHTMLElement) {
 }
 
 function updated(el: RippleHTMLElement, binding: DirectiveBinding<RippleDirectiveValue | undefined>) {
+  syncOwnerDocument(el)
   const newBinding = {
     color: binding.value?.color,
     disabled: binding.value?.disabled,

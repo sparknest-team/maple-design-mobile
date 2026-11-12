@@ -1,17 +1,34 @@
 import { computed } from 'vue'
-import { t } from '../locale'
+import { defaultLocaleReady, t } from '../locale/state'
+import {
+  defaultUploadButtonText,
+  defaultUploadCancel,
+  defaultUploadClose,
+  defaultUploadDelete,
+  defaultUploadDownload,
+  defaultUploadDrag,
+  defaultUploadDuration,
+  defaultUploadPreview,
+  defaultUploadReplace,
+  defaultUploadRetry,
+} from '../locale/zh-CN'
+
+function text(key: string, fallback: string) {
+  const value = t(key)
+  return String(defaultLocaleReady.value ? value : (value ?? fallback))
+}
 
 export function useUploadLocale() {
   return computed(() => ({
-    replace: String(t('upload.replace')),
-    duration: String(t('upload.duration')),
-    upload: String(t('upload.buttonText')),
-    dropFiles: String(t('upload.drag')),
-    preview: String(t('upload.preview')),
-    download: String(t('upload.download')),
-    cancel: String(t('upload.cancel')),
-    retry: String(t('upload.retry')),
-    remove: String(t('upload.delete')),
-    close: String(t('upload.close')),
+    replace: text('upload.replace', defaultUploadReplace),
+    duration: text('upload.duration', defaultUploadDuration),
+    upload: text('upload.buttonText', defaultUploadButtonText),
+    dropFiles: text('upload.drag', defaultUploadDrag),
+    preview: text('upload.preview', defaultUploadPreview),
+    download: text('upload.download', defaultUploadDownload),
+    cancel: text('upload.cancel', defaultUploadCancel),
+    retry: text('upload.retry', defaultUploadRetry),
+    remove: text('upload.delete', defaultUploadDelete),
+    close: text('upload.close', defaultUploadClose),
   }))
 }

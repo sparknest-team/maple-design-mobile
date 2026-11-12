@@ -147,7 +147,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-back-top-bottom` | `40px` | `bottom` |
 | `--mp-back-top-button-border-radius` | `50%` | `border-radius` |
 | `--mp-back-top-button-size` | `var(--mp-sys-control-touch-target)` | `height`, `width` |
-| `--mp-back-top-focus-color` | `var(--mp-sys-color-content-brand)` | `outline` |
+| `--mp-back-top-focus-color` | `var(--mp-sys-color-action-primary)` | `outline` |
 | `--mp-back-top-focus-offset` | `2px` | `outline-offset` |
 | `--mp-back-top-focus-width` | `2px` | `outline` |
 | `--mp-back-top-font-size` | `var(--mp-sys-font-size-md)` | `font-size` |

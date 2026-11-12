@@ -1,7 +1,7 @@
 import type { ExtractPropTypes, ExtractPublicPropTypes, PropType, StyleValue } from 'vue'
 import type { ButtonProps } from '../button'
 import { fieldLoadingProps } from '../field-decorator/props'
-import { inputProps } from '../input'
+import { inputProps } from '../input/props'
 import { emptyValueProp } from '../utils/empty-value'
 
 export type SearchShape = 'square' | 'round'

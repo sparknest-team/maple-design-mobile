@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { ComponentSize } from '../_utils/constant'
-import BaseInput from '../input'
+import BaseInput from '../input/base'
 
 defineProps<{ modelValue: string; size?: ComponentSize; disabled?: boolean; label: string }>()
 const emit = defineEmits<{ (event: 'update:modelValue', value: string): void; (event: 'commit'): void }>()

@@ -1,7 +1,10 @@
 import { nextTick } from 'vue'
 import { flushPromises, mount } from '@vue/test-utils'
 import { afterEach, expect, it, vi } from 'vitest'
+import Button from '../../button'
+import Divider from '../../divider'
 import Radio, { RadioGroup } from '../../radio'
+import Space from '../../space'
 import Checkbox, { CheckboxGroup } from '../index'
 
 const language = vi.hoisted(() => ({ callbacks: [] }))
@@ -25,6 +28,9 @@ for (const kind of ['checkbox', 'radio']) {
     const wrapper = mount(Demo, {
       global: {
         components: {
+          MpButton: Button,
+          MpDivider: Divider,
+          MpSpace: Space,
           MpCheckbox: Checkbox,
           MpCheckboxGroup: CheckboxGroup,
           MpRadio: Radio,
@@ -47,6 +53,17 @@ for (const kind of ['checkbox', 'radio']) {
     expect(panel.text()).toContain('吃饭')
     expect(panel.find('input').element.checked).toBe(true)
     expect(group.props('modelValue')).toEqual(kind === 'checkbox' ? [0] : 0)
+    if (kind === 'checkbox') {
+      const basic = wrapper.get('[data-comparison-scene="checkbox-group"]')
+      const basicGroup = basic.getComponent(CheckboxGroup)
+      const buttons = basic.findAll('button')
+      await buttons[0].trigger('click')
+      await flushPromises()
+      expect(basicGroup.props('modelValue')).toEqual([0, 1])
+      await buttons[1].trigger('click')
+      await flushPromises()
+      expect(basicGroup.props('modelValue')).toEqual([])
+    }
     wrapper.unmount()
   })
 }

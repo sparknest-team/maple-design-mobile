@@ -18,7 +18,7 @@
 <script setup lang="ts">
 import { provide, shallowRef, type VNodeChild } from 'vue'
 import { editorAuxiliaryActions } from '../../_components/field-presentation/editor-actions'
-import MpButton from '../../button'
+import MpButton from '../../button/base'
 import { createNamespace } from '../../utils/components'
 
 defineOptions({ name: createNamespace('time-field-panel').name })

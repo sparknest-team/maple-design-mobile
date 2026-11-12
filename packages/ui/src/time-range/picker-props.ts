@@ -1,6 +1,6 @@
 import { type ExtractPropTypes, type PropType } from 'vue'
 import { timePickerFieldsProp } from '../_components/picker-field/fields'
-import { pickerProps as pickerPropsSource } from '../picker'
+import { props as pickerPropsSource } from '../picker/props'
 import { timeDisabledProps } from '../time/disabled-props'
 import type { TimeWheelPresentationProps } from '../time/presentation-props'
 import { timeStepProp } from '../time/step-prop'

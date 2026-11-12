@@ -60,6 +60,7 @@ function fixture(Field: any, editMode: string, extra: Record<string, any> = {}, 
               modelValue: model.value,
               options,
               filterable: true,
+              ...(Field === Select || Field === Cascader ? { needConfirm: true } : {}),
               ...extra,
               'onUpdate:modelValue': (value: string) => {
                 model.value = value

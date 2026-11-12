@@ -65,9 +65,12 @@ export function useCountdown(
   let generation = 0
   let handle: number | undefined
 
-  function display() {
+  function updateDisplay() {
     timeData.value = splitTime(remaining)
     showTime.value = parseFormat(props.format, timeData.value)
+  }
+  function display() {
+    updateDisplay()
     emit('change', timeData.value)
   }
   function cancel() {
@@ -113,11 +116,15 @@ export function useCountdown(
   }
   function pause() {
     resumeOnActivate = false
-    if (running) {
+    const wasRunning = running
+    if (wasRunning) {
       remaining = Math.max(0, deadline - performance.now())
     }
     running = false
     cancel()
+    if (wasRunning && mounted) {
+      updateDisplay()
+    }
   }
   function reset() {
     if (!mounted) {

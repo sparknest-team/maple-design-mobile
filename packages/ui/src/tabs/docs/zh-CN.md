@@ -322,7 +322,7 @@ TabNav 与 TabItem 使用相同的 `name` 建立对应关系；`name` 在同组�
 | `--mp-tabs-size-xs-tab-padding` | `var(--mp-sys-space-2) var(--mp-sys-space-4)` | `padding` |
 | `--mp-tabs-tab-gap` | `var(--mp-sys-space-2)` | `gap` |
 | `--mp-tabs-title-text-color` | `var(--mp-sys-color-content-secondary)` | `color` |
-| `--mp-tabs-title-text-color-active` | `var(--mp-sys-color-content-brand)` | `background`, `color`, `outline` |
+| `--mp-tabs-title-text-color-active` | `var(--mp-sys-color-action-primary)` | `background`, `color`, `outline` |
 | `--mp-tabs-title-text-color-disabled` | `var(--mp-sys-color-content-disabled)` | `color` |
 | `--mp-tabs-touch-target` | `var(--mp-sys-control-touch-target)` | `min-height`, `min-width` |
 

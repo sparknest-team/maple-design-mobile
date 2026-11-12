@@ -1,5 +1,7 @@
 # Trigger
 
+SSR 限制：触发插槽或 `content` 插槽内的同一节点同时使用 `v-for` 和 `v-memo` 时，服务端渲染可能报错。触发插槽即使在浮层关闭时也可能报错；`content` 插槽在浮层打开或设置 `unmount-on-close=false` 时可能报错。服务端渲染时请移除该插槽节点上的 `v-memo`；普通 `v-for` 仍可使用。 在 Vue 3.5.13 中，触发插槽内单独使用动态 `v-memo` 也可能报错。
+
 
 
 更换或清空浮层引用，以及卸载组件时，会移除旧窗口的滚动监听。
@@ -108,7 +110,7 @@ placement 是首选方位，auto-fit-position 默认 true 时最终方位可能�
 | `scroll-to-close` | 滚动超过阈值关闭 | _boolean_ | `false` |
 | `scroll-to-close-distance` | 滚动关闭阈值 | _number_ | `0` |
 | `show-arrow` | 显示箭头 | _boolean_ | `false` |
-| `hide-empty` | 内容为空时不渲染 | _boolean_ | `false` |
+| `hide-empty` | content 插槽直接返回空内容时不渲染；组件节点即使最终渲染为空也视为非空 | _boolean_ | `false` |
 | `prevent-focus` | 阻止定位层抢占焦点 | _boolean_ | `false` |
 | `unmount-on-close` | 离场后卸载内容 | _boolean_ | `true` |
 | `animation-name` | Vue Transition 名称 | _string_ | `trigger-fade` |
@@ -116,9 +118,12 @@ placement 是首选方位，auto-fit-position 默认 true 时最终方位可能�
 | `auto-fit-transform-origin` | 根据最终方位设置动画原点 | _boolean_ | `false` |
 | `opened-class` | 打开时合并给默认插槽的首个节点；外部 reference 不添加该类 | _string \| array \| object_ | `-` |
 | `reference-attrs` | 写入实际参考元素的属性，或接收 open 的函数；属性撤销、引用替换或卸载时恢复原属性 | _TriggerReferenceAttrs \| ((open: boolean) => TriggerReferenceAttrs)_ | `-` |
-| `popup-class` / `popup-style` | 定位层类名 / 样式 | _ClassName / CSSProperties_ | `-` |
-| `content-class` / `content-style` | 内容层类名 / 样式 | _ClassName / CSSProperties_ | `-` |
-| `arrow-class` / `arrow-style` | 箭头类名 / 样式 | _ClassName / CSSProperties_ | `-` |
+| `popup-class` | 定位层自定义类名 | `ClassName` | `-` |
+| `popup-style` | 定位层的自定义样式 | `CSSProperties` | `-` |
+| `content-class` | 内容层的自定义类名 | `ClassName` | `-` |
+| `content-style` | 内容层的自定义样式 | `CSSProperties` | `-` |
+| `arrow-class` | 箭头的自定义类名 | `ClassName` | `-` |
+| `arrow-style` | 箭头的自定义样式 | `CSSProperties` | `-` |
 
 交互延迟和关闭策略还包括 `mouse-enter-delay`、`mouse-leave-delay`、`focus-delay`、`popup-hover-stay`、`blur-to-close`、`close-on-click-reference`、`click-outside-to-close`、`esc-to-close`、`restore-focus`。
 

@@ -22,6 +22,8 @@ Maple Design Mobile 是基于 Vue 3、TypeScript 和 Less 的移动端组件库�
 pnpm add @maple-design/ui-vue
 ```
 
+UI 包目前声明的 Vue peer 依赖范围为 `^3.2.0`。对本地构建并独立安装的包进行验证时，Vue 3.2.47 因未导出 `useId` 而无法加载根入口及部分组件入口；CommonJS 的 Input 入口也会在服务端渲染时报错。Vue 3.2 兼容问题正在排查。上述结果不代表已发布到 npm 的包或该范围内所有 Vue 版本的行为。
+
 ## 项目配套
 
 | 包 | 用途 |

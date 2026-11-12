@@ -7,10 +7,12 @@ import ReviewRequestedDemo from './demos/async-data.vue'
 import AsyncDevicesDemo from './demos/async-devices.vue'
 import AsyncSourceDemo from './demos/async-source.vue'
 import DemoClearable from './demos/clearable.vue'
+import ConfirmationDemo from './demos/confirmation.vue'
 import DemoCustomIcons from './demos/custom-icons.vue'
 import DialogDemo from './demos/dialog.vue'
 import GroupedEmptyValueDemo from './demos/empty-value.vue'
 import AsyncDevicesEnglishDemo from './demos/en-US/async-devices.vue'
+import ConfirmationEnglishDemo from './demos/en-US/confirmation.vue'
 import DemoFieldNames from './demos/field-names.vue'
 import GroupSpacingDemo from './demos/group-spacing.vue'
 import LoadingDemo from './demos/loading.vue'
@@ -76,6 +78,11 @@ watchLang((value) => {
   <section data-demo="multiple">
     <app-type>{{ english ? 'Multiple selection' : '多选' }}</app-type>
     <DemoMultiple />
+  </section>
+
+  <section data-demo="confirmation">
+    <ConfirmationEnglishDemo v-if="english" />
+    <ConfirmationDemo v-else />
   </section>
 
   <section data-demo="same-label">

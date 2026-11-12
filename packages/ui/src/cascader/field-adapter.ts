@@ -4,6 +4,7 @@ import type { FieldPresentationAdapter } from '../_components/field-presentation
 import CascaderEditor from './CascaderEditor.vue'
 
 export const cascaderFieldAdapter: FieldPresentationAdapter = {
+  selectionConfirmation: 'update',
   pauseSelectionWhileLoading: true,
   methods: ['focus', 'blur', 'refresh'],
   defaultPresentation: 'popup',

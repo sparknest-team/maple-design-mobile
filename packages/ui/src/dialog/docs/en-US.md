@@ -228,15 +228,24 @@ Function calls honor `popupContainer` from explicit configuration or `setDefault
 | `message-align` | Message alignment | `'left' \| 'center' \| 'right'` | `'left'` |
 | `align-center` | Center vertically and horizontally | `boolean` | `true` |
 | `footer` | Show footer | `boolean` | `true` |
-| `confirm-button` / `cancel-button` | Show action buttons | `boolean` | `true` |
+| `confirm-button` | Show the confirm button | `boolean` | `true` |
+| `cancel-button` | Show the cancel button | `boolean` | `true` |
 | `closable` | Show close button | `boolean` | `true` |
-| `confirm-button-text` / `cancel-button-text` | Button labels | `string` | Localized text |
-| `confirm-button-props` / `cancel-button-props` | Button props, including colors | `ButtonProps` | `-` |
-| `confirm-button-loading` / `cancel-button-loading` | Loading state | `boolean` | `false` |
-| `confirm-button-disabled` / `cancel-button-disabled` | Disabled state | `boolean` | `false` |
+| `confirm-button-text` | Confirm button text | `string` | Localized text |
+| `cancel-button-text` | Cancel button text | `string` | Localized text |
+| `confirm-button-props` | Confirm button props | `ButtonProps` | `-` |
+| `cancel-button-props` | Cancel button props | `ButtonProps` | `-` |
+| `confirm-button-loading` | Confirm button loading state | `boolean` | `false` |
+| `cancel-button-loading` | Cancel button loading state | `boolean` | `false` |
+| `confirm-button-disabled` | Confirm button disabled state | `boolean` | `false` |
+| `cancel-button-disabled` | Cancel button disabled state | `boolean` | `false` |
 | `overlay` | Show overlay | `boolean` | `true` |
-| `overlay-class` / `dialog-class` / `body-class` | Custom classes | `string \| any[]` | `-` |
-| `overlay-style` / `dialog-style` / `body-style` | Custom styles | `StyleValue` | `-` |
+| `overlay-class` | Custom overlay classes | `string \| any[]` | `-` |
+| `dialog-class` | Custom dialog panel classes | `string \| any[]` | `-` |
+| `body-class` | Custom body classes | `string \| any[]` | `-` |
+| `overlay-style` | Custom overlay styles | `StyleValue` | `-` |
+| `dialog-style` | Custom dialog panel styles | `StyleValue` | `-` |
+| `body-style` | Custom body styles | `StyleValue` | `-` |
 | `overlay-closable` | Request closure on an overlay click | `boolean` | `true` |
 | `esc-to-close` | Request closure on Escape | `boolean` | `true` |
 | `lock-scroll` | Lock background scrolling while open | `boolean` | `true` |

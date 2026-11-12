@@ -4,12 +4,12 @@
    * Popup Box
    **********************************************/
   --mp-select-popup-max-height: 200px;
-  --mp-select-popup-border-radius: var(~'--mp-sys-radius-md');
+  --mp-select-popup-border-radius: var(--mp-sys-radius-lg);
   --mp-select-popup-padding-vertical: var(--mp-sys-space-2);
   --mp-select-popup-font-size: var(~'--mp-sys-font-size-md');
   --mp-select-popup-bg: var(~'--mp-sys-color-surface-overlay');
-  --mp-select-popup-border-color: var(~'--mp-sys-color-border-default');
-  --mp-select-popup-box-shadow: 0 4px 10px rgb(0 0 0 / 10%);
+  --mp-select-popup-border-color: var(--mp-sys-color-border-subtle);
+  --mp-select-popup-box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 
   /**********************************************
    * Popup Options
@@ -17,19 +17,22 @@
    **********************************************/
   --mp-select-popup-option-height: 36px;
   --mp-select-popup-option-font-weight-selected: var(~'--mp-sys-font-weight-medium');
-  --mp-select-popup-option-padding-horizontal: var(--mp-sys-space-5);
+  --mp-select-popup-option-padding-horizontal: var(--mp-sys-space-4);
+  --mp-select-popup-padding-horizontal: var(--mp-sys-space-3);
+  --mp-select-popup-option-border-radius: var(--mp-sys-radius-lg);
 
-  --mp-select-popup-option-bg: var(~'--mp-sys-color-surface-overlay');
+  --mp-select-popup-option-bg: transparent;
   --mp-select-popup-option-bg-hover: var(~'--mp-sys-color-state-hover');
-  --mp-select-popup-option-bg-selected: var(~'--mp-sys-color-surface-overlay');
-  --mp-select-popup-option-bg-disabled: var(~'--mp-sys-color-surface-overlay');
+  --mp-select-popup-option-bg-selected: transparent;
+  --mp-select-popup-option-bg-selected-hover: var(--mp-select-popup-option-bg-hover);
+  --mp-select-popup-option-bg-disabled: transparent;
 
   --mp-select-popup-option-text-color: var(~'--mp-sys-color-content-primary');
   --mp-select-popup-option-text-color-hover: var(~'--mp-sys-color-content-primary');
-  --mp-select-popup-option-text-color-selected: var(~'--mp-sys-color-content-primary');
+  --mp-select-popup-option-text-color-selected: var(--mp-sys-color-action-primary);
   --mp-select-popup-option-text-color-disabled: var(~'--mp-sys-color-content-disabled');
 
-  --mp-select-popup-option-check-color: var(--mp-sys-color-content-primary);
+  --mp-select-popup-option-check-color: var(--mp-sys-color-action-primary);
   --mp-select-popup-option-check-size: var(--mp-sys-font-size-md);
   --mp-select-popup-option-check-gap: var(--mp-sys-space-4);
 

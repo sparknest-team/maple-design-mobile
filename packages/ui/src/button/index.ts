@@ -1,5 +1,5 @@
 import { withInstall, withPropsDefaultsSetter } from '../utils/components'
-import _Button from './Button.vue'
+import _Button from './base'
 import ButtonGroup from './ButtonGroup.vue'
 import { buttonGroupProps } from './group-props'
 import { buttonProps } from './props'

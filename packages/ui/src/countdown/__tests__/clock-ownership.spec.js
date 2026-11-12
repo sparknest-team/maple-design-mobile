@@ -47,6 +47,58 @@ function harness(keepAlive = false, autoStart = true) {
 }
 
 describe('Countdown business-clock callback ownership', () => {
+  test('pause synchronizes the frozen value even before the next frame', async () => {
+    const p = harness()
+    try {
+      p.emit.mockClear()
+      p.setClock(400)
+      p.countdown.pause()
+      expect(p.countdown.timeData.value.milliseconds).toBe(600)
+      expect(p.countdown.showTime.value).toBe('600')
+      expect(p.emit).not.toHaveBeenCalled()
+      p.props.format = 'ss.SSS'
+      await nextTick()
+      expect(p.countdown.showTime.value).toBe('00.600')
+      p.setClock(5000)
+      p.countdown.start()
+      expect(p.countdown.timeData.value.milliseconds).toBe(600)
+    } finally {
+      p.cleanup()
+    }
+  })
+  test('deactivation freezes the displayed value before a pending frame', async () => {
+    const p = harness(true)
+    try {
+      p.setClock(400)
+      p.emit.mockClear()
+      p.show.value = false
+      await nextTick()
+      expect(p.countdown.showTime.value).toBe('600')
+      expect(p.emit).not.toHaveBeenCalled()
+      p.setClock(5000)
+      p.show.value = true
+      await nextTick()
+      expect(p.countdown.showTime.value).toBe('600')
+    } finally {
+      p.cleanup()
+    }
+  })
+  test('pause after the deadline displays zero and resumes completion once', () => {
+    const p = harness()
+    try {
+      p.setClock(1200)
+      p.emit.mockClear()
+      p.countdown.pause()
+      expect(p.countdown.showTime.value).toBe('000')
+      expect(p.emit).not.toHaveBeenCalled()
+      p.countdown.start()
+      expect(p.emit.mock.calls.filter((c) => c[0] === 'end')).toHaveLength(1)
+      p.countdown.start()
+      expect(p.emit.mock.calls.filter((c) => c[0] === 'end')).toHaveLength(1)
+    } finally {
+      p.cleanup()
+    }
+  })
   test('unmount during a clock read does not emit stale changes', () => {
     const p = harness()
     try {
@@ -113,6 +165,30 @@ describe('Countdown business-clock callback ownership', () => {
       await nextTick()
       expect(p.frames).toHaveLength(2)
       expect(p.countdown.timeData.value.seconds).toBe(2)
+    } finally {
+      p.cleanup()
+    }
+  })
+  test('a delayed first frame after activation catches up to the reset deadline once', async () => {
+    const p = harness(true)
+    try {
+      p.show.value = false
+      await nextTick()
+      p.props.time = 900
+      await nextTick()
+      p.setClock(5000)
+      p.show.value = true
+      await nextTick()
+      expect(p.countdown.timeData.value.milliseconds).toBe(900)
+      p.setClock(5200)
+      expect(p.countdown.timeData.value.milliseconds).toBe(900)
+      expect(p.emit.mock.calls.filter((c) => c[0] === 'end')).toHaveLength(0)
+      p.setClock(6100)
+      p.frames[1](6100)
+      expect(p.countdown.timeData.value.milliseconds).toBe(0)
+      expect(p.emit.mock.calls.filter((c) => c[0] === 'end')).toHaveLength(1)
+      p.frames[1](6100)
+      expect(p.emit.mock.calls.filter((c) => c[0] === 'end')).toHaveLength(1)
     } finally {
       p.cleanup()
     }

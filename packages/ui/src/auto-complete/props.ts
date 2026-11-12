@@ -34,6 +34,8 @@ export type AutoCompleteFilterOption = boolean | ((inputValue: string, option: A
 
 export const autoCompleteProps = {
   ...fieldLoadingProps,
+  /** 弹出编辑是否需要确认；默认选中候选项即提交，自定义文本通过确认提交。 */
+  needConfirm: { type: Boolean, default: undefined },
   searchDelay: { type: Number, default: 250 },
   /** 清空动作产生的模型值；省略保留原默认值。 */
   ...fieldPresentationProps,

@@ -39,7 +39,7 @@ import { call, getRect, isNumber, normalizeToArray } from '@maple-design/shared-
 import { onSmartMounted, onWindowResize } from '@maple-design/use-vue'
 import PendingFeedback from '../_components/pending-feedback/PendingFeedback.vue'
 import { useActionGuard } from '../_hooks/use-action-guard'
-import MpButton from '../button'
+import MpButton from '../button/base'
 import { createNamespace } from '../utils/components'
 import { toSizeUnit } from '../utils/elements'
 import { useElementResize } from '../utils/resize-observer'

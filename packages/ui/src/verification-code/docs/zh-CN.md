@@ -124,7 +124,9 @@ initial 表示未指定公开覆盖，实际 CSS 在组件元素处读取尺寸 
 | `type`                                  | `字符集合`                                                                | `digit / text / alphanumeric`                   | `digit`          |
 | `size`                                  | `五档外壳尺寸`                                                            | `xs / sm / md / lg / xl`                        | `继承 / md`      |
 | `variant`                               | `输入外观`                                                                | `filled / outline / standard`                   | `继承 / outline` |
-| `disabled / readonly / error`           | `状态，显式值优先于 Form`                                                 | `boolean`                                       | `undefined`      |
+| `disabled` | 禁用状态；显式值优先于继承的 Form / Group 状态 | `boolean` | `undefined` |
+| `readonly` | 只读状态；显式值优先于继承的 Form / Group 状态 | `boolean` | `undefined` |
+| `error` | 错误状态；显式值优先于继承的 Form / Group 状态 | `boolean` | `undefined` |
 | `masked`                                | `仅视觉隐藏字符，不是加密`                                                | `boolean`                                       | `false`          |
 | `mask-symbol`                           | `取首个 Unicode 码点`                                                     | `string`                                        | `•`              |
 | `autofocus`                             | `挂载后聚焦首个空格`                                                      | `boolean`                                       | `false`          |
@@ -135,7 +137,9 @@ initial 表示未指定公开覆盖，实际 CSS 在组件元素处读取尺寸 
 | `formatter`                             | `逐字符格式化，false 拒绝，true/undefined 保持；返回字符串取首个合法码点` | `(character, index, value) => string / boolean` | `undefined`      |
 | `separator`                             | `非最后格后面的分隔内容`                                                  | `(index, character) => VNodeChild`              | `undefined`      |
 | `aria-label`                            | `组名和每格的序号名称`                                                    | `string`                                        | `undefined`      |
-| `text-color / focus-color / blur-color` | `逐实例动态颜色，静态主题优先 token`                                      | `string`                                        | `undefined`      |
+| `text-color` | 逐实例自定义文字颜色；静态主题优先使用 token | `string` | `undefined` |
+| `focus-color` | 逐实例自定义聚焦颜色；静态主题优先使用 token | `string` | `undefined` |
+| `blur-color` | 逐实例自定义未聚焦颜色；静态主题优先使用 token | `string` | `undefined` |
 
 | `empty-value` | 展示层清空输出，默认空字符串，可显式配置 null | `string \| null \| (() => string \| null)` | `''` |
 | `clearable` | 延迟编辑层清空操作，不改变每格输入 | `boolean` | `false` |
