@@ -1,4 +1,5 @@
-import { onMounted, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
+import { getHighestPopupZIndex } from '../utils/popup-layer'
 import context from './index'
 
 export function useZIndex(source: () => boolean, count: number) {
@@ -23,4 +24,13 @@ export function useZIndex(source: () => boolean, count: number) {
     }
   })
   return { zIndex }
+}
+
+/** Feedback stays above active popups without becoming a modal interaction layer. */
+export function useFeedbackZIndex(ownerDocument: () => Document | undefined) {
+  const mounted = ref(false)
+  onMounted(() => {
+    mounted.value = true
+  })
+  return computed(() => (mounted.value ? Math.max(context.zIndex, getHighestPopupZIndex(ownerDocument())) + 1 : 2000))
 }

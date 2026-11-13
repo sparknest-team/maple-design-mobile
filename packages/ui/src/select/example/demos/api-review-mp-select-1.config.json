@@ -259,7 +259,7 @@
     {
       "name": "hint",
       "type": "boolean",
-      "defaultValue": "true",
+      "defaultValue": "false",
       "description": "源码公开属性 / Public source prop",
       "kind": "boolean"
     },

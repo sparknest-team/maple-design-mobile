@@ -227,6 +227,7 @@ describe('test button component props', () => {
     const wrapper = mount(VarButton, {
       props: {
         color: '#000',
+        variant: 'default',
       },
     })
     expect(wrapper.attributes('style')).toMatch('background: rgb(0, 0, 0)')
@@ -237,6 +238,7 @@ describe('test button component props', () => {
     const wrapper = mount(VarButton, {
       props: {
         elevation: 4,
+        variant: 'default',
       },
     })
     expect(wrapper.find('.mp-elevation--4').exists()).toBe(true)

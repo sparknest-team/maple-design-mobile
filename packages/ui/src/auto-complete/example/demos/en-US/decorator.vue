@@ -13,13 +13,11 @@ const options = ['Cedar', 'Maple']
       :options="options"
       :variant="variant"
       :placeholder="variant"
-      hint
       clearable
     />
     <mp-auto-complete
       v-model="value"
       :options="options"
-      hint
       placeholder="Custom colors"
       focus-color="#6750a4"
       text-color="#386a20"

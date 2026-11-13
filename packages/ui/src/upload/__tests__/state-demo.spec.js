@@ -2,7 +2,7 @@ import { mount } from '@vue/test-utils'
 import { expect, test } from 'vitest'
 import Upload from '..'
 import { useDemoControls } from '../../../test-utils/demo-controls'
-import Demo from '../example/demos/state-controls.vue'
+import Demo from '../example/regressions/state-controls.vue'
 
 useDemoControls()
 

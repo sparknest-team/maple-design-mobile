@@ -11,6 +11,7 @@ describe('ButtonGroup composition contract', () => {
     })
     const override = mount(ButtonGroup, { attrs: { role: 'presentation', 'aria-labelledby': 'actions-heading' } })
     try {
+      expect(w.get('button').classes()).toContain('mp-button--variant-outline')
       expect(w.attributes('role')).toBe('group')
       expect(w.attributes('aria-label')).toBe('Document actions')
       expect(w.attributes('tabindex')).toBeUndefined()
@@ -20,6 +21,14 @@ describe('ButtonGroup composition contract', () => {
     } finally {
       w.unmount()
       override.unmount()
+    }
+  })
+  test('does not add a default shadow to solid groups', () => {
+    const w = mount(ButtonGroup, { props: { variant: 'default' } })
+    try {
+      expect(w.classes().some((c) => /elevation--\d/.test(c))).toBe(false)
+    } finally {
+      w.unmount()
     }
   })
   test.each(['status', 'variant', 'size'] as const)('warns on invalid %s using the Button value contract', (key) => {
@@ -48,7 +57,7 @@ describe('ButtonGroup composition contract', () => {
     const blocked = vi.fn(),
       enabled = vi.fn()
     const w = mount(ButtonGroup, {
-      props: { disabled: true, size: 'lg', elevation: 8 },
+      props: { disabled: true, size: 'lg', variant: 'default', elevation: 8 },
       slots: {
         default: () => [
           h(Button, { onClick: blocked }, () => 'Inherited'),

@@ -154,6 +154,9 @@ duration 应为有限非负数；负数、NaN、Infinity 等非法值不调度�
 
 `default`、`icon`、`action`。
 
+
+消息层级会自动保持在当前文档内活动的弹层之上，也会跟随新打开的弹层和显式 `zIndex` 的变化。消息不会接管弹窗焦点或 Esc 处理。`--mp-message-z-index` 用于设置消息层级下限；自定义挂载容器仍需避免被祖先的层叠上下文或裁剪限制。
+
 ## CSS Variables
 
 颜色命名为 `--mp-message-{variant}-{status}-{bg|content-color|icon-color|border-color|close-color}`。bg 控制面板底，content-color 控制正文与未单独设色的 action，icon-color 控制状态图标，border-color 控制边线，close-color 控制关闭按钮。自定义背景时需要同时验证三个前景。几何变量保留端侧密度，不要求两端强行同值。变量必须作用于实际 Teleport 容器祖先。

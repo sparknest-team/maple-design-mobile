@@ -4,6 +4,8 @@ export type UploadStatus = 'ready' | 'reading' | 'uploading' | 'success' | 'erro
 
 export type UploadListType = 'text' | 'picture' | 'picture-card'
 
+export type UploadTriggerPosition = 'before' | 'after'
+
 export type UploadImageFit = 'fill' | 'contain' | 'cover' | 'none' | 'scale-down'
 
 export type UploadResolveType = 'file' | 'data-url' | 'object-url'

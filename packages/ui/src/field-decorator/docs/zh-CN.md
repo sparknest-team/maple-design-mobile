@@ -6,7 +6,7 @@ FieldDecorator 是 Input、Textarea、Select 与日期时间控件的展示外�
 
 - 三种变体：`outline`（默认）、`filled`、`standard`。消费者可以显式选择自己的默认变体。
 - 五种尺寸：`xs / sm / md / lg / xl`，默认 `md`；具体高度使用各端 token。
-- `hint` 在两端默认均为 `true`；Input 在 FormItem 已有外部标签时关闭浮动提示。
+- `hint` 在两端默认均为 `false`；Input 在 FormItem 已有外部标签时关闭浮动提示。
 - 有内容且可编辑时才渲染清除按钮；`0` 算非空，`[]` 算空。Cedar 在 hover/focus 时显示，Maple 常驻；触屏媒体条件下 Cedar 也常驻。
 - 默认按钮通过各端全局语言系统读取无障碍文案，不维护组件私有词典。
 - 内容列尺寸使用 ResizeObserver 观察，支持前缀变化及隐藏容器重新显示；卸载时清理监听。
@@ -52,7 +52,7 @@ FieldDecorator 是 Input、Textarea、Select 与日期时间控件的展示外�
 | `size` | `ComponentSize`<br>`'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `md`，实现全部五档尺寸 |
 | `variant` | `'outline' \| 'filled' \| 'standard'` | `outline` |
 | `placeholder` | `string` | 浮动标签文本 |
-| `hint` | `boolean` | `true` |
+| `hint` | `boolean` | `false` |
 | `hint-center` | `boolean` | `true`；多行控件设为 false |
 | `line` | `boolean` | `true`，是否显示边框或底线 |
 | `focused` | `boolean` | 消费者传入焦点状态 |

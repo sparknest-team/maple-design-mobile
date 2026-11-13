@@ -105,12 +105,11 @@ shouldOpen 控制是否允许展开，filterOption 控制逐项过滤；它们�
 
 | 配置          | 作用                                         | 相关示例                         |
 | ------------- | -------------------------------------------- | -------------------------------- |
-| `options`     | 候选；支持分组，value 唯一，选择后转为字符串 | 自定义字段与内容、外观与浮动提示 |
-| `placeholder` | 占位文字或浮动提示内容                       | 自定义字段与内容、外观与浮动提示 |
+| `options`     | 候选；支持分组，value 唯一，选择后转为字符串 | 自定义字段与内容、外观与颜色 |
+| `placeholder` | 占位文字或浮动提示内容                       | 自定义字段与内容、外观与颜色 |
 | `field-names` | 映射 value、label、disabled 等字段           | 自定义字段与内容                 |
-| `variant`     | 输入外观；未设置时继承 Group                 | 外观与浮动提示                   |
-| `hint`        | 启用 Input 的浮动提示                        | 外观与浮动提示                   |
-| `clearable`   | 允许清除可编辑的非空值                       | 外观与浮动提示                   |
+| `variant`     | 输入外观；未设置时继承 Group                 | 外观与颜色                   |
+| `clearable`   | 允许清除可编辑的非空值                       | 外观与颜色                   |
 
 <!-- demo-config-notes:end -->
 
@@ -118,7 +117,7 @@ shouldOpen 控制是否允许展开，filterOption 控制逐项过滤；它们�
 ../example/demos/zh-CN/footer.vue
 ```
 
-### 外观与浮动提示
+### 外观与颜色
 
 ```demo
 ../example/demos/zh-CN/decorator.vue

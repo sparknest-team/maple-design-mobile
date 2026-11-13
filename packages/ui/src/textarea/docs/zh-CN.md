@@ -219,7 +219,7 @@ FormItem 先校验候选值，失败时保持编辑；通过后再执行 before-
 | aria-label | 输入框无障碍标签 | `string` | `-` |
 | autofocus | 是否自动聚焦 | `boolean` | `false` |
 | enterkeyhint | 移动端回车键提示 | `string` | `-` |
-| hint | 是否将 placeholder 用作浮动提示文字 | `boolean` | `true` |
+| hint | 是否将 placeholder 用作浮动提示文字 | `boolean` | `false` |
 | line | 是否显示边框或底线 | `boolean` | `true` |
 | text-color | 文字颜色 | `string` | `-` |
 | focus-color | 聚焦颜色 | `string` | `-` |

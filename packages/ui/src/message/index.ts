@@ -1,5 +1,6 @@
 import type { App, AppContext } from 'vue'
 import { createVNode, defineComponent, h, nextTick, render, shallowReactive } from 'vue'
+import { useFeedbackZIndex } from '../context/zIndex'
 import { resolvePopupContainer } from '../utils/popup-container'
 import MessageContextRoot from './context-root'
 import MessageComponentSource from './Message.vue'
@@ -50,52 +51,57 @@ class MessageManager {
     target.appendChild(this.host)
 
     const Host = defineComponent({
-      setup: () => () =>
-        h(
-          'div',
-          {
-            class: ['mp-message-list', `mp-message-list-${position}`],
-          },
-          this.items.map((item) => {
-            const { id, revision, content, icon, action, onOpen, onOpened, onClose, onClosed, ...componentProps } = item
-            void revision
-            void onClosed
-            return h(MessageContextRoot, {
-              key: this.contexts.get(item)!.key,
-              appContext: this.contexts.get(item)!.appContext,
-              renderVNode: () =>
-                h(
-                  MessageComponentSource as any,
-                  {
-                    ...componentProps,
-                    key: id,
-                    ref: (instance: { restartTimer?: () => void } | null) => {
-                      if (instance) {
-                        this.instances.set(id, instance)
-                      } else {
-                        this.instances.delete(id)
-                      }
-                    },
-                    popupContainer: false,
-                    'onUpdate:open': (open: boolean) => {
-                      if (!open) {
-                        this.close(item)
-                      }
-                    },
-                    onOpen,
-                    onOpened,
-                    onClose: () => onClose?.(item.id),
-                    onClosed: () => this.finishClose(item),
-                  } as any,
-                  {
-                    default: () => renderContent(content),
-                    icon: icon == null ? undefined : () => renderContent(icon),
-                    action: action == null ? undefined : () => renderContent(action),
-                  } as any,
-                ),
-            })
-          }),
-        ),
+      setup: () => {
+        const zIndex = useFeedbackZIndex(() => target.ownerDocument)
+        return () =>
+          h(
+            'div',
+            {
+              style: { '--mp-internal-message-z-index': zIndex.value },
+              class: ['mp-message-list', `mp-message-list-${position}`],
+            },
+            this.items.map((item) => {
+              const { id, revision, content, icon, action, onOpen, onOpened, onClose, onClosed, ...componentProps } =
+                item
+              void revision
+              void onClosed
+              return h(MessageContextRoot, {
+                key: this.contexts.get(item)!.key,
+                appContext: this.contexts.get(item)!.appContext,
+                renderVNode: () =>
+                  h(
+                    MessageComponentSource as any,
+                    {
+                      ...componentProps,
+                      key: id,
+                      ref: (instance: { restartTimer?: () => void } | null) => {
+                        if (instance) {
+                          this.instances.set(id, instance)
+                        } else {
+                          this.instances.delete(id)
+                        }
+                      },
+                      popupContainer: false,
+                      'onUpdate:open': (open: boolean) => {
+                        if (!open) {
+                          this.close(item)
+                        }
+                      },
+                      onOpen,
+                      onOpened,
+                      onClose: () => onClose?.(item.id),
+                      onClosed: () => this.finishClose(item),
+                    } as any,
+                    {
+                      default: () => renderContent(content),
+                      icon: icon == null ? undefined : () => renderContent(icon),
+                      action: action == null ? undefined : () => renderContent(action),
+                    } as any,
+                  ),
+              })
+            }),
+          )
+      },
     })
     const vnode = createVNode(Host)
     vnode.appContext = appContext ?? defaultAppContext

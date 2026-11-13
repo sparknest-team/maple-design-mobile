@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 
 const value = ref('09:00')
-const hint = ref(true)
+const hint = ref(false)
 const error = ref(false)
 const line = ref(true)
 </script>

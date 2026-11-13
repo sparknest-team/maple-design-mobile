@@ -13,7 +13,6 @@ const value = ref('可编辑的审查内容')
     <mp-field-decorator
       :value="value"
       placeholder="字段标签"
-      hint
       clearable
       v-bind="__apiReview.bindings"
       @clear="value = ''"

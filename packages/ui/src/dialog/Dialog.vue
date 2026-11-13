@@ -45,7 +45,7 @@
         >
           <div
             v-if="!hideTitle && ($slots.title || title || closable)"
-            :class="classes(n('title'), n(`title--${titleAlign}`))"
+            :class="classes(n('title'), n(`title--${titleAlign}`), [topDivider, n('title--divider')])"
             @pointerdown="drag.handlePointerDown"
           >
             <div v-if="$slots.title || title" :class="n('title-content')">
@@ -68,7 +68,10 @@
             </button>
           </div>
 
-          <div :class="[n('message'), bodyClass]" :style="[{ textAlign: messageAlign }, bodyStyle]">
+          <div
+            :class="[n('message'), bodyClass, { [n('message--bottom-divider')]: bottomDivider && showFooter }]"
+            :style="[{ textAlign: messageAlign }, bodyStyle]"
+          >
             <PendingFeedback
               :loading="
                 dialog.pending.value && (dialog.pendingAction.value === 'close' || !showFooter || !!$slots.footer)
@@ -76,11 +79,11 @@
             /><slot>{{ message }}</slot>
           </div>
 
-          <slot v-if="showFooter" name="footer" :cancel="handleCancel" :confirm="handleConfirm" :close="handleClose">
-            <div :class="n('actions')">
+          <div v-if="showFooter" :class="n('actions')">
+            <slot name="footer" :cancel="handleCancel" :confirm="handleConfirm" :close="handleClose">
               <mp-button
                 v-if="cancelButton"
-                variant="text"
+                variant="outline"
                 v-bind="cancelButtonProps"
                 :loading="mergedCancelButtonLoading"
                 :disabled="mergedCancelButtonDisabled"
@@ -92,7 +95,8 @@
               </mp-button>
               <mp-button
                 v-if="confirmButton"
-                variant="text"
+                status="primary"
+                variant="default"
                 v-bind="confirmButtonProps"
                 :loading="mergedConfirmButtonLoading"
                 :disabled="mergedConfirmButtonDisabled"
@@ -104,8 +108,8 @@
               >
                 {{ confirmButtonText ?? dialogText('dialogConfirmButtonText', defaultDialogConfirm) }}
               </mp-button>
-            </div>
-          </slot>
+            </slot>
+          </div>
         </div>
       </component>
     </div>

@@ -5,8 +5,8 @@ import Upload from '..'
 import Button from '../../button'
 import { RadioGroup } from '../../radio'
 import Space from '../../space'
-import EnglishDemo from '../example/demos/en-US/prepare-request.vue'
-import Demo from '../example/demos/prepare-request.vue'
+import EnglishDemo from '../example/regressions/en-US/prepare-request.vue'
+import Demo from '../example/regressions/prepare-request.vue'
 
 vi.mock('@maple-design/ui-vue', () => import('..'))
 

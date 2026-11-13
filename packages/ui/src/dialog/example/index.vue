@@ -8,6 +8,7 @@ import BasicUsageDemo from './demos/basic-usage.vue'
 import ConfirmBoxDemo from './demos/confirm-box.vue'
 import CustomButtonTextDemo from './demos/custom-button-text.vue'
 import CustomFooterDemo from './demos/custom-footer.vue'
+import DividersDemo from './demos/dividers.vue'
 import DraggableDemo from './demos/draggable.vue'
 import FormDialogDemo from './demos/form-dialog.vue'
 import FunctionCallDemo from './demos/function-call.vue'
@@ -96,6 +97,11 @@ onThemeChange()
   <section data-demo="custom-footer">
     <app-type>{{ english ? 'Custom Footer' : 'custom footer' }}</app-type>
     <CustomFooterDemo />
+  </section>
+
+  <section data-demo="dividers">
+    <app-type>{{ english ? 'Header and footer dividers' : '上下分割线' }}</app-type>
+    <DividersDemo />
   </section>
 
   <section data-demo="custom-button-text">

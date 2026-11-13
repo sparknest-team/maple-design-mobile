@@ -1,9 +1,20 @@
-import { createApp, createSSRApp, h, nextTick } from 'vue'
+import { createApp, createSSRApp, h, nextTick, transformVNodeArgs } from 'vue'
 import { renderToString } from '@vue/server-renderer'
-import { flushPromises, mount } from '@vue/test-utils'
-import { describe, expect, test, vi } from 'vitest'
+import { flushPromises, mount as mountComponent } from '@vue/test-utils'
+import { afterEach, describe, expect, test, vi } from 'vitest'
 import Dialog, { _DialogComponent as DialogComponent, dialogProps } from '..'
-import { delay, triggerKeyboard } from '../../utils/test'
+import { triggerKeyboard } from '../../utils/test'
+
+const owners = []
+function mount(...args) {
+  const wrapper = mountComponent(...args)
+  owners.push(wrapper)
+  return wrapper
+}
+afterEach(() => {
+  owners.splice(0).forEach((wrapper) => wrapper.unmount())
+  transformVNodeArgs()
+})
 
 function mountDialog(props = {}, slots = {}) {
   return mount(DialogComponent, { props: { open: true, popupContainer: false, ...props }, slots })
@@ -52,20 +63,37 @@ describe('dialog props', () => {
 
   test('configures buttons through ButtonProps', () => {
     const wrapper = mountDialog({
-      confirmButtonProps: { variant: 'default', status: 'danger' },
-      cancelButtonProps: { disabled: true },
+      confirmButtonProps: { variant: 'text', status: 'danger' },
+      cancelButtonProps: { variant: 'tonal', disabled: true },
     })
     expect(wrapper.find('.mp-dialog__confirm-button').classes()).toContain('mp-button--status-danger')
-    expect(wrapper.find('.mp-dialog__confirm-button').classes()).toContain('mp-button--variant-default')
+    expect(wrapper.find('.mp-dialog__confirm-button').classes()).toContain('mp-button--variant-text')
+    expect(wrapper.find('.mp-dialog__cancel-button').classes()).toContain('mp-button--variant-tonal')
     expect(wrapper.find('.mp-dialog__cancel-button').attributes('disabled')).toBeDefined()
   })
 
   test('uses the Button color system for default actions', () => {
     const wrapper = mountDialog()
-    expect(wrapper.find('.mp-dialog__confirm-button').classes()).toContain('mp-button--status-default')
+    expect(wrapper.find('.mp-dialog__confirm-button').classes()).toContain('mp-button--status-primary')
     expect(wrapper.find('.mp-dialog__cancel-button').classes()).toContain('mp-button--status-default')
-    expect(wrapper.find('.mp-dialog__confirm-button').classes()).toContain('mp-button--variant-text')
-    expect(wrapper.find('.mp-dialog__cancel-button').classes()).toContain('mp-button--variant-text')
+    expect(wrapper.find('.mp-dialog__confirm-button').classes()).toContain('mp-button--variant-default')
+    expect(
+      wrapper
+        .find('.mp-dialog__confirm-button')
+        .classes()
+        .some((name) => /elevation--\d/.test(name)),
+    ).toBe(false)
+    expect(wrapper.find('.mp-dialog__cancel-button').classes()).toContain('mp-button--variant-outline')
+  })
+
+  test('keeps custom footer content in the actions container outside the scrolling body', () => {
+    const wrapper = mountDialog({}, { footer: () => h('button', { 'data-custom-footer': '' }, 'Continue') })
+    try {
+      expect(wrapper.get('.mp-dialog__actions [data-custom-footer]').text()).toBe('Continue')
+      expect(wrapper.find('.mp-dialog__message [data-custom-footer]').exists()).toBe(false)
+    } finally {
+      wrapper.unmount()
+    }
   })
 
   test('renders close button with accessible name', () => {
@@ -102,12 +130,15 @@ describe('dialog actions', () => {
   })
 
   test('waits for asynchronous beforeClose', async () => {
-    const wrapper = mountDialog({
-      beforeClose: (_action, done) => setTimeout(done, 20),
+    let allowClose
+    const pending = new Promise((resolve) => {
+      allowClose = resolve
     })
+    const wrapper = mountDialog({ beforeClose: () => pending })
     await wrapper.get('.mp-dialog__confirm-button').trigger('click')
     expect(wrapper.emitted('confirm')).toBeUndefined()
-    await delay(30)
+    allowClose()
+    await flushPromises()
     expect(wrapper.emitted('confirm')).toHaveLength(1)
   })
 
@@ -181,7 +212,7 @@ describe('dialog slots and instance', () => {
       props: { open: true, popupContainer: false },
     })
     await nextTick()
-    await delay(0)
+    await flushPromises()
     const buttons = wrapper.findAll('button')
     buttons.at(-1).element.focus()
     await wrapper.get('[role="dialog"]').trigger('keydown', { key: 'Tab' })

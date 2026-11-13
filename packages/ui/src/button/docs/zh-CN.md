@@ -21,7 +21,7 @@ Button 的禁用配色按变体区分：彩色实心使用淡化状态背景；t
 
 | 配置 | 作用 | 相关示例 |
 | --- | --- | --- |
-| `variant` | 外观；省略时继承按钮组，否则 default | 变体、状态与尺寸、自定义颜色 |
+| `variant` | 外观；省略时继承按钮组，否则 outline | 变体、状态与尺寸、自定义颜色 |
 | `size` | 尺寸；省略时继承按钮组，否则 md | 变体、状态与尺寸、五档尺寸 |
 | `status` | 主题色；省略时继承按钮组，否则 default | 变体、状态与尺寸 |
 | `disabled` | 禁用；省略时继承按钮组，显式 false 可覆盖 | 禁用与链接拦截 |
@@ -65,7 +65,7 @@ Button 的禁用配色按变体区分：彩色实心使用淡化状态背景；t
 | 配置 | 作用 | 相关示例 |
 | --- | --- | --- |
 | `status` | 主题色；省略时继承按钮组，否则 default | 图标与图文布局 |
-| `variant` | 外观；省略时继承按钮组，否则 default | 图标与图文布局 |
+| `variant` | 外观；省略时继承按钮组，否则 outline | 图标与图文布局 |
 | `size` | 尺寸；省略时继承按钮组，否则 md | 图标与图文布局 |
 | `stacked` | 图标文字纵向排列；省略时继承按钮组 | 图标与图文布局 |
 | `round` | 圆形按钮 | 图标与图文布局 |
@@ -132,7 +132,7 @@ Button 的禁用配色按变体区分：彩色实心使用淡化状态背景；t
 | 配置 | 作用 | 相关示例 |
 | --- | --- | --- |
 | `size` | 尺寸；省略时继承按钮组，否则 md | 表单控件尺寸对照 |
-| `variant` | 外观；省略时继承按钮组，否则 default | 表单控件尺寸对照 |
+| `variant` | 外观；省略时继承按钮组，否则 outline | 表单控件尺寸对照 |
 | `html-type` | 原生按钮类型 | 原生表单、焦点与触摸事件 |
 | `focusable` | 允许 Tab 顺序聚焦；不影响通过代码聚焦 | 原生表单、焦点与触摸事件 |
 <!-- demo-config-notes:end -->
@@ -205,7 +205,7 @@ Button 的禁用配色按变体区分：彩色实心使用淡化状态背景；t
 | 属性          | 说明                                                                                             | 类型                                      | 默认值         |
 | ------------- | ------------------------------------------------------------------------------------------------ | ----------------------------------------- | -------------- |
 | status        | 主题色；省略时继承按钮组，否则 default                                                           | `SemanticStatus`<br>`'default' \| 'primary' \| 'secondary' \| 'tertiary' \| 'info' \| 'success' \| 'warning' \| 'danger'` | `undefined`    |
-| variant       | 外观；省略时继承按钮组，否则 default                                                             | `default / text / outline / tonal`        | `undefined`    |
+| variant       | 外观；省略时继承按钮组，否则 outline                                                             | `default / text / outline / tonal`        | `undefined`    |
 | size          | 尺寸；省略时继承按钮组，否则 md                                                                  | `xs / sm / md / lg / xl`                  | `undefined`    |
 | html-type     | 原生按钮类型                                                                                     | `button / submit / reset`                 | `button`       |
 | component     | 根标签，链接属性通过 attrs 传入                                                                  | `button / a`                              | `button`       |
@@ -222,7 +222,7 @@ Button 的禁用配色按变体区分：彩色实心使用淡化状态背景；t
 | autofocus     | 原生自动聚焦                                                                                     | `boolean`                                 | `false`        |
 | text-color    | 自定义文字色                                                                                     | `string`                                  | `undefined`    |
 | color         | 自定义背景／变体基色                                                                             | `string`                                  | `undefined`    |
-| elevation     | default 变体阴影；true 为 2，false 关闭，数字四舍五入并限制 0～24；组内由组控制                  | `boolean / number`                        | `true`         |
+| elevation     | default 变体阴影；true 为 1，false 关闭，数字四舍五入并限制 0～24；组内由组控制                  | `boolean / number`                        | `false`         |
 | stacked       | 图标文字纵向排列；省略时继承按钮组                                                               | `boolean`                                 | `undefined`    |
 
 ### Button Events
@@ -251,13 +251,13 @@ Button 的禁用配色按变体区分：彩色实心使用淡化状态背景；t
 | --- | --- | --- | --- |
 | status | 子按钮默认语义状态；子按钮可覆盖 | `SemanticStatus`<br>`'default' \| 'primary' \| 'secondary' \| 'tertiary' \| 'info' \| 'success' \| 'warning' \| 'danger'` | default |
 | size | 子按钮默认尺寸；子按钮可覆盖 | xs / sm / md / lg / xl | undefined |
-| variant | 子按钮默认外观；相邻按钮按生效变体拼接，允许混合 | default / text / outline / tonal | default |
+| variant | 子按钮默认外观；相邻按钮按生效变体拼接，允许混合 | default / text / outline / tonal | outline |
 | color | 子按钮默认自定义色；子按钮可覆盖 | string | undefined |
 | text-color | 子按钮默认文字色；子按钮可覆盖 | string | undefined |
 | disabled | 子按钮默认禁用状态；显式 false 可覆盖组 true | boolean | false |
 | stacked | 默认图文纵排；子按钮可显式 false 覆盖 | boolean | false |
 | vertical | 按钮组纵向排列，独立于按钮内部 stacked | boolean | false |
-| elevation | 组整体阴影；true 为 2，数值归一化到 0–24；仅 default 变体且组未禁用时生效 | boolean / number | true |
+| elevation | 组整体阴影；true 为 1，数值归一化到 0–24；仅 default 变体且组未禁用时生效 | boolean / number | false |
 
 根元素默认 `role="group"`；使用 `aria-label` 或 `aria-labelledby` 为需要命名的操作组提供名称。原生属性可覆盖 role，普通按钮组仍使用 Tab / Enter / Space，不自动接管方向键。
 

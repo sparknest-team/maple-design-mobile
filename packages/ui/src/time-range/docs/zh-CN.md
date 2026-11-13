@@ -29,7 +29,7 @@
 
 <!-- demo-config-notes:end -->
 
-`hint` 控制浮动提示（Cedar 默认 false，Maple 默认 true），有 Form 外置标签时不启用。`line` 默认 true；`text-color / focus-color / blur-color` 为可选颜色字符串。`error` 未设置时继承 Form，显式 false 覆盖错误态。TimeRange 的 `separator` 默认 `~`，允许空字符串。Cedar 与 Maple 的字段默认均为 outline；可显式指定 filled 或 standard。
+`hint` 控制浮动提示（Cedar 与 Maple 默认均为 false），有 Form 外置标签时不启用。`line` 默认 true；`text-color / focus-color / blur-color` 为可选颜色字符串。`error` 未设置时继承 Form，显式 false 覆盖错误态。TimeRange 的 `separator` 默认 `~`，允许空字符串。Cedar 与 Maple 的字段默认均为 outline；可显式指定 filled 或 standard。
 
 字段顶层负责值、默认值、展开、格式、步长、边界、禁用规则和只读/禁用状态。请直接在字段上设置这些属性，不放进 timeRangePickerProps。嵌套配置只允许对应面板的展示属性；不能通过模型/确认/选择事件替换字段流程。类型会拒绝此类配置，运行时也过滤，且不会把嵌套规则作为顶层未设置时的回退。
 
@@ -362,7 +362,7 @@ open/defaultOpen、disabled、trigger、closeOnClickReference、preventFocus 和
 | `focus-color` | 聚焦时的颜色 | `string` | 主题缺省 |
 | `format` | 字符串解析、显示及输出格式；十二小时缺省带 a | `string` | 按 use12Hours |
 | `hide-disabled-options` | 隐藏禁用时间选项；时钟保留刻度位置 | `boolean` | `false` |
-| `hint` | 浮动占位提示；存在 Form 外置标签时不浮动 | `boolean` | `true` |
+| `hint` | 浮动占位提示；存在 Form 外置标签时不浮动 | `boolean` | `false` |
 | `input-editable` | 允许手输；不影响面板选择入口 | `boolean` | `false` |
 | `input-attrs` | 按顺序设置起点、终点原生输入属性；单项名称优先于公共名称 | `RangeInputAttributes[]` | `undefined` |
 | `line` | 显示外壳边框或底线 | `boolean` | `true` |

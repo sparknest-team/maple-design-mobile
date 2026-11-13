@@ -1,5 +1,7 @@
 @import '../../style/theme/local-scope.less';
 :root {
+  --mp-dialog-divider-color: var(--mp-sys-color-border-default);
+  --mp-dialog-divider-width: 1px;
   --mp-dialog-background: var(--mp-sys-color-surface-raised);
   --mp-dialog-overlay-background: var(--mp-sys-color-scrim);
   --mp-dialog-border-color: transparent;
@@ -7,6 +9,7 @@
   --mp-dialog-border-radius: 3px;
   --mp-dialog-width: 280px;
   --mp-dialog-margin-top: 0;
+  --mp-dialog-max-height: 90vh;
   --mp-dialog-title-text-color: var(--mp-sys-color-content-primary);
   --mp-dialog-title-font-size: var(--mp-sys-font-size-lg);
   --mp-dialog-title-font-weight: var(--mp-sys-font-weight-regular);
@@ -38,4 +41,11 @@
   --mp-dialog-fullscreen-height: 100vh;
   --mp-dialog-animation-duration: var(--mp-sys-motion-duration-slow);
   --mp-dialog-animation-easing: var(--mp-sys-motion-easing-standard);
+}
+
+@supports (height: 100dvh) {
+  :root {
+    --mp-dialog-max-height: 90dvh;
+    --mp-dialog-fullscreen-height: 100dvh;
+  }
 }

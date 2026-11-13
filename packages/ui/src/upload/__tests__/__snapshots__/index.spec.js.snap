@@ -4,8 +4,8 @@ exports[`upload disabled 1`] = `
 "<div class="mp-upload mp-upload--text"><input class="mp-upload__input" type="file">
   <div class="mp-upload__content">
     <!--v-if-->
-    <div class="mp-upload__trigger" role="button" tabindex="0" aria-disabled="false"><span aria-hidden="true">＋</span><span>上传</span></div>
     <div class="mp-upload__list"></div>
+    <div class="mp-upload__trigger" role="button" tabindex="0" aria-disabled="false"><span aria-hidden="true">＋</span><span>上传</span></div>
   </div><!-- Keep an inline Teleport inside a fragment for Vue 3.2 hydration. -->
   <!--v-if-->
   <!--teleport start-->
@@ -17,7 +17,6 @@ exports[`upload disabled 2`] = `
 "<div class="mp-upload mp-upload--text"><input class="mp-upload__input" type="file" disabled="">
   <div class="mp-upload__content">
     <!--v-if-->
-    <div class="mp-upload__trigger" role="button" aria-disabled="true"><span aria-hidden="true">＋</span><span>上传</span></div>
     <div class="mp-upload__list">
       <div class="mp-upload__item mp-upload__item--ready">
         <!--v-if-->
@@ -40,6 +39,7 @@ exports[`upload disabled 2`] = `
         </div>
       </div>
     </div>
+    <div class="mp-upload__trigger" role="button" aria-disabled="true"><span aria-hidden="true">＋</span><span>上传</span></div>
   </div><!-- Keep an inline Teleport inside a fragment for Vue 3.2 hydration. -->
   <!--v-if-->
   <!--teleport start-->
@@ -51,8 +51,8 @@ exports[`upload hideList 1`] = `
 "<div class="mp-upload mp-upload--text"><input class="mp-upload__input" type="file">
   <div class="mp-upload__content">
     <!--v-if-->
-    <div class="mp-upload__trigger" role="button" tabindex="0" aria-disabled="false"><span aria-hidden="true">＋</span><span>上传</span></div>
     <!--v-if-->
+    <div class="mp-upload__trigger" role="button" tabindex="0" aria-disabled="false"><span aria-hidden="true">＋</span><span>上传</span></div>
   </div><!-- Keep an inline Teleport inside a fragment for Vue 3.2 hydration. -->
   <!--v-if-->
   <!--teleport start-->
@@ -64,8 +64,8 @@ exports[`upload length over maxFiles in multiple mode 1`] = `
 "<div class="mp-upload mp-upload--text"><input class="mp-upload__input" type="file">
   <div class="mp-upload__content">
     <!--v-if-->
-    <div class="mp-upload__trigger" role="button" tabindex="0" aria-disabled="false"><span aria-hidden="true">＋</span><span>上传</span></div>
     <div class="mp-upload__list"></div>
+    <div class="mp-upload__trigger" role="button" tabindex="0" aria-disabled="false"><span aria-hidden="true">＋</span><span>上传</span></div>
   </div><!-- Keep an inline Teleport inside a fragment for Vue 3.2 hydration. -->
   <!--v-if-->
   <!--teleport start-->
@@ -77,7 +77,6 @@ exports[`upload progress 1`] = `
 "<div class="mp-upload mp-upload--text"><input class="mp-upload__input" type="file">
   <div class="mp-upload__content">
     <!--v-if-->
-    <div class="mp-upload__trigger" role="button" tabindex="0" aria-disabled="false"><span aria-hidden="true">＋</span><span>上传</span></div>
     <div class="mp-upload__list">
       <div class="mp-upload__item mp-upload__item--uploading">
         <!--v-if-->
@@ -99,6 +98,7 @@ exports[`upload progress 1`] = `
         </div>
       </div>
     </div>
+    <div class="mp-upload__trigger" role="button" tabindex="0" aria-disabled="false"><span aria-hidden="true">＋</span><span>上传</span></div>
   </div><!-- Keep an inline Teleport inside a fragment for Vue 3.2 hydration. -->
   <!--v-if-->
   <!--teleport start-->
@@ -110,7 +110,6 @@ exports[`upload remove button slot 1`] = `
 "<div class="mp-upload mp-upload--text"><input class="mp-upload__input" type="file">
   <div class="mp-upload__content">
     <!--v-if-->
-    <div class="mp-upload__trigger" role="button" tabindex="0" aria-disabled="false"><span aria-hidden="true">＋</span><span>上传</span></div>
     <div class="mp-upload__list">
       <div class="mp-upload__item mp-upload__item--undefined">
         <!--v-if-->
@@ -130,6 +129,7 @@ exports[`upload remove button slot 1`] = `
         </div>
       </div>
     </div>
+    <div class="mp-upload__trigger" role="button" tabindex="0" aria-disabled="false"><span aria-hidden="true">＋</span><span>上传</span></div>
   </div><!-- Keep an inline Teleport inside a fragment for Vue 3.2 hydration. -->
   <!--v-if-->
   <!--teleport start-->

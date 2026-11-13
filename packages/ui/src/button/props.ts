@@ -62,8 +62,8 @@ export const buttonProps = {
   textColor: String,
   /** 自定义背景／变体基色 */
   color: String,
-  /** 阴影；true 为等级 2，false 为无，数字 0～24 */
-  elevation: { type: [Boolean, Number] as PropType<boolean | number>, default: true },
+  /** 阴影；true 为等级 1，false 为无，数字 0～24 */
+  elevation: { type: [Boolean, Number] as PropType<boolean | number>, default: false },
   /** 图标文字纵向排列，省略时继承按钮组 */
   stacked: { type: Boolean, default: undefined },
 }

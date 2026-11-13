@@ -1,6 +1,6 @@
 .mp-message-list {
   position: fixed;
-  z-index: var(--mp-message-z-index);
+  z-index: ~'max(var(--mp-message-z-index), var(--mp-internal-message-z-index, 0))';
   right: 0;
   left: 0;
   display: flex;
@@ -29,7 +29,7 @@
 
   &__standalone {
     position: fixed;
-    z-index: var(--mp-message-z-index);
+    z-index: ~'max(var(--mp-message-z-index), var(--mp-internal-message-z-index, 0))';
     left: 50%;
     transform: translateX(-50%);
   }

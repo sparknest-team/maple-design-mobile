@@ -243,7 +243,7 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 | placeholder | Placeholder or floating hint text | `string` | `-` |
 | size | `xs`, `sm`, `md`, `lg`, or `xl` | `ComponentSize`<br>`'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `md` |
 | variant | `filled`, `outline`, or `standard` | `string` | `outline` |
-| hint | Use the placeholder as a floating hint | `boolean` | `true` |
+| hint | Use the placeholder as a floating hint | `boolean` | `false` |
 | clearable | Show a persistent clear icon while editable and nonempty | `boolean` | `false` |
 | model-event | Model notification timing; change always denotes a commit | `'change' \| 'input'` | `'change'` |
 | readonly | Whether readonly | `boolean` | `false` |

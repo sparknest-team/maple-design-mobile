@@ -1,221 +1,150 @@
 # Upload
 
-For photos, set `accept="image/*"`. Leaving `capture` unset or setting `:capture="false"` keeps the system file/photo picker available. Only set `capture` to `true`, `'user'` or `'environment'` when camera capture is intended. Available choices depend on the device and browser.
-
-Disabled downloads match Link/Button link mode: remove href while retaining the link role, `aria-disabled` and `tabindex=-1`, and cancel the default click action. `readonly` still allows downloading. Re-enabling restores the original file URL and download filename.
-
-Without action / custom-request, the component only reads files; the application manages progress and results.
+Select files by clicking or dragging, with image lists, previews and controlled uploads. Examples use local files and simulated requests.
 
 ## Basic examples
 
-### read-only
+### Basic usage
+
+Choose one or more local files and remove them from the list. Without action / custom-request, files are read locally without requests.
 
 ```demo
 ../example/demos/en-US/read-only.vue
 ```
 
-### Basic usage
+### List types
+
+Switch between text, picture and picture-card using the same file list. Add or remove files, then switch layouts without losing the selection.
 
 ```demo
-../example/demos/en-US/basic-usage.vue
+../example/demos/en-US/list-type.vue
 ```
 
-## Appearance and states
+### Upload trigger position
 
-### Dynamic readonly and disabled states
-
-Toggle readonly and disabled around a synthetic local image. The selection callback only increments a counter; it opens no file chooser and sends no request. Readonly preserves preview, while disabled blocks it. Removing restrictions restores actions. Restore sample replaces the parent-owned model, not the Upload reset method.
+Switch the entry between before and after the file list, then compare the three list types. The default places the entry after the list. Switching position keeps the selected files and their order.
 
 ```demo
-../example/demos/state-controls.vue
+../example/demos/en-US/trigger-position.vue
 ```
 
-### Queue states
+## Selection and validation
+
+### Drag and drop
+
+Click the drop zone or drag images into it, then click a thumbnail to preview. Touch devices can use the file picker.
 
 ```demo
-../example/demos/en-US/state.vue
+../example/demos/en-US/draggable-picture.vue
 ```
 
-### Interaction state comparison
+### File validation
 
-Toggle disabled, read-only and error states, then interact with the same instance. Recovery controls remain outside the target; error appearance alone does not validate data.
-
-<details>
-<summary>Configuration details and limits</summary>
-
-#### Interaction states
-
-Use this example for attachment lists and local file selection. Adjust disabled, read-only and compare the component with the same data. The controls remain available to restore editing; error appearance alone does not run validation.
-
-</details>
+Accept images only, up to 3 files and 2 MiB per image. Rejections show a reason; remove an image to make room for another.
 
 ```demo
-../example/demos/state-lab.vue
+../example/demos/en-US/picture-limits.vue
 ```
 
-### custom-surface
+### Single file and replacement
+
+Use max-files="1" with reupload. Click the replacement action to choose a new image; the list keeps one file.
 
 ```demo
-../example/demos/en-US/custom-surface.vue
+../example/demos/en-US/replacement.vue
 ```
 
-### Custom file item
+### Select a directory
+
+Select a folder to list its files. Use ordinary multiple selection on browsers or devices without directory support.
 
 ```demo
-../example/demos/en-US/custom-render.vue
+../example/demos/en-US/directory.vue
 ```
 
-### Custom remove button
-
-```demo
-../example/demos/en-US/remove-button-slot.vue
-```
-
-### Custom trigger
-
-```demo
-../example/demos/en-US/style.vue
-```
-
-### Custom preview
-
-```demo
-../example/demos/en-US/custom-preview.vue
-```
+## Preview and states
 
 ### Image and video preview
+
+Preview the included image, or select a local video and click its thumbnail to play it. Turn preview off to disable the built-in viewer.
 
 ```demo
 ../example/demos/en-US/preview.vue
 ```
 
-## File sources and validation
+### Readonly, disabled and reading mode
 
-### Directory selection and multiple-file fallback
-
-Compose paste events with the existing addFiles API. Keep a regular file picker on mobile; no network requests are sent.
+Switch the same data between editable, readonly, disabled and reading modes. Readonly keeps preview; disabled blocks interaction; reading mode shows the value without the upload editor.
 
 ```demo
-../example/demos/directory.vue
+../example/demos/en-US/states.vue
 ```
 
-### Custom file chooser
+### Custom trigger and preview
+
+Customize the trigger and remove action with slots, and use the preview event to open a custom preview Dialog.
 
 ```demo
-../example/demos/en-US/click-action.vue
+../example/demos/en-US/custom-surface.vue
 ```
 
-### Clipboard images and file validation
+## Upload workflow
+
+### Manual upload, progress and retry
+
+Choose files or add a sample, then start uploading. Cancel active uploads and retry a simulated first failure. A local timer simulates requests without sending files.
 
 ```demo
-../example/demos/clipboard.vue
+../example/demos/en-US/manual-upload.vue
 ```
 
-### Validation after replacement
+### Confirm before removing
 
-Reverse completion order: reset while the old task is pending, add a new file, resolve the newest thumbnail first, then reject the oldest. The stale failure only settles its task; it must not report read-error, remove the accepted new item or increment decoding counts. Reset clears the list and counters afterward. This remains local callback concurrency, not a native reader error.
-
-Pause local thumbnail promise uses the public create-thumbnail-url callback with manual resolve/reject, not native FileReader fault injection. Reset invalidates the old transaction but retains its Demo task to demonstrate late delivery. A new addition starts immediately; resolving the stale task must not append it, while resolving the new task does. Rejection reports read-error and a subsequent addition can recover. Suspension/unmount settles Demo tasks. Reset and KeepAlive suspension detach the old serial wait chain without physically canceling a business promise; custom URLs remain caller-owned.
-
-Enable native Blob/object-url to create local blob: URLs with URL.createObjectURL for subsequent accepted Files. It takes priority over data-url without rereading existing items. Blob URLs counts current blob items; Decoded images accumulates load events from both image modes until reset. The component releases its owned URLs on removal, reset and unmount.
-
-Enable the FileReader/data-url switch before adding small images to read accepted replacement Files using the browser's native FileReader. The 16px images verify decoding; Data URLs counts current data-url items, while Decoded images accumulates load events until reset. Removing an item removes its image but does not decrement that cumulative count; reset clears both. Type rejection happens before reading. Generated local Files are not native file-chooser or network-upload coverage.
-
-The switch affects subsequent additions without rereading existing items. Add file/data-url/file items to fill the three slots: another addition reports max-files without changing the image or decoding counts. Remove the data-url item and add again to read the new file and increment the cumulative decoding count. Reset clears the mixed queue.
-
-This demo feeds synthetic images through the public `useUploader.addFiles` method and displays the controlled queue with Upload. Add a small image, then replace an image with text or an image larger than 1 MiB to see `accept` / `max-file-size` rejections. After resetting, the third 768 KiB image exceeds the 2 MiB total limit; reset again and the fourth small image hits `max-files`. Removing an accepted item frees a slot. All checks run after `before-read` returns its replacement, with no network request.
+Removing a file opens a confirmation Dialog. Cancel keeps the file; confirm removes it.
 
 ```demo
-../example/demos/en-US/replacement-validation.vue
+../example/demos/en-US/remove-confirm.vue
 ```
 
-### Batch filtering
+### Externally managed upload state
 
-```demo
-../example/demos/en-US/before-add.vue
-```
-
-### Before reading
-
-```demo
-../example/demos/en-US/before-read.vue
-```
-
-### File size and count limits
-
-Choose local files exceeding the size or count limits and inspect the rejection feedback. Selection limits are separate from request preparation and upload queues.
-
-```demo
-../example/demos/en-US/selection-limits-comparison.vue
-```
-
-## Queues and progress
-
-### Application-managed progress
-
-Add local sample items to see externally managed progress at 40%, then complete the active uploads. Completion only updates items that are still uploading: canceled items remain canceled and removed items do not reappear. The built-in request retry button is hidden; use “Retry externally” to restart canceled or failed items before completing them. This demo makes no network requests.
+Manage progress and results through the read event. Add a sample and complete it to see the controlled list update; no built-in request is used.
 
 ```demo
 ../example/demos/en-US/external-state.vue
 ```
 
-### External progress
+## Composed examples
+
+### External upload button
+
+Hide the built-in trigger and call chooseFile() from an external button. Place the button before or after the list without changing the files.
 
 ```demo
-../example/demos/en-US/use-progress.vue
+../example/demos/en-US/external-trigger.vue
 ```
 
-### queue-request
+### Upload in a Dialog
 
-Add a generated example file or choose a local file; neither sends a network request. Submit manually, observe progress, cancel, and retry. Enable the first-attempt failure option to exercise error recovery. Active requests return to zero after completion, cancellation, failure, or leaving the demo.
+Open a Dialog to select or drop images and preview them. Closing keeps the selection so you can continue next time.
 
 ```demo
-../example/demos/en-US/queue-request.vue
+../example/demos/en-US/dialog-upload.vue
 ```
 
-## Async hooks and requests
+### Paste clipboard images
 
-### Before removing
-
-With manual async confirmation enabled, the synchronous allow switch is ignored. Repeated removal of a pending file invokes one hook. Cancel keeps the file; resolving after disabling also keeps it, and a fresh removal is required after re-enabling. Counters expose the list, pending tasks, hook calls and remove notifications. Deactivation/unmount settles local tasks without network requests.
-
-All extra controls are local. Reject removal rejects the pending Promise, keeps the file and allows a fresh attempt. Replace same UID file creates a new local File; an old confirmation must not remove that replacement. Reset upload queue invokes public reset without a late remove notification. Activate upload suspends/restores Upload through KeepAlive; the outer Demo keeps pending jobs for manual completion, whose old results must stay invalid after activation. Suspending Upload does not physically cancel external business Promises; leaving the whole Demo settles its local jobs.
+Paste images into the input area and use useUploader.addFiles to reuse reading and validation. Ordinary text keeps its native input behavior.
 
 ```demo
-../example/demos/en-US/before-remove.vue
-```
-
-### Preparation and cancellation races
-
-For cancellation plus total-size retry, prepare two items, cancel, then submit again: four jobs remain pending, including two obsolete attempts. Resolving all jobs starts only one valid request. The over-limit item retains its original file and canceled status; it is not counted as a new failure or automatically restored to ready. Remove the successful item and resubmit the remaining item to succeed. Obsolete preparation results consume no extra capacity.
-
-In the total-size example, a 600B replacement fits the individual limit, but two replacements exceed the 1024B total limit. One request starts; the other item retains its original file and reports max-total-size. Remove the successful item, then prepare the remaining item again to free capacity. Reset clears the queue and pending preparations. This example uses local generated files and simulated requests.
-
-“Prepare and submit” pauses before-upload; repeated submission does not duplicate the same attempt. Cancel and submit again, then resolve both preparations: only the current valid attempt starts a request. Text and oversized replacements are rechecked against the image type and 1 KiB size limit. Rejected items stay ready and can be retried with a valid copy. The demo uses public useUploader and immediate local requests. Resetting, deactivation and unmounting release pending preparations.
-
-```demo
-../example/demos/en-US/prepare-request.vue
-```
-
-### Async request metadata
-
-Configure a local receiver you control, then resolve headers and data separately to exercise the default XHR transport. Resolving only one does not send; cancel before resolving the other to prevent the request. The receiver can inspect `X-Demo-Upload`, `auditMarker` and the `attachment` file field; its response is shown below. The endpoint starts empty, with no external upload service configured. The receiver must allow the documentation origin through CORS. Only generated synthetic text is used.
-
-Use Reject headers / Reject data to fail a preparation: the current attempt becomes error once. Retry before settling the other old Promise to verify that its late result cannot overwrite the new attempt. Rejections after cancellation do not add errors. Resolve/reject buttons settle all pending jobs of that kind, including obsolete ones, to make races observable; reset drains pending jobs. A preparation rejection is not an HTTP error.
-
-```demo
-../example/demos/en-US/metadata-request.vue
-```
-
-### Delayed request handles
-
-The local custom-request returns a Promise. Return an old handle after cancellation to see abort called immediately; its late success cannot restore the canceled item. Cancel, start again, and return all handles and callbacks: only the current attempt succeeds once. Counters show callbacks accepted by the queue, not real transmission. No network is used; reset, deactivation and unmounting release local waits.
-
-```demo
-../example/demos/en-US/late-request.vue
+../example/demos/en-US/clipboard.vue
 ```
 
 ## Usage notes
+
+### File selection and device support
+
+For photos, use `accept="image/*"`. Leave `capture` unset or set `:capture="false"` to keep the system file/photo picker. Use `capture` only for direct camera capture; available choices depend on the browser and device.
 
 ### Editing and confirmation
 
@@ -263,6 +192,8 @@ In field confirmation mode, confirmation waits for file preparation and before h
 `beforeUpload` returning `false` or resolving to `false` is a business veto: no transport starts, the item stays `ready`, and neither `error` nor `rejected` is emitted. Throwing or rejecting is a preparation failure: no transport starts, the item becomes `error`, and the existing `error(item)` event reports the original cause as `item.error` exactly once. This event covers preparation and transport failures; it does not imply an HTTP request was sent. Both outcomes permit a later submission with a valid hook result. Notification return Promises do not hold the preparation task open. Obsolete or canceled attempts cannot report a new `error`.
 ### Configuration
 
+Use `trigger-position="before"` or `trigger-position="after"` to place the built-in entry before or after the file list; the default is after. This also applies to the `trigger` slot and drag-and-drop entry. Values describe DOM order and are not rewritten in RTL. For fully external buttons, set `:show-upload-button="false"` and call the instance method `chooseFile()`.
+
 Public variable suffixes match across platforms; all defaults appear below with c/mp prefixes respectively.
 
 ## API
@@ -292,6 +223,7 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 | draggable | `boolean` | `false` | Enable drag and drop |
 | disabled | `boolean` | `undefined` | Disable interaction; inherits Form, explicit false overrides |
 | readonly | `boolean` | `undefined` | Read-only; inherits Form, explicit false overrides |
+| read-pretty | `boolean` | `undefined` | Pure reading mode: hides the editor and shows the field value. Inherits from FormItem / Form; explicit false overrides inheritance. Resolves to false when unset. |
 | action | `string` | `undefined` | Upload request URL |
 | method | `string` | `'post'` | Upload request method |
 | headers | `UploadHeaders` | `undefined` | Request headers object or async function; preparation remains cancelable |
@@ -312,6 +244,7 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 | is-success-response | `UploadIsSuccessResponse` | `undefined` | Custom success predicate; defaults to HTTP 2xx |
 | request-choose | `UploadRequestChoose` | `undefined` | Own the selection entry; exceptions do not automatically open a file chooser |
 | list-type | `'text' \| 'picture' \| 'picture-card'` | `'text'` | File list appearance; supported on both platforms |
+| trigger-position | `'before' \| 'after'` | `'after'` | Place the upload entry before or after the file list; applies to every list-type, custom trigger slots and drag-and-drop entries. Values describe DOM order and are not rewritten in RTL. |
 | image-fit | `'fill' \| 'contain' \| 'cover' \| 'none' \| 'scale-down'` | `'cover'` | Thumbnail fit; item.fit overrides |
 | preview | `boolean` | `true` | Enable built-in image / video preview |
 | show-file-list | `boolean` | `true` | Show the file list |
@@ -374,7 +307,7 @@ Cancellation covers before-upload, asynchronous headers/data/name and asynchrono
 
 ## Types
 
-UploadProps、UploadEmits、UploadSlots、UploadExpose、UploadPublicMethods、UploadFileItem、UploadStatus、UploadListType、UploadResolveType、UploadImageFit、UploadCapture、UploadRejectedFile、UploadRejectedReason、UploadRequestOptions、UploadRequest、UploadCustomRequest、UploadProgressEvent、UploadData、UploadHeaders、UploadBeforeRead、UploadBeforeUpload、UploadBeforeRemove、UploadCreateThumbnailUrl、UploadIsSuccessResponse、UploadRequestChoose、UploadPreviewEvent、UseUploaderOptions、UploadInstance。
+UploadProps、UploadEmits、UploadSlots、UploadExpose、UploadPublicMethods、UploadFileItem、UploadStatus、UploadListType、UploadTriggerPosition、UploadResolveType、UploadImageFit、UploadCapture、UploadRejectedFile、UploadRejectedReason、UploadRequestOptions、UploadRequest、UploadCustomRequest、UploadProgressEvent、UploadData、UploadHeaders、UploadBeforeRead、UploadBeforeUpload、UploadBeforeRemove、UploadCreateThumbnailUrl、UploadIsSuccessResponse、UploadRequestChoose、UploadPreviewEvent、UseUploaderOptions、UploadInstance。
 
 ## CSS Variables
 

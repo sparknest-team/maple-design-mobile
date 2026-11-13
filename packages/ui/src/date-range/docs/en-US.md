@@ -518,7 +518,7 @@ When FormItem's `label-attrs.for` explicitly targets one input, unnamed range en
 | `error` | Field error presentation, inherited when unset | `boolean` | Inherited, finally false |
 | `focus-color` | Color while focused | `string` | Theme default |
 | `format` | Display/text-input format; a function only formats without reverse text parsing | `string \| ((date: Date) => string)` | From precision/time settings |
-| `hint` | Floating placeholder hint, suppressed by an outer Form label | `boolean` | `true` |
+| `hint` | Floating placeholder hint, suppressed by an outer Form label | `boolean` | `false` |
 | `input-editable` | Allow text input without removing panel selection | `boolean` | `true` |
 | `input-attrs` | Native attributes for the start and end inputs, in order; per-input names override shared names | `RangeInputAttributes[]` | `undefined` |
 | `interactive-mode` | Maple calendar viewport mode, independent of field editing mode | `page \| scroll \| line` | `page` |

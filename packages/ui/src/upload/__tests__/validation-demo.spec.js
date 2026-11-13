@@ -4,8 +4,8 @@ import Upload from '..'
 import { useDemoControls } from '../../../test-utils/demo-controls'
 import Button from '../../button'
 import Space from '../../space'
-import EnglishDemo from '../example/demos/en-US/replacement-validation.vue'
-import Demo from '../example/demos/replacement-validation.vue'
+import EnglishDemo from '../example/regressions/en-US/replacement-validation.vue'
+import Demo from '../example/regressions/replacement-validation.vue'
 
 useDemoControls()
 

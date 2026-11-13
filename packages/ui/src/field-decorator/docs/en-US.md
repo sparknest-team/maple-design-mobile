@@ -41,7 +41,7 @@ The floating hint leaves a gap in the outline, aligned with the content column. 
 | `size` | `ComponentSize`<br>`'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `md`; implements all five sizes |
 | `variant` | `'outline' \| 'filled' \| 'standard'` | `outline` |
 | `placeholder` | `string` | Floating label text |
-| `hint` | `boolean` | `true` |
+| `hint` | `boolean` | `false` |
 | `hint-center` | `boolean` | `true`; use false for multiline controls |
 | `line` | `boolean` | `true`; whether to show a border or underline |
 | `focused` | `boolean` | Consumer-supplied focus state |

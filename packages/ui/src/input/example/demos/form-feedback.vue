@@ -7,7 +7,7 @@
       :validate-status="status"
       :help="status === 'error' ? '请输入账户后重试' : undefined"
     >
-      <mp-input v-model="model.account" placeholder="外置标签会关闭内部浮动提示" hint clearable />
+      <mp-input v-model="model.account" placeholder="请输入账户" clearable />
     </mp-form-item>
     <mp-button status="primary" :loading="status === 'validating'" @click="validate">模拟异步校验</mp-button>
   </mp-form>

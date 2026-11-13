@@ -6,6 +6,7 @@ import {
   onDeactivated,
   onMounted,
   provide,
+  shallowReactive,
   watch,
   type Ref,
 } from 'vue'
@@ -30,10 +31,24 @@ const registries = new WeakMap<Document, Registry>()
 function registryFor(document: Document) {
   let registry = registries.get(document)
   if (!registry) {
-    registry = { layers: new Map(), events: new WeakMap(), sequence: 0 }
+    registry = { layers: shallowReactive(new Map<symbol, Layer>()), events: new WeakMap(), sequence: 0 }
     registries.set(document, registry)
   }
   return registry
+}
+
+/** Read visual layers without joining focus or Escape dispatch. */
+export function getHighestPopupZIndex(ownerDocument: Document | undefined): number {
+  if (!ownerDocument) {
+    return 0
+  }
+  let highest = 0
+  for (const layer of registryFor(ownerDocument).layers.values()) {
+    if (Number.isFinite(layer.zIndex.value)) {
+      highest = Math.max(highest, layer.zIndex.value)
+    }
+  }
+  return highest
 }
 
 /** Each library owns its registry. Layers never register during server rendering. */

@@ -3,7 +3,7 @@ import { expect, test, vi } from 'vitest'
 import Upload from '..'
 import Button from '../../button'
 import Space from '../../space'
-import Demo from '../example/demos/late-request.vue'
+import Demo from '../example/regressions/late-request.vue'
 
 vi.mock('@maple-design/ui-vue', () => import('..'))
 

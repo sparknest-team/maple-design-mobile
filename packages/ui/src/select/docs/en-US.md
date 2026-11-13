@@ -451,7 +451,7 @@ Use `v-model`, `v-model:open` and `v-model:input-value` for controlled state. Cl
 | `readonly` | Read-only state; explicit values override inherited Form / Group state | `boolean` | `undefined` |
 | `error` | Error state; explicit values override inherited Form / Group state | `boolean` | `undefined` |
 | `placeholder` | Placeholder | `string` | `—` |
-| `hint` | Enable the floating hint | `boolean` | `true` |
+| `hint` | Enable the floating hint | `boolean` | `false` |
 | `line` | Show the underline in the standard variant | `boolean` | `true` |
 | `text-color` | Custom per-instance text color; prefer tokens for static themes | `string` | `—` |
 | `focus-color` | Custom per-instance focused color; prefer tokens for static themes | `string` | `—` |

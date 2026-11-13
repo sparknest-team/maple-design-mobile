@@ -45,7 +45,7 @@ export const fieldDecoratorProps = {
   /** 提示文字。 */
   placeholder: String,
   /** 是否启用浮动提示。 */
-  hint: { type: Boolean, default: true },
+  hint: { type: Boolean, default: false },
   /** 未浮起时是否垂直居中；多行控件可设为 false。 */
   hintCenter: { type: Boolean, default: true },
   /** 是否显示边框或底线。 */

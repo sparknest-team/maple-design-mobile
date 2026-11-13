@@ -60,7 +60,7 @@ When the end time is earlier than the start, `show-next-day` treats the end as t
 <!-- demo-config-notes:end -->
 
 
-hint controls the floating label (Cedar defaults to false, Maple to true) and is suppressed by an outer Form label. line defaults to true; text-color/focus-color/blur-color accept optional color strings. An unset error inherits Form state; explicit false overrides it. TimeRange separator defaults to `~` and accepts an empty string. Cedar and Maple fields both default to outline; filled and standard remain explicit options.
+hint controls the floating label (both Cedar and Maple default to false) and is suppressed by an outer Form label. line defaults to true; text-color/focus-color/blur-color accept optional color strings. An unset error inherits Form state; explicit false overrides it. TimeRange separator defaults to `~` and accepts an empty string. Cedar and Maple fields both default to outline; filled and standard remain explicit options.
 
 The field owns values, defaults, open state, format, steps, bounds, disabled rules and readonly/disabled state. Set these directly on the field, not inside timeRangePickerProps. Nested options customize presentation only; model/select/confirm listeners cannot replace the field flow. Types reject owner properties and runtime filtering removes them, even when a top-level constraint is unset.
 
@@ -395,7 +395,7 @@ When FormItem's `label-attrs.for` explicitly targets one input, unnamed range en
 | `focus-color` | Color while focused | `string` | Theme default |
 | `format` | String parsing, display and output format; 12-hour defaults include a | `string` | From use12Hours |
 | `hide-disabled-options` | Hide disabled time options; clocks retain tick positions | `boolean` | `false` |
-| `hint` | Floating placeholder hint, suppressed by an outer Form label | `boolean` | `true` |
+| `hint` | Floating placeholder hint, suppressed by an outer Form label | `boolean` | `false` |
 | `input-editable` | Allow text input without removing panel selection | `boolean` | `false` |
 | `input-attrs` | Native attributes for the start and end inputs, in order; per-input names override shared names | `RangeInputAttributes[]` | `undefined` |
 | `line` | Show the field border or underline | `boolean` | `true` |

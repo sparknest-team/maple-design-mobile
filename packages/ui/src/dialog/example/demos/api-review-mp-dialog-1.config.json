@@ -340,6 +340,20 @@
       "description": "源码公开属性 / Public source prop",
       "kind": "json",
       "initial": "{}"
+    },
+    {
+      "name": "top-divider",
+      "description": "标题与内容之间的分割线",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
+    },
+    {
+      "name": "bottom-divider",
+      "description": "内容与底部之间的分割线",
+      "type": "boolean",
+      "defaultValue": "false",
+      "kind": "boolean"
     }
   ],
   "methodNames": [

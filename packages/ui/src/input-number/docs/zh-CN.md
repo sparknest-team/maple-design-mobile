@@ -236,7 +236,7 @@ Maple 使用 edit-mode="popup" 点击值区域打开编辑面板；direct 直接
 | placeholder | 占位符，也可作为浮动提示文字 | `string` | `-` |
 | size | `xs`、`sm`、`md`、`lg` 或 `xl` | `ComponentSize`<br>`'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `md` |
 | variant | `filled`、`outline` 或 `standard` | `string` | `outline` |
-| hint | 是否将 placeholder 用作浮动提示文字 | `boolean` | `true` |
+| hint | 是否将 placeholder 用作浮动提示文字 | `boolean` | `false` |
 | clearable | 是否可清除；有值且可编辑时清除图标常驻显示 | `boolean` | `false` |
 | model-event | 模型通知时机；change 始终表示提交 | `'change' \| 'input'` | `'change'` |
 | readonly | 是否只读 | `boolean` | `false` |

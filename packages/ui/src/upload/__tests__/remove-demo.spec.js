@@ -2,7 +2,7 @@ import { flushPromises, mount } from '@vue/test-utils'
 import { expect, test } from 'vitest'
 import Upload from '..'
 import { useDemoControls } from '../../../test-utils/demo-controls'
-import Demo from '../example/demos/before-remove.vue'
+import Demo from '../example/regressions/before-remove.vue'
 
 useDemoControls()
 

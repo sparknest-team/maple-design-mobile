@@ -135,9 +135,17 @@ The preview demonstrates custom width, simple, draggable, and fullscreen dialogs
 ../example/demos/custom-footer.vue
 ```
 
+### Header and footer dividers
+
+Open the panel and toggle the two switches independently. Both dividers start off.
+
+```demo
+../example/demos/dividers.vue
+```
+
 ### Custom Button Text
 
-Confirm and cancel buttons use Button's `default` status and `text` variant unless `confirmButtonProps` or `cancelButtonProps` overrides them.
+The confirm button defaults to Button's `primary` status and solid `default` variant. The cancel button uses the `default` status and `outline` variant. Override either through `confirmButtonProps` or `cancelButtonProps`.
 
 ```demo
 ../example/demos/custom-button-text.vue
@@ -213,8 +221,12 @@ Function calls honor `popupContainer` from explicit configuration or `setDefault
 
 ### Dialog Props
 
+Both dividers default to off, matching Card. Enable `top-divider` and `bottom-divider` independently. A divider is only shown when its header or footer exists. Dialog also supports these options in simple mode and function calls (`topDivider` / `bottomDivider`).
+
 | Prop | Description | Type | Default |
 | ---------------------------------------------------- | ------------------------------- | --------------------------------------------- | ----------------- |
+| top-divider | Divider between the header and content | `boolean` | `false` |
+| bottom-divider | Divider between content and footer | `boolean` | `false` |
 | dir | Reading direction; inherits the source scope when omitted. Physical left/right placements keep their meaning. | `ReadingDirection` (`ltr` / `rtl`) | — |
 | `open` **(v-model)** | Visible state | `boolean` | `-` |
 | `default-open` | Initial uncontrolled state | `boolean` | `false` |
@@ -314,6 +326,8 @@ type DialogType = 'info' | 'success' | 'warning' | 'error'
 
 ## CSS Variables
 
+Normal and simple dialogs grow with their content up to `90dvh` (`90vh` fallback). Only the body scrolls; the title and footer remain visible. Customize `--mp-dialog-max-height` or `dialogStyle.maxHeight`; fullscreen dialogs use the full viewport height. Custom footer content stays in the non-scrolling actions container.
+
 Variables use `--mp-`, e.g. `--mp-dialog-width`, `--mp-dialog-background`, `--mp-dialog-border-radius`, `--mp-dialog-simple-width`, `--mp-dialog-fullscreen-width` and `--mp-dialog-close-button-color`.
 
 Color semantics match Cedar: `--mp-dialog-background` uses `surface-raised`; `--mp-dialog-overlay-background` controls scrim; titles/body use primary content and close controls secondary content. `--mp-dialog-status-{info|success|warning|danger}-color` uses readable content-info/success/warning/danger, not status fill. Business themes should override component variables; shared themes override system variables. Mobile borderless geometry/layout remain independent.
@@ -346,9 +360,12 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-dialog-content-line-height` | `24px` | `line-height` |
 | `--mp-dialog-content-padding` | `12px 20px` | `padding` |
 | `--mp-dialog-content-text-color` | `var(--mp-sys-color-content-primary)` | `color` |
-| `--mp-dialog-fullscreen-height` | `100vh` | `height` |
+| `--mp-dialog-divider-color` | `var(--mp-sys-color-border-default)` | `border-bottom` |
+| `--mp-dialog-divider-width` | `1px` | `border-bottom` |
+| `--mp-dialog-fullscreen-height` | `100vh`<br>`100dvh` | `height` |
 | `--mp-dialog-fullscreen-width` | `100vw` | `width` |
 | `--mp-dialog-margin-top` | `0` | `margin-top` |
+| `--mp-dialog-max-height` | `90vh`<br>`90dvh` | `max-height` |
 | `--mp-dialog-overlay-background` | `var(--mp-sys-color-scrim)` | `background-color` |
 | `--mp-dialog-simple-actions-gap` | `0` | `margin-top` |
 | `--mp-dialog-simple-border-radius` | `var(--mp-sys-radius-lg)` | `border-radius` |

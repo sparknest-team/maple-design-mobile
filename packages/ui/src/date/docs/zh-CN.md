@@ -557,7 +557,7 @@ datePickerProps/dateRangePickerProps 只配置展示，不能覆盖根模型、�
 | `error` | 字段错误展示；未设时继承 | `boolean` | 继承，最终 false |
 | `focus-color` | 聚焦时的颜色 | `string` | 主题缺省 |
 | `format` | 显示与手输格式；函数只展示，无反向手输解析 | `string \| ((date: Date) => string)` | 按精度/时间配置 |
-| `hint` | 浮动占位提示；存在 Form 外置标签时不浮动 | `boolean` | `true` |
+| `hint` | 浮动占位提示；存在 Form 外置标签时不浮动 | `boolean` | `false` |
 | `input-editable` | 允许手输；不影响面板选择入口 | `boolean` | `true` |
 | `interactive-mode` | Maple 日历视口模式；不是字段编辑模式 | `page \| scroll \| line` | `page` |
 | `line` | 显示外壳边框或底线 | `boolean` | `true` |

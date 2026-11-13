@@ -4,7 +4,7 @@ import Upload from '..'
 import { useDemoControls } from '../../../test-utils/demo-controls'
 import Button from '../../button'
 import Space from '../../space'
-import Demo from '../example/demos/metadata-request.vue'
+import Demo from '../example/regressions/metadata-request.vue'
 
 useDemoControls()
 

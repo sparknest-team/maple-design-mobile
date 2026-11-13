@@ -20,7 +20,7 @@
     },
     {
       "name": "variant",
-      "description": "外观；省略时继承按钮组，否则 default",
+      "description": "外观；省略时继承按钮组，否则 outline",
       "type": "\"default\" | \"text\" | \"outline\" | \"tonal\"",
       "defaultValue": "undefined",
       "kind": "enum",
@@ -181,9 +181,9 @@
     },
     {
       "name": "elevation",
-      "description": "default 变体阴影；true 为 2，false 关闭，数字四舍五入并限制 0～24；组内由组控制",
+      "description": "default 变体阴影；true 为 1，false 关闭，数字四舍五入并限制 0～24；组内由组控制",
       "type": "boolean / number",
-      "defaultValue": "true",
+      "defaultValue": "false",
       "kind": "json",
       "initial": "true"
     },

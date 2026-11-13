@@ -70,12 +70,18 @@ describe('Button shared contract', () => {
   })
   it('applies elevation and can turn it off', () => {
     expect(
-      render({ elevation: 4 })
+      render({ variant: 'default' })
+        .classes()
+        .some((c) => /elevation--\d/.test(c)),
+    ).toBe(false)
+    expect(render({ variant: 'default', elevation: true }).classes()).toContain('mp-elevation--1')
+    expect(
+      render({ variant: 'default', elevation: 4 })
         .classes()
         .some((c) => c.endsWith('elevation--4')),
     ).toBe(true)
     expect(
-      render({ elevation: false })
+      render({ variant: 'default', elevation: false })
         .classes()
         .some((c) => /elevation--\d/.test(c)),
     ).toBe(false)

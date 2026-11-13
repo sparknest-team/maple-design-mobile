@@ -6577,9 +6577,9 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | --- | --- | --- |
 | `--mp-button-border-radius` | `var(--mp-sys-radius-md)` | `border-bottom-left-radius`, `border-bottom-right-radius`, `border-radius`, `border-top-left-radius`, `border-top-right-radius` |
 | `--mp-button-content-gap` | `var(--mp-sys-space-3)` | `gap` |
-| `--mp-button-danger-color` | `var(--mp-sys-color-status-danger)` | `background-color` |
+| `--mp-button-danger-color` | `var(--mp-sys-color-status-danger)` | `background-color`, `color` |
 | `--mp-button-danger-disabled-color` | `rgb(var(--mp-danger-3))`<br>`rgba(var(--mp-danger-6), 0.5)` (`:root[maple-theme='dark']`) | `background-color`, `color` |
-| `--mp-button-danger-foreground-color` | `var(--mp-sys-color-content-danger)` | `color` |
+| `--mp-button-danger-foreground-color` | `var(--mp-button-danger-color)` | `color` |
 | `--mp-button-danger-tonal-color` | `rgb(var(--mp-danger-1))` | `background-color` |
 | `--mp-button-default-color` | `var(--mp-sys-color-surface-default)` | `background-color` |
 | `--mp-button-default-foreground-color` | `var(--mp-sys-color-content-primary)` | `background`, `background-color`, `color` |
@@ -6588,9 +6588,9 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-button-disabled-solid-text-color` | `var(--mp-sys-color-content-on-dark)`<br>`rgba(255, 255, 255, 0.3)` (`:root[maple-theme='dark']`) | `color` |
 | `--mp-button-disabled-text-color` | `var(--mp-sys-color-content-disabled)` | `color` |
 | `--mp-button-focus-color` | `var(--mp-sys-color-action-primary)` | `outline` |
-| `--mp-button-info-color` | `var(--mp-sys-color-status-info)` | `background-color` |
+| `--mp-button-info-color` | `var(--mp-sys-color-status-info)` | `background-color`, `color` |
 | `--mp-button-info-disabled-color` | `rgb(var(--mp-blue-3))`<br>`rgba(var(--mp-blue-6), 0.5)` (`:root[maple-theme='dark']`) | `background-color`, `color` |
-| `--mp-button-info-foreground-color` | `var(--mp-sys-color-content-info)` | `color` |
+| `--mp-button-info-foreground-color` | `var(--mp-button-info-color)` | `color` |
 | `--mp-button-info-tonal-color` | `rgb(var(--mp-blue-1))` | `background-color` |
 | `--mp-button-lg-height` | `56px` | `height`, `min-width`, `width` |
 | `--mp-button-lg-padding` | `0 var(--mp-sys-space-7)` | `padding` |
@@ -6600,9 +6600,9 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-button-md-padding` | `0 var(--mp-sys-space-6)` | `padding` |
 | `--mp-button-plain-state-opacity-active` | `1` | `opacity` |
 | `--mp-button-plain-state-opacity-hover` | `0.5` | `opacity` |
-| `--mp-button-primary-color` | `var(--mp-sys-color-action-primary)` | `background-color` |
+| `--mp-button-primary-color` | `var(--mp-sys-color-action-primary)` | `background-color`, `color` |
 | `--mp-button-primary-disabled-color` | `rgb(var(--mp-primary-3))`<br>`rgba(var(--mp-primary-6), 0.5)` (`:root[maple-theme='dark']`) | `background-color`, `color` |
-| `--mp-button-primary-foreground-color` | `var(--mp-sys-color-content-brand)` | `color` |
+| `--mp-button-primary-foreground-color` | `var(--mp-button-primary-color)` | `color` |
 | `--mp-button-primary-state-layer-color` | `var(--mp-button-solid-state-layer-color)` | `background-color` |
 | `--mp-button-primary-tonal-color` | `rgb(var(--mp-primary-1))` | `background-color` |
 | `--mp-button-secondary-color` | `rgb(var(--mp-gray-6))` | `background-color` |
@@ -6616,18 +6616,18 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-button-state-layer-color` | `var(--mp-sys-color-surface-page)` | `background-color` |
 | `--mp-button-state-opacity-active` | `0.12` | `opacity` |
 | `--mp-button-state-opacity-hover` | `0.08` | `opacity` |
-| `--mp-button-success-color` | `var(--mp-sys-color-status-success)` | `background-color` |
+| `--mp-button-success-color` | `var(--mp-sys-color-status-success)` | `background-color`, `color` |
 | `--mp-button-success-disabled-color` | `rgb(var(--mp-success-3))`<br>`rgba(var(--mp-success-6), 0.5)` (`:root[maple-theme='dark']`) | `background-color`, `color` |
-| `--mp-button-success-foreground-color` | `var(--mp-sys-color-content-success)` | `color` |
+| `--mp-button-success-foreground-color` | `var(--mp-button-success-color)` | `color` |
 | `--mp-button-success-tonal-color` | `rgb(var(--mp-success-1))` | `background-color` |
 | `--mp-button-tertiary-color` | `rgb(var(--mp-gray-7))` | `background-color` |
 | `--mp-button-tertiary-foreground-color` | `var(--mp-sys-color-content-secondary)` | `color` |
 | `--mp-button-tertiary-state-layer-color` | `var(--mp-sys-color-content-on-bright)`<br>`var(--mp-sys-color-content-on-dark)` (`:root[maple-theme='dark']`) | `background-color` |
 | `--mp-button-tertiary-text-color` | `var(--mp-sys-color-content-on-dark)`<br>`var(--mp-sys-color-content-on-bright)` (`:root[maple-theme='dark']`) | `color` |
 | `--mp-button-tertiary-tonal-color` | `rgb(var(--mp-gray-1))` | `background-color` |
-| `--mp-button-warning-color` | `var(--mp-sys-color-status-warning)` | `background-color` |
+| `--mp-button-warning-color` | `var(--mp-sys-color-status-warning)` | `background-color`, `color` |
 | `--mp-button-warning-disabled-color` | `rgb(var(--mp-warning-3))`<br>`rgba(var(--mp-warning-6), 0.5)` (`:root[maple-theme='dark']`) | `background-color`, `color` |
-| `--mp-button-warning-foreground-color` | `var(--mp-sys-color-content-warning)` | `color` |
+| `--mp-button-warning-foreground-color` | `var(--mp-button-warning-color)` | `color` |
 | `--mp-button-warning-tonal-color` | `rgb(var(--mp-warning-1))` | `background-color` |
 | `--mp-button-xl-height` | `64px` | `height`, `min-width`, `width` |
 | `--mp-button-xl-padding` | `0 var(--mp-sys-space-8)` | `padding` |
@@ -10413,7 +10413,7 @@ Use `v-model`, `v-model:open` and `v-model:input-value` for controlled state. Cl
 | `default-input-value` | Initial uncontrolled search text, independent of selection; read only at initialization | `string` | `''` |
 | `multiple` | Multiple selection; enables search by default | `boolean` | `false` |
 | `size` | Supports all five sizes; inherits group/form settings | `ComponentSize`<br>`'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `md` |
-| `variant` | filled, outline, standard; inherits InputGroup | `FieldDecoratorVariant`<br>`'filled' \| 'outline' \| 'standard'` | `filled` |
+| `variant` | filled, outline, standard; inherits InputGroup | `FieldDecoratorVariant`<br>`'filled' \| 'outline' \| 'standard'` | `outline` |
 | `disabled` | Disabled state; explicit values override inherited Form / Group state | `boolean` | `undefined` |
 | `readonly` | Read-only state; explicit values override inherited Form / Group state | `boolean` | `undefined` |
 | `error` | Error state; explicit values override inherited Form / Group state | `boolean` | `undefined` |
@@ -10547,7 +10547,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-cascader-popup-box-shadow` | `0 4px 10px rgb(0 0 0%)` | `box-shadow` |
 | `--mp-cascader-popup-color-border` | `var(--mp-color-fill-3)` | `border`, `border-inline-end`, `border-top` |
 | `--mp-cascader-popup-max-height` | `200px` | `height` |
-| `--mp-cascader-popup-padding-vertical` | `var(--mp-sys-space-2)` | `padding` |
+| `--mp-cascader-popup-padding-vertical` | `var(--mp-sys-space-2)` | `padding`, `padding-block-end` |
 | `--mp-cascader-size-item-height` | `36px` | `height`, `line-height` |
 | `--mp-cascader-size-item-icon` | `12px` | `height`, `width` |
 | `--mp-cascader-slide-margin` | `120px` | `margin-inline-start` |
@@ -12182,7 +12182,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-checkbox-animation-duration` | `var(--mp-sys-motion-duration-standard)` | `transition` |
 | `--mp-checkbox-control-border-radius` | `2px` | `border-radius` |
 | `--mp-checkbox-control-color` | `var(--mp-sys-color-content-secondary)` | `color` |
-| `--mp-checkbox-control-color-checked` | `var(--mp-sys-color-action-primary)` | `color`, `outline` |
+| `--mp-checkbox-control-color-checked` | `var(--mp-sys-color-action-primary)` | `color` |
 | `--mp-checkbox-control-color-disabled` | `var(--mp-sys-color-content-disabled)` | `color` |
 | `--mp-checkbox-control-color-error` | `var(--mp-sys-color-content-danger)` | `color` |
 | `--mp-checkbox-control-size` | `24px` | `height`, `width` |
@@ -12191,7 +12191,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-checkbox-label-gap` | `0` | `margin-inline-start` |
 | `--mp-checkbox-label-text-color` | `var(--mp-sys-color-content-primary)` | `color` |
 | `--mp-checkbox-label-text-color-disabled` | `var(--mp-sys-color-content-disabled)` | `color` |
-| `--mp-checkbox-mark-color` | `var(--mp-sys-color-content-on-bright)` | `background-color`, `color` |
+| `--mp-checkbox-mark-color` | `var(--mp-sys-color-content-on-dark)` | `background-color`, `color` |
 
 </div>
 
@@ -16555,7 +16555,7 @@ When FormItem's `label-attrs.for` explicitly targets one input, unnamed range en
 | `type` | Date precision; Cedar includes week/quarter, while Maple supports date/month/year | `date \| month \| year` | `date` |
 | `use-virtual-scroll` | Use virtual rendering for the Maple scroll viewport | `boolean` | `true` |
 | `value-format` | Serialized model format: Date, timestamp or format tokens, independent of display format | `string` | From precision/time settings |
-| `variant` | Field appearance | `filled \| outline \| standard` | `standard` |
+| `variant` | Field appearance | `filled \| outline \| standard` | `outline` |
 
 ### DateRange Events
 
@@ -18412,7 +18412,7 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 | `type` | Date precision; Cedar includes week/quarter, while Maple supports date/month/year | `date \| month \| year` | `date` |
 | `use-virtual-scroll` | Use virtual rendering for the Maple scroll viewport | `boolean` | `true` |
 | `value-format` | Serialized model format: Date, timestamp or format tokens, independent of display format | `string` | From precision/time settings |
-| `variant` | Field appearance | `filled \| outline \| standard` | `standard` |
+| `variant` | Field appearance | `filled \| outline \| standard` | `outline` |
 
 ### Date Events
 
@@ -18603,7 +18603,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-date-picker-range-background` | `var(--mp-color-primary-light-1)` | `background` |
 | `--mp-date-picker-range-disabled-background` | `var(--mp-color-fill-1)` | `background` |
 | `--mp-date-picker-range-preview-background` | `var(--mp-color-fill-2)` | `background` |
-| `--mp-date-picker-range-preview-outline` | `1px dashed var(--mp-color-primary)` | `outline` |
+| `--mp-date-picker-range-preview-outline` | `1px dashed var(--mp-sys-color-action-primary)` | `outline` |
 | `--mp-date-picker-shortcuts-column-width` | `128px` | `flex`, `width` |
 | `--mp-date-picker-title-background` | `var(--mp-date-picker-body-background-color)` | `background` |
 | `--mp-date-picker-title-color` | `var(--mp-color-text-1)` | `color` |
@@ -27254,6 +27254,9 @@ Document: llms/en-US/form.md
 
 # Form
 
+
+Horizontal FormItem uses zero Row gutter by default, preserving 16px item spacing at every size; size controls field height and typography. Explicit `row-props.gutter` remains an override. Input and selection fields default to outline; filled and standard remain explicit options.
+
 ## Field names
 
 When `validate-status="error"` has no automatic validation error, the field associates visible `help` text or slot content through `aria-describedby`, preserving any supplied description. An automatic error takes precedence.
@@ -34256,7 +34259,7 @@ function submit() {
 
 ### Field state and native input
 
-Unset disabled, readonly and error inherit from FormItem / Form. InputGroup supplies disabled, readonly, size and variant; explicit field values, including false, take precedence. The standalone variant remains filled. Deferred editors follow the same state and discard their draft when disabled or readonly.
+Unset disabled, readonly and error inherit from FormItem / Form. InputGroup supplies disabled, readonly, size and variant; explicit field values, including false, take precedence. The standalone variant defaults to outline. Deferred editors follow the same state and discard their draft when disabled or readonly.
 
 Native id, name, aria/data attributes, constraints and keyboard listeners belong to the actual input; class/style stay on the shell. The name submits the separate input draft, not the tag array. Controlled input drafts restore the accepted value. Composition publishes once and canceled sessions cannot publish later.
 
@@ -34390,7 +34393,7 @@ Public Props exclude the internal composition controls `baseCls`, `focused`, `di
 | readonly | Whether it is read-only mode | `boolean` | `-` |
 | clearable | Enables the clear action | `boolean` | `false` |
 | size | The size of the input | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
-| variant | The variant of the input | `'filled' \| 'outline' \| 'standard'` | `'filled'` |
+| variant | The variant of the input | `'filled' \| 'outline' \| 'standard'` | `'outline'` |
 | max-tag-count | Finite nonnegative integer; 0 is unlimited, invalid values diagnose and fall back to unlimited display | `number` | `0` |
 | retain-input-value | Whether to keep the content of the input box | `boolean \| { create?: boolean; blur?: boolean }` | `false` |
 | format-tag | Format tag content | `(data: TagData) => string` | `-` |
@@ -35846,7 +35849,7 @@ size/disabled/readonly inherit from child → InputGroup → FormItem/Form → l
 | ---------------------- | ------------------------------------------------------- | ----------------------------------------------------- |
 | `mp-input-password` | `visibility`, `default-visibility`, `visibility-toggle` | Password visibility; uncontrolled by default, with a visible toggle |
 | `mp-input-password` | `visibility-change`, `update:visibility` | Emitted on visibility changes with a `boolean` argument |
-| `mp-input-group` | `size`, `variant`, `disabled`, `readonly`, `hint` | Child Input defaults; `variant` defaults to `filled` |
+| `mp-input-group` | `size`, `variant`, `disabled`, `readonly`, `hint` | Child Input defaults; `variant` defaults to `outline` |
 | `mp-input-group-label` | Default slot | Text attachment for grouped inputs |
 
 ## CSS Variables
@@ -39519,6 +39522,9 @@ duration must be finite and nonnegative. Negative values, NaN and Infinity do no
 ### Message Slots
 
 `default`、`icon`、`action`。
+
+
+Messages automatically stay above active popup layers in their document, including newly opened popups and changes to explicit `zIndex` values, without taking over modal focus or Escape handling. `--mp-message-z-index` sets a minimum layer. Custom containers must still avoid ancestor stacking contexts and clipping.
 
 ## CSS Variables
 
@@ -47982,7 +47988,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-radio-action-padding` | `6px` | `padding` |
 | `--mp-radio-animation-duration` | `var(--mp-sys-motion-duration-standard)` | `transition` |
 | `--mp-radio-control-color` | `var(--mp-sys-color-content-secondary)` | `color` |
-| `--mp-radio-control-color-checked` | `var(--mp-sys-color-action-primary)` | `color`, `outline` |
+| `--mp-radio-control-color-checked` | `var(--mp-sys-color-action-primary)` | `color` |
 | `--mp-radio-control-color-disabled` | `var(--mp-sys-color-content-disabled)` | `color` |
 | `--mp-radio-control-color-error` | `var(--mp-sys-color-content-danger)` | `box-shadow`, `color` |
 | `--mp-radio-control-size` | `24px` | `font-size`, `height`, `width` |
@@ -53258,7 +53264,7 @@ Use `v-model`, `v-model:open` and `v-model:input-value` for controlled state. Cl
 | `default-input-value` | Initial uncontrolled search text, independent of selection; read only at initialization | `string` | `''` |
 | `multiple` | Multiple selection; enables search by default | `boolean` | `false` |
 | `size` | Supports all five sizes; inherits group/form settings | `ComponentSize`<br>`'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `md` |
-| `variant` | filled, outline, standard; inherits InputGroup | `FieldDecoratorVariant`<br>`'filled' \| 'outline' \| 'standard'` | `filled` |
+| `variant` | filled, outline, standard; inherits InputGroup | `FieldDecoratorVariant`<br>`'filled' \| 'outline' \| 'standard'` | `outline` |
 | `disabled` | Disabled state; explicit values override inherited Form / Group state | `boolean` | `undefined` |
 | `readonly` | Read-only state; explicit values override inherited Form / Group state | `boolean` | `undefined` |
 | `error` | Error state; explicit values override inherited Form / Group state | `boolean` | `undefined` |
@@ -53462,7 +53468,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-select-popup-option-bg-hover` | `var(--mp-sys-color-state-hover)` | `background`, `background-color` |
 | `--mp-select-popup-option-bg-selected` | `transparent` | `background`, `background-color` |
 | `--mp-select-popup-option-bg-selected-hover` | `var(--mp-select-popup-option-bg-hover)` | `background`, `background-color` |
-| `--mp-select-popup-option-border-radius` | `var(--mp-sys-radius-lg)` | `border-radius` |
+| `--mp-select-popup-option-border-radius` | `0` | `border-radius` |
 | `--mp-select-popup-option-check-color` | `var(--mp-sys-color-action-primary)` | `color` |
 | `--mp-select-popup-option-check-gap` | `var(--mp-sys-space-4)` | `margin-inline-start` |
 | `--mp-select-popup-option-check-size` | `var(--mp-sys-font-size-md)` | `height`, `width` |
@@ -53476,7 +53482,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-select-popup-option-text-color-hover` | `var(--mp-sys-color-content-primary)` | `color` |
 | `--mp-select-popup-option-text-color-selected` | `var(--mp-sys-color-action-primary)` | `color` |
 | `--mp-select-popup-padding-horizontal` | `0` | `padding-inline` |
-| `--mp-select-popup-padding-vertical` | `var(--mp-sys-space-2)` | `padding`, `padding-block` |
+| `--mp-select-popup-padding-vertical` | `var(--mp-sys-space-2)` | `padding`, `padding-block`, `padding-block-end`, `padding-block-start` |
 
 </div>
 
@@ -60208,7 +60214,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-switch-checked-text-color` | `var(--mp-switch-text-color)` | `color` |
 | `--mp-switch-disabled-opacity` | `0.5` | `opacity` |
 | `--mp-switch-duration` | `var(--mp-sys-motion-duration-standard)` | `transition` |
-| `--mp-switch-focus-width` | `2px` | `outline`, `outline-offset` |
+| `--mp-switch-focus-width` | `2px` | `box-shadow` |
 | `--mp-switch-font-size` | `var(--mp-sys-font-size-xs)` | `font-size` |
 | `--mp-switch-gap` | `var(--mp-sys-space-2)` | `inset-inline-start`, `padding-inline` |
 | `--mp-switch-handle-background` | `var(--mp-sys-color-surface-default)` | `background` |
@@ -60235,7 +60241,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-switch-tonal-text-color` | `var(--mp-sys-color-content-secondary)` | `color` |
 | `--mp-switch-tonal-track-background` | `var(--mp-sys-color-surface-muted)` | `background` |
 | `--mp-switch-tonal-width` | `52px` | `min-width` |
-| `--mp-switch-track-active-background` | `var(--mp-sys-color-action-primary)` | `background`, `outline` |
+| `--mp-switch-track-active-background` | `var(--mp-sys-color-action-primary)` | `background` |
 | `--mp-switch-track-background` | `var(--mp-sys-color-content-secondary)` | `background` |
 | `--mp-switch-track-error-background` | `var(--mp-sys-color-content-danger)` | `background`, `border-color` |
 | `--mp-switch-width` | `40px` | `min-width` |
@@ -60944,7 +60950,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-tab-bar-item-icon-size` | `22px` | `font-size` |
 | `--mp-tab-bar-item-inactive-color` | `var(--mp-color-text-2)` | `color` |
 | `--mp-tab-bar-item-line-height` | `1` | `line-height` |
-| `--mp-tab-bar-item-variant-active-background-color` | `color-mix(in srgb, var(--mp-color-primary) 14%, var(--mp-tab-bar-background-color))` | `background-color` |
+| `--mp-tab-bar-item-variant-active-background-color` | `color-mix(in srgb, var(--mp-sys-color-action-primary) 14%, var(--mp-tab-bar-background-color))` | `background-color` |
 | `--mp-tab-bar-item-variant-active-color` | `var(--mp-sys-color-action-primary)` | `color` |
 | `--mp-tab-bar-item-variant-icon-container-border-radius` | `100px` | `border-radius` |
 | `--mp-tab-bar-item-variant-icon-container-height` | `30px` | `height` |
@@ -62616,8 +62622,8 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-tag-blue-bg-hover` | `rgb(var(--mp-blue-2))`<br>`rgba(var(--mp-blue-6), 0.35)` (`:root[maple-theme='dark']`) | `background-color` |
 | `--mp-tag-blue-border-color` | `transparent` | `border` |
 | `--mp-tag-blue-border-color-hover` | `transparent` | `border-color` |
-| `--mp-tag-blue-icon-color` | `rgb(var(--mp-blue-9))` | `color` |
-| `--mp-tag-blue-text-color` | `rgb(var(--mp-blue-9))` | `border-color`, `color` |
+| `--mp-tag-blue-icon-color` | `rgb(var(--mp-blue-6))` | `color` |
+| `--mp-tag-blue-text-color` | `rgb(var(--mp-blue-6))` | `border-color`, `color` |
 | `--mp-tag-border-radius` | `var(--mp-sys-radius-md)` | `border-radius` |
 | `--mp-tag-border-type` | `solid` | `border` |
 | `--mp-tag-border-width` | `1px` | `border`, `line-height` |
@@ -62625,8 +62631,8 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-tag-brand-bg-hover` | `rgb(var(--mp-brand-2))`<br>`rgba(var(--mp-brand-6), 0.35)` (`:root[maple-theme='dark']`) | `background-color` |
 | `--mp-tag-brand-border-color` | `transparent` | `border` |
 | `--mp-tag-brand-border-color-hover` | `transparent` | `border-color` |
-| `--mp-tag-brand-icon-color` | `rgb(var(--mp-brand-9))` | `color` |
-| `--mp-tag-brand-text-color` | `rgb(var(--mp-brand-9))` | `border-color`, `color` |
+| `--mp-tag-brand-icon-color` | `rgb(var(--mp-brand-6))` | `color` |
+| `--mp-tag-brand-text-color` | `rgb(var(--mp-brand-6))` | `border-color`, `color` |
 | `--mp-tag-close-font-size` | `var(--mp-tag-size-md-font-size)` | `font-size` |
 | `--mp-tag-close-margin-left` | `var(--mp-sys-space-3)` | `margin-left`, `margin-right` |
 | `--mp-tag-custom-text-color` | `var(--mp-sys-color-content-on-dark)` | `color` |
@@ -62634,8 +62640,8 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-tag-cyan-bg-hover` | `rgb(var(--mp-cyan-2))`<br>`rgba(var(--mp-cyan-6), 0.35)` (`:root[maple-theme='dark']`) | `background-color` |
 | `--mp-tag-cyan-border-color` | `transparent` | `border` |
 | `--mp-tag-cyan-border-color-hover` | `transparent` | `border-color` |
-| `--mp-tag-cyan-icon-color` | `rgb(var(--mp-cyan-9))` | `color` |
-| `--mp-tag-cyan-text-color` | `rgb(var(--mp-cyan-9))` | `border-color`, `color` |
+| `--mp-tag-cyan-icon-color` | `rgb(var(--mp-cyan-6))` | `color` |
+| `--mp-tag-cyan-text-color` | `rgb(var(--mp-cyan-6))` | `border-color`, `color` |
 | `--mp-tag-default-bg` | `var(--mp-sys-color-state-hover)` | `background-color` |
 | `--mp-tag-default-bg-hover` | `var(--mp-color-fill-3)` | `background-color` |
 | `--mp-tag-default-border-color` | `transparent` | `border-color` |
@@ -62647,8 +62653,8 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-tag-gold-bg-hover` | `rgb(var(--mp-gold-2))`<br>`rgba(var(--mp-gold-6), 0.35)` (`:root[maple-theme='dark']`) | `background-color` |
 | `--mp-tag-gold-border-color` | `transparent` | `border` |
 | `--mp-tag-gold-border-color-hover` | `transparent` | `border-color` |
-| `--mp-tag-gold-icon-color` | `rgb(var(--mp-gold-9))` | `color` |
-| `--mp-tag-gold-text-color` | `rgb(var(--mp-gold-9))` | `border-color`, `color` |
+| `--mp-tag-gold-icon-color` | `rgb(var(--mp-gold-6))` | `color` |
+| `--mp-tag-gold-text-color` | `rgb(var(--mp-gold-6))` | `border-color`, `color` |
 | `--mp-tag-gray-bg` | `rgb(var(--mp-gray-2))`<br>`rgba(var(--mp-gray-6), 0.2)` (`:root[maple-theme='dark']`) | `background-color` |
 | `--mp-tag-gray-bg-hover` | `rgb(var(--mp-gray-3))`<br>`rgba(var(--mp-gray-6), 0.35)` (`:root[maple-theme='dark']`) | `background-color` |
 | `--mp-tag-gray-border-color` | `transparent` | `border` |
@@ -62659,53 +62665,53 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-tag-green-bg-hover` | `rgb(var(--mp-green-2))`<br>`rgba(var(--mp-green-6), 0.35)` (`:root[maple-theme='dark']`) | `background-color` |
 | `--mp-tag-green-border-color` | `transparent` | `border` |
 | `--mp-tag-green-border-color-hover` | `transparent` | `border-color` |
-| `--mp-tag-green-icon-color` | `rgb(var(--mp-green-9))` | `color` |
-| `--mp-tag-green-text-color` | `rgb(var(--mp-green-9))` | `border-color`, `color` |
+| `--mp-tag-green-icon-color` | `rgb(var(--mp-green-6))` | `color` |
+| `--mp-tag-green-text-color` | `rgb(var(--mp-green-6))` | `border-color`, `color` |
 | `--mp-tag-icon-margin-right` | `var(--mp-sys-space-3)` | `margin-left`, `margin-right` |
 | `--mp-tag-lime-bg` | `rgb(var(--mp-lime-1))`<br>`rgba(var(--mp-lime-6), 0.2)` (`:root[maple-theme='dark']`) | `background-color` |
 | `--mp-tag-lime-bg-hover` | `rgb(var(--mp-lime-2))`<br>`rgba(var(--mp-lime-6), 0.35)` (`:root[maple-theme='dark']`) | `background-color` |
 | `--mp-tag-lime-border-color` | `transparent` | `border` |
 | `--mp-tag-lime-border-color-hover` | `transparent` | `border-color` |
-| `--mp-tag-lime-icon-color` | `rgb(var(--mp-lime-9))` | `color` |
-| `--mp-tag-lime-text-color` | `rgb(var(--mp-lime-9))` | `border-color`, `color` |
+| `--mp-tag-lime-icon-color` | `rgb(var(--mp-lime-6))` | `color` |
+| `--mp-tag-lime-text-color` | `rgb(var(--mp-lime-6))` | `border-color`, `color` |
 | `--mp-tag-magenta-bg` | `rgb(var(--mp-magenta-1))`<br>`rgba(var(--mp-magenta-6), 0.2)` (`:root[maple-theme='dark']`) | `background-color` |
 | `--mp-tag-magenta-bg-hover` | `rgb(var(--mp-magenta-2))`<br>`rgba(var(--mp-magenta-6), 0.35)` (`:root[maple-theme='dark']`) | `background-color` |
 | `--mp-tag-magenta-border-color` | `transparent` | `border` |
 | `--mp-tag-magenta-border-color-hover` | `transparent` | `border-color` |
-| `--mp-tag-magenta-icon-color` | `rgb(var(--mp-magenta-9))` | `color` |
-| `--mp-tag-magenta-text-color` | `rgb(var(--mp-magenta-9))` | `border-color`, `color` |
+| `--mp-tag-magenta-icon-color` | `rgb(var(--mp-magenta-6))` | `color` |
+| `--mp-tag-magenta-text-color` | `rgb(var(--mp-magenta-6))` | `border-color`, `color` |
 | `--mp-tag-orange-bg` | `rgb(var(--mp-orange-1))`<br>`rgba(var(--mp-orange-6), 0.2)` (`:root[maple-theme='dark']`) | `background-color` |
 | `--mp-tag-orange-bg-hover` | `rgb(var(--mp-orange-2))`<br>`rgba(var(--mp-orange-6), 0.35)` (`:root[maple-theme='dark']`) | `background-color` |
 | `--mp-tag-orange-border-color` | `transparent` | `border` |
 | `--mp-tag-orange-border-color-hover` | `transparent` | `border-color` |
-| `--mp-tag-orange-icon-color` | `rgb(var(--mp-orange-9))` | `color` |
-| `--mp-tag-orange-text-color` | `rgb(var(--mp-orange-9))` | `border-color`, `color` |
+| `--mp-tag-orange-icon-color` | `rgb(var(--mp-orange-6))` | `color` |
+| `--mp-tag-orange-text-color` | `rgb(var(--mp-orange-6))` | `border-color`, `color` |
 | `--mp-tag-orangered-bg` | `rgb(var(--mp-orangered-1))`<br>`rgba(var(--mp-orangered-6), 0.2)` (`:root[maple-theme='dark']`) | `background-color` |
 | `--mp-tag-orangered-bg-hover` | `rgb(var(--mp-orangered-2))`<br>`rgba(var(--mp-orangered-6), 0.35)` (`:root[maple-theme='dark']`) | `background-color` |
 | `--mp-tag-orangered-border-color` | `transparent` | `border` |
 | `--mp-tag-orangered-border-color-hover` | `transparent` | `border-color` |
-| `--mp-tag-orangered-icon-color` | `rgb(var(--mp-orangered-9))` | `color` |
-| `--mp-tag-orangered-text-color` | `rgb(var(--mp-orangered-9))` | `border-color`, `color` |
+| `--mp-tag-orangered-icon-color` | `rgb(var(--mp-orangered-6))` | `color` |
+| `--mp-tag-orangered-text-color` | `rgb(var(--mp-orangered-6))` | `border-color`, `color` |
 | `--mp-tag-padding-horizontal` | `10px` | `padding` |
 | `--mp-tag-padding-vertical` | `0` | `line-height`, `padding` |
 | `--mp-tag-pinkpurple-bg` | `rgb(var(--mp-pinkpurple-1))`<br>`rgba(var(--mp-pinkpurple-6), 0.2)` (`:root[maple-theme='dark']`) | `background-color` |
 | `--mp-tag-pinkpurple-bg-hover` | `rgb(var(--mp-pinkpurple-2))`<br>`rgba(var(--mp-pinkpurple-6), 0.35)` (`:root[maple-theme='dark']`) | `background-color` |
 | `--mp-tag-pinkpurple-border-color` | `transparent` | `border` |
 | `--mp-tag-pinkpurple-border-color-hover` | `transparent` | `border-color` |
-| `--mp-tag-pinkpurple-icon-color` | `rgb(var(--mp-pinkpurple-9))` | `color` |
-| `--mp-tag-pinkpurple-text-color` | `rgb(var(--mp-pinkpurple-9))` | `border-color`, `color` |
+| `--mp-tag-pinkpurple-icon-color` | `rgb(var(--mp-pinkpurple-6))` | `color` |
+| `--mp-tag-pinkpurple-text-color` | `rgb(var(--mp-pinkpurple-6))` | `border-color`, `color` |
 | `--mp-tag-purple-bg` | `rgb(var(--mp-purple-1))`<br>`rgba(var(--mp-purple-6), 0.2)` (`:root[maple-theme='dark']`) | `background-color` |
 | `--mp-tag-purple-bg-hover` | `rgb(var(--mp-purple-2))`<br>`rgba(var(--mp-purple-6), 0.35)` (`:root[maple-theme='dark']`) | `background-color` |
 | `--mp-tag-purple-border-color` | `transparent` | `border` |
 | `--mp-tag-purple-border-color-hover` | `transparent` | `border-color` |
-| `--mp-tag-purple-icon-color` | `rgb(var(--mp-purple-9))` | `color` |
-| `--mp-tag-purple-text-color` | `rgb(var(--mp-purple-9))` | `border-color`, `color` |
+| `--mp-tag-purple-icon-color` | `rgb(var(--mp-purple-6))` | `color` |
+| `--mp-tag-purple-text-color` | `rgb(var(--mp-purple-6))` | `border-color`, `color` |
 | `--mp-tag-red-bg` | `rgb(var(--mp-red-1))`<br>`rgba(var(--mp-red-6), 0.2)` (`:root[maple-theme='dark']`) | `background-color` |
 | `--mp-tag-red-bg-hover` | `rgb(var(--mp-red-2))`<br>`rgba(var(--mp-red-6), 0.35)` (`:root[maple-theme='dark']`) | `background-color` |
 | `--mp-tag-red-border-color` | `transparent` | `border` |
 | `--mp-tag-red-border-color-hover` | `transparent` | `border-color` |
-| `--mp-tag-red-icon-color` | `rgb(var(--mp-red-9))` | `color` |
-| `--mp-tag-red-text-color` | `rgb(var(--mp-red-9))` | `border-color`, `color` |
+| `--mp-tag-red-icon-color` | `rgb(var(--mp-red-6))` | `color` |
+| `--mp-tag-red-text-color` | `rgb(var(--mp-red-6))` | `border-color`, `color` |
 | `--mp-tag-round-radius` | `100px` | `border-radius` |
 | `--mp-tag-size-lg` | `36px` | `height`, `line-height` |
 | `--mp-tag-size-lg-font-size` | `var(--mp-sys-font-size-md)` | `font-size` |
@@ -63455,8 +63461,8 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-textarea-height` | `auto` | `height` |
 | `--mp-textarea-line-height` | `1.5` | `line-height` |
 | `--mp-textarea-min-height` | `96px` | `min-height` |
-| `--mp-textarea-padding-horizontal` | `0` | `padding` |
-| `--mp-textarea-padding-vertical` | `0` | `padding` |
+| `--mp-textarea-padding-horizontal` | `0px` | `padding`, `padding-inline-end` |
+| `--mp-textarea-padding-vertical` | `var(--mp-field-content-padding-vertical)` | `padding` |
 | `--mp-textarea-placeholder-color` | `var(--mp-sys-color-content-secondary)` | `color` |
 
 </div>
@@ -64055,7 +64061,7 @@ When the end time is earlier than the start, `show-next-day` treats the end as t
 <!-- demo-config-notes:end -->
 
 
-hint controls the floating label (Cedar defaults to false, Maple to true) and is suppressed by an outer Form label. line defaults to true; text-color/focus-color/blur-color accept optional color strings. An unset error inherits Form state; explicit false overrides it. TimeRange separator defaults to `~` and accepts an empty string. Default variants remain Cedar filled and Maple standard; set variant explicitly for matching appearance.
+hint controls the floating label (Cedar defaults to false, Maple to true) and is suppressed by an outer Form label. line defaults to true; text-color/focus-color/blur-color accept optional color strings. An unset error inherits Form state; explicit false overrides it. TimeRange separator defaults to `~` and accepts an empty string. Cedar and Maple fields both default to outline; filled and standard remain explicit options.
 
 The field owns values, defaults, open state, format, steps, bounds, disabled rules and readonly/disabled state. Set these directly on the field, not inside timeRangePickerProps. Nested options customize presentation only; model/select/confirm listeners cannot replace the field flow. Types reject owner properties and runtime filtering removes them, even when a top-level constraint is unset.
 
@@ -64916,7 +64922,7 @@ When FormItem's `label-attrs.for` explicitly targets one input, unnamed range en
 | `time-fields` | Wheel columns and order; an explicit list controls visibility without changing format or model | `readonly TimePickerField[]`<br>`TimePickerField: 'hour' \| 'minute' \| 'second'` | Derived from format |
 | `time-range-picker-props` | Range-panel presentation options; model, rules and state remain owned by the field | `TimePanelPresentationProps` | `{}` |
 | `use12-hours` | 12-hour panel; disabled-hour callbacks still use 0–23 | `boolean` | `false` |
-| `variant` | Field appearance | `filled \| outline \| standard` | `standard` |
+| `variant` | Field appearance | `filled \| outline \| standard` | `outline` |
 
 ### TimeRange Events
 
@@ -65599,7 +65605,7 @@ function resetSelections() {
 
 ### Field appearance and nested options
 
-hint controls the floating label (Cedar defaults to false, Maple to true) and is suppressed by an outer Form label. line defaults to true; text-color/focus-color/blur-color accept optional color strings. An unset error inherits Form state; explicit false overrides it. TimeRange separator defaults to `~` and accepts an empty string. Default variants remain Cedar filled and Maple standard; set variant explicitly for matching appearance.
+hint controls the floating label (Cedar defaults to false, Maple to true) and is suppressed by an outer Form label. line defaults to true; text-color/focus-color/blur-color accept optional color strings. An unset error inherits Form state; explicit false overrides it. TimeRange separator defaults to `~` and accepts an empty string. Cedar and Maple fields both default to outline; filled and standard remain explicit options.
 
 The field owns values, defaults, open state, format, steps, bounds, disabled rules and readonly/disabled state. Set these directly on the field, not inside timePickerProps/timeRangePickerProps. Nested options customize presentation only; model/select/confirm listeners cannot replace the field flow. Types reject owner properties and runtime filtering removes them, even when a top-level constraint is unset.
 
@@ -66566,7 +66572,7 @@ Panels edit a draft and commit on confirmation. Cancellation or closing does not
 | `time-fields` | Wheel columns and order; an explicit list controls visibility without changing format or model | `readonly TimePickerField[]`<br>`TimePickerField: 'hour' \| 'minute' \| 'second'` | Derived from format |
 | `time-picker-props` | Time-panel presentation options; model, rules and state remain owned by the field | `TimePanelPresentationProps` | `{}` |
 | `use12-hours` | 12-hour panel; disabled-hour callbacks still use 0–23 | `boolean` | `false` |
-| `variant` | Field appearance | `filled \| outline \| standard` | `standard` |
+| `variant` | Field appearance | `filled \| outline \| standard` | `outline` |
 
 ### Time Events
 

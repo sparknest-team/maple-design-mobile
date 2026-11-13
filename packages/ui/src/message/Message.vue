@@ -13,6 +13,7 @@
         <div
           v-if="open"
           v-bind="themeScope"
+          :style="{ '--mp-internal-message-z-index': feedbackZIndex }"
           :dir="readingDirection"
           :class="[n(), { [n('standalone')]: popupContainer !== false }, n(`standalone-${position}`)]"
           @mouseenter="pause"
@@ -72,6 +73,7 @@ import {
   IconWarning as MIconWarning,
 } from '@maple-design/icons-vue'
 import { useDirection } from '../_utils/direction'
+import { useFeedbackZIndex } from '../context/zIndex'
 import { useThemeScope } from '../theme-provider/context'
 import { createNamespace } from '../utils/components'
 import { usePopupContainer } from '../utils/popup-container'
@@ -97,6 +99,10 @@ const emit = defineEmits<{
   (event: 'open' | 'opened' | 'close' | 'closed'): void
 }>()
 const popupTarget = usePopupContainer(() => props.popupContainer)
+const feedbackZIndex = useFeedbackZIndex(() => {
+  const target = popupTarget.value
+  return typeof target === 'string' ? (typeof document === 'undefined' ? undefined : document) : target.ownerDocument
+})
 const requestClose = () => emit('update:open', false)
 const { pause, resume, restart } = useMessageTimer({
   open: () => props.open,

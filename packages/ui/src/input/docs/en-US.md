@@ -303,7 +303,7 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 | `placeholder` | Placeholder or floating hint text | `string` | `-` |
 | `size` | `xs`, `sm`, `md`, `lg`, or `xl` | `ComponentSize`<br>`'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `md` |
 | `variant` | `filled`, `outline`, or `standard` | `string` | `outline` |
-| `hint` | Use the placeholder as a floating hint | `boolean` | `true` |
+| `hint` | Use the placeholder as a floating hint | `boolean` | `false` |
 | `line` | Show the border or bottom separator | `boolean` | `true` |
 | `max-length` | Finite nonnegative length or `{ length, errorOnly? }`; 0 is unlimited; invalid values diagnose and fall back to no limit | `number \| object` | `0` |
 | `show-word-limit` | Show the character counter | `boolean` | `false` |
@@ -332,7 +332,7 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 
 Configure validation rules on `mp-form-item`; see [Form](#/en-US/form).
 
-size/disabled/readonly inherit from child → InputGroup → FormItem/Form → library defaults. All five sizes work. `hint` defaults on but is disabled by an external label. name/id/aria-*/data-* reach native input; class/style stay on the wrapper. `input-attrs` cannot override controlled value, type, disabled/readonly or length policy.
+size/disabled/readonly inherit from child → InputGroup → FormItem/Form → library defaults. All five sizes work. `hint` defaults off, can be explicitly enabled, and is suppressed by an external label. name/id/aria-*/data-* reach native input; class/style stay on the wrapper. `input-attrs` cannot override controlled value, type, disabled/readonly or length policy.
 
 ### Input Methods
 

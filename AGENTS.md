@@ -115,6 +115,7 @@ PC 端见 `/Users/shuaimeng/github/cedar-design-web/AGENTS.md`。
 - AI 交付前必须运行 `pnpm lint:check` 和受影响的测试；涉及类型时再运行 `pnpm typecheck`。报告实际结果，未运行或失败不能声称验证通过；不要通过跳过 Git hooks 或关闭规则规避错误。
 - 预存在失败：`result/imageSize`、`form/zod`（与本人改动无关）。
 - vitest 必须显式指定 `--config` 指向 `cli/lib/node/config/vitest.config.js`，否则没有默认配置。
+- `--isolate=false` 的 Vue/jsdom 生命周期与批次要求见 `docs/practices/component-spec.md` §10；不要通过放宽 DOM 类型判断修复跨 realm 查询失败。
 - 组件单测只收集 `src/`，生成目录 `.maple/` 中的文档站副本不能进入组件测试。CLI 源码的站点与编译器测试通过 `pnpm check:cli` 独立执行。
 
 更多细节见 [docs/practices/component-spec.md](docs/practices/component-spec.md)。

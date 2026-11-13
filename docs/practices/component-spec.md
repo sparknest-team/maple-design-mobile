@@ -307,6 +307,7 @@ npx vitest run --config /path/to/cli/lib/node/config/vitest.config.js
 ```
 
 - 使用 `-u` 更新快照（仅在 UI 故意变化时使用）。
+- 默认保留文件隔离和并行 worker。使用 `--isolate=false` 时，CLI 测试配置自动将 forks/threads 切为单批次串行执行，让共享 Vue 模块与 jsdom 使用同一 document 生命周期。仅将 `maxWorkers` 设为 1 不足以实现这一点：逐文件重建 jsdom 会使 Vue 缓存 document 创建的节点与当前 `Element` 构造器不一致。回归门禁为 `pnpm check:test-collection`，同时验证 DOM 查询、事件、两种 pool 及隔离开关。
 
 ---
 

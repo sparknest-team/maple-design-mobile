@@ -18,7 +18,6 @@ const options = ['Cedar', 'Maple']
         :options="options"
         :variant="variant"
         :placeholder="variant"
-        hint
         clearable
         v-bind="__apiReview.bindings"
         v-on="__apiReview.listeners"
@@ -60,7 +59,6 @@ const options = ['Cedar', 'Maple']
       <mp-auto-complete
         v-model="value"
         :options="options"
-        hint
         placeholder="自定义颜色"
         focus-color="#6750a4"
         text-color="#386a20"

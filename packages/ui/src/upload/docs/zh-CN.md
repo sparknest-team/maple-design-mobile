@@ -1,215 +1,150 @@
 # Upload 上传
 
-选择照片时设置 `accept="image/*"`，不设置 `capture` 或设置 `:capture="false"`，保留系统文件 / 相册选择入口。仅在需要直接拍照时设置 `capture` 为 `true`、`'user'` 或 `'environment'`。具体可选入口由设备和浏览器决定。
-
-禁用下载与 Link/Button 的链接模式一致：移除 href，同时保留链接角色、`aria-disabled` 和 `tabindex=-1`，点击不执行默认下载。`readonly` 不禁用下载；恢复非禁用状态后保留原文件地址及下载文件名。
-
-未配置 action / custom-request 时，组件仅读取文件，进度和结果由业务管理。
+通过点击或拖拽选择文件，支持图片列表、预览和受控上传。示例默认使用本地文件与模拟请求。
 
 ## 基础示例
 
-### 只读取文件
+### 基础用法
+
+选择一个或多个本地文件，列表会随添加和删除更新。未配置 action / custom-request 时仅读取文件，不发送请求。
 
 ```demo
 ../example/demos/read-only.vue
 ```
 
-### 基本使用
+### 列表展示方式
+
+切换 text、picture 和 picture-card，对比同一份文件列表的三种布局。添加或删除文件后再切换，已选文件保持不变。
 
 ```demo
-../example/demos/basic-usage.vue
+../example/demos/list-type.vue
 ```
 
-## 外观与状态
+### 上传入口位置
 
-### 动态只读与禁用
-
-预置本地合成图片，启用 readPrettyonly 与 disabled，比较预览、删除和选择入口的行为。选择按钮只记录 request-choose 次数，不打开文件框或发送请求。只读保留预览，禁用同时阻止预览；解除限制后可重新操作。恢复示例由父级更新模型。
+切换上传入口位于文件列表之前或之后，再对比三种列表类型。默认入口位于列表之后；切换入口位置时，已选文件和文件顺序保持不变。
 
 ```demo
-../example/demos/state-controls.vue
+../example/demos/trigger-position.vue
 ```
 
-### 所有队列状态
+## 选择与校验
+
+### 拖拽上传
+
+点击区域选择图片，或将图片拖入区域；添加后点击缩略图预览。触屏设备可使用点击选择。
 
 ```demo
-../example/demos/state.vue
+../example/demos/draggable-picture.vue
 ```
 
-### 交互状态对比
+### 文件类型、数量与大小
 
-在同一实例上切换禁用、只读和错误状态后再操作控件，比较可编辑性和交互反馈。恢复开关位于目标控件外；错误外观本身不会执行校验。
-
-<details>
-<summary>配置说明与使用限制</summary>
-
-#### 交互状态切换
-
-适用于附件列表展示与本地选取。调整禁用、只读，用相同数据观察变化。控制区始终可用，可以随时恢复编辑；错误外观本身不会触发表单校验。
-
-</details>
+仅接受图片，最多 3 张、每张不超过 2 MiB。拒绝时显示原因；满额后删除一张即可继续添加。
 
 ```demo
-../example/demos/state-lab.vue
+../example/demos/picture-limits.vue
 ```
 
-### 图卡、插槽与自定义预览
+### 单文件与替换
+
+设置 max-files="1" 与 reupload，点击文件上的替换按钮更换图片。替换成功后仍只有一个文件。
 
 ```demo
-../example/demos/custom-surface.vue
+../example/demos/replacement.vue
 ```
 
-### 自定义文件项
+### 选择文件夹
 
-```demo
-../example/demos/custom-render.vue
-```
-
-### 自定义删除按钮
-
-```demo
-../example/demos/remove-button-slot.vue
-```
-
-### 自定义选择按钮
-
-```demo
-../example/demos/style.vue
-```
-
-### 自定义预览
-
-```demo
-../example/demos/custom-preview.vue
-```
-
-### 图片和视频预览
-
-```demo
-../example/demos/preview.vue
-```
-
-## 文件来源与约束
-
-### 目录选择与多文件回退
-
-使用现有 addFiles 接入粘贴事件；移动端保留普通多选入口。本例只读取本地数据。
+选择文件夹后查看其中的文件；普通多选入口用于不支持文件夹选择的浏览器或移动设备。
 
 ```demo
 ../example/demos/directory.vue
 ```
 
-### 接管文件选择
+## 预览与状态
+
+### 图片与视频预览
+
+预置图片可直接预览；选择本地视频后点击缩略图播放。关闭预览开关可禁止内置预览。
 
 ```demo
-../example/demos/click-action.vue
+../example/demos/preview.vue
 ```
 
-### 剪贴板图片与读取校验
+### 只读、禁用与纯阅读
+
+在同一份数据上切换可编辑、只读、禁用和纯阅读。只读保留预览，禁用阻止交互；纯阅读展示文件值而不显示上传编辑器。
 
 ```demo
-../example/demos/clipboard.vue
+../example/demos/states.vue
 ```
 
-### 替换后的约束校验
+### 自定义入口与预览
 
-反向返回顺序：旧任务等待时重置并加入新文件，先点“返回最新缩略图”接受新项，再“拒绝最早缩略图”。旧失败只结清旧任务，不能再显示read-error、删除新项或增加解码数；最后重置清空列表和计数。这仍是本地回调竞争，不是原生读取器异常。
-
-开启 FileReader / data-url 后，接受的 File 会读取为 data URL。Data URLs 显示当前 data-url 项目数，Decoded images 显示重置以来累计的 load 次数。删除项目不会减少累计次数；重置清零两者，类型拒绝发生在读取之前。
-
-开关仅影响后续新增项，不会重新读取既有项目；可按 file/data-url/file 顺序混合加入三项。满额后再加入会报告 max-files，图片和解码计数不变；删除 data-url 项后重新加入会读取新文件，累计解码数继续增加，重置清空整个混合队列。
+用 trigger 和 remove-button 插槽定制入口与删除操作，通过 preview 事件打开自定义预览 Dialog。
 
 ```demo
-../example/demos/replacement-validation.vue
+../example/demos/custom-surface.vue
 ```
 
-### 批次筛选
+## 上传流程
+
+### 手动上传、进度与重试
+
+选择文件或加入示例文件，再点击开始上传。上传中可取消；开启模拟失败后，首次失败可通过重试恢复。本例使用本地定时器模拟请求。
 
 ```demo
-../example/demos/before-add.vue
+../example/demos/manual-upload.vue
 ```
 
-### 读取前确认
+### 删除前确认
+
+点击删除先打开确认框，取消会保留文件，确认后才从列表移除。
 
 ```demo
-../example/demos/before-read.vue
+../example/demos/remove-confirm.vue
 ```
 
-### 文件大小与数量限制
+### 由业务管理上传状态
 
-分别选择超出大小和数量限制的本地文件，观察拒绝反馈；选择限制与请求前处理、上传队列是独立阶段。
-
-```demo
-../example/demos/selection-limits-comparison.vue
-```
-
-## 队列与进度
-
-### 外部管理进度
-
-可直接加入本地示例项观察 40% 的外部进度，再模拟完成。完成操作只更新仍在上传的项；取消项保持 canceled，已删除的项不会重新出现。外部托管模式隐藏内置请求重试按钮，使用“模拟外部重试”恢复取消或失败项，再由业务端完成。示例不发送网络请求。
+通过 read 事件接管进度和结果。加入示例文件、模拟完成，观察受控列表变化；本例不使用内置请求。
 
 ```demo
 ../example/demos/external-state.vue
 ```
 
-### 外部上传进度
+## 业务组合
+
+### 外置上传按钮
+
+隐藏内置入口，由外部按钮调用 chooseFile()。切换按钮位于列表之前或之后，不改变文件列表。
 
 ```demo
-../example/demos/use-progress.vue
+../example/demos/external-trigger.vue
 ```
 
-### 手动队列和可取消请求
+### Dialog 中上传
 
-可直接“加入示例文件”，也可选择本地文件；两种方式均不访问网络。点击提交后观察进度，取消会停止活动请求，重试会重新上传。开启“首次请求失败”时，同一文件首次失败、重试成功。活动请求数在完成、取消、失败及离开 Demo 后清零。
+点击按钮打开 Dialog，在弹窗内选择或拖入图片并预览。关闭后保留已选文件，再次打开可以继续操作。
 
 ```demo
-../example/demos/queue-request.vue
+../example/demos/dialog-upload.vue
 ```
 
-## 异步钩子与请求
+### 接入剪贴板图片
 
-### 删除前确认
-
-开启“手动异步确认”后忽略同步允许开关，删除等待“确认删除 / 取消删除”。同一文件等待时重复点击不会新增钩子；取消保留文件，等待中禁用后再确认也不会删除，解除禁用后需重新发起。计数核对列表、等待任务、钩子和 remove 通知；停用或卸载结清本地等待，不访问网络。
-
-新增操作均不访问网络：“异常拒绝删除”拒绝本地Promise，文件保留且后续可重试；“替换同 UID 文件”生成新的本地File，旧删除确认不得移除替换项。“重置上传队列”调用公开reset，旧确认不再产生remove；“激活上传组件”通过KeepAlive停用/恢复Upload，等待任务保留在外层Demo用于手动返回，旧结果不得影响恢复后的实例。停用Upload不等于取消外部业务Promise；离开整个Demo才结清其本地等待。
+将图片粘贴到输入区域，通过 useUploader.addFiles 复用文件读取与校验；普通文本仍按原生输入处理。
 
 ```demo
-../example/demos/before-remove.vue
-```
-
-### 上传前准备与取消竞争
-
-取消后重试合计大小组合：双项进入准备后取消，再次提交会保留四个待返回任务（含两次已失效尝试）。统一返回时仍只启动一次有效请求；超限项保留取消前的原文件和 `canceled` 状态，不误算为新失败或自动恢复为 ready。删除成功项后可再次提交剩余项并成功；旧准备结果不占用额外容量。
-
-合计大小组合：空队列选择“每项替换600B，合计上限1024B”，连续加入两个62B合成图片，再准备并统一完成。每项均满足单文件1024B限制，但两项替换后总量超限，因此只有一项发起本地请求，另一项保留ready原文件并报告max-total-size。删除成功项后，再准备剩余项可成功；重置清空队列、等待和请求计数。此处验证本地before-upload替换，不涉及原生文件选择或真实网络上传。
-
-点击“准备并提交”后，`before-upload` 保持等待；重复提交不会重复创建同一尝试。取消准备后可以再次提交，再点击“完成准备”同时返回旧、新结果，只有当前有效尝试能发起请求。选择文本或超大图片替换时会再次检查类型和 1 KiB 大小限制，拒绝后保持 ready，可改为有效副本后重试。本示例使用公开 useUploader 和本地即时请求，不访问网络；重置、停用和卸载会释放等待任务。
-
-```demo
-../example/demos/prepare-request.vue
-```
-
-### 异步请求元数据
-
-填写你控制的本地接收接口后，分别手动返回 headers 和 data，观察默认 XHR 的准备与取消。只返回一项时仍不发送；取消后再返回另一项不得启动请求。成功响应显示在示例下方，可由接收端核对 `X-Demo-Upload`、`auditMarker` 和 `attachment` 文件字段。接口地址默认留空，不预设外部上传服务；接收器必须允许文档站来源的 CORS。本例仅使用生成的合成文本，不选择真实文件。
-
-使用“拒绝 headers / 拒绝 data”模拟准备失败，当前尝试只进入一次 error。可在另一项旧 Promise 未结清时重试，观察旧结果不会覆盖新尝试；取消后再拒绝不增加错误计数。返回/拒绝按钮会结清该类所有等待任务（包括旧尝试），便于验证竞争；重置会释放等待任务。准备失败不等同 HTTP 错误。
-
-```demo
-../example/demos/metadata-request.vue
-```
-
-### 请求句柄迟到与取消
-
-本地模拟 custom-request 返回 Promise。取消后再返回旧句柄会立即调用其 abort；返回旧成功回调不会恢复已取消项。取消后再次发起、统一返回句柄和成功回调时，只接受当前尝试一次。计数展示回调是否被内核接受，不代表真实传输；本例不访问网络，重置/停用/卸载释放本地等待。
-
-```demo
-../example/demos/late-request.vue
+../example/demos/clipboard.vue
 ```
 
 ## 使用说明
+
+### 文件选择与设备支持
+
+选择照片时设置 `accept="image/*"`；不设置 `capture` 或设置 `:capture="false"` 可保留系统文件 / 相册入口。仅在需要直接拍照时使用 `capture`，具体可用入口由设备和浏览器决定。
 
 ### 编辑与确认
 
@@ -257,6 +192,8 @@ before-* 等待期间显示加载反馈并标记 aria-busy；拒绝或失败后�
 `beforeUpload` 返回 `false` 或兑现为 `false` 属于业务否决：不发起请求，文件保持 `ready`，不触发 `error` 或 `rejected`。同步抛错或 Promise 拒绝属于准备异常：不发起请求，文件变为 `error`，通过已有 `error(item)` 事件报告一次，原始原因保存在 `item.error`。该事件覆盖准备和传输失败，并不代表已经发送 HTTP 请求。两种结果都允许后续以合法守卫结果重新提交；普通通知返回的 Promise 不延长准备任务，旧尝试或取消后的异常不得报告为新错误。
 ### 配置说明
 
+通过 `trigger-position="before"` 或 `trigger-position="after"` 将内置上传入口放在文件列表之前或之后，默认 after。该配置同样适用于 `trigger` 插槽和拖拽入口；前后表示 DOM 顺序，不因 RTL 改写。完全外置的按钮仍可设置 `:show-upload-button="false"`，再调用实例方法 `chooseFile()`。
+
 两端公共后缀一致，所有默认值见下表（前缀分别为c/mp）。
 
 ## API
@@ -286,6 +223,7 @@ before-* 等待期间显示加载反馈并标记 aria-busy；拒绝或失败后�
 | draggable | `boolean` | `false` | 启用拖拽上传 |
 | disabled | `boolean` | `undefined` | 禁用交互；继承 Form，显式 false 优先 |
 | readonly | `boolean` | `undefined` | 只读；继承 Form，显式 false 优先 |
+| read-pretty | `boolean` | `undefined` | 纯阅读模式：隐藏上传编辑器并展示字段值；继承 FormItem / Form，显式 false 覆盖父级，未配置时最终为 false |
 | action | `string` | `undefined` | 上传请求地址 |
 | method | `string` | `'post'` | 上传请求方法 |
 | headers | `UploadHeaders` | `undefined` | 请求头对象或异步函数；请求准备阶段仍可取消 |
@@ -306,6 +244,7 @@ before-* 等待期间显示加载反馈并标记 aria-busy；拒绝或失败后�
 | is-success-response | `UploadIsSuccessResponse` | `undefined` | 自定义响应成功判断；默认 HTTP 2xx 为成功 |
 | request-choose | `UploadRequestChoose` | `undefined` | 接管选择入口；异常不会自动打开文件框 |
 | list-type | `'text' \| 'picture' \| 'picture-card'` | `'text'` | 文件列表展示方式；两端均支持 |
+| trigger-position | `'before' \| 'after'` | `'after'` | 上传入口在文件列表之前或之后；适用于所有 list-type、自定义 trigger 插槽和拖拽入口；前后按 DOM 顺序解释，不因 RTL 改写 |
 | image-fit | `'fill' \| 'contain' \| 'cover' \| 'none' \| 'scale-down'` | `'cover'` | 缩略图填充方式；文件项 fit 优先 |
 | preview | `boolean` | `true` | 启用内建图片 / 视频预览 |
 | show-file-list | `boolean` | `true` | 显示文件列表 |
@@ -368,7 +307,7 @@ chooseFile、replace、submit、retry、remove 返回 `Promise<void>`，保留�
 
 ## Types
 
-UploadProps、UploadEmits、UploadSlots、UploadExpose、UploadPublicMethods、UploadFileItem、UploadStatus、UploadListType、UploadResolveType、UploadImageFit、UploadCapture、UploadRejectedFile、UploadRejectedReason、UploadRequestOptions、UploadRequest、UploadCustomRequest、UploadProgressEvent、UploadData、UploadHeaders、UploadBeforeRead、UploadBeforeUpload、UploadBeforeRemove、UploadCreateThumbnailUrl、UploadIsSuccessResponse、UploadRequestChoose、UploadPreviewEvent、UseUploaderOptions、UploadInstance。
+UploadProps、UploadEmits、UploadSlots、UploadExpose、UploadPublicMethods、UploadFileItem、UploadStatus、UploadListType、UploadTriggerPosition、UploadResolveType、UploadImageFit、UploadCapture、UploadRejectedFile、UploadRejectedReason、UploadRequestOptions、UploadRequest、UploadCustomRequest、UploadProgressEvent、UploadData、UploadHeaders、UploadBeforeRead、UploadBeforeUpload、UploadBeforeRemove、UploadCreateThumbnailUrl、UploadIsSuccessResponse、UploadRequestChoose、UploadPreviewEvent、UseUploaderOptions、UploadInstance。
 
 ## CSS Variables
 

@@ -6650,9 +6650,9 @@ Button 保留 58 个外观变量。`{status}-color` 控制实心背景，`{statu
 | --- | --- | --- |
 | `--mp-button-border-radius` | `var(--mp-sys-radius-md)` | `border-bottom-left-radius`, `border-bottom-right-radius`, `border-radius`, `border-top-left-radius`, `border-top-right-radius` |
 | `--mp-button-content-gap` | `var(--mp-sys-space-3)` | `gap` |
-| `--mp-button-danger-color` | `var(--mp-sys-color-status-danger)` | `background-color` |
+| `--mp-button-danger-color` | `var(--mp-sys-color-status-danger)` | `background-color`, `color` |
 | `--mp-button-danger-disabled-color` | `rgb(var(--mp-danger-3))`<br>`rgba(var(--mp-danger-6), 0.5)` (`:root[maple-theme='dark']`) | `background-color`, `color` |
-| `--mp-button-danger-foreground-color` | `var(--mp-sys-color-content-danger)` | `color` |
+| `--mp-button-danger-foreground-color` | `var(--mp-button-danger-color)` | `color` |
 | `--mp-button-danger-tonal-color` | `rgb(var(--mp-danger-1))` | `background-color` |
 | `--mp-button-default-color` | `var(--mp-sys-color-surface-default)` | `background-color` |
 | `--mp-button-default-foreground-color` | `var(--mp-sys-color-content-primary)` | `background`, `background-color`, `color` |
@@ -6661,9 +6661,9 @@ Button 保留 58 个外观变量。`{status}-color` 控制实心背景，`{statu
 | `--mp-button-disabled-solid-text-color` | `var(--mp-sys-color-content-on-dark)`<br>`rgba(255, 255, 255, 0.3)` (`:root[maple-theme='dark']`) | `color` |
 | `--mp-button-disabled-text-color` | `var(--mp-sys-color-content-disabled)` | `color` |
 | `--mp-button-focus-color` | `var(--mp-sys-color-action-primary)` | `outline` |
-| `--mp-button-info-color` | `var(--mp-sys-color-status-info)` | `background-color` |
+| `--mp-button-info-color` | `var(--mp-sys-color-status-info)` | `background-color`, `color` |
 | `--mp-button-info-disabled-color` | `rgb(var(--mp-blue-3))`<br>`rgba(var(--mp-blue-6), 0.5)` (`:root[maple-theme='dark']`) | `background-color`, `color` |
-| `--mp-button-info-foreground-color` | `var(--mp-sys-color-content-info)` | `color` |
+| `--mp-button-info-foreground-color` | `var(--mp-button-info-color)` | `color` |
 | `--mp-button-info-tonal-color` | `rgb(var(--mp-blue-1))` | `background-color` |
 | `--mp-button-lg-height` | `56px` | `height`, `min-width`, `width` |
 | `--mp-button-lg-padding` | `0 var(--mp-sys-space-7)` | `padding` |
@@ -6673,9 +6673,9 @@ Button 保留 58 个外观变量。`{status}-color` 控制实心背景，`{statu
 | `--mp-button-md-padding` | `0 var(--mp-sys-space-6)` | `padding` |
 | `--mp-button-plain-state-opacity-active` | `1` | `opacity` |
 | `--mp-button-plain-state-opacity-hover` | `0.5` | `opacity` |
-| `--mp-button-primary-color` | `var(--mp-sys-color-action-primary)` | `background-color` |
+| `--mp-button-primary-color` | `var(--mp-sys-color-action-primary)` | `background-color`, `color` |
 | `--mp-button-primary-disabled-color` | `rgb(var(--mp-primary-3))`<br>`rgba(var(--mp-primary-6), 0.5)` (`:root[maple-theme='dark']`) | `background-color`, `color` |
-| `--mp-button-primary-foreground-color` | `var(--mp-sys-color-content-brand)` | `color` |
+| `--mp-button-primary-foreground-color` | `var(--mp-button-primary-color)` | `color` |
 | `--mp-button-primary-state-layer-color` | `var(--mp-button-solid-state-layer-color)` | `background-color` |
 | `--mp-button-primary-tonal-color` | `rgb(var(--mp-primary-1))` | `background-color` |
 | `--mp-button-secondary-color` | `rgb(var(--mp-gray-6))` | `background-color` |
@@ -6689,18 +6689,18 @@ Button 保留 58 个外观变量。`{status}-color` 控制实心背景，`{statu
 | `--mp-button-state-layer-color` | `var(--mp-sys-color-surface-page)` | `background-color` |
 | `--mp-button-state-opacity-active` | `0.12` | `opacity` |
 | `--mp-button-state-opacity-hover` | `0.08` | `opacity` |
-| `--mp-button-success-color` | `var(--mp-sys-color-status-success)` | `background-color` |
+| `--mp-button-success-color` | `var(--mp-sys-color-status-success)` | `background-color`, `color` |
 | `--mp-button-success-disabled-color` | `rgb(var(--mp-success-3))`<br>`rgba(var(--mp-success-6), 0.5)` (`:root[maple-theme='dark']`) | `background-color`, `color` |
-| `--mp-button-success-foreground-color` | `var(--mp-sys-color-content-success)` | `color` |
+| `--mp-button-success-foreground-color` | `var(--mp-button-success-color)` | `color` |
 | `--mp-button-success-tonal-color` | `rgb(var(--mp-success-1))` | `background-color` |
 | `--mp-button-tertiary-color` | `rgb(var(--mp-gray-7))` | `background-color` |
 | `--mp-button-tertiary-foreground-color` | `var(--mp-sys-color-content-secondary)` | `color` |
 | `--mp-button-tertiary-state-layer-color` | `var(--mp-sys-color-content-on-bright)`<br>`var(--mp-sys-color-content-on-dark)` (`:root[maple-theme='dark']`) | `background-color` |
 | `--mp-button-tertiary-text-color` | `var(--mp-sys-color-content-on-dark)`<br>`var(--mp-sys-color-content-on-bright)` (`:root[maple-theme='dark']`) | `color` |
 | `--mp-button-tertiary-tonal-color` | `rgb(var(--mp-gray-1))` | `background-color` |
-| `--mp-button-warning-color` | `var(--mp-sys-color-status-warning)` | `background-color` |
+| `--mp-button-warning-color` | `var(--mp-sys-color-status-warning)` | `background-color`, `color` |
 | `--mp-button-warning-disabled-color` | `rgb(var(--mp-warning-3))`<br>`rgba(var(--mp-warning-6), 0.5)` (`:root[maple-theme='dark']`) | `background-color`, `color` |
-| `--mp-button-warning-foreground-color` | `var(--mp-sys-color-content-warning)` | `color` |
+| `--mp-button-warning-foreground-color` | `var(--mp-button-warning-color)` | `color` |
 | `--mp-button-warning-tonal-color` | `rgb(var(--mp-warning-1))` | `background-color` |
 | `--mp-button-xl-height` | `64px` | `height`, `min-width`, `width` |
 | `--mp-button-xl-padding` | `0 var(--mp-sys-space-8)` | `padding` |
@@ -10469,7 +10469,7 @@ option({ data }) 接收规范化 CascaderOptionInfo，data.raw 是原始选项�
 | `default-input-value` | 非受控初始搜索文本，独立于选中值，仅初始化时读取 | `string` | `''` |
 | `multiple` | 多选；默认启用搜索 | `boolean` | `false` |
 | `size` | 完整支持 xs、sm、md、lg、xl，未设置时继承分组与表单 | `ComponentSize`<br>`'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `md` |
-| `variant` | filled、outline、standard；未设置时继承 InputGroup | `FieldDecoratorVariant`<br>`'filled' \| 'outline' \| 'standard'` | `filled` |
+| `variant` | filled、outline、standard；未设置时继承 InputGroup | `FieldDecoratorVariant`<br>`'filled' \| 'outline' \| 'standard'` | `outline` |
 | `disabled` | 禁用状态；显式值优先于继承的 Form / Group 状态 | `boolean` | `undefined` |
 | `readonly` | 只读状态；显式值优先于继承的 Form / Group 状态 | `boolean` | `undefined` |
 | `error` | 错误状态；显式值优先于继承的 Form / Group 状态 | `boolean` | `undefined` |
@@ -10603,7 +10603,7 @@ option({ data }) 接收规范化 CascaderOptionInfo，data.raw 是原始选项�
 | `--mp-cascader-popup-box-shadow` | `0 4px 10px rgb(0 0 0%)` | `box-shadow` |
 | `--mp-cascader-popup-color-border` | `var(--mp-color-fill-3)` | `border`, `border-inline-end`, `border-top` |
 | `--mp-cascader-popup-max-height` | `200px` | `height` |
-| `--mp-cascader-popup-padding-vertical` | `var(--mp-sys-space-2)` | `padding` |
+| `--mp-cascader-popup-padding-vertical` | `var(--mp-sys-space-2)` | `padding`, `padding-block-end` |
 | `--mp-cascader-size-item-height` | `36px` | `height`, `line-height` |
 | `--mp-cascader-size-item-icon` | `12px` | `height`, `width` |
 | `--mp-cascader-slide-margin` | `120px` | `margin-inline-start` |
@@ -12225,7 +12225,7 @@ uninject-group-context 在挂载时决定是否接入分组；运行中修改不
 | `--mp-checkbox-animation-duration` | `var(--mp-sys-motion-duration-standard)` | `transition` |
 | `--mp-checkbox-control-border-radius` | `2px` | `border-radius` |
 | `--mp-checkbox-control-color` | `var(--mp-sys-color-content-secondary)` | `color` |
-| `--mp-checkbox-control-color-checked` | `var(--mp-sys-color-action-primary)` | `color`, `outline` |
+| `--mp-checkbox-control-color-checked` | `var(--mp-sys-color-action-primary)` | `color` |
 | `--mp-checkbox-control-color-disabled` | `var(--mp-sys-color-content-disabled)` | `color` |
 | `--mp-checkbox-control-color-error` | `var(--mp-sys-color-content-danger)` | `color` |
 | `--mp-checkbox-control-size` | `24px` | `height`, `width` |
@@ -12234,7 +12234,7 @@ uninject-group-context 在挂载时决定是否接入分组；运行中修改不
 | `--mp-checkbox-label-gap` | `0` | `margin-inline-start` |
 | `--mp-checkbox-label-text-color` | `var(--mp-sys-color-content-primary)` | `color` |
 | `--mp-checkbox-label-text-color-disabled` | `var(--mp-sys-color-content-disabled)` | `color` |
-| `--mp-checkbox-mark-color` | `var(--mp-sys-color-content-on-bright)` | `background-color`, `color` |
+| `--mp-checkbox-mark-color` | `var(--mp-sys-color-content-on-dark)` | `background-color`, `color` |
 
 </div>
 
@@ -16762,7 +16762,7 @@ function beforeCommit(
 | `type` | 日期精度；Cedar 支持周/季度，Maple 支持日期/月/年 | `date \| month \| year` | `date` |
 | `use-virtual-scroll` | Maple scroll 视口使用虚拟渲染 | `boolean` | `true` |
 | `value-format` | 序列化模型格式，支持 Date、timestamp 或格式字符串；独立于 format | `string` | 按精度/时间配置 |
-| `variant` | 字段外观 | `filled \| outline \| standard` | `standard` |
+| `variant` | 字段外观 | `filled \| outline \| standard` | `outline` |
 
 ### DateRange Events
 
@@ -18732,7 +18732,7 @@ datePickerProps/dateRangePickerProps 只配置展示，不能覆盖根模型、�
 | `type` | 日期精度；Cedar 支持周/季度，Maple 支持日期/月/年 | `date \| month \| year` | `date` |
 | `use-virtual-scroll` | Maple scroll 视口使用虚拟渲染 | `boolean` | `true` |
 | `value-format` | 序列化模型格式，支持 Date、timestamp 或格式字符串；独立于 format | `string` | 按精度/时间配置 |
-| `variant` | 字段外观 | `filled \| outline \| standard` | `standard` |
+| `variant` | 字段外观 | `filled \| outline \| standard` | `outline` |
 
 ### Date Events
 
@@ -18923,7 +18923,7 @@ import { Date as DateField, DatePicker, type DateProps, type DatePickerProps,
 | `--mp-date-picker-range-background` | `var(--mp-color-primary-light-1)` | `background` |
 | `--mp-date-picker-range-disabled-background` | `var(--mp-color-fill-1)` | `background` |
 | `--mp-date-picker-range-preview-background` | `var(--mp-color-fill-2)` | `background` |
-| `--mp-date-picker-range-preview-outline` | `1px dashed var(--mp-color-primary)` | `outline` |
+| `--mp-date-picker-range-preview-outline` | `1px dashed var(--mp-sys-color-action-primary)` | `outline` |
 | `--mp-date-picker-shortcuts-column-width` | `128px` | `flex`, `width` |
 | `--mp-date-picker-title-background` | `var(--mp-date-picker-body-background-color)` | `background` |
 | `--mp-date-picker-title-color` | `var(--mp-color-text-1)` | `color` |
@@ -28007,6 +28007,9 @@ Document: llms/zh-CN/form.md
 
 # 表单
 
+
+横向 FormItem 默认不启用 Row 的栅格 gutter，表单项各尺寸均保留默认 16px 间距，size 控制控件高度和字号；显式 `row-props.gutter` 仍优先。表单输入与选择字段默认使用 `outline`，可按需指定 `filled` 或 `standard`。
+
 ## 字段名称
 
 显式 `validate-status="error"` 且没有自动校验错误时，字段会通过 `aria-describedby` 关联可见的 `help` 文案或插槽；业务已有的描述会保留。自动错误出现时优先关联自动错误。
@@ -35415,7 +35418,7 @@ function submit() {
 
 ### 字段状态与原生输入
 
-`disabled`、`readonly`、`error` 未设置时继承 FormItem / Form；InputGroup 可提供禁用、只读、尺寸和变体，字段显式值优先，`false` 可覆盖父级。独立使用时默认变体仍为 `filled`。延迟编辑器遵守相同状态，编辑中禁用或只读会取消草稿。
+`disabled`、`readonly`、`error` 未设置时继承 FormItem / Form；InputGroup 可提供禁用、只读、尺寸和变体，字段显式值优先，`false` 可覆盖父级。独立使用时默认变体为 `outline`。延迟编辑器遵守相同状态，编辑中禁用或只读会取消草稿。
 
 `id`、`name`、`aria-*`、`data-*`、原生约束和键盘监听器传给实际 input，`class` / `style` 保留在外壳。`name` 提交的是独立的输入草稿，不会序列化标签数组。`input-value` 控制输入草稿；与标签的 `model-value` 分开。组合输入只通知一次；被禁用、只读或关闭取消的组合输入不会在稍后提交。
 
@@ -35549,7 +35552,7 @@ onBeforeUnmount(() => {
 | readonly                  | 是否为只读模式                     | `boolean`                                         |  `-`   |
 | clearable                 | 是否允许清空                       | `boolean`                                         |  `false`   |
 | size                      | 输入框的大小                       | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'`            |   `'md'`   |
-| variant                   | 输入框的变体                       | `'filled' \| 'outline' \| 'standard'`             | `'filled'` |
+| variant                   | 输入框的变体                       | `'filled' \| 'outline' \| 'standard'`             | `'outline'` |
 | max-tag-count             | 有限非负整数；0 不限，非法值诊断后按不限展示 | `number`                                          |    `0`     |
 | retain-input-value        | 是否保留输入框的内容               | `boolean \| { create?: boolean; blur?: boolean }` |  `false`   |
 | format-tag                | 格式化标签内容                     | `(data: TagData) => string`                       |    `-`     |
@@ -37077,7 +37080,7 @@ InputPassword 透传 Input 的全部属性、事件和插槽。`open` 仅控制�
 | ---------------------- | ------------------------------------------------------- | ----------------------------------------------------- |
 | `mp-input-password`    | `visibility`, `default-visibility`, `visibility-toggle` | 密码可见性；默认非受控且显示切换按钮                  |
 | `mp-input-password`    | `visibility-change`, `update:visibility`                | 可见性变化时触发，参数为 `boolean`                    |
-| `mp-input-group`       | `size`, `variant`, `disabled`, `readonly`, `hint`       | 子 Input/Password 默认继承；`variant` 默认为 `filled` |
+| `mp-input-group`       | `size`, `variant`, `disabled`, `readonly`, `hint`       | 子 Input/Password 默认继承；`variant` 默认为 `outline` |
 | `mp-input-group-label` | 默认插槽                                                | 组合输入框的文字附加项                                |
 
 ## CSS Variables
@@ -40760,6 +40763,9 @@ duration 应为有限非负数；负数、NaN、Infinity 等非法值不调度�
 ### Message Slots
 
 `default`、`icon`、`action`。
+
+
+消息层级会自动保持在当前文档内活动的弹层之上，也会跟随新打开的弹层和显式 `zIndex` 的变化。消息不会接管弹窗焦点或 Esc 处理。`--mp-message-z-index` 用于设置消息层级下限；自定义挂载容器仍需避免被祖先的层叠上下文或裁剪限制。
 
 ## CSS Variables
 
@@ -49219,7 +49225,7 @@ uninject-group-context 在挂载时决定是否接入分组；运行中修改不
 | `--mp-radio-action-padding` | `6px` | `padding` |
 | `--mp-radio-animation-duration` | `var(--mp-sys-motion-duration-standard)` | `transition` |
 | `--mp-radio-control-color` | `var(--mp-sys-color-content-secondary)` | `color` |
-| `--mp-radio-control-color-checked` | `var(--mp-sys-color-action-primary)` | `color`, `outline` |
+| `--mp-radio-control-color-checked` | `var(--mp-sys-color-action-primary)` | `color` |
 | `--mp-radio-control-color-disabled` | `var(--mp-sys-color-content-disabled)` | `color` |
 | `--mp-radio-control-color-error` | `var(--mp-sys-color-content-danger)` | `box-shadow`, `color` |
 | `--mp-radio-control-size` | `24px` | `font-size`, `height`, `width` |
@@ -54618,7 +54624,7 @@ const value = ref('a')
 | `default-input-value` | 非受控初始搜索文本，独立于选中值，仅初始化时读取 | `string` | `''` |
 | `multiple` | 多选；默认启用搜索 | `boolean` | `false` |
 | `size` | 完整支持 xs、sm、md、lg、xl，未设置时继承分组与表单 | `ComponentSize`<br>`'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `md` |
-| `variant` | filled、outline、standard；未设置时继承 InputGroup | `FieldDecoratorVariant`<br>`'filled' \| 'outline' \| 'standard'` | `filled` |
+| `variant` | filled、outline、standard；未设置时继承 InputGroup | `FieldDecoratorVariant`<br>`'filled' \| 'outline' \| 'standard'` | `outline` |
 | `disabled` | 禁用状态；显式值优先于继承的 Form / Group 状态 | `boolean` | `undefined` |
 | `readonly` | 只读状态；显式值优先于继承的 Form / Group 状态 | `boolean` | `undefined` |
 | `error` | 错误状态；显式值优先于继承的 Form / Group 状态 | `boolean` | `undefined` |
@@ -54822,7 +54828,7 @@ SelectEditMode 在根入口和 select 子入口一致导出，值沿用各端 ed
 | `--mp-select-popup-option-bg-hover` | `var(--mp-sys-color-state-hover)` | `background`, `background-color` |
 | `--mp-select-popup-option-bg-selected` | `transparent` | `background`, `background-color` |
 | `--mp-select-popup-option-bg-selected-hover` | `var(--mp-select-popup-option-bg-hover)` | `background`, `background-color` |
-| `--mp-select-popup-option-border-radius` | `var(--mp-sys-radius-lg)` | `border-radius` |
+| `--mp-select-popup-option-border-radius` | `0` | `border-radius` |
 | `--mp-select-popup-option-check-color` | `var(--mp-sys-color-action-primary)` | `color` |
 | `--mp-select-popup-option-check-gap` | `var(--mp-sys-space-4)` | `margin-inline-start` |
 | `--mp-select-popup-option-check-size` | `var(--mp-sys-font-size-md)` | `height`, `width` |
@@ -54836,7 +54842,7 @@ SelectEditMode 在根入口和 select 子入口一致导出，值沿用各端 ed
 | `--mp-select-popup-option-text-color-hover` | `var(--mp-sys-color-content-primary)` | `color` |
 | `--mp-select-popup-option-text-color-selected` | `var(--mp-sys-color-action-primary)` | `color` |
 | `--mp-select-popup-padding-horizontal` | `0` | `padding-inline` |
-| `--mp-select-popup-padding-vertical` | `var(--mp-sys-space-2)` | `padding`, `padding-block` |
+| `--mp-select-popup-padding-vertical` | `var(--mp-sys-space-2)` | `padding`, `padding-block`, `padding-block-end`, `padding-block-start` |
 
 </div>
 
@@ -61536,7 +61542,7 @@ before-* 等待期间显示加载反馈并标记 aria-busy；拒绝或失败后�
 | `--mp-switch-checked-text-color` | `var(--mp-switch-text-color)` | `color` |
 | `--mp-switch-disabled-opacity` | `0.5` | `opacity` |
 | `--mp-switch-duration` | `var(--mp-sys-motion-duration-standard)` | `transition` |
-| `--mp-switch-focus-width` | `2px` | `outline`, `outline-offset` |
+| `--mp-switch-focus-width` | `2px` | `box-shadow` |
 | `--mp-switch-font-size` | `var(--mp-sys-font-size-xs)` | `font-size` |
 | `--mp-switch-gap` | `var(--mp-sys-space-2)` | `inset-inline-start`, `padding-inline` |
 | `--mp-switch-handle-background` | `var(--mp-sys-color-surface-default)` | `background` |
@@ -61563,7 +61569,7 @@ before-* 等待期间显示加载反馈并标记 aria-busy；拒绝或失败后�
 | `--mp-switch-tonal-text-color` | `var(--mp-sys-color-content-secondary)` | `color` |
 | `--mp-switch-tonal-track-background` | `var(--mp-sys-color-surface-muted)` | `background` |
 | `--mp-switch-tonal-width` | `52px` | `min-width` |
-| `--mp-switch-track-active-background` | `var(--mp-sys-color-action-primary)` | `background`, `outline` |
+| `--mp-switch-track-active-background` | `var(--mp-sys-color-action-primary)` | `background` |
 | `--mp-switch-track-background` | `var(--mp-sys-color-content-secondary)` | `background` |
 | `--mp-switch-track-error-background` | `var(--mp-sys-color-content-danger)` | `background`, `border-color` |
 | `--mp-switch-width` | `40px` | `min-width` |
@@ -62271,7 +62277,7 @@ TabBar 使用按钮组表达状态选择，选中项通过 aria-pressed 标记�
 | `--mp-tab-bar-item-icon-size` | `22px` | `font-size` |
 | `--mp-tab-bar-item-inactive-color` | `var(--mp-color-text-2)` | `color` |
 | `--mp-tab-bar-item-line-height` | `1` | `line-height` |
-| `--mp-tab-bar-item-variant-active-background-color` | `color-mix(in srgb, var(--mp-color-primary) 14%, var(--mp-tab-bar-background-color))` | `background-color` |
+| `--mp-tab-bar-item-variant-active-background-color` | `color-mix(in srgb, var(--mp-sys-color-action-primary) 14%, var(--mp-tab-bar-background-color))` | `background-color` |
 | `--mp-tab-bar-item-variant-active-color` | `var(--mp-sys-color-action-primary)` | `color` |
 | `--mp-tab-bar-item-variant-icon-container-border-radius` | `100px` | `border-radius` |
 | `--mp-tab-bar-item-variant-icon-container-height` | `30px` | `height` |
@@ -63950,8 +63956,8 @@ show / checked 为受控值时由调用方更新。隐藏时保留淡出效果�
 | `--mp-tag-blue-bg-hover` | `rgb(var(--mp-blue-2))`<br>`rgba(var(--mp-blue-6), 0.35)` (`:root[maple-theme='dark']`) | `background-color` |
 | `--mp-tag-blue-border-color` | `transparent` | `border` |
 | `--mp-tag-blue-border-color-hover` | `transparent` | `border-color` |
-| `--mp-tag-blue-icon-color` | `rgb(var(--mp-blue-9))` | `color` |
-| `--mp-tag-blue-text-color` | `rgb(var(--mp-blue-9))` | `border-color`, `color` |
+| `--mp-tag-blue-icon-color` | `rgb(var(--mp-blue-6))` | `color` |
+| `--mp-tag-blue-text-color` | `rgb(var(--mp-blue-6))` | `border-color`, `color` |
 | `--mp-tag-border-radius` | `var(--mp-sys-radius-md)` | `border-radius` |
 | `--mp-tag-border-type` | `solid` | `border` |
 | `--mp-tag-border-width` | `1px` | `border`, `line-height` |
@@ -63959,8 +63965,8 @@ show / checked 为受控值时由调用方更新。隐藏时保留淡出效果�
 | `--mp-tag-brand-bg-hover` | `rgb(var(--mp-brand-2))`<br>`rgba(var(--mp-brand-6), 0.35)` (`:root[maple-theme='dark']`) | `background-color` |
 | `--mp-tag-brand-border-color` | `transparent` | `border` |
 | `--mp-tag-brand-border-color-hover` | `transparent` | `border-color` |
-| `--mp-tag-brand-icon-color` | `rgb(var(--mp-brand-9))` | `color` |
-| `--mp-tag-brand-text-color` | `rgb(var(--mp-brand-9))` | `border-color`, `color` |
+| `--mp-tag-brand-icon-color` | `rgb(var(--mp-brand-6))` | `color` |
+| `--mp-tag-brand-text-color` | `rgb(var(--mp-brand-6))` | `border-color`, `color` |
 | `--mp-tag-close-font-size` | `var(--mp-tag-size-md-font-size)` | `font-size` |
 | `--mp-tag-close-margin-left` | `var(--mp-sys-space-3)` | `margin-left`, `margin-right` |
 | `--mp-tag-custom-text-color` | `var(--mp-sys-color-content-on-dark)` | `color` |
@@ -63968,8 +63974,8 @@ show / checked 为受控值时由调用方更新。隐藏时保留淡出效果�
 | `--mp-tag-cyan-bg-hover` | `rgb(var(--mp-cyan-2))`<br>`rgba(var(--mp-cyan-6), 0.35)` (`:root[maple-theme='dark']`) | `background-color` |
 | `--mp-tag-cyan-border-color` | `transparent` | `border` |
 | `--mp-tag-cyan-border-color-hover` | `transparent` | `border-color` |
-| `--mp-tag-cyan-icon-color` | `rgb(var(--mp-cyan-9))` | `color` |
-| `--mp-tag-cyan-text-color` | `rgb(var(--mp-cyan-9))` | `border-color`, `color` |
+| `--mp-tag-cyan-icon-color` | `rgb(var(--mp-cyan-6))` | `color` |
+| `--mp-tag-cyan-text-color` | `rgb(var(--mp-cyan-6))` | `border-color`, `color` |
 | `--mp-tag-default-bg` | `var(--mp-sys-color-state-hover)` | `background-color` |
 | `--mp-tag-default-bg-hover` | `var(--mp-color-fill-3)` | `background-color` |
 | `--mp-tag-default-border-color` | `transparent` | `border-color` |
@@ -63981,8 +63987,8 @@ show / checked 为受控值时由调用方更新。隐藏时保留淡出效果�
 | `--mp-tag-gold-bg-hover` | `rgb(var(--mp-gold-2))`<br>`rgba(var(--mp-gold-6), 0.35)` (`:root[maple-theme='dark']`) | `background-color` |
 | `--mp-tag-gold-border-color` | `transparent` | `border` |
 | `--mp-tag-gold-border-color-hover` | `transparent` | `border-color` |
-| `--mp-tag-gold-icon-color` | `rgb(var(--mp-gold-9))` | `color` |
-| `--mp-tag-gold-text-color` | `rgb(var(--mp-gold-9))` | `border-color`, `color` |
+| `--mp-tag-gold-icon-color` | `rgb(var(--mp-gold-6))` | `color` |
+| `--mp-tag-gold-text-color` | `rgb(var(--mp-gold-6))` | `border-color`, `color` |
 | `--mp-tag-gray-bg` | `rgb(var(--mp-gray-2))`<br>`rgba(var(--mp-gray-6), 0.2)` (`:root[maple-theme='dark']`) | `background-color` |
 | `--mp-tag-gray-bg-hover` | `rgb(var(--mp-gray-3))`<br>`rgba(var(--mp-gray-6), 0.35)` (`:root[maple-theme='dark']`) | `background-color` |
 | `--mp-tag-gray-border-color` | `transparent` | `border` |
@@ -63993,53 +63999,53 @@ show / checked 为受控值时由调用方更新。隐藏时保留淡出效果�
 | `--mp-tag-green-bg-hover` | `rgb(var(--mp-green-2))`<br>`rgba(var(--mp-green-6), 0.35)` (`:root[maple-theme='dark']`) | `background-color` |
 | `--mp-tag-green-border-color` | `transparent` | `border` |
 | `--mp-tag-green-border-color-hover` | `transparent` | `border-color` |
-| `--mp-tag-green-icon-color` | `rgb(var(--mp-green-9))` | `color` |
-| `--mp-tag-green-text-color` | `rgb(var(--mp-green-9))` | `border-color`, `color` |
+| `--mp-tag-green-icon-color` | `rgb(var(--mp-green-6))` | `color` |
+| `--mp-tag-green-text-color` | `rgb(var(--mp-green-6))` | `border-color`, `color` |
 | `--mp-tag-icon-margin-right` | `var(--mp-sys-space-3)` | `margin-left`, `margin-right` |
 | `--mp-tag-lime-bg` | `rgb(var(--mp-lime-1))`<br>`rgba(var(--mp-lime-6), 0.2)` (`:root[maple-theme='dark']`) | `background-color` |
 | `--mp-tag-lime-bg-hover` | `rgb(var(--mp-lime-2))`<br>`rgba(var(--mp-lime-6), 0.35)` (`:root[maple-theme='dark']`) | `background-color` |
 | `--mp-tag-lime-border-color` | `transparent` | `border` |
 | `--mp-tag-lime-border-color-hover` | `transparent` | `border-color` |
-| `--mp-tag-lime-icon-color` | `rgb(var(--mp-lime-9))` | `color` |
-| `--mp-tag-lime-text-color` | `rgb(var(--mp-lime-9))` | `border-color`, `color` |
+| `--mp-tag-lime-icon-color` | `rgb(var(--mp-lime-6))` | `color` |
+| `--mp-tag-lime-text-color` | `rgb(var(--mp-lime-6))` | `border-color`, `color` |
 | `--mp-tag-magenta-bg` | `rgb(var(--mp-magenta-1))`<br>`rgba(var(--mp-magenta-6), 0.2)` (`:root[maple-theme='dark']`) | `background-color` |
 | `--mp-tag-magenta-bg-hover` | `rgb(var(--mp-magenta-2))`<br>`rgba(var(--mp-magenta-6), 0.35)` (`:root[maple-theme='dark']`) | `background-color` |
 | `--mp-tag-magenta-border-color` | `transparent` | `border` |
 | `--mp-tag-magenta-border-color-hover` | `transparent` | `border-color` |
-| `--mp-tag-magenta-icon-color` | `rgb(var(--mp-magenta-9))` | `color` |
-| `--mp-tag-magenta-text-color` | `rgb(var(--mp-magenta-9))` | `border-color`, `color` |
+| `--mp-tag-magenta-icon-color` | `rgb(var(--mp-magenta-6))` | `color` |
+| `--mp-tag-magenta-text-color` | `rgb(var(--mp-magenta-6))` | `border-color`, `color` |
 | `--mp-tag-orange-bg` | `rgb(var(--mp-orange-1))`<br>`rgba(var(--mp-orange-6), 0.2)` (`:root[maple-theme='dark']`) | `background-color` |
 | `--mp-tag-orange-bg-hover` | `rgb(var(--mp-orange-2))`<br>`rgba(var(--mp-orange-6), 0.35)` (`:root[maple-theme='dark']`) | `background-color` |
 | `--mp-tag-orange-border-color` | `transparent` | `border` |
 | `--mp-tag-orange-border-color-hover` | `transparent` | `border-color` |
-| `--mp-tag-orange-icon-color` | `rgb(var(--mp-orange-9))` | `color` |
-| `--mp-tag-orange-text-color` | `rgb(var(--mp-orange-9))` | `border-color`, `color` |
+| `--mp-tag-orange-icon-color` | `rgb(var(--mp-orange-6))` | `color` |
+| `--mp-tag-orange-text-color` | `rgb(var(--mp-orange-6))` | `border-color`, `color` |
 | `--mp-tag-orangered-bg` | `rgb(var(--mp-orangered-1))`<br>`rgba(var(--mp-orangered-6), 0.2)` (`:root[maple-theme='dark']`) | `background-color` |
 | `--mp-tag-orangered-bg-hover` | `rgb(var(--mp-orangered-2))`<br>`rgba(var(--mp-orangered-6), 0.35)` (`:root[maple-theme='dark']`) | `background-color` |
 | `--mp-tag-orangered-border-color` | `transparent` | `border` |
 | `--mp-tag-orangered-border-color-hover` | `transparent` | `border-color` |
-| `--mp-tag-orangered-icon-color` | `rgb(var(--mp-orangered-9))` | `color` |
-| `--mp-tag-orangered-text-color` | `rgb(var(--mp-orangered-9))` | `border-color`, `color` |
+| `--mp-tag-orangered-icon-color` | `rgb(var(--mp-orangered-6))` | `color` |
+| `--mp-tag-orangered-text-color` | `rgb(var(--mp-orangered-6))` | `border-color`, `color` |
 | `--mp-tag-padding-horizontal` | `10px` | `padding` |
 | `--mp-tag-padding-vertical` | `0` | `line-height`, `padding` |
 | `--mp-tag-pinkpurple-bg` | `rgb(var(--mp-pinkpurple-1))`<br>`rgba(var(--mp-pinkpurple-6), 0.2)` (`:root[maple-theme='dark']`) | `background-color` |
 | `--mp-tag-pinkpurple-bg-hover` | `rgb(var(--mp-pinkpurple-2))`<br>`rgba(var(--mp-pinkpurple-6), 0.35)` (`:root[maple-theme='dark']`) | `background-color` |
 | `--mp-tag-pinkpurple-border-color` | `transparent` | `border` |
 | `--mp-tag-pinkpurple-border-color-hover` | `transparent` | `border-color` |
-| `--mp-tag-pinkpurple-icon-color` | `rgb(var(--mp-pinkpurple-9))` | `color` |
-| `--mp-tag-pinkpurple-text-color` | `rgb(var(--mp-pinkpurple-9))` | `border-color`, `color` |
+| `--mp-tag-pinkpurple-icon-color` | `rgb(var(--mp-pinkpurple-6))` | `color` |
+| `--mp-tag-pinkpurple-text-color` | `rgb(var(--mp-pinkpurple-6))` | `border-color`, `color` |
 | `--mp-tag-purple-bg` | `rgb(var(--mp-purple-1))`<br>`rgba(var(--mp-purple-6), 0.2)` (`:root[maple-theme='dark']`) | `background-color` |
 | `--mp-tag-purple-bg-hover` | `rgb(var(--mp-purple-2))`<br>`rgba(var(--mp-purple-6), 0.35)` (`:root[maple-theme='dark']`) | `background-color` |
 | `--mp-tag-purple-border-color` | `transparent` | `border` |
 | `--mp-tag-purple-border-color-hover` | `transparent` | `border-color` |
-| `--mp-tag-purple-icon-color` | `rgb(var(--mp-purple-9))` | `color` |
-| `--mp-tag-purple-text-color` | `rgb(var(--mp-purple-9))` | `border-color`, `color` |
+| `--mp-tag-purple-icon-color` | `rgb(var(--mp-purple-6))` | `color` |
+| `--mp-tag-purple-text-color` | `rgb(var(--mp-purple-6))` | `border-color`, `color` |
 | `--mp-tag-red-bg` | `rgb(var(--mp-red-1))`<br>`rgba(var(--mp-red-6), 0.2)` (`:root[maple-theme='dark']`) | `background-color` |
 | `--mp-tag-red-bg-hover` | `rgb(var(--mp-red-2))`<br>`rgba(var(--mp-red-6), 0.35)` (`:root[maple-theme='dark']`) | `background-color` |
 | `--mp-tag-red-border-color` | `transparent` | `border` |
 | `--mp-tag-red-border-color-hover` | `transparent` | `border-color` |
-| `--mp-tag-red-icon-color` | `rgb(var(--mp-red-9))` | `color` |
-| `--mp-tag-red-text-color` | `rgb(var(--mp-red-9))` | `border-color`, `color` |
+| `--mp-tag-red-icon-color` | `rgb(var(--mp-red-6))` | `color` |
+| `--mp-tag-red-text-color` | `rgb(var(--mp-red-6))` | `border-color`, `color` |
 | `--mp-tag-round-radius` | `100px` | `border-radius` |
 | `--mp-tag-size-lg` | `36px` | `height`, `line-height` |
 | `--mp-tag-size-lg-font-size` | `var(--mp-sys-font-size-md)` | `font-size` |
@@ -64782,8 +64788,8 @@ import type {
 | `--mp-textarea-height` | `auto` | `height` |
 | `--mp-textarea-line-height` | `1.5` | `line-height` |
 | `--mp-textarea-min-height` | `96px` | `min-height` |
-| `--mp-textarea-padding-horizontal` | `0` | `padding` |
-| `--mp-textarea-padding-vertical` | `0` | `padding` |
+| `--mp-textarea-padding-horizontal` | `0px` | `padding`, `padding-inline-end` |
+| `--mp-textarea-padding-vertical` | `var(--mp-field-content-padding-vertical)` | `padding` |
 | `--mp-textarea-placeholder-color` | `var(--mp-sys-color-content-secondary)` | `color` |
 
 </div>
@@ -65355,7 +65361,7 @@ const range = ref([])
 
 <!-- demo-config-notes:end -->
 
-`hint` 控制浮动提示（Cedar 默认 false，Maple 默认 true），有 Form 外置标签时不启用。`line` 默认 true；`text-color / focus-color / blur-color` 为可选颜色字符串。`error` 未设置时继承 Form，显式 false 覆盖错误态。TimeRange 的 `separator` 默认 `~`，允许空字符串。默认 variant 保留 Cedar filled、Maple standard，可显式指定同一变体。
+`hint` 控制浮动提示（Cedar 默认 false，Maple 默认 true），有 Form 外置标签时不启用。`line` 默认 true；`text-color / focus-color / blur-color` 为可选颜色字符串。`error` 未设置时继承 Form，显式 false 覆盖错误态。TimeRange 的 `separator` 默认 `~`，允许空字符串。Cedar 与 Maple 的字段默认均为 outline；可显式指定 filled 或 standard。
 
 字段顶层负责值、默认值、展开、格式、步长、边界、禁用规则和只读/禁用状态。请直接在字段上设置这些属性，不放进 timeRangePickerProps。嵌套配置只允许对应面板的展示属性；不能通过模型/确认/选择事件替换字段流程。类型会拒绝此类配置，运行时也过滤，且不会把嵌套规则作为顶层未设置时的回退。
 
@@ -66207,7 +66213,7 @@ open/defaultOpen、disabled、trigger、closeOnClickReference、preventFocus 和
 | `time-fields` | 滚轮列及顺序；显式列表决定可见列，不改格式或模型 | `readonly TimePickerField[]`<br>`TimePickerField: 'hour' \| 'minute' \| 'second'` | 按格式推导 |
 | `time-range-picker-props` | 范围面板展示配置，根拥有模型、规则和状态 | `TimePanelPresentationProps` | `{}` |
 | `use12-hours` | 十二小时面板；小时禁用回调仍用 0–23 | `boolean` | `false` |
-| `variant` | 字段外观 | `filled \| outline \| standard` | `standard` |
+| `variant` | 字段外观 | `filled \| outline \| standard` | `outline` |
 
 ### TimeRange Events
 
@@ -66887,7 +66893,7 @@ function resetSelections() {
 
 ### 字段外壳与配置边界
 
-`hint` 控制浮动提示（Cedar 默认 false，Maple 默认 true），有 Form 外置标签时不启用。`line` 默认 true；`text-color / focus-color / blur-color` 为可选颜色字符串。`error` 未设置时继承 Form，显式 false 覆盖错误态。TimeRange 的 `separator` 默认 `~`，允许空字符串。默认 variant 保留 Cedar filled、Maple standard，可显式指定同一变体。
+`hint` 控制浮动提示（Cedar 默认 false，Maple 默认 true），有 Form 外置标签时不启用。`line` 默认 true；`text-color / focus-color / blur-color` 为可选颜色字符串。`error` 未设置时继承 Form，显式 false 覆盖错误态。TimeRange 的 `separator` 默认 `~`，允许空字符串。Cedar 与 Maple 的字段默认均为 outline；可显式指定 filled 或 standard。
 
 字段顶层负责值、默认值、展开、格式、步长、边界、禁用规则和只读/禁用状态。请直接在字段上设置这些属性，不放进 timePickerProps/timeRangePickerProps。嵌套配置只允许对应面板的展示属性；不能通过模型/确认/选择事件替换字段流程。类型会拒绝此类配置，运行时也过滤，且不会把嵌套规则作为顶层未设置时的回退。
 
@@ -67863,7 +67869,7 @@ beforeCommit(payload, done, context) 仅属于字段保存。payload 含 value�
 | `time-fields` | 滚轮列及顺序；显式列表决定可见列，不改格式或模型 | `readonly TimePickerField[]`<br>`TimePickerField: 'hour' \| 'minute' \| 'second'` | 按格式推导 |
 | `time-picker-props` | 独立时间面板的展示配置，根拥有模型、规则和状态 | `TimePanelPresentationProps` | `{}` |
 | `use12-hours` | 十二小时面板；小时禁用回调仍用 0–23 | `boolean` | `false` |
-| `variant` | 字段外观 | `filled \| outline \| standard` | `standard` |
+| `variant` | 字段外观 | `filled \| outline \| standard` | `outline` |
 
 ### Time Events
 

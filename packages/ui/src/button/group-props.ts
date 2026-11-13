@@ -25,7 +25,7 @@ export const buttonGroupProps = {
    */
   variant: {
     type: String as PropType<ButtonVariant>,
-    default: 'default',
+    default: 'outline',
     validator: (value: ButtonVariant) => buttonVariants.includes(value),
   },
   /**
@@ -53,7 +53,7 @@ export const buttonGroupProps = {
    */
   elevation: {
     type: [Boolean, Number],
-    default: true,
+    default: false,
   },
 }
 

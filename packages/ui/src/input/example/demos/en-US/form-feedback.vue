@@ -7,7 +7,7 @@
       :validate-status="status"
       :help="status === 'error' ? 'Enter an account and retry' : undefined"
     >
-      <mp-input v-model="model.account" placeholder="An outer label disables the floating hint" hint clearable />
+      <mp-input v-model="model.account" placeholder="Enter your account" clearable />
     </mp-form-item>
     <mp-button status="primary" :loading="status === 'validating'" @click="validate"
       >Simulate async validation</mp-button

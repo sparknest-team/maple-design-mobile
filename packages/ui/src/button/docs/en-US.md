@@ -21,7 +21,7 @@ Both libraries use the same implementation and examples; package prefixes, theme
 
 | Configuration | Purpose | Related examples |
 | --- | --- | --- |
-| `variant` | Appearance; inherits group, otherwise default | Variants, statuses and sizes, Custom colors |
+| `variant` | Appearance; inherits group, otherwise outline | Variants, statuses and sizes, Custom colors |
 | `size` | Size; inherits group, otherwise md | Variants, statuses and sizes, Five sizes |
 | `status` | Semantic color; inherits group, otherwise default | Variants, statuses and sizes |
 | `disabled` | Disabled; inherits group, explicit false overrides | Disabled buttons and links |
@@ -66,7 +66,7 @@ Horizontal buttons and inputs of the same size share the default height and font
 | Configuration | Purpose | Related examples |
 | --- | --- | --- |
 | `status` | Semantic color; inherits group, otherwise default | Icons and label layouts |
-| `variant` | Appearance; inherits group, otherwise default | Icons and label layouts |
+| `variant` | Appearance; inherits group, otherwise outline | Icons and label layouts |
 | `size` | Size; inherits group, otherwise md | Icons and label layouts |
 | `stacked` | Stack icon and text; inherits group when omitted | Icons and label layouts |
 | `round` | Round button | Icons and label layouts |
@@ -133,7 +133,7 @@ Compare stacked labels and group direction, then load the first button while the
 | Configuration | Purpose | Related examples |
 | --- | --- | --- |
 | `size` | Size; inherits group, otherwise md | Form control size comparison |
-| `variant` | Appearance; inherits group, otherwise default | Form control size comparison |
+| `variant` | Appearance; inherits group, otherwise outline | Form control size comparison |
 | `html-type` | Native button type | Native form, focus and touch events |
 | `focusable` | Allow sequential Tab focus; does not prevent programmatic focus | Native form, focus and touch events |
 <!-- demo-config-notes:end -->
@@ -208,7 +208,7 @@ Inherits the nearest `dir="ltr|rtl"`, including runtime changes and local overri
 | Prop | Description | Type | Default |
 | ------------- | ------------------------------------------------------------------------------------------------ | ----------------------------------------- | -------------- |
 | status | Semantic color; inherits group, otherwise default | `SemanticStatus`<br>`'default' \| 'primary' \| 'secondary' \| 'tertiary' \| 'info' \| 'success' \| 'warning' \| 'danger'` | `undefined` |
-| variant | Appearance; inherits group, otherwise default | `default / text / outline / tonal` | `undefined` |
+| variant | Appearance; inherits group, otherwise outline | `default / text / outline / tonal` | `undefined` |
 | size | Size; inherits group, otherwise md | `xs / sm / md / lg / xl` | `undefined` |
 | html-type | Native button type | `button / submit / reset` | `button` |
 | component | Root tag; link attributes fall through | `button / a` | `button` |
@@ -225,7 +225,7 @@ Inherits the nearest `dir="ltr|rtl"`, including runtime changes and local overri
 | autofocus | Native autofocus | `boolean` | `false` |
 | text-color | Custom text color | `string` | `undefined` |
 | color | Custom background or variant base color | `string` | `undefined` |
-| elevation | Default variant shadow; true=2, false=off, rounded/clamped 0–24; group owns grouped elevation | `boolean / number` | `true` |
+| elevation | Default variant shadow; true=1, false=off, rounded/clamped 0–24; group owns grouped elevation | `boolean / number` | `false` |
 | stacked | Stack icon and text; inherits group when omitted | `boolean` | `undefined` |
 
 ### Button Events
@@ -254,13 +254,13 @@ No custom public methods.
 | --- | --- | --- | --- |
 | status | Default semantic status for child buttons; individual buttons may override it | `SemanticStatus`<br>`'default' \| 'primary' \| 'secondary' \| 'tertiary' \| 'info' \| 'success' \| 'warning' \| 'danger'` | default |
 | size | Default child button size; individual buttons may override it | xs / sm / md / lg / xl | undefined |
-| variant | Default child appearance; adjacent buttons join using their effective variants, including mixed variants | default / text / outline / tonal | default |
+| variant | Default child appearance; adjacent buttons join using their effective variants, including mixed variants | default / text / outline / tonal | outline |
 | color | Default custom child color; individual buttons may override it | string | undefined |
 | text-color | Default child text color; individual buttons may override it | string | undefined |
 | disabled | Default disabled state; an explicit child false overrides group true | boolean | false |
 | stacked | Stack child icon and text vertically by default; a child may explicitly override with false | boolean | false |
 | vertical | Vertical group layout, independent of button content stacking | boolean | false |
-| elevation | Group elevation; true means 2, numbers normalize to 0–24, and it applies only to an enabled group using the default variant | boolean / number | true |
+| elevation | Group elevation; true means 1, numbers normalize to 0–24, and it applies only to an enabled group using the default variant | boolean / number | false |
 
 The root defaults to `role="group"`. Supply `aria-label` or `aria-labelledby` when the action group needs a name. Native attributes can override role. Ordinary groups retain native Tab / Enter / Space handling without arrow-key focus management.
 

@@ -107,12 +107,11 @@ Use this example for suggestions while allowing free text. Adjust variant, size 
 
 | Configuration | Purpose | Related examples |
 | ------------- | -------------------------------------------- | -------------------------------- |
-| `options` | Suggestions, including groups; unique values become strings on selection | Field names and slots, Variants and hints |
-| `placeholder` | Placeholder or floating hint text | Field names and slots, Variants and hints |
+| `options` | Suggestions, including groups; unique values become strings on selection | Field names and slots, Variants and colors |
+| `placeholder` | Placeholder or floating hint text | Field names and slots, Variants and colors |
 | `field-names` | Map value, label, disabled and other fields | Field names and slots |
-| `variant` | Input variant; inherits Group when unset | Variants and hints |
-| `hint` | Enable Input floating hint | Variants and hints |
-| `clearable` | Allow clearing a nonempty editable value | Variants and hints |
+| `variant` | Input variant; inherits Group when unset | Variants and colors |
+| `clearable` | Allow clearing a nonempty editable value | Variants and colors |
 
 <!-- demo-config-notes:end -->
 
@@ -121,7 +120,7 @@ Use this example for suggestions while allowing free text. Adjust variant, size 
 ../example/demos/en-US/footer.vue
 ```
 
-### Variants and hints
+### Variants and colors
 
 ```demo
 ../example/demos/en-US/decorator.vue

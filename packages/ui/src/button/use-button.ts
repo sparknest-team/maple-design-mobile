@@ -22,7 +22,7 @@ export function useButton(props: Readonly<ButtonProps>, emit: { (event: 'click',
   })
   const states = computed(() => ({
     status: props.status ?? group?.status.value ?? 'default',
-    variant: props.variant ?? group?.variant.value ?? 'default',
+    variant: props.variant ?? group?.variant.value ?? 'outline',
     size: props.size ?? group?.size.value ?? defaultSize.value,
     color: props.color ?? group?.color.value,
     textColor: props.textColor ?? group?.textColor.value,
@@ -34,7 +34,7 @@ export function useButton(props: Readonly<ButtonProps>, emit: { (event: 'click',
       group || props.elevation === false
         ? undefined
         : n(
-            `$-elevation--${props.elevation === true || props.elevation == null ? 2 : Math.min(24, Math.max(0, Math.round(Number(props.elevation) || 0)))}`,
+            `$-elevation--${props.elevation === true || props.elevation == null ? 1 : Math.min(24, Math.max(0, Math.round(Number(props.elevation) || 0)))}`,
           ),
   }))
   const busy = computed(() => !!props.loading)

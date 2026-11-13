@@ -73,7 +73,7 @@
       "name": "hint",
       "description": "",
       "type": "boolean",
-      "defaultValue": "true",
+      "defaultValue": "false",
       "kind": "boolean"
     },
     {

@@ -15,149 +15,156 @@
     />
     <div :class="n('content')">
       <PendingFeedback :loading="uploader.guardPending.value" />
-      <div
-        v-if="showUploadButton && !maxReached"
-        ref="triggerRef"
-        v-ripple="{ disabled: disabledState || hasInteractiveTrigger || !ripple }"
-        :class="
-          classes(
-            n('trigger'),
-            formatElevation(elevation, 2),
-            [draggable, n('trigger--draggable')],
-            [dragOver, n('trigger--dragover')],
-          )
-        "
-        :role="hasInteractiveTrigger ? (describeError($attrs['aria-describedby']) ? 'group' : undefined) : 'button'"
-        :aria-describedby="describeError($attrs['aria-describedby'])"
-        :tabindex="disabledState || hasInteractiveTrigger ? undefined : 0"
-        :aria-disabled="disabledState"
-        @click.capture="captureClick"
-        @click="choose($event)"
-        @keydown="handleKeydown"
-        @dragover="draggable && handleDragOver($event)"
-        @dragleave="handleDragLeave"
-        @drop="draggable && handleDrop($event)"
+      <template
+        v-for="section in triggerPosition === 'after' ? ['list', 'trigger'] : ['trigger', 'list']"
+        :key="section"
       >
-        <slot
-          name="trigger"
-          :choose-file="chooseFile"
-          :disabled="disabledState"
-          :drag-over="dragOver"
-          :described-by="describeError($attrs['aria-describedby'])"
-        >
-          <span aria-hidden="true">＋</span><span>{{ draggable ? text.dropFiles : text.upload }}</span>
-        </slot>
-      </div>
-      <div v-if="showFileList" :class="n('list')">
-        <template v-for="(file, index) in fileList" :key="file.uid">
-          <slot name="item" v-bind="itemScope(file, index)">
-            <div :class="classes(n('item'), n('item--' + file.status), formatElevation(elevation, 2))">
-              <button
-                v-if="listType !== 'text'"
-                type="button"
-                :class="n('thumb')"
-                :disabled="mergedDisabled || !preview"
-                :aria-label="text.preview"
-                @click="uploader.preview(file, $event)"
-              >
-                <img
-                  v-if="isImage(file)"
-                  :src="file.thumbnailUrl || file.url"
-                  :alt="file.name"
-                  :style="{ objectFit: file.fit || imageFit }"
-                /><span v-else>{{ file.name?.slice(0, 1) || 'F' }}</span>
-                <span
-                  v-if="isVideo(file) && formatVideoDuration(file.duration)"
-                  :class="n('duration')"
-                  :aria-label="`${text.duration} ${formatVideoDuration(file.duration)}`"
-                  >{{ formatVideoDuration(file.duration) }}</span
-                >
-              </button>
-              <div :class="n('meta')">
-                <span :class="n('name')">{{ file.name }}</span
-                ><span :class="n('size')">{{ formatSize(file.size) }}</span>
-                <span
-                  v-if="listType === 'text' && isVideo(file) && formatVideoDuration(file.duration)"
-                  :aria-label="`${text.duration} ${formatVideoDuration(file.duration)}`"
-                  >{{ formatVideoDuration(file.duration) }}</span
-                >
-                <progress
-                  v-if="file.status === 'uploading'"
-                  :class="n('progress')"
-                  :value="file.percent"
-                  max="100"
-                  :aria-label="file.name"
-                />
-                <span v-if="file.status === 'error'" role="status">{{ text.retry }}</span>
-              </div>
-              <div :class="n('actions')">
+        <template v-if="section === 'trigger'">
+          <div
+            v-if="showUploadButton && !maxReached"
+            :ref="setTriggerRef"
+            v-ripple="{ disabled: disabledState || hasInteractiveTrigger || !ripple }"
+            :class="
+              classes(
+                n('trigger'),
+                formatElevation(elevation, 2),
+                [draggable, n('trigger--draggable')],
+                [dragOver, n('trigger--dragover')],
+              )
+            "
+            :role="hasInteractiveTrigger ? (describeError($attrs['aria-describedby']) ? 'group' : undefined) : 'button'"
+            :aria-describedby="describeError($attrs['aria-describedby'])"
+            :tabindex="disabledState || hasInteractiveTrigger ? undefined : 0"
+            :aria-disabled="disabledState"
+            @click.capture="captureClick"
+            @click="choose($event)"
+            @keydown="handleKeydown"
+            @dragover="draggable && handleDragOver($event)"
+            @dragleave="handleDragLeave"
+            @drop="draggable && handleDrop($event)"
+          >
+            <slot
+              name="trigger"
+              :choose-file="chooseFile"
+              :disabled="disabledState"
+              :drag-over="dragOver"
+              :described-by="describeError($attrs['aria-describedby'])"
+            >
+              <span aria-hidden="true">＋</span><span>{{ draggable ? text.dropFiles : text.upload }}</span>
+            </slot>
+          </div>
+        </template>
+        <div v-else-if="showFileList" :class="n('list')">
+          <template v-for="(file, index) in fileList" :key="file.uid">
+            <slot name="item" v-bind="itemScope(file, index)">
+              <div :class="classes(n('item'), n('item--' + file.status), formatElevation(elevation, 2))">
                 <button
-                  v-if="showPreviewButton && preview && file.url"
+                  v-if="listType !== 'text'"
                   type="button"
-                  :class="n('action')"
-                  :disabled="mergedDisabled"
+                  :class="n('thumb')"
+                  :disabled="mergedDisabled || !preview"
                   :aria-label="text.preview"
                   @click="uploader.preview(file, $event)"
                 >
-                  <IconEye />
+                  <img
+                    v-if="isImage(file)"
+                    :src="file.thumbnailUrl || file.url"
+                    :alt="file.name"
+                    :style="{ objectFit: file.fit || imageFit }"
+                  /><span v-else>{{ file.name?.slice(0, 1) || 'F' }}</span>
+                  <span
+                    v-if="isVideo(file) && formatVideoDuration(file.duration)"
+                    :class="n('duration')"
+                    :aria-label="`${text.duration} ${formatVideoDuration(file.duration)}`"
+                    >{{ formatVideoDuration(file.duration) }}</span
+                  >
                 </button>
-                <a
-                  v-if="showDownloadButton && file.url"
-                  :class="n('action')"
-                  :href="mergedDisabled ? undefined : file.url"
-                  :role="mergedDisabled ? 'link' : undefined"
-                  :tabindex="mergedDisabled ? -1 : undefined"
-                  :aria-disabled="mergedDisabled || undefined"
-                  :download="file.name"
-                  :aria-label="text.download"
-                  @click="mergedDisabled && $event.preventDefault()"
-                  ><IconDownload
-                /></a>
-                <button
-                  v-if="showCancelButton && file.status === 'uploading'"
-                  type="button"
-                  :class="n('action')"
-                  :disabled="disabledState"
-                  :aria-label="text.cancel"
-                  @click="uploader.abort(file)"
-                >
-                  <IconClose />
-                </button>
-                <button
-                  v-if="showRetryButton && ['error', 'canceled'].includes(file.status)"
-                  type="button"
-                  :class="n('action')"
-                  :disabled="disabledState"
-                  :aria-label="text.retry"
-                  @click="uploader.retry(file)"
-                >
-                  <IconRefresh />
-                </button>
-                <button
-                  v-if="reupload"
-                  type="button"
-                  :class="n('action')"
-                  :disabled="disabledState"
-                  :aria-label="text.replace"
-                  @click="chooseReplacement(file, $event)"
-                >
-                  <IconRefresh />
-                </button>
-                <slot v-if="showRemoveButton" name="remove-button" v-bind="itemScope(file, index)"
-                  ><button
+                <div :class="n('meta')">
+                  <span :class="n('name')">{{ file.name }}</span
+                  ><span :class="n('size')">{{ formatSize(file.size) }}</span>
+                  <span
+                    v-if="listType === 'text' && isVideo(file) && formatVideoDuration(file.duration)"
+                    :aria-label="`${text.duration} ${formatVideoDuration(file.duration)}`"
+                    >{{ formatVideoDuration(file.duration) }}</span
+                  >
+                  <progress
+                    v-if="file.status === 'uploading'"
+                    :class="n('progress')"
+                    :value="file.percent"
+                    max="100"
+                    :aria-label="file.name"
+                  />
+                  <span v-if="file.status === 'error'" role="status">{{ text.retry }}</span>
+                </div>
+                <div :class="n('actions')">
+                  <button
+                    v-if="showPreviewButton && preview && file.url"
+                    type="button"
+                    :class="n('action')"
+                    :disabled="mergedDisabled"
+                    :aria-label="text.preview"
+                    @click="uploader.preview(file, $event)"
+                  >
+                    <IconEye />
+                  </button>
+                  <a
+                    v-if="showDownloadButton && file.url"
+                    :class="n('action')"
+                    :href="mergedDisabled ? undefined : file.url"
+                    :role="mergedDisabled ? 'link' : undefined"
+                    :tabindex="mergedDisabled ? -1 : undefined"
+                    :aria-disabled="mergedDisabled || undefined"
+                    :download="file.name"
+                    :aria-label="text.download"
+                    @click="mergedDisabled && $event.preventDefault()"
+                    ><IconDownload
+                  /></a>
+                  <button
+                    v-if="showCancelButton && file.status === 'uploading'"
                     type="button"
                     :class="n('action')"
                     :disabled="disabledState"
-                    :aria-label="text.remove"
-                    @click="uploader.remove(file)"
+                    :aria-label="text.cancel"
+                    @click="uploader.abort(file)"
                   >
-                    <IconClose /></button
-                ></slot>
+                    <IconClose />
+                  </button>
+                  <button
+                    v-if="showRetryButton && ['error', 'canceled'].includes(file.status)"
+                    type="button"
+                    :class="n('action')"
+                    :disabled="disabledState"
+                    :aria-label="text.retry"
+                    @click="uploader.retry(file)"
+                  >
+                    <IconRefresh />
+                  </button>
+                  <button
+                    v-if="reupload"
+                    type="button"
+                    :class="n('action')"
+                    :disabled="disabledState"
+                    :aria-label="text.replace"
+                    @click="chooseReplacement(file, $event)"
+                  >
+                    <IconRefresh />
+                  </button>
+                  <slot v-if="showRemoveButton" name="remove-button" v-bind="itemScope(file, index)"
+                    ><button
+                      type="button"
+                      :class="n('action')"
+                      :disabled="disabledState"
+                      :aria-label="text.remove"
+                      @click="uploader.remove(file)"
+                    >
+                      <IconClose /></button
+                  ></slot>
+                </div>
               </div>
-            </div>
-          </slot>
-        </template>
-      </div>
+            </slot>
+          </template>
+        </div>
+      </template>
     </div>
     <PreviewPresentation
       :popup-container="popupContainer"
@@ -169,6 +176,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import type { ComponentPublicInstance } from 'vue'
 import { inject, onBeforeUnmount, ref, watch } from 'vue'
 import { IconClose, IconDownload, IconEye, IconRefresh } from '@maple-design/icons-vue'
 import { fieldEditorControlPending } from '../_components/field-presentation/editor-pending'
@@ -319,6 +327,9 @@ const {
   handleDrop,
 } = uploader
 const { triggerRef, hasInteractiveTrigger, captureClick, claim, chooser, isClaimed } = useUploadTrigger()
+function setTriggerRef(element: Element | ComponentPublicInstance | null) {
+  triggerRef.value = element ? (element as HTMLElement) : undefined
+}
 function chooseFile() {
   return claim() ? chooseNativeFile() : Promise.resolve()
 }

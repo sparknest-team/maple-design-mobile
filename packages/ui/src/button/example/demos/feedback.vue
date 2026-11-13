@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 
 const ripple = ref(true)
-const elevation = ref(2)
+const elevation = ref(0)
 </script>
 <template>
   <mp-space direction="column" :size="16">
@@ -10,6 +10,6 @@ const elevation = ref(2)
       <mp-checkbox v-model="ripple">Ripple</mp-checkbox>
       <label>Elevation<mp-input-number v-model="elevation" :min="0" :max="24" aria-label="Button elevation" /></label>
     </mp-space>
-    <mp-button :ripple="ripple" :elevation="elevation">Click to compare feedback</mp-button>
+    <mp-button variant="default" :ripple="ripple" :elevation="elevation">Click to compare feedback</mp-button>
   </mp-space>
 </template>

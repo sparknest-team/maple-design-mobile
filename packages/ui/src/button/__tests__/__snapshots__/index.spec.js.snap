@@ -1,7 +1,7 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`test button component props > button focusable 1`] = `
-"<button class="mp-button mp-button--size-md mp-button--status-default mp-button--variant-default mp-elevation--2" type="button" tabindex="-1">
+"<button class="mp-button mp-button--size-md mp-button--status-default mp-button--variant-outline" type="button" tabindex="-1">
   <!--v-if-->
   <!--v-if-->
   <!--v-if-->
@@ -10,17 +10,17 @@ exports[`test button component props > button focusable 1`] = `
 `;
 
 exports[`test button group component props > button group color and text-color 1`] = `
-"<div role="group" class="mp-button-group mp--box mp-button-group--variant-default mp-button-group--horizontal mp-elevation--2"><button class="mp-button mp-button--size-md mp-button--status-default mp-button--variant-default" style="color: red; background: yellow;" type="button">
+"<div role="group" class="mp-button-group mp--box mp-button-group--variant-outline mp-button-group--horizontal"><button class="mp-button mp-button--size-md mp-button--status-default mp-button--variant-outline" style="color: red; border-color: red;" type="button">
     <!--v-if-->
     <!--v-if-->
     <!--v-if-->
     <div class="mp-hover-overlay"></div>
-  </button><button class="mp-button mp-button--size-md mp-button--status-default mp-button--variant-default" style="color: red; background: yellow;" type="button">
+  </button><button class="mp-button mp-button--size-md mp-button--status-default mp-button--variant-outline" style="color: red; border-color: red;" type="button">
     <!--v-if-->
     <!--v-if-->
     <!--v-if-->
     <div class="mp-hover-overlay"></div>
-  </button><button class="mp-button mp-button--size-md mp-button--status-default mp-button--variant-default" style="color: red; background: yellow;" type="button">
+  </button><button class="mp-button mp-button--size-md mp-button--status-default mp-button--variant-outline" style="color: red; border-color: red;" type="button">
     <!--v-if-->
     <!--v-if-->
     <!--v-if-->
@@ -29,17 +29,17 @@ exports[`test button group component props > button group color and text-color 1
 `;
 
 exports[`test button group component props > button group elevation 1`] = `
-"<div role="group" class="mp-button-group mp--box mp-button-group--variant-default mp-button-group--horizontal mp-elevation--10"><button class="mp-button mp-button--size-md mp-button--status-default mp-button--variant-default" type="button">
+"<div role="group" class="mp-button-group mp--box mp-button-group--variant-outline mp-button-group--horizontal"><button class="mp-button mp-button--size-md mp-button--status-default mp-button--variant-outline" type="button">
     <!--v-if-->
     <!--v-if-->
     <!--v-if-->
     <div class="mp-hover-overlay"></div>
-  </button><button class="mp-button mp-button--size-md mp-button--status-default mp-button--variant-default" type="button">
+  </button><button class="mp-button mp-button--size-md mp-button--status-default mp-button--variant-outline" type="button">
     <!--v-if-->
     <!--v-if-->
     <!--v-if-->
     <div class="mp-hover-overlay"></div>
-  </button><button class="mp-button mp-button--size-md mp-button--status-default mp-button--variant-default" type="button">
+  </button><button class="mp-button mp-button--size-md mp-button--status-default mp-button--variant-outline" type="button">
     <!--v-if-->
     <!--v-if-->
     <!--v-if-->
@@ -86,7 +86,7 @@ exports[`test button group component props > button group text mode 1`] = `
 `;
 
 exports[`test button group component props > button group tonal appearance 1`] = `
-"<div role="group" class="mp-button-group mp--box mp-button-group--variant-default mp-button-group--horizontal mp-elevation--2"><button class="mp-button mp-button--size-md mp-button--status-default mp-button--variant-tonal" type="button">
+"<div role="group" class="mp-button-group mp--box mp-button-group--variant-default mp-button-group--horizontal"><button class="mp-button mp-button--size-md mp-button--status-default mp-button--variant-tonal" type="button">
     <!--v-if-->
     <!--v-if-->
     <!--v-if-->
@@ -105,17 +105,17 @@ exports[`test button group component props > button group tonal appearance 1`] =
 `;
 
 exports[`test button group component props > button group type and size 1`] = `
-"<div role="group" class="mp-button-group mp--box mp-button-group--variant-default mp-button-group--horizontal mp-elevation--2"><button class="mp-button mp-button--size-lg mp-button--status-primary mp-button--variant-default" type="button">
+"<div role="group" class="mp-button-group mp--box mp-button-group--variant-outline mp-button-group--horizontal"><button class="mp-button mp-button--size-lg mp-button--status-primary mp-button--variant-outline" type="button">
     <!--v-if-->
     <!--v-if-->
     <!--v-if-->
     <div class="mp-hover-overlay"></div>
-  </button><button class="mp-button mp-button--size-lg mp-button--status-primary mp-button--variant-default" type="button">
+  </button><button class="mp-button mp-button--size-lg mp-button--status-primary mp-button--variant-outline" type="button">
     <!--v-if-->
     <!--v-if-->
     <!--v-if-->
     <div class="mp-hover-overlay"></div>
-  </button><button class="mp-button mp-button--size-lg mp-button--status-primary mp-button--variant-default" type="button">
+  </button><button class="mp-button mp-button--size-lg mp-button--status-primary mp-button--variant-outline" type="button">
     <!--v-if-->
     <!--v-if-->
     <!--v-if-->
@@ -124,17 +124,17 @@ exports[`test button group component props > button group type and size 1`] = `
 `;
 
 exports[`test button group component slots > button group default slot 1`] = `
-"<div role="group" class="mp-button-group mp--box mp-button-group--variant-default mp-button-group--horizontal mp-elevation--2"><button class="mp-button mp-button--size-md mp-button--status-default mp-button--variant-default" type="button">
+"<div role="group" class="mp-button-group mp--box mp-button-group--variant-outline mp-button-group--horizontal"><button class="mp-button mp-button--size-md mp-button--status-default mp-button--variant-outline" type="button">
     <!--v-if-->
     <!--v-if-->
     <!--v-if-->
     <div class="mp-hover-overlay"></div>
-  </button><button class="mp-button mp-button--size-md mp-button--status-default mp-button--variant-default" type="button">
+  </button><button class="mp-button mp-button--size-md mp-button--status-default mp-button--variant-outline" type="button">
     <!--v-if-->
     <!--v-if-->
     <!--v-if-->
     <div class="mp-hover-overlay"></div>
-  </button><button class="mp-button mp-button--size-md mp-button--status-default mp-button--variant-default" type="button">
+  </button><button class="mp-button mp-button--size-md mp-button--status-default mp-button--variant-outline" type="button">
     <!--v-if-->
     <!--v-if-->
     <!--v-if-->

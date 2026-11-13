@@ -222,7 +222,7 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 | aria-label | Accessible label | `string` | `-` |
 | autofocus | Focus automatically after mount | `boolean` | `false` |
 | enterkeyhint | Mobile enter-key hint | `string` | `-` |
-| hint | Use the placeholder as a floating hint | `boolean` | `true` |
+| hint | Use the placeholder as a floating hint | `boolean` | `false` |
 | line | Show the border or bottom separator | `boolean` | `true` |
 | text-color | Text color | `string` | `-` |
 | focus-color | Focus color | `string` | `-` |

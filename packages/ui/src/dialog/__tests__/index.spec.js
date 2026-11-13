@@ -1,11 +1,23 @@
-import { afterEach, expect, test, vi } from 'vitest'
+import { nextTick } from 'vue'
+import { flushPromises } from '@vue/test-utils'
+import { afterEach, beforeEach, expect, test, vi } from 'vitest'
 import Dialog from '..'
-import { delay, trigger } from '../../utils/test'
+import { trigger } from '../../utils/test'
+import {
+  finishServiceTransitions,
+  installServiceTransitionTimers,
+  restoreServiceTransitionTimers,
+} from './service-test-utils'
 
+beforeEach(installServiceTransitionTimers)
 afterEach(async () => {
-  Dialog.close()
-  Dialog.resetDefaultOptions()
-  await delay(300)
+  try {
+    Dialog.close()
+    await finishServiceTransitions()
+  } finally {
+    Dialog.resetDefaultOptions()
+    restoreServiceTransitionTimers()
+  }
 })
 
 test('uses explicit static methods instead of callable Dialog', () => {
@@ -19,10 +31,10 @@ test('opens from a string and returns close/update handles', async () => {
   const result = Dialog.open('test message')
   expect(result.close).toBeTypeOf('function')
   expect(result.update).toBeTypeOf('function')
-  await delay(16)
+  await nextTick()
   expect(document.querySelector('.mp-dialog__message')?.textContent).toContain('test message')
   result.update({ message: 'updated' })
-  await delay(16)
+  await nextTick()
   expect(document.querySelector('.mp-dialog__message')?.textContent).toContain('updated')
   result.close()
   await expect(result).resolves.toBe('close')
@@ -30,20 +42,20 @@ test('opens from a string and returns close/update handles', async () => {
 
 test('resolves confirm and cancel actions', async () => {
   const confirmResult = Dialog.confirm('confirm')
-  await delay(16)
+  await nextTick()
   await trigger(document.querySelector('.mp-dialog__confirm-button'), 'click')
   await expect(confirmResult).resolves.toBe('confirm')
-  await delay(300)
+  await finishServiceTransitions()
 
   const cancelResult = Dialog.open('cancel')
-  await delay(16)
+  await nextTick()
   await trigger(document.querySelector('.mp-dialog__cancel-button'), 'click')
   await expect(cancelResult).resolves.toBe('cancel')
 })
 
 test('supports overriding functional presentation', async () => {
   const result = Dialog.open({ message: 'general content', simple: false, closable: true })
-  await delay(16)
+  await nextTick()
   expect(document.querySelector('.mp-dialog--simple')).toBeFalsy()
   await trigger(document.querySelector('.mp-dialog__close-button'), 'click')
   await expect(result).resolves.toBe('close')
@@ -60,7 +72,7 @@ test('keeps functional defaults when beforeClose is configured', async () => {
       Promise.resolve().then(done)
     },
   })
-  await delay(16)
+  await nextTick()
   expect(document.querySelector('.mp-dialog--simple')).toBeTruthy()
   expect(document.querySelector('.mp-dialog__close-button')).toBeFalsy()
   await trigger(document.querySelector('.mp-dialog__confirm-button'), 'click')
@@ -71,7 +83,7 @@ test.each(['open', 'confirm', 'alert', 'info', 'success', 'warning', 'error'])(
   '%s uses simple layout and hides the close button by default',
   async (method) => {
     const result = Dialog[method]('message')
-    await delay(16)
+    await nextTick()
     expect(document.querySelector('.mp-dialog--simple')).toBeTruthy()
     expect(document.querySelector('.mp-dialog__close-button')).toBeFalsy()
     result.close()
@@ -82,10 +94,10 @@ test.each(['open', 'confirm', 'alert', 'info', 'success', 'warning', 'error'])(
 test('semantic methods apply their type', async () => {
   for (const type of ['info', 'success', 'warning', 'error']) {
     const result = Dialog[type]('message')
-    await delay(16)
+    await nextTick()
     expect(document.querySelector(`.mp-dialog--type-${type}`)).toBeTruthy()
     result.close()
-    await delay(300)
+    await finishServiceTransitions()
   }
 })
 
@@ -93,16 +105,16 @@ test('setDefaultOptions and resetDefaultOptions work', async () => {
   const onConfirm = vi.fn()
   Dialog.setDefaultOptions({ onConfirm, title: 'Default title' })
   let result = Dialog.open('message')
-  await delay(16)
+  await nextTick()
   expect(document.querySelector('.mp-dialog__title')?.textContent).toContain('Default title')
   await trigger(document.querySelector('.mp-dialog__confirm-button'), 'click')
   await result
   expect(onConfirm).toHaveBeenCalledTimes(1)
-  await delay(300)
+  await finishServiceTransitions()
 
   Dialog.resetDefaultOptions()
   result = Dialog.open('message')
-  await delay(16)
+  await nextTick()
   expect(document.querySelector('.mp-dialog__title-content')).toBeFalsy()
   result.close()
 })
@@ -110,11 +122,11 @@ test('setDefaultOptions and resetDefaultOptions work', async () => {
 test('beforeClose delays promise resolution', async () => {
   let done
   const result = Dialog.confirm({ message: 'confirm', beforeClose: (_action, next) => (done = next) })
-  await delay(16)
+  await nextTick()
   await trigger(document.querySelector('.mp-dialog__confirm-button'), 'click')
   let resolved = false
   result.then(() => (resolved = true))
-  await delay(16)
+  await flushPromises()
   expect(resolved).toBe(false)
   done()
   await expect(result).resolves.toBe('confirm')

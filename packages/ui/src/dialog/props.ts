@@ -14,6 +14,10 @@ export const DIALOG_TYPE_ICON: Record<DialogType, string> = {
 }
 
 export const dialogProps = {
+  /** 标题与内容之间的分割线，默认关闭。 */
+  topDivider: { type: Boolean, default: false },
+  /** 内容与底部之间的分割线，默认关闭。 */
+  bottomDivider: { type: Boolean, default: false },
   /** 阅读方向，省略时继承来源作用域；函数式调用可显式指定。 */
   dir: readingDirectionProp,
   open: { type: Boolean, default: undefined },

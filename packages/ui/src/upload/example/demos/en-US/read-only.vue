@@ -1,13 +1,10 @@
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
+import type { UploadFileItem } from '@maple-design/ui-vue'
 
-const files = ref([])
-const last = ref('')
+const files = ref<UploadFileItem[]>([])
 </script>
+
 <template>
-  <div>
-    <p>Without action/custom-request, files are read without network requests.</p>
-    <mp-upload v-model="files" multiple list-type="picture" @read="(file) => (last = file.name)" />
-    <p>Last read: {{ last }}</p>
-  </div>
+  <mp-upload v-model="files" multiple />
 </template>

@@ -11,7 +11,6 @@ const record = (name: string) => {
   <div class="textarea-body-demo">
     <mp-textarea
       v-model="value"
-      hint
       clearable
       placeholder="Work notes"
       :auto-size="{ minRows: 2, maxRows: 5 }"
@@ -22,7 +21,7 @@ const record = (name: string) => {
       @update:model-value="record('update:modelValue')"
       @change="record('change')"
     />
-    <mp-textarea :line="false" hint placeholder="Borderless hint" focus-color="#137547" :rows="2" />
+    <mp-textarea :line="false" placeholder="Borderless input" focus-color="#137547" :rows="2" />
     <p>Enter inserts a newline; blur commits; clearing notifies each semantic once.</p>
     <output>{{ events.join(' → ') || 'Waiting for interaction' }}</output>
   </div>

@@ -6,9 +6,9 @@ import Button from '../../button'
 import Checkbox from '../../checkbox'
 import Space from '../../space'
 import EnglishExternalDemo from '../example/demos/en-US/external-state.vue'
-import EnglishDemo from '../example/demos/en-US/queue-request.vue'
 import ExternalDemo from '../example/demos/external-state.vue'
-import QueueDemo from '../example/demos/queue-request.vue'
+import EnglishDemo from '../example/regressions/en-US/queue-request.vue'
+import QueueDemo from '../example/regressions/queue-request.vue'
 
 const wrappers = []
 beforeEach(() => {

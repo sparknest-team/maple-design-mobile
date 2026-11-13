@@ -997,6 +997,7 @@ export type {
   UseUploaderOptions,
   UploadStatus,
   UploadListType,
+  UploadTriggerPosition,
   UploadImageFit,
   UploadResolveType,
   UploadCapture,

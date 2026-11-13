@@ -7,7 +7,7 @@
         n('$--box'),
         n(`--variant-${variant}`),
         [vertical, n('--vertical'), n('--horizontal')],
-        [variant === 'default' && !disabled, formatElevation(elevation, 2)],
+        [variant === 'default' && !disabled, formatElevation(elevation, 1)],
       )
     "
   >

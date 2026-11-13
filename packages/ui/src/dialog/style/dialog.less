@@ -10,9 +10,15 @@
 
 .mp-dialog {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  box-sizing: border-box;
   margin-top: var(--mp-dialog-margin-top);
   pointer-events: auto;
   width: var(--mp-dialog-width);
+  max-height: var(--mp-dialog-max-height);
+  overflow: hidden;
   background: var(--mp-dialog-background);
   border: var(--mp-dialog-border-width) solid var(--mp-dialog-border-color);
   border-radius: var(--mp-dialog-border-radius);
@@ -25,6 +31,7 @@
 
   &__title {
     display: flex;
+    flex-shrink: 0;
     align-items: center;
     min-height: var(--mp-dialog-title-min-height);
     font-size: var(--mp-dialog-title-font-size);
@@ -33,6 +40,14 @@
     color: var(--mp-dialog-title-text-color);
     justify-content: var(--mp-dialog-title-justify);
     touch-action: none;
+  }
+
+  &__title--divider {
+    border-bottom: var(--mp-dialog-divider-width) solid var(--mp-dialog-divider-color);
+  }
+
+  &__message--bottom-divider {
+    border-bottom: var(--mp-dialog-divider-width) solid var(--mp-dialog-divider-color);
   }
 
   &__title--start {
@@ -88,6 +103,9 @@
   }
 
   &__message {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: auto;
     padding: var(--mp-dialog-content-padding);
     color: var(--mp-dialog-content-text-color);
     line-height: var(--mp-dialog-content-line-height);
@@ -97,6 +115,7 @@
 
   &__actions {
     display: flex;
+    flex-shrink: 0;
     justify-content: flex-end;
     padding: var(--mp-dialog-actions-padding);
   }
@@ -127,6 +146,8 @@
   &--fullscreen {
     width: var(--mp-dialog-fullscreen-width);
     height: var(--mp-dialog-fullscreen-height);
+    max-height: none;
+    margin-top: 0;
     border-radius: 0;
   }
 }

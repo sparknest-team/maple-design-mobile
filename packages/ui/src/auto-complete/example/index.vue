@@ -94,7 +94,7 @@ watchLang((value) => {
   </section>
 
   <section data-demo="decorator">
-    <app-type>{{ english ? 'Variants and hints' : '外观与浮动提示' }}</app-type>
+    <app-type>{{ english ? 'Variants and colors' : '外观与颜色' }}</app-type>
     <EnglishDemo8 v-if="english" /><Demo8 v-else />
   </section>
 

@@ -1,9 +1,9 @@
 <template>
   <div class="input-example__caption">Hint enabled: the label floats on focus</div>
   <mp-space direction="column" :size="[12, 0]">
-    <mp-input variant="filled" placeholder="Username" />
-    <mp-input variant="outline" placeholder="Username" />
-    <mp-input variant="standard" placeholder="Username" />
+    <mp-input hint variant="filled" placeholder="Username" />
+    <mp-input hint variant="outline" placeholder="Username" />
+    <mp-input hint variant="standard" placeholder="Username" />
   </mp-space>
   <div class="input-example__caption">Hint disabled: the text remains a placeholder</div>
   <mp-space direction="column" :size="[12, 0]">

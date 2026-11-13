@@ -85,9 +85,12 @@ test('Enter commits once and blur does not repeat the trimmed model or change', 
   expect(input.element.value).toBe('entered')
 })
 
-test('standalone hint defaults on; inherited and explicit false retain native placeholder', async () => {
+test('standalone hint defaults off; explicit and inherited opt-in remain supported', async () => {
   const owner = mount(Input, { props: { placeholder: 'Account' } })
   owners.push(owner)
+  expect(owner.find('label').exists()).toBe(false)
+  expect(owner.get('input').attributes('placeholder')).toBe('Account')
+  await owner.setProps({ hint: true })
   expect(owner.find('label').exists()).toBe(true)
   expect(owner.get('input').attributes('placeholder')).toBeUndefined()
   await owner.setProps({ hint: false })
@@ -100,4 +103,25 @@ test('standalone hint defaults on; inherited and explicit false retain native pl
   owners.push(group)
   expect(group.find('label').exists()).toBe(false)
   expect(group.get('input').attributes('placeholder')).toBe('Grouped')
+})
+
+test('group hint opt-in inherits through nested groups and explicit false wins', () => {
+  const group = mount(InputGroup, {
+    props: { hint: true },
+    slots: {
+      default: () =>
+        h(
+          InputGroup,
+          {},
+          {
+            default: () => [h(Input, { placeholder: 'Inherited' }), h(Input, { placeholder: 'Native', hint: false })],
+          },
+        ),
+    },
+  })
+  owners.push(group)
+  const inputs = group.findAll('input')
+  expect(inputs[0].attributes('placeholder')).toBeUndefined()
+  expect(inputs[1].attributes('placeholder')).toBe('Native')
+  expect(group.findAll('label')).toHaveLength(1)
 })

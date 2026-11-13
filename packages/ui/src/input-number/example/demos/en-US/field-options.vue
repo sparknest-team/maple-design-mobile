@@ -6,7 +6,7 @@ const variants = ['outline', 'filled', 'standard'] as const
   <div class="number-demo">
     <label v-for="size in sizes" :key="size">{{ size }}<mp-input-number :size="size" :default-value="12" /></label>
     <label v-for="variant in variants" :key="variant"
-      >{{ variant }}<mp-input-number :variant="variant" hint placeholder="Amount" :default-value="12"
+      >{{ variant }}<mp-input-number :variant="variant" placeholder="Amount" :default-value="12"
     /></label>
   </div>
 </template>

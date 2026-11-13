@@ -172,7 +172,7 @@ Dialog.error({ title: '错误提示', message: '操作失败' })
 
 ### 定制按钮文字
 
-确认与取消按钮默认使用 Button 的 `default` 状态和 `text` 变体；可通过 `confirmButtonProps` / `cancelButtonProps` 指定 `status`、`variant`。
+确认按钮默认使用 Button 的 `primary` 状态和 `default` 实心变体，取消按钮使用 `default` 状态和 `outline` 描边变体；可通过 `confirmButtonProps` / `cancelButtonProps` 覆盖 `status`、`variant`。
 
 ```html
 <mp-dialog v-model:open="open" confirm-button-text="继续" cancel-button-text="退出" />
@@ -262,6 +262,14 @@ Dialog.error({ title: '错误提示', message: '操作失败' })
 ../example/demos/custom-footer.vue
 ```
 
+### 上下分割线
+
+打开面板后，分别切换两个开关，对比上、下分割线。初始均关闭。
+
+```demo
+../example/demos/dividers.vue
+```
+
 ### custom button text
 
 ```demo
@@ -331,8 +339,12 @@ before-* 等待期间显示加载反馈并标记 aria-busy；拒绝或失败后�
 
 ### Dialog Props
 
+分割线与 Card 保持一致，默认均关闭；可通过 `top-divider`、`bottom-divider` 分别开启，仅在对应头部或底部区域存在时显示。Dialog 的简洁模式与函数式调用同样支持，函数式参数使用 `topDivider`、`bottomDivider`。
+
 | 参数                                                 | 说明                            | 类型                                          | 默认值            |
 | ---------------------------------------------------- | ------------------------------- | --------------------------------------------- | ----------------- |
+| top-divider | 标题与内容之间的分割线 | `boolean` | `false` |
+| bottom-divider | 内容与底部之间的分割线 | `boolean` | `false` |
 | dir | 阅读方向；省略时继承来源作用域。物理 left/right 方位保持原意。 | `ReadingDirection` (`ltr` / `rtl`) | — |
 | `open` **(v-model)**                                 | 是否显示                        | `boolean`                                     | `-`               |
 | `default-open`                                       | 非受控默认显示                  | `boolean`                                     | `false`           |
@@ -432,6 +444,8 @@ type DialogType = 'info' | 'success' | 'warning' | 'error'
 
 ## CSS Variables
 
+普通和简洁模式随内容自然撑开，最大高度为 `90dvh`（不支持时回退 `90vh`）。超出时仅正文滚动，标题和操作区保持可见。通过 `--mp-dialog-max-height` 或 `dialogStyle.maxHeight` 覆盖；全屏模式使用完整视口高度。自定义 footer 同样放在不滚动的操作区容器中。
+
 变量均以 `--mp-` 开头，例如 `--mp-dialog-width`、`--mp-dialog-background`、`--mp-dialog-border-radius`、`--mp-dialog-simple-width`、`--mp-dialog-fullscreen-width` 和 `--mp-dialog-close-button-color`。
 
 与 Cedar 一致的颜色语义：`--mp-dialog-background` 使用浮层背景（`surface-raised`），`--mp-dialog-overlay-background` 控制遮罩，标题与正文使用主要内容色，关闭按钮使用次要内容色；`--mp-dialog-status-{info|success|warning|danger}-color` 对应可读状态内容色（content-info/success/warning/danger），不是状态填充色。业务主题优先覆盖组件变量，跨组件主题覆盖对应 system 变量。移动端无边框、尺寸与布局差异保持独立。
@@ -464,9 +478,12 @@ type DialogType = 'info' | 'success' | 'warning' | 'error'
 | `--mp-dialog-content-line-height` | `24px` | `line-height` |
 | `--mp-dialog-content-padding` | `12px 20px` | `padding` |
 | `--mp-dialog-content-text-color` | `var(--mp-sys-color-content-primary)` | `color` |
-| `--mp-dialog-fullscreen-height` | `100vh` | `height` |
+| `--mp-dialog-divider-color` | `var(--mp-sys-color-border-default)` | `border-bottom` |
+| `--mp-dialog-divider-width` | `1px` | `border-bottom` |
+| `--mp-dialog-fullscreen-height` | `100vh`<br>`100dvh` | `height` |
 | `--mp-dialog-fullscreen-width` | `100vw` | `width` |
 | `--mp-dialog-margin-top` | `0` | `margin-top` |
+| `--mp-dialog-max-height` | `90vh`<br>`90dvh` | `max-height` |
 | `--mp-dialog-overlay-background` | `var(--mp-sys-color-scrim)` | `background-color` |
 | `--mp-dialog-simple-actions-gap` | `0` | `margin-top` |
 | `--mp-dialog-simple-border-radius` | `var(--mp-sys-radius-lg)` | `border-radius` |

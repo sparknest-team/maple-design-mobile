@@ -301,7 +301,7 @@ InputPassword 透传 Input 的全部属性、事件和插槽。`open` 仅控制�
 | `placeholder`     | 占位符，也可作为浮动提示文字                               | `string`                                   |     `-`     |
 | `size`            | `xs`、`sm`、`md`、`lg` 或 `xl`                             | `ComponentSize`<br>`'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` |    `md`     |
 | `variant`         | `filled`、`outline` 或 `standard`                          | `string`                                   |  `outline`  |
-| `hint`            | 是否将 placeholder 用作浮动提示文字                        | `boolean`                                  |   `true`    |
+| `hint`            | 是否将 placeholder 用作浮动提示文字                        | `boolean`                                  |   `false`    |
 | `line`            | 是否显示边框或底线                                         | `boolean`                                  |   `true`    |
 | `max-length`      | 有限非负长度或 `{ length, errorOnly? }`；0 不限；非法值提示并回退不限 | `number \| object`                         |     `0`     |
 | `show-word-limit` | 是否显示字数统计                                           | `boolean`                                  |   `false`   |
@@ -330,7 +330,7 @@ InputPassword 透传 Input 的全部属性、事件和插槽。`open` 仅控制�
 
 校验规则配置在 `mp-form-item` 上，详见 [Form 组件](#/zh-CN/form)。
 
-`size / disabled / readonly` 按子项 → InputGroup → FormItem/Form → 库默认值继承，五种尺寸均完整支持。`hint` 默认开启，有外置标签时关闭。`name / id / aria-* / data-*` 直接透传原生 input；`class / style` 留在外壳。`input-attrs` 不能覆盖受控值、类型、禁用、只读和长度策略。
+`size / disabled / readonly` 按子项 → InputGroup → FormItem/Form → 库默认值继承，五种尺寸均完整支持。`hint` 默认关闭，可显式开启；有外置标签时关闭。`name / id / aria-* / data-*` 直接透传原生 input；`class / style` 留在外壳。`input-attrs` 不能覆盖受控值、类型、禁用、只读和长度策略。
 
 ### Input Methods
 
