@@ -375,7 +375,7 @@ Public focus/blur methods are callable from initial mount. Focus opens an editab
 
 Refresh can retry the component-owned asynchronous option source before the editor opens, using the existing AbortSignal, loading, and load-error protocol without opening the editor; static arrays do not create extra requests.
 
-Pending acceptance: verify actual screen-reader announcements with supported browsers (such as VoiceOver and NVDA), including input naming, suggestion loading and navigation, selection, dismissal, and form errors. This acceptance has not yet been completed.
+Follow-up acceptance testing (not yet completed): use real screen readers, such as VoiceOver and NVDA, with supported browsers to verify spoken input names, suggestion loading and navigation, selection, dismissal, and form errors.
 
 ## CSS Variables
 

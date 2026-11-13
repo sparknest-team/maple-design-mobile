@@ -114,6 +114,12 @@ This example simulates saving the ID array in memory, remounts the component, th
 ../example/demos/async-fallback-restore.vue
 ```
 
+## Usage notes
+
+### Keyboard interaction
+
+Follow-up acceptance testing (not yet completed): use real screen readers, such as VoiceOver and NVDA, with supported browsers to verify spoken input and tag names, creation and removal, keyboard operation, and form error messages.
+
 ## API
 
 ### Empty values and reading placeholders
@@ -303,5 +309,3 @@ Apply overrides to the rendered component root or the actual popup ancestor. For
 Explicit inline styles and props that write the same CSS property take precedence over stylesheet defaults. After Teleport, ordinary CSS variables inherit from the actual mount location. When using ThemeProvider, follow its local-theme and popup configuration rules. Override the component variable directly for local styling; root-level aliases are not recalculated merely because a descendant system variable changes. Internal variables are not public APIs.
 
 <!-- component-css-variables:end -->
-
-Pending acceptance: use actual screen readers (such as VoiceOver and NVDA) with supported browsers to verify input naming, tag names, creation and removal, keyboard operation, and form error announcements. This acceptance has not yet been completed.

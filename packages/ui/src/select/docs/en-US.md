@@ -502,7 +502,7 @@ Select also emits `remove(value)`, `exceed-limit(value, event)`, `dropdown-scrol
 
 Use `label({ data })` for custom `selected` labels; `selected` replaces the whole selection area. Also supports `prefix`, `suffix`, `clear-icon({ clear })`, `arrow-icon`, `loading-icon`, `search-icon`, `empty`, and `option({ data })`.
 
-Option `label` is searchable plain text. Use `render` or the `option` slot for custom `option` content, and `format-label` or `label` slot for selected content. Values identify selections; labels never do. `disabled` blocks selection/removal, and `tagProps` customizes selected tags. It accepts `style` and listeners such as `onClose`; Select controls visibility and removability, and a close also participates in Select removal.
+An option’s `label` is plain text used for search. Use `render` or the `option` slot for custom option content, and `format-label` or the `label` slot for custom selected-value rendering. Options are identified by value rather than label. An option’s `disabled` prevents selection and removal, while `tagProps` customizes its selected tag. It supports attributes such as `style` and listeners such as `onClose`; Select controls tag visibility and removability according to its current state, and close events also participate in Select’s removal flow.
 
 Select additionally supports `header`, `footer`, `trigger`, and default `Option / Optgroup` children. Option props: `value`, `label`, `disabled`, `tagProps`, `index`; its default slot receives `selected`. Group data uses `{ isGroup: true, label, options }`. List and Picker also accept slot options; Picker displays their text labels.
 
@@ -513,7 +513,7 @@ Select additionally supports `header`, `footer`, `trigger`, and default `Option 
 | value | Option Value | string \| number \| boolean \| Record<string, unknown> | undefined |
 | label | Option group title | string | undefined |
 | disabled | Whether to disable | boolean | false |
-| tag-props | Selected Tag props, native attributes and Tag listeners | SelectOptionTagProps | undefined |
+| tag-props | Selected tag props, native attributes, and Tag event listeners | SelectOptionTagProps | undefined |
 | index | Explicit option order | number | undefined |
 
 ### Option Slots
@@ -621,7 +621,7 @@ Pass business data through object `value` or `options`.
 
 Multiple empty-value supports arrays, null/undefined and empty values recognized by empty-values; other scalars are rejected. Factories run only for a real clear with no disabled retained selections; invalid results produce a development diagnostic and fall back to [], without publishing an invalid scalar.
 
-Pending acceptance: verify actual screen-reader announcements with supported browsers (such as VoiceOver and NVDA), including field naming, single and multiple selection, grouped and virtualized options, keyboard navigation, loading, and form errors. This acceptance has not yet been completed.
+Follow-up acceptance testing (not yet completed): use real screen readers, such as VoiceOver and NVDA, with supported browsers to verify spoken field names, single and multiple selection, groups and virtual lists, keyboard navigation, loading, and form errors.
 
 ## CSS Variables
 

@@ -18,6 +18,6 @@
 ### Upload
 
 ```demo
-../src/upload/example/demos/before-read.vue
+../src/upload/example/regressions/before-read.vue
 ```
 

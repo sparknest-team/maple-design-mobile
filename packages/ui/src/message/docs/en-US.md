@@ -155,7 +155,7 @@ duration must be finite and nonnegative. Negative values, NaN and Infinity do no
 `default`、`icon`、`action`。
 
 
-Messages automatically stay above active popup layers in their document, including newly opened popups and changes to explicit `zIndex` values, without taking over modal focus or Escape handling. `--mp-message-z-index` sets a minimum layer. Custom containers must still avoid ancestor stacking contexts and clipping.
+Messages automatically stay above active popups in the current document and track newly opened popups and explicit `zIndex` changes. They do not take over dialog focus or Esc handling. `--mp-message-z-index` sets the minimum message stacking level. Custom mount containers must still avoid ancestor stacking contexts and clipping constraints.
 
 ## CSS Variables
 

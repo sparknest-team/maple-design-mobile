@@ -18,6 +18,6 @@ This page focuses on input surfaces, data selection, actions and content loading
 ### Upload
 
 ```demo
-../src/upload/example/demos/before-read.vue
+../src/upload/example/regressions/before-read.vue
 ```
 

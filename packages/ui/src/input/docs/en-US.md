@@ -332,7 +332,7 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 
 Configure validation rules on `mp-form-item`; see [Form](#/en-US/form).
 
-size/disabled/readonly inherit from child → InputGroup → FormItem/Form → library defaults. All five sizes work. `hint` defaults off, can be explicitly enabled, and is suppressed by an external label. name/id/aria-*/data-* reach native input; class/style stay on the wrapper. `input-attrs` cannot override controlled value, type, disabled/readonly or length policy.
+`size / disabled / readonly` inherit in this order: child → InputGroup → FormItem/Form → library defaults. All five sizes are fully supported. `hint` is disabled by default and can be enabled explicitly; it is disabled when an external label is present. `name / id / aria-* / data-*` are forwarded directly to the native input, while `class / style` remain on the wrapper. `input-attrs` cannot override the controlled value, type, disabled or readonly state, or length policy.
 
 ### Input Methods
 
@@ -374,7 +374,7 @@ size/disabled/readonly inherit from child → InputGroup → FormItem/Form → l
 | ---------------------- | ------------------------------------------------------- | ----------------------------------------------------- |
 | `mp-input-password` | `visibility`, `default-visibility`, `visibility-toggle` | Password visibility; uncontrolled by default, with a visible toggle |
 | `mp-input-password` | `visibility-change`, `update:visibility` | Emitted on visibility changes with a `boolean` argument |
-| `mp-input-group` | `size`, `variant`, `disabled`, `readonly`, `hint` | Child Input defaults; `variant` defaults to `outline` |
+| `mp-input-group` | `size`, `variant`, `disabled`, `readonly`, `hint` | Child Input/Password components inherit by default; `variant` defaults to `outline` |
 | `mp-input-group-label` | Default slot | Text attachment for grouped inputs |
 
 ## CSS Variables

@@ -419,7 +419,7 @@ Buttons, links, input controls, list options, tree nodes, grid cells, elements w
 
 Async search should clear old candidates when requests start and accept only the latest current-query response. `update:input-value` can react immediately; `loading` and `filter-option` can display remote results. Popup arrows/Enter operate current candidates; confirmation mode saves with the bottom button, while immediate single selection commits on choice. Validation failure in confirmation mode preserves drafts, confirmation locks editing/closing, and Form reset closes Popup and aborts submission. Closing/reset invalidates request ownership. See Form’s unified field-presentation examples.
 
-Pending acceptance: verify actual screen-reader announcements with supported browsers (such as VoiceOver and NVDA), including field naming, hierarchical navigation and expanded state, search and selection, single and multiple modes, virtualized options, and form errors. This acceptance has not yet been completed.
+Follow-up acceptance testing (not yet completed): use real screen readers, such as VoiceOver and NVDA, with supported browsers to verify spoken field names, hierarchical navigation and expansion state, search and selection, single and multiple selection, virtual lists, and form errors.
 
 ## CSS Variables
 

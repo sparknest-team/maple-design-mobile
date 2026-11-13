@@ -201,7 +201,7 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 | error | boolean | undefined | Error appearance, inherited from the form when omitted. |
 | marks | Record<number, string> | undefined | Text marks at positions within the range. |
 | show-ticks | boolean | false | Display step ticks, capped at 1000. |
-| show-input | boolean | false | Show attached InputNumber controls, two in range mode. The slider aria-describedby is also applied to the numeric inputs and combined with form error descriptions. An explicit aria-description is forwarded to the thumbs and numeric inputs. Browsers prioritize resolved aria-describedby references over aria-description; the two descriptions are not necessarily combined. |
+| show-input | boolean | false | Show an accompanying InputNumber, or two in range mode. The slider’s aria-describedby also applies to the number inputs and is combined with form error descriptions. An explicit aria-description is forwarded to both the slider and number inputs. Browsers prioritize a resolvable aria-describedby, so the two descriptions are not necessarily combined. |
 | show-tooltip | boolean / 'always' | true | True shows on hover, focus or drag; false hides; always remains visible. |
 | format-tooltip | SliderTooltipFormatter | undefined | Format tooltips and aria-valuetext without changing the model. |
 | aria-label | string / [string, string] | undefined | Single-thumb name or names for the two range thumbs. |

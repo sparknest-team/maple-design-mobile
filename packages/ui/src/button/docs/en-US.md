@@ -21,14 +21,13 @@ Both libraries use the same implementation and examples; package prefixes, theme
 
 | Configuration | Purpose | Related examples |
 | --- | --- | --- |
-| `variant` | Appearance; inherits group, otherwise outline | Variants, statuses and sizes, Custom colors |
+| `variant` | Appearance; inherits from the button group when omitted, otherwise outline | Variants, statuses and sizes, Custom colors |
 | `size` | Size; inherits group, otherwise md | Variants, statuses and sizes, Five sizes |
 | `status` | Semantic color; inherits group, otherwise default | Variants, statuses and sizes |
 | `disabled` | Disabled; inherits group, explicit false overrides | Disabled buttons and links |
 | `component` | Root tag; link attributes fall through | Disabled buttons and links |
 | `loading` | Loading; blocks activation and navigation | Disabled buttons and links |
 <!-- demo-config-notes:end -->
-
 
 Choose a variant and size to compare eight semantic colors. Filled buttons suit primary actions; text and outline suit secondary actions. The few variant, size and background options are shown directly with button-style RadioGroups. Form/FormItem provide standard field layout; Card carries the background comparison.
 
@@ -66,13 +65,12 @@ Horizontal buttons and inputs of the same size share the default height and font
 | Configuration | Purpose | Related examples |
 | --- | --- | --- |
 | `status` | Semantic color; inherits group, otherwise default | Icons and label layouts |
-| `variant` | Appearance; inherits group, otherwise outline | Icons and label layouts |
+| `variant` | Appearance; inherits from the button group when omitted, otherwise outline | Icons and label layouts |
 | `size` | Size; inherits group, otherwise md | Icons and label layouts |
 | `stacked` | Stack icon and text; inherits group when omitted | Icons and label layouts |
 | `round` | Round button | Icons and label layouts |
 | `block` | Full available width | Block buttons |
 <!-- demo-config-notes:end -->
-
 
 Use built-in icons to compare icon-only, inline and stacked labels across four variants and five sizes. Stacked buttons grow with content and keep at least 8px of top and bottom padding. Omit the default slot for icon-only buttons; round controls shape and stacked controls label layout.
 
@@ -133,11 +131,10 @@ Compare stacked labels and group direction, then load the first button while the
 | Configuration | Purpose | Related examples |
 | --- | --- | --- |
 | `size` | Size; inherits group, otherwise md | Form control size comparison |
-| `variant` | Appearance; inherits group, otherwise outline | Form control size comparison |
+| `variant` | Appearance; inherits from the button group when omitted, otherwise outline | Form control size comparison |
 | `html-type` | Native button type | Native form, focus and touch events |
 | `focusable` | Allow sequential Tab focus; does not prevent programmatic focus | Native form, focus and touch events |
 <!-- demo-config-notes:end -->
-
 
 Compare Input, Button, Select, date/time fields and other single-line controls at the same size. Field variants share the height scale; Button uses outline here. DatePicker/TimePicker are panels; this example uses Date/Time fields. The example includes selected and clearable values, removable tags and long multiple selections. Select/Cascader keep the same size height with tag-nowrap. Long tag text uses ellipsis while removal icons remain available; tags scroll horizontally while clear and arrow controls stay outside the scrolling area. Hover, focus or tap truncated tag text to read its full content; dismiss with an outside click or Escape without changing the selected value. Restore values after clearing to repeat the comparison. Multiline text and wrapping multiple selections can grow with content.
 
@@ -208,7 +205,7 @@ Inherits the nearest `dir="ltr|rtl"`, including runtime changes and local overri
 | Prop | Description | Type | Default |
 | ------------- | ------------------------------------------------------------------------------------------------ | ----------------------------------------- | -------------- |
 | status | Semantic color; inherits group, otherwise default | `SemanticStatus`<br>`'default' \| 'primary' \| 'secondary' \| 'tertiary' \| 'info' \| 'success' \| 'warning' \| 'danger'` | `undefined` |
-| variant | Appearance; inherits group, otherwise outline | `default / text / outline / tonal` | `undefined` |
+| variant | Appearance; inherits from the button group when omitted, otherwise outline | `default / text / outline / tonal` | `undefined` |
 | size | Size; inherits group, otherwise md | `xs / sm / md / lg / xl` | `undefined` |
 | html-type | Native button type | `button / submit / reset` | `button` |
 | component | Root tag; link attributes fall through | `button / a` | `button` |
@@ -225,7 +222,7 @@ Inherits the nearest `dir="ltr|rtl"`, including runtime changes and local overri
 | autofocus | Native autofocus | `boolean` | `false` |
 | text-color | Custom text color | `string` | `undefined` |
 | color | Custom background or variant base color | `string` | `undefined` |
-| elevation | Default variant shadow; true=1, false=off, rounded/clamped 0–24; group owns grouped elevation | `boolean / number` | `false` |
+| elevation | Shadow for the default variant; true means 1, false disables it, and numbers are rounded and clamped to 0–24; controlled by the group when grouped | `boolean / number` | `false` |
 | stacked | Stack icon and text; inherits group when omitted | `boolean` | `undefined` |
 
 ### Button Events
@@ -260,7 +257,7 @@ No custom public methods.
 | disabled | Default disabled state; an explicit child false overrides group true | boolean | false |
 | stacked | Stack child icon and text vertically by default; a child may explicitly override with false | boolean | false |
 | vertical | Vertical group layout, independent of button content stacking | boolean | false |
-| elevation | Group elevation; true means 1, numbers normalize to 0–24, and it applies only to an enabled group using the default variant | boolean / number | false |
+| elevation | Shadow for the entire group; true means 1 and numbers are normalized to 0–24; applies only to the default variant when the group is enabled | boolean / number | false |
 
 The root defaults to `role="group"`. Supply `aria-label` or `aria-labelledby` when the action group needs a name. Native attributes can override role. Ordinary groups retain native Tab / Enter / Space handling without arrow-key focus management.
 

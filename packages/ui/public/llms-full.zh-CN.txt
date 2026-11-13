@@ -2743,12 +2743,11 @@ const options = Array.from({ length: 500 }, (_, index) => ({
 
 | 配置          | 作用                                         | 相关示例                         |
 | ------------- | -------------------------------------------- | -------------------------------- |
-| `options`     | 候选；支持分组，value 唯一，选择后转为字符串 | 自定义字段与内容、外观与浮动提示 |
-| `placeholder` | 占位文字或浮动提示内容                       | 自定义字段与内容、外观与浮动提示 |
+| `options`     | 候选；支持分组，value 唯一，选择后转为字符串 | 自定义字段与内容、外观与颜色 |
+| `placeholder` | 占位文字或浮动提示内容                       | 自定义字段与内容、外观与颜色 |
 | `field-names` | 映射 value、label、disabled 等字段           | 自定义字段与内容                 |
-| `variant`     | 输入外观；未设置时继承 Group                 | 外观与浮动提示                   |
-| `hint`        | 启用 Input 的浮动提示                        | 外观与浮动提示                   |
-| `clearable`   | 允许清除可编辑的非空值                       | 外观与浮动提示                   |
+| `variant`     | 输入外观；未设置时继承 Group                 | 外观与颜色                   |
+| `clearable`   | 允许清除可编辑的非空值                       | 外观与颜色                   |
 
 <!-- demo-config-notes:end -->
 
@@ -2782,7 +2781,7 @@ const options = [
 </script>
 ```
 
-### 外观与浮动提示
+### 外观与颜色
 
 Example source: src/auto-complete/example/demos/zh-CN/decorator.vue
 
@@ -2802,13 +2801,11 @@ const options = ['Cedar', 'Maple']
       :options="options"
       :variant="variant"
       :placeholder="variant"
-      hint
       clearable
     />
     <mp-auto-complete
       v-model="value"
       :options="options"
-      hint
       placeholder="自定义颜色"
       focus-color="#6750a4"
       text-color="#386a20"
@@ -5619,7 +5616,7 @@ const statuses = ['default', 'primary', 'secondary', 'tertiary', 'info', 'succes
 
 | 配置 | 作用 | 相关示例 |
 | --- | --- | --- |
-| `variant` | 外观；省略时继承按钮组，否则 default | 变体、状态与尺寸、自定义颜色 |
+| `variant` | 外观；省略时继承按钮组，否则 outline | 变体、状态与尺寸、自定义颜色 |
 | `size` | 尺寸；省略时继承按钮组，否则 md | 变体、状态与尺寸、五档尺寸 |
 | `status` | 主题色；省略时继承按钮组，否则 default | 变体、状态与尺寸 |
 | `disabled` | 禁用；省略时继承按钮组，显式 false 可覆盖 | 禁用与链接拦截 |
@@ -5748,7 +5745,7 @@ Example source: src/button/example/demos/custom-color.vue
 | 配置 | 作用 | 相关示例 |
 | --- | --- | --- |
 | `status` | 主题色；省略时继承按钮组，否则 default | 图标与图文布局 |
-| `variant` | 外观；省略时继承按钮组，否则 default | 图标与图文布局 |
+| `variant` | 外观；省略时继承按钮组，否则 outline | 图标与图文布局 |
 | `size` | 尺寸；省略时继承按钮组，否则 md | 图标与图文布局 |
 | `stacked` | 图标文字纵向排列；省略时继承按钮组 | 图标与图文布局 |
 | `round` | 圆形按钮 | 图标与图文布局 |
@@ -5992,7 +5989,7 @@ const loading = ref(false)
 | 配置 | 作用 | 相关示例 |
 | --- | --- | --- |
 | `size` | 尺寸；省略时继承按钮组，否则 md | 表单控件尺寸对照 |
-| `variant` | 外观；省略时继承按钮组，否则 default | 表单控件尺寸对照 |
+| `variant` | 外观；省略时继承按钮组，否则 outline | 表单控件尺寸对照 |
 | `html-type` | 原生按钮类型 | 原生表单、焦点与触摸事件 |
 | `focusable` | 允许 Tab 顺序聚焦；不影响通过代码聚焦 | 原生表单、焦点与触摸事件 |
 <!-- demo-config-notes:end -->
@@ -6473,7 +6470,7 @@ Example source: src/button/example/demos/feedback.vue
 import { ref } from 'vue'
 
 const ripple = ref(true)
-const elevation = ref(2)
+const elevation = ref(0)
 </script>
 <template>
   <mp-space direction="column" :size="16">
@@ -6481,7 +6478,7 @@ const elevation = ref(2)
       <mp-checkbox v-model="ripple">Ripple</mp-checkbox>
       <label>Elevation<mp-input-number v-model="elevation" :min="0" :max="24" aria-label="Button elevation" /></label>
     </mp-space>
-    <mp-button :ripple="ripple" :elevation="elevation">Click to compare feedback</mp-button>
+    <mp-button variant="default" :ripple="ripple" :elevation="elevation">Click to compare feedback</mp-button>
   </mp-space>
 </template>
 ```
@@ -6552,7 +6549,7 @@ async function recover() {
 | 属性          | 说明                                                                                             | 类型                                      | 默认值         |
 | ------------- | ------------------------------------------------------------------------------------------------ | ----------------------------------------- | -------------- |
 | status        | 主题色；省略时继承按钮组，否则 default                                                           | `SemanticStatus`<br>`'default' \| 'primary' \| 'secondary' \| 'tertiary' \| 'info' \| 'success' \| 'warning' \| 'danger'` | `undefined`    |
-| variant       | 外观；省略时继承按钮组，否则 default                                                             | `default / text / outline / tonal`        | `undefined`    |
+| variant       | 外观；省略时继承按钮组，否则 outline                                                             | `default / text / outline / tonal`        | `undefined`    |
 | size          | 尺寸；省略时继承按钮组，否则 md                                                                  | `xs / sm / md / lg / xl`                  | `undefined`    |
 | html-type     | 原生按钮类型                                                                                     | `button / submit / reset`                 | `button`       |
 | component     | 根标签，链接属性通过 attrs 传入                                                                  | `button / a`                              | `button`       |
@@ -6569,7 +6566,7 @@ async function recover() {
 | autofocus     | 原生自动聚焦                                                                                     | `boolean`                                 | `false`        |
 | text-color    | 自定义文字色                                                                                     | `string`                                  | `undefined`    |
 | color         | 自定义背景／变体基色                                                                             | `string`                                  | `undefined`    |
-| elevation     | default 变体阴影；true 为 2，false 关闭，数字四舍五入并限制 0～24；组内由组控制                  | `boolean / number`                        | `true`         |
+| elevation     | default 变体阴影；true 为 1，false 关闭，数字四舍五入并限制 0～24；组内由组控制                  | `boolean / number`                        | `false`         |
 | stacked       | 图标文字纵向排列；省略时继承按钮组                                                               | `boolean`                                 | `undefined`    |
 
 ### Button Events
@@ -6598,13 +6595,13 @@ async function recover() {
 | --- | --- | --- | --- |
 | status | 子按钮默认语义状态；子按钮可覆盖 | `SemanticStatus`<br>`'default' \| 'primary' \| 'secondary' \| 'tertiary' \| 'info' \| 'success' \| 'warning' \| 'danger'` | default |
 | size | 子按钮默认尺寸；子按钮可覆盖 | xs / sm / md / lg / xl | undefined |
-| variant | 子按钮默认外观；相邻按钮按生效变体拼接，允许混合 | default / text / outline / tonal | default |
+| variant | 子按钮默认外观；相邻按钮按生效变体拼接，允许混合 | default / text / outline / tonal | outline |
 | color | 子按钮默认自定义色；子按钮可覆盖 | string | undefined |
 | text-color | 子按钮默认文字色；子按钮可覆盖 | string | undefined |
 | disabled | 子按钮默认禁用状态；显式 false 可覆盖组 true | boolean | false |
 | stacked | 默认图文纵排；子按钮可显式 false 覆盖 | boolean | false |
 | vertical | 按钮组纵向排列，独立于按钮内部 stacked | boolean | false |
-| elevation | 组整体阴影；true 为 2，数值归一化到 0–24；仅 default 变体且组未禁用时生效 | boolean / number | true |
+| elevation | 组整体阴影；true 为 1，数值归一化到 0–24；仅 default 变体且组未禁用时生效 | boolean / number | false |
 
 根元素默认 `role="group"`；使用 `aria-label` 或 `aria-labelledby` 为需要命名的操作组提供名称。原生属性可覆盖 role，普通按钮组仍使用 Tab / Enter / Space，不自动接管方向键。
 
@@ -10474,7 +10471,7 @@ option({ data }) 接收规范化 CascaderOptionInfo，data.raw 是原始选项�
 | `readonly` | 只读状态；显式值优先于继承的 Form / Group 状态 | `boolean` | `undefined` |
 | `error` | 错误状态；显式值优先于继承的 Form / Group 状态 | `boolean` | `undefined` |
 | `placeholder` | 占位文本 | `string` | `—` |
-| `hint` | 是否启用浮动提示 | `boolean` | `true` |
+| `hint` | 是否启用浮动提示 | `boolean` | `false` |
 | `line` | 是否显示 standard 变体的下划线 | `boolean` | `true` |
 | `text-color` | 逐实例自定义文字颜色；静态主题优先使用 token | `string` | `—` |
 | `focus-color` | 逐实例自定义聚焦颜色；静态主题优先使用 token | `string` | `—` |
@@ -16733,7 +16730,7 @@ function beforeCommit(
 | `error` | 字段错误展示；未设时继承 | `boolean` | 继承，最终 false |
 | `focus-color` | 聚焦时的颜色 | `string` | 主题缺省 |
 | `format` | 显示与手输格式；函数只展示，无反向手输解析 | `string \| ((date: Date) => string)` | 按精度/时间配置 |
-| `hint` | 浮动占位提示；存在 Form 外置标签时不浮动 | `boolean` | `true` |
+| `hint` | 浮动占位提示；存在 Form 外置标签时不浮动 | `boolean` | `false` |
 | `input-editable` | 允许手输；不影响面板选择入口 | `boolean` | `true` |
 | `input-attrs` | 按顺序设置起点、终点原生输入属性；单项名称优先于公共名称 | `RangeInputAttributes[]` | `undefined` |
 | `interactive-mode` | Maple 日历视口模式；不是字段编辑模式 | `page \| scroll \| line` | `page` |
@@ -18704,7 +18701,7 @@ datePickerProps/dateRangePickerProps 只配置展示，不能覆盖根模型、�
 | `error` | 字段错误展示；未设时继承 | `boolean` | 继承，最终 false |
 | `focus-color` | 聚焦时的颜色 | `string` | 主题缺省 |
 | `format` | 显示与手输格式；函数只展示，无反向手输解析 | `string \| ((date: Date) => string)` | 按精度/时间配置 |
-| `hint` | 浮动占位提示；存在 Form 外置标签时不浮动 | `boolean` | `true` |
+| `hint` | 浮动占位提示；存在 Form 外置标签时不浮动 | `boolean` | `false` |
 | `input-editable` | 允许手输；不影响面板选择入口 | `boolean` | `true` |
 | `interactive-mode` | Maple 日历视口模式；不是字段编辑模式 | `page \| scroll \| line` | `page` |
 | `line` | 显示外壳边框或底线 | `boolean` | `true` |
@@ -24064,7 +24061,7 @@ Dialog.error({ title: '错误提示', message: '操作失败' })
 
 ### 定制按钮文字
 
-确认与取消按钮默认使用 Button 的 `default` 状态和 `text` 变体；可通过 `confirmButtonProps` / `cancelButtonProps` 指定 `status`、`variant`。
+确认按钮默认使用 Button 的 `primary` 状态和 `default` 实心变体，取消按钮使用 `default` 状态和 `outline` 描边变体；可通过 `confirmButtonProps` / `cancelButtonProps` 覆盖 `status`、`variant`。
 
 ```html
 <mp-dialog v-model:open="open" confirm-button-text="继续" cancel-button-text="退出" />
@@ -24416,6 +24413,33 @@ const slotsOpen = ref(false)
 </style>
 ```
 
+### 上下分割线
+
+打开面板后，分别切换两个开关，对比上、下分割线。初始均关闭。
+
+Example source: src/dialog/example/demos/dividers.vue
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const open = ref(false)
+const topDivider = ref(false)
+const bottomDivider = ref(false)
+</script>
+
+<template>
+  <mp-button @click="open = true">分割线 / Dividers</mp-button>
+  <mp-dialog v-model:open="open" title="分割线 / Dividers" :top-divider="topDivider" :bottom-divider="bottomDivider">
+    <mp-space direction="column">
+      <mp-checkbox v-model="topDivider">top-divider</mp-checkbox>
+      <mp-checkbox v-model="bottomDivider">bottom-divider</mp-checkbox>
+      <p>分割线默认关闭，可分别开启。 / Dividers are off by default and can be enabled independently.</p>
+    </mp-space>
+  </mp-dialog>
+</template>
+```
+
 ### custom button text
 
 Example source: src/dialog/example/demos/custom-button-text.vue
@@ -24696,8 +24720,12 @@ before-* 等待期间显示加载反馈并标记 aria-busy；拒绝或失败后�
 
 ### Dialog Props
 
+分割线与 Card 保持一致，默认均关闭；可通过 `top-divider`、`bottom-divider` 分别开启，仅在对应头部或底部区域存在时显示。Dialog 的简洁模式与函数式调用同样支持，函数式参数使用 `topDivider`、`bottomDivider`。
+
 | 参数                                                 | 说明                            | 类型                                          | 默认值            |
 | ---------------------------------------------------- | ------------------------------- | --------------------------------------------- | ----------------- |
+| top-divider | 标题与内容之间的分割线 | `boolean` | `false` |
+| bottom-divider | 内容与底部之间的分割线 | `boolean` | `false` |
 | dir | 阅读方向；省略时继承来源作用域。物理 left/right 方位保持原意。 | `ReadingDirection` (`ltr` / `rtl`) | — |
 | `open` **(v-model)**                                 | 是否显示                        | `boolean`                                     | `-`               |
 | `default-open`                                       | 非受控默认显示                  | `boolean`                                     | `false`           |
@@ -24797,6 +24825,8 @@ type DialogType = 'info' | 'success' | 'warning' | 'error'
 
 ## CSS Variables
 
+普通和简洁模式随内容自然撑开，最大高度为 `90dvh`（不支持时回退 `90vh`）。超出时仅正文滚动，标题和操作区保持可见。通过 `--mp-dialog-max-height` 或 `dialogStyle.maxHeight` 覆盖；全屏模式使用完整视口高度。自定义 footer 同样放在不滚动的操作区容器中。
+
 变量均以 `--mp-` 开头，例如 `--mp-dialog-width`、`--mp-dialog-background`、`--mp-dialog-border-radius`、`--mp-dialog-simple-width`、`--mp-dialog-fullscreen-width` 和 `--mp-dialog-close-button-color`。
 
 与 Cedar 一致的颜色语义：`--mp-dialog-background` 使用浮层背景（`surface-raised`），`--mp-dialog-overlay-background` 控制遮罩，标题与正文使用主要内容色，关闭按钮使用次要内容色；`--mp-dialog-status-{info|success|warning|danger}-color` 对应可读状态内容色（content-info/success/warning/danger），不是状态填充色。业务主题优先覆盖组件变量，跨组件主题覆盖对应 system 变量。移动端无边框、尺寸与布局差异保持独立。
@@ -24829,9 +24859,12 @@ type DialogType = 'info' | 'success' | 'warning' | 'error'
 | `--mp-dialog-content-line-height` | `24px` | `line-height` |
 | `--mp-dialog-content-padding` | `12px 20px` | `padding` |
 | `--mp-dialog-content-text-color` | `var(--mp-sys-color-content-primary)` | `color` |
-| `--mp-dialog-fullscreen-height` | `100vh` | `height` |
+| `--mp-dialog-divider-color` | `var(--mp-sys-color-border-default)` | `border-bottom` |
+| `--mp-dialog-divider-width` | `1px` | `border-bottom` |
+| `--mp-dialog-fullscreen-height` | `100vh`<br>`100dvh` | `height` |
 | `--mp-dialog-fullscreen-width` | `100vw` | `width` |
 | `--mp-dialog-margin-top` | `0` | `margin-top` |
+| `--mp-dialog-max-height` | `90vh`<br>`90dvh` | `max-height` |
 | `--mp-dialog-overlay-background` | `var(--mp-sys-color-scrim)` | `background-color` |
 | `--mp-dialog-simple-actions-gap` | `0` | `margin-top` |
 | `--mp-dialog-simple-border-radius` | `var(--mp-sys-radius-lg)` | `border-radius` |
@@ -27178,7 +27211,7 @@ FieldDecorator 是 Input、Textarea、Select 与日期时间控件的展示外�
 
 - 三种变体：`outline`（默认）、`filled`、`standard`。消费者可以显式选择自己的默认变体。
 - 五种尺寸：`xs / sm / md / lg / xl`，默认 `md`；具体高度使用各端 token。
-- `hint` 在两端默认均为 `true`；Input 在 FormItem 已有外部标签时关闭浮动提示。
+- `hint` 在两端默认均为 `false`；Input 在 FormItem 已有外部标签时关闭浮动提示。
 - 有内容且可编辑时才渲染清除按钮；`0` 算非空，`[]` 算空。Cedar 在 hover/focus 时显示，Maple 常驻；触屏媒体条件下 Cedar 也常驻。
 - 默认按钮通过各端全局语言系统读取无障碍文案，不维护组件私有词典。
 - 内容列尺寸使用 ResizeObserver 观察，支持前缀变化及隐藏容器重新显示；卸载时清理监听。
@@ -27593,7 +27626,7 @@ const text = ref('加载时仍可编辑')
 | `size` | `ComponentSize`<br>`'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `md`，实现全部五档尺寸 |
 | `variant` | `'outline' \| 'filled' \| 'standard'` | `outline` |
 | `placeholder` | `string` | 浮动标签文本 |
-| `hint` | `boolean` | `true` |
+| `hint` | `boolean` | `false` |
 | `hint-center` | `boolean` | `true`；多行控件设为 false |
 | `line` | `boolean` | `true`，是否显示边框或底线 |
 | `focused` | `boolean` | 消费者传入焦点状态 |
@@ -34499,7 +34532,7 @@ const variants = ['outline', 'filled', 'standard'] as const
   <div class="number-demo">
     <label v-for="size in sizes" :key="size">{{ size }}<mp-input-number :size="size" :default-value="12" /></label>
     <label v-for="variant in variants" :key="variant"
-      >{{ variant }}<mp-input-number :variant="variant" hint placeholder="金额" :default-value="12"
+      >{{ variant }}<mp-input-number :variant="variant" placeholder="金额" :default-value="12"
     /></label>
   </div>
 </template>
@@ -35000,7 +35033,7 @@ Maple 使用 edit-mode="popup" 点击值区域打开编辑面板；direct 直接
 | placeholder | 占位符，也可作为浮动提示文字 | `string` | `-` |
 | size | `xs`、`sm`、`md`、`lg` 或 `xl` | `ComponentSize`<br>`'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `md` |
 | variant | `filled`、`outline` 或 `standard` | `string` | `outline` |
-| hint | 是否将 placeholder 用作浮动提示文字 | `boolean` | `true` |
+| hint | 是否将 placeholder 用作浮动提示文字 | `boolean` | `false` |
 | clearable | 是否可清除；有值且可编辑时清除图标常驻显示 | `boolean` | `false` |
 | model-event | 模型通知时机；change 始终表示提交 | `'change' \| 'input'` | `'change'` |
 | readonly | 是否只读 | `boolean` | `false` |
@@ -35521,6 +35554,12 @@ onBeforeUnmount(() => {
 </template>
 ```
 
+## 使用说明
+
+### 键盘操作
+
+后续验收（尚未完成）：使用真实读屏器（如 VoiceOver、NVDA）及受支持的浏览器，检查输入框名称、标签名称、创建与删除、键盘操作以及表单错误提示的实际播报。
+
 ## API
 
 ### 空值识别与阅读空文案
@@ -35710,8 +35749,6 @@ Maple 使用 edit-mode="popup" 在字段附近打开编辑浮层，Enter/F2 也�
 显式行内样式及直接写入同一 CSS 属性的 Props 优先于样式表默认值。Teleport 后，普通 CSS 变量按实际挂载位置继承；使用 ThemeProvider 时，请遵循其局部主题与弹层配置规则。局部定制请直接覆盖组件变量；仅修改后代的 system 变量不会重新计算从根继承的组件别名。内部变量不属于公共 API。
 
 <!-- component-css-variables:end -->
-
-后续验收（尚未完成）：使用真实读屏器（如 VoiceOver、NVDA）及受支持的浏览器，检查输入框名称、标签名称、创建与删除、键盘操作以及表单错误提示的实际播报。
 
 ---
 
@@ -36263,7 +36300,7 @@ Example source: src/input/example/demos/form-feedback.vue
       :validate-status="status"
       :help="status === 'error' ? '请输入账户后重试' : undefined"
     >
-      <mp-input v-model="model.account" placeholder="外置标签会关闭内部浮动提示" hint clearable />
+      <mp-input v-model="model.account" placeholder="请输入账户" clearable />
     </mp-form-item>
     <mp-button status="primary" :loading="status === 'validating'" @click="validate">模拟异步校验</mp-button>
   </mp-form>
@@ -36297,9 +36334,9 @@ Example source: src/input/example/demos/hint.vue
 <template>
   <div class="input-example__caption">启用 hint：聚焦后提示文字上浮</div>
   <mp-space direction="column" :size="[12, 0]">
-    <mp-input variant="filled" placeholder="用户名" />
-    <mp-input variant="outline" placeholder="用户名" />
-    <mp-input variant="standard" placeholder="用户名" />
+    <mp-input hint variant="filled" placeholder="用户名" />
+    <mp-input hint variant="outline" placeholder="用户名" />
+    <mp-input hint variant="standard" placeholder="用户名" />
   </mp-space>
   <div class="input-example__caption">关闭 hint：提示文字保持为占位符</div>
   <mp-space direction="column" :size="[12, 0]">
@@ -37009,7 +37046,7 @@ InputPassword 透传 Input 的全部属性、事件和插槽。`open` 仅控制�
 | `placeholder`     | 占位符，也可作为浮动提示文字                               | `string`                                   |     `-`     |
 | `size`            | `xs`、`sm`、`md`、`lg` 或 `xl`                             | `ComponentSize`<br>`'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` |    `md`     |
 | `variant`         | `filled`、`outline` 或 `standard`                          | `string`                                   |  `outline`  |
-| `hint`            | 是否将 placeholder 用作浮动提示文字                        | `boolean`                                  |   `true`    |
+| `hint`            | 是否将 placeholder 用作浮动提示文字                        | `boolean`                                  |   `false`    |
 | `line`            | 是否显示边框或底线                                         | `boolean`                                  |   `true`    |
 | `max-length`      | 有限非负长度或 `{ length, errorOnly? }`；0 不限；非法值提示并回退不限 | `number \| object`                         |     `0`     |
 | `show-word-limit` | 是否显示字数统计                                           | `boolean`                                  |   `false`   |
@@ -37038,7 +37075,7 @@ InputPassword 透传 Input 的全部属性、事件和插槽。`open` 仅控制�
 
 校验规则配置在 `mp-form-item` 上，详见 [Form 组件](#/zh-CN/form)。
 
-`size / disabled / readonly` 按子项 → InputGroup → FormItem/Form → 库默认值继承，五种尺寸均完整支持。`hint` 默认开启，有外置标签时关闭。`name / id / aria-* / data-*` 直接透传原生 input；`class / style` 留在外壳。`input-attrs` 不能覆盖受控值、类型、禁用、只读和长度策略。
+`size / disabled / readonly` 按子项 → InputGroup → FormItem/Form → 库默认值继承，五种尺寸均完整支持。`hint` 默认关闭，可显式开启；有外置标签时关闭。`name / id / aria-* / data-*` 直接透传原生 input；`class / style` 留在外壳。`input-attrs` 不能覆盖受控值、类型、禁用、只读和长度策略。
 
 ### Input Methods
 
@@ -54629,7 +54666,7 @@ const value = ref('a')
 | `readonly` | 只读状态；显式值优先于继承的 Form / Group 状态 | `boolean` | `undefined` |
 | `error` | 错误状态；显式值优先于继承的 Form / Group 状态 | `boolean` | `undefined` |
 | `placeholder` | 占位文本 | `string` | `—` |
-| `hint` | 是否启用浮动提示 | `boolean` | `true` |
+| `hint` | 是否启用浮动提示 | `boolean` | `false` |
 | `line` | 是否显示 standard 变体的下划线 | `boolean` | `true` |
 | `text-color` | 逐实例自定义文字颜色；静态主题优先使用 token | `string` | `—` |
 | `focus-color` | 逐实例自定义聚焦颜色；静态主题优先使用 token | `string` | `—` |
@@ -56732,7 +56769,7 @@ const rows = [
 
 ### Upload
 
-Example source: src/upload/example/demos/before-read.vue
+Example source: src/upload/example/regressions/before-read.vue
 
 ```vue
 <script setup>
@@ -64537,7 +64574,6 @@ const record = (name: string) => {
   <div class="textarea-body-demo">
     <mp-textarea
       v-model="value"
-      hint
       clearable
       placeholder="工作备注"
       :auto-size="{ minRows: 2, maxRows: 5 }"
@@ -64548,7 +64584,7 @@ const record = (name: string) => {
       @update:model-value="record('update:modelValue')"
       @change="record('change')"
     />
-    <mp-textarea :line="false" hint placeholder="无边框提示" focus-color="#137547" :rows="2" />
+    <mp-textarea :line="false" placeholder="无边框输入" focus-color="#137547" :rows="2" />
     <p>Enter 保持换行；失焦提交 change；清空完整通知一次。</p>
     <output>{{ events.join(' → ') || '等待操作' }}</output>
   </div>
@@ -64687,7 +64723,7 @@ FormItem 先校验候选值，失败时保持编辑；通过后再执行 before-
 | aria-label | 输入框无障碍标签 | `string` | `-` |
 | autofocus | 是否自动聚焦 | `boolean` | `false` |
 | enterkeyhint | 移动端回车键提示 | `string` | `-` |
-| hint | 是否将 placeholder 用作浮动提示文字 | `boolean` | `true` |
+| hint | 是否将 placeholder 用作浮动提示文字 | `boolean` | `false` |
 | line | 是否显示边框或底线 | `boolean` | `true` |
 | text-color | 文字颜色 | `string` | `-` |
 | focus-color | 聚焦颜色 | `string` | `-` |
@@ -65361,7 +65397,7 @@ const range = ref([])
 
 <!-- demo-config-notes:end -->
 
-`hint` 控制浮动提示（Cedar 默认 false，Maple 默认 true），有 Form 外置标签时不启用。`line` 默认 true；`text-color / focus-color / blur-color` 为可选颜色字符串。`error` 未设置时继承 Form，显式 false 覆盖错误态。TimeRange 的 `separator` 默认 `~`，允许空字符串。Cedar 与 Maple 的字段默认均为 outline；可显式指定 filled 或 standard。
+`hint` 控制浮动提示（Cedar 与 Maple 默认均为 false），有 Form 外置标签时不启用。`line` 默认 true；`text-color / focus-color / blur-color` 为可选颜色字符串。`error` 未设置时继承 Form，显式 false 覆盖错误态。TimeRange 的 `separator` 默认 `~`，允许空字符串。Cedar 与 Maple 的字段默认均为 outline；可显式指定 filled 或 standard。
 
 字段顶层负责值、默认值、展开、格式、步长、边界、禁用规则和只读/禁用状态。请直接在字段上设置这些属性，不放进 timeRangePickerProps。嵌套配置只允许对应面板的展示属性；不能通过模型/确认/选择事件替换字段流程。类型会拒绝此类配置，运行时也过滤，且不会把嵌套规则作为顶层未设置时的回退。
 
@@ -65374,7 +65410,7 @@ Example source: src/time-range/example/demos/field-appearance.vue
 import { ref } from 'vue'
 
 const value = ref(['09:00', '18:00'])
-const hint = ref(true)
+const hint = ref(false)
 const error = ref(false)
 const line = ref(true)
 </script>
@@ -66186,7 +66222,7 @@ open/defaultOpen、disabled、trigger、closeOnClickReference、preventFocus 和
 | `focus-color` | 聚焦时的颜色 | `string` | 主题缺省 |
 | `format` | 字符串解析、显示及输出格式；十二小时缺省带 a | `string` | 按 use12Hours |
 | `hide-disabled-options` | 隐藏禁用时间选项；时钟保留刻度位置 | `boolean` | `false` |
-| `hint` | 浮动占位提示；存在 Form 外置标签时不浮动 | `boolean` | `true` |
+| `hint` | 浮动占位提示；存在 Form 外置标签时不浮动 | `boolean` | `false` |
 | `input-editable` | 允许手输；不影响面板选择入口 | `boolean` | `false` |
 | `input-attrs` | 按顺序设置起点、终点原生输入属性；单项名称优先于公共名称 | `RangeInputAttributes[]` | `undefined` |
 | `line` | 显示外壳边框或底线 | `boolean` | `true` |
@@ -66893,7 +66929,7 @@ function resetSelections() {
 
 ### 字段外壳与配置边界
 
-`hint` 控制浮动提示（Cedar 默认 false，Maple 默认 true），有 Form 外置标签时不启用。`line` 默认 true；`text-color / focus-color / blur-color` 为可选颜色字符串。`error` 未设置时继承 Form，显式 false 覆盖错误态。TimeRange 的 `separator` 默认 `~`，允许空字符串。Cedar 与 Maple 的字段默认均为 outline；可显式指定 filled 或 standard。
+`hint` 控制浮动提示（Cedar 与 Maple 默认均为 false），有 Form 外置标签时不启用。`line` 默认 true；`text-color / focus-color / blur-color` 为可选颜色字符串。`error` 未设置时继承 Form，显式 false 覆盖错误态。TimeRange 的 `separator` 默认 `~`，允许空字符串。Cedar 与 Maple 的字段默认均为 outline；可显式指定 filled 或 standard。
 
 字段顶层负责值、默认值、展开、格式、步长、边界、禁用规则和只读/禁用状态。请直接在字段上设置这些属性，不放进 timePickerProps/timeRangePickerProps。嵌套配置只允许对应面板的展示属性；不能通过模型/确认/选择事件替换字段流程。类型会拒绝此类配置，运行时也过滤，且不会把嵌套规则作为顶层未设置时的回退。
 
@@ -66906,7 +66942,7 @@ Example source: src/time/example/demos/field-appearance.vue
 import { ref } from 'vue'
 
 const value = ref('09:00')
-const hint = ref(true)
+const hint = ref(false)
 const error = ref(false)
 const line = ref(true)
 </script>
@@ -67846,7 +67882,7 @@ beforeCommit(payload, done, context) 仅属于字段保存。payload 含 value�
 | `focus-color` | 聚焦时的颜色 | `string` | 主题缺省 |
 | `format` | 字符串解析、显示及输出格式；十二小时缺省带 a | `string` | 按 use12Hours |
 | `hide-disabled-options` | 隐藏禁用时间选项；时钟保留刻度位置 | `boolean` | `false` |
-| `hint` | 浮动占位提示；存在 Form 外置标签时不浮动 | `boolean` | `true` |
+| `hint` | 浮动占位提示；存在 Form 外置标签时不浮动 | `boolean` | `false` |
 | `input-editable` | 允许手输；不影响面板选择入口 | `boolean` | `false` |
 | `line` | 显示外壳边框或底线 | `boolean` | `true` |
 | `loading` | 手动加载反馈，不从事件返回值推导 | `boolean` | `false` |
@@ -68892,221 +68928,251 @@ Document: llms/zh-CN/upload.md
 
 # Upload 上传
 
-选择照片时设置 `accept="image/*"`，不设置 `capture` 或设置 `:capture="false"`，保留系统文件 / 相册选择入口。仅在需要直接拍照时设置 `capture` 为 `true`、`'user'` 或 `'environment'`。具体可选入口由设备和浏览器决定。
-
-禁用下载与 Link/Button 的链接模式一致：移除 href，同时保留链接角色、`aria-disabled` 和 `tabindex=-1`，点击不执行默认下载。`readonly` 不禁用下载；恢复非禁用状态后保留原文件地址及下载文件名。
-
-未配置 action / custom-request 时，组件仅读取文件，进度和结果由业务管理。
+通过点击或拖拽选择文件，支持图片列表、预览和受控上传。示例默认使用本地文件与模拟请求。
 
 ## 基础示例
 
-### 只读取文件
+### 基础用法
+
+选择一个或多个本地文件，列表会随添加和删除更新。未配置 action / custom-request 时仅读取文件，不发送请求。
 
 Example source: src/upload/example/demos/read-only.vue
 
 ```vue
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
+import type { UploadFileItem } from '@maple-design/ui-vue'
 
-const files = ref([])
-const last = ref('')
+const files = ref<UploadFileItem[]>([])
 </script>
+
 <template>
-  <div>
-    <p>不配置 action/custom-request：只读取文件，不发送请求。</p>
-    <mp-upload v-model="files" multiple list-type="picture" @read="(file) => (last = file.name)" />
-    <p>最近读取：{{ last }}</p>
-  </div>
+  <mp-upload v-model="files" multiple />
 </template>
 ```
 
-### 基本使用
+### 列表展示方式
 
-Example source: src/upload/example/demos/basic-usage.vue
+切换 text、picture 和 picture-card，对比同一份文件列表的三种布局。添加或删除文件后再切换，已选文件保持不变。
+
+Example source: src/upload/example/demos/list-type.vue
 
 ```vue
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
+import type { UploadFileItem, UploadListType } from '@maple-design/ui-vue'
 
-const files = ref([])
+const files = ref<UploadFileItem[]>([
+  {
+    uid: 'sample-image',
+    name: 'landscape.svg',
+    type: 'image/svg+xml',
+    url:
+      'data:image/svg+xml,' +
+      encodeURIComponent(
+        '<svg xmlns="http://www.w3.org/2000/svg" width="240" height="160" viewBox="0 0 240 160"><rect width="240" height="160" fill="#e0e7ff"/><circle cx="180" cy="42" r="20" fill="#fbbf24"/><path d="M0 160L80 50L150 140L190 90L240 160Z" fill="#6750a4"/></svg>',
+      ),
+    status: 'success',
+    percent: 100,
+  },
+])
+const listType = ref<UploadListType>('picture')
 </script>
 
 <template>
-  <div>
-    <mp-upload v-model="files"></mp-upload>
-  </div>
-</template>
-```
-
-## 外观与状态
-
-### 动态只读与禁用
-
-预置本地合成图片，启用 readPrettyonly 与 disabled，比较预览、删除和选择入口的行为。选择按钮只记录 request-choose 次数，不打开文件框或发送请求。只读保留预览，禁用同时阻止预览；解除限制后可重新操作。恢复示例由父级更新模型。
-
-Example source: src/upload/example/demos/state-controls.vue
-
-```vue
-<script setup>
-import { ref } from 'vue'
-
-const readonly = ref(false)
-const disabled = ref(false)
-const chooseCount = ref(0)
-const previewCount = ref(0)
-const initialFile = {
-  uid: 'state-image',
-  name: 'state-example.svg',
-  type: 'image/svg+xml',
-  url: 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22120%22 height=%22120%22%3E%3Crect width=%22120%22 height=%22120%22 fill=%22%236750a4%22/%3E%3C/svg%3E',
-  status: 'success',
-  percent: 100,
-}
-const files = ref([{ ...initialFile }])
-function choose() {
-  chooseCount.value++
-}
-function restore() {
-  files.value = [{ ...initialFile }]
-}
-</script>
-
-<template>
-  <section class="upload-state-demo">
-    <div class="controls">
-      <mp-checkbox v-model="readonly" edit-mode="direct">Readonly upload</mp-checkbox>
-      <mp-checkbox v-model="disabled" edit-mode="direct">Disabled upload</mp-checkbox>
-      <mp-button html-type="button" @click="restore">Restore sample</mp-button>
-    </div>
-    <p>Local selection callback only; no file chooser or network request.</p>
-    <mp-upload
-      v-model="files"
-      edit-mode="direct"
-      data-testid="state-upload"
-      :readonly="readonly"
-      :disabled="disabled"
-      :request-choose="choose"
-      @preview="previewCount++"
-    />
-    <p role="status">Files: {{ files.length }}; choose: {{ chooseCount }}; preview: {{ previewCount }}</p>
-  </section>
-</template>
-
-<style scoped>
-.controls {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 12px;
-}
-.controls label {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-}
-</style>
-```
-
-### 所有队列状态
-
-Example source: src/upload/example/demos/state.vue
-
-```vue
-<script setup>
-import { ref } from 'vue'
-
-const files = ref(
-  ['ready', 'reading', 'uploading', 'success', 'error', 'canceled'].map((status, index) => ({
-    uid: String(index),
-    name: status + '.txt',
-    status,
-    percent: status === 'success' ? 100 : 45,
-  })),
-)
-</script>
-
-<template>
-  <div>
-    <mp-upload v-model="files"></mp-upload>
-  </div>
-</template>
-```
-
-### 交互状态对比
-
-在同一实例上切换禁用、只读和错误状态后再操作控件，比较可编辑性和交互反馈。恢复开关位于目标控件外；错误外观本身不会执行校验。
-
-<details>
-<summary>配置说明与使用限制</summary>
-
-#### 交互状态切换
-
-适用于附件列表展示与本地选取。调整禁用、只读，用相同数据观察变化。控制区始终可用，可以随时恢复编辑；错误外观本身不会触发表单校验。
-
-</details>
-
-Example source: src/upload/example/demos/state-lab.vue
-
-```vue
-<script setup>
-import { reactive as __demoReactive, ref } from 'vue'
-
-const value = ref([])
-const __demoState = __demoReactive({ disabled: false, readonly: false })
-</script>
-<template>
-  <mp-space direction="column" :size="16">
-    <mp-space wrap>
-      <mp-checkbox v-model="__demoState['disabled']">disabled</mp-checkbox>
-      <mp-checkbox v-model="__demoState['readonly']">readonly</mp-checkbox>
-    </mp-space>
-    <mp-upload v-model="value" :auto-upload="false" v-bind="__demoState"></mp-upload>
+  <mp-space class="upload-list-type-demo" direction="column">
+    <mp-form>
+      <mp-form-item label="列表类型">
+        <mp-radio-group v-model="listType" aria-label="列表类型">
+          <mp-radio value="text">text</mp-radio>
+          <mp-radio value="picture">picture</mp-radio>
+          <mp-radio value="picture-card">picture-card</mp-radio>
+        </mp-radio-group>
+      </mp-form-item>
+    </mp-form>
+    <p>切换列表类型时保留同一份文件列表。可添加、删除图片后再次切换，预览功能保持可用。</p>
+    <mp-upload v-model="files" :list-type="listType" accept="image/*" multiple image-fit="contain" />
+    <p role="status">已选图片: {{ files.length }}</p>
   </mp-space>
 </template>
 ```
 
-### 图卡、插槽与自定义预览
+### 上传入口位置
 
-Example source: src/upload/example/demos/custom-surface.vue
+切换上传入口位于文件列表之前或之后，再对比三种列表类型。默认入口位于列表之后；切换入口位置时，已选文件和文件顺序保持不变。
+
+Example source: src/upload/example/demos/trigger-position.vue
 
 ```vue
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
+import type { UploadFileItem, UploadListType, UploadTriggerPosition } from '@maple-design/ui-vue'
 
-const files = ref([])
-const message = ref('')
-const preview = (file, event) => {
-  event.preventDefault()
-  message.value = file.name
+const files = ref<UploadFileItem[]>([
+  {
+    uid: 'sample-image',
+    name: 'landscape.svg',
+    type: 'image/svg+xml',
+    url:
+      'data:image/svg+xml,' +
+      encodeURIComponent(
+        '<svg xmlns="http://www.w3.org/2000/svg" width="240" height="160" viewBox="0 0 240 160"><rect width="240" height="160" fill="#e0e7ff"/><circle cx="180" cy="42" r="20" fill="#fbbf24"/><path d="M0 160L80 50L150 140L190 90L240 160Z" fill="#6750a4"/></svg>',
+      ),
+    status: 'success',
+    percent: 100,
+  },
+])
+const listType = ref<UploadListType>('picture')
+const triggerPosition = ref<UploadTriggerPosition>('after')
+</script>
+
+<template>
+  <mp-space class="upload-trigger-position-demo" direction="column">
+    <mp-form>
+      <mp-form-item label="入口位置">
+        <mp-radio-group v-model="triggerPosition" aria-label="入口位置">
+          <mp-radio value="before">文件列表之前</mp-radio>
+          <mp-radio value="after">文件列表之后</mp-radio>
+        </mp-radio-group>
+      </mp-form-item>
+      <mp-form-item label="列表类型">
+        <mp-radio-group v-model="listType" aria-label="列表类型">
+          <mp-radio value="text">text</mp-radio>
+          <mp-radio value="picture">picture</mp-radio>
+          <mp-radio value="picture-card">picture-card</mp-radio>
+        </mp-radio-group>
+      </mp-form-item>
+    </mp-form>
+    <mp-upload v-model="files" :trigger-position="triggerPosition" :list-type="listType" accept="image/*" multiple />
+    <p role="status">已选文件: {{ files.length }}</p>
+  </mp-space>
+</template>
+```
+
+## 选择与校验
+
+### 拖拽上传
+
+点击区域选择图片，或将图片拖入区域；添加后点击缩略图预览。触屏设备可使用点击选择。
+
+Example source: src/upload/example/demos/draggable-picture.vue
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue'
+import type { UploadFileItem } from '@maple-design/ui-vue'
+
+const files = ref<UploadFileItem[]>([
+  {
+    uid: 'sample-image',
+    name: 'landscape.svg',
+    type: 'image/svg+xml',
+    url:
+      'data:image/svg+xml,' +
+      encodeURIComponent(
+        '<svg xmlns="http://www.w3.org/2000/svg" width="240" height="160" viewBox="0 0 240 160"><rect width="240" height="160" fill="#e0e7ff"/><circle cx="180" cy="42" r="20" fill="#fbbf24"/><path d="M0 160L80 50L150 140L190 90L240 160Z" fill="#6750a4"/></svg>',
+      ),
+    status: 'success',
+    percent: 100,
+  },
+])
+</script>
+
+<template>
+  <mp-upload v-model="files" list-type="picture" accept="image/*" multiple draggable>
+    <template #trigger="{ dragOver }">
+      <div class="upload-dropzone">
+        <m-icon-upload class="upload-dropzone__icon" aria-hidden="true" />
+        <strong>{{ dragOver ? '松开以添加图片' : '点击或者拖动图片到该区域来添加' }}</strong>
+        <p>仅在本地读取，点击缩略图可预览。请勿添加敏感文件。</p>
+      </div>
+    </template>
+  </mp-upload>
+</template>
+<style scoped>
+.upload-dropzone {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  padding: 32px 0;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+.upload-dropzone__icon {
+  font-size: 40px;
+  color: var(--mp-sys-color-content-secondary);
+}
+.upload-dropzone strong {
+  color: var(--mp-sys-color-content-secondary);
+}
+.upload-dropzone p {
+  margin: 0;
+  color: var(--mp-sys-color-content-secondary);
+}
+</style>
+```
+
+### 文件类型、数量与大小
+
+仅接受图片，最多 3 张、每张不超过 2 MiB。拒绝时显示原因；满额后删除一张即可继续添加。
+
+Example source: src/upload/example/demos/picture-limits.vue
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue'
+import type { UploadFileItem, UploadRejectedFile } from '@maple-design/ui-vue'
+
+const files = ref<UploadFileItem[]>([])
+const feedback = ref('')
+const reasons: Record<string, string> = {
+  accept: '仅支持图片',
+  'max-files': '最多选择 3 张图片',
+  'max-file-size': '每张图片不能超过 2 MiB',
+}
+function handleRejected(items: UploadRejectedFile[]) {
+  feedback.value = items.map((item) => `${item.file.name}: ${reasons[item.reason] || item.reason}`).join('; ')
 }
 </script>
+
 <template>
-  <div>
-    <mp-upload v-model="files" list-type="picture-card" multiple @preview="preview"
-      ><template #trigger><span>选择图片</span></template
-      ><template #remove-button="{ remove }"
-        ><mp-button variant="text" @click="remove">删除</mp-button></template
-      ></mp-upload
-    >
-    <p>自定义预览：{{ message }}</p>
-  </div>
+  <mp-space direction="column">
+    <p>最多选择 3 张图片，每张不超过 2 MiB；达到数量上限后，可删除一张再添加。</p>
+    <mp-upload
+      v-model="files"
+      list-type="picture"
+      accept="image/*"
+      multiple
+      :max-files="3"
+      :max-file-size="2 * 1024 * 1024"
+      @rejected="handleRejected"
+    />
+    <p role="status">{{ feedback }}</p>
+  </mp-space>
 </template>
 ```
 
-### 自定义文件项
+### 单文件与替换
 
-Example source: src/upload/example/demos/custom-render.vue
+设置 max-files="1" 与 reupload，点击文件上的替换按钮更换图片。替换成功后仍只有一个文件。
+
+Example source: src/upload/example/demos/replacement.vue
 
 ```vue
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
+import type { UploadFileItem } from '@maple-design/ui-vue'
 
-const files = ref([
+const files = ref<UploadFileItem[]>([
   {
-    uid: 'image',
-    name: 'example.svg',
+    uid: 'sample-image',
+    name: 'landscape.svg',
     type: 'image/svg+xml',
-    url: 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22120%22 height=%22120%22%3E%3Crect width=%22120%22 height=%22120%22 fill=%22%236750a4%22/%3E%3C/svg%3E',
+    url:
+      'data:image/svg+xml,' +
+      encodeURIComponent(
+        '<svg xmlns="http://www.w3.org/2000/svg" width="240" height="160" viewBox="0 0 240 160"><rect width="240" height="160" fill="#e0e7ff"/><circle cx="180" cy="42" r="20" fill="#fbbf24"/><path d="M0 160L80 50L150 140L190 90L240 160Z" fill="#6750a4"/></svg>',
+      ),
     status: 'success',
     percent: 100,
   },
@@ -69114,142 +69180,13 @@ const files = ref([
 </script>
 
 <template>
-  <div>
-    <mp-upload v-model="files"
-      ><template #item="{ file, remove }"
-        ><span>{{ file.name }}</span> <mp-button html-type="button" @click="remove">删除</mp-button></template
-      ></mp-upload
-    >
-  </div>
+  <mp-upload v-model="files" list-type="picture-card" accept="image/*" :max-files="1" reupload />
 </template>
 ```
 
-### 自定义删除按钮
+### 选择文件夹
 
-Example source: src/upload/example/demos/remove-button-slot.vue
-
-```vue
-<script setup>
-import { ref } from 'vue'
-
-const files = ref([
-  {
-    uid: 'image',
-    name: 'example.svg',
-    type: 'image/svg+xml',
-    url: 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22120%22 height=%22120%22%3E%3Crect width=%22120%22 height=%22120%22 fill=%22%236750a4%22/%3E%3C/svg%3E',
-    status: 'success',
-    percent: 100,
-  },
-])
-</script>
-
-<template>
-  <div>
-    <mp-upload v-model="files"
-      ><template #remove-button="{ remove }"
-        ><mp-button html-type="button" @click.stop="remove">移除文件</mp-button></template
-      ></mp-upload
-    >
-  </div>
-</template>
-```
-
-### 自定义选择按钮
-
-Example source: src/upload/example/demos/style.vue
-
-```vue
-<script setup>
-import { ref } from 'vue'
-
-const files = ref([])
-</script>
-
-<template>
-  <div>
-    <mp-upload v-model="files"
-      ><template #trigger><mp-button status="primary">选择文件</mp-button></template></mp-upload
-    >
-  </div>
-</template>
-```
-
-### 自定义预览
-
-Example source: src/upload/example/demos/custom-preview.vue
-
-```vue
-<script setup>
-import { ref } from 'vue'
-
-const files = ref([
-  {
-    uid: 'image',
-    name: 'example.svg',
-    type: 'image/svg+xml',
-    url: 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22120%22 height=%22120%22%3E%3Crect width=%22120%22 height=%22120%22 fill=%22%236750a4%22/%3E%3C/svg%3E',
-    status: 'success',
-    percent: 100,
-  },
-])
-const selected = ref('')
-const preview = (file, event) => {
-  event.preventDefault()
-  selected.value = file.name
-}
-</script>
-
-<template>
-  <div>
-    <mp-upload v-model="files" @preview="preview"></mp-upload>
-    <p>当前预览：{{ selected }}</p>
-  </div>
-</template>
-```
-
-### 图片和视频预览
-
-Example source: src/upload/example/demos/preview.vue
-
-```vue
-<script setup>
-import { ref } from 'vue'
-
-const files = ref([
-  {
-    uid: 'image',
-    name: 'example.svg',
-    type: 'image/svg+xml',
-    url: 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22120%22 height=%22120%22%3E%3Crect width=%22120%22 height=%22120%22 fill=%22%236750a4%22/%3E%3C/svg%3E',
-    status: 'success',
-    percent: 100,
-  },
-  {
-    uid: 'video',
-    name: 'sample.mp4',
-    type: 'video/mp4',
-    url: 'https://www.runoob.com/try/demo_source/mov_bbb.mp4',
-    status: 'success',
-    percent: 100,
-  },
-])
-const enabled = ref(true)
-</script>
-
-<template>
-  <div>
-    <mp-checkbox v-model="enabled">启用内置预览</mp-checkbox>
-    <mp-upload v-model="files" list-type="picture" :preview="enabled"></mp-upload>
-  </div>
-</template>
-```
-
-## 文件来源与约束
-
-### 目录选择与多文件回退
-
-使用现有 addFiles 接入粘贴事件；移动端保留普通多选入口。本例只读取本地数据。
+选择文件夹后查看其中的文件；普通多选入口用于不支持文件夹选择的浏览器或移动设备。
 
 Example source: src/upload/example/demos/directory.vue
 
@@ -69273,32 +69210,469 @@ const files = ref<UploadFileItem[]>([])
 </template>
 ```
 
-### 接管文件选择
+## 预览与状态
 
-Example source: src/upload/example/demos/click-action.vue
+### 图片与视频预览
+
+预置图片可直接预览；选择本地视频后点击缩略图播放。关闭预览开关可禁止内置预览。
+
+Example source: src/upload/example/demos/preview.vue
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue'
+import type { UploadFileItem } from '@maple-design/ui-vue'
+
+const files = ref<UploadFileItem[]>([
+  {
+    uid: 'sample-image',
+    name: 'landscape.svg',
+    type: 'image/svg+xml',
+    url:
+      'data:image/svg+xml,' +
+      encodeURIComponent(
+        '<svg xmlns="http://www.w3.org/2000/svg" width="240" height="160" viewBox="0 0 240 160"><rect width="240" height="160" fill="#e0e7ff"/><circle cx="180" cy="42" r="20" fill="#fbbf24"/><path d="M0 160L80 50L150 140L190 90L240 160Z" fill="#6750a4"/></svg>',
+      ),
+    status: 'success',
+    percent: 100,
+  },
+])
+const enabled = ref(true)
+</script>
+
+<template>
+  <mp-space direction="column">
+    <mp-checkbox v-model="enabled">启用内置预览</mp-checkbox>
+    <mp-upload v-model="files" list-type="picture" accept="image/*,video/*" multiple :preview="enabled" />
+  </mp-space>
+</template>
+```
+
+### 只读、禁用与纯阅读
+
+在同一份数据上切换可编辑、只读、禁用和纯阅读。只读保留预览，禁用阻止交互；纯阅读展示文件值而不显示上传编辑器。
+
+Example source: src/upload/example/demos/states.vue
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue'
+import type { UploadFileItem } from '@maple-design/ui-vue'
+
+const files = ref<UploadFileItem[]>([
+  {
+    uid: 'sample-image',
+    name: 'landscape.svg',
+    type: 'image/svg+xml',
+    url:
+      'data:image/svg+xml,' +
+      encodeURIComponent(
+        '<svg xmlns="http://www.w3.org/2000/svg" width="240" height="160" viewBox="0 0 240 160"><rect width="240" height="160" fill="#e0e7ff"/><circle cx="180" cy="42" r="20" fill="#fbbf24"/><path d="M0 160L80 50L150 140L190 90L240 160Z" fill="#6750a4"/></svg>',
+      ),
+    status: 'success',
+    percent: 100,
+  },
+])
+const state = ref('editable')
+</script>
+
+<template>
+  <mp-space direction="column">
+    <mp-form
+      ><mp-form-item label="交互状态">
+        <mp-radio-group v-model="state" aria-label="交互状态">
+          <mp-radio value="editable">可编辑</mp-radio>
+          <mp-radio value="readonly">只读</mp-radio>
+          <mp-radio value="disabled">禁用</mp-radio>
+          <mp-radio value="reading">纯阅读</mp-radio>
+        </mp-radio-group>
+      </mp-form-item></mp-form
+    >
+    <mp-upload
+      v-model="files"
+      list-type="picture"
+      accept="image/*"
+      multiple
+      :readonly="state === 'readonly'"
+      :disabled="state === 'disabled'"
+      :read-pretty="state === 'reading'"
+    />
+    <p role="status">已选文件: {{ files.length }}</p>
+  </mp-space>
+</template>
+```
+
+### 自定义入口与预览
+
+用 trigger 和 remove-button 插槽定制入口与删除操作，通过 preview 事件打开自定义预览 Dialog。
+
+Example source: src/upload/example/demos/custom-surface.vue
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue'
+import type { UploadFileItem, UploadPreviewEvent } from '@maple-design/ui-vue'
+
+const files = ref<UploadFileItem[]>([
+  {
+    uid: 'sample-image',
+    name: 'landscape.svg',
+    type: 'image/svg+xml',
+    url:
+      'data:image/svg+xml,' +
+      encodeURIComponent(
+        '<svg xmlns="http://www.w3.org/2000/svg" width="240" height="160" viewBox="0 0 240 160"><rect width="240" height="160" fill="#e0e7ff"/><circle cx="180" cy="42" r="20" fill="#fbbf24"/><path d="M0 160L80 50L150 140L190 90L240 160Z" fill="#6750a4"/></svg>',
+      ),
+    status: 'success',
+    percent: 100,
+  },
+])
+const open = ref(false)
+const selected = ref<UploadFileItem>()
+function preview(file: UploadFileItem, event: UploadPreviewEvent) {
+  event.preventDefault()
+  selected.value = file
+  open.value = true
+}
+</script>
+
+<template>
+  <mp-upload v-model="files" list-type="picture-card" accept="image/*" multiple @preview="preview">
+    <template #trigger><span>选择图片</span></template>
+    <template #remove-button="{ remove }"><mp-button variant="text" @click="remove">移除</mp-button></template>
+  </mp-upload>
+  <mp-dialog v-model:open="open" :title="selected?.name" :cancel-button="false" confirm-button-text="关闭">
+    <img v-if="selected" class="custom-preview-image" :src="selected.url" :alt="selected.name" />
+  </mp-dialog>
+</template>
+<style scoped>
+.custom-preview-image {
+  display: block;
+  max-width: 100%;
+  max-height: 60vh;
+  margin: auto;
+}
+</style>
+```
+
+## 上传流程
+
+### 手动上传、进度与重试
+
+选择文件或加入示例文件，再点击开始上传。上传中可取消；开启模拟失败后，首次失败可通过重试恢复。本例使用本地定时器模拟请求。
+
+Example source: src/upload/example/demos/manual-upload.vue
+
+```vue
+<script setup lang="ts">
+import { computed, onBeforeUnmount, onDeactivated, ref } from 'vue'
+import type { UploadCustomRequest, UploadFileItem, UploadInstance, UploadProgressEvent } from '@maple-design/ui-vue'
+
+const files = ref<UploadFileItem[]>([])
+const uploader = ref<UploadInstance>()
+const failOnce = ref(false)
+const timers = new Set<ReturnType<typeof setInterval>>()
+const attempts = new Map<string, number>()
+const pending = computed(() => files.value.some((file) => ['ready', 'error', 'canceled'].includes(file.status)))
+let sequence = 0
+function addSample() {
+  const file = new File(['Local upload example.'], `example-${++sequence}.txt`, { type: 'text/plain' })
+  files.value = [
+    ...files.value,
+    { uid: `sample-${sequence}`, name: file.name, size: file.size, type: file.type, file, status: 'ready', percent: 0 },
+  ]
+}
+const request: UploadCustomRequest = ({ file, onProgress, onSuccess, onError }) => {
+  const attempt = (attempts.get(file.uid) ?? 0) + 1
+  attempts.set(file.uid, attempt)
+  const reject = failOnce.value && attempt === 1
+  let percent = 0
+  const stop = () => {
+    clearInterval(timer)
+    timers.delete(timer)
+  }
+  const timer = setInterval(() => {
+    percent += 10
+    onProgress({ percent } as UploadProgressEvent)
+    if (percent >= 100) {
+      stop()
+      if (reject) {
+        onError(new Error('模拟上传失败，请重试'))
+      } else {
+        onSuccess({ ok: true })
+      }
+    }
+  }, 150)
+  timers.add(timer)
+  return { abort: stop }
+}
+function cleanup() {
+  uploader.value?.abort()
+  timers.forEach((timer) => clearInterval(timer))
+  timers.clear()
+}
+onBeforeUnmount(cleanup)
+onDeactivated(cleanup)
+</script>
+
+<template>
+  <mp-space direction="column">
+    <mp-checkbox v-model="failOnce">模拟首次失败</mp-checkbox>
+    <mp-upload ref="uploader" v-model="files" multiple :auto-upload="false" :custom-request="request" />
+    <mp-space wrap>
+      <mp-button @click="addSample">加入示例文件</mp-button>
+      <mp-button :disabled="!pending" @click="uploader?.submit()">开始上传</mp-button>
+    </mp-space>
+    <p role="status">已完成: {{ files.filter((file) => file.status === 'success').length }} / {{ files.length }}</p>
+  </mp-space>
+</template>
+```
+
+### 删除前确认
+
+点击删除先打开确认框，取消会保留文件，确认后才从列表移除。
+
+Example source: src/upload/example/demos/remove-confirm.vue
+
+```vue
+<script setup lang="ts">
+import { onBeforeUnmount, ref } from 'vue'
+import type { UploadFileItem } from '@maple-design/ui-vue'
+
+const files = ref<UploadFileItem[]>([
+  {
+    uid: 'sample-image',
+    name: 'landscape.svg',
+    type: 'image/svg+xml',
+    url:
+      'data:image/svg+xml,' +
+      encodeURIComponent(
+        '<svg xmlns="http://www.w3.org/2000/svg" width="240" height="160" viewBox="0 0 240 160"><rect width="240" height="160" fill="#e0e7ff"/><circle cx="180" cy="42" r="20" fill="#fbbf24"/><path d="M0 160L80 50L150 140L190 90L240 160Z" fill="#6750a4"/></svg>',
+      ),
+    status: 'success',
+    percent: 100,
+  },
+])
+const open = ref(false)
+const name = ref('')
+let resolveRemoval: ((allow: boolean) => void) | undefined
+function beforeRemove(file: UploadFileItem) {
+  name.value = file.name || ''
+  open.value = true
+  return new Promise<boolean>((resolve) => {
+    resolveRemoval = resolve
+  })
+}
+function finish(allow: boolean) {
+  const resolve = resolveRemoval
+  resolveRemoval = undefined
+  open.value = false
+  resolve?.(allow)
+}
+onBeforeUnmount(() => finish(false))
+</script>
+
+<template>
+  <mp-upload v-model="files" list-type="picture" accept="image/*" multiple :before-remove="beforeRemove" />
+  <mp-dialog
+    v-model:open="open"
+    title="确认删除"
+    @confirm="finish(true)"
+    @cancel="finish(false)"
+    @closed="finish(false)"
+  >
+    <p>确认移除文件 {{ name }}?</p>
+  </mp-dialog>
+</template>
+```
+
+### 由业务管理上传状态
+
+通过 read 事件接管进度和结果。加入示例文件、模拟完成，观察受控列表变化；本例不使用内置请求。
+
+Example source: src/upload/example/demos/external-state.vue
 
 ```vue
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 
 const files = ref([])
-const allow = ref(false)
-const requestChoose = (chooseFile) => {
-  if (allow.value) {
-    chooseFile()
+const hasUploading = computed(() => files.value.some((file) => file.status === 'uploading'))
+const hasRetryable = computed(() => files.value.some((file) => ['error', 'canceled'].includes(file.status)))
+let sequence = 0
+
+function read(file) {
+  file.status = 'uploading'
+  file.percent = 40
+}
+
+function addExample() {
+  const file = new File(['Local external upload demo.'], `external-${++sequence}.txt`, { type: 'text/plain' })
+  const item = {
+    uid: `external-${sequence}`,
+    name: file.name,
+    size: file.size,
+    type: file.type,
+    file,
+    status: 'ready',
+    percent: 0,
   }
+  read(item)
+  files.value = [...files.value, item]
+}
+
+function complete() {
+  files.value = files.value.map((file) =>
+    file.status === 'uploading' ? { ...file, status: 'success', percent: 100 } : file,
+  )
+}
+
+function retry() {
+  files.value = files.value.map((file) =>
+    ['error', 'canceled'].includes(file.status) ? { ...file, status: 'uploading', percent: 40 } : file,
+  )
 }
 </script>
 
 <template>
   <div>
-    <mp-checkbox v-model="allow">允许此操作</mp-checkbox>
-    <mp-upload v-model="files" :request-choose="requestChoose"></mp-upload>
+    <p>业务端托管进度和结果；可加入本地示例项，无需选择文件，也不发送请求。</p>
+    <mp-space wrap>
+      <mp-button @click="addExample">加入外部上传项</mp-button>
+      <mp-button :disabled="!hasUploading" @click="complete">模拟外部完成</mp-button>
+      <mp-button :disabled="!hasRetryable" @click="retry">模拟外部重试</mp-button>
+    </mp-space>
+    <mp-upload v-model="files" edit-mode="direct" :show-retry-button="false" @read="read" />
+    <p>队列状态：{{ files.map((file) => `${file.name}: ${file.status} (${file.percent}%)`).join('；') || '空' }}</p>
   </div>
 </template>
 ```
 
-### 剪贴板图片与读取校验
+## 业务组合
+
+### 外置上传按钮
+
+隐藏内置入口，由外部按钮调用 chooseFile()。切换按钮位于列表之前或之后，不改变文件列表。
+
+Example source: src/upload/example/demos/external-trigger.vue
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue'
+import type { UploadFileItem, UploadInstance } from '@maple-design/ui-vue'
+
+const files = ref<UploadFileItem[]>([
+  {
+    uid: 'sample-image',
+    name: 'landscape.svg',
+    type: 'image/svg+xml',
+    url:
+      'data:image/svg+xml,' +
+      encodeURIComponent(
+        '<svg xmlns="http://www.w3.org/2000/svg" width="240" height="160" viewBox="0 0 240 160"><rect width="240" height="160" fill="#e0e7ff"/><circle cx="180" cy="42" r="20" fill="#fbbf24"/><path d="M0 160L80 50L150 140L190 90L240 160Z" fill="#6750a4"/></svg>',
+      ),
+    status: 'success',
+    percent: 100,
+  },
+])
+const uploader = ref<UploadInstance>()
+const position = ref('before')
+</script>
+
+<template>
+  <mp-space direction="column">
+    <mp-form
+      ><mp-form-item label="按钮位置">
+        <mp-radio-group v-model="position" aria-label="按钮位置">
+          <mp-radio value="before">列表之前</mp-radio>
+          <mp-radio value="after">列表之后</mp-radio>
+        </mp-radio-group>
+      </mp-form-item></mp-form
+    >
+    <mp-button v-if="position === 'before'" @click="uploader?.chooseFile()">选择文件</mp-button>
+    <mp-upload ref="uploader" key="files" v-model="files" list-type="picture" multiple :show-upload-button="false" />
+    <mp-button v-if="position === 'after'" @click="uploader?.chooseFile()">选择文件</mp-button>
+  </mp-space>
+</template>
+```
+
+### Dialog 中上传
+
+点击按钮打开 Dialog，在弹窗内选择或拖入图片并预览。关闭后保留已选文件，再次打开可以继续操作。
+
+Example source: src/upload/example/demos/dialog-upload.vue
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue'
+import type { UploadFileItem } from '@maple-design/ui-vue'
+
+const files = ref<UploadFileItem[]>([
+  {
+    uid: 'sample-image',
+    name: 'landscape.svg',
+    type: 'image/svg+xml',
+    url:
+      'data:image/svg+xml,' +
+      encodeURIComponent(
+        '<svg xmlns="http://www.w3.org/2000/svg" width="240" height="160" viewBox="0 0 240 160"><rect width="240" height="160" fill="#e0e7ff"/><circle cx="180" cy="42" r="20" fill="#fbbf24"/><path d="M0 160L80 50L150 140L190 90L240 160Z" fill="#6750a4"/></svg>',
+      ),
+    status: 'success',
+    percent: 100,
+  },
+])
+const open = ref(false)
+</script>
+
+<template>
+  <mp-space direction="column">
+    <mp-button @click="open = true">打开上传弹窗</mp-button>
+    <p>已选图片：{{ files.length }}。关闭后保留已选文件，再次打开可继续添加和预览。</p>
+    <mp-dialog
+      v-model:open="open"
+      title="上传图片"
+      width="min(640px, calc(100vw - 32px))"
+      :cancel-button="false"
+      confirm-button-text="完成"
+    >
+      <mp-upload v-model="files" list-type="picture" accept="image/*" multiple draggable>
+        <template #trigger="{ dragOver }">
+          <div class="upload-dropzone">
+            <m-icon-upload class="upload-dropzone__icon" aria-hidden="true" />
+            <strong>{{ dragOver ? '松开以添加图片' : '点击或者拖动图片到该区域来添加' }}</strong>
+            <p>仅在本地读取，点击缩略图可预览。请勿添加敏感文件。</p>
+          </div>
+        </template>
+      </mp-upload>
+    </mp-dialog>
+  </mp-space>
+</template>
+<style scoped>
+.upload-dropzone {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  padding: 32px 0;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+.upload-dropzone__icon {
+  font-size: 40px;
+  color: var(--mp-sys-color-content-secondary);
+}
+.upload-dropzone strong {
+  color: var(--mp-sys-color-content-secondary);
+}
+.upload-dropzone p {
+  margin: 0;
+  color: var(--mp-sys-color-content-secondary);
+}
+</style>
+```
+
+### 接入剪贴板图片
+
+将图片粘贴到输入区域，通过 useUploader.addFiles 复用文件读取与校验；普通文本仍按原生输入处理。
 
 Example source: src/upload/example/demos/clipboard.vue
 
@@ -69365,935 +69739,11 @@ function reset() {
 </template>
 ```
 
-### 替换后的约束校验
-
-反向返回顺序：旧任务等待时重置并加入新文件，先点“返回最新缩略图”接受新项，再“拒绝最早缩略图”。旧失败只结清旧任务，不能再显示read-error、删除新项或增加解码数；最后重置清空列表和计数。这仍是本地回调竞争，不是原生读取器异常。
-
-开启 FileReader / data-url 后，接受的 File 会读取为 data URL。Data URLs 显示当前 data-url 项目数，Decoded images 显示重置以来累计的 load 次数。删除项目不会减少累计次数；重置清零两者，类型拒绝发生在读取之前。
-
-开关仅影响后续新增项，不会重新读取既有项目；可按 file/data-url/file 顺序混合加入三项。满额后再加入会报告 max-files，图片和解码计数不变；删除 data-url 项后重新加入会读取新文件，累计解码数继续增加，重置清空整个混合队列。
-
-Example source: src/upload/example/demos/replacement-validation.vue
-
-```vue
-<script setup>
-import { onBeforeUnmount, onDeactivated, ref, shallowRef } from 'vue'
-import { useUploader } from '@maple-design/ui-vue'
-
-const files = ref([])
-const readDataUrl = ref(false)
-const readObjectUrl = ref(false)
-const pauseThumbnail = ref(false)
-const pendingThumbnails = shallowRef([])
-const decoded = ref(0)
-const reasons = ref([])
-const replacements = new WeakMap()
-const maxFileSize = 1048576
-const maxTotalSize = 2097152
-const maxFiles = 3
-const svg =
-  '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><rect width="16" height="16" fill="#4caf50"/></svg>'
-let sequence = 0
-
-function replace(file) {
-  const mode = replacements.get(file)
-  if (mode === 'type') {
-    return new File(['text replacement'], file.name.replace('.svg', '.txt'), { type: 'text/plain' })
-  }
-  if (mode === 'size') {
-    return new File([new Uint8Array(maxFileSize + 1)], file.name, { type: file.type })
-  }
-  return new File([file], file.name, { type: file.type })
-}
-
-const uploader = useUploader({
-  modelValue: () => files.value,
-  onUpdateModelValue: (value) => {
-    files.value = value
-  },
-  accept: () => 'image/*',
-  maxFiles: () => maxFiles,
-  createThumbnailUrl: () =>
-    pauseThumbnail.value
-      ? () =>
-          new Promise((resolve, reject) => {
-            pendingThumbnails.value = [...pendingThumbnails.value, { resolve, reject }]
-          })
-      : undefined,
-  maxFileSize: () => maxFileSize,
-  maxTotalSize: () => maxTotalSize,
-  resolveType: () => (readObjectUrl.value ? 'object-url' : readDataUrl.value ? 'data-url' : 'file'),
-  beforeRead: () => replace,
-  onRejected: (items) => {
-    reasons.value = items.map((item) => item.reason)
-  },
-})
-
-function probe(mode) {
-  reasons.value = []
-  const payload = mode === 'total' ? svg.padEnd(786432, ' ') : svg
-  const file = new File([payload], `sample-${++sequence}.svg`, { type: 'image/svg+xml' })
-  replacements.set(file, mode)
-  return uploader.addFiles([file])
-}
-
-function reset() {
-  uploader.reset()
-  decoded.value = 0
-  reasons.value = []
-}
-function settleThumbnail(fail = false, latest = false) {
-  const tasks = [...pendingThumbnails.value]
-  const task = latest ? tasks.pop() : tasks.shift()
-  if (!task) {
-    return
-  }
-  pendingThumbnails.value = tasks
-  if (fail) {
-    task.reject(new Error('Local thumbnail failure'))
-  } else {
-    task.resolve('data:image/svg+xml,' + encodeURIComponent(svg))
-  }
-}
-function cleanupThumbnails() {
-  const tasks = pendingThumbnails.value
-  pendingThumbnails.value = []
-  tasks.forEach((task) => task.resolve(undefined))
-}
-onBeforeUnmount(cleanupThumbnails)
-onDeactivated(cleanupThumbnails)
-</script>
-
-<template>
-  <div class="upload-read-demo">
-    <p class="thumbnail-pending">Pending thumbnails: {{ pendingThumbnails.length }}</p>
-    <mp-button html-type="button" :disabled="!pendingThumbnails.length" @click="settleThumbnail(false, true)">
-      返回最新缩略图
-    </mp-button>
-    <mp-button html-type="button" :disabled="!pendingThumbnails.length" @click="settleThumbnail()"
-      >返回最早缩略图</mp-button
-    >
-    <mp-button html-type="button" :disabled="!pendingThumbnails.length" @click="settleThumbnail(true)"
-      >拒绝最早缩略图</mp-button
-    >
-    <mp-checkbox v-model="readDataUrl" edit-mode="direct">使用原生 FileReader 读取为 data-url</mp-checkbox>
-    <mp-checkbox v-model="readObjectUrl" edit-mode="direct">使用原生 Blob/object-url（优先）</mp-checkbox>
-    <output>Blob URLs: {{ files.filter((file) => file.url?.startsWith('blob:')).length }}</output>
-    <p role="status">
-      Data URLs: {{ files.filter((file) => file.url?.startsWith('data:')).length }} · Decoded images: {{ decoded }}
-    </p>
-    <img
-      v-for="file in files.filter((file) => /^(data:|blob:)/.test(file.thumbnailUrl || ''))"
-      :key="file.uid"
-      :src="file.thumbnailUrl"
-      :alt="file.name"
-      width="16"
-      height="16"
-      @load="decoded++"
-    />
-    <p>仅接受图片；单文件 1 MiB、合计 2 MiB、最多 3 个。每个示例均经过 before-read。</p>
-    <mp-space wrap>
-      <mp-button @click="probe('valid')">加入小图片</mp-button>
-      <mp-button @click="probe('type')">替换为文本</mp-button>
-      <mp-button @click="probe('size')">替换为超大图片</mp-button>
-      <mp-button @click="probe('total')">加入 768 KiB 图片</mp-button>
-      <mp-button @click="reset">重置队列</mp-button>
-    </mp-space>
-    <mp-checkbox v-model="pauseThumbnail" edit-mode="direct">暂停本地缩略图 Promise</mp-checkbox>
-    <mp-upload v-model="files" edit-mode="direct" :show-upload-button="false" :preview="false" />
-    <p>队列：{{ files.map((file) => file.name).join(', ') || '空' }}</p>
-    <p>拒绝原因：{{ reasons.join(', ') || '无' }}</p>
-  </div>
-</template>
-```
-
-### 批次筛选
-
-Example source: src/upload/example/demos/before-add.vue
-
-```vue
-<script setup>
-import { ref } from 'vue'
-
-const files = ref([])
-const filter = (files) => files.filter((file) => /\.png$/i.test(file.name))
-</script>
-
-<template>
-  <div>
-    <p>从本次选择中仅保留 PNG 文件。</p>
-    <mp-upload v-model="files" :before-add="filter" multiple></mp-upload>
-  </div>
-</template>
-```
-
-### 读取前确认
-
-Example source: src/upload/example/demos/before-read.vue
-
-```vue
-<script setup>
-import { ref } from 'vue'
-
-const files = ref([])
-const beforeRead = (file) => file.size <= 1024 * 1024
-</script>
-
-<template>
-  <div>
-    <p>仅允许读取不超过 1 MB 的文件。</p>
-    <mp-upload v-model="files" :before-read="beforeRead"></mp-upload>
-  </div>
-</template>
-```
-
-### 文件大小与数量限制
-
-分别选择超出大小和数量限制的本地文件，观察拒绝反馈；选择限制与请求前处理、上传队列是独立阶段。
-
-Example source: src/upload/example/demos/selection-limits-comparison.vue
-
-```vue
-<script setup lang="ts">
-import { proxyRefs as demoProxyRefs, ref } from 'vue'
-import type { UploadFileItem, UploadRejectedFile, UploadRejectedReason } from '@maple-design/ui-vue'
-
-const scene1 = demoProxyRefs(
-  (() => {
-    const files = ref<UploadFileItem[]>([])
-
-    const reasons = ref<UploadRejectedReason[]>([])
-
-    const onRejected = (items: UploadRejectedFile[]) => {
-      reasons.value = items.map((item) => item.reason)
-    }
-    return { files, reasons, onRejected }
-  })(),
-)
-
-const scene2 = demoProxyRefs(
-  (() => {
-    const files = ref<UploadFileItem[]>([])
-
-    const count = ref(0)
-
-    const onExceed = (files: File[]) => {
-      count.value = files.length
-    }
-    return { files, count, onExceed }
-  })(),
-)
-</script>
-
-<template>
-  <div class="demo-comparison">
-    <section class="demo-comparison-case demo-comparison-case--1" data-comparison-scene="max-file-size">
-      <h4><span lang="zh-CN">单文件大小限制</span><span lang="en-US">File size limit</span></h4>
-      <div>
-        <mp-upload v-model="scene1.files" :max-file-size="1024" @rejected="scene1.onRejected"></mp-upload>
-        <p>{{ scene1.reasons.join(', ') }}</p>
-      </div>
-    </section>
-
-    <section class="demo-comparison-case demo-comparison-case--2" data-comparison-scene="max-files">
-      <h4><span lang="zh-CN">文件数量限制</span><span lang="en-US">File count limit</span></h4>
-      <div>
-        <mp-upload v-model="scene2.files" :max-files="2" multiple @exceed="scene2.onExceed"></mp-upload>
-        <p>超出数量：{{ scene2.count }}</p>
-      </div>
-    </section>
-  </div>
-</template>
-
-<style scoped lang="less">
-.demo-comparison {
-  display: grid;
-  gap: 24px;
-  min-width: 0;
-  max-width: 100%;
-}
-.demo-comparison-case {
-  min-width: 0;
-  max-width: 100%;
-}
-.demo-comparison-case > h4 {
-  margin: 0 0 12px;
-  font-size: 14px;
-}
-html:not([lang='en-US']) .demo-comparison-case > h4 > [lang='en-US'],
-html[lang='en-US'] .demo-comparison-case > h4 > [lang='zh-CN'] {
-  display: none;
-}
-</style>
-```
-
-## 队列与进度
-
-### 外部管理进度
-
-可直接加入本地示例项观察 40% 的外部进度，再模拟完成。完成操作只更新仍在上传的项；取消项保持 canceled，已删除的项不会重新出现。外部托管模式隐藏内置请求重试按钮，使用“模拟外部重试”恢复取消或失败项，再由业务端完成。示例不发送网络请求。
-
-Example source: src/upload/example/demos/external-state.vue
-
-```vue
-<script setup>
-import { computed, ref } from 'vue'
-
-const files = ref([])
-const hasUploading = computed(() => files.value.some((file) => file.status === 'uploading'))
-const hasRetryable = computed(() => files.value.some((file) => ['error', 'canceled'].includes(file.status)))
-let sequence = 0
-
-function read(file) {
-  file.status = 'uploading'
-  file.percent = 40
-}
-
-function addExample() {
-  const file = new File(['Local external upload demo.'], `external-${++sequence}.txt`, { type: 'text/plain' })
-  const item = {
-    uid: `external-${sequence}`,
-    name: file.name,
-    size: file.size,
-    type: file.type,
-    file,
-    status: 'ready',
-    percent: 0,
-  }
-  read(item)
-  files.value = [...files.value, item]
-}
-
-function complete() {
-  files.value = files.value.map((file) =>
-    file.status === 'uploading' ? { ...file, status: 'success', percent: 100 } : file,
-  )
-}
-
-function retry() {
-  files.value = files.value.map((file) =>
-    ['error', 'canceled'].includes(file.status) ? { ...file, status: 'uploading', percent: 40 } : file,
-  )
-}
-</script>
-
-<template>
-  <div>
-    <p>业务端托管进度和结果；可加入本地示例项，无需选择文件，也不发送请求。</p>
-    <mp-space wrap>
-      <mp-button @click="addExample">加入外部上传项</mp-button>
-      <mp-button :disabled="!hasUploading" @click="complete">模拟外部完成</mp-button>
-      <mp-button :disabled="!hasRetryable" @click="retry">模拟外部重试</mp-button>
-    </mp-space>
-    <mp-upload v-model="files" edit-mode="direct" :show-retry-button="false" @read="read" />
-    <p>队列状态：{{ files.map((file) => `${file.name}: ${file.status} (${file.percent}%)`).join('；') || '空' }}</p>
-  </div>
-</template>
-```
-
-### 外部上传进度
-
-Example source: src/upload/example/demos/use-progress.vue
-
-```vue
-<script setup>
-import { onUnmounted, ref } from 'vue'
-
-const files = ref([])
-const timers = new Set()
-function start(file) {
-  file.status = 'uploading'
-  const timer = setInterval(() => {
-    file.percent = Math.min(file.percent + 10, 100)
-    if (file.percent === 100) {
-      file.status = 'success'
-      clearInterval(timer)
-      timers.delete(timer)
-    }
-  }, 200)
-  timers.add(timer)
-}
-onUnmounted(() => timers.forEach((timer) => clearInterval(timer)))
-</script>
-
-<template>
-  <div>
-    <mp-upload v-model="files" @read="start"></mp-upload>
-  </div>
-</template>
-```
-
-### 手动队列和可取消请求
-
-可直接“加入示例文件”，也可选择本地文件；两种方式均不访问网络。点击提交后观察进度，取消会停止活动请求，重试会重新上传。开启“首次请求失败”时，同一文件首次失败、重试成功。活动请求数在完成、取消、失败及离开 Demo 后清零。
-
-Example source: src/upload/example/demos/queue-request.vue
-
-```vue
-<script setup lang="ts">
-import { onBeforeUnmount, onDeactivated, ref } from 'vue'
-import type { UploadFileItem, UploadInstance, UploadProgressEvent, UploadRequestOptions } from '@maple-design/ui-vue'
-
-const files = ref<UploadFileItem[]>([])
-const uploader = ref<UploadInstance>()
-const failOnce = ref(false)
-const activeRequests = ref(0)
-const timers = new Set<ReturnType<typeof setInterval>>()
-const attempts = new Map<string, number>()
-const exampleUrls = new Set<string>()
-let sequence = 0
-
-function addExample() {
-  const file = new File(['Local upload demo; no network.'], `example-${++sequence}.txt`, { type: 'text/plain' })
-  const url = URL.createObjectURL(file)
-  exampleUrls.add(url)
-  files.value = [
-    ...files.value,
-    {
-      uid: `demo-queue-${sequence}`,
-      name: file.name,
-      size: file.size,
-      type: file.type,
-      file,
-      url,
-      status: 'ready',
-      percent: 0,
-    },
-  ]
-}
-
-function request({ file, onProgress, onSuccess, onError }: UploadRequestOptions) {
-  const attempt = (attempts.get(file.uid) ?? 0) + 1
-  attempts.set(file.uid, attempt)
-  const reject = failOnce.value && attempt === 1
-  let percent = 0
-  const stop = () => {
-    clearInterval(timer)
-    timers.delete(timer)
-    activeRequests.value = timers.size
-  }
-  const timer = setInterval(() => {
-    percent += 10
-    onProgress({ percent } as UploadProgressEvent)
-    if (percent >= 100) {
-      stop()
-      if (reject) {
-        onError(new Error('Simulated first-attempt failure'))
-      } else {
-        onSuccess({ ok: true, attempt })
-      }
-    }
-  }, 200)
-  timers.add(timer)
-  activeRequests.value = timers.size
-  return { abort: stop }
-}
-
-function cleanup() {
-  uploader.value?.abort()
-  timers.forEach((timer) => clearInterval(timer))
-  timers.clear()
-  activeRequests.value = 0
-}
-onBeforeUnmount(() => {
-  cleanup()
-  exampleUrls.forEach((url) => URL.revokeObjectURL(url))
-  exampleUrls.clear()
-})
-onDeactivated(cleanup)
-</script>
-
-<template>
-  <div>
-    <p>本地模拟请求；支持取消、重试和手动提交，不访问网络。</p>
-    <mp-checkbox v-model="failOnce" edit-mode="direct">首次请求失败（重试成功）</mp-checkbox>
-    <mp-space wrap>
-      <mp-button @click="addExample">加入示例文件</mp-button>
-      <mp-button @click="uploader?.submit()">提交队列</mp-button>
-    </mp-space>
-    <mp-upload
-      ref="uploader"
-      v-model="files"
-      edit-mode="direct"
-      multiple
-      :auto-upload="false"
-      :custom-request="request"
-    />
-    <p>队列状态：{{ files.map((file) => `${file.name}: ${file.status} (${file.percent}%)`).join('；') || '空' }}</p>
-    <p>活动请求：{{ activeRequests }}</p>
-  </div>
-</template>
-```
-
-## 异步钩子与请求
-
-### 删除前确认
-
-开启“手动异步确认”后忽略同步允许开关，删除等待“确认删除 / 取消删除”。同一文件等待时重复点击不会新增钩子；取消保留文件，等待中禁用后再确认也不会删除，解除禁用后需重新发起。计数核对列表、等待任务、钩子和 remove 通知；停用或卸载结清本地等待，不访问网络。
-
-新增操作均不访问网络：“异常拒绝删除”拒绝本地Promise，文件保留且后续可重试；“替换同 UID 文件”生成新的本地File，旧删除确认不得移除替换项。“重置上传队列”调用公开reset，旧确认不再产生remove；“激活上传组件”通过KeepAlive停用/恢复Upload，等待任务保留在外层Demo用于手动返回，旧结果不得影响恢复后的实例。停用Upload不等于取消外部业务Promise；离开整个Demo才结清其本地等待。
-
-Example source: src/upload/example/demos/before-remove.vue
-
-```vue
-<script setup>
-import { onBeforeUnmount, onDeactivated, ref, shallowRef } from 'vue'
-
-const files = ref([
-  {
-    uid: 'image',
-    name: 'example.svg',
-    type: 'image/svg+xml',
-    url: 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22120%22 height=%22120%22%3E%3Crect width=%22120%22 height=%22120%22 fill=%22%236750a4%22/%3E%3C/svg%3E',
-    status: 'success',
-    percent: 100,
-  },
-])
-const allow = ref(false)
-const manual = ref(false)
-const blocked = ref(false)
-const attempts = ref(0)
-const removed = ref(0)
-const uploadRef = ref()
-const mounted = ref(true)
-const pending = shallowRef([])
-const beforeRemove = () => {
-  attempts.value++
-  if (!manual.value) {
-    return allow.value
-  }
-  return new Promise((resolve, reject) => {
-    pending.value = [...pending.value, { resolve, reject }]
-  })
-}
-function settle(accepted) {
-  const jobs = pending.value
-  pending.value = []
-  jobs.forEach((job) =>
-    accepted === 'reject' ? job.reject(new Error('Local removal rejection')) : job.resolve(accepted),
-  )
-}
-function replace() {
-  files.value = files.value.map((item) => ({
-    ...item,
-    name: 'replacement.txt',
-    type: 'text/plain',
-    file: new File(['local replacement'], 'replacement.txt', { type: 'text/plain' }),
-  }))
-}
-function restore() {
-  files.value = [
-    {
-      uid: 'image',
-      name: 'restored.txt',
-      type: 'text/plain',
-      status: 'success',
-      percent: 100,
-      file: new File(['local sample'], 'restored.txt', { type: 'text/plain' }),
-    },
-  ]
-}
-onBeforeUnmount(() => settle(false))
-onDeactivated(() => settle(false))
-</script>
-
-<template>
-  <section class="remove-confirm-demo">
-    <mp-checkbox v-model="allow" edit-mode="direct">允许此操作</mp-checkbox>
-    <mp-checkbox v-model="manual" edit-mode="direct">手动异步确认</mp-checkbox>
-    <mp-checkbox v-model="blocked" edit-mode="direct">禁用上传组件</mp-checkbox>
-    <mp-button html-type="button" :disabled="!pending.length" @click="settle(true)">确认删除</mp-button>
-    <mp-button html-type="button" :disabled="!pending.length" @click="settle(false)">取消删除</mp-button>
-    <mp-button html-type="button" :disabled="!pending.length" @click="settle('reject')">异常拒绝删除</mp-button>
-    <mp-button html-type="button" :disabled="!files.length" @click="replace">替换同 UID 文件</mp-button>
-    <mp-button html-type="button" @click="uploadRef?.reset()">重置上传队列</mp-button>
-    <mp-button html-type="button" @click="restore">恢复示例文件</mp-button>
-    <mp-checkbox v-model="mounted" edit-mode="direct">激活上传组件</mp-checkbox>
-    <KeepAlive>
-      <mp-upload
-        v-if="mounted"
-        ref="uploadRef"
-        v-model="files"
-        edit-mode="direct"
-        :before-remove="beforeRemove"
-        :disabled="blocked"
-        @remove="removed++"
-      />
-    </KeepAlive>
-    <p role="status">文件：{{ files.length }}；等待：{{ pending.length }}；钩子：{{ attempts }}；删除：{{ removed }}</p>
-  </section>
-</template>
-```
-
-### 上传前准备与取消竞争
-
-取消后重试合计大小组合：双项进入准备后取消，再次提交会保留四个待返回任务（含两次已失效尝试）。统一返回时仍只启动一次有效请求；超限项保留取消前的原文件和 `canceled` 状态，不误算为新失败或自动恢复为 ready。删除成功项后可再次提交剩余项并成功；旧准备结果不占用额外容量。
-
-合计大小组合：空队列选择“每项替换600B，合计上限1024B”，连续加入两个62B合成图片，再准备并统一完成。每项均满足单文件1024B限制，但两项替换后总量超限，因此只有一项发起本地请求，另一项保留ready原文件并报告max-total-size。删除成功项后，再准备剩余项可成功；重置清空队列、等待和请求计数。此处验证本地before-upload替换，不涉及原生文件选择或真实网络上传。
-
-点击“准备并提交”后，`before-upload` 保持等待；重复提交不会重复创建同一尝试。取消准备后可以再次提交，再点击“完成准备”同时返回旧、新结果，只有当前有效尝试能发起请求。选择文本或超大图片替换时会再次检查类型和 1 KiB 大小限制，拒绝后保持 ready，可改为有效副本后重试。本示例使用公开 useUploader 和本地即时请求，不访问网络；重置、停用和卸载会释放等待任务。
-
-Example source: src/upload/example/demos/prepare-request.vue
-
-```vue
-<script setup>
-import { onBeforeUnmount, onDeactivated, ref } from 'vue'
-import { useUploader } from '@maple-design/ui-vue'
-
-const files = ref([])
-const reasons = ref([])
-const mode = ref('valid')
-const preparing = ref(0)
-const requestCount = ref(0)
-const pending = new Set()
-const modes = [
-  { label: '有效副本', value: 'valid' },
-  { label: '替换为文本', value: 'type' },
-  { label: '替换为超大图片', value: 'size' },
-  { label: '每项替换600B，合计上限1024B', value: 'total' },
-]
-let sequence = 0
-
-function beforeUpload(file) {
-  return new Promise((resolve) => {
-    pending.add({ file, resolve })
-    preparing.value = pending.size
-  })
-}
-
-const uploader = useUploader({
-  modelValue: () => files.value,
-  onUpdateModelValue: (value) => {
-    files.value = value
-  },
-  accept: () => 'image/*',
-  maxFileSize: () => 1024,
-  maxFiles: () => (mode.value === 'total' ? 2 : 1),
-  maxTotalSize: () => 1024,
-  resolveType: () => 'file',
-  autoUpload: () => false,
-  beforeUpload: () => beforeUpload,
-  customRequest:
-    () =>
-    ({ onSuccess }) => {
-      requestCount.value++
-      onSuccess({ ok: true })
-    },
-  onRejected: (items) => {
-    reasons.value = items.map((item) => item.reason)
-  },
-})
-
-function add() {
-  const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="1" height="1"/>'
-  return uploader.addFiles([new File([svg], `prepare-${++sequence}.svg`, { type: 'image/svg+xml' })])
-}
-
-function submit() {
-  reasons.value = []
-  return uploader.submit()
-}
-
-function finish() {
-  const jobs = [...pending]
-  pending.clear()
-  preparing.value = 0
-  jobs.forEach(({ file, resolve }) => {
-    const raw = file.file
-    if (mode.value === 'type') {
-      resolve(new File(['text'], 'replacement.txt', { type: 'text/plain' }))
-    } else if (mode.value === 'size') {
-      resolve(new File([new Uint8Array(1025)], raw.name, { type: raw.type }))
-    } else if (mode.value === 'total') {
-      resolve(new File([new Uint8Array(600)], raw.name, { type: raw.type }))
-    } else {
-      resolve(new File([raw], raw.name, { type: raw.type }))
-    }
-  })
-}
-
-function cleanup() {
-  uploader.abort()
-  pending.forEach(({ resolve }) => resolve(false))
-  pending.clear()
-  preparing.value = 0
-}
-
-function reset() {
-  cleanup()
-  uploader.reset()
-  reasons.value = []
-  requestCount.value = 0
-}
-onBeforeUnmount(cleanup)
-onDeactivated(cleanup)
-</script>
-
-<template>
-  <div class="upload-prepare-demo">
-    <p>提交后暂停 before-upload；可取消后再次提交，再统一完成准备，只有当前有效尝试可以发起本地请求。</p>
-    <mp-radio-group v-model="mode" edit-mode="direct" :options="modes" />
-    <mp-space wrap>
-      <mp-button :disabled="files.length >= (mode === 'total' ? 2 : 1)" @click="add">加入示例图片</mp-button>
-      <mp-button :disabled="!files.some((file) => ['ready', 'error', 'canceled'].includes(file.status))" @click="submit"
-        >准备并提交</mp-button
-      >
-      <mp-button :disabled="preparing === 0" @click="uploader.abort()">取消准备</mp-button>
-      <mp-button :disabled="preparing === 0" @click="finish">完成准备</mp-button>
-      <mp-button @click="reset">重置队列</mp-button>
-    </mp-space>
-    <mp-upload
-      v-model="files"
-      edit-mode="direct"
-      :show-upload-button="false"
-      :show-retry-button="false"
-      :preview="false"
-    />
-    <p>待返回准备任务：{{ preparing }}</p>
-    <p>请求次数：{{ requestCount }}</p>
-    <p>队列状态：{{ files.map((file) => `${file.status} (${file.percent}%)`).join(', ') || '空' }}</p>
-    <p>队列字节：{{ files.map((file) => file.size).join(', ') || '0' }}</p>
-    <p>拒绝原因：{{ reasons.join(', ') || '无' }}</p>
-  </div>
-</template>
-```
-
-### 异步请求元数据
-
-填写你控制的本地接收接口后，分别手动返回 headers 和 data，观察默认 XHR 的准备与取消。只返回一项时仍不发送；取消后再返回另一项不得启动请求。成功响应显示在示例下方，可由接收端核对 `X-Demo-Upload`、`auditMarker` 和 `attachment` 文件字段。接口地址默认留空，不预设外部上传服务；接收器必须允许文档站来源的 CORS。本例仅使用生成的合成文本，不选择真实文件。
-
-使用“拒绝 headers / 拒绝 data”模拟准备失败，当前尝试只进入一次 error。可在另一项旧 Promise 未结清时重试，观察旧结果不会覆盖新尝试；取消后再拒绝不增加错误计数。返回/拒绝按钮会结清该类所有等待任务（包括旧尝试），便于验证竞争；重置会释放等待任务。准备失败不等同 HTTP 错误。
-
-Example source: src/upload/example/demos/metadata-request.vue
-
-```vue
-<script setup>
-import { onBeforeUnmount, onDeactivated, ref, shallowRef } from 'vue'
-import { useUploader } from '@maple-design/ui-vue'
-
-const endpoint = ref('')
-const files = ref([])
-const headers = shallowRef([])
-const data = shallowRef([])
-const successes = ref(0)
-const errors = ref(0)
-const response = ref(null)
-let sequence = 0
-function wait(queue, file) {
-  return new Promise((resolve, reject) => {
-    queue.value = [...queue.value, { file, resolve, reject }]
-  })
-}
-function finish(queue, kind) {
-  const jobs = queue.value
-  queue.value = []
-  jobs.forEach((job) =>
-    job.resolve(kind === 'headers' ? { 'X-Demo-Upload': job.file.name } : { auditMarker: 'audit-local' }),
-  )
-}
-const uploader = useUploader({
-  modelValue: () => files.value,
-  onUpdateModelValue: (value) => {
-    files.value = value
-  },
-  action: () => endpoint.value,
-  headers: () => (file) => wait(headers, file),
-  data: () => (file) => wait(data, file),
-  name: () => 'attachment',
-  autoUpload: () => false,
-  resolveType: () => 'file',
-  onSuccess: (file) => {
-    successes.value++
-    response.value = file.response
-  },
-  onError: () => {
-    errors.value++
-  },
-})
-function add() {
-  return uploader.addFiles([
-    new File(['Synthetic upload audit only.'], `metadata-${++sequence}.txt`, { type: 'text/plain' }),
-  ])
-}
-function cleanup() {
-  uploader.abort()
-  finish(headers, 'headers')
-  finish(data, 'data')
-}
-function finishHeaders() {
-  finish(headers, 'headers')
-}
-function finishData() {
-  finish(data, 'data')
-}
-function rejectHeaders() {
-  rejectPending(headers, 'headers')
-}
-function rejectData() {
-  rejectPending(data, 'data')
-}
-function rejectPending(queue, kind) {
-  const jobs = queue.value
-  queue.value = []
-  jobs.forEach((job) => job.reject(new Error(`Synthetic ${kind} rejection`)))
-}
-function reset() {
-  cleanup()
-  uploader.reset()
-  successes.value = 0
-  errors.value = 0
-  response.value = null
-}
-onBeforeUnmount(cleanup)
-onDeactivated(cleanup)
-</script>
-<template>
-  <section class="metadata-upload-demo">
-    <p>默认 XHR 请求；先配置你控制的本地接口。headers 与 data 分别等待手动返回，默认不访问任何地址。</p>
-    <label
-      >Local upload endpoint <mp-input v-model="endpoint" edit-mode="direct" placeholder="http://127.0.0.1:4197/upload"
-    /></label>
-    <mp-space wrap>
-      <mp-button :disabled="files.length > 0" @click="add">加入合成文件</mp-button>
-      <mp-button
-        :disabled="!endpoint || !files.some((file) => ['ready', 'error', 'canceled'].includes(file.status))"
-        @click="uploader.submit()"
-        >提交元数据请求</mp-button
-      >
-      <mp-button :disabled="!files.some((file) => file.status === 'uploading')" @click="uploader.abort()"
-        >取消元数据请求</mp-button
-      >
-      <mp-button :disabled="!headers.length" @click="finishHeaders">返回 headers</mp-button>
-      <mp-button :disabled="!data.length" @click="finishData">返回 data</mp-button>
-      <mp-button :disabled="!headers.length" @click="rejectHeaders">拒绝 headers</mp-button>
-      <mp-button :disabled="!data.length" @click="rejectData">拒绝 data</mp-button>
-      <mp-button @click="reset">重置元数据示例</mp-button>
-    </mp-space>
-    <mp-upload
-      v-model="files"
-      edit-mode="direct"
-      :show-upload-button="false"
-      :show-retry-button="false"
-      :preview="false"
-    />
-    <p role="status">
-      headers 等待：{{ headers.length }}；data 等待：{{ data.length }}；成功：{{ successes }}；错误：{{ errors }}
-    </p>
-    <p>模型：{{ files.map((file) => file.name + ': ' + file.status).join(', ') || '空' }}</p>
-    <pre>{{ response }}</pre>
-  </section>
-</template>
-```
-
-### 请求句柄迟到与取消
-
-本地模拟 custom-request 返回 Promise。取消后再返回旧句柄会立即调用其 abort；返回旧成功回调不会恢复已取消项。取消后再次发起、统一返回句柄和成功回调时，只接受当前尝试一次。计数展示回调是否被内核接受，不代表真实传输；本例不访问网络，重置/停用/卸载释放本地等待。
-
-Example source: src/upload/example/demos/late-request.vue
-
-```vue
-<script setup>
-import { onBeforeUnmount, onDeactivated, ref, shallowRef } from 'vue'
-import { useUploader } from '@maple-design/ui-vue'
-
-const files = ref([])
-const handles = shallowRef([])
-const callbacks = shallowRef([])
-const requests = ref(0)
-const aborts = ref(0)
-const accepted = ref(0)
-let sequence = 0
-let generation = 0
-const uploader = useUploader({
-  modelValue: () => files.value,
-  onUpdateModelValue: (value) => {
-    files.value = value
-  },
-  resolveType: () => 'file',
-  autoUpload: () => false,
-  customRequest: () => (options) => {
-    const current = generation
-    requests.value++
-    callbacks.value = [...callbacks.value, options]
-    return new Promise((resolve) => {
-      handles.value = [
-        ...handles.value,
-        {
-          resolve: () =>
-            resolve({
-              abort: () => {
-                if (current === generation) {
-                  aborts.value++
-                }
-              },
-            }),
-        },
-      ]
-    })
-  },
-  onSuccess: () => {
-    accepted.value++
-  },
-})
-function add() {
-  return uploader.addFiles([
-    new File(['Local delayed transport; no network.'], `late-${++sequence}.txt`, { type: 'text/plain' }),
-  ])
-}
-function release() {
-  const pending = handles.value
-  handles.value = []
-  pending.forEach((job) => job.resolve())
-}
-function complete() {
-  const pending = callbacks.value
-  callbacks.value = []
-  pending.forEach((options) => options.onSuccess({ local: true }))
-}
-function cleanup() {
-  generation++
-  uploader.abort()
-  release()
-  callbacks.value = []
-}
-function reset() {
-  cleanup()
-  uploader.reset()
-  requests.value = 0
-  aborts.value = 0
-  accepted.value = 0
-}
-onBeforeUnmount(cleanup)
-onDeactivated(cleanup)
-</script>
-
-<template>
-  <section class="late-upload-demo">
-    <p>请求句柄延迟返回；先取消再返回句柄，旧句柄应立即 abort，迟到成功回调不能恢复取消项。不访问网络。</p>
-    <mp-space wrap>
-      <mp-button :disabled="files.length > 0" @click="add">加入本地文件</mp-button>
-      <mp-button
-        :disabled="!files.some((file) => ['ready', 'error', 'canceled'].includes(file.status))"
-        @click="uploader.submit()"
-        >发起模拟请求</mp-button
-      >
-      <mp-button :disabled="!files.some((file) => file.status === 'uploading')" @click="uploader.abort()"
-        >取消模拟请求</mp-button
-      >
-      <mp-button :disabled="!handles.length" @click="release">返回所有句柄</mp-button>
-      <mp-button :disabled="!callbacks.length" @click="complete">返回所有成功回调</mp-button>
-      <mp-button @click="reset">重置模拟</mp-button>
-    </mp-space>
-    <mp-upload v-model="files" :show-upload-button="false" :show-retry-button="false" :preview="false" />
-    <p role="status">
-      句柄等待：{{ handles.length }}；发起：{{ requests }}；abort：{{ aborts }}；有效成功：{{ accepted }}
-    </p>
-    <p>模型：{{ files.map((file) => file.name + ': ' + file.status).join(', ') || '空' }}</p>
-  </section>
-</template>
-```
-
 ## 使用说明
+
+### 文件选择与设备支持
+
+选择照片时设置 `accept="image/*"`；不设置 `capture` 或设置 `:capture="false"` 可保留系统文件 / 相册入口。仅在需要直接拍照时使用 `capture`，具体可用入口由设备和浏览器决定。
 
 ### 编辑与确认
 
@@ -70341,6 +69791,8 @@ before-* 等待期间显示加载反馈并标记 aria-busy；拒绝或失败后�
 `beforeUpload` 返回 `false` 或兑现为 `false` 属于业务否决：不发起请求，文件保持 `ready`，不触发 `error` 或 `rejected`。同步抛错或 Promise 拒绝属于准备异常：不发起请求，文件变为 `error`，通过已有 `error(item)` 事件报告一次，原始原因保存在 `item.error`。该事件覆盖准备和传输失败，并不代表已经发送 HTTP 请求。两种结果都允许后续以合法守卫结果重新提交；普通通知返回的 Promise 不延长准备任务，旧尝试或取消后的异常不得报告为新错误。
 ### 配置说明
 
+通过 `trigger-position="before"` 或 `trigger-position="after"` 将内置上传入口放在文件列表之前或之后，默认 after。该配置同样适用于 `trigger` 插槽和拖拽入口；前后表示 DOM 顺序，不因 RTL 改写。完全外置的按钮仍可设置 `:show-upload-button="false"`，再调用实例方法 `chooseFile()`。
+
 两端公共后缀一致，所有默认值见下表（前缀分别为c/mp）。
 
 ## API
@@ -70370,6 +69822,7 @@ before-* 等待期间显示加载反馈并标记 aria-busy；拒绝或失败后�
 | draggable | `boolean` | `false` | 启用拖拽上传 |
 | disabled | `boolean` | `undefined` | 禁用交互；继承 Form，显式 false 优先 |
 | readonly | `boolean` | `undefined` | 只读；继承 Form，显式 false 优先 |
+| read-pretty | `boolean` | `undefined` | 纯阅读模式：隐藏上传编辑器并展示字段值；继承 FormItem / Form，显式 false 覆盖父级，未配置时最终为 false |
 | action | `string` | `undefined` | 上传请求地址 |
 | method | `string` | `'post'` | 上传请求方法 |
 | headers | `UploadHeaders` | `undefined` | 请求头对象或异步函数；请求准备阶段仍可取消 |
@@ -70390,6 +69843,7 @@ before-* 等待期间显示加载反馈并标记 aria-busy；拒绝或失败后�
 | is-success-response | `UploadIsSuccessResponse` | `undefined` | 自定义响应成功判断；默认 HTTP 2xx 为成功 |
 | request-choose | `UploadRequestChoose` | `undefined` | 接管选择入口；异常不会自动打开文件框 |
 | list-type | `'text' \| 'picture' \| 'picture-card'` | `'text'` | 文件列表展示方式；两端均支持 |
+| trigger-position | `'before' \| 'after'` | `'after'` | 上传入口在文件列表之前或之后；适用于所有 list-type、自定义 trigger 插槽和拖拽入口；前后按 DOM 顺序解释，不因 RTL 改写 |
 | image-fit | `'fill' \| 'contain' \| 'cover' \| 'none' \| 'scale-down'` | `'cover'` | 缩略图填充方式；文件项 fit 优先 |
 | preview | `boolean` | `true` | 启用内建图片 / 视频预览 |
 | show-file-list | `boolean` | `true` | 显示文件列表 |
@@ -70452,7 +69906,7 @@ chooseFile、replace、submit、retry、remove 返回 `Promise<void>`，保留�
 
 ## Types
 
-UploadProps、UploadEmits、UploadSlots、UploadExpose、UploadPublicMethods、UploadFileItem、UploadStatus、UploadListType、UploadResolveType、UploadImageFit、UploadCapture、UploadRejectedFile、UploadRejectedReason、UploadRequestOptions、UploadRequest、UploadCustomRequest、UploadProgressEvent、UploadData、UploadHeaders、UploadBeforeRead、UploadBeforeUpload、UploadBeforeRemove、UploadCreateThumbnailUrl、UploadIsSuccessResponse、UploadRequestChoose、UploadPreviewEvent、UseUploaderOptions、UploadInstance。
+UploadProps、UploadEmits、UploadSlots、UploadExpose、UploadPublicMethods、UploadFileItem、UploadStatus、UploadListType、UploadTriggerPosition、UploadResolveType、UploadImageFit、UploadCapture、UploadRejectedFile、UploadRejectedReason、UploadRequestOptions、UploadRequest、UploadCustomRequest、UploadProgressEvent、UploadData、UploadHeaders、UploadBeforeRead、UploadBeforeUpload、UploadBeforeRemove、UploadCreateThumbnailUrl、UploadIsSuccessResponse、UploadRequestChoose、UploadPreviewEvent、UseUploaderOptions、UploadInstance。
 
 ## CSS Variables
 
