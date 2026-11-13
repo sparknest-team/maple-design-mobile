@@ -1,6 +1,6 @@
 {
   "name": "@maple-design/preset-tailwindcss-vue",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "description": "tailwindcss preset of maple",
   "keywords": [
     "tailwindcss",
