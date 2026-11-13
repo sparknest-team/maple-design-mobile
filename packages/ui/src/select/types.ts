@@ -1,6 +1,21 @@
-import type { RenderFunction, VNodeChild } from 'vue'
+import type { HTMLAttributes, RenderFunction, VNodeChild } from 'vue'
 import { FieldString } from '../_utils/types'
+import type { TagProps } from '../tag/props'
+import type { TagEmits } from '../tag/types'
 import type { selectEmits } from './emits'
+
+type SelectTagListeners = {
+  [K in keyof TagEmits as `on${Capitalize<K>}`]?: (...args: TagEmits[K]) => void
+} & {
+  [K in keyof TagEmits as `on${Capitalize<K>}Once`]?: (...args: TagEmits[K]) => void
+}
+
+/** Attributes and event listeners forwarded to an option's selected Tag. */
+export type SelectOptionTagProps = TagProps &
+  Omit<HTMLAttributes, keyof SelectTagListeners> &
+  SelectTagListeners & {
+    [key: `data-${string}`]: unknown
+  }
 
 export type SelectOptionValue = string | number | boolean | Record<string, unknown>
 

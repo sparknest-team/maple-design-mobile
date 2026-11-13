@@ -231,3 +231,26 @@ test('slider class recognition supports a custom prefix', async () => {
     wrapper.unmount()
   }
 })
+
+test.each([
+  ['unknown BUTTON', false],
+  ['searchbox', false],
+  ['unknown group', true],
+] as const)('label descendant role %s respects interactive ownership', async (role, shouldFocus) => {
+  const wrapper = mount(FormItem, {
+    attachTo: document.body,
+    props: { labelAttrs: { for: 'role-target' } },
+    slots: {
+      label: () => h('span', { role }, [h('span', { class: 'role-child' }, 'Details')]),
+      default: () => h(Rate, { id: 'role-target', editMode: 'direct' }),
+    },
+  })
+  try {
+    const focus = vi.spyOn(wrapper.get('[role="slider"]').element as HTMLElement, 'focus')
+    await wrapper.get('.role-child').trigger('click', { button: 0 })
+    await new Promise((resolve) => setTimeout(resolve, 10))
+    expect(focus.mock.calls.length).toBe(shouldFocus ? 1 : 0)
+  } finally {
+    wrapper.unmount()
+  }
+})

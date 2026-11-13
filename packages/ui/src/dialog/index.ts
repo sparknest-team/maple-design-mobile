@@ -11,7 +11,13 @@ import {
 } from './service'
 import type { DialogConfig, DialogMethod, DialogService } from './types'
 
-const Dialog = Object.assign(MpDialog, {
+const Dialog: typeof MpDialog &
+  typeof dialogMethods & {
+    close: typeof closeLatestDialog
+    setDefaultOptions: typeof setDialogDefaultOptions
+    resetDefaultOptions: typeof resetDialogDefaultOptions
+    _context: AppContext | null
+  } = Object.assign(MpDialog, {
   ...dialogMethods,
   close: closeLatestDialog,
   setDefaultOptions: setDialogDefaultOptions,

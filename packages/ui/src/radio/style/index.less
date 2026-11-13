@@ -71,9 +71,8 @@
   &--disabled &__label {
     color: var(--mp-radio-label-text-color-disabled);
   }
-  &__input:focus-visible ~ &__control {
-    outline: var(--mp-internal-radio-focus-width) solid var(--mp-radio-control-color-checked);
-    outline-offset: var(--mp-internal-radio-focus-offset);
+  &__input:focus-visible ~ &__control &__icon {
+    box-shadow: inset 0 0 0 var(--mp-internal-radio-focus-width) var(--mp-sys-color-content-primary);
   }
 }
 @media (hover: hover) {

@@ -4,7 +4,7 @@ import _MenuOption from './MenuOption.vue'
 import { props as menuOptionProps } from './option-props'
 import { props as menuProps } from './props'
 
-const Menu = withInstall(
+const Menu: typeof _Menu & { Option: typeof _MenuOption; install: (app: import('vue').App) => void } = withInstall(
   _Menu,
   Object.assign(_Menu, {
     Option: _MenuOption,

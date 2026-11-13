@@ -41,4 +41,4 @@ export const messageProps = {
   popupContainer: popupContainerProp,
 }
 
-export type MessageProps = import('vue').ExtractPublicPropTypes<typeof messageProps>
+export type MessageProps = import('../_utils/public-props').CompatiblePublicProps<typeof messageProps>

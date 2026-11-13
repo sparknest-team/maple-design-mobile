@@ -1,5 +1,6 @@
-import type { ExtractPublicPropTypes, InputHTMLAttributes, PropType } from 'vue'
+import type { InputHTMLAttributes, PropType } from 'vue'
 import { fieldPresentationProps } from '../_components/field-presentation/props'
+import type { CompatiblePublicProps as ExtractPublicPropTypes } from '../_utils/public-props'
 import { choiceIconSizeProp, choiceOrientationProp } from '../checkbox/choice-appearance-props'
 import { choiceOptionsProps, radioGroupValueProps } from '../checkbox/choice-group-props'
 import { radioValueProps } from '../checkbox/choice-value-props'

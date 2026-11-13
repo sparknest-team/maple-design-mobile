@@ -64,21 +64,14 @@ export function createBrandDark(light: StyleVars, brand: Brand): StyleVars {
     ],
     disabled,
   )
-  aliases(
-    [
-      'sys-color-content-brand',
-      'checkbox-control-color-checked',
-      'radio-control-color-checked',
-      'switch-track-active-background',
-    ],
-    accent,
-  )
+  aliases(['checkbox-control-color-checked', 'radio-control-color-checked', 'switch-track-active-background'], accent)
   aliases(['checkbox-control-color', 'radio-control-color'], tertiary)
   aliases(['color-border-1', 'sys-color-border-subtle'], divider)
   aliases(['color-border-2', 'sys-color-border-default'], border)
   aliases(['color-border-3', 'color-border-4', 'sys-color-border-strong'], tertiary)
   aliases(['color-primary', 'sys-color-action-primary'], action)
-  set('button-primary-foreground-color', alps ? accent : action)
+  set('sys-color-content-brand', 'var(--mp-sys-color-action-primary)')
+  set('button-primary-foreground-color', 'var(--mp-button-primary-color)')
   aliases(['button-solid-text-color'], onAction)
   aliases(['button-primary-disabled-color'], border)
   aliases(['button-disabled-solid-text-color'], secondary)
@@ -144,21 +137,21 @@ export function createBrandDark(light: StyleVars, brand: Brand): StyleVars {
   set('upload-active-color', accent)
   set('upload-error-color', danger)
 
+  const statusContent: Record<string, string> = {
+    info: 'var(--mp-sys-color-status-info)',
+    success: 'var(--mp-sys-color-status-success)',
+    warning: 'var(--mp-sys-color-status-warning)',
+    danger: 'var(--mp-sys-color-status-danger)',
+  }
   for (const [status, color, weak] of [
     ['info', info, '#263149'],
     ['success', success, alps ? '#263149' : '#20392D'],
     ['warning', warning, '#3B3022'],
     ['danger', danger, '#3E2A2E'],
   ]) {
-    aliases(
-      [
-        `color-${status}`,
-        `sys-color-status-${status}`,
-        `sys-color-content-${status}`,
-        `button-${status}-foreground-color`,
-      ],
-      color,
-    )
+    aliases([`color-${status}`, `sys-color-status-${status}`], color)
+    set(`sys-color-content-${status}`, statusContent[status])
+    set(`button-${status}-foreground-color`, `var(--mp-button-${status}-color)`)
     aliases([`color-${status}-light-1`, `button-${status}-tonal-color`, `button-${status}-disabled-color`], weak)
   }
   // RGB channels remain compatible with rgb()/rgba() consumers throughout Maple.

@@ -6,7 +6,7 @@ import { parseMentionParts } from './token-codec'
 import { projectMentionParts } from './token-edit'
 import { resolveMentionLabel } from './token-label'
 
-export default withFieldPresentation(Base, {
+const Presented: typeof Base = withFieldPresentation(Base, {
   methods: ['focus', 'blur'],
   intent: 'input',
   setup: ({ props, value, options, editorActive, draftActive }) => {
@@ -50,3 +50,5 @@ export default withFieldPresentation(Base, {
           .join('')
       : String(value ?? ''),
 })
+
+export default Presented

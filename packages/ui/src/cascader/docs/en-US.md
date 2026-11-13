@@ -322,7 +322,7 @@ Use `v-model`, `v-model:open` and `v-model:input-value` for controlled state. Cl
 | `default-input-value` | Initial uncontrolled search text, independent of selection; read only at initialization | `string` | `''` |
 | `multiple` | Multiple selection; enables search by default | `boolean` | `false` |
 | `size` | Supports all five sizes; inherits group/form settings | `ComponentSize`<br>`'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `md` |
-| `variant` | filled, outline, standard; inherits InputGroup | `FieldDecoratorVariant`<br>`'filled' \| 'outline' \| 'standard'` | `filled` |
+| `variant` | filled, outline, standard; inherits InputGroup | `FieldDecoratorVariant`<br>`'filled' \| 'outline' \| 'standard'` | `outline` |
 | `disabled` | Disabled state; explicit values override inherited Form / Group state | `boolean` | `undefined` |
 | `readonly` | Read-only state; explicit values override inherited Form / Group state | `boolean` | `undefined` |
 | `error` | Error state; explicit values override inherited Form / Group state | `boolean` | `undefined` |
@@ -419,6 +419,8 @@ Buttons, links, input controls, list options, tree nodes, grid cells, elements w
 
 Async search should clear old candidates when requests start and accept only the latest current-query response. `update:input-value` can react immediately; `loading` and `filter-option` can display remote results. Popup arrows/Enter operate current candidates; confirmation mode saves with the bottom button, while immediate single selection commits on choice. Validation failure in confirmation mode preserves drafts, confirmation locks editing/closing, and Form reset closes Popup and aborts submission. Closing/reset invalidates request ownership. See Form’s unified field-presentation examples.
 
+Pending acceptance: verify actual screen-reader announcements with supported browsers (such as VoiceOver and NVDA), including field naming, hierarchical navigation and expanded state, search and selection, single and multiple modes, virtualized options, and form errors. This acceptance has not yet been completed.
+
 ## CSS Variables
 
 <!-- component-css-variables:start -->
@@ -454,7 +456,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-cascader-popup-box-shadow` | `0 4px 10px rgb(0 0 0%)` | `box-shadow` |
 | `--mp-cascader-popup-color-border` | `var(--mp-color-fill-3)` | `border`, `border-inline-end`, `border-top` |
 | `--mp-cascader-popup-max-height` | `200px` | `height` |
-| `--mp-cascader-popup-padding-vertical` | `var(--mp-sys-space-2)` | `padding` |
+| `--mp-cascader-popup-padding-vertical` | `var(--mp-sys-space-2)` | `padding`, `padding-block-end` |
 | `--mp-cascader-size-item-height` | `36px` | `height`, `line-height` |
 | `--mp-cascader-size-item-icon` | `12px` | `height`, `width` |
 | `--mp-cascader-slide-margin` | `120px` | `margin-inline-start` |

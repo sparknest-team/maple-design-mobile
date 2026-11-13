@@ -14,7 +14,6 @@ import type { ComponentSize } from '../_utils/constant'
 import { validSearchDelay, validSelectionCount } from '../_utils/selection-validation'
 import { fieldDecoratorProps, fieldLoadingProps, fieldVariants } from '../field-decorator/props'
 import type { FieldDecoratorVariant } from '../field-decorator/props'
-import type { TagProps } from '../tag'
 import type { TriggerProps } from '../trigger'
 import { emptyTextProp, emptyValuesProp } from '../utils/empty-value'
 import type { OptionSearchField } from '../utils/option-data'
@@ -25,6 +24,7 @@ import type {
   SelectOption,
   SelectOptionData,
   SelectOptionGroup,
+  SelectOptionTagProps,
   SelectValue,
 } from './types'
 
@@ -114,7 +114,7 @@ export const selectProps = {
    * @zh 选择框的变体
    * @en The variant of the select
    * @values 'filled', 'outline', 'standard'
-   * @default-value 'filled'
+   * @default-value 'outline'
    */
   variant: {
     type: String as PropType<FieldDecoratorVariant>,
@@ -339,7 +339,7 @@ export const selectProps = {
   },
 }
 
-export type SelectProps = import('vue').ExtractPublicPropTypes<typeof selectProps>
+export type SelectProps = import('../_utils/public-props').CompatiblePublicProps<typeof selectProps>
 
 export const optionProps = {
   /**
@@ -365,7 +365,7 @@ export const optionProps = {
    * @en Displayed tag attributes
    */
   tagProps: {
-    type: Object as PropType<TagProps>,
+    type: Object as PropType<SelectOptionTagProps>,
   },
   /**
    * @zh 用于手动指定选项的 index

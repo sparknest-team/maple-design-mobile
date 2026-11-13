@@ -94,9 +94,9 @@ export const props = {
     'clearable',
   ]),
   disabled: { type: Boolean, default: undefined },
-  variant: { ...fieldDecoratorProps.variant, default: 'standard' },
+  variant: { ...fieldDecoratorProps.variant, default: 'outline' },
   /** 字符串用于两端；数组分别指定起止占位符，缺项为空。 */
   placeholder: [String, Array] as PropType<string | string[]>,
 }
 
-export type TimeRangeProps = import('vue').ExtractPublicPropTypes<typeof props>
+export type TimeRangeProps = import('../_utils/public-props').CompatiblePublicProps<typeof props>

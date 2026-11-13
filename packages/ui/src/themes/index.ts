@@ -11,7 +11,7 @@ import { toViewport } from './toViewport'
 const defaultLight = {
   '--mp-color-scheme': 'light',
   '--mp-field-focus-color': 'var(--mp-sys-color-action-primary)',
-  '--mp-field-error-color': 'rgb(var(--mp-danger-8))',
+  '--mp-field-error-color': 'var(--mp-sys-color-content-danger)',
   '--mp-field-variant-outline-border-color-focus': 'var(--mp-sys-color-action-primary)',
   '--mp-brand-1': '232, 255, 251',
   '--mp-brand-2': '176, 242, 233',

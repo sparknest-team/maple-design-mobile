@@ -126,7 +126,14 @@ export function useModalSurface(options: ModalSurfaceOptions) {
   }
 
   function handleKeydown(event: KeyboardEvent) {
-    if (!mergedOpen.value || event.key !== 'Escape' || !onStackTop(event)) {
+    if (
+      !mergedOpen.value ||
+      event.defaultPrevented ||
+      event.isComposing ||
+      event.keyCode === 229 ||
+      event.key !== 'Escape' ||
+      !onStackTop(event)
+    ) {
       return
     }
     options.emit('key-escape', event)

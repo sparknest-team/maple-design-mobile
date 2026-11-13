@@ -42,7 +42,7 @@ export const props = {
   type: presentationProps.type,
   disabled: { type: Boolean, default: undefined },
 }
-export type DatePickerProps = import('vue').ExtractPublicPropTypes<typeof props>
+export type DatePickerProps = import('../_utils/public-props').CompatiblePublicProps<typeof props>
 
 export type DatePickerType = NonNullable<DatePickerProps['type']>
 /** 字段嵌套设置；模型、规则和 presentation 由根拥有。 */

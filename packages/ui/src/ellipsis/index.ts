@@ -6,5 +6,5 @@ withInstall(Ellipsis)
 export { Ellipsis, ellipsisProps }
 export type { EllipsisProps, EllipsisExpandTrigger } from './props'
 export type EllipsisInstance = InstanceType<typeof Ellipsis>
-export const _EllipsisComponent = Ellipsis
+export const _EllipsisComponent: typeof Ellipsis = Ellipsis
 export default Ellipsis

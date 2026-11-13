@@ -147,7 +147,12 @@ const HoverDirective: Directive & Plugin = {
   },
 }
 
-const Hover = Object.assign(HoverDirective, {
+type HoverPlugin = import('vue').ObjectDirective & { install: (app: App, ...options: any[]) => any } & {
+  Overlay: typeof HoverOverlay
+  install(app: App): void
+}
+
+const Hover: HoverPlugin = Object.assign(HoverDirective, {
   Overlay: HoverOverlay,
   install(app: App) {
     app.directive('hover', HoverDirective)
@@ -159,7 +164,7 @@ const Hover = Object.assign(HoverDirective, {
 
 withPropsDefaultsSetter(HoverOverlay, hoverOverlayProps)
 
-export function useHoverOverlay() {
+export function useHoverOverlay(): { hovering: import('vue').Ref<boolean>; handleHovering: (value: boolean) => void } {
   const hovering = ref(false)
 
   const handleHovering = (value: boolean) => {
@@ -180,4 +185,6 @@ export const _HoverComponent: typeof Hover = Hover
 export const _HoverOverlayComponent: typeof HoverOverlay = HoverOverlay
 
 export default Hover
-export type HoverOverlayProps = import('vue').ExtractPublicPropTypes<typeof import('./overlay-props').props>
+export type HoverOverlayProps = import('../_utils/public-props').CompatiblePublicProps<
+  typeof import('./overlay-props').props
+>

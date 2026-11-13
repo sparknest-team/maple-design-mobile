@@ -3076,6 +3076,8 @@ Public focus/blur methods are callable from initial mount. Focus opens an editab
 
 Refresh can retry the component-owned asynchronous option source before the editor opens, using the existing AbortSignal, loading, and load-error protocol without opening the editor; static arrays do not create extra requests.
 
+Pending acceptance: verify actual screen-reader announcements with supported browsers (such as VoiceOver and NVDA), including input naming, suggestion loading and navigation, selection, dismissal, and form errors. This acceptance has not yet been completed.
+
 ## CSS Variables
 
 <!-- component-css-variables:start -->
@@ -5342,7 +5344,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-breadcrumb-item-separator-font-size` | `14px` | `font-size` |
 | `--mp-breadcrumb-item-separator-margin` | `0 var(--mp-breadcrumb-margin-separator-horizontal)` | `margin` |
 | `--mp-breadcrumb-link-text-color` | `var(--mp-breadcrumb-item-active-color)` | `color` |
-| `--mp-breadcrumb-link-text-color-hover` | `rgb(var(--mp-primary-9))` | `color` |
+| `--mp-breadcrumb-link-text-color-hover` | `var(--mp-sys-color-content-brand)` | `color` |
 | `--mp-breadcrumb-margin-dropdown-icon-left` | `4px` | `margin-inline-start` |
 | `--mp-breadcrumb-margin-separator-horizontal` | `10px` | `margin` |
 | `--mp-breadcrumb-padding-text-horizontal` | `0px` | `margin`, `padding` |
@@ -6967,8 +6969,8 @@ Example source: src/card/example/demos/slots.vue
 | --- | --- | --- |
 | `title` | Title | Ripple and click, Floating and close |
 | `ripple` | Click ripple | Ripple and click |
-| `floating` | Fullscreen state; supports v-model:floating | Floating and close |
-| `floating-duration` | Fullscreen transition duration in ms | Floating and close |
+| `floating` | Floating expansion state; supports v-model:floating | Floating and close |
+| `floating-duration` | Floating expansion transition duration in ms | Floating and close |
 <!-- demo-config-notes:end -->
 
 
@@ -7020,9 +7022,9 @@ const floating = ref(false)
 
 | Configuration | Purpose | Related examples |
 | --- | --- | --- |
-| `floating` | Fullscreen state; supports v-model:floating | Floating scheduler lifecycle |
+| `floating` | Floating expansion state; supports v-model:floating | Floating scheduler lifecycle |
 | `ripple` | Click ripple | Floating scheduler lifecycle |
-| `floating-duration` | Fullscreen transition duration in ms | Floating scheduler lifecycle |
+| `floating-duration` | Floating expansion transition duration in ms | Floating scheduler lifecycle |
 | `title` | Title | Floating scheduler lifecycle |
 <!-- demo-config-notes:end -->
 
@@ -7083,7 +7085,7 @@ Title, content and actions follow reading order. Default floating actions sit at
 
 The floating layer remains at the Card’s original DOM location. An ancestor’s transform or similar property may change the fixed-position containing block, and ancestor clipping may obscure the layer, so viewport coverage is not guaranteed. When focus is inside an expanded Card, Escape requests closing unless an inner control has already handled the key; a nested topmost popup handles Escape first. The layer does not provide modal focus management; use Dialog when modal interaction is required.
 
-When focus is still inside the floating content or close controls, closing attempts to return focus to the element focused before expansion. If focus has moved elsewhere, it is left unchanged.
+When focus is still inside the floating content or close controls, closing attempts to return focus to the element focused before expansion. If focus has moved elsewhere, it is left unchanged. If focus enters the floating content while opening is pending, the content is shown immediately without waiting for its fade-in. While waiting, hidden and unfocused floating content and close controls are excluded from the accessibility tree; focusing either shows them immediately.
 
 If the opener is inside an external closed Shadow Root, Card cannot access the internal control directly. The host must delegate focus or the application must restore focus. `delegatesFocus` can forward host focus into the root, but does not guarantee the original control when several controls are present.
 
@@ -7110,8 +7112,8 @@ The default close button uses the current locale's close label; override it with
 | alt | Image alternative text | `string` | `undefined` |
 | elevation | Shadow for default variant; true means level 1, false disables it, numeric levels 0–24 | `boolean / number` | `true` |
 | ripple | Click ripple | `boolean` | `false` |
-| floating | Fullscreen state; supports v-model:floating | `boolean` | `false` |
-| floating-duration | Fullscreen transition duration in ms | `number` | `250` |
+| floating | Floating expansion state; supports v-model:floating | `boolean` | `false` |
+| floating-duration | Floating expansion transition duration in ms | `number` | `250` |
 | close-button-aria-label | Accessible name of the default close button | `string` | `—` |
 
 ### Card Events
@@ -10507,6 +10509,8 @@ Buttons, links, input controls, list options, tree nodes, grid cells, elements w
 | empty | Content displayed when no options are available | - |
 
 Async search should clear old candidates when requests start and accept only the latest current-query response. `update:input-value` can react immediately; `loading` and `filter-option` can display remote results. Popup arrows/Enter operate current candidates; confirmation mode saves with the bottom button, while immediate single selection commits on choice. Validation failure in confirmation mode preserves drafts, confirmation locks editing/closing, and Form reset closes Popup and aborts submission. Closing/reset invalidates request ownership. See Form’s unified field-presentation examples.
+
+Pending acceptance: verify actual screen-reader announcements with supported browsers (such as VoiceOver and NVDA), including field naming, hierarchical navigation and expanded state, search and selection, single and multiple modes, virtualized options, and form errors. This acceptance has not yet been completed.
 
 ## CSS Variables
 
@@ -17530,7 +17534,7 @@ The mobile calendar button has these local extension variables:
 | ---------------------------------------- | ----------------------------------- |
 | `--mp-date-input-trigger-padding` | `0` |
 | `--mp-date-input-trigger-outline-width` | `var(--mp-sys-space-1)` |
-| `--mp-date-input-trigger-outline-color` | `var(--mp-sys-color-content-brand)` |
+| `--mp-date-input-trigger-outline-color` | `var(--mp-sys-color-action-primary)` |
 | `--mp-date-input-trigger-outline-offset` | `var(--mp-sys-space-1)` |
 
 ## Layout and arrangement
@@ -18573,7 +18577,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-date-calendar-selected-background` | `var(--mp-sys-color-action-primary)` | `background` |
 | `--mp-date-calendar-selected-color` | `var(--mp-button-solid-text-color)` | `color` |
 | `--mp-date-calendar-today-color` | `var(--mp-button-default-foreground-color)` | `background`, `color` |
-| `--mp-date-input-trigger-outline-color` | `var(--mp-sys-color-content-brand)` | `outline` |
+| `--mp-date-input-trigger-outline-color` | `var(--mp-sys-color-action-primary)` | `outline` |
 | `--mp-date-input-trigger-outline-offset` | `var(--mp-sys-space-1)` | `outline-offset` |
 | `--mp-date-input-trigger-outline-width` | `var(--mp-sys-space-1)` | `outline` |
 | `--mp-date-input-trigger-padding` | `0` | `padding` |
@@ -27252,7 +27256,9 @@ Document: llms/en-US/form.md
 
 ## Field names
 
-For a deferred Slider inside Shadow DOM, a popup teleported to `body` may not resolve ID references to hints or errors inside the shadow root. Set `:popup-container="false"` to keep the popup in the same root, and provide clear control names.
+When `validate-status="error"` has no automatic validation error, the field associates visible `help` text or slot content through `aria-describedby`, preserving any supplied description. An automatic error takes precedence.
+
+For a deferred Slider inside Shadow DOM, a popup teleported to `body` may not resolve ID references to hints or errors inside the shadow root. Set `:popup-container="false"`, or pass an element within the same ShadowRoot as `popup-container`, to keep the popup and hints in the same root. Provide clear control names, and account for the container’s styling, positioning, and clipping.
 
 In direct edit mode, for a visible label on a single field, match FormItem `label-attrs.for` to the control `id`. The native inputs in selection, date and time fields do not let their placeholder override an associated label. An explicit `aria-label` or `aria-labelledby` retains its native accessible-name precedence. Placeholder is only a fallback when no label is supplied; provide clear labels. Date and time range fields in FormItem associate the form label with their group; use `input-attrs` to give the endpoints distinct names. If `label-attrs.for` targets another control, the label is not associated with the range group. Without `for`, the range currently references the nearest FormItem label even when that item contains other controls. For mixed fields, put the range in a separate styled FormItem with its own name, or explicitly target the intended control with `for` and name the other controls separately. When `for` matches a single-value Slider’s `id`, its thumb and optional numeric input use the label; clicking the default native label focuses the enabled thumb; preventing the label click default cancels that focus. When `for` matches a range Slider’s `id`, the form label names the group; use an `aria-label` array to name the endpoints separately. The `tooltip` button is independently focusable and its name is not added to the field label.
 
@@ -33989,10 +33995,6 @@ Tags follow reading order while their source array stays unchanged. With empty i
 Example source: src/input-tag/example/demos/basic.vue
 
 ```vue
-<script setup>
-import MpInputTag from '../../index'
-import '../../style'
-</script>
 <template>
   <mp-input-tag :default-value="['test']" placeholder="Please Enter" clearable />
 </template>
@@ -34024,8 +34026,6 @@ Example source: src/input-tag/example/demos/appearance-state-comparison.vue
 
 ```vue
 <script setup lang="ts">
-import MpInputTag from '../../index'
-import '../../style'
 import { proxyRefs as demoProxyRefs, ref } from 'vue'
 
 const scene1 = demoProxyRefs(
@@ -34111,10 +34111,6 @@ html[lang='en-US'] .demo-comparison-case > h4 > [lang='zh-CN'] {
 Example source: src/input-tag/example/demos/max.vue
 
 ```vue
-<script setup>
-import MpInputTag from '../../index'
-import '../../style'
-</script>
 <template>
   <mp-input-tag
     :default-value="['one', 'two', 'three', 'four']"
@@ -34140,8 +34136,6 @@ Example source: src/input-tag/example/demos/loading.vue
 
 ```vue
 <script setup lang="ts">
-import MpInputTag from '../../index'
-import '../../style'
 import { ref } from 'vue'
 
 const loading = ref(true)
@@ -34165,8 +34159,6 @@ Example source: src/input-tag/example/demos/link-title.vue
 
 ```vue
 <script setup lang="ts">
-import MpInputTag from '../../index'
-import '../../style'
 import { reactive, ref } from 'vue'
 
 const links = ref<string[]>([])
@@ -34278,8 +34270,6 @@ Example source: src/input-tag/example/demos/fallback-option.vue
 
 ```vue
 <script setup lang="ts">
-import MpInputTag from '../../index'
-import '../../style'
 import { reactive, ref } from 'vue'
 
 const urls = ref(['https://vuejs.org', 'https://github.com'])
@@ -34310,8 +34300,6 @@ Example source: src/input-tag/example/demos/async-fallback-restore.vue
 
 ```vue
 <script setup lang="ts">
-import MpInputTag from '../../index'
-import '../../style'
 import { onBeforeUnmount, ref } from 'vue'
 
 const values = ref(['shuai.meng', 'xiaoming', 'lisi'])
@@ -34479,11 +34467,15 @@ import type { InputTagProps, InputTagValue, InputTagEmits, InputTagSlots, InputT
 
 Tag controls tag and close-button appearance. Disabled, readonly and nonclosable tags cannot be removed with the close button.
 
+The accessible name of each close button combines the localized close action with the displayed tag label. For custom tag slots that do not render plain text, the item label is used; set `tagProps.closeButtonAriaLabel` to provide the full name explicitly.
+
 ## InputTag wrapper and content responsibilities
 
 InputTag uses FieldDecorator variables for its outline, filled and standard appearance. The filled backgrounds use fill-1, fill-2 and fill-3 for default, hover and focus. Form manages validation messages.
 
 input-tag-* controls content density, default tag backgrounds and disabled text. Disabled styles take precedence over focus. Sizes xs/sm/md/lg/xl are supported. xl uses 32px tags, 16px input text and 4px vertical padding.
+
+Removed 33 legacy wrapper variables with no CSS consumers: size-{xs,sm,md,lg}-height; color-text-error; color-placeholder, color-icon-clear, color-icon-clear-bg-hover; color-border-{default,error,disabled} (and their -hover / -focus variants); color-bg-{default,error} (and their -hover / -focus variants), color-bg-disabled (and -hover); color-shadow-{default,error}-focus, size-shadow-{default,error}-focus; border-radius, border-width, size-icon-clear, size-icon-clear-hover. All suffixes use the --mp-input-tag- prefix. No compatibility aliases are provided.
 
 Use field-variant-{variant}-background for field backgrounds, field-border-radius for corners, field-placeholder-text-color for placeholders, and field-clear-icon-color / field-clear-icon-size for clear icons. Prefer `size` for dimensions and InputTag variables for tag content.
 
@@ -34556,6 +34548,8 @@ Apply overrides to the rendered component root or the actual popup ancestor. For
 Explicit inline styles and props that write the same CSS property take precedence over stylesheet defaults. After Teleport, ordinary CSS variables inherit from the actual mount location. When using ThemeProvider, follow its local-theme and popup configuration rules. Override the component variable directly for local styling; root-level aliases are not recalculated merely because a descendant system variable changes. Internal variables are not public APIs.
 
 <!-- component-css-variables:end -->
+
+Pending acceptance: use actual screen readers (such as VoiceOver and NVDA) with supported browsers to verify input naming, tag names, creation and removal, keyboard operation, and form error announcements. This acceptance has not yet been completed.
 
 ---
 
@@ -36686,6 +36680,8 @@ const jump = () => retained?.scrollIntoView({ key: 50, align: 'top' })
 
 The virtual list covers the viewport before prerendering additional items on either side according to `buffer`; `buffer=0` is valid. `estimatedSize` must be finite and positive, including values below 1; invalid values fall back to 30px. `fixedSize` can change dynamically. Variable-height mode uses measured and estimated sizes and, when available, `ResizeObserver` to watch measurable mounted roots. The `item` slot receives the original index and unknown data, may return multiple measurable root nodes, and should provide a stable `itemKey`; measurement uses the combined root bounds for each item. To expose the complete collection to assistive technology, business rows can supply `aria-setsize` and `aria-posinset` using the actual data.
 
+A multi-root child component returned directly as an item cannot currently be measured or positioned reliably. As a temporary workaround, wrap it in one actual DOM element in the slot, or give the child component a single actual DOM root; choose an element appropriate for the list semantics. This limitation does not apply to multiple measurable elements returned directly by the slot.
+
 Server rendering currently fails when the same node combines `v-for` and `v-memo` inside the `default`, `header`, `footer`, `empty` or `item` slot. Data mode is affected with or without virtualization. Temporarily remove `v-memo` from that node and verify update behavior.
 
 ### List Props
@@ -36956,7 +36952,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 
 | Variable | Default / condition | Affected styles |
 | --- | --- | --- |
-| `--mp-loading-bar-color` | `var(--mp-sys-color-content-brand)` | `background-color` |
+| `--mp-loading-bar-color` | `var(--mp-sys-color-action-primary)` | `background-color` |
 | `--mp-loading-bar-error-color` | `var(--mp-sys-color-content-danger)` | `background-color` |
 | `--mp-loading-bar-height` | `3px` | `height` |
 | `--mp-loading-bar-transition-duration` | `250ms` | `transition` |
@@ -36968,7 +36964,7 @@ Apply overrides to the rendered component root or the actual popup ancestor. For
 
 ```css
 .component-theme {
-  --mp-loading-bar-color: var(--mp-sys-color-content-brand);
+  --mp-loading-bar-color: var(--mp-sys-color-action-primary);
 }
 ```
 
@@ -37283,7 +37279,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 
 | Variable | Default / condition | Affected styles |
 | --- | --- | --- |
-| `--mp-loading-color` | `var(--mp-color-primary)` | `background-color`, `color` |
+| `--mp-loading-color` | `var(--mp-sys-color-action-primary)` | `background-color`, `color` |
 | `--mp-loading-desc-color` | `var(--mp-sys-color-content-brand)` | `color` |
 | `--mp-loading-desc-margin` | `8px 0 0` | `margin` |
 | `--mp-loading-directive-z-index` | `2000` | `z-index` |
@@ -37297,7 +37293,7 @@ Apply overrides to the rendered component root or the actual popup ancestor. For
 
 ```css
 .component-theme {
-  --mp-loading-color: var(--mp-color-primary);
+  --mp-loading-color: var(--mp-sys-color-action-primary);
 }
 ```
 
@@ -37593,8 +37589,6 @@ Example source: src/mention/example/demos/atomic-mention.vue
 
 ```vue
 <script setup lang="ts">
-import MpMention from '../../index'
-import '../../style'
 import { reactive, ref } from 'vue'
 
 const content = ref('请联系 @[shuai.meng] 跟进')
@@ -37647,8 +37641,6 @@ Example source: src/mention/example/demos/search-options.vue
 
 ```vue
 <script setup lang="ts">
-import MpMention from '../../index'
-import '../../style'
 import { ref } from 'vue'
 import type { OptionsLoader } from '../../../_hooks/use-option-request'
 
@@ -37709,8 +37701,6 @@ Example source: src/mention/example/demos/async-read-pretty.vue
 
 ```vue
 <script setup lang="ts">
-import MpMention from '../../index'
-import '../../style'
 import { ref } from 'vue'
 
 const content = ref('请联系 @[shuai.meng]')
@@ -37777,8 +37767,6 @@ Example source: src/mention/example/demos/async-fallback-restore.vue
 
 ```vue
 <script setup lang="ts">
-import MpMention from '../../index'
-import '../../style'
 import { onBeforeUnmount, ref } from 'vue'
 
 const content = ref('请联系 @[shuai.meng]、@[xiaoming]、@[lisi]')
@@ -37889,7 +37877,6 @@ Example source: src/mention/example/demos/mirror-lifecycle.vue
 ```vue
 <script setup lang="ts">
 import { ref } from 'vue'
-import Mention from '../../index'
 
 const active = ref(true)
 const mounted = ref(true)
@@ -37905,7 +37892,7 @@ const value = ref('第一行\n第二行\n第三行\n@al')
     <mp-button html-type="button" @click="disabled = !disabled">切换禁用</mp-button>
     <p>搜索通知：{{ searches }}。在文本域滚动后输入 @al，停用再激活，继续输入检查镜像定位。</p>
     <KeepAlive v-if="mounted">
-      <Mention
+      <mp-mention
         v-if="active"
         v-model="value"
         type="textarea"
@@ -37934,8 +37921,6 @@ Example source: src/mention/example/demos/loading.vue
 
 ```vue
 <script setup lang="ts">
-import MpMention from '../../index'
-import '../../style'
 import { onBeforeUnmount, ref } from 'vue'
 import type { OptionsLoader } from '../../../_hooks/use-option-request'
 
@@ -38117,6 +38102,8 @@ Mention is available in both Cedar and Maple.
 ### Input and candidate relationships
 
 input uses combobox, while textarea retains a multiline textbox. Both link to the actual listbox and active candidate with aria-autocomplete, aria-controls and aria-activedescendant. Closing suggestions or making the field readonly removes active references; arrow navigation keeps DOM focus in the native input.
+
+Pending acceptance: test actual screen readers (such as VoiceOver and NVDA) with supported browsers for initial atomic mention names, candidate navigation and selection, editing, and whole-mention deletion. This acceptance has not yet been completed.
 
 ## CSS Variables
 
@@ -39810,6 +39797,8 @@ function reset(close: () => void) {
 ## Data and state control
 
 ### Controlled state and disabled entries
+
+During server rendering, an initially open `NavMenuItem` inside `NavMenu` currently does not include its panel in the initial HTML, with either an inline or default body container. If opening after client hydration is acceptable, initialize `v-model:open` to `false` and set it to `true` in `onMounted`; this changes when the panel first appears, and the application must continue handling later close requests. The workaround has been checked with inline and default body container configurations; a standalone `NavMenuItem` does render its initial panel. The entry omits `aria-controls` until its panel is created, then references that panel.
 
 Example source: src/nav-menu/example/demos/controlled.vue
 
@@ -42231,6 +42220,8 @@ Public SelectInstance/SelectExpose and PeopleSelectInstance/PeopleSelectExpose r
 
 Editing entry enums retain platform differences: Cedar uses direct / click / dblclick; Maple uses direct / popup.
 
+Pending acceptance: verify actual screen-reader announcements with supported browsers (such as VoiceOver and NVDA), including field naming, remote loading and errors, single and multiple selection, keyboard navigation, selected-person labels, and call or chat actions. This acceptance has not yet been completed.
+
 ## CSS Variables
 
 <!-- component-css-variables:start -->
@@ -43307,7 +43298,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-picker-background` | `var(--mp-color-body)` | `background`, `background-image` |
 | `--mp-picker-mask-background-image` | `linear-gradient(180deg, color-mix(in srgb, var(--mp-picker-background) 90%, transparent), color-mix(in srgb, var(--mp-picker-background) 40%, transparent)),     linear-gradient(       0deg,       color-mix(in srgb, var(--mp-picker-background) 90%, transparent),       color-mix(in srgb, var(--mp-picker-background) 40%, transparent)     )` | `background-image` |
 | `--mp-picker-option-active-text-color` | `var(--mp-picker-option-text-color)` | `color` |
-| `--mp-picker-option-check-color` | `var(--mp-sys-color-content-brand)` | `color` |
+| `--mp-picker-option-check-color` | `var(--mp-sys-color-action-primary)` | `color` |
 | `--mp-picker-option-check-right` | `12px` | `inset-inline-end` |
 | `--mp-picker-option-check-size` | `18px` | `font-size` |
 | `--mp-picker-option-disabled-opacity` | `0.5` | `opacity` |
@@ -53323,7 +53314,7 @@ Select also emits `remove(value)`, `exceed-limit(value, event)`, `dropdown-scrol
 
 Use `label({ data })` for custom `selected` labels; `selected` replaces the whole selection area. Also supports `prefix`, `suffix`, `clear-icon({ clear })`, `arrow-icon`, `loading-icon`, `search-icon`, `empty`, and `option({ data })`.
 
-Option `label` is searchable plain text. Use `render` or the `option` slot for custom `option` content, and `format-label` or `label` slot for selected content. Values identify selections; labels never do. `disabled` blocks selection/removal, and `tagProps` customizes selected tags.
+Option `label` is searchable plain text. Use `render` or the `option` slot for custom `option` content, and `format-label` or `label` slot for selected content. Values identify selections; labels never do. `disabled` blocks selection/removal, and `tagProps` customizes selected tags. It accepts `style` and listeners such as `onClose`; Select controls visibility and removability, and a close also participates in Select removal.
 
 Select additionally supports `header`, `footer`, `trigger`, and default `Option / Optgroup` children. Option props: `value`, `label`, `disabled`, `tagProps`, `index`; its default slot receives `selected`. Group data uses `{ isGroup: true, label, options }`. List and Picker also accept slot options; Picker displays their text labels.
 
@@ -53334,7 +53325,7 @@ Select additionally supports `header`, `footer`, `trigger`, and default `Option 
 | value | Option Value | string \| number \| boolean \| Record<string, unknown> | undefined |
 | label | Option group title | string | undefined |
 | disabled | Whether to disable | boolean | false |
-| tag-props | Props of the multi-select label corresponding to the option | TagProps | undefined |
+| tag-props | Selected Tag props, native attributes and Tag listeners | SelectOptionTagProps | undefined |
 | index | Explicit option order | number | undefined |
 
 ### Option Slots
@@ -53442,6 +53433,8 @@ Pass business data through object `value` or `options`.
 
 Multiple empty-value supports arrays, null/undefined and empty values recognized by empty-values; other scalars are rejected. Factories run only for a real clear with no disabled retained selections; invalid results produce a development diagnostic and fall back to [], without publishing an invalid scalar.
 
+Pending acceptance: verify actual screen-reader announcements with supported browsers (such as VoiceOver and NVDA), including field naming, single and multiple selection, grouped and virtualized options, keyboard navigation, loading, and form errors. This acceptance has not yet been completed.
+
 ## CSS Variables
 
 <!-- component-css-variables:start -->
@@ -53482,7 +53475,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-select-popup-option-text-color-disabled` | `var(--mp-sys-color-content-disabled)` | `color` |
 | `--mp-select-popup-option-text-color-hover` | `var(--mp-sys-color-content-primary)` | `color` |
 | `--mp-select-popup-option-text-color-selected` | `var(--mp-sys-color-action-primary)` | `color` |
-| `--mp-select-popup-padding-horizontal` | `var(--mp-sys-space-3)` | `padding-inline` |
+| `--mp-select-popup-padding-horizontal` | `0` | `padding-inline` |
 | `--mp-select-popup-padding-vertical` | `var(--mp-sys-space-2)` | `padding`, `padding-block` |
 
 </div>
@@ -57168,7 +57161,7 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 | error | boolean | undefined | Error appearance, inherited from the form when omitted. |
 | marks | Record<number, string> | undefined | Text marks at positions within the range. |
 | show-ticks | boolean | false | Display step ticks, capped at 1000. |
-| show-input | boolean | false | Show attached InputNumber controls, two in range mode. The slider aria-describedby is also applied to the numeric inputs and combined with form error descriptions. |
+| show-input | boolean | false | Show attached InputNumber controls, two in range mode. The slider aria-describedby is also applied to the numeric inputs and combined with form error descriptions. An explicit aria-description is forwarded to the thumbs and numeric inputs. Browsers prioritize resolved aria-describedby references over aria-description; the two descriptions are not necessarily combined. |
 | show-tooltip | boolean / 'always' | true | True shows on hover, focus or drag; false hides; always remains visible. |
 | format-tooltip | SliderTooltipFormatter | undefined | Format tooltips and aria-valuetext without changing the model. |
 | aria-label | string / [string, string] | undefined | Single-thumb name or names for the two range thumbs. |
@@ -67501,6 +67494,8 @@ Native `click`, `mouseenter`, `mouseleave`, `focusin`, `focusout`, `contextmenu`
 `aria-describedby` from `reference-attrs` is merged and deduplicated with existing reference descriptions; cleanup or reference replacement restores the original attribute.
 
 Fixed positioning uses the actual `fixed` containing block when an ancestor has a transform, filter, perspective, or containing CSS property. Axis-aligned scaling is accounted for; rotated or skewed coordinate systems are not guaranteed. For accessible same-origin iframe references, the reference and popup documents share coordinate conversion and event handling; cross-origin or unrelated browsing contexts are not supported. With `update-at-scroll`, scrolling either document or a scrollable ancestor updates the popup.
+
+When the reference element is in the main document outside a ShadowRoot and the popup is mounted inside a closed ShadowRoot, this version may mistake an internal popup click for an outside click and request closing. In this same-document setup, consider mounting with `popup-container` in `body` or an accessible element in an open ShadowRoot; check theme, inherited styles and positioning after changing the container. Automatic detection inside a closed root remains unresolved.
 
 When a reference is slotted into a scroll container inside a closed ShadowRoot, the outer Trigger cannot access the slot or container and cannot listen to its scrolling automatically. The closed component can call the Trigger instance's `resize()` on internal scroll or slot changes. For scroll-to-close behavior, call `close()` internally using an application-specific threshold, and remove listeners on unmount.
 

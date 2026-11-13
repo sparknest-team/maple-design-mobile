@@ -8,18 +8,28 @@ import { imagePreview } from './preview'
 import { imagePreviewProps } from './previewProps'
 import { imageProps } from './props'
 
-const ImagePreview = withInstall(_ImagePreview)
-const ImagePreviewGroup = withInstall(_ImagePreviewGroup)
+const ImagePreview: import('../utils/components').ComponentWithInstall<typeof _ImagePreview> =
+  withInstall(_ImagePreview)
+const ImagePreviewGroup: import('../utils/components').ComponentWithInstall<typeof _ImagePreviewGroup> =
+  withInstall(_ImagePreviewGroup)
 
-const ImageWithPreview = Object.assign(_Image, {
+const ImageWithPreview: typeof _Image & {
+  Preview: typeof ImagePreview
+  PreviewGroup: typeof ImagePreviewGroup
+  preview: typeof imagePreview
+} = Object.assign(_Image, {
   Preview: ImagePreview,
   PreviewGroup: ImagePreviewGroup,
   preview: imagePreview,
 })
 
-const ImageFamily = withInstall(_Image, ImageWithPreview, {
-  components: [_Image, ImagePreview, ImagePreviewGroup, _ImagePreviewAction],
-})
+const ImageFamily: import('../utils/components').ComponentWithInstall<typeof ImageWithPreview> = withInstall(
+  _Image,
+  ImageWithPreview,
+  {
+    components: [_Image, ImagePreview, ImagePreviewGroup, _ImagePreviewAction],
+  },
+)
 
 withPropsDefaultsSetter(ImageFamily, imageProps)
 withPropsDefaultsSetter(ImagePreview, imagePreviewProps)

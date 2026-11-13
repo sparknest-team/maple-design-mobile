@@ -52,7 +52,7 @@ export const rateProps = {
 }
 
 export const props = rateProps
-export type RateProps = import('vue').ExtractPublicPropTypes<typeof rateProps>
+export type RateProps = import('../_utils/public-props').CompatiblePublicProps<typeof rateProps>
 
 export interface RateExpose {
   focus: () => void

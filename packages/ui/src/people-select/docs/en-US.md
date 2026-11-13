@@ -225,6 +225,8 @@ Public SelectInstance/SelectExpose and PeopleSelectInstance/PeopleSelectExpose r
 
 Editing entry enums retain platform differences: Cedar uses direct / click / dblclick; Maple uses direct / popup.
 
+Pending acceptance: verify actual screen-reader announcements with supported browsers (such as VoiceOver and NVDA), including field naming, remote loading and errors, single and multiple selection, keyboard navigation, selected-person labels, and call or chat actions. This acceptance has not yet been completed.
+
 ## CSS Variables
 
 <!-- component-css-variables:start -->

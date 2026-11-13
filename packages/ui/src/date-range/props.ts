@@ -46,13 +46,13 @@ export const props = {
   placeholder: [String, Array] as PropType<string | string[]>,
   separator: { type: String, default: ' ~ ' },
   size: fieldDecoratorProps.size,
-  variant: { ...fieldDecoratorProps.variant, default: 'standard' },
+  variant: { ...fieldDecoratorProps.variant, default: 'outline' },
   hint: fieldDecoratorProps.hint,
   line: fieldDecoratorProps.line,
   textColor: fieldDecoratorProps.textColor,
   focusColor: fieldDecoratorProps.focusColor,
   blurColor: fieldDecoratorProps.blurColor,
 }
-export type DateRangeProps = import('vue').ExtractPublicPropTypes<typeof props>
+export type DateRangeProps = import('../_utils/public-props').CompatiblePublicProps<typeof props>
 export type DateRangeType = NonNullable<DateRangeProps['type']>
 export type DateRangeEditMode = NonNullable<DateRangeProps['editMode']>

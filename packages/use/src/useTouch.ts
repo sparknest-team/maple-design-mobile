@@ -1,3 +1,4 @@
+import type { Ref } from 'vue'
 import { onBeforeUnmount, onDeactivated, ref } from 'vue'
 import { getScrollTop } from '@maple-design/shared-vue'
 
@@ -13,7 +14,29 @@ function getDirection(x: number, y: number) {
   }
 }
 
-export function useTouch() {
+export function useTouch(): {
+  startX: Ref<number>
+  startY: Ref<number>
+  deltaX: Ref<number>
+  deltaY: Ref<number>
+  offsetX: Ref<number>
+  offsetY: Ref<number>
+  prevX: Ref<number>
+  prevY: Ref<number>
+  moveX: Ref<number>
+  moveY: Ref<number>
+  direction: Ref<TouchDirection | undefined>
+  touching: Ref<boolean>
+  dragging: Ref<boolean>
+  startTime: Ref<number>
+  distance: Ref<number>
+  resetTouch: () => void
+  startTouch: (event: TouchEvent) => void
+  moveTouch: (event: TouchEvent) => void
+  endTouch: () => void
+  isReachTop: (element: Element | Window) => boolean
+  isReachBottom: (element: Element, offset?: number) => boolean
+} {
   const startX = ref(0)
   const startY = ref(0)
   const deltaX = ref(0)

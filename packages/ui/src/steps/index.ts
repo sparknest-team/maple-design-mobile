@@ -3,13 +3,14 @@ import { stepProps, stepsProps } from './props'
 import _StepsStep from './Step.vue'
 import _Steps from './Steps'
 
-const Steps = withInstall(
-  _Steps,
-  Object.assign(_Steps, {
-    Step: _StepsStep,
-  }),
-  { components: [_Steps, _StepsStep] },
-)
+const Steps: import('../utils/components').ComponentWithInstall<typeof _Steps & { Step: typeof _StepsStep }> =
+  withInstall(
+    _Steps,
+    Object.assign(_Steps, {
+      Step: _StepsStep,
+    }),
+    { components: [_Steps, _StepsStep] },
+  )
 
 withPropsDefaultsSetter(Steps, stepsProps)
 withPropsDefaultsSetter(_StepsStep, stepProps)

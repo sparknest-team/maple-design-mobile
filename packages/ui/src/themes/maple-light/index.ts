@@ -1,11 +1,13 @@
 import type { StyleVars } from '../../theme-provider'
 
 const mapleLight: StyleVars = {
+  '--mp-select-popup-option-border-radius': 'var(--mp-sys-radius-lg)',
+  '--mp-selection-editor-option-radius': 'var(--mp-selection-editor-radius)',
   '--mp-color-scheme': 'light',
   '--mp-switch-checked-text-color': 'var(--mp-sys-color-content-on-dark)',
   '--mp-date-calendar-selected-color': 'var(--mp-sys-color-content-on-dark)',
   '--mp-field-focus-color': 'var(--mp-sys-color-action-primary)',
-  '--mp-field-error-color': 'rgb(var(--mp-danger-8))',
+  '--mp-field-error-color': 'var(--mp-sys-color-content-danger)',
   '--mp-field-variant-outline-border-color-focus': 'var(--mp-sys-color-action-primary)',
   '--mp-brand-1': '255, 247, 237',
   '--mp-brand-2': '255, 237, 213',

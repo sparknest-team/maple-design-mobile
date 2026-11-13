@@ -106,4 +106,4 @@ export const uploadProps = {
   isSuccessResponse: Function as PropType<UploadIsSuccessResponse>,
 }
 
-export type UploadProps = import('vue').ExtractPublicPropTypes<typeof uploadProps>
+export type UploadProps = import('../_utils/public-props').CompatiblePublicProps<typeof uploadProps>

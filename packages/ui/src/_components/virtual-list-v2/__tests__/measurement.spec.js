@@ -145,3 +145,56 @@ test('covers the viewport with zero buffer and grows with viewport size', async 
   expect(size.end.value).toBe(26)
   owner.unmount()
 })
+
+test('accepts explicitly verified zero measurements without stalling offset lookup', async () => {
+  let size
+  const owner = mount(
+    defineComponent({
+      setup() {
+        size = useSize({
+          dataKeys: ref([0, 1]),
+          contentRef: ref(),
+          fixedSize: ref(false),
+          estimatedSize: ref(20),
+          buffer: ref(0),
+        })
+        return () => h('div')
+      },
+    }),
+  )
+  try {
+    size.setItemSize(0, 0, true)
+    await nextTick()
+    expect(size.getScrollOffset(1)).toBe(0)
+    expect(size.getStartByScroll(0)).toBe(0)
+  } finally {
+    owner.unmount()
+  }
+})
+
+test('keeps zero-height items at an exact scroll boundary in the render window', async () => {
+  let size
+  const owner = mount(
+    defineComponent({
+      setup() {
+        size = useSize({
+          dataKeys: ref([0, 1, 2, 3]),
+          contentRef: ref(),
+          fixedSize: ref(false),
+          estimatedSize: ref(20),
+          buffer: ref(0),
+        })
+        return () => h('div')
+      },
+    }),
+  )
+  try {
+    size.setItemSize(1, 0, true)
+    size.setItemSize(2, 0, true)
+    await nextTick()
+    expect(size.getStartByScroll(20)).toBe(1)
+    expect(size.getStartByScroll(21)).toBe(3)
+  } finally {
+    owner.unmount()
+  }
+})

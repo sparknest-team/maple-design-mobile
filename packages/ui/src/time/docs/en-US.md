@@ -44,7 +44,7 @@ Compare Input, Button, Select, date/time fields and other single-line controls a
 
 ### Field appearance and nested options
 
-hint controls the floating label (Cedar defaults to false, Maple to true) and is suppressed by an outer Form label. line defaults to true; text-color/focus-color/blur-color accept optional color strings. An unset error inherits Form state; explicit false overrides it. TimeRange separator defaults to `~` and accepts an empty string. Default variants remain Cedar filled and Maple standard; set variant explicitly for matching appearance.
+hint controls the floating label (Cedar defaults to false, Maple to true) and is suppressed by an outer Form label. line defaults to true; text-color/focus-color/blur-color accept optional color strings. An unset error inherits Form state; explicit false overrides it. TimeRange separator defaults to `~` and accepts an empty string. Cedar and Maple fields both default to outline; filled and standard remain explicit options.
 
 The field owns values, defaults, open state, format, steps, bounds, disabled rules and readonly/disabled state. Set these directly on the field, not inside timePickerProps/timeRangePickerProps. Nested options customize presentation only; model/select/confirm listeners cannot replace the field flow. Types reject owner properties and runtime filtering removes them, even when a top-level constraint is unset.
 
@@ -433,7 +433,7 @@ Panels edit a draft and commit on confirmation. Cancellation or closing does not
 | `time-fields` | Wheel columns and order; an explicit list controls visibility without changing format or model | `readonly TimePickerField[]`<br>`TimePickerField: 'hour' \| 'minute' \| 'second'` | Derived from format |
 | `time-picker-props` | Time-panel presentation options; model, rules and state remain owned by the field | `TimePanelPresentationProps` | `{}` |
 | `use12-hours` | 12-hour panel; disabled-hour callbacks still use 0–23 | `boolean` | `false` |
-| `variant` | Field appearance | `filled \| outline \| standard` | `standard` |
+| `variant` | Field appearance | `filled \| outline \| standard` | `outline` |
 
 ### Time Events
 

@@ -77,13 +77,14 @@
         </div>
         <div
           v-if="$slots['floating-content'] && !isRow"
+          ref="floatingContent"
           :class="n('floating-content')"
           :inert="!props.floating ? true : undefined"
-          :aria-hidden="!props.floating ? true : undefined"
+          :aria-hidden="!props.floating || (!focusReveal && opacity === '0') ? true : undefined"
           :style="{
             height: contentHeight,
             opacity,
-            transition: `opacity ${duration * 2}ms`,
+            transition: focusReveal ? 'none' : `opacity ${duration * 2}ms`,
           }"
         >
           <slot name="floating-content" />
@@ -92,13 +93,14 @@
 
       <div
         v-if="showFloatingButtons"
+        ref="floatingButtons"
         :class="classes(n('floating-buttons'), n('$--box'))"
         :inert="!props.floating ? true : undefined"
-        :aria-hidden="!props.floating ? true : undefined"
+        :aria-hidden="!props.floating || (!focusReveal && opacity === '0') ? true : undefined"
         :style="{
           zIndex,
           opacity,
-          transition: `opacity ${duration * 2}ms`,
+          transition: focusReveal ? 'none' : `opacity ${duration * 2}ms`,
         }"
       >
         <slot name="close-button">
@@ -152,6 +154,8 @@ const duration = computed(() =>
 const RIPPLE_DELAY = 500
 const card = ref<null | HTMLElement>(null)
 const cardFloater = ref<null | HTMLElement>(null)
+const floatingContent = ref<null | HTMLElement>(null)
+const floatingButtons = ref<null | HTMLElement>(null)
 const holderWidth = ref('auto')
 const holderHeight = ref('auto')
 const floaterWidth = ref('100%')
@@ -162,6 +166,7 @@ const floaterPosition = ref<'static' | 'absolute' | 'fixed' | 'relative' | 'stic
 const floaterOverflow = ref('hidden')
 const contentHeight = ref('0px')
 const opacity = ref('0')
+const focusReveal = ref(false)
 const isRow = computed(() => props.direction !== 'column')
 const showFloatingButtons = ref(false)
 const floated = ref(false)
@@ -175,10 +180,12 @@ let dropdownFloaterLeft = 'auto'
 let dropper: ReturnType<typeof setTimeout> | undefined
 const floater = shallowRef<ReturnType<typeof setTimeout> | null>(null)
 
+const cardDocument = shallowRef<Document>()
+
 useLock(
   () => props.floating,
   () => !isRow.value,
-  () => card.value?.ownerDocument.body,
+  () => (cardDocument.value ?? card.value?.ownerDocument)?.body,
 )
 
 let previousFocusRoot: Document | ShadowRoot | undefined
@@ -235,6 +242,19 @@ onMounted(() => {
 
 let returnFocus: HTMLElement | null = null
 function onCardFocus(event: FocusEvent) {
+  // A child may focus itself while the opening animation is still waiting.
+  // Reveal that content immediately so focus is not left in a clipped, transparent area.
+  if (
+    wantsFloating() &&
+    (composedContains(floatingContent.value, event.target as Element | null) ||
+      composedContains(floatingButtons.value, event.target as Element | null))
+  ) {
+    focusReveal.value = true
+    contentHeight.value = 'auto'
+    opacity.value = '1'
+    floaterOverflow.value =
+      openingWaiting && composedContains(floatingButtons.value, event.target as Element | null) ? 'visible' : 'auto'
+  }
   const related = event.relatedTarget as HTMLElement | null
   const document = card.value?.ownerDocument
   if (
@@ -298,7 +318,12 @@ function updateReturnFocus(open: boolean) {
 }
 
 const wantsFloating = () => props.floating && !isRow.value
-const { onStackTop } = usePopupLayer(wantsFloating, zIndex, () => card.value?.ownerDocument, true)
+const { onStackTop, syncOwner } = usePopupLayer(
+  wantsFloating,
+  zIndex,
+  () => cardDocument.value ?? card.value?.ownerDocument,
+  true,
+)
 const available = () => active && !disposed
 let focusRootObserver: MutationObserver | undefined
 function stopFocusRootTracking() {
@@ -308,6 +333,9 @@ function stopFocusRootTracking() {
 function trackFocusRoot() {
   stopFocusRootTracking()
   const element = card.value
+  if (element) {
+    cardDocument.value = element.ownerDocument
+  }
   const Observer = element?.ownerDocument.defaultView?.MutationObserver
   if (!element || !Observer || !available() || !wantsFloating()) {
     return
@@ -316,6 +344,13 @@ function trackFocusRoot() {
   const update = () => {
     if (!available() || !wantsFloating() || card.value !== element) {
       return
+    }
+    cardDocument.value = element.ownerDocument
+    if (motionDocument !== element.ownerDocument) {
+      trackMotion(element)
+    }
+    if (openingFrameDocument && openingFrameDocument !== element.ownerDocument && openingWaiting) {
+      floating(true)
     }
     const root = element.getRootNode()
     if ('activeElement' in root) {
@@ -340,6 +375,7 @@ function trackFocusRoot() {
   update()
 }
 let openingWaiting = false
+let openingFrameDocument: Document | undefined
 let cancelOpeningFrames: (() => void) | undefined
 function waitForOwnerFrames(view: Window): Promise<boolean> {
   cancelOpeningFrames?.()
@@ -372,11 +408,13 @@ function waitForOwnerFrames(view: Window): Promise<boolean> {
   })
 }
 let reducedMotion = false
+let motionDocument: Document | undefined
 let stopMotionTracking: (() => void) | undefined
 function trackMotion(element: HTMLElement | null) {
   stopMotionTracking?.()
   stopMotionTracking = undefined
   reducedMotion = false
+  motionDocument = element?.ownerDocument
   const view = element?.ownerDocument.defaultView
   if (!view || typeof view.matchMedia !== 'function') {
     return
@@ -400,6 +438,13 @@ function trackMotion(element: HTMLElement | null) {
   } else if (typeof query.addListener === 'function') {
     query.addListener(change)
     stopMotionTracking = () => query.removeListener(change)
+  }
+  if (reducedMotion && available()) {
+    if (wantsFloating() && openingWaiting) {
+      floating()
+    } else if (!wantsFloating() && dropper !== undefined) {
+      dropdown()
+    }
   }
 }
 watch(
@@ -448,7 +493,12 @@ watch(
       consumed = true
       if (value) {
         floating()
-      } else if (floater.value !== null || floated.value || floaterPosition.value !== undefined) {
+      } else if (
+        floater.value !== null ||
+        floated.value ||
+        floaterPosition.value !== undefined ||
+        contentHeight.value !== '0px'
+      ) {
         dropdown()
       }
     })
@@ -456,12 +506,13 @@ watch(
   { immediate: true, flush: 'sync' },
 )
 
-function floating() {
+function floating(skipRippleDelay = false) {
   if (!available() || !wantsFloating()) {
     return
   }
   const token = ++generation
   cancelOpeningFrames?.()
+  openingFrameDocument = undefined
   const element = card.value
   let consumed = false
   clearTimeout(floater.value ?? undefined)
@@ -493,6 +544,7 @@ function floating() {
       // The existing non-abortable helper still settles; only this continuation
       // owns permission to expand. It is not a CSS animation-duration timer.
       if (!reducedMotion) {
+        openingFrameDocument = element.ownerDocument
         const view = element.ownerDocument.defaultView
         if (
           view &&
@@ -510,6 +562,7 @@ function floating() {
       if (!current(token, element) || !wantsFloating()) {
         return
       }
+      openingFrameDocument = undefined
       openingWaiting = false
       floaterTop.value = '0'
       floaterLeft.value = '0'
@@ -520,7 +573,7 @@ function floating() {
       floaterOverflow.value = 'auto'
       floated.value = true
     },
-    props.ripple && !reducedMotion ? RIPPLE_DELAY : 0,
+    props.ripple && !reducedMotion && !skipRippleDelay ? RIPPLE_DELAY : 0,
   )
 }
 
@@ -530,6 +583,7 @@ function dropdown() {
   }
   const token = ++generation
   cancelOpeningFrames?.()
+  openingFrameDocument = undefined
   const element = card.value
   let consumed = false
   clearTimeout(dropper)
@@ -551,6 +605,7 @@ function dropdown() {
   floaterTop.value = dropdownFloaterTop
   floaterLeft.value = dropdownFloaterLeft
   contentHeight.value = '0px'
+  focusReveal.value = false
   opacity.value = '0'
   showFloatingButtons.value = false
   dropper = setTimeout(
@@ -582,9 +637,16 @@ function handleFloatingKeydown(event: KeyboardEvent) {
     event.key !== 'Escape' ||
     event.isComposing ||
     event.keyCode === 229 ||
-    event.defaultPrevented ||
-    !onStackTop(event)
+    event.defaultPrevented
   ) {
+    return
+  }
+  const owner = card.value?.ownerDocument
+  if (owner && cardDocument.value !== owner) {
+    cardDocument.value = owner
+    syncOwner()
+  }
+  if (!onStackTop(event)) {
     return
   }
   event.preventDefault()
@@ -633,12 +695,13 @@ onActivated(() => {
       updateReturnFocus(true)
     }
     floating()
-  } else if (floaterPosition.value !== undefined || floated.value) {
+  } else if (floaterPosition.value !== undefined || floated.value || contentHeight.value !== '0px') {
     dropdown()
   }
 })
 function cleanup() {
   cancelOpeningFrames?.()
+  openingFrameDocument = undefined
   openingWaiting = false
   active = false
   generation++

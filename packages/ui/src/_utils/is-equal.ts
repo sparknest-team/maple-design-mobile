@@ -2,11 +2,12 @@ export const isEqualObject = (obj: Record<string, unknown> | undefined, other: R
   if (!obj || !other) {
     return false
   }
-  if (obj.length !== other.length) {
+  const keys = Object.keys(obj)
+  if (keys.length !== Object.keys(other).length) {
     return false
   }
-  for (const key of Object.keys(obj)) {
-    const result = isEqual(obj[key], other[key])
+  for (const key of keys) {
+    const result = Object.prototype.hasOwnProperty.call(other, key) && isEqual(obj[key], other[key])
     if (!result) {
       return false
     }
@@ -42,12 +43,6 @@ export const isEqual = (a: unknown, b: unknown) => {
   }
   if (type === '[object Array]') {
     return isEqualArray(a as unknown[], b as unknown[])
-  }
-  if (type === '[object Function]') {
-    if (a === b) {
-      return true
-    }
-    return typeof a === 'function' && typeof b === 'function' && a.toString() === b.toString()
   }
   return a === b
 }

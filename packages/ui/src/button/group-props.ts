@@ -57,4 +57,4 @@ export const buttonGroupProps = {
   },
 }
 
-export type ButtonGroupProps = import('vue').ExtractPublicPropTypes<typeof buttonGroupProps>
+export type ButtonGroupProps = import('../_utils/public-props').CompatiblePublicProps<typeof buttonGroupProps>

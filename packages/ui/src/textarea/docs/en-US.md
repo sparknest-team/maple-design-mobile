@@ -323,8 +323,8 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-textarea-height` | `auto` | `height` |
 | `--mp-textarea-line-height` | `1.5` | `line-height` |
 | `--mp-textarea-min-height` | `96px` | `min-height` |
-| `--mp-textarea-padding-horizontal` | `0` | `padding` |
-| `--mp-textarea-padding-vertical` | `0` | `padding` |
+| `--mp-textarea-padding-horizontal` | `0px` | `padding`, `padding-inline-end` |
+| `--mp-textarea-padding-vertical` | `var(--mp-field-content-padding-vertical)` | `padding` |
 | `--mp-textarea-placeholder-color` | `var(--mp-sys-color-content-secondary)` | `color` |
 
 </div>

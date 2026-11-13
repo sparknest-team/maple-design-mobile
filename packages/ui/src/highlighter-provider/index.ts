@@ -11,4 +11,6 @@ export type { CodeToHtmlOptions, Highlighter } from './props'
 export const _HighlighterProviderComponent: typeof HighlighterProvider = HighlighterProvider
 
 export default HighlighterProvider
-export type HighlighterProviderProps = import('vue').ExtractPublicPropTypes<typeof import('./props').props>
+export type HighlighterProviderProps = import('../_utils/public-props').CompatiblePublicProps<
+  typeof import('./props').props
+>

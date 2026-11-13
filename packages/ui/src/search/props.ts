@@ -1,4 +1,6 @@
-import type { ExtractPropTypes, ExtractPublicPropTypes, PropType, StyleValue } from 'vue'
+import type { ExtractPropTypes, PropType } from 'vue'
+import type { CompatiblePublicProps as ExtractPublicPropTypes } from '../_utils/public-props'
+import type { CompatibleStyleValue as StyleValue } from '../_utils/style-value'
 import type { ButtonProps } from '../button'
 import { fieldLoadingProps } from '../field-decorator/props'
 import { inputProps } from '../input/props'

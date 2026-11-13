@@ -198,7 +198,7 @@ Maple 使用 edit-mode="popup" 点击值区域打开编辑面板；direct 直接
 | error | boolean | undefined | 错误外观，省略时继承表单。 |
 | marks | Record<number, string> | undefined | 范围内位置的文字标记。 |
 | show-ticks | boolean | false | 显示步长刻度，最多 1000 个。 |
-| show-input | boolean | false | 显示附带 InputNumber；范围模式显示两个。滑块的 aria-describedby 也用于数字输入，并与表单错误说明合并。 |
+| show-input | boolean | false | 显示附带 InputNumber；范围模式显示两个。滑块的 aria-describedby 也用于数字输入，并与表单错误说明合并。显式 aria-description 会透传给滑块及数字输入；浏览器优先使用可解析的 aria-describedby，两者不一定合并。 |
 | show-tooltip | boolean / 'always' | true | true 在悬浮、聚焦、拖动时显示；false 隐藏；always 常驻。 |
 | format-tooltip | SliderTooltipFormatter | undefined | 格式化提示及 aria-valuetext，不改变模型。 |
 | aria-label | string / [string, string] | undefined | 单拇指名称或范围两个拇指的名称。 |

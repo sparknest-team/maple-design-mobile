@@ -2,7 +2,7 @@ import { createSSRApp, Fragment, h, nextTick, ref } from 'vue'
 import { renderToString } from '@vue/server-renderer'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it, vi } from 'vitest'
-import VirtualListItem from '../virtual-list-item'
+import VirtualListItem, { measurementVersionKey } from '../virtual-list-item'
 import VirtualList from '../VirtualList.vue'
 
 describe('virtual list fragment items', () => {
@@ -180,4 +180,183 @@ describe('virtual list fragment items', () => {
       app.unmount()
     }
   })
+})
+
+it('ignores a hidden root when measuring a multi-root item', async () => {
+  const hidden = ref(false)
+  const setItemSize = vi.fn()
+  const rect = vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function (
+    this: HTMLElement,
+  ) {
+    if (this.dataset.part === 'hidden' && hidden.value) {
+      return { top: 0, bottom: 0, height: 0, width: 0 } as DOMRect
+    }
+    return this.dataset.part === 'first'
+      ? ({ top: 120, bottom: 140, height: 20, width: 100 } as DOMRect)
+      : ({ top: 140, bottom: 170, height: 30, width: 100 } as DOMRect)
+  })
+  const clientRects = vi.spyOn(HTMLElement.prototype, 'getClientRects').mockImplementation(function (
+    this: HTMLElement,
+  ) {
+    return (this.dataset.part === 'hidden' && hidden.value ? [] : [{}]) as unknown as DOMRectList
+  })
+  const wrapper = mount(VirtualListItem, {
+    props: { index: 0, hasItemSize: () => false, setItemSize },
+    slots: {
+      default: () =>
+        h(Fragment, [
+          h('div', { 'data-part': 'first' }, 'first'),
+          h('div', { 'data-part': 'hidden', style: { display: hidden.value ? 'none' : '' } }, 'second'),
+        ]),
+    },
+  })
+  try {
+    expect(setItemSize).toHaveBeenLastCalledWith(null, 50)
+    hidden.value = true
+    await nextTick()
+    expect(setItemSize).toHaveBeenLastCalledWith(null, 20)
+    hidden.value = false
+    await nextTick()
+    expect(setItemSize).toHaveBeenLastCalledWith(null, 50)
+  } finally {
+    wrapper.unmount()
+    rect.mockRestore()
+    clientRects.mockRestore()
+  }
+})
+
+it('keeps zero-sized roots that still have a layout box in the measured span', () => {
+  const setItemSize = vi.fn()
+  const rect = vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function (
+    this: HTMLElement,
+  ) {
+    return this.dataset.part === 'zero'
+      ? ({ top: 100, bottom: 100, height: 0, width: 0 } as DOMRect)
+      : ({ top: 120, bottom: 140, height: 20, width: 100 } as DOMRect)
+  })
+  const clientRects = vi.spyOn(HTMLElement.prototype, 'getClientRects').mockReturnValue([{}] as unknown as DOMRectList)
+  const wrapper = mount(VirtualListItem, {
+    props: { index: 0, hasItemSize: () => false, setItemSize },
+    slots: { default: () => h(Fragment, [h('div', { 'data-part': 'zero' }), h('div', { 'data-part': 'first' })]) },
+  })
+  try {
+    expect(setItemSize).toHaveBeenLastCalledWith(null, 40)
+  } finally {
+    wrapper.unmount()
+    rect.mockRestore()
+    clientRects.mockRestore()
+  }
+})
+
+it.each([true, false])(
+  'records an entirely hidden item only when its container is measurable (%s)',
+  async (measurable) => {
+    const hidden = ref(false)
+    const setItemSize = vi.fn()
+    const rect = vi
+      .spyOn(HTMLElement.prototype, 'getBoundingClientRect')
+      .mockImplementation(() =>
+        hidden.value
+          ? ({ top: 0, bottom: 0, height: 0, width: 0 } as DOMRect)
+          : ({ top: 100, bottom: 120, height: 20, width: 100 } as DOMRect),
+      )
+    const clientRects = vi
+      .spyOn(HTMLElement.prototype, 'getClientRects')
+      .mockImplementation(() => (hidden.value ? [] : [{}]) as unknown as DOMRectList)
+    const wrapper = mount(VirtualListItem, {
+      props: { index: 0, hasItemSize: () => false, setItemSize, canMeasureZero: () => measurable } as any,
+      slots: { default: () => h('div', { style: { display: hidden.value ? 'none' : '' } }, 'item') },
+    })
+    try {
+      expect(setItemSize).toHaveBeenLastCalledWith(null, 20)
+      const calls = setItemSize.mock.calls.length
+      hidden.value = true
+      await nextTick()
+      if (measurable) {
+        expect(setItemSize).toHaveBeenLastCalledWith(null, 0, true)
+      } else {
+        expect(setItemSize).toHaveBeenCalledTimes(calls)
+      }
+    } finally {
+      wrapper.unmount()
+      rect.mockRestore()
+      clientRects.mockRestore()
+    }
+  },
+)
+
+it('remeasures a hidden item when its container becomes measurable again', async () => {
+  const hidden = ref(false)
+  let measurable = false
+  const measurementVersion = ref(0)
+  const setItemSize = vi.fn()
+  const rect = vi
+    .spyOn(HTMLElement.prototype, 'getBoundingClientRect')
+    .mockImplementation(() =>
+      hidden.value
+        ? ({ top: 0, bottom: 0, height: 0, width: 0 } as DOMRect)
+        : ({ top: 100, bottom: 120, height: 20, width: 100 } as DOMRect),
+    )
+  const clientRects = vi
+    .spyOn(HTMLElement.prototype, 'getClientRects')
+    .mockImplementation(() => (hidden.value ? [] : [{}]) as unknown as DOMRectList)
+  const wrapper = mount(VirtualListItem, {
+    props: { index: 0, hasItemSize: () => false, setItemSize, canMeasureZero: () => measurable },
+    slots: { default: () => h('div', { style: { display: hidden.value ? 'none' : '' } }, 'item') },
+    global: { provide: { [measurementVersionKey as symbol]: measurementVersion } },
+  })
+  try {
+    hidden.value = true
+    await nextTick()
+    expect(setItemSize).toHaveBeenLastCalledWith(null, 20)
+    measurable = true
+    measurementVersion.value++
+    await nextTick()
+    expect(setItemSize).toHaveBeenLastCalledWith(null, 0, true)
+  } finally {
+    wrapper.unmount()
+    rect.mockRestore()
+    clientRects.mockRestore()
+  }
+})
+
+it('preserves input state when a visible container triggers remeasurement', async () => {
+  const measurementVersion = ref(0)
+  const wrapper = mount(VirtualListItem, {
+    props: { index: 0, hasItemSize: () => false, setItemSize: () => {} },
+    slots: { default: () => h('input', { value: 'initial' }) },
+    global: { provide: { [measurementVersionKey as symbol]: measurementVersion } },
+  })
+  try {
+    const input = wrapper.get('input').element as HTMLInputElement
+    input.value = 'unsaved draft'
+    measurementVersion.value++
+    await nextTick()
+    expect(wrapper.get('input').element).toBe(input)
+    expect(input.value).toBe('unsaved draft')
+  } finally {
+    wrapper.unmount()
+  }
+})
+
+it.each(['slot', 'component'])('measures and indexes a single DOM root from %s', async (location) => {
+  const setItemSize = vi.fn()
+  const child = { render: () => [h('div', 'first'), h('div', 'second')] }
+  const rect = vi
+    .spyOn(HTMLElement.prototype, 'getBoundingClientRect')
+    .mockImplementation(() => ({ top: 100, bottom: 150, width: 100, height: 50 }) as DOMRect)
+  const wrapper = mount(VirtualListItem, {
+    props: { index: 7, hasItemSize: () => false, setItemSize },
+    slots: {
+      default: () => (location === 'slot' ? h('section', [h(child)]) : h({ render: () => h('section', [h(child)]) })),
+    },
+  })
+  try {
+    expect(wrapper.get('section').attributes('data-virtual-list-index')).toBe('7')
+    expect(wrapper.get('section').text()).toBe('firstsecond')
+    expect(setItemSize).toHaveBeenLastCalledWith(null, 50)
+  } finally {
+    wrapper.unmount()
+    rect.mockRestore()
+  }
 })

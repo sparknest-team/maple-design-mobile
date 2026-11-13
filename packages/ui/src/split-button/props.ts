@@ -1,4 +1,5 @@
-import type { ButtonHTMLAttributes, ExtractPublicPropTypes, PropType } from 'vue'
+import type { ButtonHTMLAttributes, PropType } from 'vue'
+import type { CompatiblePublicProps as ExtractPublicPropTypes } from '../_utils/public-props'
 import { buttonGroupProps, buttonProps, type ButtonProps } from '../button'
 import { menuProps } from '../menu'
 import { popupContainerProp } from '../utils/popup-container'

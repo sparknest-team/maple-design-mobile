@@ -2,13 +2,18 @@ import { computed, inject, provide, useId, type ComputedRef, type InjectionKey }
 
 const errorDescriptionKey: InjectionKey<ComputedRef<string | undefined>> = Symbol('form-error-description')
 
-export function provideFormErrorDescription(visible: () => boolean, noStyle: () => boolean) {
+export function provideFormErrorDescription(
+  visible: () => boolean,
+  noStyle: () => boolean,
+  helpVisible: () => boolean = () => false,
+) {
   const parent = inject(errorDescriptionKey, undefined)
   const uniqueId = useId()
   const id = `mp-form-error-${uniqueId}`
-  const current = computed(() => (noStyle() ? parent?.value : visible() ? id : undefined))
+  const helpId = `mp-form-error-help-${uniqueId}`
+  const current = computed(() => (noStyle() ? parent?.value : visible() ? id : helpVisible() ? helpId : undefined))
   provide(errorDescriptionKey, current)
-  return { current, labelId: `mp-form-label-${uniqueId}` }
+  return { current, helpId, labelId: `mp-form-label-${uniqueId}` }
 }
 
 export function provideFormErrorDescriptionBoundary() {

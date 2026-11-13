@@ -126,7 +126,7 @@
 
 | 变量 | 默认值／条件 | 影响的样式 |
 | --- | --- | --- |
-| `--mp-loading-color` | `var(--mp-color-primary)` | `background-color`, `color` |
+| `--mp-loading-color` | `var(--mp-sys-color-action-primary)` | `background-color`, `color` |
 | `--mp-loading-desc-color` | `var(--mp-sys-color-content-brand)` | `color` |
 | `--mp-loading-desc-margin` | `8px 0 0` | `margin` |
 | `--mp-loading-directive-z-index` | `2000` | `z-index` |
@@ -140,7 +140,7 @@
 
 ```css
 .component-theme {
-  --mp-loading-color: var(--mp-color-primary);
+  --mp-loading-color: var(--mp-sys-color-action-primary);
 }
 ```
 

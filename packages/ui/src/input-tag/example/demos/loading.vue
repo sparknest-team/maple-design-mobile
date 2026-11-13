@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import MpInputTag from '../../index'
-import '../../style'
 import { ref } from 'vue'
 
 const loading = ref(true)

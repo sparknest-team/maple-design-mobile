@@ -70,7 +70,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 
 | Variable | Default / condition | Affected styles |
 | --- | --- | --- |
-| `--mp-loading-bar-color` | `var(--mp-sys-color-content-brand)` | `background-color` |
+| `--mp-loading-bar-color` | `var(--mp-sys-color-action-primary)` | `background-color` |
 | `--mp-loading-bar-error-color` | `var(--mp-sys-color-content-danger)` | `background-color` |
 | `--mp-loading-bar-height` | `3px` | `height` |
 | `--mp-loading-bar-transition-duration` | `250ms` | `transition` |
@@ -82,7 +82,7 @@ Apply overrides to the rendered component root or the actual popup ancestor. For
 
 ```css
 .component-theme {
-  --mp-loading-bar-color: var(--mp-sys-color-content-brand);
+  --mp-loading-bar-color: var(--mp-sys-color-action-primary);
 }
 ```
 

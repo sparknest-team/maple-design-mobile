@@ -1,10 +1,11 @@
-import { h, normalizeStyle, type StyleValue } from 'vue'
+import { h, normalizeStyle } from 'vue'
 import { defaultSelectionPresentation } from '../_components/field-presentation/context'
 import { withFieldPresentation } from '../_components/field-presentation/with-field-presentation'
 import SelectionEditor from '../_components/selected-options/SelectionEditor.vue'
+import type { CompatibleStyleValue as StyleValue } from '../_utils/style-value'
 import Base from './auto-complete'
 
-export default withFieldPresentation(Base, {
+const Presented: typeof Base = withFieldPresentation(Base, {
   selectionConfirmation: 'select',
   methods: ['focus', 'blur', 'refresh'],
   defaultPresentation: defaultSelectionPresentation,
@@ -42,3 +43,5 @@ export default withFieldPresentation(Base, {
     )
   },
 })
+
+export default Presented

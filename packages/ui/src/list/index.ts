@@ -3,7 +3,7 @@ import _List from './List.vue'
 import ListItem from './ListItem.vue'
 import { listProps } from './props'
 
-const List = withInstall(
+const List: import('../utils/components').ComponentWithInstall<typeof _List & { Item: typeof ListItem }> = withInstall(
   _List,
   Object.assign(_List, {
     Item: ListItem,

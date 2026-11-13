@@ -304,4 +304,4 @@ export const cascaderProps = {
   },
 }
 
-export type CascaderProps = import('vue').ExtractPublicPropTypes<typeof cascaderProps>
+export type CascaderProps = import('../_utils/public-props').CompatiblePublicProps<typeof cascaderProps>

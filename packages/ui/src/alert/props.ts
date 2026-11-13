@@ -77,4 +77,4 @@ export const alertProps = {
   },
 }
 
-export type AlertProps = import('vue').ExtractPublicPropTypes<typeof alertProps>
+export type AlertProps = import('../_utils/public-props').CompatiblePublicProps<typeof alertProps>

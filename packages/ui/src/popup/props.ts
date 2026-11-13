@@ -80,4 +80,4 @@ export const popupProps = {
 }
 
 export const props = popupProps
-export type PopupProps = import('vue').ExtractPublicPropTypes<typeof popupProps>
+export type PopupProps = import('../_utils/public-props').CompatiblePublicProps<typeof popupProps>

@@ -46,6 +46,6 @@ export const props = {
   },
 }
 
-export type TimeRangePickerProps = import('vue').ExtractPublicPropTypes<typeof props>
+export type TimeRangePickerProps = import('../_utils/public-props').CompatiblePublicProps<typeof props>
 
 export type { TimePickerField } from '../_components/picker-field/fields'

@@ -69,7 +69,7 @@ import watermark from './watermark'
 export default {
   '--mp-color-scheme': 'dark',
   '--mp-field-focus-color': 'var(--mp-sys-color-action-primary)',
-  '--mp-field-error-color': 'rgb(var(--mp-danger-8))',
+  '--mp-field-error-color': 'var(--mp-sys-color-content-danger)',
   '--mp-field-variant-outline-border-color-focus': 'var(--mp-sys-color-action-primary)',
   '--mp-brand-1': '0, 66, 77',
   '--mp-brand-2': '4, 94, 105',

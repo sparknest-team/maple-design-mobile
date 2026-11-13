@@ -9,7 +9,7 @@
     "tooltip": "长标题与提示",
     "slots": "内容插槽",
     "ripple": "水波与点击事件",
-    "floating": "全屏展开与关闭",
+    "floating": "浮动展开与关闭",
     "api-review": "功能调试",
     "scheduler-lifecycle": "Floating scheduler lifecycle / 浮起调度生命周期",
     "appearance-lab": "外观组合"

@@ -139,6 +139,11 @@
     var(--mp-field-presentation-padding) + var(--mp-safe-area-bottom, env(safe-area-inset-bottom, 0px))
   );
 }
+// Selection rows span the popup content width; keep device safe-area insets intact.
+.mp-popup .mp-field-presentation__body:has(> .mp-selection-editor--mobile) {
+  margin-inline: calc(-1 * var(--mp-field-presentation-padding));
+}
+
 .mp-field-presentation__footer > .mp-button {
   flex: 1;
 }

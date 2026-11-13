@@ -1,5 +1,6 @@
-import type { CSSProperties, PropType, StyleValue } from 'vue'
+import type { CSSProperties, PropType } from 'vue'
 import { readingDirectionProp } from '../_utils/direction'
+import type { CompatibleStyleValue as StyleValue } from '../_utils/style-value'
 import { buttonProps } from '../button/props'
 import { type ExtractPublicPropTypes } from '../utils/components'
 import { popupContainerProp } from '../utils/popup-container'

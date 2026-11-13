@@ -40,4 +40,4 @@ export const tooltipProps = {
   hideEmpty: { type: Boolean, default: true },
 }
 
-export type TooltipProps = import('vue').ExtractPublicPropTypes<typeof tooltipProps>
+export type TooltipProps = import('../_utils/public-props').CompatiblePublicProps<typeof tooltipProps>

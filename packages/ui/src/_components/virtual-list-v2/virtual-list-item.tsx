@@ -1,15 +1,20 @@
 import {
   cloneVNode,
-  ComponentPublicInstance,
   defineComponent,
   Fragment,
   getCurrentInstance,
+  inject,
+  InjectionKey,
   onBeforeUnmount,
   onMounted,
   onUpdated,
+  Ref,
   VNode,
+  watch,
 } from 'vue'
 import { createNamespace } from '../../utils/components'
+
+export const measurementVersionKey: InjectionKey<Ref<number>> = Symbol('virtual-list-measurement-version')
 
 const { name } = createNamespace('virtual-list-item')
 
@@ -17,6 +22,7 @@ export default defineComponent({
   name,
   props: {
     index: Number,
+    canMeasureZero: Function,
     hasItemSize: {
       type: Function,
       required: true,
@@ -29,7 +35,7 @@ export default defineComponent({
   setup(props, { slots }) {
     const key = getCurrentInstance()?.vnode.key as string | number
     const elements = new Map<number, HTMLElement>()
-    const refCallbacks = new Map<number, (value: Element | ComponentPublicInstance | null) => void>()
+    const refCallbacks = new Map<number, (value: object | null) => void>()
     let observer: ResizeObserver | undefined
 
     const refFor = (index: number) => {
@@ -40,7 +46,7 @@ export default defineComponent({
           if (previous && previous !== element) {
             observer?.unobserve(previous)
           }
-          if (element && element.nodeType === 1) {
+          if (element && typeof element === 'object' && 'nodeType' in element && element.nodeType === 1) {
             elements.set(index, element as HTMLElement)
             observer?.observe(element as HTMLElement)
           } else {
@@ -52,12 +58,16 @@ export default defineComponent({
     }
 
     const setItemSize = () => {
-      const rects = Array.from(elements.values(), (element) => element.getBoundingClientRect())
+      const rects = Array.from(elements.values(), (element) => ({ element, rect: element.getBoundingClientRect() }))
+        .filter(({ element, rect }) => rect.width !== 0 || rect.height !== 0 || element.getClientRects().length > 0)
+        .map(({ rect }) => rect)
       const height = rects.length
         ? Math.max(...rects.map((rect) => rect.bottom)) - Math.min(...rects.map((rect) => rect.top))
         : 0
       if (height) {
         props.setItemSize(key, height)
+      } else if (elements.size > 0 && props.canMeasureZero?.()) {
+        props.setItemSize(key, 0, true)
       }
     }
 
@@ -70,6 +80,10 @@ export default defineComponent({
         }
       }
       setItemSize()
+    }
+    const measurementVersion = inject(measurementVersionKey, undefined)
+    if (measurementVersion) {
+      watch(measurementVersion, measureAndObserve, { flush: 'post' })
     }
     onMounted(measureAndObserve)
     onUpdated(measureAndObserve)

@@ -1,6 +1,7 @@
-import type { AppContext, CSSProperties, StyleValue, VNodeChild } from 'vue'
+import type { AppContext, CSSProperties, VNodeChild } from 'vue'
 import type { BeforeHookDone, BeforeHookResult } from '../_hooks/use-action-guard'
 import type { ReadingDirection } from '../_utils/direction'
+import type { CompatibleStyleValue as StyleValue } from '../_utils/style-value'
 import type { buttonProps } from '../button/props'
 import type { ExtractPublicPropTypes } from '../utils/components'
 

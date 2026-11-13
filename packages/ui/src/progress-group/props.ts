@@ -37,4 +37,4 @@ export const progressGroupProps = {
   /** 进度轨方向 */
   orientation: { type: String as PropType<ProgressGroupOrientation>, default: 'horizontal' },
 }
-export type ProgressGroupProps = import('vue').ExtractPublicPropTypes<typeof progressGroupProps>
+export type ProgressGroupProps = import('../_utils/public-props').CompatiblePublicProps<typeof progressGroupProps>

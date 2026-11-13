@@ -303,9 +303,9 @@ Button 保留 58 个外观变量。`{status}-color` 控制实心背景，`{statu
 | --- | --- | --- |
 | `--mp-button-border-radius` | `var(--mp-sys-radius-md)` | `border-bottom-left-radius`, `border-bottom-right-radius`, `border-radius`, `border-top-left-radius`, `border-top-right-radius` |
 | `--mp-button-content-gap` | `var(--mp-sys-space-3)` | `gap` |
-| `--mp-button-danger-color` | `var(--mp-sys-color-status-danger)` | `background-color` |
+| `--mp-button-danger-color` | `var(--mp-sys-color-status-danger)` | `background-color`, `color` |
 | `--mp-button-danger-disabled-color` | `rgb(var(--mp-danger-3))`<br>`rgba(var(--mp-danger-6), 0.5)` (`:root[maple-theme='dark']`) | `background-color`, `color` |
-| `--mp-button-danger-foreground-color` | `var(--mp-sys-color-content-danger)` | `color` |
+| `--mp-button-danger-foreground-color` | `var(--mp-button-danger-color)` | `color` |
 | `--mp-button-danger-tonal-color` | `rgb(var(--mp-danger-1))` | `background-color` |
 | `--mp-button-default-color` | `var(--mp-sys-color-surface-default)` | `background-color` |
 | `--mp-button-default-foreground-color` | `var(--mp-sys-color-content-primary)` | `background`, `background-color`, `color` |
@@ -314,9 +314,9 @@ Button 保留 58 个外观变量。`{status}-color` 控制实心背景，`{statu
 | `--mp-button-disabled-solid-text-color` | `var(--mp-sys-color-content-on-dark)`<br>`rgba(255, 255, 255, 0.3)` (`:root[maple-theme='dark']`) | `color` |
 | `--mp-button-disabled-text-color` | `var(--mp-sys-color-content-disabled)` | `color` |
 | `--mp-button-focus-color` | `var(--mp-sys-color-action-primary)` | `outline` |
-| `--mp-button-info-color` | `var(--mp-sys-color-status-info)` | `background-color` |
+| `--mp-button-info-color` | `var(--mp-sys-color-status-info)` | `background-color`, `color` |
 | `--mp-button-info-disabled-color` | `rgb(var(--mp-blue-3))`<br>`rgba(var(--mp-blue-6), 0.5)` (`:root[maple-theme='dark']`) | `background-color`, `color` |
-| `--mp-button-info-foreground-color` | `var(--mp-sys-color-content-info)` | `color` |
+| `--mp-button-info-foreground-color` | `var(--mp-button-info-color)` | `color` |
 | `--mp-button-info-tonal-color` | `rgb(var(--mp-blue-1))` | `background-color` |
 | `--mp-button-lg-height` | `56px` | `height`, `min-width`, `width` |
 | `--mp-button-lg-padding` | `0 var(--mp-sys-space-7)` | `padding` |
@@ -326,9 +326,9 @@ Button 保留 58 个外观变量。`{status}-color` 控制实心背景，`{statu
 | `--mp-button-md-padding` | `0 var(--mp-sys-space-6)` | `padding` |
 | `--mp-button-plain-state-opacity-active` | `1` | `opacity` |
 | `--mp-button-plain-state-opacity-hover` | `0.5` | `opacity` |
-| `--mp-button-primary-color` | `var(--mp-sys-color-action-primary)` | `background-color` |
+| `--mp-button-primary-color` | `var(--mp-sys-color-action-primary)` | `background-color`, `color` |
 | `--mp-button-primary-disabled-color` | `rgb(var(--mp-primary-3))`<br>`rgba(var(--mp-primary-6), 0.5)` (`:root[maple-theme='dark']`) | `background-color`, `color` |
-| `--mp-button-primary-foreground-color` | `var(--mp-sys-color-content-brand)` | `color` |
+| `--mp-button-primary-foreground-color` | `var(--mp-button-primary-color)` | `color` |
 | `--mp-button-primary-state-layer-color` | `var(--mp-button-solid-state-layer-color)` | `background-color` |
 | `--mp-button-primary-tonal-color` | `rgb(var(--mp-primary-1))` | `background-color` |
 | `--mp-button-secondary-color` | `rgb(var(--mp-gray-6))` | `background-color` |
@@ -342,18 +342,18 @@ Button 保留 58 个外观变量。`{status}-color` 控制实心背景，`{statu
 | `--mp-button-state-layer-color` | `var(--mp-sys-color-surface-page)` | `background-color` |
 | `--mp-button-state-opacity-active` | `0.12` | `opacity` |
 | `--mp-button-state-opacity-hover` | `0.08` | `opacity` |
-| `--mp-button-success-color` | `var(--mp-sys-color-status-success)` | `background-color` |
+| `--mp-button-success-color` | `var(--mp-sys-color-status-success)` | `background-color`, `color` |
 | `--mp-button-success-disabled-color` | `rgb(var(--mp-success-3))`<br>`rgba(var(--mp-success-6), 0.5)` (`:root[maple-theme='dark']`) | `background-color`, `color` |
-| `--mp-button-success-foreground-color` | `var(--mp-sys-color-content-success)` | `color` |
+| `--mp-button-success-foreground-color` | `var(--mp-button-success-color)` | `color` |
 | `--mp-button-success-tonal-color` | `rgb(var(--mp-success-1))` | `background-color` |
 | `--mp-button-tertiary-color` | `rgb(var(--mp-gray-7))` | `background-color` |
 | `--mp-button-tertiary-foreground-color` | `var(--mp-sys-color-content-secondary)` | `color` |
 | `--mp-button-tertiary-state-layer-color` | `var(--mp-sys-color-content-on-bright)`<br>`var(--mp-sys-color-content-on-dark)` (`:root[maple-theme='dark']`) | `background-color` |
 | `--mp-button-tertiary-text-color` | `var(--mp-sys-color-content-on-dark)`<br>`var(--mp-sys-color-content-on-bright)` (`:root[maple-theme='dark']`) | `color` |
 | `--mp-button-tertiary-tonal-color` | `rgb(var(--mp-gray-1))` | `background-color` |
-| `--mp-button-warning-color` | `var(--mp-sys-color-status-warning)` | `background-color` |
+| `--mp-button-warning-color` | `var(--mp-sys-color-status-warning)` | `background-color`, `color` |
 | `--mp-button-warning-disabled-color` | `rgb(var(--mp-warning-3))`<br>`rgba(var(--mp-warning-6), 0.5)` (`:root[maple-theme='dark']`) | `background-color`, `color` |
-| `--mp-button-warning-foreground-color` | `var(--mp-sys-color-content-warning)` | `color` |
+| `--mp-button-warning-foreground-color` | `var(--mp-button-warning-color)` | `color` |
 | `--mp-button-warning-tonal-color` | `rgb(var(--mp-warning-1))` | `background-color` |
 | `--mp-button-xl-height` | `64px` | `height`, `min-width`, `width` |
 | `--mp-button-xl-padding` | `0 var(--mp-sys-space-8)` | `padding` |

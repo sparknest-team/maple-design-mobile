@@ -11,6 +11,6 @@ export type CellInstance = InstanceType<typeof Cell>
 export const _CellComponent: typeof Cell = Cell
 
 export default Cell
-export type CellProps = import('vue').ExtractPublicPropTypes<typeof import('./props').props>
+export type CellProps = import('../_utils/public-props').CompatiblePublicProps<typeof import('./props').props>
 
 export type { CellSlots, CellEmits } from './props'

@@ -1,0 +1,35 @@
+.mp-textarea {
+  // Let the native resize grip reach the field edge without moving the text.
+  .mp-field-decorator &__inner {
+    flex: none;
+    width: calc(100% + var(--mp-field-padding-horizontal));
+    margin-inline-end: calc(-1 * var(--mp-field-padding-horizontal));
+    padding-inline-end: calc(var(--mp-textarea-padding-horizontal) + var(--mp-field-padding-horizontal));
+  }
+  .mp-field-decorator:has(.mp-field-decorator__suffix) {
+    container-type: inline-size;
+  }
+  .mp-field-decorator:has(.mp-field-decorator__suffix) &__inner {
+    // The middle column excludes the suffix; its measured offset includes any prefix.
+    width: calc(
+      100cqw + 2 * var(--mp-field-padding-horizontal) -
+        var(--mp-internal-field-content-offset, var(--mp-field-padding-horizontal))
+    );
+    margin-inline-end: calc(
+      100% - 100cqw - 2 * var(--mp-field-padding-horizontal) +
+        var(--mp-internal-field-content-offset, var(--mp-field-padding-horizontal))
+    );
+    padding-inline-end: calc(
+      var(--mp-textarea-padding-horizontal) + 100cqw - 100% + 2 * var(--mp-field-padding-horizontal) -
+        var(--mp-internal-field-content-offset, var(--mp-field-padding-horizontal))
+    );
+  }
+  .mp-field-decorator:has(.mp-field-decorator__suffix) .mp-field-decorator__suffix {
+    position: relative;
+    z-index: 1;
+    pointer-events: none;
+    > * {
+      pointer-events: auto;
+    }
+  }
+}

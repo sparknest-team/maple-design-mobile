@@ -800,6 +800,7 @@ export type {
   SelectEmptyValue,
   SelectOption,
   SelectOptionData,
+  SelectOptionTagProps,
   SelectOptionGroup,
   SelectFieldNames,
   FilterOption,

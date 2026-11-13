@@ -7,7 +7,15 @@ import _Tabs from './Tabs.vue'
 import _TabsItems from './TabsItems.vue'
 import _TabsNavs from './TabsNavs.vue'
 
-const Tabs = withInstall(
+const Tabs: import('../utils/components').ComponentWithInstall<
+  typeof _Tabs & {
+    TabPane: typeof _TabPane
+    TabNav: typeof _TabNav
+    TabsNavs: typeof _TabsNavs
+    TabItem: typeof _TabItem
+    TabsItems: typeof _TabsItems
+  }
+> = withInstall(
   _Tabs,
   Object.assign(_Tabs, {
     TabPane: _TabPane,
@@ -30,12 +38,12 @@ export type TabsNavsInstance = InstanceType<typeof _TabsNavs>
 export type TabItemInstance = InstanceType<typeof _TabItem>
 export type TabPaneInstance = InstanceType<typeof _TabPane>
 export type TabsItemsInstance = InstanceType<typeof _TabsItems>
-export const _TabsComponent = Tabs
-export const _TabNavComponent = _TabNav
-export const _TabsNavsComponent = _TabsNavs
-export const _TabItemComponent = _TabItem
-export const _TabPaneComponent = _TabPane
-export const _TabsItemsComponent = _TabsItems
+export const _TabsComponent: typeof Tabs = Tabs
+export const _TabNavComponent: typeof _TabNav = _TabNav
+export const _TabsNavsComponent: typeof _TabsNavs = _TabsNavs
+export const _TabItemComponent: typeof _TabItem = _TabItem
+export const _TabPaneComponent: typeof _TabPane = _TabPane
+export const _TabsItemsComponent: typeof _TabsItems = _TabsItems
 export {
   Tabs,
   _TabPane as TabPane,

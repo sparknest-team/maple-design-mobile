@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import MpMention from '../../index'
-import '../../style'
 import { ref } from 'vue'
 
 const content = ref('请联系 @[shuai.meng]')

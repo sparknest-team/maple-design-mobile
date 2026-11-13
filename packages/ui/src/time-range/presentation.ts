@@ -2,4 +2,6 @@ import { withFieldPresentation } from '../_components/field-presentation/with-fi
 import { timeFieldAdapter } from '../time/field-adapter'
 import Base from './TimeRange.vue'
 
-export default withFieldPresentation(Base, timeFieldAdapter(true))
+const Presented: typeof Base = withFieldPresentation(Base, timeFieldAdapter(true))
+
+export default Presented

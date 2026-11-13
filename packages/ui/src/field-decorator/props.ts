@@ -1,4 +1,5 @@
-import type { ExtractPublicPropTypes, PropType } from 'vue'
+import type { PropType } from 'vue'
+import type { CompatiblePublicProps as ExtractPublicPropTypes } from '../_utils/public-props'
 import { componentSizes, type ComponentSize } from '../utils/constants'
 
 export const fieldVariants = ['filled', 'outline', 'standard'] as const

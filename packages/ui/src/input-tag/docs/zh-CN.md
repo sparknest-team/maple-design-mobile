@@ -102,7 +102,7 @@
 
 ### 字段状态与原生输入
 
-`disabled`、`readonly`、`error` 未设置时继承 FormItem / Form；InputGroup 可提供禁用、只读、尺寸和变体，字段显式值优先，`false` 可覆盖父级。独立使用时默认变体仍为 `filled`。延迟编辑器遵守相同状态，编辑中禁用或只读会取消草稿。
+`disabled`、`readonly`、`error` 未设置时继承 FormItem / Form；InputGroup 可提供禁用、只读、尺寸和变体，字段显式值优先，`false` 可覆盖父级。独立使用时默认变体为 `outline`。延迟编辑器遵守相同状态，编辑中禁用或只读会取消草稿。
 
 `id`、`name`、`aria-*`、`data-*`、原生约束和键盘监听器传给实际 input，`class` / `style` 保留在外壳。`name` 提交的是独立的输入草稿，不会序列化标签数组。`input-value` 控制输入草稿；与标签的 `model-value` 分开。组合输入只通知一次；被禁用、只读或关闭取消的组合输入不会在稍后提交。
 
@@ -155,7 +155,7 @@
 | readonly                  | 是否为只读模式                     | `boolean`                                         |  `-`   |
 | clearable                 | 是否允许清空                       | `boolean`                                         |  `false`   |
 | size                      | 输入框的大小                       | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'`            |   `'md'`   |
-| variant                   | 输入框的变体                       | `'filled' \| 'outline' \| 'standard'`             | `'filled'` |
+| variant                   | 输入框的变体                       | `'filled' \| 'outline' \| 'standard'`             | `'outline'` |
 | max-tag-count             | 有限非负整数；0 不限，非法值诊断后按不限展示 | `number`                                          |    `0`     |
 | retain-input-value        | 是否保留输入框的内容               | `boolean \| { create?: boolean; blur?: boolean }` |  `false`   |
 | format-tag                | 格式化标签内容                     | `(data: TagData) => string`                       |    `-`     |
@@ -231,6 +231,8 @@ import type { InputTagProps, InputTagValue, InputTagEmits, InputTagSlots, InputT
 ## 标签与关闭按钮
 
 标签和关闭按钮的外观由 Tag 控制；禁用、只读及不可关闭的标签不能通过关闭按钮移除。
+
+标签关闭按钮的无障碍名称由本地化的关闭文字和标签显示名称组成，例如“关闭 小明”。自定义标签插槽的显示内容无法提取为纯文本时使用标签的 label；可通过对应项的 `tagProps.closeButtonAriaLabel` 指定完整名称。
 
 ## InputTag 外壳与内容职责
 
@@ -311,3 +313,5 @@ Maple 使用 edit-mode="popup" 在字段附近打开编辑浮层，Enter/F2 也�
 显式行内样式及直接写入同一 CSS 属性的 Props 优先于样式表默认值。Teleport 后，普通 CSS 变量按实际挂载位置继承；使用 ThemeProvider 时，请遵循其局部主题与弹层配置规则。局部定制请直接覆盖组件变量；仅修改后代的 system 变量不会重新计算从根继承的组件别名。内部变量不属于公共 API。
 
 <!-- component-css-variables:end -->
+
+后续验收（尚未完成）：使用真实读屏器（如 VoiceOver、NVDA）及受支持的浏览器，检查输入框名称、标签名称、创建与删除、键盘操作以及表单错误提示的实际播报。

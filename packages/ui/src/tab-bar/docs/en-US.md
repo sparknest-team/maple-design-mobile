@@ -227,7 +227,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-tab-bar-item-icon-size` | `22px` | `font-size` |
 | `--mp-tab-bar-item-inactive-color` | `var(--mp-color-text-2)` | `color` |
 | `--mp-tab-bar-item-line-height` | `1` | `line-height` |
-| `--mp-tab-bar-item-variant-active-background-color` | `color-mix(in srgb, var(--mp-color-primary) 14%, var(--mp-tab-bar-background-color))` | `background-color` |
+| `--mp-tab-bar-item-variant-active-background-color` | `color-mix(in srgb, var(--mp-sys-color-action-primary) 14%, var(--mp-tab-bar-background-color))` | `background-color` |
 | `--mp-tab-bar-item-variant-active-color` | `var(--mp-sys-color-action-primary)` | `color` |
 | `--mp-tab-bar-item-variant-icon-container-border-radius` | `100px` | `border-radius` |
 | `--mp-tab-bar-item-variant-icon-container-height` | `30px` | `height` |

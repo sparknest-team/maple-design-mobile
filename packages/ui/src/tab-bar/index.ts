@@ -4,13 +4,14 @@ import { props as tabBarProps } from './props'
 import _TabBar from './TabBar.vue'
 import TabBarItem from './TabBarItem.vue'
 
-const TabBar = withInstall(
-  _TabBar,
-  Object.assign(_TabBar, {
-    Item: TabBarItem,
-  }),
-  { components: [_TabBar, TabBarItem] },
-)
+const TabBar: import('../utils/components').ComponentWithInstall<typeof _TabBar & { Item: typeof TabBarItem }> =
+  withInstall(
+    _TabBar,
+    Object.assign(_TabBar, {
+      Item: TabBarItem,
+    }),
+    { components: [_TabBar, TabBarItem] },
+  )
 
 withPropsDefaultsSetter(TabBar, tabBarProps)
 withPropsDefaultsSetter(TabBarItem, tabBarItemProps)
@@ -23,6 +24,8 @@ export const _TabBarComponent: typeof TabBar = TabBar
 export const _TabBarItemComponent: typeof TabBarItem = TabBarItem
 
 export default TabBar
-export type TabBarProps = import('vue').ExtractPublicPropTypes<typeof import('./props').props>
-export type TabBarItemProps = import('vue').ExtractPublicPropTypes<typeof import('./item-props').props>
+export type TabBarProps = import('../_utils/public-props').CompatiblePublicProps<typeof import('./props').props>
+export type TabBarItemProps = import('../_utils/public-props').CompatiblePublicProps<
+  typeof import('./item-props').props
+>
 export type { TabBarVariant, TabBarBeforeChange } from './props'

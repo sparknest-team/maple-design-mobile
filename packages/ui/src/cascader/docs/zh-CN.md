@@ -320,7 +320,7 @@ option({ data }) 接收规范化 CascaderOptionInfo，data.raw 是原始选项�
 | `default-input-value` | 非受控初始搜索文本，独立于选中值，仅初始化时读取 | `string` | `''` |
 | `multiple` | 多选；默认启用搜索 | `boolean` | `false` |
 | `size` | 完整支持 xs、sm、md、lg、xl，未设置时继承分组与表单 | `ComponentSize`<br>`'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `md` |
-| `variant` | filled、outline、standard；未设置时继承 InputGroup | `FieldDecoratorVariant`<br>`'filled' \| 'outline' \| 'standard'` | `filled` |
+| `variant` | filled、outline、standard；未设置时继承 InputGroup | `FieldDecoratorVariant`<br>`'filled' \| 'outline' \| 'standard'` | `outline` |
 | `disabled` | 禁用状态；显式值优先于继承的 Form / Group 状态 | `boolean` | `undefined` |
 | `readonly` | 只读状态；显式值优先于继承的 Form / Group 状态 | `boolean` | `undefined` |
 | `error` | 错误状态；显式值优先于继承的 Form / Group 状态 | `boolean` | `undefined` |
@@ -417,6 +417,8 @@ option({ data }) 接收规范化 CascaderOptionInfo，data.raw 是原始选项�
 
 异步搜索时应在新请求开始时清除旧候选，并只采纳当前搜索词的最后一次响应。可使用 `update:input-value` 立即响应输入，通过 `loading` 和 `filter-option` 展示远程过滤结果。popup 内方向键与 Enter 操作当前候选；确认模式通过底部按钮提交，单选即时模式选中即提交。确认模式校验失败保留草稿；确认期间锁定编辑和关闭，表单重置会关闭 popup 并中止提交。请求归属应在关闭和重置时失效，完整示例见 Form 的“各类字段统一展示”。
 
+后续验收（尚未完成）：使用真实读屏器（如 VoiceOver、NVDA）及受支持的浏览器，检查字段名称、层级导航与展开状态、搜索与选择、单选和多选、虚拟列表及表单错误的实际播报。
+
 ## CSS Variables
 
 <!-- component-css-variables:start -->
@@ -452,7 +454,7 @@ option({ data }) 接收规范化 CascaderOptionInfo，data.raw 是原始选项�
 | `--mp-cascader-popup-box-shadow` | `0 4px 10px rgb(0 0 0%)` | `box-shadow` |
 | `--mp-cascader-popup-color-border` | `var(--mp-color-fill-3)` | `border`, `border-inline-end`, `border-top` |
 | `--mp-cascader-popup-max-height` | `200px` | `height` |
-| `--mp-cascader-popup-padding-vertical` | `var(--mp-sys-space-2)` | `padding` |
+| `--mp-cascader-popup-padding-vertical` | `var(--mp-sys-space-2)` | `padding`, `padding-block-end` |
 | `--mp-cascader-size-item-height` | `36px` | `height`, `line-height` |
 | `--mp-cascader-size-item-icon` | `12px` | `height`, `width` |
 | `--mp-cascader-slide-margin` | `120px` | `margin-inline-start` |

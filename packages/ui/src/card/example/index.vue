@@ -95,7 +95,7 @@ onThemeChange()
   </section>
 
   <section data-demo="floating">
-    <app-type>{{ english ? 'Floating and close' : '全屏展开与关闭' }}</app-type
+    <app-type>{{ english ? 'Floating and close' : '浮动展开与关闭' }}</app-type
     ><DemoFloating />
   </section>
 

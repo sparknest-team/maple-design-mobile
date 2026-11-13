@@ -213,6 +213,8 @@ Mention 同时在 Cedar 和 Maple 提供。
 
 input 使用 combobox，textarea 保留支持多行的 textbox；两者都以 aria-autocomplete、aria-controls 和 aria-activedescendant 关联实际 listbox 与活动候选。候选关闭或字段只读后撤下活动关联；方向键移动候选时原生输入保留 DOM 焦点。这里验证的是 DOM 关系和键盘行为，不代表已完成所有读屏软件和真机组合的认证。
 
+后续验收（尚未完成）：使用真实读屏器（如 VoiceOver、NVDA）及受支持的浏览器，检查原子提及初始化姓名、候选导航与选择、编辑和整体删除时的实际播报。
+
 ## CSS Variables
 
 <!-- component-css-variables:start -->

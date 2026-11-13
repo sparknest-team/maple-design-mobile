@@ -12,4 +12,4 @@ export type SwitchInstance = InstanceType<typeof Switch>
 export const _SwitchComponent: typeof Switch = Switch
 
 export default Switch
-export type SwitchProps = import('vue').ExtractPublicPropTypes<typeof import('./props').props>
+export type SwitchProps = import('../_utils/public-props').CompatiblePublicProps<typeof import('./props').props>

@@ -7,6 +7,7 @@
       rowClass,
       classes(n(), n('$--box'), n(`--${mergedLayout}`), [noStyle, n('--no-style')], [showLabel, n('--with-label')]),
     ]"
+    :gutter="0"
     v-bind="rowProps"
     :data-presentation="presentationState.resolved.value === 'direct' ? undefined : presentationState.resolved.value"
   >
@@ -57,7 +58,11 @@
         </template>
       </mp-form-details>
 
-      <div v-if="!noStyle && !visibleErrorMessage && (help || $slots.help)" :class="n('help')">
+      <div
+        v-if="!noStyle && !visibleErrorMessage && (help || $slots.help)"
+        :id="helpDescriptionVisible ? helpId : undefined"
+        :class="n('help')"
+      >
         <slot name="help">{{ help }}</slot>
       </div>
     </mp-col>
@@ -72,6 +77,7 @@ import {
   inject,
   nextTick,
   onBeforeUnmount,
+  onBeforeUpdate,
   onMounted,
   provide,
   reactive,
@@ -118,6 +124,10 @@ export default defineComponent({
   emits: { validate: (_valid: boolean) => true },
   setup(props, { emit }) {
     const slots = useSlots()
+    const hasHelpSlot = ref(Boolean(slots.help))
+    onBeforeUpdate(() => {
+      hasHelpSlot.value = Boolean(slots.help)
+    })
     const { form } = useForm()
     const { errorMessage, validate: v, resetValidation } = useValidation()
     const validationTask = createRequestGuard()
@@ -231,9 +241,17 @@ export default defineComponent({
       },
       { immediate: true, flush: 'sync' },
     )
-    const { labelId } = provideFormErrorDescription(
+    const helpDescriptionVisible = computed(
+      () =>
+        !presentationState.readPretty.value &&
+        displayStatus.value === 'error' &&
+        !visibleErrorMessage.value &&
+        Boolean(props.help || hasHelpSlot.value),
+    )
+    const { labelId, helpId } = provideFormErrorDescription(
       () => !presentationState.readPretty.value && Boolean(visibleErrorMessage.value),
       () => props.noStyle,
+      () => helpDescriptionVisible.value,
     )
     const labelContext = provideFormItemLabel({
       generated: labelId,
@@ -428,6 +446,8 @@ export default defineComponent({
       mergedLayout,
       displayErrorMessage,
       visibleErrorMessage,
+      helpDescriptionVisible,
+      helpId,
       validate,
       clearValidate,
       resetField,

@@ -3,13 +3,14 @@ import _Avatar from './Avatar.vue'
 import AvatarGroup from './AvatarGroup.vue'
 import { avatarGroupProps, avatarProps } from './props'
 
-const Avatar = withInstall(
-  _Avatar,
-  Object.assign(_Avatar, {
-    Group: AvatarGroup,
-  }),
-  { components: [_Avatar, AvatarGroup] },
-)
+const Avatar: import('../utils/components').ComponentWithInstall<typeof _Avatar & { Group: typeof AvatarGroup }> =
+  withInstall(
+    _Avatar,
+    Object.assign(_Avatar, {
+      Group: AvatarGroup,
+    }),
+    { components: [_Avatar, AvatarGroup] },
+  )
 
 withPropsDefaultsSetter(Avatar, avatarProps)
 withPropsDefaultsSetter(AvatarGroup, avatarGroupProps)

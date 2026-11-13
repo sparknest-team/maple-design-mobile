@@ -1,4 +1,5 @@
-import { computed, shallowRef, watch, type ComputedRef, type ShallowRef } from 'vue'
+import { computed, shallowRef, watch, type ComputedRef } from 'vue'
+import type { CompatibleShallowRef as ShallowRef } from '../../_utils/compatible-shallow-ref'
 
 export function cloneFieldValue<T>(value: T): T {
   if (value instanceof Date) {

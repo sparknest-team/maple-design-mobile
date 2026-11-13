@@ -12,4 +12,4 @@ export type SwipeCellInstance = InstanceType<typeof SwipeCell>
 export const _SwipeCellComponent: typeof SwipeCell = SwipeCell
 
 export default SwipeCell
-export type SwipeCellProps = import('vue').ExtractPublicPropTypes<typeof import('./props').props>
+export type SwipeCellProps = import('../_utils/public-props').CompatiblePublicProps<typeof import('./props').props>

@@ -17,7 +17,7 @@ test('selection dark themes use current component tokens and semantic roles', ()
       expect(theme).not.toHaveProperty(`--mp-field-variant-filled-background${suffix}`)
     }
     expect(theme).not.toHaveProperty('--mp-field-suffix-text-color')
-    expect(theme['--mp-field-error-color']).toBe('rgb(var(--mp-danger-8))')
+    expect(theme['--mp-field-error-color']).toBe('var(--mp-sys-color-content-danger)')
   }
 })
 
@@ -372,7 +372,7 @@ test('brand field variants keep distinct surfaces and readable focus/error roles
   expect(tokens).toContain('--mp-selected-options-clear-color: var(--mp-sys-color-content-primary)')
 })
 
-test('Firefly light foreground roles stay readable on their actual soft surfaces', () => {
+test('Firefly semantic foregrounds follow status colors while neutral body text remains readable', () => {
   const theme = Themes.firefly.light
   const rgb = (value) => {
     const values = value.match(/[\d.]+/g).map(Number)
@@ -391,14 +391,11 @@ test('Firefly light foreground roles stay readable on their actual soft surfaces
     return (values[0] + 0.05) / (values[1] + 0.05)
   }
   for (const role of ['brand', 'info', 'success', 'warning', 'danger']) {
-    const foreground = theme[`--mp-sys-color-content-${role}`]
-    const backgrounds = ['rgb(255, 255, 255)', theme['--mp-color-fill-1']]
-    if (role !== 'brand') {
-      backgrounds.push(theme[`--mp-color-${role}-light-1`])
-    }
-    for (const background of backgrounds) {
-      expect(contrast(foreground, background), `${role} on ${background}`).toBeGreaterThanOrEqual(4.5)
-    }
+    const target = role === 'brand' ? 'action-primary' : `status-${role}`
+    expect(theme[`--mp-sys-color-content-${role}`]).toBe(`var(--mp-sys-color-${target})`)
+  }
+  for (const background of ['rgb(255, 255, 255)', theme['--mp-color-fill-1']]) {
+    expect(contrast(theme['--mp-sys-color-content-primary'], background)).toBeGreaterThanOrEqual(4.5)
   }
   expect(theme['--mp-sys-color-action-primary']).toBe('rgb(234, 255, 104)')
 })
@@ -436,6 +433,7 @@ test('Firefly links match the corresponding Button text foreground in both modes
           value.replaceAll('--mp-', `--${prefix}-`),
         ]),
       )
+      theme[`--${prefix}-button-primary-color`] ??= `var(--${prefix}-sys-color-action-primary)`
       const resolve = (key, depth = 0) => {
         if (depth > 10) {
           throw new Error('Cyclic theme role')

@@ -269,7 +269,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-switch-checked-text-color` | `var(--mp-switch-text-color)` | `color` |
 | `--mp-switch-disabled-opacity` | `0.5` | `opacity` |
 | `--mp-switch-duration` | `var(--mp-sys-motion-duration-standard)` | `transition` |
-| `--mp-switch-focus-width` | `2px` | `outline`, `outline-offset` |
+| `--mp-switch-focus-width` | `2px` | `box-shadow` |
 | `--mp-switch-font-size` | `var(--mp-sys-font-size-xs)` | `font-size` |
 | `--mp-switch-gap` | `var(--mp-sys-space-2)` | `inset-inline-start`, `padding-inline` |
 | `--mp-switch-handle-background` | `var(--mp-sys-color-surface-default)` | `background` |
@@ -296,7 +296,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-switch-tonal-text-color` | `var(--mp-sys-color-content-secondary)` | `color` |
 | `--mp-switch-tonal-track-background` | `var(--mp-sys-color-surface-muted)` | `background` |
 | `--mp-switch-tonal-width` | `52px` | `min-width` |
-| `--mp-switch-track-active-background` | `var(--mp-sys-color-action-primary)` | `background`, `outline` |
+| `--mp-switch-track-active-background` | `var(--mp-sys-color-action-primary)` | `background` |
 | `--mp-switch-track-background` | `var(--mp-sys-color-content-secondary)` | `background` |
 | `--mp-switch-track-error-background` | `var(--mp-sys-color-content-danger)` | `background`, `border-color` |
 | `--mp-switch-width` | `40px` | `min-width` |

@@ -105,17 +105,17 @@
 
 | 配置 | 作用 | 相关示例 |
 | --- | --- | --- |
-| `title` | 标题 | 水波与点击事件、全屏展开与关闭 |
+| `title` | 标题 | 水波与点击事件、浮动展开与关闭 |
 | `ripple` | 点击水波 | 水波与点击事件 |
-| `floating` | 全屏展开状态，支持 v-model:floating | 全屏展开与关闭 |
-| `floating-duration` | 全屏展开与关闭动画时长，单位 ms | 全屏展开与关闭 |
+| `floating` | 浮动展开状态，支持 v-model:floating | 浮动展开与关闭 |
+| `floating-duration` | 浮动展开与关闭动画时长，单位 ms | 浮动展开与关闭 |
 <!-- demo-config-notes:end -->
 
 ```demo
 ../example/demos/ripple.vue
 ```
 
-### 全屏展开与关闭
+### 浮动展开与关闭
 
 ```demo
 ../example/demos/floating.vue
@@ -130,9 +130,9 @@
 
 | 配置 | 作用 | 相关示例 |
 | --- | --- | --- |
-| `floating` | 全屏展开状态，支持 v-model:floating | Floating scheduler lifecycle / 浮起调度生命周期 |
+| `floating` | 浮动展开状态，支持 v-model:floating | Floating scheduler lifecycle / 浮起调度生命周期 |
 | `ripple` | 点击水波 | Floating scheduler lifecycle / 浮起调度生命周期 |
-| `floating-duration` | 全屏展开与关闭动画时长，单位 ms | Floating scheduler lifecycle / 浮起调度生命周期 |
+| `floating-duration` | 浮动展开与关闭动画时长，单位 ms | Floating scheduler lifecycle / 浮起调度生命周期 |
 | `title` | 标题 | Floating scheduler lifecycle / 浮起调度生命周期 |
 <!-- demo-config-notes:end -->
 
@@ -151,7 +151,7 @@
 
 当前浮层仍位于 Card 原有 DOM 位置。祖先的 transform 等属性可能改变 fixed 定位参照，祖先裁剪也可能遮挡浮层，因此不能保证覆盖整个视口。焦点在展开的 Card 内时，按 Escape 会请求关闭；内部控件已处理的 Escape 不会关闭 Card；内嵌弹层处于最上层时优先处理 Escape。浮层不提供模态焦点管理，需要模态交互时请使用 Dialog。
 
-当展开内容或关闭按钮内仍有焦点时，关闭会尝试将焦点返回展开前的控件；如果焦点已经移到其他位置，则不会抢回焦点。
+当展开内容或关闭按钮内仍有焦点时，关闭会尝试将焦点返回展开前的控件；如果焦点已经移到其他位置，则不会抢回焦点。 展开等待期间，如果焦点进入展开内容，内容会立即显示，不等待淡入动画。 等待期间尚未显示且未获得焦点的展开内容和关闭按钮不会出现在无障碍树中；焦点进入任一处时立即显示。
 
 若打开控件位于外部的封闭 Shadow Root，Card 无法直接取得内部控件；宿主需自行提供焦点委托或由应用处理焦点恢复。`delegatesFocus` 可将宿主焦点委托给内部控件，但不保证在有多个控件时返回原控件。
 
@@ -178,8 +178,8 @@
 | alt | 封面图片替代文本 | `string` | `undefined` |
 | elevation | default 变体阴影；true 为等级 1，false 为无阴影，数字范围 0～24 | `boolean / number` | `true` |
 | ripple | 点击水波 | `boolean` | `false` |
-| floating | 全屏展开状态，支持 v-model:floating | `boolean` | `false` |
-| floating-duration | 全屏展开与关闭动画时长，单位 ms | `number` | `250` |
+| floating | 浮动展开状态，支持 v-model:floating | `boolean` | `false` |
+| floating-duration | 浮动展开与关闭动画时长，单位 ms | `number` | `250` |
 | close-button-aria-label | 默认关闭按钮的可访问名称 | `string` | `—` |
 
 ### Card Events
@@ -201,7 +201,7 @@
 | subtitle | 副标题 | `{ slotClass: string }` |
 | description | 描述 | `{ slotClass: string }` |
 | footer | 底部操作 | — |
-| floating-content | 全屏扩展内容，仅 column 布局渲染 | — |
+| floating-content | 浮动展开内容，仅 column 布局渲染 | — |
 | close-button | 自定义关闭按钮；需自行更新 floating | — |
 
 ### Card Methods

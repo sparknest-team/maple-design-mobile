@@ -77,4 +77,4 @@ export const peopleSelectProps = {
   },
 }
 
-export type PeopleSelectProps = import('vue').ExtractPublicPropTypes<typeof peopleSelectProps>
+export type PeopleSelectProps = import('../_utils/public-props').CompatiblePublicProps<typeof peopleSelectProps>

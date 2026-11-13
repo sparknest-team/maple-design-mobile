@@ -50,6 +50,7 @@
     "type-tests/selection-popup-contract.ts",
     "type-tests/people-select-contract.ts",
     "type-tests/selection-diagnostics.ts",
+    "type-tests/public-props-compat.ts",
     "type-tests/slider-contract.ts",
     "type-tests/rate-contract.ts",
     "type-tests/time-public-events.ts",

@@ -1,7 +1,8 @@
+import type { Ref } from 'vue'
 import { getCurrentInstance, onMounted, ref } from 'vue'
 import { kebabCase } from '@maple-design/shared-vue'
 
-export function useClientId() {
+export function useClientId(): Ref<string | undefined> {
   const instance = getCurrentInstance()!
   const name = kebabCase(instance.type.name!)
   const id = ref<string | undefined>(process.env.NODE_ENV === 'test' ? `${name}-mock-id` : undefined)

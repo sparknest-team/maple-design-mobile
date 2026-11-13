@@ -128,7 +128,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 
 | Variable | Default / condition | Affected styles |
 | --- | --- | --- |
-| `--mp-loading-color` | `var(--mp-color-primary)` | `background-color`, `color` |
+| `--mp-loading-color` | `var(--mp-sys-color-action-primary)` | `background-color`, `color` |
 | `--mp-loading-desc-color` | `var(--mp-sys-color-content-brand)` | `color` |
 | `--mp-loading-desc-margin` | `8px 0 0` | `margin` |
 | `--mp-loading-directive-z-index` | `2000` | `z-index` |
@@ -142,7 +142,7 @@ Apply overrides to the rendered component root or the actual popup ancestor. For
 
 ```css
 .component-theme {
-  --mp-loading-color: var(--mp-color-primary);
+  --mp-loading-color: var(--mp-sys-color-action-primary);
 }
 ```
 

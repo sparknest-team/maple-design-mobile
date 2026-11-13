@@ -4,9 +4,12 @@ import { props as dateRangePickerProps } from './picker-props'
 import _DateRange from './presentation'
 import { props as dateRangeProps } from './props'
 
-const DateRangePicker = withInstall(_DateRangePicker)
+const DateRangePicker: import('../utils/components').ComponentWithInstall<typeof _DateRangePicker> =
+  withInstall(_DateRangePicker)
 
-const DateRange = withInstall(
+const DateRange: import('../utils/components').ComponentWithInstall<
+  typeof _DateRange & { Picker: typeof DateRangePicker }
+> = withInstall(
   _DateRange,
   Object.assign(_DateRange, {
     Picker: DateRangePicker,

@@ -80,16 +80,18 @@
     "docs:llms": "node ../../../design-ui/bin/llms-docs.mjs maple . public"
   },
   "dependencies": {
+    "@maple-design/icons-vue": "workspace:*",
     "@maple-design/shared-vue": "workspace:*",
     "@maple-design/use-vue": "workspace:*",
-    "@maple-design/icons-vue": "workspace:*",
+    "csstype": "^3.2.3",
     "dayjs": "^1.11.13",
-    "decimal.js": "^10.6.0"
+    "decimal.js": "^10.6.0",
+    "zod": "^3.25.76"
   },
   "devDependencies": {
-    "@types/node": "catalog:",
     "@maple-design/cli-vue": "workspace:*",
     "@maple-design/touch-emulator-vue": "workspace:*",
+    "@types/node": "catalog:",
     "@vitest/coverage-istanbul": "catalog:",
     "@vue/runtime-core": "catalog:",
     "@vue/test-utils": "catalog:",
@@ -100,8 +102,7 @@
     "typescript": "5.6.3",
     "vitest": "catalog:",
     "vue": "catalog:",
-    "vue-router": "catalog:",
-    "zod": "^3.25.76"
+    "vue-router": "catalog:"
   },
   "peerDependencies": {
     "vue": "^3.2.0"

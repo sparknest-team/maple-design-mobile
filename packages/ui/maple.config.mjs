@@ -18,6 +18,8 @@ const markReuse = (item) => {
 }
 
 export default defineConfig({
+  defaultLightTheme: 'lightTheme',
+  defaultDarkTheme: 'darkTheme',
   useMobile: true,
   analysis: {
     baidu: 'https://hm.baidu.com/hm.js?5c628ce58967c90ff4dd9c8803d930fa',

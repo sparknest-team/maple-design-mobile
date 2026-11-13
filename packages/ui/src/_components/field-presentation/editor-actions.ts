@@ -1,4 +1,5 @@
-import { inject, onBeforeUnmount, watchEffect, type InjectionKey, type ShallowRef, type VNodeChild } from 'vue'
+import { inject, onBeforeUnmount, watchEffect, type InjectionKey, type VNodeChild } from 'vue'
+import type { CompatibleShallowRef as ShallowRef } from '../../_utils/compatible-shallow-ref'
 
 /** The editor host owns one footer; a field can contribute its auxiliary actions. */
 export const editorAuxiliaryActions: InjectionKey<ShallowRef<(() => VNodeChild) | undefined>> =

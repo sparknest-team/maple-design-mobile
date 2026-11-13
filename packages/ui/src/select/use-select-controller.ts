@@ -118,7 +118,7 @@ export function useSelectController(
   const options = source.options
   const loading = computed(() => props.loading || source.loading.value)
   const filterOption = computed(() => props.filterOption ?? !source.remote.value)
-  const mergedVariant = computed(() => props.variant ?? group?.variant.value ?? 'filled')
+  const mergedVariant = computed(() => props.variant ?? group?.variant.value ?? 'outline')
   const mergedHint = computed(() => !hasOuterLabel.value && props.hint)
   const component = computed(() => (props.virtualListProps ? 'div' : 'li'))
   const retainInputValue = computed(() => isObject(props.filterable) && Boolean(props.filterable.retainInputValue))

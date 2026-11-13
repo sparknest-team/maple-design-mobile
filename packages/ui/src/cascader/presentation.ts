@@ -2,4 +2,6 @@ import { withFieldPresentation } from '../_components/field-presentation/with-fi
 import Base from './Cascader.vue'
 import { cascaderFieldAdapter } from './field-adapter'
 
-export default withFieldPresentation(Base, cascaderFieldAdapter)
+const Presented: typeof Base = withFieldPresentation(Base, cascaderFieldAdapter)
+
+export default Presented

@@ -4,7 +4,9 @@ import _TimeRange from './presentation'
 import { props as timeRangeProps } from './props'
 import TimeRangePicker from './TimeRangePicker.vue'
 
-const TimeRange = withInstall(
+const TimeRange: import('../utils/components').ComponentWithInstall<
+  typeof _TimeRange & { Picker: typeof TimeRangePicker }
+> = withInstall(
   _TimeRange,
   Object.assign(_TimeRange, {
     Picker: TimeRangePicker,

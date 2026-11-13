@@ -1,4 +1,5 @@
-import type { ExtractPublicPropTypes, PropType } from 'vue'
+import type { PropType } from 'vue'
+import type { CompatiblePublicProps as ExtractPublicPropTypes } from '../_utils/public-props'
 
 export const safeAreaEdges = ['top', 'right', 'bottom', 'left'] as const
 export type SafeAreaEdge = (typeof safeAreaEdges)[number]

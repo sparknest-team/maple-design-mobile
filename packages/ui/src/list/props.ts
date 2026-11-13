@@ -1,5 +1,6 @@
-import type { PropType, StyleValue, VNodeChild } from 'vue'
+import type { PropType, VNodeChild } from 'vue'
 import type { ScrollIntoViewOptions, VirtualListProps } from '../_components/virtual-list-v2/interface'
+import type { CompatibleStyleValue as StyleValue } from '../_utils/style-value'
 import type { ComponentSize } from '../utils/constants'
 
 export type ListSize = Extract<ComponentSize, 'sm' | 'md' | 'lg'>
@@ -47,4 +48,4 @@ export const listProps = {
   /** 普通列表的自定义滚动条；虚拟列表使用自身滚动视口。 */
   scrollbar: { type: [Boolean, Object] as PropType<boolean | ListScrollbarProps>, default: true },
 }
-export type ListProps = import('vue').ExtractPublicPropTypes<typeof listProps>
+export type ListProps = import('../_utils/public-props').CompatiblePublicProps<typeof listProps>

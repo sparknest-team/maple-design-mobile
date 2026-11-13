@@ -2,9 +2,13 @@ import { withInstall } from '../utils/components'
 import _AutoComplete from './presentation'
 import { autoCompleteProps } from './props'
 
-const AutoComplete = withInstall(_AutoComplete, Object.assign(_AutoComplete, {}), {
-  components: [_AutoComplete],
-})
+const AutoComplete: import('../utils/components').ComponentWithInstall<typeof _AutoComplete> = withInstall(
+  _AutoComplete,
+  Object.assign(_AutoComplete, {}),
+  {
+    components: [_AutoComplete],
+  },
+)
 
 export * from './props'
 
@@ -12,7 +16,7 @@ export type AutoCompleteInstance = InstanceType<typeof _AutoComplete> & import('
 
 export { AutoComplete, autoCompleteProps }
 
-export const _AutoCompleteComponent = AutoComplete
+export const _AutoCompleteComponent: typeof AutoComplete = AutoComplete
 
 export default AutoComplete
 

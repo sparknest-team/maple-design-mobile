@@ -92,10 +92,15 @@ function cloneValue(value: any, seen = new WeakMap<object, any>()): any {
   if (seen.has(value)) {
     return seen.get(value)
   }
-  const result: any = Array.isArray(value) ? [] : {}
+  const result: any = Array.isArray(value) ? new Array(value.length) : {}
   seen.set(value, result)
   for (const key of Object.keys(value)) {
-    result[key] = cloneValue(value[key], seen)
+    const cloned = cloneValue(value[key], seen)
+    if (key === '__proto__') {
+      Object.defineProperty(result, key, { value: cloned, enumerable: true, configurable: true, writable: true })
+    } else {
+      result[key] = cloned
+    }
   }
   return result
 }
@@ -109,12 +114,15 @@ function sameFieldValue(
     return true
   }
   if (left instanceof Date && right instanceof Date) {
-    return left.getTime() === right.getTime()
+    return Object.is(left.getTime(), right.getTime())
   }
   if (!left || !right || typeof left !== 'object' || typeof right !== 'object') {
     return false
   }
   if (Object.getPrototypeOf(left) !== Object.getPrototypeOf(right)) {
+    return false
+  }
+  if (Array.isArray(left) && left.length !== right.length) {
     return false
   }
   if (!Array.isArray(left) && Object.getPrototypeOf(left) !== Object.prototype) {

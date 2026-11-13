@@ -4,13 +4,14 @@ import ButtonGroup from './ButtonGroup.vue'
 import { buttonGroupProps } from './group-props'
 import { buttonProps } from './props'
 
-const Button = withInstall(
-  _Button,
-  Object.assign(_Button, {
-    Group: ButtonGroup,
-  }),
-  { components: [_Button, ButtonGroup] },
-)
+const Button: import('../utils/components').ComponentWithInstall<typeof _Button & { Group: typeof ButtonGroup }> =
+  withInstall(
+    _Button,
+    Object.assign(_Button, {
+      Group: ButtonGroup,
+    }),
+    { components: [_Button, ButtonGroup] },
+  )
 
 withPropsDefaultsSetter(Button, buttonProps)
 withPropsDefaultsSetter(ButtonGroup, buttonGroupProps)

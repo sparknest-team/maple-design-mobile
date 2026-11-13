@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import MpInputTag from '../../index'
-import '../../style'
 import { onBeforeUnmount, ref } from 'vue'
 
 const values = ref(['shuai.meng', 'xiaoming', 'lisi'])

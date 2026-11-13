@@ -2,6 +2,8 @@ import type { StyleVars } from '../../theme-provider'
 import defaultDark from '../dark'
 
 const mapleDark: StyleVars = {
+  '--mp-select-popup-option-border-radius': 'var(--mp-sys-radius-lg)',
+  '--mp-selection-editor-option-radius': 'var(--mp-selection-editor-radius)',
   ...defaultDark,
   '--mp-brand-1': '67, 20, 7',
   '--mp-brand-2': '101, 39, 11',

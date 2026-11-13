@@ -1,5 +1,6 @@
-import { computed, CSSProperties, defineComponent, onMounted, PropType, ref, StyleValue } from 'vue'
+import { computed, CSSProperties, defineComponent, onMounted, PropType, ref } from 'vue'
 import { isNumber, isObject } from '../../_utils/is'
+import type { CompatibleStyleValue as StyleValue } from '../../_utils/style-value'
 import { createNamespace, getPrefixCls } from '../../utils/components'
 import ResizeObserver from '../resize-observer-v2'
 import Thumb from './Thumb.vue'

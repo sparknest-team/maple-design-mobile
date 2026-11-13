@@ -80,4 +80,4 @@ export const menuProps = {
 }
 
 export const props = menuProps
-export type MenuProps = import('vue').ExtractPublicPropTypes<typeof menuProps>
+export type MenuProps = import('../_utils/public-props').CompatiblePublicProps<typeof menuProps>

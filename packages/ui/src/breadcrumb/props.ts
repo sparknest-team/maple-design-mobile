@@ -26,7 +26,7 @@ export const breadcrumbProps = {
   },
 }
 
-export type BreadcrumbProps = import('vue').ExtractPublicPropTypes<typeof breadcrumbProps>
+export type BreadcrumbProps = import('../_utils/public-props').CompatiblePublicProps<typeof breadcrumbProps>
 
 export const breadcrumbItemProps = {
   /** @internal 由 Breadcrumb 注入的稳定索引 */
@@ -55,7 +55,7 @@ export const breadcrumbItemProps = {
   href: String,
 }
 
-export type BreadcrumbItemProps = import('vue').ExtractPublicPropTypes<typeof breadcrumbItemProps>
+export type BreadcrumbItemProps = import('../_utils/public-props').CompatiblePublicProps<typeof breadcrumbItemProps>
 
 export { breadcrumbProps as props }
 export type { BreadcrumbRoute, BreadcrumbMoreIconSlotData } from './types'

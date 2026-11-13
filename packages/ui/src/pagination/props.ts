@@ -71,4 +71,4 @@ export const paginationProps = {
   },
 }
 
-export type PaginationProps = import('vue').ExtractPublicPropTypes<typeof paginationProps>
+export type PaginationProps = import('../_utils/public-props').CompatiblePublicProps<typeof paginationProps>

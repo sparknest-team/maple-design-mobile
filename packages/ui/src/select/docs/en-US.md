@@ -446,7 +446,7 @@ Use `v-model`, `v-model:open` and `v-model:input-value` for controlled state. Cl
 | `default-input-value` | Initial uncontrolled search text, independent of selection; read only at initialization | `string` | `''` |
 | `multiple` | Multiple selection; enables search by default | `boolean` | `false` |
 | `size` | Supports all five sizes; inherits group/form settings | `ComponentSize`<br>`'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `md` |
-| `variant` | filled, outline, standard; inherits InputGroup | `FieldDecoratorVariant`<br>`'filled' \| 'outline' \| 'standard'` | `filled` |
+| `variant` | filled, outline, standard; inherits InputGroup | `FieldDecoratorVariant`<br>`'filled' \| 'outline' \| 'standard'` | `outline` |
 | `disabled` | Disabled state; explicit values override inherited Form / Group state | `boolean` | `undefined` |
 | `readonly` | Read-only state; explicit values override inherited Form / Group state | `boolean` | `undefined` |
 | `error` | Error state; explicit values override inherited Form / Group state | `boolean` | `undefined` |
@@ -502,7 +502,7 @@ Select also emits `remove(value)`, `exceed-limit(value, event)`, `dropdown-scrol
 
 Use `label({ data })` for custom `selected` labels; `selected` replaces the whole selection area. Also supports `prefix`, `suffix`, `clear-icon({ clear })`, `arrow-icon`, `loading-icon`, `search-icon`, `empty`, and `option({ data })`.
 
-Option `label` is searchable plain text. Use `render` or the `option` slot for custom `option` content, and `format-label` or `label` slot for selected content. Values identify selections; labels never do. `disabled` blocks selection/removal, and `tagProps` customizes selected tags.
+Option `label` is searchable plain text. Use `render` or the `option` slot for custom `option` content, and `format-label` or `label` slot for selected content. Values identify selections; labels never do. `disabled` blocks selection/removal, and `tagProps` customizes selected tags. It accepts `style` and listeners such as `onClose`; Select controls visibility and removability, and a close also participates in Select removal.
 
 Select additionally supports `header`, `footer`, `trigger`, and default `Option / Optgroup` children. Option props: `value`, `label`, `disabled`, `tagProps`, `index`; its default slot receives `selected`. Group data uses `{ isGroup: true, label, options }`. List and Picker also accept slot options; Picker displays their text labels.
 
@@ -513,7 +513,7 @@ Select additionally supports `header`, `footer`, `trigger`, and default `Option 
 | value | Option Value | string \| number \| boolean \| Record<string, unknown> | undefined |
 | label | Option group title | string | undefined |
 | disabled | Whether to disable | boolean | false |
-| tag-props | Props of the multi-select label corresponding to the option | TagProps | undefined |
+| tag-props | Selected Tag props, native attributes and Tag listeners | SelectOptionTagProps | undefined |
 | index | Explicit option order | number | undefined |
 
 ### Option Slots
@@ -621,6 +621,8 @@ Pass business data through object `value` or `options`.
 
 Multiple empty-value supports arrays, null/undefined and empty values recognized by empty-values; other scalars are rejected. Factories run only for a real clear with no disabled retained selections; invalid results produce a development diagnostic and fall back to [], without publishing an invalid scalar.
 
+Pending acceptance: verify actual screen-reader announcements with supported browsers (such as VoiceOver and NVDA), including field naming, single and multiple selection, grouped and virtualized options, keyboard navigation, loading, and form errors. This acceptance has not yet been completed.
+
 ## CSS Variables
 
 <!-- component-css-variables:start -->
@@ -648,7 +650,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-select-popup-option-bg-hover` | `var(--mp-sys-color-state-hover)` | `background`, `background-color` |
 | `--mp-select-popup-option-bg-selected` | `transparent` | `background`, `background-color` |
 | `--mp-select-popup-option-bg-selected-hover` | `var(--mp-select-popup-option-bg-hover)` | `background`, `background-color` |
-| `--mp-select-popup-option-border-radius` | `var(--mp-sys-radius-lg)` | `border-radius` |
+| `--mp-select-popup-option-border-radius` | `0` | `border-radius` |
 | `--mp-select-popup-option-check-color` | `var(--mp-sys-color-action-primary)` | `color` |
 | `--mp-select-popup-option-check-gap` | `var(--mp-sys-space-4)` | `margin-inline-start` |
 | `--mp-select-popup-option-check-size` | `var(--mp-sys-font-size-md)` | `height`, `width` |
@@ -661,8 +663,8 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-select-popup-option-text-color-disabled` | `var(--mp-sys-color-content-disabled)` | `color` |
 | `--mp-select-popup-option-text-color-hover` | `var(--mp-sys-color-content-primary)` | `color` |
 | `--mp-select-popup-option-text-color-selected` | `var(--mp-sys-color-action-primary)` | `color` |
-| `--mp-select-popup-padding-horizontal` | `var(--mp-sys-space-3)` | `padding-inline` |
-| `--mp-select-popup-padding-vertical` | `var(--mp-sys-space-2)` | `padding`, `padding-block` |
+| `--mp-select-popup-padding-horizontal` | `0` | `padding-inline` |
+| `--mp-select-popup-padding-vertical` | `var(--mp-sys-space-2)` | `padding`, `padding-block`, `padding-block-end`, `padding-block-start` |
 
 </div>
 

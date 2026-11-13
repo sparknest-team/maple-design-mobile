@@ -559,7 +559,7 @@ import type { DateRangePopupOptions } from '@maple-design/ui-vue'
 | `type` | 日期精度；Cedar 支持周/季度，Maple 支持日期/月/年 | `date \| month \| year` | `date` |
 | `use-virtual-scroll` | Maple scroll 视口使用虚拟渲染 | `boolean` | `true` |
 | `value-format` | 序列化模型格式，支持 Date、timestamp 或格式字符串；独立于 format | `string` | 按精度/时间配置 |
-| `variant` | 字段外观 | `filled \| outline \| standard` | `standard` |
+| `variant` | 字段外观 | `filled \| outline \| standard` | `outline` |
 
 ### DateRange Events
 

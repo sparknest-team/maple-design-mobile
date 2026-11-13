@@ -21,12 +21,20 @@ test('non-Firefly theme palettes preserve the current semantic token contract', 
   }
   expect(hashes).toMatchInlineSnapshot(`
     {
-      "alps.dark": "df33f15d9c5ee08e8212b7c20b0663aa86b533e4b417671bd5f5500cf04065d2",
-      "alps.light": "8a24bd73a87a0a28b1d0248d51389394e143655a1fa779bd8de835b75ea9226e",
-      "default.dark": "bcb30c6d18cb812c88bc66f392deec3857a3489d1a154f489e545f06c9e7e0af",
-      "default.light": "ee42dcb63865f0e77e3df1d6a45437d3dd7c30e12936d7916952a22111ddf597",
-      "maple.dark": "cc945e6552276d5bace3f11c195aef5ef90ac077c3d3f3aad5dac76a8f21531d",
-      "maple.light": "32b14670e2e52fe2bffe663e537c9fc0e30293ede0e8e979ced99be6fbdfdb40",
+      "alps.dark": "f470b21f17ea0d308c978d81b9102abdb6b55472f8b83c9047d84bc5ac1f615d",
+      "alps.light": "9f94055a7c575ab67f1faccacb0009e45ba1cb6d1e8994a6e4b9f24e26380ca2",
+      "default.dark": "7b1e01804819531722cea6bcfdeac29b240aa057e04154a92ef899eb1c6ada22",
+      "default.light": "9369c6fc28488e944dc0983eb5c038927ba72e6ea3f21baaf31ba9e343959880",
+      "maple.dark": "c5bb26c3329d65d9014b0e1c8c4b684540925d3dc598a01718fc3a10ae71586d",
+      "maple.light": "0a39f54f0f31cad9deca5dbb464cdb1d79b32903963cec0c7fbe2b0849ac9147",
     }
   `)
+})
+
+// Non-default brand presets keep their original option shape in both modes.
+test.each(['maple', 'alps', 'firefly'])('%s retains rounded popup options', (brand) => {
+  for (const mode of ['light', 'dark']) {
+    expect(Themes[brand][mode]['--mp-select-popup-option-border-radius']).toBe('var(--mp-sys-radius-lg)')
+    expect(Themes[brand][mode]['--mp-selection-editor-option-radius']).toBe('var(--mp-selection-editor-radius)')
+  }
 })

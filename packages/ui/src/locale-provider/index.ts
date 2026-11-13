@@ -10,4 +10,4 @@ export { localeProviderProps }
 export const _LocaleProviderComponent: typeof LocaleProvider = LocaleProvider
 
 export default LocaleProvider
-export type LocaleProviderProps = import('vue').ExtractPublicPropTypes<typeof import('./props').props>
+export type LocaleProviderProps = import('../_utils/public-props').CompatiblePublicProps<typeof import('./props').props>

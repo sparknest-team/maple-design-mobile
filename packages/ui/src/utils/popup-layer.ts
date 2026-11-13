@@ -117,5 +117,5 @@ export function usePopupLayer(
     }
     return top === id
   }
-  return { onStackTop }
+  return { onStackTop, syncOwner: sync }
 }

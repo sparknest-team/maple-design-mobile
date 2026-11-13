@@ -6,9 +6,16 @@ import { useFormItem } from './item-provide'
 import { props as formProps } from './props'
 import { useForm } from './provide'
 
-const FormItem = Object.assign(_FormItem, { useFormItem })
+const FormItem: typeof _FormItem & { useFormItem: typeof useFormItem } = Object.assign(_FormItem, { useFormItem })
 
-const Form = withInstall(
+const Form: import('../utils/components').ComponentWithInstall<
+  typeof _Form & {
+    Item: typeof FormItem
+    useValidation: typeof useValidation
+    useForm: typeof useForm
+    useFormItem: typeof useFormItem
+  }
+> = withInstall(
   _Form,
   Object.assign(_Form, {
     Item: FormItem,
@@ -45,8 +52,8 @@ export const _FormComponent: typeof Form = Form
 export const _FormItemComponent: typeof FormItem = FormItem
 
 export default Form
-export type FormProps = import('vue').ExtractPublicPropTypes<typeof import('./props').props>
-export type FormItemProps = import('vue').ExtractPublicPropTypes<typeof import('./item-props').props>
+export type FormProps = import('../_utils/public-props').CompatiblePublicProps<typeof import('./props').props>
+export type FormItemProps = import('../_utils/public-props').CompatiblePublicProps<typeof import('./item-props').props>
 
 export type { FormLayout, FormContentAlign, FormLabelAlign, FormColProps, FormLabelFlex } from './layout-props'
 

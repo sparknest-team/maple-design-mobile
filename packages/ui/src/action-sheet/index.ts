@@ -144,4 +144,4 @@ export type ActionSheetInstance = InstanceType<typeof VarActionSheet>
 export const _ActionSheetComponent: typeof VarActionSheet = VarActionSheet
 
 export default ActionSheet
-export type ActionSheetProps = import('vue').ExtractPublicPropTypes<typeof import('./props').props>
+export type ActionSheetProps = import('../_utils/public-props').CompatiblePublicProps<typeof import('./props').props>

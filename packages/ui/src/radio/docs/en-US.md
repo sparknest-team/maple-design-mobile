@@ -416,7 +416,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-radio-action-padding` | `6px` | `padding` |
 | `--mp-radio-animation-duration` | `var(--mp-sys-motion-duration-standard)` | `transition` |
 | `--mp-radio-control-color` | `var(--mp-sys-color-content-secondary)` | `color` |
-| `--mp-radio-control-color-checked` | `var(--mp-sys-color-action-primary)` | `color`, `outline` |
+| `--mp-radio-control-color-checked` | `var(--mp-sys-color-action-primary)` | `color` |
 | `--mp-radio-control-color-disabled` | `var(--mp-sys-color-content-disabled)` | `color` |
 | `--mp-radio-control-color-error` | `var(--mp-sys-color-content-danger)` | `box-shadow`, `color` |
 | `--mp-radio-control-size` | `24px` | `font-size`, `height`, `width` |

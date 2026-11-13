@@ -92,6 +92,8 @@ On KeepAlive reactivation, the virtual list restores its last recorded vertical 
 
 The virtual list covers the viewport before prerendering additional items on either side according to `buffer`; `buffer=0` is valid. `estimatedSize` must be finite and positive, including values below 1; invalid values fall back to 30px. `fixedSize` can change dynamically. Variable-height mode uses measured and estimated sizes and, when available, `ResizeObserver` to watch measurable mounted roots. The `item` slot receives the original index and unknown data, may return multiple measurable root nodes, and should provide a stable `itemKey`; measurement uses the combined root bounds for each item. To expose the complete collection to assistive technology, business rows can supply `aria-setsize` and `aria-posinset` using the actual data.
 
+A multi-root child component returned directly as an item cannot currently be measured or positioned reliably. As a temporary workaround, wrap it in one actual DOM element in the slot, or give the child component a single actual DOM root; choose an element appropriate for the list semantics. This limitation does not apply to multiple measurable elements returned directly by the slot.
+
 Server rendering currently fails when the same node combines `v-for` and `v-memo` inside the `default`, `header`, `footer`, `empty` or `item` slot. Data mode is affected with or without virtualization. Temporarily remove `v-memo` from that node and verify update behavior.
 
 ### List Props

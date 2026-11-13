@@ -95,7 +95,13 @@ export default defineComponent({
       ])
     }
     function navigate(event: KeyboardEvent) {
-      if (!(event.target instanceof HTMLElement) || !event.target.hasAttribute('data-nav-option')) {
+      if (
+        event.defaultPrevented ||
+        event.isComposing ||
+        event.keyCode === 229 ||
+        !(event.target instanceof HTMLElement) ||
+        !event.target.hasAttribute('data-nav-option')
+      ) {
         return
       }
       const elements = Array.from(

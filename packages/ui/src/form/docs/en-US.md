@@ -1,8 +1,13 @@
 # Form
 
+
+Horizontal FormItem uses zero Row gutter by default, preserving 16px item spacing at every size; size controls field height and typography. Explicit `row-props.gutter` remains an override. Input and selection fields default to outline; filled and standard remain explicit options.
+
 ## Field names
 
-For a deferred Slider inside Shadow DOM, a popup teleported to `body` may not resolve ID references to hints or errors inside the shadow root. Set `:popup-container="false"` to keep the popup in the same root, and provide clear control names.
+When `validate-status="error"` has no automatic validation error, the field associates visible `help` text or slot content through `aria-describedby`, preserving any supplied description. An automatic error takes precedence.
+
+For a deferred Slider inside Shadow DOM, a popup teleported to `body` may not resolve ID references to hints or errors inside the shadow root. Set `:popup-container="false"`, or pass an element within the same ShadowRoot as `popup-container`, to keep the popup and hints in the same root. Provide clear control names, and account for the container’s styling, positioning, and clipping.
 
 In direct edit mode, for a visible label on a single field, match FormItem `label-attrs.for` to the control `id`. The native inputs in selection, date and time fields do not let their placeholder override an associated label. An explicit `aria-label` or `aria-labelledby` retains its native accessible-name precedence. Placeholder is only a fallback when no label is supplied; provide clear labels. Date and time range fields in FormItem associate the form label with their group; use `input-attrs` to give the endpoints distinct names. If `label-attrs.for` targets another control, the label is not associated with the range group. Without `for`, the range currently references the nearest FormItem label even when that item contains other controls. For mixed fields, put the range in a separate styled FormItem with its own name, or explicitly target the intended control with `for` and name the other controls separately. When `for` matches a single-value Slider’s `id`, its thumb and optional numeric input use the label; clicking the default native label focuses the enabled thumb; preventing the label click default cancels that focus. When `for` matches a range Slider’s `id`, the form label names the group; use an `aria-label` array to name the endpoints separately. The `tooltip` button is independently focusable and its name is not added to the field label.
 

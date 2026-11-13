@@ -98,7 +98,7 @@ test('collapsed floating content remains mounted but inert', async () => {
   expect(area.attributes('aria-hidden')).toBe('true')
   await wrapper.setProps({ floating: true })
   expect(area.attributes('inert')).toBeUndefined()
-  expect(area.attributes('aria-hidden')).toBeUndefined()
+  expect(area.attributes('aria-hidden')).toBe('true')
   await wrapper.setProps({ floating: false })
   expect(area.get('input').element).toBe(input)
   expect(area.attributes('inert')).toBeDefined()

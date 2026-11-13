@@ -26,6 +26,8 @@
 
 ### 受控状态与禁用
 
+服务端渲染时，放在 `NavMenu` 内并初始展开的 `NavMenuItem` 暂时不会在首屏输出面板内容；内联与默认 body 容器均受影响。若允许面板在客户端接管后展开，可将 `v-model:open` 初始设为 `false`，并在 `onMounted` 中设为 `true`；这会改变首屏展示时机，业务仍应处理后续关闭请求。内联和默认 body 容器配置下已验证此用法；独立 `NavMenuItem` 的首屏面板不受此限制。 面板尚未创建时入口不会输出 `aria-controls`；创建后才关联实际面板。
+
 ```demo
 ../example/demos/controlled.vue
 ```

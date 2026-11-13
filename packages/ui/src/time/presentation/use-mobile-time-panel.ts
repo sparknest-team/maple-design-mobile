@@ -1,4 +1,5 @@
-import { computed, inject, onMounted, ref, watch, type ExtractPropTypes, type ShallowRef } from 'vue'
+import { computed, inject, onMounted, ref, watch, type ExtractPropTypes } from 'vue'
+import type { CompatibleShallowRef as ShallowRef } from '../../_utils/compatible-shallow-ref'
 import { getTimePickerChange, getTimePickerState } from '../picker-columns'
 import { props as pickerProps } from '../picker-props'
 import { getTimeWheelPresentationProps } from '../presentation-props'

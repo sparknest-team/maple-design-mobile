@@ -112,8 +112,8 @@ Use this example for content grouping and visual hierarchy. Adjust variant, size
 | --- | --- | --- |
 | `title` | Title | Ripple and click, Floating and close |
 | `ripple` | Click ripple | Ripple and click |
-| `floating` | Fullscreen state; supports v-model:floating | Floating and close |
-| `floating-duration` | Fullscreen transition duration in ms | Floating and close |
+| `floating` | Floating expansion state; supports v-model:floating | Floating and close |
+| `floating-duration` | Floating expansion transition duration in ms | Floating and close |
 <!-- demo-config-notes:end -->
 
 
@@ -136,9 +136,9 @@ Use this example for content grouping and visual hierarchy. Adjust variant, size
 
 | Configuration | Purpose | Related examples |
 | --- | --- | --- |
-| `floating` | Fullscreen state; supports v-model:floating | Floating scheduler lifecycle |
+| `floating` | Floating expansion state; supports v-model:floating | Floating scheduler lifecycle |
 | `ripple` | Click ripple | Floating scheduler lifecycle |
-| `floating-duration` | Fullscreen transition duration in ms | Floating scheduler lifecycle |
+| `floating-duration` | Floating expansion transition duration in ms | Floating scheduler lifecycle |
 | `title` | Title | Floating scheduler lifecycle |
 <!-- demo-config-notes:end -->
 
@@ -160,7 +160,7 @@ Title, content and actions follow reading order. Default floating actions sit at
 
 The floating layer remains at the Card’s original DOM location. An ancestor’s transform or similar property may change the fixed-position containing block, and ancestor clipping may obscure the layer, so viewport coverage is not guaranteed. When focus is inside an expanded Card, Escape requests closing unless an inner control has already handled the key; a nested topmost popup handles Escape first. The layer does not provide modal focus management; use Dialog when modal interaction is required.
 
-When focus is still inside the floating content or close controls, closing attempts to return focus to the element focused before expansion. If focus has moved elsewhere, it is left unchanged.
+When focus is still inside the floating content or close controls, closing attempts to return focus to the element focused before expansion. If focus has moved elsewhere, it is left unchanged. If focus enters the floating content while opening is pending, the content is shown immediately without waiting for its fade-in. While waiting, hidden and unfocused floating content and close controls are excluded from the accessibility tree; focusing either shows them immediately.
 
 If the opener is inside an external closed Shadow Root, Card cannot access the internal control directly. The host must delegate focus or the application must restore focus. `delegatesFocus` can forward host focus into the root, but does not guarantee the original control when several controls are present.
 
@@ -187,8 +187,8 @@ The default close button uses the current locale's close label; override it with
 | alt | Image alternative text | `string` | `undefined` |
 | elevation | Shadow for default variant; true means level 1, false disables it, numeric levels 0–24 | `boolean / number` | `true` |
 | ripple | Click ripple | `boolean` | `false` |
-| floating | Fullscreen state; supports v-model:floating | `boolean` | `false` |
-| floating-duration | Fullscreen transition duration in ms | `number` | `250` |
+| floating | Floating expansion state; supports v-model:floating | `boolean` | `false` |
+| floating-duration | Floating expansion transition duration in ms | `number` | `250` |
 | close-button-aria-label | Accessible name of the default close button | `string` | `—` |
 
 ### Card Events

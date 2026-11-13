@@ -1,5 +1,6 @@
 import { getCurrentInstance, getCurrentScope, onMounted, onScopeDispose, readonly, ref, shallowRef } from 'vue'
-import type { Ref, ShallowRef } from 'vue'
+import type { Ref } from 'vue'
+import type { CompatibleShallowRef as ShallowRef } from './_utils/compatible-shallow-ref'
 
 export interface AsyncDataContext {
   signal: AbortSignal

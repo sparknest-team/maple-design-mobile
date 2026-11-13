@@ -2,4 +2,6 @@ import { withFieldPresentation } from '../_components/field-presentation/with-fi
 import { dateFieldAdapter } from '../date/field-adapter'
 import Base from './Date.vue'
 
-export default withFieldPresentation(Base, dateFieldAdapter(false))
+const Presented: typeof Base = withFieldPresentation(Base, dateFieldAdapter(false))
+
+export default Presented

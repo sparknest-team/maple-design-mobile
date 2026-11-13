@@ -139,7 +139,23 @@ defaultLocaleReady.value = true
 
 export { zhCN, enUS, zhTW, zhHK, faIR, messages, currentMessage, add, use, merge, t, useLocale }
 
-export const _LocaleComponent = {
+type LocaleAPI = {
+  zhCN: typeof zhCN
+  enUS: typeof enUS
+  zhTW: typeof zhTW
+  zhHK: typeof zhHK
+  faIR: typeof faIR
+  jaJP: typeof jaJP
+  messages: typeof messages
+  currentMessage: typeof currentMessage
+  add: typeof add
+  use: typeof use
+  merge: typeof merge
+  t: typeof t
+  useLocale: typeof useLocale
+}
+
+export const _LocaleComponent: LocaleAPI = {
   zhCN,
   enUS,
   zhTW,
@@ -155,7 +171,7 @@ export const _LocaleComponent = {
   useLocale,
 }
 
-export default {
+const defaultLocale: LocaleAPI = {
   zhCN,
   enUS,
   zhTW,
@@ -170,3 +186,5 @@ export default {
   t,
   useLocale,
 }
+
+export default defaultLocale

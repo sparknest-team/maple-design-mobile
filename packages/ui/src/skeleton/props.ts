@@ -63,6 +63,6 @@ export const skeletonShapeProps = {
   size: { type: String as PropType<SkeletonShapeSize>, default: 'md' },
 }
 
-export type SkeletonProps = import('vue').ExtractPublicPropTypes<typeof skeletonProps>
-export type SkeletonLineProps = import('vue').ExtractPublicPropTypes<typeof skeletonLineProps>
-export type SkeletonShapeProps = import('vue').ExtractPublicPropTypes<typeof skeletonShapeProps>
+export type SkeletonProps = import('../_utils/public-props').CompatiblePublicProps<typeof skeletonProps>
+export type SkeletonLineProps = import('../_utils/public-props').CompatiblePublicProps<typeof skeletonLineProps>
+export type SkeletonShapeProps = import('../_utils/public-props').CompatiblePublicProps<typeof skeletonShapeProps>

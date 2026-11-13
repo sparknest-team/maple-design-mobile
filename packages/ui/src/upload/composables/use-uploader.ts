@@ -70,7 +70,37 @@ export interface UseUploaderOptions {
   listType?: () => UploadListType
 }
 
-export function useUploader(options: UseUploaderOptions) {
+type UploaderResult = {
+  chooseFile: () => Promise<void>
+  replacementTarget: import('vue').Ref<UploadFileItem | undefined>
+  cancelChoose: () => void
+  replace: (file: UploadFileItem, replacement?: File) => Promise<void>
+  retainUrls: (uids: string[]) => () => void
+  addFiles: (files: File[], initialRejected?: UploadRejectedFile[]) => Promise<void>
+  submit: (file?: UploadFileItem) => Promise<void>
+  abort: (file?: UploadFileItem) => void
+  retry: (file: UploadFileItem) => Promise<void>
+  remove: (file: UploadFileItem) => Promise<void>
+  preview: (file: UploadFileItem, originalEvent?: MouseEvent) => void
+  reset: () => void
+  clearSuccess: () => void
+  clearError: () => void
+  getFiles: (status?: import('../interfaces').UploadStatus) => UploadFileItem[]
+  inputRef: import('vue').Ref<HTMLInputElement | undefined>
+  dragOver: import('vue').Ref<boolean>
+  handleInputChange: (event: Event) => void
+  handleDragOver: (event: DragEvent) => void
+  handleDragLeave: () => void
+  handleDrop: (event: DragEvent) => void
+  guardPending: import('vue').ComputedRef<boolean>
+  /** @internal Coordinates deferred field confirmation with file preparation. */
+  editorPending: import('vue').ComputedRef<boolean>
+  fileList: import('vue').ComputedRef<UploadFileItem[]>
+  maxReached: import('vue').ComputedRef<boolean>
+  disabled: import('vue').ComputedRef<boolean>
+}
+
+export function useUploader(options: UseUploaderOptions): UploaderResult {
   const feedback = usePendingFeedback()
   const preparation = usePendingFeedback()
   let active = true

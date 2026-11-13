@@ -26,9 +26,13 @@
     position: absolute;
     inset: calc(-1 * var(--mp-switch-hit-area));
   }
-  &:focus-visible {
-    outline: var(--mp-switch-focus-width) solid var(--mp-switch-track-active-background);
-    outline-offset: var(--mp-switch-focus-width);
+  &:focus {
+    outline: none;
+  }
+  &:focus-visible &__track {
+    box-shadow:
+      inset 0 0 0 1px #fff,
+      inset 0 0 0 var(--mp-switch-focus-width) #000;
   }
   &--size-sm {
     --mp-switch-scale: var(--mp-switch-size-sm-scale);

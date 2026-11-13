@@ -26,7 +26,7 @@ test('function equality narrows unknown values without suppressing type errors',
       () => 1,
       () => 1,
     ),
-  ).toBe(true)
+  ).toBe(false)
   expect(
     isEqual(
       () => 1,

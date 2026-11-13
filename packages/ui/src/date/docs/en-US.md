@@ -186,7 +186,7 @@ The mobile calendar button has these local extension variables:
 | ---------------------------------------- | ----------------------------------- |
 | `--mp-date-input-trigger-padding` | `0` |
 | `--mp-date-input-trigger-outline-width` | `var(--mp-sys-space-1)` |
-| `--mp-date-input-trigger-outline-color` | `var(--mp-sys-color-content-brand)` |
+| `--mp-date-input-trigger-outline-color` | `var(--mp-sys-color-action-primary)` |
 | `--mp-date-input-trigger-outline-offset` | `var(--mp-sys-space-1)` |
 
 ## Layout and arrangement
@@ -576,7 +576,7 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 | `type` | Date precision; Cedar includes week/quarter, while Maple supports date/month/year | `date \| month \| year` | `date` |
 | `use-virtual-scroll` | Use virtual rendering for the Maple scroll viewport | `boolean` | `true` |
 | `value-format` | Serialized model format: Date, timestamp or format tokens, independent of display format | `string` | From precision/time settings |
-| `variant` | Field appearance | `filled \| outline \| standard` | `standard` |
+| `variant` | Field appearance | `filled \| outline \| standard` | `outline` |
 
 ### Date Events
 
@@ -741,7 +741,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-date-calendar-selected-background` | `var(--mp-sys-color-action-primary)` | `background` |
 | `--mp-date-calendar-selected-color` | `var(--mp-button-solid-text-color)` | `color` |
 | `--mp-date-calendar-today-color` | `var(--mp-button-default-foreground-color)` | `background`, `color` |
-| `--mp-date-input-trigger-outline-color` | `var(--mp-sys-color-content-brand)` | `outline` |
+| `--mp-date-input-trigger-outline-color` | `var(--mp-sys-color-action-primary)` | `outline` |
 | `--mp-date-input-trigger-outline-offset` | `var(--mp-sys-space-1)` | `outline-offset` |
 | `--mp-date-input-trigger-outline-width` | `var(--mp-sys-space-1)` | `outline` |
 | `--mp-date-input-trigger-padding` | `0` | `padding` |
@@ -767,7 +767,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-date-picker-range-background` | `var(--mp-color-primary-light-1)` | `background` |
 | `--mp-date-picker-range-disabled-background` | `var(--mp-color-fill-1)` | `background` |
 | `--mp-date-picker-range-preview-background` | `var(--mp-color-fill-2)` | `background` |
-| `--mp-date-picker-range-preview-outline` | `1px dashed var(--mp-color-primary)` | `outline` |
+| `--mp-date-picker-range-preview-outline` | `1px dashed var(--mp-sys-color-action-primary)` | `outline` |
 | `--mp-date-picker-shortcuts-column-width` | `128px` | `flex`, `width` |
 | `--mp-date-picker-title-background` | `var(--mp-date-picker-body-background-color)` | `background` |
 | `--mp-date-picker-title-color` | `var(--mp-color-text-1)` | `color` |

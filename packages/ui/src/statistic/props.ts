@@ -99,7 +99,7 @@ export const statisticProps = {
   },
 }
 
-export type StatisticProps = import('vue').ExtractPublicPropTypes<typeof statisticProps>
+export type StatisticProps = import('../_utils/public-props').CompatiblePublicProps<typeof statisticProps>
 
 export interface StatisticSlots {
   default?: () => import('vue').VNodeChild

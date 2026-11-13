@@ -423,7 +423,7 @@ uninject-group-context 在挂载时决定是否接入分组；运行中修改不
 | `--mp-checkbox-animation-duration` | `var(--mp-sys-motion-duration-standard)` | `transition` |
 | `--mp-checkbox-control-border-radius` | `2px` | `border-radius` |
 | `--mp-checkbox-control-color` | `var(--mp-sys-color-content-secondary)` | `color` |
-| `--mp-checkbox-control-color-checked` | `var(--mp-sys-color-action-primary)` | `color`, `outline` |
+| `--mp-checkbox-control-color-checked` | `var(--mp-sys-color-action-primary)` | `color` |
 | `--mp-checkbox-control-color-disabled` | `var(--mp-sys-color-content-disabled)` | `color` |
 | `--mp-checkbox-control-color-error` | `var(--mp-sys-color-content-danger)` | `color` |
 | `--mp-checkbox-control-size` | `24px` | `height`, `width` |
@@ -432,7 +432,7 @@ uninject-group-context 在挂载时决定是否接入分组；运行中修改不
 | `--mp-checkbox-label-gap` | `0` | `margin-inline-start` |
 | `--mp-checkbox-label-text-color` | `var(--mp-sys-color-content-primary)` | `color` |
 | `--mp-checkbox-label-text-color-disabled` | `var(--mp-sys-color-content-disabled)` | `color` |
-| `--mp-checkbox-mark-color` | `var(--mp-sys-color-content-on-bright)` | `background-color`, `color` |
+| `--mp-checkbox-mark-color` | `var(--mp-sys-color-content-on-dark)` | `background-color`, `color` |
 
 </div>
 

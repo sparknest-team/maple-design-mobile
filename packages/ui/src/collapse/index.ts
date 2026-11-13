@@ -3,13 +3,14 @@ import _Collapse from './Collapse.vue'
 import CollapseItem from './CollapseItem.vue'
 import { collapseItemProps, collapseProps } from './props'
 
-const Collapse = withInstall(
-  _Collapse,
-  Object.assign(_Collapse, {
-    Item: CollapseItem,
-  }),
-  { components: [_Collapse, CollapseItem] },
-)
+const Collapse: import('../utils/components').ComponentWithInstall<typeof _Collapse & { Item: typeof CollapseItem }> =
+  withInstall(
+    _Collapse,
+    Object.assign(_Collapse, {
+      Item: CollapseItem,
+    }),
+    { components: [_Collapse, CollapseItem] },
+  )
 
 withPropsDefaultsSetter(Collapse, collapseProps)
 withPropsDefaultsSetter(CollapseItem, collapseItemProps)

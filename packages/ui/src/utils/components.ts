@@ -146,7 +146,7 @@ export function withInstall<T = Component, InstallOptions = unknown>(
 export function mount(component: Component, idPrefix?: string): MountInstance {
   const app = createApp(component)
   if (idPrefix) {
-    app.config.idPrefix = idPrefix
+    ;(app.config as typeof app.config & { idPrefix?: string }).idPrefix = idPrefix
   }
   const host = document.createElement('div')
   document.body.appendChild(host)
@@ -216,7 +216,18 @@ export function isZodResult(result: unknown): result is SafeParseReturnType<any,
 /** Explicit validation rules; ordinary component events do not use this task protocol. */
 export type ValidationRule = ZodType | ((value: any, apis?: any) => unknown)
 
-export function useValidation() {
+export function useValidation(): {
+  errorMessage: Ref<string>
+  validate: (rules: ValidationRule | ValidationRule[] | undefined, value: unknown, apis?: unknown) => Promise<boolean>
+  resetValidation: () => void
+  validateWithTrigger: <T>(
+    triggers: T[],
+    trigger: T,
+    rules: ValidationRule | ValidationRule[] | undefined,
+    value: unknown,
+    apis?: unknown,
+  ) => Promise<void>
+} {
   const validation = createRequestGuard()
   onBeforeUnmount(() => validation.invalidate())
   const errorMessage: Ref<string> = ref('')
@@ -285,7 +296,7 @@ export function useRouteListener(listener: () => void) {
   useEventListener(() => window, 'popstate', listener)
 }
 
-export function useTeleport() {
+export function useTeleport(): { disabled: Ref<boolean> } {
   const disabled: Ref<boolean> = ref(false)
 
   onActivated(() => {

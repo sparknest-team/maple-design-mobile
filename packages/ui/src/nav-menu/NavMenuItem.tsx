@@ -351,7 +351,7 @@ export default defineComponent({
             'data-nav-item': '',
             'aria-disabled': disabled.value || undefined,
             'aria-expanded': hasPopup() ? open.value : undefined,
-            'aria-controls': hasPopup() ? panelId : undefined,
+            'aria-controls': hasPopup() && rendered.value && (!parent || parent.panelHost.value) ? panelId : undefined,
             class: [
               n('item'),
               n(`--${parent?.props.size ?? 'md'}`),
@@ -373,7 +373,14 @@ export default defineComponent({
               emit('click', event)
             },
             onKeydown: (event: KeyboardEvent) => {
-              if (!available() || event.target !== event.currentTarget || disabled.value) {
+              if (
+                !available() ||
+                event.defaultPrevented ||
+                event.isComposing ||
+                event.keyCode === 229 ||
+                event.target !== event.currentTarget ||
+                disabled.value
+              ) {
                 return
               }
               if (event.key === 'ArrowDown' && hasPopup()) {

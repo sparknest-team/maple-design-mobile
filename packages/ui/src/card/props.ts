@@ -1,4 +1,5 @@
-import type { CSSProperties, ExtractPublicPropTypes, PropType } from 'vue'
+import type { CSSProperties, PropType } from 'vue'
+import type { CompatiblePublicProps as ExtractPublicPropTypes } from '../_utils/public-props'
 import type { ComponentSize } from '../utils/constants'
 
 export const cardVariants = ['default', 'outline', 'tonal'] as const

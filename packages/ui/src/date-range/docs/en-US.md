@@ -547,7 +547,7 @@ When FormItem's `label-attrs.for` explicitly targets one input, unnamed range en
 | `type` | Date precision; Cedar includes week/quarter, while Maple supports date/month/year | `date \| month \| year` | `date` |
 | `use-virtual-scroll` | Use virtual rendering for the Maple scroll viewport | `boolean` | `true` |
 | `value-format` | Serialized model format: Date, timestamp or format tokens, independent of display format | `string` | From precision/time settings |
-| `variant` | Field appearance | `filled \| outline \| standard` | `standard` |
+| `variant` | Field appearance | `filled \| outline \| standard` | `outline` |
 
 ### DateRange Events
 

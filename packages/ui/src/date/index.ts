@@ -4,15 +4,16 @@ import { props as datePickerProps } from './picker-props'
 import _Date from './presentation'
 import { props as dateProps } from './props'
 
-const DatePicker = withInstall(_DatePicker)
+const DatePicker: import('../utils/components').ComponentWithInstall<typeof _DatePicker> = withInstall(_DatePicker)
 
-const Date = withInstall(
-  _Date,
-  Object.assign(_Date, {
-    Picker: DatePicker,
-  }),
-  { components: [_Date, DatePicker] },
-)
+const Date: import('../utils/components').ComponentWithInstall<typeof _Date & { Picker: typeof DatePicker }> =
+  withInstall(
+    _Date,
+    Object.assign(_Date, {
+      Picker: DatePicker,
+    }),
+    { components: [_Date, DatePicker] },
+  )
 
 withPropsDefaultsSetter(Date, dateProps)
 withPropsDefaultsSetter(DatePicker, datePickerProps)
@@ -28,7 +29,9 @@ export const _DateComponent: typeof Date = Date
 export const _DatePickerComponent: typeof DatePicker = DatePicker
 
 export default Date
-export type DatePickerProps = import('vue').ExtractPublicPropTypes<typeof import('./picker-props').props>
+export type DatePickerProps = import('../_utils/public-props').CompatiblePublicProps<
+  typeof import('./picker-props').props
+>
 
 export type { DateDisabledTime, DateRules } from './date-rules'
 

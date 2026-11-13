@@ -26,6 +26,8 @@ Long lists scroll inside the available panel height. A full panel keeps its acti
 
 ### Controlled state and disabled entries
 
+During server rendering, an initially open `NavMenuItem` inside `NavMenu` currently does not include its panel in the initial HTML, with either an inline or default body container. If opening after client hydration is acceptable, initialize `v-model:open` to `false` and set it to `true` in `onMounted`; this changes when the panel first appears, and the application must continue handling later close requests. The workaround has been checked with inline and default body container configurations; a standalone `NavMenuItem` does render its initial panel. The entry omits `aria-controls` until its panel is created, then references that panel.
+
 ```demo
 ../example/demos/controlled.vue
 ```

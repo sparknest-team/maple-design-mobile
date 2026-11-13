@@ -1,5 +1,6 @@
-import type { ExtractPublicPropTypes, PropType, VNodeChild } from 'vue'
+import type { PropType, VNodeChild } from 'vue'
 import { fieldPresentationProps } from '../_components/field-presentation/props'
+import type { CompatiblePublicProps as ExtractPublicPropTypes } from '../_utils/public-props'
 import type { Orientation } from '../utils/constants'
 import { emptyValueProp } from '../utils/empty-value'
 

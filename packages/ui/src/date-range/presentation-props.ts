@@ -48,4 +48,4 @@ export const props = {
   },
 }
 
-export type DateRangePickerProps = import('vue').ExtractPublicPropTypes<typeof props>
+export type DateRangePickerProps = import('../_utils/public-props').CompatiblePublicProps<typeof props>

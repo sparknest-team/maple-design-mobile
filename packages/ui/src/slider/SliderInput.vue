@@ -14,6 +14,7 @@
         'aria-label': label(0),
         'aria-labelledby': ariaLabelledby,
         'aria-describedby': ariaDescribedby,
+        'aria-description': ariaDescription,
         'aria-invalid': ariaInvalid,
       }"
       @change="(value) => emit('change', 0, value ?? undefined)"
@@ -33,6 +34,7 @@
         'aria-label': label(1),
         'aria-labelledby': ariaLabelledby,
         'aria-describedby': ariaDescribedby,
+        'aria-description': ariaDescription,
         'aria-invalid': ariaInvalid,
       }"
       @change="(value) => emit('change', 1, value ?? undefined)"
@@ -61,6 +63,7 @@ const props = defineProps({
   ariaLabel: [String, Array] as PropType<string | [string, string]>,
   ariaLabelledby: String,
   ariaDescribedby: String,
+  ariaDescription: String,
   ariaInvalid: { type: [String, Boolean] as PropType<HTMLAttributes['aria-invalid']>, default: undefined },
 })
 const emit = defineEmits<{ change: [index: number, value?: number]; focus: []; blur: [] }>()

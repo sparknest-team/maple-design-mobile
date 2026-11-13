@@ -1,4 +1,15 @@
-import { computed, defineComponent, inject, PropType, watch } from 'vue'
+import {
+  computed,
+  defineComponent,
+  inject,
+  nextTick,
+  onBeforeUnmount,
+  onBeforeUpdate,
+  onUpdated,
+  PropType,
+  ref,
+  watch,
+} from 'vue'
 import { useEmptySlot } from '../_components/selection-field/empty-slot'
 import Scrollbar from '../_components/selection-scrollbar'
 import Empty from '../empty'
@@ -21,6 +32,8 @@ export default defineComponent({
     loading: Boolean,
     activeKey: String,
     multiple: Boolean,
+    focusRecoveryEnabled: { type: Boolean, default: true },
+    focusFallback: Function as PropType<() => void>,
     checkStrictly: Boolean,
     pathLabel: Boolean,
     listboxId: String,
@@ -28,6 +41,90 @@ export default defineComponent({
   },
   setup(props, { slots }) {
     const prefixCls = getPrefixCls('cascader')
+    const panelRef = ref<{ $el: HTMLElement }>()
+    let previousCheckbox: HTMLInputElement | null = null
+    const ownFocusedCheckbox = () => {
+      const panel = panelRef.value?.$el
+      const root = panel?.getRootNode() as Document | ShadowRoot | undefined
+      const focused = root?.activeElement as HTMLInputElement | null | undefined
+      const searchPanel = panel?.querySelector(`.${prefixCls}-search-panel`)
+      if (
+        !props.multiple ||
+        focused?.tagName !== 'INPUT' ||
+        focused.type !== 'checkbox' ||
+        !focused.closest(`.${prefixCls}-option-checkbox`) ||
+        focused.closest(`.${prefixCls}-search-panel`) !== searchPanel
+      ) {
+        return undefined
+      }
+      return { focused, root: root!, doc: panel!.ownerDocument }
+    }
+    const isFocusUnclaimed = (root: Document | ShadowRoot, doc: Document) => {
+      const active = root.activeElement
+      if (active && active !== doc.body && active !== doc.documentElement) {
+        return false
+      }
+      if ('host' in root) {
+        let host = root.host
+        while ('host' in host.getRootNode()) {
+          const parent = host.getRootNode() as ShadowRoot
+          if (parent.activeElement && parent.activeElement !== host) {
+            return false
+          }
+          host = parent.host
+        }
+        if (
+          doc.activeElement &&
+          doc.activeElement !== host &&
+          doc.activeElement !== doc.body &&
+          doc.activeElement !== doc.documentElement
+        ) {
+          return false
+        }
+      }
+      return true
+    }
+    onBeforeUnmount(() => {
+      const current = ownFocusedCheckbox()
+      if (!current || !props.focusRecoveryEnabled) {
+        return
+      }
+      void nextTick(() => {
+        if (!current.focused.isConnected && isFocusUnclaimed(current.root, current.doc)) {
+          props.focusFallback?.()
+        }
+      })
+    })
+    onBeforeUpdate(() => {
+      previousCheckbox = ownFocusedCheckbox()?.focused ?? null
+    })
+    onUpdated(() => {
+      const previous = previousCheckbox
+      previousCheckbox = null
+      if (!previous || (previous.isConnected && !previous.disabled) || !props.multiple || !props.focusRecoveryEnabled) {
+        return
+      }
+      const panel = panelRef.value?.$el
+      if (!panel?.isConnected) {
+        return
+      }
+      const root = panel.getRootNode() as Document | ShadowRoot
+      if (root.activeElement !== previous && !isFocusUnclaimed(root, panel.ownerDocument)) {
+        return
+      }
+      const searchPanel = panel.querySelector(`.${prefixCls}-search-panel`)
+      const candidates = panel.querySelectorAll<HTMLInputElement>(
+        `.${prefixCls}-option-checkbox input[type="checkbox"]:not(:disabled)`,
+      )
+      const next = Array.from(candidates).find(
+        (candidate) => candidate.closest(`.${prefixCls}-search-panel`) === searchPanel,
+      )
+      if (next) {
+        next.focus()
+      } else {
+        props.focusFallback?.()
+      }
+    })
     const emptySlot = useEmptySlot()
     const cascader = inject(cascaderInjectionKey, undefined)
     const { focusedKey, onFocusin, onFocusout } = useCascaderMenuFocus('ul[role="menu"]')
@@ -133,6 +230,10 @@ export default defineComponent({
       )
     }
 
-    return () => <Scrollbar class={[`${prefixCls}-panel`, `${prefixCls}-search-panel`]}>{renderContent()}</Scrollbar>
+    return () => (
+      <Scrollbar ref={panelRef} class={[`${prefixCls}-panel`, `${prefixCls}-search-panel`]}>
+        {renderContent()}
+      </Scrollbar>
+    )
   },
 })

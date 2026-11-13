@@ -3,7 +3,7 @@ import RadioGroup from './group-presentation'
 import _Radio from './presentation'
 import { radioGroupProps, radioProps } from './props'
 
-const Radio = withInstall(
+const Radio: typeof _Radio & { Group: typeof RadioGroup; install: (app: import('vue').App) => void } = withInstall(
   _Radio,
   Object.assign(_Radio, {
     Group: RadioGroup,
@@ -22,8 +22,10 @@ export const _RadioComponent: typeof Radio = Radio
 export const _RadioGroupComponent: typeof RadioGroup = RadioGroup
 
 export default Radio
-export type RadioProps = import('vue').ExtractPublicPropTypes<typeof import('./props').radioProps>
-export type RadioGroupProps = import('vue').ExtractPublicPropTypes<typeof import('./props').radioGroupProps>
+export type RadioProps = import('../_utils/public-props').CompatiblePublicProps<typeof import('./props').radioProps>
+export type RadioGroupProps = import('../_utils/public-props').CompatiblePublicProps<
+  typeof import('./props').radioGroupProps
+>
 
 export type { RadioMethods, RadioModel } from './props'
 

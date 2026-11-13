@@ -112,4 +112,4 @@ export const autoCompleteProps = {
   inputAttrs: inputProps.inputAttrs,
 }
 
-export type AutoCompleteProps = import('vue').ExtractPublicPropTypes<typeof autoCompleteProps>
+export type AutoCompleteProps = import('../_utils/public-props').CompatiblePublicProps<typeof autoCompleteProps>

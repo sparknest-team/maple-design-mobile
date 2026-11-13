@@ -82,7 +82,7 @@ test('inherits FormItem error presentation and supports explicit false', async (
   expect(fields[0].get('input').attributes('aria-invalid')).toBe('true')
   expect(fields[1].getComponent(FieldDecorator).props('error')).toBe(false)
 })
-test('InputGroup provides state, size and variant without changing standalone filled', async () => {
+test('InputGroup provides state, size and variant while standalone fields default to outline', async () => {
   const owner = mount(InputGroup, {
     props: { disabled: true, readonly: true, size: 'xl', variant: 'outline' },
     slots: {
@@ -103,7 +103,7 @@ test('InputGroup provides state, size and variant without changing standalone fi
     size: 'sm',
     variant: 'filled',
   })
-  expect(render().getComponent(FieldDecorator).props('variant')).toBe('filled')
+  expect(render().getComponent(FieldDecorator).props('variant')).toBe('outline')
 })
 test('native id/name/aria/data/constraints belong to input and root keeps class/style', () => {
   const owner = render(

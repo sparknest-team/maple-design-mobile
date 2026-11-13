@@ -30,4 +30,4 @@ export const loadingProps = {
 
 export const props = loadingProps
 
-export type LoadingProps = import('vue').ExtractPublicPropTypes<typeof loadingProps>
+export type LoadingProps = import('../_utils/public-props').CompatiblePublicProps<typeof loadingProps>

@@ -1,4 +1,4 @@
-import type { Message } from '../../types/locale'
+import type { Message } from './index'
 
 declare const zhTW: Message
 

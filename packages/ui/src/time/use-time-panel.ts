@@ -1,5 +1,6 @@
-import { computed, shallowRef, watch, type ShallowRef } from 'vue'
+import { computed, shallowRef, watch } from 'vue'
 import { cloneFieldValue, useFieldValue } from '../_components/picker-field/use-field-value'
+import type { CompatibleShallowRef as ShallowRef } from '../_utils/compatible-shallow-ref'
 import { getTimeCommitValue } from './time-commit'
 import { getTimeEventDates } from './time-events'
 import { formatTimeValue, isFormattedTimeAllowed, type FormattedTimeRules, type TimeValue } from './time-value'

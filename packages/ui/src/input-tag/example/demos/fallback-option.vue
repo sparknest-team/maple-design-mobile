@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import MpInputTag from '../../index'
-import '../../style'
 import { reactive, ref } from 'vue'
 
 const urls = ref(['https://vuejs.org', 'https://github.com'])

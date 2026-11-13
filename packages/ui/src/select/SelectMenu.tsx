@@ -1,11 +1,6 @@
-import {
-  defineComponent,
-  type ComponentPublicInstance,
-  type DefineComponent,
-  type PropType,
-  type UnwrapNestedRefs,
-} from 'vue'
+import { defineComponent, type ComponentPublicInstance, type DefineComponent, type PropType } from 'vue'
 import VirtualList from '../_components/virtual-list-v2'
+import type { CompatibleReactive as UnwrapNestedRefs } from '../_utils/compatible-reactive'
 import { isFunction } from '../_utils/is'
 import { createNamespace } from '../utils/components'
 import OptGroup from './Optgroup.vue'

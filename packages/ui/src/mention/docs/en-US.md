@@ -211,6 +211,8 @@ Mention is available in both Cedar and Maple.
 
 input uses combobox, while textarea retains a multiline textbox. Both link to the actual listbox and active candidate with aria-autocomplete, aria-controls and aria-activedescendant. Closing suggestions or making the field readonly removes active references; arrow navigation keeps DOM focus in the native input.
 
+Pending acceptance: test actual screen readers (such as VoiceOver and NVDA) with supported browsers for initial atomic mention names, candidate navigation and selection, editing, and whole-mention deletion. This acceptance has not yet been completed.
+
 ## CSS Variables
 
 <!-- component-css-variables:start -->

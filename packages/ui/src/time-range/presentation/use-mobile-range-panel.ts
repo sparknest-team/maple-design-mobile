@@ -1,5 +1,6 @@
-import { computed, inject, onMounted, ref, watch, type ExtractPropTypes, type ShallowRef } from 'vue'
+import { computed, inject, onMounted, ref, watch, type ExtractPropTypes } from 'vue'
 import { useRangeFieldIndex } from '../../_components/picker-field/range-field-context'
+import type { CompatibleShallowRef as ShallowRef } from '../../_utils/compatible-shallow-ref'
 import { formatTimeLabel, getTimePickerChange, getTimePickerState } from '../../time/picker-columns'
 import { getTimeWheelPresentationProps } from '../../time/presentation-props'
 import { timeExplicitConfirmation } from '../../time/presentation/confirmation-context'

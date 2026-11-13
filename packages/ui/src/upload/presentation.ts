@@ -4,7 +4,7 @@ import Base from './Upload.vue'
 
 const asynchronousMethods = new Set(['chooseFile', 'replace', 'submit', 'retry', 'remove'])
 
-export default withFieldPresentation(Base, {
+const Presented: typeof Base = withFieldPresentation(Base, {
   methods: [
     'chooseFile',
     'replace',
@@ -29,3 +29,5 @@ export default withFieldPresentation(Base, {
     }
   },
 })
+
+export default Presented

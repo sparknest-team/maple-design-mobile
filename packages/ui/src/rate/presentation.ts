@@ -1,4 +1,6 @@
 import { withFieldPresentation } from '../_components/field-presentation/with-field-presentation'
 import Base from './rate-core'
 
-export default withFieldPresentation(Base, { methods: ['focus', 'blur'] })
+const Presented: typeof Base = withFieldPresentation(Base, { methods: ['focus', 'blur'] })
+
+export default Presented

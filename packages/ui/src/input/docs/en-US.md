@@ -374,7 +374,7 @@ size/disabled/readonly inherit from child → InputGroup → FormItem/Form → l
 | ---------------------- | ------------------------------------------------------- | ----------------------------------------------------- |
 | `mp-input-password` | `visibility`, `default-visibility`, `visibility-toggle` | Password visibility; uncontrolled by default, with a visible toggle |
 | `mp-input-password` | `visibility-change`, `update:visibility` | Emitted on visibility changes with a `boolean` argument |
-| `mp-input-group` | `size`, `variant`, `disabled`, `readonly`, `hint` | Child Input defaults; `variant` defaults to `filled` |
+| `mp-input-group` | `size`, `variant`, `disabled`, `readonly`, `hint` | Child Input defaults; `variant` defaults to `outline` |
 | `mp-input-group-label` | Default slot | Text attachment for grouped inputs |
 
 ## CSS Variables

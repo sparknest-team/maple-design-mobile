@@ -172,7 +172,7 @@ interface BreadcrumbRoute {
 | `--mp-breadcrumb-item-separator-font-size` | `14px` | `font-size` |
 | `--mp-breadcrumb-item-separator-margin` | `0 var(--mp-breadcrumb-margin-separator-horizontal)` | `margin` |
 | `--mp-breadcrumb-link-text-color` | `var(--mp-breadcrumb-item-active-color)` | `color` |
-| `--mp-breadcrumb-link-text-color-hover` | `rgb(var(--mp-primary-9))` | `color` |
+| `--mp-breadcrumb-link-text-color-hover` | `var(--mp-sys-color-content-brand)` | `color` |
 | `--mp-breadcrumb-margin-dropdown-icon-left` | `4px` | `margin-inline-start` |
 | `--mp-breadcrumb-margin-separator-horizontal` | `10px` | `margin` |
 | `--mp-breadcrumb-padding-text-horizontal` | `0px` | `margin`, `padding` |

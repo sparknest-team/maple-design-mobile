@@ -236,4 +236,4 @@ export type LoadingBarInstance = typeof LoadingBar
 export const _LoadingBarComponent: typeof LoadingBar = LoadingBar
 
 export default LoadingBar
-export type LoadingBarProps = import('vue').ExtractPublicPropTypes<typeof import('./props').props>
+export type LoadingBarProps = import('../_utils/public-props').CompatiblePublicProps<typeof import('./props').props>

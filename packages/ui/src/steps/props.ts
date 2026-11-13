@@ -76,5 +76,5 @@ export const stepProps = {
   internalNextStatus: String as PropType<StepStatus>,
 }
 
-export type StepsProps = import('vue').ExtractPublicPropTypes<typeof stepsProps>
-export type StepProps = import('vue').ExtractPublicPropTypes<typeof publicStepProps>
+export type StepsProps = import('../_utils/public-props').CompatiblePublicProps<typeof stepsProps>
+export type StepProps = import('../_utils/public-props').CompatiblePublicProps<typeof publicStepProps>

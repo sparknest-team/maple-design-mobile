@@ -1,3 +1,4 @@
+import type { Ref } from 'vue'
 import { ref } from 'vue'
 import { inBrowser } from '@maple-design/shared-vue'
 import { onSmartMounted } from './onSmartMounted'
@@ -8,7 +9,7 @@ export interface UseWindowSizeOptions {
   initialHeight?: number
 }
 
-export function useWindowSize(options: UseWindowSizeOptions = {}) {
+export function useWindowSize(options: UseWindowSizeOptions = {}): { width: Ref<number>; height: Ref<number> } {
   const { initialWidth = 0, initialHeight = 0 } = options
   const width = ref(initialWidth)
   const height = ref(initialHeight)

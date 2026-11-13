@@ -1,4 +1,4 @@
-import { defineComponent, h, inject, reactive, ref, type StyleValue } from 'vue'
+import { defineComponent, h, inject, reactive, ref } from 'vue'
 import FieldPresentation from '../_components/field-presentation/FieldPresentation.vue'
 import { useFieldTexts } from '../_components/field-presentation/texts'
 import { selectionEditorSurface } from '../_components/selected-options/context'
@@ -8,6 +8,7 @@ import MenuPresentation from '../_components/selection-field/MenuPresentation.vu
 import type { SelectionFieldItem } from '../_components/selection-field/props'
 import SelectionField from '../_components/selection-field/SelectionField.vue'
 import { isFunction } from '../_utils/is'
+import type { CompatibleStyleValue as StyleValue } from '../_utils/style-value'
 import Input from '../input/base'
 import InputFeedback from '../input/InputFeedback.vue'
 import { createNamespace } from '../utils/components'
@@ -108,6 +109,20 @@ const Select = defineComponent({
         return renderEditor()
       }
       const { class: className, style, ...restAttrs } = attrs
+      const explicitControls = restAttrs['aria-controls']
+      const explicitActive = restAttrs['aria-activedescendant']
+      const popupRole = restAttrs['aria-haspopup']
+      const ownsListbox =
+        (popupRole == null || popupRole === 'listbox') &&
+        (explicitControls === undefined || explicitControls === controller.listboxId)
+      const controls =
+        explicitControls === undefined
+          ? ownsListbox && controller.computedOpen
+            ? controller.listboxId
+            : undefined
+          : explicitControls
+      const activeDescendant =
+        explicitActive === undefined ? (ownsListbox ? controller.activeDescendant : undefined) : explicitActive
 
       const Presentation = MenuPresentation
       const text = controller.fieldItems
@@ -268,8 +283,8 @@ const Select = defineComponent({
                     onClear={controller.handleClear}
                     {...restAttrs}
                     onKeydown={handleFieldKeydown}
-                    aria-controls={controller.computedOpen ? controller.listboxId : undefined}
-                    aria-activedescendant={controller.activeDescendant}
+                    aria-controls={controls as string | undefined}
+                    aria-activedescendant={activeDescendant as string | undefined}
                     onFocus={(event) => {
                       emit('focus', event)
                       controller.eventHandlers?.onFocus?.(event)

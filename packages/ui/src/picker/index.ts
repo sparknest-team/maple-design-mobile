@@ -49,7 +49,16 @@ export interface PickerResolvedData {
 type PickerServiceOptions = PickerOptions & { open?: boolean; dynamic: boolean }
 let singletonOptions: PickerServiceOptions | null
 
-function Picker(options: PickerOptions | PickerColumnOption[] | PickerColumnOption[][]): Promise<PickerResolvedData> {
+type PickerService = ((
+  options: PickerOptions | PickerColumnOption[] | PickerColumnOption[][],
+) => Promise<PickerResolvedData>) & {
+  close: () => void
+  Component: import('../utils/components').ComponentWithInstall<typeof VarPicker>
+}
+
+const Picker: PickerService = function (
+  options: PickerOptions | PickerColumnOption[] | PickerColumnOption[][],
+): Promise<PickerResolvedData> {
   return new Promise((resolve) => {
     Picker.close()
 
@@ -110,7 +119,7 @@ function Picker(options: PickerOptions | PickerColumnOption[] | PickerColumnOpti
 
     reactivePickerOptions.open = true
   })
-}
+} as PickerService
 
 Picker.close = function () {
   if (singletonOptions == null) {
@@ -125,7 +134,10 @@ Picker.close = function () {
 }
 
 Picker.Component = withInstall(VarPicker)
-const InstalledPicker = withInstall(VarPicker, Picker)
+const InstalledPicker: import('../utils/components').ComponentWithInstall<PickerService> = withInstall(
+  VarPicker,
+  Picker,
+)
 withPropsDefaultsSetter(Picker, pickerProps)
 
 export { pickerProps }
@@ -136,4 +148,4 @@ export type PickerInstance = InstanceType<typeof VarPicker>
 export const _PickerComponent: typeof VarPicker = VarPicker
 
 export default InstalledPicker
-export type PickerProps = import('vue').ExtractPublicPropTypes<typeof import('./props').props>
+export type PickerProps = import('../_utils/public-props').CompatiblePublicProps<typeof import('./props').props>

@@ -1,5 +1,6 @@
-import type { ExtractPublicPropTypes, InputHTMLAttributes, PropType } from 'vue'
+import type { PropType } from 'vue'
 import { beforeFieldCommitProp, fieldEditModeProp, readPrettyProp } from '../_components/field-presentation/context'
+import type { CompatiblePublicProps as ExtractPublicPropTypes } from '../_utils/public-props'
 import { fieldLoadingProps, fieldVariants, type FieldDecoratorVariant } from '../field-decorator/props'
 import { componentSizes, type ComponentSize } from '../utils/constants'
 import { emptyTextProp, emptyValueProp, emptyValuesProp } from '../utils/empty-value'
@@ -76,7 +77,7 @@ export const inputProps = {
   /** 初始自动聚焦。 */
   autofocus: Boolean,
   /** 虚拟键盘回车提示。 */
-  enterkeyhint: String as PropType<InputHTMLAttributes['enterKeyHint']>,
+  enterkeyhint: String as PropType<'enter' | 'done' | 'go' | 'next' | 'previous' | 'search' | 'send'>,
   /** 最大长度或超限错误策略。 */
   maxLength: { type: [Number, Object] as PropType<InputMaxLength>, default: 0, validator: isValidTextInputMaxLength },
   /** 显示字数统计。 */
@@ -92,7 +93,7 @@ export const inputProps = {
 export const inputGroupProps = {
   /** 组内默认尺寸。 */
   size: inputProps.size,
-  /** 组内默认变体，默认 filled。 */
+  /** 组内默认变体，默认 outline。 */
   variant: inputProps.variant,
   /** 组内默认禁用状态。 */
   disabled: inputProps.disabled,

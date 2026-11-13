@@ -1,6 +1,6 @@
-import { ref, watch, type WatchSource } from 'vue'
+import { ref, watch, type Ref, type WatchSource } from 'vue'
 
-export function useInitialized<T>(source: WatchSource<T>, value: T) {
+export function useInitialized<T>(source: WatchSource<T>, value: T): Ref<boolean> {
   const initialized = ref(false)
 
   watch(

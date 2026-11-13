@@ -377,6 +377,8 @@ AutoComplete 的文本输入始终可搜索；filter-option 只控制本地候�
 
 refresh 可在编辑器未打开时重试组件自有的异步选项读取，沿用既有 AbortSignal、loading 和 load-error 协议，不自动打开编辑器；静态数组不产生额外请求。
 
+后续验收（尚未完成）：使用真实读屏器（如 VoiceOver、NVDA）及受支持的浏览器，检查输入框名称、候选加载与导航、选择、关闭及表单错误的实际播报。
+
 ## CSS Variables
 
 <!-- component-css-variables:start -->

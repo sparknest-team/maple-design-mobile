@@ -227,6 +227,8 @@ focus()/blur() 通过当前 Select 引用操作真实输入；允许编辑的延
 
 编辑入口枚举保留端侧差异：Cedar 为 direct / click / dblclick，Maple 为 direct / popup。
 
+后续验收（尚未完成）：使用真实读屏器（如 VoiceOver、NVDA）及受支持的浏览器，检查字段名称、异步加载与错误、单选和多选、键盘导航、已选人员名称以及电话和聊天操作的实际播报。
+
 ## CSS Variables
 
 <!-- component-css-variables:start -->

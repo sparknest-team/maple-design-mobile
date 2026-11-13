@@ -37,11 +37,11 @@ import {
   onMounted,
   PropType,
   ref,
-  StyleValue,
   watch,
 } from 'vue'
 import { nativeScrollLeft, physicalScrollLeft, useDirection } from '../../_utils/direction'
 import { isObject } from '../../_utils/is'
+import type { CompatibleStyleValue as StyleValue } from '../../_utils/style-value'
 import { createNamespace, getPrefixCls } from '../../utils/components'
 import ResizeObserver from '../resize-observer-v2'
 import { scrollbarProps } from './props'

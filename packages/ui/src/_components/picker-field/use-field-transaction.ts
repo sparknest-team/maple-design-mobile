@@ -1,4 +1,5 @@
-import { ref, shallowRef, watch, type Ref, type ShallowRef } from 'vue'
+import { ref, shallowRef, watch, type Ref } from 'vue'
+import type { CompatibleShallowRef as ShallowRef } from '../../_utils/compatible-shallow-ref'
 
 export interface FieldTransaction<T> {
   draft: ShallowRef<T>

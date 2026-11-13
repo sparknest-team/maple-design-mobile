@@ -11,6 +11,6 @@ export type FabInstance = InstanceType<typeof Fab>
 export const _FabComponent: typeof Fab = Fab
 
 export default Fab
-export type FabProps = import('vue').ExtractPublicPropTypes<typeof import('./props').props>
+export type FabProps = import('../_utils/public-props').CompatiblePublicProps<typeof import('./props').props>
 
 export type { FabPlacement, FabPosition, FabTrigger, FabDrag, FabTriggerProps } from './props'

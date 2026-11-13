@@ -56,6 +56,7 @@
         :aria-disabled="isDisabled || undefined"
         :aria-readonly="mergedReadonly || undefined"
         :aria-invalid="mergedError ? true : ($attrs['aria-invalid'] as HTMLAttributes['aria-invalid'])"
+        :aria-description="typeof $attrs['aria-description'] === 'string' ? $attrs['aria-description'] : undefined"
         :aria-describedby="
           describeError(
             [
@@ -92,6 +93,7 @@
       :aria-label="ariaLabel"
       :aria-labelledby="singleLabelledBy"
       :aria-describedby="$attrs['aria-describedby'] as HTMLAttributes['aria-describedby']"
+      :aria-description="typeof $attrs['aria-description'] === 'string' ? $attrs['aria-description'] : undefined"
       :aria-invalid="$attrs['aria-invalid'] as HTMLAttributes['aria-invalid']"
       @change="inputChange"
       @focus="eventHandlers?.onFocus?.()"

@@ -429,7 +429,7 @@ scrollTo(0,0)／单轴0是合法坐标，不用真值判断；恢复零位置也
 | `default-input-value` | 非受控初始搜索文本，独立于选中值，仅初始化时读取 | `string` | `''` |
 | `multiple` | 多选；默认启用搜索 | `boolean` | `false` |
 | `size` | 完整支持 xs、sm、md、lg、xl，未设置时继承分组与表单 | `ComponentSize`<br>`'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `md` |
-| `variant` | filled、outline、standard；未设置时继承 InputGroup | `FieldDecoratorVariant`<br>`'filled' \| 'outline' \| 'standard'` | `filled` |
+| `variant` | filled、outline、standard；未设置时继承 InputGroup | `FieldDecoratorVariant`<br>`'filled' \| 'outline' \| 'standard'` | `outline` |
 | `disabled` | 禁用状态；显式值优先于继承的 Form / Group 状态 | `boolean` | `undefined` |
 | `readonly` | 只读状态；显式值优先于继承的 Form / Group 状态 | `boolean` | `undefined` |
 | `error` | 错误状态；显式值优先于继承的 Form / Group 状态 | `boolean` | `undefined` |
@@ -485,7 +485,7 @@ Select 还提供 `remove(value)`、`exceed-limit(value, event)`、`dropdown-scro
 
 使用 `label({ data })` 自定义已选标签，`selected` 替换整个已选区域。还支持 `prefix`、`suffix`、`clear-icon({ clear })`、`arrow-icon`、`loading-icon`、`search-icon`、`empty`、`option({ data })`。
 
-选项 `label` 是用于搜索的纯文本；自定义选项内容使用 `render` 或 `option` 插槽，自定义反显使用 `format-label` 或 `label` 插槽。以 value 而非 label 识别选项。选项的 `disabled` 禁止选择和删除，`tagProps` 可定制已选标签。
+选项 `label` 是用于搜索的纯文本；自定义选项内容使用 `render` 或 `option` 插槽，自定义反显使用 `format-label` 或 `label` 插槽。以 value 而非 label 识别选项。选项的 `disabled` 禁止选择和删除，`tagProps` 可定制已选标签。 它支持 `style` 和 `onClose` 等监听；标签的显示和可移除状态由 Select 根据当前状态控制，关闭事件同时参与 Select 的移除流程。
 
 Select 还支持 `header`、`footer`、`trigger` 和默认插槽中的 `Option / Optgroup`。Option 属性为 `value`、`label`、`disabled`、`tagProps`、`index`；默认插槽提供 `selected`。分组数据为 `{ isGroup: true, label, options }`。所有编辑展示共用相同选项模型；read 插槽可自定义阅读内容。
 
@@ -496,7 +496,7 @@ Select 还支持 `header`、`footer`、`trigger` 和默认插槽中的 `Option /
 | value | 选项值，未传时取 label 或默认插槽文本 | string \| number \| boolean \| Record<string, unknown> | undefined |
 | label | 搜索与已选标签使用的文本 | string | undefined |
 | disabled | 禁止选择与移除 | boolean | false |
-| tag-props | 已选标签属性 | TagProps | undefined |
+| tag-props | 已选标签属性、原生属性和 Tag 事件监听 | SelectOptionTagProps | undefined |
 | index | 手动指定选项顺序 | number | undefined |
 
 ### Option Slots
@@ -604,6 +604,8 @@ SelectEditMode 在根入口和 select 子入口一致导出，值沿用各端 ed
 
 多选 empty-value 支持数组、null/undefined 和 empty-values 识别的空值；不接受其他标量。工厂仅在实际清空且无禁用保留项时执行，非法结果开发期提示并回退为 []，不向模型写入非法标量。
 
+后续验收（尚未完成）：使用真实读屏器（如 VoiceOver、NVDA）及受支持的浏览器，检查字段名称、单选与多选、分组和虚拟列表、键盘导航、加载及表单错误的实际播报。
+
 ## CSS Variables
 
 <!-- component-css-variables:start -->
@@ -631,7 +633,7 @@ SelectEditMode 在根入口和 select 子入口一致导出，值沿用各端 ed
 | `--mp-select-popup-option-bg-hover` | `var(--mp-sys-color-state-hover)` | `background`, `background-color` |
 | `--mp-select-popup-option-bg-selected` | `transparent` | `background`, `background-color` |
 | `--mp-select-popup-option-bg-selected-hover` | `var(--mp-select-popup-option-bg-hover)` | `background`, `background-color` |
-| `--mp-select-popup-option-border-radius` | `var(--mp-sys-radius-lg)` | `border-radius` |
+| `--mp-select-popup-option-border-radius` | `0` | `border-radius` |
 | `--mp-select-popup-option-check-color` | `var(--mp-sys-color-action-primary)` | `color` |
 | `--mp-select-popup-option-check-gap` | `var(--mp-sys-space-4)` | `margin-inline-start` |
 | `--mp-select-popup-option-check-size` | `var(--mp-sys-font-size-md)` | `height`, `width` |
@@ -644,8 +646,8 @@ SelectEditMode 在根入口和 select 子入口一致导出，值沿用各端 ed
 | `--mp-select-popup-option-text-color-disabled` | `var(--mp-sys-color-content-disabled)` | `color` |
 | `--mp-select-popup-option-text-color-hover` | `var(--mp-sys-color-content-primary)` | `color` |
 | `--mp-select-popup-option-text-color-selected` | `var(--mp-sys-color-action-primary)` | `color` |
-| `--mp-select-popup-padding-horizontal` | `var(--mp-sys-space-3)` | `padding-inline` |
-| `--mp-select-popup-padding-vertical` | `var(--mp-sys-space-2)` | `padding`, `padding-block` |
+| `--mp-select-popup-padding-horizontal` | `0` | `padding-inline` |
+| `--mp-select-popup-padding-vertical` | `var(--mp-sys-space-2)` | `padding`, `padding-block`, `padding-block-end`, `padding-block-start` |
 
 </div>
 

@@ -128,7 +128,14 @@ function handleBackdropClick(event: MouseEvent) {
 }
 
 function handleKeydown(event: KeyboardEvent) {
-  if (!mergedOpen.value || event.key !== 'Escape' || !onStackTop(event)) {
+  if (
+    !mergedOpen.value ||
+    event.defaultPrevented ||
+    event.isComposing ||
+    event.keyCode === 229 ||
+    event.key !== 'Escape' ||
+    !onStackTop(event)
+  ) {
     return
   }
   emit('key-escape', event)

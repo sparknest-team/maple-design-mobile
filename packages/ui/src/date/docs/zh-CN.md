@@ -183,7 +183,7 @@ Cedar 字段使用桌面日历，通过 `date-picker-props` 或 `date-range-pick
 | ---------------------------------------- | ----------------------------------- |
 | `--mp-date-input-trigger-padding`        | `0`                                 |
 | `--mp-date-input-trigger-outline-width`  | `var(--mp-sys-space-1)`             |
-| `--mp-date-input-trigger-outline-color`  | `var(--mp-sys-color-content-brand)` |
+| `--mp-date-input-trigger-outline-color`  | `var(--mp-sys-color-action-primary)` |
 | `--mp-date-input-trigger-outline-offset` | `var(--mp-sys-space-1)`             |
 
 ## 布局与排列
@@ -585,7 +585,7 @@ datePickerProps/dateRangePickerProps 只配置展示，不能覆盖根模型、�
 | `type` | 日期精度；Cedar 支持周/季度，Maple 支持日期/月/年 | `date \| month \| year` | `date` |
 | `use-virtual-scroll` | Maple scroll 视口使用虚拟渲染 | `boolean` | `true` |
 | `value-format` | 序列化模型格式，支持 Date、timestamp 或格式字符串；独立于 format | `string` | 按精度/时间配置 |
-| `variant` | 字段外观 | `filled \| outline \| standard` | `standard` |
+| `variant` | 字段外观 | `filled \| outline \| standard` | `outline` |
 
 ### Date Events
 
@@ -750,7 +750,7 @@ import { Date as DateField, DatePicker, type DateProps, type DatePickerProps,
 | `--mp-date-calendar-selected-background` | `var(--mp-sys-color-action-primary)` | `background` |
 | `--mp-date-calendar-selected-color` | `var(--mp-button-solid-text-color)` | `color` |
 | `--mp-date-calendar-today-color` | `var(--mp-button-default-foreground-color)` | `background`, `color` |
-| `--mp-date-input-trigger-outline-color` | `var(--mp-sys-color-content-brand)` | `outline` |
+| `--mp-date-input-trigger-outline-color` | `var(--mp-sys-color-action-primary)` | `outline` |
 | `--mp-date-input-trigger-outline-offset` | `var(--mp-sys-space-1)` | `outline-offset` |
 | `--mp-date-input-trigger-outline-width` | `var(--mp-sys-space-1)` | `outline` |
 | `--mp-date-input-trigger-padding` | `0` | `padding` |
@@ -776,7 +776,7 @@ import { Date as DateField, DatePicker, type DateProps, type DatePickerProps,
 | `--mp-date-picker-range-background` | `var(--mp-color-primary-light-1)` | `background` |
 | `--mp-date-picker-range-disabled-background` | `var(--mp-color-fill-1)` | `background` |
 | `--mp-date-picker-range-preview-background` | `var(--mp-color-fill-2)` | `background` |
-| `--mp-date-picker-range-preview-outline` | `1px dashed var(--mp-color-primary)` | `outline` |
+| `--mp-date-picker-range-preview-outline` | `1px dashed var(--mp-sys-color-action-primary)` | `outline` |
 | `--mp-date-picker-shortcuts-column-width` | `128px` | `flex`, `width` |
 | `--mp-date-picker-title-background` | `var(--mp-date-picker-body-background-color)` | `background` |
 | `--mp-date-picker-title-color` | `var(--mp-color-text-1)` | `color` |

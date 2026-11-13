@@ -30,8 +30,10 @@
     transition: background-color var(--mp-checkbox-animation-duration);
   }
   &__input:focus-visible + &__control {
-    outline: var(--mp-internal-checkbox-focus-width) solid var(--mp-checkbox-control-color-checked);
-    outline-offset: var(--mp-internal-checkbox-focus-offset);
+    background-color: var(--mp-internal-checkbox-hover-background);
+  }
+  &__input:focus-visible + &__control &__icon {
+    box-shadow: inset 0 0 0 var(--mp-internal-checkbox-focus-width) var(--mp-sys-color-content-primary);
   }
   &__icon {
     position: relative;

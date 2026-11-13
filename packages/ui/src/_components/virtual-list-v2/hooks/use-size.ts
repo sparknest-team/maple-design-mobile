@@ -43,8 +43,13 @@ export const useSize = ({
     let offset = getOffset(0, start.value)
     const target = Math.max(offset, scrollOffset.value) + viewHeight
     let index = start.value
-    while (index < total.value && offset < target) {
-      offset += getItemSize(index)
+    while (index < total.value) {
+      const size = getItemSize(index)
+      // A hidden item exactly at the viewport end must stay mounted to detect becoming visible.
+      if (offset >= target && (offset !== target || size !== 0)) {
+        break
+      }
+      offset += size
       index++
     }
     return Math.min(total.value, index + safeBuffer.value)
@@ -85,8 +90,8 @@ export const useSize = ({
     return firstRangeAverageSize.value || estimatedSize.value || 30
   })
 
-  const setItemSize = (key: string | number, size: number) => {
-    if (activeKeys.value.has(key) && Number.isFinite(size) && size > 0) {
+  const setItemSize = (key: string | number, size: number, allowZero = false) => {
+    if (activeKeys.value.has(key) && Number.isFinite(size) && (size > 0 || (allowZero && size === 0))) {
       sizeMap.set(key, size)
     }
   }
@@ -148,8 +153,13 @@ export const useSize = ({
       index = Math.floor(target / _estimatedSize.value)
     } else {
       let remaining = target
-      while (index < total.value && remaining >= getItemSize(index)) {
-        remaining -= getItemSize(index)
+      while (index < total.value) {
+        const itemSize = getItemSize(index)
+        // Keep zero-height items at the viewport edge mounted so they can be measured if shown again.
+        if (remaining < itemSize || (remaining === 0 && itemSize === 0)) {
+          break
+        }
+        remaining -= itemSize
         index++
       }
     }

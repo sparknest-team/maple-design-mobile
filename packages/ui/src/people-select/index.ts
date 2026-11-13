@@ -2,7 +2,11 @@ import { withInstall } from '../utils/components'
 import _PeopleSelect from './PeopleSelect'
 import { peopleSelectProps } from './props'
 
-const PeopleSelect = withInstall(_PeopleSelect, Object.assign(_PeopleSelect, {}), { components: [_PeopleSelect] })
+const PeopleSelect: import('../utils/components').ComponentWithInstall<typeof _PeopleSelect> = withInstall(
+  _PeopleSelect,
+  Object.assign(_PeopleSelect, {}),
+  { components: [_PeopleSelect] },
+)
 
 export type PeopleSelectInstance = InstanceType<typeof _PeopleSelect> & import('./types').PeopleSelectExpose
 export type { PeopleSelectProps } from './props'
@@ -10,7 +14,7 @@ export type { PeopleSelectProps } from './props'
 export { peopleSelectProps }
 export { PeopleSelect }
 
-export const _PeopleSelectComponent = PeopleSelect
+export const _PeopleSelectComponent: typeof PeopleSelect = PeopleSelect
 
 export default PeopleSelect
 

@@ -372,7 +372,7 @@ InputPassword 透传 Input 的全部属性、事件和插槽。`open` 仅控制�
 | ---------------------- | ------------------------------------------------------- | ----------------------------------------------------- |
 | `mp-input-password`    | `visibility`, `default-visibility`, `visibility-toggle` | 密码可见性；默认非受控且显示切换按钮                  |
 | `mp-input-password`    | `visibility-change`, `update:visibility`                | 可见性变化时触发，参数为 `boolean`                    |
-| `mp-input-group`       | `size`, `variant`, `disabled`, `readonly`, `hint`       | 子 Input/Password 默认继承；`variant` 默认为 `filled` |
+| `mp-input-group`       | `size`, `variant`, `disabled`, `readonly`, `hint`       | 子 Input/Password 默认继承；`variant` 默认为 `outline` |
 | `mp-input-group-label` | 默认插槽                                                | 组合输入框的文字附加项                                |
 
 ## CSS Variables

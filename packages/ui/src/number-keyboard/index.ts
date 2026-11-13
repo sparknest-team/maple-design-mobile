@@ -12,4 +12,4 @@ export type NumberKeyboardInstance = InstanceType<typeof NumberKeyboard>
 export const _NumberKeyboardComponent: typeof NumberKeyboard = NumberKeyboard
 
 export default NumberKeyboard
-export type NumberKeyboardProps = import('vue').ExtractPublicPropTypes<typeof import('./props').props>
+export type NumberKeyboardProps = import('../_utils/public-props').CompatiblePublicProps<typeof import('./props').props>

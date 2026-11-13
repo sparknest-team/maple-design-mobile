@@ -56,7 +56,7 @@ export const countToProps = {
   },
 }
 
-export type CountToProps = import('vue').ExtractPublicPropTypes<typeof countToProps>
+export type CountToProps = import('../_utils/public-props').CompatiblePublicProps<typeof countToProps>
 
 export interface CountToSlots {
   default?: (scope: { value: number }) => import('vue').VNodeChild

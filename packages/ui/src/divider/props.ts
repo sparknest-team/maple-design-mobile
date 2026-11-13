@@ -1,4 +1,5 @@
-import { type ExtractPublicPropTypes, type PropType } from 'vue'
+import { type PropType } from 'vue'
+import type { CompatiblePublicProps as ExtractPublicPropTypes } from '../_utils/public-props'
 import { componentSizes, orientations, type ComponentSize, type Orientation } from '../utils/constants'
 
 export type DividerOrientation = Orientation

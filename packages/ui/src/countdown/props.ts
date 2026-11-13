@@ -32,7 +32,7 @@ export const countdownProps = {
   },
 }
 
-export type CountdownProps = import('vue').ExtractPublicPropTypes<typeof countdownProps>
+export type CountdownProps = import('../_utils/public-props').CompatiblePublicProps<typeof countdownProps>
 
 export interface CountdownSlots {
   default?: (scope: TimeData) => import('vue').VNodeChild

@@ -11,4 +11,4 @@ export type TableInstance = InstanceType<typeof Table>
 export const _TableComponent: typeof Table = Table
 
 export default Table
-export type TableProps = import('vue').ExtractPublicPropTypes<typeof import('./props').props>
+export type TableProps = import('../_utils/public-props').CompatiblePublicProps<typeof import('./props').props>

@@ -84,7 +84,7 @@ export const props = {
     'clearable',
   ]),
   disabled: { type: Boolean, default: undefined },
-  variant: { ...fieldDecoratorProps.variant, default: 'standard' },
+  variant: { ...fieldDecoratorProps.variant, default: 'outline' },
 }
 
-export type TimeProps = import('vue').ExtractPublicPropTypes<typeof props>
+export type TimeProps = import('../_utils/public-props').CompatiblePublicProps<typeof props>

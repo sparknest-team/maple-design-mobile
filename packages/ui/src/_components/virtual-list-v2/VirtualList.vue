@@ -32,6 +32,7 @@
           :index="virtualEnabled ? start + index : index"
           :has-item-size="hasItemSize"
           :set-item-size="setItemSize"
+          :can-measure-zero="canMeasureZero"
         >
           <slot name="item" :item="item" :index="virtualEnabled ? start + index : index" />
         </VirtualListItem>
@@ -50,6 +51,7 @@ import {
   onDeactivated,
   onMounted,
   PropType,
+  provide,
   ref,
   toRefs,
   watch,
@@ -59,7 +61,7 @@ import { isNumber, isObject } from '../../_utils/is'
 import { createNamespace, getPrefixCls } from '../../utils/components'
 import { useSize } from './hooks/use-size'
 import { ScrollOptions } from './interface'
-import VirtualListItem from './virtual-list-item'
+import VirtualListItem, { measurementVersionKey } from './virtual-list-item'
 
 export default defineComponent({
   name: createNamespace('virtual-list').name,
@@ -134,14 +136,24 @@ export default defineComponent({
     })
 
     const containerRef = ref<HTMLElement>()
+    const canMeasureZero = () => Boolean(containerRef.value?.isConnected && containerRef.value.getClientRects().length)
     const { dir } = useDirection(() => containerRef.value)
     let readingOffset = 0
     const contentRef = ref<HTMLElement>()
     const viewportHeight = ref(typeof props.height === 'number' && props.height > 0 ? props.height : 200)
     const scrollOffset = ref(0)
+    const measurementVersion = ref(0)
+    provide(measurementVersionKey, measurementVersion)
+    let viewportHidden = false
     let viewportObserver: ResizeObserver | undefined
     const updateViewport = () => {
-      const actual = containerRef.value?.clientHeight ?? 0
+      const element = containerRef.value
+      const visible = Boolean(element?.isConnected && element.getClientRects().length)
+      if (visible && viewportHidden) {
+        measurementVersion.value++
+      }
+      viewportHidden = !visible
+      const actual = element?.clientHeight ?? 0
       if (actual > 0) {
         viewportHeight.value = actual
       }
@@ -189,12 +201,18 @@ export default defineComponent({
       const retainedInline = retainedInlineOffset
       retainedScrollTop = undefined
       retainedInlineOffset = undefined
-      if (element && retainedInline !== undefined && isCurrent(request, element) && inlineScrollLeft(element) === 0) {
-        setInlineScrollLeft(element, retainedInline)
+      if (element && retainedInline !== undefined && isCurrent(request, element)) {
+        if (inlineScrollLeft(element) === 0) {
+          setInlineScrollLeft(element, retainedInline)
+        }
+        readingOffset = inlineScrollLeft(element)
       }
       await nextTick()
-      if (element && retained !== undefined && isCurrent(request, element) && element.scrollTop === 0) {
-        element.scrollTop = retained
+      if (element && retained !== undefined && isCurrent(request, element)) {
+        if (element.scrollTop === 0) {
+          element.scrollTop = retained
+        }
+        scrollOffset.value = element.scrollTop
         if (virtualEnabled.value) {
           setStart(getStartByScroll(element.scrollTop))
         }
@@ -427,6 +445,7 @@ export default defineComponent({
 
     return {
       prefixCls,
+      canMeasureZero,
       virtualEnabled,
       containerRef,
       contentRef,

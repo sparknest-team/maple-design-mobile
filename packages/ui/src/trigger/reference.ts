@@ -10,6 +10,7 @@ import {
   type Ref,
   type VNode,
 } from 'vue'
+import type { CompatibleShallowRef } from '../_utils/compatible-shallow-ref'
 import type { TriggerReferenceAttrs } from './props'
 
 export type TriggerElement = HTMLElement | SVGElement
@@ -37,7 +38,10 @@ export function getTriggerElement(nodes: VNode | VNode[] | null | undefined): Tr
   return Array.isArray(nodes.children) ? getTriggerElement(nodes.children as VNode[]) : undefined
 }
 
-export function useTriggerReference(onChange?: (element?: TriggerElement) => void) {
+export function useTriggerReference(onChange?: (element?: TriggerElement) => void): {
+  nodes: { value: VNode[] }
+  element: CompatibleShallowRef<TriggerElement | undefined>
+} {
   // Rendered VNodes stay non-reactive; only the resolved DOM target is reactive.
   const nodes: { value: VNode[] } = { value: [] }
   const element = shallowRef<TriggerElement>()
@@ -129,7 +133,11 @@ export function useTriggerReferenceAttrs(
 export function useTriggerTarget(
   slotElement: Readonly<Ref<TriggerElement | undefined>>,
   reference: () => Reference | undefined,
-) {
+): {
+  element: CompatibleShallowRef<TriggerElement | undefined>
+  getReference: () => TriggerElement | undefined
+  setReference: (target?: Reference) => void
+} {
   const element = shallowRef<TriggerElement>()
   let override: Reference | undefined
   let mounted = false

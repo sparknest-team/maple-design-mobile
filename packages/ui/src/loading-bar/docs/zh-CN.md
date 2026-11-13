@@ -64,7 +64,7 @@ Teleport 后主题变量按实际 DOM 祖先继承；放在内容内部的变量
 
 | 变量 | 默认值／条件 | 影响的样式 |
 | --- | --- | --- |
-| `--mp-loading-bar-color` | `var(--mp-sys-color-content-brand)` | `background-color` |
+| `--mp-loading-bar-color` | `var(--mp-sys-color-action-primary)` | `background-color` |
 | `--mp-loading-bar-error-color` | `var(--mp-sys-color-content-danger)` | `background-color` |
 | `--mp-loading-bar-height` | `3px` | `height` |
 | `--mp-loading-bar-transition-duration` | `250ms` | `transition` |
@@ -76,7 +76,7 @@ Teleport 后主题变量按实际 DOM 祖先继承；放在内容内部的变量
 
 ```css
 .component-theme {
-  --mp-loading-bar-color: var(--mp-sys-color-content-brand);
+  --mp-loading-bar-color: var(--mp-sys-color-action-primary);
 }
 ```
 

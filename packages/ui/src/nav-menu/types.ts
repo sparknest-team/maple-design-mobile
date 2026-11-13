@@ -37,7 +37,7 @@ export interface NavMenuNode {
   disabled: boolean
   type: 'item' | 'group' | 'divider'
 }
-export type NavMenuProps = import('vue').ExtractPublicPropTypes<typeof import('./props').navMenuProps>
+export type NavMenuProps = import('../_utils/public-props').CompatiblePublicProps<typeof import('./props').navMenuProps>
 
 export type NavMenuPopupLayout = 'full-width' | 'full'
 export interface NavMenuExposed {

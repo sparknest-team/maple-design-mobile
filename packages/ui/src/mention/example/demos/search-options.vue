@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import MpMention from '../../index'
-import '../../style'
 import { ref } from 'vue'
 import type { OptionsLoader } from '../../../_hooks/use-option-request'
 

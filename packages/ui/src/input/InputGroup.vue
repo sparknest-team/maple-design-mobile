@@ -18,7 +18,7 @@ defineOptions({ name: createNamespace('input-group').name })
 const props = defineProps(inputGroupProps)
 const { n, classes } = createNamespace('input-group')
 const { group, mergedSize, mergedDisabled, mergedReadonly } = useInputForm(props)
-const mergedVariant = computed(() => props.variant ?? group?.variant.value ?? 'filled')
+const mergedVariant = computed(() => props.variant ?? group?.variant.value ?? 'outline')
 provide(inputGroupKey, {
   size: mergedSize,
   disabled: mergedDisabled,

@@ -1,7 +1,8 @@
-import type { ExtractPublicPropTypes, PropType } from 'vue'
+import type { PropType } from 'vue'
 import { fieldPresentationProps } from '../_components/field-presentation/props'
 import type { ComponentSize } from '../_utils/constant'
 import { componentSizes } from '../_utils/constant'
+import type { CompatiblePublicProps as ExtractPublicPropTypes } from '../_utils/public-props'
 import { fieldLoadingProps } from '../field-decorator/props'
 import { emptyValueProp } from '../utils/empty-value'
 import type { InputTagFieldNames, TagData } from './types'
@@ -92,7 +93,7 @@ export const inputTagProps = {
    * @zh 输入框的变体
    * @en The variant of the input
    * @values 'filled', 'outline', 'standard'
-   * @default-value 'filled'
+   * @default-value 'outline'
    */
   variant: {
     type: String as PropType<'filled' | 'outline' | 'standard'>,

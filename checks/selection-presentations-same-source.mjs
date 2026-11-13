@@ -55,6 +55,7 @@ const files = [
   'people-select/types.ts',
   'people-select/emits.ts',
   'people-select/__tests__/public-contract.spec.ts',
+  'people-select/__tests__/accessibility-contract.spec.ts',
   'select/hooks/use-select.ts',
   'cascader/cascader-search-panel.tsx',
   'select/emits.ts',

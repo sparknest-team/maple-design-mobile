@@ -58,4 +58,9 @@ export const triggerProps = {
   scrollToCloseDistance: { type: Number, default: 0 },
 }
 
-export type TriggerProps = import('vue').ExtractPublicPropTypes<typeof triggerProps>
+type TriggerClassKeys = 'popupClass' | 'contentClass' | 'arrowClass' | 'openedClass'
+type TriggerClassValue = string | unknown[] | Record<string, any>
+type TriggerBaseProps = import('../_utils/public-props').CompatiblePublicProps<typeof triggerProps>
+
+export type TriggerProps = Omit<TriggerBaseProps, TriggerClassKeys> &
+  Partial<Record<TriggerClassKeys, TriggerClassValue>>

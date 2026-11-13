@@ -122,7 +122,14 @@ export default defineComponent({
     })
     expose({ close, resize: surface.resize, setActiveItem })
     function navigate(event: KeyboardEvent) {
-      if (props.disabled || !(event.target instanceof HTMLElement) || !event.target.hasAttribute('data-nav-item')) {
+      if (
+        event.defaultPrevented ||
+        event.isComposing ||
+        event.keyCode === 229 ||
+        props.disabled ||
+        !(event.target instanceof HTMLElement) ||
+        !event.target.hasAttribute('data-nav-item')
+      ) {
         return
       }
       const items = Array.from(

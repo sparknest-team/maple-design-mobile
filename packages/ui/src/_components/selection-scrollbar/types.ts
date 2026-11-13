@@ -1,4 +1,4 @@
-import { StyleValue } from 'vue'
+import type { CompatibleStyleValue as StyleValue } from '../../_utils/style-value'
 
 export interface ThumbData {
   ratio: number

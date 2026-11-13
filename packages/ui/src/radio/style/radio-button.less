@@ -57,7 +57,8 @@ each(xs sm md lg xl, {
   }
 }
 
-.mp-radio--button:has(> .mp-radio__input:focus-visible) {
-  outline: var(--mp-internal-radio-focus-width) solid var(--mp-radio-control-color-checked);
-  outline-offset: var(--mp-internal-radio-focus-offset);
+.mp-radio--button:has(> .mp-radio__input:focus-visible) .mp-radio__button-label {
+  text-decoration: underline;
+  text-decoration-thickness: var(--mp-internal-radio-focus-width);
+  text-underline-offset: 3px;
 }

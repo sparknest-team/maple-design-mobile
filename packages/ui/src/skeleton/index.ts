@@ -4,7 +4,10 @@ import _Skeleton from './Skeleton.vue'
 import SkeletonLine from './SkeletonLine.vue'
 import SkeletonShape from './SkeletonShape.vue'
 
-const Skeleton = Object.assign(_Skeleton, { Line: SkeletonLine, Shape: SkeletonShape })
+const Skeleton: typeof _Skeleton & { Line: typeof SkeletonLine; Shape: typeof SkeletonShape } = Object.assign(
+  _Skeleton,
+  { Line: SkeletonLine, Shape: SkeletonShape },
+)
 withInstall(Skeleton, undefined, { components: [Skeleton, SkeletonLine, SkeletonShape] })
 withPropsDefaultsSetter(Skeleton, skeletonProps)
 

@@ -4,7 +4,16 @@ import type { Message } from './index'
 
 type ValueOf<T> = T[keyof T]
 
-export function useLocale<T = Message>() {
+type LocaleState<T> = {
+  messages: Ref<Record<string, Partial<T>>>
+  currentMessage: Ref<Partial<T>>
+  add: (lang: string, message: Partial<T> & { lang?: string }) => void
+  use: (lang: string) => {} | undefined
+  merge: (lang: string, message: Partial<T>) => void
+  t: (id: string) => ValueOf<T> | undefined
+}
+
+export function useLocale<T = Message>(): LocaleState<T> {
   const messages = ref<Record<string, Partial<T>>>({})
   const currentMessage: Ref<Partial<T>> = ref({})
 
@@ -49,6 +58,12 @@ export function useLocale<T = Message>() {
   }
 }
 
-export const { messages, currentMessage, add, use, merge, t } = useLocale()
+const defaultLocale = useLocale()
+export const messages: LocaleState<Message>['messages'] = defaultLocale.messages
+export const currentMessage: LocaleState<Message>['currentMessage'] = defaultLocale.currentMessage
+export const add: LocaleState<Message>['add'] = defaultLocale.add
+export const use: LocaleState<Message>['use'] = defaultLocale.use
+export const merge: LocaleState<Message>['merge'] = defaultLocale.merge
+export const t: LocaleState<Message>['t'] = defaultLocale.t
 
-export const defaultLocaleReady = ref(false)
+export const defaultLocaleReady: Ref<boolean> = ref(false)

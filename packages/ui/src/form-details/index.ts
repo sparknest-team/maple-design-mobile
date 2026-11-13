@@ -11,4 +11,4 @@ export type FormDetailsInstance = InstanceType<typeof FormDetails>
 export const _FormDetailsComponent: typeof FormDetails = FormDetails
 
 export default FormDetails
-export type FormDetailsProps = import('vue').ExtractPublicPropTypes<typeof import('./props').props>
+export type FormDetailsProps = import('../_utils/public-props').CompatiblePublicProps<typeof import('./props').props>

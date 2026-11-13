@@ -3,14 +3,14 @@ import type { VNodeChild } from 'vue'
 export interface InputEmits {
   'update:open': [value: boolean]
   'update:modelValue': [value: string | null]
-  input: [value: string, event: Event]
-  change: [value: string | null, event?: Event]
-  'press-enter': [event: KeyboardEvent]
-  keydown: [event: KeyboardEvent]
-  clear: [event: Event]
-  focus: [event: FocusEvent]
-  blur: [event: FocusEvent]
-  click: [event: MouseEvent]
+  input: [value: string, originalEvent: Event]
+  change: [value: string | null, originalEvent?: Event]
+  'press-enter': [originalEvent: KeyboardEvent]
+  keydown: [originalEvent: KeyboardEvent]
+  clear: [originalEvent: Event]
+  focus: [originalEvent: FocusEvent]
+  blur: [originalEvent: FocusEvent]
+  click: [originalEvent: MouseEvent]
 }
 export interface InputSlots {
   read?(scope: { value: string | null }): VNodeChild

@@ -11,6 +11,7 @@
   >
     <Input
       v-if="searchable"
+      ref="searchInputRef"
       :model-value="controller.computedInputValue"
       edit-mode="direct"
       :disabled="controller.mergedDisabled"
@@ -29,6 +30,8 @@
       :options="filteredLeafOptions"
       :active-key="activeKey"
       :multiple="multiple"
+      :focus-recovery-enabled="Boolean(editor) || controller.computedOpen"
+      :focus-fallback="focusSearchFallback"
       :check-strictly="checkStrictly"
       :loading="loading"
       :path-label="!searchOptionOnlyLabel"
@@ -62,11 +65,12 @@
   </SelectedOptions>
 </template>
 <script setup lang="ts">
-import { inject, toRefs, useId, type UnwrapNestedRefs } from 'vue'
+import { inject, onBeforeUnmount, ref, toRefs, useId } from 'vue'
 import { isolateEditorForm } from '../_components/field-presentation/form-bridge'
 import { useFieldTexts } from '../_components/field-presentation/texts'
 import { selectionEditorSurface } from '../_components/selected-options/context'
 import SelectedOptions from '../_components/selected-options/SelectedOptions.vue'
+import type { CompatibleReactive as UnwrapNestedRefs } from '../_utils/compatible-reactive'
 import { provideFormErrorDescriptionBoundary } from '../form/error-description'
 import Input from '../input/base'
 import { createNamespace } from '../utils/components'
@@ -81,12 +85,29 @@ provideFormErrorDescriptionBoundary()
 const texts = useFieldTexts()
 const optionsId = `cascader-editor-options-${useId()}`
 const editor = inject(selectionEditorSurface, undefined)
-const { controller, keyboardHandler, listboxId } = defineProps<{
+const searchInputRef = ref<{ focus: () => void }>()
+const focusEditorSearch = () => searchInputRef.value?.focus()
+const { controller, keyboardHandler, listboxId, focusFallback } = defineProps<{
   controller: UnwrapNestedRefs<CascaderController>
   listboxId?: string
+  focusFallback?: () => void
   searchable?: boolean
   keyboardHandler?: (event: KeyboardEvent) => void | Promise<void>
 }>()
+let menuDisposed = false
+onBeforeUnmount(() => {
+  menuDisposed = true
+})
+const focusSearchFallback = () => {
+  if (menuDisposed || (!editor && !controller.computedOpen)) {
+    return
+  }
+  if (editor) {
+    focusEditorSearch()
+  } else {
+    focusFallback?.()
+  }
+}
 const { loading, showSearchPanel, filteredLeafOptions, activeKey, displayColumns, selectedPath, totalLevel } =
   toRefs(controller)
 const { multiple, checkStrictly, searchOptionOnlyLabel, virtualListProps } = toRefs(controller.props)

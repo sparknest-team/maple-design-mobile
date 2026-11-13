@@ -4,13 +4,14 @@ import BreadcrumbItem from './BreadcrumbItem.vue'
 import { props as breadcrumbItemProps } from './item-props'
 import { props as breadcrumbProps } from './props'
 
-const Breadcrumb = withInstall(
-  _Breadcrumb,
-  Object.assign(_Breadcrumb, {
-    Item: BreadcrumbItem,
-  }),
-  { components: [_Breadcrumb, BreadcrumbItem] },
-) as typeof _Breadcrumb & { Item: typeof BreadcrumbItem; install: (app: import('vue').App) => void }
+const Breadcrumb: typeof _Breadcrumb & { Item: typeof BreadcrumbItem; install: (app: import('vue').App) => void } =
+  withInstall(
+    _Breadcrumb,
+    Object.assign(_Breadcrumb, {
+      Item: BreadcrumbItem,
+    }),
+    { components: [_Breadcrumb, BreadcrumbItem] },
+  ) as typeof _Breadcrumb & { Item: typeof BreadcrumbItem; install: (app: import('vue').App) => void }
 
 withPropsDefaultsSetter(Breadcrumb, breadcrumbProps)
 withPropsDefaultsSetter(BreadcrumbItem, breadcrumbItemProps)

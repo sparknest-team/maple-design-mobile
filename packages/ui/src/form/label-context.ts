@@ -18,7 +18,7 @@ export function provideFormItemLabel(options: {
     if (explicit === undefined || explicit === null) {
       return options.generated
     }
-    return typeof explicit === 'string' && /[^ \t\n\f\r]/.test(explicit) ? explicit : undefined
+    return typeof explicit === 'string' && explicit.length > 0 && !/[ \t\n\f\r]/.test(explicit) ? explicit : undefined
   })
   const label = computed(() => {
     if (options.noStyle()) {

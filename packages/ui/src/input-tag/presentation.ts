@@ -2,7 +2,7 @@ import { withFieldPresentation } from '../_components/field-presentation/with-fi
 import Base from './input-tag'
 import { getValueData } from './utils'
 
-export default withFieldPresentation(Base, {
+const Presented: typeof Base = withFieldPresentation(Base, {
   inheritInputGroup: true,
   intent: 'input',
   text: (value, props) => {
@@ -13,3 +13,5 @@ export default withFieldPresentation(Base, {
   },
   changeArgs: (value, _props, event) => (event ? [value, event] : [value]),
 })
+
+export default Presented

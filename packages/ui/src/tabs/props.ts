@@ -1,4 +1,6 @@
-import type { ExtractPublicPropTypes, HTMLAttributes, PropType, StyleValue } from 'vue'
+import type { HTMLAttributes, PropType } from 'vue'
+import type { CompatiblePublicProps as ExtractPublicPropTypes } from '../_utils/public-props'
+import type { CompatibleStyleValue as StyleValue } from '../_utils/style-value'
 import { componentSizes, type ComponentSize, type Orientation } from '../utils/constants'
 
 export type TabsName = string | number

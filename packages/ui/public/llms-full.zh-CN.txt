@@ -3167,6 +3167,8 @@ AutoComplete 的文本输入始终可搜索；filter-option 只控制本地候�
 
 refresh 可在编辑器未打开时重试组件自有的异步选项读取，沿用既有 AbortSignal、loading 和 load-error 协议，不自动打开编辑器；静态数组不产生额外请求。
 
+后续验收（尚未完成）：使用真实读屏器（如 VoiceOver、NVDA）及受支持的浏览器，检查输入框名称、候选加载与导航、选择、关闭及表单错误的实际播报。
+
 ## CSS Variables
 
 <!-- component-css-variables:start -->
@@ -5419,7 +5421,7 @@ interface BreadcrumbRoute {
 | `--mp-breadcrumb-item-separator-font-size` | `14px` | `font-size` |
 | `--mp-breadcrumb-item-separator-margin` | `0 var(--mp-breadcrumb-margin-separator-horizontal)` | `margin` |
 | `--mp-breadcrumb-link-text-color` | `var(--mp-breadcrumb-item-active-color)` | `color` |
-| `--mp-breadcrumb-link-text-color-hover` | `rgb(var(--mp-primary-9))` | `color` |
+| `--mp-breadcrumb-link-text-color-hover` | `var(--mp-sys-color-content-brand)` | `color` |
 | `--mp-breadcrumb-margin-dropdown-icon-left` | `4px` | `margin-inline-start` |
 | `--mp-breadcrumb-margin-separator-horizontal` | `10px` | `margin` |
 | `--mp-breadcrumb-padding-text-horizontal` | `0px` | `margin`, `padding` |
@@ -7033,10 +7035,10 @@ Example source: src/card/example/demos/slots.vue
 
 | 配置 | 作用 | 相关示例 |
 | --- | --- | --- |
-| `title` | 标题 | 水波与点击事件、全屏展开与关闭 |
+| `title` | 标题 | 水波与点击事件、浮动展开与关闭 |
 | `ripple` | 点击水波 | 水波与点击事件 |
-| `floating` | 全屏展开状态，支持 v-model:floating | 全屏展开与关闭 |
-| `floating-duration` | 全屏展开与关闭动画时长，单位 ms | 全屏展开与关闭 |
+| `floating` | 浮动展开状态，支持 v-model:floating | 浮动展开与关闭 |
+| `floating-duration` | 浮动展开与关闭动画时长，单位 ms | 浮动展开与关闭 |
 <!-- demo-config-notes:end -->
 
 Example source: src/card/example/demos/ripple.vue
@@ -7055,7 +7057,7 @@ const clicks = ref(0)
 </template>
 ```
 
-### 全屏展开与关闭
+### 浮动展开与关闭
 
 Example source: src/card/example/demos/floating.vue
 
@@ -7087,9 +7089,9 @@ const floating = ref(false)
 
 | 配置 | 作用 | 相关示例 |
 | --- | --- | --- |
-| `floating` | 全屏展开状态，支持 v-model:floating | Floating scheduler lifecycle / 浮起调度生命周期 |
+| `floating` | 浮动展开状态，支持 v-model:floating | Floating scheduler lifecycle / 浮起调度生命周期 |
 | `ripple` | 点击水波 | Floating scheduler lifecycle / 浮起调度生命周期 |
-| `floating-duration` | 全屏展开与关闭动画时长，单位 ms | Floating scheduler lifecycle / 浮起调度生命周期 |
+| `floating-duration` | 浮动展开与关闭动画时长，单位 ms | Floating scheduler lifecycle / 浮起调度生命周期 |
 | `title` | 标题 | Floating scheduler lifecycle / 浮起调度生命周期 |
 <!-- demo-config-notes:end -->
 
@@ -7147,7 +7149,7 @@ const duration = ref(250)
 
 当前浮层仍位于 Card 原有 DOM 位置。祖先的 transform 等属性可能改变 fixed 定位参照，祖先裁剪也可能遮挡浮层，因此不能保证覆盖整个视口。焦点在展开的 Card 内时，按 Escape 会请求关闭；内部控件已处理的 Escape 不会关闭 Card；内嵌弹层处于最上层时优先处理 Escape。浮层不提供模态焦点管理，需要模态交互时请使用 Dialog。
 
-当展开内容或关闭按钮内仍有焦点时，关闭会尝试将焦点返回展开前的控件；如果焦点已经移到其他位置，则不会抢回焦点。
+当展开内容或关闭按钮内仍有焦点时，关闭会尝试将焦点返回展开前的控件；如果焦点已经移到其他位置，则不会抢回焦点。 展开等待期间，如果焦点进入展开内容，内容会立即显示，不等待淡入动画。 等待期间尚未显示且未获得焦点的展开内容和关闭按钮不会出现在无障碍树中；焦点进入任一处时立即显示。
 
 若打开控件位于外部的封闭 Shadow Root，Card 无法直接取得内部控件；宿主需自行提供焦点委托或由应用处理焦点恢复。`delegatesFocus` 可将宿主焦点委托给内部控件，但不保证在有多个控件时返回原控件。
 
@@ -7174,8 +7176,8 @@ const duration = ref(250)
 | alt | 封面图片替代文本 | `string` | `undefined` |
 | elevation | default 变体阴影；true 为等级 1，false 为无阴影，数字范围 0～24 | `boolean / number` | `true` |
 | ripple | 点击水波 | `boolean` | `false` |
-| floating | 全屏展开状态，支持 v-model:floating | `boolean` | `false` |
-| floating-duration | 全屏展开与关闭动画时长，单位 ms | `number` | `250` |
+| floating | 浮动展开状态，支持 v-model:floating | `boolean` | `false` |
+| floating-duration | 浮动展开与关闭动画时长，单位 ms | `number` | `250` |
 | close-button-aria-label | 默认关闭按钮的可访问名称 | `string` | `—` |
 
 ### Card Events
@@ -7197,7 +7199,7 @@ const duration = ref(250)
 | subtitle | 副标题 | `{ slotClass: string }` |
 | description | 描述 | `{ slotClass: string }` |
 | footer | 底部操作 | — |
-| floating-content | 全屏扩展内容，仅 column 布局渲染 | — |
+| floating-content | 浮动展开内容，仅 column 布局渲染 | — |
 | close-button | 自定义关闭按钮；需自行更新 floating | — |
 
 ### Card Methods
@@ -10563,6 +10565,8 @@ option({ data }) 接收规范化 CascaderOptionInfo，data.raw 是原始选项�
 | empty  | 选项为空时的显示内容 | -    |
 
 异步搜索时应在新请求开始时清除旧候选，并只采纳当前搜索词的最后一次响应。可使用 `update:input-value` 立即响应输入，通过 `loading` 和 `filter-option` 展示远程过滤结果。popup 内方向键与 Enter 操作当前候选；确认模式通过底部按钮提交，单选即时模式选中即提交。确认模式校验失败保留草稿；确认期间锁定编辑和关闭，表单重置会关闭 popup 并中止提交。请求归属应在关闭和重置时失效，完整示例见 Form 的“各类字段统一展示”。
+
+后续验收（尚未完成）：使用真实读屏器（如 VoiceOver、NVDA）及受支持的浏览器，检查字段名称、层级导航与展开状态、搜索与选择、单选和多选、虚拟列表及表单错误的实际播报。
 
 ## CSS Variables
 
@@ -17845,7 +17849,7 @@ const panelOnly = ref(false)
 | ---------------------------------------- | ----------------------------------- |
 | `--mp-date-input-trigger-padding`        | `0`                                 |
 | `--mp-date-input-trigger-outline-width`  | `var(--mp-sys-space-1)`             |
-| `--mp-date-input-trigger-outline-color`  | `var(--mp-sys-color-content-brand)` |
+| `--mp-date-input-trigger-outline-color`  | `var(--mp-sys-color-action-primary)` |
 | `--mp-date-input-trigger-outline-offset` | `var(--mp-sys-space-1)`             |
 
 ## 布局与排列
@@ -18893,7 +18897,7 @@ import { Date as DateField, DatePicker, type DateProps, type DatePickerProps,
 | `--mp-date-calendar-selected-background` | `var(--mp-sys-color-action-primary)` | `background` |
 | `--mp-date-calendar-selected-color` | `var(--mp-button-solid-text-color)` | `color` |
 | `--mp-date-calendar-today-color` | `var(--mp-button-default-foreground-color)` | `background`, `color` |
-| `--mp-date-input-trigger-outline-color` | `var(--mp-sys-color-content-brand)` | `outline` |
+| `--mp-date-input-trigger-outline-color` | `var(--mp-sys-color-action-primary)` | `outline` |
 | `--mp-date-input-trigger-outline-offset` | `var(--mp-sys-space-1)` | `outline-offset` |
 | `--mp-date-input-trigger-outline-width` | `var(--mp-sys-space-1)` | `outline` |
 | `--mp-date-input-trigger-padding` | `0` | `padding` |
@@ -28005,7 +28009,9 @@ Document: llms/zh-CN/form.md
 
 ## 字段名称
 
-在 Shadow DOM 中使用延迟编辑 Slider 时，若弹层传送到 `body`，浏览器可能无法通过 ID 将弹层内控件与 Shadow DOM 中的提示或错误关联。可设置 `:popup-container="false"`，使弹层留在同一根节点；仍需为控件提供清晰名称。
+显式 `validate-status="error"` 且没有自动校验错误时，字段会通过 `aria-describedby` 关联可见的 `help` 文案或插槽；业务已有的描述会保留。自动错误出现时优先关联自动错误。
+
+在 Shadow DOM 中使用延迟编辑 Slider 时，若弹层传送到 `body`，浏览器可能无法通过 ID 将弹层内控件与 Shadow DOM 中的提示或错误关联。可设置 `:popup-container="false"`，或将 `popup-container` 设为同一 ShadowRoot 内的元素，使弹层与提示留在同一根节点；仍需为控件提供清晰名称。容器元素需要由应用提供，并考虑样式、定位和裁剪。
 
 直接编辑模式下，为单个字段设置可见标签时，可将 FormItem 的 `label-attrs` 中的 `for` 与控件的 `id` 对应；选择、日期和时间字段的原生输入不会用 placeholder 覆盖已关联的标签。显式 `aria-label` 或 `aria-labelledby` 仍按原生无障碍名称规则优先。placeholder 只是未提供标签时的回退，不能替代清晰的字段标签。日期和时间范围字段在 FormItem 中会将表单标签关联到范围分组；仍需通过 `input-attrs` 分别提供能够区分起止端点的名称。若 `label-attrs.for` 指向其他控件，不会将该标签误关联到范围分组。 当前未设置 `for` 时，范围控件会引用最近的 FormItem 标签，即使同一表单项还有其他控件。混合字段请将范围控件放在独立的有样式 FormItem 中并分别命名，或通过明确的 `for` 指向实际目标并为其他控件提供独立名称。单值 Slider 在 `for` 匹配组件 `id` 时为滑块及可选数字输入关联该标签；点击默认原生标签可聚焦未禁用的滑块；阻止标签点击默认行为可取消该聚焦。范围 Slider 的 `id` 与 `for` 匹配时，表单标签命名整个分组；仍应使用 `aria-label` 数组分别命名两个端点。 `tooltip` 提示按钮可单独聚焦，其名称不会合并到字段标签中。
 
@@ -35140,10 +35146,6 @@ Document: llms/zh-CN/input-tag.md
 Example source: src/input-tag/example/demos/basic.vue
 
 ```vue
-<script setup>
-import MpInputTag from '../../index'
-import '../../style'
-</script>
 <template>
   <mp-input-tag :default-value="['test']" placeholder="Please Enter" clearable />
 </template>
@@ -35187,8 +35189,6 @@ Example source: src/input-tag/example/demos/appearance-state-comparison.vue
 
 ```vue
 <script setup lang="ts">
-import MpInputTag from '../../index'
-import '../../style'
 import { proxyRefs as demoProxyRefs, ref } from 'vue'
 
 const scene1 = demoProxyRefs(
@@ -35270,10 +35270,6 @@ html[lang='en-US'] .demo-comparison-case > h4 > [lang='zh-CN'] {
 Example source: src/input-tag/example/demos/max.vue
 
 ```vue
-<script setup>
-import MpInputTag from '../../index'
-import '../../style'
-</script>
 <template>
   <mp-input-tag
     :default-value="['one', 'two', 'three', 'four']"
@@ -35299,8 +35295,6 @@ Example source: src/input-tag/example/demos/loading.vue
 
 ```vue
 <script setup lang="ts">
-import MpInputTag from '../../index'
-import '../../style'
 import { ref } from 'vue'
 
 const loading = ref(true)
@@ -35324,8 +35318,6 @@ Example source: src/input-tag/example/demos/link-title.vue
 
 ```vue
 <script setup lang="ts">
-import MpInputTag from '../../index'
-import '../../style'
 import { reactive, ref } from 'vue'
 
 const links = ref<string[]>([])
@@ -35437,8 +35429,6 @@ Example source: src/input-tag/example/demos/fallback-option.vue
 
 ```vue
 <script setup lang="ts">
-import MpInputTag from '../../index'
-import '../../style'
 import { reactive, ref } from 'vue'
 
 const urls = ref(['https://vuejs.org', 'https://github.com'])
@@ -35469,8 +35459,6 @@ Example source: src/input-tag/example/demos/async-fallback-restore.vue
 
 ```vue
 <script setup lang="ts">
-import MpInputTag from '../../index'
-import '../../style'
 import { onBeforeUnmount, ref } from 'vue'
 
 const values = ref(['shuai.meng', 'xiaoming', 'lisi'])
@@ -35638,6 +35626,8 @@ import type { InputTagProps, InputTagValue, InputTagEmits, InputTagSlots, InputT
 
 标签和关闭按钮的外观由 Tag 控制；禁用、只读及不可关闭的标签不能通过关闭按钮移除。
 
+标签关闭按钮的无障碍名称由本地化的关闭文字和标签显示名称组成，例如“关闭 小明”。自定义标签插槽的显示内容无法提取为纯文本时使用标签的 label；可通过对应项的 `tagProps.closeButtonAriaLabel` 指定完整名称。
+
 ## InputTag 外壳与内容职责
 
 InputTag 的 outline / filled / standard 外观使用 FieldDecorator 的变量。filled 的默认、悬停和聚焦背景分别使用 fill-1、fill-2、fill-3。Form 负责校验提示。
@@ -35717,6 +35707,8 @@ Maple 使用 edit-mode="popup" 在字段附近打开编辑浮层，Enter/F2 也�
 显式行内样式及直接写入同一 CSS 属性的 Props 优先于样式表默认值。Teleport 后，普通 CSS 变量按实际挂载位置继承；使用 ThemeProvider 时，请遵循其局部主题与弹层配置规则。局部定制请直接覆盖组件变量；仅修改后代的 system 变量不会重新计算从根继承的组件别名。内部变量不属于公共 API。
 
 <!-- component-css-variables:end -->
+
+后续验收（尚未完成）：使用真实读屏器（如 VoiceOver、NVDA）及受支持的浏览器，检查输入框名称、标签名称、创建与删除、键盘操作以及表单错误提示的实际播报。
 
 ---
 
@@ -37939,6 +37931,8 @@ const jump = () => retained?.scrollIntoView({ key: 50, align: 'top' })
 
 虚拟列表先覆盖视口，再按 `buffer` 在前后预渲染；`buffer=0` 合法，`estimatedSize` 必须是有限正数（包括小于 1 的值），无效值回退 30px。`fixedSize` 可动态切换；可变高度使用已测量值和估计值，支持 `ResizeObserver` 时会监听已挂载的可测量根节点尺寸变化。`item` 插槽接收原始索引和 unknown 数据，可返回多个可测量根节点，并应提供稳定的 `itemKey`；测量按同一项目的根节点整体边界计算。需要向辅助技术表达完整集合时，可在业务行上按实际数据提供 `aria-setsize` 和 `aria-posinset`。
 
+虚拟列表目前不能可靠测量或定位直接作为项目返回的多根子组件。临时方案是在插槽中用一个实际 DOM 元素包住该组件，或让子组件自身返回单个实际 DOM 根；根据列表语义选择合适的元素。该限制不影响插槽直接返回的多个可测量元素。
+
 服务端渲染时，`default`、`header`、`footer`、`empty` 或 `item` 插槽中同一节点同时使用 `v-for` 和 `v-memo` 当前会报错；数据模式是否启用虚拟化均受影响。可暂时移除该节点的 `v-memo` 并验证更新行为。
 
 ### List Props
@@ -38203,7 +38197,7 @@ Teleport 后主题变量按实际 DOM 祖先继承；放在内容内部的变量
 
 | 变量 | 默认值／条件 | 影响的样式 |
 | --- | --- | --- |
-| `--mp-loading-bar-color` | `var(--mp-sys-color-content-brand)` | `background-color` |
+| `--mp-loading-bar-color` | `var(--mp-sys-color-action-primary)` | `background-color` |
 | `--mp-loading-bar-error-color` | `var(--mp-sys-color-content-danger)` | `background-color` |
 | `--mp-loading-bar-height` | `3px` | `height` |
 | `--mp-loading-bar-transition-duration` | `250ms` | `transition` |
@@ -38215,7 +38209,7 @@ Teleport 后主题变量按实际 DOM 祖先继承；放在内容内部的变量
 
 ```css
 .component-theme {
-  --mp-loading-bar-color: var(--mp-sys-color-content-brand);
+  --mp-loading-bar-color: var(--mp-sys-color-action-primary);
 }
 ```
 
@@ -38528,7 +38522,7 @@ const configuredDirectiveLoading = ref(false)
 
 | 变量 | 默认值／条件 | 影响的样式 |
 | --- | --- | --- |
-| `--mp-loading-color` | `var(--mp-color-primary)` | `background-color`, `color` |
+| `--mp-loading-color` | `var(--mp-sys-color-action-primary)` | `background-color`, `color` |
 | `--mp-loading-desc-color` | `var(--mp-sys-color-content-brand)` | `color` |
 | `--mp-loading-desc-margin` | `8px 0 0` | `margin` |
 | `--mp-loading-directive-z-index` | `2000` | `z-index` |
@@ -38542,7 +38536,7 @@ const configuredDirectiveLoading = ref(false)
 
 ```css
 .component-theme {
-  --mp-loading-color: var(--mp-color-primary);
+  --mp-loading-color: var(--mp-sys-color-action-primary);
 }
 ```
 
@@ -38842,8 +38836,6 @@ Example source: src/mention/example/demos/atomic-mention.vue
 
 ```vue
 <script setup lang="ts">
-import MpMention from '../../index'
-import '../../style'
 import { reactive, ref } from 'vue'
 
 const content = ref('请联系 @[shuai.meng] 跟进')
@@ -38896,8 +38888,6 @@ Example source: src/mention/example/demos/search-options.vue
 
 ```vue
 <script setup lang="ts">
-import MpMention from '../../index'
-import '../../style'
 import { ref } from 'vue'
 import type { OptionsLoader } from '../../../_hooks/use-option-request'
 
@@ -38958,8 +38948,6 @@ Example source: src/mention/example/demos/async-read-pretty.vue
 
 ```vue
 <script setup lang="ts">
-import MpMention from '../../index'
-import '../../style'
 import { ref } from 'vue'
 
 const content = ref('请联系 @[shuai.meng]')
@@ -39026,8 +39014,6 @@ Example source: src/mention/example/demos/async-fallback-restore.vue
 
 ```vue
 <script setup lang="ts">
-import MpMention from '../../index'
-import '../../style'
 import { onBeforeUnmount, ref } from 'vue'
 
 const content = ref('请联系 @[shuai.meng]、@[xiaoming]、@[lisi]')
@@ -39136,7 +39122,6 @@ Example source: src/mention/example/demos/mirror-lifecycle.vue
 ```vue
 <script setup lang="ts">
 import { ref } from 'vue'
-import Mention from '../../index'
 
 const active = ref(true)
 const mounted = ref(true)
@@ -39152,7 +39137,7 @@ const value = ref('第一行\n第二行\n第三行\n@al')
     <mp-button html-type="button" @click="disabled = !disabled">切换禁用</mp-button>
     <p>搜索通知：{{ searches }}。在文本域滚动后输入 @al，停用再激活，继续输入检查镜像定位。</p>
     <KeepAlive v-if="mounted">
-      <Mention
+      <mp-mention
         v-if="active"
         v-model="value"
         type="textarea"
@@ -39183,8 +39168,6 @@ Example source: src/mention/example/demos/loading.vue
 
 ```vue
 <script setup lang="ts">
-import MpMention from '../../index'
-import '../../style'
 import { onBeforeUnmount, ref } from 'vue'
 import type { OptionsLoader } from '../../../_hooks/use-option-request'
 
@@ -39366,6 +39349,8 @@ Mention 同时在 Cedar 和 Maple 提供。
 ### 输入与候选关联
 
 input 使用 combobox，textarea 保留支持多行的 textbox；两者都以 aria-autocomplete、aria-controls 和 aria-activedescendant 关联实际 listbox 与活动候选。候选关闭或字段只读后撤下活动关联；方向键移动候选时原生输入保留 DOM 焦点。这里验证的是 DOM 关系和键盘行为，不代表已完成所有读屏软件和真机组合的认证。
+
+后续验收（尚未完成）：使用真实读屏器（如 VoiceOver、NVDA）及受支持的浏览器，检查原子提及初始化姓名、候选导航与选择、编辑和整体删除时的实际播报。
 
 ## CSS Variables
 
@@ -41053,6 +41038,8 @@ function reset(close: () => void) {
 ## 数据与状态控制
 
 ### 受控状态与禁用
+
+服务端渲染时，放在 `NavMenu` 内并初始展开的 `NavMenuItem` 暂时不会在首屏输出面板内容；内联与默认 body 容器均受影响。若允许面板在客户端接管后展开，可将 `v-model:open` 初始设为 `false`，并在 `onMounted` 中设为 `true`；这会改变首屏展示时机，业务仍应处理后续关闭请求。内联和默认 body 容器配置下已验证此用法；独立 `NavMenuItem` 的首屏面板不受此限制。 面板尚未创建时入口不会输出 `aria-controls`；创建后才关联实际面板。
 
 Example source: src/nav-menu/example/demos/controlled.vue
 
@@ -43491,6 +43478,8 @@ focus()/blur() 通过当前 Select 引用操作真实输入；允许编辑的延
 
 编辑入口枚举保留端侧差异：Cedar 为 direct / click / dblclick，Maple 为 direct / popup。
 
+后续验收（尚未完成）：使用真实读屏器（如 VoiceOver、NVDA）及受支持的浏览器，检查字段名称、异步加载与错误、单选和多选、键盘导航、已选人员名称以及电话和聊天操作的实际播报。
+
 ## CSS Variables
 
 <!-- component-css-variables:start -->
@@ -44565,7 +44554,7 @@ import { Picker, type PickerOptions, type PickerColumnOption,
 | `--mp-picker-background` | `var(--mp-color-body)` | `background`, `background-image` |
 | `--mp-picker-mask-background-image` | `linear-gradient(180deg, color-mix(in srgb, var(--mp-picker-background) 90%, transparent), color-mix(in srgb, var(--mp-picker-background) 40%, transparent)),     linear-gradient(       0deg,       color-mix(in srgb, var(--mp-picker-background) 90%, transparent),       color-mix(in srgb, var(--mp-picker-background) 40%, transparent)     )` | `background-image` |
 | `--mp-picker-option-active-text-color` | `var(--mp-picker-option-text-color)` | `color` |
-| `--mp-picker-option-check-color` | `var(--mp-sys-color-content-brand)` | `color` |
+| `--mp-picker-option-check-color` | `var(--mp-sys-color-action-primary)` | `color` |
 | `--mp-picker-option-check-right` | `12px` | `inset-inline-end` |
 | `--mp-picker-option-check-size` | `18px` | `font-size` |
 | `--mp-picker-option-disabled-opacity` | `0.5` | `opacity` |
@@ -54685,7 +54674,7 @@ Select 还提供 `remove(value)`、`exceed-limit(value, event)`、`dropdown-scro
 
 使用 `label({ data })` 自定义已选标签，`selected` 替换整个已选区域。还支持 `prefix`、`suffix`、`clear-icon({ clear })`、`arrow-icon`、`loading-icon`、`search-icon`、`empty`、`option({ data })`。
 
-选项 `label` 是用于搜索的纯文本；自定义选项内容使用 `render` 或 `option` 插槽，自定义反显使用 `format-label` 或 `label` 插槽。以 value 而非 label 识别选项。选项的 `disabled` 禁止选择和删除，`tagProps` 可定制已选标签。
+选项 `label` 是用于搜索的纯文本；自定义选项内容使用 `render` 或 `option` 插槽，自定义反显使用 `format-label` 或 `label` 插槽。以 value 而非 label 识别选项。选项的 `disabled` 禁止选择和删除，`tagProps` 可定制已选标签。 它支持 `style` 和 `onClose` 等监听；标签的显示和可移除状态由 Select 根据当前状态控制，关闭事件同时参与 Select 的移除流程。
 
 Select 还支持 `header`、`footer`、`trigger` 和默认插槽中的 `Option / Optgroup`。Option 属性为 `value`、`label`、`disabled`、`tagProps`、`index`；默认插槽提供 `selected`。分组数据为 `{ isGroup: true, label, options }`。所有编辑展示共用相同选项模型；read 插槽可自定义阅读内容。
 
@@ -54696,7 +54685,7 @@ Select 还支持 `header`、`footer`、`trigger` 和默认插槽中的 `Option /
 | value | 选项值，未传时取 label 或默认插槽文本 | string \| number \| boolean \| Record<string, unknown> | undefined |
 | label | 搜索与已选标签使用的文本 | string | undefined |
 | disabled | 禁止选择与移除 | boolean | false |
-| tag-props | 已选标签属性 | TagProps | undefined |
+| tag-props | 已选标签属性、原生属性和 Tag 事件监听 | SelectOptionTagProps | undefined |
 | index | 手动指定选项顺序 | number | undefined |
 
 ### Option Slots
@@ -54804,6 +54793,8 @@ SelectEditMode 在根入口和 select 子入口一致导出，值沿用各端 ed
 
 多选 empty-value 支持数组、null/undefined 和 empty-values 识别的空值；不接受其他标量。工厂仅在实际清空且无禁用保留项时执行，非法结果开发期提示并回退为 []，不向模型写入非法标量。
 
+后续验收（尚未完成）：使用真实读屏器（如 VoiceOver、NVDA）及受支持的浏览器，检查字段名称、单选与多选、分组和虚拟列表、键盘导航、加载及表单错误的实际播报。
+
 ## CSS Variables
 
 <!-- component-css-variables:start -->
@@ -54844,7 +54835,7 @@ SelectEditMode 在根入口和 select 子入口一致导出，值沿用各端 ed
 | `--mp-select-popup-option-text-color-disabled` | `var(--mp-sys-color-content-disabled)` | `color` |
 | `--mp-select-popup-option-text-color-hover` | `var(--mp-sys-color-content-primary)` | `color` |
 | `--mp-select-popup-option-text-color-selected` | `var(--mp-sys-color-action-primary)` | `color` |
-| `--mp-select-popup-padding-horizontal` | `var(--mp-sys-space-3)` | `padding-inline` |
+| `--mp-select-popup-padding-horizontal` | `0` | `padding-inline` |
 | `--mp-select-popup-padding-vertical` | `var(--mp-sys-space-2)` | `padding`, `padding-block` |
 
 </div>
@@ -58510,7 +58501,7 @@ Maple 使用 edit-mode="popup" 点击值区域打开编辑面板；direct 直接
 | error | boolean | undefined | 错误外观，省略时继承表单。 |
 | marks | Record<number, string> | undefined | 范围内位置的文字标记。 |
 | show-ticks | boolean | false | 显示步长刻度，最多 1000 个。 |
-| show-input | boolean | false | 显示附带 InputNumber；范围模式显示两个。滑块的 aria-describedby 也用于数字输入，并与表单错误说明合并。 |
+| show-input | boolean | false | 显示附带 InputNumber；范围模式显示两个。滑块的 aria-describedby 也用于数字输入，并与表单错误说明合并。显式 aria-description 会透传给滑块及数字输入；浏览器优先使用可解析的 aria-describedby，两者不一定合并。 |
 | show-tooltip | boolean / 'always' | true | true 在悬浮、聚焦、拖动时显示；false 隐藏；always 常驻。 |
 | format-tooltip | SliderTooltipFormatter | undefined | 格式化提示及 aria-valuetext，不改变模型。 |
 | aria-label | string / [string, string] | undefined | 单拇指名称或范围两个拇指的名称。 |
@@ -68794,6 +68785,8 @@ placement 是首选方位，auto-fit-position 默认 true 时最终方位可能�
 `reference-attrs` 的 `aria-describedby` 与参考元素已有描述 ID 合并去重；清理或更换引用时恢复原始属性。
 
 `fixed` 定位会识别 transform、filter、perspective 等形成的固定定位包含块，并处理轴向缩放；不保证旋转或倾斜坐标系精确。可访问的同源 iframe 引用与弹层之间会换算坐标并绑定各自文档事件；不支持跨源或无共同祖先的浏览上下文。启用 `update-at-scroll` 时，两端文档及可滚动祖先的滚动都会更新位置。
+
+当引用元素位于主文档（ShadowRoot 外）、弹层挂载到封闭 ShadowRoot 内的元素时，当前版本可能把弹层内部点击误判为外部点击并请求关闭。这种同文档场景可考虑将 `popup-container` 指向 `body` 或开放 ShadowRoot 内可访问的元素；更换容器后请检查主题、样式继承和定位。封闭根内的自动判断仍待修复。
 
 当引用通过插槽进入封闭 ShadowRoot 内的滚动容器时，外部 Trigger 无法访问该插槽及容器，不能自动监听其滚动。封闭组件可在内部滚动或插槽变化时调用 Trigger 实例的 `resize()`；需要滚动关闭时，可在内部按业务阈值调用 `close()`，并在卸载时清理监听。
 

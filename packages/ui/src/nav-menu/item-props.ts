@@ -40,7 +40,7 @@ export const navMenuItemProps = {
   optionsMode: { type: String as PropType<Orientation>, default: 'vertical' },
 }
 export const props = navMenuItemProps
-export type NavMenuItemProps = import('vue').ExtractPublicPropTypes<typeof navMenuItemProps>
+export type NavMenuItemProps = import('../_utils/public-props').CompatiblePublicProps<typeof navMenuItemProps>
 export interface NavMenuItemSlotContext {
   modelValue: NavMenuKey | null
   selectedOption: NavMenuOption | undefined

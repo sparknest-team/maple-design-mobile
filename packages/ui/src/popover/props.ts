@@ -27,6 +27,6 @@ export const popoverProps = {
   closeOnClickReference: { type: Boolean, default: true },
 }
 
-export type PopoverProps = import('vue').ExtractPublicPropTypes<typeof popoverProps>
+export type PopoverProps = import('../_utils/public-props').CompatiblePublicProps<typeof popoverProps>
 export type PopoverPlacement = TriggerPlacement
 export type PopoverTrigger = TriggerEvent

@@ -57,3 +57,27 @@ for (const type of ['input', 'textarea'] as const) {
     }
   })
 }
+
+for (const type of ['input', 'textarea'] as const) {
+  test(`${type} exposes the resolved atomic mention once through the editable value`, async () => {
+    const owner = mount(Mention, {
+      attachTo: document.body,
+      props: {
+        type,
+        atomic: true,
+        modelValue: '联系 @[alice]',
+        options: [{ value: 'alice', label: '艾丽丝' }],
+        'aria-label': '提及人员',
+      },
+    })
+    owners.push(owner)
+    const input = owner.get(type)
+    expect(input.attributes('aria-label')).toBe('提及人员')
+    expect((input.element as HTMLInputElement).value).toBe('联系 @艾丽丝')
+    const overlay = owner.get('.mp-mention-atomic-overlay[aria-hidden=true]')
+    expect(overlay.text()).toContain('@艾丽丝')
+    await owner.setProps({ options: [{ value: 'alice', label: '新姓名' }] })
+    expect((input.element as HTMLInputElement).value).toBe('联系 @新姓名')
+    expect(owner.emitted('update:modelValue')).toBeUndefined()
+  })
+}

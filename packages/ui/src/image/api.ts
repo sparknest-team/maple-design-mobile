@@ -1,4 +1,6 @@
-import type { ImgHTMLAttributes, Slot } from 'vue'
+import type { ImgHTMLAttributes, Slot, VNode } from 'vue'
+
+type TypedSlot<T> = (props: T) => VNode[]
 
 export type ImageFit = 'fill' | 'contain' | 'cover' | 'none' | 'scale-down'
 export type ImageInteraction = 'auto' | 'desktop' | 'touch'
@@ -117,7 +119,7 @@ export interface ImagePreviewImageSlotProps {
   previewedImgProps?: ImgHTMLAttributes
 }
 export interface ImagePreviewSlots {
-  image?: Slot<ImagePreviewImageSlotProps>
+  image?: TypedSlot<ImagePreviewImageSlotProps>
   actions?: Slot
   'close-icon'?: Slot
   overlay?: Slot
@@ -126,9 +128,9 @@ export interface ImagePreviewSlots {
 export interface ImagePreviewGroupSlots {
   default?: Slot
   'close-icon'?: Slot
-  indicator?: Slot<{ imageNumber: number; length: number }>
-  extra?: Slot<{ url: string | undefined }>
-  actions?: Slot<{ url: string | undefined }>
+  indicator?: TypedSlot<{ imageNumber: number; length: number }>
+  extra?: TypedSlot<{ url: string | undefined }>
+  actions?: TypedSlot<{ url: string | undefined }>
 }
 export interface ImagePreviewActionSlots {
   default?: Slot

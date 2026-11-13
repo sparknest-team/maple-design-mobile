@@ -147,6 +147,8 @@ placement 是首选方位，auto-fit-position 默认 true 时最终方位可能�
 
 `fixed` 定位会识别 transform、filter、perspective 等形成的固定定位包含块，并处理轴向缩放；不保证旋转或倾斜坐标系精确。可访问的同源 iframe 引用与弹层之间会换算坐标并绑定各自文档事件；不支持跨源或无共同祖先的浏览上下文。启用 `update-at-scroll` 时，两端文档及可滚动祖先的滚动都会更新位置。
 
+当引用元素位于主文档（ShadowRoot 外）、弹层挂载到封闭 ShadowRoot 内的元素时，当前版本可能把弹层内部点击误判为外部点击并请求关闭。这种同文档场景可考虑将 `popup-container` 指向 `body` 或开放 ShadowRoot 内可访问的元素；更换容器后请检查主题、样式继承和定位。封闭根内的自动判断仍待修复。
+
 当引用通过插槽进入封闭 ShadowRoot 内的滚动容器时，外部 Trigger 无法访问该插槽及容器，不能自动监听其滚动。封闭组件可在内部滚动或插槽变化时调用 Trigger 实例的 `resize()`；需要滚动关闭时，可在内部按业务阈值调用 `close()`，并在卸载时清理监听。
 
 弹层挂载到 iframe 内时，显示区域仍受该 iframe 视口裁剪；即使跨文档坐标换算正确，iframe 范围外的弹层内容也不可见。

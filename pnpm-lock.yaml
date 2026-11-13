@@ -403,12 +403,18 @@ importers:
       '@maple-design/use-vue':
         specifier: workspace:*
         version: link:../use
+      csstype:
+        specifier: ^3.2.3
+        version: 3.2.3
       dayjs:
         specifier: ^1.11.13
         version: 1.11.21
       decimal.js:
         specifier: ^10.6.0
         version: 10.6.0
+      zod:
+        specifier: ^3.25.76
+        version: 3.25.76
     devDependencies:
       '@maple-design/cli-vue':
         specifier: workspace:*
@@ -452,9 +458,6 @@ importers:
       vue-router:
         specifier: 'catalog:'
         version: 4.5.0(vue@3.5.13(typescript@5.6.3))
-      zod:
-        specifier: ^3.25.76
-        version: 3.25.76
 
   packages/ui-playground:
     dependencies:

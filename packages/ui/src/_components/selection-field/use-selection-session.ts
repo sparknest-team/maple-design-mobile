@@ -1,14 +1,5 @@
-import {
-  computed,
-  onBeforeUnmount,
-  onDeactivated,
-  ref,
-  shallowRef,
-  watch,
-  type ComputedRef,
-  type Ref,
-  type ShallowRef,
-} from 'vue'
+import { computed, onBeforeUnmount, onDeactivated, ref, shallowRef, watch, type ComputedRef, type Ref } from 'vue'
+import type { CompatibleShallowRef as ShallowRef } from '../../_utils/compatible-shallow-ref'
 
 export function sameSelectionValue(left: unknown, right: unknown): boolean {
   return (

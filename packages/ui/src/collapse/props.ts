@@ -65,8 +65,10 @@ export const collapseItemProps = {
   destroyOnHide: Boolean,
 }
 
-export type CollapseProps = import('vue').ExtractPublicPropTypes<typeof collapseProps>
-export type CollapseItemProps = import('vue').ExtractPublicPropTypes<typeof collapseItemProps> & { name: CollapseName }
+export type CollapseProps = import('../_utils/public-props').CompatiblePublicProps<typeof collapseProps>
+export type CollapseItemProps = import('../_utils/public-props').CompatiblePublicProps<typeof collapseItemProps> & {
+  name: CollapseName
+}
 
 export interface CollapseExpandIconSlotProps {
   expanded: boolean
