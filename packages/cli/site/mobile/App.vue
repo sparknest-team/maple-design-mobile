@@ -44,16 +44,22 @@
         </template>
       </mp-page-header>
     </header>
-    <mp-space v-if="sections.length > 1" class="mobile-documentation-sections" size="sm" wrap>
-      <mp-button
+    <nav
+      v-if="sections.length > 1"
+      class="mobile-documentation-sections"
+      :aria-label="language === 'en-US' ? 'Documentation areas' : '文档分区'"
+    >
+      <button
         v-for="section in sections"
         :key="section.id"
-        :status="activeSection?.id === section.id ? 'primary' : 'default'"
+        type="button"
+        class="mobile-documentation-section"
         :aria-pressed="activeSection?.id === section.id"
         @click="switchSection(section)"
-        >{{ section.text[language] }}</mp-button
       >
-    </mp-space>
+        {{ section.text[language] }}
+      </button>
+    </nav>
     <div class="router-view__block" :class="{ 'mobile-documentation': isDocumentation }">
       <router-view />
     </div>
@@ -428,9 +434,39 @@ html:not([lang='en-US']) .mobile-demo-case-heading > [lang='en-US'] {
 <style scoped>
 .mobile-documentation-sections {
   margin-top: calc(55px + var(--site-mobile-page-header-safe-area-top));
-  padding: 12px 16px;
-  border-bottom: 1px solid var(--site-config-color-border);
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  padding: 6px 12px;
 }
+
+.mobile-documentation-section {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: var(--site-config-color-text);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  padding: 8px 10px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  cursor: pointer;
+  border-radius: 4px;
+}
+.mobile-documentation-section:hover {
+  background: var(--site-config-color-nav-button-hover-background);
+}
+.mobile-documentation-section[aria-pressed='true'] {
+  color: var(--mp-sys-color-content-brand);
+  font-weight: 500;
+}
+.mobile-documentation-section:focus-visible {
+  outline: 2px solid var(--mp-sys-color-content-brand);
+  outline-offset: -2px;
+}
+
 .mobile-documentation-sections + .router-view__block {
   padding-top: 15px;
 }

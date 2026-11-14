@@ -6872,6 +6872,10 @@ const directions = ['column', 'row', 'row-reverse'] as const
 
 ### Composing Tabs and nested cards
 
+Enable `swipeable` to switch tabs with horizontal touch gestures in the content area. The table uses `data-tabs-no-swipe` to preserve horizontal scrolling; swipe outside the table to switch tabs.
+
+Maple has no TypographyTitle component; group headings use native headings.
+
 Compose Card, Tabs and vertical Space. Compact outlined cards group each panel; wide tables scroll within their own container on small screens. The industry panel uses section headings without extra cards.
 
 Example source: src/card/example/demos/nested-tabs.vue
@@ -6888,7 +6892,7 @@ const rows = [
 <template>
   <mp-card title="三季报前瞻" class="nested-card-demo" :elevation="false">
     <template #title-action><span class="report-date">2026-08</span></template>
-    <mp-tabs default-value="performance" :item-style="{ padding: '16px 0 0' }" tab-list-aria-label="分析维度">
+    <mp-tabs swipeable default-value="performance" :item-style="{ padding: '16px 0 0' }" tab-list-aria-label="分析维度">
       <mp-tab-pane name="industry" title="产业链">
         <mp-card title="产业链观察" size="sm" variant="outline" :elevation="false">
           <mp-space direction="column" size="lg">
@@ -6906,13 +6910,27 @@ const rows = [
       <mp-tab-pane name="performance" title="业绩">
         <mp-space direction="column" size="lg">
           <mp-card title="单季还原（累计相减）" size="sm" variant="outline" :elevation="false">
-            <div class="report-table" role="region" aria-label="单季财务数据，可横向滚动" tabindex="0">
-              <table>
-                <caption>示例数据 · 单位：亿元</caption>
-                <thead><tr><th v-for="heading in ['单季', '营收(亿)', '环比', '毛利率', '净利(亿)']" :key="heading" scope="col">{{ heading }}</th></tr></thead>
-                <tbody><tr v-for="row in rows" :key="row[0]"><td v-for="(cell, index) in row" :key="index">{{ cell }}</td></tr></tbody>
-              </table>
+            <div data-tabs-no-swipe style="touch-action: pan-x pan-y">
+              <mp-table :full-width="520" :elevation="false">
+                <thead>
+                  <tr>
+                    <th
+                      v-for="heading in ['单季', '营收(亿)', '环比', '毛利率', '净利(亿)']"
+                      :key="heading"
+                      scope="col"
+                    >
+                      {{ heading }}
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="row in rows" :key="row[0]">
+                    <td v-for="(cell, index) in row" :key="index">{{ cell }}</td>
+                  </tr>
+                </tbody>
+              </mp-table>
             </div>
+            <p class="report-note">示例数据 · 单位：亿元</p>
           </mp-card>
           <mp-card title="经营摘要" size="sm" variant="outline" :elevation="false">
             <p>本季营收 16.77 亿元，毛利率 25.1%。</p>
@@ -6930,16 +6948,25 @@ const rows = [
 </template>
 
 <style scoped>
-.nested-card-demo { inline-size: 100%; min-inline-size: 0; }
-.report-date { white-space: nowrap; font-size: 12px; }
-.report-table { max-inline-size: 100%; overflow-x: auto; }
-table { inline-size: 100%; min-inline-size: 520px; border-collapse: collapse; font-variant-numeric: tabular-nums; }
-caption { text-align: start; padding-block-end: 8px; }
-th, td { padding: 12px; text-align: end; white-space: nowrap; border-block-end: 1px solid var(--mp-sys-color-border-default); }
-th:first-child, td:first-child { text-align: start; }
-h3 { margin: 0 0 8px; font-size: 14px; font-weight: 500; }
-p { margin: 0; }
-@media (max-width: 480px) { th, td { padding: 8px; } }
+.nested-card-demo {
+  inline-size: 100%;
+  min-inline-size: 0;
+}
+.report-date {
+  white-space: nowrap;
+  font-size: 12px;
+}
+.report-note {
+  margin-block-start: 8px;
+}
+h3 {
+  margin: 0 0 8px;
+  font-size: 14px;
+  font-weight: 500;
+}
+p {
+  margin: 0;
+}
 </style>
 ```
 
@@ -66923,6 +66950,738 @@ Apply overrides to the rendered component root or the actual popup ancestor. For
 ```css
 .component-theme {
   --mp-time-panel-actions-padding: 8px;
+}
+```
+
+Explicit inline styles and props that write the same CSS property take precedence over stylesheet defaults. After Teleport, ordinary CSS variables inherit from the actual mount location. When using ThemeProvider, follow its local-theme and popup configuration rules. Override the component variable directly for local styling; root-level aliases are not recalculated merely because a descendant system variable changes. Internal variables are not public APIs.
+
+<!-- component-css-variables:end -->
+
+---
+
+Document: llms/en-US/timeline.md
+
+<!-- Source: src/timeline/docs/en-US.md; locale: en-US; page: /en-US/timeline -->
+
+# Timeline
+
+Start with the basic example, then compare related settings before moving to controlled, asynchronous or combined use cases.
+
+## Basic examples
+
+### Basic usage
+
+- `reverse`: Whether reverse order
+
+Example source: src/timeline/example/demos/basic.vue
+
+```vue
+<template>
+  <div :style="{ marginBottom: '40px' }">
+    <span :style="{ verticalAlign: 'middle', marginRight: '8px' }"> Reverse </span>
+    <mp-radio-group v-model="isReverse" :style="{ marginBottom: '30px' }" @change="onChange">
+      <mp-radio :value="false">No Reverse</mp-radio>
+      <mp-radio :value="true">Reverse</mp-radio>
+    </mp-radio-group>
+  </div>
+  <mp-timeline :reverse="isReverse">
+    <mp-timeline-item label="2017-03-10">The first milestone</mp-timeline-item>
+    <mp-timeline-item label="2018-05-12">The second milestone</mp-timeline-item>
+    <mp-timeline-item label="2020-09-30">The third milestone</mp-timeline-item>
+  </mp-timeline>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+
+const isReverse = ref(false)
+
+const onChange = (bool) => {
+  isReverse.value = bool
+}
+</script>
+```
+
+## Appearance and states
+
+### Type
+
+Preview configuration: `label="2017-03-10"`, `lineType="dashed"`, `type="secondary"`, `label="2018-05-12"`.
+
+Example source: src/timeline/example/demos/type.vue
+
+```vue
+<template>
+  <mp-timeline>
+    <mp-timeline-item label="2017-03-10" lineType="dashed">
+      The first milestone
+      <br />
+      <span type="secondary" :style="{ fontSize: '12px', marginTop: '4px' }"> This is a descriptive message </span>
+    </mp-timeline-item>
+    <mp-timeline-item label="2018-05-12" lineType="dashed">
+      The second milestone
+      <br />
+      <span type="secondary" :style="{ fontSize: '12px', marginTop: '4px' }"> This is a descriptive message </span>
+    </mp-timeline-item>
+    <mp-timeline-item label="2020-09-30" lineType="dashed">
+      The third milestone
+      <br />
+      <span type="secondary" :style="{ fontSize: '12px', marginTop: '4px' }"> This is a descriptive message </span>
+    </mp-timeline-item>
+  </mp-timeline>
+</template>
+
+<script setup></script>
+```
+
+## Layout and arrangement
+
+### Timeline direction and labels
+
+<!-- demo-config-notes:start -->
+#### Configuration reference for this comparison
+
+| Configuration | Purpose | Related examples |
+| --- | --- | --- |
+| `mode` | The display mode of Timeline | Timeline direction and labels |
+| `label-position` | Position of label text | Timeline direction and labels |
+| `orientation` | Horizontal/vertical axis of the timeline line, default vertical; constrains valid item sides | Timeline direction and labels |
+| `pending` | Append a pending item; true has no text, and a string is displayed as its content. | Timeline direction and labels |
+<!-- demo-config-notes:end -->
+
+
+Compare orientation, sequence and label placement independently of pending states and custom nodes.
+
+Example source: src/timeline/example/demos/layout-comparison.vue
+
+```vue
+<script setup>
+import { proxyRefs as demoProxyRefs, ref } from 'vue'
+
+const scene1 = demoProxyRefs(
+  (() => {
+    const mode = ref('left')
+
+    const onChange = (_mode) => {
+      mode.value = _mode
+    }
+    return { mode, onChange }
+  })(),
+)
+
+const scene2 = demoProxyRefs(
+  (() => {
+    const mode = ref('top')
+
+    const onChange = (_mode) => {
+      mode.value = _mode
+    }
+    return { mode, onChange }
+  })(),
+)
+
+const scene3 = demoProxyRefs(
+  (() => {
+    const mode = ref('left')
+
+    const pos = ref('same')
+
+    const onLabelPositionChange = (_pos) => {
+      pos.value = _pos
+    }
+
+    const onModeChange = (_mode) => {
+      mode.value = _mode
+    }
+    return { mode, pos, onLabelPositionChange, onModeChange }
+  })(),
+)
+</script>
+
+<template>
+  <div class="demo-comparison">
+    <section class="demo-comparison-case demo-comparison-case--1" data-comparison-scene="vertical">
+      <h4><span lang="zh-CN">纵向时间轴</span><span lang="en-US">vertical</span></h4>
+      <div>
+        <mp-row
+          align="center"
+          :style="{
+            marginBottom: '24px',
+          }"
+        >
+          <span>mode: &nbsp; &nbsp;</span>
+          <mp-radio-group :modelValue="scene1.mode" @change="scene1.onChange">
+            <mp-radio value="left">left</mp-radio>
+            <mp-radio value="right">right</mp-radio>
+            <mp-radio value="alternate">alternate</mp-radio>
+          </mp-radio-group>
+        </mp-row>
+        <mp-timeline :mode="scene1.mode" labelPosition="relative">
+          <mp-timeline-item label="2012-08">
+            <mp-row
+              :style="{
+                display: 'inline-flex',
+                alignItems: 'center',
+              }"
+            >
+              <img
+                width="40"
+                :style="{
+                  marginRight: '16px',
+                  marginBottom: '12px',
+                }"
+                src="https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/b5d834b83708a269b4562924436eac48.png~tplv-uwbnlip3yd-png.png"
+              />
+              <div
+                :style="{
+                  marginBottom: '12px',
+                }"
+              >
+                Toutiao
+                <div
+                  :style="{
+                    fontSize: '12px',
+                    color: '#4E5969',
+                  }"
+                >
+                  Founded in 2012
+                </div>
+              </div>
+            </mp-row>
+          </mp-timeline-item>
+          <mp-timeline-item label="2017-05">
+            <mp-row
+              :style="{
+                display: 'inline-flex',
+                alignItems: 'center',
+              }"
+            >
+              <img
+                width="40"
+                :style="{
+                  marginRight: '16px',
+                  marginBottom: '12px',
+                }"
+                src="https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/385ed540c359ec8a9b9ce2b5fe89b098.png~tplv-uwbnlip3yd-png.png"
+              />
+              <div
+                :style="{
+                  marginBottom: '12px',
+                }"
+              >
+                Xigua Video
+                <div
+                  :style="{
+                    fontSize: '12px',
+                    color: '#4E5969',
+                  }"
+                >
+                  Founded in 2017
+                </div>
+              </div>
+            </mp-row>
+          </mp-timeline-item>
+          <mp-timeline-item label="2018-07">
+            <mp-row
+              :style="{
+                display: 'inline-flex',
+                alignItems: 'center',
+              }"
+            >
+              <img
+                width="40"
+                :style="{
+                  marginRight: '16px',
+                  marginBottom: '12px',
+                }"
+                src="https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/385ed540c359ec8a9b9ce2b5fe89b098.png~tplv-uwbnlip3yd-png.png"
+              />
+              <div
+                :style="{
+                  marginBottom: '12px',
+                }"
+              >
+                Pipidance
+                <div
+                  :style="{
+                    fontSize: '12px',
+                    color: '#4E5969',
+                  }"
+                >
+                  Founded in 2018
+                </div>
+              </div>
+            </mp-row>
+          </mp-timeline-item>
+        </mp-timeline>
+      </div>
+    </section>
+
+    <section class="demo-comparison-case demo-comparison-case--2" data-comparison-scene="direction">
+      <h4><span lang="zh-CN">横向时间轴</span><span lang="en-US">direction</span></h4>
+      <div>
+        <mp-row
+          align="center"
+          :style="{
+            marginBottom: '24px',
+          }"
+        >
+          <span>mode: &nbsp; &nbsp;</span>
+          <mp-radio-group :modelValue="scene2.mode" @change="scene2.onChange">
+            <mp-radio value="top">top</mp-radio>
+            <mp-radio value="bottom">bottom</mp-radio>
+            <mp-radio value="alternate">alternate</mp-radio>
+          </mp-radio-group>
+        </mp-row>
+        <mp-timeline orientation="horizontal" pending :mode="scene2.mode">
+          <mp-timeline-item label="2012-08">
+            <mp-row
+              :style="{
+                display: 'inline-flex',
+                alignItems: 'center',
+              }"
+            >
+              <img
+                width="40"
+                :style="{
+                  marginRight: '16px',
+                  marginBottom: '12px',
+                }"
+                src="https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/b5d834b83708a269b4562924436eac48.png~tplv-uwbnlip3yd-png.png"
+              />
+              <div
+                :style="{
+                  marginBottom: '12px',
+                }"
+              >
+                Toutiao
+                <div
+                  :style="{
+                    fontSize: '12px',
+                    color: '#4E5969',
+                  }"
+                >
+                  Founded in 2012
+                </div>
+              </div>
+            </mp-row>
+          </mp-timeline-item>
+          <mp-timeline-item label="2017-05">
+            <mp-row
+              :style="{
+                display: 'inline-flex',
+                alignItems: 'center',
+              }"
+            >
+              <img
+                width="40"
+                :style="{
+                  marginRight: '16px',
+                  marginBottom: '12px',
+                }"
+                src="https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/385ed540c359ec8a9b9ce2b5fe89b098.png~tplv-uwbnlip3yd-png.png"
+              />
+              <div
+                :style="{
+                  marginBottom: '12px',
+                }"
+              >
+                Xigua Video
+                <div
+                  :style="{
+                    fontSize: '12px',
+                    color: '#4E5969',
+                  }"
+                >
+                  Founded in 2017
+                </div>
+              </div>
+            </mp-row>
+          </mp-timeline-item>
+          <mp-timeline-item label="2018-07">
+            <mp-row
+              :style="{
+                display: 'inline-flex',
+                alignItems: 'center',
+              }"
+            >
+              <img
+                width="40"
+                :style="{
+                  marginRight: '16px',
+                  marginBottom: '12px',
+                }"
+                src="https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/385ed540c359ec8a9b9ce2b5fe89b098.png~tplv-uwbnlip3yd-png.png"
+              />
+              <div
+                :style="{
+                  marginBottom: '12px',
+                }"
+              >
+                Pipidance
+                <div
+                  :style="{
+                    fontSize: '12px',
+                    color: '#4E5969',
+                  }"
+                >
+                  Founded in 2018
+                </div>
+              </div>
+            </mp-row>
+          </mp-timeline-item>
+        </mp-timeline>
+      </div>
+    </section>
+
+    <section class="demo-comparison-case demo-comparison-case--3" data-comparison-scene="label">
+      <h4><span lang="zh-CN">标签文本位置</span><span lang="en-US">label</span></h4>
+      <div>
+        <mp-row align="center">
+          <span>labelPosition: &nbsp; &nbsp;</span>
+          <mp-radio-group :modelValue="scene3.pos" @change="scene3.onLabelPositionChange">
+            <mp-radio value="same">same</mp-radio>
+            <mp-radio value="relative">relative</mp-radio>
+          </mp-radio-group>
+        </mp-row>
+        <mp-row
+          align="center"
+          :style="{
+            margin: '20px 0px 24px',
+          }"
+        >
+          <span>mode: &nbsp; &nbsp;</span>
+          <mp-radio-group :modelValue="scene3.mode" @change="scene3.onModeChange">
+            <mp-radio value="left">left</mp-radio>
+            <mp-radio value="right">right</mp-radio>
+            <mp-radio value="alternate">alternate</mp-radio>
+          </mp-radio-group>
+        </mp-row>
+        <mp-timeline :mode="scene3.mode" :labelPosition="scene3.pos">
+          <mp-timeline-item label="2017-03-10" dotColor="#52C419"> The first milestone </mp-timeline-item>
+          <mp-timeline-item label="2018-05-12" dotColor="#F5222D" labelPosition="same">
+            The second milestone
+          </mp-timeline-item>
+          <mp-timeline-item label="2020-09-30" content-placement="left"> The third milestone </mp-timeline-item>
+        </mp-timeline>
+      </div>
+    </section>
+  </div>
+</template>
+
+<style scoped lang="less">
+.demo-comparison {
+  display: grid;
+  gap: 24px;
+  min-width: 0;
+  max-width: 100%;
+}
+.demo-comparison-case {
+  min-width: 0;
+  max-width: 100%;
+}
+.demo-comparison-case > h4 {
+  margin: 0 0 12px;
+  font-size: 14px;
+}
+html:not([lang='en-US']) .demo-comparison-case > h4 > [lang='en-US'],
+html[lang='en-US'] .demo-comparison-case > h4 > [lang='zh-CN'] {
+  display: none;
+}
+</style>
+```
+
+## Content and presentation
+
+### Pending
+
+Preview configuration: `align="center"`, `orientation="horizontal"`, `:checked="!!pendingProps.reverse"`, `:checked="!!pendingProps.pending"`.
+
+Example source: src/timeline/example/demos/pending.vue
+
+```vue
+<template>
+  <mp-row align="center" :style="{ marginBottom: '24px' }">
+    <mp-checkbox
+      :checked="pendingProps.orientation === 'horizontal'"
+      @change="(v) => onChange({ orientation: v ? 'horizontal' : 'vertical' })"
+    >
+      horizontal &nbsp; &nbsp;
+    </mp-checkbox>
+    <mp-checkbox :checked="!!pendingProps.reverse" @change="(v) => onChange({ reverse: v })">
+      reverse &nbsp; &nbsp;
+    </mp-checkbox>
+    <mp-checkbox
+      :checked="!!pendingProps.pending"
+      @change="(v) => onChange({ pending: v ? 'This is a pending dot' : false })"
+    >
+      pending &nbsp; &nbsp;
+    </mp-checkbox>
+    <mp-checkbox :checked="!!pendingProps.hasPendingDot" @change="(v) => onChange({ hasPendingDot: v })">
+      custom pendingDot
+    </mp-checkbox>
+  </mp-row>
+  <mp-timeline v-bind="pendingProps">
+    <template v-if="pendingProps.hasPendingDot" #dot>
+      <mp-icon-fire :style="{ color: '#e70a0a' }" />
+    </template>
+    <mp-timeline-item label="2017-03-10" dotColor="#52C419"> The first milestone </mp-timeline-item>
+    <mp-timeline-item label="2018-05-12" dotColor="#F5222D"> The second milestone </mp-timeline-item>
+    <mp-timeline-item label="2020-09-30">The third milestone</mp-timeline-item>
+  </mp-timeline>
+  <mp-timeline>
+    <template #pending>Waiting for the next milestone</template>
+  </mp-timeline>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+
+const pendingProps = ref({})
+
+const onChange = (newProps) => {
+  pendingProps.value = {
+    ...pendingProps.value,
+    ...newProps,
+  }
+}
+</script>
+```
+
+### Mode
+
+- `mode`: The display mode of Timeline
+
+Example source: src/timeline/example/demos/mode.vue
+
+```vue
+<template>
+  <mp-row justify="space-between">
+    <mp-timeline mode="alternate" :style="{ flex: 1 }">
+      <mp-timeline-item label="2017-03-10">The first milestone</mp-timeline-item>
+      <mp-timeline-item label="2018-05-12">The second milestone</mp-timeline-item>
+      <mp-timeline-item label="2020-09-30" content-placement="left"> The third milestone </mp-timeline-item>
+    </mp-timeline>
+    <mp-timeline mode="right" :style="{ flex: 1 }">
+      <mp-timeline-item label="2017-03-10">The first milestone</mp-timeline-item>
+      <mp-timeline-item label="2018-05-12">The second milestone</mp-timeline-item>
+      <mp-timeline-item label="2020-09-30" content-placement="left"> The third milestone </mp-timeline-item>
+    </mp-timeline>
+  </mp-row>
+</template>
+
+<script setup></script>
+```
+
+## Customization and slots
+
+### Icon
+
+Preview configuration: `label="2017-03-10"`, `dotColor="#00B42A"`, `label="2018-05-22"`, `label="2020-06-22"`.
+
+Example source: src/timeline/example/demos/icon.vue
+
+```vue
+<template>
+  <mp-timeline>
+    <mp-timeline-item label="2017-03-10" dotColor="#00B42A"> The first milestone </mp-timeline-item>
+    <mp-timeline-item label="2018-05-22">The second milestone</mp-timeline-item>
+    <mp-timeline-item label="2020-06-22" dotColor="#F53F3F">
+      The third milestone
+      <mp-icon-exclamation-circle-fill :style="{ color: '#F53F3F', fontSize: '12px', marginLeft: '4px' }" />
+    </mp-timeline-item>
+    <mp-timeline-item label="2020-09-30" dotColor="#C9CDD4"> The fourth milestone </mp-timeline-item>
+  </mp-timeline>
+</template>
+
+<script setup></script>
+```
+
+### Dot
+
+Preview configuration: `label="2020-04-12"`, `dotColor="#00B42A"`, `label="2020-05-17"`, `label="2020-06-22"`.
+
+Example source: src/timeline/example/demos/dot.vue
+
+```vue
+<template>
+  <div :style="{ display: 'flex' }">
+    <mp-timeline :style="{ marginRight: '40px' }">
+      <mp-timeline-item label="2020-04-12" dotColor="#00B42A"> The first milestone </mp-timeline-item>
+      <mp-timeline-item label="2020-05-17"> The second milestone </mp-timeline-item>
+      <mp-timeline-item label="2020-06-22">
+        <template #dot>
+          <mp-icon-clock-circle :style="{ fontSize: '12px', color: '#F53F3F' }" />
+        </template>
+        The third milestone
+      </mp-timeline-item>
+      <mp-timeline-item label="2020-06-22" dotColor="var(--color-fill-4)"> The third milestone </mp-timeline-item>
+    </mp-timeline>
+
+    <mp-timeline :style="{ marginRight: '40px' }">
+      <mp-timeline-item label="2020-04-12">
+        <template #dot>
+          <mp-icon-check
+            :style="{
+              fontSize: '12px',
+              padding: '2px',
+              boxSizing: 'border-box',
+              borderRadius: '50%',
+              backgroundColor: 'var(--color-primary-light-1)',
+            }"
+          />
+        </template>
+        The first milestone
+      </mp-timeline-item>
+      <mp-timeline-item label="2020-05-17">
+        <template #dot>
+          <mp-icon-check
+            :style="{
+              fontSize: '12px',
+              padding: '2px',
+              boxSizing: 'border-box',
+              borderRadius: '50%',
+              backgroundColor: 'var(--color-primary-light-1)',
+            }"
+          />
+        </template>
+      </mp-timeline-item>
+      <mp-timeline-item label="2020-06-22">The third milestone</mp-timeline-item>
+      <mp-timeline-item label="2020-06-22" dotColor="var(--color-fill-4)"> The third milestone </mp-timeline-item>
+    </mp-timeline>
+
+    <mp-timeline>
+      <mp-timeline-item label="2020-04-12">The first milestone</mp-timeline-item>
+      <mp-timeline-item label="2020-05-17" dotColor="var(--color-fill-4)"> The second milestone </mp-timeline-item>
+      <mp-timeline-item label="2020-06-22" dotColor="var(--color-fill-4)"> The third milestone </mp-timeline-item>
+    </mp-timeline>
+  </div>
+</template>
+
+<script setup></script>
+```
+
+### Custom
+
+Example source: src/timeline/example/demos/custom.vue
+
+```vue
+<template>
+  <mp-timeline>
+    <mp-timeline-item>
+      Code Review
+      <template #label>
+        <mp-tag>
+          <template #icon>
+            <mp-icon-check-circle-fill />
+          </template>
+          Passed
+        </mp-tag>
+      </template>
+    </mp-timeline-item>
+  </mp-timeline>
+</template>
+
+<script setup></script>
+```
+
+## API
+
+### Timeline Props
+
+| Parameter | Description | Type | Default |
+| -------------- | --------------------------------------------------------------------------------------- | ------------------------------------------------------- | :----------: |
+| reverse | Whether reverse order | `boolean` | `false` |
+| orientation | Horizontal/vertical axis of the timeline line, default vertical; constrains valid item sides | `'horizontal' \| 'vertical'` | `'vertical'` |
+| mode | The display mode of Timeline | `'left' \| 'right' \| 'top' \| 'bottom' \| 'alternate'` | `'left'` |
+| pending | Append a pending item; true has no text, and a string is displayed as its content. | `boolean\|string` | `-` |
+| label-position | Position of label text | `'relative' \| 'same'` | `'same'` |
+
+### Timeline Slots
+
+| Slot | Description | Prop |
+| ------ | :------: | ---- |
+| default | Timeline items | - |
+| dot | Pending item icon | - |
+| pending | Pending item content; adding this slot appends an item and takes precedence over the pending prop text | - |
+
+### TimelineItem Props
+
+| Parameter | Description | Type | Default |
+| ---------- | ---------------------------- | --------------------------------- | :-------: |
+| dot-color | Node color | `string` | `-` |
+| dot-type | Node type: outlined/filled circle | `'hollow' \| 'solid'` | `'solid'` |
+| line-type | Timeline line style: solid/dashed/dotted | `'solid' \| 'dashed' \| 'dotted'` | `'solid'` |
+| line-color | Timeline color | `string` | `-` |
+| label | Label text | `string` | `-` |
+| content-placement | Current per-item side relative to the timeline in alternate mode: left/right for vertical and top/bottom for horizontal. Constrained by mode and orientation | `TimelineItemContentPlacement`<br>`'left' \| 'right' \| 'bottom' \| 'top'` | `-` |
+
+Use `content-placement` for the physical side of the content: top/bottom in horizontal layouts and left/right in vertical layouts. `mode` controls the arrangement.
+
+### TimelineItem Slots
+
+| Slot | Description | Prop | Version |
+| ------ | :--------: | ---- | :----- |
+| default | Item content | - |  |
+| dot | Custom node | - |  |
+| label | Custom label | - | 2.50.0 |
+
+## Types
+
+The component exports the following types
+
+```ts
+import type { TimelineProps, TimelineItemProps, TimelineSlots, TimelineItemSlots, TimelineMode, TimelineLabelPosition, TimelineDotType, TimelineLineType, TimelineItemContentPlacement, TimelineInstance, TimelineItemInstance } from '@maple-design/ui-vue'
+```
+
+## Reading direction and keyboard interaction
+
+Timeline inherits its container's reading direction. Horizontal nodes and connectors follow LTR/RTL. `reverse` independently controls visual reversal; direction changes do not mutate node data or automatically change `reverse`.
+
+Explicit vertical `mode="left"` / `mode="right"` and item physical sides retain their meaning; `alternate` continues alternating. Labels and custom content inherit text direction normally.
+
+## CSS Variables
+
+<!-- component-css-variables:start -->
+
+Use these variables to customize the component. Defaults may vary by the selector condition shown. Each variable applies to the corresponding size, variant and interaction states.
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Default / condition | Affected styles |
+| --- | --- | --- |
+| `--mp-timeline-alternate-horizontal-min-height` | `var(--mp-size-50)` | `min-height` |
+| `--mp-timeline-content-text-color` | `var(--mp-color-text-1)` | `color` |
+| `--mp-timeline-dot-bg` | `rgb(var(--mp-primary-6))` | `background-color`, `border`, `color` |
+| `--mp-timeline-dot-bg-hollow` | `var(--mp-color-bg-2)` | `background-color` |
+| `--mp-timeline-dot-border-radius` | `var(--mp-border-radius-circle)` | `border-radius` |
+| `--mp-timeline-dot-border-width-hollow` | `var(--mp-border-width-2)` | `border` |
+| `--mp-timeline-dot-size-width` | `var(--mp-spacing-3)` | `bottom`, `height`, `inset-inline-start`, `left`, `margin-left`, `margin-top`, `padding-bottom`, `padding-left`, `padding-right`, `padding-top`, `top`, `width` |
+| `--mp-timeline-font-content-size` | `var(--mp-font-size-body-3)` | `bottom`, `font-size`, `height`, `line-height`, `top` |
+| `--mp-timeline-font-label-size` | `var(--mp-font-size-body-1)` | `font-size` |
+| `--mp-timeline-horizontal-dot-content-height` | `var(--mp-spacing-3)` | `height`, `line-height` |
+| `--mp-timeline-horizontal-margin-content-spacing` | `var(--mp-spacing-7)` | `margin-bottom`, `margin-top`, `padding-bottom`, `padding-top` |
+| `--mp-timeline-horizontal-margin-line-left` | `var(--mp-spacing-3)` | `inset-inline-start` |
+| `--mp-timeline-horizontal-margin-line-right` | `var(--mp-spacing-2)` | `inset-inline-end` |
+| `--mp-timeline-item-min-height` | `78px` | `min-height` |
+| `--mp-timeline-label-relative-horizontal-margin` | `var(--mp-size-13)` | `margin-bottom`, `margin-top` |
+| `--mp-timeline-label-relative-margin` | `var(--mp-size-25)` | `margin-left`, `margin-right` |
+| `--mp-timeline-label-relative-max-width` | `var(--mp-size-25)` | `max-width` |
+| `--mp-timeline-label-text-color` | `var(--mp-color-text-3)` | `color` |
+| `--mp-timeline-line-bg` | `var(--mp-color-neutral-3)` | `border-color` |
+| `--mp-timeline-size-line-width` | `var(--mp-border-width-1)` | `border-left-width`, `border-top-width`, `height`, `width` |
+| `--mp-timeline-vertical-margin-content-bottom` | `var(--mp-spacing-2)` | `margin-bottom` |
+| `--mp-timeline-vertical-margin-content-left` | `var(--mp-spacing-7)` | `margin-left`, `margin-right`, `padding-left`, `padding-right` |
+| `--mp-timeline-vertical-margin-line-bottom` | `var(--mp-spacing-2)` | `bottom` |
+| `--mp-timeline-vertical-margin-line-top` | `var(--mp-spacing-2)` | `top` |
+
+</div>
+
+Apply overrides to the rendered component root or the actual popup ancestor. For example, add the following class to that element and replace the value as needed:
+
+```css
+.component-theme {
+  --mp-timeline-content-text-color: var(--mp-color-text-1);
 }
 ```
 

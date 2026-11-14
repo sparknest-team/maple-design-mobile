@@ -42,6 +42,7 @@
       "require": "./lib/index.js"
     },
     "./style": "./es/maple.css",
+    "./reset.css": "./reset/index.css",
     "./package.json": "./package.json",
     "./*": {
       "types": "./types-generated/*/index.d.ts",
@@ -56,6 +57,7 @@
     "./highlight/*": "./highlight/*"
   },
   "files": [
+    "reset",
     "json",
     "lib",
     "es",

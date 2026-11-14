@@ -33,3 +33,13 @@ The component style entry includes the required foundation styles. Run your proj
 
 - [Import on demand](#/importOnDemand?language=en-US): configure automatic imports, manual imports or full registration.
 - [Defaults and global configuration](#/defaultsCustomization?language=en-US): configure component defaults, overlay z-index and ripple behavior.
+
+### Optional global reset
+
+Component styles do not reset page elements or set the `body` font. To opt in to normalize.css, import it in your application entry:
+
+```ts
+import '@maple-design/ui-vue/reset.css'
+```
+
+Configure fonts, page backgrounds, and global box sizing in your application.

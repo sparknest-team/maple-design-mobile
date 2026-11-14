@@ -135,6 +135,7 @@ Documentation language: en-US.
 - [Theme Customization](./llms/en-US/themes.md): /en-US/themes
 - [TimeRange](./llms/en-US/time-range.md): /en-US/time-range
 - [Time](./llms/en-US/time.md): /en-US/time
+- [Timeline](./llms/en-US/timeline.md): /en-US/timeline
 - [Tooltip](./llms/en-US/tooltip.md): /en-US/tooltip
 - [Trigger](./llms/en-US/trigger.md): /en-US/trigger
 - [Typography](./llms/en-US/typography.md): /en-US/typography

@@ -10,16 +10,16 @@
       class="maple-site-header__sections"
       :aria-label="language === 'en-US' ? 'Documentation areas' : '文档分区'"
     >
-      <mp-space size="sm" wrap
-        ><mp-button
-          v-for="section in sections"
-          :key="section.id"
-          :status="activeSection === section.id ? 'primary' : 'default'"
-          :aria-pressed="activeSection === section.id"
-          @click="$emit('section-change', section)"
-          >{{ section.text[language] }}</mp-button
-        ></mp-space
+      <button
+        v-for="section in sections"
+        :key="section.id"
+        type="button"
+        class="maple-site-header__section"
+        :aria-pressed="activeSection === section.id"
+        @click="$emit('section-change', section)"
       >
+        {{ section.text[language] }}
+      </button>
     </nav>
     <div class="maple-site-header__tail">
       <DirectionToggle />
@@ -440,8 +440,41 @@ export default defineComponent({
 
 <style scoped>
 .maple-site-header__sections {
-  margin: 0 16px;
+  margin: 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+  overflow-x: auto;
 }
+
+.maple-site-header__section {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: var(--site-config-color-text);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  padding: 8px 10px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  cursor: pointer;
+  border-radius: 4px;
+}
+.maple-site-header__section:hover {
+  background: var(--site-config-color-nav-button-hover-background);
+}
+.maple-site-header__section[aria-pressed='true'] {
+  color: var(--mp-sys-color-content-brand);
+  font-weight: 500;
+}
+.maple-site-header__section:focus-visible {
+  outline: 2px solid var(--mp-sys-color-content-brand);
+  outline-offset: -2px;
+}
+
 @media (max-width: 900px) {
   .maple-site-header {
     height: auto;

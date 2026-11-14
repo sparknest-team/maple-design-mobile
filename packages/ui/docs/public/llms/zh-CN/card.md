@@ -432,7 +432,7 @@ const duration = ref(250)
 
 | 属性 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
-| variant | 卡片外观 | `default / outline / tonal` | `default` |
+| variant | 卡片外观 | `default / outline / tonal` | `outline` |
 | size | 内容密度；省略时按平台规则回退，见下方说明 | `sm / md` | `undefined` |
 | direction | 封面与正文的排列顺序，默认 column；支持 row、column、row-reverse，不表示卡片自身位置 | `row / column / row-reverse` | `column` |
 | hoverable | 悬浮样式 | `boolean` | `false` |
@@ -442,12 +442,12 @@ const duration = ref(250)
 | description | 描述 | `string` | `undefined` |
 | top-divider | 上分割线 | `boolean` | `false` |
 | bottom-divider | 下分割线 | `boolean` | `false` |
-| src | 封面图片地址；cover 插槽优先 | `string` | `undefined` |
-| fit | 封面图片填充方式 | `fill / contain / cover / none / scale-down` | `cover` |
+| image-src | 封面图片地址；cover 插槽优先 | `string` | `undefined` |
+| image-fit | 封面图片填充方式 | `fill / contain / cover / none / scale-down` | `cover` |
 | image-height | 封面图片高度，数字单位为 px | `string / number` | `undefined` |
 | image-width | 封面图片宽度，数字单位为 px | `string / number` | `undefined` |
-| alt | 封面图片替代文本 | `string` | `undefined` |
-| elevation | default 变体阴影；true 为等级 1，false 为无阴影，数字范围 0～24 | `boolean / number` | `true` |
+| image-alt | 封面图片替代文本 | `string` | `undefined` |
+| elevation | default 变体阴影；true 为等级 1，false 为无阴影，数字范围 0～24 | `boolean / number` | `0` |
 | ripple | 点击水波 | `boolean` | `false` |
 | floating | 全屏展开状态，支持 v-model:floating | `boolean` | `false` |
 | floating-duration | 全屏展开与关闭动画时长，单位 ms | `number` | `250` |

@@ -135,6 +135,7 @@ Documentation language: zh-CN.
 - [主题定制](./llms/zh-CN/themes.md): /zh-CN/themes
 - [TimeRange 时间范围](./llms/zh-CN/time-range.md): /zh-CN/time-range
 - [Time 时间](./llms/zh-CN/time.md): /zh-CN/time
+- [Timeline](./llms/zh-CN/timeline.md): /zh-CN/timeline
 - [Tooltip 文字气泡](./llms/zh-CN/tooltip.md): /zh-CN/tooltip
 - [Trigger](./llms/zh-CN/trigger.md): /zh-CN/trigger
 - [字体排版 Typography](./llms/zh-CN/typography.md): /zh-CN/typography

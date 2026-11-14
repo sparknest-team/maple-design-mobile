@@ -14,7 +14,7 @@ export const cardProps = {
   /** 视觉变体 */
   variant: {
     type: String as PropType<CardVariant>,
-    default: 'default',
+    default: 'outline',
     validator: (v: CardVariant) => cardVariants.includes(v),
   },
   /** 内容密度；仅实现 sm/md */
@@ -32,12 +32,12 @@ export const cardProps = {
   description: String,
   topDivider: Boolean,
   bottomDivider: Boolean,
-  src: String,
-  fit: { type: String as PropType<CardFit>, default: 'cover' },
+  imageSrc: String,
+  imageFit: { type: String as PropType<CardFit>, default: 'cover' },
   imageHeight: [String, Number],
   imageWidth: [String, Number],
-  alt: String,
-  elevation: { type: [Boolean, Number] as PropType<boolean | number>, default: true },
+  imageAlt: String,
+  elevation: { type: [Boolean, Number] as PropType<boolean | number>, default: 0 },
   ripple: Boolean,
   floating: Boolean,
   floatingDuration: { type: Number, default: 250, validator: (value: number) => Number.isFinite(value) && value >= 0 },

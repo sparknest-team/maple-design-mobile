@@ -89,14 +89,14 @@
       "kind": "boolean"
     },
     {
-      "name": "src",
+      "name": "imageSrc",
       "description": "封面图片地址；cover 插槽优先",
       "type": "string",
       "defaultValue": "undefined",
       "kind": "string"
     },
     {
-      "name": "fit",
+      "name": "imageFit",
       "description": "封面图片填充方式",
       "type": "'fill' | 'contain' | 'cover' | 'none' | 'scale-down'",
       "defaultValue": "'cover'",
@@ -125,7 +125,7 @@
       "kind": "scalar"
     },
     {
-      "name": "alt",
+      "name": "imageAlt",
       "description": "封面图片替代文本",
       "type": "string",
       "defaultValue": "undefined",

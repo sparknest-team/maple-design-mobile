@@ -10,7 +10,7 @@ const directions = ['column', 'row', 'row-reverse'] as const
       :key="direction"
       :direction="direction"
       :title="direction"
-      :src="imageSrc"
+      :image-src="imageSrc"
       alt="Cat"
       :image-height="120"
       :image-width="direction === 'column' ? '100%' : 100"

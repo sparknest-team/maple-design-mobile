@@ -182,7 +182,7 @@ The default close button uses the current locale's close label; override it with
 
 | Prop | Description | Type | Default |
 | --- | --- | --- | --- |
-| variant | Appearance | `default / outline / tonal` | `default` |
+| variant | Appearance | `default / outline / tonal` | `outline` |
 | size | Density; omitted value follows platform rules below | `sm / md` | `undefined` |
 | direction | Order of cover and body, default column; supports row, column and row-reverse. Does not position the card itself | `row / column / row-reverse` | `column` |
 | hoverable | Hover styling | `boolean` | `false` |
@@ -192,12 +192,12 @@ The default close button uses the current locale's close label; override it with
 | description | Description | `string` | `undefined` |
 | top-divider | Top divider | `boolean` | `false` |
 | bottom-divider | Bottom divider | `boolean` | `false` |
-| src | Cover image URL; cover slot takes precedence | `string` | `undefined` |
-| fit | Cover image fit | `fill / contain / cover / none / scale-down` | `cover` |
+| image-src | Cover image URL; cover slot takes precedence | `string` | `undefined` |
+| image-fit | Cover image fit | `fill / contain / cover / none / scale-down` | `cover` |
 | image-height | Image height; numbers use px | `string / number` | `undefined` |
 | image-width | Image width; numbers use px | `string / number` | `undefined` |
-| alt | Image alternative text | `string` | `undefined` |
-| elevation | Shadow for default variant; true means level 1, false disables it, numeric levels 0–24 | `boolean / number` | `true` |
+| image-alt | Image alternative text | `string` | `undefined` |
+| elevation | Shadow for default variant; true means level 1, false disables it, numeric levels 0–24 | `boolean / number` | `0` |
 | ripple | Click ripple | `boolean` | `false` |
 | floating | Floating expansion state; supports v-model:floating | `boolean` | `false` |
 | floating-duration | Floating expansion transition duration in ms | `number` | `250` |

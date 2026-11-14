@@ -40,6 +40,29 @@ export default defineConfig({
     },
     sections: [
       {
+        id: 'start',
+        text: { 'zh-CN': '开始使用', 'en-US': 'Getting started' },
+        entry: 'quickstart',
+        docs: [
+          'home',
+          'quickstart',
+          'platform',
+          'importOnDemand',
+          'componentReuse',
+          'defaultsCustomization',
+          'controlledUncontrolled',
+          'emptyValues',
+          'locale',
+          'zodValidation',
+          'browserAdaptation',
+          'serverSideRendering',
+          'themes',
+          'designTokens',
+          'designTokenReference',
+        ],
+      },
+
+      {
         id: 'showcase',
         text: { 'zh-CN': '特色与场景', 'en-US': 'Features and scenarios' },
         entry: 'showcase',
@@ -63,13 +86,36 @@ export default defineConfig({
           'showcaseTouch',
         ],
       },
-      { id: 'components', text: { 'zh-CN': '组件', 'en-US': 'Components' }, entry: 'quickstart', mobileEntry: 'home' },
+      { id: 'components', text: { 'zh-CN': '组件', 'en-US': 'Components' }, entry: 'button' },
+      {
+        id: 'ai',
+        text: { 'zh-CN': 'AI 与工具', 'en-US': 'AI and tools' },
+        entry: 'ai',
+        docs: ['ai', 'mcp', 'solutions', 'skills', 'tools', 'llms', 'extension', 'cli', 'designResources'],
+      },
+      {
+        id: 'updates',
+        text: { 'zh-CN': '更新与迁移', 'en-US': 'Updates and migration' },
+        entry: 'updates',
+        docs: ['updates'],
+      },
     ],
     menu: [
+      { text: { 'zh-CN': '开始使用', 'en-US': 'Getting started' }, type: 1 },
+      { text: { 'zh-CN': '平台选择与兼容性', 'en-US': 'Platforms and compatibility' }, doc: 'platform', type: 3 },
+      { text: { 'zh-CN': 'AI 与工具', 'en-US': 'AI and tools' }, type: 1 },
+      { text: { 'zh-CN': 'AI 快速开始', 'en-US': 'AI quick start' }, doc: 'ai', type: 3 },
+      { text: { 'zh-CN': 'MCP 接入与故障排查', 'en-US': 'MCP setup and troubleshooting' }, doc: 'mcp', type: 3 },
+      { text: { 'zh-CN': 'CLI 与方案获取', 'en-US': 'CLI and solution access' }, doc: 'solutions', type: 3 },
+      { text: { 'zh-CN': 'Skill 与团队规则', 'en-US': 'Skills and team rules' }, doc: 'skills', type: 3 },
+      { text: { 'zh-CN': '工具和内容参考', 'en-US': 'Tools and content reference' }, doc: 'tools', type: 3 },
+      { text: { 'zh-CN': '更新与迁移', 'en-US': 'Updates and migration' }, type: 1 },
+      { text: { 'zh-CN': '更新与迁移', 'en-US': 'Updates and migration' }, doc: 'updates', type: 3 },
+
       { text: { 'zh-CN': '特色与场景', 'en-US': 'Features and scenarios' }, type: 1 },
-      { text: { 'zh-CN': '专栏总览', 'en-US': 'Features and scenarios' }, doc: 'showcase', type: 3 },
-      { text: { 'zh-CN': '核心特点', 'en-US': 'Core features' }, doc: 'showcaseStrengths', type: 3 },
-      { text: { 'zh-CN': '最佳实践', 'en-US': 'Best practices' }, doc: 'showcasePractices', type: 3 },
+      { text: { 'zh-CN': '全部能力与场景', 'en-US': 'Features and scenarios' }, doc: 'showcase', type: 3 },
+      { text: { 'zh-CN': '体系特色', 'en-US': 'Core features' }, doc: 'showcaseStrengths', type: 3 },
+      { text: { 'zh-CN': '业务场景', 'en-US': 'Best practices' }, doc: 'showcasePractices', type: 3 },
       { text: { 'zh-CN': '团队工作台', 'en-US': 'Team workspace' }, doc: 'practiceDashboard', type: 3 },
       { text: { 'zh-CN': '查询列表页', 'en-US': 'Query list' }, doc: 'practiceList', type: 3 },
       { text: { 'zh-CN': '项目卡片页', 'en-US': 'Project cards' }, doc: 'practiceCard', type: 3 },
@@ -84,7 +130,7 @@ export default defineConfig({
       { text: { 'zh-CN': '加载与等待', 'en-US': 'Loading and waiting' }, doc: 'showcaseLoading', type: 3 },
       { text: { 'zh-CN': '数据与文件', 'en-US': 'Data and files' }, doc: 'showcaseData', type: 3 },
       { text: { 'zh-CN': '移动触控体验', 'en-US': 'Mobile touch interactions' }, doc: 'showcaseTouch', type: 3 },
-      { text: { 'zh-CN': '开发指南', 'en-US': 'Developer Guide' }, type: 1 },
+      { text: { 'zh-CN': '开始使用', 'en-US': 'Developer Guide' }, type: 1 },
       {
         text: {
           'zh-CN': '基本介绍',
@@ -95,7 +141,7 @@ export default defineConfig({
       },
       {
         text: {
-          'zh-CN': '快速开始',
+          'zh-CN': '安装与快速开始',
           'en-US': 'Quick Start',
         },
         doc: 'quickstart',

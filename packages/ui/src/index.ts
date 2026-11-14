@@ -83,7 +83,6 @@ export {
   SplitButton,
   Statistic,
   Steps,
-  Timeline,
   SwipeCell,
   Switch,
   TabBar,
@@ -95,6 +94,7 @@ export {
   Themes,
   Time,
   TimeRange,
+  Timeline,
   Tooltip,
   Trigger,
   Upload,
@@ -228,6 +228,7 @@ export { _ThemeProviderComponent } from './theme-provider'
 export { _ThemesComponent } from './themes'
 export { TimePicker, _TimeComponent, _TimePickerComponent } from './time'
 export { TimeRangePicker, _TimeRangeComponent, _TimeRangePickerComponent } from './time-range'
+export { TimelineItem, _TimelineComponent, _TimelineItemComponent } from './timeline'
 export { _TooltipComponent } from './tooltip'
 export { _TriggerComponent } from './trigger'
 export { _UploadComponent } from './upload'
@@ -982,6 +983,20 @@ export type {
   TimeRangePickerEmits,
   TimeRangePickerSlots,
 } from './time-range'
+export { timelineProps } from './timeline'
+export type {
+  TimelineInstance,
+  TimelineItemInstance,
+  TimelineProps,
+  TimelineItemContentPlacement,
+  TimelineMode,
+  TimelineLabelPosition,
+  TimelineDotType,
+  TimelineLineType,
+  TimelineItemProps,
+  TimelineSlots,
+  TimelineItemSlots,
+} from './timeline'
 export { tooltipProps } from './tooltip'
 export type { TooltipInstance, TooltipProps, TooltipSize, TooltipStatus } from './tooltip'
 export { triggerProps } from './trigger'
@@ -1055,18 +1070,3 @@ export { useHoverOverlay } from './hover'
 export { useFormItem, useFormErrorDescription } from './form'
 export { fieldLoadingModes } from './field-decorator'
 export type { PopupContainer } from './utils/popup-container'
-
-export { TimelineItem, _TimelineComponent, _TimelineItemComponent, timelineProps } from './timeline'
-export type {
-  TimelineInstance,
-  TimelineItemInstance,
-  TimelineProps,
-  TimelineItemProps,
-  TimelineSlots,
-  TimelineItemSlots,
-  TimelineMode,
-  TimelineLabelPosition,
-  TimelineDotType,
-  TimelineLineType,
-  TimelineItemContentPlacement,
-} from './timeline'

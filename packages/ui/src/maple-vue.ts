@@ -98,7 +98,7 @@ import Upload from './upload'
 import VerificationCode from './verification-code'
 import Watermark from './watermark'
 
-export const version = '1.1.7'
+export const version = '1.1.9'
 
 function install(app: App) {
   const plugins = [
@@ -183,7 +183,6 @@ function install(app: App) {
     SplitButton,
     Statistic,
     Steps,
-    Timeline,
     SwipeCell,
     Switch,
     TabBar,
@@ -195,6 +194,7 @@ function install(app: App) {
     Themes,
     Time,
     TimeRange,
+    Timeline,
     Tooltip,
     Trigger,
     Upload,
@@ -291,7 +291,6 @@ export {
   SplitButton,
   Statistic,
   Steps,
-  Timeline,
   SwipeCell,
   Switch,
   TabBar,
@@ -303,6 +302,7 @@ export {
   Themes,
   Time,
   TimeRange,
+  Timeline,
   Tooltip,
   Trigger,
   Upload,
@@ -393,7 +393,6 @@ export interface MapleLibrary {
   Space: typeof Space
   SplitButton: typeof SplitButton
   Statistic: typeof Statistic
-  Timeline: typeof Timeline
   Steps: typeof Steps
   SwipeCell: typeof SwipeCell
   Switch: typeof Switch
@@ -406,6 +405,7 @@ export interface MapleLibrary {
   Themes: typeof Themes
   Time: typeof Time
   TimeRange: typeof TimeRange
+  Timeline: typeof Timeline
   Tooltip: typeof Tooltip
   Trigger: typeof Trigger
   Upload: typeof Upload
@@ -657,9 +657,6 @@ const library: MapleLibrary = {
   get Statistic() {
     return Statistic
   },
-  get Timeline() {
-    return Timeline
-  },
   get Steps() {
     return Steps
   },
@@ -695,6 +692,9 @@ const library: MapleLibrary = {
   },
   get TimeRange() {
     return TimeRange
+  },
+  get Timeline() {
+    return Timeline
   },
   get Tooltip() {
     return Tooltip

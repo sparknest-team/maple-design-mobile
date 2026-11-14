@@ -33,3 +33,13 @@ import '@maple-design/ui-vue/button/style'
 
 - [按需引入](#/importOnDemand?language=zh-CN)：配置推荐的自动导入，或选择手动、完整引入。
 - [默认值与全局配置](#/defaultsCustomization?language=zh-CN)：统一组件默认值、浮层起始层级和波纹开关。
+
+### 可选的全局重置
+
+组件样式默认不重置页面元素，也不设置 `body` 字体。需要 normalize.css 时，可在应用入口显式引入：
+
+```ts
+import '@maple-design/ui-vue/reset.css'
+```
+
+字体、页面背景和全局盒模型由应用自行配置。

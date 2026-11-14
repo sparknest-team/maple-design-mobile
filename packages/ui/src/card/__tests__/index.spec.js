@@ -86,9 +86,9 @@ describe('test card component props', () => {
   })
 
   test('card elevation', async () => {
-    const wrapper = mount(VarCard)
+    const wrapper = mount(VarCard, { props: { variant: 'default' } })
 
-    expect(wrapper.find('.mp-elevation--1').exists()).toBe(true)
+    expect(wrapper.find('.mp-elevation--0').exists()).toBe(true)
 
     await wrapper.setProps({
       elevation: 3,
@@ -101,7 +101,7 @@ describe('test card component props', () => {
   test('card outline', async () => {
     const wrapper = mount(VarCard)
 
-    expect(wrapper.find('.mp-card--variant-outline').exists()).toBe(false)
+    expect(wrapper.find('.mp-card--variant-outline').exists()).toBe(true)
 
     await wrapper.setProps({
       variant: 'outline',
@@ -149,14 +149,14 @@ describe('test card component props', () => {
   test('card src', async () => {
     const wrapper = mount(VarCard, {
       props: {
-        src: 'https://maplejs.org/cat.jpg',
+        imageSrc: 'https://maplejs.org/cat.jpg',
       },
     })
 
     expect(wrapper.find('img').attributes('src')).toBe('https://maplejs.org/cat.jpg')
 
     await wrapper.setProps({
-      src: 'https://maplejs.org/cat2.jpg',
+      imageSrc: 'https://maplejs.org/cat2.jpg',
     })
     expect(wrapper.find('img').attributes('src')).toBe('https://maplejs.org/cat2.jpg')
 
@@ -167,8 +167,8 @@ describe('test card component props', () => {
     ;['fill', 'contain', 'cover', 'none', 'scale-down'].forEach((fit) => {
       const wrapper = mount(VarCard, {
         props: {
-          fit,
-          src: 'https://maplejs.org/cat.jpg',
+          imageFit: fit,
+          imageSrc: 'https://maplejs.org/cat.jpg',
         },
       })
 
@@ -180,15 +180,15 @@ describe('test card component props', () => {
   test('card alt', async () => {
     const wrapper = mount(VarCard, {
       props: {
-        alt: 'This is alt',
-        src: 'https://maplejs.org/cat.jpg',
+        imageAlt: 'This is alt',
+        imageSrc: 'https://maplejs.org/cat.jpg',
       },
     })
 
     expect(wrapper.find('img').attributes('alt')).toBe('This is alt')
 
     await wrapper.setProps({
-      alt: 'This is another alt',
+      imageAlt: 'This is another alt',
     })
     expect(wrapper.find('img').attributes('alt')).toBe('This is another alt')
 
@@ -199,7 +199,7 @@ describe('test card component props', () => {
     const wrapper = mount(VarCard, {
       props: {
         imageHeight: 100,
-        src: 'https://maplejs.org/cat.jpg',
+        imageSrc: 'https://maplejs.org/cat.jpg',
       },
     })
 
@@ -217,7 +217,7 @@ describe('test card component props', () => {
     const wrapper = mount(VarCard, {
       props: {
         imageWidth: 100,
-        src: 'https://maplejs.org/cat.jpg',
+        imageSrc: 'https://maplejs.org/cat.jpg',
       },
     })
 

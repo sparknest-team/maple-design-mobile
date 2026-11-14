@@ -40,15 +40,15 @@
     >
       <slot name="cover">
         <img
-          v-if="src"
+          v-if="imageSrc"
           :class="n('image')"
           :style="{
-            objectFit: fit,
+            objectFit: imageFit,
             height: toSizeUnit(imageHeight),
             width: toSizeUnit(imageWidth),
           }"
-          :src="src"
-          :alt="alt"
+          :src="imageSrc"
+          :alt="imageAlt"
         />
       </slot>
 
