@@ -1,8 +1,8 @@
 import { withInstall, withPropsDefaultsSetter } from '../utils/components'
-import Empty from './Empty.vue'
+import EmptySource from './Empty.vue'
 import { emptyProps } from './props'
 
-withInstall(Empty)
+const Empty = withInstall(EmptySource)
 withPropsDefaultsSetter(Empty, emptyProps)
 
 export { emptyProps }

@@ -1,8 +1,8 @@
 import { withInstall, withPropsDefaultsSetter } from '../utils/components'
 import { props as signatureProps } from './props'
-import Signature from './Signature.vue'
+import SignatureSource from './Signature.vue'
 
-withInstall(Signature)
+const Signature = withInstall(SignatureSource)
 withPropsDefaultsSetter(Signature, signatureProps)
 
 export { signatureProps }

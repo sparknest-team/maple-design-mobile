@@ -1,10 +1,9 @@
 import { withInstall } from '../utils/components'
 import { triggerProps } from './props'
 import type { Reference, TriggerElement } from './reference'
-import Trigger from './trigger'
+import TriggerSource from './trigger'
 
-withInstall(Trigger)
-
+const Trigger = withInstall(TriggerSource)
 export interface TriggerInstance {
   isTopLayer(event?: Event): boolean
   allowClose(): void

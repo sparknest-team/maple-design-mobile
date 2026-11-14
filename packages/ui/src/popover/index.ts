@@ -1,9 +1,8 @@
 import { withInstall } from '../utils/components'
-import Popover from './Popover.vue'
+import PopoverSource from './Popover.vue'
 import { popoverProps } from './props'
 
-withInstall(Popover)
-
+const Popover = withInstall(PopoverSource)
 export { popoverProps }
 
 export type PopoverInstance = InstanceType<typeof Popover>

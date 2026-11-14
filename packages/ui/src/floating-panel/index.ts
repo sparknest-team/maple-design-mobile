@@ -1,8 +1,8 @@
 import { withInstall, withPropsDefaultsSetter } from '../utils/components'
-import FloatingPanel from './FloatingPanel.vue'
+import FloatingPanelSource from './FloatingPanel.vue'
 import { props as floatingPanelProps } from './props'
 
-withInstall(FloatingPanel)
+const FloatingPanel = withInstall(FloatingPanelSource)
 withPropsDefaultsSetter(FloatingPanel, floatingPanelProps)
 
 export type FloatingPanelInstance = InstanceType<typeof FloatingPanel>

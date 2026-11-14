@@ -1,8 +1,8 @@
 import { withInstall, withPropsDefaultsSetter } from '../utils/components'
-import PageHeader from './PageHeader.vue'
+import PageHeaderSource from './PageHeader.vue'
 import { pageHeaderProps } from './props'
 
-withInstall(PageHeader)
+const PageHeader = withInstall(PageHeaderSource)
 withPropsDefaultsSetter(PageHeader, pageHeaderProps)
 
 export { pageHeaderProps }

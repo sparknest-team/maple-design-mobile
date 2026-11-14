@@ -1,8 +1,8 @@
 import { withInstall, withPropsDefaultsSetter } from '../utils/components'
-import Slider from './presentation'
+import SliderSource from './presentation'
 import { sliderProps } from './props'
 
-withInstall(Slider)
+const Slider = withInstall(SliderSource)
 withPropsDefaultsSetter(Slider, sliderProps)
 
 export { sliderProps }

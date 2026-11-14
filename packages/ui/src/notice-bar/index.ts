@@ -1,8 +1,8 @@
 import { withInstall, withPropsDefaultsSetter } from '../utils/components'
-import NoticeBar from './NoticeBar.vue'
+import NoticeBarSource from './NoticeBar.vue'
 import { props as noticeBarProps } from './props'
 
-withInstall(NoticeBar)
+const NoticeBar = withInstall(NoticeBarSource)
 withPropsDefaultsSetter(NoticeBar, noticeBarProps)
 
 export { noticeBarProps }

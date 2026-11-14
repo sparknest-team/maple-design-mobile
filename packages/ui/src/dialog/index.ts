@@ -25,7 +25,7 @@ const Dialog: typeof MpDialog &
   _context: null as AppContext | null,
 })
 
-withInstall(MpDialog, Dialog, {
+const InstalledDialog = withInstall(MpDialog, Dialog, {
   setup(app) {
     Dialog._context = app._context
     setDialogAppContext(app._context)
@@ -66,9 +66,9 @@ export type {
 export type { DialogProps } from './props'
 export type DialogInstance = InstanceType<typeof MpDialog>
 export const _DialogComponent: typeof MpDialog = MpDialog
-export { Dialog }
+export { InstalledDialog as Dialog }
 
-export default Dialog
+export default InstalledDialog
 
 export type { DialogBeforeClose } from './types'
 

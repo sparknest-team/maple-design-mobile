@@ -1,8 +1,8 @@
 import { withInstall, withPropsDefaultsSetter } from '../utils/components'
 import { resultProps } from './props'
-import Result from './Result.vue'
+import ResultSource from './Result.vue'
 
-withInstall(Result)
+const Result = withInstall(ResultSource)
 withPropsDefaultsSetter(Result, resultProps)
 
 export { resultProps }

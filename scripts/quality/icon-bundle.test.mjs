@@ -25,9 +25,9 @@ const vueSfc = {
 }
 
 // Gzip ceilings retain the pre-consolidation budget. Minified ceilings include
-// the reviewed slot-ownership guard and named Icon export (+50 / +6 / +3 bytes).
+// the reviewed slot-ownership guard, named export, and retained installer (+55 / +6 / +3 bytes).
 const budgets = {
-  'index.ts': { minified: 3781, gzip: 1915 },
+  'index.ts': { minified: 3786, gzip: 1915 },
   'Icon.vue': { minified: 3005, gzip: 1561 },
   'RegisteredIcon.vue': { minified: 3633, gzip: 1786 },
 }

@@ -1,8 +1,8 @@
 import { withInstall, withPropsDefaultsSetter } from '../utils/components'
-import Paper from './Paper.vue'
+import PaperSource from './Paper.vue'
 import { paperProps } from './props'
 
-withInstall(Paper)
+const Paper = withInstall(PaperSource)
 withPropsDefaultsSetter(Paper, paperProps)
 
 export { Paper, paperProps }

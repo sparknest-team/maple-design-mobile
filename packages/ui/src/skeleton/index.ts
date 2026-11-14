@@ -8,7 +8,7 @@ const Skeleton: typeof _Skeleton & { Line: typeof SkeletonLine; Shape: typeof Sk
   _Skeleton,
   { Line: SkeletonLine, Shape: SkeletonShape },
 )
-withInstall(Skeleton, undefined, { components: [Skeleton, SkeletonLine, SkeletonShape] })
+const InstalledSkeleton = withInstall(Skeleton, undefined, { components: [Skeleton, SkeletonLine, SkeletonShape] })
 withPropsDefaultsSetter(Skeleton, skeletonProps)
 
 export { skeletonLineProps, skeletonProps, skeletonShapeProps }
@@ -25,8 +25,8 @@ export type {
   SkeletonSize,
 } from './props'
 export { SkeletonLine, SkeletonShape }
-export const _SkeletonComponent: typeof Skeleton = Skeleton
+export const _SkeletonComponent: typeof InstalledSkeleton = InstalledSkeleton
 export const _SkeletonLineComponent: typeof SkeletonLine = SkeletonLine
 export const _SkeletonShapeComponent: typeof SkeletonShape = SkeletonShape
 
-export default Skeleton
+export default InstalledSkeleton

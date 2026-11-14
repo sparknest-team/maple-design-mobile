@@ -1,8 +1,8 @@
 import { withInstall, withPropsDefaultsSetter } from '../utils/components'
-import VerificationCode from './presentation'
+import VerificationCodeSource from './presentation'
 import { verificationCodeProps } from './props'
 
-withInstall(VerificationCode)
+const VerificationCode = withInstall(VerificationCodeSource)
 withPropsDefaultsSetter(VerificationCode, verificationCodeProps)
 
 export { VerificationCode, verificationCodeProps }

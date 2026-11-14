@@ -1,8 +1,8 @@
 import { withInstall, withPropsDefaultsSetter } from '../utils/components'
-import _Badge from './Badge.vue'
+import _BadgeSource from './Badge.vue'
 import { badgeProps } from './props'
 
-withInstall(_Badge)
+const _Badge = withInstall(_BadgeSource)
 withPropsDefaultsSetter(_Badge, badgeProps)
 
 export type BadgeInstance = InstanceType<typeof _Badge>

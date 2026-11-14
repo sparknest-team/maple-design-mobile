@@ -1,8 +1,8 @@
 import { withInstall, withPropsDefaultsSetter } from '../utils/components'
 import { props as tableProps } from './props'
-import Table from './Table.vue'
+import TableSource from './Table.vue'
 
-withInstall(Table)
+const Table = withInstall(TableSource)
 withPropsDefaultsSetter(Table, tableProps)
 
 export { tableProps }

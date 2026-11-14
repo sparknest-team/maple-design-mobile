@@ -1,8 +1,8 @@
 import { withInstall, withPropsDefaultsSetter } from '../utils/components'
-import BackTop from './BackTop.vue'
+import BackTopSource from './BackTop.vue'
 import { backTopProps } from './props'
 
-withInstall(BackTop)
+const BackTop = withInstall(BackTopSource)
 withPropsDefaultsSetter(BackTop, backTopProps)
 export { BackTop, backTopProps }
 export type { BackTopProps, BackTopTarget, BackTopEasing } from './props'

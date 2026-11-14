@@ -1,8 +1,8 @@
 import { withInstall, withPropsDefaultsSetter } from '../utils/components'
-import Overlay from './Overlay.vue'
+import OverlaySource from './Overlay.vue'
 import { overlayProps } from './props'
 
-withInstall(Overlay)
+const Overlay = withInstall(OverlaySource)
 withPropsDefaultsSetter(Overlay, overlayProps)
 
 export { overlayProps }

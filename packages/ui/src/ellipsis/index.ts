@@ -1,8 +1,8 @@
 import { withInstall } from '../utils/components'
-import Ellipsis from './Ellipsis.vue'
+import EllipsisSource from './Ellipsis.vue'
 import { ellipsisProps } from './props'
 
-withInstall(Ellipsis)
+const Ellipsis = withInstall(EllipsisSource)
 export { Ellipsis, ellipsisProps }
 export type { EllipsisProps, EllipsisExpandTrigger } from './props'
 export type EllipsisInstance = InstanceType<typeof Ellipsis>

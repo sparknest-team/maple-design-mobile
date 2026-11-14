@@ -1,8 +1,8 @@
 import { withInstall, withPropsDefaultsSetter } from '../utils/components'
-import NumberKeyboard from './NumberKeyboard.vue'
+import NumberKeyboardSource from './NumberKeyboard.vue'
 import { props as numberKeyboardProps } from './props'
 
-withInstall(NumberKeyboard)
+const NumberKeyboard = withInstall(NumberKeyboardSource)
 withPropsDefaultsSetter(NumberKeyboard, numberKeyboardProps)
 
 export { numberKeyboardProps }

@@ -1,8 +1,8 @@
 import { withInstall, withPropsDefaultsSetter } from '../utils/components'
-import Icon from './Icon.vue'
+import IconSource from './Icon.vue'
 import { props as iconProps } from './props'
 
-withInstall(Icon)
+const Icon = withInstall(IconSource)
 withPropsDefaultsSetter(Icon, iconProps)
 
 export { Icon, iconProps }

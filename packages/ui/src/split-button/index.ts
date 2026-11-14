@@ -1,8 +1,8 @@
 import { withInstall, withPropsDefaultsSetter } from '../utils/components'
 import { splitButtonProps } from './props'
-import SplitButton from './SplitButton.vue'
+import SplitButtonSource from './SplitButton.vue'
 
-withInstall(SplitButton)
+const SplitButton = withInstall(SplitButtonSource)
 withPropsDefaultsSetter(SplitButton, splitButtonProps)
 
 export type SplitButtonInstance = InstanceType<typeof SplitButton>

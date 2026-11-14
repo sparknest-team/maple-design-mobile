@@ -1,8 +1,8 @@
 import { withInstall, withPropsDefaultsSetter } from '../utils/components'
-import Popup from './Popup.vue'
+import PopupSource from './Popup.vue'
 import { popupProps } from './props'
 
-withInstall(Popup)
+const Popup = withInstall(PopupSource)
 withPropsDefaultsSetter(Popup, popupProps)
 
 export { popupProps }

@@ -1,8 +1,8 @@
 import { withInstall, withPropsDefaultsSetter } from '../utils/components'
 import { watermarkProps } from './props'
-import _Watermark from './watermark'
+import _WatermarkSource from './watermark'
 
-withInstall(_Watermark)
+const _Watermark = withInstall(_WatermarkSource)
 withPropsDefaultsSetter(_Watermark, watermarkProps)
 
 export type WatermarkInstance = InstanceType<typeof _Watermark> & import('./types').WatermarkExposed

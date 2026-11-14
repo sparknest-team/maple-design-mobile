@@ -1,9 +1,8 @@
 import { withInstall } from '../utils/components'
 import { tooltipProps } from './props'
-import Tooltip from './Tooltip.vue'
+import TooltipSource from './Tooltip.vue'
 
-withInstall(Tooltip)
-
+const Tooltip = withInstall(TooltipSource)
 export { tooltipProps }
 
 export type TooltipInstance = InstanceType<typeof Tooltip>

@@ -1,8 +1,8 @@
 import { withInstall, withPropsDefaultsSetter } from '../utils/components'
 import { pullRefreshProps } from './props'
-import PullRefresh from './PullRefresh.vue'
+import PullRefreshSource from './PullRefresh.vue'
 
-withInstall(PullRefresh)
+const PullRefresh = withInstall(PullRefreshSource)
 withPropsDefaultsSetter(PullRefresh, pullRefreshProps)
 
 export type PullRefreshInstance = InstanceType<typeof PullRefresh>

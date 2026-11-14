@@ -1,8 +1,8 @@
 import { withInstall, withPropsDefaultsSetter } from '../utils/components'
-import Code from './Code.vue'
+import CodeSource from './Code.vue'
 import { props as codeProps } from './props'
 
-withInstall(Code)
+const Code = withInstall(CodeSource)
 withPropsDefaultsSetter(Code, codeProps)
 
 export { codeProps }

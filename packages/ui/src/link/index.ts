@@ -1,8 +1,8 @@
 import { withInstall, withPropsDefaultsSetter } from '../utils/components'
-import Link from './Link.vue'
+import LinkSource from './Link.vue'
 import { linkProps } from './props'
 
-withInstall(Link)
+const Link = withInstall(LinkSource)
 withPropsDefaultsSetter(Link, linkProps)
 
 export { Link, linkProps }

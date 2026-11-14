@@ -1,8 +1,8 @@
 import { withInstall, withPropsDefaultsSetter } from '../utils/components'
-import InputNumber from './presentation'
+import InputNumberSource from './presentation'
 import { inputNumberProps } from './props'
 
-withInstall(InputNumber)
+const InputNumber = withInstall(InputNumberSource)
 withPropsDefaultsSetter(InputNumber, inputNumberProps)
 
 export type InputNumberInstance = InstanceType<typeof InputNumber>

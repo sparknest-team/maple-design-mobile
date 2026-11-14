@@ -1,8 +1,8 @@
 import { withInstall, withPropsDefaultsSetter } from '../utils/components'
-import Fab from './Fab'
+import FabSource from './Fab'
 import { props as fabProps } from './props'
 
-withInstall(Fab)
+const Fab = withInstall(FabSource)
 withPropsDefaultsSetter(Fab, fabProps)
 
 export { fabProps }
