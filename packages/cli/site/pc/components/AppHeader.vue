@@ -29,7 +29,7 @@
         @mouseenter="isOpenVersionsMenu = true"
         @mouseleave="isOpenVersionsMenu = false"
       >
-        <span style="font-size: 16px">{{ currentVersion }}</span>
+        <span style="font-size: 13px">{{ currentVersion }}</span>
         <mp-icon><MIconChevronDown /></mp-icon>
         <transition name="fade">
           <div
@@ -68,49 +68,38 @@
         target="_blank"
         :href="changelog"
       >
-        <mp-icon :size="28"><MIconHistory /></mp-icon>
+        <mp-icon :size="22"><MIconHistory /></mp-icon>
       </a>
       <a v-if="playground" v-ripple class="maple-site-header__link" target="_blank" :href="playground">
-        <mp-icon :size="24"><MIconCodeJson /></mp-icon>
+        <mp-icon :size="22"><MIconCodeJson /></mp-icon>
       </a>
-      <a v-if="github" v-ripple class="maple-site-header__link" target="_blank" :href="github">
-        <mp-icon :size="28"><MIconGithub /></mp-icon>
+      <a
+        v-if="github"
+        v-ripple
+        class="maple-site-header__link"
+        target="_blank"
+        :href="github"
+        :aria-label="language === 'en-US' ? 'Source on GitHub' : 'GitHub 源码'"
+        :title="language === 'en-US' ? 'Source on GitHub' : 'GitHub 源码'"
+      >
+        <DocsSourceIcon />
       </a>
-      <div
+      <DocsSelect
         v-if="themes.length > 1"
-        class="maple-site-header__theme"
-        @mouseenter="isOpenThemeMenu = true"
-        @mouseleave="isOpenThemeMenu = false"
-      >
-        <mp-icon :size="28"><MIconPaletteFill /></mp-icon>
-        <mp-icon><MIconChevronDown /></mp-icon>
-        <transition name="fade">
-          <div
-            v-show="isOpenThemeMenu"
-            class="maple-site-header__animation-list mp-elevation--5"
-            :style="{ pointerEvents: isOpenThemeMenu ? 'auto' : 'none' }"
-          >
-            <mp-cell
-              v-for="t in themes"
-              :key="t.value"
-              v-ripple
-              :class="{ 'maple-site-header__animation-list--active': currentTheme === t.value }"
-              @click="() => toggleTheme(t.value as Theme)"
-              >{{ t[language as keyof typeof t] }}
-            </mp-cell>
-          </div>
-        </transition>
-      </div>
-      <select
+        icon="theme"
+        :label="language === 'en-US' ? 'Theme' : '主题'"
+        :value="currentTheme"
+        :options="themes.map((t) => ({ value: t.value, label: t[language] }))"
+        @change="(value) => toggleTheme(value as Theme)"
+      />
+      <DocsSelect
         v-if="Object.keys(nonEmptyLanguages).length > 1"
-        class="maple-site-header__language"
-        :aria-label="language === 'en-US' ? 'Language' : '语言'"
+        icon="language"
+        :label="language === 'en-US' ? 'Language' : '语言'"
         :value="language"
-        style="color: inherit; background: transparent; border: 0; font: inherit; cursor: pointer"
-        @change="handleLanguageChange(($event.target as HTMLSelectElement).value)"
-      >
-        <option v-for="(value, key) in nonEmptyLanguages" :key="key" :value="key">{{ value }}</option>
-      </select>
+        :options="Object.entries(nonEmptyLanguages).map(([value, label]) => ({ value, label }))"
+        @change="handleLanguageChange"
+      />
     </div>
   </div>
 </template>
@@ -126,14 +115,25 @@ import {
   IconGithub as MIconGithub,
   IconHistory as MIconHistory,
   IconPaletteFill as MIconPaletteFill,
+  IconTranslate as MIconTranslate,
 } from '@maple-design/icons-vue'
-import { DirectionToggle } from '@sparknest/ui-doc-preview-vue'
+import { DirectionToggle, DocsSelect, DocsSourceIcon } from '@sparknest/ui-doc-preview-vue'
 import { useRouter } from 'vue-router'
 import type { DocumentationSection } from '../../documentation-sections'
 import { removeEmpty, resolveSiteAsset } from '../../utils'
 
 export default defineComponent({
-  components: { DirectionToggle, MIconChevronDown, MIconHistory, MIconCodeJson, MIconGithub, MIconPaletteFill },
+  components: {
+    DocsSourceIcon,
+    DocsSelect,
+    MIconTranslate,
+    DirectionToggle,
+    MIconChevronDown,
+    MIconHistory,
+    MIconCodeJson,
+    MIconGithub,
+    MIconPaletteFill,
+  },
   name: 'AppHeader',
   emits: ['section-change'],
   props: {
@@ -149,7 +149,7 @@ export default defineComponent({
     const languages: Ref<Record<string, string>> = ref(config?.pc?.header?.i18n ?? {})
     const currentVersion: Ref<string> = ref(config?.pc?.header?.currentVersion ?? '')
     const versions = config?.pc?.header?.versions
-    const isShowVersion: Ref<boolean> = ref(!!versions)
+    const isShowVersion = computed(() => versionItems.value.length > 1)
     const versionItems: Ref<Array<Record<string, any>>> = ref(
       (versions ?? []).find((i: any) => window.location.host.includes(i.name))?.items ?? versions?.[0]?.items ?? [],
     )
@@ -175,6 +175,22 @@ export default defineComponent({
     const handleLanguageChange = (language: string) => {
       const current = router.currentRoute.value
       router.push({ path: current.path.replace(/^\/[^/]+/, `/${language}`), query: current.query, hash: current.hash })
+    }
+
+    const closeLanguageMenu = (event: Event) => {
+      const menu = (event.currentTarget as HTMLElement).closest('details') as HTMLDetailsElement
+      menu.open = false
+      menu.querySelector('summary')?.focus()
+    }
+    const leaveLanguageMenu = (event: FocusEvent) => {
+      const menu = event.currentTarget as HTMLDetailsElement
+      if (!menu.contains(event.relatedTarget as Node | null)) menu.open = false
+    }
+    const chooseLanguage = (value: string, event: Event) => {
+      const menu = (event.currentTarget as HTMLElement).closest('details') as HTMLDetailsElement
+      menu.open = false
+      menu.querySelector('summary')?.focus()
+      handleLanguageChange(value)
     }
 
     const setCurrentTheme = (theme: Theme) => {
@@ -221,6 +237,9 @@ export default defineComponent({
       open,
       backRoot,
       handleLanguageChange,
+      closeLanguageMenu,
+      leaveLanguageMenu,
+      chooseLanguage,
       toggleTheme,
     }
   },
@@ -236,7 +255,7 @@ export default defineComponent({
   align-items: center;
   width: 100%;
   height: 60px;
-  padding: 0 30px;
+  padding: 0 20px;
   justify-content: space-between;
   user-select: none;
   z-index: 9;
@@ -251,8 +270,8 @@ export default defineComponent({
   }
 
   &__logo {
-    width: 36px;
-    height: 36px;
+    width: 30px;
+    height: 30px;
     margin-right: 10px;
     flex-shrink: 0;
     display: block;
@@ -261,9 +280,13 @@ export default defineComponent({
   }
 
   &__title {
-    font-size: 22px;
+    white-space: nowrap;
+    font-size: 18px;
     margin-right: 12px;
   }
+  gap: 2px;
+  font-size: 13px;
+  flex-shrink: 0;
 
   &__tail {
     display: flex;
@@ -276,7 +299,7 @@ export default defineComponent({
     display: flex;
     align-items: center;
     padding-right: 10px;
-    padding-left: 18px;
+    padding-left: 8px;
     position: relative;
     cursor: pointer;
     transition: background-color 0.25s;
@@ -314,7 +337,7 @@ export default defineComponent({
     height: 40px;
     display: flex;
     align-items: center;
-    padding: 0 10px;
+    padding: 0 6px;
     position: relative;
     cursor: pointer;
     transition: background-color 0.25s;
@@ -329,7 +352,7 @@ export default defineComponent({
     height: 40px;
     display: flex;
     align-items: center;
-    padding: 0 10px;
+    padding: 0 6px;
     position: relative;
     cursor: pointer;
     transition: background-color 0.25s;
@@ -488,5 +511,75 @@ export default defineComponent({
     width: 100%;
     margin: 0;
   }
+}
+</style>
+
+<style scoped>
+.maple-site-language {
+  position: relative;
+  margin-inline-start: 4px;
+}
+.maple-site-language summary {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 6px;
+  cursor: pointer;
+  list-style: none;
+  border-radius: 4px;
+}
+.maple-site-language summary::-webkit-details-marker {
+  display: none;
+}
+.maple-site-language summary:hover {
+  background: var(--site-config-color-nav-button-hover-background);
+}
+.maple-site-language__options {
+  position: absolute;
+  inset-inline-end: 0;
+  top: calc(100% + 6px);
+  min-width: 128px;
+  padding: 4px;
+  background: var(--site-config-color-bar);
+  border: 1px solid var(--site-config-color-border);
+  border-radius: 6px;
+  box-shadow: 0 4px 16px rgb(0 0 0 / 10%);
+}
+.maple-site-language__options button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  min-height: 36px;
+  padding: 6px 10px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--site-config-color-text);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+.maple-site-language__options button:hover {
+  background: var(--site-config-color-nav-button-hover-background);
+}
+.maple-site-language__options button[aria-pressed='true'] {
+  color: var(--mp-sys-color-content-brand);
+}
+.maple-site-language summary:focus-visible,
+.maple-site-language__options button:focus-visible {
+  outline: 2px solid var(--mp-sys-color-content-brand);
+  outline-offset: 2px;
+}
+</style>
+
+<style>
+.maple-site-header__tail,
+.mobile-page-header__content {
+  --docs-tools-text: var(--site-config-color-text);
+  --docs-tools-bg: var(--site-config-color-bar);
+  --docs-tools-border: var(--site-config-color-border);
+  --docs-tools-hover: var(--site-config-color-nav-button-hover-background);
+  --docs-tools-brand: var(--mp-sys-color-content-brand);
 }
 </style>

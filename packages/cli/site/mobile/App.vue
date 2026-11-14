@@ -18,34 +18,29 @@
             text-color="#fff"
             @click="toGithub"
           >
-            <mp-icon class="github" style="margin-top: 1px"><MIconGithub /></mp-icon>
+            <DocsSourceIcon />
           </mp-button>
-          <mp-button
+          <DocsSelect
             v-if="themes.length > 1"
-            class="theme-button"
-            text
-            color="transparent"
-            text-color="#fff"
-            @click.stop="showThemeMenu = true"
-          >
-            <mp-icon :size="28" class="palette-fill"><MIconPaletteFill /></mp-icon>
-            <mp-icon class="arrow-down"><MIconChevronDown /></mp-icon>
-          </mp-button>
-          <select
+            icon="theme"
+            :label="language === 'en-US' ? 'Theme' : '主题'"
+            :value="currentTheme"
+            :options="themes.map((t) => ({ value: t.value, label: t[language] }))"
+            @change="(value) => toggleTheme(value as Theme)"
+          />
+          <DocsSelect
             v-if="Object.keys(nonEmptyLanguages).length > 1"
-            class="i18n-button"
-            :aria-label="language === 'en-US' ? 'Language' : '语言'"
+            icon="language"
+            :label="language === 'en-US' ? 'Language' : '语言'"
             :value="language"
-            @change="changeLanguage(($event.target as HTMLSelectElement).value)"
-            style="color: inherit; background: transparent; border: 0; font: inherit; cursor: pointer"
-          >
-            <option v-for="(value, key) in nonEmptyLanguages" :key="key" :value="key">{{ value }}</option>
-          </select>
+            :options="Object.entries(nonEmptyLanguages).map(([value, label]) => ({ value, label }))"
+            @change="changeLanguage"
+          />
         </template>
       </mp-page-header>
     </header>
     <nav
-      v-if="sections.length > 1"
+      v-if="sections.length > 1 && isDocumentation"
       class="mobile-documentation-sections"
       :aria-label="language === 'en-US' ? 'Documentation areas' : '文档分区'"
     >
@@ -63,21 +58,6 @@
     <div class="router-view__block" :class="{ 'mobile-documentation': isDocumentation }">
       <router-view />
     </div>
-
-    <transition name="site-menu">
-      <div class="theme-settings mp-elevation--3" v-if="showThemeMenu">
-        <mp-cell
-          v-for="t in themes"
-          :key="t.value"
-          class="mobile-theme-cell"
-          :class="[currentTheme === t.value && 'mobile-theme-cell--active']"
-          v-ripple
-          @click="toggleTheme(t.value)"
-        >
-          {{ t[language] }}
-        </mp-cell>
-      </div>
-    </transition>
   </div>
 </template>
 
@@ -100,13 +80,21 @@ import {
   IconTranslate as MIconTranslate,
 } from '@maple-design/icons-vue'
 import { pascalCase } from '@maple-design/shared-vue'
-import { DirectionToggle } from '@sparknest/ui-doc-preview-vue'
+import { DirectionToggle, DocsSelect, DocsSourceIcon } from '@sparknest/ui-doc-preview-vue'
 import { useRoute, useRouter } from 'vue-router'
 import { getDocumentationSection, sectionRoute, type DocumentationSection } from '../documentation-sections'
 import { inIframe, isPhone, removeEmpty } from '../utils'
 
 export default defineComponent({
-  components: { DirectionToggle, MIconGithub, MIconPaletteFill, MIconChevronDown, MIconTranslate },
+  components: {
+    DocsSourceIcon,
+    DocsSelect,
+    DirectionToggle,
+    MIconGithub,
+    MIconPaletteFill,
+    MIconChevronDown,
+    MIconTranslate,
+  },
   setup() {
     const bigCamelizeComponentName: Ref<string> = ref('')
     const route = useRoute()
@@ -433,7 +421,7 @@ html:not([lang='en-US']) .mobile-demo-case-heading > [lang='en-US'] {
 
 <style scoped>
 .mobile-documentation-sections {
-  margin-top: calc(55px + var(--site-mobile-page-header-safe-area-top));
+  margin-top: calc(48px + var(--site-mobile-page-header-safe-area-top));
   display: flex;
   gap: 4px;
   overflow-x: auto;
@@ -468,6 +456,17 @@ html:not([lang='en-US']) .mobile-demo-case-heading > [lang='en-US'] {
 }
 
 .mobile-documentation-sections + .router-view__block {
-  padding-top: 15px;
+  padding-top: 8px;
+}
+</style>
+
+<style>
+.mobile-page-header__content {
+  --docs-tools-trigger-color: var(--mp-page-header-title-color);
+  --docs-tools-text: var(--site-config-color-text);
+  --docs-tools-bg: var(--site-config-color-bar);
+  --docs-tools-border: var(--site-config-color-border);
+  --docs-tools-hover: var(--site-config-color-nav-button-hover-background);
+  --docs-tools-brand: var(--mp-sys-color-content-brand);
 }
 </style>

@@ -26,7 +26,10 @@ export default defineConfig({
   },
   pc: {
     header: {
-      playground: process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://maplejs.org/playground',
+      // Updates live under Getting started; the legacy playground is not published.
+      versions: [],
+      changelog: '',
+      playground: '',
       themes: [
         { 'zh-CN': '默认亮色', 'en-US': 'Default Light', value: 'lightTheme' },
         { 'zh-CN': '默认暗色', 'en-US': 'Default Dark', value: 'darkTheme' },
@@ -44,6 +47,7 @@ export default defineConfig({
         text: { 'zh-CN': '开始使用', 'en-US': 'Getting started' },
         entry: 'quickstart',
         docs: [
+          'updates',
           'home',
           'quickstart',
           'platform',
@@ -59,9 +63,18 @@ export default defineConfig({
           'themes',
           'designTokens',
           'designTokenReference',
+          'palette',
+          'color',
+          'utilities',
+          'style',
+          'typography',
+          'atomic-css',
+          'atomic-usage',
+          'utilitySpec',
         ],
       },
 
+      { id: 'components', text: { 'zh-CN': '组件', 'en-US': 'Components' }, entry: 'button' },
       {
         id: 'showcase',
         text: { 'zh-CN': '特色与场景', 'en-US': 'Features and scenarios' },
@@ -86,58 +99,20 @@ export default defineConfig({
           'showcaseTouch',
         ],
       },
-      { id: 'components', text: { 'zh-CN': '组件', 'en-US': 'Components' }, entry: 'button' },
       {
         id: 'ai',
         text: { 'zh-CN': 'AI 与工具', 'en-US': 'AI and tools' },
         entry: 'ai',
         docs: ['ai', 'mcp', 'solutions', 'skills', 'tools', 'llms', 'extension', 'cli', 'designResources'],
       },
-      {
-        id: 'updates',
-        text: { 'zh-CN': '更新与迁移', 'en-US': 'Updates and migration' },
-        entry: 'updates',
-        docs: ['updates'],
-      },
     ],
     menu: [
-      { text: { 'zh-CN': '开始使用', 'en-US': 'Getting started' }, type: 1 },
-      { text: { 'zh-CN': '平台选择与兼容性', 'en-US': 'Platforms and compatibility' }, doc: 'platform', type: 3 },
-      { text: { 'zh-CN': 'AI 与工具', 'en-US': 'AI and tools' }, type: 1 },
-      { text: { 'zh-CN': 'AI 快速开始', 'en-US': 'AI quick start' }, doc: 'ai', type: 3 },
-      { text: { 'zh-CN': 'MCP 接入与故障排查', 'en-US': 'MCP setup and troubleshooting' }, doc: 'mcp', type: 3 },
-      { text: { 'zh-CN': 'CLI 与方案获取', 'en-US': 'CLI and solution access' }, doc: 'solutions', type: 3 },
-      { text: { 'zh-CN': 'Skill 与团队规则', 'en-US': 'Skills and team rules' }, doc: 'skills', type: 3 },
-      { text: { 'zh-CN': '工具和内容参考', 'en-US': 'Tools and content reference' }, doc: 'tools', type: 3 },
-      { text: { 'zh-CN': '更新与迁移', 'en-US': 'Updates and migration' }, type: 1 },
-      { text: { 'zh-CN': '更新与迁移', 'en-US': 'Updates and migration' }, doc: 'updates', type: 3 },
-
-      { text: { 'zh-CN': '特色与场景', 'en-US': 'Features and scenarios' }, type: 1 },
-      { text: { 'zh-CN': '全部能力与场景', 'en-US': 'Features and scenarios' }, doc: 'showcase', type: 3 },
-      { text: { 'zh-CN': '体系特色', 'en-US': 'Core features' }, doc: 'showcaseStrengths', type: 3 },
-      { text: { 'zh-CN': '业务场景', 'en-US': 'Best practices' }, doc: 'showcasePractices', type: 3 },
-      { text: { 'zh-CN': '团队工作台', 'en-US': 'Team workspace' }, doc: 'practiceDashboard', type: 3 },
-      { text: { 'zh-CN': '查询列表页', 'en-US': 'Query list' }, doc: 'practiceList', type: 3 },
-      { text: { 'zh-CN': '项目卡片页', 'en-US': 'Project cards' }, doc: 'practiceCard', type: 3 },
-      { text: { 'zh-CN': '业务详情页', 'en-US': 'Business detail' }, doc: 'practiceDetail', type: 3 },
-      { text: { 'zh-CN': '分步表单页', 'en-US': 'Step form' }, doc: 'practiceForm', type: 3 },
-      { text: { 'zh-CN': '结果与异常页', 'en-US': 'Results and recovery' }, doc: 'practiceResult', type: 3 },
-      { text: { 'zh-CN': '逐组件对照', 'en-US': 'Component comparisons' }, doc: 'showcaseComponents', type: 3 },
-      { text: { 'zh-CN': '桌面与移动', 'en-US': 'Desktop and mobile' }, doc: 'showcaseCrossPlatform', type: 3 },
-      { text: { 'zh-CN': '一致的表单体验', 'en-US': 'Consistent forms' }, doc: 'showcaseForms', type: 3 },
-      { text: { 'zh-CN': '主题与品牌', 'en-US': 'Themes and branding' }, doc: 'showcaseThemes', type: 3 },
-      { text: { 'zh-CN': '异步数据选择', 'en-US': 'Async selection' }, doc: 'showcaseAsync', type: 3 },
-      { text: { 'zh-CN': '加载与等待', 'en-US': 'Loading and waiting' }, doc: 'showcaseLoading', type: 3 },
-      { text: { 'zh-CN': '数据与文件', 'en-US': 'Data and files' }, doc: 'showcaseData', type: 3 },
-      { text: { 'zh-CN': '移动触控体验', 'en-US': 'Mobile touch interactions' }, doc: 'showcaseTouch', type: 3 },
-      { text: { 'zh-CN': '开始使用', 'en-US': 'Developer Guide' }, type: 1 },
       {
         text: {
-          'zh-CN': '基本介绍',
-          'en-US': 'Introduction',
+          'zh-CN': '开始使用',
+          'en-US': 'Getting started',
         },
-        doc: 'home',
-        type: 3,
+        type: 1,
       },
       {
         text: {
@@ -149,6 +124,14 @@ export default defineConfig({
       },
       {
         text: {
+          'zh-CN': '平台选择与兼容性',
+          'en-US': 'Platforms and compatibility',
+        },
+        doc: 'platform',
+        type: 3,
+      },
+      {
+        text: {
           'zh-CN': '按需引入',
           'en-US': 'Import On Demand',
         },
@@ -156,11 +139,28 @@ export default defineConfig({
         type: 3,
       },
       {
-        text: { 'zh-CN': '跨端复用标记说明', 'en-US': 'Cross-platform reuse guide' },
+        text: {
+          'zh-CN': '跨端复用标记说明',
+          'en-US': 'Cross-platform reuse guide',
+        },
         doc: 'componentReuse',
         type: 3,
       },
-      { text: { 'zh-CN': '配置与约定', 'en-US': 'Configuration and conventions' }, type: 1 },
+      {
+        text: {
+          'zh-CN': '基本介绍',
+          'en-US': 'Introduction',
+        },
+        doc: 'home',
+        type: 3,
+      },
+      {
+        text: {
+          'zh-CN': '配置与约定',
+          'en-US': 'Configuration and conventions',
+        },
+        type: 1,
+      },
       {
         text: {
           'zh-CN': '默认值与全局配置',
@@ -170,12 +170,18 @@ export default defineConfig({
         type: 3,
       },
       {
-        text: { 'zh-CN': '受控与非受控', 'en-US': 'Controlled and uncontrolled' },
+        text: {
+          'zh-CN': '受控与非受控',
+          'en-US': 'Controlled and uncontrolled',
+        },
         doc: 'controlledUncontrolled',
         type: 3,
       },
       {
-        text: { 'zh-CN': '空值与阅读空文案', 'en-US': 'Empty values and reading placeholders' },
+        text: {
+          'zh-CN': '空值与阅读空文案',
+          'en-US': 'Empty values and reading placeholders',
+        },
         doc: 'emptyValues',
         type: 3,
       },
@@ -193,52 +199,6 @@ export default defineConfig({
           'en-US': 'Zod Validation',
         },
         doc: 'zodValidation',
-        type: 3,
-      },
-      { text: { 'zh-CN': '工程与工具', 'en-US': 'Engineering and tools' }, type: 1 },
-      {
-        text: {
-          'zh-CN': '浏览器适配',
-          'en-US': 'Browser Adaptation',
-        },
-        doc: 'browserAdaptation',
-        type: 3,
-      },
-      {
-        text: {
-          'zh-CN': '服务端渲染',
-          'en-US': 'Server-Side Rendering',
-        },
-        doc: 'serverSideRendering',
-        type: 3,
-      },
-      {
-        text: { 'zh-CN': 'LLM 文档', 'en-US': 'LLM documentation' },
-        doc: 'llms',
-        type: 3,
-      },
-      {
-        text: {
-          'zh-CN': 'VSCode 插件',
-          'en-US': 'VSCode Extension',
-        },
-        doc: 'extension',
-        type: 3,
-      },
-      {
-        text: {
-          'zh-CN': '组件库快速成型工具',
-          'en-US': 'Components Library Tools',
-        },
-        doc: 'cli',
-        type: 3,
-      },
-      {
-        text: {
-          'zh-CN': '设计资源',
-          'en-US': 'Design Resources',
-        },
-        doc: 'designResources',
         type: 3,
       },
       {
@@ -338,6 +298,44 @@ export default defineConfig({
       },
       {
         text: {
+          'zh-CN': '平台适配',
+          'en-US': 'Platform integration',
+        },
+        type: 1,
+      },
+      {
+        text: {
+          'zh-CN': '浏览器适配',
+          'en-US': 'Browser Adaptation',
+        },
+        doc: 'browserAdaptation',
+        type: 3,
+      },
+      {
+        text: {
+          'zh-CN': '服务端渲染',
+          'en-US': 'Server-Side Rendering',
+        },
+        doc: 'serverSideRendering',
+        type: 3,
+      },
+      {
+        text: {
+          'zh-CN': '更新与迁移',
+          'en-US': 'Updates and migration',
+        },
+        type: 1,
+      },
+      {
+        text: {
+          'zh-CN': '更新与迁移',
+          'en-US': 'Updates and migration',
+        },
+        doc: 'updates',
+        type: 3,
+      },
+      {
+        text: {
           'zh-CN': '通用组件',
           'en-US': 'General',
         },
@@ -349,14 +347,6 @@ export default defineConfig({
           'en-US': 'Button',
         },
         doc: 'button',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': 'Fab 悬浮动作按钮',
-          'en-US': 'Fab',
-        },
-        doc: 'fab',
         type: 2,
       },
       {
@@ -377,34 +367,27 @@ export default defineConfig({
       },
       {
         text: {
-          'zh-CN': 'Cell 单元格',
-          'en-US': 'Cell',
-        },
-        doc: 'cell',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': 'SwipeCell 滑动单元格',
-          'en-US': 'SwipeCell',
-        },
-        doc: 'swipe-cell',
-        type: 2,
-      },
-      {
-        text: {
           'zh-CN': '布局',
           'en-US': 'Layout',
         },
         type: 1,
       },
       {
-        text: { 'zh-CN': 'SafeArea 安全区与 App 适配', 'en-US': 'SafeArea and App Integration' },
-        doc: 'safe-area',
+        text: {
+          'zh-CN': 'Row 行',
+          'en-US': 'Row',
+        },
+        doc: 'row',
         type: 2,
       },
-      { text: { 'zh-CN': 'Row 行', 'en-US': 'Row' }, doc: 'row', type: 2 },
-      { text: { 'zh-CN': 'Col 列', 'en-US': 'Col' }, doc: 'col', type: 2 },
+      {
+        text: {
+          'zh-CN': 'Col 列',
+          'en-US': 'Col',
+        },
+        doc: 'col',
+        type: 2,
+      },
       {
         text: {
           'zh-CN': 'Grid 栅格',
@@ -452,7 +435,14 @@ export default defineConfig({
         doc: 'menu',
         type: 2,
       },
-      { text: { 'zh-CN': 'NavMenu 导航菜单', 'en-US': 'NavMenu' }, doc: 'nav-menu', type: 2 },
+      {
+        text: {
+          'zh-CN': 'NavMenu 导航菜单',
+          'en-US': 'NavMenu',
+        },
+        doc: 'nav-menu',
+        type: 2,
+      },
       {
         text: {
           'zh-CN': 'SplitButton 分裂按钮',
@@ -485,27 +475,10 @@ export default defineConfig({
         doc: 'steps',
         type: 2,
       },
-      { text: { 'zh-CN': 'Timeline 时间轴', 'en-US': 'Timeline' }, doc: 'timeline', type: 2 },
-      {
-        text: {
-          'zh-CN': 'TabBar 底部标签栏',
-          'en-US': 'TabBar',
-        },
-        doc: 'tab-bar',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': 'IndexBar 索引栏',
-          'en-US': 'IndexBar',
-        },
-        doc: 'index-bar',
-        type: 2,
-      },
       {
         text: {
           'zh-CN': '数据输入',
-          'en-US': 'Data Entry',
+          'en-US': 'Data entry',
         },
         type: 1,
       },
@@ -543,10 +516,10 @@ export default defineConfig({
       },
       {
         text: {
-          'zh-CN': 'NumberKeyboard 数字键盘',
-          'en-US': 'NumberKeyboard',
+          'zh-CN': 'InputTag 标签输入',
+          'en-US': 'InputTag',
         },
-        doc: 'number-keyboard',
+        doc: 'input-tag',
         type: 2,
       },
       {
@@ -557,14 +530,20 @@ export default defineConfig({
         doc: 'verification-code',
         type: 2,
       },
-      { text: { 'zh-CN': 'InputTag 标签输入', 'en-US': 'InputTag' }, doc: 'input-tag', type: 2 },
-      { text: { 'zh-CN': 'Mention 提及', 'en-US': 'Mention' }, doc: 'mention', type: 2 },
       {
         text: {
           'zh-CN': 'AutoComplete 自动补全',
           'en-US': 'AutoComplete',
         },
         doc: 'auto-complete',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'Mention 提及',
+          'en-US': 'Mention',
+        },
+        doc: 'mention',
         type: 2,
       },
       {
@@ -583,21 +562,20 @@ export default defineConfig({
         doc: 'select',
         type: 2,
       },
-      { text: { 'zh-CN': 'PeopleSelect 人员选择', 'en-US': 'PeopleSelect' }, doc: 'people-select', type: 2 },
+      {
+        text: {
+          'zh-CN': 'PeopleSelect 人员选择',
+          'en-US': 'PeopleSelect',
+        },
+        doc: 'people-select',
+        type: 2,
+      },
       {
         text: {
           'zh-CN': 'Cascader 级联选择器',
           'en-US': 'Cascader',
         },
         doc: 'cascader',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': 'Picker 多列选择器',
-          'en-US': 'Picker',
-        },
-        doc: 'picker',
         type: 2,
       },
       {
@@ -682,16 +660,8 @@ export default defineConfig({
       },
       {
         text: {
-          'zh-CN': 'Signature 签名',
-          'en-US': 'Signature',
-        },
-        doc: 'signature',
-        type: 2,
-      },
-      {
-        text: {
           'zh-CN': '数据展示',
-          'en-US': 'Data Display',
+          'en-US': 'Data display',
         },
         type: 1,
       },
@@ -809,10 +779,10 @@ export default defineConfig({
       },
       {
         text: {
-          'zh-CN': 'Code 代码块',
-          'en-US': 'Code',
+          'zh-CN': 'Timeline 时间轴',
+          'en-US': 'Timeline',
         },
-        doc: 'code',
+        doc: 'timeline',
         type: 2,
       },
       {
@@ -880,14 +850,6 @@ export default defineConfig({
       },
       {
         text: {
-          'zh-CN': 'NoticeBar 通知栏',
-          'en-US': 'NoticeBar',
-        },
-        doc: 'notice-bar',
-        type: 2,
-      },
-      {
-        text: {
           'zh-CN': 'Message 全局提示',
           'en-US': 'Message',
         },
@@ -912,50 +874,10 @@ export default defineConfig({
       },
       {
         text: {
-          'zh-CN': 'ActionSheet 动作面板',
-          'en-US': 'ActionSheet',
-        },
-        doc: 'action-sheet',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': 'FloatingPanel 浮动面板',
-          'en-US': 'FloatingPanel',
-        },
-        doc: 'floating-panel',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': 'Popup 弹出层',
-          'en-US': 'Popup',
-        },
-        doc: 'popup',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': 'PullRefresh 下拉刷新',
-          'en-US': 'PullRefresh',
-        },
-        doc: 'pull-refresh',
-        type: 2,
-      },
-      {
-        text: {
           'zh-CN': 'Loading 加载',
           'en-US': 'Loading',
         },
         doc: 'loading',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': 'LoadingBar 加载条',
-          'en-US': 'LoadingBar',
-        },
-        doc: 'loading-bar',
         type: 2,
       },
       {
@@ -993,7 +915,7 @@ export default defineConfig({
       {
         text: {
           'zh-CN': '其他',
-          'en-US': 'Others',
+          'en-US': 'Other',
         },
         type: 1,
       },
@@ -1031,6 +953,427 @@ export default defineConfig({
       },
       {
         text: {
+          'zh-CN': 'Hover 悬停指令',
+          'en-US': 'Hover',
+        },
+        doc: 'hover',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': '特色与场景',
+          'en-US': 'Features and scenarios',
+        },
+        type: 1,
+      },
+      {
+        text: {
+          'zh-CN': '全部能力与场景',
+          'en-US': 'Features and scenarios',
+        },
+        doc: 'showcase',
+        type: 3,
+      },
+      {
+        text: {
+          'zh-CN': '体系特色',
+          'en-US': 'Core features',
+        },
+        doc: 'showcaseStrengths',
+        type: 3,
+      },
+      {
+        text: {
+          'zh-CN': '桌面与移动',
+          'en-US': 'Desktop and mobile',
+        },
+        doc: 'showcaseCrossPlatform',
+        type: 3,
+      },
+      {
+        text: {
+          'zh-CN': '一致的表单体验',
+          'en-US': 'Consistent forms',
+        },
+        doc: 'showcaseForms',
+        type: 3,
+      },
+      {
+        text: {
+          'zh-CN': '主题与品牌',
+          'en-US': 'Themes and branding',
+        },
+        doc: 'showcaseThemes',
+        type: 3,
+      },
+      {
+        text: {
+          'zh-CN': '异步数据选择',
+          'en-US': 'Async selection',
+        },
+        doc: 'showcaseAsync',
+        type: 3,
+      },
+      {
+        text: {
+          'zh-CN': '加载与等待',
+          'en-US': 'Loading and waiting',
+        },
+        doc: 'showcaseLoading',
+        type: 3,
+      },
+      {
+        text: {
+          'zh-CN': '数据与文件',
+          'en-US': 'Data and files',
+        },
+        doc: 'showcaseData',
+        type: 3,
+      },
+      {
+        text: {
+          'zh-CN': '移动触控体验',
+          'en-US': 'Mobile touch interactions',
+        },
+        doc: 'showcaseTouch',
+        type: 3,
+      },
+      {
+        text: {
+          'zh-CN': '逐组件对照',
+          'en-US': 'Component comparisons',
+        },
+        doc: 'showcaseComponents',
+        type: 3,
+      },
+      {
+        text: {
+          'zh-CN': '业务场景',
+          'en-US': 'Business scenarios',
+        },
+        type: 1,
+      },
+      {
+        text: {
+          'zh-CN': '业务场景',
+          'en-US': 'Best practices',
+        },
+        doc: 'showcasePractices',
+        type: 3,
+      },
+      {
+        text: {
+          'zh-CN': '团队工作台',
+          'en-US': 'Team workspace',
+        },
+        doc: 'practiceDashboard',
+        type: 3,
+      },
+      {
+        text: {
+          'zh-CN': '查询列表页',
+          'en-US': 'Query list',
+        },
+        doc: 'practiceList',
+        type: 3,
+      },
+      {
+        text: {
+          'zh-CN': '项目卡片页',
+          'en-US': 'Project cards',
+        },
+        doc: 'practiceCard',
+        type: 3,
+      },
+      {
+        text: {
+          'zh-CN': '业务详情页',
+          'en-US': 'Business detail',
+        },
+        doc: 'practiceDetail',
+        type: 3,
+      },
+      {
+        text: {
+          'zh-CN': '分步表单页',
+          'en-US': 'Step form',
+        },
+        doc: 'practiceForm',
+        type: 3,
+      },
+      {
+        text: {
+          'zh-CN': '结果与异常页',
+          'en-US': 'Results and recovery',
+        },
+        doc: 'practiceResult',
+        type: 3,
+      },
+      {
+        text: {
+          'zh-CN': 'AI 与工具',
+          'en-US': 'AI and tools',
+        },
+        type: 1,
+      },
+      {
+        text: {
+          'zh-CN': 'AI 快速开始',
+          'en-US': 'AI quick start',
+        },
+        doc: 'ai',
+        type: 3,
+      },
+      {
+        text: {
+          'zh-CN': 'MCP 接入与故障排查',
+          'en-US': 'MCP setup and troubleshooting',
+        },
+        doc: 'mcp',
+        type: 3,
+      },
+      {
+        text: {
+          'zh-CN': 'CLI 与方案获取',
+          'en-US': 'CLI and solution access',
+        },
+        doc: 'solutions',
+        type: 3,
+      },
+      {
+        text: {
+          'zh-CN': 'Skill 与团队规则',
+          'en-US': 'Skills and team rules',
+        },
+        doc: 'skills',
+        type: 3,
+      },
+      {
+        text: {
+          'zh-CN': '工具和内容参考',
+          'en-US': 'Tools and content reference',
+        },
+        doc: 'tools',
+        type: 3,
+      },
+      {
+        text: {
+          'zh-CN': 'LLM 文档',
+          'en-US': 'LLM documentation',
+        },
+        doc: 'llms',
+        type: 3,
+      },
+      {
+        text: {
+          'zh-CN': '平台工具',
+          'en-US': 'Platform tools',
+        },
+        type: 1,
+      },
+      {
+        text: {
+          'zh-CN': 'VSCode 插件',
+          'en-US': 'VSCode Extension',
+        },
+        doc: 'extension',
+        type: 3,
+      },
+      {
+        text: {
+          'zh-CN': '组件库快速成型工具',
+          'en-US': 'Components Library Tools',
+        },
+        doc: 'cli',
+        type: 3,
+      },
+      {
+        text: {
+          'zh-CN': '设计资源',
+          'en-US': 'Design Resources',
+        },
+        doc: 'designResources',
+        type: 3,
+      },
+      {
+        text: {
+          'zh-CN': '通用组件',
+          'en-US': 'General',
+        },
+        type: 1,
+      },
+      {
+        text: {
+          'zh-CN': 'Fab 悬浮动作按钮',
+          'en-US': 'Fab',
+        },
+        doc: 'fab',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'Cell 单元格',
+          'en-US': 'Cell',
+        },
+        doc: 'cell',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'SwipeCell 滑动单元格',
+          'en-US': 'SwipeCell',
+        },
+        doc: 'swipe-cell',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': '布局',
+          'en-US': 'Layout',
+        },
+        type: 1,
+      },
+      {
+        text: {
+          'zh-CN': 'SafeArea 安全区与 App 适配',
+          'en-US': 'SafeArea and App Integration',
+        },
+        doc: 'safe-area',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': '导航',
+          'en-US': 'Navigation',
+        },
+        type: 1,
+      },
+      {
+        text: {
+          'zh-CN': 'TabBar 底部标签栏',
+          'en-US': 'TabBar',
+        },
+        doc: 'tab-bar',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'IndexBar 索引栏',
+          'en-US': 'IndexBar',
+        },
+        doc: 'index-bar',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': '数据输入',
+          'en-US': 'Data Entry',
+        },
+        type: 1,
+      },
+      {
+        text: {
+          'zh-CN': 'NumberKeyboard 数字键盘',
+          'en-US': 'NumberKeyboard',
+        },
+        doc: 'number-keyboard',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'Picker 多列选择器',
+          'en-US': 'Picker',
+        },
+        doc: 'picker',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'Signature 签名',
+          'en-US': 'Signature',
+        },
+        doc: 'signature',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': '数据展示',
+          'en-US': 'Data Display',
+        },
+        type: 1,
+      },
+      {
+        text: {
+          'zh-CN': 'Code 代码块',
+          'en-US': 'Code',
+        },
+        doc: 'code',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': '反馈',
+          'en-US': 'Feedback',
+        },
+        type: 1,
+      },
+      {
+        text: {
+          'zh-CN': 'NoticeBar 通知栏',
+          'en-US': 'NoticeBar',
+        },
+        doc: 'notice-bar',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'ActionSheet 动作面板',
+          'en-US': 'ActionSheet',
+        },
+        doc: 'action-sheet',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'FloatingPanel 浮动面板',
+          'en-US': 'FloatingPanel',
+        },
+        doc: 'floating-panel',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'Popup 弹出层',
+          'en-US': 'Popup',
+        },
+        doc: 'popup',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'PullRefresh 下拉刷新',
+          'en-US': 'PullRefresh',
+        },
+        doc: 'pull-refresh',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': 'LoadingBar 加载条',
+          'en-US': 'LoadingBar',
+        },
+        doc: 'loading-bar',
+        type: 2,
+      },
+      {
+        text: {
+          'zh-CN': '其他',
+          'en-US': 'Others',
+        },
+        type: 1,
+      },
+      {
+        text: {
           'zh-CN': 'Drag 拖拽',
           'en-US': 'Drag',
         },
@@ -1043,14 +1386,6 @@ export default defineConfig({
           'en-US': 'Lazy',
         },
         doc: 'lazy',
-        type: 2,
-      },
-      {
-        text: {
-          'zh-CN': 'Hover 悬停指令',
-          'en-US': 'Hover',
-        },
-        doc: 'hover',
         type: 2,
       },
     ].map(markReuse),
