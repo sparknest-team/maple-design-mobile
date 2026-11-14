@@ -1,0 +1,70 @@
+{
+  "fields": [
+    {
+      "name": "dot-color",
+      "description": "节点颜色",
+      "type": "string",
+      "defaultValue": "-",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "dot-type",
+      "description": "节点类型：空心圆/实心圆",
+      "type": "'hollow' | 'solid'",
+      "defaultValue": "'solid'",
+      "kind": "enum",
+      "options": [
+        "hollow",
+        "solid"
+      ],
+      "initial": "solid"
+    },
+    {
+      "name": "line-type",
+      "description": "时间轴类型：实线/虚线/点状线",
+      "type": "'solid' | 'dashed' | 'dotted'",
+      "defaultValue": "'solid'",
+      "kind": "enum",
+      "options": [
+        "solid",
+        "dashed",
+        "dotted"
+      ],
+      "initial": "solid"
+    },
+    {
+      "name": "line-color",
+      "description": "时间轴颜色",
+      "type": "string",
+      "defaultValue": "-",
+      "kind": "string",
+      "initial": "#5268cc"
+    },
+    {
+      "name": "label",
+      "description": "标签文本",
+      "type": "string",
+      "defaultValue": "-",
+      "kind": "string"
+    },
+    {
+      "name": "contentPlacement",
+      "description": "Item 位置",
+      "type": "TimelineItemContentPlacement",
+      "defaultValue": "-",
+      "kind": "scenario"
+    }
+  ],
+  "methodNames": [],
+  "events": [],
+  "slotNames": [
+    "label",
+    "dot"
+  ],
+  "slotDefaults": {
+    "label": true,
+    "dot": false
+  },
+  "scenarios": []
+}

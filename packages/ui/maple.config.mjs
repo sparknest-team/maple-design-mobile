@@ -439,6 +439,7 @@ export default defineConfig({
         doc: 'steps',
         type: 2,
       },
+      { text: { 'zh-CN': 'Timeline 时间轴', 'en-US': 'Timeline' }, doc: 'timeline', type: 2 },
       {
         text: {
           'zh-CN': 'TabBar 底部标签栏',

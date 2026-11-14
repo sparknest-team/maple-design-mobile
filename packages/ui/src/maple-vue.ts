@@ -91,13 +91,14 @@ import ThemeProvider from './theme-provider'
 import Themes from './themes'
 import Time from './time'
 import TimeRange from './time-range'
+import Timeline from './timeline'
 import Tooltip from './tooltip'
 import Trigger from './trigger'
 import Upload from './upload'
 import VerificationCode from './verification-code'
 import Watermark from './watermark'
 
-export const version = '1.1.1'
+export const version = '1.1.7'
 
 function install(app: App) {
   const plugins = [
@@ -150,8 +151,8 @@ function install(app: App) {
     LoadingBar,
     Locale,
     LocaleProvider,
-    Menu,
     Mention,
+    Menu,
     Message,
     NavMenu,
     NoticeBar,
@@ -182,6 +183,7 @@ function install(app: App) {
     SplitButton,
     Statistic,
     Steps,
+    Timeline,
     SwipeCell,
     Switch,
     TabBar,
@@ -257,8 +259,8 @@ export {
   LoadingBar,
   Locale,
   LocaleProvider,
-  Menu,
   Mention,
+  Menu,
   Message,
   NavMenu,
   NoticeBar,
@@ -289,6 +291,7 @@ export {
   SplitButton,
   Statistic,
   Steps,
+  Timeline,
   SwipeCell,
   Switch,
   TabBar,
@@ -351,6 +354,7 @@ export interface MapleLibrary {
   InfiniteScroll: typeof InfiniteScroll
   Input: typeof Input
   InputNumber: typeof InputNumber
+  InputTag: typeof InputTag
   Lazy: typeof Lazy
   Link: typeof Link
   List: typeof List
@@ -358,6 +362,7 @@ export interface MapleLibrary {
   LoadingBar: typeof LoadingBar
   Locale: typeof Locale
   LocaleProvider: typeof LocaleProvider
+  Mention: typeof Mention
   Menu: typeof Menu
   Message: typeof Message
   NavMenu: typeof NavMenu
@@ -388,6 +393,7 @@ export interface MapleLibrary {
   Space: typeof Space
   SplitButton: typeof SplitButton
   Statistic: typeof Statistic
+  Timeline: typeof Timeline
   Steps: typeof Steps
   SwipeCell: typeof SwipeCell
   Switch: typeof Switch
@@ -534,6 +540,9 @@ const library: MapleLibrary = {
   get InputNumber() {
     return InputNumber
   },
+  get InputTag() {
+    return InputTag
+  },
   get Lazy() {
     return Lazy
   },
@@ -554,6 +563,9 @@ const library: MapleLibrary = {
   },
   get LocaleProvider() {
     return LocaleProvider
+  },
+  get Mention() {
+    return Mention
   },
   get Menu() {
     return Menu
@@ -644,6 +656,9 @@ const library: MapleLibrary = {
   },
   get Statistic() {
     return Statistic
+  },
+  get Timeline() {
+    return Timeline
   },
   get Steps() {
     return Steps

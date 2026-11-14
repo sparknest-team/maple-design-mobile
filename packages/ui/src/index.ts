@@ -51,8 +51,8 @@ export {
   LoadingBar,
   Locale,
   LocaleProvider,
-  Menu,
   Mention,
+  Menu,
   Message,
   NavMenu,
   NoticeBar,
@@ -83,6 +83,7 @@ export {
   SplitButton,
   Statistic,
   Steps,
+  Timeline,
   SwipeCell,
   Switch,
   TabBar,
@@ -100,30 +101,6 @@ export {
   VerificationCode,
   Watermark,
 } from './maple-vue'
-
-export { inputTagProps, _InputTagComponent } from './input-tag'
-export type {
-  InputTagInstance,
-  InputTagProps,
-  InputTagValue,
-  InputTagEmits,
-  InputTagSlots,
-  InputTagExpose,
-  InputTagFieldNames,
-  InputTagItem,
-  InputTagOption,
-  InputTagOptionGroup,
-  TagData,
-} from './input-tag'
-export { mentionProps, _MentionComponent } from './mention'
-export type {
-  MentionInstance,
-  MentionProps,
-  MentionTokenValue,
-  MentionEmits,
-  MentionSlots,
-  MentionExpose,
-} from './mention'
 export { _ActionSheetComponent } from './action-sheet'
 export { _AffixComponent } from './affix'
 export { _AlertComponent } from './alert'
@@ -182,6 +159,7 @@ export {
   _InputGroupLabelComponent,
 } from './input'
 export { _InputNumberComponent } from './input-number'
+export { _InputTagComponent } from './input-tag'
 export { _LazyComponent } from './lazy'
 export { _LinkComponent } from './link'
 export { ListItem, _ListComponent, _ListItemComponent } from './list'
@@ -189,6 +167,7 @@ export { _LoadingComponent } from './loading'
 export { _LoadingBarComponent } from './loading-bar'
 export { _LocaleComponent } from './locale'
 export { _LocaleProviderComponent } from './locale-provider'
+export { _MentionComponent } from './mention'
 export { MenuOption, _MenuComponent, _MenuOptionComponent } from './menu'
 export { _MessageComponent } from './message'
 export { NavMenuItem, _NavMenuComponent, _NavMenuItemComponent } from './nav-menu'
@@ -607,6 +586,20 @@ export type {
   InputNumberSlots,
   InputNumberExpose,
 } from './input-number'
+export { inputTagProps } from './input-tag'
+export type {
+  InputTagInstance,
+  InputTagProps,
+  TagData,
+  InputTagFieldNames,
+  InputTagOption,
+  InputTagOptionGroup,
+  InputTagItem,
+  InputTagValue,
+  InputTagEmits,
+  InputTagSlots,
+  InputTagExpose,
+} from './input-tag'
 export type { LazyOptions, LazyState, LazyContext, LazyHTMLElement, LazyInstance } from './lazy'
 export { linkProps } from './link'
 export type { LinkProps, LinkUnderline, LinkSize, LinkInstance } from './link'
@@ -628,6 +621,15 @@ export { loadingBarProps } from './loading-bar'
 export type { LoadingBarOptions, LoadingBarInstance, LoadingBarProps } from './loading-bar'
 export { localeProviderProps } from './locale-provider'
 export type { LocaleProviderInstance, LocaleProviderProps } from './locale-provider'
+export { mentionProps } from './mention'
+export type {
+  MentionInstance,
+  MentionProps,
+  MentionEmits,
+  MentionSlots,
+  MentionExpose,
+  MentionTokenValue,
+} from './mention'
 export { menuProps, menuOptionProps } from './menu'
 export type {
   MenuProps,
@@ -1053,3 +1055,18 @@ export { useHoverOverlay } from './hover'
 export { useFormItem, useFormErrorDescription } from './form'
 export { fieldLoadingModes } from './field-decorator'
 export type { PopupContainer } from './utils/popup-container'
+
+export { TimelineItem, _TimelineComponent, _TimelineItemComponent, timelineProps } from './timeline'
+export type {
+  TimelineInstance,
+  TimelineItemInstance,
+  TimelineProps,
+  TimelineItemProps,
+  TimelineSlots,
+  TimelineItemSlots,
+  TimelineMode,
+  TimelineLabelPosition,
+  TimelineDotType,
+  TimelineLineType,
+  TimelineItemContentPlacement,
+} from './timeline'

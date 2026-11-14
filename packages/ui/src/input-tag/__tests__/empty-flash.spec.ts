@@ -23,9 +23,9 @@ test('closing after an automatic commit never displays the empty state', async (
   await flushPromises()
   const empties: string[] = []
   const observer = new MutationObserver(() => {
-    for (const el of document.querySelectorAll('[class$="select-dropdown-empty"]')) {
+    document.querySelectorAll('[class$="select-dropdown-empty"]').forEach((el) => {
       empties.push(el.textContent ?? '')
-    }
+    })
   })
   observer.observe(document.body, { childList: true, subtree: true })
   finish([{ value: 'ab', label: 'Result' }])

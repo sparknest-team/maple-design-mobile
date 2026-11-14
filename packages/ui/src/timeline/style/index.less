@@ -1,0 +1,324 @@
+@import './token.less';
+
+.mp-timeline {
+  display: flex;
+  flex-direction: column;
+
+  &-item {
+    position: relative;
+    min-height: var(~'--mp-timeline-item-min-height');
+    padding-left: var(~'--mp-timeline-dot-size-width');
+    color: var(~'--mp-timeline-content-text-color');
+    font-size: var(~'--mp-timeline-font-content-size');
+
+    &-label {
+      color: var(~'--mp-timeline-label-text-color');
+      font-size: var(~'--mp-timeline-font-label-size');
+      line-height: 1.667;
+    }
+
+    &-content {
+      margin-bottom: var(~'--mp-timeline-vertical-margin-content-bottom');
+      color: var(~'--mp-timeline-content-text-color');
+      font-size: var(~'--mp-timeline-font-content-size');
+      line-height: 1.5715;
+
+      &-wrapper {
+        position: relative;
+        margin-left: var(~'--mp-timeline-vertical-margin-content-left');
+      }
+    }
+  }
+}
+
+// 节点的样式
+.mp-timeline-item {
+  &&-last {
+    > .mp-timeline-item-dot-wrapper .mp-timeline-item-dot-line {
+      display: none;
+    }
+  }
+
+  &-dot-wrapper {
+    position: absolute;
+    left: 0;
+    height: 100%;
+    text-align: center;
+
+    .mp-timeline-item-dot-content {
+      position: relative;
+      width: var(~'--mp-timeline-dot-size-width');
+      height: calc(1.5715 * var(~'--mp-timeline-font-content-size'));
+      line-height: $height;
+    }
+  }
+
+  &-dot {
+    position: relative;
+    top: 50%;
+    box-sizing: border-box;
+    width: var(~'--mp-timeline-dot-size-width');
+    height: var(~'--mp-timeline-dot-size-width');
+    margin-top: -50%;
+    color: var(~'--mp-timeline-dot-bg');
+    border-radius: var(~'--mp-timeline-dot-border-radius');
+
+    &-solid {
+      background-color: var(~'--mp-timeline-dot-bg');
+    }
+
+    &-hollow {
+      background-color: var(~'--mp-timeline-dot-bg-hollow');
+      border: var(~'--mp-timeline-dot-border-width-hollow') solid var(~'--mp-timeline-dot-bg');
+    }
+
+    &-custom {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      display: inline-flex;
+      box-sizing: border-box;
+      color: var(~'--mp-timeline-dot-bg');
+      background-color: var(~'--mp-color-bg-2');
+      transform: translateX(-50%) translateY(-50%);
+      transform-origin: center;
+
+      svg {
+        color: inherit;
+      }
+    }
+  }
+
+  &-dot-line {
+    // bottom: -7px;
+    position: absolute;
+    top: calc(
+      1.5715 * (var(~'--mp-timeline-font-content-size') / 2) + (var(~'--mp-timeline-dot-size-width') / 2) +
+        var(~'--mp-timeline-vertical-margin-line-top')
+    );
+    bottom: calc(
+      -1 *
+        (
+          1.5715 * (var(~'--mp-timeline-font-content-size') / 2) - (var(~'--mp-timeline-dot-size-width') / 2) -
+            var(~'--mp-timeline-vertical-margin-line-bottom')
+        )
+    );
+    left: 50%;
+    box-sizing: border-box;
+    width: var(~'--mp-timeline-size-line-width');
+    border-color: var(~'--mp-timeline-line-bg');
+    border-left-width: var(~'--mp-timeline-size-line-width');
+    transform: translateX(-50%);
+  }
+}
+
+/* reverse  */
+.mp-timeline {
+  &-is-reverse {
+    flex-direction: column-reverse;
+  }
+}
+
+/* mode  */
+.mp-timeline {
+  &-alternate {
+    overflow: hidden;
+
+    .mp-timeline-item-vertical-left {
+      padding-left: 0;
+
+      > .mp-timeline-item-dot-wrapper {
+        left: 50%;
+      }
+
+      > .mp-timeline-item-content-wrapper {
+        left: 50%;
+        width: 50%;
+        margin-left: calc(var(~'--mp-timeline-vertical-margin-content-left') + var(~'--mp-timeline-dot-size-width'));
+        padding-right: calc(var(~'--mp-timeline-vertical-margin-content-left') + var(~'--mp-timeline-dot-size-width'));
+      }
+    }
+
+    .mp-timeline-item-vertical-right {
+      padding-right: 0;
+
+      > .mp-timeline-item-dot-wrapper {
+        left: 50%;
+      }
+
+      > .mp-timeline-item-content-wrapper {
+        left: 0;
+        width: 50%;
+        margin-right: 0;
+        margin-left: calc(-1 * var(~'--mp-timeline-vertical-margin-content-left'));
+        padding-right: var(~'--mp-timeline-vertical-margin-content-left');
+        text-align: right;
+      }
+    }
+  }
+
+  &-right {
+    .mp-timeline-item-vertical-right {
+      padding-right: var(~'--mp-timeline-dot-size-width');
+
+      > .mp-timeline-item-dot-wrapper {
+        right: 0;
+        left: unset;
+      }
+
+      > .mp-timeline-item-content-wrapper {
+        margin-right: var(~'--mp-timeline-vertical-margin-content-left');
+        margin-left: 0;
+        text-align: right;
+      }
+    }
+  }
+}
+
+/* label position */
+.mp-timeline-item {
+  &-label-relative {
+    > .mp-timeline-item-label {
+      position: absolute;
+      top: 0;
+      box-sizing: border-box;
+      max-width: var(~'--mp-timeline-label-relative-max-width');
+    }
+  }
+
+  &-vertical-left&-label-relative {
+    margin-left: var(~'--mp-timeline-label-relative-margin');
+
+    > .mp-timeline-item-label {
+      left: 0;
+      padding-right: var(~'--mp-timeline-vertical-margin-content-left');
+      text-align: right;
+      transform: translateX(-100%);
+    }
+  }
+
+  &-vertical-right&-label-relative {
+    margin-right: var(~'--mp-timeline-label-relative-margin');
+
+    > .mp-timeline-item-label {
+      right: 0;
+      padding-left: var(~'--mp-timeline-vertical-margin-content-left');
+      text-align: left;
+      transform: translateX(100%);
+    }
+  }
+
+  &-horizontal-top&-label-relative {
+    margin-top: var(~'--mp-timeline-label-relative-horizontal-margin');
+
+    > .mp-timeline-item-label {
+      padding-bottom: var(~'--mp-timeline-horizontal-margin-content-spacing');
+      transform: translateY(-100%);
+    }
+
+    > .mp-timeline-item-content {
+      margin-bottom: 0;
+    }
+  }
+
+  &-horizontal-bottom&-label-relative {
+    margin-bottom: var(~'--mp-timeline-label-relative-horizontal-margin');
+
+    > .mp-timeline-item-content {
+      margin-bottom: 0;
+    }
+
+    > .mp-timeline-item-label {
+      top: unset;
+      bottom: 0;
+      padding-top: var(~'--mp-timeline-horizontal-margin-content-spacing');
+      text-align: left;
+      transform: translateY(100%);
+    }
+  }
+}
+
+.mp-timeline-alternate {
+  .mp-timeline-item-vertical-left.mp-timeline-item-label-relative {
+    margin-left: 0;
+
+    > .mp-timeline-item-label {
+      left: 0;
+      width: 50%;
+      max-width: unset;
+      transform: none;
+    }
+  }
+
+  .mp-timeline-item-vertical-right.mp-timeline-item-label-relative {
+    margin-right: 0;
+
+    > .mp-timeline-item-label {
+      right: 0;
+      width: 50%;
+      max-width: unset;
+      transform: none;
+    }
+  }
+
+  .mp-timeline-item-horizontal-top.mp-timeline-item-label-relative {
+    margin-top: 0;
+  }
+
+  .mp-timeline-item-horizontal-bottom.mp-timeline-item-label-relative {
+    margin-bottom: 0;
+  }
+}
+
+@import './horizontal.less';
+
+// Vertical side APIs are physical. Keep their containing block's coordinate origin
+// stable, while the label and content retain the native reading direction.
+.mp-timeline-direction-vertical:dir(rtl) > .mp-timeline-item {
+  direction: ltr;
+
+  > .mp-timeline-item-content-wrapper,
+  > .mp-timeline-item-label {
+    direction: rtl;
+  }
+}
+
+// Two explicit physical columns avoid combining relative offsets with an RTL
+// block origin. Content remains in normal flow so multiline/custom slots size rows.
+.mp-timeline-alternate.mp-timeline-direction-vertical {
+  > .mp-timeline-item {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    padding-inline: 0;
+
+    > .mp-timeline-item-dot-wrapper {
+      left: calc(50% - var(--mp-timeline-dot-size-width) / 2);
+    }
+
+    > .mp-timeline-item-content-wrapper {
+      left: auto;
+      right: auto;
+      box-sizing: border-box;
+      width: auto;
+      min-width: 0;
+      margin: 0;
+      padding: 0;
+    }
+
+    > .mp-timeline-item-label {
+      box-sizing: border-box;
+    }
+  }
+
+  > .mp-timeline-item-vertical-left > .mp-timeline-item-content-wrapper {
+    grid-column: 2;
+    padding-left: calc(var(--mp-timeline-vertical-margin-content-left) + var(--mp-timeline-dot-size-width) / 2);
+    text-align: start;
+  }
+
+  > .mp-timeline-item-vertical-right > .mp-timeline-item-content-wrapper {
+    grid-column: 1;
+    padding-right: calc(var(--mp-timeline-vertical-margin-content-left) + var(--mp-timeline-dot-size-width) / 2);
+    text-align: right;
+  }
+}

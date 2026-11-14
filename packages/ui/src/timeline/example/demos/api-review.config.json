@@ -1,0 +1,85 @@
+{
+  "fields": [
+    {
+      "name": "reverse",
+      "description": "是否倒序",
+      "type": "boolean",
+      "defaultValue": "undefined",
+      "kind": "boolean"
+    },
+    {
+      "name": "orientation",
+      "description": "时间轴方向",
+      "type": "\"horizontal\" | \"vertical\"",
+      "defaultValue": "\"vertical\"",
+      "kind": "enum",
+      "options": [
+        "horizontal",
+        "vertical"
+      ],
+      "initial": "vertical"
+    },
+    {
+      "name": "mode",
+      "description": "时间轴的展示类型：时间轴在左侧，时间轴在右侧, 交替出现。",
+      "type": "'left' | 'right' | 'top' | 'bottom' | 'alternate'",
+      "defaultValue": "\"left\"",
+      "kind": "enum",
+      "options": [
+        "left",
+        "right",
+        "top",
+        "bottom",
+        "alternate"
+      ],
+      "initial": "left"
+    },
+    {
+      "name": "pending",
+      "description": "是否展示幽灵节点，设置为 true 时候只展示幽灵节点。传入ReactNode时，会作为节点内容展示。",
+      "type": "boolean|string",
+      "defaultValue": "undefined",
+      "kind": "scenario"
+    },
+    {
+      "name": "label-position",
+      "description": "设置标签文本的位置",
+      "type": "'relative' | 'same'",
+      "defaultValue": "\"same\"",
+      "kind": "enum",
+      "options": [
+        "relative",
+        "same"
+      ],
+      "initial": "same"
+    }
+  ],
+  "events": [],
+  "scenarios": [
+    {
+      "name": "pending",
+      "kind": "prop",
+      "demos": [
+        "layout-comparison.vue",
+        "pending.vue"
+      ]
+    },
+    {
+      "name": "dot",
+      "kind": "slot",
+      "demos": [
+        "dot.vue",
+        "icon.vue",
+        "layout-comparison.vue",
+        "pending.vue"
+      ]
+    }
+  ],
+  "slotNames": [
+    "dot"
+  ],
+  "slotDefaults": {
+    "dot": false
+  },
+  "methodNames": []
+}

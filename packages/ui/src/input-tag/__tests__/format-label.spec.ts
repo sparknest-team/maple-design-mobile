@@ -39,7 +39,8 @@ test('label slot receives data and takes precedence over formatLabel', () => {
 test('the old prop and slot are not part of the public API', async () => {
   const { inputTagProps } = await import('../props')
   expect(inputTagProps).not.toHaveProperty('formatTag')
-  const owner = mount(InputTag, { props: { defaultValue: ['a'] }, slots: { tag: () => 'legacy slot' } })
+  // Render the removed slot deliberately to verify the runtime ignores it.
+  const owner = mount(() => h(InputTag, { defaultValue: ['a'] }, { tag: () => 'legacy slot' }))
   expect(owner.text()).not.toContain('legacy slot')
   owner.unmount()
 })

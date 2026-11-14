@@ -1,0 +1,96 @@
+.mp-timeline-direction-horizontal {
+  display: flex;
+  flex-direction: row;
+
+  &.mp-timeline-is-reverse {
+    flex-direction: row-reverse;
+  }
+}
+
+.mp-timeline-item-dot-line-is-horizontal {
+  top: 50%;
+  inset-inline-end: var(~'--mp-timeline-horizontal-margin-line-right');
+  inset-inline-start: calc(var(~'--mp-timeline-dot-size-width') + var(~'--mp-timeline-horizontal-margin-line-left'));
+  width: unset;
+  height: var(~'--mp-timeline-size-line-width');
+  border-top-width: var(~'--mp-timeline-size-line-width');
+  border-left: none;
+  transform: translateY(-50%);
+}
+
+.mp-timeline-item-horizontal-bottom,
+.mp-timeline-item-horizontal-top {
+  flex: 1;
+  min-height: unset;
+  padding-right: 0;
+  padding-left: 0;
+
+  > .mp-timeline-item-dot-wrapper {
+    top: 0;
+    width: 100%;
+    height: auto;
+
+    .mp-timeline-item-dot {
+      top: unset;
+      margin-top: unset;
+    }
+
+    .mp-timeline-item-dot-content {
+      height: var(~'--mp-timeline-horizontal-dot-content-height');
+      line-height: var(~'--mp-timeline-horizontal-dot-content-height');
+    }
+  }
+}
+
+.mp-timeline-item-horizontal-top {
+  padding-top: var(~'--mp-timeline-dot-size-width');
+
+  > .mp-timeline-item-dot-wrapper {
+    top: 0;
+    bottom: unset;
+  }
+
+  > .mp-timeline-item-content-wrapper {
+    margin-top: var(~'--mp-timeline-horizontal-margin-content-spacing');
+    margin-left: 0;
+  }
+}
+
+.mp-timeline-item-horizontal-bottom {
+  padding-bottom: var(~'--mp-timeline-dot-size-width');
+
+  > .mp-timeline-item-dot-wrapper {
+    top: unset;
+    bottom: 0;
+  }
+
+  > .mp-timeline-item-content-wrapper {
+    margin-bottom: var(~'--mp-timeline-horizontal-margin-content-spacing');
+    margin-left: 0;
+  }
+}
+
+.mp-timeline-alternate.mp-timeline-direction-horizontal {
+  align-items: center;
+  min-height: var(~'--mp-timeline-alternate-horizontal-min-height');
+  overflow: visible;
+
+  .mp-timeline-item-horizontal-bottom {
+    margin-top: var(~'--mp-timeline-dot-size-width');
+    transform: translateY(-50%);
+  }
+
+  .mp-timeline-item-horizontal-top {
+    margin-top: calc(-1 * var(~'--mp-timeline-dot-size-width'));
+    transform: translateY(50%);
+  }
+}
+
+// The horizontal dot anchors at the reading start; vertical physical sides stay unchanged.
+.mp-timeline-direction-horizontal .mp-timeline-item-dot-wrapper {
+  left: auto;
+  inset-inline-start: 0;
+}
+.mp-timeline-direction-horizontal .mp-timeline-item-content-wrapper {
+  margin-inline: 0;
+}
