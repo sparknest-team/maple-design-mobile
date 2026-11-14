@@ -68,6 +68,18 @@ Use this example for content grouping and visual hierarchy. Adjust variant, size
 ../example/demos/image.vue
 ```
 
+### Composing Tabs and nested cards
+
+Enable `swipeable` to switch tabs with horizontal touch gestures in the content area. The table uses `data-tabs-no-swipe` to preserve horizontal scrolling; swipe outside the table to switch tabs.
+
+Maple has no TypographyTitle component; group headings use native headings.
+
+Compose Card, Tabs and vertical Space. Compact outlined cards group each panel; wide tables scroll within their own container on small screens. The industry panel uses section headings without extra cards.
+
+```demo
+../example/demos/nested-tabs.vue
+```
+
 ## Content and presentation
 
 ### Long title and tooltip

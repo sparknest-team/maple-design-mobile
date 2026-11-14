@@ -6,6 +6,7 @@ import DemoBasic from './demos/basic.vue'
 import DemoFloating from './demos/floating.vue'
 import DemoHoverable from './demos/hoverable.vue'
 import DemoImage from './demos/image.vue'
+import DemoNestedTabs from './demos/nested-tabs.vue'
 import DemoNoPadding from './demos/no-padding.vue'
 import DemoRipple from './demos/ripple.vue'
 import OrganizedSchedulerLifecycle from './demos/scheduler-lifecycle.vue'
@@ -57,6 +58,11 @@ onThemeChange()
   <section data-demo="image">
     <app-type>{{ english ? 'Images and directions' : '图片与三种布局' }}</app-type
     ><DemoImage />
+  </section>
+
+  <section data-demo="nested-tabs">
+    <app-type>{{ english ? 'Composing Tabs and nested cards' : '组合 Tabs 与嵌套卡片' }}</app-type>
+    <DemoNestedTabs />
   </section>
 
   <h2 class="mobile-demo-group-heading" data-demo-group="content-and-presentation">

@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json",
   "framework": "vue",
-  "version": "1.1.1",
+  "version": "1.1.7",
   "name": "Maple Design Mobile",
   "contributions": {
     "html": {
@@ -1368,7 +1368,7 @@
             },
             {
               "name": "variant",
-              "description": "Appearance; inherits group, otherwise default",
+              "description": "Appearance; inherits from the button group when omitted, otherwise outline",
               "default": "undefined",
               "value": {
                 "type": "`default / text / outline / tonal`",
@@ -1521,8 +1521,8 @@
             },
             {
               "name": "elevation",
-              "description": "Default variant shadow; true=2, false=off, rounded/clamped 0–24; group owns grouped elevation",
-              "default": "true",
+              "description": "Shadow for the default variant; true means 1, false disables it, and numbers are rounded and clamped to 0–24; controlled by the group when grouped",
+              "default": "false",
               "value": {
                 "type": "`boolean / number`",
                 "kind": "expression"
@@ -1713,7 +1713,7 @@
             },
             {
               "name": "floating",
-              "description": "Fullscreen state; supports v-model:floating",
+              "description": "Floating expansion state; supports v-model:floating",
               "default": "false",
               "value": {
                 "type": "`boolean`",
@@ -1722,7 +1722,7 @@
             },
             {
               "name": "floating-duration",
-              "description": "Fullscreen transition duration in ms",
+              "description": "Floating expansion transition duration in ms",
               "default": "250",
               "value": {
                 "type": "`number`",
@@ -2156,7 +2156,7 @@
             {
               "name": "variant",
               "description": "filled, outline, standard; inherits InputGroup",
-              "default": "filled",
+              "default": "outline",
               "value": {
                 "type": "`FieldDecoratorVariant`<br>`'filled' | 'outline' | 'standard'`",
                 "kind": "expression"
@@ -2201,7 +2201,7 @@
             {
               "name": "hint",
               "description": "Enable the floating hint",
-              "default": "true",
+              "default": "false",
               "value": {
                 "type": "`boolean`",
                 "kind": "expression"
@@ -3513,7 +3513,7 @@
             {
               "name": "hint",
               "description": "Floating placeholder hint, suppressed by an outer Form label",
-              "default": "true",
+              "default": "false",
               "value": {
                 "type": "`boolean`",
                 "kind": "expression"
@@ -3765,7 +3765,7 @@
             {
               "name": "variant",
               "description": "Field appearance",
-              "default": "standard",
+              "default": "outline",
               "value": {
                 "type": "`filled | outline | standard`",
                 "kind": "expression"
@@ -4099,6 +4099,24 @@
         {
           "name": "mp-dialog",
           "attributes": [
+            {
+              "name": "top-divider",
+              "description": "Divider between the title and content",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "bottom-divider",
+              "description": "Divider between the content and footer",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
             {
               "name": "dir",
               "description": "Reading direction; inherits the source scope when omitted. Physical left/right placements keep their meaning.",
@@ -5183,7 +5201,7 @@
               "description": "`boolean`",
               "default": "",
               "value": {
-                "type": "`true`",
+                "type": "`false`",
                 "kind": "expression"
               }
             },
@@ -6334,7 +6352,7 @@
             {
               "name": "hint",
               "description": "Use the placeholder as a floating hint",
-              "default": "true",
+              "default": "false",
               "value": {
                 "type": "`boolean`",
                 "kind": "expression"
@@ -6822,7 +6840,7 @@
             {
               "name": "hint",
               "description": "Use the placeholder as a floating hint",
-              "default": "true",
+              "default": "false",
               "value": {
                 "type": "`boolean`",
                 "kind": "expression"
@@ -7040,20 +7058,29 @@
           "name": "mp-input-tag",
           "attributes": [
             {
+              "name": "multiple",
+              "description": "Whether to allow multiple tags; false replaces the previous value",
+              "default": "true",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
               "name": "model-value **(v-model)**",
-              "description": "Bound value",
+              "description": "Array in multiple mode, scalar or null in single mode",
               "default": "-",
               "value": {
-                "type": "`(string | number | TagData)[] | null`",
+                "type": "`InputTagValue`",
                 "kind": "expression"
               }
             },
             {
               "name": "default-value",
               "description": "Default value (uncontrolled state)",
-              "default": "[]",
+              "default": "[] / null",
               "value": {
-                "type": "`(string | number | TagData)[]`",
+                "type": "`InputTagValue`",
                 "kind": "expression"
               }
             },
@@ -7072,6 +7099,42 @@
               "default": "''",
               "value": {
                 "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "options",
+              "description": "Candidate array or remote loader",
+              "default": "-",
+              "value": {
+                "type": "`InputTagOption[] | (query, { signal }) => InputTagOption[] | Promise<InputTagOption[]>`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "min-search-length",
+              "description": "Minimum query length before searching",
+              "default": "1",
+              "value": {
+                "type": "`number`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "search-delay",
+              "description": "Remote search debounce in milliseconds",
+              "default": "250",
+              "value": {
+                "type": "`number`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "auto-commit-single",
+              "description": "Automatically commit the only enabled result",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
@@ -7132,7 +7195,7 @@
             {
               "name": "variant",
               "description": "The variant of the input",
-              "default": "'filled'",
+              "default": "'outline'",
               "value": {
                 "type": "`'filled' | 'outline' | 'standard'`",
                 "kind": "expression"
@@ -7158,7 +7221,7 @@
             },
             {
               "name": "format-label",
-              "description": "Format selected label text",
+              "description": "Format tag content",
               "default": "-",
               "value": {
                 "type": "`(data: TagData) => string`",
@@ -7220,6 +7283,18 @@
               "description": "Actual editor visibility change"
             },
             {
+              "name": "search",
+              "description": "Eligible query changed"
+            },
+            {
+              "name": "select",
+              "description": "Candidate committed"
+            },
+            {
+              "name": "load-error",
+              "description": "Candidate loading failed"
+            },
+            {
               "name": "change",
               "description": "Emitted when the value changes"
             },
@@ -7251,7 +7326,7 @@
           "slots": [
             {
               "name": "label",
-              "description": "Customize selected label content"
+              "description": "Displayed selected label"
             },
             {
               "name": "prefix",
@@ -7688,6 +7763,33 @@
               "default": "undefined",
               "value": {
                 "type": "readonly (string | number | SelectOptionData | SelectOptionGroup)[] | ((query: string, context: { signal: AbortSignal }) => Array | `Promise<Array>`)",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "min-search-length",
+              "description": "Minimum query length after the prefix",
+              "default": "0",
+              "value": {
+                "type": "number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "search-delay",
+              "description": "Remote search debounce in milliseconds",
+              "default": "0",
+              "value": {
+                "type": "number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "auto-commit-single",
+              "description": "Automatically commit the only enabled result",
+              "default": "false",
+              "value": {
+                "type": "boolean",
                 "kind": "expression"
               }
             },
@@ -11922,7 +12024,7 @@
             {
               "name": "variant",
               "description": "filled, outline, standard; inherits InputGroup",
-              "default": "filled",
+              "default": "outline",
               "value": {
                 "type": "`FieldDecoratorVariant`<br>`'filled' | 'outline' | 'standard'`",
                 "kind": "expression"
@@ -11967,7 +12069,7 @@
             {
               "name": "hint",
               "description": "Enable the floating hint",
-              "default": "true",
+              "default": "false",
               "value": {
                 "type": "`boolean`",
                 "kind": "expression"
@@ -12651,7 +12753,7 @@
             {
               "name": "show-input",
               "description": "boolean",
-              "default": "Show attached InputNumber controls, two in range mode. The slider aria-describedby is also applied to the numeric inputs and combined with form error descriptions.",
+              "default": "Show an accompanying InputNumber, or two in range mode. The slider’s aria-describedby also applies to the number inputs and is combined with form error descriptions. An explicit aria-description is forwarded to both the slider and number inputs. Browsers prioritize a resolvable aria-describedby, so the two descriptions are not necessarily combined.",
               "value": {
                 "type": "false",
                 "kind": "expression"
@@ -14615,7 +14717,7 @@
             {
               "name": "hint",
               "description": "Use the placeholder as a floating hint",
-              "default": "true",
+              "default": "false",
               "value": {
                 "type": "`boolean`",
                 "kind": "expression"
@@ -15049,7 +15151,7 @@
             {
               "name": "hint",
               "description": "Floating placeholder hint, suppressed by an outer Form label",
-              "default": "true",
+              "default": "false",
               "value": {
                 "type": "`boolean`",
                 "kind": "expression"
@@ -15256,7 +15358,7 @@
             {
               "name": "variant",
               "description": "Field appearance",
-              "default": "standard",
+              "default": "outline",
               "value": {
                 "type": "`filled | outline | standard`",
                 "kind": "expression"
@@ -15439,7 +15541,7 @@
             {
               "name": "hint",
               "description": "Floating placeholder hint, suppressed by an outer Form label",
-              "default": "true",
+              "default": "false",
               "value": {
                 "type": "`boolean`",
                 "kind": "expression"
@@ -15682,7 +15784,7 @@
             {
               "name": "variant",
               "description": "Field appearance",
-              "default": "standard",
+              "default": "outline",
               "value": {
                 "type": "`filled | outline | standard`",
                 "kind": "expression"
@@ -16299,6 +16401,15 @@
               }
             },
             {
+              "name": "read-pretty",
+              "description": "`boolean`",
+              "default": "Pure reading mode: hides the editor and shows the field value. Inherits from FormItem / Form; explicit false overrides inheritance. Resolves to false when unset.",
+              "value": {
+                "type": "`undefined`",
+                "kind": "expression"
+              }
+            },
+            {
               "name": "action",
               "description": "`string`",
               "default": "Upload request URL",
@@ -16475,6 +16586,15 @@
               "default": "File list appearance; supported on both platforms",
               "value": {
                 "type": "`'text'`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "trigger-position",
+              "description": "`'before' | 'after'`",
+              "default": "Place the upload entry before or after the file list; applies to every list-type, custom trigger slots and drag-and-drop entries. Values describe DOM order and are not rewritten in RTL.",
+              "value": {
+                "type": "`'after'`",
                 "kind": "expression"
               }
             },

@@ -64,6 +64,18 @@
 ../example/demos/image.vue
 ```
 
+### 组合 Tabs 与嵌套卡片
+
+开启 `swipeable` 后，在内容区左右触摸滑动可切换标签。表格区域通过 `data-tabs-no-swipe` 保留横向滚动；请在表格外滑动切换。
+
+Maple 当前没有 TypographyTitle 组件，分组使用原生标题。
+
+通过 Card、Tabs 和纵向 Space 组合内容。内层使用紧凑描边卡片，宽表格在自己的容器内横向滚动；产业链面板使用普通分组标题，避免额外嵌套卡片。
+
+```demo
+../example/demos/nested-tabs.vue
+```
+
 ## 内容与展示
 
 ### 长标题与提示

@@ -6870,6 +6870,79 @@ const directions = ['column', 'row', 'row-reverse'] as const
 </template>
 ```
 
+### Composing Tabs and nested cards
+
+Compose Card, Tabs and vertical Space. Compact outlined cards group each panel; wide tables scroll within their own container on small screens. The industry panel uses section headings without extra cards.
+
+Example source: src/card/example/demos/nested-tabs.vue
+
+```vue
+<script setup lang="ts">
+const rows = [
+  ['2025 Q4', '26.25', '+64.2%', '26.5%', '-0.03'],
+  ['2026 Q1', '18.12', '-31.0%', '24.6%', '0.82'],
+  ['2026 Q2', '16.77', '-7.4%', '25.1%', '-0.12'],
+]
+</script>
+
+<template>
+  <mp-card title="三季报前瞻" class="nested-card-demo" :elevation="false">
+    <template #title-action><span class="report-date">2026-08</span></template>
+    <mp-tabs default-value="performance" :item-style="{ padding: '16px 0 0' }" tab-list-aria-label="分析维度">
+      <mp-tab-pane name="industry" title="产业链">
+        <mp-card title="产业链观察" size="sm" variant="outline" :elevation="false">
+          <mp-space direction="column" size="lg">
+            <section>
+              <h3>上游 · 原材料</h3>
+              <p>关注铜、钢材与塑料采购成本变化。</p>
+            </section>
+            <section>
+              <h3>下游 · 终端渠道</h3>
+              <p>关注渠道库存、促销节奏与新品销售表现。</p>
+            </section>
+          </mp-space>
+        </mp-card>
+      </mp-tab-pane>
+      <mp-tab-pane name="performance" title="业绩">
+        <mp-space direction="column" size="lg">
+          <mp-card title="单季还原（累计相减）" size="sm" variant="outline" :elevation="false">
+            <div class="report-table" role="region" aria-label="单季财务数据，可横向滚动" tabindex="0">
+              <table>
+                <caption>示例数据 · 单位：亿元</caption>
+                <thead><tr><th v-for="heading in ['单季', '营收(亿)', '环比', '毛利率', '净利(亿)']" :key="heading" scope="col">{{ heading }}</th></tr></thead>
+                <tbody><tr v-for="row in rows" :key="row[0]"><td v-for="(cell, index) in row" :key="index">{{ cell }}</td></tr></tbody>
+              </table>
+            </div>
+          </mp-card>
+          <mp-card title="经营摘要" size="sm" variant="outline" :elevation="false">
+            <p>本季营收 16.77 亿元，毛利率 25.1%。</p>
+          </mp-card>
+        </mp-space>
+      </mp-tab-pane>
+      <mp-tab-pane name="capital" title="筹码·资金">
+        <mp-card title="资金观察" size="sm" variant="outline" :elevation="false">本期机构持仓数据尚未披露。</mp-card>
+      </mp-tab-pane>
+      <mp-tab-pane name="technical" title="技术">
+        <mp-card title="技术观察" size="sm" variant="outline" :elevation="false">暂无技术分析数据。</mp-card>
+      </mp-tab-pane>
+    </mp-tabs>
+  </mp-card>
+</template>
+
+<style scoped>
+.nested-card-demo { inline-size: 100%; min-inline-size: 0; }
+.report-date { white-space: nowrap; font-size: 12px; }
+.report-table { max-inline-size: 100%; overflow-x: auto; }
+table { inline-size: 100%; min-inline-size: 520px; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+caption { text-align: start; padding-block-end: 8px; }
+th, td { padding: 12px; text-align: end; white-space: nowrap; border-block-end: 1px solid var(--mp-sys-color-border-default); }
+th:first-child, td:first-child { text-align: start; }
+h3 { margin: 0 0 8px; font-size: 14px; font-weight: 500; }
+p { margin: 0; }
+@media (max-width: 480px) { th, td { padding: 8px; } }
+</style>
+```
+
 ## Content and presentation
 
 ### Long title and tooltip
@@ -34192,96 +34265,67 @@ Example source: src/input-tag/example/demos/link-title.vue
 
 ```vue
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+import { ref } from 'vue'
 
 const links = ref<string[]>([])
-const titles = reactive<Record<string, string>>({})
-const fallbackOption = (value: string | number) => ({ value, label: titles[String(value)] ?? String(value) })
-const inputValue = ref('')
-const loading = ref(false)
 const error = ref('')
 const submitted = ref<string[] | null>(null)
 
-// 模拟接口：延迟返回标题，实际使用时替换为业务请求。
-function fetchTitle(url: string): Promise<string> {
-  const titles: Record<string, string> = {
-    'vuejs.org': 'Vue.js',
-    'github.com': 'GitHub',
-  }
-  return new Promise((resolve) => {
-    setTimeout(() => resolve(titles[new URL(url).hostname] || new URL(url).hostname), 1200)
-  })
-}
-
-async function handlePaste(event: ClipboardEvent) {
-  const url = event.clipboardData?.getData('text/plain').trim()
-  if (url) {
-    await addLink(url)
-  }
-}
-
-function handleKeydown(event: KeyboardEvent) {
-  if (event.key !== 'Enter' || event.isComposing || event.keyCode === 229) {
-    return
-  }
-  event.preventDefault()
-  void addLink(inputValue.value.trim())
-}
-
-async function addLink(url: string) {
-  if (loading.value || !url) {
-    return
-  }
-  error.value = ''
+// 模拟接口：实际业务在服务端解析链接标题，并将 signal 传给 fetch。
+async function searchLinks(query: string, { signal }: { signal: AbortSignal }) {
+  let url: URL
   try {
-    const parsed = new URL(url)
-    if (!['http:', 'https:'].includes(parsed.protocol)) {
-      throw new Error()
+    url = new URL(query.trim())
+    if (!['http:', 'https:'].includes(url.protocol) || !url.hostname.includes('.')) {
+      return []
     }
   } catch {
-    error.value = '请粘贴完整的 http 或 https 链接 / Paste a valid http or https URL.'
-    return
+    return []
   }
-  if (links.value.includes(url)) {
-    error.value = '链接已添加 / This URL has already been added.'
-    return
+  const titles: Record<string, string> = { 'vuejs.org': 'Vue.js', 'github.com': 'GitHub' }
+  if (!titles[url.hostname]) {
+    return []
   }
-  loading.value = true
-  try {
-    const title = await fetchTitle(url)
-    titles[url] = title
-    links.value.push(url)
-    inputValue.value = ''
-  } catch {
-    error.value = '获取标题失败，请重试 / Could not fetch the title. Try again.'
-  } finally {
-    loading.value = false
-  }
-}
-
-function submit() {
-  submitted.value = [...links.value]
+  error.value = ''
+  await new Promise<void>((resolve, reject) => {
+    const cancel = () => {
+      clearTimeout(timer)
+      reject(new DOMException('Aborted', 'AbortError'))
+    }
+    const timer = setTimeout(() => {
+      signal.removeEventListener('abort', cancel)
+      resolve()
+    }, 400)
+    if (signal.aborted) {
+      cancel()
+    } else {
+      signal.addEventListener('abort', cancel, { once: true })
+    }
+  })
+  return [{ value: query.trim(), label: titles[url.hostname] }]
 }
 </script>
 
 <template>
   <mp-space direction="column" style="width: 100%" :size="12">
-    <p>粘贴链接，或输入链接后按回车，例如 https://vuejs.org / Paste a URL or type one and press Enter.</p>
-    <div @paste.capture.prevent="handlePaste" @keydown.capture="handleKeydown">
-      <mp-input-tag
-        v-model="links"
-        v-model:input-value="inputValue"
-        :fallback-option="fallbackOption"
-        :retain-input-value="true"
-        :loading="loading"
-        :disabled="loading"
-        placeholder="粘贴或输入链接 / Paste or type a URL"
-        aria-label="粘贴或输入链接 / Paste or type a URL"
-        clearable
-      />
-    </div>
+    <p>
+      粘贴或输入 https://vuejs.org 或 https://github.com；唯一结果自动添加，模型保存原始链接。 / Paste or type one of
+      the example URLs to resolve its title.
+    </p>
+    <mp-input-tag
+      v-model="links"
+      :options="searchLinks"
+      :min-search-length="8"
+      :search-delay="300"
+      auto-commit-single
+      unique-value
+      placeholder="粘贴或输入链接 / Paste or type a URL"
+      aria-label="粘贴或输入链接 / Paste or type a URL"
+      clearable
+      @load-error="error = '获取标题失败，请重试 / Could not fetch the title.'"
+    />
     <p v-if="error" role="alert">{{ error }}</p>
-    <mp-button :disabled="loading || !links.length" @click="submit">提交 / Submit</mp-button>
+    <mp-button :disabled="!links.length" @click="submitted = [...links]">提交 / Submit</mp-button>
     <pre v-if="submitted !== null" aria-live="polite">{{ JSON.stringify({ links: submitted }, null, 2) }}</pre>
   </mp-space>
 </template>
@@ -34413,16 +34457,121 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 
 `unique-value` compares normalized object and string tag values using the merged `field-names.value` mapping. Numeric `1` and string `"1"` are distinct. Duplicates remain legal by default, with a stable private identity per occurrence and a separate overflow key. Folding affects display only; it does not truncate the model.
 
-Public Props exclude the internal composition controls `baseCls`, `focused`, `disabledInput` and `uninjectFormItemContext`. A synchronous undefined return from before-commit waits for done; ordinary change / press-enter listeners do not await Promises. A deferred change may omit its source DOM event. Clearing defaults to [], while explicit empty-value=null preserves null.
+Public Props exclude the internal composition controls `baseCls`, `focused`, `disabledInput` and `uninjectFormItemContext`. A synchronous undefined return from before-commit waits for done; ordinary change / press-enter listeners do not await Promises. A deferred change may omit its source DOM event. Clearing defaults to [] in multiple mode and null in single mode; an explicit empty-value takes precedence.
+
+### Search and select tags
+
+Example source: src/input-tag/example/demos/search-options.vue
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const tags = ref<string[]>([])
+const singleTag = ref<string | null>(null)
+const error = ref('')
+const people = [
+  { value: 'alice', label: 'Alice · 设计' },
+  { value: 'alan', label: 'Alan · 产品' },
+  { value: 'bob', label: 'Bob · 开发' },
+]
+
+// 模拟服务端搜索；真实请求可把 signal 传入 fetch。
+async function searchPeople(query: string, { signal }: { signal: AbortSignal }) {
+  await new Promise<void>((resolve, reject) => {
+    const cancel = () => {
+      clearTimeout(timer)
+      reject(new DOMException('Aborted', 'AbortError'))
+    }
+    const timer = setTimeout(() => {
+      signal.removeEventListener('abort', cancel)
+      resolve()
+    }, 350)
+    if (signal.aborted) {
+      cancel()
+    } else {
+      signal.addEventListener('abort', cancel, { once: true })
+    }
+  })
+  error.value = ''
+  return people.filter((person) => person.value.includes(query.toLowerCase()))
+}
+</script>
+
+<template>
+  <mp-space direction="column" style="width: 100%" :size="12">
+    <p>输入或粘贴至少两个字符，输入 al 选择多个结果中的一项；输入 bob 自动提交唯一结果。</p>
+    <p>Type or paste at least two characters. Choose an “al” result, or type “bob” to commit the only result.</p>
+    <mp-input-tag
+      v-model="tags"
+      :options="searchPeople"
+      :min-search-length="2"
+      :search-delay="250"
+      auto-commit-single
+      unique-value
+      placeholder="搜索账号 / Search accounts"
+      aria-label="搜索账号 / Search accounts"
+      @load-error="error = '搜索失败 / Search failed'"
+    />
+    <p v-if="error" role="alert">{{ error }}</p>
+    <p>保存的账号 / Saved IDs: {{ JSON.stringify(tags) }}</p>
+    <p>单值模式：选择新账号替换旧值；无匹配时按回车保存输入。</p>
+    <mp-input-tag
+      v-model="singleTag"
+      :multiple="false"
+      :options="searchPeople"
+      :min-search-length="2"
+      :search-delay="250"
+      auto-commit-single
+      placeholder="单个账号 / Single account"
+      aria-label="单个账号 / Single account"
+    />
+    <p>单个账号 / Single ID: {{ JSON.stringify(singleTag) }}</p>
+  </mp-space>
+</template>
+```
+
+When `options` is supplied, typing or pasting searches only after `min-search-length` is reached. Arrays filter locally by label; loaders receive the query and `{ signal }`, and remote results are not filtered again. Composition completes before searching; shortening the query or blurring cancels pending work. Enter selects a highlighted candidate, or creates the typed value when a completed search returns no candidates. Loading, failed searches, and disabled matches never create a tag. `auto-commit-single` defaults to false and commits only the sole enabled result of the current search. Selected values are saved in the model. Resolve labels from current `options`, then `fallback-option`, the instance cache, and finally the raw value. Use `options` or `fallback-option` to restore labels after remounting.
+
+Selected tags display their label by default. Use `format-label` to format the text and `#label="{ data }"` for custom content. Slots take priority over formatting; neither changes search matching or the model. Read mode uses formatted text; use `#read` to customize read content.
+
+### Customize selected content
+
+Example source: src/input-tag/example/demos/format-label.vue
+
+```vue
+<script setup lang="ts">
+const selected = [{ value: 'alice', label: 'Alice', department: '设计' }]
+const formatLabel = (item: { label?: string; department?: string }) => `${item.label} · ${item.department}`
+</script>
+
+<template>
+  <mp-space direction="column" style="width: 100%" :size="12">
+    <p>格式化文字 / Format selected text</p>
+    <mp-input-tag :default-value="['alice']" :options="selected" :format-label="formatLabel" />
+    <p>自定义内容 / Customize selected content</p>
+    <mp-input-tag :default-value="['alice']" :options="selected">
+      <template #label="{ data }"
+        ><strong>{{ data.label }}</strong> · {{ data.department }}</template
+      >
+    </mp-input-tag>
+  </mp-space>
+</template>
+```
 
 ### InputTag Props
 
 | Parameter | Description | Type | Default |
 | ------------------------- | ---------------------------------- | ------------------------------------------------- | :--------: |
-| model-value **(v-model)** | Bound value | `(string \| number \| TagData)[] \| null` | `-` |
-| default-value | Default value (uncontrolled state) | `(string \| number \| TagData)[]` | `[]` |
+| multiple | Whether to allow multiple tags; false replaces the previous value | `boolean` | `true` |
+| model-value **(v-model)** | Array in multiple mode, scalar or null in single mode | `InputTagValue` | `-` |
+| default-value | Default value (uncontrolled state) | `InputTagValue` | `[]` / `null` |
 | input-value **(v-model)** | The value of the input | `string` | `-` |
 | default-input-value | The default value of the input (uncontrolled state) | `string` | `''` |
+| options | Candidate array or remote loader | `InputTagOption[] \| (query, { signal }) => InputTagOption[] \| Promise<InputTagOption[]>` | `-` |
+| min-search-length | Minimum query length before searching | `number` | `1` |
+| search-delay | Remote search debounce in milliseconds | `number` | `250` |
+| auto-commit-single | Automatically commit the only enabled result | `boolean` | `false` |
 | placeholder | Placeholder | `string` | `-` |
 | disabled | Whether disabled | `boolean` | `-` |
 | error | Whether it is an error state | `boolean` | `-` |
@@ -34432,7 +34581,7 @@ Public Props exclude the internal composition controls `baseCls`, `focused`, `di
 | variant | The variant of the input | `'filled' \| 'outline' \| 'standard'` | `'outline'` |
 | max-tag-count | Finite nonnegative integer; 0 is unlimited, invalid values diagnose and fall back to unlimited display | `number` | `0` |
 | retain-input-value | Whether to keep the content of the input box | `boolean \| { create?: boolean; blur?: boolean }` | `false` |
-| format-tag | Format tag content | `(data: TagData) => string` | `-` |
+| format-label | Format tag content | `(data: TagData) => string` | `-` |
 | fallback-option | Synchronously resolve display data for primitive values; show the value when unresolved | `(value: string \| number) => TagData \| null \| undefined` | `-` |
 | unique-value | Whether to create only unique values | `boolean` | `false` |
 | field-names | Customize fields in `TagData` | `InputTagFieldNames` | `-` |
@@ -34440,7 +34589,7 @@ Public Props exclude the internal composition controls `baseCls`, `focused`, `di
 
 | loading | Business-controlled loading state; does not block input | `boolean` | `false` |
 | loading-mode | Shared field feedback appearance, independent of Loading animation types | `'default' \| 'line'` | `'default'` |
-| empty-value | Clear output; defaults to an empty array and accepts explicit null | `InputTagValue \| (() => InputTagValue)` | `[]` |
+| empty-value | Clear output; defaults to [] in multiple mode and null in single mode | `InputTagValue \| (() => InputTagValue)` | `[]` |
 | empty-values | Empty-value recognition; field takes precedence over FormItem and Form | `readonly unknown[]` | `-` |
 | empty-text | Read empty text; an explicit empty string is valid | `string` | `'-'` |
 | edit-mode | Editing mode; field takes precedence over FormItem and Form | `'direct' \| 'popup'` | `'direct'` |
@@ -34458,6 +34607,9 @@ Public Props exclude the internal composition controls `baseCls`, `focused`, `di
 | update:inputValue | Separate input draft update proposal | inputValue: `string` |
 | update:open | Controlled editor visibility update | open: `boolean` |
 | open-change | Actual editor visibility change | open: `boolean` |
+| search | Eligible query changed | query: `string` |
+| select | Candidate committed | value: `string \| number`, option: `SelectOptionInfo` |
+| load-error | Candidate loading failed | error: `unknown` |
 | change | Emitted when the value changes | value: `InputTagValue`<br>ev?: `Event` |
 | input-value-change | Emitted when the input value changes | inputValue: `string`<br>ev: `Event` |
 | press-enter | Emitted when Enter is pressed | inputValue: `string`<br>ev: `KeyboardEvent` |
@@ -34479,7 +34631,7 @@ Public methods remain callable from initial component mount. Stored methods reso
 
 | Slot | Description | Prop |
 | ------ | :------------------: | --------------- |
-| tag | Displayed input-tag content | data: `TagData` |
+| label | Displayed selected label | data: `TagData` |
 | prefix | Prefix content | - |
 | suffix | Suffix content | - |
 | clear-icon | Custom clear control | clear: `(event?: Event) => void` |
@@ -37672,7 +37824,7 @@ After confirming a mention, a space is added unless whitespace already follows; 
 
 ### Filtering and async search
 
-With a local array, type `@小` or `@xiaoming` to match a name or ID. The async example passes the query to application code and shows loading in the dropdown. Quickly change `@x` to `@lisi` to see only the latest result. It uses mock data; a real loader can pass `signal` to `fetch`.
+With a local array, type `@小` or `@xiaoming` to match a name or ID. The async example passes the query to application code and shows loading in the dropdown. Quickly change `@xi` to `@lisi` to see only the latest result. It uses mock data; a real loader can pass `signal` to `fetch`.
 
 Example source: src/mention/example/demos/search-options.vue
 
@@ -37683,6 +37835,7 @@ import type { OptionsLoader } from '../../../_hooks/use-option-request'
 
 const localValue = ref('')
 const remoteValue = ref('')
+const autoValue = ref('')
 const people = [
   { value: 'xiaoming', label: '小明' },
   { value: 'xiaohong', label: '小红' },
@@ -37713,13 +37866,29 @@ const searchPeople: OptionsLoader<(typeof people)[number]> = (query, { signal })
 
 <template>
   <mp-space direction="column" style="width: 100%" :size="12" data-demo="mention-search-options">
-    <p>本地候选按账号或姓名筛选；异步搜索时可快速从 @x 改为 @lisi，观察下拉加载和最新结果。</p>
+    <p>本地候选按账号或姓名筛选；异步搜索时可快速从 @xi 改为 @lisi，观察下拉加载和最新结果。</p>
     <p>
-      Local options match ID or name. For remote search, quickly change @x to @lisi to see loading and the latest
+      Local options match ID or name. For remote search, quickly change @xi to @lisi to see loading and the latest
       results.
     </p>
     <mp-mention v-model="localValue" atomic :options="people" aria-label="本地人员搜索 / Local people search" />
-    <mp-mention v-model="remoteValue" atomic :options="searchPeople" aria-label="异步人员搜索 / Remote people search" />
+    <mp-mention
+      v-model="remoteValue"
+      atomic
+      :options="searchPeople"
+      :min-search-length="2"
+      aria-label="异步人员搜索 / Remote people search"
+    />
+    <p>唯一候选自动提交 / Automatically commit the only matching candidate.</p>
+    <mp-mention
+      v-model="autoValue"
+      atomic
+      :options="searchPeople"
+      :min-search-length="2"
+      :search-delay="250"
+      auto-commit-single
+      aria-label="唯一结果自动提交 / Commit single result"
+    />
     <div>
       本地保存值 / Local value：<code data-local-value>{{ localValue }}</code>
     </div>
@@ -38047,6 +38216,9 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 | fallback-option | Synchronously resolve an unmatched ID for display | `(value: string \| number \| boolean) => SelectOptionData \| null \| undefined` | undefined |
 | default-value | Initial uncontrolled text | string | '' |
 | options | Candidate array or explicit loader, including nested groups | readonly (string \| number \| SelectOptionData \| SelectOptionGroup)[] \| ((query: string, context: { signal: AbortSignal }) => Array \| `Promise<Array>`) | undefined |
+| min-search-length | Minimum query length after the prefix | number | 0 |
+| search-delay | Remote search debounce in milliseconds | number | 0 |
+| auto-commit-single | Automatically commit the only enabled result | boolean | false |
 | prefix | Trigger prefix; supports multiple characters and multiple prefixes | string \| string[] | '@' |
 | split | Separator before and after a mention | string | ' ' |
 | type | Input presentation | input \| textarea | input |

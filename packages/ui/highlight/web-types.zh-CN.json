@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json",
   "framework": "vue",
-  "version": "1.1.1",
+  "version": "1.1.7",
   "name": "Maple Design Mobile",
   "contributions": {
     "html": {
@@ -1368,7 +1368,7 @@
             },
             {
               "name": "variant",
-              "description": "外观；省略时继承按钮组，否则 default",
+              "description": "外观；省略时继承按钮组，否则 outline",
               "default": "undefined",
               "value": {
                 "type": "`default / text / outline / tonal`",
@@ -1521,8 +1521,8 @@
             },
             {
               "name": "elevation",
-              "description": "default 变体阴影；true 为 2，false 关闭，数字四舍五入并限制 0～24；组内由组控制",
-              "default": "true",
+              "description": "default 变体阴影；true 为 1，false 关闭，数字四舍五入并限制 0～24；组内由组控制",
+              "default": "false",
               "value": {
                 "type": "`boolean / number`",
                 "kind": "expression"
@@ -1713,7 +1713,7 @@
             },
             {
               "name": "floating",
-              "description": "全屏展开状态，支持 v-model:floating",
+              "description": "浮动展开状态，支持 v-model:floating",
               "default": "false",
               "value": {
                 "type": "`boolean`",
@@ -1722,7 +1722,7 @@
             },
             {
               "name": "floating-duration",
-              "description": "全屏展开与关闭动画时长，单位 ms",
+              "description": "浮动展开与关闭动画时长，单位 ms",
               "default": "250",
               "value": {
                 "type": "`number`",
@@ -1784,7 +1784,7 @@
             },
             {
               "name": "floating-content",
-              "description": "全屏扩展内容，仅 column 布局渲染"
+              "description": "浮动展开内容，仅 column 布局渲染"
             },
             {
               "name": "close-button",
@@ -2156,7 +2156,7 @@
             {
               "name": "variant",
               "description": "filled、outline、standard；未设置时继承 InputGroup",
-              "default": "filled",
+              "default": "outline",
               "value": {
                 "type": "`FieldDecoratorVariant`<br>`'filled' | 'outline' | 'standard'`",
                 "kind": "expression"
@@ -2201,7 +2201,7 @@
             {
               "name": "hint",
               "description": "是否启用浮动提示",
-              "default": "true",
+              "default": "false",
               "value": {
                 "type": "`boolean`",
                 "kind": "expression"
@@ -3513,7 +3513,7 @@
             {
               "name": "hint",
               "description": "浮动占位提示；存在 Form 外置标签时不浮动",
-              "default": "true",
+              "default": "false",
               "value": {
                 "type": "`boolean`",
                 "kind": "expression"
@@ -3765,7 +3765,7 @@
             {
               "name": "variant",
               "description": "字段外观",
-              "default": "standard",
+              "default": "outline",
               "value": {
                 "type": "`filled | outline | standard`",
                 "kind": "expression"
@@ -4099,6 +4099,24 @@
         {
           "name": "mp-dialog",
           "attributes": [
+            {
+              "name": "top-divider",
+              "description": "标题与内容之间的分割线",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "bottom-divider",
+              "description": "内容与底部之间的分割线",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
             {
               "name": "dir",
               "description": "阅读方向；省略时继承来源作用域。物理 left/right 方位保持原意。",
@@ -5183,7 +5201,7 @@
               "description": "`boolean`",
               "default": "",
               "value": {
-                "type": "`true`",
+                "type": "`false`",
                 "kind": "expression"
               }
             },
@@ -6334,7 +6352,7 @@
             {
               "name": "hint",
               "description": "是否将 placeholder 用作浮动提示文字",
-              "default": "true",
+              "default": "false",
               "value": {
                 "type": "`boolean`",
                 "kind": "expression"
@@ -6822,7 +6840,7 @@
             {
               "name": "hint",
               "description": "是否将 placeholder 用作浮动提示文字",
-              "default": "true",
+              "default": "false",
               "value": {
                 "type": "`boolean`",
                 "kind": "expression"
@@ -7040,20 +7058,29 @@
           "name": "mp-input-tag",
           "attributes": [
             {
+              "name": "multiple",
+              "description": "是否支持多个标签；false 时新值替换旧值",
+              "default": "true",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
               "name": "model-value **(v-model)**",
-              "description": "绑定值",
+              "description": "多值时为数组，单值时为标量或 null",
               "default": "-",
               "value": {
-                "type": "`(string | number | TagData)[] | null`",
+                "type": "`InputTagValue`",
                 "kind": "expression"
               }
             },
             {
               "name": "default-value",
               "description": "默认值（非受控状态）",
-              "default": "[]",
+              "default": "[] / null",
               "value": {
-                "type": "`(string | number | TagData)[]`",
+                "type": "`InputTagValue`",
                 "kind": "expression"
               }
             },
@@ -7072,6 +7099,42 @@
               "default": "''",
               "value": {
                 "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "options",
+              "description": "候选数组或远程查询函数",
+              "default": "-",
+              "value": {
+                "type": "`InputTagOption[] | (query, { signal }) => InputTagOption[] | Promise<InputTagOption[]>`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "min-search-length",
+              "description": "开始搜索所需字符数",
+              "default": "1",
+              "value": {
+                "type": "`number`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "search-delay",
+              "description": "远程搜索防抖时间（毫秒）",
+              "default": "250",
+              "value": {
+                "type": "`number`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "auto-commit-single",
+              "description": "自动提交唯一可选结果",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
                 "kind": "expression"
               }
             },
@@ -7132,7 +7195,7 @@
             {
               "name": "variant",
               "description": "输入框的变体",
-              "default": "'filled'",
+              "default": "'outline'",
               "value": {
                 "type": "`'filled' | 'outline' | 'standard'`",
                 "kind": "expression"
@@ -7158,7 +7221,7 @@
             },
             {
               "name": "format-label",
-              "description": "格式化已选标签的显示文字",
+              "description": "格式化标签内容",
               "default": "-",
               "value": {
                 "type": "`(data: TagData) => string`",
@@ -7220,6 +7283,18 @@
               "description": "编辑层实际开关变化"
             },
             {
+              "name": "search",
+              "description": "Eligible query changed"
+            },
+            {
+              "name": "select",
+              "description": "Candidate committed"
+            },
+            {
+              "name": "load-error",
+              "description": "Candidate loading failed"
+            },
+            {
               "name": "change",
               "description": "值发生改变时触发"
             },
@@ -7251,7 +7326,7 @@
           "slots": [
             {
               "name": "label",
-              "description": "自定义已选标签的内容"
+              "description": "已选标签的显示内容"
             },
             {
               "name": "prefix",
@@ -7688,6 +7763,33 @@
               "default": "undefined",
               "value": {
                 "type": "readonly (string | number | SelectOptionData | SelectOptionGroup)[] | ((query: string, context: { signal: AbortSignal }) => Array | `Promise<Array>`)",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "min-search-length",
+              "description": "开始搜索所需的最少字符数",
+              "default": "0",
+              "value": {
+                "type": "number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "search-delay",
+              "description": "远程搜索防抖时间（毫秒）",
+              "default": "0",
+              "value": {
+                "type": "number",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "auto-commit-single",
+              "description": "自动提交唯一可选结果",
+              "default": "false",
+              "value": {
+                "type": "boolean",
                 "kind": "expression"
               }
             },
@@ -11922,7 +12024,7 @@
             {
               "name": "variant",
               "description": "filled、outline、standard；未设置时继承 InputGroup",
-              "default": "filled",
+              "default": "outline",
               "value": {
                 "type": "`FieldDecoratorVariant`<br>`'filled' | 'outline' | 'standard'`",
                 "kind": "expression"
@@ -11967,7 +12069,7 @@
             {
               "name": "hint",
               "description": "是否启用浮动提示",
-              "default": "true",
+              "default": "false",
               "value": {
                 "type": "`boolean`",
                 "kind": "expression"
@@ -12651,7 +12753,7 @@
             {
               "name": "show-input",
               "description": "boolean",
-              "default": "显示附带 InputNumber；范围模式显示两个。滑块的 aria-describedby 也用于数字输入，并与表单错误说明合并。",
+              "default": "显示附带 InputNumber；范围模式显示两个。滑块的 aria-describedby 也用于数字输入，并与表单错误说明合并。显式 aria-description 会透传给滑块及数字输入；浏览器优先使用可解析的 aria-describedby，两者不一定合并。",
               "value": {
                 "type": "false",
                 "kind": "expression"
@@ -14615,7 +14717,7 @@
             {
               "name": "hint",
               "description": "是否将 placeholder 用作浮动提示文字",
-              "default": "true",
+              "default": "false",
               "value": {
                 "type": "`boolean`",
                 "kind": "expression"
@@ -15049,7 +15151,7 @@
             {
               "name": "hint",
               "description": "浮动占位提示；存在 Form 外置标签时不浮动",
-              "default": "true",
+              "default": "false",
               "value": {
                 "type": "`boolean`",
                 "kind": "expression"
@@ -15256,7 +15358,7 @@
             {
               "name": "variant",
               "description": "字段外观",
-              "default": "standard",
+              "default": "outline",
               "value": {
                 "type": "`filled | outline | standard`",
                 "kind": "expression"
@@ -15439,7 +15541,7 @@
             {
               "name": "hint",
               "description": "浮动占位提示；存在 Form 外置标签时不浮动",
-              "default": "true",
+              "default": "false",
               "value": {
                 "type": "`boolean`",
                 "kind": "expression"
@@ -15682,7 +15784,7 @@
             {
               "name": "variant",
               "description": "字段外观",
-              "default": "standard",
+              "default": "outline",
               "value": {
                 "type": "`filled | outline | standard`",
                 "kind": "expression"
@@ -16299,6 +16401,15 @@
               }
             },
             {
+              "name": "read-pretty",
+              "description": "`boolean`",
+              "default": "纯阅读模式：隐藏上传编辑器并展示字段值；继承 FormItem / Form，显式 false 覆盖父级，未配置时最终为 false",
+              "value": {
+                "type": "`undefined`",
+                "kind": "expression"
+              }
+            },
+            {
               "name": "action",
               "description": "`string`",
               "default": "上传请求地址",
@@ -16475,6 +16586,15 @@
               "default": "文件列表展示方式；两端均支持",
               "value": {
                 "type": "`'text'`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "trigger-position",
+              "description": "`'before' | 'after'`",
+              "default": "上传入口在文件列表之前或之后；适用于所有 list-type、自定义 trigger 插槽和拖拽入口；前后按 DOM 顺序解释，不因 RTL 改写",
+              "value": {
+                "type": "`'after'`",
                 "kind": "expression"
               }
             },

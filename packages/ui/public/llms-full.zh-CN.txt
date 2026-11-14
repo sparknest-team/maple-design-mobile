@@ -6942,6 +6942,79 @@ const directions = ['column', 'row', 'row-reverse'] as const
 </template>
 ```
 
+### 组合 Tabs 与嵌套卡片
+
+通过 Card、Tabs 和纵向 Space 组合内容。内层使用紧凑描边卡片，宽表格在自己的容器内横向滚动；产业链面板使用普通分组标题，避免额外嵌套卡片。
+
+Example source: src/card/example/demos/nested-tabs.vue
+
+```vue
+<script setup lang="ts">
+const rows = [
+  ['2025 Q4', '26.25', '+64.2%', '26.5%', '-0.03'],
+  ['2026 Q1', '18.12', '-31.0%', '24.6%', '0.82'],
+  ['2026 Q2', '16.77', '-7.4%', '25.1%', '-0.12'],
+]
+</script>
+
+<template>
+  <mp-card title="三季报前瞻" class="nested-card-demo" :elevation="false">
+    <template #title-action><span class="report-date">2026-08</span></template>
+    <mp-tabs default-value="performance" :item-style="{ padding: '16px 0 0' }" tab-list-aria-label="分析维度">
+      <mp-tab-pane name="industry" title="产业链">
+        <mp-card title="产业链观察" size="sm" variant="outline" :elevation="false">
+          <mp-space direction="column" size="lg">
+            <section>
+              <h3>上游 · 原材料</h3>
+              <p>关注铜、钢材与塑料采购成本变化。</p>
+            </section>
+            <section>
+              <h3>下游 · 终端渠道</h3>
+              <p>关注渠道库存、促销节奏与新品销售表现。</p>
+            </section>
+          </mp-space>
+        </mp-card>
+      </mp-tab-pane>
+      <mp-tab-pane name="performance" title="业绩">
+        <mp-space direction="column" size="lg">
+          <mp-card title="单季还原（累计相减）" size="sm" variant="outline" :elevation="false">
+            <div class="report-table" role="region" aria-label="单季财务数据，可横向滚动" tabindex="0">
+              <table>
+                <caption>示例数据 · 单位：亿元</caption>
+                <thead><tr><th v-for="heading in ['单季', '营收(亿)', '环比', '毛利率', '净利(亿)']" :key="heading" scope="col">{{ heading }}</th></tr></thead>
+                <tbody><tr v-for="row in rows" :key="row[0]"><td v-for="(cell, index) in row" :key="index">{{ cell }}</td></tr></tbody>
+              </table>
+            </div>
+          </mp-card>
+          <mp-card title="经营摘要" size="sm" variant="outline" :elevation="false">
+            <p>本季营收 16.77 亿元，毛利率 25.1%。</p>
+          </mp-card>
+        </mp-space>
+      </mp-tab-pane>
+      <mp-tab-pane name="capital" title="筹码·资金">
+        <mp-card title="资金观察" size="sm" variant="outline" :elevation="false">本期机构持仓数据尚未披露。</mp-card>
+      </mp-tab-pane>
+      <mp-tab-pane name="technical" title="技术">
+        <mp-card title="技术观察" size="sm" variant="outline" :elevation="false">暂无技术分析数据。</mp-card>
+      </mp-tab-pane>
+    </mp-tabs>
+  </mp-card>
+</template>
+
+<style scoped>
+.nested-card-demo { inline-size: 100%; min-inline-size: 0; }
+.report-date { white-space: nowrap; font-size: 12px; }
+.report-table { max-inline-size: 100%; overflow-x: auto; }
+table { inline-size: 100%; min-inline-size: 520px; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+caption { text-align: start; padding-block-end: 8px; }
+th, td { padding: 12px; text-align: end; white-space: nowrap; border-block-end: 1px solid var(--mp-sys-color-border-default); }
+th:first-child, td:first-child { text-align: start; }
+h3 { margin: 0 0 8px; font-size: 14px; font-weight: 500; }
+p { margin: 0; }
+@media (max-width: 480px) { th, td { padding: 8px; } }
+</style>
+```
+
 ## 内容与展示
 
 ### 长标题与提示
@@ -35348,102 +35421,73 @@ const loading = ref(true)
 
 ### 粘贴链接并获取标题
 
-粘贴链接或输入链接后按回车，模拟异步获取标题，等待期间展示加载状态。模型只保存原始链接；`fallback-option` 从业务维护的响应式数据中读取标题。点击提交可查看链接数据，示例不发送请求。
+粘贴或输入链接后模拟异步获取标题，唯一候选自动添加。模型保存原始链接，标签显示标题；示例不发送请求。
 
 Example source: src/input-tag/example/demos/link-title.vue
 
 ```vue
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+import { ref } from 'vue'
 
 const links = ref<string[]>([])
-const titles = reactive<Record<string, string>>({})
-const fallbackOption = (value: string | number) => ({ value, label: titles[String(value)] ?? String(value) })
-const inputValue = ref('')
-const loading = ref(false)
 const error = ref('')
 const submitted = ref<string[] | null>(null)
 
-// 模拟接口：延迟返回标题，实际使用时替换为业务请求。
-function fetchTitle(url: string): Promise<string> {
-  const titles: Record<string, string> = {
-    'vuejs.org': 'Vue.js',
-    'github.com': 'GitHub',
-  }
-  return new Promise((resolve) => {
-    setTimeout(() => resolve(titles[new URL(url).hostname] || new URL(url).hostname), 1200)
-  })
-}
-
-async function handlePaste(event: ClipboardEvent) {
-  const url = event.clipboardData?.getData('text/plain').trim()
-  if (url) {
-    await addLink(url)
-  }
-}
-
-function handleKeydown(event: KeyboardEvent) {
-  if (event.key !== 'Enter' || event.isComposing || event.keyCode === 229) {
-    return
-  }
-  event.preventDefault()
-  void addLink(inputValue.value.trim())
-}
-
-async function addLink(url: string) {
-  if (loading.value || !url) {
-    return
-  }
-  error.value = ''
+// 模拟接口：实际业务在服务端解析链接标题，并将 signal 传给 fetch。
+async function searchLinks(query: string, { signal }: { signal: AbortSignal }) {
+  let url: URL
   try {
-    const parsed = new URL(url)
-    if (!['http:', 'https:'].includes(parsed.protocol)) {
-      throw new Error()
+    url = new URL(query.trim())
+    if (!['http:', 'https:'].includes(url.protocol) || !url.hostname.includes('.')) {
+      return []
     }
   } catch {
-    error.value = '请粘贴完整的 http 或 https 链接 / Paste a valid http or https URL.'
-    return
+    return []
   }
-  if (links.value.includes(url)) {
-    error.value = '链接已添加 / This URL has already been added.'
-    return
+  const titles: Record<string, string> = { 'vuejs.org': 'Vue.js', 'github.com': 'GitHub' }
+  if (!titles[url.hostname]) {
+    return []
   }
-  loading.value = true
-  try {
-    const title = await fetchTitle(url)
-    titles[url] = title
-    links.value.push(url)
-    inputValue.value = ''
-  } catch {
-    error.value = '获取标题失败，请重试 / Could not fetch the title. Try again.'
-  } finally {
-    loading.value = false
-  }
-}
-
-function submit() {
-  submitted.value = [...links.value]
+  error.value = ''
+  await new Promise<void>((resolve, reject) => {
+    const cancel = () => {
+      clearTimeout(timer)
+      reject(new DOMException('Aborted', 'AbortError'))
+    }
+    const timer = setTimeout(() => {
+      signal.removeEventListener('abort', cancel)
+      resolve()
+    }, 400)
+    if (signal.aborted) {
+      cancel()
+    } else {
+      signal.addEventListener('abort', cancel, { once: true })
+    }
+  })
+  return [{ value: query.trim(), label: titles[url.hostname] }]
 }
 </script>
 
 <template>
   <mp-space direction="column" style="width: 100%" :size="12">
-    <p>粘贴链接，或输入链接后按回车，例如 https://vuejs.org / Paste a URL or type one and press Enter.</p>
-    <div @paste.capture.prevent="handlePaste" @keydown.capture="handleKeydown">
-      <mp-input-tag
-        v-model="links"
-        v-model:input-value="inputValue"
-        :fallback-option="fallbackOption"
-        :retain-input-value="true"
-        :loading="loading"
-        :disabled="loading"
-        placeholder="粘贴或输入链接 / Paste or type a URL"
-        aria-label="粘贴或输入链接 / Paste or type a URL"
-        clearable
-      />
-    </div>
+    <p>
+      粘贴或输入 https://vuejs.org 或 https://github.com；唯一结果自动添加，模型保存原始链接。 / Paste or type one of
+      the example URLs to resolve its title.
+    </p>
+    <mp-input-tag
+      v-model="links"
+      :options="searchLinks"
+      :min-search-length="8"
+      :search-delay="300"
+      auto-commit-single
+      unique-value
+      placeholder="粘贴或输入链接 / Paste or type a URL"
+      aria-label="粘贴或输入链接 / Paste or type a URL"
+      clearable
+      @load-error="error = '获取标题失败，请重试 / Could not fetch the title.'"
+    />
     <p v-if="error" role="alert">{{ error }}</p>
-    <mp-button :disabled="loading || !links.length" @click="submit">提交 / Submit</mp-button>
+    <mp-button :disabled="!links.length" @click="submitted = [...links]">提交 / Submit</mp-button>
     <pre v-if="submitted !== null" aria-live="polite">{{ JSON.stringify({ links: submitted }, null, 2) }}</pre>
   </mp-space>
 </template>
@@ -35575,16 +35619,121 @@ onBeforeUnmount(() => {
 
 `unique-value` 按合并后的 `field-names.value` 判断对象与字符串标签的唯一性；数字 `1` 和字符串 `"1"` 不同。默认允许重复，每个出现项拥有独立稳定节点，折叠占位不占用任何业务值。数量限制只控制展示，不截断模型。
 
-公开 Props 不包含 `baseCls`、`focused`、`disabledInput`、`uninjectFormItemContext`；这些是内部组合入口。before-commit 同步返回 undefined 时等待 done；普通 change / press-enter 等事件不等待 Promise。延迟模式的 change 事件可没有原始 DOM 事件。清空默认输出 []，显式 empty-value=null 时保留 null。
+公开 Props 不包含 `baseCls`、`focused`、`disabledInput`、`uninjectFormItemContext`；这些是内部组合入口。before-commit 同步返回 undefined 时等待 done；普通 change / press-enter 等事件不等待 Promise。延迟模式的 change 事件可没有原始 DOM 事件。多值模式清空默认输出 []，单值模式默认输出 null；显式 empty-value 优先。
+
+### 搜索并选择标签
+
+Example source: src/input-tag/example/demos/search-options.vue
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const tags = ref<string[]>([])
+const singleTag = ref<string | null>(null)
+const error = ref('')
+const people = [
+  { value: 'alice', label: 'Alice · 设计' },
+  { value: 'alan', label: 'Alan · 产品' },
+  { value: 'bob', label: 'Bob · 开发' },
+]
+
+// 模拟服务端搜索；真实请求可把 signal 传入 fetch。
+async function searchPeople(query: string, { signal }: { signal: AbortSignal }) {
+  await new Promise<void>((resolve, reject) => {
+    const cancel = () => {
+      clearTimeout(timer)
+      reject(new DOMException('Aborted', 'AbortError'))
+    }
+    const timer = setTimeout(() => {
+      signal.removeEventListener('abort', cancel)
+      resolve()
+    }, 350)
+    if (signal.aborted) {
+      cancel()
+    } else {
+      signal.addEventListener('abort', cancel, { once: true })
+    }
+  })
+  error.value = ''
+  return people.filter((person) => person.value.includes(query.toLowerCase()))
+}
+</script>
+
+<template>
+  <mp-space direction="column" style="width: 100%" :size="12">
+    <p>输入或粘贴至少两个字符，输入 al 选择多个结果中的一项；输入 bob 自动提交唯一结果。</p>
+    <p>Type or paste at least two characters. Choose an “al” result, or type “bob” to commit the only result.</p>
+    <mp-input-tag
+      v-model="tags"
+      :options="searchPeople"
+      :min-search-length="2"
+      :search-delay="250"
+      auto-commit-single
+      unique-value
+      placeholder="搜索账号 / Search accounts"
+      aria-label="搜索账号 / Search accounts"
+      @load-error="error = '搜索失败 / Search failed'"
+    />
+    <p v-if="error" role="alert">{{ error }}</p>
+    <p>保存的账号 / Saved IDs: {{ JSON.stringify(tags) }}</p>
+    <p>单值模式：选择新账号替换旧值；无匹配时按回车保存输入。</p>
+    <mp-input-tag
+      v-model="singleTag"
+      :multiple="false"
+      :options="searchPeople"
+      :min-search-length="2"
+      :search-delay="250"
+      auto-commit-single
+      placeholder="单个账号 / Single account"
+      aria-label="单个账号 / Single account"
+    />
+    <p>单个账号 / Single ID: {{ JSON.stringify(singleTag) }}</p>
+  </mp-space>
+</template>
+```
+
+配置 `options` 后，输入或粘贴达到 `min-search-length` 才搜索；数组按标签本地过滤，函数接收查询词和 `{ signal }`，返回候选数组。远程结果不再本地过滤。输入法组合完成后搜索，缩短输入或失焦会取消旧请求。加载中、无结果或失败时保留当前输入；配置候选后，Enter 优先选择高亮项；查询完成且无候选时，Enter 可添加原始输入。查询中、查询失败或候选被禁用时不会误创建。`auto-commit-single` 默认关闭，仅在当前搜索完成且恰有一个未禁用候选时提交；多个结果需要手动选择。选中的 `value` 存入模型；初始值及已选项优先从当前 `options` 解析名称，缺少时依次使用 `fallback-option`、当前实例缓存和原始值。重新挂载后可用 `options` 或 `fallback-option` 恢复标题。
+
+已选内容默认显示 `label`；`format-label` 可格式化文字，`#label="{ data }"` 可自定义已选标签的内容。插槽优先于格式化函数；它们不会改变搜索匹配或模型值。阅读态使用格式化文字，自定义阅读内容请使用 `#read`。
+
+### 自定义已选内容
+
+Example source: src/input-tag/example/demos/format-label.vue
+
+```vue
+<script setup lang="ts">
+const selected = [{ value: 'alice', label: 'Alice', department: '设计' }]
+const formatLabel = (item: { label?: string; department?: string }) => `${item.label} · ${item.department}`
+</script>
+
+<template>
+  <mp-space direction="column" style="width: 100%" :size="12">
+    <p>格式化文字 / Format selected text</p>
+    <mp-input-tag :default-value="['alice']" :options="selected" :format-label="formatLabel" />
+    <p>自定义内容 / Customize selected content</p>
+    <mp-input-tag :default-value="['alice']" :options="selected">
+      <template #label="{ data }"
+        ><strong>{{ data.label }}</strong> · {{ data.department }}</template
+      >
+    </mp-input-tag>
+  </mp-space>
+</template>
+```
 
 ### InputTag Props
 
 | 参数名                    | 描述                               | 类型                                              |   默认值   |
 | ------------------------- | ---------------------------------- | ------------------------------------------------- | :--------: |
-| model-value **(v-model)** | 绑定值                             | `(string \| number \| TagData)[] \| null`         |    `-`     |
-| default-value             | 默认值（非受控状态）               | `(string \| number \| TagData)[]`                 |    `[]`    |
+| multiple | 是否支持多个标签；false 时新值替换旧值 | `boolean` | `true` |
+| model-value **(v-model)** | 多值时为数组，单值时为标量或 null | `InputTagValue` | `-` |
+| default-value             | 默认值（非受控状态）               | `InputTagValue`                 |    `[]` / `null`    |
 | input-value **(v-model)** | 输入框的值                         | `string`                                          |    `-`     |
 | default-input-value       | 输入框的默认值（非受控状态）       | `string`                                          |    `''`    |
+| options | 候选数组或远程查询函数 | `InputTagOption[] \| (query, { signal }) => InputTagOption[] \| Promise<InputTagOption[]>` | `-` |
+| min-search-length | 开始搜索所需字符数 | `number` | `1` |
+| search-delay | 远程搜索防抖时间（毫秒） | `number` | `250` |
+| auto-commit-single | 自动提交唯一可选结果 | `boolean` | `false` |
 | placeholder               | 占位符                             | `string`                                          |    `-`     |
 | disabled                  | 是否禁用                           | `boolean`                                         |  `-`   |
 | error                     | 是否为错误状态                     | `boolean`                                         |  `-`   |
@@ -35594,7 +35743,7 @@ onBeforeUnmount(() => {
 | variant                   | 输入框的变体                       | `'filled' \| 'outline' \| 'standard'`             | `'outline'` |
 | max-tag-count             | 有限非负整数；0 不限，非法值诊断后按不限展示 | `number`                                          |    `0`     |
 | retain-input-value        | 是否保留输入框的内容               | `boolean \| { create?: boolean; blur?: boolean }` |  `false`   |
-| format-tag                | 格式化标签内容                     | `(data: TagData) => string`                       |    `-`     |
+| format-label                | 格式化标签内容                     | `(data: TagData) => string`                       |    `-`     |
 | fallback-option | 同步解析原始值的展示数据；不返回结果时显示原始值 | `(value: string \| number) => TagData \| null \| undefined` | `-` |
 | unique-value              | 是否仅创建唯一的值                 | `boolean`                                         |  `false`   |
 | field-names               | 自定义 `TagData` 中的字段          | `InputTagFieldNames`                              |    `-`     |
@@ -35602,7 +35751,7 @@ onBeforeUnmount(() => {
 
 | loading | 业务控制的加载状态，不禁止输入 | `boolean` | `false` |
 | loading-mode | 共享字段反馈形态，不是 Loading 动画类型 | `'default' \| 'line'` | `'default'` |
-| empty-value | 清空输出；默认空数组，可显式配置 null | `InputTagValue \| (() => InputTagValue)` | `[]` |
+| empty-value | 清空输出；多值默认 []，单值默认 null | `InputTagValue \| (() => InputTagValue)` | `[]` |
 | empty-values | 空值识别策略，字段优先于 FormItem 和 Form | `readonly unknown[]` | `-` |
 | empty-text | 阅读空文案，显式空字符串有效 | `string` | `'-'` |
 | edit-mode | 编辑模式；字段优先于 FormItem 和 Form | `'direct' \| 'popup'` | `'direct'` |
@@ -35620,6 +35769,9 @@ onBeforeUnmount(() => {
 | update:inputValue | 独立输入草稿更新提案 | inputValue: `string` |
 | update:open | 编辑层受控开关更新 | open: `boolean` |
 | open-change | 编辑层实际开关变化 | open: `boolean` |
+| search | Eligible query changed | query: `string` |
+| select | Candidate committed | value: `string \| number`, option: `SelectOptionInfo` |
+| load-error | Candidate loading failed | error: `unknown` |
 | change             | 值发生改变时触发         | value: `InputTagValue`<br>ev?: `Event` |
 | input-value-change | 输入值发生改变时触发     | inputValue: `string`<br>ev: `Event`                     |
 | press-enter        | 按下回车键时触发         | inputValue: `string`<br>ev: `KeyboardEvent`             |
@@ -35641,7 +35793,7 @@ onBeforeUnmount(() => {
 
 | 插槽名 |         描述         | 参数            |
 | ------ | :------------------: | --------------- |
-| tag    | 输入框标签的显示内容 | data: `TagData` |
+| label  | 已选标签的显示内容 | data: `TagData` |
 | prefix |       前缀元素       | -               |
 | suffix |       后缀元素       | -               |
 | clear-icon | 自定义清空入口 | clear: `(event?: Event) => void` |
@@ -38922,7 +39074,7 @@ const fallbackOption = (value: string | number | boolean) => ({ value, label: na
 
 ### 候选筛选与异步搜索
 
-本地传入数组时，输入 `@小` 或 `@xiaoming` 会按姓名或账号筛选。异步示例把关键词交给业务函数查询，请求期间下拉显示 loading；快速将 `@x` 改为 `@lisi`，只显示最新关键词的结果。示例使用模拟数据，实际接口可将 `signal` 传给 `fetch`。
+本地传入数组时，输入 `@小` 或 `@xiaoming` 会按姓名或账号筛选。异步示例把关键词交给业务函数查询，请求期间下拉显示 loading；快速将 `@xi` 改为 `@lisi`，只显示最新关键词的结果。示例使用模拟数据，实际接口可将 `signal` 传给 `fetch`。
 
 Example source: src/mention/example/demos/search-options.vue
 
@@ -38933,6 +39085,7 @@ import type { OptionsLoader } from '../../../_hooks/use-option-request'
 
 const localValue = ref('')
 const remoteValue = ref('')
+const autoValue = ref('')
 const people = [
   { value: 'xiaoming', label: '小明' },
   { value: 'xiaohong', label: '小红' },
@@ -38963,13 +39116,29 @@ const searchPeople: OptionsLoader<(typeof people)[number]> = (query, { signal })
 
 <template>
   <mp-space direction="column" style="width: 100%" :size="12" data-demo="mention-search-options">
-    <p>本地候选按账号或姓名筛选；异步搜索时可快速从 @x 改为 @lisi，观察下拉加载和最新结果。</p>
+    <p>本地候选按账号或姓名筛选；异步搜索时可快速从 @xi 改为 @lisi，观察下拉加载和最新结果。</p>
     <p>
-      Local options match ID or name. For remote search, quickly change @x to @lisi to see loading and the latest
+      Local options match ID or name. For remote search, quickly change @xi to @lisi to see loading and the latest
       results.
     </p>
     <mp-mention v-model="localValue" atomic :options="people" aria-label="本地人员搜索 / Local people search" />
-    <mp-mention v-model="remoteValue" atomic :options="searchPeople" aria-label="异步人员搜索 / Remote people search" />
+    <mp-mention
+      v-model="remoteValue"
+      atomic
+      :options="searchPeople"
+      :min-search-length="2"
+      aria-label="异步人员搜索 / Remote people search"
+    />
+    <p>唯一候选自动提交 / Automatically commit the only matching candidate.</p>
+    <mp-mention
+      v-model="autoValue"
+      atomic
+      :options="searchPeople"
+      :min-search-length="2"
+      :search-delay="250"
+      auto-commit-single
+      aria-label="唯一结果自动提交 / Commit single result"
+    />
     <div>
       本地保存值 / Local value：<code data-local-value>{{ localValue }}</code>
     </div>
@@ -39297,6 +39466,9 @@ onBeforeUnmount(() => settle())
 | fallback-option | 同步返回未匹配 ID 的展示选项 | `(value: string \| number \| boolean) => SelectOptionData \| null \| undefined` | undefined |
 | default-value | 非受控初始文本 | string | '' |
 | options | 候选数组或显式加载函数，支持嵌套分组 | readonly (string \| number \| SelectOptionData \| SelectOptionGroup)[] \| ((query: string, context: { signal: AbortSignal }) => Array \| `Promise<Array>`) | undefined |
+| min-search-length | 开始搜索所需的最少字符数 | number | 0 |
+| search-delay | 远程搜索防抖时间（毫秒） | number | 0 |
+| auto-commit-single | 自动提交唯一可选结果 | boolean | false |
 | prefix | 触发前缀；支持多字符和多个前缀 | string \| string[] | '@' |
 | split | 提及前后的分隔符 | string | ' ' |
 | type | 输入形态 | input \| textarea | input |

@@ -1,0 +1,5498 @@
+{
+  "head": "2ae557b4aa71b1088f9e660239b8c0387e9eb8fe",
+  "runtime": {
+    "node": "v22.22.2",
+    "zlib": "1.2.12",
+    "esbuild": "0.23.1",
+    "platform": "darwin",
+    "arch": "arm64"
+  },
+  "scope": "Local working source, including uncommitted timeline; Vue external, CSS excluded. Retained-input sizes describe current output, not historical growth attribution.",
+  "policy": "Preserve existing caps unless exceeded; raise exceeded dimensions to measured output without headroom. Register timeline. User authorized baseline refresh.",
+  "reviewFindings": [
+    "Committed HEAD independently reproduces all 85 existing entry overruns; working tree adds only timeline to measured output.",
+    "input-tag searchable candidates introduce select hooks, popup/trigger, selection scrollbar and field presentation; commit 5899d475 records the feature.",
+    "Largest selection entry bundles retain shared field presentation, selection controllers, virtual lists, ripple and popup/trigger. Time/date entries additionally retain picker and dayjs.",
+    "Existing prohibited public-entry, locale, rattail and mitt assertions passed before size comparison.",
+    "Timeline retains Loading.vue and local timeline modules; no additional third-party runtime retained."
+  ],
+  "rows": [
+    {
+      "name": "action-sheet",
+      "previous": {
+        "name": "action-sheet",
+        "bytes": 41918,
+        "gzip": 15349
+      },
+      "measured": {
+        "bytes": 47327,
+        "gzip": 17311
+      },
+      "budget": {
+        "bytes": 47327,
+        "gzip": 17311
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/ripple/index.ts",
+          "bytes": 7015
+        },
+        {
+          "file": "packages/ui/src/popup/Popup.vue",
+          "bytes": 4218
+        },
+        {
+          "file": "packages/ui/src/action-sheet/ActionSheet.vue",
+          "bytes": 3420
+        },
+        {
+          "file": "packages/ui/src/utils/modal-focus.ts",
+          "bytes": 3416
+        },
+        {
+          "file": "packages/ui/src/loading/Loading.vue",
+          "bytes": 2856
+        },
+        {
+          "file": "packages/ui/src/utils/scroll-lock.ts",
+          "bytes": 2728
+        },
+        {
+          "file": "packages/ui/src/utils/modal-surface.ts",
+          "bytes": 2270
+        },
+        {
+          "file": "packages/ui/src/icon/Icon.vue",
+          "bytes": 2165
+        },
+        {
+          "file": "packages/ui/src/hover/index.ts",
+          "bytes": 1615
+        },
+        {
+          "file": "packages/ui/src/popup/use-swipe-close.ts",
+          "bytes": 1420
+        }
+      ]
+    },
+    {
+      "name": "affix",
+      "previous": {
+        "name": "affix",
+        "bytes": 7284,
+        "gzip": 3042
+      },
+      "measured": {
+        "bytes": 8161,
+        "gzip": 3333
+      },
+      "budget": {
+        "bytes": 8161,
+        "gzip": 3333
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/affix/Affix.vue",
+          "bytes": 2869
+        },
+        {
+          "file": "packages/ui/src/utils/elements.ts",
+          "bytes": 1102
+        },
+        {
+          "file": "packages/ui/src/utils/components.ts",
+          "bytes": 797
+        },
+        {
+          "file": "packages/ui/src/affix/offset.ts",
+          "bytes": 727
+        },
+        {
+          "file": "packages/shared/src/dom.ts",
+          "bytes": 507
+        },
+        {
+          "file": "packages/use/src/useEventListener.ts",
+          "bytes": 483
+        },
+        {
+          "file": "packages/shared/src/predicates.ts",
+          "bytes": 440
+        },
+        {
+          "file": "packages/ui/src/affix/props.ts",
+          "bytes": 240
+        },
+        {
+          "file": "packages/shared/src/namespace.ts",
+          "bytes": 213
+        },
+        {
+          "file": "packages/shared/src/string.ts",
+          "bytes": 143
+        }
+      ]
+    },
+    {
+      "name": "alert",
+      "previous": {
+        "name": "alert",
+        "bytes": 11849,
+        "gzip": 3082
+      },
+      "measured": {
+        "bytes": 13040,
+        "gzip": 3574
+      },
+      "budget": {
+        "bytes": 13040,
+        "gzip": 3574
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/alert/Alert.vue",
+          "bytes": 2085
+        },
+        {
+          "file": "packages/icons/src/icon-checkbox-marked-circle-fill/icon-checkbox-marked-circle-fill.vue",
+          "bytes": 1594
+        },
+        {
+          "file": "packages/icons/src/icon-info-circle-fill/icon-info-circle-fill.vue",
+          "bytes": 1560
+        },
+        {
+          "file": "packages/icons/src/icon-close/icon-close.vue",
+          "bytes": 1535
+        },
+        {
+          "file": "packages/icons/src/icon-error/icon-error.vue",
+          "bytes": 1535
+        },
+        {
+          "file": "packages/icons/src/icon-warning/icon-warning.vue",
+          "bytes": 1483
+        },
+        {
+          "file": "packages/ui/src/utils/components.ts",
+          "bytes": 957
+        },
+        {
+          "file": "packages/ui/src/locale/state.ts",
+          "bytes": 586
+        },
+        {
+          "file": "packages/ui/src/alert/props.ts",
+          "bytes": 307
+        },
+        {
+          "file": "packages/shared/src/namespace.ts",
+          "bytes": 211
+        }
+      ]
+    },
+    {
+      "name": "auto-complete",
+      "previous": {
+        "name": "auto-complete",
+        "bytes": 160530,
+        "gzip": 52021
+      },
+      "measured": {
+        "bytes": 180109,
+        "gzip": 59344
+      },
+      "budget": {
+        "bytes": 180109,
+        "gzip": 59344
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/_components/field-presentation/with-field-presentation.ts",
+          "bytes": 10541
+        },
+        {
+          "file": "packages/ui/src/input/Input.vue",
+          "bytes": 7264
+        },
+        {
+          "file": "packages/ui/src/ripple/index.ts",
+          "bytes": 7051
+        },
+        {
+          "file": "packages/ui/src/auto-complete/auto-complete.tsx",
+          "bytes": 5925
+        },
+        {
+          "file": "packages/ui/src/_components/virtual-list-v2/VirtualList.vue",
+          "bytes": 5920
+        },
+        {
+          "file": "packages/ui/src/trigger/positioner.ts",
+          "bytes": 4899
+        },
+        {
+          "file": "packages/ui/src/select/hooks/use-select.ts",
+          "bytes": 4546
+        },
+        {
+          "file": "packages/ui/src/_components/field-presentation/FieldPresentation.vue",
+          "bytes": 4299
+        },
+        {
+          "file": "packages/ui/src/popup/Popup.vue",
+          "bytes": 4240
+        },
+        {
+          "file": "packages/ui/src/_components/selection-scrollbar/Scrollbar.vue",
+          "bytes": 4143
+        }
+      ]
+    },
+    {
+      "name": "avatar",
+      "previous": {
+        "name": "avatar",
+        "bytes": 37488,
+        "gzip": 13216
+      },
+      "measured": {
+        "bytes": 46707,
+        "gzip": 16489
+      },
+      "budget": {
+        "bytes": 46707,
+        "gzip": 16489
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/trigger/positioner.ts",
+          "bytes": 4887
+        },
+        {
+          "file": "packages/ui/src/avatar/Avatar.vue",
+          "bytes": 4217
+        },
+        {
+          "file": "packages/ui/src/trigger/interaction.ts",
+          "bytes": 3782
+        },
+        {
+          "file": "packages/ui/src/trigger/trigger.tsx",
+          "bytes": 3221
+        },
+        {
+          "file": "packages/ui/src/trigger/position.ts",
+          "bytes": 2451
+        },
+        {
+          "file": "packages/ui/src/trigger/geometry.ts",
+          "bytes": 2443
+        },
+        {
+          "file": "packages/ui/src/popover/Popover.vue",
+          "bytes": 2409
+        },
+        {
+          "file": "packages/icons/src/icon-image-close/icon-image-close.vue",
+          "bytes": 2038
+        },
+        {
+          "file": "packages/ui/src/trigger/popup-move-focus.ts",
+          "bytes": 1836
+        },
+        {
+          "file": "packages/ui/src/trigger/reference.ts",
+          "bytes": 1560
+        }
+      ]
+    },
+    {
+      "name": "back-top",
+      "previous": {
+        "name": "back-top",
+        "bytes": 8732,
+        "gzip": 3980
+      },
+      "measured": {
+        "bytes": 9340,
+        "gzip": 4214
+      },
+      "budget": {
+        "bytes": 9340,
+        "gzip": 4214
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/back-top/use-back-top.ts",
+          "bytes": 2296
+        },
+        {
+          "file": "packages/icons/src/icon-to-top/icon-to-top.vue",
+          "bytes": 1590
+        },
+        {
+          "file": "packages/use/src/useDirection.ts",
+          "bytes": 1325
+        },
+        {
+          "file": "packages/ui/src/back-top/BackTop.vue",
+          "bytes": 1241
+        },
+        {
+          "file": "packages/ui/src/utils/components.ts",
+          "bytes": 957
+        },
+        {
+          "file": "packages/ui/src/utils/popup-container.ts",
+          "bytes": 521
+        },
+        {
+          "file": "packages/ui/src/back-top/props.ts",
+          "bytes": 468
+        },
+        {
+          "file": "packages/shared/src/namespace.ts",
+          "bytes": 211
+        },
+        {
+          "file": "packages/ui/src/theme-provider/context.ts",
+          "bytes": 202
+        },
+        {
+          "file": "packages/shared/src/predicates.ts",
+          "bytes": 157
+        }
+      ]
+    },
+    {
+      "name": "badge",
+      "previous": {
+        "name": "badge",
+        "bytes": 4617,
+        "gzip": 1892
+      },
+      "measured": {
+        "bytes": 4874,
+        "gzip": 1956
+      },
+      "budget": {
+        "bytes": 4874,
+        "gzip": 1956
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/badge/Badge.vue",
+          "bytes": 2491
+        },
+        {
+          "file": "packages/ui/src/badge/props.ts",
+          "bytes": 952
+        },
+        {
+          "file": "packages/ui/src/utils/components.ts",
+          "bytes": 794
+        },
+        {
+          "file": "packages/shared/src/namespace.ts",
+          "bytes": 211
+        },
+        {
+          "file": "packages/shared/src/string.ts",
+          "bytes": 142
+        },
+        {
+          "file": "packages/ui/src/utils/constants.ts",
+          "bytes": 116
+        },
+        {
+          "file": "packages/shared/src/predicates.ts",
+          "bytes": 75
+        },
+        {
+          "file": "packages/ui/src/badge/index.ts",
+          "bytes": 32
+        }
+      ]
+    },
+    {
+      "name": "breadcrumb",
+      "previous": {
+        "name": "breadcrumb",
+        "bytes": 64179,
+        "gzip": 21649
+      },
+      "measured": {
+        "bytes": 76023,
+        "gzip": 25710
+      },
+      "budget": {
+        "bytes": 76023,
+        "gzip": 25710
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/ripple/index.ts",
+          "bytes": 7029
+        },
+        {
+          "file": "packages/ui/src/trigger/positioner.ts",
+          "bytes": 4906
+        },
+        {
+          "file": "packages/ui/src/trigger/interaction.ts",
+          "bytes": 3797
+        },
+        {
+          "file": "packages/ui/src/trigger/trigger.tsx",
+          "bytes": 3222
+        },
+        {
+          "file": "packages/ui/src/breadcrumb/breadcrumb-item.tsx",
+          "bytes": 2798
+        },
+        {
+          "file": "packages/ui/src/menu/MenuOption.vue",
+          "bytes": 2723
+        },
+        {
+          "file": "packages/ui/src/trigger/position.ts",
+          "bytes": 2451
+        },
+        {
+          "file": "packages/ui/src/trigger/geometry.ts",
+          "bytes": 2443
+        },
+        {
+          "file": "packages/ui/src/menu/Menu.vue",
+          "bytes": 2338
+        },
+        {
+          "file": "packages/ui/src/menu/MenuBranch.vue",
+          "bytes": 2232
+        }
+      ]
+    },
+    {
+      "name": "button",
+      "previous": {
+        "name": "button",
+        "bytes": 22853,
+        "gzip": 8167
+      },
+      "measured": {
+        "bytes": 23741,
+        "gzip": 8517
+      },
+      "budget": {
+        "bytes": 23741,
+        "gzip": 8517
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/ripple/index.ts",
+          "bytes": 7016
+        },
+        {
+          "file": "packages/ui/src/button/Button.vue",
+          "bytes": 3027
+        },
+        {
+          "file": "packages/ui/src/loading/Loading.vue",
+          "bytes": 2844
+        },
+        {
+          "file": "packages/ui/src/hover/index.ts",
+          "bytes": 1613
+        },
+        {
+          "file": "packages/ui/src/button/use-button.ts",
+          "bytes": 1179
+        },
+        {
+          "file": "packages/ui/src/utils/components.ts",
+          "bytes": 960
+        },
+        {
+          "file": "packages/ui/src/button/ButtonGroup.vue",
+          "bytes": 864
+        },
+        {
+          "file": "packages/ui/src/button/props.ts",
+          "bytes": 843
+        },
+        {
+          "file": "packages/use/src/useChildren.ts",
+          "bytes": 728
+        },
+        {
+          "file": "packages/ui/src/locale/state.ts",
+          "bytes": 592
+        }
+      ]
+    },
+    {
+      "name": "card",
+      "previous": {
+        "name": "card",
+        "bytes": 37236,
+        "gzip": 12856
+      },
+      "measured": {
+        "bytes": 44177,
+        "gzip": 15409
+      },
+      "budget": {
+        "bytes": 44177,
+        "gzip": 15409
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/card/Card.vue",
+          "bytes": 9988
+        },
+        {
+          "file": "packages/ui/src/ripple/index.ts",
+          "bytes": 7051
+        },
+        {
+          "file": "packages/ui/src/button/Button.vue",
+          "bytes": 3047
+        },
+        {
+          "file": "packages/ui/src/loading/Loading.vue",
+          "bytes": 2862
+        },
+        {
+          "file": "packages/ui/src/utils/scroll-lock.ts",
+          "bytes": 2728
+        },
+        {
+          "file": "packages/ui/src/icon/Icon.vue",
+          "bytes": 2170
+        },
+        {
+          "file": "packages/ui/src/divider/Divider.vue",
+          "bytes": 2036
+        },
+        {
+          "file": "packages/ui/src/hover/index.ts",
+          "bytes": 1623
+        },
+        {
+          "file": "packages/icons/src/icon-close/icon-close.vue",
+          "bytes": 1542
+        },
+        {
+          "file": "packages/ui/src/utils/popup-layer.ts",
+          "bytes": 1305
+        }
+      ]
+    },
+    {
+      "name": "carousel",
+      "previous": {
+        "name": "carousel",
+        "bytes": 28642,
+        "gzip": 9594
+      },
+      "measured": {
+        "bytes": 25200,
+        "gzip": 8592
+      },
+      "budget": {
+        "bytes": 28642,
+        "gzip": 9594
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/carousel/Carousel.vue",
+          "bytes": 11847
+        },
+        {
+          "file": "packages/icons/src/icon-chevron-left/icon-chevron-left.vue",
+          "bytes": 1500
+        },
+        {
+          "file": "packages/icons/src/icon-chevron-right/icon-chevron-right.vue",
+          "bytes": 1500
+        },
+        {
+          "file": "packages/icons/src/icon-chevron-down/icon-chevron-down.vue",
+          "bytes": 1499
+        },
+        {
+          "file": "packages/icons/src/icon-chevron-up/icon-chevron-up.vue",
+          "bytes": 1496
+        },
+        {
+          "file": "packages/use/src/useDirection.ts",
+          "bytes": 1341
+        },
+        {
+          "file": "packages/ui/src/carousel/CarouselItem.vue",
+          "bytes": 1036
+        },
+        {
+          "file": "packages/ui/src/carousel/props.ts",
+          "bytes": 857
+        },
+        {
+          "file": "packages/ui/src/utils/components.ts",
+          "bytes": 801
+        },
+        {
+          "file": "packages/ui/src/carousel/layout.ts",
+          "bytes": 740
+        }
+      ]
+    },
+    {
+      "name": "cascader",
+      "previous": {
+        "name": "cascader",
+        "bytes": 209063,
+        "gzip": 65334
+      },
+      "measured": {
+        "bytes": 241711,
+        "gzip": 77582
+      },
+      "budget": {
+        "bytes": 241711,
+        "gzip": 77582
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/_components/field-presentation/with-field-presentation.ts",
+          "bytes": 10589
+        },
+        {
+          "file": "packages/ui/src/cascader/use-cascader-controller.ts",
+          "bytes": 8538
+        },
+        {
+          "file": "packages/ui/src/input/Input.vue",
+          "bytes": 7270
+        },
+        {
+          "file": "packages/ui/src/ripple/index.ts",
+          "bytes": 7049
+        },
+        {
+          "file": "packages/ui/src/_components/virtual-list-v2/VirtualList.vue",
+          "bytes": 5931
+        },
+        {
+          "file": "packages/ui/src/_components/selection-field/SelectionField.vue",
+          "bytes": 5882
+        },
+        {
+          "file": "packages/ui/src/trigger/positioner.ts",
+          "bytes": 4897
+        },
+        {
+          "file": "packages/ui/src/cascader/Cascader.vue",
+          "bytes": 4615
+        },
+        {
+          "file": "packages/ui/src/cascader/CascaderPanel.vue",
+          "bytes": 4439
+        },
+        {
+          "file": "packages/ui/src/checkbox/Checkbox.vue",
+          "bytes": 4353
+        }
+      ]
+    },
+    {
+      "name": "cell",
+      "previous": {
+        "name": "cell",
+        "bytes": 12172,
+        "gzip": 4782
+      },
+      "measured": {
+        "bytes": 14845,
+        "gzip": 5662
+      },
+      "budget": {
+        "bytes": 14845,
+        "gzip": 5662
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/ripple/index.ts",
+          "bytes": 6981
+        },
+        {
+          "file": "packages/ui/src/cell/Cell.vue",
+          "bytes": 2558
+        },
+        {
+          "file": "packages/ui/src/icon/Icon.vue",
+          "bytes": 2180
+        },
+        {
+          "file": "packages/ui/src/utils/components.ts",
+          "bytes": 875
+        },
+        {
+          "file": "packages/ui/src/icon/RegisteredIcon.vue",
+          "bytes": 633
+        },
+        {
+          "file": "packages/ui/src/cell/props.ts",
+          "bytes": 316
+        },
+        {
+          "file": "packages/shared/src/predicates.ts",
+          "bytes": 278
+        },
+        {
+          "file": "packages/shared/src/dom.ts",
+          "bytes": 224
+        },
+        {
+          "file": "packages/shared/src/namespace.ts",
+          "bytes": 212
+        },
+        {
+          "file": "packages/ui/src/icon/props.ts",
+          "bytes": 153
+        }
+      ]
+    },
+    {
+      "name": "checkbox",
+      "previous": {
+        "name": "checkbox",
+        "bytes": 79121,
+        "gzip": 27038
+      },
+      "measured": {
+        "bytes": 88077,
+        "gzip": 30298
+      },
+      "budget": {
+        "bytes": 88077,
+        "gzip": 30298
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/_components/field-presentation/with-field-presentation.ts",
+          "bytes": 10576
+        },
+        {
+          "file": "packages/ui/src/ripple/index.ts",
+          "bytes": 7041
+        },
+        {
+          "file": "packages/ui/src/checkbox/Checkbox.vue",
+          "bytes": 4318
+        },
+        {
+          "file": "packages/ui/src/_components/field-presentation/FieldPresentation.vue",
+          "bytes": 4299
+        },
+        {
+          "file": "packages/ui/src/popup/Popup.vue",
+          "bytes": 4216
+        },
+        {
+          "file": "packages/ui/src/utils/modal-focus.ts",
+          "bytes": 3416
+        },
+        {
+          "file": "packages/ui/src/_components/field-presentation/EditorPanel.vue",
+          "bytes": 3279
+        },
+        {
+          "file": "packages/ui/src/button/Button.vue",
+          "bytes": 3047
+        },
+        {
+          "file": "packages/ui/src/loading/Loading.vue",
+          "bytes": 2867
+        },
+        {
+          "file": "packages/ui/src/utils/scroll-lock.ts",
+          "bytes": 2728
+        }
+      ]
+    },
+    {
+      "name": "code",
+      "previous": {
+        "name": "code",
+        "bytes": 2605,
+        "gzip": 1347
+      },
+      "measured": {
+        "bytes": 2621,
+        "gzip": 1357
+      },
+      "budget": {
+        "bytes": 2621,
+        "gzip": 1357
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/code/Code.vue",
+          "bytes": 842
+        },
+        {
+          "file": "packages/ui/src/utils/components.ts",
+          "bytes": 794
+        },
+        {
+          "file": "packages/shared/src/namespace.ts",
+          "bytes": 211
+        },
+        {
+          "file": "packages/use/src/useParent.ts",
+          "bytes": 207
+        },
+        {
+          "file": "packages/ui/src/highlighter-provider/provide.ts",
+          "bytes": 144
+        },
+        {
+          "file": "packages/shared/src/string.ts",
+          "bytes": 142
+        },
+        {
+          "file": "packages/ui/src/code/props.ts",
+          "bytes": 115
+        },
+        {
+          "file": "packages/shared/src/predicates.ts",
+          "bytes": 75
+        },
+        {
+          "file": "packages/ui/src/code/index.ts",
+          "bytes": 32
+        }
+      ]
+    },
+    {
+      "name": "col",
+      "previous": {
+        "name": "col",
+        "bytes": 2809,
+        "gzip": 1402
+      },
+      "measured": {
+        "bytes": 3736,
+        "gzip": 1710
+      },
+      "budget": {
+        "bytes": 3736,
+        "gzip": 1710
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/col/Col.vue",
+          "bytes": 1371
+        },
+        {
+          "file": "packages/ui/src/utils/components.ts",
+          "bytes": 794
+        },
+        {
+          "file": "packages/ui/src/col/validation.ts",
+          "bytes": 579
+        },
+        {
+          "file": "packages/ui/src/col/props.ts",
+          "bytes": 434
+        },
+        {
+          "file": "packages/shared/src/namespace.ts",
+          "bytes": 211
+        },
+        {
+          "file": "packages/shared/src/string.ts",
+          "bytes": 142
+        },
+        {
+          "file": "packages/shared/src/predicates.ts",
+          "bytes": 75
+        },
+        {
+          "file": "packages/ui/src/row/context.ts",
+          "bytes": 32
+        },
+        {
+          "file": "packages/ui/src/col/index.ts",
+          "bytes": 32
+        }
+      ]
+    },
+    {
+      "name": "collapse",
+      "previous": {
+        "name": "collapse",
+        "bytes": 11100,
+        "gzip": 4509
+      },
+      "measured": {
+        "bytes": 11642,
+        "gzip": 4702
+      },
+      "budget": {
+        "bytes": 11642,
+        "gzip": 4702
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/collapse/CollapseItem.vue",
+          "bytes": 3732
+        },
+        {
+          "file": "packages/ui/src/icon/Icon.vue",
+          "bytes": 2156
+        },
+        {
+          "file": "packages/ui/src/collapse/Collapse.vue",
+          "bytes": 1539
+        },
+        {
+          "file": "packages/icons/src/icon-chevron-down/icon-chevron-down.vue",
+          "bytes": 1498
+        },
+        {
+          "file": "packages/ui/src/utils/components.ts",
+          "bytes": 795
+        },
+        {
+          "file": "packages/ui/src/collapse/props.ts",
+          "bytes": 573
+        },
+        {
+          "file": "packages/ui/src/collapse/platform.ts",
+          "bytes": 241
+        },
+        {
+          "file": "packages/shared/src/namespace.ts",
+          "bytes": 213
+        },
+        {
+          "file": "packages/shared/src/predicates.ts",
+          "bytes": 157
+        },
+        {
+          "file": "packages/ui/src/icon/props.ts",
+          "bytes": 154
+        }
+      ]
+    },
+    {
+      "name": "context",
+      "previous": {
+        "name": "context",
+        "bytes": 125,
+        "gzip": 132
+      },
+      "measured": {
+        "bytes": 125,
+        "gzip": 132
+      },
+      "budget": {
+        "bytes": 125,
+        "gzip": 132
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/context/index.ts",
+          "bytes": 80
+        }
+      ]
+    },
+    {
+      "name": "count-to",
+      "previous": {
+        "name": "count-to",
+        "bytes": 4289,
+        "gzip": 1942
+      },
+      "measured": {
+        "bytes": 5146,
+        "gzip": 2295
+      },
+      "budget": {
+        "bytes": 5146,
+        "gzip": 2295
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/count-to/CountTo.vue",
+          "bytes": 1042
+        },
+        {
+          "file": "packages/ui/src/utils/components.ts",
+          "bytes": 794
+        },
+        {
+          "file": "packages/shared/src/number.ts",
+          "bytes": 683
+        },
+        {
+          "file": "packages/shared/src/motion.ts",
+          "bytes": 662
+        },
+        {
+          "file": "packages/ui/src/count-to/props.ts",
+          "bytes": 505
+        },
+        {
+          "file": "packages/use/src/useMotion.ts",
+          "bytes": 491
+        },
+        {
+          "file": "packages/shared/src/dom.ts",
+          "bytes": 283
+        },
+        {
+          "file": "packages/shared/src/predicates.ts",
+          "bytes": 236
+        },
+        {
+          "file": "packages/shared/src/namespace.ts",
+          "bytes": 211
+        },
+        {
+          "file": "packages/shared/src/string.ts",
+          "bytes": 142
+        }
+      ]
+    },
+    {
+      "name": "countdown",
+      "previous": {
+        "name": "countdown",
+        "bytes": 3604,
+        "gzip": 1768
+      },
+      "measured": {
+        "bytes": 3623,
+        "gzip": 1795
+      },
+      "budget": {
+        "bytes": 3623,
+        "gzip": 1795
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/countdown/use-countdown.ts",
+          "bytes": 1600
+        },
+        {
+          "file": "packages/ui/src/utils/components.ts",
+          "bytes": 794
+        },
+        {
+          "file": "packages/ui/src/countdown/Countdown.vue",
+          "bytes": 578
+        },
+        {
+          "file": "packages/shared/src/namespace.ts",
+          "bytes": 211
+        },
+        {
+          "file": "packages/shared/src/string.ts",
+          "bytes": 142
+        },
+        {
+          "file": "packages/ui/src/countdown/props.ts",
+          "bytes": 122
+        },
+        {
+          "file": "packages/shared/src/predicates.ts",
+          "bytes": 75
+        },
+        {
+          "file": "packages/ui/src/countdown/index.ts",
+          "bytes": 32
+        }
+      ]
+    },
+    {
+      "name": "date",
+      "previous": {
+        "name": "date",
+        "bytes": 278414,
+        "gzip": 86835
+      },
+      "measured": {
+        "bytes": 296408,
+        "gzip": 92165
+      },
+      "budget": {
+        "bytes": 296408,
+        "gzip": 92165
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/date/presentation/CalendarContent.vue",
+          "bytes": 19580
+        },
+        {
+          "file": "packages/ui/src/picker/Picker.vue",
+          "bytes": 11482
+        },
+        {
+          "file": "packages/ui/src/_components/field-presentation/with-field-presentation.ts",
+          "bytes": 10654
+        },
+        {
+          "file": "packages/ui/src/date-range/presentation/RangeContent.vue",
+          "bytes": 10030
+        },
+        {
+          "file": "node_modules/.pnpm/dayjs@1.11.21/node_modules/dayjs/dayjs.min.js",
+          "bytes": 7187
+        },
+        {
+          "file": "packages/ui/src/ripple/index.ts",
+          "bytes": 7051
+        },
+        {
+          "file": "packages/ui/src/date/presentation/CalendarViewport.vue",
+          "bytes": 6755
+        },
+        {
+          "file": "packages/ui/src/date/DatePanel.vue",
+          "bytes": 6675
+        },
+        {
+          "file": "packages/ui/src/_components/picker-field/PickerField.vue",
+          "bytes": 5891
+        },
+        {
+          "file": "packages/ui/src/date/picker-panels/DayPickerPanel.vue",
+          "bytes": 5327
+        }
+      ]
+    },
+    {
+      "name": "date-range",
+      "previous": {
+        "name": "date-range",
+        "bytes": 278713,
+        "gzip": 86923
+      },
+      "measured": {
+        "bytes": 296799,
+        "gzip": 92312
+      },
+      "budget": {
+        "bytes": 296799,
+        "gzip": 92312
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/date/presentation/CalendarContent.vue",
+          "bytes": 19580
+        },
+        {
+          "file": "packages/ui/src/picker/Picker.vue",
+          "bytes": 11482
+        },
+        {
+          "file": "packages/ui/src/_components/field-presentation/with-field-presentation.ts",
+          "bytes": 10654
+        },
+        {
+          "file": "packages/ui/src/date-range/presentation/RangeContent.vue",
+          "bytes": 10030
+        },
+        {
+          "file": "node_modules/.pnpm/dayjs@1.11.21/node_modules/dayjs/dayjs.min.js",
+          "bytes": 7187
+        },
+        {
+          "file": "packages/ui/src/ripple/index.ts",
+          "bytes": 7051
+        },
+        {
+          "file": "packages/ui/src/date/presentation/CalendarViewport.vue",
+          "bytes": 6755
+        },
+        {
+          "file": "packages/ui/src/date/DatePanel.vue",
+          "bytes": 6675
+        },
+        {
+          "file": "packages/ui/src/_components/picker-field/PickerField.vue",
+          "bytes": 5891
+        },
+        {
+          "file": "packages/ui/src/date/picker-panels/DayPickerPanel.vue",
+          "bytes": 5327
+        }
+      ]
+    },
+    {
+      "name": "dialog",
+      "previous": {
+        "name": "dialog",
+        "bytes": 61190,
+        "gzip": 19728
+      },
+      "measured": {
+        "bytes": 59047,
+        "gzip": 19147
+      },
+      "budget": {
+        "bytes": 61190,
+        "gzip": 19728
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/ripple/index.ts",
+          "bytes": 7029
+        },
+        {
+          "file": "packages/ui/src/dialog/Dialog.vue",
+          "bytes": 6395
+        },
+        {
+          "file": "packages/ui/src/utils/modal-focus.ts",
+          "bytes": 3416
+        },
+        {
+          "file": "packages/ui/src/button/Button.vue",
+          "bytes": 3046
+        },
+        {
+          "file": "packages/ui/src/loading/Loading.vue",
+          "bytes": 2854
+        },
+        {
+          "file": "packages/ui/src/utils/scroll-lock.ts",
+          "bytes": 2728
+        },
+        {
+          "file": "packages/ui/src/utils/modal-surface.ts",
+          "bytes": 2270
+        },
+        {
+          "file": "packages/ui/src/icon/Icon.vue",
+          "bytes": 2165
+        },
+        {
+          "file": "packages/ui/src/dialog/service.ts",
+          "bytes": 1777
+        },
+        {
+          "file": "packages/ui/src/hover/index.ts",
+          "bytes": 1618
+        }
+      ]
+    },
+    {
+      "name": "divider",
+      "previous": {
+        "name": "divider",
+        "bytes": 3561,
+        "gzip": 1678
+      },
+      "measured": {
+        "bytes": 4553,
+        "gzip": 1988
+      },
+      "budget": {
+        "bytes": 4553,
+        "gzip": 1988
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/divider/Divider.vue",
+          "bytes": 2007
+        },
+        {
+          "file": "packages/ui/src/divider/props.ts",
+          "bytes": 1007
+        },
+        {
+          "file": "packages/ui/src/utils/components.ts",
+          "bytes": 794
+        },
+        {
+          "file": "packages/shared/src/namespace.ts",
+          "bytes": 211
+        },
+        {
+          "file": "packages/shared/src/predicates.ts",
+          "bytes": 157
+        },
+        {
+          "file": "packages/shared/src/string.ts",
+          "bytes": 142
+        },
+        {
+          "file": "packages/ui/src/utils/constants.ts",
+          "bytes": 65
+        },
+        {
+          "file": "packages/ui/src/utils/elements.ts",
+          "bytes": 60
+        },
+        {
+          "file": "packages/ui/src/divider/index.ts",
+          "bytes": 32
+        }
+      ]
+    },
+    {
+      "name": "drag",
+      "previous": {
+        "name": "drag",
+        "bytes": 10634,
+        "gzip": 4482
+      },
+      "measured": {
+        "bytes": 12094,
+        "gzip": 5069
+      },
+      "budget": {
+        "bytes": 12094,
+        "gzip": 5069
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/drag/Drag.vue",
+          "bytes": 4057
+        },
+        {
+          "file": "packages/use/src/useTouch.ts",
+          "bytes": 1510
+        },
+        {
+          "file": "packages/use/src/useDirection.ts",
+          "bytes": 1338
+        },
+        {
+          "file": "packages/ui/src/utils/components.ts",
+          "bytes": 886
+        },
+        {
+          "file": "packages/ui/src/utils/elements.ts",
+          "bytes": 712
+        },
+        {
+          "file": "packages/ui/src/drag/normalize.ts",
+          "bytes": 525
+        },
+        {
+          "file": "packages/ui/src/utils/popup-container.ts",
+          "bytes": 521
+        },
+        {
+          "file": "packages/use/src/useEventListener.ts",
+          "bytes": 484
+        },
+        {
+          "file": "packages/shared/src/predicates.ts",
+          "bytes": 393
+        },
+        {
+          "file": "packages/shared/src/dom.ts",
+          "bytes": 349
+        }
+      ]
+    },
+    {
+      "name": "ellipsis",
+      "previous": {
+        "name": "ellipsis",
+        "bytes": 30112,
+        "gzip": 10750
+      },
+      "measured": {
+        "bytes": 38101,
+        "gzip": 13617
+      },
+      "budget": {
+        "bytes": 38101,
+        "gzip": 13617
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/trigger/positioner.ts",
+          "bytes": 4866
+        },
+        {
+          "file": "packages/ui/src/trigger/interaction.ts",
+          "bytes": 3776
+        },
+        {
+          "file": "packages/ui/src/trigger/trigger.tsx",
+          "bytes": 3221
+        },
+        {
+          "file": "packages/ui/src/trigger/position.ts",
+          "bytes": 2448
+        },
+        {
+          "file": "packages/ui/src/trigger/geometry.ts",
+          "bytes": 2442
+        },
+        {
+          "file": "packages/ui/src/tooltip/Tooltip.vue",
+          "bytes": 2162
+        },
+        {
+          "file": "packages/ui/src/trigger/popup-move-focus.ts",
+          "bytes": 1836
+        },
+        {
+          "file": "packages/ui/src/ellipsis/Ellipsis.vue",
+          "bytes": 1612
+        },
+        {
+          "file": "packages/ui/src/trigger/reference.ts",
+          "bytes": 1560
+        },
+        {
+          "file": "packages/use/src/useDirection.ts",
+          "bytes": 1338
+        }
+      ]
+    },
+    {
+      "name": "empty",
+      "previous": {
+        "name": "empty",
+        "bytes": 10576,
+        "gzip": 4067
+      },
+      "measured": {
+        "bytes": 6177,
+        "gzip": 2752
+      },
+      "budget": {
+        "bytes": 10576,
+        "gzip": 4067
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/icons/src/icon-empty/icon-empty.vue",
+          "bytes": 1662
+        },
+        {
+          "file": "packages/ui/src/empty/Empty.vue",
+          "bytes": 1655
+        },
+        {
+          "file": "packages/ui/src/utils/components.ts",
+          "bytes": 794
+        },
+        {
+          "file": "packages/ui/src/locale/state.ts",
+          "bytes": 586
+        },
+        {
+          "file": "packages/ui/src/empty/props.ts",
+          "bytes": 250
+        },
+        {
+          "file": "packages/shared/src/namespace.ts",
+          "bytes": 211
+        },
+        {
+          "file": "packages/use/src/useParent.ts",
+          "bytes": 209
+        },
+        {
+          "file": "packages/ui/src/empty/platform.ts",
+          "bytes": 190
+        },
+        {
+          "file": "packages/shared/src/string.ts",
+          "bytes": 142
+        },
+        {
+          "file": "packages/shared/src/predicates.ts",
+          "bytes": 140
+        }
+      ]
+    },
+    {
+      "name": "fab",
+      "previous": {
+        "name": "fab",
+        "bytes": 41024,
+        "gzip": 14432
+      },
+      "measured": {
+        "bytes": 42858,
+        "gzip": 15302
+      },
+      "budget": {
+        "bytes": 42858,
+        "gzip": 15302
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/ripple/index.ts",
+          "bytes": 7031
+        },
+        {
+          "file": "packages/ui/src/drag/Drag.vue",
+          "bytes": 4102
+        },
+        {
+          "file": "packages/ui/src/fab/Fab.tsx",
+          "bytes": 3723
+        },
+        {
+          "file": "packages/ui/src/button/Button.vue",
+          "bytes": 3038
+        },
+        {
+          "file": "packages/ui/src/loading/Loading.vue",
+          "bytes": 2854
+        },
+        {
+          "file": "packages/ui/src/icon/Icon.vue",
+          "bytes": 2170
+        },
+        {
+          "file": "packages/ui/src/hover/index.ts",
+          "bytes": 1615
+        },
+        {
+          "file": "packages/icons/src/icon-close/icon-close.vue",
+          "bytes": 1542
+        },
+        {
+          "file": "packages/use/src/useTouch.ts",
+          "bytes": 1509
+        },
+        {
+          "file": "packages/icons/src/icon-plus/icon-plus.vue",
+          "bytes": 1472
+        }
+      ]
+    },
+    {
+      "name": "field-decorator",
+      "previous": {
+        "name": "field-decorator",
+        "bytes": 12998,
+        "gzip": 4866
+      },
+      "measured": {
+        "bytes": 15893,
+        "gzip": 6197
+      },
+      "budget": {
+        "bytes": 15893,
+        "gzip": 6197
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/field-decorator/FieldDecorator.vue",
+          "bytes": 3684
+        },
+        {
+          "file": "packages/ui/src/loading/Loading.vue",
+          "bytes": 2842
+        },
+        {
+          "file": "packages/icons/src/icon-close-circle-fill/icon-close-circle-fill.vue",
+          "bytes": 1628
+        },
+        {
+          "file": "packages/ui/src/field-decorator/use-field-geometry.ts",
+          "bytes": 1507
+        },
+        {
+          "file": "packages/use/src/useDirection.ts",
+          "bytes": 1333
+        },
+        {
+          "file": "packages/ui/src/utils/components.ts",
+          "bytes": 795
+        },
+        {
+          "file": "packages/ui/src/field-decorator/props.ts",
+          "bytes": 649
+        },
+        {
+          "file": "packages/ui/src/_components/field-presentation/default-texts.ts",
+          "bytes": 594
+        },
+        {
+          "file": "packages/ui/src/locale/state.ts",
+          "bytes": 590
+        },
+        {
+          "file": "packages/ui/src/locale/zh-CN.ts",
+          "bytes": 483
+        }
+      ]
+    },
+    {
+      "name": "floating-panel",
+      "previous": {
+        "name": "floating-panel",
+        "bytes": 11433,
+        "gzip": 4778
+      },
+      "measured": {
+        "bytes": 13313,
+        "gzip": 5487
+      },
+      "budget": {
+        "bytes": 13313,
+        "gzip": 5487
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/floating-panel/FloatingPanel.vue",
+          "bytes": 3278
+        },
+        {
+          "file": "packages/ui/src/utils/scroll-lock.ts",
+          "bytes": 2724
+        },
+        {
+          "file": "packages/use/src/useTouch.ts",
+          "bytes": 1508
+        },
+        {
+          "file": "packages/use/src/useDirection.ts",
+          "bytes": 1333
+        },
+        {
+          "file": "packages/ui/src/utils/components.ts",
+          "bytes": 1048
+        },
+        {
+          "file": "packages/ui/src/utils/popup-container.ts",
+          "bytes": 521
+        },
+        {
+          "file": "packages/use/src/useEventListener.ts",
+          "bytes": 483
+        },
+        {
+          "file": "packages/ui/src/floating-panel/normalize.ts",
+          "bytes": 388
+        },
+        {
+          "file": "packages/ui/src/floating-panel/props.ts",
+          "bytes": 320
+        },
+        {
+          "file": "packages/shared/src/predicates.ts",
+          "bytes": 237
+        }
+      ]
+    },
+    {
+      "name": "form",
+      "previous": {
+        "name": "form",
+        "bytes": 62013,
+        "gzip": 21765
+      },
+      "measured": {
+        "bytes": 79443,
+        "gzip": 28189
+      },
+      "budget": {
+        "bytes": 79443,
+        "gzip": 28189
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/form/FormItem.vue",
+          "bytes": 7530
+        },
+        {
+          "file": "packages/ui/src/trigger/positioner.ts",
+          "bytes": 4908
+        },
+        {
+          "file": "packages/ui/src/form/Form.vue",
+          "bytes": 4364
+        },
+        {
+          "file": "packages/ui/src/trigger/interaction.ts",
+          "bytes": 3795
+        },
+        {
+          "file": "packages/ui/src/form/FormItemLabel.vue",
+          "bytes": 3310
+        },
+        {
+          "file": "packages/ui/src/trigger/trigger.tsx",
+          "bytes": 3222
+        },
+        {
+          "file": "packages/ui/src/trigger/position.ts",
+          "bytes": 2451
+        },
+        {
+          "file": "packages/ui/src/trigger/geometry.ts",
+          "bytes": 2443
+        },
+        {
+          "file": "packages/ui/src/tooltip/Tooltip.vue",
+          "bytes": 2162
+        },
+        {
+          "file": "packages/ui/src/trigger/popup-move-focus.ts",
+          "bytes": 1836
+        }
+      ]
+    },
+    {
+      "name": "form-details",
+      "previous": {
+        "name": "form-details",
+        "bytes": 2359,
+        "gzip": 1120
+      },
+      "measured": {
+        "bytes": 3130,
+        "gzip": 1454
+      },
+      "budget": {
+        "bytes": 3130,
+        "gzip": 1454
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/form-details/FormDetails.vue",
+          "bytes": 1405
+        },
+        {
+          "file": "packages/ui/src/utils/components.ts",
+          "bytes": 794
+        },
+        {
+          "file": "packages/ui/src/form/error-description.ts",
+          "bytes": 314
+        },
+        {
+          "file": "packages/shared/src/namespace.ts",
+          "bytes": 211
+        },
+        {
+          "file": "packages/shared/src/string.ts",
+          "bytes": 142
+        },
+        {
+          "file": "packages/ui/src/form-details/props.ts",
+          "bytes": 84
+        },
+        {
+          "file": "packages/shared/src/predicates.ts",
+          "bytes": 75
+        },
+        {
+          "file": "packages/ui/src/form-details/index.ts",
+          "bytes": 32
+        }
+      ]
+    },
+    {
+      "name": "grid",
+      "previous": {
+        "name": "grid",
+        "bytes": 5657,
+        "gzip": 2555
+      },
+      "measured": {
+        "bytes": 6252,
+        "gzip": 2777
+      },
+      "budget": {
+        "bytes": 6252,
+        "gzip": 2777
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/grid/Grid.vue",
+          "bytes": 1337
+        },
+        {
+          "file": "packages/ui/src/grid/GridItem.vue",
+          "bytes": 1086
+        },
+        {
+          "file": "packages/ui/src/utils/components.ts",
+          "bytes": 794
+        },
+        {
+          "file": "packages/ui/src/grid/utils/index.ts",
+          "bytes": 775
+        },
+        {
+          "file": "packages/ui/src/grid/hook/use-responsive-state.ts",
+          "bytes": 750
+        },
+        {
+          "file": "packages/ui/src/grid/props.ts",
+          "bytes": 269
+        },
+        {
+          "file": "packages/ui/src/grid/validation.ts",
+          "bytes": 248
+        },
+        {
+          "file": "packages/shared/src/namespace.ts",
+          "bytes": 211
+        },
+        {
+          "file": "packages/ui/src/col/validation.ts",
+          "bytes": 156
+        },
+        {
+          "file": "packages/ui/src/grid/item-props.ts",
+          "bytes": 153
+        }
+      ]
+    },
+    {
+      "name": "highlighter-provider",
+      "previous": {
+        "name": "highlighter-provider",
+        "bytes": 1894,
+        "gzip": 977
+      },
+      "measured": {
+        "bytes": 1893,
+        "gzip": 980
+      },
+      "budget": {
+        "bytes": 1894,
+        "gzip": 980
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/utils/components.ts",
+          "bytes": 794
+        },
+        {
+          "file": "packages/ui/src/highlighter-provider/HighlighterProvider.vue",
+          "bytes": 263
+        },
+        {
+          "file": "packages/shared/src/namespace.ts",
+          "bytes": 211
+        },
+        {
+          "file": "packages/shared/src/string.ts",
+          "bytes": 142
+        },
+        {
+          "file": "packages/shared/src/predicates.ts",
+          "bytes": 113
+        },
+        {
+          "file": "packages/ui/src/highlighter-provider/provide.ts",
+          "bytes": 105
+        },
+        {
+          "file": "packages/shared/src/function.ts",
+          "bytes": 72
+        },
+        {
+          "file": "packages/ui/src/highlighter-provider/props.ts",
+          "bytes": 72
+        },
+        {
+          "file": "packages/ui/src/highlighter-provider/index.ts",
+          "bytes": 32
+        }
+      ]
+    },
+    {
+      "name": "hover",
+      "previous": {
+        "name": "hover",
+        "bytes": 3426,
+        "gzip": 1532
+      },
+      "measured": {
+        "bytes": 3325,
+        "gzip": 1514
+      },
+      "budget": {
+        "bytes": 3426,
+        "gzip": 1532
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/hover/index.ts",
+          "bytes": 1581
+        },
+        {
+          "file": "packages/ui/src/utils/components.ts",
+          "bytes": 572
+        },
+        {
+          "file": "packages/ui/src/hover/HoverOverlay.vue",
+          "bytes": 369
+        },
+        {
+          "file": "packages/shared/src/predicates.ts",
+          "bytes": 271
+        },
+        {
+          "file": "packages/shared/src/namespace.ts",
+          "bytes": 211
+        },
+        {
+          "file": "packages/shared/src/string.ts",
+          "bytes": 142
+        },
+        {
+          "file": "packages/ui/src/hover/overlay-props.ts",
+          "bytes": 42
+        }
+      ]
+    },
+    {
+      "name": "icon",
+      "previous": {
+        "name": "icon",
+        "bytes": 3737,
+        "gzip": 1919
+      },
+      "measured": {
+        "bytes": 3792,
+        "gzip": 1914
+      },
+      "budget": {
+        "bytes": 3792,
+        "gzip": 1919
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/icon/Icon.vue",
+          "bytes": 2148
+        },
+        {
+          "file": "packages/ui/src/utils/components.ts",
+          "bytes": 794
+        },
+        {
+          "file": "packages/shared/src/namespace.ts",
+          "bytes": 211
+        },
+        {
+          "file": "packages/shared/src/predicates.ts",
+          "bytes": 157
+        },
+        {
+          "file": "packages/ui/src/icon/props.ts",
+          "bytes": 151
+        },
+        {
+          "file": "packages/shared/src/string.ts",
+          "bytes": 142
+        },
+        {
+          "file": "packages/ui/src/utils/elements.ts",
+          "bytes": 60
+        },
+        {
+          "file": "packages/ui/src/icon/index.ts",
+          "bytes": 32
+        },
+        {
+          "file": "packages/ui/src/icon/platform.ts",
+          "bytes": 28
+        }
+      ]
+    },
+    {
+      "name": "image",
+      "previous": {
+        "name": "image",
+        "bytes": 50233,
+        "gzip": 17130
+      },
+      "measured": {
+        "bytes": 60129,
+        "gzip": 20606
+      },
+      "budget": {
+        "bytes": 60129,
+        "gzip": 20606
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/image/ImagePreviewGroup.vue",
+          "bytes": 9053
+        },
+        {
+          "file": "packages/ui/src/ripple/index.ts",
+          "bytes": 7051
+        },
+        {
+          "file": "packages/ui/src/image/ImagePreview.vue",
+          "bytes": 6591
+        },
+        {
+          "file": "packages/ui/src/image/Image.vue",
+          "bytes": 6252
+        },
+        {
+          "file": "packages/ui/src/image/composables/usePreviewController.ts",
+          "bytes": 4947
+        },
+        {
+          "file": "packages/ui/src/utils/scroll-lock.ts",
+          "bytes": 2728
+        },
+        {
+          "file": "packages/ui/src/overlay/Overlay.vue",
+          "bytes": 2476
+        },
+        {
+          "file": "packages/ui/src/image/composables/useImagePreviewGroup.ts",
+          "bytes": 1829
+        },
+        {
+          "file": "packages/icons/src/icon-close-circle-fill/icon-close-circle-fill.vue",
+          "bytes": 1629
+        },
+        {
+          "file": "packages/ui/src/image/platform.ts",
+          "bytes": 1390
+        }
+      ]
+    },
+    {
+      "name": "index-bar",
+      "previous": {
+        "name": "index-bar",
+        "bytes": 15009,
+        "gzip": 6009
+      },
+      "measured": {
+        "bytes": 17469,
+        "gzip": 6937
+      },
+      "budget": {
+        "bytes": 17469,
+        "gzip": 6937
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/index-bar/IndexBar.vue",
+          "bytes": 4163
+        },
+        {
+          "file": "packages/ui/src/affix/Affix.vue",
+          "bytes": 2851
+        },
+        {
+          "file": "packages/ui/src/index-bar/IndexAnchor.vue",
+          "bytes": 1238
+        },
+        {
+          "file": "packages/ui/src/utils/elements.ts",
+          "bytes": 1107
+        },
+        {
+          "file": "packages/ui/src/utils/components.ts",
+          "bytes": 796
+        },
+        {
+          "file": "packages/use/src/useChildren.ts",
+          "bytes": 730
+        },
+        {
+          "file": "packages/ui/src/affix/offset.ts",
+          "bytes": 727
+        },
+        {
+          "file": "packages/ui/src/index-bar/scroll-task.ts",
+          "bytes": 719
+        },
+        {
+          "file": "packages/shared/src/dom.ts",
+          "bytes": 659
+        },
+        {
+          "file": "packages/ui/src/locale/state.ts",
+          "bytes": 593
+        }
+      ]
+    },
+    {
+      "name": "infinite-scroll",
+      "previous": {
+        "name": "infinite-scroll",
+        "bytes": 17769,
+        "gzip": 6402
+      },
+      "measured": {
+        "bytes": 12070,
+        "gzip": 4683
+      },
+      "budget": {
+        "bytes": 17769,
+        "gzip": 6402
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/infinite-scroll/InfiniteScroll.vue",
+          "bytes": 5334
+        },
+        {
+          "file": "packages/ui/src/loading/Loading.vue",
+          "bytes": 2844
+        },
+        {
+          "file": "packages/ui/src/utils/components.ts",
+          "bytes": 796
+        },
+        {
+          "file": "packages/ui/src/locale/state.ts",
+          "bytes": 590
+        },
+        {
+          "file": "packages/ui/src/utils/elements.ts",
+          "bytes": 519
+        },
+        {
+          "file": "packages/ui/src/infinite-scroll/locale.ts",
+          "bytes": 235
+        },
+        {
+          "file": "packages/shared/src/predicates.ts",
+          "bytes": 223
+        },
+        {
+          "file": "packages/shared/src/namespace.ts",
+          "bytes": 213
+        },
+        {
+          "file": "packages/use/src/useParent.ts",
+          "bytes": 210
+        },
+        {
+          "file": "packages/ui/src/infinite-scroll/props.ts",
+          "bytes": 191
+        }
+      ]
+    },
+    {
+      "name": "input",
+      "previous": {
+        "name": "input",
+        "bytes": 88252,
+        "gzip": 28127
+      },
+      "measured": {
+        "bytes": 93937,
+        "gzip": 30061
+      },
+      "budget": {
+        "bytes": 93937,
+        "gzip": 30061
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/input/Input.vue",
+          "bytes": 7300
+        },
+        {
+          "file": "packages/ui/src/ripple/index.ts",
+          "bytes": 7049
+        },
+        {
+          "file": "packages/ui/src/_components/field-presentation/FieldPresentation.vue",
+          "bytes": 4299
+        },
+        {
+          "file": "packages/ui/src/popup/Popup.vue",
+          "bytes": 4216
+        },
+        {
+          "file": "packages/ui/src/field-decorator/FieldDecorator.vue",
+          "bytes": 3731
+        },
+        {
+          "file": "packages/ui/src/utils/modal-focus.ts",
+          "bytes": 3416
+        },
+        {
+          "file": "packages/ui/src/_components/field-presentation/EditorPanel.vue",
+          "bytes": 3279
+        },
+        {
+          "file": "packages/ui/src/button/Button.vue",
+          "bytes": 3047
+        },
+        {
+          "file": "packages/ui/src/loading/Loading.vue",
+          "bytes": 2877
+        },
+        {
+          "file": "packages/ui/src/utils/scroll-lock.ts",
+          "bytes": 2728
+        }
+      ]
+    },
+    {
+      "name": "input-number",
+      "previous": {
+        "name": "input-number",
+        "bytes": 134359,
+        "gzip": 45099
+      },
+      "measured": {
+        "bytes": 144095,
+        "gzip": 48559
+      },
+      "budget": {
+        "bytes": 144095,
+        "gzip": 48559
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "node_modules/.pnpm/decimal.js@10.6.0/node_modules/decimal.js/decimal.mjs",
+          "bytes": 32152
+        },
+        {
+          "file": "packages/ui/src/_components/field-presentation/with-field-presentation.ts",
+          "bytes": 10603
+        },
+        {
+          "file": "packages/ui/src/ripple/index.ts",
+          "bytes": 7051
+        },
+        {
+          "file": "packages/ui/src/input-number/InputNumber.vue",
+          "bytes": 6530
+        },
+        {
+          "file": "packages/ui/src/_components/field-presentation/FieldPresentation.vue",
+          "bytes": 4299
+        },
+        {
+          "file": "packages/ui/src/popup/Popup.vue",
+          "bytes": 4223
+        },
+        {
+          "file": "packages/ui/src/field-decorator/FieldDecorator.vue",
+          "bytes": 3760
+        },
+        {
+          "file": "packages/ui/src/input-number/use-number-value.ts",
+          "bytes": 3453
+        },
+        {
+          "file": "packages/ui/src/utils/modal-focus.ts",
+          "bytes": 3419
+        },
+        {
+          "file": "packages/ui/src/_components/field-presentation/EditorPanel.vue",
+          "bytes": 3294
+        }
+      ]
+    },
+    {
+      "name": "input-tag",
+      "previous": {
+        "name": "input-tag",
+        "bytes": 105559,
+        "gzip": 34777
+      },
+      "measured": {
+        "bytes": 169683,
+        "gzip": 55063
+      },
+      "budget": {
+        "bytes": 169683,
+        "gzip": 55063
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/_components/field-presentation/with-field-presentation.ts",
+          "bytes": 10571
+        },
+        {
+          "file": "packages/ui/src/input-tag/input-tag.tsx",
+          "bytes": 9281
+        },
+        {
+          "file": "packages/ui/src/ripple/index.ts",
+          "bytes": 7051
+        },
+        {
+          "file": "packages/ui/src/trigger/positioner.ts",
+          "bytes": 4897
+        },
+        {
+          "file": "packages/ui/src/select/hooks/use-select.ts",
+          "bytes": 4559
+        },
+        {
+          "file": "packages/ui/src/_components/field-presentation/FieldPresentation.vue",
+          "bytes": 4299
+        },
+        {
+          "file": "packages/ui/src/popup/Popup.vue",
+          "bytes": 4240
+        },
+        {
+          "file": "packages/ui/src/_components/selection-scrollbar/Scrollbar.vue",
+          "bytes": 4141
+        },
+        {
+          "file": "packages/ui/src/trigger/interaction.ts",
+          "bytes": 3786
+        },
+        {
+          "file": "packages/ui/src/field-decorator/FieldDecorator.vue",
+          "bytes": 3760
+        }
+      ]
+    },
+    {
+      "name": "lazy",
+      "previous": {
+        "name": "lazy",
+        "bytes": 3941,
+        "gzip": 1765
+      },
+      "measured": {
+        "bytes": 4315,
+        "gzip": 1984
+      },
+      "budget": {
+        "bytes": 4315,
+        "gzip": 1984
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/lazy/index.ts",
+          "bytes": 3166
+        },
+        {
+          "file": "packages/shared/src/dom.ts",
+          "bytes": 337
+        },
+        {
+          "file": "packages/ui/src/utils/elements.ts",
+          "bytes": 279
+        },
+        {
+          "file": "packages/ui/src/utils/shared.ts",
+          "bytes": 218
+        },
+        {
+          "file": "packages/shared/src/array.ts",
+          "bytes": 78
+        },
+        {
+          "file": "packages/shared/src/function.ts",
+          "bytes": 72
+        },
+        {
+          "file": "packages/shared/src/predicates.ts",
+          "bytes": 70
+        }
+      ]
+    },
+    {
+      "name": "link",
+      "previous": {
+        "name": "link",
+        "bytes": 6110,
+        "gzip": 2264
+      },
+      "measured": {
+        "bytes": 6110,
+        "gzip": 2247
+      },
+      "budget": {
+        "bytes": 6110,
+        "gzip": 2264
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/icons/src/icon-link/icon-link.vue",
+          "bytes": 1573
+        },
+        {
+          "file": "packages/icons/src/icon-loading/icon-loading.vue",
+          "bytes": 1491
+        },
+        {
+          "file": "packages/ui/src/link/Link.vue",
+          "bytes": 1317
+        },
+        {
+          "file": "packages/ui/src/utils/components.ts",
+          "bytes": 794
+        },
+        {
+          "file": "packages/ui/src/link/props.ts",
+          "bytes": 288
+        },
+        {
+          "file": "packages/shared/src/namespace.ts",
+          "bytes": 211
+        },
+        {
+          "file": "packages/shared/src/string.ts",
+          "bytes": 142
+        },
+        {
+          "file": "packages/shared/src/predicates.ts",
+          "bytes": 75
+        },
+        {
+          "file": "packages/icons/src/icon-link/index.ts",
+          "bytes": 59
+        },
+        {
+          "file": "packages/icons/src/icon-loading/index.ts",
+          "bytes": 59
+        }
+      ]
+    },
+    {
+      "name": "list",
+      "previous": {
+        "name": "list",
+        "bytes": 37720,
+        "gzip": 13391
+      },
+      "measured": {
+        "bytes": 35409,
+        "gzip": 12854
+      },
+      "budget": {
+        "bytes": 37720,
+        "gzip": 13391
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/_components/virtual-list-v2/VirtualList.vue",
+          "bytes": 5883
+        },
+        {
+          "file": "packages/ui/src/_components/selection-scrollbar/Scrollbar.vue",
+          "bytes": 4143
+        },
+        {
+          "file": "packages/ui/src/_components/selection-scrollbar/Thumb.vue",
+          "bytes": 3446
+        },
+        {
+          "file": "packages/ui/src/loading/Loading.vue",
+          "bytes": 2867
+        },
+        {
+          "file": "packages/ui/src/list/List.vue",
+          "bytes": 2252
+        },
+        {
+          "file": "packages/ui/src/_components/virtual-list-v2/hooks/use-size.ts",
+          "bytes": 1932
+        },
+        {
+          "file": "packages/ui/src/empty/Empty.vue",
+          "bytes": 1703
+        },
+        {
+          "file": "packages/icons/src/icon-empty/icon-empty.vue",
+          "bytes": 1669
+        },
+        {
+          "file": "packages/ui/src/_components/virtual-list-v2/virtual-list-item.tsx",
+          "bytes": 1605
+        },
+        {
+          "file": "packages/use/src/useDirection.ts",
+          "bytes": 1338
+        }
+      ]
+    },
+    {
+      "name": "loading",
+      "previous": {
+        "name": "loading",
+        "bytes": 6252,
+        "gzip": 2620
+      },
+      "measured": {
+        "bytes": 8219,
+        "gzip": 3367
+      },
+      "budget": {
+        "bytes": 8219,
+        "gzip": 3367
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/loading/Loading.vue",
+          "bytes": 2834
+        },
+        {
+          "file": "packages/ui/src/loading/directive.ts",
+          "bytes": 2367
+        },
+        {
+          "file": "packages/ui/src/utils/components.ts",
+          "bytes": 794
+        },
+        {
+          "file": "packages/ui/src/locale/state.ts",
+          "bytes": 586
+        },
+        {
+          "file": "packages/shared/src/predicates.ts",
+          "bytes": 222
+        },
+        {
+          "file": "packages/shared/src/namespace.ts",
+          "bytes": 211
+        },
+        {
+          "file": "packages/use/src/useParent.ts",
+          "bytes": 209
+        },
+        {
+          "file": "packages/ui/src/loading/platform.ts",
+          "bytes": 187
+        },
+        {
+          "file": "packages/ui/src/utils/elements.ts",
+          "bytes": 182
+        },
+        {
+          "file": "packages/ui/src/loading/props.ts",
+          "bytes": 165
+        }
+      ]
+    },
+    {
+      "name": "loading-bar",
+      "previous": {
+        "name": "loading-bar",
+        "bytes": 3522,
+        "gzip": 1718
+      },
+      "measured": {
+        "bytes": 3490,
+        "gzip": 1699
+      },
+      "budget": {
+        "bytes": 3522,
+        "gzip": 1718
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/loading-bar/index.ts",
+          "bytes": 1743
+        },
+        {
+          "file": "packages/ui/src/utils/components.ts",
+          "bytes": 501
+        },
+        {
+          "file": "packages/ui/src/loading-bar/LoadingBar.tsx",
+          "bytes": 415
+        },
+        {
+          "file": "packages/shared/src/namespace.ts",
+          "bytes": 211
+        },
+        {
+          "file": "packages/ui/src/loading-bar/props.ts",
+          "bytes": 184
+        },
+        {
+          "file": "packages/shared/src/string.ts",
+          "bytes": 142
+        },
+        {
+          "file": "packages/shared/src/predicates.ts",
+          "bytes": 82
+        },
+        {
+          "file": "packages/ui/src/context/index.ts",
+          "bytes": 81
+        },
+        {
+          "file": "packages/ui/src/utils/elements.ts",
+          "bytes": 60
+        }
+      ]
+    },
+    {
+      "name": "locale",
+      "previous": {
+        "name": "locale",
+        "bytes": 25903,
+        "gzip": 5096
+      },
+      "measured": {
+        "bytes": 34379,
+        "gzip": 7419
+      },
+      "budget": {
+        "bytes": 34379,
+        "gzip": 7419
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/locale/fa-IR.ts",
+          "bytes": 9728
+        },
+        {
+          "file": "packages/ui/src/locale/zh-CN.ts",
+          "bytes": 6608
+        },
+        {
+          "file": "packages/ui/src/locale/ja-JP.ts",
+          "bytes": 6505
+        },
+        {
+          "file": "packages/ui/src/locale/zh-TW.ts",
+          "bytes": 5982
+        },
+        {
+          "file": "packages/ui/src/locale/en-US.ts",
+          "bytes": 4456
+        },
+        {
+          "file": "packages/ui/src/locale/state.ts",
+          "bytes": 579
+        },
+        {
+          "file": "packages/ui/src/locale/index.ts",
+          "bytes": 267
+        },
+        {
+          "file": "packages/shared/src/predicates.ts",
+          "bytes": 65
+        },
+        {
+          "file": "packages/ui/src/locale/zh-HK.ts",
+          "bytes": 8
+        }
+      ]
+    },
+    {
+      "name": "locale-provider",
+      "previous": {
+        "name": "locale-provider",
+        "bytes": 2425,
+        "gzip": 1207
+      },
+      "measured": {
+        "bytes": 10004,
+        "gzip": 3887
+      },
+      "budget": {
+        "bytes": 10004,
+        "gzip": 3887
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/locale/zh-CN.ts",
+          "bytes": 6650
+        },
+        {
+          "file": "packages/ui/src/utils/components.ts",
+          "bytes": 794
+        },
+        {
+          "file": "packages/ui/src/locale/state.ts",
+          "bytes": 579
+        },
+        {
+          "file": "packages/ui/src/locale-provider/LocaleProvider.vue",
+          "bytes": 503
+        },
+        {
+          "file": "packages/use/src/useDirection.ts",
+          "bytes": 262
+        },
+        {
+          "file": "packages/shared/src/namespace.ts",
+          "bytes": 211
+        },
+        {
+          "file": "packages/use/src/useParent.ts",
+          "bytes": 207
+        },
+        {
+          "file": "packages/shared/src/predicates.ts",
+          "bytes": 178
+        },
+        {
+          "file": "packages/shared/src/string.ts",
+          "bytes": 142
+        },
+        {
+          "file": "packages/ui/src/locale-provider/provide.ts",
+          "bytes": 142
+        }
+      ]
+    },
+    {
+      "name": "mention",
+      "previous": {
+        "name": "mention",
+        "bytes": 189203,
+        "gzip": 62093
+      },
+      "measured": {
+        "bytes": 190583,
+        "gzip": 62379
+      },
+      "budget": {
+        "bytes": 190583,
+        "gzip": 62379
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/mention/mention.tsx",
+          "bytes": 15564
+        },
+        {
+          "file": "packages/ui/src/_components/field-presentation/with-field-presentation.ts",
+          "bytes": 10604
+        },
+        {
+          "file": "packages/ui/src/input/Input.vue",
+          "bytes": 7341
+        },
+        {
+          "file": "packages/ui/src/ripple/index.ts",
+          "bytes": 7049
+        },
+        {
+          "file": "packages/ui/src/trigger/positioner.ts",
+          "bytes": 4899
+        },
+        {
+          "file": "packages/ui/src/textarea/Textarea.vue",
+          "bytes": 4774
+        },
+        {
+          "file": "packages/ui/src/select/hooks/use-select.ts",
+          "bytes": 4595
+        },
+        {
+          "file": "packages/ui/src/_components/field-presentation/FieldPresentation.vue",
+          "bytes": 4299
+        },
+        {
+          "file": "packages/ui/src/popup/Popup.vue",
+          "bytes": 4240
+        },
+        {
+          "file": "packages/ui/src/_components/selection-scrollbar/Scrollbar.vue",
+          "bytes": 4155
+        }
+      ]
+    },
+    {
+      "name": "menu",
+      "previous": {
+        "name": "menu",
+        "bytes": 55465,
+        "gzip": 19136
+      },
+      "measured": {
+        "bytes": 65135,
+        "gzip": 22434
+      },
+      "budget": {
+        "bytes": 65135,
+        "gzip": 22434
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/ripple/index.ts",
+          "bytes": 7029
+        },
+        {
+          "file": "packages/ui/src/trigger/positioner.ts",
+          "bytes": 4908
+        },
+        {
+          "file": "packages/ui/src/trigger/interaction.ts",
+          "bytes": 3799
+        },
+        {
+          "file": "packages/ui/src/trigger/trigger.tsx",
+          "bytes": 3222
+        },
+        {
+          "file": "packages/ui/src/menu/MenuOption.vue",
+          "bytes": 2714
+        },
+        {
+          "file": "packages/ui/src/trigger/position.ts",
+          "bytes": 2451
+        },
+        {
+          "file": "packages/ui/src/trigger/geometry.ts",
+          "bytes": 2443
+        },
+        {
+          "file": "packages/ui/src/menu/Menu.vue",
+          "bytes": 2337
+        },
+        {
+          "file": "packages/ui/src/menu/MenuBranch.vue",
+          "bytes": 2231
+        },
+        {
+          "file": "packages/ui/src/icon/Icon.vue",
+          "bytes": 2166
+        }
+      ]
+    },
+    {
+      "name": "message",
+      "previous": {
+        "name": "message",
+        "bytes": 19001,
+        "gzip": 5542
+      },
+      "measured": {
+        "bytes": 21698,
+        "gzip": 6473
+      },
+      "budget": {
+        "bytes": 21698,
+        "gzip": 6473
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/message/index.ts",
+          "bytes": 3348
+        },
+        {
+          "file": "packages/ui/src/message/Message.vue",
+          "bytes": 3151
+        },
+        {
+          "file": "packages/icons/src/icon-checkbox-marked-circle-fill/icon-checkbox-marked-circle-fill.vue",
+          "bytes": 1600
+        },
+        {
+          "file": "packages/icons/src/icon-info-circle-fill/icon-info-circle-fill.vue",
+          "bytes": 1560
+        },
+        {
+          "file": "packages/icons/src/icon-close/icon-close.vue",
+          "bytes": 1541
+        },
+        {
+          "file": "packages/icons/src/icon-error/icon-error.vue",
+          "bytes": 1541
+        },
+        {
+          "file": "packages/icons/src/icon-loading/icon-loading.vue",
+          "bytes": 1515
+        },
+        {
+          "file": "packages/icons/src/icon-warning/icon-warning.vue",
+          "bytes": 1483
+        },
+        {
+          "file": "packages/use/src/useDirection.ts",
+          "bytes": 1333
+        },
+        {
+          "file": "packages/ui/src/message/use-message-timer.ts",
+          "bytes": 807
+        }
+      ]
+    },
+    {
+      "name": "nav-menu",
+      "previous": {
+        "name": "nav-menu",
+        "bytes": 22929,
+        "gzip": 8797
+      },
+      "measured": {
+        "bytes": 26519,
+        "gzip": 10112
+      },
+      "budget": {
+        "bytes": 26519,
+        "gzip": 10112
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/nav-menu/NavMenuItem.tsx",
+          "bytes": 5020
+        },
+        {
+          "file": "packages/ui/src/utils/scroll-lock.ts",
+          "bytes": 2728
+        },
+        {
+          "file": "packages/ui/src/overlay/Overlay.vue",
+          "bytes": 2475
+        },
+        {
+          "file": "packages/ui/src/nav-menu/NavMenuOptions.tsx",
+          "bytes": 2415
+        },
+        {
+          "file": "packages/ui/src/nav-menu/NavMenu.tsx",
+          "bytes": 2088
+        },
+        {
+          "file": "packages/use/src/useDirection.ts",
+          "bytes": 1337
+        },
+        {
+          "file": "packages/ui/src/utils/popup-layer.ts",
+          "bytes": 1305
+        },
+        {
+          "file": "packages/ui/src/nav-menu/surface.ts",
+          "bytes": 1265
+        },
+        {
+          "file": "packages/ui/src/utils/resize-observer.ts",
+          "bytes": 1211
+        },
+        {
+          "file": "packages/ui/src/utils/components.ts",
+          "bytes": 797
+        }
+      ]
+    },
+    {
+      "name": "notice-bar",
+      "previous": {
+        "name": "notice-bar",
+        "bytes": 8910,
+        "gzip": 3818
+      },
+      "measured": {
+        "bytes": 11126,
+        "gzip": 4735
+      },
+      "budget": {
+        "bytes": 11126,
+        "gzip": 4735
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/notice-bar/NoticeBar.vue",
+          "bytes": 2905
+        },
+        {
+          "file": "packages/ui/src/icon/Icon.vue",
+          "bytes": 2168
+        },
+        {
+          "file": "packages/icons/src/icon-close/icon-close.vue",
+          "bytes": 1541
+        },
+        {
+          "file": "packages/ui/src/utils/components.ts",
+          "bytes": 794
+        },
+        {
+          "file": "packages/ui/src/icon/RegisteredIcon.vue",
+          "bytes": 633
+        },
+        {
+          "file": "packages/ui/src/locale/state.ts",
+          "bytes": 588
+        },
+        {
+          "file": "packages/ui/src/locale/misc-text.ts",
+          "bytes": 370
+        },
+        {
+          "file": "packages/shared/src/predicates.ts",
+          "bytes": 303
+        },
+        {
+          "file": "packages/ui/src/locale/zh-CN.ts",
+          "bytes": 294
+        },
+        {
+          "file": "packages/ui/src/notice-bar/props.ts",
+          "bytes": 290
+        }
+      ]
+    },
+    {
+      "name": "number-keyboard",
+      "previous": {
+        "name": "number-keyboard",
+        "bytes": 41077,
+        "gzip": 14976
+      },
+      "measured": {
+        "bytes": 47691,
+        "gzip": 17292
+      },
+      "budget": {
+        "bytes": 47691,
+        "gzip": 17292
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/ripple/index.ts",
+          "bytes": 7022
+        },
+        {
+          "file": "packages/ui/src/number-keyboard/NumberKeyboard.vue",
+          "bytes": 6249
+        },
+        {
+          "file": "packages/ui/src/popup/Popup.vue",
+          "bytes": 4218
+        },
+        {
+          "file": "packages/ui/src/utils/modal-focus.ts",
+          "bytes": 3416
+        },
+        {
+          "file": "packages/ui/src/loading/Loading.vue",
+          "bytes": 2854
+        },
+        {
+          "file": "packages/ui/src/utils/scroll-lock.ts",
+          "bytes": 2728
+        },
+        {
+          "file": "packages/ui/src/utils/modal-surface.ts",
+          "bytes": 2270
+        },
+        {
+          "file": "packages/ui/src/icon/Icon.vue",
+          "bytes": 2165
+        },
+        {
+          "file": "packages/icons/src/icon-chevron-left/icon-chevron-left.vue",
+          "bytes": 1500
+        },
+        {
+          "file": "packages/ui/src/popup/use-swipe-close.ts",
+          "bytes": 1420
+        }
+      ]
+    },
+    {
+      "name": "overlay",
+      "previous": {
+        "name": "overlay",
+        "bytes": 9873,
+        "gzip": 4199
+      },
+      "measured": {
+        "bytes": 11768,
+        "gzip": 4981
+      },
+      "budget": {
+        "bytes": 11768,
+        "gzip": 4981
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/utils/scroll-lock.ts",
+          "bytes": 2726
+        },
+        {
+          "file": "packages/ui/src/overlay/Overlay.vue",
+          "bytes": 2450
+        },
+        {
+          "file": "packages/use/src/useDirection.ts",
+          "bytes": 1325
+        },
+        {
+          "file": "packages/ui/src/utils/popup-layer.ts",
+          "bytes": 1302
+        },
+        {
+          "file": "packages/ui/src/utils/components.ts",
+          "bytes": 794
+        },
+        {
+          "file": "packages/ui/src/utils/popup-transition.ts",
+          "bytes": 645
+        },
+        {
+          "file": "packages/ui/src/utils/popup-container.ts",
+          "bytes": 521
+        },
+        {
+          "file": "packages/use/src/useEventListener.ts",
+          "bytes": 483
+        },
+        {
+          "file": "packages/ui/src/overlay/props.ts",
+          "bytes": 270
+        },
+        {
+          "file": "packages/ui/src/context/zIndex.ts",
+          "bytes": 222
+        }
+      ]
+    },
+    {
+      "name": "page-header",
+      "previous": {
+        "name": "page-header",
+        "bytes": 4625,
+        "gzip": 1981
+      },
+      "measured": {
+        "bytes": 5902,
+        "gzip": 2501
+      },
+      "budget": {
+        "bytes": 5902,
+        "gzip": 2501
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/page-header/PageHeader.vue",
+          "bytes": 1814
+        },
+        {
+          "file": "packages/icons/src/icon-chevron-left/icon-chevron-left.vue",
+          "bytes": 1477
+        },
+        {
+          "file": "packages/ui/src/utils/components.ts",
+          "bytes": 794
+        },
+        {
+          "file": "packages/ui/src/locale/state.ts",
+          "bytes": 584
+        },
+        {
+          "file": "packages/shared/src/namespace.ts",
+          "bytes": 211
+        },
+        {
+          "file": "packages/use/src/useParent.ts",
+          "bytes": 207
+        },
+        {
+          "file": "packages/shared/src/string.ts",
+          "bytes": 142
+        },
+        {
+          "file": "packages/shared/src/predicates.ts",
+          "bytes": 140
+        },
+        {
+          "file": "packages/ui/src/page-header/platform.ts",
+          "bytes": 138
+        },
+        {
+          "file": "packages/ui/src/locale-provider/provide.ts",
+          "bytes": 118
+        }
+      ]
+    },
+    {
+      "name": "pagination",
+      "previous": {
+        "name": "pagination",
+        "bytes": 207001,
+        "gzip": 63106
+      },
+      "measured": {
+        "bytes": 226069,
+        "gzip": 70621
+      },
+      "budget": {
+        "bytes": 226069,
+        "gzip": 70621
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/select/use-select-controller.ts",
+          "bytes": 7717
+        },
+        {
+          "file": "packages/ui/src/input/Input.vue",
+          "bytes": 7299
+        },
+        {
+          "file": "packages/ui/src/ripple/index.ts",
+          "bytes": 7049
+        },
+        {
+          "file": "packages/ui/src/_components/virtual-list-v2/VirtualList.vue",
+          "bytes": 5932
+        },
+        {
+          "file": "packages/ui/src/_components/selection-field/SelectionField.vue",
+          "bytes": 5882
+        },
+        {
+          "file": "packages/ui/src/pagination/Pagination.vue",
+          "bytes": 5688
+        },
+        {
+          "file": "packages/ui/src/select/select.tsx",
+          "bytes": 5654
+        },
+        {
+          "file": "packages/ui/src/trigger/positioner.ts",
+          "bytes": 4899
+        },
+        {
+          "file": "packages/ui/src/select/hooks/use-select.ts",
+          "bytes": 4558
+        },
+        {
+          "file": "packages/ui/src/_components/field-presentation/FieldPresentation.vue",
+          "bytes": 4299
+        }
+      ]
+    },
+    {
+      "name": "paper",
+      "previous": {
+        "name": "paper",
+        "bytes": 8326,
+        "gzip": 3374
+      },
+      "measured": {
+        "bytes": 10217,
+        "gzip": 3983
+      },
+      "budget": {
+        "bytes": 10217,
+        "gzip": 3983
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/ripple/index.ts",
+          "bytes": 6954
+        },
+        {
+          "file": "packages/ui/src/utils/components.ts",
+          "bytes": 957
+        },
+        {
+          "file": "packages/ui/src/paper/Paper.vue",
+          "bytes": 694
+        },
+        {
+          "file": "packages/ui/src/paper/props.ts",
+          "bytes": 655
+        },
+        {
+          "file": "packages/shared/src/dom.ts",
+          "bytes": 224
+        },
+        {
+          "file": "packages/shared/src/namespace.ts",
+          "bytes": 211
+        },
+        {
+          "file": "packages/shared/src/predicates.ts",
+          "bytes": 194
+        },
+        {
+          "file": "packages/shared/src/string.ts",
+          "bytes": 142
+        },
+        {
+          "file": "packages/ui/src/context/index.ts",
+          "bytes": 81
+        },
+        {
+          "file": "packages/ui/src/paper/index.ts",
+          "bytes": 33
+        }
+      ]
+    },
+    {
+      "name": "people-select",
+      "previous": {
+        "name": "people-select",
+        "bytes": 201216,
+        "gzip": 62862
+      },
+      "measured": {
+        "bytes": 224338,
+        "gzip": 71750
+      },
+      "budget": {
+        "bytes": 224338,
+        "gzip": 71750
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/_components/field-presentation/with-field-presentation.ts",
+          "bytes": 10585
+        },
+        {
+          "file": "packages/ui/src/select/use-select-controller.ts",
+          "bytes": 7723
+        },
+        {
+          "file": "packages/ui/src/input/Input.vue",
+          "bytes": 7291
+        },
+        {
+          "file": "packages/ui/src/ripple/index.ts",
+          "bytes": 7051
+        },
+        {
+          "file": "packages/ui/src/_components/virtual-list-v2/VirtualList.vue",
+          "bytes": 5920
+        },
+        {
+          "file": "packages/ui/src/_components/selection-field/SelectionField.vue",
+          "bytes": 5882
+        },
+        {
+          "file": "packages/ui/src/select/select.tsx",
+          "bytes": 5654
+        },
+        {
+          "file": "packages/ui/src/trigger/positioner.ts",
+          "bytes": 4899
+        },
+        {
+          "file": "packages/ui/src/select/hooks/use-select.ts",
+          "bytes": 4554
+        },
+        {
+          "file": "packages/ui/src/_components/field-presentation/FieldPresentation.vue",
+          "bytes": 4299
+        }
+      ]
+    },
+    {
+      "name": "picker",
+      "previous": {
+        "name": "picker",
+        "bytes": 64810,
+        "gzip": 22683
+      },
+      "measured": {
+        "bytes": 65381,
+        "gzip": 23208
+      },
+      "budget": {
+        "bytes": 65381,
+        "gzip": 23208
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/picker/Picker.vue",
+          "bytes": 11386
+        },
+        {
+          "file": "packages/ui/src/ripple/index.ts",
+          "bytes": 7039
+        },
+        {
+          "file": "packages/ui/src/popup/Popup.vue",
+          "bytes": 4217
+        },
+        {
+          "file": "packages/ui/src/utils/modal-focus.ts",
+          "bytes": 3413
+        },
+        {
+          "file": "packages/ui/src/button/Button.vue",
+          "bytes": 3047
+        },
+        {
+          "file": "packages/ui/src/loading/Loading.vue",
+          "bytes": 2865
+        },
+        {
+          "file": "packages/ui/src/utils/scroll-lock.ts",
+          "bytes": 2728
+        },
+        {
+          "file": "packages/ui/src/utils/modal-surface.ts",
+          "bytes": 2270
+        },
+        {
+          "file": "packages/ui/src/icon/Icon.vue",
+          "bytes": 2166
+        },
+        {
+          "file": "packages/ui/src/hover/index.ts",
+          "bytes": 1623
+        }
+      ]
+    },
+    {
+      "name": "popover",
+      "previous": {
+        "name": "popover",
+        "bytes": 28454,
+        "gzip": 10187
+      },
+      "measured": {
+        "bytes": 36138,
+        "gzip": 12930
+      },
+      "budget": {
+        "bytes": 36138,
+        "gzip": 12930
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/trigger/positioner.ts",
+          "bytes": 4866
+        },
+        {
+          "file": "packages/ui/src/trigger/interaction.ts",
+          "bytes": 3776
+        },
+        {
+          "file": "packages/ui/src/trigger/trigger.tsx",
+          "bytes": 3215
+        },
+        {
+          "file": "packages/ui/src/trigger/position.ts",
+          "bytes": 2448
+        },
+        {
+          "file": "packages/ui/src/trigger/geometry.ts",
+          "bytes": 2442
+        },
+        {
+          "file": "packages/ui/src/popover/Popover.vue",
+          "bytes": 2403
+        },
+        {
+          "file": "packages/ui/src/trigger/popup-move-focus.ts",
+          "bytes": 1836
+        },
+        {
+          "file": "packages/ui/src/trigger/reference.ts",
+          "bytes": 1560
+        },
+        {
+          "file": "packages/use/src/useDirection.ts",
+          "bytes": 1338
+        },
+        {
+          "file": "packages/ui/src/utils/popup-layer.ts",
+          "bytes": 1305
+        }
+      ]
+    },
+    {
+      "name": "popup",
+      "previous": {
+        "name": "popup",
+        "bytes": 19743,
+        "gzip": 7798
+      },
+      "measured": {
+        "bytes": 27729,
+        "gzip": 10629
+      },
+      "budget": {
+        "bytes": 27729,
+        "gzip": 10629
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/popup/Popup.vue",
+          "bytes": 4205
+        },
+        {
+          "file": "packages/ui/src/utils/modal-focus.ts",
+          "bytes": 3413
+        },
+        {
+          "file": "packages/ui/src/loading/Loading.vue",
+          "bytes": 2844
+        },
+        {
+          "file": "packages/ui/src/utils/scroll-lock.ts",
+          "bytes": 2728
+        },
+        {
+          "file": "packages/ui/src/utils/modal-surface.ts",
+          "bytes": 2265
+        },
+        {
+          "file": "packages/ui/src/popup/use-swipe-close.ts",
+          "bytes": 1420
+        },
+        {
+          "file": "packages/use/src/useDirection.ts",
+          "bytes": 1338
+        },
+        {
+          "file": "packages/ui/src/utils/popup-layer.ts",
+          "bytes": 1305
+        },
+        {
+          "file": "packages/ui/src/_hooks/use-action-guard.ts",
+          "bytes": 1076
+        },
+        {
+          "file": "packages/ui/src/utils/components.ts",
+          "bytes": 796
+        }
+      ]
+    },
+    {
+      "name": "progress",
+      "previous": {
+        "name": "progress",
+        "bytes": 9550,
+        "gzip": 3726
+      },
+      "measured": {
+        "bytes": 9381,
+        "gzip": 3775
+      },
+      "budget": {
+        "bytes": 9550,
+        "gzip": 3775
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/progress/Progress.vue",
+          "bytes": 4403
+        },
+        {
+          "file": "packages/ui/src/progress/use-circle-size.ts",
+          "bytes": 1681
+        },
+        {
+          "file": "packages/ui/src/utils/components.ts",
+          "bytes": 794
+        },
+        {
+          "file": "packages/ui/src/utils/size-length.ts",
+          "bytes": 616
+        },
+        {
+          "file": "packages/ui/src/progress/props.ts",
+          "bytes": 530
+        },
+        {
+          "file": "packages/ui/src/progress/size.ts",
+          "bytes": 453
+        },
+        {
+          "file": "packages/ui/src/progress/percent.ts",
+          "bytes": 218
+        },
+        {
+          "file": "packages/shared/src/namespace.ts",
+          "bytes": 211
+        },
+        {
+          "file": "packages/shared/src/string.ts",
+          "bytes": 142
+        },
+        {
+          "file": "packages/ui/src/utils/constants.ts",
+          "bytes": 87
+        }
+      ]
+    },
+    {
+      "name": "progress-group",
+      "previous": {
+        "name": "progress-group",
+        "bytes": 8588,
+        "gzip": 3079
+      },
+      "measured": {
+        "bytes": 9563,
+        "gzip": 3484
+      },
+      "budget": {
+        "bytes": 9563,
+        "gzip": 3484
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/progress-group/ProgressGroup.vue",
+          "bytes": 7245
+        },
+        {
+          "file": "packages/ui/src/utils/components.ts",
+          "bytes": 795
+        },
+        {
+          "file": "packages/ui/src/utils/size-length.ts",
+          "bytes": 616
+        },
+        {
+          "file": "packages/ui/src/progress-group/props.ts",
+          "bytes": 366
+        },
+        {
+          "file": "packages/shared/src/namespace.ts",
+          "bytes": 212
+        },
+        {
+          "file": "packages/shared/src/string.ts",
+          "bytes": 143
+        },
+        {
+          "file": "packages/shared/src/predicates.ts",
+          "bytes": 75
+        },
+        {
+          "file": "packages/ui/src/progress-group/index.ts",
+          "bytes": 34
+        }
+      ]
+    },
+    {
+      "name": "pull-refresh",
+      "previous": {
+        "name": "pull-refresh",
+        "bytes": 17537,
+        "gzip": 6311
+      },
+      "measured": {
+        "bytes": 18381,
+        "gzip": 6587
+      },
+      "budget": {
+        "bytes": 18381,
+        "gzip": 6587
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/pull-refresh/PullRefresh.vue",
+          "bytes": 6215
+        },
+        {
+          "file": "packages/ui/src/icon/Icon.vue",
+          "bytes": 2168
+        },
+        {
+          "file": "packages/icons/src/icon-refresh/icon-refresh.vue",
+          "bytes": 1621
+        },
+        {
+          "file": "packages/icons/src/icon-checkbox-marked-circle-fill/icon-checkbox-marked-circle-fill.vue",
+          "bytes": 1601
+        },
+        {
+          "file": "packages/icons/src/icon-arrow-down/icon-arrow-down.vue",
+          "bytes": 1514
+        },
+        {
+          "file": "packages/use/src/useTouch.ts",
+          "bytes": 1508
+        },
+        {
+          "file": "packages/ui/src/utils/components.ts",
+          "bytes": 799
+        },
+        {
+          "file": "packages/ui/src/utils/elements.ts",
+          "bytes": 458
+        },
+        {
+          "file": "packages/ui/src/pull-refresh/props.ts",
+          "bytes": 409
+        },
+        {
+          "file": "packages/shared/src/predicates.ts",
+          "bytes": 366
+        }
+      ]
+    },
+    {
+      "name": "radio",
+      "previous": {
+        "name": "radio",
+        "bytes": 78854,
+        "gzip": 26988
+      },
+      "measured": {
+        "bytes": 87709,
+        "gzip": 30235
+      },
+      "budget": {
+        "bytes": 87709,
+        "gzip": 30235
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/_components/field-presentation/with-field-presentation.ts",
+          "bytes": 10576
+        },
+        {
+          "file": "packages/ui/src/ripple/index.ts",
+          "bytes": 7051
+        },
+        {
+          "file": "packages/ui/src/_components/field-presentation/FieldPresentation.vue",
+          "bytes": 4299
+        },
+        {
+          "file": "packages/ui/src/popup/Popup.vue",
+          "bytes": 4216
+        },
+        {
+          "file": "packages/ui/src/radio/Radio.vue",
+          "bytes": 3812
+        },
+        {
+          "file": "packages/ui/src/utils/modal-focus.ts",
+          "bytes": 3416
+        },
+        {
+          "file": "packages/ui/src/_components/field-presentation/EditorPanel.vue",
+          "bytes": 3279
+        },
+        {
+          "file": "packages/ui/src/button/Button.vue",
+          "bytes": 3047
+        },
+        {
+          "file": "packages/ui/src/loading/Loading.vue",
+          "bytes": 2867
+        },
+        {
+          "file": "packages/ui/src/utils/scroll-lock.ts",
+          "bytes": 2728
+        }
+      ]
+    },
+    {
+      "name": "rate",
+      "previous": {
+        "name": "rate",
+        "bytes": 85472,
+        "gzip": 27716
+      },
+      "measured": {
+        "bytes": 92877,
+        "gzip": 30350
+      },
+      "budget": {
+        "bytes": 92877,
+        "gzip": 30350
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/_components/field-presentation/with-field-presentation.ts",
+          "bytes": 10573
+        },
+        {
+          "file": "packages/ui/src/ripple/index.ts",
+          "bytes": 7051
+        },
+        {
+          "file": "packages/ui/src/_components/field-presentation/FieldPresentation.vue",
+          "bytes": 4299
+        },
+        {
+          "file": "packages/ui/src/popup/Popup.vue",
+          "bytes": 4214
+        },
+        {
+          "file": "packages/ui/src/rate/rate-core.tsx",
+          "bytes": 3973
+        },
+        {
+          "file": "packages/ui/src/utils/modal-focus.ts",
+          "bytes": 3413
+        },
+        {
+          "file": "packages/ui/src/_components/field-presentation/EditorPanel.vue",
+          "bytes": 3279
+        },
+        {
+          "file": "packages/ui/src/button/Button.vue",
+          "bytes": 3047
+        },
+        {
+          "file": "packages/ui/src/loading/Loading.vue",
+          "bytes": 2865
+        },
+        {
+          "file": "packages/ui/src/utils/scroll-lock.ts",
+          "bytes": 2728
+        }
+      ]
+    },
+    {
+      "name": "result",
+      "previous": {
+        "name": "result",
+        "bytes": 78273,
+        "gzip": 30121
+      },
+      "measured": {
+        "bytes": 78584,
+        "gzip": 30143
+      },
+      "budget": {
+        "bytes": 78584,
+        "gzip": 30143
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/result/500.tsx",
+          "bytes": 44215
+        },
+        {
+          "file": "packages/ui/src/result/403.tsx",
+          "bytes": 15381
+        },
+        {
+          "file": "packages/ui/src/result/404.tsx",
+          "bytes": 12935
+        },
+        {
+          "file": "packages/ui/src/result/Result.vue",
+          "bytes": 1433
+        },
+        {
+          "file": "packages/ui/src/result/Empty.vue",
+          "bytes": 869
+        },
+        {
+          "file": "packages/ui/src/utils/components.ts",
+          "bytes": 794
+        },
+        {
+          "file": "packages/ui/src/result/Warning.vue",
+          "bytes": 521
+        },
+        {
+          "file": "packages/ui/src/result/Question.vue",
+          "bytes": 493
+        },
+        {
+          "file": "packages/ui/src/result/Danger.vue",
+          "bytes": 363
+        },
+        {
+          "file": "packages/ui/src/result/Success.vue",
+          "bytes": 307
+        }
+      ]
+    },
+    {
+      "name": "ripple",
+      "previous": {
+        "name": "ripple",
+        "bytes": 6375,
+        "gzip": 2526
+      },
+      "measured": {
+        "bytes": 7960,
+        "gzip": 3019
+      },
+      "budget": {
+        "bytes": 7960,
+        "gzip": 3019
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/ripple/index.ts",
+          "bytes": 6949
+        },
+        {
+          "file": "packages/shared/src/dom.ts",
+          "bytes": 224
+        },
+        {
+          "file": "packages/shared/src/namespace.ts",
+          "bytes": 211
+        },
+        {
+          "file": "packages/ui/src/utils/components.ts",
+          "bytes": 176
+        },
+        {
+          "file": "packages/shared/src/string.ts",
+          "bytes": 142
+        },
+        {
+          "file": "packages/shared/src/predicates.ts",
+          "bytes": 119
+        },
+        {
+          "file": "packages/ui/src/context/index.ts",
+          "bytes": 81
+        }
+      ]
+    },
+    {
+      "name": "row",
+      "previous": {
+        "name": "row",
+        "bytes": 3282,
+        "gzip": 1591
+      },
+      "measured": {
+        "bytes": 3844,
+        "gzip": 1834
+      },
+      "budget": {
+        "bytes": 3844,
+        "gzip": 1834
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/row/Row.vue",
+          "bytes": 1059
+        },
+        {
+          "file": "packages/ui/src/utils/components.ts",
+          "bytes": 794
+        },
+        {
+          "file": "packages/ui/src/grid/hook/use-responsive-state.ts",
+          "bytes": 750
+        },
+        {
+          "file": "packages/ui/src/row/validation.ts",
+          "bytes": 295
+        },
+        {
+          "file": "packages/ui/src/row/props.ts",
+          "bytes": 232
+        },
+        {
+          "file": "packages/shared/src/namespace.ts",
+          "bytes": 211
+        },
+        {
+          "file": "packages/ui/src/col/validation.ts",
+          "bytes": 156
+        },
+        {
+          "file": "packages/shared/src/string.ts",
+          "bytes": 142
+        },
+        {
+          "file": "packages/shared/src/predicates.ts",
+          "bytes": 75
+        },
+        {
+          "file": "packages/ui/src/row/context.ts",
+          "bytes": 32
+        }
+      ]
+    },
+    {
+      "name": "safe-area",
+      "previous": {
+        "name": "safe-area",
+        "bytes": 2578,
+        "gzip": 1349
+      },
+      "measured": {
+        "bytes": 2576,
+        "gzip": 1348
+      },
+      "budget": {
+        "bytes": 2578,
+        "gzip": 1349
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/utils/components.ts",
+          "bytes": 794
+        },
+        {
+          "file": "packages/ui/src/safe-area/SafeArea.vue",
+          "bytes": 562
+        },
+        {
+          "file": "packages/ui/src/safe-area/insets.ts",
+          "bytes": 451
+        },
+        {
+          "file": "packages/shared/src/namespace.ts",
+          "bytes": 211
+        },
+        {
+          "file": "packages/ui/src/safe-area/props.ts",
+          "bytes": 199
+        },
+        {
+          "file": "packages/shared/src/string.ts",
+          "bytes": 142
+        },
+        {
+          "file": "packages/shared/src/predicates.ts",
+          "bytes": 75
+        },
+        {
+          "file": "packages/ui/src/safe-area/index.ts",
+          "bytes": 61
+        }
+      ]
+    },
+    {
+      "name": "search",
+      "previous": {
+        "name": "search",
+        "bytes": 226485,
+        "gzip": 70490
+      },
+      "measured": {
+        "bytes": 246913,
+        "gzip": 78077
+      },
+      "budget": {
+        "bytes": 246913,
+        "gzip": 78077
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/select/use-select-controller.ts",
+          "bytes": 7694
+        },
+        {
+          "file": "packages/ui/src/input/Input.vue",
+          "bytes": 7339
+        },
+        {
+          "file": "packages/ui/src/ripple/index.ts",
+          "bytes": 7051
+        },
+        {
+          "file": "packages/ui/src/search/Search.vue",
+          "bytes": 6499
+        },
+        {
+          "file": "packages/ui/src/_components/virtual-list-v2/VirtualList.vue",
+          "bytes": 5925
+        },
+        {
+          "file": "packages/ui/src/_components/selection-field/SelectionField.vue",
+          "bytes": 5882
+        },
+        {
+          "file": "packages/ui/src/select/select.tsx",
+          "bytes": 5654
+        },
+        {
+          "file": "packages/ui/src/trigger/positioner.ts",
+          "bytes": 4899
+        },
+        {
+          "file": "packages/ui/src/select/hooks/use-select.ts",
+          "bytes": 4541
+        },
+        {
+          "file": "packages/ui/src/_components/field-presentation/FieldPresentation.vue",
+          "bytes": 4299
+        }
+      ]
+    },
+    {
+      "name": "select",
+      "previous": {
+        "name": "select",
+        "bytes": 186612,
+        "gzip": 58324
+      },
+      "measured": {
+        "bytes": 203646,
+        "gzip": 65062
+      },
+      "budget": {
+        "bytes": 203646,
+        "gzip": 65062
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/select/use-select-controller.ts",
+          "bytes": 7713
+        },
+        {
+          "file": "packages/ui/src/input/Input.vue",
+          "bytes": 7295
+        },
+        {
+          "file": "packages/ui/src/ripple/index.ts",
+          "bytes": 7049
+        },
+        {
+          "file": "packages/ui/src/_components/virtual-list-v2/VirtualList.vue",
+          "bytes": 5916
+        },
+        {
+          "file": "packages/ui/src/_components/selection-field/SelectionField.vue",
+          "bytes": 5882
+        },
+        {
+          "file": "packages/ui/src/select/select.tsx",
+          "bytes": 5654
+        },
+        {
+          "file": "packages/ui/src/trigger/positioner.ts",
+          "bytes": 4899
+        },
+        {
+          "file": "packages/ui/src/select/hooks/use-select.ts",
+          "bytes": 4549
+        },
+        {
+          "file": "packages/ui/src/_components/field-presentation/FieldPresentation.vue",
+          "bytes": 4299
+        },
+        {
+          "file": "packages/ui/src/popup/Popup.vue",
+          "bytes": 4240
+        }
+      ]
+    },
+    {
+      "name": "signature",
+      "previous": {
+        "name": "signature",
+        "bytes": 4260,
+        "gzip": 1991
+      },
+      "measured": {
+        "bytes": 6357,
+        "gzip": 2813
+      },
+      "budget": {
+        "bytes": 6357,
+        "gzip": 2813
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/signature/Signature.vue",
+          "bytes": 3644
+        },
+        {
+          "file": "packages/ui/src/utils/components.ts",
+          "bytes": 794
+        },
+        {
+          "file": "packages/use/src/useEventListener.ts",
+          "bytes": 483
+        },
+        {
+          "file": "packages/shared/src/predicates.ts",
+          "bytes": 268
+        },
+        {
+          "file": "packages/shared/src/dom.ts",
+          "bytes": 224
+        },
+        {
+          "file": "packages/shared/src/namespace.ts",
+          "bytes": 211
+        },
+        {
+          "file": "packages/shared/src/string.ts",
+          "bytes": 142
+        },
+        {
+          "file": "packages/ui/src/signature/props.ts",
+          "bytes": 140
+        },
+        {
+          "file": "packages/use/src/onSmartMounted.ts",
+          "bytes": 135
+        },
+        {
+          "file": "packages/shared/src/number.ts",
+          "bytes": 114
+        }
+      ]
+    },
+    {
+      "name": "skeleton",
+      "previous": {
+        "name": "skeleton",
+        "bytes": 5108,
+        "gzip": 1993
+      },
+      "measured": {
+        "bytes": 5165,
+        "gzip": 1964
+      },
+      "budget": {
+        "bytes": 5165,
+        "gzip": 1993
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/skeleton/Skeleton.vue",
+          "bytes": 1779
+        },
+        {
+          "file": "packages/ui/src/utils/components.ts",
+          "bytes": 794
+        },
+        {
+          "file": "packages/ui/src/skeleton/SkeletonLine.vue",
+          "bytes": 683
+        },
+        {
+          "file": "packages/ui/src/skeleton/props.ts",
+          "bytes": 642
+        },
+        {
+          "file": "packages/ui/src/skeleton/SkeletonShape.vue",
+          "bytes": 381
+        },
+        {
+          "file": "packages/shared/src/namespace.ts",
+          "bytes": 211
+        },
+        {
+          "file": "packages/shared/src/predicates.ts",
+          "bytes": 157
+        },
+        {
+          "file": "packages/shared/src/string.ts",
+          "bytes": 142
+        },
+        {
+          "file": "packages/ui/src/skeleton/index.ts",
+          "bytes": 106
+        },
+        {
+          "file": "packages/ui/src/utils/elements.ts",
+          "bytes": 60
+        }
+      ]
+    },
+    {
+      "name": "slider",
+      "previous": {
+        "name": "slider",
+        "bytes": 145680,
+        "gzip": 48798
+      },
+      "measured": {
+        "bytes": 158051,
+        "gzip": 52865
+      },
+      "budget": {
+        "bytes": 158051,
+        "gzip": 52865
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "node_modules/.pnpm/decimal.js@10.6.0/node_modules/decimal.js/decimal.mjs",
+          "bytes": 32172
+        },
+        {
+          "file": "packages/ui/src/_components/field-presentation/with-field-presentation.ts",
+          "bytes": 10578
+        },
+        {
+          "file": "packages/ui/src/slider/Slider.vue",
+          "bytes": 9181
+        },
+        {
+          "file": "packages/ui/src/ripple/index.ts",
+          "bytes": 7049
+        },
+        {
+          "file": "packages/ui/src/input-number/InputNumber.vue",
+          "bytes": 6530
+        },
+        {
+          "file": "packages/ui/src/_components/field-presentation/FieldPresentation.vue",
+          "bytes": 4299
+        },
+        {
+          "file": "packages/ui/src/popup/Popup.vue",
+          "bytes": 4223
+        },
+        {
+          "file": "packages/ui/src/field-decorator/FieldDecorator.vue",
+          "bytes": 3760
+        },
+        {
+          "file": "packages/ui/src/input-number/use-number-value.ts",
+          "bytes": 3453
+        },
+        {
+          "file": "packages/ui/src/utils/modal-focus.ts",
+          "bytes": 3419
+        }
+      ]
+    },
+    {
+      "name": "space",
+      "previous": {
+        "name": "space",
+        "bytes": 2956,
+        "gzip": 1491
+      },
+      "measured": {
+        "bytes": 4166,
+        "gzip": 1950
+      },
+      "budget": {
+        "bytes": 4166,
+        "gzip": 1950
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/space/Space.tsx",
+          "bytes": 1082
+        },
+        {
+          "file": "packages/ui/src/space/children.ts",
+          "bytes": 892
+        },
+        {
+          "file": "packages/ui/src/utils/components.ts",
+          "bytes": 794
+        },
+        {
+          "file": "packages/ui/src/space/props.ts",
+          "bytes": 633
+        },
+        {
+          "file": "packages/shared/src/namespace.ts",
+          "bytes": 211
+        },
+        {
+          "file": "packages/shared/src/predicates.ts",
+          "bytes": 157
+        },
+        {
+          "file": "packages/shared/src/string.ts",
+          "bytes": 142
+        },
+        {
+          "file": "packages/ui/src/utils/elements.ts",
+          "bytes": 118
+        },
+        {
+          "file": "packages/ui/src/utils/constants.ts",
+          "bytes": 33
+        },
+        {
+          "file": "packages/ui/src/space/index.ts",
+          "bytes": 32
+        }
+      ]
+    },
+    {
+      "name": "split-button",
+      "previous": {
+        "name": "split-button",
+        "bytes": 74730,
+        "gzip": 24976
+      },
+      "measured": {
+        "bytes": 83937,
+        "gzip": 28194
+      },
+      "budget": {
+        "bytes": 83937,
+        "gzip": 28194
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/ripple/index.ts",
+          "bytes": 7041
+        },
+        {
+          "file": "packages/ui/src/trigger/positioner.ts",
+          "bytes": 4912
+        },
+        {
+          "file": "packages/ui/src/trigger/interaction.ts",
+          "bytes": 3803
+        },
+        {
+          "file": "packages/ui/src/trigger/trigger.tsx",
+          "bytes": 3222
+        },
+        {
+          "file": "packages/ui/src/button/Button.vue",
+          "bytes": 3047
+        },
+        {
+          "file": "packages/ui/src/loading/Loading.vue",
+          "bytes": 2867
+        },
+        {
+          "file": "packages/ui/src/menu/MenuOption.vue",
+          "bytes": 2726
+        },
+        {
+          "file": "packages/ui/src/trigger/position.ts",
+          "bytes": 2451
+        },
+        {
+          "file": "packages/ui/src/trigger/geometry.ts",
+          "bytes": 2443
+        },
+        {
+          "file": "packages/ui/src/menu/Menu.vue",
+          "bytes": 2340
+        }
+      ]
+    },
+    {
+      "name": "statistic",
+      "previous": {
+        "name": "statistic",
+        "bytes": 13818,
+        "gzip": 5735
+      },
+      "measured": {
+        "bytes": 14419,
+        "gzip": 5962
+      },
+      "budget": {
+        "bytes": 14419,
+        "gzip": 5962
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "node_modules/.pnpm/dayjs@1.11.21/node_modules/dayjs/dayjs.min.js",
+          "bytes": 7146
+        },
+        {
+          "file": "packages/ui/src/statistic/Statistic.vue",
+          "bytes": 3167
+        },
+        {
+          "file": "packages/ui/src/utils/components.ts",
+          "bytes": 802
+        },
+        {
+          "file": "packages/shared/src/motion.ts",
+          "bytes": 667
+        },
+        {
+          "file": "packages/ui/src/statistic/props.ts",
+          "bytes": 637
+        },
+        {
+          "file": "packages/use/src/useMotion.ts",
+          "bytes": 497
+        },
+        {
+          "file": "packages/shared/src/dom.ts",
+          "bytes": 289
+        },
+        {
+          "file": "packages/shared/src/namespace.ts",
+          "bytes": 213
+        },
+        {
+          "file": "packages/shared/src/predicates.ts",
+          "bytes": 158
+        },
+        {
+          "file": "packages/shared/src/string.ts",
+          "bytes": 143
+        }
+      ]
+    },
+    {
+      "name": "steps",
+      "previous": {
+        "name": "steps",
+        "bytes": 9376,
+        "gzip": 3372
+      },
+      "measured": {
+        "bytes": 12431,
+        "gzip": 4640
+      },
+      "budget": {
+        "bytes": 12431,
+        "gzip": 4640
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/steps/Step.vue",
+          "bytes": 3038
+        },
+        {
+          "file": "packages/ui/src/steps/Steps.tsx",
+          "bytes": 2399
+        },
+        {
+          "file": "packages/icons/src/icon-close/icon-close.vue",
+          "bytes": 1541
+        },
+        {
+          "file": "packages/icons/src/icon-check/icon-check.vue",
+          "bytes": 1489
+        },
+        {
+          "file": "packages/use/src/useDirection.ts",
+          "bytes": 1334
+        },
+        {
+          "file": "packages/ui/src/steps/props.ts",
+          "bytes": 901
+        },
+        {
+          "file": "packages/ui/src/utils/components.ts",
+          "bytes": 795
+        },
+        {
+          "file": "packages/shared/src/namespace.ts",
+          "bytes": 212
+        },
+        {
+          "file": "packages/ui/src/steps/children.ts",
+          "bytes": 147
+        },
+        {
+          "file": "packages/shared/src/string.ts",
+          "bytes": 143
+        }
+      ]
+    },
+    {
+      "name": "swipe-cell",
+      "previous": {
+        "name": "swipe-cell",
+        "bytes": 8057,
+        "gzip": 3347
+      },
+      "measured": {
+        "bytes": 15321,
+        "gzip": 5940
+      },
+      "budget": {
+        "bytes": 15321,
+        "gzip": 5940
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/swipe-cell/SwipeCell.vue",
+          "bytes": 6262
+        },
+        {
+          "file": "packages/ui/src/loading/Loading.vue",
+          "bytes": 2842
+        },
+        {
+          "file": "packages/use/src/useTouch.ts",
+          "bytes": 1515
+        },
+        {
+          "file": "packages/ui/src/utils/components.ts",
+          "bytes": 801
+        },
+        {
+          "file": "packages/ui/src/_hooks/use-action-guard.ts",
+          "bytes": 695
+        },
+        {
+          "file": "packages/ui/src/locale/state.ts",
+          "bytes": 593
+        },
+        {
+          "file": "packages/ui/src/_components/pending-feedback/PendingFeedback.vue",
+          "bytes": 456
+        },
+        {
+          "file": "packages/shared/src/dom.ts",
+          "bytes": 303
+        },
+        {
+          "file": "packages/shared/src/predicates.ts",
+          "bytes": 258
+        },
+        {
+          "file": "packages/ui/src/swipe-cell/props.ts",
+          "bytes": 223
+        }
+      ]
+    },
+    {
+      "name": "switch",
+      "previous": {
+        "name": "switch",
+        "bytes": 72157,
+        "gzip": 24612
+      },
+      "measured": {
+        "bytes": 79056,
+        "gzip": 26998
+      },
+      "budget": {
+        "bytes": 79056,
+        "gzip": 26998
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/_components/field-presentation/with-field-presentation.ts",
+          "bytes": 10576
+        },
+        {
+          "file": "packages/ui/src/ripple/index.ts",
+          "bytes": 7041
+        },
+        {
+          "file": "packages/ui/src/_components/field-presentation/FieldPresentation.vue",
+          "bytes": 4299
+        },
+        {
+          "file": "packages/ui/src/popup/Popup.vue",
+          "bytes": 4216
+        },
+        {
+          "file": "packages/ui/src/switch/Switch.vue",
+          "bytes": 3829
+        },
+        {
+          "file": "packages/ui/src/utils/modal-focus.ts",
+          "bytes": 3416
+        },
+        {
+          "file": "packages/ui/src/_components/field-presentation/EditorPanel.vue",
+          "bytes": 3279
+        },
+        {
+          "file": "packages/ui/src/button/Button.vue",
+          "bytes": 3047
+        },
+        {
+          "file": "packages/ui/src/loading/Loading.vue",
+          "bytes": 2865
+        },
+        {
+          "file": "packages/ui/src/utils/scroll-lock.ts",
+          "bytes": 2728
+        }
+      ]
+    },
+    {
+      "name": "tab-bar",
+      "previous": {
+        "name": "tab-bar",
+        "bytes": 37072,
+        "gzip": 13002
+      },
+      "measured": {
+        "bytes": 38779,
+        "gzip": 13685
+      },
+      "budget": {
+        "bytes": 38779,
+        "gzip": 13685
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/ripple/index.ts",
+          "bytes": 7029
+        },
+        {
+          "file": "packages/ui/src/tab-bar/TabBar.vue",
+          "bytes": 3729
+        },
+        {
+          "file": "packages/ui/src/button/Button.vue",
+          "bytes": 3038
+        },
+        {
+          "file": "packages/ui/src/loading/Loading.vue",
+          "bytes": 2856
+        },
+        {
+          "file": "packages/ui/src/badge/Badge.vue",
+          "bytes": 2539
+        },
+        {
+          "file": "packages/ui/src/icon/Icon.vue",
+          "bytes": 2174
+        },
+        {
+          "file": "packages/ui/src/tab-bar/TabBarItem.vue",
+          "bytes": 1945
+        },
+        {
+          "file": "packages/ui/src/hover/index.ts",
+          "bytes": 1615
+        },
+        {
+          "file": "packages/ui/src/utils/resize-observer.ts",
+          "bytes": 1211
+        },
+        {
+          "file": "packages/ui/src/button/use-button.ts",
+          "bytes": 1179
+        }
+      ]
+    },
+    {
+      "name": "table",
+      "previous": {
+        "name": "table",
+        "bytes": 2583,
+        "gzip": 1311
+      },
+      "measured": {
+        "bytes": 9744,
+        "gzip": 4064
+      },
+      "budget": {
+        "bytes": 9744,
+        "gzip": 4064
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/loading/Loading.vue",
+          "bytes": 2828
+        },
+        {
+          "file": "packages/ui/src/table/Table.vue",
+          "bytes": 1995
+        },
+        {
+          "file": "packages/use/src/useDirection.ts",
+          "bytes": 1331
+        },
+        {
+          "file": "packages/ui/src/utils/components.ts",
+          "bytes": 959
+        },
+        {
+          "file": "packages/ui/src/locale/state.ts",
+          "bytes": 586
+        },
+        {
+          "file": "packages/ui/src/_utils/direction.ts",
+          "bytes": 252
+        },
+        {
+          "file": "packages/shared/src/predicates.ts",
+          "bytes": 222
+        },
+        {
+          "file": "packages/shared/src/namespace.ts",
+          "bytes": 211
+        },
+        {
+          "file": "packages/use/src/useParent.ts",
+          "bytes": 210
+        },
+        {
+          "file": "packages/ui/src/loading/platform.ts",
+          "bytes": 191
+        }
+      ]
+    },
+    {
+      "name": "tabs",
+      "previous": {
+        "name": "tabs",
+        "bytes": 16431,
+        "gzip": 6049
+      },
+      "measured": {
+        "bytes": 20304,
+        "gzip": 7535
+      },
+      "budget": {
+        "bytes": 20304,
+        "gzip": 7535
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/tabs/Tabs.vue",
+          "bytes": 3514
+        },
+        {
+          "file": "packages/ui/src/tabs/TabsNavs.vue",
+          "bytes": 3392
+        },
+        {
+          "file": "packages/ui/src/tabs/TabNav.vue",
+          "bytes": 3125
+        },
+        {
+          "file": "packages/ui/src/tabs/props.ts",
+          "bytes": 1786
+        },
+        {
+          "file": "packages/ui/src/tabs/TabItem.vue",
+          "bytes": 1496
+        },
+        {
+          "file": "packages/use/src/useDirection.ts",
+          "bytes": 1336
+        },
+        {
+          "file": "packages/ui/src/tabs/TabsItems.vue",
+          "bytes": 1319
+        },
+        {
+          "file": "packages/ui/src/utils/components.ts",
+          "bytes": 796
+        },
+        {
+          "file": "packages/ui/src/locale/state.ts",
+          "bytes": 592
+        },
+        {
+          "file": "packages/ui/src/tabs/TabPane.vue",
+          "bytes": 384
+        }
+      ]
+    },
+    {
+      "name": "tag",
+      "previous": {
+        "name": "tag",
+        "bytes": 7776,
+        "gzip": 2835
+      },
+      "measured": {
+        "bytes": 9657,
+        "gzip": 3659
+      },
+      "budget": {
+        "bytes": 9657,
+        "gzip": 3659
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/tag/Tag.vue",
+          "bytes": 3271
+        },
+        {
+          "file": "packages/icons/src/icon-close/icon-close.vue",
+          "bytes": 1541
+        },
+        {
+          "file": "packages/icons/src/icon-loading/icon-loading.vue",
+          "bytes": 1515
+        },
+        {
+          "file": "packages/ui/src/utils/components.ts",
+          "bytes": 794
+        },
+        {
+          "file": "packages/ui/src/locale/state.ts",
+          "bytes": 586
+        },
+        {
+          "file": "packages/ui/src/tag/props.ts",
+          "bytes": 551
+        },
+        {
+          "file": "packages/shared/src/namespace.ts",
+          "bytes": 211
+        },
+        {
+          "file": "packages/use/src/useParent.ts",
+          "bytes": 209
+        },
+        {
+          "file": "packages/ui/src/tag/platform.ts",
+          "bytes": 196
+        },
+        {
+          "file": "packages/shared/src/string.ts",
+          "bytes": 142
+        }
+      ]
+    },
+    {
+      "name": "textarea",
+      "previous": {
+        "name": "textarea",
+        "bytes": 91329,
+        "gzip": 30129
+      },
+      "measured": {
+        "bytes": 101506,
+        "gzip": 33593
+      },
+      "budget": {
+        "bytes": 101506,
+        "gzip": 33593
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/_components/field-presentation/with-field-presentation.ts",
+          "bytes": 10580
+        },
+        {
+          "file": "packages/ui/src/ripple/index.ts",
+          "bytes": 7051
+        },
+        {
+          "file": "packages/ui/src/textarea/Textarea.vue",
+          "bytes": 4747
+        },
+        {
+          "file": "packages/ui/src/_components/field-presentation/FieldPresentation.vue",
+          "bytes": 4299
+        },
+        {
+          "file": "packages/ui/src/popup/Popup.vue",
+          "bytes": 4216
+        },
+        {
+          "file": "packages/ui/src/field-decorator/FieldDecorator.vue",
+          "bytes": 3744
+        },
+        {
+          "file": "packages/ui/src/utils/modal-focus.ts",
+          "bytes": 3416
+        },
+        {
+          "file": "packages/ui/src/_components/field-presentation/EditorPanel.vue",
+          "bytes": 3279
+        },
+        {
+          "file": "packages/ui/src/button/Button.vue",
+          "bytes": 3047
+        },
+        {
+          "file": "packages/ui/src/loading/Loading.vue",
+          "bytes": 2877
+        }
+      ]
+    },
+    {
+      "name": "theme-provider",
+      "previous": {
+        "name": "theme-provider",
+        "bytes": 2940,
+        "gzip": 1467
+      },
+      "measured": {
+        "bytes": 2759,
+        "gzip": 1350
+      },
+      "budget": {
+        "bytes": 2940,
+        "gzip": 1467
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/utils/components.ts",
+          "bytes": 794
+        },
+        {
+          "file": "packages/ui/src/theme-provider/context.ts",
+          "bytes": 587
+        },
+        {
+          "file": "packages/ui/src/theme-provider/ThemeProvider.vue",
+          "bytes": 410
+        },
+        {
+          "file": "packages/shared/src/string.ts",
+          "bytes": 233
+        },
+        {
+          "file": "packages/shared/src/namespace.ts",
+          "bytes": 211
+        },
+        {
+          "file": "packages/ui/src/theme-provider/props.ts",
+          "bytes": 206
+        },
+        {
+          "file": "packages/ui/src/utils/elements.ts",
+          "bytes": 122
+        },
+        {
+          "file": "packages/shared/src/predicates.ts",
+          "bytes": 75
+        },
+        {
+          "file": "packages/ui/src/theme-provider/index.ts",
+          "bytes": 25
+        }
+      ]
+    },
+    {
+      "name": "time",
+      "previous": {
+        "name": "time",
+        "bytes": 170236,
+        "gzip": 56956
+      },
+      "measured": {
+        "bytes": 189094,
+        "gzip": 63541
+      },
+      "budget": {
+        "bytes": 189094,
+        "gzip": 63541
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/picker/Picker.vue",
+          "bytes": 11415
+        },
+        {
+          "file": "packages/ui/src/_components/field-presentation/with-field-presentation.ts",
+          "bytes": 10584
+        },
+        {
+          "file": "node_modules/.pnpm/dayjs@1.11.21/node_modules/dayjs/dayjs.min.js",
+          "bytes": 7177
+        },
+        {
+          "file": "packages/ui/src/ripple/index.ts",
+          "bytes": 7051
+        },
+        {
+          "file": "packages/ui/src/_components/picker-field/PickerField.vue",
+          "bytes": 5891
+        },
+        {
+          "file": "packages/ui/src/time/presentation/TimeFieldContent.vue",
+          "bytes": 4920
+        },
+        {
+          "file": "packages/ui/src/trigger/positioner.ts",
+          "bytes": 4895
+        },
+        {
+          "file": "packages/ui/src/_components/field-presentation/FieldPresentation.vue",
+          "bytes": 4299
+        },
+        {
+          "file": "packages/ui/src/popup/Popup.vue",
+          "bytes": 4212
+        },
+        {
+          "file": "node_modules/.pnpm/dayjs@1.11.21/node_modules/dayjs/plugin/customParseFormat.js",
+          "bytes": 3886
+        }
+      ]
+    },
+    {
+      "name": "time-range",
+      "previous": {
+        "name": "time-range",
+        "bytes": 170383,
+        "gzip": 57000
+      },
+      "measured": {
+        "bytes": 189260,
+        "gzip": 63598
+      },
+      "budget": {
+        "bytes": 189260,
+        "gzip": 63598
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/picker/Picker.vue",
+          "bytes": 11415
+        },
+        {
+          "file": "packages/ui/src/_components/field-presentation/with-field-presentation.ts",
+          "bytes": 10584
+        },
+        {
+          "file": "node_modules/.pnpm/dayjs@1.11.21/node_modules/dayjs/dayjs.min.js",
+          "bytes": 7177
+        },
+        {
+          "file": "packages/ui/src/ripple/index.ts",
+          "bytes": 7051
+        },
+        {
+          "file": "packages/ui/src/_components/picker-field/PickerField.vue",
+          "bytes": 5891
+        },
+        {
+          "file": "packages/ui/src/time/presentation/TimeFieldContent.vue",
+          "bytes": 4920
+        },
+        {
+          "file": "packages/ui/src/trigger/positioner.ts",
+          "bytes": 4895
+        },
+        {
+          "file": "packages/ui/src/_components/field-presentation/FieldPresentation.vue",
+          "bytes": 4299
+        },
+        {
+          "file": "packages/ui/src/popup/Popup.vue",
+          "bytes": 4212
+        },
+        {
+          "file": "node_modules/.pnpm/dayjs@1.11.21/node_modules/dayjs/plugin/customParseFormat.js",
+          "bytes": 3886
+        }
+      ]
+    },
+    {
+      "name": "timeline",
+      "previous": null,
+      "measured": {
+        "bytes": 10615,
+        "gzip": 4080
+      },
+      "budget": {
+        "bytes": 10615,
+        "gzip": 4080
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/loading/Loading.vue",
+          "bytes": 2829
+        },
+        {
+          "file": "packages/ui/src/timeline/Item.vue",
+          "bytes": 2701
+        },
+        {
+          "file": "packages/ui/src/utils/components.ts",
+          "bytes": 798
+        },
+        {
+          "file": "packages/ui/src/timeline/timeline.tsx",
+          "bytes": 784
+        },
+        {
+          "file": "packages/ui/src/locale/state.ts",
+          "bytes": 588
+        },
+        {
+          "file": "packages/ui/src/_utils/vue-utils.ts",
+          "bytes": 482
+        },
+        {
+          "file": "packages/ui/src/timeline/props.ts",
+          "bytes": 350
+        },
+        {
+          "file": "packages/ui/src/_hooks/use-children-components.ts",
+          "bytes": 278
+        },
+        {
+          "file": "packages/shared/src/predicates.ts",
+          "bytes": 222
+        },
+        {
+          "file": "packages/shared/src/namespace.ts",
+          "bytes": 211
+        }
+      ]
+    },
+    {
+      "name": "tooltip",
+      "previous": {
+        "name": "tooltip",
+        "bytes": 28293,
+        "gzip": 10128
+      },
+      "measured": {
+        "bytes": 36117,
+        "gzip": 12929
+      },
+      "budget": {
+        "bytes": 36117,
+        "gzip": 12929
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/trigger/positioner.ts",
+          "bytes": 4866
+        },
+        {
+          "file": "packages/ui/src/trigger/interaction.ts",
+          "bytes": 3776
+        },
+        {
+          "file": "packages/ui/src/trigger/trigger.tsx",
+          "bytes": 3215
+        },
+        {
+          "file": "packages/ui/src/trigger/position.ts",
+          "bytes": 2448
+        },
+        {
+          "file": "packages/ui/src/trigger/geometry.ts",
+          "bytes": 2442
+        },
+        {
+          "file": "packages/ui/src/tooltip/Tooltip.vue",
+          "bytes": 2162
+        },
+        {
+          "file": "packages/ui/src/trigger/popup-move-focus.ts",
+          "bytes": 1836
+        },
+        {
+          "file": "packages/ui/src/trigger/reference.ts",
+          "bytes": 1560
+        },
+        {
+          "file": "packages/use/src/useDirection.ts",
+          "bytes": 1338
+        },
+        {
+          "file": "packages/ui/src/utils/popup-layer.ts",
+          "bytes": 1305
+        }
+      ]
+    },
+    {
+      "name": "trigger",
+      "previous": {
+        "name": "trigger",
+        "bytes": 25339,
+        "gzip": 9206
+      },
+      "measured": {
+        "bytes": 32448,
+        "gzip": 11731
+      },
+      "budget": {
+        "bytes": 32448,
+        "gzip": 11731
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/trigger/positioner.ts",
+          "bytes": 4866
+        },
+        {
+          "file": "packages/ui/src/trigger/interaction.ts",
+          "bytes": 3776
+        },
+        {
+          "file": "packages/ui/src/trigger/trigger.tsx",
+          "bytes": 3216
+        },
+        {
+          "file": "packages/ui/src/trigger/position.ts",
+          "bytes": 2448
+        },
+        {
+          "file": "packages/ui/src/trigger/geometry.ts",
+          "bytes": 2442
+        },
+        {
+          "file": "packages/ui/src/trigger/popup-move-focus.ts",
+          "bytes": 1836
+        },
+        {
+          "file": "packages/ui/src/trigger/reference.ts",
+          "bytes": 1555
+        },
+        {
+          "file": "packages/use/src/useDirection.ts",
+          "bytes": 1338
+        },
+        {
+          "file": "packages/ui/src/utils/popup-layer.ts",
+          "bytes": 1305
+        },
+        {
+          "file": "packages/ui/src/trigger/reference-listeners.ts",
+          "bytes": 1287
+        }
+      ]
+    },
+    {
+      "name": "upload",
+      "previous": {
+        "name": "upload",
+        "bytes": 129539,
+        "gzip": 42060
+      },
+      "measured": {
+        "bytes": 146245,
+        "gzip": 48364
+      },
+      "budget": {
+        "bytes": 146245,
+        "gzip": 48364
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/_components/field-presentation/with-field-presentation.ts",
+          "bytes": 10554
+        },
+        {
+          "file": "packages/ui/src/upload/Upload.vue",
+          "bytes": 9262
+        },
+        {
+          "file": "packages/ui/src/image/ImagePreviewGroup.vue",
+          "bytes": 9079
+        },
+        {
+          "file": "packages/ui/src/upload/composables/use-uploader.ts",
+          "bytes": 8766
+        },
+        {
+          "file": "packages/ui/src/ripple/index.ts",
+          "bytes": 7051
+        },
+        {
+          "file": "packages/ui/src/image/ImagePreview.vue",
+          "bytes": 6591
+        },
+        {
+          "file": "packages/ui/src/image/composables/usePreviewController.ts",
+          "bytes": 4951
+        },
+        {
+          "file": "packages/ui/src/_components/field-presentation/FieldPresentation.vue",
+          "bytes": 4299
+        },
+        {
+          "file": "packages/ui/src/popup/Popup.vue",
+          "bytes": 4244
+        },
+        {
+          "file": "packages/ui/src/utils/modal-focus.ts",
+          "bytes": 3416
+        }
+      ]
+    },
+    {
+      "name": "verification-code",
+      "previous": {
+        "name": "verification-code",
+        "bytes": 103219,
+        "gzip": 33340
+      },
+      "measured": {
+        "bytes": 114201,
+        "gzip": 37041
+      },
+      "budget": {
+        "bytes": 114201,
+        "gzip": 37041
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/_components/field-presentation/with-field-presentation.ts",
+          "bytes": 10561
+        },
+        {
+          "file": "packages/ui/src/input/Input.vue",
+          "bytes": 7289
+        },
+        {
+          "file": "packages/ui/src/ripple/index.ts",
+          "bytes": 7051
+        },
+        {
+          "file": "packages/ui/src/verification-code/VerificationCode.vue",
+          "bytes": 5612
+        },
+        {
+          "file": "packages/ui/src/_components/field-presentation/FieldPresentation.vue",
+          "bytes": 4299
+        },
+        {
+          "file": "packages/ui/src/popup/Popup.vue",
+          "bytes": 4216
+        },
+        {
+          "file": "packages/ui/src/field-decorator/FieldDecorator.vue",
+          "bytes": 3760
+        },
+        {
+          "file": "packages/ui/src/utils/modal-focus.ts",
+          "bytes": 3416
+        },
+        {
+          "file": "packages/ui/src/_components/field-presentation/EditorPanel.vue",
+          "bytes": 3294
+        },
+        {
+          "file": "packages/ui/src/button/Button.vue",
+          "bytes": 3047
+        }
+      ]
+    },
+    {
+      "name": "watermark",
+      "previous": {
+        "name": "watermark",
+        "bytes": 7263,
+        "gzip": 3315
+      },
+      "measured": {
+        "bytes": 7459,
+        "gzip": 3343
+      },
+      "budget": {
+        "bytes": 7459,
+        "gzip": 3343
+      },
+      "largestRetainedInputs": [
+        {
+          "file": "packages/ui/src/watermark/watermark.tsx",
+          "bytes": 3048
+        },
+        {
+          "file": "packages/ui/src/watermark/renderer.ts",
+          "bytes": 2676
+        },
+        {
+          "file": "packages/ui/src/utils/components.ts",
+          "bytes": 794
+        },
+        {
+          "file": "packages/ui/src/watermark/props.ts",
+          "bytes": 412
+        },
+        {
+          "file": "packages/shared/src/namespace.ts",
+          "bytes": 211
+        },
+        {
+          "file": "packages/shared/src/string.ts",
+          "bytes": 142
+        },
+        {
+          "file": "packages/shared/src/predicates.ts",
+          "bytes": 75
+        },
+        {
+          "file": "packages/ui/src/watermark/index.ts",
+          "bytes": 32
+        }
+      ]
+    }
+  ],
+  "validation": {
+    "componentBundle": "passed: 97 entries",
+    "sharedAndAggregate": "20 tests passed",
+    "timelineAndInputTag": "114 tests passed across 21 files",
+    "apiNaming": "98 reviewed properties, zero errors",
+    "optimization": "No dependency removal applied: reviewed selection/dropdown/field modules implement shipped features; existing boundary assertions retained."
+  }
+}
