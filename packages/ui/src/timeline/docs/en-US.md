@@ -117,7 +117,7 @@ Use `content-placement` for the physical side of the content: top/bottom in hori
 The component exports the following types
 
 ```ts
-import type { TimelineProps, TimelineItemProps, TimelineSlots, TimelineItemSlots, TimelineMode, TimelineLabelPosition, TimelineDotType, TimelineLineType, TimelineItemContentPlacement, TimelineInstance, TimelineItemInstance } from '@cedar-design/ui-vue'
+import type { TimelineProps, TimelineItemProps, TimelineSlots, TimelineItemSlots, TimelineMode, TimelineLabelPosition, TimelineDotType, TimelineLineType, TimelineItemContentPlacement, TimelineInstance, TimelineItemInstance } from '@maple-design/ui-vue'
 ```
 
 ## Reading direction and keyboard interaction

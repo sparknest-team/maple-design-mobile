@@ -127,8 +127,13 @@ export function compileMD(
     return
   }
 
+  const matched = path.match(HL_COMPONENT_NAME_RE)
+  if (!matched) {
+    return
+  }
+
   const md = readFileSync(path, 'utf-8')
-  const componentName = path.match(HL_COMPONENT_NAME_RE)![2]
+  const componentName = matched[2]
   const attributesTable = parseTable(compileTable(md, options.titleAttributes))
   const eventsTable = parseTable(compileTable(md, options.titleEvents))
   const slotsTable = parseTable(compileTable(md, options.titleSlots))

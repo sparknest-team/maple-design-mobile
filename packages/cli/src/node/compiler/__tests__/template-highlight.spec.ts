@@ -1,4 +1,5 @@
-import { readFileSync } from 'node:fs'
+import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
 import { resolve } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import type { MapleConfig } from '../../config/maple.config.js'
@@ -13,6 +14,29 @@ import {
 import { compileMD, compileTable, compileWebTypes, parseTable } from '../compileTemplateHighlight.js'
 
 describe('template highlight API tables', () => {
+  it('skips language-suffixed Markdown outside docs directories without throwing', () => {
+    const dir = mkdtempSync(resolve(tmpdir(), 'maple-template-highlight-'))
+    try {
+      const webTypes = { contributions: { html: { tags: [] as any[] } } }
+      for (const md of ['en-US.md', 'zh-CN.md']) {
+        const path = resolve(dir, `README.${md}`)
+        writeFileSync(path, '## API\n')
+        expect(() =>
+          compileMD(path, webTypes, { namespace: 'mp' } as Required<MapleConfig>, {
+            md,
+            json: '',
+            titleAttributes: HL_EN_TITLE_ATTRIBUTES_RE,
+            titleEvents: HL_EN_TITLE_EVENTS_RE,
+            titleSlots: HL_EN_TITLE_SLOTS_RE,
+          }),
+        ).not.toThrow()
+      }
+      expect(webTypes.contributions.html.tags).toEqual([])
+    } finally {
+      rmSync(dir, { recursive: true, force: true })
+    }
+  })
+
   it('keeps header-only Events empty and stops before the following Slots table', () => {
     const md =
       '## API\n\n### Events\n\n| Event | Description |\n| --- | --- |\n\n### Slots\n\n| Slot | Description |\n| --- | --- |\n| default | Content |\n'

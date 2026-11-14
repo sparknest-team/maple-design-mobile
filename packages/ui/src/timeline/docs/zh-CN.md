@@ -134,7 +134,7 @@
 组件导出以下类型定义
 
 ```ts
-import type { TimelineProps, TimelineItemProps, TimelineSlots, TimelineItemSlots, TimelineMode, TimelineLabelPosition, TimelineDotType, TimelineLineType, TimelineItemContentPlacement, TimelineInstance, TimelineItemInstance } from '@cedar-design/ui-vue'
+import type { TimelineProps, TimelineItemProps, TimelineSlots, TimelineItemSlots, TimelineMode, TimelineLabelPosition, TimelineDotType, TimelineLineType, TimelineItemContentPlacement, TimelineInstance, TimelineItemInstance } from '@maple-design/ui-vue'
 ```
 
 ## 阅读方向与键盘交互
