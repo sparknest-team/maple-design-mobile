@@ -1157,6 +1157,18 @@ Internal custom properties and measurement values are implementation details and
 
 ---
 
+Document: llms/en-US/ai.md
+
+<!-- Source: docs/ai.en-US.md; locale: en-US; page: /en-US/ai -->
+
+# AI quick start
+
+Give your assistant the official llms.txt index, target platform, installed version and task. Ask it to read relevant component and scenario documentation, check real APIs and verify success, empty, error and recovery states.
+
+[LLM documentation](#/en-US/llms) · [Cedar](https://cedar.show) · [Maple](https://maple.show)
+
+---
+
 Document: llms/en-US/alert.md
 
 <!-- Source: src/alert/docs/en-US.md; locale: en-US; page: /en-US/alert -->
@@ -6832,8 +6844,9 @@ Example source: src/card/example/demos/hoverable.vue
 | --- | --- | --- |
 | `direction` | Order of cover and body, default column; supports row, column and row-reverse. Does not position the card itself | Images and directions |
 | `title` | Title | Images and directions |
-| `src` | Cover image URL; cover slot takes precedence | Images and directions |
-| `alt` | Image alternative text | Images and directions |
+| `image-src` | Cover image URL; cover slot takes precedence | Images and directions |
+| `image-alt` | Image alternative text | Images and directions |
+| `image-fit` | Cover image fit, default cover | Images and directions |
 | `image-height` | Image height; numbers use px | Images and directions |
 | `image-width` | Image width; numbers use px | Images and directions |
 <!-- demo-config-notes:end -->
@@ -6854,7 +6867,7 @@ const directions = ['column', 'row', 'row-reverse'] as const
       :key="direction"
       :direction="direction"
       :title="direction"
-      :src="imageSrc"
+      :image-src="imageSrc"
       alt="Cat"
       :image-height="120"
       :image-width="direction === 'column' ? '100%' : 100"
@@ -7189,7 +7202,7 @@ The default close button uses the current locale's close label; override it with
 
 | Prop | Description | Type | Default |
 | --- | --- | --- | --- |
-| variant | Appearance | `default / outline / tonal` | `default` |
+| variant | Appearance | `default / outline / tonal` | `outline` |
 | size | Density; omitted value follows platform rules below | `sm / md` | `undefined` |
 | direction | Order of cover and body, default column; supports row, column and row-reverse. Does not position the card itself | `row / column / row-reverse` | `column` |
 | hoverable | Hover styling | `boolean` | `false` |
@@ -7199,12 +7212,12 @@ The default close button uses the current locale's close label; override it with
 | description | Description | `string` | `undefined` |
 | top-divider | Top divider | `boolean` | `false` |
 | bottom-divider | Bottom divider | `boolean` | `false` |
-| src | Cover image URL; cover slot takes precedence | `string` | `undefined` |
-| fit | Cover image fit | `fill / contain / cover / none / scale-down` | `cover` |
+| image-src | Cover image URL; cover slot takes precedence | `string` | `undefined` |
+| image-fit | Cover image fit | `fill / contain / cover / none / scale-down` | `cover` |
 | image-height | Image height; numbers use px | `string / number` | `undefined` |
 | image-width | Image width; numbers use px | `string / number` | `undefined` |
-| alt | Image alternative text | `string` | `undefined` |
-| elevation | Shadow for default variant; true means level 1, false disables it, numeric levels 0–24 | `boolean / number` | `true` |
+| image-alt | Image alternative text | `string` | `undefined` |
+| elevation | Shadow for default variant; true means level 1, false disables it, numeric levels 0–24 | `boolean / number` | `0` |
 | ripple | Click ripple | `boolean` | `false` |
 | floating | Floating expansion state; supports v-model:floating | `boolean` | `false` |
 | floating-duration | Floating expansion transition duration in ms | `number` | `250` |
@@ -7222,7 +7235,7 @@ The default close button uses the current locale's close label; override it with
 | Slot | Description | Prop |
 | --- | --- | --- |
 | default | Body | — |
-| cover | Cover; overrides src | — |
+| cover | Cover; overrides image-src | — |
 | header | Entire header; overrides title, title-action and subtitle | — |
 | title | Title | `{ slotClass: string }` |
 | title-action | Title action | — |
@@ -37758,6 +37771,18 @@ Internal custom properties and measurement values are implementation details and
 
 ---
 
+Document: llms/en-US/mcp.md
+
+<!-- Source: docs/mcp.en-US.md; locale: en-US; page: /en-US/mcp -->
+
+# MCP setup and troubleshooting
+
+An official public MCP service is not available yet. Use the LLM documentation index today. Published service addresses, client configuration, version matching and troubleshooting will be documented here when available.
+
+[LLM documentation](#/en-US/llms) · [Cedar](https://cedar.show) · [Maple](https://maple.show)
+
+---
+
 Document: llms/en-US/mention.md
 
 <!-- Source: src/mention/docs/en-US.md; locale: en-US; page: /en-US/mention -->
@@ -43569,6 +43594,18 @@ Explicit inline styles and props that write the same CSS property take precedenc
 
 ---
 
+Document: llms/en-US/platform.md
+
+<!-- Source: docs/platform.en-US.md; locale: en-US; page: /en-US/platform -->
+
+# Platforms and compatibility
+
+Cedar targets desktop applications; Maple targets mobile applications. Choose by interaction and information density. Check the installed package peer dependencies and verify your target browsers.
+
+[LLM documentation](#/en-US/llms) · [Cedar](https://cedar.show) · [Maple](https://maple.show)
+
+---
+
 Document: llms/en-US/popover.md
 
 <!-- Source: src/popover/docs/en-US.md; locale: en-US; page: /en-US/popover -->
@@ -47001,6 +47038,16 @@ The component style entry includes the required foundation styles. Run your proj
 
 - [Import on demand](#/importOnDemand?language=en-US): configure automatic imports, manual imports or full registration.
 - [Defaults and global configuration](#/defaultsCustomization?language=en-US): configure component defaults, overlay z-index and ripple behavior.
+
+### Optional global reset
+
+Component styles do not reset page elements or set the `body` font. To opt in to normalize.css, import it in your application entry:
+
+```ts
+import '@maple-design/ui-vue/reset.css'
+```
+
+Configure fonts, page backgrounds, and global box sizing in your application.
 
 ---
 
@@ -56637,6 +56684,18 @@ Explicit inline styles and props that write the same CSS property take precedenc
 
 ---
 
+Document: llms/en-US/skills.md
+
+<!-- Source: docs/skills.en-US.md; locale: en-US; page: /en-US/skills -->
+
+# Skills and team rules
+
+Agree on version checks, official examples, semantic tokens and type and interaction verification. An installable official Skill is not available yet. Record team rules in AGENTS.md and link to official documentation instead of copying API tables.
+
+[LLM documentation](#/en-US/llms) · [Cedar](https://cedar.show) · [Maple](https://maple.show)
+
+---
+
 Document: llms/en-US/slider.md
 
 <!-- Source: src/slider/docs/en-US.md; locale: en-US; page: /en-US/slider -->
@@ -57488,6 +57547,18 @@ Apply overrides to the rendered component root or the actual popup ancestor. For
 Explicit inline styles and props that write the same CSS property take precedence over stylesheet defaults. After Teleport, ordinary CSS variables inherit from the actual mount location. When using ThemeProvider, follow its local-theme and popup configuration rules. Override the component variable directly for local styling; root-level aliases are not recalculated merely because a descendant system variable changes. Internal variables are not public APIs.
 
 <!-- component-css-variables:end -->
+
+---
+
+Document: llms/en-US/solutions.md
+
+<!-- Source: docs/solutions.en-US.md; locale: en-US; page: /en-US/solutions -->
+
+# CLI and solution access
+
+Open Features and scenarios to explore complete workflows and inspect example source. One-command scenario installation and Registry distribution are not available yet. Component development tooling is distinct from scenario installation.
+
+[LLM documentation](#/en-US/llms) · [Cedar](https://cedar.show) · [Maple](https://maple.show)
 
 ---
 
@@ -67691,6 +67762,18 @@ Explicit inline styles and props that write the same CSS property take precedenc
 
 ---
 
+Document: llms/en-US/tools.md
+
+<!-- Source: docs/tools.en-US.md; locale: en-US; page: /en-US/tools -->
+
+# Tools and content reference
+
+Use component manuals for APIs and minimal examples, scenarios for complete implementations, and the LLM index for AI-readable references. Verify results against your installed version and runtime behavior.
+
+[LLM documentation](#/en-US/llms) · [Cedar](https://cedar.show) · [Maple](https://maple.show)
+
+---
+
 Document: llms/en-US/tooltip.md
 
 <!-- Source: src/tooltip/docs/en-US.md; locale: en-US; page: /en-US/tooltip -->
@@ -68556,6 +68639,28 @@ onThemeChange()
 @import '../../utilities/style/utilities.less';
 </style>
 ```
+
+---
+
+Document: llms/en-US/updates.md
+
+<!-- Source: docs/updates.en-US.md; locale: en-US; page: /en-US/updates -->
+
+# Updates and migration
+
+Check package versions and release notes before upgrading. Review affected props, events, types and theme variables, keep the dependency lockfile and verify critical workflows. Do not assume API compatibility without migration guidance.
+
+## Changelog
+
+[Read the full Changelog](https://github.com/loca-spirit/maple-design-mobile/blob/main/CHANGELOG.md) for features, fixes and breaking changes. Unreleased entries are not necessarily included in the current npm package.
+
+## Upgrade checks
+
+1. Identify your installed and target versions and read the changes between them.
+2. Update affected props, events, types and theme variables.
+3. Update the lockfile and verify builds and critical interactions before releasing your application.
+
+[LLM documentation](#/en-US/llms) · [Cedar](https://cedar.show) · [Maple](https://maple.show)
 
 ---
 

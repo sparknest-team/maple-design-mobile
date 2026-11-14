@@ -1154,6 +1154,18 @@ JS 模式只解析有限数字、十进制或科学计数法数字字符串，�
 
 ---
 
+Document: llms/zh-CN/ai.md
+
+<!-- Source: docs/ai.zh-CN.md; locale: zh-CN; page: /zh-CN/ai -->
+
+# AI 快速开始
+
+先向 AI 提供官方 llms.txt 文档索引，再提供项目平台、已安装版本和业务需求。要求 AI 按需读取组件与场景资料，核对真实 API，并验证正常、空结果、失败和恢复流程。
+
+[LLM documentation](#/zh-CN/llms) · [Cedar](https://cedar.show) · [Maple](https://maple.show)
+
+---
+
 Document: llms/zh-CN/alert.md
 
 <!-- Source: src/alert/docs/zh-CN.md; locale: zh-CN; page: /zh-CN/alert -->
@@ -6905,8 +6917,9 @@ Example source: src/card/example/demos/hoverable.vue
 | --- | --- | --- |
 | `direction` | 封面与正文的排列顺序，默认 column；支持 row、column、row-reverse，不表示卡片自身位置 | 图片与三种布局 |
 | `title` | 标题 | 图片与三种布局 |
-| `src` | 封面图片地址；cover 插槽优先 | 图片与三种布局 |
-| `alt` | 封面图片替代文本 | 图片与三种布局 |
+| `image-src` | 封面图片地址；cover 插槽优先 | 图片与三种布局 |
+| `image-alt` | 封面图片替代文本 | 图片与三种布局 |
+| `image-fit` | 封面图片填充方式，默认 cover | 图片与三种布局 |
 | `image-height` | 封面图片高度，数字单位为 px | 图片与三种布局 |
 | `image-width` | 封面图片宽度，数字单位为 px | 图片与三种布局 |
 <!-- demo-config-notes:end -->
@@ -6926,7 +6939,7 @@ const directions = ['column', 'row', 'row-reverse'] as const
       :key="direction"
       :direction="direction"
       :title="direction"
-      :src="imageSrc"
+      :image-src="imageSrc"
       alt="Cat"
       :image-height="120"
       :image-width="direction === 'column' ? '100%' : 100"
@@ -7256,7 +7269,7 @@ const duration = ref(250)
 
 | 属性 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
-| variant | 卡片外观 | `default / outline / tonal` | `default` |
+| variant | 卡片外观 | `default / outline / tonal` | `outline` |
 | size | 内容密度；省略时按平台规则回退，见下方说明 | `sm / md` | `undefined` |
 | direction | 封面与正文的排列顺序，默认 column；支持 row、column、row-reverse，不表示卡片自身位置 | `row / column / row-reverse` | `column` |
 | hoverable | 悬浮样式 | `boolean` | `false` |
@@ -7266,12 +7279,12 @@ const duration = ref(250)
 | description | 描述 | `string` | `undefined` |
 | top-divider | 上分割线 | `boolean` | `false` |
 | bottom-divider | 下分割线 | `boolean` | `false` |
-| src | 封面图片地址；cover 插槽优先 | `string` | `undefined` |
-| fit | 封面图片填充方式 | `fill / contain / cover / none / scale-down` | `cover` |
+| image-src | 封面图片地址；cover 插槽优先 | `string` | `undefined` |
+| image-fit | 封面图片填充方式 | `fill / contain / cover / none / scale-down` | `cover` |
 | image-height | 封面图片高度，数字单位为 px | `string / number` | `undefined` |
 | image-width | 封面图片宽度，数字单位为 px | `string / number` | `undefined` |
-| alt | 封面图片替代文本 | `string` | `undefined` |
-| elevation | default 变体阴影；true 为等级 1，false 为无阴影，数字范围 0～24 | `boolean / number` | `true` |
+| image-alt | 封面图片替代文本 | `string` | `undefined` |
+| elevation | default 变体阴影；true 为等级 1，false 为无阴影，数字范围 0～24 | `boolean / number` | `0` |
 | ripple | 点击水波 | `boolean` | `false` |
 | floating | 浮动展开状态，支持 v-model:floating | `boolean` | `false` |
 | floating-duration | 浮动展开与关闭动画时长，单位 ms | `number` | `250` |
@@ -7289,7 +7302,7 @@ const duration = ref(250)
 | 插槽 | 说明 | 参数 |
 | --- | --- | --- |
 | default | 正文 | — |
-| cover | 封面，覆盖 src 图片 | — |
+| cover | 封面，覆盖 image-src 图片 | — |
 | header | 整个标题区域，覆盖 title、title-action 和 subtitle | — |
 | title | 标题 | `{ slotClass: string }` |
 | title-action | 标题右侧操作 | — |
@@ -39006,6 +39019,18 @@ const activeMessages = computed(() =>
 
 ---
 
+Document: llms/zh-CN/mcp.md
+
+<!-- Source: docs/mcp.zh-CN.md; locale: zh-CN; page: /zh-CN/mcp -->
+
+# MCP 接入与故障排查
+
+当前站点尚未提供可公开接入的官方 MCP 服务。现阶段请使用 LLM 文档索引查询组件资料。MCP 发布后将在本页补充服务地址、客户端配置、版本匹配和连接排错步骤。
+
+[LLM documentation](#/zh-CN/llms) · [Cedar](https://cedar.show) · [Maple](https://maple.show)
+
+---
+
 Document: llms/zh-CN/mention.md
 
 <!-- Source: src/mention/docs/zh-CN.md; locale: zh-CN; page: /zh-CN/mention -->
@@ -44828,6 +44853,18 @@ import { Picker, type PickerOptions, type PickerColumnOption,
 
 ---
 
+Document: llms/zh-CN/platform.md
+
+<!-- Source: docs/platform.zh-CN.md; locale: zh-CN; page: /zh-CN/platform -->
+
+# 平台选择与兼容性
+
+Cedar 面向桌面应用，Maple 面向移动应用。根据操作方式和信息密度选择平台，不以视口缩小替代移动适配。接入前核对所安装包的 peerDependencies，并在目标浏览器验证。
+
+[LLM documentation](#/zh-CN/llms) · [Cedar](https://cedar.show) · [Maple](https://maple.show)
+
+---
+
 Document: llms/zh-CN/popover.md
 
 <!-- Source: src/popover/docs/zh-CN.md; locale: zh-CN; page: /zh-CN/popover -->
@@ -48254,6 +48291,16 @@ import '@maple-design/ui-vue/button/style'
 
 - [按需引入](#/importOnDemand?language=zh-CN)：配置推荐的自动导入，或选择手动、完整引入。
 - [默认值与全局配置](#/defaultsCustomization?language=zh-CN)：统一组件默认值、浮层起始层级和波纹开关。
+
+### 可选的全局重置
+
+组件样式默认不重置页面元素，也不设置 `body` 字体。需要 normalize.css 时，可在应用入口显式引入：
+
+```ts
+import '@maple-design/ui-vue/reset.css'
+```
+
+字体、页面背景和全局盒模型由应用自行配置。
 
 ---
 
@@ -57983,6 +58030,18 @@ Line 和 Shape 没有专属事件、插槽或实例方法；支持透传原生�
 
 ---
 
+Document: llms/zh-CN/skills.md
+
+<!-- Source: docs/skills.zh-CN.md; locale: zh-CN; page: /zh-CN/skills -->
+
+# Skill 与团队规则
+
+建议团队约定先核对版本、优先采用官方示例、使用语义 Token，并在改动后验证类型和交互。当前尚未发布官方可安装 Skill。可先把这些要求写入项目的 AGENTS.md，并链接官方文档，避免复制易过期的 API 表。
+
+[LLM documentation](#/zh-CN/llms) · [Cedar](https://cedar.show) · [Maple](https://maple.show)
+
+---
+
 Document: llms/zh-CN/slider.md
 
 <!-- Source: src/slider/docs/zh-CN.md; locale: zh-CN; page: /zh-CN/slider -->
@@ -58831,6 +58890,18 @@ button 插槽接收 { currentValue, index }；自定义内容保留键盘、ARIA
 显式行内样式及直接写入同一 CSS 属性的 Props 优先于样式表默认值。Teleport 后，普通 CSS 变量按实际挂载位置继承；使用 ThemeProvider 时，请遵循其局部主题与弹层配置规则。局部定制请直接覆盖组件变量；仅修改后代的 system 变量不会重新计算从根继承的组件别名。内部变量不属于公共 API。
 
 <!-- component-css-variables:end -->
+
+---
+
+Document: llms/zh-CN/solutions.md
+
+<!-- Source: docs/solutions.zh-CN.md; locale: zh-CN; page: /zh-CN/solutions -->
+
+# CLI 与方案获取
+
+完整业务实现请从特色与场景进入，阅读操作步骤并查看真实示例源码。场景一键安装与 Registry 分发尚未开放；不要把组件开发 CLI 当作场景安装工具。
+
+[LLM documentation](#/zh-CN/llms) · [Cedar](https://cedar.show) · [Maple](https://maple.show)
 
 ---
 
@@ -69008,6 +69079,18 @@ Timeline 继承容器阅读方向，横向时间轴的节点和连接线随 LTR/
 
 ---
 
+Document: llms/zh-CN/tools.md
+
+<!-- Source: docs/tools.zh-CN.md; locale: zh-CN; page: /zh-CN/tools -->
+
+# 工具和内容参考
+
+组件手册用于查询 API 和最小示例；特色与场景用于选择完整实现；LLM 文档索引用于向 AI 提供可检索资料。工具输出仍需结合项目版本和实际运行结果核验。
+
+[LLM documentation](#/zh-CN/llms) · [Cedar](https://cedar.show) · [Maple](https://maple.show)
+
+---
+
 Document: llms/zh-CN/tooltip.md
 
 <!-- Source: src/tooltip/docs/zh-CN.md; locale: zh-CN; page: /zh-CN/tooltip -->
@@ -69867,6 +69950,28 @@ onThemeChange()
 @import '../../utilities/style/utilities.less';
 </style>
 ```
+
+---
+
+Document: llms/zh-CN/updates.md
+
+<!-- Source: docs/updates.zh-CN.md; locale: zh-CN; page: /zh-CN/updates -->
+
+# 更新与迁移
+
+升级前核对目标包版本与发布说明，检查变更涉及的属性、事件、类型和主题变量。保留项目依赖锁文件，并验证关键业务流程。没有迁移说明时，不应假设不同版本的 API 完全兼容。
+
+## 更新日志
+
+[查看完整 Changelog](https://github.com/loca-spirit/maple-design-mobile/blob/main/CHANGELOG.md)。记录新增功能、问题修复和不兼容变更；Unreleased 表示尚未发布的内容，不等于当前 npm 包已包含。
+
+## 升级检查
+
+1. 确认当前版本和目标版本，阅读两者之间的变更记录。
+2. 按不兼容变更更新属性、事件、类型和主题变量。
+3. 更新依赖锁文件，检查构建与关键交互后再发布业务应用。
+
+[LLM documentation](#/zh-CN/llms) · [Cedar](https://cedar.show) · [Maple](https://maple.show)
 
 ---
 

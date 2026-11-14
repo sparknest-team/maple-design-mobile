@@ -57,8 +57,9 @@ Use this example for content grouping and visual hierarchy. Adjust variant, size
 | --- | --- | --- |
 | `direction` | Order of cover and body, default column; supports row, column and row-reverse. Does not position the card itself | Images and directions |
 | `title` | Title | Images and directions |
-| `src` | Cover image URL; cover slot takes precedence | Images and directions |
-| `alt` | Image alternative text | Images and directions |
+| `image-src` | Cover image URL; cover slot takes precedence | Images and directions |
+| `image-alt` | Image alternative text | Images and directions |
+| `image-fit` | Cover image fit, default cover | Images and directions |
 | `image-height` | Image height; numbers use px | Images and directions |
 | `image-width` | Image width; numbers use px | Images and directions |
 <!-- demo-config-notes:end -->
@@ -215,7 +216,7 @@ The default close button uses the current locale's close label; override it with
 | Slot | Description | Prop |
 | --- | --- | --- |
 | default | Body | — |
-| cover | Cover; overrides src | — |
+| cover | Cover; overrides image-src | — |
 | header | Entire header; overrides title, title-action and subtitle | — |
 | title | Title | `{ slotClass: string }` |
 | title-action | Title action | — |

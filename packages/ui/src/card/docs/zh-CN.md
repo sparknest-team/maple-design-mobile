@@ -54,8 +54,9 @@
 | --- | --- | --- |
 | `direction` | 封面与正文的排列顺序，默认 column；支持 row、column、row-reverse，不表示卡片自身位置 | 图片与三种布局 |
 | `title` | 标题 | 图片与三种布局 |
-| `src` | 封面图片地址；cover 插槽优先 | 图片与三种布局 |
-| `alt` | 封面图片替代文本 | 图片与三种布局 |
+| `image-src` | 封面图片地址；cover 插槽优先 | 图片与三种布局 |
+| `image-alt` | 封面图片替代文本 | 图片与三种布局 |
+| `image-fit` | 封面图片填充方式，默认 cover | 图片与三种布局 |
 | `image-height` | 封面图片高度，数字单位为 px | 图片与三种布局 |
 | `image-width` | 封面图片宽度，数字单位为 px | 图片与三种布局 |
 <!-- demo-config-notes:end -->
@@ -206,7 +207,7 @@ Maple 当前没有 TypographyTitle 组件，分组使用原生标题。
 | 插槽 | 说明 | 参数 |
 | --- | --- | --- |
 | default | 正文 | — |
-| cover | 封面，覆盖 src 图片 | — |
+| cover | 封面，覆盖 image-src 图片 | — |
 | header | 整个标题区域，覆盖 title、title-action 和 subtitle | — |
 | title | 标题 | `{ slotClass: string }` |
 | title-action | 标题右侧操作 | — |

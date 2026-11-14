@@ -9,6 +9,7 @@ Documentation language: en-US.
 - [Full documentation](./llms-full.en-US.txt)
 - [ActionSheet](./llms/en-US/action-sheet.md): /en-US/action-sheet
 - [Affix](./llms/en-US/affix.md): /en-US/affix
+- [AI quick start](./llms/en-US/ai.md): /en-US/ai
 - [Alert](./llms/en-US/alert.md): /en-US/alert
 - [Atomic CSS](./llms/en-US/atomic-css.md): /en-US/atomic-css
 - [Common Utilities](./llms/en-US/atomic-usage.md): /en-US/atomic-usage
@@ -71,6 +72,7 @@ Documentation language: en-US.
 - [Loading](./llms/en-US/loading.md): /en-US/loading
 - [LocaleProvider](./llms/en-US/locale-provider.md): /en-US/locale-provider
 - [Locale](./llms/en-US/locale.md): /en-US/locale
+- [MCP setup and troubleshooting](./llms/en-US/mcp.md): /en-US/mcp
 - [Mention](./llms/en-US/mention.md): /en-US/mention
 - [Menu](./llms/en-US/menu.md): /en-US/menu
 - [Message](./llms/en-US/message.md): /en-US/message
@@ -84,6 +86,7 @@ Documentation language: en-US.
 - [Paper](./llms/en-US/paper.md): /en-US/paper
 - [PeopleSelect](./llms/en-US/people-select.md): /en-US/people-select
 - [Picker](./llms/en-US/picker.md): /en-US/picker
+- [Platforms and compatibility](./llms/en-US/platform.md): /en-US/platform
 - [Popover](./llms/en-US/popover.md): /en-US/popover
 - [Popup](./llms/en-US/popup.md): /en-US/popup
 - [项目卡片页](./llms/en-US/practiceCard.md): /en-US/practiceCard
@@ -118,7 +121,9 @@ Documentation language: en-US.
 - [Mobile touch interactions](./llms/en-US/showcaseTouch.md): /en-US/showcaseTouch
 - [Signature](./llms/en-US/signature.md): /en-US/signature
 - [Skeleton](./llms/en-US/skeleton.md): /en-US/skeleton
+- [Skills and team rules](./llms/en-US/skills.md): /en-US/skills
 - [Slider](./llms/en-US/slider.md): /en-US/slider
+- [CLI and solution access](./llms/en-US/solutions.md): /en-US/solutions
 - [Space](./llms/en-US/space.md): /en-US/space
 - [SplitButton](./llms/en-US/split-button.md): /en-US/split-button
 - [Statistic](./llms/en-US/statistic.md): /en-US/statistic
@@ -136,9 +141,11 @@ Documentation language: en-US.
 - [TimeRange](./llms/en-US/time-range.md): /en-US/time-range
 - [Time](./llms/en-US/time.md): /en-US/time
 - [Timeline](./llms/en-US/timeline.md): /en-US/timeline
+- [Tools and content reference](./llms/en-US/tools.md): /en-US/tools
 - [Tooltip](./llms/en-US/tooltip.md): /en-US/tooltip
 - [Trigger](./llms/en-US/trigger.md): /en-US/trigger
 - [Typography](./llms/en-US/typography.md): /en-US/typography
+- [Updates and migration](./llms/en-US/updates.md): /en-US/updates
 - [Upload](./llms/en-US/upload.md): /en-US/upload
 - [Utilities Overview](./llms/en-US/utilities.md): /en-US/utilities
 - [Utility Spec](./llms/en-US/utilitySpec.md): /en-US/utilitySpec
