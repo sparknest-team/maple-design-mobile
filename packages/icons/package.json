@@ -1,6 +1,6 @@
 {
   "name": "@maple-design/icons-vue",
-  "version": "1.1.5",
+  "version": "1.1.7",
   "description": "Tree-shakable SVG icon components for Maple",
   "license": "MIT",
   "type": "module",
@@ -9,7 +9,9 @@
   "types": "./types/index.d.ts",
   "typesVersions": {
     "*": {
-      "icon-*": ["types/icon-*/index.d.ts"]
+      "icon-*": [
+        "types/icon-*/index.d.ts"
+      ]
     }
   },
   "sideEffects": [
