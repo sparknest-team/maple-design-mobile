@@ -4,6 +4,7 @@ import type { OptionsLoader } from '../../../_hooks/use-option-request'
 
 const localValue = ref('')
 const remoteValue = ref('')
+const autoValue = ref('')
 const people = [
   { value: 'xiaoming', label: '小明' },
   { value: 'xiaohong', label: '小红' },
@@ -34,13 +35,29 @@ const searchPeople: OptionsLoader<(typeof people)[number]> = (query, { signal })
 
 <template>
   <mp-space direction="column" style="width: 100%" :size="12" data-demo="mention-search-options">
-    <p>本地候选按账号或姓名筛选；异步搜索时可快速从 @x 改为 @lisi，观察下拉加载和最新结果。</p>
+    <p>本地候选按账号或姓名筛选；异步搜索时可快速从 @xi 改为 @lisi，观察下拉加载和最新结果。</p>
     <p>
-      Local options match ID or name. For remote search, quickly change @x to @lisi to see loading and the latest
+      Local options match ID or name. For remote search, quickly change @xi to @lisi to see loading and the latest
       results.
     </p>
     <mp-mention v-model="localValue" atomic :options="people" aria-label="本地人员搜索 / Local people search" />
-    <mp-mention v-model="remoteValue" atomic :options="searchPeople" aria-label="异步人员搜索 / Remote people search" />
+    <mp-mention
+      v-model="remoteValue"
+      atomic
+      :options="searchPeople"
+      :min-search-length="2"
+      aria-label="异步人员搜索 / Remote people search"
+    />
+    <p>唯一候选自动提交 / Automatically commit the only matching candidate.</p>
+    <mp-mention
+      v-model="autoValue"
+      atomic
+      :options="searchPeople"
+      :min-search-length="2"
+      :search-delay="250"
+      auto-commit-single
+      aria-label="唯一结果自动提交 / Commit single result"
+    />
     <div>
       本地保存值 / Local value：<code data-local-value>{{ localValue }}</code>
     </div>

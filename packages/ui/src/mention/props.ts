@@ -7,6 +7,9 @@ import { emptyValueProp } from '../utils/empty-value'
 import type { MentionTokenValue } from './token-codec'
 
 export const mentionProps = {
+  minSearchLength: { type: Number, default: 0, validator: (value: number) => Number.isInteger(value) && value >= 0 },
+  searchDelay: { type: Number, default: 0, validator: (value: number) => Number.isFinite(value) && value >= 0 },
+  autoCommitSingle: { type: Boolean, default: false },
   readonly: { type: Boolean, default: undefined },
   ...fieldPresentationProps,
   loading: fieldLoadingProps.loading,

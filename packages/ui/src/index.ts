@@ -110,6 +110,9 @@ export type {
   InputTagSlots,
   InputTagExpose,
   InputTagFieldNames,
+  InputTagItem,
+  InputTagOption,
+  InputTagOptionGroup,
   TagData,
 } from './input-tag'
 export { mentionProps, _MentionComponent } from './mention'

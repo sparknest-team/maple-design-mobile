@@ -135,16 +135,37 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 
 `unique-value` compares normalized object and string tag values using the merged `field-names.value` mapping. Numeric `1` and string `"1"` are distinct. Duplicates remain legal by default, with a stable private identity per occurrence and a separate overflow key. Folding affects display only; it does not truncate the model.
 
-Public Props exclude the internal composition controls `baseCls`, `focused`, `disabledInput` and `uninjectFormItemContext`. A synchronous undefined return from before-commit waits for done; ordinary change / press-enter listeners do not await Promises. A deferred change may omit its source DOM event. Clearing defaults to [], while explicit empty-value=null preserves null.
+Public Props exclude the internal composition controls `baseCls`, `focused`, `disabledInput` and `uninjectFormItemContext`. A synchronous undefined return from before-commit waits for done; ordinary change / press-enter listeners do not await Promises. A deferred change may omit its source DOM event. Clearing defaults to [] in multiple mode and null in single mode; an explicit empty-value takes precedence.
+
+### Search and select tags
+
+```demo
+../example/demos/search-options.vue
+```
+
+When `options` is supplied, typing or pasting searches only after `min-search-length` is reached. Arrays filter locally by label; loaders receive the query and `{ signal }`, and remote results are not filtered again. Composition completes before searching; shortening the query or blurring cancels pending work. Enter selects a highlighted candidate, or creates the typed value when a completed search returns no candidates. Loading, failed searches, and disabled matches never create a tag. `auto-commit-single` defaults to false and commits only the sole enabled result of the current search. Selected values are saved in the model. Resolve labels from current `options`, then `fallback-option`, the instance cache, and finally the raw value. Use `options` or `fallback-option` to restore labels after remounting.
+
+Selected tags display their label by default. Use `format-label` to format the text and `#label="{ data }"` for custom content. Slots take priority over formatting; neither changes search matching or the model. Read mode uses formatted text; use `#read` to customize read content.
+
+### Customize selected content
+
+```demo
+../example/demos/format-label.vue
+```
 
 ### InputTag Props
 
 | Parameter | Description | Type | Default |
 | ------------------------- | ---------------------------------- | ------------------------------------------------- | :--------: |
-| model-value **(v-model)** | Bound value | `(string \| number \| TagData)[] \| null` | `-` |
-| default-value | Default value (uncontrolled state) | `(string \| number \| TagData)[]` | `[]` |
+| multiple | Whether to allow multiple tags; false replaces the previous value | `boolean` | `true` |
+| model-value **(v-model)** | Array in multiple mode, scalar or null in single mode | `InputTagValue` | `-` |
+| default-value | Default value (uncontrolled state) | `InputTagValue` | `[]` / `null` |
 | input-value **(v-model)** | The value of the input | `string` | `-` |
 | default-input-value | The default value of the input (uncontrolled state) | `string` | `''` |
+| options | Candidate array or remote loader | `InputTagOption[] \| (query, { signal }) => InputTagOption[] \| Promise<InputTagOption[]>` | `-` |
+| min-search-length | Minimum query length before searching | `number` | `1` |
+| search-delay | Remote search debounce in milliseconds | `number` | `250` |
+| auto-commit-single | Automatically commit the only enabled result | `boolean` | `false` |
 | placeholder | Placeholder | `string` | `-` |
 | disabled | Whether disabled | `boolean` | `-` |
 | error | Whether it is an error state | `boolean` | `-` |
@@ -154,7 +175,7 @@ Public Props exclude the internal composition controls `baseCls`, `focused`, `di
 | variant | The variant of the input | `'filled' \| 'outline' \| 'standard'` | `'outline'` |
 | max-tag-count | Finite nonnegative integer; 0 is unlimited, invalid values diagnose and fall back to unlimited display | `number` | `0` |
 | retain-input-value | Whether to keep the content of the input box | `boolean \| { create?: boolean; blur?: boolean }` | `false` |
-| format-tag | Format tag content | `(data: TagData) => string` | `-` |
+| format-label | Format tag content | `(data: TagData) => string` | `-` |
 | fallback-option | Synchronously resolve display data for primitive values; show the value when unresolved | `(value: string \| number) => TagData \| null \| undefined` | `-` |
 | unique-value | Whether to create only unique values | `boolean` | `false` |
 | field-names | Customize fields in `TagData` | `InputTagFieldNames` | `-` |
@@ -162,7 +183,7 @@ Public Props exclude the internal composition controls `baseCls`, `focused`, `di
 
 | loading | Business-controlled loading state; does not block input | `boolean` | `false` |
 | loading-mode | Shared field feedback appearance, independent of Loading animation types | `'default' \| 'line'` | `'default'` |
-| empty-value | Clear output; defaults to an empty array and accepts explicit null | `InputTagValue \| (() => InputTagValue)` | `[]` |
+| empty-value | Clear output; defaults to [] in multiple mode and null in single mode | `InputTagValue \| (() => InputTagValue)` | `[]` |
 | empty-values | Empty-value recognition; field takes precedence over FormItem and Form | `readonly unknown[]` | `-` |
 | empty-text | Read empty text; an explicit empty string is valid | `string` | `'-'` |
 | edit-mode | Editing mode; field takes precedence over FormItem and Form | `'direct' \| 'popup'` | `'direct'` |
@@ -180,6 +201,9 @@ Public Props exclude the internal composition controls `baseCls`, `focused`, `di
 | update:inputValue | Separate input draft update proposal | inputValue: `string` |
 | update:open | Controlled editor visibility update | open: `boolean` |
 | open-change | Actual editor visibility change | open: `boolean` |
+| search | Eligible query changed | query: `string` |
+| select | Candidate committed | value: `string \| number`, option: `SelectOptionInfo` |
+| load-error | Candidate loading failed | error: `unknown` |
 | change | Emitted when the value changes | value: `InputTagValue`<br>ev?: `Event` |
 | input-value-change | Emitted when the input value changes | inputValue: `string`<br>ev: `Event` |
 | press-enter | Emitted when Enter is pressed | inputValue: `string`<br>ev: `KeyboardEvent` |
@@ -201,7 +225,7 @@ Public methods remain callable from initial component mount. Stored methods reso
 
 | Slot | Description | Prop |
 | ------ | :------------------: | --------------- |
-| tag | Displayed input-tag content | data: `TagData` |
+| label | Displayed selected label | data: `TagData` |
 | prefix | Prefix content | - |
 | suffix | Suffix content | - |
 | clear-icon | Custom clear control | clear: `(event?: Event) => void` |

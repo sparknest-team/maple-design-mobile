@@ -5,9 +5,11 @@ export type OptionsLoader<T> = (query: string, context: AsyncDataContext) => rea
 export interface OptionRequestState<T> {
   options: ComputedRef<T[]>
   loading: Readonly<Ref<boolean>>
+  failed: Readonly<Ref<boolean>>
   remote: ComputedRef<boolean>
   query: Readonly<Ref<string>>
   search: (query?: string) => Promise<void>
+  cancel: (clear?: boolean) => void
   refresh: () => Promise<void>
 }
 const optionRequestOwnerKey: InjectionKey<{ definition: unknown; state: OptionRequestState<unknown> }> =
@@ -24,6 +26,7 @@ export function useOptionRequest<T>(
   delay: () => number = () => 0,
   definition?: unknown,
   ownsSource = false,
+  minSearchLength: () => number = () => 0,
 ): OptionRequestState<T> {
   const owner = ownsSource ? undefined : inject(optionRequestOwnerKey, undefined)
   if (definition && owner?.definition === definition) {
@@ -39,8 +42,15 @@ export function useOptionRequest<T>(
     },
   })
   const query = ref('')
+  const failed = ref(false)
   async function search(next = query.value) {
     query.value = next
+    failed.value = false
+    if (next.length < minSearchLength()) {
+      state.cancel()
+      state.data.value = []
+      return
+    }
     const loader = supplied()
     if (typeof loader !== 'function') {
       return
@@ -59,6 +69,7 @@ export function useOptionRequest<T>(
       },
     })
     if (result.status === 'error') {
+      failed.value = true
       onError(result.error)
     }
   }
@@ -81,9 +92,17 @@ export function useOptionRequest<T>(
       return [...(Array.isArray(value) ? value : state.data.value)] as T[]
     }),
     loading: state.loading,
+    failed,
     remote,
     query,
     search,
+    cancel: (clear = true) => {
+      state.cancel()
+      failed.value = false
+      if (clear) {
+        state.data.value = []
+      }
+    },
     refresh: () => search(),
   }
 }

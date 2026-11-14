@@ -30,7 +30,7 @@
 
 ### 候选筛选与异步搜索
 
-本地传入数组时，输入 `@小` 或 `@xiaoming` 会按姓名或账号筛选。异步示例把关键词交给业务函数查询，请求期间下拉显示 loading；快速将 `@x` 改为 `@lisi`，只显示最新关键词的结果。示例使用模拟数据，实际接口可将 `signal` 传给 `fetch`。
+本地传入数组时，输入 `@小` 或 `@xiaoming` 会按姓名或账号筛选。异步示例把关键词交给业务函数查询，请求期间下拉显示 loading；快速将 `@xi` 改为 `@lisi`，只显示最新关键词的结果。示例使用模拟数据，实际接口可将 `signal` 传给 `fetch`。
 
 ```demo
 ../example/demos/search-options.vue
@@ -120,6 +120,9 @@
 | fallback-option | 同步返回未匹配 ID 的展示选项 | `(value: string \| number \| boolean) => SelectOptionData \| null \| undefined` | undefined |
 | default-value | 非受控初始文本 | string | '' |
 | options | 候选数组或显式加载函数，支持嵌套分组 | readonly (string \| number \| SelectOptionData \| SelectOptionGroup)[] \| ((query: string, context: { signal: AbortSignal }) => Array \| `Promise<Array>`) | undefined |
+| min-search-length | 开始搜索所需的最少字符数 | number | 0 |
+| search-delay | 远程搜索防抖时间（毫秒） | number | 0 |
+| auto-commit-single | 自动提交唯一可选结果 | boolean | false |
 | prefix | 触发前缀；支持多字符和多个前缀 | string \| string[] | '@' |
 | split | 提及前后的分隔符 | string | ' ' |
 | type | 输入形态 | input \| textarea | input |

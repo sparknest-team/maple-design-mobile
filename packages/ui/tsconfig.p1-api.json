@@ -47,6 +47,7 @@
     "type-tests/choice-contract.ts",
     "type-tests/choice-contract.vue",
     "type-tests/auto-complete-contract.ts",
+    "type-tests/input-tag-label.ts",
     "type-tests/selection-popup-contract.ts",
     "type-tests/people-select-contract.ts",
     "type-tests/selection-diagnostics.ts",

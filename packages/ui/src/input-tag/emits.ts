@@ -1,6 +1,9 @@
 import type { InputTagValue } from './types'
 
 export const inputTagEmits = {
+  'load-error': (error: unknown) => true,
+  search: (query: string) => true,
+  select: (value: string | number, option: import('../select/types').SelectOptionInfo) => true,
   'update:modelValue': (value: InputTagValue) => true,
   'update:inputValue': (inputValue: string) => true,
   /**

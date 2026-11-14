@@ -86,8 +86,10 @@ export default defineComponent({
       () => props.options,
       () => !available() || mergedDisabled.value || mergedReadonly.value,
       (error) => emit('load-error', error),
-      () => 0,
+      () => props.searchDelay,
       mentionProps,
+      false,
+      () => props.minSearchLength,
     )
     const effectiveLoading = computed(() => props.loading || source.loading.value)
     const data = source.options
@@ -475,6 +477,11 @@ export default defineComponent({
       if (lastMeasure.location > -1 && !withinMention) {
         const query = text.slice(lastMeasure.location + lastMeasure.prefix.length)
         if (isValidSearch(query, props.split)) {
+          if (query.length < props.minSearchLength) {
+            source.cancel()
+            resetMeasureInfo()
+            return
+          }
           if (query !== measureInfo.value.text || lastMeasure.prefix !== measureInfo.value.prefix) {
             navigatedOptions.value = false
           }
@@ -486,6 +493,7 @@ export default defineComponent({
         }
       }
       if (measureInfo.value.location > -1) {
+        source.cancel()
         resetMeasureInfo()
       }
     }
@@ -710,6 +718,43 @@ export default defineComponent({
       onOpenChange: handleOpenChange,
       enterToOpen: false,
     })
+
+    watch(
+      [validOptionInfos, effectiveLoading, measureInfo],
+      () => {
+        if (
+          !props.autoCommitSingle ||
+          effectiveLoading.value ||
+          !_open.value ||
+          !measureInfo.value.measuring ||
+          !available() ||
+          mergedDisabled.value ||
+          mergedReadonly.value ||
+          composing.value ||
+          !activeInput ||
+          activeInput.ownerDocument.activeElement !== activeInput ||
+          activeInput.selectionStart !==
+            measureInfo.value.location + measureInfo.value.prefix.length + measureInfo.value.text.length ||
+          activeInput.selectionEnd !== activeInput.selectionStart ||
+          (source.remote.value && source.query.value !== measureInfo.value.text)
+        ) {
+          return
+        }
+        const candidates = validOptionInfos.value.filter((option) => !option.disabled)
+        if (candidates.length === 1) {
+          handleSelect(candidates[0].key, new Event('auto-commit'))
+        }
+      },
+      { flush: 'post' },
+    )
+    watch(
+      () => props.minSearchLength,
+      () => {
+        if (activeInput && activeInput.ownerDocument.activeElement === activeInput && !composing.value) {
+          updateSearch(getTextBeforeSelection(activeInput))
+        }
+      },
+    )
 
     const suggestionAttrs = computed(
       () =>
@@ -1043,6 +1088,8 @@ export default defineComponent({
       if (!available()) {
         return
       }
+      source.cancel()
+      resetMeasureInfo()
       emit('blur', ev)
     }
 

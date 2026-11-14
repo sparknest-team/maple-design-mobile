@@ -7157,8 +7157,8 @@
               }
             },
             {
-              "name": "format-tag",
-              "description": "Format tag content",
+              "name": "format-label",
+              "description": "Format selected label text",
               "default": "-",
               "value": {
                 "type": "`(data: TagData) => string`",
@@ -7250,8 +7250,8 @@
           ],
           "slots": [
             {
-              "name": "tag",
-              "description": "Displayed input-tag content"
+              "name": "label",
+              "description": "Customize selected label content"
             },
             {
               "name": "prefix",

@@ -52,7 +52,8 @@ export function useCascaderController(
     cascaderProps,
   )
   const options = source.options
-  const loading = computed(() => props.loading || source.loading.value)
+  const searchPending = ref(false)
+  const loading = computed(() => props.loading || source.loading.value || (source.remote.value && searchPending.value))
   const mergedVariant = computed(() => props.variant ?? group?.variant.value ?? 'outline')
   const mergedHint = computed(() => !hasOuterLabel.value && props.hint)
   const computedOpen = computed(() => props.open ?? _open.value)
@@ -320,6 +321,9 @@ export function useCascaderController(
       emit('search', value)
       void source.search(value)
     },
+    (pending) => {
+      searchPending.value = pending
+    },
   )
 
   const handleInputValueChange = (nextValue: string | null, reason = 'manual'): void => {
@@ -337,6 +341,9 @@ export function useCascaderController(
 
       if (props.filterable) {
         handleSearch(value)
+        if (source.remote.value && computedOpen.value) {
+          source.cancel(false)
+        }
       }
     }
   }

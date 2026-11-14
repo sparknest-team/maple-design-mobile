@@ -7157,8 +7157,8 @@
               }
             },
             {
-              "name": "format-tag",
-              "description": "格式化标签内容",
+              "name": "format-label",
+              "description": "格式化已选标签的显示文字",
               "default": "-",
               "value": {
                 "type": "`(data: TagData) => string`",
@@ -7250,8 +7250,8 @@
           ],
           "slots": [
             {
-              "name": "tag",
-              "description": "输入框标签的显示内容"
+              "name": "label",
+              "description": "自定义已选标签的内容"
             },
             {
               "name": "prefix",

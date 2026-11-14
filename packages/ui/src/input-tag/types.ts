@@ -28,6 +28,14 @@ export interface TagData {
 
 export type InputTagFieldNames = FieldString<TagData>
 
+/** Candidate values accepted by the tag model, optionally organized into groups. */
+export type InputTagOption = string | number | (TagData & { disabled?: boolean }) | InputTagOptionGroup
+export interface InputTagOptionGroup {
+  isGroup: true
+  label: string
+  options: InputTagOption[]
+}
+
 export interface TagDataInfo extends TagData {
   raw: Record<string, unknown>
   value: string | number
@@ -35,14 +43,15 @@ export interface TagDataInfo extends TagData {
   closable: boolean
 }
 
-export type InputTagValue = (string | number | TagData)[] | null
+export type InputTagItem = string | number | TagData
+export type InputTagValue = InputTagItem | InputTagItem[] | null
 export type InputTagEmits = {
   [Event in keyof typeof import('./emits').inputTagEmits]: Parameters<(typeof import('./emits').inputTagEmits)[Event]>
 }
 export interface InputTagSlots {
   prefix?: () => import('vue').VNodeChild
   suffix?: () => import('vue').VNodeChild
-  tag?: (scope: { data: TagData }) => import('vue').VNodeChild
+  label?: (scope: { data: TagData }) => import('vue').VNodeChild
   'clear-icon'?: (scope: { clear(event?: Event): void }) => import('vue').VNodeChild
   read?: (scope: { value: InputTagValue; text: string }) => import('vue').VNodeChild
 }

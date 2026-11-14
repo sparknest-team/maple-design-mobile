@@ -4,9 +4,11 @@ import DemoAppearance from './demos/appearance-state-comparison.vue'
 import Demo3 from './demos/async-fallback-restore.vue'
 import Demo0 from './demos/basic.vue'
 import Demo2 from './demos/fallback-option.vue'
+import DemoFormatLabel from './demos/format-label.vue'
 import Demo1 from './demos/link-title.vue'
 import Demo5 from './demos/loading.vue'
 import Demo4 from './demos/max.vue'
+import DemoSearch from './demos/search-options.vue'
 </script>
 <template>
   <h2 class="mobile-demo-group-heading" data-demo-group="basic-examples" data-demo-component="input-tag">
@@ -47,6 +49,16 @@ import Demo4 from './demos/max.vue'
   <section data-demo="loading">
     <app-type>loading</app-type>
     <Demo5 />
+  </section>
+
+  <section data-demo="format-label">
+    <app-type>已选内容格式化 / Format selected content</app-type>
+    <DemoFormatLabel />
+  </section>
+
+  <section data-demo="search-options">
+    <app-type>搜索并选择标签 / Search and select tags</app-type>
+    <DemoSearch />
   </section>
 
   <section data-demo="link-title">

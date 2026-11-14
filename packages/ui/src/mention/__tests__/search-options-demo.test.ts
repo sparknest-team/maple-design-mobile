@@ -46,7 +46,7 @@ test('the remote search example keeps only the latest result after rapid input',
   try {
     const input = wrapper.get('input[aria-label="异步人员搜索 / Remote people search"]')
     ;(input.element as HTMLInputElement).focus()
-    await input.setValue('@x')
+    await input.setValue('@xi')
     await settle()
     const dropdown = () => document.getElementById(input.attributes('aria-controls')!)
     expect(dropdown()?.getAttribute('aria-busy')).toBe('true')

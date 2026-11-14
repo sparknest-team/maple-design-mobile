@@ -1,4 +1,4 @@
-export const getTextBeforeSelection = (element: HTMLInputElement) => {
+export const getTextBeforeSelection = (element: HTMLInputElement | HTMLTextAreaElement) => {
   const { value, selectionStart } = element
   return value.slice(0, selectionStart ?? 0)
 }

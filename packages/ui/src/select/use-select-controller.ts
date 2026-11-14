@@ -116,7 +116,8 @@ export function useSelectController(
       (error) => emit('load-error', error),
     )
   const options = source.options
-  const loading = computed(() => props.loading || source.loading.value)
+  const searchPending = ref(false)
+  const loading = computed(() => props.loading || source.loading.value || (source.remote.value && searchPending.value))
   const filterOption = computed(() => props.filterOption ?? !source.remote.value)
   const mergedVariant = computed(() => props.variant ?? group?.variant.value ?? 'outline')
   const mergedHint = computed(() => !hasOuterLabel.value && props.hint)
@@ -426,6 +427,9 @@ export function useSelectController(
       emit('search', value)
       void source.search(value)
     },
+    (pending) => {
+      searchPending.value = pending
+    },
   )
 
   const handleInputValueChange = (inputValue: string) => {
@@ -441,6 +445,9 @@ export function useSelectController(
 
       if (props.filterable) {
         handleSearch(inputValue)
+        if (source.remote.value && computedOpen.value) {
+          source.cancel(false)
+        }
       }
     }
   }

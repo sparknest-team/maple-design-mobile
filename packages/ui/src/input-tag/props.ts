@@ -1,16 +1,25 @@
 import type { PropType } from 'vue'
 import { fieldPresentationProps } from '../_components/field-presentation/props'
+import type { OptionsLoader } from '../_hooks/use-option-request'
 import type { ComponentSize } from '../_utils/constant'
 import { componentSizes } from '../_utils/constant'
 import type { CompatiblePublicProps as ExtractPublicPropTypes } from '../_utils/public-props'
 import { fieldLoadingProps } from '../field-decorator/props'
 import { emptyValueProp } from '../utils/empty-value'
-import type { InputTagFieldNames, TagData } from './types'
+import type { InputTagFieldNames, InputTagOption, InputTagValue, TagData } from './types'
 
 export const inputTagProps = {
+  options: {
+    type: [Array, Function] as PropType<readonly InputTagOption[] | OptionsLoader<InputTagOption>>,
+    default: undefined,
+  },
+  minSearchLength: { type: Number, default: 1, validator: (value: number) => Number.isInteger(value) && value >= 0 },
+  searchDelay: { type: Number, default: 250, validator: (value: number) => Number.isFinite(value) && value >= 0 },
+  autoCommitSingle: { type: Boolean, default: false },
+  multiple: { type: Boolean, default: true },
   ...fieldPresentationProps,
   ...fieldLoadingProps,
-  emptyValue: emptyValueProp<(string | number | TagData)[]>(),
+  emptyValue: emptyValueProp<InputTagValue>(),
   baseCls: String,
   /**
    * @zh 绑定值
@@ -18,15 +27,15 @@ export const inputTagProps = {
    * @v-model
    */
   modelValue: {
-    type: Array as PropType<(string | number | TagData)[] | null>,
+    type: [Array, String, Number, Object] as PropType<InputTagValue>,
   },
   /**
    * @zh 默认值（非受控状态）
    * @en Default value (uncontrolled state)
    */
   defaultValue: {
-    type: Array as PropType<(string | number | TagData)[]>,
-    default: () => [],
+    type: [Array, String, Number, Object] as PropType<InputTagValue>,
+    default: (props: { multiple?: boolean }) => (props.multiple === false ? null : []),
   },
   /**
    * @zh 输入框的值
@@ -118,10 +127,10 @@ export const inputTagProps = {
     default: false,
   },
   /**
-   * @zh 格式化标签内容
-   * @en Format tag content
+   * @zh 格式化已选标签的显示文字
+   * @en Format the selected label text
    */
-  formatTag: {
+  formatLabel: {
     type: Function as PropType<(data: TagData) => string>,
   },
   /** Synchronously resolves display data for a primitive tag value. */

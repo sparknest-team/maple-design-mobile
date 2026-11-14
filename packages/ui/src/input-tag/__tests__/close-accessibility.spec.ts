@@ -33,7 +33,7 @@ test('each close button identifies its displayed tag and honors an explicit name
 })
 
 test('a formatted label supplies the close name', () => {
-  const owner = mount(InputTag, { props: { defaultValue: ['a'], formatTag: () => '显示名称' } })
+  const owner = mount(InputTag, { props: { defaultValue: ['a'], formatLabel: () => '显示名称' } })
   try {
     expect(owner.get('.mp-input-tag__tag [role=button]').attributes('aria-label')).toBe('关闭 显示名称')
   } finally {
