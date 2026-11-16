@@ -10,8 +10,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, useId } from 'vue'
+import { defineComponent } from 'vue'
 import { createNamespace, getPrefixCls } from '../utils/components'
+import { useId } from '../utils/vue-compat'
 import { optgroupProps } from './optgroup-props'
 
 const { name, n, classes } = createNamespace('optgroup')

@@ -62,8 +62,9 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, defineComponent, inject, onBeforeUnmount, onMounted, ref, useId, watch } from 'vue'
+import { computed, defineComponent, inject, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { createNamespace } from '../utils/components'
+import { useId } from '../utils/vue-compat'
 import { collapseKey } from './context'
 import { DefaultExpandIcon } from './platform'
 import { collapseItemProps, type CollapseExpandIconSlotProps, type CollapseItemSlots, type CollapseName } from './props'

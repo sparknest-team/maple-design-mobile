@@ -2,6 +2,8 @@
 
 Editable tag values with controlled array models. FormItem error messages are associated with the input alongside any existing `aria-describedby`.
 
+Tags wrap automatically and scroll inside the input after three rows. Candidates appear only for a non-empty query that meets `min-search-length`; focusing an empty input does not open the panel, and no dropdown arrow is shown by default.
+
 ## Reading direction
 
 Tags follow reading order while their source array stays unchanged. With empty input, Backspace removes the last closable value; Enter adds a tag. Composition does not submit or delete tags.
@@ -65,6 +67,24 @@ Compare sizes and disabled, read-only or error appearance while keeping the empt
 
 ```demo
 ../example/demos/max.vue
+```
+
+## Data and options
+
+### Search and select tags
+
+```demo
+../example/demos/search-options.vue
+```
+
+When `options` is supplied, typing or pasting searches only after `min-search-length` is reached. Arrays filter locally by label; loaders receive the query and `{ signal }`, and remote results are not filtered again. Composition completes before searching; shortening the query or blurring cancels pending work. Enter selects a highlighted candidate, or creates the typed value when a completed search returns no candidates. Loading, failed searches, and disabled matches never create a tag. `auto-commit-single` defaults to false and commits only the sole enabled result of the current search. Selected values are saved in the model. Resolve labels from current `options`, then `fallback-option`, the instance cache, and finally the raw value. Use `options` or `fallback-option` to restore labels after remounting.
+
+Selected tags display their label by default. Use `format-label` to format the text and `#label="{ data }"` for custom content. Slots take priority over formatting; neither changes search matching or the model. Read mode uses formatted text; use `#read` to customize read content.
+
+### Customize selected content
+
+```demo
+../example/demos/format-label.vue
 ```
 
 ## Loading and waiting
@@ -136,22 +156,6 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 `unique-value` compares normalized object and string tag values using the merged `field-names.value` mapping. Numeric `1` and string `"1"` are distinct. Duplicates remain legal by default, with a stable private identity per occurrence and a separate overflow key. Folding affects display only; it does not truncate the model.
 
 Public Props exclude the internal composition controls `baseCls`, `focused`, `disabledInput` and `uninjectFormItemContext`. A synchronous undefined return from before-commit waits for done; ordinary change / press-enter listeners do not await Promises. A deferred change may omit its source DOM event. Clearing defaults to [] in multiple mode and null in single mode; an explicit empty-value takes precedence.
-
-### Search and select tags
-
-```demo
-../example/demos/search-options.vue
-```
-
-When `options` is supplied, typing or pasting searches only after `min-search-length` is reached. Arrays filter locally by label; loaders receive the query and `{ signal }`, and remote results are not filtered again. Composition completes before searching; shortening the query or blurring cancels pending work. Enter selects a highlighted candidate, or creates the typed value when a completed search returns no candidates. Loading, failed searches, and disabled matches never create a tag. `auto-commit-single` defaults to false and commits only the sole enabled result of the current search. Selected values are saved in the model. Resolve labels from current `options`, then `fallback-option`, the instance cache, and finally the raw value. Use `options` or `fallback-option` to restore labels after remounting.
-
-Selected tags display their label by default. Use `format-label` to format the text and `#label="{ data }"` for custom content. Slots take priority over formatting; neither changes search matching or the model. Read mode uses formatted text; use `#read` to customize read content.
-
-### Customize selected content
-
-```demo
-../example/demos/format-label.vue
-```
 
 ### InputTag Props
 
@@ -297,19 +301,19 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-input-tag-padding-x` | `4px` | `padding-inline-end`, `padding-inline-start` |
 | `--mp-input-tag-size-lg-font-size` | `14px` | `font-size` |
 | `--mp-input-tag-size-lg-padding-y` | `2px` | `padding-bottom`, `padding-top` |
-| `--mp-input-tag-size-lg-tag-height` | `28px` | `line-height`, `min-height` |
+| `--mp-input-tag-size-lg-tag-height` | `28px` | `line-height`, `max-height`, `min-height` |
 | `--mp-input-tag-size-md-font-size` | `14px` | `font-size` |
 | `--mp-input-tag-size-md-padding-y` | `2px` | `padding-bottom`, `padding-top` |
-| `--mp-input-tag-size-md-tag-height` | `24px` | `line-height`, `min-height` |
+| `--mp-input-tag-size-md-tag-height` | `24px` | `line-height`, `max-height`, `min-height` |
 | `--mp-input-tag-size-sm-font-size` | `14px` | `font-size` |
 | `--mp-input-tag-size-sm-padding-y` | `2px` | `padding-bottom`, `padding-top` |
-| `--mp-input-tag-size-sm-tag-height` | `20px` | `line-height`, `min-height` |
+| `--mp-input-tag-size-sm-tag-height` | `20px` | `line-height`, `max-height`, `min-height` |
 | `--mp-input-tag-size-xl-font-size` | `16px` | `font-size` |
 | `--mp-input-tag-size-xl-padding-y` | `4px` | `padding-bottom`, `padding-top` |
-| `--mp-input-tag-size-xl-tag-height` | `32px` | `line-height`, `min-height` |
+| `--mp-input-tag-size-xl-tag-height` | `32px` | `line-height`, `max-height`, `min-height` |
 | `--mp-input-tag-size-xs-font-size` | `12px` | `font-size` |
 | `--mp-input-tag-size-xs-padding-y` | `0px` | `padding-bottom`, `padding-top` |
-| `--mp-input-tag-size-xs-tag-height` | `20px` | `line-height`, `min-height` |
+| `--mp-input-tag-size-xs-tag-height` | `20px` | `line-height`, `max-height`, `min-height` |
 | `--mp-input-tag-tag-color-bg` | `var(--mp-sys-color-surface-default)` | `background-color` |
 | `--mp-input-tag-tag-color-bg-disabled` | `var(--mp-sys-color-state-hover)` | `background-color` |
 | `--mp-input-tag-tag-color-bg-focus` | `var(--mp-sys-color-state-hover)` | `background-color` |
@@ -318,7 +322,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-input-tag-tag-color-border-focus` | `var(--mp-sys-color-state-hover)` | `border-color` |
 | `--mp-input-tag-tag-font-size` | `12px` | `font-size` |
 | `--mp-input-tag-tag-margin-right` | `4px` | `margin-inline-end` |
-| `--mp-input-tag-tag-margin-y` | `2px` | `margin-bottom`, `margin-top` |
+| `--mp-input-tag-tag-margin-y` | `2px` | `margin-bottom`, `margin-top`, `max-height` |
 
 </div>
 

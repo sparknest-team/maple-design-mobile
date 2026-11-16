@@ -7,6 +7,11 @@ import { normalizeLessSource, normalizeTypeScript } from './normalize-source.mjs
 
 const workspace = fileURLToPath(new URL('../../', import.meta.url))
 const roots = ['cedar-design-web', 'maple-design-mobile'].map((name) => resolve(workspace, name, 'packages/ui/src'))
+assert.equal(
+  readFileSync(resolve(roots[0], '_utils/vue-compat.ts'), 'utf8'),
+  readFileSync(resolve(roots[1], 'utils/vue-compat.ts'), 'utf8'),
+  'Vue compatibility helpers differ',
+)
 const components = {
   mention: [
     'mention.tsx',
@@ -41,6 +46,7 @@ const normalize = (source) =>
     .replaceAll('@cedar-design/use-vue', '@maple-design/use-vue')
     .replaceAll('../_utils/global-config', '../utils/components')
     .replaceAll('../_utils/empty-value', '../utils/empty-value')
+    .replaceAll('../_utils/vue-compat', '../utils/vue-compat')
     .replaceAll('../_utils/input-composition', '../utils/input-composition')
     .replaceAll('../_hooks/use-form-item', '../form/item-provide')
     .replaceAll("../_components/resize-observer'", "../_components/resize-observer-v2'")

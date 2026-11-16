@@ -44,8 +44,10 @@ interface ReferenceInteraction {
   visible: Readonly<Ref<boolean>>
   reference: Readonly<Ref<TriggerElement | undefined>>
   isTopLayer: (event?: Event) => boolean
+  refreshRoots: () => void
 }
 const referenceInteractions = new WeakMap<Document, Set<ReferenceInteraction>>()
+const closedPeerReferences = new WeakMap<Document, Set<ReferenceInteraction>>()
 // Eagerly mounted children can process the same capture event before their
 // parent. Retain their dismissal ownership until this event is collected.
 const dismissedInteractions = new WeakMap<Event, Set<InteractionContext>>()
@@ -115,6 +117,7 @@ export function useTriggerInteraction(
     visible: Readonly<Ref<boolean>>
     reference: Readonly<Ref<TriggerElement | undefined>>
     popup: Readonly<Ref<HTMLElement | undefined | null>>
+    popupTarget: Readonly<Ref<HTMLElement | string | false>>
     request: (visible: boolean, delay?: number) => void
     isTopLayer: (event?: Event) => boolean
     onPoint?: (event: MouseEvent) => void
@@ -271,6 +274,7 @@ export function useTriggerInteraction(
     visible: api.visible,
     reference: api.reference,
     isTopLayer: api.isTopLayer,
+    refreshRoots: () => refreshShadowRoots(),
   }
   let active = false
   // A sibling reference can dismiss this whole branch while its child owns
@@ -288,16 +292,75 @@ export function useTriggerInteraction(
         includes(other.reference.value, event) &&
         ((other.visible.value && other.isTopLayer(event)) || hasTopDescendant(event)),
     )
+  const shadowInsideEvents = new WeakSet<Event>()
+  const shadowPeerEvents = new WeakSet<Event>()
+  let shadowRoots: ShadowRoot[] = []
+  let outsideGeneration = 0
+  const markShadowInside = (event: Event) => {
+    if (contains(event)) {
+      shadowInsideEvents.add(event)
+    }
+    if (isTopPeerReference(event)) {
+      shadowPeerEvents.add(event)
+    }
+  }
+  const refreshShadowRoots = () => {
+    for (const root of shadowRoots) {
+      root.removeEventListener('click', markShadowInside, true)
+    }
+    const roots = new Set<ShadowRoot>()
+    const closedPeers = owner ? closedPeerReferences.get(owner) : undefined
+    const peerReferences = [...(closedPeers ?? [])]
+      .filter((other) => other.parent === parent)
+      .map((other) => other.reference.value)
+    for (const element of [api.reference.value, api.popup.value, ...peerReferences]) {
+      let root = element?.getRootNode()
+      while (root && root.nodeType === 11 && 'host' in root) {
+        const shadow = root as ShadowRoot
+        if (shadow.mode === 'closed') {
+          roots.add(shadow)
+        }
+        root = shadow.host.getRootNode()
+      }
+    }
+    shadowRoots = [...roots]
+    for (const root of shadowRoots) {
+      root.addEventListener('click', markShadowInside, true)
+    }
+  }
+  watch(
+    api.visible,
+    () => {
+      outsideGeneration++
+    },
+    { flush: 'sync' },
+  )
   const onOutside = (event: Event) => {
-    if (
-      !active ||
-      !api.visible.value ||
-      options.clickOutsideToClose === false ||
-      contains(event) ||
-      (!api.isTopLayer(event) && !isTopPeerReference(event))
-    ) {
+    if (!active || !api.visible.value || options.clickOutsideToClose === false || contains(event)) {
       return
     }
+    const eligible = api.isTopLayer(event) || isTopPeerReference(event)
+    // The document path hides a closed root's internals; wait for its capture listener.
+    if (shadowRoots.some((root) => event.composedPath().includes(root.host))) {
+      const generation = outsideGeneration
+      setTimeout(() => {
+        if (
+          active &&
+          api.visible.value &&
+          generation === outsideGeneration &&
+          !shadowInsideEvents.has(event) &&
+          (eligible || shadowPeerEvents.has(event))
+        ) {
+          deliverOutside(event)
+        }
+      }, 0)
+      return
+    }
+    if (eligible) {
+      deliverOutside(event)
+    }
+  }
+  const deliverOutside = (event: Event) => {
     let dismissed = dismissedInteractions.get(event)
     if (!dismissed) {
       dismissed = new Set()
@@ -342,6 +405,18 @@ export function useTriggerInteraction(
   }
   let owner: Document | undefined
   let view: Window | null | undefined
+  let peerReferenceHadClosedRoot = false
+  const hasClosedRoot = (element: Element | undefined) => {
+    let root = element?.getRootNode()
+    while (root && root.nodeType === 11 && 'host' in root) {
+      const shadow = root as ShadowRoot
+      if (shadow.mode === 'closed') {
+        return true
+      }
+      root = shadow.host.getRootNode()
+    }
+    return false
+  }
   const registerReference = () => {
     if (!owner) {
       return
@@ -353,11 +428,38 @@ export function useTriggerInteraction(
       referenceInteractions.set(owner, peers)
     }
     peers.add(peer)
+    peerReferenceHadClosedRoot = hasClosedRoot(peer.reference.value)
+    if (peerReferenceHadClosedRoot) {
+      let closedPeers = closedPeerReferences.get(owner)
+      if (!closedPeers) {
+        closedPeers = new Set()
+        closedPeerReferences.set(owner, closedPeers)
+      }
+      closedPeers.add(peer)
+    }
+    peer.refreshRoots()
+    if (peerReferenceHadClosedRoot) {
+      for (const other of peers) {
+        if (other !== peer && other.parent === parent) {
+          other.refreshRoots()
+        }
+      }
+    }
   }
   const unregisterReference = () => {
     active = false
     if (owner) {
-      referenceInteractions.get(owner)?.delete(peer)
+      const peers = referenceInteractions.get(owner)
+      peers?.delete(peer)
+      if (peerReferenceHadClosedRoot) {
+        closedPeerReferences.get(owner)?.delete(peer)
+        for (const other of peers ?? []) {
+          if (other.parent === parent) {
+            other.refreshRoots()
+          }
+        }
+      }
+      peerReferenceHadClosedRoot = false
     }
   }
   let popupOwner: Document | undefined
@@ -369,6 +471,11 @@ export function useTriggerInteraction(
     }
   }
   const unbind = () => {
+    outsideGeneration++
+    for (const root of shadowRoots) {
+      root.removeEventListener('click', markShadowInside, true)
+    }
+    shadowRoots = []
     unregisterReference()
     owner?.removeEventListener('click', onOutside, true)
     view?.removeEventListener('keydown', onKeydown)
@@ -385,6 +492,7 @@ export function useTriggerInteraction(
     }
     owner = api.reference.value?.ownerDocument ?? api.popup.value?.ownerDocument ?? document
     registerReference()
+    refreshShadowRoots()
     view = owner.defaultView
     owner.addEventListener('click', onOutside, true)
     view?.addEventListener('keydown', onKeydown)
@@ -396,6 +504,7 @@ export function useTriggerInteraction(
     }
   }
   watch([api.reference, api.popup], bind, { flush: 'sync' })
+  watch(api.popupTarget, bind, { flush: 'post' })
   onMounted(() => {
     mounted = true
     bind()

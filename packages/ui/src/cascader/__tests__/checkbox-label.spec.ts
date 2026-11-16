@@ -25,7 +25,7 @@ test('multiple search checkboxes refer to the displayed path and custom formatte
   })
   try {
     await flushPromises()
-    const inputs = wrapper.findAll('[role="menuitem"] input[type="checkbox"]')
+    const inputs = wrapper.findAll('[role="dialog"] input[type="checkbox"]')
     expect(inputs).toHaveLength(2)
     const labels = inputs.map((input) => {
       const id = input.attributes('aria-labelledby')

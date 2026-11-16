@@ -42,7 +42,7 @@ exports[`datePicker disabledDate 1`] = `
                             <!--v-if--><span class="mp-button__content"></span>
                             <div class="mp-hover-overlay"></div>
                           </button></li>
-                        <li class=""><button mp-day-picker-cover="" aria-pressed="true" mp-date-picker-color-cover="false" class="mp-button mp-button--size-md mp-button--status-primary mp-button--variant-default mp-button--round mp-elevation--2 mp-day-picker__button mp-day-picker__button--usable" style="color: var(--mp-date-calendar-selected-color); background: var(--mp-date-calendar-selected-background);" type="button">
+                        <li class=""><button mp-day-picker-cover="" aria-pressed="true" mp-date-picker-color-cover="false" class="mp-button mp-button--size-md mp-button--status-primary mp-button--variant-default mp-button--round mp-elevation--1 mp-day-picker__button mp-day-picker__button--usable" style="color: var(--mp-date-calendar-selected-color); background: var(--mp-date-calendar-selected-background);" type="button">
                             <!--v-if-->
                             <!--v-if--><span class="mp-button__content">1</span>
                             <div class="mp-hover-overlay"></div>
@@ -381,7 +381,7 @@ exports[`datePicker rerender date panel when max or min changes 1`] = `
                             <!--v-if--><span class="mp-button__content">22</span>
                             <div class="mp-hover-overlay"></div>
                           </button></li>
-                        <li class=""><button mp-day-picker-cover="" aria-pressed="true" mp-date-picker-color-cover="false" class="mp-button mp-button--size-md mp-button--status-primary mp-button--variant-default mp-button--round mp-elevation--2 mp-day-picker__button mp-day-picker__button--usable" style="color: var(--mp-date-calendar-selected-color); background: var(--mp-date-calendar-selected-background);" type="button">
+                        <li class=""><button mp-day-picker-cover="" aria-pressed="true" mp-date-picker-color-cover="false" class="mp-button mp-button--size-md mp-button--status-primary mp-button--variant-default mp-button--round mp-elevation--1 mp-day-picker__button mp-day-picker__button--usable" style="color: var(--mp-date-calendar-selected-color); background: var(--mp-date-calendar-selected-background);" type="button">
                             <!--v-if-->
                             <!--v-if--><span class="mp-button__content">23</span>
                             <div class="mp-hover-overlay"></div>
@@ -729,7 +729,7 @@ exports[`datePicker style and type 1`] = `
                           <!--v-if--><span class="mp-button__content">四月</span>
                           <div class="mp-hover-overlay"></div>
                         </button></li>
-                      <li class=""><button mp-month-picker-cover="" mp-date-picker-color-cover="false" class="mp-button mp-button--size-md mp-button--status-primary mp-button--variant-default mp-elevation--2 mp-month-picker__button" style="color: var(--mp-date-calendar-selected-color); background: rgb(123, 184, 114);" type="button">
+                      <li class=""><button mp-month-picker-cover="" mp-date-picker-color-cover="false" class="mp-button mp-button--size-md mp-button--status-primary mp-button--variant-default mp-elevation--1 mp-month-picker__button" style="color: var(--mp-date-calendar-selected-color); background: rgb(123, 184, 114);" type="button">
                           <!--v-if-->
                           <!--v-if--><span class="mp-button__content">五月</span>
                           <div class="mp-hover-overlay"></div>
@@ -952,7 +952,7 @@ exports[`datePicker style and type 2`] = `
                             <!--v-if--><span class="mp-button__content">18</span>
                             <div class="mp-hover-overlay"></div>
                           </button></li>
-                        <li class=""><button mp-day-picker-cover="" aria-pressed="true" mp-date-picker-color-cover="false" class="mp-button mp-button--size-md mp-button--status-primary mp-button--variant-default mp-button--round mp-elevation--2 mp-day-picker__button mp-day-picker__button--usable" style="color: var(--mp-date-calendar-selected-color); background: rgb(123, 184, 114);" type="button">
+                        <li class=""><button mp-day-picker-cover="" aria-pressed="true" mp-date-picker-color-cover="false" class="mp-button mp-button--size-md mp-button--status-primary mp-button--variant-default mp-button--round mp-elevation--1 mp-day-picker__button mp-day-picker__button--usable" style="color: var(--mp-date-calendar-selected-color); background: rgb(123, 184, 114);" type="button">
                             <!--v-if-->
                             <!--v-if--><span class="mp-button__content">19</span>
                             <div class="mp-hover-overlay"></div>
@@ -1136,7 +1136,7 @@ exports[`test datePicker style and type > datePicker style and date 1`] = `
                             <!--v-if--><span class="mp-button__content">7</span>
                             <div class="mp-hover-overlay"></div>
                           </button></li>
-                        <li class=""><button mp-day-picker-cover="" aria-pressed="true" mp-date-picker-color-cover="false" class="mp-button mp-button--size-md mp-button--status-primary mp-button--variant-default mp-button--round mp-elevation--2 mp-day-picker__button mp-day-picker__button--usable" style="color: var(--mp-date-calendar-selected-color); background: rgb(123, 184, 114);" type="button">
+                        <li class=""><button mp-day-picker-cover="" aria-pressed="true" mp-date-picker-color-cover="false" class="mp-button mp-button--size-md mp-button--status-primary mp-button--variant-default mp-button--round mp-elevation--1 mp-day-picker__button mp-day-picker__button--usable" style="color: var(--mp-date-calendar-selected-color); background: rgb(123, 184, 114);" type="button">
                             <!--v-if-->
                             <!--v-if--><span class="mp-button__content">8</span>
                             <div class="mp-hover-overlay"></div>
@@ -1320,7 +1320,7 @@ exports[`test datePicker style and type > datePicker style and month 1`] = `
                           <!--v-if--><span class="mp-button__content">三月</span>
                           <div class="mp-hover-overlay"></div>
                         </button></li>
-                      <li class=""><button mp-month-picker-cover="" mp-date-picker-color-cover="false" class="mp-button mp-button--size-md mp-button--status-primary mp-button--variant-default mp-elevation--2 mp-month-picker__button" style="color: var(--mp-date-calendar-selected-color); background: rgb(123, 184, 114);" type="button">
+                      <li class=""><button mp-month-picker-cover="" mp-date-picker-color-cover="false" class="mp-button mp-button--size-md mp-button--status-primary mp-button--variant-default mp-elevation--1 mp-month-picker__button" style="color: var(--mp-date-calendar-selected-color); background: rgb(123, 184, 114);" type="button">
                           <!--v-if-->
                           <!--v-if--><span class="mp-button__content">四月</span>
                           <div class="mp-hover-overlay"></div>

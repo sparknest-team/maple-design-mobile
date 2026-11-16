@@ -1,5 +1,5 @@
 import type { PropType } from 'vue'
-import { computed, defineComponent, inject, onBeforeUnmount, onDeactivated, ref, useId } from 'vue'
+import { computed, defineComponent, inject, onBeforeUnmount, onDeactivated, ref } from 'vue'
 import { IconCheck, IconLoading, IconRight } from '@maple-design/icons-vue'
 import { isolateEditorForm } from '../_components/field-presentation/form-bridge'
 import { isInteractiveAriaRole } from '../_utils/aria-role'
@@ -7,6 +7,7 @@ import { isFunction } from '../_utils/is'
 import { isEditable } from '../_utils/is-editable'
 import Checkbox from '../checkbox/base'
 import { createNamespace, getPrefixCls } from '../utils/components'
+import { useId } from '../utils/vue-compat'
 import { CascaderContext, cascaderInjectionKey } from './context'
 import type { CascaderOptionInfo } from './types'
 import { getCheckedStatus, getOptionLabel } from './utils'
@@ -79,6 +80,7 @@ export default defineComponent({
     multiple: Boolean,
     checkStrictly: Boolean,
     searchOption: Boolean,
+    multipleGroupOption: Boolean,
     pathLabel: Boolean,
     listboxOption: Boolean,
     listboxSelected: Boolean,
@@ -219,14 +221,22 @@ export default defineComponent({
 
     return () => (
       <li
-        tabindex={props.tabIndex}
+        tabindex={props.multipleGroupOption ? undefined : props.tabIndex}
         id={props.optionId}
-        role={props.listboxOption ? 'option' : isMenuRadio.value ? 'menuitemradio' : 'menuitem'}
+        role={
+          props.multipleGroupOption
+            ? 'presentation'
+            : props.listboxOption
+              ? 'option'
+              : isMenuRadio.value
+                ? 'menuitemradio'
+                : 'menuitem'
+        }
         aria-selected={props.listboxOption ? props.listboxSelected : undefined}
         aria-checked={!props.listboxOption && isMenuRadio.value ? Boolean(checkedStatus.value.checked) : undefined}
         data-cascader-key={props.option.key}
         aria-busy={isBusy.value || undefined}
-        aria-disabled={props.option.disabled}
+        aria-disabled={props.multipleGroupOption ? undefined : props.option.disabled}
         aria-haspopup={!props.option.isLeaf && !props.searchOption ? 'menu' : undefined}
         aria-expanded={!props.option.isLeaf && !props.searchOption ? props.expanded : undefined}
         aria-controls={!props.option.isLeaf && !props.searchOption && props.expanded ? props.childMenuId : undefined}

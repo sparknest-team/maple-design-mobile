@@ -176,6 +176,28 @@ function sourceImports(file, text, ts, root) {
   }
   return imports
 }
+function workspaceClassifier(root) {
+  const configFile = resolve(root, 'pnpm-workspace.yaml')
+  const patterns = existsSync(configFile)
+    ? loadParserDependency('yaml', root).parse(readFileSync(configFile, 'utf8')).packages
+    : ['packages/*']
+  if (!Array.isArray(patterns) || patterns.some((pattern) => typeof pattern !== 'string')) {
+    throw new Error('pnpm-workspace.yaml must declare package patterns as strings')
+  }
+  const match = loadParserDependency('picomatch', root)
+  const included = patterns.filter((pattern) => !pattern.startsWith('!'))
+  const excluded = patterns.filter((pattern) => pattern.startsWith('!')).map((pattern) => pattern.slice(1))
+  return (label) => {
+    if (label === 'package.json') {
+      return true
+    }
+    const directory = label.slice(0, -'/package.json'.length)
+    return (
+      included.some((pattern) => match.isMatch(directory, pattern, { dot: true })) &&
+      !excluded.some((pattern) => match.isMatch(directory, pattern, { dot: true }))
+    )
+  }
+}
 export function auditPackages(root) {
   root = resolve(root)
   const rootManifest = readJson(resolve(root, 'package.json'))
@@ -192,19 +214,19 @@ export function auditPackages(root) {
       manifests.push({ file, label: relative(root, file).replaceAll('\\', '/'), pkg: readJson(file) })
     }
   })
+  const isWorkspace = workspaceClassifier(root)
   const names = new Set()
-  const workspaceNames = new Set(
-    manifests
-      .filter(({ label }) => label === 'package.json' || /^packages\/[^/]+\/package\.json$/.test(label))
-      .map(({ pkg }) => pkg.name),
-  )
+  const workspaceNames = new Set(manifests.filter(({ label }) => isWorkspace(label)).map(({ pkg }) => pkg.name))
   for (const { file, label, pkg } of manifests) {
-    const workspace = label === 'package.json' || /^packages\/[^/]+\/package\.json$/.test(label)
+    const workspace = isWorkspace(label)
     if (!workspace && !(label in templates)) {
       throw new Error(`Unclassified package.json: ${label}; internal source modules must not contain package manifests`)
     }
     if (/^packages\/(?:cedar|maple)-/.test(label)) {
       throw new Error(`Branded package directory: ${label}`)
+    }
+    if (workspace && label.startsWith('tests/vue-compat/') && pkg.private !== true) {
+      throw new Error(`${label}: compatibility fixture must be private`)
     }
     validatePackageName(pkg.name, label)
     if (names.has(pkg.name)) {

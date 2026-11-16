@@ -5,7 +5,6 @@ import {
   ref,
   shallowReactive,
   toRefs,
-  useId,
   warn,
   watch,
   watchEffect,
@@ -41,6 +40,7 @@ import {
 } from '../_utils/is'
 import { useInputForm } from '../input/use-input-form'
 import { resolveEmptyValue, useEmptyValues } from '../utils/empty-value'
+import { useId } from '../utils/vue-compat'
 import { selectEmits } from './emits'
 import { useSelect } from './hooks/use-select'
 import { selectNativeEditorOwner } from './native-editor-owner'

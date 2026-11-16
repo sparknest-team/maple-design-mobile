@@ -2,6 +2,8 @@
 
 用来输入标签。FormItem 有错误消息时，输入框会关联错误描述，并保留已有的 `aria-describedby`。
 
+标签自动换行，最多显示三行，超出后在输入框内滚动。候选面板仅在输入非空搜索内容且达到 `min-search-length` 时展示，空输入聚焦不会展开，也不显示默认下拉箭头。
+
 ## 阅读方向
 
 标签按阅读顺序排列，标签值的数组顺序保持不变。空输入时 Backspace 删除业务数组中最后一个可关闭标签；Enter 添加标签，输入法组合期间不触发标签提交或删除。
@@ -77,6 +79,24 @@
 ../example/demos/max.vue
 ```
 
+## 数据与选项
+
+### 搜索并选择标签
+
+```demo
+../example/demos/search-options.vue
+```
+
+配置 `options` 后，输入或粘贴达到 `min-search-length` 才搜索；数组按标签本地过滤，函数接收查询词和 `{ signal }`，返回候选数组。远程结果不再本地过滤。输入法组合完成后搜索，缩短输入或失焦会取消旧请求。加载中、无结果或失败时保留当前输入；配置候选后，Enter 优先选择高亮项；查询完成且无候选时，Enter 可添加原始输入。查询中、查询失败或候选被禁用时不会误创建。`auto-commit-single` 默认关闭，仅在当前搜索完成且恰有一个未禁用候选时提交；多个结果需要手动选择。选中的 `value` 存入模型；初始值及已选项优先从当前 `options` 解析名称，缺少时依次使用 `fallback-option`、当前实例缓存和原始值。重新挂载后可用 `options` 或 `fallback-option` 恢复标题。
+
+已选内容默认显示 `label`；`format-label` 可格式化文字，`#label="{ data }"` 可自定义已选标签的内容。插槽优先于格式化函数；它们不会改变搜索匹配或模型值。阅读态使用格式化文字，自定义阅读内容请使用 `#read`。
+
+### 自定义已选内容
+
+```demo
+../example/demos/format-label.vue
+```
+
 ## 加载与等待
 
 ### 受控加载
@@ -146,22 +166,6 @@
 `unique-value` 按合并后的 `field-names.value` 判断对象与字符串标签的唯一性；数字 `1` 和字符串 `"1"` 不同。默认允许重复，每个出现项拥有独立稳定节点，折叠占位不占用任何业务值。数量限制只控制展示，不截断模型。
 
 公开 Props 不包含 `baseCls`、`focused`、`disabledInput`、`uninjectFormItemContext`；这些是内部组合入口。before-commit 同步返回 undefined 时等待 done；普通 change / press-enter 等事件不等待 Promise。延迟模式的 change 事件可没有原始 DOM 事件。多值模式清空默认输出 []，单值模式默认输出 null；显式 empty-value 优先。
-
-### 搜索并选择标签
-
-```demo
-../example/demos/search-options.vue
-```
-
-配置 `options` 后，输入或粘贴达到 `min-search-length` 才搜索；数组按标签本地过滤，函数接收查询词和 `{ signal }`，返回候选数组。远程结果不再本地过滤。输入法组合完成后搜索，缩短输入或失焦会取消旧请求。加载中、无结果或失败时保留当前输入；配置候选后，Enter 优先选择高亮项；查询完成且无候选时，Enter 可添加原始输入。查询中、查询失败或候选被禁用时不会误创建。`auto-commit-single` 默认关闭，仅在当前搜索完成且恰有一个未禁用候选时提交；多个结果需要手动选择。选中的 `value` 存入模型；初始值及已选项优先从当前 `options` 解析名称，缺少时依次使用 `fallback-option`、当前实例缓存和原始值。重新挂载后可用 `options` 或 `fallback-option` 恢复标题。
-
-已选内容默认显示 `label`；`format-label` 可格式化文字，`#label="{ data }"` 可自定义已选标签的内容。插槽优先于格式化函数；它们不会改变搜索匹配或模型值。阅读态使用格式化文字，自定义阅读内容请使用 `#read`。
-
-### 自定义已选内容
-
-```demo
-../example/demos/format-label.vue
-```
 
 ### InputTag Props
 
@@ -307,19 +311,19 @@ Maple 使用 edit-mode="popup" 在字段附近打开编辑浮层，Enter/F2 也�
 | `--mp-input-tag-padding-x` | `4px` | `padding-inline-end`, `padding-inline-start` |
 | `--mp-input-tag-size-lg-font-size` | `14px` | `font-size` |
 | `--mp-input-tag-size-lg-padding-y` | `2px` | `padding-bottom`, `padding-top` |
-| `--mp-input-tag-size-lg-tag-height` | `28px` | `line-height`, `min-height` |
+| `--mp-input-tag-size-lg-tag-height` | `28px` | `line-height`, `max-height`, `min-height` |
 | `--mp-input-tag-size-md-font-size` | `14px` | `font-size` |
 | `--mp-input-tag-size-md-padding-y` | `2px` | `padding-bottom`, `padding-top` |
-| `--mp-input-tag-size-md-tag-height` | `24px` | `line-height`, `min-height` |
+| `--mp-input-tag-size-md-tag-height` | `24px` | `line-height`, `max-height`, `min-height` |
 | `--mp-input-tag-size-sm-font-size` | `14px` | `font-size` |
 | `--mp-input-tag-size-sm-padding-y` | `2px` | `padding-bottom`, `padding-top` |
-| `--mp-input-tag-size-sm-tag-height` | `20px` | `line-height`, `min-height` |
+| `--mp-input-tag-size-sm-tag-height` | `20px` | `line-height`, `max-height`, `min-height` |
 | `--mp-input-tag-size-xl-font-size` | `16px` | `font-size` |
 | `--mp-input-tag-size-xl-padding-y` | `4px` | `padding-bottom`, `padding-top` |
-| `--mp-input-tag-size-xl-tag-height` | `32px` | `line-height`, `min-height` |
+| `--mp-input-tag-size-xl-tag-height` | `32px` | `line-height`, `max-height`, `min-height` |
 | `--mp-input-tag-size-xs-font-size` | `12px` | `font-size` |
 | `--mp-input-tag-size-xs-padding-y` | `0px` | `padding-bottom`, `padding-top` |
-| `--mp-input-tag-size-xs-tag-height` | `20px` | `line-height`, `min-height` |
+| `--mp-input-tag-size-xs-tag-height` | `20px` | `line-height`, `max-height`, `min-height` |
 | `--mp-input-tag-tag-color-bg` | `var(--mp-sys-color-surface-default)` | `background-color` |
 | `--mp-input-tag-tag-color-bg-disabled` | `var(--mp-sys-color-state-hover)` | `background-color` |
 | `--mp-input-tag-tag-color-bg-focus` | `var(--mp-sys-color-state-hover)` | `background-color` |
@@ -328,7 +332,7 @@ Maple 使用 edit-mode="popup" 在字段附近打开编辑浮层，Enter/F2 也�
 | `--mp-input-tag-tag-color-border-focus` | `var(--mp-sys-color-state-hover)` | `border-color` |
 | `--mp-input-tag-tag-font-size` | `12px` | `font-size` |
 | `--mp-input-tag-tag-margin-right` | `4px` | `margin-inline-end` |
-| `--mp-input-tag-tag-margin-y` | `2px` | `margin-bottom`, `margin-top` |
+| `--mp-input-tag-tag-margin-y` | `2px` | `margin-bottom`, `margin-top`, `max-height` |
 
 </div>
 

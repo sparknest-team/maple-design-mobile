@@ -1,5 +1,6 @@
-import { defineComponent, useId } from 'vue'
+import { defineComponent } from 'vue'
 import { createNamespace } from '../utils/components'
+import { useId } from '../utils/vue-compat'
 
 const { name } = createNamespace('result-forbidden')
 

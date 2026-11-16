@@ -256,7 +256,8 @@ export function withFieldPresentation<T extends Component>(Base: T, adapter: Fie
                 : 0,
             base.props,
             true,
-            () => props.minSearchLength ?? 0,
+            () =>
+              base.name.endsWith('InputTag') ? Math.max(1, props.minSearchLength ?? 0) : (props.minSearchLength ?? 0),
           )
         : undefined
       if (source) {

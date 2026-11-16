@@ -140,7 +140,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, shallowRef, useId, watch, type PropType } from 'vue'
+import { computed, defineComponent, ref, shallowRef, watch, type PropType } from 'vue'
 import dayjs from 'dayjs'
 import { mergePickerFields, pickerFieldIndexes, timeFields } from '../../_components/picker-field/fields'
 import { useRangeDisabledParts, useRangeFieldIndex } from '../../_components/picker-field/mobile-range-field-context'
@@ -170,6 +170,7 @@ import { injectLocaleProvider } from '../../locale-provider/provide'
 import { dateText as t } from '../../locale/date-text'
 import MpPicker from '../../picker/base'
 import { createNamespace, formatElevation } from '../../utils/components'
+import { useId } from '../../utils/vue-compat'
 import { dateRangeCalendarOptions } from '../calendar-options'
 import { props } from '../presentation-props'
 

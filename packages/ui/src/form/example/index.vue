@@ -51,6 +51,8 @@ import MixedFieldLabel from './demos/mixed-field-label.vue'
 import PlatformPresentationDemo from './demos/platform-presentation.vue'
 import PresentationState from './demos/presentation-state.vue'
 import PresentationStatusDemo from './demos/presentation-status.vue'
+import SectionActionsDemo from './demos/section-actions.vue'
+import SectionDemo from './demos/section.vue'
 import SelectionSummaryDemo from './demos/selection-summary.vue'
 import OrganizedStateLab from './demos/state-lab.vue'
 import SubmitInputsDemo from './demos/submit-inputs.vue'
@@ -91,6 +93,20 @@ onThemeChange()
   <section data-demo="decoration">
     <app-type>{{ english ? 'Label and content decoration' : '标签与内容装饰' }}</app-type>
     <EnDecorationDemo v-if="english" /><DecorationDemo v-else />
+  </section>
+
+  <section data-demo="section">
+    <h3 class="mobile-demo-case-heading">
+      <span lang="zh-CN">局部表单分区</span><span lang="en-US">Partial form section</span>
+    </h3>
+    <SectionDemo :english="english" />
+  </section>
+
+  <section data-demo="section-actions">
+    <h3 class="mobile-demo-case-heading">
+      <span lang="zh-CN">分区标题操作</span><span lang="en-US">Section header actions</span>
+    </h3>
+    <SectionActionsDemo :english="english" />
   </section>
 
   <section data-demo="label-width-comparison">

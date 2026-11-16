@@ -3,6 +3,42 @@ import { mount } from '@vue/test-utils'
 import { expect, test, vi } from 'vitest'
 import Trigger from '../trigger'
 
+test.each(['open', 'closed'] as const)('respects focus moved after capture in %s shadow roots', async (mode) => {
+  const hosts = [document.createElement('div'), document.createElement('div'), document.createElement('div')]
+  document.body.append(...hosts)
+  const roots = hosts.map((host) => host.attachShadow({ mode }))
+  const targets = roots.map((root) => {
+    const node = document.createElement('div')
+    root.append(node)
+    return node
+  })
+  const other = document.createElement('button')
+  roots[2].append(other)
+  const wrapper = mount(Trigger, {
+    props: { open: true, popupContainer: targets[0] },
+    slots: { default: () => h('button'), content: () => h('input') },
+  })
+  try {
+    await nextTick()
+    await nextTick()
+    const input = roots[0].querySelector('input')!
+    input.focus()
+    const focus = vi.spyOn(input, 'focus')
+    const update = wrapper.setProps({ popupContainer: targets[1] })
+    await nextTick()
+    expect(roots[1].querySelector('input')).toBe(input)
+    expect(focus).not.toHaveBeenCalled()
+    other.focus()
+    await update
+    await nextTick()
+    expect(roots[2].activeElement).toBe(other)
+    expect(focus).not.toHaveBeenCalled()
+  } finally {
+    wrapper.unmount()
+    hosts.forEach((host) => host.remove())
+  }
+})
+
 test.each(['click', 'focus'] as const)('%s popup preserves focused input while moving containers', async (trigger) => {
   const a = document.createElement('div'),
     b = document.createElement('div')
@@ -233,3 +269,68 @@ test('does not restore focus after deactivation and works again on activation', 
     outside.remove()
   }
 })
+
+test.each(['open', 'closed'] as const)('preserves focus when moving popup between %s shadow roots', async (mode) => {
+  const hosts = [document.createElement('div'), document.createElement('div')]
+  document.body.append(...hosts)
+  const roots = hosts.map((host) => host.attachShadow({ mode }))
+  const targets = roots.map((root) => {
+    const node = document.createElement('div')
+    root.append(node)
+    return node
+  })
+  const wrapper = mount(Trigger, {
+    props: { open: true, trigger: 'click', popupContainer: targets[0] },
+    slots: { default: () => h('button'), content: () => h('input', { 'data-inner': '' }) },
+  })
+  try {
+    await nextTick()
+    await nextTick()
+    const input = roots[0].querySelector<HTMLInputElement>('input[data-inner]')!
+    input.value = 'draft'
+    input.focus()
+    input.setSelectionRange(1, 3)
+    await wrapper.setProps({ popupContainer: targets[1] })
+    await nextTick()
+    expect(roots[1].querySelector('input')).toBe(input)
+    expect(roots[1].activeElement).toBe(input)
+    expect([input.selectionStart, input.selectionEnd]).toEqual([1, 3])
+    expect(wrapper.emitted('update:open')).toBeUndefined()
+  } finally {
+    wrapper.unmount()
+    hosts.forEach((host) => host.remove())
+  }
+})
+
+test.each(['open', 'closed'] as const)(
+  'does not steal focus from another %s shadow root during a popup move',
+  async (mode) => {
+    const hosts = [document.createElement('div'), document.createElement('div'), document.createElement('div')]
+    document.body.append(...hosts)
+    const roots = hosts.map((host) => host.attachShadow({ mode }))
+    const targets = roots.map((root) => {
+      const node = document.createElement('div')
+      root.append(node)
+      return node
+    })
+    const other = document.createElement('button')
+    roots[2].append(other)
+    const wrapper = mount(Trigger, {
+      props: { open: true, popupContainer: targets[0] },
+      slots: { default: () => h('button'), content: () => h('input') },
+    })
+    try {
+      await nextTick()
+      await nextTick()
+      roots[0].querySelector('input')!.focus()
+      const update = wrapper.setProps({ popupContainer: targets[1] })
+      other.focus()
+      await update
+      await nextTick()
+      expect(roots[2].activeElement).toBe(other)
+    } finally {
+      wrapper.unmount()
+      hosts.forEach((host) => host.remove())
+    }
+  },
+)

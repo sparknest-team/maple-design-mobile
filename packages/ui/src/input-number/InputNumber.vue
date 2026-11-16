@@ -117,7 +117,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick, ref, useAttrs, useId, watch, type InputHTMLAttributes } from 'vue'
+import { computed, nextTick, ref, useAttrs, watch, type InputHTMLAttributes } from 'vue'
 import FieldDecorator, { fieldDecoratorProps } from '../field-decorator'
 import { useFieldLocale } from '../field-decorator/use-field-locale'
 import { useFormErrorDescription } from '../form/error-description'
@@ -126,6 +126,7 @@ import { captureInputSelection, splitInputAttrs } from '../input/native-attrs'
 import { useInputForm } from '../input/use-input-form'
 import { createNamespace } from '../utils/components'
 import { useInputComposition } from '../utils/input-composition'
+import { useId } from '../utils/vue-compat'
 import InputNumberStep from './InputNumberStep.vue'
 import type { StepMethod } from './number-arithmetic'
 import { inputNumberProps } from './props'

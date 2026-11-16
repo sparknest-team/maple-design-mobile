@@ -74,7 +74,6 @@ import {
   nextTick,
   ref,
   useAttrs,
-  useId,
   watch,
   type ComponentPublicInstance,
   type InputHTMLAttributes,
@@ -86,6 +85,7 @@ import { useFormErrorDescription } from '../../form/error-description'
 import { useFormItemLabel } from '../../form/label-context'
 import { splitInputAttrs } from '../../input/native-attrs'
 import { createNamespace } from '../../utils/components'
+import { useId } from '../../utils/vue-compat'
 import { useFieldTexts } from '../field-presentation/texts'
 import { blockFieldOpenClick, isFieldOpenClick } from '../picker-field/open-trigger'
 import { pickerFieldProps } from './props'

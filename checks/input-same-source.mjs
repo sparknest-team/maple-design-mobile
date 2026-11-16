@@ -9,6 +9,7 @@ const workspace = fileURLToPath(new URL('../../', import.meta.url))
 const cedar = resolve(workspace, 'cedar-design-web/packages/ui/src')
 const maple = resolve(workspace, 'maple-design-mobile/packages/ui/src')
 const pairs = [
+  ['_utils/vue-compat.ts', 'utils/vue-compat.ts'],
   ['field-decorator/FieldDecorator.vue', 'field-decorator/FieldDecorator.vue'],
   ['field-decorator/props.ts', 'field-decorator/props.ts'],
   ['field-decorator/use-field-geometry.ts', 'field-decorator/use-field-geometry.ts'],
@@ -37,6 +38,7 @@ const normalizePlatform = (source) =>
     .replaceAll('_utils/popup-container', 'utils/popup-container')
     .replaceAll('_utils/text-input-value', 'utils/text-input-value')
     .replaceAll('_utils/empty-value', 'utils/empty-value')
+    .replaceAll('_utils/vue-compat', 'utils/vue-compat')
     .replaceAll('./input.vue', './Input.vue')
     .replaceAll('--c-', '--mp-')
     .replaceAll('.c-', '.mp-')

@@ -1,9 +1,10 @@
 <template><Render /></template>
 
 <script setup lang="ts">
-import { computed, h, nextTick, onBeforeUnmount, provide, ref, useAttrs, useId, watch, type VNode } from 'vue'
+import { computed, h, nextTick, onBeforeUnmount, provide, ref, useAttrs, watch, type VNode } from 'vue'
 import { useDirection } from '../_utils/direction'
 import { createNamespace } from '../utils/components'
+import { useId } from '../utils/vue-compat'
 import { flatten, tabsInjectionKey, type TabEntry } from './context'
 import { tabsProps, type TabsName } from './props'
 import TabNav from './TabNav.vue'

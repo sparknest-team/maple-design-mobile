@@ -59,6 +59,22 @@ Combine `vertical`, `horizontal` and `inline` layouts with `direct / popup` edit
 ../example/demos/en-US/decoration.vue
 ```
 
+### Partial form section
+
+Group only the onsite SOP, safety notice and key points. The end divider separates the following ungrouped fields. Switch between line, plain and card above the form; your entries are preserved. Toggle the title marker and end divider to compare boundaries. Card uses its outer border instead of a separate end divider.  FormSection inherits the parent Form layout, label sizing, disabled state and validation; use Form/FormItem layout props to configure them. Supply a title or title slot. Folding and local layout overrides are not supported.
+
+```demo
+../example/demos/en-US/section.vue
+```
+
+### Section header actions
+
+The extra slot places actions at the right of the title. Use template fills the three onsite fields; Clear resets them. Edit the outside skill level, then use either action to verify that it stays unchanged.
+
+```demo
+../example/demos/en-US/section-actions.vue
+```
+
 ### Label width strategies
 
 Enter values, then switch between measured labels, responsive columns and fixed widths: all three strategies retain the same form model. Edit the longest label or hide the contact field to observe remeasurement. Below 576px, the responsive strategy stacks labels above controls; fixed widths use 6rem with an 8rem contact-field override.
@@ -605,6 +621,26 @@ import type {
 } from '@maple-design/ui-vue'
 ```
 
+### FormSection Props
+
+| Prop | Description | Type | Default |
+| --- | --- | --- | --- |
+| id | Section ID; generated when omitted | `string` | — |
+| title | Section title | `string` | `''` |
+| description | Supporting description | `string` | `''` |
+| variant | Section style; card uses a padded border | `'line' \| 'plain' \| 'card'` | `'line'` |
+| show-marker | Show the accent marker | `boolean` | `true` |
+| show-end-divider | Separate subsequent ungrouped fields; ignored for card | `boolean` | `false` |
+
+### FormSection Slots
+
+| Slot | Description |
+| --- | --- |
+| default | Form fields |
+| title | Custom title |
+| description | Custom description |
+| extra | Trailing header actions |
+
 ## CSS Variables
 
 <!-- component-css-variables:start -->
@@ -626,6 +662,29 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-form-label-min-height` | `24px` | `min-height` |
 | `--mp-form-label-text-color` | `var(--mp-sys-color-content-primary)` | `color` |
 | `--mp-form-required-symbol-color` | `var(--mp-sys-color-content-danger)` | `color` |
+| `--mp-form-section-accent-color` | `var(--mp-sys-color-action-primary)` | `background` |
+| `--mp-form-section-after-gap` | `24px` | `margin-block` |
+| `--mp-form-section-before-gap` | `32px` | `padding-block-start` |
+| `--mp-form-section-card-background` | `var(--mp-sys-color-surface-default)` | `background` |
+| `--mp-form-section-card-padding` | `16px` | `padding` |
+| `--mp-form-section-card-radius` | `6px` | `border-radius` |
+| `--mp-form-section-description-color` | `var(--mp-sys-color-content-secondary)` | `color` |
+| `--mp-form-section-description-gap` | `4px` | `margin-block-start` |
+| `--mp-form-section-description-line-height` | `20px` | `line-height` |
+| `--mp-form-section-description-size` | `13px` | `font-size` |
+| `--mp-form-section-divider-color` | `var(--mp-sys-color-border-default)` | `border`, `border-block-start` |
+| `--mp-form-section-divider-width` | `1px` | `border`, `border-block-start` |
+| `--mp-form-section-end-divider-gap` | `24px` | `margin-block-start` |
+| `--mp-form-section-header-gap` | `20px` | `margin-block-end` |
+| `--mp-form-section-heading-gap` | `16px` | `margin-inline-start` |
+| `--mp-form-section-marker-gap` | `8px` | `margin-inline-end`, `row-gap` |
+| `--mp-form-section-marker-height` | `16px` | `height` |
+| `--mp-form-section-marker-radius` | `2px` | `border-radius` |
+| `--mp-form-section-marker-width` | `3px` | `width` |
+| `--mp-form-section-title-color` | `var(--mp-sys-color-content-primary)` | `color` |
+| `--mp-form-section-title-line-height` | `24px` | `line-height` |
+| `--mp-form-section-title-size` | `16px` | `font-size` |
+| `--mp-form-section-title-weight` | `600` | `font-weight` |
 | `--mp-form-size-md-item-margin-bottom` | `16px` | `margin-bottom` |
 | `--mp-form-size-md-label-font-size` | `14px` | `font-size` |
 | `--mp-form-tooltip-margin-left` | `var(--mp-sys-space-2)` | `padding-inline-start` |

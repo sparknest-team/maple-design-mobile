@@ -56,6 +56,44 @@ function handleEditorKeydown(event: KeyboardEvent) {
     }
     return
   }
+  const target = event.target as Element | null
+  const item = target?.closest?.('[role="presentation"][data-cascader-key]')
+  if (item && target !== item) {
+    return
+  }
+  if (
+    !event.defaultPrevented &&
+    !event.isComposing &&
+    event.keyCode !== 229 &&
+    !event.altKey &&
+    !event.ctrlKey &&
+    !event.metaKey &&
+    !event.shiftKey &&
+    event.key === 'ArrowDown' &&
+    target?.matches('input[aria-controls]') &&
+    !controller.mergedDisabled &&
+    !controller.mergedReadonly &&
+    !controller.loading &&
+    !controller.session.pending
+  ) {
+    const controls = target.getAttribute('aria-controls')
+    const root = event.currentTarget as HTMLElement | null
+    const group = Array.from(root?.querySelectorAll<HTMLElement>('[role="group"]') ?? []).find(
+      (node) => node.id === controls,
+    )
+    if (group) {
+      const options = Array.from(group.querySelectorAll<HTMLElement>('[role="presentation"][data-cascader-key]'))
+      const checkbox = options
+        .filter((option) => option.closest('[role="group"]') === group)
+        .map((option) => option.querySelector<HTMLInputElement>('input[type="checkbox"]'))
+        .find((input) => input && !input.disabled)
+      if (checkbox) {
+        event.preventDefault()
+        checkbox.focus()
+      }
+      return
+    }
+  }
   return controller.handleKeyDown(event)
 }
 watch(

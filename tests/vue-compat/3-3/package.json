@@ -1,0 +1,9 @@
+{
+  "name": "@maple-design/vue-compat-3-3-vue",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "vue": "3.3.13",
+    "@vue/server-renderer": "3.3.13"
+  }
+}

@@ -139,3 +139,24 @@ test('rejects syntax damage left by directory-name replacements', (t) => {
   put('packages/ui/src/index.mjs', "const pkg = source.'ui';")
   assert.throws(() => auditPackages(root), /source syntax error/)
 })
+
+test('audits declared compatibility workspaces without exempting their dependencies', (t) => {
+  const name = '@cedar-design/vue-compat-current-vue'
+  const { root, put } = fixture(t, { devDependencies: { [name]: 'workspace:*' } })
+  put('pnpm-workspace.yaml', "packages:\n  - 'packages/*'\n  - 'tests/vue-compat/*'\n")
+  const manifest = 'tests/vue-compat/current/package.json'
+  put(manifest, { name, private: true, dependencies: { vue: '3.5.45' } })
+  assert.equal(auditPackages(root).packages, 3)
+  put(manifest, { name, private: true, dependencies: { react: '19.0.0' } })
+  assert.throws(() => auditPackages(root), /cross-framework/)
+  put(manifest, { name, private: false })
+  assert.throws(() => auditPackages(root), /compatibility fixture must be private/)
+})
+
+test('does not classify undeclared or excluded fixture manifests as workspaces', (t) => {
+  const { root, put } = fixture(t)
+  put('tests/vue-compat/old/package.json', { name: 'old-fixture-vue', private: true })
+  assert.throws(() => auditPackages(root), /Unclassified package.json/)
+  put('pnpm-workspace.yaml', "packages:\n  - 'packages/*'\n  - 'tests/vue-compat/*'\n  - '!tests/vue-compat/old'\n")
+  assert.throws(() => auditPackages(root), /Unclassified package.json/)
+})

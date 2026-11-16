@@ -1,6 +1,15 @@
 import assert from 'node:assert/strict'
 import { execFileSync } from 'node:child_process'
-import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import {
+  copyFileSync,
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  realpathSync,
+  rmSync,
+  writeFileSync,
+} from 'node:fs'
 import { createRequire } from 'node:module'
 import { tmpdir } from 'node:os'
 import { resolve } from 'node:path'
@@ -123,6 +132,34 @@ test('local shared utilities: published runtime, types, behavior and bundle size
       }
       const manifest = JSON.parse(readFileSync(resolve(root, 'package.json'), 'utf8'))
       assert.equal(manifest.pnpm?.patchedDependencies?.['rattail@1.0.17'], undefined)
+    })
+
+    await t.test('NodeNext selects the declaration matching each module format', () => {
+      const manifest = JSON.parse(readFileSync(resolve(sharedRoot, 'package.json'), 'utf8'))
+      const consumer = resolve(output, 'consumer')
+      const packageRoot = resolve(consumer, 'node_modules', manifest.name)
+      mkdirSync(resolve(packageRoot, 'lib'), { recursive: true })
+      writeFileSync(resolve(packageRoot, 'package.json'), JSON.stringify(manifest))
+      for (const file of ['index.d.ts', 'index.d.cts']) {
+        copyFileSync(resolve(output, file), resolve(packageRoot, 'lib', file))
+      }
+      const options = { module: ts.ModuleKind.NodeNext, moduleResolution: ts.ModuleResolutionKind.NodeNext }
+      for (const [extension, mode, expected] of [
+        ['mts', ts.ModuleKind.ESNext, 'index.d.ts'],
+        ['cts', ts.ModuleKind.CommonJS, 'index.d.cts'],
+      ]) {
+        const resolved = ts.resolveModuleName(
+          manifest.name,
+          resolve(consumer, `entry.${extension}`),
+          options,
+          ts.sys,
+          undefined,
+          undefined,
+          mode,
+        ).resolvedModule
+        assert.ok(resolved)
+        assert.equal(realpathSync(resolved.resolvedFileName), realpathSync(resolve(packageRoot, 'lib', expected)))
+      }
     })
 
     await t.test('published declarations retain generics, narrowing and motion state types', () => {

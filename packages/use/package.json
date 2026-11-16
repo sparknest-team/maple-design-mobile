@@ -33,7 +33,7 @@
     "lib"
   ],
   "scripts": {
-    "build": "tsup src/index.ts --format esm,cjs --out-dir=lib --dts --clean",
+    "build": "tsup src/index.ts --format esm,cjs --out-dir=lib --dts --clean && node ../../../design-ui/bin/vue-compat-declarations.mjs lib",
     "dev": "tsup src/index.ts --format esm --out-dir=lib --watch --dts"
   },
   "dependencies": {
@@ -46,7 +46,7 @@
     "vue": "catalog:"
   },
   "peerDependencies": {
-    "vue": "^3.2.0"
+    "vue": "^3.2.47"
   },
   "publishConfig": {
     "access": "public",

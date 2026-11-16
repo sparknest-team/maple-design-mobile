@@ -11,7 +11,6 @@ import {
   ref,
   Teleport,
   Transition,
-  useId,
   vShow,
   watch,
   withDirectives,
@@ -19,6 +18,7 @@ import {
 import { useDirection } from '@maple-design/use-vue'
 import { useThemeScope } from '../theme-provider/context'
 import { createNamespace } from '../utils/components'
+import { useId } from '../utils/vue-compat'
 import { navMenuItemProps, type NavMenuItemSlotContext } from './item-props'
 import NavMenuOptions from './NavMenuOptions'
 import { navMenuKey } from './provide'

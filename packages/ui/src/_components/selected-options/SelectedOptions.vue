@@ -57,8 +57,9 @@
   <slot v-else />
 </template>
 <script setup lang="ts">
-import { computed, inject, provide, ref, useId, watch, type VNodeChild } from 'vue'
+import { computed, inject, provide, ref, watch, type VNodeChild } from 'vue'
 import { createNamespace } from '../../utils/components'
+import { useId } from '../../utils/vue-compat'
 import { useFieldTexts } from '../field-presentation/texts'
 import { selectionEditorSurface, selectionListStyle, type SelectedOptionItem } from './context'
 import { mobile } from './platform'

@@ -88,6 +88,27 @@ export async function normalizeTypeScript(source) {
             node.elseStatement ? block(node.elseStatement) : undefined,
           )
         }
+        if (ts.isForStatement(node)) {
+          return ts.factory.updateForStatement(
+            node,
+            node.initializer,
+            node.condition,
+            node.incrementor,
+            block(node.statement),
+          )
+        }
+        if (ts.isForOfStatement(node)) {
+          return ts.factory.updateForOfStatement(
+            node,
+            node.awaitModifier,
+            node.initializer,
+            node.expression,
+            block(node.statement),
+          )
+        }
+        if (ts.isForInStatement(node)) {
+          return ts.factory.updateForInStatement(node, node.initializer, node.expression, block(node.statement))
+        }
         return node
       }
       return (node) => ts.visitNode(node, visit)

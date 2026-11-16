@@ -1,4 +1,4 @@
-import { computed, defineComponent, ref, Transition, useId, watch, type SlotsType, type VNodeChild } from 'vue'
+import { computed, defineComponent, ref, Transition, watch, type SlotsType, type VNodeChild } from 'vue'
 import { IconClose, IconPlus } from '@maple-design/icons-vue'
 import { call, isBoolean } from '@maple-design/shared-vue'
 import { useClickOutside } from '@maple-design/use-vue'
@@ -10,6 +10,7 @@ import { miscText as t } from '../locale/misc-text'
 import { createNamespace, flatFragment } from '../utils/components'
 import { toSizeUnit } from '../utils/elements'
 import { resolvePopupContainer } from '../utils/popup-container'
+import { useId } from '../utils/vue-compat'
 import { props, type FabTriggerProps } from './props'
 
 const { name, classes, n } = createNamespace('fab')

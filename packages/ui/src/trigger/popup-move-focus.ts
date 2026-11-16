@@ -111,7 +111,8 @@ export function usePopupMoveFocus(
     () => {
       invalidate()
       const root = popup.value
-      const anchor = root?.ownerDocument.activeElement as HTMLElement | null | undefined
+      const focusRoot = root?.getRootNode() as Document | ShadowRoot | undefined
+      const anchor = focusRoot?.activeElement as HTMLElement | null | undefined
       if (!active || !visible.value || !root || !anchor || !root.contains(anchor)) {
         return
       }

@@ -134,3 +134,7 @@ PC 端见 `/Users/shuaimeng/github/cedar-design-web/AGENTS.md`。
 ## 包名与框架边界
 
 包目录使用职责名，所有内部包（含私有包）以 -vue 结尾；与 React 的源码、CSS、token、preset、shared 和构建依赖完全独立。`pnpm check:packages` 验证目录、名称和直接依赖边界。
+
+## Vue 运行时版本兼容
+
+开发环境使用 catalog 固定的 Vue 稳定版，发布最低兼容 Vue 3.2.47。源码检查运行 `pnpm check:vue-compat:source`；构建后运行 `pnpm check:vue-compat`。新语法、声明降级、消费版本矩阵与 SSR 边界统一见同级 `design-ui/standards/build-and-ci.md` 的「Vue 开发版本与消费兼容性」。

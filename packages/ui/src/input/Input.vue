@@ -97,7 +97,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, inject, nextTick, onMounted, ref, useAttrs, useId, watch, type InputHTMLAttributes } from 'vue'
+import { computed, inject, nextTick, onMounted, ref, useAttrs, watch, type InputHTMLAttributes } from 'vue'
 import { invokeBeforeCommit, useFieldPresentation } from '../_components/field-presentation/context'
 import FieldPresentation from '../_components/field-presentation/FieldPresentation.vue'
 import { useSelectionSession } from '../_components/selection-field/use-selection-session'
@@ -106,6 +106,7 @@ import { useFormErrorDescription } from '../form/error-description'
 import { createNamespace } from '../utils/components'
 import { useEmptyValues } from '../utils/empty-value'
 import { useInputComposition } from '../utils/input-composition'
+import { useId } from '../utils/vue-compat'
 import { oneTimeCodeKey } from './context'
 import InputFeedback from './InputFeedback.vue'
 import { captureInputSelection, splitInputAttrs } from './native-attrs'

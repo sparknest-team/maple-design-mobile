@@ -855,8 +855,8 @@ exports[`form with upload 1`] = `
         <div class="mp-upload mp-upload--text"><input class="mp-upload__input" type="file" disabled="">
           <div class="mp-upload__content">
             <!--v-if-->
-            <div class="mp-upload__trigger" role="button" aria-disabled="true"><span aria-hidden="true">＋</span><span>上传</span></div>
             <div class="mp-upload__list"></div>
+            <div class="mp-upload__trigger" role="button" aria-disabled="true"><span aria-hidden="true">＋</span><span>上传</span></div>
           </div><!-- Keep an inline Teleport inside a fragment for Vue 3.2 hydration. -->
           <!--v-if-->
           <!--teleport start-->
@@ -881,8 +881,8 @@ exports[`form with upload 2`] = `
         <div class="mp-upload mp-upload--text"><input class="mp-upload__input" type="file" disabled="">
           <div class="mp-upload__content">
             <!--v-if-->
-            <div class="mp-upload__trigger" role="button" aria-disabled="true"><span aria-hidden="true">＋</span><span>上传</span></div>
             <div class="mp-upload__list"></div>
+            <div class="mp-upload__trigger" role="button" aria-disabled="true"><span aria-hidden="true">＋</span><span>上传</span></div>
           </div><!-- Keep an inline Teleport inside a fragment for Vue 3.2 hydration. -->
           <!--v-if-->
           <!--teleport start-->
@@ -907,8 +907,8 @@ exports[`form with upload 3`] = `
         <div class="mp-upload mp-upload--text"><input class="mp-upload__input" type="file" disabled="" aria-describedby="mp-form-error-v-0">
           <div class="mp-upload__content">
             <!--v-if-->
-            <div class="mp-upload__trigger" role="button" aria-disabled="true" aria-describedby="mp-form-error-v-0"><span aria-hidden="true">＋</span><span>上传</span></div>
             <div class="mp-upload__list"></div>
+            <div class="mp-upload__trigger" role="button" aria-disabled="true" aria-describedby="mp-form-error-v-0"><span aria-hidden="true">＋</span><span>上传</span></div>
           </div><!-- Keep an inline Teleport inside a fragment for Vue 3.2 hydration. -->
           <!--v-if-->
           <!--teleport start-->
@@ -944,8 +944,8 @@ exports[`form with upload 4`] = `
         <div class="mp-upload mp-upload--text"><input class="mp-upload__input" type="file" disabled="">
           <div class="mp-upload__content">
             <!--v-if-->
-            <div class="mp-upload__trigger" role="button" aria-disabled="true"><span aria-hidden="true">＋</span><span>上传</span></div>
             <div class="mp-upload__list"></div>
+            <div class="mp-upload__trigger" role="button" aria-disabled="true"><span aria-hidden="true">＋</span><span>上传</span></div>
           </div><!-- Keep an inline Teleport inside a fragment for Vue 3.2 hydration. -->
           <!--v-if-->
           <!--teleport start-->

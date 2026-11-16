@@ -10548,7 +10548,7 @@ option({ data }) 接收规范化 CascaderOptionInfo，data.raw 是原始选项�
 
 ## API
 
-面板分支的 `aria-expanded` 表示其子列是否实际显示；聚焦或悬停尚未打开子列时不会标记为已展开。叶节点没有 `aria-expanded`。 单选分层菜单的可选叶节点和严格模式可选分支使用 `menuitemradio` 与 `aria-checked`；仅用于展开的分支保持 `menuitem`，多选仍使用复选框。 单选分层面板的菜单项共有一个 Tab 入口；方向键在列和选项间移动，Tab 或 Shift+Tab 离开菜单。虚拟滚动时入口保持在当前渲染的选项中，选项插槽内的自定义交互控件仍自行管理焦点。 搜索结果不会声明其未显示的子菜单。 直接模式的单选搜索使用 `listbox` 和 `option`，输入框关联弹层与活动项；编辑器单选搜索使用 `menuitemradio` 和 `aria-checked`，菜单内保留一个 Tab 入口；选项持有焦点时，悬停其他选项不会转移该入口。多选搜索保留复选框。 直接单选搜索时，弹层图标不占用额外 Tab 停靠点；可点击图标或在输入框按方向下键展开。
+面板分支的 `aria-expanded` 表示其子列是否实际显示；聚焦或悬停尚未打开子列时不会标记为已展开。叶节点没有 `aria-expanded`。 单选分层菜单的可选叶节点和严格模式可选分支使用 `menuitemradio` 与 `aria-checked`；仅用于展开的分支保持 `menuitem`，多选仍使用复选框。 单选分层面板的菜单项共有一个 Tab 入口；方向键在列和选项间移动，Tab 或 Shift+Tab 离开菜单。虚拟滚动时入口保持在当前渲染的选项中，选项插槽内的自定义交互控件仍自行管理焦点。 搜索结果不会声明其未显示的子菜单。 直接模式的单选搜索使用 `listbox` 和 `option`，输入框关联弹层与活动项；编辑器单选搜索使用 `menuitemradio` 和 `aria-checked`，菜单内保留一个 Tab 入口；选项持有焦点时，悬停其他选项不会转移该入口。多选搜索保留复选框。直接模式多选搜索默认使用具名对话框，打开后在输入框按向下方向键进入首个可用复选框，按空格切换；调用方显式指定其他弹层类型或外部关联时保留其设置。输入框与弹层位于不同 ShadowRoot 时不会自动生成跨根 ID 关联。编辑模式的多选搜索中，在搜索框按向下方向键会聚焦第一个可用的结果复选框；无可用结果时焦点留在搜索框。 直接单选搜索时，弹层图标不占用额外 Tab 停靠点；可点击图标或在输入框按方向下键展开。
 
 虚拟列中，末尾增删其他选项时，仍在渲染范围内的选项会保留其节点与焦点；切换父级时不会沿用旧列的滚动位置。选项移出虚拟窗口或被删除时可能卸载，插槽中需要长期保留的输入状态应由业务保存。
 
@@ -10626,7 +10626,7 @@ option({ data }) 接收规范化 CascaderOptionInfo，data.raw 是原始选项�
 
 直接编辑模式下，字段关闭时按方向下键请求展开；展开后若焦点仍在字段且没有活动项，会激活首个可用选项；选项异步到达时也适用。等待期间失焦、关闭或再次操作会取消本次激活。受控 `open` 仅在父组件接受请求后改变。
 
-菜单选项获得焦点时，按 Enter 或空格可操作该选项；搜索输入框和选项内复选框保留各自的键盘行为。
+菜单选项获得焦点时，按 Enter 或空格可操作该选项；搜索输入框和选项内复选框保留各自的键盘行为。 多选编辑器的搜索结果以具名分组呈现，通过 Tab 到达复选框，按空格或 Enter 切换。
 
 - `keydown(event)`：字段、候选菜单或编辑面板按键事件；调用 `preventDefault()` 可阻止内部键盘处理。
 
@@ -28512,6 +28512,235 @@ const model = reactive({ name: '', notes: '' })
 </style>
 ```
 
+### 局部表单分区
+
+仅将现场处置 SOP、安全须知和处置要点放入分区，底部结束线区分后续未分组字段。 在表单上方切换分隔线、仅标题、边框卡片三种风格，已填内容保持不变；也可切换标题标记和底部结束线。卡片以外框表示范围，不重复显示结束线。FormSection 继承父 Form 的布局、标签宽度、禁用状态和校验；布局通过 Form / FormItem 的既有属性设置。请提供 title 或 title 插槽。当前不提供折叠与分区级布局覆盖。
+
+Example source: src/form/example/demos/section.vue
+
+```vue
+<script setup lang="ts">
+import { computed, reactive, ref } from 'vue'
+import type { FormSectionVariant } from '../../section-props'
+
+const props = defineProps<{ english?: boolean }>()
+const text = computed(() =>
+  props.english
+    ? {
+        event: 'Event type',
+        level: 'Event level',
+        tags: 'Tags',
+        remote: 'Remote SOP',
+        section: 'Onsite handling',
+        onsite: 'Onsite SOP',
+        safety: 'Safety notice',
+        points: 'Key points',
+        skill: 'Skill level',
+        certificates: 'Certificates',
+        review: 'Review',
+        abnormal: 'Multiple anomalies',
+      }
+    : {
+        event: '事件类型',
+        level: '事件级别',
+        tags: '标签',
+        remote: '远程处置SOP',
+        section: '现场处置',
+        onsite: '现场处置SOP',
+        safety: '安全须知',
+        points: '处置要点',
+        skill: '技能等级',
+        certificates: '作业证',
+        review: '审核',
+        abnormal: '多元异常',
+      },
+)
+const controls = computed(() =>
+  props.english
+    ? {
+        variantLabel: 'Section style',
+        optionsLabel: 'Display options',
+        variants: { line: 'Divider', plain: 'Title only', card: 'Bordered card' },
+        markerLabel: 'Title marker',
+        endLabel: 'End divider',
+        styleHint: 'Switching styles preserves your entries. A card uses its border to mark the section boundary.',
+      }
+    : {
+        variantLabel: '分组风格',
+        optionsLabel: '展示选项',
+        variants: { line: '分隔线', plain: '仅标题', card: '边框卡片' },
+        markerLabel: '显示标题标记',
+        endLabel: '底部结束线',
+        styleHint: '切换风格会保留已填内容。卡片使用外框表示分组范围。',
+      },
+)
+const variant = ref<FormSectionVariant>('line')
+const showMarker = ref(true)
+const showEndDivider = ref(true)
+const variantOptions = computed(() =>
+  (['line', 'plain', 'card'] as const).map((value) => ({ value, label: controls.value.variants[value] })),
+)
+const model = reactive({
+  event: 'abnormal',
+  level: '3',
+  tags: [],
+  remote: ['review'],
+  onsite: ['review'],
+  safety: '1',
+  points: '1',
+  skill: 'L3',
+  certificates: ['electric', 'entry', 'height', 'high'],
+})
+const certificateOptions = computed(() => [
+  { value: 'electric', label: props.english ? 'Low voltage' : '低压电工证' },
+  { value: 'entry', label: props.english ? 'Entry permit' : '进仓许可' },
+  { value: 'height', label: props.english ? 'Work at height' : '登高证' },
+  { value: 'high', label: props.english ? 'High voltage' : '高压电工证' },
+])
+</script>
+
+<template>
+  <div data-form-section-demo="variants">
+    <mp-form layout="vertical">
+      <mp-form-item :label="controls.variantLabel">
+        <mp-radio-group v-model="variant" :options="variantOptions" :aria-label="controls.variantLabel" />
+      </mp-form-item>
+      <mp-form-item :label="controls.optionsLabel">
+        <mp-space wrap>
+          <mp-checkbox v-model="showMarker">{{ controls.markerLabel }}</mp-checkbox>
+          <mp-checkbox v-model="showEndDivider" :disabled="variant === 'card'">{{ controls.endLabel }}</mp-checkbox>
+        </mp-space>
+      </mp-form-item>
+    </mp-form>
+    <p>{{ controls.styleHint }}</p>
+
+    <mp-form :model="model" layout="horizontal" label-col-flex="7rem" edit-mode="direct">
+      <mp-form-item field="event" :label="text.event" required>
+        <mp-select v-model="model.event" :options="[{ value: 'abnormal', label: text.abnormal }]" />
+      </mp-form-item>
+      <mp-form-item field="level" :label="text.level" required>
+        <mp-select v-model="model.level" :options="[{ value: '3', label: english ? 'Level 3' : '三级' }]" />
+      </mp-form-item>
+      <mp-form-item field="tags" :label="text.tags">
+        <mp-select v-model="model.tags" multiple :options="[{ value: 'review', label: text.review }]" />
+      </mp-form-item>
+      <mp-form-item field="remote" :label="text.remote">
+        <mp-select v-model="model.remote" multiple :options="[{ value: 'review', label: text.review }]" />
+      </mp-form-item>
+
+      <mp-form-section
+        :title="text.section"
+        :variant="variant"
+        :show-marker="showMarker"
+        :show-end-divider="showEndDivider"
+      >
+        <mp-form-item field="onsite" :label="text.onsite">
+          <mp-select v-model="model.onsite" multiple :options="[{ value: 'review', label: text.review }]" />
+        </mp-form-item>
+        <mp-form-item field="safety" :label="text.safety">
+          <mp-textarea v-model="model.safety" :max-length="200" show-word-limit />
+        </mp-form-item>
+        <mp-form-item field="points" :label="text.points">
+          <mp-textarea v-model="model.points" :max-length="200" show-word-limit />
+        </mp-form-item>
+      </mp-form-section>
+
+      <mp-form-item field="skill" :label="text.skill">
+        <mp-select v-model="model.skill" :options="[{ value: 'L3', label: 'L3' }]" />
+      </mp-form-item>
+      <mp-form-item field="certificates" :label="text.certificates">
+        <mp-select v-model="model.certificates" multiple :options="certificateOptions" />
+      </mp-form-item>
+    </mp-form>
+  </div>
+</template>
+```
+
+### 分区标题操作
+
+通过 extra 插槽在标题右侧放置操作。“引用模板”填充现场处置字段，“清空”只清空当前分区。可先修改分区外的技能等级，再点击操作，观察该值保持不变。
+
+Example source: src/form/example/demos/section-actions.vue
+
+```vue
+<script setup lang="ts">
+import { computed, reactive, ref } from 'vue'
+
+const props = defineProps<{ english?: boolean }>()
+const copy = computed(() =>
+  props.english
+    ? {
+        actionsDescription:
+          'Use a template to fill this section. Clearing it preserves the skill level outside the section.',
+        applyTemplate: 'Use template',
+        clearSection: 'Clear',
+        applied: 'Onsite handling template applied.',
+        cleared: 'Onsite fields cleared. The skill level is unchanged.',
+        templateSop: 'Standard onsite review SOP',
+        templateSafety: 'Read the onsite safety notice and confirm working conditions.',
+        templatePoints: 'Review the onsite checklist and record the outcome.',
+        section: 'Onsite handling',
+        onsite: 'Onsite SOP',
+        safety: 'Safety notice',
+        points: 'Key points',
+        skill: 'Skill level',
+      }
+    : {
+        actionsDescription: '引用模板填充本分区；清空后，分区外的技能等级保持不变。',
+        applyTemplate: '引用模板',
+        clearSection: '清空',
+        applied: '已引用现场处置模板。',
+        cleared: '已清空现场处置，技能等级保持不变。',
+        templateSop: '现场核验标准 SOP',
+        templateSafety: '请先阅读现场安全说明，确认作业条件。',
+        templatePoints: '按现场处置清单逐项核验，并记录处理结果。',
+        section: '现场处置',
+        onsite: '现场处置SOP',
+        safety: '安全须知',
+        points: '处置要点',
+        skill: '技能等级',
+      },
+)
+const model = reactive({ sop: '', safety: '', points: '', skill: 'L3' })
+const feedback = ref<'applied' | 'cleared' | ''>('')
+function applyTemplate() {
+  Object.assign(model, {
+    sop: copy.value.templateSop,
+    safety: copy.value.templateSafety,
+    points: copy.value.templatePoints,
+  })
+  feedback.value = 'applied'
+}
+function clearSection() {
+  Object.assign(model, { sop: '', safety: '', points: '' })
+  feedback.value = 'cleared'
+}
+</script>
+<template>
+  <div data-form-section-demo="actions">
+    <mp-form :model="model" layout="horizontal" label-col-flex="7rem" edit-mode="direct">
+      <mp-form-section :title="copy.section" :description="copy.actionsDescription" show-end-divider>
+        <template #extra>
+          <mp-space size="sm" wrap>
+            <mp-button variant="text" size="sm" @click="applyTemplate">{{ copy.applyTemplate }}</mp-button>
+            <mp-button variant="text" size="sm" @click="clearSection">{{ copy.clearSection }}</mp-button>
+          </mp-space>
+        </template>
+        <mp-form-item field="sop" :label="copy.onsite"><mp-input v-model="model.sop" /></mp-form-item>
+        <mp-form-item field="safety" :label="copy.safety"
+          ><mp-textarea v-model="model.safety" :max-length="200" show-word-limit
+        /></mp-form-item>
+        <mp-form-item field="points" :label="copy.points"
+          ><mp-textarea v-model="model.points" :max-length="200" show-word-limit
+        /></mp-form-item>
+      </mp-form-section>
+      <mp-form-item field="skill" :label="copy.skill"><mp-input v-model="model.skill" /></mp-form-item>
+    </mp-form>
+    <p v-if="feedback" role="status">{{ copy[feedback] }}</p>
+  </div>
+</template>
+```
+
 ### 标签宽度方案对比
 
 先输入数据，再切换自动测量、响应式栅格和固定宽度，三种方案使用同一份表单数据。修改最长标签或隐藏联系方式，观察自动测量更新。响应式方案在 576px 以下上下排列；固定宽度默认 6rem，联系方式单项覆盖为 8rem。
@@ -30860,6 +31089,26 @@ import type {
 } from '@maple-design/ui-vue'
 ```
 
+### FormSection Props
+
+| 属性 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| id | 分区 ID，未设置时自动生成 | `string` | — |
+| title | 分区标题 | `string` | `''` |
+| description | 标题下方的补充说明 | `string` | `''` |
+| variant | 分区风格，card 带边框和内容内边距 | `'line' \| 'plain' \| 'card'` | `'line'` |
+| show-marker | 显示标题左侧的主题色标记 | `boolean` | `true` |
+| show-end-divider | 显示底部结束线，区分后续未分组字段；card 不重复绘制 | `boolean` | `false` |
+
+### FormSection Slots
+
+| 插槽 | 说明 |
+| --- | --- |
+| default | 分区内的表单字段 |
+| title | 自定义标题 |
+| description | 自定义说明 |
+| extra | 标题右侧操作 |
+
 ## CSS Variables
 
 <!-- component-css-variables:start -->
@@ -30881,6 +31130,29 @@ import type {
 | `--mp-form-label-min-height` | `24px` | `min-height` |
 | `--mp-form-label-text-color` | `var(--mp-sys-color-content-primary)` | `color` |
 | `--mp-form-required-symbol-color` | `var(--mp-sys-color-content-danger)` | `color` |
+| `--mp-form-section-accent-color` | `var(--mp-sys-color-action-primary)` | `background` |
+| `--mp-form-section-after-gap` | `24px` | `margin-block`, `padding-block-start` |
+| `--mp-form-section-before-gap` | `32px` | `padding-block-start` |
+| `--mp-form-section-card-background` | `var(--mp-sys-color-surface-default)` | `background` |
+| `--mp-form-section-card-padding` | `16px` | `padding` |
+| `--mp-form-section-card-radius` | `6px` | `border-radius` |
+| `--mp-form-section-description-color` | `var(--mp-sys-color-content-secondary)` | `color` |
+| `--mp-form-section-description-gap` | `4px` | `margin-block-start` |
+| `--mp-form-section-description-line-height` | `20px` | `line-height` |
+| `--mp-form-section-description-size` | `13px` | `font-size` |
+| `--mp-form-section-divider-color` | `var(--mp-sys-color-border-default)` | `border`, `border-block-start` |
+| `--mp-form-section-divider-width` | `1px` | `border`, `border-block-start` |
+| `--mp-form-section-end-divider-gap` | `24px` | `margin-block-start` |
+| `--mp-form-section-header-gap` | `20px` | `margin-block-end` |
+| `--mp-form-section-heading-gap` | `16px` | `margin-inline-start` |
+| `--mp-form-section-marker-gap` | `8px` | `margin-inline-end`, `row-gap` |
+| `--mp-form-section-marker-height` | `16px` | `height` |
+| `--mp-form-section-marker-radius` | `2px` | `border-radius` |
+| `--mp-form-section-marker-width` | `3px` | `width` |
+| `--mp-form-section-title-color` | `var(--mp-sys-color-content-primary)` | `color` |
+| `--mp-form-section-title-line-height` | `24px` | `line-height` |
+| `--mp-form-section-title-size` | `16px` | `font-size` |
+| `--mp-form-section-title-weight` | `600` | `font-weight` |
 | `--mp-form-size-md-item-margin-bottom` | `16px` | `margin-bottom` |
 | `--mp-form-size-md-label-font-size` | `14px` | `font-size` |
 | `--mp-form-tooltip-margin-left` | `var(--mp-sys-space-2)` | `padding-inline-start` |
@@ -35281,6 +35553,8 @@ Document: llms/zh-CN/input-tag.md
 # InputTag
 
 用来输入标签。FormItem 有错误消息时，输入框会关联错误描述，并保留已有的 `aria-describedby`。
+
+标签自动换行，最多显示三行，超出后在输入框内滚动。候选面板仅在输入非空搜索内容且达到 `min-search-length` 时展示，空输入聚焦不会展开，也不显示默认下拉箭头。
 
 ## 阅读方向
 

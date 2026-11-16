@@ -138,7 +138,6 @@ import {
   ref,
   toRaw,
   Transition,
-  useId,
   watch,
   type ComponentPublicInstance,
   type HTMLAttributes,
@@ -157,6 +156,7 @@ import MpPopup from '../popup'
 import { createNamespace } from '../utils/components'
 import { getTranslateY, toPxNum } from '../utils/elements'
 import { useFieldNames } from '../utils/options'
+import { useId } from '../utils/vue-compat'
 import { props, type PickerColumnOption } from './props'
 import type { PickerEmits, PickerSlots } from './types'
 

@@ -103,12 +103,13 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onDeactivated, ref, useAttrs, useId, watch, type HTMLAttributes } from 'vue'
+import { computed, onBeforeUnmount, onDeactivated, ref, useAttrs, watch, type HTMLAttributes } from 'vue'
 import { useDirection } from '../_utils/direction'
 import { useFormErrorDescription } from '../form/error-description'
 import { useFormItemLabel } from '../form/label-context'
 import { createNamespace } from '../utils/components'
 import { positiveLength } from '../utils/size-length'
+import { useId } from '../utils/vue-compat'
 import { sliderBounds, sliderValues, snap, stepValue } from './model'
 import { sliderProps } from './props'
 import type { SliderEmits, SliderExpose, SliderSlots, SliderValue } from './props'

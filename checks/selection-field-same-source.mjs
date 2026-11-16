@@ -4,10 +4,16 @@ import { createRequire } from 'node:module'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { normalizeTagSizeAssertions } from '../../design-ui/bin/selection-field-class-normalization.mjs'
+import { normalizeLessSource, normalizeTypeScript, normalizeVueSource } from './normalize-source.mjs'
 
 const workspace = fileURLToPath(new URL('../../', import.meta.url))
 const cedar = resolve(workspace, 'cedar-design-web/packages/ui')
 const maple = resolve(workspace, 'maple-design-mobile/packages/ui')
+assert.equal(
+  readFileSync(resolve(cedar, 'src/_utils/vue-compat.ts'), 'utf8'),
+  readFileSync(resolve(maple, 'src/utils/vue-compat.ts'), 'utf8'),
+  'Vue compatibility helpers differ',
+)
 const groups = {
   'selection-field': [
     'SelectionField.vue',
@@ -47,17 +53,29 @@ const normalize = (source) =>
     .replace(/@import "([^"]+)";/g, "@import '$1';")
     .replaceAll('@cedar-design/icons-vue', '@maple-design/icons-vue')
     .replaceAll('_utils/global-config', 'utils/components')
+    .replaceAll('_utils/vue-compat', 'utils/vue-compat')
     .replaceAll('--c-', '--mp-')
     .replaceAll('.c-', '.mp-')
     .replaceAll('c-selection-field-spin', 'mp-selection-field-spin')
-    .replace(/\s+/g, ' ')
-    .trim()
+const canonical = async (source, file) => {
+  const mapped = normalize(source)
+  if (file.endsWith('.vue')) {
+    return normalizeVueSource(mapped)
+  }
+  if (file.endsWith('.ts')) {
+    return normalizeTypeScript(mapped)
+  }
+  if (file.endsWith('.less')) {
+    return normalizeLessSource(mapped)
+  }
+  return mapped.replace(/\s+/g, ' ').trim()
+}
 for (const [group, files] of Object.entries(groups)) {
   for (const file of files) {
     const path = 'src/_components/' + group + '/' + file
     assert.equal(
-      normalize(readFileSync(resolve(cedar, path), 'utf8')),
-      normalize(readFileSync(resolve(maple, path), 'utf8')),
+      await canonical(readFileSync(resolve(cedar, path), 'utf8'), file),
+      await canonical(readFileSync(resolve(maple, path), 'utf8'), file),
       group + '/' + file + ' differs',
     )
   }

@@ -84,6 +84,23 @@ export function createSiteResolver(sourceDir: string, options: MapleResolverOpti
     ...resolver,
     resolve(name: string) {
       const result = resolver.resolve(name)
+      // Newly exported components must work before the installed resolver is rebuilt.
+      if (!result && resolver.type === 'component' && /^Mp[A-Z]/.test(name)) {
+        const exported = `_${name.slice(2)}Component`
+        if (!modules.has(exported)) {
+          for (const [key, target] of readPublicModules(sourceDir)) {
+            modules.set(key, target)
+          }
+        }
+        const target = modules.get(exported)
+        if (target && existsSync(resolve(target.from, 'style/index.ts'))) {
+          return {
+            from: target.from,
+            name: target.name,
+            sideEffects: options.importStyle === false ? undefined : [`${target.from}/style`],
+          }
+        }
+      }
       if (result?.from !== '@maple-design/ui-vue') {
         return result
       }

@@ -310,3 +310,28 @@ test('a loader rejecting without an error object is not treated as an empty resu
   expect(owner.emitted('update:modelValue')).toBeUndefined()
   owner.unmount()
 })
+
+test('empty search stays closed even when the minimum length is zero', async () => {
+  const loader = vi.fn(async () => [{ value: 'alpha', label: 'Alpha' }])
+  const owner = mount(InputTag, {
+    attachTo: document.body,
+    props: { editMode: 'direct', options: loader, minSearchLength: 0, searchDelay: 0 },
+  })
+  const input = owner.get('input')
+  input.element.focus()
+  await flushPromises()
+  expect(input.attributes('aria-expanded')).toBe('false')
+  expect(loader).not.toHaveBeenCalled()
+  await input.trigger('keydown', { key: 'ArrowDown' })
+  expect(input.attributes('aria-expanded')).toBe('false')
+  await input.setValue('a')
+  await flushPromises()
+  expect(input.attributes('aria-expanded')).toBe('true')
+  expect(loader).toHaveBeenCalledTimes(1)
+  await input.setValue('')
+  await flushPromises()
+  expect(input.attributes('aria-expanded')).toBe('false')
+  expect(loader).toHaveBeenCalledTimes(1)
+  expect(owner.find('[class*="arrow"]').exists()).toBe(false)
+  owner.unmount()
+})

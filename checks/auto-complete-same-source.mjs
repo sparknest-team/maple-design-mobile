@@ -8,6 +8,11 @@ import { normalizeLessSource, normalizeTypeScript } from './normalize-source.mjs
 const workspace = fileURLToPath(new URL('../../', import.meta.url))
 const cedar = resolve(workspace, 'cedar-design-web/packages/ui')
 const maple = resolve(workspace, 'maple-design-mobile/packages/ui')
+assert.equal(
+  readFileSync(resolve(cedar, 'src/_utils/vue-compat.ts'), 'utf8'),
+  readFileSync(resolve(maple, 'src/utils/vue-compat.ts'), 'utf8'),
+  'Vue compatibility helpers differ',
+)
 const files = [
   '../_hooks/use-option-request.ts',
   'auto-complete.tsx',
@@ -27,6 +32,7 @@ const normalize = (source) =>
   source
     .replaceAll('@cedar-design/use-vue', '@maple-design/use-vue')
     .replaceAll('_utils/empty-value', 'utils/empty-value')
+    .replaceAll('_utils/vue-compat', 'utils/vue-compat')
     .replaceAll('_utils/global-config', 'utils/components')
     .replaceAll('_utils/popup-container', 'utils/popup-container')
     .replaceAll('_utils/text-input-value', 'utils/text-input-value')

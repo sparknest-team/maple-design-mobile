@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict'
-import { readdirSync, readFileSync } from 'node:fs'
+import { mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
+import { tmpdir } from 'node:os'
 import { resolve } from 'node:path'
 import test from 'node:test'
 import { fileURLToPath } from 'node:url'
@@ -113,8 +114,32 @@ test('documentation component imports bypass the root barrel, preserving styles'
 
 test('nested components resolve through their actual public exporting module', () => {
   assert.equal(components.resolve('MpFormItem').from, resolve(source, 'form'))
+  assert.equal(components.resolve('MpFormSection').from, resolve(source, 'form'))
   assert.equal(components.resolve('MpDatePicker').from, resolve(source, 'date'))
   assert.equal(components.resolve('MpGridItem').from, resolve(source, 'grid'))
+})
+
+test('new public sections resolve before rebuilding the package registry, with optional styles', () => {
+  const fixture = mkdtempSync(resolve(tmpdir(), 'maple-site-section-'))
+  try {
+    mkdirSync(resolve(fixture, 'form/style'), { recursive: true })
+    writeFileSync(resolve(fixture, 'index.ts'), "export { _SourceOnlySectionComponent } from './form'\n")
+    writeFileSync(resolve(fixture, 'maple-vue.ts'), '')
+    writeFileSync(resolve(fixture, 'form/style/index.ts'), '')
+    const [resolver] = createSiteResolver(fixture)
+    assert.deepEqual(resolver.resolve('MpSourceOnlySection'), {
+      from: resolve(fixture, 'form'),
+      name: '_SourceOnlySectionComponent',
+      sideEffects: [resolve(fixture, 'form/style')],
+    })
+    assert.equal(
+      createSiteResolver(fixture, { importStyle: false })[0].resolve('MpSourceOnlySection').sideEffects,
+      undefined,
+    )
+    assert.equal(resolver.resolve('MpPrivateUnknown'), undefined)
+  } finally {
+    rmSync(fixture, { recursive: true, force: true })
+  }
 })
 
 test('directives use direct modules and keep their registered names', () => {

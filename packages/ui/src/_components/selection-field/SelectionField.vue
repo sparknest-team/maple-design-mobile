@@ -109,13 +109,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, useId, watch, type AriaAttributes, type VNodeChild } from 'vue'
+import { computed, ref, watch, type AriaAttributes, type VNodeChild } from 'vue'
 import { IconDown, IconSearch } from '@maple-design/icons-vue'
 import FieldDecorator from '../../field-decorator/FieldDecorator.vue'
 import { fieldDecoratorProps } from '../../field-decorator/props'
 import { useFormErrorDescription } from '../../form/error-description'
 import Tag from '../../tag'
 import { createNamespace } from '../../utils/components'
+import { useId } from '../../utils/vue-compat'
 import { useFieldTexts } from '../field-presentation/texts'
 import { blockFieldOpenClick, isFieldOpenClick } from '../picker-field/open-trigger'
 import { selectionFieldProps, type SelectionFieldItem } from './props'

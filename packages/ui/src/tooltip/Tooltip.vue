@@ -21,11 +21,12 @@
 </template>
 
 <script setup lang="ts">
-import { Comment, Fragment, ref, Text, useAttrs, useId, useSlots, type VNode } from 'vue'
+import { Comment, Fragment, ref, Text, useAttrs, useSlots, type VNode } from 'vue'
 import Trigger from '../trigger'
 import type { TriggerReferenceAttrs } from '../trigger'
 import { useTriggerWrapper } from '../trigger/wrapper'
 import { createNamespace } from '../utils/components'
+import { useId } from '../utils/vue-compat'
 import { useAppearance } from './platform'
 import { tooltipProps } from './props'
 

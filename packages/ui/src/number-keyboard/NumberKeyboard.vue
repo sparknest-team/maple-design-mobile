@@ -84,7 +84,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, useAttrs, useId, type Ref } from 'vue'
+import { computed, defineComponent, useAttrs, type Ref } from 'vue'
 import { IconChevronLeft as MIconChevronLeft } from '@maple-design/icons-vue'
 import { toNumber } from '@maple-design/shared-vue'
 import { useVModel } from '@maple-design/use-vue'
@@ -95,6 +95,7 @@ import { miscText as t } from '../locale/misc-text'
 import MpPopup from '../popup'
 import Ripple from '../ripple'
 import { createNamespace } from '../utils/components'
+import { useId } from '../utils/vue-compat'
 import { props } from './props'
 
 const { name, n, classes } = createNamespace('number-keyboard')

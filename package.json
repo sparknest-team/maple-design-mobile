@@ -27,7 +27,7 @@
     "package:check": "node scripts/quality/package-check.mjs && node scripts/quality/native-entry-check.mjs",
     "preview": "pnpm --dir ./packages/ui preview",
     "preview:play": "pnpm --dir ./packages/ui-playground preview",
-    "quality": "pnpm check:packages && pnpm check:runtime-dependencies && pnpm check:shared && pnpm build:lib && pnpm spec:check && pnpm check:style-vars && pnpm check:dev-boundary && pnpm check:cross-platform && pnpm lint:check && pnpm typecheck && pnpm typecheck:playground && pnpm check:test-collection && pnpm test && pnpm check:direction && pnpm check:cli && pnpm check:doc-pipeline && pnpm check:source-normalization && pnpm check:icon-bundle && pnpm check:component-bundle && pnpm build:doc && pnpm package:check && pnpm check:published-environment && pnpm check:docs-theme && pnpm check:docs-components && pnpm check:safe-area && pnpm check:brand-form && pnpm check:compatibility",
+    "quality": "pnpm check:packages && pnpm check:runtime-dependencies && pnpm check:shared && pnpm check:vue-compat:source && pnpm build:lib && pnpm check:vue-compat && pnpm spec:check && pnpm check:style-vars && pnpm check:dev-boundary && pnpm check:cross-platform && pnpm lint:check && pnpm typecheck && pnpm typecheck:playground && pnpm check:test-collection && pnpm test && pnpm check:direction && pnpm check:cli && pnpm check:doc-pipeline && pnpm check:source-normalization && pnpm check:icon-bundle && pnpm check:component-bundle && pnpm build:doc && pnpm package:check && pnpm check:published-environment && pnpm check:docs-theme && pnpm check:docs-components && pnpm check:safe-area && pnpm check:brand-form && pnpm check:compatibility",
     "check:published-environment": "node ../design-ui/bin/published-environment-check.mjs",
     "check:docs-components": "node --test scripts/browser/components.test.mjs",
     "check:runtime-dependencies": "node scripts/quality/runtime-dependency-check.mjs",
@@ -55,7 +55,7 @@
     "check:date-family": "node checks/date-family-same-source.mjs",
     "check:scroll-text": "node checks/scroll-text-same-source.mjs",
     "check:dev-boundary": "node --test scripts/quality/dev-publish-boundary.test.mjs",
-    "check:cli": "node --test scripts/quality/project-templates.test.mjs scripts/quality/docs-cache.test.mjs scripts/quality/cli-bin.test.mjs scripts/quality/cli-bootstrap-types.test.mjs scripts/quality/nav-menu-entry.test.mjs && pnpm --dir packages/cli test",
+    "check:cli": "node --test scripts/quality/project-templates.test.mjs scripts/quality/docs-cache.test.mjs scripts/quality/cli-bin.test.mjs scripts/quality/cli-bootstrap-types.test.mjs scripts/quality/nav-menu-entry.test.mjs scripts/quality/style-vars-types.test.mjs && pnpm --dir packages/cli test",
     "check:source-normalization": "node --test scripts/quality/source-normalization.test.mjs",
     "check:test-collection": "node --test scripts/quality/test-collection-boundary.test.mjs",
     "check:cross-platform": "pnpm check:tabs && pnpm check:rate && pnpm check:ripple && pnpm check:lightweight-feedback && pnpm check:input && pnpm check:selection-field && pnpm check:selection-presentations && pnpm check:auto-complete && pnpm check:mention-input-tag && pnpm check:time-rules && pnpm check:form-kernel && pnpm check:date-family && pnpm check:scroll-text",
@@ -70,7 +70,9 @@
     "check:compatibility:release": "node ../design-ui/browser/native-acceptance.mjs maple",
     "check:direction": "pnpm --dir packages/ui exec vitest run --config reading-direction.vitest.config.mjs src/_utils/__tests__/reading-direction.spec.js src/steps/__tests__/reading-direction.spec.js src/nav-menu/__tests__/reading-direction.spec.js src/table/__tests__/reading-direction.spec.js src/_components/virtual-list-v2/__tests__/reading-direction.spec.js --maxWorkers=1 --minWorkers=1 src/field-decorator/__tests__/reading-direction.spec.js src/form/__tests__/reading-direction.spec.ts src/radio/__tests__/reading-direction.spec.js src/cascader/__tests__/reading-direction.spec.ts src/auto-complete/__tests__/reading-direction.spec.ts src/date/__tests__/reading-direction.spec.ts src/time/__tests__/reading-direction.spec.ts src/time-range/__tests__/reading-direction.spec.ts src/button/__tests__/reading-direction.spec.ts src/split-button/__tests__/reading-direction.spec.ts src/space/__tests__/reading-direction.spec.ts src/divider/__tests__/reading-direction.spec.ts",
     "check:packages": "node --test scripts/quality/package-boundary-check.test.mjs && node scripts/quality/package-boundary-check.mjs",
-    "typecheck:playground": "pnpm --dir packages/ui exec vue-tsc --noEmit -p ../ui-playground/tsconfig.json"
+    "typecheck:playground": "pnpm --dir packages/ui exec vue-tsc --noEmit -p ../ui-playground/tsconfig.json",
+    "check:vue-compat:source": "node ../design-ui/bin/vue-compat-check.mjs --source",
+    "check:vue-compat": "node --test ../design-ui/bin/vue-compat-check.test.mjs && node ../design-ui/bin/vue-compat-check.mjs"
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm exec nano-staged --allow-empty",
@@ -99,7 +101,12 @@
     "simple-git-hooks": "^2.13.1",
     "tinyexec": "npm:tinyexec@^0.3.0",
     "typescript": "catalog:",
-    "vue-tsc": "^2.1.10"
+    "vue-tsc": "^2.1.10",
+    "vue-compat-min": "npm:vue@3.2.47",
+    "vue": "catalog:",
+    "@vue/compiler-sfc": "catalog:",
+    "yaml": "2.9.0",
+    "picomatch": "4.0.4"
   },
   "packageManager": "pnpm@9.6.0",
   "engines": {

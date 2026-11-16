@@ -154,7 +154,8 @@ test('multiple search keeps its checkbox controls', async () => {
   try {
     await flushPromises()
     expect(wrapper.findAll('[role=option]')).toHaveLength(0)
-    const boxes = wrapper.findAll('[role=menuitem] input[type=checkbox]')
+    expect(wrapper.findAll('[role=menuitem]')).toHaveLength(0)
+    const boxes = wrapper.findAll('[role=dialog] input[type=checkbox]')
     expect(boxes).toHaveLength(3)
     expect((boxes[1].element as HTMLInputElement).checked).toBe(true)
   } finally {

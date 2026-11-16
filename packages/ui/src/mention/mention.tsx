@@ -13,7 +13,6 @@ import {
   ref,
   toRef,
   toRefs,
-  useId,
   watch,
 } from 'vue'
 import ResizeObserver from '../_components/resize-observer-v2'
@@ -32,6 +31,7 @@ import { getSizeStyles } from '../textarea/utils'
 import Trigger from '../trigger/trigger'
 import { createNamespace, getPrefixCls } from '../utils/components'
 import { resolveEmptyValue } from '../utils/empty-value'
+import { useId } from '../utils/vue-compat'
 import { mentionEmits } from './emits'
 import { mentionProps } from './props'
 import { mentionKey, mentionLabelsKey, syncMentionLabels } from './selected-labels'

@@ -29,8 +29,12 @@
         :loading="loading"
         :max-tag-count="maxTagCount"
         :tag-nowrap="tagNowrap"
-        :aria-controls="searchListVisible && allowAutomaticOwnership ? searchListId : undefined"
-        :aria-haspopup="searchListVisible ? 'listbox' : undefined"
+        :aria-controls="
+          (searchListVisible && allowAutomaticOwnership) || (multipleDialogVisible && sameDialogRoot)
+            ? searchListId
+            : undefined
+        "
+        :aria-haspopup="multipleDialogMode ? 'dialog' : searchListVisible ? 'listbox' : undefined"
         :aria-activedescendant="searchActiveId"
         v-bind="forwardedAttrs()"
         @update:input-value="handleInputValueChange"
@@ -65,6 +69,8 @@
       :focus-fallback="() => fieldRef?.focus()"
       :keyboard-handler="handleFieldKeydown"
       :listbox-id="searchListMode ? searchListId : undefined"
+      :multiple-dialog-id="multipleDialogMode ? searchListId : undefined"
+      :report-dialog-element="reportDialogElement"
     >
       <template v-for="(_, slotName) in $slots" #[slotName]="scope"
         ><slot :name="slotName" v-bind="scope || {}"
@@ -73,9 +79,10 @@
   </component>
 </template>
 <script setup lang="ts">
-import { computed, nextTick, reactive, ref, toRefs, useAttrs, useId, useSlots } from 'vue'
+import { computed, nextTick, reactive, ref, toRefs, useAttrs, useSlots, watch } from 'vue'
 import SelectionField from '../_components/selection-field/SelectionField.vue'
 import { createNamespace, getPrefixCls } from '../utils/components'
+import { useId } from '../utils/vue-compat'
 import CascaderMenu from './CascaderMenu.vue'
 import { cascaderEmits } from './emits'
 import { presentations } from './presentations'
@@ -118,6 +125,14 @@ const forwardedAttrs = () => {
   return result
 }
 const searchListId = `cascader-search-list-${useId()}`
+const multipleDialogMode = computed(
+  () =>
+    props.multiple &&
+    showSearchPanel.value &&
+    (attrs['aria-haspopup'] == null || attrs['aria-haspopup'] === 'dialog') &&
+    attrs['aria-controls'] == null,
+)
+const multipleDialogVisible = computed(() => multipleDialogMode.value && computedOpen.value)
 const searchListMode = computed(() => !props.multiple && showSearchPanel.value)
 const searchListVisible = computed(() => searchListMode.value && computedOpen.value)
 const allowAutomaticOwnership = computed(() => attrs['aria-haspopup'] == null || attrs['aria-haspopup'] === 'listbox')
@@ -134,10 +149,47 @@ const searchActiveId = computed(() => {
   const index = filteredLeafOptions.value.findIndex((item) => item.key === activeKey.value && !item.disabled)
   return index < 0 ? undefined : `${searchListId}-option-${index}`
 })
+const dialogElement = ref<HTMLElement | null>(null)
+const sameDialogRoot = ref(true)
+const reportDialogElement = (element: HTMLElement | null) => {
+  dialogElement.value = element
+}
+watch(
+  [dialogElement, () => props.popupContainer],
+  async () => {
+    await nextTick()
+    const input = fieldRef.value?.inputRef
+    sameDialogRoot.value = !input || !dialogElement.value || input.getRootNode() === dialogElement.value.getRootNode()
+  },
+  { flush: 'post' },
+)
 const handleFieldKeydown = (event: KeyboardEvent) => {
   emit('keydown', event)
   if (!event.defaultPrevented) {
     const target = event.target as HTMLElement | null
+    if (
+      multipleDialogVisible.value &&
+      !mergedDisabled.value &&
+      !mergedReadonly.value &&
+      !loading.value &&
+      !controller.session.pending &&
+      event.key === 'ArrowDown' &&
+      !event.isComposing &&
+      event.keyCode !== 229 &&
+      target?.matches('input[role="combobox"]')
+    ) {
+      const dialog = dialogElement.value
+      const checkbox = dialog?.querySelector<HTMLInputElement>('input[type="checkbox"]:not(:disabled)')
+      if (checkbox) {
+        event.preventDefault()
+        checkbox.focus()
+        return
+      }
+    }
+    const dialogItem = multipleDialogVisible.value ? target?.closest('[data-cascader-key]') : null
+    if (dialogItem && target !== dialogItem && event.key !== 'Escape') {
+      return
+    }
     const root = target?.getRootNode()
     const focusRoot = root && 'activeElement' in root ? (root as Document | ShadowRoot) : target?.ownerDocument
     const option = target?.closest('[data-cascader-key]')

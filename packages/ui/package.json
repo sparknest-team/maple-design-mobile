@@ -41,8 +41,14 @@
       "import": "./es/index.mjs",
       "require": "./lib/index.js"
     },
-    "./style": "./es/maple.css",
-    "./reset.css": "./reset/index.css",
+    "./style": {
+      "types": "./reset/index.d.ts",
+      "default": "./es/maple.css"
+    },
+    "./reset.css": {
+      "types": "./reset/index.d.ts",
+      "default": "./reset/index.css"
+    },
     "./package.json": "./package.json",
     "./*": {
       "types": "./types-generated/*/index.d.ts",
@@ -74,7 +80,7 @@
     "build:doc": "pnpm docs:llms && node ../../scripts/quality/demo-sfc-check.mjs && maple-cli build",
     "compile:style-vars": "maple-cli compile:style-vars",
     "create": "maple-cli create -i",
-    "dev": "pnpm docs:llms && maple-cli dev",
+    "dev": "maple-cli dev",
     "preview": "maple-cli preview",
     "test": "maple-cli test",
     "test:coverage": "maple-cli test -cov",
@@ -104,10 +110,11 @@
     "typescript": "5.6.3",
     "vitest": "catalog:",
     "vue": "catalog:",
-    "vue-router": "catalog:"
+    "vue-router": "catalog:",
+    "@vue/server-renderer": "catalog:"
   },
   "peerDependencies": {
-    "vue": "^3.2.0"
+    "vue": "^3.2.47"
   },
   "web-types": "highlight/web-types.en-US.json",
   "publishConfig": {

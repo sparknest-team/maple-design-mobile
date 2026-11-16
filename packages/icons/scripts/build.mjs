@@ -2,7 +2,10 @@ import { spawn } from 'node:child_process'
 import { rm } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import vue from '@vitejs/plugin-vue'
+import ts from 'typescript'
 import { build } from 'vite'
+import { writeDualDeclarations } from '../../../../design-ui/packages/ui-build/src/dual-declarations.mjs'
+import { downlevelVueDeclarations } from '../../../../design-ui/packages/ui-build/src/vue-declarations.mjs'
 
 const root = resolve(import.meta.dirname, '..')
 const runTypes = () =>
@@ -41,3 +44,5 @@ const modules = (format, outDir, extension) =>
   })
 
 await Promise.all([modules('es', 'es', 'mjs'), modules('cjs', 'lib', 'cjs'), runTypes()])
+downlevelVueDeclarations(root, 'types', ts)
+writeDualDeclarations(resolve(root, 'types'), ts)

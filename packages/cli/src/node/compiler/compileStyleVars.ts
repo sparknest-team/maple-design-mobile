@@ -53,7 +53,7 @@ type FormatStyleVars<T> = {
     return template
   }, '\n\ninterface BaseStyleVars {\n')
 
-  baseStyleVars += '  [key: PropertyKey]: string\n}\n'
+  baseStyleVars += '  [key: PropertyKey]: string | undefined\n}\n'
 
   writeFileSync(
     resolve(TYPES_DIR, 'styleVars.d.ts'),

@@ -32,11 +32,12 @@
 </template>
 
 <script setup lang="ts">
-import { Comment, Fragment, Text, useAttrs, useId, useSlots, type VNode } from 'vue'
+import { Comment, Fragment, Text, useAttrs, useSlots, type VNode } from 'vue'
 import Trigger from '../trigger'
 import type { TriggerReferenceAttrs } from '../trigger'
 import { useTriggerWrapper } from '../trigger/wrapper'
 import { createNamespace } from '../utils/components'
+import { useId } from '../utils/vue-compat'
 import { useAppearance } from './platform'
 import { popoverProps } from './props'
 

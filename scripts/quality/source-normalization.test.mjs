@@ -21,6 +21,17 @@ test('parity still detects executable changes, literal whitespace and array hole
   }
 })
 
+test('loop body braces normalize without hiding control-flow changes', async () => {
+  for (const [left, right] of [
+    ['for (const item of items) consume(item)', 'for (const item of items) { consume(item) }'],
+    ['for (const key in object) consume(key)', 'for (const key in object) { consume(key) }'],
+    ['for (let i = 0; i < 2; i++) consume(i)', 'for (let i = 0; i < 2; i++) { consume(i) }'],
+  ]) {
+    assert.equal(await normalizeTypeScript(left), await normalizeTypeScript(right))
+    assert.notEqual(await normalizeTypeScript(left), await normalizeTypeScript(right.replace('consume(', 'other(')))
+  }
+})
+
 test('invalid TypeScript fails instead of producing an empty comparison', async () => {
   await assert.rejects(() => normalizeTypeScript('const = '), /invalid TypeScript/)
 })

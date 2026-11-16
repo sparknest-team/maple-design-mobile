@@ -9,6 +9,11 @@ import { normalizeTypeScript, normalizeVueSource } from './normalize-source.mjs'
 const workspace = fileURLToPath(new URL('../../', import.meta.url))
 const cedar = resolve(workspace, 'cedar-design-web/packages/ui/src')
 const maple = resolve(workspace, 'maple-design-mobile/packages/ui/src')
+assert.equal(
+  readFileSync(resolve(cedar, '_utils/vue-compat.ts'), 'utf8'),
+  readFileSync(resolve(maple, 'utils/vue-compat.ts'), 'utf8'),
+  'Vue compatibility helpers differ',
+)
 const files = [
   'trigger/interaction.ts',
   'trigger/reference-click.ts',
@@ -99,6 +104,7 @@ const toMaple = (source) =>
     .replaceAll('_utils/option-data', 'utils/option-data')
     .replaceAll('_utils/text-input-value', 'utils/text-input-value')
     .replaceAll('_utils/empty-value', 'utils/empty-value')
+    .replaceAll('_utils/vue-compat', 'utils/vue-compat')
     .replaceAll('../scrollbar', '../_components/selection-scrollbar')
     .replaceAll("'c-people-select-people'", "'mp-people-select-people'")
     .replaceAll('"c-people-select-people"', '"mp-people-select-people"')

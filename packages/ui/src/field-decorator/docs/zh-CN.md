@@ -108,7 +108,7 @@ outline 变体通过边框、filled 通过背景、standard 通过底线反馈�
 | `--mp-field-clear-radius` | `50%` | `border-radius` |
 | `--mp-field-clear-visibility` | `visible` | `visibility` |
 | `--mp-field-content-gap` | `8px` | `gap`, `padding-inline-end`, `padding-inline-start` |
-| `--mp-field-content-padding-vertical` | `8px` | `top` |
+| `--mp-field-content-padding-vertical` | `8px` | `padding`, `top` |
 | `--mp-field-control-text-color` | `var(--mp-sys-color-content-primary)` | `color` |
 | `--mp-field-control-text-color-disabled` | `var(--mp-sys-color-content-disabled)` | `-webkit-text-fill-color`, `color` |
 | `--mp-field-error-color` | `var(--mp-sys-color-status-danger)` | `border-bottom-color`, `border-color`, `color` |
@@ -121,7 +121,7 @@ outline 变体通过边框、filled 通过背景、standard 通过底线反馈�
 | `--mp-field-loading-color` | `var(--mp-field-focus-color)` | `color` |
 | `--mp-field-loading-duration` | `1s` | `animation` |
 | `--mp-field-loading-line-size` | `2px` | `height` |
-| `--mp-field-padding-horizontal` | `16px` | `inset-inline-start`, `margin-inline-end`, `margin-inline-start`, `max-width`, `padding`, `padding-inline-start` |
+| `--mp-field-padding-horizontal` | `16px` | `inset-inline-start`, `margin-inline-end`, `margin-inline-start`, `max-width`, `padding`, `padding-inline-end`, `padding-inline-start`, `width` |
 | `--mp-field-placeholder-text-color` | `var(--mp-sys-color-content-tertiary)` | `color` |
 | `--mp-field-prefix-text-color` | `var(--mp-sys-color-content-secondary)` | `color` |
 | `--mp-field-size-lg-font-size` | `16px` | `font-size` |

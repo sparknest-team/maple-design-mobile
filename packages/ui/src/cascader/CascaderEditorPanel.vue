@@ -44,13 +44,14 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed, inject, ref, useId, watch } from 'vue'
+import { computed, inject, ref, watch } from 'vue'
 import { useFieldTexts } from '../_components/field-presentation/texts'
 import { selectionEditorSurface } from '../_components/selected-options/context'
 import type { VirtualListProps } from '../_components/virtual-list-v2/interface'
 import Empty from '../empty'
 import Loading from '../loading/Loading.vue'
 import { createNamespace, getPrefixCls } from '../utils/components'
+import { useId } from '../utils/vue-compat'
 import CascaderColumn from './cascader-column'
 import type { CascaderOptionInfo } from './types'
 import { useCascaderMenuFocus } from './use-menu-focus'

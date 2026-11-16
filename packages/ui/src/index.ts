@@ -131,7 +131,7 @@ export { _EmptyComponent } from './empty'
 export { _FabComponent } from './fab'
 export { _FieldDecoratorComponent } from './field-decorator'
 export { _FloatingPanelComponent } from './floating-panel'
-export { FormItem, _FormComponent, _FormItemComponent } from './form'
+export { FormItem, FormSection, _FormComponent, _FormItemComponent, _FormSectionComponent } from './form'
 export { _FormDetailsComponent } from './form-details'
 export { GridItem, _GridComponent, _GridItemComponent } from './grid'
 export { _HighlighterProviderComponent } from './highlighter-provider'
@@ -473,7 +473,7 @@ export type {
 } from './field-decorator'
 export { floatingPanelProps } from './floating-panel'
 export type { FloatingPanelInstance, FloatingPanelProps } from './floating-panel'
-export { formProps, formItemProps } from './form'
+export { formProps, formItemProps, formSectionProps } from './form'
 export type {
   ValidatedError,
   FormValidateErrors,
@@ -499,6 +499,10 @@ export type {
   FormItemValidateStatus,
   FieldEditMode,
   BeforeFieldCommit,
+  FormSectionInstance,
+  FormSectionProps,
+  FormSectionSlots,
+  FormSectionVariant,
 } from './form'
 export { formDetailsProps } from './form-details'
 export type { FormDetailsInstance, FormDetailsProps } from './form-details'

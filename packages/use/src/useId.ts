@@ -6,7 +6,7 @@ import { kebabCase } from '@maple-design/shared-vue'
 export function useId(): Ref<string | undefined> {
   const instance = Vue.getCurrentInstance()!
   const name = kebabCase(instance.type.name ?? 'component')
-  const nativeId = (Vue as unknown as { useId?: () => string }).useId?.()
+  const nativeId = (Reflect.get(Vue, 'useId') as (() => string) | undefined)?.()
   const id = Vue.ref<string>()
   id.value = process.env.NODE_ENV === 'test' ? `${name}-mock-id` : nativeId ? `${name}-${nativeId}` : undefined
   Vue.onMounted(() => {

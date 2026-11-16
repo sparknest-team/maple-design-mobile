@@ -74,7 +74,6 @@ import {
   ref,
   toRefs,
   useAttrs,
-  useId,
   type CSSProperties,
   type TextareaHTMLAttributes,
 } from 'vue'
@@ -86,6 +85,7 @@ import { useInputForm } from '../input/use-input-form'
 import { useInputValue } from '../input/use-input-value'
 import { createNamespace } from '../utils/components'
 import { useInputComposition } from '../utils/input-composition'
+import { useId } from '../utils/vue-compat'
 import { textareaProps } from './props'
 import type { TextareaEmits, TextareaSlots } from './types'
 import { useTextareaAutoSize } from './use-textarea-auto-size'

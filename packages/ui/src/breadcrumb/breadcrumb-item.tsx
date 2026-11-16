@@ -1,6 +1,7 @@
-import { computed, defineComponent, getCurrentInstance, ref, useId } from 'vue'
+import { computed, defineComponent, getCurrentInstance, ref } from 'vue'
 import Menu, { MenuOption } from '../menu'
 import { createNamespace } from '../utils/components'
+import { useId } from '../utils/vue-compat'
 import { IconDown, IconMore, useBreadcrumbDropdownLabel, useBreadcrumbLabels } from './platform'
 import { breadcrumbItemProps } from './props'
 import { useBreadcrumb } from './provide'

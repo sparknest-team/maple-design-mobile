@@ -67,13 +67,14 @@
   </Trigger>
 </template>
 <script setup lang="ts">
-import { computed, provide, ref, useId, useSlots, watch } from 'vue'
+import { computed, provide, ref, useSlots, watch } from 'vue'
 import { isFieldOpenClick } from '../../_components/picker-field/open-trigger'
 import PickerField from '../../_components/picker-field/PickerField.vue'
 import { splitInputAttrs } from '../../input/native-attrs'
 import { useTriggerKeyboard } from '../../time/presentation/use-trigger-keyboard'
 import Trigger from '../../trigger'
 import { createNamespace } from '../../utils/components'
+import { useId } from '../../utils/vue-compat'
 import DatePanel from '../DatePanel.vue'
 import { dateFieldPanelOptions } from '../field-panel-options'
 import type { DateFieldContentProps } from '../field-state'
