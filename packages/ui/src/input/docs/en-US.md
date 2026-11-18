@@ -1,5 +1,9 @@
 # Input
 
+## Server-side rendering
+
+With Vue 3.2–3.4, when multiple asynchronous components resolve in a different order on the server and client, generated IDs may cause floating labels to reference the wrong inputs. In this scenario, give each Input an `id` that is unique on the page and identical on the server and client, for example `<Input id="account-name" />`.
+
 ## Reading direction
 
 The input inherits `dir` from its page or local scope. Affixes, clear actions and input groups follow reading order. Runtime changes retain the native editor, focus and selection; the browser handles caret movement, mixed text and composition without swapping editing keys. Parent rerenders preserve the native composition buffer; older selection-restoration tasks do not overwrite a newer composition.

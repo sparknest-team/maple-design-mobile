@@ -35,7 +35,7 @@ export default defineComponent({
     multiple: Boolean,
     multipleGroup: Boolean,
     multipleDialog: Boolean,
-    reportDialogElement: Function as PropType<(element: HTMLElement | null) => void>,
+    reportPopupElement: Function as PropType<(element: HTMLElement | null) => void>,
     focusRecoveryEnabled: { type: Boolean, default: true },
     focusFallback: Function as PropType<() => void>,
     checkStrictly: Boolean,
@@ -48,10 +48,11 @@ export default defineComponent({
     const panelRef = ref<{ $el: HTMLElement }>()
     watchPostEffect(() => {
       const panel = panelRef.value?.$el
-      const dialog = panel?.matches('[role="dialog"]') ? panel : panel?.querySelector<HTMLElement>('[role="dialog"]')
-      props.reportDialogElement?.(props.multipleDialog ? (dialog ?? null) : null)
+      const selector = props.multipleDialog ? '[role="dialog"]' : props.listboxId ? '[role="listbox"]' : undefined
+      const popup = selector ? (panel?.matches(selector) ? panel : panel?.querySelector<HTMLElement>(selector)) : null
+      props.reportPopupElement?.(popup ?? null)
     })
-    onBeforeUnmount(() => props.reportDialogElement?.(null))
+    onBeforeUnmount(() => props.reportPopupElement?.(null))
     let previousCheckbox: HTMLInputElement | null = null
     const ownFocusedCheckbox = () => {
       const panel = panelRef.value?.$el

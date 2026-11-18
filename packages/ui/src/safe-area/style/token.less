@@ -1,5 +1,5 @@
-@import '../../style/theme/local-scope.less';
-:root {
+// Device insets must inherit through local theme boundaries and teleported roots.
+html {
   --mp-safe-area-top: env(safe-area-inset-top, 0px);
   --mp-safe-area-right: env(safe-area-inset-right, 0px);
   --mp-safe-area-bottom: env(safe-area-inset-bottom, 0px);

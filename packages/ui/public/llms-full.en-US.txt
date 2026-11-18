@@ -1,4 +1,4 @@
-# Maple Design Mobile
+﻿# Maple Design Mobile
 
 > Vue 3 component library. Package: @maple-design/ui-vue. Component prefix: Mp / mp-.
 
@@ -6846,11 +6846,10 @@ Example source: src/card/example/demos/hoverable.vue
 | `title` | Title | Images and directions |
 | `image-src` | Cover image URL; cover slot takes precedence | Images and directions |
 | `image-alt` | Image alternative text | Images and directions |
-| `image-fit` | Cover image fit, default cover | Images and directions |
+| `image-fit` | Cover image fit mode; defaults to cover | Images and directions |
 | `image-height` | Image height; numbers use px | Images and directions |
 | `image-width` | Image width; numbers use px | Images and directions |
 <!-- demo-config-notes:end -->
-
 
 Example source: src/card/example/demos/image.vue
 
@@ -7235,7 +7234,7 @@ The default close button uses the current locale's close label; override it with
 | Slot | Description | Prop |
 | --- | --- | --- |
 | default | Body | — |
-| cover | Cover; overrides image-src | — |
+| cover | Cover content; overrides the image-src image | — |
 | header | Entire header; overrides title, title-action and subtitle | — |
 | title | Title | `{ slotClass: string }` |
 | title-action | Title action | — |
@@ -10489,7 +10488,7 @@ Public types include CascaderBaseValue, CascaderOptionInfo, CascaderReadScope, C
 
 ## API
 
-A panel branch's `aria-expanded` reflects whether its child column is actually displayed; focus or hover alone does not mark it expanded. Leaves have no `aria-expanded`. Selectable leaves and selectable strict-mode branches in a single-select hierarchical menu use `menuitemradio` and `aria-checked`; expansion-only branches remain `menuitem`, and multiple selection retains checkboxes. Single-select hierarchical panels have one Tab entry; arrow keys move between columns and options, while Tab or Shift+Tab leaves the menu. With virtualization, the entry remains among rendered options; custom interactive controls in option slots manage their own focus. Search results do not declare hidden submenus. Direct single-select search uses `listbox` and `option`, with the input referencing the popup and active item; editor single-select search uses `menuitemradio` and `aria-checked`, with one Tab entry. Hovering another option does not move that entry while an option owns focus. Multiple-select search retains checkboxes. Direct multiple-select search uses a named dialog by default; ArrowDown from the open input focuses the first enabled checkbox, and Space toggles it. Explicit popup roles or external relationships remain caller-controlled. An automatic ID reference is omitted when the input and popup are in different shadow roots. In multiple-select editor search, ArrowDown in the search input focuses the first enabled result checkbox; focus stays in the input if none is available. In direct single-select search, the popup icon adds no Tab stop; click it or press ArrowDown in the input to open.
+A panel branch's `aria-expanded` reflects whether its child column is actually displayed; focus or hover alone does not mark it expanded. Leaves have no `aria-expanded`. Selectable leaves and selectable strict-mode branches in a single-select hierarchical menu use `menuitemradio` and `aria-checked`; expansion-only branches remain `menuitem`, and multiple selection retains checkboxes. Single-select hierarchical panels have one Tab entry; arrow keys move between columns and options, while Tab or Shift+Tab leaves the menu. With virtualization, the entry remains among rendered options; custom interactive controls in option slots manage their own focus. Search results do not declare hidden submenus. Direct single-select search uses `listbox` and `option`, with the input referencing the popup and active item; editor single-select search uses `menuitemradio` and `aria-checked`, with one Tab entry. Hovering another option does not move that entry while an option owns focus. Multiple-select search retains checkboxes. Direct multiple-select search uses a named dialog by default; ArrowDown from the open input focuses the first enabled checkbox, and Space toggles it. Explicit popup roles or external relationships remain caller-controlled. After client mount or hydration, automatic cross-root ID references are omitted when the input and popup are in different shadow roots. Server-rendered single- or multiple-select search that starts open may still output `aria-controls` that cannot resolve across roots before hydration; keep the input and popup in the same root if the relationship is needed on first render. For direct single- or multiple-select search inside Shadow DOM, set `:popup-container="false"` to render the popup inline in the same root as the input, allowing the automatic `aria-controls` relationship and, for single selection, `aria-activedescendant`. Inline rendering can be affected by ancestor clipping and stacking; verify the actual layout and test with assistive technology. In multiple-select editor search, ArrowDown in the search input focuses the first enabled result checkbox; focus stays in the input if none is available. In direct single-select search, the popup icon adds no Tab stop; click it or press ArrowDown in the input to open.
 
 When options are added or removed at the end of a virtual column, options still within the rendered range retain their nodes and focus. Switching parents does not reuse the previous column's scroll position. Options can unmount when removed or outside the virtual window; business code should retain any long-lived input state used by slots.
 
@@ -14805,7 +14804,7 @@ Example source: src/count-to/example/demos/zero-duration.vue
 <template>
   <mp-space direction="column">
     <mp-count-to ref="counter" :from="0" :to="100" :duration="duration" @end="ends++" />
-    <mp-space>
+    <mp-space wrap>
       <mp-button @click="duration = duration === 0 ? 600 : 0">切换时长 / Toggle duration</mp-button>
       <mp-button @click="counter?.reset()">重新播放 / Replay</mp-button>
     </mp-space>
@@ -14832,7 +14831,7 @@ Example source: src/count-to/example/demos/easing-replay.vue
 <template>
   <mp-space direction="column">
     <mp-count-to ref="counter" :to="100" :duration="1200" :timing-function="curve" />
-    <mp-space>
+    <mp-space wrap>
       <mp-button @click="cubic = !cubic">切换曲线 / Change curve</mp-button>
       <mp-button @click="replay">重新播放 / Replay</mp-button>
     </mp-space>
@@ -27039,7 +27038,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-field-clear-radius` | `50%` | `border-radius` |
 | `--mp-field-clear-visibility` | `visible` | `visibility` |
 | `--mp-field-content-gap` | `8px` | `gap`, `padding-inline-end`, `padding-inline-start` |
-| `--mp-field-content-padding-vertical` | `8px` | `top` |
+| `--mp-field-content-padding-vertical` | `8px` | `padding`, `top` |
 | `--mp-field-control-text-color` | `var(--mp-sys-color-content-primary)` | `color` |
 | `--mp-field-control-text-color-disabled` | `var(--mp-sys-color-content-disabled)` | `-webkit-text-fill-color`, `color` |
 | `--mp-field-error-color` | `var(--mp-sys-color-status-danger)` | `border-bottom-color`, `border-color`, `color` |
@@ -27052,7 +27051,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-field-loading-color` | `var(--mp-field-focus-color)` | `color` |
 | `--mp-field-loading-duration` | `1s` | `animation` |
 | `--mp-field-loading-line-size` | `2px` | `height` |
-| `--mp-field-padding-horizontal` | `16px` | `inset-inline-start`, `margin-inline-end`, `margin-inline-start`, `max-width`, `padding`, `padding-inline-start` |
+| `--mp-field-padding-horizontal` | `16px` | `inset-inline-start`, `margin-inline-end`, `margin-inline-start`, `max-width`, `padding`, `padding-inline-end`, `padding-inline-start`, `width` |
 | `--mp-field-placeholder-text-color` | `var(--mp-sys-color-content-tertiary)` | `color` |
 | `--mp-field-prefix-text-color` | `var(--mp-sys-color-content-secondary)` | `color` |
 | `--mp-field-size-lg-font-size` | `16px` | `font-size` |
@@ -27403,6 +27402,8 @@ Horizontal FormItem uses zero Row gutter by default, preserving 16px item spacin
 ## Field names
 
 When `validate-status="error"` has no automatic validation error, the field associates visible `help` text or slot content through `aria-describedby`, preserving any supplied description. An automatic error takes precedence.
+
+In SSR with Vue 3.2.47, if multiple asynchronous form items resolve in opposite orders on the server and client, updating one item can duplicate generated description IDs or associate it with another field’s error. Giving the Input a stable `id` alone does not prevent this; the same scenario passed with Vue 3.5.45.
 
 For a deferred Slider inside Shadow DOM, a popup teleported to `body` may not resolve ID references to hints or errors inside the shadow root. Set `:popup-container="false"`, or pass an element within the same ShadowRoot as `popup-container`, to keep the popup and hints in the same root. Provide clear control names, and account for the container’s styling, positioning, and clipping.
 
@@ -29053,7 +29054,7 @@ onDeactivated(cleanup)
       <mp-form-item field="name" label="Name" :label-attrs="{ for: id }" :rules="rules" :validate-trigger="[]" feedback>
         <mp-input :id="id" v-model="model.name" edit-mode="direct" />
       </mp-form-item>
-      <mp-space>
+      <mp-space wrap>
         <mp-button html-type="submit">提交 / Submit</mp-button>
         <mp-button html-type="button" :disabled="!pending.length" @click="complete"
           >返回最早结果 / Resolve oldest</mp-button
@@ -29117,7 +29118,7 @@ function submitted(data) {
         <mp-input v-if="field" :id="id" v-model="model[field]" edit-mode="direct" />
         <span v-else>尚未绑定字段 / No bound field</span>
       </mp-form-item>
-      <mp-space>
+      <mp-space wrap>
         <mp-button html-type="button" :disabled="!field" @click="reset">重置当前字段 / Reset current</mp-button>
         <mp-button html-type="submit" :disabled="!field">校验并提交 / Validate and submit</mp-button>
       </mp-space>
@@ -29849,21 +29850,21 @@ import type {
 
 | Prop | Description | Type | Default |
 | --- | --- | --- | --- |
-| id | Section ID; generated when omitted | `string` | — |
+| id | Section ID; generated automatically when omitted | `string` | — |
 | title | Section title | `string` | `''` |
-| description | Supporting description | `string` | `''` |
-| variant | Section style; card uses a padded border | `'line' \| 'plain' \| 'card'` | `'line'` |
-| show-marker | Show the accent marker | `boolean` | `true` |
-| show-end-divider | Separate subsequent ungrouped fields; ignored for card | `boolean` | `false` |
+| description | Supporting description below the title | `string` | `''` |
+| variant | Section appearance; card adds a border and content padding | `'line' \| 'plain' \| 'card'` | `'line'` |
+| show-marker | Show the theme-colored marker beside the title | `boolean` | `true` |
+| show-end-divider | Show an end divider before subsequent ungrouped fields; card does not draw it twice | `boolean` | `false` |
 
 ### FormSection Slots
 
 | Slot | Description |
 | --- | --- |
-| default | Form fields |
+| default | Form fields within the section |
 | title | Custom title |
 | description | Custom description |
-| extra | Trailing header actions |
+| extra | Title action |
 
 ## CSS Variables
 
@@ -29887,7 +29888,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-form-label-text-color` | `var(--mp-sys-color-content-primary)` | `color` |
 | `--mp-form-required-symbol-color` | `var(--mp-sys-color-content-danger)` | `color` |
 | `--mp-form-section-accent-color` | `var(--mp-sys-color-action-primary)` | `background` |
-| `--mp-form-section-after-gap` | `24px` | `margin-block`, `padding-block-start` |
+| `--mp-form-section-after-gap` | `24px` | `margin-block` |
 | `--mp-form-section-before-gap` | `32px` | `padding-block-start` |
 | `--mp-form-section-card-background` | `var(--mp-sys-color-surface-default)` | `background` |
 | `--mp-form-section-card-padding` | `16px` | `padding` |
@@ -34338,6 +34339,108 @@ Example source: src/input-tag/example/demos/max.vue
 </template>
 ```
 
+## Data and options
+
+### Search and select tags
+
+Example source: src/input-tag/example/demos/search-options.vue
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const tags = ref<string[]>([])
+const singleTag = ref<string | null>(null)
+const error = ref('')
+const people = [
+  { value: 'alice', label: 'Alice · 设计' },
+  { value: 'alan', label: 'Alan · 产品' },
+  { value: 'bob', label: 'Bob · 开发' },
+]
+
+// 模拟服务端搜索；真实请求可把 signal 传入 fetch。
+async function searchPeople(query: string, { signal }: { signal: AbortSignal }) {
+  await new Promise<void>((resolve, reject) => {
+    const cancel = () => {
+      clearTimeout(timer)
+      reject(new DOMException('Aborted', 'AbortError'))
+    }
+    const timer = setTimeout(() => {
+      signal.removeEventListener('abort', cancel)
+      resolve()
+    }, 350)
+    if (signal.aborted) {
+      cancel()
+    } else {
+      signal.addEventListener('abort', cancel, { once: true })
+    }
+  })
+  error.value = ''
+  return people.filter((person) => person.value.includes(query.toLowerCase()))
+}
+</script>
+
+<template>
+  <mp-space direction="column" style="width: 100%" :size="12">
+    <p>输入或粘贴至少两个字符，输入 al 选择多个结果中的一项；输入 bob 自动提交唯一结果。</p>
+    <p>Type or paste at least two characters. Choose an “al” result, or type “bob” to commit the only result.</p>
+    <mp-input-tag
+      v-model="tags"
+      :options="searchPeople"
+      :min-search-length="2"
+      :search-delay="250"
+      auto-commit-single
+      unique-value
+      placeholder="搜索账号 / Search accounts"
+      aria-label="搜索账号 / Search accounts"
+      @load-error="error = '搜索失败 / Search failed'"
+    />
+    <p v-if="error" role="alert">{{ error }}</p>
+    <p>保存的账号 / Saved IDs: {{ JSON.stringify(tags) }}</p>
+    <p>单值模式：选择新账号替换旧值；无匹配时按回车保存输入。</p>
+    <mp-input-tag
+      v-model="singleTag"
+      :multiple="false"
+      :options="searchPeople"
+      :min-search-length="2"
+      :search-delay="250"
+      auto-commit-single
+      placeholder="单个账号 / Single account"
+      aria-label="单个账号 / Single account"
+    />
+    <p>单个账号 / Single ID: {{ JSON.stringify(singleTag) }}</p>
+  </mp-space>
+</template>
+```
+
+When `options` is supplied, typing or pasting searches only after `min-search-length` is reached. Arrays filter locally by label; loaders receive the query and `{ signal }`, and remote results are not filtered again. Composition completes before searching; shortening the query or blurring cancels pending work. Enter selects a highlighted candidate, or creates the typed value when a completed search returns no candidates. Loading, failed searches, and disabled matches never create a tag. `auto-commit-single` defaults to false and commits only the sole enabled result of the current search. Selected values are saved in the model. Resolve labels from current `options`, then `fallback-option`, the instance cache, and finally the raw value. Use `options` or `fallback-option` to restore labels after remounting.
+
+Selected tags display their label by default. Use `format-label` to format the text and `#label="{ data }"` for custom content. Slots take priority over formatting; neither changes search matching or the model. Read mode uses formatted text; use `#read` to customize read content.
+
+### Customize selected content
+
+Example source: src/input-tag/example/demos/format-label.vue
+
+```vue
+<script setup lang="ts">
+const selected = [{ value: 'alice', label: 'Alice', department: '设计' }]
+const formatLabel = (item: { label?: string; department?: string }) => `${item.label} · ${item.department}`
+</script>
+
+<template>
+  <mp-space direction="column" style="width: 100%" :size="12">
+    <p>格式化文字 / Format selected text</p>
+    <mp-input-tag :default-value="['alice']" :options="selected" :format-label="formatLabel" />
+    <p>自定义内容 / Customize selected content</p>
+    <mp-input-tag :default-value="['alice']" :options="selected">
+      <template #label="{ data }"
+        ><strong>{{ data.label }}</strong> · {{ data.department }}</template
+      >
+    </mp-input-tag>
+  </mp-space>
+</template>
+```
+
 ## Loading and waiting
 
 ### Controlled loading
@@ -34570,119 +34673,19 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 
 Public Props exclude the internal composition controls `baseCls`, `focused`, `disabledInput` and `uninjectFormItemContext`. A synchronous undefined return from before-commit waits for done; ordinary change / press-enter listeners do not await Promises. A deferred change may omit its source DOM event. Clearing defaults to [] in multiple mode and null in single mode; an explicit empty-value takes precedence.
 
-### Search and select tags
-
-Example source: src/input-tag/example/demos/search-options.vue
-
-```vue
-<script setup lang="ts">
-import { ref } from 'vue'
-
-const tags = ref<string[]>([])
-const singleTag = ref<string | null>(null)
-const error = ref('')
-const people = [
-  { value: 'alice', label: 'Alice · 设计' },
-  { value: 'alan', label: 'Alan · 产品' },
-  { value: 'bob', label: 'Bob · 开发' },
-]
-
-// 模拟服务端搜索；真实请求可把 signal 传入 fetch。
-async function searchPeople(query: string, { signal }: { signal: AbortSignal }) {
-  await new Promise<void>((resolve, reject) => {
-    const cancel = () => {
-      clearTimeout(timer)
-      reject(new DOMException('Aborted', 'AbortError'))
-    }
-    const timer = setTimeout(() => {
-      signal.removeEventListener('abort', cancel)
-      resolve()
-    }, 350)
-    if (signal.aborted) {
-      cancel()
-    } else {
-      signal.addEventListener('abort', cancel, { once: true })
-    }
-  })
-  error.value = ''
-  return people.filter((person) => person.value.includes(query.toLowerCase()))
-}
-</script>
-
-<template>
-  <mp-space direction="column" style="width: 100%" :size="12">
-    <p>输入或粘贴至少两个字符，输入 al 选择多个结果中的一项；输入 bob 自动提交唯一结果。</p>
-    <p>Type or paste at least two characters. Choose an “al” result, or type “bob” to commit the only result.</p>
-    <mp-input-tag
-      v-model="tags"
-      :options="searchPeople"
-      :min-search-length="2"
-      :search-delay="250"
-      auto-commit-single
-      unique-value
-      placeholder="搜索账号 / Search accounts"
-      aria-label="搜索账号 / Search accounts"
-      @load-error="error = '搜索失败 / Search failed'"
-    />
-    <p v-if="error" role="alert">{{ error }}</p>
-    <p>保存的账号 / Saved IDs: {{ JSON.stringify(tags) }}</p>
-    <p>单值模式：选择新账号替换旧值；无匹配时按回车保存输入。</p>
-    <mp-input-tag
-      v-model="singleTag"
-      :multiple="false"
-      :options="searchPeople"
-      :min-search-length="2"
-      :search-delay="250"
-      auto-commit-single
-      placeholder="单个账号 / Single account"
-      aria-label="单个账号 / Single account"
-    />
-    <p>单个账号 / Single ID: {{ JSON.stringify(singleTag) }}</p>
-  </mp-space>
-</template>
-```
-
-When `options` is supplied, typing or pasting searches only after `min-search-length` is reached. Arrays filter locally by label; loaders receive the query and `{ signal }`, and remote results are not filtered again. Composition completes before searching; shortening the query or blurring cancels pending work. Enter selects a highlighted candidate, or creates the typed value when a completed search returns no candidates. Loading, failed searches, and disabled matches never create a tag. `auto-commit-single` defaults to false and commits only the sole enabled result of the current search. Selected values are saved in the model. Resolve labels from current `options`, then `fallback-option`, the instance cache, and finally the raw value. Use `options` or `fallback-option` to restore labels after remounting.
-
-Selected tags display their label by default. Use `format-label` to format the text and `#label="{ data }"` for custom content. Slots take priority over formatting; neither changes search matching or the model. Read mode uses formatted text; use `#read` to customize read content.
-
-### Customize selected content
-
-Example source: src/input-tag/example/demos/format-label.vue
-
-```vue
-<script setup lang="ts">
-const selected = [{ value: 'alice', label: 'Alice', department: '设计' }]
-const formatLabel = (item: { label?: string; department?: string }) => `${item.label} · ${item.department}`
-</script>
-
-<template>
-  <mp-space direction="column" style="width: 100%" :size="12">
-    <p>格式化文字 / Format selected text</p>
-    <mp-input-tag :default-value="['alice']" :options="selected" :format-label="formatLabel" />
-    <p>自定义内容 / Customize selected content</p>
-    <mp-input-tag :default-value="['alice']" :options="selected">
-      <template #label="{ data }"
-        ><strong>{{ data.label }}</strong> · {{ data.department }}</template
-      >
-    </mp-input-tag>
-  </mp-space>
-</template>
-```
-
 ### InputTag Props
 
 | Parameter | Description | Type | Default |
 | ------------------------- | ---------------------------------- | ------------------------------------------------- | :--------: |
-| multiple | Whether to allow multiple tags; false replaces the previous value | `boolean` | `true` |
-| model-value **(v-model)** | Array in multiple mode, scalar or null in single mode | `InputTagValue` | `-` |
+| multiple | Allow multiple tags; false replaces the previous value | `boolean` | `true` |
+| model-value **(v-model)** | An array in multiple mode; a scalar or null in single mode | `InputTagValue` | `-` |
 | default-value | Default value (uncontrolled state) | `InputTagValue` | `[]` / `null` |
 | input-value **(v-model)** | The value of the input | `string` | `-` |
 | default-input-value | The default value of the input (uncontrolled state) | `string` | `''` |
 | options | Candidate array or remote loader | `InputTagOption[] \| (query, { signal }) => InputTagOption[] \| Promise<InputTagOption[]>` | `-` |
 | min-search-length | Minimum query length before searching | `number` | `1` |
-| search-delay | Remote search debounce in milliseconds | `number` | `250` |
-| auto-commit-single | Automatically commit the only enabled result | `boolean` | `false` |
+| search-delay | Remote search debounce delay in milliseconds | `number` | `250` |
+| auto-commit-single | Automatically commit the sole enabled result | `boolean` | `false` |
 | placeholder | Placeholder | `string` | `-` |
 | disabled | Whether disabled | `boolean` | `-` |
 | error | Whether it is an error state | `boolean` | `-` |
@@ -34700,7 +34703,7 @@ const formatLabel = (item: { label?: string; department?: string }) => `${item.l
 
 | loading | Business-controlled loading state; does not block input | `boolean` | `false` |
 | loading-mode | Shared field feedback appearance, independent of Loading animation types | `'default' \| 'line'` | `'default'` |
-| empty-value | Clear output; defaults to [] in multiple mode and null in single mode | `InputTagValue \| (() => InputTagValue)` | `[]` |
+| empty-value | Value emitted when cleared; defaults to [] in multiple mode and null in single mode | `InputTagValue \| (() => InputTagValue)` | `[]` |
 | empty-values | Empty-value recognition; field takes precedence over FormItem and Form | `readonly unknown[]` | `-` |
 | empty-text | Read empty text; an explicit empty string is valid | `string` | `'-'` |
 | edit-mode | Editing mode; field takes precedence over FormItem and Form | `'direct' \| 'popup'` | `'direct'` |
@@ -34742,7 +34745,7 @@ Public methods remain callable from initial component mount. Stored methods reso
 
 | Slot | Description | Prop |
 | ------ | :------------------: | --------------- |
-| label | Displayed selected label | data: `TagData` |
+| label | Display content for selected tags | data: `TagData` |
 | prefix | Prefix content | - |
 | suffix | Suffix content | - |
 | clear-icon | Custom clear control | clear: `(event?: Event) => void` |
@@ -34814,19 +34817,19 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-input-tag-padding-x` | `4px` | `padding-inline-end`, `padding-inline-start` |
 | `--mp-input-tag-size-lg-font-size` | `14px` | `font-size` |
 | `--mp-input-tag-size-lg-padding-y` | `2px` | `padding-bottom`, `padding-top` |
-| `--mp-input-tag-size-lg-tag-height` | `28px` | `line-height`, `min-height` |
+| `--mp-input-tag-size-lg-tag-height` | `28px` | `line-height`, `max-height`, `min-height` |
 | `--mp-input-tag-size-md-font-size` | `14px` | `font-size` |
 | `--mp-input-tag-size-md-padding-y` | `2px` | `padding-bottom`, `padding-top` |
-| `--mp-input-tag-size-md-tag-height` | `24px` | `line-height`, `min-height` |
+| `--mp-input-tag-size-md-tag-height` | `24px` | `line-height`, `max-height`, `min-height` |
 | `--mp-input-tag-size-sm-font-size` | `14px` | `font-size` |
 | `--mp-input-tag-size-sm-padding-y` | `2px` | `padding-bottom`, `padding-top` |
-| `--mp-input-tag-size-sm-tag-height` | `20px` | `line-height`, `min-height` |
+| `--mp-input-tag-size-sm-tag-height` | `20px` | `line-height`, `max-height`, `min-height` |
 | `--mp-input-tag-size-xl-font-size` | `16px` | `font-size` |
 | `--mp-input-tag-size-xl-padding-y` | `4px` | `padding-bottom`, `padding-top` |
-| `--mp-input-tag-size-xl-tag-height` | `32px` | `line-height`, `min-height` |
+| `--mp-input-tag-size-xl-tag-height` | `32px` | `line-height`, `max-height`, `min-height` |
 | `--mp-input-tag-size-xs-font-size` | `12px` | `font-size` |
 | `--mp-input-tag-size-xs-padding-y` | `0px` | `padding-bottom`, `padding-top` |
-| `--mp-input-tag-size-xs-tag-height` | `20px` | `line-height`, `min-height` |
+| `--mp-input-tag-size-xs-tag-height` | `20px` | `line-height`, `max-height`, `min-height` |
 | `--mp-input-tag-tag-color-bg` | `var(--mp-sys-color-surface-default)` | `background-color` |
 | `--mp-input-tag-tag-color-bg-disabled` | `var(--mp-sys-color-state-hover)` | `background-color` |
 | `--mp-input-tag-tag-color-bg-focus` | `var(--mp-sys-color-state-hover)` | `background-color` |
@@ -34835,7 +34838,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-input-tag-tag-color-border-focus` | `var(--mp-sys-color-state-hover)` | `border-color` |
 | `--mp-input-tag-tag-font-size` | `12px` | `font-size` |
 | `--mp-input-tag-tag-margin-right` | `4px` | `margin-inline-end` |
-| `--mp-input-tag-tag-margin-y` | `2px` | `margin-bottom`, `margin-top` |
+| `--mp-input-tag-tag-margin-y` | `2px` | `margin-bottom`, `margin-top`, `max-height` |
 
 </div>
 
@@ -34858,6 +34861,10 @@ Document: llms/en-US/input.md
 <!-- Source: src/input/docs/en-US.md; locale: en-US; page: /en-US/input -->
 
 # Input
+
+## Server-side rendering
+
+With Vue 3.2–3.4, when multiple asynchronous components resolve in a different order on the server and client, generated IDs may cause floating labels to reference the wrong inputs. In this scenario, give each Input an `id` that is unique on the page and identical on the server and client, for example `<Input id="account-name" />`.
 
 ## Reading direction
 
@@ -38339,9 +38346,9 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 | fallback-option | Synchronously resolve an unmatched ID for display | `(value: string \| number \| boolean) => SelectOptionData \| null \| undefined` | undefined |
 | default-value | Initial uncontrolled text | string | '' |
 | options | Candidate array or explicit loader, including nested groups | readonly (string \| number \| SelectOptionData \| SelectOptionGroup)[] \| ((query: string, context: { signal: AbortSignal }) => Array \| `Promise<Array>`) | undefined |
-| min-search-length | Minimum query length after the prefix | number | 0 |
-| search-delay | Remote search debounce in milliseconds | number | 0 |
-| auto-commit-single | Automatically commit the only enabled result | boolean | false |
+| min-search-length | Minimum number of characters required to start searching | number | 0 |
+| search-delay | Remote search debounce delay in milliseconds | number | 0 |
+| auto-commit-single | Automatically commit the sole enabled result | boolean | false |
 | prefix | Trigger prefix; supports multiple characters and multiple prefixes | string \| string[] | '@' |
 | split | Separator before and after a mention | string | ' ' |
 | type | Input presentation | input \| textarea | input |
@@ -43672,6 +43679,132 @@ Document: llms/en-US/platform.md
 # Platforms and compatibility
 
 Cedar targets desktop applications; Maple targets mobile applications. Choose by interaction and information density. Check the installed package peer dependencies and verify your target browsers.
+
+## Vue version compatibility
+
+Cedar / Maple target Vue 3.3 and later for ongoing compatibility checks; development uses Vue 3.5. The UI package keeps a `3` Vue peer range, so successful installation does not mean every Vue 3 version and scenario has been verified. On Vue 3.2, generated ID associations may differ if asynchronous components resolve in a different order on the server and client. Vue 3.0 and 3.1 have not been verified.
+
+When the initial server render of Cedar Table must apply a default filter, pass the columns through `:columns` and set `filterable.defaultFilteredValue`. Columns declared with `<c-table-column>` do not guarantee filtered rows in the server HTML.
+
+## Build tool compatibility
+
+Cedar / Maple do not currently guarantee Webpack 4 compatibility or continuously validate that toolchain. ESM output preserves `import` / `export` and may also contain modern JavaScript syntax such as optional chaining (`?.`) and nullish coalescing (`??`). ESM describes the module format, not ES5 syntax compatibility.
+
+Webpack 4 cannot parse `?.` / `??` directly. Applications that need this toolchain must transpile the library and relevant dependencies with Babel and validate their own integration. Browser compatibility and build tool parsing capabilities are separate requirements.
+
+### Complete minimal Webpack 4 configuration
+
+This example combines Babel transpilation, entry/subpath aliases, CSS loaders and Vue build flags in one configuration. Create the files below in an empty directory. It consumes precompiled components and does not use `.vue` single-file components, so no `vue-loader` is needed. Retain your existing Vue loader configuration if your application uses SFCs.
+
+1. Install dependencies (validated with UI / icons 1.1.11 and Vue 3.5.45):
+
+```sh
+npm init -y
+npm install vue@3.5.45 @maple-design/ui-vue@1.1.11 @maple-design/icons-vue@1.1.11
+npm install --save-dev webpack@4.47.0 webpack-cli@3.3.12 babel-loader@8.4.1 @babel/core@^7 @babel/preset-env@^7 style-loader@2.0.0 css-loader@5.2.7
+```
+
+2. Create `webpack.config.cjs` (CommonJS, including when the application declares `"type": "module"`):
+
+```js
+const path = require('path')
+const webpack = require('webpack')
+const uiRoot = path.dirname(require.resolve('@maple-design/ui-vue/package.json'))
+const iconsRoot = path.dirname(require.resolve('@maple-design/icons-vue/style.css'))
+
+module.exports = {
+  mode: 'production',
+  entry: './src/index.js',
+  output: { path: path.resolve(__dirname, 'dist'), filename: 'bundle.js' },
+  resolve: {
+    extensions: ['.mjs', '.js', '.json'],
+    alias: {
+      'vue$': require.resolve('vue/dist/vue.runtime.esm-bundler.js'),
+      '@maple-design/ui-vue/style$': require.resolve('@maple-design/ui-vue/style'),
+      '@maple-design/ui-vue/reset.css$': require.resolve('@maple-design/ui-vue/reset.css'),
+      '@maple-design/ui-vue': path.join(uiRoot, 'es'),
+      '@maple-design/icons-vue/style.css$': require.resolve('@maple-design/icons-vue/style.css'),
+      '@maple-design/icons-vue': path.join(iconsRoot, 'es'),
+    },
+  },
+  module: {
+    rules: [
+      {
+        test: /\.[cm]?js$/,
+        type: 'javascript/auto',
+        use: {
+          loader: 'babel-loader',
+          options: {
+            babelrc: false,
+            configFile: false,
+            presets: [['@babel/preset-env', { targets: { chrome: '70' }, modules: false }]],
+          },
+        },
+      },
+      { test: /\.css$/, use: ['style-loader', 'css-loader'] },
+    ],
+  },
+  plugins: [
+    new webpack.DefinePlugin({
+      __VUE_OPTIONS_API__: JSON.stringify(true),
+      __VUE_PROD_DEVTOOLS__: JSON.stringify(false),
+      __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: JSON.stringify(false),
+    }),
+  ],
+}
+```
+
+3. Create `src/index.js`. It consumes both root and component/icon subpath imports, plus component, full, reset and icon styles to exercise resolution:
+
+```js
+import { createApp, h } from 'vue'
+import { Button as RootButton } from '@maple-design/ui-vue'
+import Button from '@maple-design/ui-vue/button'
+import { IconAlertCircle as RootIcon } from '@maple-design/icons-vue'
+import { IconAlertCircle } from '@maple-design/icons-vue/icon-alert-circle'
+import '@maple-design/ui-vue/button/style'
+import '@maple-design/ui-vue/style'
+import '@maple-design/ui-vue/reset.css'
+import '@maple-design/icons-vue/style.css'
+
+if (RootButton !== Button || RootIcon !== IconAlertCircle) throw new Error('Entry mismatch')
+createApp({
+  setup() {
+    return () => h(Button, { onClick: () => { document.body.dataset.clicked = 'yes' } }, {
+      default: () => [h(IconAlertCircle), 'Webpack 4 works'],
+    })
+  },
+}).mount('#app')
+```
+
+4. Create `index.html` in the project root:
+
+```html
+<!doctype html>
+<html lang="en">
+  <head><meta charset="utf-8"><title>Webpack 4 example</title></head>
+  <body>
+    <div id="app"></div>
+    <script src="./dist/bundle.js"></script>
+  </body>
+</html>
+```
+
+5. Build, then serve the project root over local HTTP and open `index.html`:
+
+```sh
+npx webpack --config webpack.config.cjs
+```
+
+The page should display a `Webpack 4 works` button with an icon. Clicking it sets `document.body.dataset.clicked` to `yes`. Production builds may report asset size warnings. This entry intentionally imports both full and component styles to validate their paths; applications usually choose one styling approach.
+
+#### Configuration details and scope
+
+- Babel `preset-env` uses Chrome 70 as its syntax target with `modules: false`, transforming optional chaining, nullish coalescing, logical assignment and class fields while preserving ESM. This is a compilation target for this example, not a promise that the library supports Chrome 70; it supplies neither runtime API polyfills nor CSS fallbacks. `syntax-*` plugins alone do not transform syntax.
+- This minimal example transpiles all `.js` / `.mjs` / `.cjs` files, including Vue, the component library and other dependencies. It avoids excluding `node_modules`; narrow the scope only after validating your application, and ensure `oneOf` allows files to reach the rule. `javascript/auto` allows Webpack 4 to handle interop between `.mjs` and CommonJS dependencies.
+- Webpack 4 does not support `exports` mappings. Package aliases without `$` cover the root and component/icon/component-style subpaths matching the ES directory layout; no separate `ui-vue$` alias is needed. Exact style aliases must precede prefix aliases. Full, reset and icon styles map to their actual files. Include `.mjs` in the extensions list.
+- When integrating, retain your application's entry, output, extensions and other loaders/plugins. Prefix aliases do not replace all `exports` mappings. Other exports, such as `package.json` or Maple's `json/*` and `highlight/*`, need mappings based on the installed version.
+- This configuration validates only the minimal application shown here. It does not guarantee ongoing Webpack 4 compatibility, provide runtime API polyfills or CSS fallbacks for older browsers, or verify every component's behavior.
 
 [LLM documentation](#/en-US/llms) · [Cedar](https://cedar.show) · [Maple](https://maple.show)
 
@@ -50268,7 +50401,7 @@ defineExpose({
             v-model="editMode"
             aria-label="字段编辑方式"
             :options="[
-              { label: '直接编辑', value: 'inline' },
+              { label: '直接编辑', value: 'direct' },
               { label: '弹层确认后保存', value: 'popup' },
             ]"
             variant="button"
@@ -50462,6 +50595,7 @@ defineExpose({
                     :variant="fieldVariant"
                     :popup-container="previewRoot || undefined"
                     :options="cities"
+                    :need-confirm="editMode === 'popup'"
                     aria-label="预约城市"
                   />
                 </mp-form-item>
@@ -50471,6 +50605,7 @@ defineExpose({
                     :variant="fieldVariant"
                     :popup-container="previewRoot || undefined"
                     :options="locations"
+                    :need-confirm="editMode === 'popup'"
                     path-mode
                     aria-label="体验中心"
                   />
@@ -50620,7 +50755,12 @@ defineExpose({
               <mp-safe-area class="brand-form-footer" :edges="['bottom']">
                 <mp-safe-area class="brand-form-footer-nested" :edges="['bottom']">
                   <mp-space direction="column" :size="12">
-                    <mp-button status="primary" block html-type="submit" :disabled="disabled || readonly || readPretty"
+                    <mp-button
+                      status="primary"
+                      variant="default"
+                      block
+                      html-type="submit"
+                      :disabled="disabled || readonly || readPretty"
                       >提交预约</mp-button
                     >
                     <mp-button block @click="reset">重置表单</mp-button>
@@ -51045,10 +51185,10 @@ Use these variables to customize the component. Defaults may vary by the selecto
 
 | Variable | Default / condition | Affected styles |
 | --- | --- | --- |
-| `--mp-safe-area-bottom` | `env(safe-area-inset-bottom, 0px)` | `margin-bottom`, `padding-bottom` |
-| `--mp-safe-area-left` | `env(safe-area-inset-left, 0px)` | `inset-inline-end`, `margin-left`, `padding-left`, `width` |
-| `--mp-safe-area-right` | `env(safe-area-inset-right, 0px)` | `inset-inline-end`, `margin-right`, `padding-right`, `width` |
-| `--mp-safe-area-top` | `env(safe-area-inset-top, 0px)` | `margin-top`, `padding-top` |
+| `--mp-safe-area-bottom` | `env(safe-area-inset-bottom, 0px)` (`html`) | `margin-bottom`, `padding-bottom` |
+| `--mp-safe-area-left` | `env(safe-area-inset-left, 0px)` (`html`) | `inset-inline-end`, `margin-left`, `padding-left`, `width` |
+| `--mp-safe-area-right` | `env(safe-area-inset-right, 0px)` (`html`) | `inset-inline-end`, `margin-right`, `padding-right`, `width` |
+| `--mp-safe-area-top` | `env(safe-area-inset-top, 0px)` (`html`) | `margin-top`, `padding-top` |
 
 </div>
 
@@ -51528,6 +51668,12 @@ function submit() {
     }}</pre>
   </section>
 </template>
+<style scoped>
+.native-search-results {
+  max-width: 100%;
+  overflow-x: auto;
+}
+</style>
 ```
 
 ## API
@@ -56135,11 +56281,11 @@ const styleVars = computed(() => ({
     <div class="local-theme-demo__compare">
       <div>
         <p>跟随页面 / Page theme</p>
-        <mp-button status="primary">默认按钮 / Default</mp-button>
+        <mp-button status="primary" variant="default">默认按钮 / Default</mp-button>
       </div>
       <mp-theme-provider :style-vars="styleVars">
         <p>局部覆盖 / Local override</p>
-        <mp-button status="primary">定制按钮 / Custom</mp-button>
+        <mp-button status="primary" variant="default">定制按钮 / Custom</mp-button>
       </mp-theme-provider>
     </div>
   </section>
@@ -63640,7 +63786,7 @@ function reset() {
 </script>
 <template>
   <mp-space direction="column">
-    <mp-space>
+    <mp-space wrap>
       <mp-button @click="sentinel = !sentinel">切换清空值 / Toggle empty value</mp-button>
       <mp-button @click="reset">重置示例 / Reset values</mp-button>
     </mp-space>
@@ -63669,6 +63815,12 @@ function reset() {
     <pre class="empty-policy-model">{{ JSON.stringify({ direct, deferred }) }}</pre>
   </mp-space>
 </template>
+<style scoped>
+.empty-policy-model {
+  max-width: 100%;
+  overflow-x: auto;
+}
+</style>
 ```
 
 ## Composition input
@@ -63981,11 +64133,11 @@ const styleVars = computed(() => ({
     <div class="local-theme-demo__compare">
       <div>
         <p>跟随页面 / Page theme</p>
-        <mp-button status="primary">默认按钮 / Default</mp-button>
+        <mp-button status="primary" variant="default">默认按钮 / Default</mp-button>
       </div>
       <mp-theme-provider :style-vars="styleVars">
         <p>局部覆盖 / Local override</p>
-        <mp-button status="primary">定制按钮 / Custom</mp-button>
+        <mp-button status="primary" variant="default">定制按钮 / Custom</mp-button>
       </mp-theme-provider>
     </div>
   </section>
@@ -67539,6 +67691,7 @@ html[lang='en-US'] .demo-comparison-case > h4 > [lang='zh-CN'] {
 
 Preview configuration: `align="center"`, `orientation="horizontal"`, `:checked="!!pendingProps.reverse"`, `:checked="!!pendingProps.pending"`.
 
+
 Example source: src/timeline/example/demos/pending.vue
 
 ```vue
@@ -67578,6 +67731,7 @@ Example source: src/timeline/example/demos/pending.vue
 
 <script setup>
 import { ref } from 'vue'
+import { IconFire as MpIconFire } from '@maple-design/icons-vue'
 
 const pendingProps = ref({})
 
@@ -67636,7 +67790,9 @@ Example source: src/timeline/example/demos/icon.vue
   </mp-timeline>
 </template>
 
-<script setup></script>
+<script setup>
+import { IconExclamationCircleFill as MpIconExclamationCircleFill } from '@maple-design/icons-vue'
+</script>
 ```
 
 ### Dot
@@ -67700,7 +67856,9 @@ Example source: src/timeline/example/demos/dot.vue
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { IconCheck as MpIconCheck, IconClockCircle as MpIconClockCircle } from '@maple-design/icons-vue'
+</script>
 ```
 
 ### Custom
@@ -67724,7 +67882,9 @@ Example source: src/timeline/example/demos/custom.vue
   </mp-timeline>
 </template>
 
-<script setup></script>
+<script setup>
+import { IconCheckCircleFill as MpIconCheckCircleFill } from '@maple-design/icons-vue'
+</script>
 ```
 
 ## API
@@ -67792,30 +67952,30 @@ Use these variables to customize the component. Defaults may vary by the selecto
 
 | Variable | Default / condition | Affected styles |
 | --- | --- | --- |
-| `--mp-timeline-alternate-horizontal-min-height` | `var(--mp-size-50)` | `min-height` |
+| `--mp-timeline-alternate-horizontal-min-height` | `200px` | `min-height` |
 | `--mp-timeline-content-text-color` | `var(--mp-color-text-1)` | `color` |
 | `--mp-timeline-dot-bg` | `rgb(var(--mp-primary-6))` | `background-color`, `border`, `color` |
 | `--mp-timeline-dot-bg-hollow` | `var(--mp-color-bg-2)` | `background-color` |
-| `--mp-timeline-dot-border-radius` | `var(--mp-border-radius-circle)` | `border-radius` |
-| `--mp-timeline-dot-border-width-hollow` | `var(--mp-border-width-2)` | `border` |
-| `--mp-timeline-dot-size-width` | `var(--mp-spacing-3)` | `bottom`, `height`, `inset-inline-start`, `left`, `margin-left`, `margin-top`, `padding-bottom`, `padding-left`, `padding-right`, `padding-top`, `top`, `width` |
-| `--mp-timeline-font-content-size` | `var(--mp-font-size-body-3)` | `bottom`, `font-size`, `height`, `line-height`, `top` |
-| `--mp-timeline-font-label-size` | `var(--mp-font-size-body-1)` | `font-size` |
-| `--mp-timeline-horizontal-dot-content-height` | `var(--mp-spacing-3)` | `height`, `line-height` |
-| `--mp-timeline-horizontal-margin-content-spacing` | `var(--mp-spacing-7)` | `margin-bottom`, `margin-top`, `padding-bottom`, `padding-top` |
-| `--mp-timeline-horizontal-margin-line-left` | `var(--mp-spacing-3)` | `inset-inline-start` |
-| `--mp-timeline-horizontal-margin-line-right` | `var(--mp-spacing-2)` | `inset-inline-end` |
+| `--mp-timeline-dot-border-radius` | `50%` | `border-radius` |
+| `--mp-timeline-dot-border-width-hollow` | `2px` | `border` |
+| `--mp-timeline-dot-size-width` | `6px` | `bottom`, `height`, `inset-inline-start`, `left`, `margin-left`, `margin-top`, `padding-bottom`, `padding-left`, `padding-right`, `padding-top`, `top`, `width` |
+| `--mp-timeline-font-content-size` | `var(--mp-font-size-md)` | `bottom`, `font-size`, `height`, `line-height`, `top` |
+| `--mp-timeline-font-label-size` | `var(--mp-font-size-sm)` | `font-size` |
+| `--mp-timeline-horizontal-dot-content-height` | `6px` | `height`, `line-height` |
+| `--mp-timeline-horizontal-margin-content-spacing` | `16px` | `margin-bottom`, `margin-top`, `padding-bottom`, `padding-top` |
+| `--mp-timeline-horizontal-margin-line-left` | `6px` | `inset-inline-start` |
+| `--mp-timeline-horizontal-margin-line-right` | `4px` | `inset-inline-end` |
 | `--mp-timeline-item-min-height` | `78px` | `min-height` |
-| `--mp-timeline-label-relative-horizontal-margin` | `var(--mp-size-13)` | `margin-bottom`, `margin-top` |
-| `--mp-timeline-label-relative-margin` | `var(--mp-size-25)` | `margin-left`, `margin-right` |
-| `--mp-timeline-label-relative-max-width` | `var(--mp-size-25)` | `max-width` |
+| `--mp-timeline-label-relative-horizontal-margin` | `52px` | `margin-bottom`, `margin-top` |
+| `--mp-timeline-label-relative-margin` | `100px` | `margin-left`, `margin-right` |
+| `--mp-timeline-label-relative-max-width` | `100px` | `max-width` |
 | `--mp-timeline-label-text-color` | `var(--mp-color-text-3)` | `color` |
-| `--mp-timeline-line-bg` | `var(--mp-color-neutral-3)` | `border-color` |
-| `--mp-timeline-size-line-width` | `var(--mp-border-width-1)` | `border-left-width`, `border-top-width`, `height`, `width` |
-| `--mp-timeline-vertical-margin-content-bottom` | `var(--mp-spacing-2)` | `margin-bottom` |
-| `--mp-timeline-vertical-margin-content-left` | `var(--mp-spacing-7)` | `margin-left`, `margin-right`, `padding-left`, `padding-right` |
-| `--mp-timeline-vertical-margin-line-bottom` | `var(--mp-spacing-2)` | `bottom` |
-| `--mp-timeline-vertical-margin-line-top` | `var(--mp-spacing-2)` | `top` |
+| `--mp-timeline-line-bg` | `var(--mp-sys-color-border-default)` | `border-color` |
+| `--mp-timeline-size-line-width` | `1px` | `border-left-width`, `border-top-width`, `height`, `width` |
+| `--mp-timeline-vertical-margin-content-bottom` | `4px` | `margin-bottom` |
+| `--mp-timeline-vertical-margin-content-left` | `16px` | `margin-left`, `margin-right`, `padding-left`, `padding-right` |
+| `--mp-timeline-vertical-margin-line-bottom` | `4px` | `bottom` |
+| `--mp-timeline-vertical-margin-line-top` | `4px` | `top` |
 
 </div>
 
@@ -68611,6 +68771,8 @@ default provides the reference; `content` supplies popup `content`. Exposes `ope
 
 `trigger="focus"` supports keyboard focus; Escape closes only the topmost popup. Trigger does not define business `role`/ARIA relationships; semantic wrappers supply them.
 
+With focus triggers, one outside pointer interaction that causes both blur and click requests closing once. If controlled state rejects the request, a later independent click can request closing again; `click-outside` continues to report outside click events.
+
 ## Native event modifiers on reference elements
 
 Native `click`, `mouseenter`, `mouseleave`, `focusin`, `focusout`, `contextmenu` listeners and `.once`, `.capture`, `.passive` modifiers bind to the actual reference element, not the popup. `.once` follows the native element's listener lifetime. Replacing a callback does not reactivate a consumed listener; replacing the reference or removing and readding a listener starts a new lifetime. Deactivation/unmount unbind listeners. Listeners only notify; returned Promises do not drive opening/loading, and errors enter Vue's event error chain.
@@ -68619,7 +68781,7 @@ Native `click`, `mouseenter`, `mouseleave`, `focusin`, `focusout`, `contextmenu`
 
 Fixed positioning uses the actual `fixed` containing block when an ancestor has a transform, filter, perspective, or containing CSS property. Axis-aligned scaling is accounted for; rotated or skewed coordinate systems are not guaranteed. For accessible same-origin iframe references, the reference and popup documents share coordinate conversion and event handling; cross-origin or unrelated browsing contexts are not supported. With `update-at-scroll`, scrolling either document or a scrollable ancestor updates the popup.
 
-When the reference element is in the main document outside a ShadowRoot and the popup is mounted inside a closed ShadowRoot, the current version may misclassify clicks inside the popup as outside clicks and request dismissal. In this same-document scenario, consider setting `popup-container` to `body` or an accessible element inside an open ShadowRoot. After changing containers, check the theme, inherited styles, and positioning. Automatic detection inside closed roots still needs to be fixed.
+When the popup is mounted inside a closed ShadowRoot in the same document, Trigger distinguishes clicks inside the popup from outside clicks. Clicks passing through the closed-root host are classified in a later task; account for this if application behavior depends on dismissal event timing.
 
 When a reference is slotted into a scroll container inside a closed ShadowRoot, the outer Trigger cannot access the slot or container and cannot listen to its scrolling automatically. The closed component can call the Trigger instance's `resize()` on internal scroll or slot changes. For scroll-to-close behavior, call `close()` internally using an application-specific threshold, and remove listeners on unmount.
 

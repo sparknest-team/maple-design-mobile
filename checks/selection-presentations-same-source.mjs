@@ -3,16 +3,16 @@ import { readFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { assertCopiedVueCompat } from '../../design-ui/bin/copied-source-normalization.mjs'
 import { normalizeBoundImports } from './normalize-bound-imports.mjs'
 import { normalizeTypeScript, normalizeVueSource } from './normalize-source.mjs'
 
 const workspace = fileURLToPath(new URL('../../', import.meta.url))
 const cedar = resolve(workspace, 'cedar-design-web/packages/ui/src')
 const maple = resolve(workspace, 'maple-design-mobile/packages/ui/src')
-assert.equal(
+assertCopiedVueCompat(
   readFileSync(resolve(cedar, '_utils/vue-compat.ts'), 'utf8'),
   readFileSync(resolve(maple, 'utils/vue-compat.ts'), 'utf8'),
-  'Vue compatibility helpers differ',
 )
 const files = [
   'trigger/interaction.ts',

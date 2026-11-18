@@ -143,6 +143,8 @@ default provides the reference; `content` supplies popup `content`. Exposes `ope
 
 `trigger="focus"` supports keyboard focus; Escape closes only the topmost popup. Trigger does not define business `role`/ARIA relationships; semantic wrappers supply them.
 
+With focus triggers, one outside pointer interaction that causes both blur and click requests closing once. If controlled state rejects the request, a later independent click can request closing again; `click-outside` continues to report outside click events.
+
 ## Native event modifiers on reference elements
 
 Native `click`, `mouseenter`, `mouseleave`, `focusin`, `focusout`, `contextmenu` listeners and `.once`, `.capture`, `.passive` modifiers bind to the actual reference element, not the popup. `.once` follows the native element's listener lifetime. Replacing a callback does not reactivate a consumed listener; replacing the reference or removing and readding a listener starts a new lifetime. Deactivation/unmount unbind listeners. Listeners only notify; returned Promises do not drive opening/loading, and errors enter Vue's event error chain.

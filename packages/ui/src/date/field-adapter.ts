@@ -1,4 +1,4 @@
-import { h } from 'vue'
+import { h, type Component } from 'vue'
 import type { FieldPresentationAdapter } from '../_components/field-presentation/with-field-presentation'
 import { isFieldOpenClick } from '../_components/picker-field/open-trigger'
 import PickerField from '../_components/picker-field/PickerField.vue'
@@ -9,13 +9,17 @@ import { isDateSelectionValid } from './date-rules'
 import { dateEventPayload, formatDateValue } from './date-value'
 import DatePanel from './DatePanel.vue'
 import { dateFieldPanelOptions } from './field-panel-options'
+import { provideRangeRenderer } from './range-renderer'
 
-export function dateFieldAdapter(range: boolean): FieldPresentationAdapter {
+export function dateFieldAdapter(range: boolean, renderer?: Component): FieldPresentationAdapter {
   return {
     methods: ['focus', 'blur'],
     setup: range
       ? () => {
           provideRangeField()
+          if (renderer) {
+            provideRangeRenderer(renderer)
+          }
         }
       : undefined,
     reference: range

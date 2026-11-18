@@ -2,7 +2,7 @@
 
 exports[`test card component slots > card description slot 1`] = `
 "<div class="mp-card mp-card--size-md mp-card--variant-outline">
-  <div class="mp-card__floater" style="width: 100%; height: 100%; top: auto; left: auto; overflow: hidden;">
+  <div class="mp-card__floater" style="width: 100%; height: 100%; top: auto; left: auto; overflow: hidden; background: transparent;">
     <!--v-if-->
     <div class="mp-card__container">
       <!--v-if-->
@@ -21,7 +21,7 @@ exports[`test card component slots > card description slot 1`] = `
 
 exports[`test card component slots > card extra slot 1`] = `
 "<div class="mp-card mp-card--size-md mp-card--variant-outline">
-  <div class="mp-card__floater" style="width: 100%; height: 100%; top: auto; left: auto; overflow: hidden;">
+  <div class="mp-card__floater" style="width: 100%; height: 100%; top: auto; left: auto; overflow: hidden; background: transparent;">
     <!--v-if-->
     <div class="mp-card__container">
       <!--v-if-->
@@ -41,7 +41,7 @@ exports[`test card component slots > card extra slot 1`] = `
 
 exports[`test card component slots > card floating-content slot 1`] = `
 "<div class="mp-card mp-card--size-md mp-card--variant-outline">
-  <div class="mp-card__floater" style="width: 100%; height: 100%; top: auto; left: auto; overflow: hidden;">
+  <div class="mp-card__floater" style="width: 100%; height: 100%; top: auto; left: auto; overflow: hidden; background: transparent;">
     <!--v-if-->
     <div class="mp-card__container">
       <!--v-if-->
@@ -61,7 +61,7 @@ exports[`test card component slots > card floating-content slot 1`] = `
 
 exports[`test card component slots > card floating-content slot 2`] = `
 "<div class="mp-card mp-card--direction-row mp-card--size-md mp-card--variant-outline">
-  <div class="mp-card__floater" style="width: 100%; height: 100%; top: auto; left: auto; overflow: hidden;">
+  <div class="mp-card__floater" style="width: 100%; height: 100%; top: auto; left: auto; overflow: hidden; background: transparent;">
     <!--v-if-->
     <div class="mp-card__container">
       <!--v-if-->
@@ -81,7 +81,7 @@ exports[`test card component slots > card floating-content slot 2`] = `
 
 exports[`test card component slots > card image slot 1`] = `
 "<div class="mp-card mp-card--size-md mp-card--variant-outline">
-  <div class="mp-card__floater" style="width: 100%; height: 100%; top: auto; left: auto; overflow: hidden;"><img src="https://maplejs.org/cat.jpg" alt="cat">
+  <div class="mp-card__floater" style="width: 100%; height: 100%; top: auto; left: auto; overflow: hidden; background: transparent;"><img src="https://maplejs.org/cat.jpg" alt="cat">
     <div class="mp-card__container">
       <!--v-if-->
       <!--v-if-->
@@ -100,7 +100,7 @@ exports[`test card component slots > card image slot 1`] = `
 
 exports[`test card component slots > card subtitle slot 1`] = `
 "<div class="mp-card mp-card--size-md mp-card--variant-outline">
-  <div class="mp-card__floater" style="width: 100%; height: 100%; top: auto; left: auto; overflow: hidden;">
+  <div class="mp-card__floater" style="width: 100%; height: 100%; top: auto; left: auto; overflow: hidden; background: transparent;">
     <!--v-if-->
     <div class="mp-card__container">
       <!--v-if--><span class="mp-card__subtitle">subtitle</span>
@@ -119,7 +119,7 @@ exports[`test card component slots > card subtitle slot 1`] = `
 
 exports[`test card component slots > card title slot 1`] = `
 "<div class="mp-card mp-card--size-md mp-card--variant-outline">
-  <div class="mp-card__floater" style="width: 100%; height: 100%; top: auto; left: auto; overflow: hidden;">
+  <div class="mp-card__floater" style="width: 100%; height: 100%; top: auto; left: auto; overflow: hidden; background: transparent;">
     <!--v-if-->
     <div class="mp-card__container">
       <div class="mp-card__title"><span class="mp-card__title-text">title</span>

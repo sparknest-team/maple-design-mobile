@@ -122,20 +122,13 @@ export default defineComponent({
     })
     expose({ close, resize: surface.resize, setActiveItem })
     function navigate(event: KeyboardEvent) {
-      if (
-        event.defaultPrevented ||
-        event.isComposing ||
-        event.keyCode === 229 ||
-        props.disabled ||
-        !(event.target instanceof HTMLElement) ||
-        !event.target.hasAttribute('data-nav-item')
-      ) {
+      if (event.defaultPrevented || event.isComposing || event.keyCode === 229 || props.disabled) {
         return
       }
       const items = Array.from(
         bar.value?.querySelectorAll<HTMLElement>('[data-nav-item]:not([aria-disabled="true"])') ?? [],
       )
-      const index = items.indexOf(event.target)
+      const index = items.findIndex((item) => item === event.target)
       const next =
         event.key === 'Home'
           ? 0

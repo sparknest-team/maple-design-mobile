@@ -52,4 +52,6 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { IconCheck as MpIconCheck, IconClockCircle as MpIconClockCircle } from '@maple-design/icons-vue'
+</script>

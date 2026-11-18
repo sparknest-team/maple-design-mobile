@@ -46,7 +46,7 @@ const reducedMotion = ref(false)
 const iconEl = ref<HTMLElement | null>(null)
 const transitionDuration = computed(() => {
   const duration = Number(props.transition)
-  return Number.isFinite(duration) ? Math.max(0, duration) : 0
+  return duration > 0 && duration < Infinity ? duration : 0
 })
 let active = true
 let disposed = false

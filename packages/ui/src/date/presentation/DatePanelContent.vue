@@ -23,8 +23,9 @@
     @select="select"
     @navigate="navigate"
   />
-  <RangeContent
-    v-else-if="range && !options.range"
+  <component
+    :is="rangeRenderer"
+    v-else-if="range && !options.range && rangeRenderer"
     v-bind="{ ...$attrs, ...bindings }"
     :endpoint-editor="endpointEditor"
     :model-value="rangeValue"
@@ -32,7 +33,7 @@
     @update:picker-value="navigate"
   >
     <template v-for="name in forwardedSlots" #[name]="scope"><slot :name="name" v-bind="scope || {}" /></template>
-  </RangeContent>
+  </component>
   <CalendarContent
     v-else
     v-bind="{ ...$attrs, ...bindings }"
@@ -51,7 +52,6 @@ import {
   useRangeFieldIndex,
 } from '../../_components/picker-field/mobile-range-field-context'
 import { props as rangeProps } from '../../date-range/presentation-props'
-import RangeContent from '../../date-range/presentation/RangeContent.vue'
 import { createNamespace } from '../../utils/components'
 import { calendarValueFormat, fromCalendarValue, toCalendarValue } from '../calendar-value'
 import { dateLocaleName } from '../date-locale'
@@ -61,11 +61,13 @@ import { dateValueFormat, parseDateValue } from '../date-value'
 import type { DatePanelContentProps } from '../panel-state'
 import { datePresentationOptions } from '../presentation-options'
 import { props as calendarProps } from '../presentation-props'
+import { useRangeRenderer } from '../range-renderer'
 import CalendarContent from './CalendarContent.vue'
 import CalendarViewport from './CalendarViewport.vue'
 
 defineOptions({ name: createNamespace('date-panel-content').name, inheritAttrs: false })
 const props = defineProps<DatePanelContentProps & { endpointEditor?: boolean }>()
+const rangeRenderer = useRangeRenderer()
 const { n } = createNamespace('date-picker')
 const slots = useSlots()
 const forwardedSlots = computed(() => Object.keys(slots).filter((name) => name !== 'actions'))

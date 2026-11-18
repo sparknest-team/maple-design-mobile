@@ -4,10 +4,16 @@ import AppMobile from './AppMobile.vue'
 
 vi.mock('@maple-design/cli-vue/client', () => ({ getMobileIndex: () => '/mobile.html' }))
 
-beforeEach(() => localStorage.clear())
+beforeEach(() => {
+  const values = new Map<string, string>()
+  vi.stubGlobal('localStorage', {
+    getItem: (key: string) => values.get(key) ?? null,
+    setItem: (key: string, value: string) => values.set(key, value),
+  })
+})
 afterEach(() => {
-  localStorage.clear()
   vi.restoreAllMocks()
+  vi.unstubAllGlobals()
 })
 
 describe('PC site mobile preview', () => {
@@ -91,10 +97,10 @@ it.each(['preview', 'outline'] as const)(
 )
 
 it('still switches when browser storage is unavailable', async () => {
-  vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => {
+  vi.spyOn(localStorage, 'getItem').mockImplementation(() => {
     throw new Error('Storage blocked')
   })
-  vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
+  vi.spyOn(localStorage, 'setItem').mockImplementation(() => {
     throw new Error('Storage blocked')
   })
   const wrapper = mount(AppMobile)

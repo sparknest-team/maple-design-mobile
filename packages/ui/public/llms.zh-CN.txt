@@ -1,4 +1,4 @@
-# Maple Design Mobile
+﻿# Maple Design Mobile
 
 > Vue 3 component library. Package: @maple-design/ui-vue. Component prefix: Mp / mp-.
 

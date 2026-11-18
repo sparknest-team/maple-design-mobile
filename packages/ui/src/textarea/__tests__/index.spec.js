@@ -36,6 +36,8 @@ test('textarea renders the shared defaults', () => {
   expect(wrapper.find('.mp-field-decorator--variant-outline').exists()).toBe(true)
   expect(wrapper.find('textarea').attributes('rows')).toBeUndefined()
   expect(wrapper.find('textarea').attributes('style')).toContain('resize: none')
+  expect(wrapper.get('textarea').attributes('placeholder')).toBe('请输入')
+  expect(wrapper.find('.mp-field-decorator--hint').exists()).toBe(false)
   expect(wrapper.html()).toMatchSnapshot()
 })
 

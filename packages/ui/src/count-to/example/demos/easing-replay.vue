@@ -1,7 +1,7 @@
 <template>
   <mp-space direction="column">
     <mp-count-to ref="counter" :to="100" :duration="1200" :timing-function="curve" />
-    <mp-space>
+    <mp-space wrap>
       <mp-button @click="cubic = !cubic">切换曲线 / Change curve</mp-button>
       <mp-button @click="replay">重新播放 / Replay</mp-button>
     </mp-space>

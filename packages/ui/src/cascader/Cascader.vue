@@ -30,7 +30,7 @@
         :max-tag-count="maxTagCount"
         :tag-nowrap="tagNowrap"
         :aria-controls="
-          (searchListVisible && allowAutomaticOwnership) || (multipleDialogVisible && sameDialogRoot)
+          ((searchListVisible && allowAutomaticOwnership) || multipleDialogVisible) && samePopupRoot
             ? searchListId
             : undefined
         "
@@ -70,7 +70,7 @@
       :keyboard-handler="handleFieldKeydown"
       :listbox-id="searchListMode ? searchListId : undefined"
       :multiple-dialog-id="multipleDialogMode ? searchListId : undefined"
-      :report-dialog-element="reportDialogElement"
+      :report-popup-element="reportPopupElement"
     >
       <template v-for="(_, slotName) in $slots" #[slotName]="scope"
         ><slot :name="slotName" v-bind="scope || {}"
@@ -79,11 +79,12 @@
   </component>
 </template>
 <script setup lang="ts">
-import { computed, nextTick, reactive, ref, toRefs, useAttrs, useSlots, watch } from 'vue'
+import { computed, nextTick, onActivated, onDeactivated, reactive, ref, toRefs, useAttrs, useSlots, watch } from 'vue'
 import SelectionField from '../_components/selection-field/SelectionField.vue'
 import { createNamespace, getPrefixCls } from '../utils/components'
 import { useId } from '../utils/vue-compat'
 import CascaderMenu from './CascaderMenu.vue'
+import { watchDetachedRoots } from './detached-root-monitor'
 import { cascaderEmits } from './emits'
 import { presentations } from './presentations'
 import { cascaderProps } from './props'
@@ -137,7 +138,7 @@ const searchListMode = computed(() => !props.multiple && showSearchPanel.value)
 const searchListVisible = computed(() => searchListMode.value && computedOpen.value)
 const allowAutomaticOwnership = computed(() => attrs['aria-haspopup'] == null || attrs['aria-haspopup'] === 'listbox')
 const searchActiveId = computed(() => {
-  if (!searchListVisible.value || loading.value) {
+  if (!searchListVisible.value || loading.value || !samePopupRoot.value) {
     return undefined
   }
   if (attrs['aria-controls'] !== undefined && attrs['aria-controls'] !== searchListId) {
@@ -149,17 +150,101 @@ const searchActiveId = computed(() => {
   const index = filteredLeafOptions.value.findIndex((item) => item.key === activeKey.value && !item.disabled)
   return index < 0 ? undefined : `${searchListId}-option-${index}`
 })
-const dialogElement = ref<HTMLElement | null>(null)
-const sameDialogRoot = ref(true)
-const reportDialogElement = (element: HTMLElement | null) => {
-  dialogElement.value = element
+const fieldRef = ref<InstanceType<typeof SelectionField>>()
+const popupElement = ref<HTMLElement | null>(null)
+const samePopupRoot = ref(true)
+const ownershipActive = ref(true)
+onActivated(() => {
+  ownershipActive.value = true
+})
+onDeactivated(() => {
+  ownershipActive.value = false
+  samePopupRoot.value = false
+})
+const reportPopupElement = (element: HTMLElement | null) => {
+  popupElement.value = element
 }
 watch(
-  [dialogElement, () => props.popupContainer],
-  async () => {
+  [popupElement, () => props.popupContainer, () => fieldRef.value?.inputRef, ownershipActive, computedOpen],
+  async (_, __, onCleanup) => {
+    let cancelled = false
+    let observer: MutationObserver | undefined
+    let stopDetachedCheck: (() => void) | undefined
+    onCleanup(() => {
+      cancelled = true
+      observer?.disconnect()
+      stopDetachedCheck?.()
+    })
+    if (!ownershipActive.value || !computedOpen.value) {
+      samePopupRoot.value = false
+      return
+    }
     await nextTick()
-    const input = fieldRef.value?.inputRef
-    sameDialogRoot.value = !input || !dialogElement.value || input.getRootNode() === dialogElement.value.getRootNode()
+    if (cancelled) {
+      return
+    }
+    let trackedNodes = new Set<Node>()
+    const update = () => {
+      if (cancelled) {
+        return
+      }
+      const input = fieldRef.value?.inputRef
+      const popup = popupElement.value
+      samePopupRoot.value = !input || !popup || input.getRootNode() === popup.getRootNode()
+      observer?.disconnect()
+      stopDetachedCheck?.()
+      stopDetachedCheck = undefined
+      if (!observer || !input || !popup) {
+        return
+      }
+      const parents = new Set<Node>()
+      const nodes = new Set<Node>()
+      for (const element of [input, popup]) {
+        let node: Node | null = element
+        while (node) {
+          nodes.add(node)
+          const parent: Node | null = node.parentNode ?? ('host' in node ? (node as ShadowRoot).host : null)
+          if (parent) {
+            parents.add(parent)
+          }
+          node = parent
+        }
+      }
+      trackedNodes = nodes
+      for (const parent of parents) {
+        observer.observe(parent, { childList: true })
+      }
+      if (!input.isConnected || !popup.isConnected) {
+        for (const root of new Set([input.getRootNode(), popup.getRootNode()])) {
+          observer.observe(root, { childList: true, subtree: true })
+        }
+      }
+      if (!input.isConnected && !popup.isConnected) {
+        stopDetachedCheck = watchDetachedRoots(() => {
+          if (input.isConnected || popup.isConnected) {
+            update()
+          }
+        })
+      }
+    }
+    const Observer = fieldRef.value?.inputRef?.ownerDocument.defaultView?.MutationObserver
+    if (Observer) {
+      observer = new Observer((records) => {
+        const input = fieldRef.value?.inputRef
+        const popup = popupElement.value
+        if (
+          records.some((record) =>
+            [...Array.from(record.addedNodes), ...Array.from(record.removedNodes)].some(
+              (node) =>
+                trackedNodes.has(node) || (!!input && node.contains(input)) || (!!popup && node.contains(popup)),
+            ),
+          )
+        ) {
+          update()
+        }
+      })
+    }
+    update()
   },
   { flush: 'post' },
 )
@@ -176,10 +261,14 @@ const handleFieldKeydown = (event: KeyboardEvent) => {
       event.key === 'ArrowDown' &&
       !event.isComposing &&
       event.keyCode !== 229 &&
-      target?.matches('input[role="combobox"]')
+      target === fieldRef.value?.inputRef
     ) {
-      const dialog = dialogElement.value
-      const checkbox = dialog?.querySelector<HTMLInputElement>('input[type="checkbox"]:not(:disabled)')
+      const dialog = popupElement.value
+      const checkbox = Array.from(
+        dialog?.querySelectorAll<HTMLInputElement>(
+          `.${getPrefixCls('cascader-option')}-checkbox input[type="checkbox"]:not(:disabled)`,
+        ) ?? [],
+      ).find((input) => input.closest(`.${getPrefixCls('cascader')}-search-panel`) === dialog)
       if (checkbox) {
         event.preventDefault()
         checkbox.focus()
@@ -230,6 +319,5 @@ const handleFieldKeydown = (event: KeyboardEvent) => {
     return task
   }
 }
-const fieldRef = ref<InstanceType<typeof SelectionField>>()
 defineExpose({ refresh: controller.refresh, focus: () => fieldRef.value?.focus(), blur: () => fieldRef.value?.blur() })
 </script>

@@ -7,6 +7,8 @@ Horizontal FormItem uses zero Row gutter by default, preserving 16px item spacin
 
 When `validate-status="error"` has no automatic validation error, the field associates visible `help` text or slot content through `aria-describedby`, preserving any supplied description. An automatic error takes precedence.
 
+In SSR with Vue 3.2.47, if multiple asynchronous form items resolve in opposite orders on the server and client, updating one item can duplicate generated description IDs or associate it with another field’s error. Giving the Input a stable `id` alone does not prevent this; the same scenario passed with Vue 3.5.45.
+
 For a deferred Slider inside Shadow DOM, a popup teleported to `body` may not resolve ID references to hints or errors inside the shadow root. Set `:popup-container="false"`, or pass an element within the same ShadowRoot as `popup-container`, to keep the popup and hints in the same root. Provide clear control names, and account for the container’s styling, positioning, and clipping.
 
 In direct edit mode, for a visible label on a single field, match FormItem `label-attrs.for` to the control `id`. The native inputs in selection, date and time fields do not let their placeholder override an associated label. An explicit `aria-label` or `aria-labelledby` retains its native accessible-name precedence. Placeholder is only a fallback when no label is supplied; provide clear labels. Date and time range fields in FormItem associate the form label with their group; use `input-attrs` to give the endpoints distinct names. If `label-attrs.for` targets another control, the label is not associated with the range group. Without `for`, the range currently references the nearest FormItem label even when that item contains other controls. For mixed fields, put the range in a separate styled FormItem with its own name, or explicitly target the intended control with `for` and name the other controls separately. When `for` matches a single-value Slider’s `id`, its thumb and optional numeric input use the label; clicking the default native label focuses the enabled thumb; preventing the label click default cancels that focus. When `for` matches a range Slider’s `id`, the form label names the group; use an `aria-label` array to name the endpoints separately. The `tooltip` button is independently focusable and its name is not added to the field label.
@@ -625,21 +627,21 @@ import type {
 
 | Prop | Description | Type | Default |
 | --- | --- | --- | --- |
-| id | Section ID; generated when omitted | `string` | — |
+| id | Section ID; generated automatically when omitted | `string` | — |
 | title | Section title | `string` | `''` |
-| description | Supporting description | `string` | `''` |
-| variant | Section style; card uses a padded border | `'line' \| 'plain' \| 'card'` | `'line'` |
-| show-marker | Show the accent marker | `boolean` | `true` |
-| show-end-divider | Separate subsequent ungrouped fields; ignored for card | `boolean` | `false` |
+| description | Supporting description below the title | `string` | `''` |
+| variant | Section appearance; card adds a border and content padding | `'line' \| 'plain' \| 'card'` | `'line'` |
+| show-marker | Show the theme-colored marker beside the title | `boolean` | `true` |
+| show-end-divider | Show an end divider before subsequent ungrouped fields; card does not draw it twice | `boolean` | `false` |
 
 ### FormSection Slots
 
 | Slot | Description |
 | --- | --- |
-| default | Form fields |
+| default | Form fields within the section |
 | title | Custom title |
 | description | Custom description |
-| extra | Trailing header actions |
+| extra | Title action |
 
 ## CSS Variables
 

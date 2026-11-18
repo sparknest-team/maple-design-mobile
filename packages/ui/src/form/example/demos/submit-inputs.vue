@@ -42,7 +42,7 @@ onDeactivated(cleanup)
       <mp-form-item field="name" label="Name" :label-attrs="{ for: id }" :rules="rules" :validate-trigger="[]" feedback>
         <mp-input :id="id" v-model="model.name" edit-mode="direct" />
       </mp-form-item>
-      <mp-space>
+      <mp-space wrap>
         <mp-button html-type="submit">提交 / Submit</mp-button>
         <mp-button html-type="button" :disabled="!pending.length" @click="complete"
           >返回最早结果 / Resolve oldest</mp-button

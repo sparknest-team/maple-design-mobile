@@ -133,6 +133,83 @@ export function useTriggerInteraction(
   let insideReference = false
   let focusInside = false
   let restoringFocus = false
+  let pointerDismiss:
+    | {
+        path: EventTarget[]
+        target: Node | null
+        related?: Node
+        timeStamp: number
+        trusted: boolean
+        pointerId?: number
+        releasedPath?: EventTarget[]
+      }
+    | undefined
+  let pointerReleaseTimer: ReturnType<typeof setTimeout> | undefined
+  const clearPointerRelease = () => {
+    if (pointerReleaseTimer !== undefined) {
+      clearTimeout(pointerReleaseTimer)
+    }
+    pointerReleaseTimer = undefined
+  }
+  const onPointerUp = (event: Event) => {
+    const pending = pointerDismiss
+    const releasedId = (event as PointerEvent).pointerId
+    if (pending?.pointerId !== undefined && typeof releasedId === 'number' && pending.pointerId !== releasedId) {
+      return
+    }
+    clearPointerRelease()
+    if (!pending) {
+      return
+    }
+    pending.releasedPath = event.composedPath()
+    pointerReleaseTimer = setTimeout(() => {
+      if (pointerDismiss === pending) {
+        pointerDismiss = undefined
+      }
+      pointerReleaseTimer = undefined
+    }, 0)
+  }
+  let forwardedLabel: { control: Node; trusted: boolean } | undefined
+  let forwardedLabelTimer: ReturnType<typeof setTimeout> | undefined
+  const clearForwardedLabel = () => {
+    forwardedLabel = undefined
+    if (forwardedLabelTimer !== undefined) {
+      clearTimeout(forwardedLabelTimer)
+    }
+    forwardedLabelTimer = undefined
+  }
+  const onPointerDown = (event: Event) => {
+    if ((event as PointerEvent).isPrimary === false) {
+      return
+    }
+    clearPointerRelease()
+    clearForwardedLabel()
+    const pointer = event as PointerEvent
+    pointerDismiss =
+      api.visible.value && has('focus') && pointer.button === 0
+        ? {
+            path: event.composedPath(),
+            target: event.target && typeof (event.target as Node).nodeType === 'number' ? (event.target as Node) : null,
+            timeStamp: event.timeStamp,
+            trusted: event.isTrusted,
+            pointerId: typeof pointer.pointerId === 'number' ? pointer.pointerId : undefined,
+          }
+        : undefined
+  }
+  const onPointerCancel = (event: Event) => {
+    const canceledId = (event as PointerEvent).pointerId
+    if (
+      pointerDismiss?.pointerId !== undefined &&
+      typeof canceledId === 'number' &&
+      pointerDismiss.pointerId !== canceledId
+    ) {
+      return
+    }
+    pointerDismiss = undefined
+    clearPointerRelease()
+    clearForwardedLabel()
+  }
+  const coalescedClicks = new WeakSet<Event>()
   const has = (event: TriggerEvent) => ([] as TriggerEvent[]).concat(options.trigger).includes(event)
   const contains = (event: Event | Node): boolean =>
     includes(api.reference.value, event) ||
@@ -225,6 +302,24 @@ export function useTriggerInteraction(
     }
     focusInside = false
     if (has('focus') && options.blurToClose !== false && !(has('hover') && (insideReference || insidePopup))) {
+      if (allowClose && pointerDismiss) {
+        if (related && pointerDismiss.path.includes(related)) {
+          pointerDismiss.related = related
+        } else if (
+          related &&
+          pointerDismiss.target &&
+          pointerDismiss.path.some(
+            (node) =>
+              (node as Element).nodeType === 1 &&
+              (node as Element).localName === 'label' &&
+              (node as HTMLLabelElement).control === related,
+          )
+        ) {
+          pointerDismiss.related = pointerDismiss.target
+        } else if (!related && pointerDismiss.target && !contains(pointerDismiss.target)) {
+          pointerDismiss.related = pointerDismiss.target
+        }
+      }
       close()
     }
   }
@@ -336,8 +431,57 @@ export function useTriggerInteraction(
     { flush: 'sync' },
   )
   const onOutside = (event: Event) => {
+    const clickId = (event as PointerEvent).pointerId
+    const otherPointer =
+      (pointerDismiss?.trusted && !event.isTrusted) ||
+      (pointerDismiss?.pointerId !== undefined && typeof clickId === 'number' && pointerDismiss.pointerId !== clickId)
+    const pending = otherPointer ? undefined : pointerDismiss
+    const forwarded = forwardedLabel
+    if (!otherPointer) {
+      pointerDismiss = undefined
+    }
     if (!active || !api.visible.value || options.clickOutsideToClose === false || contains(event)) {
       return
+    }
+    const path = event.composedPath()
+    const forwardedMatch =
+      !!forwarded &&
+      (event as MouseEvent).detail > 0 &&
+      (!forwarded.trusted || event.isTrusted) &&
+      path.includes(forwarded.control)
+    const clickTarget = event.target as Node | null
+    const dragMatch =
+      !!pending?.related &&
+      !!pending.target &&
+      !!pending.releasedPath &&
+      !!clickTarget &&
+      typeof clickTarget.contains === 'function' &&
+      clickTarget.contains(pending.target) &&
+      pending.releasedPath.includes(clickTarget)
+    const pointerMatch =
+      !!pending?.related &&
+      (!pending.trusted || event.isTrusted) &&
+      event.timeStamp >= pending.timeStamp &&
+      (path.includes(pending.related) || dragMatch)
+    if ((event as MouseEvent).detail > 0 && (pointerMatch || forwardedMatch)) {
+      coalescedClicks.add(event)
+    }
+    if (forwardedMatch) {
+      clearForwardedLabel()
+    }
+    const label = pending?.path.find(
+      (node) => (node as Element).nodeType === 1 && (node as Element).localName === 'label' && path.includes(node),
+    ) as HTMLLabelElement | undefined
+    if (label?.control && !path.includes(label.control)) {
+      clearForwardedLabel()
+      const forwarding = { control: label.control, trusted: event.isTrusted }
+      forwardedLabel = forwarding
+      forwardedLabelTimer = setTimeout(() => {
+        if (forwardedLabel === forwarding) {
+          forwardedLabel = undefined
+        }
+        forwardedLabelTimer = undefined
+      }, 0)
     }
     const eligible = api.isTopLayer(event) || isTopPeerReference(event)
     // The document path hides a closed root's internals; wait for its capture listener.
@@ -368,7 +512,9 @@ export function useTriggerInteraction(
     }
     dismissed.add(context)
     api.onOutside(event)
-    close()
+    if (!coalescedClicks.has(event)) {
+      close()
+    }
   }
   const focusReference = () => {
     if (!api.reference.value?.isConnected) {
@@ -382,6 +528,22 @@ export function useTriggerInteraction(
     }
   }
   const onKeydown = (event: KeyboardEvent) => {
+    const target = event.target as HTMLElement | null
+    if (
+      active &&
+      api.visible.value &&
+      options.clickOutsideToClose !== false &&
+      !event.defaultPrevented &&
+      !event.isComposing &&
+      ['Enter', ' ', 'ArrowDown', 'ArrowUp'].includes(event.key) &&
+      typeof target?.closest === 'function' &&
+      !!target.closest('[aria-haspopup="menu"]') &&
+      !target?.closest('input, textarea, [contenteditable="true"], [role="textbox"]') &&
+      isTopPeerReference(event)
+    ) {
+      close()
+      return false
+    }
     if (
       event.key !== 'Escape' ||
       event.defaultPrevented ||
@@ -477,6 +639,15 @@ export function useTriggerInteraction(
     }
     shadowRoots = []
     unregisterReference()
+    pointerDismiss = undefined
+    clearPointerRelease()
+    clearForwardedLabel()
+    owner?.removeEventListener('pointerdown', onPointerDown, true)
+    owner?.removeEventListener('pointerup', onPointerUp, true)
+    owner?.removeEventListener('pointercancel', onPointerCancel, true)
+    popupOwner?.removeEventListener('pointerdown', onPointerDown, true)
+    popupOwner?.removeEventListener('pointerup', onPointerUp, true)
+    popupOwner?.removeEventListener('pointercancel', onPointerCancel, true)
     owner?.removeEventListener('click', onOutside, true)
     view?.removeEventListener('keydown', onKeydown)
     popupOwner?.removeEventListener('click', onOutside, true)
@@ -494,11 +665,17 @@ export function useTriggerInteraction(
     registerReference()
     refreshShadowRoots()
     view = owner.defaultView
+    owner.addEventListener('pointerdown', onPointerDown, true)
+    owner.addEventListener('pointerup', onPointerUp, true)
+    owner.addEventListener('pointercancel', onPointerCancel, true)
     owner.addEventListener('click', onOutside, true)
     view?.addEventListener('keydown', onKeydown)
     const popupDocument = api.popup.value?.ownerDocument
     if (popupDocument && popupDocument !== owner) {
       popupOwner = popupDocument
+      popupOwner.addEventListener('pointerdown', onPointerDown, true)
+      popupOwner.addEventListener('pointerup', onPointerUp, true)
+      popupOwner.addEventListener('pointercancel', onPointerCancel, true)
       popupOwner.addEventListener('click', onOutside, true)
       popupOwner.defaultView?.addEventListener('keydown', onPopupKeydown)
     }

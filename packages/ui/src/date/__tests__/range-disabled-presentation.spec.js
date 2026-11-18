@@ -7,6 +7,7 @@ import {
   useRangeFieldIndex,
 } from '../../_components/picker-field/mobile-range-field-context'
 import DatePanelContent from '../presentation/DatePanelContent.vue'
+import { provideRangeRenderer } from '../range-renderer'
 
 test('mobile presentation provides reactive merged locks to itself and local renderers', async () => {
   const own = ref([true, false])
@@ -23,6 +24,7 @@ test('mobile presentation provides reactive merged locks to itself and local ren
   const Host = defineComponent({
     setup() {
       provideRangeDisabledParts(() => inherited.value)
+      provideRangeRenderer(Consumer)
       return () =>
         h(DatePanelContent, {
           options: { disabled: own.value, type: 'date' },
@@ -32,7 +34,7 @@ test('mobile presentation provides reactive merged locks to itself and local ren
         })
     },
   })
-  const wrapper = mount(Host, { global: { stubs: { RangeContent: Consumer } } })
+  const wrapper = mount(Host)
   const state = () => JSON.parse(wrapper.get('output').text())
   try {
     expect(state()).toEqual({ parts: [true, false], index: 1, readonly: false })

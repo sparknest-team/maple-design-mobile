@@ -1,6 +1,8 @@
 import { flushPromises, mount } from '@vue/test-utils'
 import { afterAll, beforeAll, expect, test, vi } from 'vitest'
 import DatePanel from '../../date/DatePanel.vue'
+import { rangeRendererKey } from '../../date/range-renderer'
+import RangeContent from '../presentation/RangeContent.vue'
 
 const pc = false
 const scrollDescriptor = Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'scrollIntoView')
@@ -25,6 +27,7 @@ for (const [name, type, values, blocked, start, end, disabled] of cases) {
   for (const reverse of [false, true]) {
     test(`${name} ${type} ${reverse ? 'reverse' : 'forward'} pages preserve the draft and allow disabled interior units`, async () => {
       const wrapper = mount(DatePanel, {
+        global: { provide: { [rangeRendererKey]: RangeContent } },
         props: {
           range: true,
           options: {

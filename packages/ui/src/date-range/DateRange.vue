@@ -26,8 +26,12 @@
 import { ref } from 'vue'
 import DateField from '../date/DateField.vue'
 import type { DateRangeEmits } from '../date/events'
+import { provideRangeRenderer } from '../date/range-renderer'
 import { createNamespace } from '../utils/components'
+import RangeContent from './presentation/RangeContent.vue'
 import { props as fieldProps } from './props'
+
+provideRangeRenderer(RangeContent)
 
 defineOptions({ name: createNamespace('date-range').name, inheritAttrs: false })
 const { n } = createNamespace('date-range')

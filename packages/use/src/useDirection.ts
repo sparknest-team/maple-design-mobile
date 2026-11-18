@@ -24,60 +24,148 @@ export function provideDirection(direction: Readonly<Ref<ReadingDirection | unde
 }
 
 export function resolveDirection(element?: Element | null, fallback: ReadingDirection = 'ltr'): ReadingDirection {
-  const scope = element?.closest('[dir]')
-  const value = scope?.getAttribute('dir')?.toLowerCase()
-  if (value === 'ltr' || value === 'rtl') {
-    return value
-  }
-  if (value === 'auto' && scope) {
-    return scope.ownerDocument.defaultView?.getComputedStyle(scope).direction === 'rtl' ? 'rtl' : 'ltr'
+  let current = element ?? undefined
+  while (current) {
+    const scope = current.closest('[dir]')
+    if (scope) {
+      const value = scope.getAttribute('dir')?.toLowerCase()
+      if (value === 'ltr' || value === 'rtl') {
+        return value
+      }
+      if (value === 'auto') {
+        return scope.ownerDocument.defaultView?.getComputedStyle(scope).direction === 'rtl' ? 'rtl' : 'ltr'
+      }
+      if (scope.parentElement) {
+        current = scope.parentElement
+        continue
+      }
+    }
+    const root = (scope ?? current).getRootNode()
+    current = 'host' in root ? (root as ShadowRoot).host : undefined
   }
   return fallback
 }
 
-// One observer per owner document, independent of the number of mounted components.
-const documents = new WeakMap<Document, { version: Ref<number>; observer: MutationObserver; users: number }>()
+// Share one direction observer for each document or shadow root.
+const roots = new WeakMap<Node, { version: Ref<number>; observer: MutationObserver; users: number }>()
+
+const watchedAncestors = new WeakMap<Node, Set<() => void>>()
+const detachedChecks = new Set<() => void>()
+let detachedTimer: ReturnType<typeof setInterval> | undefined
+function watchDetached(check: () => void) {
+  detachedChecks.add(check)
+  if (detachedTimer === undefined) {
+    detachedTimer = setInterval(() => {
+      Array.from(detachedChecks).forEach((run) => run())
+    }, 250)
+  }
+  return () => {
+    detachedChecks.delete(check)
+    if (!detachedChecks.size && detachedTimer !== undefined) {
+      clearInterval(detachedTimer)
+      detachedTimer = undefined
+    }
+  }
+}
+function watchAncestors(node: Node, callback: () => void) {
+  const ancestors: Node[] = []
+  let current: Node | null = node
+  while (current) {
+    ancestors.push(current)
+    let watchers = watchedAncestors.get(current)
+    if (!watchers) {
+      watchers = new Set()
+      watchedAncestors.set(current, watchers)
+    }
+    watchers.add(callback)
+    current = current.parentNode ?? ('host' in current ? (current as ShadowRoot).host : null)
+  }
+  return () =>
+    ancestors.forEach((ancestor) => {
+      const watchers = watchedAncestors.get(ancestor)
+      watchers?.delete(callback)
+      if (!watchers?.size) {
+        watchedAncestors.delete(ancestor)
+      }
+    })
+}
 
 /** DOM scopes take precedence over injection, so native nested dir containers work too. */
 export function useDirection(target?: () => Element | null | undefined, explicit?: () => unknown) {
   const inherited = inject(readingDirectionKey, undefined)
   const instance = getCurrentInstance()
   const element = shallowRef<Element>()
-  const version = shallowRef<Ref<number>>()
+  const versions = shallowRef<Ref<number>[]>([])
   let release: (() => void) | undefined
   let active = false
 
-  function observe(node?: Element | null) {
-    if (node === element.value && release) {
+  function observe(node?: Element | null, force = false) {
+    if (!force && node === element.value && release) {
       return
     }
     release?.()
     release = undefined
     element.value = node ?? undefined
-    version.value = undefined
+    versions.value = []
     const doc = node?.ownerDocument
     const Observer = doc?.defaultView?.MutationObserver
     if (!doc || !Observer) {
       return
     }
-    let state = documents.get(doc)
-    if (!state) {
-      const counter = ref(0)
-      const observer = new Observer(() => {
-        counter.value++
-      })
-      observer.observe(doc.documentElement, { subtree: true, attributes: true, attributeFilter: ['dir'] })
-      state = { version: counter, observer, users: 0 }
-      documents.set(doc, state)
+    const observed = new Set<Node>([doc.documentElement])
+    let current: Element | undefined = node ?? undefined
+    while (current) {
+      const root = current.getRootNode()
+      observed.add(root === doc ? doc.documentElement : root)
+      current = 'host' in root ? (root as ShadowRoot).host : undefined
     }
-    state.users++
-    version.value = state.version
-    const current = state
-    release = () => {
-      if (--current.users === 0) {
-        current.observer.disconnect()
-        documents.delete(doc)
+    const releases: Array<() => void> = []
+    const counters: Ref<number>[] = []
+    for (const root of observed) {
+      let state = roots.get(root)
+      if (!state) {
+        const counter = ref(0)
+        const observer = new Observer((records) => {
+          const moved = new Set<() => void>()
+          for (const record of records) {
+            if (record.type === 'attributes') {
+              counter.value++
+            } else {
+              for (const changed of [...Array.from(record.addedNodes), ...Array.from(record.removedNodes)]) {
+                watchedAncestors.get(changed)?.forEach((callback) => moved.add(callback))
+              }
+            }
+          }
+          moved.forEach((callback) => callback())
+        })
+        observer.observe(root, { subtree: true, childList: true, attributes: true, attributeFilter: ['dir'] })
+        state = { version: counter, observer, users: 0 }
+        roots.set(root, state)
       }
+      state.users++
+      counters.push(state.version)
+      const currentState = state
+      releases.push(() => {
+        if (--currentState.users === 0) {
+          currentState.observer.disconnect()
+          roots.delete(root)
+        }
+      })
+    }
+    versions.value = counters
+    const unwatch = node ? watchAncestors(node, () => observe(node, true)) : undefined
+    const unwatchDetached =
+      node && !node.isConnected
+        ? watchDetached(() => {
+            if (node.isConnected) {
+              observe(node, true)
+            }
+          })
+        : undefined
+    release = () => {
+      unwatch?.()
+      unwatchDetached?.()
+      releases.forEach((dispose) => dispose())
     }
   }
   function refresh() {
@@ -92,7 +180,7 @@ export function useDirection(target?: () => Element | null | undefined, explicit
     active = false
     release?.()
     release = undefined
-    version.value = undefined
+    versions.value = []
   }
   onMounted(start)
   onActivated(start)
@@ -112,7 +200,9 @@ export function useDirection(target?: () => Element | null | undefined, explicit
 
   const dir = computed<ReadingDirection>(() => {
     // Subscribe to native ancestor changes, including html and the component itself.
-    void version.value?.value
+    versions.value.forEach((version) => {
+      void version.value
+    })
     const value = explicit?.()
     if (value === 'ltr' || value === 'rtl') {
       return value

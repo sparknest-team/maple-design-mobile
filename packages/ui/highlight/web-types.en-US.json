@@ -1756,7 +1756,7 @@
             },
             {
               "name": "cover",
-              "description": "Cover; overrides image-src"
+              "description": "Cover content; overrides the image-src image"
             },
             {
               "name": "header",
@@ -7059,7 +7059,7 @@
           "attributes": [
             {
               "name": "multiple",
-              "description": "Whether to allow multiple tags; false replaces the previous value",
+              "description": "Allow multiple tags; false replaces the previous value",
               "default": "true",
               "value": {
                 "type": "`boolean`",
@@ -7068,7 +7068,7 @@
             },
             {
               "name": "model-value **(v-model)**",
-              "description": "Array in multiple mode, scalar or null in single mode",
+              "description": "An array in multiple mode; a scalar or null in single mode",
               "default": "-",
               "value": {
                 "type": "`InputTagValue`",
@@ -7122,7 +7122,7 @@
             },
             {
               "name": "search-delay",
-              "description": "Remote search debounce in milliseconds",
+              "description": "Remote search debounce delay in milliseconds",
               "default": "250",
               "value": {
                 "type": "`number`",
@@ -7131,7 +7131,7 @@
             },
             {
               "name": "auto-commit-single",
-              "description": "Automatically commit the only enabled result",
+              "description": "Automatically commit the sole enabled result",
               "default": "false",
               "value": {
                 "type": "`boolean`",
@@ -7326,7 +7326,7 @@
           "slots": [
             {
               "name": "label",
-              "description": "Displayed selected label"
+              "description": "Display content for selected tags"
             },
             {
               "name": "prefix",
@@ -7768,7 +7768,7 @@
             },
             {
               "name": "min-search-length",
-              "description": "Minimum query length after the prefix",
+              "description": "Minimum number of characters required to start searching",
               "default": "0",
               "value": {
                 "type": "number",
@@ -7777,7 +7777,7 @@
             },
             {
               "name": "search-delay",
-              "description": "Remote search debounce in milliseconds",
+              "description": "Remote search debounce delay in milliseconds",
               "default": "0",
               "value": {
                 "type": "number",
@@ -7786,7 +7786,7 @@
             },
             {
               "name": "auto-commit-single",
-              "description": "Automatically commit the only enabled result",
+              "description": "Automatically commit the sole enabled result",
               "default": "false",
               "value": {
                 "type": "boolean",

@@ -68,3 +68,34 @@ test('Escape does not request close for row direction', async () => {
     wrapper.unmount()
   }
 })
+
+test.each([true, false])(
+  'switching away from column restores focus only when floating content owns it: %s',
+  async (inside) => {
+    const opener = document.createElement('button')
+    const outside = document.createElement('button')
+    document.body.append(opener, outside)
+    const wrapper = mount(Card, {
+      attachTo: document.body,
+      props: { floating: false, direction: 'column', ripple: false },
+      slots: { 'floating-content': () => h('input', { 'aria-label': 'Draft' }) },
+    })
+    try {
+      opener.focus()
+      await wrapper.setProps({ floating: true })
+      const draft = wrapper.get('input').element as HTMLInputElement
+      draft.focus()
+      if (!inside) {
+        outside.focus()
+      }
+      await wrapper.setProps({ direction: 'row' })
+      expect(document.activeElement).toBe(inside ? opener : outside)
+      expect(wrapper.find('input').exists()).toBe(false)
+      expect(wrapper.emitted('update:floating')).toBeUndefined()
+    } finally {
+      wrapper.unmount()
+      opener.remove()
+      outside.remove()
+    }
+  },
+)

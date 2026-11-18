@@ -3,14 +3,14 @@ import { readFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { assertCopiedVueCompat } from '../../design-ui/bin/copied-source-normalization.mjs'
 import { normalizeLessSource, normalizeTypeScript } from './normalize-source.mjs'
 
 const workspace = fileURLToPath(new URL('../../', import.meta.url))
 const roots = ['cedar-design-web', 'maple-design-mobile'].map((name) => resolve(workspace, name, 'packages/ui/src'))
-assert.equal(
+assertCopiedVueCompat(
   readFileSync(resolve(roots[0], '_utils/vue-compat.ts'), 'utf8'),
   readFileSync(resolve(roots[1], 'utils/vue-compat.ts'), 'utf8'),
-  'Vue compatibility helpers differ',
 )
 const components = {
   mention: [

@@ -95,19 +95,16 @@ export default defineComponent({
       ])
     }
     function navigate(event: KeyboardEvent) {
-      if (
-        event.defaultPrevented ||
-        event.isComposing ||
-        event.keyCode === 229 ||
-        !(event.target instanceof HTMLElement) ||
-        !event.target.hasAttribute('data-nav-option')
-      ) {
+      if (event.defaultPrevented || event.isComposing || event.keyCode === 229) {
         return
       }
       const elements = Array.from(
         (event.currentTarget as HTMLElement).querySelectorAll<HTMLButtonElement>('[data-nav-option]:not(:disabled)'),
       )
-      const index = elements.indexOf(event.target as HTMLButtonElement)
+      const index = elements.findIndex((element) => element === event.target)
+      if (index < 0) {
+        return
+      }
       const next =
         event.key === 'Home'
           ? 0
