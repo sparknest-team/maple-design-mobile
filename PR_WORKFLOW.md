@@ -18,6 +18,9 @@ gh pr create --base main
 
 完整校验在 PR Quality 执行。Cedar/Maple 保留原有 `pnpm quality` 完整入口；design-ui 执行自己的完整入口，并分别运行 Cedar 与 Maple 的完整 consumer quality。CI 不忽略失败。每个仓库最终必须有成功的 `quality` 检查。
 
+
+颜色对比度不足按用户约定仅输出 advisory，不自动改配色，也不阻断合并；CSS 解析、变量映射及其他质量检查仍为硬门禁。策略见 同级 `design-ui/standards/contrast-policy.md`。
+
 ## Changesets
 
 用户可感知的变更运行 `pnpm changeset`，选择受影响包及 patch/minor/major，描述使用方看到的行为变化。仅文档/基础设施且不需要发包时运行 `pnpm changeset --empty`。PR CI 执行 `changeset status --since=origin/main`；Changesets 生成的版本 PR 不再要求新增 changeset。
