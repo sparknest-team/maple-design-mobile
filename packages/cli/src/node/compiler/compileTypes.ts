@@ -8,6 +8,7 @@ import { getMapleConfig } from '../config/maple.config.js'
 import { CWD, SRC_DIR } from '../shared/constant.js'
 import { getPublicDirs } from '../shared/fsUtils.js'
 import { compileStyleVars } from './compileStyleVars.js'
+import { copySourceDeclarations } from './copySourceDeclarations.js'
 import { exportedComponentTokens } from './generateLibraryEntry.js'
 
 const declarationsDir = resolve(CWD, 'types-generated')
@@ -26,22 +27,7 @@ export async function compileTypes() {
   // This directory contains generated artifacts only; stale renamed components must not survive builds.
   await fse.emptyDir(declarationsDir)
   await promisify(execFile)('vue-tsc', ['-p', 'tsconfig.declaration.json'], { cwd: CWD, maxBuffer: 16 * 1024 * 1024 })
-  async function copyDeclarations(dir: string) {
-    for (const entry of await fse.readdir(dir, { withFileTypes: true })) {
-      if (['__tests__', '__demos__', 'example'].includes(entry.name)) {
-        continue
-      }
-      const file = resolve(dir, entry.name)
-      if (entry.isDirectory()) {
-        await copyDeclarations(file)
-      } else if (entry.name.endsWith('.d.ts')) {
-        const target = resolve(declarationsDir, relative(SRC_DIR, file))
-        await fse.ensureDir(resolve(target, '..'))
-        await fse.copyFile(file, target)
-      }
-    }
-  }
-  await copyDeclarations(SRC_DIR)
+  await copySourceDeclarations(SRC_DIR, declarationsDir)
   const { namespace = 'mp', directives = [] } = await getMapleConfig()
   const lines: string[] = []
   const nonComponents = new Set(['_ContextComponent', '_LocaleComponent', '_ThemesComponent', '_LoadingBarComponent'])
