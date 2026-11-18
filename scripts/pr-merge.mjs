@@ -43,7 +43,8 @@ export function merge(number, run = args => execFileSync('gh', args, { encoding:
       for (const link of snapshot.links) verifyLinked(link, api(`repos/loca-spirit/${link.repo}/pulls/${link.number}`))
     }
     // GitHub rejects a changed head between validation and the merge request.
-    run(['pr', 'merge', number, '--repo', repo, '--squash', '--delete-branch', '--match-head-commit', pr.head.sha])
+    const result = JSON.parse(run(['api', `repos/${repo}/pulls/${number}/merge`, '--method', 'PUT', '-f', 'merge_method=squash', '-f', `sha=${pr.head.sha}`]))
+    if (!result.merged) throw new Error(result.message || 'GitHub declined the merge')
     console.log(`Merged ${repo}#${number} after successful Quality`)
   } finally { rmSync(directory, { recursive: true, force: true }) }
 }

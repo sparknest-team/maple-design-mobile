@@ -43,7 +43,7 @@ Related-PR: https://github.com/loca-spirit/maple-design-mobile/pull/456
 pnpm pr:merge <PR编号>
 ```
 
-命令要求当前 PR 的最新完整 Quality workflow 成功，下载其关联 SHA 快照，确认当前 merge commit 与被测提交一致、关联 PR 未变化，然后使用 `--match-head-commit` 执行 Squash merge 并删除分支。缺少检查、未完成、失败、跳过、过期 artifact 或 SHA 漂移均拒绝合并。
+命令要求当前 PR 的最新完整 Quality workflow 成功，下载其关联 SHA 快照，确认当前 merge commit 与被测提交一致、关联 PR 未变化，然后使用 GitHub 合并 API 的 `sha` 约束执行 Squash merge，仓库设置会删除远程分支；保留本地工作分支与未提交改动。缺少检查、未完成、失败、跳过、过期 artifact 或 SHA 漂移均拒绝合并。
 
 ## GitHub 配置
 
