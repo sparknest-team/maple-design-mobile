@@ -20,7 +20,7 @@
     "format": "prettier --write .",
     "format:cache": "prettier --write --cache .",
     "preinstall": "npx only-allow pnpm",
-    "postinstall": "simple-git-hooks",
+    "postinstall": "node scripts/git-hooks.mjs install",
     "lint": "eslint --fix . && pnpm check:api-naming",
     "lint:cache": "eslint --fix --cache .",
     "lint:check": "eslint . --max-warnings 0 && pnpm check:api-naming",
@@ -39,7 +39,7 @@
     "test:coverage": "pnpm --dir ./packages/ui test:coverage",
     "test:watch": "pnpm --dir ./packages/ui test:watch",
     "typecheck": "pnpm --dir ./packages/ui exec vue-tsc --noEmit -p tsconfig.json && pnpm --dir packages/ui exec vue-tsc --noEmit -p tsconfig.p1-api.json",
-    "version-packages": "changeset version",
+    "version-packages": "changeset version && pnpm install --lockfile-only --ignore-scripts",
     "check:tabs": "node checks/tabs-same-source.mjs",
     "check:rate": "node checks/rate-same-source.mjs",
     "check:ripple": "node checks/ripple-same-source.mjs",
@@ -72,15 +72,10 @@
     "check:packages": "node --test scripts/quality/package-boundary-check.test.mjs && node scripts/quality/package-boundary-check.mjs",
     "typecheck:playground": "pnpm --dir packages/ui exec vue-tsc --noEmit -p ../ui-playground/tsconfig.json",
     "check:vue-compat:source": "node ../design-ui/bin/vue-compat-check.mjs --source",
-    "check:vue-compat": "node --test ../design-ui/bin/vue-compat-check.test.mjs && node ../design-ui/bin/vue-compat-check.mjs"
-  },
-  "simple-git-hooks": {
-    "pre-commit": "pnpm exec nano-staged --allow-empty",
-    "commit-msg": "pnpm exec maple-cli commit-lint -p $1 && pnpm exec maple-cli checklist $1"
-  },
-  "nano-staged": {
-    "*.{ts,tsx,js,vue,less}": "prettier --write",
-    "*.{ts,tsx,js,vue}": "eslint --fix"
+    "check:vue-compat": "node --test ../design-ui/bin/vue-compat-check.test.mjs && node ../design-ui/bin/vue-compat-check.mjs",
+    "hooks:install": "node scripts/git-hooks.mjs install",
+    "pr:merge": "node scripts/pr-merge.mjs",
+    "check:pr-workflow": "node --test ../design-ui/bin/pr-workflow.test.mjs"
   },
   "devDependencies": {
     "@changesets/changelog-github": "^0.5.1",

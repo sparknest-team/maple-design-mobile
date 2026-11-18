@@ -112,7 +112,7 @@ PC 端见 `/Users/shuaimeng/github/cedar-design-web/AGENTS.md`。
 ### 测试
 
 - 测试文件显式从 `vitest` 导入 `describe` / `it` / `test` / `expect` / `vi` / 生命周期函数；Vitest 的 `globals: true` 不代表 ESLint 识别这些全局变量。
-- AI 交付前必须运行 `pnpm lint:check` 和受影响的测试；涉及类型时再运行 `pnpm typecheck`。报告实际结果，未运行或失败不能声称验证通过；不要通过跳过 Git hooks 或关闭规则规避错误。
+- 本地 commit 仅执行 `.githooks` 的轻量暂存内容与提交信息检查。完整 lint、类型、测试、构建及浏览器校验由 PR Quality 执行；针对性开发验证按改动运行，报告实际结果。提交推送任务不重复运行完整 quality，不绕过钩子；合并使用 `pnpm pr:merge <PR编号>`。详见 `PR_WORKFLOW.md`。
 - 预存在失败：`result/imageSize`、`form/zod`（与本人改动无关）。
 - vitest 必须显式指定 `--config` 指向 `cli/lib/node/config/vitest.config.js`，否则没有默认配置。
 - `--isolate=false` 的 Vue/jsdom 生命周期与批次要求见 `docs/practices/component-spec.md` §10；不要通过放宽 DOM 类型判断修复跨 realm 查询失败。

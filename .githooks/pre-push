@@ -1,0 +1,10 @@
+#!/bin/sh
+set -eu
+while read -r local_ref local_sha remote_ref remote_sha; do
+  case "$remote_ref" in
+    refs/heads/main|refs/heads/master)
+      echo 'Push a feature branch and merge a passing PR; direct main/master pushes are disabled locally.' >&2
+      exit 1
+      ;;
+  esac
+done
