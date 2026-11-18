@@ -139,6 +139,7 @@ import vRipple from '../ripple'
 import { createNamespace, formatElevation } from '../utils/components'
 import { toSizeUnit } from '../utils/elements'
 import { usePopupLayer } from '../utils/popup-layer'
+import { watchDetachedCard } from './detached-card-monitor'
 import { useCardCloseLabel, useCardSize } from './platform'
 import { cardProps } from './props'
 
@@ -181,10 +182,11 @@ let dropper: ReturnType<typeof setTimeout> | undefined
 const floater = shallowRef<ReturnType<typeof setTimeout> | null>(null)
 
 const cardDocument = shallowRef<Document>()
+const cardConnected = ref(true)
 
 useLock(
   () => props.floating,
-  () => !isRow.value,
+  () => !isRow.value && cardConnected.value,
   () => (cardDocument.value ?? card.value?.ownerDocument)?.body,
 )
 
@@ -319,14 +321,17 @@ function updateReturnFocus(open: boolean) {
 
 const wantsFloating = () => props.floating && !isRow.value
 const { onStackTop, syncOwner } = usePopupLayer(
-  wantsFloating,
+  () => wantsFloating() && cardConnected.value,
   zIndex,
   () => cardDocument.value ?? card.value?.ownerDocument,
   true,
 )
 const available = () => active && !disposed
 let focusRootObserver: MutationObserver | undefined
+let stopDetachedCard: (() => void) | undefined
 function stopFocusRootTracking() {
+  stopDetachedCard?.()
+  stopDetachedCard = undefined
   focusRootObserver?.disconnect()
   focusRootObserver = undefined
 }
@@ -346,6 +351,17 @@ function trackFocusRoot() {
       return
     }
     cardDocument.value = element.ownerDocument
+    cardConnected.value = element.isConnected
+    if (element.isConnected) {
+      stopDetachedCard?.()
+      stopDetachedCard = undefined
+    } else if (!stopDetachedCard) {
+      stopDetachedCard = watchDetachedCard(() => {
+        if (element.isConnected) {
+          update()
+        }
+      })
+    }
     if (motionDocument !== element.ownerDocument) {
       trackMotion(element)
     }
@@ -644,6 +660,10 @@ function handleFloatingKeydown(event: KeyboardEvent) {
   const owner = card.value?.ownerDocument
   if (owner && cardDocument.value !== owner) {
     cardDocument.value = owner
+    syncOwner()
+  }
+  if (card.value?.isConnected && !cardConnected.value) {
+    cardConnected.value = true
     syncOwner()
   }
   if (!onStackTop(event)) {

@@ -34,6 +34,7 @@
 
 <script setup>
 import { ref } from 'vue'
+import { IconFire as MpIconFire } from '@maple-design/icons-vue'
 
 const pendingProps = ref({})
 

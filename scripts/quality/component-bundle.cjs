@@ -213,6 +213,16 @@ const plugin = {
         `${name} must not bundle the public Button entry and its group`,
       )
     }
+    if (name === 'date' || name === 'date-range') {
+      const hasRangeRenderer = inc.some(([filename]) =>
+        /[/\\]date-range[/\\]presentation[/\\]RangeContent\.vue$/.test(filename),
+      )
+      assert.equal(
+        hasRangeRenderer,
+        name === 'date-range',
+        `${name} must ${name === 'date-range' ? 'retain' : 'not bundle'} the dedicated range renderer`,
+      )
+    }
     if (name === 'cascader') {
       assert.equal(
         inc.some(([filename]) => /[/\\]checkbox[/\\]index\.ts$/.test(filename)),

@@ -10,4 +10,6 @@
   </mp-timeline>
 </template>
 
-<script setup></script>
+<script setup>
+import { IconExclamationCircleFill as MpIconExclamationCircleFill } from '@maple-design/icons-vue'
+</script>

@@ -668,7 +668,7 @@ export default defineComponent({
                   {...nativeAttrs.value}
                   id={inputId.value}
                   value={isComposition.value ? inputRef.value?.value : computedInputValue.value}
-                  aria-busy={candidateLoading.value || nativeAttrs.value['aria-busy'] || undefined}
+                  aria-busy={candidateLoading.value ? true : nativeAttrs.value['aria-busy']}
                   aria-invalid={mergedError.value ? true : nativeAttrs.value['aria-invalid']}
                   aria-describedby={describeError(nativeAttrs.value['aria-describedby'])}
                   role={searchEnabled.value ? 'combobox' : nativeAttrs.value.role}

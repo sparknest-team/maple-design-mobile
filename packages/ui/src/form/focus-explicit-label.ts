@@ -42,6 +42,7 @@ export function focusExplicitSlider(event: MouseEvent) {
     if (
       event.defaultPrevented ||
       !label.isConnected ||
+      label.getRootNode() !== root ||
       label.getAttribute('for') !== id ||
       root.getElementById(id) !== target ||
       root.activeElement !== previous ||

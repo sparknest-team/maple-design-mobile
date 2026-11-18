@@ -13,7 +13,7 @@ function reset() {
 </script>
 <template>
   <mp-space direction="column">
-    <mp-space>
+    <mp-space wrap>
       <mp-button @click="sentinel = !sentinel">切换清空值 / Toggle empty value</mp-button>
       <mp-button @click="reset">重置示例 / Reset values</mp-button>
     </mp-space>
@@ -42,3 +42,9 @@ function reset() {
     <pre class="empty-policy-model">{{ JSON.stringify({ direct, deferred }) }}</pre>
   </mp-space>
 </template>
+<style scoped>
+.empty-policy-model {
+  max-width: 100%;
+  overflow-x: auto;
+}
+</style>

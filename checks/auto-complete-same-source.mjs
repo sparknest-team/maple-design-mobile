@@ -3,15 +3,15 @@ import { readFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { assertCopiedVueCompat } from '../../design-ui/bin/copied-source-normalization.mjs'
 import { normalizeLessSource, normalizeTypeScript } from './normalize-source.mjs'
 
 const workspace = fileURLToPath(new URL('../../', import.meta.url))
 const cedar = resolve(workspace, 'cedar-design-web/packages/ui')
 const maple = resolve(workspace, 'maple-design-mobile/packages/ui')
-assert.equal(
+assertCopiedVueCompat(
   readFileSync(resolve(cedar, 'src/_utils/vue-compat.ts'), 'utf8'),
   readFileSync(resolve(maple, 'src/utils/vue-compat.ts'), 'utf8'),
-  'Vue compatibility helpers differ',
 )
 const files = [
   '../_hooks/use-option-request.ts',

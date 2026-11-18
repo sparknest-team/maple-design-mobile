@@ -173,7 +173,14 @@ describe('SplitButton copied contract', () => {
   test.each(['default', 'outline', 'text', 'tonal'])(
     'disabled %s uses Button disabled state and clears custom colors',
     async (variant) => {
-      const wrapper = render({ variant, status: 'primary', disabled: true, color: '#123456', textColor: '#ffffff' })
+      const wrapper = render({
+        variant,
+        status: 'primary',
+        disabled: true,
+        elevation: 2,
+        color: '#123456',
+        textColor: '#ffffff',
+      })
       for (const button of wrapper.findAll('button')) {
         expect(button.attributes('disabled')).toBeDefined()
         expect(button.classes().some((name) => name.endsWith('--disabled'))).toBe(true)

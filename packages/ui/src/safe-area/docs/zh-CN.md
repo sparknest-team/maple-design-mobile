@@ -158,10 +158,10 @@ SafeAreaEdge 是 top/right/bottom/left 的联合类型，SafeAreaInsets 是这�
 
 | 变量 | 默认值／条件 | 影响的样式 |
 | --- | --- | --- |
-| `--mp-safe-area-bottom` | `env(safe-area-inset-bottom, 0px)` | `margin-bottom`, `padding-bottom` |
-| `--mp-safe-area-left` | `env(safe-area-inset-left, 0px)` | `inset-inline-end`, `margin-left`, `padding-left`, `width` |
-| `--mp-safe-area-right` | `env(safe-area-inset-right, 0px)` | `inset-inline-end`, `margin-right`, `padding-right`, `width` |
-| `--mp-safe-area-top` | `env(safe-area-inset-top, 0px)` | `margin-top`, `padding-top` |
+| `--mp-safe-area-bottom` | `env(safe-area-inset-bottom, 0px)` (`html`) | `margin-bottom`, `padding-bottom` |
+| `--mp-safe-area-left` | `env(safe-area-inset-left, 0px)` (`html`) | `inset-inline-end`, `margin-left`, `padding-left`, `width` |
+| `--mp-safe-area-right` | `env(safe-area-inset-right, 0px)` (`html`) | `inset-inline-end`, `margin-right`, `padding-right`, `width` |
+| `--mp-safe-area-top` | `env(safe-area-inset-top, 0px)` (`html`) | `margin-top`, `padding-top` |
 
 </div>
 

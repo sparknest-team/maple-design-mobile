@@ -67,6 +67,19 @@ for (const file of files) {
     assert.ok(!desktop.includes(mobileRangeEntry), 'Desktop range fields use two-endpoint selection')
     mobile = mobile.replace(mobileRangeEntry, '')
   }
+  if (file === 'date-range/DateRange.vue' || file === 'date-range/DateRangePicker.vue') {
+    // Mobile range renderers are supplied only by range entries to keep Date's bundle lean.
+    // Desktop DatePicker forwards a range attribute and retains its shared range renderer.
+    for (const line of [
+      "import { provideRangeRenderer } from '../date/range-renderer'\n",
+      "import RangeContent from './presentation/RangeContent.vue'\n",
+      'provideRangeRenderer(RangeContent)\n\n',
+    ]) {
+      assert.ok(mobile.includes(line), `${file}: missing mobile renderer ownership`)
+      assert.ok(!desktop.includes(line), `${file}: unexpected desktop renderer ownership`)
+      mobile = mobile.replace(line, '')
+    }
+  }
   if (file === 'date/panel-state.ts') {
     assert.ok(mobile.includes(mobilePanelOptions), 'Mobile panels must declare their viewport options')
     assert.ok(!desktop.includes('interactiveMode?'), 'Desktop panels do not expose mobile viewport modes')

@@ -14,4 +14,6 @@
   </mp-timeline>
 </template>
 
-<script setup></script>
+<script setup>
+import { IconCheckCircleFill as MpIconCheckCircleFill } from '@maple-design/icons-vue'
+</script>

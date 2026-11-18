@@ -63,13 +63,42 @@ export function useUploadTrigger() {
     update()
     const Observer = root.ownerDocument.defaultView?.MutationObserver
     if (Observer) {
-      observer = new Observer(update)
+      const path: Node[] = [root]
+      let ancestor: Node | null = root.parentNode
+      while (ancestor) {
+        path.push(ancestor)
+        ancestor = ancestor.parentNode ?? ('host' in ancestor ? (ancestor as ShadowRoot).host : null)
+      }
+      observer = new Observer((records) => {
+        const moved = records.some(
+          (record) =>
+            record.type === 'childList' &&
+            Array.from(record.removedNodes).some((removed) =>
+              path.some((node) => removed === node || removed.contains(node)),
+            ),
+        )
+        if (moved) {
+          connect()
+          return
+        }
+        if (records.some((record) => record.type === 'attributes' || root.contains(record.target))) {
+          update()
+        }
+      })
       observer.observe(root, {
         childList: true,
         subtree: true,
         attributes: true,
         attributeFilter: ['role', 'tabindex', 'href', 'type', 'contenteditable', 'hidden', 'inert', 'class', 'style'],
       })
+      // Follow inherited visibility and rebind if an observed ancestor moves.
+      for (const node of path.slice(1)) {
+        if (node.nodeType === 1) {
+          observer.observe(node, { childList: true, attributes: true, attributeFilter: ['class', 'style'] })
+        } else {
+          observer.observe(node, { childList: true })
+        }
+      }
     }
   }
   watch(triggerRef, connect, { flush: 'post' })

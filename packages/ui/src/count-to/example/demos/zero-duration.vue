@@ -1,7 +1,7 @@
 <template>
   <mp-space direction="column">
     <mp-count-to ref="counter" :from="0" :to="100" :duration="duration" @end="ends++" />
-    <mp-space>
+    <mp-space wrap>
       <mp-button @click="duration = duration === 0 ? 600 : 0">切换时长 / Toggle duration</mp-button>
       <mp-button @click="counter?.reset()">重新播放 / Replay</mp-button>
     </mp-space>

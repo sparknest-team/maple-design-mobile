@@ -41,6 +41,21 @@ import DemoSearch from './demos/search-options.vue'
     <Demo4 />
   </section>
 
+  <h2 class="mobile-demo-group-heading" data-demo-group="data-and-options">
+    <span lang="zh-CN">数据与选项</span>
+    <span lang="en-US">Data and options</span>
+  </h2>
+
+  <section data-demo="search-options">
+    <app-type>搜索并选择标签 / Search and select tags</app-type>
+    <DemoSearch />
+  </section>
+
+  <section data-demo="format-label">
+    <app-type>已选内容格式化 / Format selected content</app-type>
+    <DemoFormatLabel />
+  </section>
+
   <h2 class="mobile-demo-group-heading" data-demo-group="loading-and-waiting">
     <span lang="zh-CN">加载与等待</span>
     <span lang="en-US">Loading and waiting</span>
@@ -49,16 +64,6 @@ import DemoSearch from './demos/search-options.vue'
   <section data-demo="loading">
     <app-type>loading</app-type>
     <Demo5 />
-  </section>
-
-  <section data-demo="format-label">
-    <app-type>已选内容格式化 / Format selected content</app-type>
-    <DemoFormatLabel />
-  </section>
-
-  <section data-demo="search-options">
-    <app-type>搜索并选择标签 / Search and select tags</app-type>
-    <DemoSearch />
   </section>
 
   <section data-demo="link-title">

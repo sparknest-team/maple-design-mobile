@@ -5,6 +5,9 @@ import { selectionEditorSurface } from '../../_components/selected-options/conte
 import EditorPanel from '../CascaderEditorPanel.vue'
 import Panel from '../CascaderPanel.vue'
 
+// User focus follows rendering; same-millisecond synthetic focus hits Vue's listener timestamp guard.
+const nextFrame = () => new Promise<void>((resolve) => requestAnimationFrame(() => resolve()))
+
 for (const virtual of [false, true]) {
   test(`single-select column has one entry and follows keyboard focus (virtual=${virtual})`, async () => {
     const options = Array.from({ length: 30 }, (_, i) => ({ value: String(i), label: `Option ${i}` }))
@@ -18,6 +21,7 @@ for (const virtual of [false, true]) {
       await nextTick()
       expect(entry()).toHaveLength(1)
       const first = entry()[0]!
+      await nextFrame()
       ;(first.element as HTMLElement).focus()
       await first.trigger('keydown', { key: 'ArrowDown' })
       await nextTick()
@@ -68,6 +72,7 @@ for (const virtual of [false, true]) {
       expect(entry().attributes('title')).toBe('Beta')
       await wrapper.setProps({ modelValue: 'a' })
       expect(entry().attributes('title')).toBe('Alpha')
+      await nextFrame()
       ;(entry().element as HTMLElement).focus()
       await wrapper.setProps({ modelValue: 'b' })
       expect(entry().attributes('title')).toBe('Alpha')
@@ -87,6 +92,7 @@ test('only the active column contributes an entry across hierarchical navigation
     const entries = () => wrapper.findAll('[data-cascader-key]').filter((item) => item.attributes('tabindex') === '0')
     const parent = wrapper.get('[title="Parent"]')
     expect(entries()).toHaveLength(1)
+    await nextFrame()
     ;(parent.element as HTMLElement).focus()
     await parent.trigger('keydown', { key: 'ArrowRight' })
     await nextTick()
@@ -171,6 +177,7 @@ test('pointer hover does not redirect the keyboard entry or Enter away from focu
   try {
     const alpha = wrapper.get('[title="Alpha"]')
     const beta = wrapper.get('[title="Beta"]')
+    await nextFrame()
     ;(alpha.element as HTMLElement).focus()
     await beta.trigger('mouseenter')
     expect(document.activeElement).toBe(alpha.element)
@@ -196,6 +203,7 @@ test('Enter activates the focused option even while another option is hovered', 
   try {
     const alpha = wrapper.get('[title="Alpha"]')
     const beta = wrapper.get('[title="Beta"]')
+    await nextFrame()
     ;(alpha.element as HTMLElement).focus()
     await beta.trigger('mouseenter')
     await alpha.trigger('keydown', { key: 'Enter' })
@@ -213,6 +221,7 @@ test('keyboard events from a custom nested menuitem stay with the custom control
   })
   try {
     const custom = wrapper.get('[data-custom]')
+    await nextFrame()
     ;(custom.element as HTMLElement).focus()
     const event = new KeyboardEvent('keydown', { key: 'Enter', bubbles: true, cancelable: true })
     custom.element.dispatchEvent(event)

@@ -40,7 +40,7 @@ function submitted(data) {
         <mp-input v-if="field" :id="id" v-model="model[field]" edit-mode="direct" />
         <span v-else>尚未绑定字段 / No bound field</span>
       </mp-form-item>
-      <mp-space>
+      <mp-space wrap>
         <mp-button html-type="button" :disabled="!field" @click="reset">重置当前字段 / Reset current</mp-button>
         <mp-button html-type="submit" :disabled="!field">校验并提交 / Validate and submit</mp-button>
       </mp-space>

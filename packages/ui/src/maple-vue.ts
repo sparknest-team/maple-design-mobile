@@ -101,106 +101,7 @@ import Watermark from './watermark'
 export const version = '1.1.10'
 
 function install(app: App) {
-  const plugins = [
-    ActionSheet,
-    Affix,
-    Alert,
-    AutoComplete,
-    Avatar,
-    BackTop,
-    Badge,
-    Breadcrumb,
-    Button,
-    Card,
-    Carousel,
-    Cascader,
-    Cell,
-    Checkbox,
-    Code,
-    Col,
-    Collapse,
-    Context,
-    CountTo,
-    Countdown,
-    Date,
-    DateRange,
-    Dialog,
-    Divider,
-    Drag,
-    Ellipsis,
-    Empty,
-    Fab,
-    FieldDecorator,
-    FloatingPanel,
-    Form,
-    FormDetails,
-    Grid,
-    HighlighterProvider,
-    Hover,
-    Icon,
-    Image,
-    IndexBar,
-    InfiniteScroll,
-    Input,
-    InputNumber,
-    InputTag,
-    Lazy,
-    Link,
-    List,
-    Loading,
-    LoadingBar,
-    Locale,
-    LocaleProvider,
-    Mention,
-    Menu,
-    Message,
-    NavMenu,
-    NoticeBar,
-    NumberKeyboard,
-    Overlay,
-    PageHeader,
-    Pagination,
-    Paper,
-    PeopleSelect,
-    Picker,
-    Popover,
-    Popup,
-    Progress,
-    ProgressGroup,
-    PullRefresh,
-    Radio,
-    Rate,
-    Result,
-    Ripple,
-    Row,
-    SafeArea,
-    Search,
-    Select,
-    Signature,
-    Skeleton,
-    Slider,
-    Space,
-    SplitButton,
-    Statistic,
-    Steps,
-    SwipeCell,
-    Switch,
-    TabBar,
-    Table,
-    Tabs,
-    Tag,
-    Textarea,
-    ThemeProvider,
-    Themes,
-    Time,
-    TimeRange,
-    Timeline,
-    Tooltip,
-    Trigger,
-    Upload,
-    VerificationCode,
-    Watermark,
-  ]
+  const plugins = [ActionSheet, Affix, Alert, AutoComplete, Avatar, BackTop, Badge, Breadcrumb, Button, Card, Carousel, Cascader, Cell, Checkbox, Code, Col, Collapse, Context, CountTo, Countdown, Date, DateRange, Dialog, Divider, Drag, Ellipsis, Empty, Fab, FieldDecorator, FloatingPanel, Form, FormDetails, Grid, HighlighterProvider, Hover, Icon, Image, IndexBar, InfiniteScroll, Input, InputNumber, InputTag, Lazy, Link, List, Loading, LoadingBar, Locale, LocaleProvider, Mention, Menu, Message, NavMenu, NoticeBar, NumberKeyboard, Overlay, PageHeader, Pagination, Paper, PeopleSelect, Picker, Popover, Popup, Progress, ProgressGroup, PullRefresh, Radio, Rate, Result, Ripple, Row, SafeArea, Search, Select, Signature, Skeleton, Slider, Space, SplitButton, Statistic, Steps, SwipeCell, Switch, TabBar, Table, Tabs, Tag, Textarea, ThemeProvider, Themes, Time, TimeRange, Timeline, Tooltip, Trigger, Upload, VerificationCode, Watermark]
   for (const plugin of plugins) {
     if (plugin && typeof (plugin as { install?: unknown }).install === 'function') {
       app.use(plugin as unknown as { install: (app: App) => void })
@@ -307,7 +208,7 @@ export {
   Trigger,
   Upload,
   VerificationCode,
-  Watermark,
+  Watermark
 }
 
 export interface MapleLibrary {
@@ -417,299 +318,103 @@ const library: MapleLibrary = {
   install,
   // Preserve ESM live bindings: a component entry may be evaluated before the
   // aggregate entry through the development resolver's dependency graph.
-  get ActionSheet() {
-    return ActionSheet
-  },
-  get Affix() {
-    return Affix
-  },
-  get Alert() {
-    return Alert
-  },
-  get AutoComplete() {
-    return AutoComplete
-  },
-  get Avatar() {
-    return Avatar
-  },
-  get BackTop() {
-    return BackTop
-  },
-  get Badge() {
-    return Badge
-  },
-  get Breadcrumb() {
-    return Breadcrumb
-  },
-  get Button() {
-    return Button
-  },
-  get Card() {
-    return Card
-  },
-  get Carousel() {
-    return Carousel
-  },
-  get Cascader() {
-    return Cascader
-  },
-  get Cell() {
-    return Cell
-  },
-  get Checkbox() {
-    return Checkbox
-  },
-  get Code() {
-    return Code
-  },
-  get Col() {
-    return Col
-  },
-  get Collapse() {
-    return Collapse
-  },
-  get Context() {
-    return Context
-  },
-  get CountTo() {
-    return CountTo
-  },
-  get Countdown() {
-    return Countdown
-  },
-  get Date() {
-    return Date
-  },
-  get DateRange() {
-    return DateRange
-  },
-  get Dialog() {
-    return Dialog
-  },
-  get Divider() {
-    return Divider
-  },
-  get Drag() {
-    return Drag
-  },
-  get Ellipsis() {
-    return Ellipsis
-  },
-  get Empty() {
-    return Empty
-  },
-  get Fab() {
-    return Fab
-  },
-  get FieldDecorator() {
-    return FieldDecorator
-  },
-  get FloatingPanel() {
-    return FloatingPanel
-  },
-  get Form() {
-    return Form
-  },
-  get FormDetails() {
-    return FormDetails
-  },
-  get Grid() {
-    return Grid
-  },
-  get HighlighterProvider() {
-    return HighlighterProvider
-  },
-  get Hover() {
-    return Hover
-  },
-  get Icon() {
-    return Icon
-  },
-  get Image() {
-    return Image
-  },
-  get IndexBar() {
-    return IndexBar
-  },
-  get InfiniteScroll() {
-    return InfiniteScroll
-  },
-  get Input() {
-    return Input
-  },
-  get InputNumber() {
-    return InputNumber
-  },
-  get InputTag() {
-    return InputTag
-  },
-  get Lazy() {
-    return Lazy
-  },
-  get Link() {
-    return Link
-  },
-  get List() {
-    return List
-  },
-  get Loading() {
-    return Loading
-  },
-  get LoadingBar() {
-    return LoadingBar
-  },
-  get Locale() {
-    return Locale
-  },
-  get LocaleProvider() {
-    return LocaleProvider
-  },
-  get Mention() {
-    return Mention
-  },
-  get Menu() {
-    return Menu
-  },
-  get Message() {
-    return Message
-  },
-  get NavMenu() {
-    return NavMenu
-  },
-  get NoticeBar() {
-    return NoticeBar
-  },
-  get NumberKeyboard() {
-    return NumberKeyboard
-  },
-  get Overlay() {
-    return Overlay
-  },
-  get PageHeader() {
-    return PageHeader
-  },
-  get Pagination() {
-    return Pagination
-  },
-  get Paper() {
-    return Paper
-  },
-  get PeopleSelect() {
-    return PeopleSelect
-  },
-  get Picker() {
-    return Picker
-  },
-  get Popover() {
-    return Popover
-  },
-  get Popup() {
-    return Popup
-  },
-  get Progress() {
-    return Progress
-  },
-  get ProgressGroup() {
-    return ProgressGroup
-  },
-  get PullRefresh() {
-    return PullRefresh
-  },
-  get Radio() {
-    return Radio
-  },
-  get Rate() {
-    return Rate
-  },
-  get Result() {
-    return Result
-  },
-  get Ripple() {
-    return Ripple
-  },
-  get Row() {
-    return Row
-  },
-  get SafeArea() {
-    return SafeArea
-  },
-  get Search() {
-    return Search
-  },
-  get Select() {
-    return Select
-  },
-  get Signature() {
-    return Signature
-  },
-  get Skeleton() {
-    return Skeleton
-  },
-  get Slider() {
-    return Slider
-  },
-  get Space() {
-    return Space
-  },
-  get SplitButton() {
-    return SplitButton
-  },
-  get Statistic() {
-    return Statistic
-  },
-  get Steps() {
-    return Steps
-  },
-  get SwipeCell() {
-    return SwipeCell
-  },
-  get Switch() {
-    return Switch
-  },
-  get TabBar() {
-    return TabBar
-  },
-  get Table() {
-    return Table
-  },
-  get Tabs() {
-    return Tabs
-  },
-  get Tag() {
-    return Tag
-  },
-  get Textarea() {
-    return Textarea
-  },
-  get ThemeProvider() {
-    return ThemeProvider
-  },
-  get Themes() {
-    return Themes
-  },
-  get Time() {
-    return Time
-  },
-  get TimeRange() {
-    return TimeRange
-  },
-  get Timeline() {
-    return Timeline
-  },
-  get Tooltip() {
-    return Tooltip
-  },
-  get Trigger() {
-    return Trigger
-  },
-  get Upload() {
-    return Upload
-  },
-  get VerificationCode() {
-    return VerificationCode
-  },
-  get Watermark() {
-    return Watermark
-  },
+  get ActionSheet() { return ActionSheet },
+  get Affix() { return Affix },
+  get Alert() { return Alert },
+  get AutoComplete() { return AutoComplete },
+  get Avatar() { return Avatar },
+  get BackTop() { return BackTop },
+  get Badge() { return Badge },
+  get Breadcrumb() { return Breadcrumb },
+  get Button() { return Button },
+  get Card() { return Card },
+  get Carousel() { return Carousel },
+  get Cascader() { return Cascader },
+  get Cell() { return Cell },
+  get Checkbox() { return Checkbox },
+  get Code() { return Code },
+  get Col() { return Col },
+  get Collapse() { return Collapse },
+  get Context() { return Context },
+  get CountTo() { return CountTo },
+  get Countdown() { return Countdown },
+  get Date() { return Date },
+  get DateRange() { return DateRange },
+  get Dialog() { return Dialog },
+  get Divider() { return Divider },
+  get Drag() { return Drag },
+  get Ellipsis() { return Ellipsis },
+  get Empty() { return Empty },
+  get Fab() { return Fab },
+  get FieldDecorator() { return FieldDecorator },
+  get FloatingPanel() { return FloatingPanel },
+  get Form() { return Form },
+  get FormDetails() { return FormDetails },
+  get Grid() { return Grid },
+  get HighlighterProvider() { return HighlighterProvider },
+  get Hover() { return Hover },
+  get Icon() { return Icon },
+  get Image() { return Image },
+  get IndexBar() { return IndexBar },
+  get InfiniteScroll() { return InfiniteScroll },
+  get Input() { return Input },
+  get InputNumber() { return InputNumber },
+  get InputTag() { return InputTag },
+  get Lazy() { return Lazy },
+  get Link() { return Link },
+  get List() { return List },
+  get Loading() { return Loading },
+  get LoadingBar() { return LoadingBar },
+  get Locale() { return Locale },
+  get LocaleProvider() { return LocaleProvider },
+  get Mention() { return Mention },
+  get Menu() { return Menu },
+  get Message() { return Message },
+  get NavMenu() { return NavMenu },
+  get NoticeBar() { return NoticeBar },
+  get NumberKeyboard() { return NumberKeyboard },
+  get Overlay() { return Overlay },
+  get PageHeader() { return PageHeader },
+  get Pagination() { return Pagination },
+  get Paper() { return Paper },
+  get PeopleSelect() { return PeopleSelect },
+  get Picker() { return Picker },
+  get Popover() { return Popover },
+  get Popup() { return Popup },
+  get Progress() { return Progress },
+  get ProgressGroup() { return ProgressGroup },
+  get PullRefresh() { return PullRefresh },
+  get Radio() { return Radio },
+  get Rate() { return Rate },
+  get Result() { return Result },
+  get Ripple() { return Ripple },
+  get Row() { return Row },
+  get SafeArea() { return SafeArea },
+  get Search() { return Search },
+  get Select() { return Select },
+  get Signature() { return Signature },
+  get Skeleton() { return Skeleton },
+  get Slider() { return Slider },
+  get Space() { return Space },
+  get SplitButton() { return SplitButton },
+  get Statistic() { return Statistic },
+  get Steps() { return Steps },
+  get SwipeCell() { return SwipeCell },
+  get Switch() { return Switch },
+  get TabBar() { return TabBar },
+  get Table() { return Table },
+  get Tabs() { return Tabs },
+  get Tag() { return Tag },
+  get Textarea() { return Textarea },
+  get ThemeProvider() { return ThemeProvider },
+  get Themes() { return Themes },
+  get Time() { return Time },
+  get TimeRange() { return TimeRange },
+  get Timeline() { return Timeline },
+  get Tooltip() { return Tooltip },
+  get Trigger() { return Trigger },
+  get Upload() { return Upload },
+  get VerificationCode() { return VerificationCode },
+  get Watermark() { return Watermark }
 }
 export default library

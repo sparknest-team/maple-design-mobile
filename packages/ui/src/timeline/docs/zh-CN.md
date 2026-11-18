@@ -60,6 +60,7 @@
 ### 幽灵节点
 
 当任务状态正在发生，还在记录过程中，可用幽灵节点来表示当前的时间节点，通过 `dot` 插槽定制其轴点。
+
 <demo src="../example/demos/pending.vue"></demo>
 
 ### 时间轴展示类型
@@ -153,30 +154,30 @@ Timeline 继承容器阅读方向，横向时间轴的节点和连接线随 LTR/
 
 | 变量 | 默认值／条件 | 影响的样式 |
 | --- | --- | --- |
-| `--mp-timeline-alternate-horizontal-min-height` | `var(--mp-size-50)` | `min-height` |
+| `--mp-timeline-alternate-horizontal-min-height` | `200px` | `min-height` |
 | `--mp-timeline-content-text-color` | `var(--mp-color-text-1)` | `color` |
 | `--mp-timeline-dot-bg` | `rgb(var(--mp-primary-6))` | `background-color`, `border`, `color` |
 | `--mp-timeline-dot-bg-hollow` | `var(--mp-color-bg-2)` | `background-color` |
-| `--mp-timeline-dot-border-radius` | `var(--mp-border-radius-circle)` | `border-radius` |
-| `--mp-timeline-dot-border-width-hollow` | `var(--mp-border-width-2)` | `border` |
-| `--mp-timeline-dot-size-width` | `var(--mp-spacing-3)` | `bottom`, `height`, `inset-inline-start`, `left`, `margin-left`, `margin-top`, `padding-bottom`, `padding-left`, `padding-right`, `padding-top`, `top`, `width` |
-| `--mp-timeline-font-content-size` | `var(--mp-font-size-body-3)` | `bottom`, `font-size`, `height`, `line-height`, `top` |
-| `--mp-timeline-font-label-size` | `var(--mp-font-size-body-1)` | `font-size` |
-| `--mp-timeline-horizontal-dot-content-height` | `var(--mp-spacing-3)` | `height`, `line-height` |
-| `--mp-timeline-horizontal-margin-content-spacing` | `var(--mp-spacing-7)` | `margin-bottom`, `margin-top`, `padding-bottom`, `padding-top` |
-| `--mp-timeline-horizontal-margin-line-left` | `var(--mp-spacing-3)` | `inset-inline-start` |
-| `--mp-timeline-horizontal-margin-line-right` | `var(--mp-spacing-2)` | `inset-inline-end` |
+| `--mp-timeline-dot-border-radius` | `50%` | `border-radius` |
+| `--mp-timeline-dot-border-width-hollow` | `2px` | `border` |
+| `--mp-timeline-dot-size-width` | `6px` | `bottom`, `height`, `inset-inline-start`, `left`, `margin-left`, `margin-top`, `padding-bottom`, `padding-left`, `padding-right`, `padding-top`, `top`, `width` |
+| `--mp-timeline-font-content-size` | `var(--mp-font-size-md)` | `bottom`, `font-size`, `height`, `line-height`, `top` |
+| `--mp-timeline-font-label-size` | `var(--mp-font-size-sm)` | `font-size` |
+| `--mp-timeline-horizontal-dot-content-height` | `6px` | `height`, `line-height` |
+| `--mp-timeline-horizontal-margin-content-spacing` | `16px` | `margin-bottom`, `margin-top`, `padding-bottom`, `padding-top` |
+| `--mp-timeline-horizontal-margin-line-left` | `6px` | `inset-inline-start` |
+| `--mp-timeline-horizontal-margin-line-right` | `4px` | `inset-inline-end` |
 | `--mp-timeline-item-min-height` | `78px` | `min-height` |
-| `--mp-timeline-label-relative-horizontal-margin` | `var(--mp-size-13)` | `margin-bottom`, `margin-top` |
-| `--mp-timeline-label-relative-margin` | `var(--mp-size-25)` | `margin-left`, `margin-right` |
-| `--mp-timeline-label-relative-max-width` | `var(--mp-size-25)` | `max-width` |
+| `--mp-timeline-label-relative-horizontal-margin` | `52px` | `margin-bottom`, `margin-top` |
+| `--mp-timeline-label-relative-margin` | `100px` | `margin-left`, `margin-right` |
+| `--mp-timeline-label-relative-max-width` | `100px` | `max-width` |
 | `--mp-timeline-label-text-color` | `var(--mp-color-text-3)` | `color` |
-| `--mp-timeline-line-bg` | `var(--mp-color-neutral-3)` | `border-color` |
-| `--mp-timeline-size-line-width` | `var(--mp-border-width-1)` | `border-left-width`, `border-top-width`, `height`, `width` |
-| `--mp-timeline-vertical-margin-content-bottom` | `var(--mp-spacing-2)` | `margin-bottom` |
-| `--mp-timeline-vertical-margin-content-left` | `var(--mp-spacing-7)` | `margin-left`, `margin-right`, `padding-left`, `padding-right` |
-| `--mp-timeline-vertical-margin-line-bottom` | `var(--mp-spacing-2)` | `bottom` |
-| `--mp-timeline-vertical-margin-line-top` | `var(--mp-spacing-2)` | `top` |
+| `--mp-timeline-line-bg` | `var(--mp-sys-color-border-default)` | `border-color` |
+| `--mp-timeline-size-line-width` | `1px` | `border-left-width`, `border-top-width`, `height`, `width` |
+| `--mp-timeline-vertical-margin-content-bottom` | `4px` | `margin-bottom` |
+| `--mp-timeline-vertical-margin-content-left` | `16px` | `margin-left`, `margin-right`, `padding-left`, `padding-right` |
+| `--mp-timeline-vertical-margin-line-bottom` | `4px` | `bottom` |
+| `--mp-timeline-vertical-margin-line-top` | `4px` | `top` |
 
 </div>
 

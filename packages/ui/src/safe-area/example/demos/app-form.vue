@@ -399,7 +399,7 @@ defineExpose({
             v-model="editMode"
             aria-label="字段编辑方式"
             :options="[
-              { label: '直接编辑', value: 'inline' },
+              { label: '直接编辑', value: 'direct' },
               { label: '弹层确认后保存', value: 'popup' },
             ]"
             variant="button"
@@ -593,6 +593,7 @@ defineExpose({
                     :variant="fieldVariant"
                     :popup-container="previewRoot || undefined"
                     :options="cities"
+                    :need-confirm="editMode === 'popup'"
                     aria-label="预约城市"
                   />
                 </mp-form-item>
@@ -602,6 +603,7 @@ defineExpose({
                     :variant="fieldVariant"
                     :popup-container="previewRoot || undefined"
                     :options="locations"
+                    :need-confirm="editMode === 'popup'"
                     path-mode
                     aria-label="体验中心"
                   />
@@ -751,7 +753,12 @@ defineExpose({
               <mp-safe-area class="brand-form-footer" :edges="['bottom']">
                 <mp-safe-area class="brand-form-footer-nested" :edges="['bottom']">
                   <mp-space direction="column" :size="12">
-                    <mp-button status="primary" block html-type="submit" :disabled="disabled || readonly || readPretty"
+                    <mp-button
+                      status="primary"
+                      variant="default"
+                      block
+                      html-type="submit"
+                      :disabled="disabled || readonly || readPretty"
                       >提交预约</mp-button
                     >
                     <mp-button block @click="reset">重置表单</mp-button>

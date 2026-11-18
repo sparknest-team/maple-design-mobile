@@ -114,7 +114,7 @@
     "@vue/server-renderer": "catalog:"
   },
   "peerDependencies": {
-    "vue": "^3.2.47"
+    "vue": "3"
   },
   "web-types": "highlight/web-types.en-US.json",
   "publishConfig": {

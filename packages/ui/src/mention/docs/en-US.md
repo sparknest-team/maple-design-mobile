@@ -118,9 +118,9 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 | fallback-option | Synchronously resolve an unmatched ID for display | `(value: string \| number \| boolean) => SelectOptionData \| null \| undefined` | undefined |
 | default-value | Initial uncontrolled text | string | '' |
 | options | Candidate array or explicit loader, including nested groups | readonly (string \| number \| SelectOptionData \| SelectOptionGroup)[] \| ((query: string, context: { signal: AbortSignal }) => Array \| `Promise<Array>`) | undefined |
-| min-search-length | Minimum query length after the prefix | number | 0 |
-| search-delay | Remote search debounce in milliseconds | number | 0 |
-| auto-commit-single | Automatically commit the only enabled result | boolean | false |
+| min-search-length | Minimum number of characters required to start searching | number | 0 |
+| search-delay | Remote search debounce delay in milliseconds | number | 0 |
+| auto-commit-single | Automatically commit the sole enabled result | boolean | false |
 | prefix | Trigger prefix; supports multiple characters and multiple prefixes | string \| string[] | '@' |
 | split | Separator before and after a mention | string | ' ' |
 | type | Input presentation | input \| textarea | input |

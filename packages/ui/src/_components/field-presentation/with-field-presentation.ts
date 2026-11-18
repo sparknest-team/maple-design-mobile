@@ -87,14 +87,16 @@ function cloneValue(value: any, seen = new WeakMap<object, any>()): any {
   if (
     !value ||
     typeof value !== 'object' ||
-    (!Array.isArray(value) && Object.getPrototypeOf(value) !== Object.prototype)
+    (!Array.isArray(value) &&
+      Object.getPrototypeOf(value) !== Object.prototype &&
+      Object.getPrototypeOf(value) !== null)
   ) {
     return value
   }
   if (seen.has(value)) {
     return seen.get(value)
   }
-  const result: any = Array.isArray(value) ? new Array(value.length) : {}
+  const result: any = Array.isArray(value) ? new Array(value.length) : Object.create(Object.getPrototypeOf(value))
   seen.set(value, result)
   for (const key of Object.keys(value)) {
     const cloned = cloneValue(value[key], seen)
@@ -127,7 +129,11 @@ function sameFieldValue(
   if (Array.isArray(left) && left.length !== right.length) {
     return false
   }
-  if (!Array.isArray(left) && Object.getPrototypeOf(left) !== Object.prototype) {
+  if (
+    !Array.isArray(left) &&
+    Object.getPrototypeOf(left) !== Object.prototype &&
+    Object.getPrototypeOf(left) !== null
+  ) {
     return false
   }
   // Track the active path in both directions so unequal cycles terminate.

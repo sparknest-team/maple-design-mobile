@@ -1,4 +1,4 @@
-# Maple Design Mobile
+﻿# Maple Design Mobile
 
 > Vue 3 component library. Package: @maple-design/ui-vue. Component prefix: Mp / mp-.
 
@@ -10548,7 +10548,7 @@ option({ data }) 接收规范化 CascaderOptionInfo，data.raw 是原始选项�
 
 ## API
 
-面板分支的 `aria-expanded` 表示其子列是否实际显示；聚焦或悬停尚未打开子列时不会标记为已展开。叶节点没有 `aria-expanded`。 单选分层菜单的可选叶节点和严格模式可选分支使用 `menuitemradio` 与 `aria-checked`；仅用于展开的分支保持 `menuitem`，多选仍使用复选框。 单选分层面板的菜单项共有一个 Tab 入口；方向键在列和选项间移动，Tab 或 Shift+Tab 离开菜单。虚拟滚动时入口保持在当前渲染的选项中，选项插槽内的自定义交互控件仍自行管理焦点。 搜索结果不会声明其未显示的子菜单。 直接模式的单选搜索使用 `listbox` 和 `option`，输入框关联弹层与活动项；编辑器单选搜索使用 `menuitemradio` 和 `aria-checked`，菜单内保留一个 Tab 入口；选项持有焦点时，悬停其他选项不会转移该入口。多选搜索保留复选框。直接模式多选搜索默认使用具名对话框，打开后在输入框按向下方向键进入首个可用复选框，按空格切换；调用方显式指定其他弹层类型或外部关联时保留其设置。输入框与弹层位于不同 ShadowRoot 时不会自动生成跨根 ID 关联。编辑模式的多选搜索中，在搜索框按向下方向键会聚焦第一个可用的结果复选框；无可用结果时焦点留在搜索框。 直接单选搜索时，弹层图标不占用额外 Tab 停靠点；可点击图标或在输入框按方向下键展开。
+面板分支的 `aria-expanded` 表示其子列是否实际显示；聚焦或悬停尚未打开子列时不会标记为已展开。叶节点没有 `aria-expanded`。 单选分层菜单的可选叶节点和严格模式可选分支使用 `menuitemradio` 与 `aria-checked`；仅用于展开的分支保持 `menuitem`，多选仍使用复选框。 单选分层面板的菜单项共有一个 Tab 入口；方向键在列和选项间移动，Tab 或 Shift+Tab 离开菜单。虚拟滚动时入口保持在当前渲染的选项中，选项插槽内的自定义交互控件仍自行管理焦点。 搜索结果不会声明其未显示的子菜单。 直接模式的单选搜索使用 `listbox` 和 `option`，输入框关联弹层与活动项；编辑器单选搜索使用 `menuitemradio` 和 `aria-checked`，菜单内保留一个 Tab 入口；选项持有焦点时，悬停其他选项不会转移该入口。多选搜索保留复选框。直接模式多选搜索默认使用具名对话框，打开后在输入框按向下方向键进入首个可用复选框，按空格切换；调用方显式指定其他弹层类型或外部关联时保留其设置。客户端挂载或接管后，输入框与弹层位于不同 ShadowRoot 时不会保留自动生成的跨根 ID 关联。SSR 初始展开的单选或多选搜索在接管前仍可能输出无法跨根解析的 `aria-controls`；需要首屏关联时，请确保输入框与弹层位于同一根。 在 Shadow DOM 中使用直接模式单选或多选搜索时，可设置 `:popup-container="false"`，让弹层原地渲染，与输入框保持在同一个根中，以支持自动的 `aria-controls` 关联及单选时的 `aria-activedescendant` 关联。原地渲染可能受到祖先元素的裁剪和层叠顺序影响，应结合实际布局验证；这不能替代真实读屏测试。编辑模式的多选搜索中，在搜索框按向下方向键会聚焦第一个可用的结果复选框；无可用结果时焦点留在搜索框。 直接单选搜索时，弹层图标不占用额外 Tab 停靠点；可点击图标或在输入框按方向下键展开。
 
 虚拟列中，末尾增删其他选项时，仍在渲染范围内的选项会保留其节点与焦点；切换父级时不会沿用旧列的滚动位置。选项移出虚拟窗口或被删除时可能卸载，插槽中需要长期保留的输入状态应由业务保存。
 
@@ -14847,7 +14847,7 @@ Example source: src/count-to/example/demos/zero-duration.vue
 <template>
   <mp-space direction="column">
     <mp-count-to ref="counter" :from="0" :to="100" :duration="duration" @end="ends++" />
-    <mp-space>
+    <mp-space wrap>
       <mp-button @click="duration = duration === 0 ? 600 : 0">切换时长 / Toggle duration</mp-button>
       <mp-button @click="counter?.reset()">重新播放 / Replay</mp-button>
     </mp-space>
@@ -14874,7 +14874,7 @@ Example source: src/count-to/example/demos/easing-replay.vue
 <template>
   <mp-space direction="column">
     <mp-count-to ref="counter" :to="100" :duration="1200" :timing-function="curve" />
-    <mp-space>
+    <mp-space wrap>
       <mp-button @click="cubic = !cubic">切换曲线 / Change curve</mp-button>
       <mp-button @click="replay">重新播放 / Replay</mp-button>
     </mp-space>
@@ -27795,7 +27795,7 @@ outline 变体通过边框、filled 通过背景、standard 通过底线反馈�
 | `--mp-field-clear-radius` | `50%` | `border-radius` |
 | `--mp-field-clear-visibility` | `visible` | `visibility` |
 | `--mp-field-content-gap` | `8px` | `gap`, `padding-inline-end`, `padding-inline-start` |
-| `--mp-field-content-padding-vertical` | `8px` | `top` |
+| `--mp-field-content-padding-vertical` | `8px` | `padding`, `top` |
 | `--mp-field-control-text-color` | `var(--mp-sys-color-content-primary)` | `color` |
 | `--mp-field-control-text-color-disabled` | `var(--mp-sys-color-content-disabled)` | `-webkit-text-fill-color`, `color` |
 | `--mp-field-error-color` | `var(--mp-sys-color-status-danger)` | `border-bottom-color`, `border-color`, `color` |
@@ -27808,7 +27808,7 @@ outline 变体通过边框、filled 通过背景、standard 通过底线反馈�
 | `--mp-field-loading-color` | `var(--mp-field-focus-color)` | `color` |
 | `--mp-field-loading-duration` | `1s` | `animation` |
 | `--mp-field-loading-line-size` | `2px` | `height` |
-| `--mp-field-padding-horizontal` | `16px` | `inset-inline-start`, `margin-inline-end`, `margin-inline-start`, `max-width`, `padding`, `padding-inline-start` |
+| `--mp-field-padding-horizontal` | `16px` | `inset-inline-start`, `margin-inline-end`, `margin-inline-start`, `max-width`, `padding`, `padding-inline-end`, `padding-inline-start`, `width` |
 | `--mp-field-placeholder-text-color` | `var(--mp-sys-color-content-tertiary)` | `color` |
 | `--mp-field-prefix-text-color` | `var(--mp-sys-color-content-secondary)` | `color` |
 | `--mp-field-size-lg-font-size` | `16px` | `font-size` |
@@ -28159,6 +28159,8 @@ Document: llms/zh-CN/form.md
 ## 字段名称
 
 显式 `validate-status="error"` 且没有自动校验错误时，字段会通过 `aria-describedby` 关联可见的 `help` 文案或插槽；业务已有的描述会保留。自动错误出现时优先关联自动错误。
+
+在 Vue 3.2.47 的 SSR 场景中，如果多个异步表单项在服务端和客户端的完成顺序相反，后续单独更新某一项时，自动错误描述可能重复 ID 或指向其他字段。仅为 Input 设置稳定 `id` 不能避免此问题；Vue 3.5.45 的同场景对照正常。
 
 在 Shadow DOM 中使用延迟编辑 Slider 时，若弹层传送到 `body`，浏览器可能无法通过 ID 将弹层内控件与 Shadow DOM 中的提示或错误关联。可设置 `:popup-container="false"`，或将 `popup-container` 设为同一 ShadowRoot 内的元素，使弹层与提示留在同一根节点；仍需为控件提供清晰名称。容器元素需要由应用提供，并考虑样式、定位和裁剪。
 
@@ -30302,7 +30304,7 @@ onDeactivated(cleanup)
       <mp-form-item field="name" label="Name" :label-attrs="{ for: id }" :rules="rules" :validate-trigger="[]" feedback>
         <mp-input :id="id" v-model="model.name" edit-mode="direct" />
       </mp-form-item>
-      <mp-space>
+      <mp-space wrap>
         <mp-button html-type="submit">提交 / Submit</mp-button>
         <mp-button html-type="button" :disabled="!pending.length" @click="complete"
           >返回最早结果 / Resolve oldest</mp-button
@@ -30366,7 +30368,7 @@ function submitted(data) {
         <mp-input v-if="field" :id="id" v-model="model[field]" edit-mode="direct" />
         <span v-else>尚未绑定字段 / No bound field</span>
       </mp-form-item>
-      <mp-space>
+      <mp-space wrap>
         <mp-button html-type="button" :disabled="!field" @click="reset">重置当前字段 / Reset current</mp-button>
         <mp-button html-type="submit" :disabled="!field">校验并提交 / Validate and submit</mp-button>
       </mp-space>
@@ -31131,7 +31133,7 @@ import type {
 | `--mp-form-label-text-color` | `var(--mp-sys-color-content-primary)` | `color` |
 | `--mp-form-required-symbol-color` | `var(--mp-sys-color-content-danger)` | `color` |
 | `--mp-form-section-accent-color` | `var(--mp-sys-color-action-primary)` | `background` |
-| `--mp-form-section-after-gap` | `24px` | `margin-block`, `padding-block-start` |
+| `--mp-form-section-after-gap` | `24px` | `margin-block` |
 | `--mp-form-section-before-gap` | `32px` | `padding-block-start` |
 | `--mp-form-section-card-background` | `var(--mp-sys-color-surface-default)` | `background` |
 | `--mp-form-section-card-padding` | `16px` | `padding` |
@@ -35703,6 +35705,108 @@ Example source: src/input-tag/example/demos/max.vue
 </template>
 ```
 
+## 数据与选项
+
+### 搜索并选择标签
+
+Example source: src/input-tag/example/demos/search-options.vue
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const tags = ref<string[]>([])
+const singleTag = ref<string | null>(null)
+const error = ref('')
+const people = [
+  { value: 'alice', label: 'Alice · 设计' },
+  { value: 'alan', label: 'Alan · 产品' },
+  { value: 'bob', label: 'Bob · 开发' },
+]
+
+// 模拟服务端搜索；真实请求可把 signal 传入 fetch。
+async function searchPeople(query: string, { signal }: { signal: AbortSignal }) {
+  await new Promise<void>((resolve, reject) => {
+    const cancel = () => {
+      clearTimeout(timer)
+      reject(new DOMException('Aborted', 'AbortError'))
+    }
+    const timer = setTimeout(() => {
+      signal.removeEventListener('abort', cancel)
+      resolve()
+    }, 350)
+    if (signal.aborted) {
+      cancel()
+    } else {
+      signal.addEventListener('abort', cancel, { once: true })
+    }
+  })
+  error.value = ''
+  return people.filter((person) => person.value.includes(query.toLowerCase()))
+}
+</script>
+
+<template>
+  <mp-space direction="column" style="width: 100%" :size="12">
+    <p>输入或粘贴至少两个字符，输入 al 选择多个结果中的一项；输入 bob 自动提交唯一结果。</p>
+    <p>Type or paste at least two characters. Choose an “al” result, or type “bob” to commit the only result.</p>
+    <mp-input-tag
+      v-model="tags"
+      :options="searchPeople"
+      :min-search-length="2"
+      :search-delay="250"
+      auto-commit-single
+      unique-value
+      placeholder="搜索账号 / Search accounts"
+      aria-label="搜索账号 / Search accounts"
+      @load-error="error = '搜索失败 / Search failed'"
+    />
+    <p v-if="error" role="alert">{{ error }}</p>
+    <p>保存的账号 / Saved IDs: {{ JSON.stringify(tags) }}</p>
+    <p>单值模式：选择新账号替换旧值；无匹配时按回车保存输入。</p>
+    <mp-input-tag
+      v-model="singleTag"
+      :multiple="false"
+      :options="searchPeople"
+      :min-search-length="2"
+      :search-delay="250"
+      auto-commit-single
+      placeholder="单个账号 / Single account"
+      aria-label="单个账号 / Single account"
+    />
+    <p>单个账号 / Single ID: {{ JSON.stringify(singleTag) }}</p>
+  </mp-space>
+</template>
+```
+
+配置 `options` 后，输入或粘贴达到 `min-search-length` 才搜索；数组按标签本地过滤，函数接收查询词和 `{ signal }`，返回候选数组。远程结果不再本地过滤。输入法组合完成后搜索，缩短输入或失焦会取消旧请求。加载中、无结果或失败时保留当前输入；配置候选后，Enter 优先选择高亮项；查询完成且无候选时，Enter 可添加原始输入。查询中、查询失败或候选被禁用时不会误创建。`auto-commit-single` 默认关闭，仅在当前搜索完成且恰有一个未禁用候选时提交；多个结果需要手动选择。选中的 `value` 存入模型；初始值及已选项优先从当前 `options` 解析名称，缺少时依次使用 `fallback-option`、当前实例缓存和原始值。重新挂载后可用 `options` 或 `fallback-option` 恢复标题。
+
+已选内容默认显示 `label`；`format-label` 可格式化文字，`#label="{ data }"` 可自定义已选标签的内容。插槽优先于格式化函数；它们不会改变搜索匹配或模型值。阅读态使用格式化文字，自定义阅读内容请使用 `#read`。
+
+### 自定义已选内容
+
+Example source: src/input-tag/example/demos/format-label.vue
+
+```vue
+<script setup lang="ts">
+const selected = [{ value: 'alice', label: 'Alice', department: '设计' }]
+const formatLabel = (item: { label?: string; department?: string }) => `${item.label} · ${item.department}`
+</script>
+
+<template>
+  <mp-space direction="column" style="width: 100%" :size="12">
+    <p>格式化文字 / Format selected text</p>
+    <mp-input-tag :default-value="['alice']" :options="selected" :format-label="formatLabel" />
+    <p>自定义内容 / Customize selected content</p>
+    <mp-input-tag :default-value="['alice']" :options="selected">
+      <template #label="{ data }"
+        ><strong>{{ data.label }}</strong> · {{ data.department }}</template
+      >
+    </mp-input-tag>
+  </mp-space>
+</template>
+```
+
 ## 加载与等待
 
 ### 受控加载
@@ -35935,106 +36039,6 @@ onBeforeUnmount(() => {
 
 公开 Props 不包含 `baseCls`、`focused`、`disabledInput`、`uninjectFormItemContext`；这些是内部组合入口。before-commit 同步返回 undefined 时等待 done；普通 change / press-enter 等事件不等待 Promise。延迟模式的 change 事件可没有原始 DOM 事件。多值模式清空默认输出 []，单值模式默认输出 null；显式 empty-value 优先。
 
-### 搜索并选择标签
-
-Example source: src/input-tag/example/demos/search-options.vue
-
-```vue
-<script setup lang="ts">
-import { ref } from 'vue'
-
-const tags = ref<string[]>([])
-const singleTag = ref<string | null>(null)
-const error = ref('')
-const people = [
-  { value: 'alice', label: 'Alice · 设计' },
-  { value: 'alan', label: 'Alan · 产品' },
-  { value: 'bob', label: 'Bob · 开发' },
-]
-
-// 模拟服务端搜索；真实请求可把 signal 传入 fetch。
-async function searchPeople(query: string, { signal }: { signal: AbortSignal }) {
-  await new Promise<void>((resolve, reject) => {
-    const cancel = () => {
-      clearTimeout(timer)
-      reject(new DOMException('Aborted', 'AbortError'))
-    }
-    const timer = setTimeout(() => {
-      signal.removeEventListener('abort', cancel)
-      resolve()
-    }, 350)
-    if (signal.aborted) {
-      cancel()
-    } else {
-      signal.addEventListener('abort', cancel, { once: true })
-    }
-  })
-  error.value = ''
-  return people.filter((person) => person.value.includes(query.toLowerCase()))
-}
-</script>
-
-<template>
-  <mp-space direction="column" style="width: 100%" :size="12">
-    <p>输入或粘贴至少两个字符，输入 al 选择多个结果中的一项；输入 bob 自动提交唯一结果。</p>
-    <p>Type or paste at least two characters. Choose an “al” result, or type “bob” to commit the only result.</p>
-    <mp-input-tag
-      v-model="tags"
-      :options="searchPeople"
-      :min-search-length="2"
-      :search-delay="250"
-      auto-commit-single
-      unique-value
-      placeholder="搜索账号 / Search accounts"
-      aria-label="搜索账号 / Search accounts"
-      @load-error="error = '搜索失败 / Search failed'"
-    />
-    <p v-if="error" role="alert">{{ error }}</p>
-    <p>保存的账号 / Saved IDs: {{ JSON.stringify(tags) }}</p>
-    <p>单值模式：选择新账号替换旧值；无匹配时按回车保存输入。</p>
-    <mp-input-tag
-      v-model="singleTag"
-      :multiple="false"
-      :options="searchPeople"
-      :min-search-length="2"
-      :search-delay="250"
-      auto-commit-single
-      placeholder="单个账号 / Single account"
-      aria-label="单个账号 / Single account"
-    />
-    <p>单个账号 / Single ID: {{ JSON.stringify(singleTag) }}</p>
-  </mp-space>
-</template>
-```
-
-配置 `options` 后，输入或粘贴达到 `min-search-length` 才搜索；数组按标签本地过滤，函数接收查询词和 `{ signal }`，返回候选数组。远程结果不再本地过滤。输入法组合完成后搜索，缩短输入或失焦会取消旧请求。加载中、无结果或失败时保留当前输入；配置候选后，Enter 优先选择高亮项；查询完成且无候选时，Enter 可添加原始输入。查询中、查询失败或候选被禁用时不会误创建。`auto-commit-single` 默认关闭，仅在当前搜索完成且恰有一个未禁用候选时提交；多个结果需要手动选择。选中的 `value` 存入模型；初始值及已选项优先从当前 `options` 解析名称，缺少时依次使用 `fallback-option`、当前实例缓存和原始值。重新挂载后可用 `options` 或 `fallback-option` 恢复标题。
-
-已选内容默认显示 `label`；`format-label` 可格式化文字，`#label="{ data }"` 可自定义已选标签的内容。插槽优先于格式化函数；它们不会改变搜索匹配或模型值。阅读态使用格式化文字，自定义阅读内容请使用 `#read`。
-
-### 自定义已选内容
-
-Example source: src/input-tag/example/demos/format-label.vue
-
-```vue
-<script setup lang="ts">
-const selected = [{ value: 'alice', label: 'Alice', department: '设计' }]
-const formatLabel = (item: { label?: string; department?: string }) => `${item.label} · ${item.department}`
-</script>
-
-<template>
-  <mp-space direction="column" style="width: 100%" :size="12">
-    <p>格式化文字 / Format selected text</p>
-    <mp-input-tag :default-value="['alice']" :options="selected" :format-label="formatLabel" />
-    <p>自定义内容 / Customize selected content</p>
-    <mp-input-tag :default-value="['alice']" :options="selected">
-      <template #label="{ data }"
-        ><strong>{{ data.label }}</strong> · {{ data.department }}</template
-      >
-    </mp-input-tag>
-  </mp-space>
-</template>
-```
-
 ### InputTag Props
 
 | 参数名                    | 描述                               | 类型                                              |   默认值   |
@@ -36179,19 +36183,19 @@ Maple 使用 edit-mode="popup" 在字段附近打开编辑浮层，Enter/F2 也�
 | `--mp-input-tag-padding-x` | `4px` | `padding-inline-end`, `padding-inline-start` |
 | `--mp-input-tag-size-lg-font-size` | `14px` | `font-size` |
 | `--mp-input-tag-size-lg-padding-y` | `2px` | `padding-bottom`, `padding-top` |
-| `--mp-input-tag-size-lg-tag-height` | `28px` | `line-height`, `min-height` |
+| `--mp-input-tag-size-lg-tag-height` | `28px` | `line-height`, `max-height`, `min-height` |
 | `--mp-input-tag-size-md-font-size` | `14px` | `font-size` |
 | `--mp-input-tag-size-md-padding-y` | `2px` | `padding-bottom`, `padding-top` |
-| `--mp-input-tag-size-md-tag-height` | `24px` | `line-height`, `min-height` |
+| `--mp-input-tag-size-md-tag-height` | `24px` | `line-height`, `max-height`, `min-height` |
 | `--mp-input-tag-size-sm-font-size` | `14px` | `font-size` |
 | `--mp-input-tag-size-sm-padding-y` | `2px` | `padding-bottom`, `padding-top` |
-| `--mp-input-tag-size-sm-tag-height` | `20px` | `line-height`, `min-height` |
+| `--mp-input-tag-size-sm-tag-height` | `20px` | `line-height`, `max-height`, `min-height` |
 | `--mp-input-tag-size-xl-font-size` | `16px` | `font-size` |
 | `--mp-input-tag-size-xl-padding-y` | `4px` | `padding-bottom`, `padding-top` |
-| `--mp-input-tag-size-xl-tag-height` | `32px` | `line-height`, `min-height` |
+| `--mp-input-tag-size-xl-tag-height` | `32px` | `line-height`, `max-height`, `min-height` |
 | `--mp-input-tag-size-xs-font-size` | `12px` | `font-size` |
 | `--mp-input-tag-size-xs-padding-y` | `0px` | `padding-bottom`, `padding-top` |
-| `--mp-input-tag-size-xs-tag-height` | `20px` | `line-height`, `min-height` |
+| `--mp-input-tag-size-xs-tag-height` | `20px` | `line-height`, `max-height`, `min-height` |
 | `--mp-input-tag-tag-color-bg` | `var(--mp-sys-color-surface-default)` | `background-color` |
 | `--mp-input-tag-tag-color-bg-disabled` | `var(--mp-sys-color-state-hover)` | `background-color` |
 | `--mp-input-tag-tag-color-bg-focus` | `var(--mp-sys-color-state-hover)` | `background-color` |
@@ -36200,7 +36204,7 @@ Maple 使用 edit-mode="popup" 在字段附近打开编辑浮层，Enter/F2 也�
 | `--mp-input-tag-tag-color-border-focus` | `var(--mp-sys-color-state-hover)` | `border-color` |
 | `--mp-input-tag-tag-font-size` | `12px` | `font-size` |
 | `--mp-input-tag-tag-margin-right` | `4px` | `margin-inline-end` |
-| `--mp-input-tag-tag-margin-y` | `2px` | `margin-bottom`, `margin-top` |
+| `--mp-input-tag-tag-margin-y` | `2px` | `margin-bottom`, `margin-top`, `max-height` |
 
 </div>
 
@@ -36223,6 +36227,10 @@ Document: llms/zh-CN/input.md
 <!-- Source: src/input/docs/zh-CN.md; locale: zh-CN; page: /zh-CN/input -->
 
 # 输入框
+
+## 服务端渲染
+
+在 Vue 3.2–3.4 的服务端渲染中，如果多个异步组件在服务端和客户端以不同顺序完成，自动生成的 ID 可能导致浮动提示标签与输入框的关联不一致。此场景请为每个 Input 提供在服务端和客户端一致、页面内唯一的 `id`，例如 `<Input id="account-name" />`。
 
 ## 阅读方向
 
@@ -45135,6 +45143,132 @@ Document: llms/zh-CN/platform.md
 
 Cedar 面向桌面应用，Maple 面向移动应用。根据操作方式和信息密度选择平台，不以视口缩小替代移动适配。接入前核对所安装包的 peerDependencies，并在目标浏览器验证。
 
+## Vue 版本兼容性
+
+Cedar / Maple 以 Vue 3.3 及以上版本作为持续兼容验证目标，开发环境使用 Vue 3.5。UI 包的 `peerDependencies` 保持为 `3`，安装成功不代表所有 Vue 3 版本和场景均已验证。在 Vue 3.2 下，异步组件在服务端和客户端的完成顺序不同时，生成的 ID 可能关联到不同元素。Vue 3.0、3.1 未验证。
+
+Cedar Table 在 SSR 首屏需要应用默认筛选时，请通过 `:columns` 数组传入列，并设置 `filterable.defaultFilteredValue`。使用 `<c-table-column>` 子组件声明列时，不保证服务端输出已筛选的行。
+
+## 构建工具兼容范围
+
+Cedar / Maple 暂不承诺兼容 Webpack 4，也不提供该工具链的持续兼容验证。ESM 产物保留 `import` / `export`，其中也可能包含可选链（`?.`）和空值合并（`??`）等现代 JavaScript 语法；ESM 模块格式不等于 ES5 语法兼容。
+
+Webpack 4 无法直接解析 `?.` / `??`。如需接入，由使用方将组件库及相关依赖纳入 Babel 转译范围，并在自己的工程中验证。浏览器兼容范围与构建工具的解析能力是两个独立条件。
+
+### Webpack 4 完整最小配置
+
+以下示例将 Babel 转译、入口/子路径 alias、CSS loader 和 Vue 构建选项合并为一份配置。请在独立空目录中按文件名创建文件。示例使用已经编译的组件，不包含 `.vue` 单文件组件，因此不需要 `vue-loader`；业务项目使用 SFC 时应保留原有 Vue loader 配置。
+
+1. 安装依赖（验证版本为 UI / icons 1.1.11、Vue 3.5.45）：
+
+```sh
+npm init -y
+npm install vue@3.5.45 @maple-design/ui-vue@1.1.11 @maple-design/icons-vue@1.1.11
+npm install --save-dev webpack@4.47.0 webpack-cli@3.3.12 babel-loader@8.4.1 @babel/core@^7 @babel/preset-env@^7 style-loader@2.0.0 css-loader@5.2.7
+```
+
+2. 创建 `webpack.config.cjs`（CommonJS，即使业务项目声明 `"type": "module"` 也可使用）：
+
+```js
+const path = require('path')
+const webpack = require('webpack')
+const uiRoot = path.dirname(require.resolve('@maple-design/ui-vue/package.json'))
+const iconsRoot = path.dirname(require.resolve('@maple-design/icons-vue/style.css'))
+
+module.exports = {
+  mode: 'production',
+  entry: './src/index.js',
+  output: { path: path.resolve(__dirname, 'dist'), filename: 'bundle.js' },
+  resolve: {
+    extensions: ['.mjs', '.js', '.json'],
+    alias: {
+      'vue$': require.resolve('vue/dist/vue.runtime.esm-bundler.js'),
+      '@maple-design/ui-vue/style$': require.resolve('@maple-design/ui-vue/style'),
+      '@maple-design/ui-vue/reset.css$': require.resolve('@maple-design/ui-vue/reset.css'),
+      '@maple-design/ui-vue': path.join(uiRoot, 'es'),
+      '@maple-design/icons-vue/style.css$': require.resolve('@maple-design/icons-vue/style.css'),
+      '@maple-design/icons-vue': path.join(iconsRoot, 'es'),
+    },
+  },
+  module: {
+    rules: [
+      {
+        test: /\.[cm]?js$/,
+        type: 'javascript/auto',
+        use: {
+          loader: 'babel-loader',
+          options: {
+            babelrc: false,
+            configFile: false,
+            presets: [['@babel/preset-env', { targets: { chrome: '70' }, modules: false }]],
+          },
+        },
+      },
+      { test: /\.css$/, use: ['style-loader', 'css-loader'] },
+    ],
+  },
+  plugins: [
+    new webpack.DefinePlugin({
+      __VUE_OPTIONS_API__: JSON.stringify(true),
+      __VUE_PROD_DEVTOOLS__: JSON.stringify(false),
+      __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: JSON.stringify(false),
+    }),
+  ],
+}
+```
+
+3. 创建 `src/index.js`。同时使用根入口和组件/图标子路径，确保这些路径均可解析；样式分别验证按需、全量、reset 和图标入口：
+
+```js
+import { createApp, h } from 'vue'
+import { Button as RootButton } from '@maple-design/ui-vue'
+import Button from '@maple-design/ui-vue/button'
+import { IconAlertCircle as RootIcon } from '@maple-design/icons-vue'
+import { IconAlertCircle } from '@maple-design/icons-vue/icon-alert-circle'
+import '@maple-design/ui-vue/button/style'
+import '@maple-design/ui-vue/style'
+import '@maple-design/ui-vue/reset.css'
+import '@maple-design/icons-vue/style.css'
+
+if (RootButton !== Button || RootIcon !== IconAlertCircle) throw new Error('Entry mismatch')
+createApp({
+  setup() {
+    return () => h(Button, { onClick: () => { document.body.dataset.clicked = 'yes' } }, {
+      default: () => [h(IconAlertCircle), 'Webpack 4 works'],
+    })
+  },
+}).mount('#app')
+```
+
+4. 创建项目根目录的 `index.html`：
+
+```html
+<!doctype html>
+<html lang="en">
+  <head><meta charset="utf-8"><title>Webpack 4 example</title></head>
+  <body>
+    <div id="app"></div>
+    <script src="./dist/bundle.js"></script>
+  </body>
+</html>
+```
+
+5. 构建，然后通过本地 HTTP 服务打开根目录的 `index.html`：
+
+```sh
+npx webpack --config webpack.config.cjs
+```
+
+页面应显示带图标的 `Webpack 4 works` 按钮；点击后 `document.body.dataset.clicked` 为 `yes`。生产构建可能给出体积提示；此入口刻意同时引入全量和按需样式以验证解析，业务项目通常只选择一种样式方案。
+
+#### 配置要点与适用范围
+
+- Babel `preset-env` 以 Chrome 70 作为语法转换目标并设置 `modules: false`，转换 `?.`、`??`、逻辑赋值和类字段等 Webpack 4 无法解析的语法，同时保留 ESM。该 target 是本示例的编译配置，不代表组件库支持 Chrome 70，也不提供运行时 API 或 CSS 降级。仅启用 `syntax-*` 插件不会完成转换。
+- 本最小示例对所有 `.js` / `.mjs` / `.cjs`（包含 Vue、组件库和其他依赖）执行 Babel，避免默认排除 `node_modules` 导致漏转译。业务项目可在验证后缩小范围；`oneOf` 也必须让这些文件进入规则。`javascript/auto` 允许 Webpack 4 处理 `.mjs` 与 CommonJS 依赖之间的互操作。
+- Webpack 4 不识别 `exports` 映射。无 `$` 的包名 alias 覆盖根入口及对应 ES 目录的组件/图标/组件样式子路径，无需单独的 `ui-vue$`。精确样式 alias 必须先于前缀 alias；全量样式、reset 和图标 CSS 分别指向实际文件。`.mjs` 必须在扩展名列表中。
+- 合并到已有工程时保留其入口、输出、扩展名和其他 loader/plugin。前缀 alias 不能替代所有 `exports`；若使用 `package.json` 或 Maple 的 `json/*`、`highlight/*` 等导出，需要按安装版本另配映射。
+- 这份配置只验证了上述最小应用；不构成 Webpack 4 的持续兼容承诺，也不提供旧浏览器运行时 API polyfill、CSS 降级或所有组件行为的保证。
+
 [LLM documentation](#/zh-CN/llms) · [Cedar](https://cedar.show) · [Maple](https://maple.show)
 
 ---
@@ -51701,7 +51835,7 @@ defineExpose({
             v-model="editMode"
             aria-label="字段编辑方式"
             :options="[
-              { label: '直接编辑', value: 'inline' },
+              { label: '直接编辑', value: 'direct' },
               { label: '弹层确认后保存', value: 'popup' },
             ]"
             variant="button"
@@ -51895,6 +52029,7 @@ defineExpose({
                     :variant="fieldVariant"
                     :popup-container="previewRoot || undefined"
                     :options="cities"
+                    :need-confirm="editMode === 'popup'"
                     aria-label="预约城市"
                   />
                 </mp-form-item>
@@ -51904,6 +52039,7 @@ defineExpose({
                     :variant="fieldVariant"
                     :popup-container="previewRoot || undefined"
                     :options="locations"
+                    :need-confirm="editMode === 'popup'"
                     path-mode
                     aria-label="体验中心"
                   />
@@ -52053,7 +52189,12 @@ defineExpose({
               <mp-safe-area class="brand-form-footer" :edges="['bottom']">
                 <mp-safe-area class="brand-form-footer-nested" :edges="['bottom']">
                   <mp-space direction="column" :size="12">
-                    <mp-button status="primary" block html-type="submit" :disabled="disabled || readonly || readPretty"
+                    <mp-button
+                      status="primary"
+                      variant="default"
+                      block
+                      html-type="submit"
+                      :disabled="disabled || readonly || readPretty"
                       >提交预约</mp-button
                     >
                     <mp-button block @click="reset">重置表单</mp-button>
@@ -52480,10 +52621,10 @@ SafeAreaEdge 是 top/right/bottom/left 的联合类型，SafeAreaInsets 是这�
 
 | 变量 | 默认值／条件 | 影响的样式 |
 | --- | --- | --- |
-| `--mp-safe-area-bottom` | `env(safe-area-inset-bottom, 0px)` | `margin-bottom`, `padding-bottom` |
-| `--mp-safe-area-left` | `env(safe-area-inset-left, 0px)` | `inset-inline-end`, `margin-left`, `padding-left`, `width` |
-| `--mp-safe-area-right` | `env(safe-area-inset-right, 0px)` | `inset-inline-end`, `margin-right`, `padding-right`, `width` |
-| `--mp-safe-area-top` | `env(safe-area-inset-top, 0px)` | `margin-top`, `padding-top` |
+| `--mp-safe-area-bottom` | `env(safe-area-inset-bottom, 0px)` (`html`) | `margin-bottom`, `padding-bottom` |
+| `--mp-safe-area-left` | `env(safe-area-inset-left, 0px)` (`html`) | `inset-inline-end`, `margin-left`, `padding-left`, `width` |
+| `--mp-safe-area-right` | `env(safe-area-inset-right, 0px)` (`html`) | `inset-inline-end`, `margin-right`, `padding-right`, `width` |
+| `--mp-safe-area-top` | `env(safe-area-inset-top, 0px)` (`html`) | `margin-top`, `padding-top` |
 
 </div>
 
@@ -52959,6 +53100,12 @@ function submit() {
     }}</pre>
   </section>
 </template>
+<style scoped>
+.native-search-results {
+  max-width: 100%;
+  overflow-x: auto;
+}
+</style>
 ```
 
 ## API
@@ -57686,11 +57833,11 @@ const styleVars = computed(() => ({
     <div class="local-theme-demo__compare">
       <div>
         <p>跟随页面 / Page theme</p>
-        <mp-button status="primary">默认按钮 / Default</mp-button>
+        <mp-button status="primary" variant="default">默认按钮 / Default</mp-button>
       </div>
       <mp-theme-provider :style-vars="styleVars">
         <p>局部覆盖 / Local override</p>
-        <mp-button status="primary">定制按钮 / Custom</mp-button>
+        <mp-button status="primary" variant="default">定制按钮 / Custom</mp-button>
       </mp-theme-provider>
     </div>
   </section>
@@ -65173,7 +65320,7 @@ function reset() {
 </script>
 <template>
   <mp-space direction="column">
-    <mp-space>
+    <mp-space wrap>
       <mp-button @click="sentinel = !sentinel">切换清空值 / Toggle empty value</mp-button>
       <mp-button @click="reset">重置示例 / Reset values</mp-button>
     </mp-space>
@@ -65202,6 +65349,12 @@ function reset() {
     <pre class="empty-policy-model">{{ JSON.stringify({ direct, deferred }) }}</pre>
   </mp-space>
 </template>
+<style scoped>
+.empty-policy-model {
+  max-width: 100%;
+  overflow-x: auto;
+}
+</style>
 ```
 
 ## 组合输入
@@ -65514,11 +65667,11 @@ const styleVars = computed(() => ({
     <div class="local-theme-demo__compare">
       <div>
         <p>跟随页面 / Page theme</p>
-        <mp-button status="primary">默认按钮 / Default</mp-button>
+        <mp-button status="primary" variant="default">默认按钮 / Default</mp-button>
       </div>
       <mp-theme-provider :style-vars="styleVars">
         <p>局部覆盖 / Local override</p>
-        <mp-button status="primary">定制按钮 / Custom</mp-button>
+        <mp-button status="primary" variant="default">定制按钮 / Custom</mp-button>
       </mp-theme-provider>
     </div>
   </section>
@@ -69057,6 +69210,7 @@ html[lang='en-US'] .demo-comparison-case > h4 > [lang='zh-CN'] {
 ### 幽灵节点
 
 当任务状态正在发生，还在记录过程中，可用幽灵节点来表示当前的时间节点，通过 `dot` 插槽定制其轴点。
+
 Example source: src/timeline/example/demos/pending.vue
 
 ```vue
@@ -69096,6 +69250,7 @@ Example source: src/timeline/example/demos/pending.vue
 
 <script setup>
 import { ref } from 'vue'
+import { IconFire as MpIconFire } from '@maple-design/icons-vue'
 
 const pendingProps = ref({})
 
@@ -69154,7 +69309,9 @@ Example source: src/timeline/example/demos/icon.vue
   </mp-timeline>
 </template>
 
-<script setup></script>
+<script setup>
+import { IconExclamationCircleFill as MpIconExclamationCircleFill } from '@maple-design/icons-vue'
+</script>
 ```
 
 ### 自定义节点
@@ -69218,7 +69375,9 @@ Example source: src/timeline/example/demos/dot.vue
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { IconCheck as MpIconCheck, IconClockCircle as MpIconClockCircle } from '@maple-design/icons-vue'
+</script>
 ```
 
 ### 自定义标签
@@ -69244,7 +69403,9 @@ Example source: src/timeline/example/demos/custom.vue
   </mp-timeline>
 </template>
 
-<script setup></script>
+<script setup>
+import { IconCheckCircleFill as MpIconCheckCircleFill } from '@maple-design/icons-vue'
+</script>
 ```
 
 ## API
@@ -69312,30 +69473,30 @@ Timeline 继承容器阅读方向，横向时间轴的节点和连接线随 LTR/
 
 | 变量 | 默认值／条件 | 影响的样式 |
 | --- | --- | --- |
-| `--mp-timeline-alternate-horizontal-min-height` | `var(--mp-size-50)` | `min-height` |
+| `--mp-timeline-alternate-horizontal-min-height` | `200px` | `min-height` |
 | `--mp-timeline-content-text-color` | `var(--mp-color-text-1)` | `color` |
 | `--mp-timeline-dot-bg` | `rgb(var(--mp-primary-6))` | `background-color`, `border`, `color` |
 | `--mp-timeline-dot-bg-hollow` | `var(--mp-color-bg-2)` | `background-color` |
-| `--mp-timeline-dot-border-radius` | `var(--mp-border-radius-circle)` | `border-radius` |
-| `--mp-timeline-dot-border-width-hollow` | `var(--mp-border-width-2)` | `border` |
-| `--mp-timeline-dot-size-width` | `var(--mp-spacing-3)` | `bottom`, `height`, `inset-inline-start`, `left`, `margin-left`, `margin-top`, `padding-bottom`, `padding-left`, `padding-right`, `padding-top`, `top`, `width` |
-| `--mp-timeline-font-content-size` | `var(--mp-font-size-body-3)` | `bottom`, `font-size`, `height`, `line-height`, `top` |
-| `--mp-timeline-font-label-size` | `var(--mp-font-size-body-1)` | `font-size` |
-| `--mp-timeline-horizontal-dot-content-height` | `var(--mp-spacing-3)` | `height`, `line-height` |
-| `--mp-timeline-horizontal-margin-content-spacing` | `var(--mp-spacing-7)` | `margin-bottom`, `margin-top`, `padding-bottom`, `padding-top` |
-| `--mp-timeline-horizontal-margin-line-left` | `var(--mp-spacing-3)` | `inset-inline-start` |
-| `--mp-timeline-horizontal-margin-line-right` | `var(--mp-spacing-2)` | `inset-inline-end` |
+| `--mp-timeline-dot-border-radius` | `50%` | `border-radius` |
+| `--mp-timeline-dot-border-width-hollow` | `2px` | `border` |
+| `--mp-timeline-dot-size-width` | `6px` | `bottom`, `height`, `inset-inline-start`, `left`, `margin-left`, `margin-top`, `padding-bottom`, `padding-left`, `padding-right`, `padding-top`, `top`, `width` |
+| `--mp-timeline-font-content-size` | `var(--mp-font-size-md)` | `bottom`, `font-size`, `height`, `line-height`, `top` |
+| `--mp-timeline-font-label-size` | `var(--mp-font-size-sm)` | `font-size` |
+| `--mp-timeline-horizontal-dot-content-height` | `6px` | `height`, `line-height` |
+| `--mp-timeline-horizontal-margin-content-spacing` | `16px` | `margin-bottom`, `margin-top`, `padding-bottom`, `padding-top` |
+| `--mp-timeline-horizontal-margin-line-left` | `6px` | `inset-inline-start` |
+| `--mp-timeline-horizontal-margin-line-right` | `4px` | `inset-inline-end` |
 | `--mp-timeline-item-min-height` | `78px` | `min-height` |
-| `--mp-timeline-label-relative-horizontal-margin` | `var(--mp-size-13)` | `margin-bottom`, `margin-top` |
-| `--mp-timeline-label-relative-margin` | `var(--mp-size-25)` | `margin-left`, `margin-right` |
-| `--mp-timeline-label-relative-max-width` | `var(--mp-size-25)` | `max-width` |
+| `--mp-timeline-label-relative-horizontal-margin` | `52px` | `margin-bottom`, `margin-top` |
+| `--mp-timeline-label-relative-margin` | `100px` | `margin-left`, `margin-right` |
+| `--mp-timeline-label-relative-max-width` | `100px` | `max-width` |
 | `--mp-timeline-label-text-color` | `var(--mp-color-text-3)` | `color` |
-| `--mp-timeline-line-bg` | `var(--mp-color-neutral-3)` | `border-color` |
-| `--mp-timeline-size-line-width` | `var(--mp-border-width-1)` | `border-left-width`, `border-top-width`, `height`, `width` |
-| `--mp-timeline-vertical-margin-content-bottom` | `var(--mp-spacing-2)` | `margin-bottom` |
-| `--mp-timeline-vertical-margin-content-left` | `var(--mp-spacing-7)` | `margin-left`, `margin-right`, `padding-left`, `padding-right` |
-| `--mp-timeline-vertical-margin-line-bottom` | `var(--mp-spacing-2)` | `bottom` |
-| `--mp-timeline-vertical-margin-line-top` | `var(--mp-spacing-2)` | `top` |
+| `--mp-timeline-line-bg` | `var(--mp-sys-color-border-default)` | `border-color` |
+| `--mp-timeline-size-line-width` | `1px` | `border-left-width`, `border-top-width`, `height`, `width` |
+| `--mp-timeline-vertical-margin-content-bottom` | `4px` | `margin-bottom` |
+| `--mp-timeline-vertical-margin-content-left` | `16px` | `margin-left`, `margin-right`, `padding-left`, `padding-right` |
+| `--mp-timeline-vertical-margin-line-bottom` | `4px` | `bottom` |
+| `--mp-timeline-vertical-margin-line-top` | `4px` | `top` |
 
 </div>
 
@@ -70125,6 +70286,8 @@ placement 是首选方位，auto-fit-position 默认 true 时最终方位可能�
 
 `trigger="focus"` 支持键盘聚焦，Escape 只关闭最上层浮层。Trigger 不自行决定业务 `role` 和 aria 关系，上层语义组件负责补充。
 
+焦点触发时，单次外部指针操作同时导致失焦和点击，只请求关闭一次。受控状态未接受关闭时，后续独立点击仍会再次请求关闭；`click-outside` 保持外部点击事件通知。
+
 ## 参考元素的原生事件修饰符
 
 `click`、`mouseenter`、`mouseleave`、`focusin`、`focusout`、`contextmenu` 的原生监听器和 `.once`、`.capture`、`.passive` 均绑定到实际参考元素，不会落到浮层。`.once` 按原生元素的监听生命周期执行；更新回调不重新启用已消费的监听，换参考元素或移除后重加监听才开始新的周期。停用和卸载会解绑。普通监听器只通知，返回 Promise 不驱动打开或加载，异常进入 Vue 的事件错误处理链。
@@ -70133,7 +70296,7 @@ placement 是首选方位，auto-fit-position 默认 true 时最终方位可能�
 
 `fixed` 定位会识别 transform、filter、perspective 等形成的固定定位包含块，并处理轴向缩放；不保证旋转或倾斜坐标系精确。可访问的同源 iframe 引用与弹层之间会换算坐标并绑定各自文档事件；不支持跨源或无共同祖先的浏览上下文。启用 `update-at-scroll` 时，两端文档及可滚动祖先的滚动都会更新位置。
 
-当引用元素位于主文档（ShadowRoot 外）、弹层挂载到封闭 ShadowRoot 内的元素时，当前版本可能把弹层内部点击误判为外部点击并请求关闭。这种同文档场景可考虑将 `popup-container` 指向 `body` 或开放 ShadowRoot 内可访问的元素；更换容器后请检查主题、样式继承和定位。封闭根内的自动判断仍待修复。
+当弹层挂载到同一文档的封闭 ShadowRoot 内时，Trigger 会区分弹层内部点击和外部点击。经过封闭根宿主的点击会延后一个任务判断归属，依赖关闭事件时序的调用方需要考虑这一点。
 
 当引用通过插槽进入封闭 ShadowRoot 内的滚动容器时，外部 Trigger 无法访问该插槽及容器，不能自动监听其滚动。封闭组件可在内部滚动或插槽变化时调用 Trigger 实例的 `resize()`；需要滚动关闭时，可在内部按业务阈值调用 `close()`，并在卸载时清理监听。
 

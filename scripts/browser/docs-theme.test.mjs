@@ -40,12 +40,19 @@ async function highlightedState(page, dark) {
     )
   }, dark)
   // Wait for the site's background transition, without a fixed sleep.
-  await page.evaluate(() => Promise.all(document.body.getAnimations().map((animation) => animation.finished)))
+  await page.evaluate(() => {
+    const surface = document.querySelector('#app > .mp-theme-provider')
+    return Promise.all(
+      [document.body, surface]
+        .filter(Boolean)
+        .flatMap((element) => element.getAnimations().map((animation) => animation.finished)),
+    )
+  })
   const state = await page.evaluate(() => ({
     width: innerWidth,
     documentWidth: document.documentElement.scrollWidth,
     colorScheme: getComputedStyle(document.documentElement).colorScheme,
-    background: getComputedStyle(document.body).backgroundColor,
+    background: getComputedStyle(document.querySelector('#app > .mp-theme-provider') || document.body).backgroundColor,
     code: [...document.querySelectorAll('.mp-code')].slice(0, 4).map((element) => {
       const pre = element.querySelector('pre')
       return {
@@ -201,21 +208,16 @@ describe('phone-width documentation theme regression', { timeout: 600_000 }, () 
             assert.equal(wasmRequests.length, 1)
 
             for (const theme of themes) {
-              if (demo) {
-                await page.locator('.theme-button').click()
-                await page
-                  .locator('.mobile-theme-cell')
-                  .filter({ hasText: new RegExp(`^${theme.label}$`) })
-                  .click()
-              } else {
-                // The docs header hides this control below 562px. Use its real UI,
-                // then restore the phone width for assertions and the full reload.
+              // Keep the desktop header visible while using the same accessible theme menu.
+              if (!demo) {
                 await page.setViewportSize({ width: 800, height: 844 })
-                await page.locator('.maple-site-header__theme').hover()
-                await page
-                  .locator('.maple-site-header__theme .mp-cell')
-                  .filter({ hasText: new RegExp(`^${theme.label}$`) })
-                  .click()
+              }
+              const menu = page
+                .locator('details.docs-select')
+                .filter({ has: page.locator('summary[aria-label="主题"]') })
+              await menu.locator('summary').click()
+              await menu.getByRole('button', { name: theme.label, exact: true }).click()
+              if (!demo) {
                 await page.setViewportSize({ width, height: 844 })
               }
               const switched = await highlightedState(page, theme.dark)
@@ -235,9 +237,10 @@ describe('phone-width documentation theme regression', { timeout: 600_000 }, () 
               )
               assert.equal(wasmRequests.length, beforeReload + 1, 'each document loads its WASM only once')
               if (demo) {
-                await page.locator('.theme-button').click()
-                assert.equal(await page.locator('.mobile-theme-cell--active').innerText(), theme.label)
-                await page.locator('.mobile-theme-cell--active').click()
+                await menu.locator('summary').click()
+                const selected = menu.getByRole('button', { name: theme.label, exact: true })
+                assert.equal(await selected.getAttribute('aria-pressed'), 'true')
+                await selected.click()
               } else {
                 assert.deepEqual(await sourceState(page), source, 'expanded source colors survive reload')
                 await page.getByRole('button', { name: '收起源码', exact: true }).first().click()

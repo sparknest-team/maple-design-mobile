@@ -141,7 +141,11 @@ for (const brand of ['alps', 'firefly']) {
         brand === 'alps' ? 'rgba(0, 0, 0, 0)' : m['--mp-field-variant-outline-background'].value,
       )
       assert.equal(samples.checkboxRadius, m['--mp-checkbox-control-border-radius'].value)
-      assert.equal(samples.switchColor, m['--mp-switch-track-active-background'].value)
+      assert.equal(
+        samples.switchColor,
+        m['--mp-color-primary'].value,
+        'checked switch follows the current brand action',
+      )
       assert.equal(samples.safeBottom, '34px')
       assert.equal(samples.overflow, false)
 
@@ -197,7 +201,8 @@ for (const brand of ['alps', 'firefly']) {
         const { setTheme } = window.brandTest
         setTheme('maple', 'dark')
       })
-      assert.equal(await page.locator('html').getAttribute('maple-theme'), 'dark')
+      assert.equal(await page.locator('#app > .mp-theme-provider').getAttribute('data-mp-theme'), 'dark')
+      assert.equal(await page.locator('html').getAttribute('maple-theme'), null)
       assert.equal(
         await page
           .locator('.mp-field-decorator')
@@ -267,7 +272,12 @@ for (const brand of ['alps', 'firefly']) {
           })
           assert.ok(contrast(colors.text, colors.background) >= 4.5, 'readable form text')
           assert.ok(contrast(colors.actionText, colors.action) >= 4.5, 'readable primary action')
-          assert.equal(await page.locator('html').getAttribute('maple-theme'), mode === 'dark' ? 'dark' : null)
+          assert.equal(await page.locator('#app > .mp-theme-provider').getAttribute('data-mp-theme'), mode)
+          assert.equal(
+            await page.locator('html').getAttribute('maple-theme'),
+            null,
+            'local themes do not mutate the document',
+          )
           await page.screenshot({ path: `${output}/${brand}-${mode}-simulator.png`, fullPage: true })
           await page.getByRole('button', { name: '横屏刘海', exact: true }).click()
           await page.waitForFunction(() => window.brandTest.form.value.measurements?.footer === 21)
@@ -384,14 +394,16 @@ for (const brand of ['alps', 'firefly']) {
           bg: getComputedStyle(el).backgroundColor,
           fg: getComputedStyle(el).color,
         }))
-        const expected =
-          mode === 'light'
-            ? brand === 'alps'
-              ? ['rgb(255, 61, 0)', 'rgb(9, 12, 26)']
-              : ['rgb(207, 199, 255)', 'rgb(23, 34, 75)']
-            : brand === 'alps'
-              ? ['rgb(255, 148, 111)', 'rgb(17, 22, 37)']
-              : ['rgb(207, 199, 255)', 'rgb(17, 22, 37)']
+        const expected = await selected.evaluate((el) => {
+          const probe = document.createElement('span')
+          probe.style.backgroundColor = 'var(--mp-sys-color-action-primary)'
+          probe.style.color = 'var(--mp-button-solid-text-color)'
+          el.appendChild(probe)
+          const style = getComputedStyle(probe)
+          const result = [style.backgroundColor, style.color]
+          probe.remove()
+          return result
+        })
         assert.deepEqual([color.bg, color.fg], expected)
         assert.ok(contrast(color.fg, color.bg) >= 4.5, 'readable selected calendar day')
         await page.screenshot({ path: `${output}/${brand}-${mode}-calendar.png`, fullPage: true })

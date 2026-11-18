@@ -17,8 +17,12 @@
 <script setup lang="ts">
 import DatePanel from '../date/DatePanel.vue'
 import type { DateRangePickerEmits } from '../date/events'
+import { provideRangeRenderer } from '../date/range-renderer'
 import { createNamespace } from '../utils/components'
 import { props as pickerProps } from './picker-props'
+import RangeContent from './presentation/RangeContent.vue'
+
+provideRangeRenderer(RangeContent)
 
 defineOptions({ name: createNamespace('date-range-picker').name, inheritAttrs: false })
 const props = defineProps(pickerProps)

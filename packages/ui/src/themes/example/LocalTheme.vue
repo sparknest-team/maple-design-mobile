@@ -19,11 +19,11 @@ const styleVars = computed(() => ({
     <div class="local-theme-demo__compare">
       <div>
         <p>跟随页面 / Page theme</p>
-        <mp-button status="primary">默认按钮 / Default</mp-button>
+        <mp-button status="primary" variant="default">默认按钮 / Default</mp-button>
       </div>
       <mp-theme-provider :style-vars="styleVars">
         <p>局部覆盖 / Local override</p>
-        <mp-button status="primary">定制按钮 / Custom</mp-button>
+        <mp-button status="primary" variant="default">定制按钮 / Custom</mp-button>
       </mp-theme-provider>
     </div>
   </section>

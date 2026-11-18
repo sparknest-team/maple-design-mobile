@@ -1,6 +1,8 @@
 import { flushPromises, mount } from '@vue/test-utils'
 import { afterAll, beforeAll, expect, test, vi } from 'vitest'
 import DatePanel from '../../date/DatePanel.vue'
+import { rangeRendererKey } from '../../date/range-renderer'
+import RangeContent from '../presentation/RangeContent.vue'
 
 const scrollDescriptor = Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'scrollIntoView')
 beforeAll(() => Object.defineProperty(HTMLElement.prototype, 'scrollIntoView', { configurable: true, value: vi.fn() }))
@@ -19,6 +21,7 @@ for (const type of ['month', 'year']) {
   const format = type === 'month' ? 'YYYY-MM' : 'YYYY'
   async function fixture(extra = {}) {
     const wrapper = mount(DatePanel, {
+      global: { provide: { [rangeRendererKey]: RangeContent } },
       props: {
         range: true,
         options: {

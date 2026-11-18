@@ -11,6 +11,7 @@ describe('Card shared contract', () => {
     const b = mount(Card, { props: { title: 'second' } })
     expect(a.classes()).toContain('mp-card--size-sm')
     expect(a.classes()).toContain('mp-card--variant-outline')
+    expect(a.get('.mp-card__floater').element.style.background).toBe('transparent')
     expect(a.classes()).toContain('mp-card--direction-row')
     await a.setProps({ title: 'changed' })
     expect(b.text()).toContain('second')

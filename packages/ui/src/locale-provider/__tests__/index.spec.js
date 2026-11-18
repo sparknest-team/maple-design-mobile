@@ -37,6 +37,11 @@ test('localeProvider locale', async () => {
     },
   })
   await nextTick()
+  const cancelButton = container.querySelector('.mp-dialog__cancel-button')
+  const confirmButton = container.querySelector('.mp-dialog__confirm-button')
+  expect(cancelButton.classList.contains('mp-button--variant-outline')).toBe(true)
+  expect(confirmButton.classList.contains('mp-button--status-primary')).toBe(true)
+  expect(confirmButton.classList.contains('mp-button--variant-default')).toBe(true)
   expect(container.innerHTML).toMatchSnapshot()
   expect(wrapper.findAll('button').some((button) => button.text() === '确认')).toBe(true)
   expect(wrapper.findAll('button').some((button) => button.text() === '此刻')).toBe(true)

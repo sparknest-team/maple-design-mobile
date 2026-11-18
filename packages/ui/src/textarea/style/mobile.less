@@ -6,6 +6,12 @@
     margin-inline-end: calc(-1 * var(--mp-field-padding-horizontal));
     padding-inline-end: calc(var(--mp-textarea-padding-horizontal) + var(--mp-field-padding-horizontal));
   }
+  // Standard fields have no outer horizontal padding to absorb the resize grip.
+  .mp-field-decorator--variant-standard:not(:has(.mp-field-decorator__suffix)) &__inner {
+    width: 100%;
+    margin-inline-end: 0;
+    padding-inline-end: var(--mp-textarea-padding-horizontal);
+  }
   .mp-field-decorator:has(.mp-field-decorator__suffix) {
     container-type: inline-size;
   }

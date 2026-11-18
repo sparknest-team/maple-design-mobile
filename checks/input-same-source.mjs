@@ -3,13 +3,17 @@ import { readFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { assertCopiedVueCompat } from '../../design-ui/bin/copied-source-normalization.mjs'
 import { normalizeLessSource, normalizeTypeScript, normalizeVueSource } from './normalize-source.mjs'
 
 const workspace = fileURLToPath(new URL('../../', import.meta.url))
 const cedar = resolve(workspace, 'cedar-design-web/packages/ui/src')
 const maple = resolve(workspace, 'maple-design-mobile/packages/ui/src')
+assertCopiedVueCompat(
+  readFileSync(resolve(cedar, '_utils/vue-compat.ts'), 'utf8'),
+  readFileSync(resolve(maple, 'utils/vue-compat.ts'), 'utf8'),
+)
 const pairs = [
-  ['_utils/vue-compat.ts', 'utils/vue-compat.ts'],
   ['field-decorator/FieldDecorator.vue', 'field-decorator/FieldDecorator.vue'],
   ['field-decorator/props.ts', 'field-decorator/props.ts'],
   ['field-decorator/use-field-geometry.ts', 'field-decorator/use-field-geometry.ts'],

@@ -139,6 +139,8 @@ placement 是首选方位，auto-fit-position 默认 true 时最终方位可能�
 
 `trigger="focus"` 支持键盘聚焦，Escape 只关闭最上层浮层。Trigger 不自行决定业务 `role` 和 aria 关系，上层语义组件负责补充。
 
+焦点触发时，单次外部指针操作同时导致失焦和点击，只请求关闭一次。受控状态未接受关闭时，后续独立点击仍会再次请求关闭；`click-outside` 保持外部点击事件通知。
+
 ## 参考元素的原生事件修饰符
 
 `click`、`mouseenter`、`mouseleave`、`focusin`、`focusout`、`contextmenu` 的原生监听器和 `.once`、`.capture`、`.passive` 均绑定到实际参考元素，不会落到浮层。`.once` 按原生元素的监听生命周期执行；更新回调不重新启用已消费的监听，换参考元素或移除后重加监听才开始新的周期。停用和卸载会解绑。普通监听器只通知，返回 Promise 不驱动打开或加载，异常进入 Vue 的事件错误处理链。

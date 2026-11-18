@@ -22,15 +22,12 @@ Use [Cedar Design Web](https://cedar.show) for desktop applications and [Maple D
 pnpm add @maple-design/ui-vue
 ```
 
-The UI package currently declares Vue `^3.2.0` as a peer dependency. In a
-locally built and independently installed package, Vue 3.2.47 cannot load the
-root entry and several component entries because it does not export `useId`;
-the CommonJS Input entry also fails during server rendering. Compatibility with
-Vue 3.2 is being investigated. Full declaration checking against Vue 3.2.0 also
-reports errors for some Vue type exports and component declaration generics;
-the local Tag/Option compatibility work does not establish full-library support.
-These results do not establish the behavior of
-packages already published to npm or of every Vue version in the peer range.
+The UI package declares Vue `3` as a peer dependency. Vue 3.3 and later are the
+target of ongoing compatibility checks. Some Vue 3.2 SSR scenarios are not
+guaranteed: generated IDs can have mismatched associations when asynchronous
+components resolve in a different order on the server and client. Validate SSR
+and hydration in your own application; installation alone does not establish
+compatibility for every scenario. Vue 3.0 and 3.1 have not been verified.
 
 ## Project Packages
 

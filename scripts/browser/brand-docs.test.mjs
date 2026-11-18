@@ -120,13 +120,16 @@ test(
   async () => {
     const context = await browser.newContext({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce' })
     try {
-      const page = await context.newPage()
+      let page = await context.newPage()
       const errors = []
       page.on('pageerror', (error) => errors.push(error.message))
       for (const language of ['zh-CN', 'en-US']) {
         await page.goto(origin + '/#/' + language + '/themes')
         const demo = page.locator('.local-theme-demo')
-        await demo.waitFor()
+        await demo.waitFor().catch(async (error) => {
+          error.message += `\nTheme route: ${page.url()} (${language}); page errors: ${JSON.stringify(errors)}; body: ${(await page.locator('body').innerText()).slice(0, 800)}`
+          throw error
+        })
         const buttons = demo.getByRole('button')
         const original = await buttons.nth(0).evaluate((el) => getComputedStyle(el).backgroundColor)
         await demo.getByText('蓝色 / Blue', { exact: true }).click()
@@ -139,6 +142,9 @@ test(
         }
         await page.locator('.theme-details .mp-collapse-item__header').nth(1).click()
         await page.locator('.form-state-demo').waitFor()
+        await page.close()
+        page = await context.newPage()
+        page.on('pageerror', (error) => errors.push(error.message))
         await page.goto(origin + '/#/' + language + '/safe-area')
         const basic = page.locator('.safe-area-basic')
         await basic.waitFor().catch((error) => {
