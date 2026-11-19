@@ -43,7 +43,7 @@ test('nested editor checkbox owns Enter without selecting a previous option', as
   try {
     await flushPromises()
     const editor = wrapper.getComponent(Editor)
-    const [first, second] = editor.findAll(':is([role="menuitem"],[role="menuitemradio"])')
+    const [first, second] = editor.findAll('[role="menuitemcheckbox"]')
     ;(first!.element as HTMLElement).focus()
     const checkbox = second!.get('input[type="checkbox"]')
     ;(checkbox.element as HTMLInputElement).focus()

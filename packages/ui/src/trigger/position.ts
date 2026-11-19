@@ -155,41 +155,45 @@ export function calculatePopupPosition(
   }
 }
 
+function containingFrame(document: Document) {
+  try {
+    return document.defaultView?.frameElement ?? null
+  } catch {
+    return null
+  }
+}
+
+function parentShadowRoot(element: Element) {
+  const parent = element.parentNode
+  return parent?.nodeType === 11 && 'host' in parent ? (parent as ShadowRoot) : undefined
+}
+
+export function positionParent(element: Element): Element | null {
+  return (
+    element.assignedSlot ??
+    element.parentElement ??
+    parentShadowRoot(element)?.host ??
+    containingFrame(element.ownerDocument)
+  )
+}
+
 export function getScrollElements(element: HTMLElement | SVGElement | undefined) {
   const result: HTMLElement[] = []
-  let root: Element | undefined = element
-  const visited = new Set<Document>()
-  while (root && !visited.has(root.ownerDocument)) {
-    visited.add(root.ownerDocument)
-    const parent = (node: Element): Element | null => {
-      if (node.assignedSlot) {
-        return node.assignedSlot
-      }
-      if (node.parentElement) {
-        return node.parentElement
-      }
-      const tree = node.getRootNode()
-      return tree.nodeType === 11 && 'host' in tree ? (tree as ShadowRoot).host : null
-    }
-    let current = parent(root)
-    const ancestors = new Set<Element>()
-    while (current && current !== current.ownerDocument.documentElement) {
-      if (ancestors.has(current)) {
-        break
-      }
-      ancestors.add(current)
-      const style = current.ownerDocument.defaultView?.getComputedStyle(current)
+  const visited = new Set<Element>()
+  let current: Element | null | undefined = element
+  while (current && !visited.has(current)) {
+    visited.add(current)
+    const parent = positionParent(current)
+    // The document scrolls through its window. On crossing a frame, begin
+    // with the frame's parent as with the original reference.
+    if (parent && parent.ownerDocument === current.ownerDocument && parent !== parent.ownerDocument.documentElement) {
+      const style = parent.ownerDocument.defaultView?.getComputedStyle(parent)
       const overflow = `${style?.overflow ?? ''}${style?.overflowX ?? ''}${style?.overflowY ?? ''}`
       if (/(auto|scroll|overlay)/.test(overflow)) {
-        result.push(current as HTMLElement)
+        result.push(parent as HTMLElement)
       }
-      current = parent(current)
     }
-    try {
-      root = root.ownerDocument.defaultView?.frameElement ?? undefined
-    } catch {
-      root = undefined
-    }
+    current = parent
   }
   return result
 }
@@ -200,27 +204,11 @@ export function getSlotChangeRoots(element: Element | undefined) {
   let current: Element | null | undefined = element
   while (current && !visited.has(current)) {
     visited.add(current)
-    const parentShadow = current.parentElement?.shadowRoot
-    if (parentShadow) {
-      roots.push(parentShadow)
+    const root = current.parentElement?.shadowRoot ?? parentShadowRoot(current)
+    if (root) {
+      roots.push(root)
     }
-    if (current.assignedSlot) {
-      current = current.assignedSlot
-    } else if (current.parentElement) {
-      current = current.parentElement
-    } else {
-      const tree = current.getRootNode()
-      if (tree.nodeType === 11 && 'host' in tree) {
-        roots.push(tree as ShadowRoot)
-        current = (tree as ShadowRoot).host
-      } else {
-        try {
-          current = current.ownerDocument.defaultView?.frameElement
-        } catch {
-          current = undefined
-        }
-      }
-    }
+    current = positionParent(current)
   }
   return roots
 }
@@ -231,15 +219,10 @@ export function getScrollViews(element: Element | undefined) {
   const visited = new Set<Document>()
   while (document && !visited.has(document)) {
     visited.add(document)
-    const view = document.defaultView
-    if (view) {
-      result.push(view)
+    if (document.defaultView) {
+      result.push(document.defaultView)
     }
-    try {
-      document = view?.frameElement?.ownerDocument
-    } catch {
-      break
-    }
+    document = containingFrame(document)?.ownerDocument
   }
   return result
 }

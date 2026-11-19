@@ -735,7 +735,7 @@
 | `--mp-checkbox-action-padding` | 公开 | `6px` | 本组件 CSS<br>`padding` |
 | `--mp-checkbox-animation-duration` | 公开 | `var(--mp-sys-motion-duration-standard)` | 本组件 CSS<br>`transition` |
 | `--mp-checkbox-control-border-radius` | 公开 | `2px` | 本组件 CSS<br>`border-radius` |
-| `--mp-checkbox-control-color` | 公开 | `var(--mp-sys-color-content-secondary)` | 本组件 CSS<br>`color` |
+| `--mp-checkbox-control-color` | 公开 | `var(--mp-sys-color-border-default)` | 本组件 CSS<br>`color` |
 | `--mp-checkbox-control-color-checked` | 公开 | `var(--mp-sys-color-content-brand)` | 本组件 CSS<br>`color`, `outline` |
 | `--mp-checkbox-control-color-disabled` | 公开 | `var(--mp-sys-color-content-disabled)` | 本组件 CSS<br>`color` |
 | `--mp-checkbox-control-color-error` | 公开 | `var(--mp-sys-color-content-danger)` | 本组件 CSS<br>`color` |
@@ -1158,7 +1158,7 @@
 | `--mp-field-variant-outline-border-color-disabled` | 公开 | `var(--mp-sys-color-border-subtle)` | 本组件 CSS<br>`border-color` |
 | `--mp-field-variant-outline-border-color-error` | 公开 | `var(--mp-sys-color-status-danger)` | 本组件 CSS<br>`border-color` |
 | `--mp-field-variant-outline-border-color-focus` | 公开 | `var(--mp-sys-color-action-primary)` | 本组件 CSS<br>`border-color` |
-| `--mp-field-variant-outline-border-color-hover` | 公开 | `var(--mp-sys-color-border-strong)` | 本组件 CSS<br>`border-color` |
+| `--mp-field-variant-outline-border-color-hover` | 公开 | `color-mix(in srgb, var(--mp-field-variant-outline-border-color) 80%, var(--mp-sys-color-border-strong))` | 本组件 CSS<br>`border-color` |
 | `--mp-field-variant-standard-line-color` | 公开 | `var(--mp-field-blur-color)` | 本组件 CSS<br>`border-bottom` |
 | `--mp-field-variant-standard-line-color-disabled` | 公开 | `var(--mp-sys-color-border-subtle)` | 本组件 CSS<br>`border-bottom-color` |
 | `--mp-field-variant-standard-line-color-error` | 公开 | `var(--mp-field-error-color)` | 本组件 CSS<br>`border-bottom-color` |
@@ -2034,7 +2034,7 @@
 | `--mp-internal-radio-segment-radius` | 内部 | `var(--mp-sys-radius-md)` | 本组件 CSS<br>`border-radius` |
 | `--mp-radio-action-padding` | 公开 | `6px` | 本组件 CSS<br>`padding` |
 | `--mp-radio-animation-duration` | 公开 | `var(--mp-sys-motion-duration-standard)` | 本组件 CSS<br>`transition` |
-| `--mp-radio-control-color` | 公开 | `var(--mp-sys-color-content-secondary)` | 本组件 CSS<br>`color` |
+| `--mp-radio-control-color` | 公开 | `var(--mp-sys-color-border-default)` | 本组件 CSS<br>`color` |
 | `--mp-radio-control-color-checked` | 公开 | `var(--mp-sys-color-content-brand)` | 本组件 CSS<br>`color`, `outline` |
 | `--mp-radio-control-color-disabled` | 公开 | `var(--mp-sys-color-content-disabled)` | 本组件 CSS<br>`color` |
 | `--mp-radio-control-color-error` | 公开 | `var(--mp-sys-color-content-danger)` | 本组件 CSS<br>`box-shadow`, `color` |

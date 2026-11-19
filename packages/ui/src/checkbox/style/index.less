@@ -29,13 +29,25 @@
     border-radius: var(--mp-internal-checkbox-action-radius);
     transition: background-color var(--mp-checkbox-animation-duration);
   }
-  &__input:focus-visible + &__control {
+  &__visual {
+    display: contents;
+  }
+  &__control:has(> &__visual > &__icon) > &__input {
+    inset: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    clip-path: none;
+    cursor: inherit;
+  }
+  &__control:has(> &__input:focus-visible) {
     background-color: var(--mp-internal-checkbox-hover-background);
   }
-  &__input:focus-visible + &__control &__icon {
+  &__input:focus-visible + &__visual &__icon {
     box-shadow: inset 0 0 0 var(--mp-internal-checkbox-focus-width) var(--mp-sys-color-content-primary);
   }
   &__icon {
+    pointer-events: none;
     position: relative;
     display: inline-flex;
     align-items: center;
@@ -95,8 +107,8 @@
 }
 
 @media (hover: hover) {
-  .mp-checkbox:not(.mp-checkbox--disabled):not(.mp-checkbox--readonly):hover .mp-checkbox__control {
-    background-color: var(--mp-internal-checkbox-hover-background);
+  .mp-checkbox:not(.mp-checkbox--disabled):not(.mp-checkbox--readonly):hover .mp-checkbox__icon {
+    border-color: color-mix(in srgb, currentColor 80%, var(--mp-sys-color-border-strong));
   }
 }
 @media (prefers-reduced-motion: reduce) {

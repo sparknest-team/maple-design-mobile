@@ -63,3 +63,24 @@ test('an inline nested dialog with a low explicit z-index handles Escape before 
     wrapper.unmount()
   }
 })
+
+test('Escape inside an open native modal reaches its browser default action', async () => {
+  const wrapper = mount(Card, {
+    attachTo: document.body,
+    props: { floating: true, ripple: false },
+    slots: { default: () => h('dialog', { open: true }, h('button', 'Confirm')) },
+  })
+  try {
+    await nextTick()
+    const dialog = wrapper.get('dialog').element
+    // jsdom has no native showModal/cancel lifecycle. The release browser test
+    // covers the actual modal and its cancel event.
+    Object.defineProperty(dialog, 'closedBy', { value: 'closerequest' })
+    const key = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true, composed: true })
+    wrapper.get('dialog button').element.dispatchEvent(key)
+    expect(key.defaultPrevented).toBe(false)
+    expect(wrapper.emitted('update:floating')).toBeUndefined()
+  } finally {
+    wrapper.unmount()
+  }
+})

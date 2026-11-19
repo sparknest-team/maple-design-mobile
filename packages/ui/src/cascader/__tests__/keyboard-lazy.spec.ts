@@ -242,3 +242,27 @@ for (const origin of ['field', 'menu'] as const) {
     }
   })
 }
+
+test.each([false, true])('lazy ArrowRight in a closed root respects focus transferred to a sibling (%s)', async (moveFocus) => {
+  const host = document.createElement('div')
+  document.body.append(host)
+  const root = host.attachShadow({ mode: 'closed' })
+  const container = document.createElement('div')
+  const other = document.createElement('button')
+  root.append(container, other)
+  let finish!: (children: { value: string; label: string }[]) => void
+  const wrapper = mount(Panel, { attachTo: container, props: {
+    options: [{ value: 'root', label: 'Root', isLeaf: false }],
+    loadMore: (_option, done) => { finish = done },
+  } })
+  try {
+    await flushPromises()
+    const branch = wrapper.get('[role="menuitem"][title="Root"]')
+    ;(branch.element as HTMLElement).focus()
+    await branch.trigger('keydown', { key: 'ArrowRight' })
+    if (moveFocus) other.focus()
+    finish([{ value: 'child', label: 'Child' }])
+    await flushPromises()
+    expect(root.activeElement).toBe(moveFocus ? other : wrapper.get('[title="Child"]').element)
+  } finally { wrapper.unmount(); host.remove() }
+})

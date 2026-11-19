@@ -1,4 +1,5 @@
 import { computed, defineComponent, inject, nextTick, PropType, ref, watch } from 'vue'
+import { useFieldTexts } from '../_components/field-presentation/texts'
 import { useEmptySlot } from '../_components/selection-field/empty-slot'
 import Scrollbar from '../_components/selection-scrollbar'
 import VirtualList from '../_components/virtual-list-v2'
@@ -45,6 +46,8 @@ export default defineComponent({
   setup(props, { slots }) {
     const prefixCls = getPrefixCls('cascader')
     const emptySlot = useEmptySlot()
+    const texts = useFieldTexts()
+    const menuLabel = computed(() => props.column[0]?.parent?.path.map(item => item.label).join(' / ') || texts.select.value)
     const cascader = inject(cascaderInjectionKey, undefined)
     const virtualListRef = ref<VirtualListRef & { currentList?: CascaderOptionInfo[] }>()
     const isVirtual = computed(() => Boolean(props.virtualListProps))
@@ -60,8 +63,7 @@ export default defineComponent({
         items[0]
       )?.key
     })
-    const optionTabIndex = (item: CascaderOptionInfo) =>
-      props.multiple ? undefined : props.tabEntry && item.key === tabKey.value ? 0 : -1
+    const optionTabIndex = (item: CascaderOptionInfo) => (props.tabEntry && item.key === tabKey.value ? 0 : -1)
 
     watch(
       () => [props.activeKey, props.column, isVirtual.value] as const,
@@ -92,6 +94,7 @@ export default defineComponent({
           ) : isVirtual.value ? (
             <VirtualList
               key={props.level > 0 ? props.selectedPath[props.level - 1] : undefined}
+              {...{ tabindex: -1 }}
               {...props.virtualListProps}
               {...(props.multiple ? {} : { tabindex: -1 })}
               ref={virtualListRef}
@@ -99,6 +102,7 @@ export default defineComponent({
               component={{ container: props.virtualListProps?.component ?? 'div', content: 'ul' }}
               contentAttrs={{
                 role: 'menu',
+                'aria-label': menuLabel.value,
                 id: props.menuId,
                 class: [
                   `${prefixCls}-list`,
@@ -126,9 +130,10 @@ export default defineComponent({
               }}
             />
           ) : (
-            <Scrollbar class={`${prefixCls}-column-content`} {...{ tabindex: props.multiple ? undefined : -1 }}>
+            <Scrollbar class={`${prefixCls}-column-content`} {...{ tabindex: -1 }}>
               <ul
                 role="menu"
+                aria-label={menuLabel.value}
                 id={props.menuId}
                 class={[
                   `${prefixCls}-list`,

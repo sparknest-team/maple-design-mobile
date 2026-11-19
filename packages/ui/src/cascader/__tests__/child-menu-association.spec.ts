@@ -23,6 +23,8 @@ test.each([false, true])('expanded branch controls its real child menu, virtual=
     expect(menus).toHaveLength(2)
     expect(id).toBeTruthy()
     expect(menus[1]!.attributes('id')).toBe(id)
+    expect(menus[0]!.attributes('aria-label')).toBeTruthy()
+    expect(menus[1]!.attributes('aria-label')).toBe('Alpha')
     expect(menus[1]!.text()).toContain('Child')
   } finally {
     wrapper.unmount()

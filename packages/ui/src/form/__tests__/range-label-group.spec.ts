@@ -1,5 +1,5 @@
-import { defineComponent, h } from 'vue'
-import { mount } from '@vue/test-utils'
+import { defineComponent, h, ref } from 'vue'
+import { flushPromises, mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 import { isolateEditorForm } from '../../_components/field-presentation/form-bridge'
 import DateRange from '../../date-range'
@@ -144,4 +144,24 @@ it('does not leak the outer label into an isolated editor', () => {
   } finally {
     wrapper.unmount()
   }
+})
+
+it('moves the implicit label from a range to the mixed group and restores it', async () => {
+  const mixed = ref(false)
+  const wrapper = mount(FormItem, { attachTo: document.body, props: { label: 'Period' }, slots: {
+    default: () => [h(DateRange, { editMode: 'direct' }), mixed.value ? h('input', { 'aria-label': 'Reason' }) : null],
+  } })
+  try {
+    await flushPromises()
+    const range = wrapper.getComponent(DateRange)
+    const labelId = wrapper.get('label').attributes('id')
+    expect(range.get('[role=group]').attributes('aria-labelledby')).toBe(labelId)
+    mixed.value = true
+    await flushPromises()
+    expect(range.find('[role=group][aria-labelledby]').exists()).toBe(false)
+    expect(wrapper.get('[role=group]').attributes('aria-labelledby')).toBe(labelId)
+    mixed.value = false
+    await flushPromises()
+    expect(range.get('[role=group]').attributes('aria-labelledby')).toBe(labelId)
+  } finally { wrapper.unmount() }
 })

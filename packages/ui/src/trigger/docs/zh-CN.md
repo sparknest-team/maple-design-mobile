@@ -105,7 +105,7 @@ placement 是首选方位，auto-fit-position 默认 true 时最终方位可能�
 | `auto-fit-position` | 自动翻转并限制到可视区域 | _boolean_ | `true` |
 | `auto-fit-popup-width` | 宽度跟随参考元素 | _boolean_ | `false` |
 | `auto-fit-popup-min-width` | 最小宽度跟随参考元素 | _boolean_ | `false` |
-| `auto-fix-position` | 是否观察触发元素的尺寸变化；禁用该选项后仍观察浮层和定位父级，并响应窗口变化 | _boolean_ | `true` |
+| `auto-fix-position` | 触发元素尺寸变化时更新位置，其自身或祖先的 CSS 过渡和动画结束或取消后也会重新定位。关闭此选项后仍观察浮层、定位父级及窗口变化 | _boolean_ | `true` |
 | `update-at-scroll` | 滚动时重新定位 | _boolean_ | `false` |
 | `scroll-to-close` | 滚动超过阈值关闭 | _boolean_ | `false` |
 | `scroll-to-close-distance` | 滚动关闭阈值 | _number_ | `0` |

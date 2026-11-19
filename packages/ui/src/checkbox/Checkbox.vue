@@ -15,54 +15,55 @@
     :aria-disabled="mergedDisabled || undefined"
     @click="handleClick"
   >
-    <input
-      ref="input"
-      v-bind="nativeAttrs"
-      :class="n('input')"
-      type="checkbox"
-      autocomplete="off"
-      :name="name ?? group?.name"
-      :value="value"
-      :checked="checked"
-      :indeterminate="indeterminate"
-      :disabled="mergedDisabled"
-      :aria-label="ariaLabel ?? nativeAttrs['aria-label']"
-      :aria-checked="undefined"
-      :aria-readonly="mergedReadonly || undefined"
-      :aria-describedby="
-        group?.formErrorId === errorId
-          ? nativeAttrs['aria-describedby']
-          : describeError(nativeAttrs['aria-describedby'])
-      "
-      :aria-invalid="mergedError ? true : nativeAttrs['aria-invalid']"
-      @change="handleChange"
-      @keydown="keyboard.keydown"
-      @keyup="keyboard.keyup"
-      @focus="handleFocus"
-      @blur="handleBlur"
-    />
     <span
       v-ripple="{ disabled: mergedDisabled || mergedReadonly || !ripple }"
       :class="n('control')"
-      :aria-hidden="customControl ? undefined : true"
     >
-      <choice-label
-        v-if="customControl"
-        :content="customControl({ checked, disabled: mergedDisabled, indeterminate })"
+      <input
+        ref="input"
+        v-bind="nativeAttrs"
+        :class="n('input')"
+        type="checkbox"
+        autocomplete="off"
+        :name="name ?? group?.name"
+        :value="value"
+        :checked="checked"
+        :indeterminate="indeterminate"
+        :disabled="mergedDisabled"
+        :aria-label="ariaLabel ?? nativeAttrs['aria-label']"
+        :aria-checked="undefined"
+        :aria-readonly="mergedReadonly || undefined"
+        :aria-describedby="
+          group?.formErrorId === errorId
+            ? nativeAttrs['aria-describedby']
+            : describeError(nativeAttrs['aria-describedby'])
+        "
+        :aria-invalid="mergedError ? true : nativeAttrs['aria-invalid']"
+        @change="handleChange"
+        @keydown="keyboard.keydown"
+        @keyup="keyboard.keyup"
+        @focus="handleFocus"
+        @blur="handleBlur"
       />
-      <template v-else>
-        <slot v-if="indeterminate" name="indeterminate-icon">
-          <span :class="n('icon')"><span :class="n('mark')" /></span>
-        </slot>
-        <slot v-else-if="checked" name="checked-icon">
-          <span :class="n('icon')">
-            <svg :class="n('check')" viewBox="0 0 12 12" focusable="false">
-              <path d="M2 6l2.5 2.5L10 3" fill="none" stroke="currentColor" stroke-width="2" />
-            </svg>
-          </span>
-        </slot>
-        <slot v-else name="unchecked-icon"><span :class="n('icon')" /></slot>
-      </template>
+      <span :class="n('visual')" :aria-hidden="customControl ? undefined : true">
+        <choice-label
+          v-if="customControl"
+          :content="customControl({ checked, disabled: mergedDisabled, indeterminate })"
+        />
+        <template v-else>
+          <slot v-if="indeterminate" name="indeterminate-icon">
+            <span :class="n('icon')"><span :class="n('mark')" /></span>
+          </slot>
+          <slot v-else-if="checked" name="checked-icon">
+            <span :class="n('icon')">
+              <svg :class="n('check')" viewBox="0 0 12 12" focusable="false">
+                <path d="M2 6l2.5 2.5L10 3" fill="none" stroke="currentColor" stroke-width="2" />
+              </svg>
+            </span>
+          </slot>
+          <slot v-else name="unchecked-icon"><span :class="n('icon')" /></slot>
+        </template>
+      </span>
     </span>
     <span v-if="$slots.default" :class="n('label')"><slot :checked="checked" /></span>
   </label>
@@ -158,14 +159,12 @@ function handleClick(event: MouseEvent) {
     emit('click', event)
     return
   }
-  // Preserve embedded links/buttons. Forward decorative/label clicks once.
-  const target = event.target as HTMLElement
-  if (target.closest('button, a, input, select, textarea, [contenteditable="true"]')) {
-    return
+  // Let the native label activate its input when its icon or text is clicked.
+  if (event.target === event.currentTarget) {
+    event.preventDefault()
+    input.value?.focus()
+    input.value?.click()
   }
-  event.preventDefault()
-  input.value?.focus()
-  input.value?.click()
 }
 function handleChange(event: Event) {
   if (!mergedDisabled.value && !mergedReadonly.value) {

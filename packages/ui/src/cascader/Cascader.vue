@@ -30,12 +30,10 @@
         :max-tag-count="maxTagCount"
         :tag-nowrap="tagNowrap"
         :aria-controls="
-          ((searchListVisible && allowAutomaticOwnership) || multipleDialogVisible) && samePopupRoot
-            ? searchListId
-            : undefined
+          ((searchListVisible && allowAutomaticOwnership) || dialogVisible) && samePopupRoot ? searchListId : undefined
         "
-        :aria-haspopup="multipleDialogMode ? 'dialog' : searchListVisible ? 'listbox' : undefined"
-        :aria-activedescendant="searchActiveId"
+        :aria-haspopup="dialogMode ? 'dialog' : searchListVisible ? 'listbox' : undefined"
+        :aria-activedescendant="samePopupRoot ? searchActiveId : undefined"
         v-bind="forwardedAttrs()"
         @update:input-value="handleInputValueChange"
         @clear="handleClear"
@@ -65,11 +63,12 @@
       </SelectionField>
     </template>
     <CascaderMenu
+      ref="menuRef"
       :controller="controller"
       :focus-fallback="() => fieldRef?.focus()"
       :keyboard-handler="handleFieldKeydown"
       :listbox-id="searchListMode ? searchListId : undefined"
-      :multiple-dialog-id="multipleDialogMode ? searchListId : undefined"
+      :dialog-id="dialogMode ? searchListId : undefined"
       :report-popup-element="reportPopupElement"
     >
       <template v-for="(_, slotName) in $slots" #[slotName]="scope"
@@ -79,8 +78,21 @@
   </component>
 </template>
 <script setup lang="ts">
-import { computed, nextTick, onActivated, onDeactivated, reactive, ref, toRefs, useAttrs, useSlots, watch } from 'vue'
+import {
+  computed,
+  nextTick,
+  onActivated,
+  onDeactivated,
+  reactive,
+  ref,
+  toRefs,
+  useAttrs,
+  useSlots,
+  watch,
+  watchPostEffect,
+} from 'vue'
 import SelectionField from '../_components/selection-field/SelectionField.vue'
+import { isShadowRoot } from '../_utils/is-shadow-root'
 import { createNamespace, getPrefixCls } from '../utils/components'
 import { useId } from '../utils/vue-compat'
 import CascaderMenu from './CascaderMenu.vue'
@@ -126,19 +138,18 @@ const forwardedAttrs = () => {
   return result
 }
 const searchListId = `cascader-search-list-${useId()}`
-const multipleDialogMode = computed(
+const dialogMode = computed(
   () =>
-    props.multiple &&
-    showSearchPanel.value &&
+    (!showSearchPanel.value || props.multiple) &&
     (attrs['aria-haspopup'] == null || attrs['aria-haspopup'] === 'dialog') &&
     attrs['aria-controls'] == null,
 )
-const multipleDialogVisible = computed(() => multipleDialogMode.value && computedOpen.value)
+const dialogVisible = computed(() => dialogMode.value && computedOpen.value)
 const searchListMode = computed(() => !props.multiple && showSearchPanel.value)
 const searchListVisible = computed(() => searchListMode.value && computedOpen.value)
 const allowAutomaticOwnership = computed(() => attrs['aria-haspopup'] == null || attrs['aria-haspopup'] === 'listbox')
 const searchActiveId = computed(() => {
-  if (!searchListVisible.value || loading.value || !samePopupRoot.value) {
+  if (!searchListVisible.value || loading.value) {
     return undefined
   }
   if (attrs['aria-controls'] !== undefined && attrs['aria-controls'] !== searchListId) {
@@ -151,8 +162,13 @@ const searchActiveId = computed(() => {
   return index < 0 ? undefined : `${searchListId}-option-${index}`
 })
 const fieldRef = ref<InstanceType<typeof SelectionField>>()
-const popupElement = ref<HTMLElement | null>(null)
-const samePopupRoot = ref(true)
+const menuRef = ref<InstanceType<typeof CascaderMenu>>()
+const searchPopup = ref<HTMLElement | null>(null)
+const popupElement = computed(() =>
+  showSearchPanel.value ? searchPopup.value : dialogMode.value ? (menuRef.value?.hierarchyElement ?? null) : null,
+)
+// SSR can establish the root relationship only when the popup renders inline.
+const samePopupRoot = ref((props.popupContainer ?? props.triggerProps?.popupContainer) === false)
 const ownershipActive = ref(true)
 onActivated(() => {
   ownershipActive.value = true
@@ -162,7 +178,7 @@ onDeactivated(() => {
   samePopupRoot.value = false
 })
 const reportPopupElement = (element: HTMLElement | null) => {
-  popupElement.value = element
+  searchPopup.value = element
 }
 watch(
   [popupElement, () => props.popupContainer, () => fieldRef.value?.inputRef, ownershipActive, computedOpen],
@@ -190,7 +206,7 @@ watch(
       }
       const input = fieldRef.value?.inputRef
       const popup = popupElement.value
-      samePopupRoot.value = !input || !popup || input.getRootNode() === popup.getRootNode()
+      samePopupRoot.value = !!input && !!popup && input.getRootNode() === popup.getRootNode()
       observer?.disconnect()
       stopDetachedCheck?.()
       stopDetachedCheck = undefined
@@ -203,7 +219,7 @@ watch(
         let node: Node | null = element
         while (node) {
           nodes.add(node)
-          const parent: Node | null = node.parentNode ?? ('host' in node ? (node as ShadowRoot).host : null)
+          const parent: Node | null = node.parentNode ?? (isShadowRoot(node) ? node.host : null)
           if (parent) {
             parents.add(parent)
           }
@@ -248,12 +264,46 @@ watch(
   },
   { flush: 'post' },
 )
+// Element references can reach a popup in an ancestor tree (for example, body).
+// The browser enforces shadow scope, including when either node moves.
+watchPostEffect((onCleanup) => {
+  const input = fieldRef.value?.inputRef
+  const popup = popupElement.value
+  if (
+    !input ||
+    !popup ||
+    samePopupRoot.value ||
+    !ownershipActive.value ||
+    !(dialogVisible.value || (searchListVisible.value && allowAutomaticOwnership.value)) ||
+    attrs['aria-controls'] !== undefined ||
+    !('ariaControlsElements' in input)
+  )
+    return
+
+  input.ariaControlsElements = [popup]
+  const id = searchActiveId.value
+  const root = popup.getRootNode() as Document | ShadowRoot
+  const option = id && root.getElementById?.(id)
+  const setActive =
+    option &&
+    popup.contains(option) &&
+    attrs['aria-activedescendant'] === undefined &&
+    'ariaActiveDescendantElement' in input
+  if (setActive) input.ariaActiveDescendantElement = option
+  onCleanup(() => {
+    // A later Vue render may already have supplied an ID or a caller override.
+    if (input.getAttribute('aria-controls') === '' && attrs['aria-controls'] === undefined)
+      input.removeAttribute('aria-controls')
+    if (setActive && input.getAttribute('aria-activedescendant') === '' && attrs['aria-activedescendant'] === undefined)
+      input.removeAttribute('aria-activedescendant')
+  })
+})
 const handleFieldKeydown = (event: KeyboardEvent) => {
   emit('keydown', event)
   if (!event.defaultPrevented) {
     const target = event.target as HTMLElement | null
     if (
-      multipleDialogVisible.value &&
+      dialogVisible.value &&
       !mergedDisabled.value &&
       !mergedReadonly.value &&
       !loading.value &&
@@ -264,6 +314,17 @@ const handleFieldKeydown = (event: KeyboardEvent) => {
       target === fieldRef.value?.inputRef
     ) {
       const dialog = popupElement.value
+      if (!showSearchPanel.value) {
+        const entry = Array.from(
+          dialog?.querySelectorAll<HTMLElement>('[data-cascader-key][tabindex="0"]:not([aria-disabled="true"])') ?? [],
+        ).find((item) => item.closest('[role="dialog"]') === dialog)
+        if (entry && target?.matches(':focus')) {
+          event.preventDefault()
+          entry.focus()
+          return
+        }
+        return handleKeyDown.value(event)
+      }
       const checkbox = Array.from(
         dialog?.querySelectorAll<HTMLInputElement>(
           `.${getPrefixCls('cascader-option')}-checkbox input[type="checkbox"]:not(:disabled)`,
@@ -275,7 +336,7 @@ const handleFieldKeydown = (event: KeyboardEvent) => {
         return
       }
     }
-    const dialogItem = multipleDialogVisible.value ? target?.closest('[data-cascader-key]') : null
+    const dialogItem = dialogVisible.value && showSearchPanel.value ? target?.closest('[data-cascader-key]') : null
     if (dialogItem && target !== dialogItem && event.key !== 'Escape') {
       return
     }

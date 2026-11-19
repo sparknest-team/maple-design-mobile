@@ -41,6 +41,8 @@
     <mp-col :class="n('wrapper')" v-bind="wrapperCol" :style="wrapperStyle">
       <div
         ref="contentRef"
+        :role="nativeGroup ? 'group' : undefined"
+        :aria-labelledby="nativeGroup ? resolvedLabelAttrs.id : undefined"
         :style="contentStyle"
         :class="[n('content'), { [n('content--flex')]: contentFlex }, contentClass]"
       >
@@ -70,6 +72,7 @@
 </template>
 
 <script lang="ts">
+import { useNativeLabel } from "./use-native-label";
 import type { ComponentPublicInstance, SlotsType } from 'vue'
 import {
   computed,
@@ -259,11 +262,20 @@ export default defineComponent({
       visible: () => showLabel.value,
       attributes: () => props.labelAttrs,
     })
-    const resolvedLabelAttrs = computed(() => ({
-      ...props.labelAttrs,
-      ...(labelContext.ownId.value ? { id: labelContext.ownId.value } : {}),
-      ...(presentationState.readPretty.value ? { for: undefined } : {}),
-    }))
+    const nativeGroup = labelContext.group
+    const nativeTarget = useNativeLabel(contentRef, nativeGroup, `.${n()}:not(.${n('--no-style')})`, () =>
+      props.labelComponent === 'label' && !presentationState.readPretty.value &&
+      props.labelAttrs?.for === undefined && props.labelAttrs?.htmlFor === undefined
+        ? labelContext.ownId.value : undefined,
+    )
+    const resolvedLabelAttrs = computed(() => {
+      const { for: explicitFor, htmlFor, ...attrs } = props.labelAttrs ?? {}
+      return {
+        ...attrs,
+        ...(labelContext.ownId.value ? { id: labelContext.ownId.value } : {}),
+        for: presentationState.readPretty.value ? undefined : explicitFor ?? htmlFor ?? nativeTarget.value,
+      }
+    })
 
     const formItemProvider: FormItemProvider = {
       error: computed(() => displayStatus.value === 'error'),
@@ -425,6 +437,7 @@ export default defineComponent({
     return {
       presentationState,
       resolvedLabelAttrs,
+      nativeGroup,
       n,
       classes,
       formItemRef,

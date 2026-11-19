@@ -416,7 +416,7 @@ uninject-group-context 在挂载时决定是否接入分组；运行中修改不
 | --- | --- | --- |
 | `--mp-radio-action-padding` | `6px` | `padding` |
 | `--mp-radio-animation-duration` | `var(--mp-sys-motion-duration-standard)` | `transition` |
-| `--mp-radio-control-color` | `var(--mp-sys-color-content-secondary)` | `color` |
+| `--mp-radio-control-color` | `var(--mp-sys-color-border-default)` | `color` |
 | `--mp-radio-control-color-checked` | `var(--mp-sys-color-action-primary)` | `color` |
 | `--mp-radio-control-color-disabled` | `var(--mp-sys-color-content-disabled)` | `color` |
 | `--mp-radio-control-color-error` | `var(--mp-sys-color-content-danger)` | `box-shadow`, `color` |

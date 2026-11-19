@@ -76,8 +76,8 @@
   }
 }
 @media (hover: hover) {
-  .mp-radio:not(.mp-radio--disabled):hover .mp-radio__control {
-    background: var(--mp-internal-radio-hover-bg);
+  .mp-radio:not(.mp-radio--disabled):not(.mp-radio--readonly):hover .mp-radio__icon {
+    border-color: color-mix(in srgb, currentColor 80%, var(--mp-sys-color-border-strong));
   }
 }
 .mp-radio-group {

@@ -359,7 +359,7 @@ export function withFieldPresentation<T extends Component>(Base: T, adapter: Fie
       const session = useSelectionSession({
         value: () => value.value,
         open,
-        deferred: () => true,
+        deferred: () => state.editMode.value !== 'direct',
         blocked: () => blocked.value || selectionPaused.value,
         clone: cloneValue,
         same: sameFieldValue,

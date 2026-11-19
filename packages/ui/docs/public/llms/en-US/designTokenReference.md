@@ -737,7 +737,7 @@ Source: `src/checkbox/style/token.less`
 | `--mp-checkbox-action-padding` | Public | `6px` | Local CSS<br>`padding` |
 | `--mp-checkbox-animation-duration` | Public | `var(--mp-sys-motion-duration-standard)` | Local CSS<br>`transition` |
 | `--mp-checkbox-control-border-radius` | Public | `2px` | Local CSS<br>`border-radius` |
-| `--mp-checkbox-control-color` | Public | `var(--mp-sys-color-content-secondary)` | Local CSS<br>`color` |
+| `--mp-checkbox-control-color` | Public | `var(--mp-sys-color-border-default)` | Local CSS<br>`color` |
 | `--mp-checkbox-control-color-checked` | Public | `var(--mp-sys-color-content-brand)` | Local CSS<br>`color`, `outline` |
 | `--mp-checkbox-control-color-disabled` | Public | `var(--mp-sys-color-content-disabled)` | Local CSS<br>`color` |
 | `--mp-checkbox-control-color-error` | Public | `var(--mp-sys-color-content-danger)` | Local CSS<br>`color` |
@@ -1160,7 +1160,7 @@ Source: `src/field-decorator/style/token.less`
 | `--mp-field-variant-outline-border-color-disabled` | Public | `var(--mp-sys-color-border-subtle)` | Local CSS<br>`border-color` |
 | `--mp-field-variant-outline-border-color-error` | Public | `var(--mp-sys-color-status-danger)` | Local CSS<br>`border-color` |
 | `--mp-field-variant-outline-border-color-focus` | Public | `var(--mp-sys-color-action-primary)` | Local CSS<br>`border-color` |
-| `--mp-field-variant-outline-border-color-hover` | Public | `var(--mp-sys-color-border-strong)` | Local CSS<br>`border-color` |
+| `--mp-field-variant-outline-border-color-hover` | Public | `color-mix(in srgb, var(--mp-field-variant-outline-border-color) 80%, var(--mp-sys-color-border-strong))` | Local CSS<br>`border-color` |
 | `--mp-field-variant-standard-line-color` | Public | `var(--mp-field-blur-color)` | Local CSS<br>`border-bottom` |
 | `--mp-field-variant-standard-line-color-disabled` | Public | `var(--mp-sys-color-border-subtle)` | Local CSS<br>`border-bottom-color` |
 | `--mp-field-variant-standard-line-color-error` | Public | `var(--mp-field-error-color)` | Local CSS<br>`border-bottom-color` |
@@ -2036,7 +2036,7 @@ Source: `src/radio/style/token.less`
 | `--mp-internal-radio-segment-radius` | Internal | `var(--mp-sys-radius-md)` | Local CSS<br>`border-radius` |
 | `--mp-radio-action-padding` | Public | `6px` | Local CSS<br>`padding` |
 | `--mp-radio-animation-duration` | Public | `var(--mp-sys-motion-duration-standard)` | Local CSS<br>`transition` |
-| `--mp-radio-control-color` | Public | `var(--mp-sys-color-content-secondary)` | Local CSS<br>`color` |
+| `--mp-radio-control-color` | Public | `var(--mp-sys-color-border-default)` | Local CSS<br>`color` |
 | `--mp-radio-control-color-checked` | Public | `var(--mp-sys-color-content-brand)` | Local CSS<br>`color`, `outline` |
 | `--mp-radio-control-color-disabled` | Public | `var(--mp-sys-color-content-disabled)` | Local CSS<br>`color` |
 | `--mp-radio-control-color-error` | Public | `var(--mp-sys-color-content-danger)` | Local CSS<br>`box-shadow`, `color` |

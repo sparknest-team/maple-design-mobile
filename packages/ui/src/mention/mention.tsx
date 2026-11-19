@@ -1139,6 +1139,7 @@ export default defineComponent({
                 <Trigger
                   v-slots={{ content: renderDropdown }}
                   trigger="focus"
+                  unmountOnClose={true}
                   placement="bottom-start"
                   popupOffset={4}
                   preventFocus={true}
@@ -1158,6 +1159,7 @@ export default defineComponent({
         <Trigger
           v-slots={{ content: renderDropdown }}
           trigger="focus"
+          unmountOnClose={true}
           placement="bottom-start"
           animationName="slide-dynamic-origin"
           popupOffset={4}
