@@ -39,7 +39,7 @@
     "test:coverage": "pnpm --dir ./packages/ui test:coverage",
     "test:watch": "pnpm --dir ./packages/ui test:watch",
     "typecheck": "pnpm --dir ./packages/ui exec vue-tsc --noEmit -p tsconfig.json && pnpm --dir packages/ui exec vue-tsc --noEmit -p tsconfig.p1-api.json",
-    "version-packages": "changeset version && pnpm install --lockfile-only --ignore-scripts",
+    "version-packages": "node ../design-ui/bin/check-major-release.mjs && changeset version && pnpm install --lockfile-only --ignore-scripts",
     "check:tabs": "node checks/tabs-same-source.mjs",
     "check:rate": "node checks/rate-same-source.mjs",
     "check:ripple": "node checks/ripple-same-source.mjs",
