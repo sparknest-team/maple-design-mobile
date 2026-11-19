@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useDemoLocale as useInlineDemoLocale } from '../../../__demos__/locale'
 
-const content = ref('第一行 / First line')
+const inlineCopy = useInlineDemoLocale('textareaAutoSizeInline')
+
+const content = ref(inlineCopy.value.firstLine)
 const boundedContent = ref('第一行 / First line\n第二行 / Second line')
 const maxRows = ref(5)
 function fill() {
@@ -10,11 +13,11 @@ function fill() {
 </script>
 <template>
   <mp-space direction="column" size="lg" fill>
-    <mp-textarea default-value="原生三行 / Native three rows" :rows="3" aria-label="Native rows" />
-    <mp-textarea v-model="content" auto-size placeholder="随内容增高 / Grow with content" />
+    <mp-textarea :default-value="inlineCopy.nativeThreeRows" :rows="3" aria-label="Native rows" />
+    <mp-textarea v-model="content" auto-size :placeholder="inlineCopy.growWithContent" />
     <mp-space wrap>
-      <mp-button @click="fill">填入六行 / Fill six lines</mp-button>
-      <mp-button @click="maxRows = maxRows === 5 ? 2 : 5">切换行数上限 / Toggle row limit: {{ maxRows }}</mp-button>
+      <mp-button @click="fill">{{ inlineCopy.fillSixLines }}</mp-button>
+      <mp-button @click="maxRows = maxRows === 5 ? 2 : 5">{{ inlineCopy.toggleRowLimit }} {{ maxRows }}</mp-button>
     </mp-space>
     <template v-for="box in ['border-box', 'content-box']" :key="box">
       <p>{{ box }} · 2–{{ maxRows }} rows</p>

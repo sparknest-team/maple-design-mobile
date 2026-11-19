@@ -31,7 +31,7 @@ const presentationHint = computed(() =>
       <mp-radio-group v-model="editMode" aria-label="Form 展示方式" :options="modeOptions" variant="button" size="sm" />
     </mp-form-item>
     <mp-form-item layout="vertical" size="sm" label="layout">
-      <mp-radio-group v-model="layout" :options="layoutOptions" variant="button" size="sm" />
+      <mp-radio-group v-model="layout" aria-label="layout" :options="layoutOptions" variant="button" size="sm" />
     </mp-form-item>
     <mp-space wrap>
       <mp-checkbox v-model="readPretty">纯阅读 readPretty</mp-checkbox>
