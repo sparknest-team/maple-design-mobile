@@ -1,18 +1,12 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onDeactivated, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
+import { onBeforeUnmount, onDeactivated, ref } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import type { InfiniteScrollStatus } from '@maple-design/ui-vue'
 
 const scroller = ref<HTMLElement>()
 const status = ref<InfiniteScrollStatus>('idle')
 let timer: ReturnType<typeof setTimeout> | undefined
 const items = ref<number[]>([])
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-
-watchLang((value) => {
-  language.value = value
-})
 
 function load() {
   clearTimeout(timer)

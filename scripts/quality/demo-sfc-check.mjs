@@ -3,6 +3,7 @@ import { createRequire } from 'node:module'
 import { dirname, join, relative, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { demoFilesForLanguage } from './demo-language-files.mjs'
+import { checkDemoLanguage } from './demo-language-policy.mjs'
 
 const root = fileURLToPath(new URL('../../', import.meta.url))
 const require = createRequire(resolve(root, 'packages/ui/package.json'))
@@ -82,9 +83,7 @@ function checkResolverImports(filename, code) {
   const issues = []
   if (filename.endsWith('/example/index.vue')) {
     if (/createDemoMessages|from ['"]\.\/locale(?:\/index)?['"]|(?<![\w$])t\((['"])[^'"]+\1\)/.test(code)) {
-      issues.push(
-        'example entry must switch direct bilingual titles from watchLang; do not maintain a separate title locale',
-      )
+      issues.push('Use inline bilingual titles in the example entry; do not maintain a separate title locale')
     }
     if (/<app-type\b/.test(code) && !/\bAppType\b/.test(code)) {
       issues.push('example entry renders <app-type> without importing AppType')
@@ -161,11 +160,25 @@ function checkLibraryControls(node, insideLabel = false) {
   if (!node) {
     return
   }
+  if (node.type === 5) {
+    checkDemoLanguage(node.content.content)
+  }
   if (node.type === 1) {
     if (insideLabel && ['mp-select', 'MpSelect'].includes(node.tag)) {
       throw new Error(
         'Do not wrap MpSelect in a native label: label activation forwards another click and closes the menu; use a div and aria-label',
       )
+    }
+    for (const prop of node.props) {
+      if (prop.type !== 7) {
+        continue
+      }
+      if (prop.arg?.content === 'english') {
+        throw new Error('Import demoEnglish directly in the child demo')
+      }
+      if (prop.exp?.content) {
+        checkDemoLanguage(prop.exp.content)
+      }
     }
     const nativeCheckbox =
       node.tag === 'input' &&
@@ -188,6 +201,14 @@ function check(directory) {
       check(filename)
       continue
     }
+    if (/\.[cm]?[jt]sx?$/.test(filename)) {
+      try {
+        checkDemoLanguage(readFileSync(filename, 'utf8'))
+      } catch (error) {
+        failures++
+        console.error(`${filename}\n${error.message}`)
+      }
+    }
     if (!filename.endsWith('.vue')) {
       continue
     }
@@ -197,6 +218,11 @@ function check(directory) {
       const { descriptor, errors } = parse(code, { filename })
       if (errors.length) {
         throw errors[0]
+      }
+      for (const block of [descriptor.script, descriptor.scriptSetup]) {
+        if (block) {
+          checkDemoLanguage(block.content)
+        }
       }
       checkResolverImports(filename, code)
       checkLibraryControls(descriptor.template?.ast)

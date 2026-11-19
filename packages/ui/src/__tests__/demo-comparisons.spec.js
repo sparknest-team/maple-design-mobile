@@ -8,9 +8,6 @@ vi.mock('@maple-design/cli-vue/client', async () => {
   const { defineComponent, h } = await import('vue')
   return {
     onThemeChange() {},
-    watchLang(callback) {
-      callback('zh-CN')
-    },
     watchDarkMode() {},
     AppType: defineComponent({
       setup(_, { slots }) {

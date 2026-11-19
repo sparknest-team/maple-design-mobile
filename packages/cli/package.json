@@ -20,7 +20,8 @@
   "exports": {
     ".": "./lib/node/index.js",
     "./release": "./lib/node/release/index.js",
-    "./client": "./client.js"
+    "./client": "./client.js",
+    "./demo-language": "./demo-language.js"
   },
   "main": "./lib/node/index.js",
   "module": "./lib/node/index.js",
@@ -32,6 +33,8 @@
     "lib",
     "client.js",
     "client.d.ts",
+    "demo-language.js",
+    "demo-language.d.ts",
     "template",
     "site"
   ],

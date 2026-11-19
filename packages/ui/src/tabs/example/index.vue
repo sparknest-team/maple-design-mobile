@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { AppType, onThemeChange, watchLang } from '@maple-design/cli-vue/client'
+import { AppType, onThemeChange } from '@maple-design/cli-vue/client'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import OrganizedAppearanceLab from './demos/appearance-lab.vue'
 import DemoBasic from './demos/basic.vue'
 import DemoControlled from './demos/controlled.vue'
@@ -14,12 +14,6 @@ import DemoPosition from './demos/position.vue'
 import DemoScrollable from './demos/scrollable.vue'
 import DemoVariants from './demos/variants.vue'
 
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-
-watchLang((value) => {
-  language.value = value
-})
 onThemeChange()
 </script>
 

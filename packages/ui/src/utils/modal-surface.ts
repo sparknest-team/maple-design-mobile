@@ -6,6 +6,7 @@ import { usePopupContainer } from './popup-container'
 import { usePopupLayer } from './popup-layer'
 import { usePopupTransition } from './popup-transition'
 import { useScrollLock } from './scroll-lock'
+import { useVisualSurface } from './visual-surface'
 
 export type ModalSurfaceCloseReason = 'overlay' | 'escape' | 'route'
 
@@ -69,6 +70,10 @@ export function useModalSurface(options: ModalSurfaceOptions) {
   const layerActive = () => mergedOpen.value && !teleportDisabled.value
   const { zIndex } = useZIndex(layerActive, 3)
   const mergedZIndex = computed(() => options.zIndex() ?? zIndex.value)
+  useVisualSurface(
+    () => ((mergedOpen.value || transition.leaving.value) && modalDocument() ? options.root.value : undefined),
+    () => mergedZIndex.value,
+  )
   const { onStackTop } = usePopupLayer(layerActive, mergedZIndex, modalDocument)
   const { focus, focusAfterEnter, restore } = useModalFocus(
     () => options.root.value?.querySelector<HTMLElement>('[data-modal-focus-root]') ?? options.root.value,

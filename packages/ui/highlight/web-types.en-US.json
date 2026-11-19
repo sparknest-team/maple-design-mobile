@@ -1730,6 +1730,24 @@
               }
             },
             {
+              "name": "aria-label",
+              "description": "Accessible name for the expanded panel. Defaults to the plain text title.",
+              "default": "—",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "aria-labelledby",
+              "description": "ID of the visible heading in a custom title or header slot.",
+              "default": "—",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
               "name": "close-button-aria-label",
               "description": "Accessible name of the default close button",
               "default": "—",
@@ -11925,6 +11943,93 @@
             {
               "name": "read",
               "description": "Custom reading content"
+            }
+          ]
+        },
+        {
+          "name": "mp-section",
+          "attributes": [
+            {
+              "name": "id",
+              "description": "Section anchor",
+              "default": "Automatically generated",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "title",
+              "description": "Heading text",
+              "default": "Empty",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "description",
+              "description": "Supporting text below the heading",
+              "default": "Empty",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "variant",
+              "description": "Appearance, plain, line or card",
+              "default": "line inside Form, otherwise plain",
+              "value": {
+                "type": "'plain' | 'line' | 'card'",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "heading-level",
+              "description": "HTML heading level from 1 to 6",
+              "default": "3 inside Form, otherwise 2",
+              "value": {
+                "type": "1–6",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show-marker",
+              "description": "Show a heading marker",
+              "default": "Enabled inside Form",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show-end-divider",
+              "description": "Draw a trailing line in plain and line variants",
+              "default": "false",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            }
+          ],
+          "events": [],
+          "slots": [
+            {
+              "name": "default",
+              "description": "Section body"
+            },
+            {
+              "name": "title",
+              "description": "Custom heading"
+            },
+            {
+              "name": "description",
+              "description": "Supporting text"
+            },
+            {
+              "name": "extra",
+              "description": "Header actions"
             }
           ]
         },

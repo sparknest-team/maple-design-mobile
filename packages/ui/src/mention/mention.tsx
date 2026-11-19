@@ -1142,6 +1142,7 @@ export default defineComponent({
                   unmountOnClose={true}
                   placement="bottom-start"
                   popupOffset={4}
+                  updateAtScroll
                   preventFocus={true}
                   open={computedOpen.value}
                   closeOnClickReference={false}
@@ -1163,6 +1164,7 @@ export default defineComponent({
           placement="bottom-start"
           animationName="slide-dynamic-origin"
           popupOffset={4}
+          updateAtScroll
           preventFocus={true}
           open={computedOpen.value}
           closeOnClickReference={false}

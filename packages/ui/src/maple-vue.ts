@@ -72,6 +72,7 @@ import Ripple from './ripple'
 import Row from './row'
 import SafeArea from './safe-area'
 import Search from './search'
+import Section from './section'
 import Select from './select'
 import Signature from './signature'
 import Skeleton from './skeleton'
@@ -101,7 +102,7 @@ import Watermark from './watermark'
 export const version = '1.1.12'
 
 function install(app: App) {
-  const plugins = [ActionSheet, Affix, Alert, AutoComplete, Avatar, BackTop, Badge, Breadcrumb, Button, Card, Carousel, Cascader, Cell, Checkbox, Code, Col, Collapse, Context, CountTo, Countdown, Date, DateRange, Dialog, Divider, Drag, Ellipsis, Empty, Fab, FieldDecorator, FloatingPanel, Form, FormDetails, Grid, HighlighterProvider, Hover, Icon, Image, IndexBar, InfiniteScroll, Input, InputNumber, InputTag, Lazy, Link, List, Loading, LoadingBar, Locale, LocaleProvider, Mention, Menu, Message, NavMenu, NoticeBar, NumberKeyboard, Overlay, PageHeader, Pagination, Paper, PeopleSelect, Picker, Popover, Popup, Progress, ProgressGroup, PullRefresh, Radio, Rate, Result, Ripple, Row, SafeArea, Search, Select, Signature, Skeleton, Slider, Space, SplitButton, Statistic, Steps, SwipeCell, Switch, TabBar, Table, Tabs, Tag, Textarea, ThemeProvider, Themes, Time, TimeRange, Timeline, Tooltip, Trigger, Upload, VerificationCode, Watermark]
+  const plugins = [ActionSheet, Affix, Alert, AutoComplete, Avatar, BackTop, Badge, Breadcrumb, Button, Card, Carousel, Cascader, Cell, Checkbox, Code, Col, Collapse, Context, CountTo, Countdown, Date, DateRange, Dialog, Divider, Drag, Ellipsis, Empty, Fab, FieldDecorator, FloatingPanel, Form, FormDetails, Grid, HighlighterProvider, Hover, Icon, Image, IndexBar, InfiniteScroll, Input, InputNumber, InputTag, Lazy, Link, List, Loading, LoadingBar, Locale, LocaleProvider, Mention, Menu, Message, NavMenu, NoticeBar, NumberKeyboard, Overlay, PageHeader, Pagination, Paper, PeopleSelect, Picker, Popover, Popup, Progress, ProgressGroup, PullRefresh, Radio, Rate, Result, Ripple, Row, SafeArea, Search, Section, Select, Signature, Skeleton, Slider, Space, SplitButton, Statistic, Steps, SwipeCell, Switch, TabBar, Table, Tabs, Tag, Textarea, ThemeProvider, Themes, Time, TimeRange, Timeline, Tooltip, Trigger, Upload, VerificationCode, Watermark]
   for (const plugin of plugins) {
     if (plugin && typeof (plugin as { install?: unknown }).install === 'function') {
       app.use(plugin as unknown as { install: (app: App) => void })
@@ -184,6 +185,7 @@ export {
   Row,
   SafeArea,
   Search,
+  Section,
   Select,
   Signature,
   Skeleton,
@@ -287,6 +289,7 @@ export interface MapleLibrary {
   Row: typeof Row
   SafeArea: typeof SafeArea
   Search: typeof Search
+  Section: typeof Section
   Select: typeof Select
   Signature: typeof Signature
   Skeleton: typeof Skeleton
@@ -391,6 +394,7 @@ const library: MapleLibrary = {
   get Row() { return Row },
   get SafeArea() { return SafeArea },
   get Search() { return Search },
+  get Section() { return Section },
   get Select() { return Select },
   get Signature() { return Signature },
   get Skeleton() { return Skeleton },

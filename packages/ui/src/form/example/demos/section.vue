@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue'
-import type { FormSectionVariant } from '../../section-props'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
+import type { SectionVariant } from '../../../section/props'
 
-const props = defineProps<{ english?: boolean }>()
 const text = computed(() =>
-  props.english
+  english.value
     ? {
         event: 'Event type',
         level: 'Event level',
@@ -35,7 +35,7 @@ const text = computed(() =>
       },
 )
 const controls = computed(() =>
-  props.english
+  english.value
     ? {
         variantLabel: 'Section style',
         optionsLabel: 'Display options',
@@ -53,7 +53,7 @@ const controls = computed(() =>
         styleHint: '切换风格会保留已填内容。卡片使用外框表示分组范围。',
       },
 )
-const variant = ref<FormSectionVariant>('line')
+const variant = ref<SectionVariant>('line')
 const showMarker = ref(true)
 const showEndDivider = ref(true)
 const variantOptions = computed(() =>
@@ -71,15 +71,15 @@ const model = reactive({
   certificates: ['electric', 'entry', 'height', 'high'],
 })
 const certificateOptions = computed(() => [
-  { value: 'electric', label: props.english ? 'Low voltage' : '低压电工证' },
-  { value: 'entry', label: props.english ? 'Entry permit' : '进仓许可' },
-  { value: 'height', label: props.english ? 'Work at height' : '登高证' },
-  { value: 'high', label: props.english ? 'High voltage' : '高压电工证' },
+  { value: 'electric', label: english.value ? 'Low voltage' : '低压电工证' },
+  { value: 'entry', label: english.value ? 'Entry permit' : '进仓许可' },
+  { value: 'height', label: english.value ? 'Work at height' : '登高证' },
+  { value: 'high', label: english.value ? 'High voltage' : '高压电工证' },
 ])
 </script>
 
 <template>
-  <div data-form-section-demo="variants">
+  <div data-section-demo="variants">
     <mp-form layout="vertical">
       <mp-form-item :label="controls.variantLabel">
         <mp-radio-group v-model="variant" :options="variantOptions" :aria-label="controls.variantLabel" />
@@ -107,12 +107,7 @@ const certificateOptions = computed(() => [
         <mp-select v-model="model.remote" multiple :options="[{ value: 'review', label: text.review }]" />
       </mp-form-item>
 
-      <mp-form-section
-        :title="text.section"
-        :variant="variant"
-        :show-marker="showMarker"
-        :show-end-divider="showEndDivider"
-      >
+      <mp-section :title="text.section" :variant="variant" :show-marker="showMarker" :show-end-divider="showEndDivider">
         <mp-form-item field="onsite" :label="text.onsite">
           <mp-select v-model="model.onsite" multiple :options="[{ value: 'review', label: text.review }]" />
         </mp-form-item>
@@ -122,7 +117,7 @@ const certificateOptions = computed(() => [
         <mp-form-item field="points" :label="text.points">
           <mp-textarea v-model="model.points" :max-length="200" show-word-limit />
         </mp-form-item>
-      </mp-form-section>
+      </mp-section>
 
       <mp-form-item field="skill" :label="text.skill">
         <mp-select v-model="model.skill" :options="[{ value: 'L3', label: 'L3' }]" />

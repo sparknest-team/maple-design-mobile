@@ -14,6 +14,7 @@ import {
 import { useDirection } from '../_utils/direction'
 import { createNamespace } from '../utils/components'
 import { usePopupContainer } from '../utils/popup-container'
+import { useVisualSurface } from '../utils/visual-surface'
 import { useTriggerInteraction } from './interaction'
 import { useTriggerPlatform } from './platform'
 import TriggerPopup from './popup'
@@ -122,6 +123,10 @@ export default defineComponent({
       },
     )
 
+    useVisualSurface(
+      () => (renderState.displayed.value ? popup.value : undefined),
+      () => platform.zIndex.value,
+    )
     const positioner = useTriggerPositioner(props, {
       direction: dir,
       container: positionContainer,

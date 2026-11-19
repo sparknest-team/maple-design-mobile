@@ -1,6 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import GroupedAppearanceLabDemo from './demos/appearance-lab.vue'
 import appearance from './demos/appearance.vue'
 import basic from './demos/basic.vue'
@@ -11,12 +10,6 @@ import statesEn from './demos/en-US/states.vue'
 import formatting from './demos/formatting.vue'
 import GroupedStateLabDemo from './demos/state-lab.vue'
 import states from './demos/states.vue'
-
-const language = ref('zh-CN')
-watchLang((lang) => {
-  language.value = lang
-})
-const english = computed(() => language.value === 'en-US')
 </script>
 <template>
   <h2 class="mobile-demo-group-heading" data-demo-group="basic-examples" data-demo-component="verification-code">

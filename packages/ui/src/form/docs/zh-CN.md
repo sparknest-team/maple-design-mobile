@@ -5,7 +5,7 @@
 
 ## 字段名称
 
-客户端挂载后，默认标签会关联内容区中唯一的文本输入框、文本域或下拉框。点击标签可聚焦该字段。增加第二个独立控件时，内容区使用可见标签作为分组名称，各控件应分别提供自己的名称。显式设置 `label-attrs.for` 与字段 `id` 可在服务端首屏就建立关联，也适用于需要指定目标的复合字段。同时传入 `for` 和 `htmlFor` 时优先使用 `for`；只读展示会清除该目标。
+客户端挂载后，默认标签会关联内容区中唯一的文本输入框、文本域或下拉框。点击标签可聚焦该字段。增加第二个独立控件时，内容区使用可见标签作为分组名称，各控件应分别提供自己的名称。显式设置 `label-attrs.for` 与字段 `id` 可在服务端首屏就建立关联，也适用于需要指定目标的复合字段。同时传入 `for` 和 `htmlFor` 时优先使用 `for`；只读展示会清除该目标。 流式渲染时，标签可能先于异步子组件的字段送达浏览器。需要首屏即可点击标签时，在父组件中确定稳定 ID，通过子组件传给实际输入元素；列表中的每一行使用各自的 ID。
 
 显式 `validate-status="error"` 且没有自动校验错误时，字段会通过 `aria-describedby` 关联可见的 `help` 文案或插槽；业务已有的描述会保留。自动错误出现时优先关联自动错误。
 
@@ -68,7 +68,7 @@ Form 与 FormItem 的 content-align 支持 start、end、left、center、right�
 
 ### 局部表单分区
 
-仅将现场处置 SOP、安全须知和处置要点放入分区，底部结束线区分后续未分组字段。 在表单上方切换分隔线、仅标题、边框卡片三种风格，已填内容保持不变；也可切换标题标记和底部结束线。卡片以外框表示范围，不重复显示结束线。FormSection 继承父 Form 的布局、标签宽度、禁用状态和校验；布局通过 Form / FormItem 的既有属性设置。请提供 title 或 title 插槽。当前不提供折叠与分区级布局覆盖。
+仅将现场处置 SOP、安全须知和处置要点放入分区，底部结束线区分后续未分组字段。 在表单上方切换分隔线、仅标题、边框卡片三种风格，已填内容保持不变；也可切换标题标记和底部结束线。卡片以外框表示范围，不重复显示结束线。MpSection 中的字段继续使用父 Form 的布局、标签宽度、禁用状态和校验。标题可省略。当前不提供折叠与分区级布局覆盖。
 
 ```demo
 ../example/demos/section.vue
@@ -563,6 +563,8 @@ Form / FormItem 通过 `empty-values` 提供空值识别策略；字段自己的
 
 ### FormItem Slots
 
+在服务端渲染默认插槽中的输入列表时，使用 `v-for` 并为每项提供稳定的 `:key`。同一节点叠加 `v-memo` 可能导致首屏 HTML 缺少这些输入框。两种 `no-style` 设置下都会出现这个问题。需要保留 `v-memo` 时，可将列表模板放到独立的 `FieldList.vue` 中，在插槽内使用 `<FieldList :rows="rows" />`。把 `v-for`、`:key` 和 `v-memo` 都写在子组件的列表项上。
+
 | 插槽名    | 说明           |
 | --------- | -------------- |
 | `default` | 表单控件       |
@@ -623,25 +625,7 @@ import type {
 } from '@maple-design/ui-vue'
 ```
 
-### FormSection Props
-
-| 属性 | 说明 | 类型 | 默认值 |
-| --- | --- | --- | --- |
-| id | 分区 ID，未设置时自动生成 | `string` | — |
-| title | 分区标题 | `string` | `''` |
-| description | 标题下方的补充说明 | `string` | `''` |
-| variant | 分区风格，card 带边框和内容内边距 | `'line' \| 'plain' \| 'card'` | `'line'` |
-| show-marker | 显示标题左侧的主题色标记 | `boolean` | `true` |
-| show-end-divider | 显示底部结束线，区分后续未分组字段；card 不重复绘制 | `boolean` | `false` |
-
-### FormSection Slots
-
-| 插槽 | 说明 |
-| --- | --- |
-| default | 分区内的表单字段 |
-| title | 自定义标题 |
-| description | 自定义说明 |
-| extra | 标题右侧操作 |
+分区的属性和插槽见 [Section 内容分区](#/zh-CN/section)。
 
 ## CSS Variables
 
@@ -664,29 +648,6 @@ import type {
 | `--mp-form-label-min-height` | `24px` | `min-height` |
 | `--mp-form-label-text-color` | `var(--mp-sys-color-content-primary)` | `color` |
 | `--mp-form-required-symbol-color` | `var(--mp-sys-color-content-danger)` | `color` |
-| `--mp-form-section-accent-color` | `var(--mp-sys-color-action-primary)` | `background` |
-| `--mp-form-section-after-gap` | `24px` | `margin-block` |
-| `--mp-form-section-before-gap` | `32px` | `padding-block-start` |
-| `--mp-form-section-card-background` | `var(--mp-sys-color-surface-default)` | `background` |
-| `--mp-form-section-card-padding` | `16px` | `padding` |
-| `--mp-form-section-card-radius` | `6px` | `border-radius` |
-| `--mp-form-section-description-color` | `var(--mp-sys-color-content-secondary)` | `color` |
-| `--mp-form-section-description-gap` | `4px` | `margin-block-start` |
-| `--mp-form-section-description-line-height` | `20px` | `line-height` |
-| `--mp-form-section-description-size` | `13px` | `font-size` |
-| `--mp-form-section-divider-color` | `var(--mp-sys-color-border-default)` | `border`, `border-block-start` |
-| `--mp-form-section-divider-width` | `1px` | `border`, `border-block-start` |
-| `--mp-form-section-end-divider-gap` | `24px` | `margin-block-start` |
-| `--mp-form-section-header-gap` | `20px` | `margin-block-end` |
-| `--mp-form-section-heading-gap` | `16px` | `margin-inline-start` |
-| `--mp-form-section-marker-gap` | `8px` | `margin-inline-end`, `row-gap` |
-| `--mp-form-section-marker-height` | `16px` | `height` |
-| `--mp-form-section-marker-radius` | `2px` | `border-radius` |
-| `--mp-form-section-marker-width` | `3px` | `width` |
-| `--mp-form-section-title-color` | `var(--mp-sys-color-content-primary)` | `color` |
-| `--mp-form-section-title-line-height` | `24px` | `line-height` |
-| `--mp-form-section-title-size` | `16px` | `font-size` |
-| `--mp-form-section-title-weight` | `600` | `font-weight` |
 | `--mp-form-size-md-item-margin-bottom` | `16px` | `margin-bottom` |
 | `--mp-form-size-md-label-font-size` | `14px` | `font-size` |
 | `--mp-form-tooltip-margin-left` | `var(--mp-sys-space-2)` | `padding-inline-start` |

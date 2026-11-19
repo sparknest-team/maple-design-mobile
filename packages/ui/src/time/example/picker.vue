@@ -1,7 +1,7 @@
 <script setup>
 import { reactive } from 'vue'
-import { AppType, onThemeChange, watchLang } from '@maple-design/cli-vue/client'
-import { t, use } from './locale'
+import { AppType, onThemeChange } from '@maple-design/cli-vue/client'
+import { t } from './locale'
 
 const dates = reactive({
   date: '11:20',
@@ -17,7 +17,6 @@ const disabledHours = () => Array.from({ length: 24 }, (_, hour) => hour).filter
 const disabledMinutes = (hour) => (hour === 10 ? [0, 15, 45] : [])
 const disabledSeconds = (hour, minute) => (hour === 10 && minute === 30 ? [41, 43, 45] : [])
 
-watchLang(use)
 onThemeChange()
 </script>
 

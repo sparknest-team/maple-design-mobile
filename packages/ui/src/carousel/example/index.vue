@@ -1,6 +1,6 @@
 <script setup>
-import { computed, ref } from 'vue'
-import { AppType, onThemeChange, watchLang } from '@maple-design/cli-vue/client'
+import { AppType, onThemeChange } from '@maple-design/cli-vue/client'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import AutoSizedDemo from './demos/auto-sized.vue'
 import AutoplayHoverPauseDemo from './demos/autoplay-hover-pause.vue'
 import AutoplayDemo from './demos/autoplay.vue'
@@ -21,12 +21,6 @@ import OrganizedSchedulerLifecycle from './demos/scheduler-lifecycle.vue'
 import TriggerHoverDemo from './demos/trigger-hover.vue'
 import VerticalDemo from './demos/vertical.vue'
 
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-
-watchLang((value) => {
-  language.value = value
-})
 onThemeChange()
 </script>
 

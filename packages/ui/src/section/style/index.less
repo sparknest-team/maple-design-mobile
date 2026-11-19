@@ -1,0 +1,113 @@
+@import './token.less';
+
+.mp-section {
+  box-sizing: border-box;
+  min-width: 0;
+  width: 100%;
+  &--form {
+    flex: none;
+    grid-column: 1 / -1;
+    margin-block: 0 var(--mp-section-after-gap);
+    padding-block-start: var(--mp-section-before-gap);
+
+    &:first-child {
+      padding-block-start: 0;
+    }
+    &:last-child {
+      margin-block-end: 0;
+    }
+  }
+
+  &__surface {
+    box-sizing: border-box;
+    min-width: 0;
+    width: 100%;
+  }
+  &--card > &__surface {
+    padding: var(--mp-section-card-padding);
+    border: var(--mp-section-divider-width) solid var(--mp-section-divider-color);
+    border-radius: var(--mp-section-card-radius);
+    background: var(--mp-section-card-background);
+  }
+  &__label {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+    max-width: 100%;
+  }
+  &__header {
+    margin-block-end: var(--mp-section-header-gap);
+  }
+  &__heading {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    row-gap: var(--mp-section-marker-gap);
+    min-width: 0;
+  }
+  &__marker {
+    flex: none;
+    width: var(--mp-section-marker-width);
+    height: var(--mp-section-marker-height);
+    margin-inline-end: var(--mp-section-marker-gap);
+    border-radius: var(--mp-section-marker-radius);
+    background: var(--mp-section-accent-color);
+  }
+  &__title {
+    min-width: 0;
+    margin: 0;
+    overflow-wrap: anywhere;
+    color: var(--mp-section-title-color);
+    font-size: var(--mp-section-title-size);
+    font-weight: var(--mp-section-title-weight);
+    line-height: var(--mp-section-title-line-height);
+  }
+  &__line,
+  &__spacer {
+    flex: 1;
+    min-width: 0;
+    margin-inline-start: var(--mp-section-heading-gap);
+  }
+  &__line {
+    border-block-start: var(--mp-section-divider-width) solid var(--mp-section-divider-color);
+  }
+  &__extra {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    flex: none;
+    margin-inline-start: var(--mp-section-heading-gap);
+  }
+  &__description {
+    margin-block-start: var(--mp-section-description-gap);
+    overflow-wrap: anywhere;
+    color: var(--mp-section-description-color);
+    font-size: var(--mp-section-description-size);
+    line-height: var(--mp-section-description-line-height);
+  }
+  &__content {
+    min-width: 0;
+  }
+  &--form > &__surface > &__content {
+    display: flex;
+    flex-direction: column;
+  }
+  &--form > &__surface > &__content--inline {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  &--form > &__surface > &__content > .mp-form-item:last-child {
+    margin-bottom: 0;
+  }
+  &__end-divider {
+    margin-block-start: var(--mp-section-end-divider-gap);
+    border-block-start: var(--mp-section-divider-width) solid var(--mp-section-divider-color);
+  }
+}
+
+// The previous field already owns its trailing spacing. Complete it to 32px.
+.mp-form-item + .mp-section--form {
+  padding-block-start: max(0px, calc(var(--mp-section-before-gap) - var(--mp-form-size-md-item-margin-bottom)));
+}
+.mp-section--form + .mp-section--form {
+  padding-block-start: max(0px, calc(var(--mp-section-before-gap) - var(--mp-section-after-gap)));
+}

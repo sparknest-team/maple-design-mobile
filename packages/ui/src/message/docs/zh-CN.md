@@ -155,6 +155,8 @@ duration 应为有限非负数；负数、NaN、Infinity 等非法值不调度�
 `default`、`icon`、`action`。
 
 
+Card 展开时，传送到浮层容器的 Message 保持原有位置，操作按钮可用，直至退场结束。独立消息水平居中，消息队列使用 `--mp-message-margin` 控制条目间距。
+
 消息层级会自动保持在当前文档内活动的弹层之上，也会跟随新打开的弹层和显式 `zIndex` 的变化。消息不会接管弹窗焦点或 Esc 处理。`--mp-message-z-index` 用于设置消息层级下限；自定义挂载容器仍需避免被祖先的层叠上下文或裁剪限制。
 
 ## CSS Variables

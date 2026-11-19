@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { AppType, onThemeChange, watchLang } from '@maple-design/cli-vue/client'
+import { AppType, onThemeChange } from '@maple-design/cli-vue/client'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import DemoAccordion from './demos/accordion.vue'
 import DemoBasic from './demos/basic.vue'
 import ContentBorderComparison from './demos/border-comparison.vue'
@@ -14,12 +14,6 @@ import DemoNested from './demos/nested.vue'
 import DemoOffset from './demos/offset.vue'
 import DemoToggleAll from './demos/toggle-all.vue'
 
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-
-watchLang((value) => {
-  language.value = value
-})
 onThemeChange()
 </script>
 <template>

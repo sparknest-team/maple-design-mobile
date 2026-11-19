@@ -1,6 +1,7 @@
 <script setup>
-import { computed, reactive, ref, toRefs } from 'vue'
-import { AppType, onThemeChange, watchLang } from '@maple-design/cli-vue/client'
+import { reactive, toRefs } from 'vue'
+import { AppType, onThemeChange } from '@maple-design/cli-vue/client'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import BasicDemo from './demos/basic.vue'
 import EventDemo from './demos/event.vue'
 import ExplicitLoadingDemo from './demos/loading.vue'
@@ -19,12 +20,7 @@ const values = reactive({
   event: false,
 })
 const { center, top, bottom, left, right, overlayClass, overlayStyle, event } = toRefs(values)
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
 
-watchLang((value) => {
-  language.value = value
-})
 onThemeChange()
 </script>
 
@@ -63,7 +59,7 @@ onThemeChange()
 
   <section data-demo="motion-token">
     <app-type>{{ english ? 'Feature playground' : '功能调试' }}</app-type>
-    <MotionTokenDemo :english="english" />
+    <MotionTokenDemo />
   </section>
 
   <h2 class="mobile-demo-group-heading" data-demo-group="loading-and-waiting">

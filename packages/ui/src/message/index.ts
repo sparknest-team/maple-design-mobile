@@ -2,6 +2,7 @@ import type { App, AppContext } from 'vue'
 import { createVNode, defineComponent, h, nextTick, render, shallowReactive } from 'vue'
 import { useFeedbackZIndex } from '../context/zIndex'
 import { resolvePopupContainer } from '../utils/popup-container'
+import { useVisualSurface } from '../utils/visual-surface'
 import MessageContextRoot from './context-root'
 import MessageComponentSource from './Message.vue'
 import { messageProps } from './props'
@@ -52,7 +53,12 @@ class MessageManager {
 
     const Host = defineComponent({
       setup: () => {
+        this.host.setAttribute('data-card-feedback-host', '')
         const zIndex = useFeedbackZIndex(() => target.ownerDocument)
+        useVisualSurface(
+          () => (this.items.length ? this.host : undefined),
+          () => zIndex.value,
+        )
         return () =>
           h(
             'div',

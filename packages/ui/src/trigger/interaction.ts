@@ -638,7 +638,8 @@ export function useTriggerInteraction(
       doc[method]('pointerup', onPointerUp, true)
       doc[method]('pointercancel', onPointerCancel, true)
       doc[method]('click', onOutside, true)
-      view?.[method]('keydown', keydown)
+      // The indexed DOM methods expose only their common EventListener overload.
+      view?.[method]('keydown', keydown as EventListener)
     }
     update('addEventListener')
     documentCleanups.push(() => update('removeEventListener'))

@@ -1,14 +1,8 @@
 <script setup lang="ts">
-import { computed, computed as demoComputed, ref as demoRef, reactive, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
+import { computed as demoComputed, ref as demoRef, reactive } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import { Message } from '@maple-design/ui-vue'
 import type { ComponentSize, SemanticStatus } from '../../../utils/constants'
-
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-watchLang((value) => {
-  language.value = value
-})
 
 const publish = () => {
   Message.info(english.value ? 'Published' : '发布成功')

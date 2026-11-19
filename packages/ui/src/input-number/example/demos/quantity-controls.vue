@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onBeforeUnmount, ref, shallowRef } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
-const props = defineProps<{ english?: boolean }>()
 const value = ref<number | null | undefined>(2)
 const disableInput = ref(true)
 const disableIncrement = ref(false)
@@ -25,7 +25,7 @@ function beforeCommit(
   { signal }: { signal: AbortSignal },
 ) {
   pending.value = true
-  status.value = props.english ? `Waiting to commit ${next ?? 'empty'}` : `等待提交 ${next ?? '空值'}`
+  status.value = english.value ? `Waiting to commit ${next ?? 'empty'}` : `等待提交 ${next ?? '空值'}`
   return new Promise<void | false>((resolve, reject) => {
     const cleanup = () => {
       signal.removeEventListener('abort', cancel)
@@ -35,19 +35,19 @@ function beforeCommit(
     }
     const cancel = () => {
       cleanup()
-      status.value = props.english ? 'Cancelled; old result ignored' : '已取消，旧结果不再生效'
+      status.value = english.value ? 'Cancelled; old result ignored' : '已取消，旧结果不再生效'
       resolve(false)
     }
     signal.addEventListener('abort', cancel, { once: true })
     decision.value = (allowed) => {
       cleanup()
-      status.value = allowed ? (props.english ? 'Approved' : '已允许') : props.english ? 'Rejected' : '已拒绝'
+      status.value = allowed ? (english.value ? 'Approved' : '已允许') : english.value ? 'Rejected' : '已拒绝'
       resolve(allowed ? undefined : false)
     }
     fail.value = () => {
       cleanup()
-      status.value = props.english ? 'Request failed; value preserved' : '请求失败，保留原值'
-      reject(new Error(props.english ? 'Quantity request failed' : '数量提交失败'))
+      status.value = english.value ? 'Request failed; value preserved' : '请求失败，保留原值'
+      reject(new Error(english.value ? 'Quantity request failed' : '数量提交失败'))
     }
   })
 }

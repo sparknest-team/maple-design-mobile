@@ -1,4 +1,4 @@
-import { defineComponent, h, KeepAlive, nextTick, reactive } from 'vue'
+import { defineComponent, h, KeepAlive, nextTick, reactive, ref, vShow, withDirectives } from 'vue'
 import { renderToString } from '@vue/server-renderer'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, vi } from 'vitest'
@@ -17,6 +17,27 @@ afterEach(() => {
 })
 
 describe('Form layout contract', () => {
+
+  it('keeps the styled field root visible to template refs and v-show', async () => {
+    const visible = ref(true)
+    const wrapper = mount(defineComponent(() => () =>
+      withDirectives(h(FormItem, { label: 'Name', 'data-field': 'name' }, () => h('input')), [[vShow, visible.value]])
+    ))
+    try {
+      const row = wrapper.get('[data-field="name"]').element as HTMLElement
+      expect(wrapper.getComponent(FormItem).vm.$el).toBe(row)
+      expect(row.querySelector('input')).toBeTruthy()
+      visible.value = false
+      await nextTick()
+      expect(row.style.display).toBe('none')
+      visible.value = true
+      await nextTick()
+      expect(row.style.display).not.toBe('none')
+    } finally {
+      wrapper.unmount()
+    }
+  })
+
   it('applies inherited alignment to content while preserving item overrides and content-flex=false', async () => {
     const state = reactive<{ contentAlign?: 'left' | 'center' | 'right' }>({ contentAlign: 'center' })
     const wrapper = mount(Form, {

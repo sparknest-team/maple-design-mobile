@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
-const props = defineProps<{ english?: boolean }>()
 const copy = computed(() =>
-  props.english
+  english.value
     ? {
         actionsDescription:
           'Use a template to fill this section. Clearing it preserves the skill level outside the section.',
@@ -52,9 +52,9 @@ function clearSection() {
 }
 </script>
 <template>
-  <div data-form-section-demo="actions">
+  <div data-section-demo="actions">
     <mp-form :model="model" layout="horizontal" label-col-flex="7rem" edit-mode="direct">
-      <mp-form-section :title="copy.section" :description="copy.actionsDescription" show-end-divider>
+      <mp-section :title="copy.section" :description="copy.actionsDescription" show-end-divider>
         <template #extra>
           <mp-space size="sm" wrap>
             <mp-button variant="text" size="sm" @click="applyTemplate">{{ copy.applyTemplate }}</mp-button>
@@ -68,7 +68,7 @@ function clearSection() {
         <mp-form-item field="points" :label="copy.points"
           ><mp-textarea v-model="model.points" :max-length="200" show-word-limit
         /></mp-form-item>
-      </mp-form-section>
+      </mp-section>
       <mp-form-item field="skill" :label="copy.skill"><mp-input v-model="model.skill" /></mp-form-item>
     </mp-form>
     <p v-if="feedback" role="status">{{ copy[feedback] }}</p>

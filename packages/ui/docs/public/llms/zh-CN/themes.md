@@ -133,13 +133,10 @@ Example source: src/themes/example/FireflyScenes.vue
 ```vue
 <script setup>
 import { computed, ref } from 'vue'
-import { watchLang, watchTheme } from '@maple-design/cli-vue/client'
+import { watchTheme } from '@maple-design/cli-vue/client'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import { Themes } from '@maple-design/ui-vue'
 
-const english = ref(false)
-watchLang((value) => {
-  english.value = value === 'en-US'
-})
 const mode = ref('light')
 const background = ref('light')
 watchTheme((theme) => {

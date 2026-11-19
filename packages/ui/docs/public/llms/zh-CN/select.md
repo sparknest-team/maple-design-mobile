@@ -601,18 +601,14 @@ Example source: src/select/example/demos/same-label.vue
 
 ```vue
 <script setup>
-import { computed, reactive, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
+import { computed, reactive } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
 const values = reactive({ inline: [1, 2], dialog: [1, 2], popup: [1, 2] })
-const language = ref('zh-CN')
-watchLang((value) => {
-  language.value = value
-})
 const options = computed(() => [
-  { value: 1, label: language.value === 'en-US' ? 'Device' : '设备' },
-  { value: 2, label: language.value === 'en-US' ? 'Device' : '设备' },
-  { value: 3, label: language.value === 'en-US' ? 'Spare device' : '备用设备' },
+  { value: 1, label: english.value ? 'Device' : '设备' },
+  { value: 2, label: english.value ? 'Device' : '设备' },
+  { value: 3, label: english.value ? 'Spare device' : '备用设备' },
 ])
 </script>
 
@@ -1264,17 +1260,17 @@ Example source: src/select/example/demos/selection-data-flow.vue
 ```vue
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
-const props = defineProps<{ english?: boolean }>()
 const autoFirst = ref(true)
 const generation = ref(0)
 const form = reactive<{ city?: string; panelCity?: string }>({ city: undefined, panelCity: undefined })
 const logs = reactive<{ inline: string[]; panel: string[] }>({ inline: [], panel: [] })
 const counts = reactive({ inline: 0, panel: 0 })
 const options = computed(() => [
-  { label: props.english ? 'Hangzhou' : '杭州', value: 'hangzhou' },
-  { label: props.english ? 'Shanghai' : '上海', value: 'shanghai' },
-  { label: props.english ? 'Beijing (disabled)' : '北京（禁用）', value: 'beijing', disabled: true },
+  { label: english.value ? 'Hangzhou' : '杭州', value: 'hangzhou' },
+  { label: english.value ? 'Shanghai' : '上海', value: 'shanghai' },
+  { label: english.value ? 'Beijing (disabled)' : '北京（禁用）', value: 'beijing', disabled: true },
 ])
 function show(value: unknown) {
   return value === undefined ? 'undefined' : JSON.stringify(value)

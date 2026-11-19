@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import type { CalendarInteractiveMode } from '../../calendar-viewport-props'
 
-const props = defineProps<{ english?: boolean }>()
-const text = (zh: string, en: string) => (props.english ? en : zh)
+const text = (zh: string, en: string) => (english.value ? en : zh)
 const zone = ref('America/New_York')
 const mode = ref<CalendarInteractiveMode>('page')
 const instant = ref<number>()
@@ -24,7 +24,7 @@ const description = computed(() => {
     return text('未选择', 'Empty')
   }
   const date = new Date(instant.value)
-  return `${date.toISOString()} · ${new Intl.DateTimeFormat(props.english ? 'en-US' : 'zh-CN', {
+  return `${date.toISOString()} · ${new Intl.DateTimeFormat(english.value ? 'en-US' : 'zh-CN', {
     timeZone: zone.value,
     dateStyle: 'short',
     timeStyle: 'long',

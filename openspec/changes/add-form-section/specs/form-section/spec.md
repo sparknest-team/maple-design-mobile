@@ -1,3 +1,5 @@
+> 历史规格。当前实现与导出以 [Section 文档](../../../../../packages/ui/src/section/docs/zh-CN.md) 为准。
+
 ## ADDED Requirements
 
 ### Requirement: Local form section

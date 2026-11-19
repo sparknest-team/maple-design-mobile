@@ -731,6 +731,7 @@ export default defineComponent({
           unmountOnClose={true}
           placement="bottom-start"
           popupOffset={4}
+          updateAtScroll
           preventFocus
           autoFitPopupWidth
           closeOnClickReference={false}

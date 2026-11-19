@@ -1,23 +1,18 @@
 import { nextTick } from 'vue'
 import { flushPromises, mount } from '@vue/test-utils'
-import { afterEach, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, expect, it } from 'vitest'
 import Button from '../../button'
 import Divider from '../../divider'
+import Locale from '../../locale'
 import Radio, { RadioGroup } from '../../radio'
 import Space from '../../space'
 import Checkbox, { CheckboxGroup } from '../index'
 
-const language = vi.hoisted(() => ({ callbacks: [] }))
-vi.mock('@maple-design/cli-vue/client', () => ({
-  watchLang(callback) {
-    language.callbacks.push(callback)
-    callback('en-US')
-  },
-}))
-
-afterEach(() => {
-  language.callbacks.length = 0
+beforeEach(() => {
+  Locale.add('en-US', Locale.enUS)
+  Locale.use('en-US')
 })
+afterEach(() => Locale.use('zh-CN'))
 
 for (const kind of ['checkbox', 'radio']) {
   it(`${kind} demo translates labels without changing selected numeric identity`, async () => {
@@ -48,7 +43,7 @@ for (const kind of ['checkbox', 'radio']) {
     await input.trigger('change')
     await flushPromises()
     expect(group.props('modelValue')).toEqual(kind === 'checkbox' ? [0] : 0)
-    language.callbacks.forEach((callback) => callback('zh-CN'))
+    Locale.use('zh-CN')
     await nextTick()
     expect(panel.text()).toContain('吃饭')
     expect(panel.find('input').element.checked).toBe(true)

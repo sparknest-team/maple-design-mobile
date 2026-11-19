@@ -1,6 +1,6 @@
 <script setup>
-import { computed, ref } from 'vue'
-import { AppType, onThemeChange, watchLang } from '@maple-design/cli-vue/client'
+import { AppType, onThemeChange } from '@maple-design/cli-vue/client'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import PickerFieldsDemo from '../../date-range/example/demos/string-values.vue'
 import ControlSizes from '../../field-decorator/example/demos/control-sizes.vue'
 import OrganizedAppearanceLab from './demos/appearance-lab.vue'
@@ -59,12 +59,6 @@ import TypeDemo from './demos/type.vue'
 import ContractDemo from './demos/value-formats.vue'
 import WithFormItemDemo from './demos/with-form-item.vue'
 
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-
-watchLang((value) => {
-  language.value = value
-})
 onThemeChange()
 </script>
 
@@ -126,7 +120,7 @@ onThemeChange()
 
   <section data-demo="time-zone-views">
     <app-type>{{ english ? 'Time zones, DST and calendar views' : '时区、夏令时与三种日历视图' }}</app-type>
-    <NewDateScenarios :english="english" />
+    <NewDateScenarios />
   </section>
 
   <section data-demo="multiple">

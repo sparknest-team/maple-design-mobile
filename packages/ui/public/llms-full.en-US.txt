@@ -7189,11 +7189,17 @@ Title, content and actions follow reading order. Default floating actions sit at
 <!-- same-source-api:start -->
 `row-reverse` reverses the horizontal cover and body order, with reading direction still following the container. Collapsed `floating-content` keeps its nodes and state but is inert to keyboard and assistive technology; it becomes interactive when expanded. Floating is available only in column direction.
 
-The floating layer remains at the Card’s original DOM location. An ancestor’s transform or similar property may change the fixed-position containing block, and ancestor clipping may obscure the layer, so viewport coverage is not guaranteed. When focus is inside an expanded Card, Escape requests closing unless an inner control has already handled the key; a nested topmost popup handles Escape first. The layer does not provide modal focus management; use Dialog when modal interaction is required.
+The expanded Card keeps its DOM position and native form ownership. Browsers with Popover API support can display it in the top layer, above transformed or clipping ancestors. An existing native modal or open popover in the same document takes precedence until it closes or is removed. The Card checks open shadow roots and its own shadow tree. Hosts manage layers inside other closed shadow roots. When top-layer display is unavailable or opening is canceled, the Card uses fixed positioning within its existing layout. When focus is inside an expanded Card, Escape requests closing unless an inner control has already handled the key; a nested topmost popup handles Escape first. When a button outside the Card opens it in the browser top layer, focus moves to the expanded panel if the button still has focus and the Card is the topmost layer. Pressing Escape on the panel returns focus to the opener. A child control that already has focus keeps it. In the browser top layer, Tab and Shift+Tab cycle through the expanded Card and library overlays above it. The expanded panel has the group role. After the top-layer Card finishes opening, background controls become inert. Library overlays above the Card and detectable native top layers remain interactive. Closing or unmounting the Card releases the background and preserves author-supplied `inert`. If a background web component creates a shadow root after isolation starts and immediately opens a native popover, set `popover` on the host and call the host’s `showPopover()`. This lets the Card release the host before opening and isolate it again after closing. Use Dialog when modal dialog semantics are required.
+
+When focus is in a native dialog opened with `showModal()`, Escape goes to the dialog. A `cancel` handler can keep the dialog open, and the Card stays expanded.
+
+Pressing Escape inside an expanded Card dismisses an open native auto or hint popover first. This also applies when focus remains on its trigger.
 
 When focus remains inside the expanded content or on the close button, closing attempts to return focus to the control used before expansion. If focus has moved elsewhere, it is not moved back. During the expansion delay, focusing the expanded content displays it immediately without waiting for the fade-in animation. Expanded content and the close button that are still hidden and unfocused during this delay are excluded from the accessibility tree; focusing either displays them immediately.
 
 If the opener is inside an external closed Shadow Root, Card cannot access the internal control directly. The host must delegate focus or the application must restore focus. `delegatesFocus` can forward host focus into the root, but does not guarantee the original control when several controls are present.
+
+When customizing the title, set `aria-labelledby` to the ID of its text element. For example, use `aria-labelledby="order-title"` on the Card and `<h2 id="order-title">Order details</h2>` in the header slot. This keeps a nearby action button out of the panel name. If the panel has no visible heading, supply `aria-label`.
 
 The default close button uses the current locale's close label; override it with `close-button-aria-label`. `floating-duration` is a finite nonnegative number of milliseconds; 0 disables the delay and invalid values fall back to 250. With reduced motion enabled, opening and closing do not wait for ripple or transition animations; changing the preference during an animation also takes effect.
 
@@ -7220,6 +7226,8 @@ The default close button uses the current locale's close label; override it with
 | ripple | Click ripple | `boolean` | `false` |
 | floating | Floating expansion state; supports v-model:floating | `boolean` | `false` |
 | floating-duration | Floating expansion transition duration in ms | `number` | `250` |
+| aria-label | Accessible name for the expanded panel. Defaults to the plain text title. | `string` | `—` |
+| aria-labelledby | ID of the visible heading in a custom title or header slot. | `string` | `—` |
 | close-button-aria-label | Accessible name of the default close button | `string` | `—` |
 
 ### Card Events
@@ -8437,14 +8445,9 @@ Example source: src/carousel/example/demos/autoplay.vue
 
 ```vue
 <script setup>
-import { computed, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
+import { ref } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-watchLang((value) => {
-  language.value = value
-})
 const current = ref(1)
 const playing = ref(true)
 const changes = ref(0)
@@ -10488,7 +10491,7 @@ Public types include CascaderBaseValue, CascaderOptionInfo, CascaderReadScope, C
 
 ## API
 
-A panel branch's `aria-expanded` reflects whether its child column is actually displayed; focus or hover alone does not mark it expanded. Leaves have no `aria-expanded`. Selectable leaves and selectable strict-mode branches in a single-select hierarchical menu use `menuitemradio` and `aria-checked`; expansion-only branches remain `menuitem`, and multiple selection retains checkboxes. Single-select hierarchical panels have one Tab entry; arrow keys move between columns and options, while Tab or Shift+Tab leaves the menu. With virtualization, the entry remains among rendered options; custom interactive controls in option slots manage their own focus. Search results do not declare hidden submenus. Direct single-select search uses `listbox` and `option`, with the input referencing the popup and active item; editor single-select search uses `menuitemradio` and `aria-checked`, with one Tab entry. Hovering another option does not move that entry while an option owns focus. Multiple-select search retains checkboxes. Direct multiple-select search uses a named dialog by default; ArrowDown from the open input focuses the first enabled checkbox, and Space toggles it. Explicit popup roles or external relationships remain caller-controlled. After client mount or hydration, automatic cross-root ID references are omitted when the input and popup are in different shadow roots. Server-rendered single- or multiple-select search that starts open may still output `aria-controls` that cannot resolve across roots before hydration; keep the input and popup in the same root if the relationship is needed on first render. For direct single- or multiple-select search inside Shadow DOM, set `:popup-container="false"` to render the popup inline in the same root as the input, allowing the automatic `aria-controls` relationship and, for single selection, `aria-activedescendant`. Inline rendering can be affected by ancestor clipping and stacking; verify the actual layout and test with assistive technology. In multiple-select editor search, ArrowDown in the search input focuses the first enabled result checkbox; focus stays in the input if none is available. In direct single-select search, the popup icon adds no Tab stop; click it or press ArrowDown in the input to open.
+In direct mode, the hierarchical popup is a named dialog containing column menus. The root menu uses the localized selection prompt. Each submenu is named after its full parent path, including when its parent row scrolls out of the virtual window. With the popup open and the input focused, press ArrowDown to enter an enabled menu item, then use the arrow keys to navigate the hierarchy. A panel branch's `aria-expanded` reflects whether its child column is actually displayed; focus or hover alone does not mark it expanded. Leaves have no `aria-expanded`. Selectable leaves and selectable strict-mode branches in a single-select hierarchical menu use `menuitemradio` and `aria-checked`; expansion-only branches remain `menuitem`, and selectable items in a multiple-select hierarchy expose unchecked, checked, or mixed state. Tab enters or leaves the menu, arrow keys move focus, and Space toggles selection. Clicking the checkbox also toggles selection. Custom slot controls retain their own tab stops. Single-select hierarchical panels have one Tab entry; arrow keys move between columns and options, while Tab or Shift+Tab leaves the menu. With virtualization, the entry remains among rendered options; custom interactive controls in option slots manage their own focus. Search results do not declare hidden submenus. Direct single-select search uses `listbox` and `option`, with the input referencing the popup and active item; editor single-select search uses `menuitemradio` and `aria-checked`, with one Tab entry. Hovering another option does not move that entry while an option owns focus. Multiple-select search retains checkboxes. Direct multiple-select search uses a named dialog by default; ArrowDown from the open input focuses the first enabled checkbox, and Space toggles it. Explicit popup roles or external relationships remain caller-controlled. After hydration, same-root popups use ID references. Browsers with ARIA element reflection can also associate the input with a popup in an ancestor root (such as the document body) and its active single-select option. For sibling or descendant shadow roots, render the popup in the input’s root to establish the relationship. On the server, inline popups receive automatic ID references. For teleported popups, the component determines the available relationship after hydration. For direct single- or multiple-select search inside Shadow DOM, set `:popup-container="false"` to render the popup inline in the same root as the input, allowing the automatic `aria-controls` relationship and, for single selection, `aria-activedescendant`. Inline rendering can be affected by ancestor clipping and stacking; verify the actual layout and test with assistive technology. In multiple-select editor search, ArrowDown in the search input focuses the first enabled result checkbox; focus stays in the input if none is available. In direct single-select search, the popup icon adds no Tab stop; click it or press ArrowDown in the input to open.
 
 When options are added or removed at the end of a virtual column, options still within the rendered range retain their nodes and focus. Switching parents does not reuse the previous column's scroll position. Options can unmount when removed or outside the virtual window; business code should retain any long-lived input state used by slots.
 
@@ -10963,14 +10966,8 @@ Example source: src/checkbox/example/demos/basic-usage.vue
 
 ```vue
 <script setup>
-import { computed, reactive, ref, toRefs } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
-
-const demoLanguage = ref('zh-CN')
-const english = computed(() => demoLanguage.value === 'en-US')
-watchLang((value) => {
-  demoLanguage.value = value
-})
+import { reactive, toRefs } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
 const values = reactive({
   value: false,
@@ -11039,19 +11036,11 @@ Example source: src/checkbox/example/demos/group-declaration-comparison.vue
 ```vue
 <script setup lang="ts">
 import { computed, proxyRefs as demoProxyRefs, reactive, ref, toRefs } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import type { CheckboxGroupInstance } from '@maple-design/ui-vue'
 
 const scene1 = demoProxyRefs(
   (() => {
-    const demoLanguage = ref('zh-CN')
-
-    const english = computed(() => demoLanguage.value === 'en-US')
-
-    watchLang((value) => {
-      demoLanguage.value = value
-    })
-
     const values = reactive({
       value: false,
       value2: false,
@@ -11084,7 +11073,6 @@ const scene1 = demoProxyRefs(
       fieldValue,
     } = toRefs(values)
     return {
-      demoLanguage,
       english,
       values,
       value,
@@ -11106,14 +11094,6 @@ const scene1 = demoProxyRefs(
 
 const scene2 = demoProxyRefs(
   (() => {
-    const demoLanguage = ref('zh-CN')
-
-    const english = computed(() => demoLanguage.value === 'en-US')
-
-    watchLang((value) => {
-      demoLanguage.value = value
-    })
-
     const values = reactive({
       value: false,
       value2: false,
@@ -11152,7 +11132,6 @@ const scene2 = demoProxyRefs(
       { label: english.value ? 'Game' : '游戏', value: 2, disabled: true },
     ])
     return {
-      demoLanguage,
       english,
       values,
       value,
@@ -11290,14 +11269,8 @@ Example source: src/checkbox/example/demos/vertical.vue
 
 ```vue
 <script setup>
-import { computed, reactive, ref, toRefs } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
-
-const demoLanguage = ref('zh-CN')
-const english = computed(() => demoLanguage.value === 'en-US')
-watchLang((value) => {
-  demoLanguage.value = value
-})
+import { reactive, toRefs } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
 const values = reactive({
   value: false,
@@ -11468,14 +11441,8 @@ Example source: src/checkbox/example/demos/custom-fields.vue
 
 ```vue
 <script setup>
-import { computed, reactive, ref, toRefs } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
-
-const demoLanguage = ref('zh-CN')
-const english = computed(() => demoLanguage.value === 'en-US')
-watchLang((value) => {
-  demoLanguage.value = value
-})
+import { computed, reactive, toRefs } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
 const values = reactive({
   value: false,
@@ -11541,14 +11508,8 @@ Example source: src/checkbox/example/demos/set-state.vue
 
 ```vue
 <script setup>
-import { computed, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
-
-const demoLanguage = ref('zh-CN')
-const english = computed(() => demoLanguage.value === 'en-US')
-watchLang((value) => {
-  demoLanguage.value = value
-})
+import { ref } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
 const selected = ref([])
 </script>
@@ -11586,14 +11547,8 @@ Example source: src/checkbox/example/demos/max.vue
 
 ```vue
 <script setup>
-import { computed, reactive, ref, toRefs } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
-
-const demoLanguage = ref('zh-CN')
-const english = computed(() => demoLanguage.value === 'en-US')
-watchLang((value) => {
-  demoLanguage.value = value
-})
+import { reactive, toRefs } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
 const values = reactive({
   value: false,
@@ -11654,13 +11609,7 @@ Example source: src/checkbox/example/demos/indeterminate.vue
 ```vue
 <script setup>
 import { computed, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
-
-const demoLanguage = ref('zh-CN')
-const english = computed(() => demoLanguage.value === 'en-US')
-watchLang((value) => {
-  demoLanguage.value = value
-})
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
 const selected = ref(['a'])
 const all = computed({
@@ -11857,14 +11806,8 @@ Example source: src/checkbox/example/demos/set-style.vue
 
 ```vue
 <script setup>
-import { computed, reactive, ref, toRefs } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
-
-const demoLanguage = ref('zh-CN')
-const english = computed(() => demoLanguage.value === 'en-US')
-watchLang((value) => {
-  demoLanguage.value = value
-})
+import { reactive, toRefs } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
 const values = reactive({
   value: false,
@@ -12287,7 +12230,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-checkbox-action-padding` | `6px` | `padding` |
 | `--mp-checkbox-animation-duration` | `var(--mp-sys-motion-duration-standard)` | `transition` |
 | `--mp-checkbox-control-border-radius` | `2px` | `border-radius` |
-| `--mp-checkbox-control-color` | `var(--mp-sys-color-content-secondary)` | `color` |
+| `--mp-checkbox-control-color` | `var(--mp-sys-color-border-default)` | `color` |
 | `--mp-checkbox-control-color-checked` | `var(--mp-sys-color-action-primary)` | `color` |
 | `--mp-checkbox-control-color-disabled` | `var(--mp-sys-color-content-disabled)` | `color` |
 | `--mp-checkbox-control-color-error` | `var(--mp-sys-color-content-danger)` | `color` |
@@ -19574,7 +19517,7 @@ Source: `src/checkbox/style/token.less`
 | `--mp-checkbox-action-padding` | Public | `6px` | Local CSS<br>`padding` |
 | `--mp-checkbox-animation-duration` | Public | `var(--mp-sys-motion-duration-standard)` | Local CSS<br>`transition` |
 | `--mp-checkbox-control-border-radius` | Public | `2px` | Local CSS<br>`border-radius` |
-| `--mp-checkbox-control-color` | Public | `var(--mp-sys-color-content-secondary)` | Local CSS<br>`color` |
+| `--mp-checkbox-control-color` | Public | `var(--mp-sys-color-border-default)` | Local CSS<br>`color` |
 | `--mp-checkbox-control-color-checked` | Public | `var(--mp-sys-color-content-brand)` | Local CSS<br>`color`, `outline` |
 | `--mp-checkbox-control-color-disabled` | Public | `var(--mp-sys-color-content-disabled)` | Local CSS<br>`color` |
 | `--mp-checkbox-control-color-error` | Public | `var(--mp-sys-color-content-danger)` | Local CSS<br>`color` |
@@ -19997,7 +19940,7 @@ Source: `src/field-decorator/style/token.less`
 | `--mp-field-variant-outline-border-color-disabled` | Public | `var(--mp-sys-color-border-subtle)` | Local CSS<br>`border-color` |
 | `--mp-field-variant-outline-border-color-error` | Public | `var(--mp-sys-color-status-danger)` | Local CSS<br>`border-color` |
 | `--mp-field-variant-outline-border-color-focus` | Public | `var(--mp-sys-color-action-primary)` | Local CSS<br>`border-color` |
-| `--mp-field-variant-outline-border-color-hover` | Public | `var(--mp-sys-color-border-strong)` | Local CSS<br>`border-color` |
+| `--mp-field-variant-outline-border-color-hover` | Public | `color-mix(in srgb, var(--mp-field-variant-outline-border-color) 80%, var(--mp-sys-color-border-strong))` | Local CSS<br>`border-color` |
 | `--mp-field-variant-standard-line-color` | Public | `var(--mp-field-blur-color)` | Local CSS<br>`border-bottom` |
 | `--mp-field-variant-standard-line-color-disabled` | Public | `var(--mp-sys-color-border-subtle)` | Local CSS<br>`border-bottom-color` |
 | `--mp-field-variant-standard-line-color-error` | Public | `var(--mp-field-error-color)` | Local CSS<br>`border-bottom-color` |
@@ -20049,7 +19992,7 @@ Source: `src/form/style/token.less`
 | `--mp-form-required-symbol-color` | Public | `var(--mp-sys-color-content-danger)` | Local CSS<br>`color` |
 | `--mp-form-size-md-item-margin-bottom` | Public | `16px` | Local CSS<br>`margin-bottom` |
 | `--mp-form-size-md-label-font-size` | Public | `14px` | Local CSS<br>`font-size` |
-| `--mp-form-tooltip-margin-left` | Public | `var(--mp-sys-space-2)` | Local CSS<br>`margin-inline-start` |
+| `--mp-form-tooltip-margin-left` | Public | `var(--mp-sys-space-2)` | Local CSS<br>`padding-inline-start` |
 | `--mp-form-tooltip-text-color` | Public | `var(--mp-sys-color-content-secondary)` | Local CSS<br>`color` |
 | `--mp-form-vertical-label-margin-bottom` | Public | `8px` | Local CSS<br>`margin-bottom` |
 
@@ -20873,7 +20816,7 @@ Source: `src/radio/style/token.less`
 | `--mp-internal-radio-segment-radius` | Internal | `var(--mp-sys-radius-md)` | Local CSS<br>`border-radius` |
 | `--mp-radio-action-padding` | Public | `6px` | Local CSS<br>`padding` |
 | `--mp-radio-animation-duration` | Public | `var(--mp-sys-motion-duration-standard)` | Local CSS<br>`transition` |
-| `--mp-radio-control-color` | Public | `var(--mp-sys-color-content-secondary)` | Local CSS<br>`color` |
+| `--mp-radio-control-color` | Public | `var(--mp-sys-color-border-default)` | Local CSS<br>`color` |
 | `--mp-radio-control-color-checked` | Public | `var(--mp-sys-color-content-brand)` | Local CSS<br>`color`, `outline` |
 | `--mp-radio-control-color-disabled` | Public | `var(--mp-sys-color-content-disabled)` | Local CSS<br>`color` |
 | `--mp-radio-control-color-error` | Public | `var(--mp-sys-color-content-danger)` | Local CSS<br>`box-shadow`, `color` |
@@ -21014,6 +20957,40 @@ Source: `src/search/style/token.less`
 | `--mp-search-size-icon` | Public | `20px` | Local CSS<br>`font-size` |
 | `--mp-search-size-min-height` | Public | `48px` | Local CSS<br>`min-height` |
 | `--mp-search-spacing-padding` | Public | `8px 16px` | Local CSS<br>`padding` |
+
+</div>
+
+## section
+
+Source: `src/section/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Layer | Declaration / condition | Consumer / CSS properties |
+| --- | --- | --- | --- |
+| `--mp-section-accent-color` | Public | `var(--mp-sys-color-action-primary)` | Local CSS<br>`background` |
+| `--mp-section-after-gap` | Public | `24px` | Local CSS<br>`margin-block` |
+| `--mp-section-before-gap` | Public | `32px` | Local CSS<br>`padding-block-start` |
+| `--mp-section-card-background` | Public | `var(--mp-sys-color-surface-default)` | Local CSS<br>`background` |
+| `--mp-section-card-padding` | Public | `16px` | Local CSS<br>`padding` |
+| `--mp-section-card-radius` | Public | `6px` | Local CSS<br>`border-radius` |
+| `--mp-section-description-color` | Public | `var(--mp-sys-color-content-secondary)` | Local CSS<br>`color` |
+| `--mp-section-description-gap` | Public | `4px` | Local CSS<br>`margin-block-start` |
+| `--mp-section-description-line-height` | Public | `20px` | Local CSS<br>`line-height` |
+| `--mp-section-description-size` | Public | `13px` | Local CSS<br>`font-size` |
+| `--mp-section-divider-color` | Public | `var(--mp-sys-color-border-default)` | Local CSS<br>`border`, `border-block-start` |
+| `--mp-section-divider-width` | Public | `1px` | Local CSS<br>`border`, `border-block-start` |
+| `--mp-section-end-divider-gap` | Public | `24px` | Local CSS<br>`margin-block-start` |
+| `--mp-section-header-gap` | Public | `20px` | Local CSS<br>`margin-block-end` |
+| `--mp-section-heading-gap` | Public | `16px` | Local CSS<br>`margin-inline-start` |
+| `--mp-section-marker-gap` | Public | `8px` | Local CSS<br>`margin-inline-end`, `row-gap` |
+| `--mp-section-marker-height` | Public | `16px` | Local CSS<br>`height` |
+| `--mp-section-marker-radius` | Public | `2px` | Local CSS<br>`border-radius` |
+| `--mp-section-marker-width` | Public | `3px` | Local CSS<br>`width` |
+| `--mp-section-title-color` | Public | `var(--mp-sys-color-content-primary)` | Local CSS<br>`color` |
+| `--mp-section-title-line-height` | Public | `24px` | Local CSS<br>`line-height` |
+| `--mp-section-title-size` | Public | `16px` | Local CSS<br>`font-size` |
+| `--mp-section-title-weight` | Public | `600` | Local CSS<br>`font-weight` |
 
 </div>
 
@@ -27075,7 +27052,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-field-variant-outline-border-color-disabled` | `var(--mp-sys-color-border-subtle)` | `border-color` |
 | `--mp-field-variant-outline-border-color-error` | `var(--mp-sys-color-status-danger)` | `border-color` |
 | `--mp-field-variant-outline-border-color-focus` | `var(--mp-sys-color-action-primary)` | `border-color` |
-| `--mp-field-variant-outline-border-color-hover` | `var(--mp-sys-color-border-strong)` | `border-color` |
+| `--mp-field-variant-outline-border-color-hover` | `color-mix(in srgb, var(--mp-field-variant-outline-border-color) 80%, var(--mp-sys-color-border-strong))` | `border-color` |
 | `--mp-field-variant-standard-line-color` | `var(--mp-field-blur-color)` | `border-bottom` |
 | `--mp-field-variant-standard-line-color-disabled` | `var(--mp-sys-color-border-subtle)` | `border-bottom-color` |
 | `--mp-field-variant-standard-line-color-error` | `var(--mp-field-error-color)` | `border-bottom-color` |
@@ -27401,13 +27378,19 @@ Horizontal FormItem uses zero Row gutter by default, preserving 16px item spacin
 
 ## Field names
 
+After mounting, the default label focuses the only text input, textarea or select in the field content. Adding a second independent control gives the group the visible label’s name. Give each control its own accessible name. For the association to work in server-rendered HTML, or to target a specific control in a composite field, set `label-attrs.for` and the matching control `id`. When both `for` and `htmlFor` are supplied, `for` takes precedence. Read-only display clears the target. In streamed HTML the label can reach the browser before an asynchronous child chooses which fields to render. For a clickable first-paint label, allocate a stable ID in the parent and forward it through the child component to its native input. Use distinct IDs for repeated rows.
+
 When `validate-status="error"` has no automatic validation error, the field associates visible `help` text or slot content through `aria-describedby`, preserving any supplied description. An automatic error takes precedence.
 
 In SSR with Vue 3.2.47, if multiple asynchronous form items resolve in opposite orders on the server and client, updating one item can duplicate generated description IDs or associate it with another field’s error. Giving the Input a stable `id` alone does not prevent this; the same scenario passed with Vue 3.5.45.
 
 For a deferred Slider inside Shadow DOM, a popup teleported to `body` may not resolve ID references to hints or errors inside the shadow root. Set `:popup-container="false"`, or pass an element within the same ShadowRoot as `popup-container`, to keep the popup and hints in the same root. Provide clear control names, and account for the container’s styling, positioning, and clipping.
 
-In direct edit mode, for a visible label on a single field, match FormItem `label-attrs.for` to the control `id`. The native inputs in selection, date and time fields do not let their placeholder override an associated label. An explicit `aria-label` or `aria-labelledby` retains its native accessible-name precedence. Placeholder is only a fallback when no label is supplied; provide clear labels. Date and time range fields in FormItem associate the form label with their group; use `input-attrs` to give the endpoints distinct names. If `label-attrs.for` targets another control, the label is not associated with the range group. Without `for`, the range currently references the nearest FormItem label even when that item contains other controls. For mixed fields, put the range in a separate styled FormItem with its own name, or explicitly target the intended control with `for` and name the other controls separately. When `for` matches a single-value Slider’s `id`, its thumb and optional numeric input use the label; clicking the default native label focuses the enabled thumb; preventing the label click default cancels that focus. When `for` matches a range Slider’s `id`, the form label names the group; use an `aria-label` array to name the endpoints separately. The `tooltip` button is independently focusable and its name is not added to the field label.
+A nested `no-style` field in `read-pretty` mode hides its validation feedback. Calling `setFields` for that field keeps the message out of the parent’s error description. Editable siblings continue to report their own errors.
+
+For a single deferred Input, the visible FormItem label targets the trigger while closed and the native input while editing. When adding a second input, give each field its own accessible name. The FormItem label names their group.
+
+In direct edit mode, for a visible label on a single field, match FormItem `label-attrs.for` to the control `id`. The native inputs in selection, date and time fields do not let their placeholder override an associated label. An explicit `aria-label` or `aria-labelledby` retains its native accessible-name precedence. Placeholder is only a fallback when no label is supplied; provide clear labels. Date and time range fields in FormItem associate the form label with their group; use `input-attrs` to give the endpoints distinct names. If `label-attrs.for` targets another control, the label is not associated with the range group. A range field on its own inherits the visible label. When the client identifies a range field alongside an independent input, the visible label names the whole group. Give the individual fields distinct names. When `for` matches a single-value Slider’s `id`, its thumb and optional numeric input use the label; clicking the default native label focuses the enabled thumb; preventing the label click default cancels that focus. When `for` matches a range Slider’s `id`, the form label names the group; use an `aria-label` array to name the endpoints separately. The `tooltip` button is independently focusable and its name is not added to the field label.
 
 ## Reading direction
 
@@ -27533,7 +27516,7 @@ const model = reactive({ name: '', notes: '' })
 
 ### Partial form section
 
-Group only the onsite SOP, safety notice and key points. The end divider separates the following ungrouped fields. Switch between line, plain and card above the form; your entries are preserved. Toggle the title marker and end divider to compare boundaries. Card uses its outer border instead of a separate end divider.  FormSection inherits the parent Form layout, label sizing, disabled state and validation; use Form/FormItem layout props to configure them. Supply a title or title slot. Folding and local layout overrides are not supported.
+Group only the onsite SOP, safety notice and key points. The end divider separates the following ungrouped fields. Switch between line, plain and card above the form; your entries are preserved. Toggle the title marker and end divider to compare boundaries. Card uses its outer border instead of a separate end divider.  Fields inside MpSection keep their parent form layout, label widths, disabled state and validation. The heading is optional. Folding and local layout overrides are not supported.
 
 Example source: src/form/example/demos/en-US/section.vue
 
@@ -27588,9 +27571,15 @@ For mixed controls, give the visible label a unique ID and explicitly name a gro
 Example source: src/form/example/demos/mixed-field-label.vue
 
 ```vue
+<script setup>
+import { useId } from 'vue'
+
+const contactLabelId = useId()
+</script>
+
 <template>
-  <mp-form-item label="Contact" label-component="span" :label-attrs="{ id: 'contact-label' }">
-    <div role="group" aria-labelledby="contact-label">
+  <mp-form-item label="Contact" label-component="span" :label-attrs="{ id: contactLabelId }">
+    <div role="group" :aria-labelledby="contactLabelId">
       <mp-input aria-label="Email" />
       <input aria-label="Phone" />
     </div>
@@ -27786,14 +27775,9 @@ Example source: src/form/example/demos/selection-summary.vue
 
 ```vue
 <script setup>
-import { computed, reactive, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
+import { reactive } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
-const language = ref('zh-CN')
-watchLang((value) => {
-  language.value = value
-})
-const english = computed(() => language.value === 'en-US')
 const values = reactive({ inlineSelect: ['a'], popupSelect: ['a'], inlineCascader: ['a'], popupCascader: ['a'] })
 const options = [
   { value: 'a', label: 'Alpha' },
@@ -29786,6 +29770,8 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 
 ### FormItem Slots
 
+When rendering a list of inputs in the default slot on the server, use `v-for` with a stable `:key`. Adding `v-memo` to the same node can leave the inputs out of the initial HTML. This applies to both values of `no-style`. To keep `v-memo`, move the list template into a separate Vue component and render that component in the slot, for example `<FieldList :rows="rows" />`. Keep the loop, key, and memo dependencies together in `FieldList.vue`.
+
 | Slot | Description |
 | --------- | -------------- |
 | `default` | Form control |
@@ -29846,25 +29832,7 @@ import type {
 } from '@maple-design/ui-vue'
 ```
 
-### FormSection Props
-
-| Prop | Description | Type | Default |
-| --- | --- | --- | --- |
-| id | Section ID; generated automatically when omitted | `string` | — |
-| title | Section title | `string` | `''` |
-| description | Supporting description below the title | `string` | `''` |
-| variant | Section appearance; card adds a border and content padding | `'line' \| 'plain' \| 'card'` | `'line'` |
-| show-marker | Show the theme-colored marker beside the title | `boolean` | `true` |
-| show-end-divider | Show an end divider before subsequent ungrouped fields; card does not draw it twice | `boolean` | `false` |
-
-### FormSection Slots
-
-| Slot | Description |
-| --- | --- |
-| default | Form fields within the section |
-| title | Custom title |
-| description | Custom description |
-| extra | Title action |
+The section API is documented in [Section](#/en-US/section).
 
 ## CSS Variables
 
@@ -29887,29 +29855,6 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-form-label-min-height` | `24px` | `min-height` |
 | `--mp-form-label-text-color` | `var(--mp-sys-color-content-primary)` | `color` |
 | `--mp-form-required-symbol-color` | `var(--mp-sys-color-content-danger)` | `color` |
-| `--mp-form-section-accent-color` | `var(--mp-sys-color-action-primary)` | `background` |
-| `--mp-form-section-after-gap` | `24px` | `margin-block` |
-| `--mp-form-section-before-gap` | `32px` | `padding-block-start` |
-| `--mp-form-section-card-background` | `var(--mp-sys-color-surface-default)` | `background` |
-| `--mp-form-section-card-padding` | `16px` | `padding` |
-| `--mp-form-section-card-radius` | `6px` | `border-radius` |
-| `--mp-form-section-description-color` | `var(--mp-sys-color-content-secondary)` | `color` |
-| `--mp-form-section-description-gap` | `4px` | `margin-block-start` |
-| `--mp-form-section-description-line-height` | `20px` | `line-height` |
-| `--mp-form-section-description-size` | `13px` | `font-size` |
-| `--mp-form-section-divider-color` | `var(--mp-sys-color-border-default)` | `border`, `border-block-start` |
-| `--mp-form-section-divider-width` | `1px` | `border`, `border-block-start` |
-| `--mp-form-section-end-divider-gap` | `24px` | `margin-block-start` |
-| `--mp-form-section-header-gap` | `20px` | `margin-block-end` |
-| `--mp-form-section-heading-gap` | `16px` | `margin-inline-start` |
-| `--mp-form-section-marker-gap` | `8px` | `margin-inline-end`, `row-gap` |
-| `--mp-form-section-marker-height` | `16px` | `height` |
-| `--mp-form-section-marker-radius` | `2px` | `border-radius` |
-| `--mp-form-section-marker-width` | `3px` | `width` |
-| `--mp-form-section-title-color` | `var(--mp-sys-color-content-primary)` | `color` |
-| `--mp-form-section-title-line-height` | `24px` | `line-height` |
-| `--mp-form-section-title-size` | `16px` | `font-size` |
-| `--mp-form-section-title-weight` | `600` | `font-weight` |
 | `--mp-form-size-md-item-margin-bottom` | `16px` | `margin-bottom` |
 | `--mp-form-size-md-label-font-size` | `14px` | `font-size` |
 | `--mp-form-tooltip-margin-left` | `var(--mp-sys-space-2)` | `padding-inline-start` |
@@ -31022,18 +30967,10 @@ Example source: src/icon/example/demos/lifecycle.vue
 
 ```vue
 <script setup>
-import { computed, getCurrentInstance, KeepAlive, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
+import { getCurrentInstance, KeepAlive, ref } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import { IconArrowLeft, IconArrowRight } from '@maple-design/icons-vue'
 
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-watchLang(
-  (value) => {
-    language.value = value
-  },
-  typeof window !== 'undefined' && window.location.hash.includes('language=') ? 'mobile' : 'pc',
-)
 const active = ref(true),
   iconName = ref('arrow-left'),
   duration = ref(300)
@@ -32415,18 +32352,13 @@ Example source: src/index-bar/example/demos/basic.vue
 
 ```vue
 <script setup>
-import { computed, ref } from 'vue'
-import { AppType, onThemeChange, watchLang } from '@maple-design/cli-vue/client'
+import { ref } from 'vue'
+import { AppType, onThemeChange } from '@maple-design/cli-vue/client'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
 const list = Array.from({ length: 26 }, (_, index) => String.fromCharCode(65 + index))
 const active = ref('A')
-const languagePlatform = typeof window !== 'undefined' && window.location.hash.includes('language=') ? 'mobile' : 'pc'
 
-watchLang((value) => {
-  language.value = value
-}, languagePlatform)
 onThemeChange()
 
 function handleChange(value) {
@@ -32504,17 +32436,10 @@ Example source: src/index-bar/example/demos/lifecycle.vue
 
 ```vue
 <script setup>
-import { computed, KeepAlive, ref, watch } from 'vue'
-import { AppType, watchLang } from '@maple-design/cli-vue/client'
+import { KeepAlive, ref, watch } from 'vue'
+import { AppType } from '@maple-design/cli-vue/client'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-watchLang(
-  (value) => {
-    language.value = value
-  },
-  typeof window !== 'undefined' && window.location.hash.includes('language=') ? 'mobile' : 'pc',
-)
 const mounted = ref(true),
   active = ref(true),
   bar = ref(),
@@ -32695,20 +32620,14 @@ Example source: src/infinite-scroll/example/demos/basic.vue
 
 ```vue
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onDeactivated, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
+import { onBeforeUnmount, onDeactivated, ref } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import type { InfiniteScrollStatus } from '@maple-design/ui-vue'
 
 const scroller = ref<HTMLElement>()
 const status = ref<InfiniteScrollStatus>('idle')
 let timer: ReturnType<typeof setTimeout> | undefined
 const items = ref<number[]>([])
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-
-watchLang((value) => {
-  language.value = value
-})
 
 function load() {
   clearTimeout(timer)
@@ -32755,8 +32674,8 @@ Example source: src/infinite-scroll/example/demos/error.vue
 
 ```vue
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onDeactivated, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
+import { onBeforeUnmount, onDeactivated, ref } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import type { InfiniteScrollStatus } from '@maple-design/ui-vue'
 
 const scroller = ref<HTMLElement>()
@@ -32764,12 +32683,6 @@ const status = ref<InfiniteScrollStatus>('idle')
 const items = ref<number[]>([])
 let failedOnce = false
 let timer: ReturnType<typeof setTimeout> | undefined
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-
-watchLang((value) => {
-  language.value = value
-})
 
 function load() {
   clearTimeout(timer)
@@ -32837,20 +32750,14 @@ Example source: src/infinite-scroll/example/demos/custom-status.vue
 
 ```vue
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onDeactivated, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
+import { onBeforeUnmount, onDeactivated, ref } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import type { InfiniteScrollStatus } from '@maple-design/ui-vue'
 
 const scroller = ref<HTMLElement>()
 const status = ref<InfiniteScrollStatus>('idle')
 let timer: ReturnType<typeof setTimeout> | undefined
 const items = ref<number[]>([])
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-
-watchLang((value) => {
-  language.value = value
-})
 
 function load() {
   clearTimeout(timer)
@@ -39860,6 +39767,8 @@ duration must be finite and nonnegative. Negative values, NaN and Infinity do no
 `default`、`icon`、`action`。
 
 
+A teleported Message keeps its placement and actions through its leave transition when a Card is expanded. Standalone messages center horizontally. The message queue uses `--mp-message-margin` for spacing between items.
+
 Messages automatically stay above active popups in the current document and track newly opened popups and explicit `zIndex` changes. They do not take over dialog focus or Esc handling. `--mp-message-z-index` sets the minimum message stacking level. Custom mount containers must still avoid ancestor stacking contexts and clipping constraints.
 
 ## CSS Variables
@@ -42876,18 +42785,12 @@ Example source: src/picker/example/demos/disabled.vue
 
 ```vue
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
+import { ref } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
 const disabled = ref(true)
 const value = ref<(string | number)[]>(['A'])
 const columns = [[{ text: 'A' }, { text: 'B' }, { text: 'C' }]]
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-
-watchLang((next) => {
-  language.value = next
-})
 </script>
 
 <template>
@@ -44496,8 +44399,8 @@ Example source: src/popup/example/demos/motion-token.vue
 ```vue
 <script setup>
 import { ref } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
-defineProps({ english: Boolean })
 const open = ref(false)
 const host = ref()
 </script>
@@ -47279,14 +47182,8 @@ Example source: src/radio/example/demos/basic-usage.vue
 
 ```vue
 <script setup>
-import { computed, reactive, ref, toRefs } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
-
-const demoLanguage = ref('zh-CN')
-const english = computed(() => demoLanguage.value === 'en-US')
-watchLang((value) => {
-  demoLanguage.value = value
-})
+import { reactive, toRefs } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
 const values = reactive({
   value: false,
@@ -47341,14 +47238,8 @@ Example source: src/radio/example/demos/disabled.vue
 
 ```vue
 <script setup>
-import { computed, reactive, ref, toRefs } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
-
-const demoLanguage = ref('zh-CN')
-const english = computed(() => demoLanguage.value === 'en-US')
-watchLang((value) => {
-  demoLanguage.value = value
-})
+import { reactive, toRefs } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
 const values = reactive({
   value: false,
@@ -47389,14 +47280,8 @@ Example source: src/radio/example/demos/readonly.vue
 
 ```vue
 <script setup>
-import { computed, reactive, ref, toRefs } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
-
-const demoLanguage = ref('zh-CN')
-const english = computed(() => demoLanguage.value === 'en-US')
-watchLang((value) => {
-  demoLanguage.value = value
-})
+import { reactive, toRefs } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
 const values = reactive({
   value: false,
@@ -47450,19 +47335,11 @@ Example source: src/radio/example/demos/group-declaration-comparison.vue
 
 ```vue
 <script setup lang="ts">
-import { computed, proxyRefs as demoProxyRefs, reactive, ref, toRefs } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
+import { computed, proxyRefs as demoProxyRefs, reactive, toRefs } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
 const scene1 = demoProxyRefs(
   (() => {
-    const demoLanguage = ref('zh-CN')
-
-    const english = computed(() => demoLanguage.value === 'en-US')
-
-    watchLang((value) => {
-      demoLanguage.value = value
-    })
-
     const values = reactive({
       value: false,
       value2: false,
@@ -47477,7 +47354,6 @@ const scene1 = demoProxyRefs(
 
     const { value, value2, value3, value4, value5, value6, value9, optionValue, fieldValue } = toRefs(values)
     return {
-      demoLanguage,
       english,
       values,
       value,
@@ -47495,14 +47371,6 @@ const scene1 = demoProxyRefs(
 
 const scene2 = demoProxyRefs(
   (() => {
-    const demoLanguage = ref('zh-CN')
-
-    const english = computed(() => demoLanguage.value === 'en-US')
-
-    watchLang((value) => {
-      demoLanguage.value = value
-    })
-
     const values = reactive({
       value: false,
       value2: false,
@@ -47523,7 +47391,6 @@ const scene2 = demoProxyRefs(
       { label: english.value ? 'Game' : '打游戏', value: 2, disabled: true },
     ])
     return {
-      demoLanguage,
       english,
       values,
       value,
@@ -47616,14 +47483,8 @@ Example source: src/radio/example/demos/vertical.vue
 
 ```vue
 <script setup>
-import { computed, reactive, ref, toRefs } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
-
-const demoLanguage = ref('zh-CN')
-const english = computed(() => demoLanguage.value === 'en-US')
-watchLang((value) => {
-  demoLanguage.value = value
-})
+import { reactive, toRefs } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
 const values = reactive({
   value: false,
@@ -47864,14 +47725,8 @@ Example source: src/radio/example/demos/custom-fields.vue
 
 ```vue
 <script setup>
-import { computed, reactive, ref, toRefs } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
-
-const demoLanguage = ref('zh-CN')
-const english = computed(() => demoLanguage.value === 'en-US')
-watchLang((value) => {
-  demoLanguage.value = value
-})
+import { computed, reactive, toRefs } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
 const values = reactive({
   value: false,
@@ -47923,14 +47778,8 @@ Example source: src/radio/example/demos/set-state.vue
 
 ```vue
 <script setup>
-import { computed, reactive, ref, toRefs } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
-
-const demoLanguage = ref('zh-CN')
-const english = computed(() => demoLanguage.value === 'en-US')
-watchLang((value) => {
-  demoLanguage.value = value
-})
+import { reactive, toRefs } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
 const values = reactive({
   value: false,
@@ -48109,14 +47958,8 @@ Example source: src/radio/example/demos/set-style.vue
 
 ```vue
 <script setup>
-import { computed, reactive, ref, toRefs } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
-
-const demoLanguage = ref('zh-CN')
-const english = computed(() => demoLanguage.value === 'en-US')
-watchLang((value) => {
-  demoLanguage.value = value
-})
+import { reactive, toRefs } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
 const values = reactive({
   value: false,
@@ -48471,7 +48314,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | --- | --- | --- |
 | `--mp-radio-action-padding` | `6px` | `padding` |
 | `--mp-radio-animation-duration` | `var(--mp-sys-motion-duration-standard)` | `transition` |
-| `--mp-radio-control-color` | `var(--mp-sys-color-content-secondary)` | `color` |
+| `--mp-radio-control-color` | `var(--mp-sys-color-border-default)` | `color` |
 | `--mp-radio-control-color-checked` | `var(--mp-sys-color-action-primary)` | `color` |
 | `--mp-radio-control-color-disabled` | `var(--mp-sys-color-content-disabled)` | `color` |
 | `--mp-radio-control-color-error` | `var(--mp-sys-color-content-danger)` | `box-shadow`, `color` |
@@ -49397,7 +49240,7 @@ Example source: src/ripple/example/demos/motion-token.vue
 
 ```vue
 <script setup>
-defineProps({ english: Boolean })
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 </script>
 
 <template>
@@ -51868,6 +51711,232 @@ Explicit inline styles and props that write the same CSS property take precedenc
 
 ---
 
+Document: llms/en-US/section.md
+
+<!-- Source: src/section/docs/en-US.md; locale: en-US; page: /en-US/section -->
+
+# Section
+
+Group a heading, description, actions and content in a page, drawer or card. Outside forms, the parent layout controls section spacing. Inside Form, Section spans all grid columns, adjusts field spacing, and wraps fields horizontally in inline layout.
+
+## Basic examples
+
+### Plain section
+
+Example source: src/section/example/demos/plain.vue
+
+```vue
+<template>
+  <mp-section :title="copy.permissions" :description="copy.scope">
+    <dl>
+      <dt>{{ copy.admin }}</dt>
+      <dd>{{ copy.manage }}</dd>
+      <dt>{{ copy.member }}</dt>
+      <dd>{{ copy.update }}</dd>
+    </dl>
+  </mp-section>
+</template>
+
+<script setup lang="ts">
+import { copy } from '../messages'
+</script>
+```
+
+### Section with a line
+
+Example source: src/section/example/demos/line.vue
+
+```vue
+<template>
+  <mp-section :title="copy.history" variant="line">
+    <template #extra>
+      <mp-button :aria-expanded="expanded" @click="expanded = !expanded">
+        {{ expanded ? copy.latest : copy.all }}
+      </mp-button>
+    </template>
+    <ul>
+      <li>{{ copy.exportRelease }}</li>
+      <li v-if="expanded">{{ copy.memberRelease }}</li>
+    </ul>
+  </mp-section>
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+import { copy } from '../messages'
+
+const expanded = ref(false)
+</script>
+```
+
+### Card with a custom heading
+
+Use the title and description slots for the card header. `show-marker` adds an accent before the heading, and `heading-level` sets its HTML level.
+
+Example source: src/section/example/demos/card.vue
+
+```vue
+<script setup lang="ts">
+import { copy } from '../messages'
+</script>
+
+<template>
+  <mp-section variant="card" show-marker :heading-level="3">
+    <template #title>{{ copy.history }}</template>
+    <template #description>{{ copy.latestRelease }}</template>
+    <p>{{ copy.exportRelease }}</p>
+  </mp-section>
+</template>
+```
+
+### With or without a heading
+
+Switch between plain, line and card, then toggle the heading and description independently. The example starts with just the body. With both options off, Section omits the header, including the line in the line variant.
+
+Example source: src/section/example/demos/heading-options.vue
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue'
+import { copy } from '../messages'
+import type { SectionVariant } from '../../props'
+
+const variants = ['plain', 'line', 'card'] as const
+const variant = ref<SectionVariant>('card')
+const withTitle = ref(false)
+const withDescription = ref(false)
+</script>
+
+<template>
+  <mp-space direction="column" align="stretch">
+    <mp-radio-group
+      v-model="variant"
+      :aria-label="copy.variantLabel"
+      :options="variants.map((value) => ({ value, label: value }))"
+    />
+    <mp-space wrap>
+      <mp-checkbox v-model="withTitle">{{ copy.withTitle }}</mp-checkbox>
+      <mp-checkbox v-model="withDescription">{{ copy.withDescription }}</mp-checkbox>
+    </mp-space>
+    <mp-section
+      :variant="variant"
+      :title="withTitle ? copy.permissions : undefined"
+      :description="withDescription ? copy.scope : undefined"
+    >
+      <dl>
+        <dt>{{ copy.admin }}</dt>
+        <dd>{{ copy.manage }}</dd>
+        <dt>{{ copy.member }}</dt>
+        <dd>{{ copy.update }}</dd>
+      </dl>
+    </mp-section>
+  </mp-space>
+</template>
+```
+
+### Grouping inline form fields
+
+Inside Form, Section defaults to line with a heading marker. The fields follow the inline layout and wrap when space is limited. `show-end-divider` adds a line after the fields.
+
+Example source: src/section/example/demos/inline-form.vue
+
+```vue
+<script setup lang="ts">
+import { reactive } from 'vue'
+import { copy } from '../messages'
+
+const model = reactive({ name: '', department: '' })
+</script>
+
+<template>
+  <mp-form :model="model" layout="inline" edit-mode="direct">
+    <mp-section :title="copy.memberDetails" show-end-divider>
+      <mp-form-item field="name" :label="copy.name">
+        <mp-input v-model="model.name" />
+      </mp-form-item>
+      <mp-form-item field="department" :label="copy.department">
+        <mp-input v-model="model.department" />
+      </mp-form-item>
+    </mp-section>
+  </mp-form>
+</template>
+```
+
+## API
+
+### Section Props
+
+| Prop | Description | Type | Default |
+| --- | --- | --- | --- |
+| id | Section anchor | string | Automatically generated |
+| title | Heading text | string | Empty |
+| description | Supporting text below the heading | string | Empty |
+| variant | Appearance, plain, line or card | 'plain' \| 'line' \| 'card' | line inside Form, otherwise plain |
+| heading-level | HTML heading level from 1 to 6 | 1–6 | 3 inside Form, otherwise 2 |
+| show-marker | Show a heading marker | boolean | Enabled inside Form |
+| show-end-divider | Draw a trailing line in plain and line variants | boolean | false |
+
+### Section Slots
+
+Use the default slot for content and extra for actions. The title and description slots override their respective text props.
+
+| Slot | Description |
+| --- | --- |
+| default | Section body |
+| title | Custom heading |
+| description | Supporting text |
+| extra | Header actions |
+
+## CSS Variables
+
+<!-- component-css-variables:start -->
+
+Use these variables to customize the component. Defaults may vary by the selector condition shown. Each variable applies to the corresponding size, variant and interaction states.
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Default / condition | Affected styles |
+| --- | --- | --- |
+| `--mp-section-accent-color` | `var(--mp-sys-color-action-primary)` | `background` |
+| `--mp-section-after-gap` | `24px` | `margin-block` |
+| `--mp-section-before-gap` | `32px` | `padding-block-start` |
+| `--mp-section-card-background` | `var(--mp-sys-color-surface-default)` | `background` |
+| `--mp-section-card-padding` | `16px` | `padding` |
+| `--mp-section-card-radius` | `6px` | `border-radius` |
+| `--mp-section-description-color` | `var(--mp-sys-color-content-secondary)` | `color` |
+| `--mp-section-description-gap` | `4px` | `margin-block-start` |
+| `--mp-section-description-line-height` | `20px` | `line-height` |
+| `--mp-section-description-size` | `13px` | `font-size` |
+| `--mp-section-divider-color` | `var(--mp-sys-color-border-default)` | `border`, `border-block-start` |
+| `--mp-section-divider-width` | `1px` | `border`, `border-block-start` |
+| `--mp-section-end-divider-gap` | `24px` | `margin-block-start` |
+| `--mp-section-header-gap` | `20px` | `margin-block-end` |
+| `--mp-section-heading-gap` | `16px` | `margin-inline-start` |
+| `--mp-section-marker-gap` | `8px` | `margin-inline-end`, `row-gap` |
+| `--mp-section-marker-height` | `16px` | `height` |
+| `--mp-section-marker-radius` | `2px` | `border-radius` |
+| `--mp-section-marker-width` | `3px` | `width` |
+| `--mp-section-title-color` | `var(--mp-sys-color-content-primary)` | `color` |
+| `--mp-section-title-line-height` | `24px` | `line-height` |
+| `--mp-section-title-size` | `16px` | `font-size` |
+| `--mp-section-title-weight` | `600` | `font-weight` |
+
+</div>
+
+Apply overrides to the rendered component root or the actual popup ancestor. For example, add the following class to that element and replace the value as needed:
+
+```css
+.component-theme {
+  --mp-section-accent-color: var(--mp-sys-color-action-primary);
+}
+```
+
+Explicit inline styles and props that write the same CSS property take precedence over stylesheet defaults. After Teleport, ordinary CSS variables inherit from the actual mount location. When using ThemeProvider, follow its local-theme and popup configuration rules. Override the component variable directly for local styling; root-level aliases are not recalculated merely because a descendant system variable changes. Internal variables are not public APIs.
+
+<!-- component-css-variables:end -->
+
+---
+
 Document: llms/en-US/select.md
 
 <!-- Source: src/select/docs/en-US.md; locale: en-US; page: /en-US/select -->
@@ -52475,18 +52544,14 @@ Example source: src/select/example/demos/same-label.vue
 
 ```vue
 <script setup>
-import { computed, reactive, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
+import { computed, reactive } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
 const values = reactive({ inline: [1, 2], dialog: [1, 2], popup: [1, 2] })
-const language = ref('zh-CN')
-watchLang((value) => {
-  language.value = value
-})
 const options = computed(() => [
-  { value: 1, label: language.value === 'en-US' ? 'Device' : '设备' },
-  { value: 2, label: language.value === 'en-US' ? 'Device' : '设备' },
-  { value: 3, label: language.value === 'en-US' ? 'Spare device' : '备用设备' },
+  { value: 1, label: english.value ? 'Device' : '设备' },
+  { value: 2, label: english.value ? 'Device' : '设备' },
+  { value: 3, label: english.value ? 'Spare device' : '备用设备' },
 ])
 </script>
 
@@ -58262,15 +58327,8 @@ Example source: src/split-button/example/basic.vue
 
 ```vue
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import { Message } from '@maple-design/ui-vue'
-
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-watchLang((value) => {
-  language.value = value
-})
 
 const publish = () => {
   Message.info(english.value ? 'Published' : '发布成功')
@@ -58316,15 +58374,8 @@ Example source: src/split-button/example/variants.vue
 
 ```vue
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import { Message } from '@maple-design/ui-vue'
-
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-watchLang((value) => {
-  language.value = value
-})
 
 const publish = () => {
   Message.info(english.value ? 'Published' : '发布成功')
@@ -58364,15 +58415,8 @@ Example source: src/split-button/example/disabled.vue
 
 ```vue
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import { Message } from '@maple-design/ui-vue'
-
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-watchLang((value) => {
-  language.value = value
-})
 
 const publish = () => {
   Message.info(english.value ? 'Published' : '发布成功')
@@ -58442,16 +58486,10 @@ Example source: src/split-button/example/demos/appearance-lab.vue
 
 ```vue
 <script setup lang="ts">
-import { computed, computed as demoComputed, ref as demoRef, reactive, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
+import { computed as demoComputed, ref as demoRef, reactive } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import { Message } from '@maple-design/ui-vue'
 import type { ComponentSize, SemanticStatus } from '../../../utils/constants'
-
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-watchLang((value) => {
-  language.value = value
-})
 
 const publish = () => {
   Message.info(english.value ? 'Published' : '发布成功')
@@ -58585,15 +58623,9 @@ Example source: src/split-button/example/popup.vue
 
 ```vue
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
+import { ref } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import { Message } from '@maple-design/ui-vue'
-
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-watchLang((value) => {
-  language.value = value
-})
 
 const lastAction = ref('')
 const handleSelect = (value: unknown, option: { label?: unknown }) => {
@@ -58641,15 +58673,8 @@ Example source: src/split-button/example/custom-icon.vue
 
 ```vue
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import { Message } from '@maple-design/ui-vue'
-
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-watchLang((value) => {
-  language.value = value
-})
 
 const publish = () => {
   Message.info(english.value ? 'Published' : '发布成功')
@@ -58691,15 +58716,9 @@ Example source: src/split-button/example/controlled.vue
 
 ```vue
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
+import { ref } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import { Message } from '@maple-design/ui-vue'
-
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-watchLang((value) => {
-  language.value = value
-})
 
 const publish = () => {
   Message.info(english.value ? 'Published' : '发布成功')
@@ -58740,15 +58759,9 @@ Example source: src/split-button/example/async-action.vue
 
 ```vue
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
+import { ref } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import { Message } from '@maple-design/ui-vue'
-
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-watchLang((value) => {
-  language.value = value
-})
 
 const completed = ref(0)
 const publishing = ref(false)
@@ -64164,13 +64177,10 @@ Example source: src/themes/example/FireflyScenes.vue
 ```vue
 <script setup>
 import { computed, ref } from 'vue'
-import { watchLang, watchTheme } from '@maple-design/cli-vue/client'
+import { watchTheme } from '@maple-design/cli-vue/client'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import { Themes } from '@maple-design/ui-vue'
 
-const english = ref(false)
-watchLang((value) => {
-  english.value = value === 'en-US'
-})
 const mode = ref('light')
 const background = ref('light')
 watchTheme((theme) => {
@@ -64718,9 +64728,10 @@ Example source: src/time/example/demos/time-fields.vue
 ```vue
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import type { TimePickerField } from '../../picker-props'
 
-const props = defineProps<{ range?: boolean; english?: boolean }>()
+const props = defineProps<{ range?: boolean }>()
 const preset = ref('hour-minute')
 const fields = computed<TimePickerField[]>(() =>
   preset.value === 'minute-hour' ? ['minute', 'hour'] : preset.value === 'second' ? ['second'] : ['hour', 'minute'],
@@ -64775,14 +64786,8 @@ Example source: src/time-range/example/demos/next-day.vue
 
 ```vue
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
-
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-watchLang((value) => {
-  language.value = value
-})
+import { ref } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
 const range = ref<string[] | undefined>(['22:00', '06:00'])
 const reset = () => {
@@ -66280,9 +66285,10 @@ Example source: src/time/example/demos/time-fields.vue
 ```vue
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import type { TimePickerField } from '../../picker-props'
 
-const props = defineProps<{ range?: boolean; english?: boolean }>()
+const props = defineProps<{ range?: boolean }>()
 const preset = ref('hour-minute')
 const fields = computed<TimePickerField[]>(() =>
   preset.value === 'minute-hour' ? ['minute', 'hour'] : preset.value === 'second' ? ['second'] : ['hour', 'minute'],
@@ -68737,7 +68743,7 @@ With Teleport, variables must be in the actual popup scope, for example through 
 | `auto-fit-position` | Flip and shift into the viewport | _boolean_ | `true` |
 | `auto-fit-popup-width` | Match reference width | _boolean_ | `false` |
 | `auto-fit-popup-min-width` | Match reference minimum width | _boolean_ | `false` |
-| `auto-fix-position` | Observe reference element size changes; disabling this still observes the popup and positioning parent and responds to window changes | _boolean_ | `true` |
+| `auto-fix-position` | Reposition when the reference changes size or when a CSS transition or animation on the reference or its ancestors ends or is canceled. Popup, positioning parent and window resize handling remain active when disabled | _boolean_ | `true` |
 | `update-at-scroll` | Reposition while scrolling | _boolean_ | `false` |
 | `scroll-to-close` | Close after the scroll threshold | _boolean_ | `false` |
 | `scroll-to-close-distance` | Close threshold | _number_ | `0` |

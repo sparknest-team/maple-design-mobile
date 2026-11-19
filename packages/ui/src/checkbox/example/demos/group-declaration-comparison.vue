@@ -1,18 +1,10 @@
 <script setup lang="ts">
 import { computed, proxyRefs as demoProxyRefs, reactive, ref, toRefs } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import type { CheckboxGroupInstance } from '@maple-design/ui-vue'
 
 const scene1 = demoProxyRefs(
   (() => {
-    const demoLanguage = ref('zh-CN')
-
-    const english = computed(() => demoLanguage.value === 'en-US')
-
-    watchLang((value) => {
-      demoLanguage.value = value
-    })
-
     const values = reactive({
       value: false,
       value2: false,
@@ -45,7 +37,6 @@ const scene1 = demoProxyRefs(
       fieldValue,
     } = toRefs(values)
     return {
-      demoLanguage,
       english,
       values,
       value,
@@ -67,14 +58,6 @@ const scene1 = demoProxyRefs(
 
 const scene2 = demoProxyRefs(
   (() => {
-    const demoLanguage = ref('zh-CN')
-
-    const english = computed(() => demoLanguage.value === 'en-US')
-
-    watchLang((value) => {
-      demoLanguage.value = value
-    })
-
     const values = reactive({
       value: false,
       value2: false,
@@ -113,7 +96,6 @@ const scene2 = demoProxyRefs(
       { label: english.value ? 'Game' : '游戏', value: 2, disabled: true },
     ])
     return {
-      demoLanguage,
       english,
       values,
       value,

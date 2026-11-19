@@ -466,18 +466,10 @@ Example source: src/icon/example/demos/lifecycle.vue
 
 ```vue
 <script setup>
-import { computed, getCurrentInstance, KeepAlive, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
+import { getCurrentInstance, KeepAlive, ref } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import { IconArrowLeft, IconArrowRight } from '@maple-design/icons-vue'
 
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-watchLang(
-  (value) => {
-    language.value = value
-  },
-  typeof window !== 'undefined' && window.location.hash.includes('language=') ? 'mobile' : 'pc',
-)
 const active = ref(true),
   iconName = ref('arrow-left'),
   duration = ref(300)

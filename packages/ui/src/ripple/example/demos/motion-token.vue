@@ -1,5 +1,5 @@
 <script setup>
-defineProps({ english: Boolean })
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 </script>
 
 <template>

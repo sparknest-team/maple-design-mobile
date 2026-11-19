@@ -170,13 +170,17 @@ Title, content and actions follow reading order. Default floating actions sit at
 <!-- same-source-api:start -->
 `row-reverse` reverses the horizontal cover and body order, with reading direction still following the container. Collapsed `floating-content` keeps its nodes and state but is inert to keyboard and assistive technology; it becomes interactive when expanded. Floating is available only in column direction.
 
-The floating layer remains at the Card’s original DOM location. An ancestor’s transform or similar property may change the fixed-position containing block, and ancestor clipping may obscure the layer, so viewport coverage is not guaranteed. When focus is inside an expanded Card, Escape requests closing unless an inner control has already handled the key; a nested topmost popup handles Escape first. The layer does not provide modal focus management; use Dialog when modal interaction is required.
+The expanded Card keeps its DOM position and native form ownership. Browsers with Popover API support can display it in the top layer, above transformed or clipping ancestors. An existing native modal or open popover in the same document takes precedence until it closes or is removed. The Card checks open shadow roots and its own shadow tree. Hosts manage layers inside other closed shadow roots. When top-layer display is unavailable or opening is canceled, the Card uses fixed positioning within its existing layout. When focus is inside an expanded Card, Escape requests closing unless an inner control has already handled the key; a nested topmost popup handles Escape first. When a button outside the Card opens it in the browser top layer, focus moves to the expanded panel if the button still has focus and the Card is the topmost layer. Pressing Escape on the panel returns focus to the opener. A child control that already has focus keeps it. In the browser top layer, Tab and Shift+Tab cycle through the expanded Card and library overlays above it. The expanded panel has the group role. After the top-layer Card finishes opening, background controls become inert. Library overlays above the Card and detectable native top layers remain interactive. Closing or unmounting the Card releases the background and preserves author-supplied `inert`. If a background web component creates a shadow root after isolation starts and immediately opens a native popover, set `popover` on the host and call the host’s `showPopover()`. This lets the Card release the host before opening and isolate it again after closing. Use Dialog when modal dialog semantics are required.
 
 When focus is in a native dialog opened with `showModal()`, Escape goes to the dialog. A `cancel` handler can keep the dialog open, and the Card stays expanded.
+
+Pressing Escape inside an expanded Card dismisses an open native auto or hint popover first. This also applies when focus remains on its trigger.
 
 When focus remains inside the expanded content or on the close button, closing attempts to return focus to the control used before expansion. If focus has moved elsewhere, it is not moved back. During the expansion delay, focusing the expanded content displays it immediately without waiting for the fade-in animation. Expanded content and the close button that are still hidden and unfocused during this delay are excluded from the accessibility tree; focusing either displays them immediately.
 
 If the opener is inside an external closed Shadow Root, Card cannot access the internal control directly. The host must delegate focus or the application must restore focus. `delegatesFocus` can forward host focus into the root, but does not guarantee the original control when several controls are present.
+
+When customizing the title, set `aria-labelledby` to the ID of its text element. For example, use `aria-labelledby="order-title"` on the Card and `<h2 id="order-title">Order details</h2>` in the header slot. This keeps a nearby action button out of the panel name. If the panel has no visible heading, supply `aria-label`.
 
 The default close button uses the current locale's close label; override it with `close-button-aria-label`. `floating-duration` is a finite nonnegative number of milliseconds; 0 disables the delay and invalid values fall back to 250. With reduced motion enabled, opening and closing do not wait for ripple or transition animations; changing the preference during an animation also takes effect.
 
@@ -203,6 +207,8 @@ The default close button uses the current locale's close label; override it with
 | ripple | Click ripple | `boolean` | `false` |
 | floating | Floating expansion state; supports v-model:floating | `boolean` | `false` |
 | floating-duration | Floating expansion transition duration in ms | `number` | `250` |
+| aria-label | Accessible name for the expanded panel. Defaults to the plain text title. | `string` | `—` |
+| aria-labelledby | ID of the visible heading in a custom title or header slot. | `string` | `—` |
 | close-button-aria-label | Accessible name of the default close button | `string` | `—` |
 
 ### Card Events

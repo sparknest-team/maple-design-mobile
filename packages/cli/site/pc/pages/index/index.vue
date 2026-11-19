@@ -4,12 +4,14 @@ import config from '@config'
 import { getPCLocationInfo, onThemeChange } from '@maple-design/cli-vue/client'
 import { IconGithub as MIconGithub, IconTwitter as MIconTwitter } from '@maple-design/icons-vue'
 import { useRoute, useRouter } from 'vue-router'
+import { sectionRoute } from '../../../documentation-sections'
 import { resolveSiteAsset } from '../../../utils'
 import AppAd from '../../components/AppAd.vue'
 import AppHeader from '../../components/AppHeader.vue'
 
 const route = useRoute()
 const router = useRouter()
+const sections = config?.pc?.sections ?? []
 const github = config?.pc?.header?.github
 const siteLogo = resolveSiteAsset(config?.logo)
 const title: Ref<string> = ref(config?.title)
@@ -42,10 +44,7 @@ onThemeChange(undefined, 'site')
 
 watch(
   () => route.path,
-  () => {
-    language.value = getPCLocationInfo().language
-    setLocale()
-  },
+  setLocale,
   { immediate: true },
 )
 </script>
@@ -53,7 +52,11 @@ watch(
 <template>
   <div class="maple-doc-index">
     <app-ad :language="language" />
-    <app-header :language="language" />
+    <app-header
+      :language="language"
+      :sections="sections"
+      @section-change="(section) => router.push(sectionRoute(section, language))"
+    />
     <div class="maple-doc-index__layout">
       <div class="maple-doc-index__main-container">
         <div class="maple-doc-index__logo-container">

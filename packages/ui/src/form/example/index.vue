@@ -1,6 +1,6 @@
 <script setup>
-import { computed, ref } from 'vue'
-import { AppType, onThemeChange, watchLang } from '@maple-design/cli-vue/client'
+import { AppType, onThemeChange } from '@maple-design/cli-vue/client'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import AsyncFieldsDemo from './demos/async-fields.vue'
 import AsyncRaceDemo from './demos/async-race.vue'
 import ChangeSourceDemo from './demos/change-source.vue'
@@ -59,12 +59,6 @@ import SubmitInputsDemo from './demos/submit-inputs.vue'
 import ScenarioDemo from './demos/task-workflow.vue'
 import VerticalLabelDemo from './demos/vertical-label.vue'
 
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-
-watchLang((value) => {
-  language.value = value
-})
 onThemeChange()
 </script>
 
@@ -87,7 +81,7 @@ onThemeChange()
 
   <section data-demo="layout-comparison">
     <app-type>{{ english ? 'Layout switching and item overrides' : '布局切换与单项覆盖' }}</app-type>
-    <LayoutComparison :english="english" />
+    <LayoutComparison />
   </section>
 
   <section data-demo="decoration">
@@ -99,14 +93,14 @@ onThemeChange()
     <h3 class="mobile-demo-case-heading">
       <span lang="zh-CN">局部表单分区</span><span lang="en-US">Partial form section</span>
     </h3>
-    <SectionDemo :english="english" />
+    <SectionDemo />
   </section>
 
   <section data-demo="section-actions">
     <h3 class="mobile-demo-case-heading">
       <span lang="zh-CN">分区标题操作</span><span lang="en-US">Section header actions</span>
     </h3>
-    <SectionActionsDemo :english="english" />
+    <SectionActionsDemo />
   </section>
 
   <section data-demo="label-width-comparison">

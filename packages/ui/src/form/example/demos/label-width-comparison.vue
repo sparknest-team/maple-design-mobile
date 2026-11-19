@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
-const props = defineProps<{ english?: boolean }>()
 const mode = ref<'auto' | 'columns' | 'fixed'>('auto')
 const showExtra = ref(true)
 const customLabel = ref('')
 const model = reactive({ name: '', department: '', contact: '' })
 const labels = computed(() =>
-  props.english
+  english.value
     ? {
         auto: 'Measured labels',
         columns: 'Responsive columns',

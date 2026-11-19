@@ -1,17 +1,16 @@
 <script setup>
 import <%- bigCamelizeNamespace + bigCamelizeName %> from '..'
-<% if (!locale) { -%>
 import { AppType } from '@maple-design/cli-vue/client'
-<% } -%>
 <% if (locale) { -%>
-import { watchLang, AppType } from '@maple-design/cli-vue/client'
-import { use, t } from './locale'
+import { t<% if (!internal) { %>, useComponentLanguage<% } %> } from './locale'
+<% if (!internal) { -%>
 
-watchLang(use)
+useComponentLanguage()
+<% } -%>
 <% } -%>
 </script>
 
 <template>
-  <app-type>Mobile phone example code</app-type>
+  <app-type><% if (locale) { %>{{ t('heading') }}<% } else { %>Mobile phone example code<% } %></app-type>
   <mp-<%- kebabCaseName %>/>
 </template>

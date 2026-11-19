@@ -1,6 +1,6 @@
 <script setup>
-import { computed, ref } from 'vue'
-import { AppType, onThemeChange, watchLang } from '@maple-design/cli-vue/client'
+import { AppType, onThemeChange } from '@maple-design/cli-vue/client'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import ControlSizes from '../../field-decorator/example/demos/control-sizes.vue'
 import AmPmFormatsDemo from './demos/ampm-formats.vue'
 import BasicUsageDemo from './demos/basic-usage.vue'
@@ -46,12 +46,6 @@ import PickerFieldsDemo from './demos/time-fields.vue'
 import WheelLimitsDemo from './demos/wheel-limits.vue'
 import WithFormItemDemo from './demos/with-form-item.vue'
 
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-
-watchLang((value) => {
-  language.value = value
-})
 onThemeChange()
 </script>
 
@@ -92,7 +86,7 @@ onThemeChange()
 
   <section data-demo="time-fields">
     <app-type>{{ english ? 'Visible wheel fields' : '滚轮可见字段' }}</app-type>
-    <PickerFieldsDemo :english="english" />
+    <PickerFieldsDemo />
   </section>
 
   <section data-demo="ampm-formats">

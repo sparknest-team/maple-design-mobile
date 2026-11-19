@@ -1,6 +1,6 @@
 <script setup>
-import { computed, ref } from 'vue'
-import { AppType, onThemeChange, watchLang } from '@maple-design/cli-vue/client'
+import { AppType, onThemeChange } from '@maple-design/cli-vue/client'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import BasicDemo from './demos/basic-usage.vue'
 import ContentDemo from './demos/custom-content.vue'
 import PositionDemo from './demos/custom-position.vue'
@@ -11,11 +11,6 @@ import TargetEnDemo from './demos/en-US/target-container.vue'
 import OrganizedSchedulerLifecycle from './demos/scheduler-lifecycle.vue'
 import TargetDemo from './demos/target-container.vue'
 
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-watchLang((value) => {
-  language.value = value
-})
 onThemeChange()
 </script>
 

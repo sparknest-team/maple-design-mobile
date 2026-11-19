@@ -1,10 +1,9 @@
 <script setup>
-import { onThemeChange, watchLang } from '@maple-design/cli-vue/client'
+import { onThemeChange } from '@maple-design/cli-vue/client'
 import MpButton from '../../src/button'
 import MpIcon from '../../src/icon'
-import { t, use } from './locale'
+import { t } from './locale'
 
-watchLang(use, 'pc')
 onThemeChange()
 
 function download() {

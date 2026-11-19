@@ -1,12 +1,7 @@
 <script setup>
-import { computed, reactive, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
+import { reactive } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
-const language = ref('zh-CN')
-watchLang((value) => {
-  language.value = value
-})
-const english = computed(() => language.value === 'en-US')
 const values = reactive({ inlineSelect: ['a'], popupSelect: ['a'], inlineCascader: ['a'], popupCascader: ['a'] })
 const options = [
   { value: 'a', label: 'Alpha' },

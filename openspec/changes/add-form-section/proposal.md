@@ -1,5 +1,7 @@
 # FormSection 局部表单分区
 
+此历史提案已由通用 Section 取代。当前组件、表单用法及 API 见 [Section 内容分区](../../../packages/ui/src/section/docs/zh-CN.md)。
+
 为 Form 模块增加 FormSection 子组件，支持 line / plain / card 风格、标题操作插槽、可选底部结束线及父表单布局继承。Cedar 与 Maple 独立实现并保持 API 一致。没有现存分组 API 需要兼容。
 
 公开属性：id 自动生成、title/description 默认为空、showMarker 默认 true、showEndDivider 默认 false。插槽：default、title、description、extra。通过 Form.Section、命名导出及 resolver 使用；样式归属 form。

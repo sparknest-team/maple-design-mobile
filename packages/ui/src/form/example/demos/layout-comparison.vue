@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import type { FieldEditMode, FormContentAlign, FormLayout } from '@maple-design/ui-vue'
 
-const props = defineProps<{ english?: boolean }>()
 const layout = ref<FormLayout>('vertical')
 const itemLayout = ref<FormLayout | 'inherit'>('inherit')
 const mode = ref<FieldEditMode>('direct')
@@ -11,12 +11,12 @@ const contentAlign = ref<FormContentAlign>('start')
 const contentAlignOptions = ['start', 'end', 'left', 'center', 'right'].map((value) => ({ label: value, value }))
 const modeOptions = computed(() =>
   (['direct', 'popup'] as const).map((value) => ({
-    label: (props.english ? { direct: 'Direct', popup: 'Popup' } : { direct: '直接编辑', popup: '弹窗编辑' })[value],
+    label: (english.value ? { direct: 'Direct', popup: 'Popup' } : { direct: '直接编辑', popup: '弹窗编辑' })[value],
     value,
   })),
 )
 const model = reactive(
-  props.english
+  english.value
     ? {
         name: 'Alex',
         department: 'Product design',
@@ -27,7 +27,7 @@ const model = reactive(
 const layouts = ['vertical', 'horizontal', 'inline'] as const
 const layoutOptions = layouts.map((value) => ({ label: value, value }))
 const copy = computed(() =>
-  props.english
+  english.value
     ? {
         layout: 'Form layout',
         itemLayout: 'Notes layout',

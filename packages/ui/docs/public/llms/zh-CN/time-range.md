@@ -174,9 +174,10 @@ Example source: src/time/example/demos/time-fields.vue
 ```vue
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import type { TimePickerField } from '../../picker-props'
 
-const props = defineProps<{ range?: boolean; english?: boolean }>()
+const props = defineProps<{ range?: boolean }>()
 const preset = ref('hour-minute')
 const fields = computed<TimePickerField[]>(() =>
   preset.value === 'minute-hour' ? ['minute', 'hour'] : preset.value === 'second' ? ['second'] : ['hour', 'minute'],
@@ -233,14 +234,8 @@ Example source: src/time-range/example/demos/next-day.vue
 
 ```vue
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
-
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-watchLang((value) => {
-  language.value = value
-})
+import { ref } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
 const range = ref<string[] | undefined>(['22:00', '06:00'])
 const reset = () => {

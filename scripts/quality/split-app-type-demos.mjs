@@ -227,7 +227,7 @@ function repairComponentIndex(name) {
       .join('')
       .trim(),
   )
-  const supportTemplate = `${titleSources.join('\n')} AppType watchLang use onThemeChange`
+  const supportTemplate = `${titleSources.join('\n')} AppType english demoEnglish onThemeChange`
   const supportScript = selectScript(originalDescriptor.scriptSetup, supportTemplate, indexPath, false)
   const nextSections = sections
     .map(
@@ -363,11 +363,11 @@ function splitComponent(name) {
   const sections = demos
     .map(
       (demo) =>
-        `  <section data-demo="${demo.id}">\n    <app-type>{{ t('${demo.key}') }}</app-type>\n    <${demo.component} />\n  </section>`,
+        `  <section data-demo="${demo.id}">\n    <app-type>{{ english ? enUS['${demo.key}'] : zhCN['${demo.key}'] }}</app-type>\n    <${demo.component} />\n  </section>`,
     )
     .join('\n\n')
   const aggregate =
-    `<script setup>\nimport { AppType, onThemeChange, watchLang } from '@maple-design/cli-vue/client'\n${imports}\nimport { t, use } from './locale'\n\nwatchLang(use)\n` +
+    `<script setup>\nimport { AppType, onThemeChange } from '@maple-design/cli-vue/client'\n${imports}\nimport { demoEnglish as english } from '@maple-design/cli-vue/demo-language'\nimport enUS from './locale/en-US'\nimport zhCN from './locale/zh-CN'\n\n` +
     `onThemeChange()\n</script>\n\n<template>\n${sections}\n</template>\n`
 
   if (write) {

@@ -1,9 +1,10 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { afterEach, expect, test, vi } from 'vitest'
+import { afterEach, beforeEach, expect, test, vi } from 'vitest'
 import SplitButton from '..'
 import { useDemoControls } from '../../../test-utils/demo-controls'
 import Button from '../../button'
+import Locale from '../../locale'
 import { MenuOption } from '../../menu'
 import Radio, { RadioGroup } from '../../radio'
 import Space from '../../space'
@@ -18,14 +19,14 @@ import Variants from '../example/variants.vue'
 
 useDemoControls()
 
-const { listeners, info } = vi.hoisted(() => ({ listeners: [], info: vi.fn() }))
-vi.mock('@maple-design/cli-vue/client', () => ({
-  watchLang: (callback) => {
-    callback('zh-CN')
-    listeners.push(callback)
-  },
-}))
-vi.mock('@maple-design/ui-vue', () => ({ Message: { info } }))
+beforeEach(() => {
+  Locale.add('en-US', Locale.enUS)
+  Locale.use('zh-CN')
+})
+afterEach(() => Locale.use('zh-CN'))
+
+const { info } = vi.hoisted(() => ({ info: vi.fn() }))
+vi.mock('@maple-design/ui-vue', async () => ({ Locale: (await import('../../locale')).default, Message: { info } }))
 
 const components = Object.fromEntries(
   [SplitButton, Button, Space, MenuOption, Radio, RadioGroup].map((component) => [component.name, component]),
@@ -33,7 +34,6 @@ const components = Object.fromEntries(
 const wrappers = []
 afterEach(() => {
   wrappers.splice(0).forEach((wrapper) => wrapper.unmount())
-  listeners.length = 0
   info.mockClear()
 })
 
@@ -53,7 +53,7 @@ test.each([Basic, Controlled, AsyncAction, Popup, Disabled, CustomIcon, Variants
         .filter((node) => node.props?.label)
         .map((node) => node.props.label)
     expect(labels()).toEqual(['保存草稿', '保存并发布', '暂无权限'])
-    listeners.forEach((callback) => callback('en-US'))
+    Locale.use('en-US')
     await nextTick()
     expect(labels()).toEqual(['Save draft', 'Save and publish', 'Unavailable'])
     expect(wrapper.find('button').text()).not.toBe('')
@@ -65,7 +65,7 @@ test('primary action uses the current translated message', async () => {
   wrappers.push(wrapper)
   await wrapper.find('button').trigger('click')
   expect(info).toHaveBeenLastCalledWith('发布成功')
-  listeners.forEach((callback) => callback('en-US'))
+  Locale.use('en-US')
   await nextTick()
   await wrapper.find('button').trigger('click')
   expect(info).toHaveBeenLastCalledWith('Published')
@@ -83,7 +83,7 @@ test('appearance comparison keeps every size localized after the sizes demo was 
   await nextTick()
   const menus = wrapper.findAllComponents(SplitButton)
   expect(menus.map((menu) => menu.props('size'))).toEqual(['xs', 'sm', 'md', 'lg', 'xl'])
-  listeners.forEach((callback) => callback('en-US'))
+  Locale.use('en-US')
   await nextTick()
   for (const menu of menus) {
     expect(

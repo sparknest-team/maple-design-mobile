@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { AppType, onThemeChange, watchLang } from '@maple-design/cli-vue/client'
+import { AppType, onThemeChange } from '@maple-design/cli-vue/client'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import DemoBasic from './demos/basic.vue'
 import DemoComponentPreviewGroup from './demos/component-preview-group.vue'
 import DemoComponentPreview from './demos/component-preview.vue'
@@ -22,12 +22,6 @@ import DemoPreviewPopupContainer from './demos/preview-popup-container.vue'
 import DemoRipple from './demos/ripple.vue'
 import OrganizedTrackLifecycle from './demos/track-lifecycle.vue'
 
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-
-watchLang((value) => {
-  language.value = value
-})
 onThemeChange()
 </script>
 

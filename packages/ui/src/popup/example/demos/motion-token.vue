@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
-defineProps({ english: Boolean })
 const open = ref(false)
 const host = ref()
 </script>

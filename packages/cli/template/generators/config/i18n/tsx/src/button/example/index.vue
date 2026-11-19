@@ -1,9 +1,9 @@
 <script setup>
-import { AppType, watchLang } from '@maple-design/cli-vue/client'
+import { AppType } from '@maple-design/cli-vue/client'
 import VaButton from '..'
-import { t, use } from './locale'
+import { t, useComponentLanguage } from './locale'
 
-watchLang(use)
+useComponentLanguage()
 </script>
 
 <template>

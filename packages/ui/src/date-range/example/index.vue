@@ -1,6 +1,6 @@
 <script setup>
-import { computed, ref } from 'vue'
-import { AppType, onThemeChange, watchLang } from '@maple-design/cli-vue/client'
+import { AppType, onThemeChange } from '@maple-design/cli-vue/client'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import OrganizedResponsivePanels from './../../date/example/demos/responsive-panels.vue'
 import OrganizedAppearanceLab from './demos/appearance-lab.vue'
 import BasicUsageDemo from './demos/basic-usage.vue'
@@ -44,12 +44,6 @@ import TypeDemo from './demos/type.vue'
 import WithFormItemDemo from './demos/with-form-item.vue'
 import NewDateScenarios from './demos/zoned-range.vue'
 
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-
-watchLang((value) => {
-  language.value = value
-})
 onThemeChange()
 </script>
 
@@ -116,7 +110,7 @@ onThemeChange()
 
   <section data-demo="zoned-range">
     <app-type>{{ english ? 'Cross-month, DST and endpoint locks' : '跨月、夏令时与端点锁定' }}</app-type>
-    <NewDateScenarios :english="english" />
+    <NewDateScenarios />
   </section>
 
   <section data-demo="calendar-mode">

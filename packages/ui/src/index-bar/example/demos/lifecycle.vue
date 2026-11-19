@@ -1,15 +1,8 @@
 <script setup>
-import { computed, KeepAlive, ref, watch } from 'vue'
-import { AppType, watchLang } from '@maple-design/cli-vue/client'
+import { KeepAlive, ref, watch } from 'vue'
+import { AppType } from '@maple-design/cli-vue/client'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-watchLang(
-  (value) => {
-    language.value = value
-  },
-  typeof window !== 'undefined' && window.location.hash.includes('language=') ? 'mobile' : 'pc',
-)
 const mounted = ref(true),
   active = ref(true),
   bar = ref(),

@@ -1,12 +1,6 @@
 <script setup>
 import { computed, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
-
-const demoLanguage = ref('zh-CN')
-const english = computed(() => demoLanguage.value === 'en-US')
-watchLang((value) => {
-  demoLanguage.value = value
-})
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
 const selected = ref(['a'])
 const all = computed({

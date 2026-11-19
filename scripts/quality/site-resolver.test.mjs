@@ -114,7 +114,8 @@ test('documentation component imports bypass the root barrel, preserving styles'
 
 test('nested components resolve through their actual public exporting module', () => {
   assert.equal(components.resolve('MpFormItem').from, resolve(source, 'form'))
-  assert.equal(components.resolve('MpFormSection').from, resolve(source, 'form'))
+  assert.equal(components.resolve('MpSection').from, resolve(source, 'section'))
+  assert.equal(components.resolve('MpFormSection'), undefined)
   assert.equal(components.resolve('MpDatePicker').from, resolve(source, 'date'))
   assert.equal(components.resolve('MpGridItem').from, resolve(source, 'grid'))
 })

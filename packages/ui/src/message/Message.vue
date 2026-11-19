@@ -8,10 +8,12 @@
         :name="`${n()}-fade`"
         :appear="!hydrating"
         @after-enter="emit('opened')"
-        @after-leave="emit('closed')"
+        @before-leave="keepLeavingSurface"
+        @after-leave="finishLeave"
       >
         <div
           v-if="open"
+          ref="surface"
           v-bind="themeScope"
           :style="{ '--mp-internal-message-z-index': feedbackZIndex }"
           :dir="readingDirection"
@@ -63,7 +65,16 @@
 </template>
 
 <script setup lang="ts">
-import { defineComponent, getCurrentInstance, onMounted, Transition, useAttrs, watch, type PropType } from 'vue'
+import {
+  defineComponent,
+  getCurrentInstance,
+  onMounted,
+  shallowRef,
+  Transition,
+  useAttrs,
+  watch,
+  type PropType,
+} from 'vue'
 import {
   IconCheckboxMarkedCircleFill as MIconCheckboxMarkedCircleFill,
   IconClose as MIconClose,
@@ -77,6 +88,7 @@ import { useFeedbackZIndex } from '../context/zIndex'
 import { useThemeScope } from '../theme-provider/context'
 import { createNamespace } from '../utils/components'
 import { usePopupContainer } from '../utils/popup-container'
+import { useVisualSurface } from '../utils/visual-surface'
 import { messageProps } from './props'
 import type { MessageContent } from './types'
 import { useMessageTimer } from './use-message-timer'
@@ -103,6 +115,22 @@ const feedbackZIndex = useFeedbackZIndex(() => {
   const target = popupTarget.value
   return typeof target === 'string' ? (typeof document === 'undefined' ? undefined : document) : target.ownerDocument
 })
+const surface = shallowRef<HTMLElement>()
+const leavingSurface = shallowRef<HTMLElement>()
+useVisualSurface(
+  () => (props.popupContainer === false ? undefined : (surface.value ?? leavingSurface.value)),
+  () => feedbackZIndex.value,
+  'positioned',
+)
+function keepLeavingSurface(element: Element) {
+  leavingSurface.value = element as HTMLElement
+}
+function finishLeave(element: Element) {
+  if (leavingSurface.value === element) {
+    leavingSurface.value = undefined
+  }
+  emit('closed')
+}
 const requestClose = () => emit('update:open', false)
 const { pause, resume, restart } = useMessageTimer({
   open: () => props.open,

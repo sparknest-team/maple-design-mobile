@@ -7,8 +7,10 @@ import { MenuOption } from '../../menu'
 import Space from '../../space'
 import Controlled from '../example/controlled.vue'
 
-vi.mock('@maple-design/ui-vue', () => ({ Message: { info: vi.fn() } }))
-vi.mock('@maple-design/cli-vue/client', () => ({ watchLang: (callback) => callback('zh-CN') }))
+vi.mock('@maple-design/ui-vue', async () => ({
+  Locale: (await import('../../locale')).default,
+  Message: { info: vi.fn() },
+}))
 
 test('controlled demo stays open after the external click, then closes on selection or outside click', async () => {
   const host = document.createElement('div')

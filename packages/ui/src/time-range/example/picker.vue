@@ -1,7 +1,7 @@
 <script setup>
 import { reactive } from 'vue'
-import { AppType, onThemeChange, watchLang } from '@maple-design/cli-vue/client'
-import { t, use } from './locale'
+import { AppType, onThemeChange } from '@maple-design/cli-vue/client'
+import { t } from './locale'
 
 const ranges = reactive({
   basic: ['09:00', '18:00'],
@@ -11,7 +11,6 @@ const ranges = reactive({
   actions: ['09:00', '18:00'],
 })
 
-watchLang(use)
 onThemeChange()
 </script>
 

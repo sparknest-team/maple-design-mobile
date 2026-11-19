@@ -92,6 +92,8 @@ PC 端见 `/Users/shuaimeng/github/cedar-design-web/AGENTS.md`。
 
 ## 历史教训（不要重蹈）
 
+- 所有组件示例（含手机入口、子示例和生成的 SFC）统一使用只读的 [demoEnglish](packages/cli/demo-language.js)。模板直接读取，脚本读取 `.value`。禁止用 `watchLang`、路由或 DOM 推断语言，禁止先复制到 ref 再用 computed 判断，也禁止通过 english prop 逐级传递。修改后运行 `pnpm docs:check`。
+
 ### 批量重命名 CSS token
 
 - 一次性大批量给 CSS token 加 `--mp-` 前缀时，**正则必须排除**：

@@ -1,6 +1,6 @@
 <script setup>
-import { computed, ref } from 'vue'
-import { AppType, onThemeChange, watchLang } from '@maple-design/cli-vue/client'
+import { AppType, onThemeChange } from '@maple-design/cli-vue/client'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import AreaPickerDemo from './demos/area-picker.vue'
 import CascadePickerDemo from './demos/cascade-picker.vue'
 import ColumnsCountDemo from './demos/columns-count.vue'
@@ -11,12 +11,6 @@ import SinglePickerDemo from './demos/single-picker.vue'
 import TwoWayBindingDemo from './demos/two-way-binding.vue'
 import ValueMappingDemo from './demos/value-mapping.vue'
 
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-
-watchLang((value) => {
-  language.value = value
-})
 onThemeChange()
 </script>
 

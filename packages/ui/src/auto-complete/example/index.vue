@@ -1,6 +1,6 @@
 <script setup>
-import { computed, ref } from 'vue'
-import { AppType, watchLang } from '@maple-design/cli-vue/client'
+import { AppType } from '@maple-design/cli-vue/client'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import OrganizedAppearanceLab from './demos/appearance-lab.vue'
 import EnglishDemo9 from './demos/en-US/accessibility.vue'
 import EnglishDemo0 from './demos/en-US/basic.vue'
@@ -23,12 +23,6 @@ import GroupSpacingDemo from './demos/zh-CN/group-spacing.vue'
 import Demo1 from './demos/zh-CN/opening-policy.vue'
 import Demo3 from './demos/zh-CN/remote.vue'
 import Demo5 from './demos/zh-CN/virtual-list.vue'
-
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-watchLang((value) => {
-  language.value = value
-})
 </script>
 <template>
   <h2 class="mobile-demo-group-heading" data-demo-group="basic-examples" data-demo-component="auto-complete">

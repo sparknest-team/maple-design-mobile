@@ -2,7 +2,7 @@
 
 ### Intro
 
-`watchLang(callback)` detects both desktop documentation routes and mobile iframe query parameters, including the initial language and subsequent changes. An explicit `pc` or `mobile` argument remains available when needed.
+In a component demo, import `demoEnglish` from `@maple-design/cli-vue/demo-language`. This read-only computed ref tracks the global Maple locale on both the desktop docs page and the mobile preview. Use it directly in templates or read `demoEnglish.value` in script.
 
 The out-of-the-box `Vue3 component library` rapid prototyping tool provides a series of commands and tools to solve the problem of component library development.
 
