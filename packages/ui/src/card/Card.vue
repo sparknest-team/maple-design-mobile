@@ -127,10 +127,10 @@
 </template>
 
 <script setup lang="ts">
-import { isShadowRoot } from '../_utils/is-shadow-root'
 import { computed, nextTick, onActivated, onBeforeUnmount, onDeactivated, onMounted, ref, shallowRef, watch } from 'vue'
 import { IconClose as MIconClose } from '@maple-design/icons-vue'
 import { doubleRaf, getRect } from '@maple-design/shared-vue'
+import { isShadowRoot } from '../_utils/is-shadow-root'
 import BaseButton from '../button/base'
 import { useLock } from '../context/lock'
 import { useZIndex } from '../context/zIndex'
@@ -659,13 +659,19 @@ function handleFloatingKeydown(event: KeyboardEvent) {
     return
   }
   // Let the browser dispatch cancel to a nested native dialog first.
-  const insideNativeModal = event.composedPath().some(target => {
+  const insideNativeModal = event.composedPath().some((target) => {
     const dialog = target as HTMLDialogElement
-    if (dialog.localName !== 'dialog' || !dialog.open) return false
-    if ('closedBy' in dialog && ['closerequest', 'any'].includes(String(dialog.closedBy))) return true
+    if (dialog.localName !== 'dialog' || !dialog.open) {
+      return false
+    }
+    if ('closedBy' in dialog && ['closerequest', 'any'].includes(String(dialog.closedBy))) {
+      return true
+    }
     return !dialog.ownerDocument.defaultView?.CSS?.supports('selector(:modal)') || dialog.matches(':modal')
   })
-  if (insideNativeModal) return
+  if (insideNativeModal) {
+    return
+  }
   const owner = card.value?.ownerDocument
   if (owner && cardDocument.value !== owner) {
     cardDocument.value = owner

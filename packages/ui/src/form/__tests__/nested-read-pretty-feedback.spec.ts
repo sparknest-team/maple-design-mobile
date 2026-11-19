@@ -1,5 +1,5 @@
-import { mount } from '@vue/test-utils'
 import { h, nextTick, ref } from 'vue'
+import { mount } from '@vue/test-utils'
 import { expect, test } from 'vitest'
 import Input from '../../input'
 import Form from '../Form.vue'
@@ -10,10 +10,11 @@ test('a read-pretty no-style field delegates only its current visible error', as
   const wrapper = mount(Form, {
     props: { model: { account: '', email: '' }, editMode: 'direct' },
     slots: {
-      default: () => h(FormItem, { label: 'Contact' }, () => [
-        h(FormItem, { field: 'account', noStyle: true, readPretty: pretty.value }, () => h(Input)),
-        h(FormItem, { field: 'email', noStyle: true }, () => h(Input, { id: 'contact-email' })),
-      ]),
+      default: () =>
+        h(FormItem, { label: 'Contact' }, () => [
+          h(FormItem, { field: 'account', noStyle: true, readPretty: pretty.value }, () => h(Input)),
+          h(FormItem, { field: 'email', noStyle: true }, () => h(Input, { id: 'contact-email' })),
+        ]),
     },
   })
   try {

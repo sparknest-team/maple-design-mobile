@@ -143,3 +143,56 @@ After the parallel Trigger change, the official Node 20.19.0 / esbuild 0.23.1 me
 | time-range | 192510 | 194672 | 64997 | 65673 |
 | tooltip | 39175 | 41357 | 14102 | 14754 |
 | trigger | 35099 | 37280 | 12706 | 13361 |
+
+## November 19 form labels, cascader navigation and popup handling
+
+Measured all 97 entries with Node 20.19.0, zlib 1.3.0.1 and esbuild 0.23.1. The table compares the previous limits, main at `97aac911`, and the release candidate at `0f484339`. Each increased limit equals the measured candidate size. Existing lower measurements retain their previous caps.
+
+A separate comparison with `fb766a41` attributes 1,909 retained bytes in Form to native label association and 1,061 bytes in Cascader to hierarchical navigation and accessibility in its Vue component. Popup consumers gained a 355-byte reference-motion helper. Card gained native dialog Escape handling. The existing checks for third-party dependencies and retained component entries passed.
+
+| Entry | Previous bytes | Main bytes | Candidate bytes | Previous gzip | Main gzip | Candidate gzip |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| action-sheet | 48825 | 49068 | 49068 | 17995 | 18058 | 18058 |
+| auto-complete | 185481 | 185704 | 185755 | 61333 | 61567 | 61574 |
+| avatar | 51967 | 51895 | 51946 | 18420 | 18565 | 18570 |
+| back-top | 10419 | 10410 | 10410 | 4673 | 4676 | 4676 |
+| breadcrumb | 81269 | 81198 | 81249 | 27654 | 27774 | 27778 |
+| card | 44218 | 44884 | 44884 | 15460 | 15745 | 15742 |
+| cascader | 251090 | 253167 | 253200 | 80654 | 81462 | 81468 |
+| checkbox | 89775 | 90041 | 90041 | 31033 | 31099 | 31099 |
+| collapse | 12038 | 12286 | 12286 | 4921 | 5000 | 5000 |
+| date-range | 302482 | 302550 | 302600 | 94812 | 95002 | 95006 |
+| ellipsis | 43355 | 43286 | 43337 | 15464 | 15605 | 15610 |
+| fab | 44365 | 44608 | 44608 | 15995 | 16073 | 16073 |
+| floating-panel | 14396 | 14391 | 14391 | 5933 | 5935 | 5935 |
+| form | 87092 | 89374 | 89425 | 30788 | 31867 | 31847 |
+| input | 95453 | 95931 | 95931 | 30739 | 30946 | 30946 |
+| input-number | 145773 | 146051 | 146051 | 49606 | 49695 | 49695 |
+| input-tag | 175303 | 175287 | 175338 | 57121 | 57267 | 57271 |
+| mention | 195980 | 196226 | 196276 | 64444 | 64696 | 64702 |
+| menu | 69979 | 69658 | 69709 | 24160 | 24201 | 24208 |
+| nav-menu | 27893 | 28136 | 28136 | 10733 | 10807 | 10807 |
+| number-keyboard | 49177 | 49420 | 49420 | 17995 | 18076 | 18076 |
+| pagination | 231370 | 231569 | 231620 | 72625 | 72885 | 72882 |
+| people-select | 229719 | 229946 | 229996 | 73758 | 74051 | 74067 |
+| picker | 66869 | 67112 | 67112 | 23997 | 24082 | 24082 |
+| popover | 41381 | 41311 | 41362 | 14790 | 14936 | 14939 |
+| progress | 9785 | 10031 | 10031 | 4000 | 4080 | 4080 |
+| progress-group | 9970 | 10218 | 10218 | 3726 | 3809 | 3809 |
+| radio | 89401 | 89679 | 89679 | 30959 | 31048 | 31048 |
+| rate | 94133 | 94163 | 94163 | 30940 | 30934 | 30934 |
+| result | 79003 | 79251 | 79251 | 30143 | 30166 | 30166 |
+| search | 252166 | 252367 | 252418 | 80035 | 80269 | 80270 |
+| select | 208923 | 209122 | 209173 | 66999 | 67225 | 67224 |
+| slider | 159719 | 159997 | 159997 | 53885 | 53965 | 53965 |
+| split-button | 88803 | 88492 | 88543 | 29896 | 29951 | 29957 |
+| switch | 80356 | 80386 | 80386 | 27530 | 27519 | 27519 |
+| table | 10871 | 10866 | 10866 | 4547 | 4548 | 4548 |
+| tabs | 21787 | 22030 | 22030 | 8224 | 8309 | 8309 |
+| textarea | 103184 | 103462 | 103462 | 34367 | 34449 | 34449 |
+| time | 194506 | 194570 | 194620 | 65673 | 65810 | 65818 |
+| time-range | 194672 | 194736 | 194786 | 65673 | 65835 | 65842 |
+| tooltip | 41357 | 41287 | 41338 | 14754 | 14893 | 14901 |
+| trigger | 37280 | 36961 | 37012 | 13361 | 13415 | 13422 |
+| upload | 147514 | 147999 | 147999 | 49022 | 49189 | 49189 |
+| verification-code | 115879 | 116396 | 116396 | 37830 | 38014 | 38014 |

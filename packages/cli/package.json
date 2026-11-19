@@ -1,6 +1,6 @@
 {
   "name": "@maple-design/cli-vue",
-  "version": "2.0.0",
+  "version": "1.1.12",
   "description": "cli of maple",
   "keywords": [
     "cli",
@@ -92,9 +92,9 @@
     "rimraf": "catalog:"
   },
   "peerDependencies": {
-    "@maple-design/icons-vue": "workspace:*",
-    "@maple-design/touch-emulator-vue": "workspace:*",
-    "@maple-design/ui-vue": "workspace:*",
+    "@maple-design/icons-vue": "workspace:^",
+    "@maple-design/touch-emulator-vue": "workspace:^",
+    "@maple-design/ui-vue": "workspace:^",
     "@vitest/coverage-istanbul": "catalog:",
     "@vue/runtime-core": "catalog:",
     "@vue/test-utils": "catalog:",

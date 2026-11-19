@@ -171,8 +171,12 @@ const editorOpen = computed(
 )
 const inputRoot = ref<HTMLElement>()
 const formEditorId = computed(() => {
-  if (!presentationItem || editMode.value === 'direct' || readPretty.value) return undefined
-  if (editorOpen.value && inputRef.value?.getRootNode() !== inputRoot.value?.getRootNode()) return ''
+  if (!presentationItem || editMode.value === 'direct' || readPretty.value) {
+    return undefined
+  }
+  if (editorOpen.value && inputRef.value?.getRootNode() !== inputRoot.value?.getRootNode()) {
+    return ''
+  }
   return inputId.value
 })
 function setEditorOpen(open: boolean) {

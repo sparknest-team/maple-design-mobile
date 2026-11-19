@@ -171,7 +171,8 @@ describe('inline selection menus', () => {
         expect(wrapper.find(`.${p}-selected-options__tags`).exists()).toBe(false)
         expect(wrapper.find(`.${p}-selected-options__details`).exists()).toBe(false)
         expect(wrapper.get(`.${p}-selection-field`).text()).toContain('Alpha')
-        expect(wrapper.find('[role=option], [role=menuitem]').exists()).toBe(true)
+        const role = name === 'Cascader' ? 'menuitemcheckbox' : 'option'
+        expect(wrapper.findAll(`[role=${role}]`).map((item) => item.text())).toEqual(['Alpha', 'Beta'])
       } finally {
         wrapper.unmount()
       }

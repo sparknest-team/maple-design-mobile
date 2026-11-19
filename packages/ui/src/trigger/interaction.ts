@@ -638,10 +638,13 @@ export function useTriggerInteraction(
       doc[method]('pointerup', onPointerUp, true)
       doc[method]('pointercancel', onPointerCancel, true)
       doc[method]('click', onOutside, true)
-      view?.[method]('keydown', keydown)
     }
     update('addEventListener')
-    documentCleanups.push(() => update('removeEventListener'))
+    view?.addEventListener('keydown', keydown)
+    documentCleanups.push(() => {
+      update('removeEventListener')
+      view?.removeEventListener('keydown', keydown)
+    })
   }
   const unbind = () => {
     outsideGeneration++
