@@ -94,7 +94,7 @@ Input、Textarea、Select、Cascader、Date、Time、DateRange、TimeRange 等�
 | `--mp-field-variant-outline-border-color-disabled` | `var(--mp-sys-color-border-subtle)` | `border-color` |
 | `--mp-field-variant-outline-border-color-error` | `var(--mp-sys-color-status-danger)` | `border-color` |
 | `--mp-field-variant-outline-border-color-focus` | `var(--mp-sys-color-action-primary)` | `border-color` |
-| `--mp-field-variant-outline-border-color-hover` | `var(--mp-sys-color-border-strong)` | `border-color` |
+| `--mp-field-variant-outline-border-color-hover` | `color-mix(in srgb, var(--mp-field-variant-outline-border-color) 80%, var(--mp-sys-color-border-strong))` | `border-color` |
 | `--mp-field-variant-standard-line-color` | `var(--mp-field-blur-color)` | `border-bottom` |
 | `--mp-field-variant-standard-line-color-disabled` | `var(--mp-sys-color-border-subtle)` | `border-bottom-color` |
 | `--mp-field-variant-standard-line-color-error` | `var(--mp-field-error-color)` | `border-bottom-color` |

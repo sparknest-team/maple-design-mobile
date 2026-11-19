@@ -133,7 +133,7 @@ exports[`form with checkbox 1`] = `
   <div class="mp-form-item mp--box mp-form-item--vertical">
     <!--v-if-->
     <div class="mp-form-item__wrapper">
-      <div style="--mp-form-content-align: start; --mp-form-content-justify: flex-start; text-align: start; justify-content: flex-start;" class="mp-form-item__content mp-form-item__content--flex"><label class="mp-checkbox mp-checkbox--disabled" aria-disabled="true"><input id="v-1" class="mp-checkbox__input" type="checkbox" autocomplete="off" disabled="" value="true"><span class="mp-checkbox__control" aria-hidden="true"><span class="mp-checkbox__icon"></span></span>
+      <div style="--mp-form-content-align: start; --mp-form-content-justify: flex-start; text-align: start; justify-content: flex-start;" class="mp-form-item__content mp-form-item__content--flex"><label class="mp-checkbox mp-checkbox--disabled" aria-disabled="true"><span class="mp-checkbox__control"><input id="v-1" class="mp-checkbox__input" type="checkbox" autocomplete="off" disabled="" value="true"><span class="mp-checkbox__visual" aria-hidden="true"><span class="mp-checkbox__icon"></span></span></span>
           <!--v-if-->
         </label></div>
       <transition-stub name="mp-form-details" appear="false" persisted="false" css="true" data-form-item-feedback="">
@@ -150,7 +150,7 @@ exports[`form with checkbox 2`] = `
   <div class="mp-form-item mp--box mp-form-item--vertical">
     <!--v-if-->
     <div class="mp-form-item__wrapper">
-      <div style="--mp-form-content-align: start; --mp-form-content-justify: flex-start; text-align: start; justify-content: flex-start;" class="mp-form-item__content mp-form-item__content--flex"><label class="mp-checkbox mp-checkbox--readonly"><input id="v-1" class="mp-checkbox__input" type="checkbox" autocomplete="off" value="true" aria-readonly="true"><span class="mp-checkbox__control" aria-hidden="true"><span class="mp-checkbox__icon"></span></span>
+      <div style="--mp-form-content-align: start; --mp-form-content-justify: flex-start; text-align: start; justify-content: flex-start;" class="mp-form-item__content mp-form-item__content--flex"><label class="mp-checkbox mp-checkbox--readonly"><span class="mp-checkbox__control"><input id="v-1" class="mp-checkbox__input" type="checkbox" autocomplete="off" value="true" aria-readonly="true"><span class="mp-checkbox__visual" aria-hidden="true"><span class="mp-checkbox__icon"></span></span></span>
           <!--v-if-->
         </label></div>
       <transition-stub name="mp-form-details" appear="false" persisted="false" css="true" data-form-item-feedback="">
@@ -167,7 +167,7 @@ exports[`form with checkbox 3`] = `
   <div class="mp-form-item mp--box mp-form-item--vertical">
     <!--v-if-->
     <div class="mp-form-item__wrapper">
-      <div style="--mp-form-content-align: start; --mp-form-content-justify: flex-start; text-align: start; justify-content: flex-start;" class="mp-form-item__content mp-form-item__content--flex"><label class="mp-checkbox mp-checkbox--readonly mp-checkbox--error"><input id="v-1" class="mp-checkbox__input" type="checkbox" autocomplete="off" value="true" aria-readonly="true" aria-describedby="mp-form-error-v-0" aria-invalid="true"><span class="mp-checkbox__control" aria-hidden="true"><span class="mp-checkbox__icon"></span></span>
+      <div style="--mp-form-content-align: start; --mp-form-content-justify: flex-start; text-align: start; justify-content: flex-start;" class="mp-form-item__content mp-form-item__content--flex"><label class="mp-checkbox mp-checkbox--readonly mp-checkbox--error"><span class="mp-checkbox__control"><input id="v-1" class="mp-checkbox__input" type="checkbox" autocomplete="off" value="true" aria-readonly="true" aria-describedby="mp-form-error-v-0" aria-invalid="true"><span class="mp-checkbox__visual" aria-hidden="true"><span class="mp-checkbox__icon"></span></span></span>
           <!--v-if-->
         </label></div>
       <transition-stub name="mp-form-details" appear="false" persisted="false" css="true" data-form-item-feedback="">
@@ -195,7 +195,7 @@ exports[`form with checkbox 4`] = `
   <div class="mp-form-item mp--box mp-form-item--vertical">
     <!--v-if-->
     <div class="mp-form-item__wrapper">
-      <div style="--mp-form-content-align: start; --mp-form-content-justify: flex-start; text-align: start; justify-content: flex-start;" class="mp-form-item__content mp-form-item__content--flex"><label class="mp-checkbox mp-checkbox--readonly"><input id="v-1" class="mp-checkbox__input" type="checkbox" autocomplete="off" value="true" aria-readonly="true"><span class="mp-checkbox__control" aria-hidden="true"><span class="mp-checkbox__icon"></span></span>
+      <div style="--mp-form-content-align: start; --mp-form-content-justify: flex-start; text-align: start; justify-content: flex-start;" class="mp-form-item__content mp-form-item__content--flex"><label class="mp-checkbox mp-checkbox--readonly"><span class="mp-checkbox__control"><input id="v-1" class="mp-checkbox__input" type="checkbox" autocomplete="off" value="true" aria-readonly="true"><span class="mp-checkbox__visual" aria-hidden="true"><span class="mp-checkbox__icon"></span></span></span>
           <!--v-if-->
         </label></div>
       <transition-stub name="mp-form-details" appear="false" persisted="false" css="true" data-form-item-feedback="">

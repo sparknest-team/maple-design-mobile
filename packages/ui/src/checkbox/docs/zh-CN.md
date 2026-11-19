@@ -422,7 +422,7 @@ uninject-group-context 在挂载时决定是否接入分组；运行中修改不
 | `--mp-checkbox-action-padding` | `6px` | `padding` |
 | `--mp-checkbox-animation-duration` | `var(--mp-sys-motion-duration-standard)` | `transition` |
 | `--mp-checkbox-control-border-radius` | `2px` | `border-radius` |
-| `--mp-checkbox-control-color` | `var(--mp-sys-color-content-secondary)` | `color` |
+| `--mp-checkbox-control-color` | `var(--mp-sys-color-border-default)` | `color` |
 | `--mp-checkbox-control-color-checked` | `var(--mp-sys-color-action-primary)` | `color` |
 | `--mp-checkbox-control-color-disabled` | `var(--mp-sys-color-content-disabled)` | `color` |
 | `--mp-checkbox-control-color-error` | `var(--mp-sys-color-content-danger)` | `color` |

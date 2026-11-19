@@ -457,7 +457,9 @@ export function useCascaderController(
         } else {
           checked = !getCheckedStatus(activeOption.value, computedValueMap.value).checked
         }
-        setSelectedPath(activeOption.value.key)
+        if ((ev as KeyboardEvent).key !== ' ' || !(ev.target as Element | null)?.matches('[role="menuitemcheckbox"]')) {
+          setSelectedPath(activeOption.value.key)
+        }
         handleClickOption(activeOption.value, checked)
       }
     } else {
@@ -530,7 +532,7 @@ export function useCascaderController(
     }
     const target = event.target as Element | null
     const option = target?.closest?.(
-      '[role="menuitem"][data-cascader-key], [role="menuitemradio"][data-cascader-key], [role="option"][data-cascader-key]',
+      '[role="menuitem"][data-cascader-key], [role="menuitemradio"][data-cascader-key], [role="menuitemcheckbox"][data-cascader-key], [role="option"][data-cascader-key]',
     )
     if (event.key === ' ' && !option) {
       return

@@ -9,6 +9,7 @@
     <template v-if="$slots.prefix" #prefix><slot name="prefix" /></template>
     <span
       :class="n('controls')"
+      :data-form-composite="range && hasFormLabel && !$slots.selected ? '' : undefined"
       :role="range && groupLabelId && !$slots.selected ? 'group' : undefined"
       :aria-labelledby="range && !$slots.selected ? groupLabelId : undefined"
     >
@@ -98,6 +99,7 @@ defineOptions({
 })
 const { select: selectText } = useFieldTexts()
 const formLabel = useFormItemLabel()
+const hasFormLabel = Boolean(formLabel)
 const props = defineProps(pickerFieldProps)
 const attrs = useAttrs()
 function inputAttributes(index: number): InputHTMLAttributes & Record<string, unknown> {

@@ -57,7 +57,7 @@ test.each([
   try {
     await flushPromises()
     const owner = kind === 'editor' ? wrapper.getComponent(Editor) : wrapper
-    const branch = owner.get('[role="menuitem"][title="Root"]')
+    const branch = owner.get('[role="menuitemcheckbox"][title="Root"]')
     expect((branch.get('input[type="checkbox"]').element as HTMLInputElement).disabled).toBe(false)
     ;(branch.element as HTMLElement).focus()
     await branch.trigger('keydown', { key: 'Enter' })

@@ -23,7 +23,7 @@ export function useArrowOpenActivation(options: {
     if (!target) {
       return
     }
-    if (!target.isConnected || target.ownerDocument.activeElement !== target || options.blocked()) {
+    if (!target.isConnected || (target.getRootNode() as Document | ShadowRoot).activeElement !== target || options.blocked()) {
       cancel()
       return
     }

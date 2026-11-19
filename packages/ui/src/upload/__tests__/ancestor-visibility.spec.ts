@@ -98,3 +98,15 @@ test('ignores unrelated ancestor child mutations', async () => {
     host.remove()
   }
 })
+
+test('can mount under a detached anchor with a URL host', async () => {
+  const anchor = document.createElement('a')
+  anchor.href = 'https://example.org/'
+  const wrapper = mount(Upload, { attachTo: anchor })
+  try {
+    await flushPromises()
+    expect(anchor.contains(wrapper.element)).toBe(true)
+  } finally {
+    wrapper.unmount()
+  }
+})

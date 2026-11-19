@@ -23,6 +23,10 @@ export function provideDirection(direction: Readonly<Ref<ReadingDirection | unde
   provide(readingDirectionKey, direction)
 }
 
+function shadowHost(node: Node): Element | undefined {
+  return node.nodeType === 11 ? (node as ShadowRoot).host : undefined
+}
+
 export function resolveDirection(element?: Element | null, fallback: ReadingDirection = 'ltr'): ReadingDirection {
   let current = element ?? undefined
   while (current) {
@@ -41,7 +45,7 @@ export function resolveDirection(element?: Element | null, fallback: ReadingDire
       }
     }
     const root = (scope ?? current).getRootNode()
-    current = 'host' in root ? (root as ShadowRoot).host : undefined
+    current = shadowHost(root)
   }
   return fallback
 }
@@ -69,7 +73,7 @@ function watchDetached(check: () => void) {
 }
 function watchAncestors(node: Node, callback: () => void) {
   const ancestors: Node[] = []
-  let current: Node | null = node
+  let current: Node | undefined = node
   while (current) {
     ancestors.push(current)
     let watchers = watchedAncestors.get(current)
@@ -78,7 +82,7 @@ function watchAncestors(node: Node, callback: () => void) {
       watchedAncestors.set(current, watchers)
     }
     watchers.add(callback)
-    current = current.parentNode ?? ('host' in current ? (current as ShadowRoot).host : null)
+    current = current.parentNode ?? shadowHost(current)
   }
   return () =>
     ancestors.forEach((ancestor) => {
@@ -117,7 +121,7 @@ export function useDirection(target?: () => Element | null | undefined, explicit
     while (current) {
       const root = current.getRootNode()
       observed.add(root === doc ? doc.documentElement : root)
-      current = 'host' in root ? (root as ShadowRoot).host : undefined
+      current = shadowHost(root)
     }
     const releases: Array<() => void> = []
     const counters: Ref<number>[] = []

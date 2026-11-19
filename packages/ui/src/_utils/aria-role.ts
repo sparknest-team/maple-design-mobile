@@ -15,7 +15,7 @@ export function resolveConcreteAriaRole(value: string | null): string | undefine
 }
 
 // Widget and composite roles own interactions inside their subtree.
-const INTERACTIVE_ROLES = new Set(
+export const interactiveAriaRoles: ReadonlySet<string> = new Set(
   'button link checkbox radio switch textbox searchbox combobox listbox slider spinbutton scrollbar menu menubar menuitem menuitemcheckbox menuitemradio option tree treegrid treeitem grid gridcell radiogroup tab tablist'.split(
     ' ',
   ),
@@ -23,5 +23,5 @@ const INTERACTIVE_ROLES = new Set(
 
 export function isInteractiveAriaRole(value: string | null): boolean {
   const role = resolveConcreteAriaRole(value)
-  return role !== undefined && INTERACTIVE_ROLES.has(role)
+  return role !== undefined && interactiveAriaRoles.has(role)
 }

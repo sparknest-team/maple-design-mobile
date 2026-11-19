@@ -65,7 +65,6 @@ export function createBrandDark(light: StyleVars, brand: Brand): StyleVars {
     disabled,
   )
   aliases(['checkbox-control-color-checked', 'radio-control-color-checked', 'switch-track-active-background'], accent)
-  aliases(['checkbox-control-color', 'radio-control-color'], tertiary)
   aliases(['color-border-1', 'sys-color-border-subtle'], divider)
   aliases(['color-border-2', 'sys-color-border-default'], border)
   aliases(['color-border-3', 'color-border-4', 'sys-color-border-strong'], tertiary)

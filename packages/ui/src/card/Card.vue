@@ -127,6 +127,7 @@
 </template>
 
 <script setup lang="ts">
+import { isShadowRoot } from '../_utils/is-shadow-root'
 import { computed, nextTick, onActivated, onBeforeUnmount, onDeactivated, onMounted, ref, shallowRef, watch } from 'vue'
 import { IconClose as MIconClose } from '@maple-design/icons-vue'
 import { doubleRaf, getRect } from '@maple-design/shared-vue'
@@ -220,7 +221,7 @@ function closestAcrossRoots(element: Element | null, selector: string): Element 
       return match
     }
     const root = element.getRootNode()
-    element = 'host' in root ? (root as ShadowRoot).host : null
+    element = isShadowRoot(root) ? root.host : null
   }
   return null
 }
@@ -230,7 +231,7 @@ function composedContains(container: Element | null, element: Element | null): b
       return true
     }
     const root = element.getRootNode()
-    element = 'host' in root ? (root as ShadowRoot).host : null
+    element = isShadowRoot(root) ? root.host : null
   }
   return false
 }
@@ -376,7 +377,7 @@ function trackFocusRoot() {
     let node: Node | null = element.parentNode
     while (node) {
       next.push(node)
-      node = node.parentNode ?? ('host' in node ? (node as ShadowRoot).host : null)
+      node = node.parentNode ?? (isShadowRoot(node) ? node.host : null)
     }
     if (next.length === ancestors.length && next.every((entry, index) => entry === ancestors[index])) {
       return
@@ -657,6 +658,14 @@ function handleFloatingKeydown(event: KeyboardEvent) {
   ) {
     return
   }
+  // Let the browser dispatch cancel to a nested native dialog first.
+  const insideNativeModal = event.composedPath().some(target => {
+    const dialog = target as HTMLDialogElement
+    if (dialog.localName !== 'dialog' || !dialog.open) return false
+    if ('closedBy' in dialog && ['closerequest', 'any'].includes(String(dialog.closedBy))) return true
+    return !dialog.ownerDocument.defaultView?.CSS?.supports('selector(:modal)') || dialog.matches(':modal')
+  })
+  if (insideNativeModal) return
   const owner = card.value?.ownerDocument
   if (owner && cardDocument.value !== owner) {
     cardDocument.value = owner

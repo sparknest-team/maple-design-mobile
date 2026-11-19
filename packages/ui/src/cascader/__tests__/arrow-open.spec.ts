@@ -353,3 +353,49 @@ test('a later key cancels the pending activation', async () => {
     wrapper.unmount()
   }
 })
+
+test('ArrowDown enters the open hierarchy dialog at its enabled menu entry', async () => {
+  const wrapper = mount(Cascader, { attachTo: document.body, props: {
+    editMode: 'direct', popupContainer: false, defaultOpen: true,
+    options: [{ value: 'disabled', label: 'Disabled', disabled: true },
+      { value: 'parent', label: 'Parent', children: [{ value: 'leaf', label: 'Leaf' }] }],
+  } })
+  try {
+    await flushPromises()
+    const input = wrapper.get('input[role="combobox"]')
+    const dialog = wrapper.get('[role="dialog"]')
+    expect(input.attributes('aria-haspopup')).toBe('dialog')
+    expect(input.attributes('aria-controls')).toBe(dialog.attributes('id'))
+    expect(dialog.attributes('aria-label')).toBeTruthy()
+    ;(input.element as HTMLElement).focus()
+    await input.trigger('keydown', { key: 'ArrowDown' })
+    expect(document.activeElement).toBe(dialog.get('[role="menuitem"][tabindex="0"]').element)
+    await dialog.get('[role="menuitem"][tabindex="0"]').trigger('keydown', { key: 'ArrowRight' })
+    await flushPromises()
+    expect(document.activeElement?.textContent).toContain('Leaf')
+  } finally { wrapper.unmount() }
+})
+
+test.each(['open', 'closed'] as const)('opening from a %s shadow root activates the first enabled option', async (mode) => {
+  const host = document.createElement('div')
+  document.body.append(host)
+  const root = host.attachShadow({ mode })
+  const container = document.createElement('div')
+  root.append(container)
+  const wrapper = mount(Cascader, { attachTo: container, props: {
+    editMode: 'direct', popupContainer: false,
+    options: [{ value: 'disabled', label: 'Disabled', disabled: true }, { value: 'a', label: 'Alpha' }],
+  } })
+  try {
+    const input = wrapper.get('input[role="combobox"]')
+    ;(input.element as HTMLElement).focus()
+    expect(document.activeElement).toBe(host)
+    expect(root.activeElement).toBe(input.element)
+    await input.trigger('keydown', { key: 'ArrowDown' })
+    await flushPromises()
+    await input.trigger('keydown', { key: 'Enter' })
+    await flushPromises()
+    expect(wrapper.emitted('update:modelValue')).toEqual([['a']])
+    expect(input.attributes('aria-expanded')).toBe('false')
+  } finally { wrapper.unmount(); host.remove() }
+})

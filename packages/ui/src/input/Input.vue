@@ -1,6 +1,8 @@
 <template>
   <div
+    ref="inputRoot"
     v-bind="splitAttrs.root"
+    :data-form-editor-id="formEditorId"
     :class="classes(n(), [mergedDisabled, n('--disabled')])"
     @mousedown="handleMousedown"
     @click="handleClick"
@@ -167,6 +169,12 @@ const editorOpen = computed(
     !mergedReadonly.value &&
     (props.open ?? localEditorOpen.value),
 )
+const inputRoot = ref<HTMLElement>()
+const formEditorId = computed(() => {
+  if (!presentationItem || editMode.value === 'direct' || readPretty.value) return undefined
+  if (editorOpen.value && inputRef.value?.getRootNode() !== inputRoot.value?.getRootNode()) return ''
+  return inputId.value
+})
 function setEditorOpen(open: boolean) {
   if (open && (mergedDisabled.value || mergedReadonly.value || readPretty.value)) {
     return

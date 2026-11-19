@@ -255,7 +255,7 @@ export default defineComponent({
       }),
     )
 
-    const activateKeyDown = () => {
+    const activateKeyDown = (ev: Event) => {
       if (activeOption.value) {
         let checked: boolean
         if (props.checkStrictly || activeOption.value.isLeaf) {
@@ -263,7 +263,9 @@ export default defineComponent({
         } else {
           checked = !getCheckedStatus(activeOption.value, computedValueMap.value).checked
         }
-        setSelectedPath(activeOption.value.key)
+        if ((ev as KeyboardEvent).key !== ' ' || !(ev.target as Element | null)?.matches('[role="menuitemcheckbox"]')) {
+          setSelectedPath(activeOption.value.key)
+        }
         handleClickOption(activeOption.value, checked)
       }
     }
@@ -275,7 +277,7 @@ export default defineComponent({
           KEYBOARD_KEY.SPACE,
           (ev: Event) => {
             ev.preventDefault()
-            activateKeyDown()
+            activateKeyDown(ev)
           },
         ],
         [
@@ -315,7 +317,7 @@ export default defineComponent({
       }
       const target = event.target as Element | null
       const option = target?.closest?.(
-        '[role="menuitem"][data-cascader-key], [role="menuitemradio"][data-cascader-key], [role="option"][data-cascader-key]',
+        '[role="menuitem"][data-cascader-key], [role="menuitemradio"][data-cascader-key], [role="menuitemcheckbox"][data-cascader-key], [role="option"][data-cascader-key]',
       )
       if (event.key === ' ' && !option) {
         return

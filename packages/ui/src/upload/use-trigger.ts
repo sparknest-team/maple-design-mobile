@@ -1,3 +1,4 @@
+import { isShadowRoot } from '../_utils/is-shadow-root'
 import { onActivated, onBeforeUnmount, onDeactivated, ref, watch } from 'vue'
 import { isInteractiveAriaRole } from '../_utils/aria-role'
 import { isEditable } from '../_utils/is-editable'
@@ -67,7 +68,7 @@ export function useUploadTrigger() {
       let ancestor: Node | null = root.parentNode
       while (ancestor) {
         path.push(ancestor)
-        ancestor = ancestor.parentNode ?? ('host' in ancestor ? (ancestor as ShadowRoot).host : null)
+        ancestor = ancestor.parentNode ?? (isShadowRoot(ancestor) ? ancestor.host : null)
       }
       observer = new Observer((records) => {
         const moved = records.some(

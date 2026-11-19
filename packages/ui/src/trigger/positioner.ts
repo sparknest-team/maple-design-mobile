@@ -14,6 +14,7 @@ import { getArrowStyle } from './arrow'
 import type { TriggerPlacement } from './contract'
 import { getPositioningSpace, getRelativeRect, getTransformOrigin, translateRectBetweenDocuments } from './geometry'
 import { calculatePopupPosition, getScrollElements, getScrollViews, getSlotChangeRoots } from './position'
+import { observeReferenceMotion } from './reference-motion'
 import { useTriggerResize } from './resize'
 import type { TriggerPopupTranslate, TriggerStrategy } from './types'
 
@@ -276,7 +277,13 @@ export function useTriggerPositioner(options: PositionerOptions, context: Positi
     windowScrolling(event)
   }
 
+  const motionUpdate = rafThrottle(update, () => context.popup.value?.ownerDocument.defaultView)
+  let stopMotion: (() => void) | undefined
+
   function unbindScroll() {
+    stopMotion?.()
+    stopMotion = undefined
+    motionUpdate.cancel()
     scrolling.cancel()
     windowScrolling.cancel()
     pendingWindowDocuments.clear()
@@ -316,6 +323,9 @@ export function useTriggerPositioner(options: PositionerOptions, context: Positi
     unbindScroll()
     const reference = context.reference.value
     const popup = context.popup.value
+    if (reference && popup && context.visible.value && !suspended && options.autoFixPosition) {
+      stopMotion = observeReferenceMotion(reference, motionUpdate)
+    }
     const active =
       options.updateAtScroll ||
       options.scrollToClose ||
@@ -355,6 +365,7 @@ export function useTriggerPositioner(options: PositionerOptions, context: Positi
       context.reference.value,
       context.popup.value,
       context.container?.value,
+      options.autoFixPosition,
       options.updateAtScroll,
       options.scrollToClose,
       options.scrollToCloseDistance,

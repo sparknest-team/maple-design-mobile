@@ -54,7 +54,7 @@ for (const mode of ['panel', 'editor'] as const) {
     try {
       await flushPromises()
       const owner = mode === 'panel' ? wrapper : wrapper.getComponent(Editor)
-      const option = owner.findAll(':is([role="menuitem"],[role="menuitemradio"])')[1]!
+      const option = owner.findAll('[role="menuitemcheckbox"]')[1]!
       const checkbox = option.get('input[type="checkbox"]')
       ;(checkbox.element as HTMLElement).focus()
       const nested = new KeyboardEvent('keydown', { key: ' ', bubbles: true, cancelable: true })

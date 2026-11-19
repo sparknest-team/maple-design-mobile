@@ -1,3 +1,4 @@
+import { isShadowRoot } from '../_utils/is-shadow-root'
 import {
   computed,
   defineComponent,
@@ -75,14 +76,15 @@ export default defineComponent({
       if (active && active !== doc.body && active !== doc.documentElement) {
         return false
       }
-      if ('host' in root) {
+      if (isShadowRoot(root)) {
         let host = root.host
-        while ('host' in host.getRootNode()) {
-          const parent = host.getRootNode() as ShadowRoot
+        let parent = host.getRootNode()
+        while (isShadowRoot(parent)) {
           if (parent.activeElement && parent.activeElement !== host) {
             return false
           }
           host = parent.host
+          parent = host.getRootNode()
         }
         if (
           doc.activeElement &&

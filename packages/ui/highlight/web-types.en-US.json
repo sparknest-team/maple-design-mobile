@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json",
   "framework": "vue",
-  "version": "1.1.10",
+  "version": "1.1.12",
   "name": "Maple Design Mobile",
   "contributions": {
     "html": {
@@ -16193,7 +16193,7 @@
             },
             {
               "name": "auto-fix-position",
-              "description": "Observe reference element size changes; disabling this still observes the popup and positioning parent and responds to window changes",
+              "description": "Reposition when the reference changes size or when a CSS transition or animation on the reference or its ancestors ends or is canceled. Popup, positioning parent and window resize handling remain active when disabled",
               "default": "true",
               "value": {
                 "type": "boolean",

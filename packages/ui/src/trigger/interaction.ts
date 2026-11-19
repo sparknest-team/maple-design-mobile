@@ -566,7 +566,6 @@ export function useTriggerInteraction(
     return true
   }
   let owner: Document | undefined
-  let view: Window | null | undefined
   let peerReferenceHadClosedRoot = false
   const hasClosedRoot = (element: Element | undefined) => {
     let root = element?.getRootNode()
@@ -624,13 +623,25 @@ export function useTriggerInteraction(
       peerReferenceHadClosedRoot = false
     }
   }
-  let popupOwner: Document | undefined
+  const documentCleanups: (() => void)[] = []
   let mounted = false
   let suspended = false
   const onPopupKeydown = (event: KeyboardEvent) => {
     if (includes(api.popup.value ?? undefined, event)) {
       onKeydown(event)
     }
+  }
+  const bindDocument = (doc: Document, keydown: (event: KeyboardEvent) => void) => {
+    const view = doc.defaultView
+    const update = (method: 'addEventListener' | 'removeEventListener') => {
+      doc[method]('pointerdown', onPointerDown, true)
+      doc[method]('pointerup', onPointerUp, true)
+      doc[method]('pointercancel', onPointerCancel, true)
+      doc[method]('click', onOutside, true)
+      view?.[method]('keydown', keydown)
+    }
+    update('addEventListener')
+    documentCleanups.push(() => update('removeEventListener'))
   }
   const unbind = () => {
     outsideGeneration++
@@ -642,19 +653,11 @@ export function useTriggerInteraction(
     pointerDismiss = undefined
     clearPointerRelease()
     clearForwardedLabel()
-    owner?.removeEventListener('pointerdown', onPointerDown, true)
-    owner?.removeEventListener('pointerup', onPointerUp, true)
-    owner?.removeEventListener('pointercancel', onPointerCancel, true)
-    popupOwner?.removeEventListener('pointerdown', onPointerDown, true)
-    popupOwner?.removeEventListener('pointerup', onPointerUp, true)
-    popupOwner?.removeEventListener('pointercancel', onPointerCancel, true)
-    owner?.removeEventListener('click', onOutside, true)
-    view?.removeEventListener('keydown', onKeydown)
-    popupOwner?.removeEventListener('click', onOutside, true)
-    popupOwner?.defaultView?.removeEventListener('keydown', onPopupKeydown)
+    for (const cleanup of documentCleanups) {
+      cleanup()
+    }
+    documentCleanups.length = 0
     owner = undefined
-    view = undefined
-    popupOwner = undefined
   }
   const bind = () => {
     unbind()
@@ -664,20 +667,10 @@ export function useTriggerInteraction(
     owner = api.reference.value?.ownerDocument ?? api.popup.value?.ownerDocument ?? document
     registerReference()
     refreshShadowRoots()
-    view = owner.defaultView
-    owner.addEventListener('pointerdown', onPointerDown, true)
-    owner.addEventListener('pointerup', onPointerUp, true)
-    owner.addEventListener('pointercancel', onPointerCancel, true)
-    owner.addEventListener('click', onOutside, true)
-    view?.addEventListener('keydown', onKeydown)
+    bindDocument(owner, onKeydown)
     const popupDocument = api.popup.value?.ownerDocument
     if (popupDocument && popupDocument !== owner) {
-      popupOwner = popupDocument
-      popupOwner.addEventListener('pointerdown', onPointerDown, true)
-      popupOwner.addEventListener('pointerup', onPointerUp, true)
-      popupOwner.addEventListener('pointercancel', onPointerCancel, true)
-      popupOwner.addEventListener('click', onOutside, true)
-      popupOwner.defaultView?.addEventListener('keydown', onPopupKeydown)
+      bindDocument(popupDocument, onPopupKeydown)
     }
   }
   watch([api.reference, api.popup], bind, { flush: 'sync' })
