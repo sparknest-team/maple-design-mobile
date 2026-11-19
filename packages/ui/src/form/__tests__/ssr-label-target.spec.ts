@@ -5,9 +5,19 @@ import FormItem from '../FormItem.vue'
 
 it('keeps one explicit native label target through SSR, hydration and read-only display', async () => {
   const state = reactive({ readPretty: false, attrs: { for: 'first', htmlFor: 'second' } as Record<string, string> })
-  const create = () => createSSRApp({ render: () => h(FormItem, {
-    label: 'Contact', readPretty: state.readPretty, labelAttrs: state.attrs,
-  }, () => [h('input', { id: 'first' }), h('input', { id: 'second' })]) })
+  const create = () =>
+    createSSRApp({
+      render: () =>
+        h(
+          FormItem,
+          {
+            label: 'Contact',
+            readPretty: state.readPretty,
+            labelAttrs: state.attrs,
+          },
+          () => [h('input', { id: 'first' }), h('input', { id: 'second' })],
+        ),
+    })
   const container = document.createElement('div')
   document.body.append(container)
   const app = create()
@@ -35,7 +45,9 @@ it('keeps one explicit native label target through SSR, hydration and read-only 
     await nextTick()
     expect(label.control).toBe(second)
   } finally {
-    if (mounted) app.unmount()
+    if (mounted) {
+      app.unmount()
+    }
     container.remove()
   }
 })

@@ -15,10 +15,7 @@
     :aria-disabled="mergedDisabled || undefined"
     @click="handleClick"
   >
-    <span
-      v-ripple="{ disabled: mergedDisabled || mergedReadonly || !ripple }"
-      :class="n('control')"
-    >
+    <span v-ripple="{ disabled: mergedDisabled || mergedReadonly || !ripple }" :class="n('control')">
       <input
         ref="input"
         v-bind="nativeAttrs"

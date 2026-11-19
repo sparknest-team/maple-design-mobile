@@ -47,7 +47,9 @@ export default defineComponent({
     const prefixCls = getPrefixCls('cascader')
     const emptySlot = useEmptySlot()
     const texts = useFieldTexts()
-    const menuLabel = computed(() => props.column[0]?.parent?.path.map(item => item.label).join(' / ') || texts.select.value)
+    const menuLabel = computed(
+      () => props.column[0]?.parent?.path.map((item) => item.label).join(' / ') || texts.select.value,
+    )
     const cascader = inject(cascaderInjectionKey, undefined)
     const virtualListRef = ref<VirtualListRef & { currentList?: CascaderOptionInfo[] }>()
     const isVirtual = computed(() => Boolean(props.virtualListProps))

@@ -15,7 +15,9 @@ const loadingMode = ref('default')
 const searchEvents = ref(0)
 const submitted = ref([])
 function submit() {
-  if (waiting.value || !form.value) return
+  if (waiting.value || !form.value) {
+    return
+  }
   submitted.value = [...new form.value.ownerDocument.defaultView.FormData(form.value).entries()]
 }
 </script>

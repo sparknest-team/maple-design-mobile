@@ -216,11 +216,20 @@ test.each([false, true])('SSR only emits provable popup references (multiple=%s)
     [{ triggerProps: { popupContainer: false } }, true],
     [{ popupContainer: false, triggerProps: { popupContainer: 'body' } }, true],
   ] as const) {
-    const html = await renderToString(createSSRApp({
-      render: () => h(Cascader, {
-        options, multiple, filterable: true, inputValue: 'a', defaultOpen: true, editMode: 'direct', ...placement,
+    const html = await renderToString(
+      createSSRApp({
+        render: () =>
+          h(Cascader, {
+            options,
+            multiple,
+            filterable: true,
+            inputValue: 'a',
+            defaultOpen: true,
+            editMode: 'direct',
+            ...placement,
+          }),
       }),
-    }))
+    )
     const fragment = document.createElement('template')
     fragment.innerHTML = html
     const input = fragment.content.querySelector('input[role="combobox"]')!
@@ -236,9 +245,11 @@ test.each([false, true])('SSR only emits provable popup references (multiple=%s)
 })
 
 test.each([false, true])('SSR links the inline hierarchy dialog and its menus (multiple=%s)', async (multiple) => {
-  const html = await renderToString(createSSRApp({
-    render: () => h(Cascader, { options, multiple, popupContainer: false, defaultOpen: true, editMode: 'direct' }),
-  }))
+  const html = await renderToString(
+    createSSRApp({
+      render: () => h(Cascader, { options, multiple, popupContainer: false, defaultOpen: true, editMode: 'direct' }),
+    }),
+  )
   const template = document.createElement('template')
   template.innerHTML = html
   const input = template.content.querySelector('input[role="combobox"]')!

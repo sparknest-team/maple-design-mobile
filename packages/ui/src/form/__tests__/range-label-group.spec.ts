@@ -148,9 +148,16 @@ it('does not leak the outer label into an isolated editor', () => {
 
 it('moves the implicit label from a range to the mixed group and restores it', async () => {
   const mixed = ref(false)
-  const wrapper = mount(FormItem, { attachTo: document.body, props: { label: 'Period' }, slots: {
-    default: () => [h(DateRange, { editMode: 'direct' }), mixed.value ? h('input', { 'aria-label': 'Reason' }) : null],
-  } })
+  const wrapper = mount(FormItem, {
+    attachTo: document.body,
+    props: { label: 'Period' },
+    slots: {
+      default: () => [
+        h(DateRange, { editMode: 'direct' }),
+        mixed.value ? h('input', { 'aria-label': 'Reason' }) : null,
+      ],
+    },
+  })
   try {
     await flushPromises()
     const range = wrapper.getComponent(DateRange)
@@ -163,5 +170,7 @@ it('moves the implicit label from a range to the mixed group and restores it', a
     mixed.value = false
     await flushPromises()
     expect(range.get('[role=group]').attributes('aria-labelledby')).toBe(labelId)
-  } finally { wrapper.unmount() }
+  } finally {
+    wrapper.unmount()
+  }
 })

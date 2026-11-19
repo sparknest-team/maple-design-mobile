@@ -154,7 +154,7 @@ for (const virtual of [false, true]) {
       expect(items).toHaveLength(2)
       expect(items.map((item) => item.attributes('tabindex'))).toEqual(['0', '-1'])
       expect(wrapper.findAll('input[type="checkbox"]')).toHaveLength(2)
-      expect(items.map(item => item.get('input').attributes('tabindex'))).toEqual(['-1', '-1'])
+      expect(items.map((item) => item.get('input').attributes('tabindex'))).toEqual(['-1', '-1'])
       if (virtual) {
         const scroll = wrapper.get('[role="menu"]').element.closest('[class$="-virtual-list"]')
         expect(scroll?.getAttribute('tabindex')).toBe('2')
