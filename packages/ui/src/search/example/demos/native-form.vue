@@ -57,3 +57,9 @@ function submit() {
     }}</pre>
   </section>
 </template>
+<style scoped>
+.native-search-results {
+  max-width: 100%;
+  overflow-x: auto;
+}
+</style>
