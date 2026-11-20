@@ -63,7 +63,7 @@ export function merge(number, run = (args) => execFileSync('gh', args, { encodin
         throw new Error('The current PR merge commit was not tested; update or rerun Quality')
       }
       for (const link of snapshot.links) {
-        verifyLinked(link, api(`repos/loca-spirit/${link.repo}/pulls/${link.number}`))
+        verifyLinked(link, api(`repos/sparknest-team/${link.repo}/pulls/${link.number}`))
       }
     }
     // GitHub rejects a changed head between validation and the merge request.

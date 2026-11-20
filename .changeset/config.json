@@ -3,7 +3,7 @@
   "changelog": [
     "@changesets/changelog-github",
     {
-      "repo": "loca-spirit/maple-design-mobile"
+      "repo": "sparknest-team/maple-design-mobile"
     }
   ],
   "commit": false,

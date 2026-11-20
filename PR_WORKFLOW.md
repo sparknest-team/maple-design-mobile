@@ -34,8 +34,8 @@ gh pr create --base main
 在 PR 正文中为每个配套仓库写一行，例如：
 
 ```text
-Related-PR: https://github.com/loca-spirit/design-ui/pull/123
-Related-PR: https://github.com/loca-spirit/maple-design-mobile/pull/456
+Related-PR: https://github.com/sparknest-team/design-ui/pull/123
+Related-PR: https://github.com/sparknest-team/maple-design-mobile/pull/456
 ```
 
 只能链接另外两个仓库，每个仓库最多一个 PR。CI 将未合并 PR 解析为 head SHA，已合并 PR 解析为 merge SHA；未指定的仓库使用 main。编辑 PR 正文也会触发新检查。CI 结束时再次确认关联 SHA 未改变，并保存本次被测 merge SHA 和关联 SHA 的 artifact。配套 PR 在检查结束后更新或合并时，重跑所有受影响 PR 的 Quality；跨仓库合并不具备原子性。
@@ -50,7 +50,7 @@ pnpm pr:merge <PR编号>
 
 ## GitHub 配置
 
-- 三个仓库的 Actions repository secret：`DESIGN_SYSTEM_CI_TOKEN`。值是同一枚 Fine-grained PAT，Resource owner 为 loca-spirit，仅选择三个仓库，Repository permissions 为 Contents Read-only、Pull requests Read-only。不是随意字符串，也不是 npm token。
+- 三个仓库的 Actions repository secret：`DESIGN_SYSTEM_CI_TOKEN`。值是同一枚 Fine-grained PAT，Resource owner 为 sparknest-team，仅选择三个仓库，Repository permissions 为 Contents Read-only、Pull requests Read-only。不是随意字符串，也不是 npm token。
 - Actions → General → Workflow permissions 的 “Allow GitHub Actions to create and approve pull requests” 开关是自动版本 PR 的前置条件。工作流只创建 PR，不提交 approve review。GitHub 将创建和审批能力合并在同一个设置项里；启用前需仓库所有者确认。所有 workflow 显式声明各自所需的最小权限，完整 Quality 只读。
 - 建议 main 的分支保护要求 PR 与成功的 `quality` 检查、最新基线，关闭直接推送与 force push；仓库合并方式使用 Squash。
 - 当前 GitHub 套餐对这些私有仓库的分支保护 API 返回 403，要求升级 Pro 或公开仓库。在套餐支持并配置好保护前，本地 pre-push 和 `pr:merge` 只是团队约定，不能阻止网页端或其他客户端直接合并/推送。不得声称服务端保护已经生效。无需为此公开源码。

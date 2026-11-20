@@ -6,13 +6,13 @@
     "emulator",
     "maple"
   ],
-  "homepage": "https://github.com/loca-spirit/maple-design-mobile#readme",
+  "homepage": "https://github.com/sparknest-team/maple-design-mobile#readme",
   "bugs": {
-    "url": "https://github.com/loca-spirit/maple-design-mobile/issues"
+    "url": "https://github.com/sparknest-team/maple-design-mobile/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/loca-spirit/maple-design-mobile.git",
+    "url": "git+https://github.com/sparknest-team/maple-design-mobile.git",
     "directory": "packages/touch-emulator"
   },
   "license": "MIT",

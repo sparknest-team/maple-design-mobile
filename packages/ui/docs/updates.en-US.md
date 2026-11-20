@@ -4,7 +4,7 @@ Check package versions and release notes before upgrading. Review affected props
 
 ## Changelog
 
-[Read the full Changelog](https://github.com/loca-spirit/maple-design-mobile/blob/main/CHANGELOG.md) for features, fixes and breaking changes. Unreleased entries are not necessarily included in the current npm package.
+[Read the full Changelog](https://github.com/sparknest-team/maple-design-mobile/blob/main/CHANGELOG.md) for features, fixes and breaking changes. Unreleased entries are not necessarily included in the current npm package.
 
 ## Upgrade checks
 

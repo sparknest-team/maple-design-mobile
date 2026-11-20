@@ -131,8 +131,8 @@ export default defineConfig({
       },
       currentVersion: 'v1.x',
       versions: [],
-      github: 'https://github.com/loca-spirit/maple-design-mobile',
-      changelog: 'https://github.com/loca-spirit/maple-design-mobile/blob/main/CHANGELOG.md',
+      github: 'https://github.com/sparknest-team/maple-design-mobile',
+      changelog: 'https://github.com/sparknest-team/maple-design-mobile/blob/main/CHANGELOG.md',
       playground: 'https://maplejs.org/playground',
       themes: [
         { 'zh-CN': '默认亮色', 'en-US': 'Default Light', value: 'lightTheme' },
@@ -169,7 +169,7 @@ export default defineConfig({
         'zh-CN': '中文',
         'en-US': 'English',
       },
-      github: 'https://github.com/loca-spirit/maple-design-mobile',
+      github: 'https://github.com/sparknest-team/maple-design-mobile',
       themes: [
         { 'zh-CN': '默认亮色', 'en-US': 'Default Light', value: 'lightTheme' },
         { 'zh-CN': '默认暗色', 'en-US': 'Default Dark', value: 'darkTheme' },

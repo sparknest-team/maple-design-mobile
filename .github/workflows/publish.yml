@@ -25,7 +25,7 @@ jobs:
           ref: ${{ github.sha }}
       - uses: actions/checkout@v4
         with:
-          repository: loca-spirit/design-ui
+          repository: sparknest-team/design-ui
           path: design-ui
           token: ${{ secrets.DESIGN_SYSTEM_CI_TOKEN || secrets.DESIGN_UI_TOKEN || github.token }}
       - uses: pnpm/action-setup@v4

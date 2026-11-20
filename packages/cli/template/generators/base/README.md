@@ -2,8 +2,8 @@
 
 ### Reference
 
-[@maple-design/cli-vue 中文文档](https://github.com/loca-spirit/maple-design-mobile/blob/main/packages/cli/README.md)
-[@maple-design/cli-vue documentation](https://github.com/loca-spirit/maple-design-mobile/blob/main/packages/cli/README.md)
+[@maple-design/cli-vue 中文文档](https://github.com/sparknest-team/maple-design-mobile/blob/main/packages/cli/README.md)
+[@maple-design/cli-vue documentation](https://github.com/sparknest-team/maple-design-mobile/blob/main/packages/cli/README.md)
 
 ### Quickstart
 

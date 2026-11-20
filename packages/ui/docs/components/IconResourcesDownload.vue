@@ -7,7 +7,7 @@ import { t } from './locale'
 onThemeChange()
 
 function download() {
-  window.location.href = 'https://raw.githubusercontent.com/loca-spirit/maple-design-resources/main/icons.sketch'
+  window.location.href = 'https://raw.githubusercontent.com/sparknest-team/maple-design-resources/main/icons.sketch'
 }
 </script>
 
