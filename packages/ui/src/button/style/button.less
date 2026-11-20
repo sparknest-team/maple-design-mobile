@@ -84,6 +84,12 @@
   }
   &--variant-outline {
     border: thin solid currentColor;
+
+    &.mp-button--status-default:not(.mp-button--disabled),
+    &.mp-button--status-secondary:not(.mp-button--disabled),
+    &.mp-button--status-tertiary:not(.mp-button--disabled) {
+      border-color: var(--mp-sys-color-border-default);
+    }
   }
   .palette(@status, @solid-text, @solid-layer) {
     &--status-@{status} {

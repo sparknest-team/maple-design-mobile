@@ -162,13 +162,19 @@ Maple 当前没有 TypographyTitle 组件，分组使用原生标题。
 <!-- same-source-api:start -->
 `row-reverse` 反转横排封面与正文的顺序，阅读方向仍受容器方向影响。`floating-content` 收起时保留节点与内部状态，但会通过 inert 退出键盘和辅助技术交互；展开时恢复。浮层仅在 column 方向生效。
 
-当前浮层仍位于 Card 原有 DOM 位置。祖先的 transform 等属性可能改变 fixed 定位参照，祖先裁剪也可能遮挡浮层，因此不能保证覆盖整个视口。焦点在展开的 Card 内时，按 Escape 会请求关闭；内部控件已处理的 Escape 不会关闭 Card；内嵌弹层处于最上层时优先处理 Escape。浮层不提供模态焦点管理，需要模态交互时请使用 Dialog。
+Card 展开时保留原有 DOM 位置和表单归属。支持 Popover API 的浏览器可以将内容置于浏览器顶层，覆盖带 transform 或裁剪的祖先。同文档中已有原生模态框或弹出层时，Card 会等待它关闭或移除。检测范围包括开放的 Shadow DOM 以及 Card 所在的 ShadowRoot；其他组件私有的封闭 ShadowRoot 由宿主管理。如果浏览器不支持顶层显示或打开被取消，Card 使用原位置的 fixed 定位，覆盖范围受祖先布局影响。焦点在展开的 Card 内时，按 Escape 会请求关闭；内部控件已处理的 Escape 不会关闭 Card；内嵌弹层处于最上层时优先处理 Escape。从卡片外的按钮展开顶层 Card 时，若焦点仍在打开按钮上且 Card 位于最上层，展开完成后焦点会进入面板。在面板上按 Escape 收起时，焦点返回打开按钮。若子控件已获得焦点，则保留其焦点。进入浏览器顶层后，Tab 和 Shift+Tab 会在展开的 Card 与其上方的组件库浮层之间循环。展开面板使用分组角色。顶层 Card 完成展开后，背景控件暂停交互。Card 上方的组件库浮层和可检测的原生顶层仍可操作。收起或卸载后背景恢复，业务设置的 `inert` 会保留。如果外部 Web Component 在背景已经隔离后才创建 ShadowRoot，并要立即打开原生弹层，应将 `popover` 设置在宿主元素上，再调用宿主的 `showPopover()`。此时 Card 可以及时放行宿主，关闭弹层后恢复隔离。需要模态对话框语义时请使用 Dialog。
+
+焦点位于通过 `showModal()` 打开的原生对话框时，Escape 交给对话框处理。业务可以在 `cancel` 事件中取消关闭，Card 保持展开。
+
+在展开的 Card 内按 Escape 时，已打开的原生自动弹层（`popover="auto"` 或 `popover="hint"`）优先关闭。焦点留在触发按钮上时也适用。
 
 焦点位于通过 `showModal()` 打开的原生对话框时，Escape 交给对话框处理。业务可以在 `cancel` 事件中取消关闭，Card 保持展开。
 
 当展开内容或关闭按钮内仍有焦点时，关闭会尝试将焦点返回展开前的控件；如果焦点已经移到其他位置，则不会抢回焦点。 展开等待期间，如果焦点进入展开内容，内容会立即显示，不等待淡入动画。 等待期间尚未显示且未获得焦点的展开内容和关闭按钮不会出现在无障碍树中；焦点进入任一处时立即显示。
 
 若打开控件位于外部的封闭 Shadow Root，Card 无法直接取得内部控件；宿主需自行提供焦点委托或由应用处理焦点恢复。`delegatesFocus` 可将宿主焦点委托给内部控件，但不保证在有多个控件时返回原控件。
+
+自定义标题时，可在 Card 上设置 `aria-labelledby="order-title"`，并在头部插槽中使用 `<h2 id="order-title">订单详情</h2>`。这样标题旁的操作按钮不会被读作面板名称。没有可见标题时，可通过 `aria-label` 提供名称。
 
 默认关闭按钮使用当前语言的关闭文案，`close-button-aria-label` 可覆盖。`floating-duration` 为有限非负毫秒数，0 表示不延时；无效值回退为 250。 系统启用减少动态效果时，展开和收起不等待波纹或过渡动画，运行中切换也会生效。
 
@@ -195,6 +201,8 @@ Maple 当前没有 TypographyTitle 组件，分组使用原生标题。
 | ripple | 点击水波 | `boolean` | `false` |
 | floating | 浮动展开状态，支持 v-model:floating | `boolean` | `false` |
 | floating-duration | 浮动展开与关闭动画时长，单位 ms | `number` | `250` |
+| aria-label | 展开面板的可访问名称，默认使用普通文本标题 | `string` | `—` |
+| aria-labelledby | 自定义标题或头部插槽中可见标题元素的 ID | `string` | `—` |
 | close-button-aria-label | 默认关闭按钮的可访问名称 | `string` | `—` |
 
 ### Card Events

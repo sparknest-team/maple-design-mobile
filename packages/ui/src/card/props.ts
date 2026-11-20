@@ -41,6 +41,8 @@ export const cardProps = {
   ripple: Boolean,
   floating: Boolean,
   floatingDuration: { type: Number, default: 250, validator: (value: number) => Number.isFinite(value) && value >= 0 },
+  ariaLabel: String,
+  ariaLabelledby: String,
   closeButtonAriaLabel: String,
 }
 export type CardProps = ExtractPublicPropTypes<typeof cardProps>

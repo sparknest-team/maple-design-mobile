@@ -183,6 +183,13 @@ const plugin = {
       )
     }
     const loadingDirective = inc.some(([filename]) => /[/\\]loading[/\\]directive\.ts$/.test(filename))
+    if (['pagination', 'people-select', 'search'].includes(name)) {
+      assert.equal(
+        inc.some(([filename]) => /[/\\]select[/\\]index\.ts$/.test(filename)),
+        false,
+        `${name} must not bundle the public Select installer`,
+      )
+    }
     if (['auto-complete', 'cascader', 'pagination', 'people-select', 'search', 'select'].includes(name)) {
       assert.equal(
         inc.some(([filename]) => /[/\\]input[/\\]index\.ts$/.test(filename)),

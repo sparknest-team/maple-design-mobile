@@ -21,6 +21,7 @@ export interface CreateCommandOptions {
 }
 
 interface RenderData {
+  internal: boolean
   kebabCaseName: string
   bigCamelizeName: string
   camelizeName: string
@@ -51,6 +52,7 @@ export async function create(options: CreateCommandOptions) {
 
   const { namespace } = await getMapleConfig()
   const renderData: RenderData = {
+    internal: Boolean(options.internal),
     namespace,
     bigCamelizeNamespace: pascalCase(namespace),
     kebabCaseName: 'component-name',

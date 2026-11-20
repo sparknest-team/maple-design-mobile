@@ -104,6 +104,7 @@ const { handleKeydown, handleKeyup } = useTriggerKeyboard({
 })
 const popupProps = computed(() => ({
   placement: 'bottom-start' as const,
+  updateAtScroll: props.state.controlProps.value.editable,
   ...datePresentationOptions(props.fieldProps.popupProps),
   popupContainer:
     props.fieldProps.popupContainer !== undefined

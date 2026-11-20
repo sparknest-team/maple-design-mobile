@@ -51,3 +51,51 @@ test('two simultaneously mounted items can capture different reset baselines for
     owner.unmount()
   }
 })
+
+test('a keyed subtree replaced during a layout change captures a new reset baseline', async () => {
+  const model = reactive({ value: 'original' })
+  const version = ref(0)
+  const owner = mount({
+    setup: () => () =>
+      h(Form, { model }, () =>
+        h(FormItem, { label: 'Layout', noStyle: Boolean(version.value) }, () =>
+          h('section', { key: version.value }, [
+            h(FormItem, { field: 'value', key: 'unchanged-field-key' }, () => h('input')),
+          ]),
+        ),
+      ),
+  })
+  try {
+    model.value = 'replacement baseline'
+    version.value++
+    await nextTick()
+    model.value = 'later edit'
+    owner.getComponent(Form).vm.resetFields()
+    await nextTick()
+    expect(model.value).toBe('replacement baseline')
+  } finally {
+    owner.unmount()
+  }
+})
+
+test.each([false, true])(
+  'a field on the layout owner keeps its baseline when noStyle starts at %s',
+  async (initial) => {
+    const model = reactive({ value: 'original' })
+    const noStyle = ref(initial)
+    const owner = mount({
+      setup: () => () =>
+        h(Form, { model }, () => h(FormItem, { field: 'value', noStyle: noStyle.value }, () => h('input'))),
+    })
+    try {
+      model.value = 'edited'
+      noStyle.value = !initial
+      await nextTick()
+      owner.getComponent(Form).vm.resetFields()
+      await nextTick()
+      expect(model.value).toBe('original')
+    } finally {
+      owner.unmount()
+    }
+  },
+)

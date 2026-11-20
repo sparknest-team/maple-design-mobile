@@ -244,6 +244,7 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 | is-success-response | `UploadIsSuccessResponse` | `undefined` | Custom success predicate; defaults to HTTP 2xx |
 | request-choose | `UploadRequestChoose` | `undefined` | Own the selection entry; exceptions do not automatically open a file chooser |
 | list-type | `'text' \| 'picture' \| 'picture-card'` | `'text'` | File list appearance; supported on both platforms |
+| initial-trigger-interactive | `boolean` | `false` | The custom trigger slot provides its own interactive control on first render. After mount, Upload checks the rendered content. |
 | trigger-position | `'before' \| 'after'` | `'after'` | Place the upload entry before or after the file list; applies to every list-type, custom trigger slots and drag-and-drop entries. Values describe DOM order and are not rewritten in RTL. |
 | image-fit | `'fill' \| 'contain' \| 'cover' \| 'none' \| 'scale-down'` | `'cover'` | Thumbnail fit; item.fit overrides |
 | preview | `boolean` | `true` | Enable built-in image / video preview |
@@ -273,7 +274,7 @@ UploadFileItem requires uid, status and percent. name/size/type/file/url/thumbna
 
 - trigger({chooseFile,dragOver,disabled,describedBy}): custom selection entry.
 
-During SSR, interactive elements inside the trigger slot are not detected until hydration. If the slot contains a button, its outer wrapper is initially also a focusable button. To avoid nested interactive semantics in the initial HTML, use decorative slot content and let the wrapper open the file picker. After hydration, the component detects interactive content and adjusts the wrapper role.
+If your `trigger` slot renders a visible button on the server, set `initial-trigger-interactive` on Upload. The button then supplies the initial keyboard entry. Omit the prop for text or decorative content so the wrapper supplies that entry. After hydration, Upload uses the rendered controls and their visibility. The control is checked again when the viewport resizes or the reduced-motion, color-scheme, or forced-colors preference changes.
 
 Display-only content uses the wrapper button role and Enter/Space entry. Interactive custom content owns its keyboard behavior; the wrapper adds no button role or Tab stop. Bind the slot disabled value to your button. To associate the button itself with form errors and Upload's aria-describedby, bind the slot's describedBy to the button's aria-describedby; it updates as errors appear and clear. Calling chooseFile directly needs no .stop: bubbling does not choose again or also invoke requestChoose. Custom buttons relying on bubbling can still use requestChoose.
 

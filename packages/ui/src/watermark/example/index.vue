@@ -1,18 +1,12 @@
 <script setup>
-import { computed, ref } from 'vue'
-import { AppType, onThemeChange, watchLang } from '@maple-design/cli-vue/client'
+import { AppType, onThemeChange } from '@maple-design/cli-vue/client'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import FullscreenDemo from './demos/fullscreen.vue'
 import ContentGeometryComparison from './demos/geometry-comparison.vue'
 import ImageWatermarkDemo from './demos/image-watermark.vue'
 import MultilineDemo from './demos/multiline.vue'
 import TextWatermarkDemo from './demos/text-watermark.vue'
 
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-
-watchLang((value) => {
-  language.value = value
-})
 onThemeChange()
 </script>
 

@@ -159,3 +159,11 @@ test('named and default Search entries are the same public component', async () 
   const entry = await import('..')
   expect(entry.Search).toBe(entry.default)
 })
+
+test('reference and popup inputs preserve explicit false native busy metadata', async () => {
+  const { owner, reference, input } = await fixture({ inputAttrs: { id: 'query-control', 'aria-busy': false } })
+  for (const loading of [false, true, false]) {
+    await owner.setProps({ loading })
+    for (const field of [reference, input]) expect(field.attributes('aria-busy')).toBe(String(loading))
+  }
+})

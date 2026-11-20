@@ -97,7 +97,7 @@ Compare minute, second and 12-hour range displays and edit both endpoints. Next-
 ### next day
 
 ```demo
-../example/demos/next-day.vue
+../example/demos/en-US/next-day.vue
 ```
 
 The demo enables text entry and shows the model, preserving 22:00→next-day06:00 endpoint order. Clearing returns `undefined`; Reset restores the range. `show-next-day` describes clock ordering and the label, not automatic next-day calendar arithmetic.
@@ -203,7 +203,7 @@ The standalone panel owns its draft and commit state directly. External model re
 ### picker seconds
 
 ```demo
-../example/demos/picker-seconds.vue
+../example/demos/en-US/picker-seconds.vue
 ```
 
 ## Input and state control

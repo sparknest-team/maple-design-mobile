@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onDeactivated, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
+import { onBeforeUnmount, onDeactivated, ref } from 'vue'
 import type { InfiniteScrollStatus } from '@maple-design/ui-vue'
 
 const scroller = ref<HTMLElement>()
@@ -8,12 +7,6 @@ const status = ref<InfiniteScrollStatus>('idle')
 const items = ref<number[]>([])
 let failedOnce = false
 let timer: ReturnType<typeof setTimeout> | undefined
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-
-watchLang((value) => {
-  language.value = value
-})
 
 function load() {
   clearTimeout(timer)
@@ -43,12 +36,10 @@ onDeactivated(() => {
 <template>
   <div ref="scroller" class="infinite-scroll-demo">
     <mp-infinite-scroll v-model:status="status" :target="scroller" @load="load" @retry="load">
-      <mp-cell v-for="item in items" :key="item">{{ english ? 'List item' : '列表项' }} {{ item }}</mp-cell>
+      <mp-cell v-for="item in items" :key="item">列表项 {{ item }}</mp-cell>
       <template #error="{ retry }">
-        {{ english ? 'Load failed.' : '加载失败，' }}
-        <mp-button variant="text" size="sm" status="primary" @click="retry">{{
-          english ? 'Try again' : '点击重试'
-        }}</mp-button>
+        加载失败，
+        <mp-button variant="text" size="sm" status="primary" @click="retry">点击重试</mp-button>
       </template>
     </mp-infinite-scroll>
   </div>

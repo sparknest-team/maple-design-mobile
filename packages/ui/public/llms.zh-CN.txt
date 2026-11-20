@@ -106,6 +106,7 @@ Documentation language: zh-CN.
 - [Row](./llms/zh-CN/row.md): /zh-CN/row
 - [SafeArea 安全区](./llms/zh-CN/safe-area.md): /zh-CN/safe-area
 - [搜索](./llms/zh-CN/search.md): /zh-CN/search
+- [Section 内容分区](./llms/zh-CN/section.md): /zh-CN/section
 - [选择框](./llms/zh-CN/select.md): /zh-CN/select
 - [服务端渲染](./llms/zh-CN/serverSideRendering.md): /zh-CN/serverSideRendering
 - [特色与场景](./llms/zh-CN/showcase.md): /zh-CN/showcase

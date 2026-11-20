@@ -40,6 +40,7 @@ import { usePopupContainer } from '../utils/popup-container'
 import { usePopupLayer } from '../utils/popup-layer'
 import { usePopupTransition } from '../utils/popup-transition'
 import { useScrollLock } from '../utils/scroll-lock'
+import { useVisualSurface } from '../utils/visual-surface'
 import { overlayProps } from './props'
 
 const themeScope = useThemeScope()
@@ -95,6 +96,10 @@ const scrollLockTarget = computed(() => {
 const layerActive = () => mergedOpen.value && !teleportDisabled.value
 const { zIndex } = useZIndex(layerActive, 3)
 const mergedZIndex = computed(() => props.zIndex ?? zIndex.value)
+useVisualSurface(
+  () => (mergedOpen.value || transition.leaving.value ? overlayRoot.value : undefined),
+  () => mergedZIndex.value,
+)
 const { onStackTop } = usePopupLayer(
   layerActive,
   mergedZIndex,

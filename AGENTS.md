@@ -92,6 +92,8 @@ PC 端见 `/Users/shuaimeng/github/cedar-design-web/AGENTS.md`。
 
 ## 历史教训（不要重蹈）
 
+- 中英文 Markdown 各自引用同语言的 Vue 示例，公开源码直接写本语言的界面及 ARIA 文案。仅站点或手机预览入口使用全局语言选择示例。生成和巡检时确认网页复制出的完整代码可在已安装组件库的项目直接使用，并运行 `pnpm docs:check`。
+
 ### 批量重命名 CSS token
 
 - 一次性大批量给 CSS token 加 `--mp-` 前缀时，**正则必须排除**：

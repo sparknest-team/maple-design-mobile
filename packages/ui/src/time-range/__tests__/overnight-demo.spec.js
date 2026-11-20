@@ -1,11 +1,16 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, expect, it } from 'vitest'
 import Button from '../../button'
+import Locale from '../../locale'
 import Demo from '../example/demos/next-day.vue'
 import TimeRange from '../index'
 
-vi.mock('@maple-design/cli-vue/client', () => ({ watchLang: (callback) => callback('en-US') }))
+beforeEach(() => {
+  Locale.add('en-US', Locale.enUS)
+  Locale.use('en-US')
+})
+afterEach(() => Locale.use('zh-CN'))
 
 it('overnight demo preserves endpoint order and exposes clear/reset model state', async () => {
   const wrapper = mount(Demo, { global: { components: { MpTimeRange: TimeRange, MpButton: Button } } })

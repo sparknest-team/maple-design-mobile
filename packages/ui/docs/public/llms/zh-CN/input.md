@@ -895,8 +895,8 @@ Example source: src/input/example/demos/default-value.vue
 ```vue
 <script setup lang="ts">
 import { ref } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
-withDefaults(defineProps<{ english?: boolean }>(), { english: false })
 const seed = ref('A: initial text')
 const instanceKey = ref(0)
 const lastUpdate = ref<string | null>(null)

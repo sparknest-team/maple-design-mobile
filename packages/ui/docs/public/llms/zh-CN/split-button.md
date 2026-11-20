@@ -24,15 +24,8 @@ Example source: src/split-button/example/basic.vue
 
 ```vue
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import { Message } from '@maple-design/ui-vue'
-
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-watchLang((value) => {
-  language.value = value
-})
 
 const publish = () => {
   Message.info(english.value ? 'Published' : '发布成功')
@@ -77,15 +70,8 @@ Example source: src/split-button/example/variants.vue
 
 ```vue
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import { Message } from '@maple-design/ui-vue'
-
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-watchLang((value) => {
-  language.value = value
-})
 
 const publish = () => {
   Message.info(english.value ? 'Published' : '发布成功')
@@ -125,15 +111,8 @@ Example source: src/split-button/example/disabled.vue
 
 ```vue
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import { Message } from '@maple-design/ui-vue'
-
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-watchLang((value) => {
-  language.value = value
-})
 
 const publish = () => {
   Message.info(english.value ? 'Published' : '发布成功')
@@ -203,16 +182,10 @@ Example source: src/split-button/example/demos/appearance-lab.vue
 
 ```vue
 <script setup lang="ts">
-import { computed, computed as demoComputed, ref as demoRef, reactive, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
+import { computed as demoComputed, ref as demoRef, reactive } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import { Message } from '@maple-design/ui-vue'
 import type { ComponentSize, SemanticStatus } from '../../../utils/constants'
-
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-watchLang((value) => {
-  language.value = value
-})
 
 const publish = () => {
   Message.info(english.value ? 'Published' : '发布成功')
@@ -345,15 +318,9 @@ Example source: src/split-button/example/popup.vue
 
 ```vue
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
+import { ref } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import { Message } from '@maple-design/ui-vue'
-
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-watchLang((value) => {
-  language.value = value
-})
 
 const lastAction = ref('')
 const handleSelect = (value: unknown, option: { label?: unknown }) => {
@@ -401,15 +368,8 @@ Example source: src/split-button/example/custom-icon.vue
 
 ```vue
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import { Message } from '@maple-design/ui-vue'
-
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-watchLang((value) => {
-  language.value = value
-})
 
 const publish = () => {
   Message.info(english.value ? 'Published' : '发布成功')
@@ -451,15 +411,9 @@ Example source: src/split-button/example/controlled.vue
 
 ```vue
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
+import { ref } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import { Message } from '@maple-design/ui-vue'
-
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-watchLang((value) => {
-  language.value = value
-})
 
 const publish = () => {
   Message.info(english.value ? 'Published' : '发布成功')
@@ -500,15 +454,9 @@ Example source: src/split-button/example/async-action.vue
 
 ```vue
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
+import { ref } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import { Message } from '@maple-design/ui-vue'
-
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-watchLang((value) => {
-  language.value = value
-})
 
 const completed = ref(0)
 const publishing = ref(false)

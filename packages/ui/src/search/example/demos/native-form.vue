@@ -1,8 +1,5 @@
 <script setup>
 import { ref, useId } from 'vue'
-import { useDemoLocale as useInlineDemoLocale } from '../../../__demos__/locale'
-
-const inlineCopy = useInlineDemoLocale('searchNativeFormInline')
 
 const uid = useId()
 const formId = 'native-search-form-' + uid
@@ -23,17 +20,15 @@ function submit() {
 </script>
 <template>
   <section>
-    <p>{{ inlineCopy.editInHistoryThenSubmit }}</p>
+    <p>编辑历史弹层后提交，关键词只提交一份。</p>
     <mp-space wrap>
-      <mp-button html-type="button" @click="waiting = !waiting">{{ inlineCopy.toggleWaiting }}</mp-button>
-      <mp-button html-type="button" @click="loadingMode = loadingMode === 'default' ? 'line' : 'default'">{{
-        inlineCopy.toggleLoadingLayout
-      }}</mp-button>
+      <mp-button html-type="button" @click="waiting = !waiting">切换等待</mp-button>
+      <mp-button html-type="button" @click="loadingMode = loadingMode === 'default' ? 'line' : 'default'">切换加载布局</mp-button>
     </mp-space>
     <form :id="formId" ref="form" @submit.prevent="submit">
       <mp-search
         v-model="query"
-        :label="inlineCopy.keywords"
+        label="关键词"
         edit-mode="popup"
         :recent-searches="['report', 'invoice']"
         :loading="waiting"
@@ -47,10 +42,10 @@ function submit() {
         }"
         @search="searchEvents++"
       />
-      <p :id="helpId">{{ inlineCopy.editsUpdateImmediatelyNativeRequired }}</p>
-      <mp-button html-type="submit" :disabled="waiting">{{ inlineCopy.captureNativeForm }}</mp-button>
+      <p :id="helpId">输入即时更新；HTML 必填校验关联此表单。</p>
+      <mp-button html-type="submit" :disabled="waiting">记录原生表单</mp-button>
     </form>
-    <p>{{ inlineCopy.readingPreview }}</p>
+    <p>阅读预览</p>
     <mp-search :model-value="query" read-pretty :loading="waiting" :loading-mode="loadingMode" />
     <pre class="native-search-results" role="status">{{
       JSON.stringify({ submitted, searchEvents, query, waiting, loadingMode })

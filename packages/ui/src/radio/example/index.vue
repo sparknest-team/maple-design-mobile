@@ -1,6 +1,6 @@
 <script setup>
-import { computed, ref } from 'vue'
-import { AppType, onThemeChange, watchLang } from '@maple-design/cli-vue/client'
+import { AppType, onThemeChange } from '@maple-design/cli-vue/client'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import AsyncOptionsDemo from './demos/async-options.vue'
 import BasicUsageDemo from './demos/basic-usage.vue'
 import ButtonSizesDemo from './demos/button-sizes.vue'
@@ -8,12 +8,20 @@ import ControlValueDemo from './demos/control-value.vue'
 import CustomFieldsDemo from './demos/custom-fields.vue'
 import DisabledDemo from './demos/disabled.vue'
 import EnglishAsyncOptionsDemo from './demos/en-US/async-options.vue'
+import BasicUsageDemoEn from './demos/en-US/basic-usage.vue'
 import EnglishButtonSizesDemo from './demos/en-US/button-sizes.vue'
 import EnglishControlValueDemo from './demos/en-US/control-value.vue'
+import CustomFieldsDemoEn from './demos/en-US/custom-fields.vue'
+import DisabledDemoEn from './demos/en-US/disabled.vue'
+import ContentGroupDeclarationComparisonEn from './demos/en-US/group-declaration-comparison.vue'
 import EnglishGroupStateDemo from './demos/en-US/group-state.vue'
 import EnglishKeyboardNavigationDemo from './demos/en-US/keyboard-navigation.vue'
 import EnglishNativeControlDemo from './demos/en-US/native-control.vue'
 import EnglishOptionDataDemo from './demos/en-US/option-data.vue'
+import ReadonlyDemoEn from './demos/en-US/readonly.vue'
+import SetStateDemoEn from './demos/en-US/set-state.vue'
+import SetStyleDemoEn from './demos/en-US/set-style.vue'
+import VerticalDemoEn from './demos/en-US/vertical.vue'
 import ContentGroupDeclarationComparison from './demos/group-declaration-comparison.vue'
 import GroupStateDemo from './demos/group-state.vue'
 import KeyboardNavigationDemo from './demos/keyboard-navigation.vue'
@@ -25,12 +33,6 @@ import SetStyleDemo from './demos/set-style.vue'
 import OrganizedStateLab from './demos/state-lab.vue'
 import VerticalDemo from './demos/vertical.vue'
 
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-
-watchLang((value) => {
-  language.value = value
-})
 onThemeChange()
 </script>
 
@@ -42,7 +44,7 @@ onThemeChange()
 
   <section data-demo="basic-usage">
     <app-type>{{ english ? 'Basic Usage' : '基本使用' }}</app-type>
-    <BasicUsageDemo />
+    <component :is="english ? BasicUsageDemoEn : BasicUsageDemo" />
   </section>
 
   <h2 class="mobile-demo-group-heading" data-demo-group="appearance-and-states">
@@ -52,12 +54,12 @@ onThemeChange()
 
   <section data-demo="disabled">
     <app-type>{{ english ? 'Disabled' : '禁用' }}</app-type>
-    <DisabledDemo />
+    <component :is="english ? DisabledDemoEn : DisabledDemo" />
   </section>
 
   <section data-demo="readonly">
     <app-type>{{ english ? 'Readonly' : '只读' }}</app-type>
-    <ReadonlyDemo />
+    <component :is="english ? ReadonlyDemoEn : ReadonlyDemo" />
   </section>
 
   <h2 class="mobile-demo-group-heading" data-demo-group="groups-and-layout">
@@ -69,12 +71,12 @@ onThemeChange()
     <h3 class="mobile-demo-case-heading">
       <span lang="zh-CN">单选组声明方式</span><span lang="en-US">Radio group declarations</span>
     </h3>
-    <ContentGroupDeclarationComparison />
+    <component :is="english ? ContentGroupDeclarationComparisonEn : ContentGroupDeclarationComparison" />
   </section>
 
   <section data-demo="vertical">
     <app-type>{{ english ? 'Vertical Direction' : '垂直布局' }}</app-type>
-    <VerticalDemo />
+    <component :is="english ? VerticalDemoEn : VerticalDemo" />
   </section>
 
   <section data-demo="group-state">
@@ -104,12 +106,12 @@ onThemeChange()
 
   <section data-demo="custom-fields">
     <app-type>{{ english ? 'Custom Fields' : '自定义字段' }}</app-type>
-    <CustomFieldsDemo />
+    <component :is="english ? CustomFieldsDemoEn : CustomFieldsDemo" />
   </section>
 
   <section data-demo="set-state">
     <app-type>{{ english ? 'Set State Value' : '设置状态值' }}</app-type>
-    <SetStateDemo />
+    <component :is="english ? SetStateDemoEn : SetStateDemo" />
   </section>
 
   <h2 class="mobile-demo-group-heading" data-demo-group="interaction-and-keyboard">
@@ -139,7 +141,7 @@ onThemeChange()
 
   <section data-demo="set-style">
     <app-type>{{ english ? 'Modify Icon And Color' : '修改图标和颜色' }}</app-type>
-    <SetStyleDemo />
+    <component :is="english ? SetStyleDemoEn : SetStyleDemo" />
   </section>
 
   <h2 class="mobile-demo-group-heading" data-demo-group="async-options">

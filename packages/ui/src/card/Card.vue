@@ -2,6 +2,8 @@
   <div
     ref="card"
     v-ripple="{ disabled: !ripple || floater }"
+    :aria-label="!expandedPanel || $attrs.role ? ariaLabel : undefined"
+    :aria-labelledby="!expandedPanel || $attrs.role ? ariaLabelledby : undefined"
     :class="
       classes(
         n(),
@@ -22,6 +24,10 @@
   >
     <div
       ref="cardFloater"
+      :tabindex="expandedPanel ? -1 : undefined"
+      :role="expandedPanel ? 'group' : undefined"
+      :aria-label="expandedPanel ? ariaLabel || (!$slots.title && !$slots.header ? title : undefined) : undefined"
+      :aria-labelledby="expandedPanel ? ariaLabelledby : undefined"
       :class="n('floater')"
       :style="{
         width: floaterWidth,
@@ -117,9 +123,10 @@
     </div>
 
     <div
+      ref="cardHolder"
       :class="n('holder')"
       :style="{
-        width: holderWidth,
+        width: 'auto',
         height: holderHeight,
       }"
     ></div>
@@ -134,13 +141,17 @@ import { isShadowRoot } from '../_utils/is-shadow-root'
 import BaseButton from '../button/base'
 import { useLock } from '../context/lock'
 import { useZIndex } from '../context/zIndex'
-import BaseDivider from '../divider'
-import BaseIcon from '../icon'
+import BaseDivider from '../divider/Divider.vue'
+import BaseIcon from '../icon/Icon.vue'
 import vRipple from '../ripple'
 import { createNamespace, formatElevation } from '../utils/components'
 import { toSizeUnit } from '../utils/elements'
 import { usePopupLayer } from '../utils/popup-layer'
+import { useVisualSurface } from '../utils/visual-surface'
+import { setCardBackgroundIsolation } from './background-isolation'
 import { watchDetachedCard } from './detached-card-monitor'
+import { layoutHeight, returnGeometry } from './floating-geometry'
+import { createCardLayerGroup } from './native-layer-group'
 import { useCardCloseLabel, useCardSize } from './platform'
 import { cardProps } from './props'
 
@@ -158,13 +169,14 @@ const card = ref<null | HTMLElement>(null)
 const cardFloater = ref<null | HTMLElement>(null)
 const floatingContent = ref<null | HTMLElement>(null)
 const floatingButtons = ref<null | HTMLElement>(null)
-const holderWidth = ref('auto')
+const cardHolder = ref<HTMLElement | null>(null)
 const holderHeight = ref('auto')
 const floaterWidth = ref('100%')
 const floaterHeight = ref('100%')
 const floaterTop = ref('auto')
 const floaterLeft = ref('auto')
 const floaterPosition = ref<'static' | 'absolute' | 'fixed' | 'relative' | 'sticky' | undefined>(undefined)
+const expandedPanel = computed(() => floaterPosition.value === 'fixed')
 const floaterOverflow = ref('hidden')
 const contentHeight = ref('0px')
 const opacity = ref('0')
@@ -311,8 +323,7 @@ function updateReturnFocus(open: boolean) {
   returnFocus = null
   const hiddenArea = closestAcrossRoots(focused, `.${n('floating-content')}, .${n('floating-buttons')}`)
   if (
-    hiddenArea &&
-    cardFloater.value?.contains(hiddenArea) &&
+    (focused === cardFloater.value || (hiddenArea && cardFloater.value?.contains(hiddenArea))) &&
     target?.isConnected &&
     !closestAcrossRoots(target, '[inert]')
   ) {
@@ -320,6 +331,12 @@ function updateReturnFocus(open: boolean) {
   }
 }
 
+useVisualSurface(
+  () =>
+    cardDocument.value && cardConnected.value && floaterPosition.value === 'fixed' ? cardFloater.value : undefined,
+  () => zIndex.value,
+  createCardLayerGroup,
+)
 const wantsFloating = () => props.floating && !isRow.value
 const { onStackTop, syncOwner } = usePopupLayer(
   () => wantsFloating() && cardConnected.value,
@@ -496,6 +513,9 @@ watch(
       }
       return
     }
+    if (!value) {
+      setCardBackgroundIsolation(cardFloater.value, false)
+    }
     updateReturnFocus(value)
     if (value) {
       trackFocusRoot()
@@ -542,15 +562,19 @@ function floating(skipRippleDelay = false) {
         return
       }
       consumed = true
-      const { width, height, left, top } = getRect(element)
+      const origin = floaterPosition.value === 'fixed' ? cardHolder.value : cardFloater.value
+      if (!origin) {
+        return
+      }
+      const { width, height, left, top } = getRect(origin)
+      const localHeight = layoutHeight(origin, height)
       // Measurement can invoke application-provided geometry hooks.
       if (!current(token, element) || !wantsFloating()) {
         return
       }
-      holderWidth.value = toSizeUnit(width)!
-      holderHeight.value = toSizeUnit(height)!
-      floaterWidth.value = holderWidth.value
-      floaterHeight.value = holderHeight.value
+      holderHeight.value = toSizeUnit(localHeight)!
+      floaterWidth.value = toSizeUnit(width)!
+      floaterHeight.value = toSizeUnit(height)!
       floaterTop.value = toSizeUnit(top)!
       floaterLeft.value = toSizeUnit(left)!
       floaterPosition.value = 'fixed'
@@ -589,6 +613,22 @@ function floating(skipRippleDelay = false) {
       opacity.value = '1'
       floaterOverflow.value = 'auto'
       floated.value = true
+      await nextTick()
+      const panel = cardFloater.value
+      if (
+        current(token, element) &&
+        wantsFloating() &&
+        panel?.hasAttribute('data-card-top-layer') &&
+        onStackTop() &&
+        returnFocus &&
+        focusedCardContext() === returnFocus &&
+        !composedContains(panel, returnFocus)
+      ) {
+        panel.focus({ preventScroll: true })
+      }
+      if (current(token, element) && wantsFloating()) {
+        setCardBackgroundIsolation(panel, true)
+      }
     },
     props.ripple && !reducedMotion && !skipRippleDelay ? RIPPLE_DELAY : 0,
   )
@@ -602,23 +642,27 @@ function dropdown() {
   cancelOpeningFrames?.()
   openingFrameDocument = undefined
   const element = card.value
+  let returnHeight = holderHeight.value
   let consumed = false
   clearTimeout(dropper)
   clearTimeout(floater.value ?? undefined)
   openingWaiting = false
   floater.value = null
-  if (element && floaterPosition.value === 'fixed') {
-    const { width, height, left, top } = getRect(element)
+  if (element && cardHolder.value && floaterPosition.value === 'fixed') {
+    const target = returnGeometry(cardHolder.value, cardFloater.value, floatingContent.value)
+    const { width, height, left, top } = target.rect
     if (!current(token, element) || wantsFloating()) {
       return
     }
-    holderWidth.value = toSizeUnit(width)!
-    holderHeight.value = toSizeUnit(height)!
+    floaterWidth.value = toSizeUnit(width)!
+    holderHeight.value = target.layoutHeight
+    returnHeight = toSizeUnit(height)!
     dropdownFloaterTop = toSizeUnit(top)!
     dropdownFloaterLeft = toSizeUnit(left)!
+  } else {
+    floaterWidth.value = 'auto'
   }
-  floaterWidth.value = holderWidth.value
-  floaterHeight.value = holderHeight.value
+  floaterHeight.value = returnHeight
   floaterTop.value = dropdownFloaterTop
   floaterLeft.value = dropdownFloaterLeft
   contentHeight.value = '0px'
@@ -632,7 +676,6 @@ function dropdown() {
       }
       consumed = true
       dropper = undefined
-      holderWidth.value = 'auto'
       holderHeight.value = 'auto'
       floaterWidth.value = '100%'
       floaterHeight.value = '100%'
@@ -658,8 +701,25 @@ function handleFloatingKeydown(event: KeyboardEvent) {
   ) {
     return
   }
+  const path = event.composedPath()
+  // A native popover can keep focus on its invoker, outside the panel.
+  const owner = card.value?.ownerDocument
+  if (
+    owner?.defaultView?.CSS?.supports('selector(:popover-open)') &&
+    path.some((target) => {
+      const root = target as Document | ShadowRoot
+      return (
+        (root.nodeType === 9 || root.nodeType === 11) &&
+        Array.from(root.querySelectorAll<HTMLElement>(':popover-open')).some(
+          (panel) => panel.popover === 'auto' || panel.popover === 'hint',
+        )
+      )
+    })
+  ) {
+    return
+  }
   // Let the browser dispatch cancel to a nested native dialog first.
-  const insideNativeModal = event.composedPath().some((target) => {
+  const insideNativeModal = path.some((target) => {
     const dialog = target as HTMLDialogElement
     if (dialog.localName !== 'dialog' || !dialog.open) {
       return false
@@ -672,7 +732,6 @@ function handleFloatingKeydown(event: KeyboardEvent) {
   if (insideNativeModal) {
     return
   }
-  const owner = card.value?.ownerDocument
   if (owner && cardDocument.value !== owner) {
     cardDocument.value = owner
     syncOwner()
@@ -735,6 +794,7 @@ onActivated(() => {
   }
 })
 function cleanup() {
+  setCardBackgroundIsolation(cardFloater.value, false)
   cancelOpeningFrames?.()
   openingFrameDocument = undefined
   openingWaiting = false

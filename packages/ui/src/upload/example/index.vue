@@ -1,6 +1,5 @@
 <script setup>
-import { computed } from 'vue'
-import { useRoute } from 'vue-router'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import ClipboardDemo from './demos/clipboard.vue'
 import CustomSurfaceDemo from './demos/custom-surface.vue'
 import DialogUploadDemo from './demos/dialog-upload.vue'
@@ -33,9 +32,6 @@ import RemoveConfirmDemo from './demos/remove-confirm.vue'
 import ReplacementDemo from './demos/replacement.vue'
 import StatesDemo from './demos/states.vue'
 import TriggerPositionDemo from './demos/trigger-position.vue'
-
-const route = useRoute()
-const english = computed(() => route.query.language === 'en-US' || route.path.startsWith('/en-US/'))
 </script>
 <template>
   <h2 class="mobile-demo-group-heading" data-demo-group="basic-examples" data-demo-component="upload">

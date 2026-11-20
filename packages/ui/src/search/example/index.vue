@@ -1,6 +1,6 @@
 <script setup>
-import { computed, ref } from 'vue'
-import { AppType, onThemeChange, watchLang } from '@maple-design/cli-vue/client'
+import { AppType, onThemeChange } from '@maple-design/cli-vue/client'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import ActionDemo from './demos/action.vue'
 import BasicDemo from './demos/basic.vue'
 import EnActionDemo from './demos/en-US/action.vue'
@@ -13,6 +13,7 @@ import EnShapeDemo from './demos/en-US/shape.vue'
 import EnStateDemo from './demos/en-US/state.vue'
 import FieldsDemo from './demos/fields.vue'
 import HistoryDemo from './demos/history.vue'
+import EnNativeFormDemo from './demos/en-US/native-form.vue'
 import NativeFormDemo from './demos/native-form.vue'
 import PresentationDemo from './demos/presentation.vue'
 import SearchButtonDemo from './demos/search-button.vue'
@@ -20,12 +21,6 @@ import ShapeDemo from './demos/shape.vue'
 import OrganizedStateLab from './demos/state-lab.vue'
 import StateDemo from './demos/state.vue'
 
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-
-watchLang((value) => {
-  language.value = value
-})
 onThemeChange()
 </script>
 
@@ -115,6 +110,6 @@ onThemeChange()
 
   <section data-demo="native-form">
     <app-type>{{ english ? 'Native form and popup ownership' : '原生表单与弹层身份' }}</app-type
-    ><NativeFormDemo />
+    ><component :is="english ? EnNativeFormDemo : NativeFormDemo" />
   </section>
 </template>

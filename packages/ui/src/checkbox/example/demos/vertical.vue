@@ -1,12 +1,5 @@
 <script setup>
-import { computed, reactive, ref, toRefs } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
-
-const demoLanguage = ref('zh-CN')
-const english = computed(() => demoLanguage.value === 'en-US')
-watchLang((value) => {
-  demoLanguage.value = value
-})
+import { reactive, toRefs } from 'vue'
 
 const values = reactive({
   value: false,
@@ -42,10 +35,10 @@ const {
 
 <template>
   <mp-checkbox-group v-model="value9" orientation="vertical">
-    <mp-checkbox :value="0">{{ english ? 'Eat' : '吃饭' }}</mp-checkbox>
-    <mp-checkbox :value="1">{{ english ? 'Sleep' : '睡觉' }}</mp-checkbox>
+    <mp-checkbox :value="0">吃饭</mp-checkbox>
+    <mp-checkbox :value="1">睡觉</mp-checkbox>
   </mp-checkbox-group>
-  <div class="relation">{{ english ? 'Current value' : '当前的值' }}: {{ value9 }}</div>
+  <div class="relation">当前的值: {{ value9 }}</div>
 </template>
 
 <style lang="less" scoped>

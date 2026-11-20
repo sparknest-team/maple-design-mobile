@@ -1,16 +1,10 @@
 <script setup>
-import { computed, ref } from 'vue'
-import { AppType, onThemeChange, watchLang } from '@maple-design/cli-vue/client'
+import { AppType, onThemeChange } from '@maple-design/cli-vue/client'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import ClickEventDemo from './demos/click-event.vue'
 import OverlayBaseDemo from './demos/overlay-base.vue'
 import OverlayContentDemo from './demos/overlay-content.vue'
 
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-
-watchLang((value) => {
-  language.value = value
-})
 onThemeChange()
 </script>
 

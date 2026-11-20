@@ -1,16 +1,11 @@
 <script setup>
-import { computed, reactive, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
+import { computed, reactive } from 'vue'
 
 const values = reactive({ inline: [1, 2], dialog: [1, 2], popup: [1, 2] })
-const language = ref('zh-CN')
-watchLang((value) => {
-  language.value = value
-})
 const options = computed(() => [
-  { value: 1, label: language.value === 'en-US' ? 'Device' : '设备' },
-  { value: 2, label: language.value === 'en-US' ? 'Device' : '设备' },
-  { value: 3, label: language.value === 'en-US' ? 'Spare device' : '备用设备' },
+  { value: 1, label: '设备' },
+  { value: 2, label: '设备' },
+  { value: 3, label: '备用设备' },
 ])
 </script>
 

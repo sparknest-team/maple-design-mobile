@@ -7,6 +7,7 @@ import {
   nextTick,
   onActivated,
   onBeforeUnmount,
+  onBeforeUpdate,
   onDeactivated,
   ref,
   Teleport,
@@ -22,6 +23,7 @@ import { useId } from '../utils/vue-compat'
 import { navMenuItemProps, type NavMenuItemSlotContext } from './item-props'
 import NavMenuOptions from './NavMenuOptions'
 import { navMenuKey } from './provide'
+import { renderSubtree, type ServerRender } from './ssr'
 import { useNavMenuSurface } from './surface'
 import { createNavMenuTree } from './tree'
 import type { NavMenuContent, NavMenuKey, NavMenuOption } from './types'
@@ -41,6 +43,15 @@ export default defineComponent({
   setup(props, { slots, emit, attrs, expose }) {
     const themeScope = useThemeScope()
     const parent = inject(navMenuKey, undefined)
+    const panelTarget = () =>
+      parent?.panelHost.value ??
+      (parent && !parent.serverPanels ? document.getElementById(parent.panelHostId) : undefined)
+    const ServerPanel = {
+      ssrRender: ((_ctx, push, owner) => {
+        parent?.serverPanels?.push(() => renderSubtree(renderPanel(), owner))
+        push('<!--teleport start--><!--teleport end-->')
+      }) satisfies ServerRender,
+    }
     const uid = useId()
     const panelId = `${n()}-${uid}`
     const generatedEntryId = `${n()}-entry-${uid}`
@@ -55,13 +66,17 @@ export default defineComponent({
     const leaving = ref(false)
     const itemId = Symbol('NavMenuItem')
     const localValue = ref(props.defaultValue),
-      localOpen = ref(props.defaultOpen)
+      localOpen = ref(props.defaultOpen && (props.open !== undefined || parent?.canDefaultOpen() !== false))
     const panel = ref<HTMLElement>()
     const reference = ref<HTMLElement>()
     const { dir } = useDirection(() => reference.value)
     const value = computed(() => (props.modelValue !== undefined ? props.modelValue : localValue.value))
     const disabled = computed(() => props.disabled || !!parent?.props.disabled)
-    const hasPopup = () => !!slots.content || props.options.length > 0
+    const hasContentSlot = ref(Boolean(slots.content))
+    onBeforeUpdate(() => {
+      hasContentSlot.value = Boolean(slots.content)
+    })
+    const hasPopup = () => hasContentSlot.value || props.options.length > 0
     const open = computed(
       () => !suspendedState.value && !disabled.value && hasPopup() && (props.open ?? localOpen.value),
     )
@@ -120,6 +135,7 @@ export default defineComponent({
         },
       },
       () => props.name,
+      panelId,
     )
     onBeforeUnmount(() => unregister?.())
     function activate() {
@@ -351,7 +367,8 @@ export default defineComponent({
             'data-nav-item': '',
             'aria-disabled': disabled.value || undefined,
             'aria-expanded': hasPopup() ? open.value : undefined,
-            'aria-controls': hasPopup() && rendered.value && (!parent || parent.panelHost.value) ? panelId : undefined,
+            'aria-controls':
+              hasPopup() && rendered.value && (!parent || parent.serverPanels || panelTarget()) ? panelId : undefined,
             class: [
               n('item'),
               n(`--${parent?.props.size ?? 'md'}`),
@@ -399,9 +416,11 @@ export default defineComponent({
           ],
         ),
         parent
-          ? parent.panelHost.value && rendered.value
-            ? h(Teleport, { to: parent.panelHost.value }, [renderPanel()])
-            : null
+          ? rendered.value && parent.serverPanels
+            ? h(ServerPanel)
+            : rendered.value && panelTarget()
+              ? h(Teleport, { to: panelTarget() }, [renderPanel()])
+              : null
           : surface.render(),
       ])
   },

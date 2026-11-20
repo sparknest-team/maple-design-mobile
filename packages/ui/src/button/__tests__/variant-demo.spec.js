@@ -14,9 +14,12 @@ import ButtonDemo from '../example/demos/variants.vue'
 
 useDemoControls()
 
-vi.mock('@maple-design/ui-vue', () => ({ Message: { info: vi.fn() } }))
+vi.mock('@maple-design/ui-vue', async () => ({
+  Locale: (await import('../../locale')).default,
+  Message: { info: vi.fn() },
+}))
 // Documentation bootstrap needs @config in the site; component tests isolate that shell.
-vi.mock('@maple-design/cli-vue/client', () => ({ watchLang: vi.fn(), onThemeChange: vi.fn() }))
+vi.mock('@maple-design/cli-vue/client', () => ({ onThemeChange: vi.fn() }))
 vi.mock('../../split-button/example/locale', () => ({ t: (key) => key }))
 
 const components = {

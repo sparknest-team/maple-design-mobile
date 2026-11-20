@@ -1730,6 +1730,24 @@
               }
             },
             {
+              "name": "aria-label",
+              "description": "展开面板的可访问名称，默认使用普通文本标题",
+              "default": "—",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "aria-labelledby",
+              "description": "自定义标题或头部插槽中可见标题元素的 ID",
+              "default": "—",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
               "name": "close-button-aria-label",
               "description": "默认关闭按钮的可访问名称",
               "default": "—",
@@ -11929,6 +11947,93 @@
           ]
         },
         {
+          "name": "mp-section",
+          "attributes": [
+            {
+              "name": "id",
+              "description": "分区锚点",
+              "default": "自动生成",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "title",
+              "description": "标题文本",
+              "default": "空",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "description",
+              "description": "标题下方的说明",
+              "default": "空",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "size",
+              "description": "分区尺寸",
+              "default": "md",
+              "value": {
+                "type": "'sm' | 'md'",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "variant",
+              "description": "外观，可选 plain、heading-line、tonal、outline",
+              "default": "表单内 heading-line，其他场景 plain",
+              "value": {
+                "type": "'plain' | 'heading-line' | 'tonal' | 'outline'",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "heading-level",
+              "description": "标题层级，取值 1 至 6",
+              "default": "表单内 3，其他场景 2",
+              "value": {
+                "type": "1–6",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show-marker",
+              "description": "显示标题色条",
+              "default": "表单内开启",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            }
+          ],
+          "events": [],
+          "slots": [
+            {
+              "name": "default",
+              "description": "正文"
+            },
+            {
+              "name": "title",
+              "description": "自定义标题"
+            },
+            {
+              "name": "description",
+              "description": "补充说明"
+            },
+            {
+              "name": "extra",
+              "description": "标题操作"
+            }
+          ]
+        },
+        {
           "name": "mp-select",
           "attributes": [
             {
@@ -16193,7 +16298,7 @@
             },
             {
               "name": "auto-fix-position",
-              "description": "触发元素尺寸变化时更新位置，其自身或祖先的 CSS 过渡和动画结束或取消后也会重新定位。关闭此选项后仍观察浮层、定位父级及窗口变化",
+              "description": "触发元素尺寸变化时更新位置，其自身或祖先的 CSS 过渡和动画结束或取消后也会重新定位。在触屏设备上，打开的元素锚定浮层也会跟随页面位移。关闭此选项后仍观察浮层、定位父级及窗口变化",
               "default": "true",
               "value": {
                 "type": "boolean",
@@ -16651,6 +16756,15 @@
               "default": "文件列表展示方式；两端均支持",
               "value": {
                 "type": "`'text'`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "initial-trigger-interactive",
+              "description": "`boolean`",
+              "default": "自定义触发插槽在首屏提供交互控件。挂载后由 Upload 检查实际内容。",
+              "value": {
+                "type": "`false`",
                 "kind": "expression"
               }
             },

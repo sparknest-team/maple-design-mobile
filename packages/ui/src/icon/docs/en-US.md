@@ -125,7 +125,7 @@ Place a custom SVG in the default slot. The Icon wrapper controls its size and c
 
 
 ```demo
-../example/demos/lifecycle.vue
+../example/demos/en-US/lifecycle.vue
 ```
 
 ## API

@@ -69,8 +69,11 @@ async function fixture(initialFloating = false) {
   const child = owner.findComponent(Card),
     state = child.vm.$.setupState
   const rect = vi
-    .spyOn(child.element, 'getBoundingClientRect')
+    .fn()
     .mockReturnValue({ width: 120, height: 80, left: 8, top: 12, right: 128, bottom: 92, x: 8, y: 12, toJSON() {} })
+  for (const part of ['floater', 'holder']) {
+    vi.spyOn(child.get('[class$="card__' + part + '"]').element, 'getBoundingClientRect').mockImplementation(rect)
+  }
   const float = async () => {
     floating.value = true
     await flush()

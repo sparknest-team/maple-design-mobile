@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { AppType, onThemeChange, watchLang } from '@maple-design/cli-vue/client'
+import { AppType, onThemeChange } from '@maple-design/cli-vue/client'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import ControlSizes from '../../field-decorator/example/demos/control-sizes.vue'
 import OrganizedAppearanceLab from './demos/appearance-lab.vue'
 import Demo3 from './demos/controlled-events.vue'
@@ -13,6 +13,7 @@ import EnglishDemo2 from './demos/en-US/field-options.vue'
 import EnglishDemo4 from './demos/en-US/form-inheritance.vue'
 import EnglishDemo5 from './demos/en-US/format-slots.vue'
 import EnglishDemo6 from './demos/en-US/number-boundaries.vue'
+import QuantityControlsEn from './demos/en-US/quantity-controls.vue'
 import Demo0 from './demos/field-basic.vue'
 import Demo1 from './demos/field-modes.vue'
 import Demo2 from './demos/field-options.vue'
@@ -22,11 +23,6 @@ import Demo6 from './demos/number-boundaries.vue'
 import QuantityControls from './demos/quantity-controls.vue'
 import OrganizedStateLab from './demos/state-lab.vue'
 
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-watchLang((value) => {
-  language.value = value
-})
 onThemeChange()
 </script>
 <template>
@@ -72,7 +68,7 @@ onThemeChange()
 
   <section data-demo="quantity-controls">
     <app-type>{{ english ? 'Quantity controls and commit guards' : '数量控制与提交拦截' }}</app-type>
-    <QuantityControls :english="english" />
+    <component :is="english ? QuantityControlsEn : QuantityControls" />
   </section>
 
   <section data-demo="format-slots">

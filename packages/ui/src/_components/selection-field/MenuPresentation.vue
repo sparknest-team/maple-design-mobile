@@ -6,6 +6,7 @@
       animationName: 'slide-dynamic-origin',
       autoFitTransformOrigin: true,
       preventFocus: true,
+      updateAtScroll: Boolean(controller.props.filterable || controller.props.creatable),
       popupOffset: 4,
       autoFitPopupWidth: controller.props.autoFitPopupWidth ?? true,
       unmountOnClose: controller.props.unmountOnClose ?? false,

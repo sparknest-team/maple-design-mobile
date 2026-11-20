@@ -1,17 +1,12 @@
 <script setup>
-import { computed, ref } from 'vue'
-import { AppType, onThemeChange, watchLang } from '@maple-design/cli-vue/client'
+import { AppType, onThemeChange } from '@maple-design/cli-vue/client'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import BasicUsageDemo from './demos/basic-usage.vue'
 import CustomColorDemo from './demos/custom-color.vue'
 import DisabledStatusDemo from './demos/disabled-status.vue'
+import MotionTokenDemoEn from './demos/en-US/motion-token.vue'
 import MotionTokenDemo from './demos/motion-token.vue'
 
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-
-watchLang((value) => {
-  language.value = value
-})
 onThemeChange()
 </script>
 
@@ -48,6 +43,6 @@ onThemeChange()
 
   <section data-demo="motion-token">
     <app-type>{{ english ? 'Longer motion tokens' : '长时长动效 Token' }}</app-type>
-    <MotionTokenDemo :english="english" />
+    <component :is="english ? MotionTokenDemoEn : MotionTokenDemo" />
   </section>
 </template>

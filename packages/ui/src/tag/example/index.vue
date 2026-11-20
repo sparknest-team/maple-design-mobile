@@ -1,6 +1,6 @@
 <script setup>
-import { computed, ref } from 'vue'
-import { AppType, onThemeChange, watchLang } from '@maple-design/cli-vue/client'
+import { AppType, onThemeChange } from '@maple-design/cli-vue/client'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import OrganizedAppearanceLab from './demos/appearance-lab.vue'
 import CheckableTagDemo from './demos/checkable-tag.vue'
 import ClosableTagDemo from './demos/closable-tag.vue'
@@ -10,12 +10,6 @@ import LoadingTagDemo from './demos/loading-tag.vue'
 import RoundTagDemo from './demos/round-tag.vue'
 import ThemeColorTagDemo from './demos/theme-color-tag.vue'
 
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-
-watchLang((value) => {
-  language.value = value
-})
 onThemeChange()
 </script>
 

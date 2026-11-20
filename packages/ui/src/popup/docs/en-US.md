@@ -36,7 +36,7 @@ Mobile modal surface entering from the top, bottom, left, right, or center. Popu
 ### Motion duration
 
 ```demo
-../example/demos/motion-token.vue
+../example/demos/en-US/motion-token.vue
 ```
 
 ## Loading and waiting

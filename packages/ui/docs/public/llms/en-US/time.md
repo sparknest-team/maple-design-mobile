@@ -553,9 +553,10 @@ Example source: src/time/example/demos/time-fields.vue
 ```vue
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import type { TimePickerField } from '../../picker-props'
 
-const props = defineProps<{ range?: boolean; english?: boolean }>()
+const props = defineProps<{ range?: boolean }>()
 const preset = ref('hour-minute')
 const fields = computed<TimePickerField[]>(() =>
   preset.value === 'minute-hour' ? ['minute', 'hour'] : preset.value === 'second' ? ['second'] : ['hour', 'minute'],

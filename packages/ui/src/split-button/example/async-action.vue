@@ -1,13 +1,7 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
+import { ref } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import { Message } from '@maple-design/ui-vue'
-
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-watchLang((value) => {
-  language.value = value
-})
 
 const completed = ref(0)
 const publishing = ref(false)

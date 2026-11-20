@@ -1,6 +1,6 @@
 <script setup>
-import { computed, ref } from 'vue'
-import { AppType, onThemeChange, watchLang } from '@maple-design/cli-vue/client'
+import { AppType, onThemeChange } from '@maple-design/cli-vue/client'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import AutoSizedDemo from './demos/auto-sized.vue'
 import AutoplayHoverPauseDemo from './demos/autoplay-hover-pause.vue'
 import AutoplayDemo from './demos/autoplay.vue'
@@ -9,6 +9,7 @@ import CenteredSlidesDemo from './demos/centered-slides.vue'
 import ControlledDemo from './demos/controlled.vue'
 import CustomIndicatorDemo from './demos/custom-indicator.vue'
 import ContentEffectComparison from './demos/effect-comparison.vue'
+import AutoplayDemoEn from './demos/en-US/autoplay.vue'
 import ForbidLoopDemo from './demos/forbid-loop.vue'
 import HandleChangeDemo from './demos/handle-change.vue'
 import ContentIndicatorComparison from './demos/indicator-comparison.vue'
@@ -21,12 +22,6 @@ import OrganizedSchedulerLifecycle from './demos/scheduler-lifecycle.vue'
 import TriggerHoverDemo from './demos/trigger-hover.vue'
 import VerticalDemo from './demos/vertical.vue'
 
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-
-watchLang((value) => {
-  language.value = value
-})
 onThemeChange()
 </script>
 
@@ -107,7 +102,7 @@ onThemeChange()
 
   <section data-demo="autoplay">
     <app-type>{{ english ? 'Autoplay' : '开启自动播放' }}</app-type>
-    <AutoplayDemo />
+    <component :is="english ? AutoplayDemoEn : AutoplayDemo" />
   </section>
 
   <section data-demo="autoplay-hover-pause">

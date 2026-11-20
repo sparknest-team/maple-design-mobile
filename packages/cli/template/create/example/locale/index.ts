@@ -1,24 +1,16 @@
-// @ts-nocheck
-// lib
-import { add as _add, use as _use, useLocale } from '../../../locale'
-import _enCN from '../../../locale/en-US'
-import _zhCN from '../../../locale/zh-CN'
+import { demoEnglish } from '@maple-design/cli-vue/demo-language'
+import { watchEffect } from 'vue'
+import { add, use } from '../../../locale'
+import componentEnUS from '../../../locale/en-US'
+import componentZhCN from '../../../locale/zh-CN'
 import enUS from './en-US'
-// mobile example doc
 import zhCN from './zh-CN'
 
-const { add, use: exampleUse, t, merge } = useLocale()
+export const t = (key: keyof typeof zhCN) => (demoEnglish.value ? enUS : zhCN)[key]
 
-const use = (lang: string) => {
-  _use(lang)
-  exampleUse(lang)
+add('zh-CN', componentZhCN)
+add('en-US', componentEnUS)
+
+export function useComponentLanguage() {
+  watchEffect(() => use(demoEnglish.value ? 'en-US' : 'zh-CN'))
 }
-
-export { add, t, merge, use }
-
-// lib
-_add('zh-CN', _zhCN)
-_add('en-US', _enCN)
-// mobile example doc
-add('zh-CN', zhCN)
-add('en-US', enUS)

@@ -1,6 +1,6 @@
 <script setup>
-import { computed, ref } from 'vue'
-import { AppType, onThemeChange, watchLang } from '@maple-design/cli-vue/client'
+import { AppType, onThemeChange } from '@maple-design/cli-vue/client'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import AsyncChangeDemo from './demos/async-change.vue'
 import BasicUsageDemo from './demos/basic-usage.vue'
 import CustomColorDemo from './demos/custom-color.vue'
@@ -14,12 +14,6 @@ import StableKeyDemo from './demos/stable-key.vue'
 import UncontrolledDemo from './demos/uncontrolled.vue'
 import VariantDemo from './demos/variant.vue'
 
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-
-watchLang((value) => {
-  language.value = value
-})
 onThemeChange()
 </script>
 

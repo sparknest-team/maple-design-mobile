@@ -5,7 +5,7 @@
 ### Basic Usage
 
 ```demo
-../example/demos/basic.vue
+../example/demos/en-US/basic.vue
 ```
 
 `animation-duration` and `success-duration` accept finite nonnegative milliseconds or numeric strings; zero is valid, and invalid values use the respective default. Without `success-bg-color`, the indicator uses the theme background; without `success-color`, it uses the success color token rather than the normal inline color.

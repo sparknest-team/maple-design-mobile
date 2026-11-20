@@ -71,7 +71,7 @@ Use this example for a primary action and secondary menu. Adjust status, size an
 </details>
 
 ```demo
-../example/demos/appearance-lab.vue
+../example/demos/en-US/appearance-lab.vue
 ```
 
 ## Content and presentation

@@ -26,7 +26,7 @@ Long lists scroll inside the available panel height. A full panel keeps its acti
 
 ### Controlled state and disabled entries
 
-During server rendering, an initially open `NavMenuItem` inside `NavMenu` currently does not include its panel in the initial HTML, with either an inline or default body container. If opening after client hydration is acceptable, initialize `v-model:open` to `false` and set it to `true` in `onMounted`; this changes when the panel first appears, and the application must continue handling later close requests. The workaround has been checked with inline and default body container configurations; a standalone `NavMenuItem` does render its initial panel. The entry omits `aria-controls` until its panel is created, then references that panel.
+An initially open menu item renders its panel on the server, both inside a menu and on its own. The trigger references the rendered panel with `aria-controls`. When using the default body container, include Vue’s body Teleport output in the server response.
 
 ```demo
 ../example/demos/controlled.vue
@@ -46,7 +46,7 @@ When using the content slot, the custom panel takes its accessible name from the
 
 Both libraries create panel content on first open and retain it when closed or switched, including local drafts and expanded branches. With `unmount-on-close`, content is destroyed after the closing transition and recreated on the next open; the Item's own selected value remains intact. Applications own draft submission, resets and filter application.
 
-Root `close()` requests closing Item panels and restores entry focus without changing selected values, active-item or desktop tree expanded-keys. Controlled open values remain authoritative when closure is rejected. Entries with neither options nor a content slot never open; asynchronous options follow the current open state when they arrive. KeepAlive suspension hides panels and requests closure; controlled state remains authoritative on activation.
+Root `close()` requests closing Item panels and restores entry focus without changing selected values, active-item or desktop tree expanded-keys. Controlled open values remain authoritative when closure is rejected. When `open` is true, adding a `#content` slot or supplying options opens the panel. Removing the slot shows the options list if populated and closes the panel if empty. KeepAlive suspension hides panels and requests closure; controlled state remains authoritative on activation.
 
 Item values, open state, events, slot contexts and `select/close/setOpen` methods share the same contract. Both roots expose `close/resize/setActiveItem`. Names must be unique within the menu; changing a name releases the previous one. Batched swaps and insertions validate the final rendered names. Vertical options expand enabled ancestors of the selected value on initialization and value/options updates. Users can still collapse branches manually.
 
@@ -94,7 +94,7 @@ Event: update:active-item. Methods: close(), resize(), setActiveItem(key). The d
 | model-value | Controlled selected key (string, number or null); supports v-model | `undefined` |
 | default-value | Initial uncontrolled selected key (string, number or null); read only at initialization | `null` |
 | open | Controlled open state; supports v-model:open | `undefined` |
-| default-open | Initial uncontrolled open state; read only at initialization | `false` |
+| default-open | Initial uncontrolled open state. If several eligible items request it on first render, the first registered item opens. | `false` |
 | highlight | Visual highlight override; follows business active state when omitted | undefined |
 | disabled | Disable the entry, also respecting the parent menu | undefined |
 | hide-on-select | Close the panel after select | true |

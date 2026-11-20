@@ -1,12 +1,17 @@
 import { flushPromises, mount } from '@vue/test-utils'
-import { expect, test, vi } from 'vitest'
+import { afterEach, beforeEach, expect, test, vi } from 'vitest'
 import Carousel, { CarouselItem } from '..'
 import { useDemoControls } from '../../../test-utils/demo-controls'
+import Locale from '../../locale'
 import Demo from '../example/demos/autoplay.vue'
 
 useDemoControls()
 
-vi.mock('@maple-design/cli-vue/client', () => ({ watchLang: (callback) => callback('en-US') }))
+beforeEach(() => {
+  Locale.add('en-US', Locale.enUS)
+  Locale.use('en-US')
+})
+afterEach(() => Locale.use('zh-CN'))
 
 test('actual autoplay demo updates its model, stops on toggle and clears timers on unmount', async () => {
   vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] })

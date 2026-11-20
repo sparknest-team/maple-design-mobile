@@ -1,6 +1,6 @@
 <script setup>
-import { computed, ref } from 'vue'
-import { AppType, onThemeChange, watchLang } from '@maple-design/cli-vue/client'
+import { AppType, onThemeChange } from '@maple-design/cli-vue/client'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import ControlSizes from '../../field-decorator/example/demos/control-sizes.vue'
 import OrganizedAppearanceLab from './demos/appearance-lab.vue'
 import BasicDemo from './demos/basic.vue'
@@ -10,6 +10,7 @@ import DefaultValueDemo from './demos/default-value.vue'
 import DemoEmptyValue from './demos/empty-value.vue'
 import EnBasicDemo from './demos/en-US/basic.vue'
 import EnCustomClearIconDemo from './demos/en-US/custom-clear-icon.vue'
+import DefaultValueDemoEn from './demos/en-US/default-value.vue'
 import DemoEmptyValueEn from './demos/en-US/empty-value.vue'
 import EnPipelineDemo from './demos/en-US/event-pipeline.vue'
 import EnFormFeedbackDemo from './demos/en-US/form-feedback.vue'
@@ -36,12 +37,6 @@ import PrefixSuffixDemo from './demos/prefix-suffix.vue'
 import OrganizedStateLab from './demos/state-lab.vue'
 import TypeDemo from './demos/type.vue'
 
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-
-watchLang((value) => {
-  language.value = value
-})
 onThemeChange()
 </script>
 
@@ -145,7 +140,7 @@ onThemeChange()
 
   <section data-demo="default-value">
     <app-type>{{ english ? 'Default value and v-model' : '默认值与双向绑定' }}</app-type>
-    <DefaultValueDemo :english="english" />
+    <component :is="english ? DefaultValueDemoEn : DefaultValueDemo" />
   </section>
 
   <section data-demo="empty-value">

@@ -1,0 +1,826 @@
+--- a/table/features/virtual/render-body.tsx
++++ b/table/features/virtual/render-body.tsx
+@@ -11,6 +11,7 @@
+   VirtualRowPositions,
+ } from "./row-plan";
+ import { createVirtualRowPlanner } from "./row-plan";
++import { useI18n } from "../../mobile-locale";
+ import VirtualList from "../../../_components/virtual-list-v2";
+ import { firstStructuralNode } from "../../structural-slot";
+ 
+@@ -43,6 +44,7 @@
+     renderRecord,
+     onTbodyScroll,
+   } = options;
++  const { t } = useI18n();
+   const calculateVirtualRowPositions = createVirtualRowPlanner(options);
+   const renderVirtualBody = (
+     positions?: VirtualRowPositions<Detail>,
+@@ -66,9 +68,10 @@
+           }),
+       }}
+       ref={tbodyComRef}
++      {...{ role: "region", tabindex: 0, "aria-label": t("table.scrollable") }}
+       class={`${prefixCls}-body`}
+       data={flattenData.value as any}
+-      itemKey="_key"
++      itemKey="key"
+       component={{
+         list: "table",
+         content:
+--- a/table/index.ts
++++ b/table/index.ts
+@@ -1,5 +1,5 @@
+-import { withInstall } from '../utils/components'
+-import _Table from './table'
++import { withPropsDefaultsSetter, withInstall } from '../utils/components'
++import _Table from './table-impl'
+ import _Thead from './table-thead'
+ import _Tbody from './table-tbody'
+ import _Tr from './table-tr'
+@@ -16,6 +16,8 @@
+   Td: _Td,
+   Column: _Column,
+ }), { components: [_Table, _Thead, _Tbody, _Tr, _Th, _Td, _Column] })
++
++withPropsDefaultsSetter(Table, tableProps)
+ 
+ export type TableInstance = InstanceType<typeof _Table>
+ export type TheadInstance = InstanceType<typeof _Thead>
+--- a/table/props.ts
++++ b/table/props.ts
+@@ -12,7 +12,7 @@
+   TableRowSelection,
+ } from "./types";
+ import type { TableExtraColumnConfig } from "./extra-column";
+-import type { ScrollbarProps } from "../scrollbar";
++import type { ScrollbarProps } from "../_components/selection-scrollbar";
+ import type { VirtualListProps } from "../_components/virtual-list-v2/interface";
+ import type { BaseType } from "../_utils/types";
+ 
+@@ -331,7 +331,7 @@
+      */
+     scrollbar: {
+       type: [Object, Boolean] as PropType<boolean | ScrollbarProps>,
+-      default: true,
++      default: false,
+     },
+     /**
+      * @zh 是否展示空子树
+@@ -350,3 +350,5 @@
+       default: false,
+     },
+-  } 
++  }
++
++export { tableProps as props }
+--- a/table/style/index.less
++++ b/table/style/index.less
+@@ -1,7 +1,12 @@
+ @import "../../style/theme/local-scope.less";
+-@import "../../style/mixins/index.less";
++.fixed-width(@width) {
++  width: @width;
++  min-width: @width;
++  max-width: @width;
++}
++
+ @import "./token.less";
+-@import "./filters-popup.less";
++
+ 
+ .expandBtn() {
+   display: inline-flex;
+@@ -87,6 +92,8 @@
+ }
+ 
+ .mp-table {
++  display: flex;
++  flex-direction: column;
+   position: relative;
+   box-sizing: border-box;
+   width: 100%;
+@@ -114,7 +121,7 @@
+     position: absolute;
+     top: 0;
+     inset-inline-end: var(~"--mp-table-column-handle-right");
+-    z-index: var(--mp-z-index-local-raised);
++    z-index: var(--mp-sys-layer-raised);
+     width: var(~"--mp-table-column-handle-width");
+     height: 100%;
+     cursor: col-resize;
+@@ -177,13 +184,15 @@
+     min-width: 0;
+   }
+ 
+-  .mp-loading {
++  // Flex sizing preserves natural height in WebKit when the table has no definite height.
++  > .mp-loading {
++    flex: 1 1 auto;
++    min-height: 0;
+     display: flex;
+     flex-direction: column;
+     width: 100%;
+     max-width: 100%;
+     min-width: 0;
+-    height: 100%;
+   }
+ 
+   // Loading's content wrapper must carry the constrained height through to the table.
+@@ -323,7 +332,7 @@
+   &-col-fixed-left,
+   &-col-fixed-right {
+     position: sticky;
+-    z-index: var(--mp-z-index-local-navigation);
++    z-index: var(--mp-z-index-local-navigation, 3);
+   }
+ 
+   &-col-fixed-left-last::after,
+@@ -636,7 +645,7 @@
+     &::before,
+     &::after {
+       position: absolute;
+-      z-index: var(--mp-z-index-local-raised);
++      z-index: var(--mp-sys-layer-raised);
+       width: var(~"--mp-table-shadow-wrapper-width");
+       height: 100%;
+       box-shadow: none;
+@@ -849,7 +858,7 @@
+           position: absolute;
+           top: 0;
+           left: 0;
+-          z-index: var(--mp-z-index-local-behind);
++          z-index: var(--mp-sys-layer-behind);
+           width: 100%;
+           height: 100%;
+           background-color: var(~"--mp-table-body-stripe-row-bg");
+@@ -877,7 +886,7 @@
+           position: absolute;
+           top: 0;
+           left: 0;
+-          z-index: var(--mp-z-index-local-behind);
++          z-index: var(--mp-sys-layer-behind);
+           width: 100%;
+           height: 100%;
+           background-color: var(~"--mp-table-body-row-hover-bg");
+@@ -911,7 +920,7 @@
+ 
+   &-tfoot {
+     position: relative;
+-    z-index: var(--mp-z-index-local-raised);
++    z-index: var(--mp-sys-layer-raised);
+     flex-shrink: 0;
+     width: 100%;
+     max-width: 100%;
+@@ -998,7 +1007,7 @@
+   }
+ }
+ 
+-:root[cedar-theme="dark"] {
++[data-mp-theme="dark"] {
+   .mp-table-tr-checked .mp-table-td {
+     background-color: var(~"--mp-table-body-row-active-dark-bg");
+   }
+--- a/table/style/index.ts
++++ b/table/style/index.ts
+@@ -6,7 +6,7 @@
+ import '../../radio/style'
+ import '../../loading/style'
+ import '../../trigger/style'
+-import '../../scrollbar/style'
+-import '../../menu/style'
+-import '../../_components/auto-tooltip/style'
++import '../../_components/selection-scrollbar/style'
++
++import '../../tooltip/style'
+ import './index.less'
+--- a/table/style/token.less
++++ b/table/style/token.less
+@@ -1,33 +1,33 @@
+ @import "../../style/theme/local-scope.less";
+-@import '../../style/theme/index.less';
++
+ 
+ /******** Table CSS Variables *******/
+ :root {
+   --mp-table-sticky-scrollbar-height: 16px;
+   // Size axis: xs | sm | md | lg
+-  --mp-table-size-md-padding-horizontal: var(~'--mp-spacing-7');
++  --mp-table-size-md-padding-horizontal: var(~'--mp-sys-space-6');
+   --mp-table-size-md-padding-vertical: 9px;
+-  --mp-table-size-sm-padding-horizontal: var(~'--mp-spacing-7');
++  --mp-table-size-sm-padding-horizontal: var(~'--mp-sys-space-6');
+   --mp-table-size-sm-padding-vertical: 5px;
+-  --mp-table-size-xs-padding-horizontal: var(~'--mp-spacing-7');
++  --mp-table-size-xs-padding-horizontal: var(~'--mp-sys-space-6');
+   --mp-table-size-xs-padding-vertical: 2px;
+   --mp-table-size-lg-padding-horizontal: var(~'--mp-table-size-md-padding-horizontal');
+   --mp-table-size-lg-padding-vertical: var(~'--mp-table-size-md-padding-vertical');
+ 
+-  --mp-table-size-md-font-size: var(~'--mp-font-size-body-3');
+-  --mp-table-size-sm-font-size: var(~'--mp-font-size-body-3');
+-  --mp-table-size-xs-font-size: var(~'--mp-font-size-body-1');
++  --mp-table-size-md-font-size: var(~'--mp-sys-font-size-md');
++  --mp-table-size-sm-font-size: var(~'--mp-sys-font-size-md');
++  --mp-table-size-xs-font-size: var(~'--mp-sys-font-size-xs');
+   --mp-table-size-lg-font-size: var(~'--mp-table-size-md-font-size');
+ 
+-  --mp-table-size-md-header-font-size: var(~'--mp-font-size-body-3');
+-  --mp-table-size-sm-header-font-size: var(~'--mp-font-size-body-3');
+-  --mp-table-size-xs-header-font-size: var(~'--mp-font-size-body-1');
++  --mp-table-size-md-header-font-size: var(~'--mp-sys-font-size-md');
++  --mp-table-size-sm-header-font-size: var(~'--mp-sys-font-size-md');
++  --mp-table-size-xs-header-font-size: var(~'--mp-sys-font-size-xs');
+   --mp-table-size-lg-header-font-size: var(~'--mp-table-size-md-header-font-size');
+ 
+-  --mp-table-size-xs-extra-padding-horizontal: var(~'--mp-spacing-1');
+-  --mp-table-size-sm-extra-padding-horizontal: var(~'--mp-spacing-1');
+-  --mp-table-size-md-extra-padding-horizontal: var(~'--mp-spacing-2');
+-  --mp-table-size-lg-extra-padding-horizontal: var(~'--mp-spacing-2');
++  --mp-table-size-xs-extra-padding-horizontal: var(~'--mp-sys-space-1');
++  --mp-table-size-sm-extra-padding-horizontal: var(~'--mp-sys-space-1');
++  --mp-table-size-md-extra-padding-horizontal: var(~'--mp-sys-space-2');
++  --mp-table-size-lg-extra-padding-horizontal: var(~'--mp-sys-space-2');
+ 
+   --mp-table-size-xs-extra-icon-font-size: 14px;
+   --mp-table-size-sm-extra-icon-font-size: 14px;
+@@ -35,34 +35,34 @@
+   --mp-table-size-lg-extra-icon-font-size: 16px;
+ 
+   // Border / radius
+-  --mp-table-border-width: var(~'--mp-border-width-1');
++  --mp-table-border-width: 1px;
+   --mp-table-border-style: solid;
+-  --mp-table-border-color: var(~'--mp-color-neutral-3');
+-  --mp-table-border-radius: var(~'--mp-border-radius-md');
++  --mp-table-border-color: rgb(var(--mp-gray-3));
++  --mp-table-border-radius: var(~'--mp-sys-radius-md');
+   --mp-table-resizing-border-color: var(--mp-sys-color-action-primary);
+ 
+   // Expand button
+   --mp-table-expand-button-size: 14px;
+-  --mp-table-expand-button-margin-right: var(~'--mp-spacing-2');
++  --mp-table-expand-button-margin-right: var(~'--mp-sys-space-2');
+   --mp-table-expand-button-font-size: 12px;
+   --mp-table-expand-button-border-radius: 2px;
+   --mp-table-expand-icon-color: var(~'--mp-color-text-2');
+   --mp-table-expand-icon-hover-color: var(~'--mp-color-text-1');
+   --mp-table-expand-icon-border-color: transparent;
+   --mp-table-expand-icon-hover-border-color: transparent;
+-  --mp-table-expand-icon-bg: var(~'--mp-color-neutral-3');
+-  --mp-table-expand-icon-hover-bg: var(~'--mp-color-neutral-4');
+-  --mp-table-expand-icon-border-width: var(~'--mp-border-width-1');
++  --mp-table-expand-icon-bg: rgb(var(--mp-gray-3));
++  --mp-table-expand-icon-hover-bg: rgb(var(--mp-gray-4));
++  --mp-table-expand-icon-border-width: 1px;
+   --mp-table-expand-content-bg: var(~'--mp-color-fill-1');
+   --mp-table-expand-content-hover-bg: var(~'--mp-color-fill-1');
+   --mp-table-expand-loading-icon-color: var(--mp-sys-color-content-brand);
+ 
+   // Header
+   --mp-table-header-cell-text-color: rgb(var(~'--mp-gray-10'));
+-  --mp-table-header-cell-bg: var(~'--mp-color-neutral-2');
+-  --mp-table-header-sorted-cell-bg: var(~'--mp-color-neutral-3');
++  --mp-table-header-cell-bg: rgb(var(--mp-gray-2));
++  --mp-table-header-sorted-cell-bg: rgb(var(--mp-gray-3));
+   --mp-table-header-sorted-cell-hover-bg: rgba(var(~'--mp-gray-4'), 0.5);
+-  --mp-table-header-text-font-weight: var(~'--mp-font-weight-500');
++  --mp-table-header-text-font-weight: var(~'--mp-sys-font-weight-medium');
+   --mp-table-header-cell-action-color: var(~'--mp-color-text-3');
+   --mp-table-header-cell-action-hover-color: var(~'--mp-color-text-1');
+   --mp-table-header-cell-action-margin-left: 2px;
+@@ -71,16 +71,16 @@
+   // Header filters
+   --mp-table-header-filters-icon-color: var(~'--mp-color-text-2');
+   --mp-table-header-filters-icon-active-color: var(--mp-sys-color-action-primary);
+-  --mp-table-header-filters-icon-hover-bg: var(~'--mp-color-neutral-4');
++  --mp-table-header-filters-icon-hover-bg: rgb(var(--mp-gray-4));
+   --mp-table-filters-icon-font-size: 16px;
+   --mp-table-filters-width: 24px;
+   --mp-table-filters-icon-hover-bg: var(~'--mp-color-fill-4');
+ 
+   // Header sorter
+-  --mp-table-header-sorter-icon-color: var(~'--mp-color-neutral-5');
+-  --mp-table-header-sorter-icon-next-color: var(~'--mp-color-neutral-6');
++  --mp-table-header-sorter-icon-color: rgb(var(--mp-gray-5));
++  --mp-table-header-sorter-icon-next-color: rgb(var(--mp-gray-6));
+   --mp-table-header-sorter-icon-active-color: var(--mp-sys-color-action-primary);
+-  --mp-table-header-sorter-icon-margin-left: var(~'--mp-spacing-4');
++  --mp-table-header-sorter-icon-margin-left: var(~'--mp-sys-space-4');
+   --mp-table-header-sorter-icon-height: 8px;
+   --mp-table-header-sorter-icon-width: 14px;
+   --mp-table-header-sorter-icon-font-size: 12px;
+@@ -95,21 +95,21 @@
+   --mp-table-body-stripe-row-bg: var(~'--mp-color-fill-1');
+   --mp-table-body-row-hover-bg: var(~'--mp-color-fill-1');
+   --mp-table-body-row-active-bg: var(~'--mp-color-fill-1');
+-  --mp-table-body-row-active-dark-bg: var(~'--mp-color-neutral-2');
++  --mp-table-body-row-active-dark-bg: rgb(var(--mp-gray-2));
+   --mp-table-body-bg: var(~'--mp-color-bg-2');
+   --mp-table-body-min-height: 40px;
+   --mp-table-empty-height: 240px;
+   --mp-table-empty-image-size: 48px;
+-  --mp-table-tfoot-bg: var(~'--mp-color-neutral-2');
++  --mp-table-tfoot-bg: rgb(var(--mp-gray-2));
+   --mp-table-editable-body-cell-border-color: var(~'--mp-color-white');
+ 
+   // Filters popup
+   --mp-table-filters-popup-bg: var(~'--mp-color-bg-5');
+-  --mp-table-filters-popup-border-color: var(~'--mp-color-neutral-3');
++  --mp-table-filters-popup-border-color: rgb(var(--mp-gray-3));
+   --mp-table-filters-popup-min-width: 100px;
+   --mp-table-filters-popup-max-height: 200px;
+-  --mp-table-filters-popup-border-radius: var(~'--mp-border-radius-md');
+-  --mp-table-filters-popup-box-shadow: var(~'--mp-shadow1-down');
++  --mp-table-filters-popup-border-radius: var(~'--mp-sys-radius-md');
++  --mp-table-filters-popup-box-shadow: 0 2px 5px rgba(0,0,0,.1);
+   --mp-table-filters-list-padding: 4px 0;
+   --mp-table-filters-item-height: 32px;
+   --mp-table-filters-item-padding: 0 12px;
+@@ -137,7 +137,7 @@
+   --mp-table-column-handle-right: -4px;
+ 
+   // Pagination
+-  --mp-table-pagination-margin: var(~'--mp-spacing-6');
++  --mp-table-pagination-margin: var(~'--mp-sys-space-5');
+   --mp-table-pagination-sticky-padding: 12px 0;
+   --mp-table-sticky-scrollbar-opacity: 0.8;
+   --mp-table-pagination-sticky-bg: var(~'--mp-color-bg-1');
+@@ -161,6 +161,6 @@
+ 
+   // Shared
+   --mp-table-line-height: var(~'--mp-line-height');
+-  --mp-table-transition-duration: var(~'--mp-transition-duration-1');
+-  --mp-table-transition-timing-function: var(~'--mp-transition-timing-function-linear');
++  --mp-table-transition-duration: var(~'--mp-sys-motion-duration-fast');
++  --mp-table-transition-timing-function: linear;
+ }
+--- a/table/table-operation-td.tsx
++++ b/table/table-operation-td.tsx
+@@ -9,7 +9,7 @@
+ import { IconMinus } from '@maple-design/icons-vue/icon-minus'
+ import { IconDragDotVertical } from '@maple-design/icons-vue/icon-drag-dot-vertical'
+ import { TableContext, tableInjectionKey } from './context'
+-import { useI18n } from '../locale'
++import { useI18n } from './mobile-locale'
+ import { BaseType } from '../_utils/types'
+ import TableSlot from './TableSlot.vue'
+ import { forwardTableSlot } from './forward-table-slot'
+--- a/table/table-operation-th.tsx
++++ b/table/table-operation-th.tsx
+@@ -5,7 +5,7 @@
+ import { TableOperationColumn } from './types'
+ import { isFunction } from '../_utils/is'
+ import { TableContext, tableInjectionKey } from './context'
+-import { useI18n } from '../locale'
++import { useI18n } from './mobile-locale'
+ 
+ 
+ const { name } = createNamespace('operation-th')
+--- a/table/table-th.tsx
++++ b/table/table-th.tsx
+@@ -1,6 +1,6 @@
+ import { renderCellElement, renderHeaderContent } from './render/cells'
+ import { useDesktopHeaderSorter } from './desktop/use-header-sorter'
+-import { useDesktopHeaderFilter } from './desktop/use-header-filter'
++
+ import {
+   computed,
+   defineComponent,
+@@ -17,7 +17,7 @@
+ import { TableContext, tableInjectionKey } from "./context";
+ import AutoTooltip from "../_components/auto-tooltip/auto-tooltip";
+ import { getColumnLayoutKey, isTableExtraColumn } from "./extra-column";
+-import { useI18n } from "../locale";
++import { useI18n } from "./mobile-locale";
+ import TableSlot from "./TableSlot.vue";
+ import { forwardTableColumnSlot, forwardTableSlot } from "./forward-table-slot";
+ 
+@@ -62,19 +62,7 @@
+       return undefined;
+     });
+ 
+-    const filterIconAlignLeft = computed(() => {
+-      if (
+-        props.column?.filterable &&
+-        isBoolean(props.column.filterable.alignLeft)
+-      ) {
+-        return props.column.filterable.alignLeft;
+-      }
+-      return tableCtx.filterIconAlignLeft;
+-    });
+-
+     const { sortOrder, hasSorter, nextSortOrder, handleClickSorter, renderSorterNode } = useDesktopHeaderSorter(column, tableCtx, prefixCls);
+-
+-    const { renderFilter } = useDesktopHeaderFilter({ props, column, tableCtx, prefixCls, inline: () => inlineFilter.value, t });
+ 
+     const cellCls = computed(() => {
+       const cls: any[] = [
+@@ -87,10 +75,6 @@
+           [`${prefixCls}-cell-next-ascend`]: nextSortOrder.value === "ascend",
+           [`${prefixCls}-cell-next-descend`]: nextSortOrder.value === "descend",
+         });
+-      }
+-
+-      if (filterIconAlignLeft.value) {
+-        cls.push(`${prefixCls}-cell-with-filter`);
+       }
+ 
+       if (showHeaderActions.value) {
+@@ -139,19 +123,6 @@
+       if (!showHeaderActions.value || !props.column?.dataIndex) return null;
+       return <TableSlot slotProps={{ column: props.column, dataIndex: props.column.dataIndex }} v-slots={forwardTableSlot(tableCtx.slots?.["header-cell-actions"])} />;
+     };
+-
+-    // 表头操作区（筛选 + 外部 actions）固定在右侧；显式 alignLeft 时筛选仍跟在标题旁
+-    const filterInActions = computed(() => {
+-      return Boolean(
+-        showHeaderActions.value &&
+-        props.column?.filterable &&
+-        !filterIconAlignLeft.value,
+-      );
+-    });
+-
+-    const inlineFilter = computed(
+-      () => filterIconAlignLeft.value || filterInActions.value,
+-    );
+ 
+     const renderTitleNode = () => {
+       if (props.column?.ellipsis && props.column?.tooltip) {
+@@ -215,8 +186,7 @@
+         },
+         title: renderTitleNode,
+         sorter: renderSorterNode,
+-        inlineFilter: () => filterIconAlignLeft.value && renderFilter(),
+-        actions: showHeaderActions.value ? () => [filterInActions.value && renderFilter(), renderHeaderActions()] : undefined,
++        actions: showHeaderActions.value ? renderHeaderActions : undefined,
+       });
+     };
+ 
+@@ -272,7 +242,6 @@
+         },
+         () => [
+             renderCell(),
+-            !inlineFilter.value && renderFilter(),
+             props.resizable && (
+               <span
+                 class={`${prefixCls}-column-handle`}
+--- a/table/table-impl.tsx
++++ b/table/table-impl.tsx
+@@ -6,11 +6,11 @@
+ import { matchesRecord, filterTableRows } from './features/filter/compute'
+ import { sortRecords } from './features/sort/compute'
+ import { pageTableRows } from './features/pagination/compute'
+-import { useI18n } from '../locale'
++import { useI18n } from './mobile-locale'
+ import { useThemeScope } from '../theme-provider/context'
+ import { useElementResize } from '../_utils/resize-observer'
+ import { physicalScrollLeft, inlineScrollLeft, setInlineScrollLeft, useDirection } from '../_utils/direction'
+-import StickyScrollbar from './StickyScrollbar.vue'
++
+ import type { TablePaginationScope, TablePaginationConfig } from './types'
+ import { tableProps } from "./props"
+ import type { ComponentPublicInstance, CSSProperties, PropType, Slot, VNode } from "vue"
+@@ -43,11 +43,11 @@
+ import Td from "./table-td"
+ import OperationTh from "./table-operation-th"
+ import OperationTd from "./table-operation-td"
+-import ResizeObserver from "../_components/resize-observer"
++import ResizeObserver from "./MobileResizeObserver"
+ // Keep the existing published declaration binding for virtualListProps.
+ import { VirtualListProps } from "../_components/virtual-list-v2/interface"
+ import { omit } from "../_utils/omit"
+-import { configProviderInjectionKey } from "../config-provider/context"
++
+ import { useDrag } from "./features/drag/use-drag"
+ import { useColumnResize } from "./features/resize/use-column-resize"
+ import { tableInjectionKey } from "./context"
+@@ -57,7 +57,7 @@
+ import { useSpan } from "./features/span/use-span"
+ import { getComponentsFromVNode } from "../_utils/vue-utils"
+ import { useChildrenComponents } from "../_hooks/use-children-components"
+-import Scrollbar, { ScrollbarProps } from "../scrollbar"
++import Scrollbar, { ScrollbarProps } from "../_components/selection-scrollbar"
+ import { useComponentRef } from "../_hooks/use-component-ref"
+ import type { BaseType } from "../_utils/types"
+ import { useScrollbar } from "../_hooks/use-scrollbar"
+@@ -188,6 +188,9 @@
+      * @param {TableData} record
+      * @param {Event} ev
+      */
++    "row-touchstart": (record: TableData, event: TouchEvent) => true,
++    "row-touchend": (record: TableData, event: TouchEvent) => true,
++    "row-touchcancel": (record: TableData, event: TouchEvent) => true,
+     "row-click": (record: TableData, ev: Event) => true,
+     /**
+      * @zh 点击表头数据时触发
+@@ -344,7 +347,7 @@
+    */
+   setup(props, { attrs, emit, slots }) {
+     const themeScope = useThemeScope()
+-    const { i18nMessage } = useI18n()
++    const { t, i18nMessage } = useI18n()
+     const {
+       columns,
+       rowKey,
+@@ -367,7 +370,7 @@
+     const extraColumnConfig = computed(() =>
+       resolveExtraColumnConfig(props.extraColumn),
+     );
+-    const configCtx = inject(configProviderInjectionKey, undefined);
++
+     const bordered = computed(() => {
+       if (isObject(props.bordered)) {
+         return { ...DEFAULT_BORDERED, ...props.bordered };
+@@ -1364,7 +1367,7 @@
+ 
+     const renderEmptyContent = (compact = false) => slots.empty
+       ? <TableSlot v-slots={forwardTableSlot(slots.empty)} />
+-      : configCtx?.slots.empty?.({ component: "table" }) ?? <Empty imageSize={compact ? "var(--mp-table-empty-image-size)" : undefined} />;
++      : <Empty imageSize={compact ? "var(--mp-table-empty-image-size)" : undefined} />;
+ 
+     const renderEmpty = (rowPosition?: number) => {
+       return (
+@@ -1487,8 +1490,8 @@
+           type="button"
+           class={`${prefixCls}-expand-btn`}
+           aria-label={expanded
+-            ? i18nMessage.value.table?.collapseRow ?? i18nMessage.value.filterForm?.collapseMore
+-            : i18nMessage.value.table?.expandRow ?? i18nMessage.value.filterForm?.expandMore}
++            ? i18nMessage.value.table?.collapseRow
++            : i18nMessage.value.table?.expandRow}
+           aria-expanded={expanded}
+           onClick={(ev: Event) => {
+             handleExpand(currentKey, record.raw);
+@@ -1570,7 +1573,7 @@
+         allowDrag?: boolean;
+         positions?: VirtualRowPositions;
+       } = {},
+-    ): JSX.Element => {
++    ): VNode => {
+       const currentKey = record.key;
+       const currentPath = (indexPath ?? []).concat(rowIndex);
+       const expandContent = positions?.details.has(record.key)
+@@ -1634,6 +1637,9 @@
+               props.rowSelection && selectedRowKeys.value?.includes(currentKey)
+             }
+             // @ts-ignore
++            onTouchstart={(ev: TouchEvent) => emit("row-touchstart", record.raw, ev)}
++            onTouchend={(ev: TouchEvent) => emit("row-touchend", record.raw, ev)}
++            onTouchcancel={(ev: TouchEvent) => emit("row-touchcancel", record.raw, ev)}
+             onClick={(ev: Event) => handleRowClick(record, ev)}
+             onDblclick={(ev: Event) => handleRowDblclick(record, ev)}
+             onContextmenu={(ev: Event) => handleRowContextMenu(record, ev)}
+@@ -1828,7 +1834,7 @@
+         const stickyTop = isNumber(props.stickyHeader)
+           ? `${props.stickyHeader}px`
+           : undefined;
+-        const Component = displayScrollbar.value || managedStickyFooter.value ? Scrollbar : "div";
++        const Component = displayScrollbar.value ? Scrollbar : "div";
+ 
+         const renderHeaderPanel = () => (
+           <Component
+@@ -1837,7 +1843,7 @@
+             style={{
+               overflowY: hasScrollBar.value ? "scroll" : undefined,
+             }}
+-            {...((scrollbar.value || managedStickyFooter.value)
++            {...((scrollbar.value)
+               ? {
+                   disableVertical: true,
+                   ...scrollbarProps.value,
+@@ -1876,9 +1882,9 @@
+               {flattenData.value.length === 0 ? (
+                 <div class={`${prefixCls}-empty-body`} style={{ maxHeight: bodyMaxHeight.value }}>
+                   <Component
+-                    ref={tbodyComRef}
++                    ref={tbodyComRef} role="region" tabindex={0} aria-label={t("table.scrollable")}
+                     class={`${prefixCls}-body`}
+-                    {...((scrollbar.value || managedStickyFooter.value) ? {
++                    {...((scrollbar.value) ? {
+                       outerStyle: { height: "100%", minHeight: "0" },
+                       ...scrollbarProps.value,
+                       disableHorizontal: managedStickyFooter.value || !hasHorizontalOverflow.value,
+@@ -1903,12 +1909,12 @@
+                 virtualBody.render(positions, prepareRange)
+               ) : (
+                 <Component
+-                  ref={tbodyComRef}
++                  ref={tbodyComRef} role="region" tabindex={0} aria-label={t("table.scrollable")}
+                   class={`${prefixCls}-body`}
+                   style={{
+                     maxHeight: bodyMaxHeight.value,
+                   }}
+-                  {...((scrollbar.value || managedStickyFooter.value)
++                  {...((scrollbar.value)
+                     ? {
+                         outerStyle: { display: "flex", minHeight: "0" },
+                         ...scrollbarProps.value,
+@@ -1955,16 +1961,20 @@
+     };
+ 
+     const renderTable = (content?: Slot) => {
+-      const Component = displayScrollbar.value || managedStickyFooter.value ? Scrollbar : "div";
++      const Component = displayScrollbar.value ? Scrollbar : "div";
+ 
+       return (
+         <>
+           <div
+             ref={tableContainerRef}
++            data-tabs-no-swipe={hasHorizontalOverflow.value ? '' : undefined}
+             class={[`${prefixCls}-container`, tableCls.value]}
+           >
+             <Component
+               ref={contentComRef}
++              role={splitTable.value ? undefined : "region"}
++              tabindex={splitTable.value ? undefined : 0}
++              aria-label={splitTable.value ? undefined : t("table.scrollable")}
+               class={[
+                 `${prefixCls}-content`,
+                 {
+@@ -1973,7 +1983,7 @@
+                     !splitTable.value && hasHorizontalOverflow.value,
+                 },
+               ]}
+-              {...((scrollbar.value || managedStickyFooter.value)
++              {...((scrollbar.value)
+                 ? {
+                     outerStyle: { height: "100%" },
+                     ...scrollbarProps.value,
+@@ -2096,7 +2106,7 @@
+     const renderPaginationArea = () => {
+       const content = props.stickyPagination !== false ? (
+         <div {...themeScope.value} dir={readingDirection.value} class={`${prefixCls}-footer-sticky`} style={[themeScope.value.style, isNumber(props.stickyPagination) ? { bottom: `${props.stickyPagination}px` } : undefined]}>
+-          <StickyScrollbar layoutWidth={bodyWidth.value} container={containerElement.value} active={tableHovered.value || tableFocused.value} />
++
+           {renderPagination(true)}
+         </div>
+       ) : renderPagination();
+--- a/table/example/demos/basic.vue
++++ b/table/example/demos/basic.vue
+@@ -11,5 +11,5 @@
+ ]
+ </script>
+ <template>
+-  <c-table :columns="columns" :data="data" :pagination="false" />
++  <mp-table :columns="columns" :data="data" :pagination="false" />
+ </template>
+--- a/table/example/demos/columns-children.vue
++++ b/table/example/demos/columns-children.vue
+@@ -1,10 +1,11 @@
+ <template>
+-  <c-table :columns="columns" :data="data" :bordered="{ headerCell: true }" />
++  <mp-table :columns="columns" :data="data" :bordered="{ headerCell: true }" />
+ </template>
+ 
+ <script lang="ts" setup>
++import type { TableColumnData } from '../../types'
+ import { reactive } from 'vue'
+-const columns = [
++const columns: TableColumnData[] = [
+   {
+     title: 'Name',
+     dataIndex: 'name',
+--- a/table/example/demos/fixed-column-and-header.vue
++++ b/table/example/demos/fixed-column-and-header.vue
+@@ -2,13 +2,14 @@
+   <p style="margin-bottom: 8px">
+     同时设置 <code>height</code> 与左右 <code>fixed</code> 列：表头固定 + 横向滚动时固定列保持可见。
+   </p>
+-  <c-table :columns="columns" :data="data" :height="250" :pagination="false" />
++  <mp-table :columns="columns" :data="data" :height="250" :pagination="false" />
+ </template>
+ 
+ <script lang="ts" setup>
++import type { TableColumnData } from '../../types'
+ import { reactive } from 'vue'
+ 
+-const columns = [
++const columns: TableColumnData[] = [
+   {
+     title: 'Date',
+     dataIndex: 'date',
+--- a/table/example/demos/virtual-list-props.vue
++++ b/table/example/demos/virtual-list-props.vue
+@@ -1,15 +1,15 @@
+ <template>
+-  <c-table
++  <mp-table
+     :columns="columns"
+     :data="data"
+-    :row-selection="rowSelection"
+     :virtual-list-props="{ height: 400 }"
+     :pagination="false" />
+ </template>
+ 
+ <script lang="ts" setup>
++import type { TableColumnData } from '../../types'
+ import { reactive } from 'vue'
+-const columns = [
++const columns: TableColumnData[] = [
+   {
+     title: 'Name',
+     dataIndex: 'name',
+@@ -37,8 +37,4 @@
+       email: `user.${index + 1}@example.com`,
+     })),
+ )
+-const rowSelection = {
+-  type: 'checkbox',
+-  showCheckedAll: true,
+-}
+ </script>
+--- a/table/example/demos/empty-state.vue
++++ b/table/example/demos/empty-state.vue
+@@ -2,7 +2,7 @@
+ const columns = [{ title: 'Name', dataIndex: 'name' }, { title: 'Address', dataIndex: 'address' }]
+ </script>
+ <template>
+-  <c-table :columns="columns" :data="[]" :pagination="false">
++  <mp-table :columns="columns" :data="[]" :pagination="false">
+     <template #empty>暂无记录，请调整筛选条件后重试。</template>
+-  </c-table>
++  </mp-table>
+ </template>
+--- a/table/__tests__/summary-virtual-orchestration.spec.ts
++++ b/table/__tests__/summary-virtual-orchestration.spec.ts
+@@ -1,7 +1,7 @@
+ import { flushPromises, mount } from '@vue/test-utils'
+ import { toRaw } from 'vue'
+ import { expect, test, vi } from 'vitest'
+-import Table from '../table'
++import Table from '..'
+ import type { TableColumnData, TableData } from '../types'
+ 
+ const modes = [
+--- a/table/__tests__/virtual-expanded-rows.spec.ts
++++ b/table/__tests__/virtual-expanded-rows.spec.ts
+@@ -2,7 +2,7 @@
+ import { createSSRApp, h } from 'vue'
+ import { renderToString } from '@vue/server-renderer'
+ import { describe, expect, it } from 'vitest'
+-import Table from '../table'
++import Table from '..'
+ 
+ describe('virtual table expanded rows', () => {
+   it('renders expanded detail rows and tree children', async () => {
+--- a/table/__tests__/virtual-lazy-row-positions.spec.ts
++++ b/table/__tests__/virtual-lazy-row-positions.spec.ts
+@@ -1,6 +1,6 @@
+ import { flushPromises, mount } from '@vue/test-utils'
+ import { expect, it } from 'vitest'
+-import Table from '../table'
++import Table from '..'
+ import type { TableData } from '../types'
+ 
+ it('updates virtual row positions as lazy tree children load and collapse', async () => {
+--- a/table/__tests__/expand-instance.spec.ts
++++ b/table/__tests__/expand-instance.spec.ts
+@@ -1,6 +1,6 @@
+ import { mount } from '@vue/test-utils'
+ import { expect, test } from 'vitest'
+-import Table from '../table'
++import Table from '..'
+ 
+ const data = [{ key: 'a', name: 'A', expand: 'details' }, { key: 'b', name: 'B', expand: 'details' }]
+ const columns = [{ title: 'Name', dataIndex: 'name' }]
+--- a/table/__tests__/selection-accessibility.spec.ts
++++ b/table/__tests__/selection-accessibility.spec.ts
+@@ -1,15 +1,15 @@
+ import { h, ref } from 'vue'
+ import { mount } from '@vue/test-utils'
+ import { expect, test } from 'vitest'
+-import ConfigProvider from '../../config-provider'
+-import type { CedarLang } from '../../locale/types'
+-import en from '../../locale/lang/en-us'
+-import zh from '../../locale/lang/zh-cn'
+-import Table from '../table'
++import LocaleProvider from '../../locale-provider'
++
++import en from '../../locale/en-US'
++import zh from '../../locale/zh-CN'
++import Table from '..'
+ 
+ test.each(['checkbox', 'radio'] as const)('%s selection controls follow the locale and identify each row', async type => {
+-  const locale = ref<CedarLang>(en)
+-  const wrapper = mount({ render: () => h(ConfigProvider, { locale: locale.value }, () => h(Table, {
++  const locale = ref('en-US')
++  const wrapper = mount({ render: () => h(LocaleProvider, { locale: locale.value, messages: { 'en-US': en, 'zh-CN': zh } }, () => h(Table, {
+     columns: [{ title: 'Name', dataIndex: 'name' }],
+     data: [{ key: 'ada', name: 'Ada' }, { key: 'bob', name: 'Bob' }], pagination: false, height: 200,
+     rowSelection: { type, showCheckedAll: true },
+@@ -21,12 +21,12 @@
+     expect(wrapper.get(`thead th[data-operation-key="selection-${type}"]`).attributes('aria-label')).toBe(type === 'checkbox' ? 'Select All' : 'Selection')
+     await rows[0].setValue(true)
+     expect((rows[0].element as HTMLInputElement).checked).toBe(true)
+-    locale.value = zh
++    locale.value = 'zh-CN'
+     await wrapper.vm.$nextTick()
+     expect(rows.map(input => input.attributes('aria-label'))).toEqual(['选择行 ada', '选择行 bob'])
+     if (type === 'checkbox') expect(wrapper.get('thead input[type="checkbox"]').attributes('aria-label')).toBe('全选')
+     expect(wrapper.get(`thead th[data-operation-key="selection-${type}"]`).attributes('aria-label')).toBe(type === 'checkbox' ? '全选' : '选择')
+-    locale.value = { ...en, table: { ...en.table, selectRow: undefined, selectionColumn: undefined } }
++    locale.value = 'en-US'
+     await wrapper.vm.$nextTick()
+     expect(rows[0].attributes('aria-label')).toBe('Select row ada')
+     if (type === 'radio') expect(wrapper.get('thead th[data-operation-key="selection-radio"]').attributes('aria-label')).toBe('Selection')

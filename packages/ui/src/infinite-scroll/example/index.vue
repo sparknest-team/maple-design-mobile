@@ -1,17 +1,14 @@
 <script setup>
-import { computed, ref } from 'vue'
-import { AppType, onThemeChange, watchLang } from '@maple-design/cli-vue/client'
+import { AppType, onThemeChange } from '@maple-design/cli-vue/client'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import BasicDemo from './demos/basic.vue'
 import CustomStatusDemo from './demos/custom-status.vue'
+import BasicDemoEn from './demos/en-US/basic.vue'
+import CustomStatusDemoEn from './demos/en-US/custom-status.vue'
+import ErrorDemoEn from './demos/en-US/error.vue'
 import ErrorDemo from './demos/error.vue'
 import OrganizedSchedulerLifecycle from './demos/scheduler-lifecycle.vue'
 
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-
-watchLang((value) => {
-  language.value = value
-})
 onThemeChange()
 </script>
 
@@ -23,7 +20,7 @@ onThemeChange()
 
   <section data-demo="basic">
     <app-type>{{ english ? 'Basic Usage' : '基础用法' }}</app-type>
-    <BasicDemo />
+    <component :is="english ? BasicDemoEn : BasicDemo" />
   </section>
 
   <h2 class="mobile-demo-group-heading" data-demo-group="content-and-presentation">
@@ -33,7 +30,7 @@ onThemeChange()
 
   <section data-demo="error">
     <app-type>{{ english ? 'Retry on Error' : '失败重试' }}</app-type>
-    <ErrorDemo />
+    <component :is="english ? ErrorDemoEn : ErrorDemo" />
   </section>
 
   <h2 class="mobile-demo-group-heading" data-demo-group="customization-and-slots">
@@ -43,7 +40,7 @@ onThemeChange()
 
   <section data-demo="custom-status">
     <app-type>{{ english ? 'Custom Status' : '自定义状态' }}</app-type>
-    <CustomStatusDemo />
+    <component :is="english ? CustomStatusDemoEn : CustomStatusDemo" />
   </section>
 
   <h2 class="mobile-demo-group-heading" data-demo-group="lifecycle-and-edge-cases">

@@ -15,25 +15,26 @@ export function useSearchInput(
     const label = props.ariaLabel ?? props.inputAttrs?.['aria-label'] ?? referenceAttrs()['aria-label'] ?? props.label
     return label == null ? undefined : String(label)
   }
-  const getReferenceAttrs = () => ({
+  const getCommonAttrs = () => ({
     ...props.inputAttrs,
-    id: getReferenceId(),
     'aria-label': getLabel(),
+    'aria-busy': props.loading || (props.inputAttrs?.['aria-busy'] ?? referenceAttrs()['aria-busy']),
+  })
+  const getReferenceAttrs = () => ({
+    ...getCommonAttrs(),
+    id: getReferenceId(),
     'aria-hidden': popupActive() ? true : props.inputAttrs?.['aria-hidden'],
     tabindex: popupActive() ? -1 : props.inputAttrs?.tabindex,
-    'aria-busy': props.loading || props.inputAttrs?.['aria-busy'] || referenceAttrs()['aria-busy'] || undefined,
   })
   const getPopupAttrs = () => ({
-    ...props.inputAttrs,
+    ...getCommonAttrs(),
     id: getPopupId(),
-    'aria-label': getLabel(),
     // The reference owns successful native submission, including implicit forms.
     // An explicit form attribute still associates editor constraints with that form.
     name: undefined,
     form: popupActive() ? (props.inputAttrs?.form ?? referenceAttrs().form) : '',
     'aria-hidden': popupActive() ? props.inputAttrs?.['aria-hidden'] : true,
     tabindex: popupActive() ? props.inputAttrs?.tabindex : -1,
-    'aria-busy': props.loading || props.inputAttrs?.['aria-busy'] || referenceAttrs()['aria-busy'] || undefined,
   })
   return { getReferenceId, getPopupId, getLabel, getReferenceAttrs, getPopupAttrs }
 }

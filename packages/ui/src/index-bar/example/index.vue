@@ -1,6 +1,12 @@
 <script setup>
+import { onThemeChange } from '@maple-design/cli-vue/client'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import BasicDemo from './demos/basic.vue'
+import BasicDemoEn from './demos/en-US/basic.vue'
+import GroupedLifecycleDemoEn from './demos/en-US/lifecycle.vue'
 import GroupedLifecycleDemo from './demos/lifecycle.vue'
+
+onThemeChange()
 </script>
 
 <template>
@@ -10,7 +16,7 @@ import GroupedLifecycleDemo from './demos/lifecycle.vue'
   </h2>
 
   <section data-demo="basic">
-    <BasicDemo />
+    <component :is="english ? BasicDemoEn : BasicDemo" />
   </section>
 
   <h2 class="mobile-demo-group-heading" data-demo-group="lifecycle-and-edge-cases">
@@ -23,6 +29,6 @@ import GroupedLifecycleDemo from './demos/lifecycle.vue'
       <span lang="zh-CN">停用、卸载与保留命令</span
       ><span lang="en-US">Deactivation, disposal and retained commands</span>
     </h3>
-    <GroupedLifecycleDemo />
+    <component :is="english ? GroupedLifecycleDemoEn : GroupedLifecycleDemo" />
   </section>
 </template>

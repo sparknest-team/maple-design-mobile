@@ -1,16 +1,12 @@
 <script setup>
-import { computed, ref } from 'vue'
-import { AppType, onThemeChange, watchLang } from '@maple-design/cli-vue/client'
+import { AppType, currentTheme, onThemeChange } from '@maple-design/cli-vue/client'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import BasicUsageDemo from './demos/basic-usage.vue'
 import CustomStyleDemo from './demos/custom-style.vue'
+import BasicUsageDemoEn from './demos/en-US/basic-usage.vue'
+import CustomStyleDemoEn from './demos/en-US/custom-style.vue'
 import SessionLifecycleDemo from './demos/session-lifecycle.vue'
 
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-
-watchLang((value) => {
-  language.value = value
-})
 onThemeChange()
 </script>
 
@@ -22,7 +18,7 @@ onThemeChange()
 
   <section data-demo="basic-usage">
     <app-type>{{ english ? 'Basic Usage' : '基本使用' }}</app-type>
-    <BasicUsageDemo />
+    <component :is="english ? BasicUsageDemoEn : BasicUsageDemo" :key="currentTheme" />
   </section>
 
   <h2 class="mobile-demo-group-heading" data-demo-group="customization-and-slots">
@@ -32,7 +28,7 @@ onThemeChange()
 
   <section data-demo="custom-style">
     <app-type>{{ english ? 'Custom Style' : '自定义样式' }}</app-type>
-    <CustomStyleDemo />
+    <component :is="english ? CustomStyleDemoEn : CustomStyleDemo" :key="currentTheme" />
   </section>
 
   <h2 class="mobile-demo-group-heading" data-demo-group="drawing-sessions">

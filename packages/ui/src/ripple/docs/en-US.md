@@ -33,7 +33,7 @@ Supports touch, primary mouse clicks and host Enter / Space. Mouse ripples expan
 ### Longer motion tokens
 
 ```demo
-../example/demos/motion-token.vue
+../example/demos/en-US/motion-token.vue
 ```
 
 ### Styles

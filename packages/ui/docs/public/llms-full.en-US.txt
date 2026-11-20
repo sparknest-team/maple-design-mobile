@@ -8329,14 +8329,9 @@ Example source: src/carousel/example/demos/autoplay.vue
 
 ```vue
 <script setup>
-import { computed, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
+import { ref } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-watchLang((value) => {
-  language.value = value
-})
 const current = ref(1)
 const playing = ref(true)
 const changes = ref(0)
@@ -10853,14 +10848,8 @@ Example source: src/checkbox/example/demos/basic-usage.vue
 
 ```vue
 <script setup>
-import { computed, reactive, ref, toRefs } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
-
-const demoLanguage = ref('zh-CN')
-const english = computed(() => demoLanguage.value === 'en-US')
-watchLang((value) => {
-  demoLanguage.value = value
-})
+import { reactive, toRefs } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
 const values = reactive({
   value: false,
@@ -10929,19 +10918,11 @@ Example source: src/checkbox/example/demos/group-declaration-comparison.vue
 ```vue
 <script setup lang="ts">
 import { computed, proxyRefs as demoProxyRefs, reactive, ref, toRefs } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import type { CheckboxGroupInstance } from '@maple-design/ui-vue'
 
 const scene1 = demoProxyRefs(
   (() => {
-    const demoLanguage = ref('zh-CN')
-
-    const english = computed(() => demoLanguage.value === 'en-US')
-
-    watchLang((value) => {
-      demoLanguage.value = value
-    })
-
     const values = reactive({
       value: false,
       value2: false,
@@ -10974,7 +10955,6 @@ const scene1 = demoProxyRefs(
       fieldValue,
     } = toRefs(values)
     return {
-      demoLanguage,
       english,
       values,
       value,
@@ -10996,14 +10976,6 @@ const scene1 = demoProxyRefs(
 
 const scene2 = demoProxyRefs(
   (() => {
-    const demoLanguage = ref('zh-CN')
-
-    const english = computed(() => demoLanguage.value === 'en-US')
-
-    watchLang((value) => {
-      demoLanguage.value = value
-    })
-
     const values = reactive({
       value: false,
       value2: false,
@@ -11042,7 +11014,6 @@ const scene2 = demoProxyRefs(
       { label: english.value ? 'Game' : '游戏', value: 2, disabled: true },
     ])
     return {
-      demoLanguage,
       english,
       values,
       value,
@@ -11180,14 +11151,8 @@ Example source: src/checkbox/example/demos/vertical.vue
 
 ```vue
 <script setup>
-import { computed, reactive, ref, toRefs } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
-
-const demoLanguage = ref('zh-CN')
-const english = computed(() => demoLanguage.value === 'en-US')
-watchLang((value) => {
-  demoLanguage.value = value
-})
+import { reactive, toRefs } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
 const values = reactive({
   value: false,
@@ -11358,14 +11323,8 @@ Example source: src/checkbox/example/demos/custom-fields.vue
 
 ```vue
 <script setup>
-import { computed, reactive, ref, toRefs } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
-
-const demoLanguage = ref('zh-CN')
-const english = computed(() => demoLanguage.value === 'en-US')
-watchLang((value) => {
-  demoLanguage.value = value
-})
+import { computed, reactive, toRefs } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
 const values = reactive({
   value: false,
@@ -11431,14 +11390,8 @@ Example source: src/checkbox/example/demos/set-state.vue
 
 ```vue
 <script setup>
-import { computed, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
-
-const demoLanguage = ref('zh-CN')
-const english = computed(() => demoLanguage.value === 'en-US')
-watchLang((value) => {
-  demoLanguage.value = value
-})
+import { ref } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
 const selected = ref([])
 </script>
@@ -11476,14 +11429,8 @@ Example source: src/checkbox/example/demos/max.vue
 
 ```vue
 <script setup>
-import { computed, reactive, ref, toRefs } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
-
-const demoLanguage = ref('zh-CN')
-const english = computed(() => demoLanguage.value === 'en-US')
-watchLang((value) => {
-  demoLanguage.value = value
-})
+import { reactive, toRefs } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
 const values = reactive({
   value: false,
@@ -11544,13 +11491,7 @@ Example source: src/checkbox/example/demos/indeterminate.vue
 ```vue
 <script setup>
 import { computed, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
-
-const demoLanguage = ref('zh-CN')
-const english = computed(() => demoLanguage.value === 'en-US')
-watchLang((value) => {
-  demoLanguage.value = value
-})
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
 const selected = ref(['a'])
 const all = computed({
@@ -11747,14 +11688,8 @@ Example source: src/checkbox/example/demos/set-style.vue
 
 ```vue
 <script setup>
-import { computed, reactive, ref, toRefs } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
-
-const demoLanguage = ref('zh-CN')
-const english = computed(() => demoLanguage.value === 'en-US')
-watchLang((value) => {
-  demoLanguage.value = value
-})
+import { reactive, toRefs } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
 const values = reactive({
   value: false,
@@ -27618,14 +27553,9 @@ Example source: src/form/example/demos/selection-summary.vue
 
 ```vue
 <script setup>
-import { computed, reactive, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
+import { reactive } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
-const language = ref('zh-CN')
-watchLang((value) => {
-  language.value = value
-})
-const english = computed(() => language.value === 'en-US')
 const values = reactive({ inlineSelect: ['a'], popupSelect: ['a'], inlineCascader: ['a'], popupCascader: ['a'] })
 const options = [
   { value: 'a', label: 'Alpha' },
@@ -30811,18 +30741,10 @@ Example source: src/icon/example/demos/lifecycle.vue
 
 ```vue
 <script setup>
-import { computed, getCurrentInstance, KeepAlive, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
+import { getCurrentInstance, KeepAlive, ref } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import { IconArrowLeft, IconArrowRight } from '@maple-design/icons-vue'
 
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-watchLang(
-  (value) => {
-    language.value = value
-  },
-  typeof window !== 'undefined' && window.location.hash.includes('language=') ? 'mobile' : 'pc',
-)
 const active = ref(true),
   iconName = ref('arrow-left'),
   duration = ref(300)
@@ -32200,18 +32122,13 @@ Example source: src/index-bar/example/demos/basic.vue
 
 ```vue
 <script setup>
-import { computed, ref } from 'vue'
-import { AppType, onThemeChange, watchLang } from '@maple-design/cli-vue/client'
+import { ref } from 'vue'
+import { AppType, onThemeChange } from '@maple-design/cli-vue/client'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
 const list = Array.from({ length: 26 }, (_, index) => String.fromCharCode(65 + index))
 const active = ref('A')
-const languagePlatform = typeof window !== 'undefined' && window.location.hash.includes('language=') ? 'mobile' : 'pc'
 
-watchLang((value) => {
-  language.value = value
-}, languagePlatform)
 onThemeChange()
 
 function handleChange(value) {
@@ -32289,17 +32206,10 @@ Example source: src/index-bar/example/demos/lifecycle.vue
 
 ```vue
 <script setup>
-import { computed, KeepAlive, ref, watch } from 'vue'
-import { AppType, watchLang } from '@maple-design/cli-vue/client'
+import { KeepAlive, ref, watch } from 'vue'
+import { AppType } from '@maple-design/cli-vue/client'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-watchLang(
-  (value) => {
-    language.value = value
-  },
-  typeof window !== 'undefined' && window.location.hash.includes('language=') ? 'mobile' : 'pc',
-)
 const mounted = ref(true),
   active = ref(true),
   bar = ref(),
@@ -32480,20 +32390,14 @@ Example source: src/infinite-scroll/example/demos/basic.vue
 
 ```vue
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onDeactivated, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
+import { onBeforeUnmount, onDeactivated, ref } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import type { InfiniteScrollStatus } from '@maple-design/ui-vue'
 
 const scroller = ref<HTMLElement>()
 const status = ref<InfiniteScrollStatus>('idle')
 let timer: ReturnType<typeof setTimeout> | undefined
 const items = ref<number[]>([])
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-
-watchLang((value) => {
-  language.value = value
-})
 
 function load() {
   clearTimeout(timer)
@@ -32540,8 +32444,8 @@ Example source: src/infinite-scroll/example/demos/error.vue
 
 ```vue
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onDeactivated, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
+import { onBeforeUnmount, onDeactivated, ref } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import type { InfiniteScrollStatus } from '@maple-design/ui-vue'
 
 const scroller = ref<HTMLElement>()
@@ -32549,12 +32453,6 @@ const status = ref<InfiniteScrollStatus>('idle')
 const items = ref<number[]>([])
 let failedOnce = false
 let timer: ReturnType<typeof setTimeout> | undefined
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-
-watchLang((value) => {
-  language.value = value
-})
 
 function load() {
   clearTimeout(timer)
@@ -32622,20 +32520,14 @@ Example source: src/infinite-scroll/example/demos/custom-status.vue
 
 ```vue
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onDeactivated, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
+import { onBeforeUnmount, onDeactivated, ref } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import type { InfiniteScrollStatus } from '@maple-design/ui-vue'
 
 const scroller = ref<HTMLElement>()
 const status = ref<InfiniteScrollStatus>('idle')
 let timer: ReturnType<typeof setTimeout> | undefined
 const items = ref<number[]>([])
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-
-watchLang((value) => {
-  language.value = value
-})
 
 function load() {
   clearTimeout(timer)
@@ -41361,18 +41253,12 @@ Example source: src/picker/example/demos/disabled.vue
 
 ```vue
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
+import { ref } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
 const disabled = ref(true)
 const value = ref<(string | number)[]>(['A'])
 const columns = [[{ text: 'A' }, { text: 'B' }, { text: 'C' }]]
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-
-watchLang((next) => {
-  language.value = next
-})
 </script>
 
 <template>
@@ -42843,8 +42729,8 @@ Example source: src/popup/example/demos/motion-token.vue
 ```vue
 <script setup>
 import { ref } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
-defineProps({ english: Boolean })
 const open = ref(false)
 const host = ref()
 </script>
@@ -45737,14 +45623,8 @@ Example source: src/radio/example/demos/basic-usage.vue
 
 ```vue
 <script setup>
-import { computed, reactive, ref, toRefs } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
-
-const demoLanguage = ref('zh-CN')
-const english = computed(() => demoLanguage.value === 'en-US')
-watchLang((value) => {
-  demoLanguage.value = value
-})
+import { reactive, toRefs } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
 const values = reactive({
   value: false,
@@ -45799,14 +45679,8 @@ Example source: src/radio/example/demos/disabled.vue
 
 ```vue
 <script setup>
-import { computed, reactive, ref, toRefs } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
-
-const demoLanguage = ref('zh-CN')
-const english = computed(() => demoLanguage.value === 'en-US')
-watchLang((value) => {
-  demoLanguage.value = value
-})
+import { reactive, toRefs } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
 const values = reactive({
   value: false,
@@ -45847,14 +45721,8 @@ Example source: src/radio/example/demos/readonly.vue
 
 ```vue
 <script setup>
-import { computed, reactive, ref, toRefs } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
-
-const demoLanguage = ref('zh-CN')
-const english = computed(() => demoLanguage.value === 'en-US')
-watchLang((value) => {
-  demoLanguage.value = value
-})
+import { reactive, toRefs } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
 const values = reactive({
   value: false,
@@ -45908,19 +45776,11 @@ Example source: src/radio/example/demos/group-declaration-comparison.vue
 
 ```vue
 <script setup lang="ts">
-import { computed, proxyRefs as demoProxyRefs, reactive, ref, toRefs } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
+import { computed, proxyRefs as demoProxyRefs, reactive, toRefs } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
 const scene1 = demoProxyRefs(
   (() => {
-    const demoLanguage = ref('zh-CN')
-
-    const english = computed(() => demoLanguage.value === 'en-US')
-
-    watchLang((value) => {
-      demoLanguage.value = value
-    })
-
     const values = reactive({
       value: false,
       value2: false,
@@ -45935,7 +45795,6 @@ const scene1 = demoProxyRefs(
 
     const { value, value2, value3, value4, value5, value6, value9, optionValue, fieldValue } = toRefs(values)
     return {
-      demoLanguage,
       english,
       values,
       value,
@@ -45953,14 +45812,6 @@ const scene1 = demoProxyRefs(
 
 const scene2 = demoProxyRefs(
   (() => {
-    const demoLanguage = ref('zh-CN')
-
-    const english = computed(() => demoLanguage.value === 'en-US')
-
-    watchLang((value) => {
-      demoLanguage.value = value
-    })
-
     const values = reactive({
       value: false,
       value2: false,
@@ -45981,7 +45832,6 @@ const scene2 = demoProxyRefs(
       { label: english.value ? 'Game' : '打游戏', value: 2, disabled: true },
     ])
     return {
-      demoLanguage,
       english,
       values,
       value,
@@ -46074,14 +45924,8 @@ Example source: src/radio/example/demos/vertical.vue
 
 ```vue
 <script setup>
-import { computed, reactive, ref, toRefs } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
-
-const demoLanguage = ref('zh-CN')
-const english = computed(() => demoLanguage.value === 'en-US')
-watchLang((value) => {
-  demoLanguage.value = value
-})
+import { reactive, toRefs } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
 const values = reactive({
   value: false,
@@ -46322,14 +46166,8 @@ Example source: src/radio/example/demos/custom-fields.vue
 
 ```vue
 <script setup>
-import { computed, reactive, ref, toRefs } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
-
-const demoLanguage = ref('zh-CN')
-const english = computed(() => demoLanguage.value === 'en-US')
-watchLang((value) => {
-  demoLanguage.value = value
-})
+import { computed, reactive, toRefs } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
 const values = reactive({
   value: false,
@@ -46381,14 +46219,8 @@ Example source: src/radio/example/demos/set-state.vue
 
 ```vue
 <script setup>
-import { computed, reactive, ref, toRefs } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
-
-const demoLanguage = ref('zh-CN')
-const english = computed(() => demoLanguage.value === 'en-US')
-watchLang((value) => {
-  demoLanguage.value = value
-})
+import { reactive, toRefs } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
 const values = reactive({
   value: false,
@@ -46567,14 +46399,8 @@ Example source: src/radio/example/demos/set-style.vue
 
 ```vue
 <script setup>
-import { computed, reactive, ref, toRefs } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
-
-const demoLanguage = ref('zh-CN')
-const english = computed(() => demoLanguage.value === 'en-US')
-watchLang((value) => {
-  demoLanguage.value = value
-})
+import { reactive, toRefs } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
 const values = reactive({
   value: false,
@@ -47855,7 +47681,7 @@ Example source: src/ripple/example/demos/motion-token.vue
 
 ```vue
 <script setup>
-defineProps({ english: Boolean })
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 </script>
 
 <template>
@@ -50920,18 +50746,14 @@ Example source: src/select/example/demos/same-label.vue
 
 ```vue
 <script setup>
-import { computed, reactive, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
+import { computed, reactive } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
 const values = reactive({ inline: [1, 2], dialog: [1, 2], popup: [1, 2] })
-const language = ref('zh-CN')
-watchLang((value) => {
-  language.value = value
-})
 const options = computed(() => [
-  { value: 1, label: language.value === 'en-US' ? 'Device' : '设备' },
-  { value: 2, label: language.value === 'en-US' ? 'Device' : '设备' },
-  { value: 3, label: language.value === 'en-US' ? 'Spare device' : '备用设备' },
+  { value: 1, label: english.value ? 'Device' : '设备' },
+  { value: 2, label: english.value ? 'Device' : '设备' },
+  { value: 3, label: english.value ? 'Spare device' : '备用设备' },
 ])
 </script>
 
@@ -56681,15 +56503,8 @@ Example source: src/split-button/example/basic.vue
 
 ```vue
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import { Message } from '@maple-design/ui-vue'
-
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-watchLang((value) => {
-  language.value = value
-})
 
 const publish = () => {
   Message.info(english.value ? 'Published' : '发布成功')
@@ -56735,15 +56550,8 @@ Example source: src/split-button/example/variants.vue
 
 ```vue
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import { Message } from '@maple-design/ui-vue'
-
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-watchLang((value) => {
-  language.value = value
-})
 
 const publish = () => {
   Message.info(english.value ? 'Published' : '发布成功')
@@ -56783,15 +56591,8 @@ Example source: src/split-button/example/disabled.vue
 
 ```vue
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import { Message } from '@maple-design/ui-vue'
-
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-watchLang((value) => {
-  language.value = value
-})
 
 const publish = () => {
   Message.info(english.value ? 'Published' : '发布成功')
@@ -56861,16 +56662,10 @@ Example source: src/split-button/example/demos/appearance-lab.vue
 
 ```vue
 <script setup lang="ts">
-import { computed, computed as demoComputed, ref as demoRef, reactive, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
+import { computed as demoComputed, ref as demoRef, reactive } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import { Message } from '@maple-design/ui-vue'
 import type { ComponentSize, SemanticStatus } from '../../../utils/constants'
-
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-watchLang((value) => {
-  language.value = value
-})
 
 const publish = () => {
   Message.info(english.value ? 'Published' : '发布成功')
@@ -57004,15 +56799,9 @@ Example source: src/split-button/example/popup.vue
 
 ```vue
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
+import { ref } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import { Message } from '@maple-design/ui-vue'
-
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-watchLang((value) => {
-  language.value = value
-})
 
 const lastAction = ref('')
 const handleSelect = (value: unknown, option: { label?: unknown }) => {
@@ -57060,15 +56849,8 @@ Example source: src/split-button/example/custom-icon.vue
 
 ```vue
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import { Message } from '@maple-design/ui-vue'
-
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-watchLang((value) => {
-  language.value = value
-})
 
 const publish = () => {
   Message.info(english.value ? 'Published' : '发布成功')
@@ -57110,15 +56892,9 @@ Example source: src/split-button/example/controlled.vue
 
 ```vue
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
+import { ref } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import { Message } from '@maple-design/ui-vue'
-
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-watchLang((value) => {
-  language.value = value
-})
 
 const publish = () => {
   Message.info(english.value ? 'Published' : '发布成功')
@@ -57159,15 +56935,9 @@ Example source: src/split-button/example/async-action.vue
 
 ```vue
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
+import { ref } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import { Message } from '@maple-design/ui-vue'
-
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-watchLang((value) => {
-  language.value = value
-})
 
 const completed = ref(0)
 const publishing = ref(false)
@@ -62578,13 +62348,10 @@ Example source: src/themes/example/FireflyScenes.vue
 ```vue
 <script setup>
 import { computed, ref } from 'vue'
-import { watchLang, watchTheme } from '@maple-design/cli-vue/client'
+import { watchTheme } from '@maple-design/cli-vue/client'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import { Themes } from '@maple-design/ui-vue'
 
-const english = ref(false)
-watchLang((value) => {
-  english.value = value === 'en-US'
-})
 const mode = ref('light')
 const background = ref('light')
 watchTheme((theme) => {
@@ -63132,9 +62899,10 @@ Example source: src/time/example/demos/time-fields.vue
 ```vue
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import type { TimePickerField } from '../../picker-props'
 
-const props = defineProps<{ range?: boolean; english?: boolean }>()
+const props = defineProps<{ range?: boolean }>()
 const preset = ref('hour-minute')
 const fields = computed<TimePickerField[]>(() =>
   preset.value === 'minute-hour' ? ['minute', 'hour'] : preset.value === 'second' ? ['second'] : ['hour', 'minute'],
@@ -63189,14 +62957,8 @@ Example source: src/time-range/example/demos/next-day.vue
 
 ```vue
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
-
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-watchLang((value) => {
-  language.value = value
-})
+import { ref } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
 const range = ref<string[] | undefined>(['22:00', '06:00'])
 const reset = () => {
@@ -64694,9 +64456,10 @@ Example source: src/time/example/demos/time-fields.vue
 ```vue
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import type { TimePickerField } from '../../picker-props'
 
-const props = defineProps<{ range?: boolean; english?: boolean }>()
+const props = defineProps<{ range?: boolean }>()
 const preset = ref('hour-minute')
 const fields = computed<TimePickerField[]>(() =>
   preset.value === 'minute-hour' ? ['minute', 'hour'] : preset.value === 'second' ? ['second'] : ['hour', 'minute'],

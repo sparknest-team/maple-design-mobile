@@ -14,7 +14,7 @@ import { getArrowStyle } from './arrow'
 import type { TriggerPlacement } from './contract'
 import { getPositioningSpace, getRelativeRect, getTransformOrigin, translateRectBetweenDocuments } from './geometry'
 import { calculatePopupPosition, getScrollElements, getScrollViews, getSlotChangeRoots } from './position'
-import { observeReferenceMotion } from './reference-motion'
+import { observeReferenceMotion, trackPopupAnchor } from './reference-motion'
 import { useTriggerResize } from './resize'
 import type { TriggerPopupTranslate, TriggerStrategy } from './types'
 
@@ -279,8 +279,11 @@ export function useTriggerPositioner(options: PositionerOptions, context: Positi
 
   const motionUpdate = rafThrottle(update, () => context.popup.value?.ownerDocument.defaultView)
   let stopMotion: (() => void) | undefined
+  let stopTracking: (() => void) | undefined
 
   function unbindScroll() {
+    stopTracking?.()
+    stopTracking = undefined
     stopMotion?.()
     stopMotion = undefined
     motionUpdate.cancel()
@@ -323,15 +326,19 @@ export function useTriggerPositioner(options: PositionerOptions, context: Positi
     unbindScroll()
     const reference = context.reference.value
     const popup = context.popup.value
-    if (reference && popup && context.visible.value && !suspended && options.autoFixPosition) {
-      stopMotion = observeReferenceMotion(reference, motionUpdate)
+    if (!reference || !popup || !context.visible.value || suspended) {
+      return
     }
-    const active =
-      options.updateAtScroll ||
-      options.scrollToClose ||
-      context.globalUpdateAtScroll.value ||
-      context.globalScrollToClose.value
-    if (!active || !reference || !popup || !context.visible.value || suspended) {
+    const updateAtScroll = options.updateAtScroll || context.globalUpdateAtScroll.value
+    if (options.autoFixPosition) {
+      stopMotion = observeReferenceMotion(reference, motionUpdate)
+      // A keyboard opened elsewhere can pan any element-anchored popup on a touch device.
+      const touchPoints = reference.ownerDocument.defaultView?.navigator.maxTouchPoints ?? 0
+      if (!context.point.value && (touchPoints > 0 || updateAtScroll)) {
+        stopTracking = trackPopupAnchor(reference, popup, update)
+      }
+    }
+    if (!updateAtScroll && !options.scrollToClose && !context.globalScrollToClose.value) {
       return
     }
     slotRoots = [...new Set([...getSlotChangeRoots(reference), ...getSlotChangeRoots(popup)])]
@@ -365,6 +372,7 @@ export function useTriggerPositioner(options: PositionerOptions, context: Positi
       context.reference.value,
       context.popup.value,
       context.container?.value,
+      Boolean(context.point.value),
       options.autoFixPosition,
       options.updateAtScroll,
       options.scrollToClose,

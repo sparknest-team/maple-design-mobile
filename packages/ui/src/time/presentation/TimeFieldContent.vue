@@ -130,6 +130,7 @@ const singlePanelProps = computed(() =>
 const wheelProps = computed(() => getTimeWheelPresentationProps(props.fieldProps.pickerProps))
 const popupProps = computed(() => ({
   placement: 'bottom-start' as const,
+  updateAtScroll: props.fieldProps.inputEditable,
   ...getTimePopupPresentationProps(props.fieldProps.popupProps),
   popupContainer:
     props.fieldProps.popupContainer !== undefined

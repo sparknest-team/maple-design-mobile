@@ -132,7 +132,7 @@ maple-cli dev -d
 
 Markdown 支持独立一行的 `<demo src="../example/demos/basic.vue"></demo>`（也可自闭合）与 `demo` 代码围栏。两种写法都读取实际 Vue 文件，每个文件对应独立运行卡片和源码工具条；代码示例中的标签不会执行。修改 Vue 示例会自动更新运行内容与源码，无需手动同步静态副本。右侧手机预览继续读取 `example/index.vue` 的示例集合。
 
-Demo 的 `watchLang(callback)` 默认从当前站点路由读取语言：中间卡片使用 `#/en-US/component`，手机集合使用 `#/component?language=en-US`。初次挂载及顶部语言切换均同步，无需局部 locale 激活；必要时仍可显式指定 `pc` 或 `mobile`。
+Demo 通过 `import { demoEnglish } from '@maple-design/cli-vue/demo-language'` 读取站点语言。桌面卡片和手机预览都随全局 Locale 更新，模板直接使用 `demoEnglish`，脚本读取 `demoEnglish.value`。
 
 文档站自动组件引用依据公开导出表直达源码模块，避免组件内部再经过全库根入口导致循环分包；显式函数导入仍可写 `import { Message } from '@maple-design/ui-vue'`，自动样式注入保留。该解析只作用于站点，不改变 npm 包入口或共享两库运行时。
 

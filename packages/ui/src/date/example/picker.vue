@@ -1,7 +1,7 @@
 <script setup>
 import { reactive } from 'vue'
-import { AppType, onThemeChange, watchLang } from '@maple-design/cli-vue/client'
-import { t, use } from './locale'
+import { AppType, onThemeChange } from '@maple-design/cli-vue/client'
+import { t } from './locale'
 
 const dates = reactive({
   date: '2021-04',
@@ -15,7 +15,6 @@ const dates = reactive({
   dateTimePicker: '2025-01-15 10:29',
 })
 
-watchLang(use)
 onThemeChange()
 
 const disabledDate = (date) => date.getDate() % 2 === 0

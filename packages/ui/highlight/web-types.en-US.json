@@ -1730,6 +1730,24 @@
               }
             },
             {
+              "name": "aria-label",
+              "description": "Accessible name for the expanded panel. Defaults to the plain text title.",
+              "default": "—",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "aria-labelledby",
+              "description": "ID of the visible heading in a custom title or header slot.",
+              "default": "—",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
               "name": "close-button-aria-label",
               "description": "Accessible name of the default close button",
               "default": "—",
@@ -11929,6 +11947,93 @@
           ]
         },
         {
+          "name": "mp-section",
+          "attributes": [
+            {
+              "name": "id",
+              "description": "Section anchor",
+              "default": "Automatically generated",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "title",
+              "description": "Heading text",
+              "default": "Empty",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "description",
+              "description": "Supporting text below the heading",
+              "default": "Empty",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "size",
+              "description": "Section size",
+              "default": "md",
+              "value": {
+                "type": "'sm' | 'md'",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "variant",
+              "description": "Appearance, plain, heading-line, tonal or outline",
+              "default": "heading-line inside Form, otherwise plain",
+              "value": {
+                "type": "'plain' | 'heading-line' | 'tonal' | 'outline'",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "heading-level",
+              "description": "HTML heading level from 1 to 6",
+              "default": "3 inside Form, otherwise 2",
+              "value": {
+                "type": "1–6",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show-marker",
+              "description": "Show a heading marker",
+              "default": "Enabled inside Form",
+              "value": {
+                "type": "boolean",
+                "kind": "expression"
+              }
+            }
+          ],
+          "events": [],
+          "slots": [
+            {
+              "name": "default",
+              "description": "Body"
+            },
+            {
+              "name": "title",
+              "description": "Custom title"
+            },
+            {
+              "name": "description",
+              "description": "Supporting description"
+            },
+            {
+              "name": "extra",
+              "description": "Header actions"
+            }
+          ]
+        },
+        {
           "name": "mp-select",
           "attributes": [
             {
@@ -16193,7 +16298,7 @@
             },
             {
               "name": "auto-fix-position",
-              "description": "Reposition when the reference changes size or when a CSS transition or animation on the reference or its ancestors ends or is canceled. Popup, positioning parent and window resize handling remain active when disabled",
+              "description": "Reposition when the reference changes size or when a CSS transition or animation on the reference or its ancestors ends or is canceled. On touch devices an open element-anchored popup also follows page movement. Popup, positioning parent and window resize handling remain active when disabled",
               "default": "true",
               "value": {
                 "type": "boolean",
@@ -16651,6 +16756,15 @@
               "default": "File list appearance; supported on both platforms",
               "value": {
                 "type": "`'text'`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "initial-trigger-interactive",
+              "description": "`boolean`",
+              "default": "The custom trigger slot provides its own interactive control on first render. After mount, Upload checks the rendered content.",
+              "value": {
+                "type": "`false`",
                 "kind": "expression"
               }
             },

@@ -11,7 +11,7 @@ Hyperlinks to scroll on one page.
 When you click the index bar, it will automatically jump to the corresponding `IndexAnchor` anchor position.
 
 ```demo
-../example/demos/basic.vue
+../example/demos/en-US/basic.vue
 ```
 
 ## Lifecycle and edge cases
@@ -19,7 +19,7 @@ When you click the index bar, it will automatically jump to the corresponding `I
 ### Deactivation, disposal and retained commands
 
 ```demo
-../example/demos/lifecycle.vue
+../example/demos/en-US/lifecycle.vue
 ```
 
 ## Reading direction

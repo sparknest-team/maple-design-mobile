@@ -1,4 +1,4 @@
-import { createSSRApp, h, nextTick, ref } from 'vue'
+import { createSSRApp, h, KeepAlive, nextTick, ref } from 'vue'
 import { renderToString } from '@vue/server-renderer'
 import { mount } from '@vue/test-utils'
 import { expect, test } from 'vitest'
@@ -106,6 +106,86 @@ test('reusing and unmounting a field does not expose its previous error to anoth
     shown.value = true
     await nextTick()
     expect(input().attributes('aria-describedby')).toBe('help')
+  } finally {
+    wrapper.unmount()
+  }
+})
+
+test('unmounting a no-style subtree clears every delegated source for the same field', async () => {
+  const visible = ref(true)
+  const wrapper = mount(Form, {
+    props: { editMode: 'direct', model: { shared: '', kept: '' } },
+    slots: {
+      default: () =>
+        h(FormItem, { label: 'Outer' }, () => [
+          h(FormItem, { field: 'kept', noStyle: true }, () => h(Input)),
+          visible.value &&
+            h(FormItem, { field: 'shared', noStyle: true }, () =>
+              h(FormItem, { field: 'shared', noStyle: true }, () => h(Input)),
+            ),
+        ]),
+    },
+  })
+  try {
+    const form = wrapper.vm as any
+    form.setFields({ kept: { message: 'Remaining error' }, shared: { message: 'Removed error' } })
+    await nextTick()
+    const describedText = () => {
+      const id = wrapper.get('input').attributes('aria-describedby')
+      expect(id).toBeTruthy()
+      return wrapper.get(`[id="${id}"]`).text()
+    }
+    expect(describedText()).toContain('Removed error')
+    visible.value = false
+    await nextTick()
+    expect(describedText()).toContain('Remaining error')
+    expect(describedText()).not.toContain('Removed error')
+    form.clearValidate('kept')
+    await nextTick()
+    expect(wrapper.get('input').attributes('aria-describedby')).toBeUndefined()
+  } finally {
+    wrapper.unmount()
+  }
+})
+
+test('cached no-style feedback follows the active field and restores its latest error', async () => {
+  const shown = ref(true)
+  const wrapper = mount(Form, {
+    props: { editMode: 'direct', model: { kept: '', cached: '' } },
+    slots: {
+      default: () =>
+        h(FormItem, { label: 'Outer' }, () => [
+          h(FormItem, { field: 'kept', noStyle: true }, () => h(Input)),
+          h(KeepAlive, null, () =>
+            shown.value ? h(FormItem, { field: 'cached', noStyle: true }, () => h(Input)) : null,
+          ),
+        ]),
+    },
+  })
+  try {
+    const form = wrapper.vm as any
+    const description = () => {
+      const id = wrapper.get('input').attributes('aria-describedby')
+      return id ? wrapper.get(`[id="${id}"]`).text() : ''
+    }
+    form.setFields({ kept: { message: 'Kept error' }, cached: { message: 'First error' } })
+    await nextTick()
+    expect(description()).toContain('First error')
+    shown.value = false
+    await nextTick()
+    expect(description()).toBe('Kept error')
+    form.setFields({ cached: { message: 'New error' } })
+    await nextTick()
+    expect(description()).toBe('Kept error')
+    form.clearValidate('kept')
+    await nextTick()
+    expect(wrapper.get('input').attributes('aria-describedby')).toBeUndefined()
+    shown.value = true
+    await nextTick()
+    expect(description()).toBe('New error')
+    form.clearValidate()
+    await nextTick()
+    expect(description()).toBe('')
   } finally {
     wrapper.unmount()
   }

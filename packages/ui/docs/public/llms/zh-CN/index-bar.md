@@ -16,18 +16,13 @@ Example source: src/index-bar/example/demos/basic.vue
 
 ```vue
 <script setup>
-import { computed, ref } from 'vue'
-import { AppType, onThemeChange, watchLang } from '@maple-design/cli-vue/client'
+import { ref } from 'vue'
+import { AppType, onThemeChange } from '@maple-design/cli-vue/client'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
 const list = Array.from({ length: 26 }, (_, index) => String.fromCharCode(65 + index))
 const active = ref('A')
-const languagePlatform = typeof window !== 'undefined' && window.location.hash.includes('language=') ? 'mobile' : 'pc'
 
-watchLang((value) => {
-  language.value = value
-}, languagePlatform)
 onThemeChange()
 
 function handleChange(value) {
@@ -105,17 +100,10 @@ Example source: src/index-bar/example/demos/lifecycle.vue
 
 ```vue
 <script setup>
-import { computed, KeepAlive, ref, watch } from 'vue'
-import { AppType, watchLang } from '@maple-design/cli-vue/client'
+import { KeepAlive, ref, watch } from 'vue'
+import { AppType } from '@maple-design/cli-vue/client'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-watchLang(
-  (value) => {
-    language.value = value
-  },
-  typeof window !== 'undefined' && window.location.hash.includes('language=') ? 'mobile' : 'pc',
-)
 const mounted = ref(true),
   active = ref(true),
   bar = ref(),

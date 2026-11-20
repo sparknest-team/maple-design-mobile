@@ -1,18 +1,27 @@
 <script setup>
-import { computed, reactive, ref, toRefs } from 'vue'
-import { AppType, onThemeChange, watchLang } from '@maple-design/cli-vue/client'
+import { reactive, toRefs } from 'vue'
+import { AppType, onThemeChange } from '@maple-design/cli-vue/client'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import AsyncOptionsDemo from './demos/async-options.vue'
 import BasicUsageDemo from './demos/basic-usage.vue'
 import ControlValueDemo from './demos/control-value.vue'
 import CustomControlDemo from './demos/custom-control.vue'
 import CustomFieldsDemo from './demos/custom-fields.vue'
 import EnglishAsyncOptionsDemo from './demos/en-US/async-options.vue'
+import BasicUsageDemoEn from './demos/en-US/basic-usage.vue'
 import EnglishControlValueDemo from './demos/en-US/control-value.vue'
 import EnglishCustomControlDemo from './demos/en-US/custom-control.vue'
+import CustomFieldsDemoEn from './demos/en-US/custom-fields.vue'
+import ContentGroupDeclarationComparisonEn from './demos/en-US/group-declaration-comparison.vue'
 import EnglishGroupMethodsDemo from './demos/en-US/group-methods.vue'
 import EnglishGroupStateDemo from './demos/en-US/group-state.vue'
+import IndeterminateDemoEn from './demos/en-US/indeterminate.vue'
+import MaxDemoEn from './demos/en-US/max.vue'
 import EnglishNativeControlDemo from './demos/en-US/native-control.vue'
 import EnglishOptionDataDemo from './demos/en-US/option-data.vue'
+import SetStateDemoEn from './demos/en-US/set-state.vue'
+import SetStyleDemoEn from './demos/en-US/set-style.vue'
+import VerticalDemoEn from './demos/en-US/vertical.vue'
 import ContentGroupDeclarationComparison from './demos/group-declaration-comparison.vue'
 import GroupMethodsDemo from './demos/group-methods.vue'
 import GroupStateDemo from './demos/group-state.vue'
@@ -55,12 +64,7 @@ const {
   optionsValue,
   fieldValue,
 } = toRefs(values)
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
 
-watchLang((value) => {
-  language.value = value
-})
 onThemeChange()
 </script>
 
@@ -72,7 +76,7 @@ onThemeChange()
 
   <section data-demo="basic-usage">
     <app-type>{{ english ? 'Basic Usage' : '基本使用' }}</app-type>
-    <BasicUsageDemo />
+    <component :is="english ? BasicUsageDemoEn : BasicUsageDemo" />
   </section>
 
   <h2 class="mobile-demo-group-heading" data-demo-group="groups-and-layout">
@@ -84,7 +88,7 @@ onThemeChange()
     <h3 class="mobile-demo-case-heading">
       <span lang="zh-CN">选项声明方式对比</span><span lang="en-US">Option declaration comparison</span>
     </h3>
-    <ContentGroupDeclarationComparison />
+    <component :is="english ? ContentGroupDeclarationComparisonEn : ContentGroupDeclarationComparison" />
   </section>
 
   <section data-demo="group-state">
@@ -94,7 +98,7 @@ onThemeChange()
 
   <section data-demo="vertical">
     <app-type>{{ english ? 'Vertical Direction' : '垂直布局' }}</app-type>
-    <VerticalDemo />
+    <component :is="english ? VerticalDemoEn : VerticalDemo" />
   </section>
 
   <h2 class="mobile-demo-group-heading" data-demo-group="options-and-value-model">
@@ -114,12 +118,12 @@ onThemeChange()
 
   <section data-demo="custom-fields">
     <app-type>{{ english ? 'Custom Fields' : '自定义字段' }}</app-type>
-    <CustomFieldsDemo />
+    <component :is="english ? CustomFieldsDemoEn : CustomFieldsDemo" />
   </section>
 
   <section data-demo="set-state">
     <app-type>{{ english ? 'Set State Value' : '设置状态值' }}</app-type>
-    <SetStateDemo />
+    <component :is="english ? SetStateDemoEn : SetStateDemo" />
   </section>
 
   <h2 class="mobile-demo-group-heading" data-demo-group="selection-and-bulk-actions">
@@ -129,12 +133,12 @@ onThemeChange()
 
   <section data-demo="max">
     <app-type>{{ english ? 'Maximum Number Of Checked' : '最大选中数量' }}</app-type>
-    <MaxDemo />
+    <component :is="english ? MaxDemoEn : MaxDemo" />
   </section>
 
   <section data-demo="indeterminate">
     <app-type>{{ english ? 'Indeterminate' : '不确定状态' }}</app-type>
-    <IndeterminateDemo />
+    <component :is="english ? IndeterminateDemoEn : IndeterminateDemo" />
   </section>
 
   <section data-demo="group-methods">
@@ -161,7 +165,7 @@ onThemeChange()
 
   <section data-demo="set-style">
     <app-type>{{ english ? 'Modify The Icon And Color' : '修改图标和颜色' }}</app-type>
-    <SetStyleDemo />
+    <component :is="english ? SetStyleDemoEn : SetStyleDemo" />
   </section>
 
   <section data-demo="custom-control">

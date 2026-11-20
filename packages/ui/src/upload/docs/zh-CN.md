@@ -244,6 +244,7 @@ before-* 等待期间显示加载反馈并标记 aria-busy；拒绝或失败后�
 | is-success-response | `UploadIsSuccessResponse` | `undefined` | 自定义响应成功判断；默认 HTTP 2xx 为成功 |
 | request-choose | `UploadRequestChoose` | `undefined` | 接管选择入口；异常不会自动打开文件框 |
 | list-type | `'text' \| 'picture' \| 'picture-card'` | `'text'` | 文件列表展示方式；两端均支持 |
+| initial-trigger-interactive | `boolean` | `false` | 自定义触发插槽在首屏提供交互控件。挂载后由 Upload 检查实际内容。 |
 | trigger-position | `'before' \| 'after'` | `'after'` | 上传入口在文件列表之前或之后；适用于所有 list-type、自定义 trigger 插槽和拖拽入口；前后按 DOM 顺序解释，不因 RTL 改写 |
 | image-fit | `'fill' \| 'contain' \| 'cover' \| 'none' \| 'scale-down'` | `'cover'` | 缩略图填充方式；文件项 fit 优先 |
 | preview | `boolean` | `true` | 启用内建图片 / 视频预览 |
@@ -273,7 +274,7 @@ UploadFileItem 的 uid、status、percent 必填，name/size/type/file/url/thumb
 
 - trigger({chooseFile,dragOver,disabled,describedBy})：自定义选择入口。
 
-SSR 首屏暂不能识别插槽内的交互元素：若插槽包含按钮，接管前外层仍会作为可聚焦按钮。需要避免首屏嵌套交互语义时，可使用纯展示内容作为插槽，让外层承担选择操作；接管后组件会识别交互式内容并调整外层角色。
+如果 `trigger` 插槽在服务端首屏渲染可见按钮，请在 Upload 上设置 `initial-trigger-interactive`，由插槽内的按钮提供键盘入口。插槽为文字或纯展示内容时省略此属性，由外层提供入口。接管后，Upload 按实际渲染的控件及其可见性调整。视口尺寸、减少动态效果、明暗配色或强制颜色设置变化时，会重新检查触发控件。
 
 纯展示内容由外层提供按钮角色和 Enter/Space 入口；包含按钮、链接等交互内容时，外层不再增加按钮角色或 Tab 停靠点。自定义按钮应绑定插槽的 disabled，并负责自己的键盘行为。 需要将表单错误及 Upload 的 aria-describedby 关联到该按钮时，可将插槽的 describedBy 绑定到按钮的 aria-describedby；它随错误出现和清除更新。点击时直接调用 chooseFile 即可，无需 .stop；同次点击的冒泡不会再次选择，也不会额外调用 requestChoose。依赖默认冒泡的自定义按钮仍可使用 requestChoose。
 

@@ -22,14 +22,8 @@ Example source: src/checkbox/example/demos/basic-usage.vue
 
 ```vue
 <script setup>
-import { computed, reactive, ref, toRefs } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
-
-const demoLanguage = ref('zh-CN')
-const english = computed(() => demoLanguage.value === 'en-US')
-watchLang((value) => {
-  demoLanguage.value = value
-})
+import { reactive, toRefs } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
 const values = reactive({
   value: false,
@@ -98,19 +92,11 @@ Example source: src/checkbox/example/demos/group-declaration-comparison.vue
 ```vue
 <script setup lang="ts">
 import { computed, proxyRefs as demoProxyRefs, reactive, ref, toRefs } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import type { CheckboxGroupInstance } from '@maple-design/ui-vue'
 
 const scene1 = demoProxyRefs(
   (() => {
-    const demoLanguage = ref('zh-CN')
-
-    const english = computed(() => demoLanguage.value === 'en-US')
-
-    watchLang((value) => {
-      demoLanguage.value = value
-    })
-
     const values = reactive({
       value: false,
       value2: false,
@@ -143,7 +129,6 @@ const scene1 = demoProxyRefs(
       fieldValue,
     } = toRefs(values)
     return {
-      demoLanguage,
       english,
       values,
       value,
@@ -165,14 +150,6 @@ const scene1 = demoProxyRefs(
 
 const scene2 = demoProxyRefs(
   (() => {
-    const demoLanguage = ref('zh-CN')
-
-    const english = computed(() => demoLanguage.value === 'en-US')
-
-    watchLang((value) => {
-      demoLanguage.value = value
-    })
-
     const values = reactive({
       value: false,
       value2: false,
@@ -211,7 +188,6 @@ const scene2 = demoProxyRefs(
       { label: english.value ? 'Game' : '游戏', value: 2, disabled: true },
     ])
     return {
-      demoLanguage,
       english,
       values,
       value,
@@ -349,14 +325,8 @@ Example source: src/checkbox/example/demos/vertical.vue
 
 ```vue
 <script setup>
-import { computed, reactive, ref, toRefs } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
-
-const demoLanguage = ref('zh-CN')
-const english = computed(() => demoLanguage.value === 'en-US')
-watchLang((value) => {
-  demoLanguage.value = value
-})
+import { reactive, toRefs } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
 const values = reactive({
   value: false,
@@ -527,14 +497,8 @@ Example source: src/checkbox/example/demos/custom-fields.vue
 
 ```vue
 <script setup>
-import { computed, reactive, ref, toRefs } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
-
-const demoLanguage = ref('zh-CN')
-const english = computed(() => demoLanguage.value === 'en-US')
-watchLang((value) => {
-  demoLanguage.value = value
-})
+import { computed, reactive, toRefs } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
 const values = reactive({
   value: false,
@@ -600,14 +564,8 @@ Example source: src/checkbox/example/demos/set-state.vue
 
 ```vue
 <script setup>
-import { computed, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
-
-const demoLanguage = ref('zh-CN')
-const english = computed(() => demoLanguage.value === 'en-US')
-watchLang((value) => {
-  demoLanguage.value = value
-})
+import { ref } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
 const selected = ref([])
 </script>
@@ -645,14 +603,8 @@ Example source: src/checkbox/example/demos/max.vue
 
 ```vue
 <script setup>
-import { computed, reactive, ref, toRefs } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
-
-const demoLanguage = ref('zh-CN')
-const english = computed(() => demoLanguage.value === 'en-US')
-watchLang((value) => {
-  demoLanguage.value = value
-})
+import { reactive, toRefs } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
 const values = reactive({
   value: false,
@@ -713,13 +665,7 @@ Example source: src/checkbox/example/demos/indeterminate.vue
 ```vue
 <script setup>
 import { computed, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
-
-const demoLanguage = ref('zh-CN')
-const english = computed(() => demoLanguage.value === 'en-US')
-watchLang((value) => {
-  demoLanguage.value = value
-})
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
 const selected = ref(['a'])
 const all = computed({
@@ -916,14 +862,8 @@ Example source: src/checkbox/example/demos/set-style.vue
 
 ```vue
 <script setup>
-import { computed, reactive, ref, toRefs } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
-
-const demoLanguage = ref('zh-CN')
-const english = computed(() => demoLanguage.value === 'en-US')
-watchLang((value) => {
-  demoLanguage.value = value
-})
+import { reactive, toRefs } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
 const values = reactive({
   value: false,

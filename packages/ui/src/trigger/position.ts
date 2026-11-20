@@ -23,8 +23,10 @@ function getViewport(view: Window | null | undefined) {
   return {
     width: viewport?.width ?? view?.innerWidth ?? 0,
     height: viewport?.height ?? view?.innerHeight ?? 0,
-    left: viewport?.offsetLeft ?? 0,
-    top: viewport?.offsetTop ?? 0,
+    // Convert page coordinates to the client coordinates used by DOMRect.
+    // During keyboard panning WKWebView can include window scroll in offsetTop.
+    left: view && viewport?.pageLeft != null ? viewport.pageLeft - view.scrollX : (viewport?.offsetLeft ?? 0),
+    top: view && viewport?.pageTop != null ? viewport.pageTop - view.scrollY : (viewport?.offsetTop ?? 0),
   }
 }
 

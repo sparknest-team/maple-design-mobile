@@ -1,21 +1,16 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { AppType, onThemeChange, watchLang } from '@maple-design/cli-vue/client'
+import { AppType, onThemeChange } from '@maple-design/cli-vue/client'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import AsyncActionDemo from './async-action.vue'
 import BasicUsageDemo from './basic.vue'
 import ControlledDemo from './controlled.vue'
 import CustomIconDemo from './custom-icon.vue'
 import OrganizedAppearanceLab from './demos/appearance-lab.vue'
+import OrganizedAppearanceLabEn from './demos/en-US/appearance-lab.vue'
 import DisabledDemo from './disabled.vue'
 import PopupDemo from './popup.vue'
 import VariantsDemo from './variants.vue'
 
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-
-watchLang((value) => {
-  language.value = value
-})
 onThemeChange()
 </script>
 
@@ -49,7 +44,7 @@ onThemeChange()
     <h3 class="mobile-demo-case-heading">
       <span lang="zh-CN">外观配置对比</span><span lang="en-US">Appearance configuration comparison</span>
     </h3>
-    <OrganizedAppearanceLab />
+    <component :is="english ? OrganizedAppearanceLabEn : OrganizedAppearanceLab" />
   </section>
 
   <h2 class="mobile-demo-group-heading" data-demo-group="content-and-presentation">

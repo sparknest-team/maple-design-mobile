@@ -1,4 +1,4 @@
-import { defineComponent, h, KeepAlive, nextTick, reactive } from 'vue'
+import { defineComponent, h, KeepAlive, nextTick, reactive, ref, vShow, withDirectives } from 'vue'
 import { renderToString } from '@vue/server-renderer'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, vi } from 'vitest'
@@ -17,6 +17,78 @@ afterEach(() => {
 })
 
 describe('Form layout contract', () => {
+  it('keeps the styled field root visible to template refs and v-show', async () => {
+    const visible = ref(true)
+    const wrapper = mount(
+      defineComponent(
+        () => () =>
+          withDirectives(
+            h(FormItem, { label: 'Name', 'data-field': 'name' }, () => h('input')),
+            [[vShow, visible.value]],
+          ),
+      ),
+    )
+    try {
+      const row = wrapper.get('[data-field="name"]').element as HTMLElement
+      expect(wrapper.getComponent(FormItem).vm.$el).toBe(row)
+      expect(row.querySelector('input')).toBeTruthy()
+      visible.value = false
+      await nextTick()
+      expect(row.style.display).toBe('none')
+      visible.value = true
+      await nextTick()
+      expect(row.style.display).not.toBe('none')
+    } finally {
+      wrapper.unmount()
+    }
+  })
+
+  it('keeps a nested input and its feedback when layout and label visibility change', async () => {
+    const compact = ref(false)
+    const model = reactive<{ account: string | null }>({ account: 'Original' })
+    const owner = mount(
+      defineComponent(
+        () => () =>
+          h(Form, { model, editMode: 'direct' }, () =>
+            h(
+              FormItem,
+              { label: 'Account', layout: compact.value ? 'vertical' : 'horizontal', hideLabel: compact.value },
+              () =>
+                h(FormItem, { field: 'account', noStyle: true }, () =>
+                  h(Input, {
+                    modelValue: model.account,
+                    'onUpdate:modelValue': (value: string | null) => {
+                      model.account = value
+                    },
+                    'aria-label': 'Account',
+                  }),
+                ),
+            ),
+          ),
+      ),
+    )
+    try {
+      const form = owner.getComponent(Form)
+      const input = owner.get('input')
+      await input.setValue('Edited')
+      form.vm.setFields({ account: { message: 'Account unavailable' } })
+      for (const value of [true, false]) {
+        compact.value = value
+        await nextTick()
+        const current = owner.get('input')
+        expect(current.element).toBe(input.element)
+        expect(current.element.value).toBe('Edited')
+        expect(current.attributes('aria-label')).toBe('Account')
+        expect(owner.get('[role="alert"]').text()).toBe('Account unavailable')
+      }
+      form.vm.resetFields()
+      await nextTick()
+      expect(input.element.value).toBe('Original')
+    } finally {
+      owner.unmount()
+    }
+  })
+
   it('applies inherited alignment to content while preserving item overrides and content-flex=false', async () => {
     const state = reactive<{ contentAlign?: 'left' | 'center' | 'right' }>({ contentAlign: 'center' })
     const wrapper = mount(Form, {

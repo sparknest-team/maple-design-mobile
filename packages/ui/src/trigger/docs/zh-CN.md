@@ -1,6 +1,6 @@
 # Trigger
 
-SSR 限制：触发插槽或 `content` 插槽内的同一节点同时使用 `v-for` 和 `v-memo` 时，服务端渲染可能报错。触发插槽即使在浮层关闭时也可能报错；`content` 插槽在浮层打开或设置 `unmount-on-close=false` 时可能报错。服务端渲染时请移除该插槽节点上的 `v-memo`；普通 `v-for` 仍可使用。 在 Vue 3.5.13 中，触发插槽内单独使用动态 `v-memo` 也可能报错。
+SSR 限制：触发插槽或 `content` 插槽内的同一节点同时使用 `v-for` 和 `v-memo` 时，服务端渲染可能报错。触发插槽即使在浮层关闭时也可能报错；`content` 插槽在浮层打开或设置 `unmount-on-close=false` 时可能报错。服务端渲染时请移除该插槽节点上的 `v-memo`；普通 `v-for` 仍可使用。 在 Vue 3.5.13 中，触发插槽内单独使用动态 `v-memo` 也可能报错。 在 Vue 3.5.45 中，这两个插槽内单独使用动态 `v-memo` 均可正常服务端渲染。普通 Vue 组件将插槽读取为 VNode 时，也会复现同节点循环的限制。
 
 
 
@@ -105,7 +105,7 @@ placement 是首选方位，auto-fit-position 默认 true 时最终方位可能�
 | `auto-fit-position` | 自动翻转并限制到可视区域 | _boolean_ | `true` |
 | `auto-fit-popup-width` | 宽度跟随参考元素 | _boolean_ | `false` |
 | `auto-fit-popup-min-width` | 最小宽度跟随参考元素 | _boolean_ | `false` |
-| `auto-fix-position` | 触发元素尺寸变化时更新位置，其自身或祖先的 CSS 过渡和动画结束或取消后也会重新定位。关闭此选项后仍观察浮层、定位父级及窗口变化 | _boolean_ | `true` |
+| `auto-fix-position` | 触发元素尺寸变化时更新位置，其自身或祖先的 CSS 过渡和动画结束或取消后也会重新定位。在触屏设备上，打开的元素锚定浮层也会跟随页面位移。关闭此选项后仍观察浮层、定位父级及窗口变化 | _boolean_ | `true` |
 | `update-at-scroll` | 滚动时重新定位 | _boolean_ | `false` |
 | `scroll-to-close` | 滚动超过阈值关闭 | _boolean_ | `false` |
 | `scroll-to-close-distance` | 滚动关闭阈值 | _number_ | `0` |
@@ -146,6 +146,10 @@ placement 是首选方位，auto-fit-position 默认 true 时最终方位可能�
 `click`、`mouseenter`、`mouseleave`、`focusin`、`focusout`、`contextmenu` 的原生监听器和 `.once`、`.capture`、`.passive` 均绑定到实际参考元素，不会落到浮层。`.once` 按原生元素的监听生命周期执行；更新回调不重新启用已消费的监听，换参考元素或移除后重加监听才开始新的周期。停用和卸载会解绑。普通监听器只通知，返回 Promise 不驱动打开或加载，异常进入 Vue 的事件错误处理链。
 
 `reference-attrs` 的 `aria-describedby` 与参考元素已有描述 ID 合并去重；清理或更换引用时恢复原始属性。
+
+默认插槽的首个参考节点为原生元素时，服务端首屏会包含传入的 `aria-*` 和 `data-*` 属性。指定外部参考元素时，客户端挂载后将属性写入该元素。
+
+多个 Trigger 共用同一元素时，描述 ID 会合并。卸载其中一个会移除它独有的 ID；最后一个卸载后恢复业务侧最新写入的属性值。
 
 `fixed` 定位会识别 transform、filter、perspective 等形成的固定定位包含块，并处理轴向缩放；不保证旋转或倾斜坐标系精确。可访问的同源 iframe 引用与弹层之间会换算坐标并绑定各自文档事件；不支持跨源或无共同祖先的浏览上下文。启用 `update-at-scroll` 时，两端文档及可滚动祖先的滚动都会更新位置。
 

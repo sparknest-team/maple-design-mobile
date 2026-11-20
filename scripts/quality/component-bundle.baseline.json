@@ -365,6 +365,11 @@
     "gzip": 80270
   },
   {
+    "name": "section",
+    "bytes": 4649,
+    "gzip": 1981
+  },
+  {
     "name": "select",
     "bytes": 209173,
     "gzip": 67224

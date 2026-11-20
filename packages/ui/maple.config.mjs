@@ -413,6 +413,11 @@ export default defineConfig({
         type: 2,
       },
       {
+        text: { 'zh-CN': 'Section 内容分区', 'en-US': 'Section' },
+        doc: 'section',
+        type: 2,
+      },
+      {
         text: {
           'zh-CN': '导航',
           'en-US': 'Navigation',

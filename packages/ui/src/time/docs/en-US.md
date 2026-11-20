@@ -79,7 +79,7 @@ Lists must be nonempty and unique. Explicit lists determine columns and order; o
 Time format retains its string parsing/display/output protocol. time-fields changes columns only and retains hidden units represented in the model. Twelve-hour hour columns automatically include AM/PM.
 
 ```demo
-../example/demos/time-fields.vue
+../example/demos/en-US/time-fields.vue
 ```
 
 ### AM / PM

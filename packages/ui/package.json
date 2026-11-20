@@ -35,6 +35,12 @@
   "module": "es/index.mjs",
   "typings": "types-generated/index.d.ts",
   "style": "es/maple.css",
+  "imports": {
+    "#maple-nav-renderer": {
+      "browser": "./ssr-browser.mjs",
+      "default": "vue/server-renderer"
+    }
+  },
   "exports": {
     ".": {
       "types": "./types-generated/index.d.ts",
@@ -63,6 +69,7 @@
     "./highlight/*": "./highlight/*"
   },
   "files": [
+    "ssr-browser.mjs",
     "reset",
     "json",
     "lib",

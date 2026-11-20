@@ -136,9 +136,9 @@ Example source: src/form/example/demos/layout-comparison.vue
 ```vue
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import type { FieldEditMode, FormContentAlign, FormLayout } from '@maple-design/ui-vue'
 
-const props = defineProps<{ english?: boolean }>()
 const layout = ref<FormLayout>('vertical')
 const itemLayout = ref<FormLayout | 'inherit'>('inherit')
 const mode = ref<FieldEditMode>('direct')
@@ -147,12 +147,12 @@ const contentAlign = ref<FormContentAlign>('start')
 const contentAlignOptions = ['start', 'end', 'left', 'center', 'right'].map((value) => ({ label: value, value }))
 const modeOptions = computed(() =>
   (['direct', 'popup'] as const).map((value) => ({
-    label: (props.english ? { direct: 'Direct', popup: 'Popup' } : { direct: '直接编辑', popup: '弹窗编辑' })[value],
+    label: (english.value ? { direct: 'Direct', popup: 'Popup' } : { direct: '直接编辑', popup: '弹窗编辑' })[value],
     value,
   })),
 )
 const model = reactive(
-  props.english
+  english.value
     ? {
         name: 'Alex',
         department: 'Product design',
@@ -163,7 +163,7 @@ const model = reactive(
 const layouts = ['vertical', 'horizontal', 'inline'] as const
 const layoutOptions = layouts.map((value) => ({ label: value, value }))
 const copy = computed(() =>
-  props.english
+  english.value
     ? {
         layout: 'Form layout',
         itemLayout: 'Notes layout',
@@ -374,14 +374,14 @@ Example source: src/form/example/demos/label-width-comparison.vue
 ```vue
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
-const props = defineProps<{ english?: boolean }>()
 const mode = ref<'auto' | 'columns' | 'fixed'>('auto')
 const showExtra = ref(true)
 const customLabel = ref('')
 const model = reactive({ name: '', department: '', contact: '' })
 const labels = computed(() =>
-  props.english
+  english.value
     ? {
         auto: 'Measured labels',
         columns: 'Responsive columns',
@@ -660,14 +660,9 @@ Example source: src/form/example/demos/selection-summary.vue
 
 ```vue
 <script setup>
-import { computed, reactive, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
+import { reactive } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
-const language = ref('zh-CN')
-watchLang((value) => {
-  language.value = value
-})
-const english = computed(() => language.value === 'en-US')
 const values = reactive({ inlineSelect: ['a'], popupSelect: ['a'], inlineCascader: ['a'], popupCascader: ['a'] })
 const options = [
   { value: 'a', label: 'Alpha' },

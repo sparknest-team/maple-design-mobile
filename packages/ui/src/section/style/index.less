@@ -1,0 +1,162 @@
+@import './token.less';
+
+.mp-section {
+  box-sizing: border-box;
+  min-width: 0;
+  width: 100%;
+  &--form {
+    flex: none;
+    grid-column: 1 / -1;
+    margin-block: 0 var(--mp-section-after-gap);
+    padding-block-start: var(--mp-section-before-gap);
+
+    &:first-child {
+      padding-block-start: 0;
+    }
+    &:last-child {
+      margin-block-end: 0;
+    }
+  }
+
+  &--size-sm > &__surface {
+    --mp-internal-section-card-padding: var(--mp-section-size-sm-card-padding);
+    --mp-internal-section-header-gap: var(--mp-section-size-sm-header-gap);
+    --mp-internal-section-marker-height: var(--mp-section-size-sm-marker-height);
+    --mp-internal-section-title-line-height: var(--mp-section-size-sm-title-line-height);
+    --mp-internal-section-title-size: var(--mp-section-size-sm-title-size);
+  }
+  &__surface {
+    --mp-internal-section-card-padding: var(--mp-section-card-padding);
+    --mp-internal-section-header-gap: var(--mp-section-header-gap);
+    --mp-internal-section-marker-height: var(--mp-section-marker-height);
+    --mp-internal-section-title-line-height: var(--mp-section-title-line-height);
+    --mp-internal-section-title-size: var(--mp-section-title-size);
+    box-sizing: border-box;
+    min-width: 0;
+    width: 100%;
+    --mp-internal-section-accent: var(--mp-section-accent-color);
+    --mp-internal-section-fill: var(--mp-section-tonal-background);
+    --mp-internal-section-outline: var(--mp-section-outline-color);
+  }
+  &--default > &__surface {
+    --mp-internal-section-accent: var(--mp-color-border-3);
+  }
+  each(info success warning danger, {
+    &--@{value} > &__surface {
+      --mp-internal-section-accent: var(~'--mp-sys-color-status-@{value}');
+      --mp-internal-section-fill: color-mix(in srgb, var(--mp-internal-section-accent) 12%, var(--mp-section-card-background));
+      --mp-internal-section-outline: var(--mp-internal-section-accent);
+    }
+  });
+  &--tonal > &__surface,
+  &--outline > &__surface {
+    padding: var(--mp-internal-section-card-padding);
+    border-radius: var(--mp-section-card-radius);
+  }
+  &--tonal > &__surface {
+    background-color: var(--mp-internal-section-fill);
+  }
+  &--outline > &__surface {
+    border: var(--mp-section-divider-width) solid var(--mp-internal-section-outline);
+  }
+  &__surface--marked,
+  &__label--marked {
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset-inline-start: 0;
+      width: var(--mp-section-marker-width);
+      border-radius: var(--mp-section-marker-radius);
+      background: var(--mp-internal-section-accent);
+      pointer-events: none;
+    }
+  }
+  &__surface--marked::before {
+    inset-block: 0;
+  }
+  &__label--marked::before {
+    top: 50%;
+    height: var(--mp-internal-section-marker-height);
+    transform: translateY(-50%);
+  }
+  &__label--marked,
+  &--plain > &__surface--marked,
+  &--heading-line > &__surface--marked {
+    padding-inline-start: calc(var(--mp-section-marker-width) + var(--mp-section-marker-gap));
+  }
+  &--plain > &__surface {
+    padding-inline-end: var(--mp-section-marker-gap);
+  }
+  &__label {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    min-width: 0;
+    max-width: 100%;
+  }
+  &__header {
+    margin-block-end: var(--mp-internal-section-header-gap);
+  }
+  &__heading {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    row-gap: var(--mp-section-marker-gap);
+    min-width: 0;
+  }
+  &__title {
+    min-width: 0;
+    margin: 0;
+    overflow-wrap: anywhere;
+    color: var(--mp-section-title-color);
+    font-size: var(--mp-internal-section-title-size);
+    font-weight: var(--mp-section-title-weight);
+    line-height: var(--mp-internal-section-title-line-height);
+  }
+  &__line,
+  &__spacer {
+    flex: 1;
+    min-width: 0;
+    margin-inline-start: var(--mp-section-heading-gap);
+  }
+  &__line {
+    border-block-start: var(--mp-section-divider-width) solid var(--mp-section-divider-color);
+  }
+  &__extra {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    flex: none;
+    margin-inline-start: var(--mp-section-heading-gap);
+  }
+  &__description {
+    margin-block-start: var(--mp-section-description-gap);
+    overflow-wrap: anywhere;
+    color: var(--mp-section-description-color);
+    font-size: var(--mp-section-description-size);
+    line-height: var(--mp-section-description-line-height);
+  }
+  &__content {
+    min-width: 0;
+  }
+  &--form > &__surface > &__content {
+    display: flex;
+    flex-direction: column;
+  }
+  &--form > &__surface > &__content--inline {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  &--form > &__surface > &__content > .mp-form-item:last-child {
+    margin-bottom: 0;
+  }
+}
+
+// The previous field already owns its trailing spacing. Complete it to 32px.
+.mp-form-item + .mp-section--form {
+  padding-block-start: max(0px, calc(var(--mp-section-before-gap) - var(--mp-form-size-md-item-margin-bottom)));
+}
+.mp-section--form + .mp-section--form {
+  padding-block-start: max(0px, calc(var(--mp-section-before-gap) - var(--mp-section-after-gap)));
+}

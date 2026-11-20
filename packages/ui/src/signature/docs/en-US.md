@@ -11,7 +11,7 @@ Signature component based on `Canvas`.
 Get the data url of the canvas through the component method `confirm`. When the canvas is empty, you will get the `empty string`.
 
 ```demo
-../example/demos/basic-usage.vue
+../example/demos/en-US/basic-usage.vue
 ```
 
 ## Customization and slots
@@ -21,7 +21,7 @@ Get the data url of the canvas through the component method `confirm`. When the 
 You can customize the signature style through `stroke-style` and `line-width`. The default `stroke-style` is `currentColor`, which will inherit the text color, so you can also set the color through `css color`.
 
 ```demo
-../example/demos/custom-style.vue
+../example/demos/en-US/custom-style.vue
 ```
 
 ## Drawing sessions

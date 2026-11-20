@@ -1,6 +1,6 @@
 <script setup>
-import { computed, ref } from 'vue'
-import { AppType, onThemeChange, watchLang } from '@maple-design/cli-vue/client'
+import { AppType, onThemeChange } from '@maple-design/cli-vue/client'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import ProviderBasicDemo from '../../theme-provider/example/demos/basic.vue'
 import ProviderLocalDemo from '../../theme-provider/example/demos/local-theme.vue'
 import BrandForm from './BrandForm.vue'
@@ -10,12 +10,6 @@ import ThemeDetails from './ThemeDetails.vue'
 
 onThemeChange()
 
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-
-watchLang((value) => {
-  language.value = value
-})
 function setTheme(theme) {
   window.toggleTheme(theme)
 }

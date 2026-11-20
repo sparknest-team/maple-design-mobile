@@ -106,6 +106,7 @@ Documentation language: en-US.
 - [Row](./llms/en-US/row.md): /en-US/row
 - [SafeArea](./llms/en-US/safe-area.md): /en-US/safe-area
 - [Search](./llms/en-US/search.md): /en-US/search
+- [Section](./llms/en-US/section.md): /en-US/section
 - [Select](./llms/en-US/select.md): /en-US/select
 - [Server Side Rendering](./llms/en-US/serverSideRendering.md): /en-US/serverSideRendering
 - [Features and scenarios](./llms/en-US/showcase.md): /en-US/showcase

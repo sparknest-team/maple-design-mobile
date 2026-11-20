@@ -1,15 +1,8 @@
 <script setup>
-import { computed, ref } from 'vue'
-import { AppType, watchLang } from '@maple-design/cli-vue/client'
+import { AppType } from '@maple-design/cli-vue/client'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import BackgroundImageLazyLoadDemo from './demos/background-image-lazy-load.vue'
 import BasicUsageDemo from './demos/basic-usage.vue'
-
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-
-watchLang((value) => {
-  language.value = value
-})
 </script>
 
 <template>

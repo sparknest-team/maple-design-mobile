@@ -19,7 +19,7 @@ export function useNavMenuSurface(
   const { dir } = useDirection(reference)
   const suspended = ref(false)
   const open = computed(() => !suspended.value && opened())
-  const bounds = ref({ top: 0, left: 0, width: 0, height: 0 })
+  const bounds = ref<{ top: number; left: number; width: number; height: number }>()
   const { zIndex } = useZIndex(() => open.value, 3)
   const layer = computed(() => props().zIndex ?? zIndex.value)
   const resize = () => {
@@ -78,14 +78,16 @@ export function useNavMenuSurface(
           unmountOnClose: false,
           zIndex: layer.value,
           class: [n('overlay'), { [n('overlay--transparent')]: props().overlay === false }],
-          style: {
-            top: `${bounds.value.top}px`,
-            left: `${bounds.value.left}px`,
-            right: 'auto',
-            bottom: 'auto',
-            width: `${bounds.value.width}px`,
-            height: `${bounds.value.height}px`,
-          },
+          style: bounds.value
+            ? {
+                top: `${bounds.value.top}px`,
+                left: `${bounds.value.left}px`,
+                right: 'auto',
+                bottom: 'auto',
+                width: `${bounds.value.width}px`,
+                height: `${bounds.value.height}px`,
+              }
+            : { top: 'var(--mp-nav-menu-height)' },
           'onUpdate:open': (value: boolean) => {
             if (!value) {
               close()

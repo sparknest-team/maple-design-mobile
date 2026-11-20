@@ -1,11 +1,8 @@
 <script setup>
 import { ref } from 'vue'
-import { AppType, onThemeChange } from '@maple-design/cli-vue/client'
 import { LoadingBar } from '@maple-design/ui-vue'
 
 const hasCustomStyle = ref(false)
-
-onThemeChange()
 
 LoadingBar.setDefaultOptions({
   top: '54px',
@@ -28,7 +25,7 @@ function setStyle() {
 </script>
 
 <template>
-  <app-type>基本使用</app-type>
+  <h3>基本使用</h3>
   <mp-space direction="column" :size="['3vmin', '4vmin']">
     <mp-button status="primary" block @click="LoadingBar.start()">开始</mp-button>
     <mp-button status="primary" block @click="LoadingBar.finish()">结束</mp-button>

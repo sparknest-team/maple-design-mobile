@@ -1,12 +1,5 @@
 <script setup>
-import { computed, reactive, ref, toRefs } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
-
-const demoLanguage = ref('zh-CN')
-const english = computed(() => demoLanguage.value === 'en-US')
-watchLang((value) => {
-  demoLanguage.value = value
-})
+import { reactive, toRefs } from 'vue'
 
 const values = reactive({
   value: false,
@@ -23,7 +16,7 @@ const { value, value2, value3, value4, value5, value6, value9, optionValue, fiel
 </script>
 
 <template>
-  <mp-radio v-model="value5" readonly>{{ english ? 'Current value' : '当前的值' }}: {{ value5 }}</mp-radio>
+  <mp-radio v-model="value5" readonly>当前的值: {{ value5 }}</mp-radio>
 </template>
 
 <style lang="less" scoped>

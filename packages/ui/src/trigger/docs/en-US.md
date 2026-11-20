@@ -1,6 +1,6 @@
 # Trigger
 
-SSR limitation: a trigger or `content` slot node using both `v-for` and `v-memo` can make server rendering fail. The trigger slot can fail even while the popup is closed; the `content` slot can fail when the popup is open or `unmount-on-close=false`. Remove `v-memo` from that slot node when rendering on the server; ordinary `v-for` remains supported. In Vue 3.5.13, a standalone dynamic `v-memo` can also fail in the trigger slot.
+SSR limitation: a trigger or `content` slot node using both `v-for` and `v-memo` can make server rendering fail. The trigger slot can fail even while the popup is closed; the `content` slot can fail when the popup is open or `unmount-on-close=false`. Remove `v-memo` from that slot node when rendering on the server; ordinary `v-for` remains supported. In Vue 3.5.13, a standalone dynamic `v-memo` can also fail in the trigger slot. With Vue 3.5.45, a standalone dynamic `v-memo` rendered correctly in both slots. The same-node loop limitation also reproduces in a plain Vue component that reads the slot as VNodes.
 
 
 
@@ -109,7 +109,7 @@ With Teleport, variables must be in the actual popup scope, for example through 
 | `auto-fit-position` | Flip and shift into the viewport | _boolean_ | `true` |
 | `auto-fit-popup-width` | Match reference width | _boolean_ | `false` |
 | `auto-fit-popup-min-width` | Match reference minimum width | _boolean_ | `false` |
-| `auto-fix-position` | Reposition when the reference changes size or when a CSS transition or animation on the reference or its ancestors ends or is canceled. Popup, positioning parent and window resize handling remain active when disabled | _boolean_ | `true` |
+| `auto-fix-position` | Reposition when the reference changes size or when a CSS transition or animation on the reference or its ancestors ends or is canceled. On touch devices an open element-anchored popup also follows page movement. Popup, positioning parent and window resize handling remain active when disabled | _boolean_ | `true` |
 | `update-at-scroll` | Reposition while scrolling | _boolean_ | `false` |
 | `scroll-to-close` | Close after the scroll threshold | _boolean_ | `false` |
 | `scroll-to-close-distance` | Close threshold | _number_ | `0` |
@@ -150,6 +150,10 @@ With focus triggers, one outside pointer interaction that causes both blur and c
 Native `click`, `mouseenter`, `mouseleave`, `focusin`, `focusout`, `contextmenu` listeners and `.once`, `.capture`, `.passive` modifiers bind to the actual reference element, not the popup. `.once` follows the native element's listener lifetime. Replacing a callback does not reactivate a consumed listener; replacing the reference or removing and readding a listener starts a new lifetime. Deactivation/unmount unbind listeners. Listeners only notify; returned Promises do not drive opening/loading, and errors enter Vue's event error chain.
 
 `aria-describedby` from `reference-attrs` is merged and deduplicated with existing reference descriptions; cleanup or reference replacement restores the original attribute.
+
+When the first reference in the default slot is a native element, its server-rendered HTML includes the supplied `aria-*` and `data-*` attributes. For an external reference, Trigger applies the attributes to that element after mounting.
+
+When several triggers share an element, their description IDs are combined. Removing one trigger drops the IDs contributed only by that trigger. Removing the last trigger restores the latest value supplied by the application.
 
 Fixed positioning uses the actual `fixed` containing block when an ancestor has a transform, filter, perspective, or containing CSS property. Axis-aligned scaling is accounted for; rotated or skewed coordinate systems are not guaranteed. For accessible same-origin iframe references, the reference and popup documents share coordinate conversion and event handling; cross-origin or unrelated browsing contexts are not supported. With `update-at-scroll`, scrolling either document or a scrollable ancestor updates the popup.
 

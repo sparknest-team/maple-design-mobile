@@ -1,11 +1,7 @@
 <script setup>
-import { watchLang } from '@maple-design/cli-vue/client'
 import VaButton from '..'
-import { t, use } from './locale'
-
-watchLang(use, 'pc')
 </script>
 
 <template>
-  <va-button color="#03A9F4">{{ t('start') }}</va-button>
+  <va-button color="#03A9F4">起步</va-button>
 </template>

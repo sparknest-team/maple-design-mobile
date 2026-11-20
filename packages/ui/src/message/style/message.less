@@ -29,6 +29,7 @@
 
   &__standalone {
     position: fixed;
+    margin: 0;
     z-index: ~'max(var(--mp-message-z-index), var(--mp-internal-message-z-index, 0))';
     left: 50%;
     transform: translateX(-50%);
@@ -38,6 +39,7 @@
     top: var(--mp-message-wrapper-margin-top);
   }
   &__standalone-center {
+    --mp-internal-message-offset-y: -50%;
     top: 50%;
     transform: translate(-50%, -50%);
   }
@@ -99,6 +101,11 @@
   &-fade-leave-to {
     opacity: 0;
     transform: translateY(var(--mp-message-transition-distance));
+  }
+
+  &__standalone&-fade-enter-from,
+  &__standalone&-fade-leave-to {
+    transform: translate(-50%, calc(var(--mp-internal-message-offset-y, 0%) + var(--mp-message-transition-distance)));
   }
 
   &-fade-enter-active,

@@ -1095,14 +1095,9 @@ Example source: src/carousel/example/demos/autoplay.vue
 
 ```vue
 <script setup>
-import { computed, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
+import { ref } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-watchLang((value) => {
-  language.value = value
-})
 const current = ref(1)
 const playing = ref(true)
 const changes = ref(0)

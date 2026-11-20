@@ -1,6 +1,6 @@
 <script setup>
-import { computed, ref } from 'vue'
-import { AppType, onThemeChange, watchLang } from '@maple-design/cli-vue/client'
+import { AppType, onThemeChange } from '@maple-design/cli-vue/client'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import ControlSizes from '../../field-decorator/example/demos/control-sizes.vue'
 import OrganizedAppearanceLab from './demos/appearance-lab.vue'
 import ReviewRequestedDemo from './demos/async-data.vue'
@@ -13,6 +13,8 @@ import DialogDemo from './demos/dialog.vue'
 import GroupedEmptyValueDemo from './demos/empty-value.vue'
 import AsyncDevicesEnglishDemo from './demos/en-US/async-devices.vue'
 import ConfirmationEnglishDemo from './demos/en-US/confirmation.vue'
+import SameLabelDemoEn from './demos/en-US/same-label.vue'
+import SelectionDataFlowEn from './demos/en-US/selection-data-flow.vue'
 import DemoFieldNames from './demos/field-names.vue'
 import GroupSpacingDemo from './demos/group-spacing.vue'
 import LoadingDemo from './demos/loading.vue'
@@ -34,12 +36,6 @@ import ThumbLifecycleDemo from './demos/thumb-lifecycle.vue'
 import DemoValueMapping from './demos/value-mapping.vue'
 
 onThemeChange()
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-
-watchLang((value) => {
-  language.value = value
-})
 </script>
 
 <template>
@@ -87,7 +83,7 @@ watchLang((value) => {
 
   <section data-demo="same-label">
     <app-type>{{ english ? 'Identical labels, distinct values' : '同名选项' }}</app-type>
-    <SameLabelDemo />
+    <component :is="english ? SameLabelDemoEn : SameLabelDemo" />
   </section>
 
   <section data-demo="value-mapping">
@@ -157,7 +153,7 @@ watchLang((value) => {
 
   <section data-demo="selection-data-flow">
     <app-type>{{ english ? 'Candidate highlighting and form data flow' : '候选高亮与表单数据流' }}</app-type>
-    <SelectionDataFlow :english="english" />
+    <component :is="english ? SelectionDataFlowEn : SelectionDataFlow" />
   </section>
 
   <section data-demo="empty-value">

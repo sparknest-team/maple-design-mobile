@@ -1,12 +1,10 @@
 import { mount } from '@vue/test-utils'
-import { expect, it, vi } from 'vitest'
+import { expect, it } from 'vitest'
 import Button from '../../button'
 import Divider from '../../divider'
 import Space from '../../space'
 import Comparison from '../example/demos/group-declaration-comparison.vue'
 import Checkbox, { CheckboxGroup } from '../index'
-
-vi.mock('@maple-design/cli-vue/client', () => ({ watchLang: (callback) => callback('zh-CN') }))
 
 it('uses the grouped demo ref for check-all and inverse actions', async () => {
   const wrapper = mount(Comparison, {

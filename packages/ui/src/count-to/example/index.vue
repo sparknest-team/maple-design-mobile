@@ -1,6 +1,6 @@
 <script setup>
-import { computed, ref } from 'vue'
-import { AppType, onThemeChange, watchLang } from '@maple-design/cli-vue/client'
+import { AppType, onThemeChange } from '@maple-design/cli-vue/client'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import BasicUsageDemo from './demos/basic-usage.vue'
 import CustomStyleDemo from './demos/custom-style.vue'
 import DecimalFloorDemo from './demos/decimal-floor.vue'
@@ -9,12 +9,6 @@ import ManualControlDemo from './demos/manual-control.vue'
 import ContentNumberFormatComparison from './demos/number-format-comparison.vue'
 import ZeroDurationDemo from './demos/zero-duration.vue'
 
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-
-watchLang((value) => {
-  language.value = value
-})
 onThemeChange()
 </script>
 

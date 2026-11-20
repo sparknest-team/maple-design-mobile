@@ -357,7 +357,7 @@ iframe {
     }
 
     &-doc {
-      h3 {
+      h3:not(.loca-doc-preview__example *) {
         display: flex;
         align-items: center;
 
@@ -381,12 +381,7 @@ iframe {
         }
       }
 
-      h1,
-      h2,
-      h3,
-      h4,
-      h5,
-      h6 {
+      :is(h1, h2, h3, h4, h5, h6):not(.loca-doc-preview__example *) {
         position: relative;
         scroll-margin-top: 100px;
         color: var(--site-config-color-text);
@@ -394,24 +389,24 @@ iframe {
         line-height: 1.5;
       }
 
-      h1 {
+      h1:not(.loca-doc-preview__example *) {
         line-height: 40px;
         font-size: 30px;
         cursor: default;
         margin: 30px 0;
       }
 
-      h2 {
+      h2:not(.loca-doc-preview__example *) {
         margin: 20px 0;
         font-size: 25px;
       }
 
-      h3 {
+      h3:not(.loca-doc-preview__example *) {
         font-size: 18px;
         margin: 0;
       }
 
-      h4 {
+      h4:not(.loca-doc-preview__example *) {
         margin: 18px 0 0;
       }
 
@@ -463,7 +458,7 @@ iframe {
         @doc-active();
       }
 
-      table {
+      table:not(.mp-table-element) {
         -webkit-font-smoothing: antialiased;
         width: 100%;
         margin-top: 12px;
@@ -619,7 +614,7 @@ iframe {
   .maple-site-doc {
     overflow-wrap: anywhere;
 
-    table {
+    table:not(.mp-table-element) {
       display: block;
       overflow-x: auto;
     }

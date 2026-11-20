@@ -1,30 +1,24 @@
-import { nextTick } from 'vue'
 import { flushPromises, mount } from '@vue/test-utils'
-import { afterEach, expect, it, vi } from 'vitest'
+import { expect, it } from 'vitest'
 import Button from '../../button'
 import Divider from '../../divider'
 import Radio, { RadioGroup } from '../../radio'
 import Space from '../../space'
 import Checkbox, { CheckboxGroup } from '../index'
 
-const language = vi.hoisted(() => ({ callbacks: [] }))
-vi.mock('@maple-design/cli-vue/client', () => ({
-  watchLang(callback) {
-    language.callbacks.push(callback)
-    callback('en-US')
-  },
-}))
-
-afterEach(() => {
-  language.callbacks.length = 0
-})
+const demos = import.meta.glob([
+  '../example/demos/**/group-declaration-comparison.vue',
+  '../../radio/example/demos/**/group-declaration-comparison.vue',
+])
 
 for (const kind of ['checkbox', 'radio']) {
-  it(`${kind} demo translates labels without changing selected numeric identity`, async () => {
-    const Demo =
-      kind === 'checkbox'
-        ? (await import('../example/demos/group-declaration-comparison.vue')).default
-        : (await import('../../radio/example/demos/group-declaration-comparison.vue')).default
+  it.each([
+    ['zh-CN', '吃饭'],
+    ['en-US', 'Eat'],
+  ])(`${kind} %s example preserves numeric option values`, async (language, label) => {
+    const base = kind === 'checkbox' ? '../example' : '../../radio/example'
+    const directory = language === 'en-US' ? 'en-US/' : ''
+    const Demo = (await demos[`${base}/demos/${directory}group-declaration-comparison.vue`]()).default
     const wrapper = mount(Demo, {
       global: {
         components: {
@@ -42,15 +36,12 @@ for (const kind of ['checkbox', 'radio']) {
     const group = wrapper
       .findAllComponents(kind === 'checkbox' ? CheckboxGroup : RadioGroup)
       .find((group) => panel.element.contains(group.element))
-    expect(panel.text()).toContain('Eat')
+    expect(panel.text()).toContain(label)
     const input = panel.find('input')
     input.element.checked = true
     await input.trigger('change')
     await flushPromises()
     expect(group.props('modelValue')).toEqual(kind === 'checkbox' ? [0] : 0)
-    language.callbacks.forEach((callback) => callback('zh-CN'))
-    await nextTick()
-    expect(panel.text()).toContain('吃饭')
     expect(panel.find('input').element.checked).toBe(true)
     expect(group.props('modelValue')).toEqual(kind === 'checkbox' ? [0] : 0)
     if (kind === 'checkbox') {

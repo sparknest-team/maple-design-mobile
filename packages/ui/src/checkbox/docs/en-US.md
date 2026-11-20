@@ -17,7 +17,7 @@ Checkbox labels and groups follow source dir without reversing value arrays. Spa
 ### Basic Usage
 
 ```demo
-../example/demos/basic-usage.vue
+../example/demos/en-US/basic-usage.vue
 ```
 
 ## Groups and layout
@@ -36,7 +36,7 @@ Setting child elements via the `options` prop.
 </details>
 
 ```demo
-../example/demos/group-declaration-comparison.vue
+../example/demos/en-US/group-declaration-comparison.vue
 ```
 
 ### Group state and readonly
@@ -51,7 +51,7 @@ Group inherits `disabled`, `readonly` and `error` from the form when omitted. An
 ### Vertical Direction
 
 ```demo
-../example/demos/vertical.vue
+../example/demos/en-US/vertical.vue
 ```
 
 ## Options and value model
@@ -96,13 +96,13 @@ CheckboxGroup uses `ChoiceValue[]`; `max` is a number (use `:max="2"`).
 Customize the format of the data in `options` through the `field-names` attribute.
 
 ```demo
-../example/demos/custom-fields.vue
+../example/demos/en-US/custom-fields.vue
 ```
 
 ### Set State Value
 
 ```demo
-../example/demos/set-state.vue
+../example/demos/en-US/set-state.vue
 ```
 
 ## Selection and bulk actions
@@ -129,13 +129,13 @@ In a checkbox group, you can limit the maximum number of selections by setting `
 > For form validation of checkbox and checkbox group, please use the [FormItem component](#/en-US/form-item).
 
 ```demo
-../example/demos/max.vue
+../example/demos/en-US/max.vue
 ```
 
 ### Indeterminate
 
 ```demo
-../example/demos/indeterminate.vue
+../example/demos/en-US/indeterminate.vue
 ```
 
 ### Group bulk methods
@@ -197,7 +197,7 @@ The icon-size prop is a pixel number or CSS length string, not a ComponentSize p
 ### Modify The Icon And Color
 
 ```demo
-../example/demos/set-style.vue
+../example/demos/en-US/set-style.vue
 ```
 
 ### Custom control slot

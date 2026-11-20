@@ -1,3 +1,3 @@
 export default {
-  // Example locale
+  heading: '手机示例',
 }

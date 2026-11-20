@@ -638,13 +638,11 @@ export function useTriggerInteraction(
       doc[method]('pointerup', onPointerUp, true)
       doc[method]('pointercancel', onPointerCancel, true)
       doc[method]('click', onOutside, true)
+      // The indexed DOM methods expose only their common EventListener overload.
+      view?.[method]('keydown', keydown as EventListener)
     }
     update('addEventListener')
-    view?.addEventListener('keydown', keydown)
-    documentCleanups.push(() => {
-      update('removeEventListener')
-      view?.removeEventListener('keydown', keydown)
-    })
+    documentCleanups.push(() => update('removeEventListener'))
   }
   const unbind = () => {
     outsideGeneration++

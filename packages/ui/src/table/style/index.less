@@ -1,3 +1,1087 @@
-@import './token.less';
-// Auto-migrated from SFC <style> / sibling less. Do not hand-edit path layout without care.
-@import './table';
+@import "../../style/theme/local-scope.less";
+.fixed-width(@width) {
+  width: @width;
+  min-width: @width;
+  max-width: @width;
+}
+
+@import "./token.less";
+
+
+.expandBtn() {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(~"--mp-table-expand-button-size");
+  height: var(~"--mp-table-expand-button-size");
+  padding: 0;
+  color: var(~"--mp-table-expand-icon-color");
+  font-size: var(~"--mp-table-expand-button-font-size");
+  line-height: var(~"--mp-table-expand-button-size");
+  background-color: var(~"--mp-table-expand-icon-bg");
+  border: var(~"--mp-table-expand-icon-border-width") solid
+    var(~"--mp-table-expand-icon-border-color");
+  border-radius: var(~"--mp-table-expand-button-border-radius");
+  outline: none;
+  cursor: pointer;
+  transition: background-color var(~"--mp-table-transition-duration")
+    var(~"--mp-table-transition-timing-function");
+
+  &:hover {
+    color: var(~"--mp-table-expand-icon-hover-color");
+    background-color: var(~"--mp-table-expand-icon-hover-bg");
+    border-color: var(~"--mp-table-expand-icon-hover-border-color");
+  }
+}
+
+.table-size(@size) {
+  .mp-table-cell {
+    padding: var(~"--mp-table-size-@{size}-padding-vertical")
+      var(~"--mp-table-size-@{size}-padding-horizontal");
+  }
+
+  .mp-table-th {
+    font-size: var(~"--mp-table-size-@{size}-header-font-size");
+  }
+
+  .mp-table-td {
+    font-size: var(~"--mp-table-size-@{size}-font-size");
+  }
+
+  .mp-table-footer {
+    padding: var(~"--mp-table-size-@{size}-padding-vertical")
+      var(~"--mp-table-size-@{size}-padding-horizontal");
+  }
+
+  // sub table
+  .mp-table-tr-expand .mp-table-td .mp-table {
+    margin: calc(var(~"--mp-table-size-@{size}-padding-vertical") * -1)
+      calc(var(~"--mp-table-size-@{size}-padding-horizontal") * -1)
+      calc(
+        var(~"--mp-table-size-@{size}-padding-vertical") * -1 -
+          var(~"--mp-table-border-width")
+      )
+      calc(var(~"--mp-table-size-@{size}-padding-horizontal") * -1);
+  }
+
+  // editor row
+  .mp-table-editable-row {
+    .mp-table-cell-wrap-value {
+      padding: var(~"--mp-table-size-@{size}-padding-vertical")
+        var(~"--mp-table-size-@{size}-padding-horizontal");
+    }
+  }
+
+  // 末列扩展列：收紧左右内边距与图标尺寸
+  .mp-table-th.mp-table-extra-column-cell,
+  .mp-table-td.mp-table-extra-column-cell {
+    .mp-table-cell {
+      justify-content: center;
+      padding: var(~"--mp-table-size-@{size}-padding-vertical")
+        var(~"--mp-table-size-@{size}-extra-padding-horizontal");
+    }
+
+    .mp-table-extra-column-icon {
+      font-size: var(~"--mp-table-size-@{size}-extra-icon-font-size");
+
+      .mp-icon {
+        font-size: inherit;
+      }
+    }
+  }
+}
+
+.mp-table {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  // 祖先链没有宽度约束时（如存在 width:max-content 的祖先），width/max-width 的
+  // 百分比无法解析，表格像素宽会把容器一路撑大 → 容器宽追逐内容宽 → 引擎永远
+  // 看不到溢出 → 不出现内部滚动条、页面被撑破。兜底视口宽：任何布局下表格都
+  // 不超过视口，列宽之和超出时走内部横向滚动（实测 max(100%,100vw) 在百分比
+  // 不可解析时整条失效，必须用 min）。
+  max-width: ~"min(100%, 100vw)";
+  // flex 子项默认 min-width:auto，会被表格内容撑开并与列宽计算形成正反馈
+  min-width: 0;
+  overflow: hidden;
+
+  // sticky-header / sticky-pagination 相对外层滚动容器定位，祖先 overflow:hidden 会失效
+  &-scrollport-visible {
+    overflow: visible;
+
+    .mp-table-container {
+      overflow: visible;
+    }
+  }
+
+  &-column-handle {
+    touch-action: none;
+    position: absolute;
+    top: 0;
+    inset-inline-end: var(~"--mp-table-column-handle-right");
+    z-index: var(--mp-sys-layer-raised);
+    width: var(~"--mp-table-column-handle-width");
+    height: 100%;
+    cursor: col-resize;
+  }
+
+  &-extra-column-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(~"--mp-table-extra-column-icon-color");
+    cursor: pointer;
+
+    &:hover {
+      color: var(~"--mp-table-extra-column-icon-hover-color");
+    }
+  }
+
+  &-header-cell-action {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    margin-inline-start: var(~"--mp-table-header-cell-action-margin-left");
+    color: var(~"--mp-table-header-cell-action-color");
+    vertical-align: middle;
+    cursor: pointer;
+
+    &:hover {
+      color: var(~"--mp-table-header-cell-action-hover-color");
+    }
+  }
+
+  &-th-main {
+    display: inline-flex;
+    flex: 1;
+    align-items: center;
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  &-th-title {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &-th-actions {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    margin-inline-start: var(~"--mp-table-th-actions-margin-left");
+
+    .mp-table-filters-align-left {
+      margin-left: 0;
+    }
+  }
+
+  &-cell-with-actions {
+    width: 100%;
+    min-width: 0;
+  }
+
+  // Flex sizing preserves natural height in WebKit when the table has no definite height.
+  > .mp-loading {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  // Loading's content wrapper must carry the constrained height through to the table.
+  > .mp-loading > .mp-loading__content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    min-height: 0;
+    height: 100%;
+  }
+
+  // footer
+  &-footer {
+    border-radius: 0 0 var(~"--mp-table-border-radius")
+      var(~"--mp-table-border-radius");
+  }
+
+  // box-shadow of the fixed column on the left
+  &-scroll-position-right &-col-fixed-left-last::after,
+  &-scroll-position-middle &-col-fixed-left-last::after {
+    box-shadow: var(~"--mp-table-shadow-left");
+  }
+
+  // box-shadow of the fixed column on the right
+  &-scroll-position-left &-col-fixed-right-first::after,
+  &-scroll-position-middle &-col-fixed-right-first::after {
+    box-shadow: var(~"--mp-table-shadow-right");
+  }
+
+  &-layout-fixed {
+    .mp-table-element {
+      table-layout: fixed;
+    }
+  }
+
+  .mp-table-element {
+    width: 100%;
+    margin: 0;
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+
+  // 需要横滚时由 JS 设置明确像素宽，并保证不小于容器
+  &-scroll-x .mp-table-element {
+    min-width: 100%;
+  }
+
+  &-th {
+    position: relative;
+    box-sizing: border-box;
+    color: var(~"--mp-table-header-cell-text-color");
+    font-weight: var(~"--mp-table-header-text-font-weight");
+    line-height: var(~"--mp-table-line-height");
+    text-align: left;
+    background-color: var(~"--mp-table-header-cell-bg");
+
+    &[colspan] {
+      text-align: center;
+    }
+
+    &-align-right {
+      text-align: right;
+
+      .mp-table-cell-with-sorter {
+        justify-content: flex-end;
+      }
+    }
+
+    &-align-center {
+      text-align: center;
+
+      .mp-table-cell-with-sorter {
+        justify-content: center;
+      }
+    }
+  }
+
+  &-td {
+    box-sizing: border-box;
+    color: var(~"--mp-table-body-cell-text-color");
+    line-height: var(~"--mp-table-line-height");
+    text-align: left;
+    word-break: break-all;
+    background-color: var(~"--mp-table-body-cell-bg");
+    border-bottom: var(~"--mp-table-border-width") var(~"--mp-table-border-style")
+      var(~"--mp-table-border-color");
+
+    &-align-right {
+      text-align: right;
+    }
+
+    &-align-center {
+      text-align: center;
+    }
+
+    &.mp-table-drag-handle {
+      cursor: move;
+    }
+  }
+
+  &-cell {
+    display: flex;
+    align-items: center;
+
+    &-align-right {
+      justify-content: flex-end;
+      text-align: right;
+    }
+
+    &-align-center {
+      justify-content: center;
+      text-align: center;
+    }
+  }
+
+  &-text-ellipsis {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  &-td-content {
+    display: block;
+    width: 100%;
+  }
+
+  .mp-table-th&-col-sorted {
+    background-color: var(~"--mp-table-header-sorted-cell-bg");
+  }
+
+  .mp-table-td&-col-sorted {
+    background-color: var(~"--mp-table-body-sorted-cell-bg");
+  }
+
+  &-col-fixed-left,
+  &-col-fixed-right {
+    position: sticky;
+    z-index: var(--mp-z-index-local-navigation, 3);
+  }
+
+  &-col-fixed-left-last::after,
+  &-col-fixed-right-first::after {
+    position: absolute;
+    top: 0;
+    bottom: calc(var(~"--mp-table-border-width") * -1);
+    left: 0;
+    width: var(~"--mp-table-shadow-wrapper-width");
+    box-shadow: none;
+    transform: translateX(-100%);
+    transition: box-shadow var(~"--mp-table-transition-duration")
+      var(~"--mp-table-transition-timing-function");
+    content: "";
+    pointer-events: none;
+  }
+
+  // ????
+  &-col-fixed-left-last::after {
+    right: 0;
+    left: unset;
+    transform: translateX(100%);
+  }
+
+  &-cell-text-ellipsis {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  // useless
+  &-editable-row {
+    .mp-table-cell-wrap-value {
+      border: var(~"--mp-table-border-width") solid
+        var(~"--mp-table-editable-body-cell-border-color");
+      border-radius: var(~"--mp-table-border-radius");
+      cursor: pointer;
+      transition: all var(~"--mp-table-transition-duration")
+        var(~"--mp-table-transition-timing-function");
+    }
+
+    &:hover {
+      .mp-table-cell-wrap-value {
+        border: var(~"--mp-table-border-width") solid
+          var(~"--mp-table-border-color");
+      }
+    }
+  }
+
+  // Expand
+  .mp-table-expand-btn {
+    .expandBtn();
+  }
+
+  &-cell-expand-icon {
+    display: flex;
+    align-items: center;
+  }
+
+  &-cell-expand-icon &-cell-inline-icon {
+    display: inline-flex;
+    margin-inline-end: var(~"--mp-table-expand-button-margin-right");
+
+    .mp-icon-loading {
+      color: var(~"--mp-table-expand-loading-icon-color");
+    }
+  }
+
+  &-cell-expand-icon-hidden {
+    display: inline-block;
+    width: var(~"--mp-table-expand-button-size");
+    height: var(~"--mp-table-expand-button-size");
+    margin-inline-end: var(~"--mp-table-expand-button-margin-right");
+  }
+
+  &-tr-expand .mp-table-td {
+    background-color: var(~"--mp-table-expand-content-bg");
+  }
+
+  &-cell-fixed-expand {
+    position: sticky;
+    left: 0;
+    box-sizing: border-box;
+  }
+
+  &-tr-expand .mp-table-td & {
+    .mp-table-container {
+      border: none;
+    }
+
+    .mp-table-th {
+      border-bottom: var(~"--mp-table-border-width")
+        var(~"--mp-table-border-style") var(~"--mp-table-border-color");
+    }
+
+    .mp-table-th,
+    .mp-table-td {
+      background-color: transparent;
+    }
+
+    .mp-table-pagination {
+      margin-bottom: var(~"--mp-table-pagination-margin");
+    }
+  }
+
+  // Selection
+  &-th&-operation,
+  &-td&-operation {
+    text-align: center;
+  }
+
+  &-th&-operation &-cell,
+  &-td&-operation &-cell {
+    display: flex;
+    justify-content: center;
+    padding: 0;
+  }
+
+  &-radio,
+  &-checkbox {
+    justify-content: center;
+  }
+
+  &-checkbox .mp-checkbox,
+  &-radio .mp-radio {
+    padding-left: 0;
+  }
+
+  // colgroup selection
+  &-selection-checkbox-col.mp-table-col-default-width,
+  &-selection-radio-col.mp-table-col-default-width {
+    .fixed-width(var(~"--mp-table-selection-col-width"));
+  }
+
+  &-expand-col.mp-table-col-default-width {
+    .fixed-width(var(~"--mp-table-expand-icon-col-width"));
+  }
+
+  &-drag-handle-col.mp-table-col-default-width {
+    .fixed-width(var(~"--mp-table-drag-handle-col-width"));
+  }
+
+  &-th {
+    transition: background-color var(~"--mp-table-transition-duration")
+      var(~"--mp-table-transition-timing-function");
+  }
+
+  &-cell-with-sorter {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+
+    &:hover {
+      background-color: var(~"--mp-table-header-sorted-cell-hover-bg");
+    }
+  }
+
+  &-cell-with-filter {
+    display: flex;
+    align-items: center;
+  }
+
+  &-cell-next-ascend &-sorter-icon {
+    .mp-icon-caret-up {
+      color: var(~"--mp-table-header-sorter-icon-next-color");
+    }
+  }
+
+  &-cell-next-descend &-sorter-icon {
+    .mp-icon-caret-down {
+      color: var(~"--mp-table-header-sorter-icon-next-color");
+    }
+  }
+
+  &-sorter {
+    display: inline-block;
+    margin-inline-start: var(~"--mp-table-header-sorter-icon-margin-left");
+    vertical-align: -3px;
+  }
+
+  &-sorter&-sorter-direction-one {
+    vertical-align: 0;
+  }
+
+  &-sorter-icon {
+    position: relative;
+    width: var(~"--mp-table-header-sorter-icon-width");
+    height: var(~"--mp-table-header-sorter-icon-height");
+    overflow: hidden;
+    line-height: var(~"--mp-table-header-sorter-icon-height");
+
+    .mp-icon-caret-up,
+    .mp-icon-caret-down {
+      position: absolute;
+      top: 50%;
+      color: var(~"--mp-table-header-sorter-icon-color");
+      font-size: var(~"--mp-table-header-sorter-icon-font-size");
+      transition: all var(~"--mp-table-transition-duration")
+        var(~"--mp-table-transition-timing-function");
+    }
+
+    .mp-icon-caret-up {
+      top: var(~"--mp-table-header-sorter-icon-up-top");
+      left: var(~"--mp-table-header-sorter-icon-left");
+    }
+
+    .mp-icon-caret-down {
+      top: var(~"--mp-table-header-sorter-icon-down-top");
+      left: var(~"--mp-table-header-sorter-icon-left");
+    }
+
+    &&-active {
+      svg {
+        color: var(~"--mp-table-header-sorter-icon-active-color");
+      }
+    }
+  }
+
+  &-filters {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(~"--mp-table-filters-width");
+    height: 100%;
+    line-height: 1;
+    vertical-align: 0;
+    background-color: transparent;
+    cursor: pointer;
+    transition: all var(~"--mp-table-transition-duration")
+      var(~"--mp-table-transition-timing-function");
+
+    &:hover,
+    &-open {
+      background-color: var(~"--mp-table-header-filters-icon-hover-bg");
+    }
+
+    svg {
+      color: var(~"--mp-table-header-filters-icon-color");
+      font-size: var(~"--mp-table-filters-icon-font-size");
+      transition: all var(~"--mp-table-transition-duration")
+        var(~"--mp-table-transition-timing-function");
+    }
+
+    &-active {
+      svg {
+        color: var(~"--mp-table-header-filters-icon-active-color");
+      }
+    }
+
+    &-align-left {
+      position: relative;
+      width: auto;
+      margin-inline-start: var(~"--mp-table-header-sorter-icon-margin-left");
+
+      svg {
+        font-size: var(~"--mp-table-header-sorter-icon-font-size");
+      }
+
+      &:hover,
+      &-open {
+        background: none;
+      }
+
+      &:hover::before,
+      &.mp-table-filters-open::before {
+        background: var(~"--mp-table-filters-icon-hover-bg");
+      }
+    }
+  }
+
+  /* ---- Table sorter, filter, checkbox, radio (End) ---- */
+  &-container {
+    position: relative;
+    border-radius: var(~"--mp-table-border-radius")
+      var(~"--mp-table-border-radius") 0 0;
+  }
+
+  &-header {
+    flex-shrink: 0;
+    border-radius: var(~"--mp-table-border-radius")
+      var(~"--mp-table-border-radius") 0 0;
+  }
+
+  &-container {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+
+    .mp-table-content {
+      display: flex;
+      flex-direction: column;
+      box-sizing: border-box;
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
+      height: 100%;
+
+      &-scroll-x {
+        overflow-x: auto;
+        overflow-y: hidden;
+      }
+    }
+
+    &::before,
+    &::after {
+      position: absolute;
+      z-index: var(--mp-sys-layer-raised);
+      width: var(~"--mp-table-shadow-wrapper-width");
+      height: 100%;
+      box-shadow: none;
+      transition: box-shadow var(~"--mp-table-transition-duration")
+        var(~"--mp-table-transition-timing-function");
+      content: "";
+      pointer-events: none;
+    }
+
+    &::before {
+      top: 0;
+      left: 0;
+      border-top-left-radius: var(~"--mp-table-border-radius");
+    }
+
+    &::after {
+      top: 0;
+      right: 0;
+      border-top-right-radius: var(~"--mp-table-border-radius");
+    }
+
+    // box-shadow on the left side of the scroll table
+    &:not(.mp-table-has-fixed-col-left) {
+      &.mp-table-scroll-position-right::before,
+      &.mp-table-scroll-position-middle::before {
+        box-shadow: var(~"--mp-table-shadow-left");
+      }
+    }
+
+    // box-shadow on the right side of the scroll table
+    &:not(.mp-table-has-fixed-col-right) {
+      &.mp-table-scroll-position-left::after,
+      &.mp-table-scroll-position-middle::after {
+        box-shadow: var(~"--mp-table-shadow-right");
+      }
+    }
+  }
+
+  &-header {
+    overflow-x: hidden;
+    overflow-y: hidden;
+    max-width: 100%;
+    min-width: 0;
+    background-color: var(~"--mp-table-header-cell-bg");
+    scrollbar-color: transparent transparent;
+  }
+
+  // sticky 包裹层：独立于 .mp-scrollbar，避免 position:relative 覆盖 sticky
+  &-header-sticky {
+    position: sticky;
+    top: 0;
+    z-index: var(--mp-z-index-local-sticky);
+    background-color: var(~"--mp-table-header-cell-bg");
+  }
+
+  &-header::-webkit-scrollbar {
+    // 仅隐藏横向滚动条
+    height: 0;
+    background-color: transparent;
+  }
+
+  &-empty-body {
+    position: relative;
+    flex: 1 1 auto;
+    min-height: 0;
+    height: var(~"--mp-table-empty-height");
+    overflow: hidden;
+
+    > .mp-table-body,
+    > .mp-scrollbar > .mp-table-body {
+      height: 100%;
+      min-height: 0;
+    }
+  }
+
+  &-empty-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: auto;
+    pointer-events: none;
+  }
+
+  &-empty-content {
+    max-width: 100%;
+    text-align: center;
+    pointer-events: auto;
+  }
+
+  &-body {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    min-height: var(~"--mp-table-body-min-height");
+    overflow-x: hidden;
+    overflow-y: auto;
+    background-color: var(~"--mp-table-body-bg");
+  }
+
+  // Keep sticky cells below the sibling scrollbar tracks.
+  &-content.mp-scrollbar-container,
+  &-body.mp-scrollbar-container {
+    isolation: isolate;
+  }
+
+  &-scroll-x &-body {
+    overflow-x: auto;
+  }
+
+  &-border {
+    .mp-table-container {
+      border-top: var(~"--mp-table-border-width") var(~"--mp-table-border-style")
+        var(~"--mp-table-border-color");
+      border-left: var(~"--mp-table-border-width") var(~"--mp-table-border-style")
+        var(~"--mp-table-border-color");
+    }
+
+    .mp-table-split {
+      border-bottom: var(~"--mp-table-border-width")
+        var(~"--mp-table-border-style") var(~"--mp-table-border-color");
+
+      .mp-table-body .mp-table-tr:last-of-type .mp-table-td,
+      tfoot .mp-table-tr:last-of-type .mp-table-td {
+        border-bottom: none;
+
+        &.mp-table-col-fixed-left-last::after,
+        &.mp-table-col-fixed-right-first::after {
+          bottom: 0;
+        }
+      }
+    }
+
+    .mp-table-tr .mp-table-th {
+      border-bottom: var(~"--mp-table-border-width")
+        var(~"--mp-table-border-style") var(~"--mp-table-border-color");
+    }
+
+    .mp-table-footer {
+      border: var(~"--mp-table-border-width") var(~"--mp-table-border-style")
+        var(~"--mp-table-border-color");
+      border-top: 0;
+    }
+  }
+
+  &-border:not(&-border-cell) {
+    .mp-table-container {
+      border-right: var(~"--mp-table-border-width")
+        var(~"--mp-table-border-style") var(~"--mp-table-border-color");
+    }
+  }
+
+  &-border-cell {
+    .mp-table-th,
+    .mp-table-td:not(.mp-table-tr-expand) {
+      border-right: var(~"--mp-table-border-width")
+        var(~"--mp-table-border-style") var(~"--mp-table-border-color");
+    }
+
+    .mp-table-th-resizing,
+    .mp-table-td-resizing:not(.mp-table-tr-expand) {
+      border-right-color: var(~"--mp-table-resizing-border-color");
+    }
+  }
+
+  &-border-header-cell {
+    .mp-table-th {
+      border-right: var(~"--mp-table-border-width")
+        var(~"--mp-table-border-style") var(~"--mp-table-border-color");
+      border-bottom: var(~"--mp-table-border-width")
+        var(~"--mp-table-border-style") var(~"--mp-table-border-color");
+    }
+    .mp-table-th-resizing,
+    .mp-table-td-resizing:not(.mp-table-tr-expand) {
+      border-right-color: var(~"--mp-table-resizing-border-color");
+    }
+  }
+
+  &-border&-border-header-cell {
+    thead {
+      .mp-table-tr:first-child .mp-table-th:last-child {
+        border-right: 0;
+      }
+    }
+  }
+
+  &-border-body-cell {
+    .mp-table-td:not(:last-child):not(.mp-table-tr-expand) {
+      border-right: var(~"--mp-table-border-width")
+        var(~"--mp-table-border-style") var(~"--mp-table-border-color");
+    }
+  }
+
+  // stripe: true
+  &-stripe {
+    &:not(.mp-table-dragging)
+      .mp-table-tr:not(.mp-table-tr-empty):not(.mp-table-tr-summary):nth-child(
+        even
+      ),
+    .mp-table-tr-drag {
+      .mp-table-td:not(.mp-table-col-fixed-left):not(.mp-table-col-fixed-right) {
+        background-color: var(~"--mp-table-body-stripe-row-bg");
+      }
+
+      .mp-table-td.mp-table-col-fixed-left,
+      .mp-table-td.mp-table-col-fixed-right {
+        &::before {
+          position: absolute;
+          top: 0;
+          left: 0;
+          z-index: var(--mp-sys-layer-behind);
+          width: 100%;
+          height: 100%;
+          background-color: var(~"--mp-table-body-stripe-row-bg");
+          content: "";
+        }
+      }
+    }
+  }
+
+  & .mp-table-tr-draggable {
+    cursor: move;
+  }
+
+  &-hover {
+    &:not(.mp-table-dragging)
+      .mp-table-tr:not(.mp-table-tr-empty):not(.mp-table-tr-summary):hover,
+    .mp-table-tr-drag {
+      .mp-table-td:not(.mp-table-col-fixed-left):not(.mp-table-col-fixed-right) {
+        background-color: var(~"--mp-table-body-row-hover-bg");
+      }
+
+      .mp-table-td.mp-table-col-fixed-left,
+      .mp-table-td.mp-table-col-fixed-right {
+        &::before {
+          position: absolute;
+          top: 0;
+          left: 0;
+          z-index: var(--mp-sys-layer-behind);
+          width: 100%;
+          height: 100%;
+          background-color: var(~"--mp-table-body-row-hover-bg");
+          content: "";
+        }
+      }
+    }
+
+    .mp-table-tr-expand:not(.mp-table-tr-empty):hover {
+      .mp-table-td:not(.mp-table-col-fixed-left):not(.mp-table-col-fixed-right) {
+        background-color: var(~"--mp-table-expand-content-hover-bg");
+      }
+    }
+
+    // 去除嵌套子表格的 hover 效果
+    .mp-table-tr-expand .mp-table-td & {
+      .mp-table-tr:not(.mp-table-tr-empty) {
+        .mp-table-td:not(.mp-table-col-fixed-left):not(.mp-table-col-fixed-right) {
+          background-color: transparent;
+        }
+
+        .mp-table-td.mp-table-col-fixed-left,
+        .mp-table-td.mp-table-col-fixed-right {
+          &::before {
+            background-color: transparent;
+          }
+        }
+      }
+    }
+  }
+
+  &-tfoot {
+    position: relative;
+    z-index: var(--mp-sys-layer-raised);
+    flex-shrink: 0;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    overflow-x: auto;
+    background-color: var(~"--mp-table-tfoot-bg");
+    box-shadow: 0 calc(var(~"--mp-table-border-width") * -1) 0
+      var(~"--mp-table-border-color");
+    scrollbar-color: transparent transparent;
+
+    &::-webkit-scrollbar {
+      height: 0;
+      background-color: transparent;
+    }
+  }
+
+  & tfoot &-td {
+    background-color: var(~"--mp-table-tfoot-bg");
+  }
+
+  // Active row
+  &-tr-checked .mp-table-td {
+    background-color: var(~"--mp-table-body-row-active-bg");
+  }
+
+  // Size
+  .table-size(lg);
+
+  &-size-md {
+    .table-size(md);
+  }
+
+  &-size-sm {
+    .table-size(sm);
+  }
+
+  &-size-xs {
+    .table-size(xs);
+  }
+
+  // virtualized
+  &-virtualized .mp-table-element {
+    table-layout: fixed;
+  }
+
+  &-virtualized div&-body div&-tr {
+    display: flex;
+  }
+
+  &-virtualized div&-body div&-td {
+    display: flex;
+    flex: 1;
+    align-items: center;
+  }
+}
+
+.mp-table-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: var(~"--mp-table-pagination-margin");
+
+  > .mp-pagination {
+    justify-content: inherit;
+  }
+
+  &-left {
+    justify-content: flex-start;
+  }
+
+  &-sticky {
+    position: sticky;
+    bottom: 0;
+    z-index: var(--mp-z-index-local-sticky);
+    box-sizing: border-box;
+    padding: var(~"--mp-table-pagination-sticky-padding");
+    background-color: var(~"--mp-table-pagination-sticky-bg");
+  }
+}
+
+.mp-virtual-list {
+  & > .mp-table-element {
+    width: auto;
+  }
+}
+
+[data-mp-theme="dark"] {
+  .mp-table-tr-checked .mp-table-td {
+    background-color: var(~"--mp-table-body-row-active-dark-bg");
+  }
+}
+
+.mp-table-column-insert {
+  box-sizing: border-box;
+  max-height: var(~"--mp-table-column-insert-max-height");
+  padding: var(~"--mp-table-column-insert-padding");
+  overflow: auto;
+
+  &-empty {
+    color: var(~"--mp-table-column-insert-empty-text-color");
+    font-size: var(~"--mp-table-column-insert-empty-font-size");
+    line-height: var(~"--mp-table-column-insert-empty-line-height");
+  }
+
+  &-group + &-group {
+    margin-top: var(~"--mp-table-column-insert-group-margin-top");
+  }
+
+  &-group-title {
+    margin-bottom: var(~"--mp-table-column-insert-group-title-margin-bottom");
+    color: var(~"--mp-table-column-insert-group-title-text-color");
+    font-size: var(~"--mp-table-column-insert-group-title-font-size");
+    line-height: var(~"--mp-table-column-insert-group-title-line-height");
+  }
+
+  &-item {
+    display: flex;
+    align-items: center;
+    min-height: var(~"--mp-table-column-insert-item-min-height");
+    cursor: pointer;
+  }
+}
+
+.mp-table-footer-sticky {
+  position: sticky;
+  bottom: 0;
+  z-index: var(--mp-z-index-local-sticky);
+  background: var(--mp-table-pagination-sticky-bg);
+  .mp-table-pagination {
+    position: static;
+    margin-top: 0;
+    padding: var(--mp-table-pagination-sticky-padding);
+  }
+}
+.mp-table__sticky-scrollbar {
+  max-width: 100%;
+
+  &.mp-table--scrollbar-active .mp-scrollbar-thumb {
+    opacity: var(--mp-table-sticky-scrollbar-opacity);
+  }
+}
+.mp-table__sticky-scrollbar-viewport {
+  overflow-x: auto;
+  overflow-y: hidden;
+  height: var(--mp-table-sticky-scrollbar-height);
+}
+.mp-table__sticky-scrollbar-content {
+  height: var(--mp-table-sticky-scrollbar-height);
+}
+
+// Explicit cell alignment is physical; omitted alignment follows reading start.
+.mp-table-cell-align-left { text-align: left; justify-content: flex-start; }
+.mp-table-cell-align-left:dir(rtl) { justify-content: flex-end; }
+.mp-table-cell-align-right:dir(rtl) { justify-content: flex-start; }
+.mp-table-cell-align-start { text-align: start; justify-content: flex-start; }
+
+@media (prefers-reduced-motion: reduce) {
+  .mp-table-col-fixed-left-last::after,
+  .mp-table-col-fixed-right-first::after,
+  .mp-table-container::before,
+  .mp-table-container::after {
+    transition: none;
+  }
+}

@@ -737,7 +737,7 @@
 | `--mp-checkbox-animation-duration` | 公开 | `var(--mp-sys-motion-duration-standard)` | 本组件 CSS<br>`transition` |
 | `--mp-checkbox-control-border-radius` | 公开 | `2px` | 本组件 CSS<br>`border-radius` |
 | `--mp-checkbox-control-color` | 公开 | `var(--mp-sys-color-border-default)` | 本组件 CSS<br>`color` |
-| `--mp-checkbox-control-color-checked` | 公开 | `var(--mp-sys-color-action-primary)` | 本组件 CSS<br>`color` |
+| `--mp-checkbox-control-color-checked` | 公开 | `var(--mp-sys-color-content-brand)` | 本组件 CSS<br>`color`, `outline` |
 | `--mp-checkbox-control-color-disabled` | 公开 | `var(--mp-sys-color-content-disabled)` | 本组件 CSS<br>`color` |
 | `--mp-checkbox-control-color-error` | 公开 | `var(--mp-sys-color-content-danger)` | 本组件 CSS<br>`color` |
 | `--mp-checkbox-control-size` | 公开 | `24px` | 本组件 CSS<br>`height`, `width` |
@@ -2110,7 +2110,7 @@
 | `--mp-radio-action-padding` | 公开 | `6px` | 本组件 CSS<br>`padding` |
 | `--mp-radio-animation-duration` | 公开 | `var(--mp-sys-motion-duration-standard)` | 本组件 CSS<br>`transition` |
 | `--mp-radio-control-color` | 公开 | `var(--mp-sys-color-border-default)` | 本组件 CSS<br>`color` |
-| `--mp-radio-control-color-checked` | 公开 | `var(--mp-sys-color-action-primary)` | 本组件 CSS<br>`color` |
+| `--mp-radio-control-color-checked` | 公开 | `var(--mp-sys-color-content-brand)` | 本组件 CSS<br>`color`, `outline` |
 | `--mp-radio-control-color-disabled` | 公开 | `var(--mp-sys-color-content-disabled)` | 本组件 CSS<br>`color` |
 | `--mp-radio-control-color-error` | 公开 | `var(--mp-sys-color-content-danger)` | 本组件 CSS<br>`box-shadow`, `color` |
 | `--mp-radio-control-size` | 公开 | `24px` | 本组件 CSS<br>`font-size`, `height`, `width` |
@@ -2250,6 +2250,44 @@ expand-duration／fade-duration 消费到 transform／opacity 过渡；运行时
 | `--mp-search-size-icon` | 公开 | `20px` | 本组件 CSS<br>`font-size` |
 | `--mp-search-size-min-height` | 公开 | `48px` | 本组件 CSS<br>`min-height` |
 | `--mp-search-spacing-padding` | 公开 | `8px 16px` | 本组件 CSS<br>`padding` |
+
+</div>
+
+## section
+
+声明来源: `src/section/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| 变量 | 层级 | 声明值／条件 | 消费路径／CSS 属性 |
+| --- | --- | --- | --- |
+| `--mp-section-accent-color` | 公开 | `var(--mp-sys-color-action-primary)` | 本组件 CSS<br>`background` |
+| `--mp-section-after-gap` | 公开 | `24px` | 本组件 CSS<br>`margin-block` |
+| `--mp-section-before-gap` | 公开 | `32px` | 本组件 CSS<br>`padding-block-start` |
+| `--mp-section-card-background` | 公开 | `var(--mp-sys-color-surface-default)` | 本组件 CSS<br>`background` |
+| `--mp-section-card-padding` | 公开 | `16px` | 本组件 CSS<br>`padding` |
+| `--mp-section-card-radius` | 公开 | `6px` | 本组件 CSS<br>`border-radius` |
+| `--mp-section-description-color` | 公开 | `var(--mp-sys-color-content-secondary)` | 本组件 CSS<br>`color` |
+| `--mp-section-description-gap` | 公开 | `4px` | 本组件 CSS<br>`margin-block-start` |
+| `--mp-section-description-line-height` | 公开 | `20px` | 本组件 CSS<br>`line-height` |
+| `--mp-section-description-size` | 公开 | `13px` | 本组件 CSS<br>`font-size` |
+| `--mp-section-divider-color` | 公开 | `var(--mp-sys-color-border-default)` | 本组件 CSS<br>`border`, `border-block-start` |
+| `--mp-section-divider-width` | 公开 | `1px` | 本组件 CSS<br>`border`, `border-block-start` |
+| `--mp-section-header-gap` | 公开 | `20px` | 本组件 CSS<br>`margin-block-end` |
+| `--mp-section-heading-gap` | 公开 | `16px` | 本组件 CSS<br>`margin-inline-start` |
+| `--mp-section-marker-gap` | 公开 | `12px` | 本组件 CSS<br>`padding-inline-end`, `row-gap` |
+| `--mp-section-marker-height` | 公开 | `16px` | 本组件 CSS<br>`height` |
+| `--mp-section-marker-radius` | 公开 | `2px` | 本组件 CSS<br>`border-radius` |
+| `--mp-section-marker-width` | 公开 | `3px` | 本组件 CSS<br>`width` |
+| `--mp-section-size-sm-card-padding` | 公开 | `12px` | 本组件 CSS<br>`padding` |
+| `--mp-section-size-sm-header-gap` | 公开 | `12px` | 本组件 CSS<br>`margin-block-end` |
+| `--mp-section-size-sm-marker-height` | 公开 | `14px` | 本组件 CSS<br>`height` |
+| `--mp-section-size-sm-title-line-height` | 公开 | `20px` | 本组件 CSS<br>`line-height` |
+| `--mp-section-size-sm-title-size` | 公开 | `14px` | 本组件 CSS<br>`font-size` |
+| `--mp-section-title-color` | 公开 | `var(--mp-sys-color-content-primary)` | 本组件 CSS<br>`color` |
+| `--mp-section-title-line-height` | 公开 | `24px` | 本组件 CSS<br>`line-height` |
+| `--mp-section-title-size` | 公开 | `16px` | 本组件 CSS<br>`font-size` |
+| `--mp-section-title-weight` | 公开 | `600` | 本组件 CSS<br>`font-weight` |
 
 </div>
 

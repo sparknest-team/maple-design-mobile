@@ -15,7 +15,7 @@ Radio groups inherit source dir. Horizontal keys follow visible direction in RTL
 ### Basic Usage
 
 ```demo
-../example/demos/basic-usage.vue
+../example/demos/en-US/basic-usage.vue
 ```
 
 ## Appearance and states
@@ -35,13 +35,13 @@ Radio groups inherit source dir. Horizontal keys follow visible direction in RTL
 
 
 ```demo
-../example/demos/disabled.vue
+../example/demos/en-US/disabled.vue
 ```
 
 ### Readonly
 
 ```demo
-../example/demos/readonly.vue
+../example/demos/en-US/readonly.vue
 ```
 
 ## Groups and layout
@@ -60,7 +60,7 @@ Setting child elements via the `options` prop.
 </details>
 
 ```demo
-../example/demos/group-declaration-comparison.vue
+../example/demos/en-US/group-declaration-comparison.vue
 ```
 
 ### Vertical Direction
@@ -68,7 +68,7 @@ Setting child elements via the `options` prop.
 > For form validation of radio and radio group, please use the [FormItem component](#/en-US/form-item).
 
 ```demo
-../example/demos/vertical.vue
+../example/demos/en-US/vertical.vue
 ```
 
 ### Group state and readonly
@@ -131,13 +131,13 @@ RadioGroup defaults to `null` (no selection). Set `model-value` to `null` to cle
 Customize the format of the data in `options` through the `field-names` attribute.
 
 ```demo
-../example/demos/custom-fields.vue
+../example/demos/en-US/custom-fields.vue
 ```
 
 ### Set State Value
 
 ```demo
-../example/demos/set-state.vue
+../example/demos/en-US/set-state.vue
 ```
 
 ## Interaction and keyboard
@@ -200,7 +200,7 @@ Both libraries render a native radio input. Use name on the group for native for
 ### Modify Icon And Color
 
 ```demo
-../example/demos/set-style.vue
+../example/demos/en-US/set-style.vue
 ```
 
 ## Async options

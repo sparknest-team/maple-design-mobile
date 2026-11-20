@@ -276,18 +276,12 @@ Example source: src/picker/example/demos/disabled.vue
 
 ```vue
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
+import { ref } from 'vue'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
 const disabled = ref(true)
 const value = ref<(string | number)[]>(['A'])
 const columns = [[{ text: 'A' }, { text: 'B' }, { text: 'C' }]]
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-
-watchLang((next) => {
-  language.value = next
-})
 </script>
 
 <template>

@@ -737,7 +737,7 @@ Source: `src/checkbox/style/token.less`
 | `--mp-checkbox-animation-duration` | Public | `var(--mp-sys-motion-duration-standard)` | Local CSS<br>`transition` |
 | `--mp-checkbox-control-border-radius` | Public | `2px` | Local CSS<br>`border-radius` |
 | `--mp-checkbox-control-color` | Public | `var(--mp-sys-color-border-default)` | Local CSS<br>`color` |
-| `--mp-checkbox-control-color-checked` | Public | `var(--mp-sys-color-action-primary)` | Local CSS<br>`color` |
+| `--mp-checkbox-control-color-checked` | Public | `var(--mp-sys-color-content-brand)` | Local CSS<br>`color`, `outline` |
 | `--mp-checkbox-control-color-disabled` | Public | `var(--mp-sys-color-content-disabled)` | Local CSS<br>`color` |
 | `--mp-checkbox-control-color-error` | Public | `var(--mp-sys-color-content-danger)` | Local CSS<br>`color` |
 | `--mp-checkbox-control-size` | Public | `24px` | Local CSS<br>`height`, `width` |
@@ -2110,7 +2110,7 @@ Source: `src/radio/style/token.less`
 | `--mp-radio-action-padding` | Public | `6px` | Local CSS<br>`padding` |
 | `--mp-radio-animation-duration` | Public | `var(--mp-sys-motion-duration-standard)` | Local CSS<br>`transition` |
 | `--mp-radio-control-color` | Public | `var(--mp-sys-color-border-default)` | Local CSS<br>`color` |
-| `--mp-radio-control-color-checked` | Public | `var(--mp-sys-color-action-primary)` | Local CSS<br>`color` |
+| `--mp-radio-control-color-checked` | Public | `var(--mp-sys-color-content-brand)` | Local CSS<br>`color`, `outline` |
 | `--mp-radio-control-color-disabled` | Public | `var(--mp-sys-color-content-disabled)` | Local CSS<br>`color` |
 | `--mp-radio-control-color-error` | Public | `var(--mp-sys-color-content-danger)` | Local CSS<br>`box-shadow`, `color` |
 | `--mp-radio-control-size` | Public | `24px` | Local CSS<br>`font-size`, `height`, `width` |
@@ -2250,6 +2250,44 @@ Source: `src/search/style/token.less`
 | `--mp-search-size-icon` | Public | `20px` | Local CSS<br>`font-size` |
 | `--mp-search-size-min-height` | Public | `48px` | Local CSS<br>`min-height` |
 | `--mp-search-spacing-padding` | Public | `8px 16px` | Local CSS<br>`padding` |
+
+</div>
+
+## section
+
+Source: `src/section/style/token.less`
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Layer | Declaration / condition | Consumer / CSS properties |
+| --- | --- | --- | --- |
+| `--mp-section-accent-color` | Public | `var(--mp-sys-color-action-primary)` | Local CSS<br>`background` |
+| `--mp-section-after-gap` | Public | `24px` | Local CSS<br>`margin-block` |
+| `--mp-section-before-gap` | Public | `32px` | Local CSS<br>`padding-block-start` |
+| `--mp-section-card-background` | Public | `var(--mp-sys-color-surface-default)` | Local CSS<br>`background` |
+| `--mp-section-card-padding` | Public | `16px` | Local CSS<br>`padding` |
+| `--mp-section-card-radius` | Public | `6px` | Local CSS<br>`border-radius` |
+| `--mp-section-description-color` | Public | `var(--mp-sys-color-content-secondary)` | Local CSS<br>`color` |
+| `--mp-section-description-gap` | Public | `4px` | Local CSS<br>`margin-block-start` |
+| `--mp-section-description-line-height` | Public | `20px` | Local CSS<br>`line-height` |
+| `--mp-section-description-size` | Public | `13px` | Local CSS<br>`font-size` |
+| `--mp-section-divider-color` | Public | `var(--mp-sys-color-border-default)` | Local CSS<br>`border`, `border-block-start` |
+| `--mp-section-divider-width` | Public | `1px` | Local CSS<br>`border`, `border-block-start` |
+| `--mp-section-header-gap` | Public | `20px` | Local CSS<br>`margin-block-end` |
+| `--mp-section-heading-gap` | Public | `16px` | Local CSS<br>`margin-inline-start` |
+| `--mp-section-marker-gap` | Public | `12px` | Local CSS<br>`padding-inline-end`, `row-gap` |
+| `--mp-section-marker-height` | Public | `16px` | Local CSS<br>`height` |
+| `--mp-section-marker-radius` | Public | `2px` | Local CSS<br>`border-radius` |
+| `--mp-section-marker-width` | Public | `3px` | Local CSS<br>`width` |
+| `--mp-section-size-sm-card-padding` | Public | `12px` | Local CSS<br>`padding` |
+| `--mp-section-size-sm-header-gap` | Public | `12px` | Local CSS<br>`margin-block-end` |
+| `--mp-section-size-sm-marker-height` | Public | `14px` | Local CSS<br>`height` |
+| `--mp-section-size-sm-title-line-height` | Public | `20px` | Local CSS<br>`line-height` |
+| `--mp-section-size-sm-title-size` | Public | `14px` | Local CSS<br>`font-size` |
+| `--mp-section-title-color` | Public | `var(--mp-sys-color-content-primary)` | Local CSS<br>`color` |
+| `--mp-section-title-line-height` | Public | `24px` | Local CSS<br>`line-height` |
+| `--mp-section-title-size` | Public | `16px` | Local CSS<br>`font-size` |
+| `--mp-section-title-weight` | Public | `600` | Local CSS<br>`font-weight` |
 
 </div>
 

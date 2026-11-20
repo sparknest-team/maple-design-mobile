@@ -8,8 +8,10 @@ test('native busy metadata survives without an internal loading indicator', () =
   expect(owner.find('.mp-loading').exists()).toBe(false)
   owner.unmount()
 })
-test('internal loading takes precedence over a false native busy hint', () => {
-  const owner = mount(Input, { props: { loading: true, inputAttrs: { 'aria-busy': 'false' } } })
+test.each([false, 'false'])('internal loading temporarily overrides native busy hint %s', async (hint) => {
+  const owner = mount(Input, { props: { loading: true, inputAttrs: { 'aria-busy': hint } } })
   expect(owner.get('input').attributes('aria-busy')).toBe('true')
+  await owner.setProps({ loading: false })
+  expect(owner.get('input').attributes('aria-busy')).toBe('false')
   owner.unmount()
 })

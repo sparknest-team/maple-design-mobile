@@ -5,15 +5,17 @@ Horizontal FormItem uses zero Row gutter by default, preserving 16px item spacin
 
 ## Field names
 
-After mounting, the default label focuses the only text input, textarea or select in the field content. Adding a second independent control gives the group the visible label’s name. Give each control its own accessible name. For the association to work in server-rendered HTML, or to target a specific control in a composite field, set `label-attrs.for` and the matching control `id`. When both `for` and `htmlFor` are supplied, `for` takes precedence. Read-only display clears the target.
+After mounting, the default label focuses the only text input, textarea or select in the field content. Adding a second independent control gives the group the visible label’s name. Give each control its own accessible name. For the association to work in server-rendered HTML, or to target a specific control in a composite field, set `label-attrs.for` and the matching control `id`. When both `for` and `htmlFor` are supplied, `for` takes precedence. Read-only display clears the target. In streamed HTML the label can reach the browser before an asynchronous child chooses which fields to render. For a clickable first-paint label, allocate a stable ID in the parent and forward it through the child component to its native input. Use distinct IDs for repeated rows.
 
 When `validate-status="error"` has no automatic validation error, the field associates visible `help` text or slot content through `aria-describedby`, preserving any supplied description. An automatic error takes precedence.
 
 In SSR with Vue 3.2.47, if multiple asynchronous form items resolve in opposite orders on the server and client, updating one item can duplicate generated description IDs or associate it with another field’s error. Giving the Input a stable `id` alone does not prevent this; the same scenario passed with Vue 3.5.45.
 
-For a deferred Slider inside Shadow DOM, a popup teleported to `body` may not resolve ID references to hints or errors inside the shadow root. Set `:popup-container="false"`, or pass an element within the same ShadowRoot as `popup-container`, to keep the popup and hints in the same root. Provide clear control names, and account for the container’s styling, positioning, and clipping.
+For a deferred Slider inside Shadow DOM, the editor associates its slider and number input with the current form validation error or plain `help` text in an explicit error state, even when the popup is teleported to `body`. To reference a `#help` slot or application hints inside the shadow root, set `:popup-container="false"` or pass a container in that same root.
 
 A nested `no-style` field in `read-pretty` mode hides its validation feedback. Calling `setFields` for that field keeps the message out of the parent’s error description. Editable siblings continue to report their own errors.
+
+When `KeepAlive` deactivates a nested `no-style` field, the parent removes that field’s error from its description. Reactivating the field restores its current error, including updates made with `setFields` while it was inactive.
 
 For a single deferred Input, the visible FormItem label targets the trigger while closed and the native input while editing. When adding a second input, give each field its own accessible name. The FormItem label names their group.
 
@@ -22,6 +24,12 @@ In direct edit mode, for a visible label on a single field, match FormItem `labe
 ## Reading direction
 
 Form and FormItem accept start/end/left/center/right for content-align and start/end/left/right for label-align. Content defaults to start and labels to end: default LTR placement stays the same while RTL follows reading order. Explicit left/right remain physical. Item overrides and explicit label-column styles retain precedence. Direction changes preserve values, validation and disabled/readonly state.
+
+Inside a Form bound to `model`, use `compact` to switch the outer FormItem’s `layout` and `hide-label`. Keep the inner field mounted and give its input an accessible name that also works when the outer label is hidden.
+
+```demo
+../example/demos/en-US/compact-account.vue
+```
 
 ## Basic examples
 
@@ -69,7 +77,7 @@ Combine `vertical`, `horizontal` and `inline` layouts with `direct / popup` edit
 
 ### Partial form section
 
-Group only the onsite SOP, safety notice and key points. The end divider separates the following ungrouped fields. Switch between line, plain and card above the form; your entries are preserved. Toggle the title marker and end divider to compare boundaries. Card uses its outer border instead of a separate end divider.  FormSection inherits the parent Form layout, label sizing, disabled state and validation; use Form/FormItem layout props to configure them. Supply a title or title slot. Folding and local layout overrides are not supported.
+Group only the onsite SOP, safety notice and key points. The page uses Divider to separate subsequent fields. Switching between heading-line, plain and outline or toggling the title marker preserves your entries. Fields inside MpSection keep their parent form layout, label widths, disabled state and validation. The heading is optional. Folding and local layout overrides are not supported.
 
 ```demo
 ../example/demos/en-US/section.vue
@@ -131,7 +139,7 @@ For mixed controls, give the visible label a unique ID and explicitly name a gro
 ### Direct / popup selection summaries
 
 ```demo
-../example/demos/selection-summary.vue
+../example/demos/en-US/selection-summary.vue
 ```
 
 ### Hierarchical fields
@@ -569,6 +577,8 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 
 ### FormItem Slots
 
+When rendering a list of inputs in the default slot on the server, use `v-for` with a stable `:key`. Adding `v-memo` to the same node can leave the inputs out of the initial HTML. This applies to both values of `no-style`. To keep `v-memo`, move the list template into a separate Vue component and render that component in the slot, for example `<FieldList :rows="rows" />`. Keep the loop, key, and memo dependencies together in `FieldList.vue`.
+
 | Slot | Description |
 | --------- | -------------- |
 | `default` | Form control |
@@ -629,25 +639,7 @@ import type {
 } from '@maple-design/ui-vue'
 ```
 
-### FormSection Props
-
-| Prop | Description | Type | Default |
-| --- | --- | --- | --- |
-| id | Section ID; generated automatically when omitted | `string` | — |
-| title | Section title | `string` | `''` |
-| description | Supporting description below the title | `string` | `''` |
-| variant | Section appearance; card adds a border and content padding | `'line' \| 'plain' \| 'card'` | `'line'` |
-| show-marker | Show the theme-colored marker beside the title | `boolean` | `true` |
-| show-end-divider | Show an end divider before subsequent ungrouped fields; card does not draw it twice | `boolean` | `false` |
-
-### FormSection Slots
-
-| Slot | Description |
-| --- | --- |
-| default | Form fields within the section |
-| title | Custom title |
-| description | Custom description |
-| extra | Title action |
+The section API is documented in [Section](#/en-US/section).
 
 ## CSS Variables
 
@@ -670,29 +662,6 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-form-label-min-height` | `24px` | `min-height` |
 | `--mp-form-label-text-color` | `var(--mp-sys-color-content-primary)` | `color` |
 | `--mp-form-required-symbol-color` | `var(--mp-sys-color-content-danger)` | `color` |
-| `--mp-form-section-accent-color` | `var(--mp-sys-color-action-primary)` | `background` |
-| `--mp-form-section-after-gap` | `24px` | `margin-block` |
-| `--mp-form-section-before-gap` | `32px` | `padding-block-start` |
-| `--mp-form-section-card-background` | `var(--mp-sys-color-surface-default)` | `background` |
-| `--mp-form-section-card-padding` | `16px` | `padding` |
-| `--mp-form-section-card-radius` | `6px` | `border-radius` |
-| `--mp-form-section-description-color` | `var(--mp-sys-color-content-secondary)` | `color` |
-| `--mp-form-section-description-gap` | `4px` | `margin-block-start` |
-| `--mp-form-section-description-line-height` | `20px` | `line-height` |
-| `--mp-form-section-description-size` | `13px` | `font-size` |
-| `--mp-form-section-divider-color` | `var(--mp-sys-color-border-default)` | `border`, `border-block-start` |
-| `--mp-form-section-divider-width` | `1px` | `border`, `border-block-start` |
-| `--mp-form-section-end-divider-gap` | `24px` | `margin-block-start` |
-| `--mp-form-section-header-gap` | `20px` | `margin-block-end` |
-| `--mp-form-section-heading-gap` | `16px` | `margin-inline-start` |
-| `--mp-form-section-marker-gap` | `8px` | `margin-inline-end`, `row-gap` |
-| `--mp-form-section-marker-height` | `16px` | `height` |
-| `--mp-form-section-marker-radius` | `2px` | `border-radius` |
-| `--mp-form-section-marker-width` | `3px` | `width` |
-| `--mp-form-section-title-color` | `var(--mp-sys-color-content-primary)` | `color` |
-| `--mp-form-section-title-line-height` | `24px` | `line-height` |
-| `--mp-form-section-title-size` | `16px` | `font-size` |
-| `--mp-form-section-title-weight` | `600` | `font-weight` |
 | `--mp-form-size-md-item-margin-bottom` | `16px` | `margin-bottom` |
 | `--mp-form-size-md-label-font-size` | `14px` | `font-size` |
 | `--mp-form-tooltip-margin-left` | `var(--mp-sys-space-2)` | `padding-inline-start` |

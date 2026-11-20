@@ -1,18 +1,9 @@
 <script setup lang="ts">
 import { computed, proxyRefs as demoProxyRefs, reactive, ref, toRefs } from 'vue'
-import { watchLang } from '@maple-design/cli-vue/client'
 import type { CheckboxGroupInstance } from '@maple-design/ui-vue'
 
 const scene1 = demoProxyRefs(
   (() => {
-    const demoLanguage = ref('zh-CN')
-
-    const english = computed(() => demoLanguage.value === 'en-US')
-
-    watchLang((value) => {
-      demoLanguage.value = value
-    })
-
     const values = reactive({
       value: false,
       value2: false,
@@ -45,8 +36,6 @@ const scene1 = demoProxyRefs(
       fieldValue,
     } = toRefs(values)
     return {
-      demoLanguage,
-      english,
       values,
       value,
       value2,
@@ -67,14 +56,6 @@ const scene1 = demoProxyRefs(
 
 const scene2 = demoProxyRefs(
   (() => {
-    const demoLanguage = ref('zh-CN')
-
-    const english = computed(() => demoLanguage.value === 'en-US')
-
-    watchLang((value) => {
-      demoLanguage.value = value
-    })
-
     const values = reactive({
       value: false,
       value2: false,
@@ -108,13 +89,11 @@ const scene2 = demoProxyRefs(
     } = toRefs(values)
 
     const options = computed(() => [
-      { label: english.value ? 'Eat' : '吃饭', value: 0 },
-      { label: english.value ? 'Sleep' : '睡觉', value: 1 },
-      { label: english.value ? 'Game' : '游戏', value: 2, disabled: true },
+      { label: '吃饭', value: 0 },
+      { label: '睡觉', value: 1 },
+      { label: '游戏', value: 2, disabled: true },
     ])
     return {
-      demoLanguage,
-      english,
       values,
       value,
       value2,
@@ -138,30 +117,26 @@ const scene2 = demoProxyRefs(
 <template>
   <div class="demo-comparison">
     <section class="demo-comparison-case demo-comparison-case--1" data-comparison-scene="checkbox-group">
-      <h4><span lang="zh-CN">复选框组</span><span lang="en-US">CheckboxGroup</span></h4>
+      <h4>复选框组</h4>
       <mp-checkbox-group
         :ref="(element: unknown) => (scene1.group = element as CheckboxGroupInstance | null)"
         v-model="scene1.value6"
       >
-        <mp-checkbox :value="0">{{ scene1.english ? 'Eat' : '吃饭' }}</mp-checkbox>
-        <mp-checkbox :value="1">{{ scene1.english ? 'Sleep' : '睡觉' }}</mp-checkbox>
+        <mp-checkbox :value="0">吃饭</mp-checkbox>
+        <mp-checkbox :value="1">睡觉</mp-checkbox>
       </mp-checkbox-group>
-      <div class="relation">{{ scene1.english ? 'Current value' : '当前的值' }}: {{ scene1.value6 }}</div>
+      <div class="relation">当前的值: {{ scene1.value6 }}</div>
       <mp-divider spacing="14px" />
       <mp-space wrap :size="[0, 10]">
-        <mp-button status="primary" @click="scene1.group?.checkAll()">{{
-          scene1.english ? 'Check all' : '全选'
-        }}</mp-button>
-        <mp-button status="primary" @click="scene1.group?.inverseAll()">{{
-          scene1.english ? 'Invert' : '反选'
-        }}</mp-button>
+        <mp-button status="primary" @click="scene1.group?.checkAll()">全选</mp-button>
+        <mp-button status="primary" @click="scene1.group?.inverseAll()">反选</mp-button>
       </mp-space>
     </section>
 
     <section class="demo-comparison-case demo-comparison-case--2" data-comparison-scene="checkbox-group-options">
-      <h4><span lang="zh-CN">选项式 API</span><span lang="en-US">Options API</span></h4>
+      <h4>选项式 API</h4>
       <mp-checkbox-group v-model="scene2.optionsValue" :options="scene2.options" />
-      <div class="relation">{{ scene2.english ? 'Current value' : '当前的值' }}: {{ scene2.optionsValue }}</div>
+      <div class="relation">当前的值: {{ scene2.optionsValue }}</div>
     </section>
   </div>
 </template>
@@ -181,10 +156,7 @@ const scene2 = demoProxyRefs(
   margin: 0 0 12px;
   font-size: 14px;
 }
-html:not([lang='en-US']) .demo-comparison-case > h4 > [lang='en-US'],
-html[lang='en-US'] .demo-comparison-case > h4 > [lang='zh-CN'] {
-  display: none;
-}
+
 .demo-comparison-case--1 {
   .relation {
     margin-top: 10px;

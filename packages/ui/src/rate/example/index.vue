@@ -1,6 +1,6 @@
 <script setup>
-import { computed, ref } from 'vue'
-import { AppType, onThemeChange, watchLang } from '@maple-design/cli-vue/client'
+import { AppType, onThemeChange } from '@maple-design/cli-vue/client'
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import BasicUsageDemo from './demos/basic-usage.vue'
 import CustomRatingIconSizeAndGapDemo from './demos/custom-rating-icon-size-and-gap.vue'
 import CustomRatingIconStyleDemo from './demos/custom-rating-icon-style.vue'
@@ -15,12 +15,6 @@ import OrganizedStateLab from './demos/state-lab.vue'
 import ContentValueRulesComparison from './demos/value-rules-comparison.vue'
 
 onThemeChange()
-const language = ref('zh-CN')
-const english = computed(() => language.value === 'en-US')
-
-watchLang((value) => {
-  language.value = value
-})
 </script>
 
 <template>

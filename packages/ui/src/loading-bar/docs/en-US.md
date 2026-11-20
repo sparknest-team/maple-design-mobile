@@ -15,7 +15,7 @@ Display loading progress at the top of the page.
 ### Basic Usage
 
 ```demo
-../example/demos/basic.vue
+../example/demos/en-US/basic.vue
 ```
 
 ## Reading direction

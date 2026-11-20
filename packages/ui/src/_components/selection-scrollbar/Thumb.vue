@@ -4,7 +4,13 @@
     :class="[`${prefixCls}-track`, `${prefixCls}-track-direction-${orientation}`]"
     @mousedown.self="handleTrackClick"
   >
-    <div ref="thumbRef" :class="thumbCls" :style="thumbStyle" @mousedown="handleThumbMouseDown">
+    <div
+      ref="thumbRef"
+      :class="thumbCls"
+      :style="thumbStyle"
+      @pointerdown="handleThumbPointerDown"
+      @mousedown="handleThumbMouseDown"
+    >
       <div :class="`${prefixCls}-thumb-bar`" />
     </div>
   </div>
@@ -83,7 +89,8 @@ export default defineComponent({
       start: number
       map: ThumbMap
       move: (event: MouseEvent) => void
-      end: () => void
+      end: (event?: Event) => void
+      pointerId?: number
     }
     let drag: DragSession | undefined
     const available = () => active && !disposed
@@ -101,8 +108,11 @@ export default defineComponent({
       drag = undefined
       const token = ++generation
       if (previous) {
-        previous.view.removeEventListener('mousemove', previous.move)
-        previous.view.removeEventListener('mouseup', previous.end)
+        previous.view.removeEventListener(previous.pointerId === undefined ? 'mousemove' : 'pointermove', previous.move)
+        previous.view.removeEventListener(previous.pointerId === undefined ? 'mouseup' : 'pointerup', previous.end)
+        if (previous.pointerId !== undefined) {
+          previous.view.removeEventListener('pointercancel', previous.end)
+        }
         previous.view.removeEventListener('contextmenu', previous.end)
         previous.view.removeEventListener('blur', previous.end)
       }
@@ -121,7 +131,7 @@ export default defineComponent({
       }
       return value
     }
-    const handleThumbMouseDown = (event: MouseEvent) => {
+    const handleThumbMouseDown = (event: MouseEvent, pointerId?: number) => {
       if (!available() || event.button !== 0) {
         return
       }
@@ -149,9 +159,9 @@ export default defineComponent({
       ) {
         return
       }
-      const session: DragSession = { token, view, track, thumb, start, map, move: () => {}, end: () => {} }
+      const session: DragSession = { token, view, track, thumb, start, map, pointerId, move: () => {}, end: () => {} }
       session.move = (event: MouseEvent) => {
-        if (!valid(session)) {
+        if (!valid(session) || (pointerId !== undefined && (event as PointerEvent).pointerId !== pointerId)) {
           return
         }
         const next = getLegalOffset(
@@ -167,7 +177,14 @@ export default defineComponent({
           }
         }
       }
-      session.end = () => {
+      session.end = (event) => {
+        if (
+          event &&
+          (event.type === 'pointerup' || event.type === 'pointercancel') &&
+          (event as PointerEvent).pointerId !== pointerId
+        ) {
+          return
+        }
         if (valid(session)) {
           cancelDrag()
         }
@@ -178,10 +195,18 @@ export default defineComponent({
       if (!valid(session)) {
         return
       }
-      view.addEventListener('mousemove', session.move)
-      view.addEventListener('mouseup', session.end)
+      view.addEventListener(pointerId === undefined ? 'mousemove' : 'pointermove', session.move)
+      view.addEventListener(pointerId === undefined ? 'mouseup' : 'pointerup', session.end)
+      if (pointerId !== undefined) {
+        view.addEventListener('pointercancel', session.end)
+      }
       view.addEventListener('contextmenu', session.end)
       view.addEventListener('blur', session.end)
+    }
+    const handleThumbPointerDown = (event: PointerEvent) => {
+      if (event.pointerType !== 'mouse' && event.isPrimary) {
+        handleThumbMouseDown(event, event.pointerId)
+      }
     }
     const handleTrackClick = (event: MouseEvent) => {
       if (!available() || event.button !== 0) {
@@ -262,6 +287,7 @@ export default defineComponent({
       thumbCls,
       thumbStyle,
       handleThumbMouseDown,
+      handleThumbPointerDown,
       handleTrackClick,
       setOffset,
     }

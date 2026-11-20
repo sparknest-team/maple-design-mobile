@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import BaseSelect from '../select'
+import BaseSelect from '../select/select'
 import type { ComponentSize } from '../utils/constants'
 import type { PaginationPageSizeProps } from './types'
 
