@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json",
   "framework": "vue",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "name": "Maple Design Mobile",
   "contributions": {
     "html": {
@@ -1572,7 +1572,25 @@
               "description": "Density; omitted value follows platform rules below",
               "default": "undefined",
               "value": {
-                "type": "`sm / md`",
+                "type": "`xs / sm / md / lg / xl`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "heading-level",
+              "description": "Semantic heading level for the title; also controls its font size",
+              "default": "undefined",
+              "value": {
+                "type": "`1 / 2 / 3 / 4 / 5 / 6`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "footer-align",
+              "description": "Footer alignment; start and end follow the reading direction",
+              "default": "end",
+              "value": {
+                "type": "`start / center / end`",
                 "kind": "expression"
               }
             },
@@ -1632,7 +1650,7 @@
             },
             {
               "name": "top-divider",
-              "description": "Top divider",
+              "description": "Top divider with the same horizontal inset as the content",
               "default": "false",
               "value": {
                 "type": "`boolean`",
@@ -1641,7 +1659,7 @@
             },
             {
               "name": "bottom-divider",
-              "description": "Bottom divider",
+              "description": "Bottom divider with the same horizontal inset as the content",
               "default": "false",
               "value": {
                 "type": "`boolean`",
@@ -1794,7 +1812,7 @@
             },
             {
               "name": "description",
-              "description": "Description"
+              "description": "Custom description content uses the Card description container and spacing"
             },
             {
               "name": "footer",
@@ -11978,7 +11996,7 @@
             },
             {
               "name": "size",
-              "description": "Visual size (sm / md), independent of heading level",
+              "description": "Visual size (xs / sm / md / lg / xl)",
               "default": "md",
               "value": {
                 "type": "SectionSize",
@@ -11988,7 +12006,7 @@
             {
               "name": "variant",
               "description": "Appearance, plain, heading-line, tonal or outline",
-              "default": "heading-line inside Form, otherwise plain",
+              "default": "heading-line",
               "value": {
                 "type": "'plain' | 'heading-line' | 'tonal' | 'outline'",
                 "kind": "expression"

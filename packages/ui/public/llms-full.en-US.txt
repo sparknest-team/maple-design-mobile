@@ -6724,7 +6724,7 @@ import { reactive as __demoReactive, computed as demoComputed, ref as demoRef } 
 const __demoAppearance = __demoReactive({ variant: 'default', size: 'md' })
 const demoCompareFields = [
   { name: 'variant', values: ['default', 'outline', 'tonal'] },
-  { name: 'size', values: ['sm', 'md'] },
+  { name: 'size', values: ['xs', 'sm', 'md', 'lg', 'xl'] },
 ]
 const demoCompareAxis = demoRef('variant')
 const demoComparedOptions = demoComputed(
@@ -6755,8 +6755,11 @@ demoCompareFields.push({ name: 'elevation', values: [0, 2, 6] })
           v-model="__demoAppearance['size']"
           aria-label="size"
           :options="[
+            { label: 'xs', value: 'xs' },
             { label: 'sm', value: 'sm' },
             { label: 'md', value: 'md' },
+            { label: 'lg', value: 'lg' },
+            { label: 'xl', value: 'xl' },
           ]"
           variant="button"
           size="sm"
@@ -6819,6 +6822,88 @@ html[lang='en-US'] .demo-config-comparison-hint > [lang='zh-CN'] {
   display: none;
 }
 </style>
+```
+
+### Sizes and heading levels
+
+Choose the Card size, title level, or footer alignment to preview a Card containing a Section. Use the Section variant control to change the nested Section appearance. The Card description stays at 15px and the Section description stays at 13px. Changes to Card size affect the spacing around its description.
+
+| Size | h1 | h2 | h3 | h4 | h5 | h6 | Body horizontal padding | Description top margin |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `xs` | 25px | 21px | 19px | 17px | 15px | 13px | 8px | 6px |
+| `sm` | 26px | 22px | 20px | 18px | 16px | 14px | 12px | 8px |
+| `md` | 30px | 26px | 24px | 22px | 20px | 18px | 16px | 20px |
+| `lg` | 34px | 30px | 28px | 26px | 24px | 22px | 20px | 20px |
+| `xl` | 38px | 34px | 32px | 30px | 28px | 26px | 24px | 24px |
+
+Example source: src/card/example/demos/en-US/sizes-and-headings.vue
+
+```vue
+<script setup lang="ts">
+import { reactive } from 'vue'
+
+const footerAlignments = ['start', 'center', 'end'] as const
+const sectionVariants = ['heading-line', 'plain', 'tonal', 'outline'] as const
+const headingLevels = [1, 2, 3, 4, 5, 6] as const
+const model = reactive<{
+  size: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+  headingLevel: (typeof headingLevels)[number]
+  footerAlign: (typeof footerAlignments)[number]
+  sectionVariant: (typeof sectionVariants)[number]
+}>({
+  size: 'md',
+  headingLevel: 4,
+  footerAlign: 'end',
+  sectionVariant: 'heading-line',
+})
+</script>
+
+<template>
+  <mp-space direction="column" align="stretch">
+    <mp-form :model="model" layout="vertical" edit-mode="direct">
+      <mp-form-item field="size" label="Card size">
+        <mp-radio-group v-model="model.size" aria-label="Card size">
+          <mp-radio value="xs">Extra small (xs)</mp-radio>
+          <mp-radio value="sm">Compact (sm)</mp-radio>
+          <mp-radio value="md">Default (md)</mp-radio>
+          <mp-radio value="lg">Large (lg)</mp-radio>
+          <mp-radio value="xl">Extra large (xl)</mp-radio>
+        </mp-radio-group>
+      </mp-form-item>
+      <mp-form-item field="headingLevel" label="Heading level">
+        <mp-radio-group v-model="model.headingLevel" aria-label="Heading level">
+          <mp-radio v-for="level in headingLevels" :key="level" :value="level">h{{ level }}</mp-radio>
+        </mp-radio-group>
+      </mp-form-item>
+      <mp-form-item field="footerAlign" label="Footer alignment">
+        <mp-radio-group v-model="model.footerAlign" aria-label="Footer alignment">
+          <mp-radio v-for="value in footerAlignments" :key="value" :value="value">{{ value }}</mp-radio>
+        </mp-radio-group>
+      </mp-form-item>
+      <mp-form-item field="sectionVariant" label="Section variant">
+        <mp-radio-group v-model="model.sectionVariant" aria-label="Section variant">
+          <mp-radio v-for="value in sectionVariants" :key="value" :value="value">{{ value }}</mp-radio>
+        </mp-radio-group>
+      </mp-form-item>
+    </mp-form>
+    <output>Rendered tag <code>&lt;h{{ model.headingLevel }}&gt;</code></output>
+
+    <mp-card
+      :size="model.size"
+      :heading-level="model.headingLevel"
+      :footer-align="model.footerAlign"
+      title="Project overview"
+      description="Project settings apply to the whole team."
+      top-divider
+      bottom-divider
+    >
+      <mp-section :size="model.size" :heading-level="model.headingLevel" :variant="model.sectionVariant" title="Member permissions" description="Permissions are grouped by role.">
+        Administrators can invite members.
+      </mp-section>
+      <template #footer>Last updated today</template>
+    </mp-card>
+  </mp-space>
+</template>
 ```
 
 ### Hover style
@@ -6888,7 +6973,7 @@ Enable `swipeable` to switch tabs with horizontal touch gestures in the content 
 
 Maple has no TypographyTitle component; group headings use native headings.
 
-Compose Card, Tabs and vertical Space. Compact outlined cards group each panel; wide tables scroll within their own container on small screens. The industry panel uses section headings without extra cards.
+Card contains the report, Tabs switch analysis views, and Section groups the content in each view. The industry view uses a deeper heading level for upstream and downstream topics. Wide tables scroll within their own container on small screens.
 
 Example source: src/card/example/demos/nested-tabs.vue
 
@@ -6908,41 +6993,39 @@ const records = rows.map((row) => ({ ...row, key: row[0] }))
 </script>
 
 <template>
-  <mp-card title="三季报前瞻" class="nested-card-demo" :elevation="false">
+  <mp-card title="三季报前瞻" :heading-level="2" class="nested-card-demo" :elevation="false">
     <template #title-action><span class="report-date">2026-08</span></template>
     <mp-tabs swipeable default-value="performance" :item-style="{ padding: '16px 0 0' }" tab-list-aria-label="分析维度">
       <mp-tab-pane name="industry" title="产业链">
-        <mp-card title="产业链观察" size="sm" variant="outline" :elevation="false">
-          <mp-space direction="column" size="lg">
-            <section>
-              <h3>上游 · 原材料</h3>
+        <mp-section title="产业链观察" size="sm" :heading-level="3">
+          <mp-space direction="column" size="lg" align="stretch">
+            <mp-section title="上游 · 原材料" size="sm" :heading-level="4" variant="plain" show-marker>
               <p>关注铜、钢材与塑料采购成本变化。</p>
-            </section>
-            <section>
-              <h3>下游 · 终端渠道</h3>
+            </mp-section>
+            <mp-section title="下游 · 终端渠道" size="sm" :heading-level="4" variant="plain" show-marker>
               <p>关注渠道库存、促销节奏与新品销售表现。</p>
-            </section>
+            </mp-section>
           </mp-space>
-        </mp-card>
+        </mp-section>
       </mp-tab-pane>
       <mp-tab-pane name="performance" title="业绩">
-        <mp-space direction="column" size="lg">
-          <mp-card title="单季还原（累计相减）" size="sm" variant="outline" :elevation="false">
+        <mp-space direction="column" size="lg" align="stretch">
+          <mp-section title="单季还原（累计相减）" size="sm" :heading-level="3">
             <div data-tabs-no-swipe style="touch-action: pan-x pan-y">
               <mp-table :columns="columns" :data="records" :pagination="false" />
             </div>
             <p class="report-note">示例数据 · 单位：亿元</p>
-          </mp-card>
-          <mp-card title="经营摘要" size="sm" variant="outline" :elevation="false">
+          </mp-section>
+          <mp-section title="经营摘要" size="sm" :heading-level="3">
             <p>本季营收 16.77 亿元，毛利率 25.1%。</p>
-          </mp-card>
+          </mp-section>
         </mp-space>
       </mp-tab-pane>
       <mp-tab-pane name="capital" title="筹码·资金">
-        <mp-card title="资金观察" size="sm" variant="outline" :elevation="false">本期机构持仓数据尚未披露。</mp-card>
+        <mp-section title="资金观察" size="sm" :heading-level="3">本期机构持仓数据尚未披露。</mp-section>
       </mp-tab-pane>
       <mp-tab-pane name="technical" title="技术">
-        <mp-card title="技术观察" size="sm" variant="outline" :elevation="false">暂无技术分析数据。</mp-card>
+        <mp-section title="技术观察" size="sm" :heading-level="3">暂无技术分析数据。</mp-section>
       </mp-tab-pane>
     </mp-tabs>
   </mp-card>
@@ -6959,11 +7042,6 @@ const records = rows.map((row) => ({ ...row, key: row[0] }))
 }
 .report-note {
   margin-block-start: 8px;
-}
-h3 {
-  margin: 0 0 8px;
-  font-size: 14px;
-  font-weight: 500;
 }
 p {
   margin: 0;
@@ -7199,15 +7277,17 @@ The default close button uses the current locale's close label; override it with
 | Prop | Description | Type | Default |
 | --- | --- | --- | --- |
 | variant | Appearance | `default / outline / tonal` | `outline` |
-| size | Density; omitted value follows platform rules below | `sm / md` | `undefined` |
+| size | Density; omitted value follows platform rules below | `xs / sm / md / lg / xl` | `undefined` |
+| heading-level | Semantic heading level for the title; also controls its font size | `1 / 2 / 3 / 4 / 5 / 6` | `undefined` |
+| footer-align | Footer alignment; start and end follow the reading direction | `start / center / end` | `end` |
 | direction | Order of cover and body, default column; supports row, column and row-reverse. Does not position the card itself | `row / column / row-reverse` | `column` |
 | hoverable | Hover styling | `boolean` | `false` |
 | title-style | Title row styles | `CSSProperties` | `undefined` |
 | title | Title | `string` | `undefined` |
 | subtitle | Subtitle | `string` | `undefined` |
 | description | Description | `string` | `undefined` |
-| top-divider | Top divider | `boolean` | `false` |
-| bottom-divider | Bottom divider | `boolean` | `false` |
+| top-divider | Top divider with the same horizontal inset as the content | `boolean` | `false` |
+| bottom-divider | Bottom divider with the same horizontal inset as the content | `boolean` | `false` |
 | image-src | Cover image URL; cover slot takes precedence | `string` | `undefined` |
 | image-fit | Cover image fit | `fill / contain / cover / none / scale-down` | `cover` |
 | image-height | Image height; numbers use px | `string / number` | `undefined` |
@@ -7238,7 +7318,7 @@ The default close button uses the current locale's close label; override it with
 | title | Title | `{ slotClass: string }` |
 | title-action | Title action | — |
 | subtitle | Subtitle | `{ slotClass: string }` |
-| description | Description | `{ slotClass: string }` |
+| description | Custom description content uses the Card description container and spacing | `{ slotClass: string }` |
 | footer | Footer actions | — |
 | floating-content | Expanded content; column layout only | — |
 | close-button | Custom close button; update floating yourself | — |
@@ -7275,23 +7355,23 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-card-close-button-size` | `56px` | `height`, `width` |
 | `--mp-card-close-button-text-color` | `var(--mp-sys-color-content-on-dark)` | `color` |
 | `--mp-card-content-color` | `var(--mp-sys-color-content-tertiary)` | `color` |
-| `--mp-card-content-font-size` | `14px` | `font-size` |
+| `--mp-card-content-font-size` | `15px` | `font-size` |
 | `--mp-card-content-margin` | `16px 0 0 0` | `margin` |
 | `--mp-card-content-padding` | `0 16px` | `padding` |
 | `--mp-card-content-row-margin` | `16px 0 0 0` | `margin` |
 | `--mp-card-description-color` | `var(--mp-sys-color-content-secondary)` | `color` |
-| `--mp-card-description-font-size` | `14px` | `font-size` |
+| `--mp-card-description-font-size` | `15px` | `font-size` |
 | `--mp-card-description-margin` | `20px 0 0 0` | `margin` |
-| `--mp-card-description-padding` | `0 13px` | `padding` |
+| `--mp-card-description-padding` | `0 16px` | `padding` |
 | `--mp-card-filled-background` | `var(--mp-sys-color-surface-muted)` | `background-color` |
 | `--mp-card-floating-buttons-bottom` | `16px` | `bottom` |
 | `--mp-card-floating-buttons-color` | `var(--mp-sys-color-content-primary)` | `color` |
 | `--mp-card-floating-buttons-right` | `16px` | `inset-inline-end` |
 | `--mp-card-footer-bottom` | `9px` | `bottom` |
 | `--mp-card-footer-margin` | `30px 0 0 0` | `margin` |
-| `--mp-card-footer-padding` | `0 12px` | `padding` |
+| `--mp-card-footer-padding` | `0 16px` | `padding` |
 | `--mp-card-footer-right` | `13px` | `inset-inline-end` |
-| `--mp-card-hover-shadow` | `0 4px 12px rgb(0 0 0%)` | `box-shadow` |
+| `--mp-card-hover-shadow` | Elevation 1 | `box-shadow` |
 | `--mp-card-image-height` | `200px` | `height` |
 | `--mp-card-image-width` | `100%` | `width` |
 | `--mp-card-line-height` | `22px` | `line-height` |
@@ -7300,18 +7380,28 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-card-row-height` | `140px` | `min-height` |
 | `--mp-card-row-image-width` | `140px` | `width` |
 | `--mp-card-row-line-height` | `1.5` | `line-height` |
+| `--mp-card-heading-size-step` | `1px` | `font-size` |
+| `--mp-card-size-xs-title-font-size` | `15px` | `font-size` |
+| `--mp-card-size-xs-section-margin` | `6px 0 0` | `margin` |
+| `--mp-card-size-xs-section-padding` | `0 8px` | `padding` |
+| `--mp-card-size-lg-title-font-size` | `24px` | `font-size` |
+| `--mp-card-size-lg-section-margin` | `20px 0 0` | `margin` |
+| `--mp-card-size-lg-section-padding` | `0 20px` | `padding` |
+| `--mp-card-size-xl-title-font-size` | `28px` | `font-size` |
+| `--mp-card-size-xl-section-margin` | `24px 0 0` | `margin` |
+| `--mp-card-size-xl-section-padding` | `0 24px` | `padding` |
 | `--mp-card-size-sm-section-margin` | `8px 0 0` | `margin` |
 | `--mp-card-size-sm-section-padding` | `0 12px` | `padding` |
 | `--mp-card-size-sm-title-font-size` | `16px` | `font-size` |
 | `--mp-card-subtitle-color` | `var(--mp-sys-color-content-secondary)` | `color` |
-| `--mp-card-subtitle-font-size` | `14px` | `font-size` |
+| `--mp-card-subtitle-font-size` | `15px` | `font-size` |
 | `--mp-card-subtitle-margin` | `10px 0 0 0` | `margin` |
-| `--mp-card-subtitle-padding` | `0 12px` | `padding` |
+| `--mp-card-subtitle-padding` | `0 16px` | `padding` |
 | `--mp-card-subtitle-row-margin` | `-8px 0 0 0` | `margin` |
 | `--mp-card-title-color` | `var(--mp-sys-color-content-primary)` | `color` |
 | `--mp-card-title-font-size` | `20px` | `font-size` |
 | `--mp-card-title-margin` | `15px 0 0 0` | `margin` |
-| `--mp-card-title-padding` | `0 12px` | `padding` |
+| `--mp-card-title-padding` | `0 16px` | `padding` |
 | `--mp-card-title-row-margin` | `12px 0` | `margin` |
 
 </div>
@@ -7330,7 +7420,7 @@ Explicit inline styles and props that write the same CSS property take precedenc
 
 ### Sizing and motion
 
-Use `--mp-card-content-row-margin` for horizontal content spacing. Card supports only sm / md sizes. `--mp-card-animation-duration` defaults to `var(--mp-sys-motion-duration-slow)` and `--mp-card-animation-easing` to `var(--mp-sys-motion-easing-standard)`. Reduced motion disables Card transitions.
+Use `--mp-card-content-row-margin` for horizontal content spacing. `--mp-card-animation-duration` defaults to `var(--mp-sys-motion-duration-slow)` and `--mp-card-animation-easing` to `var(--mp-sys-motion-easing-standard)`. Reduced motion disables Card transitions.
 
 ---
 
@@ -19601,7 +19691,7 @@ Source: `src/card/style/token.less`
 | `--mp-card-footer-margin` | Public | `30px 0 0 0` | Local CSS<br>`margin` |
 | `--mp-card-footer-padding` | Public | `0 12px` | Local CSS<br>`padding` |
 | `--mp-card-footer-right` | Public | `13px` | Local CSS<br>`inset-inline-end` |
-| `--mp-card-hover-shadow` | Public | `0 4px 12px rgb(0 0 0%)` | Local CSS<br>`box-shadow` |
+| `--mp-card-hover-shadow` | Public | Elevation 1 | Local CSS<br>`box-shadow` |
 | `--mp-card-image-height` | Public | `200px` | Local CSS<br>`height` |
 | `--mp-card-image-width` | Public | `100%` | Local CSS<br>`width` |
 | `--mp-card-line-height` | Public | `22px` | Local CSS<br>`line-height` |
@@ -52478,7 +52568,7 @@ Example source: src/section/example/demos/en-US/plain.vue
 
 ```vue
 <template>
-  <mp-section title="Member permissions" description="Permission changes apply to all project members.">
+  <mp-section variant="plain" title="Member permissions" description="Permission changes apply to all project members.">
     <dl>
       <dt>Administrator</dt>
       <dd>Manage members and project settings</dd>
@@ -52491,11 +52581,13 @@ Example source: src/section/example/demos/en-US/plain.vue
 
 ### Section with a line
 
+`heading-line` is the default variant.
+
 Example source: src/section/example/demos/en-US/line.vue
 
 ```vue
 <template>
-  <mp-section title="Release history" variant="heading-line">
+  <mp-section title="Release history">
     <template #extra>
       <mp-button :aria-expanded="expanded" @click="expanded = !expanded">
         {{ expanded ? 'Show latest' : 'Show all' }}
@@ -52533,21 +52625,61 @@ Example source: src/section/example/demos/en-US/outline.vue
 
 ### Section sizes
 
-Both headings are level 4. The compact section uses a 14px title and the default section uses a 16px title.
+Choose a size and heading level to preview the title. Each heading column shows its default font size. The dashed border marks the content area.
+
+| Size | h1 | h2 | h3 | h4 | h5 | h6 | Card padding | Gap below header |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `xs` | 24px | 20px | 18px | 16px | 14px | 12px | 8px | 8px |
+| `sm` | 24px | 20px | 18px | 16px | 14px | 12px | 12px | 12px |
+| `md` | 26px | 22px | 20px | 18px | 16px | 14px | 16px | 20px |
+| `lg` | 30px | 26px | 24px | 22px | 20px | 18px | 20px | 24px |
+| `xl` | 34px | 30px | 28px | 26px | 24px | 22px | 24px | 28px |
 
 Example source: src/section/example/demos/en-US/sizes.vue
 
 ```vue
+<script setup lang="ts">
+import { reactive } from 'vue'
+
+const headingLevels = [1, 2, 3, 4, 5, 6] as const
+const model = reactive<{ size: 'xs' | 'sm' | 'md' | 'lg' | 'xl'; headingLevel: (typeof headingLevels)[number] }>({
+  size: 'md',
+  headingLevel: 4,
+})
+</script>
+
 <template>
   <mp-space direction="column" align="stretch">
-    <mp-section size="sm" variant="outline" show-marker :heading-level="4" title="Member permissions">
-      Administrators can invite members and update project settings.
-    </mp-section>
-    <mp-section size="md" variant="outline" show-marker :heading-level="4" title="Member permissions">
-      Administrators can invite members and update project settings.
+    <mp-form :model="model" layout="vertical" edit-mode="direct">
+      <mp-form-item field="size" label="Section size">
+        <mp-radio-group v-model="model.size" aria-label="Section size">
+          <mp-radio value="xs">Extra small (xs)</mp-radio>
+          <mp-radio value="sm">Compact (sm)</mp-radio>
+          <mp-radio value="md">Default (md)</mp-radio>
+          <mp-radio value="lg">Large (lg)</mp-radio>
+          <mp-radio value="xl">Extra large (xl)</mp-radio>
+        </mp-radio-group>
+      </mp-form-item>
+      <mp-form-item field="headingLevel" label="Heading level">
+        <mp-radio-group v-model="model.headingLevel" aria-label="Heading level">
+          <mp-radio v-for="level in headingLevels" :key="level" :value="level">h{{ level }}</mp-radio>
+        </mp-radio-group>
+      </mp-form-item>
+    </mp-form>
+    <output>Rendered tag <code>&lt;h{{ model.headingLevel }}&gt;</code></output>
+
+    <mp-section :size="model.size" variant="outline" show-marker :heading-level="model.headingLevel" title="Member permissions">
+      <div class="section-size-content">Administrators can invite members and update project settings.</div>
     </mp-section>
   </mp-space>
 </template>
+
+<style scoped>
+.section-size-content {
+  border: 1px dashed currentColor;
+  padding: 8px;
+}
+</style>
 ```
 
 ### With or without a heading
@@ -52649,8 +52781,8 @@ const model = reactive({ name: '', department: '' })
 | id | Section anchor | string | Automatically generated |
 | title | Heading text | string | Empty |
 | description | Supporting text below the heading | string | Empty |
-| size | Visual size (sm / md), independent of heading level | SectionSize | md |
-| variant | Appearance, plain, heading-line, tonal or outline | 'plain' \| 'heading-line' \| 'tonal' \| 'outline' | heading-line inside Form, otherwise plain |
+| size | Visual size (xs / sm / md / lg / xl) | SectionSize | md |
+| variant | Appearance, plain, heading-line, tonal or outline | 'plain' \| 'heading-line' \| 'tonal' \| 'outline' | heading-line |
 | status | Status colors the marker, tonal fill and outline (default / info / success / warning / danger) | SectionStatus | — |
 | heading-level | HTML heading level from 1 to 6 | 1–6 | 3 inside Form, otherwise 2 |
 | show-marker | Show the marker | boolean | Enabled inside Form |
@@ -52683,6 +52815,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-section-card-background` | `var(--mp-sys-color-surface-default)` | `background` |
 | `--mp-section-card-padding` | `16px` | `padding` |
 | `--mp-section-card-radius` | `6px` | `border-radius` |
+| `--mp-section-content-size` | `14px` | `font-size` |
 | `--mp-section-description-color` | `var(--mp-sys-color-content-secondary)` | `color` |
 | `--mp-section-description-gap` | `4px` | `margin-block-start` |
 | `--mp-section-description-line-height` | `20px` | `line-height` |
@@ -52695,6 +52828,22 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-section-marker-height` | `16px` | `height` |
 | `--mp-section-marker-radius` | `2px` | `border-radius` |
 | `--mp-section-marker-width` | `3px` | `width`, `padding-inline-start` |
+| `--mp-section-heading-size-step` | `1px` | Heading font size and line height step |
+| `--mp-section-size-lg-card-padding` | `20px` | `padding` |
+| `--mp-section-size-lg-header-gap` | `24px` | `margin-block-end` |
+| `--mp-section-size-lg-marker-height` | `20px` | `height` |
+| `--mp-section-size-lg-title-line-height` | `28px` | `line-height` |
+| `--mp-section-size-lg-title-size` | `20px` | `font-size` |
+| `--mp-section-size-xs-card-padding` | `8px` | `padding` |
+| `--mp-section-size-xs-header-gap` | `8px` | `margin-block-end` |
+| `--mp-section-size-xs-marker-height` | `12px` | `height` |
+| `--mp-section-size-xs-title-line-height` | `18px` | `line-height` |
+| `--mp-section-size-xs-title-size` | `14px` | `font-size` |
+| `--mp-section-size-xl-card-padding` | `24px` | `padding` |
+| `--mp-section-size-xl-header-gap` | `28px` | `margin-block-end` |
+| `--mp-section-size-xl-marker-height` | `24px` | `height` |
+| `--mp-section-size-xl-title-line-height` | `32px` | `line-height` |
+| `--mp-section-size-xl-title-size` | `24px` | `font-size` |
 | `--mp-section-size-sm-card-padding` | `12px` | `padding` |
 | `--mp-section-size-sm-header-gap` | `12px` | `margin-block-end` |
 | `--mp-section-size-sm-marker-height` | `14px` | `height` |
@@ -62535,7 +62684,7 @@ const data = [
     <mp-tab-pane name="sales" title="Sales">
       <mp-table :columns="columns" :data="data" :pagination="false">
         <template #actions="{ record }">
-          <button type="button" @click="selected = record.store">View</button>
+          <mp-button variant="text" status="primary" size="sm" @click="selected = record.store">View</mp-button>
         </template>
       </mp-table>
     </mp-tab-pane>
