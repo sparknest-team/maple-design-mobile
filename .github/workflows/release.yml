@@ -4,6 +4,11 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      confirm_major:
+        description: Confirm major release for this main commit
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -56,6 +61,7 @@ jobs:
           commit: 'chore(release): version packages and update changelogs'
           commitMode: github-api
         env:
+          CONFIRMED_MAJOR_COMMIT: ${{ github.event_name == 'workflow_dispatch' && inputs.confirm_major && github.sha || '' }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Run Quality for the bot-created release PR
         if: steps.changesets.outputs.pullRequestNumber != ''

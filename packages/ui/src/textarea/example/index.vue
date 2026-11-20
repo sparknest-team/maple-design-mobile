@@ -2,6 +2,7 @@
 import { AppType, onThemeChange } from '@maple-design/cli-vue/client'
 import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import OrganizedAppearanceLab from './demos/appearance-lab.vue'
+import EnAutoSizeDemo from './demos/en-US/auto-size.vue'
 import AutoSizeDemo from './demos/auto-size.vue'
 import BodyDemo from './demos/body-contract.vue'
 import Demo1 from './demos/demo-1.vue'
@@ -78,7 +79,7 @@ onThemeChange()
     <OrganizedStateLab />
   </section>
 
-  <section data-demo="auto-size"><app-type>自动高度 / Auto Size</app-type><AutoSizeDemo /></section>
+  <section data-demo="auto-size"><app-type>自动高度 / Auto Size</app-type><component :is="english ? EnAutoSizeDemo : AutoSizeDemo" /></section>
 
   <section data-demo="body-contract">
     <app-type>{{ english ? 'Body and event contract' : '主体与事件契约' }}</app-type

@@ -49,8 +49,8 @@
     <component
       :is="editor ? CascaderEditorPanel : BaseCascaderPanel"
       v-else
-      ref="hierarchyPanel"
       :id="dialogId || optionsId"
+      ref="hierarchyPanel"
       :role="dialogId ? 'dialog' : undefined"
       :aria-label="dialogId ? texts.select.value : undefined"
       :display-columns="displayColumns"

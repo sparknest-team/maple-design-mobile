@@ -9,7 +9,9 @@ const theme = ref<'light' | 'dark'>('dark')
     <mp-theme-provider :theme="theme" class="theme-region">
       <p>外层主题 / Outer: {{ theme }}</p>
       <mp-button status="primary">主题按钮 / Themed button</mp-button>
-      <mp-select :options="[{ label: 'Body popup inherits theme', value: 1 }]" placeholder="打开弹层 / Open popup" />
+      <mp-form-item layout="vertical" hide-label>
+        <mp-select :options="[{ label: 'Body popup inherits theme', value: 1 }]" placeholder="打开弹层 / Open popup" />
+      </mp-form-item>
       <mp-theme-provider theme="light" class="theme-region">
         <p>嵌套亮色 / Nested light</p>
         <mp-button variant="outline">亮色按钮 / Light button</mp-button>

@@ -134,7 +134,7 @@ Use this example for notes and multi-line descriptions. Adjust disabled, read-on
 Auto sizing converts the measured box to the actual CSS box model, counting padding and the top/bottom borders once. Explicit `minRows / maxRows` override the theme minimum; excess content scrolls within the row cap. Turning auto size off restores native height and the platform resize default. Compare both box models, fill six lines, and switch the cap.
 
 ```demo
-../example/demos/auto-size.vue
+../example/demos/en-US/auto-size.vue
 ```
 
 ### Body and event contract

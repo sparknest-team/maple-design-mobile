@@ -1,7 +1,7 @@
-import { isShadowRoot } from '../_utils/is-shadow-root'
 import { onActivated, onBeforeUnmount, onDeactivated, ref, watch } from 'vue'
 import { isInteractiveAriaRole } from '../_utils/aria-role'
 import { isEditable } from '../_utils/is-editable'
+import { isShadowRoot } from '../_utils/is-shadow-root'
 
 // Inspect rendered descendants so custom components and local slot updates work too.
 const interactive = 'button,input:not([type="hidden"]),textarea,select,a[href],summary'

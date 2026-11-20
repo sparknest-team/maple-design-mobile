@@ -198,7 +198,9 @@ export default defineComponent({
     )
 
     const menuChecked = computed(() => {
-      if (isMenuCheckbox.value && checkedStatus.value.indeterminate) return 'mixed'
+      if (isMenuCheckbox.value && checkedStatus.value.indeterminate) {
+        return 'mixed'
+      }
       if (isMenuCheckbox.value || (isMenuRadio.value && !props.listboxOption)) {
         return Boolean(checkedStatus.value.checked)
       }

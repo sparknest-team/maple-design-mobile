@@ -176,6 +176,8 @@ When focus is in a native dialog opened with `showModal()`, Escape goes to the d
 
 Pressing Escape inside an expanded Card dismisses an open native auto or hint popover first. This also applies when focus remains on its trigger.
 
+When focus is in a native dialog opened with `showModal()`, Escape goes to the dialog. A `cancel` handler can keep the dialog open, and the Card stays expanded.
+
 When focus remains inside the expanded content or on the close button, closing attempts to return focus to the control used before expansion. If focus has moved elsewhere, it is not moved back. During the expansion delay, focusing the expanded content displays it immediately without waiting for the fade-in animation. Expanded content and the close button that are still hidden and unfocused during this delay are excluded from the accessibility tree; focusing either displays them immediately.
 
 If the opener is inside an external closed Shadow Root, Card cannot access the internal control directly. The host must delegate focus or the application must restore focus. `delegatesFocus` can forward host focus into the root, but does not guarantee the original control when several controls are present.

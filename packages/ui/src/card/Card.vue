@@ -138,7 +138,7 @@ import { computed, nextTick, onActivated, onBeforeUnmount, onDeactivated, onMoun
 import { IconClose as MIconClose } from '@maple-design/icons-vue'
 import { doubleRaf, getRect } from '@maple-design/shared-vue'
 import { isShadowRoot } from '../_utils/is-shadow-root'
-import BaseButton from '../button/Button.vue'
+import BaseButton from '../button/base'
 import { useLock } from '../context/lock'
 import { useZIndex } from '../context/zIndex'
 import BaseDivider from '../divider/Divider.vue'

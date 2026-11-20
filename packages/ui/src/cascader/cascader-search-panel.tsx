@@ -1,4 +1,3 @@
-import { isShadowRoot } from '../_utils/is-shadow-root'
 import {
   computed,
   defineComponent,
@@ -14,6 +13,7 @@ import {
 } from 'vue'
 import { useEmptySlot } from '../_components/selection-field/empty-slot'
 import Scrollbar from '../_components/selection-scrollbar'
+import { isShadowRoot } from '../_utils/is-shadow-root'
 import Empty from '../empty'
 import Loading from '../loading/Loading.vue'
 import { createNamespace, getPrefixCls } from '../utils/components'
