@@ -23,7 +23,8 @@ describe('documentation responsive layout contract', () => {
     expect(source).toContain('aria-controls="maple-site-navigation"')
     expect(source).toContain(':aria-expanded="sidebarOpen"')
     expect(source).toContain('@keydown.esc="closeSidebar"')
-    expect(source).toContain('doc.value?.focus()')
+    expect(source).toContain('content.focus({ preventScroll: true })')
+    expect(source).not.toMatch(/<main[^>]*tabindex=/)
     expect(source).toContain('sidebarToggle.value?.focus()')
   })
 

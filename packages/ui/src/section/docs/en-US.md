@@ -12,6 +12,8 @@ Group a heading, description, actions and content in a page, drawer or card. Out
 
 ### Section with a line
 
+`heading-line` is the default variant.
+
 ```demo
 ../example/demos/en-US/line.vue
 ```
@@ -26,7 +28,15 @@ Use the title and description slots for the section header. `show-marker` adds a
 
 ### Section sizes
 
-Both headings are level 4. The compact section uses a 14px title and the default section uses a 16px title.
+Choose a size and heading level to preview the title. Each heading column shows its default font size. The dashed border marks the content area.
+
+| Size | h1 | h2 | h3 | h4 | h5 | h6 | Card padding | Gap below header |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `xs` | 24px | 20px | 18px | 16px | 14px | 12px | 8px | 8px |
+| `sm` | 24px | 20px | 18px | 16px | 14px | 12px | 12px | 12px |
+| `md` | 26px | 22px | 20px | 18px | 16px | 14px | 16px | 20px |
+| `lg` | 30px | 26px | 24px | 22px | 20px | 18px | 20px | 24px |
+| `xl` | 34px | 30px | 28px | 26px | 24px | 22px | 24px | 28px |
 
 ```demo
 ../example/demos/en-US/sizes.vue
@@ -57,8 +67,8 @@ Inside Form, Section defaults to heading-line with a heading marker. The fields 
 | id | Section anchor | string | Automatically generated |
 | title | Heading text | string | Empty |
 | description | Supporting text below the heading | string | Empty |
-| size | Visual size (sm / md), independent of heading level | SectionSize | md |
-| variant | Appearance, plain, heading-line, tonal or outline | 'plain' \| 'heading-line' \| 'tonal' \| 'outline' | heading-line inside Form, otherwise plain |
+| size | Visual size (xs / sm / md / lg / xl) | SectionSize | md |
+| variant | Appearance, plain, heading-line, tonal or outline | 'plain' \| 'heading-line' \| 'tonal' \| 'outline' | heading-line |
 | status | Status colors the marker, tonal fill and outline (default / info / success / warning / danger) | SectionStatus | — |
 | heading-level | HTML heading level from 1 to 6 | 1–6 | 3 inside Form, otherwise 2 |
 | show-marker | Show the marker | boolean | Enabled inside Form |
@@ -91,6 +101,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-section-card-background` | `var(--mp-sys-color-surface-default)` | `background` |
 | `--mp-section-card-padding` | `16px` | `padding` |
 | `--mp-section-card-radius` | `6px` | `border-radius` |
+| `--mp-section-content-size` | `14px` | `font-size` |
 | `--mp-section-description-color` | `var(--mp-sys-color-content-secondary)` | `color` |
 | `--mp-section-description-gap` | `4px` | `margin-block-start` |
 | `--mp-section-description-line-height` | `20px` | `line-height` |
@@ -103,6 +114,22 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-section-marker-height` | `16px` | `height` |
 | `--mp-section-marker-radius` | `2px` | `border-radius` |
 | `--mp-section-marker-width` | `3px` | `width`, `padding-inline-start` |
+| `--mp-section-heading-size-step` | `1px` | Heading font size and line height step |
+| `--mp-section-size-lg-card-padding` | `20px` | `padding` |
+| `--mp-section-size-lg-header-gap` | `24px` | `margin-block-end` |
+| `--mp-section-size-lg-marker-height` | `20px` | `height` |
+| `--mp-section-size-lg-title-line-height` | `28px` | `line-height` |
+| `--mp-section-size-lg-title-size` | `20px` | `font-size` |
+| `--mp-section-size-xs-card-padding` | `8px` | `padding` |
+| `--mp-section-size-xs-header-gap` | `8px` | `margin-block-end` |
+| `--mp-section-size-xs-marker-height` | `12px` | `height` |
+| `--mp-section-size-xs-title-line-height` | `18px` | `line-height` |
+| `--mp-section-size-xs-title-size` | `14px` | `font-size` |
+| `--mp-section-size-xl-card-padding` | `24px` | `padding` |
+| `--mp-section-size-xl-header-gap` | `28px` | `margin-block-end` |
+| `--mp-section-size-xl-marker-height` | `24px` | `height` |
+| `--mp-section-size-xl-title-line-height` | `32px` | `line-height` |
+| `--mp-section-size-xl-title-size` | `24px` | `font-size` |
 | `--mp-section-size-sm-card-padding` | `12px` | `padding` |
 | `--mp-section-size-sm-header-gap` | `12px` | `margin-block-end` |
 | `--mp-section-size-sm-marker-height` | `14px` | `height` |

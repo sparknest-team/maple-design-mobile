@@ -9,7 +9,7 @@ import {
 } from '@maple-design/cli-vue/client'
 import { Locale, ThemeProvider } from '@maple-design/ui-vue'
 import routes from '@pc-routes'
-import { createRouter, createWebHashHistory } from 'vue-router'
+import { createRouter, createWebHashHistory, START_LOCATION } from 'vue-router'
 import { getDesktopPath } from '../mobile/route-sync'
 import { installRouteRecovery } from '../route-recovery'
 import App from './App.vue'
@@ -33,11 +33,17 @@ redirect &&
 const router = createRouter({
   history: createWebHashHistory(),
   routes,
-  scrollBehavior(to: any) {
+  scrollBehavior(to, from, savedPosition) {
+    const initialNavigation = from === START_LOCATION
+    if (savedPosition && (!initialNavigation || !to.hash)) return savedPosition
+    if (to.fullPath === from.fullPath && !to.hash) return false
+
     if (to.hash) {
+      const heading = document.getElementById(to.hash.slice(1))
+      if (!heading) return false
       return {
-        el: to.hash,
-        behavior: 'smooth',
+        el: heading,
+        behavior: initialNavigation ? 'instant' : 'smooth',
         top: 100,
       }
     }
@@ -71,11 +77,15 @@ router.beforeEach((to: any, from: any) => {
 Object.defineProperty(window, 'onMobileRouteChange', {
   value: (path: string, language: string, replace: string, hash: string, query: Record<string, any> = {}) => {
     const { language: _language, platform: _platform, replace: _replace, ...businessQuery } = query
-    router.replace({
-      path: path === mobileRedirect ? `/${language}/${replace}` : getDesktopPath(path, language),
-      hash,
+    const desktopPath = path === mobileRedirect ? `/${language}/${replace}` : getDesktopPath(path, language)
+    const target = {
+      path: desktopPath,
+      hash: hash || (desktopPath === router.currentRoute.value.path ? router.currentRoute.value.hash : ''),
       query: businessQuery,
-    })
+    }
+    if (router.resolve(target).fullPath !== router.currentRoute.value.fullPath) {
+      router.replace(target)
+    }
   },
 })
 

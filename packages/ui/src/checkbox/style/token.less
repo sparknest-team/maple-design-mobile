@@ -21,7 +21,11 @@
   --mp-internal-checkbox-action-radius: 50%;
   --mp-internal-checkbox-focus-width: 2px;
   --mp-internal-checkbox-background: var(--mp-sys-color-surface-default);
-  --mp-internal-checkbox-background-disabled: var(--mp-sys-color-surface-muted);
+  --mp-internal-checkbox-background-disabled: color-mix(
+    in srgb,
+    var(--mp-sys-color-surface-muted) 82%,
+    var(--mp-sys-color-content-disabled)
+  );
   --mp-internal-checkbox-mark-size: 75%;
   --mp-internal-checkbox-mark-height: 2px;
   --mp-internal-checkbox-mark-radius: 1px;

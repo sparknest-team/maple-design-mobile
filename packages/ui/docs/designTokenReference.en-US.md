@@ -600,7 +600,7 @@ Source: `src/card/style/token.less`
 | `--mp-card-footer-margin` | Public | `30px 0 0 0` | Local CSS<br>`margin` |
 | `--mp-card-footer-padding` | Public | `0 12px` | Local CSS<br>`padding` |
 | `--mp-card-footer-right` | Public | `13px` | Local CSS<br>`inset-inline-end` |
-| `--mp-card-hover-shadow` | Public | `0 4px 12px rgb(0 0 0%)` | Local CSS<br>`box-shadow` |
+| `--mp-card-hover-shadow` | Public | Elevation 1 | Local CSS<br>`box-shadow` |
 | `--mp-card-image-height` | Public | `200px` | Local CSS<br>`height` |
 | `--mp-card-image-width` | Public | `100%` | Local CSS<br>`width` |
 | `--mp-card-line-height` | Public | `22px` | Local CSS<br>`line-height` |

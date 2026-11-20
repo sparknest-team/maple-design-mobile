@@ -15,10 +15,10 @@ describe('Section', () => {
       slots: { default: () => h('input') },
     })
     try {
-      expect(wrapper.classes()).toContain('mp-section--plain')
+      expect(wrapper.classes()).toContain('mp-section--heading-line')
       const input = wrapper.get('input').element
       await wrapper.get('input').setValue('Draft onsite instructions')
-      expect(wrapper.find('.mp-section__line').exists()).toBe(false)
+      expect(wrapper.find('.mp-section__line').exists()).toBe(true)
       for (const variant of ['outline', 'plain', 'heading-line'] as const) {
         await wrapper.setProps({ variant })
         expect(wrapper.classes()).toContain(`mp-section--${variant}`)

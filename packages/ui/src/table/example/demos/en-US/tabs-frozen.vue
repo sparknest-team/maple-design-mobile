@@ -19,7 +19,7 @@ const data = [
     <mp-tab-pane name="sales" title="Sales">
       <mp-table :columns="columns" :data="data" :pagination="false">
         <template #actions="{ record }">
-          <button type="button" @click="selected = record.store">View</button>
+          <mp-button variant="text" status="primary" size="sm" @click="selected = record.store">View</mp-button>
         </template>
       </mp-table>
     </mp-tab-pane>

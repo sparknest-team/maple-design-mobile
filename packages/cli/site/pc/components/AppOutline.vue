@@ -2,7 +2,13 @@
 import { nextTick, onBeforeUnmount, ref, watch } from 'vue'
 
 const props = withDefaults(
-  defineProps<{ root?: HTMLElement | null; language?: string; pageKey?: string; visible?: boolean }>(),
+  defineProps<{
+    root?: HTMLElement | null
+    language?: string
+    pageKey?: string
+    visible?: boolean
+    outlineHref?: (id: string) => string
+  }>(),
   { visible: true },
 )
 const emit = defineEmits<{ navigate: [id: string]; 'active-change': [id: string] }>()
@@ -20,6 +26,12 @@ function updateActive() {
   }
   activeId.value = active?.id ?? headings.value[0]?.id ?? ''
   return active?.id ?? ''
+}
+
+function navigate(event: MouseEvent, id: string) {
+  if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return
+  event.preventDefault()
+  emit('navigate', id)
 }
 
 function followActive() {
@@ -45,7 +57,11 @@ function onScroll(event: Event) {
   updateActive()
   nextTick(followActive)
   clearTimeout(scrollTimer)
-  scrollTimer = setTimeout(() => emit('active-change', updateActive()), 150)
+  const scroller = event.target === props.root ? props.root : document.scrollingElement
+  scrollTimer = setTimeout(() => {
+    const id = updateActive()
+    emit('active-change', scroller?.scrollTop === 0 ? '' : id)
+  }, 150)
 }
 
 function collect() {
@@ -77,7 +93,6 @@ watch(
   () => [props.root, props.pageKey],
   () => {
     observer?.disconnect()
-    clearTimeout(scrollTimer)
     collect()
     if (props.root) {
       observer = new MutationObserver(collect)
@@ -86,6 +101,8 @@ watch(
   },
   { immediate: true, flush: 'post' },
 )
+
+watch(() => props.pageKey, () => clearTimeout(scrollTimer), { flush: 'sync' })
 
 // Capture also covers a document container that scrolls independently of the window.
 document.addEventListener('scroll', onScroll, { capture: true, passive: true })
@@ -101,11 +118,11 @@ onBeforeUnmount(() => {
     <a
       v-for="heading in headings"
       :key="heading.id"
-      :href="`#${heading.id}`"
+      :href="outlineHref?.(heading.id) ?? `#${heading.id}`"
       class="maple-site-outline__link"
       :class="{ 'maple-site-outline__link--nested': heading.level === 3 }"
       :aria-current="activeId === heading.id ? 'location' : undefined"
-      @click.prevent="emit('navigate', heading.id)"
+      @click="navigate($event, heading.id)"
       >{{ heading.title }}</a
     >
     <p v-if="!headings.length" class="maple-site-outline__empty">

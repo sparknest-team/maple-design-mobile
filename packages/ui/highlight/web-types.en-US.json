@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json",
   "framework": "vue",
-  "version": "1.1.12",
+  "version": "1.2.1",
   "name": "Maple Design Mobile",
   "contributions": {
     "html": {
@@ -11978,10 +11978,10 @@
             },
             {
               "name": "size",
-              "description": "Section size",
+              "description": "Visual size (sm / md), independent of heading level",
               "default": "md",
               "value": {
-                "type": "'sm' | 'md'",
+                "type": "SectionSize",
                 "kind": "expression"
               }
             },
@@ -11991,6 +11991,15 @@
               "default": "heading-line inside Form, otherwise plain",
               "value": {
                 "type": "'plain' | 'heading-line' | 'tonal' | 'outline'",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "status",
+              "description": "Status colors the marker, tonal fill and outline (default / info / success / warning / danger)",
+              "default": "—",
+              "value": {
+                "type": "SectionStatus",
                 "kind": "expression"
               }
             },
@@ -12005,10 +12014,19 @@
             },
             {
               "name": "show-marker",
-              "description": "Show a heading marker",
+              "description": "Show the marker",
               "default": "Enabled inside Form",
               "value": {
                 "type": "boolean",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "marker-placement",
+              "description": "Marker placement (`title` or `section`)",
+              "default": "title",
+              "value": {
+                "type": "string",
                 "kind": "expression"
               }
             }
@@ -14143,51 +14161,532 @@
           "name": "mp-table",
           "attributes": [
             {
-              "name": "loading",
-              "description": "Explicit loading state; an object requires `loading: true`",
-              "default": "false",
+              "name": "columns",
+              "description": "Column info of the table",
+              "default": "[]",
               "value": {
-                "type": "boolean | `Partial<LoadingProps>`",
+                "type": "`TableColumnData[]`",
                 "kind": "expression"
               }
             },
             {
-              "name": "full-width",
-              "description": "The width of the `table` (including the scrollable part)",
-              "default": "100%",
+              "name": "data",
+              "description": "Table data",
+              "default": "[]",
               "value": {
-                "type": "string | number",
+                "type": "`TableData[]`",
                 "kind": "expression"
               }
             },
             {
-              "name": "elevation",
-              "description": "Elevation level, options `true` `false` and level of `0-24`",
+              "name": "bordered",
+              "description": "Whether to show border",
               "default": "true",
               "value": {
-                "type": "number | boolean",
+                "type": "`boolean | TableBorder`",
                 "kind": "expression"
               }
             },
             {
-              "name": "scroller-height",
-              "description": "The height of the scroll container, which can be used to implement functions such as longitudinal partial scrolling and fixed table headers.",
+              "name": "hoverable",
+              "description": "Whether to show the hover effect",
+              "default": "true",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "stripe",
+              "description": "Whether to enable the stripe effect",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "size",
+              "description": "The size of the table",
+              "default": "'md'",
+              "value": {
+                "type": "`'xs' | 'sm' | 'md' | 'lg' | 'xl'`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "table-layout",
+              "description": "Table layout algorithm, matching CSS `table-layout`. Defaults to `fixed`; calculated column widths are not expanded by content",
+              "default": "'fixed'",
+              "value": {
+                "type": "`'fixed' | 'auto'`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "loading",
+              "description": "Loading state",
+              "default": "false",
+              "value": {
+                "type": "`boolean|object`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "row-selection",
+              "description": "Table row selector configuration",
               "default": "-",
               "value": {
-                "type": "string | number",
+                "type": "`TableRowSelection`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "expandable",
+              "description": "Expand row configuration of the table",
+              "default": "-",
+              "value": {
+                "type": "`TableExpandable`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "height",
+              "description": "Table height; fixes the header and scrolls the body. Numbers are px",
+              "default": "-",
+              "value": {
+                "type": "`number | string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "max-height",
+              "description": "Maximum table height; shrinks for short content and scrolls the body on overflow. Numbers are px",
+              "default": "-",
+              "value": {
+                "type": "`number | string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "fit",
+              "description": "Remaining-space allocation; the table always fills at least its parent `width`. `true` assigns it to flexible columns without `width`; `false` expands columns proportionally to their base widths",
+              "default": "true",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "pagination",
+              "description": "Pagination properties configuration",
+              "default": "true",
+              "value": {
+                "type": "`boolean | TablePaginationConfig`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "indent-size",
+              "description": "The indentation distance of the tree table",
+              "default": "16",
+              "value": {
+                "type": "`number`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "row-key",
+              "description": "Value field of table row `key`",
+              "default": "'key'",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show-header",
+              "description": "Whether to show the header",
+              "default": "true",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "virtual-list-props",
+              "description": "Virtual-list props; providing them enables virtual scrolling. See VirtualListProps",
+              "default": "-",
+              "value": {
+                "type": "`VirtualListProps`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "span-method",
+              "description": "Cell merge method (The index starts counting from the data item)",
+              "default": "-",
+              "value": {
+                "type": "`(data: {  record: TableData;  column: TableColumnData | TableOperationColumn;  rowIndex: number;  columnIndex: number;}) => { rowspan?: number; colspan?: number } | void`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "span-all",
+              "description": "Whether to make the index of the span method contain all",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "components",
+              "description": "Configure operation columns; see TableComponents",
+              "default": "-",
+              "value": {
+                "type": "`TableComponents`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "row-number",
+              "description": "Reserved prop; currently does not generate row numbers",
+              "default": "-",
+              "value": {
+                "type": "`boolean | object`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "load-more",
+              "description": "Load children asynchronously; call done(children), or done() to allow retry",
+              "default": "-",
+              "value": {
+                "type": "`(record: TableData, done: (children?: TableData[]) => void) => void`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "hide-expand-button-on-empty",
+              "description": "Whether to hide expand button when subtree is empty",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "row-class",
+              "description": "Class for table-row elements",
+              "default": "-",
+              "value": {
+                "type": "`string| any[]| Record<string, any>| ((record: TableData, rowIndex: number) => any)`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "draggable",
+              "description": "Table drag and drop sorting configuration",
+              "default": "-",
+              "value": {
+                "type": "`TableDraggable`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "column-resizable",
+              "description": "Whether columns can be resized; drag handles render only under `table-layout: fixed`",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "summary",
+              "description": "Show footer summary row",
+              "default": "-",
+              "value": {
+                "type": "`boolean| ((params: {    columns: TableColumnData[];    data: TableData[];  }) => TableData[])`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "summary-text",
+              "description": "The first column of text in the summary line",
+              "default": "'Summary'",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "summary-span-method",
+              "description": "Cell Merge Method for Summarizing Rows",
+              "default": "-",
+              "value": {
+                "type": "`(data: {  record: TableData;  column: TableColumnData | TableOperationColumn;  rowIndex: number;  columnIndex: number;}) => { rowspan?: number; colspan?: number } | void`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "selected-keys",
+              "description": "Selected row (controlled mode) takes precedence over `rowSelection`",
+              "default": "-",
+              "value": {
+                "type": "`(string | number)[]`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-selected-keys",
+              "description": "The selected row by default (uncontrolled mode) takes precedence over `rowSelection`",
+              "default": "-",
+              "value": {
+                "type": "`(string | number)[]`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "expanded-keys",
+              "description": "Displayed Expanded Row, Subtree (Controlled Mode) takes precedence over `expandable`",
+              "default": "-",
+              "value": {
+                "type": "`(string | number)[]`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-expanded-keys",
+              "description": "Expand row, Subtree displayed by default (Uncontrolled mode) takes precedence over `expandable`",
+              "default": "-",
+              "value": {
+                "type": "`(string | number)[]`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "default-expand-all-rows",
+              "description": "Whether to expand all rows by default",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "sticky-header",
+              "description": "Sticky header relative to the page/outer scroller; numeric values are top offsets in px",
+              "default": "false",
+              "value": {
+                "type": "`boolean | number`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "sticky-pagination",
+              "description": "Sticky pagination relative to the page/outer scroller; numeric values are bottom offsets in px",
+              "default": "false",
+              "value": {
+                "type": "`boolean | number`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "scrollbar",
+              "description": "Whether to enable virtual scroll bar",
+              "default": "false",
+              "value": {
+                "type": "`boolean | ScrollbarProps`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "show-empty-tree",
+              "description": "Whether to display empty subtrees",
+              "default": "false",
+              "value": {
+                "type": "`boolean`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "extra-column",
+              "description": "Append an extra final column, e.g. settings; slots supply its content",
+              "default": "false",
+              "value": {
+                "type": "`boolean | TableExtraColumnConfig`",
                 "kind": "expression"
               }
             }
           ],
-          "events": [],
+          "events": [
+            {
+              "name": "expand",
+              "description": "Emitted when an expandable row is clicked"
+            },
+            {
+              "name": "expanded-change",
+              "description": "Emitted when expanded rows change"
+            },
+            {
+              "name": "select",
+              "description": "Emitted when a row selector is clicked"
+            },
+            {
+              "name": "select-all",
+              "description": "Emitted when the select-all control is clicked"
+            },
+            {
+              "name": "selection-change",
+              "description": "Emitted when selected rows change"
+            },
+            {
+              "name": "sorter-change",
+              "description": "Emitted when sorting changes"
+            },
+            {
+              "name": "filter-change",
+              "description": "Emitted when filtering changes"
+            },
+            {
+              "name": "page-change",
+              "description": "Emitted when table page changes"
+            },
+            {
+              "name": "page-size-change",
+              "description": "Emitted when table page size changes"
+            },
+            {
+              "name": "change",
+              "description": "Emitted when table data changes"
+            },
+            {
+              "name": "update:columns",
+              "description": "Emitted when column configuration changes; supports v-model:columns"
+            },
+            {
+              "name": "cell-mouse-enter",
+              "description": "Emitted on cell hover enter"
+            },
+            {
+              "name": "cell-mouse-leave",
+              "description": "Emitted on cell hover leave"
+            },
+            {
+              "name": "cell-click",
+              "description": "Emitted when a cell is clicked"
+            },
+            {
+              "name": "row-click",
+              "description": "Emitted when a row is clicked"
+            },
+            {
+              "name": "header-click",
+              "description": "Emitted when a header is clicked"
+            },
+            {
+              "name": "column-resize",
+              "description": "Emitted when a column is resized"
+            },
+            {
+              "name": "row-dblclick",
+              "description": "Emitted when a row is double-clicked"
+            },
+            {
+              "name": "cell-dblclick",
+              "description": "Emitted when a cell is double-clicked"
+            },
+            {
+              "name": "row-contextmenu",
+              "description": "Emitted when a row is right-clicked"
+            },
+            {
+              "name": "cell-contextmenu",
+              "description": "Emitted when a cell is right-clicked"
+            },
+            {
+              "name": "row-touchstart",
+              "description": "Emitted for the touched row with the original native event."
+            },
+            {
+              "name": "row-touchend",
+              "description": "Emitted for the touched row with the original native event."
+            },
+            {
+              "name": "row-touchcancel",
+              "description": "Emitted for the touched row with the original native event."
+            }
+          ],
           "slots": [
             {
-              "name": "default",
-              "description": "Content of `table`"
+              "name": "th",
+              "description": "Custom th element"
+            },
+            {
+              "name": "thead",
+              "description": "Custom thead element"
+            },
+            {
+              "name": "empty",
+              "description": "Empty content"
+            },
+            {
+              "name": "summary-cell",
+              "description": "Summary row"
+            },
+            {
+              "name": "pagination-right",
+              "description": "Content to the right of pagination"
+            },
+            {
+              "name": "pagination-left",
+              "description": "Content to the left of pagination"
+            },
+            {
+              "name": "td",
+              "description": "Custom td element"
+            },
+            {
+              "name": "tr",
+              "description": "Custom tr element"
+            },
+            {
+              "name": "tbody",
+              "description": "Custom tbody element"
+            },
+            {
+              "name": "drag-handle-icon",
+              "description": "Drag-anchor icon"
             },
             {
               "name": "footer",
-              "description": "Footer of `table`"
+              "description": "Table footer"
+            },
+            {
+              "name": "expand-row",
+              "description": "Expanded-row content"
+            },
+            {
+              "name": "expand-icon",
+              "description": "Expanded-row icon"
+            },
+            {
+              "name": "columns",
+              "description": "Declarative columns; when used, override columns"
+            },
+            {
+              "name": "extra-column-header",
+              "description": "Extra final-column header content"
+            },
+            {
+              "name": "extra-column-cell",
+              "description": "Extra final-column cell content"
+            },
+            {
+              "name": "header-cell-actions",
+              "description": "Header-side actions for leaf columns; entirely controlled by the caller"
             }
           ]
         },

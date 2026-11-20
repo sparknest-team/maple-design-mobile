@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, nextTick, onMounted, ref, watch } from 'vue'
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import config from '@config'
 import { Context } from '@maple-design/ui-vue'
 import { useRoute, useRouter } from 'vue-router'
@@ -9,6 +9,7 @@ import { MenuTypes, type Menu } from '../utils'
 import AppAd from './components/AppAd.vue'
 import AppHeader from './components/AppHeader.vue'
 import AppMobile from './components/AppMobile.vue'
+import AppOutline from './components/AppOutline.vue'
 import AppSidebar from './components/AppSidebar.vue'
 import { getPcSiteRoute } from './route-state'
 import { createScrollHashSync } from './scroll-hash'
@@ -22,6 +23,7 @@ const sidebarToggle = ref<HTMLButtonElement | null>(null)
 const route = useRoute()
 const router = useRouter()
 const scrollHashSync = createScrollHashSync(router)
+onBeforeUnmount(scrollHashSync.dispose)
 const sections = config?.pc?.sections ?? []
 const activeSection = computed(() => getDocumentationSection(route.path, sections))
 const visibleMenu = computed(() => getSectionMenu(menu, activeSection.value, sections))
@@ -44,26 +46,24 @@ const useMobile = computed(() => routeState.value.useMobile)
 
 const init = () => {
   nextTick(() => {
-    const sidebar = document.querySelector('.maple-site-sidebar')
+    const sidebar = document.querySelector<HTMLElement>('.maple-site-sidebar')
     if (!sidebar) return
     const children = sidebar.getElementsByClassName('mp-cell')
     const index = visibleMenu.value.findIndex((item) => item.doc === menuName.value && item.type !== MenuTypes.TITLE)
 
     if (index !== -1 && children[index]) {
-      children[index].scrollIntoView({
-        block: 'center',
-        inline: 'start',
-      })
+      const item = children[index].getBoundingClientRect()
+      const panel = sidebar.getBoundingClientRect()
+      sidebar.scrollTop += item.top - panel.top + (item.height - panel.height) / 2
     }
   })
 }
 
 const handleSidebarChange = (menu: Menu) => {
-  if (doc.value) {
-    doc.value.scrollTop = 0
-  }
   router.push({ path: `/${language.value}/${menu.doc}` })
 }
+
+const outlineHref = (id: string) => router.resolve({ path: route.path, query: route.query, hash: `#${id}` }).href
 
 const navigateOutline = (id: string) => {
   if (route.hash === `#${id}`) {
@@ -83,12 +83,19 @@ const closeSidebar = async () => {
 }
 
 watch(
-  () => route.fullPath,
+  () => route.path,
   async () => {
     if (sidebarOpen.value) {
       sidebarOpen.value = false
       await nextTick()
-      doc.value?.focus()
+      const content = doc.value
+      if (content) {
+        // Make the article focusable for keyboard navigation without making
+        // clicks on the article background focus and scroll the whole region.
+        content.tabIndex = -1
+        content.focus({ preventScroll: true })
+        content.removeAttribute('tabindex')
+      }
     }
   },
 )
@@ -167,16 +174,26 @@ watch(
       <main
         ref="doc"
         class="maple-site-doc-container"
-        tabindex="-1"
         :class="[!useMobile && 'maple-site-doc-container--pc-only']"
       >
         <router-view />
       </main>
 
+      <app-outline
+        v-if="!useMobile"
+        v-show="false"
+        :root="doc"
+        :visible="false"
+        :page-key="route.path"
+        :outline-href="outlineHref"
+        @active-change="scrollHashSync.replace($event ? `#${$event}` : '')"
+      />
+
       <app-mobile
         v-if="useMobile"
         :doc-root="doc"
         :page-key="route.path"
+        :outline-href="outlineHref"
         @navigate="navigateOutline"
         @active-change="scrollHashSync.replace($event ? `#${$event}` : '')"
         :component-name="componentName"

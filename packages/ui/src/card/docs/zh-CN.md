@@ -37,6 +37,22 @@
 ../example/demos/appearance-lab.vue
 ```
 
+### 尺寸与标题层级
+
+切换 Card 尺寸、标题层级和页脚对齐，或调整内嵌 Section 的变体，实时查看组合效果。Card 说明文字保持 15px，Section 说明文字保持 13px。Card 尺寸会改变说明文字周围的间距。
+
+| 尺寸 | h1 | h2 | h3 | h4 | h5 | h6 | 正文水平内边距 | 说明上方间距 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `xs` | 25px | 21px | 19px | 17px | 15px | 13px | 8px | 6px |
+| `sm` | 26px | 22px | 20px | 18px | 16px | 14px | 12px | 8px |
+| `md` | 30px | 26px | 24px | 22px | 20px | 18px | 16px | 20px |
+| `lg` | 34px | 30px | 28px | 26px | 24px | 22px | 20px | 20px |
+| `xl` | 38px | 34px | 32px | 30px | 28px | 26px | 24px | 24px |
+
+```demo
+../example/demos/sizes-and-headings.vue
+```
+
 ### 悬浮样式
 
 ```demo
@@ -71,7 +87,7 @@
 
 Maple 当前没有 TypographyTitle 组件，分组使用原生标题。
 
-通过 Card、Tabs 和纵向 Space 组合内容。内层使用紧凑描边卡片，宽表格在自己的容器内横向滚动；产业链面板使用普通分组标题，避免额外嵌套卡片。
+外层 Card 承载报告，Tabs 切换分析维度，内层 Section 组织各组内容。产业链面板用更深一级的 Section 标题区分上下游，宽表格在自己的容器内横向滚动。
 
 ```demo
 ../example/demos/nested-tabs.vue
@@ -183,15 +199,17 @@ Card 展开时保留原有 DOM 位置和表单归属。支持 Popover API 的浏
 | 属性 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
 | variant | 卡片外观 | `default / outline / tonal` | `outline` |
-| size | 内容密度；省略时按平台规则回退，见下方说明 | `sm / md` | `undefined` |
+| size | 内容密度；省略时按平台规则回退，见下方说明 | `xs / sm / md / lg / xl` | `undefined` |
+| heading-level | 标题语义层级，同时调整标题字号 | `1 / 2 / 3 / 4 / 5 / 6` | `undefined` |
+| footer-align | 页脚内容对齐，start 和 end 随阅读方向 | `start / center / end` | `end` |
 | direction | 封面与正文的排列顺序，默认 column；支持 row、column、row-reverse，不表示卡片自身位置 | `row / column / row-reverse` | `column` |
 | hoverable | 悬浮样式 | `boolean` | `false` |
 | title-style | 标题行样式 | `CSSProperties` | `undefined` |
 | title | 标题 | `string` | `undefined` |
 | subtitle | 副标题 | `string` | `undefined` |
 | description | 描述 | `string` | `undefined` |
-| top-divider | 上分割线 | `boolean` | `false` |
-| bottom-divider | 下分割线 | `boolean` | `false` |
+| top-divider | 上分割线，左右与内容区对齐 | `boolean` | `false` |
+| bottom-divider | 下分割线，左右与内容区对齐 | `boolean` | `false` |
 | image-src | 封面图片地址；cover 插槽优先 | `string` | `undefined` |
 | image-fit | 封面图片填充方式 | `fill / contain / cover / none / scale-down` | `cover` |
 | image-height | 封面图片高度，数字单位为 px | `string / number` | `undefined` |
@@ -222,7 +240,7 @@ Card 展开时保留原有 DOM 位置和表单归属。支持 Popover API 的浏
 | title | 标题 | `{ slotClass: string }` |
 | title-action | 标题右侧操作 | — |
 | subtitle | 副标题 | `{ slotClass: string }` |
-| description | 描述 | `{ slotClass: string }` |
+| description | 自定义说明内容，沿用 Card 的说明容器和间距 | `{ slotClass: string }` |
 | footer | 底部操作 | — |
 | floating-content | 浮动展开内容，仅 column 布局渲染 | — |
 | close-button | 自定义关闭按钮；需自行更新 floating | — |
@@ -259,23 +277,23 @@ Card 通过 Loading 指令组合加载遮罩。
 | `--mp-card-close-button-size` | `56px` | `height`, `width` |
 | `--mp-card-close-button-text-color` | `var(--mp-sys-color-content-on-dark)` | `color` |
 | `--mp-card-content-color` | `var(--mp-sys-color-content-tertiary)` | `color` |
-| `--mp-card-content-font-size` | `14px` | `font-size` |
+| `--mp-card-content-font-size` | `15px` | `font-size` |
 | `--mp-card-content-margin` | `16px 0 0 0` | `margin` |
 | `--mp-card-content-padding` | `0 16px` | `padding` |
 | `--mp-card-content-row-margin` | `16px 0 0 0` | `margin` |
 | `--mp-card-description-color` | `var(--mp-sys-color-content-secondary)` | `color` |
-| `--mp-card-description-font-size` | `14px` | `font-size` |
+| `--mp-card-description-font-size` | `15px` | `font-size` |
 | `--mp-card-description-margin` | `20px 0 0 0` | `margin` |
-| `--mp-card-description-padding` | `0 13px` | `padding` |
+| `--mp-card-description-padding` | `0 16px` | `padding` |
 | `--mp-card-filled-background` | `var(--mp-sys-color-surface-muted)` | `background-color` |
 | `--mp-card-floating-buttons-bottom` | `16px` | `bottom` |
 | `--mp-card-floating-buttons-color` | `var(--mp-sys-color-content-primary)` | `color` |
 | `--mp-card-floating-buttons-right` | `16px` | `inset-inline-end` |
 | `--mp-card-footer-bottom` | `9px` | `bottom` |
 | `--mp-card-footer-margin` | `30px 0 0 0` | `margin` |
-| `--mp-card-footer-padding` | `0 12px` | `padding` |
+| `--mp-card-footer-padding` | `0 16px` | `padding` |
 | `--mp-card-footer-right` | `13px` | `inset-inline-end` |
-| `--mp-card-hover-shadow` | `0 4px 12px rgb(0 0 0%)` | `box-shadow` |
+| `--mp-card-hover-shadow` | 海拔 1 | `box-shadow` |
 | `--mp-card-image-height` | `200px` | `height` |
 | `--mp-card-image-width` | `100%` | `width` |
 | `--mp-card-line-height` | `22px` | `line-height` |
@@ -284,18 +302,28 @@ Card 通过 Loading 指令组合加载遮罩。
 | `--mp-card-row-height` | `140px` | `min-height` |
 | `--mp-card-row-image-width` | `140px` | `width` |
 | `--mp-card-row-line-height` | `1.5` | `line-height` |
+| `--mp-card-heading-size-step` | `1px` | `font-size` |
+| `--mp-card-size-xs-title-font-size` | `15px` | `font-size` |
+| `--mp-card-size-xs-section-margin` | `6px 0 0` | `margin` |
+| `--mp-card-size-xs-section-padding` | `0 8px` | `padding` |
+| `--mp-card-size-lg-title-font-size` | `24px` | `font-size` |
+| `--mp-card-size-lg-section-margin` | `20px 0 0` | `margin` |
+| `--mp-card-size-lg-section-padding` | `0 20px` | `padding` |
+| `--mp-card-size-xl-title-font-size` | `28px` | `font-size` |
+| `--mp-card-size-xl-section-margin` | `24px 0 0` | `margin` |
+| `--mp-card-size-xl-section-padding` | `0 24px` | `padding` |
 | `--mp-card-size-sm-section-margin` | `8px 0 0` | `margin` |
 | `--mp-card-size-sm-section-padding` | `0 12px` | `padding` |
 | `--mp-card-size-sm-title-font-size` | `16px` | `font-size` |
 | `--mp-card-subtitle-color` | `var(--mp-sys-color-content-secondary)` | `color` |
-| `--mp-card-subtitle-font-size` | `14px` | `font-size` |
+| `--mp-card-subtitle-font-size` | `15px` | `font-size` |
 | `--mp-card-subtitle-margin` | `10px 0 0 0` | `margin` |
-| `--mp-card-subtitle-padding` | `0 12px` | `padding` |
+| `--mp-card-subtitle-padding` | `0 16px` | `padding` |
 | `--mp-card-subtitle-row-margin` | `-8px 0 0 0` | `margin` |
 | `--mp-card-title-color` | `var(--mp-sys-color-content-primary)` | `color` |
 | `--mp-card-title-font-size` | `20px` | `font-size` |
 | `--mp-card-title-margin` | `15px 0 0 0` | `margin` |
-| `--mp-card-title-padding` | `0 12px` | `padding` |
+| `--mp-card-title-padding` | `0 16px` | `padding` |
 | `--mp-card-title-row-margin` | `12px 0` | `margin` |
 
 </div>
@@ -314,4 +342,4 @@ Card 通过 Loading 指令组合加载遮罩。
 
 ### 尺寸与动效
 
-横向内容区的间距由 `--mp-card-content-row-margin` 控制。Card 只支持 sm / md 两档尺寸。动效时长 `--mp-card-animation-duration` 默认为 `var(--mp-sys-motion-duration-slow)`，曲线 `--mp-card-animation-easing` 默认为 `var(--mp-sys-motion-easing-standard)`；启用减少动态效果时关闭 Card 的过渡。
+横向内容区的间距由 `--mp-card-content-row-margin` 控制。动效时长 `--mp-card-animation-duration` 默认为 `var(--mp-sys-motion-duration-slow)`，曲线 `--mp-card-animation-easing` 默认为 `var(--mp-sys-motion-easing-standard)`；启用减少动态效果时关闭 Card 的过渡。

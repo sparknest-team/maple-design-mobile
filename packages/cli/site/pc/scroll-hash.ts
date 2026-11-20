@@ -1,25 +1,31 @@
 import type { Router } from 'vue-router'
 
-// Like Cedar's active-header-links: replace the URL without navigating the
-// viewport or adding a back entry. Keep preview navigation separate from this.
+// Keep the passive section indicator out of Vue Router's navigation pipeline.
 export function createScrollHashSync(router: Router) {
-  let pending = false
+  const history = router.options.history
+  let navigationTarget: object | undefined
+  const removeBefore = router.beforeEach((to) => {
+    navigationTarget = to
+  })
+  const finish = (to: object) => {
+    if (navigationTarget === to) navigationTarget = undefined
+  }
+  const removeAfter = router.afterEach(finish)
+  const removeError = router.onError((_error, to) => finish(to))
+
   return {
-    get pending() {
-      return pending
+    dispose() {
+      removeBefore()
+      removeAfter()
+      removeError()
     },
-    async replace(hash: string) {
-      if (pending || router.currentRoute.value.hash === hash) return
+    replace(hash: string) {
+      if (navigationTarget) return
       const { path, query } = router.currentRoute.value
-      const scrollBehavior = router.options.scrollBehavior
-      pending = true
-      router.options.scrollBehavior = undefined
-      try {
-        await router.replace({ path, query, hash })
-      } finally {
-        router.options.scrollBehavior = scrollBehavior
-        pending = false
-      }
+      const target = router.resolve({ path, query, hash }).fullPath
+      // During a popstate, the browser location changes before the route commits.
+      if (history.location.split('#')[0] !== target.split('#')[0]) return
+      if (history.location !== target) history.replace(target)
     },
   }
 }

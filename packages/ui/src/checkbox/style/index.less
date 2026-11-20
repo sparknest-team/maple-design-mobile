@@ -40,11 +40,17 @@
     clip-path: none;
     cursor: inherit;
   }
-  &__control:has(> &__input:focus-visible) {
-    background-color: var(--mp-internal-checkbox-hover-background);
+  &:not(&--disabled) &__input:focus-visible + &__visual &__icon {
+    border-color: var(--mp-sys-color-action-primary);
+
+    @media (forced-colors: active) {
+      outline: var(--mp-internal-checkbox-focus-width) solid Highlight;
+    }
   }
-  &__input:focus-visible + &__visual &__icon {
-    box-shadow: inset 0 0 0 var(--mp-internal-checkbox-focus-width) var(--mp-sys-color-content-primary);
+
+  &&--checked &__input:focus-visible + &__visual &__icon,
+  &&--indeterminate &__input:focus-visible + &__visual &__icon {
+    border-color: var(--mp-internal-checkbox-mark-color);
   }
   &__icon {
     pointer-events: none;
@@ -95,10 +101,12 @@
     cursor: not-allowed;
   }
   &--disabled &__icon {
+    border-color: var(--mp-sys-color-border-subtle);
     background-color: var(--mp-internal-checkbox-background-disabled);
   }
   &--disabled&--checked &__icon,
   &--disabled&--indeterminate &__icon {
+    border-color: currentColor;
     background-color: currentColor;
   }
   &--disabled &__label {

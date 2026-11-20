@@ -7,8 +7,9 @@ exports[`test card component slots > card description slot 1`] = `
     <div class="mp-card__container">
       <!--v-if-->
       <!--v-if-->
+      <div class="mp-card__description"><span class="mp-card__description">description</span></div>
       <!--v-if-->
-      <!--v-if--><span class="mp-card__description">description</span>
+      <!--v-if-->
       <!--v-if-->
       <!--v-if-->
       <!--v-if-->

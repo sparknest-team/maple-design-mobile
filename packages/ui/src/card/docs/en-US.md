@@ -40,6 +40,22 @@ Use this example for content grouping and visual hierarchy. Adjust variant, size
 ../example/demos/appearance-lab.vue
 ```
 
+### Sizes and heading levels
+
+Choose the Card size, title level, or footer alignment to preview a Card containing a Section. Use the Section variant control to change the nested Section appearance. The Card description stays at 15px and the Section description stays at 13px. Changes to Card size affect the spacing around its description.
+
+| Size | h1 | h2 | h3 | h4 | h5 | h6 | Body horizontal padding | Description top margin |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `xs` | 25px | 21px | 19px | 17px | 15px | 13px | 8px | 6px |
+| `sm` | 26px | 22px | 20px | 18px | 16px | 14px | 12px | 8px |
+| `md` | 30px | 26px | 24px | 22px | 20px | 18px | 16px | 20px |
+| `lg` | 34px | 30px | 28px | 26px | 24px | 22px | 20px | 20px |
+| `xl` | 38px | 34px | 32px | 30px | 28px | 26px | 24px | 24px |
+
+```demo
+../example/demos/en-US/sizes-and-headings.vue
+```
+
 ### Hover style
 
 ```demo
@@ -74,7 +90,7 @@ Enable `swipeable` to switch tabs with horizontal touch gestures in the content 
 
 Maple has no TypographyTitle component; group headings use native headings.
 
-Compose Card, Tabs and vertical Space. Compact outlined cards group each panel; wide tables scroll within their own container on small screens. The industry panel uses section headings without extra cards.
+Card contains the report, Tabs switch analysis views, and Section groups the content in each view. The industry view uses a deeper heading level for upstream and downstream topics. Wide tables scroll within their own container on small screens.
 
 ```demo
 ../example/demos/nested-tabs.vue
@@ -191,15 +207,17 @@ The default close button uses the current locale's close label; override it with
 | Prop | Description | Type | Default |
 | --- | --- | --- | --- |
 | variant | Appearance | `default / outline / tonal` | `outline` |
-| size | Density; omitted value follows platform rules below | `sm / md` | `undefined` |
+| size | Density; omitted value follows platform rules below | `xs / sm / md / lg / xl` | `undefined` |
+| heading-level | Semantic heading level for the title; also controls its font size | `1 / 2 / 3 / 4 / 5 / 6` | `undefined` |
+| footer-align | Footer alignment; start and end follow the reading direction | `start / center / end` | `end` |
 | direction | Order of cover and body, default column; supports row, column and row-reverse. Does not position the card itself | `row / column / row-reverse` | `column` |
 | hoverable | Hover styling | `boolean` | `false` |
 | title-style | Title row styles | `CSSProperties` | `undefined` |
 | title | Title | `string` | `undefined` |
 | subtitle | Subtitle | `string` | `undefined` |
 | description | Description | `string` | `undefined` |
-| top-divider | Top divider | `boolean` | `false` |
-| bottom-divider | Bottom divider | `boolean` | `false` |
+| top-divider | Top divider with the same horizontal inset as the content | `boolean` | `false` |
+| bottom-divider | Bottom divider with the same horizontal inset as the content | `boolean` | `false` |
 | image-src | Cover image URL; cover slot takes precedence | `string` | `undefined` |
 | image-fit | Cover image fit | `fill / contain / cover / none / scale-down` | `cover` |
 | image-height | Image height; numbers use px | `string / number` | `undefined` |
@@ -230,7 +248,7 @@ The default close button uses the current locale's close label; override it with
 | title | Title | `{ slotClass: string }` |
 | title-action | Title action | — |
 | subtitle | Subtitle | `{ slotClass: string }` |
-| description | Description | `{ slotClass: string }` |
+| description | Custom description content uses the Card description container and spacing | `{ slotClass: string }` |
 | footer | Footer actions | — |
 | floating-content | Expanded content; column layout only | — |
 | close-button | Custom close button; update floating yourself | — |
@@ -267,23 +285,23 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-card-close-button-size` | `56px` | `height`, `width` |
 | `--mp-card-close-button-text-color` | `var(--mp-sys-color-content-on-dark)` | `color` |
 | `--mp-card-content-color` | `var(--mp-sys-color-content-tertiary)` | `color` |
-| `--mp-card-content-font-size` | `14px` | `font-size` |
+| `--mp-card-content-font-size` | `15px` | `font-size` |
 | `--mp-card-content-margin` | `16px 0 0 0` | `margin` |
 | `--mp-card-content-padding` | `0 16px` | `padding` |
 | `--mp-card-content-row-margin` | `16px 0 0 0` | `margin` |
 | `--mp-card-description-color` | `var(--mp-sys-color-content-secondary)` | `color` |
-| `--mp-card-description-font-size` | `14px` | `font-size` |
+| `--mp-card-description-font-size` | `15px` | `font-size` |
 | `--mp-card-description-margin` | `20px 0 0 0` | `margin` |
-| `--mp-card-description-padding` | `0 13px` | `padding` |
+| `--mp-card-description-padding` | `0 16px` | `padding` |
 | `--mp-card-filled-background` | `var(--mp-sys-color-surface-muted)` | `background-color` |
 | `--mp-card-floating-buttons-bottom` | `16px` | `bottom` |
 | `--mp-card-floating-buttons-color` | `var(--mp-sys-color-content-primary)` | `color` |
 | `--mp-card-floating-buttons-right` | `16px` | `inset-inline-end` |
 | `--mp-card-footer-bottom` | `9px` | `bottom` |
 | `--mp-card-footer-margin` | `30px 0 0 0` | `margin` |
-| `--mp-card-footer-padding` | `0 12px` | `padding` |
+| `--mp-card-footer-padding` | `0 16px` | `padding` |
 | `--mp-card-footer-right` | `13px` | `inset-inline-end` |
-| `--mp-card-hover-shadow` | `0 4px 12px rgb(0 0 0%)` | `box-shadow` |
+| `--mp-card-hover-shadow` | Elevation 1 | `box-shadow` |
 | `--mp-card-image-height` | `200px` | `height` |
 | `--mp-card-image-width` | `100%` | `width` |
 | `--mp-card-line-height` | `22px` | `line-height` |
@@ -292,18 +310,28 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-card-row-height` | `140px` | `min-height` |
 | `--mp-card-row-image-width` | `140px` | `width` |
 | `--mp-card-row-line-height` | `1.5` | `line-height` |
+| `--mp-card-heading-size-step` | `1px` | `font-size` |
+| `--mp-card-size-xs-title-font-size` | `15px` | `font-size` |
+| `--mp-card-size-xs-section-margin` | `6px 0 0` | `margin` |
+| `--mp-card-size-xs-section-padding` | `0 8px` | `padding` |
+| `--mp-card-size-lg-title-font-size` | `24px` | `font-size` |
+| `--mp-card-size-lg-section-margin` | `20px 0 0` | `margin` |
+| `--mp-card-size-lg-section-padding` | `0 20px` | `padding` |
+| `--mp-card-size-xl-title-font-size` | `28px` | `font-size` |
+| `--mp-card-size-xl-section-margin` | `24px 0 0` | `margin` |
+| `--mp-card-size-xl-section-padding` | `0 24px` | `padding` |
 | `--mp-card-size-sm-section-margin` | `8px 0 0` | `margin` |
 | `--mp-card-size-sm-section-padding` | `0 12px` | `padding` |
 | `--mp-card-size-sm-title-font-size` | `16px` | `font-size` |
 | `--mp-card-subtitle-color` | `var(--mp-sys-color-content-secondary)` | `color` |
-| `--mp-card-subtitle-font-size` | `14px` | `font-size` |
+| `--mp-card-subtitle-font-size` | `15px` | `font-size` |
 | `--mp-card-subtitle-margin` | `10px 0 0 0` | `margin` |
-| `--mp-card-subtitle-padding` | `0 12px` | `padding` |
+| `--mp-card-subtitle-padding` | `0 16px` | `padding` |
 | `--mp-card-subtitle-row-margin` | `-8px 0 0 0` | `margin` |
 | `--mp-card-title-color` | `var(--mp-sys-color-content-primary)` | `color` |
 | `--mp-card-title-font-size` | `20px` | `font-size` |
 | `--mp-card-title-margin` | `15px 0 0 0` | `margin` |
-| `--mp-card-title-padding` | `0 12px` | `padding` |
+| `--mp-card-title-padding` | `0 16px` | `padding` |
 | `--mp-card-title-row-margin` | `12px 0` | `margin` |
 
 </div>
@@ -322,4 +350,4 @@ Explicit inline styles and props that write the same CSS property take precedenc
 
 ### Sizing and motion
 
-Use `--mp-card-content-row-margin` for horizontal content spacing. Card supports only sm / md sizes. `--mp-card-animation-duration` defaults to `var(--mp-sys-motion-duration-slow)` and `--mp-card-animation-easing` to `var(--mp-sys-motion-easing-standard)`. Reduced motion disables Card transitions.
+Use `--mp-card-content-row-margin` for horizontal content spacing. `--mp-card-animation-duration` defaults to `var(--mp-sys-motion-duration-slow)` and `--mp-card-animation-easing` to `var(--mp-sys-motion-easing-standard)`. Reduced motion disables Card transitions.

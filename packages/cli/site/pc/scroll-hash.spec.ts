@@ -4,46 +4,61 @@ import { createScrollHashSync } from './scroll-hash'
 
 function setup() {
   const scrollBehavior = vi.fn(() => false as const)
+  const history = createMemoryHistory()
   const router = createRouter({
-    history: createMemoryHistory(),
+    history,
     routes: [{ path: '/:pathMatch(.*)*', component: {} }],
     scrollBehavior,
   })
-  return { router, scrollBehavior, sync: createScrollHashSync(router) }
+  return { router, history, scrollBehavior, sync: createScrollHashSync(router) }
 }
 
 describe('document scroll hash synchronization', () => {
-  it('replaces only the hash, preserves query, skips scrolling and adds no back entry', async () => {
-    const { router, scrollBehavior, sync } = setup()
+  it('updates browser history without navigating, scrolling or adding a back entry', async () => {
+    const { router, history, scrollBehavior, sync } = setup()
     await router.push('/previous')
-    await router.push('/zh-CN/button?scene=test')
+    await router.push('/zh-CN/button?scene=test#intro')
     scrollBehavior.mockClear()
-    const replace = vi.spyOn(router, 'replace')
-    await sync.replace('#sizes')
-    expect(router.currentRoute.value.fullPath).toBe('/zh-CN/button?scene=test#sizes')
-    expect(scrollBehavior).not.toHaveBeenCalled()
-    expect(router.options.scrollBehavior).toBe(scrollBehavior)
-    await sync.replace('#sizes')
+    const replace = vi.spyOn(history, 'replace')
+    const onNavigation = vi.fn()
+    router.beforeEach(onNavigation)
+
+    sync.replace('#sizes')
+    sync.replace('#sizes')
+    expect(history.location).toBe('/zh-CN/button?scene=test#sizes')
     expect(replace).toHaveBeenCalledTimes(1)
-    await sync.replace('')
-    expect(router.currentRoute.value.hash).toBe('')
+    expect(onNavigation).not.toHaveBeenCalled()
+    expect(scrollBehavior).not.toHaveBeenCalled()
+    expect(router.currentRoute.value.hash).toBe('#intro')
+
+    sync.replace('')
+    expect(history.location).toBe('/zh-CN/button?scene=test')
     const back = new Promise<void>((resolve) => router.afterEach(() => resolve()))
     router.back()
     await back
     expect(router.currentRoute.value.path).toBe('/previous')
   })
 
-  it('restores normal scrolling after cancelled or failed navigation', async () => {
-    const { router, scrollBehavior, sync } = setup()
-    await router.push('/zh-CN/button')
-    router.beforeEach(() => false)
-    await sync.replace('#cancelled')
-    expect(router.currentRoute.value.hash).toBe('')
-    expect(router.options.scrollBehavior).toBe(scrollBehavior)
-    expect(sync.pending).toBe(false)
-    vi.spyOn(router, 'replace').mockRejectedValueOnce(new Error('Failed navigation'))
-    await expect(sync.replace('#failed')).rejects.toThrow('Failed navigation')
-    expect(router.options.scrollBehavior).toBe(scrollBehavior)
-    expect(sync.pending).toBe(false)
+  it('does not overwrite the address while a page component is loading', async () => {
+    const { router, history, sync } = setup()
+    let finishLoading: (() => void) | undefined
+    let startedLoading: (() => void) | undefined
+    const loading = new Promise<void>((resolve) => { startedLoading = resolve })
+    router.addRoute({
+      path: '/next',
+      component: () => new Promise((resolve) => {
+        finishLoading = () => resolve({})
+        startedLoading?.()
+      }),
+    })
+    await router.push('/zh-CN/card')
+    const navigation = router.push('/next')
+    await loading
+    sync.replace('#old-section')
+    expect(history.location).toBe('/zh-CN/card')
+    finishLoading?.()
+    await navigation
+    expect(history.location).toBe('/next')
+    sync.dispose()
   })
 })

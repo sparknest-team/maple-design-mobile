@@ -10,6 +10,8 @@ import DemoNestedTabs from './demos/nested-tabs.vue'
 import DemoNoPadding from './demos/no-padding.vue'
 import DemoRipple from './demos/ripple.vue'
 import OrganizedSchedulerLifecycle from './demos/scheduler-lifecycle.vue'
+import SizesAndHeadings from './demos/sizes-and-headings.vue'
+import SizesAndHeadingsEn from './demos/en-US/sizes-and-headings.vue'
 import DemoSlots from './demos/slots.vue'
 import DemoTooltip from './demos/tooltip.vue'
 
@@ -37,6 +39,11 @@ onThemeChange()
       <span lang="zh-CN">外观配置对比</span><span lang="en-US">Appearance configuration comparison</span>
     </h3>
     <OrganizedAppearanceLab />
+  </section>
+
+  <section data-demo="sizes-and-headings">
+    <app-type>{{ english ? 'Sizes and heading levels' : '尺寸与标题层级' }}</app-type>
+    <component :is="english ? SizesAndHeadingsEn : SizesAndHeadings" />
   </section>
 
   <section data-demo="hoverable">

@@ -1,5 +1,5 @@
 <template>
-  <mp-section title="Release history" variant="heading-line">
+  <mp-section title="Release history">
     <template #extra>
       <mp-button :aria-expanded="expanded" @click="expanded = !expanded">
         {{ expanded ? 'Show latest' : 'Show all' }}

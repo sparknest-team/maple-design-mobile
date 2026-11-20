@@ -13,41 +13,39 @@ const records = rows.map((row) => ({ ...row, key: row[0] }))
 </script>
 
 <template>
-  <mp-card title="三季报前瞻" class="nested-card-demo" :elevation="false">
+  <mp-card title="三季报前瞻" :heading-level="2" class="nested-card-demo" :elevation="false">
     <template #title-action><span class="report-date">2026-08</span></template>
     <mp-tabs swipeable default-value="performance" :item-style="{ padding: '16px 0 0' }" tab-list-aria-label="分析维度">
       <mp-tab-pane name="industry" title="产业链">
-        <mp-card title="产业链观察" size="sm" variant="outline" :elevation="false">
-          <mp-space direction="column" size="lg">
-            <section>
-              <h3>上游 · 原材料</h3>
+        <mp-section title="产业链观察" size="sm" :heading-level="3">
+          <mp-space direction="column" size="lg" align="stretch">
+            <mp-section title="上游 · 原材料" size="sm" :heading-level="4" variant="plain" show-marker>
               <p>关注铜、钢材与塑料采购成本变化。</p>
-            </section>
-            <section>
-              <h3>下游 · 终端渠道</h3>
+            </mp-section>
+            <mp-section title="下游 · 终端渠道" size="sm" :heading-level="4" variant="plain" show-marker>
               <p>关注渠道库存、促销节奏与新品销售表现。</p>
-            </section>
+            </mp-section>
           </mp-space>
-        </mp-card>
+        </mp-section>
       </mp-tab-pane>
       <mp-tab-pane name="performance" title="业绩">
-        <mp-space direction="column" size="lg">
-          <mp-card title="单季还原（累计相减）" size="sm" variant="outline" :elevation="false">
+        <mp-space direction="column" size="lg" align="stretch">
+          <mp-section title="单季还原（累计相减）" size="sm" :heading-level="3">
             <div data-tabs-no-swipe style="touch-action: pan-x pan-y">
               <mp-table :columns="columns" :data="records" :pagination="false" />
             </div>
             <p class="report-note">示例数据 · 单位：亿元</p>
-          </mp-card>
-          <mp-card title="经营摘要" size="sm" variant="outline" :elevation="false">
+          </mp-section>
+          <mp-section title="经营摘要" size="sm" :heading-level="3">
             <p>本季营收 16.77 亿元，毛利率 25.1%。</p>
-          </mp-card>
+          </mp-section>
         </mp-space>
       </mp-tab-pane>
       <mp-tab-pane name="capital" title="筹码·资金">
-        <mp-card title="资金观察" size="sm" variant="outline" :elevation="false">本期机构持仓数据尚未披露。</mp-card>
+        <mp-section title="资金观察" size="sm" :heading-level="3">本期机构持仓数据尚未披露。</mp-section>
       </mp-tab-pane>
       <mp-tab-pane name="technical" title="技术">
-        <mp-card title="技术观察" size="sm" variant="outline" :elevation="false">暂无技术分析数据。</mp-card>
+        <mp-section title="技术观察" size="sm" :heading-level="3">暂无技术分析数据。</mp-section>
       </mp-tab-pane>
     </mp-tabs>
   </mp-card>
@@ -64,11 +62,6 @@ const records = rows.map((row) => ({ ...row, key: row[0] }))
 }
 .report-note {
   margin-block-start: 8px;
-}
-h3 {
-  margin: 0 0 8px;
-  font-size: 14px;
-  font-weight: 500;
 }
 p {
   margin: 0;

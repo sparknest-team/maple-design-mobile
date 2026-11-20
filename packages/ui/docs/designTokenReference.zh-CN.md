@@ -600,7 +600,7 @@
 | `--mp-card-footer-margin` | 公开 | `30px 0 0 0` | 本组件 CSS<br>`margin` |
 | `--mp-card-footer-padding` | 公开 | `0 12px` | 本组件 CSS<br>`padding` |
 | `--mp-card-footer-right` | 公开 | `13px` | 本组件 CSS<br>`inset-inline-end` |
-| `--mp-card-hover-shadow` | 公开 | `0 4px 12px rgb(0 0 0%)` | 本组件 CSS<br>`box-shadow` |
+| `--mp-card-hover-shadow` | 公开 | 海拔 1 | 本组件 CSS<br>`box-shadow` |
 | `--mp-card-image-height` | 公开 | `200px` | 本组件 CSS<br>`height` |
 | `--mp-card-image-width` | 公开 | `100%` | 本组件 CSS<br>`width` |
 | `--mp-card-line-height` | 公开 | `22px` | 本组件 CSS<br>`line-height` |

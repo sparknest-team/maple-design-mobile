@@ -14,6 +14,7 @@ import InlineForm from '../example/demos/inline-form.vue'
 import LineDemo from '../example/demos/line.vue'
 import OutlineDemo from '../example/demos/outline.vue'
 import PlainDemo from '../example/demos/plain.vue'
+import SizesDemo from '../example/demos/sizes.vue'
 import SectionExamples from '../example/index.vue'
 
 vi.mock('@maple-design/cli-vue/client', () => ({ onThemeChange: () => {} }))
@@ -51,6 +52,18 @@ describe('Section documentation examples', () => {
       Locale.currentMessage.value = previous
       page.unmount()
     }
+  })
+  it('previews all heading levels with the large size selected', async () => {
+    const demo = mount(SizesDemo, { global })
+    const section = demo.get('section')
+
+    await demo.get('input[value="lg"]').setValue(true)
+    for (const level of [1, 2, 3, 4, 5, 6]) {
+      await demo.get(`input[type="radio"][value="${level}"]`).setValue(true)
+      expect(section.classes()).toContain('mp-section--size-lg')
+      expect(section.get(`h${level}`).text()).toBeTruthy()
+    }
+    demo.unmount()
   })
   it('expands release history from the line header', async () => {
     const page = mount(LineDemo, { global })
@@ -113,11 +126,13 @@ it('changes visual size independently of the heading level', async () => {
   const wrapper = mount(Section, { props: { title: 'Members', headingLevel: 4 } })
   const heading = wrapper.get('h4').element
   expect(wrapper.classes()).toContain('mp-section--size-md')
-  await wrapper.setProps({ size: 'sm' })
-  expect(wrapper.classes()).toContain('mp-section--size-sm')
-  expect(wrapper.get('h4').element).toBe(heading)
+  for (const size of ['xs', 'sm', 'lg', 'xl'] as const) {
+    await wrapper.setProps({ size })
+    expect(wrapper.classes()).toContain(`mp-section--size-${size}`)
+    expect(wrapper.get('h4').element).toBe(heading)
+  }
   await wrapper.setProps({ headingLevel: 2 })
-  expect(wrapper.classes()).toContain('mp-section--size-sm')
+  expect(wrapper.classes()).toContain('mp-section--size-xl')
   expect(wrapper.get('h2').attributes('id')).toBe(wrapper.attributes('aria-labelledby'))
   wrapper.unmount()
 })

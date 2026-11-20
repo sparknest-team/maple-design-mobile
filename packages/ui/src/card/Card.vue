@@ -61,7 +61,14 @@
       <div :class="n('container')">
         <slot name="header">
           <div v-if="title || $slots.title || $slots['title-action']" :class="n('title')" :style="titleStyle">
-            <slot name="title" :slot-class="n('title-text')">
+            <component
+              :is="`h${headingLevel}`"
+              v-if="headingLevel && (title || $slots.title)"
+              :class="n('title-text')"
+            >
+              <slot name="title" :slot-class="n('title-text')">{{ title }}</slot>
+            </component>
+            <slot v-else name="title" :slot-class="n('title-text')">
               <span v-if="title" :class="n('title-text')">{{ title }}</span>
             </slot>
             <span v-if="$slots['title-action']" :class="n('title-action')"><slot name="title-action" /></span>
@@ -70,15 +77,22 @@
             <div v-if="subtitle" :class="n('subtitle')">{{ subtitle }}</div>
           </slot>
         </slot>
-        <BaseDivider v-if="topDivider" :class="n('divider')" />
+        <div v-if="description || $slots.description" :class="n('description')">
+          <slot name="description" :slot-class="n('description')">{{ description }}</slot>
+        </div>
+        <div v-if="topDivider" :class="n('divider')">
+          <BaseDivider :spacing="0" />
+        </div>
         <div v-if="$slots.default" :class="n('content')">
           <slot />
         </div>
-        <slot name="description" :slot-class="n('description')">
-          <div v-if="description" :class="n('description')">{{ description }}</div>
-        </slot>
-        <BaseDivider v-if="bottomDivider" :class="n('divider')" />
-        <div v-if="$slots.footer" :class="n('footer')">
+        <div v-if="bottomDivider" :class="n('divider')">
+          <BaseDivider :spacing="0" />
+        </div>
+        <div
+          v-if="$slots.footer"
+          :class="classes(n('footer'), [footerAlign !== 'end', n(`footer--${footerAlign}`)])"
+        >
           <slot name="footer" />
         </div>
         <div

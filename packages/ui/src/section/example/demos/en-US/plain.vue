@@ -1,5 +1,5 @@
 <template>
-  <mp-section title="Member permissions" description="Permission changes apply to all project members.">
+  <mp-section variant="plain" title="Member permissions" description="Permission changes apply to all project members.">
     <dl>
       <dt>Administrator</dt>
       <dd>Manage members and project settings</dd>

@@ -4,7 +4,7 @@ import { reactive as __demoReactive, computed as demoComputed, ref as demoRef } 
 const __demoAppearance = __demoReactive({ variant: 'default', size: 'md' })
 const demoCompareFields = [
   { name: 'variant', values: ['default', 'outline', 'tonal'] },
-  { name: 'size', values: ['sm', 'md'] },
+  { name: 'size', values: ['xs', 'sm', 'md', 'lg', 'xl'] },
 ]
 const demoCompareAxis = demoRef('variant')
 const demoComparedOptions = demoComputed(
@@ -35,8 +35,11 @@ demoCompareFields.push({ name: 'elevation', values: [0, 2, 6] })
           v-model="__demoAppearance['size']"
           aria-label="size"
           :options="[
+            { label: 'xs', value: 'xs' },
             { label: 'sm', value: 'sm' },
             { label: 'md', value: 'md' },
+            { label: 'lg', value: 'lg' },
+            { label: 'xl', value: 'xl' },
           ]"
           variant="button"
           size="sm"

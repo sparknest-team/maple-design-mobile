@@ -24,6 +24,7 @@
       :root="docRoot"
       :visible="!showPreview"
       :page-key="pageKey"
+      :outline-href="outlineHref"
       :language="language"
       @navigate="emit('navigate', $event)"
       @active-change="emit('active-change', $event)"
@@ -46,6 +47,7 @@ const props = defineProps<{
   hash?: string
   docRoot?: HTMLElement | null
   pageKey?: string
+  outlineHref?: (id: string) => string
 }>()
 const emit = defineEmits<{ navigate: [id: string]; 'active-change': [id: string] }>()
 const previewFrame = ref<HTMLIFrameElement | null>(null)
