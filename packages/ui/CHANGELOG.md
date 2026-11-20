@@ -1,5 +1,11 @@
 # @maple-design/ui-vue
 
+## 1.3.1
+
+### Patch Changes
+
+- [#10](https://github.com/sparknest-team/maple-design-mobile/pull/10) [`1ebd8d7`](https://github.com/sparknest-team/maple-design-mobile/commit/1ebd8d7fcf3bd5c5b1217aaf8ae6c1a49df56da1) Thanks [@sparknest-team](https://github.com/sparknest-team)! - 修复构建工具无法解析 NavMenu 内部模块名导致的打包错误。业务项目无需额外配置 alias，NavMenu 继续支持服务端渲染。
+
 ## 1.3.0
 
 ### Minor Changes
