@@ -35,11 +35,8 @@
   "module": "es/index.mjs",
   "typings": "types-generated/index.d.ts",
   "style": "es/maple.css",
-  "imports": {
-    "#maple-nav-renderer": {
-      "browser": "./ssr-browser.mjs",
-      "default": "vue/server-renderer"
-    }
+  "browser": {
+    "vue/server-renderer": "./ssr-browser.mjs"
   },
   "exports": {
     ".": {

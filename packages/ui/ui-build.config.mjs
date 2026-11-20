@@ -12,8 +12,8 @@ export default {
   emitTypes: false,
   vueSfcStyles: false,
   cssVariables: 'style/theme/css-variables.less',
-  umdExternal: ['vue', '#maple-nav-renderer'],
-  external: ['vue', '#maple-nav-renderer', '@vue/shared', ...Object.keys(pkg.dependencies ?? {})],
+  umdExternal: ['vue', 'vue/server-renderer'],
+  external: ['vue', 'vue/server-renderer', '@vue/shared', ...Object.keys(pkg.dependencies ?? {})],
   globals: {
     vue: 'Vue',
     '@vue/shared': 'VueShared',

@@ -95,3 +95,30 @@ for (const name of ['MpIcon', 'MpPopup', 'MpTag']) {
     await rm(directory, { recursive: true, force: true })
   }
 })
+
+test('browser consumers can bundle NavMenu without package imports support', async () => {
+  const result = await esbuild.build({
+    stdin: {
+      contents: "export { default } from '@maple-design/ui-vue/nav-menu'",
+      resolveDir: consumerDir,
+    },
+    platform: 'browser',
+    format: 'esm',
+    bundle: true,
+    metafile: true,
+    write: false,
+    plugins: [
+      {
+        name: 'legacy-package-resolution',
+        setup(build) {
+          build.onResolve({ filter: /^#/ }, ({ path }) => ({
+            errors: [{ text: `Unsupported package import: ${path}` }],
+          }))
+        },
+      },
+    ],
+  })
+  const inputs = Object.keys(result.metafile.inputs)
+  assert.ok(inputs.some((path) => path.endsWith('/ssr-browser.mjs')))
+  assert.ok(!inputs.some((path) => path.includes('/@vue/server-renderer/')))
+})
