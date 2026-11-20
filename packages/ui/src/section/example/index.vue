@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import { demoEnglish } from '@maple-design/cli-vue/demo-language'
 import { onThemeChange } from '@maple-design/cli-vue/client'
-import OutlineDemo from './demos/outline.vue'
-import OutlineDemoEn from './demos/en-US/outline.vue'
-import HeadingOptionsDemo from './demos/heading-options.vue'
+import { demoEnglish } from '@maple-design/cli-vue/demo-language'
 import HeadingOptionsDemoEn from './demos/en-US/heading-options.vue'
-import InlineFormDemo from './demos/inline-form.vue'
 import InlineFormDemoEn from './demos/en-US/inline-form.vue'
-import LineDemo from './demos/line.vue'
 import LineDemoEn from './demos/en-US/line.vue'
-import SizesDemo from './demos/sizes.vue'
-import SizesDemoEn from './demos/en-US/sizes.vue'
-import PlainDemo from './demos/plain.vue'
+import OutlineDemoEn from './demos/en-US/outline.vue'
 import PlainDemoEn from './demos/en-US/plain.vue'
+import SizesDemoEn from './demos/en-US/sizes.vue'
+import HeadingOptionsDemo from './demos/heading-options.vue'
+import InlineFormDemo from './demos/inline-form.vue'
+import LineDemo from './demos/line.vue'
+import OutlineDemo from './demos/outline.vue'
+import PlainDemo from './demos/plain.vue'
+import SizesDemo from './demos/sizes.vue'
 
 onThemeChange()
 </script>

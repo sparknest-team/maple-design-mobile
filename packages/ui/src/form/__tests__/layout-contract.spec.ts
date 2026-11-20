@@ -17,12 +17,17 @@ afterEach(() => {
 })
 
 describe('Form layout contract', () => {
-
   it('keeps the styled field root visible to template refs and v-show', async () => {
     const visible = ref(true)
-    const wrapper = mount(defineComponent(() => () =>
-      withDirectives(h(FormItem, { label: 'Name', 'data-field': 'name' }, () => h('input')), [[vShow, visible.value]])
-    ))
+    const wrapper = mount(
+      defineComponent(
+        () => () =>
+          withDirectives(
+            h(FormItem, { label: 'Name', 'data-field': 'name' }, () => h('input')),
+            [[vShow, visible.value]],
+          ),
+      ),
+    )
     try {
       const row = wrapper.get('[data-field="name"]').element as HTMLElement
       expect(wrapper.getComponent(FormItem).vm.$el).toBe(row)
@@ -41,15 +46,27 @@ describe('Form layout contract', () => {
   it('keeps a nested input and its feedback when layout and label visibility change', async () => {
     const compact = ref(false)
     const model = reactive<{ account: string | null }>({ account: 'Original' })
-    const owner = mount(defineComponent(() => () => h(Form, { model, editMode: 'direct' }, () =>
-      h(FormItem, { label: 'Account', layout: compact.value ? 'vertical' : 'horizontal', hideLabel: compact.value }, () =>
-        h(FormItem, { field: 'account', noStyle: true }, () => h(Input, {
-          modelValue: model.account,
-          'onUpdate:modelValue': (value: string | null) => { model.account = value },
-          'aria-label': 'Account',
-        })),
+    const owner = mount(
+      defineComponent(
+        () => () =>
+          h(Form, { model, editMode: 'direct' }, () =>
+            h(
+              FormItem,
+              { label: 'Account', layout: compact.value ? 'vertical' : 'horizontal', hideLabel: compact.value },
+              () =>
+                h(FormItem, { field: 'account', noStyle: true }, () =>
+                  h(Input, {
+                    modelValue: model.account,
+                    'onUpdate:modelValue': (value: string | null) => {
+                      model.account = value
+                    },
+                    'aria-label': 'Account',
+                  }),
+                ),
+            ),
+          ),
       ),
-    )))
+    )
     try {
       const form = owner.getComponent(Form)
       const input = owner.get('input')

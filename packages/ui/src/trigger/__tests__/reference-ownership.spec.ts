@@ -4,7 +4,7 @@ import { referenceOwnership } from '../reference-ownership'
 
 function manage(target: HTMLElement, attrs: Record<string, string>) {
   const state = referenceOwnership(target)
-  const owner = Symbol()
+  const owner = Symbol('trigger-reference-owner')
   state.update(owner, attrs)
   return () => state.update(owner, {})
 }
@@ -33,7 +33,9 @@ it('preserves synchronous custom-element changes during a managed write', async 
   class AuditReference extends HTMLElement {
     static observedAttributes = ['aria-describedby']
     attributeChangedCallback(_name: string, _old: string | null, value: string | null) {
-      if (value === 'caller auto') this.setAttribute('aria-describedby', 'business')
+      if (value === 'caller auto') {
+        this.setAttribute('aria-describedby', 'business')
+      }
     }
   }
   customElements.define(name, AuditReference)
@@ -58,8 +60,12 @@ it('preserves a second managed attribute modified synchronously by the first', a
   class MultiReference extends HTMLElement {
     static observedAttributes = ['aria-describedby']
     attributeChangedCallback(_name: string, _old: string | null, value: string | null) {
-      if (value === 'caller auto') this.setAttribute('aria-label', 'business-on-open')
-      if (value === 'caller') this.setAttribute('aria-label', 'business-on-close')
+      if (value === 'caller auto') {
+        this.setAttribute('aria-label', 'business-on-open')
+      }
+      if (value === 'caller') {
+        this.setAttribute('aria-label', 'business-on-close')
+      }
     }
   }
   customElements.define(name, MultiReference)
@@ -87,7 +93,9 @@ it('reapplies another owner after synchronous changes during release', async () 
   class MultiReference extends HTMLElement {
     static observedAttributes = ['aria-describedby']
     attributeChangedCallback(_name: string, old: string | null, value: string | null) {
-      if (old === 'caller auto' && value === 'caller') this.setAttribute('aria-label', 'business-on-close')
+      if (old === 'caller auto' && value === 'caller') {
+        this.setAttribute('aria-label', 'business-on-close')
+      }
     }
   }
   customElements.define(name, MultiReference)
@@ -120,7 +128,9 @@ it('bounds retries if a custom element always rejects the managed value', async 
     static observedAttributes = ['aria-describedby']
     attributeChangedCallback(_name: string, _old: string | null, value: string | null) {
       calls++
-      if (value?.includes('auto')) this.setAttribute('aria-describedby', 'business')
+      if (value?.includes('auto')) {
+        this.setAttribute('aria-describedby', 'business')
+      }
     }
   }
   customElements.define(name, HostileReference)

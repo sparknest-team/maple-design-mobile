@@ -11,8 +11,10 @@ const withDescription = ref(false)
 const showMarker = ref(false)
 const preferredPlacement = ref<SectionMarkerPlacement>('title')
 const markerPlacement = computed({
-  get: () => withTitle.value ? preferredPlacement.value : 'section',
-  set: (value: SectionMarkerPlacement) => { preferredPlacement.value = value },
+  get: () => (withTitle.value ? preferredPlacement.value : 'section'),
+  set: (value: SectionMarkerPlacement) => {
+    preferredPlacement.value = value
+  },
 })
 </script>
 

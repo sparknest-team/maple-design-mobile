@@ -40,10 +40,11 @@
     clip-path: none;
     cursor: inherit;
   }
-  &__input:focus-visible + &__visual > &__icon,
-  &__control:has(> &__input:focus-visible):not(:has(> &__visual > &__icon)) {
-    outline: var(--mp-internal-checkbox-focus-width) solid var(--mp-sys-color-action-primary);
-    outline-offset: var(--mp-internal-checkbox-focus-width);
+  &__control:has(> &__input:focus-visible) {
+    background-color: var(--mp-internal-checkbox-hover-background);
+  }
+  &__input:focus-visible + &__visual &__icon {
+    box-shadow: inset 0 0 0 var(--mp-internal-checkbox-focus-width) var(--mp-sys-color-content-primary);
   }
   &__icon {
     pointer-events: none;

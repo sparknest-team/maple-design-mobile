@@ -1,16 +1,17 @@
 <template>
   <section
     :id="sectionId"
-    :class="
-      classes(n(), n(`--${variant}`), n(`--size-${size}`), [!!status, n(`--${status}`)], [!!form, n('--form')])
-    "
+    :class="classes(n(), n(`--${variant}`), n(`--size-${size}`), [!!status, n(`--${status}`)], [!!form, n('--form')])"
     :aria-labelledby="title || $slots.title ? titleId : undefined"
     :aria-describedby="description || $slots.description ? descriptionId : undefined"
   >
     <div :class="classes(n('surface'), [showMarker && markerPlacement === 'section', n('surface--marked')])">
       <div v-if="title || $slots.title || description || $slots.description || $slots.extra" :class="n('header')">
         <div :class="n('heading')">
-          <div v-if="title || $slots.title" :class="classes(n('label'), [showMarker && markerPlacement === 'title', n('label--marked')])">
+          <div
+            v-if="title || $slots.title"
+            :class="classes(n('label'), [showMarker && markerPlacement === 'title', n('label--marked')])"
+          >
             <component :is="`h${headingLevel}`" :id="titleId" :class="n('title')">
               <slot name="title">{{ title }}</slot>
             </component>

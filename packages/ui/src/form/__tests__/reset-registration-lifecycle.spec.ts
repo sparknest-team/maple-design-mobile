@@ -78,21 +78,24 @@ test('a keyed subtree replaced during a layout change captures a new reset basel
   }
 })
 
-test.each([false, true])('a field on the layout owner keeps its baseline when noStyle starts at %s', async (initial) => {
-  const model = reactive({ value: 'original' })
-  const noStyle = ref(initial)
-  const owner = mount({
-    setup: () => () =>
-      h(Form, { model }, () => h(FormItem, { field: 'value', noStyle: noStyle.value }, () => h('input'))),
-  })
-  try {
-    model.value = 'edited'
-    noStyle.value = !initial
-    await nextTick()
-    owner.getComponent(Form).vm.resetFields()
-    await nextTick()
-    expect(model.value).toBe('original')
-  } finally {
-    owner.unmount()
-  }
-})
+test.each([false, true])(
+  'a field on the layout owner keeps its baseline when noStyle starts at %s',
+  async (initial) => {
+    const model = reactive({ value: 'original' })
+    const noStyle = ref(initial)
+    const owner = mount({
+      setup: () => () =>
+        h(Form, { model }, () => h(FormItem, { field: 'value', noStyle: noStyle.value }, () => h('input'))),
+    })
+    try {
+      model.value = 'edited'
+      noStyle.value = !initial
+      await nextTick()
+      owner.getComponent(Form).vm.resetFields()
+      await nextTick()
+      expect(model.value).toBe('original')
+    } finally {
+      owner.unmount()
+    }
+  },
+)

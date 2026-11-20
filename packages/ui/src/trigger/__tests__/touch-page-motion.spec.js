@@ -1,5 +1,6 @@
 import { flushPromises, mount } from '@vue/test-utils'
 import { afterAll, beforeAll, expect, test, vi } from 'vitest'
+import Trigger from '..'
 import Cascader from '../../cascader'
 import DateField from '../../date'
 import DateRange from '../../date-range'
@@ -9,7 +10,6 @@ import Select from '../../select'
 import Time from '../../time'
 import TimeRange from '../../time-range'
 import Tooltip from '../../tooltip'
-import Trigger from '..'
 
 const originalTouchPoints = Object.getOwnPropertyDescriptor(navigator, 'maxTouchPoints')
 beforeAll(() => Object.defineProperty(navigator, 'maxTouchPoints', { configurable: true, value: 5 }))

@@ -3,8 +3,8 @@ import { renderToString } from '@vue/server-renderer'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 import Form from '..'
-import Section from '../../section'
 import Input from '../../input'
+import Section from '../../section'
 import FormItem from '../FormItem.vue'
 import { useForm } from '../provide'
 
@@ -92,9 +92,7 @@ describe('Section', () => {
       slots: {
         default: () => [
           h(FormItem, { field: 'outside', label: '外部字段' }, () => h(Input)),
-          h(Section, { title: '现场处置' }, () =>
-            h(FormItem, { field: 'inside', label: '安全须知' }, () => h(Input)),
-          ),
+          h(Section, { title: '现场处置' }, () => h(FormItem, { field: 'inside', label: '安全须知' }, () => h(Input))),
         ],
       },
     })

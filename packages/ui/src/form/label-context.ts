@@ -30,7 +30,9 @@ export function provideFormItemLabel(options: {
     }
     const attributes = options.attributes()
     const target = attributes?.for ?? attributes?.htmlFor
-    if (group.value && !target) return undefined
+    if (group.value && !target) {
+      return undefined
+    }
     return { id: ownId.value, target: typeof target === 'string' && target ? target : undefined }
   })
   provide(labelKey, label)

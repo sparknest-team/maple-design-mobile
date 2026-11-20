@@ -9,7 +9,9 @@ it('tracks a component slot that resolves late and subsequently replaces its nat
     setup: () => () => h(useLink.value ? 'a' : 'button', { 'aria-describedby': 'inside' }, 'Anchor'),
   })
   let resolve!: (component: typeof button) => void
-  const pending = new Promise<typeof button>((done) => { resolve = done })
+  const pending = new Promise<typeof button>((done) => {
+    resolve = done
+  })
   const asyncButton = defineAsyncComponent(() => pending)
   const wrapper = mount(Trigger, {
     props: { trigger: 'manual', popupContainer: false, referenceAttrs: { 'aria-describedby': 'auto' } },

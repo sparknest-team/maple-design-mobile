@@ -1,20 +1,20 @@
-import { mount } from '@vue/test-utils'
-import { describe, expect, it, vi } from 'vitest'
 import { nextTick } from 'vue'
 import { Locale } from '@maple-design/ui-vue'
+import { mount } from '@vue/test-utils'
+import { describe, expect, it, vi } from 'vitest'
+import Section from '..'
 import Button from '../../button'
 import Checkbox from '../../checkbox'
 import Form from '../../form'
 import Input from '../../input'
 import Radio from '../../radio'
 import Space from '../../space'
-import Section from '..'
-import OutlineDemo from '../example/demos/outline.vue'
 import HeadingOptions from '../example/demos/heading-options.vue'
 import InlineForm from '../example/demos/inline-form.vue'
 import LineDemo from '../example/demos/line.vue'
-import SectionExamples from '../example/index.vue'
+import OutlineDemo from '../example/demos/outline.vue'
 import PlainDemo from '../example/demos/plain.vue'
+import SectionExamples from '../example/index.vue'
 
 vi.mock('@maple-design/cli-vue/client', () => ({ onThemeChange: () => {} }))
 
@@ -36,11 +36,16 @@ describe('Section documentation examples', () => {
     Locale.add('en-US', Locale.enUS)
     const page = mount(SectionExamples, { global })
     try {
-      for (const [language, title] of [['en-US', 'Member permissions'], ['zh-CN', '成员权限']]) {
+      for (const [language, title] of [
+        ['en-US', 'Member permissions'],
+        ['zh-CN', '成员权限'],
+      ]) {
         Locale.use(language)
         await nextTick()
         expect(page.get('[data-demo="plain"] section h2').text()).toBe(title)
-        expect(page.get('[data-demo="heading-options"] [role="radiogroup"]').attributes('aria-label')).toBe(language === 'en-US' ? 'Section style' : '分组风格')
+        expect(page.get('[data-demo="heading-options"] [role="radiogroup"]').attributes('aria-label')).toBe(
+          language === 'en-US' ? 'Section style' : '分组风格',
+        )
       }
     } finally {
       Locale.currentMessage.value = previous

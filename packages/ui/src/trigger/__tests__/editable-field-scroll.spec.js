@@ -1,5 +1,6 @@
 import { flushPromises, mount } from '@vue/test-utils'
 import { afterAll, beforeAll, expect, test, vi } from 'vitest'
+import Trigger from '..'
 import Cascader from '../../cascader'
 import DateField from '../../date'
 import DateRange from '../../date-range'
@@ -7,7 +8,6 @@ import InputTag from '../../input-tag'
 import Mention from '../../mention'
 import Time from '../../time'
 import TimeRange from '../../time-range'
-import Trigger from '..'
 
 // jsdom omits the scroll method used by Mention's textarea caret mirror.
 const nativeScrollTo = HTMLElement.prototype.scrollTo
