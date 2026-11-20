@@ -288,7 +288,7 @@ export default {
 
 API 标题遵守共享 [组件结构规范](../../../design-ui/standards/component-anatomy.md#api-文档标题)，中英文均采用 `ComponentName Props / Events / Slots / Methods`，组件名不加尖括号或反引号；类型与样式章节使用 `Types`、`CSS Variables`。每页只保留一个 API 入口，子组件分类平级排列；共享属性按实际组件完整展示，配置类型归入 Types。
 
-示例语言由 PC 和手机站入口统一设置。组件内置提示沿用全局语言包。自定义双语文案可集中在组件的 `example/messages.ts`，通过站点只读计算值 `@maple-design/cli-vue/demo-language` 的 `demoEnglish` 选择对应文案，未提供译文时回退中文。参考 Section 示例。所有示例入口、子示例和生成器均须复用此入口；禁止自行监听或缓存语言、解析 URL、从父示例接收 english prop。组件 API 教学仍可演示 LocaleProvider 的局部配置。
+示例语言由 PC 和手机站入口统一设置。组件内置提示沿用全局语言包。中英文文档分别引用当前语言的 Vue 示例。用户复制的源码中直接提供文案；手机入口通过 `@maple-design/cli-vue/demo-language` 的 `demoEnglish` 选择同一个文件。参见 Section 的 `example/index.vue`。组件 API 教学仍可演示 LocaleProvider 的局部配置。
 
 示例分组遵守 `design-ui/standards/demo-design.md`：同类功能放在一起，每张案例最多组合三个相关维度，基础案例在前，功能调试在后；两端同步案例名称、说明和源码引用。
 

@@ -2,7 +2,7 @@ import assert from 'node:assert/strict'
 import { globSync, readFileSync } from 'node:fs'
 import test from 'node:test'
 import { fileURLToPath } from 'node:url'
-import { checkDemoLanguage } from './demo-language-policy.mjs'
+import { checkCopyableDemo, checkDemoLanguage } from './demo-language-policy.mjs'
 
 test('rejects local language subscriptions, snapshots, comparisons, props and route inference', () => {
   for (const code of [
@@ -22,7 +22,7 @@ test('rejects local language subscriptions, snapshots, comparisons, props and ro
   }
 })
 
-test('allows reactive translated data, ordinary demo state and LocaleProvider messages', () => {
+test('allows the preview entry to read site language and configure LocaleProvider', () => {
   for (const code of [
     'const copy = computed(() => demoEnglish.value ? enUS : zhCN)',
     'const options = ref([]); const active = ref(false)',
@@ -38,9 +38,28 @@ test('shipped demo scaffolds follow the same language policy', () => {
   assert.ok(files.length > 0)
   for (const file of files) {
     const source = readFileSync(new URL(file, cwd), 'utf8')
+    if (/\.vue(?:\.ejs)?$/.test(file) && !/\/example\/index\.vue(?:\.ejs)?$/.test(file)) {
+      assert.doesNotThrow(() => checkCopyableDemo(source), file)
+    }
     const script = file.endsWith('.ts') ? source : source.match(/<script[^>]*>([\s\S]*?)<\/script>/)?.[1]
     if (script) {
       assert.doesNotThrow(() => checkDemoLanguage(script.replace(/<%[\s\S]*?%>/g, '')), file)
     }
+  }
+})
+
+test('copied examples use local literals and have no dependency on preview language', () => {
+  for (const source of [
+    "import { demoEnglish as en } from '@maple-design/cli-vue/demo-language'",
+    "import { t } from '../locale'",
+    "import messages from './messages.ts'",
+    "const copy = useDemoLocale('section')",
+    '<mp-radio-group :aria-label="copy.variantLabel" />',
+    '<template><Comparison english /></template>',
+  ]) {
+    assert.throws(() => checkCopyableDemo(source), /Public demos/)
+  }
+  for (const label of ['分组风格', 'Section style']) {
+    assert.doesNotThrow(() => checkCopyableDemo(`<mp-radio-group aria-label="${label}" />`))
   }
 })

@@ -24,6 +24,7 @@ import EnSeparatorDemo from './demos/en-US/separator.vue'
 import EnTextEntryDemo from './demos/en-US/text-entry.vue'
 import EnTypeDemo from './demos/en-US/type.vue'
 import EnWithFormItemDemo from './demos/en-US/with-form-item.vue'
+import NewDateScenariosEn from './demos/en-US/zoned-range.vue'
 import EndpointLockDemo from './demos/endpoint-lock.vue'
 import EntryBoundaryDemo from './demos/entry-boundary.vue'
 import FieldPanelToolsDemo from './demos/field-panel-tools.vue'
@@ -110,7 +111,7 @@ onThemeChange()
 
   <section data-demo="zoned-range">
     <app-type>{{ english ? 'Cross-month, DST and endpoint locks' : '跨月、夏令时与端点锁定' }}</app-type>
-    <NewDateScenarios />
+    <component :is="english ? NewDateScenariosEn : NewDateScenarios" />
   </section>
 
   <section data-demo="calendar-mode">

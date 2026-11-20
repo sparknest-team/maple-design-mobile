@@ -63,7 +63,7 @@ export function useModalFocus(
       return
     }
     element = target
-    if (!target.contains(target.ownerDocument.activeElement)) {
+    if (!target.contains((target.getRootNode() as Document | ShadowRoot).activeElement)) {
       target.focus({ preventScroll: true })
     }
   }

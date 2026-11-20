@@ -3,7 +3,7 @@ import { createRequire } from 'node:module'
 import { dirname, join, relative, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { demoFilesForLanguage } from './demo-language-files.mjs'
-import { checkDemoLanguage } from './demo-language-policy.mjs'
+import { checkCopyableDemo, checkDemoLanguage } from './demo-language-policy.mjs'
 
 const root = fileURLToPath(new URL('../../', import.meta.url))
 const require = createRequire(resolve(root, 'packages/ui/package.json'))
@@ -174,7 +174,7 @@ function checkLibraryControls(node, insideLabel = false) {
         continue
       }
       if (prop.arg?.content === 'english') {
-        throw new Error('Import demoEnglish directly in the child demo')
+        throw new Error('Select the localized child demo in the preview entry')
       }
       if (prop.exp?.content) {
         checkDemoLanguage(prop.exp.content)
@@ -254,6 +254,8 @@ function check(directory) {
   }
 }
 
+const checkedPublicExamples = new Set()
+
 function checkDemoDocs(component, examples) {
   const demos = join(examples, 'demos')
   if (!existsSync(demos)) {
@@ -302,6 +304,15 @@ function checkDemoDocs(component, examples) {
         continue
       }
       const content = readFileSync(absolute, 'utf8')
+      if (!checkedPublicExamples.has(absolute)) {
+        checkedPublicExamples.add(absolute)
+        try {
+          checkCopyableDemo(content)
+        } catch (error) {
+          failures++
+          console.error(`${absolute}\n${error.message}`)
+        }
+      }
       for (const match of content.matchAll(/import\s+\w+\s+from\s+['"](\.[^'"]+\.vue)['"]/g)) {
         const nested = relative(demos, resolve(dirname(absolute), match[1]))
         if (!demoFiles.includes(nested) || reachable.has(nested)) {

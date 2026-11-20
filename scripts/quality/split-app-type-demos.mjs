@@ -1,3 +1,4 @@
+import { checkCopyableDemo } from './demo-language-policy.mjs'
 import { execFileSync } from 'node:child_process'
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
@@ -356,6 +357,7 @@ function splitComponent(name) {
       })
       .join('\n\n')
     const demoSource = `${scriptBlock}<template>\n${body}\n</template>${styles ? `\n\n${styles}` : ''}\n`
+    checkCopyableDemo(demoSource)
     demos.push({ component, demoSource, file, id, key, source: body })
   })
 

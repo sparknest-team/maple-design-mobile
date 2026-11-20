@@ -11977,11 +11977,20 @@
               }
             },
             {
-              "name": "variant",
-              "description": "外观，可选 plain、line、card",
-              "default": "表单内 line，其他场景 plain",
+              "name": "size",
+              "description": "分区尺寸",
+              "default": "md",
               "value": {
-                "type": "'plain' | 'line' | 'card'",
+                "type": "'sm' | 'md'",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "variant",
+              "description": "外观，可选 plain、heading-line、tonal、outline",
+              "default": "表单内 heading-line，其他场景 plain",
+              "value": {
+                "type": "'plain' | 'heading-line' | 'tonal' | 'outline'",
                 "kind": "expression"
               }
             },
@@ -11998,15 +12007,6 @@
               "name": "show-marker",
               "description": "显示标题色条",
               "default": "表单内开启",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
-              "name": "show-end-divider",
-              "description": "在 plain 和 line 分区末尾绘制结束线",
-              "default": "false",
               "value": {
                 "type": "boolean",
                 "kind": "expression"
@@ -16298,7 +16298,7 @@
             },
             {
               "name": "auto-fix-position",
-              "description": "触发元素尺寸变化时更新位置，其自身或祖先的 CSS 过渡和动画结束或取消后也会重新定位。关闭此选项后仍观察浮层、定位父级及窗口变化",
+              "description": "触发元素尺寸变化时更新位置，其自身或祖先的 CSS 过渡和动画结束或取消后也会重新定位。在触屏设备上，打开的元素锚定浮层也会跟随页面位移。关闭此选项后仍观察浮层、定位父级及窗口变化",
               "default": "true",
               "value": {
                 "type": "boolean",
@@ -16756,6 +16756,15 @@
               "default": "文件列表展示方式；两端均支持",
               "value": {
                 "type": "`'text'`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "initial-trigger-interactive",
+              "description": "`boolean`",
+              "default": "自定义触发插槽在首屏提供交互控件。挂载后由 Upload 检查实际内容。",
+              "value": {
+                "type": "`false`",
                 "kind": "expression"
               }
             },

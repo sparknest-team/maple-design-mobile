@@ -1,10 +1,7 @@
 <script setup>
 import VaButton from '..'
-import { t, useComponentLanguage } from './locale'
-
-useComponentLanguage()
 </script>
 
 <template>
-  <va-button>{{ t('start') }}</va-button>
+  <va-button>起步</va-button>
 </template>

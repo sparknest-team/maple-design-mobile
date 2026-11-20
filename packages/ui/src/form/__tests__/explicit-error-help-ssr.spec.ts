@@ -18,6 +18,7 @@ test.each(['prop', 'slot'] as const)(
             FormItem,
             {
               field: 'name',
+              extra: 'Persistent guidance',
               validateStatus: status.value,
               help: mode === 'prop' && showHelp.value ? 'Server error' : undefined,
             },
@@ -38,6 +39,7 @@ test.each(['prop', 'slot'] as const)(
       ?.split(/\s+/)
       .find((id) => id !== 'external')
     expect(errorId).toBeTruthy()
+    expect(Array.from(container.querySelectorAll('[id]')).filter((el) => el.id === errorId)).toHaveLength(1)
     expect(document.getElementById(errorId!)?.textContent).toContain('Server error')
     const warnings: string[] = []
     const app = createSSRApp(Fixture)
@@ -58,6 +60,7 @@ test.each(['prop', 'slot'] as const)(
       expect(currentId).not.toBe(errorId)
       form.value.clearValidate()
       await nextTick()
+      expect(Array.from(container.querySelectorAll('[id]')).filter((el) => el.id === errorId)).toHaveLength(1)
       expect(input.getAttribute('aria-describedby')?.split(/\s+/)).toContain(errorId)
       status.value = 'success'
       await nextTick()

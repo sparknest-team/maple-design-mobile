@@ -18,25 +18,86 @@
     }
   }
 
+  &--size-sm > &__surface {
+    --mp-internal-section-card-padding: var(--mp-section-size-sm-card-padding);
+    --mp-internal-section-header-gap: var(--mp-section-size-sm-header-gap);
+    --mp-internal-section-marker-height: var(--mp-section-size-sm-marker-height);
+    --mp-internal-section-title-line-height: var(--mp-section-size-sm-title-line-height);
+    --mp-internal-section-title-size: var(--mp-section-size-sm-title-size);
+  }
   &__surface {
+    --mp-internal-section-card-padding: var(--mp-section-card-padding);
+    --mp-internal-section-header-gap: var(--mp-section-header-gap);
+    --mp-internal-section-marker-height: var(--mp-section-marker-height);
+    --mp-internal-section-title-line-height: var(--mp-section-title-line-height);
+    --mp-internal-section-title-size: var(--mp-section-title-size);
     box-sizing: border-box;
     min-width: 0;
     width: 100%;
+    --mp-internal-section-accent: var(--mp-section-accent-color);
+    --mp-internal-section-fill: var(--mp-section-tonal-background);
+    --mp-internal-section-outline: var(--mp-section-outline-color);
   }
-  &--card > &__surface {
-    padding: var(--mp-section-card-padding);
-    border: var(--mp-section-divider-width) solid var(--mp-section-divider-color);
+  &--default > &__surface {
+    --mp-internal-section-accent: var(--mp-color-border-3);
+  }
+  each(info success warning danger, {
+    &--@{value} > &__surface {
+      --mp-internal-section-accent: var(~'--mp-sys-color-status-@{value}');
+      --mp-internal-section-fill: color-mix(in srgb, var(--mp-internal-section-accent) 12%, var(--mp-section-card-background));
+      --mp-internal-section-outline: var(--mp-internal-section-accent);
+    }
+  });
+  &--tonal > &__surface,
+  &--outline > &__surface {
+    padding: var(--mp-internal-section-card-padding);
     border-radius: var(--mp-section-card-radius);
-    background: var(--mp-section-card-background);
+  }
+  &--tonal > &__surface {
+    background-color: var(--mp-internal-section-fill);
+  }
+  &--outline > &__surface {
+    border: var(--mp-section-divider-width) solid var(--mp-internal-section-outline);
+  }
+  &__surface--marked,
+  &__label--marked {
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset-inline-start: 0;
+      width: var(--mp-section-marker-width);
+      border-radius: var(--mp-section-marker-radius);
+      background: var(--mp-internal-section-accent);
+      pointer-events: none;
+    }
+  }
+  &__surface--marked::before {
+    inset-block: 0;
+  }
+  &__label--marked::before {
+    top: 50%;
+    height: var(--mp-internal-section-marker-height);
+    transform: translateY(-50%);
+  }
+  &__label--marked,
+  &--plain > &__surface--marked,
+  &--heading-line > &__surface--marked {
+    padding-inline-start: calc(var(--mp-section-marker-width) + var(--mp-section-marker-gap));
+  }
+  &--plain > &__surface {
+    padding-inline-end: var(--mp-section-marker-gap);
   }
   &__label {
+    box-sizing: border-box;
     display: flex;
     align-items: center;
     min-width: 0;
     max-width: 100%;
   }
   &__header {
-    margin-block-end: var(--mp-section-header-gap);
+    margin-block-end: var(--mp-internal-section-header-gap);
   }
   &__heading {
     display: flex;
@@ -45,22 +106,14 @@
     row-gap: var(--mp-section-marker-gap);
     min-width: 0;
   }
-  &__marker {
-    flex: none;
-    width: var(--mp-section-marker-width);
-    height: var(--mp-section-marker-height);
-    margin-inline-end: var(--mp-section-marker-gap);
-    border-radius: var(--mp-section-marker-radius);
-    background: var(--mp-section-accent-color);
-  }
   &__title {
     min-width: 0;
     margin: 0;
     overflow-wrap: anywhere;
     color: var(--mp-section-title-color);
-    font-size: var(--mp-section-title-size);
+    font-size: var(--mp-internal-section-title-size);
     font-weight: var(--mp-section-title-weight);
-    line-height: var(--mp-section-title-line-height);
+    line-height: var(--mp-internal-section-title-line-height);
   }
   &__line,
   &__spacer {
@@ -97,10 +150,6 @@
   }
   &--form > &__surface > &__content > .mp-form-item:last-child {
     margin-bottom: 0;
-  }
-  &__end-divider {
-    margin-block-start: var(--mp-section-end-divider-gap);
-    border-block-start: var(--mp-section-divider-width) solid var(--mp-section-divider-color);
   }
 }
 

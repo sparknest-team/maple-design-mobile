@@ -1,11 +1,7 @@
-<script setup>
-import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
-</script>
+<script setup></script>
 
 <template>
-  <div v-ripple role="button" tabindex="0" class="ripple-motion-demo">
-    {{ english ? '600ms expansion / 800ms fading — Enter or Space' : '600ms 扩散／800ms 消退 — Enter 或 Space' }}
-  </div>
+  <div v-ripple role="button" tabindex="0" class="ripple-motion-demo">600ms 扩散／800ms 消退 — Enter 或 Space</div>
 </template>
 
 <style scoped>

@@ -6,6 +6,8 @@ Form helper messages for errors and additional guidance.
 
 Error text uses `role="alert"`; additional guidance remains ordinary text. Within FormItem, text, numeric, selection, date/time, choice, switch, slider, rate, verification-code, and upload fields associate errors with their controls or groups while preserving caller-provided `aria-describedby`. Custom controls can use `useFormErrorDescription()` to associate errors with their interactive element.
 
+When both `help` and `extra` are present, a field in the error state references the current validation message or help text. Additional guidance stays visible separately.
+
 ## Reading direction
 
 Inherits source dir. Errors align to inline start, extra information to inline end, and their spacing follows reading direction.

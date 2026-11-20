@@ -11,9 +11,11 @@ When `validate-status="error"` has no automatic validation error, the field asso
 
 In SSR with Vue 3.2.47, if multiple asynchronous form items resolve in opposite orders on the server and client, updating one item can duplicate generated description IDs or associate it with another field’s error. Giving the Input a stable `id` alone does not prevent this; the same scenario passed with Vue 3.5.45.
 
-For a deferred Slider inside Shadow DOM, a popup teleported to `body` may not resolve ID references to hints or errors inside the shadow root. Set `:popup-container="false"`, or pass an element within the same ShadowRoot as `popup-container`, to keep the popup and hints in the same root. Provide clear control names, and account for the container’s styling, positioning, and clipping.
+For a deferred Slider inside Shadow DOM, the editor associates its slider and number input with the current form validation error or plain `help` text in an explicit error state, even when the popup is teleported to `body`. To reference a `#help` slot or application hints inside the shadow root, set `:popup-container="false"` or pass a container in that same root.
 
 A nested `no-style` field in `read-pretty` mode hides its validation feedback. Calling `setFields` for that field keeps the message out of the parent’s error description. Editable siblings continue to report their own errors.
+
+When `KeepAlive` deactivates a nested `no-style` field, the parent removes that field’s error from its description. Reactivating the field restores its current error, including updates made with `setFields` while it was inactive.
 
 For a single deferred Input, the visible FormItem label targets the trigger while closed and the native input while editing. When adding a second input, give each field its own accessible name. The FormItem label names their group.
 
@@ -22,6 +24,12 @@ In direct edit mode, for a visible label on a single field, match FormItem `labe
 ## Reading direction
 
 Form and FormItem accept start/end/left/center/right for content-align and start/end/left/right for label-align. Content defaults to start and labels to end: default LTR placement stays the same while RTL follows reading order. Explicit left/right remain physical. Item overrides and explicit label-column styles retain precedence. Direction changes preserve values, validation and disabled/readonly state.
+
+Inside a Form bound to `model`, use `compact` to switch the outer FormItem’s `layout` and `hide-label`. Keep the inner field mounted and give its input an accessible name that also works when the outer label is hidden.
+
+```demo
+../example/demos/en-US/compact-account.vue
+```
 
 ## Basic examples
 
@@ -69,7 +77,7 @@ Combine `vertical`, `horizontal` and `inline` layouts with `direct / popup` edit
 
 ### Partial form section
 
-Group only the onsite SOP, safety notice and key points. The end divider separates the following ungrouped fields. Switch between line, plain and card above the form; your entries are preserved. Toggle the title marker and end divider to compare boundaries. Card uses its outer border instead of a separate end divider.  Fields inside MpSection keep their parent form layout, label widths, disabled state and validation. The heading is optional. Folding and local layout overrides are not supported.
+Group only the onsite SOP, safety notice and key points. The page uses Divider to separate subsequent fields. Switching between heading-line, plain and outline or toggling the title marker preserves your entries. Fields inside MpSection keep their parent form layout, label widths, disabled state and validation. The heading is optional. Folding and local layout overrides are not supported.
 
 ```demo
 ../example/demos/en-US/section.vue
@@ -131,7 +139,7 @@ For mixed controls, give the visible label a unique ID and explicitly name a gro
 ### Direct / popup selection summaries
 
 ```demo
-../example/demos/selection-summary.vue
+../example/demos/en-US/selection-summary.vue
 ```
 
 ### Hierarchical fields

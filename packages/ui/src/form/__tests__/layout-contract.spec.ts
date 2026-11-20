@@ -38,6 +38,40 @@ describe('Form layout contract', () => {
     }
   })
 
+  it('keeps a nested input and its feedback when layout and label visibility change', async () => {
+    const compact = ref(false)
+    const model = reactive<{ account: string | null }>({ account: 'Original' })
+    const owner = mount(defineComponent(() => () => h(Form, { model, editMode: 'direct' }, () =>
+      h(FormItem, { label: 'Account', layout: compact.value ? 'vertical' : 'horizontal', hideLabel: compact.value }, () =>
+        h(FormItem, { field: 'account', noStyle: true }, () => h(Input, {
+          modelValue: model.account,
+          'onUpdate:modelValue': (value: string | null) => { model.account = value },
+          'aria-label': 'Account',
+        })),
+      ),
+    )))
+    try {
+      const form = owner.getComponent(Form)
+      const input = owner.get('input')
+      await input.setValue('Edited')
+      form.vm.setFields({ account: { message: 'Account unavailable' } })
+      for (const value of [true, false]) {
+        compact.value = value
+        await nextTick()
+        const current = owner.get('input')
+        expect(current.element).toBe(input.element)
+        expect(current.element.value).toBe('Edited')
+        expect(current.attributes('aria-label')).toBe('Account')
+        expect(owner.get('[role="alert"]').text()).toBe('Account unavailable')
+      }
+      form.vm.resetFields()
+      await nextTick()
+      expect(input.element.value).toBe('Original')
+    } finally {
+      owner.unmount()
+    }
+  })
+
   it('applies inherited alignment to content while preserving item overrides and content-flex=false', async () => {
     const state = reactive<{ contentAlign?: 'left' | 'center' | 'right' }>({ contentAlign: 'center' })
     const wrapper = mount(Form, {

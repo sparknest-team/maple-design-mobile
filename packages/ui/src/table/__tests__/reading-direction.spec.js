@@ -7,7 +7,7 @@ test('native table keeps its inline scroll distance when its local direction swi
   const host = document.createElement('div')
   host.dir = 'rtl'
   document.body.append(host)
-  const wrapper = mount(Table, { attachTo: host, props: { fullWidth: 1000 } })
+  const wrapper = mount(Table, { attachTo: host, props: { columns: [{ dataIndex: 'name', width: 1000 }] } })
   const viewport = wrapper.get('[role="region"]')
   Object.defineProperties(viewport.element, { scrollWidth: { value: 1000 }, clientWidth: { value: 200 } })
   try {

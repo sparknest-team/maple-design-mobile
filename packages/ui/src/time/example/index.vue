@@ -24,6 +24,7 @@ import EnPickerSecondsDemo from './demos/en-US/picker-seconds.vue'
 import EnSelectionEventsDemo from './demos/en-US/selection-events.vue'
 import EnStepDemo from './demos/en-US/step.vue'
 import EnTextEntryDemo from './demos/en-US/text-entry.vue'
+import PickerFieldsDemoEn from './demos/en-US/time-fields.vue'
 import EnWheelLimitsDemo from './demos/en-US/wheel-limits.vue'
 import EnWithFormItemDemo from './demos/en-US/with-form-item.vue'
 import FieldAppearanceDemo from './demos/field-appearance.vue'
@@ -86,7 +87,7 @@ onThemeChange()
 
   <section data-demo="time-fields">
     <app-type>{{ english ? 'Visible wheel fields' : '滚轮可见字段' }}</app-type>
-    <PickerFieldsDemo />
+    <component :is="english ? PickerFieldsDemoEn : PickerFieldsDemo" />
   </section>
 
   <section data-demo="ampm-formats">

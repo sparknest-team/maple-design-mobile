@@ -26,7 +26,7 @@
 
 ### 受控状态与禁用
 
-服务端渲染时，放在 `NavMenu` 内并初始展开的 `NavMenuItem` 暂时不会在首屏输出面板内容；内联与默认 body 容器均受影响。若允许面板在客户端接管后展开，可将 `v-model:open` 初始设为 `false`，并在 `onMounted` 中设为 `true`；这会改变首屏展示时机，业务仍应处理后续关闭请求。内联和默认 body 容器配置下已验证此用法；独立 `NavMenuItem` 的首屏面板不受此限制。 面板尚未创建时入口不会输出 `aria-controls`；创建后才关联实际面板。
+服务端渲染时，初始展开的菜单项会输出面板，支持分组和独立使用。入口通过 `aria-controls` 关联已创建的面板。使用默认 body 容器时，服务端页面需包含 Vue 输出到 body 的 Teleport 内容。
 
 ```demo
 ../example/demos/controlled.vue
@@ -50,7 +50,7 @@
 
 两端面板均在首次展开时创建，关闭或切换入口后默认保留挂载，内部草稿和分支展开状态继续保留。设置 `unmount-on-close` 后，在关闭过渡结束时卸载面板；再次展开会重新创建内部组件，但不会清空 Item 自身的选中值。草稿提交、重置和筛选生效时机由业务决定。
 
-根 `close()` 只请求关闭 Item 面板并恢复入口焦点，不改变选中值、active-item 或桌面导航树的 expanded-keys。受控 open 拒绝更新时仍保持展开。没有 options 且没有 content 插槽的入口不展开；异步 options 到达后按当前 open 状态展示。KeepAlive 停用期间隐藏面板并请求关闭，重新激活时仍以受控值为准。
+根 `close()` 只请求关闭 Item 面板并恢复入口焦点，不改变选中值、active-item 或桌面导航树的 expanded-keys。受控 open 拒绝更新时仍保持展开。当 `open` 为真时，添加 `#content` 或传入选项即可展开。移除 `#content` 后，有选项时显示选项列表，选项为空时收起面板。KeepAlive 停用期间隐藏面板并请求关闭，重新激活时仍以受控值为准。
 
 Item 的选中值、展开状态、事件、插槽上下文及 `select/close/setOpen` 方法保持一致。两端根菜单都提供 `close/resize/setActiveItem`。`name` 必须在当前菜单内唯一，动态修改后会释放旧名称；同一次更新允许交换名称或在重排时复用旧名称，以更新完成后的名称检查重复。纵向选项会在初始值、受控值或 options 更新时展开当前值的可用祖先路径；用户仍可手动收起分支。
 
@@ -98,7 +98,7 @@ Item 的选中值、展开状态、事件、插槽上下文及 `select/close/set
 | model-value | 受控选中 key，支持字符串、数字和 null，支持 v-model | `undefined` |
 | default-value | 非受控初始选中 key，支持字符串、数字和 null，仅初始化时读取 | `null` |
 | open | 受控展开状态，支持 v-model:open | `undefined` |
-| default-open | 非受控初始展开状态，仅初始化时读取 | `false` |
+| default-open | 非受控初始展开状态。首次渲染时多个可展开条目同时设置该属性，优先展开最先注册的一项。 | `false` |
 | highlight                     | 视觉强调覆盖，省略时跟随业务 active                                                                                          | undefined         |
 | disabled                      | 禁用入口，同时遵循父菜单                                                                                                     | undefined             |
 | hide-on-select                | 调用 select 后关闭面板                                                                                                       | true              |

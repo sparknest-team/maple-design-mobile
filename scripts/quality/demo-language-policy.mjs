@@ -10,7 +10,7 @@ const equality = new Set([
   ts.SyntaxKind.ExclamationEqualsEqualsToken,
 ])
 const diagnostic =
-  'Demo language comes from the site. Import demoEnglish from @maple-design/cli-vue/demo-language; do not mirror or infer it locally.'
+  'The site selects the language. Use literal text in public examples and keep demoEnglish in the preview entry.'
 
 export function checkDemoLanguage(code) {
   if (!/watchLang|en-US|zh-CN|currentMessage|demoEnglish|english|language|\.lang\b/i.test(code)) {
@@ -97,4 +97,14 @@ export function checkDemoLanguage(code) {
     ts.forEachChild(node, visit)
   }
   visit(tree)
+}
+
+/** Check the source exposed by the documentation, including script and template. */
+export function checkCopyableDemo(source) {
+  const missingCopyBinding = /\bcopy\s*\./.test(source) && !/\b(?:const|let|var|import)\s+copy\b/.test(source)
+  const passesLanguageToDemo = /<[A-Za-z][\w.-]*\s+(?:[^<>]*?\s)?(?:english|:english)(?:\s|=|\/?>)/.test(source)
+  if (passesLanguageToDemo || missingCopyBinding || /\b(?:useDemoLocale|demoEnglish)\b/.test(source) ||
+      /['"](?:@maple-design\/cli-vue(?:\/[^'"]*)?|\.[^'"]*\/(?:locale|messages|demo-language)(?:[./][^'"]*)?)['"]/.test(source)) {
+    throw new Error('Public demos must contain their own localized text. Select the language in the preview entry.')
+  }
 }

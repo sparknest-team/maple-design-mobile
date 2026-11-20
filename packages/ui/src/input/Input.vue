@@ -65,7 +65,7 @@
           v-bind="nativeAttrs"
           :id="editMode === 'direct' || editorOpen ? inputId : undefined"
           ref="inputRef"
-          :aria-busy="loading || inputSession.pending.value || nativeAttrs['aria-busy'] || undefined"
+          :aria-busy="loading || inputSession.pending.value || nativeAttrs['aria-busy']"
           :autocomplete="oneTimeCode && nativeAttrs.autocomplete === 'one-time-code' ? 'one-time-code' : 'off'"
           :class="n('inner')"
           :value="composition.isComposing.value ? inputRef?.value : value"

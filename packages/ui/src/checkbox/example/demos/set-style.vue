@@ -1,6 +1,5 @@
 <script setup>
 import { reactive, toRefs } from 'vue'
-import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
 const values = reactive({
   value: false,
@@ -42,7 +41,7 @@ const {
     <template #checked-icon>
       <m-icon-heart-fill size="24px" />
     </template>
-    <template #default> {{ english ? 'Current value' : '当前的值' }}: {{ value3 }} </template>
+    <template #default> 当前的值: {{ value3 }} </template>
   </mp-checkbox>
 </template>
 

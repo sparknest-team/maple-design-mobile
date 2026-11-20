@@ -21,8 +21,9 @@ test('search menu stays anchored when the dialog scrolls after the keyboard resi
   try {
     await flushPromises()
     const reference = wrapper.get('.mp-select').element
+    let pageShift = 0
     vi.spyOn(reference, 'getBoundingClientRect').mockImplementation(() => ({
-      top: 200 - dialog.scrollTop,
+      top: 200 - dialog.scrollTop - pageShift,
       left: 10,
       width: 300,
       height: 40,
@@ -34,6 +35,12 @@ test('search menu stays anchored when the dialog scrolls after the keyboard resi
 
     dialog.scrollTop = 80
     dialog.dispatchEvent(new Event('scroll'))
+    await vi.waitFor(() => expect(popup.style.top).toBe('164px'))
+
+    // The host can still pan the page after its last viewport or scroll event.
+    pageShift = 35
+    await vi.waitFor(() => expect(popup.style.top).toBe('129px'))
+    pageShift = 0
     await vi.waitFor(() => expect(popup.style.top).toBe('164px'))
   } finally {
     wrapper.unmount()

@@ -203,3 +203,36 @@
     transition: none !important;
   }
 }
+
+// Normalize the browser popover box while keeping the component's own layout.
+[data-card-top-layer=""][popover] {
+  margin: 0;
+  border: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: inherit;
+}
+[trigger-placement][data-card-top-layer][popover] { inset: auto; }
+[data-card-top-layer=""][popover]:not([class$="card__floater"]):not([trigger-placement]) {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  background: transparent;
+}
+[data-card-feedback-host][data-card-top-layer] { pointer-events: none; }
+
+// Positioned feedback and editors retain the insets and dimensions set by their own styles.
+:where([data-card-top-layer="positioned"][popover]) {
+  inset: auto;
+  width: auto;
+  height: auto;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  color: inherit;
+  background: transparent;
+  overflow: visible;
+}

@@ -171,7 +171,11 @@ describe('inline selection menus', () => {
         expect(wrapper.find(`.${p}-selected-options__tags`).exists()).toBe(false)
         expect(wrapper.find(`.${p}-selected-options__details`).exists()).toBe(false)
         expect(wrapper.get(`.${p}-selection-field`).text()).toContain('Alpha')
-        expect(wrapper.find('[role=option], [role=menuitem]').exists()).toBe(true)
+        const role = name === 'Select' ? 'option' : 'menuitemcheckbox'
+        const selectedState = name === 'Select' ? 'aria-selected' : 'aria-checked'
+        const choices = wrapper.findAll(`[role=${role}]`)
+        expect(choices.map(option => option.text())).toEqual(['Alpha', 'Beta'])
+        expect(choices.map(option => option.attributes(selectedState))).toEqual(['true', 'false'])
       } finally {
         wrapper.unmount()
       }

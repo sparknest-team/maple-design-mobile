@@ -3,15 +3,15 @@ import { renderToString } from '@vue/server-renderer'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 import Form from '..'
-import Section, { sectionProps } from '../../section'
+import Section from '../../section'
 import Input from '../../input'
 import FormItem from '../FormItem.vue'
 import { useForm } from '../provide'
 
 describe('Section', () => {
-  it('switches styles without remounting fields and uses the card border as its end boundary', async () => {
+  it('switches styles without remounting fields', async () => {
     const wrapper = mount(Section, {
-      props: { title: '现场处置', showEndDivider: true },
+      props: { title: '现场处置' },
       slots: { default: () => h('input') },
     })
     try {
@@ -19,13 +19,12 @@ describe('Section', () => {
       const input = wrapper.get('input').element
       await wrapper.get('input').setValue('Draft onsite instructions')
       expect(wrapper.find('.mp-section__line').exists()).toBe(false)
-      for (const variant of ['card', 'plain', 'line'] as const) {
+      for (const variant of ['outline', 'plain', 'heading-line'] as const) {
         await wrapper.setProps({ variant })
         expect(wrapper.classes()).toContain(`mp-section--${variant}`)
         expect(wrapper.get('input').element).toBe(input)
         expect(wrapper.get('input').element.value).toBe('Draft onsite instructions')
-        expect(wrapper.find('.mp-section__line').exists()).toBe(variant === 'line')
-        expect(wrapper.find('.mp-section__end-divider').exists()).toBe(variant !== 'card')
+        expect(wrapper.find('.mp-section__line').exists()).toBe(variant === 'heading-line')
       }
     } finally {
       wrapper.unmount()
@@ -35,8 +34,7 @@ describe('Section', () => {
     const app = createApp({}).use(Form).use(Section)
     expect(app.component('MpSection')).toBeTruthy()
     expect(Form).not.toHaveProperty('Section')
-    expect(sectionProps.showEndDivider.default).toBe(false)
-    const sectionState = reactive({ showEndDivider: true, showMarker: true })
+    const sectionState = reactive({ showMarker: true })
     const wrapper = mount(Form, {
       slots: {
         default: () => [
@@ -52,13 +50,10 @@ describe('Section', () => {
       expect(section.get('h3').text()).toBe('现场处置')
       expect(section.attributes('aria-labelledby')).toBe(section.get('h3').attributes('id'))
       expect(section.findAll('input')).toHaveLength(1)
-      expect(section.get('.mp-section__end-divider').attributes('aria-hidden')).toBe('true')
       expect(section.element.nextElementSibling?.textContent).toContain('技能等级')
-      sectionState.showEndDivider = false
       sectionState.showMarker = false
       await nextTick()
-      expect(section.find('.mp-section__end-divider').exists()).toBe(false)
-      expect(section.find('.mp-section__marker').exists()).toBe(false)
+      expect(section.find('.mp-section__label--marked').exists()).toBe(false)
     } finally {
       wrapper.unmount()
     }

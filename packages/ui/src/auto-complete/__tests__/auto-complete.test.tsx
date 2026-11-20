@@ -1,3 +1,4 @@
+import VirtualList from '../../_components/virtual-list-v2'
 import { createApp, createSSRApp, h, nextTick } from 'vue'
 import { renderToString } from '@vue/server-renderer'
 import { DOMWrapper, flushPromises, mount } from '@vue/test-utils'
@@ -615,6 +616,30 @@ describe('input boundaries', () => {
     const input = wrapper.get('input')
     await input.trigger('focus')
     expect(getOptions(input)[0].text()).toBe('Rich candidate')
+  })
+  test.each([false, true])('forwards scroll events at the visible bottom with virtual=%s', async (virtual) => {
+    const wrapper = mountAutoComplete({ props: { options, virtualListProps: virtual ? { height: 180 } : undefined } })
+    const input = wrapper.get('input')
+    await input.trigger('focus')
+    await nextTick()
+    const viewport = virtual
+      ? wrapper.getComponent(VirtualList).element
+      : getOptions(input)[0].element.closest('ul')!.parentElement!
+    Object.defineProperties(viewport, {
+      scrollHeight: { configurable: true, value: 200 },
+      clientHeight: { configurable: true, value: 100 },
+      offsetHeight: { configurable: true, value: 110 },
+    })
+    viewport.scrollTop = 90
+    const near = new Event('scroll')
+    viewport.dispatchEvent(near)
+    expect(wrapper.emitted('dropdown-scroll')).toEqual([[near]])
+    expect(wrapper.emitted('dropdown-reach-bottom')).toBeUndefined()
+    viewport.scrollTop = 100
+    const bottom = new Event('scroll')
+    viewport.dispatchEvent(bottom)
+    expect(wrapper.emitted('dropdown-scroll')).toEqual([[near], [bottom]])
+    expect(wrapper.emitted('dropdown-reach-bottom')).toEqual([[bottom]])
   })
   test('virtual suggestions remain selectable', async () => {
     const wrapper = mountAutoComplete({ props: { options, virtualListProps: { height: 180 } } })

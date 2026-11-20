@@ -62,6 +62,8 @@ export const uploadProps = {
     type: String as PropType<UploadListType>,
     default: 'text',
   },
+  /** Whether the custom slot supplies its own interactive control on the first render. */
+  initialTriggerInteractive: Boolean,
   /** 上传入口在文件列表之前或之后；按 DOM 顺序解释，不因 RTL 改写。 */
   triggerPosition: {
     type: String as PropType<UploadTriggerPosition>,

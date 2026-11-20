@@ -1,18 +1,166 @@
-@import '../../style/theme/local-scope.less';
+@import "../../style/theme/local-scope.less";
+
+
+/******** Table CSS Variables *******/
 :root {
-  --mp-table-background: #fff;
-  --mp-table-border-radius: 2px;
-  --mp-table-thead-border-bottom: thin solid var(--mp-color-border-2);
-  --mp-table-thead-th-text-color: rgba(0, 0, 0, 0.6);
-  --mp-table-thead-th-text-align: start;
-  --mp-table-thead-th-font-size: 14px;
-  --mp-table-thead-tr-border-bottom: thin solid var(--mp-color-border-2);
-  --mp-table-tbody-tr-hover-background: #eee;
-  --mp-table-tbody-tr-border-bottom: thin solid var(--mp-color-border-2);
-  --mp-table-tbody-td-text-color: #555;
-  --mp-table-tbody-td-font-size: 16px;
-  --mp-table-tbody-td-text-align: start;
-  --mp-table-row-height: 46px;
-  --mp-table-row-padding: 0 16px;
-  --mp-table-footer-border-top: thin solid var(--mp-color-border-2);
+  --mp-table-sticky-scrollbar-height: 16px;
+  // Size axis: xs | sm | md | lg
+  --mp-table-size-md-padding-horizontal: var(~'--mp-sys-space-6');
+  --mp-table-size-md-padding-vertical: 9px;
+  --mp-table-size-sm-padding-horizontal: var(~'--mp-sys-space-6');
+  --mp-table-size-sm-padding-vertical: 5px;
+  --mp-table-size-xs-padding-horizontal: var(~'--mp-sys-space-6');
+  --mp-table-size-xs-padding-vertical: 2px;
+  --mp-table-size-lg-padding-horizontal: var(~'--mp-table-size-md-padding-horizontal');
+  --mp-table-size-lg-padding-vertical: var(~'--mp-table-size-md-padding-vertical');
+
+  --mp-table-size-md-font-size: var(~'--mp-sys-font-size-md');
+  --mp-table-size-sm-font-size: var(~'--mp-sys-font-size-md');
+  --mp-table-size-xs-font-size: var(~'--mp-sys-font-size-xs');
+  --mp-table-size-lg-font-size: var(~'--mp-table-size-md-font-size');
+
+  --mp-table-size-md-header-font-size: var(~'--mp-sys-font-size-md');
+  --mp-table-size-sm-header-font-size: var(~'--mp-sys-font-size-md');
+  --mp-table-size-xs-header-font-size: var(~'--mp-sys-font-size-xs');
+  --mp-table-size-lg-header-font-size: var(~'--mp-table-size-md-header-font-size');
+
+  --mp-table-size-xs-extra-padding-horizontal: var(~'--mp-sys-space-1');
+  --mp-table-size-sm-extra-padding-horizontal: var(~'--mp-sys-space-1');
+  --mp-table-size-md-extra-padding-horizontal: var(~'--mp-sys-space-2');
+  --mp-table-size-lg-extra-padding-horizontal: var(~'--mp-sys-space-2');
+
+  --mp-table-size-xs-extra-icon-font-size: 14px;
+  --mp-table-size-sm-extra-icon-font-size: 14px;
+  --mp-table-size-md-extra-icon-font-size: 16px;
+  --mp-table-size-lg-extra-icon-font-size: 16px;
+
+  // Border / radius
+  --mp-table-border-width: 1px;
+  --mp-table-border-style: solid;
+  --mp-table-border-color: rgb(var(--mp-gray-3));
+  --mp-table-border-radius: var(~'--mp-sys-radius-md');
+  --mp-table-resizing-border-color: var(--mp-sys-color-action-primary);
+
+  // Expand button
+  --mp-table-expand-button-size: 14px;
+  --mp-table-expand-button-margin-right: var(~'--mp-sys-space-2');
+  --mp-table-expand-button-font-size: 12px;
+  --mp-table-expand-button-border-radius: 2px;
+  --mp-table-expand-icon-color: var(~'--mp-color-text-2');
+  --mp-table-expand-icon-hover-color: var(~'--mp-color-text-1');
+  --mp-table-expand-icon-border-color: transparent;
+  --mp-table-expand-icon-hover-border-color: transparent;
+  --mp-table-expand-icon-bg: rgb(var(--mp-gray-3));
+  --mp-table-expand-icon-hover-bg: rgb(var(--mp-gray-4));
+  --mp-table-expand-icon-border-width: 1px;
+  --mp-table-expand-content-bg: var(~'--mp-color-fill-1');
+  --mp-table-expand-content-hover-bg: var(~'--mp-color-fill-1');
+  --mp-table-expand-loading-icon-color: var(--mp-sys-color-content-brand);
+
+  // Header
+  --mp-table-header-cell-text-color: rgb(var(~'--mp-gray-10'));
+  --mp-table-header-cell-bg: rgb(var(--mp-gray-2));
+  --mp-table-header-sorted-cell-bg: rgb(var(--mp-gray-3));
+  --mp-table-header-sorted-cell-hover-bg: rgba(var(~'--mp-gray-4'), 0.5);
+  --mp-table-header-text-font-weight: var(~'--mp-sys-font-weight-medium');
+  --mp-table-header-cell-action-color: var(~'--mp-color-text-3');
+  --mp-table-header-cell-action-hover-color: var(~'--mp-color-text-1');
+  --mp-table-header-cell-action-margin-left: 2px;
+  --mp-table-th-actions-margin-left: 8px;
+
+  // Header filters
+  --mp-table-header-filters-icon-color: var(~'--mp-color-text-2');
+  --mp-table-header-filters-icon-active-color: var(--mp-sys-color-action-primary);
+  --mp-table-header-filters-icon-hover-bg: rgb(var(--mp-gray-4));
+  --mp-table-filters-icon-font-size: 16px;
+  --mp-table-filters-width: 24px;
+  --mp-table-filters-icon-hover-bg: var(~'--mp-color-fill-4');
+
+  // Header sorter
+  --mp-table-header-sorter-icon-color: rgb(var(--mp-gray-5));
+  --mp-table-header-sorter-icon-next-color: rgb(var(--mp-gray-6));
+  --mp-table-header-sorter-icon-active-color: var(--mp-sys-color-action-primary);
+  --mp-table-header-sorter-icon-margin-left: var(~'--mp-sys-space-4');
+  --mp-table-header-sorter-icon-height: 8px;
+  --mp-table-header-sorter-icon-width: 14px;
+  --mp-table-header-sorter-icon-font-size: 12px;
+  --mp-table-header-sorter-icon-up-top: -2px;
+  --mp-table-header-sorter-icon-down-top: -3px;
+  --mp-table-header-sorter-icon-left: 1px;
+
+  // Body
+  --mp-table-body-cell-text-color: rgb(var(~'--mp-gray-10'));
+  --mp-table-body-cell-bg: var(~'--mp-color-bg-2');
+  --mp-table-body-sorted-cell-bg: var(~'--mp-color-fill-1');
+  --mp-table-body-stripe-row-bg: var(~'--mp-color-fill-1');
+  --mp-table-body-row-hover-bg: var(~'--mp-color-fill-1');
+  --mp-table-body-row-active-bg: var(~'--mp-color-fill-1');
+  --mp-table-body-row-active-dark-bg: rgb(var(--mp-gray-2));
+  --mp-table-body-bg: var(~'--mp-color-bg-2');
+  --mp-table-body-min-height: 40px;
+  --mp-table-empty-height: 240px;
+  --mp-table-empty-image-size: 48px;
+  --mp-table-tfoot-bg: rgb(var(--mp-gray-2));
+  --mp-table-editable-body-cell-border-color: var(~'--mp-color-white');
+
+  // Filters popup
+  --mp-table-filters-popup-bg: var(~'--mp-color-bg-5');
+  --mp-table-filters-popup-border-color: rgb(var(--mp-gray-3));
+  --mp-table-filters-popup-min-width: 100px;
+  --mp-table-filters-popup-max-height: 200px;
+  --mp-table-filters-popup-border-radius: var(~'--mp-sys-radius-md');
+  --mp-table-filters-popup-box-shadow: 0 2px 5px rgba(0,0,0,.1);
+  --mp-table-filters-list-padding: 4px 0;
+  --mp-table-filters-item-height: 32px;
+  --mp-table-filters-item-padding: 0 12px;
+  --mp-table-filters-item-font-size: 14px;
+  --mp-table-filters-item-line-height: 32px;
+  --mp-table-filters-text-max-width: 160px;
+  --mp-table-filters-text-height: 34px;
+  --mp-table-filters-text-padding-left: 10px;
+  --mp-table-filters-text-line-height: 32px;
+  --mp-table-filters-bottom-height: 38px;
+  --mp-table-filters-bottom-padding: 0 12px;
+  --mp-table-filters-bottom-line-height: 38px;
+  --mp-table-filters-bottom-gap: 8px;
+
+  // Fixed column shadow
+  --mp-table-shadow-left: inset 6px 0 8px -3px rgba(0, 0, 0, 0.15);
+  --mp-table-shadow-right: inset -6px 0 8px -3px rgba(0, 0, 0, 0.15);
+  --mp-table-shadow-wrapper-width: 10px;
+
+  // Columns / selection
+  --mp-table-selection-col-width: 40px;
+  --mp-table-expand-icon-col-width: 40px;
+  --mp-table-drag-handle-col-width: 40px;
+  --mp-table-column-handle-width: 8px;
+  --mp-table-column-handle-right: -4px;
+
+  // Pagination
+  --mp-table-pagination-margin: var(~'--mp-sys-space-5');
+  --mp-table-pagination-sticky-padding: 12px 0;
+  --mp-table-sticky-scrollbar-opacity: 0.8;
+  --mp-table-pagination-sticky-bg: var(~'--mp-color-bg-1');
+
+  // Extra column icon
+  --mp-table-extra-column-icon-color: var(~'--mp-color-text-2');
+  --mp-table-extra-column-icon-hover-color: var(~'--mp-color-text-1');
+
+  // Column insert panel
+  --mp-table-column-insert-max-height: calc(100vh - 160px);
+  --mp-table-column-insert-padding: 16px 20px;
+  --mp-table-column-insert-empty-text-color: var(~'--mp-color-text-3');
+  --mp-table-column-insert-empty-font-size: 14px;
+  --mp-table-column-insert-empty-line-height: 22px;
+  --mp-table-column-insert-group-margin-top: 16px;
+  --mp-table-column-insert-group-title-margin-bottom: 8px;
+  --mp-table-column-insert-group-title-text-color: var(~'--mp-color-text-3');
+  --mp-table-column-insert-group-title-font-size: 12px;
+  --mp-table-column-insert-group-title-line-height: 20px;
+  --mp-table-column-insert-item-min-height: 32px;
+
+  // Shared
+  --mp-table-line-height: var(~'--mp-line-height');
+  --mp-table-transition-duration: var(~'--mp-sys-motion-duration-fast');
+  --mp-table-transition-timing-function: linear;
 }

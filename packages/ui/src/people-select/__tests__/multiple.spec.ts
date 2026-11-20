@@ -109,6 +109,24 @@ for (const state of ['disabled', 'readonly', 'loading']) {
   })
 }
 
+
+test('deferred reference respects disabled fallback for unmatched people', async () => {
+  const owner = setup({
+    editMode: 'popup',
+    modelValue: ['b', 'unknown-id', 'a'],
+    fallbackOption: false,
+    defaultText: 'Unavailable',
+  })
+  const label = () => owner.get('[aria-haspopup="dialog"]').text()
+  expect(label()).toContain('Bob, Unavailable, Alice')
+  await owner.setProps({ multiple: false, modelValue: 'unknown-id', label: 'Old name' })
+  expect(label()).toContain('Unavailable')
+  expect(label()).not.toContain('Old name')
+  await owner.setProps({ options: [...people, { value: 'unknown-id', label: 'New name' }] })
+  expect(label()).toContain('New name')
+  expect(owner.emitted('update:modelValue')).toBeUndefined()
+})
+
 test('deferred multiple editing commits an array only after confirmation', async () => {
   const owner = setup({ editMode: 'popup', defaultValue: ['a'] })
   await owner.get('[aria-haspopup="dialog"]').trigger('click')

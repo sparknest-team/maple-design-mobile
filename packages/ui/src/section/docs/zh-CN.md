@@ -14,23 +14,31 @@
 
 ### 带线分区
 
-line 在标题后绘制装饰线，操作放入 extra 插槽。
+heading-line 在标题后绘制装饰线，操作放入 extra 插槽。
 
 ```demo
 ../example/demos/line.vue
 ```
 
-### 卡片与自定义标题
+### 描边分区与自定义标题
 
-通过 title 和 description 插槽提供卡片标题与说明。打开 `show-marker` 显示标题色条，用 `heading-level` 指定标题层级。
+通过 title 和 description 插槽提供分区标题与说明。打开 `show-marker` 显示标题色条，用 `heading-level` 指定标题层级。
 
 ```demo
-../example/demos/card.vue
+../example/demos/outline.vue
+```
+
+### 分区尺寸
+
+两个标题都是四级标题。上方紧凑分区的标题为 14px，下方默认分区的标题为 16px。
+
+```demo
+../example/demos/sizes.vue
 ```
 
 ### 有标题、仅说明与纯正文
 
-切换 plain、line、card，并分别勾选标题和说明，观察同一份内容在不同组合下的效果。初始只显示正文。两个选项都关闭时，整个头部会收起，line 的标题装饰线也随之收起。
+切换 plain、heading-line、tonal、outline，并分别勾选标题和说明，观察同一份内容在不同组合下的效果。初始只显示正文。勾选「显示色条」后，无标题时会标记整个分区；显示标题后可选择「标题旁」或「整个分区」。标题和说明都关闭时，整个头部会收起，heading-line 的标题装饰线也随之收起。
 
 ```demo
 ../example/demos/heading-options.vue
@@ -38,7 +46,7 @@ line 在标题后绘制装饰线，操作放入 extra 插槽。
 
 ### 行内表单分组
 
-放在 Form 中时，Section 默认采用 line 并显示标题色条。字段跟随 inline 布局横排，空间不足时换行。开启 `show-end-divider` 可在字段下方添加结束线。
+放在 Form 中时，Section 默认采用 heading-line 并显示标题色条。字段跟随 inline 布局横排，空间不足时换行。需要分隔相邻分区时，可在页面中使用 Divider。
 
 ```demo
 ../example/demos/inline-form.vue
@@ -53,10 +61,12 @@ line 在标题后绘制装饰线，操作放入 extra 插槽。
 | id | 分区锚点 | string | 自动生成 |
 | title | 标题文本 | string | 空 |
 | description | 标题下方的说明 | string | 空 |
-| variant | 外观，可选 plain、line、card | 'plain' \| 'line' \| 'card' | 表单内 line，其他场景 plain |
+| size | 视觉尺寸（sm / md），独立于标题层级 | SectionSize | md |
+| variant | 外观，可选 plain、heading-line、tonal、outline | 'plain' \| 'heading-line' \| 'tonal' \| 'outline' | 表单内 heading-line，其他场景 plain |
+| status | 状态决定色条、tonal 浅色背景和 outline 描边的颜色（default / info / success / warning / danger） | SectionStatus | — |
 | heading-level | 标题层级，取值 1 至 6 | 1–6 | 表单内 3，其他场景 2 |
-| show-marker | 显示标题色条 | boolean | 表单内开启 |
-| show-end-divider | 在 plain 和 line 分区末尾绘制结束线 | boolean | false |
+| show-marker | 显示色条 | boolean | 表单内开启 |
+| marker-placement | 色条位置（`title` / `section`） | string | `title` |
 
 ### Section Slots
 
@@ -91,13 +101,17 @@ line 在标题后绘制装饰线，操作放入 extra 插槽。
 | `--mp-section-description-size` | `13px` | `font-size` |
 | `--mp-section-divider-color` | `var(--mp-sys-color-border-default)` | `border`, `border-block-start` |
 | `--mp-section-divider-width` | `1px` | `border`, `border-block-start` |
-| `--mp-section-end-divider-gap` | `24px` | `margin-block-start` |
 | `--mp-section-header-gap` | `20px` | `margin-block-end` |
 | `--mp-section-heading-gap` | `16px` | `margin-inline-start` |
-| `--mp-section-marker-gap` | `8px` | `margin-inline-end`, `row-gap` |
+| `--mp-section-marker-gap` | `12px` | `padding-inline-end`, `padding-inline-start`, `row-gap` |
 | `--mp-section-marker-height` | `16px` | `height` |
 | `--mp-section-marker-radius` | `2px` | `border-radius` |
-| `--mp-section-marker-width` | `3px` | `width` |
+| `--mp-section-marker-width` | `3px` | `width`, `padding-inline-start` |
+| `--mp-section-size-sm-card-padding` | `12px` | `padding` |
+| `--mp-section-size-sm-header-gap` | `12px` | `margin-block-end` |
+| `--mp-section-size-sm-marker-height` | `14px` | `height` |
+| `--mp-section-size-sm-title-line-height` | `20px` | `line-height` |
+| `--mp-section-size-sm-title-size` | `14px` | `font-size` |
 | `--mp-section-title-color` | `var(--mp-sys-color-content-primary)` | `color` |
 | `--mp-section-title-line-height` | `24px` | `line-height` |
 | `--mp-section-title-size` | `16px` | `font-size` |

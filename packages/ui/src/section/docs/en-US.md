@@ -7,37 +7,45 @@ Group a heading, description, actions and content in a page, drawer or card. Out
 ### Plain section
 
 ```demo
-../example/demos/plain.vue
+../example/demos/en-US/plain.vue
 ```
 
 ### Section with a line
 
 ```demo
-../example/demos/line.vue
+../example/demos/en-US/line.vue
 ```
 
-### Card with a custom heading
+### Outlined section with a custom heading
 
-Use the title and description slots for the card header. `show-marker` adds an accent before the heading, and `heading-level` sets its HTML level.
+Use the title and description slots for the section header. `show-marker` adds an accent before the heading, and `heading-level` sets its HTML level.
 
 ```demo
-../example/demos/card.vue
+../example/demos/en-US/outline.vue
+```
+
+### Section sizes
+
+Both headings are level 4. The compact section uses a 14px title and the default section uses a 16px title.
+
+```demo
+../example/demos/en-US/sizes.vue
 ```
 
 ### With or without a heading
 
-Switch between plain, line and card, then toggle the heading and description independently. The example starts with just the body. With both options off, Section omits the header, including the line in the line variant.
+Switch between plain, heading-line, tonal and outline, then toggle the heading and description independently. The example starts with just the body. Enable the marker to mark the entire section. When the heading is visible, you can choose either placement. With both the heading and description off, Section omits the header, including the line in the heading-line variant.
 
 ```demo
-../example/demos/heading-options.vue
+../example/demos/en-US/heading-options.vue
 ```
 
 ### Grouping inline form fields
 
-Inside Form, Section defaults to line with a heading marker. The fields follow the inline layout and wrap when space is limited. `show-end-divider` adds a line after the fields.
+Inside Form, Section defaults to heading-line with a heading marker. The fields follow the inline layout and wrap when space is limited. Use Divider between sections when needed.
 
 ```demo
-../example/demos/inline-form.vue
+../example/demos/en-US/inline-form.vue
 ```
 
 ## API
@@ -49,10 +57,12 @@ Inside Form, Section defaults to line with a heading marker. The fields follow t
 | id | Section anchor | string | Automatically generated |
 | title | Heading text | string | Empty |
 | description | Supporting text below the heading | string | Empty |
-| variant | Appearance, plain, line or card | 'plain' \| 'line' \| 'card' | line inside Form, otherwise plain |
+| size | Visual size (sm / md), independent of heading level | SectionSize | md |
+| variant | Appearance, plain, heading-line, tonal or outline | 'plain' \| 'heading-line' \| 'tonal' \| 'outline' | heading-line inside Form, otherwise plain |
+| status | Status colors the marker, tonal fill and outline (default / info / success / warning / danger) | SectionStatus | — |
 | heading-level | HTML heading level from 1 to 6 | 1–6 | 3 inside Form, otherwise 2 |
-| show-marker | Show a heading marker | boolean | Enabled inside Form |
-| show-end-divider | Draw a trailing line in plain and line variants | boolean | false |
+| show-marker | Show the marker | boolean | Enabled inside Form |
+| marker-placement | Marker placement (`title` or `section`) | string | `title` |
 
 ### Section Slots
 
@@ -60,9 +70,9 @@ Use the default slot for content and extra for actions. The title and descriptio
 
 | Slot | Description |
 | --- | --- |
-| default | Section body |
-| title | Custom heading |
-| description | Supporting text |
+| default | Body |
+| title | Custom title |
+| description | Supporting description |
 | extra | Header actions |
 
 ## CSS Variables
@@ -87,13 +97,17 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-section-description-size` | `13px` | `font-size` |
 | `--mp-section-divider-color` | `var(--mp-sys-color-border-default)` | `border`, `border-block-start` |
 | `--mp-section-divider-width` | `1px` | `border`, `border-block-start` |
-| `--mp-section-end-divider-gap` | `24px` | `margin-block-start` |
 | `--mp-section-header-gap` | `20px` | `margin-block-end` |
 | `--mp-section-heading-gap` | `16px` | `margin-inline-start` |
-| `--mp-section-marker-gap` | `8px` | `margin-inline-end`, `row-gap` |
+| `--mp-section-marker-gap` | `12px` | `padding-inline-end`, `padding-inline-start`, `row-gap` |
 | `--mp-section-marker-height` | `16px` | `height` |
 | `--mp-section-marker-radius` | `2px` | `border-radius` |
-| `--mp-section-marker-width` | `3px` | `width` |
+| `--mp-section-marker-width` | `3px` | `width`, `padding-inline-start` |
+| `--mp-section-size-sm-card-padding` | `12px` | `padding` |
+| `--mp-section-size-sm-header-gap` | `12px` | `margin-block-end` |
+| `--mp-section-size-sm-marker-height` | `14px` | `height` |
+| `--mp-section-size-sm-title-line-height` | `20px` | `line-height` |
+| `--mp-section-size-sm-title-size` | `14px` | `font-size` |
 | `--mp-section-title-color` | `var(--mp-sys-color-content-primary)` | `color` |
 | `--mp-section-title-line-height` | `24px` | `line-height` |
 | `--mp-section-title-size` | `16px` | `font-size` |

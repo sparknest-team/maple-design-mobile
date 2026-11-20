@@ -1,6 +1,5 @@
 <script setup>
 import { reactive, toRefs } from 'vue'
-import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
 const values = reactive({
   value: false,
@@ -17,7 +16,7 @@ const { value, value2, value3, value4, value5, value6, value9, optionValue, fiel
 </script>
 
 <template>
-  <mp-radio v-model="value5" readonly>{{ english ? 'Current value' : '当前的值' }}: {{ value5 }}</mp-radio>
+  <mp-radio v-model="value5" readonly>当前的值: {{ value5 }}</mp-radio>
 </template>
 
 <style lang="less" scoped>

@@ -1,7 +1,7 @@
 <template>
   <transition :name="n()" @before-leave="hideLeaving" @leave-cancelled="restoreLeaving">
     <div v-if="errorMessage || extraMessage || $slots['extra-message']" :class="n()">
-      <div :id="errorId" :class="n('error-message')">
+      <div :id="errorMessage ? errorId : undefined" :class="n('error-message')">
         <transition :name="n('message')" @before-leave="hideLeaving" @leave-cancelled="restoreLeaving">
           <div v-if="errorMessage" role="alert">
             {{ errorMessage }}

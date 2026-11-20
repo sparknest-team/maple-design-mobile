@@ -1,6 +1,5 @@
 <script setup>
 import { onBeforeUnmount, onDeactivated, ref } from 'vue'
-import { onThemeChange } from '@maple-design/cli-vue/client'
 
 const data1 = Array(30).fill('列表项')
 const data2 = Array(30).fill('新的列表项')
@@ -15,8 +14,6 @@ function cancelRefresh() {
 }
 onBeforeUnmount(cancelRefresh)
 onDeactivated(cancelRefresh)
-
-onThemeChange()
 
 function refresh() {
   clearTimeout(refreshTimer)

@@ -123,6 +123,23 @@ describe('selection-thumb', () => {
     expect(f.dragging()).toBe(false)
     expect(f.removed('mousemove', move)).toBe(true)
   })
+  test('touch dragging scrolls on the initiating pointer and releases on cancellation', async () => {
+    const f = await fixture(Component)
+    const dispatch = (target, type, pointerId, clientX) => {
+      const event = new f.view.MouseEvent(type, { clientX, bubbles: true, cancelable: true })
+      Object.assign(event, { pointerId, pointerType: 'touch', isPrimary: pointerId === 1 })
+      target.dispatchEvent(event)
+    }
+    dispatch(f.thumb, 'pointerdown', 1, 15)
+    dispatch(f.view, 'pointermove', 2, 65)
+    expect(f.child.emitted('scroll')).toBeUndefined()
+    dispatch(f.view, 'pointermove', 1, 45)
+    expect(f.child.emitted('scroll')).toEqual([[30]])
+    dispatch(f.view, 'pointercancel', 1, 45)
+    dispatch(f.view, 'pointermove', 1, 65)
+    expect(f.dragging()).toBe(false)
+    expect(f.child.emitted('scroll')).toEqual([[30]])
+  })
   test('ordinary mouseup removes contextmenu listener too', async () => {
     const f = await fixture(Component)
     f.start()

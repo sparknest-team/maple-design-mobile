@@ -1,6 +1,5 @@
 <script setup>
 import { ref } from 'vue'
-import { AppType, onThemeChange } from '@maple-design/cli-vue/client'
 
 const signature = ref('')
 const signatureRef = ref()
@@ -11,10 +10,6 @@ function resetSignature() {
   signature.value = ''
   signatureRef.value.reset()
 }
-onThemeChange(() => {
-  signatureRef.value?.reset()
-  signature.value = ''
-})
 </script>
 
 <template>

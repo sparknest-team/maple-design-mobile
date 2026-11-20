@@ -4,6 +4,8 @@ const rows = [
   ['2026 Q1', '18.12', '-31.0%', '24.6%', '0.82'],
   ['2026 Q2', '16.77', '-7.4%', '25.1%', '-0.12'],
 ]
+const columns = ['单季', '营收(亿)', '环比', '毛利率', '净利(亿)'].map((title, index) => ({ title, dataIndex: String(index), minWidth: 104 }))
+const records = rows.map(row => ({ ...row, key: row[0] }))
 </script>
 
 <template>
@@ -28,24 +30,7 @@ const rows = [
         <mp-space direction="column" size="lg">
           <mp-card title="单季还原（累计相减）" size="sm" variant="outline" :elevation="false">
             <div data-tabs-no-swipe style="touch-action: pan-x pan-y">
-              <mp-table :full-width="520" :elevation="false">
-                <thead>
-                  <tr>
-                    <th
-                      v-for="heading in ['单季', '营收(亿)', '环比', '毛利率', '净利(亿)']"
-                      :key="heading"
-                      scope="col"
-                    >
-                      {{ heading }}
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="row in rows" :key="row[0]">
-                    <td v-for="(cell, index) in row" :key="index">{{ cell }}</td>
-                  </tr>
-                </tbody>
-              </mp-table>
+              <mp-table :columns="columns" :data="records" :pagination="false" />
             </div>
             <p class="report-note">示例数据 · 单位：亿元</p>
           </mp-card>

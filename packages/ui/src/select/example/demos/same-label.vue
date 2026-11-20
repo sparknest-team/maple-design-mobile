@@ -1,12 +1,11 @@
 <script setup>
 import { computed, reactive } from 'vue'
-import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
 const values = reactive({ inline: [1, 2], dialog: [1, 2], popup: [1, 2] })
 const options = computed(() => [
-  { value: 1, label: english.value ? 'Device' : '设备' },
-  { value: 2, label: english.value ? 'Device' : '设备' },
-  { value: 3, label: english.value ? 'Spare device' : '备用设备' },
+  { value: 1, label: '设备' },
+  { value: 2, label: '设备' },
+  { value: 3, label: '备用设备' },
 ])
 </script>
 

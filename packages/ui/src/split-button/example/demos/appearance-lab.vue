@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import { computed as demoComputed, ref as demoRef, reactive } from 'vue'
-import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import { Message } from '@maple-design/ui-vue'
-import type { ComponentSize, SemanticStatus } from '../../../utils/constants'
+import type { ComponentSize, SemanticStatus } from '@maple-design/ui-vue'
 
 const publish = () => {
-  Message.info(english.value ? 'Published' : '发布成功')
+  Message.info('发布成功')
 }
 const handleSelect = (_value: unknown, option: { label?: unknown }) => {
   Message.info(String(option.label))
@@ -58,15 +57,11 @@ const demoComparedOptions = demoComputed(
       </mp-form-item>
     </mp-form>
     <p class="demo-config-comparison-hint">
-      <span lang="zh-CN">选择一个对比维度；其他配置和内容保持一致。输入类示例共享同一个值，便于比较外观。</span
-      ><span lang="en-US"
-        >Compare one dimension while keeping the other settings and content identical. Input specimens share the same
-        value.</span
-      >
+      选择一个对比维度；其他配置和内容保持一致。输入类示例共享同一个值，便于比较外观。
     </p>
     <mp-radio-group
       v-model="demoCompareAxis"
-      aria-label="Compare configuration"
+      aria-label="对比配置"
       :options="demoCompareFields.map((field) => ({ label: field.name, value: field.name }))"
     />
     <div class="demo-config-comparison">
@@ -80,12 +75,12 @@ const demoComparedOptions = demoComputed(
           @click="publish"
           @select="handleSelect"
         >
-          {{ english ? 'Publish' : '发布' }}
+          发布
 
           <template #content>
-            <mp-menu-option :label="english ? 'Save draft' : '保存草稿'" value="draft" />
-            <mp-menu-option :label="english ? 'Save and publish' : '保存并发布'" value="publish" />
-            <mp-menu-option :label="english ? 'Unavailable' : '暂无权限'" value="restricted" disabled />
+            <mp-menu-option label="保存草稿" value="draft" />
+            <mp-menu-option label="保存并发布" value="publish" />
+            <mp-menu-option label="暂无权限" value="restricted" disabled />
           </template>
         </mp-split-button>
       </section>
@@ -106,9 +101,5 @@ const demoComparedOptions = demoComputed(
 }
 .demo-config-comparison p {
   margin: 0 0 8px;
-}
-html:not([lang='en-US']) .demo-config-comparison-hint > [lang='en-US'],
-html[lang='en-US'] .demo-config-comparison-hint > [lang='zh-CN'] {
-  display: none;
 }
 </style>

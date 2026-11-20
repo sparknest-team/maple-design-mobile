@@ -1,5 +1,5 @@
 <script setup>
-import { AppType, onThemeChange } from '@maple-design/cli-vue/client'
+import { AppType, currentTheme, onThemeChange } from '@maple-design/cli-vue/client'
 import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import BasicUsageDemo from './demos/basic-usage.vue'
 import WordWrapDemo from './demos/word-wrap.vue'
@@ -15,7 +15,7 @@ onThemeChange()
 
   <section data-demo="basic-usage">
     <app-type>{{ english ? 'Basic Usage' : '基本使用' }}</app-type>
-    <BasicUsageDemo />
+    <BasicUsageDemo :dark="currentTheme?.toLowerCase().includes('dark')" />
   </section>
 
   <h2 class="mobile-demo-group-heading" data-demo-group="layout-and-arrangement">
@@ -25,6 +25,6 @@ onThemeChange()
 
   <section data-demo="word-wrap">
     <app-type>{{ english ? 'Word Wrap' : '自动换行' }}</app-type>
-    <WordWrapDemo />
+    <WordWrapDemo :dark="currentTheme?.toLowerCase().includes('dark')" />
   </section>
 </template>

@@ -5,6 +5,7 @@ import {
   defineComponent,
   Fragment,
   h,
+  isVNode,
   nextTick,
   ref,
   Teleport,
@@ -26,14 +27,14 @@ import { isTriggerReferenceListener, useTriggerReferenceListeners } from './refe
 import { useTriggerRender } from './render'
 import { useTriggerState } from './state'
 
-function mergeFirstReferenceClass(nodes: VNode[], value: unknown): VNode[] {
-  if (!value) {
+function bindFirstReference(nodes: VNode[], value: unknown, bindAttrs?: (node: VNode) => VNode): VNode[] {
+  if (!value && !bindAttrs) {
     return nodes
   }
   let merged = false
   const visit = (items: VNode[]): VNode[] =>
     items.map((node) => {
-      if (merged) {
+      if (merged || !isVNode(node)) {
         return node
       }
       if (node.type === Fragment && Array.isArray(node.children)) {
@@ -42,7 +43,8 @@ function mergeFirstReferenceClass(nodes: VNode[], value: unknown): VNode[] {
       }
       if (typeof node.type === 'string' || typeof node.type === 'object' || typeof node.type === 'function') {
         merged = true
-        return cloneVNode(node, { class: value }, true)
+        const reference = value ? cloneVNode(node, { class: value }, true) : node
+        return bindAttrs && typeof node.type === 'string' ? bindAttrs(reference) : reference
       }
       return node
     })
@@ -102,7 +104,7 @@ export default defineComponent({
         typeof props.referenceAttrs === 'function' ? props.referenceAttrs(visible.value) : props.referenceAttrs
       return value ?? {}
     })
-    useTriggerReferenceAttrs(reference, referenceAttrs)
+    const bindReferenceAttrs = useTriggerReferenceAttrs(reference, referenceAttrs)
     const platform = useTriggerPlatform(visible, () => popup.value?.ownerDocument ?? reference.value?.ownerDocument)
     const popupTarget = usePopupContainer(() => props.popupContainer)
     const positionContainer = computed(() => (props.popupContainer === false ? false : popupTarget.value))
@@ -170,12 +172,13 @@ export default defineComponent({
     })
 
     return () => {
-      const referenceNodes = mergeFirstReferenceClass(
-        slots.default?.() ?? [],
-        visible.value ? props.openedClass : undefined,
-      )
       const contentNodes = renderState.rendered.value ? (slots.content?.() ?? []) : []
       const hiddenByEmpty = props.hideEmpty && isEmptyContent(contentNodes)
+      const referenceNodes = bindFirstReference(
+        slots.default?.() ?? [],
+        visible.value ? props.openedClass : undefined,
+        props.reference == null && Object.keys(referenceAttrs.value).length ? bindReferenceAttrs : undefined,
+      )
       nodes.value = referenceNodes
 
       return (

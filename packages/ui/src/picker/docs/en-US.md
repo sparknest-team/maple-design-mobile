@@ -72,7 +72,7 @@ Two calling methods, function and component, are provided. It also supports casc
 While disabled, clicks, touch and keyboard input cannot change the selection. Enabling it resumes from the current model value.
 
 ```demo
-../example/demos/disabled.vue
+../example/demos/en-US/disabled.vue
 ```
 
 ### two way binding

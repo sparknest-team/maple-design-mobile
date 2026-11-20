@@ -18,7 +18,7 @@ it('keeps one explicit native label target through SSR, hydration and read-only 
     expect(tag?.match(/\sfor="/g)).toHaveLength(1)
     container.innerHTML = html
     const label = container.querySelector('label')!
-    const [first, second] = container.querySelectorAll('input')
+    const [first, second] = Array.from(container.querySelectorAll('input'))
     expect(label.control).toBe(first)
     app.mount(container)
     mounted = true

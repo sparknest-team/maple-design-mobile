@@ -8,7 +8,8 @@ it.each([false, true])(
   async (accept) => {
     const values = ['kept']
     values.length = 3
-    const tag = { value: 'old', label: 'Old', metadata: { values } }
+    const source = Symbol('source')
+    const tag = { value: 'old', label: 'Old', metadata: { values, [source]: { id: 7 } } }
     const beforeCommit = vi.fn((_payload: unknown) => accept)
     const owner = mount(InputTag, {
       props: { modelValue: [tag], editMode: 'popup', defaultOpen: true, popupContainer: false, beforeCommit },
@@ -25,6 +26,8 @@ it.each([false, true])(
       await flushPromises()
       expect(beforeCommit).toHaveBeenCalledTimes(1)
       const value = (beforeCommit.mock.calls[0][0] as any).value
+      expect(value[0].metadata[source]).toEqual({ id: 7 })
+      expect(value[0].metadata[source]).not.toBe(tag.metadata[source])
       expect(value).toHaveLength(2)
       expect(value[0].metadata.values).toHaveLength(3)
       expect(1 in value[0].metadata.values).toBe(false)
@@ -32,6 +35,7 @@ it.each([false, true])(
       expect(value[1]).toBe('new')
       if (accept) {
         const emitted = owner.emitted('update:modelValue')?.[0][0] as any[]
+        expect(emitted[0].metadata[source]).toEqual({ id: 7 })
         expect(emitted[0].metadata.values).toHaveLength(3)
         expect(2 in emitted[0].metadata.values).toBe(false)
       } else {

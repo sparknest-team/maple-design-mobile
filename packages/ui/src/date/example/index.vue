@@ -29,6 +29,7 @@ import EnPickerRangeDemo from './demos/en-US/picker-range.vue'
 import EnRejectedCloseDemo from './demos/en-US/rejected-close.vue'
 import EnTextEntryDemo from './demos/en-US/text-entry.vue'
 import EnTimePresentationDemo from './demos/en-US/time-presentation.vue'
+import NewDateScenariosEn from './demos/en-US/time-zone-views.vue'
 import EnTypeDemo from './demos/en-US/type.vue'
 import EnContractDemo from './demos/en-US/value-formats.vue'
 import EnWithFormItemDemo from './demos/en-US/with-form-item.vue'
@@ -120,7 +121,7 @@ onThemeChange()
 
   <section data-demo="time-zone-views">
     <app-type>{{ english ? 'Time zones, DST and calendar views' : '时区、夏令时与三种日历视图' }}</app-type>
-    <NewDateScenarios />
+    <component :is="english ? NewDateScenariosEn : NewDateScenarios" />
   </section>
 
   <section data-demo="multiple">

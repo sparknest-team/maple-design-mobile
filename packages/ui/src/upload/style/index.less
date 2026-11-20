@@ -112,10 +112,12 @@
     height: var(--mp-upload-progress-height);
     accent-color: var(--mp-upload-active-color);
   }
-  &--picture-card &__content,
-  &--picture-card &__list {
+  &--picture-card &__content {
     flex-direction: row;
     flex-wrap: wrap;
+  }
+  &--picture-card &__list {
+    display: contents;
   }
   &--picture-card &__item {
     width: var(--mp-upload-card-size);
@@ -130,6 +132,7 @@
     width: 100%;
   }
   &--picture-card &__trigger {
+    box-sizing: border-box;
     width: var(--mp-upload-card-size);
     min-height: var(--mp-upload-card-size);
     justify-content: center;

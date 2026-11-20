@@ -85,6 +85,11 @@ function showCopiedMessage() {
   --loca-doc-preview-brand: var(--site-config-color-text);
 }
 
+/* A standalone table already provides its own frame and cell spacing. */
+.maple-component-preview .loca-doc-preview__example:has(> .mp-table:only-child) {
+  padding-block: 0;
+}
+
 .maple-component-preview--page .loca-doc-preview__example {
   max-height: min(620px, 70vh);
   overflow: auto;

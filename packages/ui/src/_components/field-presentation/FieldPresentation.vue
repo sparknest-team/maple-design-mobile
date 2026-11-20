@@ -33,6 +33,7 @@
     >
       <EditorPanel
         ref="panel"
+        :popup-container="popupContainer"
         :clearable="clearable"
         v-bind="panelProps"
         @clear="$emit('clear')"

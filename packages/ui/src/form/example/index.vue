@@ -5,6 +5,7 @@ import AsyncFieldsDemo from './demos/async-fields.vue'
 import AsyncRaceDemo from './demos/async-race.vue'
 import ChangeSourceDemo from './demos/change-source.vue'
 import ClearTriggerDemo from './demos/clear-trigger.vue'
+import CompactAccount from './demos/compact-account.vue'
 import ControllerDemo from './demos/controller.vue'
 import CrossFieldDemo from './demos/cross-field.vue'
 import CustomControlDemo from './demos/custom-control.vue'
@@ -14,6 +15,7 @@ import DemoEmptyValuesValidation from './demos/empty-values-validation.vue'
 import EnAsyncFieldsDemo from './demos/en-US/async-fields.vue'
 import EnAsyncRaceDemo from './demos/en-US/async-race.vue'
 import EnClearTriggerDemo from './demos/en-US/clear-trigger.vue'
+import CompactAccountEn from './demos/en-US/compact-account.vue'
 import EnControllerDemo from './demos/en-US/controller.vue'
 import EnCrossFieldDemo from './demos/en-US/cross-field.vue'
 import EnCustomControlDemo from './demos/en-US/custom-control.vue'
@@ -26,7 +28,11 @@ import EnFloatingPlaceholderDemo from './demos/en-US/floating-placeholder.vue'
 import EnHelpExtraDemo from './demos/en-US/help-extra.vue'
 import EnHorizontalLayoutDemo from './demos/en-US/horizontal-layout.vue'
 import ContentLabelWidthComparisonEn from './demos/en-US/label-width-comparison.vue'
+import LayoutComparisonEn from './demos/en-US/layout-comparison.vue'
 import EnPresentationStatusDemo from './demos/en-US/presentation-status.vue'
+import SectionActionsDemoEn from './demos/en-US/section-actions.vue'
+import SectionDemoEn from './demos/en-US/section.vue'
+import SelectionSummaryDemoEn from './demos/en-US/selection-summary.vue'
 import EnVerticalLabelDemo from './demos/en-US/vertical-label.vue'
 import EventsDemo from './demos/events.vue'
 import ExampleDemo from './demos/example.vue'
@@ -68,6 +74,11 @@ onThemeChange()
     <span lang="en-US">Basic examples</span>
   </h2>
 
+  <section data-demo="compact-account">
+    <app-type>{{ english ? 'Compact account field' : '紧凑账户字段' }}</app-type>
+    <component :is="english ? CompactAccountEn : CompactAccount" />
+  </section>
+
   <section data-demo="example">
     <app-type>{{ english ? 'Basic Form' : '基础表单' }}</app-type>
     <EnExampleDemo v-if="english" />
@@ -81,7 +92,7 @@ onThemeChange()
 
   <section data-demo="layout-comparison">
     <app-type>{{ english ? 'Layout switching and item overrides' : '布局切换与单项覆盖' }}</app-type>
-    <LayoutComparison />
+    <component :is="english ? LayoutComparisonEn : LayoutComparison" />
   </section>
 
   <section data-demo="decoration">
@@ -93,14 +104,14 @@ onThemeChange()
     <h3 class="mobile-demo-case-heading">
       <span lang="zh-CN">局部表单分区</span><span lang="en-US">Partial form section</span>
     </h3>
-    <SectionDemo />
+    <component :is="english ? SectionDemoEn : SectionDemo" />
   </section>
 
   <section data-demo="section-actions">
     <h3 class="mobile-demo-case-heading">
       <span lang="zh-CN">分区标题操作</span><span lang="en-US">Section header actions</span>
     </h3>
-    <SectionActionsDemo />
+    <component :is="english ? SectionActionsDemoEn : SectionActionsDemo" />
   </section>
 
   <section data-demo="label-width-comparison">
@@ -149,7 +160,7 @@ onThemeChange()
 
   <section data-demo="selection-summary">
     <app-type>{{ english ? 'Direct / popup selection summaries' : '直接／弹窗编辑的已选区域对照' }}</app-type>
-    <SelectionSummaryDemo />
+    <component :is="english ? SelectionSummaryDemoEn : SelectionSummaryDemo" />
   </section>
 
   <section data-demo="field-tree">

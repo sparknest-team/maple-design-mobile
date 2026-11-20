@@ -10,6 +10,7 @@ import DefaultValueDemo from './demos/default-value.vue'
 import DemoEmptyValue from './demos/empty-value.vue'
 import EnBasicDemo from './demos/en-US/basic.vue'
 import EnCustomClearIconDemo from './demos/en-US/custom-clear-icon.vue'
+import DefaultValueDemoEn from './demos/en-US/default-value.vue'
 import DemoEmptyValueEn from './demos/en-US/empty-value.vue'
 import EnPipelineDemo from './demos/en-US/event-pipeline.vue'
 import EnFormFeedbackDemo from './demos/en-US/form-feedback.vue'
@@ -139,7 +140,7 @@ onThemeChange()
 
   <section data-demo="default-value">
     <app-type>{{ english ? 'Default value and v-model' : '默认值与双向绑定' }}</app-type>
-    <DefaultValueDemo />
+    <component :is="english ? DefaultValueDemoEn : DefaultValueDemo" />
   </section>
 
   <section data-demo="empty-value">

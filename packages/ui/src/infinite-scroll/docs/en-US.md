@@ -11,7 +11,7 @@ A behavioral infinite loader. It handles bottom detection and pagination status 
 ### Basic Usage
 
 ```demo
-../example/demos/basic.vue
+../example/demos/en-US/basic.vue
 ```
 
 ## Content and presentation
@@ -19,7 +19,7 @@ A behavioral infinite loader. It handles bottom detection and pagination status 
 ### Retry on Error
 
 ```demo
-../example/demos/error.vue
+../example/demos/en-US/error.vue
 ```
 
 ## Customization and slots
@@ -37,7 +37,7 @@ A behavioral infinite loader. It handles bottom detection and pagination status 
 
 
 ```demo
-../example/demos/custom-status.vue
+../example/demos/en-US/custom-status.vue
 ```
 
 ## Lifecycle and edge cases

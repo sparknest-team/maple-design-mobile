@@ -24,7 +24,15 @@
     <p v-if="count !== undefined" role="status">
       {{ texts.selected.value }} {{ count }}{{ limit ? ` / ${limit}` : '' }}
     </p>
-    <p v-if="error || auxiliaryFeedback" role="alert" :class="n('error')">{{ error || auxiliaryFeedback }}</p>
+    <p
+      v-if="error || auxiliaryFeedback"
+      :id="localError && localError === (error || auxiliaryFeedback) ? localId : undefined"
+      role="alert"
+      :class="n('error')"
+    >
+      {{ error || auxiliaryFeedback }}
+    </p>
+    <span v-if="localError && localError !== (error || auxiliaryFeedback)" :id="localId" hidden>{{ localError }}</span>
     <footer v-if="needConfirm || auxiliaryActions" :class="n('footer')">
       <div :class="n('auxiliary')"><component :is="auxiliaryActions" v-if="auxiliaryActions" /></div>
       <Button v-if="clearable" variant="text" :disabled="disabled || pending" @click="$emit('clear')">{{
@@ -45,6 +53,7 @@
 <script setup lang="ts">
 import { computed, provide, ref, shallowRef } from 'vue'
 import Button from '../../button/base'
+import { provideEditorErrorDescription } from '../../form/error-description'
 import { injectLocaleProvider } from '../../locale-provider/provide'
 import { createNamespace } from '../../utils/components'
 import { fieldEditorBoundary, fieldEditorPanel } from './context'
@@ -54,6 +63,7 @@ import { isolateEditorForm } from './form-bridge'
 import { useFieldTexts } from './texts'
 
 const props = defineProps<{
+  popupContainer?: string | HTMLElement | false
   clearable?: boolean
   deferEscape?: boolean
   title?: string
@@ -96,6 +106,10 @@ const texts = useFieldTexts()
 const closeText = texts.close
 const clearText = texts.clear
 const panelElement = ref<HTMLElement>()
+const { localId, text: localError } = provideEditorErrorDescription(
+  () => panelElement.value,
+  () => props.popupContainer,
+)
 const bodyElement = ref<HTMLElement>()
 defineExpose({
   focus: () => {
@@ -108,7 +122,7 @@ defineExpose({
   },
   blur: () => {
     const panel = panelElement.value
-    const active = panel?.ownerDocument.activeElement
+    const active = (panel?.getRootNode() as Document | ShadowRoot | undefined)?.activeElement
     if (active && panel?.contains(active)) {
       ;(active as HTMLElement).blur?.()
     }

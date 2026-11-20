@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onDeactivated, ref } from 'vue'
-import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import type { InfiniteScrollStatus } from '@maple-design/ui-vue'
 
 const scroller = ref<HTMLElement>()
@@ -31,7 +30,7 @@ onDeactivated(() => {
 <template>
   <div ref="scroller" class="infinite-scroll-demo">
     <mp-infinite-scroll v-model:status="status" :target="scroller" :bottom-offset="24" @load="load">
-      <mp-cell v-for="item in items" :key="item">{{ english ? 'List item' : '列表项' }} {{ item }}</mp-cell>
+      <mp-cell v-for="item in items" :key="item">列表项 {{ item }}</mp-cell>
     </mp-infinite-scroll>
   </div>
 </template>

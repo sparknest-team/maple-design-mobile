@@ -1,12 +1,8 @@
 <script setup>
 import { ref } from 'vue'
-import { AppType, onThemeChange } from '@maple-design/cli-vue/client'
-import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
 const list = Array.from({ length: 26 }, (_, index) => String.fromCharCode(65 + index))
 const active = ref('A')
-
-onThemeChange()
 
 function handleChange(value) {
   active.value = String(value)
@@ -14,7 +10,7 @@ function handleChange(value) {
 </script>
 
 <template>
-  <app-type>{{ english ? 'Basic Usage' : '基本使用' }} · {{ english ? 'Active' : '当前' }} {{ active }}</app-type>
+  <h3>基本使用 · 当前 {{ active }}</h3>
   <div class="index-bar-demo-surface">
     <mp-index-bar duration="300" @change="handleChange">
       <div v-for="item in list" :key="item">
@@ -26,10 +22,10 @@ function handleChange(value) {
             color: 'var(--mp-tag-status-primary-text-color)',
           }"
         >
-          {{ english ? 'Title' : '标题' }} {{ item }}
+          标题 {{ item }}
         </mp-index-anchor>
-        <mp-cell>{{ item }} {{ english ? 'Item' : '文本' }}</mp-cell>
-        <mp-cell>{{ item }} {{ english ? 'Item' : '文本' }}</mp-cell>
+        <mp-cell>{{ item }} 文本</mp-cell>
+        <mp-cell>{{ item }} 文本</mp-cell>
       </div>
     </mp-index-bar>
   </div>

@@ -49,23 +49,22 @@
 
 <script lang="ts">
 import type { PropType } from 'vue'
-import { computed, defineComponent, h, inject, toRefs } from 'vue'
+import { computed, defineComponent, h, toRefs } from 'vue'
 import { useEmptySlot } from '../_components/selection-field/empty-slot'
 import Scrollbar, { ScrollbarProps } from '../_components/selection-scrollbar'
 import { useComponentRef } from '../_hooks/use-component-ref'
 import { useScrollbar } from '../_hooks/use-scrollbar'
 import type { EmitType } from '../_utils/types'
-import Empty from '../empty'
+import Empty from '../empty/Empty.vue'
 import Loading from '../loading/Loading.vue'
 import { createNamespace, getPrefixCls } from '../utils/components'
 
-const { name, n, classes } = createNamespace('select-dropdown')
+const { name } = createNamespace('select-dropdown')
 
 export default defineComponent({
   name,
   components: {
     ScrollbarComponent: Scrollbar,
-    Empty,
     Loading,
   },
   props: {
@@ -109,8 +108,8 @@ export default defineComponent({
     const { displayScrollbar, scrollbarProps } = useScrollbar(scrollbar)
 
     const handleScroll = (e: Event) => {
-      const { scrollTop, scrollHeight, offsetHeight } = e.target as HTMLElement
-      const bottom = scrollHeight - (scrollTop + offsetHeight)
+      const { scrollTop, scrollHeight, clientHeight } = e.target as HTMLElement
+      const bottom = scrollHeight - (scrollTop + clientHeight)
       if (bottom <= props.bottomOffset) {
         emit('reach-bottom', e)
       }

@@ -53,3 +53,33 @@ for (const [name, component, props] of [
     expect(panel.contains(document.activeElement)).toBe(false)
   })
 }
+
+test.each(['open', 'closed'] as const)('Cascader blur handles retargeted focus in a %s shadow root', async (shadowMode) => {
+  const host = document.createElement('div')
+  document.body.append(host)
+  const root = host.attachShadow({ mode: shadowMode })
+  const container = document.createElement('div')
+  const other = document.createElement('button')
+  root.append(container, other)
+  const owner = mount(Cascader, {
+    props: { editMode: mode, popupContainer: container, options: [{ label: 'Alpha', value: 'a' }] },
+    attachTo: document.body,
+  })
+  try {
+    const instance = owner.vm as unknown as { focus(): void; blur(): void }
+    instance.focus()
+    await flushPromises()
+    const panel = owner.getComponent(EditorPanel).element
+    expect(panel.getRootNode()).toBe(root)
+    expect(panel.contains(root.activeElement)).toBe(true)
+    expect(document.activeElement).toBe(host)
+    instance.blur()
+    expect(panel.contains(root.activeElement)).toBe(false)
+    other.focus()
+    instance.blur()
+    expect(root.activeElement).toBe(other)
+  } finally {
+    owner.unmount()
+    host.remove()
+  }
+})

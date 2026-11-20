@@ -1,5 +1,5 @@
 import { expect, it, vi } from 'vitest'
-import { observeReferenceMotion } from '../reference-motion'
+import { observeReferenceMotion, trackPopupAnchor } from '../reference-motion'
 
 it('tracks motion of the slotted reference and its ancestors until cleanup', () => {
   const host = document.createElement('div')
@@ -30,5 +30,28 @@ it('tracks motion of the slotted reference and its ancestors until cleanup', () 
   } finally {
     stop()
     host.remove()
+  }
+})
+
+it('keeps a stationary popup idle and cancels tracking even when its frame was dequeued', () => {
+  const reference = document.createElement('input')
+  const popup = document.createElement('div')
+  const frames: FrameRequestCallback[] = []
+  const raf = vi.spyOn(window, 'requestAnimationFrame').mockImplementation((callback) => frames.push(callback))
+  const cancel = vi.spyOn(window, 'cancelAnimationFrame').mockImplementation(() => {})
+  const update = vi.fn()
+  try {
+    const stop = trackPopupAnchor(reference, popup, update)!
+    frames[0](0)
+    frames[1](16)
+    expect(update).toHaveBeenCalledTimes(1)
+    stop()
+    expect(cancel).toHaveBeenCalledWith(3)
+    frames[2](32)
+    expect(frames).toHaveLength(3)
+    expect(update).toHaveBeenCalledTimes(1)
+  } finally {
+    raf.mockRestore()
+    cancel.mockRestore()
   }
 })

@@ -191,7 +191,7 @@ signal 可选地传给 fetch 取消过期请求；不是 HTTP 参数，也不会
 
 `empty-value` 可显式设为 `null`（或 `() => null`），清空时原样提交 null；省略时保留组件原默认值。界面把 null 显示为空，不会把普通输入的空字符串自动转成 null。确认式弹出编辑中，清空先修改草稿并在确认后提交；无需确认时清空会直接提交。
 
-`fallback-option` 与候选 options 独立，不返回 Promise、不主动发请求。回显优先使用当前候选项，不存在时读取 fallback；传入 false 关闭未匹配值的回显。
+`fallback-option` 与候选 options 独立，不返回 Promise、不主动发请求。回显优先使用当前候选项，不存在时读取 fallback；传入 false 关闭未匹配值的回显。编辑器未打开时，每个未匹配人员在已选顺序中的位置显示 `default-text`。候选项更新后，该位置自动显示匹配的姓名。
 
 ### 业务请求如何接收取消信号
 

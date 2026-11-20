@@ -1,0 +1,38 @@
+▶ chromium mobile Table
+  ✔ left and right fixed columns follow the split header (156.756708ms)
+  ✔ diagonal drag stays in the active tab and permits the intended scroll axis (1170.102042ms)
+  ✔ variable-height expanded row returns to its measured scroll position (623.146584ms)
+✔ chromium mobile Table (5237.458334ms)
+ℹ Engine version 151.0.7922.34
+ℹ Chromium protocol touch input
+ℹ 900×375 expanded row offset drift: 0 CSS px
+ℹ 375×900 expanded row offset drift: 0 CSS px
+ℹ S-10014 returned with 0 CSS px drift
+▶ firefox mobile Table
+  ✔ left and right fixed columns follow the split header (837.86625ms)
+  ✔ diagonal drag stays in the active tab and permits the intended scroll axis (1006.460417ms)
+  ✔ variable-height expanded row returns to its measured scroll position (1068.364ms)
+✔ firefox mobile Table (9861.072541ms)
+ℹ Engine version 153.0
+ℹ Synthetic touch events exercise the tab handler only
+ℹ 900×375 expanded row offset drift: 0 CSS px
+ℹ 375×900 expanded row offset drift: 0 CSS px
+ℹ S-10014 returned with 0 CSS px drift
+▶ webkit mobile Table
+  ✔ left and right fixed columns follow the split header (544.412208ms)
+  ✔ diagonal drag stays in the active tab and permits the intended scroll axis (547.66475ms)
+  ✔ variable-height expanded row returns to its measured scroll position (794.072458ms)
+✔ webkit mobile Table (6422.148166ms)
+ℹ Engine version 26.5
+ℹ Synthetic touch events exercise the tab handler only
+ℹ 900×375 expanded row offset drift: 0 CSS px
+ℹ 375×900 expanded row offset drift: 0 CSS px
+ℹ S-10014 returned with 0 CSS px drift
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 22457.510375

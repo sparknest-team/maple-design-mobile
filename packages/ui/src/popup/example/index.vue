@@ -3,6 +3,7 @@ import { reactive, toRefs } from 'vue'
 import { AppType, onThemeChange } from '@maple-design/cli-vue/client'
 import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import BasicDemo from './demos/basic.vue'
+import MotionTokenDemoEn from './demos/en-US/motion-token.vue'
 import EventDemo from './demos/event.vue'
 import ExplicitLoadingDemo from './demos/loading.vue'
 import MotionTokenDemo from './demos/motion-token.vue'
@@ -59,7 +60,7 @@ onThemeChange()
 
   <section data-demo="motion-token">
     <app-type>{{ english ? 'Feature playground' : '功能调试' }}</app-type>
-    <MotionTokenDemo />
+    <component :is="english ? MotionTokenDemoEn : MotionTokenDemo" />
   </section>
 
   <h2 class="mobile-demo-group-heading" data-demo-group="loading-and-waiting">

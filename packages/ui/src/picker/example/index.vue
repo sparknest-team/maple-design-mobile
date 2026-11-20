@@ -5,6 +5,7 @@ import AreaPickerDemo from './demos/area-picker.vue'
 import CascadePickerDemo from './demos/cascade-picker.vue'
 import ColumnsCountDemo from './demos/columns-count.vue'
 import DisabledDemo from './demos/disabled.vue'
+import DisabledDemoEn from './demos/en-US/disabled.vue'
 import FunctionCallDemo from './demos/function-call.vue'
 import MultiplePickerDemo from './demos/multiple-picker.vue'
 import SinglePickerDemo from './demos/single-picker.vue'
@@ -62,7 +63,7 @@ onThemeChange()
 
   <section data-demo="disabled">
     <app-type>{{ english ? 'Disabled picker' : '禁用选择器' }}</app-type>
-    <DisabledDemo />
+    <component :is="english ? DisabledDemoEn : DisabledDemo" />
   </section>
 
   <section data-demo="two-way-binding">

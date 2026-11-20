@@ -6,6 +6,7 @@ import BasicUsageDemo from './basic.vue'
 import ControlledDemo from './controlled.vue'
 import CustomIconDemo from './custom-icon.vue'
 import OrganizedAppearanceLab from './demos/appearance-lab.vue'
+import OrganizedAppearanceLabEn from './demos/en-US/appearance-lab.vue'
 import DisabledDemo from './disabled.vue'
 import PopupDemo from './popup.vue'
 import VariantsDemo from './variants.vue'
@@ -43,7 +44,7 @@ onThemeChange()
     <h3 class="mobile-demo-case-heading">
       <span lang="zh-CN">外观配置对比</span><span lang="en-US">Appearance configuration comparison</span>
     </h3>
-    <OrganizedAppearanceLab />
+    <component :is="english ? OrganizedAppearanceLabEn : OrganizedAppearanceLab" />
   </section>
 
   <h2 class="mobile-demo-group-heading" data-demo-group="content-and-presentation">

@@ -1,6 +1,5 @@
 <script setup>
 import { reactive, toRefs } from 'vue'
-import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 
 const values = reactive({
   value: false,
@@ -35,7 +34,7 @@ const {
 </script>
 
 <template>
-  <mp-checkbox v-model="value">{{ english ? 'Current value' : '当前的值' }}: {{ value }}</mp-checkbox>
+  <mp-checkbox v-model="value">当前的值: {{ value }}</mp-checkbox>
 </template>
 
 <style lang="less" scoped>

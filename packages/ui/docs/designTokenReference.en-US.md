@@ -2198,13 +2198,17 @@ Source: `src/section/style/token.less`
 | `--mp-section-description-size` | Public | `13px` | Local CSS<br>`font-size` |
 | `--mp-section-divider-color` | Public | `var(--mp-sys-color-border-default)` | Local CSS<br>`border`, `border-block-start` |
 | `--mp-section-divider-width` | Public | `1px` | Local CSS<br>`border`, `border-block-start` |
-| `--mp-section-end-divider-gap` | Public | `24px` | Local CSS<br>`margin-block-start` |
 | `--mp-section-header-gap` | Public | `20px` | Local CSS<br>`margin-block-end` |
 | `--mp-section-heading-gap` | Public | `16px` | Local CSS<br>`margin-inline-start` |
-| `--mp-section-marker-gap` | Public | `8px` | Local CSS<br>`margin-inline-end`, `row-gap` |
+| `--mp-section-marker-gap` | Public | `12px` | Local CSS<br>`padding-inline-end`, `row-gap` |
 | `--mp-section-marker-height` | Public | `16px` | Local CSS<br>`height` |
 | `--mp-section-marker-radius` | Public | `2px` | Local CSS<br>`border-radius` |
 | `--mp-section-marker-width` | Public | `3px` | Local CSS<br>`width` |
+| `--mp-section-size-sm-card-padding` | Public | `12px` | Local CSS<br>`padding` |
+| `--mp-section-size-sm-header-gap` | Public | `12px` | Local CSS<br>`margin-block-end` |
+| `--mp-section-size-sm-marker-height` | Public | `14px` | Local CSS<br>`height` |
+| `--mp-section-size-sm-title-line-height` | Public | `20px` | Local CSS<br>`line-height` |
+| `--mp-section-size-sm-title-size` | Public | `14px` | Local CSS<br>`font-size` |
 | `--mp-section-title-color` | Public | `var(--mp-sys-color-content-primary)` | Local CSS<br>`color` |
 | `--mp-section-title-line-height` | Public | `24px` | Local CSS<br>`line-height` |
 | `--mp-section-title-size` | Public | `16px` | Local CSS<br>`font-size` |

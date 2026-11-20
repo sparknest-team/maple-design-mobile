@@ -9,6 +9,7 @@ import CenteredSlidesDemo from './demos/centered-slides.vue'
 import ControlledDemo from './demos/controlled.vue'
 import CustomIndicatorDemo from './demos/custom-indicator.vue'
 import ContentEffectComparison from './demos/effect-comparison.vue'
+import AutoplayDemoEn from './demos/en-US/autoplay.vue'
 import ForbidLoopDemo from './demos/forbid-loop.vue'
 import HandleChangeDemo from './demos/handle-change.vue'
 import ContentIndicatorComparison from './demos/indicator-comparison.vue'
@@ -101,7 +102,7 @@ onThemeChange()
 
   <section data-demo="autoplay">
     <app-type>{{ english ? 'Autoplay' : '开启自动播放' }}</app-type>
-    <AutoplayDemo />
+    <component :is="english ? AutoplayDemoEn : AutoplayDemo" />
   </section>
 
   <section data-demo="autoplay-hover-pause">

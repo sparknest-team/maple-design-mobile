@@ -96,7 +96,7 @@ Applies only to overlay editing. Single selection commits and closes on choice b
 Labels may repeat, but values must be unique. Removing the second selected tag removes only its value, in all three presentations.
 
 ```demo
-../example/demos/same-label.vue
+../example/demos/en-US/same-label.vue
 ```
 
 ### Intro

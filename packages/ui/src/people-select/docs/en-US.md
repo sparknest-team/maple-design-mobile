@@ -189,7 +189,7 @@ Public types include PeopleSelectReadScope, PeopleSelectSlots, PeopleSelectEmits
 
 `empty-value` accepts explicit `null` (or `() => null`). Clearing publishes `null` unchanged; omission preserves the existing default. The UI displays null as blank without converting ordinary empty-string input to null. In confirmation mode, clearing changes the draft and confirm commits it; without confirmation, clearing commits directly.
 
-`fallback-option` is independent of options, returns no Promise and sends no requests. Display prefers a current option, then fallback; false disables display of unmatched values.
+`fallback-option` is independent of options, returns no Promise and sends no requests. Display prefers a current option, then fallback; false disables display of unmatched values. While the deferred editor is closed, each unmatched person is shown as `default-text` in selection order. The name appears when a matching option becomes available.
 
 ### Receiving cancellation signals in business requests
 

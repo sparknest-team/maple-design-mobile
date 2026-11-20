@@ -356,6 +356,8 @@ export default defineComponent({
           'virtual-list': () => (
             <VirtualList
               {...(props.virtualListProps as any)}
+              onScroll={handleDropdownScroll}
+              onReach-bottom={handleDropdownReachBottom}
               ref={virtualListRef}
               data={validOptions.value}
               v-slots={{

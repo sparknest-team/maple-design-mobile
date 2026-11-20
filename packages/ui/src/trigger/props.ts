@@ -32,7 +32,7 @@ export const triggerProps = {
   autoFitPopupWidth: { type: Boolean, default: false },
   /** 是否让浮层最小宽度等于触发元素宽度。 */
   autoFitPopupMinWidth: { type: Boolean, default: false },
-  /** 是否观察触发元素尺寸变化；浮层、定位父级和窗口仍会触发位置更新。 */
+  /** 是否观察触发元素尺寸变化，以及触屏设备上的元素位移；浮层、定位父级和窗口仍会触发位置更新。 */
   autoFixPosition: { type: Boolean, default: true },
   /** 浮层挂载容器；false 表示原地渲染。 */
   popupContainer: popupContainerProp,

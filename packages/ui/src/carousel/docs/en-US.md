@@ -161,7 +161,7 @@ The demo uses a 2000ms interval. Displayed slide numbers start at 1; API indices
 Enable autoplay with `auto-play`. `true` uses a 3000ms interval; a number is the interval in milliseconds.
 
 ```demo
-../example/demos/autoplay.vue
+../example/demos/en-US/autoplay.vue
 ```
 
 ### Autoplay with Hover to Pause

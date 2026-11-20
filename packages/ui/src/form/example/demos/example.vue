@@ -1,6 +1,5 @@
 <script setup>
 import { computed, reactive, ref } from 'vue'
-import { onThemeChange } from '@maple-design/cli-vue/client'
 
 const formData = reactive({
   username: '',
@@ -28,7 +27,6 @@ const suggestions = computed(() =>
     }
   }),
 )
-onThemeChange()
 </script>
 
 <template>

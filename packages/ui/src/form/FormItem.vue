@@ -72,15 +72,16 @@
 </template>
 
 <script lang="ts">
-import { useNativeLabel } from "./use-native-label";
 import type { ComponentPublicInstance, SlotsType } from 'vue'
 import {
   computed,
   defineComponent,
   inject,
   nextTick,
+  onActivated,
   onBeforeUnmount,
   onBeforeUpdate,
+  onDeactivated,
   onMounted,
   provide,
   reactive,
@@ -109,6 +110,7 @@ import { isFormRule } from './rule-validation'
 import type { FormItemSlots } from './types'
 import { useFormContentHeight } from './use-form-content-height'
 import { useFormItemLayout } from './use-form-item-layout'
+import { useNativeLabel } from './use-native-label'
 import { getValueByPath, setValueByPath } from './utils'
 import { hasValidateTrigger } from './validate-trigger'
 
@@ -228,15 +230,24 @@ export default defineComponent({
     const displayErrorMessage = computed(() => (displayStatus.value === 'error' ? errorMessage.value : ''))
     const parentFeedback = inject(nestedFeedbackKey, undefined)
     const nestedFeedback: NestedFeedback = reactive(new Map<symbol, string>())
+    const feedbackActive = ref(true)
+    if (parentFeedback) {
+      onActivated(() => {
+        feedbackActive.value = true
+      })
+      onDeactivated(() => {
+        feedbackActive.value = false
+      })
+    }
     const feedbackSource = Symbol('form-item-feedback-source')
     provide(nestedFeedbackKey, nestedFeedback)
     const visibleErrorMessage = computed(() =>
       [...new Set([displayErrorMessage.value, ...nestedFeedback.values()].filter(Boolean))].join('；'),
     )
     watch(
-      [() => props.noStyle, visibleErrorMessage, presentationState.readPretty],
-      ([noStyle, message, readPretty]) => {
-        if (noStyle && message && !readPretty) {
+      [() => props.noStyle, visibleErrorMessage, presentationState.readPretty, feedbackActive],
+      ([noStyle, message, readPretty, active]) => {
+        if (active && noStyle && message && !readPretty) {
           parentFeedback?.set(feedbackSource, message)
         } else {
           parentFeedback?.delete(feedbackSource)
@@ -255,6 +266,10 @@ export default defineComponent({
       () => !presentationState.readPretty.value && Boolean(visibleErrorMessage.value),
       () => props.noStyle,
       () => helpDescriptionVisible.value,
+      (kind) => ({
+        element: contentRef.value,
+        text: kind === 'error' ? visibleErrorMessage.value : hasHelpSlot.value ? '' : (props.help ?? ''),
+      }),
     )
     const labelContext = provideFormItemLabel({
       generated: labelId,
@@ -264,16 +279,19 @@ export default defineComponent({
     })
     const nativeGroup = labelContext.group
     const nativeTarget = useNativeLabel(contentRef, nativeGroup, `.${n()}:not(.${n('--no-style')})`, () =>
-      props.labelComponent === 'label' && !presentationState.readPretty.value &&
-      props.labelAttrs?.for === undefined && props.labelAttrs?.htmlFor === undefined
-        ? labelContext.ownId.value : undefined,
+      props.labelComponent === 'label' &&
+      !presentationState.readPretty.value &&
+      props.labelAttrs?.for === undefined &&
+      props.labelAttrs?.htmlFor === undefined
+        ? labelContext.ownId.value
+        : undefined,
     )
     const resolvedLabelAttrs = computed(() => {
       const { for: explicitFor, htmlFor, ...attrs } = props.labelAttrs ?? {}
       return {
         ...attrs,
         ...(labelContext.ownId.value ? { id: labelContext.ownId.value } : {}),
-        for: presentationState.readPretty.value ? undefined : explicitFor ?? htmlFor ?? nativeTarget.value,
+        for: presentationState.readPretty.value ? undefined : (explicitFor ?? htmlFor ?? nativeTarget.value),
       }
     })
 

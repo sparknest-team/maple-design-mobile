@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { proxyRefs as demoProxyRefs, reactive, ref } from 'vue'
-import { AppType, onThemeChange } from '@maple-design/cli-vue/client'
 
 const scene1 = demoProxyRefs(
   (() => {
@@ -24,14 +23,14 @@ const scene2 = demoProxyRefs(
 <template>
   <div class="demo-comparison">
     <section class="demo-comparison-case demo-comparison-case--1" data-comparison-scene="hour24">
-      <h4><span lang="zh-CN">24 小时制与秒</span><span lang="en-US">hour24</span></h4>
+      <h4>24 小时制与秒</h4>
       <mp-space direction="column" size="lg">
         <mp-time-range v-model="scene1.range24" format="HH:mm:ss" placeholder="含秒的时间范围" clearable />
       </mp-space>
     </section>
 
     <section class="demo-comparison-case demo-comparison-case--2" data-comparison-scene="ampm">
-      <h4><span lang="zh-CN">AM/PM 与午夜/中午</span><span lang="en-US">AM/PM and midnight/noon</span></h4>
+      <h4>AM/PM 与午夜/中午</h4>
       <mp-space direction="column" :size="12" style="width: 100%">
         <p>分别切换起止端的 AM/PM；12 AM 是午夜，12 PM 是中午。</p>
         <mp-time-range
@@ -64,9 +63,5 @@ const scene2 = demoProxyRefs(
 .demo-comparison-case > h4 {
   margin: 0 0 12px;
   font-size: 14px;
-}
-html:not([lang='en-US']) .demo-comparison-case > h4 > [lang='en-US'],
-html[lang='en-US'] .demo-comparison-case > h4 > [lang='zh-CN'] {
-  display: none;
 }
 </style>

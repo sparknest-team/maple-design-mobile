@@ -4,6 +4,7 @@ import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import BasicUsageDemo from './demos/basic-usage.vue'
 import CustomColorDemo from './demos/custom-color.vue'
 import DisabledStatusDemo from './demos/disabled-status.vue'
+import MotionTokenDemoEn from './demos/en-US/motion-token.vue'
 import MotionTokenDemo from './demos/motion-token.vue'
 
 onThemeChange()
@@ -42,6 +43,6 @@ onThemeChange()
 
   <section data-demo="motion-token">
     <app-type>{{ english ? 'Longer motion tokens' : '长时长动效 Token' }}</app-type>
-    <MotionTokenDemo />
+    <component :is="english ? MotionTokenDemoEn : MotionTokenDemo" />
   </section>
 </template>

@@ -13,6 +13,7 @@ import EnglishDemo2 from './demos/en-US/field-options.vue'
 import EnglishDemo4 from './demos/en-US/form-inheritance.vue'
 import EnglishDemo5 from './demos/en-US/format-slots.vue'
 import EnglishDemo6 from './demos/en-US/number-boundaries.vue'
+import QuantityControlsEn from './demos/en-US/quantity-controls.vue'
 import Demo0 from './demos/field-basic.vue'
 import Demo1 from './demos/field-modes.vue'
 import Demo2 from './demos/field-options.vue'
@@ -67,7 +68,7 @@ onThemeChange()
 
   <section data-demo="quantity-controls">
     <app-type>{{ english ? 'Quantity controls and commit guards' : '数量控制与提交拦截' }}</app-type>
-    <QuantityControls />
+    <component :is="english ? QuantityControlsEn : QuantityControls" />
   </section>
 
   <section data-demo="format-slots">

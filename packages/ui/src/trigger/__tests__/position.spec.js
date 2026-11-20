@@ -77,7 +77,11 @@ test('main-axis fitting respects the visual viewport, scale and disabled fitting
     origin: { left: 10, top: 15 },
     scaleX: 2,
     scaleY: 2,
-    view: { visualViewport: { width: 640, height: 480, offsetLeft: 20, offsetTop: 30 } },
+    view: {
+      scrollX: 40,
+      scrollY: 100,
+      visualViewport: { width: 640, height: 480, pageLeft: 60, pageTop: 130, offsetLeft: 20, offsetTop: 30 },
+    },
   }
   const result = calculatePopupPosition('bottom', rect(100, 100, 40, 20), rect(0, 0, 100, 220), shifted)
   expect(result.style.top).toBe('20px')
@@ -88,4 +92,23 @@ test('main-axis fitting respects the visual viewport, scale and disabled fitting
     autoFitPosition: false,
   })
   expect(unfitted.style.top).toBe('128px')
+})
+
+test('keeps a body-mounted popup anchored throughout WKWebView keyboard panning', () => {
+  // iPhone 12: visualViewport.offsetTop includes the page scroll while the keyboard is up.
+  for (const [height, scrollY, offsetTop] of [
+    [733, 0, 0],
+    [387, 329, 329],
+    [733, 290, 0],
+  ]) {
+    const result = calculatePopupPosition('bottom-start', rect(16, 498.4375, 358, 48), rect(0, 0, 358, 48), {
+      ...context,
+      strategy: 'absolute',
+      distance: 4,
+      origin: { left: 0, top: -scrollY },
+      view: { scrollX: 0, scrollY, visualViewport: { width: 390, height, pageLeft: 0, pageTop: scrollY, offsetTop } },
+    })
+    expect(result.placement).toBe('bottom-start')
+    expect(result.style.top).toBe('550.4375px')
+  }
 })

@@ -11977,11 +11977,20 @@
               }
             },
             {
-              "name": "variant",
-              "description": "Appearance, plain, line or card",
-              "default": "line inside Form, otherwise plain",
+              "name": "size",
+              "description": "Section size",
+              "default": "md",
               "value": {
-                "type": "'plain' | 'line' | 'card'",
+                "type": "'sm' | 'md'",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "variant",
+              "description": "Appearance, plain, heading-line, tonal or outline",
+              "default": "heading-line inside Form, otherwise plain",
+              "value": {
+                "type": "'plain' | 'heading-line' | 'tonal' | 'outline'",
                 "kind": "expression"
               }
             },
@@ -12002,30 +12011,21 @@
                 "type": "boolean",
                 "kind": "expression"
               }
-            },
-            {
-              "name": "show-end-divider",
-              "description": "Draw a trailing line in plain and line variants",
-              "default": "false",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
             }
           ],
           "events": [],
           "slots": [
             {
               "name": "default",
-              "description": "Section body"
+              "description": "Body"
             },
             {
               "name": "title",
-              "description": "Custom heading"
+              "description": "Custom title"
             },
             {
               "name": "description",
-              "description": "Supporting text"
+              "description": "Supporting description"
             },
             {
               "name": "extra",
@@ -16298,7 +16298,7 @@
             },
             {
               "name": "auto-fix-position",
-              "description": "Reposition when the reference changes size or when a CSS transition or animation on the reference or its ancestors ends or is canceled. Popup, positioning parent and window resize handling remain active when disabled",
+              "description": "Reposition when the reference changes size or when a CSS transition or animation on the reference or its ancestors ends or is canceled. On touch devices an open element-anchored popup also follows page movement. Popup, positioning parent and window resize handling remain active when disabled",
               "default": "true",
               "value": {
                 "type": "boolean",
@@ -16756,6 +16756,15 @@
               "default": "File list appearance; supported on both platforms",
               "value": {
                 "type": "`'text'`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "initial-trigger-interactive",
+              "description": "`boolean`",
+              "default": "The custom trigger slot provides its own interactive control on first render. After mount, Upload checks the rendered content.",
+              "value": {
+                "type": "`false`",
                 "kind": "expression"
               }
             },

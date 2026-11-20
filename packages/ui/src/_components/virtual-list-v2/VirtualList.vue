@@ -2,7 +2,7 @@
   <Component :is="mergedComponent.container" ref="containerRef" :class="prefixCls" :style="style" @scroll="onScroll">
     <Component
       :is="mergedComponent.list"
-      v-bind="listAttrs"
+      v-bind="{ ...listAttrs, ...range?.listAttrs }"
       :style="
         virtualEnabled && paddingPosition === 'list'
           ? {
@@ -12,7 +12,7 @@
           : {}
       "
     >
-      <slot name="list-prefix" />
+      <slot name="list-prefix" :range="range" />
       <Component
         :is="mergedComponent.content"
         ref="contentRef"
@@ -26,6 +26,7 @@
             : {}
         "
       >
+        <slot v-if="virtualEnabled" name="before-items" :padding="frontPadding" />
         <VirtualListItem
           v-for="(item, index) of currentList"
           :key="getItemKey(item, virtualEnabled ? start + index : index)"
@@ -34,8 +35,9 @@
           :set-item-size="setItemSize"
           :can-measure-zero="canMeasureZero"
         >
-          <slot name="item" :item="item" :index="virtualEnabled ? start + index : index" />
+          <slot name="item" :range="range" :item="item" :index="virtualEnabled ? start + index : index" />
         </VirtualListItem>
+        <slot v-if="virtualEnabled" name="after-items" :padding="behindPadding" />
       </Component>
     </Component>
   </Component>
@@ -50,6 +52,7 @@ import {
   onBeforeUnmount,
   onDeactivated,
   onMounted,
+  onServerPrefetch,
   PropType,
   provide,
   ref,
@@ -61,7 +64,7 @@ import { isNumber, isObject } from '../../_utils/is'
 import { createNamespace, getPrefixCls } from '../../utils/components'
 import { useSize } from './hooks/use-size'
 import { ScrollOptions } from './interface'
-import VirtualListItem, { measurementVersionKey } from './virtual-list-item'
+import VirtualListItem, { fragmentRowsKey, measurementVersionKey } from './virtual-list-item'
 
 export default defineComponent({
   name: createNamespace('virtual-list').name,
@@ -101,6 +104,7 @@ export default defineComponent({
       type: [String, Object],
       default: 'div',
     },
+    prepareRange: Function as PropType<(items: any[]) => { listAttrs?: Record<string, unknown> }>,
     listAttrs: {
       type: Object,
     },
@@ -144,6 +148,8 @@ export default defineComponent({
     const scrollOffset = ref(0)
     const measurementVersion = ref(0)
     provide(measurementVersionKey, measurementVersion)
+    const fragmentRows = new Map<string | number, Set<Element>>()
+    provide(fragmentRowsKey, fragmentRows)
     let viewportHidden = false
     let viewportObserver: ResizeObserver | undefined
     const updateViewport = () => {
@@ -320,13 +326,20 @@ export default defineComponent({
       return data.value.slice(start.value, end.value)
     })
 
+    // Resolve the table's conditional expanded rows once per rendered window.
+    let serverRange: { listAttrs?: Record<string, unknown> } | undefined
+    if (props.prepareRange) {
+      onServerPrefetch(() => { serverRange = props.prepareRange?.(currentList.value) })
+    }
+    const range = computed(() => serverRange ?? props.prepareRange?.(currentList.value))
+
     const onScroll = (ev: Event) => {
       if (!available()) {
         return
       }
       const element = containerRef.value!
       readingOffset = inlineScrollLeft(element)
-      const { scrollTop, scrollHeight, offsetHeight } = ev.target as HTMLElement
+      const { scrollTop, scrollHeight, clientHeight } = ev.target as HTMLElement
       // Our own scroll event can render additional measured rows. Keep its
       // alignment transaction; a different native position cancels it.
       const correction = commandedScroll?.top === scrollTop ? commandedScroll.correct : undefined
@@ -352,7 +365,7 @@ export default defineComponent({
       if (!isCurrent(request, element)) {
         return
       }
-      const bottom = Math.floor(scrollHeight - (scrollTop + offsetHeight))
+      const bottom = Math.floor(scrollHeight - (scrollTop + clientHeight))
       if (bottom <= 0) {
         emit('reach-bottom', ev)
       }
@@ -384,9 +397,11 @@ export default defineComponent({
       }
       const align = options.align ?? 'top'
       const bounds = () => {
-        const rows = Array.from(element.querySelectorAll<HTMLElement>(`[data-virtual-list-index="${index}"]`))
+        const fragment = fragmentRows.get(dataKeys.value[index])
+        const rows = fragment ? Array.from(fragment) :
+          Array.from(element.querySelectorAll<HTMLElement>(`[data-virtual-list-index="${index}"]`))
+            .filter(row => row.closest(`.${prefixCls}`) === element)
         const rects = rows
-          .filter((row) => row.closest(`.${prefixCls}`) === element)
           .map((row) => row.getBoundingClientRect())
           .filter((rect) => rect.height)
         if (rects.length) {
@@ -451,6 +466,7 @@ export default defineComponent({
       contentRef,
       frontPadding,
       currentList,
+      range,
       behindPadding,
       onScroll,
       setItemSize,

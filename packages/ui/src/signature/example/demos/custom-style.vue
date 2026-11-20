@@ -1,6 +1,5 @@
 <script setup>
 import { ref } from 'vue'
-import { AppType, onThemeChange } from '@maple-design/cli-vue/client'
 
 const customStyleSignature = ref('')
 const customStyleSignatureRef = ref()
@@ -11,10 +10,6 @@ function clearCustomStyleSignature() {
   customStyleSignature.value = ''
   customStyleSignatureRef.value.reset()
 }
-onThemeChange(() => {
-  customStyleSignatureRef.value?.reset()
-  customStyleSignature.value = ''
-})
 </script>
 
 <template>

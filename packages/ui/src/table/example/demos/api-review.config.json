@@ -1,50 +1,21 @@
 {
   "fields": [
     {
-      "name": "full-width",
-      "description": "table 的宽度(包含可滚动部分)",
-      "type": "string | number",
-      "defaultValue": "'100%'",
-      "kind": "scalar"
+      "name": "stripe",
+      "type": "boolean",
+      "kind": "boolean",
+      "defaultValue": "false"
     },
     {
-      "name": "elevation",
-      "description": "海拔高度，可选值为 true false 和 0-24 的等级",
-      "type": "number | boolean",
-      "defaultValue": "true",
-      "kind": "json",
-      "initial": "true"
-    },
-    {
-      "name": "scroller-height",
-      "type": "string | number",
-      "defaultValue": "undefined",
-      "description": "源码公开属性 / Public source prop",
-      "kind": "scalar"
+      "name": "show-header",
+      "type": "boolean",
+      "kind": "boolean",
+      "defaultValue": "true"
     }
   ],
   "events": [],
-  "scenarios": [
-    {
-      "name": "default",
-      "kind": "slot",
-      "demos": []
-    },
-    {
-      "name": "footer",
-      "kind": "slot",
-      "demos": [
-        "basic-usage.vue",
-        "fixed-header.vue",
-        "slot.vue"
-      ]
-    }
-  ],
-  "slotNames": [
-    "footer"
-  ],
-  "slotDefaults": {
-    "footer": false
-  },
+  "scenarios": [],
+  "slotNames": [],
+  "slotDefaults": {},
   "methodNames": []
 }

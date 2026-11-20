@@ -6,7 +6,7 @@
 ```
 
 ```vue
-import BasicUse from '../example/BasicUse'
+import BasicUse from '../example/en-US/BasicUse'
 ```
 
 ### Theme Color Button
@@ -15,7 +15,7 @@ import BasicUse from '../example/BasicUse'
 ```
 
 ```vue
-import ModifyColor from '../example/ModifyColor'
+import ModifyColor from '../example/en-US/ModifyColor'
 ```
 
 ## API

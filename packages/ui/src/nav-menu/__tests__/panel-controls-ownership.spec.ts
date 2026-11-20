@@ -11,14 +11,12 @@ test.each([false, true])('SSR controls only references a rendered panel (grouped
   const app = createSSRApp({ render: () => (grouped ? h(NavMenu, { popupContainer: false }, item) : item()) })
   const context: { teleports?: Record<string, string> } = {}
   const html = await renderToString(app, context)
-  const all = html + Object.values(context.teleports ?? {}).join('')
+  const page = document.createElement('div')
+  page.innerHTML = html + (context.teleports?.body ?? '')
   const id = html.match(/aria-controls="([^"]+)"/)?.[1]
-  if (grouped) {
-    expect(id).toBeUndefined()
-  } else {
-    expect(id).toBeTruthy()
-    expect(all).toContain(`id="${id}"`)
-  }
+  expect(id).toBeTruthy()
+  expect(page.querySelector('[aria-expanded="true"]')?.getAttribute('aria-controls')).toBe(id)
+  expect(page.querySelector(`[id="${id}"]`)?.textContent).toContain('Alpha')
 })
 
 test.each([false, true])('panel controls follows creation and close policy (unmount=%s)', async (unmountOnClose) => {

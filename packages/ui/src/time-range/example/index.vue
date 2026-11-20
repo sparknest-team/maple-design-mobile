@@ -10,7 +10,9 @@ import EnDefaultStateDemo from './demos/en-US/default-state.vue'
 import EnFieldAppearanceDemo from './demos/en-US/field-appearance.vue'
 import ContentFormatComparisonEn from './demos/en-US/format-comparison.vue'
 import EnFormatModelDemo from './demos/en-US/format-model.vue'
+import NextDayDemoEn from './demos/en-US/next-day.vue'
 import EnPanelBehaviorDemo from './demos/en-US/panel-behavior.vue'
+import PickerSecondsDemoEn from './demos/en-US/picker-seconds.vue'
 import EnSelectionEventsDemo from './demos/en-US/selection-events.vue'
 import EnStepDemo from './demos/en-US/step.vue'
 import EnTextEntryDemo from './demos/en-US/text-entry.vue'
@@ -74,7 +76,7 @@ onThemeChange()
 
   <section data-demo="next-day">
     <app-type>{{ english ? 'next day' : '次日标记' }}</app-type>
-    <NextDayDemo />
+    <component :is="english ? NextDayDemoEn : NextDayDemo" />
   </section>
 
   <h2 class="mobile-demo-group-heading" data-demo-group="value-model-and-selection-rules">
@@ -129,7 +131,7 @@ onThemeChange()
 
   <section data-demo="picker-seconds">
     <app-type>{{ english ? 'picker seconds' : '列滚轮含秒' }}</app-type>
-    <PickerSecondsDemo />
+    <component :is="english ? PickerSecondsDemoEn : PickerSecondsDemo" />
   </section>
 
   <h2 class="mobile-demo-group-heading" data-demo-group="input-and-state-control">

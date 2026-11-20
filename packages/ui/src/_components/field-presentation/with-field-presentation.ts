@@ -79,6 +79,10 @@ export interface FieldPresentationAdapter {
   changeArgs?: (value: any, props: Record<string, any>, event?: Event) => unknown[]
   inlineProps?: (props: Record<string, any>) => Record<string, any>
 }
+function enumerableFieldKeys(value: object) {
+  return Reflect.ownKeys(value).filter((key) => Object.prototype.propertyIsEnumerable.call(value, key))
+}
+
 /** Keep class instances (File, Blob, option identities) intact; isolate mutable value records. */
 function cloneValue(value: any, seen = new WeakMap<object, any>()): any {
   if (value instanceof Date) {
@@ -98,7 +102,7 @@ function cloneValue(value: any, seen = new WeakMap<object, any>()): any {
   }
   const result: any = Array.isArray(value) ? new Array(value.length) : Object.create(Object.getPrototypeOf(value))
   seen.set(value, result)
-  for (const key of Object.keys(value)) {
+  for (const key of enumerableFieldKeys(value)) {
     const cloned = cloneValue(value[key], seen)
     if (key === '__proto__') {
       Object.defineProperty(result, key, { value: cloned, enumerable: true, configurable: true, writable: true })
@@ -143,11 +147,12 @@ function sameFieldValue(
   }
   seen.set(left, right)
   reverse.set(right, left)
-  const keys = Object.keys(left)
+  const keys = enumerableFieldKeys(left)
   const result =
-    keys.length === Object.keys(right).length &&
+    keys.length === enumerableFieldKeys(right).length &&
     keys.every(
-      (key) => Object.prototype.hasOwnProperty.call(right, key) && sameFieldValue(left[key], right[key], seen, reverse),
+      (key) =>
+        Object.prototype.propertyIsEnumerable.call(right, key) && sameFieldValue(left[key], right[key], seen, reverse),
     )
   seen.delete(left)
   reverse.delete(right)

@@ -5,6 +5,7 @@ import ContentAppearanceComparison from './demos/appearance-comparison.vue'
 import BasicDemo from './demos/basic.vue'
 import ClickEventDemo from './demos/click-event.vue'
 import CustomDemo from './demos/custom.vue'
+import OrganizedLifecycleEn from './demos/en-US/lifecycle.vue'
 import IconAnimationDemo from './demos/icon-animation.vue'
 import IconListDemo from './demos/icon-list.vue'
 import OrganizedLifecycle from './demos/lifecycle.vue'
@@ -83,6 +84,6 @@ onThemeChange()
 
   <section data-demo="lifecycle">
     <app-type>{{ english ? 'Name Changes and Lifecycle' : '名称切换与生命周期' }}</app-type>
-    <OrganizedLifecycle />
+    <component :is="english ? OrganizedLifecycleEn : OrganizedLifecycle" />
   </section>
 </template>
