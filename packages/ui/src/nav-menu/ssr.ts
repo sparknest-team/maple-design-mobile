@@ -13,7 +13,7 @@ async function resolveChunk(chunk: Chunk): Promise<string> {
 // Child components can register panels after async setup. Resolve the complete bar
 // subtree before rendering the overlay, retaining the original item as the panel's owner.
 export async function renderSubtree(vnode: VNode | null, parent: ComponentInternalInstance) {
-  const { ssrRenderVNode } = await import('#maple-nav-renderer')
+  const { ssrRenderVNode } = await import('vue/server-renderer')
   const chunks: Chunk[] = []
   ssrRenderVNode((chunk) => chunks.push(chunk), vnode ?? createCommentVNode(), parent)
   return resolveChunk(chunks)
