@@ -1,5 +1,12 @@
 # @maple-design/cli-vue
 
+## 1.2.2
+
+### Patch Changes
+
+- Updated dependencies [[`9133140`](https://github.com/loca-spirit/maple-design-mobile/commit/9133140e0ff5bb6bdb2a5547e1ede70dc6ddc8d0)]:
+  - @maple-design/resolver-vue@1.3.0
+
 ## 1.2.0
 
 ### Minor Changes

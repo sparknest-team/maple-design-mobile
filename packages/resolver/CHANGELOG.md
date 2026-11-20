@@ -1,5 +1,11 @@
 # @maple-design/resolver-vue
 
+## 1.3.0
+
+### Minor Changes
+
+- [#7](https://github.com/loca-spirit/maple-design-mobile/pull/7) [`9133140`](https://github.com/loca-spirit/maple-design-mobile/commit/9133140e0ff5bb6bdb2a5547e1ede70dc6ddc8d0) Thanks [@loca-spirit](https://github.com/loca-spirit)! - Add the standalone Section layout component with form-aware defaults, automatic imports, and bilingual documentation examples. Replace MpFormSection and Form.Section with MpSection, and rename the section theme variables from --mp-form-section-* to --mp-section-*.
+
 ## 1.2.0
 
 ### Minor Changes
