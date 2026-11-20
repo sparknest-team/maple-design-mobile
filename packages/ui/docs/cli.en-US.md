@@ -65,7 +65,7 @@ Also refer to `@maple-design/ui-vue` [maple.config.mjs](https://xxx/pe.frontend/
 | `bundle` | Bundle output options | _{ external: string[], globals: Record<string, string> }_ | `-` |
 | `vitePlugins` | vite plugins | _[Plugin](https://vite.dev/guide/using-plugins.html)[]_ \| `(plugins: Plugin[]) => Plugin[])` | `-` |
 | `directives` | Component library directive folder name | _string[]_ | `[]` |
-| `copy` | Copy file configuration | _[CopyPath[]](https://github.com/loca-spirit/maple-design-mobile/blob/main/packages/vite-plugins/src/copy.ts)_ | `- ` |
+| `copy` | Copy file configuration | _[CopyPath[]](https://github.com/sparknest-team/maple-design-mobile/blob/main/packages/vite-plugins/src/copy.ts)_ | `- ` |
 | `icons` | Font icon packaging related configurations | _[MapleConfigIcons](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/blob/master/packages/cli/src/node/config/maple.config.ts?ref_type=heads) _ | `-` |
 | `esbuild` | esbuild configuration | _[MapleConfigEsbuild](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/blob/master/packages/cli/src/node/config/maple.config.ts?ref_type=heads)_ | ` -` |
 | `seo` | seo options | _[MapleConfigSeo](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/blob/master/packages/cli/src/node/config/maple.config.ts?ref_type=heads)_ | ` -` |

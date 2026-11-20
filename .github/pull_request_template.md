@@ -14,4 +14,4 @@
 
 配套 PR 每个一行，取消 HTML 注释后填写完整 URL。CI 使用对应 PR 的精确提交；配套 PR 更新后需要重跑全部关联 PR 的 Quality。
 
-<!-- Related-PR: https://github.com/loca-spirit/design-ui/pull/123 -->
+<!-- Related-PR: https://github.com/sparknest-team/design-ui/pull/123 -->

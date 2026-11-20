@@ -11,11 +11,11 @@
   ],
   "homepage": "https://maplejs.org",
   "bugs": {
-    "url": "https://github.com/loca-spirit/maple-design-mobile/issues"
+    "url": "https://github.com/sparknest-team/maple-design-mobile/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/loca-spirit/maple-design-mobile.git",
+    "url": "git+https://github.com/sparknest-team/maple-design-mobile.git",
     "directory": "packages/ui"
   },
   "license": "MIT",

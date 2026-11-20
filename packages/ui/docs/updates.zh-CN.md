@@ -4,7 +4,7 @@
 
 ## 更新日志
 
-[查看完整 Changelog](https://github.com/loca-spirit/maple-design-mobile/blob/main/CHANGELOG.md)。记录新增功能、问题修复和不兼容变更；Unreleased 表示尚未发布的内容，不等于当前 npm 包已包含。
+[查看完整 Changelog](https://github.com/sparknest-team/maple-design-mobile/blob/main/CHANGELOG.md)。记录新增功能、问题修复和不兼容变更；Unreleased 表示尚未发布的内容，不等于当前 npm 包已包含。
 
 ## 升级检查
 

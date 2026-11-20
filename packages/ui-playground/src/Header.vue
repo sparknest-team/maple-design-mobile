@@ -64,7 +64,7 @@ async function copyLink() {
 }
 
 function openGithub() {
-  window.open('https://github.com/loca-spirit/maple-design-mobile', '_blank')
+  window.open('https://github.com/sparknest-team/maple-design-mobile', '_blank')
 }
 
 function notifyEmulatorThemeChange() {
@@ -122,7 +122,7 @@ async function fetchVueVersions() {
 }
 
 async function fetchMapleVersions() {
-  const res = await fetch('https://api.github.com/repos/loca-spirit/maple-design-mobile/releases?per_page=100')
+  const res = await fetch('https://api.github.com/repos/sparknest-team/maple-design-mobile/releases?per_page=100')
   const releases: any[] = await res.json()
   const versions = releases
     .map((r) => (/^v/.test(r.tag_name) ? r.tag_name.slice(1) : r.tag_name))

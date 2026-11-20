@@ -18,4 +18,4 @@ npx nuxi@latest module add maple
 ```
 
 ### Example Repo
-[maple-install-example/nuxt](https://github.com/loca-spirit/maple-install-example/tree/main/nuxt)
+[maple-install-example/nuxt](https://github.com/sparknest-team/maple-install-example/tree/main/nuxt)

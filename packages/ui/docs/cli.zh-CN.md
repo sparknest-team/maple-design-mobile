@@ -65,7 +65,7 @@ maple-cli gen
 | `bundle` | 组件库编译的捆绑产物配置 | _{ external: string[], globals: Record<string, string> }_ | `-` |
 | `vitePlugins` | vite 插件 | _[Plugin](https://vite.dev/guide/using-plugins.html)[]_ \| `(plugins: Plugin[]) => Plugin[])` | `-` |
 | `directives` | 组件库指令文件夹名称 | _string[]_ | `[]` |
-| `copy` | 复制文件配置 | _[CopyPath[]](https://github.com/loca-spirit/maple-design-mobile/blob/main/packages/vite-plugins/src/copy.ts)_ | `-` |
+| `copy` | 复制文件配置 | _[CopyPath[]](https://github.com/sparknest-team/maple-design-mobile/blob/main/packages/vite-plugins/src/copy.ts)_ | `-` |
 | `icons` | 字体图标打包相关配置 | _[MapleConfigIcons](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/blob/master/packages/cli/src/node/config/maple.config.ts?ref_type=heads)_ | `-` |
 | `esbuild` | esbuild 配置 | _[MapleConfigEsbuild](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/blob/master/packages/cli/src/node/config/maple.config.ts?ref_type=heads)_ | `-` |
 | `seo` | seo 选项 | _[MapleConfigSeo](https://xxx/pe.frontend/materials/maplejs/maple-design-mobile/-/blob/master/packages/cli/src/node/config/maple.config.ts?ref_type=heads)_ | ` -` |
