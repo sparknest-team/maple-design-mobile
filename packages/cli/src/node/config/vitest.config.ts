@@ -14,21 +14,17 @@ const sharedVueDomRealm: Plugin = {
   name: 'maple:shared-vue-dom-realm',
   enforce: 'post',
   config(config) {
-    // Vitest's pre config hook has already merged CLI isolation into poolOptions.
+    // Vitest's pre config hook has already merged CLI isolation into the config.
     // Non-isolated workers cache Vue's document, so their files must share one
     // environment setup/teardown batch rather than recreate jsdom for each task.
-    const { isolate, poolOptions } = config.test ?? {}
-    const sharedFork = (poolOptions?.forks?.isolate ?? isolate) === false
-    const sharedThread = (poolOptions?.threads?.isolate ?? isolate) === false
-    if (!sharedFork && !sharedThread) {
+    // vitest 5 removed `poolOptions`, so pinning one worker is expressed as maxWorkers.
+    const { isolate } = config.test ?? {}
+    if (isolate !== false) {
       return
     }
     return {
       test: {
-        poolOptions: {
-          ...(sharedFork ? { forks: { singleFork: true } } : {}),
-          ...(sharedThread ? { threads: { singleThread: true } } : {}),
-        },
+        maxWorkers: 1,
       },
     }
   },
@@ -48,7 +44,6 @@ export default defineConfig({
     // Large component suites create a jsdom per file; bound their memory/IO
     // pressure so ordinary test commands remain stable alongside type checks.
     maxWorkers: Math.min(cpuNum, 4),
-    minWorkers: 1,
     // Test authored component sources only; .maple contains copied CLI/site tests.
     include: configDefaults.include.map((pattern) => `src/${pattern}`),
     environment: 'jsdom',
@@ -74,10 +69,5 @@ export default defineConfig({
       ],
     },
     globals: true,
-    poolOptions: {
-      vmThreads: {
-        memoryLimit: Math.min((1 / cpuNum) * 2, 0.2),
-      },
-    },
   },
 })

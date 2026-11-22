@@ -4,9 +4,8 @@ export const omit = <T extends Data, K extends keyof any>(object: T, path: Array
   const result = { ...object }
 
   for (const item of path) {
-    // @ts-ignore
     if (item in result) {
-      // @ts-ignore
+      // @ts-expect-error 索引签名不接受 delete 任意键
       delete result[item]
     }
   }

@@ -292,8 +292,9 @@ Card 通过 Loading 指令组合加载遮罩。
 | `--mp-card-footer-bottom` | `9px` | `bottom` |
 | `--mp-card-footer-margin` | `30px 0 0 0` | `margin` |
 | `--mp-card-footer-padding` | `0 16px` | `padding` |
-| `--mp-card-footer-right` | `13px` | `inset-inline-end` |
-| `--mp-card-hover-shadow` | 海拔 1 | `box-shadow` |
+| `--mp-card-footer-right` | `13px` | `inset-inline-end`, `inset-inline-start` |
+| `--mp-card-heading-size-step` | `1px` | `font-size` |
+| `--mp-card-hover-shadow` | `0 2px 1px -1px var(--mp-shadow-key-umbra-opacity), 0 1px 1px 0 var(--mp-shadow-key-penumbra-opacity), 0 1px 3px 0 var(--mp-shadow-key-ambient-opacity)` | `box-shadow` |
 | `--mp-card-image-height` | `200px` | `height` |
 | `--mp-card-image-width` | `100%` | `width` |
 | `--mp-card-line-height` | `22px` | `line-height` |
@@ -302,19 +303,18 @@ Card 通过 Loading 指令组合加载遮罩。
 | `--mp-card-row-height` | `140px` | `min-height` |
 | `--mp-card-row-image-width` | `140px` | `width` |
 | `--mp-card-row-line-height` | `1.5` | `line-height` |
-| `--mp-card-heading-size-step` | `1px` | `font-size` |
-| `--mp-card-size-xs-title-font-size` | `15px` | `font-size` |
-| `--mp-card-size-xs-section-margin` | `6px 0 0` | `margin` |
-| `--mp-card-size-xs-section-padding` | `0 8px` | `padding` |
-| `--mp-card-size-lg-title-font-size` | `24px` | `font-size` |
 | `--mp-card-size-lg-section-margin` | `20px 0 0` | `margin` |
 | `--mp-card-size-lg-section-padding` | `0 20px` | `padding` |
-| `--mp-card-size-xl-title-font-size` | `28px` | `font-size` |
-| `--mp-card-size-xl-section-margin` | `24px 0 0` | `margin` |
-| `--mp-card-size-xl-section-padding` | `0 24px` | `padding` |
+| `--mp-card-size-lg-title-font-size` | `24px` | `font-size` |
 | `--mp-card-size-sm-section-margin` | `8px 0 0` | `margin` |
 | `--mp-card-size-sm-section-padding` | `0 12px` | `padding` |
 | `--mp-card-size-sm-title-font-size` | `16px` | `font-size` |
+| `--mp-card-size-xl-section-margin` | `24px 0 0` | `margin` |
+| `--mp-card-size-xl-section-padding` | `0 24px` | `padding` |
+| `--mp-card-size-xl-title-font-size` | `28px` | `font-size` |
+| `--mp-card-size-xs-section-margin` | `6px 0 0` | `margin` |
+| `--mp-card-size-xs-section-padding` | `0 8px` | `padding` |
+| `--mp-card-size-xs-title-font-size` | `15px` | `font-size` |
 | `--mp-card-subtitle-color` | `var(--mp-sys-color-content-secondary)` | `color` |
 | `--mp-card-subtitle-font-size` | `15px` | `font-size` |
 | `--mp-card-subtitle-margin` | `10px 0 0 0` | `margin` |

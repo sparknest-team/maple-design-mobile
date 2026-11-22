@@ -19,7 +19,9 @@ export function buildHeaderAssociations(rows: readonly (readonly HeaderGridCell[
   rows.forEach((row, rowIndex) => {
     let columnIndex = 0
     for (const cell of row) {
-      while ((occupiedUntil[columnIndex] ?? 0) > rowIndex) columnIndex++
+      while ((occupiedUntil[columnIndex] ?? 0) > rowIndex) {
+        columnIndex++
+      }
       const width = normalizeSpan(cell.colSpan)
       const height = normalizeSpan(cell.rowSpan, 65534)
       for (let offset = 0; offset < width; offset++) {
@@ -36,7 +38,9 @@ export function buildHeaderAssociations(rows: readonly (readonly HeaderGridCell[
     headersForSpan(start: number, span = 1) {
       const headers = new Set<string>()
       for (let index = start; index < start + normalizeSpan(span); index++) {
-        for (const id of columnHeaders[index] ?? []) headers.add(id)
+        for (const id of columnHeaders[index] ?? []) {
+          headers.add(id)
+        }
       }
       return [...headers]
     },

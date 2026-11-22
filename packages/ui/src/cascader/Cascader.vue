@@ -277,8 +277,9 @@ watchPostEffect((onCleanup) => {
     !(dialogVisible.value || (searchListVisible.value && allowAutomaticOwnership.value)) ||
     attrs['aria-controls'] !== undefined ||
     !('ariaControlsElements' in input)
-  )
+  ) {
     return
+  }
 
   input.ariaControlsElements = [popup]
   const id = searchActiveId.value
@@ -289,13 +290,21 @@ watchPostEffect((onCleanup) => {
     popup.contains(option) &&
     attrs['aria-activedescendant'] === undefined &&
     'ariaActiveDescendantElement' in input
-  if (setActive) input.ariaActiveDescendantElement = option
+  if (setActive) {
+    input.ariaActiveDescendantElement = option
+  }
   onCleanup(() => {
     // A later Vue render may already have supplied an ID or a caller override.
-    if (input.getAttribute('aria-controls') === '' && attrs['aria-controls'] === undefined)
+    if (input.getAttribute('aria-controls') === '' && attrs['aria-controls'] === undefined) {
       input.removeAttribute('aria-controls')
-    if (setActive && input.getAttribute('aria-activedescendant') === '' && attrs['aria-activedescendant'] === undefined)
+    }
+    if (
+      setActive &&
+      input.getAttribute('aria-activedescendant') === '' &&
+      attrs['aria-activedescendant'] === undefined
+    ) {
       input.removeAttribute('aria-activedescendant')
+    }
   })
 })
 const handleFieldKeydown = (event: KeyboardEvent) => {
@@ -319,8 +328,9 @@ const handleFieldKeydown = (event: KeyboardEvent) => {
         ? `.${getPrefixCls('cascader-option')}-checkbox input[type="checkbox"]:not(:disabled)`
         : '[data-cascader-key][tabindex="0"]:not([aria-disabled="true"])'
       const boundary = search ? `.${getPrefixCls('cascader')}-search-panel` : '[role="dialog"]'
-      const entry = Array.from(dialog?.querySelectorAll<HTMLElement>(selector) ?? [])
-        .find((item) => item.closest(boundary) === dialog)
+      const entry = Array.from(dialog?.querySelectorAll<HTMLElement>(selector) ?? []).find(
+        (item) => item.closest(boundary) === dialog,
+      )
       if (entry && (search || target?.matches(':focus'))) {
         event.preventDefault()
         entry.focus()

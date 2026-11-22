@@ -1,7 +1,7 @@
-import type { TableColumnData } from '../types'
 import { isArray, isNull, isUndefined } from '../../_utils/is'
-import { getColumnLayoutKey, isTableExtraColumn, setExtraColumnLayoutKey } from '../extra-column'
 import { orderPhysicalColumns } from '../column-direction'
+import { getColumnLayoutKey, isTableExtraColumn, setExtraColumnLayoutKey } from '../extra-column'
+import type { TableColumnData } from '../types'
 
 const getDataColumnsNumber = (columns: TableColumnData[]): number => {
   let count = 0
@@ -68,9 +68,13 @@ const getUniformLeafFixed = (column: TableColumnData): 'left' | 'right' | undefi
   if (isArray(column.children) && column.children.length) {
     walk(column.children)
   }
-  if (!leaves.length) return undefined
+  if (!leaves.length) {
+    return undefined
+  }
   const first = leaves[0].fixed
-  if (first !== 'left' && first !== 'right') return undefined
+  if (first !== 'left' && first !== 'right') {
+    return undefined
+  }
   return leaves.every((leaf) => leaf.fixed === first) ? first : undefined
 }
 
@@ -145,14 +149,18 @@ export const getGroupColumns = (
           }
         }
 
-        if (cell.fixed === 'right') lastRightFixedIndex = dataColumns.length
+        if (cell.fixed === 'right') {
+          lastRightFixedIndex = dataColumns.length
+        }
         if (isUndefined(cell.dataIndex) || isNull(cell.dataIndex)) {
           cell.dataIndex = `__arco_data_index_${dataColumns.length}`
         }
 
         if (isTableExtraColumn(cell) && columnMap.has(cell.dataIndex)) {
           let layoutKey = `@cedar-extra:${cell.dataIndex}`
-          while (columnMap.has(layoutKey)) layoutKey += '@'
+          while (columnMap.has(layoutKey)) {
+            layoutKey += '@'
+          }
           setExtraColumnLayoutKey(cell, layoutKey)
         }
         const layoutKey = getColumnLayoutKey(cell)!
@@ -172,7 +180,10 @@ export const getGroupColumns = (
 
   travelColumns(columns)
 
-  if (dir === 'rtl') { lastLeftFixedIndex = firstLeftFixedIndex; firstRightFixedIndex = lastRightFixedIndex }
+  if (dir === 'rtl') {
+    lastLeftFixedIndex = firstLeftFixedIndex
+    firstRightFixedIndex = lastRightFixedIndex
+  }
   if (!isUndefined(lastLeftFixedIndex)) {
     dataColumns[lastLeftFixedIndex].isLastLeftFixed = true
     setParentFixed(dataColumns[lastLeftFixedIndex], 'left')
@@ -183,26 +194,35 @@ export const getGroupColumns = (
   }
 
   // Each header section scrolls or sticks with its own contiguous leaf columns.
-  const visualGroups = groupColumns.map(row => row.flatMap(cell => {
-    const range = groupRanges.get(cell)
-    if (!range) return [cell]
-    const leaves = orderPhysicalColumns(dataColumns.slice(...range), leaf => leaf.fixed, dir)
-    if (dir === 'ltr' && leaves.every(leaf => leaf.fixed === cell.fixed)) return [cell]
+  const visualGroups = groupColumns.map((row) =>
+    row.flatMap((cell) => {
+      const range = groupRanges.get(cell)
+      if (!range) {
+        return [cell]
+      }
+      const leaves = orderPhysicalColumns(dataColumns.slice(...range), (leaf) => leaf.fixed, dir)
+      if (dir === 'ltr' && leaves.every((leaf) => leaf.fixed === cell.fixed)) {
+        return [cell]
+      }
 
-    const sections: TableColumnData[][] = []
-    for (const leaf of leaves) {
-      const last = sections[sections.length - 1]
-      if (last && last[0].fixed === leaf.fixed) last.push(leaf)
-      else sections.push([leaf])
-    }
-    return sections.map(section => ({
-      ...cell,
-      children: section,
-      colSpan: section.length,
-      fixed: section[0].fixed,
-      isLastLeftFixed: section.some(leaf => leaf.isLastLeftFixed),
-      isFirstRightFixed: section.some(leaf => leaf.isFirstRightFixed),
-    }))
-  }))
+      const sections: TableColumnData[][] = []
+      for (const leaf of leaves) {
+        const last = sections[sections.length - 1]
+        if (last && last[0].fixed === leaf.fixed) {
+          last.push(leaf)
+        } else {
+          sections.push([leaf])
+        }
+      }
+      return sections.map((section) => ({
+        ...cell,
+        children: section,
+        colSpan: section.length,
+        fixed: section[0].fixed,
+        isLastLeftFixed: section.some((leaf) => leaf.isLastLeftFixed),
+        isFirstRightFixed: section.some((leaf) => leaf.isFirstRightFixed),
+      }))
+    }),
+  )
   return { dataColumns, groupColumns: visualGroups }
 }

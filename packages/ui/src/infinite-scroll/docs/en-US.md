@@ -152,7 +152,7 @@ When `target` is a selector, its element must exist when binding occurs. `check(
 
 ### InfiniteScroll Slots
 
-| Name | Description | Prop |
+| Name | Description | Arguments |
 | ---------- | -------- | ----------- |
 | `default` | Content | `-` |
 | `loading` | Loading state | `-` |

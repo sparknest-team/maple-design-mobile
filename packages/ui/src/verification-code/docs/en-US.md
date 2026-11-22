@@ -174,7 +174,7 @@ Paste overwrites from the current cell; root-level paste starts at cell 1. Input
 
 ### VerificationCode Slots
 
-| Slot | Prop | Description |
+| Slot | Arguments | Description |
 | --------- | -------------------- | ----------------------------------------- |
 | separator | { index, character } | Overrides separator; not rendered after the last cell |
 | read | { value: string \| null, text: string } | Custom read content, taking precedence over empty-text |

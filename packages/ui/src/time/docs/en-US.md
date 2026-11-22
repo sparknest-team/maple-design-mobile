@@ -474,7 +474,7 @@ See the complete pure-panel events section on this page for all panel business n
 
 ### TimePicker Slots
 
-| Name | Description | Prop |
+| Name | Description | Arguments |
 | --------- | -------------- | ----------------------------------------------------------------------------------------------------- |
 | `actions` | Replace panel actions | _{ confirm: () => boolean, canConfirm: boolean, value, selectNow: () => boolean, nowDisabled: boolean }_ |
 

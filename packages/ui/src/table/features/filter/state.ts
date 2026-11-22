@@ -1,7 +1,7 @@
 import type { Ref } from 'vue'
 import { computed, ref, watch } from 'vue'
-import type { Filters } from '../../types'
 import { isEqual } from '../../../_utils/is-equal'
+import type { Filters } from '../../types'
 
 export interface FilterStateColumn {
   dataIndex?: string
@@ -19,9 +19,14 @@ export const useFilter = ({
 
   // Rebuilding visual columns (RTL or resize) must not reset uncontrolled state.
   // Only a change to the declared defaults starts a new default-state transaction.
-  watch(() => getDefaultFilters(columns.value), (next, previous) => {
-    if (!isEqual(next, previous)) _filters.value = next
-  })
+  watch(
+    () => getDefaultFilters(columns.value),
+    (next, previous) => {
+      if (!isEqual(next, previous)) {
+        _filters.value = next
+      }
+    },
+  )
 
   const computedFilters = computed<Filters>(() => {
     const filters: Filters = {}

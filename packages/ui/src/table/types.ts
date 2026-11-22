@@ -1,6 +1,6 @@
-import type { PaginationProps } from '../pagination/props'
 import { CSSProperties, RenderFunction, Slots, VNodeChild } from 'vue'
 import { BaseType, ClassName, Data } from '../_utils/types'
+import type { PaginationProps } from '../pagination/props'
 import { TriggerProps } from '../trigger'
 
 /** Table derives total from its data unless an explicit remote total is supplied. */
@@ -71,8 +71,7 @@ export interface TableSortable {
    * @en The comparator must handle `extra.direction` itself; the table does not reverse its result. Set to `true` to disable internal sorting.
    */
   sorter?:
-    | ((a: TableData, b: TableData, extra: { dataIndex: string; direction: 'ascend' | 'descend' }) => number)
-    | boolean
+    ((a: TableData, b: TableData, extra: { dataIndex: string; direction: 'ascend' | 'descend' }) => number) | boolean
   /**
    * @zh 排序方向
    * @en Sort direction

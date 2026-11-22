@@ -186,14 +186,14 @@ When model-value is omitted the component manages selection; when provided it on
 
 ### TabBarItem Slots
 
-| Name | Description | Prop |
+| Name | Description | Arguments |
 | ---- | ---- | ---- |
 | `default` | Custom `label` content; overrides `label` | `active: boolean` |
 | `icon` | Custom icon | `active: boolean` |
 
 ### TabBar Slots
 
-| Name | Description | Prop |
+| Name | Description | Arguments |
 | ---- | ----------------------- | ---- |
 | `default` | Bottom-navigation content | `-` |
 | `fab` | Support for inserting a custom Fab button into a component | `-` |

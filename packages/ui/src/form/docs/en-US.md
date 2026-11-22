@@ -21,7 +21,17 @@ For a single deferred Input, the visible FormItem label targets the trigger whil
 
 In direct edit mode, for a visible label on a single field, match FormItem `label-attrs.for` to the control `id`. The native inputs in selection, date and time fields do not let their placeholder override an associated label. An explicit `aria-label` or `aria-labelledby` retains its native accessible-name precedence. Placeholder is only a fallback when no label is supplied; provide clear labels. Date and time range fields in FormItem associate the form label with their group; use `input-attrs` to give the endpoints distinct names. If `label-attrs.for` targets another control, the label is not associated with the range group. A range field on its own inherits the visible label. When the client identifies a range field alongside an independent input, the visible label names the whole group. Give the individual fields distinct names. When `for` matches a single-value Slider’s `id`, its thumb and optional numeric input use the label; clicking the default native label focuses the enabled thumb; preventing the label click default cancels that focus. When `for` matches a range Slider’s `id`, the form label names the group; use an `aria-label` array to name the endpoints separately. The `tooltip` button is independently focusable and its name is not added to the field label.
 
+## Basic examples
+
+### Basic Form
+
+```demo
+../example/demos/en-US/example.vue
+```
+
 ## Reading direction
+
+### Compact account form
 
 Form and FormItem accept start/end/left/center/right for content-align and start/end/left/right for label-align. Content defaults to start and labels to end: default LTR placement stays the same while RTL follows reading order. Explicit left/right remain physical. Item overrides and explicit label-column styles retain precedence. Direction changes preserve values, validation and disabled/readonly state.
 
@@ -29,14 +39,6 @@ Inside a Form bound to `model`, use `compact` to switch the outer FormItem’s `
 
 ```demo
 ../example/demos/en-US/compact-account.vue
-```
-
-## Basic examples
-
-### Basic Form
-
-```demo
-../example/demos/en-US/example.vue
 ```
 
 ## Form appearance and layout
@@ -662,7 +664,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-form-label-min-height` | `24px` | `min-height` |
 | `--mp-form-label-text-color` | `var(--mp-sys-color-content-primary)` | `color` |
 | `--mp-form-required-symbol-color` | `var(--mp-sys-color-content-danger)` | `color` |
-| `--mp-form-size-md-item-margin-bottom` | `16px` | `margin-bottom` |
+| `--mp-form-size-md-item-margin-bottom` | `16px` | `margin-bottom`, `padding-block-start` |
 | `--mp-form-size-md-label-font-size` | `14px` | `font-size` |
 | `--mp-form-tooltip-margin-left` | `var(--mp-sys-space-2)` | `padding-inline-start` |
 | `--mp-form-tooltip-text-color` | `var(--mp-sys-color-content-secondary)` | `color` |

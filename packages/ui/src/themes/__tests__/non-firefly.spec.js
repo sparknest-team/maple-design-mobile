@@ -21,11 +21,11 @@ test('non-Firefly theme palettes preserve the current semantic token contract', 
   }
   expect(hashes).toMatchInlineSnapshot(`
     {
-      "alps.dark": "f19df52209a756edef68c635717244fb8d31673e1ef3419c4782d94f86ac0788",
+      "alps.dark": "960506c1266741904c57aefed1c3c1c7b783014741f9d9114d71980715479990",
       "alps.light": "02ff4b51ca6d6b47bda0dead799f0b633dfa2643c687df755919ee8a53b27b02",
-      "default.dark": "7b1e01804819531722cea6bcfdeac29b240aa057e04154a92ef899eb1c6ada22",
+      "default.dark": "4641b3d417d9b441437a81edfc063f23ca99349220a136d8dd7f6ac5281020c5",
       "default.light": "9369c6fc28488e944dc0983eb5c038927ba72e6ea3f21baaf31ba9e343959880",
-      "maple.dark": "c5bb26c3329d65d9014b0e1c8c4b684540925d3dc598a01718fc3a10ae71586d",
+      "maple.dark": "9684811bb5ce81b1f379a79dccbc2399a13fe494606ff82d1cbecf8880d23aba",
       "maple.light": "0a39f54f0f31cad9deca5dbb464cdb1d79b32903963cec0c7fbe2b0849ac9147",
     }
   `)

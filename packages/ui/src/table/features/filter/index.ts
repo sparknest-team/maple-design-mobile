@@ -5,7 +5,9 @@ import { leafColumns } from '../columns'
 import { useFilter } from './state'
 import type { FilterStateColumn } from './state'
 
-export interface TableFilterColumn extends FilterStateColumn { children?: TableFilterColumn[] }
+export interface TableFilterColumn extends FilterStateColumn {
+  children?: TableFilterColumn[]
+}
 
 export interface TableFiltersOptions {
   columns: Readonly<Ref<TableFilterColumn[]>>
@@ -20,7 +22,12 @@ export function useTableFilters(options: TableFiltersOptions) {
     options.onChange?.(field, requested, state.computedFilters.value)
   }
   const state = useFilter({ columns, onFilterChange: setFilter })
-  return { filters: state.computedFilters, setFilter, resetFilters: state.resetFilters, clearFilters: state.clearFilters }
+  return {
+    filters: state.computedFilters,
+    setFilter,
+    resetFilters: state.resetFilters,
+    clearFilters: state.clearFilters,
+  }
 }
 
 export type { Filters as TableFilters } from '../../types'

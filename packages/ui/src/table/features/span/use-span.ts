@@ -50,7 +50,7 @@ export const useSpan = ({
       })
     })
   }
-  let spanzero = ref<Record<string, [number, number]>>({})
+  const spanzero = ref<Record<string, [number, number]>>({})
   const tableSpan = computed(() => {
     const span: Record<string, [number, number]> = {}
     spanzero.value = {}

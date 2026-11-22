@@ -130,7 +130,7 @@ Circular `stroke-width` is resolved in the component CSS context, including `1em
 
 ### Progress Slots
 
-| Slot | Prop | Description |
+| Slot | Arguments | Description |
 | --- | --- | --- |
 | text | `{ percent: number }` | Takes precedence over default |
 | default | `{ percent: number }` | Custom display text |

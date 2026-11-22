@@ -9,7 +9,9 @@ export function personIds(value: PeopleSelectValue): string[] {
 
 function unmatchedLabel(id: string, props: PeopleSelectProps): string {
   const placeholder = props.defaultText ?? '-'
-  if (props.fallbackOption === false) return placeholder
+  if (props.fallbackOption === false) {
+    return placeholder
+  }
   return (!props.multiple && props.label) || id || placeholder
 }
 

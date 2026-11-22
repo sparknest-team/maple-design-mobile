@@ -74,15 +74,20 @@ onThemeChange()
     <span lang="en-US">Basic examples</span>
   </h2>
 
-  <section data-demo="compact-account">
-    <app-type>{{ english ? 'Compact account field' : '紧凑账户字段' }}</app-type>
-    <component :is="english ? CompactAccountEn : CompactAccount" />
-  </section>
-
   <section data-demo="example">
     <app-type>{{ english ? 'Basic Form' : '基础表单' }}</app-type>
     <EnExampleDemo v-if="english" />
     <ExampleDemo v-else />
+  </section>
+
+  <h2 class="mobile-demo-group-heading" data-demo-group="reading-direction">
+    <span lang="zh-CN">阅读方向</span>
+    <span lang="en-US">Reading direction</span>
+  </h2>
+
+  <section data-demo="compact-account">
+    <app-type>{{ english ? 'Compact account field' : '紧凑账户字段' }}</app-type>
+    <component :is="english ? CompactAccountEn : CompactAccount" />
   </section>
 
   <h2 class="mobile-demo-group-heading" data-demo-group="form-appearance-and-layout">

@@ -12,8 +12,11 @@ function findDemoScaffolds(root) {
   const walk = (directory) => {
     for (const entry of readdirSync(directory, { withFileTypes: true })) {
       const path = resolve(directory, entry.name)
-      if (entry.isDirectory()) walk(path)
-      else if (entry.isFile() && /[\\/]example[\\/].*\.(?:vue|ts|ejs)$/.test(path)) found.push(path)
+      if (entry.isDirectory()) {
+        walk(path)
+      } else if (entry.isFile() && /[\\/]example[\\/].*\.(?:vue|ts|ejs)$/.test(path)) {
+        found.push(path)
+      }
     }
   }
   walk(root)

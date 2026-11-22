@@ -69,8 +69,7 @@ export function useElementResize(
     const elements = currentTargets()
     observed = elements
     view = elements[0]?.ownerDocument.defaultView
-    const Observer =
-      (view as (Window & { ResizeObserver?: typeof ResizeObserver }) | undefined)?.ResizeObserver
+    const Observer = (view as (Window & { ResizeObserver?: typeof ResizeObserver }) | undefined)?.ResizeObserver
     const binding = bindingGeneration
     onResize = () => schedule([], binding)
     boundViewport = view?.visualViewport

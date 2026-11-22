@@ -1,7 +1,7 @@
 import type { CSSProperties } from 'vue'
-import type { TableColumnData, TableOperationColumn } from '../types'
 import { getColumnLayoutKey } from '../extra-column'
 import { frozenColumnOffset, operationFixedOffset, operationStickyOffset } from '../kernel/frozen-columns'
+import type { TableColumnData, TableOperationColumn } from '../types'
 
 export const getOperationFixedNumber = (column: TableOperationColumn, operations: TableOperationColumn[]) =>
   operationFixedOffset(column, operations)
@@ -82,7 +82,13 @@ export const getStyle = (
   return {}
 }
 
-export const getOperationStyle = (column: TableOperationColumn, operations: TableOperationColumn[], dir: 'ltr' | 'rtl' = 'ltr', dataColumns: TableColumnData[] = [], tableLayout?: 'fixed' | 'auto') => {
+export const getOperationStyle = (
+  column: TableOperationColumn,
+  operations: TableOperationColumn[],
+  dir: 'ltr' | 'rtl' = 'ltr',
+  dataColumns: TableColumnData[] = [],
+  tableLayout?: 'fixed' | 'auto',
+) => {
   if (column.fixed) {
     return {
       left: `${operationStickyOffset(column, operations, dir, dataColumns, tableLayout)}px`,

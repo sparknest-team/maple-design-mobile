@@ -1,7 +1,7 @@
 import { h, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { expect, it } from 'vitest'
-import Trigger from '..'
+import Trigger, { type TriggerInstance } from '..'
 
 it('coordinates Trigger instances and preserves dynamic business descriptions', async () => {
   const first = ref<any>(),
@@ -118,7 +118,7 @@ it('retains a same-value description explicitly claimed by the caller', async ()
     slots: { default: () => h('button', 'Anchor'), content: () => 'Details' },
   })
   try {
-    wrapper.vm.setReference(target)
+    ;(wrapper.vm as unknown as TriggerInstance).setReference(target)
     await nextTick()
     await nextTick()
     expect(target.getAttribute('aria-describedby')).toBe('caller auto')

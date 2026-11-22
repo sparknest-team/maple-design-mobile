@@ -45,7 +45,9 @@ const model = reactive<{
         </mp-radio-group>
       </mp-form-item>
     </mp-form>
-    <output>渲染标签 <code>&lt;h{{ model.headingLevel }}&gt;</code></output>
+    <output
+      >渲染标签 <code>&lt;h{{ model.headingLevel }}&gt;</code></output
+    >
 
     <mp-card
       :size="model.size"
@@ -56,7 +58,13 @@ const model = reactive<{
       top-divider
       bottom-divider
     >
-      <mp-section :size="model.size" :heading-level="model.headingLevel" :variant="model.sectionVariant" title="成员权限" description="权限按成员角色分组。">
+      <mp-section
+        :size="model.size"
+        :heading-level="model.headingLevel"
+        :variant="model.sectionVariant"
+        title="成员权限"
+        description="权限按成员角色分组。"
+      >
         管理员可邀请成员。
       </mp-section>
       <template #footer>最近更新于今天</template>

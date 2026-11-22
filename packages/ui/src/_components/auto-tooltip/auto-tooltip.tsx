@@ -1,8 +1,7 @@
 import { defineComponent, onMounted, onUpdated, ref } from 'vue'
 import Tooltip from '../../tooltip'
+import { createNamespace, getPrefixCls } from '../../utils/components'
 import ResizeObserver from '../resize-observer-v2'
-import { getPrefixCls, createNamespace } from '../../utils/components'
-
 
 const { name } = createNamespace('auto-tooltip')
 

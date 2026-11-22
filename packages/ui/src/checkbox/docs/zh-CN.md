@@ -432,7 +432,7 @@ uninject-group-context 在挂载时决定是否接入分组；运行中修改不
 | `--mp-checkbox-label-gap` | `0` | `margin-inline-start` |
 | `--mp-checkbox-label-text-color` | `var(--mp-sys-color-content-primary)` | `color` |
 | `--mp-checkbox-label-text-color-disabled` | `var(--mp-sys-color-content-disabled)` | `color` |
-| `--mp-checkbox-mark-color` | `var(--mp-sys-color-content-on-dark)` | `background-color`, `color` |
+| `--mp-checkbox-mark-color` | `var(--mp-sys-color-content-on-dark)` | `background-color`, `border-color`, `color` |
 
 </div>
 

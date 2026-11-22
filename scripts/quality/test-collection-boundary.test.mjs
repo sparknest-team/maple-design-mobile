@@ -32,7 +32,11 @@ test('library test discovery includes authored tests and excludes copied documen
       watch: false,
     })
     assert.equal(vitest.config.poolOptions?.forks?.singleFork ?? false, false, 'isolated runs retain parallel forks')
-    const files = (await vitest.globTestSpecifications()).map((spec) => relative(directory, spec.moduleId)).sort()
+    // Vitest 5 resolves specifiers to real paths, so compare against the
+    // realpath'd root (macOS /var is a symlink to /private/var).
+    const files = (await vitest.globTestSpecifications())
+      .map((spec) => relative(realpathSync(directory), spec.moduleId))
+      .sort()
     assert.deepEqual(files, ['src/example.spec.ts', 'src/other.test.tsx'])
   } finally {
     await vitest?.close()
@@ -98,8 +102,12 @@ test('${name}: cached Vue nodes match the current jsdom realm', async () => {
         })
         try {
           assert.equal(configured.config.isolate, variant.isolate, 'the requested isolation mode is preserved')
-          const single = variant.pool === 'forks' ? 'singleFork' : 'singleThread'
-          assert.equal(configured.config.poolOptions[variant.pool][single] ?? false, !variant.isolate)
+          // Vitest 5 removed `poolOptions`; pinning one worker is expressed as maxWorkers.
+          if (!variant.isolate) {
+            assert.equal(configured.config.maxWorkers, 1, 'non-isolated runs pin a single worker')
+          } else {
+            assert.ok(configured.config.maxWorkers > 1, 'isolated runs keep parallel workers')
+          }
         } finally {
           await configured.close()
         }
@@ -116,7 +124,6 @@ test('${name}: cached Vue nodes match the current jsdom realm', async () => {
             variant.pool,
             `--isolate=${variant.isolate}`,
             '--maxWorkers=1',
-            '--minWorkers=1',
             '--reporter=dot',
             '--no-color',
           ],

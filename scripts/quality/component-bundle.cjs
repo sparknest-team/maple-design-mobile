@@ -84,6 +84,26 @@ const plugin = {
     })
   },
 }
+// esbuild's `alias` option rewrites by package prefix, so
+// `@maple-design/icons-vue/style.css` resolved to `…/icons/src/index.ts/style.css`
+// ("Cannot read directory …: not a directory"). Match the exact specifier instead
+// and let everything else fall back to normal node resolution.
+const sourceAliasesPlugin = {
+  name: 'maple-source-aliases',
+  setup(build) {
+    const aliases = new Map([
+      ['@maple-design/shared-vue', path.join(sourceRoot, 'packages/shared/src/index.ts')],
+      ['@maple-design/use-vue', path.join(sourceRoot, 'packages/use/src/index.ts')],
+      ['@maple-design/icons-vue/style.css', path.join(sourceRoot, 'packages/icons/style.css')],
+      ['@maple-design/icons-vue', path.join(sourceRoot, 'packages/icons/src/index.ts')],
+    ])
+    build.onResolve({ filter: /^@maple-design\/(shared-vue|use-vue|icons-vue)(?:$|\/)/ }, (args) => {
+      const target = aliases.get(args.path)
+      return target ? { path: target } : null
+    })
+  },
+}
+
 ;(async () => {
   console.log('Checking on-demand bundles:', Object.keys(entries).length)
   const runtime = {
@@ -106,12 +126,6 @@ const plugin = {
     external: ['vue', 'vue/*'],
     metafile: true,
     logLevel: 'silent',
-    alias: {
-      '@maple-design/shared-vue': path.join(sourceRoot, 'packages/shared/src/index.ts'),
-      '@maple-design/use-vue': path.join(sourceRoot, 'packages/use/src/index.ts'),
-      '@maple-design/icons-vue/style.css': path.join(sourceRoot, 'packages/icons/style.css'),
-      '@maple-design/icons-vue': path.join(sourceRoot, 'packages/icons/src/index.ts'),
-    },
     loader: {
       '.less': 'empty',
       '.css': 'empty',
@@ -120,7 +134,7 @@ const plugin = {
       '.jpg': 'dataurl',
       '.woff2': 'dataurl',
     },
-    plugins: [plugin],
+    plugins: [plugin, sourceAliasesPlugin],
   })
   const rows = []
   const retainedInputs = {}

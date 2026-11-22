@@ -212,7 +212,7 @@ External model-value updates do not emit an extra change.
 
 ### Switch Slots
 
-| Slot | Description | Prop |
+| Slot | Description | Arguments |
 | -------------- | ---------------------------------------------------- | ---- |
 | checked | Checked label; overrides checked-text; hidden for line/sm | — |
 | unchecked | Unchecked label; overrides unchecked-text; hidden for line/sm | — |

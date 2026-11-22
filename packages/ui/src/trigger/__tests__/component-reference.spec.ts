@@ -1,7 +1,7 @@
 import { defineAsyncComponent, defineComponent, h, nextTick, ref } from 'vue'
 import { flushPromises, mount } from '@vue/test-utils'
 import { expect, it } from 'vitest'
-import Trigger from '..'
+import Trigger, { type TriggerInstance } from '..'
 
 it('tracks a component slot that resolves late and subsequently replaces its native root', async () => {
   const useLink = ref(false)
@@ -22,13 +22,14 @@ it('tracks a component slot that resolves late and subsequently replaces its nat
     resolve(button)
     await flushPromises()
     const first = wrapper.get('button').element
-    expect(wrapper.vm.getReference()).toBe(first)
+    const vm = wrapper.vm as unknown as TriggerInstance
+    expect(vm.getReference()).toBe(first)
     expect(first.getAttribute('aria-describedby')).toBe('inside auto')
     useLink.value = true
     await nextTick()
     await flushPromises()
     const second = wrapper.get('a').element
-    expect(wrapper.vm.getReference()).toBe(second)
+    expect(vm.getReference()).toBe(second)
     expect(second.getAttribute('aria-describedby')).toBe('inside auto')
     expect(first.getAttribute('aria-describedby')).toBe('inside')
   } finally {

@@ -2,7 +2,6 @@
 import { AppType, onThemeChange } from '@maple-design/cli-vue/client'
 import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import OrganizedAppearanceLab from './demos/appearance-lab.vue'
-import EnAutoSizeDemo from './demos/en-US/auto-size.vue'
 import AutoSizeDemo from './demos/auto-size.vue'
 import BodyDemo from './demos/body-contract.vue'
 import Demo1 from './demos/demo-1.vue'
@@ -11,6 +10,7 @@ import Demo4 from './demos/demo-4.vue'
 import Demo5 from './demos/demo-5.vue'
 import Demo6 from './demos/demo-6.vue'
 import EmptyPolicyDemo from './demos/empty-policy.vue'
+import EnAutoSizeDemo from './demos/en-US/auto-size.vue'
 import EnBodyDemo from './demos/en-US/body-contract.vue'
 import EnDemo1 from './demos/en-US/demo-1.vue'
 import EnDemo3 from './demos/en-US/demo-3.vue'
@@ -79,7 +79,9 @@ onThemeChange()
     <OrganizedStateLab />
   </section>
 
-  <section data-demo="auto-size"><app-type>自动高度 / Auto Size</app-type><component :is="english ? EnAutoSizeDemo : AutoSizeDemo" /></section>
+  <section data-demo="auto-size">
+    <app-type>自动高度 / Auto Size</app-type><component :is="english ? EnAutoSizeDemo : AutoSizeDemo" />
+  </section>
 
   <section data-demo="body-contract">
     <app-type>{{ english ? 'Body and event contract' : '主体与事件契约' }}</app-type

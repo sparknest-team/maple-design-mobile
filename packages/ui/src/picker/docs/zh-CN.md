@@ -649,7 +649,7 @@ import { Picker, type PickerOptions, type PickerColumnOption,
 | 变量 | 默认值／条件 | 影响的样式 |
 | --- | --- | --- |
 | `--mp-picker-background` | `var(--mp-color-body)` | `background`, `background-image` |
-| `--mp-picker-mask-background-image` | `linear-gradient(180deg, color-mix(in srgb, var(--mp-picker-background) 90%, transparent), color-mix(in srgb, var(--mp-picker-background) 40%, transparent)),     linear-gradient(       0deg,       color-mix(in srgb, var(--mp-picker-background) 90%, transparent),       color-mix(in srgb, var(--mp-picker-background) 40%, transparent)     )` | `background-image` |
+| `--mp-picker-mask-background-image` | `linear-gradient(180deg, color-mix(in srgb, var(--mp-picker-background) 90%, transparent), color-mix(in srgb, var(--mp-picker-background) 40%, transparent)), linear-gradient(0deg, color-mix(in srgb, var(--mp-picker-background) 90%, transparent), color-mix(in srgb, var(--mp-picker-background) 40%, transparent))` | `background-image` |
 | `--mp-picker-option-active-text-color` | `var(--mp-picker-option-text-color)` | `color` |
 | `--mp-picker-option-check-color` | `var(--mp-sys-color-action-primary)` | `color` |
 | `--mp-picker-option-check-right` | `12px` | `inset-inline-end` |

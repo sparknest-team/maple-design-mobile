@@ -17,27 +17,43 @@ try {
   for (const [name, entry] of Object.entries(files)) {
     const original = await readFile(new URL(name, source), 'utf8')
     const hash = createHash('sha256').update(original).digest('hex')
-    if (!write) assert.equal(hash, entry.sha256, name + ' changed upstream. Run pnpm sync:table-source and review.')
+    if (!write) {
+      assert.equal(hash, entry.sha256, name + ' changed upstream. Run pnpm sync:table-source and review.')
+    }
     entry.sha256 = hash
-    const text = original.replaceAll('@cedar-design/icons-vue', '@maple-design/icons-vue')
-      .replaceAll('_utils/global-config', 'utils/components').replaceAll('_utils/vue-compat', 'utils/vue-compat')
-      .replaceAll('--c-', '--mp-').replaceAll('.c-', '.mp-').replaceAll('c-table-', 'mp-table-')
+    const text = original
+      .replaceAll('@cedar-design/icons-vue', '@maple-design/icons-vue')
+      .replaceAll('_utils/global-config', 'utils/components')
+      .replaceAll('_utils/vue-compat', 'utils/vue-compat')
+      .replaceAll('--c-', '--mp-')
+      .replaceAll('.c-', '.mp-')
+      .replaceAll('c-table-', 'mp-table-')
       .replaceAll('data-c-theme', 'data-mp-theme')
     const path = join(temporary, entry.target)
     await mkdir(dirname(path), { recursive: true })
     await writeFile(path, text)
   }
-  execFileSync('git', ['apply', '--whitespace=nowarn', fileURLToPath(new URL('./table-source/mobile.patch', import.meta.url))], { cwd: temporary })
+  execFileSync(
+    'git',
+    ['apply', '--whitespace=nowarn', fileURLToPath(new URL('./table-source/mobile.patch', import.meta.url))],
+    { cwd: temporary },
+  )
   for (const { target: name } of Object.values(files)) {
     const text = await readFile(join(temporary, name), 'utf8')
     const file = new URL(name, target)
     if (write) {
       await mkdir(dirname(fileURLToPath(file)), { recursive: true })
       await writeFile(file, text)
-    } else assert.equal(await readFile(file, 'utf8'), text, name + ' differs from the Cedar port')
+    } else {
+      assert.equal(await readFile(file, 'utf8'), text, name + ' differs from the Cedar port')
+    }
   }
-  if (write) await writeFile(manifest, JSON.stringify(files, null, 2) + '\n')
-  console.log('Verified ' + Object.keys(files).length + ' Cedar sources including Table entry, styles, demos and contracts.')
+  if (write) {
+    await writeFile(manifest, JSON.stringify(files, null, 2) + '\n')
+  }
+  console.log(
+    'Verified ' + Object.keys(files).length + ' Cedar sources including Table entry, styles, demos and contracts.',
+  )
 } finally {
   await rm(temporary, { recursive: true, force: true })
 }

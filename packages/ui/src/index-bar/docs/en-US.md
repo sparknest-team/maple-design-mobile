@@ -59,14 +59,14 @@ Identifiers use strict equality: numeric `0` differs from string `"0"`. An omitt
 
 ### IndexBar Slots
 
-| Name | Description | Prop |
+| Name | Description | Arguments |
 | --------- | ---------- | ---- |
 | `default` | Index-bar content | `-` |
 | `anchor-name` | Navigation button content; use noninteractive content | `{ anchorName: number \| string }` |
 
 ### IndexAnchor Slots
 
-| Name | Description | Prop |
+| Name | Description | Arguments |
 | ------------- | -------------- | ----------------------------- |
 | `default` | Custom index character | `-` |
 

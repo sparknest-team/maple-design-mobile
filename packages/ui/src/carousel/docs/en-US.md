@@ -305,7 +305,7 @@ auto-play=true uses 3000ms and pauses on hover; a number sets milliseconds witho
 | change | slideNumber: number, previousSlideNumber: number, isManual: boolean |
 
 ### Carousel Slots
-| Slot | Prop |
+| Slot | Arguments |
 | --- | --- |
 | default | CarouselItem |
 | prev / next / indicator | { slideNumber, length, hovering, prev, next, to, resize } |

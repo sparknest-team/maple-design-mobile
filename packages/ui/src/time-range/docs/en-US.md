@@ -465,7 +465,7 @@ See the complete pure-panel events section on this page for all panel business n
 
 ### TimeRangePicker Slots
 
-| Name | Description | Prop |
+| Name | Description | Arguments |
 | --------- | ---------------- | ----------------------------------------------------- |
 | `actions` | Replace panel confirmation action | _{ confirm: () => boolean, canConfirm: boolean, value }_ |
 

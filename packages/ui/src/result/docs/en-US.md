@@ -75,7 +75,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-result-empty-border-color` | `rgba(158, 158, 158, 0.3)` | `border-color` |
 | `--mp-result-empty-color` | `#9e9e9e` | `fill` |
 | `--mp-result-extra-margin` | `20px 0 0` | `margin` |
-| `--mp-result-image-size` | `80px` | `height`, `width` |
+| `--mp-result-image-size` | `80px` | `border`, `height`, `width` |
 | `--mp-result-info-border-color` | `rgba(0, 175, 239, 0.3)` | `border-color` |
 | `--mp-result-info-color` | `var(--mp-sys-color-content-info)` | `fill` |
 | `--mp-result-padding` | `24px` | `padding` |

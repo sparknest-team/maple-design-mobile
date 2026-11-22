@@ -23,7 +23,9 @@ function submit() {
     <p>Edit in history, then submit one native keyword value.</p>
     <mp-space wrap>
       <mp-button html-type="button" @click="waiting = !waiting">Toggle waiting</mp-button>
-      <mp-button html-type="button" @click="loadingMode = loadingMode === 'default' ? 'line' : 'default'">Toggle loading layout</mp-button>
+      <mp-button html-type="button" @click="loadingMode = loadingMode === 'default' ? 'line' : 'default'"
+        >Toggle loading layout</mp-button
+      >
     </mp-space>
     <form :id="formId" ref="form" @submit.prevent="submit">
       <mp-search

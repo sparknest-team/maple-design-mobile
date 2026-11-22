@@ -1,24 +1,18 @@
-import { computed } from "vue";
-import type { ExtractPropTypes, Ref } from "vue";
-import type { tableProps } from "../../props";
-import type { TableColumnData, TableData, TableDataWithRaw } from "../../types";
-import {
-  getValueByPath,
-  setValueByPath,
-} from "../../../_utils/get-value-by-path";
-import { isFunction, isNumber, isUndefined, isNull } from "../../../_utils/is";
+import { computed } from 'vue'
+import type { ExtractPropTypes, Ref } from 'vue'
+import { getValueByPath, setValueByPath } from '../../../_utils/get-value-by-path'
+import { isFunction, isNull, isNumber, isUndefined } from '../../../_utils/is'
+import type { tableProps } from '../../props'
+import type { TableColumnData, TableData, TableDataWithRaw } from '../../types'
 
 /** Summary consumes the already filtered, sorted and paginated pipeline. */
 export function useSummaryData(options: {
-  props: Pick<
-    ExtractPropTypes<typeof tableProps>,
-    "summary" | "summaryText" | "rowKey"
-  >;
-  dataColumns: Readonly<Ref<TableColumnData[]>>;
-  flattenData: Readonly<Ref<TableDataWithRaw[]>>;
-  flattenRawData: Readonly<Ref<TableData[]>>;
+  props: Pick<ExtractPropTypes<typeof tableProps>, 'summary' | 'summaryText' | 'rowKey'>
+  dataColumns: Readonly<Ref<TableColumnData[]>>
+  flattenData: Readonly<Ref<TableDataWithRaw[]>>
+  flattenRawData: Readonly<Ref<TableData[]>>
 }) {
-  const { props, dataColumns, flattenData, flattenRawData } = options;
+  const { props, dataColumns, flattenData, flattenRawData } = options
   const getSummaryData = () => {
     return dataColumns.value.reduce(
       (per, column, index) => {
@@ -26,31 +20,31 @@ export function useSummaryData(options: {
           if (index === 0) {
             setValueByPath(per, column.dataIndex, props.summaryText, {
               addPath: true,
-            });
+            })
           } else {
-            let count = 0;
-            let isNotNumber = false;
+            let count = 0
+            let isNotNumber = false
             flattenData.value.forEach((data) => {
               if (column.dataIndex) {
-                const _number = getValueByPath(data.raw, column.dataIndex);
+                const _number = getValueByPath(data.raw, column.dataIndex)
                 if (isNumber(_number)) {
-                  count += _number;
+                  count += _number
                 } else if (!isUndefined(_number) && !isNull(_number)) {
-                  isNotNumber = true;
+                  isNotNumber = true
                 }
               }
-            });
-            setValueByPath(per, column.dataIndex, isNotNumber ? "" : count, {
+            })
+            setValueByPath(per, column.dataIndex, isNotNumber ? '' : count, {
               addPath: true,
-            });
+            })
           }
         }
 
-        return per;
+        return per
       },
       {} as Record<string, any>,
-    );
-  };
+    )
+  }
 
   const getTableDataWithRaw = (data?: TableData[]): TableDataWithRaw[] => {
     if (data && data.length > 0) {
@@ -58,11 +52,11 @@ export function useSummaryData(options: {
         return {
           raw,
           key: raw[props.rowKey],
-        };
-      });
+        }
+      })
     }
-    return [];
-  };
+    return []
+  }
 
   const summaryData = computed(() => {
     if (props.summary) {
@@ -72,12 +66,12 @@ export function useSummaryData(options: {
             columns: dataColumns.value,
             data: flattenRawData.value,
           }),
-        );
+        )
       }
-      return getTableDataWithRaw([getSummaryData()]);
+      return getTableDataWithRaw([getSummaryData()])
     }
-    return [];
-  });
+    return []
+  })
 
-  return summaryData;
+  return summaryData
 }

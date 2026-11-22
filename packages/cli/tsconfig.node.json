@@ -1,7 +1,12 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "moduleResolution": "bundler"
   },
-  "include": ["src/node/**/*", "src/types/**/*.d.ts", "src/module.d.ts"]
+  "include": [
+    "src/node/**/*",
+    "src/types/**/*.d.ts",
+    "src/module.d.ts"
+  ]
 }

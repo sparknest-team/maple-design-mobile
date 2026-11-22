@@ -7,7 +7,8 @@ import { t } from './locale'
 onThemeChange()
 
 function download() {
-  window.location.href = 'https://raw.githubusercontent.com/sparknest-team/maple-design-resources/main/components.sketch'
+  window.location.href =
+    'https://raw.githubusercontent.com/sparknest-team/maple-design-resources/main/components.sketch'
 }
 </script>
 

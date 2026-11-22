@@ -2,7 +2,6 @@ import { createVNode, defineComponent } from 'vue'
 import { createNamespace } from '../utils/components'
 import { firstStructuralNode } from './structural-slot'
 
-
 const { name } = createNamespace('thead')
 
 export default defineComponent({

@@ -16,11 +16,14 @@ test('measures a component that replaces its own root element', async () => {
   })
   const observe = vi.fn()
   const unobserve = vi.fn()
-  vi.stubGlobal('ResizeObserver', class {
-    observe = observe
-    unobserve = unobserve
-    disconnect = vi.fn()
-  })
+  vi.stubGlobal(
+    'ResizeObserver',
+    class {
+      observe = observe
+      unobserve = unobserve
+      disconnect = vi.fn()
+    },
+  )
   const setItemSize = vi.fn()
   const owner = mount(VirtualListItem, {
     props: { index: 4, hasItemSize: () => false, setItemSize },
@@ -54,13 +57,20 @@ test('remeasures sibling roots when a nested component replaces its element', as
   let resize!: () => void
   const observe = vi.fn()
   const unobserve = vi.fn()
-  vi.stubGlobal('ResizeObserver', class {
-    constructor(callback: () => void) { resize = callback }
-    observe = observe
-    unobserve = unobserve
-    disconnect = vi.fn()
-  })
-  const rect = vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function (this: HTMLElement) {
+  vi.stubGlobal(
+    'ResizeObserver',
+    class {
+      constructor(callback: () => void) {
+        resize = callback
+      }
+      observe = observe
+      unobserve = unobserve
+      disconnect = vi.fn()
+    },
+  )
+  const rect = vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function (
+    this: HTMLElement,
+  ) {
     const height = this.parentElement ? Number(this.dataset.height) : 0
     const top = this.tagName === 'HEADER' ? 0 : 10
     return { top, bottom: top + height, height, width: 0 } as DOMRect

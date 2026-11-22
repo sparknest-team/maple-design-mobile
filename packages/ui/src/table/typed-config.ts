@@ -11,23 +11,34 @@ import type {
 } from './types'
 
 type JoinPath<Key extends string | number, Path> = Path extends string
-  ? Path extends `[${string}` ? `${Key}${Path}` : `${Key}.${Path}`
+  ? Path extends `[${string}`
+    ? `${Key}${Path}`
+    : `${Key}.${Path}`
   : never
 
-type ChildPath<Value, Depth extends unknown[]> = 0 extends (1 & Value) ? never
-  : Value extends Date | ((...args: never[]) => unknown) ? never
-  : Value extends readonly (infer Item)[]
-    ? `${number}` | `[${number}]`
-      | JoinPath<number, RowPath<NonNullable<Item>, Depth>>
-      | (RowPath<NonNullable<Item>, Depth> extends infer Path
-        ? Path extends string ? `[${number}].${Path}` : never : never)
-    : RowPath<Value, Depth>
+type ChildPath<Value, Depth extends unknown[]> = 0 extends 1 & Value
+  ? never
+  : Value extends Date | ((...args: never[]) => unknown)
+    ? never
+    : Value extends readonly (infer Item)[]
+      ? | `${number}`
+        | `[${number}]`
+        | JoinPath<number, RowPath<NonNullable<Item>, Depth>>
+        | (RowPath<NonNullable<Item>, Depth> extends infer Path
+            ? Path extends string
+              ? `[${number}].${Path}`
+              : never
+            : never)
+      : RowPath<Value, Depth>
 
-type RowPath<Row, Depth extends unknown[] = []> = Depth['length'] extends 5 ? never
-  : Row extends object ? {
-    [Key in Extract<keyof Row, string | number>]: `${Key}`
-      | JoinPath<Key, ChildPath<NonNullable<Row[Key]>, [...Depth, unknown]>>
-  }[Extract<keyof Row, string | number>] : never
+type RowPath<Row, Depth extends unknown[] = []> = Depth['length'] extends 5
+  ? never
+  : Row extends object
+    ? {
+        [Key in Extract<keyof Row, string | number>]:
+          `${Key}` | JoinPath<Key, ChildPath<NonNullable<Row[Key]>, [...Depth, unknown]>>
+      }[Extract<keyof Row, string | number>]
+    : never
 
 /** 可选类型入口的字段路径；支持嵌套字段和数组下标，最多五层。 */
 export type TableDataPath<Row extends TableData> = RowPath<Row>
@@ -42,7 +53,8 @@ export type TypedTableRowKey<Row extends TableData> = {
 
 /** 排序比较器接收业务行；其余排序选项沿用现有协议。 */
 export type TypedTableSortable<Row extends TableData> = Omit<TableSortable, 'sorter'> & {
-  sorter?: boolean | ((a: Row, b: Row, extra: { dataIndex: TableDataPath<Row>; direction: 'ascend' | 'descend' }) => number)
+  sorter?:
+    boolean | ((a: Row, b: Row, extra: { dataIndex: TableDataPath<Row>; direction: 'ascend' | 'descend' }) => number)
 }
 
 /** 筛选器接收业务行，筛选项和筛选值沿用现有协议。 */
@@ -50,8 +62,17 @@ export type TypedTableFilterable<Row extends TableData> = Omit<TableFilterable, 
   filter: (filteredValue: string[], record: Row) => boolean
 }
 
-type ColumnOwnedKey = 'dataIndex' | 'render' | 'sortable' | 'filterable' | 'children' | 'parent'
-  | 'bodyCellClass' | 'summaryCellClass' | 'bodyCellStyle' | 'summaryCellStyle'
+type ColumnOwnedKey =
+  | 'dataIndex'
+  | 'render'
+  | 'sortable'
+  | 'filterable'
+  | 'children'
+  | 'parent'
+  | 'bodyCellClass'
+  | 'summaryCellClass'
+  | 'bodyCellStyle'
+  | 'summaryCellStyle'
 
 /** 配置检查用列类型；使用 defineTableConfig 适配回已发布的 TableProps。 */
 export type TypedTableColumn<Row extends TableData> = Omit<TableColumnData, ColumnOwnedKey> & {
@@ -80,8 +101,16 @@ type TypedSpanMethod<Row extends TableData> = (data: {
   columnIndex: number
 }) => { rowspan?: number; colspan?: number } | void
 
-type ConfigOwnedKey = 'data' | 'columns' | 'rowKey' | 'expandable' | 'loadMore'
-  | 'spanMethod' | 'summarySpanMethod' | 'rowClass' | 'summary'
+type ConfigOwnedKey =
+  | 'data'
+  | 'columns'
+  | 'rowKey'
+  | 'expandable'
+  | 'loadMore'
+  | 'spanMethod'
+  | 'summarySpanMethod'
+  | 'rowClass'
+  | 'summary'
 
 /**
  * 主动选用的整体配置；不收窄原组件 Props。

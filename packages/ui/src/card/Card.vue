@@ -61,11 +61,7 @@
       <div :class="n('container')">
         <slot name="header">
           <div v-if="title || $slots.title || $slots['title-action']" :class="n('title')" :style="titleStyle">
-            <component
-              :is="`h${headingLevel}`"
-              v-if="headingLevel && (title || $slots.title)"
-              :class="n('title-text')"
-            >
+            <component :is="`h${headingLevel}`" v-if="headingLevel && (title || $slots.title)" :class="n('title-text')">
               <slot name="title" :slot-class="n('title-text')">{{ title }}</slot>
             </component>
             <slot v-else name="title" :slot-class="n('title-text')">
@@ -89,10 +85,7 @@
         <div v-if="bottomDivider" :class="n('divider')">
           <BaseDivider :spacing="0" />
         </div>
-        <div
-          v-if="$slots.footer"
-          :class="classes(n('footer'), [footerAlign !== 'end', n(`footer--${footerAlign}`)])"
-        >
+        <div v-if="$slots.footer" :class="classes(n('footer'), [footerAlign !== 'end', n(`footer--${footerAlign}`)])">
           <slot name="footer" />
         </div>
         <div

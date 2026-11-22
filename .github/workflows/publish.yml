@@ -30,10 +30,10 @@ jobs:
           token: ${{ secrets.DESIGN_SYSTEM_CI_TOKEN || secrets.DESIGN_UI_TOKEN || github.token }}
       - uses: pnpm/action-setup@v4
         with:
-          version: 9.6.0
+          version: 10.23.0
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version-file: maple-design-mobile/.nvmrc
           cache: pnpm
           cache-dependency-path: |
             maple-design-mobile/pnpm-lock.yaml

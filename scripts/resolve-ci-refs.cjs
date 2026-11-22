@@ -6,7 +6,8 @@ function related(body, own) {
     if (!line.startsWith('Related-PR:')) {
       continue
     }
-    const match = /^Related-PR:\s*https:\/\/github\.com\/(?:sparknest-team|loca-spirit)\/([a-z-]+)\/pull\/(\d+)\s*$/.exec(line)
+    const match =
+      /^Related-PR:\s*https:\/\/github\.com\/(?:sparknest-team|loca-spirit)\/([a-z-]+)\/pull\/(\d+)\s*$/.exec(line)
     if (!match || !repositories.includes(match[1])) {
       throw new Error('Invalid Related-PR URL; use a Cedar, Maple, or design-ui PR URL on its own line')
     }

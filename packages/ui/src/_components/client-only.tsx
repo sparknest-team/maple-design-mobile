@@ -1,7 +1,6 @@
 import { defineComponent, onMounted, ref } from 'vue'
 import { createNamespace } from '../utils/components'
 
-
 const { name } = createNamespace('client-only')
 
 export default defineComponent({

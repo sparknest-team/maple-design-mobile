@@ -1,9 +1,9 @@
-import { checkCopyableDemo } from './demo-language-policy.mjs'
 import { execFileSync } from 'node:child_process'
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { basename, dirname, relative, resolve } from 'node:path'
 import process from 'node:process'
+import { checkCopyableDemo } from './demo-language-policy.mjs'
 
 const root = resolve(import.meta.dirname, '../..')
 const require = createRequire(resolve(root, 'packages/cli/package.json'))

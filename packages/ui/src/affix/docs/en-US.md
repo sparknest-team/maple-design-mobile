@@ -81,7 +81,7 @@ Scroll each bordered area separately to compare top/bottom affixing and offsets 
 
 ### Affix Slots
 
-| Slot | Description | Prop |
+| Slot | Description | Arguments |
 | --- | --- | --- |
 | default | Content to affix | — |
 

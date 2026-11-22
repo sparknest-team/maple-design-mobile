@@ -261,7 +261,10 @@ function mergeLazyOptions(options: LazyOptions = {}) {
   }
   defaultLazyOptions.filter = options.filter
 }
-const Lazy: Directive<LazyHTMLElement, string> & Plugin = {
+// Pin the plugin option tuple: without it `Plugin` infers its argument list from
+// the directive half of the intersection, and `app.use(Lazy, options)` then asks
+// for `[binding, vnode, prevVNode]`.
+const Lazy: Directive<LazyHTMLElement, string> & Plugin<[options?: LazyOptions]> = {
   mounted,
   unmounted: clear,
   updated,
