@@ -1,8 +1,24 @@
 import assert from 'node:assert/strict'
-import { globSync, readFileSync } from 'node:fs'
+import { readdirSync, readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
 import test from 'node:test'
 import { fileURLToPath } from 'node:url'
 import { checkCopyableDemo, checkDemoLanguage } from './demo-language-policy.mjs'
+
+// CI runs on the governed Node 20 (see design-ui/bin/ci-contract.test.mjs), which has no
+// `fs.globSync` (Node 22+). Walk manually so the gate runs on every supported node version.
+function findDemoScaffolds(root) {
+  const found = []
+  const walk = (directory) => {
+    for (const entry of readdirSync(directory, { withFileTypes: true })) {
+      const path = resolve(directory, entry.name)
+      if (entry.isDirectory()) walk(path)
+      else if (entry.isFile() && /[\\/]example[\\/].*\.(?:vue|ts|ejs)$/.test(path)) found.push(path)
+    }
+  }
+  walk(root)
+  return found
+}
 
 test('rejects local language subscriptions, snapshots, comparisons, props and route inference', () => {
   for (const code of [
@@ -33,12 +49,12 @@ test('allows the preview entry to read site language and configure LocaleProvide
 })
 
 test('shipped demo scaffolds follow the same language policy', () => {
-  const cwd = new URL('../../packages/cli/template/', import.meta.url)
-  const files = globSync('**/example/**/*.{vue,ts,ejs}', { cwd: fileURLToPath(cwd) })
+  const cwd = fileURLToPath(new URL('../../packages/cli/template/', import.meta.url))
+  const files = findDemoScaffolds(cwd)
   assert.ok(files.length > 0)
   for (const file of files) {
-    const source = readFileSync(new URL(file, cwd), 'utf8')
-    if (/\.vue(?:\.ejs)?$/.test(file) && !/\/example\/index\.vue(?:\.ejs)?$/.test(file)) {
+    const source = readFileSync(file, 'utf8')
+    if (/\.vue(?:\.ejs)?$/.test(file) && !/[\\/]example[\\/]index\.vue(?:\.ejs)?$/.test(file)) {
       assert.doesNotThrow(() => checkCopyableDemo(source), file)
     }
     const script = file.endsWith('.ts') ? source : source.match(/<script[^>]*>([\s\S]*?)<\/script>/)?.[1]
