@@ -17,5 +17,6 @@ export default {
   globals: {
     vue: 'Vue',
     '@vue/shared': 'VueShared',
+    'vue/server-renderer': 'VueServerRenderer',
   },
 }
