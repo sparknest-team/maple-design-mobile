@@ -1,5 +1,14 @@
 # maple-vscode-extension-vue
 
+## 1.4.1
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @maple-design/ui-vue@1.4.1
+  - @maple-design/icons-vue@1.4.1
+  - @maple-design/shared-vue@1.4.1
+
 ## 1.1.11
 
 ### Patch Changes
