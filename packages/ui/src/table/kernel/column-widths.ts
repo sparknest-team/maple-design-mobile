@@ -68,7 +68,9 @@ export const calculateColumnWidths = ({
     let bodyMinWidth = operationsWidth
     for (const column of dataColumns) {
       const dataIndex = column.key
-      if (!dataIndex) continue
+      if (!dataIndex) {
+        continue
+      }
       const width = column._resizeWidth ?? column.width ?? column.minWidth ?? DEFAULT_COLUMN_MIN_WIDTH
       columnRealWidth[dataIndex] = width
       writeWidth(column, width)
@@ -83,7 +85,9 @@ export const calculateColumnWidths = ({
   }
 
   const flexColumns = dataColumns.filter((column) => {
-    if (isNumber(column._resizeWidth)) return false
+    if (isNumber(column._resizeWidth)) {
+      return false
+    }
     return !isNumber(column.width)
   })
 
@@ -117,7 +121,9 @@ export const calculateColumnWidths = ({
         let noneFirstWidth = 0
 
         flexColumns.forEach((column, index) => {
-          if (index === 0) return
+          if (index === 0) {
+            return
+          }
           const minWidth = Number(column.minWidth || DEFAULT_COLUMN_MIN_WIDTH)
           const flexWidth = Math.floor(minWidth * flexWidthPerPixel)
           noneFirstWidth += flexWidth
@@ -136,7 +142,9 @@ export const calculateColumnWidths = ({
       }
 
       for (const column of dataColumns) {
-        if (!column.dataIndex || columnRealWidth[column.key!]) continue
+        if (!column.dataIndex || columnRealWidth[column.key!]) {
+          continue
+        }
         const width = column._resizeWidth ?? column.width!
         columnRealWidth[column.key!] = width
         writeWidth(column, width)
@@ -158,7 +166,9 @@ export const calculateColumnWidths = ({
       }
     }
     for (const column of dataColumns) {
-      if (!column.dataIndex || columnRealWidth[column.key!]) continue
+      if (!column.dataIndex || columnRealWidth[column.key!]) {
+        continue
+      }
       const width = column._resizeWidth ?? column.width!
       columnRealWidth[column.key!] = width
       writeWidth(column, width)
@@ -193,11 +203,8 @@ export const calculateColumnWidths = ({
   // 是全给弹性列（fit=true，显式 width 的列保持原宽）还是按比例分摊（fit=false）。
   // element 在 fit=false 时表格缩为列宽之和，cedar 按业务要求不缩。
   if (bodyMinWidth < containerWidth) {
-    const scalable = dataColumns.filter(column => column.dataIndex && !column.exact)
-    const totalBase = scalable.reduce(
-      (prev, column) => prev + columnRealWidth[column.key!],
-      0,
-    )
+    const scalable = dataColumns.filter((column) => column.dataIndex && !column.exact)
+    const totalBase = scalable.reduce((prev, column) => prev + columnRealWidth[column.key!], 0)
     if (scalable.length > 0 && totalBase > 0) {
       const leftover = containerWidth - bodyMinWidth
       let assigned = 0

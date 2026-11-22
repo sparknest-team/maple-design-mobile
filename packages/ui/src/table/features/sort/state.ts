@@ -1,8 +1,8 @@
 import type { Ref } from 'vue'
 import { computed, ref, watch } from 'vue'
 import { isString } from '../../../_utils/is'
-import type { Sorter, TableColumnData } from '../../types'
 import { isEqual } from '../../../_utils/is-equal'
+import type { Sorter, TableColumnData } from '../../types'
 
 export const useSorter = ({
   columns,
@@ -15,9 +15,14 @@ export const useSorter = ({
 
   // Rebuilding visual columns (RTL or resize) must not reset uncontrolled state.
   // Only a change to the declared defaults starts a new default-state transaction.
-  watch(() => getDefaultSorter(columns.value), (next, previous) => {
-    if (!isEqual(next, previous)) _sorter.value = next
-  })
+  watch(
+    () => getDefaultSorter(columns.value),
+    (next, previous) => {
+      if (!isEqual(next, previous)) {
+        _sorter.value = next
+      }
+    },
+  )
 
   const computedSorter = computed<Sorter | undefined>(() => {
     for (const item of columns.value) {

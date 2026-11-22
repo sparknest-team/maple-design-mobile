@@ -1,14 +1,11 @@
 <template>
-  <mp-table
-    :columns="columns"
-    :data="data"
-    :virtual-list-props="{ height: 400 }"
-    :pagination="false" />
+  <mp-table :columns="columns" :data="data" :virtual-list-props="{ height: 400 }" :pagination="false" />
 </template>
 
 <script lang="ts" setup>
-import type { TableColumnData } from '../../types'
 import { reactive } from 'vue'
+import type { TableColumnData } from '../../types'
+
 const columns: TableColumnData[] = [
   {
     title: 'Name',

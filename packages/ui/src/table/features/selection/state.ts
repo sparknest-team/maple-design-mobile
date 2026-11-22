@@ -1,10 +1,10 @@
 import type { Ref } from 'vue'
 import { computed, ref } from 'vue'
+import { union } from '../../../_utils/array'
 import type { BaseType, EmitFn2 } from '../../../_utils/types'
 import type { TableDataWithRaw, TableRowSelection } from '../../types'
 import { TableData } from '../../types'
 import { getLeafKeys } from '../../utils'
-import { union } from '../../../_utils/array'
 
 export const useRowSelection = ({
   selectedKeys,
@@ -22,8 +22,8 @@ export const useRowSelection = ({
   emit: EmitFn2<{
     'update:selectedKeys': (rowKeys: BaseType[]) => true
     select: (rowKeys: BaseType[], rowKey: BaseType, record: TableData) => true
-    "select-all": (checked: boolean) => true
-    "selection-change": (rowKeys: BaseType[]) => true
+    'select-all': (checked: boolean) => true
+    'selection-change': (rowKeys: BaseType[]) => true
   }>
 }) => {
   const isRadio = computed(() => rowSelection.value?.type === 'radio')
@@ -62,17 +62,20 @@ export const useRowSelection = ({
 
   const select = (rowKey: BaseType | BaseType[], checked = true) => {
     const _rowKeys = ([] as BaseType[]).concat(rowKey)
-    if (isRadio.value && checked && _rowKeys.length === 0) return
-    const newSelectedRowKeys = isRadio.value && checked
-      ? _rowKeys.slice(0, 1)
-      : union(selectedRowKeys.value, _rowKeys, !checked)
+    if (isRadio.value && checked && _rowKeys.length === 0) {
+      return
+    }
+    const newSelectedRowKeys =
+      isRadio.value && checked ? _rowKeys.slice(0, 1) : union(selectedRowKeys.value, _rowKeys, !checked)
     _selectedRowKeys.value = newSelectedRowKeys
     emit('selection-change', newSelectedRowKeys)
     emit('update:selectedKeys', newSelectedRowKeys)
   }
 
   const selectAll = (checked = true) => {
-    if (isRadio.value && checked) return
+    if (isRadio.value && checked) {
+      return
+    }
     const newKeys = union(selectedRowKeys.value, currentAllEnabledRowKeys.value, !checked)
     _selectedRowKeys.value = newKeys
 

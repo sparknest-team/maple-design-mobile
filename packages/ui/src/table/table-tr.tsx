@@ -1,10 +1,9 @@
-import { computed, defineComponent, createVNode, PropType, inject, isVNode, Fragment } from 'vue'
-import { getPrefixCls, createNamespace } from '../utils/components'
-import { tableInjectionKey } from './context'
+import { computed, createVNode, defineComponent, Fragment, inject, isVNode, PropType } from 'vue'
+import { createNamespace, getPrefixCls } from '../utils/components'
 import { orderPhysicalColumns } from './column-direction'
+import { tableInjectionKey } from './context'
 import { firstStructuralNode } from './structural-slot'
 import { TableDataWithRaw } from './types'
-
 
 const { name } = createNamespace('tr')
 
@@ -41,20 +40,37 @@ export default defineComponent({
 
     return () => {
       return createVNode(
-        firstStructuralNode(slots.tr?.({
-          rowIndex: props.rowIndex,
-          record: props.record?.raw,
-        })) ?? 'tr',
+        firstStructuralNode(
+          slots.tr?.({
+            rowIndex: props.rowIndex,
+            record: props.record?.raw,
+          }),
+        ) ?? 'tr',
         { class: cls.value },
         {
           default: () => {
-            const flatten = (nodes: any[]): any[] => nodes.flatMap(node => Array.isArray(node) ? flatten(node) : isVNode(node) && node.type === Fragment && node.key == null && Array.isArray(node.children) ? flatten(node.children) : [node])
+            const flatten = (nodes: any[]): any[] =>
+              nodes.flatMap((node) =>
+                Array.isArray(node)
+                  ? flatten(node)
+                  : isVNode(node) && node.type === Fragment && node.key == null && Array.isArray(node.children)
+                    ? flatten(node.children)
+                    : [node],
+              )
             const children = flatten(slots.default?.() ?? [])
-            if (context?.readingDirection !== 'rtl') return children
-            return orderPhysicalColumns(children, node => {
-              if (!isVNode(node)) return undefined
-              return node.props?.column?.fixed ?? (node.props?.operationColumn?.fixed ? 'left' : undefined)
-            }, context.readingDirection)
+            if (context?.readingDirection !== 'rtl') {
+              return children
+            }
+            return orderPhysicalColumns(
+              children,
+              (node) => {
+                if (!isVNode(node)) {
+                  return undefined
+                }
+                return node.props?.column?.fixed ?? (node.props?.operationColumn?.fixed ? 'left' : undefined)
+              },
+              context.readingDirection,
+            )
           },
         },
       )

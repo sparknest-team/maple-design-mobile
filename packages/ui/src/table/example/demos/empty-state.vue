@@ -1,5 +1,8 @@
 <script setup lang="ts">
-const columns = [{ title: 'Name', dataIndex: 'name' }, { title: 'Address', dataIndex: 'address' }]
+const columns = [
+  { title: 'Name', dataIndex: 'name' },
+  { title: 'Address', dataIndex: 'address' },
+]
 </script>
 <template>
   <mp-table :columns="columns" :data="[]" :pagination="false">

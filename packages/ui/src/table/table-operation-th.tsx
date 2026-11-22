@@ -1,12 +1,11 @@
 import { computed, defineComponent, inject, PropType } from 'vue'
-import { getOperationFixedCls, getOperationStyle } from './render/cell-layout'
-import { getPrefixCls, createNamespace } from '../utils/components'
-import Checkbox from '../checkbox'
-import { TableOperationColumn } from './types'
 import { isFunction } from '../_utils/is'
+import Checkbox from '../checkbox'
+import { createNamespace, getPrefixCls } from '../utils/components'
 import { TableContext, tableInjectionKey } from './context'
 import { useI18n } from './mobile-locale'
-
+import { getOperationFixedCls, getOperationStyle } from './render/cell-layout'
+import { TableOperationColumn } from './types'
 
 const { name } = createNamespace('operation-th')
 
@@ -36,8 +35,15 @@ export default defineComponent({
     const tableCtx = inject<Partial<TableContext>>(tableInjectionKey, {})
     const { t } = useI18n()
     const selectionHeaderLabel = () => {
-      if (props.operationColumn.title || !['selection-checkbox', 'selection-radio'].includes(props.operationColumn.name)) return undefined
-      if (props.selectAll) return t('table.selectAll')
+      if (
+        props.operationColumn.title ||
+        !['selection-checkbox', 'selection-radio'].includes(props.operationColumn.name)
+      ) {
+        return undefined
+      }
+      if (props.selectAll) {
+        return t('table.selectAll')
+      }
       const label = t('table.selectionColumn')
       return label === 'table.selectionColumn' ? 'Selection' : label
     }
@@ -68,11 +74,16 @@ export default defineComponent({
       if (props.selectAll) {
         return (
           <Checkbox
-            v-slots={props.operationColumn.title ? {
-              default: () => isFunction(props.operationColumn.title)
-                ? props.operationColumn.title()
-                : props.operationColumn.title,
-            } : {}}
+            v-slots={
+              props.operationColumn.title
+                ? {
+                    default: () =>
+                      isFunction(props.operationColumn.title)
+                        ? props.operationColumn.title()
+                        : props.operationColumn.title,
+                  }
+                : {}
+            }
             ariaLabel={props.operationColumn.title ? undefined : t('table.selectAll')}
             modelValue={checkboxStatus.value.checked}
             indeterminate={checkboxStatus.value.indeterminate}
@@ -89,7 +100,15 @@ export default defineComponent({
       return null
     }
 
-    const style = computed(() => getOperationStyle(props.operationColumn, props.operations, tableCtx.readingDirection, tableCtx.physicalDataColumns, tableCtx.tableLayout))
+    const style = computed(() =>
+      getOperationStyle(
+        props.operationColumn,
+        props.operations,
+        tableCtx.readingDirection,
+        tableCtx.physicalDataColumns,
+        tableCtx.tableLayout,
+      ),
+    )
 
     const cls = computed(() => [
       `${prefixCls}-th`,

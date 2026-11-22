@@ -1,19 +1,18 @@
 import { computed, defineComponent, inject, PropType, VNode } from 'vue'
-import { TableDataWithRaw, TableOperationColumn } from './types'
-import { getPrefixCls, createNamespace } from '../utils/components'
-import { getOperationFixedCls, getOperationStyle } from './render/cell-layout'
-import { getLeafKeys, getSelectionStatus } from './utils'
+import { IconDragDotVertical } from '@maple-design/icons-vue/icon-drag-dot-vertical'
+import { IconMinus } from '@maple-design/icons-vue/icon-minus'
+import { IconPlus } from '@maple-design/icons-vue/icon-plus'
+import { BaseType } from '../_utils/types'
 import Checkbox from '../checkbox'
 import Radio from '../radio'
-import { IconPlus } from '@maple-design/icons-vue/icon-plus'
-import { IconMinus } from '@maple-design/icons-vue/icon-minus'
-import { IconDragDotVertical } from '@maple-design/icons-vue/icon-drag-dot-vertical'
+import { createNamespace, getPrefixCls } from '../utils/components'
 import { TableContext, tableInjectionKey } from './context'
-import { useI18n } from './mobile-locale'
-import { BaseType } from '../_utils/types'
-import TableSlot from './TableSlot.vue'
 import { forwardTableSlot } from './forward-table-slot'
-
+import { useI18n } from './mobile-locale'
+import { getOperationFixedCls, getOperationStyle } from './render/cell-layout'
+import TableSlot from './TableSlot.vue'
+import { TableDataWithRaw, TableOperationColumn } from './types'
+import { getLeafKeys, getSelectionStatus } from './utils'
 
 const { name } = createNamespace('operation-td')
 
@@ -71,7 +70,15 @@ export default defineComponent({
       const translated = t('table.selectRow', String(props.record.key))
       return translated === 'table.selectRow' ? `Select row ${props.record.key}` : translated
     }
-    const style = computed(() => getOperationStyle(props.operationColumn, props.operations, tableCtx.readingDirection, tableCtx.physicalDataColumns, tableCtx.tableLayout))
+    const style = computed(() =>
+      getOperationStyle(
+        props.operationColumn,
+        props.operations,
+        tableCtx.readingDirection,
+        tableCtx.physicalDataColumns,
+        tableCtx.tableLayout,
+      ),
+    )
 
     const cls = computed(() => [
       `${prefixCls}-td`,
@@ -108,7 +115,6 @@ export default defineComponent({
               disabled={Boolean(props.record.disabled)}
               uninjectGroupContext
               onChange={(checked) => tableCtx.onSelectAllLeafs?.(props.record, checked as boolean)}
-              // @ts-ignore
               onClick={(ev: Event) => ev.stopPropagation()}
             />
           )
@@ -121,7 +127,6 @@ export default defineComponent({
             disabled={Boolean(props.record.disabled)}
             uninjectGroupContext
             onChange={(checked) => tableCtx.onSelect?.(checked as boolean, props.record)}
-            // @ts-ignore
             onClick={(ev: Event) => ev.stopPropagation()}
           />
         )
@@ -135,7 +140,6 @@ export default defineComponent({
             disabled={Boolean(props.record.disabled)}
             uninjectGroupContext
             onChange={(checked) => tableCtx.onSelect?.(checked as boolean, props.record)}
-            // @ts-ignore
             onClick={(ev: Event) => ev.stopPropagation()}
           />
         )
@@ -147,9 +151,11 @@ export default defineComponent({
         return null
       }
       if (props.operationColumn.name === 'drag-handle') {
-        return slots['drag-handle-icon']
-          ? <TableSlot v-slots={forwardTableSlot(slots['drag-handle-icon'])} />
-          : <IconDragDotVertical />
+        return slots['drag-handle-icon'] ? (
+          <TableSlot v-slots={forwardTableSlot(slots['drag-handle-icon'])} />
+        ) : (
+          <IconDragDotVertical />
+        )
       }
       return null
     }

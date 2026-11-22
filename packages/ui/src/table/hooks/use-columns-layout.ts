@@ -1,6 +1,6 @@
-import type { TableColumnData, TableOperationColumn } from '../types'
 import { getColumnLayoutKey, isTableExtraColumn } from '../extra-column'
 import { calculateColumnWidths } from '../kernel/column-widths'
+import type { TableColumnData, TableOperationColumn } from '../types'
 
 export { DEFAULT_COLUMN_MIN_WIDTH, DEFAULT_OPERATION_WIDTH } from '../kernel/column-widths'
 
@@ -24,23 +24,25 @@ export const updateColumnsWidth = ({
   fit: boolean
   exactDataIndexes?: string[]
 }): ColumnsLayoutResult => {
-  const extraFields = new Set(dataColumns.filter(isTableExtraColumn).map(column => column.dataIndex))
+  const extraFields = new Set(dataColumns.filter(isTableExtraColumn).map((column) => column.dataIndex))
   const result = calculateColumnWidths({
     containerWidth,
-    dataColumns: dataColumns.map(column => ({
+    dataColumns: dataColumns.map((column) => ({
       key: getColumnLayoutKey(column),
       dataIndex: column.dataIndex,
       width: column.width,
       minWidth: column.minWidth,
       _resizeWidth: column._resizeWidth,
-      exact: isTableExtraColumn(column) || Boolean(
-        column.dataIndex && exactDataIndexes?.includes(column.dataIndex) && !extraFields.has(column.dataIndex),
-      ),
+      exact:
+        isTableExtraColumn(column) ||
+        Boolean(column.dataIndex && exactDataIndexes?.includes(column.dataIndex) && !extraFields.has(column.dataIndex)),
     })),
     operations,
     fit,
   })
-  for (const { index, width } of result.widthUpdates) dataColumns[index]._realWidth = width
+  for (const { index, width } of result.widthUpdates) {
+    dataColumns[index]._realWidth = width
+  }
   return {
     hasHorizontalOverflow: result.hasHorizontalOverflow,
     bodyWidth: result.bodyWidth,

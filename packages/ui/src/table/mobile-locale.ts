@@ -14,6 +14,13 @@ const labels: Record<string, [string, string]> = {
 }
 export function useI18n() {
   const { t: local } = injectLocaleProvider()
-  const t = (key: string, ...args: (string | undefined)[]) => String(local?.(key) ?? translate(key) ?? labels[key]?.[defaultLocaleReady.value ? 1 : 0] ?? key).replace('{0}', args[0] ?? '')
-  return { t, i18nMessage: computed(() => ({ table: { expandRow: t('table.expandRow'), collapseRow: t('table.collapseRow') } })) }
+  const t = (key: string, ...args: (string | undefined)[]) =>
+    String(local?.(key) ?? translate(key) ?? labels[key]?.[defaultLocaleReady.value ? 1 : 0] ?? key).replace(
+      '{0}',
+      args[0] ?? '',
+    )
+  return {
+    t,
+    i18nMessage: computed(() => ({ table: { expandRow: t('table.expandRow'), collapseRow: t('table.collapseRow') } })),
+  }
 }

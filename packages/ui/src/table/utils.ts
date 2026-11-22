@@ -1,12 +1,19 @@
 import type { VNode } from 'vue'
-import { TableColumnData, TableDataWithRaw } from './types'
 import { isArray, isNull, isUndefined } from '../_utils/is'
-import { resolveProps, isNamedComponent, isSlotsChildren, isArrayChildren } from '../_utils/vue-utils'
 import { BaseType } from '../_utils/types'
+import { isArrayChildren, isNamedComponent, isSlotsChildren, resolveProps } from '../_utils/vue-utils'
+import { TableColumnData, TableDataWithRaw } from './types'
 
 export { getGroupColumns } from './render/columns'
 
-export { getOperationFixedNumber, getFixedNumber, getOperationFixedCls, getFixedCls, getStyle, getOperationStyle } from './render/cell-layout'
+export {
+  getOperationFixedNumber,
+  getFixedNumber,
+  getOperationFixedCls,
+  getFixedCls,
+  getStyle,
+  getOperationStyle,
+} from './render/cell-layout'
 
 /**
  * Obtain table column data through the <TableColumnData> component
@@ -22,11 +29,9 @@ export const getColumnsFromSlot = (vns: VNode[]) => {
           column.children = getColumnsFromSlot(vn.children.default())
         }
         if (vn.children.cell) {
-          // @ts-ignore
           column.render = vn.children.cell
         }
         if (vn.children.title) {
-          // @ts-ignore
           column.title = vn.children.title
         }
       }

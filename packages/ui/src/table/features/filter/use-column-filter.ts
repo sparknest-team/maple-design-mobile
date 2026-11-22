@@ -1,8 +1,8 @@
 import type { Ref } from 'vue'
 import { computed, ref, watch } from 'vue'
 import { isArray } from '../../../_utils/is'
-import type { TableColumnData } from '../../types'
 import type { TableContext } from '../../context'
+import type { TableColumnData } from '../../types'
 
 export const useColumnFilter = ({
   column,

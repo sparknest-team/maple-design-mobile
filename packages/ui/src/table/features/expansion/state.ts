@@ -1,7 +1,7 @@
 import { computed, Ref, ref } from 'vue'
-import type { TableData, TableExpandable } from '../../types'
-import type { BaseType, EmitFn2 } from '../../../_utils/types'
 import { union } from '../../../_utils/array'
+import type { BaseType, EmitFn2 } from '../../../_utils/types'
+import type { TableData, TableExpandable } from '../../types'
 
 export const useExpand = ({
   expandedKeys,
@@ -19,7 +19,7 @@ export const useExpand = ({
   emit: EmitFn2<{
     'update:expandedKeys': (rowKeys: BaseType[]) => true
     expand: (rowKey: BaseType, record: TableData) => true
-    "expanded-change": (rowKeys: BaseType[]) => true
+    'expanded-change': (rowKeys: BaseType[]) => true
   }>
 }) => {
   const getDefaultExpandedRowKeys = (): BaseType[] => {

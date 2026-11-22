@@ -3,28 +3,27 @@ import {
   defineComponent,
   getCurrentInstance,
   inject,
+  markRaw,
   onBeforeUnmount,
   onUpdated,
-  markRaw,
-  shallowReactive,
   PropType,
   provide,
   reactive,
   Ref,
   ref,
+  shallowReactive,
   toRefs,
   watch,
 } from 'vue'
-import { TableColumnData, TableData, TableFilterable, TableSortable } from './types'
-import { tableColumnInjectionKey, TableContext, tableInjectionKey } from './context'
 import { useChildrenComponents } from '../_hooks/use-children-components'
 import { usePureProp } from '../_hooks/use-pure-prop'
 import { ClassName } from '../_utils/types'
 import { createNamespace } from '../utils/components'
-import TableColumnSlot from './TableColumnSlot.vue'
-import { forwardTableSlot } from './forward-table-slot'
 import { TABLE_COLUMN_COMPONENT } from './column-slot-source'
-
+import { tableColumnInjectionKey, TableContext, tableInjectionKey } from './context'
+import { forwardTableSlot } from './forward-table-slot'
+import TableColumnSlot from './TableColumnSlot.vue'
+import { TableColumnData, TableData, TableFilterable, TableSortable } from './types'
 
 const { name } = createNamespace('table-column')
 
@@ -223,20 +222,26 @@ export default defineComponent({
     })
 
     const childrenColumns = ref<TableColumnData[]>()
-    watch([components, childrenColumnMap], ([components, childrenColumnMap]) => {
-      if (components.length === 0 && childrenColumnMap.size > 0) {
-        childrenColumns.value = [...childrenColumnMap.values()]
-      } else if (components.length > 0) {
-        const columns: TableColumnData[] = []
-        components.forEach((id) => {
-          const column = childrenColumnMap.get(id)
-          if (column) columns.push(column)
-        })
-        childrenColumns.value = columns
-      } else {
-        childrenColumns.value = undefined
-      }
-    }, { flush: "sync" })
+    watch(
+      [components, childrenColumnMap],
+      ([components, childrenColumnMap]) => {
+        if (components.length === 0 && childrenColumnMap.size > 0) {
+          childrenColumns.value = [...childrenColumnMap.values()]
+        } else if (components.length > 0) {
+          const columns: TableColumnData[] = []
+          components.forEach((id) => {
+            const column = childrenColumnMap.get(id)
+            if (column) {
+              columns.push(column)
+            }
+          })
+          childrenColumns.value = columns
+        } else {
+          childrenColumns.value = undefined
+        }
+      },
+      { flush: 'sync' },
+    )
 
     const slotStore = markRaw(shallowReactive({ ...slots }))
 
@@ -267,14 +272,17 @@ export default defineComponent({
 
     onUpdated(() => {
       for (const key of Object.keys(slotStore)) {
-        if (!(key in slots)) delete slotStore[key]
+        if (!(key in slots)) {
+          delete slotStore[key]
+        }
       }
-      for (const key of Object.keys(slots)) slotStore[key] = slots[key]
+      for (const key of Object.keys(slots)) {
+        slotStore[key] = slots[key]
+      }
     })
 
     if (instance) {
       if (tableColumnCtx) {
-        // @ts-ignore
         tableColumnCtx.addChild(instance.uid, column)
       } else {
         tableCtx.addColumn?.(instance.uid, column)
@@ -292,7 +300,9 @@ export default defineComponent({
     })
 
     return () => {
-      children.value = slots.default ? [<TableColumnSlot onChanged={getComponents} v-slots={forwardTableSlot(slots.default)} />] : undefined
+      children.value = slots.default
+        ? [<TableColumnSlot onChanged={getComponents} v-slots={forwardTableSlot(slots.default)} />]
+        : undefined
       return children.value
     }
   },

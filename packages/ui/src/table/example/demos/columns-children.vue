@@ -3,8 +3,9 @@
 </template>
 
 <script lang="ts" setup>
-import type { TableColumnData } from '../../types'
 import { reactive } from 'vue'
+import type { TableColumnData } from '../../types'
+
 const columns: TableColumnData[] = [
   {
     title: 'Name',
