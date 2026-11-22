@@ -67,7 +67,7 @@
     "pre-commit": "pnpm exec lint-staged --allow-empty --concurrent false",
     "commit-msg": "pnpm exec maple-cli commit-lint -p $1"
   },
-  "packageManager": "pnpm@9.6.0",
+  "packageManager": "pnpm@10.23.0",
   "engines": {
     "pnpm": ">=9.0",
     "node": ">=20.19.0"

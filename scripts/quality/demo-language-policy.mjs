@@ -103,8 +103,14 @@ export function checkDemoLanguage(code) {
 export function checkCopyableDemo(source) {
   const missingCopyBinding = /\bcopy\s*\./.test(source) && !/\b(?:const|let|var|import)\s+copy\b/.test(source)
   const passesLanguageToDemo = /<[A-Za-z][\w.-]*\s+(?:[^<>]*?\s)?(?:english|:english)(?:\s|=|\/?>)/.test(source)
-  if (passesLanguageToDemo || missingCopyBinding || /\b(?:useDemoLocale|demoEnglish)\b/.test(source) ||
-      /['"](?:@maple-design\/cli-vue(?:\/[^'"]*)?|\.[^'"]*\/(?:locale|messages|demo-language)(?:[./][^'"]*)?)['"]/.test(source)) {
+  if (
+    passesLanguageToDemo ||
+    missingCopyBinding ||
+    /\b(?:useDemoLocale|demoEnglish)\b/.test(source) ||
+    /['"](?:@maple-design\/cli-vue(?:\/[^'"]*)?|\.[^'"]*\/(?:locale|messages|demo-language)(?:[./][^'"]*)?)['"]/.test(
+      source,
+    )
+  ) {
     throw new Error('Public demos must contain their own localized text. Select the language in the preview entry.')
   }
 }

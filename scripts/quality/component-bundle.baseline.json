@@ -1,78 +1,78 @@
 [
   {
     "name": "action-sheet",
-    "bytes": 49068,
-    "gzip": 18058
+    "bytes": 49956,
+    "gzip": 18385
   },
   {
     "name": "affix",
     "bytes": 8161,
-    "gzip": 3342
+    "gzip": 3340
   },
   {
     "name": "alert",
     "bytes": 13040,
-    "gzip": 3574
+    "gzip": 3572
   },
   {
     "name": "auto-complete",
-    "bytes": 185755,
-    "gzip": 61574
+    "bytes": 193835,
+    "gzip": 64569
   },
   {
     "name": "avatar",
-    "bytes": 51967,
-    "gzip": 18570
+    "bytes": 55892,
+    "gzip": 20090
   },
   {
     "name": "back-top",
-    "bytes": 10419,
-    "gzip": 4676
+    "bytes": 10410,
+    "gzip": 4672
   },
   {
     "name": "badge",
     "bytes": 4874,
-    "gzip": 1959
+    "gzip": 1956
   },
   {
     "name": "breadcrumb",
-    "bytes": 81269,
-    "gzip": 27778
+    "bytes": 85201,
+    "gzip": 29245
   },
   {
     "name": "button",
     "bytes": 23757,
-    "gzip": 8535
+    "gzip": 8538
   },
   {
     "name": "card",
-    "bytes": 44884,
-    "gzip": 15742
+    "bytes": 55131,
+    "gzip": 19127
   },
   {
     "name": "carousel",
-    "bytes": 28642,
-    "gzip": 9594
+    "bytes": 26293,
+    "gzip": 9081
   },
   {
     "name": "cascader",
-    "bytes": 253200,
-    "gzip": 81468
+    "bytes": 261324,
+    "gzip": 84492
   },
   {
     "name": "cell",
-    "bytes": 14845,
-    "gzip": 5662
+    "bytes": 14838,
+    "gzip": 5666
   },
   {
     "name": "checkbox",
-    "bytes": 90041,
-    "gzip": 31099
+    "bytes": 91932,
+    "gzip": 31712
   },
   {
     "name": "code",
     "bytes": 2621,
-    "gzip": 1359
+    "gzip": 1358
   },
   {
     "name": "col",
@@ -82,7 +82,7 @@
   {
     "name": "collapse",
     "bytes": 12286,
-    "gzip": 5000
+    "gzip": 5003
   },
   {
     "name": "context",
@@ -92,192 +92,192 @@
   {
     "name": "count-to",
     "bytes": 5146,
-    "gzip": 2295
+    "gzip": 2291
   },
   {
     "name": "countdown",
-    "bytes": 3623,
-    "gzip": 1802
+    "bytes": 3621,
+    "gzip": 1800
   },
   {
     "name": "date",
-    "bytes": 296408,
-    "gzip": 92165
+    "bytes": 296110,
+    "gzip": 93971
   },
   {
     "name": "date-range",
-    "bytes": 302600,
-    "gzip": 95006
+    "bytes": 307682,
+    "gzip": 96937
   },
   {
     "name": "dialog",
-    "bytes": 61190,
-    "gzip": 19728
+    "bytes": 61023,
+    "gzip": 19948
   },
   {
     "name": "divider",
     "bytes": 4553,
-    "gzip": 1988
+    "gzip": 1990
   },
   {
     "name": "drag",
-    "bytes": 13172,
-    "gzip": 5552
+    "bytes": 13167,
+    "gzip": 5543
   },
   {
     "name": "ellipsis",
-    "bytes": 43355,
-    "gzip": 15610
+    "bytes": 47282,
+    "gzip": 17116
   },
   {
     "name": "empty",
-    "bytes": 10576,
-    "gzip": 4067
+    "bytes": 6177,
+    "gzip": 2756
   },
   {
     "name": "fab",
     "bytes": 44608,
-    "gzip": 16073
+    "gzip": 16068
   },
   {
     "name": "field-decorator",
-    "bytes": 17011,
-    "gzip": 6716
+    "bytes": 17006,
+    "gzip": 6706
   },
   {
     "name": "floating-panel",
-    "bytes": 14396,
-    "gzip": 5935
+    "bytes": 14391,
+    "gzip": 5937
   },
   {
     "name": "form",
-    "bytes": 89425,
-    "gzip": 31847
+    "bytes": 91310,
+    "gzip": 32813
   },
   {
     "name": "form-details",
-    "bytes": 3130,
-    "gzip": 1454
+    "bytes": 3166,
+    "gzip": 1468
   },
   {
     "name": "grid",
     "bytes": 6252,
-    "gzip": 2780
+    "gzip": 2778
   },
   {
     "name": "highlighter-provider",
-    "bytes": 1894,
-    "gzip": 988
+    "bytes": 1893,
+    "gzip": 991
   },
   {
     "name": "hover",
-    "bytes": 3426,
-    "gzip": 1532
+    "bytes": 3325,
+    "gzip": 1517
   },
   {
     "name": "icon",
-    "bytes": 3792,
-    "gzip": 1919
+    "bytes": 3783,
+    "gzip": 1914
   },
   {
     "name": "image",
-    "bytes": 61234,
-    "gzip": 21102
+    "bytes": 62105,
+    "gzip": 21411
   },
   {
     "name": "index-bar",
-    "bytes": 17469,
+    "bytes": 17471,
     "gzip": 6954
   },
   {
     "name": "infinite-scroll",
-    "bytes": 17769,
-    "gzip": 6402
+    "bytes": 12086,
+    "gzip": 4699
   },
   {
     "name": "input",
-    "bytes": 95931,
-    "gzip": 30946
+    "bytes": 97735,
+    "gzip": 31537
   },
   {
     "name": "input-number",
-    "bytes": 146051,
-    "gzip": 49695
+    "bytes": 147947,
+    "gzip": 50328
   },
   {
     "name": "input-tag",
-    "bytes": 175338,
-    "gzip": 57271
+    "bytes": 180861,
+    "gzip": 59330
   },
   {
     "name": "lazy",
     "bytes": 4315,
-    "gzip": 1985
+    "gzip": 1986
   },
   {
     "name": "link",
     "bytes": 6114,
-    "gzip": 2264
+    "gzip": 2251
   },
   {
     "name": "list",
-    "bytes": 37720,
-    "gzip": 13391
+    "bytes": 39891,
+    "gzip": 14582
   },
   {
     "name": "loading",
     "bytes": 8235,
-    "gzip": 3371
+    "gzip": 3374
   },
   {
     "name": "loading-bar",
-    "bytes": 3522,
-    "gzip": 1718
+    "bytes": 3490,
+    "gzip": 1699
   },
   {
     "name": "locale",
-    "bytes": 34379,
-    "gzip": 7452
+    "bytes": 34835,
+    "gzip": 7583
   },
   {
     "name": "locale-provider",
-    "bytes": 10004,
-    "gzip": 3945
+    "bytes": 10251,
+    "gzip": 4032
   },
   {
     "name": "mention",
-    "bytes": 196276,
-    "gzip": 64702
+    "bytes": 201814,
+    "gzip": 66707
   },
   {
     "name": "menu",
-    "bytes": 69979,
-    "gzip": 24208
+    "bytes": 73648,
+    "gzip": 25707
   },
   {
     "name": "message",
-    "bytes": 22811,
-    "gzip": 6970
+    "bytes": 23937,
+    "gzip": 7382
   },
   {
     "name": "nav-menu",
-    "bytes": 28136,
-    "gzip": 10807
+    "bytes": 30312,
+    "gzip": 11638
   },
   {
     "name": "notice-bar",
-    "bytes": 11126,
-    "gzip": 4758
+    "bytes": 11117,
+    "gzip": 4763
   },
   {
     "name": "number-keyboard",
-    "bytes": 49420,
-    "gzip": 18076
+    "bytes": 50334,
+    "gzip": 18388
   },
   {
     "name": "overlay",
-    "bytes": 12854,
-    "gzip": 5445
+    "bytes": 13724,
+    "gzip": 5743
   },
   {
     "name": "page-header",
@@ -286,68 +286,68 @@
   },
   {
     "name": "pagination",
-    "bytes": 231620,
-    "gzip": 72882
+    "bytes": 239571,
+    "gzip": 75711
   },
   {
     "name": "paper",
     "bytes": 10217,
-    "gzip": 3983
+    "gzip": 3986
   },
   {
     "name": "people-select",
-    "bytes": 229996,
-    "gzip": 74067
+    "bytes": 237996,
+    "gzip": 76624
   },
   {
     "name": "picker",
-    "bytes": 67112,
-    "gzip": 24082
+    "bytes": 68026,
+    "gzip": 24377
   },
   {
     "name": "popover",
-    "bytes": 41381,
-    "gzip": 14939
+    "bytes": 45307,
+    "gzip": 16454
   },
   {
     "name": "popup",
-    "bytes": 28825,
-    "gzip": 11091
+    "bytes": 29708,
+    "gzip": 11396
   },
   {
     "name": "progress",
     "bytes": 10031,
-    "gzip": 4080
+    "gzip": 4082
   },
   {
     "name": "progress-group",
     "bytes": 10218,
-    "gzip": 3809
+    "gzip": 3807
   },
   {
     "name": "pull-refresh",
-    "bytes": 18381,
-    "gzip": 6619
+    "bytes": 18372,
+    "gzip": 6622
   },
   {
     "name": "radio",
-    "bytes": 89679,
-    "gzip": 31048
+    "bytes": 91570,
+    "gzip": 31658
   },
   {
     "name": "rate",
-    "bytes": 94163,
-    "gzip": 30940
+    "bytes": 96054,
+    "gzip": 31566
   },
   {
     "name": "result",
     "bytes": 79251,
-    "gzip": 30166
+    "gzip": 30165
   },
   {
     "name": "ripple",
     "bytes": 7960,
-    "gzip": 3019
+    "gzip": 3013
   },
   {
     "name": "row",
@@ -357,67 +357,67 @@
   {
     "name": "safe-area",
     "bytes": 2578,
-    "gzip": 1350
+    "gzip": 1357
   },
   {
     "name": "search",
-    "bytes": 252418,
-    "gzip": 80270
+    "bytes": 260276,
+    "gzip": 83063
   },
   {
     "name": "section",
-    "bytes": 4649,
-    "gzip": 1981
+    "bytes": 4655,
+    "gzip": 2019
   },
   {
     "name": "select",
-    "bytes": 209173,
-    "gzip": 67224
+    "bytes": 217234,
+    "gzip": 70274
   },
   {
     "name": "signature",
     "bytes": 6357,
-    "gzip": 2817
+    "gzip": 2820
   },
   {
     "name": "skeleton",
     "bytes": 5180,
-    "gzip": 1993
+    "gzip": 1967
   },
   {
     "name": "slider",
-    "bytes": 159997,
-    "gzip": 53965
+    "bytes": 161895,
+    "gzip": 54585
   },
   {
     "name": "space",
     "bytes": 4166,
-    "gzip": 1951
+    "gzip": 1947
   },
   {
     "name": "split-button",
-    "bytes": 88803,
-    "gzip": 29957
+    "bytes": 92487,
+    "gzip": 31514
   },
   {
     "name": "statistic",
     "bytes": 14430,
-    "gzip": 5994
+    "gzip": 5995
   },
   {
     "name": "steps",
-    "bytes": 13524,
-    "gzip": 5122
+    "bytes": 13519,
+    "gzip": 5120
   },
   {
     "name": "swipe-cell",
     "bytes": 15337,
-    "gzip": 5949
+    "gzip": 5952
   },
   {
     "name": "switch",
-    "bytes": 80386,
-    "gzip": 27530
+    "bytes": 82277,
+    "gzip": 28150
   },
   {
     "name": "tab-bar",
@@ -426,63 +426,63 @@
   },
   {
     "name": "table",
-    "bytes": 10871,
-    "gzip": 4548
+    "bytes": 355887,
+    "gzip": 112625
   },
   {
     "name": "tabs",
-    "bytes": 22030,
-    "gzip": 8309
+    "bytes": 22036,
+    "gzip": 8314
   },
   {
     "name": "tag",
     "bytes": 9668,
-    "gzip": 3676
+    "gzip": 3675
   },
   {
     "name": "textarea",
-    "bytes": 103462,
-    "gzip": 34449
+    "bytes": 105353,
+    "gzip": 35080
   },
   {
     "name": "theme-provider",
-    "bytes": 2940,
-    "gzip": 1467
+    "bytes": 2759,
+    "gzip": 1343
   },
   {
     "name": "time",
-    "bytes": 194620,
-    "gzip": 65818
+    "bytes": 199691,
+    "gzip": 67734
   },
   {
     "name": "time-range",
-    "bytes": 194786,
-    "gzip": 65842
+    "bytes": 199857,
+    "gzip": 67773
   },
   {
     "name": "timeline",
     "bytes": 10653,
-    "gzip": 4082
+    "gzip": 4081
   },
   {
     "name": "tooltip",
-    "bytes": 41357,
-    "gzip": 14901
+    "bytes": 45283,
+    "gzip": 16441
   },
   {
     "name": "trigger",
-    "bytes": 37280,
-    "gzip": 13422
+    "bytes": 40957,
+    "gzip": 14932
   },
   {
     "name": "upload",
-    "bytes": 147999,
-    "gzip": 49189
+    "bytes": 150500,
+    "gzip": 50092
   },
   {
     "name": "verification-code",
-    "bytes": 116396,
-    "gzip": 38014
+    "bytes": 118285,
+    "gzip": 38614
   },
   {
     "name": "watermark",
