@@ -124,6 +124,25 @@ test('fab color', () => {
   wrapper.unmount()
 })
 
+// The actions panel lives in a <Transition>: `display` flips on the Vue flush, but the
+// enter/leave classes are only removed on later animation frames. Waiting for the settled
+// condition instead of a fixed sleep keeps the assertions out of the 200ms transition race
+// (the previous `delay(300)` failed intermittently when the frames landed late).
+async function settleActions(container, actions, expectedDisplay) {
+  const deadline = Date.now() + 3000
+  const inTransition = () => container.querySelector('[class*="-enter-"],[class*="-leave-"]') !== null
+  while (actions.style.display !== expectedDisplay || inTransition()) {
+    if (Date.now() > deadline) {
+      throw new Error(
+        `fab actions did not settle on display ${JSON.stringify(expectedDisplay)}, got ${JSON.stringify(
+          actions.style.display,
+        )}${inTransition() ? ' with a transition still running' : ''}`,
+      )
+    }
+    await delay(10)
+  }
+}
+
 test('fab trigger equals click', async () => {
   const container = document.createElement('div')
   const wrapper = mount(Fab, {
@@ -142,13 +161,13 @@ test('fab trigger equals click', async () => {
   expect(actions.style.display).toBe('none')
 
   await trigger(button, 'click')
-  await delay(300)
+  await settleActions(container, actions, '')
 
   expect(container.innerHTML).toMatchSnapshot()
   expect(actions.style.display).toBe('')
 
   await trigger(button, 'click')
-  await delay(300)
+  await settleActions(container, actions, 'none')
 
   expect(container.innerHTML).toMatchSnapshot()
   expect(actions.style.display).toBe('none')
@@ -173,13 +192,13 @@ test('fab trigger equals hover', async () => {
   expect(actions.style.display).toBe('none')
 
   await trigger(actions, 'mouseenter')
-  await delay(300)
+  await settleActions(container, actions, '')
 
   expect(container.innerHTML).toMatchSnapshot()
   expect(actions.style.display).toBe('')
 
   await trigger(actions, 'mouseleave')
-  await delay(300)
+  await settleActions(container, actions, 'none')
 
   expect(container.innerHTML).toMatchSnapshot()
   expect(actions.style.display).toBe('none')
