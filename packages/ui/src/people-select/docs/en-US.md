@@ -161,7 +161,7 @@ Import `PeopleSelectOption` and `PeopleSelectOptionsLoader` from the UI package 
 
 In multiple mode, the `read` slot also receives `people` in model order; `person` is the first person. Default read content displays all selected people. `actions` / `render-actions` and phone/chat operations apply to each person individually.
 
-| Slot | Prop | Description |
+| Slot | Arguments | Description |
 | --- | --- | --- |
 | default | — | Forward custom Select Option content. |
 | read | PeopleSelectReadScope | Both reading entries receive { value, text, person }; empty content can also be customized. |

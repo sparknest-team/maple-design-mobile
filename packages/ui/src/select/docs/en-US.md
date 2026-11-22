@@ -518,7 +518,7 @@ Select additionally supports `header`, `footer`, `trigger`, and default `Option 
 
 ### Option Slots
 
-| Slot | Description | Prop |
+| Slot | Description | Arguments |
 | ------- | -------------- | --------------------- |
 | default | Custom option content | { selected: boolean } |
 | icon | Option icon | - |
@@ -532,14 +532,14 @@ Select additionally supports `header`, `footer`, `trigger`, and default `Option 
 
 ### Optgroup Slots
 
-| Slot | Description | Prop |
+| Slot | Description | Arguments |
 | ------- | ---------------------- | ---- |
 | label | Option group title | - |
 | default | Option children inside a group | - |
 
 ### Select Slots
 
-| Slot | Description | Prop |
+| Slot | Description | Arguments |
 | ------------ | ------------------------ | --------------- |
 | default | Option / Optgroup children | - |
 | option | Custom option content | { data } |

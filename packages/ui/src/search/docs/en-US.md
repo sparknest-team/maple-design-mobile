@@ -242,7 +242,7 @@ These props belong to field presentation; pure panels do not gain reading mode. 
 
 ### Search Slots
 
-| Name | Description | Prop |
+| Name | Description | Arguments |
 | ---------------- | ------------------------------------ | ----------- |
 | `prefix` | Input prefix; replaces the default search icon | `-` |
 | `suffix` | Input suffix | `-` |

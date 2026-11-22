@@ -87,7 +87,7 @@ Inherits the nearest `dir="ltr|rtl"`, including runtime changes and local overri
 
 ### Cell Slots
 
-| Name | Description | Prop |
+| Name | Description | Arguments |
 | ----- | -------------- | -------- |
 | `default` | Main content; overrides title | `-` |
 | `icon` | Custom left-icon area | `-` |

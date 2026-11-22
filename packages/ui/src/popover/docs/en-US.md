@@ -143,7 +143,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-popover-border-color` | `var(--mp-sys-color-border-default)` | `border` |
 | `--mp-popover-border-radius` | `var(--mp-sys-radius-md)` | `border-radius` |
 | `--mp-popover-border-width` | `1px` | `border` |
-| `--mp-popover-box-shadow` | `0 3px 3px -2px var(--mp-shadow-key-umbra-opacity), 0 3px 4px 0 var(--mp-shadow-key-penumbra-opacity),     0 1px 8px 0 var(--mp-shadow-key-ambient-opacity)` | `box-shadow` |
+| `--mp-popover-box-shadow` | `0 3px 3px -2px var(--mp-shadow-key-umbra-opacity), 0 3px 4px 0 var(--mp-shadow-key-penumbra-opacity), 0 1px 8px 0 var(--mp-shadow-key-ambient-opacity)` | `box-shadow` |
 | `--mp-popover-font-size` | `var(--mp-sys-font-size-md)` | `font-size` |
 | `--mp-popover-line-height` | `var(--mp-line-height)` | `line-height` |
 | `--mp-popover-padding-horizontal` | `var(--mp-sys-space-7)` | `padding` |

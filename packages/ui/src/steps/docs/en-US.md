@@ -139,7 +139,7 @@ Step values are nonnegative safe integers: 0 gives every step an automatic waiti
 
 ### Steps Slots
 
-| Name | Description | Prop |
+| Name | Description | Arguments |
 | ------------- | ------------ | ---- |
 | `default` | Steps content | `-` |
 | `finish-icon` | Finished status icon | `-` |
@@ -147,7 +147,7 @@ Step values are nonnegative safe integers: 0 gives every step an automatic waiti
 
 ### Step Slots
 
-| Name | Description | Prop |
+| Name | Description | Arguments |
 | ------------- | -------------------------- | --------------------------------------- |
 | `default` | Step `title`; overrides `title` | `index`、`status`、`active`、`disabled` |
 | `title` | Step title | `index`、`status`、`active`、`disabled` |

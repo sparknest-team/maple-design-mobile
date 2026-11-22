@@ -21,7 +21,17 @@ FormItem 中只有一个延迟编辑的 Input 时，可见标签在关闭状态�
 
 直接编辑模式下，为单个字段设置可见标签时，可将 FormItem 的 `label-attrs` 中的 `for` 与控件的 `id` 对应；选择、日期和时间字段的原生输入不会用 placeholder 覆盖已关联的标签。显式 `aria-label` 或 `aria-labelledby` 仍按原生无障碍名称规则优先。placeholder 只是未提供标签时的回退，不能替代清晰的字段标签。日期和时间范围字段在 FormItem 中会将表单标签关联到范围分组；仍需通过 `input-attrs` 分别提供能够区分起止端点的名称。若 `label-attrs.for` 指向其他控件，不会将该标签误关联到范围分组。 默认标签与单个范围字段关联。客户端识别到范围字段与独立输入并列时，可见标签命名整组，各字段应提供独立名称。单值 Slider 在 `for` 匹配组件 `id` 时为滑块及可选数字输入关联该标签；点击默认原生标签可聚焦未禁用的滑块；阻止标签点击默认行为可取消该聚焦。范围 Slider 的 `id` 与 `for` 匹配时，表单标签命名整个分组；仍应使用 `aria-label` 数组分别命名两个端点。 `tooltip` 提示按钮可单独聚焦，其名称不会合并到字段标签中。
 
+## 基础示例
+
+### 基础表单
+
+```demo
+../example/demos/example.vue
+```
+
 ## 阅读方向
+
+### 紧凑账户表单
 
 Form 与 FormItem 的 content-align 支持 start、end、left、center、right，label-align 支持 start、end、left、right；默认内容 start、标签 end。默认 LTR 位置保持不变，RTL 按阅读方向排列；显式 left/right 均为物理对齐。字段覆盖优先于 Form，逐实例标签列样式保持最高优先级。切换方向不重置业务值、校验结果或只读/禁用状态。
 
@@ -29,14 +39,6 @@ Form 与 FormItem 的 content-align 支持 start、end、left、center、right�
 
 ```demo
 ../example/demos/compact-account.vue
-```
-
-## 基础示例
-
-### 基础表单
-
-```demo
-../example/demos/example.vue
 ```
 
 ## 表单外观与布局
@@ -656,7 +658,7 @@ import type {
 | `--mp-form-label-min-height` | `24px` | `min-height` |
 | `--mp-form-label-text-color` | `var(--mp-sys-color-content-primary)` | `color` |
 | `--mp-form-required-symbol-color` | `var(--mp-sys-color-content-danger)` | `color` |
-| `--mp-form-size-md-item-margin-bottom` | `16px` | `margin-bottom` |
+| `--mp-form-size-md-item-margin-bottom` | `16px` | `margin-bottom`, `padding-block-start` |
 | `--mp-form-size-md-label-font-size` | `14px` | `font-size` |
 | `--mp-form-tooltip-margin-left` | `var(--mp-sys-space-2)` | `padding-inline-start` |
 | `--mp-form-tooltip-text-color` | `var(--mp-sys-color-content-secondary)` | `color` |

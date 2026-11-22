@@ -71,7 +71,7 @@ The back button uses the current locale’s back text by default. Use `back-butt
 
 ### PageHeader Events
 
-| Name | Description | Prop |
+| Name | Description | Arguments |
 | ------ | -------------------------------------------- | ------------ |
 | `back` | Emitted when the back button is clicked | `MouseEvent` |
 

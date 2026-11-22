@@ -2,7 +2,7 @@
 
 Use columns to define the headers and data to supply the records.
 
-## Basic tables
+## Basic examples
 
 ### Basic table
 
@@ -79,6 +79,12 @@ Use columns to define the headers and data to supply the records.
 ```demo
 ../example/demos/loading.vue
 ```
+
+## Usage notes
+
+### Configuration
+
+Table colors, spacing and borders inherit the Maple theme.
 
 ## API
 
@@ -422,136 +428,135 @@ Filter content uses the column `filter-content` slot first, then the Table named
 
 ## CSS Variables
 
-Table colors, spacing and borders inherit the Maple theme.
+<!-- component-css-variables:start -->
 
-| Token | Default |
-| --- | --- |
-| `--mp-table-sticky-scrollbar-height` | `16px` |
-| `--mp-table-size-md-padding-horizontal` | `var(--mp-sys-space-6)` |
-| `--mp-table-size-md-padding-vertical` | `9px` |
-| `--mp-table-size-sm-padding-horizontal` | `var(--mp-sys-space-6)` |
-| `--mp-table-size-sm-padding-vertical` | `5px` |
-| `--mp-table-size-xs-padding-horizontal` | `var(--mp-sys-space-6)` |
-| `--mp-table-size-xs-padding-vertical` | `2px` |
-| `--mp-table-size-lg-padding-horizontal` | `var(--mp-table-size-md-padding-horizontal)` |
-| `--mp-table-size-lg-padding-vertical` | `var(--mp-table-size-md-padding-vertical)` |
-| `--mp-table-size-md-font-size` | `var(--mp-sys-font-size-md)` |
-| `--mp-table-size-sm-font-size` | `var(--mp-sys-font-size-md)` |
-| `--mp-table-size-xs-font-size` | `var(--mp-sys-font-size-xs)` |
-| `--mp-table-size-lg-font-size` | `var(--mp-table-size-md-font-size)` |
-| `--mp-table-size-md-header-font-size` | `var(--mp-sys-font-size-md)` |
-| `--mp-table-size-sm-header-font-size` | `var(--mp-sys-font-size-md)` |
-| `--mp-table-size-xs-header-font-size` | `var(--mp-sys-font-size-xs)` |
-| `--mp-table-size-lg-header-font-size` | `var(--mp-table-size-md-header-font-size)` |
-| `--mp-table-size-xs-extra-padding-horizontal` | `var(--mp-sys-space-1)` |
-| `--mp-table-size-sm-extra-padding-horizontal` | `var(--mp-sys-space-1)` |
-| `--mp-table-size-md-extra-padding-horizontal` | `var(--mp-sys-space-2)` |
-| `--mp-table-size-lg-extra-padding-horizontal` | `var(--mp-sys-space-2)` |
-| `--mp-table-size-xs-extra-icon-font-size` | `14px` |
-| `--mp-table-size-sm-extra-icon-font-size` | `14px` |
-| `--mp-table-size-md-extra-icon-font-size` | `16px` |
-| `--mp-table-size-lg-extra-icon-font-size` | `16px` |
-| `--mp-table-border-width` | `1px` |
-| `--mp-table-border-style` | `solid` |
-| `--mp-table-border-color` | `rgb(var(--mp-gray-3))` |
-| `--mp-table-border-radius` | `var(--mp-sys-radius-md)` |
-| `--mp-table-resizing-border-color` | `var(--mp-sys-color-action-primary)` |
-| `--mp-table-expand-button-size` | `14px` |
-| `--mp-table-expand-button-margin-right` | `var(--mp-sys-space-2)` |
-| `--mp-table-expand-button-font-size` | `12px` |
-| `--mp-table-expand-button-border-radius` | `2px` |
-| `--mp-table-expand-icon-color` | `var(--mp-color-text-2)` |
-| `--mp-table-expand-icon-hover-color` | `var(--mp-color-text-1)` |
-| `--mp-table-expand-icon-border-color` | `transparent` |
-| `--mp-table-expand-icon-hover-border-color` | `transparent` |
-| `--mp-table-expand-icon-bg` | `rgb(var(--mp-gray-3))` |
-| `--mp-table-expand-icon-hover-bg` | `rgb(var(--mp-gray-4))` |
-| `--mp-table-expand-icon-border-width` | `1px` |
-| `--mp-table-expand-content-bg` | `var(--mp-color-fill-1)` |
-| `--mp-table-expand-content-hover-bg` | `var(--mp-color-fill-1)` |
-| `--mp-table-expand-loading-icon-color` | `var(--mp-sys-color-content-brand)` |
-| `--mp-table-header-cell-text-color` | `rgb(var(--mp-gray-10))` |
-| `--mp-table-header-cell-bg` | `rgb(var(--mp-gray-2))` |
-| `--mp-table-header-sorted-cell-bg` | `rgb(var(--mp-gray-3))` |
-| `--mp-table-header-sorted-cell-hover-bg` | `rgba(var(--mp-gray-4), 0.5)` |
-| `--mp-table-header-text-font-weight` | `var(--mp-sys-font-weight-medium)` |
-| `--mp-table-header-cell-action-color` | `var(--mp-color-text-3)` |
-| `--mp-table-header-cell-action-hover-color` | `var(--mp-color-text-1)` |
-| `--mp-table-header-cell-action-margin-left` | `2px` |
-| `--mp-table-th-actions-margin-left` | `8px` |
-| `--mp-table-header-filters-icon-color` | `var(--mp-color-text-2)` |
-| `--mp-table-header-filters-icon-active-color` | `var(--mp-sys-color-action-primary)` |
-| `--mp-table-header-filters-icon-hover-bg` | `rgb(var(--mp-gray-4))` |
-| `--mp-table-filters-icon-font-size` | `16px` |
-| `--mp-table-filters-width` | `24px` |
-| `--mp-table-filters-icon-hover-bg` | `var(--mp-color-fill-4)` |
-| `--mp-table-header-sorter-icon-color` | `rgb(var(--mp-gray-5))` |
-| `--mp-table-header-sorter-icon-next-color` | `rgb(var(--mp-gray-6))` |
-| `--mp-table-header-sorter-icon-active-color` | `var(--mp-sys-color-action-primary)` |
-| `--mp-table-header-sorter-icon-margin-left` | `var(--mp-sys-space-4)` |
-| `--mp-table-header-sorter-icon-height` | `8px` |
-| `--mp-table-header-sorter-icon-width` | `14px` |
-| `--mp-table-header-sorter-icon-font-size` | `12px` |
-| `--mp-table-header-sorter-icon-up-top` | `-2px` |
-| `--mp-table-header-sorter-icon-down-top` | `-3px` |
-| `--mp-table-header-sorter-icon-left` | `1px` |
-| `--mp-table-body-cell-text-color` | `rgb(var(--mp-gray-10))` |
-| `--mp-table-body-cell-bg` | `var(--mp-color-bg-2)` |
-| `--mp-table-body-sorted-cell-bg` | `var(--mp-color-fill-1)` |
-| `--mp-table-body-stripe-row-bg` | `var(--mp-color-fill-1)` |
-| `--mp-table-body-row-hover-bg` | `var(--mp-color-fill-1)` |
-| `--mp-table-body-row-active-bg` | `var(--mp-color-fill-1)` |
-| `--mp-table-body-row-active-dark-bg` | `rgb(var(--mp-gray-2))` |
-| `--mp-table-body-bg` | `var(--mp-color-bg-2)` |
-| `--mp-table-body-min-height` | `40px` |
-| `--mp-table-empty-height` | `240px` |
-| `--mp-table-empty-image-size` | `48px` |
-| `--mp-table-tfoot-bg` | `rgb(var(--mp-gray-2))` |
-| `--mp-table-editable-body-cell-border-color` | `var(--mp-color-white)` |
-| `--mp-table-filters-popup-bg` | `var(--mp-color-bg-5)` |
-| `--mp-table-filters-popup-border-color` | `rgb(var(--mp-gray-3))` |
-| `--mp-table-filters-popup-min-width` | `100px` |
-| `--mp-table-filters-popup-max-height` | `200px` |
-| `--mp-table-filters-popup-border-radius` | `var(--mp-sys-radius-md)` |
-| `--mp-table-filters-popup-box-shadow` | `0 2px 5px rgba(0,0,0,.1)` |
-| `--mp-table-filters-list-padding` | `4px 0` |
-| `--mp-table-filters-item-height` | `32px` |
-| `--mp-table-filters-item-padding` | `0 12px` |
-| `--mp-table-filters-item-font-size` | `14px` |
-| `--mp-table-filters-item-line-height` | `32px` |
-| `--mp-table-filters-text-max-width` | `160px` |
-| `--mp-table-filters-text-height` | `34px` |
-| `--mp-table-filters-text-padding-left` | `10px` |
-| `--mp-table-filters-text-line-height` | `32px` |
-| `--mp-table-filters-bottom-height` | `38px` |
-| `--mp-table-filters-bottom-padding` | `0 12px` |
-| `--mp-table-filters-bottom-line-height` | `38px` |
-| `--mp-table-filters-bottom-gap` | `8px` |
-| `--mp-table-shadow-left` | `inset 6px 0 8px -3px rgba(0, 0, 0, 0.15)` |
-| `--mp-table-shadow-right` | `inset -6px 0 8px -3px rgba(0, 0, 0, 0.15)` |
-| `--mp-table-shadow-wrapper-width` | `10px` |
-| `--mp-table-selection-col-width` | `40px` |
-| `--mp-table-expand-icon-col-width` | `40px` |
-| `--mp-table-drag-handle-col-width` | `40px` |
-| `--mp-table-column-handle-width` | `8px` |
-| `--mp-table-column-handle-right` | `-4px` |
-| `--mp-table-pagination-margin` | `var(--mp-sys-space-5)` |
-| `--mp-table-pagination-sticky-padding` | `12px 0` |
-| `--mp-table-sticky-scrollbar-opacity` | `0.8` |
-| `--mp-table-pagination-sticky-bg` | `var(--mp-color-bg-1)` |
-| `--mp-table-extra-column-icon-color` | `var(--mp-color-text-2)` |
-| `--mp-table-extra-column-icon-hover-color` | `var(--mp-color-text-1)` |
-| `--mp-table-column-insert-max-height` | `calc(100vh - 160px)` |
-| `--mp-table-column-insert-padding` | `16px 20px` |
-| `--mp-table-column-insert-empty-text-color` | `var(--mp-color-text-3)` |
-| `--mp-table-column-insert-empty-font-size` | `14px` |
-| `--mp-table-column-insert-empty-line-height` | `22px` |
-| `--mp-table-column-insert-group-margin-top` | `16px` |
-| `--mp-table-column-insert-group-title-margin-bottom` | `8px` |
-| `--mp-table-column-insert-group-title-text-color` | `var(--mp-color-text-3)` |
-| `--mp-table-column-insert-group-title-font-size` | `12px` |
-| `--mp-table-column-insert-group-title-line-height` | `20px` |
-| `--mp-table-column-insert-item-min-height` | `32px` |
-| `--mp-table-line-height` | `var(--mp-line-height)` |
-| `--mp-table-transition-duration` | `var(--mp-sys-motion-duration-fast)` |
-| `--mp-table-transition-timing-function` | `linear` |
+Use these variables to customize the component. Defaults may vary by the selector condition shown. Each variable applies to the corresponding size, variant and interaction states.
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| Variable | Default / condition | Affected styles |
+| --- | --- | --- |
+| `--mp-table-body-bg` | `var(--mp-color-bg-2)` | `background-color` |
+| `--mp-table-body-cell-bg` | `var(--mp-color-bg-2)` | `background-color` |
+| `--mp-table-body-cell-text-color` | `rgb(var(--mp-gray-10))` | `color` |
+| `--mp-table-body-min-height` | `40px` | `min-height` |
+| `--mp-table-body-row-active-bg` | `var(--mp-color-fill-1)` | `background-color` |
+| `--mp-table-body-row-active-dark-bg` | `rgb(var(--mp-gray-2))` | `background-color` |
+| `--mp-table-body-row-hover-bg` | `var(--mp-color-fill-1)` | `background-color` |
+| `--mp-table-body-sorted-cell-bg` | `var(--mp-color-fill-1)` | `background-color` |
+| `--mp-table-body-stripe-row-bg` | `var(--mp-color-fill-1)` | `background-color` |
+| `--mp-table-border-color` | `rgb(var(--mp-gray-3))` | `border`, `border-bottom`, `border-left`, `border-right`, `border-top`, `box-shadow` |
+| `--mp-table-border-radius` | `var(--mp-sys-radius-md)` | `border-radius`, `border-top-left-radius`, `border-top-right-radius` |
+| `--mp-table-border-style` | `solid` | `border`, `border-bottom`, `border-left`, `border-right`, `border-top` |
+| `--mp-table-border-width` | `1px` | `border`, `border-bottom`, `border-left`, `border-right`, `border-top`, `bottom`, `box-shadow`, `margin` |
+| `--mp-table-column-handle-right` | `-4px` | `inset-inline-end` |
+| `--mp-table-column-handle-width` | `8px` | `width` |
+| `--mp-table-column-insert-empty-font-size` | `14px` | `font-size` |
+| `--mp-table-column-insert-empty-line-height` | `22px` | `line-height` |
+| `--mp-table-column-insert-empty-text-color` | `var(--mp-color-text-3)` | `color` |
+| `--mp-table-column-insert-group-margin-top` | `16px` | `margin-top` |
+| `--mp-table-column-insert-group-title-font-size` | `12px` | `font-size` |
+| `--mp-table-column-insert-group-title-line-height` | `20px` | `line-height` |
+| `--mp-table-column-insert-group-title-margin-bottom` | `8px` | `margin-bottom` |
+| `--mp-table-column-insert-group-title-text-color` | `var(--mp-color-text-3)` | `color` |
+| `--mp-table-column-insert-item-min-height` | `32px` | `min-height` |
+| `--mp-table-column-insert-max-height` | `calc(100vh - 160px)` | `max-height` |
+| `--mp-table-column-insert-padding` | `16px 20px` | `padding` |
+| `--mp-table-drag-handle-col-width` | `40px` | `max-width`, `min-width`, `width` |
+| `--mp-table-editable-body-cell-border-color` | `var(--mp-color-white)` | `border` |
+| `--mp-table-empty-height` | `240px` | `height` |
+| `--mp-table-empty-image-size` | `48px` | `font-size`, `height`, `width` |
+| `--mp-table-expand-button-border-radius` | `2px` | `border-radius` |
+| `--mp-table-expand-button-font-size` | `12px` | `font-size` |
+| `--mp-table-expand-button-margin-right` | `var(--mp-sys-space-2)` | `margin-inline-end` |
+| `--mp-table-expand-button-size` | `14px` | `height`, `line-height`, `width` |
+| `--mp-table-expand-content-bg` | `var(--mp-color-fill-1)` | `background-color` |
+| `--mp-table-expand-content-hover-bg` | `var(--mp-color-fill-1)` | `background-color` |
+| `--mp-table-expand-icon-bg` | `rgb(var(--mp-gray-3))` | `background-color` |
+| `--mp-table-expand-icon-border-color` | `transparent` | `border` |
+| `--mp-table-expand-icon-border-width` | `1px` | `border` |
+| `--mp-table-expand-icon-col-width` | `40px` | `max-width`, `min-width`, `width` |
+| `--mp-table-expand-icon-color` | `var(--mp-color-text-2)` | `color` |
+| `--mp-table-expand-icon-hover-bg` | `rgb(var(--mp-gray-4))` | `background-color` |
+| `--mp-table-expand-icon-hover-border-color` | `transparent` | `border-color` |
+| `--mp-table-expand-icon-hover-color` | `var(--mp-color-text-1)` | `color` |
+| `--mp-table-expand-loading-icon-color` | `var(--mp-sys-color-content-brand)` | `color` |
+| `--mp-table-extra-column-icon-color` | `var(--mp-color-text-2)` | `color` |
+| `--mp-table-extra-column-icon-hover-color` | `var(--mp-color-text-1)` | `color` |
+| `--mp-table-filters-icon-font-size` | `16px` | `font-size` |
+| `--mp-table-filters-icon-hover-bg` | `var(--mp-color-fill-4)` | `background` |
+| `--mp-table-filters-width` | `24px` | `width` |
+| `--mp-table-header-cell-action-color` | `var(--mp-color-text-3)` | `color` |
+| `--mp-table-header-cell-action-hover-color` | `var(--mp-color-text-1)` | `color` |
+| `--mp-table-header-cell-action-margin-left` | `2px` | `margin-inline-start` |
+| `--mp-table-header-cell-bg` | `rgb(var(--mp-gray-2))` | `background-color` |
+| `--mp-table-header-cell-text-color` | `rgb(var(--mp-gray-10))` | `color` |
+| `--mp-table-header-filters-icon-active-color` | `var(--mp-sys-color-action-primary)` | `color` |
+| `--mp-table-header-filters-icon-color` | `var(--mp-color-text-2)` | `color` |
+| `--mp-table-header-filters-icon-hover-bg` | `rgb(var(--mp-gray-4))` | `background-color` |
+| `--mp-table-header-sorted-cell-bg` | `rgb(var(--mp-gray-3))` | `background-color` |
+| `--mp-table-header-sorted-cell-hover-bg` | `rgba(var(--mp-gray-4), 0.5)` | `background-color` |
+| `--mp-table-header-sorter-icon-active-color` | `var(--mp-sys-color-action-primary)` | `color` |
+| `--mp-table-header-sorter-icon-color` | `rgb(var(--mp-gray-5))` | `color` |
+| `--mp-table-header-sorter-icon-down-top` | `-3px` | `top` |
+| `--mp-table-header-sorter-icon-font-size` | `12px` | `font-size` |
+| `--mp-table-header-sorter-icon-height` | `8px` | `height`, `line-height` |
+| `--mp-table-header-sorter-icon-left` | `1px` | `left` |
+| `--mp-table-header-sorter-icon-margin-left` | `var(--mp-sys-space-4)` | `margin-inline-start` |
+| `--mp-table-header-sorter-icon-next-color` | `rgb(var(--mp-gray-6))` | `color` |
+| `--mp-table-header-sorter-icon-up-top` | `-2px` | `top` |
+| `--mp-table-header-sorter-icon-width` | `14px` | `width` |
+| `--mp-table-header-text-font-weight` | `var(--mp-sys-font-weight-medium)` | `font-weight` |
+| `--mp-table-line-height` | `var(--mp-line-height)` | `line-height` |
+| `--mp-table-pagination-margin` | `var(--mp-sys-space-5)` | `margin-bottom`, `margin-top` |
+| `--mp-table-pagination-sticky-bg` | `var(--mp-color-bg-1)` | `background`, `background-color` |
+| `--mp-table-pagination-sticky-padding` | `12px 0` | `padding` |
+| `--mp-table-resizing-border-color` | `var(--mp-sys-color-action-primary)` | `border-right-color` |
+| `--mp-table-selection-col-width` | `40px` | `max-width`, `min-width`, `width` |
+| `--mp-table-shadow-left` | `inset 6px 0 8px -3px rgba(0, 0, 0, 0.15)` | `box-shadow` |
+| `--mp-table-shadow-right` | `inset -6px 0 8px -3px rgba(0, 0, 0, 0.15)` | `box-shadow` |
+| `--mp-table-shadow-wrapper-width` | `10px` | `width` |
+| `--mp-table-size-lg-extra-icon-font-size` | `16px` | `font-size` |
+| `--mp-table-size-lg-extra-padding-horizontal` | `var(--mp-sys-space-2)` | `padding` |
+| `--mp-table-size-lg-font-size` | `var(--mp-table-size-md-font-size)` | `font-size` |
+| `--mp-table-size-lg-header-font-size` | `var(--mp-table-size-md-header-font-size)` | `font-size` |
+| `--mp-table-size-lg-padding-horizontal` | `var(--mp-table-size-md-padding-horizontal)` | `margin`, `padding` |
+| `--mp-table-size-lg-padding-vertical` | `var(--mp-table-size-md-padding-vertical)` | `margin`, `padding` |
+| `--mp-table-size-md-extra-icon-font-size` | `16px` | `font-size` |
+| `--mp-table-size-md-extra-padding-horizontal` | `var(--mp-sys-space-2)` | `padding` |
+| `--mp-table-size-md-font-size` | `var(--mp-sys-font-size-md)` | `font-size` |
+| `--mp-table-size-md-header-font-size` | `var(--mp-sys-font-size-md)` | `font-size` |
+| `--mp-table-size-md-padding-horizontal` | `var(--mp-sys-space-6)` | `margin`, `padding` |
+| `--mp-table-size-md-padding-vertical` | `9px` | `margin`, `padding` |
+| `--mp-table-size-sm-extra-icon-font-size` | `14px` | `font-size` |
+| `--mp-table-size-sm-extra-padding-horizontal` | `var(--mp-sys-space-1)` | `padding` |
+| `--mp-table-size-sm-font-size` | `var(--mp-sys-font-size-md)` | `font-size` |
+| `--mp-table-size-sm-header-font-size` | `var(--mp-sys-font-size-md)` | `font-size` |
+| `--mp-table-size-sm-padding-horizontal` | `var(--mp-sys-space-6)` | `margin`, `padding` |
+| `--mp-table-size-sm-padding-vertical` | `5px` | `margin`, `padding` |
+| `--mp-table-size-xs-extra-icon-font-size` | `14px` | `font-size` |
+| `--mp-table-size-xs-extra-padding-horizontal` | `var(--mp-sys-space-1)` | `padding` |
+| `--mp-table-size-xs-font-size` | `var(--mp-sys-font-size-xs)` | `font-size` |
+| `--mp-table-size-xs-header-font-size` | `var(--mp-sys-font-size-xs)` | `font-size` |
+| `--mp-table-size-xs-padding-horizontal` | `var(--mp-sys-space-6)` | `margin`, `padding` |
+| `--mp-table-size-xs-padding-vertical` | `2px` | `margin`, `padding` |
+| `--mp-table-sticky-scrollbar-height` | `16px` | `height` |
+| `--mp-table-sticky-scrollbar-opacity` | `0.8` | `opacity` |
+| `--mp-table-tfoot-bg` | `rgb(var(--mp-gray-2))` | `background-color` |
+| `--mp-table-th-actions-margin-left` | `8px` | `margin-inline-start` |
+| `--mp-table-transition-duration` | `var(--mp-sys-motion-duration-fast)` | `transition` |
+| `--mp-table-transition-timing-function` | `linear` | `transition` |
+
+</div>
+
+Apply overrides to the rendered component root or the actual popup ancestor. For example, add the following class to that element and replace the value as needed:
+
+```css
+.component-theme {
+  --mp-table-body-cell-text-color: rgb(var(--mp-gray-10));
+}
+```
+
+Explicit inline styles and props that write the same CSS property take precedence over stylesheet defaults. After Teleport, ordinary CSS variables inherit from the actual mount location. When using ThemeProvider, follow its local-theme and popup configuration rules. Override the component variable directly for local styling; root-level aliases are not recalculated merely because a descendant system variable changes. Internal variables are not public APIs.
+
+<!-- component-css-variables:end -->

@@ -143,7 +143,7 @@ Popup close()/requestClose() and external open=false are guarded. Dialog on both
 
 ### Popup Slots
 
-| Slot | Prop | Description |
+| Slot | Arguments | Description |
 | --- | --- | --- |
 | `default` | `{ close, pending }` | Popup content; `close(reason?, event?)` returns `Promise<boolean>` |
 

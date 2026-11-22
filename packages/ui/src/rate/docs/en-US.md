@@ -226,7 +226,7 @@ size/gap do not accept xs/sm/md/lg/xl presets. Omitted or invalid values retain 
 
 ### Rate Slots
 
-| Slot | Prop | Description |
+| Slot | Arguments | Description |
 | --------- | ------------------------ | ---------------------------------------------- |
 | character | { index, value, active } | index starts at zero, value at one; active means fully selected; replaces the rating symbol |
 | read | { value, text } | Custom reading content retaining nullable models |

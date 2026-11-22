@@ -468,7 +468,7 @@ See the complete field and panel event lists on this page.
 
 ### DateRangePicker Slots
 
-| Name | Description | Prop |
+| Name | Description | Arguments |
 | --------- | -------------- | ---- |
 | `actions` | Custom actions panel | `-` |
 

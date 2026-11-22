@@ -540,8 +540,8 @@ Use these variables to customize the component. Defaults may vary by the selecto
 
 | Variable | Default / condition | Affected styles |
 | --- | --- | --- |
-| `--mp-image-preview-arrow-background` | `rgb(38 38 0.41304348%)` | `background-color` |
-| `--mp-image-preview-arrow-background-hover` | `rgb(56 56 0.58333333%)` | `background-color` |
+| `--mp-image-preview-arrow-background` | `rgba(38, 38, 38, 0.92)` | `background-color` |
+| `--mp-image-preview-arrow-background-hover` | `rgba(56, 56, 56, 0.96)` | `background-color` |
 | `--mp-image-preview-arrow-color` | `#fff` | `color` |
 | `--mp-image-preview-close-icon-right` | `14px` | `inset-inline-end` |
 | `--mp-image-preview-close-icon-top` | `14px` | `top` |
@@ -555,7 +555,7 @@ Apply overrides to the rendered component root or the actual popup ancestor. For
 
 ```css
 .component-theme {
-  --mp-image-preview-arrow-background: rgb(38 38 0.41304348%);
+  --mp-image-preview-arrow-background: rgba(38, 38, 38, 0.92);
 }
 ```
 

@@ -533,8 +533,8 @@ export default defineConfig({
 
 | 变量 | 默认值／条件 | 影响的样式 |
 | --- | --- | --- |
-| `--mp-image-preview-arrow-background` | `rgb(38 38 0.41304348%)` | `background-color` |
-| `--mp-image-preview-arrow-background-hover` | `rgb(56 56 0.58333333%)` | `background-color` |
+| `--mp-image-preview-arrow-background` | `rgba(38, 38, 38, 0.92)` | `background-color` |
+| `--mp-image-preview-arrow-background-hover` | `rgba(56, 56, 56, 0.96)` | `background-color` |
 | `--mp-image-preview-arrow-color` | `#fff` | `color` |
 | `--mp-image-preview-close-icon-right` | `14px` | `inset-inline-end` |
 | `--mp-image-preview-close-icon-top` | `14px` | `top` |
@@ -548,7 +548,7 @@ export default defineConfig({
 
 ```css
 .component-theme {
-  --mp-image-preview-arrow-background: rgb(38 38 0.41304348%);
+  --mp-image-preview-arrow-background: rgba(38, 38, 38, 0.92);
 }
 ```
 

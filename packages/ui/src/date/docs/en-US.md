@@ -650,7 +650,7 @@ See the complete field and panel event lists on this page.
 
 `weekIndex` is the nth day of the week, starting at `0` on the weekend
 
-| Name | Description | Prop |
+| Name | Description | Arguments |
 | ---------- | ------------------ | -------------------------------------------------------------------- |
 | `year` | Custom the year in the title | `year: YYYY` |
 | `month` | Custom the month in the title | `year: YYYY` <br> `month: MM` |

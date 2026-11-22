@@ -451,7 +451,7 @@ option({ data }) 接收规范化 CascaderOptionInfo，data.raw 是原始选项�
 | `--mp-cascader-panel-column-max-height` | `200px` | `max-height` |
 | `--mp-cascader-panel-column-min-width` | `120px` | `min-width` |
 | `--mp-cascader-popup-border-radius` | `var(--mp-sys-radius-md)` | `border-radius` |
-| `--mp-cascader-popup-box-shadow` | `0 4px 10px rgb(0 0 0%)` | `box-shadow` |
+| `--mp-cascader-popup-box-shadow` | `0 4px 10px rgba(0, 0, 0, 0.1)` | `box-shadow` |
 | `--mp-cascader-popup-color-border` | `var(--mp-color-fill-3)` | `border`, `border-inline-end`, `border-top` |
 | `--mp-cascader-popup-max-height` | `200px` | `height` |
 | `--mp-cascader-popup-padding-vertical` | `var(--mp-sys-space-2)` | `padding`, `padding-block-end` |

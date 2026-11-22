@@ -430,7 +430,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-checkbox-label-gap` | `0` | `margin-inline-start` |
 | `--mp-checkbox-label-text-color` | `var(--mp-sys-color-content-primary)` | `color` |
 | `--mp-checkbox-label-text-color-disabled` | `var(--mp-sys-color-content-disabled)` | `color` |
-| `--mp-checkbox-mark-color` | `var(--mp-sys-color-content-on-dark)` | `background-color`, `color` |
+| `--mp-checkbox-mark-color` | `var(--mp-sys-color-content-on-dark)` | `background-color`, `border-color`, `color` |
 
 </div>
 

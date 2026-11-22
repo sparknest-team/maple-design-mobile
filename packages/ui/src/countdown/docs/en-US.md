@@ -121,7 +121,7 @@ Set `auto-start` to `false`, then control with `start`, `pause`, and `reset`. Th
 
 ### Countdown Slots
 
-| Name | Description | Prop |
+| Name | Description | Arguments |
 | ----- | -------------- | -------- |
 | `default` | Custom content | `timeData: TimeData` |
 

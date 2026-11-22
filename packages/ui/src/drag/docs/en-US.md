@@ -120,7 +120,7 @@ Boundaries support finite numbers, numeric strings and px, rem, vw, vh, vmin and
 
 ### Drag Slots
 
-| Name | Description | Prop |
+| Name | Description | Arguments |
 | --------- | -------------- | ---- |
 | `default` | Drag element's content | `-` |
 
