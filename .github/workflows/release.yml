@@ -49,7 +49,7 @@ jobs:
           version: 9.6.0
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version-file: .nvmrc
       - run: corepack pnpm install --frozen-lockfile
       - name: Create or update version and changelog PR
         id: changesets
