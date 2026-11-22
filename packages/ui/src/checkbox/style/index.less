@@ -41,7 +41,9 @@
     cursor: inherit;
   }
   &:not(&--disabled) &__input:focus-visible + &__visual &__icon {
+    /* Keep the inset ring contract shared with Radio and Cedar; the border color is extra affordance. */
     border-color: var(--mp-sys-color-action-primary);
+    box-shadow: inset 0 0 0 var(--mp-internal-checkbox-focus-width) var(--mp-sys-color-content-primary);
 
     @media (forced-colors: active) {
       outline: var(--mp-internal-checkbox-focus-width) solid Highlight;
