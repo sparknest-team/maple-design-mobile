@@ -1,5 +1,12 @@
 # @maple-design/resolver-vue
 
+## 1.3.1
+
+### Patch Changes
+
+- Updated dependencies [[`7b85843`](https://github.com/sparknest-team/maple-design-mobile/commit/7b858430cc74795bc6c276381f74f44a69bef26a)]:
+  - @maple-design/icons-vue@1.3.1
+
 ## 1.3.0
 
 ### Minor Changes
