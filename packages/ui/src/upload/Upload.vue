@@ -326,7 +326,9 @@ const {
   handleDragLeave,
   handleDrop,
 } = uploader
-const { triggerRef, hasInteractiveTrigger, captureClick, claim, chooser, isClaimed } = useUploadTrigger(Boolean(slots.trigger && props.initialTriggerInteractive))
+const { triggerRef, hasInteractiveTrigger, captureClick, claim, chooser, isClaimed } = useUploadTrigger(
+  Boolean(slots.trigger && props.initialTriggerInteractive),
+)
 function setTriggerRef(element: Element | ComponentPublicInstance | null) {
   triggerRef.value = element ? (element as HTMLElement) : undefined
 }

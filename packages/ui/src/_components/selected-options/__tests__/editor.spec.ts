@@ -174,8 +174,8 @@ describe('inline selection menus', () => {
         const role = name === 'Select' ? 'option' : 'menuitemcheckbox'
         const selectedState = name === 'Select' ? 'aria-selected' : 'aria-checked'
         const choices = wrapper.findAll(`[role=${role}]`)
-        expect(choices.map(option => option.text())).toEqual(['Alpha', 'Beta'])
-        expect(choices.map(option => option.attributes(selectedState))).toEqual(['true', 'false'])
+        expect(choices.map((option) => option.text())).toEqual(['Alpha', 'Beta'])
+        expect(choices.map((option) => option.attributes(selectedState))).toEqual(['true', 'false'])
       } finally {
         wrapper.unmount()
       }

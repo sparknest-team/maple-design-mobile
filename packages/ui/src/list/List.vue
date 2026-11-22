@@ -32,7 +32,9 @@ let active = true
 let position: { element: HTMLElement; top: number; left: number } | undefined
 
 function handleViewportScroll(event: Event) {
-  if (virtual.value || !active) return
+  if (virtual.value || !active) {
+    return
+  }
   const element = event.target as HTMLElement | null
   if (element?.isConnected) {
     position = { element, top: element.scrollTop, left: element.scrollLeft }
@@ -40,8 +42,12 @@ function handleViewportScroll(event: Event) {
   emit('scroll', event)
 }
 
-watch([viewport, virtual], () => { position = undefined })
-onDeactivated(() => { active = false })
+watch([viewport, virtual], () => {
+  position = undefined
+})
+onDeactivated(() => {
+  active = false
+})
 onActivated(() => {
   active = true
   if (position?.element.isConnected) {

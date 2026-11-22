@@ -145,7 +145,7 @@ test('rechecks computed visibility on preference changes and releases the listen
   const original = Object.getOwnPropertyDescriptor(window, 'matchMedia')
   Object.defineProperty(window, 'matchMedia', {
     configurable: true,
-    value: (query: string) => query.includes('reduced-motion') ? motion : new EventTarget(),
+    value: (query: string) => (query.includes('reduced-motion') ? motion : new EventTarget()),
   })
   const style = document.createElement('style')
   style.textContent = '.upload-media-example { visibility: visible }'
@@ -166,8 +166,11 @@ test('rechecks computed visibility on preference changes and releases the listen
     expect(wrapper.get('[class*="upload__trigger"]').attributes('tabindex')).toBe('0')
   } finally {
     wrapper.unmount()
-    if (original) Object.defineProperty(window, 'matchMedia', original)
-    else Reflect.deleteProperty(window, 'matchMedia')
+    if (original) {
+      Object.defineProperty(window, 'matchMedia', original)
+    } else {
+      Reflect.deleteProperty(window, 'matchMedia')
+    }
     style.remove()
     host.remove()
   }

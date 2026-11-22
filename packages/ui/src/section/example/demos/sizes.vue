@@ -26,7 +26,9 @@ const model = reactive<{ size: 'xs' | 'sm' | 'md' | 'lg' | 'xl'; headingLevel: (
         </mp-radio-group>
       </mp-form-item>
     </mp-form>
-    <output>渲染标签 <code>&lt;h{{ model.headingLevel }}&gt;</code></output>
+    <output
+      >渲染标签 <code>&lt;h{{ model.headingLevel }}&gt;</code></output
+    >
 
     <mp-section :size="model.size" variant="outline" show-marker :heading-level="model.headingLevel" title="成员权限">
       <div class="section-size-content">管理员可邀请成员并修改项目设置。</div>

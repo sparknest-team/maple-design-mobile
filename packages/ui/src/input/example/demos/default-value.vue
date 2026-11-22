@@ -45,12 +45,7 @@ function remount() {
       update:modelValue。
     </p>
     <p>2. 受控：v-model 是数据来源。这里初始值为空字符串，仍优先于 defaultValue，不会自动填入默认文字。</p>
-    <mp-input
-      v-model="controlled"
-      edit-mode="direct"
-      default-value="This default is ignored"
-      aria-label="受控输入框"
-    />
+    <mp-input v-model="controlled" edit-mode="direct" default-value="This default is ignored" aria-label="受控输入框" />
     <p role="status">
       v-model = <code>{{ JSON.stringify(controlled) }}</code>
     </p>

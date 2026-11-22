@@ -6959,7 +6959,9 @@ const model = reactive<{
         </mp-radio-group>
       </mp-form-item>
     </mp-form>
-    <output>渲染标签 <code>&lt;h{{ model.headingLevel }}&gt;</code></output>
+    <output
+      >渲染标签 <code>&lt;h{{ model.headingLevel }}&gt;</code></output
+    >
 
     <mp-card
       :size="model.size"
@@ -6970,7 +6972,13 @@ const model = reactive<{
       top-divider
       bottom-divider
     >
-      <mp-section :size="model.size" :heading-level="model.headingLevel" :variant="model.sectionVariant" title="成员权限" description="权限按成员角色分组。">
+      <mp-section
+        :size="model.size"
+        :heading-level="model.headingLevel"
+        :variant="model.sectionVariant"
+        title="成员权限"
+        description="权限按成员角色分组。"
+      >
         管理员可邀请成员。
       </mp-section>
       <template #footer>最近更新于今天</template>
@@ -7438,8 +7446,9 @@ Card 通过 Loading 指令组合加载遮罩。
 | `--mp-card-footer-bottom` | `9px` | `bottom` |
 | `--mp-card-footer-margin` | `30px 0 0 0` | `margin` |
 | `--mp-card-footer-padding` | `0 16px` | `padding` |
-| `--mp-card-footer-right` | `13px` | `inset-inline-end` |
-| `--mp-card-hover-shadow` | 海拔 1 | `box-shadow` |
+| `--mp-card-footer-right` | `13px` | `inset-inline-end`, `inset-inline-start` |
+| `--mp-card-heading-size-step` | `1px` | `font-size` |
+| `--mp-card-hover-shadow` | `0 2px 1px -1px var(--mp-shadow-key-umbra-opacity), 0 1px 1px 0 var(--mp-shadow-key-penumbra-opacity), 0 1px 3px 0 var(--mp-shadow-key-ambient-opacity)` | `box-shadow` |
 | `--mp-card-image-height` | `200px` | `height` |
 | `--mp-card-image-width` | `100%` | `width` |
 | `--mp-card-line-height` | `22px` | `line-height` |
@@ -7448,19 +7457,18 @@ Card 通过 Loading 指令组合加载遮罩。
 | `--mp-card-row-height` | `140px` | `min-height` |
 | `--mp-card-row-image-width` | `140px` | `width` |
 | `--mp-card-row-line-height` | `1.5` | `line-height` |
-| `--mp-card-heading-size-step` | `1px` | `font-size` |
-| `--mp-card-size-xs-title-font-size` | `15px` | `font-size` |
-| `--mp-card-size-xs-section-margin` | `6px 0 0` | `margin` |
-| `--mp-card-size-xs-section-padding` | `0 8px` | `padding` |
-| `--mp-card-size-lg-title-font-size` | `24px` | `font-size` |
 | `--mp-card-size-lg-section-margin` | `20px 0 0` | `margin` |
 | `--mp-card-size-lg-section-padding` | `0 20px` | `padding` |
-| `--mp-card-size-xl-title-font-size` | `28px` | `font-size` |
-| `--mp-card-size-xl-section-margin` | `24px 0 0` | `margin` |
-| `--mp-card-size-xl-section-padding` | `0 24px` | `padding` |
+| `--mp-card-size-lg-title-font-size` | `24px` | `font-size` |
 | `--mp-card-size-sm-section-margin` | `8px 0 0` | `margin` |
 | `--mp-card-size-sm-section-padding` | `0 12px` | `padding` |
 | `--mp-card-size-sm-title-font-size` | `16px` | `font-size` |
+| `--mp-card-size-xl-section-margin` | `24px 0 0` | `margin` |
+| `--mp-card-size-xl-section-padding` | `0 24px` | `padding` |
+| `--mp-card-size-xl-title-font-size` | `28px` | `font-size` |
+| `--mp-card-size-xs-section-margin` | `6px 0 0` | `margin` |
+| `--mp-card-size-xs-section-padding` | `0 8px` | `padding` |
+| `--mp-card-size-xs-title-font-size` | `15px` | `font-size` |
 | `--mp-card-subtitle-color` | `var(--mp-sys-color-content-secondary)` | `color` |
 | `--mp-card-subtitle-font-size` | `15px` | `font-size` |
 | `--mp-card-subtitle-margin` | `10px 0 0 0` | `margin` |
@@ -10787,7 +10795,7 @@ option({ data }) 接收规范化 CascaderOptionInfo，data.raw 是原始选项�
 | `--mp-cascader-panel-column-max-height` | `200px` | `max-height` |
 | `--mp-cascader-panel-column-min-width` | `120px` | `min-width` |
 | `--mp-cascader-popup-border-radius` | `var(--mp-sys-radius-md)` | `border-radius` |
-| `--mp-cascader-popup-box-shadow` | `0 4px 10px rgb(0 0 0%)` | `box-shadow` |
+| `--mp-cascader-popup-box-shadow` | `0 4px 10px rgba(0, 0, 0, 0.1)` | `box-shadow` |
 | `--mp-cascader-popup-color-border` | `var(--mp-color-fill-3)` | `border`, `border-inline-end`, `border-top` |
 | `--mp-cascader-popup-max-height` | `200px` | `height` |
 | `--mp-cascader-popup-padding-vertical` | `var(--mp-sys-space-2)` | `padding`, `padding-block-end` |
@@ -12340,7 +12348,7 @@ uninject-group-context 在挂载时决定是否接入分组；运行中修改不
 | `--mp-checkbox-label-gap` | `0` | `margin-inline-start` |
 | `--mp-checkbox-label-text-color` | `var(--mp-sys-color-content-primary)` | `color` |
 | `--mp-checkbox-label-text-color-disabled` | `var(--mp-sys-color-content-disabled)` | `color` |
-| `--mp-checkbox-mark-color` | `var(--mp-sys-color-content-on-dark)` | `background-color`, `color` |
+| `--mp-checkbox-mark-color` | `var(--mp-sys-color-content-on-dark)` | `background-color`, `border-color`, `color` |
 
 </div>
 
@@ -28309,34 +28317,6 @@ FormItem 中只有一个延迟编辑的 Input 时，可见标签在关闭状态�
 
 直接编辑模式下，为单个字段设置可见标签时，可将 FormItem 的 `label-attrs` 中的 `for` 与控件的 `id` 对应；选择、日期和时间字段的原生输入不会用 placeholder 覆盖已关联的标签。显式 `aria-label` 或 `aria-labelledby` 仍按原生无障碍名称规则优先。placeholder 只是未提供标签时的回退，不能替代清晰的字段标签。日期和时间范围字段在 FormItem 中会将表单标签关联到范围分组；仍需通过 `input-attrs` 分别提供能够区分起止端点的名称。若 `label-attrs.for` 指向其他控件，不会将该标签误关联到范围分组。 默认标签与单个范围字段关联。客户端识别到范围字段与独立输入并列时，可见标签命名整组，各字段应提供独立名称。单值 Slider 在 `for` 匹配组件 `id` 时为滑块及可选数字输入关联该标签；点击默认原生标签可聚焦未禁用的滑块；阻止标签点击默认行为可取消该聚焦。范围 Slider 的 `id` 与 `for` 匹配时，表单标签命名整个分组；仍应使用 `aria-label` 数组分别命名两个端点。 `tooltip` 提示按钮可单独聚焦，其名称不会合并到字段标签中。
 
-## 阅读方向
-
-Form 与 FormItem 的 content-align 支持 start、end、left、center、right，label-align 支持 start、end、left、right；默认内容 start、标签 end。默认 LTR 位置保持不变，RTL 按阅读方向排列；显式 left/right 均为物理对齐。字段覆盖优先于 Form，逐实例标签列样式保持最高优先级。切换方向不重置业务值、校验结果或只读/禁用状态。
-
-在已绑定 `model` 的 Form 中，编辑时可用 `compact` 联动外层 FormItem 的 `layout` 与 `hide-label`。内层字段保持挂载，隐藏外层标签时，输入框仍需有可访问名称。
-
-Example source: src/form/example/demos/compact-account.vue
-
-```vue
-<script setup>
-import { reactive, ref } from 'vue'
-
-const compact = ref(false)
-const model = reactive({ account: '' })
-</script>
-
-<template>
-  <mp-checkbox v-model="compact">紧凑布局</mp-checkbox>
-  <mp-form :model="model">
-    <mp-form-item label="账户" :layout="compact ? 'vertical' : 'horizontal'" :hide-label="compact">
-      <mp-form-item field="account" no-style>
-        <mp-input v-model="model.account" aria-label="账户" />
-      </mp-form-item>
-    </mp-form-item>
-  </mp-form>
-</template>
-```
-
 ## 基础示例
 
 ### 基础表单
@@ -28440,6 +28420,36 @@ const suggestions = computed(() =>
         <mp-upload v-model="formData.files" />
       </mp-form-item>
     </mp-space>
+  </mp-form>
+</template>
+```
+
+## 阅读方向
+
+### 紧凑账户表单
+
+Form 与 FormItem 的 content-align 支持 start、end、left、center、right，label-align 支持 start、end、left、right；默认内容 start、标签 end。默认 LTR 位置保持不变，RTL 按阅读方向排列；显式 left/right 均为物理对齐。字段覆盖优先于 Form，逐实例标签列样式保持最高优先级。切换方向不重置业务值、校验结果或只读/禁用状态。
+
+在已绑定 `model` 的 Form 中，编辑时可用 `compact` 联动外层 FormItem 的 `layout` 与 `hide-label`。内层字段保持挂载，隐藏外层标签时，输入框仍需有可访问名称。
+
+Example source: src/form/example/demos/compact-account.vue
+
+```vue
+<script setup>
+import { reactive, ref } from 'vue'
+
+const compact = ref(false)
+const model = reactive({ account: '' })
+</script>
+
+<template>
+  <mp-checkbox v-model="compact">紧凑布局</mp-checkbox>
+  <mp-form :model="model">
+    <mp-form-item label="账户" :layout="compact ? 'vertical' : 'horizontal'" :hide-label="compact">
+      <mp-form-item field="account" no-style>
+        <mp-input v-model="model.account" aria-label="账户" />
+      </mp-form-item>
+    </mp-form-item>
   </mp-form>
 </template>
 ```
@@ -31108,7 +31118,7 @@ import type {
 | `--mp-form-label-min-height` | `24px` | `min-height` |
 | `--mp-form-label-text-color` | `var(--mp-sys-color-content-primary)` | `color` |
 | `--mp-form-required-symbol-color` | `var(--mp-sys-color-content-danger)` | `color` |
-| `--mp-form-size-md-item-margin-bottom` | `16px` | `margin-bottom` |
+| `--mp-form-size-md-item-margin-bottom` | `16px` | `margin-bottom`, `padding-block-start` |
 | `--mp-form-size-md-label-font-size` | `14px` | `font-size` |
 | `--mp-form-tooltip-margin-left` | `var(--mp-sys-space-2)` | `padding-inline-start` |
 | `--mp-form-tooltip-text-color` | `var(--mp-sys-color-content-secondary)` | `color` |
@@ -33360,8 +33370,8 @@ const switchSource = () => {
 
 | 变量 | 默认值／条件 | 影响的样式 |
 | --- | --- | --- |
-| `--mp-image-preview-arrow-background` | `rgb(38 38 0.41304348%)` | `background-color` |
-| `--mp-image-preview-arrow-background-hover` | `rgb(56 56 0.58333333%)` | `background-color` |
+| `--mp-image-preview-arrow-background` | `rgba(38, 38, 38, 0.92)` | `background-color` |
+| `--mp-image-preview-arrow-background-hover` | `rgba(56, 56, 56, 0.96)` | `background-color` |
 | `--mp-image-preview-arrow-color` | `#fff` | `color` |
 | `--mp-image-preview-close-icon-right` | `14px` | `inset-inline-end` |
 | `--mp-image-preview-close-icon-top` | `14px` | `top` |
@@ -33375,7 +33385,7 @@ const switchSource = () => {
 
 ```css
 .component-theme {
-  --mp-image-preview-arrow-background: rgb(38 38 0.41304348%);
+  --mp-image-preview-arrow-background: rgba(38, 38, 38, 0.92);
 }
 ```
 
@@ -37042,12 +37052,7 @@ function remount() {
       update:modelValue。
     </p>
     <p>2. 受控：v-model 是数据来源。这里初始值为空字符串，仍优先于 defaultValue，不会自动填入默认文字。</p>
-    <mp-input
-      v-model="controlled"
-      edit-mode="direct"
-      default-value="This default is ignored"
-      aria-label="受控输入框"
-    />
+    <mp-input v-model="controlled" edit-mode="direct" default-value="This default is ignored" aria-label="受控输入框" />
     <p role="status">
       v-model = <code>{{ JSON.stringify(controlled) }}</code>
     </p>
@@ -44943,7 +44948,7 @@ import { Picker, type PickerOptions, type PickerColumnOption,
 | 变量 | 默认值／条件 | 影响的样式 |
 | --- | --- | --- |
 | `--mp-picker-background` | `var(--mp-color-body)` | `background`, `background-image` |
-| `--mp-picker-mask-background-image` | `linear-gradient(180deg, color-mix(in srgb, var(--mp-picker-background) 90%, transparent), color-mix(in srgb, var(--mp-picker-background) 40%, transparent)),     linear-gradient(       0deg,       color-mix(in srgb, var(--mp-picker-background) 90%, transparent),       color-mix(in srgb, var(--mp-picker-background) 40%, transparent)     )` | `background-image` |
+| `--mp-picker-mask-background-image` | `linear-gradient(180deg, color-mix(in srgb, var(--mp-picker-background) 90%, transparent), color-mix(in srgb, var(--mp-picker-background) 40%, transparent)), linear-gradient(0deg, color-mix(in srgb, var(--mp-picker-background) 90%, transparent), color-mix(in srgb, var(--mp-picker-background) 40%, transparent))` | `background-image` |
 | `--mp-picker-option-active-text-color` | `var(--mp-picker-option-text-color)` | `color` |
 | `--mp-picker-option-check-color` | `var(--mp-sys-color-action-primary)` | `color` |
 | `--mp-picker-option-check-right` | `12px` | `inset-inline-end` |
@@ -45549,7 +45554,7 @@ Maple 暗色保留圆角 2px，阴影保留平台差异。内容与箭头共用�
 | `--mp-popover-border-color` | `var(--mp-sys-color-border-default)` | `border` |
 | `--mp-popover-border-radius` | `var(--mp-sys-radius-md)` | `border-radius` |
 | `--mp-popover-border-width` | `1px` | `border` |
-| `--mp-popover-box-shadow` | `0 3px 3px -2px var(--mp-shadow-key-umbra-opacity), 0 3px 4px 0 var(--mp-shadow-key-penumbra-opacity),     0 1px 8px 0 var(--mp-shadow-key-ambient-opacity)` | `box-shadow` |
+| `--mp-popover-box-shadow` | `0 3px 3px -2px var(--mp-shadow-key-umbra-opacity), 0 3px 4px 0 var(--mp-shadow-key-penumbra-opacity), 0 1px 8px 0 var(--mp-shadow-key-ambient-opacity)` | `box-shadow` |
 | `--mp-popover-font-size` | `var(--mp-sys-font-size-md)` | `font-size` |
 | `--mp-popover-line-height` | `var(--mp-line-height)` | `line-height` |
 | `--mp-popover-padding-horizontal` | `var(--mp-sys-space-7)` | `padding` |
@@ -50449,7 +50454,7 @@ const empty = ref(false)
 | `--mp-result-empty-border-color` | `rgba(158, 158, 158, 0.3)` | `border-color` |
 | `--mp-result-empty-color` | `#9e9e9e` | `fill` |
 | `--mp-result-extra-margin` | `20px 0 0` | `margin` |
-| `--mp-result-image-size` | `80px` | `height`, `width` |
+| `--mp-result-image-size` | `80px` | `border`, `height`, `width` |
 | `--mp-result-info-border-color` | `rgba(0, 175, 239, 0.3)` | `border-color` |
 | `--mp-result-info-color` | `var(--mp-sys-color-content-info)` | `fill` |
 | `--mp-result-padding` | `24px` | `padding` |
@@ -52827,7 +52832,9 @@ function submit() {
     <p>编辑历史弹层后提交，关键词只提交一份。</p>
     <mp-space wrap>
       <mp-button html-type="button" @click="waiting = !waiting">切换等待</mp-button>
-      <mp-button html-type="button" @click="loadingMode = loadingMode === 'default' ? 'line' : 'default'">切换加载布局</mp-button>
+      <mp-button html-type="button" @click="loadingMode = loadingMode === 'default' ? 'line' : 'default'"
+        >切换加载布局</mp-button
+      >
     </mp-space>
     <form :id="formId" ref="form" @submit.prevent="submit">
       <mp-search
@@ -53174,7 +53181,9 @@ const model = reactive<{ size: 'xs' | 'sm' | 'md' | 'lg' | 'xl'; headingLevel: (
         </mp-radio-group>
       </mp-form-item>
     </mp-form>
-    <output>渲染标签 <code>&lt;h{{ model.headingLevel }}&gt;</code></output>
+    <output
+      >渲染标签 <code>&lt;h{{ model.headingLevel }}&gt;</code></output
+    >
 
     <mp-section :size="model.size" variant="outline" show-marker :heading-level="model.headingLevel" title="成员权限">
       <div class="section-size-content">管理员可邀请成员并修改项目设置。</div>
@@ -53317,10 +53326,10 @@ const model = reactive({ name: '', department: '' })
 
 | 变量 | 默认值／条件 | 影响的样式 |
 | --- | --- | --- |
-| `--mp-section-accent-color` | `var(--mp-sys-color-action-primary)` | `background` |
-| `--mp-section-after-gap` | `24px` | `margin-block` |
+| `--mp-section-accent-color` | `var(--mp-sys-color-action-primary)` | `background`, `background-color`, `border` |
+| `--mp-section-after-gap` | `24px` | `margin-block`, `padding-block-start` |
 | `--mp-section-before-gap` | `32px` | `padding-block-start` |
-| `--mp-section-card-background` | `var(--mp-sys-color-surface-default)` | `background` |
+| `--mp-section-card-background` | `var(--mp-sys-color-surface-default)` | `background-color` |
 | `--mp-section-card-padding` | `16px` | `padding` |
 | `--mp-section-card-radius` | `6px` | `border-radius` |
 | `--mp-section-content-size` | `14px` | `font-size` |
@@ -53328,39 +53337,41 @@ const model = reactive({ name: '', department: '' })
 | `--mp-section-description-gap` | `4px` | `margin-block-start` |
 | `--mp-section-description-line-height` | `20px` | `line-height` |
 | `--mp-section-description-size` | `13px` | `font-size` |
-| `--mp-section-divider-color` | `var(--mp-sys-color-border-default)` | `border`, `border-block-start` |
+| `--mp-section-divider-color` | `var(--mp-sys-color-border-default)` | `border-block-start` |
 | `--mp-section-divider-width` | `1px` | `border`, `border-block-start` |
 | `--mp-section-header-gap` | `20px` | `margin-block-end` |
 | `--mp-section-heading-gap` | `16px` | `margin-inline-start` |
+| `--mp-section-heading-size-step` | `1px` | `font-size`, `line-height` |
 | `--mp-section-marker-gap` | `12px` | `padding-inline-end`, `padding-inline-start`, `row-gap` |
 | `--mp-section-marker-height` | `16px` | `height` |
 | `--mp-section-marker-radius` | `2px` | `border-radius` |
-| `--mp-section-marker-width` | `3px` | `width`, `padding-inline-start` |
-| `--mp-section-heading-size-step` | `1px` | 标题字号与行高的层级步长 |
+| `--mp-section-marker-width` | `3px` | `padding-inline-start`, `width` |
+| `--mp-section-outline-color` | `var(--mp-sys-color-border-default)` | `border` |
 | `--mp-section-size-lg-card-padding` | `20px` | `padding` |
 | `--mp-section-size-lg-header-gap` | `24px` | `margin-block-end` |
 | `--mp-section-size-lg-marker-height` | `20px` | `height` |
 | `--mp-section-size-lg-title-line-height` | `28px` | `line-height` |
 | `--mp-section-size-lg-title-size` | `20px` | `font-size` |
-| `--mp-section-size-xs-card-padding` | `8px` | `padding` |
-| `--mp-section-size-xs-header-gap` | `8px` | `margin-block-end` |
-| `--mp-section-size-xs-marker-height` | `12px` | `height` |
-| `--mp-section-size-xs-title-line-height` | `18px` | `line-height` |
-| `--mp-section-size-xs-title-size` | `14px` | `font-size` |
-| `--mp-section-size-xl-card-padding` | `24px` | `padding` |
-| `--mp-section-size-xl-header-gap` | `28px` | `margin-block-end` |
-| `--mp-section-size-xl-marker-height` | `24px` | `height` |
-| `--mp-section-size-xl-title-line-height` | `32px` | `line-height` |
-| `--mp-section-size-xl-title-size` | `24px` | `font-size` |
 | `--mp-section-size-sm-card-padding` | `12px` | `padding` |
 | `--mp-section-size-sm-header-gap` | `12px` | `margin-block-end` |
 | `--mp-section-size-sm-marker-height` | `14px` | `height` |
 | `--mp-section-size-sm-title-line-height` | `20px` | `line-height` |
 | `--mp-section-size-sm-title-size` | `14px` | `font-size` |
+| `--mp-section-size-xl-card-padding` | `24px` | `padding` |
+| `--mp-section-size-xl-header-gap` | `28px` | `margin-block-end` |
+| `--mp-section-size-xl-marker-height` | `24px` | `height` |
+| `--mp-section-size-xl-title-line-height` | `32px` | `line-height` |
+| `--mp-section-size-xl-title-size` | `24px` | `font-size` |
+| `--mp-section-size-xs-card-padding` | `8px` | `padding` |
+| `--mp-section-size-xs-header-gap` | `8px` | `margin-block-end` |
+| `--mp-section-size-xs-marker-height` | `12px` | `height` |
+| `--mp-section-size-xs-title-line-height` | `18px` | `line-height` |
+| `--mp-section-size-xs-title-size` | `14px` | `font-size` |
 | `--mp-section-title-color` | `var(--mp-sys-color-content-primary)` | `color` |
 | `--mp-section-title-line-height` | `24px` | `line-height` |
 | `--mp-section-title-size` | `16px` | `font-size` |
 | `--mp-section-title-weight` | `600` | `font-weight` |
+| `--mp-section-tonal-background` | `var(--mp-sys-color-surface-muted)` | `background-color` |
 
 </div>
 
@@ -62922,7 +62933,7 @@ Document: llms/zh-CN/table.md
 
 通过 columns 定义列、data 提供行记录。
 
-## 基础展示
+## 基础示例
 
 ### 基础表格
 
@@ -62986,8 +62997,9 @@ Example source: src/table/example/demos/columns-children.vue
 </template>
 
 <script lang="ts" setup>
-import type { TableColumnData } from '../../types'
 import { reactive } from 'vue'
+import type { TableColumnData } from '../../types'
+
 const columns: TableColumnData[] = [
   {
     title: 'Name',
@@ -63152,8 +63164,8 @@ Example source: src/table/example/demos/fixed-column-and-header.vue
 </template>
 
 <script lang="ts" setup>
-import type { TableColumnData } from '../../types'
 import { reactive } from 'vue'
+import type { TableColumnData } from '../../types'
 
 const columns: TableColumnData[] = [
   {
@@ -63216,16 +63228,13 @@ Example source: src/table/example/demos/virtual-list-props.vue
 
 ```vue
 <template>
-  <mp-table
-    :columns="columns"
-    :data="data"
-    :virtual-list-props="{ height: 400 }"
-    :pagination="false" />
+  <mp-table :columns="columns" :data="data" :virtual-list-props="{ height: 400 }" :pagination="false" />
 </template>
 
 <script lang="ts" setup>
-import type { TableColumnData } from '../../types'
 import { reactive } from 'vue'
+import type { TableColumnData } from '../../types'
+
 const columns: TableColumnData[] = [
   {
     title: 'Name',
@@ -63424,7 +63433,10 @@ Example source: src/table/example/demos/empty-state.vue
 
 ```vue
 <script setup lang="ts">
-const columns = [{ title: 'Name', dataIndex: 'name' }, { title: 'Address', dataIndex: 'address' }]
+const columns = [
+  { title: 'Name', dataIndex: 'name' },
+  { title: 'Address', dataIndex: 'address' },
+]
 </script>
 <template>
   <mp-table :columns="columns" :data="[]" :pagination="false">
@@ -63440,8 +63452,12 @@ Example source: src/table/example/demos/loading.vue
 ```vue
 <script setup lang="ts">
 import { ref } from 'vue'
+
 const loading = ref(false)
-const columns = [{ title: 'Name', dataIndex: 'name' }, { title: 'Salary', dataIndex: 'salary' }]
+const columns = [
+  { title: 'Name', dataIndex: 'name' },
+  { title: 'Salary', dataIndex: 'salary' },
+]
 const data = [{ key: '1', name: 'Jane Doe', salary: 23000 }]
 </script>
 
@@ -63452,6 +63468,12 @@ const data = [{ key: '1', name: 'Jane Doe', salary: 23000 }]
   </mp-space>
 </template>
 ```
+
+## 使用说明
+
+### 配置说明
+
+表格颜色、间距和边框继承 Maple 主题。
 
 ## API
 
@@ -63795,139 +63817,138 @@ const data = [{ key: '1', name: 'Jane Doe', salary: 23000 }]
 
 ## CSS Variables
 
-表格颜色、间距和边框继承 Maple 主题。
+<!-- component-css-variables:start -->
 
-| Token | Default |
-| --- | --- |
-| `--mp-table-sticky-scrollbar-height` | `16px` |
-| `--mp-table-size-md-padding-horizontal` | `var(--mp-sys-space-6)` |
-| `--mp-table-size-md-padding-vertical` | `9px` |
-| `--mp-table-size-sm-padding-horizontal` | `var(--mp-sys-space-6)` |
-| `--mp-table-size-sm-padding-vertical` | `5px` |
-| `--mp-table-size-xs-padding-horizontal` | `var(--mp-sys-space-6)` |
-| `--mp-table-size-xs-padding-vertical` | `2px` |
-| `--mp-table-size-lg-padding-horizontal` | `var(--mp-table-size-md-padding-horizontal)` |
-| `--mp-table-size-lg-padding-vertical` | `var(--mp-table-size-md-padding-vertical)` |
-| `--mp-table-size-md-font-size` | `var(--mp-sys-font-size-md)` |
-| `--mp-table-size-sm-font-size` | `var(--mp-sys-font-size-md)` |
-| `--mp-table-size-xs-font-size` | `var(--mp-sys-font-size-xs)` |
-| `--mp-table-size-lg-font-size` | `var(--mp-table-size-md-font-size)` |
-| `--mp-table-size-md-header-font-size` | `var(--mp-sys-font-size-md)` |
-| `--mp-table-size-sm-header-font-size` | `var(--mp-sys-font-size-md)` |
-| `--mp-table-size-xs-header-font-size` | `var(--mp-sys-font-size-xs)` |
-| `--mp-table-size-lg-header-font-size` | `var(--mp-table-size-md-header-font-size)` |
-| `--mp-table-size-xs-extra-padding-horizontal` | `var(--mp-sys-space-1)` |
-| `--mp-table-size-sm-extra-padding-horizontal` | `var(--mp-sys-space-1)` |
-| `--mp-table-size-md-extra-padding-horizontal` | `var(--mp-sys-space-2)` |
-| `--mp-table-size-lg-extra-padding-horizontal` | `var(--mp-sys-space-2)` |
-| `--mp-table-size-xs-extra-icon-font-size` | `14px` |
-| `--mp-table-size-sm-extra-icon-font-size` | `14px` |
-| `--mp-table-size-md-extra-icon-font-size` | `16px` |
-| `--mp-table-size-lg-extra-icon-font-size` | `16px` |
-| `--mp-table-border-width` | `1px` |
-| `--mp-table-border-style` | `solid` |
-| `--mp-table-border-color` | `rgb(var(--mp-gray-3))` |
-| `--mp-table-border-radius` | `var(--mp-sys-radius-md)` |
-| `--mp-table-resizing-border-color` | `var(--mp-sys-color-action-primary)` |
-| `--mp-table-expand-button-size` | `14px` |
-| `--mp-table-expand-button-margin-right` | `var(--mp-sys-space-2)` |
-| `--mp-table-expand-button-font-size` | `12px` |
-| `--mp-table-expand-button-border-radius` | `2px` |
-| `--mp-table-expand-icon-color` | `var(--mp-color-text-2)` |
-| `--mp-table-expand-icon-hover-color` | `var(--mp-color-text-1)` |
-| `--mp-table-expand-icon-border-color` | `transparent` |
-| `--mp-table-expand-icon-hover-border-color` | `transparent` |
-| `--mp-table-expand-icon-bg` | `rgb(var(--mp-gray-3))` |
-| `--mp-table-expand-icon-hover-bg` | `rgb(var(--mp-gray-4))` |
-| `--mp-table-expand-icon-border-width` | `1px` |
-| `--mp-table-expand-content-bg` | `var(--mp-color-fill-1)` |
-| `--mp-table-expand-content-hover-bg` | `var(--mp-color-fill-1)` |
-| `--mp-table-expand-loading-icon-color` | `var(--mp-sys-color-content-brand)` |
-| `--mp-table-header-cell-text-color` | `rgb(var(--mp-gray-10))` |
-| `--mp-table-header-cell-bg` | `rgb(var(--mp-gray-2))` |
-| `--mp-table-header-sorted-cell-bg` | `rgb(var(--mp-gray-3))` |
-| `--mp-table-header-sorted-cell-hover-bg` | `rgba(var(--mp-gray-4), 0.5)` |
-| `--mp-table-header-text-font-weight` | `var(--mp-sys-font-weight-medium)` |
-| `--mp-table-header-cell-action-color` | `var(--mp-color-text-3)` |
-| `--mp-table-header-cell-action-hover-color` | `var(--mp-color-text-1)` |
-| `--mp-table-header-cell-action-margin-left` | `2px` |
-| `--mp-table-th-actions-margin-left` | `8px` |
-| `--mp-table-header-filters-icon-color` | `var(--mp-color-text-2)` |
-| `--mp-table-header-filters-icon-active-color` | `var(--mp-sys-color-action-primary)` |
-| `--mp-table-header-filters-icon-hover-bg` | `rgb(var(--mp-gray-4))` |
-| `--mp-table-filters-icon-font-size` | `16px` |
-| `--mp-table-filters-width` | `24px` |
-| `--mp-table-filters-icon-hover-bg` | `var(--mp-color-fill-4)` |
-| `--mp-table-header-sorter-icon-color` | `rgb(var(--mp-gray-5))` |
-| `--mp-table-header-sorter-icon-next-color` | `rgb(var(--mp-gray-6))` |
-| `--mp-table-header-sorter-icon-active-color` | `var(--mp-sys-color-action-primary)` |
-| `--mp-table-header-sorter-icon-margin-left` | `var(--mp-sys-space-4)` |
-| `--mp-table-header-sorter-icon-height` | `8px` |
-| `--mp-table-header-sorter-icon-width` | `14px` |
-| `--mp-table-header-sorter-icon-font-size` | `12px` |
-| `--mp-table-header-sorter-icon-up-top` | `-2px` |
-| `--mp-table-header-sorter-icon-down-top` | `-3px` |
-| `--mp-table-header-sorter-icon-left` | `1px` |
-| `--mp-table-body-cell-text-color` | `rgb(var(--mp-gray-10))` |
-| `--mp-table-body-cell-bg` | `var(--mp-color-bg-2)` |
-| `--mp-table-body-sorted-cell-bg` | `var(--mp-color-fill-1)` |
-| `--mp-table-body-stripe-row-bg` | `var(--mp-color-fill-1)` |
-| `--mp-table-body-row-hover-bg` | `var(--mp-color-fill-1)` |
-| `--mp-table-body-row-active-bg` | `var(--mp-color-fill-1)` |
-| `--mp-table-body-row-active-dark-bg` | `rgb(var(--mp-gray-2))` |
-| `--mp-table-body-bg` | `var(--mp-color-bg-2)` |
-| `--mp-table-body-min-height` | `40px` |
-| `--mp-table-empty-height` | `240px` |
-| `--mp-table-empty-image-size` | `48px` |
-| `--mp-table-tfoot-bg` | `rgb(var(--mp-gray-2))` |
-| `--mp-table-editable-body-cell-border-color` | `var(--mp-color-white)` |
-| `--mp-table-filters-popup-bg` | `var(--mp-color-bg-5)` |
-| `--mp-table-filters-popup-border-color` | `rgb(var(--mp-gray-3))` |
-| `--mp-table-filters-popup-min-width` | `100px` |
-| `--mp-table-filters-popup-max-height` | `200px` |
-| `--mp-table-filters-popup-border-radius` | `var(--mp-sys-radius-md)` |
-| `--mp-table-filters-popup-box-shadow` | `0 2px 5px rgba(0,0,0,.1)` |
-| `--mp-table-filters-list-padding` | `4px 0` |
-| `--mp-table-filters-item-height` | `32px` |
-| `--mp-table-filters-item-padding` | `0 12px` |
-| `--mp-table-filters-item-font-size` | `14px` |
-| `--mp-table-filters-item-line-height` | `32px` |
-| `--mp-table-filters-text-max-width` | `160px` |
-| `--mp-table-filters-text-height` | `34px` |
-| `--mp-table-filters-text-padding-left` | `10px` |
-| `--mp-table-filters-text-line-height` | `32px` |
-| `--mp-table-filters-bottom-height` | `38px` |
-| `--mp-table-filters-bottom-padding` | `0 12px` |
-| `--mp-table-filters-bottom-line-height` | `38px` |
-| `--mp-table-filters-bottom-gap` | `8px` |
-| `--mp-table-shadow-left` | `inset 6px 0 8px -3px rgba(0, 0, 0, 0.15)` |
-| `--mp-table-shadow-right` | `inset -6px 0 8px -3px rgba(0, 0, 0, 0.15)` |
-| `--mp-table-shadow-wrapper-width` | `10px` |
-| `--mp-table-selection-col-width` | `40px` |
-| `--mp-table-expand-icon-col-width` | `40px` |
-| `--mp-table-drag-handle-col-width` | `40px` |
-| `--mp-table-column-handle-width` | `8px` |
-| `--mp-table-column-handle-right` | `-4px` |
-| `--mp-table-pagination-margin` | `var(--mp-sys-space-5)` |
-| `--mp-table-pagination-sticky-padding` | `12px 0` |
-| `--mp-table-sticky-scrollbar-opacity` | `0.8` |
-| `--mp-table-pagination-sticky-bg` | `var(--mp-color-bg-1)` |
-| `--mp-table-extra-column-icon-color` | `var(--mp-color-text-2)` |
-| `--mp-table-extra-column-icon-hover-color` | `var(--mp-color-text-1)` |
-| `--mp-table-column-insert-max-height` | `calc(100vh - 160px)` |
-| `--mp-table-column-insert-padding` | `16px 20px` |
-| `--mp-table-column-insert-empty-text-color` | `var(--mp-color-text-3)` |
-| `--mp-table-column-insert-empty-font-size` | `14px` |
-| `--mp-table-column-insert-empty-line-height` | `22px` |
-| `--mp-table-column-insert-group-margin-top` | `16px` |
-| `--mp-table-column-insert-group-title-margin-bottom` | `8px` |
-| `--mp-table-column-insert-group-title-text-color` | `var(--mp-color-text-3)` |
-| `--mp-table-column-insert-group-title-font-size` | `12px` |
-| `--mp-table-column-insert-group-title-line-height` | `20px` |
-| `--mp-table-column-insert-item-min-height` | `32px` |
-| `--mp-table-line-height` | `var(--mp-line-height)` |
-| `--mp-table-transition-duration` | `var(--mp-sys-motion-duration-fast)` |
-| `--mp-table-transition-timing-function` | `linear` |
+通过以下变量定制组件外观。默认值随表中注明的主题或选择器条件变化；变量仅在对应的尺寸、变体和交互状态下生效。
+
+<div class="token-reference-table" style="max-width: 100%; overflow-x: auto;">
+
+| 变量 | 默认值／条件 | 影响的样式 |
+| --- | --- | --- |
+| `--mp-table-body-bg` | `var(--mp-color-bg-2)` | `background-color` |
+| `--mp-table-body-cell-bg` | `var(--mp-color-bg-2)` | `background-color` |
+| `--mp-table-body-cell-text-color` | `rgb(var(--mp-gray-10))` | `color` |
+| `--mp-table-body-min-height` | `40px` | `min-height` |
+| `--mp-table-body-row-active-bg` | `var(--mp-color-fill-1)` | `background-color` |
+| `--mp-table-body-row-active-dark-bg` | `rgb(var(--mp-gray-2))` | `background-color` |
+| `--mp-table-body-row-hover-bg` | `var(--mp-color-fill-1)` | `background-color` |
+| `--mp-table-body-sorted-cell-bg` | `var(--mp-color-fill-1)` | `background-color` |
+| `--mp-table-body-stripe-row-bg` | `var(--mp-color-fill-1)` | `background-color` |
+| `--mp-table-border-color` | `rgb(var(--mp-gray-3))` | `border`, `border-bottom`, `border-left`, `border-right`, `border-top`, `box-shadow` |
+| `--mp-table-border-radius` | `var(--mp-sys-radius-md)` | `border-radius`, `border-top-left-radius`, `border-top-right-radius` |
+| `--mp-table-border-style` | `solid` | `border`, `border-bottom`, `border-left`, `border-right`, `border-top` |
+| `--mp-table-border-width` | `1px` | `border`, `border-bottom`, `border-left`, `border-right`, `border-top`, `bottom`, `box-shadow`, `margin` |
+| `--mp-table-column-handle-right` | `-4px` | `inset-inline-end` |
+| `--mp-table-column-handle-width` | `8px` | `width` |
+| `--mp-table-column-insert-empty-font-size` | `14px` | `font-size` |
+| `--mp-table-column-insert-empty-line-height` | `22px` | `line-height` |
+| `--mp-table-column-insert-empty-text-color` | `var(--mp-color-text-3)` | `color` |
+| `--mp-table-column-insert-group-margin-top` | `16px` | `margin-top` |
+| `--mp-table-column-insert-group-title-font-size` | `12px` | `font-size` |
+| `--mp-table-column-insert-group-title-line-height` | `20px` | `line-height` |
+| `--mp-table-column-insert-group-title-margin-bottom` | `8px` | `margin-bottom` |
+| `--mp-table-column-insert-group-title-text-color` | `var(--mp-color-text-3)` | `color` |
+| `--mp-table-column-insert-item-min-height` | `32px` | `min-height` |
+| `--mp-table-column-insert-max-height` | `calc(100vh - 160px)` | `max-height` |
+| `--mp-table-column-insert-padding` | `16px 20px` | `padding` |
+| `--mp-table-drag-handle-col-width` | `40px` | `max-width`, `min-width`, `width` |
+| `--mp-table-editable-body-cell-border-color` | `var(--mp-color-white)` | `border` |
+| `--mp-table-empty-height` | `240px` | `height` |
+| `--mp-table-empty-image-size` | `48px` | `font-size`, `height`, `width` |
+| `--mp-table-expand-button-border-radius` | `2px` | `border-radius` |
+| `--mp-table-expand-button-font-size` | `12px` | `font-size` |
+| `--mp-table-expand-button-margin-right` | `var(--mp-sys-space-2)` | `margin-inline-end` |
+| `--mp-table-expand-button-size` | `14px` | `height`, `line-height`, `width` |
+| `--mp-table-expand-content-bg` | `var(--mp-color-fill-1)` | `background-color` |
+| `--mp-table-expand-content-hover-bg` | `var(--mp-color-fill-1)` | `background-color` |
+| `--mp-table-expand-icon-bg` | `rgb(var(--mp-gray-3))` | `background-color` |
+| `--mp-table-expand-icon-border-color` | `transparent` | `border` |
+| `--mp-table-expand-icon-border-width` | `1px` | `border` |
+| `--mp-table-expand-icon-col-width` | `40px` | `max-width`, `min-width`, `width` |
+| `--mp-table-expand-icon-color` | `var(--mp-color-text-2)` | `color` |
+| `--mp-table-expand-icon-hover-bg` | `rgb(var(--mp-gray-4))` | `background-color` |
+| `--mp-table-expand-icon-hover-border-color` | `transparent` | `border-color` |
+| `--mp-table-expand-icon-hover-color` | `var(--mp-color-text-1)` | `color` |
+| `--mp-table-expand-loading-icon-color` | `var(--mp-sys-color-content-brand)` | `color` |
+| `--mp-table-extra-column-icon-color` | `var(--mp-color-text-2)` | `color` |
+| `--mp-table-extra-column-icon-hover-color` | `var(--mp-color-text-1)` | `color` |
+| `--mp-table-filters-icon-font-size` | `16px` | `font-size` |
+| `--mp-table-filters-icon-hover-bg` | `var(--mp-color-fill-4)` | `background` |
+| `--mp-table-filters-width` | `24px` | `width` |
+| `--mp-table-header-cell-action-color` | `var(--mp-color-text-3)` | `color` |
+| `--mp-table-header-cell-action-hover-color` | `var(--mp-color-text-1)` | `color` |
+| `--mp-table-header-cell-action-margin-left` | `2px` | `margin-inline-start` |
+| `--mp-table-header-cell-bg` | `rgb(var(--mp-gray-2))` | `background-color` |
+| `--mp-table-header-cell-text-color` | `rgb(var(--mp-gray-10))` | `color` |
+| `--mp-table-header-filters-icon-active-color` | `var(--mp-sys-color-action-primary)` | `color` |
+| `--mp-table-header-filters-icon-color` | `var(--mp-color-text-2)` | `color` |
+| `--mp-table-header-filters-icon-hover-bg` | `rgb(var(--mp-gray-4))` | `background-color` |
+| `--mp-table-header-sorted-cell-bg` | `rgb(var(--mp-gray-3))` | `background-color` |
+| `--mp-table-header-sorted-cell-hover-bg` | `rgba(var(--mp-gray-4), 0.5)` | `background-color` |
+| `--mp-table-header-sorter-icon-active-color` | `var(--mp-sys-color-action-primary)` | `color` |
+| `--mp-table-header-sorter-icon-color` | `rgb(var(--mp-gray-5))` | `color` |
+| `--mp-table-header-sorter-icon-down-top` | `-3px` | `top` |
+| `--mp-table-header-sorter-icon-font-size` | `12px` | `font-size` |
+| `--mp-table-header-sorter-icon-height` | `8px` | `height`, `line-height` |
+| `--mp-table-header-sorter-icon-left` | `1px` | `left` |
+| `--mp-table-header-sorter-icon-margin-left` | `var(--mp-sys-space-4)` | `margin-inline-start` |
+| `--mp-table-header-sorter-icon-next-color` | `rgb(var(--mp-gray-6))` | `color` |
+| `--mp-table-header-sorter-icon-up-top` | `-2px` | `top` |
+| `--mp-table-header-sorter-icon-width` | `14px` | `width` |
+| `--mp-table-header-text-font-weight` | `var(--mp-sys-font-weight-medium)` | `font-weight` |
+| `--mp-table-line-height` | `var(--mp-line-height)` | `line-height` |
+| `--mp-table-pagination-margin` | `var(--mp-sys-space-5)` | `margin-bottom`, `margin-top` |
+| `--mp-table-pagination-sticky-bg` | `var(--mp-color-bg-1)` | `background`, `background-color` |
+| `--mp-table-pagination-sticky-padding` | `12px 0` | `padding` |
+| `--mp-table-resizing-border-color` | `var(--mp-sys-color-action-primary)` | `border-right-color` |
+| `--mp-table-selection-col-width` | `40px` | `max-width`, `min-width`, `width` |
+| `--mp-table-shadow-left` | `inset 6px 0 8px -3px rgba(0, 0, 0, 0.15)` | `box-shadow` |
+| `--mp-table-shadow-right` | `inset -6px 0 8px -3px rgba(0, 0, 0, 0.15)` | `box-shadow` |
+| `--mp-table-shadow-wrapper-width` | `10px` | `width` |
+| `--mp-table-size-lg-extra-icon-font-size` | `16px` | `font-size` |
+| `--mp-table-size-lg-extra-padding-horizontal` | `var(--mp-sys-space-2)` | `padding` |
+| `--mp-table-size-lg-font-size` | `var(--mp-table-size-md-font-size)` | `font-size` |
+| `--mp-table-size-lg-header-font-size` | `var(--mp-table-size-md-header-font-size)` | `font-size` |
+| `--mp-table-size-lg-padding-horizontal` | `var(--mp-table-size-md-padding-horizontal)` | `margin`, `padding` |
+| `--mp-table-size-lg-padding-vertical` | `var(--mp-table-size-md-padding-vertical)` | `margin`, `padding` |
+| `--mp-table-size-md-extra-icon-font-size` | `16px` | `font-size` |
+| `--mp-table-size-md-extra-padding-horizontal` | `var(--mp-sys-space-2)` | `padding` |
+| `--mp-table-size-md-font-size` | `var(--mp-sys-font-size-md)` | `font-size` |
+| `--mp-table-size-md-header-font-size` | `var(--mp-sys-font-size-md)` | `font-size` |
+| `--mp-table-size-md-padding-horizontal` | `var(--mp-sys-space-6)` | `margin`, `padding` |
+| `--mp-table-size-md-padding-vertical` | `9px` | `margin`, `padding` |
+| `--mp-table-size-sm-extra-icon-font-size` | `14px` | `font-size` |
+| `--mp-table-size-sm-extra-padding-horizontal` | `var(--mp-sys-space-1)` | `padding` |
+| `--mp-table-size-sm-font-size` | `var(--mp-sys-font-size-md)` | `font-size` |
+| `--mp-table-size-sm-header-font-size` | `var(--mp-sys-font-size-md)` | `font-size` |
+| `--mp-table-size-sm-padding-horizontal` | `var(--mp-sys-space-6)` | `margin`, `padding` |
+| `--mp-table-size-sm-padding-vertical` | `5px` | `margin`, `padding` |
+| `--mp-table-size-xs-extra-icon-font-size` | `14px` | `font-size` |
+| `--mp-table-size-xs-extra-padding-horizontal` | `var(--mp-sys-space-1)` | `padding` |
+| `--mp-table-size-xs-font-size` | `var(--mp-sys-font-size-xs)` | `font-size` |
+| `--mp-table-size-xs-header-font-size` | `var(--mp-sys-font-size-xs)` | `font-size` |
+| `--mp-table-size-xs-padding-horizontal` | `var(--mp-sys-space-6)` | `margin`, `padding` |
+| `--mp-table-size-xs-padding-vertical` | `2px` | `margin`, `padding` |
+| `--mp-table-sticky-scrollbar-height` | `16px` | `height` |
+| `--mp-table-sticky-scrollbar-opacity` | `0.8` | `opacity` |
+| `--mp-table-tfoot-bg` | `rgb(var(--mp-gray-2))` | `background-color` |
+| `--mp-table-th-actions-margin-left` | `8px` | `margin-inline-start` |
+| `--mp-table-transition-duration` | `var(--mp-sys-motion-duration-fast)` | `transition` |
+| `--mp-table-transition-timing-function` | `linear` | `transition` |
+
+</div>
+
+将覆盖设置在组件实际根节点或弹层真实挂载祖先上。例如给该元素添加下列 class，再按需替换变量值：
+
+```css
+.component-theme {
+  --mp-table-body-cell-text-color: rgb(var(--mp-gray-10));
+}
+```
+
+显式行内样式及直接写入同一 CSS 属性的 Props 优先于样式表默认值。Teleport 后，普通 CSS 变量按实际挂载位置继承；使用 ThemeProvider 时，请遵循其局部主题与弹层配置规则。局部定制请直接覆盖组件变量；仅修改后代的 system 变量不会重新计算从根继承的组件别名。内部变量不属于公共 API。
+
+<!-- component-css-variables:end -->
 
 ---
 

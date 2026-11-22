@@ -2,8 +2,8 @@ import { h, nextTick, ref, withDirectives } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
 import { vLoading } from '../../loading'
-import Card from '../Card.vue'
 import Section from '../../section/Section.vue'
+import Card from '../Card.vue'
 import { cardProps } from '../props'
 
 describe('Card shared contract', () => {

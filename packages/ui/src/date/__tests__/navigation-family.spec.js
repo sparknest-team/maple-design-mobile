@@ -82,7 +82,7 @@ async function navigate(wrapper, type) {
 for (const range of [false, true]) {
   for (const editMode of ['standalone', 'direct', 'popup']) {
     for (const { name, ...options } of variants) {
-      describe.sequential(`${range ? 'range' : 'single'} ${name} ${editMode} navigation`, () => {
+      describe(`${range ? 'range' : 'single'} ${name} ${editMode} navigation`, () => {
         let wrapper
         beforeAll(() => {
           wrapper = fixture(range, editMode, options)

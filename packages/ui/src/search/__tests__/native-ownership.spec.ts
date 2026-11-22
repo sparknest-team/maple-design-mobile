@@ -164,6 +164,8 @@ test('reference and popup inputs preserve explicit false native busy metadata', 
   const { owner, reference, input } = await fixture({ inputAttrs: { id: 'query-control', 'aria-busy': false } })
   for (const loading of [false, true, false]) {
     await owner.setProps({ loading })
-    for (const field of [reference, input]) expect(field.attributes('aria-busy')).toBe(String(loading))
+    for (const field of [reference, input]) {
+      expect(field.attributes('aria-busy')).toBe(String(loading))
+    }
   }
 })

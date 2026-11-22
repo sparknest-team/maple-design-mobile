@@ -109,7 +109,6 @@ for (const state of ['disabled', 'readonly', 'loading']) {
   })
 }
 
-
 test('deferred reference respects disabled fallback for unmatched people', async () => {
   const owner = setup({
     editMode: 'popup',

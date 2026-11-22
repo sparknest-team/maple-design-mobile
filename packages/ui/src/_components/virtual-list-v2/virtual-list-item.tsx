@@ -27,19 +27,25 @@ function observeFragmentParent(parent: Node, listener: FragmentChangeListener) {
   let entry = fragmentParents.get(parent)
   if (!entry) {
     const Observer = parent.ownerDocument?.defaultView?.MutationObserver
-    if (!Observer) return
+    if (!Observer) {
+      return
+    }
     const listeners = new Set<FragmentChangeListener>()
     const ancestors = new Set<Node>()
     let waitingForConnection = false
-    const observer = new Observer(records => {
+    const observer = new Observer((records) => {
       let structureChanged = false
       let pathChanged = waitingForConnection && parent.isConnected
       let themeChanged = false
       const styledRoots = new Set<Node>()
       for (const record of records) {
         if (record.type === 'childList') {
-          if (record.target === parent) structureChanged = true
-          else if (ancestors.has(record.target) && Array.from(record.removedNodes).some(node => ancestors.has(node))) {
+          if (record.target === parent) {
+            structureChanged = true
+          } else if (
+            ancestors.has(record.target) &&
+            Array.from(record.removedNodes).some((node) => ancestors.has(node))
+          ) {
             pathChanged = true
           }
         } else if (record.target.parentNode === parent) {
@@ -48,21 +54,30 @@ function observeFragmentParent(parent: Node, listener: FragmentChangeListener) {
           themeChanged = true
         }
       }
-      if (pathChanged) observePath()
+      if (pathChanged) {
+        observePath()
+      }
       if (structureChanged || styledRoots.size || themeChanged || pathChanged) {
-        for (const notify of listeners) notify(structureChanged, styledRoots, themeChanged || pathChanged)
+        for (const notify of listeners) {
+          notify(structureChanged, styledRoots, themeChanged || pathChanged)
+        }
       }
     })
     function observePath() {
-      if (ancestors.size) observer.disconnect()
+      if (ancestors.size) {
+        observer.disconnect()
+      }
       ancestors.clear()
       let node: Node | null = parent
       while (node) {
         ancestors.add(node)
-        observer.observe(node, node === parent
-          ? { childList: true, subtree: true, attributeFilter: ['class', 'style'] }
-          : { childList: true, attributeFilter: ['class'] })
-        node = node.parentNode ?? (node.nodeType === 11 ? (node as ShadowRoot).host ?? null : null)
+        observer.observe(
+          node,
+          node === parent
+            ? { childList: true, subtree: true, attributeFilter: ['class', 'style'] }
+            : { childList: true, attributeFilter: ['class'] },
+        )
+        node = node.parentNode ?? (node.nodeType === 11 ? ((node as ShadowRoot).host ?? null) : null)
       }
       // Inserting a previously detached tree does not mutate any of its own ancestors.
       waitingForConnection = !parent.isConnected
@@ -110,11 +125,15 @@ export default defineComponent({
     let observer: ResizeObserver | undefined
 
     const bindElement = (index: number, value: unknown) => {
-      const element = value && typeof value === 'object' && 'nodeType' in value && value.nodeType === 1
-        ? value as HTMLElement
-        : undefined
-      if (element) elements.set(index, element)
-      else elements.delete(index)
+      const element =
+        value && typeof value === 'object' && 'nodeType' in value && value.nodeType === 1
+          ? (value as HTMLElement)
+          : undefined
+      if (element) {
+        elements.set(index, element)
+      } else {
+        elements.delete(index)
+      }
     }
 
     const refFor = (index: number) => {
@@ -140,24 +159,39 @@ export default defineComponent({
 
     const readFragmentContent = (): Node[] | undefined => {
       const { el, anchor } = item.subTree
-      if (!el?.parentNode || !anchor || el.parentNode !== anchor.parentNode) return
+      if (!el?.parentNode || !anchor || el.parentNode !== anchor.parentNode) {
+        return
+      }
       const content: Node[] = []
       let node = el.nextSibling
       for (; node && node !== anchor; node = node.nextSibling) {
-        if (node.nodeType === 1 || (node.nodeType === 3 && node.nodeValue)) content.push(node)
+        if (node.nodeType === 1 || (node.nodeType === 3 && node.nodeValue)) {
+          content.push(node)
+        }
       }
-      if (node === anchor) return content
+      if (node === anchor) {
+        return content
+      }
     }
 
     const onFragmentChange: FragmentChangeListener = (structureChanged, styledRoots, themeChanged) => {
-      if (previousContent && previousContent.length > 1 && (themeChanged || previousContent.some(node => styledRoots.has(node)))) {
+      if (
+        previousContent &&
+        previousContent.length > 1 &&
+        (themeChanged || previousContent.some((node) => styledRoots.has(node)))
+      ) {
         measureAndObserve()
         return
       }
-      if (!structureChanged) return
+      if (!structureChanged) {
+        return
+      }
       const content = readFragmentContent()
-      if (fragmentParent !== item.subTree.el?.parentNode || content?.length !== previousContent?.length ||
-        content?.some((node, index) => node !== previousContent?.[index])) {
+      if (
+        fragmentParent !== item.subTree.el?.parentNode ||
+        content?.length !== previousContent?.length ||
+        content?.some((node, index) => node !== previousContent?.[index])
+      ) {
         measureAndObserve()
       }
     }
@@ -167,23 +201,40 @@ export default defineComponent({
       let hasFragmentRoot = false
       componentRefs.forEach((instance, index) => {
         bindElement(index, instance.$el)
-        if (!elements.has(index)) hasFragmentRoot = true
+        if (!elements.has(index)) {
+          hasFragmentRoot = true
+        }
       })
       const roots = new Set<Element>(elements.values())
       const multipleRoots = hasFragmentRoot || roots.size > 1
       let content = multipleRoots || !roots.size ? readFragmentContent() : undefined
       for (const node of content ?? []) {
-        if (node.nodeType === 1) roots.add(node as Element)
+        if (node.nodeType === 1) {
+          roots.add(node as Element)
+        }
       }
-      if (hasFragmentRoot) fragmentRows?.set(key, roots)
-      else fragmentRows?.delete(key)
+      if (hasFragmentRoot) {
+        fragmentRows?.set(key, roots)
+      } else {
+        fragmentRows?.delete(key)
+      }
       if (!observer) {
         const Observer = roots.values().next().value?.ownerDocument.defaultView?.ResizeObserver
-        if (Observer) observer = new Observer(measureAndObserve)
+        if (Observer) {
+          observer = new Observer(measureAndObserve)
+        }
       }
       if (observer) {
-        for (const element of observed) if (!roots.has(element)) observer.unobserve(element)
-        for (const element of roots) if (!observed.has(element)) observer.observe(element)
+        for (const element of observed) {
+          if (!roots.has(element)) {
+            observer.unobserve(element)
+          }
+        }
+        for (const element of roots) {
+          if (!observed.has(element)) {
+            observer.observe(element)
+          }
+        }
         observed = roots
       }
       const rects = Array.from(roots, (element) => ({ element, rect: element.getBoundingClientRect() }))
@@ -195,8 +246,10 @@ export default defineComponent({
       // A single fallback can be replaced without a size notification when
       // its height is zero or the browser has no ResizeObserver.
       const watchReplacement = componentRefs.size > 0 && (!observer || height === 0)
-      if (watchReplacement && !content) content = readFragmentContent()
-      const parent = content && (multipleRoots || watchReplacement) ? item.subTree.el?.parentNode ?? null : null
+      if (watchReplacement && !content) {
+        content = readFragmentContent()
+      }
+      const parent = content && (multipleRoots || watchReplacement) ? (item.subTree.el?.parentNode ?? null) : null
       if (parent !== fragmentParent) {
         stopObservingParent?.()
         fragmentParent = parent

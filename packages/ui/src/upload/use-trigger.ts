@@ -67,12 +67,19 @@ export function useUploadTrigger(initialInteractive = false) {
     update()
     const view = root.ownerDocument.defaultView
     if (view) {
-      const preferences = ['(prefers-reduced-motion: reduce)', '(prefers-color-scheme: dark)', '(forced-colors: active)']
-        .map(query => view.matchMedia?.(query))
-      for (const preference of preferences) preference?.addEventListener?.('change', update)
+      const preferences = [
+        '(prefers-reduced-motion: reduce)',
+        '(prefers-color-scheme: dark)',
+        '(forced-colors: active)',
+      ].map((query) => view.matchMedia?.(query))
+      for (const preference of preferences) {
+        preference?.addEventListener?.('change', update)
+      }
       view.addEventListener('resize', update)
       releaseEnvironment = () => {
-        for (const preference of preferences) preference?.removeEventListener?.('change', update)
+        for (const preference of preferences) {
+          preference?.removeEventListener?.('change', update)
+        }
         view.removeEventListener('resize', update)
       }
     }
@@ -112,7 +119,9 @@ export function useUploadTrigger(initialInteractive = false) {
         attributeFilter: ['role', 'tabindex', 'href', 'type', 'contenteditable', 'hidden', 'inert', 'class', 'style'],
       })
       // While detached the next parent is unknown. Stop watching document-wide on reconnection.
-      if (waitingForConnection) observer.observe(root.ownerDocument, { childList: true, subtree: true })
+      if (waitingForConnection) {
+        observer.observe(root.ownerDocument, { childList: true, subtree: true })
+      }
       // Follow inherited visibility and rebind if an observed ancestor moves.
       for (const node of path.slice(1)) {
         if (node.nodeType === 1) {

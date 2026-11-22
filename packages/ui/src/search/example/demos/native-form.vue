@@ -23,7 +23,9 @@ function submit() {
     <p>编辑历史弹层后提交，关键词只提交一份。</p>
     <mp-space wrap>
       <mp-button html-type="button" @click="waiting = !waiting">切换等待</mp-button>
-      <mp-button html-type="button" @click="loadingMode = loadingMode === 'default' ? 'line' : 'default'">切换加载布局</mp-button>
+      <mp-button html-type="button" @click="loadingMode = loadingMode === 'default' ? 'line' : 'default'"
+        >切换加载布局</mp-button
+      >
     </mp-space>
     <form :id="formId" ref="form" @submit.prevent="submit">
       <mp-search

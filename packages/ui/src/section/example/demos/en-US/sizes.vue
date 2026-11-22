@@ -26,9 +26,17 @@ const model = reactive<{ size: 'xs' | 'sm' | 'md' | 'lg' | 'xl'; headingLevel: (
         </mp-radio-group>
       </mp-form-item>
     </mp-form>
-    <output>Rendered tag <code>&lt;h{{ model.headingLevel }}&gt;</code></output>
+    <output
+      >Rendered tag <code>&lt;h{{ model.headingLevel }}&gt;</code></output
+    >
 
-    <mp-section :size="model.size" variant="outline" show-marker :heading-level="model.headingLevel" title="Member permissions">
+    <mp-section
+      :size="model.size"
+      variant="outline"
+      show-marker
+      :heading-level="model.headingLevel"
+      title="Member permissions"
+    >
       <div class="section-size-content">Administrators can invite members and update project settings.</div>
     </mp-section>
   </mp-space>

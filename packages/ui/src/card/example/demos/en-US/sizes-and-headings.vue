@@ -45,7 +45,9 @@ const model = reactive<{
         </mp-radio-group>
       </mp-form-item>
     </mp-form>
-    <output>Rendered tag <code>&lt;h{{ model.headingLevel }}&gt;</code></output>
+    <output
+      >Rendered tag <code>&lt;h{{ model.headingLevel }}&gt;</code></output
+    >
 
     <mp-card
       :size="model.size"
@@ -56,7 +58,13 @@ const model = reactive<{
       top-divider
       bottom-divider
     >
-      <mp-section :size="model.size" :heading-level="model.headingLevel" :variant="model.sectionVariant" title="Member permissions" description="Permissions are grouped by role.">
+      <mp-section
+        :size="model.size"
+        :heading-level="model.headingLevel"
+        :variant="model.sectionVariant"
+        title="Member permissions"
+        description="Permissions are grouped by role."
+      >
         Administrators can invite members.
       </mp-section>
       <template #footer>Last updated today</template>

@@ -6,7 +6,15 @@ const Card = withInstall(CardSource)
 withPropsDefaultsSetter(Card, cardProps)
 
 export { cardProps }
-export type { CardProps, CardVariant, CardSize, CardDirection, CardFit, CardFooterAlign, CardHeadingLevel } from './props'
+export type {
+  CardProps,
+  CardVariant,
+  CardSize,
+  CardDirection,
+  CardFit,
+  CardFooterAlign,
+  CardHeadingLevel,
+} from './props'
 
 export type CardInstance = InstanceType<typeof Card>
 export const _CardComponent: typeof Card = Card

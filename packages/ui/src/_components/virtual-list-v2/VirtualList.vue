@@ -329,7 +329,9 @@ export default defineComponent({
     // Resolve the table's conditional expanded rows once per rendered window.
     let serverRange: { listAttrs?: Record<string, unknown> } | undefined
     if (props.prepareRange) {
-      onServerPrefetch(() => { serverRange = props.prepareRange?.(currentList.value) })
+      onServerPrefetch(() => {
+        serverRange = props.prepareRange?.(currentList.value)
+      })
     }
     const range = computed(() => serverRange ?? props.prepareRange?.(currentList.value))
 
@@ -398,12 +400,12 @@ export default defineComponent({
       const align = options.align ?? 'top'
       const bounds = () => {
         const fragment = fragmentRows.get(dataKeys.value[index])
-        const rows = fragment ? Array.from(fragment) :
-          Array.from(element.querySelectorAll<HTMLElement>(`[data-virtual-list-index="${index}"]`))
-            .filter(row => row.closest(`.${prefixCls}`) === element)
-        const rects = rows
-          .map((row) => row.getBoundingClientRect())
-          .filter((rect) => rect.height)
+        const rows = fragment
+          ? Array.from(fragment)
+          : Array.from(element.querySelectorAll<HTMLElement>(`[data-virtual-list-index="${index}"]`)).filter(
+              (row) => row.closest(`.${prefixCls}`) === element,
+            )
+        const rects = rows.map((row) => row.getBoundingClientRect()).filter((rect) => rect.height)
         if (rects.length) {
           const origin = element.getBoundingClientRect().top + element.clientTop
           return {

@@ -361,15 +361,19 @@ it.each(['slot', 'component'])('measures and indexes a single DOM root from %s',
   }
 })
 
-
 it('measures the local roots of a fragment component when it inserts a sibling', async () => {
   const expanded = ref(false)
-  const Row = { inheritAttrs: false, setup: () => () => [
-    h('div', { 'data-top': 10, 'data-height': 20 }),
-    ...(expanded.value ? [h('div', { 'data-top': 30, 'data-height': 60 })] : []),
-  ] }
+  const Row = {
+    inheritAttrs: false,
+    setup: () => () => [
+      h('div', { 'data-top': 10, 'data-height': 20 }),
+      ...(expanded.value ? [h('div', { 'data-top': 30, 'data-height': 60 })] : []),
+    ],
+  }
   const setItemSize = vi.fn()
-  const rect = vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function (this: HTMLElement) {
+  const rect = vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function (
+    this: HTMLElement,
+  ) {
     const top = Number(this.dataset.top)
     const height = Number(this.dataset.height)
     return { top, bottom: top + height, width: 40, height } as DOMRect
@@ -399,12 +403,22 @@ it('hydrates adjacent fragment components and measures each row within its own a
     render: () => [h('input', { 'data-top': top }), h('div', { 'data-top': top + height - 10 })],
   })
   const rows = [makeRow(20, 40), makeRow(600, 90)]
-  const makeApp = () => createSSRApp({ render: () => h('main', rows.map((row, index) =>
-    h(VirtualListItem, { key: index, index, hasItemSize: () => false, setItemSize }, { default: () => h(row) }))) })
+  const makeApp = () =>
+    createSSRApp({
+      render: () =>
+        h(
+          'main',
+          rows.map((row, index) =>
+            h(VirtualListItem, { key: index, index, hasItemSize: () => false, setItemSize }, { default: () => h(row) }),
+          ),
+        ),
+    })
   const host = document.createElement('div')
   host.innerHTML = await renderToString(makeApp())
   const inputs = Array.from(host.querySelectorAll('input'))
-  const rect = vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function (this: HTMLElement) {
+  const rect = vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function (
+    this: HTMLElement,
+  ) {
     const top = Number(this.dataset.top)
     return { top, height: 10, bottom: top + 10, width: 40 } as DOMRect
   })
@@ -426,33 +440,61 @@ it('hydrates adjacent fragment components and measures each row within its own a
 it('updates a nested fragment row when its roots change, disappear and return', async () => {
   const state = ref('short')
   const Inner = {
-    render: () => state.value === 'empty' ? [] : [
-      h('div', { 'data-height': 20 }),
-      ...(state.value === 'tall' ? [h('div', { 'data-height': 60, 'data-top': 20 })] : []),
-    ],
+    render: () =>
+      state.value === 'empty'
+        ? []
+        : [
+            h('div', { 'data-height': 20 }),
+            ...(state.value === 'tall' ? [h('div', { 'data-height': 60, 'data-top': 20 })] : []),
+          ],
   }
   const Row = { inheritAttrs: false, render: () => h(Inner) }
   const size = vi.fn()
   const siblingSize = vi.fn()
   const sibling = { inheritAttrs: false, render: () => [h('div', { 'data-height': 20 })] }
-  const rect = vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function (this: HTMLElement) {
+  const rect = vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function (
+    this: HTMLElement,
+  ) {
     const top = Number(this.dataset.top || 0)
     const height = Number(this.dataset.height)
     return { top, bottom: top + height, height, width: 20 } as DOMRect
   })
-  const wrapper = mount({ render: () => h('main', [Row, sibling].map((row, index) => h(VirtualListItem, {
-    key: index, index, hasItemSize: () => true, canMeasureZero: () => true, setItemSize: index ? siblingSize : size,
-  }, { default: () => h(row) }))) })
+  const wrapper = mount({
+    render: () =>
+      h(
+        'main',
+        [Row, sibling].map((row, index) =>
+          h(
+            VirtualListItem,
+            {
+              key: index,
+              index,
+              hasItemSize: () => true,
+              canMeasureZero: () => true,
+              setItemSize: index ? siblingSize : size,
+            },
+            { default: () => h(row) },
+          ),
+        ),
+      ),
+  })
   try {
     await nextTick()
     expect(size).toHaveBeenLastCalledWith(0, 20)
     siblingSize.mockClear()
-    for (const [phase, height] of [['tall', 80], ['empty', 0], ['short', 20]] as const) {
+    for (const [phase, height] of [
+      ['tall', 80],
+      ['empty', 0],
+      ['short', 20],
+    ] as const) {
       state.value = phase
       await nextTick()
       await nextTick()
-      if (height === 0) expect(size).toHaveBeenLastCalledWith(0, 0, true)
-      else expect(size).toHaveBeenLastCalledWith(0, height)
+      if (height === 0) {
+        expect(size).toHaveBeenLastCalledWith(0, 0, true)
+      } else {
+        expect(size).toHaveBeenLastCalledWith(0, height)
+      }
     }
     expect(siblingSize).not.toHaveBeenCalled()
   } finally {
@@ -466,9 +508,15 @@ it('records zero for an emptied row only when visible and without text content',
   const measurementVersion = ref(0)
   let visible = false
   const size = vi.fn()
-  const Row = { inheritAttrs: false, render: () => state.value === 'element' ? [h('div')] : state.value === 'text' ? ['row'] : [] }
+  const Row = {
+    inheritAttrs: false,
+    render: () => (state.value === 'element' ? [h('div')] : state.value === 'text' ? ['row'] : []),
+  }
   const rect = vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockReturnValue({
-    top: 0, bottom: 20, height: 20, width: 10,
+    top: 0,
+    bottom: 20,
+    height: 20,
+    width: 10,
   } as DOMRect)
   const wrapper = mount(VirtualListItem, {
     props: { index: 1, hasItemSize: () => true, setItemSize: size, canMeasureZero: () => visible },
@@ -498,12 +546,29 @@ it('shares the child-list observer until the last fragment row unmounts', async 
   const observe = vi.spyOn(MutationObserver.prototype, 'observe')
   const disconnect = vi.spyOn(MutationObserver.prototype, 'disconnect')
   const Row = { inheritAttrs: false, render: () => [h('div'), h('div')] }
-  const wrapper = mount({ render: () => h('main', Array.from({ length: count.value }, (_, index) => h(VirtualListItem, {
-    key: index, index, hasItemSize: () => true, setItemSize: () => {},
-  }, { default: () => h(Row) }))) })
+  const wrapper = mount({
+    render: () =>
+      h(
+        'main',
+        Array.from({ length: count.value }, (_, index) =>
+          h(
+            VirtualListItem,
+            {
+              key: index,
+              index,
+              hasItemSize: () => true,
+              setItemSize: () => {},
+            },
+            { default: () => h(Row) },
+          ),
+        ),
+      ),
+  })
   try {
     const observations = observe.mock.calls.filter(([parent]) => parent === wrapper.element)
-    expect(observations).toEqual([[wrapper.element, { childList: true, subtree: true, attributeFilter: ['class', 'style'] }]])
+    expect(observations).toEqual([
+      [wrapper.element, { childList: true, subtree: true, attributeFilter: ['class', 'style'] }],
+    ])
     const observerIndex = observe.mock.calls.findIndex(([parent]) => parent === wrapper.element)
     const shared = observe.mock.contexts[observerIndex]
     count.value = 1
@@ -511,7 +576,7 @@ it('shares the child-list observer until the last fragment row unmounts', async 
     expect(disconnect.mock.contexts).not.toContain(shared)
     count.value = 0
     await nextTick()
-    expect(disconnect.mock.contexts.filter(instance => instance === shared)).toHaveLength(1)
+    expect(disconnect.mock.contexts.filter((instance) => instance === shared)).toHaveLength(1)
   } finally {
     wrapper.unmount()
     disconnect.mockRestore()
@@ -523,14 +588,29 @@ it('clears a cached row height when the component remounts empty', async () => {
   const mounted = ref(true)
   const empty = ref(false)
   const cache = new Map<number, number>()
-  const Row = { inheritAttrs: false, render: () => empty.value ? [] : [h('div')] }
+  const Row = { inheritAttrs: false, render: () => (empty.value ? [] : [h('div')]) }
   const rect = vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockReturnValue({
-    top: 0, bottom: 20, height: 20, width: 10,
+    top: 0,
+    bottom: 20,
+    height: 20,
+    width: 10,
   } as DOMRect)
-  const wrapper = mount({ render: () => mounted.value ? h(VirtualListItem, {
-    key: 2, index: 2, hasItemSize: (key: number) => cache.has(key), canMeasureZero: () => true,
-    setItemSize: (key: number, height: number) => cache.set(key, height),
-  }, { default: () => h(Row) }) : null })
+  const wrapper = mount({
+    render: () =>
+      mounted.value
+        ? h(
+            VirtualListItem,
+            {
+              key: 2,
+              index: 2,
+              hasItemSize: (key: number) => cache.has(key),
+              canMeasureZero: () => true,
+              setItemSize: (key: number, height: number) => cache.set(key, height),
+            },
+            { default: () => h(Row) },
+          )
+        : null,
+  })
   try {
     expect(cache.get(2)).toBe(20)
     mounted.value = false
@@ -545,22 +625,39 @@ it('clears a cached row height when the component remounts empty', async () => {
   }
 })
 
-it.each(['slot', 'component'])('remeasures the %s row whose root spacing changed', async location => {
+it.each(['slot', 'component'])('remeasures the %s row whose root spacing changed', async (location) => {
   const sizes = [vi.fn(), vi.fn()]
   const parts = () => [h('div'), h('section', [h('span')])]
   const Inner = { render: parts }
   const Outer = { inheritAttrs: false, render: () => h(Inner) }
-  const rect = vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function (this: HTMLElement) {
+  const rect = vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function (
+    this: HTMLElement,
+  ) {
     const top = this.tagName === 'SECTION' ? 20 + (this.classList.contains('wide') ? 15 : 0) : 0
     return { top, bottom: top + 20, height: 20, width: 40 } as DOMRect
   })
-  const wrapper = mount({ render: () => h('main', sizes.map((size, index) => h(VirtualListItem, {
-    key: index, index, hasItemSize: () => false, setItemSize: size,
-  }, { default: () => location === 'slot' ? parts() : h(Outer) }))) })
+  const wrapper = mount({
+    render: () =>
+      h(
+        'main',
+        sizes.map((size, index) =>
+          h(
+            VirtualListItem,
+            {
+              key: index,
+              index,
+              hasItemSize: () => false,
+              setItemSize: size,
+            },
+            { default: () => (location === 'slot' ? parts() : h(Outer)) },
+          ),
+        ),
+      ),
+  })
   try {
     await nextTick()
     expect(sizes[0]).toHaveBeenLastCalledWith(0, 40)
-    sizes.forEach(size => size.mockClear())
+    sizes.forEach((size) => size.mockClear())
     wrapper.get('section').element.classList.add('wide')
     await nextTick()
     expect(sizes[0]).toHaveBeenLastCalledWith(0, 55)
@@ -580,13 +677,30 @@ it('tracks ancestor theme classes and rebinds when the entire list moves', async
   const target = document.createElement('aside')
   document.body.append(source, target)
   const size = vi.fn()
-  const rect = vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function (this: HTMLElement) {
+  const rect = vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function (
+    this: HTMLElement,
+  ) {
     const top = this.tagName === 'SECTION' ? (this.closest('.wide') ? 35 : 20) : 0
     return { top, bottom: top + 20, height: 20, width: 40 } as DOMRect
   })
-  const wrapper = mount({ render: () => h('main', [h(VirtualListItem, {
-    key: 0, index: 0, hasItemSize: () => true, setItemSize: size,
-  }, { default: () => [h('header'), h('section')] })]) }, { attachTo: source })
+  const wrapper = mount(
+    {
+      render: () =>
+        h('main', [
+          h(
+            VirtualListItem,
+            {
+              key: 0,
+              index: 0,
+              hasItemSize: () => true,
+              setItemSize: size,
+            },
+            { default: () => [h('header'), h('section')] },
+          ),
+        ]),
+    },
+    { attachTo: source },
+  )
   try {
     expect(size).toHaveBeenLastCalledWith(0, 40)
     source.classList.add('wide')
@@ -612,17 +726,28 @@ it('tracks ancestor theme classes and rebinds when the entire list moves', async
 
 it('measures the resolved async roots when the single fallback has no resize notification', async () => {
   let resolve!: () => void
-  const ready = new Promise<void>(done => { resolve = done })
+  const ready = new Promise<void>((done) => {
+    resolve = done
+  })
   const empty = ref(false)
-  const AsyncRow = { async setup() {
-    await ready
-    return () => empty.value ? [] : [h('header'), h('section')]
-  } }
-  const Row = { inheritAttrs: false, render: () => h(Suspense, null, {
-    default: () => h(AsyncRow), fallback: () => h('i'),
-  }) }
+  const AsyncRow = {
+    async setup() {
+      await ready
+      return () => (empty.value ? [] : [h('header'), h('section')])
+    },
+  }
+  const Row = {
+    inheritAttrs: false,
+    render: () =>
+      h(Suspense, null, {
+        default: () => h(AsyncRow),
+        fallback: () => h('i'),
+      }),
+  }
   const size = vi.fn()
-  const rect = vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function (this: HTMLElement) {
+  const rect = vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function (
+    this: HTMLElement,
+  ) {
     const top = this.tagName === 'SECTION' ? 10 : 0
     const height = this.tagName === 'I' ? 0 : 10
     return { top, bottom: top + height, height, width: 10 } as DOMRect
@@ -634,7 +759,7 @@ it('measures the resolved async roots when the single fallback has no resize not
   try {
     expect(wrapper.find('i').exists()).toBe(true)
     resolve()
-    await new Promise(done => setTimeout(done, 0))
+    await new Promise((done) => setTimeout(done, 0))
     expect(wrapper.find('section').exists()).toBe(true)
     expect(size).toHaveBeenLastCalledWith(null, 20)
     empty.value = true
@@ -649,19 +774,36 @@ it('measures the resolved async roots when the single fallback has no resize not
 
 it('uses only resize observation for an ordinary measurable single-root component', () => {
   const observe = vi.fn()
-  vi.stubGlobal('ResizeObserver', class {
-    observe = observe
-    unobserve = vi.fn()
-    disconnect = vi.fn()
-  })
+  vi.stubGlobal(
+    'ResizeObserver',
+    class {
+      observe = observe
+      unobserve = vi.fn()
+      disconnect = vi.fn()
+    },
+  )
   const structural = vi.spyOn(MutationObserver.prototype, 'observe')
   const rect = vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockReturnValue({
-    top: 0, bottom: 20, height: 20, width: 10,
+    top: 0,
+    bottom: 20,
+    height: 20,
+    width: 10,
   } as DOMRect)
   const Row = { render: () => h('header') }
-  const wrapper = mount({ render: () => h('main', [h(VirtualListItem, {
-    index: 0, hasItemSize: () => false, setItemSize: () => {},
-  }, { default: () => h(Row) })]) })
+  const wrapper = mount({
+    render: () =>
+      h('main', [
+        h(
+          VirtualListItem,
+          {
+            index: 0,
+            hasItemSize: () => false,
+            setItemSize: () => {},
+          },
+          { default: () => h(Row) },
+        ),
+      ]),
+  })
   try {
     expect(observe).toHaveBeenCalledWith(wrapper.get('header').element)
     expect(structural.mock.calls.some(([parent]) => parent === wrapper.element)).toBe(false)
