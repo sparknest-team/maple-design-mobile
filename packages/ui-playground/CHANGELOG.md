@@ -1,5 +1,13 @@
 # @maple-design/ui-playground-vue
 
+## 1.4.1
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @maple-design/ui-vue@1.4.1
+  - @maple-design/touch-emulator-vue@1.4.1
+
 ## 1.1.11
 
 ### Patch Changes

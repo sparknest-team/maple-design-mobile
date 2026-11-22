@@ -7,7 +7,22 @@
     }
   ],
   "commit": false,
-  "fixed": [],
+  "fixed": [
+    [
+      "@maple-design/cli-vue",
+      "@maple-design/icons-vue",
+      "@maple-design/preset-tailwindcss-vue",
+      "@maple-design/preset-unocss-vue",
+      "@maple-design/resolver-vue",
+      "@maple-design/shared-vue",
+      "@maple-design/touch-emulator-vue",
+      "@maple-design/ui-vue",
+      "@maple-design/ui-playground-vue",
+      "@maple-design/use-vue",
+      "@maple-design/vite-plugins-vue",
+      "maple-vscode-extension-vue"
+    ]
+  ],
   "linked": [],
   "access": "public",
   "baseBranch": "main",

@@ -1,5 +1,16 @@
 # @maple-design/ui-vue
 
+## 1.4.1
+
+### Patch Changes
+
+- chore(release): 全仓版本号统一（fixed 组），未变更包同步升版
+
+- Updated dependencies []:
+  - @maple-design/icons-vue@1.4.1
+  - @maple-design/shared-vue@1.4.1
+  - @maple-design/use-vue@1.4.1
+
 ## 1.4.0
 
 ### Minor Changes
