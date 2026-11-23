@@ -19,6 +19,7 @@ import PopupSearch from './demos/popup-search.vue'
   </h2>
 
   <section data-demo="options-loader"><OptionsLoader /></section>
+
   <section data-demo="popup-search">
     <EnPopupSearch v-if="english" />
     <PopupSearch v-else />
