@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { PeopleSelectOptionsLoader } from '@maple-design/ui-vue'
 import { ref } from 'vue'
+import type { PeopleSelectOptionsLoader } from '@maple-design/ui-vue'
 
 const open = ref(false)
 const personId = ref<string | null>(null)
@@ -12,10 +12,14 @@ const people = Array.from({ length: 20 }, (_, index) => {
 
 const loadPeople: PeopleSelectOptionsLoader = async (query, { signal }) => {
   const keyword = query.trim().toLowerCase()
-  if (!keyword) return []
+  if (!keyword) {
+    return []
+  }
 
   await new Promise<void>((resolve) => setTimeout(resolve, 150))
-  if (signal.aborted) return []
+  if (signal.aborted) {
+    return []
+  }
 
   return people.filter((person) => person.label.toLowerCase().includes(keyword))
 }
