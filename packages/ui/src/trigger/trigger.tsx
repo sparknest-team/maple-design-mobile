@@ -14,6 +14,7 @@ import {
 } from 'vue'
 import { useDirection } from '../_utils/direction'
 import { createNamespace } from '../utils/components'
+import { useModalScrollBranch } from '../utils/modal-focus'
 import { usePopupContainer } from '../utils/popup-container'
 import { useVisualSurface } from '../utils/visual-surface'
 import { useTriggerInteraction } from './interaction'
@@ -106,6 +107,7 @@ export default defineComponent({
     })
     const bindReferenceAttrs = useTriggerReferenceAttrs(reference, referenceAttrs)
     const platform = useTriggerPlatform(visible, () => popup.value?.ownerDocument ?? reference.value?.ownerDocument)
+    useModalScrollBranch(() => (visible.value ? popup.value : undefined))
     const popupTarget = usePopupContainer(() => props.popupContainer)
     const positionContainer = computed(() => (props.popupContainer === false ? false : popupTarget.value))
     const isMovingBlur = usePopupMoveFocus(popupTarget, () => props.popupContainer === false, popup, visible)
