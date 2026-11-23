@@ -1,5 +1,16 @@
 # @maple-design/ui-vue
 
+## 1.4.3
+
+### Patch Changes
+
+- [#24](https://github.com/sparknest-team/maple-design-mobile/pull/24) [`485c828`](https://github.com/sparknest-team/maple-design-mobile/commit/485c8288ebbc132f07aa2c47e51a9a5c1b71fa88) Thanks [@sparknest-team](https://github.com/sparknest-team)! - 修复 Popup 和 Dialog 的背景锁滚误拦截内部 Trigger 浮层的触摸滚动。下拉选项可从文字处起手滚动，到达列表边界时背景仍保持锁定。
+
+- Updated dependencies []:
+  - @maple-design/icons-vue@1.4.3
+  - @maple-design/shared-vue@1.4.3
+  - @maple-design/use-vue@1.4.3
+
 ## 1.4.2
 
 ### Patch Changes
