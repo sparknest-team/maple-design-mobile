@@ -1,5 +1,16 @@
 # @maple-design/ui-vue
 
+## 1.4.2
+
+### Patch Changes
+
+- [#20](https://github.com/sparknest-team/maple-design-mobile/pull/20) [`40be872`](https://github.com/sparknest-team/maple-design-mobile/commit/40be872519d8f679e748a4c492d73aa9e9af03ae) Thanks [@sparknest-team](https://github.com/sparknest-team)! - 修复搜索下拉框在软键盘展开时覆盖输入框的问题，保留面板高度和原有的上下翻转行为。修复 iOS Safari 上首次轻点选项可能无法选中的问题，滑动列表仍可正常滚动。
+
+- Updated dependencies []:
+  - @maple-design/icons-vue@1.4.2
+  - @maple-design/shared-vue@1.4.2
+  - @maple-design/use-vue@1.4.2
+
 ## 1.4.1
 
 ### Patch Changes
