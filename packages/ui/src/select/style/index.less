@@ -98,12 +98,14 @@
     }
 
     // hover
-    &-active:not(.mp-select-option-selected):not(.mp-select-option-disabled) {
+    &-active:not(.mp-select-option-selected):not(.mp-select-option-disabled),
+    &:not(.mp-select-option-selected):not(.mp-select-option-disabled):hover {
       color: var(~'--mp-select-popup-option-text-color-hover');
       background-color: var(~'--mp-select-popup-option-bg-hover');
     }
 
-    &-selected.mp-select-option-active:not(.mp-select-option-disabled) {
+    &-selected.mp-select-option-active:not(.mp-select-option-disabled),
+    &-selected:not(.mp-select-option-disabled):hover {
       background-color: var(--mp-select-popup-option-bg-selected-hover);
     }
 
