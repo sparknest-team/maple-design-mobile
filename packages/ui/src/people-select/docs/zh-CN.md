@@ -57,6 +57,12 @@ setPropsDefaults 在挂载前配置一次，修改组件定义的默认属性；
 
 <demo src="../example/demos/options-loader.vue"></demo>
 
+### 弹层内搜索
+
+在底部 Popup 里输入「测试」会返回 20 条模拟人员。键盘弹起后，可以从选项文字上向上滑动列表，再轻点一次选中人员。
+
+<demo src="../example/demos/popup-search.vue"></demo>
+
 ## 业务组合
 
 ### 完整业务示例

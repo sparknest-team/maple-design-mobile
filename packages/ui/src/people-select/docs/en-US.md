@@ -55,6 +55,12 @@ Pass a typed loader to `:options="loadPeople"`. This example simulates a request
 
 <demo src="../example/demos/en-US/options-loader.vue"></demo>
 
+### Search in a bottom popup
+
+Type “Test” in the bottom popup to load 20 sample people. With the keyboard open, swipe up from an option label to scroll the list, then tap once to select a person.
+
+<demo src="../example/demos/en-US/popup-search.vue"></demo>
+
 ## Business composition
 
 ### Complete example

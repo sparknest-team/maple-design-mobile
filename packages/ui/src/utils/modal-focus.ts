@@ -1,8 +1,19 @@
-import { nextTick, onActivated, onBeforeUnmount, onDeactivated, onMounted, watch } from 'vue'
+import type { InjectionKey } from 'vue'
+import { inject, nextTick, onActivated, onBeforeUnmount, onDeactivated, onMounted, provide, watch } from 'vue'
 import { canRestoreFocus, isTabStop } from './focusable'
 
 const selector = 'a[href],button,input,select,textarea,[tabindex], [contenteditable]'
 const focusOrigins = new WeakMap<HTMLElement, HTMLElement[]>()
+type ScrollBranch = () => HTMLElement | undefined
+const scrollBranchesKey: InjectionKey<Set<ScrollBranch>> = Symbol('modal-scroll-branches')
+
+export function useModalScrollBranch(branch: ScrollBranch) {
+  const branches = inject(scrollBranchesKey, undefined)
+  if (branches) {
+    branches.add(branch)
+    onBeforeUnmount(() => branches.delete(branch))
+  }
+}
 /** Modal ownership follows the popup stack, including teleported child Triggers. */
 export function useModalFocus(
   root: () => HTMLElement | undefined,
@@ -10,7 +21,10 @@ export function useModalFocus(
   isTop: (event?: Event) => boolean,
   lockScroll: () => boolean = () => true,
   ownerDocument?: () => Document | undefined,
+  isTopForScroll = isTop,
 ) {
+  const scrollBranches = new Set<ScrollBranch>()
+  provide(scrollBranchesKey, scrollBranches)
   let previous: HTMLElement[] = []
   let element: HTMLElement | undefined
   let owner: Document | undefined
@@ -148,7 +162,7 @@ export function useModalFocus(
     touch = event.touches.length === 1 ? { x: event.touches[0].clientX, y: event.touches[0].clientY } : undefined
   }
   function move(event: TouchEvent) {
-    if (!touch || event.touches.length !== 1 || !active() || suspended || !lockScroll() || !isTop(event)) {
+    if (!touch || event.touches.length !== 1 || !active() || suspended || !lockScroll() || !isTopForScroll(event)) {
       return
     }
     const point = event.touches[0],
@@ -158,11 +172,22 @@ export function useModalFocus(
     if (!dx && !dy) {
       return
     }
-    const target = root()
+    const path = event.composedPath()
+    const modal = root()
+    // Teleported child popups keep their logical modal owner. Stop at their
+    // own root so a touch at the list boundary cannot scroll the background.
+    const target =
+      modal &&
+      (path.includes(modal)
+        ? modal
+        : [...scrollBranches].map((branch) => branch()).find((branch) => branch && path.includes(branch)))
     const horizontal = Math.abs(dx) > Math.abs(dy),
       delta = horizontal ? dx : dy
-    let node = event.target as HTMLElement | null
-    while (target && node && target.contains(node)) {
+    for (const entry of target ? path.slice(0, path.indexOf(target) + 1) : []) {
+      const node = entry as HTMLElement
+      if (node.nodeType !== 1) {
+        continue
+      }
       const style = node.ownerDocument.defaultView?.getComputedStyle(node)
       const overflow = horizontal ? style?.overflowX : style?.overflowY
       const offset = horizontal ? node.scrollLeft : node.scrollTop
@@ -170,10 +195,6 @@ export function useModalFocus(
       if (/(auto|scroll)/.test(overflow ?? '') && maximum > 0 && (delta < 0 ? offset > 0 : offset < maximum - 1)) {
         return
       }
-      if (node === target) {
-        break
-      }
-      node = node.parentElement
     }
     if (event.cancelable) {
       event.preventDefault()

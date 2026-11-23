@@ -74,13 +74,14 @@ export function useModalSurface(options: ModalSurfaceOptions) {
     () => ((mergedOpen.value || transition.leaving.value) && modalDocument() ? options.root.value : undefined),
     () => mergedZIndex.value,
   )
-  const { onStackTop } = usePopupLayer(layerActive, mergedZIndex, modalDocument)
+  const { onStackTop, onModalStackTop } = usePopupLayer(layerActive, mergedZIndex, modalDocument, false, true)
   const { focus, focusAfterEnter, restore } = useModalFocus(
     () => options.root.value?.querySelector<HTMLElement>('[data-modal-focus-root]') ?? options.root.value,
     () => mergedOpen.value,
     onStackTop,
     options.lockScroll,
     modalDocument,
+    onModalStackTop,
   )
 
   // Same-document Teleport moves keep the root ref and ownerDocument, but the
