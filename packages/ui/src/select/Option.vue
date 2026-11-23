@@ -9,8 +9,13 @@
     :aria-selected="isSelected"
     :aria-disabled="disabled"
     @click="handleClick"
-    @mouseenter="handleMouseEnter"
-    @mouseleave="handleMouseLeave"
+    @touchstart.passive="startTap"
+    @touchmove.passive="checkTap"
+    @pointercancel="cancelTap"
+    @touchcancel="cancelTap"
+    @touchend="finishTap"
+    @pointerenter="handlePointerEnter"
+    @pointerleave="handlePointerLeave"
   >
     <span v-if="$slots.icon" :class="`${prefixCls}-icon`">
       <slot name="icon" />
@@ -138,14 +143,56 @@ export default defineComponent({
       }
     }
 
-    const handleMouseEnter = () => {
-      if (!props.disabled) {
+    let tap: { id: number; x: number; y: number; time: number } | undefined
+    const cancelTap = () => {
+      tap = undefined
+    }
+    const startTap = (event: TouchEvent) => {
+      const touch = event.touches[0]
+      tap =
+        event.touches.length === 1 && !props.disabled
+          ? { id: touch.identifier, x: touch.clientX, y: touch.clientY, time: event.timeStamp }
+          : undefined
+    }
+    const checkTap = (event: TouchEvent) => {
+      const touch = event.changedTouches[0]
+      if (
+        !touch ||
+        touch.identifier !== tap?.id ||
+        !tap ||
+        Math.hypot(touch.clientX - tap.x, touch.clientY - tap.y) > 8
+      )
+        cancelTap()
+    }
+    const finishTap = (event: TouchEvent) => {
+      checkTap(event)
+      const start = tap
+      cancelTap()
+      const target = event.target
+      if (
+        !start ||
+        event.touches.length ||
+        event.timeStamp - start.time > 500 ||
+        !event.cancelable ||
+        event.defaultPrevented ||
+        !(target instanceof HTMLElement) ||
+        target.closest('button, a, input, select, textarea, [contenteditable="true"], [role="button"]')
+      )
+        return
+
+      // Safari can end the first tap without dispatching a click. Replace its compatibility click once.
+      event.preventDefault()
+      target.click()
+    }
+
+    const handlePointerEnter = (event: PointerEvent) => {
+      if (event.pointerType !== 'touch' && !props.disabled) {
         selectCtx?.setActiveKey(key.value)
       }
     }
 
-    const handleMouseLeave = () => {
-      if (!props.disabled) {
+    const handlePointerLeave = (event: PointerEvent) => {
+      if (event.pointerType !== 'touch' && !props.disabled) {
         selectCtx?.setActiveKey()
       }
     }
@@ -170,8 +217,12 @@ export default defineComponent({
       isSelected,
       isValid,
       handleClick,
-      handleMouseEnter,
-      handleMouseLeave,
+      startTap,
+      checkTap,
+      cancelTap,
+      finishTap,
+      handlePointerEnter,
+      handlePointerLeave,
     }
   },
 })
