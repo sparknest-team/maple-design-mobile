@@ -98,13 +98,11 @@
     }
 
     // hover
-    &-active:not(.mp-select-option-selected):not(.mp-select-option-disabled),
-    &:not(.mp-select-option-selected):not(.mp-select-option-disabled):hover {
+    &-active:not(.mp-select-option-selected):not(.mp-select-option-disabled) {
       color: var(~'--mp-select-popup-option-text-color-hover');
       background-color: var(~'--mp-select-popup-option-bg-hover');
     }
 
-    &-selected:not(.mp-select-option-disabled):hover,
     &-selected.mp-select-option-active:not(.mp-select-option-disabled) {
       background-color: var(--mp-select-popup-option-bg-selected-hover);
     }

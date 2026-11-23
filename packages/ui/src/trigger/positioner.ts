@@ -175,7 +175,11 @@ export function useTriggerPositioner(options: PositionerOptions, context: Positi
           ? relativeReference.width
           : relativeReference.height
         : 0)
+    const focusRoot = reference.getRootNode() as Document | ShadowRoot
+    const focused = focusRoot.activeElement
     const result = calculatePopupPosition(options.placement, relativeReference, relativePopup, {
+      // Keep the active combobox visible when neither vertical placement fits above the keyboard.
+      keepVerticalAnchor: !point && focused?.matches('[role="combobox"]') && reference.contains(focused),
       direction: context.direction?.value,
       origin: { left: space.x / space.scaleX, top: space.y / space.scaleY },
       scaleX: space.scaleX,

@@ -46,7 +46,7 @@ describe('Select data flow demo', () => {
     await settle()
     expect(select.emitted('update:modelValue')).toBeUndefined()
     expect(wrapper.text()).toContain('form.city = undefined')
-    cityOption().dispatchEvent(new MouseEvent('mouseenter'))
+    cityOption().dispatchEvent(Object.assign(new Event('pointerenter'), { pointerType: 'mouse' }))
     await settle()
     expect(select.emitted('update:modelValue')).toBeUndefined()
     cityOption().click()

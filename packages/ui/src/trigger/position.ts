@@ -116,7 +116,9 @@ function fitPosition(
   // When neither side fits, keep the main axis inside the visual viewport too.
   // Oversized popups are pinned to its start; their content owns scrolling.
   if (finalSide === 'top' || finalSide === 'bottom') {
-    offset.top = Math.max(-originTop, Math.min(offset.top, height - popup.height - originTop))
+    if (!context.keepVerticalAnchor) {
+      offset.top = Math.max(-originTop, Math.min(offset.top, height - popup.height - originTop))
+    }
   } else {
     offset.left = Math.max(-originLeft, Math.min(offset.left, width - popup.width - originLeft))
   }
@@ -130,6 +132,7 @@ export interface PositionContext {
   scaleY: number
   distance: number
   translate?: TriggerPopupTranslate
+  keepVerticalAnchor?: boolean
   autoFitPosition: boolean
   strategy: TriggerStrategy
   customStyle?: CSSProperties

@@ -112,3 +112,20 @@ test('keeps a body-mounted popup anchored throughout WKWebView keyboard panning'
     expect(result.style.top).toBe('550.4375px')
   }
 })
+
+test('keeps a fixed-height combobox menu attached and flips only if the opposite side fits', () => {
+  const keyboard = {
+    ...context,
+    keepVerticalAnchor: true,
+    origin: { left: 0, top: -204 },
+    distance: 4,
+    view: { scrollX: 0, scrollY: 204, visualViewport: { width: 393, height: 317, pageTop: 204, pageLeft: 0 } },
+  }
+  const menu = rect(0, 0, 361, 210)
+  const lower = calculatePopupPosition('bottom-start', rect(16, 338, 361, 48), menu, keyboard)
+  expect(lower.placement).toBe('bottom-start')
+  expect(lower.style).toEqual({ position: 'fixed', left: '16px', top: '390px' })
+  const upper = calculatePopupPosition('bottom-start', rect(16, 450, 361, 48), menu, keyboard)
+  expect(upper.placement).toBe('top-start')
+  expect(upper.style.top).toBe('236px')
+})
