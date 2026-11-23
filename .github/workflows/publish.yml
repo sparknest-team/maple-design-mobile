@@ -38,7 +38,6 @@ jobs:
           cache-dependency-path: |
             maple-design-mobile/pnpm-lock.yaml
             design-ui/pnpm-lock.yaml
-          registry-url: https://registry.npmjs.org
       - run: corepack pnpm install --frozen-lockfile
         working-directory: design-ui
       - run: pnpm install --frozen-lockfile
@@ -55,5 +54,3 @@ jobs:
             const check = data.check_runs.find(run => run.name === 'quality' && run.app?.slug === 'github-actions');
             if (!check || check.status !== 'completed' || check.conclusion !== 'success') throw new Error('Run and pass Quality on this exact main commit before publishing');
       - run: pnpm exec changeset publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
