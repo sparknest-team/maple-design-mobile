@@ -20,11 +20,7 @@ export function run(mode, messageFile) {
     }
     execFileSync('git', ['config', '--local', 'core.hooksPath', '.githooks'], { stdio: 'inherit' })
   } else if (mode === 'pre-commit') {
-    // Format and lint-fix only the files being committed, then inspect the index.
-    // Unstaged work is never touched, and nothing outside the staged set is rewritten.
-    execFileSync(process.platform === 'win32' ? 'pnpm.cmd' : 'pnpm', ['exec', 'nano-staged'], {
-      stdio: 'inherit',
-    })
+    // Inspect the index only; never format, lint, build, or alter the working tree.
     execFileSync('git', ['diff', '--cached', '--check'], { stdio: 'inherit' })
     const files = execFileSync('git', ['diff', '--cached', '--name-only', '--diff-filter=ACMR', '-z'])
       .toString()
@@ -37,7 +33,7 @@ export function run(mode, messageFile) {
         throw new Error(`Invalid staged JSON: ${file}`, { cause: error })
       }
     }
-    console.log('Staged files formatted; whitespace, conflict markers, and JSON: OK. Full quality runs in PR CI.')
+    console.log('Staged whitespace, conflict markers, and JSON: OK. Full quality runs in PR CI.')
   } else if (mode === 'commit-msg') {
     checkMessage(readFileSync(messageFile, 'utf8'))
   } else {
