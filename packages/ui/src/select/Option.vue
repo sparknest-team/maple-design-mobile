@@ -161,8 +161,9 @@ export default defineComponent({
         touch.identifier !== tap?.id ||
         !tap ||
         Math.hypot(touch.clientX - tap.x, touch.clientY - tap.y) > 8
-      )
+      ) {
         cancelTap()
+      }
     }
     const finishTap = (event: TouchEvent) => {
       checkTap(event)
@@ -177,8 +178,9 @@ export default defineComponent({
         event.defaultPrevented ||
         !(target instanceof HTMLElement) ||
         target.closest('button, a, input, select, textarea, [contenteditable="true"], [role="button"]')
-      )
+      ) {
         return
+      }
 
       // Safari can end the first tap without dispatching a click. Replace its compatibility click once.
       event.preventDefault()
