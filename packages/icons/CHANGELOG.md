@@ -1,5 +1,7 @@
 # @maple-design/icons-vue
 
+## 1.4.7
+
 ## 1.4.6
 
 ## 1.4.5

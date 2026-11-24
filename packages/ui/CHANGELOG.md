@@ -1,5 +1,20 @@
 # @maple-design/ui-vue
 
+## 1.4.7
+
+### Patch Changes
+
+- [#46](https://github.com/sparknest-team/maple-design-mobile/pull/46) [`d67dcf3`](https://github.com/sparknest-team/maple-design-mobile/commit/d67dcf3ee425e0971f5ae30958637a14d83884bb) Thanks [@sparknest-team](https://github.com/sparknest-team)! - section: `show-marker` 改为显式默认 `false`，去掉按表单上下文推断
+
+  `Section` 原来在未传 `show-marker` 时，会根据祖先是否存在 `Form` 自行决定是否显示标题色条
+  （`props.showMarker ?? !!form`），使同一份调用代码在表单内外视觉不同。现改为
+  `default: false`，需要色条时显式传入。`form` 上下文仍用于 `--form` 类名与 inline 布局。
+
+- Updated dependencies []:
+  - @maple-design/icons-vue@1.4.7
+  - @maple-design/shared-vue@1.4.7
+  - @maple-design/use-vue@1.4.7
+
 ## 1.4.6
 
 ### Patch Changes
