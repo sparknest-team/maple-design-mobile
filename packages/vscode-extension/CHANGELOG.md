@@ -1,5 +1,14 @@
 # maple-vscode-extension-vue
 
+## 1.4.4
+
+### Patch Changes
+
+- Updated dependencies [[`878b700`](https://github.com/sparknest-team/maple-design-mobile/commit/878b70027014ea22d5c501ad76ac178eac3cdc79), [`68fddba`](https://github.com/sparknest-team/maple-design-mobile/commit/68fddba77743c86a2011035ac5e34dafceab9077)]:
+  - @maple-design/ui-vue@1.4.4
+  - @maple-design/icons-vue@1.4.4
+  - @maple-design/shared-vue@1.4.4
+
 ## 1.4.3
 
 ### Patch Changes
