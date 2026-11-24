@@ -24,6 +24,7 @@ function clearSection() {
   <div data-section-demo="actions">
     <mp-form :model="model" layout="horizontal" label-col-flex="7rem" edit-mode="direct">
       <mp-section
+        show-marker
         title="Onsite handling"
         description="Use a template to fill this section. Clearing it preserves the skill level outside the section."
       >

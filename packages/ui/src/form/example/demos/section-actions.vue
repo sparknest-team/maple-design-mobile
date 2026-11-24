@@ -20,7 +20,7 @@ function clearSection() {
 <template>
   <div data-section-demo="actions">
     <mp-form :model="model" layout="horizontal" label-col-flex="7rem" edit-mode="direct">
-      <mp-section title="现场处置" description="引用模板填充本分区；清空后，分区外的技能等级保持不变。">
+      <mp-section show-marker title="现场处置" description="引用模板填充本分区；清空后，分区外的技能等级保持不变。">
         <template #extra>
           <mp-space size="sm" wrap>
             <mp-button variant="text" size="sm" @click="applyTemplate">引用模板</mp-button>
