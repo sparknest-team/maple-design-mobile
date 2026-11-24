@@ -40,7 +40,7 @@
       </mp-page-header>
     </header>
     <nav
-      v-if="sections.length > 1 && isDocumentation"
+      v-if="sections.length > 1 && (isDocumentation || isHome)"
       class="mobile-documentation-sections"
       :aria-label="language === 'en-US' ? 'Documentation areas' : '文档分区'"
     >
@@ -82,7 +82,7 @@ import {
 import { pascalCase } from '@maple-design/shared-vue'
 import { DirectionToggle, DocsSelect, DocsSourceIcon } from '@sparknest/ui-doc-preview-vue'
 import { useRoute, useRouter } from 'vue-router'
-import { getDocumentationSection, sectionRoute, type DocumentationSection } from '../documentation-sections'
+import { getDocumentationSection, isHomePath, sectionRoute, type DocumentationSection } from '../documentation-sections'
 import { inIframe, isPhone, removeEmpty } from '../utils'
 
 export default defineComponent({
@@ -104,7 +104,11 @@ export default defineComponent({
     const language: Ref<string> = ref('')
     const sections = config?.pc?.sections ?? []
     const activeSection = computed(() => getDocumentationSection(route.path, sections, route.query.section))
+    const isHome = computed(() => isHomePath(route.path))
     const switchSection = (section: DocumentationSection) => {
+      if (isHome.value) {
+        return router.push({ path: '/home', query: { section: section.id, language: language.value } })
+      }
       if (inIframe()) {
         ;(window.parent as any).onMobileRouteChange(
           `/${language.value}/${section.entry}`,
@@ -197,6 +201,7 @@ export default defineComponent({
       activeSection,
       switchSection,
       isDocumentation,
+      isHome,
       bigCamelizeComponentName,
       showBackIcon,
       github,

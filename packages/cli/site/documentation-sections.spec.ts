@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { getDocumentationSection, getSectionMenu, sectionRoute } from './documentation-sections'
+import { getDocumentationSection, getSectionMenu, isHomePath, sectionRoute } from './documentation-sections'
 import type { Menu } from './utils'
 
 const sections = [
@@ -41,5 +41,20 @@ describe('independent documentation sections', () => {
     })
     expect(getDocumentationSection('/home', sections, 'showcase')?.id).toBe('showcase')
     expect(getDocumentationSection('/home', sections, 'invalid')?.id).toBe('components')
+  })
+  it('exposes the home page so the mobile section switcher stays reachable', () => {
+    for (const path of ['/', '', '/home', '/zh-CN/home', '/en-US/home']) {
+      expect(isHomePath(path), path).toBe(true)
+    }
+    for (const path of ['/zh-CN/button', '/button', '/zh-CN/quickstart']) {
+      expect(isHomePath(path), path).toBe(false)
+    }
+    const startHub = [
+      { id: 'start', text: { 'zh-CN': '开始使用' }, entry: 'quickstart', docs: ['home', 'quickstart'] },
+      { id: 'components', text: { 'zh-CN': '组件' }, entry: 'button' },
+    ]
+    // Home defaults to the section that claims the `home` doc, and a query switches away from it.
+    expect(getDocumentationSection('/home', startHub)?.id).toBe('start')
+    expect(getDocumentationSection('/home', startHub, 'components')?.id).toBe('components')
   })
 })
