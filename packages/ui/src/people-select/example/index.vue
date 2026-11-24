@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import EnPopupSearch from './demos/en-US/popup-search.vue'
 import InjectedServices from './demos/injected-services.vue'
 import Multiple from './demos/multiple.vue'

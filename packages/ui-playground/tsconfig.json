@@ -3,6 +3,7 @@
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "isolatedModules": true,
-    "types": ["vite/client"],
+    "moduleResolution": "bundler",
+    "types": ["vite/client"]
   }
 }
