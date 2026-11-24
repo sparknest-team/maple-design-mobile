@@ -226,7 +226,7 @@ importers:
         specifier: ^3.1.10
         version: 3.1.10
       esbuild:
-        specifier: 0.23.1
+        specifier: ^0.23.1
         version: 0.23.1
       fs-extra:
         specifier: 'catalog:'

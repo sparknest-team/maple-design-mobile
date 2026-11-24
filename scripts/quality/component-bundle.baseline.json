@@ -1,8 +1,8 @@
 [
   {
     "name": "action-sheet",
-    "bytes": 49956,
-    "gzip": 18385
+    "bytes": 50401,
+    "gzip": 18575
   },
   {
     "name": "affix",
@@ -16,13 +16,13 @@
   },
   {
     "name": "auto-complete",
-    "bytes": 193835,
-    "gzip": 64569
+    "bytes": 195372,
+    "gzip": 65158
   },
   {
     "name": "avatar",
-    "bytes": 55892,
-    "gzip": 20090
+    "bytes": 56532,
+    "gzip": 20314
   },
   {
     "name": "back-top",
@@ -36,8 +36,8 @@
   },
   {
     "name": "breadcrumb",
-    "bytes": 85201,
-    "gzip": 29245
+    "bytes": 85838,
+    "gzip": 29446
   },
   {
     "name": "button",
@@ -46,8 +46,8 @@
   },
   {
     "name": "card",
-    "bytes": 55131,
-    "gzip": 19127
+    "bytes": 55350,
+    "gzip": 19186
   },
   {
     "name": "carousel",
@@ -56,8 +56,8 @@
   },
   {
     "name": "cascader",
-    "bytes": 261324,
-    "gzip": 84492
+    "bytes": 261989,
+    "gzip": 84763
   },
   {
     "name": "cell",
@@ -66,8 +66,8 @@
   },
   {
     "name": "checkbox",
-    "bytes": 91932,
-    "gzip": 31712
+    "bytes": 92373,
+    "gzip": 31868
   },
   {
     "name": "code",
@@ -101,18 +101,18 @@
   },
   {
     "name": "date",
-    "bytes": 296110,
-    "gzip": 93971
+    "bytes": 296775,
+    "gzip": 94285
   },
   {
     "name": "date-range",
-    "bytes": 307682,
-    "gzip": 96937
+    "bytes": 308347,
+    "gzip": 97237
   },
   {
     "name": "dialog",
-    "bytes": 61023,
-    "gzip": 19948
+    "bytes": 61469,
+    "gzip": 20137
   },
   {
     "name": "divider",
@@ -126,8 +126,8 @@
   },
   {
     "name": "ellipsis",
-    "bytes": 47282,
-    "gzip": 17116
+    "bytes": 47918,
+    "gzip": 17336
   },
   {
     "name": "empty",
@@ -151,8 +151,8 @@
   },
   {
     "name": "form",
-    "bytes": 91310,
-    "gzip": 32813
+    "bytes": 91947,
+    "gzip": 33022
   },
   {
     "name": "form-details",
@@ -181,8 +181,8 @@
   },
   {
     "name": "image",
-    "bytes": 62105,
-    "gzip": 21411
+    "bytes": 62320,
+    "gzip": 21481
   },
   {
     "name": "index-bar",
@@ -196,18 +196,18 @@
   },
   {
     "name": "input",
-    "bytes": 97735,
-    "gzip": 31537
+    "bytes": 98175,
+    "gzip": 31732
   },
   {
     "name": "input-number",
-    "bytes": 147947,
-    "gzip": 50328
+    "bytes": 148385,
+    "gzip": 50502
   },
   {
     "name": "input-tag",
-    "bytes": 180861,
-    "gzip": 59330
+    "bytes": 182396,
+    "gzip": 59919
   },
   {
     "name": "lazy",
@@ -246,13 +246,13 @@
   },
   {
     "name": "mention",
-    "bytes": 201814,
-    "gzip": 66707
+    "bytes": 203352,
+    "gzip": 67298
   },
   {
     "name": "menu",
-    "bytes": 73648,
-    "gzip": 25707
+    "bytes": 74290,
+    "gzip": 25933
   },
   {
     "name": "message",
@@ -261,8 +261,8 @@
   },
   {
     "name": "nav-menu",
-    "bytes": 30312,
-    "gzip": 11638
+    "bytes": 30529,
+    "gzip": 11701
   },
   {
     "name": "notice-bar",
@@ -271,13 +271,13 @@
   },
   {
     "name": "number-keyboard",
-    "bytes": 50334,
-    "gzip": 18388
+    "bytes": 50774,
+    "gzip": 18575
   },
   {
     "name": "overlay",
-    "bytes": 13724,
-    "gzip": 5743
+    "bytes": 13941,
+    "gzip": 5808
   },
   {
     "name": "page-header",
@@ -286,8 +286,8 @@
   },
   {
     "name": "pagination",
-    "bytes": 239571,
-    "gzip": 75711
+    "bytes": 241109,
+    "gzip": 76362
   },
   {
     "name": "paper",
@@ -296,23 +296,23 @@
   },
   {
     "name": "people-select",
-    "bytes": 237996,
-    "gzip": 76624
+    "bytes": 239534,
+    "gzip": 77280
   },
   {
     "name": "picker",
-    "bytes": 68026,
-    "gzip": 24377
+    "bytes": 68468,
+    "gzip": 24556
   },
   {
     "name": "popover",
-    "bytes": 45307,
-    "gzip": 16454
+    "bytes": 45945,
+    "gzip": 16661
   },
   {
     "name": "popup",
-    "bytes": 29708,
-    "gzip": 11396
+    "bytes": 30147,
+    "gzip": 11588
   },
   {
     "name": "progress",
@@ -331,13 +331,13 @@
   },
   {
     "name": "radio",
-    "bytes": 91570,
-    "gzip": 31658
+    "bytes": 92013,
+    "gzip": 31837
   },
   {
     "name": "rate",
-    "bytes": 96054,
-    "gzip": 31566
+    "bytes": 96491,
+    "gzip": 31721
   },
   {
     "name": "result",
@@ -361,8 +361,8 @@
   },
   {
     "name": "search",
-    "bytes": 260276,
-    "gzip": 83063
+    "bytes": 261814,
+    "gzip": 83736
   },
   {
     "name": "section",
@@ -371,8 +371,8 @@
   },
   {
     "name": "select",
-    "bytes": 217234,
-    "gzip": 70274
+    "bytes": 218768,
+    "gzip": 70873
   },
   {
     "name": "signature",
@@ -386,8 +386,8 @@
   },
   {
     "name": "slider",
-    "bytes": 161895,
-    "gzip": 54585
+    "bytes": 162339,
+    "gzip": 54791
   },
   {
     "name": "space",
@@ -396,8 +396,8 @@
   },
   {
     "name": "split-button",
-    "bytes": 92487,
-    "gzip": 31514
+    "bytes": 93125,
+    "gzip": 31779
   },
   {
     "name": "statistic",
@@ -416,8 +416,8 @@
   },
   {
     "name": "switch",
-    "bytes": 82277,
-    "gzip": 28150
+    "bytes": 82714,
+    "gzip": 28329
   },
   {
     "name": "tab-bar",
@@ -426,8 +426,8 @@
   },
   {
     "name": "table",
-    "bytes": 355887,
-    "gzip": 112625
+    "bytes": 357425,
+    "gzip": 113294
   },
   {
     "name": "tabs",
@@ -441,8 +441,8 @@
   },
   {
     "name": "textarea",
-    "bytes": 105353,
-    "gzip": 35080
+    "bytes": 105795,
+    "gzip": 35253
   },
   {
     "name": "theme-provider",
@@ -451,13 +451,13 @@
   },
   {
     "name": "time",
-    "bytes": 199691,
-    "gzip": 67734
+    "bytes": 200354,
+    "gzip": 68011
   },
   {
     "name": "time-range",
-    "bytes": 199857,
-    "gzip": 67773
+    "bytes": 200520,
+    "gzip": 68046
   },
   {
     "name": "timeline",
@@ -466,23 +466,23 @@
   },
   {
     "name": "tooltip",
-    "bytes": 45283,
-    "gzip": 16441
+    "bytes": 45921,
+    "gzip": 16648
   },
   {
     "name": "trigger",
-    "bytes": 40957,
-    "gzip": 14932
+    "bytes": 41595,
+    "gzip": 15137
   },
   {
     "name": "upload",
-    "bytes": 150500,
-    "gzip": 50092
+    "bytes": 150947,
+    "gzip": 50280
   },
   {
     "name": "verification-code",
-    "bytes": 118285,
-    "gzip": 38614
+    "bytes": 118726,
+    "gzip": 38796
   },
   {
     "name": "watermark",

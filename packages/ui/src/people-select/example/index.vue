@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { demoEnglish as english } from '@maple-design/cli-vue/demo-language'
 import EnPopupSearch from './demos/en-US/popup-search.vue'
 import InjectedServices from './demos/injected-services.vue'
 import Multiple from './demos/multiple.vue'
@@ -19,6 +20,7 @@ import PopupSearch from './demos/popup-search.vue'
   </h2>
 
   <section data-demo="options-loader"><OptionsLoader /></section>
+
   <section data-demo="popup-search">
     <EnPopupSearch v-if="english" />
     <PopupSearch v-else />

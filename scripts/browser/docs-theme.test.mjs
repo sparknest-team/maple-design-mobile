@@ -91,7 +91,11 @@ async function sourceState(page) {
     pageWidth: document.documentElement.scrollWidth,
   }))
   assert.match(state.text, /mp-highlighter-provider/)
-  assert.match(state.text, /onThemeChange/)
+  // Copyable demos may not import the site theme API (scripts/quality/demo-language-policy.mjs),
+  // so the documentation source exposes the `dark` prop the generated page binds instead of
+  // `onThemeChange`, which only the mobile example entry is allowed to use. This helper runs on
+  // the documentation surface only.
+  assert.match(state.text, /dark\?: boolean/)
   assert.ok(state.colors.length >= 3, 'expanded Vue source must be highlighted')
   assert.equal(state.pageWidth, page.viewportSize().width)
   return state

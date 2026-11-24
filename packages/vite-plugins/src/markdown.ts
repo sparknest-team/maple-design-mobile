@@ -109,9 +109,11 @@ function renderDemo(demo: DemoFile) {
   const encodedHighlight = encodeURIComponent(highlight(demo.source, 'html'))
   const pageClass = demo.page ? ' maple-component-preview--page' : ''
   const mobileId = demo.mobileId ? ` data-mobile-demo="${encodeURIComponent(demo.mobileId)}"` : ''
+  // Only demos with a dark prop should receive the site theme.
+  const themed = /\bdark\?:\s*boolean\b/.test(demo.source) ? ' :dark="siteDark"' : ''
   return `<div class="maple-component-preview${pageClass}"${mobileId}>
 <mp-site-demo-preview source-name="${basename(demo.path)}" source="${encodedSource}" highlight-code="${encodedHighlight}">
-<${demo.component}></${demo.component}>
+<${demo.component}${themed}></${demo.component}>
 </mp-site-demo-preview>
 </div>`
 }
@@ -378,13 +380,19 @@ function markdownToVue(source: string, options: MarkdownOptions, id: string, onD
 <template><div class="maple-site-doc">${templateString}</div></template>
 
 <script>
+import { currentTheme } from '@maple-design/cli-vue/client'
 ${expanded.demos.map((demo) => `import ${demo.component} from '${demo.request}'`).join('\n')}
 ${imports.join('\n')}
 
 export default {
   components: {
     ${[...expanded.demos.map((demo) => demo.component), ...components].join(',')}
-  }
+  },
+  computed: {
+    siteDark() {
+      return !!currentTheme.value?.toLowerCase().includes('dark')
+    },
+  },
 }
 </script>
   `

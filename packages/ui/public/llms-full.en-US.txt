@@ -19123,7 +19123,7 @@ Source: `src/_components/field-presentation/token.less`
 | `--mp-field-presentation-padding` | Internal | `var(--mp-sys-space-4)` | Local CSS<br>`margin-inline`, `max-width`, `padding`, `padding-block`, `padding-bottom`, `padding-left`, `padding-right` |
 | `--mp-field-presentation-radius` | Internal | `8px` | Local CSS<br>`border-radius` |
 | `--mp-field-presentation-read-text-align` | Internal | `end` | Local CSS<br>`text-align` |
-| `--mp-field-presentation-shadow` | Internal | `0 8px 28px rgb(0 0 0%)` | Local CSS<br>`box-shadow` |
+| `--mp-field-presentation-shadow` | Internal | `0 8px 28px rgba(0, 0, 0, 0.12)` | Local CSS<br>`box-shadow` |
 | `--mp-field-presentation-title-font-size` | Internal | `16px` | Local CSS<br>`font-size` |
 | `--mp-field-presentation-title-font-weight` | Internal | `500` | Local CSS<br>`font-weight` |
 | `--mp-field-presentation-viewport-max-height` | Internal | `90dvh` | Local CSS<br>`max-height` |
@@ -19683,23 +19683,24 @@ Source: `src/card/style/token.less`
 | `--mp-card-close-button-size` | Public | `56px` | Local CSS<br>`height`, `width` |
 | `--mp-card-close-button-text-color` | Public | `var(--mp-sys-color-content-on-dark)` | Local CSS<br>`color` |
 | `--mp-card-content-color` | Public | `var(--mp-sys-color-content-tertiary)` | Local CSS<br>`color` |
-| `--mp-card-content-font-size` | Public | `14px` | Local CSS<br>`font-size` |
+| `--mp-card-content-font-size` | Public | `15px` | Local CSS<br>`font-size` |
 | `--mp-card-content-margin` | Public | `16px 0 0 0` | Local CSS<br>`margin` |
 | `--mp-card-content-padding` | Public | `0 16px` | Local CSS<br>`padding` |
 | `--mp-card-content-row-margin` | Public | `16px 0 0 0` | Local CSS<br>`margin` |
 | `--mp-card-description-color` | Public | `var(--mp-sys-color-content-secondary)` | Local CSS<br>`color` |
-| `--mp-card-description-font-size` | Public | `14px` | Local CSS<br>`font-size` |
+| `--mp-card-description-font-size` | Public | `15px` | Local CSS<br>`font-size` |
 | `--mp-card-description-margin` | Public | `20px 0 0 0` | Local CSS<br>`margin` |
-| `--mp-card-description-padding` | Public | `0 13px` | Local CSS<br>`padding` |
+| `--mp-card-description-padding` | Public | `0 16px` | Local CSS<br>`padding` |
 | `--mp-card-filled-background` | Public | `var(--mp-sys-color-surface-muted)` | Local CSS<br>`background-color` |
 | `--mp-card-floating-buttons-bottom` | Public | `16px` | Local CSS<br>`bottom` |
 | `--mp-card-floating-buttons-color` | Public | `var(--mp-sys-color-content-primary)` | Local CSS<br>`color` |
 | `--mp-card-floating-buttons-right` | Public | `16px` | Local CSS<br>`inset-inline-end` |
 | `--mp-card-footer-bottom` | Public | `9px` | Local CSS<br>`bottom` |
 | `--mp-card-footer-margin` | Public | `30px 0 0 0` | Local CSS<br>`margin` |
-| `--mp-card-footer-padding` | Public | `0 12px` | Local CSS<br>`padding` |
-| `--mp-card-footer-right` | Public | `13px` | Local CSS<br>`inset-inline-end` |
-| `--mp-card-hover-shadow` | Public | Elevation 1 | Local CSS<br>`box-shadow` |
+| `--mp-card-footer-padding` | Public | `0 16px` | Local CSS<br>`padding` |
+| `--mp-card-footer-right` | Public | `13px` | Local CSS<br>`inset-inline-end`, `inset-inline-start` |
+| `--mp-card-heading-size-step` | Public | `1px` | Local CSS<br>`font-size` |
+| `--mp-card-hover-shadow` | Public | `0 2px 1px -1px var(--mp-shadow-key-umbra-opacity), 0 1px 1px 0 var(--mp-shadow-key-penumbra-opacity), 0 1px 3px 0 var(--mp-shadow-key-ambient-opacity)` | Local CSS<br>`box-shadow` |
 | `--mp-card-image-height` | Public | `200px` | Local CSS<br>`height` |
 | `--mp-card-image-width` | Public | `100%` | Local CSS<br>`width` |
 | `--mp-card-line-height` | Public | `22px` | Local CSS<br>`line-height` |
@@ -19708,18 +19709,27 @@ Source: `src/card/style/token.less`
 | `--mp-card-row-height` | Public | `140px` | Local CSS<br>`min-height` |
 | `--mp-card-row-image-width` | Public | `140px` | Local CSS<br>`width` |
 | `--mp-card-row-line-height` | Public | `1.5` | Local CSS<br>`line-height` |
+| `--mp-card-size-lg-section-margin` | Public | `20px 0 0` | Local CSS<br>`margin` |
+| `--mp-card-size-lg-section-padding` | Public | `0 20px` | Local CSS<br>`padding` |
+| `--mp-card-size-lg-title-font-size` | Public | `24px` | Local CSS<br>`font-size` |
 | `--mp-card-size-sm-section-margin` | Public | `8px 0 0` | Local CSS<br>`margin` |
 | `--mp-card-size-sm-section-padding` | Public | `0 12px` | Local CSS<br>`padding` |
 | `--mp-card-size-sm-title-font-size` | Public | `16px` | Local CSS<br>`font-size` |
+| `--mp-card-size-xl-section-margin` | Public | `24px 0 0` | Local CSS<br>`margin` |
+| `--mp-card-size-xl-section-padding` | Public | `0 24px` | Local CSS<br>`padding` |
+| `--mp-card-size-xl-title-font-size` | Public | `28px` | Local CSS<br>`font-size` |
+| `--mp-card-size-xs-section-margin` | Public | `6px 0 0` | Local CSS<br>`margin` |
+| `--mp-card-size-xs-section-padding` | Public | `0 8px` | Local CSS<br>`padding` |
+| `--mp-card-size-xs-title-font-size` | Public | `15px` | Local CSS<br>`font-size` |
 | `--mp-card-subtitle-color` | Public | `var(--mp-sys-color-content-secondary)` | Local CSS<br>`color` |
-| `--mp-card-subtitle-font-size` | Public | `14px` | Local CSS<br>`font-size` |
+| `--mp-card-subtitle-font-size` | Public | `15px` | Local CSS<br>`font-size` |
 | `--mp-card-subtitle-margin` | Public | `10px 0 0 0` | Local CSS<br>`margin` |
-| `--mp-card-subtitle-padding` | Public | `0 12px` | Local CSS<br>`padding` |
+| `--mp-card-subtitle-padding` | Public | `0 16px` | Local CSS<br>`padding` |
 | `--mp-card-subtitle-row-margin` | Public | `-8px 0 0 0` | Local CSS<br>`margin` |
 | `--mp-card-title-color` | Public | `var(--mp-sys-color-content-primary)` | Local CSS<br>`color` |
 | `--mp-card-title-font-size` | Public | `20px` | Local CSS<br>`font-size` |
 | `--mp-card-title-margin` | Public | `15px 0 0 0` | Local CSS<br>`margin` |
-| `--mp-card-title-padding` | Public | `0 12px` | Local CSS<br>`padding` |
+| `--mp-card-title-padding` | Public | `0 16px` | Local CSS<br>`padding` |
 | `--mp-card-title-row-margin` | Public | `12px 0` | Local CSS<br>`margin` |
 
 </div>
@@ -19791,7 +19801,7 @@ Source: `src/cascader/style/token.less`
 | `--mp-cascader-panel-column-max-height` | Public | `200px` | Local CSS<br>`max-height` |
 | `--mp-cascader-panel-column-min-width` | Public | `120px` | Local CSS<br>`min-width` |
 | `--mp-cascader-popup-border-radius` | Public | `var(--mp-sys-radius-md)` | Local CSS<br>`border-radius` |
-| `--mp-cascader-popup-box-shadow` | Public | `0 4px 10px rgb(0 0 0%)` | Local CSS<br>`box-shadow` |
+| `--mp-cascader-popup-box-shadow` | Public | `0 4px 10px rgba(0, 0, 0, 0.1)` | Local CSS<br>`box-shadow` |
 | `--mp-cascader-popup-color-border` | Public | `var(--mp-color-fill-3)` | Local CSS<br>`border`, `border-inline-end`, `border-top` |
 | `--mp-cascader-popup-max-height` | Public | `200px` | Local CSS<br>`height` |
 | `--mp-cascader-popup-padding-vertical` | Public | `var(--mp-sys-space-2)` | Local CSS<br>`padding`, `padding-block-end` |
@@ -19836,7 +19846,7 @@ Source: `src/checkbox/style/token.less`
 | `--mp-checkbox-animation-duration` | Public | `var(--mp-sys-motion-duration-standard)` | Local CSS<br>`transition` |
 | `--mp-checkbox-control-border-radius` | Public | `2px` | Local CSS<br>`border-radius` |
 | `--mp-checkbox-control-color` | Public | `var(--mp-sys-color-border-default)` | Local CSS<br>`color` |
-| `--mp-checkbox-control-color-checked` | Public | `var(--mp-sys-color-content-brand)` | Local CSS<br>`color`, `outline` |
+| `--mp-checkbox-control-color-checked` | Public | `var(--mp-sys-color-action-primary)` | Local CSS<br>`color` |
 | `--mp-checkbox-control-color-disabled` | Public | `var(--mp-sys-color-content-disabled)` | Local CSS<br>`color` |
 | `--mp-checkbox-control-color-error` | Public | `var(--mp-sys-color-content-danger)` | Local CSS<br>`color` |
 | `--mp-checkbox-control-size` | Public | `24px` | Local CSS<br>`height`, `width` |
@@ -19845,15 +19855,14 @@ Source: `src/checkbox/style/token.less`
 | `--mp-checkbox-label-gap` | Public | `0` | Local CSS<br>`margin-inline-start` |
 | `--mp-checkbox-label-text-color` | Public | `var(--mp-sys-color-content-primary)` | Local CSS<br>`color` |
 | `--mp-checkbox-label-text-color-disabled` | Public | `var(--mp-sys-color-content-disabled)` | Local CSS<br>`color` |
-| `--mp-checkbox-mark-color` | Public | `var(--mp-sys-color-content-on-dark)` | Local CSS<br>`background-color`, `color` |
+| `--mp-checkbox-mark-color` | Public | `var(--mp-sys-color-content-on-dark)` | Local CSS<br>`background-color`, `border-color`, `color` |
 | `--mp-internal-checkbox-action-radius` | Internal | `50%` | Local CSS<br>`border-radius` |
 | `--mp-internal-checkbox-background` | Internal | `var(--mp-sys-color-surface-default)` | Local CSS<br>`background-color` |
-| `--mp-internal-checkbox-background-disabled` | Internal | `var(--mp-sys-color-surface-muted)` | Local CSS<br>`background-color` |
+| `--mp-internal-checkbox-background-disabled` | Internal | `color-mix(in srgb, var(--mp-sys-color-surface-muted) 82%, var(--mp-sys-color-content-disabled))` | Local CSS<br>`background-color` |
 | `--mp-internal-checkbox-border-radius` | Internal | `var(--mp-checkbox-control-border-radius)` | Local CSS<br>`border-radius` |
 | `--mp-internal-checkbox-border-width` | Internal | `1px` | Local CSS<br>`border` |
-| `--mp-internal-checkbox-focus-width` | Internal | `2px` | Local CSS<br>`box-shadow` |
-| `--mp-internal-checkbox-hover-background` | Internal | `var(--mp-sys-color-state-hover)` | Local CSS<br>`background-color` |
-| `--mp-internal-checkbox-mark-color` | Internal | `var(--mp-checkbox-mark-color)` | Local CSS<br>`background-color`, `color` |
+| `--mp-internal-checkbox-focus-width` | Internal | `2px` | Local CSS<br>`box-shadow`, `outline` |
+| `--mp-internal-checkbox-mark-color` | Internal | `var(--mp-checkbox-mark-color)` | Local CSS<br>`background-color`, `border-color`, `color` |
 | `--mp-internal-checkbox-mark-height` | Internal | `2px` | Local CSS<br>`height` |
 | `--mp-internal-checkbox-mark-radius` | Internal | `1px` | Local CSS<br>`border-radius` |
 | `--mp-internal-checkbox-mark-size` | Internal | `75%` | Local CSS<br>`height`, `width` |
@@ -20310,30 +20319,7 @@ Source: `src/form/style/token.less`
 | `--mp-form-label-min-height` | Public | `24px` | Local CSS<br>`min-height` |
 | `--mp-form-label-text-color` | Public | `var(--mp-sys-color-content-primary)` | Local CSS<br>`color` |
 | `--mp-form-required-symbol-color` | Public | `var(--mp-sys-color-content-danger)` | Local CSS<br>`color` |
-| `--mp-form-section-accent-color` | Public | `var(--mp-sys-color-action-primary)` | Local CSS<br>`background` |
-| `--mp-form-section-after-gap` | Public | `24px` | Local CSS<br>`margin-block` |
-| `--mp-form-section-before-gap` | Public | `32px` | Local CSS<br>`padding-block-start` |
-| `--mp-form-section-card-background` | Public | `var(--mp-sys-color-surface-default)` | Local CSS<br>`background` |
-| `--mp-form-section-card-padding` | Public | `16px` | Local CSS<br>`padding` |
-| `--mp-form-section-card-radius` | Public | `6px` | Local CSS<br>`border-radius` |
-| `--mp-form-section-description-color` | Public | `var(--mp-sys-color-content-secondary)` | Local CSS<br>`color` |
-| `--mp-form-section-description-gap` | Public | `4px` | Local CSS<br>`margin-block-start` |
-| `--mp-form-section-description-line-height` | Public | `20px` | Local CSS<br>`line-height` |
-| `--mp-form-section-description-size` | Public | `13px` | Local CSS<br>`font-size` |
-| `--mp-form-section-divider-color` | Public | `var(--mp-sys-color-border-default)` | Local CSS<br>`border`, `border-block-start` |
-| `--mp-form-section-divider-width` | Public | `1px` | Local CSS<br>`border`, `border-block-start` |
-| `--mp-form-section-end-divider-gap` | Public | `24px` | Local CSS<br>`margin-block-start` |
-| `--mp-form-section-header-gap` | Public | `20px` | Local CSS<br>`margin-block-end` |
-| `--mp-form-section-heading-gap` | Public | `16px` | Local CSS<br>`margin-inline-start` |
-| `--mp-form-section-marker-gap` | Public | `8px` | Local CSS<br>`margin-inline-end`, `row-gap` |
-| `--mp-form-section-marker-height` | Public | `16px` | Local CSS<br>`height` |
-| `--mp-form-section-marker-radius` | Public | `2px` | Local CSS<br>`border-radius` |
-| `--mp-form-section-marker-width` | Public | `3px` | Local CSS<br>`width` |
-| `--mp-form-section-title-color` | Public | `var(--mp-sys-color-content-primary)` | Local CSS<br>`color` |
-| `--mp-form-section-title-line-height` | Public | `24px` | Local CSS<br>`line-height` |
-| `--mp-form-section-title-size` | Public | `16px` | Local CSS<br>`font-size` |
-| `--mp-form-section-title-weight` | Public | `600` | Local CSS<br>`font-weight` |
-| `--mp-form-size-md-item-margin-bottom` | Public | `16px` | Local CSS<br>`margin-bottom` |
+| `--mp-form-size-md-item-margin-bottom` | Public | `16px` | Local CSS<br>`margin-bottom`, `padding-block-start` |
 | `--mp-form-size-md-label-font-size` | Public | `14px` | Local CSS<br>`font-size` |
 | `--mp-form-tooltip-margin-left` | Public | `var(--mp-sys-space-2)` | Local CSS<br>`padding-inline-start` |
 | `--mp-form-tooltip-text-color` | Public | `var(--mp-sys-color-content-secondary)` | Local CSS<br>`color` |
@@ -20392,8 +20378,8 @@ Source: `src/image/style/token.less`
 
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
-| `--mp-image-preview-arrow-background` | Public | `rgb(38 38 0.41304348%)` | Local CSS<br>`background-color` |
-| `--mp-image-preview-arrow-background-hover` | Public | `rgb(56 56 0.58333333%)` | Local CSS<br>`background-color` |
+| `--mp-image-preview-arrow-background` | Public | `rgba(38, 38, 38, 0.92)` | Local CSS<br>`background-color` |
+| `--mp-image-preview-arrow-background-hover` | Public | `rgba(56, 56, 56, 0.96)` | Local CSS<br>`background-color` |
 | `--mp-image-preview-arrow-color` | Public | `#fff` | Local CSS<br>`color` |
 | `--mp-image-preview-close-icon-right` | Public | `14px` | Local CSS<br>`inset-inline-end` |
 | `--mp-image-preview-close-icon-top` | Public | `14px` | Local CSS<br>`top` |
@@ -21048,7 +21034,7 @@ Source: `src/picker/style/token.less`
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
 | `--mp-picker-background` | Public | `var(--mp-color-body)` | Local CSS<br>`background`, `background-image` |
-| `--mp-picker-mask-background-image` | Public | `linear-gradient(180deg, color-mix(in srgb, var(--mp-picker-background) 90%, transparent), color-mix(in srgb, var(--mp-picker-background) 40%, transparent)),     linear-gradient(       0deg,       color-mix(in srgb, var(--mp-picker-background) 90%, transparent),       color-mix(in srgb, var(--mp-picker-background) 40%, transparent)     )` | Local CSS<br>`background-image` |
+| `--mp-picker-mask-background-image` | Public | `linear-gradient(180deg, color-mix(in srgb, var(--mp-picker-background) 90%, transparent), color-mix(in srgb, var(--mp-picker-background) 40%, transparent)), linear-gradient(0deg, color-mix(in srgb, var(--mp-picker-background) 90%, transparent), color-mix(in srgb, var(--mp-picker-background) 40%, transparent))` | Local CSS<br>`background-image` |
 | `--mp-picker-option-active-text-color` | Public | `var(--mp-picker-option-text-color)` | Local CSS<br>`color` |
 | `--mp-picker-option-check-color` | Public | `var(--mp-sys-color-action-primary)` | Local CSS<br>`color` |
 | `--mp-picker-option-check-right` | Public | `12px` | Local CSS<br>`inset-inline-end` |
@@ -21082,7 +21068,7 @@ Source: `src/popover/style/token.less`
 | `--mp-popover-border-color` | Public | `var(--mp-sys-color-border-default)` | Local CSS<br>`border` |
 | `--mp-popover-border-radius` | Public | `var(--mp-sys-radius-md)` | Local CSS<br>`border-radius` |
 | `--mp-popover-border-width` | Public | `1px` | Local CSS<br>`border` |
-| `--mp-popover-box-shadow` | Public | `0 3px 3px -2px var(--mp-shadow-key-umbra-opacity), 0 3px 4px 0 var(--mp-shadow-key-penumbra-opacity),     0 1px 8px 0 var(--mp-shadow-key-ambient-opacity)` | Local CSS<br>`box-shadow` |
+| `--mp-popover-box-shadow` | Public | `0 3px 3px -2px var(--mp-shadow-key-umbra-opacity), 0 3px 4px 0 var(--mp-shadow-key-penumbra-opacity), 0 1px 8px 0 var(--mp-shadow-key-ambient-opacity)` | Local CSS<br>`box-shadow` |
 | `--mp-popover-font-size` | Public | `var(--mp-sys-font-size-md)` | Local CSS<br>`font-size` |
 | `--mp-popover-line-height` | Public | `var(--mp-line-height)` | Local CSS<br>`line-height` |
 | `--mp-popover-padding-horizontal` | Public | `var(--mp-sys-space-7)` | Local CSS<br>`padding` |
@@ -21119,7 +21105,7 @@ Source: `src/progress/style/token.less`
 
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
-| `--mp-internal-progress-highlight` | Internal | `rgb(255 255 5.1%)` | Local CSS<br>`background` |
+| `--mp-internal-progress-highlight` | Internal | `rgba(255, 255, 255, 0.5)` | Local CSS<br>`background` |
 | `--mp-progress-animation-duration` | Public | `1.5s` | Local CSS<br>`animation`, `animation-delay` |
 | `--mp-progress-danger-color` | Public | `var(--mp-sys-color-content-danger)` | Local CSS<br>`color` |
 | `--mp-progress-default-color` | Public | `var(--mp-sys-color-action-primary)` | Local CSS<br>`color` |
@@ -21209,7 +21195,7 @@ Source: `src/radio/style/token.less`
 | `--mp-radio-action-padding` | Public | `6px` | Local CSS<br>`padding` |
 | `--mp-radio-animation-duration` | Public | `var(--mp-sys-motion-duration-standard)` | Local CSS<br>`transition` |
 | `--mp-radio-control-color` | Public | `var(--mp-sys-color-border-default)` | Local CSS<br>`color` |
-| `--mp-radio-control-color-checked` | Public | `var(--mp-sys-color-content-brand)` | Local CSS<br>`color`, `outline` |
+| `--mp-radio-control-color-checked` | Public | `var(--mp-sys-color-action-primary)` | Local CSS<br>`color` |
 | `--mp-radio-control-color-disabled` | Public | `var(--mp-sys-color-content-disabled)` | Local CSS<br>`color` |
 | `--mp-radio-control-color-error` | Public | `var(--mp-sys-color-content-danger)` | Local CSS<br>`box-shadow`, `color` |
 | `--mp-radio-control-size` | Public | `24px` | Local CSS<br>`font-size`, `height`, `width` |
@@ -21263,7 +21249,7 @@ Source: `src/result/style/token.less`
 | `--mp-result-empty-border-color` | Public | `rgba(158, 158, 158, 0.3)` | Local CSS<br>`border-color` |
 | `--mp-result-empty-color` | Public | `#9e9e9e` | Local CSS<br>`fill` |
 | `--mp-result-extra-margin` | Public | `20px 0 0` | Local CSS<br>`margin` |
-| `--mp-result-image-size` | Public | `80px` | Local CSS<br>`height`, `width` |
+| `--mp-result-image-size` | Public | `80px` | Local CSS<br>`border`, `height`, `width` |
 | `--mp-result-info-border-color` | Public | `rgba(0, 175, 239, 0.3)` | Local CSS<br>`border-color` |
 | `--mp-result-info-color` | Public | `var(--mp-sys-color-content-info)` | Local CSS<br>`fill` |
 | `--mp-result-padding` | Public | `24px` | Local CSS<br>`padding` |
@@ -21360,33 +21346,52 @@ Source: `src/section/style/token.less`
 
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
-| `--mp-section-accent-color` | Public | `var(--mp-sys-color-action-primary)` | Local CSS<br>`background` |
-| `--mp-section-after-gap` | Public | `24px` | Local CSS<br>`margin-block` |
+| `--mp-section-accent-color` | Public | `var(--mp-sys-color-action-primary)` | Local CSS<br>`background`, `background-color`, `border` |
+| `--mp-section-after-gap` | Public | `24px` | Local CSS<br>`margin-block`, `padding-block-start` |
 | `--mp-section-before-gap` | Public | `32px` | Local CSS<br>`padding-block-start` |
-| `--mp-section-card-background` | Public | `var(--mp-sys-color-surface-default)` | Local CSS<br>`background` |
+| `--mp-section-card-background` | Public | `var(--mp-sys-color-surface-default)` | Local CSS<br>`background-color` |
 | `--mp-section-card-padding` | Public | `16px` | Local CSS<br>`padding` |
 | `--mp-section-card-radius` | Public | `6px` | Local CSS<br>`border-radius` |
+| `--mp-section-content-size` | Public | `14px` | Local CSS<br>`font-size` |
 | `--mp-section-description-color` | Public | `var(--mp-sys-color-content-secondary)` | Local CSS<br>`color` |
 | `--mp-section-description-gap` | Public | `4px` | Local CSS<br>`margin-block-start` |
 | `--mp-section-description-line-height` | Public | `20px` | Local CSS<br>`line-height` |
 | `--mp-section-description-size` | Public | `13px` | Local CSS<br>`font-size` |
-| `--mp-section-divider-color` | Public | `var(--mp-sys-color-border-default)` | Local CSS<br>`border`, `border-block-start` |
+| `--mp-section-divider-color` | Public | `var(--mp-sys-color-border-default)` | Local CSS<br>`border-block-start` |
 | `--mp-section-divider-width` | Public | `1px` | Local CSS<br>`border`, `border-block-start` |
 | `--mp-section-header-gap` | Public | `20px` | Local CSS<br>`margin-block-end` |
 | `--mp-section-heading-gap` | Public | `16px` | Local CSS<br>`margin-inline-start` |
-| `--mp-section-marker-gap` | Public | `12px` | Local CSS<br>`padding-inline-end`, `row-gap` |
+| `--mp-section-heading-size-step` | Public | `1px` | Local CSS<br>`font-size`, `line-height` |
+| `--mp-section-marker-gap` | Public | `12px` | Local CSS<br>`padding-inline-end`, `padding-inline-start`, `row-gap` |
 | `--mp-section-marker-height` | Public | `16px` | Local CSS<br>`height` |
 | `--mp-section-marker-radius` | Public | `2px` | Local CSS<br>`border-radius` |
-| `--mp-section-marker-width` | Public | `3px` | Local CSS<br>`width` |
+| `--mp-section-marker-width` | Public | `3px` | Local CSS<br>`padding-inline-start`, `width` |
+| `--mp-section-outline-color` | Public | `var(--mp-sys-color-border-default)` | Local CSS<br>`border` |
+| `--mp-section-size-lg-card-padding` | Public | `20px` | Local CSS<br>`padding` |
+| `--mp-section-size-lg-header-gap` | Public | `24px` | Local CSS<br>`margin-block-end` |
+| `--mp-section-size-lg-marker-height` | Public | `20px` | Local CSS<br>`height` |
+| `--mp-section-size-lg-title-line-height` | Public | `28px` | Local CSS<br>`line-height` |
+| `--mp-section-size-lg-title-size` | Public | `20px` | Local CSS<br>`font-size` |
 | `--mp-section-size-sm-card-padding` | Public | `12px` | Local CSS<br>`padding` |
 | `--mp-section-size-sm-header-gap` | Public | `12px` | Local CSS<br>`margin-block-end` |
 | `--mp-section-size-sm-marker-height` | Public | `14px` | Local CSS<br>`height` |
 | `--mp-section-size-sm-title-line-height` | Public | `20px` | Local CSS<br>`line-height` |
 | `--mp-section-size-sm-title-size` | Public | `14px` | Local CSS<br>`font-size` |
+| `--mp-section-size-xl-card-padding` | Public | `24px` | Local CSS<br>`padding` |
+| `--mp-section-size-xl-header-gap` | Public | `28px` | Local CSS<br>`margin-block-end` |
+| `--mp-section-size-xl-marker-height` | Public | `24px` | Local CSS<br>`height` |
+| `--mp-section-size-xl-title-line-height` | Public | `32px` | Local CSS<br>`line-height` |
+| `--mp-section-size-xl-title-size` | Public | `24px` | Local CSS<br>`font-size` |
+| `--mp-section-size-xs-card-padding` | Public | `8px` | Local CSS<br>`padding` |
+| `--mp-section-size-xs-header-gap` | Public | `8px` | Local CSS<br>`margin-block-end` |
+| `--mp-section-size-xs-marker-height` | Public | `12px` | Local CSS<br>`height` |
+| `--mp-section-size-xs-title-line-height` | Public | `18px` | Local CSS<br>`line-height` |
+| `--mp-section-size-xs-title-size` | Public | `14px` | Local CSS<br>`font-size` |
 | `--mp-section-title-color` | Public | `var(--mp-sys-color-content-primary)` | Local CSS<br>`color` |
 | `--mp-section-title-line-height` | Public | `24px` | Local CSS<br>`line-height` |
 | `--mp-section-title-size` | Public | `16px` | Local CSS<br>`font-size` |
 | `--mp-section-title-weight` | Public | `600` | Local CSS<br>`font-weight` |
+| `--mp-section-tonal-background` | Public | `var(--mp-sys-color-surface-muted)` | Local CSS<br>`background-color` |
 
 </div>
 
@@ -21786,21 +21791,116 @@ Source: `src/table/style/token.less`
 
 | Variable | Layer | Declaration / condition | Consumer / CSS properties |
 | --- | --- | --- | --- |
-| `--mp-table-background` | Public | `#fff` | Local CSS<br>`background` |
-| `--mp-table-border-radius` | Public | `2px` | Local CSS<br>`border-radius` |
-| `--mp-table-footer-border-top` | Public | `thin solid var(--mp-color-border-2)` | Local CSS<br>`border-top` |
-| `--mp-table-row-height` | Public | `46px` | Local CSS<br>`height`, `min-height` |
-| `--mp-table-row-padding` | Public | `0 16px` | Local CSS<br>`padding` |
-| `--mp-table-tbody-td-font-size` | Public | `16px` | Local CSS<br>`font-size` |
-| `--mp-table-tbody-td-text-align` | Public | `start` | Local CSS<br>`text-align` |
-| `--mp-table-tbody-td-text-color` | Public | `#555` | Local CSS<br>`color` |
-| `--mp-table-tbody-tr-border-bottom` | Public | `thin solid var(--mp-color-border-2)` | Local CSS<br>`border-bottom` |
-| `--mp-table-tbody-tr-hover-background` | Public | `#eee` | Local CSS<br>`background` |
-| `--mp-table-thead-border-bottom` | Public | `thin solid var(--mp-color-border-2)` | Local CSS<br>`border-bottom` |
-| `--mp-table-thead-th-font-size` | Public | `14px` | Local CSS<br>`font-size` |
-| `--mp-table-thead-th-text-align` | Public | `start` | Local CSS<br>`text-align` |
-| `--mp-table-thead-th-text-color` | Public | `rgba(0, 0, 0, 0.6)` | Local CSS<br>`color` |
-| `--mp-table-thead-tr-border-bottom` | Public | `thin solid var(--mp-color-border-2)` | Local CSS<br>`border-bottom` |
+| `--mp-table-body-bg` | Public | `var(--mp-color-bg-2)` | Local CSS<br>`background-color` |
+| `--mp-table-body-cell-bg` | Public | `var(--mp-color-bg-2)` | Local CSS<br>`background-color` |
+| `--mp-table-body-cell-text-color` | Public | `rgb(var(--mp-gray-10))` | Local CSS<br>`color` |
+| `--mp-table-body-min-height` | Public | `40px` | Local CSS<br>`min-height` |
+| `--mp-table-body-row-active-bg` | Public | `var(--mp-color-fill-1)` | Local CSS<br>`background-color` |
+| `--mp-table-body-row-active-dark-bg` | Public | `rgb(var(--mp-gray-2))` | Local CSS<br>`background-color` |
+| `--mp-table-body-row-hover-bg` | Public | `var(--mp-color-fill-1)` | Local CSS<br>`background-color` |
+| `--mp-table-body-sorted-cell-bg` | Public | `var(--mp-color-fill-1)` | Local CSS<br>`background-color` |
+| `--mp-table-body-stripe-row-bg` | Public | `var(--mp-color-fill-1)` | Local CSS<br>`background-color` |
+| `--mp-table-border-color` | Public | `rgb(var(--mp-gray-3))` | Local CSS<br>`border`, `border-bottom`, `border-left`, `border-right`, `border-top`, `box-shadow` |
+| `--mp-table-border-radius` | Public | `var(--mp-sys-radius-md)` | Local CSS<br>`border-radius`, `border-top-left-radius`, `border-top-right-radius` |
+| `--mp-table-border-style` | Public | `solid` | Local CSS<br>`border`, `border-bottom`, `border-left`, `border-right`, `border-top` |
+| `--mp-table-border-width` | Public | `1px` | Local CSS<br>`border`, `border-bottom`, `border-left`, `border-right`, `border-top`, `bottom`, `box-shadow`, `margin` |
+| `--mp-table-column-handle-right` | Public | `-4px` | Local CSS<br>`inset-inline-end` |
+| `--mp-table-column-handle-width` | Public | `8px` | Local CSS<br>`width` |
+| `--mp-table-column-insert-empty-font-size` | Public | `14px` | Local CSS<br>`font-size` |
+| `--mp-table-column-insert-empty-line-height` | Public | `22px` | Local CSS<br>`line-height` |
+| `--mp-table-column-insert-empty-text-color` | Public | `var(--mp-color-text-3)` | Local CSS<br>`color` |
+| `--mp-table-column-insert-group-margin-top` | Public | `16px` | Local CSS<br>`margin-top` |
+| `--mp-table-column-insert-group-title-font-size` | Public | `12px` | Local CSS<br>`font-size` |
+| `--mp-table-column-insert-group-title-line-height` | Public | `20px` | Local CSS<br>`line-height` |
+| `--mp-table-column-insert-group-title-margin-bottom` | Public | `8px` | Local CSS<br>`margin-bottom` |
+| `--mp-table-column-insert-group-title-text-color` | Public | `var(--mp-color-text-3)` | Local CSS<br>`color` |
+| `--mp-table-column-insert-item-min-height` | Public | `32px` | Local CSS<br>`min-height` |
+| `--mp-table-column-insert-max-height` | Public | `calc(100vh - 160px)` | Local CSS<br>`max-height` |
+| `--mp-table-column-insert-padding` | Public | `16px 20px` | Local CSS<br>`padding` |
+| `--mp-table-drag-handle-col-width` | Public | `40px` | Local CSS<br>`max-width`, `min-width`, `width` |
+| `--mp-table-editable-body-cell-border-color` | Public | `var(--mp-color-white)` | Local CSS<br>`border` |
+| `--mp-table-empty-height` | Public | `240px` | Local CSS<br>`height` |
+| `--mp-table-empty-image-size` | Public | `48px` | Runtime reference (not visibility proof)<br>`font-size`, `height`, `width`<br>`table/table-impl.tsx` |
+| `--mp-table-expand-button-border-radius` | Public | `2px` | Local CSS<br>`border-radius` |
+| `--mp-table-expand-button-font-size` | Public | `12px` | Local CSS<br>`font-size` |
+| `--mp-table-expand-button-margin-right` | Public | `var(--mp-sys-space-2)` | Local CSS<br>`margin-inline-end` |
+| `--mp-table-expand-button-size` | Public | `14px` | Local CSS<br>`height`, `line-height`, `width` |
+| `--mp-table-expand-content-bg` | Public | `var(--mp-color-fill-1)` | Local CSS<br>`background-color` |
+| `--mp-table-expand-content-hover-bg` | Public | `var(--mp-color-fill-1)` | Local CSS<br>`background-color` |
+| `--mp-table-expand-icon-bg` | Public | `rgb(var(--mp-gray-3))` | Local CSS<br>`background-color` |
+| `--mp-table-expand-icon-border-color` | Public | `transparent` | Local CSS<br>`border` |
+| `--mp-table-expand-icon-border-width` | Public | `1px` | Local CSS<br>`border` |
+| `--mp-table-expand-icon-col-width` | Public | `40px` | Local CSS<br>`max-width`, `min-width`, `width` |
+| `--mp-table-expand-icon-color` | Public | `var(--mp-color-text-2)` | Local CSS<br>`color` |
+| `--mp-table-expand-icon-hover-bg` | Public | `rgb(var(--mp-gray-4))` | Local CSS<br>`background-color` |
+| `--mp-table-expand-icon-hover-border-color` | Public | `transparent` | Local CSS<br>`border-color` |
+| `--mp-table-expand-icon-hover-color` | Public | `var(--mp-color-text-1)` | Local CSS<br>`color` |
+| `--mp-table-expand-loading-icon-color` | Public | `var(--mp-sys-color-content-brand)` | Local CSS<br>`color` |
+| `--mp-table-extra-column-icon-color` | Public | `var(--mp-color-text-2)` | Local CSS<br>`color` |
+| `--mp-table-extra-column-icon-hover-color` | Public | `var(--mp-color-text-1)` | Local CSS<br>`color` |
+| `--mp-table-filters-icon-font-size` | Public | `16px` | Local CSS<br>`font-size` |
+| `--mp-table-filters-icon-hover-bg` | Public | `var(--mp-color-fill-4)` | Local CSS<br>`background` |
+| `--mp-table-filters-width` | Public | `24px` | Local CSS<br>`width` |
+| `--mp-table-header-cell-action-color` | Public | `var(--mp-color-text-3)` | Local CSS<br>`color` |
+| `--mp-table-header-cell-action-hover-color` | Public | `var(--mp-color-text-1)` | Local CSS<br>`color` |
+| `--mp-table-header-cell-action-margin-left` | Public | `2px` | Local CSS<br>`margin-inline-start` |
+| `--mp-table-header-cell-bg` | Public | `rgb(var(--mp-gray-2))` | Local CSS<br>`background-color` |
+| `--mp-table-header-cell-text-color` | Public | `rgb(var(--mp-gray-10))` | Local CSS<br>`color` |
+| `--mp-table-header-filters-icon-active-color` | Public | `var(--mp-sys-color-action-primary)` | Local CSS<br>`color` |
+| `--mp-table-header-filters-icon-color` | Public | `var(--mp-color-text-2)` | Local CSS<br>`color` |
+| `--mp-table-header-filters-icon-hover-bg` | Public | `rgb(var(--mp-gray-4))` | Local CSS<br>`background-color` |
+| `--mp-table-header-sorted-cell-bg` | Public | `rgb(var(--mp-gray-3))` | Local CSS<br>`background-color` |
+| `--mp-table-header-sorted-cell-hover-bg` | Public | `rgba(var(--mp-gray-4), 0.5)` | Local CSS<br>`background-color` |
+| `--mp-table-header-sorter-icon-active-color` | Public | `var(--mp-sys-color-action-primary)` | Local CSS<br>`color` |
+| `--mp-table-header-sorter-icon-color` | Public | `rgb(var(--mp-gray-5))` | Local CSS<br>`color` |
+| `--mp-table-header-sorter-icon-down-top` | Public | `-3px` | Local CSS<br>`top` |
+| `--mp-table-header-sorter-icon-font-size` | Public | `12px` | Local CSS<br>`font-size` |
+| `--mp-table-header-sorter-icon-height` | Public | `8px` | Local CSS<br>`height`, `line-height` |
+| `--mp-table-header-sorter-icon-left` | Public | `1px` | Local CSS<br>`left` |
+| `--mp-table-header-sorter-icon-margin-left` | Public | `var(--mp-sys-space-4)` | Local CSS<br>`margin-inline-start` |
+| `--mp-table-header-sorter-icon-next-color` | Public | `rgb(var(--mp-gray-6))` | Local CSS<br>`color` |
+| `--mp-table-header-sorter-icon-up-top` | Public | `-2px` | Local CSS<br>`top` |
+| `--mp-table-header-sorter-icon-width` | Public | `14px` | Local CSS<br>`width` |
+| `--mp-table-header-text-font-weight` | Public | `var(--mp-sys-font-weight-medium)` | Local CSS<br>`font-weight` |
+| `--mp-table-line-height` | Public | `var(--mp-line-height)` | Local CSS<br>`line-height` |
+| `--mp-table-pagination-margin` | Public | `var(--mp-sys-space-5)` | Local CSS<br>`margin-bottom`, `margin-top` |
+| `--mp-table-pagination-sticky-bg` | Public | `var(--mp-color-bg-1)` | Local CSS<br>`background`, `background-color` |
+| `--mp-table-pagination-sticky-padding` | Public | `12px 0` | Local CSS<br>`padding` |
+| `--mp-table-resizing-border-color` | Public | `var(--mp-sys-color-action-primary)` | Local CSS<br>`border-right-color` |
+| `--mp-table-selection-col-width` | Public | `40px` | Local CSS<br>`max-width`, `min-width`, `width` |
+| `--mp-table-shadow-left` | Public | `inset 6px 0 8px -3px rgba(0, 0, 0, 0.15)` | Local CSS<br>`box-shadow` |
+| `--mp-table-shadow-right` | Public | `inset -6px 0 8px -3px rgba(0, 0, 0, 0.15)` | Local CSS<br>`box-shadow` |
+| `--mp-table-shadow-wrapper-width` | Public | `10px` | Local CSS<br>`width` |
+| `--mp-table-size-lg-extra-icon-font-size` | Public | `16px` | Local CSS<br>`font-size` |
+| `--mp-table-size-lg-extra-padding-horizontal` | Public | `var(--mp-sys-space-2)` | Local CSS<br>`padding` |
+| `--mp-table-size-lg-font-size` | Public | `var(--mp-table-size-md-font-size)` | Local CSS<br>`font-size` |
+| `--mp-table-size-lg-header-font-size` | Public | `var(--mp-table-size-md-header-font-size)` | Local CSS<br>`font-size` |
+| `--mp-table-size-lg-padding-horizontal` | Public | `var(--mp-table-size-md-padding-horizontal)` | Local CSS<br>`margin`, `padding` |
+| `--mp-table-size-lg-padding-vertical` | Public | `var(--mp-table-size-md-padding-vertical)` | Local CSS<br>`margin`, `padding` |
+| `--mp-table-size-md-extra-icon-font-size` | Public | `16px` | Local CSS<br>`font-size` |
+| `--mp-table-size-md-extra-padding-horizontal` | Public | `var(--mp-sys-space-2)` | Local CSS<br>`padding` |
+| `--mp-table-size-md-font-size` | Public | `var(--mp-sys-font-size-md)` | Local CSS<br>`font-size` |
+| `--mp-table-size-md-header-font-size` | Public | `var(--mp-sys-font-size-md)` | Local CSS<br>`font-size` |
+| `--mp-table-size-md-padding-horizontal` | Public | `var(--mp-sys-space-6)` | Local CSS<br>`margin`, `padding` |
+| `--mp-table-size-md-padding-vertical` | Public | `9px` | Local CSS<br>`margin`, `padding` |
+| `--mp-table-size-sm-extra-icon-font-size` | Public | `14px` | Local CSS<br>`font-size` |
+| `--mp-table-size-sm-extra-padding-horizontal` | Public | `var(--mp-sys-space-1)` | Local CSS<br>`padding` |
+| `--mp-table-size-sm-font-size` | Public | `var(--mp-sys-font-size-md)` | Local CSS<br>`font-size` |
+| `--mp-table-size-sm-header-font-size` | Public | `var(--mp-sys-font-size-md)` | Local CSS<br>`font-size` |
+| `--mp-table-size-sm-padding-horizontal` | Public | `var(--mp-sys-space-6)` | Local CSS<br>`margin`, `padding` |
+| `--mp-table-size-sm-padding-vertical` | Public | `5px` | Local CSS<br>`margin`, `padding` |
+| `--mp-table-size-xs-extra-icon-font-size` | Public | `14px` | Local CSS<br>`font-size` |
+| `--mp-table-size-xs-extra-padding-horizontal` | Public | `var(--mp-sys-space-1)` | Local CSS<br>`padding` |
+| `--mp-table-size-xs-font-size` | Public | `var(--mp-sys-font-size-xs)` | Local CSS<br>`font-size` |
+| `--mp-table-size-xs-header-font-size` | Public | `var(--mp-sys-font-size-xs)` | Local CSS<br>`font-size` |
+| `--mp-table-size-xs-padding-horizontal` | Public | `var(--mp-sys-space-6)` | Local CSS<br>`margin`, `padding` |
+| `--mp-table-size-xs-padding-vertical` | Public | `2px` | Local CSS<br>`margin`, `padding` |
+| `--mp-table-sticky-scrollbar-height` | Public | `16px` | Local CSS<br>`height` |
+| `--mp-table-sticky-scrollbar-opacity` | Public | `0.8` | Local CSS<br>`opacity` |
+| `--mp-table-tfoot-bg` | Public | `rgb(var(--mp-gray-2))` | Local CSS<br>`background-color` |
+| `--mp-table-th-actions-margin-left` | Public | `8px` | Local CSS<br>`margin-inline-start` |
+| `--mp-table-transition-duration` | Public | `var(--mp-sys-motion-duration-fast)` | Local CSS<br>`transition` |
+| `--mp-table-transition-timing-function` | Public | `linear` | Local CSS<br>`transition` |
 
 </div>
 
@@ -43113,6 +43213,69 @@ function onLoadError(error: unknown) {
     <p role="status">ID: {{ personId ?? '—' }}</p>
     <p v-if="errorText" role="alert">{{ errorText }}</p>
   </mp-space>
+</template>
+```
+
+### Search in a bottom popup
+
+Type “Test” in the bottom popup to load 20 sample people. With the keyboard open, swipe up from an option label to scroll the list, then tap once to select a person.
+
+Example source: src/people-select/example/demos/en-US/popup-search.vue
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue'
+import type { PeopleSelectOptionsLoader } from '@maple-design/ui-vue'
+
+const open = ref(false)
+const personId = ref<string | null>(null)
+const reason = ref('')
+const people = Array.from({ length: 20 }, (_, index) => {
+  const number = String(index + 1).padStart(2, '0')
+  return { value: `demo-${number}`, label: `Test person ${number} (demo-${number})` }
+})
+
+const loadPeople: PeopleSelectOptionsLoader = async (query, { signal }) => {
+  const keyword = query.trim().toLowerCase()
+  if (!keyword) {
+    return []
+  }
+
+  await new Promise<void>((resolve) => setTimeout(resolve, 150))
+  if (signal.aborted) {
+    return []
+  }
+
+  return people.filter((person) => person.label.toLowerCase().includes(keyword))
+}
+</script>
+
+<template>
+  <mp-button @click="open = true">Open people search</mp-button>
+
+  <mp-popup v-model:open="open" placement="bottom" lock-scroll>
+    <section style="display: grid; gap: 16px; padding: 16px; text-align: start">
+      <h3 style="margin: 0">Reassign handler</h3>
+      <p style="margin: 0">Type “Test” to find 20 sample people.</p>
+      <mp-people-select
+        v-model="personId"
+        edit-mode="direct"
+        :options="loadPeople"
+        :search-delay="0"
+        aria-label="New handler"
+        placeholder="Search sample people"
+      />
+      <mp-textarea
+        v-model="reason"
+        edit-mode="direct"
+        :rows="3"
+        aria-label="Reason for reassignment"
+        placeholder="Enter a reason for reassignment"
+      />
+      <output aria-live="polite">Selected person ID {{ personId || 'None' }}</output>
+      <mp-button @click="open = false">Close</mp-button>
+    </section>
+  </mp-popup>
 </template>
 ```
 

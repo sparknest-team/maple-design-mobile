@@ -62,7 +62,7 @@
     "commander": "^8.3.0",
     "conventional-changelog": "^5.1.0",
     "ejs": "^3.1.10",
-    "esbuild": "0.23.1",
+    "esbuild": "^0.23.1",
     "fs-extra": "catalog:",
     "glob": "7.2.3",
     "hash-sum": "^2.0.0",

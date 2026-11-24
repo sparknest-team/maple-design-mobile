@@ -8,7 +8,7 @@
     "downlevelIteration": true,
     "resolveJsonModule": true,
     "jsx": "preserve",
-    "lib": ["esnext", "dom"],
+    "lib": ["esnext", "dom", "dom.iterable"],
     "module": "esnext",
     "moduleResolution": "node",
     "outDir": "./lib"

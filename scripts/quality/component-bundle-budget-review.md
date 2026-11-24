@@ -196,3 +196,51 @@ A separate comparison with `fb766a41` attributes 1,909 retained bytes in Form to
 | trigger | 37280 | 36961 | 37012 | 13361 | 13415 | 13422 |
 | upload | 147514 | 147999 | 147999 | 49022 | 49189 | 49189 |
 | verification-code | 115879 | 116396 | 116396 | 37830 | 38014 | 38014 |
+
+## November 24 popup touch-scroll shared code
+
+Measured all 98 entries with Node 26.13.1, zlib 1.3.0.1 and esbuild 0.23.1. The limits recorded in `f1e7d3af` (#13) were captured before `485c8288` (#24, *fix(popup): 修复弹层内下拉列表的触摸滚动*), which added 272 lines across `packages/ui/src/utils/modal-focus.ts` (+39), `utils/modal-surface.ts` (+3), `utils/popup-layer.ts` (+16) and `trigger/trigger.tsx` (+2). Those modules are retained by every popup, panel and list consumer, so 41 entries grew while none shrank and 57 stayed byte-identical: the deltas cluster into three shared bands (+1534–1538 bytes, +663–665 bytes, +215–219 bytes) instead of scattering, which identifies shared retained code rather than per-component bloat. Each entry below is measured separately; limits are raised only to the measured value, with no additional headroom.
+
+| Entry | Previous bytes | Current bytes | Previous gzip | Current gzip |
+| --- | ---: | ---: | ---: | ---: |
+| action-sheet | 49956 | 50401 | 18385 | 18575 |
+| auto-complete | 193835 | 195372 | 64569 | 65158 |
+| avatar | 55892 | 56532 | 20090 | 20314 |
+| breadcrumb | 85201 | 85838 | 29245 | 29446 |
+| card | 55131 | 55350 | 19127 | 19186 |
+| cascader | 261324 | 261989 | 84492 | 84763 |
+| checkbox | 91932 | 92373 | 31712 | 31868 |
+| date | 296110 | 296775 | 93971 | 94285 |
+| date-range | 307682 | 308347 | 96937 | 97237 |
+| dialog | 61023 | 61469 | 19948 | 20137 |
+| ellipsis | 47282 | 47918 | 17116 | 17336 |
+| form | 91310 | 91947 | 32813 | 33022 |
+| image | 62105 | 62320 | 21411 | 21481 |
+| input | 97735 | 98175 | 31537 | 31732 |
+| input-number | 147947 | 148385 | 50328 | 50502 |
+| input-tag | 180861 | 182396 | 59330 | 59919 |
+| mention | 201814 | 203352 | 66707 | 67298 |
+| menu | 73648 | 74290 | 25707 | 25933 |
+| nav-menu | 30312 | 30529 | 11638 | 11701 |
+| number-keyboard | 50334 | 50774 | 18388 | 18575 |
+| overlay | 13724 | 13941 | 5743 | 5808 |
+| pagination | 239571 | 241109 | 75711 | 76362 |
+| people-select | 237996 | 239534 | 76624 | 77280 |
+| picker | 68026 | 68468 | 24377 | 24556 |
+| popover | 45307 | 45945 | 16454 | 16661 |
+| popup | 29708 | 30147 | 11396 | 11588 |
+| radio | 91570 | 92013 | 31658 | 31837 |
+| rate | 96054 | 96491 | 31566 | 31721 |
+| search | 260276 | 261814 | 83063 | 83736 |
+| select | 217234 | 218768 | 70274 | 70873 |
+| slider | 161895 | 162339 | 54585 | 54791 |
+| split-button | 92487 | 93125 | 31514 | 31779 |
+| switch | 82277 | 82714 | 28150 | 28329 |
+| table | 355887 | 357425 | 112625 | 113294 |
+| textarea | 105353 | 105795 | 35080 | 35253 |
+| time | 199691 | 200354 | 67734 | 68011 |
+| time-range | 199857 | 200520 | 67773 | 68046 |
+| tooltip | 45283 | 45921 | 16441 | 16648 |
+| trigger | 40957 | 41595 | 14932 | 15137 |
+| upload | 150500 | 150947 | 50092 | 50280 |
+| verification-code | 118285 | 118726 | 38614 | 38796 |
