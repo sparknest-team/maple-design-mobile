@@ -1,5 +1,20 @@
 # @maple-design/ui-vue
 
+## 1.4.5
+
+### Patch Changes
+
+- [#41](https://github.com/sparknest-team/maple-design-mobile/pull/41) [`603eb83`](https://github.com/sparknest-team/maple-design-mobile/commit/603eb83c5401663fc9bb3f9594238c1c7b1a520f) Thanks [@sparknest-team](https://github.com/sparknest-team)! - card: 补 `sizes-and-headings` demo 的中英文 locale 文案
+
+  `sizes-and-headings` demo 新增后未在 `card/example/messages.json` 的 `zh-CN` /
+  `en-US` 下登记站点标签，导致 `same-source-demos` 门禁报
+  `card/sizes-and-headings: missing locale`。文案取文档章节标题原文。
+
+- Updated dependencies []:
+  - @maple-design/icons-vue@1.4.5
+  - @maple-design/shared-vue@1.4.5
+  - @maple-design/use-vue@1.4.5
+
 ## 1.4.4
 
 ### Patch Changes

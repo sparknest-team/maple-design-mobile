@@ -1,7 +1,7 @@
 {
   "name": "maple-vscode-extension-vue",
   "displayName": "maple-vscode-extension-vue",
-  "version": "1.4.4",
+  "version": "1.4.5",
   "private": true,
   "description": "maple extension for vscode",
   "categories": [
