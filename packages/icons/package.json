@@ -1,6 +1,11 @@
 {
   "name": "@maple-design/icons-vue",
   "version": "1.4.4",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sparknest-team/maple-design-mobile.git",
+    "directory": "packages/icons"
+  },
   "description": "Tree-shakable SVG icon components for Maple",
   "license": "MIT",
   "type": "module",
