@@ -101,7 +101,7 @@ Card contains the report, Tabs switch analysis views, and Section groups the con
 ### Long title and tooltip
 
 ```demo
-../example/demos/tooltip.vue
+../example/demos/en-US/tooltip.vue
 ```
 
 ## Customization and slots

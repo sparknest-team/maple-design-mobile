@@ -25,7 +25,7 @@ export const sectionProps = {
   /** 标题在页面中的层级。 */
   headingLevel: {
     type: Number as PropType<1 | 2 | 3 | 4 | 5 | 6>,
-    default: undefined,
+    default: 4,
     validator: (value: number) => Number.isInteger(value) && value >= 1 && value <= 6,
   },
   /** 分区的语义状态，用于色条、浅色底和描边。 */

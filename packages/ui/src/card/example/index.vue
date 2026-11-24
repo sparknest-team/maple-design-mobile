@@ -13,6 +13,7 @@ import DemoRipple from './demos/ripple.vue'
 import OrganizedSchedulerLifecycle from './demos/scheduler-lifecycle.vue'
 import SizesAndHeadings from './demos/sizes-and-headings.vue'
 import DemoSlots from './demos/slots.vue'
+import DemoTooltipEn from './demos/en-US/tooltip.vue'
 import DemoTooltip from './demos/tooltip.vue'
 
 onThemeChange()
@@ -73,7 +74,7 @@ onThemeChange()
 
   <section data-demo="tooltip">
     <app-type>{{ english ? 'Long title and tooltip' : '长标题与提示' }}</app-type
-    ><DemoTooltip />
+    ><DemoTooltipEn v-if="english" /><DemoTooltip v-else />
   </section>
 
   <h2 class="mobile-demo-group-heading" data-demo-group="customization-and-slots">

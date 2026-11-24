@@ -290,7 +290,7 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-tag-orangered-border-color-hover` | `transparent` | `border-color` |
 | `--mp-tag-orangered-icon-color` | `rgb(var(--mp-orangered-6))` | `color` |
 | `--mp-tag-orangered-text-color` | `rgb(var(--mp-orangered-6))` | `border-color`, `color` |
-| `--mp-tag-padding-horizontal` | `10px` | `padding` |
+| `--mp-tag-padding-horizontal` | `8px` | `padding` |
 | `--mp-tag-padding-vertical` | `0` | `line-height`, `padding` |
 | `--mp-tag-pinkpurple-bg` | `rgb(var(--mp-pinkpurple-1))`<br>`rgba(var(--mp-pinkpurple-6), 0.2)` (`:root[maple-theme='dark']`) | `background-color` |
 | `--mp-tag-pinkpurple-bg-hover` | `rgb(var(--mp-pinkpurple-2))`<br>`rgba(var(--mp-pinkpurple-6), 0.35)` (`:root[maple-theme='dark']`) | `background-color` |
@@ -311,15 +311,15 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-tag-red-icon-color` | `rgb(var(--mp-red-6))` | `color` |
 | `--mp-tag-red-text-color` | `rgb(var(--mp-red-6))` | `border-color`, `color` |
 | `--mp-tag-round-radius` | `100px` | `border-radius` |
-| `--mp-tag-size-lg` | `36px` | `height`, `line-height` |
+| `--mp-tag-size-lg` | `30px` | `height`, `line-height` |
 | `--mp-tag-size-lg-font-size` | `var(--mp-sys-font-size-md)` | `font-size` |
-| `--mp-tag-size-md` | `32px` | `height`, `line-height` |
-| `--mp-tag-size-md-font-size` | `var(--mp-sys-font-size-md)` | `font-size` |
-| `--mp-tag-size-sm` | `28px` | `height`, `line-height` |
+| `--mp-tag-size-md` | `26px` | `height`, `line-height` |
+| `--mp-tag-size-md-font-size` | `var(--mp-sys-font-size-sm)` | `font-size` |
+| `--mp-tag-size-sm` | `22px` | `height`, `line-height` |
 | `--mp-tag-size-sm-font-size` | `var(--mp-sys-font-size-xs)` | `font-size` |
-| `--mp-tag-size-xl` | `40px` | `height`, `line-height` |
+| `--mp-tag-size-xl` | `34px` | `height`, `line-height` |
 | `--mp-tag-size-xl-font-size` | `var(--mp-sys-font-size-lg)` | `font-size` |
-| `--mp-tag-size-xs` | `24px` | `height`, `line-height` |
+| `--mp-tag-size-xs` | `18px` | `height`, `line-height` |
 | `--mp-tag-size-xs-font-size` | `var(--mp-sys-font-size-xs)` | `font-size` |
 | `--mp-tag-status-danger-bg-color` | `rgb(var(--mp-danger-1))` | `background-color` |
 | `--mp-tag-status-danger-text-color` | `var(--mp-sys-color-content-danger)` | `color` |

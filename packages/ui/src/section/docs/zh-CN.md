@@ -74,7 +74,7 @@ heading-line 在标题后绘制装饰线，操作放入 extra 插槽。
 | size | 视觉尺寸（xs / sm / md / lg / xl） | SectionSize | md |
 | variant | 外观，可选 plain、heading-line、tonal、outline | 'plain' \| 'heading-line' \| 'tonal' \| 'outline' | heading-line |
 | status | 状态决定色条、tonal 浅色背景和 outline 描边的颜色（default / info / success / warning / danger） | SectionStatus | — |
-| heading-level | 标题层级，取值 1 至 6 | 1–6 | 表单内 3，其他场景 2 |
+| heading-level | 标题层级，取值 1 至 6 | 1–6 | `4` |
 | show-marker | 显示色条 | boolean | 表单内开启 |
 | marker-placement | 色条位置（`title` / `section`） | string | `title` |
 

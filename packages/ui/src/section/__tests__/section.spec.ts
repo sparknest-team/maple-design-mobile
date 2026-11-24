@@ -25,7 +25,7 @@ describe('Section documentation examples', () => {
   it('renders the plain heading and the custom outline heading at their documented levels', () => {
     const plain = mount(PlainDemo, { global })
     expect(plain.get('section').classes()).toContain('mp-section--plain')
-    expect(plain.get('h2').text()).toBeTruthy()
+    expect(plain.get('h4').text()).toBeTruthy()
     plain.unmount()
     const outlined = mount(OutlineDemo, { global })
     expect(outlined.get('section').classes()).toContain('mp-section--outline')
@@ -43,7 +43,7 @@ describe('Section documentation examples', () => {
       ]) {
         Locale.use(language)
         await nextTick()
-        expect(page.get('[data-demo="plain"] section h2').text()).toBe(title)
+        expect(page.get('[data-demo="plain"] section h4').text()).toBe(title)
         expect(page.get('[data-demo="heading-options"] [role="radiogroup"]').attributes('aria-label')).toBe(
           language === 'en-US' ? 'Section style' : '分组风格',
         )
@@ -81,7 +81,7 @@ describe('Section documentation examples', () => {
     for (const [index, variant] of ['plain', 'heading-line', 'tonal', 'outline'].entries()) {
       await radios[index].setValue(true)
       expect(section.classes()).toContain(`mp-section--${variant}`)
-      expect(section.find('h2').exists()).toBe(false)
+      expect(section.find('h4').exists()).toBe(false)
       expect(section.attributes('aria-describedby')).toBeUndefined()
       for (const status of ['default', 'info', 'success', 'warning', 'danger']) {
         await page.get(`input[value="${status}"]`).setValue(true)
@@ -98,11 +98,11 @@ describe('Section documentation examples', () => {
       expect(section.find('.mp-section__label--marked').exists()).toBe(true)
       await marker.setValue(false)
       expect(section.find('.mp-section__label--marked').exists()).toBe(false)
-      expect(section.get('h2').attributes('id')).toBe(section.attributes('aria-labelledby'))
+      expect(section.get('h4').attributes('id')).toBe(section.attributes('aria-labelledby'))
       await description.setValue(true)
       expect(section.attributes('aria-describedby')).toBeTruthy()
       await title.setValue(false)
-      expect(section.find('h2').exists()).toBe(false)
+      expect(section.find('h4').exists()).toBe(false)
       expect(section.attributes('aria-describedby')).toBeTruthy()
       await description.setValue(false)
     }
@@ -112,7 +112,7 @@ describe('Section documentation examples', () => {
     const page = mount(InlineForm, { global })
     const section = page.get('section')
     expect(section.classes()).toContain('mp-section--heading-line')
-    expect(section.get('h3').text()).toBe('成员信息')
+    expect(section.get('h4').text()).toBe('成员信息')
     expect(section.find('.mp-section__content--inline').exists()).toBe(true)
     const inputs = section.findAll('input')
     expect(inputs).toHaveLength(2)
