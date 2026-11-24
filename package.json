@@ -72,6 +72,10 @@
     "verify:publish": "pnpm spec:check && pnpm lint:check && pnpm build:lib && pnpm package:check && pnpm test",
     "version-packages": "node ../design-ui/bin/check-major-release.mjs && changeset version && pnpm install --lockfile-only --ignore-scripts"
   },
+  "nano-staged": {
+    "*.{vue,ts,tsx,js,mjs,cjs}": "eslint --fix --no-warn-ignored",
+    "*.{vue,ts,tsx,js,mjs,cjs,less,css,md,json,yaml,yml}": "prettier --write --ignore-unknown"
+  },
   "devDependencies": {
     "@changesets/changelog-github": "^0.5.1",
     "@changesets/cli": "^2.29.7",

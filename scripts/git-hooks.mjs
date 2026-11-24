@@ -1,6 +1,13 @@
 import { execFileSync } from 'node:child_process'
-import { readFileSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
+import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
+
+/**
+ * 依赖是否已安装。路径基于当前工作目录（git 总在仓库根执行钩子），
+ * 未安装时跳过暂存文件格式化，让新克隆在 `pnpm i` 之前也能提交。
+ */
+const hasDependencies = () => existsSync(join(process.cwd(), 'node_modules', '.bin'))
 
 export function checkMessage(message) {
   const subject = message.split(/\r?\n/).find((line) => line.trim() && !line.startsWith('#')) ?? ''
@@ -20,7 +27,15 @@ export function run(mode, messageFile) {
     }
     execFileSync('git', ['config', '--local', 'core.hooksPath', '.githooks'], { stdio: 'inherit' })
   } else if (mode === 'pre-commit') {
-    // Inspect the index only; never format, lint, build, or alter the working tree.
+    // Format and lint-fix only the files being committed, then inspect the index.
+    // Unstaged work is never touched, and nothing outside the staged set is rewritten.
+    // Skipped when dependencies are absent so a fresh clone can commit before `pnpm i`.
+    const formatting = hasDependencies()
+    if (formatting) {
+      execFileSync(process.platform === 'win32' ? 'pnpm.cmd' : 'pnpm', ['exec', 'nano-staged'], {
+        stdio: 'inherit',
+      })
+    }
     execFileSync('git', ['diff', '--cached', '--check'], { stdio: 'inherit' })
     const files = execFileSync('git', ['diff', '--cached', '--name-only', '--diff-filter=ACMR', '-z'])
       .toString()
@@ -33,7 +48,11 @@ export function run(mode, messageFile) {
         throw new Error(`Invalid staged JSON: ${file}`, { cause: error })
       }
     }
-    console.log('Staged whitespace, conflict markers, and JSON: OK. Full quality runs in PR CI.')
+    console.log(
+      formatting
+        ? 'Staged files formatted; whitespace, conflict markers, and JSON: OK. Full quality runs in PR CI.'
+        : 'Dependencies not installed; skipped staged formatting. Whitespace, conflict markers, and JSON: OK.',
+    )
   } else if (mode === 'commit-msg') {
     checkMessage(readFileSync(messageFile, 'utf8'))
   } else {
