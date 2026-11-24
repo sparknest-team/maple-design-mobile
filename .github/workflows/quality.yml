@@ -93,6 +93,9 @@ jobs:
       - name: check:packages
         if: github.event_name != 'merge_group'
         run: pnpm quality:fast --only check:packages
+      - name: check:publish-metadata
+        if: github.event_name != 'merge_group'
+        run: pnpm quality:fast --only check:publish-metadata
       - name: check:runtime-dependencies
         if: github.event_name != 'merge_group'
         run: pnpm quality:fast --only check:runtime-dependencies
