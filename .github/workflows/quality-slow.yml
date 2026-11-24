@@ -1,0 +1,117 @@
+name: Quality Slow
+
+on:
+  schedule:
+    - cron: '0 18 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  slow:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: maple-design-mobile
+    steps:
+      - name: Check out Maple
+        id: checkout_maple
+        uses: actions/checkout@v4
+        with:
+          path: maple-design-mobile
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Resolve linked pull requests
+        id: linked
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.DESIGN_SYSTEM_CI_TOKEN || github.token }}
+          script: |
+            const { resolve } = require(`${process.env.GITHUB_WORKSPACE}/maple-design-mobile/scripts/resolve-ci-refs.cjs`);
+            await resolve({ github, context, core });
+      - name: Check out design-ui
+        id: checkout_design_ui
+        uses: actions/checkout@v4
+        with:
+          repository: sparknest-team/design-ui
+          path: design-ui
+          ref: ${{ fromJSON(steps.linked.outputs.refs)['design-ui'] }}
+          token: ${{ secrets.DESIGN_SYSTEM_CI_TOKEN || github.token }}
+          persist-credentials: false
+      - name: Check out Cedar
+        id: checkout_cedar
+        uses: actions/checkout@v4
+        with:
+          repository: sparknest-team/cedar-design-web
+          path: cedar-design-web
+          ref: ${{ fromJSON(steps.linked.outputs.refs)['cedar-design-web'] }}
+          token: ${{ secrets.DESIGN_SYSTEM_CI_TOKEN || github.token }}
+          persist-credentials: false
+      - name: Set up pnpm
+        id: setup_pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.23.0
+      - name: Set up Node
+        id: setup_node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: maple-design-mobile/.nvmrc
+          cache: pnpm
+          cache-dependency-path: |
+            maple-design-mobile/pnpm-lock.yaml
+            cedar-design-web/pnpm-lock.yaml
+            design-ui/pnpm-lock.yaml
+      - name: Install design-ui dependencies
+        id: install_design_ui
+        run: corepack pnpm install --frozen-lockfile
+        working-directory: design-ui
+      - name: Install Cedar dependencies
+        id: install_cedar
+        run: pnpm install --frozen-lockfile
+        working-directory: cedar-design-web
+      - name: Install Maple dependencies
+        id: install_maple
+        run: pnpm install --frozen-lockfile
+      - name: Install Chromium, Firefox and WebKit
+        id: browsers
+        run: pnpm exec playwright install --with-deps chromium firefox webkit
+      - name: Run slow quality checks
+        run: pnpm quality:slow
+      - name: Upload browser evidence
+        id: evidence
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: maple-design-mobile-nightly-production-browser
+          path: maple-design-mobile/artifacts/docs-components
+          if-no-files-found: warn
+      - name: Summarize setup and evidence failures
+        if: failure()
+        uses: actions/github-script@v7
+        env:
+          STEP_RESULTS: ${{ toJSON(steps) }}
+        with:
+          script: |
+            const names = {
+              install_maple: "Install Maple dependencies",
+              install_cedar: "Install Cedar dependencies",
+              install_design_ui: "Install design-ui dependencies",
+              setup_node: "Set up Node",
+              setup_pnpm: "Set up pnpm",
+              checkout_cedar: "Check out Cedar",
+              checkout_design_ui: "Check out design-ui",
+              checkout_maple: "Check out Maple",
+              linked: "Resolve linked pull requests",
+              browsers: "Install Chromium, Firefox and WebKit",
+              evidence: "Upload browser evidence",
+            }
+            const failures = Object.entries(JSON.parse(process.env.STEP_RESULTS))
+              .filter(([id, step]) => names[id] && step.outcome === 'failure')
+            if (failures.length) {
+              core.summary.addHeading('Slow quality workflow failures', 2)
+              core.summary.addList(failures.map(([id]) => names[id]))
+              await core.summary.write()
+            }
