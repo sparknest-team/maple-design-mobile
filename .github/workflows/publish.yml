@@ -28,6 +28,12 @@ jobs:
           repository: sparknest-team/design-ui
           path: design-ui
           token: ${{ secrets.DESIGN_SYSTEM_CI_TOKEN || secrets.DESIGN_UI_TOKEN || github.token }}
+      - uses: actions/checkout@v4
+        with:
+          repository: sparknest-team/cedar-design-web
+          path: cedar-design-web
+          token: ${{ secrets.DESIGN_SYSTEM_CI_TOKEN || secrets.DESIGN_UI_TOKEN || github.token }}
+          persist-credentials: false
       - uses: pnpm/action-setup@v4
         with:
           version: 10.23.0
@@ -37,9 +43,12 @@ jobs:
           cache: pnpm
           cache-dependency-path: |
             maple-design-mobile/pnpm-lock.yaml
+            cedar-design-web/pnpm-lock.yaml
             design-ui/pnpm-lock.yaml
       - run: corepack pnpm install --frozen-lockfile
         working-directory: design-ui
+      - run: pnpm install --frozen-lockfile
+        working-directory: cedar-design-web
       - run: pnpm install --frozen-lockfile
       - run: pnpm spec:check
       - run: pnpm lint:check
