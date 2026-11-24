@@ -1,5 +1,18 @@
 # @maple-design/ui-vue
 
+## 1.4.4
+
+### Patch Changes
+
+- [#28](https://github.com/sparknest-team/maple-design-mobile/pull/28) [`878b700`](https://github.com/sparknest-team/maple-design-mobile/commit/878b70027014ea22d5c501ad76ac178eac3cdc79) Thanks [@sparknest-team](https://github.com/sparknest-team)! - 重新生成 `people-select` 示例页：按 design-ui 的分组清单把 `popup-search` 纳入「异步数据」分组，使示例页章节与文档分组一致。
+
+- [#29](https://github.com/sparknest-team/maple-design-mobile/pull/29) [`68fddba`](https://github.com/sparknest-team/maple-design-mobile/commit/68fddba77743c86a2011035ac5e34dafceab9077) Thanks [@sparknest-team](https://github.com/sparknest-team)! - select 的 option 补充 `:hover` 状态，与 cedar select 及本仓 auto-complete 的双选择器写法对齐（此前仅支持 JS 驱动的 `-active`）。
+
+- Updated dependencies []:
+  - @maple-design/icons-vue@1.4.4
+  - @maple-design/shared-vue@1.4.4
+  - @maple-design/use-vue@1.4.4
+
 ## 1.4.3
 
 ### Patch Changes
