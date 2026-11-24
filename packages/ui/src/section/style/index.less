@@ -62,10 +62,11 @@
   &--default > &__surface {
     --mp-internal-section-accent: var(--mp-color-border-3);
   }
-  each(info success warning danger, {
-    &--@{value} > &__surface {
-      --mp-internal-section-accent: var(~'--mp-sys-color-status-@{value}');
-      --mp-internal-section-fill: color-mix(in srgb, var(--mp-internal-section-accent) 12%, var(--mp-section-card-background));
+  @status-palettes: { info: blue; success: success; warning: warning; danger: danger; };
+  each(@status-palettes, {
+    &--@{key} > &__surface {
+      --mp-internal-section-accent: var(~'--mp-sys-color-status-@{key}');
+      --mp-internal-section-fill: color-mix(in srgb, rgb(var(~'--mp-@{value}-1')) 70%, var(--mp-section-card-background));
       --mp-internal-section-outline: var(--mp-internal-section-accent);
     }
   });
@@ -97,6 +98,17 @@
   &__surface--marked::before {
     inset-block: 0;
   }
+  &--tonal > &__surface--marked::before,
+  &--outline > &__surface--marked::before {
+    inset-inline: 0;
+    width: auto;
+    border-radius: inherit;
+    border-inline-start: var(--mp-section-marker-width) solid var(--mp-internal-section-accent);
+    background: none;
+  }
+  &--outline > &__surface--marked::before {
+    border-radius: max(0px, calc(var(--mp-section-card-radius) - var(--mp-section-divider-width)));
+  }
   &__label--marked::before {
     top: 50%;
     height: var(--mp-internal-section-marker-height);
@@ -117,8 +129,8 @@
     min-width: 0;
     max-width: 100%;
   }
-  &__header {
-    margin-block-end: var(--mp-internal-section-header-gap);
+  &__header + &__content:not(:empty) {
+    margin-block-start: var(--mp-internal-section-header-gap);
   }
   &__heading {
     display: flex;

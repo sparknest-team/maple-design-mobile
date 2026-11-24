@@ -47,8 +47,8 @@ describe('Section', () => {
     })
     try {
       const section = wrapper.get('section')
-      expect(section.get('h3').text()).toBe('现场处置')
-      expect(section.attributes('aria-labelledby')).toBe(section.get('h3').attributes('id'))
+      expect(section.get('h4').text()).toBe('现场处置')
+      expect(section.attributes('aria-labelledby')).toBe(section.get('h4').attributes('id'))
       expect(section.findAll('input')).toHaveLength(1)
       expect(section.element.nextElementSibling?.textContent).toContain('技能等级')
       sectionState.showMarker = false
@@ -178,7 +178,7 @@ describe('Section', () => {
     const sections = Array.from(container.querySelectorAll('section'))
     expect(sections[0].id).not.toBe(sections[1].id)
     for (const section of sections) {
-      expect(section.getAttribute('aria-labelledby')).toBe(section.querySelector('h2')?.id)
+      expect(section.getAttribute('aria-labelledby')).toBe(section.querySelector('h4')?.id)
       expect(section.getAttribute('aria-describedby')).toBe(section.querySelector('.mp-section__description')?.id)
       expect(section.querySelector('button')?.textContent).toBe('引用模板')
     }
