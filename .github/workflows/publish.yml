@@ -90,5 +90,6 @@ jobs:
             new_tags+=("$tag")
           done < "$RUNNER_TEMP/tags-new.txt"
           printf 'New tags: %s\n' "${new_tags[*]}"
-          git push origin "${new_tags[@]}"
+          # --tags 而不是逐个 tag：远端已存在的同名 tag 会被跳过，重复执行不会失败
+          git push origin --tags
           node scripts/github-releases.mjs "${new_tags[@]}"
