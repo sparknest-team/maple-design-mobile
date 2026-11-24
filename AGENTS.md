@@ -63,7 +63,9 @@ packages/
 | 构建文档 | `pnpm build:doc` |
 | 仅检查示例脚本和模板语法 | `pnpm docs:check` |
 | 构建 npm 包及文档 | `pnpm build` |
-| 完整本地 CI | `pnpm quality`；先按同级目录安装 Cedar、Maple、design-ui，使用 pnpm 10.23.0；CI 与本地共用该入口，不单独维护步骤子集 |
+| 完整质量检查 | `pnpm quality`，用于本地和 merge queue；先按同级目录安装 Cedar、Maple、design-ui，使用 pnpm 10.23.0 |
+| PR 快通道与分片 | `pnpm quality:fast` 和 `SHARD=1/4 pnpm test:shard` |
+| 定时全量回归 | `pnpm quality:slow`，含全量单测、组件浏览器回归和三引擎兼容性 |
 | 全组件按需 JS 依赖与共享包构建回归 | `pnpm check:component-bundle` |
 | Icon 按需 JS 依赖与体积回归 | `pnpm check:icon-bundle` |
 | 静态检查（不自动修改） | `pnpm lint:check` |

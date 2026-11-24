@@ -22,7 +22,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  quality:
+  checks:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -75,13 +75,84 @@ jobs:
         working-directory: cedar-design-web
       - run: pnpm install --frozen-lockfile
       - run: pnpm exec playwright install --with-deps chromium firefox webkit
+        if: github.event_name == 'merge_group'
+      - run: pnpm exec playwright install --with-deps chromium
+        if: github.event_name != 'merge_group'
       - run: node ../design-ui/bin/ci-toolchain-check.mjs
       - run: node ../design-ui/bin/case-paths-check.mjs
       - run: node --test ../design-ui/bin/ci-contract.test.mjs ../design-ui/bin/ci-toolchain-check.test.mjs ../design-ui/bin/shared-source-contract.test.mjs ../design-ui/bin/case-paths-check.test.mjs ../design-ui/packages/ui-build/test/environment.test.mjs ../design-ui/browser/inventory.test.mjs ../design-ui/browser/navigation.test.mjs ../design-ui/browser/compatibility.test.mjs ../design-ui/browser/native-acceptance.test.mjs
       - name: Check changeset coverage
         if: steps.linked.outputs.pr != '' && steps.linked.outputs.release != 'true'
         run: pnpm exec changeset status --since=origin/main
+      - name: docs:check
+        if: github.event_name != 'merge_group'
+        run: pnpm quality:fast --only docs:check
+      - name: check:packages
+        if: github.event_name != 'merge_group'
+        run: pnpm quality:fast --only check:packages
+      - name: check:runtime-dependencies
+        if: github.event_name != 'merge_group'
+        run: pnpm quality:fast --only check:runtime-dependencies
+      - name: check:shared
+        if: github.event_name != 'merge_group'
+        run: pnpm quality:fast --only check:shared
+      - name: check:vue-compat:source
+        if: github.event_name != 'merge_group'
+        run: pnpm quality:fast --only check:vue-compat:source
+      - name: build:lib
+        if: github.event_name != 'merge_group'
+        run: pnpm quality:fast --only build:lib
+      - name: spec:check
+        if: github.event_name != 'merge_group'
+        run: pnpm quality:fast --only spec:check
+      - name: check:style-vars
+        if: github.event_name != 'merge_group'
+        run: pnpm quality:fast --only check:style-vars
+      - name: check:dev-boundary
+        if: github.event_name != 'merge_group'
+        run: pnpm quality:fast --only check:dev-boundary
+      - name: lint:check
+        if: github.event_name != 'merge_group'
+        run: pnpm quality:fast --only lint:check
+      - name: typecheck
+        if: github.event_name != 'merge_group'
+        run: pnpm quality:fast --only typecheck
+      - name: typecheck:playground
+        if: github.event_name != 'merge_group'
+        run: pnpm quality:fast --only typecheck:playground
+      - name: check:test-collection
+        if: github.event_name != 'merge_group'
+        run: pnpm quality:fast --only check:test-collection
+      - name: check:direction
+        if: github.event_name != 'merge_group'
+        run: pnpm quality:fast --only check:direction
+      - name: check:source-normalization
+        if: github.event_name != 'merge_group'
+        run: pnpm quality:fast --only check:source-normalization
+      - name: check:icon-bundle
+        if: github.event_name != 'merge_group'
+        run: pnpm quality:fast --only check:icon-bundle
+      - name: check:component-bundle
+        if: github.event_name != 'merge_group'
+        run: pnpm quality:fast --only check:component-bundle
+      - name: build:doc
+        if: github.event_name != 'merge_group'
+        run: pnpm quality:fast --only build:doc
+      - name: package:check
+        if: github.event_name != 'merge_group'
+        run: pnpm quality:fast --only package:check
+      - name: check:published-environment
+        if: github.event_name != 'merge_group'
+        run: pnpm quality:fast --only check:published-environment
+      - name: check:docs-components
+        if: github.event_name != 'merge_group'
+        run: pnpm quality:fast --only check:docs-components
+        env:
+          DOCS_COMPONENTS_BASE: ${{ github.event.pull_request.base.sha || github.event.before || '' }}
+          DOCS_COMPONENTS_PR: ${{ steps.linked.outputs.pr }}
+          DOCS_COMPONENTS_LINKS: ${{ steps.linked.outputs.links }}
       - run: pnpm quality
+        if: github.event_name == 'merge_group'
       - name: Verify linked PRs stayed unchanged
         uses: actions/github-script@v7
         env:
@@ -103,3 +174,88 @@ jobs:
           name: maple-design-mobile-production-browser
           path: maple-design-mobile/artifacts/docs-components
           if-no-files-found: warn
+  test-shards:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
+    defaults:
+      run:
+        working-directory: maple-design-mobile
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: maple-design-mobile
+          fetch-depth: 0
+          persist-credentials: false
+          ref: ${{ inputs.pull_request_number && format('refs/pull/{0}/merge', inputs.pull_request_number) || '' }}
+      - name: Resolve linked pull requests
+        id: linked
+        uses: actions/github-script@v7
+        env:
+          PR_NUMBER: ${{ inputs.pull_request_number }}
+        with:
+          github-token: ${{ secrets.DESIGN_SYSTEM_CI_TOKEN || github.token }}
+          script: |
+            const { resolve } = require(`${process.env.GITHUB_WORKSPACE}/maple-design-mobile/scripts/resolve-ci-refs.cjs`);
+            await resolve({ github, context, core });
+      - uses: actions/checkout@v4
+        with:
+          repository: sparknest-team/design-ui
+          path: design-ui
+          ref: ${{ fromJSON(steps.linked.outputs.refs)['design-ui'] }}
+          token: ${{ secrets.DESIGN_SYSTEM_CI_TOKEN || github.token }}
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: sparknest-team/cedar-design-web
+          path: cedar-design-web
+          ref: ${{ fromJSON(steps.linked.outputs.refs)['cedar-design-web'] }}
+          token: ${{ secrets.DESIGN_SYSTEM_CI_TOKEN || github.token }}
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.23.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: maple-design-mobile/.nvmrc
+          cache: pnpm
+          cache-dependency-path: |
+            maple-design-mobile/pnpm-lock.yaml
+            cedar-design-web/pnpm-lock.yaml
+            design-ui/pnpm-lock.yaml
+      # Keep frozen installs while preserving the shared contract's three canonical install commands in checks.
+      - run: corepack pnpm --config.frozen-lockfile=true install
+        working-directory: design-ui
+      - run: pnpm --config.frozen-lockfile=true install
+        working-directory: cedar-design-web
+      - run: pnpm --config.frozen-lockfile=true install
+      - run: pnpm build:lib
+      - run: pnpm test:shard
+        env:
+          SHARD: ${{ matrix.shard }}/4
+      - name: Verify linked PRs stayed unchanged
+        uses: actions/github-script@v7
+        env:
+          CI_LINKS: ${{ steps.linked.outputs.links }}
+        with:
+          github-token: ${{ secrets.DESIGN_SYSTEM_CI_TOKEN || github.token }}
+          script: |
+            const { validate } = require(`${process.env.GITHUB_WORKSPACE}/maple-design-mobile/scripts/resolve-ci-refs.cjs`);
+            await validate({ github });
+  quality:
+    name: quality
+    needs: [checks, test-shards]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require checks and all test shards to pass
+        env:
+          CHECKS_RESULT: ${{ needs.checks.result }}
+          SHARDS_RESULT: ${{ needs.test-shards.result }}
+        run: |
+          if [[ "$CHECKS_RESULT" != success || "$SHARDS_RESULT" != success ]]; then
+            echo "::error::checks: $CHECKS_RESULT, test-shards: $SHARDS_RESULT"
+            exit 1
+          fi
