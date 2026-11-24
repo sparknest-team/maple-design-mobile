@@ -1,5 +1,12 @@
 # @maple-design/use-vue
 
+## 1.4.6
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @maple-design/shared-vue@1.4.6
+
 ## 1.4.5
 
 ### Patch Changes

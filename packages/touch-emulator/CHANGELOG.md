@@ -1,5 +1,7 @@
 # @maple-design/touch-emulator-vue
 
+## 1.4.6
+
 ## 1.4.5
 
 ## 1.4.4

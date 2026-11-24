@@ -1,5 +1,13 @@
 # @maple-design/ui-playground-vue
 
+## 1.4.6
+
+### Patch Changes
+
+- Updated dependencies [[`f497e87`](https://github.com/sparknest-team/maple-design-mobile/commit/f497e87368cd8d58ead9b31a88f291ef635b5304)]:
+  - @maple-design/ui-vue@1.4.6
+  - @maple-design/touch-emulator-vue@1.4.6
+
 ## 1.4.5
 
 ### Patch Changes
