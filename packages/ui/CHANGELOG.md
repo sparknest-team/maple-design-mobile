@@ -1,5 +1,16 @@
 # @maple-design/ui-vue
 
+## 1.4.6
+
+### Patch Changes
+
+- [#43](https://github.com/sparknest-team/maple-design-mobile/pull/43) [`f497e87`](https://github.com/sparknest-team/maple-design-mobile/commit/f497e87368cd8d58ead9b31a88f291ef635b5304) Thanks [@sparknest-team](https://github.com/sparknest-team)! - Section 标题默认使用 h4，调整正文间距、状态底色和整段色条圆角。Card 的长标题示例支持点按查看全文。缩小 Tag 各档高度与默认字号。
+
+- Updated dependencies []:
+  - @maple-design/icons-vue@1.4.6
+  - @maple-design/shared-vue@1.4.6
+  - @maple-design/use-vue@1.4.6
+
 ## 1.4.5
 
 ### Patch Changes
