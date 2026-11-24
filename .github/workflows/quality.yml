@@ -87,6 +87,9 @@ jobs:
       - name: docs:check
         if: github.event_name != 'merge_group'
         run: pnpm quality:fast --only docs:check
+      - name: check:workflow-parity
+        if: github.event_name != 'merge_group'
+        run: pnpm quality:fast --only check:workflow-parity
       - name: check:packages
         if: github.event_name != 'merge_group'
         run: pnpm quality:fast --only check:packages
