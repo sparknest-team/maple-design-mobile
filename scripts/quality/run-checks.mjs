@@ -25,18 +25,24 @@ for (const check of checks) {
     if (lane === 'fast') {
       const { changedComponents } = await import('./changed-components.mjs')
       const components = await changedComponents()
-      if (components.length) env.DOCS_COMPONENTS = components.join(',')
+      if (components.length) {
+        env.DOCS_COMPONENTS = components.join(',')
+      }
     }
     console.log(`Component browser coverage: ${env.DOCS_COMPONENTS || 'all components'}`)
   }
 
   const result = spawnSync('pnpm', [check], { env, stdio: 'inherit' })
-  if (result.status === 0) continue
+  if (result.status === 0) {
+    continue
+  }
 
   const reason = result.error?.message || result.signal || `exit ${result.status}`
   console.error(`pnpm ${check} failed (${reason})`)
   failures.push(`- Failed: \`pnpm ${check}\` (${reason})`)
-  if (lane === 'fast' || check === 'build:lib' || check === 'build:doc') break
+  if (lane === 'fast' || check === 'build:lib' || check === 'build:doc') {
+    break
+  }
 }
 
 if (failures.length) {
