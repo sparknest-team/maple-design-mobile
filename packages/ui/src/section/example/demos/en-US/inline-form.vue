@@ -6,7 +6,7 @@ const model = reactive({ name: '', department: '' })
 
 <template>
   <mp-form :model="model" layout="inline" edit-mode="direct">
-    <mp-section title="Member details">
+    <mp-section title="Member details" show-marker>
       <mp-form-item field="name" label="Name">
         <mp-input v-model="model.name" />
       </mp-form-item>

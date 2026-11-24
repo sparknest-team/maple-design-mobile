@@ -1,4 +1,4 @@
-import { nextTick } from 'vue'
+import { h, nextTick } from 'vue'
 import { Locale } from '@maple-design/ui-vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it, vi } from 'vitest'
@@ -134,5 +134,22 @@ it('changes visual size independently of the heading level', async () => {
   await wrapper.setProps({ headingLevel: 2 })
   expect(wrapper.classes()).toContain('mp-section--size-xl')
   expect(wrapper.get('h2').attributes('id')).toBe(wrapper.attributes('aria-labelledby'))
+  wrapper.unmount()
+})
+
+it('shows the title marker inside Form only when enabled', () => {
+  const wrapper = mount(Form, {
+    slots: {
+      default: () => [
+        h(Section, { title: 'Default marker' }),
+        h(Section, { title: 'Enabled marker', showMarker: true }),
+      ],
+    },
+  })
+  const [defaultSection, markedSection] = wrapper.findAll('section')
+  expect(defaultSection.classes()).toContain('mp-section--form')
+  expect(markedSection.classes()).toContain('mp-section--form')
+  expect(defaultSection.find('.mp-section__label--marked').exists()).toBe(false)
+  expect(markedSection.find('.mp-section__label--marked').exists()).toBe(true)
   wrapper.unmount()
 })

@@ -52,7 +52,7 @@ Switch between plain, heading-line, tonal and outline, then toggle the heading a
 
 ### Grouping inline form fields
 
-Inside Form, Section defaults to heading-line with a heading marker. The fields follow the inline layout and wrap when space is limited. Use Divider between sections when needed.
+Inside Form, Section defaults to heading-line. Pass `show-marker` to display a heading marker. The fields follow the inline layout and wrap when space is limited. Use Divider between sections when needed.
 
 ```demo
 ../example/demos/en-US/inline-form.vue
@@ -71,7 +71,7 @@ Inside Form, Section defaults to heading-line with a heading marker. The fields 
 | variant | Appearance, plain, heading-line, tonal or outline | 'plain' \| 'heading-line' \| 'tonal' \| 'outline' | heading-line |
 | status | Status colors the marker, tonal fill and outline (default / info / success / warning / danger) | SectionStatus | — |
 | heading-level | HTML heading level from 1 to 6 | 1–6 | `4` |
-| show-marker | Show the marker | boolean | Enabled inside Form |
+| show-marker | Show the marker | boolean | Off |
 | marker-placement | Marker placement (`title` or `section`) | string | `title` |
 
 ### Section Slots
