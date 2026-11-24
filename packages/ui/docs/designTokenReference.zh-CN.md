@@ -2247,7 +2247,7 @@ expand-duration／fade-duration 消费到 transform／opacity 过渡；运行时
 
 | 变量 | 层级 | 声明值／条件 | 消费路径／CSS 属性 |
 | --- | --- | --- | --- |
-| `--mp-section-accent-color` | 公开 | `var(--mp-sys-color-action-primary)` | 本组件 CSS<br>`background`, `background-color`, `border` |
+| `--mp-section-accent-color` | 公开 | `var(--mp-sys-color-action-primary)` | 本组件 CSS<br>`background`, `border`, `border-inline-start` |
 | `--mp-section-after-gap` | 公开 | `24px` | 本组件 CSS<br>`margin-block`, `padding-block-start` |
 | `--mp-section-before-gap` | 公开 | `32px` | 本组件 CSS<br>`padding-block-start` |
 | `--mp-section-card-background` | 公开 | `var(--mp-sys-color-surface-default)` | 本组件 CSS<br>`background-color` |
@@ -2259,32 +2259,32 @@ expand-duration／fade-duration 消费到 transform／opacity 过渡；运行时
 | `--mp-section-description-line-height` | 公开 | `20px` | 本组件 CSS<br>`line-height` |
 | `--mp-section-description-size` | 公开 | `13px` | 本组件 CSS<br>`font-size` |
 | `--mp-section-divider-color` | 公开 | `var(--mp-sys-color-border-default)` | 本组件 CSS<br>`border-block-start` |
-| `--mp-section-divider-width` | 公开 | `1px` | 本组件 CSS<br>`border`, `border-block-start` |
-| `--mp-section-header-gap` | 公开 | `20px` | 本组件 CSS<br>`margin-block-end` |
+| `--mp-section-divider-width` | 公开 | `1px` | 本组件 CSS<br>`border`, `border-block-start`, `border-radius` |
+| `--mp-section-header-gap` | 公开 | `20px` | 本组件 CSS<br>`margin-block-start` |
 | `--mp-section-heading-gap` | 公开 | `16px` | 本组件 CSS<br>`margin-inline-start` |
 | `--mp-section-heading-size-step` | 公开 | `1px` | 本组件 CSS<br>`font-size`, `line-height` |
 | `--mp-section-marker-gap` | 公开 | `12px` | 本组件 CSS<br>`padding-inline-end`, `padding-inline-start`, `row-gap` |
 | `--mp-section-marker-height` | 公开 | `16px` | 本组件 CSS<br>`height` |
 | `--mp-section-marker-radius` | 公开 | `2px` | 本组件 CSS<br>`border-radius` |
-| `--mp-section-marker-width` | 公开 | `3px` | 本组件 CSS<br>`padding-inline-start`, `width` |
+| `--mp-section-marker-width` | 公开 | `3px` | 本组件 CSS<br>`border-inline-start`, `padding-inline-start`, `width` |
 | `--mp-section-outline-color` | 公开 | `var(--mp-sys-color-border-default)` | 本组件 CSS<br>`border` |
 | `--mp-section-size-lg-card-padding` | 公开 | `20px` | 本组件 CSS<br>`padding` |
-| `--mp-section-size-lg-header-gap` | 公开 | `24px` | 本组件 CSS<br>`margin-block-end` |
+| `--mp-section-size-lg-header-gap` | 公开 | `24px` | 本组件 CSS<br>`margin-block-start` |
 | `--mp-section-size-lg-marker-height` | 公开 | `20px` | 本组件 CSS<br>`height` |
 | `--mp-section-size-lg-title-line-height` | 公开 | `28px` | 本组件 CSS<br>`line-height` |
 | `--mp-section-size-lg-title-size` | 公开 | `20px` | 本组件 CSS<br>`font-size` |
 | `--mp-section-size-sm-card-padding` | 公开 | `12px` | 本组件 CSS<br>`padding` |
-| `--mp-section-size-sm-header-gap` | 公开 | `12px` | 本组件 CSS<br>`margin-block-end` |
+| `--mp-section-size-sm-header-gap` | 公开 | `12px` | 本组件 CSS<br>`margin-block-start` |
 | `--mp-section-size-sm-marker-height` | 公开 | `14px` | 本组件 CSS<br>`height` |
 | `--mp-section-size-sm-title-line-height` | 公开 | `20px` | 本组件 CSS<br>`line-height` |
 | `--mp-section-size-sm-title-size` | 公开 | `14px` | 本组件 CSS<br>`font-size` |
 | `--mp-section-size-xl-card-padding` | 公开 | `24px` | 本组件 CSS<br>`padding` |
-| `--mp-section-size-xl-header-gap` | 公开 | `28px` | 本组件 CSS<br>`margin-block-end` |
+| `--mp-section-size-xl-header-gap` | 公开 | `28px` | 本组件 CSS<br>`margin-block-start` |
 | `--mp-section-size-xl-marker-height` | 公开 | `24px` | 本组件 CSS<br>`height` |
 | `--mp-section-size-xl-title-line-height` | 公开 | `32px` | 本组件 CSS<br>`line-height` |
 | `--mp-section-size-xl-title-size` | 公开 | `24px` | 本组件 CSS<br>`font-size` |
 | `--mp-section-size-xs-card-padding` | 公开 | `8px` | 本组件 CSS<br>`padding` |
-| `--mp-section-size-xs-header-gap` | 公开 | `8px` | 本组件 CSS<br>`margin-block-end` |
+| `--mp-section-size-xs-header-gap` | 公开 | `8px` | 本组件 CSS<br>`margin-block-start` |
 | `--mp-section-size-xs-marker-height` | 公开 | `12px` | 本组件 CSS<br>`height` |
 | `--mp-section-size-xs-title-line-height` | 公开 | `18px` | 本组件 CSS<br>`line-height` |
 | `--mp-section-size-xs-title-size` | 公开 | `14px` | 本组件 CSS<br>`font-size` |
@@ -2939,7 +2939,7 @@ expand-duration／fade-duration 消费到 transform／opacity 过渡；运行时
 | `--mp-tag-orangered-border-color-hover` | 公开 | `transparent` | 本组件 CSS<br>`border-color` |
 | `--mp-tag-orangered-icon-color` | 公开 | `rgb(var(--mp-orangered-6))` | 本组件 CSS<br>`color` |
 | `--mp-tag-orangered-text-color` | 公开 | `rgb(var(--mp-orangered-6))` | 本组件 CSS<br>`border-color`, `color` |
-| `--mp-tag-padding-horizontal` | 公开 | `10px` | 本组件 CSS<br>`padding` |
+| `--mp-tag-padding-horizontal` | 公开 | `8px` | 本组件 CSS<br>`padding` |
 | `--mp-tag-padding-vertical` | 公开 | `0` | 本组件 CSS<br>`line-height`, `padding` |
 | `--mp-tag-pinkpurple-bg` | 公开 | `rgb(var(--mp-pinkpurple-1))`<br>`rgba(var(--mp-pinkpurple-6), 0.2)` (`:root[maple-theme='dark']`) | 本组件 CSS<br>`background-color` |
 | `--mp-tag-pinkpurple-bg-hover` | 公开 | `rgb(var(--mp-pinkpurple-2))`<br>`rgba(var(--mp-pinkpurple-6), 0.35)` (`:root[maple-theme='dark']`) | 本组件 CSS<br>`background-color` |
@@ -2960,15 +2960,15 @@ expand-duration／fade-duration 消费到 transform／opacity 过渡；运行时
 | `--mp-tag-red-icon-color` | 公开 | `rgb(var(--mp-red-6))` | 本组件 CSS<br>`color` |
 | `--mp-tag-red-text-color` | 公开 | `rgb(var(--mp-red-6))` | 本组件 CSS<br>`border-color`, `color` |
 | `--mp-tag-round-radius` | 公开 | `100px` | 本组件 CSS<br>`border-radius` |
-| `--mp-tag-size-lg` | 公开 | `36px` | 本组件 CSS<br>`height`, `line-height` |
+| `--mp-tag-size-lg` | 公开 | `30px` | 本组件 CSS<br>`height`, `line-height` |
 | `--mp-tag-size-lg-font-size` | 公开 | `var(--mp-sys-font-size-md)` | 本组件 CSS<br>`font-size` |
-| `--mp-tag-size-md` | 公开 | `32px` | 本组件 CSS<br>`height`, `line-height` |
-| `--mp-tag-size-md-font-size` | 公开 | `var(--mp-sys-font-size-md)` | 本组件 CSS<br>`font-size` |
-| `--mp-tag-size-sm` | 公开 | `28px` | 本组件 CSS<br>`height`, `line-height` |
+| `--mp-tag-size-md` | 公开 | `26px` | 本组件 CSS<br>`height`, `line-height` |
+| `--mp-tag-size-md-font-size` | 公开 | `var(--mp-sys-font-size-sm)` | 本组件 CSS<br>`font-size` |
+| `--mp-tag-size-sm` | 公开 | `22px` | 本组件 CSS<br>`height`, `line-height` |
 | `--mp-tag-size-sm-font-size` | 公开 | `var(--mp-sys-font-size-xs)` | 本组件 CSS<br>`font-size` |
-| `--mp-tag-size-xl` | 公开 | `40px` | 本组件 CSS<br>`height`, `line-height` |
+| `--mp-tag-size-xl` | 公开 | `34px` | 本组件 CSS<br>`height`, `line-height` |
 | `--mp-tag-size-xl-font-size` | 公开 | `var(--mp-sys-font-size-lg)` | 本组件 CSS<br>`font-size` |
-| `--mp-tag-size-xs` | 公开 | `24px` | 本组件 CSS<br>`height`, `line-height` |
+| `--mp-tag-size-xs` | 公开 | `18px` | 本组件 CSS<br>`height`, `line-height` |
 | `--mp-tag-size-xs-font-size` | 公开 | `var(--mp-sys-font-size-xs)` | 本组件 CSS<br>`font-size` |
 | `--mp-tag-status-danger-bg-color` | 公开 | `rgb(var(--mp-danger-1))` | 本组件 CSS<br>`background-color` |
 | `--mp-tag-status-danger-text-color` | 公开 | `var(--mp-sys-color-content-danger)` | 本组件 CSS<br>`color` |
