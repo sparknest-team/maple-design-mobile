@@ -14,7 +14,7 @@ export const sectionProps = {
   title: { type: String, default: '' },
   /** 标题下方的补充说明。 */
   description: { type: String, default: '' },
-  /** 分区尺寸，控制标题字号、标题色条和间距。 */
+  /** 分区尺寸，控制标题行高、色条高度和间距。 */
   size: {
     type: String as PropType<SectionSize>,
     default: 'md',

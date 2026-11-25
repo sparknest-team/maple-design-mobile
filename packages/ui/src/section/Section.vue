@@ -1,51 +1,73 @@
-<template>
-  <section
-    :id="sectionId"
-    :class="classes(n(), n(`--${variant}`), n(`--size-${size}`), [!!status, n(`--${status}`)], [!!form, n('--form')])"
-    :aria-labelledby="title || $slots.title ? titleId : undefined"
-    :aria-describedby="description || $slots.description ? descriptionId : undefined"
-  >
-    <div :class="classes(n('surface'), [showMarker && markerPlacement === 'section', n('surface--marked')])">
-      <div v-if="title || $slots.title || description || $slots.description || $slots.extra" :class="n('header')">
-        <div :class="n('heading')">
-          <div
-            v-if="title || $slots.title"
-            :class="classes(n('label'), [showMarker && markerPlacement === 'title', n('label--marked')])"
-          >
-            <component :is="`h${headingLevel}`" :id="titleId" :class="n('title')">
-              <slot name="title">{{ title }}</slot>
-            </component>
-          </div>
-          <span v-if="variant === 'heading-line'" :class="n('line')" aria-hidden="true" />
-          <span v-else :class="n('spacer')" aria-hidden="true" />
-          <div v-if="$slots.extra" :class="n('extra')"><slot name="extra" /></div>
-        </div>
-        <div v-if="description || $slots.description" :id="descriptionId" :class="n('description')">
-          <slot name="description">{{ description }}</slot>
-        </div>
-      </div>
-      <div :class="classes(n('content'), [inline, n('content--inline')])"><slot /></div>
-    </div>
-  </section>
-</template>
-
-<script setup lang="ts">
-import { computed } from 'vue'
+<script lang="tsx">
+import { createTextVNode, defineComponent, renderSlot, useSlots, type SlotsType } from 'vue'
 import { useForm } from '../form/provide'
 import { createNamespace } from '../utils/components'
 import { useId } from '../utils/vue-compat'
 import { sectionProps, type SectionSlots } from './props'
 
-defineOptions({ name: createNamespace('section').name })
-defineSlots<SectionSlots>()
-const props = defineProps(sectionProps)
-const { n, classes } = createNamespace('section')
-const uniqueId = useId()
-const { form } = useForm()
-const inline = computed(() => form?.layout.value === 'inline')
-const sectionId = computed(() => props.id ?? `mp-section-${uniqueId}`)
-const titleId = computed(() => `${sectionId.value}-title`)
-const descriptionId = computed(() => `${sectionId.value}-description`)
-// Intentionally preserve the parent Form context, including its label registry.
-// A visual section is neither a nested Form nor a FormItem.
+export default defineComponent({
+  name: createNamespace('section').name,
+  props: sectionProps,
+  slots: Object as SlotsType<SectionSlots>,
+  setup(props) {
+    const { n, classes } = createNamespace('section')
+    const { form } = useForm()
+    const slots = useSlots()
+    const uniqueId = useId()
+
+    function renderBody() {
+      const body = renderSlot(slots, 'default')
+      if (!Array.isArray(body.children) || !body.children.length) {
+        return null
+      }
+      return <div class={classes(n('content'), [form?.layout.value === 'inline', n('content--inline')])}>{body}</div>
+    }
+
+    return () => {
+      const id = props.id ?? `mp-section-${uniqueId}`
+      const titleId = props.title || slots.title ? `${id}-title` : undefined
+      const descriptionId = props.description || slots.description ? `${id}-description` : undefined
+      const marker = props.showMarker && props.markerPlacement
+      const Heading = `h${props.headingLevel}` as const
+      return (
+        <section
+          id={id}
+          class={classes(
+            n(),
+            n(`--${props.variant}`),
+            n(`--size-${props.size}`),
+            [!!props.status, n(`--${props.status}`)],
+            [!!form, n('--form')],
+          )}
+          aria-labelledby={titleId}
+          aria-describedby={descriptionId}
+        >
+          <div class={classes(n('surface'), [marker === 'section', n('surface--marked')])}>
+            {(titleId || descriptionId || slots.extra) && (
+              <div class={n('header')}>
+                <div class={n('heading')}>
+                  {titleId && (
+                    <div class={classes(n('label'), [marker === 'title', n('label--marked')])}>
+                      <Heading id={titleId} class={n('title')}>
+                        {renderSlot(slots, 'title', {}, () => [createTextVNode(props.title)])}
+                      </Heading>
+                    </div>
+                  )}
+                  <span class={n(props.variant === 'heading-line' ? 'line' : 'spacer')} aria-hidden="true" />
+                  {slots.extra && <div class={n('extra')}>{renderSlot(slots, 'extra')}</div>}
+                </div>
+                {descriptionId && (
+                  <div id={descriptionId} class={n('description')}>
+                    {renderSlot(slots, 'description', {}, () => [createTextVNode(props.description)])}
+                  </div>
+                )}
+              </div>
+            )}
+            {renderBody()}
+          </div>
+        </section>
+      )
+    }
+  },
+})
 </script>

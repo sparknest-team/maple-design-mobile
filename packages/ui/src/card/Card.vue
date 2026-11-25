@@ -79,9 +79,9 @@
         <div v-if="topDivider" :class="n('divider')">
           <BaseDivider :spacing="0" />
         </div>
-        <div v-if="$slots.default" :class="n('content')">
+        <OptionalSlotBody :class="n('content')">
           <slot />
-        </div>
+        </OptionalSlotBody>
         <div v-if="bottomDivider" :class="n('divider')">
           <BaseDivider :spacing="0" />
         </div>
@@ -144,6 +144,7 @@
 import { computed, nextTick, onActivated, onBeforeUnmount, onDeactivated, onMounted, ref, shallowRef, watch } from 'vue'
 import { IconClose as MIconClose } from '@maple-design/icons-vue'
 import { doubleRaf, getRect } from '@maple-design/shared-vue'
+import OptionalSlotBody from '../_components/optional-slot-body'
 import { isShadowRoot } from '../_utils/is-shadow-root'
 import BaseButton from '../button/base'
 import { useLock } from '../context/lock'

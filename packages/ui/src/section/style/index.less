@@ -62,11 +62,16 @@
   &--default > &__surface {
     --mp-internal-section-accent: var(--mp-color-border-3);
   }
-  @status-palettes: { info: blue; success: success; warning: warning; danger: danger; };
+  @status-palettes: {
+    info: blue;
+    success: success;
+    warning: warning;
+    danger: danger;
+  };
   each(@status-palettes, {
     &--@{key} > &__surface {
       --mp-internal-section-accent: var(~'--mp-sys-color-status-@{key}');
-      --mp-internal-section-fill: color-mix(in srgb, rgb(var(~'--mp-@{value}-1')) 70%, var(--mp-section-card-background));
+      --mp-internal-section-fill: color-mix(in srgb, rgb(var(~'--mp-@{value}-1')) 45%, var(--mp-section-card-background));
       --mp-internal-section-outline: var(--mp-internal-section-accent);
     }
   });
@@ -84,16 +89,16 @@
   &__surface--marked,
   &__label--marked {
     position: relative;
-
-    &::before {
-      content: '';
-      position: absolute;
-      inset-inline-start: 0;
-      width: var(--mp-section-marker-width);
-      border-radius: var(--mp-section-marker-radius);
-      background: var(--mp-internal-section-accent);
-      pointer-events: none;
-    }
+  }
+  &__surface--marked::before,
+  &__label--marked > &__title::before {
+    content: '';
+    position: absolute;
+    inset-inline-start: 0;
+    width: var(--mp-section-marker-width);
+    border-radius: var(--mp-section-marker-radius);
+    background: var(--mp-internal-section-accent);
+    pointer-events: none;
   }
   &__surface--marked::before {
     inset-block: 0;
@@ -109,7 +114,7 @@
   &--outline > &__surface--marked::before {
     border-radius: max(0px, calc(var(--mp-section-card-radius) - var(--mp-section-divider-width)));
   }
-  &__label--marked::before {
+  &__label--marked > &__title::before {
     top: 50%;
     height: var(--mp-internal-section-marker-height);
     transform: translateY(-50%);
@@ -148,7 +153,13 @@
     font-weight: var(--mp-section-title-weight);
     line-height: calc(var(--mp-internal-section-title-line-height) + var(--mp-internal-section-heading-offset, 0px));
   }
-  @heading-offsets: 10, 6, 4, 2, 0, -2;
+  @heading-offsets:
+    10,
+    6,
+    4,
+    2,
+    0,
+    -2;
   each(@heading-offsets, {
     h@{index}&__title {
       --mp-internal-section-heading-offset: calc(@value * var(--mp-section-heading-size-step));

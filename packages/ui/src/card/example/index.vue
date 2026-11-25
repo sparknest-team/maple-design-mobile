@@ -43,7 +43,7 @@ onThemeChange()
   </section>
 
   <section data-demo="sizes-and-headings">
-    <app-type>{{ english ? 'Sizes and heading levels' : '尺寸与标题层级' }}</app-type>
+    <app-type>{{ english ? 'Card sizes and heading levels' : '卡片尺寸与标题层级' }}</app-type>
     <component :is="english ? SizesAndHeadingsEn : SizesAndHeadings" />
   </section>
 

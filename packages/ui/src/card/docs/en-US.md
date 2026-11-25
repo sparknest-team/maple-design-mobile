@@ -40,17 +40,9 @@ Use this example for content grouping and visual hierarchy. Adjust variant, size
 ../example/demos/appearance-lab.vue
 ```
 
-### Sizes and heading levels
+### Card sizes and heading levels
 
-Choose the Card size, title level, or footer alignment to preview a Card containing a Section. Use the Section variant control to change the nested Section appearance. The Card description stays at 15px and the Section description stays at 13px. Changes to Card size affect the spacing around its description.
-
-| Size | h1 | h2 | h3 | h4 | h5 | h6 | Body horizontal padding | Description top margin |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `xs` | 25px | 21px | 19px | 17px | 15px | 13px | 8px | 6px |
-| `sm` | 26px | 22px | 20px | 18px | 16px | 14px | 12px | 8px |
-| `md` | 30px | 26px | 24px | 22px | 20px | 18px | 16px | 20px |
-| `lg` | 34px | 30px | 28px | 26px | 24px | 22px | 20px | 20px |
-| `xl` | 38px | 34px | 32px | 30px | 28px | 26px | 24px | 24px |
+Size controls spacing. Choose a heading level from `h1` to `h6`. Card uses plain text for its title by default. The preview shows the active combination, font sizes and gaps above the title and description. Turn off “Show description” to hide the description and its spacing. Turn off “Show content” to leave only a comment in the default slot. The body container and its spacing disappear. The title and its description form the card header. From `xs` through `xl`, their gap is 2px, 4px, 6px, 8px and 10px, respectively.
 
 ```demo
 ../example/demos/en-US/sizes-and-headings.vue
@@ -240,6 +232,8 @@ The default close button uses the current locale's close label; override it with
 
 ### Card Slots
 
+The default slot controls the body. Omitting it or hiding all its children with `v-if` removes the body container and its spacing. A text interpolation such as `{{ note }}` keeps the container even when the string is empty.
+
 | Slot | Description | Arguments |
 | --- | --- | --- |
 | default | Body | — |
@@ -291,14 +285,14 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-card-content-row-margin` | `16px 0 0 0` | `margin` |
 | `--mp-card-description-color` | `var(--mp-sys-color-content-secondary)` | `color` |
 | `--mp-card-description-font-size` | `15px` | `font-size` |
-| `--mp-card-description-margin` | `20px 0 0 0` | `margin` |
+| `--mp-card-description-margin` | `6px 0 0 0` | `margin` |
 | `--mp-card-description-padding` | `0 16px` | `padding` |
 | `--mp-card-filled-background` | `var(--mp-sys-color-surface-muted)` | `background-color` |
 | `--mp-card-floating-buttons-bottom` | `16px` | `bottom` |
 | `--mp-card-floating-buttons-color` | `var(--mp-sys-color-content-primary)` | `color` |
 | `--mp-card-floating-buttons-right` | `16px` | `inset-inline-end` |
 | `--mp-card-footer-bottom` | `9px` | `bottom` |
-| `--mp-card-footer-margin` | `30px 0 0 0` | `margin` |
+| `--mp-card-footer-margin` | `16px 0 0 0` | `margin` |
 | `--mp-card-footer-padding` | `0 16px` | `padding` |
 | `--mp-card-footer-right` | `13px` | `inset-inline-end`, `inset-inline-start` |
 | `--mp-card-heading-size-step` | `1px` | `font-size` |
@@ -313,16 +307,16 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-card-row-line-height` | `1.5` | `line-height` |
 | `--mp-card-size-lg-section-margin` | `20px 0 0` | `margin` |
 | `--mp-card-size-lg-section-padding` | `0 20px` | `padding` |
-| `--mp-card-size-lg-title-font-size` | `24px` | `font-size` |
-| `--mp-card-size-sm-section-margin` | `8px 0 0` | `margin` |
+| `--mp-card-size-lg-title-font-size` | `20px` | `font-size` |
+| `--mp-card-size-sm-section-margin` | `12px 0 0` | `margin` |
 | `--mp-card-size-sm-section-padding` | `0 12px` | `padding` |
-| `--mp-card-size-sm-title-font-size` | `16px` | `font-size` |
+| `--mp-card-size-sm-title-font-size` | `20px` | `font-size` |
 | `--mp-card-size-xl-section-margin` | `24px 0 0` | `margin` |
 | `--mp-card-size-xl-section-padding` | `0 24px` | `padding` |
-| `--mp-card-size-xl-title-font-size` | `28px` | `font-size` |
-| `--mp-card-size-xs-section-margin` | `6px 0 0` | `margin` |
+| `--mp-card-size-xl-title-font-size` | `20px` | `font-size` |
+| `--mp-card-size-xs-section-margin` | `8px 0 0` | `margin` |
 | `--mp-card-size-xs-section-padding` | `0 8px` | `padding` |
-| `--mp-card-size-xs-title-font-size` | `15px` | `font-size` |
+| `--mp-card-size-xs-title-font-size` | `20px` | `font-size` |
 | `--mp-card-subtitle-color` | `var(--mp-sys-color-content-secondary)` | `color` |
 | `--mp-card-subtitle-font-size` | `15px` | `font-size` |
 | `--mp-card-subtitle-margin` | `10px 0 0 0` | `margin` |
@@ -330,9 +324,9 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-card-subtitle-row-margin` | `-8px 0 0 0` | `margin` |
 | `--mp-card-title-color` | `var(--mp-sys-color-content-primary)` | `color` |
 | `--mp-card-title-font-size` | `20px` | `font-size` |
-| `--mp-card-title-margin` | `15px 0 0 0` | `margin` |
+| `--mp-card-title-margin` | `16px 0 0 0` | `margin` |
 | `--mp-card-title-padding` | `0 16px` | `padding` |
-| `--mp-card-title-row-margin` | `12px 0` | `margin` |
+| `--mp-card-title-row-margin` | `16px 0 12px` | `margin` |
 
 </div>
 

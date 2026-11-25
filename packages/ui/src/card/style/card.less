@@ -24,8 +24,10 @@
   &--size-xs {
     --mp-card-title-font-size: var(--mp-card-size-xs-title-font-size);
     --mp-card-title-margin: var(--mp-card-size-xs-section-margin);
+    --mp-card-title-row-margin: 8px 0 12px;
+    --mp-card-content-row-margin: 8px 0 0;
     --mp-card-subtitle-margin: var(--mp-card-size-xs-section-margin);
-    --mp-card-description-margin: var(--mp-card-size-xs-section-margin);
+    --mp-card-description-margin: 2px 0 0 0;
     --mp-card-content-margin: var(--mp-card-size-xs-section-margin);
     --mp-card-footer-margin: var(--mp-card-size-xs-section-margin);
     --mp-card-content-padding: var(--mp-card-size-xs-section-padding);
@@ -37,8 +39,10 @@
   &--size-sm {
     --mp-card-title-font-size: var(--mp-card-size-sm-title-font-size);
     --mp-card-title-margin: var(--mp-card-size-sm-section-margin);
+    --mp-card-title-row-margin: 12px 0 12px;
+    --mp-card-content-row-margin: 12px 0 0;
     --mp-card-subtitle-margin: var(--mp-card-size-sm-section-margin);
-    --mp-card-description-margin: var(--mp-card-size-sm-section-margin);
+    --mp-card-description-margin: 4px 0 0 0;
     --mp-card-content-margin: var(--mp-card-size-sm-section-margin);
     --mp-card-footer-margin: var(--mp-card-size-sm-section-margin);
     --mp-card-content-padding: var(--mp-card-size-sm-section-padding);
@@ -47,11 +51,16 @@
     --mp-card-description-padding: var(--mp-card-size-sm-section-padding);
     --mp-card-footer-padding: var(--mp-card-size-sm-section-padding);
   }
+  &--size-md {
+    --mp-card-description-margin: 6px 0 0 0;
+  }
   &--size-lg {
     --mp-card-title-font-size: var(--mp-card-size-lg-title-font-size);
     --mp-card-title-margin: var(--mp-card-size-lg-section-margin);
+    --mp-card-title-row-margin: 20px 0 12px;
+    --mp-card-content-row-margin: 20px 0 0;
     --mp-card-subtitle-margin: var(--mp-card-size-lg-section-margin);
-    --mp-card-description-margin: var(--mp-card-size-lg-section-margin);
+    --mp-card-description-margin: 8px 0 0 0;
     --mp-card-content-margin: var(--mp-card-size-lg-section-margin);
     --mp-card-footer-margin: var(--mp-card-size-lg-section-margin);
     --mp-card-content-padding: var(--mp-card-size-lg-section-padding);
@@ -63,8 +72,10 @@
   &--size-xl {
     --mp-card-title-font-size: var(--mp-card-size-xl-title-font-size);
     --mp-card-title-margin: var(--mp-card-size-xl-section-margin);
+    --mp-card-title-row-margin: 24px 0 12px;
+    --mp-card-content-row-margin: 24px 0 0;
     --mp-card-subtitle-margin: var(--mp-card-size-xl-section-margin);
-    --mp-card-description-margin: var(--mp-card-size-xl-section-margin);
+    --mp-card-description-margin: 10px 0 0 0;
     --mp-card-content-margin: var(--mp-card-size-xl-section-margin);
     --mp-card-footer-margin: var(--mp-card-size-xl-section-margin);
     --mp-card-content-padding: var(--mp-card-size-xl-section-padding);
@@ -145,7 +156,13 @@
       font-size var(--mp-card-animation-duration);
   }
 
-  @heading-offsets: 10, 6, 4, 2, 0, -2;
+  @heading-offsets:
+    10,
+    6,
+    4,
+    2,
+    0,
+    -2;
   each(@heading-offsets, {
     &__title > h@{index}&__title-text {
       margin: 0;
@@ -183,6 +200,10 @@
     overflow: hidden;
   }
 
+  &--direction-row &__title:has(+ &__description) {
+    margin-bottom: 0;
+  }
+
   &__container > &__description {
     font-size: var(--mp-card-description-font-size);
     color: var(--mp-card-description-color);
@@ -193,6 +214,10 @@
       padding var(--mp-card-animation-duration),
       margin var(--mp-card-animation-duration),
       font-size var(--mp-card-animation-duration);
+
+    &:first-child {
+      margin: var(--mp-card-title-margin);
+    }
 
     > .mp-card__description {
       margin: 0;
@@ -279,15 +304,17 @@
 }
 
 // Normalize the browser popover box while keeping the component's own layout.
-[data-card-top-layer=""][popover] {
+[data-card-top-layer=''][popover] {
   margin: 0;
   border: 0;
   padding: 0;
   box-sizing: border-box;
   color: inherit;
 }
-[trigger-placement][data-card-top-layer][popover] { inset: auto; }
-[data-card-top-layer=""][popover]:not([class$="card__floater"]):not([trigger-placement]) {
+[trigger-placement][data-card-top-layer][popover] {
+  inset: auto;
+}
+[data-card-top-layer=''][popover]:not([class$='card__floater']):not([trigger-placement]) {
   position: fixed;
   inset: 0;
   width: 100%;
@@ -296,10 +323,12 @@
   max-height: none;
   background: transparent;
 }
-[data-card-feedback-host][data-card-top-layer] { pointer-events: none; }
+[data-card-feedback-host][data-card-top-layer] {
+  pointer-events: none;
+}
 
 // Positioned feedback and editors retain the insets and dimensions set by their own styles.
-:where([data-card-top-layer="positioned"][popover]) {
+:where([data-card-top-layer='positioned'][popover]) {
   inset: auto;
   width: auto;
   height: auto;
