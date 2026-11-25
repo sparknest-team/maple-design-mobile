@@ -1,5 +1,7 @@
 # @maple-design/preset-unocss-vue
 
+## 1.4.8
+
 ## 1.4.7
 
 ## 1.4.6
