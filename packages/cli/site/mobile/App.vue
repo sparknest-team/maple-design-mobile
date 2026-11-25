@@ -40,7 +40,7 @@
       </mp-page-header>
     </header>
     <nav
-      v-if="sections.length > 1 && (isDocumentation || isHome)"
+      v-if="sections.length > 1 && (isDocumentation || isHome || isStandalone)"
       class="mobile-documentation-sections"
       :aria-label="language === 'en-US' ? 'Documentation areas' : '文档分区'"
     >
@@ -103,13 +103,14 @@ export default defineComponent({
     const showThemeMenu: Ref<boolean> = ref(false)
     const language: Ref<string> = ref('')
     const sections = config?.pc?.sections ?? []
+    const isStandalone = !inIframe()
     const activeSection = computed(() => getDocumentationSection(route.path, sections, route.query.section))
     const isHome = computed(() => isHomePath(route.path))
     const switchSection = (section: DocumentationSection) => {
       if (isHome.value) {
         return router.push({ path: '/home', query: { section: section.id, language: language.value } })
       }
-      if (inIframe()) {
+      if (!isStandalone) {
         ;(window.parent as any).onMobileRouteChange(
           `/${language.value}/${section.entry}`,
           language.value,
@@ -119,7 +120,8 @@ export default defineComponent({
         )
         return
       }
-      return router.push(sectionRoute(section, language.value, true))
+      if (section.mobileEntry) return router.push(sectionRoute(section, language.value, true))
+      window.location.assign(`./#${sectionRoute(section, language.value).path}`)
     }
     const languages: Ref<Record<string, string>> = ref(config?.mobile?.header?.i18n ?? {})
     const themes: Ref<Record<string, any>[]> = ref(config?.mobile?.header?.themes ?? {})
@@ -199,6 +201,7 @@ export default defineComponent({
     return {
       sections,
       activeSection,
+      isStandalone,
       switchSection,
       isDocumentation,
       isHome,

@@ -9,7 +9,7 @@ exports[`test card component slots > card description slot 1`] = `
       <!--v-if-->
       <div class="mp-card__description"><span class="mp-card__description">description</span></div>
       <!--v-if-->
-      <!--v-if-->
+      <!---->
       <!--v-if-->
       <!--v-if-->
       <!--v-if-->
@@ -29,7 +29,7 @@ exports[`test card component slots > card extra slot 1`] = `
       <!--v-if-->
       <!--v-if-->
       <!--v-if-->
-      <!--v-if-->
+      <!---->
       <!--v-if-->
       <div class="mp-card__footer"><span>extra</span></div>
       <!--v-if-->
@@ -49,7 +49,7 @@ exports[`test card component slots > card floating-content slot 1`] = `
       <!--v-if-->
       <!--v-if-->
       <!--v-if-->
-      <!--v-if-->
+      <!---->
       <!--v-if-->
       <!--v-if-->
       <div class="mp-card__floating-content" inert="true" aria-hidden="true" style="height: 0px; opacity: 0; transition: opacity 500ms;"><span>floating-content</span></div>
@@ -69,7 +69,7 @@ exports[`test card component slots > card floating-content slot 2`] = `
       <!--v-if-->
       <!--v-if-->
       <!--v-if-->
-      <!--v-if-->
+      <!---->
       <!--v-if-->
       <!--v-if-->
       <!--v-if-->
@@ -88,7 +88,7 @@ exports[`test card component slots > card image slot 1`] = `
       <!--v-if-->
       <!--v-if-->
       <!--v-if-->
-      <!--v-if-->
+      <!---->
       <!--v-if-->
       <!--v-if-->
       <!--v-if-->
@@ -107,7 +107,7 @@ exports[`test card component slots > card subtitle slot 1`] = `
       <!--v-if--><span class="mp-card__subtitle">subtitle</span>
       <!--v-if-->
       <!--v-if-->
-      <!--v-if-->
+      <!---->
       <!--v-if-->
       <!--v-if-->
       <!--v-if-->
@@ -129,7 +129,7 @@ exports[`test card component slots > card title slot 1`] = `
       <!--v-if-->
       <!--v-if-->
       <!--v-if-->
-      <!--v-if-->
+      <!---->
       <!--v-if-->
       <!--v-if-->
       <!--v-if-->

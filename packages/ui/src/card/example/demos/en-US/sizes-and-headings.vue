@@ -1,73 +1,64 @@
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { ref, watch } from 'vue'
 
-const footerAlignments = ['start', 'center', 'end'] as const
-const sectionVariants = ['heading-line', 'plain', 'tonal', 'outline'] as const
-const headingLevels = [1, 2, 3, 4, 5, 6] as const
-const model = reactive<{
-  size: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
-  headingLevel: (typeof headingLevels)[number]
-  footerAlign: (typeof footerAlignments)[number]
-  sectionVariant: (typeof sectionVariants)[number]
-}>({
-  size: 'md',
-  headingLevel: 4,
-  footerAlign: 'end',
-  sectionVariant: 'heading-line',
-})
+const sizes = ['xs', 'sm', 'md', 'lg', 'xl'] as const
+const size = ref<(typeof sizes)[number]>('md')
+const levels = [1, 2, 3, 4, 5, 6] as const
+const level = ref<(typeof levels)[number] | 'default'>('default')
+const showDescription = ref(true)
+const showContent = ref(true)
+const preview = ref<HTMLElement | null>(null)
+const titleMetrics = ref('')
+const descriptionMetrics = ref('')
+
+function measureText() {
+  const container = preview.value?.querySelector<HTMLElement>('.mp-card__container')
+  const title = container?.querySelector('.mp-card__title-text')
+  const description = container?.querySelector('.mp-card__description')
+  if (!container || !title?.parentElement) {
+    return
+  }
+
+  titleMetrics.value = formatMetrics(title, getComputedStyle(title.parentElement).marginTop)
+  descriptionMetrics.value = description ? formatMetrics(description, getComputedStyle(description).marginTop) : ''
+}
+
+function formatMetrics(element: Element, gap: string) {
+  const fontSize = getComputedStyle(element).fontSize
+  return `font size ${fontSize} · gap above ${gap}`
+}
+
+watch([preview, size, level, showDescription], measureText, { flush: 'post' })
 </script>
 
 <template>
   <mp-space direction="column" align="stretch">
-    <mp-form :model="model" layout="vertical" edit-mode="direct">
-      <mp-form-item field="size" label="Card size">
-        <mp-radio-group v-model="model.size" aria-label="Card size">
-          <mp-radio value="xs">Extra small (xs)</mp-radio>
-          <mp-radio value="sm">Compact (sm)</mp-radio>
-          <mp-radio value="md">Default (md)</mp-radio>
-          <mp-radio value="lg">Large (lg)</mp-radio>
-          <mp-radio value="xl">Extra large (xl)</mp-radio>
-        </mp-radio-group>
-      </mp-form-item>
-      <mp-form-item field="headingLevel" label="Heading level">
-        <mp-radio-group v-model="model.headingLevel" aria-label="Heading level">
-          <mp-radio v-for="level in headingLevels" :key="level" :value="level">h{{ level }}</mp-radio>
-        </mp-radio-group>
-      </mp-form-item>
-      <mp-form-item field="footerAlign" label="Footer alignment">
-        <mp-radio-group v-model="model.footerAlign" aria-label="Footer alignment">
-          <mp-radio v-for="value in footerAlignments" :key="value" :value="value">{{ value }}</mp-radio>
-        </mp-radio-group>
-      </mp-form-item>
-      <mp-form-item field="sectionVariant" label="Section variant">
-        <mp-radio-group v-model="model.sectionVariant" aria-label="Section variant">
-          <mp-radio v-for="value in sectionVariants" :key="value" :value="value">{{ value }}</mp-radio>
-        </mp-radio-group>
-      </mp-form-item>
-    </mp-form>
-    <output
-      >Rendered tag <code>&lt;h{{ model.headingLevel }}&gt;</code></output
-    >
-
-    <mp-card
-      :size="model.size"
-      :heading-level="model.headingLevel"
-      :footer-align="model.footerAlign"
-      title="Project overview"
-      description="Project settings apply to the whole team."
-      top-divider
-      bottom-divider
-    >
-      <mp-section
-        :size="model.size"
-        :heading-level="model.headingLevel"
-        :variant="model.sectionVariant"
-        title="Member permissions"
-        description="Permissions are grouped by role."
+    <span>Card size</span>
+    <mp-radio-group v-model="size" aria-label="Card size">
+      <mp-radio v-for="value in sizes" :key="value" :value="value">{{ value }}</mp-radio>
+    </mp-radio-group>
+    <span>Heading level</span>
+    <mp-radio-group v-model="level" aria-label="Heading level">
+      <mp-radio value="default">Default</mp-radio>
+      <mp-radio v-for="value in levels" :key="value" :value="value">h{{ value }}</mp-radio>
+    </mp-radio-group>
+    <mp-checkbox v-model="showDescription">Show description</mp-checkbox>
+    <mp-checkbox v-model="showContent">Show content</mp-checkbox>
+    <output>
+      Size {{ size }} · Heading {{ level === 'default' ? 'Default' : `h${level}` }}<br />
+      Title · {{ titleMetrics }}
+      <template v-if="showDescription"><br />Description · {{ descriptionMetrics }}</template>
+    </output>
+    <div ref="preview" @transitionend="measureText">
+      <mp-card
+        :size="size"
+        :heading-level="level === 'default' ? undefined : level"
+        title="Project overview"
+        :description="showDescription ? 'Project settings apply to the entire team.' : undefined"
       >
-        Administrators can invite members.
-      </mp-section>
-      <template #footer>Last updated today</template>
-    </mp-card>
+        <!-- Only this comment remains when content is hidden. -->
+        <span v-if="showContent">Administrators can invite members.</span>
+      </mp-card>
+    </div>
   </mp-space>
 </template>

@@ -9,7 +9,6 @@ import Form from '../../form'
 import Input from '../../input'
 import Radio from '../../radio'
 import Space from '../../space'
-import HeadingOptions from '../example/demos/heading-options.vue'
 import InlineForm from '../example/demos/inline-form.vue'
 import LineDemo from '../example/demos/line.vue'
 import OutlineDemo from '../example/demos/outline.vue'
@@ -44,26 +43,26 @@ describe('Section documentation examples', () => {
         Locale.use(language)
         await nextTick()
         expect(page.get('[data-demo="plain"] section h4').text()).toBe(title)
-        expect(page.get('[data-demo="heading-options"] [role="radiogroup"]').attributes('aria-label')).toBe(
-          language === 'en-US' ? 'Section style' : '分组风格',
-        )
+        expect(
+          page.get('[data-demo="sizes"] [role="radiogroup"]:has(input[value="plain"])').attributes('aria-label'),
+        ).toBe(language === 'en-US' ? 'Section style' : '分组风格')
       }
     } finally {
       Locale.currentMessage.value = previous
       page.unmount()
     }
   })
-  it('previews all heading levels with the large size selected', async () => {
-    const demo = mount(SizesDemo, { global })
-    const section = demo.get('section')
-
-    await demo.get('input[value="lg"]').setValue(true)
+  it('previews size and heading level independently', async () => {
+    const sizes = mount(SizesDemo, { global })
+    await sizes.get('input[value="lg"]').setValue(true)
+    expect(sizes.get('section').classes()).toContain('mp-section--size-lg')
+    expect(sizes.get('h4').text()).toBeTruthy()
     for (const level of [1, 2, 3, 4, 5, 6]) {
-      await demo.get(`input[type="radio"][value="${level}"]`).setValue(true)
-      expect(section.classes()).toContain('mp-section--size-lg')
-      expect(section.get(`h${level}`).text()).toBeTruthy()
+      await sizes.get(`input[value="${level}"]`).setValue(true)
+      expect(sizes.get('section').classes()).toContain('mp-section--size-lg')
+      expect(sizes.get(`h${level}`).text()).toBeTruthy()
     }
-    demo.unmount()
+    sizes.unmount()
   })
   it('expands release history from the line header', async () => {
     const page = mount(LineDemo, { global })
@@ -73,10 +72,13 @@ describe('Section documentation examples', () => {
     page.unmount()
   })
   it('toggles headings and descriptions independently for every variant', async () => {
-    const page = mount(HeadingOptions, { global })
+    const page = mount(SizesDemo, { global })
     const section = page.get('section')
     const [title, description, marker] = page.findAll('input[type="checkbox"]')
-    const radios = page.get('[role="radiogroup"]').findAll('input[type="radio"]')
+    await title.setValue(false)
+    await description.setValue(false)
+    await marker.setValue(false)
+    const radios = page.get('[aria-label="分组风格"]').findAll('input[type="radio"]')
     expect(radios).toHaveLength(4)
     for (const [index, variant] of ['plain', 'heading-line', 'tonal', 'outline'].entries()) {
       await radios[index].setValue(true)

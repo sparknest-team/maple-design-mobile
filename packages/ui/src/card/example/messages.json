@@ -14,7 +14,7 @@
     "scheduler-lifecycle": "Floating scheduler lifecycle / 浮起调度生命周期",
     "appearance-lab": "外观组合",
     "nested-tabs": "组合 Tabs 与嵌套卡片",
-    "sizes-and-headings": "尺寸与标题层级"
+    "sizes-and-headings": "卡片尺寸与标题层级"
   },
   "en-US": {
     "basic": "Basic usage and subtitle",
@@ -31,6 +31,6 @@
     "scheduler-lifecycle": "scheduler-lifecycle",
     "appearance-lab": "appearance-lab",
     "nested-tabs": "Composing Tabs and nested cards",
-    "sizes-and-headings": "Sizes and heading levels"
+    "sizes-and-headings": "Card sizes and heading levels"
   }
 }

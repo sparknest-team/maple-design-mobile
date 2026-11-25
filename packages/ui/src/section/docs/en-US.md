@@ -26,28 +26,12 @@ Use the title and description slots for the section header. `show-marker` adds a
 ../example/demos/en-US/outline.vue
 ```
 
-### Section sizes
+### Section size, heading and content
 
-Choose a size and heading level to preview the title. Each heading column shows its default font size. The dashed border marks the content area.
-
-| Size | h1 | h2 | h3 | h4 | h5 | h6 | Card padding | Gap below header |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `xs` | 24px | 20px | 18px | 16px | 14px | 12px | 8px | 8px |
-| `sm` | 24px | 20px | 18px | 16px | 14px | 12px | 12px | 12px |
-| `md` | 26px | 22px | 20px | 18px | 16px | 14px | 16px | 20px |
-| `lg` | 30px | 26px | 24px | 22px | 20px | 18px | 20px | 24px |
-| `xl` | 34px | 30px | 28px | 26px | 24px | 22px | 24px | 28px |
+Toggle the heading, description and body independently. Try each style and status. Without a heading, an enabled marker spans the section. Size controls spacing. Choose a heading level from `h1` to `h6`. Section defaults to `h4`. The preview shows the active combination, font sizes and gaps above the title and description. Turn off “Show description” to hide the description and its spacing. Turn off “Show content” to leave only a comment in the default slot. The body container and its spacing disappear. The heading-to-marker gap is 12px at every size. Override `--mp-section-marker-gap` on the section to customize it. The centered marker is one font size tall for a single line and grows by one line height for each additional line. The description appears below the title.
 
 ```demo
 ../example/demos/en-US/sizes.vue
-```
-
-### With or without a heading
-
-Switch between plain, heading-line, tonal and outline, then toggle the heading and description independently. The example starts with just the body. Enable the marker to mark the entire section. When the heading is visible, you can choose either placement. With both the heading and description off, Section omits the header, including the line in the heading-line variant.
-
-```demo
-../example/demos/en-US/heading-options.vue
 ```
 
 ### Grouping inline form fields
@@ -75,6 +59,8 @@ Inside Form, Section defaults to heading-line. Pass `show-marker` to display a h
 | marker-placement | Marker placement (`title` or `section`) | string | `title` |
 
 ### Section Slots
+
+The default slot controls the body. Omitting it or hiding all its children with `v-if` removes the body container and its spacing. A text interpolation such as `{{ note }}` keeps the container even when the string is empty.
 
 Use the default slot for content and extra for actions. The title and description slots override their respective text props.
 
@@ -108,39 +94,39 @@ Use these variables to customize the component. Defaults may vary by the selecto
 | `--mp-section-description-size` | `13px` | `font-size` |
 | `--mp-section-divider-color` | `var(--mp-sys-color-border-default)` | `border-block-start` |
 | `--mp-section-divider-width` | `1px` | `border`, `border-block-start`, `border-radius` |
-| `--mp-section-header-gap` | `20px` | `margin-block-start` |
+| `--mp-section-header-gap` | `16px` | `margin-block-start` |
 | `--mp-section-heading-gap` | `16px` | `margin-inline-start` |
 | `--mp-section-heading-size-step` | `1px` | `font-size`, `line-height` |
 | `--mp-section-marker-gap` | `12px` | `padding-inline-end`, `padding-inline-start`, `row-gap` |
-| `--mp-section-marker-height` | `16px` | `height` |
+| `--mp-section-marker-height` | `calc(100% - 1lh + 1em)` | `height` |
 | `--mp-section-marker-radius` | `2px` | `border-radius` |
 | `--mp-section-marker-width` | `3px` | `border-inline-start`, `padding-inline-start`, `width` |
 | `--mp-section-outline-color` | `var(--mp-sys-color-border-default)` | `border` |
 | `--mp-section-size-lg-card-padding` | `20px` | `padding` |
-| `--mp-section-size-lg-header-gap` | `24px` | `margin-block-start` |
-| `--mp-section-size-lg-marker-height` | `20px` | `height` |
+| `--mp-section-size-lg-header-gap` | `20px` | `margin-block-start` |
+| `--mp-section-size-lg-marker-height` | `calc(100% - 1lh + 1em)` | `height` |
 | `--mp-section-size-lg-title-line-height` | `28px` | `line-height` |
-| `--mp-section-size-lg-title-size` | `20px` | `font-size` |
+| `--mp-section-size-lg-title-size` | `16px` | `font-size` |
 | `--mp-section-size-sm-card-padding` | `12px` | `padding` |
 | `--mp-section-size-sm-header-gap` | `12px` | `margin-block-start` |
-| `--mp-section-size-sm-marker-height` | `14px` | `height` |
+| `--mp-section-size-sm-marker-height` | `calc(100% - 1lh + 1em)` | `height` |
 | `--mp-section-size-sm-title-line-height` | `20px` | `line-height` |
-| `--mp-section-size-sm-title-size` | `14px` | `font-size` |
+| `--mp-section-size-sm-title-size` | `16px` | `font-size` |
 | `--mp-section-size-xl-card-padding` | `24px` | `padding` |
-| `--mp-section-size-xl-header-gap` | `28px` | `margin-block-start` |
-| `--mp-section-size-xl-marker-height` | `24px` | `height` |
+| `--mp-section-size-xl-header-gap` | `24px` | `margin-block-start` |
+| `--mp-section-size-xl-marker-height` | `calc(100% - 1lh + 1em)` | `height` |
 | `--mp-section-size-xl-title-line-height` | `32px` | `line-height` |
-| `--mp-section-size-xl-title-size` | `24px` | `font-size` |
+| `--mp-section-size-xl-title-size` | `16px` | `font-size` |
 | `--mp-section-size-xs-card-padding` | `8px` | `padding` |
 | `--mp-section-size-xs-header-gap` | `8px` | `margin-block-start` |
-| `--mp-section-size-xs-marker-height` | `12px` | `height` |
+| `--mp-section-size-xs-marker-height` | `calc(100% - 1lh + 1em)` | `height` |
 | `--mp-section-size-xs-title-line-height` | `18px` | `line-height` |
-| `--mp-section-size-xs-title-size` | `14px` | `font-size` |
+| `--mp-section-size-xs-title-size` | `16px` | `font-size` |
 | `--mp-section-title-color` | `var(--mp-sys-color-content-primary)` | `color` |
 | `--mp-section-title-line-height` | `24px` | `line-height` |
 | `--mp-section-title-size` | `16px` | `font-size` |
 | `--mp-section-title-weight` | `600` | `font-weight` |
-| `--mp-section-tonal-background` | `var(--mp-sys-color-surface-muted)` | `background-color` |
+| `--mp-section-tonal-background` | `color-mix(in srgb, var(--mp-sys-color-surface-muted) 60%, var(--mp-section-card-background))` | `background-color` |
 
 </div>
 

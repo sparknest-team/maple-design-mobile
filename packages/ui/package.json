@@ -29,15 +29,6 @@
     "*.css",
     "*.less"
   ],
-  "main": "lib/index.js",
-  "jsdelivr": "umd/maple.js",
-  "unpkg": "umd/maple.js",
-  "module": "es/index.mjs",
-  "typings": "types-generated/index.d.ts",
-  "style": "es/maple.css",
-  "browser": {
-    "vue/server-renderer": "./ssr-browser.mjs"
-  },
   "exports": {
     ".": {
       "types": "./types-generated/index.d.ts",
@@ -65,6 +56,15 @@
     "./json/*": "./json/*",
     "./highlight/*": "./highlight/*"
   },
+  "main": "lib/index.js",
+  "jsdelivr": "umd/maple.js",
+  "unpkg": "umd/maple.js",
+  "module": "es/index.mjs",
+  "browser": {
+    "vue/server-renderer": "./ssr-browser.mjs"
+  },
+  "typings": "types-generated/index.d.ts",
+  "style": "es/maple.css",
   "files": [
     "ssr-browser.mjs",
     "reset",
@@ -77,19 +77,19 @@
     "types-generated"
   ],
   "scripts": {
-    "typecheck": "vue-tsc -p tsconfig.declaration.json --emitDeclarationOnly false --noEmit",
-    "typecheck:contracts": "tsc -p tsconfig.contracts.json",
     "build": "pnpm build:lib && pnpm build:doc",
-    "build:lib": "maple-cli compile",
     "build:doc": "pnpm docs:llms && node ../../scripts/quality/demo-sfc-check.mjs && maple-cli build",
+    "build:lib": "maple-cli compile",
     "compile:style-vars": "maple-cli compile:style-vars",
     "create": "maple-cli create -i",
     "dev": "maple-cli dev",
+    "docs:llms": "node ../../../design-ui/bin/llms-docs.mjs maple . public",
     "preview": "maple-cli preview",
     "test": "maple-cli test",
     "test:coverage": "maple-cli test -cov",
     "test:watch": "maple-cli test -w -cov",
-    "docs:llms": "node ../../../design-ui/bin/llms-docs.mjs maple . public"
+    "typecheck": "vue-tsc -p tsconfig.declaration.json --emitDeclarationOnly false --noEmit",
+    "typecheck:contracts": "tsc -p tsconfig.contracts.json"
   },
   "dependencies": {
     "@maple-design/icons-vue": "workspace:*",
@@ -106,6 +106,7 @@
     "@types/node": "catalog:",
     "@vitest/coverage-istanbul": "catalog:",
     "@vue/runtime-core": "catalog:",
+    "@vue/server-renderer": "catalog:",
     "@vue/test-utils": "catalog:",
     "clipboard": "^2.0.11",
     "jsdom": "catalog:",
@@ -114,15 +115,14 @@
     "typescript": "5.6.3",
     "vitest": "catalog:",
     "vue": "catalog:",
-    "vue-router": "catalog:",
-    "@vue/server-renderer": "catalog:"
+    "vue-router": "catalog:"
   },
   "peerDependencies": {
     "vue": "3"
   },
-  "web-types": "highlight/web-types.en-US.json",
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
-  }
+  },
+  "web-types": "highlight/web-types.en-US.json"
 }

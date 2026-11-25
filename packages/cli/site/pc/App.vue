@@ -7,12 +7,13 @@ import { isPhone } from '../utils'
 export default defineComponent({
   setup() {
     const useMobile = ref(config?.useMobile)
+    const hasSectionNavigation = (config?.pc?.sections?.length ?? 0) > 1
     const defaultLanguage = config?.defaultLanguage
 
     const init = () => {
       const { language, menuName } = getPCLocationInfo()
 
-      if (isPhone() && useMobile.value) {
+      if (isPhone() && useMobile.value && !hasSectionNavigation) {
         window.location.href = `${getMobileIndex()}#/${menuName}?language=${
           language || defaultLanguage
         }&platform=mobile`

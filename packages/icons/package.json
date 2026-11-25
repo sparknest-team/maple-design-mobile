@@ -1,27 +1,17 @@
 {
   "name": "@maple-design/icons-vue",
   "version": "1.4.7",
+  "description": "Tree-shakable SVG icon components for Maple",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sparknest-team/maple-design-mobile.git",
     "directory": "packages/icons"
   },
-  "description": "Tree-shakable SVG icon components for Maple",
   "license": "MIT",
-  "type": "module",
-  "main": "./lib/index.cjs",
-  "module": "./es/index.mjs",
-  "types": "./types/index.d.ts",
-  "typesVersions": {
-    "*": {
-      "icon-*": [
-        "types/icon-*/index.d.ts"
-      ]
-    }
-  },
   "sideEffects": [
     "./style.css"
   ],
+  "type": "module",
   "exports": {
     ".": {
       "import": {
@@ -45,6 +35,16 @@
     },
     "./style.css": "./style.css"
   },
+  "main": "./lib/index.cjs",
+  "module": "./es/index.mjs",
+  "types": "./types/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "icon-*": [
+        "types/icon-*/index.d.ts"
+      ]
+    }
+  },
   "files": [
     "es",
     "lib",
@@ -52,14 +52,11 @@
     "style.css"
   ],
   "scripts": {
-    "generate": "node scripts/generate.mjs",
-    "generate:check": "node scripts/generate.mjs --check",
     "build": "pnpm generate:check && node scripts/build.mjs",
     "dev": "node scripts/watch.mjs",
+    "generate": "node scripts/generate.mjs",
+    "generate:check": "node scripts/generate.mjs --check",
     "typecheck": "vue-tsc --noEmit -p tsconfig.contract.json"
-  },
-  "peerDependencies": {
-    "vue": "^3.2.47"
   },
   "devDependencies": {
     "@sparknest/ui-icons-vue": "^1.0.0",
@@ -69,6 +66,9 @@
     "vite": "catalog:",
     "vue": "catalog:",
     "vue-tsc": "^2.1.10"
+  },
+  "peerDependencies": {
+    "vue": "^3.2.47"
   },
   "publishConfig": {
     "access": "public",

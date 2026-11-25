@@ -1,13 +1,11 @@
 <script setup lang="ts">
 import { onThemeChange } from '@maple-design/cli-vue/client'
 import { demoEnglish } from '@maple-design/cli-vue/demo-language'
-import HeadingOptionsDemoEn from './demos/en-US/heading-options.vue'
 import InlineFormDemoEn from './demos/en-US/inline-form.vue'
 import LineDemoEn from './demos/en-US/line.vue'
 import OutlineDemoEn from './demos/en-US/outline.vue'
 import PlainDemoEn from './demos/en-US/plain.vue'
 import SizesDemoEn from './demos/en-US/sizes.vue'
-import HeadingOptionsDemo from './demos/heading-options.vue'
 import InlineFormDemo from './demos/inline-form.vue'
 import LineDemo from './demos/line.vue'
 import OutlineDemo from './demos/outline.vue'
@@ -43,15 +41,10 @@ onThemeChange()
   </section>
 
   <section data-demo="sizes">
-    <h3 class="mobile-demo-case-heading"><span lang="zh-CN">分区尺寸</span><span lang="en-US">Section sizes</span></h3>
-    <component :is="demoEnglish ? SizesDemoEn : SizesDemo" />
-  </section>
-
-  <section data-demo="heading-options">
     <h3 class="mobile-demo-case-heading">
-      <span lang="zh-CN">有标题、仅说明与纯正文</span><span lang="en-US">With or without a heading</span>
+      <span lang="zh-CN">分区尺寸、标题层级与内容</span><span lang="en-US">Section size, heading and content</span>
     </h3>
-    <component :is="demoEnglish ? HeadingOptionsDemoEn : HeadingOptionsDemo" />
+    <component :is="demoEnglish ? SizesDemoEn : SizesDemo" />
   </section>
 
   <section data-demo="inline-form">

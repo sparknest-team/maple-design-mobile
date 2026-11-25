@@ -95,9 +95,9 @@
     "@maple-design/ui-vue": "workspace:*"
   },
   "devDependencies": {
+    "@maple-design/cli-vue": "workspace:*",
     "@types/node": "catalog:",
     "@types/vscode": "^1.102.0",
-    "@maple-design/cli-vue": "workspace:*",
     "@vscode/vsce": "^3.6.0",
     "typescript": "catalog:"
   },
