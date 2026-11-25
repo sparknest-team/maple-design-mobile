@@ -5,6 +5,7 @@
       <span>{{ title }}</span>
     </h1>
     <h2 class="maple-home__desc">{{ description[lang] }}</h2>
+    <p v-if="version" class="maple-home__version">{{ version }}</p>
   </div>
 
   <RouterLink v-for="page in documentPages" :key="page.doc" class="maple-home__cell" :to="`/${lang}/${page.doc}`">{{
@@ -39,6 +40,7 @@ export default {
     const title = ref(config?.title ?? '')
     const logo = ref(resolveSiteAsset(config?.logo))
     const description = ref(config?.mobile?.title ?? {})
+    const version = ref(config?.pc?.header?.currentVersion ?? '')
     const menu = ref(config?.pc?.menu ?? [])
     const route = useRoute()
     const sections = config?.pc?.sections ?? []
@@ -85,6 +87,7 @@ export default {
       logo,
       title,
       description,
+      version,
     }
   },
 }
@@ -112,6 +115,15 @@ export default {
   color: var(--site-config-color-sub-text);
   font-size: 14px;
   line-height: 22px;
+}
+
+.maple-home__version {
+  margin: 4px 0 0;
+  padding: 0 12px;
+  color: var(--site-config-color-sub-text);
+  font-size: 12px;
+  line-height: 18px;
+  user-select: none;
 }
 
 .maple-home__image {
